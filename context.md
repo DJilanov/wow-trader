@@ -17,7 +17,8 @@ its server-side source or probability.
 
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
-- Branch: `main`; the repository is prepared for its initial production-tracked release.
+- Branch: `main`, tracking `origin/main`. Production application release
+  `kfc-helper-world-explorer-3cf6be0` runs commit `3cf6be0`.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
 - Boundary tools: .NET 10 for CASC/DB2 extraction and Lua for the in-game collector.
 - Full architecture: `blueprint.md`.
@@ -831,13 +832,34 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   points, quest regions, and The Wild King evidence presentation. Web lint, strict typecheck, 57
   tests, and the Next.js production build pass.
 
+### Forever World Explorer production release (2026-09-17)
+
+- Commits through `3cf6be0` are pushed to `origin/main`. The immutable application release is
+  `/home/wow-trader-system/releases/kfc-helper-world-explorer-3cf6be0`, and the server `current`
+  symlink resolves to it.
+- The audited build `1.60.1.69893` runtime bundle is stored independently at
+  `/home/wow-trader-system/shared/world-snapshots/releases/wow-classic-beta-69893-extractor-0.2.3`.
+  The snapshot remains visibly `review_required`; it is served through the artifact preference and
+  was not inserted or promoted in `world_snapshot` because the exact hotfix is missing.
+- Production migrations `0007` through `0009` were applied after a verified mode-0600 PostgreSQL
+  custom backup at
+  `/home/wow-trader-system/shared/backups/pre-world-explorer-bd1543a.dump` (SHA-256
+  `8743e7aa14f57f62be258171e951bd58bf9c2ae3a49695b9800b203d01fa8561`). The migration journal now
+  contains all ten entries, and the read-only web role can query the world tables.
+- PM2 reloads only `kfc-helper-web` and `kfc-helper-ingest`; both passed loopback health checks and
+  the process list was saved. Existing `kfc-website` process 30 was not restarted. The web process
+  now runs the generated Next.js standalone server with explicitly packaged public/static assets.
+- Public smoke tests passed for the TBC Trader and Encyclopedia, Forever Encyclopedia, Mount Hyjal
+  map, The Wild King boss, instance detail, sitemap, a hashed JavaScript chunk, and a real immutable
+  256×256 map PNG. `www.kfcguild.online` also remained healthy.
+
 ## Next actions
 
 1. Add structural snapshot-to-snapshot diff presentation and reviewed source corrections before
    consuming a later Talents Forever export; never auto-publish changed upstream evidence.
 2. Implement and verify the market summary/compaction/retention jobs, recurring backup schedule, and
-   disk/API/process/data-freshness alerts in `docs/production-deployment.md`; run a controlled PM2
-   startup drill, then enable unattended 30-minute production uploads.
+   disk/API/process/data-freshness alerts in `docs/production-deployment.md`; then enable unattended
+   30-minute production uploads. The controlled PM2 startup drill is complete.
 3. Import the installed AtlasLoot TBC modules into the versioned acquisition graph, publish a
    player-facing coverage report, and obtain the authorized Blizzard source/loot feed needed to close
    server-only gaps.
