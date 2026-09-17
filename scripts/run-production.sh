@@ -25,9 +25,10 @@ case "$application" in
     : "${WOW_TRADER_MEDIA_ROOT:?WOW_TRADER_MEDIA_ROOT is required}"
     : "${WOW_TRADER_WEB_HOST:?WOW_TRADER_WEB_HOST is required}"
     : "${WOW_TRADER_WEB_PORT:?WOW_TRADER_WEB_PORT is required}"
-    exec node apps/web/node_modules/next/dist/bin/next start apps/web \
-      --hostname "$WOW_TRADER_WEB_HOST" \
-      --port "$WOW_TRADER_WEB_PORT"
+    exec env \
+      HOSTNAME="$WOW_TRADER_WEB_HOST" \
+      PORT="$WOW_TRADER_WEB_PORT" \
+      node apps/web/.next/standalone/apps/web/server.js
     ;;
   ingest)
     : "${DATABASE_URL:?DATABASE_URL is required}"

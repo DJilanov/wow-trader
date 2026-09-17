@@ -120,7 +120,9 @@ The repository contains the following production controls:
    the release directory and then `exec` the web or API process. This keeps secrets out of Git and
    the PM2 declaration.
 3. The deployment script creates an immutable release, installs with the pinned pnpm version
-   and frozen lockfile, runs checks/build, and switches a `current` symlink only after success.
+   and frozen lockfile, runs checks/build, packages public and static assets beside the generated
+   Next.js standalone server, and switches a `current` symlink only after success. PM2 executes that
+   standalone server directly; `next start` is not used with `output: "standalone"`.
 4. The local catalog-publish command accepts an explicit manifest, audits it, validates it,
    imports it as reviewed, publishes it, and reports the exact resulting build. It must not call
    `pnpm dev` or attempt to start Docker.

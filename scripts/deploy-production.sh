@@ -42,7 +42,7 @@ rsync -az \
   --exclude='.wow-trader-companion-state.json' \
   "$repository_root/" "$deploy_host:$release_directory/"
 
-ssh "$deploy_host" "cd '$release_directory' && chmod 0755 scripts/*.sh && corepack pnpm install --frozen-lockfile && corepack pnpm check && corepack pnpm format:check"
+ssh "$deploy_host" "cd '$release_directory' && chmod 0755 scripts/*.sh && corepack pnpm install --frozen-lockfile && corepack pnpm check && corepack pnpm format:check && test -f apps/web/.next/standalone/apps/web/server.js && mkdir -p apps/web/.next/standalone/apps/web/.next/static apps/web/.next/standalone/apps/web/public && rsync -a --delete apps/web/.next/static/ apps/web/.next/standalone/apps/web/.next/static/ && rsync -a --delete apps/web/public/ apps/web/.next/standalone/apps/web/public/"
 
 echo "Staged and verified $release_directory"
 echo "Activate only after database migrations, environment files, and item media are ready."
