@@ -1,0 +1,13 @@
+.next/
+.turbo/
+.webpack/
+coverage/
+dist/
+dist-utility/
+node_modules/
+out/
+artifacts/
+catalog-snapshots/
+raw-uploads/
+forever-preview-assets/
+.npmrc

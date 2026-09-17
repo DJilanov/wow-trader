@@ -1,0 +1,36 @@
+{
+  "name": "@wow-trader/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --port 3000",
+    "lint": "eslint src next.config.ts",
+    "start": "next start --port 3000",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@wow-trader/bis": "workspace:*",
+    "@wow-trader/contracts": "workspace:*",
+    "@wow-trader/db": "workspace:*",
+    "@wow-trader/economics": "workspace:*",
+    "@wow-trader/forever-data": "workspace:*",
+    "@wow-trader/market": "workspace:*",
+    "@wow-trader/world-data": "workspace:*",
+    "drizzle-orm": "0.45.2",
+    "leaflet": "1.9.4",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/leaflet": "1.9.21",
+    "@types/node": "26.5.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}

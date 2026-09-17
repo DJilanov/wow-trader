@@ -1,0 +1,44 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        "dist-utility/**",
+        "out/**",
+        ".webpack/**",
+        ".next/**",
+        "!.next/cache/**"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "INGEST_API_HOST",
+        "INGEST_API_KEYS",
+        "INGEST_API_PORT",
+        "WOW_TRADER_ENDPOINT",
+        "WOW_TRADER_INGEST_API_KEY",
+        "WOW_TRADER_MEDIA_ROOT",
+        "WOW_TRADER_STATE_PATH",
+        "WOW_TRADER_WOW_ROOT",
+        "NEXT_PUBLIC_API_URL",
+        "RAW_UPLOAD_DIR",
+        "REDIS_URL",
+        "WEB_ORIGIN"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build", "^typecheck"]
+    }
+  }
+}

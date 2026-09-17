@@ -1,0 +1,1894 @@
+{
+  "id": "6ba1a1f2-b849-4241-962a-10b4655b1825",
+  "prevId": "8548eb1d-0478-400e-b16a-8e08f80509ea",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.auction_price_level": {
+      "name": "auction_price_level",
+      "schema": "",
+      "columns": {
+        "scan_id": {
+          "name": "scan_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "item_id": {
+          "name": "item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "market_key": {
+          "name": "market_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit_price_copper": {
+          "name": "unit_price_copper",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "listing_count": {
+          "name": "listing_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "auction_price_level_item_idx": {
+          "name": "auction_price_level_item_idx",
+          "columns": [
+            {
+              "expression": "item_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "scan_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "auction_price_level_market_key_idx": {
+          "name": "auction_price_level_market_key_idx",
+          "columns": [
+            {
+              "expression": "market_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "unit_price_copper",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "auction_price_level_scan_id_market_scan_scan_id_fk": {
+          "name": "auction_price_level_scan_id_market_scan_scan_id_fk",
+          "tableFrom": "auction_price_level",
+          "tableTo": "market_scan",
+          "columnsFrom": ["scan_id"],
+          "columnsTo": ["scan_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "auction_price_level_scan_id_market_key_unit_price_copper_pk": {
+          "name": "auction_price_level_scan_id_market_key_unit_price_copper_pk",
+          "columns": ["scan_id", "market_key", "unit_price_copper"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "auction_price_level_price_check": {
+          "name": "auction_price_level_price_check",
+          "value": "\"auction_price_level\".\"unit_price_copper\" > 0"
+        },
+        "auction_price_level_quantity_check": {
+          "name": "auction_price_level_quantity_check",
+          "value": "\"auction_price_level\".\"quantity\" > 0"
+        },
+        "auction_price_level_listing_count_check": {
+          "name": "auction_price_level_listing_count_check",
+          "value": "\"auction_price_level\".\"listing_count\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.content_availability": {
+      "name": "content_availability",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entity_kind": {
+          "name": "entity_kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "availability_state",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phase": {
+          "name": "phase",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "effective_from": {
+          "name": "effective_from",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "effective_until": {
+          "name": "effective_until",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "evidence_id": {
+          "name": "evidence_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "content_availability_entity_idx": {
+          "name": "content_availability_entity_idx",
+          "columns": [
+            {
+              "expression": "build_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "entity_kind",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "entity_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "content_availability_build_id_game_build_id_fk": {
+          "name": "content_availability_build_id_game_build_id_fk",
+          "tableFrom": "content_availability",
+          "tableTo": "game_build",
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.game_build": {
+      "name": "game_build",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "snapshot_key": {
+          "name": "snapshot_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "product": {
+          "name": "product",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_version": {
+          "name": "client_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "build_number": {
+          "name": "build_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "build_key": {
+          "name": "build_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cdn_key": {
+          "name": "cdn_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locale": {
+          "name": "locale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hotfix_status": {
+          "name": "hotfix_status",
+          "type": "hotfix_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hotfix_hash": {
+          "name": "hotfix_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "definitions_revision": {
+          "name": "definitions_revision",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "extractor_version": {
+          "name": "extractor_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "build_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'extracting'"
+        },
+        "extracted_at": {
+          "name": "extracted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "manifest": {
+          "name": "manifest",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "game_build_snapshot_key_uidx": {
+          "name": "game_build_snapshot_key_uidx",
+          "columns": [
+            {
+              "expression": "snapshot_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "game_build_current_idx": {
+          "name": "game_build_current_idx",
+          "columns": [
+            {
+              "expression": "product",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "locale",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.item_version": {
+      "name": "item_version",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "item_id": {
+          "name": "item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "class_id": {
+          "name": "class_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subclass_id": {
+          "name": "subclass_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quality": {
+          "name": "quality",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "required_level": {
+          "name": "required_level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "required_skill_id": {
+          "name": "required_skill_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "required_skill_rank": {
+          "name": "required_skill_rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stack_size": {
+          "name": "stack_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "binding": {
+          "name": "binding",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "buy_price_copper": {
+          "name": "buy_price_copper",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sell_price_copper": {
+          "name": "sell_price_copper",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icon_file_data_id": {
+          "name": "icon_file_data_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "raw_record": {
+          "name": "raw_record",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "item_version_name_idx": {
+          "name": "item_version_name_idx",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "item_version_build_id_game_build_id_fk": {
+          "name": "item_version_build_id_game_build_id_fk",
+          "tableFrom": "item_version",
+          "tableTo": "game_build",
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "item_version_item_id_item_item_id_fk": {
+          "name": "item_version_item_id_item_item_id_fk",
+          "tableFrom": "item_version",
+          "tableTo": "item",
+          "columnsFrom": ["item_id"],
+          "columnsTo": ["item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "item_version_build_id_item_id_pk": {
+          "name": "item_version_build_id_item_id_pk",
+          "columns": ["build_id", "item_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.item": {
+      "name": "item",
+      "schema": "",
+      "columns": {
+        "item_id": {
+          "name": "item_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "first_seen_build_number": {
+          "name": "first_seen_build_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.market_scan": {
+      "name": "market_scan",
+      "schema": "",
+      "columns": {
+        "scan_id": {
+          "name": "scan_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "payload_id": {
+          "name": "payload_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_build": {
+          "name": "client_build",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "realm_id": {
+          "name": "realm_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "auction_house_type": {
+          "name": "auction_house_type",
+          "type": "auction_house_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "completeness": {
+          "name": "completeness",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "item_count": {
+          "name": "item_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_level_count": {
+          "name": "price_level_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "market_scan_payload_uidx": {
+          "name": "market_scan_payload_uidx",
+          "columns": [
+            {
+              "expression": "payload_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "market_scan_market_time_idx": {
+          "name": "market_scan_market_time_idx",
+          "columns": [
+            {
+              "expression": "region",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "realm_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "auction_house_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "completed_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "market_scan_payload_id_raw_upload_payload_id_fk": {
+          "name": "market_scan_payload_id_raw_upload_payload_id_fk",
+          "tableFrom": "market_scan",
+          "tableTo": "raw_upload",
+          "columnsFrom": ["payload_id"],
+          "columnsTo": ["payload_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "market_scan_completeness_check": {
+          "name": "market_scan_completeness_check",
+          "value": "\"market_scan\".\"completeness\" >= 0 AND \"market_scan\".\"completeness\" <= 1"
+        },
+        "market_scan_time_check": {
+          "name": "market_scan_time_check",
+          "value": "\"market_scan\".\"completed_at\" >= \"market_scan\".\"started_at\""
+        },
+        "market_scan_item_count_check": {
+          "name": "market_scan_item_count_check",
+          "value": "\"market_scan\".\"item_count\" >= 0"
+        },
+        "market_scan_price_level_count_check": {
+          "name": "market_scan_price_level_count_check",
+          "value": "\"market_scan\".\"price_level_count\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.profession_version": {
+      "name": "profession_version",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "skill_line_id": {
+          "name": "skill_line_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_record": {
+          "name": "raw_record",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "profession_version_build_id_game_build_id_fk": {
+          "name": "profession_version_build_id_game_build_id_fk",
+          "tableFrom": "profession_version",
+          "tableTo": "game_build",
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "profession_version_skill_line_id_profession_skill_line_id_fk": {
+          "name": "profession_version_skill_line_id_profession_skill_line_id_fk",
+          "tableFrom": "profession_version",
+          "tableTo": "profession",
+          "columnsFrom": ["skill_line_id"],
+          "columnsTo": ["skill_line_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "profession_version_build_id_skill_line_id_pk": {
+          "name": "profession_version_build_id_skill_line_id_pk",
+          "columns": ["build_id", "skill_line_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.profession": {
+      "name": "profession",
+      "schema": "",
+      "columns": {
+        "skill_line_id": {
+          "name": "skill_line_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "profession_slug_unique": {
+          "name": "profession_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": ["slug"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.raw_upload": {
+      "name": "raw_upload",
+      "schema": "",
+      "columns": {
+        "payload_id": {
+          "name": "payload_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "payload_type": {
+          "name": "payload_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "schema_version": {
+          "name": "schema_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "checksum": {
+          "name": "checksum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "envelope_hash": {
+          "name": "envelope_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "upload_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_product": {
+          "name": "client_product",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_build": {
+          "name": "client_build",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locale": {
+          "name": "locale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "realm_id": {
+          "name": "realm_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "auction_house_type": {
+          "name": "auction_house_type",
+          "type": "auction_house_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "anonymous_installation_id": {
+          "name": "anonymous_installation_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "captured_at": {
+          "name": "captured_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "completeness": {
+          "name": "completeness",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_payload_uri": {
+          "name": "raw_payload_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "error_code": {
+          "name": "error_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "received_at": {
+          "name": "received_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "processed_at": {
+          "name": "processed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "raw_upload_status_idx": {
+          "name": "raw_upload_status_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "received_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "raw_upload_market_idx": {
+          "name": "raw_upload_market_idx",
+          "columns": [
+            {
+              "expression": "region",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "realm_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "auction_house_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.recipe_input": {
+      "name": "recipe_input",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recipe_spell_id": {
+          "name": "recipe_spell_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slot": {
+          "name": "slot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reagent_item_id": {
+          "name": "reagent_item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "optional": {
+          "name": "optional",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {
+        "recipe_input_reagent_idx": {
+          "name": "recipe_input_reagent_idx",
+          "columns": [
+            {
+              "expression": "build_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "reagent_item_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "recipe_input_reagent_item_id_item_item_id_fk": {
+          "name": "recipe_input_reagent_item_id_item_item_id_fk",
+          "tableFrom": "recipe_input",
+          "tableTo": "item",
+          "columnsFrom": ["reagent_item_id"],
+          "columnsTo": ["item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_input_recipe_version_fk": {
+          "name": "recipe_input_recipe_version_fk",
+          "tableFrom": "recipe_input",
+          "tableTo": "recipe_version",
+          "columnsFrom": ["build_id", "recipe_spell_id"],
+          "columnsTo": ["build_id", "recipe_spell_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_input_item_version_fk": {
+          "name": "recipe_input_item_version_fk",
+          "tableFrom": "recipe_input",
+          "tableTo": "item_version",
+          "columnsFrom": ["build_id", "reagent_item_id"],
+          "columnsTo": ["build_id", "item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "recipe_input_build_id_recipe_spell_id_slot_pk": {
+          "name": "recipe_input_build_id_recipe_spell_id_slot_pk",
+          "columns": ["build_id", "recipe_spell_id", "slot"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "recipe_input_quantity_check": {
+          "name": "recipe_input_quantity_check",
+          "value": "\"recipe_input\".\"quantity\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.recipe_output": {
+      "name": "recipe_output",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recipe_spell_id": {
+          "name": "recipe_spell_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slot": {
+          "name": "slot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "output_item_id": {
+          "name": "output_item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "enchantment_id": {
+          "name": "enchantment_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "minimum_quantity": {
+          "name": "minimum_quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "maximum_quantity": {
+          "name": "maximum_quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expected_quantity_numerator": {
+          "name": "expected_quantity_numerator",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expected_quantity_denominator": {
+          "name": "expected_quantity_denominator",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "recipe_output_item_idx": {
+          "name": "recipe_output_item_idx",
+          "columns": [
+            {
+              "expression": "build_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "output_item_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "recipe_output_output_item_id_item_item_id_fk": {
+          "name": "recipe_output_output_item_id_item_item_id_fk",
+          "tableFrom": "recipe_output",
+          "tableTo": "item",
+          "columnsFrom": ["output_item_id"],
+          "columnsTo": ["item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_output_recipe_version_fk": {
+          "name": "recipe_output_recipe_version_fk",
+          "tableFrom": "recipe_output",
+          "tableTo": "recipe_version",
+          "columnsFrom": ["build_id", "recipe_spell_id"],
+          "columnsTo": ["build_id", "recipe_spell_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_output_item_version_fk": {
+          "name": "recipe_output_item_version_fk",
+          "tableFrom": "recipe_output",
+          "tableTo": "item_version",
+          "columnsFrom": ["build_id", "output_item_id"],
+          "columnsTo": ["build_id", "item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "recipe_output_build_id_recipe_spell_id_slot_pk": {
+          "name": "recipe_output_build_id_recipe_spell_id_slot_pk",
+          "columns": ["build_id", "recipe_spell_id", "slot"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "recipe_output_identity_check": {
+          "name": "recipe_output_identity_check",
+          "value": "\"recipe_output\".\"output_item_id\" IS NOT NULL OR \"recipe_output\".\"enchantment_id\" IS NOT NULL"
+        },
+        "recipe_output_minimum_check": {
+          "name": "recipe_output_minimum_check",
+          "value": "\"recipe_output\".\"minimum_quantity\" >= 0"
+        },
+        "recipe_output_range_check": {
+          "name": "recipe_output_range_check",
+          "value": "\"recipe_output\".\"maximum_quantity\" >= \"recipe_output\".\"minimum_quantity\""
+        },
+        "recipe_output_expected_denominator_check": {
+          "name": "recipe_output_expected_denominator_check",
+          "value": "\"recipe_output\".\"expected_quantity_denominator\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.recipe_teaching_item": {
+      "name": "recipe_teaching_item",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recipe_spell_id": {
+          "name": "recipe_spell_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "teaching_item_id": {
+          "name": "teaching_item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "learning_spell_id": {
+          "name": "learning_spell_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "recipe_teaching_item_teaching_item_id_item_item_id_fk": {
+          "name": "recipe_teaching_item_teaching_item_id_item_item_id_fk",
+          "tableFrom": "recipe_teaching_item",
+          "tableTo": "item",
+          "columnsFrom": ["teaching_item_id"],
+          "columnsTo": ["item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_teaching_item_recipe_version_fk": {
+          "name": "recipe_teaching_item_recipe_version_fk",
+          "tableFrom": "recipe_teaching_item",
+          "tableTo": "recipe_version",
+          "columnsFrom": ["build_id", "recipe_spell_id"],
+          "columnsTo": ["build_id", "recipe_spell_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_teaching_item_item_version_fk": {
+          "name": "recipe_teaching_item_item_version_fk",
+          "tableFrom": "recipe_teaching_item",
+          "tableTo": "item_version",
+          "columnsFrom": ["build_id", "teaching_item_id"],
+          "columnsTo": ["build_id", "item_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_teaching_item_learning_spell_version_fk": {
+          "name": "recipe_teaching_item_learning_spell_version_fk",
+          "tableFrom": "recipe_teaching_item",
+          "tableTo": "spell_version",
+          "columnsFrom": ["build_id", "learning_spell_id"],
+          "columnsTo": ["build_id", "spell_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "recipe_teaching_item_build_id_recipe_spell_id_teaching_item_id_pk": {
+          "name": "recipe_teaching_item_build_id_recipe_spell_id_teaching_item_id_pk",
+          "columns": ["build_id", "recipe_spell_id", "teaching_item_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.recipe_version": {
+      "name": "recipe_version",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recipe_spell_id": {
+          "name": "recipe_spell_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profession_skill_line_id": {
+          "name": "profession_skill_line_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "required_skill_rank": {
+          "name": "required_skill_rank",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "craft_time_ms": {
+          "name": "craft_time_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cooldown_ms": {
+          "name": "cooldown_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "cooldown_category_id": {
+          "name": "cooldown_category_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "category_cooldown_ms": {
+          "name": "category_cooldown_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "output_kind": {
+          "name": "output_kind",
+          "type": "output_kind",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "extraction_status": {
+          "name": "extraction_status",
+          "type": "extraction_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_record": {
+          "name": "raw_record",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "recipe_version_profession_idx": {
+          "name": "recipe_version_profession_idx",
+          "columns": [
+            {
+              "expression": "build_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "profession_skill_line_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "recipe_version_build_id_game_build_id_fk": {
+          "name": "recipe_version_build_id_game_build_id_fk",
+          "tableFrom": "recipe_version",
+          "tableTo": "game_build",
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_version_recipe_spell_id_recipe_recipe_spell_id_fk": {
+          "name": "recipe_version_recipe_spell_id_recipe_recipe_spell_id_fk",
+          "tableFrom": "recipe_version",
+          "tableTo": "recipe",
+          "columnsFrom": ["recipe_spell_id"],
+          "columnsTo": ["recipe_spell_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_version_profession_skill_line_id_profession_skill_line_id_fk": {
+          "name": "recipe_version_profession_skill_line_id_profession_skill_line_id_fk",
+          "tableFrom": "recipe_version",
+          "tableTo": "profession",
+          "columnsFrom": ["profession_skill_line_id"],
+          "columnsTo": ["skill_line_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "recipe_version_spell_version_fk": {
+          "name": "recipe_version_spell_version_fk",
+          "tableFrom": "recipe_version",
+          "tableTo": "spell_version",
+          "columnsFrom": ["build_id", "recipe_spell_id"],
+          "columnsTo": ["build_id", "spell_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_version_profession_version_fk": {
+          "name": "recipe_version_profession_version_fk",
+          "tableFrom": "recipe_version",
+          "tableTo": "profession_version",
+          "columnsFrom": ["build_id", "profession_skill_line_id"],
+          "columnsTo": ["build_id", "skill_line_id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "recipe_version_build_id_recipe_spell_id_pk": {
+          "name": "recipe_version_build_id_recipe_spell_id_pk",
+          "columns": ["build_id", "recipe_spell_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "recipe_version_required_skill_check": {
+          "name": "recipe_version_required_skill_check",
+          "value": "\"recipe_version\".\"required_skill_rank\" >= 0"
+        },
+        "recipe_version_craft_time_check": {
+          "name": "recipe_version_craft_time_check",
+          "value": "\"recipe_version\".\"craft_time_ms\" >= 0"
+        },
+        "recipe_version_cooldown_check": {
+          "name": "recipe_version_cooldown_check",
+          "value": "\"recipe_version\".\"cooldown_ms\" >= 0"
+        },
+        "recipe_version_category_cooldown_check": {
+          "name": "recipe_version_category_cooldown_check",
+          "value": "\"recipe_version\".\"category_cooldown_ms\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.recipe": {
+      "name": "recipe",
+      "schema": "",
+      "columns": {
+        "recipe_spell_id": {
+          "name": "recipe_spell_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "first_seen_build_number": {
+          "name": "first_seen_build_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "recipe_recipe_spell_id_spell_spell_id_fk": {
+          "name": "recipe_recipe_spell_id_spell_spell_id_fk",
+          "tableFrom": "recipe",
+          "tableTo": "spell",
+          "columnsFrom": ["recipe_spell_id"],
+          "columnsTo": ["spell_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.source_claim": {
+      "name": "source_claim",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "item_id": {
+          "name": "item_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_kind": {
+          "name": "source_kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_entity_id": {
+          "name": "source_entity_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "map_id": {
+          "name": "map_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "difficulty_id": {
+          "name": "difficulty_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phase": {
+          "name": "phase",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "evidence_type": {
+          "name": "evidence_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "observation_count": {
+          "name": "observation_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "eligible_attempts": {
+          "name": "eligible_attempts",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "0"
+        },
+        "estimated_probability": {
+          "name": "estimated_probability",
+          "type": "numeric(18, 12)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence_low": {
+          "name": "confidence_low",
+          "type": "numeric(18, 12)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence_high": {
+          "name": "confidence_high",
+          "type": "numeric(18, 12)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "first_seen_at": {
+          "name": "first_seen_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_seen_at": {
+          "name": "last_seen_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_evidence": {
+          "name": "raw_evidence",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {
+        "source_claim_item_idx": {
+          "name": "source_claim_item_idx",
+          "columns": [
+            {
+              "expression": "item_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "source_claim_build_id_game_build_id_fk": {
+          "name": "source_claim_build_id_game_build_id_fk",
+          "tableFrom": "source_claim",
+          "tableTo": "game_build",
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.spell_version": {
+      "name": "spell_version",
+      "schema": "",
+      "columns": {
+        "build_id": {
+          "name": "build_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "spell_id": {
+          "name": "spell_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_record": {
+          "name": "raw_record",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "spell_version_name_idx": {
+          "name": "spell_version_name_idx",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "spell_version_build_id_game_build_id_fk": {
+          "name": "spell_version_build_id_game_build_id_fk",
+          "tableFrom": "spell_version",
+          "tableTo": "game_build",
+          "columnsFrom": ["build_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "spell_version_spell_id_spell_spell_id_fk": {
+          "name": "spell_version_spell_id_spell_spell_id_fk",
+          "tableFrom": "spell_version",
+          "tableTo": "spell",
+          "columnsFrom": ["spell_id"],
+          "columnsTo": ["spell_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "spell_version_build_id_spell_id_pk": {
+          "name": "spell_version_build_id_spell_id_pk",
+          "columns": ["build_id", "spell_id"]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.spell": {
+      "name": "spell",
+      "schema": "",
+      "columns": {
+        "spell_id": {
+          "name": "spell_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "first_seen_build_number": {
+          "name": "first_seen_build_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.auction_house_type": {
+      "name": "auction_house_type",
+      "schema": "public",
+      "values": ["alliance", "horde", "neutral", "region", "unknown"]
+    },
+    "public.availability_state": {
+      "name": "availability_state",
+      "schema": "public",
+      "values": ["client_only", "announced", "observed", "available", "disabled"]
+    },
+    "public.build_status": {
+      "name": "build_status",
+      "schema": "public",
+      "values": ["extracting", "validating", "review_required", "published", "rejected"]
+    },
+    "public.extraction_status": {
+      "name": "extraction_status",
+      "schema": "public",
+      "values": ["complete", "missing_teaching_item", "missing_output", "ambiguous", "encrypted"]
+    },
+    "public.hotfix_status": {
+      "name": "hotfix_status",
+      "schema": "public",
+      "values": ["applied", "missing", "not_available"]
+    },
+    "public.output_kind": {
+      "name": "output_kind",
+      "schema": "public",
+      "values": ["item", "enchantment", "service", "conversion"]
+    },
+    "public.upload_status": {
+      "name": "upload_status",
+      "schema": "public",
+      "values": ["accepted", "processing", "processed", "rejected"]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

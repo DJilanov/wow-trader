@@ -1,0 +1,26 @@
+{
+  "name": "@wow-trader/companion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "wow-trader-companion": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup src/cli.ts --format esm --dts --sourcemap --clean",
+    "dev": "tsx src/cli.ts",
+    "lint": "eslint src",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@wow-trader/companion-core": "workspace:*",
+    "@wow-trader/contracts": "workspace:*",
+    "luaparse": "0.3.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/luaparse": "0.2.13",
+    "tsx": "4.21.0"
+  }
+}

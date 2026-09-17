@@ -1,0 +1,25 @@
+ALTER TABLE "recipe_input" ADD CONSTRAINT "recipe_input_recipe_version_fk" FOREIGN KEY ("build_id","recipe_spell_id") REFERENCES "public"."recipe_version"("build_id","recipe_spell_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_input" ADD CONSTRAINT "recipe_input_item_version_fk" FOREIGN KEY ("build_id","reagent_item_id") REFERENCES "public"."item_version"("build_id","item_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_output" ADD CONSTRAINT "recipe_output_recipe_version_fk" FOREIGN KEY ("build_id","recipe_spell_id") REFERENCES "public"."recipe_version"("build_id","recipe_spell_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_output" ADD CONSTRAINT "recipe_output_item_version_fk" FOREIGN KEY ("build_id","output_item_id") REFERENCES "public"."item_version"("build_id","item_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_teaching_item" ADD CONSTRAINT "recipe_teaching_item_recipe_version_fk" FOREIGN KEY ("build_id","recipe_spell_id") REFERENCES "public"."recipe_version"("build_id","recipe_spell_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_teaching_item" ADD CONSTRAINT "recipe_teaching_item_item_version_fk" FOREIGN KEY ("build_id","teaching_item_id") REFERENCES "public"."item_version"("build_id","item_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_teaching_item" ADD CONSTRAINT "recipe_teaching_item_learning_spell_version_fk" FOREIGN KEY ("build_id","learning_spell_id") REFERENCES "public"."spell_version"("build_id","spell_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_version" ADD CONSTRAINT "recipe_version_spell_version_fk" FOREIGN KEY ("build_id","recipe_spell_id") REFERENCES "public"."spell_version"("build_id","spell_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "recipe_version" ADD CONSTRAINT "recipe_version_profession_version_fk" FOREIGN KEY ("build_id","profession_skill_line_id") REFERENCES "public"."profession_version"("build_id","skill_line_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "auction_price_level" ADD CONSTRAINT "auction_price_level_price_check" CHECK ("auction_price_level"."unit_price_copper" > 0);--> statement-breakpoint
+ALTER TABLE "auction_price_level" ADD CONSTRAINT "auction_price_level_quantity_check" CHECK ("auction_price_level"."quantity" > 0);--> statement-breakpoint
+ALTER TABLE "auction_price_level" ADD CONSTRAINT "auction_price_level_listing_count_check" CHECK ("auction_price_level"."listing_count" > 0);--> statement-breakpoint
+ALTER TABLE "market_scan" ADD CONSTRAINT "market_scan_completeness_check" CHECK ("market_scan"."completeness" >= 0 AND "market_scan"."completeness" <= 1);--> statement-breakpoint
+ALTER TABLE "market_scan" ADD CONSTRAINT "market_scan_time_check" CHECK ("market_scan"."completed_at" >= "market_scan"."started_at");--> statement-breakpoint
+ALTER TABLE "market_scan" ADD CONSTRAINT "market_scan_item_count_check" CHECK ("market_scan"."item_count" >= 0);--> statement-breakpoint
+ALTER TABLE "market_scan" ADD CONSTRAINT "market_scan_price_level_count_check" CHECK ("market_scan"."price_level_count" >= 0);--> statement-breakpoint
+ALTER TABLE "recipe_input" ADD CONSTRAINT "recipe_input_quantity_check" CHECK ("recipe_input"."quantity" > 0);--> statement-breakpoint
+ALTER TABLE "recipe_output" ADD CONSTRAINT "recipe_output_identity_check" CHECK ("recipe_output"."output_item_id" IS NOT NULL OR "recipe_output"."enchantment_id" IS NOT NULL);--> statement-breakpoint
+ALTER TABLE "recipe_output" ADD CONSTRAINT "recipe_output_minimum_check" CHECK ("recipe_output"."minimum_quantity" >= 0);--> statement-breakpoint
+ALTER TABLE "recipe_output" ADD CONSTRAINT "recipe_output_range_check" CHECK ("recipe_output"."maximum_quantity" >= "recipe_output"."minimum_quantity");--> statement-breakpoint
+ALTER TABLE "recipe_output" ADD CONSTRAINT "recipe_output_expected_denominator_check" CHECK ("recipe_output"."expected_quantity_denominator" > 0);--> statement-breakpoint
+ALTER TABLE "recipe_version" ADD CONSTRAINT "recipe_version_required_skill_check" CHECK ("recipe_version"."required_skill_rank" >= 0);--> statement-breakpoint
+ALTER TABLE "recipe_version" ADD CONSTRAINT "recipe_version_craft_time_check" CHECK ("recipe_version"."craft_time_ms" >= 0);--> statement-breakpoint
+ALTER TABLE "recipe_version" ADD CONSTRAINT "recipe_version_cooldown_check" CHECK ("recipe_version"."cooldown_ms" >= 0);--> statement-breakpoint
+ALTER TABLE "recipe_version" ADD CONSTRAINT "recipe_version_category_cooldown_check" CHECK ("recipe_version"."category_cooldown_ms" >= 0);

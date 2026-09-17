@@ -1,0 +1,53 @@
+{
+  "name": "wow-trader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build-aware World of Warcraft economy intelligence platform",
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20.20.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "catalog:audit": "pnpm --filter @wow-trader/catalog dev audit",
+    "catalog:diff": "pnpm --filter @wow-trader/catalog dev diff",
+    "catalog:import": "pnpm --filter @wow-trader/catalog dev import",
+    "catalog:validate": "pnpm --filter @wow-trader/catalog dev validate",
+    "companion:install:macos": "pnpm --filter @wow-trader/companion build && node scripts/install-companion-macos.mjs",
+    "companion:uninstall:macos": "node scripts/uninstall-companion-macos.mjs",
+    "desktop:dev": "pnpm --filter @wow-trader/desktop dev",
+    "desktop:package": "pnpm --filter @wow-trader/desktop build",
+    "desktop:make": "pnpm --filter @wow-trader/desktop make",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "db:migrate": "pnpm --filter @wow-trader/db db:migrate",
+    "dev": "node scripts/dev.mjs",
+    "dev:setup": "node scripts/dev.mjs --bootstrap-only",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint scripts && turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "extract:tbc": "tools/extractor-dotnet/run-tbc-validation.sh",
+    "extract:icons": "tools/extractor-dotnet/run-icon-extraction.sh",
+    "forever:inspect": "pnpm --filter @wow-trader/forever-data dev inspect",
+    "forever:import": "pnpm --filter @wow-trader/forever-data dev import",
+    "forever:publish": "pnpm --filter @wow-trader/forever-data dev publish",
+    "forever:sync": "pnpm --filter @wow-trader/forever-data dev sync",
+    "extract:forever:world": "tools/extractor-dotnet/run-forever-world-extraction.sh",
+    "world:audit": "pnpm --filter @wow-trader/world-data dev audit",
+    "world:import": "pnpm --filter @wow-trader/world-data dev import"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@types/node": "26.5.1",
+    "eslint": "9.39.5",
+    "prettier": "3.9.6",
+    "tsup": "8.5.1",
+    "turbo": "2.10.13",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0",
+    "vitest": "3.2.7"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": "0.4.0",
+  "files": {
+    "Collector.lua": "818391fb97eee164057ffa03a181225b14af4ddd741a42f8f613b72020ed6849",
+    "ForeverBossSample.lua": "be390cc46660988fc0ddb819b92f87ccd212d01acfc68b80fb7a96e9d646feb7",
+    "ForeverQuestSample.lua": "29f3adcbefd51d20de049a3d6c017f948c837e9d69da396b9e500091490a1268",
+    "WowTraderCollector.toc": "2f34ee7283e672bbf77fcb1025e4edec4228f427223e00128734644d0313de93"
+  }
+}
