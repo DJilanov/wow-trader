@@ -41,7 +41,7 @@ if [[ ! -f "$manifest_path" || ! -f "$snapshot_directory/map-media-manifest.json
 fi
 
 cd "$repository_root"
-corepack pnpm world:audit -- "$manifest_path" >/dev/null
+corepack pnpm world:audit "$manifest_path" >/dev/null
 
 ssh "$deploy_host" \
   "test -d '$application_release_directory' && test ! -e '$remote_snapshot_directory' && mkdir -p '$remote_snapshot_directory'"
@@ -52,6 +52,6 @@ rsync -az \
   "$snapshot_directory/media" \
   "$deploy_host:$remote_snapshot_directory/"
 ssh "$deploy_host" \
-  "cd '$application_release_directory' && corepack pnpm world:audit -- '$remote_snapshot_directory/manifest.json' >/dev/null && ln -sfn '$remote_snapshot_directory' '$deploy_root/shared/world-snapshots/current'"
+  "cd '$application_release_directory' && corepack pnpm world:audit '$remote_snapshot_directory/manifest.json' >/dev/null && ln -sfn '$remote_snapshot_directory' '$deploy_root/shared/world-snapshots/current'"
 
 echo "Synchronized and activated world snapshot $snapshot_release_name"
