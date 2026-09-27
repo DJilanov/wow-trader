@@ -4,7 +4,10 @@ import { notFound } from "next/navigation";
 
 import { ForeverEncyclopediaNav } from "../../../../../components/forever-encyclopedia-nav";
 import { ForeverWorldState } from "../../../../../components/forever-world-state";
-import { getForeverBoss } from "../../../../../lib/forever-world";
+import {
+  getForeverBoss,
+  type ForeverBossObservations as ForeverBossObservationData,
+} from "../../../../../lib/forever-world";
 import { createHelperMetadata } from "../../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -71,6 +74,52 @@ export default async function ForeverBossPage({
         <EvidenceMetric label="Encounters" value={data.encounters.length.toString()} />
         <EvidenceMetric label="Location links" value={data.locations.length.toString()} />
         <EvidenceMetric label="Static models" value={data.models.length.toString()} />
+      </section>
+
+      <section className="forever-boss-panel forever-boss-wide-panel forever-observation-panel">
+        <div className="forever-section-heading">
+          <div>
+            <span className="eyebrow">Captured by maintainers in the game client</span>
+            <h2>Observed runtime evidence</h2>
+          </div>
+          <p>
+            These are build-scoped observations, not inferred database claims. A seen item is a
+            confirmed observation, but one observation is never presented as a complete loot table
+            or a drop rate.
+          </p>
+        </div>
+        <div className="forever-observation-metrics">
+          <EvidenceMetric label="Model checks" value={data.observations.models.length.toString()} />
+          <EvidenceMetric
+            label="Health samples"
+            value={data.observations.health.length.toString()}
+          />
+          <EvidenceMetric label="Loot records" value={data.observations.loot.length.toString()} />
+          <EvidenceMetric
+            label="Observed spells"
+            value={data.observations.spells.length.toString()}
+          />
+          <EvidenceMetric
+            label="Encounter attempts"
+            value={data.observations.encounters.length.toString()}
+          />
+        </div>
+        {hasRuntimeEvidence(data.observations) ? (
+          <div className="forever-observation-grid">
+            <RuntimeModels models={data.observations.models} />
+            <RuntimeHealth observations={data.observations.health} />
+            <RuntimeSpells observations={data.observations.spells} />
+            <RuntimeLoot observations={data.observations.loot} />
+            <RuntimeEncounters observations={data.observations.encounters} />
+            <RuntimeSightings observations={data.observations.sightings} />
+          </div>
+        ) : (
+          <HonestEmpty>
+            No uploaded runtime observation exists for this creature and build yet. Run the model
+            resolver or enable diagnostics in game, then reload or log out so the companion can
+            upload the SavedVariables evidence.
+          </HonestEmpty>
+        )}
       </section>
 
       <div className="forever-boss-detail-grid">
@@ -261,6 +310,214 @@ function EvidenceMetric({
   );
 }
 
+function RuntimeModels({
+  models,
+}: {
+  readonly models: ForeverBossObservationData["models"];
+}): React.JSX.Element {
+  return (
+    <section>
+      <h3>Client model resolution</h3>
+      {models.length > 0 ? (
+        <ul className="forever-evidence-list compact">
+          {models.map((model) => (
+            <li key={model.resolutionId}>
+              <div>
+                <strong>
+                  {model.status === "resolved" ? "Resolved" : formatEvidenceKind(model.status)}
+                </strong>
+                <span>{formatObservedAt(model.capturedAt)}</span>
+              </div>
+              <p>
+                Display {model.displayId ?? "unavailable"} · model file{" "}
+                {model.modelFileDataId ?? "unavailable"}
+              </p>
+              <small className={model.status === "resolved" ? "exact" : "review"}>
+                Client API result · build {model.clientBuild}
+              </small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <HonestEmpty>No client model result has been uploaded.</HonestEmpty>
+      )}
+    </section>
+  );
+}
+
+function RuntimeHealth({
+  observations,
+}: {
+  readonly observations: ForeverBossObservationData["health"];
+}): React.JSX.Element {
+  return (
+    <section>
+      <h3>Observed health</h3>
+      {observations.length > 0 ? (
+        <ul className="forever-evidence-list compact">
+          {observations.map((observation) => (
+            <li key={observation.observationId}>
+              <div>
+                <strong>{formatInteger(observation.maximumHealth)} maximum HP</strong>
+                <span>{formatObservedAt(observation.capturedAt)}</span>
+              </div>
+              <p>
+                Level {observation.level ?? "unknown"} ·{" "}
+                {observation.difficultyName ??
+                  `difficulty ${observation.difficultyId ?? "unknown"}`}{" "}
+                · group {observation.groupSize || "solo"}
+              </p>
+              <small className="exact">
+                Unit API measurement · {formatInteger(observation.currentHealth)} HP at{" "}
+                {formatPercent(observation.healthPercent)}
+              </small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <HonestEmpty>No health measurement has been uploaded.</HonestEmpty>
+      )}
+    </section>
+  );
+}
+
+function RuntimeLoot({
+  observations,
+}: {
+  readonly observations: ForeverBossObservationData["loot"];
+}): React.JSX.Element {
+  return (
+    <section>
+      <h3>Observed drops</h3>
+      {observations.length > 0 ? (
+        <ul className="forever-evidence-list compact">
+          {observations.map((observation) => (
+            <li key={observation.observationId}>
+              <div>
+                <strong>{observation.itemName ?? `Item ${observation.itemId}`}</strong>
+                <span>×{observation.quantity}</span>
+              </div>
+              <p>
+                {observation.evidenceKind === "loot_window"
+                  ? `Exact ${observation.sourceType ?? "loot"} source ${observation.sourceId ?? "unresolved"}`
+                  : `Encounter event ${observation.encounterId ?? "unresolved"}`}
+              </p>
+              <small className="exact">
+                Observed {formatObservedAt(observation.capturedAt)} · no drop-rate claim
+              </small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <HonestEmpty>No item has been observed from this source yet.</HonestEmpty>
+      )}
+    </section>
+  );
+}
+
+function RuntimeSpells({
+  observations,
+}: {
+  readonly observations: ForeverBossObservationData["spells"];
+}): React.JSX.Element {
+  return (
+    <section>
+      <h3>Observed abilities</h3>
+      {observations.length > 0 ? (
+        <ul className="forever-evidence-list compact">
+          {observations.map((observation) => (
+            <li key={observation.observationId}>
+              <div>
+                <strong>{observation.spellName ?? `Spell ${observation.spellId}`}</strong>
+                <span>{observation.eventCount.toLocaleString("en-GB")} combat-log events</span>
+              </div>
+              <p>
+                Spell {observation.spellId} · {formatEvidenceKind(observation.subEvent)}
+                {observation.encounterId ? ` · encounter ${observation.encounterId}` : ""}
+              </p>
+              <small className="exact">
+                Creature-cast combat log · last seen {formatObservedAt(observation.lastSeenAt)}
+              </small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <HonestEmpty>No creature-cast combat spell has been observed.</HonestEmpty>
+      )}
+    </section>
+  );
+}
+
+function RuntimeEncounters({
+  observations,
+}: {
+  readonly observations: ForeverBossObservationData["encounters"];
+}): React.JSX.Element {
+  return (
+    <section>
+      <h3>Observed encounters</h3>
+      {observations.length > 0 ? (
+        <ul className="forever-evidence-list compact">
+          {observations.map((observation) => (
+            <li key={observation.attemptId}>
+              <div>
+                <strong>{observation.encounterName}</strong>
+                <span>{observation.success ? "Completed" : "Not completed"}</span>
+              </div>
+              <p>
+                Encounter {observation.encounterId} · difficulty {observation.difficultyId} · group{" "}
+                {observation.groupSize}
+              </p>
+              <small className="exact">Observed {formatObservedAt(observation.endedAt)}</small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <HonestEmpty>No encounter attempt has linked this creature at runtime.</HonestEmpty>
+      )}
+    </section>
+  );
+}
+
+function RuntimeSightings({
+  observations,
+}: {
+  readonly observations: ForeverBossObservationData["sightings"];
+}): React.JSX.Element {
+  return (
+    <section>
+      <h3>Observed locations</h3>
+      {observations.length > 0 ? (
+        <ul className="forever-evidence-list compact">
+          {observations.map((observation) => (
+            <li key={observation.observationId}>
+              <div>
+                <strong>
+                  {observation.uiMapId
+                    ? `UI map ${observation.uiMapId}`
+                    : `Map ${observation.mapId ?? "unresolved"}`}
+                </strong>
+                <span>{formatObservedAt(observation.capturedAt)}</span>
+              </div>
+              <p>
+                Level {observation.level ?? "unknown"} ·{" "}
+                {observation.classification ?? "classification unavailable"}
+              </p>
+              <small
+                className={observation.positionEvidence === "unit_position" ? "exact" : "review"}
+              >
+                {formatEvidenceKind(observation.positionEvidence)}
+              </small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <HonestEmpty>No runtime location observation has been uploaded.</HonestEmpty>
+      )}
+    </section>
+  );
+}
+
 function HonestEmpty({ children }: { readonly children: React.ReactNode }): React.JSX.Element {
   return <p className="forever-honest-empty">{children}</p>;
 }
@@ -273,6 +530,29 @@ function identityLabel(state: "ambiguous" | "criteria_named" | "encounter_named"
 
 function formatEvidenceKind(value: string): string {
   return value.replaceAll("_", " ");
+}
+
+function hasRuntimeEvidence(observations: ForeverBossObservationData): boolean {
+  return (
+    observations.models.length > 0 ||
+    observations.health.length > 0 ||
+    observations.loot.length > 0 ||
+    observations.encounters.length > 0 ||
+    observations.sightings.length > 0 ||
+    observations.spells.length > 0
+  );
+}
+
+function formatInteger(value: bigint): string {
+  return new Intl.NumberFormat("en-US").format(value);
+}
+
+function formatPercent(value: number): string {
+  return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(value)}%`;
+}
+
+function formatObservedAt(value: Date): string {
+  return `${value.toISOString().slice(0, 16).replace("T", " ")} UTC`;
 }
 
 function parsePositiveId(value: string): number | null {

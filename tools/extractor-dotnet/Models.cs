@@ -171,6 +171,31 @@ internal sealed record WorldQuest(
     int QuestId,
     int UniqueBitFlag,
     int UiQuestDetailsThemeId,
+    string? Title,
+    string? BulletText,
+    int? QuestInfoId,
+    int? ContentTuningId,
+    int? StartItemId,
+    int MinimumLevel,
+    int MaximumLevel,
+    int? MinimumSkillId,
+    int MinimumSkillValue,
+    int ClassMask,
+    IReadOnlyList<int> RaceMasks,
+    IReadOnlyList<int> Flags,
+    IReadOnlyDictionary<string, object?> RawRecord,
+    IReadOnlyDictionary<string, object?>? RawCliTask);
+
+internal sealed record WorldQuestObjective(
+    int ObjectiveId,
+    int QuestId,
+    int OrderIndex,
+    int StorageIndex,
+    int Amount,
+    int Type,
+    int ObjectId,
+    string Description,
+    int Flags,
     IReadOnlyDictionary<string, object?> RawRecord);
 
 internal sealed record WorldQuestLine(
@@ -337,6 +362,7 @@ internal sealed record NormalizedWorld(
     IReadOnlyList<WorldEncounter> Encounters,
     IReadOnlyList<WorldLfgDungeon> LfgDungeons,
     IReadOnlyList<WorldQuest> Quests,
+    IReadOnlyList<WorldQuestObjective> QuestObjectives,
     IReadOnlyList<WorldQuestLine> QuestLines,
     IReadOnlyList<WorldQuestLineMember> QuestLineMembers,
     IReadOnlyList<WorldQuestPoi> QuestPois,

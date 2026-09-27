@@ -138,6 +138,7 @@ function createWorldFixture(): ForeverWorldData {
     encounters: [],
     lfgDungeons: [],
     quests: [],
+    questObjectives: [],
     questLines: [],
     questLineMembers: [],
     questPois: [],

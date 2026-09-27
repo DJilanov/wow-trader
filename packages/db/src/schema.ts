@@ -887,6 +887,350 @@ export const rawUploads = pgTable(
   ],
 );
 
+export const worldModelObservations = pgTable(
+  "world_model_observation",
+  {
+    resolutionId: uuid("resolution_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    creatureId: integer("creature_id").notNull(),
+    creatureName: text("creature_name"),
+    attempt: integer("attempt").notNull(),
+    status: text("status").notNull(),
+    displayId: integer("display_id"),
+    modelFileDataId: integer("model_file_data_id"),
+    errorMessage: text("error_message"),
+    evidence: text("evidence").notNull(),
+  },
+  (table) => [
+    index("world_model_observation_creature_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.creatureId,
+      table.capturedAt,
+    ),
+    index("world_model_observation_display_idx").on(table.displayId, table.modelFileDataId),
+  ],
+);
+
+export const worldHealthObservations = pgTable(
+  "world_health_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    creatureId: integer("creature_id").notNull(),
+    creatureName: text("creature_name"),
+    trigger: text("trigger").notNull(),
+    level: integer("level"),
+    classification: text("classification"),
+    currentHealth: bigint("current_health", { mode: "bigint" }).notNull(),
+    maximumHealth: bigint("maximum_health", { mode: "bigint" }).notNull(),
+    healthPercent: doublePrecision("health_percent").notNull(),
+    isDead: boolean("is_dead").notNull(),
+    groupSize: integer("group_size").notNull(),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+    difficultyId: integer("difficulty_id"),
+    difficultyName: text("difficulty_name"),
+    instanceType: text("instance_type"),
+    observerLocation: jsonb("observer_location").notNull(),
+  },
+  (table) => [
+    check("world_health_observation_current_check", sql`${table.currentHealth} >= 0`),
+    check("world_health_observation_maximum_check", sql`${table.maximumHealth} > 0`),
+    check(
+      "world_health_observation_percent_check",
+      sql`${table.healthPercent} >= 0 AND ${table.healthPercent} <= 100`,
+    ),
+    index("world_health_observation_creature_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.creatureId,
+      table.capturedAt,
+    ),
+    index("world_health_observation_context_idx").on(
+      table.creatureId,
+      table.difficultyId,
+      table.groupSize,
+      table.maximumHealth,
+    ),
+  ],
+);
+
+export const worldEncounterObservations = pgTable(
+  "world_encounter_observation",
+  {
+    attemptId: uuid("attempt_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    encounterId: integer("encounter_id").notNull(),
+    encounterName: text("encounter_name").notNull(),
+    difficultyId: integer("difficulty_id").notNull(),
+    groupSize: integer("group_size").notNull(),
+    startedAt: timestamp("started_at", { withTimezone: true, mode: "date" }).notNull(),
+    endedAt: timestamp("ended_at", { withTimezone: true, mode: "date" }).notNull(),
+    success: boolean("success").notNull(),
+    startLocation: jsonb("start_location").notNull(),
+    endLocation: jsonb("end_location").notNull(),
+  },
+  (table) => [
+    check("world_encounter_observation_time_check", sql`${table.endedAt} >= ${table.startedAt}`),
+    index("world_encounter_observation_encounter_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.encounterId,
+      table.endedAt,
+    ),
+  ],
+);
+
+export const worldEncounterActorObservations = pgTable(
+  "world_encounter_actor_observation",
+  {
+    attemptId: uuid("attempt_id")
+      .notNull()
+      .references(() => worldEncounterObservations.attemptId, { onDelete: "cascade" }),
+    actorIndex: integer("actor_index").notNull(),
+    creatureId: integer("creature_id").notNull(),
+    creatureName: text("creature_name"),
+    remainingHealthPercent: doublePrecision("remaining_health_percent"),
+  },
+  (table) => [
+    primaryKey({ columns: [table.attemptId, table.actorIndex] }),
+    index("world_encounter_actor_creature_idx").on(table.creatureId, table.attemptId),
+  ],
+);
+
+export const worldLootObservations = pgTable(
+  "world_loot_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    evidenceKind: text("evidence_kind").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    itemId: integer("item_id").notNull(),
+    itemLink: text("item_link"),
+    itemName: text("item_name"),
+    quantity: integer("quantity").notNull(),
+    iconFileName: text("icon_file_name"),
+    encounterId: integer("encounter_id"),
+    attemptId: uuid("attempt_id"),
+    sourceType: text("source_type"),
+    sourceId: integer("source_id"),
+    sourceGuid: text("source_guid"),
+    sourceQuantity: integer("source_quantity"),
+    location: jsonb("location").notNull(),
+  },
+  (table) => [
+    check("world_loot_observation_quantity_check", sql`${table.quantity} > 0`),
+    index("world_loot_observation_source_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.sourceType,
+      table.sourceId,
+      table.capturedAt,
+    ),
+    index("world_loot_observation_encounter_idx").on(table.encounterId, table.capturedAt),
+    index("world_loot_observation_item_idx").on(table.itemId, table.capturedAt),
+  ],
+);
+
+export const worldNpcObservations = pgTable(
+  "world_npc_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    creatureId: integer("creature_id").notNull(),
+    creatureName: text("creature_name"),
+    objectType: text("object_type").notNull(),
+    trigger: text("trigger").notNull(),
+    level: integer("level"),
+    classification: text("classification"),
+    creatureType: text("creature_type"),
+    creatureFamily: text("creature_family"),
+    reaction: integer("reaction"),
+    canAttack: boolean("can_attack").notNull(),
+    isQuestBoss: boolean("is_quest_boss").notNull(),
+    isDead: boolean("is_dead").notNull(),
+    distanceSquared: doublePrecision("distance_squared"),
+    positionEvidence: text("position_evidence").notNull(),
+    subjectPosition: jsonb("subject_position"),
+    closestPosition: jsonb("closest_position"),
+    observerLocation: jsonb("observer_location").notNull(),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+  },
+  (table) => [
+    index("world_npc_observation_creature_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.creatureId,
+      table.capturedAt,
+    ),
+    index("world_npc_observation_map_idx").on(table.mapId, table.uiMapId, table.creatureId),
+  ],
+);
+
+export const worldSpellObservations = pgTable(
+  "world_spell_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true, mode: "date" }).notNull(),
+    eventCount: integer("event_count").notNull(),
+    subEvent: text("sub_event").notNull(),
+    sourceCreatureId: integer("source_creature_id").notNull(),
+    sourceCreatureName: text("source_creature_name"),
+    destinationCreatureId: integer("destination_creature_id"),
+    destinationCreatureName: text("destination_creature_name"),
+    spellId: integer("spell_id").notNull(),
+    spellName: text("spell_name"),
+    spellSchool: integer("spell_school"),
+    encounterId: integer("encounter_id"),
+    attemptId: uuid("attempt_id"),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+    difficultyId: integer("difficulty_id"),
+    observerLocation: jsonb("observer_location").notNull(),
+  },
+  (table) => [
+    check("world_spell_observation_count_check", sql`${table.eventCount} > 0`),
+    check("world_spell_observation_time_check", sql`${table.lastSeenAt} >= ${table.capturedAt}`),
+    index("world_spell_observation_source_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.sourceCreatureId,
+      table.capturedAt,
+    ),
+    index("world_spell_observation_spell_idx").on(table.spellId, table.sourceCreatureId),
+    index("world_spell_observation_encounter_idx").on(table.encounterId, table.capturedAt),
+  ],
+);
+
+export const worldQuestObservations = pgTable(
+  "world_quest_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    evidenceKind: text("evidence_kind").notNull(),
+    questId: integer("quest_id").notNull(),
+    status: text("status"),
+    title: text("title"),
+    questLevel: integer("quest_level"),
+    suggestedGroup: integer("suggested_group"),
+    questText: text("quest_text"),
+    objectiveText: text("objective_text"),
+    progressText: text("progress_text"),
+    rewardText: text("reward_text"),
+    xpReward: bigint("xp_reward", { mode: "bigint" }),
+    moneyReward: bigint("money_reward", { mode: "bigint" }),
+    itemId: integer("item_id"),
+    itemLink: text("item_link"),
+    currencyId: integer("currency_id"),
+    quantity: integer("quantity"),
+    sourceType: text("source_type"),
+    sourceId: integer("source_id"),
+    sourceName: text("source_name"),
+    objectives: jsonb("objectives").notNull(),
+    tag: jsonb("tag"),
+    rewards: jsonb("rewards").notNull(),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+    observerLocation: jsonb("observer_location").notNull(),
+  },
+  (table) => [
+    index("world_quest_observation_quest_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.questId,
+      table.capturedAt,
+    ),
+    index("world_quest_observation_title_idx").on(table.clientBuild, table.title),
+    index("world_quest_observation_source_idx").on(table.sourceType, table.sourceId, table.questId),
+  ],
+);
+
+export const worldVendorObservations = pgTable(
+  "world_vendor_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    sourceType: text("source_type"),
+    sourceId: integer("source_id").notNull(),
+    sourceName: text("source_name"),
+    itemIndex: integer("item_index").notNull(),
+    itemId: integer("item_id").notNull(),
+    itemLink: text("item_link"),
+    itemName: text("item_name"),
+    texture: jsonb("texture"),
+    price: bigint("price", { mode: "bigint" }).notNull(),
+    stackCount: integer("stack_count").notNull(),
+    available: integer("available"),
+    isPurchasable: boolean("is_purchasable").notNull(),
+    isUsable: boolean("is_usable").notNull(),
+    extendedCost: boolean("extended_cost").notNull(),
+    costs: jsonb("costs").notNull(),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+    observerLocation: jsonb("observer_location").notNull(),
+  },
+  (table) => [
+    check("world_vendor_observation_price_check", sql`${table.price} >= 0`),
+    check("world_vendor_observation_stack_check", sql`${table.stackCount} > 0`),
+    index("world_vendor_observation_source_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.sourceId,
+      table.capturedAt,
+    ),
+    index("world_vendor_observation_item_idx").on(table.itemId, table.sourceId),
+  ],
+);
+
 export const marketScans = pgTable(
   "market_scan",
   {
@@ -901,6 +1245,20 @@ export const marketScans = pgTable(
     startedAt: timestamp("started_at", { withTimezone: true, mode: "date" }).notNull(),
     completedAt: timestamp("completed_at", { withTimezone: true, mode: "date" }).notNull(),
     completeness: doublePrecision("completeness").notNull(),
+    provider: text("provider").notNull().default("unknown"),
+    apiFlavor: text("api_flavor").notNull().default("unknown"),
+    marketKeyVersion: integer("market_key_version").notNull().default(1),
+    reportedRowCount: integer("reported_row_count").notNull().default(0),
+    visitedRowCount: integer("visited_row_count").notNull().default(0),
+    pricedRowCount: integer("priced_row_count").notNull().default(0),
+    noBuyoutRowCount: integer("no_buyout_row_count").notNull().default(0),
+    unresolvedRowCount: integer("unresolved_row_count").notNull().default(0),
+    invalidRowCount: integer("invalid_row_count").notNull().default(0),
+    secretRowCount: integer("secret_row_count").notNull().default(0),
+    scanDurationMs: integer("scan_duration_ms").notNull().default(0),
+    auctionHouseStayedOpen: boolean("auction_house_stayed_open").notNull().default(true),
+    qualityAccepted: boolean("quality_accepted").notNull().default(true),
+    qualityReason: text("quality_reason"),
     itemCount: integer("item_count").notNull(),
     priceLevelCount: integer("price_level_count").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
@@ -914,12 +1272,22 @@ export const marketScans = pgTable(
     check("market_scan_time_check", sql`${table.completedAt} >= ${table.startedAt}`),
     check("market_scan_item_count_check", sql`${table.itemCount} >= 0`),
     check("market_scan_price_level_count_check", sql`${table.priceLevelCount} >= 0`),
+    check("market_scan_market_key_version_check", sql`${table.marketKeyVersion} > 0`),
+    check("market_scan_reported_rows_check", sql`${table.reportedRowCount} >= 0`),
+    check("market_scan_visited_rows_check", sql`${table.visitedRowCount} >= 0`),
+    check("market_scan_priced_rows_check", sql`${table.pricedRowCount} >= 0`),
+    check("market_scan_no_buyout_rows_check", sql`${table.noBuyoutRowCount} >= 0`),
+    check("market_scan_unresolved_rows_check", sql`${table.unresolvedRowCount} >= 0`),
+    check("market_scan_invalid_rows_check", sql`${table.invalidRowCount} >= 0`),
+    check("market_scan_secret_rows_check", sql`${table.secretRowCount} >= 0`),
+    check("market_scan_duration_check", sql`${table.scanDurationMs} >= 0`),
     index("market_scan_market_time_idx").on(
       table.region,
       table.realmId,
       table.auctionHouseType,
       table.completedAt,
     ),
+    index("market_scan_quality_time_idx").on(table.qualityAccepted, table.completedAt),
   ],
 );
 
@@ -942,6 +1310,97 @@ export const auctionPriceLevels = pgTable(
     check("auction_price_level_listing_count_check", sql`${table.listingCount} > 0`),
     index("auction_price_level_item_idx").on(table.itemId, table.scanId),
     index("auction_price_level_market_key_idx").on(table.marketKey, table.unitPriceCopper),
+  ],
+);
+
+export const marketItemObservations = pgTable(
+  "market_item_observation",
+  {
+    scanId: uuid("scan_id")
+      .notNull()
+      .references(() => marketScans.scanId, { onDelete: "cascade" }),
+    itemId: integer("item_id").notNull(),
+    marketKey: text("market_key").notNull(),
+    minimumPriceCopper: bigint("minimum_price_copper", { mode: "bigint" }).notNull(),
+    tenthPercentilePriceCopper: bigint("tenth_percentile_price_copper", {
+      mode: "bigint",
+    }).notNull(),
+    medianPriceCopper: bigint("median_price_copper", { mode: "bigint" }).notNull(),
+    ninetiethPercentilePriceCopper: bigint("ninetieth_percentile_price_copper", {
+      mode: "bigint",
+    }).notNull(),
+    availableQuantity: integer("available_quantity").notNull(),
+    listingCount: integer("listing_count").notNull(),
+    quantityWithinFivePercent: integer("quantity_within_five_percent").notNull(),
+    quantityWithinTenPercent: integer("quantity_within_ten_percent").notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.scanId, table.marketKey] }),
+    check("market_item_observation_item_check", sql`${table.itemId} > 0`),
+    check("market_item_observation_price_check", sql`${table.minimumPriceCopper} > 0`),
+    check("market_item_observation_quantity_check", sql`${table.availableQuantity} > 0`),
+    check("market_item_observation_listing_check", sql`${table.listingCount} > 0`),
+    index("market_item_observation_item_idx").on(table.itemId, table.scanId),
+  ],
+);
+
+export const marketItemSignals = pgTable(
+  "market_item_signal",
+  {
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    region: text("region").notNull(),
+    realmId: text("realm_id").notNull(),
+    auctionHouseType: auctionHouseTypeEnum("auction_house_type").notNull(),
+    itemId: integer("item_id").notNull(),
+    asOfScanId: uuid("as_of_scan_id")
+      .notNull()
+      .references(() => marketScans.scanId, { onDelete: "cascade" }),
+    signal: text("signal").notNull(),
+    observationCount: integer("observation_count").notNull(),
+    minimumObservationCount: integer("minimum_observation_count").notNull().default(6),
+    currentPriceCopper: bigint("current_price_copper", { mode: "bigint" }),
+    normalPriceCopper: bigint("normal_price_copper", { mode: "bigint" }),
+    lowerPriceCopper: bigint("lower_price_copper", { mode: "bigint" }),
+    upperPriceCopper: bigint("upper_price_copper", { mode: "bigint" }),
+    differenceBasisPoints: integer("difference_basis_points"),
+    currentQuantity: integer("current_quantity"),
+    normalQuantity: integer("normal_quantity"),
+    supplyRatioBasisPoints: integer("supply_ratio_basis_points"),
+    currentListingCount: integer("current_listing_count"),
+    confidenceBasisPoints: integer("confidence_basis_points"),
+    direction: text("direction"),
+    modelVersion: text("model_version").notNull(),
+    generatedAt: timestamp("generated_at", { withTimezone: true, mode: "date" }).notNull(),
+  },
+  (table) => [
+    primaryKey({
+      columns: [
+        table.clientProduct,
+        table.clientBuild,
+        table.region,
+        table.realmId,
+        table.auctionHouseType,
+        table.itemId,
+      ],
+    }),
+    check("market_item_signal_item_check", sql`${table.itemId} > 0`),
+    check("market_item_signal_observation_check", sql`${table.observationCount} >= 0`),
+    check(
+      "market_item_signal_kind_check",
+      sql`${table.signal} IN ('collecting', 'bargain', 'normal', 'rising', 'spike_risk', 'oversupplied', 'falling', 'too_thin')`,
+    ),
+    check(
+      "market_item_signal_direction_check",
+      sql`${table.direction} IS NULL OR ${table.direction} IN ('up', 'flat', 'down')`,
+    ),
+    index("market_item_signal_market_idx").on(
+      table.clientProduct,
+      table.region,
+      table.realmId,
+      table.auctionHouseType,
+      table.generatedAt,
+    ),
   ],
 );
 
@@ -1241,13 +1700,49 @@ export const worldQuestVersions = pgTable(
     uniqueBitFlag: integer("unique_bit_flag").notNull(),
     uiQuestDetailsThemeId: integer("ui_quest_details_theme_id").notNull(),
     title: text("title"),
+    bulletText: text("bullet_text"),
+    questInfoId: integer("quest_info_id"),
+    contentTuningId: integer("content_tuning_id"),
+    startItemId: integer("start_item_id"),
+    minimumLevel: integer("minimum_level").notNull().default(0),
+    maximumLevel: integer("maximum_level").notNull().default(0),
+    minimumSkillId: integer("minimum_skill_id"),
+    minimumSkillValue: integer("minimum_skill_value").notNull().default(0),
+    classMask: integer("class_mask").notNull().default(0),
+    raceMasks: jsonb("race_masks").$type<readonly number[]>().notNull().default([]),
+    flags: jsonb("flags").$type<readonly number[]>().notNull().default([]),
     availabilityState: text("availability_state").notNull().default("client_id_present"),
     rawRecord: jsonb("raw_record").notNull(),
+    rawCliTask: jsonb("raw_cli_task"),
   },
   (table) => [
     primaryKey({ columns: [table.buildId, table.questId] }),
     index("world_quest_title_idx").on(table.buildId, table.title),
     index("world_quest_availability_idx").on(table.buildId, table.availabilityState),
+  ],
+);
+
+export const worldQuestObjectives = pgTable(
+  "world_quest_objective",
+  {
+    buildId: uuid("build_id")
+      .notNull()
+      .references(() => worldSnapshots.buildId, { onDelete: "cascade" }),
+    objectiveId: integer("objective_id").notNull(),
+    questId: integer("quest_id").notNull(),
+    orderIndex: integer("order_index").notNull(),
+    storageIndex: integer("storage_index").notNull(),
+    amount: integer("amount").notNull(),
+    type: integer("type").notNull(),
+    objectId: integer("object_id").notNull(),
+    description: text("description").notNull(),
+    flags: integer("flags").notNull(),
+    rawRecord: jsonb("raw_record").notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.buildId, table.objectiveId] }),
+    index("world_quest_objective_quest_idx").on(table.buildId, table.questId, table.orderIndex),
+    index("world_quest_objective_object_idx").on(table.buildId, table.type, table.objectId),
   ],
 );
 

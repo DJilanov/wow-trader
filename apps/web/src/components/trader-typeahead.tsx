@@ -12,9 +12,13 @@ interface MarketOption {
 }
 
 interface TraderTypeaheadProps {
+  readonly basePath: string;
   readonly initialMarket: string;
   readonly initialQuery: string;
   readonly markets: readonly MarketOption[];
+  readonly placeholder: string;
+  readonly searchLabel: string;
+  readonly suggestions: readonly string[];
 }
 
 interface NavigationState {
@@ -23,9 +27,13 @@ interface NavigationState {
 }
 
 export function TraderTypeahead({
+  basePath,
   initialMarket,
   initialQuery,
   markets,
+  placeholder,
+  searchLabel,
+  suggestions,
 }: TraderTypeaheadProps): React.JSX.Element {
   const router = useRouter();
   const [draftMarket, setDraftMarket] = useState(initialMarket);
@@ -66,14 +74,15 @@ export function TraderTypeahead({
       else search.delete("q");
       if (nextState.market) search.set("market", nextState.market);
       else search.delete("market");
+      search.delete("page");
 
       lastNavigation.current = nextState;
       startTransition(() => {
         const suffix = search.toString();
-        router.replace(suffix ? `/tbc/trader?${suffix}` : "/tbc/trader", { scroll: false });
+        router.replace(suffix ? `${basePath}?${suffix}` : basePath, { scroll: false });
       });
     },
-    [initialMarket, initialQuery, router],
+    [basePath, initialMarket, initialQuery, router],
   );
 
   useEffect(() => {
@@ -92,20 +101,26 @@ export function TraderTypeahead({
       role="search"
     >
       <label className="search-field" htmlFor="workspace-query">
-        <span>Product name</span>
+        <span>{searchLabel}</span>
         <input
           aria-describedby="workspace-search-status"
           autoComplete="off"
           defaultValue={initialQuery}
           id="workspace-query"
+          list="workspace-search-suggestions"
           maxLength={MAX_QUERY_LENGTH}
           name="q"
           onChange={(event) => setDraftQuery(event.target.value)}
-          placeholder="Search Arcanite Bar, Runic Leather Bracers…"
+          placeholder={placeholder}
           ref={input}
           spellCheck={false}
           type="search"
         />
+        <datalist id="workspace-search-suggestions">
+          {suggestions.map((suggestion) => (
+            <option key={suggestion} value={suggestion} />
+          ))}
+        </datalist>
       </label>
       <label className="market-field" htmlFor="workspace-market">
         <span>Market</span>

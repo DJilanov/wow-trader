@@ -5,6 +5,11 @@ import { rendererCommandSchema, utilityCommandSchema } from "./contracts.js";
 describe("desktop IPC contracts", () => {
   it("accepts only known renderer actions with bounded identifiers", () => {
     expect(rendererCommandSchema.parse({ type: "check_now" })).toEqual({ type: "check_now" });
+    expect(rendererCommandSchema.parse({ type: "open_trader", product: "forever" })).toEqual({
+      type: "open_trader",
+      product: "forever",
+    });
+    expect(() => rendererCommandSchema.parse({ type: "open_trader" })).toThrow();
     expect(() => rendererCommandSchema.parse({ type: "delete_files" })).toThrow();
     expect(() =>
       rendererCommandSchema.parse({ type: "install_collector", productId: "x".repeat(65) }),

@@ -1,6 +1,6 @@
 # WoW Trader Desktop Companion Plan
 
-## Implementation status — 2026-09-16
+## Implementation status — 2026-09-27
 
 Phases A through C are implemented for maintainer alpha. `packages/companion-core` owns the shared,
 serialized multi-product scan service and the CLI is a thin adapter. `apps/desktop` now provides the
@@ -9,15 +9,28 @@ IPC, utility-process parsing/upload work, OS-encrypted credentials, product disc
 addon install/update, tray lifecycle, login startup, notifications, manual check/retry, bounded
 activity history, rotating redacted logs, resume reconciliation, and legacy LaunchAgent removal.
 
-The current macOS x64 package has passed a packaged runtime smoke: the local renderer loaded, its
+The current macOS x64 package uses the same WoW Forever artwork as the Helper product selector and
+has passed a packaged runtime smoke: the local renderer loaded, its
 preload API was present, TBC/Auctionator/collector discovery rendered without horizontal overflow,
 the utility process remained alive, a manual reconciliation crossed IPC successfully, closing the
 window left the process running, and a second launch focused the single existing instance. Core and
 desktop regression suites cover v1 state migration, one-time upload/idempotency, IPC rejection, and
 checksum-verified addon installation.
 
+Companion `0.3.0` adds exact-market intelligence synchronization after every stable-file
+reconciliation. It downloads only the product/build/region/realm/Auction-House pack matching the
+latest scan and atomically replaces the collector's generated `MarketData.lua`; collector updates
+preserve that generated file. Collector `0.10.0` consumes the pack in its Market Intel panel,
+tooltips, and account-wide local watchlist after `/reload`. A mismatched pack is rejected in game.
+
+Companion `0.2.0` was the first package published as an immutable macOS Intel DMG and promoted from
+`/forever/addon`. Its stable public manifest carries platform, architecture, byte size, SHA-256,
+collector version, signing state, and channel; the download route supports validated single-range
+requests. The dashboard and tray expose separate Forever and TBC Trader links. This distribution
+work does not change the alpha security boundary described below.
+
 This is deliberately an **unsigned maintainer-alpha package**, not the public release. Phase D
-(one-time per-installation pairing and revocation) and Phase E (branded artwork, signing,
+(one-time per-installation pairing and revocation) and Phase E (signing,
 notarization, Windows packaging validation, and controlled rollout) remain required. The alpha token
 field accepts only a dedicated revocable ingestion token and must never be populated with a shared
 secret in a distributed build.
@@ -347,8 +360,8 @@ plaintext files; revoking one installation does not interrupt another.
 
 ### Phase E — Packaging, signing, and controlled rollout
 
-- Add application/tray artwork, macOS entitlements, signing/notarization, Windows signing, Forge
-  makers, fuse verification, artifact checksums, and download documentation.
+- Keep the implemented application/tray artwork, then add macOS entitlements, signing/notarization,
+  Windows signing, Forge maker verification, artifact checksums, and download documentation.
 - Add auto-update only after signed manual upgrades preserve settings, credential, pending retries,
   and processed IDs.
 - Roll out to maintainers, then a small guild cohort, then broader approved collectors.

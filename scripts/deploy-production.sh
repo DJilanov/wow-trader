@@ -31,8 +31,11 @@ rsync -az \
   --exclude='.env.*.local' \
   --exclude='.next/' \
   --exclude='.turbo/' \
+  --exclude='.cache/' \
   --exclude='node_modules/' \
   --exclude='dist/' \
+  --exclude='apps/desktop/.webpack/' \
+  --exclude='apps/desktop/out/' \
   --exclude='artifacts/' \
   --exclude='catalog-snapshots/' \
   --exclude='raw-uploads/' \
@@ -42,7 +45,7 @@ rsync -az \
   --exclude='.wow-trader-companion-state.json' \
   "$repository_root/" "$deploy_host:$release_directory/"
 
-ssh "$deploy_host" "cd '$release_directory' && chmod 0755 scripts/*.sh && corepack pnpm install --frozen-lockfile && corepack pnpm check && corepack pnpm format:check && test -f apps/web/.next/standalone/apps/web/server.js && mkdir -p apps/web/.next/standalone/apps/web/.next/static apps/web/.next/standalone/apps/web/public && rsync -a --delete apps/web/.next/static/ apps/web/.next/standalone/apps/web/.next/static/ && rsync -a --delete apps/web/public/ apps/web/.next/standalone/apps/web/public/"
+ssh "$deploy_host" "cd '$release_directory' && chmod 0755 scripts/*.sh && corepack pnpm install --frozen-lockfile && corepack pnpm check && corepack pnpm format:check && test -f apps/web/.next/standalone/apps/web/server.js && mkdir -p apps/web/.next/standalone/apps/web/.next/static apps/web/.next/standalone/apps/web/public && rsync -a --delete apps/web/.next/static/ apps/web/.next/standalone/apps/web/.next/static/ && rsync -a --delete apps/web/public/ apps/web/.next/standalone/apps/web/public/ && for generated_path in .turbo apps/desktop/.webpack apps/desktop/out apps/web/.next/cache; do if [ -d \"\$generated_path\" ]; then find \"\$generated_path\" -mindepth 1 -delete && rmdir \"\$generated_path\"; fi; done"
 
 echo "Staged and verified $release_directory"
 echo "Activate only after database migrations, environment files, and item media are ready."

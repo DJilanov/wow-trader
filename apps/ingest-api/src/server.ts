@@ -4,13 +4,13 @@ import { createDatabase } from "@wow-trader/db";
 
 import { buildApp } from "./app.js";
 import { loadConfig } from "./config.js";
-import { PostgresAuctionUploadRepository } from "./postgres-upload-repository.js";
+import { PostgresUploadRepository } from "./postgres-upload-repository.js";
 import { FileRawPayloadStore } from "./raw-payload-store.js";
 
 const config = loadConfig();
 const database = createDatabase(config.databaseUrl);
 const app = await buildApp({
-  repository: new PostgresAuctionUploadRepository(database.db),
+  repository: new PostgresUploadRepository(database.db),
   rawPayloadStore: new FileRawPayloadStore(config.rawUploadDirectory),
   apiKeys: config.apiKeys,
   webOrigin: config.webOrigin,

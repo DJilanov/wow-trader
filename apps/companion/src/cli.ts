@@ -4,11 +4,14 @@ import path from "node:path";
 import {
   DefaultCompanionService,
   createAuctionScanUpload,
+  createWorldDiagnosticsUpload,
   discoverCollectorSavedVariables,
   readCollectorSavedVariables,
   readCompanionState,
   uploadAuctionScan,
+  uploadWorldDiagnostics,
   waitForAuctionScanProcessed,
+  waitForWorldDiagnosticsProcessed,
   writeCompanionState,
   type CompanionSnapshot,
 } from "@wow-trader/companion-core";
@@ -80,7 +83,7 @@ async function main(): Promise<void> {
       options.endpoint!,
       apiKey,
     );
-    if (result.pendingCount === 0) process.stdout.write("No pending scans.\n");
+    if (result.pendingCount === 0) process.stdout.write("No pending uploads.\n");
     return;
   }
 
@@ -127,6 +130,7 @@ async function uploadSavedVariables(
   const savedVariables = await readCollectorSavedVariables(savedVariablesPath);
   const state = await readCompanionState(statePath);
   const uploadedScanIds = new Set(state.uploadedScanIds);
+  const uploadedDiagnosticPayloadIds = new Set(state.uploadedDiagnosticPayloadIds);
   const pendingScans = savedVariables.scans.filter((scan) => !uploadedScanIds.has(scan.scanId));
 
   for (const scan of pendingScans) {
@@ -143,8 +147,9 @@ async function uploadSavedVariables(
     uploadedScanIds.add(scan.scanId);
     await writeCompanionState(statePath, {
       ...state,
-      schemaVersion: 2,
+      schemaVersion: 3,
       uploadedScanIds: [...uploadedScanIds],
+      uploadedDiagnosticPayloadIds: [...uploadedDiagnosticPayloadIds].slice(-1_000),
     });
     process.stdout.write(
       receipt.duplicate
@@ -152,7 +157,31 @@ async function uploadSavedVariables(
         : `Uploaded scan ${scan.scanId} as payload ${receipt.payloadId}.\n`,
     );
   }
-  return { pendingCount: pendingScans.length, uploadedCount: pendingScans.length };
+  const diagnosticsUpload = createWorldDiagnosticsUpload(savedVariables);
+  const pendingDiagnostics =
+    diagnosticsUpload && !uploadedDiagnosticPayloadIds.has(diagnosticsUpload.payloadId)
+      ? diagnosticsUpload
+      : null;
+  if (pendingDiagnostics) {
+    process.stdout.write(`Uploading world evidence ${pendingDiagnostics.payloadId}...\n`);
+    const receipt = await uploadWorldDiagnostics(endpoint, apiKey, pendingDiagnostics);
+    if (receipt.status === "accepted") {
+      await waitForWorldDiagnosticsProcessed(endpoint, apiKey, receipt.payloadId);
+    }
+    uploadedDiagnosticPayloadIds.add(pendingDiagnostics.payloadId);
+    await writeCompanionState(statePath, {
+      ...state,
+      schemaVersion: 3,
+      uploadedScanIds: [...uploadedScanIds],
+      uploadedDiagnosticPayloadIds: [...uploadedDiagnosticPayloadIds].slice(-1_000),
+    });
+    process.stdout.write(`Uploaded world evidence ${pendingDiagnostics.payloadId}.\n`);
+  }
+  const diagnosticsCount = pendingDiagnostics ? 1 : 0;
+  return {
+    pendingCount: pendingScans.length + diagnosticsCount,
+    uploadedCount: pendingScans.length + diagnosticsCount,
+  };
 }
 
 function parseOptions(arguments_: readonly string[]): CliOptions {

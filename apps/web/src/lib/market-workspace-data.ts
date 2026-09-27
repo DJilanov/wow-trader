@@ -3,6 +3,7 @@ import {
   gameBuilds,
   itemVersions,
   marketScans,
+  marketItemObservations,
   professions,
   professionVersions,
   rawUploads,
@@ -27,6 +28,11 @@ import { DISENCHANT_MATERIAL_ITEM_IDS, getDisenchantDistribution } from "./disen
 import { formatCopper, formatPercentBasisPoints } from "./format";
 import { TBC_CLIENT_PRODUCT } from "./game-versions";
 import { getMarketScanFreshness, type MarketScanFreshness } from "./market-freshness";
+import { createMarketPriceSignal, type MarketPriceSignal } from "./market-price-signal";
+import {
+  createMarketOpportunityHistory,
+  type MarketOpportunityHistory,
+} from "./market-opportunity-history";
 import { matchesProductName } from "./product-search";
 import { getAuditedRequiredSkillRank } from "./recipe-requirements";
 import {
@@ -39,15 +45,17 @@ import {
   type ProfessionSpecializationProfile,
 } from "./specializations";
 import {
+  calculateWorkspaceExecutionPlan,
   evaluateWorkspaceRecipe,
   type RealizationRoute,
+  type WorkspaceExecutionPlan,
   type WorkspaceMaterialPlan,
   type WorkspaceRecipeCandidate,
   type WorkspaceRouteEvaluation,
 } from "./workspace";
 
 export type WorkspaceRouteFilter = "best" | RealizationRoute;
-export type WorkspaceSort = "profit" | "roi" | "specialization-uplift";
+export type WorkspaceSort = "total-profit" | "profit" | "roi" | "specialization-uplift";
 
 export interface MarketWorkspaceFilters {
   readonly clientProduct?: string;
@@ -59,10 +67,13 @@ export interface MarketWorkspaceFilters {
   readonly specializations?: CraftingSpecializationProfile;
   readonly useAltCrafting?: boolean;
   readonly recipeSpellId?: number;
+  readonly page?: number;
+  readonly pageSize?: number;
 }
 
 export interface MarketWorkspaceOpportunity {
   readonly recipeSpellId: number;
+  readonly quoteCapturedAt: string;
   readonly recipeName: string;
   readonly professionName: string;
   readonly professionSlug: string;
@@ -71,11 +82,34 @@ export interface MarketWorkspaceOpportunity {
   readonly requiredSkillRank: number;
   readonly cooldownLabel: string | null;
   readonly outputLabel: string;
+  readonly primaryOutputItemId: number;
   readonly outputIconFileDataId: number | null;
   readonly outputQuality: number;
   readonly expectedYieldLabel: string;
   readonly yieldRangeLabel: string;
   readonly reagentCost: string;
+  readonly executableCrafts: number;
+  readonly depthCraftLimit: number;
+  readonly executableCapital: string;
+  readonly executableCapitalCopper: string;
+  readonly executableProfit: string;
+  readonly executableProfitCopper: string;
+  readonly executableReturnOnCapital: string;
+  readonly breakEvenUnitPrice: string | null;
+  readonly priceSignal: MarketPriceSignal;
+  readonly marketHistory: MarketOpportunityHistory | null;
+  readonly profitQuality: {
+    readonly kind:
+      | "collecting"
+      | "balanced"
+      | "favorable_inputs"
+      | "input_squeeze"
+      | "fragile_output_spike"
+      | "weak_output"
+      | "not_applicable";
+    readonly label: string;
+    readonly guidance: string;
+  };
   readonly netValue: string;
   readonly auctionHouseCut: string;
   readonly quotedProfit: string;
@@ -112,6 +146,8 @@ export interface MarketWorkspaceOpportunity {
     readonly quality: number;
     readonly cost: string;
     readonly highestUnitPrice: string;
+    readonly priceSignalLabel: string | null;
+    readonly priceSignalKind: string | null;
   }[];
   readonly outputs: readonly {
     readonly itemId: number;
@@ -134,7 +170,8 @@ export interface MarketWorkspaceData {
     readonly completeness: number;
     readonly itemCount: number;
     readonly clientBuild: number;
-    readonly clientVersion: string;
+    readonly clientVersion: string | null;
+    readonly catalogAvailable: boolean;
     readonly historyScanCount: number;
     readonly freshness: MarketScanFreshness;
   } | null;
@@ -151,8 +188,11 @@ export interface MarketWorkspaceData {
   readonly routeCounts: Readonly<Record<"best" | RealizationRoute, number>>;
   readonly specializationProfiles: readonly ProfessionSpecializationProfile[];
   readonly useAltCrafting: boolean;
+  readonly productSuggestions: readonly string[];
   readonly opportunities: readonly MarketWorkspaceOpportunity[];
   readonly totalOpportunityCount: number;
+  readonly page: number;
+  readonly pageSize: number;
   readonly limitation: string;
 }
 
@@ -162,11 +202,47 @@ interface EvaluatedCandidate {
   readonly baseEvaluation: WorkspaceRouteEvaluation;
   readonly specialization: AppliedSpecialization | null;
   readonly directMarketEvaluation: WorkspaceRouteEvaluation | null;
+  readonly executionPlan: WorkspaceExecutionPlan;
 }
+
+interface WorkspaceCacheEntry {
+  readonly expiresAt: number;
+  readonly value: Promise<MarketWorkspaceData>;
+}
+
+interface WorkspaceSourceCacheEntry {
+  readonly value: Promise<unknown>;
+}
+
+const WORKSPACE_CACHE_TTL_MS = 30_000;
+const MAX_WORKSPACE_CACHE_ENTRIES = 200;
+const workspaceCache = new Map<string, WorkspaceCacheEntry>();
+const MAX_WORKSPACE_SOURCE_CACHE_ENTRIES = 4;
+const workspaceSourceCache = new Map<string, WorkspaceSourceCacheEntry>();
 
 export async function getMarketWorkspace(
   filters: MarketWorkspaceFilters = {},
 ): Promise<MarketWorkspaceData> {
+  const cacheKey = workspaceCacheKey(filters);
+  const now = Date.now();
+  const cached = workspaceCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) return cached.value;
+  if (cached) workspaceCache.delete(cacheKey);
+
+  const value = loadMarketWorkspace(filters).catch((error: unknown) => {
+    workspaceCache.delete(cacheKey);
+    throw error;
+  });
+  workspaceCache.set(cacheKey, { expiresAt: now + WORKSPACE_CACHE_TTL_MS, value });
+  while (workspaceCache.size > MAX_WORKSPACE_CACHE_ENTRIES) {
+    const oldestKey = workspaceCache.keys().next().value as string | undefined;
+    if (!oldestKey) break;
+    workspaceCache.delete(oldestKey);
+  }
+  return value;
+}
+
+async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<MarketWorkspaceData> {
   const database = getDatabase();
   const clientProduct = filters.clientProduct ?? TBC_CLIENT_PRODUCT;
   const recentScans = await database
@@ -182,12 +258,15 @@ export async function getMarketWorkspace(
     })
     .from(marketScans)
     .where(
-      inArray(
-        marketScans.payloadId,
-        database
-          .select({ payloadId: rawUploads.payloadId })
-          .from(rawUploads)
-          .where(eq(rawUploads.clientProduct, clientProduct)),
+      and(
+        eq(marketScans.qualityAccepted, true),
+        inArray(
+          marketScans.payloadId,
+          database
+            .select({ payloadId: rawUploads.payloadId })
+            .from(rawUploads)
+            .where(eq(rawUploads.clientProduct, clientProduct)),
+        ),
       ),
     )
     .orderBy(desc(marketScans.completedAt))
@@ -213,9 +292,30 @@ export async function getMarketWorkspace(
     return emptyWorkspace(
       markets,
       `No published catalog matches Auction House build ${selected.clientBuild}.`,
+      {
+        market: marketValue(selected),
+        region: selected.region,
+        realmId: selected.realmId,
+        auctionHouseType: selected.auctionHouseType,
+        completedAt: selected.completedAt,
+        completeness: selected.completeness,
+        itemCount: selected.itemCount,
+        clientBuild: selected.clientBuild,
+        clientVersion: null,
+        catalogAvailable: false,
+        historyScanCount: recentScans.filter(
+          (scan) =>
+            scan.region === selected.region &&
+            scan.realmId === selected.realmId &&
+            scan.auctionHouseType === selected.auctionHouseType,
+        ).length,
+        freshness: getMarketScanFreshness(selected.completedAt),
+      },
+      filters.useAltCrafting ?? false,
     );
   }
 
+  const sourceCacheKey = `${build.id}:${selected.scanId}`;
   const [
     levels,
     recipeRows,
@@ -227,179 +327,183 @@ export async function getMarketWorkspace(
     transformationRows,
     transformationInputRows,
     transformationOutputRows,
-  ] = await Promise.all([
-    database
-      .select()
-      .from(auctionPriceLevels)
-      .where(eq(auctionPriceLevels.scanId, selected.scanId)),
-    database
-      .select({
-        recipeSpellId: recipeVersions.recipeSpellId,
-        recipeName: spellVersions.name,
-        professionName: professionVersions.name,
-        professionSlug: professions.slug,
-        requiredSkillRank: recipeVersions.requiredSkillRank,
-        cooldownMs: recipeVersions.cooldownMs,
-        categoryCooldownMs: recipeVersions.categoryCooldownMs,
-        outputKind: recipeVersions.outputKind,
-      })
-      .from(recipeVersions)
-      .innerJoin(
-        spellVersions,
-        and(
-          eq(spellVersions.buildId, recipeVersions.buildId),
-          eq(spellVersions.spellId, recipeVersions.recipeSpellId),
-        ),
-      )
-      .innerJoin(
-        professionVersions,
-        and(
-          eq(professionVersions.buildId, recipeVersions.buildId),
-          eq(professionVersions.skillLineId, recipeVersions.professionSkillLineId),
-        ),
-      )
-      .innerJoin(professions, eq(professions.skillLineId, recipeVersions.professionSkillLineId))
-      .where(eq(recipeVersions.buildId, build.id)),
-    database
-      .select({
-        recipeSpellId: recipeInputs.recipeSpellId,
-        itemId: recipeInputs.reagentItemId,
-        name: itemVersions.name,
-        quantity: recipeInputs.quantity,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(recipeInputs)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, recipeInputs.buildId),
-          eq(itemVersions.itemId, recipeInputs.reagentItemId),
-        ),
-      )
-      .where(eq(recipeInputs.buildId, build.id)),
-    database
-      .select({
-        recipeSpellId: recipeOutputs.recipeSpellId,
-        itemId: recipeOutputs.outputItemId,
-        name: itemVersions.name,
-        classId: itemVersions.classId,
-        subclassId: itemVersions.subclassId,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-        itemLevel: itemVersions.itemLevel,
-        vendorSellPriceCopper: itemVersions.sellPriceCopper,
-        minimumQuantity: recipeOutputs.minimumQuantity,
-        maximumQuantity: recipeOutputs.maximumQuantity,
-        expectedQuantityNumerator: recipeOutputs.expectedQuantityNumerator,
-        expectedQuantityDenominator: recipeOutputs.expectedQuantityDenominator,
-      })
-      .from(recipeOutputs)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, recipeOutputs.buildId),
-          eq(itemVersions.itemId, recipeOutputs.outputItemId),
-        ),
-      )
-      .where(eq(recipeOutputs.buildId, build.id)),
-    database
-      .select({ slug: professions.slug, name: professionVersions.name })
-      .from(professions)
-      .innerJoin(
-        professionVersions,
-        and(
-          eq(professionVersions.skillLineId, professions.skillLineId),
-          eq(professionVersions.buildId, build.id),
-        ),
-      )
-      .orderBy(professionVersions.name),
-    database
-      .select({ value: count() })
-      .from(marketScans)
-      .where(
-        and(
-          eq(marketScans.region, selected.region),
-          eq(marketScans.realmId, selected.realmId),
-          eq(marketScans.auctionHouseType, selected.auctionHouseType),
-          inArray(
-            marketScans.payloadId,
-            database
-              .select({ payloadId: rawUploads.payloadId })
-              .from(rawUploads)
-              .where(eq(rawUploads.clientProduct, clientProduct)),
+  ] = await getCachedWorkspaceSource(sourceCacheKey, () =>
+    Promise.all([
+      database
+        .select()
+        .from(auctionPriceLevels)
+        .where(eq(auctionPriceLevels.scanId, selected.scanId)),
+      database
+        .select({
+          recipeSpellId: recipeVersions.recipeSpellId,
+          recipeName: spellVersions.name,
+          professionName: professionVersions.name,
+          professionSlug: professions.slug,
+          requiredSkillRank: recipeVersions.requiredSkillRank,
+          cooldownMs: recipeVersions.cooldownMs,
+          categoryCooldownMs: recipeVersions.categoryCooldownMs,
+          outputKind: recipeVersions.outputKind,
+        })
+        .from(recipeVersions)
+        .innerJoin(
+          spellVersions,
+          and(
+            eq(spellVersions.buildId, recipeVersions.buildId),
+            eq(spellVersions.spellId, recipeVersions.recipeSpellId),
+          ),
+        )
+        .innerJoin(
+          professionVersions,
+          and(
+            eq(professionVersions.buildId, recipeVersions.buildId),
+            eq(professionVersions.skillLineId, recipeVersions.professionSkillLineId),
+          ),
+        )
+        .innerJoin(professions, eq(professions.skillLineId, recipeVersions.professionSkillLineId))
+        .where(eq(recipeVersions.buildId, build.id)),
+      database
+        .select({
+          recipeSpellId: recipeInputs.recipeSpellId,
+          itemId: recipeInputs.reagentItemId,
+          name: itemVersions.name,
+          quantity: recipeInputs.quantity,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(recipeInputs)
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, recipeInputs.buildId),
+            eq(itemVersions.itemId, recipeInputs.reagentItemId),
+          ),
+        )
+        .where(eq(recipeInputs.buildId, build.id)),
+      database
+        .select({
+          recipeSpellId: recipeOutputs.recipeSpellId,
+          itemId: recipeOutputs.outputItemId,
+          name: itemVersions.name,
+          classId: itemVersions.classId,
+          subclassId: itemVersions.subclassId,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+          itemLevel: itemVersions.itemLevel,
+          vendorSellPriceCopper: itemVersions.sellPriceCopper,
+          minimumQuantity: recipeOutputs.minimumQuantity,
+          maximumQuantity: recipeOutputs.maximumQuantity,
+          expectedQuantityNumerator: recipeOutputs.expectedQuantityNumerator,
+          expectedQuantityDenominator: recipeOutputs.expectedQuantityDenominator,
+        })
+        .from(recipeOutputs)
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, recipeOutputs.buildId),
+            eq(itemVersions.itemId, recipeOutputs.outputItemId),
+          ),
+        )
+        .where(eq(recipeOutputs.buildId, build.id)),
+      database
+        .select({ slug: professions.slug, name: professionVersions.name })
+        .from(professions)
+        .innerJoin(
+          professionVersions,
+          and(
+            eq(professionVersions.skillLineId, professions.skillLineId),
+            eq(professionVersions.buildId, build.id),
+          ),
+        )
+        .orderBy(professionVersions.name),
+      database
+        .select({ value: count() })
+        .from(marketScans)
+        .where(
+          and(
+            eq(marketScans.region, selected.region),
+            eq(marketScans.realmId, selected.realmId),
+            eq(marketScans.auctionHouseType, selected.auctionHouseType),
+            eq(marketScans.clientBuild, selected.clientBuild),
+            eq(marketScans.qualityAccepted, true),
+            inArray(
+              marketScans.payloadId,
+              database
+                .select({ payloadId: rawUploads.payloadId })
+                .from(rawUploads)
+                .where(eq(rawUploads.clientProduct, clientProduct)),
+            ),
           ),
         ),
-      ),
-    database
-      .select({
-        itemId: itemVersions.itemId,
-        name: itemVersions.name,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(itemVersions)
-      .where(
-        and(
-          eq(itemVersions.buildId, build.id),
-          inArray(itemVersions.itemId, [...DISENCHANT_MATERIAL_ITEM_IDS]),
+      database
+        .select({
+          itemId: itemVersions.itemId,
+          name: itemVersions.name,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(itemVersions)
+        .where(
+          and(
+            eq(itemVersions.buildId, build.id),
+            inArray(itemVersions.itemId, [...DISENCHANT_MATERIAL_ITEM_IDS]),
+          ),
         ),
-      ),
-    database
-      .select({
-        transformationId: transformationVersions.transformationId,
-        spellId: transformationVersions.spellId,
-        name: spellVersions.name,
-        cooldownMs: transformationVersions.cooldownMs,
-        categoryCooldownMs: transformationVersions.categoryCooldownMs,
-      })
-      .from(transformationVersions)
-      .innerJoin(
-        spellVersions,
-        and(
-          eq(spellVersions.buildId, transformationVersions.buildId),
-          eq(spellVersions.spellId, transformationVersions.spellId),
-        ),
-      )
-      .where(eq(transformationVersions.buildId, build.id)),
-    database
-      .select({
-        transformationId: transformationInputs.transformationId,
-        itemId: transformationInputs.itemId,
-        name: itemVersions.name,
-        quantity: transformationInputs.quantity,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(transformationInputs)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, transformationInputs.buildId),
-          eq(itemVersions.itemId, transformationInputs.itemId),
-        ),
-      )
-      .where(eq(transformationInputs.buildId, build.id)),
-    database
-      .select({
-        transformationId: transformationOutputs.transformationId,
-        itemId: transformationOutputs.itemId,
-        name: itemVersions.name,
-        minimumQuantity: transformationOutputs.minimumQuantity,
-        maximumQuantity: transformationOutputs.maximumQuantity,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(transformationOutputs)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, transformationOutputs.buildId),
-          eq(itemVersions.itemId, transformationOutputs.itemId),
-        ),
-      )
-      .where(eq(transformationOutputs.buildId, build.id)),
-  ]);
+      database
+        .select({
+          transformationId: transformationVersions.transformationId,
+          spellId: transformationVersions.spellId,
+          name: spellVersions.name,
+          cooldownMs: transformationVersions.cooldownMs,
+          categoryCooldownMs: transformationVersions.categoryCooldownMs,
+        })
+        .from(transformationVersions)
+        .innerJoin(
+          spellVersions,
+          and(
+            eq(spellVersions.buildId, transformationVersions.buildId),
+            eq(spellVersions.spellId, transformationVersions.spellId),
+          ),
+        )
+        .where(eq(transformationVersions.buildId, build.id)),
+      database
+        .select({
+          transformationId: transformationInputs.transformationId,
+          itemId: transformationInputs.itemId,
+          name: itemVersions.name,
+          quantity: transformationInputs.quantity,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(transformationInputs)
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, transformationInputs.buildId),
+            eq(itemVersions.itemId, transformationInputs.itemId),
+          ),
+        )
+        .where(eq(transformationInputs.buildId, build.id)),
+      database
+        .select({
+          transformationId: transformationOutputs.transformationId,
+          itemId: transformationOutputs.itemId,
+          name: itemVersions.name,
+          minimumQuantity: transformationOutputs.minimumQuantity,
+          maximumQuantity: transformationOutputs.maximumQuantity,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(transformationOutputs)
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, transformationOutputs.buildId),
+            eq(itemVersions.itemId, transformationOutputs.itemId),
+          ),
+        )
+        .where(eq(transformationOutputs.buildId, build.id)),
+    ]),
+  );
 
   const priceLevelsByItem = groupBy(
     levels.filter((level) => level.marketKey === String(level.itemId)),
@@ -522,6 +626,11 @@ export async function getMarketWorkspace(
           evaluation,
           baseEvaluation,
           specialization,
+          executionPlan: calculateWorkspaceExecutionPlan(
+            evaluation,
+            priceLevelsByItem,
+            auctionHouseCutBasisPoints,
+          ),
           directMarketEvaluation:
             directMarketEvaluations.find((entry) => entry.route === evaluation.route) ?? null,
         });
@@ -546,13 +655,99 @@ export async function getMarketWorkspace(
     : forRoute;
   const matchingQueryForProfession = filterByProfession(matchingQuery, filters.profession);
   const matchingBestForProfession = filterByProfession(matchingBest, filters.profession);
-  const sorted = sortOpportunities(forProfession, filters.sort ?? "profit");
+  const sorted = sortOpportunities(forProfession, filters.sort ?? "total-profit");
+  const pageSize = normalizePageSize(filters.pageSize);
+  const pageCount = Math.max(1, Math.ceil(sorted.length / pageSize));
+  const page = Math.min(normalizePage(filters.page), pageCount);
   const historyScanCount = scanCountRows[0]?.value ?? 0;
   const freshness = getMarketScanFreshness(selected.completedAt);
-  const opportunities = sorted
-    .slice(0, 50)
-    .map((opportunity) => formatOpportunity(opportunity, freshness));
-
+  const pageEntries = sorted.slice((page - 1) * pageSize, page * pageSize);
+  const historyItemIds = [
+    ...new Set(
+      pageEntries.flatMap((entry) => [
+        ...entry.candidate.outputs.map((output) => output.itemId),
+        ...entry.candidate.inputs.map((input) => input.itemId),
+        ...entry.evaluation.outputs.map((output) => output.itemId),
+        ...entry.evaluation.inputs.map((input) => input.itemId),
+      ]),
+    ),
+  ];
+  const historyScans = filters.recipeSpellId
+    ? await database
+        .select({
+          scanId: marketScans.scanId,
+          clientBuild: marketScans.clientBuild,
+          region: marketScans.region,
+          realmId: marketScans.realmId,
+          auctionHouseType: marketScans.auctionHouseType,
+          completedAt: marketScans.completedAt,
+          completeness: marketScans.completeness,
+          itemCount: marketScans.itemCount,
+        })
+        .from(marketScans)
+        .where(
+          and(
+            eq(marketScans.region, selected.region),
+            eq(marketScans.realmId, selected.realmId),
+            eq(marketScans.auctionHouseType, selected.auctionHouseType),
+            eq(marketScans.clientBuild, selected.clientBuild),
+            eq(marketScans.qualityAccepted, true),
+            inArray(
+              marketScans.payloadId,
+              database
+                .select({ payloadId: rawUploads.payloadId })
+                .from(rawUploads)
+                .where(eq(rawUploads.clientProduct, clientProduct)),
+            ),
+          ),
+        )
+        .orderBy(desc(marketScans.completedAt))
+        .limit(1_440)
+    : recentScans
+        .filter(
+          (scan) =>
+            scan.region === selected.region &&
+            scan.realmId === selected.realmId &&
+            scan.auctionHouseType === selected.auctionHouseType &&
+            scan.clientBuild === selected.clientBuild,
+        )
+        .slice(0, 48);
+  const historicalLevels =
+    historyItemIds.length > 0 && historyScans.length > 0
+      ? await database
+          .select({
+            scanId: marketItemObservations.scanId,
+            itemId: marketItemObservations.itemId,
+            marketKey: marketItemObservations.marketKey,
+            unitPriceCopper: marketItemObservations.tenthPercentilePriceCopper,
+            quantity: marketItemObservations.availableQuantity,
+            listingCount: marketItemObservations.listingCount,
+          })
+          .from(marketItemObservations)
+          .where(
+            and(
+              inArray(
+                marketItemObservations.scanId,
+                historyScans.map((scan) => scan.scanId),
+              ),
+              inArray(marketItemObservations.itemId, historyItemIds),
+            ),
+          )
+      : [];
+  const priceSignalsByItem = createPriceSignalsByItem(
+    historyItemIds,
+    historyScans,
+    historicalLevels,
+  );
+  const opportunities = pageEntries.map((opportunity) =>
+    formatOpportunity(
+      opportunity,
+      freshness,
+      selected.completedAt,
+      auctionHouseCutBasisPoints,
+      priceSignalsByItem,
+    ),
+  );
   return {
     scan: {
       market: marketValue(selected),
@@ -564,6 +759,7 @@ export async function getMarketWorkspace(
       itemCount: selected.itemCount,
       clientBuild: selected.clientBuild,
       clientVersion: build.clientVersion,
+      catalogAvailable: true,
       historyScanCount,
       freshness,
     },
@@ -585,8 +781,15 @@ export async function getMarketWorkspace(
     },
     specializationProfiles,
     useAltCrafting,
+    productSuggestions: [
+      ...new Set(
+        best.map((entry) => entry.candidate.outputs.map((output) => output.name).join(" + ")),
+      ),
+    ].sort((left, right) => left.localeCompare(right)),
     opportunities,
     totalOpportunityCount: forProfession.length,
+    page,
+    pageSize,
     limitation: formatLimitation(
       route,
       historyScanCount,
@@ -595,6 +798,43 @@ export async function getMarketWorkspace(
       freshness,
     ),
   };
+}
+
+function workspaceCacheKey(filters: MarketWorkspaceFilters): string {
+  return JSON.stringify({
+    clientProduct: filters.clientProduct ?? TBC_CLIENT_PRODUCT,
+    market: filters.market ?? "",
+    profession: filters.profession ?? "",
+    query: filters.query?.trim() ?? "",
+    route: filters.route ?? "best",
+    sort: filters.sort ?? "total-profit",
+    specializations: filters.specializations ?? {},
+    useAltCrafting: filters.useAltCrafting ?? false,
+    recipeSpellId: filters.recipeSpellId ?? null,
+    page: normalizePage(filters.page),
+    pageSize: normalizePageSize(filters.pageSize),
+  });
+}
+
+async function getCachedWorkspaceSource<T>(key: string, load: () => Promise<T>): Promise<T> {
+  const cached = workspaceSourceCache.get(key);
+  if (cached) {
+    workspaceSourceCache.delete(key);
+    workspaceSourceCache.set(key, cached);
+    return cached.value as Promise<T>;
+  }
+
+  const value = load().catch((error: unknown) => {
+    workspaceSourceCache.delete(key);
+    throw error;
+  });
+  workspaceSourceCache.set(key, { value });
+  while (workspaceSourceCache.size > MAX_WORKSPACE_SOURCE_CACHE_ENTRIES) {
+    const oldestKey = workspaceSourceCache.keys().next().value as string | undefined;
+    if (!oldestKey) break;
+    workspaceSourceCache.delete(oldestKey);
+  }
+  return value;
 }
 
 function createWorkspaceProductionPlanner(
@@ -931,16 +1171,24 @@ function formatOpportunity(
     baseEvaluation,
     specialization,
     directMarketEvaluation,
+    executionPlan,
   }: EvaluatedCandidate,
   freshness: MarketScanFreshness,
+  quoteCapturedAt: Date,
+  auctionHouseCutBasisPoints: number,
+  priceSignalsByItem: ReadonlyMap<number, MarketPriceSignal>,
 ): MarketWorkspaceOpportunity {
   const result = evaluation.result;
   const baseProfitCopper = baseEvaluation.result.expectedProfitCopper;
   const specializationUpliftCopper = result.expectedProfitCopper - baseProfitCopper;
+  const executableResult = executionPlan.result;
   const primaryOutput = candidate.outputs[0];
   if (!primaryOutput) throw new Error(`Recipe ${candidate.recipeSpellId} has no output`);
+  const outputPriceSignal =
+    priceSignalsByItem.get(primaryOutput.itemId) ?? createMarketPriceSignal([]);
   return {
     recipeSpellId: candidate.recipeSpellId,
+    quoteCapturedAt: quoteCapturedAt.toISOString(),
     recipeName: candidate.recipeName,
     professionName: candidate.professionName,
     professionSlug: candidate.professionSlug,
@@ -949,6 +1197,7 @@ function formatOpportunity(
     requiredSkillRank: candidate.requiredSkillRank,
     cooldownLabel: formatCooldown(candidate.cooldownMs, candidate.categoryCooldownMs),
     outputLabel: candidate.outputs.map((output) => output.name).join(" + "),
+    primaryOutputItemId: primaryOutput.itemId,
     outputIconFileDataId: primaryOutput.iconFileDataId,
     outputQuality: primaryOutput.quality,
     expectedYieldLabel: candidate.outputs
@@ -958,6 +1207,45 @@ function formatOpportunity(
       .map((output) => `${output.minimumQuantity}–${output.maximumQuantity}`)
       .join(" + "),
     reagentCost: formatCopper(result.reagentCostCopper),
+    executableCrafts: executionPlan.recommendedCrafts,
+    depthCraftLimit: executionPlan.depthCraftLimit,
+    executableCapital: formatCopper(executableResult.capitalRequiredCopper),
+    executableCapitalCopper: executableResult.capitalRequiredCopper.toString(),
+    executableProfit: formatCopper(executableResult.expectedProfitCopper),
+    executableProfitCopper: executableResult.expectedProfitCopper.toString(),
+    executableReturnOnCapital:
+      executableResult.returnOnCapitalBasisPoints === null
+        ? "n/a"
+        : formatPercentBasisPoints(executableResult.returnOnCapitalBasisPoints),
+    breakEvenUnitPrice:
+      evaluation.route === "auction_house"
+        ? formatOptionalCopper(
+            calculateBreakEvenUnitPrice(evaluation, executionPlan, auctionHouseCutBasisPoints),
+          )
+        : null,
+    priceSignal: outputPriceSignal,
+    marketHistory:
+      evaluation.route === "auction_house"
+        ? createMarketOpportunityHistory({
+            auctionHouseCutBasisPoints,
+            inputs: evaluation.inputs.map((input) => ({
+              itemId: input.itemId,
+              quantity: input.quantity,
+            })),
+            outputs: evaluation.outputs.map((output) => ({
+              itemId: output.itemId,
+              name: output.name,
+              expectedQuantity: output.expectedQuantity,
+            })),
+            primaryOutputItemId: primaryOutput.itemId,
+            signalsByItem: priceSignalsByItem,
+          })
+        : null,
+    profitQuality: createProfitQuality(
+      evaluation.route,
+      outputPriceSignal,
+      candidate.inputs.map((input) => priceSignalsByItem.get(input.itemId)),
+    ),
     directReagentCost:
       evaluation.directReagentCostCopper === null
         ? null
@@ -1023,15 +1311,20 @@ function formatOpportunity(
     ]
       .filter((value): value is string => Boolean(value))
       .join(" "),
-    inputs: evaluation.inputs.map((input) => ({
-      itemId: input.itemId,
-      name: input.name,
-      quantity: input.quantity,
-      iconFileDataId: input.iconFileDataId,
-      quality: input.quality,
-      cost: formatCopper(input.costCopper),
-      highestUnitPrice: formatCopper(input.highestUnitPriceCopper),
-    })),
+    inputs: evaluation.inputs.map((input) => {
+      const inputSignal = priceSignalsByItem.get(input.itemId);
+      return {
+        itemId: input.itemId,
+        name: input.name,
+        quantity: input.quantity,
+        iconFileDataId: input.iconFileDataId,
+        quality: input.quality,
+        cost: formatCopper(input.costCopper),
+        highestUnitPrice: formatCopper(input.highestUnitPriceCopper),
+        priceSignalLabel: inputSignal?.label ?? null,
+        priceSignalKind: inputSignal?.status === "available" ? inputSignal.kind : null,
+      };
+    }),
     outputs: evaluation.outputs.map((output) => ({
       itemId: output.itemId,
       name: output.name,
@@ -1041,6 +1334,69 @@ function formatOpportunity(
       unitValue: formatCopper(output.unitValueCopper),
     })),
     omittedOutputCount: evaluation.omittedOutputCount,
+  };
+}
+
+function createProfitQuality(
+  route: RealizationRoute,
+  output: MarketPriceSignal,
+  inputs: readonly (MarketPriceSignal | undefined)[],
+): MarketWorkspaceOpportunity["profitQuality"] {
+  if (route !== "auction_house") {
+    return {
+      kind: "not_applicable",
+      label: "Price-history neutral",
+      guidance: "This exit does not depend directly on the crafted product's Auction House ask.",
+    };
+  }
+  if (output.status === "collecting") {
+    return {
+      kind: "collecting",
+      label: output.label,
+      guidance: "More independent scans are needed before judging whether this margin is durable.",
+    };
+  }
+  const availableInputs = inputs.filter(
+    (signal): signal is Extract<MarketPriceSignal, { status: "available" }> =>
+      signal?.status === "available",
+  );
+  if (output.kind === "spike_risk" || output.kind === "too_thin") {
+    return {
+      kind: "fragile_output_spike",
+      label: "Fragile output quote",
+      guidance:
+        "Most of the apparent margin may disappear when supply returns or the thin asks fail to sell.",
+    };
+  }
+  if (output.kind === "falling" || output.kind === "oversupplied" || output.kind === "bargain") {
+    return {
+      kind: "weak_output",
+      label: "Weak output market",
+      guidance: "The crafted product is below or falling away from its normal range.",
+    };
+  }
+  if (availableInputs.some((signal) => signal.kind === "spike_risk" || signal.kind === "rising")) {
+    return {
+      kind: "input_squeeze",
+      label: "Expensive inputs",
+      guidance:
+        "One or more reagents are rising or temporarily spiking, so the current margin is under pressure.",
+    };
+  }
+  if (
+    availableInputs.some((signal) => signal.kind === "bargain" || signal.kind === "oversupplied")
+  ) {
+    return {
+      kind: "favorable_inputs",
+      label: "Favorable materials",
+      guidance:
+        "At least one reagent is cheaper than its recent baseline while the output is not abnormally inflated.",
+    };
+  }
+  return {
+    kind: "balanced",
+    label: "Balanced market",
+    guidance: "Inputs and output are close to their observed normal ranges.",
   };
 }
 
@@ -1074,6 +1430,7 @@ function formatRouteLabel(route: RealizationRoute): string {
 }
 
 function sortValue(entry: EvaluatedCandidate, sort: WorkspaceSort): bigint {
+  if (sort === "total-profit") return entry.executionPlan.result.expectedProfitCopper;
   if (sort === "roi") return entry.evaluation.result.returnOnCapitalBasisPoints ?? -1n;
   if (sort === "specialization-uplift") {
     return (
@@ -1082,6 +1439,34 @@ function sortValue(entry: EvaluatedCandidate, sort: WorkspaceSort): bigint {
     );
   }
   return entry.evaluation.result.expectedProfitCopper;
+}
+
+function calculateBreakEvenUnitPrice(
+  evaluation: WorkspaceRouteEvaluation,
+  executionPlan: WorkspaceExecutionPlan,
+  auctionHouseCutBasisPoints: number,
+): bigint | null {
+  const [output] = evaluation.outputs;
+  if (!output || evaluation.outputs.length !== 1 || auctionHouseCutBasisPoints >= 10_000)
+    return null;
+  const retainedBasisPoints = BigInt(10_000 - auctionHouseCutBasisPoints);
+  const requiredGrossCopper = divideCeiling(
+    executionPlan.result.reagentCostCopper * 10_000n,
+    retainedBasisPoints,
+  );
+  return divideCeiling(
+    requiredGrossCopper * output.expectedQuantity.denominator,
+    output.expectedQuantity.numerator * BigInt(executionPlan.recommendedCrafts),
+  );
+}
+
+function divideCeiling(numerator: bigint, denominator: bigint): bigint {
+  if (denominator <= 0n) throw new RangeError("Division denominator must be positive");
+  return (numerator + denominator - 1n) / denominator;
+}
+
+function formatOptionalCopper(value: bigint | null): string | null {
+  return value === null ? null : formatCopper(value);
 }
 
 function formatFraction(fraction: {
@@ -1139,6 +1524,57 @@ function capitalize(value: string): string {
   return value.length === 0 ? value : `${value[0]!.toUpperCase()}${value.slice(1)}`;
 }
 
+function normalizePage(value: number | undefined): number {
+  return value !== undefined && Number.isSafeInteger(value) && value > 0 ? value : 1;
+}
+
+function normalizePageSize(value: number | undefined): number {
+  return value !== undefined && Number.isSafeInteger(value) && value > 0
+    ? Math.min(value, 100)
+    : 50;
+}
+
+function createPriceSignalsByItem(
+  itemIds: readonly number[],
+  scans: readonly {
+    readonly scanId: string;
+    readonly completedAt: Date;
+    readonly completeness: number;
+  }[],
+  levels: readonly {
+    readonly scanId: string;
+    readonly itemId: number;
+    readonly marketKey: string;
+    readonly unitPriceCopper: bigint;
+    readonly quantity: number;
+    readonly listingCount: number;
+  }[],
+): Map<number, MarketPriceSignal> {
+  const levelsByObservation = groupBy(
+    levels.filter((level) => level.marketKey === String(level.itemId)),
+    (level) => `${level.itemId}:${level.scanId}`,
+  );
+  return new Map(
+    itemIds.map((itemId) => [
+      itemId,
+      createMarketPriceSignal(
+        scans.flatMap((scan) => {
+          const observationLevels = levelsByObservation.get(`${itemId}:${scan.scanId}`);
+          return observationLevels
+            ? [
+                {
+                  observedAt: scan.completedAt,
+                  completeness: scan.completeness,
+                  levels: observationLevels,
+                },
+              ]
+            : [];
+        }),
+      ),
+    ]),
+  );
+}
+
 function groupBy<T, K>(rows: readonly T[], selectKey: (row: T) => K): Map<K, T[]> {
   const groups = new Map<K, T[]>();
   for (const row of rows) {
@@ -1153,16 +1589,21 @@ function groupBy<T, K>(rows: readonly T[], selectKey: (row: T) => K): Map<K, T[]
 function emptyWorkspace(
   markets: MarketWorkspaceData["markets"],
   limitation: string,
+  scan: MarketWorkspaceData["scan"] = null,
+  useAltCrafting = false,
 ): MarketWorkspaceData {
   return {
-    scan: null,
+    scan,
     markets,
     professions: [],
     routeCounts: { best: 0, auction_house: 0, disenchant: 0, vendor: 0 },
     specializationProfiles: [],
-    useAltCrafting: false,
+    useAltCrafting,
+    productSuggestions: [],
     opportunities: [],
     totalOpportunityCount: 0,
+    page: 1,
+    pageSize: 50,
     limitation,
   };
 }

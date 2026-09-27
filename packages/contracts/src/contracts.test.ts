@@ -5,6 +5,8 @@ import {
   canonicalJson,
   catalogRecipeOutputSchema,
   type JsonValue,
+  worldCombatSpellObservationSchema,
+  worldHealthObservationSchema,
 } from "./index.js";
 
 describe("canonicalJson", () => {
@@ -57,6 +59,80 @@ describe("auctionScanUploadSchema", () => {
     const result = auctionScanUploadSchema.safeParse({
       ...validAuctionScanUpload(),
       completedAt: "2026-09-15T10:29:59.000Z",
+    });
+
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("worldHealthObservationSchema", () => {
+  it("rejects an impossible current health value", () => {
+    const result = worldHealthObservationSchema.safeParse({
+      observationId: "2a527e2f-bd73-4f35-9991-9ac43cf507bc",
+      capturedAt: "2026-09-17T18:00:00.000Z",
+      creatureId: 249790,
+      creatureName: "Bandalar",
+      trigger: "target",
+      level: 63,
+      classification: "worldboss",
+      currentHealth: "1500001",
+      maximumHealth: "1500000",
+      healthPercent: 100,
+      isDead: false,
+      groupSize: 20,
+      observerLocation: {
+        capturedAt: "2026-09-17T18:00:00.000Z",
+        uiMapId: 2521,
+        uiX: 0.4,
+        uiY: 0.6,
+        positionX: null,
+        positionY: null,
+        positionZ: null,
+        coordinateSystem: null,
+        instanceId: null,
+        mapId: 2899,
+        instanceType: "raid",
+        difficultyId: 14,
+        difficultyName: "Normal",
+      },
+    });
+
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("worldCombatSpellObservationSchema", () => {
+  it("rejects an aggregate whose last event predates its first event", () => {
+    const result = worldCombatSpellObservationSchema.safeParse({
+      observationId: "5af7529f-6e55-431a-8f20-157ab45d30cf",
+      capturedAt: "2026-09-17T18:00:05.000Z",
+      lastSeenAt: "2026-09-17T18:00:00.000Z",
+      eventCount: 2,
+      subEvent: "SPELL_CAST_SUCCESS",
+      sourceCreatureId: 249790,
+      sourceCreatureName: "Bandalar",
+      destinationCreatureId: null,
+      destinationCreatureName: null,
+      spellId: 12345,
+      spellName: "Observed Ability",
+      spellSchool: 4,
+      encounterId: null,
+      attemptId: null,
+      observerLocation: {
+        capturedAt: "2026-09-17T18:00:00.000Z",
+        uiMapId: 2521,
+        uiX: null,
+        uiY: null,
+        positionX: null,
+        positionY: null,
+        positionZ: null,
+        coordinateSystem: null,
+        instanceId: null,
+        mapId: 2899,
+        instanceType: "raid",
+        difficultyId: 14,
+        difficultyName: "Normal",
+      },
     });
 
     expect(result.success).toBe(false);

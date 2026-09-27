@@ -76,7 +76,9 @@ internal sealed class CatalogNormalizer
                 .ToArray());
 
     var professionSkillLines = skillLineRows
-        .Where(pair => IsProfession(pair.Key, pair.Value))
+        .Where(pair =>
+            IsProfession(pair.Key, pair.Value) &&
+            IsPlayerFacingProfessionName(GetString(pair.Value, "DisplayName_lang")))
         .ToDictionary(pair => pair.Key, pair => pair.Value);
 
     var recipeCandidates = abilityRows
@@ -152,6 +154,30 @@ internal sealed class CatalogNormalizer
     foreach (var candidate in recipeCandidates)
     {
       var spellId = candidate.SpellId;
+      var recipeReagents = reagentsBySpell.GetValueOrDefault(spellId, []);
+      var resolvedInputs = recipeReagents
+          .SelectMany(reagentRow =>
+          {
+            var reagentIds = GetIntArray(reagentRow, "Reagent");
+            var reagentCounts = GetIntArray(reagentRow, "ReagentCount");
+            return Enumerable.Range(0, Math.Min(reagentIds.Length, reagentCounts.Length))
+                .Where(index => reagentIds[index] > 0 && reagentCounts[index] > 0)
+                .Select(index => new CatalogRecipeInput(
+                    spellId,
+                    reagentIds[index],
+                    reagentCounts[index],
+                    false));
+          })
+          .ToArray();
+      var hasUnavailableItem =
+          resolvedInputs.Any(input => !normalizedItemIds.Contains(input.ReagentItemId)) ||
+          candidate.Outputs.Any(output =>
+              output.ItemId is int itemId && !normalizedItemIds.Contains(itemId));
+      if (hasUnavailableItem)
+      {
+        continue;
+      }
+
       var learningRows = learnByRecipe.GetValueOrDefault(spellId, []);
       var teachingCandidates = ResolveTeachingItems(
           spellId,
@@ -211,22 +237,7 @@ internal sealed class CatalogNormalizer
             ["unresolvedTeachingItems"] = unresolvedTeachingItems,
           }));
 
-      foreach (var reagentRow in reagentsBySpell.GetValueOrDefault(spellId, []))
-      {
-        var reagentIds = GetIntArray(reagentRow, "Reagent");
-        var reagentCounts = GetIntArray(reagentRow, "ReagentCount");
-        for (var index = 0; index < Math.Min(reagentIds.Length, reagentCounts.Length); index++)
-        {
-          if (reagentIds[index] > 0 && reagentCounts[index] > 0)
-          {
-            inputs.Add(new CatalogRecipeInput(
-                spellId,
-                reagentIds[index],
-                reagentCounts[index],
-                false));
-          }
-        }
-      }
+      inputs.AddRange(resolvedInputs);
 
       outputs.AddRange(candidate.Outputs.Select(output => new CatalogRecipeOutput(
           spellId,
@@ -947,6 +958,11 @@ internal sealed class CatalogNormalizer
 
   private static bool IsProfession(int skillLineId, IReadOnlyDictionary<string, object?> row) =>
       GetInt(row, "CategoryID") == ProfessionCategoryId || KnownProfessionSkillLines.Contains(skillLineId);
+
+  private static bool IsPlayerFacingProfessionName(string name) =>
+      !string.IsNullOrWhiteSpace(name) &&
+      !name.Contains("[DNT]", StringComparison.OrdinalIgnoreCase) &&
+      !name.StartsWith("Test Profession", StringComparison.OrdinalIgnoreCase);
 
   private static int GetInt(IReadOnlyDictionary<string, object?>? row, string field)
   {

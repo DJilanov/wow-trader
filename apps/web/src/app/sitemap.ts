@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 import { unstable_cache } from "next/cache";
 
-import { getSitemapCatalogData } from "../lib/data";
+import { getSitemapCatalogData, getSitemapMarketData } from "../lib/data";
 import { TBC_BIS_CLASSES } from "../lib/bis-directory";
 import {
   getForeverBossDirectory,
   getForeverInstanceDirectory,
   getForeverMapDirectory,
 } from "../lib/forever-world";
+import { FOREVER_CLIENT_PRODUCT } from "../lib/game-versions";
 import { HELPER_SHARE_IMAGE, HELPER_SITE_URL } from "../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -15,8 +16,13 @@ export const dynamic = "force-dynamic";
 const getCachedSitemapCatalogData = unstable_cache(getSitemapCatalogData, ["tbc-sitemap-catalog"], {
   revalidate: 3600,
 });
+const getCachedForeverSitemapMarkets = unstable_cache(
+  () => getSitemapMarketData(FOREVER_CLIENT_PRODUCT),
+  ["forever-sitemap-markets"],
+  { revalidate: 3600 },
+);
 
-const staticLastModified = new Date("2026-09-16T00:00:00.000Z");
+const staticLastModified = new Date("2026-09-27T00:00:00.000Z");
 
 const foreverClasses = [
   "warrior",
@@ -43,6 +49,18 @@ const staticEntries: MetadataRoute.Sitemap = [
     lastModified: staticLastModified,
     changeFrequency: "weekly",
     priority: 0.95,
+  },
+  {
+    url: `${HELPER_SITE_URL}/forever/trader`,
+    lastModified: staticLastModified,
+    changeFrequency: "daily",
+    priority: 0.95,
+  },
+  {
+    url: `${HELPER_SITE_URL}/forever/addon`,
+    lastModified: staticLastModified,
+    changeFrequency: "weekly",
+    priority: 0.9,
   },
   {
     url: `${HELPER_SITE_URL}/tbc`,
@@ -102,9 +120,19 @@ const staticEntries: MetadataRoute.Sitemap = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const foreverEntries = await getForeverSitemapEntries().catch(() => []);
+  const foreverMarketEntries = await getCachedForeverSitemapMarkets()
+    .then<MetadataRoute.Sitemap>((markets) =>
+      markets.map(({ region, realmId }) => ({
+        url: `${HELPER_SITE_URL}/forever/markets/${encodeURIComponent(region)}/${encodeURIComponent(realmId)}`,
+        lastModified: staticLastModified,
+        changeFrequency: "daily",
+        priority: 0.62,
+      })),
+    )
+    .catch(() => []);
   try {
     const catalog = await getCachedSitemapCatalogData();
-    if (!catalog) return [...staticEntries, ...foreverEntries];
+    if (!catalog) return [...staticEntries, ...foreverMarketEntries, ...foreverEntries];
 
     const itemEntries: MetadataRoute.Sitemap = catalog.itemIds.map((itemId) => ({
       url: `${HELPER_SITE_URL}/tbc/encyclopedia/items/${itemId}`,
@@ -133,7 +161,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
     );
     const marketEntries: MetadataRoute.Sitemap = catalog.markets.map(({ region, realmId }) => ({
-      url: `${HELPER_SITE_URL}/markets/${encodeURIComponent(region)}/${encodeURIComponent(realmId)}`,
+      url: `${HELPER_SITE_URL}/tbc/markets/${encodeURIComponent(region)}/${encodeURIComponent(realmId)}`,
       lastModified: staticLastModified,
       changeFrequency: "daily",
       priority: 0.55,
@@ -146,10 +174,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...recipeEntries,
       ...itemEntries,
       ...marketEntries,
+      ...foreverMarketEntries,
       ...foreverEntries,
     ];
   } catch {
-    return [...staticEntries, ...foreverEntries];
+    return [...staticEntries, ...foreverMarketEntries, ...foreverEntries];
   }
 }
 

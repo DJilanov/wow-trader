@@ -22,6 +22,7 @@ import {
   worldPoiVersions,
   worldQuestLineMembers,
   worldQuestLineVersions,
+  worldQuestObjectives,
   worldQuestPois,
   worldQuestVersions,
   worldSnapshots,
@@ -163,6 +164,10 @@ export async function importWorldSnapshot(
     await insertChunks(
       bundle.quests.map((row) => ({ buildId: build.id, ...row })),
       async (chunk) => transaction.insert(worldQuestVersions).values(chunk),
+    );
+    await insertChunks(
+      bundle.questObjectives.map((row) => ({ buildId: build.id, ...row })),
+      async (chunk) => transaction.insert(worldQuestObjectives).values(chunk),
     );
     await insertChunks(
       bundle.questLines.map((row) => ({ buildId: build.id, ...row })),

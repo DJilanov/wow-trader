@@ -19,6 +19,10 @@ catalog-snapshots/
 raw-uploads/
 forever-preview-assets/
 
+# Generated from local, build-pinned world snapshots. Keep extracted data out of Git.
+apps/addon/WowTraderCollector/ForeverBossCatalog.lua
+apps/addon/WowTraderCollector/ForeverQuestCatalog.lua
+
 .DS_Store
 *.log
 .wow-trader-companion-state.json

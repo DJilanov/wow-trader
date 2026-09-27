@@ -42,7 +42,7 @@ export default async function ForeverQuestsPage(): Promise<React.JSX.Element> {
           <Metric value={data.questCount} label="Readable quest IDs" />
           <Metric value={data.poiQuestCount} label="Quests with client POIs" />
           <Metric value={data.lines.length} label="Named quest lines" />
-          <Metric value={data.discoverableQuestIds.length} label="Browsable structural quests" />
+          <Metric value={data.titledQuests.length} label="Titled quests" />
         </section>
         <section className="forever-quest-lines">
           <div className="forever-section-heading">
@@ -74,6 +74,40 @@ export default async function ForeverQuestsPage(): Promise<React.JSX.Element> {
               </article>
             ))}
           </div>
+        </section>
+        <section className="forever-quest-lines">
+          <div className="forever-section-heading">
+            <div>
+              <span className="eyebrow">Client-titled, server-queryable, or observed in game</span>
+              <h2>Titled quests</h2>
+            </div>
+            <p>Each title retains the observation kind and build-scoped capture time.</p>
+          </div>
+          {data.titledQuests.length > 0 ? (
+            <div>
+              {data.titledQuests.map((quest) => (
+                <article key={quest.questId}>
+                  <small>
+                    Quest {quest.questId} · {quest.evidenceKind.replaceAll("_", " ")}
+                  </small>
+                  <h3>
+                    <Link href={`/forever/encyclopedia/quests/${quest.questId}`}>
+                      {quest.title}
+                    </Link>
+                  </h3>
+                  <p>
+                    {quest.capturedAt
+                      ? `${quest.capturedAt.toISOString().slice(0, 10)} UTC`
+                      : "Static client task record"}
+                  </p>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="forever-honest-empty">
+              No titled quest observation has been uploaded for this build yet.
+            </p>
+          )}
         </section>
         <section className="forever-quest-discovery">
           <div className="forever-section-heading">

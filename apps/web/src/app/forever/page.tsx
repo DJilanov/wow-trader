@@ -8,7 +8,7 @@ import { createHelperMetadata, HELPER_SITE_URL } from "../../lib/seo";
 export const metadata: Metadata = createHelperMetadata({
   title: "WoW Forever Database, Professions & Auction House Tools",
   description:
-    "Explore KFC Helper's WoW Forever talent calculator, spellbooks, racials, class abilities, and Legacy perks while the item and economy archive awaits the public client.",
+    "Explore WoW Forever Auction House scans, the WoW Trader Collector, talent calculator, spellbooks, racials, class abilities, Legacy perks, maps, quests, and bosses.",
   path: "/forever",
   keywords: [
     "WoW Forever database",
@@ -41,9 +41,9 @@ export default function ForeverHelperPage(): React.JSX.Element {
     <>
       <JsonLd data={structuredData} />
       <HelperSelection
-        eyebrow="WoW Forever · preview archive"
-        title="Explore what we know before release"
-        description="The talent and spellbook archive is live from reviewed public demo evidence. Trader remains locked until a real public client catalog and Auction House scan exist."
+        eyebrow="WoW Forever · live beta tools"
+        title="Explore the world and its economy"
+        description="Browse the growing Forever Encyclopedia or inspect accepted Auction House scans from the native WoW Trader Collector."
         backHref="/"
         backLabel="Change game"
         options={[
@@ -51,10 +51,11 @@ export default function ForeverHelperPage(): React.JSX.Element {
             title: "Trader",
             eyebrow: "Market intelligence",
             description:
-              "Crafting routes and price signals will activate after catalog publication and the first valid Auction House scan.",
-            status: "Awaiting catalog + scan",
+              "Inspect live market depth now. Crafting routes activate only when the exact matching item and recipe catalog passes review.",
+            status: "First market scan live",
             image: { src: "/wow-assets/tools/trader.jpg", kind: "icon" },
             tone: "trader",
+            href: "/forever/trader",
           },
           {
             title: "Encyclopedia",
@@ -68,6 +69,17 @@ export default function ForeverHelperPage(): React.JSX.Element {
           },
         ]}
       />
+      <section className="collector-promo" aria-labelledby="collector-promo-heading">
+        <div>
+          <span className="eyebrow">Contribute market data</span>
+          <h2 id="collector-promo-heading">WoW Trader Collector + Companion</h2>
+          <p>
+            Install the in-game scanner, let the Companion detect completed SavedVariables, and
+            share build-aware Auction House prices without entering your Battle.net credentials.
+          </p>
+        </div>
+        <Link href="/forever/addon">Download the Collector →</Link>
+      </section>
       <section className="detail-grid" aria-label="WoW Forever data readiness">
         <div className="panel">
           <span className="eyebrow">Preview evidence available now</span>
@@ -80,20 +92,14 @@ export default function ForeverHelperPage(): React.JSX.Element {
           <Link href="/forever/encyclopedia">Open the Forever Encyclopedia →</Link>
         </div>
         <div className="panel">
-          <span className="eyebrow">Economy after evidence</span>
-          <h2>How the WoW Forever Trader will activate</h2>
+          <span className="eyebrow">Economy with evidence</span>
+          <h2>The first Forever market is live</h2>
           <p>
-            Auction House values begin only after a valid in-game scan. Crafting, vendoring,
-            disenchanting, and cross-profession routes will remain explainable, while cooldowns and
-            unsupported mechanics are excluded or clearly labeled instead of estimated as facts.
+            Accepted in-game prices and listing depth are available now. Crafting, vendoring,
+            disenchanting, and cross-profession rankings stay behind the exact-build catalog gate;
+            cooldowns and unsupported mechanics remain excluded instead of estimated as facts.
           </p>
-          <a
-            href="https://news.blizzard.com/en-us/article/24302093/carve-a-new-path-with-world-of-warcraft-forever"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read Blizzard&apos;s official WoW Forever announcement →
-          </a>
+          <Link href="/forever/trader">Open the Forever Trader →</Link>
         </div>
       </section>
     </>

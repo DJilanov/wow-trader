@@ -13,7 +13,8 @@ internal sealed class CascTableExtractor
 
   public (BuildMetadata Metadata, string Db2Directory) Extract(
       IReadOnlyList<string> tableNames,
-      string stagingDirectory)
+      string stagingDirectory,
+      bool tolerateUnavailableTables = false)
   {
     TACTSharp.Settings.LogLevel = TSLogLevel.Warn;
     var build = new BuildInstance();
@@ -49,24 +50,34 @@ internal sealed class CascTableExtractor
     {
       var gamePath = $"DBFilesClient/{tableName}.db2";
       var entries = build.Root!.GetEntriesByLookup(hasher.ComputeHash(gamePath, true));
-      byte[] bytes;
-      if (entries.Count > 0)
+      try
       {
-        bytes = build.OpenFileByCKey(entries[0].md5.AsSpan());
-      }
-      else
-      {
-        listfile ??= LoadListfile(build);
-        var fileDataId = listfile.GetFDID(gamePath);
-        if (fileDataId == 0)
+        byte[] bytes;
+        if (entries.Count > 0)
         {
-          throw new FileNotFoundException($"Table '{gamePath}' is not present in the root or listfile");
+          bytes = build.OpenFileByCKey(entries[0].md5.AsSpan());
         }
-        bytes = build.OpenFileByFDID(fileDataId);
-      }
+        else
+        {
+          listfile ??= LoadListfile(build);
+          var fileDataId = listfile.GetFDID(gamePath);
+          if (fileDataId == 0)
+          {
+            throw new FileNotFoundException(
+                $"Table '{gamePath}' is not present in the root or listfile");
+          }
+          bytes = build.OpenFileByFDID(fileDataId);
+        }
 
-      File.WriteAllBytes(Path.Combine(db2Directory, $"{tableName}.db2"), bytes);
-      Console.WriteLine($"Extracted {tableName} ({bytes.Length:N0} bytes)");
+        File.WriteAllBytes(Path.Combine(db2Directory, $"{tableName}.db2"), bytes);
+        Console.WriteLine($"Extracted {tableName} ({bytes.Length:N0} bytes)");
+      }
+      catch (Exception exception) when (
+          tolerateUnavailableTables &&
+          exception.Message.Contains("File not found", StringComparison.OrdinalIgnoreCase))
+      {
+        Console.WriteLine($"Unavailable in this client build: {tableName}");
+      }
     }
 
     return (ParseMetadata(selected), db2Directory);

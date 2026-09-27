@@ -12,6 +12,7 @@ const companionSnapshotSchema = z.object({
   phase: z.enum([
     "setup_required",
     "paused",
+    "checking",
     "waiting_for_saved_scan",
     "scan_detected",
     "uploading",
@@ -50,6 +51,8 @@ export type AddonHealth = z.infer<typeof addonHealthSchema>;
 export const desktopProductStatusSchema = productConfigurationSchema.extend({
   rootExists: z.boolean(),
   auctionatorInstalled: z.boolean(),
+  scannerProvider: z.enum(["native", "auctionator"]),
+  scannerReady: z.boolean(),
   collectorHealth: addonHealthSchema,
   collectorVersion: z.string().nullable(),
   collectorFileCount: z.number().int().nonnegative(),
@@ -121,7 +124,7 @@ export const rendererCommandSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("save_credential"), credential: z.string().min(16).max(512) }),
   z.object({ type: z.literal("remove_credential") }),
   z.object({ type: z.literal("disable_legacy_service") }),
-  z.object({ type: z.literal("open_trader") }),
+  z.object({ type: z.literal("open_trader"), product: productKindSchema }),
   z.object({ type: z.literal("open_logs") }),
 ]);
 export type RendererCommand = z.infer<typeof rendererCommandSchema>;

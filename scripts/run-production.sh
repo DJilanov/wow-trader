@@ -20,9 +20,11 @@ case "$application" in
   web)
     : "${DATABASE_URL:?DATABASE_URL is required}"
     : "${FOREVER_ASSET_ROOT:?FOREVER_ASSET_ROOT is required}"
+    : "${COMPANION_RELEASE_ROOT:?COMPANION_RELEASE_ROOT is required}"
     : "${WOW_TRADER_WORLD_SNAPSHOT:?WOW_TRADER_WORLD_SNAPSHOT is required}"
     : "${WOW_TRADER_WORLD_MEDIA_ROOT:?WOW_TRADER_WORLD_MEDIA_ROOT is required}"
     : "${WOW_TRADER_MEDIA_ROOT:?WOW_TRADER_MEDIA_ROOT is required}"
+    : "${WOW_TRADER_FOREVER_MEDIA_ROOT:?WOW_TRADER_FOREVER_MEDIA_ROOT is required}"
     : "${WOW_TRADER_WEB_HOST:?WOW_TRADER_WEB_HOST is required}"
     : "${WOW_TRADER_WEB_PORT:?WOW_TRADER_WEB_PORT is required}"
     exec env \

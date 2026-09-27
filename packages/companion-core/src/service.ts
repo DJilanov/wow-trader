@@ -18,11 +18,15 @@ import {
   type FileSignature,
 } from "./discovery.js";
 import { readCollectorSavedVariables } from "./saved-variables.js";
+import { downloadMarketIntelligence, installMarketIntelligence } from "./market-intelligence.js";
 import { nextWatchRetry, type WatchRetry } from "./retry.js";
 import {
   createAuctionScanUpload,
+  createWorldDiagnosticsUpload,
   uploadAuctionScan,
+  uploadWorldDiagnostics,
   waitForAuctionScanProcessed,
+  waitForWorldDiagnosticsProcessed,
 } from "./upload.js";
 
 const DEFAULT_POLL_INTERVAL_MILLISECONDS = 2_000;
@@ -205,6 +209,14 @@ export class DefaultCompanionService implements CompanionService {
     if (!manual && !this.#automaticUploads) {
       return this.#publish("paused", "Automatic uploads are paused.");
     }
+    if (manual) {
+      this.#publish("checking", "Checking saved scans and server status…", {
+        pendingScanCount: 0,
+        activeScanId: null,
+        activeCharacterLabel: null,
+        errorCode: null,
+      });
+    }
 
     const pathsByProduct = await Promise.all(
       enabledProducts.map(async (product) => ({
@@ -288,6 +300,72 @@ export class DefaultCompanionService implements CompanionService {
               pendingScanCount,
               lastProcessedAt: this.#now().toISOString(),
               lastProcessedScanId: scan.scanId,
+            });
+          }
+          const latestMarketScan = savedVariables.scans.at(-1);
+          if (latestMarketScan) {
+            const marketIntelligence = await downloadMarketIntelligence(
+              this.#endpoint,
+              this.#apiKey,
+              latestMarketScan,
+              { signal: this.#abortController?.signal },
+            );
+            await installMarketIntelligence(product.rootPath, marketIntelligence);
+            processedAny = true;
+            this.#publish(
+              "up_to_date",
+              "Market history synchronized. Reload WoW to activate updated in-game signals.",
+              { activeScanId: null, pendingScanCount },
+            );
+          }
+          const diagnosticsUpload = createWorldDiagnosticsUpload(savedVariables);
+          if (
+            diagnosticsUpload &&
+            !this.#state.uploadedDiagnosticPayloadIds.includes(diagnosticsUpload.payloadId)
+          ) {
+            this.#publish("scan_detected", "New world evidence was detected.", {
+              activeScanId: null,
+              activeCharacterLabel: null,
+              pendingScanCount,
+            });
+            this.#publish("uploading", "Uploading observed boss and world evidence…", {
+              activeScanId: null,
+              activeCharacterLabel: null,
+              pendingScanCount,
+            });
+            const receipt = await uploadWorldDiagnostics(
+              this.#endpoint,
+              this.#apiKey,
+              diagnosticsUpload,
+              { signal: this.#abortController?.signal },
+            );
+            if (receipt.status === "accepted") {
+              this.#publish("processing", "The server is processing world evidence…", {
+                activeScanId: null,
+                activeCharacterLabel: null,
+                pendingScanCount,
+              });
+              await waitForWorldDiagnosticsProcessed(
+                this.#endpoint,
+                this.#apiKey,
+                receipt.payloadId,
+                { signal: this.#abortController?.signal },
+              );
+            }
+            this.#state = {
+              ...this.#state,
+              uploadedDiagnosticPayloadIds: [
+                ...this.#state.uploadedDiagnosticPayloadIds,
+                diagnosticsUpload.payloadId,
+              ].slice(-1_000),
+            };
+            await writeCompanionState(this.#statePath, this.#state);
+            processedAny = true;
+            this.#publish("up_to_date", "World evidence processed successfully.", {
+              activeScanId: null,
+              activeCharacterLabel: null,
+              pendingScanCount,
+              lastProcessedAt: this.#now().toISOString(),
             });
           }
           this.#processedSignatures.set(filePath, signatureKey);

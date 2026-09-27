@@ -80,10 +80,12 @@ export interface SitemapCatalogData {
   readonly itemIds: readonly number[];
   readonly recipeSpellIds: readonly number[];
   readonly professionSlugs: readonly string[];
-  readonly markets: readonly {
-    readonly region: string;
-    readonly realmId: string;
-  }[];
+  readonly markets: readonly SitemapMarketData[];
+}
+
+export interface SitemapMarketData {
+  readonly region: string;
+  readonly realmId: string;
 }
 
 export interface RecipeDetail {
@@ -293,6 +295,7 @@ export interface OpportunityData {
 }
 
 export interface MarketOverview {
+  readonly catalogAvailable: boolean;
   readonly scan: {
     readonly region: string;
     readonly realmId: string;
@@ -392,10 +395,7 @@ export async function getSitemapCatalogData(
       .from(professionVersions)
       .innerJoin(professions, eq(professions.skillLineId, professionVersions.skillLineId))
       .where(eq(professionVersions.buildId, build.id)),
-    database
-      .selectDistinct({ region: marketScans.region, realmId: marketScans.realmId })
-      .from(marketScans)
-      .where(scanProductCondition(database, clientProduct)),
+    getSitemapMarketData(clientProduct),
   ]);
 
   return {
@@ -405,6 +405,18 @@ export async function getSitemapCatalogData(
     professionSlugs: professionRows.map(({ slug }) => slug),
     markets: marketRows,
   };
+}
+
+export async function getSitemapMarketData(
+  clientProduct: string,
+): Promise<readonly SitemapMarketData[]> {
+  const database = getDatabase();
+  return database
+    .selectDistinct({ region: marketScans.region, realmId: marketScans.realmId })
+    .from(marketScans)
+    .where(
+      and(scanProductCondition(database, clientProduct), eq(marketScans.qualityAccepted, true)),
+    );
 }
 
 export async function searchCatalog(
@@ -1013,11 +1025,38 @@ export async function getMarketOverview(
   if (!scan) return null;
 
   const build = await getLatestBuild(database, scan.clientBuild, clientProduct);
-  if (!build) return { scan, rows: [] };
-
   const minimumPrice = sql<string>`min(${auctionPriceLevels.unitPriceCopper})::text`;
   const availableQuantity = sql<string>`sum(${auctionPriceLevels.quantity})::text`;
   const listingCount = sql<string>`sum(${auctionPriceLevels.listingCount})::text`;
+  if (!build) {
+    const aggregateRows = await database
+      .select({
+        itemId: auctionPriceLevels.itemId,
+        marketKey: auctionPriceLevels.marketKey,
+        minimumPrice,
+        availableQuantity,
+        listingCount,
+      })
+      .from(auctionPriceLevels)
+      .where(eq(auctionPriceLevels.scanId, scan.scanId))
+      .groupBy(auctionPriceLevels.itemId, auctionPriceLevels.marketKey)
+      .orderBy(desc(sql`sum(${auctionPriceLevels.quantity})`))
+      .limit(250);
+
+    return {
+      scan,
+      catalogAvailable: false,
+      rows: aggregateRows.map((row) => ({
+        itemId: row.itemId,
+        itemName: `Item ${row.itemId}`,
+        marketKey: row.marketKey,
+        minimumPriceCopper: BigInt(row.minimumPrice),
+        availableQuantity: parseSafeCount(row.availableQuantity, "available quantity"),
+        listingCount: parseSafeCount(row.listingCount, "listing count"),
+      })),
+    };
+  }
+
   const aggregateRows = await database
     .select({
       itemId: auctionPriceLevels.itemId,
@@ -1039,6 +1078,7 @@ export async function getMarketOverview(
 
   return {
     scan,
+    catalogAvailable: true,
     rows: aggregateRows.map((row) => ({
       itemId: row.itemId,
       itemName: row.itemName,
@@ -1430,13 +1470,14 @@ async function getLatestBuild(
 }
 
 function scanProductCondition(database: WowTraderDatabase, clientProduct: string): SQL {
-  return inArray(
+  const productCondition = inArray(
     marketScans.payloadId,
     database
       .select({ payloadId: rawUploads.payloadId })
       .from(rawUploads)
       .where(eq(rawUploads.clientProduct, clientProduct)),
   );
+  return and(eq(marketScans.qualityAccepted, true), productCondition) ?? productCondition;
 }
 
 function groupBy<T, K>(rows: readonly T[], selectKey: (row: T) => K): Map<K, T[]> {

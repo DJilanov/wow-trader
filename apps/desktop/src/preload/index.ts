@@ -30,7 +30,7 @@ const api: WowTraderDesktopApi = {
   saveCredential: (credential) => invoke({ type: "save_credential", credential }),
   removeCredential: () => invoke({ type: "remove_credential" }),
   disableLegacyService: () => invoke({ type: "disable_legacy_service" }),
-  openTrader: () => invoke({ type: "open_trader" }),
+  openTrader: (product: ProductKind) => invoke({ type: "open_trader", product }),
   openLogs: () => invoke({ type: "open_logs" }),
   subscribe: (listener) => {
     const handler = (_event: Electron.IpcRendererEvent, value: unknown): void => {

@@ -1,6 +1,6 @@
 # WoW Forever proper Encyclopedia plan
 
-Last verified: 2026-09-17 against `wow_classic_beta` build `1.60.1.69893`.
+Last verified: 2026-09-18 against `wow_classic_beta` build `1.60.1.69913`.
 
 ## Decision
 
@@ -23,7 +23,7 @@ becomes a public fact without review.
 
 ## Delivery status
 
-The static World Explorer portion of this plan is implemented for review snapshot 69893:
+The static World Explorer portion of this plan is implemented for review snapshot 69913:
 
 - two-level Encyclopedia navigation and grouped world search;
 - searchable, filtered, image-backed map, instance, and boss directories;
@@ -39,7 +39,7 @@ No current boss-location row has point precision, so the exact boss layer is emp
 remaining phases still require runtime quest details, observed actors/loot/locations, model resolver
 results, WDT/WMO instance maps, review promotion, and coverage reports.
 
-## What build 69893 actually contains
+## What build 69913 actually contains
 
 ### Maps and spatial data
 
@@ -129,7 +129,7 @@ availability, spawn location, loot, every phase/add, or that a similarly named `
 the same entity. Exact normalized names may auto-propose an encounter edge; aliases and group fights
 require maintainer review.
 
-The `0.2.3` world normalizer implements this graph. Build 69893 currently yields 169 typed creature
+The `0.3.0` world normalizer implements this graph. Build 69913 currently yields 169 typed creature
 objectives and 60 boss identities, of which 30 use IDs at or above 200,000. The normalizer keeps
 achievement/dungeon context separate from aliases because Blizzard reuses one creature criterion in
 both boss-kill and dungeon-completion trees. This prevents labels such as `City of Dalaran` from
@@ -170,7 +170,7 @@ item relationship in this layout. It cannot be used to manufacture a loot table.
 The implemented source-candidate artifact contains 802 review-required edges: 23 boss, 68 encounter,
 272 map, and 439 area candidates. They are exact normalized phrase matches against client-authored
 appearance-source text, with generic area labels such as `Unused`, `Ruins`, and `Blacksmith`
-suppressed. No exact source hint names one of the 30 new/high bosses in build 69893, so there is still
+suppressed. No exact source hint names one of the 30 new/high bosses in build 69913, so there is still
 no honest static new-boss loot table. Zone-level labels such as Zephras Isle can be proposed, but
 profession, quest, reputation, and art-development labels must not be presented as drops.
 
@@ -234,9 +234,9 @@ times to detect a default/random display variant. The result is client-resolved 
 observed-live boss. If it fails, do not guess from nearby display IDs or anonymous model filenames;
 use the achievement icon/name until encounter access or another authoritative mapping exists.
 
-Collector `0.4.0` implements this as explicit `bossmodels controls|start|pause|resume|status|reset`
+Collector `0.6.0` implements this as explicit `bossmodels controls|start|pause|resume|status|reset`
 commands. The control run contains a common creature, Onyxia, The Wild King, and an invalid ID. The
-batch contains the 30 reviewed build-69893 IDs three times each and stores status, display ID, model
+batch contains all 60 criteria-backed build-69913 identities three times each and stores status, display ID, model
 FileDataID, build, attempt, and timestamp. It never starts automatically and refuses another build.
 
 Static spell review is also implemented. Exact boss-name/text mentions, `SpellEffect` misc values
@@ -426,7 +426,7 @@ map-media-manifest.v1 with build, dimensions, hashes, and missing assets
 Store output under a build-scoped path such as:
 
 ```text
-media/maps/wow_classic_beta/69893/<ui-map-id>/<zoom>/<column>/<row>.webp
+media/maps/wow_classic_beta/69913/<ui-map-id>/<zoom>/<column>/<row>.webp
 ```
 
 Keep the decoded source-tile checksums and declared crop dimensions in the manifest. Do not recompress
@@ -647,9 +647,11 @@ Requirements:
 - no retry storm and no automatic scan for ordinary addon users;
 - raw API payload versioning before normalization.
 
-First run a stratified 100-ID capability sample: ordinary Classic quests, new high IDs, POI-linked
-quests, line-linked quests, encrypted neighbors, and deliberately absent IDs. Expand only after the
-result and server impact are understood.
+The small stratified capability sample remains available for ordinary Classic quests, new high IDs,
+POI/line-linked quests, and deliberately absent controls. Collector `0.6.0` also implements the
+expanded build-pinned catalog: all 6,600 structural IDs, a 1.5-second pace, combat pause, durable
+product/build/locale cursor, eight-second timeout, explicit result status, and a stop after 25
+consecutive failures. It never starts automatically.
 
 ### Offer/progress/completion observer
 
@@ -762,21 +764,22 @@ coordinates plus build/map indexes are sufficient initially; do not require Post
 
 ## Delivery plan
 
-### Implementation status — 2026-09-17
+### Implementation status — 2026-09-18
 
-- Phases 1–3 have a working review-only slice for build 69893: typed extraction/import contracts,
+- Phases 1–3 have a working review-only slice for build 69913: typed extraction/import contracts,
   complete native UI-map media, coordinate conversion, map/zone directories, and instance/encounter
   pages with honest empty states.
-- Phase 4 has a local opt-in recorder for encounter attempts, actors, encounter loot, ordinary loot
-  source GUIDs, and NPC sightings. Its companion/API/database ingestion and runtime semantic review
-  are intentionally pending.
-- Phase 5 has the 6,600-ID structural index, three lines, 22 memberships, 54 POI blobs, and a pinned
-  100-ID query experiment. A general scanner and public titled quest archive are intentionally
-  pending the experiment.
+- Phase 4 has a local opt-in recorder and end-to-end typed upload path for encounter attempts/actors,
+  health, combat spells, encounter loot, ordinary loot source GUIDs, NPC sightings, and model
+  resolutions. Runtime semantic review still gates public frequency claims.
+- Phase 5 has the 6,600-ID structural index, three lines, 22 memberships, 54 POI blobs, the small
+  capability sample, a full resumable catalog scanner, quest dialog/reward/gossip observations,
+  normalized ingestion, and titled quest/detail read models. Public indexing still requires a title
+  plus server-query or observation evidence.
 - Phase 6 has the bounded raw NPC/loot observation recorder, static criteria boss graph, reviewed
   model-resolution experiment, spell/location/source candidate artifacts, and typed PostgreSQL
-  import tables. Running the model controls, diagnostics ingestion, density aggregation, reviewed
-  public promotion/pages, and WDT/ADT/WMO rendering remain pending.
+  import tables. Running the model controls, density aggregation, reviewed public promotion, and
+  WDT/ADT/WMO rendering remain pending.
 - The extracted snapshot cannot be published because this beta installation has no `DBCache.bin`
   and the exact Forever catalog has not passed its publication gates.
 
@@ -813,8 +816,8 @@ coordinates plus build/map indexes are sufficient initially; do not require Post
 ### Phase 5 — Quest index
 
 - Import 6,600 readable quest identities and the static line/POI facts into maintainer coverage.
-- Run the 100-ID controlled query experiment.
-- Implement resumable maintainer scanning only after the experiment passes.
+- Retain the 100-ID controlled query experiment and run it after each API/build change.
+- Run the implemented resumable full scan only in deliberate maintainer sessions.
 - Add offer/progress/completion/reward observation and WDB cache parsing.
 - Publish only server-queryable or observed titled quests.
 
@@ -863,10 +866,10 @@ coordinates plus build/map indexes are sufficient initially; do not require Post
 
 ## Recommended immediate slice
 
-Implement the static world snapshot and native browser maps first. They are already proven by exact
-client data and do not depend on Beta play sessions. In parallel, add a small diagnostics-only addon
-recorder for one dungeon run and a 100-ID quest query sample. Those two experiments determine the
-real runtime semantics before we commit to public drop estimates or a full quest scan.
+The static snapshot, native maps, runtime upload pipeline, and full structural quest scanner are now
+implemented. The next highest-value slice is evidence collection: run model controls, execute the
+full quest scan under observation, collect ordinary open-world NPC/vendor/quest/spell evidence, and
+validate coordinate goldens. Instance access remains unnecessary for that slice.
 
 The resulting first proper Encyclopedia milestone is:
 
@@ -885,5 +888,5 @@ The resulting first proper Encyclopedia milestone is:
 - The browser-map recommendation uses Leaflet's documented non-geographical `CRS.Simple` mode:
   <https://leafletjs.com/examples/crs-simple/crs-simple.html>.
 - Row counts, encryption counts, source joins, map-tile decoding, and Lua API/event signatures in
-  this document were verified locally against `wow_classic_beta` build `1.60.1.69893`; they must be
+  this document were verified locally against `wow_classic_beta` build `1.60.1.69913`; they must be
   rerun and diffed for every shipped Beta or Forever build.

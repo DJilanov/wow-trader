@@ -153,6 +153,9 @@ importers:
       "@wow-trader/db":
         specifier: workspace:*
         version: link:../../packages/db
+      "@wow-trader/market":
+        specifier: workspace:*
+        version: link:../../packages/market
       dotenv:
         specifier: 17.4.2
         version: 17.4.2
@@ -223,6 +226,9 @@ importers:
       react-dom:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
+      zod:
+        specifier: 4.6.5
+        version: 4.6.5
     devDependencies:
       "@types/leaflet":
         specifier: 1.9.21

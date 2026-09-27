@@ -32,8 +32,9 @@ describe("companion state", () => {
     );
 
     await expect(readCompanionState(filePath)).resolves.toEqual({
-      schemaVersion: 2,
+      schemaVersion: 3,
       uploadedScanIds: [SCAN_ID],
+      uploadedDiagnosticPayloadIds: [],
       activities: [],
     });
   });
@@ -56,7 +57,7 @@ describe("companion state", () => {
     const persisted = await readCompanionState(filePath);
     expect(persisted.activities).toHaveLength(100);
     expect(persisted.activities[0]?.message).toBe("Processed 104");
-    expect(JSON.parse(await readFile(filePath, "utf8"))).toMatchObject({ schemaVersion: 2 });
+    expect(JSON.parse(await readFile(filePath, "utf8"))).toMatchObject({ schemaVersion: 3 });
   });
 });
 

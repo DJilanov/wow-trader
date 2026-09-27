@@ -26,21 +26,38 @@ const stateV2Schema = z.object({
   activities: z.array(activitySchema).max(100),
 });
 
+const stateV3Schema = z.object({
+  schemaVersion: z.literal(3),
+  uploadedScanIds: z.array(z.string().uuid()),
+  uploadedDiagnosticPayloadIds: z.array(z.string().uuid()).max(1_000),
+  activities: z.array(activitySchema).max(100),
+});
+
 export type CompanionActivity = z.infer<typeof activitySchema>;
 
 export interface CompanionState {
-  readonly schemaVersion: 2;
+  readonly schemaVersion: 3;
   readonly uploadedScanIds: readonly string[];
+  readonly uploadedDiagnosticPayloadIds: readonly string[];
   readonly activities: readonly CompanionActivity[];
 }
 
 export async function readCompanionState(filePath: string): Promise<CompanionState> {
   try {
     const value: unknown = JSON.parse(await readFile(filePath, "utf8"));
+    const v3 = stateV3Schema.safeParse(value);
+    if (v3.success) return v3.data;
     const v2 = stateV2Schema.safeParse(value);
-    if (v2.success) return v2.data;
+    if (v2.success) {
+      return { ...v2.data, schemaVersion: 3, uploadedDiagnosticPayloadIds: [] };
+    }
     const v1 = stateV1Schema.parse(value);
-    return { schemaVersion: 2, uploadedScanIds: v1.uploadedScanIds, activities: [] };
+    return {
+      schemaVersion: 3,
+      uploadedScanIds: v1.uploadedScanIds,
+      uploadedDiagnosticPayloadIds: [],
+      activities: [],
+    };
   } catch (error: unknown) {
     if (isMissingFileError(error)) return emptyCompanionState();
     throw error;
@@ -48,7 +65,7 @@ export async function readCompanionState(filePath: string): Promise<CompanionSta
 }
 
 export async function writeCompanionState(filePath: string, state: CompanionState): Promise<void> {
-  const validated = stateV2Schema.parse(state);
+  const validated = stateV3Schema.parse(state);
   const resolvedPath = path.resolve(filePath);
   const directory = path.dirname(resolvedPath);
   const temporaryPath = `${resolvedPath}.${process.pid}.tmp`;
@@ -61,7 +78,12 @@ export async function writeCompanionState(filePath: string, state: CompanionStat
 }
 
 export function emptyCompanionState(): CompanionState {
-  return { schemaVersion: 2, uploadedScanIds: [], activities: [] };
+  return {
+    schemaVersion: 3,
+    uploadedScanIds: [],
+    uploadedDiagnosticPayloadIds: [],
+    activities: [],
+  };
 }
 
 export function appendCompanionActivity(

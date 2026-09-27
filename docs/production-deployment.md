@@ -1,6 +1,6 @@
 # KFC Helper production deployment runbook
 
-Last verified against `89.167.46.193`: 2026-09-15.
+Last verified against `89.167.46.193`: 2026-09-27.
 
 The TBC and WoW Forever preview product is live at `https://helper.kfcguild.online`. This document
 records the deployed topology, its operational runbook, and the storage work that must be completed
@@ -10,9 +10,12 @@ before unattended 30-minute Auction House uploads are enabled.
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the
   time of verification) and serves `kfcguild.online` from `/home/kfc-website-system`.
-- Helper release `kfc-helper-forever-preview-20260916-r7` is active. It publishes canonical catalog
-  metadata, structured data, robots/manifest routes, a database-backed sitemap, live debounced TBC
-  search, and the reviewed WoW Forever preview Encyclopedia.
+- Helper release `kfc-helper-item-market-20260927-r13` is active. It publishes
+  product-isolated TBC and Forever Trader/market routes, executable-depth crafting recommendations,
+  arbitrary Auction House item search with evidence-gated buy verdicts, robust price intelligence
+  with interactive craft/item charts, browser-local crafting plans, the reviewed WoW Forever preview
+  Encyclopedia, and the Collector download surface in addition to canonical metadata and search
+  routes. Release `kfc-helper-scan-refresh-20260927-r12` is the immediate application rollback.
 - `kfc-helper-web` and `kfc-helper-ingest` run as named PM2 siblings in the `kfc` namespace on
   `127.0.0.1:19210` and `127.0.0.1:19211`. The saved PM2 process list contains all three apps.
 - Nginx redirects HTTP to HTTPS and routes the Helper UI and authenticated `/v1/` ingestion traffic.
@@ -25,13 +28,25 @@ before unattended 30-minute Auction House uploads are enabled.
   limited ingestion roles. Credentials exist only in mode-0600 server environment files.
 - The published TBC build contains 30,133 items. Its 3,163 verified item icons are served from an
   immutable, checksum-verified media release.
+- The published Forever build `1.60.1.70009` contains 23,578 named items, 12 professions, and 2,239
+  valid recipes. Its separate immutable media release contains 2,945 verified item icons; the roots
+  must stay separate because identical file-data IDs can resolve to different bytes by product.
+- Companion `0.3.1` is available from `/forever/addon` as a checksum-verified, range-capable macOS
+  Intel DMG. The published 134,739,788-byte artifact has SHA-256
+  `dcf410857b00d0b8d2a667bfe49283e695cbb361b0c45a4e234f7580be056709`. It is explicitly a
+  private-token, unsigned maintainer alpha rather than a public onboarding build.
 - The published Forever evidence snapshot has checksum `f9922e4e8784…cc213` and exposes 9 classes,
   27 trees, 470 talents, 401 spellbook entries, racials, class abilities, Legacy perks, and source
   history. Its 574 icons/backgrounds passed local and server-side byte/SHA-256 verification before
   the shared asset pointer changed.
-- Two real SavedVariables scans were accepted, normalized into 117,310 price levels, and replayed as
-  duplicates without adding rows. The same replay behavior was verified through the public HTTPS
-  endpoint.
+- Seven retained scans have produced 45,219 compact per-item observations. Signal rebuilding
+  currently exposes 5,521 TBC and 2,267 Forever exact-market rows; the Forever market remains in the
+  honest collecting state at 4/6 independent observations. Duplicate replay remains idempotent
+  through the public HTTPS endpoint.
+- Migration `0014_productive_praxagora.sql` was applied after verifying the 14,879,415-byte custom
+  backup at `shared/backups/wow_trader-pre-market-intelligence-20260927.dump`. The ingestion role has
+  scoped `DELETE` access only to the derived `market_item_signal` table so exact-market signal sets
+  can be atomically rebuilt.
 - A custom-format prelaunch backup was verified with `pg_restore --list` and restored into a
   disposable database. Its restored counts matched the live catalog and market data.
 - A separate 7.8 MiB pre-migration custom-format backup was checked with `pg_restore --list` before
@@ -130,6 +145,10 @@ The repository contains the following production controls:
    only decoded item PNGs, not the WoW client or raw CASC files.
 6. Market summary/retention work described in the storage gate remains required before enabling the
    permanent 30-minute schedule.
+7. The deployment script excludes local caches and desktop packages from transfer, runs every check
+   against the staged source, then removes generated Turbo/Next caches and desktop packages after
+   verification. The production runtime remains intact while a release shrinks from roughly 3 GiB
+   to 964 MiB.
 
 `pnpm dev` remains the convenient local environment command, but it is not a production start or
 publish command.
@@ -199,6 +218,11 @@ Use this server layout:
     world-snapshots/
       current -> releases/<product-build-extractor>/
     media/
+      current -> releases/<tbc-media-release>/icons
+      forever/current -> releases/<forever-media-release>/icons
+    companion-releases/
+      latest.json
+      releases/<version>/
     raw-uploads/
     backups/
 ```
@@ -206,7 +230,10 @@ Use this server layout:
 - Release directories are immutable after activation.
 - Environment files are mode `0600` and never live inside Git.
 - `RAW_UPLOAD_DIR` points to `shared/raw-uploads`, so a release or rollback cannot delete evidence.
-- `WOW_TRADER_MEDIA_ROOT` points to the verified shared item-icon directory.
+- `WOW_TRADER_MEDIA_ROOT` points to the verified TBC item-icon directory.
+- `WOW_TRADER_FOREVER_MEDIA_ROOT` points to the separate verified Forever item-icon directory.
+- `COMPANION_RELEASE_ROOT` points to `shared/companion-releases`; its validated `latest.json` is the
+  only file that can advertise immutable installers to the website.
 - `FOREVER_ASSET_ROOT` points to the root of the verified shared Forever preview asset release. The
   root contains `manifest.json`, `icons/`, and `backgrounds/`; it is independent from TBC item media.
 - `WOW_TRADER_WORLD_SNAPSHOT` points to the current immutable world snapshot manifest and
@@ -277,6 +304,38 @@ WOW_TRADER_WORLD_PREFER_ARTIFACT=true
 Replace artifact preference with a published database snapshot once hotfix-complete extraction and
 the review gate pass. Never set a missing-hotfix snapshot to `published` in PostgreSQL.
 
+### Publishing product item media and the Companion
+
+Synchronize item images by product. The optional third argument defaults to TBC; Forever must be
+explicit so it cannot replace the TBC symlink:
+
+```bash
+./scripts/sync-production-media.sh \
+  artifacts/local-media/wow_classic_beta/70009/enUS/<hotfix-hash> \
+  wow_classic_beta-70009-enUS-<hash-prefix> \
+  wow_classic_beta
+```
+
+Build and prepare the current desktop release, then synchronize its immutable assets and stable
+manifest:
+
+```bash
+pnpm desktop:release:macos
+./scripts/sync-production-companion-release.sh artifacts/companion-releases
+```
+
+The sync resumes interrupted copies, verifies every advertised byte count and SHA-256 on the server,
+and only then atomically publishes `latest.json`. Configure the protected web environment with:
+
+```text
+WOW_TRADER_FOREVER_MEDIA_ROOT=/home/wow-trader-system/shared/media/forever/current
+COMPANION_RELEASE_ROOT=/home/wow-trader-system/shared/companion-releases
+```
+
+Smoke-test `HEAD` and a byte range against `/downloads/companion/<asset-id>`, then compare the public
+ETag and content length with `latest.json`. A maintainer-alpha manifest must retain its private-token
+and unsigned warnings; do not relabel it public until pairing and signing are complete.
+
 ## Phase 3: PM2 activation
 
 The PM2 ecosystem should start only built production artifacts. Initial settings:
@@ -328,6 +387,25 @@ key identifiers/hashes rather than growing one shared secret indefinitely.
 
 The Fastify raw payload directory must be backed up with the database because the database stores
 its evidence URI. A database row without the corresponding retained raw payload weakens auditability.
+
+Migration `0014_productive_praxagora.sql` adds one compact order-book observation per scan/item and
+one latest robust signal per exact market. It also backfills retained price levels. Take and verify a
+database backup before applying it, then run the ingestion package's `market:rebuild` command once
+so existing accepted scans populate `market_item_signal`. New accepted scans refresh only their
+matching product/build/region/realm/Auction-House signal set transactionally. The authenticated
+`GET /v1/market-intelligence` endpoint is the only supported companion read path; the companion
+must not receive database credentials.
+
+The ingestion role needs the following narrow extra grant because a rebuild replaces only derived
+signals and never deletes source observations:
+
+```sql
+GRANT DELETE ON TABLE market_item_signal TO wow_trader_ingest;
+```
+
+Run `pnpm --filter @wow-trader/ingest-api market:rebuild` with the protected ingestion environment
+after the grant. Do not grant table ownership or deletion on raw uploads, scans, price levels, or
+compact observations.
 
 ## Storage gate before 30-minute production scans
 
@@ -382,10 +460,16 @@ deliberately visible rather than being implied by a successful application deplo
 - [x] Root, TBC chooser, Trader, Encyclopedia, item, recipe, profession, and BiS candidate routes return
       successfully against the published server catalog.
 - [x] Item icons are served from the synchronized media set with no systematic 404s.
+- [x] TBC and Forever item icons use separate product-aware roots; a known cross-product file-data-ID
+      collision returns each build's correct bytes.
 - [x] An upload without a bearer token returns 401.
 - [x] A real local scan uploads successfully over HTTPS, becomes `processed`, and an identical retry
       is reported as a duplicate without adding price-level rows.
 - [x] The website shows the exact realm, build, completion time, and price-level counts from that scan.
+- [x] Forever Trader ranks the accepted build-70009 scan against the exact published recipe catalog,
+      and the raw Forever market route remains available independently.
+- [x] The Companion release manifest, full DMG checksum, HTTP range response, and download-page mobile
+      layout are verified through the public hostname.
 - [x] PM2 reports `kfc-website`, `kfc-helper-web`, and `kfc-helper-ingest` online; `pm2 save` has captured
       the named process set.
 - [ ] A controlled reboot/startup check restores all three applications. PM2 startup and the saved
@@ -415,9 +499,11 @@ place before its evidence is preserved.
 ## Remaining production order
 
 1. Commit the verified repository once the maintainer is ready to establish its Git history. The
-   GitHub remote was empty during the first deployment, so release r4 is an immutable source snapshot
-   rather than a committed SHA.
+   GitHub remote was empty during the first deployment, so the current r12 release is an immutable
+   source snapshot rather than a committed SHA.
 2. Implement and test per-scan summaries, hourly/daily aggregation, coordinated raw/level retention,
    backup scheduling, and disk/data-freshness alerts.
 3. Run a controlled PM2 startup/reboot drill during a maintenance window.
 4. Only then enable the local companion's unattended 30-minute production schedule.
+5. Replace maintainer-alpha token entry with per-installation pairing/revocation and complete signed,
+   notarized macOS plus signed Windows distribution before a public Collector rollout.

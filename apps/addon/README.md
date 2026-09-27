@@ -1,18 +1,45 @@
 # WoW Trader Collector
 
-The collector has two independent roles:
+Collector `0.10.0` is a market-only addon with two product-specific providers:
 
-- When Auctionator is installed, it listens for full-scan completion and writes compact,
-  depth-preserving price levels to the account-wide `WOW_TRADER_SAVED` SavedVariable.
-- On the Forever Beta build, it can record opt-in encounter, NPC-location, and loot-source
-  diagnostics, run a bounded 100-ID quest API capability sample, and resolve a reviewed boss-ID
-  sample through the client model widget without entering an instance.
+- WoW Forever uses Blizzard's native `C_AuctionHouse.ReplicateItems` API. It does not require
+  Auctionator.
+- TBC Anniversary keeps the previously validated Auctionator full-scan integration.
 
-It never performs HTTP requests and does not bypass Blizzard's auction-query permission checks.
+The addon writes compact, depth-preserving price levels to the account-wide
+`WOW_TRADER_SAVED` SavedVariable. It registers no quest, NPC, encounter, combat, loot, health,
+vendor, or model events. Existing diagnostic evidence is preserved but remains disabled.
 
-Copy `WowTraderCollector` into the TBC client's `Interface/AddOns` directory. At the Auction House,
-run a normal Auctionator full scan or use `/wowtrader scan`. The slash command delegates to
-Auctionator's scanner and refuses to start unless its normal permission check succeeds.
+The addon never performs HTTP requests and does not bypass Blizzard's auction-query permission or
+throttle checks. Copy `WowTraderCollector` into the supported client's `Interface/AddOns`
+directory. Open the Auction House and run:
+
+```text
+/wowtrader probe
+/wowtrader scan
+/wowtrader status
+```
+
+`/wowtrader` or `/wowtrader ui` opens the in-game scanner console. The console presents provider,
+Auction House, throttle, cooldown, progress, row-quality, and recent-scan information and exposes
+buttons for Scan, Cancel, Probe, and Save & Reload. A movable coin icon on the minimap toggles the
+console from anywhere. Left-click opens or closes it, dragging repositions it, and right-click hides
+it. Run `/wowtrader minimap` to restore a hidden icon. A small `WoW Trader` launcher is also shown
+beside the Auction House while it is open.
+
+The `Market intel` view combines the latest in-game scan with the build-, region-, realm-, and
+Auction-House-specific history pack installed by the desktop companion. Search by item name or ID,
+star items for the local watchlist, or use `/wowtrader market [item]` and
+`/wowtrader watch <itemId>`. Item tooltips show the synchronized signal when the running client
+supports the safe tooltip-data hook. Signals remain in `Collecting` until six independent
+half-hour observations exist; asking prices are never presented as confirmed sales.
+
+Forever requests one native full snapshot, reads it in bounded per-frame chunks, retries uncached
+rows for up to 60 seconds, and saves only after the complete result has been classified. Closing the
+Auction House or timing out aborts the attempt without replacing the latest good scan. Blizzard
+throttles native replication; the collector enforces a 15-minute local cooldown. TBC's
+`/wowtrader scan` delegates to Auctionator and refuses to start unless Auctionator can initiate its
+normal full scan.
 
 After a completed scan, log out or run `/reload` so WoW flushes SavedVariables. The companion reads:
 
@@ -20,68 +47,12 @@ After a completed scan, log out or run `/reload` so WoW flushes SavedVariables. 
 WTF/Account/<account>/SavedVariables/WowTraderCollector.lua
 ```
 
-The queue retains the latest eight scans. New scans include the originating character name, realm,
-faction, and GUID so a future private account profile can attribute professions correctly. That
-identity is stored only with the protected raw upload and is not exposed in public market responses.
-The companion tracks uploaded scan IDs without mutating the game file. Forever diagnostics remain
-local until their upload contract and privacy boundary have been reviewed.
+After an upload, the companion writes the matching generated history pack to
+`Interface/AddOns/WowTraderCollector/MarketData.lua`. Run `/reload` once more to activate the new
+in-game signals. The pack is rejected in game if its product, build, region, realm, or Auction House
+does not match the current character.
 
-## Forever diagnostics
-
-The diagnostics are local SavedVariables evidence. The current companion deliberately ignores the
-diagnostic section until its production upload contract is reviewed.
-
-```text
-/wowtrader diagnostics on
-/wowtrader diagnostics off
-/wowtrader diagnostics status
-/wowtrader questsample start
-/wowtrader questsample pause
-/wowtrader questsample resume
-/wowtrader questsample status
-/wowtrader questsample reset
-/wowtrader bossmodels controls
-/wowtrader bossmodels start
-/wowtrader bossmodels pause
-/wowtrader bossmodels resume
-/wowtrader bossmodels status
-/wowtrader bossmodels reset
-```
-
-Encounter diagnostics record encounter identity, end-of-encounter creature IDs, player location at
-start/end, and `ENCOUNTER_LOOT_RECEIVED` observations. This does not establish an official drop rate.
-
-While diagnostics are enabled, targeting, mousing over, or seeing an NPC nameplate records the
-client creature ID and the best position exposed by the API. `unit_position` is the subject's world
-position; `observer_position` is only the player's location at the time of the sighting and must be
-treated as approximate. Player units are never recorded. Repeated sightings are deduplicated into
-small coordinate cells across reloads and the log retains at most 5,000 records.
-
-Raw `UnitPosition` returns are stored as `positionX`, `positionY`, and `positionZ` with
-`coordinateSystem = unit_position_api`. Consumers must apply the build-validated WoW/UI-map axis
-adapter; they must not assume those raw values are already browser-map X/Y.
-
-When the client exposes Blizzard's `ClosestUnitPosition`, the collector also retains its raw
-`xPos`, `yPos`, and distance result as `closest_unit_position_api_unverified`. That evidence must pass
-an in-game coordinate golden before it is promoted to an exact map pin; unsupported clients simply
-omit it.
-
-Opening loot records item IDs and the source GUID/type/ID returned for each loot slot. This supports
-reviewable item-to-NPC or item-to-object source evidence even when the static tables do not identify
-the drop. Unknown sources stay marked `unknown`; observations are evidence of a drop, not a drop-rate
-claim. The loot log also retains at most 5,000 records.
-
-The quest sample is pinned to client build `69893`, requests one ID every 1.5 seconds, pauses in
-combat, times out individual requests after eight seconds, and never starts automatically. Its 100
-IDs include every statically mapped/line-linked Beta quest, stratified old and high-ID records, and
-five deliberately absent controls. Regenerate the sample before using it on a different build.
-
-Run `bossmodels controls` first. It queries a common creature, Onyxia, one new criteria-backed boss,
-and one deliberately invalid ID. If the valid controls resolve and the invalid control does not,
-`bossmodels start` queries the 30 reviewed build-69893 boss creature IDs three times each. Every
-result stores the requested creature ID, resolved display ID and model FileDataID, client build,
-attempt number, status, and timestamp. The resolver never starts automatically, refuses a different
-client build, and must be started outside combat. `controls` and `reset` clear earlier model results;
-`start` keeps the control evidence, while `pause`/`resume` preserve the cursor. A successful model
-result proves that this client can resolve an asset for the requested ID; it does not prove that the
-boss is live, spawned, or uses that form in every encounter phase.
+The queue retains the latest eight scans. Each scan records provider, build, market scope, row
+accounting, completeness, duration, and originating character. The companion validates this data,
+uploads it idempotently, and keeps character identity inside the protected raw upload. The public
+market responses do not expose that identity.

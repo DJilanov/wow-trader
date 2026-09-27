@@ -4,7 +4,7 @@ namespace WowTrader.Extractor;
 
 internal static class WorldSnapshotCommand
 {
-  internal const string ExtractorVersion = "0.2.3";
+  internal const string ExtractorVersion = "0.3.0";
 
   private static readonly string[] TableNames =
   [
@@ -35,6 +35,11 @@ internal static class WorldSnapshotCommand
     "CreatureDifficulty",
     "CreatureXDisplayInfo",
     "CreatureDisplayInfo",
+    "CreatureDisplayInfoCond",
+    "CreatureDisplayInfoEvt",
+    "CreatureDisplayInfoExtra",
+    "CreatureDisplayInfoGeosetData",
+    "CreatureDisplayInfoOption",
     "CreatureModelData",
     "ModelFileData",
     "Spell",
@@ -44,11 +49,25 @@ internal static class WorldSnapshotCommand
     "CollectableSourceInfo",
     "ItemModifiedAppearance",
     "QuestV2",
+    "QuestV2CliTask",
     "QuestInfo",
+    "QuestObjective",
+    "QuestPackageItem",
+    "QuestMoneyReward",
+    "QuestXP",
+    "QuestFactionReward",
+    "QuestSort",
+    "QuestFeedbackEffect",
     "QuestLine",
     "QuestLineXQuest",
     "QuestPOIBlob",
     "QuestPOIPoint",
+    "JournalEncounter",
+    "JournalEncounterCreature",
+    "JournalEncounterItem",
+    "JournalEncounterSection",
+    "JournalInstance",
+    "JournalTier",
   ];
 
   public static void Run(CliOptions options)
@@ -123,7 +142,8 @@ internal static class WorldSnapshotCommand
           $"World: {world.Maps.Count:N0} maps, {world.UiMaps.Count:N0} UI maps, " +
           $"{world.MapArtTiles.Count:N0} map tiles, {world.Encounters.Count:N0} encounters, " +
           $"{world.Bosses.Count:N0} criteria-backed bosses, " +
-          $"{world.Quests.Count:N0} quest IDs, {world.ItemSourceHints.Count:N0} item source hints");
+          $"{world.Quests.Count:N0} quest IDs, {world.QuestObjectives.Count:N0} quest objectives, " +
+          $"{world.ItemSourceHints.Count:N0} item source hints");
       Console.WriteLine(
           $"Map media: {mediaManifest.Tiles.Count:N0} decoded, " +
           $"{mediaManifest.UnavailableTiles.Count:N0} unavailable");

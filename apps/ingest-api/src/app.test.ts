@@ -4,15 +4,18 @@ import {
   canonicalJson,
   type AuctionScanUpload,
   type JsonValue,
+  type MarketIntelligencePack,
+  type MarketIntelligenceQuery,
   type PublicDataStatus,
   type UploadReceipt,
   type UploadStatus,
+  type WorldDiagnosticsUpload,
 } from "@wow-trader/contracts";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "./app.js";
 import type { RawPayloadStore } from "./raw-payload-store.js";
-import type { AuctionUploadRepository } from "./repositories.js";
+import type { UploadRepository } from "./repositories.js";
 
 const API_KEY = "test-api-key-with-enough-entropy";
 const apps: Awaited<ReturnType<typeof buildApp>>[] = [];
@@ -76,6 +79,25 @@ describe("ingestion API", () => {
     expect(response.statusCode).toBe(401);
   });
 
+  it("accepts authenticated, checksummed world diagnostics", async () => {
+    const repository = new InMemoryRepository();
+    const rawStore = new InMemoryRawPayloadStore();
+    const app = await buildTestApp(repository, rawStore);
+    const payload = createDiagnosticsPayload();
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/v1/uploads/world-diagnostics",
+      headers: { authorization: `Bearer ${API_KEY}` },
+      payload,
+    });
+
+    expect(response.statusCode).toBe(202);
+    expect(response.json()).toMatchObject({ payloadId: payload.payloadId, status: "processed" });
+    expect(repository.acceptedDiagnostics).toEqual([payload]);
+    expect(rawStore.entries).toHaveLength(1);
+  });
+
   it("exposes public data status without authentication", async () => {
     const app = await buildTestApp(new InMemoryRepository(), new InMemoryRawPayloadStore());
 
@@ -84,9 +106,23 @@ describe("ingestion API", () => {
     expect(response.statusCode).toBe(200);
     expect(response.json()).toMatchObject({ service: "wow-trader", status: "degraded" });
   });
+
+  it("returns authenticated market intelligence for the exact market", async () => {
+    const app = await buildTestApp(new InMemoryRepository(), new InMemoryRawPayloadStore());
+    const response = await app.inject({
+      method: "GET",
+      url: "/v1/market-intelligence?clientProduct=wow_anniversary&clientBuild=69795&region=EU&realmId=Spineshatter&auctionHouseType=horde",
+      headers: { authorization: `Bearer ${API_KEY}` },
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toMatchObject({
+      schemaVersion: "market-intelligence.v1",
+      items: [{ itemId: 12808, signal: "bargain" }],
+    });
+  });
 });
 
-async function buildTestApp(repository: AuctionUploadRepository, rawPayloadStore: RawPayloadStore) {
+async function buildTestApp(repository: UploadRepository, rawPayloadStore: RawPayloadStore) {
   const app = await buildApp({
     repository,
     rawPayloadStore,
@@ -133,6 +169,52 @@ function createPayload(): AuctionScanUpload {
   };
 }
 
+function createDiagnosticsPayload(): WorldDiagnosticsUpload {
+  const data: WorldDiagnosticsUpload["data"] = {
+    modelResolutions: [
+      {
+        resolutionId: "2a527e2f-bd73-4f35-9991-9ac43cf507bc",
+        capturedAt: "2026-09-17T18:00:00.000Z",
+        creatureId: 249790,
+        creatureName: "Bandalar",
+        attempt: 1,
+        status: "resolved",
+        displayId: 12345,
+        modelFileDataId: 987654,
+        errorMessage: null,
+        evidence: "player_model_set_creature",
+      },
+    ],
+    healthObservations: [],
+    encounterAttempts: [],
+    encounterLoot: [],
+    lootObservations: [],
+    npcSightings: [],
+    spellObservations: [],
+    questQueries: [],
+    questObservations: [],
+    vendorObservations: [],
+  };
+  const checksum = createHash("sha256")
+    .update(canonicalJson(data as JsonValue))
+    .digest("hex");
+  return {
+    schemaVersion: "world-diagnostics.v1",
+    payloadType: "world_diagnostics",
+    payloadId: "6d0e0f12-cfb4-5dd0-96dd-03092f39c1e7",
+    addonVersion: "0.5.0",
+    clientProduct: "wow_classic_beta",
+    clientBuild: 69893,
+    locale: "enUS",
+    region: "EU",
+    anonymousInstallationId: "anonymous-test-installation",
+    capturedAt: "2026-09-17T18:00:00.000Z",
+    completedAt: "2026-09-17T18:00:00.000Z",
+    checksum,
+    data,
+  };
+}
+
 class InMemoryRawPayloadStore implements RawPayloadStore {
   public readonly entries: { payloadId: string; envelopeHash: string; content: string }[] = [];
 
@@ -142,11 +224,17 @@ class InMemoryRawPayloadStore implements RawPayloadStore {
   }
 }
 
-class InMemoryRepository implements AuctionUploadRepository {
+class InMemoryRepository implements UploadRepository {
   public readonly accepted: AuctionScanUpload[] = [];
+  public readonly acceptedDiagnostics: WorldDiagnosticsUpload[] = [];
 
   public async acceptAuctionScan(upload: AuctionScanUpload): Promise<UploadReceipt> {
     this.accepted.push(upload);
+    return { payloadId: upload.payloadId, status: "processed", duplicate: false };
+  }
+
+  public async acceptWorldDiagnostics(upload: WorldDiagnosticsUpload): Promise<UploadReceipt> {
+    this.acceptedDiagnostics.push(upload);
     return { payloadId: upload.payloadId, status: "processed", duplicate: false };
   }
 
@@ -176,6 +264,38 @@ class InMemoryRepository implements AuctionUploadRepository {
         itemCount: 0,
       },
       generatedAt: new Date().toISOString(),
+    };
+  }
+
+  public async getMarketIntelligence(
+    query: MarketIntelligenceQuery,
+  ): Promise<MarketIntelligencePack | null> {
+    return {
+      schemaVersion: "market-intelligence.v1",
+      modelVersion: "robust-market-signal-v1",
+      ...query,
+      generatedAt: "2026-09-27T08:00:00.000Z",
+      sourceScanAt: "2026-09-27T08:00:00.000Z",
+      items: [
+        {
+          itemId: 12808,
+          name: "Essence of Undeath",
+          signal: "bargain",
+          observationCount: 48,
+          minimumObservationCount: 6,
+          currentPriceCopper: "10000",
+          normalPriceCopper: "12500",
+          lowerPriceCopper: "11000",
+          upperPriceCopper: "14000",
+          differenceBasisPoints: -2000,
+          currentQuantity: 20,
+          normalQuantity: 12,
+          supplyRatioBasisPoints: 16667,
+          currentListingCount: 8,
+          confidenceBasisPoints: 9000,
+          direction: "flat",
+        },
+      ],
     };
   }
 }

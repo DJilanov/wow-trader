@@ -21,6 +21,7 @@ import type {
   WorldQuest,
   WorldQuestLine,
   WorldQuestLineMember,
+  WorldQuestObjective,
   WorldQuestPoi,
   WorldUiMap,
   WorldUiMapArtLink,
@@ -46,6 +47,7 @@ import {
   worldPoiSchema,
   worldQuestLineMemberSchema,
   worldQuestLineSchema,
+  worldQuestObjectiveSchema,
   worldQuestPoiSchema,
   worldQuestSchema,
   worldUiMapArtLinkSchema,
@@ -70,9 +72,18 @@ import {
   worldMapArtTiles,
   worldMapDifficulties,
   worldMapVersions,
+  worldEncounterActorObservations,
+  worldEncounterObservations,
+  worldHealthObservations,
+  worldLootObservations,
+  worldModelObservations,
+  worldNpcObservations,
+  worldQuestObservations,
+  worldSpellObservations,
   worldPoiVersions,
   worldQuestLineMembers,
   worldQuestLineVersions,
+  worldQuestObjectives,
   worldQuestPois,
   worldQuestVersions,
   worldSnapshots,
@@ -80,7 +91,7 @@ import {
   worldUiMapAssignments,
   worldUiMapVersions,
 } from "@wow-trader/db";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray, isNotNull, or } from "drizzle-orm";
 import { loadWorldSnapshot } from "@wow-trader/world-data";
 
 import { getDatabase } from "./database";
@@ -106,6 +117,7 @@ export interface ForeverWorldData {
   readonly encounters: readonly WorldEncounter[];
   readonly lfgDungeons: readonly WorldLfgDungeon[];
   readonly quests: readonly WorldQuest[];
+  readonly questObjectives: readonly WorldQuestObjective[];
   readonly questLines: readonly WorldQuestLine[];
   readonly questLineMembers: readonly WorldQuestLineMember[];
   readonly questPois: readonly WorldQuestPoi[];
@@ -236,6 +248,77 @@ export interface ForeverBossPageData {
     readonly difficulty: WorldMapDifficulty;
     readonly tuning: WorldContentTuning | null;
   }[];
+  readonly observations: ForeverBossObservations;
+}
+
+export interface ForeverBossObservations {
+  readonly models: readonly {
+    readonly resolutionId: string;
+    readonly capturedAt: Date;
+    readonly clientBuild: number;
+    readonly status: string;
+    readonly displayId: number | null;
+    readonly modelFileDataId: number | null;
+    readonly evidence: string;
+  }[];
+  readonly health: readonly {
+    readonly observationId: string;
+    readonly capturedAt: Date;
+    readonly clientBuild: number;
+    readonly currentHealth: bigint;
+    readonly maximumHealth: bigint;
+    readonly healthPercent: number;
+    readonly level: number | null;
+    readonly classification: string | null;
+    readonly groupSize: number;
+    readonly mapId: number | null;
+    readonly uiMapId: number | null;
+    readonly difficultyId: number | null;
+    readonly difficultyName: string | null;
+    readonly trigger: string;
+  }[];
+  readonly loot: readonly {
+    readonly observationId: string;
+    readonly capturedAt: Date;
+    readonly evidenceKind: string;
+    readonly itemId: number;
+    readonly itemName: string | null;
+    readonly quantity: number;
+    readonly encounterId: number | null;
+    readonly sourceType: string | null;
+    readonly sourceId: number | null;
+  }[];
+  readonly encounters: readonly {
+    readonly attemptId: string;
+    readonly encounterId: number;
+    readonly encounterName: string;
+    readonly difficultyId: number;
+    readonly groupSize: number;
+    readonly startedAt: Date;
+    readonly endedAt: Date;
+    readonly success: boolean;
+  }[];
+  readonly sightings: readonly {
+    readonly observationId: string;
+    readonly capturedAt: Date;
+    readonly mapId: number | null;
+    readonly uiMapId: number | null;
+    readonly positionEvidence: string;
+    readonly level: number | null;
+    readonly classification: string | null;
+  }[];
+  readonly spells: readonly {
+    readonly observationId: string;
+    readonly capturedAt: Date;
+    readonly lastSeenAt: Date;
+    readonly eventCount: number;
+    readonly subEvent: string;
+    readonly spellId: number;
+    readonly spellName: string | null;
+    readonly spellSchool: number | null;
+    readonly encounterId: number | null;
+    readonly destinationCreatureId: number | null;
+  }[];
 }
 
 export interface ForeverSearchEntry {
@@ -245,6 +328,34 @@ export interface ForeverSearchEntry {
   readonly context: string;
   readonly href: string;
   readonly searchText: string;
+}
+
+export interface ForeverQuestRuntimeObservation {
+  readonly observationId: string;
+  readonly capturedAt: Date;
+  readonly evidenceKind: string;
+  readonly status: string | null;
+  readonly title: string | null;
+  readonly questLevel: number | null;
+  readonly suggestedGroup: number | null;
+  readonly questText: string | null;
+  readonly objectiveText: string | null;
+  readonly progressText: string | null;
+  readonly rewardText: string | null;
+  readonly xpReward: bigint | null;
+  readonly moneyReward: bigint | null;
+  readonly itemId: number | null;
+  readonly itemLink: string | null;
+  readonly currencyId: number | null;
+  readonly quantity: number | null;
+  readonly sourceType: string | null;
+  readonly sourceId: number | null;
+  readonly sourceName: string | null;
+  readonly objectives: unknown;
+  readonly tag: unknown;
+  readonly rewards: unknown;
+  readonly mapId: number | null;
+  readonly uiMapId: number | null;
 }
 
 const featuredUiMapIds = new Set([2482, 2521, 2524, 2548, 2652, 2665]);
@@ -600,6 +711,12 @@ export async function getForeverBoss(creatureId: number): Promise<ForeverBossPag
     ...boss.mapIds,
     ...locations.flatMap((location) => (location.mapId === null ? [] : [location.mapId])),
   ]);
+  const observations = await loadForeverBossObservations(
+    world.build.product,
+    world.build.buildNumber,
+    creatureId,
+    [...encounterIds],
+  );
   return {
     build: world.build,
     boss,
@@ -630,7 +747,206 @@ export async function getForeverBoss(creatureId: number): Promise<ForeverBossPag
             (tuning) => tuning.contentTuningId === difficulty.contentTuningId,
           ) ?? null,
       })),
+    observations,
   };
+}
+
+async function loadForeverBossObservations(
+  clientProduct: string,
+  clientBuild: number,
+  creatureId: number,
+  encounterIds: readonly number[],
+): Promise<ForeverBossObservations> {
+  if (!process.env.DATABASE_URL) return emptyForeverBossObservations();
+  const database = getDatabase();
+  const buildCondition = and(
+    eq(worldModelObservations.clientProduct, clientProduct),
+    eq(worldModelObservations.clientBuild, clientBuild),
+  );
+  const healthBuildCondition = and(
+    eq(worldHealthObservations.clientProduct, clientProduct),
+    eq(worldHealthObservations.clientBuild, clientBuild),
+  );
+  const lootBuildCondition = and(
+    eq(worldLootObservations.clientProduct, clientProduct),
+    eq(worldLootObservations.clientBuild, clientBuild),
+  );
+  const encounterBuildCondition = and(
+    eq(worldEncounterObservations.clientProduct, clientProduct),
+    eq(worldEncounterObservations.clientBuild, clientBuild),
+  );
+  const npcBuildCondition = and(
+    eq(worldNpcObservations.clientProduct, clientProduct),
+    eq(worldNpcObservations.clientBuild, clientBuild),
+  );
+  const spellBuildCondition = and(
+    eq(worldSpellObservations.clientProduct, clientProduct),
+    eq(worldSpellObservations.clientBuild, clientBuild),
+  );
+  const exactCreatureSource = and(
+    inArray(worldLootObservations.sourceType, ["Creature", "Vehicle"]),
+    eq(worldLootObservations.sourceId, creatureId),
+  );
+
+  try {
+    const [models, health, directEncounters, actorEncounters, sightings, spells] =
+      await Promise.all([
+        database
+          .select({
+            resolutionId: worldModelObservations.resolutionId,
+            capturedAt: worldModelObservations.capturedAt,
+            clientBuild: worldModelObservations.clientBuild,
+            status: worldModelObservations.status,
+            displayId: worldModelObservations.displayId,
+            modelFileDataId: worldModelObservations.modelFileDataId,
+            evidence: worldModelObservations.evidence,
+          })
+          .from(worldModelObservations)
+          .where(and(buildCondition, eq(worldModelObservations.creatureId, creatureId)))
+          .orderBy(desc(worldModelObservations.capturedAt))
+          .limit(50),
+        database
+          .select({
+            observationId: worldHealthObservations.observationId,
+            capturedAt: worldHealthObservations.capturedAt,
+            clientBuild: worldHealthObservations.clientBuild,
+            currentHealth: worldHealthObservations.currentHealth,
+            maximumHealth: worldHealthObservations.maximumHealth,
+            healthPercent: worldHealthObservations.healthPercent,
+            level: worldHealthObservations.level,
+            classification: worldHealthObservations.classification,
+            groupSize: worldHealthObservations.groupSize,
+            mapId: worldHealthObservations.mapId,
+            uiMapId: worldHealthObservations.uiMapId,
+            difficultyId: worldHealthObservations.difficultyId,
+            difficultyName: worldHealthObservations.difficultyName,
+            trigger: worldHealthObservations.trigger,
+          })
+          .from(worldHealthObservations)
+          .where(and(healthBuildCondition, eq(worldHealthObservations.creatureId, creatureId)))
+          .orderBy(desc(worldHealthObservations.capturedAt))
+          .limit(50),
+        encounterIds.length > 0
+          ? database
+              .select({
+                attemptId: worldEncounterObservations.attemptId,
+                encounterId: worldEncounterObservations.encounterId,
+                encounterName: worldEncounterObservations.encounterName,
+                difficultyId: worldEncounterObservations.difficultyId,
+                groupSize: worldEncounterObservations.groupSize,
+                startedAt: worldEncounterObservations.startedAt,
+                endedAt: worldEncounterObservations.endedAt,
+                success: worldEncounterObservations.success,
+              })
+              .from(worldEncounterObservations)
+              .where(
+                and(
+                  encounterBuildCondition,
+                  inArray(worldEncounterObservations.encounterId, encounterIds),
+                ),
+              )
+              .orderBy(desc(worldEncounterObservations.endedAt))
+              .limit(50)
+          : Promise.resolve([]),
+        database
+          .select({
+            attemptId: worldEncounterObservations.attemptId,
+            encounterId: worldEncounterObservations.encounterId,
+            encounterName: worldEncounterObservations.encounterName,
+            difficultyId: worldEncounterObservations.difficultyId,
+            groupSize: worldEncounterObservations.groupSize,
+            startedAt: worldEncounterObservations.startedAt,
+            endedAt: worldEncounterObservations.endedAt,
+            success: worldEncounterObservations.success,
+          })
+          .from(worldEncounterActorObservations)
+          .innerJoin(
+            worldEncounterObservations,
+            eq(worldEncounterActorObservations.attemptId, worldEncounterObservations.attemptId),
+          )
+          .where(
+            and(
+              encounterBuildCondition,
+              eq(worldEncounterActorObservations.creatureId, creatureId),
+            ),
+          )
+          .orderBy(desc(worldEncounterObservations.endedAt))
+          .limit(50),
+        database
+          .select({
+            observationId: worldNpcObservations.observationId,
+            capturedAt: worldNpcObservations.capturedAt,
+            mapId: worldNpcObservations.mapId,
+            uiMapId: worldNpcObservations.uiMapId,
+            positionEvidence: worldNpcObservations.positionEvidence,
+            level: worldNpcObservations.level,
+            classification: worldNpcObservations.classification,
+          })
+          .from(worldNpcObservations)
+          .where(and(npcBuildCondition, eq(worldNpcObservations.creatureId, creatureId)))
+          .orderBy(desc(worldNpcObservations.capturedAt))
+          .limit(50),
+        database
+          .select({
+            observationId: worldSpellObservations.observationId,
+            capturedAt: worldSpellObservations.capturedAt,
+            lastSeenAt: worldSpellObservations.lastSeenAt,
+            eventCount: worldSpellObservations.eventCount,
+            subEvent: worldSpellObservations.subEvent,
+            spellId: worldSpellObservations.spellId,
+            spellName: worldSpellObservations.spellName,
+            spellSchool: worldSpellObservations.spellSchool,
+            encounterId: worldSpellObservations.encounterId,
+            destinationCreatureId: worldSpellObservations.destinationCreatureId,
+          })
+          .from(worldSpellObservations)
+          .where(and(spellBuildCondition, eq(worldSpellObservations.sourceCreatureId, creatureId)))
+          .orderBy(desc(worldSpellObservations.lastSeenAt))
+          .limit(100),
+      ]);
+    const encounters = new Map(
+      [...directEncounters, ...actorEncounters].map((observation) => [
+        observation.attemptId,
+        observation,
+      ]),
+    );
+    const connectedEncounterIds = [
+      ...new Set([...encounterIds, ...[...encounters.values()].map((row) => row.encounterId)]),
+    ];
+    const encounterMatch =
+      connectedEncounterIds.length > 0
+        ? inArray(worldLootObservations.encounterId, connectedEncounterIds)
+        : undefined;
+    const loot = await database
+      .select({
+        observationId: worldLootObservations.observationId,
+        capturedAt: worldLootObservations.capturedAt,
+        evidenceKind: worldLootObservations.evidenceKind,
+        itemId: worldLootObservations.itemId,
+        itemName: worldLootObservations.itemName,
+        quantity: worldLootObservations.quantity,
+        encounterId: worldLootObservations.encounterId,
+        sourceType: worldLootObservations.sourceType,
+        sourceId: worldLootObservations.sourceId,
+      })
+      .from(worldLootObservations)
+      .where(
+        and(
+          lootBuildCondition,
+          encounterMatch ? or(exactCreatureSource, encounterMatch) : exactCreatureSource,
+        ),
+      )
+      .orderBy(desc(worldLootObservations.capturedAt))
+      .limit(100);
+    return { models, health, loot, encounters: [...encounters.values()], sightings, spells };
+  } catch (error: unknown) {
+    console.error("Unable to load optional Forever runtime observations", error);
+    return emptyForeverBossObservations();
+  }
+}
+
+function emptyForeverBossObservations(): ForeverBossObservations {
+  return { models: [], health: [], loot: [], encounters: [], sightings: [], spells: [] };
 }
 
 export async function getForeverSearchDirectory(): Promise<readonly ForeverSearchEntry[]> {
@@ -674,10 +990,42 @@ export async function getForeverQuestDirectory(): Promise<{
     readonly members: readonly WorldQuestLineMember[];
   }[];
   readonly discoverableQuestIds: readonly number[];
+  readonly titledQuests: readonly {
+    readonly questId: number;
+    readonly title: string;
+    readonly evidenceKind: string;
+    readonly capturedAt: Date | null;
+  }[];
 } | null> {
   const world = await getForeverWorldData();
   if (!world) return null;
   const poiQuestIds = new Set(world.questPois.map((poi) => poi.questId));
+  const observedQuests = await loadForeverQuestDirectoryObservations(
+    world.build.product,
+    world.build.buildNumber,
+  );
+  const titledQuestsById = new Map<
+    number,
+    { questId: number; title: string; evidenceKind: string; capturedAt: Date | null }
+  >(
+    world.quests
+      .filter((quest): quest is WorldQuest & { readonly title: string } => Boolean(quest.title))
+      .map((quest) => [
+        quest.questId,
+        {
+          questId: quest.questId,
+          title: quest.title,
+          evidenceKind: "client_task",
+          capturedAt: null,
+        },
+      ]),
+  );
+  for (const observation of observedQuests) {
+    titledQuestsById.set(observation.questId, observation);
+  }
+  const titledQuests = [...titledQuestsById.values()].sort((left, right) =>
+    left.title.localeCompare(right.title),
+  );
   return {
     build: world.build,
     questCount: world.quests.length,
@@ -689,8 +1037,13 @@ export async function getForeverQuestDirectory(): Promise<{
         .sort((left, right) => left.orderIndex - right.orderIndex),
     })),
     discoverableQuestIds: [
-      ...new Set([...poiQuestIds, ...world.questLineMembers.map((row) => row.questId)]),
+      ...new Set([
+        ...poiQuestIds,
+        ...world.questLineMembers.map((row) => row.questId),
+        ...titledQuests.map((row) => row.questId),
+      ]),
     ].sort((left, right) => left - right),
+    titledQuests,
   };
 }
 
@@ -700,6 +1053,8 @@ export async function getForeverQuest(questId: number): Promise<{
   readonly pois: readonly WorldQuestPoi[];
   readonly lines: readonly WorldQuestLine[];
   readonly sourceHints: readonly WorldItemSourceHint[];
+  readonly objectives: readonly WorldQuestObjective[];
+  readonly observations: readonly ForeverQuestRuntimeObservation[];
 } | null> {
   const world = await getForeverWorldData();
   if (!world) return null;
@@ -710,6 +1065,11 @@ export async function getForeverQuest(questId: number): Promise<{
       .filter((entry) => entry.questId === questId)
       .map((entry) => entry.questLineId),
   );
+  const observations = await loadForeverQuestObservations(
+    world.build.product,
+    world.build.buildNumber,
+    questId,
+  );
   return {
     build: world.build,
     quest,
@@ -718,7 +1078,105 @@ export async function getForeverQuest(questId: number): Promise<{
     sourceHints: world.itemSourceHints.filter((hint) =>
       hint.description.toLowerCase().includes(`quest id: ${questId}`),
     ),
+    objectives: world.questObjectives
+      .filter((objective) => objective.questId === questId)
+      .sort((left, right) => left.orderIndex - right.orderIndex),
+    observations,
   };
+}
+
+async function loadForeverQuestDirectoryObservations(
+  clientProduct: string,
+  clientBuild: number,
+): Promise<
+  readonly {
+    readonly questId: number;
+    readonly title: string;
+    readonly evidenceKind: string;
+    readonly capturedAt: Date;
+  }[]
+> {
+  if (!process.env.DATABASE_URL) return [];
+  try {
+    const rows = await getDatabase()
+      .select({
+        questId: worldQuestObservations.questId,
+        title: worldQuestObservations.title,
+        evidenceKind: worldQuestObservations.evidenceKind,
+        capturedAt: worldQuestObservations.capturedAt,
+      })
+      .from(worldQuestObservations)
+      .where(
+        and(
+          eq(worldQuestObservations.clientProduct, clientProduct),
+          eq(worldQuestObservations.clientBuild, clientBuild),
+          isNotNull(worldQuestObservations.title),
+        ),
+      )
+      .orderBy(desc(worldQuestObservations.capturedAt))
+      .limit(10_000);
+    const latest = new Map<number, (typeof rows)[number]>();
+    for (const row of rows) {
+      if (row.title && !latest.has(row.questId)) latest.set(row.questId, row);
+    }
+    return [...latest.values()]
+      .map((row) => ({ ...row, title: row.title! }))
+      .sort((left, right) => left.title.localeCompare(right.title));
+  } catch (error: unknown) {
+    console.error("Unable to load optional Forever quest directory observations", error);
+    return [];
+  }
+}
+
+async function loadForeverQuestObservations(
+  clientProduct: string,
+  clientBuild: number,
+  questId: number,
+): Promise<readonly ForeverQuestRuntimeObservation[]> {
+  if (!process.env.DATABASE_URL) return [];
+  try {
+    return await getDatabase()
+      .select({
+        observationId: worldQuestObservations.observationId,
+        capturedAt: worldQuestObservations.capturedAt,
+        evidenceKind: worldQuestObservations.evidenceKind,
+        status: worldQuestObservations.status,
+        title: worldQuestObservations.title,
+        questLevel: worldQuestObservations.questLevel,
+        suggestedGroup: worldQuestObservations.suggestedGroup,
+        questText: worldQuestObservations.questText,
+        objectiveText: worldQuestObservations.objectiveText,
+        progressText: worldQuestObservations.progressText,
+        rewardText: worldQuestObservations.rewardText,
+        xpReward: worldQuestObservations.xpReward,
+        moneyReward: worldQuestObservations.moneyReward,
+        itemId: worldQuestObservations.itemId,
+        itemLink: worldQuestObservations.itemLink,
+        currencyId: worldQuestObservations.currencyId,
+        quantity: worldQuestObservations.quantity,
+        sourceType: worldQuestObservations.sourceType,
+        sourceId: worldQuestObservations.sourceId,
+        sourceName: worldQuestObservations.sourceName,
+        objectives: worldQuestObservations.objectives,
+        tag: worldQuestObservations.tag,
+        rewards: worldQuestObservations.rewards,
+        mapId: worldQuestObservations.mapId,
+        uiMapId: worldQuestObservations.uiMapId,
+      })
+      .from(worldQuestObservations)
+      .where(
+        and(
+          eq(worldQuestObservations.clientProduct, clientProduct),
+          eq(worldQuestObservations.clientBuild, clientBuild),
+          eq(worldQuestObservations.questId, questId),
+        ),
+      )
+      .orderBy(desc(worldQuestObservations.capturedAt))
+      .limit(100);
+  } catch (error: unknown) {
+    console.error("Unable to load optional Forever quest observations", error);
+    return [];
+  }
 }
 
 export function worldToUiMap(
@@ -773,6 +1231,7 @@ async function loadArtifactWorld(manifestPath: string): Promise<ForeverWorldData
     encounters: bundle.encounters,
     lfgDungeons: bundle.lfgDungeons,
     quests: bundle.quests,
+    questObjectives: bundle.questObjectives,
     questLines: bundle.questLines,
     questLineMembers: bundle.questLineMembers,
     questPois: bundle.questPois,
@@ -820,6 +1279,7 @@ async function loadDatabaseWorld(): Promise<ForeverWorldData | null> {
     encounters,
     lfgDungeons,
     quests,
+    questObjectives,
     questLines,
     questLineMembers,
     questPois,
@@ -851,6 +1311,7 @@ async function loadDatabaseWorld(): Promise<ForeverWorldData | null> {
       .from(worldLfgDungeonVersions)
       .where(eq(worldLfgDungeonVersions.buildId, buildId)),
     database.select().from(worldQuestVersions).where(eq(worldQuestVersions.buildId, buildId)),
+    database.select().from(worldQuestObjectives).where(eq(worldQuestObjectives.buildId, buildId)),
     database
       .select()
       .from(worldQuestLineVersions)
@@ -897,6 +1358,7 @@ async function loadDatabaseWorld(): Promise<ForeverWorldData | null> {
     encounters: worldEncounterSchema.array().parse(encounters),
     lfgDungeons: worldLfgDungeonSchema.array().parse(lfgDungeons),
     quests: worldQuestSchema.array().parse(quests),
+    questObjectives: worldQuestObjectiveSchema.array().parse(questObjectives),
     questLines: worldQuestLineSchema.array().parse(questLines),
     questLineMembers: worldQuestLineMemberSchema.array().parse(questLineMembers),
     questPois: worldQuestPoiSchema.array().parse(questPois),

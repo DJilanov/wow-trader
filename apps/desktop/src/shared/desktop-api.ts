@@ -14,7 +14,7 @@ export interface WowTraderDesktopApi {
   saveCredential(credential: string): Promise<DesktopSnapshot>;
   removeCredential(): Promise<DesktopSnapshot>;
   disableLegacyService(): Promise<DesktopSnapshot>;
-  openTrader(): Promise<DesktopSnapshot>;
+  openTrader(product: ProductKind): Promise<DesktopSnapshot>;
   openLogs(): Promise<DesktopSnapshot>;
   subscribe(listener: (snapshot: DesktopSnapshot) => void): () => void;
 }

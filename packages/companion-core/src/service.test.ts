@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -37,6 +37,33 @@ const SAVED_VARIABLES = `WOW_TRADER_SAVED = {
       },
     },
   },
+  ["worldDiagnostics"] = {
+    ["schemaVersion"] = 4,
+    ["addonVersion"] = "0.5.0",
+    ["clientProduct"] = "wow_classic_beta",
+    ["clientBuild"] = 69893,
+    ["locale"] = "enUS",
+    ["region"] = "EU",
+    ["encounterAttempts"] = {},
+    ["encounterLoot"] = {},
+    ["npcSightings"] = {},
+    ["lootObservations"] = {},
+    ["healthObservations"] = {},
+    ["modelResolutions"] = {
+      [1] = {
+        ["resolutionID"] = "2a527e2f-bd73-4f35-9991-9ac43cf507bc",
+        ["capturedAt"] = 1789671600,
+        ["clientBuild"] = 69893,
+        ["creatureID"] = 249790,
+        ["creatureName"] = "Bandalar",
+        ["attempt"] = 1,
+        ["status"] = "resolved",
+        ["displayID"] = 12345,
+        ["modelFileID"] = 987654,
+        ["evidence"] = "player_model_set_creature",
+      },
+    },
+  },
 }`;
 
 afterEach(async () => {
@@ -58,14 +85,17 @@ describe("companion service", () => {
     await mkdir(path.dirname(savedVariablesPath), { recursive: true });
     await writeFile(savedVariablesPath, SAVED_VARIABLES, "utf8");
     const statePath = path.join(rootPath, "state.json");
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(
-        Response.json(
-          { payloadId: SCAN_ID, status: "processed", duplicate: false },
-          { status: 202 },
-        ),
+    const fetchMock = vi.fn<typeof fetch>().mockImplementation(async (input, init) => {
+      const url = new URL(String(input));
+      if (url.pathname === "/v1/market-intelligence") {
+        return Response.json(marketPack());
+      }
+      const body = JSON.parse(String(init?.body)) as { payloadId: string };
+      return Response.json(
+        { payloadId: body.payloadId, status: "processed", duplicate: false },
+        { status: 202 },
       );
+    });
     vi.stubGlobal("fetch", fetchMock);
 
     const service = new DefaultCompanionService({
@@ -88,13 +118,18 @@ describe("companion service", () => {
     await service.checkNow();
     await service.stop();
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(phases).toContain("checking");
     expect(phases).toContain("scan_detected");
     expect(phases).toContain("uploading");
     await expect(readCompanionState(statePath)).resolves.toMatchObject({
       uploadedScanIds: [SCAN_ID],
+      uploadedDiagnosticPayloadIds: [expect.any(String)],
       activities: [{ scanId: SCAN_ID, status: "processed" }],
     });
+    await expect(
+      readFile(path.join(rootPath, "Interface/AddOns/WowTraderCollector/MarketData.lua"), "utf8"),
+    ).resolves.toContain("robust-market-signal-v1");
   });
 
   it("requires a credential without touching a discovered scan", async () => {
@@ -118,4 +153,38 @@ async function temporaryProductRoot(): Promise<string> {
   const directory = await mkdtemp(path.join(tmpdir(), "wow-trader-core-service-"));
   temporaryDirectories.push(directory);
   return directory;
+}
+
+function marketPack() {
+  return {
+    schemaVersion: "market-intelligence.v1",
+    modelVersion: "robust-market-signal-v1",
+    clientProduct: "wow_anniversary",
+    clientBuild: 69795,
+    region: "EU",
+    realmId: "Spineshatter",
+    auctionHouseType: "horde",
+    generatedAt: "2026-09-27T08:00:00.000Z",
+    sourceScanAt: "2026-09-27T08:00:00.000Z",
+    items: [
+      {
+        itemId: 12808,
+        name: "Essence of Undeath",
+        signal: "collecting",
+        observationCount: 1,
+        minimumObservationCount: 6,
+        currentPriceCopper: null,
+        normalPriceCopper: null,
+        lowerPriceCopper: null,
+        upperPriceCopper: null,
+        differenceBasisPoints: null,
+        currentQuantity: null,
+        normalQuantity: null,
+        supplyRatioBasisPoints: null,
+        currentListingCount: null,
+        confidenceBasisPoints: null,
+        direction: null,
+      },
+    ],
+  };
 }

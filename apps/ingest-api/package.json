@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsup src/server.ts --format esm --sourcemap --clean",
+    "build": "tsup src/server.ts src/rebuild-market-signals.ts --format esm --sourcemap --clean",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src",
+    "market:rebuild": "tsx src/rebuild-market-signals.ts",
     "start": "node dist/server.js",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
@@ -18,6 +19,7 @@
     "@fastify/swagger-ui": "6.1.1",
     "@wow-trader/contracts": "workspace:*",
     "@wow-trader/db": "workspace:*",
+    "@wow-trader/market": "workspace:*",
     "dotenv": "17.4.2",
     "drizzle-orm": "0.45.2",
     "fastify": "5.12.4",

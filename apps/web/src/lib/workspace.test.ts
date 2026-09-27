@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { evaluateWorkspaceRecipe, type WorkspaceRecipeCandidate } from "./workspace.js";
+import {
+  calculateWorkspaceExecutionPlan,
+  evaluateWorkspaceRecipe,
+  type WorkspaceRecipeCandidate,
+} from "./workspace.js";
 
 describe("evaluateWorkspaceRecipe", () => {
   it("compares a robust AH quote with the deterministic vendor route", () => {
@@ -12,6 +16,16 @@ describe("evaluateWorkspaceRecipe", () => {
     expect(auctionHouse?.result.expectedProfitCopper).toBe(1_600n);
     expect(vendor?.route).toBe("vendor");
     expect(vendor?.result.expectedProfitCopper).toBe(1_400n);
+  });
+
+  it("uses the neutral Auction House fee supplied by the selected market", () => {
+    const auctionHouse = evaluateWorkspaceRecipe(candidate(), 1_500).find(
+      (entry) => entry.route === "auction_house",
+    );
+    expect(auctionHouse?.result.expectedGrossRevenueCopper).toBe(2_000n);
+    expect(auctionHouse?.result.expectedAuctionHouseCutCopper).toBe(300n);
+    expect(auctionHouse?.result.expectedNetRevenueCopper).toBe(1_700n);
+    expect(auctionHouse?.result.expectedProfitCopper).toBe(1_400n);
   });
 
   it("returns no route when the reagent order book cannot fill one craft", () => {
@@ -176,6 +190,68 @@ describe("evaluateWorkspaceRecipe", () => {
     expect(result[0]?.networkSavingsCopper).toBe(200n);
     expect(result[0]?.inputs[0]?.name).toBe("Raw Reagent");
     expect(result[0]?.craftSteps[0]?.recipeName).toBe("Intermediate");
+  });
+});
+
+describe("calculateWorkspaceExecutionPlan", () => {
+  it("finds the most profitable craft count while consuming real reagent depth", () => {
+    const evaluation = evaluateWorkspaceRecipe(candidate(), 500)[0];
+    expect(evaluation).toBeDefined();
+    if (!evaluation) return;
+
+    const plan = calculateWorkspaceExecutionPlan(
+      evaluation,
+      new Map([
+        [
+          10,
+          [
+            { unitPriceCopper: 100n, quantity: 2 },
+            { unitPriceCopper: 2_000n, quantity: 4 },
+          ],
+        ],
+      ]),
+      500,
+    );
+
+    expect(plan.depthCraftLimit).toBe(3);
+    expect(plan.recommendedCrafts).toBe(1);
+    expect(plan.result.expectedProfitCopper).toBe(1_700n);
+  });
+
+  it("caps the depth calculation for pathological order books", () => {
+    const evaluation = evaluateWorkspaceRecipe(candidate(), 500)[0];
+    expect(evaluation).toBeDefined();
+    if (!evaluation) return;
+
+    const plan = calculateWorkspaceExecutionPlan(
+      evaluation,
+      new Map([[10, [{ unitPriceCopper: 100n, quantity: 20_000 }]]]),
+      500,
+      25,
+    );
+
+    expect(plan.depthCraftLimit).toBe(25);
+    expect(plan.recommendedCrafts).toBe(25);
+  });
+
+  it("does not apply an Auction House cut to scaled vendor exits", () => {
+    const evaluation = evaluateWorkspaceRecipe(candidate(), 500).find(
+      (entry) => entry.route === "vendor",
+    );
+    expect(evaluation).toBeDefined();
+    if (!evaluation) return;
+
+    const plan = calculateWorkspaceExecutionPlan(
+      evaluation,
+      new Map([[10, [{ unitPriceCopper: 100n, quantity: 20 }]]]),
+      500,
+      2,
+    );
+
+    expect(plan.recommendedCrafts).toBe(2);
+    expect(plan.result.expectedNetRevenueCopper).toBe(3_400n);
+    expect(plan.result.expectedAuctionHouseCutCopper).toBe(0n);
+    expect(plan.result.expectedProfitCopper).toBe(3_000n);
   });
 });
 

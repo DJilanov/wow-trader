@@ -169,6 +169,32 @@ export const worldQuestSchema = z.object({
   questId: wowIdSchema,
   uniqueBitFlag: z.number().int().nonnegative(),
   uiQuestDetailsThemeId: z.number().int().nonnegative(),
+  title: z.string().min(1).nullable().optional().default(null),
+  bulletText: z.string().min(1).nullable().optional().default(null),
+  questInfoId: wowIdSchema.nullable().optional().default(null),
+  contentTuningId: wowIdSchema.nullable().optional().default(null),
+  startItemId: wowIdSchema.nullable().optional().default(null),
+  minimumLevel: z.number().int().nonnegative().optional().default(0),
+  maximumLevel: z.number().int().nonnegative().optional().default(0),
+  minimumSkillId: wowIdSchema.nullable().optional().default(null),
+  minimumSkillValue: z.number().int().nonnegative().optional().default(0),
+  classMask: z.number().int().optional().default(0),
+  raceMasks: z.array(z.number().int()).optional().default([]),
+  flags: z.array(z.number().int()).optional().default([]),
+  rawRecord: rawRecordSchema,
+  rawCliTask: rawRecordSchema.nullable().optional().default(null),
+});
+
+export const worldQuestObjectiveSchema = z.object({
+  objectiveId: wowIdSchema,
+  questId: wowIdSchema,
+  orderIndex: z.number().int().nonnegative(),
+  storageIndex: z.number().int().nonnegative(),
+  amount: z.number().int().nonnegative(),
+  type: z.number().int().nonnegative(),
+  objectId: z.number().int().nonnegative(),
+  description: z.string(),
+  flags: z.number().int(),
   rawRecord: rawRecordSchema,
 });
 
@@ -388,6 +414,7 @@ export const worldBundleSchema = z.object({
   encounters: z.array(worldEncounterSchema),
   lfgDungeons: z.array(worldLfgDungeonSchema),
   quests: z.array(worldQuestSchema),
+  questObjectives: z.array(worldQuestObjectiveSchema),
   questLines: z.array(worldQuestLineSchema),
   questLineMembers: z.array(worldQuestLineMemberSchema),
   questPois: z.array(worldQuestPoiSchema),
@@ -416,6 +443,7 @@ export type WorldPoi = z.infer<typeof worldPoiSchema>;
 export type WorldEncounter = z.infer<typeof worldEncounterSchema>;
 export type WorldLfgDungeon = z.infer<typeof worldLfgDungeonSchema>;
 export type WorldQuest = z.infer<typeof worldQuestSchema>;
+export type WorldQuestObjective = z.infer<typeof worldQuestObjectiveSchema>;
 export type WorldQuestLine = z.infer<typeof worldQuestLineSchema>;
 export type WorldQuestLineMember = z.infer<typeof worldQuestLineMemberSchema>;
 export type WorldQuestPoi = z.infer<typeof worldQuestPoiSchema>;

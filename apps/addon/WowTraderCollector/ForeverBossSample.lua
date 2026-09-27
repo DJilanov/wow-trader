@@ -1,6 +1,6 @@
--- Criteria type 0 identities extracted from wow_classic_beta build 69893.
+-- Criteria type 0 identities revalidated against wow_classic_beta build 69913.
 -- These are client-present objectives, not claims that the encounters are live.
-WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD = 69893
+WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD = 69913
 WOW_TRADER_FOREVER_BOSS_SAMPLE = {
   { creatureID = 227939, name = "The Molten Core" },
   { creatureID = 246020, name = "Shade of the Archmage" },

@@ -18,7 +18,7 @@ Forever migration checklist.
 - pnpm 9.15.9
 - .NET SDK 10 for the isolated CASC/DB2 extractor
 - Docker with Compose for local PostgreSQL, Redis, and MinIO
-- A local TBC client for extraction and Auctionator `335` for the collector integration test
+- A local TBC client for extraction; Auctionator `335` is required only for TBC market scans
 
 ## Install and verify
 
@@ -90,6 +90,8 @@ snapshot-bound link. Preview evidence remains separate from extracted client fac
 estimated, or Classic-fallback text is labeled in the UI. The importer, evidence contract, asset
 handling, and release reconciliation are documented in
 [`docs/talents-forever-integration-plan.md`](docs/talents-forever-integration-plan.md).
+The exact-build world, quest, boss-model, spell, vendor, and loot evidence strategy is tracked in
+[`docs/forever-max-coverage-plan.md`](docs/forever-max-coverage-plan.md).
 
 The account-network calculation, safety boundaries, and Forever migration steps are documented in
 [`docs/account-crafting-network.md`](docs/account-crafting-network.md).
@@ -139,13 +141,19 @@ snapshot with `--publish` only after review. Both import and promotion are idemp
 
 ## Auction House collection
 
-Install [`apps/addon/WowTraderCollector`](./apps/addon/WowTraderCollector) next to Auctionator. A
-normal Auctionator full scan is compacted into SavedVariables. With `pnpm dev` running, the normal
-workflow has no filesystem or upload commands:
+Install [`apps/addon/WowTraderCollector`](./apps/addon/WowTraderCollector). Forever scans directly
+through Blizzard's native Auction House replication API and does not require Auctionator; TBC uses
+the validated Auctionator provider. With `pnpm dev` running, the normal workflow has no filesystem
+or upload commands:
 
 1. Open the Auction House and run `/wowtrader scan`.
 2. When the scan finishes, run `/reload` or log out so WoW writes SavedVariables.
 3. The companion waits for the file to stabilize and uploads every unseen scan automatically.
+
+Use `/wowtrader` to open the in-game market console instead of typing individual commands. It shows
+provider readiness, scan progress and quality, recent saved scans, and guarded action buttons. The
+movable minimap coin toggles the console from anywhere; `/wowtrader minimap` restores it if hidden.
+The Auction House also displays a `WoW Trader` launcher while it is open.
 
 The supported no-Terminal client is the Electron **WoW Trader Companion**. During maintainer alpha,
 run it from source with the production ingestion endpoint:
@@ -165,16 +173,20 @@ pnpm desktop:package
 open "apps/desktop/out/WoW Trader Companion-darwin-x64/WoW Trader Companion.app"
 ```
 
-The first-run dashboard discovers TBC automatically, accepts a dedicated collector token into
-macOS secure storage, verifies/installs collector `0.4.0`, and explains the required Auctionator
+The first-run dashboard discovers TBC and Forever automatically, accepts a dedicated collector
+token into macOS secure storage, verifies/installs collector `0.10.0`, and explains the product-aware
 scan plus `/reload` boundary. It keeps watching from the tray after the window closes. Use
 `Automatic uploads` for normal operation and `Check for scans now` for an immediate manual pass.
 TBC and Forever roots can be configured independently. Local state and redacted rotating logs live
 under the operating system's application-data directory, not in this repository.
 
+After processing a scan, Companion `0.3.0` also downloads the exact matching market-intelligence
+pack and installs it atomically into the collector. The addon's Market Intel panel, item tooltips,
+and local watchlist then use the same robust price bands as the website after the next `/reload`.
+
 `pnpm desktop:make` creates unsigned local ZIP/DMG artifacts. Do not distribute those artifacts to
-players yet: public release still requires per-installation pairing, branded application artwork,
-macOS signing/notarization, Windows signing, and clean-machine acceptance tests. The complete release
+players yet: public release still requires per-installation pairing, macOS signing/notarization,
+Windows signing, and clean-machine acceptance tests. The complete release
 gates are in [`docs/desktop-companion-plan.md`](docs/desktop-companion-plan.md).
 
 The following commands remain available for diagnostics and one-off operation:

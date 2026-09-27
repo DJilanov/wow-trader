@@ -1,12 +1,12 @@
 ## Interface: 20506, 16001
 ## Title: WoW Trader Collector
-## Notes: Captures Auctionator scans and opt-in Forever encyclopedia diagnostics.
+## Notes: Captures native Forever and Auctionator TBC market scans for WoW Trader.
 ## Author: WoW Trader
-## Version: 0.4.0
+## Version: 0.10.0
 ## OptionalDeps: Auctionator
 ## SavedVariables: WOW_TRADER_SAVED
 ## X-WowTrader-Product: wow_anniversary
 
-ForeverQuestSample.lua
-ForeverBossSample.lua
+MarketData.lua
 Collector.lua
+UI.lua

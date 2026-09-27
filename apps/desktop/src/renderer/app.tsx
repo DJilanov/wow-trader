@@ -77,7 +77,11 @@ export function App(): ReactNode {
   }
 
   const status = statusPresentation(snapshot.companion.phase);
-  const busy = action.key !== "";
+  const companionBusy = ["checking", "scan_detected", "uploading", "processing"].includes(
+    snapshot.companion.phase,
+  );
+  const busy = action.key !== "" || companionBusy;
+  const checkingNow = action.key === "check" || snapshot.companion.phase === "checking";
 
   return (
     <main className="app-shell">
@@ -240,8 +244,9 @@ export function App(): ReactNode {
           <span className="eyebrow">How collection works</span>
           <h2 id="scan-heading">Scan in game, save, and the rest is automatic.</h2>
           <p>
-            Open the Auction House and run an Auctionator full scan. WoW writes the result after{" "}
-            <code>/reload</code> or logout; the companion then validates and uploads it.
+            Open the Auction House and run <code>/wowtrader scan</code>. WoW writes the result after{" "}
+            <code>/reload</code> or logout; the companion then validates and uploads it. Forever
+            uses the collector&apos;s native scanner; TBC delegates to Auctionator.
           </p>
         </div>
         <button
@@ -250,7 +255,7 @@ export function App(): ReactNode {
           disabled={busy || !snapshot.credentialConfigured}
           onClick={() => void perform("check", window.wowTrader.checkNow)}
         >
-          {action.key === "check" ? "Checking…" : "Check for scans now"}
+          {checkingNow ? "Checking…" : "Check for scans now"}
         </button>
       </section>
 
@@ -312,8 +317,11 @@ export function App(): ReactNode {
       </section>
 
       <footer>
-        <button type="button" onClick={() => void window.wowTrader.openTrader()}>
-          Open Trader
+        <button type="button" onClick={() => void window.wowTrader.openTrader("forever")}>
+          Open Forever Trader
+        </button>
+        <button type="button" onClick={() => void window.wowTrader.openTrader("tbc")}>
+          Open TBC Trader
         </button>
         <button type="button" onClick={() => void window.wowTrader.openLogs()}>
           Open logs
@@ -362,8 +370,16 @@ function ProductCard({ product, busyKey, onInstall, onChoose }: ProductCardProps
           label={product.rootExists ? "Game folder found" : "Game folder missing"}
         />
         <HealthRow
-          good={product.auctionatorInstalled}
-          label={product.auctionatorInstalled ? "Auctionator detected" : "Auctionator not detected"}
+          good={product.scannerReady}
+          label={
+            product.scannerProvider === "native"
+              ? product.scannerReady
+                ? "Native Forever scanner included"
+                : "Install Collector for native scanning"
+              : product.auctionatorInstalled
+                ? "Auctionator scanner detected"
+                : "Auctionator scanner not detected"
+          }
         />
         <HealthRow good={product.collectorHealth === "ready"} label={collectorLabel} />
       </div>
@@ -476,6 +492,7 @@ function statusPresentation(phase: CompanionPhase): {
   const values: Record<CompanionPhase, { readonly label: string; readonly tone: string }> = {
     setup_required: { label: "Setup required", tone: "warning" },
     paused: { label: "Automatic uploads paused", tone: "neutral" },
+    checking: { label: "Checking saved scans", tone: "active" },
     waiting_for_saved_scan: { label: "Ready and watching", tone: "ready" },
     scan_detected: { label: "New scan detected", tone: "active" },
     uploading: { label: "Uploading securely", tone: "active" },
@@ -492,7 +509,7 @@ function nextAction(phase: CompanionPhase): string {
     return "Connect a token and make sure the collector addon is installed.";
   if (phase === "paused") return "Enable automatic uploads or check manually when you are ready.";
   if (phase === "waiting_for_saved_scan")
-    return "Run an Auctionator full scan, then /reload or log out in WoW.";
+    return "At the Auction House, run /wowtrader scan, then /reload or log out in WoW.";
   if (phase === "offline")
     return "Your scan stays on this computer and will retry after the connection returns.";
   if (phase === "error") return "Review the message, repair the setup if needed, then retry.";

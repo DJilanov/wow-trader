@@ -20,6 +20,7 @@
     "desktop:dev": "pnpm --filter @wow-trader/desktop dev",
     "desktop:package": "pnpm --filter @wow-trader/desktop build",
     "desktop:make": "pnpm --filter @wow-trader/desktop make",
+    "desktop:release:macos": "pnpm desktop:make && node scripts/prepare-companion-release.mjs",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "db:migrate": "pnpm --filter @wow-trader/db db:migrate",
     "dev": "node scripts/dev.mjs",
@@ -36,6 +37,7 @@
     "forever:publish": "pnpm --filter @wow-trader/forever-data dev publish",
     "forever:sync": "pnpm --filter @wow-trader/forever-data dev sync",
     "extract:forever:world": "tools/extractor-dotnet/run-forever-world-extraction.sh",
+    "forever:addon-seeds": "node scripts/generate-forever-addon-seeds.mjs",
     "world:audit": "pnpm --filter @wow-trader/world-data dev audit",
     "world:import": "pnpm --filter @wow-trader/world-data dev import"
   },

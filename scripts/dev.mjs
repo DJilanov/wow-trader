@@ -15,7 +15,7 @@ const defaultDefinitionsRevision = "e6828ce1a61ad05e9693e762fcfd39666454cc62";
 const defaultWorldDefinitionsRevision = "403d095cc9eda997c61571cfe18a418cad9ae08f";
 const currentCatalogSchemaVersion = "catalog-snapshot-manifest.v4";
 const currentWorldSchemaVersion = "world-snapshot-manifest.v1";
-const currentWorldExtractorVersion = "0.2.3";
+const currentWorldExtractorVersion = "0.3.0";
 const dockerCandidates = [
   "/Applications/OrbStack.app/Contents/MacOS/xbin/docker",
   "/Applications/Docker.app/Contents/Resources/bin/docker",
@@ -52,7 +52,11 @@ async function main(arguments_) {
 
   const catalog = await ensureCurrentCatalog();
   const mediaRoot = await ensureCurrentItemIcons(catalog);
-  process.env.WOW_TRADER_MEDIA_ROOT = mediaRoot;
+  if (catalog.product === "wow_classic_beta") {
+    process.env.WOW_TRADER_FOREVER_MEDIA_ROOT = mediaRoot;
+  } else {
+    process.env.WOW_TRADER_MEDIA_ROOT = mediaRoot;
+  }
 
   const worldSnapshot = await ensureForeverWorldSnapshot();
   if (worldSnapshot) {

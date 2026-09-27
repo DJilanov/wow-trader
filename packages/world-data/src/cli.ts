@@ -45,6 +45,7 @@ async function main(args: readonly string[]): Promise<void> {
             mapDifficulties: bundle.mapDifficulties.length,
             contentTunings: bundle.contentTunings.length,
             quests: bundle.quests.length,
+            questObjectives: bundle.questObjectives.length,
             questPois: bundle.questPois.length,
             itemSourceHints: bundle.itemSourceHints.length,
           },

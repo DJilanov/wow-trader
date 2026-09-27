@@ -10,13 +10,14 @@ import {
 
 import type { DesktopProductStatus } from "../shared/contracts.js";
 
-const COLLECTOR_VERSION = "0.4.0";
+const COLLECTOR_VERSION = "0.10.0";
 const ADDON_FILES: Readonly<Record<string, string>> = {
-  "Collector.lua": "818391fb97eee164057ffa03a181225b14af4ddd741a42f8f613b72020ed6849",
-  "ForeverBossSample.lua": "be390cc46660988fc0ddb819b92f87ccd212d01acfc68b80fb7a96e9d646feb7",
-  "ForeverQuestSample.lua": "29f3adcbefd51d20de049a3d6c017f948c837e9d69da396b9e500091490a1268",
-  "WowTraderCollector.toc": "2f34ee7283e672bbf77fcb1025e4edec4228f427223e00128734644d0313de93",
+  "Collector.lua": "8d2b0f7214ef8a47ad111fcd129c22b8e0f16a3e8afe08579f88d262c77fbc54",
+  "UI.lua": "28b7fa4b9f440468a82defd8c8f60c62102160a4afda4ca41e19a28ab43925aa",
+  "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
+  "WowTraderCollector.toc": "6340d0f57822ecd64fc938a519e0c9f2d4d967cd49d99efe785ce8e3b8c2c672",
 };
+const GENERATED_MARKET_DATA_FILE = "MarketData.lua";
 
 export async function discoverDefaultProducts(): Promise<readonly ProductConfiguration[]> {
   const candidates = defaultProductCandidates();
@@ -45,6 +46,8 @@ export async function inspectProduct(product: ProductConfiguration): Promise<Des
       ...product,
       rootExists: false,
       auctionatorInstalled: false,
+      scannerProvider: product.kind === "forever" ? "native" : "auctionator",
+      scannerReady: false,
       collectorHealth: "unavailable",
       collectorVersion: null,
       collectorFileCount: 0,
@@ -54,6 +57,13 @@ export async function inspectProduct(product: ProductConfiguration): Promise<Des
   const addonsRoot = path.join(product.rootPath, "Interface", "AddOns");
   const collectorToc = path.join(addonsRoot, "WowTraderCollector", "WowTraderCollector.toc");
   const collectorVersion = await readAddonVersion(collectorToc);
+  const collectorHealth =
+    collectorVersion === null
+      ? "missing"
+      : collectorVersion === COLLECTOR_VERSION
+        ? "ready"
+        : "outdated";
+  const auctionatorInstalled = await pathExists(path.join(addonsRoot, "Auctionator"));
   const collectorFiles = await discoverCollectorSavedVariables(product.rootPath);
   const modifiedTimes = await Promise.all(
     collectorFiles.map(async (filePath) => {
@@ -68,13 +78,10 @@ export async function inspectProduct(product: ProductConfiguration): Promise<Des
   return {
     ...product,
     rootExists: true,
-    auctionatorInstalled: await pathExists(path.join(addonsRoot, "Auctionator")),
-    collectorHealth:
-      collectorVersion === null
-        ? "missing"
-        : collectorVersion === COLLECTOR_VERSION
-          ? "ready"
-          : "outdated",
+    auctionatorInstalled,
+    scannerProvider: product.kind === "forever" ? "native" : "auctionator",
+    scannerReady: product.kind === "forever" ? collectorHealth === "ready" : auctionatorInstalled,
+    collectorHealth,
     collectorVersion,
     collectorFileCount: collectorFiles.length,
     latestFileModifiedAt:
@@ -104,6 +111,10 @@ export async function installCollector(
     }
     await validateCollectorDirectory(staging);
     const hadExisting = await pathExists(destination);
+    const existingMarketData = path.join(destination, GENERATED_MARKET_DATA_FILE);
+    if (hadExisting && (await pathExists(existingMarketData))) {
+      await copyFile(existingMarketData, path.join(staging, GENERATED_MARKET_DATA_FILE));
+    }
     if (hadExisting) await rename(destination, backup);
     try {
       await rename(staging, destination);

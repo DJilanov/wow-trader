@@ -68,6 +68,9 @@ internal sealed class WorldArtifactWriter
             "normalized/lfg-dungeons.ndjson.gz",
             world.LfgDungeons),
       ["quests"] = WriteNdjson("normalized/quests.ndjson.gz", world.Quests),
+      ["quest-objectives"] = WriteNdjson(
+            "normalized/quest-objectives.ndjson.gz",
+            world.QuestObjectives),
       ["quest-lines"] = WriteNdjson("normalized/quest-lines.ndjson.gz", world.QuestLines),
       ["quest-line-members"] = WriteNdjson(
             "normalized/quest-line-members.ndjson.gz",

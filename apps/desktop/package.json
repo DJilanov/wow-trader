@@ -1,7 +1,7 @@
 {
   "name": "@wow-trader/desktop",
   "productName": "WoW Trader Companion",
-  "version": "0.1.0",
+  "version": "0.3.1",
   "private": true,
   "main": ".webpack/main",
   "description": "Background Auction House scan companion for WoW Trader",

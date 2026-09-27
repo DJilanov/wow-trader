@@ -1,18 +1,15 @@
-local ADDON_NAME = ...
+local ADDON_NAME, Addon = ...
 
-local ADDON_VERSION = "0.4.0"
+local ADDON_VERSION = "0.10.0"
 local SAVED_SCHEMA_VERSION = 1
+local MARKET_KEY_VERSION = 1
 local MAX_QUEUED_SCANS = 8
-local MAX_ENCOUNTER_ATTEMPTS = 100
-local MAX_ENCOUNTER_LOOT = 1000
-local MAX_NPC_SIGHTINGS = 5000
-local MAX_LOOT_OBSERVATIONS = 5000
-local QUEST_QUERY_TIMEOUT_SECONDS = 8
-local QUEST_QUERY_DELAY_SECONDS = 1.5
-local MODEL_QUERY_TIMEOUT_SECONDS = 6
-local MODEL_QUERY_DELAY_SECONDS = 0.35
-local MODEL_BATCH_ATTEMPTS = 3
-local MAX_MODEL_RESOLUTIONS = 250
+local NATIVE_ROWS_PER_FRAME = 250
+local NATIVE_FRAME_BUDGET_MS = 8
+local NATIVE_RESPONSE_TIMEOUT_SECONDS = 30
+local NATIVE_CACHE_TIMEOUT_SECONDS = 60
+local NATIVE_RETRY_DELAY_SECONDS = 0.5
+local NATIVE_LOCAL_COOLDOWN_SECONDS = 15 * 60
 local REGION_NAMES = {
   [1] = "US",
   [2] = "KR",
@@ -21,18 +18,64 @@ local REGION_NAMES = {
   [5] = "CN",
 }
 
+local auctionatorListener = {}
+local auctionatorRegistered = false
+local auctionHouseOpen = false
 local scanStartedAt = nil
 local scanAuctionHouseType = nil
-local listener = {}
-local activeEncounter = nil
-local diagnosticsInitializedThisSession = false
-local npcObservationKeys = {}
-local bossModelFrame = nil
-local bossModelTicker = nil
-local bossModelQueue = nil
+local nativeScan = { status = "idle" }
+local auctionatorScan = { status = "idle" }
+
+Addon.version = ADDON_VERSION
 
 local function Print(message)
   DEFAULT_CHAT_FRAME:AddMessage("|cffc9a86aWoW Trader:|r " .. message)
+end
+
+local function IsInaccessibleValue(value)
+  if type(issecretvalue) == "function" and issecretvalue(value) then return true end
+  if type(canaccessvalue) == "function" and not canaccessvalue(value) then return true end
+  return false
+end
+
+local function ReadableValue(value)
+  if IsInaccessibleValue(value) then return nil end
+  if type(value) == "string" and value == "" then return nil end
+  return value
+end
+
+local function ReadableString(value)
+  value = ReadableValue(value)
+  if type(value) ~= "string" then return nil end
+  return value
+end
+
+local function ReadablePositiveInteger(value)
+  if IsInaccessibleValue(value) or type(value) ~= "number" then return nil end
+  if value <= 0 or value ~= math.floor(value) then return nil end
+  return value
+end
+
+local function ReadableNonnegativeInteger(value)
+  if IsInaccessibleValue(value) or type(value) ~= "number" then return nil end
+  if value < 0 or value ~= math.floor(value) then return nil end
+  return value
+end
+
+local function SafeCallOne(callback, ...)
+  if type(callback) ~= "function" then return nil end
+  local succeeded, value = pcall(callback, ...)
+  if not succeeded then return nil end
+  return ReadableValue(value)
+end
+
+local function ProfileMilliseconds()
+  if type(debugprofilestop) == "function" then
+    local value = SafeCallOne(debugprofilestop)
+    if type(value) == "number" then return value end
+  end
+  local value = SafeCallOne(GetTime)
+  return type(value) == "number" and value * 1000 or 0
 end
 
 local function NewUuid()
@@ -65,7 +108,7 @@ end
 
 local function GetAuctionHouseType()
   if GetAuctionHouseFaction then
-    local auctionHouseFaction = GetAuctionHouseFaction()
+    local auctionHouseFaction = SafeCallOne(GetAuctionHouseFaction)
     if auctionHouseFaction == "Neutral" then
       return "neutral"
     elseif auctionHouseFaction == "Alliance" then
@@ -75,7 +118,7 @@ local function GetAuctionHouseType()
     end
   end
 
-  local playerFaction = UnitFactionGroup("player")
+  local playerFaction = SafeCallOne(UnitFactionGroup, "player")
   if playerFaction == "Alliance" then
     return "alliance"
   elseif playerFaction == "Horde" then
@@ -85,9 +128,9 @@ local function GetAuctionHouseType()
 end
 
 local function GetSourceCharacter()
-  local name = UnitName("player")
-  local realmId = GetNormalizedRealmName and GetNormalizedRealmName() or GetRealmName()
-  local factionName = UnitFactionGroup("player")
+  local name = SafeCallOne(UnitName, "player")
+  local realmId = SafeCallOne(GetNormalizedRealmName) or SafeCallOne(GetRealmName)
+  local factionName = SafeCallOne(UnitFactionGroup, "player")
   local faction = "unknown"
   if factionName == "Alliance" then
     faction = "alliance"
@@ -97,14 +140,12 @@ local function GetSourceCharacter()
     faction = "neutral"
   end
 
-  if type(name) ~= "string" or name == "" or type(realmId) ~= "string" or realmId == "" then
-    return nil
-  end
+  if type(name) ~= "string" or type(realmId) ~= "string" then return nil end
   return {
     name = name,
     realmId = realmId,
     faction = faction,
-    guid = UnitGUID("player"),
+    guid = SafeCallOne(UnitGUID, "player"),
   }
 end
 
@@ -117,638 +158,30 @@ local function InitializeSavedVariables()
     }
   end
 
-  if type(WOW_TRADER_SAVED.installationId) ~= "string" then
+  if type(WOW_TRADER_SAVED.installationId) ~= "string" or WOW_TRADER_SAVED.installationId == "" then
     WOW_TRADER_SAVED.installationId = NewUuid()
   end
   if type(WOW_TRADER_SAVED.scans) ~= "table" then
     WOW_TRADER_SAVED.scans = {}
   end
-  if type(WOW_TRADER_SAVED.worldDiagnostics) ~= "table" then
-    WOW_TRADER_SAVED.worldDiagnostics = {
-      schemaVersion = 3,
-      enabled = false,
-      encounterAttempts = {},
-      encounterLoot = {},
-      npcSightings = {},
-      lootObservations = {},
-      questQueries = {},
-      modelResolutions = {},
-      modelResolver = {
-        sampleBuild = WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD,
-        cursor = 0,
-        running = false,
-        mode = nil,
-      },
-      questScanner = {
-        sampleBuild = WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD,
-        cursor = 0,
-        running = false,
-        waitingQuestID = nil,
-      },
-    }
+  if type(WOW_TRADER_SAVED.nativeScanner) ~= "table" then
+    WOW_TRADER_SAVED.nativeScanner = {}
   end
-  local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-  diagnostics.schemaVersion = 3
-  if type(diagnostics.encounterAttempts) ~= "table" then diagnostics.encounterAttempts = {} end
-  if type(diagnostics.encounterLoot) ~= "table" then diagnostics.encounterLoot = {} end
-  if type(diagnostics.npcSightings) ~= "table" then diagnostics.npcSightings = {} end
-  if type(diagnostics.lootObservations) ~= "table" then diagnostics.lootObservations = {} end
-  if type(diagnostics.questQueries) ~= "table" then diagnostics.questQueries = {} end
-  if type(diagnostics.modelResolutions) ~= "table" then diagnostics.modelResolutions = {} end
-  if type(diagnostics.modelResolver) ~= "table" then diagnostics.modelResolver = {} end
-  if type(diagnostics.modelResolver.cursor) ~= "number" then diagnostics.modelResolver.cursor = 0 end
-  diagnostics.modelResolver.sampleBuild = WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD
-  if type(diagnostics.questScanner) ~= "table" then diagnostics.questScanner = {} end
-  if type(diagnostics.questScanner.cursor) ~= "number" then diagnostics.questScanner.cursor = 0 end
-  diagnostics.questScanner.sampleBuild = WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD
-  if not diagnosticsInitializedThisSession then
-    diagnostics.questScanner.running = false
-    diagnostics.questScanner.waitingQuestID = nil
-    diagnostics.modelResolver.running = false
-    diagnosticsInitializedThisSession = true
+  if type(WOW_TRADER_SAVED.marketWatchlist) ~= "table" then
+    WOW_TRADER_SAVED.marketWatchlist = {}
   end
-end
-
-local function TrimArray(values, maximum)
-  while #values > maximum do table.remove(values, 1) end
-end
-
-local function ReadVectorCoordinates(vector)
-  if vector == nil then return nil, nil end
-  if type(vector.GetXY) == "function" then return vector:GetXY() end
-  return vector.x, vector.y
-end
-
-local function CapturePlayerLocation()
-  local uiMapID = C_Map and C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player") or nil
-  local uiX, uiY = nil, nil
-  if uiMapID and C_Map.GetPlayerMapPosition then
-    uiX, uiY = ReadVectorCoordinates(C_Map.GetPlayerMapPosition(uiMapID, "player"))
+  if type(WOW_TRADER_SAVED.worldDiagnostics) == "table" then
+    WOW_TRADER_SAVED.worldDiagnostics.enabled = false
   end
-  local positionX, positionY, positionZ, instanceID = nil, nil, nil, nil
-  if UnitPosition then positionX, positionY, positionZ, instanceID = UnitPosition("player") end
-  local _, instanceType, difficultyID, difficultyName, _, _, _, mapID = GetInstanceInfo()
-  return {
-    capturedAt = time(),
-    uiMapID = uiMapID,
-    uiX = uiX,
-    uiY = uiY,
-    positionX = positionX,
-    positionY = positionY,
-    positionZ = positionZ,
-    coordinateSystem = "unit_position_api",
-    instanceID = instanceID,
-    mapID = mapID,
-    instanceType = instanceType,
-    difficultyID = difficultyID,
-    difficultyName = difficultyName,
-  }
-end
-
-local function ParseObjectGuid(guid)
-  if type(guid) ~= "string" or guid == "" then return nil, nil end
-  local objectType, _, _, _, _, objectID = strsplit("-", guid)
-  return objectType, tonumber(objectID)
-end
-
-local function CaptureUnitWorldPosition(unitToken)
-  if not UnitPosition then return nil end
-  local positionX, positionY, positionZ, instanceID = UnitPosition(unitToken)
-  if type(positionX) ~= "number" or type(positionY) ~= "number" then return nil end
-  return {
-    positionX = positionX,
-    positionY = positionY,
-    positionZ = positionZ,
-    instanceID = instanceID,
-    coordinateSystem = "unit_position_api",
-  }
-end
-
-local function CaptureClosestUnitPosition(npcID)
-  if not ClosestUnitPosition then return nil end
-  local succeeded, xPos, yPos, distance = pcall(ClosestUnitPosition, npcID)
-  if not succeeded or type(xPos) ~= "number" or type(yPos) ~= "number" then return nil end
-  return {
-    xPos = xPos,
-    yPos = yPos,
-    distance = distance,
-    coordinateSystem = "closest_unit_position_api_unverified",
-  }
-end
-
-local function NpcObservationKey(npcID, location, subjectPosition)
-  local mapID = location.uiMapID or location.mapID or 0
-  local x = subjectPosition and subjectPosition.positionX or location.uiX
-  local y = subjectPosition and subjectPosition.positionY or location.uiY
-  if type(x) ~= "number" or type(y) ~= "number" then
-    return string.format("%d:%d:unknown", npcID, mapID)
-  end
-  local scale = subjectPosition and 2 or 1000
-  return string.format("%d:%d:%d:%d", npcID, mapID, math.floor(x * scale), math.floor(y * scale))
-end
-
-local function SaveNpcSighting(unitToken, trigger)
-  InitializeSavedVariables()
-  if not WOW_TRADER_SAVED.worldDiagnostics.enabled then return end
-  if not UnitExists(unitToken) or UnitIsPlayer(unitToken) then return end
-  local guid = UnitGUID(unitToken)
-  local objectType, npcID = ParseObjectGuid(guid)
-  if (objectType ~= "Creature" and objectType ~= "Vehicle") or npcID == nil then return end
-
-  local observerLocation = CapturePlayerLocation()
-  local subjectPosition = CaptureUnitWorldPosition(unitToken)
-  local closestPosition = CaptureClosestUnitPosition(npcID)
-  local observationKey = NpcObservationKey(npcID, observerLocation, subjectPosition)
-  if npcObservationKeys[observationKey] then return end
-  npcObservationKeys[observationKey] = true
-
-  local distanceSquared = nil
-  if UnitDistanceSquared then distanceSquared = UnitDistanceSquared(unitToken) end
-  table.insert(WOW_TRADER_SAVED.worldDiagnostics.npcSightings, {
-    observationID = NewUuid(),
-    capturedAt = time(),
-    npcID = npcID,
-    npcName = UnitName(unitToken),
-    objectType = objectType,
-    trigger = trigger,
-    level = UnitLevel(unitToken),
-    classification = UnitClassification(unitToken),
-    creatureType = UnitCreatureType(unitToken),
-    creatureFamily = UnitCreatureFamily(unitToken),
-    reaction = UnitReaction(unitToken, "player"),
-    canAttack = UnitCanAttack("player", unitToken) and true or false,
-    isQuestBoss = UnitIsQuestBoss and UnitIsQuestBoss(unitToken) and true or false,
-    isDead = UnitIsDeadOrGhost(unitToken) and true or false,
-    distanceSquared = distanceSquared,
-    subjectPosition = subjectPosition,
-    closestPosition = closestPosition,
-    observerLocation = observerLocation,
-    positionEvidence = subjectPosition and "unit_position" or
-      (closestPosition and "closest_unit_position_unverified" or "observer_position"),
-  })
-  TrimArray(WOW_TRADER_SAVED.worldDiagnostics.npcSightings, MAX_NPC_SIGHTINGS)
-end
-
-local function ItemIDFromLink(itemLink)
-  if type(itemLink) ~= "string" then return nil end
-  if GetItemInfoInstant then
-    local itemID = GetItemInfoInstant(itemLink)
-    if type(itemID) == "number" then return itemID end
-  end
-  return tonumber(string.match(itemLink, "item:(%d+)"))
-end
-
-local function SaveLootObservation(slotIndex, itemLink, itemName, quantity, sourceGuid, sourceQuantity)
-  local itemID = ItemIDFromLink(itemLink)
-  if itemID == nil then return end
-  local sourceType, sourceID = ParseObjectGuid(sourceGuid)
-  table.insert(WOW_TRADER_SAVED.worldDiagnostics.lootObservations, {
-    observationID = NewUuid(),
-    capturedAt = time(),
-    slotIndex = slotIndex,
-    itemID = itemID,
-    itemLink = itemLink,
-    itemName = itemName,
-    quantity = quantity,
-    sourceType = sourceType or "unknown",
-    sourceID = sourceID,
-    sourceGuid = sourceGuid,
-    sourceQuantity = sourceQuantity,
-    encounterID = activeEncounter and activeEncounter.encounterID or nil,
-    attemptID = activeEncounter and activeEncounter.attemptID or nil,
-    observerLocation = CapturePlayerLocation(),
-  })
-end
-
-local function CaptureLootWindow()
-  InitializeSavedVariables()
-  if not WOW_TRADER_SAVED.worldDiagnostics.enabled or not GetNumLootItems then return end
-  for slotIndex = 1, GetNumLootItems() do
-    local itemLink = GetLootSlotLink and GetLootSlotLink(slotIndex) or nil
-    if itemLink then
-      local _, itemName, quantity = GetLootSlotInfo(slotIndex)
-      local sources = GetLootSourceInfo and { GetLootSourceInfo(slotIndex) } or {}
-      if #sources == 0 then
-        SaveLootObservation(slotIndex, itemLink, itemName, quantity, nil, nil)
-      else
-        for sourceIndex = 1, #sources, 2 do
-          SaveLootObservation(
-            slotIndex,
-            itemLink,
-            itemName,
-            quantity,
-            sources[sourceIndex],
-            sources[sourceIndex + 1]
-          )
-        end
-      end
-    end
-  end
-  TrimArray(WOW_TRADER_SAVED.worldDiagnostics.lootObservations, MAX_LOOT_OBSERVATIONS)
-end
-
-local function DiagnosticsStatus()
-  InitializeSavedVariables()
-  local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-  Print(string.format(
-    "diagnostics %s: %d encounter(s), %d NPC sighting(s), %d loot observation(s).",
-    diagnostics.enabled and "enabled" or "disabled",
-    #diagnostics.encounterAttempts,
-    #diagnostics.npcSightings,
-    #diagnostics.lootObservations
-  ))
-end
-
-local function RebuildNpcObservationIndex()
-  npcObservationKeys = {}
-  for _, sighting in ipairs(WOW_TRADER_SAVED.worldDiagnostics.npcSightings) do
-    if type(sighting) == "table" and type(sighting.npcID) == "number" then
-      local observerLocation = type(sighting.observerLocation) == "table" and sighting.observerLocation or {}
-      local subjectPosition = type(sighting.subjectPosition) == "table" and sighting.subjectPosition or nil
-      npcObservationKeys[NpcObservationKey(sighting.npcID, observerLocation, subjectPosition)] = true
-    end
-  end
-end
-
-local function CopyScalarTable(value, depth)
-  if type(value) ~= "table" or depth <= 0 then return nil end
-  local copy = {}
-  for key, entry in pairs(value) do
-    local keyType = type(key)
-    local entryType = type(entry)
-    if (keyType == "string" or keyType == "number") and
-       (entryType == "string" or entryType == "number" or entryType == "boolean") then
-      copy[key] = entry
-    elseif (keyType == "string" or keyType == "number") and entryType == "table" then
-      copy[key] = CopyScalarTable(entry, depth - 1)
-    end
-  end
-  return copy
-end
-
-local function SaveEncounterStart(encounterID, encounterName, difficultyID, groupSize)
-  InitializeSavedVariables()
-  if not WOW_TRADER_SAVED.worldDiagnostics.enabled then return end
-  activeEncounter = {
-    attemptID = NewUuid(),
-    encounterID = encounterID,
-    encounterName = encounterName,
-    difficultyID = difficultyID,
-    groupSize = groupSize,
-    startedAt = time(),
-    startLocation = CapturePlayerLocation(),
-  }
-end
-
-local function SaveEncounterEnd(
-  encounterID,
-  encounterName,
-  difficultyID,
-  groupSize,
-  success,
-  encounterUnitStatus
-)
-  InitializeSavedVariables()
-  if not WOW_TRADER_SAVED.worldDiagnostics.enabled then return end
-  local attempt = activeEncounter or {
-    attemptID = NewUuid(),
-    encounterID = encounterID,
-    encounterName = encounterName,
-    difficultyID = difficultyID,
-    groupSize = groupSize,
-    startedAt = time(),
-    startLocation = CapturePlayerLocation(),
-  }
-  attempt.endedAt = time()
-  attempt.success = success == 1
-  attempt.endLocation = CapturePlayerLocation()
-  attempt.actors = {}
-  if type(encounterUnitStatus) == "table" then
-    for _, actor in ipairs(encounterUnitStatus) do
-      if type(actor) == "table" and type(actor.creatureID) == "number" then
-        table.insert(attempt.actors, {
-          creatureID = actor.creatureID,
-          creatureName = actor.creatureName,
-          remainingHealthPercent = actor.remainingHealthPercent,
-        })
-      end
-    end
-  end
-  table.insert(WOW_TRADER_SAVED.worldDiagnostics.encounterAttempts, attempt)
-  TrimArray(WOW_TRADER_SAVED.worldDiagnostics.encounterAttempts, MAX_ENCOUNTER_ATTEMPTS)
-  activeEncounter = nil
-  Print(string.format("saved encounter %s with %d actor record(s).", encounterName, #attempt.actors))
-end
-
-local function SaveEncounterLoot(encounterID, itemID, itemLink, quantity, itemName, fileName)
-  InitializeSavedVariables()
-  if not WOW_TRADER_SAVED.worldDiagnostics.enabled then return end
-  table.insert(WOW_TRADER_SAVED.worldDiagnostics.encounterLoot, {
-    observationID = NewUuid(),
-    capturedAt = time(),
-    encounterID = encounterID,
-    itemID = itemID,
-    itemLink = itemLink,
-    quantity = quantity,
-    itemName = itemName,
-    iconFileName = fileName,
-    attemptID = activeEncounter and activeEncounter.attemptID or nil,
-    location = CapturePlayerLocation(),
-  })
-  TrimArray(WOW_TRADER_SAVED.worldDiagnostics.encounterLoot, MAX_ENCOUNTER_LOOT)
-end
-
-local function QuestScannerStatus()
-  InitializeSavedVariables()
-  local scanner = WOW_TRADER_SAVED.worldDiagnostics.questScanner
-  local resultCount = 0
-  for _ in pairs(WOW_TRADER_SAVED.worldDiagnostics.questQueries) do resultCount = resultCount + 1 end
-  Print(string.format(
-    "quest sample: %d/%d requested, %d result(s), %s.",
-    scanner.cursor,
-    #WOW_TRADER_FOREVER_QUEST_SAMPLE,
-    resultCount,
-    scanner.running and "running" or "paused"
-  ))
-end
-
-local ContinueQuestSample
-
-local function SaveQuestQueryResult(questID, status)
-  local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-  local title = nil
-  local objectives = nil
-  local tag = nil
-  if status == "success" and C_QuestLog then
-    if C_QuestLog.GetTitleForQuestID then title = C_QuestLog.GetTitleForQuestID(questID) end
-    if C_QuestLog.GetQuestObjectives then
-      objectives = CopyScalarTable(C_QuestLog.GetQuestObjectives(questID), 2)
-    end
-    if C_QuestLog.GetQuestTagInfo then tag = CopyScalarTable(C_QuestLog.GetQuestTagInfo(questID), 2) end
-  end
-  diagnostics.questQueries[tostring(questID)] = {
-    questID = questID,
-    status = status,
-    capturedAt = time(),
-    title = title,
-    objectives = objectives,
-    tag = tag,
-    location = CapturePlayerLocation(),
-  }
-  diagnostics.questScanner.waitingQuestID = nil
-  if diagnostics.questScanner.running then C_Timer.After(QUEST_QUERY_DELAY_SECONDS, ContinueQuestSample) end
-end
-
-ContinueQuestSample = function()
-  InitializeSavedVariables()
-  local scanner = WOW_TRADER_SAVED.worldDiagnostics.questScanner
-  if not scanner.running or scanner.waitingQuestID ~= nil then return end
-  if InCombatLockdown and InCombatLockdown() then
-    C_Timer.After(5, ContinueQuestSample)
-    return
-  end
-  local nextCursor = scanner.cursor + 1
-  local questID = WOW_TRADER_FOREVER_QUEST_SAMPLE[nextCursor]
-  if questID == nil then
-    scanner.running = false
-    Print("quest capability sample completed. Use /reload or log out to save it.")
-    return
-  end
-  if not C_QuestLog or not C_QuestLog.RequestLoadQuestByID then
-    scanner.running = false
-    Print("this client does not expose C_QuestLog.RequestLoadQuestByID.")
-    return
-  end
-  scanner.cursor = nextCursor
-  scanner.waitingQuestID = questID
-  C_QuestLog.RequestLoadQuestByID(questID)
-  C_Timer.After(QUEST_QUERY_TIMEOUT_SECONDS, function()
-    if scanner.running and scanner.waitingQuestID == questID then
-      SaveQuestQueryResult(questID, "timeout")
-    end
-  end)
-end
-
-local function StartQuestSample(reset)
-  InitializeSavedVariables()
-  local _, clientBuild = GetBuildInfo()
-  if tonumber(clientBuild) ~= WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD then
-    Print(string.format(
-      "quest sample targets build %d; current build is %s. Regenerate the sample before running it.",
-      WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD,
-      tostring(clientBuild)
-    ))
-    return
-  end
-  local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-  if reset then
-    diagnostics.questQueries = {}
-    diagnostics.questScanner.cursor = 0
-  end
-  diagnostics.questScanner.running = true
-  diagnostics.questScanner.waitingQuestID = nil
-  Print("started the explicit 100-ID quest capability sample; it pauses automatically in combat.")
-  ContinueQuestSample()
-end
-
-local function CancelBossModelTicker()
-  if bossModelTicker and bossModelTicker.Cancel then bossModelTicker:Cancel() end
-  bossModelTicker = nil
-end
-
-local function EnsureBossModelFrame()
-  if bossModelFrame then return true end
-  local succeeded, frame = pcall(CreateFrame, "PlayerModel", nil, UIParent)
-  if not succeeded or not frame then return false end
-  frame:SetSize(2, 2)
-  frame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -20, -20)
-  frame:SetAlpha(0.01)
-  frame:Show()
-  bossModelFrame = frame
-  return type(frame.SetCreature) == "function" and
-      type(frame.GetDisplayInfo) == "function" and
-      type(frame.GetModelFileID) == "function"
-end
-
-local function BuildBossModelQueue(mode)
-  local queue = {}
-  if mode == "controls" then
-    table.insert(queue, { creatureID = 2671, name = "Mechanical Squirrel control", attempt = 1 })
-    table.insert(queue, { creatureID = 10184, name = "Onyxia control", attempt = 1 })
-    table.insert(queue, { creatureID = 250079, name = "The Wild King control", attempt = 1 })
-    table.insert(queue, { creatureID = 99999999, name = "Invalid creature control", attempt = 1 })
-    return queue
-  end
-  for attempt = 1, MODEL_BATCH_ATTEMPTS do
-    for _, boss in ipairs(WOW_TRADER_FOREVER_BOSS_SAMPLE) do
-      table.insert(queue, {
-        creatureID = boss.creatureID,
-        name = boss.name,
-        attempt = attempt,
-      })
-    end
-  end
-  return queue
-end
-
-local function ReadBossModelResult()
-  local displayID = nil
-  local modelFileID = nil
-  local displaySucceeded, displayValue = pcall(bossModelFrame.GetDisplayInfo, bossModelFrame)
-  if displaySucceeded and type(displayValue) == "number" and displayValue > 0 then
-    displayID = displayValue
-  end
-  local modelSucceeded, modelValue = pcall(bossModelFrame.GetModelFileID, bossModelFrame)
-  if modelSucceeded and type(modelValue) == "number" and modelValue > 0 then
-    modelFileID = modelValue
-  end
-  return displayID, modelFileID
-end
-
-local ResolveNextBossModel
-
-local function SaveBossModelResult(entry, status, displayID, modelFileID, errorMessage)
-  local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-  local _, clientBuild = GetBuildInfo()
-  table.insert(diagnostics.modelResolutions, {
-    resolutionID = NewUuid(),
-    capturedAt = time(),
-    clientBuild = tonumber(clientBuild),
-    creatureID = entry.creatureID,
-    creatureName = entry.name,
-    attempt = entry.attempt,
-    status = status,
-    displayID = displayID,
-    modelFileID = modelFileID,
-    errorMessage = errorMessage,
-    evidence = "player_model_set_creature",
-  })
-  TrimArray(diagnostics.modelResolutions, MAX_MODEL_RESOLUTIONS)
-end
-
-local function FinishBossModelEntry(entry, status, displayID, modelFileID, errorMessage)
-  CancelBossModelTicker()
-  SaveBossModelResult(entry, status, displayID, modelFileID, errorMessage)
-  C_Timer.After(MODEL_QUERY_DELAY_SECONDS, ResolveNextBossModel)
-end
-
-local function ResolveBossModel(entry)
-  if bossModelFrame.ClearModel then pcall(bossModelFrame.ClearModel, bossModelFrame) end
-  local succeeded, errorMessage = pcall(bossModelFrame.SetCreature, bossModelFrame, entry.creatureID, 0)
-  if not succeeded then
-    FinishBossModelEntry(entry, "api_error", nil, nil, tostring(errorMessage))
-    return
-  end
-
-  local elapsed = 0
-  bossModelTicker = C_Timer.NewTicker(0.2, function()
-    local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-    if not diagnostics.modelResolver.running then
-      CancelBossModelTicker()
-      return
-    end
-    elapsed = elapsed + 0.2
-    local displayID, modelFileID = ReadBossModelResult()
-    if displayID or modelFileID then
-      FinishBossModelEntry(entry, "resolved", displayID, modelFileID, nil)
-    elseif elapsed >= MODEL_QUERY_TIMEOUT_SECONDS then
-      FinishBossModelEntry(entry, "timeout", nil, nil, nil)
-    end
-  end)
-end
-
-ResolveNextBossModel = function()
-  InitializeSavedVariables()
-  local resolver = WOW_TRADER_SAVED.worldDiagnostics.modelResolver
-  if not resolver.running then return end
-  local nextCursor = resolver.cursor + 1
-  local entry = bossModelQueue and bossModelQueue[nextCursor] or nil
-  if entry == nil then
-    resolver.running = false
-    resolver.completedAt = time()
-    Print("boss model resolution completed. Use /reload or log out to save it.")
-    return
-  end
-  resolver.cursor = nextCursor
-  ResolveBossModel(entry)
-end
-
-local function BossModelResolverStatus()
-  InitializeSavedVariables()
-  local diagnostics = WOW_TRADER_SAVED.worldDiagnostics
-  local mode = diagnostics.modelResolver.mode or "batch"
-  local queueSize = #(bossModelQueue or BuildBossModelQueue(mode))
-  local resolved = 0
-  local timedOut = 0
-  for _, result in ipairs(diagnostics.modelResolutions) do
-    if result.status == "resolved" then resolved = resolved + 1 end
-    if result.status == "timeout" then timedOut = timedOut + 1 end
-  end
-  Print(string.format(
-    "boss models: %d result(s), %d resolved, %d timed out; resolver %s at %d/%d.",
-    #diagnostics.modelResolutions,
-    resolved,
-    timedOut,
-    diagnostics.modelResolver.running and "running" or "stopped",
-    diagnostics.modelResolver.cursor,
-    queueSize
-  ))
-end
-
-local function StartBossModelResolver(mode, reset)
-  InitializeSavedVariables()
-  local _, clientBuild = GetBuildInfo()
-  if tonumber(clientBuild) ~= WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD then
-    Print(string.format(
-      "boss model sample targets build %d; current build is %s. Regenerate it before running.",
-      WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD,
-      tostring(clientBuild)
-    ))
-    return
-  end
-  if InCombatLockdown and InCombatLockdown() then
-    Print("leave combat before starting the boss model resolver.")
-    return
-  end
-  if not EnsureBossModelFrame() then
-    Print("this client does not expose the required PlayerModel methods.")
-    return
-  end
-
-  local resolver = WOW_TRADER_SAVED.worldDiagnostics.modelResolver
-  if reset or resolver.mode ~= mode then
-    resolver.cursor = 0
-    resolver.startedAt = time()
-    resolver.completedAt = nil
-  end
-  if reset then WOW_TRADER_SAVED.worldDiagnostics.modelResolutions = {} end
-  resolver.mode = mode
-  resolver.running = true
-  bossModelQueue = BuildBossModelQueue(mode)
-  Print(string.format("started %s boss model resolution (%d request(s)).", mode, #bossModelQueue))
-  ResolveNextBossModel()
-end
-
-local function PauseBossModelResolver()
-  InitializeSavedVariables()
-  WOW_TRADER_SAVED.worldDiagnostics.modelResolver.running = false
-  CancelBossModelTicker()
-  Print("boss model resolution paused.")
 end
 
 local function AddListing(markets, marketKey, itemId, itemLink, stackSize, buyoutPrice)
-  if type(marketKey) ~= "string" or marketKey == "" then
-    return
-  end
-  if type(itemId) ~= "number" or itemId <= 0 then
-    return
-  end
-  if type(stackSize) ~= "number" or stackSize <= 0 then
-    return
-  end
-  if type(buyoutPrice) ~= "number" or buyoutPrice <= 0 then
-    return
-  end
+  marketKey = ReadableString(marketKey)
+  itemId = ReadablePositiveInteger(itemId)
+  stackSize = ReadablePositiveInteger(stackSize)
+  buyoutPrice = ReadablePositiveInteger(buyoutPrice)
+  itemLink = ReadableString(itemLink)
+  if marketKey == nil or itemId == nil or stackSize == nil or buyoutPrice == nil then return false end
 
   local unitPrice = math.ceil(buyoutPrice / stackSize)
   local market = markets[marketKey]
@@ -760,6 +193,8 @@ local function AddListing(markets, marketKey, itemId, itemLink, stackSize, buyou
       levels = {},
     }
     markets[marketKey] = market
+  elseif market.itemLink == nil and itemLink ~= nil then
+    market.itemLink = itemLink
   end
 
   local level = market.levels[unitPrice]
@@ -773,6 +208,7 @@ local function AddListing(markets, marketKey, itemId, itemLink, stackSize, buyou
     level.quantity = level.quantity + stackSize
     level.listingCount = level.listingCount + 1
   end
+  return true
 end
 
 local function NormalizeMarkets(markets)
@@ -799,10 +235,11 @@ local function NormalizeMarkets(markets)
   return snapshots
 end
 
-local function SaveScan(markets, capturedAt, completedAt)
+local function SaveScan(markets, capturedAt, completedAt, quality)
   InitializeSavedVariables()
 
   local _, clientBuild = GetBuildInfo()
+  local itemSnapshots = NormalizeMarkets(markets)
   local scan = {
     scanId = NewUuid(),
     addonVersion = ADDON_VERSION,
@@ -810,13 +247,25 @@ local function SaveScan(markets, capturedAt, completedAt)
     clientBuild = tonumber(clientBuild),
     locale = GetLocale(),
     region = REGION_NAMES[GetCurrentRegion and GetCurrentRegion() or 0] or "UNKNOWN",
-    realmId = GetNormalizedRealmName and GetNormalizedRealmName() or GetRealmName(),
+    realmId = SafeCallOne(GetNormalizedRealmName) or SafeCallOne(GetRealmName),
     auctionHouseType = scanAuctionHouseType or GetAuctionHouseType(),
     sourceCharacter = GetSourceCharacter(),
     capturedAt = capturedAt,
     completedAt = completedAt,
-    completeness = 1,
-    itemSnapshots = NormalizeMarkets(markets),
+    completeness = quality.completeness,
+    provider = quality.provider,
+    apiFlavor = quality.apiFlavor,
+    marketKeyVersion = MARKET_KEY_VERSION,
+    reportedRowCount = quality.reportedRowCount,
+    visitedRowCount = quality.visitedRowCount,
+    pricedRowCount = quality.pricedRowCount,
+    noBuyoutRowCount = quality.noBuyoutRowCount,
+    unresolvedRowCount = quality.unresolvedRowCount,
+    invalidRowCount = quality.invalidRowCount,
+    secretRowCount = quality.secretRowCount,
+    scanDurationMs = quality.scanDurationMs,
+    auctionHouseStayedOpen = quality.auctionHouseStayedOpen,
+    itemSnapshots = itemSnapshots,
   }
 
   table.insert(WOW_TRADER_SAVED.scans, scan)
@@ -824,11 +273,320 @@ local function SaveScan(markets, capturedAt, completedAt)
     table.remove(WOW_TRADER_SAVED.scans, 1)
   end
 
-  Print(string.format("captured %d markets. Log out or /reload; the companion will upload it automatically.", #scan.itemSnapshots))
+  Print(string.format(
+    "captured %d markets from %d priced rows (%d unresolved). Log out or /reload to upload.",
+    #scan.itemSnapshots,
+    quality.pricedRowCount,
+    quality.unresolvedRowCount
+  ))
+  if type(Addon.PrintMarketAlerts) == "function" then Addon.PrintMarketAlerts() end
+  return #itemSnapshots
 end
 
-local function CaptureFullScan(rawScan)
+local function IsNativeProviderAvailable()
+  return GetClientProduct() == "wow_classic_beta" and type(C_AuctionHouse) == "table" and
+    type(C_AuctionHouse.ReplicateItems) == "function" and
+    type(C_AuctionHouse.GetNumReplicateItems) == "function" and
+    type(C_AuctionHouse.GetReplicateItemInfo) == "function" and
+    type(C_AuctionHouse.GetReplicateItemLink) == "function"
+end
+
+local function IsNativeScanActive()
+  return nativeScan.status == "awaiting_response" or nativeScan.status == "reading" or
+    nativeScan.status == "resolving_cache"
+end
+
+local function NativeElapsedMilliseconds()
+  if type(nativeScan.startedProfileMs) ~= "number" then return 0 end
+  return math.max(0, math.floor(ProfileMilliseconds() - nativeScan.startedProfileMs + 0.5))
+end
+
+local function NativeCompleteness()
+  if nativeScan.reportedRowCount == 0 then return 1 end
+  local incomplete = nativeScan.unresolvedRowCount + nativeScan.invalidRowCount +
+    nativeScan.secretRowCount
+  return math.max(0, math.min(1, (nativeScan.reportedRowCount - incomplete) /
+    nativeScan.reportedRowCount))
+end
+
+local function NativeQuality()
+  return {
+    provider = "blizzard_replicate",
+    apiFlavor = "c_auction_house_replicate",
+    reportedRowCount = nativeScan.reportedRowCount,
+    visitedRowCount = nativeScan.visitedRowCount,
+    pricedRowCount = nativeScan.pricedRowCount,
+    noBuyoutRowCount = nativeScan.noBuyoutRowCount,
+    unresolvedRowCount = nativeScan.unresolvedRowCount,
+    invalidRowCount = nativeScan.invalidRowCount,
+    secretRowCount = nativeScan.secretRowCount,
+    scanDurationMs = NativeElapsedMilliseconds(),
+    auctionHouseStayedOpen = nativeScan.auctionHouseStayedOpen,
+    completeness = NativeCompleteness(),
+  }
+end
+
+local function FinishNativeScan()
+  if not IsNativeScanActive() then return end
+  local completedAt = time()
+  local markets = nativeScan.markets
+  local quality = NativeQuality()
+  local marketCount = SaveScan(markets, nativeScan.capturedAt, completedAt, quality)
+  InitializeSavedVariables()
+  WOW_TRADER_SAVED.nativeScanner.lastSuccessfulAt = completedAt
+  WOW_TRADER_SAVED.nativeScanner.lastProvider = quality.provider
+  nativeScan = {
+    status = "saved",
+    completedAt = completedAt,
+    quality = quality,
+    marketCount = marketCount,
+  }
+end
+
+local function AbortNativeScan(reason)
+  if not IsNativeScanActive() then return false end
+  nativeScan.auctionHouseStayedOpen = auctionHouseOpen
+  nativeScan = {
+    status = "failed",
+    failureReason = reason,
+    failedAt = time(),
+  }
+  Print(reason .. " No market snapshot was saved.")
+  return true
+end
+
+local function ReadNativeRow(index)
+  local succeeded, _, _, count, _, _, _, _, _, _, buyoutPrice, _, _, _, _, _, _, itemId,
+    hasAllInfo = pcall(C_AuctionHouse.GetReplicateItemInfo, index)
+  if not succeeded then return "invalid" end
+  if IsInaccessibleValue(count) or IsInaccessibleValue(buyoutPrice) or
+     IsInaccessibleValue(itemId) or IsInaccessibleValue(hasAllInfo) then
+    return "secret"
+  end
+  if hasAllInfo ~= true then return "deferred" end
+
+  count = ReadablePositiveInteger(count)
+  itemId = ReadablePositiveInteger(itemId)
+  buyoutPrice = ReadableNonnegativeInteger(buyoutPrice)
+  if count == nil or itemId == nil or buyoutPrice == nil then return "invalid" end
+  if buyoutPrice == 0 then return "no_buyout" end
+
+  local linkSucceeded, itemLink = pcall(C_AuctionHouse.GetReplicateItemLink, index)
+  if not linkSucceeded or IsInaccessibleValue(itemLink) then itemLink = nil end
+  itemLink = ReadableString(itemLink)
+  if AddListing(nativeScan.markets, tostring(itemId), itemId, itemLink, count, buyoutPrice) then
+    return "priced"
+  end
+  return "invalid"
+end
+
+local function RecordNativeRowResult(result)
+  if result == "priced" then
+    nativeScan.pricedRowCount = nativeScan.pricedRowCount + 1
+  elseif result == "no_buyout" then
+    nativeScan.noBuyoutRowCount = nativeScan.noBuyoutRowCount + 1
+  elseif result == "invalid" then
+    nativeScan.invalidRowCount = nativeScan.invalidRowCount + 1
+  elseif result == "secret" then
+    nativeScan.secretRowCount = nativeScan.secretRowCount + 1
+  end
+end
+
+local function StartNativeCachePass()
+  nativeScan.status = "resolving_cache"
+  nativeScan.retryQueue = nativeScan.deferredRows
+  nativeScan.retryNext = {}
+  nativeScan.retryCursor = 1
+  nativeScan.retryNotBefore = GetTime()
+  nativeScan.cacheDeadline = GetTime() + NATIVE_CACHE_TIMEOUT_SECONDS
+  nativeScan.deferredRows = nil
+end
+
+local function ProcessNativeInitialRows()
+  local frameStartedAt = ProfileMilliseconds()
+  local processedThisFrame = 0
+  while nativeScan.nextIndex < nativeScan.reportedRowCount and
+        processedThisFrame < NATIVE_ROWS_PER_FRAME do
+    local index = nativeScan.nextIndex
+    local result = ReadNativeRow(index)
+    nativeScan.visitedRowCount = nativeScan.visitedRowCount + 1
+    if result == "deferred" then
+      table.insert(nativeScan.deferredRows, index)
+    else
+      RecordNativeRowResult(result)
+    end
+    nativeScan.nextIndex = index + 1
+    processedThisFrame = processedThisFrame + 1
+    if ProfileMilliseconds() - frameStartedAt >= NATIVE_FRAME_BUDGET_MS then break end
+  end
+
+  if nativeScan.nextIndex >= nativeScan.reportedRowCount then
+    if #nativeScan.deferredRows == 0 then
+      FinishNativeScan()
+    else
+      StartNativeCachePass()
+    end
+  end
+end
+
+local function ProcessNativeCacheRows()
+  local now = GetTime()
+  if now < nativeScan.retryNotBefore then return end
+  local frameStartedAt = ProfileMilliseconds()
+  local processedThisFrame = 0
+
+  while nativeScan.retryCursor <= #nativeScan.retryQueue and
+        processedThisFrame < NATIVE_ROWS_PER_FRAME do
+    local index = nativeScan.retryQueue[nativeScan.retryCursor]
+    local result = ReadNativeRow(index)
+    if result == "deferred" then
+      table.insert(nativeScan.retryNext, index)
+    else
+      RecordNativeRowResult(result)
+    end
+    nativeScan.retryCursor = nativeScan.retryCursor + 1
+    processedThisFrame = processedThisFrame + 1
+    if ProfileMilliseconds() - frameStartedAt >= NATIVE_FRAME_BUDGET_MS then break end
+  end
+
+  if nativeScan.retryCursor <= #nativeScan.retryQueue then return end
+  if #nativeScan.retryNext == 0 then
+    FinishNativeScan()
+    return
+  end
+  if now >= nativeScan.cacheDeadline then
+    nativeScan.unresolvedRowCount = #nativeScan.retryNext
+    FinishNativeScan()
+    return
+  end
+
+  nativeScan.retryQueue = nativeScan.retryNext
+  nativeScan.retryNext = {}
+  nativeScan.retryCursor = 1
+  nativeScan.retryNotBefore = now + NATIVE_RETRY_DELAY_SECONDS
+end
+
+local function BeginNativeResultRead()
+  if nativeScan.status ~= "awaiting_response" then return end
+  local count = SafeCallOne(C_AuctionHouse.GetNumReplicateItems)
+  count = ReadableNonnegativeInteger(count)
+  if count == nil or count > 1000000 then
+    AbortNativeScan("Blizzard returned an invalid replication row count.")
+    return
+  end
+  nativeScan.status = "reading"
+  nativeScan.reportedRowCount = count
+  nativeScan.nextIndex = 0
+  if count == 0 then
+    AbortNativeScan("Blizzard returned an empty replicated Auction House result.")
+  end
+end
+
+local function NativeCooldownRemaining()
+  InitializeSavedVariables()
+  local lastSuccessfulAt = WOW_TRADER_SAVED.nativeScanner.lastSuccessfulAt
+  if type(lastSuccessfulAt) ~= "number" then return 0 end
+  return math.max(0, NATIVE_LOCAL_COOLDOWN_SECONDS - (time() - lastSuccessfulAt))
+end
+
+local function StartNativeScan()
+  if not IsNativeProviderAvailable() then
+    Print("the native Forever Auction House API is unavailable on this client build.")
+    return
+  end
+  if IsNativeScanActive() then
+    Print("a native market scan is already running.")
+    return
+  end
+  if not auctionHouseOpen then
+    Print("open the Auction House before starting a market scan.")
+    return
+  end
+  if InCombatLockdown and InCombatLockdown() then
+    Print("leave combat before starting a market scan.")
+    return
+  end
+
+  local cooldownRemaining = NativeCooldownRemaining()
+  if cooldownRemaining > 0 then
+    Print(string.format("the full-scan cooldown has about %d minute(s) remaining.",
+      math.ceil(cooldownRemaining / 60)))
+    return
+  end
+  if type(C_AuctionHouse.IsThrottledMessageSystemReady) == "function" and
+     SafeCallOne(C_AuctionHouse.IsThrottledMessageSystemReady) ~= true then
+    Print("Blizzard's Auction House message queue is not ready yet.")
+    return
+  end
+
+  scanAuctionHouseType = GetAuctionHouseType()
+  nativeScan = {
+    status = "awaiting_response",
+    capturedAt = time(),
+    startedProfileMs = ProfileMilliseconds(),
+    responseDeadline = GetTime() + NATIVE_RESPONSE_TIMEOUT_SECONDS,
+    auctionHouseStayedOpen = true,
+    markets = {},
+    deferredRows = {},
+    reportedRowCount = 0,
+    visitedRowCount = 0,
+    pricedRowCount = 0,
+    noBuyoutRowCount = 0,
+    unresolvedRowCount = 0,
+    invalidRowCount = 0,
+    secretRowCount = 0,
+  }
+
+  local succeeded = pcall(C_AuctionHouse.ReplicateItems)
+  if not succeeded then
+    AbortNativeScan("Blizzard rejected the full-market request.")
+    return
+  end
+  Print("native Forever market scan requested; waiting for Blizzard's response.")
+end
+
+local function NativeStatus()
+  if nativeScan.status == "reading" then
+    Print(string.format("native scan reading %d/%d rows.", nativeScan.nextIndex,
+      nativeScan.reportedRowCount))
+  elseif nativeScan.status == "resolving_cache" then
+    local remaining = #nativeScan.retryQueue - nativeScan.retryCursor + 1
+    Print(string.format("native scan resolving %d cached item row(s).", math.max(0, remaining)))
+  elseif nativeScan.status == "awaiting_response" then
+    Print("native scan is waiting for Blizzard's response.")
+  elseif nativeScan.status == "saved" then
+    Print(string.format("last native scan saved %d market(s); /reload or log out to upload.",
+      nativeScan.marketCount or 0))
+  elseif nativeScan.status == "failed" then
+    Print("last native scan failed: " .. (nativeScan.failureReason or "unknown error"))
+  else
+    InitializeSavedVariables()
+    Print(string.format("native scanner is idle; %d completed scan(s) queued.",
+      #WOW_TRADER_SAVED.scans))
+  end
+end
+
+local function NativeProbe()
+  local version, build = GetBuildInfo()
+  local ready = nil
+  if C_AuctionHouse and type(C_AuctionHouse.IsThrottledMessageSystemReady) == "function" then
+    ready = SafeCallOne(C_AuctionHouse.IsThrottledMessageSystemReady)
+  end
+  Print(string.format(
+    "probe: product=%s version=%s build=%s native=%s ahOpen=%s throttleReady=%s scope=%s.",
+    GetClientProduct(),
+    tostring(version),
+    tostring(build),
+    IsNativeProviderAvailable() and "yes" or "no",
+    auctionHouseOpen and "yes" or "no",
+    ready == nil and "unknown" or (ready and "yes" or "no"),
+    GetAuctionHouseType()
+  ))
+end
+
+local function CaptureAuctionatorScan(rawScan)
   if type(rawScan) ~= "table" then
+    auctionatorScan = { status = "failed", failureReason = "Auctionator returned invalid data." }
     Print("Auctionator returned an invalid full scan; nothing was saved.")
     return
   end
@@ -836,173 +594,606 @@ local function CaptureFullScan(rawScan)
   local capturedAt = scanStartedAt or time()
   local markets = {}
   local pending = #rawScan
+  local pricedRows = 0
+  local invalidRows = 0
+  local noBuyoutRows = 0
   local finalized = false
+  local startedProfileMs = ProfileMilliseconds()
+  auctionatorScan = {
+    status = "reading",
+    reportedRowCount = #rawScan,
+    visitedRowCount = 0,
+    pricedRowCount = 0,
+    noBuyoutRowCount = 0,
+    invalidRowCount = 0,
+  }
+
+  local function FinalizeScan()
+    if finalized then return end
+    finalized = true
+    local completedAt = time()
+    local duration = math.max(0, math.floor(ProfileMilliseconds() - startedProfileMs + 0.5))
+    local marketCount = SaveScan(markets, capturedAt, completedAt, {
+      provider = "auctionator",
+      apiFlavor = "auctionator_full_scan",
+      reportedRowCount = #rawScan,
+      visitedRowCount = #rawScan,
+      pricedRowCount = pricedRows,
+      noBuyoutRowCount = noBuyoutRows,
+      unresolvedRowCount = 0,
+      invalidRowCount = invalidRows,
+      secretRowCount = 0,
+      scanDurationMs = duration,
+      auctionHouseStayedOpen = true,
+      completeness = math.max(0, 1 - invalidRows / #rawScan),
+    })
+    auctionatorScan = {
+      status = "saved",
+      completedAt = completedAt,
+      marketCount = marketCount,
+      quality = {
+        reportedRowCount = #rawScan,
+        visitedRowCount = #rawScan,
+        pricedRowCount = pricedRows,
+        noBuyoutRowCount = noBuyoutRows,
+        unresolvedRowCount = 0,
+        invalidRowCount = invalidRows,
+        secretRowCount = 0,
+        scanDurationMs = duration,
+        completeness = math.max(0, 1 - invalidRows / #rawScan),
+      },
+    }
+  end
 
   local function CompleteOne()
     pending = pending - 1
-    if pending <= 0 and not finalized then
-      finalized = true
-      SaveScan(markets, capturedAt, time())
-    end
+    auctionatorScan.visitedRowCount = #rawScan - pending
+    auctionatorScan.pricedRowCount = pricedRows
+    auctionatorScan.noBuyoutRowCount = noBuyoutRows
+    auctionatorScan.invalidRowCount = invalidRows
+    if pending == 0 then FinalizeScan() end
   end
 
   if pending == 0 then
-    SaveScan(markets, capturedAt, time())
+    auctionatorScan = { status = "failed", failureReason = "Auctionator returned an empty scan." }
+    Print("Auctionator returned an empty full scan; nothing was saved.")
     return
   end
 
   for _, entry in ipairs(rawScan) do
-    local auctionInfo = entry.auctionInfo
-    local itemLink = entry.itemLink
+    local auctionInfo = type(entry) == "table" and entry.auctionInfo or nil
+    local itemLink = type(entry) == "table" and ReadableString(entry.itemLink) or nil
     local itemId = type(auctionInfo) == "table" and auctionInfo[17] or nil
     local stackSize = type(auctionInfo) == "table" and auctionInfo[3] or nil
     local buyoutPrice = type(auctionInfo) == "table" and auctionInfo[10] or nil
 
-    if type(itemLink) ~= "string" then
+    if itemLink == nil or not Auctionator or not Auctionator.Utilities then
+      invalidRows = invalidRows + 1
+      CompleteOne()
+    elseif ReadableNonnegativeInteger(buyoutPrice) == 0 then
+      noBuyoutRows = noBuyoutRows + 1
       CompleteOne()
     else
       Auctionator.Utilities.DBKeyFromLink(itemLink, function(databaseKeys)
         local marketKey = type(databaseKeys) == "table" and databaseKeys[1] or tostring(itemId or "")
-        AddListing(markets, marketKey, itemId, itemLink, stackSize, buyoutPrice)
+        if AddListing(markets, marketKey, itemId, itemLink, stackSize, buyoutPrice) then
+          pricedRows = pricedRows + 1
+        else
+          invalidRows = invalidRows + 1
+        end
         CompleteOne()
       end)
     end
   end
 end
 
-function listener:ReceiveEvent(eventName, eventData)
+function auctionatorListener:ReceiveEvent(eventName, eventData)
   if eventName == Auctionator.FullScan.Events.ScanStart then
     scanStartedAt = time()
     scanAuctionHouseType = GetAuctionHouseType()
+    auctionatorScan = { status = "awaiting_response" }
   elseif eventName == Auctionator.FullScan.Events.ScanComplete then
-    CaptureFullScan(eventData)
+    CaptureAuctionatorScan(eventData)
     scanStartedAt = nil
     scanAuctionHouseType = nil
   elseif eventName == Auctionator.FullScan.Events.ScanFailed then
     scanStartedAt = nil
     scanAuctionHouseType = nil
+    auctionatorScan = { status = "failed", failureReason = "Auctionator's full scan failed." }
   end
 end
 
-local function RegisterAuctionatorEvents()
-  if not Auctionator or not Auctionator.EventBus or not Auctionator.FullScan then
-    Print("Auctionator is not installed; market scans are unavailable, but diagnostics still work.")
-    return
-  end
+local function AuctionatorIsAvailable()
+  return Auctionator and Auctionator.EventBus and Auctionator.FullScan and Auctionator.Utilities and
+    type(Auctionator.Utilities.DBKeyFromLink) == "function"
+end
 
-  Auctionator.EventBus:Register(listener, {
+local function RegisterAuctionatorEvents()
+  if auctionatorRegistered or not AuctionatorIsAvailable() then return end
+  Auctionator.EventBus:Register(auctionatorListener, {
     Auctionator.FullScan.Events.ScanStart,
     Auctionator.FullScan.Events.ScanComplete,
     Auctionator.FullScan.Events.ScanFailed,
   })
+  auctionatorRegistered = true
+end
+
+local function StartAuctionatorScan()
+  if not AuctionatorIsAvailable() then
+    Print("Auctionator is not installed or is incompatible; the TBC scan is unavailable.")
+    return
+  end
+  local fullScanFrame = Auctionator.State and Auctionator.State.FullScanFrameRef
+  if fullScanFrame and fullScanFrame.CanInitiate and fullScanFrame:CanInitiate() then
+    fullScanFrame:InitiateScan()
+  else
+    Print("open the Auction House and wait until Blizzard permits a full scan.")
+  end
+end
+
+local function GetLastSavedScan()
+  InitializeSavedVariables()
+  return WOW_TRADER_SAVED.scans[#WOW_TRADER_SAVED.scans]
+end
+
+local function SnapshotQuality(scan, marketCount)
+  if type(scan) ~= "table" then
+    return {
+      marketCount = 0,
+      reportedRowCount = 0,
+      visitedRowCount = 0,
+      pricedRowCount = 0,
+      noBuyoutRowCount = 0,
+      unresolvedRowCount = 0,
+      invalidRowCount = 0,
+      secretRowCount = 0,
+      completeness = 0,
+      scanDurationMs = 0,
+    }
+  end
+  local pricedRowCount = scan.pricedRowCount
+  if pricedRowCount == nil and type(scan.itemSnapshots) == "table" then
+    pricedRowCount = 0
+    for _, itemSnapshot in ipairs(scan.itemSnapshots) do
+      if type(itemSnapshot) == "table" and type(itemSnapshot.priceLevels) == "table" then
+        for _, priceLevel in ipairs(itemSnapshot.priceLevels) do
+          pricedRowCount = pricedRowCount + (priceLevel.listingCount or 0)
+        end
+      end
+    end
+  end
+  pricedRowCount = pricedRowCount or 0
+  local reportedRowCount = scan.reportedRowCount or pricedRowCount
+  return {
+    marketCount = marketCount or (type(scan.itemSnapshots) == "table" and #scan.itemSnapshots or 0),
+    reportedRowCount = reportedRowCount,
+    visitedRowCount = scan.visitedRowCount or reportedRowCount,
+    pricedRowCount = pricedRowCount,
+    noBuyoutRowCount = scan.noBuyoutRowCount or 0,
+    unresolvedRowCount = scan.unresolvedRowCount or 0,
+    invalidRowCount = scan.invalidRowCount or 0,
+    secretRowCount = scan.secretRowCount or 0,
+    completeness = scan.completeness or 0,
+    scanDurationMs = scan.scanDurationMs or 0,
+  }
+end
+
+local function GetNativeSnapshotQuality()
+  if IsNativeScanActive() then
+    return SnapshotQuality(NativeQuality(), 0)
+  elseif nativeScan.status == "saved" then
+    return SnapshotQuality(nativeScan.quality, nativeScan.marketCount)
+  end
+  return SnapshotQuality(GetLastSavedScan())
+end
+
+local function GetAuctionatorSnapshotQuality()
+  if auctionatorScan.status == "reading" then
+    return SnapshotQuality(auctionatorScan, 0)
+  elseif auctionatorScan.status == "saved" then
+    return SnapshotQuality(auctionatorScan.quality, auctionatorScan.marketCount)
+  end
+  return SnapshotQuality(GetLastSavedScan())
+end
+
+function Addon.GetScannerSnapshot()
+  InitializeSavedVariables()
+  local nativeProvider = IsNativeProviderAvailable()
+  local providerAvailable = nativeProvider or (AuctionatorIsAvailable() and true or false)
+  local status = nativeProvider and nativeScan.status or auctionatorScan.status
+  local quality = nativeProvider and GetNativeSnapshotQuality() or GetAuctionatorSnapshotQuality()
+  local active
+  if nativeProvider then
+    active = IsNativeScanActive()
+  else
+    active = auctionatorScan.status == "awaiting_response" or auctionatorScan.status == "reading"
+  end
+  local cooldownRemaining = nativeProvider and NativeCooldownRemaining() or 0
+  local throttleReady = nil
+  if nativeProvider and type(C_AuctionHouse.IsThrottledMessageSystemReady) == "function" then
+    throttleReady = SafeCallOne(C_AuctionHouse.IsThrottledMessageSystemReady)
+  end
+  local inCombat = InCombatLockdown and InCombatLockdown() or false
+  local progressValue = 0
+  local progressMaximum = quality.reportedRowCount
+  local resolvingCount = 0
+  if nativeProvider then
+    if nativeScan.status == "reading" then
+      progressValue = nativeScan.nextIndex or 0
+    elseif nativeScan.status == "resolving_cache" then
+      progressValue = nativeScan.reportedRowCount or 0
+      resolvingCount = math.max(0, #nativeScan.retryQueue - nativeScan.retryCursor + 1)
+    elseif nativeScan.status == "saved" then
+      progressValue = quality.reportedRowCount
+    end
+  elseif auctionatorScan.status == "reading" then
+    progressValue = auctionatorScan.visitedRowCount or 0
+  elseif auctionatorScan.status == "saved" then
+    progressValue = quality.reportedRowCount
+  end
+
+  local recentScans = {}
+  for index = #WOW_TRADER_SAVED.scans, math.max(1, #WOW_TRADER_SAVED.scans - 5), -1 do
+    local scan = WOW_TRADER_SAVED.scans[index]
+    if type(scan) == "table" then
+      local scanQuality = SnapshotQuality(scan)
+      table.insert(recentScans, {
+        completedAt = scan.completedAt,
+        provider = scan.provider or "unknown",
+        marketCount = scanQuality.marketCount,
+        reportedRowCount = scanQuality.reportedRowCount,
+        pricedRowCount = scanQuality.pricedRowCount,
+        unresolvedRowCount = scanQuality.unresolvedRowCount,
+        completeness = scanQuality.completeness,
+      })
+    end
+  end
+
+  local version, build = GetBuildInfo()
+  return {
+    addonVersion = ADDON_VERSION,
+    clientVersion = tostring(version or "unknown"),
+    clientBuild = tostring(build or "unknown"),
+    clientProduct = GetClientProduct(),
+    provider = nativeProvider and "blizzard_replicate" or "auctionator",
+    providerAvailable = providerAvailable and true or false,
+    auctionHouseOpen = auctionHouseOpen,
+    throttleReady = throttleReady,
+    cooldownRemaining = cooldownRemaining,
+    inCombat = inCombat and true or false,
+    status = status,
+    failureReason = nativeProvider and nativeScan.failureReason or auctionatorScan.failureReason,
+    active = active,
+    canScan = providerAvailable and auctionHouseOpen and not active and not inCombat and
+      cooldownRemaining <= 0 and throttleReady ~= false,
+    canCancel = nativeProvider and active,
+    canReload = #WOW_TRADER_SAVED.scans > 0 and not active and not inCombat,
+    progressValue = progressValue,
+    progressMaximum = progressMaximum,
+    resolvingCount = resolvingCount,
+    auctionHouseType = GetAuctionHouseType(),
+    queuedScanCount = #WOW_TRADER_SAVED.scans,
+    quality = quality,
+    recentScans = recentScans,
+  }
+end
+
+function Addon.StartScan()
+  if IsNativeProviderAvailable() then StartNativeScan() else StartAuctionatorScan() end
+end
+
+function Addon.CancelScan()
+  if not AbortNativeScan("Native market scan cancelled.") then
+    Print("no native market scan is running.")
+  end
+end
+
+function Addon.RunProbe()
+  if IsNativeProviderAvailable() then
+    NativeProbe()
+  else
+    local version, build = GetBuildInfo()
+    Print(string.format(
+      "probe: product=%s version=%s build=%s auctionator=%s ahOpen=%s scope=%s.",
+      GetClientProduct(),
+      tostring(version),
+      tostring(build),
+      AuctionatorIsAvailable() and "yes" or "no",
+      auctionHouseOpen and "yes" or "no",
+      GetAuctionHouseType()
+    ))
+  end
+end
+
+function Addon.PrintStatus()
+  if IsNativeProviderAvailable() then NativeStatus() else
+    InitializeSavedVariables()
+    Print(string.format("Auctionator provider; %d completed scan(s) queued.",
+      #WOW_TRADER_SAVED.scans))
+  end
+end
+
+function Addon.SaveAndReload()
+  if IsNativeScanActive() or auctionatorScan.status == "awaiting_response" or
+     auctionatorScan.status == "reading" then
+    Print("wait for the current market scan to finish before reloading.")
+  elseif InCombatLockdown and InCombatLockdown() then
+    Print("leave combat before reloading the interface.")
+  else
+    ReloadUI()
+  end
+end
+
+local MARKET_SIGNAL_PRIORITY = {
+  spike_risk = 1,
+  bargain = 2,
+  rising = 3,
+  oversupplied = 4,
+  falling = 5,
+  too_thin = 6,
+  normal = 7,
+  collecting = 8,
+}
+
+local function LatestObservedPrice(itemId)
+  local scan = GetLastSavedScan()
+  if type(scan) ~= "table" or type(scan.itemSnapshots) ~= "table" then return nil end
+  for _, snapshot in ipairs(scan.itemSnapshots) do
+    if snapshot.itemId == itemId and snapshot.marketKey == tostring(itemId) and
+       type(snapshot.priceLevels) == "table" then
+      local total = 0
+      for _, level in ipairs(snapshot.priceLevels) do total = total + (tonumber(level.quantity) or 0) end
+      local target = math.max(1, math.ceil(total * 0.1))
+      local observed = 0
+      table.sort(snapshot.priceLevels, function(left, right)
+        return (tonumber(left.unitPriceCopper) or 0) < (tonumber(right.unitPriceCopper) or 0)
+      end)
+      for _, level in ipairs(snapshot.priceLevels) do
+        observed = observed + (tonumber(level.quantity) or 0)
+        if observed >= target then return tonumber(level.unitPriceCopper) end
+      end
+    end
+  end
+  return nil
+end
+
+local function MarketDataCompatibility(data)
+  if type(data) ~= "table" or data.schemaVersion ~= 1 or type(data.items) ~= "table" then
+    return false, "No synchronized market history is installed yet."
+  end
+  local _, build = GetBuildInfo()
+  if tonumber(data.clientBuild) ~= tonumber(build) or data.clientProduct ~= GetClientProduct() then
+    return false, "The synchronized history belongs to another client build."
+  end
+  local region = REGION_NAMES[SafeCallOne(GetCurrentRegion) or 0] or "UNKNOWN"
+  if data.region ~= region then
+    return false, "The synchronized history belongs to another region."
+  end
+  local realmId = SafeCallOne(GetNormalizedRealmName) or SafeCallOne(GetRealmName)
+  if data.realmId ~= realmId or data.auctionHouseType ~= GetAuctionHouseType() then
+    return false, "The synchronized history belongs to another realm or Auction House."
+  end
+  return true, nil
+end
+
+function Addon.GetMarketIntelligenceSnapshot(searchText)
+  InitializeSavedVariables()
+  local data = WOW_TRADER_MARKET_DATA
+  local compatible, reason = MarketDataCompatibility(data)
+  if not compatible then
+    return { available = false, reason = reason, items = {} }
+  end
+  local query = string.lower(string.match(searchText or "", "^%s*(.-)%s*$"))
+  local items = {}
+  for itemId, item in pairs(data.items) do
+    local name = type(item.name) == "string" and item.name or ("Item " .. tostring(itemId))
+    if query == "" or string.find(string.lower(name), query, 1, true) or
+       string.find(tostring(itemId), query, 1, true) then
+      local current = LatestObservedPrice(itemId) or tonumber(item.current)
+      local normal = tonumber(item.normal)
+      local differenceBP = item.differenceBP
+      if current and normal and normal > 0 then
+        differenceBP = math.floor(((current - normal) * 10000) / normal)
+      end
+      table.insert(items, {
+        itemId = itemId,
+        name = name,
+        signal = item.signal or "collecting",
+        observations = item.observations or 0,
+        minimum = item.minimum or 6,
+        current = current,
+        normal = normal,
+        differenceBP = differenceBP,
+        quantity = item.quantity,
+        listings = item.listings,
+        confidenceBP = item.confidenceBP,
+        watched = WOW_TRADER_SAVED.marketWatchlist[tostring(itemId)] == true,
+      })
+    end
+  end
+  table.sort(items, function(left, right)
+    if left.watched ~= right.watched then return left.watched end
+    local leftPriority = MARKET_SIGNAL_PRIORITY[left.signal] or 99
+    local rightPriority = MARKET_SIGNAL_PRIORITY[right.signal] or 99
+    if leftPriority ~= rightPriority then return leftPriority < rightPriority end
+    local leftDifference = math.abs(tonumber(left.differenceBP) or 0)
+    local rightDifference = math.abs(tonumber(right.differenceBP) or 0)
+    if leftDifference ~= rightDifference then return leftDifference > rightDifference end
+    return left.name < right.name
+  end)
+  return {
+    available = true,
+    reason = nil,
+    generatedAt = data.generatedAt,
+    sourceScanAt = data.sourceScanAt,
+    realmId = data.realmId,
+    auctionHouseType = data.auctionHouseType,
+    modelVersion = data.modelVersion,
+    totalItems = #items,
+    items = items,
+  }
+end
+
+function Addon.ToggleMarketWatch(itemId)
+  InitializeSavedVariables()
+  itemId = tonumber(itemId)
+  if not itemId or itemId <= 0 then return false end
+  local key = tostring(math.floor(itemId))
+  if WOW_TRADER_SAVED.marketWatchlist[key] then
+    WOW_TRADER_SAVED.marketWatchlist[key] = nil
+    return false
+  end
+  WOW_TRADER_SAVED.marketWatchlist[key] = true
+  return true
+end
+
+function Addon.PrintMarketAlerts()
+  local snapshot = Addon.GetMarketIntelligenceSnapshot("")
+  if not snapshot.available then return end
+  local alerts = {}
+  for _, item in ipairs(snapshot.items) do
+    if item.watched and (item.signal == "bargain" or item.signal == "spike_risk" or
+       item.signal == "falling" or item.signal == "oversupplied") then
+      table.insert(alerts, item.name .. " (" .. item.signal .. ")")
+      if #alerts >= 3 then break end
+    end
+  end
+  if #alerts > 0 then Print("watchlist alerts: " .. table.concat(alerts, ", ") .. ".") end
+end
+
+function Addon.GetItemMarketIntelligence(itemId)
+  itemId = tonumber(itemId)
+  if not itemId then return nil end
+  local snapshot = Addon.GetMarketIntelligenceSnapshot(tostring(itemId))
+  if not snapshot.available then return nil end
+  for _, item in ipairs(snapshot.items) do
+    if item.itemId == itemId then return item, snapshot end
+  end
+  return nil
+end
+
+local function IsRetiredDiagnosticsCommand(command)
+  return string.find(command, "diagnostics", 1, true) == 1 or
+    string.find(command, "questsample", 1, true) == 1 or
+    string.find(command, "questscan", 1, true) == 1 or
+    string.find(command, "bossmodels", 1, true) == 1
 end
 
 SLASH_WOWTRADER1 = "/wowtrader"
 SlashCmdList.WOWTRADER = function(command)
-  command = string.lower(string.match(command or "", "^%s*(.-)%s*$"))
-  if command == "scan" then
-    local fullScanFrame = Auctionator and Auctionator.State and Auctionator.State.FullScanFrameRef
-    if fullScanFrame and fullScanFrame.CanInitiate and fullScanFrame:CanInitiate() then
-      fullScanFrame:InitiateScan()
+  command = string.match(command or "", "^%s*(.-)%s*$")
+  local normalizedCommand = string.lower(command)
+  if normalizedCommand == "probe" then
+    Addon.RunProbe()
+    return
+  elseif normalizedCommand == "scan" then
+    Addon.StartScan()
+    return
+  elseif normalizedCommand == "status" then
+    Addon.PrintStatus()
+    return
+  elseif normalizedCommand == "cancel" then
+    Addon.CancelScan()
+    return
+  elseif normalizedCommand == "minimap" then
+    if type(Addon.ShowMinimapButton) == "function" then
+      Addon.ShowMinimapButton()
     else
-      Print("open the Auction House and wait until Blizzard permits a full scan.")
+      Print("the minimap launcher is unavailable.")
+    end
+    return
+  elseif string.find(normalizedCommand, "market", 1, true) == 1 then
+    local query = string.match(command, "^[Mm][Aa][Rr][Kk][Ee][Tt]%s*(.-)%s*$") or ""
+    if type(Addon.ShowMarketIntelligence) == "function" then
+      Addon.ShowMarketIntelligence(query)
+    else
+      Print("the market intelligence panel is unavailable.")
+    end
+    return
+  elseif string.find(normalizedCommand, "watch ", 1, true) == 1 then
+    local itemId = tonumber(string.match(normalizedCommand, "^watch%s+(%d+)$"))
+    if not itemId then
+      Print("usage: /wowtrader watch <item ID>")
+    else
+      local watched = Addon.ToggleMarketWatch(itemId)
+      Print(string.format("item %d %s the market watchlist.", itemId, watched and "added to" or "removed from"))
+    end
+    return
+  elseif normalizedCommand == "ui" or normalizedCommand == "show" or
+         normalizedCommand == "open" or normalizedCommand == "" then
+    if type(Addon.ToggleScannerPanel) == "function" then
+      Addon.ToggleScannerPanel()
+    else
+      Print("the scanner panel is unavailable; use probe, scan, status, or cancel.")
     end
     return
   end
 
-  if command == "diagnostics on" then
-    InitializeSavedVariables()
-    WOW_TRADER_SAVED.worldDiagnostics.enabled = true
-    Print("Forever world diagnostics enabled. NPC and loot observations remain local until the companion supports them.")
-    return
-  elseif command == "diagnostics off" then
-    InitializeSavedVariables()
-    WOW_TRADER_SAVED.worldDiagnostics.enabled = false
-    Print("Forever world diagnostics disabled.")
-    return
-  elseif command == "diagnostics status" then
-    DiagnosticsStatus()
-    return
-  elseif command == "questsample start" or command == "questsample reset" then
-    StartQuestSample(command == "questsample reset")
-    return
-  elseif command == "questsample pause" then
-    InitializeSavedVariables()
-    WOW_TRADER_SAVED.worldDiagnostics.questScanner.running = false
-    Print("quest capability sample paused.")
-    return
-  elseif command == "questsample resume" then
-    StartQuestSample(false)
-    return
-  elseif command == "questsample status" then
-    QuestScannerStatus()
-    return
-  elseif command == "bossmodels controls" then
-    StartBossModelResolver("controls", true)
-    return
-  elseif command == "bossmodels start" then
-    StartBossModelResolver("batch", false)
-    return
-  elseif command == "bossmodels reset" then
-    StartBossModelResolver("batch", true)
-    return
-  elseif command == "bossmodels resume" then
-    InitializeSavedVariables()
-    StartBossModelResolver(WOW_TRADER_SAVED.worldDiagnostics.modelResolver.mode or "batch", false)
-    return
-  elseif command == "bossmodels pause" then
-    PauseBossModelResolver()
-    return
-  elseif command == "bossmodels status" then
-    BossModelResolverStatus()
+  if IsRetiredDiagnosticsCommand(normalizedCommand) then
+    Print("world diagnostics are not included in this market-only collector.")
     return
   end
 
   InitializeSavedVariables()
   Print(string.format(
-    "%d scan(s) queued. Commands: scan, diagnostics on|off|status, questsample start|pause|resume|status|reset, bossmodels controls|start|pause|resume|status|reset",
+    "%d market scan(s) queued. Commands: ui, market [item], watch <item ID>, minimap, probe, scan, status, cancel",
     #WOW_TRADER_SAVED.scans
   ))
 end
 
-local worldDiagnosticsFrame = CreateFrame("Frame")
-worldDiagnosticsFrame:RegisterEvent("ENCOUNTER_START")
-worldDiagnosticsFrame:RegisterEvent("ENCOUNTER_END")
-worldDiagnosticsFrame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
-worldDiagnosticsFrame:RegisterEvent("QUEST_DATA_LOAD_RESULT")
-worldDiagnosticsFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
-worldDiagnosticsFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
-worldDiagnosticsFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-worldDiagnosticsFrame:RegisterEvent("LOOT_OPENED")
-worldDiagnosticsFrame:SetScript("OnEvent", function(_, eventName, ...)
-  if eventName == "ENCOUNTER_START" then
-    SaveEncounterStart(...)
-  elseif eventName == "ENCOUNTER_END" then
-    SaveEncounterEnd(...)
-  elseif eventName == "ENCOUNTER_LOOT_RECEIVED" then
-    SaveEncounterLoot(...)
-  elseif eventName == "QUEST_DATA_LOAD_RESULT" then
-    InitializeSavedVariables()
-    local questID, success = ...
-    local scanner = WOW_TRADER_SAVED.worldDiagnostics.questScanner
-    if scanner.running and scanner.waitingQuestID == questID then
-      SaveQuestQueryResult(questID, success and "success" or "failed")
+local marketFrame = CreateFrame("Frame")
+marketFrame:RegisterEvent("ADDON_LOADED")
+marketFrame:RegisterEvent("PLAYER_LOGIN")
+marketFrame:RegisterEvent("PLAYER_LOGOUT")
+marketFrame:RegisterEvent("AUCTION_HOUSE_SHOW")
+marketFrame:RegisterEvent("AUCTION_HOUSE_CLOSED")
+marketFrame:SetScript("OnEvent", function(_, eventName, loadedAddonName)
+  if eventName == "ADDON_LOADED" then
+    if loadedAddonName == ADDON_NAME then InitializeSavedVariables() end
+    return
+  elseif eventName == "PLAYER_LOGIN" then
+    if IsNativeProviderAvailable() then
+      marketFrame:RegisterEvent("AUCTION_HOUSE_DISABLED")
+      marketFrame:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
+      marketFrame:RegisterEvent("AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED")
+    else
+      RegisterAuctionatorEvents()
+      if not AuctionatorIsAvailable() then
+        Print("Auctionator is required for TBC market scans.")
+      end
     end
-  elseif eventName == "NAME_PLATE_UNIT_ADDED" then
-    SaveNpcSighting((...), "nameplate")
-  elseif eventName == "PLAYER_TARGET_CHANGED" then
-    SaveNpcSighting("target", "target")
-  elseif eventName == "UPDATE_MOUSEOVER_UNIT" then
-    SaveNpcSighting("mouseover", "mouseover")
-  elseif eventName == "LOOT_OPENED" then
-    CaptureLootWindow()
+    return
+  elseif eventName == "AUCTION_HOUSE_SHOW" then
+    auctionHouseOpen = true
+    return
+  elseif eventName == "AUCTION_HOUSE_CLOSED" or eventName == "AUCTION_HOUSE_DISABLED" then
+    auctionHouseOpen = false
+    if IsNativeScanActive() then
+      nativeScan.auctionHouseStayedOpen = false
+      AbortNativeScan("The Auction House closed before the native scan completed.")
+    end
+    return
+  elseif eventName == "REPLICATE_ITEM_LIST_UPDATE" then
+    BeginNativeResultRead()
+    return
+  elseif eventName == "AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED" and
+         nativeScan.status == "awaiting_response" then
+    AbortNativeScan("Blizzard throttled the full-market request.")
+    return
+  elseif eventName == "PLAYER_LOGOUT" and IsNativeScanActive() then
+    nativeScan.auctionHouseStayedOpen = false
+    AbortNativeScan("Logout interrupted the native market scan.")
   end
 end)
 
-local initializationFrame = CreateFrame("Frame")
-initializationFrame:RegisterEvent("PLAYER_LOGIN")
-initializationFrame:SetScript("OnEvent", function()
-  InitializeSavedVariables()
-  RebuildNpcObservationIndex()
-  RegisterAuctionatorEvents()
+marketFrame:SetScript("OnUpdate", function()
+  if nativeScan.status == "awaiting_response" then
+    if GetTime() >= nativeScan.responseDeadline then
+      AbortNativeScan("The native market request timed out or is still on server cooldown.")
+    end
+  elseif nativeScan.status == "reading" then
+    ProcessNativeInitialRows()
+  elseif nativeScan.status == "resolving_cache" then
+    ProcessNativeCacheRows()
+  end
 end)

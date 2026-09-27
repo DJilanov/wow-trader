@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -19,8 +19,30 @@ afterEach(async () => {
 describe("collector addon installation", () => {
   it("installs the verified packaged addon atomically", async () => {
     const rootPath = await temporaryDirectory();
-    const product = createProductConfiguration("tbc", rootPath);
+    const product = createProductConfiguration("forever", rootPath);
     const sourceDirectory = path.resolve(import.meta.dirname, "../../../addon/WowTraderCollector");
+    const collectorSource = await readFile(path.join(sourceDirectory, "Collector.lua"), "utf8");
+    const uiSource = await readFile(path.join(sourceDirectory, "UI.lua"), "utf8");
+    const tocSource = await readFile(path.join(sourceDirectory, "WowTraderCollector.toc"), "utf8");
+
+    expect(collectorSource).toContain('marketFrame:RegisterEvent("ADDON_LOADED")');
+    expect(collectorSource).toContain("C_AuctionHouse.ReplicateItems");
+    expect(collectorSource).toContain('marketFrame:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")');
+    expect(collectorSource).toContain("Auctionator.FullScan.Events.ScanComplete");
+    expect(collectorSource).toContain(
+      "world diagnostics are not included in this market-only collector",
+    );
+    expect(collectorSource).not.toContain('RegisterEvent("QUEST_');
+    expect(collectorSource).not.toContain('RegisterEvent("NAME_PLATE_UNIT_ADDED")');
+    expect(collectorSource).not.toContain("UnitHealth");
+    expect(collectorSource).not.toContain("WOW_TRADER_FOREVER");
+    expect(uiSource).toContain('CreateFrame("Frame", "WoWTraderScannerFrame", UIParent)');
+    expect(uiSource).toContain('CreateFrame("Button", "LibDBIcon10_WowTraderCollector", Minimap)');
+    expect(uiSource).toContain("function Addon.ShowMinimapButton()");
+    expect(uiSource).toContain('"Start scan"');
+    expect(uiSource).toContain('"Save & Reload"');
+    expect(uiSource).toContain('"Recent saved scans"');
+    expect(tocSource).toContain("MarketData.lua\nCollector.lua\nUI.lua");
 
     await installCollector(product, sourceDirectory);
 
@@ -28,23 +50,34 @@ describe("collector addon installation", () => {
       rootPath,
       "Interface/AddOns/WowTraderCollector/WowTraderCollector.toc",
     );
-    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.4.0");
-    await expect(
-      readFile(
-        path.join(rootPath, "Interface/AddOns/WowTraderCollector/ForeverQuestSample.lua"),
-        "utf8",
-      ),
-    ).resolves.toContain("WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD");
-    await expect(
-      readFile(
-        path.join(rootPath, "Interface/AddOns/WowTraderCollector/ForeverBossSample.lua"),
-        "utf8",
-      ),
-    ).resolves.toContain("WOW_TRADER_FOREVER_BOSS_SAMPLE_BUILD");
+    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.10.0");
+    const installedFiles = await readdir(
+      path.join(rootPath, "Interface/AddOns/WowTraderCollector"),
+    );
+    expect(installedFiles.sort()).toEqual([
+      "Collector.lua",
+      "MarketData.lua",
+      "UI.lua",
+      "WowTraderCollector.toc",
+    ]);
+    const installedMarketData = path.join(
+      rootPath,
+      "Interface/AddOns/WowTraderCollector/MarketData.lua",
+    );
+    await writeFile(
+      installedMarketData,
+      "WOW_TRADER_MARKET_DATA = { schemaVersion = 1 }\n",
+      "utf8",
+    );
+    await installCollector(product, sourceDirectory);
+    await expect(readFile(installedMarketData, "utf8")).resolves.toContain("schemaVersion = 1");
     await expect(inspectProduct(product)).resolves.toMatchObject({
       collectorHealth: "ready",
-      collectorVersion: "0.4.0",
+      collectorVersion: "0.10.0",
       collectorFileCount: 0,
+      scannerProvider: "native",
+      scannerReady: true,
+      auctionatorInstalled: false,
     });
   });
 

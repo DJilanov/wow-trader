@@ -1,6 +1,6 @@
--- Build 1.60.1.69893 capability sample: every static POI/line quest, a stratified
+-- Build 1.60.1.69913 capability sample: every static POI/line quest, a stratified
 -- selection of other shipped IDs, and five deliberately absent controls.
-WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD = 69893
+WOW_TRADER_FOREVER_QUEST_SAMPLE_BUILD = 69913
 WOW_TRADER_FOREVER_QUEST_SAMPLE = {
   91564, 92742, 92744, 92745, 92747, 92748, 92749, 92750, 92751, 92752,
   92753, 92819, 96912, 96913, 96914, 96915, 96916, 96917, 96918, 96919,

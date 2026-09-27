@@ -142,11 +142,44 @@ internal sealed class WorldNormalizer
         Math.Max(0, Int(row, "Subtype")),
         row)).OrderBy(entry => entry.LfgDungeonId).ToArray();
 
-    var quests = Rows("QuestV2").Select(row => new WorldQuest(
+    var questCliTasks = Rows("QuestV2CliTask").ToDictionary(row => Int(row, "id"));
+    var quests = Rows("QuestV2").Select(row =>
+    {
+      var questId = Int(row, "id");
+      questCliTasks.TryGetValue(questId, out var task);
+      var title = task is null ? "" : Text(task, "QuestTitle_lang").Trim();
+      var bulletText = task is null ? "" : Text(task, "BulletText_lang").Trim();
+      return new WorldQuest(
+          questId,
+          Math.Max(0, Int(row, "UniqueBitFlag")),
+          Math.Max(0, Int(row, "UiQuestDetailsThemeID")),
+          title.Length > 0 ? title : null,
+          bulletText.Length > 0 ? bulletText : null,
+          task is null ? null : PositiveOrNull(task, "QuestInfoID"),
+          task is null ? null : PositiveOrNull(task, "ContentTuningID"),
+          task is null ? null : PositiveOrNull(task, "StartItem"),
+          task is null ? 0 : Math.Max(0, Int(task, "FiltMinLevel")),
+          task is null ? 0 : Math.Max(0, Int(task, "FiltMaxLevel")),
+          task is null ? null : PositiveOrNull(task, "FiltMinSkillID"),
+          task is null ? 0 : Math.Max(0, Int(task, "FiltMinSkillValue")),
+          task is null ? 0 : Int(task, "FiltClasses"),
+          task is null ? [] : Ints(task, "FiltRaceMasks"),
+          task is null ? [] : Ints(task, "Flags"),
+          row,
+          task);
+    }).OrderBy(entry => entry.QuestId).ToArray();
+
+    var questObjectives = Rows("QuestObjective").Select(row => new WorldQuestObjective(
         Int(row, "id"),
-        Math.Max(0, Int(row, "UniqueBitFlag")),
-        Math.Max(0, Int(row, "UiQuestDetailsThemeID")),
-        row)).OrderBy(entry => entry.QuestId).ToArray();
+        Positive(row, "QuestID"),
+        Math.Max(0, Int(row, "OrderIndex")),
+        Math.Max(0, Int(row, "StorageIndex")),
+        Math.Max(0, Int(row, "Amount")),
+        Math.Max(0, Int(row, "Type")),
+        Math.Max(0, Int(row, "ObjectID")),
+        Text(row, "Description_lang").Trim(),
+        Int(row, "Flags"),
+        row)).OrderBy(entry => entry.ObjectiveId).ToArray();
 
     var questLines = Rows("QuestLine").Select(row => new WorldQuestLine(
         Int(row, "id"),
@@ -222,6 +255,7 @@ internal sealed class WorldNormalizer
         encounters,
         lfgDungeons,
         quests,
+        questObjectives,
         questLines,
         questLineMembers,
         questPois,

@@ -123,6 +123,12 @@ export interface WorkspaceRouteEvaluation {
   readonly crossProfessionTransferCount: number;
 }
 
+export interface WorkspaceExecutionPlan {
+  readonly depthCraftLimit: number;
+  readonly recommendedCrafts: number;
+  readonly result: AvailableCraftingOpportunity;
+}
+
 export function evaluateWorkspaceRecipe(
   candidate: WorkspaceRecipeCandidate,
   auctionHouseCutBasisPoints: number,
@@ -210,6 +216,67 @@ export function evaluateWorkspaceRecipe(
   }
 
   return evaluations;
+}
+
+export function calculateWorkspaceExecutionPlan(
+  evaluation: WorkspaceRouteEvaluation,
+  priceLevelsByItem: ReadonlyMap<number, readonly PriceLevel[]>,
+  auctionHouseCutBasisPoints: number,
+  maximumCrafts = 100,
+): WorkspaceExecutionPlan {
+  if (!Number.isSafeInteger(maximumCrafts) || maximumCrafts <= 0) {
+    throw new RangeError("Maximum crafts must be a positive safe integer");
+  }
+
+  const depthCraftLimit = Math.min(
+    maximumCrafts,
+    ...evaluation.inputs.map((input) => {
+      const availableQuantity = (priceLevelsByItem.get(input.itemId) ?? []).reduce(
+        (total, level) => total + level.quantity,
+        0,
+      );
+      return Math.floor(availableQuantity / input.quantity);
+    }),
+  );
+  if (depthCraftLimit <= 0) {
+    return { depthCraftLimit: 1, recommendedCrafts: 1, result: evaluation.result };
+  }
+
+  let bestResult = evaluation.result;
+  for (let crafts = 1; crafts <= depthCraftLimit; crafts += 1) {
+    const result = calculateCraftingOpportunity({
+      crafts,
+      inputs: evaluation.inputs.map((input) => ({
+        itemId: input.itemId,
+        quantity: input.quantity,
+        priceLevels: priceLevelsByItem.get(input.itemId) ?? [],
+      })),
+      outputs: evaluation.outputs.map((output) => ({
+        itemId: output.itemId,
+        expectedQuantity: output.expectedQuantity,
+        expectedUnitPriceCopper: output.unitValueCopper,
+        fillRateBasisPoints: 10_000,
+      })),
+      auctionHouseCutBasisPoints: evaluation.route === "vendor" ? 0 : auctionHouseCutBasisPoints,
+      fixedCostCopper: 0n,
+      listingDepositCopper: 0n,
+      expectedDepositLossCopper: 0n,
+      cooldownOpportunityCostCopper: 0n,
+    });
+    if (
+      result.viable &&
+      result.expectedProfitCopper > 0n &&
+      result.expectedProfitCopper > bestResult.expectedProfitCopper
+    ) {
+      bestResult = result;
+    }
+  }
+
+  return {
+    depthCraftLimit,
+    recommendedCrafts: bestResult.crafts,
+    result: bestResult,
+  };
 }
 
 function addEvaluation(

@@ -107,7 +107,14 @@ try
         : $"Using hotfix cache {hotfixPath} ({hotfixHash})");
 
     var extractor = new CascTableExtractor(options);
-    var (build, db2Directory) = extractor.Extract(tableNames, stagingDirectory);
+    var tolerateUnavailableTables = string.Equals(
+        options.Product,
+        "wow_classic_beta",
+        StringComparison.Ordinal);
+    var (build, db2Directory) = extractor.Extract(
+        tableNames,
+        stagingDirectory,
+        tolerateUnavailableTables);
     var reader = new Db2TableReader(
         db2Directory,
         options.DefinitionsDirectory,
@@ -116,6 +123,11 @@ try
     var tables = new SortedDictionary<string, Db2TableSnapshot>(StringComparer.Ordinal);
     foreach (var tableName in tableNames)
     {
+      if (!File.Exists(Path.Combine(db2Directory, $"{tableName}.db2")))
+      {
+        tables.Add(tableName, new Db2TableSnapshot(tableName, [], [], 0, 0));
+        continue;
+      }
       var table = reader.Read(tableName);
       tables.Add(tableName, table);
       Console.WriteLine(

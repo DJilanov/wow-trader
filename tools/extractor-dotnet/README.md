@@ -72,7 +72,7 @@ complete manifest is reused on subsequent starts.
 
 `pnpm extract:forever:world` creates a separate `world-snapshot-manifest.v1` rather than mixing
 world, quest, and map media into the item catalog. Its defaults target the installed
-`wow_classic_beta` product and the exact pinned WoWDBDefs revision used for build 69893.
+`wow_classic_beta` product and the exact pinned WoWDBDefs revision used for the installed Beta build.
 
 ```text
 world-snapshots/<product>/<build>/<locale>/<hotfix-hash-or-status>/world-snapshot-manifest.v1/extractor-<version>/
@@ -84,10 +84,13 @@ world-snapshots/<product>/<build>/<locale>/<hotfix-hash-or-status>/world-snapsho
 └── media/map-art/<file-data-id>.png
 ```
 
-World normalizer `0.2.3` includes typed achievement/criteria creature objectives, criteria-backed
+World normalizer `0.3.0` includes typed achievement/criteria creature objectives, criteria-backed
 boss identities, evidence-labeled boss map/area candidates, static creature-display-model joins,
 review-required boss spell candidates, review-required item-to-boss/encounter/map/area source
-candidates, map difficulties, and content tuning. The extractor version is part of the immutable
+candidates, map difficulties, content tuning, structural quest IDs, optional client-task metadata,
+and typed quest objectives. The raw snapshot also preserves the available quest reward curves,
+display-option tables, and Adventure Guide family even when the client ships zero rows. The
+extractor version is part of the immutable
 path so adding normalized evidence never overwrites or silently reuses an older snapshot from the
 same client build.
 

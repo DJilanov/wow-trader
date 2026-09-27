@@ -153,7 +153,22 @@ function rebuildTrayMenu(snapshot: DesktopSnapshot): void {
       { type: "separator" },
       {
         label: "Open Trader",
-        click: () => void controller?.invoke({ type: "open_trader" }).catch(showActionError),
+        submenu: [
+          {
+            label: "WoW Forever",
+            click: () =>
+              void controller
+                ?.invoke({ type: "open_trader", product: "forever" })
+                .catch(showActionError),
+          },
+          {
+            label: "The Burning Crusade",
+            click: () =>
+              void controller
+                ?.invoke({ type: "open_trader", product: "tbc" })
+                .catch(showActionError),
+          },
+        ],
       },
       {
         label: "Open logs",
@@ -300,6 +315,7 @@ function phaseLabel(phase: CompanionPhase): string {
   const labels: Record<CompanionPhase, string> = {
     setup_required: "Setup required",
     paused: "Automatic uploads paused",
+    checking: "Checking saved scans",
     waiting_for_saved_scan: "Waiting for a saved scan",
     scan_detected: "Scan detected",
     uploading: "Uploading scan",

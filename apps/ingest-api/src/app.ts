@@ -7,9 +7,12 @@ import swaggerUi from "@fastify/swagger-ui";
 import {
   auctionScanUploadSchema,
   canonicalJson,
+  marketIntelligencePackSchema,
+  marketIntelligenceQuerySchema,
   publicDataStatusSchema,
   uploadReceiptSchema,
   uploadStatusSchema,
+  worldDiagnosticsUploadSchema,
   type JsonValue,
 } from "@wow-trader/contracts";
 import Fastify, { type FastifyInstance, type FastifyReply, type FastifyRequest } from "fastify";
@@ -23,10 +26,10 @@ import { z } from "zod";
 
 import { PayloadChecksumError, PayloadConflictError } from "./errors.js";
 import type { RawPayloadStore } from "./raw-payload-store.js";
-import type { AuctionUploadRepository } from "./repositories.js";
+import type { UploadRepository } from "./repositories.js";
 
 export interface BuildAppOptions {
-  readonly repository: AuctionUploadRepository;
+  readonly repository: UploadRepository;
   readonly rawPayloadStore: RawPayloadStore;
   readonly apiKeys: readonly string[];
   readonly webOrigin: string;
@@ -143,6 +146,49 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     },
   );
 
+  app.post(
+    "/v1/uploads/world-diagnostics",
+    {
+      config: {
+        rateLimit: {
+          max: 60,
+          timeWindow: "1 minute",
+        },
+      },
+      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      schema: {
+        body: worldDiagnosticsUploadSchema,
+        response: {
+          202: uploadReceiptSchema,
+          401: errorResponseSchema,
+          409: errorResponseSchema,
+          422: errorResponseSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const canonicalData = canonicalJson(request.body.data as JsonValue);
+      const calculatedChecksum = createHash("sha256").update(canonicalData).digest("hex");
+      if (!safeStringEqual(calculatedChecksum, request.body.checksum)) {
+        throw new PayloadChecksumError();
+      }
+
+      const canonicalEnvelope = canonicalJson(request.body as JsonValue);
+      const envelopeHash = createHash("sha256").update(canonicalEnvelope).digest("hex");
+      const rawPayloadUri = await options.rawPayloadStore.put(
+        request.body.payloadId,
+        envelopeHash,
+        canonicalEnvelope,
+      );
+      const receipt = await options.repository.acceptWorldDiagnostics(
+        request.body,
+        rawPayloadUri,
+        envelopeHash,
+      );
+      return reply.code(202).send(receipt);
+    },
+  );
+
   app.get(
     "/v1/uploads/:payloadId",
     {
@@ -167,6 +213,39 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       }
 
       return reply.code(200).send(upload);
+    },
+  );
+
+  app.get(
+    "/v1/market-intelligence",
+    {
+      config: {
+        rateLimit: {
+          max: 30,
+          timeWindow: "1 minute",
+        },
+      },
+      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      schema: {
+        querystring: marketIntelligenceQuerySchema,
+        response: {
+          200: marketIntelligencePackSchema,
+          401: errorResponseSchema,
+          404: errorResponseSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const pack = await options.repository.getMarketIntelligence(request.query);
+      if (!pack) {
+        return reply.code(404).send({
+          error: "not_found",
+          message:
+            "No market intelligence exists for this exact product, build, realm, and faction",
+          requestId: request.id,
+        });
+      }
+      return reply.code(200).send(pack);
     },
   );
 

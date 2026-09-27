@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { hasNewerMarketScan } from "../lib/market-scan-refresh";
+
 const STATUS_POLL_INTERVAL_MILLISECONDS = 30_000;
 
 interface MarketScanAutoRefreshProps {
+  readonly clientProduct: string;
   readonly region: string;
   readonly realmId: string;
   readonly auctionHouseType: string;
@@ -13,17 +16,26 @@ interface MarketScanAutoRefreshProps {
 }
 
 export function MarketScanAutoRefresh({
+  clientProduct,
   region,
   realmId,
   auctionHouseType,
   initialCompletedAt,
 }: MarketScanAutoRefreshProps): React.JSX.Element {
   const router = useRouter();
-  const latestCompletedAt = useRef(initialCompletedAt);
+  const renderedCompletedAt = useRef(initialCompletedAt);
+  const pendingCompletedAt = useRef<string | null>(null);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    latestCompletedAt.current = initialCompletedAt;
+    renderedCompletedAt.current = initialCompletedAt;
+    if (
+      pendingCompletedAt.current &&
+      !hasNewerMarketScan(pendingCompletedAt.current, initialCompletedAt)
+    ) {
+      pendingCompletedAt.current = null;
+      setMessage("Results updated from the latest Auction House scan.");
+    }
   }, [initialCompletedAt]);
 
   useEffect(() => {
@@ -33,7 +45,12 @@ export function MarketScanAutoRefresh({
     const checkForScan = async (): Promise<void> => {
       if (document.visibilityState !== "visible" || !navigator.onLine || activeRequest) return;
       activeRequest = new AbortController();
-      const search = new URLSearchParams({ region, realm: realmId, auctionHouseType });
+      const search = new URLSearchParams({
+        product: clientProduct,
+        region,
+        realm: realmId,
+        auctionHouseType,
+      });
       try {
         const response = await fetch(`/api/v1/market-scan-status?${search.toString()}`, {
           cache: "no-store",
@@ -45,9 +62,9 @@ export function MarketScanAutoRefresh({
           !stopped &&
           response.ok &&
           completedAt &&
-          Date.parse(completedAt) > Date.parse(latestCompletedAt.current)
+          hasNewerMarketScan(completedAt, renderedCompletedAt.current)
         ) {
-          latestCompletedAt.current = completedAt;
+          pendingCompletedAt.current = completedAt;
           setMessage("New Auction House scan detected. Updating results…");
           router.refresh();
         }
@@ -68,6 +85,7 @@ export function MarketScanAutoRefresh({
       if (document.visibilityState === "visible") void checkForScan();
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    void checkForScan();
 
     return () => {
       stopped = true;
@@ -75,7 +93,7 @@ export function MarketScanAutoRefresh({
       window.clearInterval(interval);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [auctionHouseType, realmId, region, router]);
+  }, [auctionHouseType, clientProduct, realmId, region, router]);
 
   return (
     <span aria-live="polite" className="market-auto-refresh-status" role="status">

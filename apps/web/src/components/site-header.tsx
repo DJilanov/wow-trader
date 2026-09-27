@@ -6,12 +6,16 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navigation = [
-  ["Helper home", "/"],
-  ["TBC Trader", "/tbc/trader"],
-  ["TBC Encyclopedia", "/tbc/encyclopedia"],
-  ["Forever", "/forever/encyclopedia"],
+  ["Forever Trader", "/forever/trader"],
+  ["Forever Encyclopedia", "/forever/encyclopedia"],
+  ["Get Collector", "/forever/addon"],
+  ["TBC Tools", "/tbc"],
   ["Data status", "/data-status"],
 ] as const;
+
+function shouldPrefetch(href: string): boolean {
+  return !href.endsWith("/trader");
+}
 
 export function SiteHeader(): React.JSX.Element {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -44,7 +48,7 @@ export function SiteHeader(): React.JSX.Element {
               className={isActive(href) ? "active" : undefined}
               href={href}
               key={href}
-              prefetch={href !== "/tbc/trader"}
+              prefetch={shouldPrefetch(href)}
             >
               {label}
             </Link>
@@ -75,7 +79,7 @@ export function SiteHeader(): React.JSX.Element {
               href={href}
               key={href}
               onClick={() => setMobileOpen(false)}
-              prefetch={href !== "/tbc/trader"}
+              prefetch={shouldPrefetch(href)}
             >
               {label}
             </Link>

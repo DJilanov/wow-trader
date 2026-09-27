@@ -11,6 +11,18 @@ export function formatCopper(value: bigint | string): string {
     .padStart(2, "0")}c`;
 }
 
+export function formatCompactGold(value: bigint | string): string {
+  const copper = typeof value === "bigint" ? value : BigInt(value);
+  const sign = copper < 0n ? "−" : "";
+  const absolute = copper < 0n ? -copper : copper;
+  const decimalPlaces = absolute < 100_000n ? 3 : absolute < 1_000_000n ? 2 : 1;
+  const scale = 10n ** BigInt(decimalPlaces);
+  const rounded = (absolute * scale + 5_000n) / 10_000n;
+  const whole = rounded / scale;
+  const fraction = (rounded % scale).toString().padStart(decimalPlaces, "0").replace(/0+$/, "");
+  return `${sign}${whole}${fraction ? `.${fraction}` : ""}g`;
+}
+
 export function formatPercentBasisPoints(value: bigint | number): string {
   const basisPoints = typeof value === "bigint" ? value : BigInt(value);
   const sign = basisPoints < 0n ? "−" : "";

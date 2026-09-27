@@ -29,7 +29,7 @@ import { companionStatePath, readDesktopSettings, writeDesktopSettings } from ".
 import { CompanionUtilityHost } from "./utility-host.js";
 
 const execute = promisify(execFile);
-const TRADER_URL = "https://helper.kfcguild.online/tbc/trader";
+const TRADER_ORIGIN = "https://helper.kfcguild.online";
 const LEGACY_LABEL = "online.kfcguild.wow-trader-companion";
 
 export class DesktopController {
@@ -86,6 +86,13 @@ export class DesktopController {
         return this.getSnapshot();
       case "check_now":
         this.#utility.send({ type: "check_now" });
+        this.#companion = companionSnapshotSchema.parse({
+          ...this.#companion,
+          phase: "checking",
+          message: "Checking saved scans and server status…",
+          errorCode: null,
+          updatedAt: new Date().toISOString(),
+        });
         break;
       case "retry":
         this.#utility.send({ type: "retry" });
@@ -124,7 +131,7 @@ export class DesktopController {
         await disableLegacyService();
         break;
       case "open_trader":
-        await shell.openExternal(TRADER_URL);
+        await shell.openExternal(`${TRADER_ORIGIN}/${command.product}/trader`);
         break;
       case "open_logs":
         await mkdir(this.#logsPath(), { recursive: true });
@@ -234,6 +241,7 @@ export class DesktopController {
   }
 
   #notify(snapshot: DesktopSnapshot): void {
+    if (snapshot.companion.phase === "checking") return;
     if (
       !snapshot.settings.notificationsEnabled ||
       snapshot.companion.phase === this.#lastNotifiedPhase

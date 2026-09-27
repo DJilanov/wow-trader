@@ -2,6 +2,7 @@ import {
   getLatestMarketScanStatus,
   type MarketAuctionHouseType,
 } from "../../../../lib/market-scan-status";
+import { isSupportedClientProduct } from "../../../../lib/game-versions";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +17,12 @@ const auctionHouseTypes: readonly MarketAuctionHouseType[] = [
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const region = url.searchParams.get("region")?.trim();
+  const clientProduct = url.searchParams.get("product")?.trim();
   const realmId = url.searchParams.get("realm")?.trim();
   const auctionHouseType = url.searchParams.get("auctionHouseType")?.trim();
   if (
+    !clientProduct ||
+    !isSupportedClientProduct(clientProduct) ||
     !region ||
     !realmId ||
     !auctionHouseType ||
@@ -29,6 +33,7 @@ export async function GET(request: Request): Promise<Response> {
 
   try {
     const scan = await getLatestMarketScanStatus({
+      clientProduct,
       region,
       realmId,
       auctionHouseType: auctionHouseType as MarketAuctionHouseType,

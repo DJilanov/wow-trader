@@ -15,6 +15,7 @@ export type ProductConfiguration = z.infer<typeof productConfigurationSchema>;
 export const companionPhaseSchema = z.enum([
   "setup_required",
   "paused",
+  "checking",
   "waiting_for_saved_scan",
   "scan_detected",
   "uploading",
