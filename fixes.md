@@ -62,6 +62,10 @@ the pending Companion retry to reach Fastify.
 - Full `pnpm check`, `pnpm format:check`, `git diff --check`, deployment-script shell syntax, both
   DMG verifications, both ZIP integrity checks, and HTTP 206 range requests for all four public
   artifacts passed.
+- Commit `87f9101` is pushed to `origin/main`. Immutable application release
+  `kfc-helper-nginx-streaming-20260930-r18` repeated the full check and formatting gates on the
+  server before activation. PM2 reloaded and saved only the two Helper processes; `kfc-website`
+  remained online and was not restarted. Release r17 remains the immediate rollback.
 
 ## Forever scan upload failure after Save and `/reload`
 

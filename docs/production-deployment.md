@@ -10,13 +10,12 @@ before unattended 30-minute Auction House uploads are enabled.
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the
   time of verification) and serves `kfcguild.online` from `/home/kfc-website-system`.
-- Helper release `kfc-helper-market-bigint-20260929-r17` is active. It publishes
+- Helper release `kfc-helper-nginx-streaming-20260930-r18` is active. It publishes
   product-isolated TBC and Forever Trader/market routes, executable-depth crafting recommendations,
   arbitrary Auction House item search with evidence-gated buy verdicts, robust price intelligence
   with interactive craft/item charts, browser-local crafting plans, the reviewed WoW Forever preview
   Encyclopedia, and the Collector download surface in addition to canonical metadata and search
-  routes. Release `kfc-helper-companion-arm64-20260928-r16` is the immediate application
-  rollback.
+  routes. Release `kfc-helper-market-bigint-20260929-r17` is the immediate application rollback.
 - `kfc-helper-web` and `kfc-helper-ingest` run as named PM2 siblings in the `kfc` namespace on
   `127.0.0.1:19210` and `127.0.0.1:19211`. The saved PM2 process list contains all three apps.
 - Nginx redirects HTTP to HTTPS and routes the Helper UI and authenticated `/v1/` ingestion traffic.

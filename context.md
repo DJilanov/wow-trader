@@ -18,7 +18,7 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production application release
-  `kfc-helper-market-bigint-20260929-r17` is active; r16 is the immediate application rollback.
+  `kfc-helper-nginx-streaming-20260930-r18` is active; r17 is the immediate application rollback.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
 - Boundary tools: .NET 10 for CASC/DB2 extraction and Lua for the in-game collector.
 - Full architecture: `blueprint.md`.
@@ -1436,6 +1436,10 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   place.
 - Production now retains 15 scans and 63,989 compact item observations. Current exact-build signal
   counts are 5,521 TBC, 2,295 Forever build 70009, 2,362 build 70058, and 2,357 build 70124.
+- Commit `87f9101` is pushed to `origin/main`. Production release
+  `kfc-helper-nginx-streaming-20260930-r18` passed the complete server-side check and formatting
+  gates before activation. Both Helper processes and the untouched `kfc-website` process are online;
+  PM2 saved the process list. Release r17 is the immediate application rollback.
 
 ## Next actions
 
