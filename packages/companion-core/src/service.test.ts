@@ -147,6 +147,56 @@ describe("companion service", () => {
     });
     await service.stop();
   });
+
+  it("keeps an upload error visible while its automatic retry is deferred", async () => {
+    vi.useFakeTimers();
+    try {
+      const rootPath = await temporaryProductRoot();
+      const savedVariablesPath = path.join(
+        rootPath,
+        "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua",
+      );
+      await mkdir(path.dirname(savedVariablesPath), { recursive: true });
+      await writeFile(savedVariablesPath, SAVED_VARIABLES, "utf8");
+      vi.stubGlobal(
+        "fetch",
+        vi.fn<typeof fetch>().mockResolvedValue(
+          Response.json(
+            {
+              error: "internal_error",
+              message: "The request could not be completed",
+              requestId: "request-1",
+            },
+            { status: 500 },
+          ),
+        ),
+      );
+
+      const service = new DefaultCompanionService({
+        endpoint: new URL("https://helper.example.test"),
+        statePath: path.join(rootPath, "state.json"),
+        products: [{ id: "tbc", kind: "tbc", label: "TBC", rootPath, enabled: true }],
+        automaticUploads: true,
+        apiKey: "test-key-with-enough-entropy",
+        pollIntervalMilliseconds: 500,
+      });
+      await service.start();
+      await expect(service.checkNow()).resolves.toMatchObject({
+        phase: "error",
+        errorCode: "companion_error",
+      });
+
+      await vi.advanceTimersByTimeAsync(500);
+
+      expect(service.getSnapshot()).toMatchObject({
+        phase: "error",
+        errorCode: "companion_error",
+      });
+      await service.stop();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
 
 async function temporaryProductRoot(): Promise<string> {

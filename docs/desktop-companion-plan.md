@@ -1,6 +1,6 @@
 # WoW Trader Desktop Companion Plan
 
-## Implementation status — 2026-09-27
+## Implementation status — 2026-09-28
 
 Phases A through C are implemented for maintainer alpha. `packages/companion-core` owns the shared,
 serialized multi-product scan service and the CLI is a thin adapter. `apps/desktop` now provides the
@@ -9,13 +9,16 @@ IPC, utility-process parsing/upload work, OS-encrypted credentials, product disc
 addon install/update, tray lifecycle, login startup, notifications, manual check/retry, bounded
 activity history, rotating redacted logs, resume reconciliation, and legacy LaunchAgent removal.
 
-The current macOS x64 package uses the same WoW Forever artwork as the Helper product selector and
-has passed a packaged runtime smoke: the local renderer loaded, its
+Companion `0.3.3` publishes separate macOS x64 and native arm64 DMGs, a Windows x64 portable ZIP,
+and a Linux x64 portable ZIP using the same WoW Forever artwork as the Helper product selector. The
+macOS Intel package has passed a packaged runtime smoke: the local renderer loaded, its
 preload API was present, TBC/Auctionator/collector discovery rendered without horizontal overflow,
 the utility process remained alive, a manual reconciliation crossed IPC successfully, closing the
 window left the process running, and a second launch focused the single existing instance. Core and
 desktop regression suites cover v1 state migration, one-time upload/idempotency, IPC rejection, and
-checksum-verified addon installation.
+checksum-verified addon installation. The Apple Silicon DMG passes image verification and contains
+a native Mach-O arm64 executable plus the expected utility process, artwork, and Collector payload;
+runtime smoke testing on physical Apple Silicon remains a release gate.
 
 Companion `0.3.0` adds exact-market intelligence synchronization after every stable-file
 reconciliation. It downloads only the product/build/region/realm/Auction-House pack matching the
@@ -31,9 +34,9 @@ work does not change the alpha security boundary described below.
 
 This is deliberately an **unsigned maintainer-alpha package**, not the public release. Phase D
 (one-time per-installation pairing and revocation) and Phase E (signing,
-notarization, Windows packaging validation, and controlled rollout) remain required. The alpha token
-field accepts only a dedicated revocable ingestion token and must never be populated with a shared
-secret in a distributed build.
+notarization, native Windows/Linux clean-machine validation, and controlled rollout) remain
+required. The alpha token field accepts only a dedicated revocable ingestion token and must never
+be populated with a shared secret in a distributed build.
 
 ## 1. Product decision
 
@@ -302,7 +305,8 @@ Use Electron Forge makers:
 - macOS: signed/notarized arm64 and x64 (or a verified universal build), DMG for installation, and
   ZIP update artifact.
 - Windows: signed x64 Squirrel installer and update artifacts.
-- Linux: explicitly deferred until there is a supported desktop/keyring target.
+- Linux: x64 package for a documented desktop baseline with Secret Service/KWallet integration;
+  distribute through a package-manager-friendly format after the portable alpha passes native tests.
 
 CI builds each operating system on its native runner, runs unit/integration/UI tests, packages, then
 validates signatures and artifacts before publishing. Signing/notarization secrets live only in CI
@@ -361,13 +365,15 @@ plaintext files; revoking one installation does not interrupt another.
 ### Phase E — Packaging, signing, and controlled rollout
 
 - Keep the implemented application/tray artwork, then add macOS entitlements, signing/notarization,
-  Windows signing, Forge maker verification, artifact checksums, and download documentation.
+  Windows signing, native Linux verification, Forge maker verification, artifact checksums, and
+  download documentation.
 - Add auto-update only after signed manual upgrades preserve settings, credential, pending retries,
   and processed IDs.
 - Roll out to maintainers, then a small guild cohort, then broader approved collectors.
 
 Exit gate: signed installers pass clean-machine install/update/uninstall drills on current macOS and
-Windows, and the server can revoke each installation independently.
+Windows, the Linux package passes its supported desktop/keyring matrix, and the server can revoke
+each installation independently.
 
 ### Phase F — Forever activation
 

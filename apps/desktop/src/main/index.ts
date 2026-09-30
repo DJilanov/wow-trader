@@ -94,6 +94,9 @@ function createWindow(): void {
     minHeight: 580,
     show: true,
     backgroundColor: "#08080a",
+    icon: app.isPackaged
+      ? path.join(process.resourcesPath, "icon.png")
+      : path.resolve(app.getAppPath(), "resources/icon.png"),
     title: "WoW Trader Companion",
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,

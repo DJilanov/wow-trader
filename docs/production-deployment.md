@@ -1,6 +1,6 @@
 # KFC Helper production deployment runbook
 
-Last verified against `89.167.46.193`: 2026-09-27.
+Last verified against `89.167.46.193`: 2026-09-30.
 
 The TBC and WoW Forever preview product is live at `https://helper.kfcguild.online`. This document
 records the deployed topology, its operational runbook, and the storage work that must be completed
@@ -10,12 +10,13 @@ before unattended 30-minute Auction House uploads are enabled.
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the
   time of verification) and serves `kfcguild.online` from `/home/kfc-website-system`.
-- Helper release `kfc-helper-item-market-20260927-r13` is active. It publishes
+- Helper release `kfc-helper-market-bigint-20260929-r17` is active. It publishes
   product-isolated TBC and Forever Trader/market routes, executable-depth crafting recommendations,
   arbitrary Auction House item search with evidence-gated buy verdicts, robust price intelligence
   with interactive craft/item charts, browser-local crafting plans, the reviewed WoW Forever preview
   Encyclopedia, and the Collector download surface in addition to canonical metadata and search
-  routes. Release `kfc-helper-scan-refresh-20260927-r12` is the immediate application rollback.
+  routes. Release `kfc-helper-companion-arm64-20260928-r16` is the immediate application
+  rollback.
 - `kfc-helper-web` and `kfc-helper-ingest` run as named PM2 siblings in the `kfc` namespace on
   `127.0.0.1:19210` and `127.0.0.1:19211`. The saved PM2 process list contains all three apps.
 - Nginx redirects HTTP to HTTPS and routes the Helper UI and authenticated `/v1/` ingestion traffic.
@@ -28,25 +29,45 @@ before unattended 30-minute Auction House uploads are enabled.
   limited ingestion roles. Credentials exist only in mode-0600 server environment files.
 - The published TBC build contains 30,133 items. Its 3,163 verified item icons are served from an
   immutable, checksum-verified media release.
-- The published Forever build `1.60.1.70009` contains 23,578 named items, 12 professions, and 2,239
-  valid recipes. Its separate immutable media release contains 2,945 verified item icons; the roots
+- The published Forever build `1.60.1.70124` contains 23,605 named items, 12 professions, and 2,239
+  valid recipes. Its separate immutable media release contains 2,948 verified item icons; the roots
   must stay separate because identical file-data IDs can resolve to different bytes by product.
-- Companion `0.3.1` is available from `/forever/addon` as a checksum-verified, range-capable macOS
-  Intel DMG. The published 134,739,788-byte artifact has SHA-256
-  `dcf410857b00d0b8d2a667bfe49283e695cbb361b0c45a4e234f7580be056709`. It is explicitly a
-  private-token, unsigned maintainer alpha rather than a public onboarding build.
+- Companion `0.3.3` is available from `/forever/addon` as checksum-verified, range-capable macOS
+  Intel, macOS Apple Silicon, Windows x64, and Linux x64 downloads. The two DMGs and two portable
+  ZIP archives are unsigned private-token maintainer-alpha artifacts. The Apple Silicon package is
+  a verified native arm64 build but has not been runtime-smoked on physical Apple Silicon hardware;
+  the Windows and Linux packages are not represented as installers or native-runtime-certified
+  public builds.
 - The published Forever evidence snapshot has checksum `f9922e4e8784…cc213` and exposes 9 classes,
   27 trees, 470 talents, 401 spellbook entries, racials, class abilities, Legacy perks, and source
   history. Its 574 icons/backgrounds passed local and server-side byte/SHA-256 verification before
   the shared asset pointer changed.
-- Seven retained scans have produced 45,219 compact per-item observations. Signal rebuilding
-  currently exposes 5,521 TBC and 2,267 Forever exact-market rows; the Forever market remains in the
-  honest collecting state at 4/6 independent observations. Duplicate replay remains idempotent
-  through the public HTTPS endpoint.
+- Fourteen retained scans have produced 61,632 compact per-item observations. Signal rebuilding
+  currently exposes 5,521 TBC, 2,295 Forever build-70009, 2,362 Forever build-70058, and 2,366
+  Forever build-70124 exact-market rows. Build 70124 honestly restarts history at `Collecting 1/6`;
+  evidence is never mixed across client builds. Duplicate replay remains idempotent through the
+  public HTTPS endpoint.
 - Migration `0014_productive_praxagora.sql` was applied after verifying the 14,879,415-byte custom
   backup at `shared/backups/wow_trader-pre-market-intelligence-20260927.dump`. The ingestion role has
   scoped `DELETE` access only to the derived `market_item_signal` table so exact-market signal sets
   can be atomically rebuilt.
+- Migration `0015_market_signal_bigint.sql` promotes the unbounded derived price-difference and
+  supply-ratio basis-point columns from 32-bit `integer` to `bigint`. It passed a disposable restore
+  rehearsal before production application. The verified pre-migration custom backup is
+  `shared/backups/wow_trader-pre-market-bigint-20260929.dump` (15,826,451 bytes). This fixed the
+  rollback caused by an extreme but valid 99,999g listing, and the previously failed saved scan was
+  subsequently accepted without payload modification.
+- Forever build 70058 was published after local and server-side audit/validation, a reviewed diff
+  against build 70009, and activation of its checksum-verified 2,948-icon media release. The diff
+  added 27 item IDs and changed or removed no items, spells, professions, recipes, or transformations.
+  The verified pre-publication database backup is
+  `shared/backups/wow_trader-pre-forever-70058-catalog-20260929.dump` (16,063,818 bytes).
+- Forever build 70124 was published from exact WoWDBDefs revision
+  `005c13a9a101e64014eeb02af3a42ccbeaf8513d` after local and server-side audit/validation. Its diff
+  against build 70058 contains no player-facing catalog changes. The 2,948-icon release
+  `wow_classic_beta-70124-enUS-3055d2ff-005c13a` was verified and activated before publication. The
+  verified pre-publication backup is
+  `shared/backups/wow_trader-pre-forever-70124-catalog-20260930.dump` (22,101,567 bytes).
 - A custom-format prelaunch backup was verified with `pg_restore --list` and restored into a
   disposable database. Its restored counts matched the live catalog and market data.
 - A separate 7.8 MiB pre-migration custom-format backup was checked with `pg_restore --list` before
@@ -320,7 +341,7 @@ Build and prepare the current desktop release, then synchronize its immutable as
 manifest:
 
 ```bash
-pnpm desktop:release:macos
+pnpm desktop:release
 ./scripts/sync-production-companion-release.sh artifacts/companion-releases
 ```
 
@@ -466,10 +487,10 @@ deliberately visible rather than being implied by a successful application deplo
 - [x] A real local scan uploads successfully over HTTPS, becomes `processed`, and an identical retry
       is reported as a duplicate without adding price-level rows.
 - [x] The website shows the exact realm, build, completion time, and price-level counts from that scan.
-- [x] Forever Trader ranks the accepted build-70009 scan against the exact published recipe catalog,
+- [x] Forever Trader ranks the accepted build-70124 scan against the exact published recipe catalog,
       and the raw Forever market route remains available independently.
-- [x] The Companion release manifest, full DMG checksum, HTTP range response, and download-page mobile
-      layout are verified through the public hostname.
+- [x] The Companion release manifest, all four artifact checksums, HTTP range responses, and
+      download-page desktop/mobile layouts are verified through the public hostname.
 - [x] PM2 reports `kfc-website`, `kfc-helper-web`, and `kfc-helper-ingest` online; `pm2 save` has captured
       the named process set.
 - [ ] A controlled reboot/startup check restores all three applications. PM2 startup and the saved
@@ -505,5 +526,6 @@ place before its evidence is preserved.
    backup scheduling, and disk/data-freshness alerts.
 3. Run a controlled PM2 startup/reboot drill during a maintenance window.
 4. Only then enable the local companion's unattended 30-minute production schedule.
-5. Replace maintainer-alpha token entry with per-installation pairing/revocation and complete signed,
-   notarized macOS plus signed Windows distribution before a public Collector rollout.
+5. Replace maintainer-alpha token entry with per-installation pairing/revocation; complete signed,
+   notarized macOS and signed Windows distribution; and pass native clean-machine Windows/Linux
+   runtime drills before a public Collector rollout.

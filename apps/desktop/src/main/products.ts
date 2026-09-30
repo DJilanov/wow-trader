@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, rename, rm, stat } from "node:fs/promises";
+import { homedir } from "node:os";
 import path from "node:path";
 
 import {
@@ -160,18 +161,39 @@ async function readAddonVersion(filePath: string): Promise<string | null> {
   }
 }
 
-function defaultProductCandidates(): readonly ProductConfiguration[] {
-  if (process.platform === "win32") {
+interface DefaultProductCandidateOptions {
+  readonly platform?: NodeJS.Platform;
+  readonly homeDirectory?: string;
+  readonly environment?: NodeJS.ProcessEnv;
+}
+
+export function defaultProductCandidates(
+  options: DefaultProductCandidateOptions = {},
+): readonly ProductConfiguration[] {
+  const platform = options.platform ?? process.platform;
+  const environment = options.environment ?? process.env;
+  if (platform === "win32") {
     const programFiles =
-      process.env["ProgramFiles(x86)"] ?? process.env.ProgramFiles ?? "C:\\Program Files (x86)";
+      environment["ProgramFiles(x86)"] ?? environment.ProgramFiles ?? "C:\\Program Files (x86)";
     const wowRoot = path.join(programFiles, "World of Warcraft");
-    return [
-      createProductConfiguration("tbc", path.join(wowRoot, "_anniversary_")),
-      createProductConfiguration("forever", path.join(wowRoot, "_forever_")),
-      createProductConfiguration("forever", path.join(wowRoot, "_classic_beta_")),
-    ];
+    return productCandidatesForRoot(wowRoot);
   }
-  const wowRoot = "/Applications/World of Warcraft";
+  if (platform === "darwin") return productCandidatesForRoot("/Applications/World of Warcraft");
+
+  const homeDirectory = options.homeDirectory ?? homedir();
+  const winePrefixes = [
+    environment.WINEPREFIX,
+    path.join(homeDirectory, ".wine"),
+    path.join(homeDirectory, "Games", "battlenet"),
+    path.join(homeDirectory, "Games", "world-of-warcraft"),
+  ].filter((value): value is string => Boolean(value?.trim()));
+  const roots = winePrefixes.map((prefix) =>
+    path.join(prefix, "drive_c", "Program Files (x86)", "World of Warcraft"),
+  );
+  return roots.flatMap(productCandidatesForRoot);
+}
+
+function productCandidatesForRoot(wowRoot: string): readonly ProductConfiguration[] {
   return [
     createProductConfiguration("tbc", path.join(wowRoot, "_anniversary_")),
     createProductConfiguration("forever", path.join(wowRoot, "_forever_")),

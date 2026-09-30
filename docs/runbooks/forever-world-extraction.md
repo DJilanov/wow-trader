@@ -30,7 +30,7 @@ From the repository root:
 
 ```bash
 WORLD_OUTPUT=./artifacts/local-world pnpm extract:forever:world
-pnpm world:audit artifacts/local-world/world-snapshots/wow_classic_beta/69913/enUS/missing-hotfix/world-snapshot-manifest.v1/extractor-0.3.0/manifest.json
+pnpm world:audit artifacts/local-world/world-snapshots/wow_classic_beta/69913/enUS/missing-hotfix/world-snapshot-manifest.v1/definitions-<revision>/extractor-0.3.0/manifest.json
 ```
 
 For build 69913 the audited counts are:

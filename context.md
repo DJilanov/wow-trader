@@ -1,6 +1,6 @@
 # WoW Trader project context
 
-Last updated: 2026-09-27
+Last updated: 2026-09-30
 
 ## Goal and current target
 
@@ -18,7 +18,7 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production application release
-  `kfc-helper-world-explorer-3cf6be0` runs commit `3cf6be0`.
+  `kfc-helper-market-bigint-20260929-r17` is active; r16 is the immediate application rollback.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
 - Boundary tools: .NET 10 for CASC/DB2 extraction and Lua for the in-game collector.
 - Full architecture: `blueprint.md`.
@@ -589,16 +589,19 @@ testing.
   `pnpm companion:uninstall:macos` removes the service while preserving identity/state against replay.
   The production installer is intentionally not activated until the documented 30-minute retention
   storage gate is implemented.
-- An open Trader page polls a lightweight market-specific status endpoint every 30 seconds while
-  visible/online and calls a server-component refresh when a newer processed scan arrives. The addon
-  still cannot force WoW to flush: after Auctionator finishes, `/reload` or logout remains required.
+- An open Trader page polls a lightweight market-specific status endpoint every five seconds while
+  visible/online and calls a server-component refresh when a newer processed scan arrives. If the
+  rendered workspace does not catch up within four seconds, the page performs one hard reload; focus,
+  page-show, and visibility changes also trigger an immediate check. The addon still cannot force WoW
+  to flush: after Auctionator finishes, `/reload` or logout remains required.
 - Remaining product phases are imported character professions/skills/specializations/known recipes/
   inventory, execution queues and addon export, retained observation summaries and sale/expiry
   evidence, risk-adjusted demand ranking, alerts/backtests, and portfolio allocation.
-- The Electron implementation in `docs/desktop-companion-plan.md` is now working as an unsigned
-  maintainer-alpha macOS x64 package. `packages/companion-core` is shared by the CLI and Electron
-  utility process and covers serialized multi-product polling, stable-write detection, processing
-  receipts, cancellation, bounded retry, v1-to-v2 state migration, and restart-safe scan IDs.
+- The Electron implementation in `docs/desktop-companion-plan.md` is now working as unsigned
+  maintainer-alpha macOS, Windows, and Linux x64 packages. `packages/companion-core` is shared by the
+  CLI and Electron utility process and covers serialized multi-product polling, stable-write
+  detection, processing receipts, cancellation, bounded retry, v1-to-v2 state migration, and
+  restart-safe scan IDs.
 - `apps/desktop` provides the local KFC-styled React dashboard, sandboxed custom-protocol renderer,
   validated narrow IPC, async `safeStorage`, automatic/manual upload controls, product/account/file
   health, verified collector `0.4.0` install/update, recent private activity, tray/close-to-tray,
@@ -1125,9 +1128,10 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   `44c6264d5149126dda09e632ed41453a446d9f056aa5db5db83807231f036b16`; server-side size/hash and a
   public 100-byte range response were verified. It opens either Forever or TBC Trader and packages
   collector `0.9.1`.
-- Distribution remains visibly labeled `Maintainer alpha`: the DMG is unsigned, macOS Intel-only,
-  and still requires a private collector token. Public per-installation pairing/revocation, signing,
-  notarization, Apple Silicon, and Windows packages remain release gates.
+- At the `0.2.0` release point, distribution was visibly labeled `Maintainer alpha`: the DMG was
+  unsigned, macOS Intel-only, and required a private collector token. Public per-installation
+  pairing/revocation, signing, notarization, Apple Silicon, and Windows packages were still release
+  gates.
 - The production backup
   `/home/wow-trader-system/shared/backups/wow_trader-pre-forever-trader-20260927.dump` passed
   `pg_restore --list` before migrations `0010`–`0013`. Local and clean server runs of lint,
@@ -1211,10 +1215,11 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
 - Expanded opportunity details read up to 1,440 accepted scans for the selected client product,
   build, region, realm, and Auction House. Scoping the query before applying that 30-day limit keeps
   activity from other realms from crowding the selected market out of its own history.
-- The Trader checks scan status immediately on page load and every 30 seconds while visible. It keeps
-  retrying a detected scan until the rendered workspace timestamp catches up; a refresh that lands
-  inside the 30-second server workspace cache can no longer leave an open Trader tab permanently
-  stale.
+- The Trader checks scan status immediately on page load and every five seconds while visible. It
+  refreshes the server component after detecting a newer scan and performs one hard reload if the
+  rendered timestamp has not caught up within four seconds. Focus, page-show, and visibility changes
+  also trigger an immediate check, so an ingestion finishing just after a desktop reconciliation no
+  longer leaves the open tab showing the previous scan.
 - Companion `0.3.1` downloads the authenticated market pack after reconciliation and atomically
   installs generated `MarketData.lua`. Collector `0.10.0` provides a searchable Market Intel panel,
   exact-market compatibility checks, item-tooltip signals, and an account-wide local watchlist with
@@ -1225,11 +1230,12 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   pre-migration backup. At migration time it backfilled 40,645 compact observations from five scans
   covering 8,122 items and published 5,521 TBC plus 2,324 Forever signal rows at `Collecting 3/6`
   and `Collecting 2/6` respectively; later accepted scans supersede those initial counts.
-- Companion `0.3.1` is synchronized as a 134,739,788-byte macOS Intel DMG with SHA-256
-  `dcf410857b00d0b8d2a667bfe49283e695cbb361b0c45a4e234f7580be056709`. The app is installed at
-  `/Applications/WoW Trader Companion.app`, and Collector `0.10.0` is installed in both the
-  Anniversary and Classic Beta clients with recoverable backups of their prior versions.
-- Production release `kfc-helper-item-market-20260927-r13` is active; compact r12 remains its
+- Companion `0.3.3` is synchronized with macOS Intel and Apple Silicon DMGs, Windows x64 portable
+  ZIP, and Linux x64 portable ZIP artifacts. All four server-side sizes and SHA-256 values match the
+  public manifest, and full plus byte-range download responses were verified. The locally installed
+  macOS app remains `0.3.1`, and Collector `0.10.0` is installed in both the Anniversary and Classic
+  Beta clients with recoverable backups of their prior versions.
+- Production release `kfc-helper-companion-arm64-20260928-r16` is active; compact r15 remains its
   immediate application rollback. Public and loopback health checks passed. Live Chrome validated
   the crafting charts plus arbitrary Auction House item name/ID search, expandable current-price
   evidence, Wowhead references, and responsive item history with no horizontal overflow at both
@@ -1254,10 +1260,158 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   `2026-09-27T12:22:36Z` with 2,267 canonical markets and 8,277 price levels. The desktop state,
   ingestion row, public scan-status API, and live Trader all agree on that scan; the earlier apparent
   failure was missing immediate desktop feedback rather than a lost upload.
-- Companion `0.3.1` is installed locally and published as the maintainer-alpha download. Its manual
-  check shows `Checking saved scans and server status…` immediately and stays visibly busy through
-  the real reconciliation phases. The prior temporary local application backup was removed after the
-  installed version, preserved mode-0600 settings/state, and production download were verified.
+- The fifth accepted Forever scan, `26a8b95b-d96a-41f6-9c97-853ff101f4f0`, completed at
+  `2026-09-27T12:58:14Z` with 2,271 canonical markets and 8,347 price levels. The database now holds
+  eight scans and 47,490 compact observations, and Forever guidance is at `Collecting 5/6`. The
+  companion had uploaded and processed this scan correctly; the stale 36-minute display came from a
+  browser check landing before ingestion completed and then waiting too long to poll again. Release
+  r14 closes that timing gap with five-second polling and the bounded hard-refresh fallback.
+- Companion `0.3.1` remains installed locally. Its manual check shows
+  `Checking saved scans and server status…` immediately and stays visibly busy through the real
+  reconciliation phases. The prior temporary local application backup was removed after the
+  installed version and preserved mode-0600 settings/state were verified.
+
+### Cross-platform Companion downloads (2026-09-28)
+
+- `/forever/addon` now offers Companion `0.3.3` for macOS Intel, macOS Apple Silicon, Windows x64,
+  and Linux x64. The hero routes players to four explicit platform cards instead of assuming macOS,
+  and the page explains that Windows/Linux are extract-and-run portable ZIPs. Desktop and 390 px
+  mobile browser checks show all cards without horizontal overflow.
+- The release pipeline builds all four Electron targets, copies immutable artifacts into one
+  manifest, records byte size and SHA-256 for each, and publishes `latest.json` only after the server
+  verifies every uploaded byte. Public HEAD and 32-byte range requests match the manifest for all
+  four downloads.
+- The Intel DMG is 136,264,060 bytes (`338e2ef0f938…23f4`), the Apple Silicon DMG is 132,546,267
+  bytes (`8716d3ca51c4…5174`), the Windows ZIP is 160,575,060 bytes (`55c65965c2fc…eddf`), and the
+  Linux ZIP is 125,034,129 bytes (`140cc0965307…ceda`). The Apple Silicon app is a native Mach-O
+  arm64 executable and its DMG passes `hdiutil verify`; it still needs a runtime smoke on physical
+  Apple Silicon. The Windows archive contains an x64 PE executable and the Linux archive an
+  executable x64 ELF binary; all packages include the branded resources, utility process, and
+  Collector payload.
+- Linux discovery checks an explicit `WINEPREFIX` plus common Wine/Lutris-style prefixes and retains
+  manual folder selection. Credential saving refuses Electron's insecure `basic_text` fallback and
+  requires Secret Service/KWallet-class storage. Windows/Linux packages remain unsigned
+  maintainer-alpha builds until native clean-machine runtime and signing/distribution gates pass.
+
+### Windows Companion packaging audit (2026-09-28)
+
+- The published `0.3.3` Windows archive passes a complete ZIP integrity test and contains a PE32+
+  x86-64 GUI executable, `app.asar`, the utility-process bundle, artwork, and the Collector at the
+  exact `process.resourcesPath` locations consumed by the packaged application. The executable's
+  imported DLLs are Windows system libraries or Electron files shipped beside it, and its hardened
+  Electron fuses are present.
+- The four Collector files embedded in the Windows package match the installer's pinned SHA-256
+  checksums byte-for-byte. Native Windows path expansion produces the intended product, addon, and
+  SavedVariables paths under `C:\Program Files (x86)\World of Warcraft\_classic_beta_`; the archive
+  checksum and length match the public release manifest.
+- Settings/state/logs use Electron's per-user `userData` location and the token uses Windows DPAPI
+  through asynchronous `safeStorage`, so neither depends on write access beside the portable
+  executable. The packaged resource and utility paths are also independent of the current working
+  directory.
+- The current automatic game discovery checks only `%ProgramFiles(x86)%\World of Warcraft`. A game
+  under `%ProgramFiles%` or a custom drive requires manual selection. The folder picker currently
+  expects the exact `_anniversary_`, `_forever_`, or `_classic_beta_` product directory and does not
+  validate or normalize a selected parent `World of Warcraft` directory before addon installation.
+  Its existing Windows discovery unit test also uses the host path implementation when run on macOS,
+  so it is not sufficient evidence of real Windows semantics.
+- The portable build's `Start at login` entry targets the executable's extracted location; moving or
+  deleting that folder afterward leaves the startup entry stale. Before promoting Windows beyond
+  maintainer alpha, add multi-root discovery and validated parent-folder normalization, replace the
+  host-dependent path test, and run launch, token persistence, addon install, scan upload, tray,
+  restart, and login-start smoke tests on a clean Windows 10/11 machine. The unsigned build may also
+  trigger SmartScreen until the signed installer phase is complete.
+
+### Extreme-price ingestion incident (2026-09-29)
+
+- Forever scan `a39e53b9-33b3-48c5-81fb-e6b5f4d0dc9f` was detected and uploaded by the local
+  Companion, but its ingestion transaction initially rolled back. Item 43, Squire's Boots, moved
+  from a roughly 100-copper historical ask to two listings at 99,999,990,000 copper. The valid
+  `9,999,998,990,000` basis-point difference exceeded PostgreSQL's 32-bit `integer` range while the
+  derived market signals were rebuilt.
+- Migration `0015_market_signal_bigint.sql` changes `difference_basis_points` and
+  `supply_ratio_basis_points` to `bigint`. It was tested against a disposable restore of the live
+  database, then applied from the owner role after verifying the 15,826,451-byte custom-format
+  backup at `shared/backups/wow-trader-pre-market-bigint-20260929.dump`.
+- Production release `kfc-helper-market-bigint-20260929-r17` is active. The original saved scan was
+  retried without editing or recreating it and processed successfully: 2,378 item markets and 8,458
+  price levels, completed at `2026-09-29T02:19:14Z`. The database and public scan-status API both
+  return that exact scan as the latest Forever `UNKNOWN / ClassicBetaPvP / alliance` observation.
+- The signal regression suite now covers the exact extreme-price delta. Automatic Companion checks
+  retain the current upload error during a retry cooldown instead of replacing it with a false
+  `All saved scans are up to date` state. Ingestion logs also summarize database errors without
+  serializing full SQL parameter arrays. The locally installed Companion remains `0.3.1`, so it does
+  not receive the corrected retry-state presentation until a newer desktop package is installed;
+  the server-side upload failure itself is fixed.
+
+### Local Forever build-70058 bootstrap (2026-09-29)
+
+- The local PostgreSQL container had exited, causing catalog-backed localhost routes to display the
+  generic database-unavailable fallback. `pnpm dev` now runs against the active Forever target via
+  the ignored local `WOW_PRODUCT=wow_classic_beta` setting; it starts PostgreSQL, applies all 16
+  migrations, validates/publishes the exact catalog, and watches the Beta SavedVariables folder.
+- Forever client `1.60.1.70058` requires WoWDBDefs revision
+  `c79f208203f8d6ce2a5e2e7dcb34ab6606ae5ab1`. Both catalog and world extractor defaults are pinned
+  to that exact upstream build merge. Catalog parsing errors now identify the failing table/build/
+  revision, and the revision CLI boundary rejects anything other than a full Git SHA.
+- The audited build-70058 catalog contains 23,605 named items, 12 professions, 2,239 recipes, and
+  2,948 decoded icons. The new audited world snapshot contains 72 maps, 342 encounter rows, 73
+  criteria-backed bosses, 6,605 quest IDs, and 1,288 item-source hints.
+- World snapshot storage now includes the definitions revision in its immutable path. This lets a
+  corrected definition set coexist with an older snapshot for the same build/hotfix rather than
+  deleting, overwriting, or silently reusing evidence.
+- The local watcher processed eight saved Forever scans. Latest scan
+  `d833de11-c1d2-457b-ad5d-a30f3a79d810` is build 70058 with 2,362 markets and 8,477 price levels;
+  localhost Forever Trader renders it without the database fallback. Production was healthy and
+  unchanged during the initial local recovery.
+
+### Production Forever build-70058 publication (2026-09-29)
+
+- Production had accepted the build-70058 scan but still published only catalog build 70009, so the
+  Trader correctly gated calculations rather than joining prices to stale recipes. The live UI
+  reported `Build 70058 · review pending` and no matching published catalog.
+- The 70009→70058 review diff adds 27 item IDs, removes or changes no items, and changes no spells,
+  professions, recipes, or transformations. Server-side re-audit verified all 102 artifacts and
+  relationship validation reported no issues.
+- After verifying the 16,063,818-byte custom-format backup at
+  `shared/backups/wow_trader-pre-forever-70058-catalog-20260929.dump`, production imported the new
+  build as review-required, activated the immutable checksum-verified 2,948-icon media release, and
+  then published catalog build ID `457e6227-85f5-4053-ab39-5f6898c0cf17`.
+- Live Forever Trader now joins scan `d833de11-c1d2-457b-ad5d-a30f3a79d810` to exact catalog
+  `1.60.1.70058`: 2,362 markets, 8,477 price levels, 50 rendered crafting opportunities, working
+  Auction House item search/history, and valid build-native icons. The catalog gate and generic
+  database fallback are absent.
+- Production now retains 13 scans and 59,266 compact item observations. Signals remain build-scoped:
+  5,521 TBC rows, 2,295 Forever build-70009 rows, and 2,362 Forever build-70058 rows; new-build
+  guidance honestly restarts at `Collecting 1/6`.
+
+### Production Forever build-70124 publication (2026-09-30)
+
+- Scan `41c16940-f286-43e0-ba25-705aca0ccfe8` uploaded correctly, but its new client build had no
+  exact published catalog. The Trader's `Build 70124 · review pending` state was the deliberate
+  build-integrity gate, not a Companion or ingestion failure.
+- The installed client is `1.60.1.70124`. Catalog and world extraction now use exact WoWDBDefs
+  revision `005c13a9a101e64014eeb02af3a42ccbeaf8513d` (`Merge 1.60.1.70124`), which has build-70124
+  definitions for all 36 required catalog tables.
+- Local extraction, the 102-artifact audit, and relationship validation passed with 23,605 named
+  items, 12 professions, 2,239 recipes, and 2,948 verified item icons. The 70058→70124 structural
+  diff contains no added, removed, or changed player-facing items, spells, professions, recipes, or
+  transformations.
+- The exact world snapshot also passed audit with 72 maps, 1,672 decoded map tiles, 342 encounter
+  rows, 73 criteria-backed bosses, 6,605 quest IDs, and 1,288 item-source hints. It remains local
+  evidence; this incident required only the Trader catalog and item media on production.
+- Production backup
+  `shared/backups/wow_trader-pre-forever-70124-catalog-20260930.dump` was verified at 22,101,567
+  bytes. The server repeated catalog audit and validation against immutable release
+  `shared/catalog-releases/wow_classic_beta-70124-enUS-3055d2ff-005c13a` before import.
+- Media release `wow_classic_beta-70124-enUS-3055d2ff-005c13a` passed local and server verification
+  with 2,948 icons before catalog build ID `196c3b07-ca1e-49d3-b919-208401b4887e` was published.
+- Live Forever Trader now resolves exact catalog `1.60.1.70124`, renders 50 crafting opportunities,
+  returns 30 Auction House item rows for `scroll`, and serves valid Forever PNG media. Neither
+  review-gate message is present. PM2 reports both Helper processes online; only the web process was
+  reloaded to clear cached catalog selection.
+- Production retains 14 scans and 61,632 item observations. Current build-scoped signal counts are
+  5,521 for TBC build 69795, 2,295 for Forever build 70009, 2,362 for build 70058, and 2,366 for
+  build 70124. Cross-build market history remains intentionally isolated.
 
 ## Next actions
 
@@ -1272,7 +1426,7 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
 4. Add the first build-locked spec evaluator to the catalog-backed BiS workspace, then validate its
    whole-loadout mechanics before promoting its candidates to a ranked list. Do not publish
    phase-specific BiS until source/availability filtering exists.
-5. Collect at least two more accepted scans for the same Forever market/build through the automatic
+5. Collect at least one more accepted scan for the same Forever market/build through the automatic
    watcher, then validate the newly unlocked normal-price bands and direction signals against the
    Blizzard UI before treating them as player guidance.
 6. Extend scan-quality diagnostics with the Auctionator version, skipped-row counts, and separate
@@ -1281,16 +1435,16 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
    recipe IDs so the account network can replace its visible simulation with actual eligibility;
    then add inventory/capital constraints and mastery-proc observations. Disenchant observations can
    audit the static table but are not required to calculate its expected value.
-8. Extend the published build-70009 catalog with item stats, damage, resistances, sockets, item
+8. Extend the published build-70124 catalog with item stats, damage, resistances, sockets, item
    effects, teaching items, transformations, and in-game golden tooltip/recipe checks. Keep the old
-   build-69893 world snapshot review-only; it is separate from the published build-70009 Trader
+   build-69893 world snapshot review-only; it is separate from the published build-70124 Trader
    catalog and must never be presented as exact current-client evidence.
 9. Replace the Companion maintainer token with per-installation pairing/revocation, then sign and
-   notarize macOS Intel/Apple Silicon packages and produce a signed Windows package before promoting
-   the download from maintainer alpha to public.
+   notarize macOS Intel/Apple Silicon packages, produce a signed Windows installer, and validate the
+   Linux desktop/keyring matrix before promoting the download from maintainer alpha to public.
 10. Keep the old world-diagnostics workflow paused while collector `0.9.1` remains market-only. If it
     is revisited, first extract the current build and regenerate all build-pinned seeds; do not restore
-    or run the archived build-69913 quest/model catalogs on build 70009. The review-only
+    or run the archived build-69913 quest/model catalogs on build 70124. The review-only
     boss/spell/location/source pages must remain provenance-labeled until a replacement evidence path
     passes review.
 11. Verify the apex guild site and Helper subdomain in Google Search Console, submit both public

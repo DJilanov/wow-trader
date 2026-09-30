@@ -274,7 +274,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       });
     }
 
-    request.log.error({ error }, "Unhandled request error");
+    request.log.error({ error: summarizeErrorForLog(error) }, "Unhandled request error");
     return reply.code(500).send({
       error: "internal_error",
       message: "The request could not be completed",
@@ -309,4 +309,53 @@ function safeStringEqual(left: string, right: string): boolean {
 
 function isValidationError(error: unknown): error is Error & { validation: unknown } {
   return error instanceof Error && "validation" in error && error.validation !== undefined;
+}
+
+interface ErrorLogSummary {
+  readonly name: string;
+  readonly message: string;
+  readonly code: string | undefined;
+  readonly cause:
+    | {
+        readonly name: string | undefined;
+        readonly code: string | undefined;
+        readonly severity: string | undefined;
+        readonly routine: string | undefined;
+      }
+    | undefined;
+}
+
+function summarizeErrorForLog(error: unknown): ErrorLogSummary {
+  if (!(error instanceof Error)) {
+    return {
+      name: "UnknownError",
+      message: "A non-Error value was thrown",
+      code: undefined,
+      cause: undefined,
+    };
+  }
+  const cause = "cause" in error ? error.cause : undefined;
+  const causeSummary =
+    cause && typeof cause === "object"
+      ? {
+          name: readStringProperty(cause, "name"),
+          code: readStringProperty(cause, "code"),
+          severity: readStringProperty(cause, "severity"),
+          routine: readStringProperty(cause, "routine"),
+        }
+      : undefined;
+  return {
+    name: error.name,
+    message: error.message.split("\n", 1)[0]!.slice(0, 500),
+    code: readStringProperty(error, "code"),
+    cause:
+      causeSummary && Object.values(causeSummary).some((value) => value !== undefined)
+        ? causeSummary
+        : undefined,
+  };
+}
+
+function readStringProperty(value: object, key: string): string | undefined {
+  const property = Reflect.get(value, key);
+  return typeof property === "string" ? property : undefined;
 }

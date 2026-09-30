@@ -21,6 +21,11 @@ export async function writeCredential(userDataPath: string, credential: string):
   if (!safeStorage.isEncryptionAvailable()) {
     throw new Error("Secure operating-system credential storage is unavailable");
   }
+  if (process.platform === "linux" && safeStorage.getSelectedStorageBackend() === "basic_text") {
+    throw new Error(
+      "Secure credential storage requires GNOME Keyring, KWallet, or another Linux Secret Service",
+    );
+  }
   const encrypted = await safeStorage.encryptStringAsync(normalized);
   const filePath = credentialPath(userDataPath);
   const temporaryPath = `${filePath}.${process.pid}.tmp`;

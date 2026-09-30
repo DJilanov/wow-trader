@@ -75,7 +75,7 @@ world, quest, and map media into the item catalog. Its defaults target the insta
 `wow_classic_beta` product and the exact pinned WoWDBDefs revision used for the installed Beta build.
 
 ```text
-world-snapshots/<product>/<build>/<locale>/<hotfix-hash-or-status>/world-snapshot-manifest.v1/extractor-<version>/
+world-snapshots/<product>/<build>/<locale>/<hotfix-hash-or-status>/world-snapshot-manifest.v1/definitions-<revision>/extractor-<version>/
 ├── manifest.json
 ├── map-media-manifest.json
 ├── checksums.sha256
@@ -90,9 +90,8 @@ review-required boss spell candidates, review-required item-to-boss/encounter/ma
 candidates, map difficulties, content tuning, structural quest IDs, optional client-task metadata,
 and typed quest objectives. The raw snapshot also preserves the available quest reward curves,
 display-option tables, and Adventure Guide family even when the client ships zero rows. The
-extractor version is part of the immutable
-path so adding normalized evidence never overwrites or silently reuses an older snapshot from the
-same client build.
+definitions revision and extractor version are part of the immutable path, so changing either input
+never overwrites or silently reuses an older snapshot from the same client build.
 
 Overrides use `WORLD_OUTPUT`, `WOW_ROOT`, `WOW_PRODUCT`, `WOW_LOCALE`, `WOW_REGION`,
 `WOWDBDEFS_REVISION`, and `DOTNET_BIN`. Audit a result with `pnpm world:audit <manifest>`. Import it

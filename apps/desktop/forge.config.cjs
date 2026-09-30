@@ -1,5 +1,4 @@
 const path = require("node:path");
-const process = require("node:process");
 
 const { FusesPlugin } = require("@electron-forge/plugin-fuses");
 const { FuseV1Options, FuseVersion } = require("@electron/fuses");
@@ -10,8 +9,7 @@ module.exports = {
     appBundleId: "online.kfcguild.wow-trader-companion",
     appCategoryType: "public.app-category.utilities",
     executableName: "wow-trader-companion",
-    icon:
-      process.platform === "darwin" ? path.resolve(__dirname, "resources/icon.icns") : undefined,
+    icon: path.resolve(__dirname, "resources/icon"),
     extendInfo: {
       NSAppTransportSecurity: { NSAllowsArbitraryLoads: false },
     },
@@ -19,10 +17,11 @@ module.exports = {
       path.resolve(__dirname, "dist-utility"),
       path.resolve(__dirname, "../addon/WowTraderCollector"),
       path.resolve(__dirname, "resources/addon-manifest.json"),
+      path.resolve(__dirname, "resources/icon.png"),
     ],
   },
   makers: [
-    { name: "@electron-forge/maker-zip", platforms: ["darwin"] },
+    { name: "@electron-forge/maker-zip", platforms: ["darwin", "win32", "linux"] },
     { name: "@electron-forge/maker-dmg", platforms: ["darwin"] },
     { name: "@electron-forge/maker-squirrel", platforms: ["win32"] },
   ],

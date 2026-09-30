@@ -129,6 +129,7 @@ internal static class WorldSnapshotCommand
           options.Locale,
           hotfixHash ?? "missing-hotfix",
           "world-snapshot-manifest.v1",
+          $"definitions-{options.DefinitionsRevision}",
           $"extractor-{ExtractorVersion}");
       if (Directory.Exists(snapshotDirectory))
       {

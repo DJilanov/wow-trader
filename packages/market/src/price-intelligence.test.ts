@@ -40,6 +40,21 @@ describe("price intelligence", () => {
     const bargain = analyzePriceHistory(series([100, 100, 101, 99, 100, 80]));
     expect(bargain).toMatchObject({ status: "available", signal: "bargain" });
   });
+
+  it("preserves an extreme listing delta beyond the PostgreSQL 32-bit integer range", () => {
+    const result = analyzePriceHistory(
+      series([100, 100, 100, 100, 100, 99_999_990_000], {
+        finalQuantity: 2,
+        finalListings: 2,
+      }),
+    );
+
+    expect(result).toMatchObject({
+      status: "available",
+      signal: "spike_risk",
+      differenceBasisPoints: 9_999_998_990_000,
+    });
+  });
 });
 
 function series(

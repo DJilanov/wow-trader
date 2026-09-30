@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { hasNewerMarketScan } from "../lib/market-scan-refresh";
 
-const STATUS_POLL_INTERVAL_MILLISECONDS = 30_000;
+const STATUS_POLL_INTERVAL_MILLISECONDS = 5_000;
+const HARD_REFRESH_DELAY_MILLISECONDS = 4_000;
 
 interface MarketScanAutoRefreshProps {
   readonly clientProduct: string;
@@ -25,6 +26,7 @@ export function MarketScanAutoRefresh({
   const router = useRouter();
   const renderedCompletedAt = useRef(initialCompletedAt);
   const pendingCompletedAt = useRef<string | null>(null);
+  const hardRefreshTimer = useRef<number | null>(null);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -34,6 +36,10 @@ export function MarketScanAutoRefresh({
       !hasNewerMarketScan(pendingCompletedAt.current, initialCompletedAt)
     ) {
       pendingCompletedAt.current = null;
+      if (hardRefreshTimer.current !== null) {
+        window.clearTimeout(hardRefreshTimer.current);
+        hardRefreshTimer.current = null;
+      }
       setMessage("Results updated from the latest Auction House scan.");
     }
   }, [initialCompletedAt]);
@@ -67,6 +73,15 @@ export function MarketScanAutoRefresh({
           pendingCompletedAt.current = completedAt;
           setMessage("New Auction House scan detected. Updating results…");
           router.refresh();
+          if (hardRefreshTimer.current === null) {
+            hardRefreshTimer.current = window.setTimeout(() => {
+              hardRefreshTimer.current = null;
+              if (!stopped && hasNewerMarketScan(completedAt, renderedCompletedAt.current)) {
+                setMessage("Latest scan is ready. Reloading market results…");
+                window.location.reload();
+              }
+            }, HARD_REFRESH_DELAY_MILLISECONDS);
+          }
         }
       } catch (error: unknown) {
         if (!(error instanceof DOMException && error.name === "AbortError")) {
@@ -84,14 +99,23 @@ export function MarketScanAutoRefresh({
     const handleVisibilityChange = (): void => {
       if (document.visibilityState === "visible") void checkForScan();
     };
+    const handleFocus = (): void => void checkForScan();
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("pageshow", handleFocus);
     void checkForScan();
 
     return () => {
       stopped = true;
       activeRequest?.abort();
+      if (hardRefreshTimer.current !== null) {
+        window.clearTimeout(hardRefreshTimer.current);
+        hardRefreshTimer.current = null;
+      }
       window.clearInterval(interval);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("pageshow", handleFocus);
     };
   }, [auctionHouseType, clientProduct, realmId, region, router]);
 

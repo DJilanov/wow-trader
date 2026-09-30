@@ -128,7 +128,18 @@ try
         tables.Add(tableName, new Db2TableSnapshot(tableName, [], [], 0, 0));
         continue;
       }
-      var table = reader.Read(tableName);
+      Db2TableSnapshot table;
+      try
+      {
+        table = reader.Read(tableName);
+      }
+      catch (Exception exception)
+      {
+        throw new InvalidOperationException(
+            $"Failed to parse {tableName} for client build {build.ClientVersion} " +
+            $"with WoWDBDefs revision {options.DefinitionsRevision}: {exception.Message}",
+            exception);
+      }
       tables.Add(tableName, table);
       Console.WriteLine(
           $"Parsed {tableName}: {table.BaseRows.Count:N0} base / {table.EffectiveRows.Count:N0} effective rows");

@@ -431,7 +431,7 @@ function createSignals(
 function marketItemOrder(sort: MarketItemSort): readonly SQL[] {
   if (sort === "discount") {
     return [
-      asc(sql`coalesce(${marketItemSignals.differenceBasisPoints}, 2147483647)`),
+      asc(sql`coalesce(${marketItemSignals.differenceBasisPoints}, 9223372036854775807)`),
       desc(marketItemObservations.availableQuantity),
       asc(itemVersions.name),
     ];
@@ -459,7 +459,7 @@ function marketItemOrder(sort: MarketItemSort): readonly SQL[] {
       when 'too_thin' then 5
       when 'spike_risk' then 6
       else 7 end`),
-    asc(sql`coalesce(${marketItemSignals.differenceBasisPoints}, 2147483647)`),
+    asc(sql`coalesce(${marketItemSignals.differenceBasisPoints}, 9223372036854775807)`),
     desc(marketItemObservations.availableQuantity),
     asc(itemVersions.name),
   ];

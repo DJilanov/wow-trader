@@ -4,7 +4,12 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { createProductConfiguration, inspectProduct, installCollector } from "./products.js";
+import {
+  createProductConfiguration,
+  defaultProductCandidates,
+  inspectProduct,
+  installCollector,
+} from "./products.js";
 
 const temporaryDirectories: string[] = [];
 
@@ -90,6 +95,40 @@ describe("collector addon installation", () => {
     await expect(
       installCollector(createProductConfiguration("tbc", rootPath), sourceDirectory),
     ).rejects.toThrow("failed verification");
+  });
+});
+
+describe("default WoW product discovery", () => {
+  it("uses the Windows installation root", () => {
+    const products = defaultProductCandidates({
+      platform: "win32",
+      environment: { "ProgramFiles(x86)": "D:\\Games" },
+    });
+
+    expect(products.map((product) => product.rootPath)).toEqual([
+      path.resolve("D:\\Games", "World of Warcraft", "_anniversary_"),
+      path.resolve("D:\\Games", "World of Warcraft", "_forever_"),
+      path.resolve("D:\\Games", "World of Warcraft", "_classic_beta_"),
+    ]);
+  });
+
+  it("checks explicit and common Wine prefixes on Linux", () => {
+    const products = defaultProductCandidates({
+      platform: "linux",
+      homeDirectory: "/home/tester",
+      environment: { WINEPREFIX: "/games/custom-prefix" },
+    });
+
+    expect(products).toHaveLength(12);
+    expect(products[0]?.rootPath).toBe(
+      "/games/custom-prefix/drive_c/Program Files (x86)/World of Warcraft/_anniversary_",
+    );
+    expect(products.some((product) => product.rootPath.startsWith("/home/tester/.wine"))).toBe(
+      true,
+    );
+    expect(
+      products.some((product) => product.rootPath.startsWith("/home/tester/Games/battlenet")),
+    ).toBe(true);
   });
 });
 

@@ -230,6 +230,7 @@ export class DefaultCompanionService implements CompanionService {
 
     let pendingScanCount = 0;
     let processedAny = false;
+    let retryDeferred = false;
     for (const { product, paths } of pathsByProduct) {
       for (const filePath of paths) {
         const signature = await this.#readStableSignature(filePath, manual);
@@ -238,7 +239,10 @@ export class DefaultCompanionService implements CompanionService {
         if (this.#processedSignatures.get(filePath) === signatureKey) continue;
         const retryKey = `${filePath}:${signatureKey}`;
         const retry = this.#retries.get(retryKey);
-        if (!manual && retry && retry.notBefore > this.#now().getTime()) continue;
+        if (!manual && retry && retry.notBefore > this.#now().getTime()) {
+          retryDeferred = true;
+          continue;
+        }
 
         try {
           const savedVariables = await readCollectorSavedVariables(filePath);
@@ -383,7 +387,7 @@ export class DefaultCompanionService implements CompanionService {
       }
     }
 
-    if (processedAny) return this.#snapshot;
+    if (processedAny || retryDeferred) return this.#snapshot;
     return this.#publish(
       currentPaths.size > 0 ? "up_to_date" : "waiting_for_saved_scan",
       currentPaths.size > 0

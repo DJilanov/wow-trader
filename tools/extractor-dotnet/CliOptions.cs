@@ -68,6 +68,12 @@ internal sealed record CliOptions(
       throw new DirectoryNotFoundException($"Definitions directory '{definitions}' does not exist");
     }
 
+    var definitionsRevision = Require(values, "--definitions-revision");
+    if (definitionsRevision.Length != 40 || definitionsRevision.Any(character => !Uri.IsHexDigit(character)))
+    {
+      throw new UsageException("--definitions-revision must be an exact 40-character Git SHA");
+    }
+
     return new CliOptions(
         Path.GetFullPath(wowRoot),
         values.GetValueOrDefault("--product", "wow_anniversary"),
@@ -75,7 +81,7 @@ internal sealed record CliOptions(
         values.GetValueOrDefault("--region", "eu").ToLower(CultureInfo.InvariantCulture),
         Path.GetFullPath(values.GetValueOrDefault("--output", "artifacts")),
         Path.GetFullPath(definitions),
-        Require(values, "--definitions-revision"),
+        definitionsRevision.ToLowerInvariant(),
         values.GetValueOrDefault("--extractor-revision"));
   }
 

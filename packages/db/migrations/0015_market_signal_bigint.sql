@@ -1,0 +1,2 @@
+ALTER TABLE "market_item_signal" ALTER COLUMN "difference_basis_points" SET DATA TYPE bigint;--> statement-breakpoint
+ALTER TABLE "market_item_signal" ALTER COLUMN "supply_ratio_basis_points" SET DATA TYPE bigint;

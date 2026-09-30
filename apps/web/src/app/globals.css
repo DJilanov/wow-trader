@@ -8572,6 +8572,21 @@ a.helper-choice-card:focus-visible {
   margin: 18px 0 0;
 }
 
+.download-requirements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.download-requirements span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--dim);
+  font-size: 11px;
+}
+
 .download-unavailable {
   text-align: center;
 }

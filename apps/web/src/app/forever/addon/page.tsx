@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { JsonLd } from "../../../components/json-ld";
-import { getCompanionRelease } from "../../../lib/companion-release";
+import { getCompanionRelease, type CompanionReleaseAsset } from "../../../lib/companion-release";
 import { createHelperMetadata, HELPER_SITE_URL } from "../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -23,14 +23,15 @@ export const metadata: Metadata = createHelperMetadata({
 
 export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
   const release = await getCompanionRelease();
-  const recommendedAsset = release?.assets.find((asset) => asset.recommended) ?? null;
   const structuredData = release
     ? {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         name: "WoW Trader Companion",
         applicationCategory: "UtilitiesApplication",
-        operatingSystem: release.assets.map((asset) => asset.platform).join(", "),
+        operatingSystem: [
+          ...new Set(release.assets.map((asset) => platformLabel(asset.platform))),
+        ].join(", "),
         softwareVersion: release.version,
         downloadUrl: `${HELPER_SITE_URL}/forever/addon`,
         isAccessibleForFree: true,
@@ -60,9 +61,9 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
             for saved scans, validates them, and sends only the collector data to KFC Helper.
           </p>
           <div className="addon-hero-actions">
-            {recommendedAsset ? (
-              <a className="primary-action" href={`/downloads/companion/${recommendedAsset.id}`}>
-                Download {recommendedAsset.label}
+            {release ? (
+              <a className="primary-action" href="#download-heading">
+                Choose macOS, Windows, or Linux
               </a>
             ) : (
               <span className="primary-action disabled" aria-disabled="true">
@@ -100,7 +101,7 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
             {release.assets.map((asset) => (
               <article className="download-card" key={asset.id}>
                 <div>
-                  <span>{asset.platform === "macos" ? "macOS" : "Windows"}</span>
+                  <span>{platformLabel(asset.platform)}</span>
                   <h3>{asset.label}</h3>
                   <p>
                     {asset.architecture} · {formatBytes(asset.byteSize)} ·{" "}
@@ -118,12 +119,16 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
             ))}
           </ul>
           <p className="release-meta">
-            Collector {release.collectorVersion}
-            {release.minimumMacOs ? ` · macOS ${release.minimumMacOs}+` : ""} · Published{" "}
+            Collector {release.collectorVersion} · Published{" "}
             {new Intl.DateTimeFormat("en-GB", { dateStyle: "long" }).format(
               new Date(release.publishedAt),
             )}
           </p>
+          <div className="download-requirements" aria-label="System requirements">
+            {release.minimumMacOs ? <span>macOS {release.minimumMacOs}+</span> : null}
+            {release.minimumWindows ? <span>Windows {release.minimumWindows}+</span> : null}
+            {release.minimumLinux ? <span>Linux: {release.minimumLinux}</span> : null}
+          </div>
         </section>
       ) : (
         <section className="download-release download-unavailable">
@@ -140,7 +145,10 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
         <ol>
           <li>
             <strong>Install the Companion</strong>
-            <span>Open the downloaded package and launch WoW Trader Companion.</span>
+            <span>
+              Open the macOS DMG, or extract the Windows/Linux ZIP, then launch WoW Trader
+              Companion.
+            </span>
           </li>
           <li>
             <strong>Install the Collector</strong>
@@ -190,4 +198,13 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
 function formatBytes(bytes: number): string {
   const mebibytes = bytes / (1024 * 1024);
   return `${mebibytes.toFixed(mebibytes >= 100 ? 0 : 1)} MB`;
+}
+
+function platformLabel(platform: CompanionReleaseAsset["platform"]): string {
+  const labels: Record<CompanionReleaseAsset["platform"], string> = {
+    macos: "macOS",
+    windows: "Windows",
+    linux: "Linux",
+  };
+  return labels[platform];
 }
