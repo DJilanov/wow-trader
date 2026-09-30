@@ -1,6 +1,6 @@
 # WoW Trader Desktop Companion Plan
 
-## Implementation status — 2026-09-28
+## Implementation status — 2026-09-30
 
 Phases A through C are implemented for maintainer alpha. `packages/companion-core` owns the shared,
 serialized multi-product scan service and the CLI is a thin adapter. `apps/desktop` now provides the
@@ -9,7 +9,7 @@ IPC, utility-process parsing/upload work, OS-encrypted credentials, product disc
 addon install/update, tray lifecycle, login startup, notifications, manual check/retry, bounded
 activity history, rotating redacted logs, resume reconciliation, and legacy LaunchAgent removal.
 
-Companion `0.3.3` publishes separate macOS x64 and native arm64 DMGs, a Windows x64 portable ZIP,
+Companion `0.3.4` publishes separate macOS x64 and native arm64 DMGs, a Windows x64 portable ZIP,
 and a Linux x64 portable ZIP using the same WoW Forever artwork as the Helper product selector. The
 macOS Intel package has passed a packaged runtime smoke: the local renderer loaded, its
 preload API was present, TBC/Auctionator/collector discovery rendered without horizontal overflow,
@@ -19,6 +19,11 @@ desktop regression suites cover v1 state migration, one-time upload/idempotency,
 checksum-verified addon installation. The Apple Silicon DMG passes image verification and contains
 a native Mach-O arm64 executable plus the expected utility process, artwork, and Collector payload;
 runtime smoke testing on physical Apple Silicon remains a release gate.
+
+Version `0.3.4` also retains the exact upload failure while automatic retry is cooling down and
+stops another enabled installation from masking that failure with a success state. Single- and
+multi-product regression tests cover the retry behavior. The Intel build is installed on the
+maintainer Mac with its prior settings and OS-encrypted credential preserved.
 
 Companion `0.3.0` adds exact-market intelligence synchronization after every stable-file
 reconciliation. It downloads only the product/build/region/realm/Auction-House pack matching the

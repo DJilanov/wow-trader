@@ -119,6 +119,7 @@ const manifest = {
   notes: [
     "Installs and updates WowTraderCollector for WoW Forever and TBC Anniversary.",
     "Uploads validated native Forever scans after /reload or logout.",
+    "Keeps upload failures visible during automatic retry cooldowns, including multi-installation setups.",
     "Shows an explicit checking state while manual scan reconciliation is running.",
     "Synchronizes build- and realm-specific price history into the addon's Market Intel panel.",
     "Opens the correct Forever or TBC Trader directly from the Companion.",

@@ -1230,11 +1230,11 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   pre-migration backup. At migration time it backfilled 40,645 compact observations from five scans
   covering 8,122 items and published 5,521 TBC plus 2,324 Forever signal rows at `Collecting 3/6`
   and `Collecting 2/6` respectively; later accepted scans supersede those initial counts.
-- Companion `0.3.3` is synchronized with macOS Intel and Apple Silicon DMGs, Windows x64 portable
+- Companion `0.3.4` is synchronized with macOS Intel and Apple Silicon DMGs, Windows x64 portable
   ZIP, and Linux x64 portable ZIP artifacts. All four server-side sizes and SHA-256 values match the
-  public manifest, and full plus byte-range download responses were verified. The locally installed
-  macOS app remains `0.3.1`, and Collector `0.10.0` is installed in both the Anniversary and Classic
-  Beta clients with recoverable backups of their prior versions.
+  public manifest, and public download responses report the exact manifest lengths. The locally
+  installed macOS app is `0.3.4`, and Collector `0.10.0` is installed in both the Anniversary and
+  Classic Beta clients with recoverable backups of their prior versions.
 - Production release `kfc-helper-companion-arm64-20260928-r16` is active; compact r15 remains its
   immediate application rollback. Public and loopback health checks passed. Live Chrome validated
   the crafting charts plus arbitrary Auction House item name/ID search, expandable current-price
@@ -1273,7 +1273,7 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
 
 ### Cross-platform Companion downloads (2026-09-28)
 
-- `/forever/addon` now offers Companion `0.3.3` for macOS Intel, macOS Apple Silicon, Windows x64,
+- `/forever/addon` now offers Companion `0.3.4` for macOS Intel, macOS Apple Silicon, Windows x64,
   and Linux x64. The hero routes players to four explicit platform cards instead of assuming macOS,
   and the page explains that Windows/Linux are extract-and-run portable ZIPs. Desktop and 390 px
   mobile browser checks show all cards without horizontal overflow.
@@ -1281,9 +1281,9 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   manifest, records byte size and SHA-256 for each, and publishes `latest.json` only after the server
   verifies every uploaded byte. Public HEAD and 32-byte range requests match the manifest for all
   four downloads.
-- The Intel DMG is 136,264,060 bytes (`338e2ef0f938…23f4`), the Apple Silicon DMG is 132,546,267
-  bytes (`8716d3ca51c4…5174`), the Windows ZIP is 160,575,060 bytes (`55c65965c2fc…eddf`), and the
-  Linux ZIP is 125,034,129 bytes (`140cc0965307…ceda`). The Apple Silicon app is a native Mach-O
+- The Intel DMG is 136,264,061 bytes (`e90b3e4e59d1…506b`), the Apple Silicon DMG is 132,546,176
+  bytes (`4a8dd78ea17b…d2d5`), the Windows ZIP is 160,575,125 bytes (`7f16dc014960…69c2`), and the
+  Linux ZIP is 125,034,193 bytes (`33e7e830b721…4c47`). The Apple Silicon app is a native Mach-O
   arm64 executable and its DMG passes `hdiutil verify`; it still needs a runtime smoke on physical
   Apple Silicon. The Windows archive contains an x64 PE executable and the Linux archive an
   executable x64 ELF binary; all packages include the branded resources, utility process, and
@@ -1339,9 +1339,8 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
 - The signal regression suite now covers the exact extreme-price delta. Automatic Companion checks
   retain the current upload error during a retry cooldown instead of replacing it with a false
   `All saved scans are up to date` state. Ingestion logs also summarize database errors without
-  serializing full SQL parameter arrays. The locally installed Companion remains `0.3.1`, so it does
-  not receive the corrected retry-state presentation until a newer desktop package is installed;
-  the server-side upload failure itself is fixed.
+  serializing full SQL parameter arrays. Companion `0.3.4` now ships this status correction and is
+  installed locally; its OS-encrypted credential and existing settings were preserved.
 
 ### Local Forever build-70058 bootstrap (2026-09-29)
 
@@ -1413,6 +1412,31 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   5,521 for TBC build 69795, 2,295 for Forever build 70009, 2,362 for build 70058, and 2,366 for
   build 70124. Cross-build market history remains intentionally isolated.
 
+### Nginx upload-buffer incident and Companion 0.3.4 (2026-09-30)
+
+- Saved Forever scan `78751705-721a-4873-9339-1532d7e385b7` repeatedly received HTTP 500 before
+  reaching Fastify. Nginx error evidence identified `Permission denied` opening
+  `/var/lib/nginx/body/*`; proxy temporary-file failures were also occurring across unrelated server
+  virtual hosts. Directory modes were correct at inspection time, and a graceful reload replaced
+  the affected workers and recovered the pending upload automatically.
+- The production Helper config now streams `/v1/` request bodies and disables response proxy
+  buffering for both Helper locations. This removes the Helper's dependency on the affected Nginx
+  temporary directories. `scripts/deploy-production-nginx.sh` provides validated activation,
+  timestamped rollback, and a 1 MiB public edge smoke; the deployed smoke returned HTTP 422 from the
+  application rather than an edge 500.
+- The recovered build-70124 scan contains 2,357 item markets and 8,112 price levels, completed at
+  `2026-09-30T12:21:15Z`. PostgreSQL and the public scan-status endpoint return its exact UUID, and
+  the live Forever Trader reports a fresh exact-catalog scan.
+- Companion retry state is now tied to each retry key and restored during cooldown. Reconciliation
+  stops at the deferred failure so another enabled product cannot mask it with a success message.
+  The focused suite contains both single- and multi-product regression coverage.
+- Companion `0.3.4` is published as checksum-verified macOS Intel/Apple Silicon DMGs and Windows/
+  Linux x64 ZIPs. This Intel Mac now runs `0.3.4`; the old `0.3.1` app is retained as a recoverable
+  backup, while Application Support settings, state, logs, and the encrypted credential remain in
+  place.
+- Production now retains 15 scans and 63,989 compact item observations. Current exact-build signal
+  counts are 5,521 TBC, 2,295 Forever build 70009, 2,362 build 70058, and 2,357 build 70124.
+
 ## Next actions
 
 1. Add structural snapshot-to-snapshot diff presentation and reviewed source corrections before
@@ -1426,7 +1450,7 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
 4. Add the first build-locked spec evaluator to the catalog-backed BiS workspace, then validate its
    whole-loadout mechanics before promoting its candidates to a ranked list. Do not publish
    phase-specific BiS until source/availability filtering exists.
-5. Collect at least one more accepted scan for the same Forever market/build through the automatic
+5. Collect at least four more accepted scans for the same Forever market/build through the automatic
    watcher, then validate the newly unlocked normal-price bands and direction signals against the
    Blizzard UI before treating them as player guidance.
 6. Extend scan-quality diagnostics with the Auctionator version, skipped-row counts, and separate

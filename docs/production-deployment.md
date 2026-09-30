@@ -22,7 +22,8 @@ before unattended 30-minute Auction House uploads are enabled.
 - Nginx redirects HTTP to HTTPS and routes the Helper UI and authenticated `/v1/` ingestion traffic.
   Internal health and API-documentation routes are not public. Dotfile probes terminate at Nginx,
   recognizable non-Google crawlers are rejected, and Googlebot-shaped traffic is limited to six
-  catalog requests per minute per address.
+  catalog requests per minute per address. API request buffering and Helper response buffering are
+  disabled so this product does not depend on Nginx temporary-file storage.
 - Let's Encrypt issued the subdomain certificate; automatic renewal is installed. The certificate
   observed during deployment expires on 2026-12-14.
 - PostgreSQL 15 contains the migrated `wow_trader` database with separate owner, read-only web, and
@@ -32,7 +33,7 @@ before unattended 30-minute Auction House uploads are enabled.
 - The published Forever build `1.60.1.70124` contains 23,605 named items, 12 professions, and 2,239
   valid recipes. Its separate immutable media release contains 2,948 verified item icons; the roots
   must stay separate because identical file-data IDs can resolve to different bytes by product.
-- Companion `0.3.3` is available from `/forever/addon` as checksum-verified, range-capable macOS
+- Companion `0.3.4` is available from `/forever/addon` as checksum-verified, range-capable macOS
   Intel, macOS Apple Silicon, Windows x64, and Linux x64 downloads. The two DMGs and two portable
   ZIP archives are unsigned private-token maintainer-alpha artifacts. The Apple Silicon package is
   a verified native arm64 build but has not been runtime-smoked on physical Apple Silicon hardware;
@@ -42,8 +43,8 @@ before unattended 30-minute Auction House uploads are enabled.
   27 trees, 470 talents, 401 spellbook entries, racials, class abilities, Legacy perks, and source
   history. Its 574 icons/backgrounds passed local and server-side byte/SHA-256 verification before
   the shared asset pointer changed.
-- Fourteen retained scans have produced 61,632 compact per-item observations. Signal rebuilding
-  currently exposes 5,521 TBC, 2,295 Forever build-70009, 2,362 Forever build-70058, and 2,366
+- Fifteen retained scans have produced 63,989 compact per-item observations. Signal rebuilding
+  currently exposes 5,521 TBC, 2,295 Forever build-70009, 2,362 Forever build-70058, and 2,357
   Forever build-70124 exact-market rows. Build 70124 honestly restarts history at `Collecting 1/6`;
   evidence is never mixed across client builds. Duplicate replay remains idempotent through the
   public HTTPS endpoint.
@@ -391,6 +392,13 @@ to `/home/kfc-website-system` before and after activation.
     or delayed. User-agent matching is an origin-load control, not proof of crawler identity; verify
     actual Google traffic against Google's published IP ranges or forward-confirmed reverse DNS when
     an IP allowlist becomes necessary.
+
+Deploy later Helper Nginx changes with `pnpm deploy:production:nginx`. The command preserves the
+active config as a timestamped rollback file, runs `nginx -t`, performs a graceful reload, and sends
+a valid 1 MiB JSON request through the public upload route. The smoke must receive Fastify's exact
+HTTP 422 `validation_failed` response; an edge 500 or any other response fails the deployment. Keep
+`proxy_request_buffering off` on `/v1/` and `proxy_buffering off` on both Helper locations so an
+Nginx client-body/proxy temporary-directory failure cannot block this product.
 
 Only ports 22, 80, and 443 are required publicly for this product. Existing broad UFW rules for
 application ports should be reviewed separately; the Helper does not need another one.

@@ -28,6 +28,7 @@
     "desktop:release": "pnpm desktop:make:macos && pnpm desktop:make:windows && pnpm desktop:make:linux && node scripts/prepare-companion-release.mjs",
     "desktop:release:macos": "pnpm desktop:make:macos && node scripts/prepare-companion-release.mjs --platforms=macos",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "deploy:production:nginx": "scripts/deploy-production-nginx.sh",
     "db:migrate": "pnpm --filter @wow-trader/db db:migrate",
     "dev": "node scripts/dev.mjs",
     "dev:setup": "node scripts/dev.mjs --bootstrap-only",

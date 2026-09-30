@@ -197,6 +197,76 @@ describe("companion service", () => {
       vi.useRealTimers();
     }
   });
+
+  it("does not let another product mask a deferred upload failure", async () => {
+    vi.useFakeTimers();
+    try {
+      const firstRootPath = await temporaryProductRoot();
+      const secondRootPath = await temporaryProductRoot();
+      for (const rootPath of [firstRootPath, secondRootPath]) {
+        const savedVariablesPath = path.join(
+          rootPath,
+          "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua",
+        );
+        await mkdir(path.dirname(savedVariablesPath), { recursive: true });
+        await writeFile(savedVariablesPath, SAVED_VARIABLES, "utf8");
+      }
+
+      let auctionUploadCount = 0;
+      vi.stubGlobal(
+        "fetch",
+        vi.fn<typeof fetch>().mockImplementation(async (input, init) => {
+          const url = new URL(String(input));
+          if (url.pathname === "/v1/market-intelligence") return Response.json(marketPack());
+          const body = JSON.parse(String(init?.body)) as { payloadId: string };
+          if (url.pathname === "/v1/uploads/auction-scan" && auctionUploadCount++ === 0) {
+            return Response.json(
+              { error: "internal_error", message: "The request could not be completed" },
+              { status: 500 },
+            );
+          }
+          return Response.json(
+            { payloadId: body.payloadId, status: "processed", duplicate: false },
+            { status: 202 },
+          );
+        }),
+      );
+
+      const service = new DefaultCompanionService({
+        endpoint: new URL("https://helper.example.test"),
+        statePath: path.join(firstRootPath, "state.json"),
+        products: [
+          { id: "tbc", kind: "tbc", label: "TBC", rootPath: firstRootPath, enabled: true },
+          {
+            id: "forever",
+            kind: "forever",
+            label: "Forever",
+            rootPath: secondRootPath,
+            enabled: true,
+          },
+        ],
+        automaticUploads: true,
+        apiKey: "test-key-with-enough-entropy",
+        pollIntervalMilliseconds: 500,
+      });
+      await service.start();
+      await expect(service.checkNow()).resolves.toMatchObject({
+        phase: "error",
+        errorCode: "companion_error",
+      });
+
+      await vi.advanceTimersByTimeAsync(500);
+
+      expect(service.getSnapshot()).toMatchObject({
+        phase: "error",
+        errorCode: "companion_error",
+      });
+      expect(auctionUploadCount).toBe(1);
+      await service.stop();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
 
 async function temporaryProductRoot(): Promise<string> {

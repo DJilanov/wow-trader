@@ -63,6 +63,7 @@ export class DefaultCompanionService implements CompanionService {
   readonly #observedSignatures = new Map<string, FileSignature>();
   readonly #processedSignatures = new Map<string, string>();
   readonly #retries = new Map<string, WatchRetry>();
+  readonly #retryFailures = new Map<string, CompanionSnapshot>();
   #products: ProductConfiguration[];
   #automaticUploads: boolean;
   #apiKey: string | null;
@@ -158,6 +159,7 @@ export class DefaultCompanionService implements CompanionService {
 
   public async retryFailed(): Promise<CompanionSnapshot> {
     this.#retries.clear();
+    this.#retryFailures.clear();
     return this.#enqueueReconciliation(true);
   }
 
@@ -166,6 +168,7 @@ export class DefaultCompanionService implements CompanionService {
     this.#observedSignatures.clear();
     this.#processedSignatures.clear();
     this.#retries.clear();
+    this.#retryFailures.clear();
     if (this.#automaticUploads && this.#running) await this.#enqueueReconciliation(true);
   }
 
@@ -230,7 +233,6 @@ export class DefaultCompanionService implements CompanionService {
 
     let pendingScanCount = 0;
     let processedAny = false;
-    let retryDeferred = false;
     for (const { product, paths } of pathsByProduct) {
       for (const filePath of paths) {
         const signature = await this.#readStableSignature(filePath, manual);
@@ -238,10 +240,20 @@ export class DefaultCompanionService implements CompanionService {
         const signatureKey = signatureKeyFor(signature);
         if (this.#processedSignatures.get(filePath) === signatureKey) continue;
         const retryKey = `${filePath}:${signatureKey}`;
+        this.#removeStaleRetries(filePath, retryKey);
         const retry = this.#retries.get(retryKey);
         if (!manual && retry && retry.notBefore > this.#now().getTime()) {
-          retryDeferred = true;
-          continue;
+          const failure = this.#retryFailures.get(retryKey);
+          if (failure) {
+            this.#snapshot = companionSnapshotSchema.parse({
+              ...failure,
+              products: this.#snapshot.products,
+              automaticUploads: this.#automaticUploads,
+              updatedAt: this.#now().toISOString(),
+            });
+            this.#emit();
+          }
+          return this.#snapshot;
         }
 
         try {
@@ -374,20 +386,23 @@ export class DefaultCompanionService implements CompanionService {
           }
           this.#processedSignatures.set(filePath, signatureKey);
           this.#retries.delete(retryKey);
+          this.#retryFailures.delete(retryKey);
         } catch (error: unknown) {
           if (this.#abortController?.signal.aborted) throw error;
           const nextRetry = nextWatchRetry(retry, this.#now().getTime());
           this.#retries.set(retryKey, nextRetry);
           const message = error instanceof Error ? error.message : "Unknown companion failure";
-          return this.#publish(isOfflineError(error) ? "offline" : "error", message, {
+          const failure = this.#publish(isOfflineError(error) ? "offline" : "error", message, {
             errorCode: classifyError(error),
             pendingScanCount,
           });
+          this.#retryFailures.set(retryKey, failure);
+          return failure;
         }
       }
     }
 
-    if (processedAny || retryDeferred) return this.#snapshot;
+    if (processedAny) return this.#snapshot;
     return this.#publish(
       currentPaths.size > 0 ? "up_to_date" : "waiting_for_saved_scan",
       currentPaths.size > 0
@@ -414,6 +429,17 @@ export class DefaultCompanionService implements CompanionService {
       if (!currentPaths.has(knownPath)) {
         this.#observedSignatures.delete(knownPath);
         this.#processedSignatures.delete(knownPath);
+        this.#removeStaleRetries(knownPath, null);
+      }
+    }
+  }
+
+  #removeStaleRetries(filePath: string, currentRetryKey: string | null): void {
+    const keyPrefix = `${filePath}:`;
+    for (const retryKey of this.#retries.keys()) {
+      if (retryKey.startsWith(keyPrefix) && retryKey !== currentRetryKey) {
+        this.#retries.delete(retryKey);
+        this.#retryFailures.delete(retryKey);
       }
     }
   }

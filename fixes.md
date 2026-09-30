@@ -1,10 +1,67 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-09-29
+Last updated: 2026-09-30
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## Forever upload HTTP 500 caused by Nginx temporary-file permissions
+
+### User-visible problem
+
+Forever scan `78751705-721a-4873-9339-1532d7e385b7` was present in the correct Beta
+SavedVariables file, but **Check for scans now** repeatedly returned HTTP 500 and the live Trader
+remained on the previous scan. The installed Companion `0.3.1` then incorrectly replaced the error
+with **All saved scans are up to date**.
+
+### Root cause
+
+The request never reached `kfc-helper-ingest`. Nginx logged repeated failures opening
+`/var/lib/nginx/body/*` with `Permission denied` while buffering the multi-megabyte request body.
+The same stale-worker condition affected Nginx proxy temporary files for several unrelated virtual
+hosts. The directory ownership and modes were correct when inspected, and the `www-data` user could
+create files there; a graceful Nginx reload replaced the affected workers and immediately allowed
+the pending Companion retry to reach Fastify.
+
+### Permanent repair
+
+- The Helper `/v1/` Nginx location now sets `proxy_request_buffering off` and
+  `proxy_buffering off`, streaming authenticated uploads directly to the loopback ingestion API.
+  The Helper UI location also disables response proxy buffering. Helper uploads and pages therefore
+  no longer depend on the server's failing Nginx body/proxy temporary directories.
+- `scripts/deploy-production-nginx.sh` stages the tracked config, preserves a timestamped rollback
+  copy, validates with `nginx -t`, reloads only after validation, restores on activation failure,
+  and sends a valid 1 MiB JSON request through the public hostname. Fastify's exact HTTP 422
+  `validation_failed` response proves the body reached application validation; an edge 500 or any
+  other response fails the deployment.
+- Companion retry failures are now stored with their retry key. An automatic cooldown restores that
+  exact failure and stops reconciliation before another enabled installation can replace it with a
+  success state. Stale retry state is removed when a file changes or disappears.
+- A two-installation regression test proves a deferred failure cannot be masked by work from another
+  product.
+- Companion `0.3.4` was built and published for macOS Intel, macOS Apple Silicon, Windows x64, and
+  Linux x64. This Mac was upgraded from `0.3.1` to `0.3.4`; its settings, scan state, and
+  OS-encrypted 0600 credential file were preserved. The old application remains as the recoverable
+  `/Applications/WoW Trader Companion 0.3.1 backup 20260930.app` copy.
+
+### Recovery and verification
+
+- After the graceful reload, the unchanged saved scan retried automatically and processed without
+  editing or recreating its payload.
+- PostgreSQL and the public scan-status endpoint both return scan
+  `78751705-721a-4873-9339-1532d7e385b7`, completed at `2026-09-30T12:21:15Z`, with 2,357 item
+  markets and 8,112 price levels for `UNKNOWN / ClassicBetaPvP / alliance`.
+- The live Forever Trader uses the exact published build-70124 catalog and reports a fresh scan.
+- The production Nginx config contains all three streaming directives. A 1 MiB public smoke request
+  returned HTTP 422, and no later Helper body/proxy temporary-file error was present.
+- Both Helper PM2 processes remained online. No application restart, database migration, or token
+  replacement was required.
+- The public release manifest reports `0.3.4`; all four download endpoints return HTTP 200 with
+  content lengths matching the manifest.
+- Full `pnpm check`, `pnpm format:check`, `git diff --check`, deployment-script shell syntax, both
+  DMG verifications, both ZIP integrity checks, and HTTP 206 range requests for all four public
+  artifacts passed.
 
 ## Forever scan upload failure after Save and `/reload`
 
@@ -56,10 +113,8 @@ was 9,999,998,990,000 basis points, which cannot fit in PostgreSQL's signed 32-b
   **All saved scans are up to date** state.
 - `packages/companion-core/src/service.test.ts` verifies that an upload error remains visible during
   the automatic retry backoff.
-- The installed local Companion is still version `0.3.1`. The repository and published download are
-  currently version `0.3.3`. The status-presentation fix exists in source but still needs a new
-  desktop version to be packaged, published, and installed. This does not block successful uploads
-  now that the server-side overflow is fixed.
+- Companion `0.3.4` now contains this correction, is published for all four supported platform/
+  architecture combinations, and is installed on this Mac. Its token and settings were preserved.
 
 #### Ingestion logging
 
@@ -128,9 +183,8 @@ changed into the package directory, so Vitest found no files. It was immediately
   a commit for this fix.
 - Before the next schema migration, take another custom-format PostgreSQL backup and rehearse the
   migration on a disposable restore when practical.
-- A future Companion release should bump the version beyond `0.3.3`, package all supported
-  platforms, publish the immutable release manifest, and update the locally installed macOS app so
-  the retry-state presentation fix is active on the user's machine.
+- Companion `0.3.4` is the current published and locally installed release. Keep future release
+  manifests immutable and continue checking every artifact checksum before switching `latest.json`.
 - Never log or commit the private collector token. Local credentials remain in the operating
   system-backed Companion credential store.
 
