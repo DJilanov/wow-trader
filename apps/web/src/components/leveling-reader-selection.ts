@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   nextReaderStep,
+  nextReaderStepAfter,
   readerPositionFromHistory,
   readerStepFromHash,
   writeReaderPosition,
@@ -11,11 +12,10 @@ import {
 
 interface ReaderSelection {
   readonly selectedId: string | null;
-  readonly resumeId: string | null;
-  readonly followingNext: boolean;
+  readonly nextId: string | null;
   readonly select: (id: string) => void;
-  readonly follow: () => void;
-  readonly navigate: (hash: string, resume: boolean) => void;
+  readonly next: () => void;
+  readonly navigate: (hash: string) => void;
 }
 
 export function useLevelingReaderSelection(
@@ -32,7 +32,9 @@ export function useLevelingReaderSelection(
       const allowed = allowedKey.split("|");
       const id = readerStepFromHash(window.location.hash, prefix, allowed);
       const saved = readerPositionFromHistory(window.history.state, scope, allowed);
-      setPosition(id ? (saved?.id === id ? saved : { scope, id, mode: "pinned" }) : null);
+      const selectedId = id ?? saved?.id ?? null;
+      // Old Follow history remains readable, but navigation is now explicitly manual.
+      setPosition(selectedId ? { scope, id: selectedId, mode: "pinned" } : null);
     };
     readLocation();
     window.addEventListener("hashchange", readLocation);
@@ -43,38 +45,31 @@ export function useLevelingReaderSelection(
     };
   }, [scope, prefix, allowedKey]);
   const cursor = position?.scope === scope && stepIds.includes(position.id) ? position : null;
-  const pinned = cursor?.mode === "pinned" && visibleIds.includes(cursor.id);
-  const resumeId = nextReaderStep(stepIds, pendingIds, cursor?.id ?? null);
-  const selectedId = pinned
-    ? cursor.id
-    : (resumeId ?? nextReaderStep(stepIds, visibleIds, cursor?.id ?? null));
+  const selectedId = cursor
+    ? nextReaderStep(stepIds, visibleIds, cursor.id)
+    : (nextReaderStep(stepIds, pendingIds, null) ?? visibleIds[0] ?? null);
+  const nextId = nextReaderStepAfter(stepIds, visibleIds, selectedId);
   const cursorId = cursor?.id;
-  const cursorMode = cursor?.mode;
 
   useEffect(() => {
-    if (!cursorId || pinned || !selectedId) return;
-    const next: ReaderPosition = { scope, id: selectedId, mode: "follow" };
-    if (cursorId !== next.id || cursorMode !== next.mode) setPosition(next);
+    if (!cursorId || !selectedId || cursorId === selectedId) return;
+    const next: ReaderPosition = { scope, id: selectedId, mode: "pinned" };
+    setPosition(next);
     writeReaderPosition(next, prefix);
-  }, [scope, prefix, cursorId, cursorMode, pinned, selectedId]);
+  }, [scope, prefix, cursorId, selectedId]);
 
-  function move(id: string, mode: ReaderPosition["mode"]): void {
+  function select(id: string): void {
     if (!visibleIds.includes(id)) return;
-    const next: ReaderPosition = { scope, id, mode };
+    const next: ReaderPosition = { scope, id, mode: "pinned" };
     setPosition(next);
     writeReaderPosition(next, prefix);
   }
-  function select(id: string): void {
-    move(id, "pinned");
+  function next(): void {
+    if (nextId) select(nextId);
   }
-  function follow(): void {
-    if (!selectedId) return;
-    // Resume from the selected place, not the chapter's first unchecked prerequisite.
-    move(selectedId, "follow");
-  }
-  function navigate(hash: string, resume: boolean): void {
+  function navigate(hash: string): void {
     const id = readerStepFromHash(hash, prefix, visibleIds);
-    if (id) move(id, resume ? "follow" : "pinned");
+    if (id) select(id);
   }
-  return { selectedId, resumeId, followingNext: !pinned, select, follow, navigate };
+  return { selectedId, nextId, select, next, navigate };
 }

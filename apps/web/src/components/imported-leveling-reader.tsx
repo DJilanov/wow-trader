@@ -164,11 +164,18 @@ export function ImportedLevelingReader({
     saveCharacter(nextProfile, matching?.id);
   }
   function mark(stepId: string, status: StepProgress): void {
+    if (selection.selectedId) selection.select(selection.selectedId);
     if (status === "skipped")
       setWarning(
         "Skipped steps are not completed prerequisites. Check quest chains, source dependencies and the next checkpoint in game.",
       );
     setProgress(chapter.id, stepId, status, definition);
+  }
+  function finishCurrent(): void {
+    if (!loaded || !matching || !selectedMapStep || progress[selectedMapStep.step.id] === "done")
+      return;
+    mark(selectedMapStep.step.id, "done");
+    selection.next();
   }
   function renderStep(view: GuideStepView, conditional = false): React.JSX.Element {
     const texts = view.directives.filter((directive) => describe(directive));
@@ -338,6 +345,14 @@ export function ImportedLevelingReader({
       progressLabel={`${completed} / ${active.length} visible steps done`}
       notice={notice}
       onNavigate={selection.navigate}
+      currentStepLabel={selectedMapStep ? `Step ${selectedMapStep.step.ordinal}` : "No active step"}
+      currentStepAnchor={selection.selectedId ? `guide-${selection.selectedId}` : null}
+      nextDisabled={selection.nextId === null}
+      doneDisabled={
+        !loaded || !matching || !selectedMapStep || progress[selectedMapStep.step.id] === "done"
+      }
+      onNext={selection.next}
+      onDone={finishCurrent}
       settings={
         <>
           <div className={styles.detailsRow}>
@@ -424,8 +439,6 @@ export function ImportedLevelingReader({
           maps={maps}
           points={mapPoints}
           stepLabel={selectedMapStep ? `Step ${selectedMapStep.step.ordinal}` : "No active step"}
-          followingNext={selection.followingNext}
-          onFollowNext={selection.follow}
         />
       }
       toolbar={
@@ -442,11 +455,6 @@ export function ImportedLevelingReader({
             </label>
           </div>
           <div className={styles.workspaceListLinks}>
-            {selection.resumeId && (
-              <a href={`#guide-${selection.resumeId}`} data-reader-resume>
-                Resume next step ↓
-              </a>
-            )}
             {chapter.id === WESTFALL_CHAPTER_ID && (
               <Link href={`${levelingChapterPath(profile, chapter.id)}?edition=kfc`}>
                 Original KFC preview & calculator

@@ -248,7 +248,7 @@ Reader essentials:
 - Sticky chapter title, bracket and profile summary; Previous / Next chapter.
 - Preserve the existing accept → complete → turn-in order, travel steps and dependency grouping.
 - Quest title/ID, action icon, NPC/zone/coordinates when known, and Encyclopedia reference link.
-- Manual progress controls, Resume next step and optional Hide completed. Distinguish done,
+- Manual progress controls, separate Next step / Done buttons and optional Hide completed. Distinguish done,
   skipped and unknown; skipping must warn if later required work depends on the step.
 - Group/dungeon suggestions as separate optional callouts. Show why they apply and prerequisites.
 - Advanced XP/time comparison only when a player opens an eligible dungeon opportunity.
@@ -417,8 +417,9 @@ the 1280px page frame and the 420px SVG cap displaced or constrained the actual 
 KFC primary navigation
 ────────────────────────────────────────────────────────────────────────
 ← Chapters   Northshire · 1–6   Character   12/60 done   Settings
+Step 13                                        Next step    Done
 ──────────────────────────────────────┬─────────────────────────────────
-Zone: Elwynn     Follow next / pinned  │ Quest list     Hide completed
+Zone: Elwynn                          │ Quest list     Hide completed
                                       ├─────────────────────────────────
                                       │ 12. Accept quest                │
           PERSISTENT ZONE MAP          │     Instructions · Wowhead      │
@@ -461,15 +462,19 @@ Legend / evidence / map status        │      independent vertical scroll│
    Keep an ordered list; do not use a listbox role around cards containing links and checkboxes.
 3. Completion, Skip, Wowhead links and details controls remain separate actions. Their clicks must
    not bubble into card selection or accidentally finish a quest. No nested interactive elements.
-4. Selecting a step pins the map to that step. In Follow next mode, marking the current step done
-   advances to the next pending applicable step **at or after the selected reading position**.
-   Clicking Follow on step 51 must not return to an earlier unchecked step. Resume uses the same
-   cursor and enables following; neither action completes earlier prerequisites. Undoing an earlier
-   checkbox changes its actual progress but does not rewind an established following cursor.
-   Explicitly selecting an earlier step is how to return there. Following does not wrap to the
-   beginning at the end of a chapter. Current-step anchors and validated browser-history mode
-   preserve the reading position on refresh; history scope includes character/chapter/version/build.
-5. Resume/next-step navigation scrolls only the quest pane to the relevant card. Preserve existing
+4. Selecting a step pins the map to that step. **Next step** moves to the next visible applicable
+   instruction strictly after that position, without marking anything complete. **Done** first marks
+   the current instruction complete, then moves forward. Earlier unchecked instructions never pull
+   either action back to the chapter beginning. Checkbox-only changes do not move selection unless
+   Hide completed removes the current card; undo never rewinds the cursor. Selecting an earlier
+   card explicitly returns there. At the final step, Next is disabled and Done can complete that
+   step without wrapping. Done requires a saved matching character, a resolved applicable step and
+   an incomplete current card. Unsaved visitors can still use Next. Current-step anchors and validated
+   browser-history state preserve the reading position on refresh, including legacy Follow history;
+   scope includes character/chapter/version/build. No automatic-follow mode remains in the UI.
+5. Next/Done navigation scrolls only the quest pane to the relevant card. Both buttons remain visible
+   in Split, Map and Quest list focus; if the pane is hidden, scroll to the new selection when it is
+   reopened. Preserve existing
    guide anchors, original-preview anchors and `#planner` behavior within the new scroll region.
 6. Automatically use a selected step's relevant zone. For steps spanning multiple maps, keep an
    explicit zone selector. Do not retain the previous quest's unrelated zone after selection changes.

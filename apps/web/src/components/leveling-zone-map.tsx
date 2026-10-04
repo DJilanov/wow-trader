@@ -13,8 +13,6 @@ interface LevelingZoneMapProps {
   readonly maps: LevelingChapterMaps;
   readonly points: readonly LevelingMapPoint[];
   readonly stepLabel: string;
-  readonly followingNext: boolean;
-  readonly onFollowNext: () => void;
 }
 interface ZoneCanvasProps {
   readonly zone: LevelingZoneArt;
@@ -156,8 +154,6 @@ export function LevelingZoneMap({
   maps,
   points,
   stepLabel,
-  followingNext,
-  onFollowNext,
 }: LevelingZoneMapProps): React.JSX.Element {
   const [selectedZone, setSelectedZone] = useState<{
     readonly stepLabel: string;
@@ -180,15 +176,6 @@ export function LevelingZoneMap({
             {stepLabel}
           </h2>
         </div>
-        <button
-          className={styles.mapFollow}
-          type="button"
-          onClick={onFollowNext}
-          disabled={followingNext}
-          aria-pressed={followingNext}
-        >
-          Follow next step
-        </button>
         {zone && (
           <label className={styles.mapZoneField}>
             <span className={styles.mapZoneLabel}>Zone map</span>

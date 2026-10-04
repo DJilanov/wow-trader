@@ -988,7 +988,7 @@
 }
 .workspaceSettingsButton,
 .workspaceViews button,
-.mapFollow {
+.workspaceStepButton {
   min-height: 44px;
   padding: 8px 12px;
   background: var(--bg-1);
@@ -999,9 +999,35 @@
   font-size: 12px;
   cursor: pointer;
 }
-.mapFollow:disabled {
+.workspaceStepButton:disabled {
   color: var(--muted);
   cursor: default;
+}
+.workspaceStepActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 8px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.workspaceStepActions p {
+  min-width: 0;
+  flex: 1;
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspaceStepButton {
+  flex-shrink: 0;
+}
+.workspaceDoneButton:not(:disabled) {
+  color: var(--ink);
+  background: #d7913a18;
+  border-color: var(--gold-low);
 }
 .workspaceNotice {
   margin: 0;
@@ -1282,7 +1308,7 @@
   }
   .workspaceMap .mapToolbar {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 8px;
     margin-bottom: 6px;
   }
@@ -1309,11 +1335,8 @@
   .workspaceMap .mapZoneField select {
     max-width: 130px;
   }
-  .workspaceMap .mapFollow {
-    font-size: 10px;
-    padding: 6px;
-    width: 84px;
-    white-space: normal;
+  .workspaceStepActions {
+    padding-inline: 12px;
   }
   .readerWorkspace[data-reader-view="split"] .mapFooter {
     max-height: 46px;

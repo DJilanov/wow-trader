@@ -82,10 +82,13 @@ parser editions may remain in this directory; only manifest-listed files belong 
   selection or list scroll. Short wide screens use side-by-side panes. Other site pages keep their
   existing frame/footer. Selection never scrolls the whole document to the map.
 - Clicking a card/title pins its map independently of checkboxes, Skip, details and Wowhead links.
-  **Follow next step** follows pending instructions from that selected position, not the first
-  unchecked instruction in the entire chapter. **Resume next step** uses that same cursor and
-  scrolls only the quest pane. Neither silently completes earlier work; the cursor never wraps at
-  the end. Valid step anchors plus character/chapter/version/build-scoped browser-history mode
+  **Next step** moves to the next visible instruction without completing the current one. **Done**
+  completes the selected instruction, then advances. Both controls stay visible in every focus mode;
+  advancement scrolls only the quest pane, or queues that scroll while the pane is hidden.
+  A standalone checkbox never advances selection unless Hide completed removes that selected card.
+  Neither action silently completes earlier work or wraps at the end. Done requires a saved,
+  matching character and is disabled for an already completed card; Next works for unsaved browsers.
+  Valid step anchors plus character/chapter/version/build-scoped browser-history state
   restore the current reading position on refresh. This is browser-local, not account synchronization.
 - Class, known XP rate, optional dungeon branches and expanded source evidence are in Settings.
   Storage errors remain visible, and unresolved-step completion remains disabled. The original
@@ -114,7 +117,7 @@ playtested on this beta, and source presence does not establish server availabil
 
 The chapter reader includes a persistent native-art map panel, a zone selector and clickable
 step titles/cards. Mapped title buttons retain their **Show on map** accessible labels. Selecting
-pins a step; **Follow next step** resumes automatic advancement from that position.
+pins a step; **Next step** advances without completion and **Done** completes then advances.
 Completed/skipped steps and hidden class/rate/dungeon variants
 do not silently contribute locations to another step.
 
@@ -208,7 +211,8 @@ existing Chrome/Playwright setup. `LEVELING_TEST_HELPER` overrides the default l
 when checking a stable production preview. They cover all ten starters/endgame access, imported
 progress, conditions, optional dungeon branches, original-edition isolation, legacy URLs, storage
 failures, multi-character behavior, sharing, WCAG checks and 360–1440px layouts. Workspace tests
-also cover fixed map bounds, lower-card selection, click separation, follow-from-step-51, refresh,
-hide-completed/undo, focus-mode scroll retention, keyboard Settings and short landscape windows.
+also cover fixed map bounds, lower-card selection, click separation, Next/Done from step 51,
+refresh, hide-completed/undo, final-step no-wrap, unsaved completion guards, map-focus advancement,
+focus-mode scroll retention, both editions, keyboard Settings and short landscape windows.
 Final results are
 recorded in `context.md`; browser checks are not live WoW playthrough evidence.

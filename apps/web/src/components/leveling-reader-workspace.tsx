@@ -17,11 +17,17 @@ interface LevelingReaderWorkspaceProps {
   readonly total: number;
   readonly progressLabel: string;
   readonly notice: string | null;
+  readonly currentStepLabel: string;
+  readonly currentStepAnchor: string | null;
+  readonly nextDisabled: boolean;
+  readonly doneDisabled: boolean;
+  readonly onNext: () => void;
+  readonly onDone: () => void;
   readonly settings: ReactNode;
   readonly map: ReactNode;
   readonly toolbar: ReactNode;
   readonly children: ReactNode;
-  readonly onNavigate: (hash: string, resume: boolean) => void;
+  readonly onNavigate: (hash: string) => void;
 }
 type ReaderView = "split" | "map" | "quests";
 
@@ -37,6 +43,12 @@ export function LevelingReaderWorkspace({
   total,
   progressLabel,
   notice,
+  currentStepLabel,
+  currentStepAnchor,
+  nextDisabled,
+  doneDisabled,
+  onNext,
+  onDone,
   settings,
   map,
   toolbar,
@@ -46,6 +58,7 @@ export function LevelingReaderWorkspace({
   const [view, setView] = useState<ReaderView>("split");
   const dialog = useRef<HTMLDialogElement>(null);
   const settingsId = useId();
+  const pendingScroll = useRef(false);
   useEffect(() => {
     if (!ready) return;
     const frame = requestAnimationFrame(() => {
@@ -59,6 +72,24 @@ export function LevelingReaderWorkspace({
     });
     return () => cancelAnimationFrame(frame);
   }, [scope, ready]);
+
+  useEffect(() => {
+    if (!pendingScroll.current) return;
+    if (!currentStepAnchor) {
+      pendingScroll.current = false;
+      return;
+    }
+    const frame = requestAnimationFrame(() => {
+      if (scrollReaderToAnchor(currentStepAnchor)) pendingScroll.current = false;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [view, currentStepAnchor]);
+
+  function advance(complete: boolean): void {
+    pendingScroll.current = !nextDisabled;
+    if (complete) onDone();
+    else onNext();
+  }
 
   function navigateAnchor(event: MouseEvent<HTMLElement>): void {
     if (
@@ -82,7 +113,7 @@ export function LevelingReaderWorkspace({
     if (!scrollReaderToAnchor(anchor)) return;
     event.preventDefault();
     window.history.replaceState(window.history.state, "", href);
-    onNavigate(href, link?.hasAttribute("data-reader-resume") ?? false);
+    onNavigate(href);
   }
   return (
     <article className={styles.readerWorkspace} data-leveling-workspace data-reader-view={view}>
@@ -120,6 +151,29 @@ export function LevelingReaderWorkspace({
           {notice}
         </p>
       )}
+      <div className={styles.workspaceStepActions} role="group" aria-label="Step navigation">
+        <p title={currentStepLabel} aria-live="polite">
+          {currentStepLabel}
+        </p>
+        <button
+          className={styles.workspaceStepButton}
+          type="button"
+          disabled={nextDisabled}
+          title="Move forward without completing the current step"
+          onClick={() => advance(false)}
+        >
+          Next step
+        </button>
+        <button
+          className={`${styles.workspaceStepButton} ${styles.workspaceDoneButton}`}
+          type="button"
+          disabled={doneDisabled}
+          title="Complete the current step and move forward"
+          onClick={() => advance(true)}
+        >
+          Done
+        </button>
+      </div>
       <div className={styles.workspaceViews} role="group" aria-label="Reader view">
         {(
           [

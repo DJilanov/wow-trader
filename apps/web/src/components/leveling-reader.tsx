@@ -107,6 +107,7 @@ export function LevelingReader({
   const mapPoints = maps.points.filter((point) => point.stepId === selectedMapStep?.id);
 
   function mark(stepId: string, status: StepProgress): void {
+    if (selection.selectedId) selection.select(selection.selectedId);
     const step = route?.steps.find((entry) => entry.id === stepId);
     if (status === "skipped" && step) {
       const dependents =
@@ -122,6 +123,12 @@ export function LevelingReader({
       );
     }
     setProgress(chapter.id, stepId, status);
+  }
+  function finishCurrent(): void {
+    if (!loaded || !matchingSession || !selectedMapStep || progress[selectedMapStep.id] === "done")
+      return;
+    mark(selectedMapStep.id, "done");
+    selection.next();
   }
 
   if (!route)
@@ -190,6 +197,14 @@ export function LevelingReader({
       progressLabel={`${completed} / ${route.steps.length} steps done`}
       notice={notice}
       onNavigate={selection.navigate}
+      currentStepLabel={selectedMapStep?.title ?? "No active step"}
+      currentStepAnchor={selection.selectedId ? `route-${selection.selectedId}` : null}
+      nextDisabled={selection.nextId === null}
+      doneDisabled={
+        !loaded || !matchingSession || !selectedMapStep || progress[selectedMapStep.id] === "done"
+      }
+      onNext={selection.next}
+      onDone={finishCurrent}
       settings={
         <>
           <div className={styles.notice}>
@@ -209,8 +224,6 @@ export function LevelingReader({
           maps={maps}
           points={mapPoints}
           stepLabel={selectedMapStep?.title ?? "No active step"}
-          followingNext={selection.followingNext}
-          onFollowNext={selection.follow}
         />
       }
       toolbar={
@@ -227,11 +240,6 @@ export function LevelingReader({
             </label>
           </div>
           <div className={styles.workspaceListLinks}>
-            {selection.resumeId && (
-              <a href={`#route-${selection.resumeId}`} data-reader-resume>
-                Resume next step ↓
-              </a>
-            )}
             <a href="#dungeon-opportunities">Optional dungeon comparison</a>
           </div>
         </>

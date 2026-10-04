@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   nextReaderStep,
+  nextReaderStepAfter,
   readerPositionFromHistory,
   readerStepFromHash,
 } from "./leveling-reader-navigation";
@@ -19,7 +20,7 @@ describe("chapter reader deep-link selection", () => {
   });
 });
 
-describe("following a chapter from the current reading position", () => {
+describe("chapter navigation from the current reading position", () => {
   const ids = ["step-1", "step-2", "step-51", "step-52", "step-53"];
   it("does not return to earlier unchecked steps after a later step is selected", () => {
     expect(nextReaderStep(ids, ids, "step-51")).toBe("step-51");
@@ -31,6 +32,16 @@ describe("following a chapter from the current reading position", () => {
     expect(nextReaderStep(ids, ["step-1"], "step-53")).toBeNull();
     expect(nextReaderStep(ids, ["step-2"], null)).toBe("step-2");
     expect(nextReaderStep([], [], null)).toBeNull();
+  });
+  it("Next step advances strictly after the current step without requiring its completion", () => {
+    expect(nextReaderStepAfter(ids, ids, "step-51")).toBe("step-52");
+    expect(nextReaderStepAfter(ids, ["step-1", "step-51", "step-53"], "step-51")).toBe("step-53");
+  });
+  it("does not wrap from the final step or guess an invalid current position", () => {
+    expect(nextReaderStepAfter(ids, ids, "step-53")).toBeNull();
+    expect(nextReaderStepAfter(ids, ids, "unknown")).toBeNull();
+    expect(nextReaderStepAfter(ids, ids, null)).toBeNull();
+    expect(nextReaderStepAfter([], [], "step-51")).toBeNull();
   });
   it("restores a valid following cursor only for the same character/chapter/build", () => {
     const position = { scope: "character:chapter:build", id: "step-51", mode: "follow" };

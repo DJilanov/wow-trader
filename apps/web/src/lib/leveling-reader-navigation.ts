@@ -14,6 +14,18 @@ export function nextReaderStep(
   return stepIds.slice(start).find((id) => pending.has(id)) ?? null;
 }
 
+export function nextReaderStepAfter(
+  stepIds: readonly string[],
+  visibleIds: readonly string[],
+  currentId: string | null,
+): string | null {
+  if (currentId === null) return null;
+  const index = stepIds.indexOf(currentId);
+  if (index < 0) return null;
+  const visible = new Set(visibleIds);
+  return stepIds.slice(index + 1).find((id) => visible.has(id)) ?? null;
+}
+
 export function readerPositionFromHistory(
   state: unknown,
   scope: string,
@@ -68,7 +80,8 @@ export function readerStepFromHash(
 export function scrollReaderToAnchor(anchor: string): boolean {
   const pane = document.getElementById("leveling-quest-pane");
   const target = document.getElementById(anchor);
-  if (!pane || !target || !pane.contains(target)) return false;
+  if (!pane || pane.getClientRects().length === 0 || !target || !pane.contains(target))
+    return false;
   let parent = target.parentElement;
   while (parent && parent !== pane) {
     if (parent instanceof HTMLDetailsElement) parent.open = true;
