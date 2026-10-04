@@ -52,6 +52,25 @@ its server-side source or probability.
 
 ## Implemented
 
+### Leveling player-quality improvements (2026-10-04; local, not deployed)
+
+- Implemented exact per-character/chapter/version/build reading bookmarks and Continue playing;
+  Previous and session-local Undo Done; bounded map zoom/drag/keyboard pan/fit with marker-to-instruction
+  navigation; current+next focus mode and larger text; explicit source-only chapter handoffs;
+  private validated progress backup/merge; and durable anonymous step reports with a maintainer review CLI.
+- Backups preserve existing saved releases in full, including undone steps. Feedback retries are
+  idempotent even when PostgreSQL reorders JSONB keys; reports never automatically edit route evidence.
+- New report storage migration: `0016_white_runaways.sql`. PostgreSQL on local localhost:5432 was stopped,
+  so local migration/storage integration is not yet verified. Production database and r4 release are
+  unchanged. Discord account sync remains a documented separate auth/privacy phase, not fake login.
+- Contracts, known source gaps, backup/rollback caveats and operator commands:
+  `docs/forever-leveling-player-quality.md`. Unrelated working-tree changes remain preserved.
+- Verified strict web/database typechecking and linting, 165 web unit tests, full isolated-feature
+  `pnpm check` including production build, formatting, and all 30 Chrome regressions against the
+  production-mode build. Additional final mobile/map-size, landscape and keyboard/accessibility
+  regressions passed after screenshot review found and corrected wrapped controls shrinking the map.
+  Real local feedback requests return an honest 503 while PostgreSQL is unavailable.
+
 ### Explicit chapter Next step / Done (2026-10-04; deployed)
 
 - Owner requested manual advancement, replacing Follow and Resume. Both imported and original readers

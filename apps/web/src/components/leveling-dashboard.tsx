@@ -24,8 +24,10 @@ import {
   levelingDashboardPath,
   profileSummary,
   type LevelingSession,
+  readingPositionPath,
 } from "../lib/leveling-experience";
 import styles from "./leveling-experience.module.css";
+import { LevelingBackupControls } from "./leveling-backup-controls";
 
 interface LevelingDashboardProps {
   readonly defaultProfile: CharacterProfile;
@@ -188,8 +190,15 @@ export function LevelingDashboard({
               : "The extracted brackets below are reference metadata. An original public quest list for this faction is not ready yet."}
           </p>
           {current ? (
-            <Link className={styles.button} href={levelingChapterPath(profile, current.id)}>
-              Open current quest list →
+            <Link
+              className={styles.button}
+              href={
+                matchingSession?.lastReader
+                  ? readingPositionPath(matchingSession)
+                  : levelingChapterPath(profile, current.id)
+              }
+            >
+              {matchingSession?.lastReader ? "Continue playing →" : "Open current quest list →"}
             </Link>
           ) : (
             <Link className={styles.button} href="/forever/encyclopedia/quests">
@@ -213,6 +222,7 @@ export function LevelingDashboard({
           )}
         </aside>
       </div>
+      <LevelingBackupControls />
       <section aria-labelledby="chapters-heading">
         <div className={styles.sectionHeading}>
           <div>

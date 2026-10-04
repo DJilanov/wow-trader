@@ -94,6 +94,8 @@ export default async function LevelingChapterPage({
   const route = getPublicChapter(chapter, profile);
   const imported =
     (await searchParams).edition === "kfc" ? null : await getImportedLevelingChapter(chapterId);
+  const publishedIds =
+    (await getLevelingArchiveManifest())?.chapters.map((entry) => entry.chapterId) ?? [];
   const maps = imported
     ? await getLevelingMaps(importedMapSteps(imported), imported.targetBuild)
     : route
@@ -132,9 +134,15 @@ export default async function LevelingChapterPage({
           guide={imported}
           defaultProfile={profile}
           maps={maps}
+          publishedIds={publishedIds}
         />
       ) : (
-        <LevelingReader chapter={chapter} defaultProfile={profile} maps={maps} />
+        <LevelingReader
+          chapter={chapter}
+          defaultProfile={profile}
+          maps={maps}
+          publishedIds={publishedIds}
+        />
       )}
     </>
   );

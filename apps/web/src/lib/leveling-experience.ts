@@ -24,6 +24,15 @@ const stepProgressSchema = z.record(
   z.string().regex(/^[a-z0-9-]{1,180}$/),
   z.enum(["done", "skipped"]),
 );
+export const readingPositionSchema = z
+  .object({
+    chapterId: z.string().regex(/^[a-z0-9-]{1,180}$/),
+    version: z.string().regex(/^[a-z0-9.-]{1,80}$/),
+    clientBuild: z.number().int().positive(),
+    stepId: z.string().regex(/^[a-z0-9-]{1,180}$/),
+  })
+  .strict();
+export type ReadingPosition = z.infer<typeof readingPositionSchema>;
 const sessionSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9-]{1,80}$/),
@@ -33,6 +42,10 @@ const sessionSchema = z
       .string()
       .regex(/^[a-z0-9-]{1,180}$/)
       .nullable(),
+    readerPositions: z
+      .record(z.string().regex(/^[a-z0-9-]{1,180}$/), z.string().regex(/^[a-z0-9-]{1,180}$/))
+      .default({}),
+    lastReader: readingPositionSchema.nullable().default(null),
   })
   .strict();
 export const levelingWorkspaceSchema = z
@@ -144,10 +157,13 @@ export function updateCharacterSession(
   )
     throw new Error("Create another character to change faction, race or an established class");
   const session: LevelingSession = {
+    ...existing,
     id: sessionId,
     profile: characterProfileSchema.parse(profile),
     progress: existing?.progress ?? {},
     lastChapterId: existing?.lastChapterId ?? null,
+    readerPositions: existing?.readerPositions ?? {},
+    lastReader: existing?.lastReader ?? null,
   };
   if (!existing && workspace.sessions.length >= 10)
     throw new Error("Ten local characters are already saved. Select an existing character.");
@@ -158,6 +174,62 @@ export function updateCharacterSession(
       ? workspace.sessions.map((entry) => (entry.id === sessionId ? session : entry))
       : [...workspace.sessions, session],
   });
+}
+
+export function rememberReadingPosition(
+  workspace: LevelingWorkspace,
+  sessionId: string,
+  position: ReadingPosition,
+): LevelingWorkspace {
+  const parsed = readingPositionSchema.safeParse(position);
+  const session = workspace.sessions.find((entry) => entry.id === sessionId);
+  const chapter = CHAPTER_REFERENCES.find((entry) => entry.id === position.chapterId);
+  if (!parsed.success || !session || !chapter?.factions.includes(session.profile.faction))
+    return workspace;
+  const key = chapterProgressKey(position.chapterId, position.version, position.clientBuild);
+  if (
+    session.readerPositions[key] === position.stepId &&
+    JSON.stringify(session.lastReader) === JSON.stringify(position)
+  )
+    return workspace;
+  return levelingWorkspaceSchema.parse({
+    ...workspace,
+    sessions: workspace.sessions.map((entry) =>
+      entry.id === sessionId
+        ? {
+            ...entry,
+            lastChapterId: position.chapterId,
+            lastReader: position,
+            readerPositions: { ...entry.readerPositions, [key]: position.stepId },
+          }
+        : entry,
+    ),
+  });
+}
+
+export function readingPositionPath(session: LevelingSession): string {
+  const position = session.lastReader;
+  if (position) {
+    const chapter = CHAPTER_REFERENCES.find((entry) => entry.id === position.chapterId);
+    if (!chapter || !chapter.factions.includes(session.profile.faction))
+      return levelingDashboardPath(session.profile);
+    if (!position.version.startsWith("import-")) {
+      const route = getPublicChapter(chapter, session.profile);
+      if (
+        !route ||
+        route.version !== position.version ||
+        route.clientBuild !== position.clientBuild ||
+        !route.steps.some((step) => step.id === position.stepId)
+      )
+        return levelingChapterPath(session.profile, chapter.id);
+    }
+  }
+  if (!position)
+    return session.lastChapterId
+      ? levelingChapterPath(session.profile, session.lastChapterId)
+      : levelingDashboardPath(session.profile);
+  const original = !position.version.startsWith("import-");
+  return `${levelingChapterPath(session.profile, position.chapterId)}${original ? "?edition=kfc" : ""}#${original ? "route-" : "guide-"}${encodeURIComponent(position.stepId)}`;
 }
 
 export function updateStepProgress(

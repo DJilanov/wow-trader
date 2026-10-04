@@ -6,6 +6,33 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
+## Leveling bookmarks, undo, backup safety and reader quality (2026-10-04; local)
+
+- Saved the reading position independently of checkmarks, per character/chapter/version/build.
+  Next-only visits now resume in a fresh tab and from Continue playing, not the first pending step.
+  Explicit anchors take precedence; stale/excluded steps cannot select an invalid card.
+- Previous is progress-neutral. Undo Done restores the previous pending or skipped status and
+  returns to that instruction; it is intentionally local to the current visit/release/character.
+- Older backup ticks cannot undo a recent undo: existing saved chapter releases win in full on
+  explicit merge. Validated private backups require preview/confirmation and successful storage
+  before acknowledgment; identity conflicts, corrupt files and size/character limits fail safely.
+- Report retries are matched through schema-normalized profiles, avoiding PostgreSQL JSONB key-order
+  false conflicts. The bounded same-origin API validates published step identities and only confirms
+  committed insertions or identical retries. New storage migration: `0016_white_runaways.sql`.
+  Reports do not edit source evidence. Maintainers review with `pnpm leveling:feedback --help`.
+- Added bounded map pan/zoom/fit, instruction-revealing markers, current+next focus mode, larger text
+  and source-only chapter handoffs. Screenshot review caught controls wrapping and shrinking mobile
+  maps; compact accessible labels, adequate split-map height and landscape-specific sizing fix it.
+- Web/database lint/typecheck and 165 web tests passed. Isolated-feature `pnpm check`/production build
+  and all 30 Chrome regressions passed; final responsive/map-size/mobile-focus/keyboard checks passed
+  after the visual adjustment. No new dependency, commit, push or production deployment this turn.
+- Local PostgreSQL at localhost:5432 is stopped, so `pnpm db:migrate` and the report review query could
+  not complete; real local submissions correctly return 503 without false success. Apply/verify the
+  migration during a separately authorized deployment. r4 and the production database are unchanged.
+- Complete contracts, operator commands, known source gaps and backup rollback caveats:
+  `docs/forever-leveling-player-quality.md`. Discord account sync is not enabled; private manual
+  export/import works now and the account-auth/revision-conflict phase is documented separately.
+
 ## Explicit Next step / Done chapter navigation (deployed 2026-10-04)
 
 - Replaced Follow and Resume with the owner's requested manual controls in both reader editions.

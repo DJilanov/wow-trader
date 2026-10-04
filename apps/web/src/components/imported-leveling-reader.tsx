@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
-  CHAPTER_REFERENCES,
   LEVELING_EVIDENCE,
-  findChapterTargets,
   getChapterLabel,
   getGuideStepView,
   getLevelingRace,
@@ -22,6 +20,9 @@ import { LevelingZoneMap } from "./leveling-zone-map";
 import { LevelingReaderWorkspace } from "./leveling-reader-workspace";
 import { LevelingQuestCard } from "./leveling-quest-card";
 import { useLevelingReaderSelection } from "./leveling-reader-selection";
+import { useReaderCompletion } from "./leveling-reader-completion";
+import { LevelingChapterHandoff } from "./leveling-chapter-handoff";
+import { LevelingStepFeedback } from "./leveling-step-feedback";
 import type { LevelingChapterMaps } from "../lib/leveling-map-data";
 import {
   chapterProgressKey,
@@ -39,6 +40,7 @@ interface ImportedReaderProps {
   readonly guide: ImportedChapter;
   readonly defaultProfile: CharacterProfile;
   readonly maps: LevelingChapterMaps;
+  readonly publishedIds: readonly string[];
 }
 const describedActions: Readonly<Record<string, string>> = {
   ".accept": "Accept quest",
@@ -99,8 +101,9 @@ export function ImportedLevelingReader({
   guide,
   defaultProfile,
   maps,
+  publishedIds,
 }: ImportedReaderProps): React.JSX.Element {
-  const { session, loaded, notice, saveCharacter, setProgress } = useLeveling();
+  const { session, loaded, notice, saveCharacter, setProgress, rememberPosition } = useLeveling();
   const matching =
     session?.profile.faction === defaultProfile.faction &&
     session.profile.raceId === defaultProfile.raceId
@@ -134,6 +137,16 @@ export function ImportedLevelingReader({
     active
       .filter((view) => !hideDone || progress[view.step.id] !== "done")
       .map((view) => view.step.id),
+    matching?.readerPositions[releaseKey] ?? null,
+    loaded && matching
+      ? (stepId) =>
+          rememberPosition(matching.id, {
+            chapterId: chapter.id,
+            version: guide.version,
+            clientBuild: guide.targetBuild,
+            stepId,
+          })
+      : undefined,
   );
   const selectedMapStep = active.find((view) => view.step.id === selection.selectedId);
   const mapPoints = maps.points.filter(
@@ -159,7 +172,6 @@ export function ImportedLevelingReader({
       ),
     ),
   ];
-  const next = findChapterTargets(chapter, CHAPTER_REFERENCES, profile);
   function changeProfile(nextProfile: CharacterProfile): void {
     saveCharacter(nextProfile, matching?.id);
   }
@@ -171,12 +183,18 @@ export function ImportedLevelingReader({
       );
     setProgress(chapter.id, stepId, status, definition);
   }
-  function finishCurrent(): void {
-    if (!loaded || !matching || !selectedMapStep || progress[selectedMapStep.step.id] === "done")
-      return;
-    mark(selectedMapStep.step.id, "done");
-    selection.next();
-  }
+  const completion = useReaderCompletion({
+    scope: `${matching?.id}:${releaseKey}`,
+    selectedId: selection.selectedId,
+    enabled: loaded && Boolean(matching),
+    progress,
+    mark,
+    advance: selection.next,
+    restore: (id) => {
+      setHideDone(false);
+      selection.restore(id);
+    },
+  });
   function renderStep(view: GuideStepView, conditional = false): React.JSX.Element {
     const texts = view.directives.filter((directive) => describe(directive));
     const heading =
@@ -206,6 +224,7 @@ export function ImportedLevelingReader({
         }
         selected={!conditional && selection.selectedId === view.step.id}
         done={progress[view.step.id] === "done"}
+        next={!conditional && selection.nextId === view.step.id}
         disabled={conditional}
         onSelect={() => selection.select(view.step.id)}
         leading={
@@ -216,6 +235,14 @@ export function ImportedLevelingReader({
         meta={
           <>
             Step {view.step.ordinal}
+            {" · "}
+            {[
+              ...new Set(
+                view.directives.map((directive) => describedActions[directive.tag]).filter(Boolean),
+              ),
+            ]
+              .slice(0, 3)
+              .join(" · ") || "Travel / instructions"}
             {view.optional && " · Optional / alongside"}
             {conditional && " · Condition unresolved"}
           </>
@@ -229,9 +256,23 @@ export function ImportedLevelingReader({
           />
         }
       >
+        {view.directives.some((directive) => [".target", ".mob"].includes(directive.tag)) && (
+          <p className={styles.stepQuickFacts}>
+            {view.directives
+              .filter((directive) => [".target", ".mob"].includes(directive.tag))
+              .map((directive) => `${describedActions[directive.tag]}: ${directive.arguments}`)
+              .join(" · ")}
+          </p>
+        )}
         {texts.map((directive, index) => (
-          <div key={`${directive.sourceLine}-${index}`} className={styles.guideInstruction}>
-            {describe(directive) !== heading && <p>{describe(directive)}</p>}
+          <div
+            id={`guide-${view.step.id}-line-${directive.sourceLine}`}
+            key={`${directive.sourceLine}-${index}`}
+            className={styles.guideInstruction}
+          >
+            {describe(directive) !== heading && ![".target", ".mob"].includes(directive.tag) && (
+              <p>{describe(directive)}</p>
+            )}
             {directive.questId !== null && (
               <LevelingEntityLinks kind="quest" id={directive.questId} />
             )}
@@ -250,7 +291,14 @@ export function ImportedLevelingReader({
             <summary>Locations & path · {positions.length} point(s)</summary>
             <ul>
               {positions.map((directive) => (
-                <li key={directive.sourceLine}>
+                <li
+                  id={
+                    texts.includes(directive)
+                      ? undefined
+                      : `guide-${view.step.id}-line-${directive.sourceLine}`
+                  }
+                  key={directive.sourceLine}
+                >
                   {directive.position!.zone}
                   {directive.position!.floor !== null &&
                     ` / world map ${directive.position!.floor}`}{" "}
@@ -328,6 +376,16 @@ export function ImportedLevelingReader({
             </ul>
           </details>
         )}
+        <LevelingStepFeedback
+          key={`${releaseKey}:${view.step.id}`}
+          position={{
+            chapterId: chapter.id,
+            version: guide.version,
+            clientBuild: guide.targetBuild,
+            stepId: view.step.id,
+          }}
+          profile={profile}
+        />
       </LevelingQuestCard>
     );
   }
@@ -348,11 +406,13 @@ export function ImportedLevelingReader({
       currentStepLabel={selectedMapStep ? `Step ${selectedMapStep.step.ordinal}` : "No active step"}
       currentStepAnchor={selection.selectedId ? `guide-${selection.selectedId}` : null}
       nextDisabled={selection.nextId === null}
-      doneDisabled={
-        !loaded || !matching || !selectedMapStep || progress[selectedMapStep.step.id] === "done"
-      }
+      doneDisabled={completion.doneDisabled}
+      previousDisabled={selection.previousId === null}
+      undoDisabled={completion.undoDisabled}
+      onPrevious={selection.previous}
+      onUndo={completion.undo}
       onNext={selection.next}
-      onDone={finishCurrent}
+      onDone={completion.finish}
       settings={
         <>
           <div className={styles.detailsRow}>
@@ -434,13 +494,20 @@ export function ImportedLevelingReader({
           </p>
         </>
       }
-      map={
+      map={(revealAnchor) => (
         <LevelingZoneMap
           maps={maps}
           points={mapPoints}
           stepLabel={selectedMapStep ? `Step ${selectedMapStep.step.ordinal}` : "No active step"}
+          onLocation={(point) => {
+            selection.restore(point.stepId);
+            const instruction = `guide-${point.stepId}-line-${point.sourceLine}`;
+            revealAnchor(
+              document.getElementById(instruction) ? instruction : `guide-${point.stepId}`,
+            );
+          }}
         />
-      }
+      )}
       toolbar={
         <>
           <div className={styles.readerToolbar}>
@@ -515,20 +582,19 @@ export function ImportedLevelingReader({
           <ol className={styles.questSteps}>{unresolved.map((view) => renderStep(view, true))}</ol>
         </details>
       )}
-      <nav className={styles.chapterPagination} aria-label="Chapter navigation">
-        <Link href={levelingDashboardPath(profile)}>← Chapter overview</Link>
-        {next.length === 1 ? (
-          <Link href={levelingChapterPath(profile, next[0]!.id)}>
-            Next source chapter: {getChapterLabel(next[0]!, profile).zone} →
-          </Link>
-        ) : (
-          <span>
-            {next.length > 1
-              ? "Choose a continuation in the chapter overview"
-              : "Next transition needs review"}
-          </span>
-        )}
-      </nav>
+      <LevelingChapterHandoff
+        chapter={chapter}
+        profile={profile}
+        publishedIds={publishedIds}
+        unresolved={unresolved.length}
+        remaining={active
+          .filter((view) => !view.optional && progress[view.step.id] !== "done")
+          .map((view) => ({
+            anchor: `guide-${view.step.id}`,
+            title: `Step ${view.step.ordinal}: ${view.directives.find((directive) => directive.text)?.text ?? "Review instruction"}`,
+            skipped: progress[view.step.id] === "skipped",
+          }))}
+      />
     </LevelingReaderWorkspace>
   );
 }

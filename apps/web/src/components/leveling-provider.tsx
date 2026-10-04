@@ -10,11 +10,14 @@ import {
   serializeLevelingWorkspace,
   updateCharacterSession,
   updateStepProgress,
+  rememberReadingPosition,
   type LevelingSession,
   type LevelingWorkspace,
   type StepProgress,
   type ImportedProgressDefinition,
+  type ReadingPosition,
 } from "../lib/leveling-experience";
+import { mergeLevelingBackup } from "../lib/leveling-backup";
 
 interface LevelingContextValue {
   readonly workspace: LevelingWorkspace;
@@ -23,6 +26,8 @@ interface LevelingContextValue {
   readonly notice: string | null;
   readonly saveCharacter: (profile: CharacterProfile, sessionId?: string) => boolean;
   readonly selectCharacter: (id: string) => void;
+  readonly rememberPosition: (sessionId: string, position: ReadingPosition) => void;
+  readonly importBackup: (incoming: LevelingWorkspace) => void;
   readonly setProgress: (
     chapterId: string,
     stepId: string,
@@ -130,6 +135,18 @@ export function LevelingProvider({
     if (workspace.sessions.some((session) => session.id === id))
       setWorkspace({ ...workspace, activeId: id });
   }
+  function rememberPosition(sessionId: string, position: ReadingPosition): void {
+    setWorkspace((current) => rememberReadingPosition(current, sessionId, position));
+  }
+  function importBackup(incoming: LevelingWorkspace): void {
+    const merged = mergeLevelingBackup(workspace, incoming);
+    // Persist before acknowledging an import; denied storage must leave the current state untouched.
+    localStorage.setItem(LEVELING_STORAGE_KEY, serializeLevelingWorkspace(merged));
+    setWorkspace(merged);
+    setNotice(
+      "Backup imported. Existing character settings and already-saved chapter progress were kept.",
+    );
+  }
   function setProgress(
     chapterId: string,
     stepId: string,
@@ -151,7 +168,17 @@ export function LevelingProvider({
   const session = workspace.sessions.find((entry) => entry.id === workspace.activeId) ?? null;
   return (
     <LevelingContext.Provider
-      value={{ workspace, session, loaded, notice, saveCharacter, selectCharacter, setProgress }}
+      value={{
+        workspace,
+        session,
+        loaded,
+        notice,
+        saveCharacter,
+        selectCharacter,
+        setProgress,
+        rememberPosition,
+        importBackup,
+      }}
     >
       {children}
     </LevelingContext.Provider>

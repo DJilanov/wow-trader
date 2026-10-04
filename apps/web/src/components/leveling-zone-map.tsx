@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent, type KeyboardEvent } from "react";
+import {
+  constrainMapView,
+  fitMapPoints,
+  fullMapView,
+  zoomMapView,
+  type MapView,
+} from "../lib/leveling-map-view";
 import type {
   LevelingChapterMaps,
   LevelingMapPoint,
@@ -13,16 +20,89 @@ interface LevelingZoneMapProps {
   readonly maps: LevelingChapterMaps;
   readonly points: readonly LevelingMapPoint[];
   readonly stepLabel: string;
+  readonly onLocation?: (point: LevelingMapPoint) => void;
 }
 interface ZoneCanvasProps {
   readonly zone: LevelingZoneArt;
   readonly points: readonly LevelingMapPoint[];
   readonly buildNumber: number;
+  readonly onLocation: ((point: LevelingMapPoint) => void) | undefined;
 }
 
-function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.Element {
+function ZoneCanvas({ zone, points, buildNumber, onLocation }: ZoneCanvasProps): React.JSX.Element {
   const [loaded, setLoaded] = useState<ReadonlySet<number>>(new Set());
   const [failed, setFailed] = useState(false);
+  const [autoFit, setAutoFit] = useState(true);
+  const selectionKey = autoFit ? points.map((point) => point.id).join("|") : "manual";
+  const [viewState, setViewState] = useState<{
+    readonly key: string;
+    readonly view: MapView;
+  } | null>(null);
+  const view =
+    viewState?.key === selectionKey
+      ? viewState.view
+      : autoFit
+        ? fitMapPoints(zone.width, zone.height, points)
+        : fullMapView(zone.width, zone.height);
+  const drag = useRef<{
+    readonly pointerId: number;
+    readonly x: number;
+    readonly y: number;
+    readonly scale: number;
+    readonly view: MapView;
+  } | null>(null);
+  const markerScale = view.width / zone.width;
+  function setView(next: MapView): void {
+    setViewState({ key: selectionKey, view: constrainMapView(next, zone.width, zone.height) });
+  }
+  function zoom(factor: number): void {
+    setView(zoomMapView(view, zone.width, zone.height, factor));
+  }
+  function startDrag(event: PointerEvent<SVGSVGElement>): void {
+    if (
+      event.button !== 0 ||
+      (event.target instanceof Element && event.target.closest("[data-map-marker]"))
+    )
+      return;
+    const scale = event.currentTarget.getScreenCTM()?.a;
+    if (!scale || drag.current) return;
+    drag.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, scale, view };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  }
+  function moveDrag(event: PointerEvent<SVGSVGElement>): void {
+    const start = drag.current;
+    if (!start || start.pointerId !== event.pointerId) return;
+    setView({
+      ...start.view,
+      x: start.view.x - (event.clientX - start.x) / start.scale,
+      y: start.view.y - (event.clientY - start.y) / start.scale,
+    });
+  }
+  function endDrag(event: PointerEvent<SVGSVGElement>): void {
+    if (drag.current?.pointerId !== event.pointerId) return;
+    drag.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId))
+      event.currentTarget.releasePointerCapture(event.pointerId);
+  }
+  function keyboardPan(event: KeyboardEvent<SVGSVGElement>): void {
+    if (event.target !== event.currentTarget || event.altKey || event.ctrlKey || event.metaKey)
+      return;
+    const directions: Readonly<Record<string, readonly [number, number]>> = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    };
+    const direction = directions[event.key];
+    if (!direction) return;
+    event.preventDefault();
+    setView({
+      ...view,
+      x: view.x + (direction[0] * view.width) / 10,
+      y: view.y + (direction[1] * view.height) / 10,
+    });
+  }
   useEffect(() => {
     // Server-rendered SVG images may finish before hydration attaches their load handlers.
     const probes = [
@@ -50,6 +130,56 @@ function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.E
   ]).size;
   return (
     <div className={styles.mapArtViewport}>
+      <div className={styles.mapViewControls} role="group" aria-label="Map controls">
+        <button
+          type="button"
+          aria-label="Zoom in map"
+          disabled={markerScale <= 1 / 8}
+          onClick={() => zoom(0.75)}
+        >
+          +
+        </button>
+        <button
+          type="button"
+          aria-label="Zoom out map"
+          disabled={markerScale >= 1}
+          onClick={() => zoom(1.5)}
+        >
+          −
+        </button>
+        <button
+          type="button"
+          aria-label="Fit locations"
+          disabled={points.length === 0}
+          onClick={() => setView(fitMapPoints(zone.width, zone.height, points))}
+        >
+          <span className={styles.mapControlLong}>Fit locations</span>
+          <span className={styles.mapControlShort} aria-hidden="true">
+            Fit
+          </span>
+        </button>
+        <button
+          type="button"
+          aria-label="Full zone"
+          onClick={() => setView(fullMapView(zone.width, zone.height))}
+        >
+          <span className={styles.mapControlLong}>Full zone</span>
+          <span className={styles.mapControlShort} aria-hidden="true">
+            Zone
+          </span>
+        </button>
+        <label>
+          <input
+            type="checkbox"
+            checked={autoFit}
+            onChange={(event) => {
+              setAutoFit(event.target.checked);
+              setViewState(null);
+            }}
+          />{" "}
+          Auto-fit
+        </label>
+      </div>
       {failed ? (
         <p className={styles.notice} role="status">
           Some map tiles could not be loaded. Coordinates below remain available; check the
@@ -62,8 +192,17 @@ function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.E
       ) : null}
       <svg
         className={styles.zoneCanvas}
-        viewBox={`0 0 ${zone.width} ${zone.height}`}
-        role="img"
+        viewBox={`${view.x} ${view.y} ${view.width} ${view.height}`}
+        role="group"
+        tabIndex={0}
+        onPointerDown={startDrag}
+        onPointerMove={moveDrag}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onLostPointerCapture={() => {
+          drag.current = null;
+        }}
+        onKeyDown={keyboardPan}
         aria-label={`${zone.name} map with ${points.length} location circles`}
       >
         <title>{`${zone.name} · extracted locations for the selected step`}</title>
@@ -106,6 +245,17 @@ function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.E
         {points.map((point, index) => (
           <g
             key={point.id}
+            data-map-marker={point.id}
+            role={onLocation ? "button" : undefined}
+            tabIndex={onLocation ? 0 : undefined}
+            aria-label={`Map location ${index + 1}: ${point.evidence === "client_quest_poi" ? `quest ${point.questId} POI centre` : "guide waypoint"}, ${(point.x * 100).toFixed(1)}, ${(point.y * 100).toFixed(1)}`}
+            onClick={() => onLocation?.(point)}
+            onKeyDown={(event) => {
+              if (onLocation && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                onLocation(point);
+              }
+            }}
             className={
               point.evidence === "client_quest_poi" ? styles.clientMapPoint : styles.guideMapPoint
             }
@@ -121,7 +271,7 @@ function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.E
             <circle
               cx={point.x * zone.width}
               cy={point.y * zone.height}
-              r={18}
+              r={18 * markerScale}
               className={styles.mapPointHalo}
               vectorEffect="non-scaling-stroke"
             />
@@ -129,7 +279,7 @@ function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.E
               data-location-id={point.id}
               cx={point.x * zone.width}
               cy={point.y * zone.height}
-              r={18}
+              r={18 * markerScale}
               vectorEffect="non-scaling-stroke"
             >
               <title>{`${point.evidence === "client_quest_poi" ? `Quest ${point.questId} · client POI centre` : "Extracted guide waypoint"} · ${(point.x * 100).toFixed(1)}, ${(point.y * 100).toFixed(1)}`}</title>
@@ -140,6 +290,7 @@ function ZoneCanvas({ zone, points, buildNumber }: ZoneCanvasProps): React.JSX.E
               className={styles.mapPointNumber}
               textAnchor="middle"
               dominantBaseline="central"
+              style={{ fontSize: `${18 * markerScale}px` }}
             >
               {`${index + 1}`}
             </text>
@@ -154,6 +305,7 @@ export function LevelingZoneMap({
   maps,
   points,
   stepLabel,
+  onLocation,
 }: LevelingZoneMapProps): React.JSX.Element {
   const [selectedZone, setSelectedZone] = useState<{
     readonly stepLabel: string;
@@ -211,6 +363,7 @@ export function LevelingZoneMap({
               zone={zone}
               points={visible}
               buildNumber={maps.buildNumber}
+              onLocation={onLocation}
             />
           ) : (
             <p className={styles.notice}>

@@ -25,6 +25,22 @@ export function nextReaderStepAfter(
   const visible = new Set(visibleIds);
   return stepIds.slice(index + 1).find((id) => visible.has(id)) ?? null;
 }
+export function previousReaderStep(
+  stepIds: readonly string[],
+  visibleIds: readonly string[],
+  currentId: string | null,
+): string | null {
+  if (currentId === null) return null;
+  const index = stepIds.indexOf(currentId);
+  if (index <= 0) return null;
+  const visible = new Set(visibleIds);
+  return (
+    stepIds
+      .slice(0, index)
+      .reverse()
+      .find((id) => visible.has(id)) ?? null
+  );
+}
 
 export function readerPositionFromHistory(
   state: unknown,

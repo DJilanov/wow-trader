@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
-  CHAPTER_REFERENCES,
   DUNGEON_LEVELS,
   LEVELING_EVIDENCE,
   WESTFALL_ROUTE,
-  findChapterTargets,
   getChapterLabel,
   getPartyGuidance,
   type CharacterProfile,
@@ -21,13 +19,15 @@ import { LevelingZoneMap } from "./leveling-zone-map";
 import { LevelingReaderWorkspace } from "./leveling-reader-workspace";
 import { LevelingQuestCard } from "./leveling-quest-card";
 import { useLevelingReaderSelection } from "./leveling-reader-selection";
+import { useReaderCompletion } from "./leveling-reader-completion";
+import { LevelingChapterHandoff } from "./leveling-chapter-handoff";
+import { LevelingStepFeedback } from "./leveling-step-feedback";
 import { scrollReaderToAnchor } from "../lib/leveling-reader-navigation";
 import type { LevelingChapterMaps } from "../lib/leveling-map-data";
 import {
   getPublicChapter,
   chapterProgressKey,
   LEGACY_PLANNER_STORAGE_KEY,
-  levelingChapterPath,
   levelingDashboardPath,
   profileSummary,
   type StepProgress,
@@ -38,6 +38,7 @@ interface LevelingReaderProps {
   readonly chapter: ChapterReference;
   readonly defaultProfile: CharacterProfile;
   readonly maps: LevelingChapterMaps;
+  readonly publishedIds: readonly string[];
 }
 const actionLabels = {
   travel: "Travel",
@@ -60,8 +61,9 @@ export function LevelingReader({
   chapter,
   defaultProfile,
   maps,
+  publishedIds,
 }: LevelingReaderProps): React.JSX.Element {
-  const { session, notice, loaded, saveCharacter, setProgress } = useLeveling();
+  const { session, notice, loaded, saveCharacter, setProgress, rememberPosition } = useLeveling();
   const matchingSession =
     session &&
     session.profile.faction === defaultProfile.faction &&
@@ -88,7 +90,6 @@ export function LevelingReader({
       requestAnimationFrame(() => scrollReaderToAnchor("planner"));
     }
   }, []);
-  const next = findChapterTargets(chapter, CHAPTER_REFERENCES, profile);
   const party = getPartyGuidance(profile);
   const completed = route?.steps.filter((step) => progress[step.id] === "done").length ?? 0;
   const scope = route
@@ -102,6 +103,16 @@ export function LevelingReader({
     route?.steps
       .filter((step) => !hideDone || progress[step.id] !== "done")
       .map((step) => step.id) ?? [],
+    matchingSession?.readerPositions[scope] ?? null,
+    loaded && matchingSession && route
+      ? (stepId) =>
+          rememberPosition(matchingSession.id, {
+            chapterId: chapter.id,
+            version: route.version,
+            clientBuild: route.clientBuild,
+            stepId,
+          })
+      : undefined,
   );
   const selectedMapStep = route?.steps.find((step) => step.id === selection.selectedId);
   const mapPoints = maps.points.filter((point) => point.stepId === selectedMapStep?.id);
@@ -124,12 +135,18 @@ export function LevelingReader({
     }
     setProgress(chapter.id, stepId, status);
   }
-  function finishCurrent(): void {
-    if (!loaded || !matchingSession || !selectedMapStep || progress[selectedMapStep.id] === "done")
-      return;
-    mark(selectedMapStep.id, "done");
-    selection.next();
-  }
+  const completion = useReaderCompletion({
+    scope: `${matchingSession?.id}:${scope}`,
+    selectedId: selection.selectedId,
+    enabled: loaded && Boolean(matchingSession),
+    progress,
+    mark,
+    advance: selection.next,
+    restore: (id) => {
+      setHideDone(false);
+      selection.restore(id);
+    },
+  });
 
   if (!route)
     return (
@@ -200,11 +217,13 @@ export function LevelingReader({
       currentStepLabel={selectedMapStep?.title ?? "No active step"}
       currentStepAnchor={selection.selectedId ? `route-${selection.selectedId}` : null}
       nextDisabled={selection.nextId === null}
-      doneDisabled={
-        !loaded || !matchingSession || !selectedMapStep || progress[selectedMapStep.id] === "done"
-      }
+      doneDisabled={completion.doneDisabled}
+      previousDisabled={selection.previousId === null}
+      undoDisabled={completion.undoDisabled}
+      onPrevious={selection.previous}
+      onUndo={completion.undo}
       onNext={selection.next}
-      onDone={finishCurrent}
+      onDone={completion.finish}
       settings={
         <>
           <div className={styles.notice}>
@@ -219,13 +238,17 @@ export function LevelingReader({
           </p>
         </>
       }
-      map={
+      map={(revealAnchor) => (
         <LevelingZoneMap
           maps={maps}
           points={mapPoints}
           stepLabel={selectedMapStep?.title ?? "No active step"}
+          onLocation={(point) => {
+            selection.restore(point.stepId);
+            revealAnchor(`route-${point.stepId}`);
+          }}
         />
-      }
+      )}
       toolbar={
         <>
           <div className={styles.readerToolbar}>
@@ -277,6 +300,7 @@ export function LevelingReader({
               }
               selected={selection.selectedId === step.id}
               done={progress[step.id] === "done"}
+              next={selection.nextId === step.id}
               onSelect={() => selection.select(step.id)}
               leading={
                 <span className={styles.actionIcon} aria-hidden="true">
@@ -307,6 +331,16 @@ export function LevelingReader({
               )}
               {step.action === "checkpoint" && <small>Requires level {step.level}</small>}
               {step.questId !== null && <LevelingEntityLinks kind="quest" id={step.questId} />}
+              <LevelingStepFeedback
+                key={`${scope}:${step.id}`}
+                position={{
+                  chapterId: chapter.id,
+                  version: route.version,
+                  clientBuild: route.clientBuild,
+                  stepId: step.id,
+                }}
+                profile={profile}
+              />
             </LevelingQuestCard>
           ))}
       </ol>
@@ -319,6 +353,19 @@ export function LevelingReader({
         <strong>Rejoin checkpoint</strong>
         <p>{route.rejoin}</p>
       </div>
+      <LevelingChapterHandoff
+        chapter={chapter}
+        profile={profile}
+        publishedIds={publishedIds}
+        unresolved={0}
+        remaining={route.steps
+          .filter((step) => !step.optional && progress[step.id] !== "done")
+          .map((step) => ({
+            anchor: `route-${step.id}`,
+            title: step.title,
+            skipped: progress[step.id] === "skipped",
+          }))}
+      />
       <section id="dungeon-opportunities" className={styles.opportunities}>
         <span className="eyebrow">Optional · never an automatic detour</span>
         <h2>Would a dungeon suit this session?</h2>
@@ -360,17 +407,6 @@ export function LevelingReader({
       </section>
       <nav className={styles.chapterPagination} aria-label="Chapter navigation">
         <Link href={levelingDashboardPath(profile)}>← Chapter overview</Link>
-        {next.length === 1 ? (
-          <Link href={levelingChapterPath(profile, next[0]!.id)}>
-            Next reference: {getChapterLabel(next[0]!, profile).zone} →
-          </Link>
-        ) : (
-          <span>
-            {next.length > 1
-              ? "Choose a continuation in the chapter overview"
-              : "Next transition needs review"}
-          </span>
-        )}
       </nav>
     </LevelingReaderWorkspace>
   );

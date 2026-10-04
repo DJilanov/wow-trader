@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { scrollReaderToAnchor } from "../lib/leveling-reader-navigation";
 import styles from "./leveling-experience.module.css";
+import { LevelingBackupControls } from "./leveling-backup-controls";
 
 interface LevelingReaderWorkspaceProps {
   readonly scope: string;
@@ -21,10 +22,14 @@ interface LevelingReaderWorkspaceProps {
   readonly currentStepAnchor: string | null;
   readonly nextDisabled: boolean;
   readonly doneDisabled: boolean;
+  readonly previousDisabled: boolean;
+  readonly undoDisabled: boolean;
+  readonly onPrevious: () => void;
+  readonly onUndo: () => void;
   readonly onNext: () => void;
   readonly onDone: () => void;
   readonly settings: ReactNode;
-  readonly map: ReactNode;
+  readonly map: (revealAnchor: (anchor: string) => void) => ReactNode;
   readonly toolbar: ReactNode;
   readonly children: ReactNode;
   readonly onNavigate: (hash: string) => void;
@@ -47,6 +52,10 @@ export function LevelingReaderWorkspace({
   currentStepAnchor,
   nextDisabled,
   doneDisabled,
+  previousDisabled,
+  undoDisabled,
+  onPrevious,
+  onUndo,
   onNext,
   onDone,
   settings,
@@ -59,6 +68,35 @@ export function LevelingReaderWorkspace({
   const dialog = useRef<HTMLDialogElement>(null);
   const settingsId = useId();
   const pendingScroll = useRef(false);
+  const pendingTarget = useRef<string | null>(null);
+  const [revealSequence, setRevealSequence] = useState(0);
+  const [display, setDisplay] = useState<"all" | "focus">("all");
+  const [textSize, setTextSize] = useState<"standard" | "large">("standard");
+  useEffect(() => {
+    try {
+      const value: unknown = JSON.parse(
+        localStorage.getItem("kfc-leveling:reader-preferences:v1") ?? "null",
+      );
+      if (value && typeof value === "object") {
+        if ("display" in value && value.display === "focus") setDisplay("focus");
+        if ("textSize" in value && value.textSize === "large") setTextSize("large");
+      }
+    } catch {
+      /* Optional display preferences do not affect character progress. */
+    }
+  }, []);
+  function changeDisplay(nextDisplay: "all" | "focus", nextSize: "standard" | "large"): void {
+    setDisplay(nextDisplay);
+    setTextSize(nextSize);
+    try {
+      localStorage.setItem(
+        "kfc-leveling:reader-preferences:v1",
+        JSON.stringify({ display: nextDisplay, textSize: nextSize }),
+      );
+    } catch {
+      /* Keep preferences usable for this visit when browser storage is denied. */
+    }
+  }
   useEffect(() => {
     if (!ready) return;
     const frame = requestAnimationFrame(() => {
@@ -75,17 +113,29 @@ export function LevelingReaderWorkspace({
 
   useEffect(() => {
     if (!pendingScroll.current) return;
-    if (!currentStepAnchor) {
+    const anchor = pendingTarget.current ?? currentStepAnchor;
+    if (!anchor) {
       pendingScroll.current = false;
       return;
     }
     const frame = requestAnimationFrame(() => {
-      if (scrollReaderToAnchor(currentStepAnchor)) pendingScroll.current = false;
+      if (scrollReaderToAnchor(anchor)) {
+        pendingScroll.current = false;
+        pendingTarget.current = null;
+      }
     });
     return () => cancelAnimationFrame(frame);
-  }, [view, currentStepAnchor]);
+  }, [view, currentStepAnchor, display, revealSequence]);
+
+  function revealAnchor(anchor: string): void {
+    pendingTarget.current = anchor;
+    pendingScroll.current = true;
+    if (view === "map") setView("quests");
+    setRevealSequence((previous) => previous + 1);
+  }
 
   function advance(complete: boolean): void {
+    pendingTarget.current = null;
     pendingScroll.current = !nextDisabled;
     if (complete) onDone();
     else onNext();
@@ -110,13 +160,22 @@ export function LevelingReaderWorkspace({
     } catch {
       return;
     }
-    if (!scrollReaderToAnchor(anchor)) return;
+    const pane = document.getElementById("leveling-quest-pane");
+    const target = document.getElementById(anchor);
+    if (!target || !pane?.contains(target)) return;
     event.preventDefault();
     window.history.replaceState(window.history.state, "", href);
     onNavigate(href);
+    revealAnchor(anchor);
   }
   return (
-    <article className={styles.readerWorkspace} data-leveling-workspace data-reader-view={view}>
+    <article
+      className={styles.readerWorkspace}
+      data-leveling-workspace
+      data-reader-view={view}
+      data-reader-display={display}
+      data-reader-text={textSize}
+    >
       <header className={styles.workspaceHeader}>
         <Link className={styles.workspaceBack} href={dashboardHref}>
           ← Chapters
@@ -158,6 +217,18 @@ export function LevelingReaderWorkspace({
         <button
           className={styles.workspaceStepButton}
           type="button"
+          aria-label="Previous step"
+          disabled={previousDisabled}
+          onClick={() => {
+            pendingScroll.current = true;
+            onPrevious();
+          }}
+        >
+          Previous
+        </button>
+        <button
+          className={styles.workspaceStepButton}
+          type="button"
           disabled={nextDisabled}
           title="Move forward without completing the current step"
           onClick={() => advance(false)}
@@ -173,6 +244,30 @@ export function LevelingReaderWorkspace({
         >
           Done
         </button>
+        <button
+          className={styles.workspaceStepButton}
+          type="button"
+          disabled={undoDisabled}
+          onClick={() => {
+            pendingScroll.current = true;
+            onUndo();
+          }}
+        >
+          Undo Done
+        </button>
+        {nextDisabled && currentStepAnchor && (
+          <button
+            className={styles.workspaceStepButton}
+            type="button"
+            onClick={() => {
+              setDisplay("all");
+              setView("quests");
+              requestAnimationFrame(() => scrollReaderToAnchor("chapter-handoff"));
+            }}
+          >
+            Review chapter
+          </button>
+        )}
       </div>
       <div className={styles.workspaceViews} role="group" aria-label="Reader view">
         {(
@@ -193,7 +288,7 @@ export function LevelingReaderWorkspace({
         ))}
       </div>
       <div className={styles.workspaceBody}>
-        <div className={styles.workspaceMap}>{map}</div>
+        <div className={styles.workspaceMap}>{map(revealAnchor)}</div>
         <section
           className={styles.workspaceQuests}
           aria-label="Chapter quest reader"
@@ -224,6 +319,33 @@ export function LevelingReaderWorkspace({
             Close settings
           </button>
         </div>
+        <div className={styles.detailsRow}>
+          <label className={styles.field}>
+            Reading mode
+            <select
+              value={display}
+              onChange={(event) =>
+                changeDisplay(event.target.value === "focus" ? "focus" : "all", textSize)
+              }
+            >
+              <option value="all">All steps</option>
+              <option value="focus">Current + next step</option>
+            </select>
+          </label>
+          <label className={styles.field}>
+            Text size
+            <select
+              value={textSize}
+              onChange={(event) =>
+                changeDisplay(display, event.target.value === "large" ? "large" : "standard")
+              }
+            >
+              <option value="standard">Standard</option>
+              <option value="large">Larger</option>
+            </select>
+          </label>
+        </div>
+        <LevelingBackupControls />
         {settings}
       </dialog>
     </article>

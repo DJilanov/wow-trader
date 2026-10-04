@@ -18,8 +18,10 @@ import {
   levelingDashboardPath,
   profileSummary,
   readSharedCharacter,
+  readingPositionPath,
 } from "../lib/leveling-experience";
 import styles from "./leveling-experience.module.css";
+import { LevelingBackupControls } from "./leveling-backup-controls";
 
 const stages = ["Faction", "Race", "Playstyle"] as const;
 
@@ -97,7 +99,14 @@ export function LevelingSetup(): React.JSX.Element {
             <span className="eyebrow">Saved on this browser</span>
             <strong>{profileSummary(session.profile)}</strong>
           </div>
-          <Link className={styles.button} href={levelingDashboardPath(session.profile)}>
+          <Link
+            className={styles.button}
+            href={
+              session.lastReader
+                ? readingPositionPath(session)
+                : levelingDashboardPath(session.profile)
+            }
+          >
             Resume my route →
           </Link>
           {workspace.sessions.length > 1 && (
@@ -114,6 +123,7 @@ export function LevelingSetup(): React.JSX.Element {
           )}
         </div>
       )}
+      {stage === 0 && <LevelingBackupControls />}
       <ol className={styles.stepper} aria-label="Character setup">
         {stages.map((label, index) => (
           <li key={label} aria-current={index === stage ? "step" : undefined}>

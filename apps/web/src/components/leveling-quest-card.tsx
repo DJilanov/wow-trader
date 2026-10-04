@@ -9,6 +9,7 @@ interface LevelingQuestCardProps {
   readonly selectionLabel: string;
   readonly selected: boolean;
   readonly done: boolean;
+  readonly next?: boolean;
   readonly disabled?: boolean;
   readonly onSelect: () => void;
   readonly leading: ReactNode;
@@ -23,6 +24,7 @@ export function LevelingQuestCard({
   selectionLabel,
   selected,
   done,
+  next = false,
   disabled = false,
   onSelect,
   leading,
@@ -42,6 +44,7 @@ export function LevelingQuestCard({
       className={`${styles.questCard} ${selected ? styles.selectedStep : ""} ${done ? styles.doneStep : ""}`}
       data-reader-step={id}
       data-selected={selected}
+      data-reader-next={next}
       onClick={selectBackground}
     >
       {leading}

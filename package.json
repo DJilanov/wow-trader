@@ -35,6 +35,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint scripts && turbo run lint",
+    "leveling:feedback": "node scripts/leveling-feedback.mjs",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "extract:tbc": "tools/extractor-dotnet/run-tbc-validation.sh",

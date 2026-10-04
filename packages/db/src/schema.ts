@@ -2178,3 +2178,34 @@ export const externalDataPublications = pgTable("external_data_publication", {
     .notNull()
     .defaultNow(),
 });
+
+export const levelingFeedback = pgTable(
+  "leveling_feedback",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    submissionId: uuid("submission_id").notNull().unique(),
+    chapterId: text("chapter_id").notNull(),
+    routeVersion: text("route_version").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    stepId: text("step_id").notNull(),
+    profile: jsonb("profile").$type<unknown>().notNull(),
+    category: text("category").notNull(),
+    message: text("message").notNull(),
+    clientHash: text("client_hash").notNull(),
+    status: text("status").notNull().default("new"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("leveling_feedback_client_created_idx").on(table.clientHash, table.createdAt),
+    index("leveling_feedback_status_created_idx").on(table.status, table.createdAt),
+    check(
+      "leveling_feedback_category_check",
+      sql`${table.category} IN ('wrong-location', 'quest-unavailable', 'confusing-instruction', 'broken-transition', 'other')`,
+    ),
+    check(
+      "leveling_feedback_status_check",
+      sql`${table.status} IN ('new', 'reviewed', 'resolved', 'dismissed')`,
+    ),
+    check("leveling_feedback_message_check", sql`length(${table.message}) BETWEEN 10 AND 1500`),
+  ],
+);
