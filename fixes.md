@@ -6,7 +6,7 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
-## Leveling Follow / Resume returned to the chapter beginning (local 2026-10-04)
+## Leveling Follow / Resume returned to the chapter beginning (deployed 2026-10-04)
 
 - Reproduction: select Elwynn `#guide-source-step-0051`, then click **Follow next step** with
   earlier instructions still unchecked. The old handler cleared the pin and used the chapter-wide
@@ -19,11 +19,25 @@ database credentials, SavedVariables contents, or other secrets here.
   progress storage or losing Next.js history state; cursor scope includes character/chapter/build.
 - Code: `apps/web/src/components/leveling-reader-selection.ts` and
   `apps/web/src/lib/leveling-reader-navigation.ts`, wired into imported/original readers and the
-  shared viewport workspace. The change is local, not committed or deployed.
+  shared viewport workspace. Committed/pushed in `1811348` and deployed as
+  `kfc-helper-leveling-workspace-20261004-r3`.
 - Regression coverage: navigation unit tests and `tests/e2e/leveling-workspace.spec.ts` in the
   sibling community repository, including the exact step-51 case, finish/undo, hide-completed,
   refresh, final-step no-wrap and pane-only Resume. Passed 136 web tests, lint, typecheck, production
   build and all 20 Chrome/Playwright leveling regressions; details are recorded in `context.md`.
+
+## Leveling feedback-release memory guard (2026-10-04)
+
+- The first broad public crawl passed its browser assertions but reached 649 MiB RSS and triggered
+  one restart at the existing 600 MiB PM2 guard. Browser success alone did not prove process stability.
+- Set `NODE_OPTIONS=--max-old-space-size=320` only in the protected Helper web environment, also
+  documented in `infra/pm2/web.env.example`. This bounds V8's old heap and encourages earlier GC;
+  it does not change the process guard or ingestion's environment.
+- Heap limiting alone still crossed the guard. World startup validation opened all 3,386 image
+  checksum streams; it now checks every tile in batches of 16. The concurrency regression fails
+  without this fix and a corrupted final-batch tile still rejects the snapshot.
+- Final r3 passed 20 public HTTPS browser tests and two full sitemap/API crawls at the same PID and
+  restart count, warmed RSS 392–413 MiB. Rollback: `docs/forever-leveling-release-2026-10-04.md`.
 
 ## Forever upload HTTP 500 caused by Nginx temporary-file permissions
 

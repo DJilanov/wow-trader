@@ -5,7 +5,7 @@ Status: first free browser route and calculation engine implemented and deployed
 ## Revised product direction: dedicated Forever Leveling
 
 The owner's October 4 feedback supersedes the original Encyclopedia-first placement and
-calculator-first entry flow. **Forever Leveling** is now implemented locally as a primary navigation product at
+calculator-first entry flow. **Forever Leveling** is now live as a primary navigation product at
 `/forever/leveling`: faction → race → Speed / Chill / Group → compatible small level brackets →
 current ordered quest list. Keep pace separate from party size/readiness. Preserve current lists
 before the later mode-specific route refactor; do not assume a premade removes travel or permits
@@ -13,10 +13,10 @@ ignoring quest requirements.
 
 The inspected evidence, proposed screen hierarchy, catalog adapter, state/URL migration and
 verification gates and implementation handoff are in `forever-leveling-experience-plan.md`.
-This UX revision is not deployed. The live preview still uses the Encyclopedia URLs documented
-below; the local revision redirects them to the new dashboard/reader and explicitly preserves old saves.
+This UX revision is deployed. The legacy Encyclopedia URLs documented below redirect to the new
+dashboard/reader and explicitly preserve old saves. Release/rollback: `forever-leveling-release-2026-10-04.md`.
 
-The owner subsequently confirmed redistribution authorization. The local implementation now imports
+The owner subsequently confirmed redistribution authorization. The published implementation includes
 all 157 decoded guide variants (22,604 source steps, 2,394 quest IDs), with readable chapters through
 60 for all faction/race choices. Conditions, source controls, unresolved continuations and the beta
 cap remain explicit. See `forever-leveling-archive.md` for the importer, safety boundaries and deployment

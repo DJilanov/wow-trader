@@ -1,7 +1,7 @@
 # Forever Leveling: authorized full-source archive
 
-Implemented locally on October 4, 2026. The owner confirmed redistribution authorization on that
-date. This revision has not been committed, pushed or deployed.
+Implemented and published on October 4, 2026 after the owner's redistribution authorization.
+Release provenance, verification and rollback: `forever-leveling-release-2026-10-04.md`.
 
 ## What was extracted
 
@@ -177,7 +177,8 @@ Provision the new 70205/0.4.0 world snapshot separately too, with its validated 
 artifacts, checksummed raw overlay tables, map-media manifest and `media/map-art` PNGs. Set the
 existing world snapshot/media paths to this release and restart the web process after validation.
 Source artifacts are not automatically bundled or uploaded by `next build`; older snapshot roots
-remain available for rollback. No production upload or deployment was performed for this revision.
+remain available for rollback. Production now uses the separately validated 70205/0.4.0 bundle;
+the release receipt records its immutable paths and archive manifest hash.
 
 Next/Turbopack tracing is explicitly disabled for archive filesystem paths. The standalone build
 must not include the maintainer workspace or private source files. The deployment must supply the

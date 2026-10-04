@@ -1,10 +1,10 @@
 # Forever Leveling: dedicated product and chapter-first experience
 
-Status: UX phases 1–4 and the authorized full-source reader implemented locally, October 4, 2026.
-Deployment has not been requested for this revision. Quest-order optimization, runtime validation
+Status: UX phases 1–4 and the authorized full-source reader deployed October 4, 2026.
+Release receipt: `forever-leveling-release-2026-10-04.md`. Quest-order optimization, runtime validation
 and payment activation remain separate follow-up work. Extraction/operations: `forever-leveling-archive.md`.
 
-The persistent map/list chapter workspace is implemented locally. See section 10 for its layout,
+The persistent map/list chapter workspace is live. See section 10 for its layout,
 selection, follow-from-current-position and verification contract.
 
 The owner has changed the product direction: **Forever Leveling is a primary product**, alongside
@@ -12,7 +12,7 @@ Trader and Encyclopedia. This document supersedes the Encyclopedia-first navigat
 calculator-first browser flow in `forever-leveling-product-plan.md`. That document remains the
 reference for the existing implementation, XP arithmetic, evidence, addon and supporter workflow.
 
-## Local implementation and handoff
+## Implementation and handoff
 
 - Helper entry: `/forever/leveling`; primary desktop/mobile navigation and a third Forever home card.
   The community website's primary **Leveling** link and Addons & tools entry use the same destination.
@@ -402,7 +402,8 @@ mode-specific content coverage are not implied by passing browser tests.
 Requested October 4, 2026 after reviewing the integrated zone maps. This is a UI refactor, not a
 new extraction, database schema, quest optimizer or progress-storage migration.
 
-Status: implemented locally in both reader editions. No commit, push or production deployment.
+Status: committed, pushed and deployed in both reader editions as
+`kfc-helper-leveling-workspace-20261004-r3`.
 
 ### Original problem, verified before this revision
 

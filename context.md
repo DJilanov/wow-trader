@@ -18,7 +18,7 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-leveling-preview-20261004-r1` is active; `kfc-helper-forever-research-20261004-r4`
+  `kfc-helper-leveling-workspace-20261004-r3` is active; `kfc-helper-leveling-preview-20261004-r1`
   is the immediate web rollback. Ingestion remains independently pinned to
   `kfc-helper-ingest-auction-20261001-r1`.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
@@ -51,7 +51,39 @@ its server-side source or probability.
 
 ## Implemented
 
-### Persistent Leveling map/list workspace (local 2026-10-04; not deployed)
+### Leveling publication and feedback release (2026-10-04)
+
+- Committed and pushed Helper implementation `1811348`, bounded-validation fix `b89e0a3`, community
+  navigation/tests `b2e8bab` and responsive navigation `7247a02`. Unrelated changes remain unstaged.
+- Activated `kfc-helper-leveling-workspace-20261004-r3` after Linux lint/typecheck/tests/build/
+  formatting and all 20 Chrome regressions against its private staged listener. The clean committed
+  snapshot independently passed `pnpm check` and formatting. Deployment overlays the existing live
+  research/catalog baseline; it does not remove those independently deployed features.
+- Uploaded only authorized manifest members: 157 chapters, 22,604 steps, target 70205, parser
+  `forever-guide-v2`, manifest SHA-256
+  `43b8ce0a5286dadbaa89ea9b2d53e6ed328fca613ed5e33429151cf24c226fc5`. Repeated checksum/schema/
+  identity/build/count validation on the server before activation. No raw source/account bundle
+  was uploaded or committed.
+- Provisioned world release `wow-classic-beta-70205-extractor-0.4.0-fb8e9cb7`, including normalized
+  records, raw checksummed overlay tables and 3,386 verified PNGs. World snapshot/media now point
+  to that exact-build immutable release and prefer artifact evidence; it remains review-only.
+  No world database import or confirmed loot/source publication was performed.
+- Initial public crawls passed browser assertions but crossed the 600 MiB PM2 guard. Heap limiting
+  alone was insufficient: world validation opened all 3,386 tile checksum streams simultaneously.
+  Bounded validation to batches of 16, preserving every checksum; its regression fails without the
+  fix. Web-only `NODE_OPTIONS=--max-old-space-size=320` complements it; the process guard is unchanged.
+  Final r3 passed all 20 public HTTPS tests and two complete sitemap/API crawls at PID `1535399`,
+  restart count 69, with warmed RSS 392–413 MiB. Ingestion/guild PIDs and restart counts were unchanged.
+- Community build `.next-release-leveling-20261004-r4` is live, with only the navigation/destination
+  and 1280px responsive rule changed over its existing source baseline. Linux build and staged/live
+  navigation checks at 360/768/1100/1281/1440px passed, plus local typecheck/lint and 312 tests.
+- Latest requested follow-up: replace Follow/Resume with explicit Next step (no completion) and
+  Done (complete current, advance), in both reader editions. Implementation and deployment pending.
+- No database migration, addon/payment change, ingestion restart or guild-process restart.
+  Rollback files, release provenance and verification are in
+  `docs/forever-leveling-release-2026-10-04.md`.
+
+### Persistent Leveling map/list workspace (2026-10-04; now deployed)
 
 - Implemented section 10 in `docs/forever-leveling-experience-plan.md` for both imported and original
   readers: full-width viewport below the 72px primary header, desktop 60/40 persistent map/quest
@@ -85,9 +117,9 @@ its server-side source or probability.
   Restarted the local port-3000 development preview with the existing authorized archive and validated
   70205 map snapshot; all seven workspace browser regressions also passed there. The temporary
   port-3001 production preview was stopped. Next.js regenerated its normal dev-only next-env imports.
-  No new dependency, database migration, addon/ingest change, commit, push or deployment.
+  Those were local verification results; publication is recorded in the release entry above.
 
-### Leveling Wowhead links, completion checkboxes and zone maps (local 2026-10-04; not deployed)
+### Leveling Wowhead links, completion checkboxes and zone maps (2026-10-04; now deployed)
 
 - Integrated exact Forever Wowhead quest/item/described-spell links into both chapter readers,
   retaining internal quest/item library links. No external tooltip script, iframe or page scraping.
@@ -122,9 +154,10 @@ its server-side source or probability.
   completion/undo/skip persistence, disabled unresolved checks, WCAG and 360–1440px layouts.
   Browser error checks caught and verified the fix for React SVG-title hydration (single-string
   title children). All artwork/coordinate coverage counts above are based on a separate full-import audit.
-  No commit, push, deploy, database migration, addon or ingest changes for this revision.
+  Subsequently committed, pushed and deployed in the feedback release above; no database migration,
+  addon or ingest change.
 
-### Authorized full-source Leveling archive (implemented locally 2026-10-04; not deployed)
+### Authorized full-source Leveling archive (2026-10-04; now deployed)
 
 - Owner explicitly confirmed redistribution authorization for the decoded RestedXP collection.
   Imported all 157 variants (98 Alliance, 59 Horde): 22,604 source steps and 2,394 distinct quest IDs.
