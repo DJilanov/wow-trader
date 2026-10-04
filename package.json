@@ -40,6 +40,7 @@
     "extract:tbc": "tools/extractor-dotnet/run-tbc-validation.sh",
     "extract:icons": "tools/extractor-dotnet/run-icon-extraction.sh",
     "forever:inspect": "pnpm --filter @wow-trader/forever-data dev inspect",
+    "leveling:addon": "pnpm --filter @wow-trader/leveling addon",
     "forever:import": "pnpm --filter @wow-trader/forever-data dev import",
     "forever:publish": "pnpm --filter @wow-trader/forever-data dev publish",
     "forever:sync": "pnpm --filter @wow-trader/forever-data dev sync",

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { unstable_cache } from "next/cache";
+import { WESTFALL_ROUTE } from "@wow-trader/leveling";
 
 import { getSitemapCatalogData, getSitemapMarketData } from "../lib/data";
 import { TBC_BIS_CLASSES } from "../lib/bis-directory";
@@ -10,6 +11,7 @@ import {
 } from "../lib/forever-world";
 import { FOREVER_CLIENT_PRODUCT } from "../lib/game-versions";
 import { HELPER_SHARE_IMAGE, HELPER_SITE_URL } from "../lib/seo";
+import { WESTFALL_READER_PATH } from "../lib/leveling-experience";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +39,24 @@ const foreverClasses = [
 ] as const;
 
 const staticEntries: MetadataRoute.Sitemap = [
+  {
+    url: `${HELPER_SITE_URL}/forever/leveling`,
+    lastModified: new Date(WESTFALL_ROUTE.reviewedAt),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: `${HELPER_SITE_URL}${WESTFALL_READER_PATH}`,
+    lastModified: new Date(WESTFALL_ROUTE.reviewedAt),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: `${HELPER_SITE_URL}/forever/leveling/routes/alliance-human`,
+    lastModified: new Date(WESTFALL_ROUTE.reviewedAt),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
   {
     url: `${HELPER_SITE_URL}/`,
     lastModified: staticLastModified,

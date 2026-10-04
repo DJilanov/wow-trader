@@ -28,7 +28,7 @@ internal sealed class MapMediaExtractor
   public MapMediaManifest Extract(
       CliOptions options,
       BuildMetadata metadata,
-      IReadOnlyList<WorldMapArtTile> mapArtTiles,
+      IEnumerable<int> fileDataIds,
       string stagingDirectory)
   {
     TACTSharp.Settings.LogLevel = TSLogLevel.Warn;
@@ -46,6 +46,8 @@ internal sealed class MapMediaExtractor
         build.cdn);
     var selected = buildInfo.Entries.Single(
         entry => string.Equals(entry.Product, options.Product, StringComparison.Ordinal));
+    if (selected.BuildConfig != metadata.BuildKey || selected.CDNConfig != metadata.CdnKey)
+      throw new InvalidOperationException("The installed build changed during world extraction; run again");
     build.LoadConfigs(selected.BuildConfig, selected.CDNConfig);
     build.Load();
 
@@ -53,7 +55,7 @@ internal sealed class MapMediaExtractor
     Directory.CreateDirectory(mediaDirectory);
     var extracted = new List<MapMediaTile>();
     var unavailable = new List<UnavailableMapMediaTile>();
-    foreach (var fileDataId in mapArtTiles.Select(tile => tile.FileDataId).Distinct().Order())
+    foreach (var fileDataId in fileDataIds.Where(id => id > 0).Distinct().Order())
     {
       var relativePath = $"media/map-art/{fileDataId}.png";
       var outputPath = Path.Combine(stagingDirectory, relativePath);

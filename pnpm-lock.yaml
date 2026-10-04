@@ -205,6 +205,9 @@ importers:
       "@wow-trader/forever-data":
         specifier: workspace:*
         version: link:../../packages/forever-data
+      "@wow-trader/leveling":
+        specifier: workspace:*
+        version: link:../../packages/leveling
       "@wow-trader/market":
         specifier: workspace:*
         version: link:../../packages/market
@@ -381,6 +384,28 @@ importers:
       drizzle-orm:
         specifier: 0.45.2
         version: 0.45.2(postgres@3.4.9)
+      zod:
+        specifier: 4.6.5
+        version: 4.6.5
+    devDependencies:
+      "@types/node":
+        specifier: 26.5.1
+        version: 26.5.1
+      tsup:
+        specifier: 8.5.1
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)(yaml@2.9.1)
+      tsx:
+        specifier: 4.23.13
+        version: 4.23.13
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: 3.2.7
+        version: 3.2.7(@types/node@26.5.1)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)
+
+  packages/leveling:
+    dependencies:
       zod:
         specifier: 4.6.5
         version: 4.6.5

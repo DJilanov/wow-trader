@@ -84,6 +84,12 @@ world-snapshots/<product>/<build>/<locale>/<hotfix-hash-or-status>/world-snapsho
 └── media/map-art/<file-data-id>.png
 ```
 
+World extractor `0.4.0` also decodes WorldMapOverlayTile reveal layers into the existing checksummed
+map-media manifest. UiMapArtTile base art alone can be unexplored parchment; the reveal textures
+provide roads and subzone labels. Raw WorldMapOverlay geometry is preserved for exact-art joins,
+native-size rendering and clipping of padded edge images. The extraction refuses to combine table
+metadata and texture media if the installed build changes during the run.
+
 World normalizer `0.3.0` includes typed achievement/criteria creature objectives, criteria-backed
 boss identities, evidence-labeled boss map/area candidates, static creature-display-model joins,
 review-required boss spell candidates, review-required item-to-boss/encounter/map/area source

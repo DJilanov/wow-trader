@@ -1,0 +1,1600 @@
+.page {
+  padding: 46px 0 80px;
+}
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 12px 0 32px;
+  border-bottom: 1px solid var(--line);
+}
+.intro h1,
+.dashboardHero h1,
+.readerHero h1 {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4.5vw, 60px);
+  line-height: 1.12;
+  margin: 12px 0 14px;
+  letter-spacing: -0.035em;
+}
+.intro p,
+.dashboardHero p,
+.readerHero p {
+  max-width: 640px;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+.introLogo {
+  width: 160px;
+  height: 108px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.setup {
+  padding: 28px 0;
+}
+.stepper {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  padding: 0;
+  margin: 16px 0 30px;
+}
+.stepper li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.stepper span {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.stepper li[aria-current="step"] {
+  color: var(--gold-bright);
+}
+.stepper li[aria-current="step"] span {
+  border-color: var(--gold);
+  background: #d7913a12;
+}
+.setupHeading {
+  margin-bottom: 28px;
+}
+.setupHeading h2 {
+  font-family: var(--serif);
+  font-size: clamp(27px, 3vw, 38px);
+  margin: 12px 0;
+  outline: none;
+}
+.setupHeading p,
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.factionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.factionCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 34px;
+  min-height: 285px;
+  text-align: left;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  font: inherit;
+  overflow: hidden;
+}
+.alliance {
+  background: radial-gradient(ellipse at 85% 5%, #3478bd2e, transparent 65%), var(--surface);
+  border-color: #42668e70;
+}
+.horde {
+  background: radial-gradient(ellipse at 85% 5%, #bc383b2e, transparent 65%), var(--surface);
+  border-color: #91434370;
+}
+.factionCard strong {
+  font-family: var(--serif);
+  font-size: 36px;
+}
+.factionCard > span:not(.factionPortrait):not(.choiceArrow) {
+  position: relative;
+  max-width: 75%;
+}
+.factionCard > span:last-of-type {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.choiceArrow {
+  position: absolute;
+  right: 30px;
+  bottom: 26px;
+  color: var(--gold);
+  font-size: 26px;
+}
+.factionPortrait {
+  position: absolute;
+  right: 35px;
+  top: 35px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid #9b845969;
+  padding: 6px;
+  background: #0c0c1080;
+}
+.factionPortrait :global(.forever-icon),
+.heroPortrait :global(.forever-icon) {
+  border-radius: 50%;
+}
+.raceGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+.raceCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  text-align: left;
+  padding: 23px 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.raceCard strong {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.raceCard small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.raceCard[aria-pressed="true"] {
+  border-color: var(--gold);
+  background: linear-gradient(145deg, #d7913a12, transparent), var(--surface);
+  box-shadow: inset 0 -2px var(--gold-low);
+}
+.factionCard,
+.raceCard,
+.modeCard {
+  min-width: 0;
+  white-space: normal;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.factionCard:hover,
+.raceCard:hover,
+.modeCard:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+  background: linear-gradient(145deg, #d7913a12, transparent), var(--surface);
+}
+.racePortrait {
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--gold-low);
+  padding: 3px;
+  background: var(--bg-1);
+}
+.selectionMark {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: var(--gold);
+}
+.detailsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 22px 0;
+  align-items: start;
+}
+.field {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-width: 160px;
+  max-width: 100%;
+  flex: 1 1 170px;
+  color: var(--ink);
+  font-size: 12px;
+}
+.field small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.field input,
+.field select,
+.mapZoneField select {
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: var(--bg-1);
+  font: inherit;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 28px;
+}
+.button,
+.quietButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 18px;
+  text-decoration: none;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid var(--gold-low);
+  border-radius: var(--radius);
+  background: #d7913a0c;
+  color: var(--gold-bright);
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.quietButton {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+  padding-inline: 0;
+}
+.button:hover {
+  background: #d7913a1c;
+  border-color: var(--gold);
+}
+.quietButton:hover {
+  background: transparent;
+  color: var(--gold-bright);
+}
+.button:disabled,
+.factionCard:disabled,
+.raceCard:disabled {
+  cursor: default;
+}
+.modeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.modeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 28px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.modeSymbol {
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font-size: 26px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--gold-low);
+}
+.modeCard strong {
+  font-family: var(--serif);
+  font-size: 27px;
+}
+.modeCard > span:not(.modeSymbol) {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.modeCard small {
+  color: var(--gold);
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: auto;
+}
+.factionCard:hover,
+.raceCard:hover,
+.modeCard:hover {
+  border-color: var(--gold);
+}
+.groupPanel,
+.coveragePanel {
+  margin: 26px 0;
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid var(--gold-low);
+}
+.groupPanel h3,
+.coveragePanel h2 {
+  margin: 0 0 18px;
+  font-family: var(--serif);
+}
+.groupPanel p,
+.coveragePanel p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.resume {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding: 20px;
+  margin-bottom: 26px;
+  background: var(--surface);
+  border: 1px solid var(--gold-low);
+}
+.resume > div {
+  display: grid;
+  gap: 10px;
+  margin-right: auto;
+}
+.resume strong {
+  font-size: 14px;
+}
+.notice {
+  padding: 14px 18px;
+  margin: 18px 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+  background: #d7913a09;
+  border-left: 2px solid var(--gold-low);
+  overflow-wrap: anywhere;
+}
+.notice strong {
+  color: var(--ink);
+}
+.dashboard {
+  padding: 46px 0 70px;
+}
+.dashboardHero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 20px 0 26px;
+}
+.heroPortrait {
+  width: 112px;
+  height: 112px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--gold-low);
+  padding: 8px;
+}
+.profileBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 17px 0;
+  margin-bottom: 26px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.profileBar > span {
+  border-right: 1px solid var(--line);
+  padding-right: 22px;
+}
+.profileBar a,
+.profileBar button {
+  color: var(--gold);
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.dashboardColumns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 22px;
+  margin: 28px 0 42px;
+}
+.continueCard,
+.partyCard {
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  min-width: 0;
+}
+.continueCard {
+  border-color: var(--gold-low);
+  background: linear-gradient(135deg, #d7913a11, transparent 70%), var(--surface);
+}
+.continueCard h2,
+.partyCard h2,
+.sectionHeading h2 {
+  font-family: var(--serif);
+  font-size: 25px;
+  line-height: 1.4;
+  margin: 12px 0;
+}
+.continueCard p,
+.partyCard p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.continueCard small,
+.partyCard small {
+  display: block;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.partyCard a {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--gold);
+}
+.sectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.chapterGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.chapterCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--ink);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+.chapterCard:hover {
+  border-color: var(--gold-low);
+  background: var(--surface-raised);
+}
+.chapterTop,
+.chapterBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.chapterTop > span:first-child {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.badge {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  font-size: 9px;
+}
+.levelBracket {
+  font-family: var(--serif);
+  font-size: 42px;
+  margin: 22px 0 10px;
+  color: var(--muted);
+  line-height: 1.15;
+}
+.levelBracket span {
+  font-size: 28px;
+  margin: 0 4px;
+  color: var(--dim);
+}
+.chapterCard h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+.chapterCard p {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 0 0 22px;
+}
+.chapterBottom {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.chapterBottom small {
+  font-size: 10px;
+  line-height: 1.7;
+}
+.chapterBottom > span {
+  font-size: 20px;
+}
+.published {
+  border-color: var(--gold-low);
+}
+.published .levelBracket,
+.published .badge {
+  color: var(--gold-bright);
+}
+.availableCompanion {
+  margin: 24px 0;
+}
+.availableCompanion > .chapterCard {
+  max-width: 440px;
+}
+.availableCompanion h3 {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.referenceSection {
+  margin-top: 30px;
+  border-top: 1px solid var(--line);
+}
+.referenceSection summary,
+.comparison summary {
+  cursor: pointer;
+  padding: 20px 0;
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--ink);
+}
+.referenceSection summary span {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  padding-left: 12px;
+}
+.referenceSection > p,
+.footnote {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.footnote {
+  margin-top: 32px;
+  max-width: 850px;
+}
+.empty {
+  padding: 22px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.reader {
+  padding: 46px 0 70px;
+}
+.backLink {
+  font-size: 12px;
+  color: var(--gold);
+  text-decoration: none;
+}
+.readerHero {
+  margin: 28px 0;
+}
+.readerHero h1 span {
+  display: block;
+  font-family: var(--mono);
+  font-size: 17px;
+  color: var(--gold);
+  margin: 18px 0;
+  letter-spacing: 0;
+}
+.readerToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.readerToolbar h2 {
+  font-family: var(--serif);
+  font-size: 23px;
+  margin: 0;
+}
+.readerToolbar label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.readerToolbar input {
+  accent-color: var(--gold);
+  width: 17px;
+  height: 17px;
+}
+.questSteps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.questSteps > li {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 110px;
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 100px;
+}
+.actionIcon {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 30px;
+  height: 30px;
+  color: var(--gold-bright);
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 22px;
+  border: 1px solid var(--gold-low);
+  background: #d7913a0a;
+}
+.sourceStepIcon {
+  font-size: 10px;
+  font-family: var(--mono);
+}
+.guideInstruction p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.guideDetails {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.guideDetails summary {
+  color: var(--gold-bright);
+  cursor: pointer;
+}
+.guideDetails ul,
+.guideControls {
+  padding-left: 20px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.guideDetails .questSteps > li {
+  grid-template-columns: 32px minmax(0, 1fr);
+}
+.guideDetails .stepStatus {
+  grid-column: 2;
+}
+.dungeonChoices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.dungeonChoices label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stepContent {
+  min-width: 0;
+}
+.stepMeta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--gold);
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.stepContent h3 {
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.stepContent p {
+  font-size: 13px;
+  line-height: 1.9;
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+.stepContent small,
+.stepContent a {
+  display: block;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.stepContent small {
+  color: var(--muted);
+}
+.stepContent a {
+  color: var(--gold);
+  margin-top: 10px;
+}
+.stepStatus {
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.completionControl {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.completionControl input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--gold-bright);
+  flex: 0 0 auto;
+}
+.skipStep {
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  color: var(--gold-bright);
+  font: inherit;
+  cursor: pointer;
+}
+.skipStep {
+  color: var(--muted);
+  font-size: 10px;
+}
+.skipStep[aria-pressed="true"] {
+  color: var(--gold-bright);
+}
+.completionControl:has(input:disabled),
+.skipStep:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.completionControl:focus-within,
+.skipStep:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+.stepContent .entityLinks {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 8px;
+}
+.stepContent .entityLinks a {
+  margin: 0;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+.zoneMapPanel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 20px;
+  margin: 24px 0;
+  scroll-margin-top: 100px;
+}
+.mapToolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.mapToolbar h2 {
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 8px 0 0;
+}
+.mapZoneField {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  margin-left: auto;
+  max-width: 100%;
+}
+.zoneMapFigure {
+  margin: 0;
+}
+.mapArtViewport {
+  position: relative;
+  min-height: 0;
+}
+.zoneCanvas {
+  width: 100%;
+  max-height: 420px;
+  display: block;
+  background: var(--bg-1);
+}
+.guideMapPoint {
+  fill: #f0be5640;
+  stroke: #ffcc66;
+  stroke-width: 2;
+}
+.clientMapPoint {
+  fill: #76baf540;
+  stroke: #76baf5;
+  stroke-width: 2;
+}
+.mapPointHalo {
+  fill: #101014cc;
+  stroke: #101014;
+  stroke-width: 6;
+}
+.mapPointNumber {
+  fill: #fff;
+  stroke: #101014;
+  stroke-width: 2;
+  paint-order: stroke;
+  font-size: 22px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.questMapArea {
+  fill-opacity: 0.3;
+  stroke-width: 1;
+}
+.zoneMapFigure figcaption,
+.mapCoordinates,
+.mapEmpty,
+.mapLoading {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.zoneMapFigure figcaption {
+  margin-top: 12px;
+}
+.guideLegend {
+  color: #ffcc66;
+}
+.clientLegend {
+  color: #76baf5;
+}
+.mapCoordinates {
+  padding: 0;
+  list-style: none;
+}
+.zoneMapFigure > a {
+  color: var(--gold-bright);
+  font-size: 12px;
+}
+.readerWorkspace {
+  height: calc(100dvh - 72px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg-1);
+}
+.workspaceHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+  background: var(--surface);
+}
+.workspaceBack {
+  font-size: 12px;
+  color: var(--gold-bright);
+  text-decoration: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.workspaceTitle {
+  min-width: 0;
+}
+.workspaceTitle h1 {
+  font-family: var(--serif);
+  font-size: 23px;
+  line-height: 1.3;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.workspaceTitle h1 span {
+  font: 12px var(--mono);
+  color: var(--gold-bright);
+  display: inline-block;
+  margin-left: 8px;
+}
+.workspaceTitle p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 5px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspaceProgress {
+  display: grid;
+  gap: 8px;
+  width: 180px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.workspaceProgress progress {
+  accent-color: var(--gold-bright);
+  width: 100%;
+  height: 5px;
+}
+.workspaceSettingsButton,
+.workspaceViews button,
+.mapFollow {
+  min-height: 44px;
+  padding: 8px 12px;
+  background: var(--bg-1);
+  color: var(--gold-bright);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.mapFollow:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+.workspaceNotice {
+  margin: 0;
+  padding: 10px 24px;
+  color: var(--gold-bright);
+  background: #d7913a12;
+  border-bottom: 1px solid var(--gold-low);
+  font-size: 12px;
+  line-height: 1.5;
+  max-height: 100px;
+  overflow: auto;
+  flex: 0 0 auto;
+}
+.workspaceViews {
+  display: none;
+}
+.workspaceBody {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(420px, 2fr);
+  flex: 1;
+  min-height: 0;
+}
+.workspaceMap {
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.workspaceMap .zoneMapPanel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  padding: 18px;
+  background: radial-gradient(ellipse at 40% 40%, #7a52200c, transparent 70%), var(--bg-1);
+}
+.workspaceMap .mapToolbar {
+  gap: 10px;
+  flex: 0 0 auto;
+  margin-bottom: 12px;
+}
+.workspaceMap .mapToolbar h2 {
+  font-family: var(--serif);
+  font-size: 18px;
+  margin: 6px 0 0;
+}
+.workspaceMap .mapZoneField select {
+  min-height: 36px;
+  max-width: 200px;
+}
+.workspaceMap .zoneMapFigure {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.workspaceMap .mapArtViewport {
+  flex: 1;
+  overflow: hidden;
+}
+.workspaceMap .zoneCanvas {
+  height: 100%;
+  max-height: none;
+  min-height: 0;
+}
+.workspaceMap .mapArtViewport > p {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  padding: 8px 12px;
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  z-index: 1;
+  max-height: 100px;
+  overflow: auto;
+}
+.mapFooter {
+  flex: 0 0 auto;
+  max-height: min(30%, 180px);
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.mapEvidence summary {
+  color: var(--muted);
+  cursor: pointer;
+}
+.mapExplorerLink {
+  color: var(--gold-bright);
+  font-size: 11px;
+}
+.workspaceMap .mapCoordinates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 6px 0;
+  font: 11px var(--mono);
+}
+.workspaceQuests {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  border-left: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.workspaceQuestToolbar {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+  background: var(--surface);
+}
+.workspaceQuestToolbar .readerToolbar {
+  gap: 10px;
+  padding: 0;
+  border: 0;
+}
+.workspaceQuestToolbar h2 {
+  font-size: 18px;
+}
+.workspaceListLinks {
+  display: flex;
+  gap: 10px 18px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 11px;
+}
+.workspaceListLinks a {
+  color: var(--gold-bright);
+}
+.questPane {
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-low) transparent;
+  padding: 16px 20px 30px;
+  scroll-behavior: auto;
+}
+.readerSource {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+.questPane .questSteps > .questCard {
+  grid-template-columns: 30px minmax(0, 1fr);
+  padding: 20px 14px;
+  gap: 10px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  margin: 0 0 12px;
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  scroll-margin-top: 12px;
+  cursor: pointer;
+}
+.questPane .questSteps > .selectedStep {
+  border-color: var(--gold-low);
+  border-left-color: var(--gold-bright);
+  background: linear-gradient(110deg, #d7913a15, transparent 85%), var(--bg-1);
+}
+.questPane .questCard .stepStatus {
+  grid-column: 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  width: auto;
+}
+.stepSelect {
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+.stepSelect:hover,
+.stepSelect:focus-visible {
+  background: transparent;
+  color: var(--gold-bright);
+}
+.stepSelect:disabled {
+  cursor: default;
+  color: var(--muted);
+}
+.selectedStep .stepSelect {
+  color: var(--gold-bright);
+}
+.questPane .stepContent .entityLinks {
+  gap: 4px 14px;
+  margin: 6px 0;
+}
+.readerSettingsDialog {
+  width: min(660px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  padding: 24px;
+  border: 1px solid var(--gold-low);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: var(--surface);
+  overflow: auto;
+}
+.readerSettingsDialog::backdrop {
+  background: #08080ac9;
+  backdrop-filter: blur(4px);
+}
+.settingsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.settingsHeader h2 {
+  font-family: var(--serif);
+  font-size: 22px;
+  margin: 0;
+}
+.readerWorkspace :is(button, a, input, select, summary):focus-visible,
+.readerSettingsDialog :is(button, a, input, select, summary):focus-visible,
+.questPane:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+@media (max-width: 1023px) {
+  .workspaceBody {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(180px, 36%) minmax(0, 1fr);
+  }
+  .workspaceQuests {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .workspaceViews {
+    display: flex;
+    gap: 6px;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--line);
+    flex: 0 0 auto;
+  }
+  .workspaceViews button {
+    flex: 1;
+    font-size: 11px;
+    padding: 6px;
+  }
+  .workspaceViews button[aria-pressed="true"] {
+    color: var(--ink);
+    border-color: var(--gold-low);
+    background: #d7913a18;
+  }
+  .readerWorkspace[data-reader-view="map"] .workspaceBody,
+  .readerWorkspace[data-reader-view="quests"] .workspaceBody {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .readerWorkspace[data-reader-view="map"] .workspaceQuests,
+  .readerWorkspace[data-reader-view="quests"] .workspaceMap {
+    display: none;
+  }
+  .workspaceMap .zoneMapPanel {
+    padding: 10px 14px;
+  }
+  .workspaceMap .mapToolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .workspaceMap .mapToolbar .eyebrow {
+    display: none;
+  }
+  .workspaceMap .mapToolbar h2 {
+    font-size: 14px;
+    margin: 0;
+  }
+  .workspaceMap .mapHeadingPrefix,
+  .workspaceMap .mapZoneLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .workspaceMap .mapZoneField {
+    font-size: 10px;
+    gap: 2px;
+  }
+  .workspaceMap .mapZoneField select {
+    max-width: 130px;
+  }
+  .workspaceMap .mapFollow {
+    font-size: 10px;
+    padding: 6px;
+    width: 84px;
+    white-space: normal;
+  }
+  .readerWorkspace[data-reader-view="split"] .mapFooter {
+    max-height: 46px;
+    margin-top: 4px;
+  }
+  .readerWorkspace[data-reader-view="split"] .mapEvidence,
+  .readerWorkspace[data-reader-view="split"] .mapExplorerLink {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .workspaceHeader {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px 14px;
+    padding: 10px 12px;
+  }
+  .workspaceSettingsButton {
+    grid-column: 3;
+    grid-row: 1;
+    padding: 6px 10px;
+  }
+  .workspaceProgress {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    font-size: 10px;
+  }
+  .workspaceProgress span {
+    flex-shrink: 0;
+  }
+  .workspaceTitle h1 {
+    font-size: 17px;
+  }
+  .workspaceTitle p {
+    font-size: 10px;
+  }
+  .workspaceNotice {
+    padding: 8px 12px;
+  }
+  .workspaceQuestToolbar {
+    padding: 12px 14px;
+  }
+  .workspaceQuestToolbar h2 {
+    font-size: 16px;
+  }
+  .workspaceQuestToolbar label {
+    font-size: 11px;
+  }
+  .questPane {
+    padding: 12px 12px calc(24px + env(safe-area-inset-bottom));
+  }
+  .questPane .questSteps > .questCard {
+    padding: 16px 10px;
+    gap: 8px 10px;
+  }
+}
+@media (max-width: 1023px) and (max-height: 640px) {
+  .workspaceBody {
+    grid-template-rows: minmax(120px, 34%) minmax(0, 1fr);
+  }
+  .readerWorkspace[data-reader-view="split"] .mapFooter {
+    display: none;
+  }
+}
+@media (min-width: 700px) and (max-width: 1023px) and (max-height: 640px) {
+  .workspaceBody {
+    grid-template-columns: minmax(0, 1fr) minmax(350px, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .workspaceQuests {
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+  .readerWorkspace[data-reader-view="map"] .workspaceBody,
+  .readerWorkspace[data-reader-view="quests"] .workspaceBody {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.doneStep .actionIcon {
+  color: #aad372;
+  border-color: var(--green);
+}
+.doneStep .stepMeta {
+  color: #aad372;
+}
+.rejoin {
+  padding: 20px;
+  margin: 24px 0;
+  border-left: 2px solid var(--gold-low);
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.rejoin p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.opportunities {
+  margin: 38px 0;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 90px;
+}
+.opportunities h2 {
+  font-family: var(--serif);
+  font-size: 27px;
+}
+.opportunities p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.dungeonCard {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  flex: 1 1 250px;
+}
+.dungeonCard span {
+  color: var(--gold);
+  font-size: 12px;
+}
+.dungeonCard small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.comparison {
+  padding: 0 20px;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+}
+.chapterPagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 32px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.chapterPagination a {
+  color: var(--gold);
+}
+.chapterPagination span {
+  color: var(--muted);
+}
+.page :is(button, a, input, select, summary):focus-visible,
+.dashboard :is(button, a, input, select, summary):focus-visible,
+.reader :is(button, a, input, select, summary):focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+@media (max-width: 1000px) {
+  .raceGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .chapterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .modeCard {
+    padding: 22px;
+  }
+}
+@media (max-width: 700px) {
+  .page,
+  .dashboard,
+  .reader {
+    padding-top: 28px;
+  }
+  .introLogo {
+    width: 100px;
+    height: 80px;
+  }
+  .intro {
+    gap: 16px;
+  }
+  .factionCard {
+    padding: 25px;
+    min-height: 250px;
+  }
+  .factionPortrait {
+    right: 22px;
+    top: 22px;
+    width: 66px;
+    height: 66px;
+  }
+  .factionCard strong {
+    font-size: 29px;
+  }
+  .modeGrid,
+  .dashboardColumns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .modeCard {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 12px 20px;
+  }
+  .modeCard .modeSymbol {
+    grid-row: 1 / 4;
+  }
+  .modeCard strong {
+    font-size: 23px;
+  }
+  .modeCard > span:not(.modeSymbol),
+  .modeCard small {
+    grid-column: 2;
+  }
+  .dashboardHero {
+    align-items: flex-start;
+  }
+  .heroPortrait {
+    width: 72px;
+    height: 72px;
+  }
+  .questSteps > li {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .stepStatus {
+    grid-column: 2;
+    width: 130px;
+  }
+}
+@media (max-width: 480px) {
+  .introLogo {
+    display: none;
+  }
+  .factionGrid,
+  .chapterGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .factionCard {
+    min-height: 190px;
+    gap: 12px;
+  }
+  .raceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .raceCard {
+    padding: 18px 14px;
+  }
+  .racePortrait {
+    width: 48px;
+    height: 48px;
+  }
+  .selectionMark {
+    right: 12px;
+  }
+  .stepper {
+    gap: 18px;
+  }
+  .stepper li {
+    gap: 7px;
+  }
+  .heroPortrait {
+    display: none;
+  }
+  .continueCard,
+  .partyCard,
+  .groupPanel,
+  .coveragePanel {
+    padding: 22px;
+  }
+  .chapterCard {
+    padding: 20px;
+  }
+  .detailsRow {
+    gap: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapterCard {
+    transition: none;
+  }
+}

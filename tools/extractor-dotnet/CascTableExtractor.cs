@@ -14,7 +14,8 @@ internal sealed class CascTableExtractor
   public (BuildMetadata Metadata, string Db2Directory) Extract(
       IReadOnlyList<string> tableNames,
       string stagingDirectory,
-      bool tolerateUnavailableTables = false)
+      bool tolerateUnavailableTables = false,
+      IReadOnlyList<string>? additionalFiles = null)
   {
     TACTSharp.Settings.LogLevel = TSLogLevel.Warn;
     var build = new BuildInstance();
@@ -78,6 +79,25 @@ internal sealed class CascTableExtractor
       {
         Console.WriteLine($"Unavailable in this client build: {tableName}");
       }
+    }
+
+    foreach (var gamePath in additionalFiles ?? [])
+    {
+      var entries = build.Root!.GetEntriesByLookup(hasher.ComputeHash(gamePath, true));
+      byte[] bytes;
+      if (entries.Count > 0)
+      {
+        bytes = build.OpenFileByCKey(entries[0].md5.AsSpan());
+      }
+      else
+      {
+        listfile ??= LoadListfile(build);
+        var fileDataId = listfile.GetFDID(gamePath);
+        if (fileDataId == 0) throw new FileNotFoundException($"File '{gamePath}' is absent");
+        bytes = build.OpenFileByFDID(fileDataId);
+      }
+      File.WriteAllBytes(Path.Combine(stagingDirectory, Path.GetFileName(gamePath)), bytes);
+      Console.WriteLine($"Extracted {gamePath} ({bytes.Length:N0} bytes)");
     }
 
     return (ParseMetadata(selected), db2Directory);

@@ -42,11 +42,21 @@ export default function ForeverHelperPage(): React.JSX.Element {
       <JsonLd data={structuredData} />
       <HelperSelection
         eyebrow="WoW Forever · live beta tools"
-        title="Explore the world and its economy"
-        description="Browse the growing Forever Encyclopedia or inspect accepted Auction House scans from the native WoW Trader Collector."
+        title="Explore, trade or find your path"
+        description="Choose your leveling journey, browse the Forever Encyclopedia or inspect accepted Auction House scans from the native WoW Trader Collector."
         backHref="/"
         backLabel="Change game"
         options={[
+          {
+            title: "Leveling",
+            eyebrow: "Your path through Azeroth",
+            description:
+              "Choose your faction, race and pace. Browse small quest brackets through level 60 with transparent source coverage.",
+            status: "Chapter browser · local progress",
+            image: { src: "/wow-assets/games/forever-logo.jpg", kind: "logo" },
+            tone: "leveling",
+            href: "/forever/leveling",
+          },
           {
             title: "Trader",
             eyebrow: "Market intelligence",

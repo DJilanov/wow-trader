@@ -11,11 +11,11 @@ import { spawn } from "node:child_process";
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const composeFile = join(repositoryRoot, "infra/compose/docker-compose.yml");
 const envPath = join(repositoryRoot, ".env");
-const defaultDefinitionsRevision = "005c13a9a101e64014eeb02af3a42ccbeaf8513d";
-const defaultWorldDefinitionsRevision = "005c13a9a101e64014eeb02af3a42ccbeaf8513d";
+const defaultDefinitionsRevision = "3e46d21a41a07ce7e63835fd79c561e0d5dce92b";
+const defaultWorldDefinitionsRevision = "3e46d21a41a07ce7e63835fd79c561e0d5dce92b";
 const currentCatalogSchemaVersion = "catalog-snapshot-manifest.v4";
 const currentWorldSchemaVersion = "world-snapshot-manifest.v1";
-const currentWorldExtractorVersion = "0.3.0";
+const currentWorldExtractorVersion = "0.4.0";
 const dockerCandidates = [
   "/Applications/OrbStack.app/Contents/MacOS/xbin/docker",
   "/Applications/Docker.app/Contents/Resources/bin/docker",

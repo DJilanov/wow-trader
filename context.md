@@ -1,13 +1,13 @@
 # WoW Trader project context
 
-Last updated: 2026-09-30
+Last updated: 2026-10-04
 
 ## Goal and current target
 
 Build a player-facing WoW economy product with a build-versioned item/profession/recipe archive,
 approximately 30-minute Auction House history, realistic crafting opportunities, and evidence-backed
-market guidance. TBC Anniversary is the live validation target; the same pipeline will migrate to
-Forever after its public client is available.
+market guidance. TBC Anniversary remains the original validation baseline; Forever Classic Beta build
+70205 is now the active public catalog and leveling-preview target.
 
 Client presence, announced content, phase availability, observed sources, and estimated drop rates
 are separate facts. Extraction can reveal a shipped rare recipe before it drops, but it cannot prove
@@ -17,13 +17,19 @@ its server-side source or probability.
 
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
-- Branch: `main`, tracking `origin/main`. Production application release
-  `kfc-helper-nginx-streaming-20260930-r18` is active; r17 is the immediate application rollback.
+- Branch: `main`, tracking `origin/main`. Production web release
+  `kfc-helper-leveling-preview-20261004-r1` is active; `kfc-helper-forever-research-20261004-r4`
+  is the immediate web rollback. Ingestion remains independently pinned to
+  `kfc-helper-ingest-auction-20261001-r1`.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
 - Boundary tools: .NET 10 for CASC/DB2 extraction and Lua for the in-game collector.
 - Full architecture: `blueprint.md`.
 - Market workspace, AH source, valuation, signal, and staged UI plan:
   `docs/market-workspace-plan.md`.
+- Original Forever leveling route, At-level dungeon timing, shared XP/time calculator, RestedXP
+  compiler and pending supporter/payment gates: `docs/forever-leveling-product-plan.md`.
+- Revised primary-navigation Leveling product, faction/race/style setup, chapter dashboard,
+  current-list reader and party-aware policies: `docs/forever-leveling-experience-plan.md`.
 - Account-wide make-or-buy rules, profession profiles, and Forever migration:
   `docs/account-crafting-network.md`.
 - KFC Helper subdomain, route contract, Encyclopedia scope, and activation plan:
@@ -44,6 +50,194 @@ its server-side source or probability.
 - Tested operation and Forever migration: `docs/runbooks/tbc-validation.md`.
 
 ## Implemented
+
+### Persistent Leveling map/list workspace (local 2026-10-04; not deployed)
+
+- Implemented section 10 in `docs/forever-leveling-experience-plan.md` for both imported and original
+  readers: full-width viewport below the 72px primary header, desktop 60/40 persistent map/quest
+  split, fixed quest toolbar and independently scrolling ordered cards. Removed page-to-map jumps.
+  Chapter-only frame/footer overrides leave dashboards, reference-only pages and other tools intact.
+- Shared workspace/card/selection components preserve instruction rendering, prerequisites, progress
+  storage and calculator independence. Titles are real keyboard-operable selection buttons; row
+  backgrounds also select, while checkboxes/Skip/details/Wowhead links do not. The native map canvas
+  stays mounted when selecting another step in its zone. Missing media/location states remain explicit.
+- Compact chapter/progress header and native Settings dialog contain class/XP/dungeon configuration
+  and expanded evidence. Persistence errors stay visible; save-character and unresolved instructions
+  remain reachable. Phones use a pinned top map with Split/Map/Quest list focus; switching modes
+  preserves list scroll. Short wide windows retain side-by-side panes; reader-only overflow containment
+  prevents outer-page scroll. Original `#planner` and source dependency/Resume anchors scroll the pane.
+  Primary navigation now folds at 1050px and compact desktop link styles win the CSS cascade, so
+  navigation/branding no longer clips at tablet widths. Accessible selection names include quest text.
+- Fixed owner's reported Elwynn `#guide-source-step-0051` Follow bug: the initial implementation
+  discarded the selected position and resumed at the first unchecked step. Follow now advances only
+  from the current cursor, Resume uses it too, and neither completes earlier steps or wraps back at
+  the end. Undoing earlier progress does not rewind following. Current-step hash plus validated,
+  character/chapter/version/build-scoped browser-history mode restores following across refresh.
+  This changes no progress schema and adds no persistent account synchronization.
+- Added navigation unit tests and sibling `tests/e2e/leveling-workspace.spec.ts`; adjusted existing
+  archive regressions for Settings. Passed 136 web tests, Helper lint/strict typecheck/production build,
+  community typecheck/targeted test lint, focused Prettier and both repository diff whitespace checks.
+  All 20 Chrome/Playwright leveling regressions passed against a stable port-3001 production preview:
+  exact Elwynn step 51, follow/finish/undo/hide/refresh, end-of-chapter no-wrap, fixed map bounds,
+  row/button/checkbox/link/keyboard separation, focus scroll retention, Settings Escape/WCAG,
+  calculator anchors, missing media, storage failures, all races and 360–1440px/short landscape layouts.
+  Visually inspected desktop/mobile/landscape; actual 900px/1051px header bounds do not overflow.
+  Restarted the local port-3000 development preview with the existing authorized archive and validated
+  70205 map snapshot; all seven workspace browser regressions also passed there. The temporary
+  port-3001 production preview was stopped. Next.js regenerated its normal dev-only next-env imports.
+  No new dependency, database migration, addon/ingest change, commit, push or deployment.
+
+### Leveling Wowhead links, completion checkboxes and zone maps (local 2026-10-04; not deployed)
+
+- Integrated exact Forever Wowhead quest/item/described-spell links into both chapter readers,
+  retaining internal quest/item library links. No external tooltip script, iframe or page scraping.
+- Replaced the progress dropdown with a Finish step checkbox and separate Skip instead / Undo skip.
+  Existing done/skipped saves, per-character/source/build isolation, hide-completed and calculator
+  independence remain intact. Unresolved source-step completion stays disabled.
+- Added `leveling-map-data.ts`, `leveling-maps.ts`, `leveling-zone-map.tsx`, shared step/link controls
+  and route wiring. Native extracted map art, zone selection and location circles are integrated;
+  map follows next pending step, or an explicit Show on map selection. Marker filtering respects
+  the selected step's active directive conditions, not all hidden chapter variants.
+- Re-extracted the installed build 70205 with world extractor 0.4.0, including WorldMapOverlayTile
+  reveal art: 3,386 decoded PNGs, zero unavailable. Immutable 70124/0.3.0 artifacts remain untouched.
+  All 157 imports resolve across 49 referenced zones: 37,902 guide positions, zero unprojectable,
+  588 base / 871 reveal PNGs, no missing image or zone art; 41 zones have reveal overlays (cities can
+  use complete base art). There are 31 step-associated exact-build client POI markers, not 31 quests.
+- Verified installed RXP/HBD coordinate semantics: zone/instance is not a floor; swap source world
+  axes before DB2 projection and require matching assignment world-map ID. Gold guide waypoints
+  are not exact NPC/objective circles; blue client POI shapes/centres require exact-build evidence.
+  Missing map configuration/media/data has an explicit state; the quest reader remains available.
+- Local port-3000 preview now uses the validated 70205/0.4.0 world snapshot. Normal `pnpm dev` now
+  selects extractor 0.4.0, so older unrevealed art is not silently reused. Zone overlays are loaded
+  from checksummed raw/art/media records and match product/build; conditional or zero-size records
+  are excluded. Native PNG dimensions and clip regions preserve edge padding without stretching.
+  Numbered circles have dark contrast outlines; selecting a new step resets the manual zone choice.
+  Server-rendered/cached image loading is checked after hydration, including browser refresh.
+  Development provisions world/maps; production uses the existing world-snapshot/media environment variables.
+  Full behavior and source/projection boundaries: `docs/forever-leveling-archive.md`.
+  Verified: 130 web tests, Helper typecheck/lint/production build, .NET Release build and extraction/
+  world checksum audit, 2 world-data / 39 leveling package tests, community typecheck/targeted lint,
+  and 13 passing Chrome/Playwright regressions
+  including real native/reveal PNG loading, coordinate circles,
+  completion/undo/skip persistence, disabled unresolved checks, WCAG and 360–1440px layouts.
+  Browser error checks caught and verified the fix for React SVG-title hydration (single-string
+  title children). All artwork/coordinate coverage counts above are based on a separate full-import audit.
+  No commit, push, deploy, database migration, addon or ingest changes for this revision.
+
+### Authorized full-source Leveling archive (implemented locally 2026-10-04; not deployed)
+
+- Owner explicitly confirmed redistribution authorization for the decoded RestedXP collection.
+  Imported all 157 variants (98 Alliance, 59 Horde): 22,604 source steps and 2,394 distinct quest IDs.
+  Each guide and aggregate step count matches the reviewed inventory/verified decode summary.
+- New `packages/leveling/src/guide-archive.ts` and `archive-cli.ts` preserve original order, quest
+  actions/IDs, class/race/XP conditions, dependencies, controls, source lines and location space
+  without executing Lua. Schema 1 / parser `forever-guide-v2`; target build 70205.
+- Authorized artifacts are under `artifacts/leveling/archive`, ignored and provisioned separately:
+  immutable source/parser-versioned chapter JSON, checksum manifest and detailed coverage audit.
+  Import command: `pnpm --filter @wow-trader/leveling archive /Users/dimitarjilanov/Desktop/restedxp-analysis artifacts/leveling/archive --authorized`.
+  The existing `pnpm dev` reads this archive automatically; no new runtime service or dependency.
+- New server loader verifies authorization, manifest membership, size, checksums, schema, build,
+  identity, version and counts. `LEVELING_ARCHIVE_ROOT` overrides the default artifact directory.
+  Turbopack tracing is disabled for archive paths to avoid copying private maintainer files into builds.
+- Integrated full readers into the existing wizard/dashboard, with bracket/class/rate/family filters,
+  local character/version/build progress, quest/item links, inspectable source controls and manual
+  game-state checks. Unknown conditions are separated from actionable steps; dungeons default off,
+  and selecting one is a source alternative, not an optimized dungeon recommendation.
+- All ten faction/race choices, including both Skyborne factions, have readable starters and
+  available level-60 chapters. All 56 legal race/class profiles reach label endpoints 1/60; this
+  is not continuous playtested coverage. Some Alliance Hunter labels have gaps at 13/14/40 and
+  Undead at 11. The two existing dangling targets and Horde Skyborne continuation remain unresolved.
+  Content above beta cap 30 carries a future-content warning.
+- Original Westfall preview/calculator remains separately accessible with `?edition=kfc`.
+  Its 31-step progress and legacy calculator saves are unchanged; old Westfall redirects select
+  this edition while preserving the rest of the query/anchor intent. Imported prose does not
+  inherit the original preview's Article authorship. Unreviewed variants remain noindex.
+- Verification and reproduction/deployment boundaries: `docs/forever-leveling-archive.md`.
+  Verified 39 leveling tests, 113 web tests, Helper/package typecheck and lint, clean production
+  build, community typecheck/targeted lint/formatting and 11 Chrome/Playwright regressions. All
+  157 active chapter checksums match. Browser checks include all ten race starters/endgame access,
+  import progress, optional dungeons, WCAG, mobile overflow and old-edition/save isolation.
+  Oversized multi-character history is refused before persistence so the prior readable save survives.
+  No database migration, payment, addon, ingest restart, commit, push or external deployment.
+  Live release references above remain unchanged. The previous UX-only snapshot below is historical.
+
+### Dedicated Leveling experience (implemented locally 2026-10-04; not deployed)
+
+- Owner rejected the Encyclopedia/calculator-first entry: **Forever Leveling** should be a major
+  primary-navigation screen at `/forever/leveling`, with faction → race → Speed / Chill / Group →
+  small compatible extracted level brackets → current ordered quest list.
+- Added a direct community navigation link to the same Helper experience, not a duplicate
+  wizard or a destination discoverable only under Addons & tools.
+- Inspected navigation, Forever/leveling pages, route/math/state models, racial artwork export,
+  world quest contracts and the private 157-guide inventory. Race/class/XP/ruleset conditions and
+  overlapping alternatives require a catalog adapter; the extraction is not one complete public
+  route. Dwarf/Gnome Westfall labels differ, and the reviewed Skyborne Horde continuation is missing.
+- Setup stores pace separately from party size/readiness, explains mixed-starting-zone rendezvous,
+  keeps At-level conservative for solo, and only considers earlier premade content with real gates
+  and evidence. Zero recruitment delay does not mean zero travel, fivefold XP or automatic red quests.
+- Added a read-only sanitized catalog adapter and 157 header records under `packages/leveling`.
+  Evaluates faction/race/class/Forever/XP predicates without executing Lua. Unknown/ambiguous/missing
+  continuations stop automatic selection; ordinary and Mage AoE families stay separate. The audit
+  matches the private inventory, finds two dangling target names and no cycles. Horde Skyborne's
+  conditional continuation also remains unknown. Provenance and audit command are in the experience plan.
+- Added `apps/web/src/app/forever/leveling` and setup/provider/dashboard/reader components. The wizard
+  restores drafts on Back/refresh. Desktop/mobile navigation, Forever's third product card and community
+  `discord-website` navigation/tool links point to the new destination. Original Westfall has 31 readable
+  steps; other brackets are metadata-only coverage screens, not republished private instructions.
+- Step progress is character/chapter/version/build isolated in `kfc-leveling:characters:v1`; pace/party
+  edits preserve it, another character does not inherit it. Validated shared profiles exclude progress
+  and identity. Denied storage works in memory; corrupt saves are not silently replaced by browsing.
+- Legacy directory and Westfall links redirect permanently, retaining query/anchor intent. Existing
+  calculator saves remain intact and can be explicitly imported into a per-character comparison.
+  Reader checkmarks do not change calculator XP. Canonicals, breadcrumbs, Article data and sitemap
+  use the new destinations; unpublished or duplicate variants are noindex.
+- First UX phase preserves current quest order. Mode-specific list optimization, ready-premade timing
+  evidence, original/authorized full chapter content and runtime playthroughs remain the next phase.
+- Local verification: 35 leveling tests and 110 web tests passed, along with Helper typecheck/lint/
+  production build, community typecheck/targeted lint and 312 tests. Eight focused Playwright regressions
+  passed for the browser flow, draft refresh, profile/save isolation, denied/corrupt storage, sharing,
+  WCAG checks, icon decoding, 360–1440px layouts and metadata. No deployment, payment,
+  database migration, addon change or ingest restart occurred. Live release references above are unchanged.
+
+### Original leveling preview (2026-10-04)
+
+- Added `packages/leveling` with original Alliance Westfall 13–15 route v0.1.0, selected Hall of
+  Thanes branches, reviewed prerequisite graphs, a strict incremental XP/time calculator and a
+  RestedXP compiler. No private account-derived guide content is distributed.
+- Free Encyclopedia directory and Westfall planner include ordered instructions, coverage/evidence
+  labels, local/shared plans, actionable branch steps, metadata and sitemap discovery. Community
+  `/addons` links to the free preview without promising a released supporter addon.
+- Per owner request, default visits use Wowhead's **At level**, raised by selected unfinished quest
+  pickup requirements: Hall 14 → 15/16 for later bundles; Deadmines stays a later visit at 19. The
+  calculator checks XP before entry, lost outdoor XP, catch-up, shared/completed work, preparation
+  and the full return trip. Out-of-slice and unsupported-faction plans cannot be applied.
+- Extracted current build-70205 `gametables/xp.txt`, `QuestV2` and `QuestXP` using the new .NET
+  `leveling-evidence` command. Definitions/hash provenance is in the product plan. The XP curve is
+  client evidence pending runtime confirmation; individual quest XP remains unknown rather than
+  inferred from the difficulty table. Installed Journal pickup conflicts are disclosed.
+- `pnpm leveling:addon` produces an ignored maintainer ZIP/manifest. A separate bounded manual
+  observer records current curve and turn-in XP without scans or protected UI actions. Preview
+  registration is build-locked to 70205 and requires installed RestedXP v4.11.14. It has not been
+  installed or playtested in WoW. No payment, entitlement or migration is activated.
+- First focused verification: 27 leveling regression tests, 105 web tests, Helper typecheck/lint/
+  production build, community typecheck/targeted lint and 312 tests, .NET Release build, Lua
+  observer mocks, generated Lua registration/build guards and reproducible ZIP hashes passed.
+  Nineteen Playwright browser checks passed on desktop/mobile, covering level-14/15/16 bundles,
+  Deadmines at 19, unknown rewards, faction/entry gates, the 50-minute scenario, exact selected steps,
+  sharing/restoration and no horizontal overflow.
+- Deployed free preview as Helper `kfc-helper-leveling-preview-20261004-r1` after the complete
+  clean Linux workspace check, formatting and staged standalone checks. The community link is live
+  in `.next-release-leveling-20261004-r1`; only its two listing source files changed and the previous
+  copies are backed up under `.data/private/leveling-source-20261004-r1`. Both named web processes
+  were reloaded; the ingest PID/restart count remained unchanged. No migration was needed.
+- Live directory, guide, Trader, sitemap, community addons and health checks returned 200. Live
+  Playwright confirmed level-15/16 bundle gates, canonical/OG metadata, no browser errors and no
+  mobile overflow. Mac and Linux maintainer ZIPs have identical SHA-256
+  `e819d885263e2d9c361ce1af7186f71033b70e92b3a05ff29cb0bc07c6bd9df7` (4,999 bytes).
+- Next product work follows the dedicated Leveling experience plan above; build-70205 playthrough
+  and runtime XP observations remain gates for speed claims and reviewed route expansion.
+  RestedXP installation/playthrough and protected Revolut configuration/fulfillment are still pending;
+  neither a paid guide nor complete beta/1–60 coverage is advertised.
 
 ### Developer bootstrap
 
@@ -1441,6 +1635,105 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
   gates before activation. Both Helper processes and the untouched `kfc-website` process are online;
   PM2 saved the process list. Release r17 is the immediate application rollback.
 
+### Retired Jilanov applications cleanup (2026-09-30)
+
+- The applications previously served under `jilanov.com` were confirmed migrated away from
+  `89.167.46.193`. Eleven old Nginx site entries were disabled after a successful configuration test
+  and preserved in `/etc/nginx/retired-jilanov-20260930T1424Z`; Nginx remained active after reload.
+- Eighteen matching PM2 entries were deleted and the reduced process list was saved. The unrelated
+  KFC website, Helper web/ingest, Gigsy API, and `green` processes remained online and passed their
+  local/origin HTTP checks.
+- Fourteen exact legacy trees were permanently deleted: the Jilanov client/admin/server trees,
+  Dimitar website and backup, interview assistant, landing, demo, staging and staging repository,
+  BeautyMall, chatbot, and public scanner. `/home/gigsy`, KFC, SEO, and
+  `/home/jilanov/green-github` were explicitly retained.
+- PostgreSQL databases `public_scanner_dev`, `jilanov_clone`, `dj-jilanov`, `demo_eu`, and
+  `beautymall_eu` were permanently dropped. `wow_trader`, `gigsy`, and `dj-kfc-guild` were verified
+  present afterward.
+- Root filesystem usage fell from 91% (about 6.6 GiB free) to 69% (about 22.3 GiB free), reclaiming
+  approximately 15.8 GiB. Public checks for the migrated Jilanov website hosts and origin checks for
+  KFC, Helper, Gigsy, and SEO returned HTTP 200 after cleanup; the `apidemo.jilanov.com` root returned
+  HTTP 404, which is consistent with an API host having no root route.
+
+### Forever build 70205 catalog publication (2026-10-04)
+
+- Scan `1309b399-ca4b-4c57-a13c-fa34eee3a2c7` had uploaded and processed successfully. It was gated
+  only because production did not yet have an exact published catalog for client build 70205.
+- Exact WoWDBDefs revision `3e46d21a41a07ce7e63835fd79c561e0d5dce92b` and hotfix hash
+  `eba98a15545c5390353d1c3f3b7e55c1a466f098adc390873a3ebaa2ab81f295` produced a snapshot with
+  23,740 items, 31,731 spells, 12 professions, and 2,239 recipes. Both local and production audit and
+  relationship validation passed.
+- Build 70124→70205 adds 138 item records, removes three, and changes 183 normalized item records;
+  it also adds 44 spell records, removes 16, and changes 768 normalized spell records. The recipe
+  graph is unchanged. Three enchanting recipes gained a three-second cast time; the other changed
+  recipe records were raw-evidence-only differences.
+- Verified backup `shared/backups/wow_trader-pre-forever-70205-catalog-20261004.dump` is 29,049,471
+  bytes. Immutable catalog/media release `wow_classic_beta-70205-enUS-eba98a15-3e46d21` contains
+  2,949 verified icons.
+- Published database build `ccb5edd9-8494-4352-ac91-7deab04904b1` matches the accepted scan's exact
+  build. The live Trader shows 2,940 markets and crafting results with no review gate. Web and ingest
+  remain online; only the web process was reloaded to clear cached catalog selection.
+
+### Automatic catalog guardian (2026-10-04)
+
+- Added and installed macOS LaunchAgent `online.kfcguild.wow-trader-catalog-guardian`. File-change
+  triggers cover both the WoW build manifest and Forever hotfix cache, with a five-minute retry as a
+  fallback. Status and logs live outside the repository under the user's Library directories.
+- The guardian resolves exact official WoWDBDefs commits, extracts locally, runs the full audit and
+  relationship validation, applies semantic promotion policy, verifies item media, creates a unique
+  production backup, stages immutable releases, repeats verification on the server, publishes, and
+  reloads only the web process. Production owner credentials never leave the server.
+- Automatic policy allows exact item/spell metadata and craft-time updates but stops for missing
+  evidence, extractor changes, count drift above 10%, or changes to profession, recipe, or
+  transformation economics. Material changes therefore remain review-gated rather than silently
+  using stale recipes.
+- Its first production run detected a same-build hotfix change to
+  `f1e43a579cb88f48a483c01906970335065599cfda6942e3c31dc8d38595c53f`. The compatible snapshot has
+  23,819 items, 31,731 spells, 12 professions, 2,239 recipes, and 2,951 verified icons. It was
+  published as build ID `3df286a3-8940-4f42-93c0-6ede4ff28076` after verified backup
+  `wow_trader-pre-wow_classic_beta-70205-f1e43a57-catalog-20261004.dump` (35,029,084 bytes).
+- A subsequent run exited cleanly as already current. Production still renders the accepted
+  2,940-market scan and crafting opportunities without the catalog gate; both Helper processes are
+  online and ingestion was not restarted.
+
+### Public Forever research contract and catalog routes (2026-10-04)
+
+- The published Forever catalog now has first-class searchable item, recipe, and profession pages
+  under `/forever/encyclopedia/catalog`, with product-aware tooltip/detail/crafting links rather than
+  TBC hard-coding. Trader results link directly to the corresponding Forever entities. A separate
+  nested sitemap publishes the large entity URL set without risking the root sitemap limit.
+- Item pages can show extracted loot relationship candidates while preserving their review state.
+  They continue to label drop chance unknown and never convert a client hint into a confirmed source.
+- The catalog package now provides `semantic-diff`: a tested, field-level comparison of normalized
+  items, recipes, and professions. Raw evidence is ignored; item changes are classified by player
+  impact and recipe reagent/output/cooldown changes remain economic changes.
+- `/forever/data` and versioned public JSON endpoints expose the current build, normalized build
+  changes, profession recipe/cooldown/unresolved counts, strict market-trend readiness, discovery
+  coverage, world coverage, canonical entity URLs, and the publication rules. Public market reports
+  require 24 accepted exact-market/build observations and 50% confidence even though the interactive
+  Trader may show earlier collecting states. A scan from another build is never joined to the current
+  catalog for a public trend claim.
+- `wowforeverdiscord.online/research` consumes that contract for stable player-facing reports and
+  owns the anonymous correction/review loop. BiS, class scaling, content availability, confirmed
+  sources, and drop rates remain explicit evidence gaps until their independent gates pass.
+- Focused catalog tests, Helper typecheck/lint, community-site typecheck/lint, and the recruitment
+  census regression test pass. The community migration was applied to the local development
+  database and a real feedback submission returned HTTP 201; its verification row was then removed.
+- Production Helper release `kfc-helper-forever-research-20261004-r4` is active. Its clean Linux
+  release passed lint, strict typecheck, 110 web tests plus the complete workspace suites, production
+  build, and formatting checks. Only `kfc-helper-web` was reloaded; `kfc-helper-ingest` remains
+  pinned to `kfc-helper-ingest-auction-20261001-r1` and was not restarted.
+- Live checks returned HTTP 200 for the observatory, `/forever/data`, catalog, profession page, and
+  all four nested sitemap shards against catalog build 70205. The root sitemap has 32,535 URLs and
+  the four non-overlapping catalog shards have 8,000, 8,000, 8,000, and 2,075 URLs. A live crawl of
+  all five files and the public pages/APIs left `kfc-helper-web` online at the same PID and restart
+  count; the warmed process stabilized at about 361 MiB, below its 600 MiB restart guard. The
+  community deployment then applied migration
+  `034_research_feedback` after a verified isolated backup restore and activated build directory
+  `.next-release-research-20261004-r3`. All seven reports, the research index, sitemap, and robots
+  returned HTTP 200. A production feedback POST returned HTTP 201 and its exact verification row was
+  removed. Article/Dataset JSON-LD and evidence-derived sitemap modification dates are live.
+
 ## Next actions
 
 1. Add structural snapshot-to-snapshot diff presentation and reviewed source corrections before
@@ -1463,9 +1756,9 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
    recipe IDs so the account network can replace its visible simulation with actual eligibility;
    then add inventory/capital constraints and mastery-proc observations. Disenchant observations can
    audit the static table but are not required to calculate its expected value.
-8. Extend the published build-70124 catalog with item stats, damage, resistances, sockets, item
+8. Extend the published build-70205 catalog with item stats, damage, resistances, sockets, item
    effects, teaching items, transformations, and in-game golden tooltip/recipe checks. Keep the old
-   build-69893 world snapshot review-only; it is separate from the published build-70124 Trader
+   build-69893 world snapshot review-only; it is separate from the published build-70205 Trader
    catalog and must never be presented as exact current-client evidence.
 9. Replace the Companion maintainer token with per-installation pairing/revocation, then sign and
    notarize macOS Intel/Apple Silicon packages, produce a signed Windows installer, and validate the
@@ -1475,9 +1768,10 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
     or run the archived build-69913 quest/model catalogs on build 70124. The review-only
     boss/spell/location/source pages must remain provenance-labeled until a replacement evidence path
     passes review.
-11. Verify the apex guild site and Helper subdomain in Google Search Console, submit both public
-    sitemap URLs, and monitor index coverage, structured-data reports, Core Web Vitals, and search
-    queries. Verification ownership is the only remaining external step for the technical SEO launch.
+11. Submit the updated community and Helper sitemap URLs in the verified Google Search Console
+    properties, request one inspection of the newly published research index/data report, and monitor
+    index coverage, structured-data reports, Core Web Vitals, and queries. Account-side submission is
+    the remaining external step; the crawlable pages and evidence-backed metadata are live.
 
 ## Working rules
 

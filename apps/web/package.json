@@ -17,6 +17,7 @@
     "@wow-trader/db": "workspace:*",
     "@wow-trader/economics": "workspace:*",
     "@wow-trader/forever-data": "workspace:*",
+    "@wow-trader/leveling": "workspace:*",
     "@wow-trader/market": "workspace:*",
     "@wow-trader/world-data": "workspace:*",
     "drizzle-orm": "0.45.2",

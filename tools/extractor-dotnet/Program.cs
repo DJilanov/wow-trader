@@ -1,6 +1,17 @@
 using System.Security.Cryptography;
 using WowTrader.Extractor;
 
+if (args.FirstOrDefault() == "leveling-evidence")
+{
+  try { LevelingEvidenceCommand.Run(CliOptions.Parse(args)); }
+  catch (Exception exception)
+  {
+    Console.Error.WriteLine($"leveling evidence: {exception.Message}");
+    Environment.ExitCode = 1;
+  }
+  return;
+}
+
 if (args.FirstOrDefault() == "icons")
 {
   try

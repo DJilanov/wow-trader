@@ -7,6 +7,7 @@ import { useState } from "react";
 
 const navigation = [
   ["Forever Trader", "/forever/trader"],
+  ["Forever Leveling", "/forever/leveling"],
   ["Forever Encyclopedia", "/forever/encyclopedia"],
   ["Get Collector", "/forever/addon"],
   ["TBC Tools", "/tbc"],
@@ -48,6 +49,7 @@ export function SiteHeader(): React.JSX.Element {
               className={isActive(href) ? "active" : undefined}
               href={href}
               key={href}
+              aria-current={isActive(href) ? "page" : undefined}
               prefetch={shouldPrefetch(href)}
             >
               {label}
@@ -78,6 +80,7 @@ export function SiteHeader(): React.JSX.Element {
               className={isActive(href) ? "active" : undefined}
               href={href}
               key={href}
+              aria-current={isActive(href) ? "page" : undefined}
               onClick={() => setMobileOpen(false)}
               prefetch={shouldPrefetch(href)}
             >

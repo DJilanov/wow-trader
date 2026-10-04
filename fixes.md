@@ -1,10 +1,29 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-09-30
+Last updated: 2026-10-04
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## Leveling Follow / Resume returned to the chapter beginning (local 2026-10-04)
+
+- Reproduction: select Elwynn `#guide-source-step-0051`, then click **Follow next step** with
+  earlier instructions still unchecked. The old handler cleared the pin and used the chapter-wide
+  first pending step, incorrectly discarding the reader's selected place.
+- Both reader editions now retain an ordered reading cursor. Follow searches pending applicable
+  steps at/after that cursor; Resume uses the same cursor and enables following. Completing or
+  skipping advances; undoing earlier progress does not rewind it, and reaching the end never wraps.
+  No earlier prerequisite is automatically completed. Explicitly selecting an earlier step returns
+  there. Current-step anchors and validated browser-history mode survive refresh without modifying
+  progress storage or losing Next.js history state; cursor scope includes character/chapter/build.
+- Code: `apps/web/src/components/leveling-reader-selection.ts` and
+  `apps/web/src/lib/leveling-reader-navigation.ts`, wired into imported/original readers and the
+  shared viewport workspace. The change is local, not committed or deployed.
+- Regression coverage: navigation unit tests and `tests/e2e/leveling-workspace.spec.ts` in the
+  sibling community repository, including the exact step-51 case, finish/undo, hide-completed,
+  refresh, final-step no-wrap and pane-only Resume. Passed 136 web tests, lint, typecheck, production
+  build and all 20 Chrome/Playwright leveling regressions; details are recorded in `context.md`.
 
 ## Forever upload HTTP 500 caused by Nginx temporary-file permissions
 
@@ -331,3 +350,68 @@ older build-70058 recipe graph because the new scan identified client build 7012
   returns a valid PNG.
 - `kfc-helper-web` and `kfc-helper-ingest` are both online. The application release remains r17;
   this correction published data and media rather than changing the deployed server code.
+
+## Forever build 70205 exact-catalog gate
+
+### User-visible problem
+
+The latest Forever scan uploaded and processed successfully, but the Trader displayed:
+
+> Build 70205 catalog is under review
+
+The accepted scan was already in PostgreSQL. Profit calculation was deliberately gated because the
+new client build did not yet have an exact published item-and-recipe catalog.
+
+### Recovery and verification
+
+- Matched client `1.60.1.70205` to exact WoWDBDefs revision
+  `3e46d21a41a07ce7e63835fd79c561e0d5dce92b` (`Merge 1.60.1.70205`) and extracted the installed
+  hotfix cache with SHA-256
+  `eba98a15545c5390353d1c3f3b7e55c1a466f098adc390873a3ebaa2ab81f295`.
+- The local and production audits verified all 102 artifacts. Relationship validation passed with
+  23,740 items, 31,731 spells, 12 professions, 2,239 recipes, 7,448 recipe inputs, and no issues.
+- Compared build 70124 with 70205. The item catalog has 138 additions, three removals, and 183
+  normalized record changes; the spell catalog has 44 additions, 16 removals, and 768 normalized
+  record changes. The recipe inputs and outputs are unchanged and no recipes were added or removed.
+  Only recipe spells `1249107`, `1249112`, and `1249114` gained a three-second craft time; the
+  remaining 28 changed recipe records differed only in retained raw evidence.
+- Created and verified custom-format backup
+  `/home/wow-trader-system/shared/backups/wow_trader-pre-forever-70205-catalog-20261004.dump`
+  (29,049,471 bytes).
+- Synchronized immutable catalog release
+  `wow_classic_beta-70205-enUS-eba98a15-3e46d21`, imported it as `review_required`, then
+  checksum-verified and activated its 2,949-icon media release before publication.
+- Published build ID `ccb5edd9-8494-4352-ac91-7deab04904b1` and reloaded only
+  `kfc-helper-web`; the ingestion process remained online without a restart.
+- Production retains accepted scan `1309b399-ca4b-4c57-a13c-fa34eee3a2c7`: build 70205,
+  `ClassicBetaPvP` Alliance, 2,940 item markets, 12,468 price levels, and 100% accepted coverage.
+- The live Trader resolves catalog `1.60.1.70205`, exposes crafting results, and no longer contains
+  the review gate. Forever item media returns HTTP 200 from the newly activated release.
+
+## Automatic catalog guardian and build-70205 hotfix refresh
+
+- Added a semantic promotion classifier that ignores retained raw-record drift and harmless
+  item/spell metadata or craft-time updates, while blocking profession changes and any recipe or
+  transformation reagent, output, yield, cooldown, or requirement change. Missing hotfixes, unknown
+  definitions, extractor changes, backwards builds, and item/spell count drift above 10% also stop
+  automatic promotion.
+- Added an idempotent maintainer-only guardian that detects both numbered client builds and same-build
+  `DBCache.bin` changes, resolves the exact `Merge <client-version>` WoWDBDefs revision, extracts,
+  audits, validates, classifies, generates media, takes a unique verified production backup, stages
+  immutable catalog/media releases, repeats validation on the server, publishes, and reloads only
+  `kfc-helper-web`.
+- Installed macOS LaunchAgent `online.kfcguild.wow-trader-catalog-guardian`. It watches the Forever
+  build manifest and hotfix cache and has a five-minute retry interval. It uses the existing batch
+  SSH identity; no collector token or database owner credential is stored in the agent.
+- The first real run detected a same-build hotfix change from `eba98a15…` to `f1e43a57…`. The new
+  snapshot passed all 102 artifact checks and relationship validation with 23,819 items, 31,731
+  spells, 12 professions, and 2,239 unchanged recipes. The compatible delta added 79 items and no
+  recipe-economy changes.
+- Created verified rollback backup
+  `/home/wow-trader-system/shared/backups/wow_trader-pre-wow_classic_beta-70205-f1e43a57-catalog-20261004.dump`
+  (35,029,084 bytes), activated release `wow_classic_beta-70205-enUS-f1e43a57-3e46d21` with 2,951
+  verified icons, and published build ID `3df286a3-8940-4f42-93c0-6ede4ff28076`.
+- A second guardian run was a no-op and recorded `current`, proving idempotence. The live Trader still
+  shows build 70205, 2,940 markets, and crafting results with neither exact-catalog warning; Forever
+  icon media returns HTTP 200. Web and ingestion processes remain online, and ingestion retained zero
+  restarts.

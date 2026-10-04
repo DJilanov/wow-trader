@@ -4,7 +4,7 @@ namespace WowTrader.Extractor;
 
 internal static class WorldSnapshotCommand
 {
-  internal const string ExtractorVersion = "0.3.0";
+  internal const string ExtractorVersion = "0.4.0";
 
   private static readonly string[] TableNames =
   [
@@ -110,7 +110,9 @@ internal static class WorldSnapshotCommand
       var mediaManifest = new MapMediaExtractor().Extract(
           options,
           build,
-          world.MapArtTiles,
+          world.MapArtTiles.Select(tile => tile.FileDataId).Concat(
+              tables["WorldMapOverlayTile"].EffectiveRows
+                  .Select(row => Convert.ToInt32(row["FileDataID"]))),
           stagingDirectory);
       new WorldArtifactWriter(stagingDirectory).Write(
           build,

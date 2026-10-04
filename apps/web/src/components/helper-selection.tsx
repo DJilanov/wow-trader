@@ -10,7 +10,7 @@ interface HelperSelectionOption {
     readonly src: string;
     readonly kind: "icon" | "logo";
   };
-  readonly tone: "tbc" | "forever" | "trader" | "encyclopedia";
+  readonly tone: "tbc" | "forever" | "trader" | "encyclopedia" | "leveling";
   readonly href?: string;
 }
 

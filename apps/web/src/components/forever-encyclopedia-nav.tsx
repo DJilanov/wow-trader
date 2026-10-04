@@ -7,6 +7,7 @@ type ForeverEncyclopediaSection =
   | "home"
   | "instances"
   | "legacy"
+  | "leveling"
   | "maps"
   | "quests"
   | "racials"
@@ -19,7 +20,7 @@ interface ForeverEncyclopediaNavProps {
   readonly classSlug?: string;
 }
 
-type NavigationGroup = "character" | "changes" | "overview" | "world";
+type NavigationGroup = "character" | "changes" | "leveling" | "overview" | "world";
 
 const groupLinks: readonly {
   readonly key: NavigationGroup;
@@ -30,6 +31,7 @@ const groupLinks: readonly {
   { key: "character", label: "Character", href: "/forever/encyclopedia/talents/warrior" },
   { key: "world", label: "World", href: "/forever/encyclopedia/maps" },
   { key: "changes", label: "Changes", href: "/forever/encyclopedia/changes" },
+  { key: "leveling", label: "Leveling ↗", href: "/forever/leveling" },
 ];
 
 const characterLinks = [
@@ -95,5 +97,6 @@ function getNavigationGroup(section: ForeverEncyclopediaSection): NavigationGrou
   if (["abilities", "legacy", "racials", "spellbooks", "talents"].includes(section)) {
     return "character";
   }
+  if (section === "leveling") return "leveling";
   return "world";
 }

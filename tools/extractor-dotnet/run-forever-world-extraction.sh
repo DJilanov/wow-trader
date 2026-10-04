@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-definitions_revision="${WOWDBDEFS_REVISION:-005c13a9a101e64014eeb02af3a42ccbeaf8513d}"
+definitions_revision="${WOWDBDEFS_REVISION:-3e46d21a41a07ce7e63835fd79c561e0d5dce92b}"
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 definitions_checkout="$repository_root/.cache/wowdbdefs/$definitions_revision"
 wow_root="${WOW_ROOT:-/Applications/World of Warcraft}"

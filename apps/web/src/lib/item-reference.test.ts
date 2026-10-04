@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { FOREVER_CLIENT_PRODUCT, TBC_CLIENT_PRODUCT } from "./game-versions";
-import { getExternalItemReference, getExternalSpellReference } from "./item-reference";
+import {
+  getExternalItemReference,
+  getExternalQuestReference,
+  getExternalSpellReference,
+} from "./item-reference";
 
 describe("getExternalItemReference", () => {
   it("builds a Forever Wowhead item link from the item ID", () => {
@@ -18,6 +22,22 @@ describe("getExternalItemReference", () => {
   it.each([0, -1, 1.5, Number.NaN])("rejects invalid item ID %s", (itemId) => {
     expect(getExternalItemReference(FOREVER_CLIENT_PRODUCT, itemId)).toBeNull();
   });
+});
+
+describe("getExternalQuestReference", () => {
+  it("links the exact quest ID to Forever rather than Retail or Classic", () => {
+    expect(getExternalQuestReference(FOREVER_CLIENT_PRODUCT, 783)).toEqual({
+      href: "https://www.wowhead.com/forever/quest=783",
+      label: "Wowhead",
+    });
+    expect(getExternalQuestReference(TBC_CLIENT_PRODUCT, 783)).toBeNull();
+  });
+  it.each([0, -1, 1.5, Number.NaN, Number.MAX_SAFE_INTEGER + 1])(
+    "rejects invalid quest ID %s",
+    (questId) => {
+      expect(getExternalQuestReference(FOREVER_CLIENT_PRODUCT, questId)).toBeNull();
+    },
+  );
 });
 
 describe("getExternalSpellReference", () => {

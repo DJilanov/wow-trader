@@ -19,7 +19,7 @@ internal sealed record CliOptions(
       throw new UsageException(null);
     }
 
-    if (args[0] is not ("snapshot" or "world-snapshot"))
+    if (args[0] is not ("snapshot" or "world-snapshot" or "leveling-evidence"))
     {
       throw new UsageException($"Unknown command '{args[0]}'");
     }
@@ -99,6 +99,12 @@ internal sealed record CliOptions(
             --product wow_classic_beta --locale enUS --region eu \
             --definitions <WoWDBDefs/definitions> \
             --definitions-revision <git-sha> --output ./artifacts
+
+          dotnet run --project tools/extractor-dotnet -- leveling-evidence \
+            --wow-root "/Applications/World of Warcraft" \
+            --product wow_classic_beta --locale enUS --region eu \
+            --definitions <WoWDBDefs/definitions> \
+            --definitions-revision <git-sha> --output ./artifacts/leveling-evidence
         """;
 
   private static string Require(IReadOnlyDictionary<string, string> values, string key)

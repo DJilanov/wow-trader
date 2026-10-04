@@ -30,3 +30,16 @@ export function getExternalSpellReference(
     label: "Wowhead",
   };
 }
+
+export function getExternalQuestReference(
+  clientProduct: SupportedClientProduct,
+  questId: number,
+): ExternalItemReference | null {
+  if (!Number.isSafeInteger(questId) || questId <= 0) return null;
+  if (clientProduct !== FOREVER_CLIENT_PRODUCT) return null;
+
+  return {
+    href: `https://www.wowhead.com/forever/quest=${questId}`,
+    label: "Wowhead",
+  };
+}
