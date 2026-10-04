@@ -3,7 +3,38 @@
 Live entry: https://helper.kfcguild.online/forever/leveling.
 The community site's desktop/mobile **Leveling** link opens this same product.
 
-## Verified release
+## Current release: player quality r5
+
+- Helper is now `kfc-helper-leveling-quality-20261004-r5`, code `f81bc5c`, copied from r4 with only
+  the reviewed leveling source files overlaid. Existing live catalog/market changes were preserved.
+  Browser test-only commits `7f8a1d1` and `68ae79f` were pushed in sibling `discord-website`.
+- Added exact reading bookmarks, Previous/Undo Done, bounded map controls, focus/larger-text modes,
+  explicit chapter review, private progress backups and durable private step feedback.
+- Applied additive migration `0016_white_runaways.sql` after a verified custom-format backup:
+  `shared/backups/wow_trader-pre-leveling-feedback-20261004-r5.dump`, 83,087,657 bytes.
+  Runtime `wow_trader_web` gets SELECT/INSERT on the new table, never UPDATE/DELETE. Review status
+  uses the protected owner environment and `pnpm leveling:feedback`.
+- Linux lint/typecheck/build and 165 web tests passed. Staged Chrome: 29 cases passed initially;
+  the only failure was a test expecting no anchor while the reader correctly added its initial
+  bookmark. Corrected assertion and focused rerun passed, covering all 30 cases. Seven additional
+  public HTTPS Chrome cases passed after activation.
+- Real database/API checks passed durable insertion, schema-normalized JSONB retry, conflict,
+  evidence/origin validation and rate limiting. Public Nginx/HTTPS durable insertion/retry checks
+  also passed. Six exact synthetic reports were removed; player reports were not touched.
+- Reloaded only `kfc-helper-web`, PID `1555476`, planned restart count 72, warmed RSS about 321 MiB.
+  Ingestion stayed PID `1169337`/restarts 0; guild `1024920`/89 and community `1535288`/39 stayed
+  unchanged. Public Leveling/Trader/TBC/world/status routes returned 200 with no catalog regression.
+  Archive/world/environment references are unchanged. No addon/auth/payment or dungeon feature shipped.
+- The r5 staged listener on 19213 and its local 3004 tunnel were closed after testing. The protected
+  maintainer feedback-list command succeeded. Disk remains about 89% used / 8.1 GiB free; existing
+  unrelated data and prior rollback releases were not deleted as part of this deployment.
+- Rollback: repoint `current` to `kfc-helper-leveling-workspace-20261004-r4`, reload only Helper web,
+  verify health and save PM2. Retain the additive migration and live market data. Export a private
+  progress backup before opening r4: its strict older parser cannot read the new bookmark fields.
+
+Dungeon follow-up is research/plan only: `forever-leveling-dungeon-integration-plan.md`.
+
+## Earlier verified releases: r1–r4
 
 - Helper: `kfc-helper-leveling-workspace-20261004-r4`, base implementation `1811348`, bounded-validation
   fix `b89e0a3`, explicit Next/Done actions `640091a`. Source overlays preserve the existing live research/catalog/market baseline;
@@ -31,8 +62,9 @@ The community site's desktop/mobile **Leveling** link opens this same product.
   are required for reveal layers; syncing normalized files alone is insufficient.
 - Protected web environment points `LEVELING_ARCHIVE_ROOT`, `WOW_TRADER_WORLD_SNAPSHOT` and
   `WOW_TRADER_WORLD_MEDIA_ROOT` to these immutable releases, with
-  `WOW_TRADER_WORLD_PREFER_ARTIFACT=true`. World evidence remains review-only. No database import,
-  confirmed loot/source publication, migration, addon/payment/token change or worker restart.
+  `WOW_TRADER_WORLD_PREFER_ARTIFACT=true`. World evidence remains review-only. The original r1–r4
+  rollout did not import world evidence, publish confirmed loot, migrate the database or change
+  addons/payment/tokens/workers. r5's separate additive feedback migration is recorded above.
 
 ## Verification and memory correction
 
@@ -75,7 +107,8 @@ PM2. Do not restart workers or roll back the shared database.
 This is browser-guide feedback, not proof of a seamless/playtested live 1–60 route. Source
 conditions, missing continuations and warnings above beta cap 30 remain visible. Progress is
 browser-local. The original 31-step Westfall edition remains available with `?edition=kfc`.
-No new feedback form or Discord announcement was sent.
+r1–r4 did not add a feedback form or send a Discord announcement. r5 adds the private report form;
+no announcement was sent.
 
 The requested **Next step** (move without completion) and **Done** (complete current, move forward)
 replace Follow/Resume in both editions. Checkbox-only completion remains independent of navigation.

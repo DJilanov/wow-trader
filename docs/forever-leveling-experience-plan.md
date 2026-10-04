@@ -7,6 +7,11 @@ and payment activation remain separate follow-up work. Extraction/operations: `f
 The persistent map/list chapter workspace is live. See section 10 for its layout,
 selection, follow-from-current-position and verification contract.
 
+Next/Done, bookmarks, Undo Done, map controls, private backups and step reports are now deployed;
+see `forever-leveling-player-quality.md`. Next phase:
+[dungeon preparation and worthwhile quest chains](forever-leveling-dungeon-integration-plan.md),
+planned as optional overlays without renumbering the current source steps.
+
 The owner has changed the product direction: **Forever Leveling is a primary product**, alongside
 Trader and Encyclopedia. This document supersedes the Encyclopedia-first navigation and
 calculator-first browser flow in `forever-leveling-product-plan.md`. That document remains the

@@ -52,7 +52,7 @@ its server-side source or probability.
 
 ## Implemented
 
-### Leveling player-quality improvements (2026-10-04; local, not deployed)
+### Leveling player-quality improvements (2026-10-04; deployed r5)
 
 - Implemented exact per-character/chapter/version/build reading bookmarks and Continue playing;
   Previous and session-local Undo Done; bounded map zoom/drag/keyboard pan/fit with marker-to-instruction
@@ -60,9 +60,11 @@ its server-side source or probability.
   private validated progress backup/merge; and durable anonymous step reports with a maintainer review CLI.
 - Backups preserve existing saved releases in full, including undone steps. Feedback retries are
   idempotent even when PostgreSQL reorders JSONB keys; reports never automatically edit route evidence.
-- New report storage migration: `0016_white_runaways.sql`. PostgreSQL on local localhost:5432 was stopped,
-  so local migration/storage integration is not yet verified. Production database and r4 release are
-  unchanged. Discord account sync remains a documented separate auth/privacy phase, not fake login.
+- Code `f81bc5c` committed/pushed; deployed `kfc-helper-leveling-quality-20261004-r5` over the existing
+  live baseline, preserving independent catalog work. Migration `0016_white_runaways.sql` applied
+  with a verified 83,087,657-byte backup; runtime feedback grants are SELECT/INSERT only.
+  Real PostgreSQL and public HTTPS insertion/retry/validation checks passed; staged rate limits passed.
+  Local PostgreSQL remains stopped. Discord account sync remains a separate auth/privacy phase.
 - Contracts, known source gaps, backup/rollback caveats and operator commands:
   `docs/forever-leveling-player-quality.md`. Unrelated working-tree changes remain preserved.
 - Verified strict web/database typechecking and linting, 165 web unit tests, full isolated-feature
@@ -70,6 +72,27 @@ its server-side source or probability.
   production-mode build. Additional final mobile/map-size, landscape and keyboard/accessibility
   regressions passed after screenshot review found and corrected wrapped controls shrinking the map.
   Real local feedback requests return an honest 503 while PostgreSQL is unavailable.
+- Linux lint/typecheck/build and 165 web tests passed; all 30 staged Chrome cases passed across the
+  initial run and corrected bookmark-assertion rerun, plus seven live HTTPS cases. Only Helper web
+  reloaded; ingestion stayed PID 1169337/restarts 0, guild and community stayed unchanged. Six exact
+  synthetic feedback records were cleaned up; player reports were untouched. r4 is retained for
+  web rollback, with the documented private-progress backup caveat. Browser test commits:
+  `7f8a1d1`, `68ae79f` in sibling `discord-website`; no community runtime rebuild was needed.
+
+### Next phase: dungeon integration (2026-10-04; research/plan only)
+
+- Plan: `docs/forever-leveling-dungeon-integration-plan.md`. Optional sidecar route preparation,
+  typed stateful quest-chain graph, inside/drop starts, correct turn-ins/rejoin, marginal bundle
+  versus full-trip XP/time, legal reward choices and conservative role/gear utility.
+- Re-indexed authorized archive against existing supplemental audit: 94 dungeon associations,
+  92 unique quest IDs, 13 sections. Ruins and Excavation lack accept/turn-in directives; Thanes
+  lifecycle is incomplete. Counts include all variants, not proof of individual character coverage.
+- Found self/future quest IDs in addon prerequisite lists, accepted-state/item gates, competing
+  pickup minima and conflicting offline XP. No reference values were promoted to runtime truth.
+  October 1 cap/XP/shareability changes and catalog-only availability are explicit release gates.
+- First implementation should normalize/audit evidence, then add Thanes/Deadmines and RFC/WC
+  preparation overlays; add missing Ruins/Excavation and measured reward comparisons afterward.
+  No dungeon feature, broad quest scanning, payment/auth or addon changes were implemented this turn.
 
 ### Explicit chapter Next step / Done (2026-10-04; deployed)
 

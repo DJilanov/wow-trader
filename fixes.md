@@ -6,7 +6,7 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
-## Leveling bookmarks, undo, backup safety and reader quality (2026-10-04; local)
+## Leveling bookmarks, undo, backup safety and reader quality (2026-10-04; deployed r5)
 
 - Saved the reading position independently of checkmarks, per character/chapter/version/build.
   Next-only visits now resume in a fresh tab and from Continue playing, not the first pending step.
@@ -25,10 +25,19 @@ database credentials, SavedVariables contents, or other secrets here.
   maps; compact accessible labels, adequate split-map height and landscape-specific sizing fix it.
 - Web/database lint/typecheck and 165 web tests passed. Isolated-feature `pnpm check`/production build
   and all 30 Chrome regressions passed; final responsive/map-size/mobile-focus/keyboard checks passed
-  after the visual adjustment. No new dependency, commit, push or production deployment this turn.
+  after the visual adjustment. No new dependency. Committed/pushed as `f81bc5c`, then deployed r5.
 - Local PostgreSQL at localhost:5432 is stopped, so `pnpm db:migrate` and the report review query could
-  not complete; real local submissions correctly return 503 without false success. Apply/verify the
-  migration during a separately authorized deployment. r4 and the production database are unchanged.
+  not complete; real local submissions correctly return 503 without false success. The subsequently
+  authorized production migration passed after a verified 83,087,657-byte backup. Runtime table grants
+  are SELECT/INSERT only; maintainer review uses the protected owner connection.
+- Linux candidate lint/typecheck/build and 165 tests passed. Staged Chrome found a brittle no-hash URL
+  assertion while the reader correctly added its initial bookmark; test-only fix `68ae79f` follows
+  browser-suite commit `7f8a1d1` in sibling `discord-website`. All 30 cases passed across initial run
+  and focused rerun; seven public HTTPS cases passed. Real database/API checks passed durable storage,
+  JSONB retry, conflict, evidence/origin validation and rate limits. Six exact synthetic reports were
+  cleaned up. Only Helper web reloaded; other live processes and player reports were preserved.
+- r4 remains the web rollback target. Keep the additive feedback migration and live market data;
+  private backups protect newer bookmark fields when temporarily opening the older strict reader.
 - Complete contracts, operator commands, known source gaps and backup rollback caveats:
   `docs/forever-leveling-player-quality.md`. Discord account sync is not enabled; private manual
   export/import works now and the account-auth/revision-conflict phase is documented separately.

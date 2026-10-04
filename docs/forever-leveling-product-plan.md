@@ -2,6 +2,10 @@
 
 Status: first free browser route and calculation engine implemented and deployed as a preview. Updated October 4, 2026. Live route/addon validation and payment activation remain pending.
 
+The next dungeon-preparation, chain-state, reward-choice and marginal/full-trip comparison phase is
+specified in [the dungeon integration plan](forever-leveling-dungeon-integration-plan.md).
+It is researched, not implemented; the deployed reader-quality release is recorded separately.
+
 ## Revised product direction: dedicated Forever Leveling
 
 The owner's October 4 feedback supersedes the original Encyclopedia-first placement and

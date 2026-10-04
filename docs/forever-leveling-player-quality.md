@@ -1,6 +1,7 @@
 # Forever leveling: player-quality improvements
 
-Implemented locally on 2026-10-04. This document does not record a production deployment.
+Deployed on 2026-10-04 as `kfc-helper-leveling-quality-20261004-r5` at
+`https://helper.kfcguild.online/forever/leveling`. Code commit: `f81bc5c`.
 
 ## Player experience
 
@@ -83,8 +84,11 @@ pnpm leveling:feedback --mark REPORT_UUID resolved
 
 Use a protected `DATABASE_URL` for the intended environment. Listing is read-only and bounded;
 `--mark` explicitly changes only the named report's review status. No IP/hash fields are printed.
-The migration was generated and inspected locally; applying it locally could not be verified because
-PostgreSQL on localhost:5432 was stopped. Production has not been migrated for this feature.
+Local PostgreSQL on localhost:5432 remains stopped. Production migration succeeded after a verified
+custom-format backup at
+`shared/backups/wow_trader-pre-leveling-feedback-20261004-r5.dump` (83,087,657 bytes).
+The existing `wow_trader_web` role has SELECT/INSERT on this table, but no UPDATE/DELETE. Use the
+protected owner environment for maintainer review-status changes; do not broaden runtime grants.
 
 ## Optional account sync: later, not an invented login
 
@@ -113,5 +117,19 @@ Database failure is a real unavailable state, never a fabricated report success.
 Passed strict web/database typechecks and lint, 165 web unit tests, the complete isolated-feature
 `pnpm check` (including production build), and all 30 Chrome regressions against the production-mode
 build. Screenshot review also led to compact accessible mobile map controls and a minimum visible
-map-area regression across portrait/landscape layouts. Real local PostgreSQL integration remains
-unverified because the local service is stopped; no production data or process was changed.
+map-area regression across portrait/landscape layouts. The Linux production candidate passed web
+lint/typecheck/build and 165 tests. All 30 staged Chrome cases passed across the initial run and a
+focused rerun after fixing a bookmark-sensitive test assertion; seven additional public HTTPS
+Chrome cases passed after activation.
+
+Real PostgreSQL integration verified durable insertion, reordered JSONB retry, conflict, published
+step validation, origin rejection and rate limiting. The public HTTPS/Nginx path also passed durable
+insertion and retry/validation checks. Six isolated synthetic test reports were removed by their
+exact submission IDs; player reports were untouched. Only `kfc-helper-web` was reloaded; ingestion,
+guild and community process IDs/restart counts were preserved.
+The r5 staged listener and its tunnel were closed; the protected maintainer feedback-list command
+also succeeded.
+
+Rollback is web-only to r4; retain the additive table and current market database. Export a private
+progress backup before opening the older reader, because its strict parser does not understand
+new bookmark fields. See `forever-leveling-release-2026-10-04.md` for the release record.
