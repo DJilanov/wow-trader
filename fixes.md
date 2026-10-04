@@ -6,13 +6,37 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
+## Explicit Next step / Done chapter navigation (deployed 2026-10-04)
+
+- Replaced Follow and Resume with the owner's requested manual controls in both reader editions.
+  Next moves to the next visible applicable instruction without completing anything. Done first
+  completes the selected step, then advances. A standalone checkbox remains independent of navigation.
+- Controls remain visible in every mobile focus mode; hidden quest panes defer scrolling until they
+  reopen. At the final step Next is disabled, while Done can complete it without looping to earlier
+  pending instructions. Completion requires a saved matching character and an incomplete resolved
+  card. Valid scoped anchors and legacy browser history remain compatible across refresh.
+- Code/plans `640091a`, sibling browser regressions `4f05376`, active Helper release
+  `kfc-helper-leveling-workspace-20261004-r4`. The existing progress schema and database are unchanged.
+- Passed 138 web tests, lint/typecheck/build, clean-index `pnpm check`/formatting and all 23 staged
+  browser regressions. Exact step 51, undo/hide/refresh, final-step completion, independent checkboxes,
+  both editions, map-focus advancement and unsaved completion guards are covered. All 23 public HTTPS
+  regressions and six representative API/page checks passed; Helper stayed at PID `1542399`, restart
+  count 70, post-check RSS 231 MiB. Ingestion and other applications were not restarted.
+- Candidate packaging must copy the contents of static/public directories into the standalone roots
+  using source/destination trailing slashes, then start the process. Copying `public` into an already
+  populated `public` directory nested it under `public/public`, leaving the header icon missing. This
+  was caught in the staged full-image decode test and corrected before activation. Existing deployment
+  script already uses the correct `rsync` convention. Immediate rollback is the previous r3 release;
+  full pre-feature rollback is documented in `docs/forever-leveling-release-2026-10-04.md`.
+
 ## Leveling Follow / Resume returned to the chapter beginning (deployed 2026-10-04)
 
 - Reproduction: select Elwynn `#guide-source-step-0051`, then click **Follow next step** with
   earlier instructions still unchecked. The old handler cleared the pin and used the chapter-wide
   first pending step, incorrectly discarding the reader's selected place.
-- Both reader editions now retain an ordered reading cursor. Follow searches pending applicable
-  steps at/after that cursor; Resume uses the same cursor and enables following. Completing or
+- The r3 fix retained an ordered reading cursor; r4's explicit actions above supersede its UI.
+  Follow searched pending applicable
+  steps at/after that cursor; Resume used the same cursor and enabled following. Completing or
   skipping advances; undoing earlier progress does not rewind it, and reaching the end never wraps.
   No earlier prerequisite is automatically completed. Explicitly selecting an earlier step returns
   there. Current-step anchors and validated browser-history mode survive refresh without modifying

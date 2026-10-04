@@ -5,13 +5,15 @@ The community site's desktop/mobile **Leveling** link opens this same product.
 
 ## Verified release
 
-- Helper: `kfc-helper-leveling-workspace-20261004-r3`, implementation `1811348`, bounded-validation
-  fix `b89e0a3`. Source overlays preserve the existing live research/catalog/market baseline;
+- Helper: `kfc-helper-leveling-workspace-20261004-r4`, base implementation `1811348`, bounded-validation
+  fix `b89e0a3`, explicit Next/Done actions `640091a`. Source overlays preserve the existing live research/catalog/market baseline;
   production is not claimed to be a pristine checkout of these commits alone.
 - Community: `.next-release-leveling-20261004-r4`, navigation/tests `b2e8bab`, responsive rule
   `7247a02`. Only `components/site-nav.tsx`, `content/community-tools.ts` and the 1280px navigation
   rule in `app/(site)/site.css` changed over its existing live baseline.
 - Both repositories' code commits were pushed to `origin/main`; unrelated local edits remain.
+  Next/Done browser regressions are in sibling test-only commit `4f05376`; its runtime did not require
+  another rebuild for the reader update.
 
 ## Separately provisioned data
 
@@ -49,6 +51,10 @@ The community site's desktop/mobile **Leveling** link opens this same product.
 
 ## Rollback
 
+For only the Next/Done update, repoint Helper `current` to
+`releases/kfc-helper-leveling-workspace-20261004-r3`, reload only `kfc-helper-web`, verify health
+and save PM2. Keep the current archive/world/environment/database intact.
+
 For full pre-feature Helper rollback, restore
 `shared/env/web.env.pre-leveling-workspace-20261004-r2` to `shared/env/web.env` with mode 0600,
 repoint `shared/world-snapshots/current` to
@@ -64,12 +70,23 @@ For community rollback, restore its three original source files from
 existing named PM2 declaration with `FOREVER_BUILD_DIR`. Verify `/api/health` and `/addons`; save
 PM2. Do not restart workers or roll back the shared database.
 
-## Feedback boundary and next request
+## Feedback boundary and explicit reader actions
 
 This is browser-guide feedback, not proof of a seamless/playtested live 1–60 route. Source
 conditions, missing continuations and warnings above beta cap 30 remain visible. Progress is
 browser-local. The original 31-step Westfall edition remains available with `?edition=kfc`.
 No new feedback form or Discord announcement was sent.
 
-The owner subsequently requested explicit **Next step** (move without completion) and **Done**
-(complete current, move forward), replacing Follow/Resume. That follow-up is pending implementation.
+The requested **Next step** (move without completion) and **Done** (complete current, move forward)
+replace Follow/Resume in both editions. Checkbox-only completion remains independent of navigation.
+Buttons stay visible in all mobile focus modes; a hidden pane scrolls to the new step when reopened.
+Final-step completion does not wrap to earlier unfinished steps, and Done respects the existing saved
+character/resolved-instruction guards. Progress storage is unchanged; legacy history stays readable.
+
+r4 passed full clean-index `pnpm check`/formatting, Linux web/dependency checks/build/formatting,
+138 web tests and all 23 staged Chrome regressions. Before activation, the full-image check caught
+a nested-public-directory packaging omission; static/public contents were copied to the correct roots
+and the candidate restarted. All 23 public HTTPS Chrome regressions and six representative
+Leveling/Trader/TBC/maps/status/sitemap checks passed. Only Helper web was reloaded, retaining PID
+`1542399`, planned restart count 70 throughout the live tests, post-check RSS 231 MiB. Community,
+ingestion, guild and database state were unchanged. Temporary listeners/tunnels were closed afterward.

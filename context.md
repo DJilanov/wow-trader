@@ -18,8 +18,9 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-leveling-workspace-20261004-r3` is active; `kfc-helper-leveling-preview-20261004-r1`
-  is the immediate web rollback. Ingestion remains independently pinned to
+  `kfc-helper-leveling-workspace-20261004-r4` is active; `kfc-helper-leveling-workspace-20261004-r3`
+  is the immediate web rollback. The full pre-feature rollback remains
+  `kfc-helper-leveling-preview-20261004-r1`. Ingestion remains independently pinned to
   `kfc-helper-ingest-auction-20261001-r1`.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
 - Boundary tools: .NET 10 for CASC/DB2 extraction and Lua for the in-game collector.
@@ -51,6 +52,30 @@ its server-side source or probability.
 
 ## Implemented
 
+### Explicit chapter Next step / Done (2026-10-04; deployed)
+
+- Owner requested manual advancement, replacing Follow and Resume. Both imported and original readers
+  now expose **Next step** (advance without changing progress) and **Done** (complete the selected step,
+  then advance). Buttons stay visible in Split, Map and Quest list focus. Advancing scrolls only the
+  quest pane; map-only mode queues the scroll until the pane becomes visible again.
+- A checkbox-only completion does not advance unless Hide completed removes the selected card. Next
+  advances strictly after the current applicable instruction, including when earlier steps remain
+  pending. The final step never wraps; Next is disabled there, while Done can still complete it.
+  Already completed/unresolved cards and unsaved/mismatched characters cannot use Done. Saved progress
+  and character/chapter/version/build-scoped anchors survive refresh; old Follow history stays readable.
+- Implementation/plans committed and pushed as `640091a`; sibling browser tests as `4f05376`.
+  Passed 138 web unit tests, eight navigation tests included, lint/typecheck and the full clean-index
+  `pnpm check`/formatting. Linux candidate passed dependency/web checks, build, formatting and all
+  23 staged browser tests, including exact Elwynn step 51, final-step no-wrap, both editions,
+  mobile map-focus advancement, unsaved guards, independent checkboxes, storage errors and WCAG.
+- Activated `kfc-helper-leveling-workspace-20261004-r4`, overlaying only the eight changed reader
+  source/test files onto the verified r3 baseline. Static/public contents were copied into the actual
+  standalone root before startup; the staged icon-packaging omission was caught and corrected before
+  activation. Archive, world evidence, protected environment and all worker/database state are unchanged.
+  All 23 public HTTPS browser regressions and Leveling/Forever Trader/TBC Trader/maps/status/sitemap
+  health checks passed. Helper retained PID `1542399`, planned restart count 70, post-check RSS 231 MiB;
+  ingestion retained PID `1169337`, zero restarts, and guild/community PIDs were unchanged.
+
 ### Leveling publication and feedback release (2026-10-04)
 
 - Committed and pushed Helper implementation `1811348`, bounded-validation fix `b89e0a3`, community
@@ -77,8 +102,7 @@ its server-side source or probability.
 - Community build `.next-release-leveling-20261004-r4` is live, with only the navigation/destination
   and 1280px responsive rule changed over its existing source baseline. Linux build and staged/live
   navigation checks at 360/768/1100/1281/1440px passed, plus local typecheck/lint and 312 tests.
-- Latest requested follow-up: replace Follow/Resume with explicit Next step (no completion) and
-  Done (complete current, advance), in both reader editions. Implementation and deployment pending.
+- The subsequent Next step / Done follow-up is deployed as r4, recorded in the entry above.
 - No database migration, addon/payment change, ingestion restart or guild-process restart.
   Rollback files, release provenance and verification are in
   `docs/forever-leveling-release-2026-10-04.md`.
@@ -97,14 +121,14 @@ its server-side source or probability.
   and expanded evidence. Persistence errors stay visible; save-character and unresolved instructions
   remain reachable. Phones use a pinned top map with Split/Map/Quest list focus; switching modes
   preserves list scroll. Short wide windows retain side-by-side panes; reader-only overflow containment
-  prevents outer-page scroll. Original `#planner` and source dependency/Resume anchors scroll the pane.
+  prevents outer-page scroll. Original `#planner` and source dependency anchors scroll the pane.
   Primary navigation now folds at 1050px and compact desktop link styles win the CSS cascade, so
   navigation/branding no longer clips at tablet widths. Accessible selection names include quest text.
 - Fixed owner's reported Elwynn `#guide-source-step-0051` Follow bug: the initial implementation
-  discarded the selected position and resumed at the first unchecked step. Follow now advances only
-  from the current cursor, Resume uses it too, and neither completes earlier steps or wraps back at
-  the end. Undoing earlier progress does not rewind following. Current-step hash plus validated,
-  character/chapter/version/build-scoped browser-history mode restores following across refresh.
+  discarded the selected position and resumed at the first unchecked step. r3 repaired Follow/Resume
+  using the current cursor, never completing earlier steps or wrapping back at the end. r4 replaces
+  those controls with the explicit Next/Done actions recorded above. Current-step hash plus validated,
+  character/chapter/version/build-scoped browser history restores the reading position across refresh.
   This changes no progress schema and adds no persistent account synchronization.
 - Added navigation unit tests and sibling `tests/e2e/leveling-workspace.spec.ts`; adjusted existing
   archive regressions for Settings. Passed 136 web tests, Helper lint/strict typecheck/production build,
