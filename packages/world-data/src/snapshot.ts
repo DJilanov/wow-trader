@@ -123,12 +123,15 @@ export async function loadWorldSnapshot(manifestPath: string): Promise<WorldBund
       `Map media count mismatch: expected ${manifest.mapMediaManifest.recordCount}, received ${mapMedia.tiles.length}`,
     );
   }
-  await Promise.all(
-    mapMedia.tiles.map(async (tile) => {
-      const tilePath = resolveArtifactPath(snapshotDirectory, tile.path);
-      await assertChecksum(tilePath, tile.sha256, `map tile ${tile.fileDataId}`);
-    }),
-  );
+  // Bound open streams and their buffers when a snapshot contains thousands of map images.
+  for (let offset = 0; offset < mapMedia.tiles.length; offset += 16) {
+    await Promise.all(
+      mapMedia.tiles.slice(offset, offset + 16).map(async (tile) => {
+        const tilePath = resolveArtifactPath(snapshotDirectory, tile.path);
+        await assertChecksum(tilePath, tile.sha256, `map tile ${tile.fileDataId}`);
+      }),
+    );
+  }
 
   return {
     manifest,
