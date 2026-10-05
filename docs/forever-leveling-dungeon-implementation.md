@@ -1,7 +1,9 @@
 # Dungeon companion implementation
 
-Implemented locally on 2026-10-05. No production deployment or database migration is part of this
-change. The reader-quality r5 release remains the last deployed leveling release.
+Implemented on 2026-10-05 and deployed after separate user approval in web-only r6 from `e2beab6`.
+No database migration or addon change was included. The Thanes flow below and the later full-path
+[dungeon expansion](forever-leveling-dungeon-expansion.md) are live; see the
+[verification/rollback receipt](forever-leveling-release-2026-10-05.md).
 
 ## Player flow
 
@@ -11,7 +13,9 @@ earlier 11–15 preparation. The chapter card shows estimated quest XP, XP neede
 the remaining gap. **Review preparation** opens the outdoor reader's expandable alternative with
 the source-derived quest carryovers before **Use dungeon route**. Active cards resume the saved
 dungeon stage. Other dungeon
-pairs remain reference/preparation plans until their lifecycle and continuation adapters are reviewed.
+pairs retain their full outdoor route unless their lifecycle and continuation adapters are reviewed.
+The later expansion adds scoped itineraries for all 32 variants and audited Human Warrior / 1×
+Redridge 19→20 continuations for Deadmines and Alliance Ruins; other variants still require review.
 
 **Use dungeon route** switches the existing chapter URL into a seven-stage reader: preparation,
 travel, objectives, conditional Treaty pickup, rewards, retained Darkshore preparation and the return

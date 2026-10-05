@@ -1,7 +1,8 @@
 # Full-path dungeon options and source-safe trips
 
-Implemented locally on 2026-10-05, build 70205. No deployment, database migration, addon change or
-automatic publication is included. This records the implemented portion of
+Implemented on 2026-10-05, build 70205; deployed as web-only r6 from `e2beab6` after separate user
+approval. No database migration, addon change or automatic data publication was included.
+[Verification and rollback](forever-leveling-release-2026-10-05.md). This records the implemented portion of
 [the expansion plan](forever-leveling-dungeon-replacement-plan.md); it does not declare every planned
 zone-replacement adapter complete.
 

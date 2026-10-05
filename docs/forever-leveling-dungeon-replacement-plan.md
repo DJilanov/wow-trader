@@ -1,19 +1,21 @@
 # Full-catalog dungeon alternatives for the chapter path
 
-Analysis and implementation plan, 2026-10-05. Planning only: this document does not enable any new
-dungeon replacement. Hall of Thanes / Darkshore 15–16 remains the only implemented replacement.
+Analysis and implementation plan, 2026-10-05. The inventory below records the pre-expansion baseline;
+implementation follow-ups do not declare every proposed dungeon replacement complete.
 This supersedes a Thanes-only rollout, not the existing source, progress or safety contracts.
 
 Implementation follow-up: the source importer, complete chapter options, strict At-level scheduling,
-v2 persistence and generic source-preserving trip reader are now implemented locally. The audited
+v2 persistence and generic source-preserving trip reader are now deployed in web-only r6. The audited
 baseline below is the **pre-expansion** inventory, not today's artifact counts. See
 [the implementation and remaining adapter work](forever-leveling-dungeon-expansion.md).
-Only Thanes is still an authored zone/XP-segment replacement; generic trips do not auto-skip zones.
+Generic trips do not auto-skip zones. Thanes and the audited Human Warrior / 1× Deadmines/Alliance
+Ruins 19→20 adapters have authored continuations; other variants still require their own review.
 
 Product follow-up: the user rejected equal-weight dungeon discovery cards in favor of real
 Thanes-style alternative itineraries. The [route-choice plan](forever-leveling-dungeon-route-choice-plan.md)
 supersedes the primary-card UX below, audits current DM/Ruins/WC bundles and prioritizes an authored
-Deadmines replacement using the existing imported route. No new replacement is implemented by that plan.
+Deadmines replacement using the existing imported route. Its implemented subset and remaining adapter
+boundaries are recorded there; [release verification/rollback](forever-leveling-release-2026-10-05.md).
 
 ## Outcome
 

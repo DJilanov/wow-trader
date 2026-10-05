@@ -18,7 +18,7 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-leveling-quality-20261004-r5` is active; `kfc-helper-leveling-workspace-20261004-r4`
+  `kfc-helper-leveling-dungeons-20261005-r6` is active; `kfc-helper-leveling-quality-20261004-r5`
   is the immediate web rollback. The full pre-feature rollback remains
   `kfc-helper-leveling-preview-20261004-r1`. Ingestion remains independently pinned to
   `kfc-helper-ingest-auction-20261001-r1`.
@@ -52,19 +52,38 @@ its server-side source or probability.
 
 ## Implemented
 
-### Dungeon release preparation (2026-10-05)
+### Verified dungeon production release (2026-10-05; deployed r6)
 
 - User approved the dungeon experience and requested commit, push and deployment. Only the leveling
   implementation, regression checks and its documentation are in scope; unrelated local catalog,
   market, ingestion and SEO edits remain untouched.
-- Read-only production audit confirmed the r5 web baseline, independently pinned ingestion, guild
-  process 30 and about 8 GiB free disk. Prepare an immutable web-only candidate over that live
-  baseline, then validate before switching `current`. No migration or data publication is needed.
-- Keep the authorized 157-chapter archive, reviewed world maps, production environment and current
-  market/catalog baseline unchanged. Record activation, public checks and rollback in the release
-  receipt after successful deployment; preparation alone is not deployment.
+- Code `e2beab6` is committed and pushed to `origin/main`. The immutable r6 candidate was copied
+  from the active r5 baseline and overlaid with exactly 73 checksummed committed files, preserving
+  the existing live market/catalog changes rather than deploying unrelated local edits.
+- Clean-index full `pnpm check` and formatting passed: 400 unit tests and all package builds.
+  Linux checks passed 104 leveling + 195 web tests, lint/typechecks, formatting and a production
+  build. Server archive audit verified all 157 chapters. Private Chrome passed all 27 dungeon,
+  chapter-path, reference and Thanes groups; public HTTPS Chrome passed four more groups, including
+  persisted plans, actual-XP/entry gates, 390/320 px layout and WCAG A/AA checks.
+- Atomically switched `current`, reloaded only `kfc-helper-web` and saved PM2. Ingestion, guild,
+  community and workers retained their processes. This deployment did not mutate the authorized
+  archive, world maps or database. No migration, addon or dependency change.
+- A broader public crawl exposed the existing 320 MiB heap ceiling. A private 384 MiB replay passed
+  two complete route/sitemap rounds (sampled RSS ≤360 MiB; retained heap 97 MiB after each round).
+  Backed up the protected web environment, changed only its heap ceiling to 384 and reloaded only
+  Helper web, keeping the 600 MiB PM2 guard. Separate catalog-guardian activity also refreshed the
+  compatible 70205 hotfix during verification; that was not a data publication by this deployment.
+- Final public replay passed two complete 20-route rounds plus the unknown-reward 404, retaining
+  PID `1650837` / restart count 77 at 423 MiB warmed RSS. No further restart occurred during the
+  replay; same-build reward previews, root sitemap and all four catalog shards remained available.
+- Previous local-only entries are historical implementation receipts, now covered by this release.
+  Exact release evidence and rollback: `docs/forever-leveling-release-2026-10-05.md`. Back up browser
+  progress before an r5 rollback: its older strict parser does not understand the new dungeon fields.
+- Temporary candidate, inspector and tunnels are closed. Disk is about 91% used / 6.6 GiB free; no existing
+  data or rollback releases were deleted. Travel timing and additional variant adapters remain review
+  work, not a deployment blocker or a claim of optimized/playtested routes.
 
-### Scoped dungeon alternatives and reviewed continuations (2026-10-05; local only)
+### Scoped dungeon alternatives and reviewed continuations (2026-10-05; deployed r6)
 
 - User asked to plan the other dungeons and implement the Thanes-style alternative experience.
   All 32 visit variants now have geographic/faction fit, preparation, scoped run and hand-in plans.
@@ -95,7 +114,8 @@ its server-side source or probability.
 - Full 32-row authoring matrix and implemented contract:
   `docs/forever-leveling-dungeon-route-choice-plan.md`. Maintenance behavior:
   `docs/forever-leveling-dungeon-expansion.md`. Verification receipts are in `fixes.md`.
-- No commit, push, deployment, database/addon write, dependency installation or dev-server restart.
+- Shipped in web-only r6 from `e2beab6`; no database/addon write, dependency addition or dev-server
+  restart. The production receipt above supersedes the original local-only implementation status.
 - Verified: 104 leveling + 195 web tests, lint/typechecks, leveling and isolated production builds.
   Chrome regressions cover new continuations, WC mode persistence, previous Thanes/optional trips,
   the chapter tree and reference library; desktop/390/320 px overflow and WCAG A/AA checks passed.

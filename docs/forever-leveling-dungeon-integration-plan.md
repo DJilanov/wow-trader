@@ -1,17 +1,19 @@
 # Forever leveling: dungeon preparation, quest chains and worthwhile detours
 
 Research and implementation plan, 2026-10-04; implementation status updated 2026-10-05.
-The local dungeon companion, typed graph, reference catalog, route/map overlays, durable states,
+The dungeon companion, typed graph, reference catalog, route/map overlays, durable states,
 item previews and conservative comparisons are now implemented. The approved chapter-first revision
 also implements the Crest-calibrated Hall of Thanes / Darkshore 15–16 alternative, independent branch
-progress and a source-derived quest-chain return checkpoint. Other dungeon/chapter replacements
-still require reviewed lifecycle and continuation adapters. The updated
+progress and a source-derived quest-chain return checkpoint. The later iteration adds scoped plans
+for all 32 variants and audited Human Warrior / 1× Deadmines/Alliance Ruins 19→20 continuations.
+Other dungeon/chapter replacements still require reviewed lifecycle and continuation adapters. The updated
 [full-catalog replacement plan](forever-leveling-dungeon-replacement-plan.md) audits all 32 visit
 entries, identifies the UBRS importer gap, and specifies the generic engine, segment adapters,
 XP/time rules, save migration and staged rollout. See
 [implementation and remaining validation](forever-leveling-dungeon-implementation.md) and
-[coverage audit](forever-leveling-dungeon-coverage.json). No deployment is part of this implementation
-turn. The reader-quality release is deployed separately as r5. This extends the existing
+[coverage audit](forever-leveling-dungeon-coverage.json). The complete implemented subset was deployed
+after separate approval in web-only r6 from `e2beab6`; see
+[verification and rollback](forever-leveling-release-2026-10-05.md). This extends the existing
 leveling product and experience plans; it does not replace the authorized source route.
 
 ## Decision

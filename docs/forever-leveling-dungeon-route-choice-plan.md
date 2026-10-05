@@ -1,7 +1,10 @@
 # Dungeon alternatives as real leveling plans
 
-Analysis and implementation plan, 2026-10-05. No application, dungeon data, saved schema or production
-change has been made for this follow-up. This supersedes the recent discovery-card presentation as
+Analysis and implementation plan, 2026-10-05; implemented subset deployed as web-only r6 from
+`e2beab6`. The earlier baseline and authoring analysis below are retained for maintenance; the
+implemented adapters and remaining review work are recorded at the end. See
+[release verification/rollback](forever-leveling-release-2026-10-05.md).
+This supersedes the recent discovery-card presentation as
 the primary leveling UX, not the existing correctness rules or previous verification receipts.
 
 ## Product decision
@@ -15,7 +18,7 @@ An alternative can be valuable for playing with friends, gear or experiencing ne
 being faster. Explain that tradeoff instead of giving every dungeon equal prominence or labeling
 the largest raw quest-XP total the best route.
 
-## What the current code actually does
+## Baseline before this iteration
 
 - `LevelingDungeonAlternative` / `THANES_REPLACEMENT` have a target checkpoint, retained Darkshore
   preparations and an authored continuation. The replacement reader can leave XP-only work behind.

@@ -6,14 +6,39 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
-## Dungeon release preparation (2026-10-05)
+## Verified dungeon release and deployment checks (2026-10-05; deployed r6)
 
-- Deployment is explicitly authorized. Scope is the completed leveling/dungeon implementation;
-  unrelated dirty catalog, market, ingestion and SEO files are excluded from its commit and overlay.
-- Verified the active web baseline is `kfc-helper-leveling-quality-20261004-r5`, not the older r4
-  context entry. Ingestion is independently pinned and must not restart for this web-only release.
-- Local-only entries below describe their original implementation turns. A separate deployment
-  receipt will supersede their local-only status only after activation and public verification.
+- Committed/pushed `e2beab6`; activated `kfc-helper-leveling-dungeons-20261005-r6` over the verified
+  r5 baseline. Exactly 73 committed source checksums matched on the server. Unrelated dirty catalog,
+  market, ingestion and SEO files remain excluded from the commit and source overlay.
+- Clean-export full lint caught undeclared browser globals in the new chapter-path audit. Importing
+  Node's URL and using `globalThis` inside browser callbacks fixed it without lint suppressions.
+  Full `pnpm check` then passed all package lint/typechecks, 400 tests and builds; formatting and
+  five reference-importer tests passed. The corrected chapter-path Chrome audit also passed.
+- Linux checks passed 104 leveling + 195 web tests, lint/typechecks, production build and formatting.
+  Archive audit verified 157 authorized chapters / 271 quest records. Private Chrome passed all
+  27 regression groups; public HTTPS passed four browser groups with ephemeral local progress,
+  no server writes, no JavaScript errors, mobile overflow or automated WCAG A/AA violations.
+- Smoke URLs must come from chapter constants and `robots.txt`: a guessed chapter ID is correctly
+  404, and the root sitemap is a URL set, not an index of the four catalog shards. Corrected checks
+  verify the actual Thanes chapter, both Traders, world/catalog/data routes, all four shards and a
+  real build-70205 reward preview; unknown rewards remain 404.
+- The wider initial public crawl exposed a real 320 MiB heap-limit SIGABRT, not a browser failure.
+  Private 384 MiB replay passed two complete route/sitemap rounds: sampled RSS ≤360 MiB and retained
+  heap 97 MiB after each round's GC. Increased only the web heap limit to 384 with a mode-0600 backup
+  at `shared/env/web.env.pre-dungeon-heap-20261005-r6`, preserving credentials and the 600 MiB PM2 guard.
+  The production example now matches. Separate catalog-guardian activity also caused an expected
+  reload while publishing a compatible same-build hotfix; do not confuse it with the heap crash.
+- After applying the budget, two complete public 20-route rounds plus the unknown-reward 404 passed
+  without another restart (PID `1650837`, count 77, 423 MiB warmed RSS). Both Traders retained their
+  catalogs and the root/four catalog sitemaps and same-build reward preview remained healthy.
+- Only Helper web was reloaded and PM2 saved. Ingestion and guild/community/workers retained their
+  processes. This deployment did not write database/archive/world evidence or change credentials.
+  Candidate/inspector listeners and tunnels are closed. No rollback data or existing releases were
+  deleted; disk has about 6.6 GiB free (91% used).
+- Local-only entries below describe their original implementation turns; this receipt supersedes
+  that deployment status. Release/rollback detail: `docs/forever-leveling-release-2026-10-05.md`.
+  Export browser progress before r5 rollback; the older strict schema cannot read dungeon fields.
 
 ## Full chapter path, quest metrics and dungeon expansion plan (2026-10-05; local only)
 
