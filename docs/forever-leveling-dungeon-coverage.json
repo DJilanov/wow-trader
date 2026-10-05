@@ -1,0 +1,1948 @@
+{
+  "release": "dungeons-v2-build-70205-at-level",
+  "targetBuild": 70205,
+  "chapters": 157,
+  "supplementalAssociations": 94,
+  "guideAssociations": 228,
+  "distinctQuestRecords": 271,
+  "unresolvedCurrentXp": 271,
+  "coverage": [
+    {
+      "visitId": "ragefire",
+      "questId": 5723,
+      "accept": 6,
+      "objective": 16,
+      "turnin": 10,
+      "status": "source-present"
+    },
+    {
+      "visitId": "ragefire",
+      "questId": 5722,
+      "accept": 6,
+      "objective": 0,
+      "turnin": 4,
+      "status": "source-present"
+    },
+    {
+      "visitId": "ragefire",
+      "questId": 5724,
+      "accept": 8,
+      "objective": 0,
+      "turnin": 10,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "ragefire",
+      "questId": 5728,
+      "accept": 4,
+      "objective": 8,
+      "turnin": 4,
+      "status": "source-present"
+    },
+    {
+      "visitId": "ragefire",
+      "questId": 5761,
+      "accept": 4,
+      "objective": 4,
+      "turnin": 4,
+      "status": "source-present"
+    },
+    {
+      "visitId": "ragefire",
+      "questId": 5725,
+      "accept": 0,
+      "objective": 16,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "thanes",
+      "questId": 96395,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "thanes",
+      "questId": 96403,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "thanes",
+      "questId": 96394,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "thanes",
+      "questId": 96393,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "thanes",
+      "questId": 98423,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 1486,
+      "accept": 5,
+      "objective": 22,
+      "turnin": 10,
+      "status": "source-present"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 1491,
+      "accept": 3,
+      "objective": 10,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 959,
+      "accept": 5,
+      "objective": 5,
+      "turnin": 5,
+      "status": "source-present"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 1487,
+      "accept": 5,
+      "objective": 48,
+      "turnin": 10,
+      "status": "source-present"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 6981,
+      "accept": 5,
+      "objective": 5,
+      "turnin": 5,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 914,
+      "accept": 2,
+      "objective": 8,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "wailing-caverns",
+      "questId": 962,
+      "accept": 4,
+      "objective": 32,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 214,
+      "accept": 2,
+      "objective": 7,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 168,
+      "accept": 3,
+      "objective": 4,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 92753,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 167,
+      "accept": 3,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 2040,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 166,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 373,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 2,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 1806,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "deadmines",
+      "questId": 1654,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 95250,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 97288,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 92401,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 95195,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 95189,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 95204,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 92421,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 92415,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 95216,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "lordaeron",
+      "questId": 92422,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "shadowfang",
+      "questId": 1098,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 4,
+      "status": "source-present"
+    },
+    {
+      "visitId": "shadowfang",
+      "questId": 1740,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "shadowfang",
+      "questId": 1013,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "shadowfang",
+      "questId": 1014,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "shadowfang",
+      "questId": 1806,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "shadowfang",
+      "questId": 1654,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 971,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1275,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1198,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1199,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1200,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6564,
+      "accept": 3,
+      "objective": 0,
+      "turnin": 3,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6562,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6563,
+      "accept": 5,
+      "objective": 6,
+      "turnin": 3,
+      "status": "source-present"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6565,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6561,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6921,
+      "accept": 5,
+      "objective": 6,
+      "turnin": 3,
+      "status": "source-present"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1806,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 6922,
+      "accept": 3,
+      "objective": 0,
+      "turnin": 3,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1740,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "blackfathom",
+      "questId": 1654,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "stockade",
+      "questId": 386,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "stockade",
+      "questId": 377,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "stockade",
+      "questId": 387,
+      "accept": 3,
+      "objective": 3,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "stockade",
+      "questId": 388,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "stockade",
+      "questId": 378,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "stockade",
+      "questId": 391,
+      "accept": 2,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95682,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95697,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 98815,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95772,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95646,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95809,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 98824,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 98823,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "later-stage"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95795,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95647,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95810,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "excavation",
+      "questId": 95664,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2922,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2926,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2962,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2928,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2924,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2930,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2929,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2843,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2841,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2904,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2951,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2945,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 1,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "gnomeregan",
+      "questId": 2842,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 1221,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "overlay-needed"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 1144,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 1142,
+      "accept": 1,
+      "objective": 3,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 1101,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 1102,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 1109,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "razorfen-kraul",
+      "questId": 6522,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 2,
+      "status": "source-present"
+    },
+    {
+      "visitId": "sm-graveyard",
+      "questId": 1051,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "inside-start"
+    },
+    {
+      "visitId": "sm-graveyard",
+      "questId": 1113,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "source-present"
+    },
+    {
+      "visitId": "sm-library",
+      "questId": 1049,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "sm-library",
+      "questId": 1160,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "sm-library",
+      "questId": 1050,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 3,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "sm-library",
+      "questId": 1951,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "sm-all-wings",
+      "questId": 1048,
+      "accept": 1,
+      "objective": 4,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sm-all-wings",
+      "questId": 1053,
+      "accept": 1,
+      "objective": 4,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "razorfen-downs",
+      "questId": 3341,
+      "accept": 2,
+      "objective": 1,
+      "turnin": 3,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "razorfen-downs",
+      "questId": 6521,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 2,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "razorfen-downs",
+      "questId": 3636,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "razorfen-downs",
+      "questId": 6626,
+      "accept": 3,
+      "objective": 12,
+      "turnin": 3,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "razorfen-downs",
+      "questId": 3523,
+      "accept": 3,
+      "objective": 0,
+      "turnin": 3,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "razorfen-downs",
+      "questId": 3525,
+      "accept": 3,
+      "objective": 3,
+      "turnin": 3,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2342,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2202,
+      "accept": 1,
+      "objective": 6,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2283,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 1360,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2398,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2240,
+      "accept": 2,
+      "objective": 1,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 17,
+      "accept": 1,
+      "objective": 4,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 704,
+      "accept": 1,
+      "objective": 3,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 1139,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2198,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 1,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2418,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 709,
+      "accept": 3,
+      "objective": 2,
+      "turnin": 2,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 2278,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "uldaman",
+      "questId": 1956,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "lifecycle-review"
+    },
+    {
+      "visitId": "dalaran",
+      "questId": 92456,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dalaran",
+      "questId": 92489,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dalaran",
+      "questId": 96987,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dalaran",
+      "questId": 96988,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dalaran",
+      "questId": 96986,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 2936,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 2991,
+      "accept": 0,
+      "objective": 4,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 2768,
+      "accept": 3,
+      "objective": 5,
+      "turnin": 3,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 2865,
+      "accept": 5,
+      "objective": 8,
+      "turnin": 7,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 3042,
+      "accept": 7,
+      "objective": 10,
+      "turnin": 7,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 2846,
+      "accept": 1,
+      "objective": 6,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 2770,
+      "accept": 3,
+      "objective": 3,
+      "turnin": 3,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "zul-farrak",
+      "questId": 3527,
+      "accept": 1,
+      "objective": 9,
+      "turnin": 3,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7068,
+      "accept": 0,
+      "objective": 2,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7029,
+      "accept": 1,
+      "objective": 3,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7064,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7070,
+      "accept": 0,
+      "objective": 2,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7041,
+      "accept": 1,
+      "objective": 3,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7065,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7028,
+      "accept": 2,
+      "objective": 6,
+      "turnin": 3,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7044,
+      "accept": 2,
+      "objective": 4,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7066,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 3,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7067,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 3,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "maraudon",
+      "questId": 7046,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 1445,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 4146,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 4143,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 1475,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 1446,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 3373,
+      "accept": 2,
+      "objective": 0,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 3446,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 4,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 3447,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "sunken-temple",
+      "questId": 3528,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4081,
+      "accept": 1,
+      "objective": 3,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4134,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4082,
+      "accept": 1,
+      "objective": 6,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4063,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 3906,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 3907,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 3981,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 7201,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4132,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4003,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4262,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4263,
+      "accept": 2,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4286,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4126,
+      "accept": 1,
+      "objective": 2,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4341,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4362,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4241,
+      "accept": 1,
+      "objective": 0,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4322,
+      "accept": 1,
+      "objective": 1,
+      "turnin": 1,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4136,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4123,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 7848,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 3802,
+      "accept": 4,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4201,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "brd-emperor",
+      "questId": 4024,
+      "accept": 2,
+      "objective": 2,
+      "turnin": 2,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-east",
+      "questId": 7489,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-east",
+      "questId": 7488,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-east",
+      "questId": 7441,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-east",
+      "questId": 5526,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-east",
+      "questId": 7463,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-west",
+      "questId": 7461,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-west",
+      "questId": 7507,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-north",
+      "questId": 7481,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-north",
+      "questId": 7482,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-north",
+      "questId": 5525,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-north",
+      "questId": 5518,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-north",
+      "questId": 5528,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "dire-maul-north",
+      "questId": 7703,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4724,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4981,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4903,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4701,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 5089,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 5001,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4862,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4729,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4866,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4742,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4867,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "lower-blackrock",
+      "questId": 4788,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 4768,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 4974,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 6602,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 4764,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 5102,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 6502,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 7761,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 5160,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 5047,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 4735,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 6821,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "upper-blackrock",
+      "questId": 5127,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5341,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 7668,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5343,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5529,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5582,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5382,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5515,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5384,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 4771,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "scholomance",
+      "questId": 5466,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-live",
+      "questId": 5214,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-live",
+      "questId": 5251,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-live",
+      "questId": 5282,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-live",
+      "questId": 5122,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-live",
+      "questId": 5262,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-live",
+      "questId": 5848,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 6163,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 5243,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 5212,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 5213,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 5125,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 5263,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 5463,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    },
+    {
+      "visitId": "stratholme-undead",
+      "questId": 8945,
+      "accept": 0,
+      "objective": 0,
+      "turnin": 0,
+      "status": "unavailable"
+    }
+  ],
+  "note": "Counts include all conditional variants, not a runnable per-character itinerary. Unknown facts require review."
+}

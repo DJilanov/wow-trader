@@ -151,6 +151,7 @@ describe("incremental dungeon comparisons", () => {
   it("uses the extracted curve at every intervening level", () => {
     expect(xpToCheckpoint(13, 400, 15, FOREVER_XP_CURVE)).toBe(23_900);
     expect(xpToCheckpoint(13, 0, 14, { 14: 12900 })).toBeNull();
+    expect(xpToCheckpoint(59, 0, 60, FOREVER_XP_CURVE)).toBe(209_800);
   });
   it("never turns a blank numeric input into zero", () => {
     expect(parseNumericInput(" ")).toBeNull();

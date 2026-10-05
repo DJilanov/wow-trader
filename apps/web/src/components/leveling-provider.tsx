@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { CharacterProfile } from "@wow-trader/leveling";
+import type { CharacterProfile, PersonalDungeonPlan } from "@wow-trader/leveling";
 import {
   LEVELING_STORAGE_KEY,
   emptyLevelingWorkspace,
@@ -11,6 +11,7 @@ import {
   updateCharacterSession,
   updateStepProgress,
   rememberReadingPosition,
+  updatePersonalDungeonPlan,
   type LevelingSession,
   type LevelingWorkspace,
   type StepProgress,
@@ -24,10 +25,15 @@ interface LevelingContextValue {
   readonly session: LevelingSession | null;
   readonly loaded: boolean;
   readonly notice: string | null;
+  readonly storageStatus: "loading" | "unsaved" | "saving" | "saved" | "memory";
   readonly saveCharacter: (profile: CharacterProfile, sessionId?: string) => boolean;
   readonly selectCharacter: (id: string) => void;
   readonly rememberPosition: (sessionId: string, position: ReadingPosition) => void;
   readonly importBackup: (incoming: LevelingWorkspace) => void;
+  readonly setDungeonPlan: (
+    sessionId: string,
+    update: (plan: PersonalDungeonPlan) => PersonalDungeonPlan,
+  ) => void;
   readonly setProgress: (
     chapterId: string,
     stepId: string,
@@ -45,6 +51,9 @@ export function LevelingProvider({
   const [workspace, setWorkspace] = useState<LevelingWorkspace>(emptyLevelingWorkspace);
   const [loaded, setLoaded] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [storageNotice, setStorageNotice] = useState<string | null>(null);
+  const [persisted, setPersisted] = useState<LevelingWorkspace | null>(null);
+  const [storageFailed, setStorageFailed] = useState(false);
   useEffect(() => {
     let saved = emptyLevelingWorkspace();
     try {
@@ -56,7 +65,8 @@ export function LevelingProvider({
         );
       saved = parsed ?? saved;
     } catch {
-      setNotice(
+      setStorageFailed(true);
+      setStorageNotice(
         "Browser storage is unavailable. You can use the guide, but progress will last only for this visit.",
       );
     }
@@ -94,7 +104,8 @@ export function LevelingProvider({
         url.searchParams.delete("setup");
         window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
       } catch {
-        setNotice(
+        setStorageFailed(true);
+        setStorageNotice(
           "Browser storage is unavailable. Keep this setup link to restore your character; progress lasts only for this visit.",
         );
       }
@@ -106,8 +117,12 @@ export function LevelingProvider({
     if (!loaded || workspace.sessions.length === 0) return;
     try {
       localStorage.setItem(LEVELING_STORAGE_KEY, serializeLevelingWorkspace(workspace));
+      setPersisted(workspace);
+      setStorageFailed(false);
+      setStorageNotice(null);
     } catch (error: unknown) {
-      setNotice(
+      setStorageFailed(true);
+      setStorageNotice(
         error instanceof Error && error.message.startsWith("Local progress")
           ? error.message
           : "Browser storage is unavailable. You can use the guide, but progress will last only for this visit.",
@@ -142,6 +157,9 @@ export function LevelingProvider({
     const merged = mergeLevelingBackup(workspace, incoming);
     // Persist before acknowledging an import; denied storage must leave the current state untouched.
     localStorage.setItem(LEVELING_STORAGE_KEY, serializeLevelingWorkspace(merged));
+    setPersisted(merged);
+    setStorageFailed(false);
+    setStorageNotice(null);
     setWorkspace(merged);
     setNotice(
       "Backup imported. Existing character settings and already-saved chapter progress were kept.",
@@ -166,18 +184,38 @@ export function LevelingProvider({
       );
   }
   const session = workspace.sessions.find((entry) => entry.id === workspace.activeId) ?? null;
+  function setDungeonPlan(
+    sessionId: string,
+    update: (plan: PersonalDungeonPlan) => PersonalDungeonPlan,
+  ): void {
+    setWorkspace((current) =>
+      current.activeId === sessionId
+        ? updatePersonalDungeonPlan(current, sessionId, update)
+        : current,
+    );
+  }
   return (
     <LevelingContext.Provider
       value={{
         workspace,
         session,
         loaded,
-        notice,
+        notice: storageNotice ?? notice,
+        storageStatus: !loaded
+          ? "loading"
+          : workspace.sessions.length === 0
+            ? "unsaved"
+            : persisted === workspace
+              ? "saved"
+              : storageFailed
+                ? "memory"
+                : "saving",
         saveCharacter,
         selectCharacter,
         setProgress,
         rememberPosition,
         importBackup,
+        setDungeonPlan,
       }}
     >
       {children}

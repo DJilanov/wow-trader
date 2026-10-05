@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LEVELING_RACES, getLevelingRace } from "@wow-trader/leveling";
+import { CHAPTER_REFERENCES, LEVELING_RACES, getLevelingRace } from "@wow-trader/leveling";
 import { LevelingDashboard } from "../../../../../components/leveling-dashboard";
 import { JsonLd } from "../../../../../components/json-ld";
 import { levelingRouteId, profileForRouteId } from "../../../../../lib/leveling-experience";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../../../lib/seo";
-import { getLevelingArchiveManifest } from "../../../../../lib/leveling-archive";
+import {
+  getLevelingArchiveManifest,
+  getLevelingChapterActivities,
+} from "../../../../../lib/leveling-archive";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +36,8 @@ export default async function LevelingRoutePage({
   const { routeId } = await params;
   const profile = profileForRouteId(routeId);
   if (!profile) notFound();
+  const manifest = await getLevelingArchiveManifest();
+  const activities = await getLevelingChapterActivities();
   return (
     <>
       <JsonLd
@@ -44,7 +49,13 @@ export default async function LevelingRoutePage({
       />
       <LevelingDashboard
         defaultProfile={profile}
-        archiveChapters={(await getLevelingArchiveManifest())?.chapters ?? []}
+        archiveChapters={manifest?.chapters ?? []}
+        archiveBuild={manifest?.targetBuild ?? null}
+        activities={activities.filter((activity) =>
+          CHAPTER_REFERENCES.some(
+            (entry) => entry.id === activity.chapterId && entry.factions.includes(profile.faction),
+          ),
+        )}
       />
     </>
   );

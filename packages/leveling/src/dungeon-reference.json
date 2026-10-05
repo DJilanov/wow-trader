@@ -1,0 +1,3166 @@
+{
+  "schemaVersion": 1,
+  "source": "https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location",
+  "reviewedAt": "2026-10-05",
+  "associations": [
+    {
+      "dungeon": "Ragefire Chasm",
+      "wing": null,
+      "questId": 5761
+    },
+    {
+      "dungeon": "Ragefire Chasm",
+      "wing": null,
+      "questId": 5725
+    },
+    {
+      "dungeon": "Ragefire Chasm",
+      "wing": null,
+      "questId": 5723
+    },
+    {
+      "dungeon": "Ragefire Chasm",
+      "wing": null,
+      "questId": 5722
+    },
+    {
+      "dungeon": "Ragefire Chasm",
+      "wing": null,
+      "questId": 5728
+    },
+    {
+      "dungeon": "The Hall of Thanes",
+      "wing": null,
+      "questId": 96403
+    },
+    {
+      "dungeon": "The Hall of Thanes",
+      "wing": null,
+      "questId": 96394
+    },
+    {
+      "dungeon": "The Hall of Thanes",
+      "wing": null,
+      "questId": 96393
+    },
+    {
+      "dungeon": "The Hall of Thanes",
+      "wing": null,
+      "questId": 98423
+    },
+    {
+      "dungeon": "The Hall of Thanes",
+      "wing": null,
+      "questId": 96395
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 962
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 1491
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 959
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 1486
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 1487
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 6981
+    },
+    {
+      "dungeon": "Wailing Caverns",
+      "wing": null,
+      "questId": 914
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 168
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 167
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 2040
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 373
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 214
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 166
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 1654
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 92401
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 92422
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 95216
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 92421
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 97288
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 95250
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 95195
+    },
+    {
+      "dungeon": "Ruins of Lordaeron",
+      "wing": null,
+      "questId": 92415
+    },
+    {
+      "dungeon": "Shadowfang Keep",
+      "wing": null,
+      "questId": 1013
+    },
+    {
+      "dungeon": "Shadowfang Keep",
+      "wing": null,
+      "questId": 1098
+    },
+    {
+      "dungeon": "Shadowfang Keep",
+      "wing": null,
+      "questId": 1014
+    },
+    {
+      "dungeon": "Shadowfang Keep",
+      "wing": null,
+      "questId": 1740
+    },
+    {
+      "dungeon": "Shadowfang Keep",
+      "wing": null,
+      "questId": 1654
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Horde BFD Quests",
+      "questId": 6563
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Horde BFD Quests",
+      "questId": 6561
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Horde BFD Quests",
+      "questId": 6921
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Horde BFD Quests",
+      "questId": 6922
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Horde BFD Quests",
+      "questId": 1740
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Horde BFD Quests",
+      "questId": 6565
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 971
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 1275
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 1199
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 1198
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 1200
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 1740
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "wing": "Alliance BFD Quests",
+      "questId": 1654
+    },
+    {
+      "dungeon": "The Stockades",
+      "wing": null,
+      "questId": 387
+    },
+    {
+      "dungeon": "The Stockades",
+      "wing": null,
+      "questId": 388
+    },
+    {
+      "dungeon": "The Stockades",
+      "wing": null,
+      "questId": 377
+    },
+    {
+      "dungeon": "The Stockades",
+      "wing": null,
+      "questId": 386
+    },
+    {
+      "dungeon": "The Stockades",
+      "wing": null,
+      "questId": 378
+    },
+    {
+      "dungeon": "The Stockades",
+      "wing": null,
+      "questId": 391
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 98815
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95772
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95646
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95647
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95809
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95810
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 98824
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95697
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95664
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 98823
+    },
+    {
+      "dungeon": "Excavation Site: Wetlands",
+      "wing": null,
+      "questId": 95682
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2841
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2842
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2843
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2922
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2928
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2924
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2930
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2929
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2926
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2962
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2951
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2904
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "wing": null,
+      "questId": 2945
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 1102
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 1109
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 6522
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 1101
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 1142
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 1221
+    },
+    {
+      "dungeon": "Razorfen Kraul",
+      "wing": null,
+      "questId": 1144
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "All Wings",
+      "questId": 1048
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "All Wings",
+      "questId": 1053
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "Graveyard",
+      "questId": 1051
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "Graveyard",
+      "questId": 1113
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "Library",
+      "questId": 1049
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "Library",
+      "questId": 1160
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "Library",
+      "questId": 1050
+    },
+    {
+      "dungeon": "Scarlet Monastery",
+      "wing": "Library",
+      "questId": 1951
+    },
+    {
+      "dungeon": "Razorfen Downs",
+      "wing": null,
+      "questId": 3341
+    },
+    {
+      "dungeon": "Razorfen Downs",
+      "wing": null,
+      "questId": 6521
+    },
+    {
+      "dungeon": "Razorfen Downs",
+      "wing": null,
+      "questId": 3636
+    },
+    {
+      "dungeon": "Razorfen Downs",
+      "wing": null,
+      "questId": 6626
+    },
+    {
+      "dungeon": "Razorfen Downs",
+      "wing": null,
+      "questId": 3523
+    },
+    {
+      "dungeon": "Razorfen Downs",
+      "wing": null,
+      "questId": 3525
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2342
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2202
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2283
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 1360
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2398
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2240
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 17
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 704
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 1139
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2198
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2418
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 709
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 2278
+    },
+    {
+      "dungeon": "Uldaman",
+      "wing": null,
+      "questId": 1956
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 2936
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 2991
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 2768
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 2865
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 3042
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 2846
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 2770
+    },
+    {
+      "dungeon": "Zul'Farrak",
+      "wing": null,
+      "questId": 3527
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7068
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7029
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7064
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7070
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7041
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7065
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7028
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7044
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7066
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7067
+    },
+    {
+      "dungeon": "Maraudon",
+      "wing": null,
+      "questId": 7046
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 1445
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 4146
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 4143
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 1475
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 1446
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 3373
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 3446
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 3447
+    },
+    {
+      "dungeon": "Temple of Atal'Hakkar - Sunken Temple",
+      "wing": null,
+      "questId": 3528
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 4081
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 4134
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 4082
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 4063
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 3906
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 3907
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 3981
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 7201
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 4132
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Horde BRD Quests",
+      "questId": 4003
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4262
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4263
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4286
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4126
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4341
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4362
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4241
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Alliance BRD Quests",
+      "questId": 4322
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Neutral BRD Quests",
+      "questId": 4136
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Neutral BRD Quests",
+      "questId": 4123
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Neutral BRD Quests",
+      "questId": 7848
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Neutral BRD Quests",
+      "questId": 3802
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Neutral BRD Quests",
+      "questId": 4201
+    },
+    {
+      "dungeon": "Blackrock Depths BRD",
+      "wing": "Neutral BRD Quests",
+      "questId": 4024
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul East - Warpwood Quarter Dungeon Quests",
+      "questId": 7489
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul East - Warpwood Quarter Dungeon Quests",
+      "questId": 7488
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul East - Warpwood Quarter Dungeon Quests",
+      "questId": 7441
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul East - Warpwood Quarter Dungeon Quests",
+      "questId": 5526
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul East - Warpwood Quarter Dungeon Quests",
+      "questId": 7463
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul West Capital Gardens Dungeon Quests",
+      "questId": 7461
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul West Capital Gardens Dungeon Quests",
+      "questId": 7507
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul North - Gordoks Commons Dungeon Quests",
+      "questId": 7481
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul North - Gordoks Commons Dungeon Quests",
+      "questId": 7482
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul North - Gordoks Commons Dungeon Quests",
+      "questId": 5525
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul North - Gordoks Commons Dungeon Quests",
+      "questId": 5518
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul North - Gordoks Commons Dungeon Quests",
+      "questId": 5528
+    },
+    {
+      "dungeon": "Dire Maul",
+      "wing": "Dire Maul North - Gordoks Commons Dungeon Quests",
+      "questId": 7703
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4724
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4981
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4903
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4701
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 5089
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 5001
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4862
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4729
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4866
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4742
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4867
+    },
+    {
+      "dungeon": "Lower Blackrock Spire - LBRS",
+      "wing": null,
+      "questId": 4788
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5341
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 7668
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5343
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5529
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5582
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5382
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5515
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5384
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 4771
+    },
+    {
+      "dungeon": "Scholomance",
+      "wing": null,
+      "questId": 5466
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Live Side Quests",
+      "questId": 5214
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Live Side Quests",
+      "questId": 5251
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Live Side Quests",
+      "questId": 5282
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Live Side Quests",
+      "questId": 5122
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Live Side Quests",
+      "questId": 5262
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Live Side Quests",
+      "questId": 5848
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 6163
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 5243
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 5212
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 5213
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 5125
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 5263
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 5463
+    },
+    {
+      "dungeon": "Stratholme",
+      "wing": "Stratholme Undead Side Quests",
+      "questId": 8945
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 4768
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 4974
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 6602
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 4764
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 5102
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 6502
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 7761
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 5160
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 5047
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 4735
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 6821
+    },
+    {
+      "dungeon": "Upper Blackrock Spire - UBRS",
+      "wing": null,
+      "questId": 5127
+    }
+  ],
+  "quests": [
+    {
+      "id": 17,
+      "title": "Uldaman Reagent Run",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 38,
+      "restrictionNotes": []
+    },
+    {
+      "id": 166,
+      "title": "The Defias Brotherhood",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 167,
+      "title": "Oh Brother...",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 168,
+      "title": "Collecting Memories",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 214,
+      "title": "Red Silk Bandanas",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 373,
+      "title": "The Unsent Letter",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 377,
+      "title": "Crime and Punishment",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 22,
+      "restrictionNotes": []
+    },
+    {
+      "id": 378,
+      "title": "The Fury Runs Deep",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 386,
+      "title": "What Comes Around...",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 22,
+      "restrictionNotes": []
+    },
+    {
+      "id": 387,
+      "title": "Quell the Uprising",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 22,
+      "restrictionNotes": []
+    },
+    {
+      "id": 388,
+      "title": "The Color of Blood",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 22,
+      "restrictionNotes": []
+    },
+    {
+      "id": 391,
+      "title": "The Stockade Riots",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 704,
+      "title": "Agmond's Fate",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 33,
+      "restrictionNotes": []
+    },
+    {
+      "id": 709,
+      "title": "Solution to Doom",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 30,
+      "restrictionNotes": []
+    },
+    {
+      "id": 914,
+      "title": "Leaders of the Fang",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 959,
+      "title": "Trouble at the Docks",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 962,
+      "title": "Serpentbloom",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 971,
+      "title": "Knowledge in the Deeps",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 10,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1013,
+      "title": "The Book of Ur",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1014,
+      "title": "Arugal Must Die",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 18,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1048,
+      "title": "Into The Scarlet Monastery",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 33,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1049,
+      "title": "Compendium of the Fallen",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 28,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1050,
+      "title": "Mythology of the Titans",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 28,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1051,
+      "title": "Vorrel's Revenge",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1053,
+      "title": "In the Name of the Light",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 34,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1098,
+      "title": "Deathstalkers in Shadowfang",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 18,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1101,
+      "title": "The Crone of the Kraul",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 29,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1102,
+      "title": "A Vengeful Fate",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 29,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1109,
+      "title": "Going, Going, Guano!",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 30,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1113,
+      "title": "Hearts of Zeal",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 30,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1139,
+      "title": "The Lost Tablets of Will",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 30,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1142,
+      "title": "Mortality Wanes",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1144,
+      "title": "Willix the Importer",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 22,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1160,
+      "title": "Test of Lore",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1198,
+      "title": "In Search of Thaelrid",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 18,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1199,
+      "title": "Twilight Falls",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1200,
+      "title": "Blackfathom Villainy",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 18,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1221,
+      "title": "Blueleaf Tubers",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1275,
+      "title": "Researching the Corruption",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 18,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1360,
+      "title": "Reclaimed Treasures",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 33,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1445,
+      "title": "The Temple of Atal'Hakkar",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 38,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1446,
+      "title": "Jammal'an the Prophet",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 38,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1475,
+      "title": "Into The Temple of Atal'Hakkar",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 38,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1486,
+      "title": "Deviate Hides",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 13,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1487,
+      "title": "Deviate Eradication",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1491,
+      "title": "Smart Drinks",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 13,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1654,
+      "title": "The Test of Righteousness",
+      "faction": "alliance",
+      "classSlug": "paladin",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1740,
+      "title": "The Orb of Soran'ruk",
+      "faction": "both",
+      "classSlug": "warlock",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1951,
+      "title": "Rituals of Power",
+      "faction": "both",
+      "classSlug": "mage",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 30,
+      "restrictionNotes": []
+    },
+    {
+      "id": 1956,
+      "title": "Power in Uldaman",
+      "faction": "both",
+      "classSlug": "mage",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 35,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2040,
+      "title": "Underground Assault",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2198,
+      "title": "The Shattered Necklace",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 37,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2202,
+      "title": "Uldaman Reagent Run",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 36,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2240,
+      "title": "The Hidden Chamber",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 35,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2278,
+      "title": "The Platinum Discs",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2283,
+      "title": "Necklace Recovery",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 37,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2342,
+      "title": "Reclaimed Treasures",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 33,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2398,
+      "title": "The Lost Dwarves",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 35,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2418,
+      "title": "Power Stones",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 30,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2768,
+      "title": "Divino-matic Rod",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2770,
+      "title": "Gahz'rilla",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2841,
+      "title": "Rig Wars",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2842,
+      "title": "Chief Engineer Scooty",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2843,
+      "title": "Gnomer-gooooone!",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2846,
+      "title": "Tiara of the Deep",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2865,
+      "title": "Scarab Shells",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2904,
+      "title": "A Fine Mess",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2922,
+      "title": "Save Techbot's Brain!",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2924,
+      "title": "Essential Artificials",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2926,
+      "title": "Gnogaine",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2928,
+      "title": "Gyrodrillmatic Excavationators",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2929,
+      "title": "The Grand Betrayal",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2930,
+      "title": "Data Rescue",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2936,
+      "title": "The Spider God",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2945,
+      "title": "Grime-Encrusted Ring",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 28,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2951,
+      "title": "The Sparklematic 5200!",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 25,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2962,
+      "title": "The Only Cure is More Green Glow",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
+      "id": 2991,
+      "title": "Nekrum's Medallion",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3042,
+      "title": "Troll Temper",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3341,
+      "title": "Bring the End",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 37,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3373,
+      "title": "The Essence of Eranikus",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3446,
+      "title": "Into the Depths",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 46,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3447,
+      "title": "Secret of the Circle",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 46,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3523,
+      "title": "Scourge of the Downs",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 32,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3525,
+      "title": "Extinguishing the Idol",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 32,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3527,
+      "title": "The Prophecy of Mosh'aru",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3528,
+      "title": "The God Hakkar",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3636,
+      "title": "Bring the Light",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 39,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3802,
+      "title": "Dark Iron Legacy",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3906,
+      "title": "Disharmony of Flame",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3907,
+      "title": "Disharmony of Fire",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 3981,
+      "title": "Commander Gor'shak",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4003,
+      "title": "The Royal Rescue",
+      "faction": null,
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": ["Table faction conflicts with identity metadata; verify eligibility."]
+    },
+    {
+      "id": 4024,
+      "title": "A Taste of Flame",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 52,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4063,
+      "title": "The Rise of the Machines",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 52,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4081,
+      "title": "KILL ON SIGHT: Dark Iron Dwarves",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4082,
+      "title": "KILL ON SIGHT: High Ranking Dark Iron Officials",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4123,
+      "title": "The Heart of the Mountain",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4126,
+      "title": "Hurley Blackbreath",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4132,
+      "title": "Operation: Death to Angerforge",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 52,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4134,
+      "title": "Lost Thunderbrew Recipe",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4136,
+      "title": "Ribbly Screwspigot",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4143,
+      "title": "Haze of Evil",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 47,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4146,
+      "title": "Zapper Fuel",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 47,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4201,
+      "title": "The Love Potion",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4241,
+      "title": "Marshal Windsor",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4262,
+      "title": "Overmaster Pyron",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4263,
+      "title": "Incendius!",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4286,
+      "title": "The Good Stuff",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4322,
+      "title": "Jail Break!",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4341,
+      "title": "Kharan Mighthammer",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4362,
+      "title": "The Fate of the Kingdom",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4701,
+      "title": "Put Her Down",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4724,
+      "title": "The Pack Mistress",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4729,
+      "title": "Kibler's Exotic Pets",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4735,
+      "title": "Egg Collection",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4742,
+      "title": "Seal of Ascension",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4764,
+      "title": "Doomrigger's Clasp",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4768,
+      "title": "The Darkstone Tablet",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4771,
+      "title": "Dawn's Gambit",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4788,
+      "title": "The Final Tablets",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 40,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4862,
+      "title": "En-Ay-Es-Tee-Why",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4866,
+      "title": "Mother's Milk",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4867,
+      "title": "Urok Doomhowl",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4903,
+      "title": "Warlord's Command",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4974,
+      "title": "For The Horde!",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 4981,
+      "title": "Operative Bijou",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5001,
+      "title": "Bijou's Belongings",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5047,
+      "title": "Finkle Einhorn, At Your Service!",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5089,
+      "title": "General Drakkisath's Command",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5102,
+      "title": "General Drakkisath's Demise",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5122,
+      "title": "The Medallion of Faith",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5125,
+      "title": "Aurius' Reckoning",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5127,
+      "title": "The Demon Forge",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": true,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5160,
+      "title": "The Matron Protectorate",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5212,
+      "title": "The Flesh Does Not Lie",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5213,
+      "title": "The Active Agent",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5214,
+      "title": "The Great Fras Siabi",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5243,
+      "title": "Houses of the Holy",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5251,
+      "title": "The Archivist",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5262,
+      "title": "The Truth Comes Crashing Down",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5263,
+      "title": "Above and Beyond",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5282,
+      "title": "The Restless Souls",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5341,
+      "title": "Barov Family Fortune",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 52,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5343,
+      "title": "Barov Family Fortune",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 52,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5382,
+      "title": "Doctor Theolen Krastinov, the Butcher",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5384,
+      "title": "Kirtonos the Herald",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5463,
+      "title": "Menethil's Gift",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5466,
+      "title": "The Lich, Ras Frostwhisper",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 57,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5515,
+      "title": "Krastinov's Bag of Horrors",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5518,
+      "title": "The Gordok Ogre Suit",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5525,
+      "title": "Free Knot!",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5526,
+      "title": "Shards of the Felvine",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5528,
+      "title": "The Gordok Taste Test",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5529,
+      "title": "Plagued Hatchlings",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5582,
+      "title": "Healthy Dragon Scale",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5722,
+      "title": "Searching for the Lost Satchel",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 9,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5723,
+      "title": "Testing an Enemy's Strength",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 9,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5725,
+      "title": "The Power to Destroy...",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 9,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5728,
+      "title": "Hidden Enemies",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 9,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5761,
+      "title": "Slaying the Beast",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 9,
+      "restrictionNotes": []
+    },
+    {
+      "id": 5848,
+      "title": "Of Love and Family",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 52,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6163,
+      "title": "Ramstein",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6502,
+      "title": "Drakefire Amulet",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 50,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6521,
+      "title": "An Unholy Alliance",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 28,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6522,
+      "title": "An Unholy Alliance",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 28,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6561,
+      "title": "Blackfathom Villainy",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 18,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6563,
+      "title": "The Essence of Aku'Mai",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 17,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6565,
+      "title": "Allegiance to the Old Gods",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 17,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6602,
+      "title": "Blood of the Black Dragon Champion",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6626,
+      "title": "A Host of Evil",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 28,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6821,
+      "title": "Eye of the Emberseer",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6921,
+      "title": "Amongst the Ruins",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 21,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6922,
+      "title": "Baron Aquanis",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 21,
+      "restrictionNotes": []
+    },
+    {
+      "id": 6981,
+      "title": "The Glowing Shard",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 10,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7028,
+      "title": "Twisted Evils",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 41,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7029,
+      "title": "Vyletongue Corruption",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 41,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7041,
+      "title": "Vyletongue Corruption",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 41,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7044,
+      "title": "Legends of Maraudon",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 41,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7046,
+      "title": "The Scepter of Celebras",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 41,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7064,
+      "title": "Corruption of Earth and Seed",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 45,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7065,
+      "title": "Corruption of Earth and Seed",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 45,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7066,
+      "title": "Seed of Life",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 39,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7067,
+      "title": "The Pariah's Instructions",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 39,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7068,
+      "title": "Shadowshard Fragments",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 39,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7070,
+      "title": "Shadowshard Fragments",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 39,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7201,
+      "title": "The Last Element",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 48,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7441,
+      "title": "Pusillin and the Elder Azj'Tordin",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 54,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7461,
+      "title": "The Madness Within",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7463,
+      "title": "Arcane Refreshment",
+      "faction": "both",
+      "classSlug": "mage",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 60,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7481,
+      "title": "Elven Legends",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 54,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7482,
+      "title": "Elven Legends",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 54,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7488,
+      "title": "Lethtendris's Web",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 54,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7489,
+      "title": "Lethtendris's Web",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 54,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7507,
+      "title": "Foror's Compendium",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 60,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7668,
+      "title": "The Darkreaver Menace",
+      "faction": "horde",
+      "classSlug": "shaman",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 58,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7703,
+      "title": "Unfinished Gordok Business",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 56,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7761,
+      "title": "Blackhand's Command",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 7848,
+      "title": "Attunement to the Core",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 55,
+      "restrictionNotes": []
+    },
+    {
+      "id": 8945,
+      "title": "Dead Man's Plea",
+      "faction": "both",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 58,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92401,
+      "title": "A Frightened Request",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92415,
+      "title": "Remember That I Love You",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92421,
+      "title": "Light's Justice",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92422,
+      "title": "The Wrath of Rath'mael",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95195,
+      "title": "Bloodied Insignia",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95216,
+      "title": "The New Plague",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95250,
+      "title": "Abominable Creatures",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95646,
+      "title": "Horrors in the Highland",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95647,
+      "title": "Lost in the Thicket Things",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95664,
+      "title": "Elder Knowledge",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95682,
+      "title": "Open the Maw",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95697,
+      "title": "Changing Tastes",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95772,
+      "title": "Songblade Search",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95809,
+      "title": "Heartwoven",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95810,
+      "title": "Lost Relic Carry",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96393,
+      "title": "Old Ironforge Incursion",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96394,
+      "title": "The Restless Dead",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96395,
+      "title": "An Ancient Grudge",
+      "faction": null,
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96403,
+      "title": "Important Heirlooms",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 97288,
+      "title": "Unending Torment",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 15,
+      "restrictionNotes": []
+    },
+    {
+      "id": 98423,
+      "title": "The Treaty of Understanding",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 16,
+      "restrictionNotes": []
+    },
+    {
+      "id": 98815,
+      "title": "Highland Hides",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 98823,
+      "title": "Earthen Echo",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 98824,
+      "title": "Prehistoric Prism",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    }
+  ],
+  "sourceSha256": "9a12285e507377829d1a5e92b2e42dc7f4b5f7f0bb718343354619ff5e97ed35"
+}

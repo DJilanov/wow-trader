@@ -4,7 +4,11 @@ import { join } from "node:path";
 import { createHash } from "node:crypto";
 import { describe, it, expect } from "vitest";
 import { parseGuideChapter } from "@wow-trader/leveling";
-import { getImportedLevelingChapter, getLevelingArchiveManifest } from "./leveling-archive";
+import {
+  getImportedLevelingChapter,
+  getLevelingArchiveManifest,
+  getLevelingChapterActivities,
+} from "./leveling-archive";
 
 describe("full guide publication boundary", () => {
   it("rejects private, corrupted and mismatched archives and serves only authorized validated chapters", async () => {
@@ -43,6 +47,7 @@ describe("full guide publication boundary", () => {
       await writeFile(join(root, "manifest.json"), JSON.stringify(manifest));
       await writeFile(join(root, "chapter.json"), body);
       expect(await getImportedLevelingChapter(chapter.chapterId)).toBeNull();
+      expect(await getLevelingChapterActivities()).toEqual([]);
       await writeFile(
         join(root, "manifest.json"),
         JSON.stringify({
@@ -58,6 +63,13 @@ describe("full guide publication boundary", () => {
         (await readFile(join(root, "chapter.json"), "utf8")) + " ",
       );
       await expect(getImportedLevelingChapter(chapter.chapterId)).rejects.toThrow("checksum");
+      await expect(getLevelingChapterActivities()).rejects.toThrow("checksum");
+      await writeFile(join(root, "chapter.json"), body);
+      const activities = await getLevelingChapterActivities();
+      expect(activities).toHaveLength(1);
+      expect(activities[0]?.chapterId).toBe(chapter.chapterId);
+      expect(JSON.stringify(activities)).not.toContain("Accept example");
+      expect(await getLevelingChapterActivities()).toBe(activities);
     } finally {
       if (previous === undefined) delete process.env.LEVELING_ARCHIVE_ROOT;
       else process.env.LEVELING_ARCHIVE_ROOT = previous;

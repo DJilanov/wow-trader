@@ -5,6 +5,8 @@ import {
   LEVELING_RACES,
   evaluateChapterCondition,
   getChapterLabel,
+  DUNGEON_QUESTS,
+  THANES_REPLACEMENT,
 } from "@wow-trader/leveling";
 import { LevelingReader } from "../../../../../../../components/leveling-reader";
 import { ImportedLevelingReader } from "../../../../../../../components/imported-leveling-reader";
@@ -34,7 +36,7 @@ import {
 
 interface ChapterProps {
   readonly params: Promise<{ readonly routeId: string; readonly chapterId: string }>;
-  readonly searchParams: Promise<{ readonly edition?: string }>;
+  readonly searchParams: Promise<{ readonly edition?: string; readonly outdoor?: string }>;
 }
 export const dynamic = "force-dynamic";
 function resolveChapter(
@@ -94,10 +96,38 @@ export default async function LevelingChapterPage({
   const route = getPublicChapter(chapter, profile);
   const imported =
     (await searchParams).edition === "kfc" ? null : await getImportedLevelingChapter(chapterId);
+  const continuation =
+    imported && chapterId === THANES_REPLACEMENT.chapterId
+      ? await getImportedLevelingChapter(THANES_REPLACEMENT.continuationId)
+      : null;
   const publishedIds =
     (await getLevelingArchiveManifest())?.chapters.map((entry) => entry.chapterId) ?? [];
   const maps = imported
-    ? await getLevelingMaps(importedMapSteps(imported), imported.targetBuild)
+    ? await getLevelingMaps(
+        [
+          ...importedMapSteps(imported),
+          ...DUNGEON_QUESTS.filter(
+            (quest) =>
+              quest.position && (quest.faction === "both" || quest.faction === profile.faction),
+          ).map((quest) => ({
+            id: `dungeon-pickup-${quest.id}`,
+            positions: [
+              {
+                sourceLine: 0,
+                position: {
+                  zone: String(quest.position!.mapId),
+                  floor: null,
+                  space: "map-percent" as const,
+                  x: quest.position!.x,
+                  y: quest.position!.y,
+                },
+              },
+            ],
+            quests: [],
+          })),
+        ],
+        imported.targetBuild,
+      )
     : route
       ? await getLevelingMaps(originalMapSteps(route), route.clientBuild)
       : emptyLevelingMaps(70205);
@@ -133,8 +163,17 @@ export default async function LevelingChapterPage({
           chapter={chapter}
           guide={imported}
           defaultProfile={profile}
-          maps={maps}
+          maps={{
+            ...maps,
+            points: maps.points.map((point) =>
+              point.stepId.startsWith("dungeon-pickup-")
+                ? { ...point, evidence: "reference_pickup" as const }
+                : point,
+            ),
+          }}
           publishedIds={publishedIds}
+          continuation={continuation}
+          preferOutdoor={(await searchParams).outdoor === "1"}
         />
       ) : (
         <LevelingReader

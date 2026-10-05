@@ -35,7 +35,8 @@ or a full 1–60 guide. That original release does not include the decoded Reste
 the separate authorized local archive described above now powers the extended readers.
 
 The owner's dungeon timing instruction uses the linked Wowhead guide's **At level** band as the
-default visit target, independently of its Hard/Medium bands or minimum quest pickup level:
+minimum scheduled visit level for solo and prepared groups alike, independently of its Hard/Medium
+bands or minimum quest pickup level. Pickup/access requirements may move the run later, never earlier:
 
 ```text
 plannedVisitLevel = max(At level, minimum pickup levels of selected unfinished quests)

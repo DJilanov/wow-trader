@@ -13,8 +13,13 @@ import styles from "./leveling-experience.module.css";
 interface FeedbackProps {
   readonly position: ReadingPosition;
   readonly profile: CharacterProfile;
+  readonly context?: string;
 }
-export function LevelingStepFeedback({ position, profile }: FeedbackProps): React.JSX.Element {
+export function LevelingStepFeedback({
+  position,
+  profile,
+  context,
+}: FeedbackProps): React.JSX.Element {
   const [category, setCategory] =
     useState<(typeof feedbackCategories)[number]>("confusing-instruction");
   const [message, setMessage] = useState("");
@@ -25,14 +30,20 @@ export function LevelingStepFeedback({ position, profile }: FeedbackProps): Reac
   async function submit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     if (status === "sending" || status === "sent") return;
-    const body = JSON.stringify({ position, profile, category, message: message.trim() });
+    const reportMessage = context ? `${context}\n${message.trim()}` : message.trim();
+    if (message.trim().length < 10) {
+      setStatus("error");
+      setNotice("Describe the issue in at least 10 characters.");
+      return;
+    }
+    const body = JSON.stringify({ position, profile, category, message: reportMessage });
     if (submission.current?.body !== body) submission.current = { id: crypto.randomUUID(), body };
     const parsed = levelingFeedbackSchema.safeParse({
       submissionId: submission.current.id,
       position,
       profile,
       category,
-      message,
+      message: reportMessage,
     });
     if (!parsed.success) {
       setStatus("error");
@@ -88,6 +99,7 @@ export function LevelingStepFeedback({ position, profile }: FeedbackProps): Reac
             faction/race/class/level/pace/party/XP setup. No character name, local ID or completion
             history is included. Do not put personal information in your report.
           </p>
+          {context && <p className={styles.muted}>Report context: {context}</p>}
           <label className={styles.field}>
             Problem type
             <select
@@ -110,7 +122,7 @@ export function LevelingStepFeedback({ position, profile }: FeedbackProps): Reac
             <textarea
               value={message}
               minLength={10}
-              maxLength={1500}
+              maxLength={1500 - (context ? context.length + 1 : 0)}
               required
               rows={3}
               disabled={status === "sending" || status === "sent"}

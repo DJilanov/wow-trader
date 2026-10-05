@@ -1,10 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+  type Ref,
+} from "react";
 import { scrollReaderToAnchor } from "../lib/leveling-reader-navigation";
+import {
+  DEFAULT_READER_PREFERENCES,
+  READER_PREFERENCES_KEY,
+  readReaderPreferences,
+  type ReaderPreferences,
+  type ReaderView,
+} from "../lib/leveling-reader-preferences";
 import styles from "./leveling-experience.module.css";
 import { LevelingBackupControls } from "./leveling-backup-controls";
+import { useLeveling } from "./leveling-provider";
 
 interface LevelingReaderWorkspaceProps {
   readonly scope: string;
@@ -29,12 +46,12 @@ interface LevelingReaderWorkspaceProps {
   readonly onNext: () => void;
   readonly onDone: () => void;
   readonly settings: ReactNode;
+  readonly settingsButtonRef?: Ref<HTMLButtonElement>;
   readonly map: (revealAnchor: (anchor: string) => void) => ReactNode;
   readonly toolbar: ReactNode;
   readonly children: ReactNode;
   readonly onNavigate: (hash: string) => void;
 }
-type ReaderView = "split" | "map" | "quests";
 
 export function LevelingReaderWorkspace({
   scope,
@@ -59,43 +76,54 @@ export function LevelingReaderWorkspace({
   onNext,
   onDone,
   settings,
+  settingsButtonRef,
   map,
   toolbar,
   children,
   onNavigate,
 }: LevelingReaderWorkspaceProps): React.JSX.Element {
-  const [view, setView] = useState<ReaderView>("split");
+  const { storageStatus } = useLeveling();
+  const [preferences, setPreferences] = useState<ReaderPreferences>(DEFAULT_READER_PREFERENCES);
+  const [mobile, setMobile] = useState(false);
+  const view = mobile ? preferences.mobileView : "split";
+  const { display, textSize } = preferences;
   const dialog = useRef<HTMLDialogElement>(null);
   const settingsId = useId();
   const pendingScroll = useRef(false);
   const pendingTarget = useRef<string | null>(null);
   const [revealSequence, setRevealSequence] = useState(0);
-  const [display, setDisplay] = useState<"all" | "focus">("all");
-  const [textSize, setTextSize] = useState<"standard" | "large">("standard");
   useEffect(() => {
+    const media = window.matchMedia("(max-width: 1023px)");
+    const resize = (): void => setMobile(media.matches);
+    resize();
+    media.addEventListener("change", resize);
     try {
-      const value: unknown = JSON.parse(
-        localStorage.getItem("kfc-leveling:reader-preferences:v1") ?? "null",
-      );
-      if (value && typeof value === "object") {
-        if ("display" in value && value.display === "focus") setDisplay("focus");
-        if ("textSize" in value && value.textSize === "large") setTextSize("large");
-      }
+      setPreferences(readReaderPreferences(localStorage.getItem(READER_PREFERENCES_KEY)));
     } catch {
       /* Optional display preferences do not affect character progress. */
     }
+    return () => media.removeEventListener("change", resize);
   }, []);
-  function changeDisplay(nextDisplay: "all" | "focus", nextSize: "standard" | "large"): void {
-    setDisplay(nextDisplay);
-    setTextSize(nextSize);
+  function changePreferences(change: Partial<ReaderPreferences>): void {
+    const next = { ...preferences, ...change };
+    setPreferences(next);
     try {
-      localStorage.setItem(
-        "kfc-leveling:reader-preferences:v1",
-        JSON.stringify({ display: nextDisplay, textSize: nextSize }),
-      );
+      localStorage.setItem(READER_PREFERENCES_KEY, JSON.stringify(next));
     } catch {
       /* Keep preferences usable for this visit when browser storage is denied. */
     }
+  }
+  function setView(next: ReaderView): void {
+    if (view === "map" && next !== "map" && !pendingScroll.current) {
+      pendingTarget.current = null;
+      pendingScroll.current = true;
+    }
+    changePreferences({ mobileView: next });
+  }
+  function changeDisplay(nextDisplay: "all" | "focus", nextSize: "standard" | "large"): void {
+    pendingTarget.current = null;
+    pendingScroll.current = true;
+    changePreferences({ display: nextDisplay, textSize: nextSize });
   }
   useEffect(() => {
     if (!ready) return;
@@ -125,7 +153,20 @@ export function LevelingReaderWorkspace({
       }
     });
     return () => cancelAnimationFrame(frame);
-  }, [view, currentStepAnchor, display, revealSequence]);
+  }, [view, currentStepAnchor, display, textSize, revealSequence]);
+  useEffect(() => {
+    if (!ready || !currentStepAnchor) return;
+    let frame = 0;
+    const resize = (): void => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => scrollReaderToAnchor(currentStepAnchor));
+    };
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(frame);
+    };
+  }, [ready, currentStepAnchor]);
 
   function revealAnchor(anchor: string): void {
     pendingTarget.current = anchor;
@@ -175,6 +216,7 @@ export function LevelingReaderWorkspace({
       data-reader-view={view}
       data-reader-display={display}
       data-reader-text={textSize}
+      style={{ "--reader-map-width": `${preferences.mapWidth}%` } as CSSProperties}
     >
       <header className={styles.workspaceHeader}>
         <Link className={styles.workspaceBack} href={dashboardHref}>
@@ -190,7 +232,16 @@ export function LevelingReaderWorkspace({
           <p title={profile}>{profile}</p>
         </div>
         <div className={styles.workspaceProgress}>
-          <span>{progressLabel}</span>
+          <span
+            title={`${progressLabel} · ${storageStatus === "saved" ? "Saved on this device · not account-synced" : storageStatus === "memory" ? "Progress is not saved; export a backup" : "Local progress"}`}
+          >
+            {progressLabel}
+            {storageStatus === "saved"
+              ? " · Saved"
+              : storageStatus === "memory"
+                ? " · Not saved"
+                : ""}
+          </span>
           <progress
             value={completed}
             max={Math.max(total, 1)}
@@ -200,6 +251,7 @@ export function LevelingReaderWorkspace({
         <button
           className={styles.workspaceSettingsButton}
           type="button"
+          ref={settingsButtonRef}
           onClick={() => dialog.current?.showModal()}
         >
           Settings
@@ -248,6 +300,7 @@ export function LevelingReaderWorkspace({
           className={styles.workspaceStepButton}
           type="button"
           disabled={undoDisabled}
+          data-reader-action="undo"
           onClick={() => {
             pendingScroll.current = true;
             onUndo();
@@ -259,33 +312,53 @@ export function LevelingReaderWorkspace({
           <button
             className={styles.workspaceStepButton}
             type="button"
+            aria-label="Review chapter"
+            title="Review the chapter return checkpoint"
             onClick={() => {
-              setDisplay("all");
-              setView("quests");
+              changePreferences({ display: "all", mobileView: "quests" });
               requestAnimationFrame(() => scrollReaderToAnchor("chapter-handoff"));
             }}
           >
-            Review chapter
+            Review
           </button>
         )}
       </div>
-      <div className={styles.workspaceViews} role="group" aria-label="Reader view">
-        {(
-          [
-            ["split", "Split view"],
-            ["map", "Map focus"],
-            ["quests", "Quest list focus"],
-          ] as const
-        ).map(([mode, text]) => (
+      <div className={styles.workspaceControls}>
+        <div className={styles.workspaceReadingMode} role="group" aria-label="Reading mode">
           <button
-            key={mode}
             type="button"
-            aria-pressed={view === mode}
-            onClick={() => setView(mode)}
+            aria-pressed={display === "focus"}
+            onClick={() => changeDisplay("focus", textSize)}
           >
-            {text}
+            Current + next
           </button>
-        ))}
+          <button
+            type="button"
+            aria-pressed={display === "all"}
+            onClick={() => changeDisplay("all", textSize)}
+          >
+            All steps
+          </button>
+        </div>
+        <label className={styles.workspaceMapWidth}>
+          Map width
+          <input
+            type="range"
+            min="35"
+            max="60"
+            step="5"
+            value={preferences.mapWidth}
+            onChange={(event) => changePreferences({ mapWidth: Number(event.target.value) })}
+          />
+        </label>
+        <button
+          className={styles.workspaceMapToggle}
+          type="button"
+          aria-pressed={view === "map"}
+          onClick={() => setView(view === "map" ? "quests" : "map")}
+        >
+          {view === "map" ? "Show quests" : "Show map"}
+        </button>
       </div>
       <div className={styles.workspaceBody}>
         <div className={styles.workspaceMap}>{map(revealAnchor)}</div>
@@ -294,7 +367,7 @@ export function LevelingReaderWorkspace({
           aria-label="Chapter quest reader"
           onClick={navigateAnchor}
         >
-          <div className={styles.workspaceQuestToolbar}>{toolbar}</div>
+          {toolbar && <div className={styles.workspaceQuestToolbar}>{toolbar}</div>}
           <section
             id="leveling-quest-pane"
             className={styles.questPane}
@@ -320,6 +393,25 @@ export function LevelingReaderWorkspace({
           </button>
         </div>
         <div className={styles.detailsRow}>
+          <label className={styles.field}>
+            Mobile layout
+            <select
+              value={preferences.mobileView}
+              onChange={(event) =>
+                setView(
+                  event.target.value === "split"
+                    ? "split"
+                    : event.target.value === "map"
+                      ? "map"
+                      : "quests",
+                )
+              }
+            >
+              <option value="quests">Quest list focus</option>
+              <option value="map">Map focus</option>
+              <option value="split">Split view</option>
+            </select>
+          </label>
           <label className={styles.field}>
             Reading mode
             <select

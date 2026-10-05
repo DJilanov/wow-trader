@@ -1,0 +1,291 @@
+.card {
+  border: 1px solid #68552d;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #242118, #11161b 75%);
+  padding: 20px;
+  margin-block: 16px;
+  min-width: 0;
+}
+.card h2,
+.card h3 {
+  margin: 6px 0 12px;
+  font-family: var(--serif);
+}
+.card p {
+  line-height: 1.6;
+}
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #cdb785;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.metric strong {
+  display: block;
+  color: #eddaa7;
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  overflow-wrap: anywhere;
+}
+.metric small,
+.note {
+  color: #b8b4aa;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.status {
+  color: #d8c389;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.actions :is(button, a),
+.card select,
+.card input {
+  border: 1px solid #5e5137;
+  border-radius: 7px;
+  background: #151a1d;
+  color: #eddaa7;
+  padding: 10px 12px;
+  min-height: 42px;
+  max-width: 100%;
+  font: inherit;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  line-height: 1.5;
+}
+.actions a {
+  text-decoration: none;
+}
+.actions button {
+  cursor: pointer;
+}
+.actions .primary {
+  background: #58451e;
+  border-color: #aa8847;
+}
+.card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.card :is(button, a, input, select, summary):focus-visible {
+  outline: 2px solid #d8c389;
+  outline-offset: 3px;
+}
+.fields {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-block: 16px;
+}
+.fields label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  font-size: 0.85rem;
+}
+.card details {
+  margin-block: 12px;
+}
+.card summary {
+  cursor: pointer;
+  color: #d8c389;
+  line-height: 1.6;
+}
+.card a {
+  color: #dfc285;
+}
+.card ul {
+  padding-left: 20px;
+  line-height: 1.8;
+}
+.warning {
+  padding: 12px;
+  border-left: 2px solid #caaa63;
+  background: #b68b2c12;
+  line-height: 1.6;
+}
+.check {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  line-height: 1.6;
+  margin-block: 16px;
+}
+.check input {
+  min-height: 18px;
+  width: 18px;
+  height: 18px;
+  accent-color: #d8c389;
+  flex-shrink: 0;
+  padding: 0;
+}
+.carryover {
+  display: grid;
+  gap: 10px;
+  padding-block: 12px;
+  border-bottom: 1px solid #544933;
+}
+.carryover label {
+  display: grid;
+  gap: 8px;
+}
+.badge {
+  padding: 4px 8px;
+  border: 1px solid #5e5137;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+.card.stepBody {
+  border: 0;
+  background: none;
+  padding: 0;
+}
+.chapterPair {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 16px;
+  align-items: start;
+}
+.chapterPair > .card {
+  margin-block: 0;
+}
+.xpCoverage {
+  display: grid;
+  gap: 8px;
+  color: #d8c389;
+  font-size: 0.82rem;
+}
+.xpCoverage progress {
+  width: 100%;
+  height: 8px;
+  accent-color: #d8c389;
+}
+.preparationDetails {
+  border-block: 1px solid #544933;
+  padding-block: 12px;
+}
+.preparation {
+  min-width: 0;
+}
+.questStatus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.questStatus .actions {
+  margin: 0;
+}
+.questStatus details {
+  flex-basis: 100%;
+  margin: 0;
+}
+.questStatus details label {
+  margin-top: 10px;
+}
+.undoAction {
+  border: 0;
+  background: none;
+  color: #d8c389;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+}
+.routeSummary {
+  border: 1px solid #544933;
+  border-radius: 7px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+}
+.routeSummary summary {
+  cursor: pointer;
+  color: #d8c389;
+  min-height: 28px;
+  line-height: 28px;
+}
+.stageNavigation {
+  display: grid;
+  gap: 8px;
+  margin-block: 12px;
+}
+.stageNavigation a {
+  color: #d8c389;
+  padding: 8px;
+  border: 1px solid #544933;
+  border-radius: 6px;
+  line-height: 1.6;
+}
+.stageNavigation a[aria-current="step"] {
+  border-color: #d8c389;
+}
+.xpPrompt {
+  color: #d8c389;
+  font-size: 0.82rem;
+  padding: 10px;
+  border-left: 2px solid #d8c389;
+  background: #b68b2c12;
+  line-height: 1.6;
+}
+.xpPrompt a,
+.checkpointChecks a {
+  color: #d8c389;
+}
+.xpForm {
+  margin-block: 16px;
+  border-top: 1px solid #544933;
+}
+.checkpointChecks {
+  line-height: 1.8;
+  padding-left: 20px;
+}
+.checkpointChecks li {
+  margin-bottom: 12px;
+}
+.preparation button {
+  border: 1px solid #5e5137;
+  padding: 8px 12px;
+  color: #eddaa7;
+  background: #151a1d;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.preparation button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+@media (max-width: 650px) {
+  .chapterPair {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 14px;
+  }
+  .metrics {
+    gap: 8px;
+  }
+  .metric strong {
+    font-size: 1.15rem;
+  }
+  .fields {
+    grid-template-columns: 1fr;
+  }
+  .actions :is(button, a) {
+    width: 100%;
+    text-align: center;
+  }
+}

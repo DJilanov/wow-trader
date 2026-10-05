@@ -7,6 +7,7 @@ import {
   type GuideArchiveManifest,
   type ImportedChapter,
 } from "@wow-trader/leveling";
+import { projectChapterActivity, type ChapterActivity } from "./leveling-chapter-path";
 
 const repositoryRoot = resolve(
   /* turbopackIgnore: true */
@@ -63,4 +64,42 @@ export async function getImportedLevelingChapter(
   )
     throw new Error("Leveling chapter does not match its manifest");
   return chapter;
+}
+
+let activityCache:
+  { manifest: GuideArchiveManifest; value: Promise<readonly ChapterActivity[]> } | undefined;
+
+export async function getLevelingChapterActivities(): Promise<readonly ChapterActivity[]> {
+  const manifest = await getLevelingArchiveManifest();
+  if (!manifest) return [];
+  if (activityCache?.manifest === manifest) return activityCache.value;
+  const value = (async (): Promise<readonly ChapterActivity[]> => {
+    const result: ChapterActivity[] = [];
+    // Bound disk reads and validate each chapter before projecting counts; no guide text is sent.
+    for (let index = 0; index < manifest.chapters.length; index += 8) {
+      const batch = await Promise.all(
+        manifest.chapters.slice(index, index + 8).map(async (entry): Promise<ChapterActivity> => {
+          const chapter = await getImportedLevelingChapter(entry.chapterId);
+          if (
+            !chapter ||
+            chapter.version !== entry.version ||
+            chapter.targetBuild !== manifest.targetBuild ||
+            chapter.sourceSha256 !== entry.sourceSha256
+          )
+            throw new Error("Leveling archive changed while loading chapter activity");
+          return projectChapterActivity(chapter);
+        }),
+      );
+      result.push(...batch);
+    }
+    return result;
+  })();
+  const cache = { manifest, value };
+  activityCache = cache;
+  try {
+    return await value;
+  } catch (error: unknown) {
+    if (activityCache === cache) activityCache = undefined;
+    throw error;
+  }
 }

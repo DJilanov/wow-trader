@@ -70,6 +70,7 @@ export function mergeLevelingBackup(
       ...existing,
       progress,
       readerPositions: { ...imported.readerPositions, ...existing.readerPositions },
+      dungeonPlans: { ...imported.dungeonPlans, ...existing.dungeonPlans },
       lastReader: existing.lastReader ?? imported.lastReader,
       lastChapterId: existing.lastChapterId ?? imported.lastChapterId,
     };

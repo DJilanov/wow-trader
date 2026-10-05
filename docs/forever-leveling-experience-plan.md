@@ -275,17 +275,18 @@ Chill and Group quest-list variants are the next content phase the owner request
 | Solo · Chill               | Comfortable outdoor route; optional dungeons around At-level/Easy bands without pressure to find a group.    |
 | Duo–four                   | Consider reviewed group/elite objectives; a dungeon still needs a capable full party or explicit recruiting. |
 | Five, still assembling     | Include recruitment and rendezvous; do not use the ready-premade assumptions.                                |
-| Five, together and capable | Recruitment wait can be zero; assess earlier demanding content when requirements and evidence support it.    |
+| Five, together and capable | Recruitment wait can be zero; dungeon scheduling still starts at At level or later.                          |
 
-Keep **At level** as the conservative baseline, following the prior owner instruction. The linked
+Keep **At level** as a strict dungeon scheduling floor for every party size, following the owner's
+2026-10-05 clarification. The linked
 [Wowhead dungeon guide](https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location)
 separately supplies Hard/Medium/At-level/Easy reference bands. These are not entry locks, proof of
-XP/hour or guaranteed premade clear levels. An earlier group candidate must satisfy actual entry
-and selected quest requirements; offer it as reviewed advice, not automatically as the optimal route.
+XP/hour or guaranteed premade clear levels. Do not offer earlier group candidates. Actual entry
+and selected quest requirements can raise the scheduled level, never lower it below At level.
 
-For example, Deadmines remains an At-level 19 baseline for solo planning. Its Medium 17 reference
-can inform a premade candidate only after reviewing readiness, quest gates and performance. That
-is a future extension beyond the current Westfall slice, not a newly implemented level-17 route.
+For example, Deadmines is scheduled at 19 or later for both solo/recruiting and prepared groups.
+Its Medium 17 label is difficulty context only, not a suggested dungeon run. Earlier preparation
+can remain in Westfall without moving the run before 19.
 
 Hard rules for the next recommendation phase:
 
@@ -369,7 +370,7 @@ unavailable/corrupt local storage gracefully with usable in-memory state.
    destinations, canonical/sitemap checks and desktop/mobile Playwright. Deployment is a later,
    separately requested operation; do not restart ingestion for this web UX change.
 5. **Next content phase:** refactor original/authorized lists into real Speed/Chill/Group variants,
-   review premade rendezvous and earlier group content, gather per-player XP/time evidence and
+   review premade rendezvous and At-level dungeon bundles, gather per-player XP/time evidence and
    validate every modified dependency/rejoin. Only then claim optimized mode-specific routes.
 
 Payment, supporter fulfillment, in-game addon changes and a new automatic group optimizer are not

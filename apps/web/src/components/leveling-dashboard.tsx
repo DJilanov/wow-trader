@@ -5,40 +5,48 @@ import { useState } from "react";
 import {
   CHAPTER_REFERENCES,
   LEVELING_EVIDENCE,
-  chapterEligibility,
   getChapterLabel,
   getLevelingRace,
   getPartyGuidance,
   selectChapterSequence,
   type CharacterProfile,
-  type ChapterReference,
   type GuideChapterSummary,
+  DUNGEON_RELEASE,
+  DUNGEON_XP_CALIBRATION,
+  THANES_REPLACEMENT,
+  DUNGEON_VISITS,
 } from "@wow-trader/leveling";
 import { ForeverIcon } from "./forever-icon";
 import { useLeveling } from "./leveling-provider";
 import {
   WESTFALL_CHAPTER_ID,
   getPublicChapter,
-  isChapterComplete,
   levelingChapterPath,
   levelingDashboardPath,
+  levelingDungeonPath,
   profileSummary,
-  type LevelingSession,
   readingPositionPath,
 } from "../lib/leveling-experience";
 import styles from "./leveling-experience.module.css";
 import { LevelingBackupControls } from "./leveling-backup-controls";
+import { LevelingDungeonPlans } from "./leveling-dungeon-plans";
+import { LevelingChapterPath } from "./leveling-chapter-path";
+import type { ChapterActivity } from "../lib/leveling-chapter-path";
 
 interface LevelingDashboardProps {
   readonly defaultProfile: CharacterProfile;
   readonly archiveChapters?: readonly GuideChapterSummary[];
+  readonly archiveBuild: number | null;
+  readonly activities?: readonly ChapterActivity[];
 }
 
 export function LevelingDashboard({
   defaultProfile,
   archiveChapters = [],
+  archiveBuild,
+  activities = [],
 }: LevelingDashboardProps): React.JSX.Element {
-  const { session, loaded, notice, saveCharacter } = useLeveling();
+  const { session, loaded, notice, storageStatus, saveCharacter } = useLeveling();
   const matchingSession =
     session &&
     session.profile.faction === defaultProfile.faction &&
@@ -51,14 +59,9 @@ export function LevelingDashboard({
   const publicChapter = CHAPTER_REFERENCES.find(
     (chapter) => chapter.id === WESTFALL_CHAPTER_ID && getPublicChapter(chapter, profile),
   );
-  const referenceChapters = [...selection.alternatives, ...selection.unresolved].filter(
-    (chapter) => archiveChapters.length > 0 || chapter.id !== publicChapter?.id,
-  );
   const party = getPartyGuidance(profile);
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
-  const [levelBand, setLevelBand] = useState("1");
-  const [family, setFamily] = useState("questing");
 
   async function share(): Promise<void> {
     const url = new URL(levelingDashboardPath(profile), window.location.origin);
@@ -74,33 +77,39 @@ export function LevelingDashboard({
   function changeProfile(next: CharacterProfile): void {
     saveCharacter(next, matchingSession?.id);
   }
-  const current = matchingSession?.lastChapterId
-    ? CHAPTER_REFERENCES.find(
-        (chapter) =>
-          chapter.id === matchingSession.lastChapterId &&
-          (getPublicChapter(chapter, profile) ||
-            archiveChapters.some((entry) => entry.chapterId === chapter.id)),
-      )
-    : archiveChapters.length > 0
-      ? selection.chapters.find((chapter) =>
-          archiveChapters.some((entry) => entry.chapterId === chapter.id),
-        )
-      : publicChapter;
-  const allChapters = CHAPTER_REFERENCES.filter(
-    (chapter) => chapter.family === family && chapterEligibility(chapter, profile) !== "exclude",
-  )
-    .filter((chapter) => {
-      const label = getChapterLabel(chapter, profile);
-      return (
-        levelBand === "all" ||
-        (label.minimumLevel < Number(levelBand) + 20 && label.maximumLevel >= Number(levelBand))
-      );
-    })
-    .sort(
-      (a, b) =>
-        getChapterLabel(a, profile).minimumLevel - getChapterLabel(b, profile).minimumLevel ||
-        a.sourceId - b.sourceId,
-    );
+  const dungeonSourceAvailable =
+    archiveBuild === LEVELING_EVIDENCE.clientBuild &&
+    archiveBuild === DUNGEON_XP_CALIBRATION.targetBuild &&
+    archiveChapters.some((entry) => entry.chapterId === THANES_REPLACEMENT.continuationId);
+  const activeReplacement = dungeonSourceAvailable
+    ? matchingSession?.dungeonPlans[DUNGEON_RELEASE]?.replacements[THANES_REPLACEMENT.chapterId]
+    : undefined;
+  const dungeonPlan = matchingSession?.dungeonPlans[DUNGEON_RELEASE];
+  const activeTrip = dungeonPlan?.activeTripId
+    ? dungeonPlan.trips[dungeonPlan.activeTripId]
+    : undefined;
+  const activeVisit = activeTrip
+    ? DUNGEON_VISITS.find((visit) => visit.id === activeTrip.visitId)
+    : undefined;
+  const current =
+    activeTrip && activeVisit
+      ? CHAPTER_REFERENCES.find((chapter) => chapter.id === activeTrip.chapterId)
+      : activeReplacement?.active
+        ? CHAPTER_REFERENCES.find((chapter) => chapter.id === THANES_REPLACEMENT.chapterId)
+        : matchingSession?.lastChapterId
+          ? CHAPTER_REFERENCES.find(
+              (chapter) =>
+                chapter.id === matchingSession.lastChapterId &&
+                (getPublicChapter(chapter, profile) ||
+                  archiveChapters.some((entry) => entry.chapterId === chapter.id)),
+            )
+          : archiveChapters.length > 0
+            ? selection.chapters.find(
+                (chapter) =>
+                  archiveChapters.some((entry) => entry.chapterId === chapter.id) &&
+                  getChapterLabel(chapter, profile).maximumLevel > (profile.level ?? 1),
+              )
+            : publicChapter;
 
   return (
     <div className={styles.dashboard}>
@@ -176,29 +185,43 @@ export function LevelingDashboard({
         <section className={styles.continueCard} aria-labelledby="continue-heading">
           <span className="eyebrow">{current ? "Available to read now" : "Route coverage"}</span>
           <h2 id="continue-heading">
-            {current
-              ? archiveChapters.length > 0
-                ? `Continue in ${getChapterLabel(current, profile).zone}.`
-                : "Read the Westfall preview."
-              : "Your starting brackets are mapped."}
+            {activeTrip && activeVisit
+              ? `Continue ${activeVisit.name}.`
+              : activeReplacement?.active
+                ? "Continue Hall of Thanes."
+                : current
+                  ? archiveChapters.length > 0
+                    ? `Continue in ${getChapterLabel(current, profile).zone}.`
+                    : "Read the Westfall preview."
+                  : "Your starting brackets are mapped."}
           </h2>
           <p>
-            {current
-              ? archiveChapters.length > 0
-                ? "Read the full authorized source list, filtered for your character. Original order stays intact; game-state and transition checks still need review."
-                : "The original KFC 13–15 companion keeps its current quest order. It is a preview, not a complete race-specific route."
-              : "The extracted brackets below are reference metadata. An original public quest list for this faction is not ready yet."}
+            {activeTrip && activeVisit
+              ? "Your dungeon trip and outdoor return bookmark are saved separately. Finish the quest stages, record actual XP and return to the retained outdoor route."
+              : activeReplacement?.active
+                ? "Your dungeon instructions and outdoor bookmark are saved separately. Finish the trip, then review the Darkshore return checkpoint."
+                : current
+                  ? archiveChapters.length > 0
+                    ? "Read the full authorized source list, filtered for your character. Original order stays intact; game-state and transition checks still need review."
+                    : "The original KFC 13–15 companion keeps its current quest order. It is a preview, not a complete race-specific route."
+                  : "The extracted brackets below are reference metadata. An original public quest list for this faction is not ready yet."}
           </p>
           {current ? (
             <Link
               className={styles.button}
               href={
-                matchingSession?.lastReader
-                  ? readingPositionPath(matchingSession)
-                  : levelingChapterPath(profile, current.id)
+                activeTrip && activeVisit
+                  ? `${levelingDungeonPath(profile, activeVisit.id, activeTrip.chapterId, Boolean(activeTrip.alternative || activeTrip.itinerary))}#trip-${activeTrip.stepId}`
+                  : activeReplacement?.active
+                    ? `${levelingChapterPath(profile, THANES_REPLACEMENT.chapterId)}#dungeon-${activeReplacement.stepId ?? "prepare"}`
+                    : matchingSession?.lastReader
+                      ? readingPositionPath(matchingSession)
+                      : levelingChapterPath(profile, current.id)
               }
             >
-              {matchingSession?.lastReader ? "Continue playing →" : "Open current quest list →"}
+              {activeTrip || activeReplacement?.active || matchingSession?.lastReader
+                ? "Continue playing →"
+                : "Open current quest list →"}
             </Link>
           ) : (
             <Link className={styles.button} href="/forever/encyclopedia/quests">
@@ -206,6 +229,16 @@ export function LevelingDashboard({
             </Link>
           )}
           <small>
+            {matchingSession && (
+              <>
+                {storageStatus === "saved"
+                  ? "Saved on this device · not account-synced"
+                  : storageStatus === "memory"
+                    ? "Progress is not saved · export a backup"
+                    : "Saving local progress…"}
+                <br />
+              </>
+            )}
             Build {LEVELING_EVIDENCE.clientBuild} · current beta cap{" "}
             {LEVELING_EVIDENCE.betaLevelCap} · runtime validation pending
           </small>
@@ -223,84 +256,9 @@ export function LevelingDashboard({
         </aside>
       </div>
       <LevelingBackupControls />
-      <section aria-labelledby="chapters-heading">
-        <div className={styles.sectionHeading}>
-          <div>
-            <span className="eyebrow">One chapter at a time</span>
-            <h2 id="chapters-heading">Your chapter path</h2>
-          </div>
-          <span className={styles.muted}>Real brackets · not uniform level blocks</span>
-        </div>
-        {selection.messages.map((message) => (
-          <p className={styles.notice} key={message}>
-            {message}
-          </p>
-        ))}
-        {selection.chapters.length > 0 ? (
-          <div className={styles.chapterGrid}>
-            {selection.chapters.map((chapter, index) => (
-              <ChapterCard
-                key={chapter.id}
-                chapter={chapter}
-                profile={profile}
-                session={matchingSession}
-                position={index + 1}
-                imported={archiveChapters.find((entry) => entry.chapterId === chapter.id)}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className={styles.empty}>
-            There is no unambiguous starting sequence for this setup yet. Review its reference
-            candidates below.
-          </p>
-        )}
-        {publicChapter &&
-          archiveChapters.length === 0 &&
-          !selection.chapters.some((chapter) => chapter.id === publicChapter.id) && (
-            <div className={styles.availableCompanion}>
-              <h3>Available original KFC companion</h3>
-              <ChapterCard chapter={publicChapter} profile={profile} session={matchingSession} />
-            </div>
-          )}
-      </section>
-      <details
-        className={styles.referenceSection}
-        open={archiveChapters.length > 0 || selection.chapters.length === 0}
-      >
-        <summary>
-          {archiveChapters.length > 0 ? "All chapters to level 60" : "Other reference brackets"}{" "}
-          <span>{archiveChapters.length > 0 ? allChapters.length : referenceChapters.length}</span>
-        </summary>
-        <p>
-          These include alternative and condition-dependent chapters, not a single automatically
-          connected route.
-          {archiveChapters.length > 0
-            ? " Full instructions are available from the authorized source; disconnected transitions remain marked for review."
-            : " Only reviewed public instructions open a quest list."}
-        </p>
+      <details className={styles.guideDetails} open={!profile.classSlug || profile.xpRate === null}>
+        <summary>Character settings · class and known XP rate</summary>
         <div className={styles.detailsRow}>
-          {archiveChapters.length > 0 && (
-            <>
-              <label className={styles.field}>
-                Level bracket
-                <select value={levelBand} onChange={(event) => setLevelBand(event.target.value)}>
-                  <option value="all">All levels · 1–60</option>
-                  <option value="1">1–20</option>
-                  <option value="21">21–40</option>
-                  <option value="41">41–60</option>
-                </select>
-              </label>
-              <label className={styles.field}>
-                Guide family
-                <select value={family} onChange={(event) => setFamily(event.target.value)}>
-                  <option value="questing">Questing · all classes</option>
-                  <option value="mage-aoe">Mage AoE · explicit alternative</option>
-                  <option value="advanced-mage-aoe">Advanced Mage AoE</option>
-                </select>
-              </label>
-            </>
-          )}
           <label className={styles.field}>
             Class
             <select
@@ -311,11 +269,7 @@ export function LevelingDashboard({
                   classSlug: race?.classes.find((slug) => slug === event.target.value) ?? null,
                 })
               }
-              disabled={
-                !loaded ||
-                (matchingSession?.profile.classSlug !== undefined &&
-                  matchingSession.profile.classSlug !== null)
-              }
+              disabled={!loaded || Boolean(matchingSession?.profile.classSlug)}
             >
               <option value="">Not selected</option>
               {race?.classes.map((slug) => (
@@ -340,24 +294,27 @@ export function LevelingDashboard({
               }
             >
               <option value="">Unknown · do not guess</option>
-              <option value="1">1×</option>
-              <option value="1.5">1.5×</option>
-              <option value="2">2×</option>
-              <option value="3">3×</option>
+              {[1, 1.5, 2, 3].map((rate) => (
+                <option key={rate} value={rate}>
+                  {rate}×
+                </option>
+              ))}
             </select>
           </label>
         </div>
-        <div className={styles.chapterGrid}>
-          {(archiveChapters.length > 0 ? allChapters : referenceChapters).map((chapter) => (
-            <ChapterCard
-              key={chapter.id}
-              chapter={chapter}
-              profile={profile}
-              session={matchingSession}
-              imported={archiveChapters.find((entry) => entry.chapterId === chapter.id)}
-            />
-          ))}
-        </div>
+      </details>
+      <LevelingChapterPath
+        profile={profile}
+        session={matchingSession}
+        archiveChapters={archiveChapters}
+        archiveBuild={archiveBuild}
+        activities={activities}
+        currentChapterId={current?.id ?? null}
+        dungeonSourceAvailable={dungeonSourceAvailable}
+      />
+      <details className={styles.guideDetails}>
+        <summary>Dungeon reference library · all quests and preparation</summary>
+        <LevelingDungeonPlans profile={profile} sessionId={matchingSession?.id ?? null} />
       </details>
       <p className={styles.footnote}>
         Speed, Chill and Group set the planning context. Current published quest order is unchanged;
@@ -373,70 +330,5 @@ export function LevelingDashboard({
         )}
       </p>
     </div>
-  );
-}
-
-function ChapterCard({
-  chapter,
-  profile,
-  session,
-  position,
-  imported,
-}: {
-  readonly chapter: ChapterReference;
-  readonly profile: CharacterProfile;
-  readonly session: LevelingSession | null;
-  readonly position?: number;
-  readonly imported?: GuideChapterSummary | undefined;
-}): React.JSX.Element {
-  const label = getChapterLabel(chapter, profile);
-  const route = getPublicChapter(chapter, profile);
-  const complete = isChapterComplete(session, chapter);
-  const unknown = chapterEligibility(chapter, profile) === "unknown" || label.unresolved;
-  return (
-    <Link
-      className={`${styles.chapterCard} ${route || imported ? styles.published : ""}`}
-      href={levelingChapterPath(profile, chapter.id)}
-    >
-      <div className={styles.chapterTop}>
-        <span>
-          {position ? `Chapter ${String(position).padStart(2, "0")}` : "Reference bracket"}
-        </span>
-        <span className={styles.badge}>
-          {imported
-            ? "Full source list"
-            : complete
-              ? "Completed"
-              : route
-                ? "KFC preview"
-                : "Reference only"}
-        </span>
-      </div>
-      <strong className={styles.levelBracket}>
-        {label.minimumLevel}
-        <span>–</span>
-        {label.maximumLevel}
-      </strong>
-      <h3>{label.zone}</h3>
-      <p>
-        {imported
-          ? `${imported.stepCount} source steps${unknown ? " · conditional" : " · current quest list"}`
-          : route
-            ? `${route.steps.length} original steps · current quest list`
-            : unknown
-              ? "Character / XP condition needs review"
-              : "Quest list not published yet"}
-      </p>
-      <div className={styles.chapterBottom}>
-        <small>
-          {label.minimumLevel > LEVELING_EVIDENCE.betaLevelCap
-            ? "Beyond current beta cap"
-            : route || imported
-              ? "Readable · runtime check pending"
-              : "Extracted chapter metadata"}
-        </small>
-        <span aria-hidden="true">→</span>
-      </div>
-    </Link>
   );
 }

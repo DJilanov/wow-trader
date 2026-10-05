@@ -405,6 +405,16 @@
 .dashboard {
   padding: 46px 0 70px;
 }
+.workspaceListLinks .workspaceDungeonLink {
+  color: #eddaa7;
+  border: 1px solid #aa8847;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #242118, #11161b);
+  padding: 8px 12px;
+  min-height: 40px;
+  line-height: 1.6;
+  text-decoration: none;
+}
 .dashboardHero {
   display: flex;
   align-items: center;
@@ -999,7 +1009,6 @@
   height: 5px;
 }
 .workspaceSettingsButton,
-.workspaceViews button,
 .workspaceStepButton {
   min-height: 44px;
   padding: 8px 12px;
@@ -1054,12 +1063,9 @@
   overflow: auto;
   flex: 0 0 auto;
 }
-.workspaceViews {
-  display: none;
-}
 .workspaceBody {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(420px, 2fr);
+  grid-template-columns: minmax(0, var(--reader-map-width, 50%)) minmax(0, 1fr);
   flex: 1;
   min-height: 0;
 }
@@ -1403,23 +1409,6 @@
     border-left: 0;
     border-top: 1px solid var(--line);
   }
-  .workspaceViews {
-    display: flex;
-    gap: 6px;
-    padding: 6px 12px;
-    border-bottom: 1px solid var(--line);
-    flex: 0 0 auto;
-  }
-  .workspaceViews button {
-    flex: 1;
-    font-size: 11px;
-    padding: 6px;
-  }
-  .workspaceViews button[aria-pressed="true"] {
-    color: var(--ink);
-    border-color: var(--gold-low);
-    background: #d7913a18;
-  }
   .readerWorkspace[data-reader-view="map"] .workspaceBody,
   .readerWorkspace[data-reader-view="quests"] .workspaceBody {
     grid-template-rows: minmax(0, 1fr);
@@ -1553,6 +1542,149 @@
   .readerWorkspace[data-reader-view="map"] .workspaceBody,
   .readerWorkspace[data-reader-view="quests"] .workspaceBody {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+.workspaceControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 24px;
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+.workspaceReadingMode {
+  display: flex;
+  gap: 4px;
+}
+.workspaceReadingMode button,
+.workspaceMapToggle {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  font: 11px var(--sans);
+  color: var(--muted);
+  background: var(--bg-1);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.workspaceReadingMode button[aria-pressed="true"],
+.workspaceMapToggle[aria-pressed="true"] {
+  color: var(--gold-bright);
+  border-color: var(--gold-low);
+}
+.workspaceMapWidth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.workspaceMapWidth input {
+  width: 110px;
+  accent-color: var(--gold-bright);
+}
+.workspaceMapToggle {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .workspaceControls {
+    padding: 4px 12px;
+    gap: 6px;
+  }
+  .workspaceMapWidth {
+    display: none;
+  }
+  .workspaceMapToggle {
+    display: block;
+  }
+  .workspaceStepActions {
+    order: 4;
+    border-top: 1px solid var(--line);
+    border-bottom: 0;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+    background: var(--surface);
+  }
+  .workspaceStepActions p {
+    display: none;
+  }
+  .workspaceStepButton {
+    flex: 1;
+    min-height: 44px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+  .workspaceStepButton[data-reader-action="undo"]:disabled {
+    display: none;
+  }
+  .workspaceQuestToolbar {
+    padding: 4px 12px;
+  }
+  .workspaceQuestToolbar h2 {
+    display: none;
+  }
+  .workspaceQuestToolbar .workspaceListLinks:empty {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard {
+    padding-top: 16px;
+  }
+  .dashboardHero {
+    padding: 4px 0 12px;
+  }
+  .dashboardHero h1 {
+    font-size: 25px;
+    margin: 8px 0;
+    line-height: 1.2;
+  }
+  .dashboardHero p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 6px 0;
+  }
+  .profileBar {
+    padding-block: 12px;
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+  .dashboardColumns {
+    margin-block: 14px 24px;
+  }
+  .workspaceHeader {
+    padding: 4px 12px;
+    gap: 4px 8px;
+  }
+  .workspaceTitle p {
+    display: none;
+  }
+  .workspaceTitle h1 {
+    font-size: 15px;
+  }
+  .workspaceTitle h1 span {
+    font-size: 10px;
+    margin-left: 0;
+  }
+  .workspaceProgress {
+    gap: 8px;
+  }
+  .workspaceProgress span {
+    max-width: 55%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .workspaceSettingsButton {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+  .workspaceReadingMode button,
+  .workspaceMapToggle {
+    padding: 5px 8px;
   }
 }
 .doneStep .actionIcon {

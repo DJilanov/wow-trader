@@ -21,6 +21,7 @@ interface LevelingZoneMapProps {
   readonly points: readonly LevelingMapPoint[];
   readonly stepLabel: string;
   readonly onLocation?: (point: LevelingMapPoint) => void;
+  readonly preferredUiMapId?: number | null;
 }
 interface ZoneCanvasProps {
   readonly zone: LevelingZoneArt;
@@ -248,7 +249,7 @@ function ZoneCanvas({ zone, points, buildNumber, onLocation }: ZoneCanvasProps):
             data-map-marker={point.id}
             role={onLocation ? "button" : undefined}
             tabIndex={onLocation ? 0 : undefined}
-            aria-label={`Map location ${index + 1}: ${point.evidence === "client_quest_poi" ? `quest ${point.questId} POI centre` : "guide waypoint"}, ${(point.x * 100).toFixed(1)}, ${(point.y * 100).toFixed(1)}`}
+            aria-label={`Map location ${index + 1}: ${point.evidence === "reference_pickup" ? "reference dungeon pickup — verify in game" : point.evidence === "client_quest_poi" ? `quest ${point.questId} POI centre` : "guide waypoint"}, ${(point.x * 100).toFixed(1)}, ${(point.y * 100).toFixed(1)}`}
             onClick={() => onLocation?.(point)}
             onKeyDown={(event) => {
               if (onLocation && (event.key === "Enter" || event.key === " ")) {
@@ -282,7 +283,7 @@ function ZoneCanvas({ zone, points, buildNumber, onLocation }: ZoneCanvasProps):
               r={18 * markerScale}
               vectorEffect="non-scaling-stroke"
             >
-              <title>{`${point.evidence === "client_quest_poi" ? `Quest ${point.questId} · client POI centre` : "Extracted guide waypoint"} · ${(point.x * 100).toFixed(1)}, ${(point.y * 100).toFixed(1)}`}</title>
+              <title>{`${point.evidence === "reference_pickup" ? "Reference dungeon pickup — verify in game" : point.evidence === "client_quest_poi" ? `Quest ${point.questId} · client POI centre` : "Extracted guide waypoint"} · ${(point.x * 100).toFixed(1)}, ${(point.y * 100).toFixed(1)}`}</title>
             </circle>
             <text
               x={point.x * zone.width}
@@ -306,6 +307,7 @@ export function LevelingZoneMap({
   points,
   stepLabel,
   onLocation,
+  preferredUiMapId,
 }: LevelingZoneMapProps): React.JSX.Element {
   const [selectedZone, setSelectedZone] = useState<{
     readonly stepLabel: string;
@@ -316,6 +318,7 @@ export function LevelingZoneMap({
       (entry) => selectedZone?.stepLabel === stepLabel && entry.uiMapId === selectedZone.uiMapId,
     ) ??
     maps.zones.find((entry) => points.some((point) => point.uiMapId === entry.uiMapId)) ??
+    maps.zones.find((entry) => entry.uiMapId === preferredUiMapId) ??
     maps.zones[0];
   const visible = points.filter((point) => point.uiMapId === zone?.uiMapId);
   return (
@@ -378,7 +381,8 @@ export function LevelingZoneMap({
               <span className={styles.clientLegend}>
                 Blue: client quest POIs; circles mark area centres.
               </span>{" "}
-              Circles are visual markers, not measured quest radii.
+              Circles are visual markers, not measured quest radii. Reference dungeon pickups are
+              supplemental NPC coordinates, not client-verified POIs; verify in game.
             </details>
             {maps.buildNumber !== maps.targetBuild && (
               <p className={styles.notice}>
@@ -397,9 +401,11 @@ export function LevelingZoneMap({
                 {visible.map((point, index) => (
                   <li key={point.id}>
                     {index + 1}.{" "}
-                    {point.evidence === "client_quest_poi"
-                      ? `Quest ${point.questId} POI centre`
-                      : "Guide waypoint"}{" "}
+                    {point.evidence === "reference_pickup"
+                      ? "Reference dungeon pickup (verify in game)"
+                      : point.evidence === "client_quest_poi"
+                        ? `Quest ${point.questId} POI centre`
+                        : "Guide waypoint"}{" "}
                     · {(point.x * 100).toFixed(1)}, {(point.y * 100).toFixed(1)}
                   </li>
                 ))}

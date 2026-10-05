@@ -6,6 +6,20 @@ import {
   characterProfileSchema,
   createCharacterProfile,
   getLevelingRace,
+  personalDungeonPlanSchema,
+  DUNGEON_RELEASE,
+  LEGACY_DUNGEON_RELEASE,
+  DUNGEON_VISITS,
+  getDungeonQuest,
+  emptyDungeonPlan,
+  THANES_REPLACEMENT,
+  THANES_ROUTE_STEPS,
+  DUNGEON_TRIP_STEPS,
+  dungeonTripKey,
+  dungeonAlternativeKey,
+  REDRIDGE_DUNGEON_ALTERNATIVE,
+  dungeonRewardQuestIds,
+  type PersonalDungeonPlan,
   type CharacterProfile,
   type ChapterReference,
   type Faction,
@@ -46,8 +60,77 @@ const sessionSchema = z
       .record(z.string().regex(/^[a-z0-9-]{1,180}$/), z.string().regex(/^[a-z0-9-]{1,180}$/))
       .default({}),
     lastReader: readingPositionSchema.nullable().default(null),
+    dungeonPlans: z
+      .record(z.string().regex(/^[a-z0-9-]{1,100}$/), personalDungeonPlanSchema)
+      .default({}),
   })
   .strict();
+function validateKnownDungeonPlan(plan: PersonalDungeonPlan): void {
+  if (plan.activeTripId !== null && !plan.trips[plan.activeTripId])
+    throw new Error("Unknown active dungeon trip");
+  const tripSteps = new Set<string>(DUNGEON_TRIP_STEPS.map((step) => step.id));
+  for (const [id, trip] of Object.entries(plan.trips)) {
+    const visit = DUNGEON_VISITS.find((entry) => entry.id === trip.visitId);
+    if (
+      id !==
+        (trip.alternative
+          ? dungeonAlternativeKey(trip.chapterId, trip.visitId)
+          : dungeonTripKey(trip.chapterId, trip.visitId)) ||
+      !CHAPTER_REFERENCES.some((chapter) => chapter.id === trip.chapterId) ||
+      !visit
+    )
+      throw new Error("Unknown dungeon trip identity");
+    if (
+      trip.alternative &&
+      (trip.chapterId !== REDRIDGE_DUNGEON_ALTERNATIVE.chapterId ||
+        !REDRIDGE_DUNGEON_ALTERNATIVE.visitIds.some((visitId) => visitId === trip.visitId) ||
+        trip.targetLevel !== REDRIDGE_DUNGEON_ALTERNATIVE.targetLevel ||
+        trip.sourceSha256 !== REDRIDGE_DUNGEON_ALTERNATIVE.sourceSha256 ||
+        trip.alternative.sourceSha256 !== REDRIDGE_DUNGEON_ALTERNATIVE.continuationSha256)
+    )
+      throw new Error("Unknown dungeon continuation");
+    if (
+      new Set(trip.questIds).size !== trip.questIds.length ||
+      trip.questIds.some((questId) => !visit.questIds.includes(questId))
+    )
+      throw new Error("Invalid dungeon trip bundle");
+    if (
+      !tripSteps.has(trip.stepId) ||
+      Object.keys(trip.progress).some((stepId) => !tripSteps.has(stepId))
+    )
+      throw new Error("Unknown dungeon trip step");
+  }
+  for (const [chapterId, replacement] of Object.entries(plan.replacements)) {
+    if (chapterId !== THANES_REPLACEMENT.chapterId) throw new Error("Unknown dungeon replacement");
+    const stepIds = new Set<string>(THANES_ROUTE_STEPS.map((step) => step.id));
+    if (
+      (replacement.stepId !== null && !stepIds.has(replacement.stepId)) ||
+      Object.keys(replacement.progress).some((id) => !stepIds.has(id))
+    )
+      throw new Error("Unknown dungeon replacement step");
+  }
+  for (const id of new Set([
+    ...Object.keys(plan.visits),
+    ...Object.keys(plan.selectedQuests),
+    ...Object.keys(plan.scenarios),
+  ]))
+    if (!DUNGEON_VISITS.some((visit) => visit.id === id)) throw new Error("Unknown dungeon visit");
+  for (const [id, choice] of Object.entries(plan.rewardChoices))
+    if (!getDungeonQuest(Number(id))?.rewards.choices.some((item) => item.id === choice))
+      throw new Error("Invalid quest reward choice");
+  for (const id of [
+    ...Object.keys(plan.questStates).map(Number),
+    ...plan.retainedQuestIds,
+    ...Object.values(plan.selectedQuests).flat(),
+  ])
+    if (!getDungeonQuest(id)) throw new Error("Unknown dungeon quest");
+  for (const [visitId, ids] of Object.entries(plan.selectedQuests))
+    if (
+      new Set(ids).size !== ids.length ||
+      ids.some((id) => !DUNGEON_VISITS.find((visit) => visit.id === visitId)?.questIds.includes(id))
+    )
+      throw new Error("Quest is not part of this visit");
+}
 export const levelingWorkspaceSchema = z
   .object({
     version: z.literal(1),
@@ -62,7 +145,34 @@ export const levelingWorkspaceSchema = z
         !workspace.sessions.some((session) => session.id === workspace.activeId))
     )
       context.addIssue({ code: "custom", message: "Invalid character session identity" });
-  });
+    workspace.sessions.forEach((session, index) => {
+      for (const release of [LEGACY_DUNGEON_RELEASE, DUNGEON_RELEASE]) {
+        const plan = session.dungeonPlans[release];
+        if (!plan) continue;
+        try {
+          validateKnownDungeonPlan(plan);
+        } catch (error) {
+          context.addIssue({
+            code: "custom",
+            path: ["sessions", index, "dungeonPlans", release],
+            message: error instanceof Error ? error.message : "Invalid dungeon plan",
+          });
+        }
+      }
+    });
+  })
+  .transform((workspace) => ({
+    ...workspace,
+    sessions: workspace.sessions.map((session) => {
+      const legacy = session.dungeonPlans[LEGACY_DUNGEON_RELEASE];
+      return !session.dungeonPlans[DUNGEON_RELEASE] && legacy
+        ? {
+            ...session,
+            dungeonPlans: { ...session.dungeonPlans, [DUNGEON_RELEASE]: structuredClone(legacy) },
+          }
+        : session;
+    }),
+  }));
 export type LevelingWorkspace = z.infer<typeof levelingWorkspaceSchema>;
 export type LevelingSession = z.infer<typeof sessionSchema>;
 export type StepProgress = "pending" | "done" | "skipped";
@@ -130,6 +240,14 @@ export function levelingDashboardPath(profile: CharacterProfile): string {
 export function levelingChapterPath(profile: CharacterProfile, chapterId: string): string {
   return `${levelingDashboardPath(profile)}/chapters/${chapterId}`;
 }
+export function levelingDungeonPath(
+  profile: CharacterProfile,
+  visitId: string,
+  chapterId?: string,
+  alternative = false,
+): string {
+  return `${levelingDashboardPath(profile)}/dungeons/${visitId}${chapterId ? `?chapter=${encodeURIComponent(chapterId)}${alternative ? "&plan=alternative" : ""}` : ""}`;
+}
 export function getPublicChapter(
   chapter: ChapterReference,
   profile: CharacterProfile,
@@ -164,6 +282,7 @@ export function updateCharacterSession(
     lastChapterId: existing?.lastChapterId ?? null,
     readerPositions: existing?.readerPositions ?? {},
     lastReader: existing?.lastReader ?? null,
+    dungeonPlans: existing?.dungeonPlans ?? {},
   };
   if (!existing && workspace.sessions.length >= 10)
     throw new Error("Ten local characters are already saved. Select an existing character.");
@@ -288,4 +407,69 @@ export function isChapterComplete(
           ] === "done",
       )
   );
+}
+
+export function updatePersonalDungeonPlan(
+  workspace: LevelingWorkspace,
+  sessionId: string,
+  update: (plan: PersonalDungeonPlan) => PersonalDungeonPlan,
+): LevelingWorkspace {
+  const session = workspace.sessions.find((entry) => entry.id === sessionId);
+  if (!session) return workspace;
+  const previous = session.dungeonPlans[DUNGEON_RELEASE] ?? emptyDungeonPlan();
+  const updated = update(previous);
+  if (updated === previous && session.dungeonPlans[DUNGEON_RELEASE]) return workspace;
+  let plan = personalDungeonPlanSchema.parse(updated);
+  const replacement = plan.replacements[THANES_REPLACEMENT.chapterId];
+  const rewardChanged = [...THANES_REPLACEMENT.questIds, THANES_REPLACEMENT.treatyId, 96391].some(
+    (id) =>
+      (previous.questStates[String(id)] === "rewarded") !==
+      (plan.questStates[String(id)] === "rewarded"),
+  );
+  if (replacement && rewardChanged)
+    plan = {
+      ...plan,
+      replacements: {
+        ...plan.replacements,
+        [THANES_REPLACEMENT.chapterId]: { ...replacement, xpNeedsUpdate: true },
+      },
+    };
+  const trips = { ...plan.trips };
+  for (const [id, trip] of Object.entries(trips)) {
+    const changed = dungeonRewardQuestIds(trip.questIds, plan).some(
+      (questId) =>
+        (previous.questStates[String(questId)] === "rewarded") !==
+        (plan.questStates[String(questId)] === "rewarded"),
+    );
+    if (changed) trips[id] = { ...trip, xpNeedsUpdate: true };
+  }
+  plan = { ...plan, trips };
+  if (
+    plan.activeTripId !== previous.activeTripId &&
+    plan.activeTripId !== null &&
+    plan.replacements[THANES_REPLACEMENT.chapterId]?.active
+  )
+    plan = {
+      ...plan,
+      replacements: {
+        ...plan.replacements,
+        [THANES_REPLACEMENT.chapterId]: {
+          ...plan.replacements[THANES_REPLACEMENT.chapterId]!,
+          active: false,
+        },
+      },
+    };
+  if (
+    plan.replacements[THANES_REPLACEMENT.chapterId]?.active &&
+    !previous.replacements[THANES_REPLACEMENT.chapterId]?.active
+  )
+    plan = { ...plan, activeTripId: null };
+  return levelingWorkspaceSchema.parse({
+    ...workspace,
+    sessions: workspace.sessions.map((entry) =>
+      entry.id === sessionId
+        ? { ...entry, dungeonPlans: { ...entry.dungeonPlans, [DUNGEON_RELEASE]: plan } }
+        : entry,
+    ),
+  });
 }

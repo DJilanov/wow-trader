@@ -1,10 +1,100 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-10-04
+Last updated: 2026-10-05
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## Dungeon release preparation (2026-10-05)
+
+- Deployment is explicitly authorized. Scope is the completed leveling/dungeon implementation;
+  unrelated dirty catalog, market, ingestion and SEO files are excluded from its commit and overlay.
+- Verified the active web baseline is `kfc-helper-leveling-quality-20261004-r5`, not the older r4
+  context entry. Ingestion is independently pinned and must not restart for this web-only release.
+- Local-only entries below describe their original implementation turns. A separate deployment
+  receipt will supersede their local-only status only after activation and public verification.
+
+## Full chapter path, quest metrics and dungeon expansion plan (2026-10-05; local only)
+
+- The dashboard now displays the complete eligible 1–60 chapter route tree; no three-card cap,
+  collapsed archive or 20-level-band selector. Source branch links, conditional/missing connections,
+  current-chapter jump and explicit Mage AoE alternatives are preserved.
+- Unique source quest IDs/hand-ins honor the existing character/rate/season/dungeon conditions;
+  repeated objective rows are not additional quests. Optional/unknown branches and reference reward
+  coverage are separate. Chapter-required XP does not claim actual quest or kill rewards.
+- All 60 XP-curve entries were checked against the pinned extraction. Modeled time uses a separately
+  saved per-character effective XP/hour; blank/invalid rate and same-level/missing XP stay unknown.
+  Save denial is visible. Neither estimated time nor reward figures change character progress.
+- Added bounded cached archive projections, private/checksum rejection and failed-load retry tests,
+  pure graph/count/timing tests and `scripts/check-leveling-chapter-path.mjs`. Accessibility checking
+  found and fixed invalid metric-definition markup before the final desktop/mobile audits.
+- Full-catalog expansion is planning only: see `docs/forever-leveling-dungeon-replacement-plan.md`.
+  Audited 32 visit variants / 259 quest records and found six UBRS rows skipped by a heading-suffix
+  parser bug. Generic source-segment definitions, schema migration, exact return gates, XP coverage,
+  total/marginal trip costs and lifecycle review precede additional runnable replacements.
+- User policy: At-level entry floor for every group size; later pickup/access gates can raise it.
+  Earlier preparation is allowed, earlier dungeon runs are not. Above-cap and unknown schedules
+  stay reference-only. Related older plans were reconciled with this explicit restriction.
+- Final verification: 192 web + 80 leveling unit tests passed; both packages passed lint and
+  typecheck, and leveling plus an isolated native Turbopack production web build passed. All 60
+  curve entries match the pinned extraction; the dungeon coverage audit validated 157 chapters.
+  Browser checks passed 22 compatible prior reader regressions, five new chapter-path groups,
+  six replacement groups and four reference-dungeon groups. The chapter-path audit found no
+  WCAG A/AA violations or overflow at desktop 1440 px and mobile 390/320 px widths.
+- Reproduce the chapter-path browser audit against the existing local dev server:
+  `node scripts/check-leveling-chapter-path.mjs --playwright-package=/Users/dimitarjilanov/work/test/discord-website/node_modules/@playwright/test/package.json`.
+- No commit/push/deployment, new dependency, database migration, addon change or production mutation.
+
+## Leveling companion UX and XP refresh (2026-10-05; local only)
+
+- Current + next is the default with a visible All steps switch. Mobile keeps instructions prominent
+  with bottom navigation and a map toggle; desktop retains a fixed map with a saved width slider.
+  Preferences are independent of character progress and legacy explicit preferences still load.
+- Active dungeon comparison moved to a compact route menu / Settings. Outdoor comparison is
+  expandable. Preparation deep links reveal the original-chain review before route selection.
+- Quest acceptance, objectives and hand-ins have explicit actions with correction/undo. Instruction
+  Done never infers a quest state; a reported reward remains undoable after its card collapses.
+- Original trip forecast is stable; remaining rewards and reported actual XP are separate. Reward
+  state changes from any dungeon UI require an actual XP refresh and never credit estimates as
+  earned XP. Refreshing clears old kill-XP assumptions; actual-level return gates remain separate.
+- Fixed selected-step loss after map toggles / viewport resizing and return-button clipping on
+  narrow screens. The measured 390×844 dungeon instruction pane is 596.5 px (~71% of the viewport).
+- Saved feedback appears only after successful browser persistence. Denied writes visibly remain
+  memory-only; a recovered write clears the stale storage warning. No account sync is claimed.
+- Continue and nearby chapters lead the dashboard; the full archive is collapsed and unknown
+  class/rate settings remain outside it. Reviewed carryovers are collapsed at the return checkpoint.
+- Verified 260 unit tests, package lint/typechecks/builds, 22 compatible prior Chrome regressions,
+  four reference-dungeon and six updated replacement browser groups, and reader/dashboard A/AA
+  accessibility audits with no violations. Normal isolated Turbopack production build passed;
+  a separate Webpack diagnostic hit the existing Google Fonts URL-extension loader issue.
+- No commit, deployment, migration, new dependency, addon change or production mutation.
+
+## Chapter-local dungeon alternatives (2026-10-05; local only)
+
+- Replaced the detached primary dungeon UX with a Hall of Thanes alternative on the applicable
+  Darkshore chapter. Estimated quest XP uses the supplied Crest 6200/2600 calibration, never outdoor
+  rewards, kills or the level curve. Four quests estimate 11,685 XP, leaving 2,715 XP at fresh level 15.
+- Treaty is a conditional inside level-16 pickup, not default XP or a means of unlocking itself.
+  Underground Map remains an outdoor prerequisite. Rewarded/retained quests cannot pay twice.
+- A seven-stage fixed-map reader has separate branch bookmarks and progress. Next/Done/Undo and
+  reload resume work without changing source checkmarks. Keep questing restores the outdoor bookmark;
+  `?outdoor=1` permits source preparation links without discarding the selected branch.
+- Handoff derives carried quests from the actual class/race/rate source pair, in chronological order.
+  Later accepts cannot satisfy earlier turns; optional duplicates cannot conceal required uses.
+  The continuation button requires actual level 16+ and explicit carryover review, not forecast XP.
+- Same-build source guards prevent stale route activation. Unchanged remembered steps are no-ops,
+  avoiding repeated provider updates. Old saves default missing replacement state; backups validate
+  exact supported chapter and step identities and preserve newer undone states.
+- Screenshot review fixed the irrelevant Darkshore default during Ironforge dungeon steps and the
+  missing mobile Review chapter checkpoint anchor. No dungeon entrance coordinates are invented.
+- Documentation and reproducible Chrome checks: `docs/forever-leveling-dungeon-implementation.md`,
+  `scripts/check-leveling-replacements.mjs`. No deployment, migration, addon change or new dependency.
+- Verified: 79 leveling / 176 web tests, package lint/typechecks, leveling and isolated production
+  web builds, 30 existing Chrome regressions and eight dedicated dungeon/replacement browser groups.
+  The chapter pair uses a full-width comparison row, preventing the longer alternative from
+  stretching neighboring chapter cards. Calibrated XP and source carryovers remain explicit estimates
+  and manual game checks, not a guaranteed shortest/playtested route or server prerequisite database.
 
 ## Leveling bookmarks, undo, backup safety and reader quality (2026-10-04; deployed r5)
 
@@ -489,3 +579,126 @@ new client build did not yet have an exact published item-and-recipe catalog.
   shows build 70205, 2,940 markets, and crafting results with neither exact-catalog warning; Forever
   icon media returns HTTP 200. Web and ingestion processes remain online, and ingestion retained zero
   restarts.
+
+## 2026-10-05: Dungeon route integration and accounting (local only)
+
+- Added a character/release-scoped dungeon sidecar, leaving source step IDs/order, bookmarks and
+  completion untouched. Finished visits retain their optional source branches; viewing a pickup
+  marker does not change the reading position. Rejoin returns to the current source row.
+- Removed pseudo punch-card quest IDs from public chains, separated the explosives follow-up from
+  its earlier stage and made the Paladin weapon a final-chain reward rather than a reward per run.
+- Accepted-only prerequisites no longer add reward XP or require their dungeon objectives. A
+  prerequisite needing another instance or an outdoor hand-in/return blocks a single-run scenario.
+  Unknown or unsatisfied OR branches cannot be priced by summing all alternatives.
+- Deduplicated shared quest rewards and travel activity IDs; already rewarded and retained-route
+  rewards contribute no incremental XP. Choice rewards are exclusive. Missing current XP remains
+  unknown, not zero, and illustrative offline values require explicit opt-in.
+- Scenario inputs and explicit game states survive reloads. Backup imports preserve the existing
+  dungeon release in full, so an older backup cannot resurrect an intentionally removed confirmation.
+  Fractional XP and reversed time intervals cannot create a recommendation.
+- Added lazy build-checked reward item previews with validated data and explicit 404/409/503 states,
+  timeout/retry and Wowhead fallback. No live gear-upgrade or kept-item cash value is invented.
+- Current-release stored/imported plans validate catalog membership before rendering; invalid
+  quest IDs, visit bundles and reward choices fail safely without replacing existing progress.
+  Canonical STOCKADES/GNOMER/ULDA tags match the source archive's branch matcher and are audited.
+- Verification passed: 60 leveling and 174 web unit tests, typechecks/lint, 157-chapter archive audit,
+  isolated production build, 30 existing leveling Playwright tests and four dedicated dungeon browser
+  groups. Live positive database preview and in-game XP/travel checks are still required. No commit,
+  push, production deployment, database migration or addon/scanner change occurred in this task.
+- Full implementation/maintenance notes: `docs/forever-leveling-dungeon-implementation.md`; current
+  coverage: `docs/forever-leveling-dungeon-coverage.json`.
+
+## 2026-10-05: Full-path dungeon expansion and At-level enforcement (local only)
+
+- Added chapter-level dungeon candidates for the complete visit catalog, not just Thanes. Schedule
+  checks enforce At level for premades too, raise it for selected prerequisite/pickup minima and
+  retain unknown or above-cap visits as references. A checkpoint cannot promise beta level 31.
+- Fixed the suffixed UBRS source heading and its catalog alias. All 12 UBRS quest rows are now
+  present; the main artifact has 228 associations/224 unique table IDs and the union 271 records.
+  Known sections/wings, all reviewed rows, identity restrictions and table columns fail closed.
+  Five importer regressions include a lost optional row with otherwise complete section coverage.
+- Added generic source-pinned trip instructions, immutable quest bundles, independent chapter/visit
+  progress and checkpoint assumptions, actual hand-in XP updates, Undo and exact outdoor return.
+  v2 migration clones legacy Thanes only once, retaining v1 and existing progress in backups.
+- Browser testing found that trip activation enabled a source `DM` tag and hid the saved `!DM`
+  outdoor row. Generic activation no longer changes source branches, and bookmark validation uses
+  the actual branch. Hidden/unresolved rows and changed source evidence are blocked, not remapped.
+- Corrected a long disabled trip-button label overflowing at 320/390 px. Mobile and desktop
+  reference/trip screenshots were reviewed; shared fixed-map/manual Next/Done semantics remain intact.
+- Verification passed: 94 leveling and 194 web unit tests; five importer tests; six new trip, four
+  reference, six Thanes and five chapter-tree Chrome regression groups. These check strict premade
+  floors, competing saved choices, exact source rejoin, reward/XP isolation, reload/backup, future
+  references, 1440/390/320 px overflow and automated WCAG A/AA accessibility.
+- Both feature packages passed lint/typecheck; changed scripts passed ESLint/Prettier. The leveling
+  build and an isolated Next production build passed (59 generated pages). The checked coverage
+  audit validates 157 chapters and 242 visit/quest rows. `git diff --check` passed.
+- Remaining evidence: later life cycles/reward observations, travel/clear timing, scoped multi-visit
+  chains and reviewed omitted-step/bridge adapters. Thanes is still the only authored outdoor
+  XP-segment replacement; other new trips retain the entire outdoor route. See
+  `docs/forever-leveling-dungeon-expansion.md`. No commit, push, deployment, production/database/addon
+  write, dependency installation or dev-server restart occurred.
+
+## 2026-10-05: Dungeon alternative discovery and presentation (local only)
+
+- Replaced hidden names and long expanded stacks with visible gold-accented dungeon cards. Names,
+  required levels, selected quest counts and known/estimated XP stay visible; each quest plan starts
+  collapsed. Native mouse/keyboard accordions open one option at a time within each chapter.
+  Selected/saved trip labels and resume links preserve the existing independent trip bookmarks.
+- Added a full-path discovery shortcut and a fixed reader-toolbar shortcut. These reveal alternatives
+  without selecting/completing a source row or starting a dungeon trip. Existing Hall of Thanes
+  styling, route calculations, strict At-level floors and outdoor-route retention are unchanged.
+- A new Thanes shortcut regression initially failed: the shared reader replaces history rather than
+  emitting `hashchange`, so the legacy section stayed closed. Its navigation callback now explicitly
+  reveals the panel; the passing regression verifies source bookmark/progress stay unchanged.
+- Generic review screens now keep XP/time comparisons and quest preparation in separate collapsed
+  panels. Inputs survive close/reopen. Single-visit reviews no longer show the unrelated future-visits
+  checkbox; the complete reference library retains that filter.
+- Verification passed: 194 web unit tests, web lint/typecheck, changed-script ESLint, Prettier and
+  `git diff --check`. Chrome regression passed seven option/trip, six Thanes, five chapter-path and
+  four full-reference groups. Cards and fixed reader shortcuts were checked at desktop, 390 px and
+  320 px; no horizontal overflow or automated WCAG A/AA violations. Screenshots were reviewed.
+- An isolated Next production build passed with 59 generated pages. No schema, dungeon data,
+  dependency, production/database/addon write, commit, push, deployment or dev-server restart was
+  included. Current UX/maintenance notes: `docs/forever-leveling-dungeon-expansion.md`.
+
+## 2026-10-05: Scoped dungeon plans and actual-XP-gated alternatives (local only)
+
+- Authored geographic/faction preparation, clear scope and hand-in itineraries for all 32 visit
+  variants, including separate SM wings, BRD subruns, Maraudon scope and endgame references.
+  Plans use the existing quest IDs, prerequisite closure, restrictions and source evidence; missing
+  rewards/access and above-cap content remain unknown/reference-only, not invented runnable routes.
+- Replaced equal-weight cards with a prominent Thanes-style plan and collapsed other journeys.
+  Selected quest XP, checkpoint/gap and full client-curve endpoints stay visible; View plan expands
+  ordered pickups, objectives and hand-ins. Review pages use the same itinerary and retain the
+  separate detailed XP/time comparison and quest library.
+- New DM plans use six core quests unless the explosives chain is prepared or explicitly selected.
+  Alliance WC is offered in Stonetalon/Ashenvale 21–23, not from Stormwind/Redridge; Smart Drinks is
+  optional when unprepared. New trips persist itinerary mode so Continue/reload/URL changes cannot
+  restore the earlier floor or a different bundle. The constructor enforces the same floor as UI.
+- DM and Alliance Ruins now implement a source/hash-pinned Redridge 19→20 replacement for the
+  audited Human Warrior at 1× outdoor XP. The bridge retains the later Redridge Shoes/Gnolls chain,
+  Cooking 50, Corruption Abroad and class/utility preparation. Actual reported valid level-20 XP,
+  fresh rewards and explicit dependency checks gate the exact Darkshore continuation. A shortfall
+  links back to the saved route for top-up, without marking source instructions done/skipped.
+- Separate `--alternative` records and strict optional continuation snapshots preserve older
+  generic trips, competing plans, source bookmarks and backups. Changed source/character evidence
+  blocks reuse with an explanation. A regression caught the missing inactive-review explanation;
+  it is now visible. Other variants remain optional trips pending their own bridge review.
+- Retained mixed source rows are scoped to quest 124 rather than unrelated Everstill Bridge/scales
+  tasks. Continuation map steps are namespaced to avoid collisions with original ordinal IDs;
+  rejoin uses a next-chapter source reference, not the old AH bookmark or an invented travel pin.
+- Verification: 104 leveling and 195 web unit tests; package lint/typechecks; changed-script ESLint;
+  formatting and diff checks; leveling build and isolated production Next build (59 generated pages).
+  Chrome checks cover the new actual-XP bridge, core bundles, separate old records, WC mode/floor,
+  source changes, map target, existing Thanes, generic trips, full path and reference library.
+  Desktop/390/320 px layouts and automated WCAG A/AA checks passed; screenshots were inspected.
+- Test-environment recovery: the isolated preview needed the same extracted world snapshot/media
+  configuration as dev. The simulated denied-storage test also encountered the development overlay;
+  rerunning on the configured production preview passed without weakening assertions. Builds were
+  rerun with finished leveling declarations after an initial concurrent-build race.
+- Full all-dungeon matrix and remaining review/timing scope:
+  `docs/forever-leveling-dungeon-route-choice-plan.md`; maintenance contract:
+  `docs/forever-leveling-dungeon-expansion.md`. Context is current. Travel/clear timings and more
+  race/class/wing replacement adapters remain evidence work; no automatic fastest-route claim.
+- No commit, push, deployment, production/database/addon write, dependency installation or restart
+  of the user's running localhost:3000 dev server was included.

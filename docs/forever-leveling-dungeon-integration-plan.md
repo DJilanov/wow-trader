@@ -1,7 +1,17 @@
 # Forever leveling: dungeon preparation, quest chains and worthwhile detours
 
-Research and implementation plan, 2026-10-04. Dungeon integration is **not implemented** by this
-document. The reader-quality release is deployed separately as r5. This extends the existing
+Research and implementation plan, 2026-10-04; implementation status updated 2026-10-05.
+The local dungeon companion, typed graph, reference catalog, route/map overlays, durable states,
+item previews and conservative comparisons are now implemented. The approved chapter-first revision
+also implements the Crest-calibrated Hall of Thanes / Darkshore 15–16 alternative, independent branch
+progress and a source-derived quest-chain return checkpoint. Other dungeon/chapter replacements
+still require reviewed lifecycle and continuation adapters. The updated
+[full-catalog replacement plan](forever-leveling-dungeon-replacement-plan.md) audits all 32 visit
+entries, identifies the UBRS importer gap, and specifies the generic engine, segment adapters,
+XP/time rules, save migration and staged rollout. See
+[implementation and remaining validation](forever-leveling-dungeon-implementation.md) and
+[coverage audit](forever-leveling-dungeon-coverage.json). No deployment is part of this implementation
+turn. The reader-quality release is deployed separately as r5. This extends the existing
 leveling product and experience plans; it does not replace the authorized source route.
 
 ## Decision
@@ -11,6 +21,12 @@ route**. A player should encounter the right pickup or prerequisite while passin
 then arrive with a useful quest bundle, complete the applicable objectives and follow an explicit
 turn-in/rejoin itinerary. Do not add a disconnected dungeon quest checklist or automatically accept
 every quest merely because it is listed.
+
+Scheduling update, 2026-10-05: **At level is a strict floor, never an early-entry suggestion**.
+Use `max(source At level, selected quest pickup levels, confirmed access minimum)` for the run,
+including prepared groups. Unknown At-level or above-cap schedules remain reference-only.
+Preparation may occur earlier, but dungeon run alternatives must not. This supersedes earlier
+hard-level/premade entry experiments in the planning documents.
 
 Every reference quest gets a coverage record. Not every quest can be collected before entry: some
 begin inside, from an item, after an escort, after another dungeon, or after a return to town. Keep
@@ -83,7 +99,7 @@ Publish reviewed factual records and our own instructions, not a wholesale third
 
 The current [dungeon quest reference](https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location)
 provides useful visit bands and preparation hints, but also marks unresolved locations and later
-content. Keep its **At level** values as visit defaults, separately from quest pickup gates.
+content. Keep its **At level** values as strict visit minimums, separately from quest pickup gates.
 
 Specific findings from the local sources:
 
@@ -361,10 +377,10 @@ Reference-only late content remains browsable but not a current beta recommendat
 Dire Maul/wing subsection is not proof that the instance has no quests; follow the individual
 quest/class references and mark the coverage incomplete until reconciled.
 
-Above-cap _At level_ defaults cannot be met in the current beta even when the instance is open.
-Offer an earlier premade experiment only with explicit warnings and player inputs, not an automatic
-speed win. Preserve the owner's At-level scheduling policy; review Forever's changed difficulty
-separately rather than treating Classic labels as current measured combat difficulty.
+Above-cap _At level_ minimums cannot be met in the current beta even when the instance is open.
+Keep these as future references; do not offer earlier premade experiments. Preserve the owner's
+strict At-level scheduling policy and review Forever's changed difficulty separately rather than
+treating Classic labels as current measured combat difficulty.
 
 ## 9. Implementation order and release gates
 

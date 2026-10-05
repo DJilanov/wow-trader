@@ -10,7 +10,7 @@ export interface LevelingMapPoint {
   readonly x: number;
   readonly y: number;
   readonly questId: number | null;
-  readonly evidence: "guide_coordinate" | "client_quest_poi";
+  readonly evidence: "guide_coordinate" | "client_quest_poi" | "reference_pickup";
   readonly outline: readonly { readonly x: number; readonly y: number }[];
 }
 export interface LevelingZoneArt {
