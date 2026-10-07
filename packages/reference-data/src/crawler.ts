@@ -96,9 +96,9 @@ export async function crawlReferences(
   const lock = await open(lockPath, "wx", 0o600);
   try {
     const gate = await requestGate(root, sleep, options.now ?? Date.now, options.signal);
-    async function request(url: string, init: RequestInit, delayMs: number): Promise<Response> {
+    async function request(url: string, init: Omit<RequestInit, "signal">, delayMs: number): Promise<Response> {
       await gate.beforeRequest(delayMs);
-      const response = await fetcher(url, init);
+      const response = await fetcher(url, { ...init, signal: requestSignal() });
       if (response.status === 429 || response.status === 503) {
         await gate.cooldown(response.headers.get("retry-after"), delayMs);
         await response.body?.cancel();
@@ -108,7 +108,6 @@ export async function crawlReferences(
     }
     const robotsResponse = await request("https://www.wowhead.com/robots.txt", {
       redirect: "error",
-      signal: requestSignal(),
       headers: { "user-agent": CRAWLER_AGENT },
     }, requestedDelay);
     if (!robotsResponse.ok) throw new Error(`Robots fetch failed: HTTP ${robotsResponse.status}`);
@@ -150,7 +149,6 @@ export async function crawlReferences(
           throw new Error("Source disallowed by robots policy");
         const response = await request(current, {
           redirect: "manual",
-          signal: requestSignal(),
           headers: { "user-agent": CRAWLER_AGENT, accept: "text/html,application/xml" },
         }, delay);
         if ([301, 302, 303, 307, 308].includes(response.status)) {

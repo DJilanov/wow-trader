@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { crawlReferences } from "./crawler.js";
 import { readRequestPacing, requestGate, validateRequestDelay } from "./pacing.js";
 
@@ -54,6 +54,39 @@ describe("durable source request pacing", () => {
       })).rejects.toThrow(/Operator stop/);
       expect(requests).toBe(1);
     } finally { await rm(root, { recursive: true, force: true }); }
+  });
+
+  it("starts each network timeout after its pacing wait", async () => {
+    const root = await mkdtemp(join(tmpdir(), "reference-pacing-timeout-"));
+    let requests = 0;
+    vi.useFakeTimers();
+    const timeout = vi.spyOn(AbortSignal, "timeout").mockImplementation((milliseconds: number): AbortSignal => {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(new Error("Network timeout")), milliseconds);
+      return controller.signal;
+    });
+    try {
+      await crawlReferences([{ game: "forever", kind: "quest", id: 1 }], {
+        directory: root, permissionRef: "test",
+        sleep: async (milliseconds: number): Promise<void> => { await vi.advanceTimersByTimeAsync(milliseconds); },
+        fetcher: async (input, init): Promise<Response> => {
+          expect(init?.signal?.aborted).toBe(false);
+          requests++;
+          return String(input).endsWith("robots.txt")
+            ? new Response("User-agent: *\nAllow: /")
+            : new Response('<link rel="canonical" href="https://www.wowhead.com/forever/quest=1"><h1>Test Quest</h1>', { headers: { "content-type": "text/html" } });
+        },
+      });
+      expect(requests).toBe(2);
+      expect(timeout).toHaveBeenCalledTimes(2);
+      expect(timeout).toHaveBeenNthCalledWith(1, 20000);
+      expect(timeout).toHaveBeenNthCalledWith(2, 20000);
+    } finally {
+      timeout.mockRestore();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+      await rm(root, { recursive: true, force: true });
+    }
   });
 
   it("preserves long numeric and dated cooldowns across restarts without refetching robots", async () => {
