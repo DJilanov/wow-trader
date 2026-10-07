@@ -89,6 +89,19 @@ object endpoint on the canonical Forever page. The parser had assumed every give
 was an NPC. It now accepts explicit same-edition NPC/object identities while
 rejecting foreign hosts, credentials, query/fragment variants, invalid IDs and
 crossed editions. The checkpoint and unreviewed staging are preserved on resume.
+The pacing rollout also exposed a timeout-ordering bug: the 20-second network
+deadline started before the 60-second wait. Request timeouts now start only after
+the durable pacing gate, retaining the original network/body deadline. A fake-clock
+regression fails with the old ordering and passes with the correction.
+
+Production verification at 19:15 UTC: isolated release `crawl-20261007-r4`
+advanced cursor 101 to 102 without changing the queue hash or total. Quest 37
+stored NPC starter 261 and object endpoint 55 with no completeness gaps. The
+worker continued to the next item, and PM2's process list was saved. All 28
+reference tests, strict typecheck, lint and portable build passed. Both website
+releases were deployed and verified first; no Helper website, database schema
+or reference publication was included in this worker update. Release/checkpoint
+backups remain under `/home/wow-trader-reference-worker/backups/20261007-r4`.
 
 Production paths on `89.167.46.193`:
 
