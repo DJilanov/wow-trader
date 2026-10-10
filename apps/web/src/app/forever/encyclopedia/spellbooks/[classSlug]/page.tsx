@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: ForeverSpellbookPageProps): P
   const className = `${classSlug[0]?.toUpperCase() ?? ""}${classSlug.slice(1).toLowerCase()}`;
   return createHelperMetadata({
     title: `WoW Forever ${className} Spellbook`,
-    description: `Browse the captured level-38 WoW Forever ${className} spellbook by tab, rank, training level, tooltip evidence, and Classic comparison.`,
+    description: `Browse the WoW Forever ${className} spellbook by tab, rank, training level, source build and Classic comparison.`,
     path: `/forever/encyclopedia/spellbooks/${classSlug}`,
     keywords: [`WoW Forever ${className} spells`, `WoW Forever ${className} spellbook`],
   });
@@ -48,11 +48,14 @@ export default async function ForeverSpellbookPage({
             <Link className="helper-back-link" href="/forever/encyclopedia">
               <span aria-hidden="true">←</span> Forever Encyclopedia
             </Link>
-            <span className="eyebrow">Captured at BlizzCon 2026</span>
+            <span className="eyebrow">
+              {spellbook.source === "beta" ? "Forever beta spellbook" : "Captured at BlizzCon 2026"}
+            </span>
             <h1>{pageData.className} spellbook</h1>
             <p>
-              Every observed tab and rank from the level {spellbook.level} {spellbook.race} demo
-              character, with visible Classic fallbacks where Forever text was not captured.
+              {spellbook.source === "beta"
+                ? `Spell tabs and ranks through level ${spellbook.level} from source build ${spellbook.build}, with source evidence attached to each tooltip.`
+                : `Every observed tab and rank from the level ${spellbook.level} ${spellbook.race} demo character, with visible Classic fallbacks where Forever text was not captured.`}
             </p>
           </div>
           <ForeverIcon
@@ -89,6 +92,7 @@ export default async function ForeverSpellbookPage({
           spellbook={spellbook}
         />
         <ForeverSnapshotNotice
+          data={pageData.snapshot.data}
           generated={pageData.snapshot.generated}
           checksum={pageData.snapshot.checksum}
         />

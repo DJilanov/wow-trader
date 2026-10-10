@@ -29,6 +29,7 @@ export const talentSchema = z
     desc: z.union([z.array(z.string()), z.record(z.string(), z.string())]),
     complete: z.boolean(),
     confirmed: z.array(z.number().int().positive()).optional(),
+    src: z.enum(["demo", "beta"]).optional(),
     classic: classicTalentSchema,
     scaleIdx: z.array(z.number().int().nonnegative()).optional(),
     fixed: z.array(z.string()).optional(),
@@ -69,7 +70,7 @@ export const talentClassSchema = z
 
 export const spellbookSchema = z
   .object({
-    race: z.string().min(1),
+    race: z.string(),
     level: z.number().int().positive(),
     seen: z.string(),
     missing: z.array(z.string()),
@@ -85,14 +86,37 @@ export const spellbookSchema = z
     notes: z.array(z.string()),
     levels: z.record(z.string(), z.array(z.number().int().positive().nullable())).optional(),
     levelsSource: z.string().optional(),
+    source: z.enum(["demo", "beta"]).optional(),
+    build: z
+      .string()
+      .regex(/^\d+\.\d+\.\d+\.\d+$/)
+      .optional(),
+    icons: z.record(z.string(), iconKeySchema).optional(),
   })
-  .passthrough();
+  .passthrough()
+  .superRefine((spellbook, context) => {
+    if (spellbook.source === "beta") {
+      if (!spellbook.build) {
+        context.addIssue({
+          code: "custom",
+          path: ["build"],
+          message: "Beta spellbooks require a client build",
+        });
+      }
+    } else if (!spellbook.race.trim()) {
+      context.addIssue({
+        code: "custom",
+        path: ["race"],
+        message: "Captured demo spellbooks require a race",
+      });
+    }
+  });
 
 export const spellDescriptionSchema = z
   .object({
     l: z.array(tooltipLineSchema),
     d: z.string(),
-    s: z.enum(["demo", "classic"]),
+    s: z.enum(["demo", "classic", "beta"]),
     src: z.string(),
     r: z.string(),
     lv: z.string(),
@@ -117,9 +141,35 @@ const classRacialSchema = z
   .object({
     note: z.string(),
     races: z.record(z.string(), z.array(abilityTupleSchema)),
-    sources: z.string(),
+    sources: z.string().optional(),
   })
   .passthrough();
+
+const legacyPerkSchema = z.union([
+  z.tuple([z.string().min(1), z.number().int().positive(), z.string(), iconKeySchema]),
+  z
+    .object({
+      name: z.string().min(1),
+      max: z.number().int().positive().max(20),
+      row: z.number().int().positive().max(20),
+      col: z.number().int().positive().max(8),
+      icon: iconKeySchema,
+      ranks: z.array(z.string()).min(1),
+      gate: z.number().int().nonnegative(),
+      req: z.string().min(1).optional(),
+      placeholder: z.boolean().optional(),
+    })
+    .passthrough()
+    .superRefine((perk, context) => {
+      if (perk.ranks.length !== perk.max) {
+        context.addIssue({
+          code: "custom",
+          path: ["ranks"],
+          message: "Legacy rank text must match its rank cap",
+        });
+      }
+    }),
+]);
 
 const legacySchema = z
   .object({
@@ -129,9 +179,7 @@ const legacySchema = z
         .object({
           name: z.string().min(1),
           icon: iconKeySchema,
-          perks: z.array(
-            z.tuple([z.string().min(1), z.number().int().positive(), z.string(), iconKeySchema]),
-          ),
+          perks: z.array(legacyPerkSchema),
         })
         .passthrough(),
     ),
@@ -175,3 +223,4 @@ export type TalentTree = z.infer<typeof talentTreeSchema>;
 export type Spellbook = z.infer<typeof spellbookSchema>;
 export type SpellDescription = z.infer<typeof spellDescriptionSchema>;
 export type Race = z.infer<typeof raceSchema>;
+export type LegacyPerk = z.infer<typeof legacyPerkSchema>;

@@ -16,6 +16,53 @@ afterEach(async () => {
 });
 
 describe("Forever asset synchronization", () => {
+  it("includes per-class beta spellbook icons and structured Legacy perks", async () => {
+    const outputRoot = await mkdtemp(join(tmpdir(), "forever-assets-beta-"));
+    temporaryDirectories.push(outputRoot);
+    const data = structuredClone(fixture);
+    data.spellbooks.Warrior = {
+      race: "",
+      level: 60,
+      seen: "",
+      missing: [],
+      general: [["Attack", ""]],
+      tabs: [],
+      notes: [],
+      source: "beta",
+      build: "1.60.1.70291",
+      icons: { Attack: "inv_sword_04" },
+    };
+    data.legacy.trees = [
+      {
+        name: "Adventure",
+        icon: "class_warrior",
+        perks: [
+          {
+            name: "Veteran",
+            max: 1,
+            row: 1,
+            col: 1,
+            icon: "ability_parry",
+            ranks: ["One"],
+            gate: 0,
+          },
+        ],
+      },
+    ];
+    const urls: string[] = [];
+    const fetcher: typeof fetch = async (url) => {
+      urls.push(String(url));
+      return new Response(new Uint8Array([255, 216, 255, 217]), {
+        headers: { "content-type": "image/jpeg" },
+      });
+    };
+    expect(
+      await syncForeverAssets(data, { spellbookIcons: {} }, outputRoot, checksum, fetcher),
+    ).toMatchObject({ total: 4, downloaded: 4, missing: [] });
+    expect(urls).toContain("https://talentsforever.com/assets/icons/inv_sword_04.jpg");
+    expect(urls).toContain("https://talentsforever.com/assets/icons/ability_parry.jpg");
+  });
+
   it("redownloads a file that no longer matches the trusted manifest", async () => {
     const outputRoot = await mkdtemp(join(tmpdir(), "forever-assets-"));
     temporaryDirectories.push(outputRoot);

@@ -162,6 +162,9 @@ function collectAssetReferences(
       for (const talent of tree.talents) iconKeys.add(talent.icon);
     }
   }
+  for (const spellbook of Object.values(data.spellbooks)) {
+    for (const key of Object.values(spellbook.icons ?? {})) iconKeys.add(key);
+  }
   for (const races of Object.values(data.racials)) {
     for (const race of races) {
       iconKeys.add(race.icon);
@@ -178,7 +181,7 @@ function collectAssetReferences(
   }
   for (const tree of data.legacy.trees) {
     iconKeys.add(tree.icon);
-    for (const perk of tree.perks) iconKeys.add(perk[3]);
+    for (const perk of tree.perks) iconKeys.add(Array.isArray(perk) ? perk[3] : perk.icon);
   }
 
   return [

@@ -101,4 +101,53 @@ describe("talent allocation", () => {
       evidence: "derived_estimate",
     });
   });
+
+  it("labels confirmed beta ranks without calling them demo transcriptions", () => {
+    const talent = classData.trees[0]!.talents[0]!;
+    expect(
+      getTalentRankText({ ...talent, src: "beta", confirmed: [1], est: { "1": "Estimate" } }, 1),
+    ).toEqual({ text: "One", evidence: "beta_source" });
+  });
+
+  it("enforces the restored Deep Wounds requirement for Impale", () => {
+    const base = classData.trees[0]!.talents[0]!;
+    const deepWounds = { ...base, name: "Deep Wounds", max: 3, row: 3, col: 2 };
+    const impale = { ...base, name: "Impale", max: 2, row: 4, col: 3, req: "Deep Wounds" };
+    const betaClass: TalentClass = {
+      ...classData,
+      trees: [
+        {
+          ...classData.trees[0]!,
+          talents: [
+            { ...base, name: "Tier One", row: 1 },
+            { ...base, name: "Tier Two", row: 2 },
+            { ...base, name: "Tier Three", row: 3 },
+            deepWounds,
+            impale,
+          ],
+        },
+      ],
+    };
+    const allocation = Object.fromEntries(
+      ["Tier One", "Tier Two", "Tier Three"].map((name) => [
+        createTalentKey("Warrior", "Arms", name),
+        5,
+      ]),
+    );
+    const prerequisiteKey = createTalentKey("Warrior", "Arms", "Deep Wounds");
+    expect(getAddBlockReason(betaClass, "Warrior", 0, impale, 60, allocation)).toBe(
+      "Requires Deep Wounds at maximum rank",
+    );
+    expect(
+      getAddBlockReason(betaClass, "Warrior", 0, impale, 60, {
+        ...allocation,
+        [prerequisiteKey]: 2,
+      }),
+    ).not.toBeNull();
+    const completed = { ...allocation, [prerequisiteKey]: 3 };
+    expect(getAddBlockReason(betaClass, "Warrior", 0, impale, 60, completed)).toBeNull();
+    const withImpale = { ...completed, [createTalentKey("Warrior", "Arms", "Impale")]: 1 };
+    expect(isAllocationValid(betaClass, "Warrior", 60, withImpale)).toBe(true);
+    expect(canRemoveTalentRank(betaClass, "Warrior", 0, deepWounds, 60, withImpale)).toBe(false);
+  });
 });

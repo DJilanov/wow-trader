@@ -32,7 +32,7 @@ export async function generateMetadata({
   const className = titleCase(classSlug);
   return createHelperMetadata({
     title: `WoW Forever ${className} Talent Calculator & Spellbook`,
-    description: `Build and share WoW Forever ${className} talent trees, compare them with Classic, and browse the captured level-38 spellbook with evidence-aware tooltips.`,
+    description: `Build and share WoW Forever ${className} talent trees, compare them with Classic, and browse spells by rank with build-aware source evidence.`,
     path: `/forever/encyclopedia/talents/${classSlug}`,
     keywords: [
       `WoW Forever ${className} talents`,
@@ -66,7 +66,7 @@ export default async function ForeverTalentPage({
             <Link className="helper-back-link" href="/forever/encyclopedia">
               <span aria-hidden="true">←</span> Forever Encyclopedia
             </Link>
-            <span className="eyebrow">Interactive demo talent archive</span>
+            <span className="eyebrow">WoW Forever talent calculator</span>
             <h1>{className}</h1>
             <p>{classData.source}</p>
           </div>
@@ -115,7 +115,11 @@ export default async function ForeverTalentPage({
           />
         ) : null}
 
-        <ForeverSnapshotNotice generated={snapshot.generated} checksum={snapshot.checksum} />
+        <ForeverSnapshotNotice
+          data={snapshot.data}
+          generated={snapshot.generated}
+          checksum={snapshot.checksum}
+        />
       </article>
     );
   } catch (error: unknown) {

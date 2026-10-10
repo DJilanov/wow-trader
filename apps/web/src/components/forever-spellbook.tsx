@@ -106,12 +106,14 @@ export function ForeverSpellbook({
     >
       <header className="forever-section-heading">
         <div>
-          <span className="eyebrow">Captured spellbook</span>
+          <span className="eyebrow">
+            {spellbook.source === "beta" ? "Beta spellbook" : "Captured spellbook"}
+          </span>
           <h2>
             Level {spellbook.level} {spellbook.race} {className}
           </h2>
         </div>
-        <p>{spellbook.seen}</p>
+        <p>{spellbook.source === "beta" ? `Source build ${spellbook.build}` : spellbook.seen}</p>
       </header>
 
       <div className="forever-book">
@@ -127,7 +129,7 @@ export function ForeverSpellbook({
                 {visibleSpells?.map((entry, index) => {
                   const [name, rank] = entry;
                   const trainingLevels = spellbook.levels?.[name];
-                  const icon = icons[name] ?? classData.icon;
+                  const icon = spellbook.icons?.[name] ?? icons[name] ?? classData.icon;
                   return (
                     <li key={`${name}:${rank}:${index}`}>
                       <button
@@ -294,11 +296,13 @@ function SpellPanel({
             </div>
           ) : null}
           <span
-            className={`forever-evidence ${description.s === "demo" ? "demo_transcribed" : "classic_fallback"}`}
+            className={`forever-evidence ${description.s === "beta" ? "source_complete_unverified" : description.s === "demo" ? "demo_transcribed" : "classic_fallback"}`}
           >
-            {description.s === "demo"
-              ? "Observed in Forever demo footage"
-              : "Classic fallback — not yet observed in Forever"}
+            {description.s === "beta"
+              ? "Beta client source / Talents Forever"
+              : description.s === "demo"
+                ? "Observed in Forever demo footage"
+                : "Classic fallback — not yet observed in Forever"}
           </span>
           {description.src ? (
             <small className="forever-spell-source">{description.src}</small>

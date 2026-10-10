@@ -1,3 +1,5 @@
+import { getForeverSnapshotEvidence } from "@wow-trader/forever-data";
+
 import { getForeverSnapshot } from "../../../../../lib/forever";
 
 export const dynamic = "force-dynamic";
@@ -7,11 +9,12 @@ export async function GET(): Promise<Response> {
   if (!snapshot) {
     return Response.json({ error: "No reviewed Forever preview is published" }, { status: 404 });
   }
+  const evidence = getForeverSnapshotEvidence(snapshot.data);
 
   return Response.json(
     {
       contract: "kfc-forever-preview.v1",
-      state: "demo_preview",
+      state: evidence.state,
       snapshot: {
         id: snapshot.snapshotId,
         checksum: snapshot.checksum,
@@ -19,6 +22,7 @@ export async function GET(): Promise<Response> {
         generated: snapshot.generated,
         retrievedAt: snapshot.retrievedAt.toISOString(),
         publishedAt: snapshot.publishedAt.toISOString(),
+        build: evidence.build,
       },
       license: {
         id: snapshot.source.license,
@@ -32,8 +36,7 @@ export async function GET(): Promise<Response> {
         data: snapshot.source.dataUrl,
       },
       evidence: {
-        warning:
-          "BlizzCon demo preview. Values can change and are not client-verified unless explicitly stated.",
+        warning: evidence.warning,
       },
       data: snapshot.data,
       supplemental: snapshot.supplemental,

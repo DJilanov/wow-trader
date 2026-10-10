@@ -480,8 +480,9 @@ function TalentTreeView({
                   : blocked
                     ? "locked"
                     : "available";
-            const uncertain =
-              getTalentRankText(talent, Math.max(1, rank || 1)).evidence !== "demo_transcribed";
+            const uncertain = !["demo_transcribed", "beta_source"].includes(
+              getTalentRankText(talent, Math.max(1, rank || 1)).evidence,
+            );
             return (
               <button
                 aria-label={`${talent.name}, rank ${rank} of ${talent.max}${blocked ? `, ${blocked}` : ""}`}
@@ -756,11 +757,13 @@ function EvidenceLabel({
 }): React.JSX.Element {
   const labels = {
     demo_transcribed: "Observed demo text",
+    beta_source: "Beta client source / Talents Forever",
     source_complete_unverified: "Source marks this talent complete",
     derived_estimate: "Estimated value",
     unknown: "Evidence missing",
   } as const;
-  return <span className={`forever-evidence ${evidence}`}>{labels[evidence]}</span>;
+  const style = evidence === "beta_source" ? "source_complete_unverified" : evidence;
+  return <span className={`forever-evidence ${style}`}>{labels[evidence]}</span>;
 }
 
 function classicStatusLabel(status: Talent["classic"]["status"]): string {

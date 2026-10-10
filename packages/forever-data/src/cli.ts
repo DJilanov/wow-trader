@@ -5,6 +5,7 @@ import { isAbsolute, resolve } from "node:path";
 import { loadEnvFile } from "node:process";
 
 import { createDatabase } from "@wow-trader/db";
+import { ZodError } from "zod";
 
 import { syncForeverAssets } from "./assets.js";
 import {
@@ -149,7 +150,15 @@ function loadRootEnvironment(): void {
 }
 
 main(process.argv.slice(2)).catch((error: unknown) => {
-  const message = error instanceof Error ? error.message : String(error);
+  const message =
+    error instanceof ZodError
+      ? `${error.issues.length} schema issue(s):\n${error.issues
+          .slice(0, 10)
+          .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+          .join("\n")}`
+      : error instanceof Error
+        ? error.message
+        : String(error);
   process.stderr.write(`forever-data: ${message}\n`);
   process.exitCode = 1;
 });

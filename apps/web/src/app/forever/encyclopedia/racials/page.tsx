@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = createHelperMetadata({
   title: "WoW Forever Racial Abilities",
   description:
-    "Compare WoW Forever Alliance and Horde racials, compatible classes, and race-specific Priest abilities observed in the BlizzCon demo.",
+    "Compare WoW Forever Alliance and Horde racials, compatible classes, and race-specific Priest abilities from the reviewed source snapshot.",
   path: "/forever/encyclopedia/racials",
   keywords: ["WoW Forever racials", "WoW Forever races", "WoW Forever Priest racials"],
 });
@@ -27,7 +27,7 @@ export default async function ForeverRacialsPage(): Promise<React.JSX.Element> {
         <ReferenceHeader
           eyebrow="Alliance and Horde"
           title="Racial abilities"
-          description="Compare the ten demo races and the class combinations observed for each. Priest race abilities remain separate because they are class-specific spells, not ordinary racials."
+          description="Compare the recorded races and class combinations. Priest race abilities remain separate because they are class-specific spells, not ordinary racials."
         />
         <ForeverEncyclopediaNav active="racials" />
         <div className="forever-faction-grid">
@@ -96,7 +96,11 @@ export default async function ForeverRacialsPage(): Promise<React.JSX.Element> {
             <small className="forever-source-line">{classRacials.sources}</small>
           </section>
         ))}
-        <ForeverSnapshotNotice generated={snapshot.generated} checksum={snapshot.checksum} />
+        <ForeverSnapshotNotice
+          data={snapshot.data}
+          generated={snapshot.generated}
+          checksum={snapshot.checksum}
+        />
       </article>
     );
   } catch {

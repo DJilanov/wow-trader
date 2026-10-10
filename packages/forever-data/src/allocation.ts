@@ -3,7 +3,11 @@ import type { Talent, TalentClass, TalentTree } from "./schemas.js";
 export interface TalentRankText {
   readonly text: string | null;
   readonly evidence:
-    "demo_transcribed" | "source_complete_unverified" | "derived_estimate" | "unknown";
+    | "demo_transcribed"
+    | "beta_source"
+    | "source_complete_unverified"
+    | "derived_estimate"
+    | "unknown";
 }
 
 export type TalentAllocation = Readonly<Record<string, number>>;
@@ -33,7 +37,9 @@ export function getTalentRankText(talent: Talent, rank: number): TalentRankText 
   const text = Array.isArray(talent.desc)
     ? (talent.desc[rank - 1] ?? null)
     : (talent.desc[String(rank)] ?? null);
-  if (text && talent.confirmed?.includes(rank)) return { text, evidence: "demo_transcribed" };
+  if (text && talent.confirmed?.includes(rank)) {
+    return { text, evidence: talent.src === "beta" ? "beta_source" : "demo_transcribed" };
+  }
   const estimate = talent.est?.[String(rank)];
   if (estimate) return { text: estimate, evidence: "derived_estimate" };
   return text

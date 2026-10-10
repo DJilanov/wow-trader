@@ -95,7 +95,7 @@ export default function ForeverHelperPage(): React.JSX.Element {
           <span className="eyebrow">Preview evidence available now</span>
           <h2>Builds, spellbooks, racials, and Legacy</h2>
           <p>
-            The Encyclopedia preserves the public BlizzCon demo export as an immutable snapshot.
+            The Encyclopedia preserves reviewed public demo and beta exports as immutable snapshots.
             Every estimate and incomplete record stays visibly labeled, while shared talent builds
             remain tied to the exact source snapshot used to create them.
           </p>

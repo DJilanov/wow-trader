@@ -20,7 +20,7 @@ import {
 export const TALENTS_FOREVER_SOURCE_SLUG = "talents-forever";
 export const TALENTS_FOREVER_DATA_URL = "https://talentsforever.com/data.json";
 export const TALENTS_FOREVER_SPELLBOOK_SCRIPT_URL = "https://talentsforever.com/spellbooks.js";
-export const FOREVER_PARSER_VERSION = "talents-forever.v1";
+export const FOREVER_PARSER_VERSION = "talents-forever.v2";
 
 const MAX_DATA_BYTES = 2_000_000;
 const MAX_SCRIPT_BYTES = 1_000_000;
@@ -184,15 +184,17 @@ export function validateForeverData(
     }
   }
 
-  const spellbookNames = new Set(
-    Object.values(data.spellbooks).flatMap((spellbook) => [
+  for (const [className, spellbook] of Object.entries(data.spellbooks)) {
+    const spellbookNames = new Set([
       ...spellbook.general.map(([name]) => name),
       ...spellbook.tabs.flatMap(({ spells }) => spells.map(([name]) => name)),
-    ]),
-  );
-  for (const name of spellbookNames) {
-    if (!supplemental.spellbookIcons[name]) {
-      issues.push(warning("missing_spellbook_icon", `spellbooks.${name}`, "No icon mapping"));
+    ]);
+    for (const name of spellbookNames) {
+      if (!spellbook.icons?.[name] && !supplemental.spellbookIcons[name]) {
+        issues.push(
+          warning("missing_spellbook_icon", `spellbooks.${className}.${name}`, "No icon mapping"),
+        );
+      }
     }
   }
 
@@ -334,7 +336,7 @@ export async function publishForeverSnapshot(
       .limit(1);
     if (!snapshot) throw new Error(`Forever snapshot ${identity} does not exist`);
     if (snapshot.status === "rejected") throw new Error("A rejected snapshot cannot be published");
-    if (snapshot.parserVersion !== FOREVER_PARSER_VERSION) {
+    if (!["talents-forever.v1", FOREVER_PARSER_VERSION].includes(snapshot.parserVersion)) {
       throw new Error(
         `Snapshot parser ${snapshot.parserVersion} must be revalidated with ${FOREVER_PARSER_VERSION}`,
       );
@@ -461,6 +463,15 @@ function validateTalentTree(
 ): void {
   const positions = new Set<string>();
   const names = new Set(tree.talents.map(({ name }) => name));
+  if (names.size !== tree.talents.length) {
+    issues.push(
+      error(
+        "duplicate_talent_name",
+        `${className}.${tree.name}`,
+        "Talent names must be unique within a tree",
+      ),
+    );
+  }
   for (const talent of tree.talents) {
     const path = `${className}.${tree.name}.${talent.name}`;
     const position = `${talent.row}:${talent.col}`;

@@ -86,10 +86,11 @@ export default async function ForeverSourcePage(): Promise<React.JSX.Element> {
         <section className="forever-source-limitations">
           <h2>Honest boundary</h2>
           <p>
-            The source says its data was read from BlizzCon demo footage and Blizzard slides. It can
-            lag the live game, many talent rank descriptions are incomplete, and most demo spell
-            observations lack numeric client IDs. KFC Helper therefore stores this separately from
-            client builds and never presents an estimate as client-verified data.
+            The source began with demo footage and now also publishes beta client data and
+            documented hotfix observations. Its source lines identify that evidence, and it can lag
+            live tuning. KFC Helper stores these imports separately from its own client extractions:
+            source-marked confirmation is not independent client verification, and estimates remain
+            labeled.
           </p>
           <p>
             <a href={snapshot.source.homepageUrl} rel="noopener noreferrer" target="_blank">
@@ -103,7 +104,11 @@ export default async function ForeverSourcePage(): Promise<React.JSX.Element> {
             <Link href="/api/v1/forever/preview.json">Use KFC Helper&apos;s versioned export</Link>
           </p>
         </section>
-        <ForeverSnapshotNotice generated={snapshot.generated} checksum={snapshot.checksum} />
+        <ForeverSnapshotNotice
+          data={snapshot.data}
+          generated={snapshot.generated}
+          checksum={snapshot.checksum}
+        />
       </article>
     );
   } catch {

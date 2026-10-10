@@ -60,7 +60,7 @@ export default async function ForeverEncyclopediaPage(): Promise<React.JSX.Eleme
               <Link className="helper-back-link" href="/forever">
                 <span aria-hidden="true">←</span> Forever tools
               </Link>
-              <span className="eyebrow">Reviewed BlizzCon demo archive</span>
+              <span className="eyebrow">Reviewed Forever source archive</span>
               <h1>Forever, reconstructed.</h1>
               <p>
                 Explore every publicly exported talent, spellbook page, racial ability, class
@@ -134,11 +134,11 @@ export default async function ForeverEncyclopediaPage(): Promise<React.JSX.Eleme
             <LibraryCard
               href="/forever/encyclopedia/spellbooks/warrior"
               count={counts.spellbookEntries}
-              eyebrow="Captured at level 38"
+              eyebrow="Ranks & training levels"
               title="Spellbooks"
             >
               Browse spell tabs, ranks, training levels, in-game-style tooltips, and known gaps for
-              every demo class.
+              every class in the published snapshot.
             </LibraryCard>
             <LibraryCard
               href="/forever/encyclopedia/racials"
@@ -210,7 +210,11 @@ export default async function ForeverEncyclopediaPage(): Promise<React.JSX.Eleme
             ) : null}
           </section>
 
-          <ForeverSnapshotNotice generated={snapshot.generated} checksum={snapshot.checksum} />
+          <ForeverSnapshotNotice
+            data={snapshot.data}
+            generated={snapshot.generated}
+            checksum={snapshot.checksum}
+          />
         </article>
       </>
     );

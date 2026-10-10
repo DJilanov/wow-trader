@@ -41,18 +41,34 @@ export default async function ForeverLegacyPage(): Promise<React.JSX.Element> {
                 <h2>{tree.name}</h2>
               </header>
               <ol>
-                {tree.perks.map(([name, maximumRank, description, icon]) => (
-                  <li key={name}>
-                    <ForeverIcon alt="" iconKey={icon} snapshotChecksum={snapshot.checksum} />
-                    <span>
-                      <strong>{name}</strong>
-                      <b>
-                        {maximumRank} rank{maximumRank === 1 ? "" : "s"}
-                      </b>
-                      <small>{description}</small>
-                    </span>
-                  </li>
-                ))}
+                {tree.perks.map((perk, index) => {
+                  const [name, maximumRank, description, icon]: [string, number, string, string] =
+                    Array.isArray(perk)
+                      ? perk
+                      : [perk.name, perk.max, perk.ranks[perk.max - 1] ?? "", perk.icon];
+                  return (
+                    <li key={`${name}:${index}`}>
+                      <ForeverIcon alt="" iconKey={icon} snapshotChecksum={snapshot.checksum} />
+                      <span>
+                        <strong>{name}</strong>
+                        <b>
+                          {maximumRank} rank{maximumRank === 1 ? "" : "s"}
+                        </b>
+                        <small>{description}</small>
+                        {!Array.isArray(perk) && perk.ranks.length > 1 ? (
+                          <details>
+                            <summary>All ranks</summary>
+                            {perk.ranks.map((text, rank) => (
+                              <p key={rank}>
+                                Rank {rank + 1}: {text}
+                              </p>
+                            ))}
+                          </details>
+                        ) : null}
+                      </span>
+                    </li>
+                  );
+                })}
               </ol>
             </section>
           ))}
@@ -65,7 +81,11 @@ export default async function ForeverLegacyPage(): Promise<React.JSX.Element> {
             represented by verified mechanics rules.
           </p>
         </aside>
-        <ForeverSnapshotNotice generated={snapshot.generated} checksum={snapshot.checksum} />
+        <ForeverSnapshotNotice
+          data={snapshot.data}
+          generated={snapshot.generated}
+          checksum={snapshot.checksum}
+        />
       </article>
     );
   } catch {

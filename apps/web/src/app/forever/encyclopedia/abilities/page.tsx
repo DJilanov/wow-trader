@@ -72,7 +72,11 @@ export default async function ForeverAbilitiesPage(): Promise<React.JSX.Element>
             );
           })}
         </div>
-        <ForeverSnapshotNotice generated={snapshot.generated} checksum={snapshot.checksum} />
+        <ForeverSnapshotNotice
+          data={snapshot.data}
+          generated={snapshot.generated}
+          checksum={snapshot.checksum}
+        />
       </article>
     );
   } catch {
