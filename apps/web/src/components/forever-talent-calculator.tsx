@@ -330,7 +330,7 @@ export function ForeverTalentCalculator({
               });
             }}
             onAdd={(talent) => addRank(treeIndex, talent)}
-            onDeactivate={() => setActiveTalent(null)}
+            onDeactivate={() => setActiveTalent((current) => (current?.touch ? current : null))}
             onRemove={(talent) => removeRank(treeIndex, talent)}
             onReset={() => resetTree(tree)}
             points={summary.treePoints[treeIndex] ?? 0}
@@ -500,14 +500,22 @@ function TalentTreeView({
                   event.preventDefault();
                   onRemove(talent);
                 }}
-                onFocus={(event) => onActivate(talentIndex, event.currentTarget, false)}
+                onFocus={(event) => {
+                  if (!window.matchMedia("(hover: none)").matches) {
+                    onActivate(talentIndex, event.currentTarget, false);
+                  }
+                }}
                 onKeyDown={(event) => {
                   if (event.key === "Backspace" || event.key === "Delete") {
                     event.preventDefault();
                     onRemove(talent);
                   }
                 }}
-                onMouseEnter={(event) => onActivate(talentIndex, event.currentTarget, false)}
+                onMouseEnter={(event) => {
+                  if (!window.matchMedia("(hover: none)").matches) {
+                    onActivate(talentIndex, event.currentTarget, false);
+                  }
+                }}
                 onMouseLeave={onDeactivate}
                 style={{ gridColumn: talent.col, gridRow: talent.row }}
                 type="button"
