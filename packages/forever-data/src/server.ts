@@ -376,7 +376,9 @@ export async function getPublishedForeverSnapshot(
     upstreamGeneratedDate: externalDataSnapshots.upstreamGeneratedDate,
     retrievedAt: externalDataSnapshots.retrievedAt,
     snapshotPublishedAt: externalDataSnapshots.publishedAt,
-    publicationPublishedAt: externalDataPublications.publishedAt,
+    publicationPublishedAt: checksum
+      ? externalDataSnapshots.publishedAt
+      : externalDataPublications.publishedAt,
   };
 
   const rows = checksum

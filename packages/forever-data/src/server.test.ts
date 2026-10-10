@@ -1,6 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { createDatabase } from "@wow-trader/db";
+import { describe, expect, it, vi } from "vitest";
 
-import { createForeverCapture, parseSpellbookIconsScript } from "./server.js";
+import {
+  createForeverCapture,
+  getPublishedForeverSnapshot,
+  parseSpellbookIconsScript,
+} from "./server.js";
 import { foreverExportSchema } from "./schemas.js";
 import type { ForeverExport } from "./schemas.js";
 import { getForeverSnapshotEvidence } from "./provenance.js";
@@ -57,6 +62,24 @@ const fixture: ForeverExport = {
 };
 
 describe("Forever source ingestion", () => {
+  it("looks up a historical snapshot without selecting an unjoined publication table", async () => {
+    const database = createDatabase("postgres://fixture:fixture@127.0.0.1:1/fixture");
+    let sql = "";
+    const query = vi.spyOn(database.client, "unsafe").mockImplementation((statement) => {
+      sql = statement;
+      throw new Error("Captured SQL without a database connection");
+    });
+    try {
+      await expect(getPublishedForeverSnapshot(database.db, "a".repeat(64))).rejects.toThrow();
+      expect(sql).toContain('"external_data_snapshot"."published_at"');
+      expect(sql).not.toContain('"external_data_publication"');
+      expect(sql).toContain('"external_data_snapshot"."checksum" = $2');
+    } finally {
+      query.mockRestore();
+      await database.close();
+    }
+  });
+
   it("parses the supplemental icon assignment without executing JavaScript", () => {
     expect(
       parseSpellbookIconsScript('window.SPELLBOOK_ICONS = {"Attack":"inv_sword_04"};'),
