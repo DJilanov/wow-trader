@@ -18,8 +18,8 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-xp-repair-20261015-r8` is active. r7 and older readers are not compatible with newly
-  published v2 XP facts; retain the r8 reference reader when rolling back unrelated features.
+  `kfc-helper-combat-20261015-r9` is active, preserving the r8 reference reader. r7 and older readers
+  are not compatible with newly published v2 XP facts; use r8 or newer for rollback.
   `kfc-helper-library-20261015-r7`, `kfc-helper-zones-20261014-r6`,
   `kfc-helper-xp-20261014-r5`, `kfc-helper-chapters-20261014-r4`,
   `kfc-helper-route-20261013-r3` and
@@ -59,7 +59,32 @@ its server-side source or probability.
 
 ## Latest delivery and remaining validation
 
-### Required combat XP implementation (2026-10-15; local)
+### Combat XP web deployment (2026-10-15)
+
+- Scoped implementation commit `35137da` pushed to `origin/main`; 33 files. Unrelated local
+  catalog/market/ingestion/crawler work remains untouched and uncommitted. Clean Git-index export
+  passed 221 leveling + 198 web tests, strict types, lint and focused formatting.
+- Active release `kfc-helper-combat-20261015-r9`, Next build `1cFoZCia2MeGyO-m4y_ip`, is the actual
+  immutable r8 baseline plus the reviewed combat overlay. Thirty-two complete overlay files were
+  SHA-256 matched to the staged export; root package metadata merged only the two new combat
+  commands, retaining existing operational scripts. It is not a pristine Git checkout. The r8
+  v2 XP parser/contracts were preserved byte-for-byte; no reference/crawler rollout was performed.
+- Linux candidate passed 221 leveling + 220 web tests, package lint/types and real-font optimized
+  webpack build (59 static pages). Private and public browser tests passed real quest XP, correct
+  hand-in level, per-player forecasts, read-only refresh, 320/390px and axe accessibility. Twelve
+  public URLs returned 200, including both Traders with no database/catalog-review warning.
+- Only `kfc-helper-web` reloaded: PID 2895170, restart count 109. Crawler 2874710, publisher 2871067,
+  ingestion 1169337, guild/community PIDs unchanged. Recovery checkpoint remained running at
+  165/317 at 11:42:57 UTC; full archive phase is still queued behind recovery/priority. Do not
+  interpret that cursor as all quest data collected. PM2 saved; previous r8 remains for rollback.
+- Production's non-secret XP-feed path is persisted in PM2, not `web.env`. The private candidate
+  explicitly matched it; the web reload preserved existing PM2 environment without `--update-env`.
+  No secret/environment file, database, archive, provider data, addon installation or player-save
+  change. Combat reference publication remains held; production shows unmeasured combat rather
+  than importing the private local provider dataset. The 1–60 route is not certified.
+- Deployment details and rollback: `docs/forever-leveling-combat-release-2026-10-15.md`.
+
+### Required combat XP implementation (2026-10-15; code deployed, provider import local)
 
 - Implemented literal-only corrected Static provider import, versioned combat contracts and
   historical XP calculator, typed quest/NPC/quota joins, campaign integration and folded target
@@ -105,7 +130,8 @@ its server-side source or probability.
   publication stays held. QA screenshots are temporary, not public website assets.
 - `scripts/prepare-leveling-combat-fixture.mjs` creates owned synthetic archive/combat fixtures in a
   fresh temporary directory for production-mode QA. It never copies or authorizes provider data.
-  No production/crawler/database changes, commit or push requested/performed.
+  Initial implementation checks were local. The subsequent approved code commit/web deployment
+  is recorded above; private provider artifacts and the optional addon were not installed.
 
 ### Explicit combat-XP feasibility research (2026-10-15; historical input)
 

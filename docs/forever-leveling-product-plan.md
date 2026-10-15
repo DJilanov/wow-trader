@@ -34,7 +34,9 @@ there are no calibrated dungeon populations/payouts yet. Unknown values remain u
 flat buffer XP. Conditional forecasts can omit unstarted optional filler while retaining required
 unlocks and accepted chains; no saved progress is changed. This is not full 1–60 route certification.
 Operation, publication boundaries and remaining data work:
-[combat-XP implementation](forever-leveling-combat-xp.md). No production deployment was requested.
+[combat-XP implementation](forever-leveling-combat-xp.md). The owner subsequently approved the
+web-only [r9 code deployment](forever-leveling-combat-release-2026-10-15.md); private provider data
+remains unpublished and no crawler/addon/database change was included.
 
 ### Research leading to this implementation (October 15)
 

@@ -1,7 +1,9 @@
 # Required combat XP: implementation and operation
 
-October 15, 2026. Implemented locally; no production deployment, commit, crawler restart or
-installation into the player's WoW addon directory was performed.
+October 15, 2026. Implemented and, after owner approval, committed/pushed as `35137da` and deployed
+web-only in `kfc-helper-combat-20261015-r9`. The provider import remains private/local; no crawler
+restart, database change or installation into the player's WoW addon directory was performed.
+[Deployment verification and rollback](forever-leveling-combat-release-2026-10-15.md).
 
 ## Delivered behavior
 
