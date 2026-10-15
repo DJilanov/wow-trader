@@ -1,5 +1,175 @@
 # Forever leveling: whole-route XP and feasibility audit
 
+## October 15 combat implementation follow-up
+
+The local [required combat XP implementation](forever-leveling-combat-xp.md) now joins corrected
+NPC levels and reconciled required kills to the route ledger. The frozen audits below retain their
+historical quest-only inputs; they are not current combat-inclusive results. There are still no
+reviewed dungeon populations or calibrated kill contexts in the new import, so this delivery does
+not certify a funded 1–60 route or supersede unresolved source/eligibility evidence.
+
+## October 15 r7 follow-up: flexible entries do not fund the route
+
+The owner's seventh correction identifies another real problem, not merely a misunderstanding of
+the labels. Production r7 remains a preset itinerary with XP diagnostics. It has not been generated
+from enough payable quests/combat to meet its departure gates. The replacement implementation
+contract is now the [binding XP-funded plan](forever-leveling-product-plan.md#binding-correction-plan-xp-funded-dungeon-appointments-october-15-2026).
+This follow-up supersedes historical local-only status and fixed-entry policies in older sections.
+
+### Frozen evidence and scope
+
+- Production source baseline: `kfc-helper-library-20261015-r7`, committed leveling code `6429682`
+  plus `418f25f`; public browser audit confirmed the Hall/next-departure example on r7.
+- Authorized archive SHA: `af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e`.
+- Published XP index frozen at `2026-10-15T08:01:28.006Z`; index SHA
+  `d6a2e74a6fa335f091544a47607210a334b518d21c698f6640a834daf2b132da`.
+  All 626 referenced records passed schema, freshness, identity and checksum reads. 328 have
+  available numeric XP; 298 are unknown; none are marked conflicting in this artifact.
+- Human/warrior schedules 334 distinct hand-in IDs; 294 have typed available XP facts, 40 do not.
+  Availability of a numeric fact is not proof of a legal pickup/hand-in at the planned level.
+- Current group-profile full-source compiler: 1,074 quest candidates; 922 have complete non-held
+  source stages. Categories: 87 shared kills, 22 named trophies, 330 collections, 473 deliveries,
+  28 interactions, 134 unclassified. Alternatives, already-scheduled work and unreviewed real
+  eligibility are included; these are not independent additional usable XP rewards.
+- All 59 level-up costs use the previously extracted build-70205 curve. Total 1 + 0 → 60:
+  4,084,700. Total 45 + 0 → 60: 2,424,700. The extraction has not established compatibility with
+  every newer build/server rule; revalidation is a required input gate, not a hidden assumption.
+
+Local frozen evidence is under `artifacts/leveling/audits/2026-10-15/entry-plan/` (ignored by Git):
+`quest-xp/index.json`, its checksum-addressed records, `entry-schedule-audit.json`, and
+`audit/campaign-xp-audit-97739d108a29c405.json`. The last file's semantic SHA is
+`97739d108a29c4050bfbd66dccd437999d572affbc2da5198eb48edc073ec98d`.
+
+Reproduced existing audit: 33 editions, 132 policy/raid scenarios, 6,000 independent checks;
+912 blocked, 3,172 incomplete, 1,832 shortfall, 84 reference-covered. The content gate exits **2**.
+Its default cumulative case supplies only Player 1's start, not five complete personal branches.
+Neither independent chapters nor that default scenario certify a whole-party route.
+
+```sh
+node scripts/audit-leveling-quest-xp.mjs --destination=artifacts/leveling/audits/2026-10-15/entry-plan/recheck --rewards=artifacts/leveling/audits/2026-10-15/entry-plan --require-covered
+```
+
+### The level-16 example, calculated explicitly
+
+| Transition | Required XP |
+| ---------- | ----------: |
+| 16 → 17    |      16,000 |
+| 17 → 18    |      17,700 |
+| 18 → 19    |      19,400 |
+| 16 → 19    |      53,100 |
+
+Hall's five published quest references at 16 are 2,950 + 2,300 + 3,200 + 2,300 + 2,550 = **13,300**.
+Starting at 16 + 0, their hand-ins alone leave 16 + 13,300, not level 19. Farsen's Watch, Nip 'Em
+in the Bud and Underground Map add 680 + 910 + 1,050 = 2,640 if still unpaid and eligible.
+Even all eight then give 15,940, below a complete 16→17 bar. Actual clear/travel combat is additional
+and must be counted from an explicit compatible model or observed bar, not guessed as three levels.
+
+The live panel's 19 is the next dungeon's difficulty-policy departure target. It is not a derived
+Hall exit. Displaying that target within Hall, followed by a thin incomplete Darkshore batch,
+does not satisfy the required 39,800 remaining XP after Hall's hand-ins from the empty level-16 bar.
+
+Another arithmetic check: Ruins' three core references (16,300) plus Deadmines' four (13,500),
+starting hypothetically at 19 + 0 with legal completed prerequisites, end at 20 + 8,500 before combat.
+Reaching 25 from there still needs 128,300. This is a reward illustration, not a continuous itinerary
+or permission to ignore the travel/order/preparation. Moving dungeon entries earlier alone does
+not fill the outdoor route.
+
+### Every requested stop was inspected
+
+The totals below are **current scheduled dungeon-leg hand-ins at one reference entry level**, with
+raid goals enabled and no combat. They are not the full available quest pool, not a continuous
+level-adjusted replay, not a one-clear claim, and not evidence of live-server reward accuracy.
+Exterior/preparation XP belongs to its own events. Missing modules do not have zero actual XP.
+
+| Requested package                          |                   At-level reference | Current conservative entry | Scheduled hand-ins |                 Known reference subtotal at that entry |
+| ------------------------------------------ | -----------------------------------: | -------------------------: | -----------------: | -----------------------------------------------------: |
+| Hall of Thanes                             |                                   14 |                         16 |                  5 |                                                 13,300 |
+| Ruins of Lordaeron                         |                                   19 |                         19 |                  3 |                                                 16,300 |
+| Deadmines                                  |                                   19 |                         20 |                  4 |                                                 13,500 |
+| Stockade                                   |                                   26 |                         26 |                  5 |                                                 24,900 |
+| Excavation: Wetlands                       |                                   29 |                         29 |                  6 |                                                 30,750 |
+| Blackfathom                                |                                   25 |                         28 |                  3 |                                                 20,100 |
+| City of Dalaran                            | 31 in current guide; null in catalog |                         31 |                  3 |                                                 28,200 |
+| Gnomeregan                                 |                                   33 |                         33 |                  3 |                                                 14,350 |
+| Razorfen Kraul                             |                                   31 |                         35 |                  2 |                                                 15,200 |
+| Drowned City                               |                              Unknown |                  37 preset |       None modeled |                                                Unknown |
+| Scarlet Monastery, selected 3-wing package |                                   37 |                         38 |                  3 |                                                 20,350 |
+| Krol'dok                                   |                              Unknown |                  42 preset |       None modeled |                                                Unknown |
+| Razorfen Downs                             |                                   39 |                         45 |                  3 |                                                  6,270 |
+| Uldaman                                    |                                   42 |                         47 |                  5 |                                                 16,190 |
+| Maraudon                                   |                                   46 |                         48 |                  4 |                                                 20,450 |
+| Zul'Farrak                                 |                                   44 |                         49 |                  4 |                                                 22,850 |
+| Alcaz Prison                               |                              Unknown |                  50 preset |       None modeled |                                                Unknown |
+| Sunken Temple                              |                                   51 |                         53 |                  6 |                                                 35,350 |
+| BRD plus scheduled raid-related stages     |                                   55 |                         55 |                 19 | 98,960 plus 2 unresolved rewards; includes an estimate |
+| LBRS plus selected seal stage              |                                   60 |                         60 |                  6 |                    No leveling XP at this entry policy |
+| Stratholme, core scope                     |                                   60 |                         60 |                  4 |                    No leveling XP at this entry policy |
+
+Specific consequences:
+
+- `max(oldRequestedLevel, AtLevel, minima)` is not flexible scheduling; it preserves excessive
+  delay and makes an earlier suitable alternative impossible to select.
+- BFD/Excavation, RFK/Gnomeregan and ZF/Maraudon require order comparisons, not only new numbers.
+  Full-clear boss floors can also differ from the headline difficulty reference.
+- Numeric references already reduce Techbot at 33 from full 4,750 to 2,850. Waiting for an entire
+  dungeon appointment can waste an exterior quest's XP; moving its payout earlier costs an actual
+  journey and cannot be done for free.
+- RFD's current three core references total 9,230 at 39, versus 6,270 at the old 45 appointment.
+  That improvement still does not fund a level: 39→40 requires 85,700 before considering combat.
+- Stratholme's four selected core references total 31,500 at 59, only about 15.0% of the 209,800
+  final bar. Without other rewards/combat, a one-run finish needs entry at 59 + 178,300 or above.
+  At 58 + 0 the remaining two bars total 412,100. A fuller real bundle may improve this; the word
+  “Stratholme” cannot replace the calculation.
+- Higher-level general quests, available full bundles and clear combat must be modeled before
+  concluding that 45–60 can be almost dungeon-only. Current selected rewards do not establish it.
+
+### Evidence pipeline and client-cache findings
+
+All 298 unknown typed XP records contain renderer-verification, missing-primary and missing-numeric
+issues. The parser's combined condition also adds missing-primary when renderer verification fails,
+so these reasons must be separated before diagnosing the true source change. Compared with the
+previous frozen snapshot, records increased from 534 to 626 while usable facts remained 328.
+More IDs processed is not demonstrated numeric-data progress. No crawler change was made here.
+
+The local Journal 1.6.3 has old reward strings, base/cache fallbacks and runtime overrides. The
+currently installed RXP is v4.11.23, newer than the archived guide receipt; its quest helpers and
+guide metadata are not a reviewed comprehensive static XP table. Do not silently replace the
+authorized frozen route or infer server payouts from strings that its own UI removes.
+
+The cache previously recorded as empty is now 65,220 bytes at
+`/Applications/World of Warcraft/_classic_beta_/Cache/WDB/enUS/questcache.wdb`. Read-only envelope
+validation found a 24-byte header, `TSQW`, build 70374, enUS, 61 bounded records and an eight-byte
+terminator. IDs include all Hall quests, Deadmines, Gnomeregan and Dalaran examples. A private copy
+is frozen as `questcache-70374-enUS.wdb` in the audit directory. Only record boundaries/IDs/build
+were inspected: no XP/restriction field layout has been established or promoted.
+
+Next evidence work must reconcile build 70374 cache data with the 70205 archive/curve and newer
+market catalog, not pretend they are the same snapshot. Small passive compatible game observations
+can validate disagreements; the owner's disabled broad quest/NPC scanners remain disabled.
+
+### Rules that must be separate in the replacement
+
+The [current dungeon reference](https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location)
+offers difficulty recommendations, not one universal XP-loss boundary. Each quest's effective
+reward must be resolved at its actual modeled hand-in level, and combat has separate enemy/member
+level rules. Guide-column levels versus `requires`/numeric minimum claims need semantic review.
+
+[Blizzard's October 1 changes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/4)
+reduced the extra dungeon quest bonus, not every total reward by half. The available data already
+has different effective multipliers and unboosted quests; the Crest coefficient is not universal.
+[October 8 changes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/5)
+increased dungeon creature XP by about 20%, reverted normal mixed-level lower-enemy adjustments
+to individual-member evaluation, and retained the extreme-level-gap suppression. The conservative
+solo-XP/5 case remains the owner's budget assumption, separate from a calibrated server formula.
+
+### Operational boundary
+
+This follow-up changed research artifacts and documentation only. It did not implement the new
+generator, alter production, touch player progress, change the crawler/queue, enable an addon
+scanner, publish a catalog, commit or push. Full-route coverage remains failed. The detailed
+binding plan specifies the inputs, packages, flexible windows, continuous generator, independent
+oracle, matrix, browser/export parity and non-overridable complete-route publication gate.
+
 Baseline audit date: October 14, 2026. Progression corrections implemented locally October 15;
 full XP/content coverage remains unresolved. The October 14 findings below describe production r6.
 This report supersedes any implication that the existing 1–60 campaign is XP-validated.

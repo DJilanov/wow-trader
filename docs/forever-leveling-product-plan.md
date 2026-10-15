@@ -1,5 +1,443 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Binding correction plan: XP-funded dungeon appointments (October 15, 2026)
+
+Status: the full XP-funded route is still a plan, **not certified or fully implemented**. The
+required-combat subsystem is now implemented locally, as detailed below. This section supersedes the fixed
+entry appointments, fixed zone brackets and any implication of a complete premade route in the
+historical receipts below. Production r7 is still a review itinerary with failed XP coverage.
+The owner's latest direction permits flexible entries close to the dungeon's At-level reference;
+the earlier request's exact levels/order are preferences, not hard progression constraints.
+
+### Outcome and non-negotiable acceptance criteria
+
+Deliver faction-specific Alliance and Horde 1–60 routes for a coordinated five-player party,
+initially proved for the Human-warrior-led case, then the other supported race/class editions.
+The owner expanded the target to both factions on October 15. The route must include
+real preparation, kills, travel, objectives and hand-ins. The browser and later RestedXP export
+must consume the same compiled route. Do not add another standalone dungeon list.
+
+A route is not complete because it ends with a level-60 instruction. For each of the five members,
+every required departure must be funded by **earlier** eligible quest rewards and explicitly modeled
+combat, carrying the incoming XP bar forward. Final level 60 must follow from that ledger. Unknown
+critical rewards or absent dungeon packages prevent verified-route certification; an explicitly
+labeled owner-approved scenario can still be planned as specified below. Arbitrary grind
+instructions do not count as a funded route.
+Software correctness, reference-budget feasibility, calibrated game rules and playtesting are
+separate statuses. Inaccessible future beta content must not be described as playtested.
+
+### Latest implementation: explicit required-kill and dungeon combat XP (October 15)
+
+The automatic combat adapter, solo/group calculator, continuous campaign integration and browser
+breakdowns are now implemented locally. Reference coverage is 205 distinct source quest IDs;
+there are no calibrated dungeon populations/payouts yet. Unknown values remain unmeasured, not
+flat buffer XP. Conditional forecasts can omit unstarted optional filler while retaining required
+unlocks and accepted chains; no saved progress is changed. This is not full 1–60 route certification.
+Operation, publication boundaries and remaining data work:
+[combat-XP implementation](forever-leveling-combat-xp.md). No production deployment was requested.
+
+### Research leading to this implementation (October 15)
+
+The owner now asks whether required outdoor kills and dungeon clears can be quantified directly,
+using a conservative one-fifth combat share for the five-player style. Feasibility, current official
+rules, raw provider coverage, missing inputs and implementation order are recorded in
+[the combat-XP research](forever-leveling-combat-xp-research.md). That document records the earlier
+research stage; see the subsequent implementation above. It does not establish that all mob XP is
+recoverable from client files. The preceding simple buffer
+policy remains the fallback where counts/tuning are unresolved; it is not a second XP award once
+explicit combat is included. The 2.375 planning estimate below applies only to unknown quest rewards.
+
+### Preceding owner policy: simple dungeon XP estimate and combat buffer (October 15)
+
+For unconfirmed/future dungeon quest rewards, use **unscaled reference base XP × 2.375**, once,
+with the existing rounding and hand-in-level rules. This is the chosen planning estimate, not a
+prediction that Blizzard will keep that exact coefficient. Known collected rewards still take
+precedence; do not replace a 1.8/2.1 fact with 2.375 or multiply an already-scaled amount again.
+
+Treat the XP from required outdoor objective kills and dungeon clears as the natural buffer if
+the actual quest coefficient is lower. This is an owner-approved planning assumption, not a
+measured guarantee or an additional invented numeric reward. It is enough to author the planning
+route without a separate kill-by-kill compensation system, multiplier scenarios or fixed 0.3-level
+allowance. This supersedes earlier requirements for low/central/high template runs or a mandatory
+combat calculation merely to tolerate a small quest-only difference.
+
+Carry XP between sections and retain actual level/prerequisite checks. Add efficient catch-up
+work only if the party is actually short at a checkpoint; do not preemptively add grind detours
+for every possible coefficient change. Missing real quest IDs/lifecycle information remains a
+separate issue, and an estimated route is not relabeled as observed or playtested.
+
+### Owner-approved unknown-dungeon parity scenarios (October 15)
+
+The owner permits assuming that unmodeled new dungeons (currently Drowned City, Krol'dok and
+Alcaz Prison) have comparable quest packages and level-scaled rewards to Hall of Thanes, Ruins of
+Lordaeron and City of Dalaran. Do not keep the planning route blocked merely because their IDs
+are not public. This is an explicit scenario assumption, not recovered game data.
+
+- Retain anchor-specific, faction-specific package variants; selected core hand-ins and a complete
+  quest package are different counts. Current catalog examples: Hall five total IDs, Lordaeron
+  four Alliance/six Horde IDs, Dalaran four per faction. Restrictions, optional work and prerequisites
+  still determine what each player can receive; catalog presence is not confirmed accessibility.
+- Use the anchors' level-dependent base-XP patterns with the chosen 2.375 planning coefficient
+  where rewards are unknown, at the candidate entry/hand-in level. No low/central/high scenario
+  system is required. Do not transplant the same absolute XP total between dungeon levels.
+- Display assumed quest count, source template, assumed rewards and resulting exit/deficit
+  explicitly. Keep known-only and assumption-funded ledgers separate; label the latter as a
+  conditional planning route. Required mob kills provide the assumed buffer; offer outdoor
+  catch-up work if actual party progress later proves insufficient.
+- Do not invent quest IDs, pickup locations, chain edges, objectives or exact browser/RestedXP
+  instructions. Unknown preparation/travel time is still unknown. Replace scenario slots with
+  real quests/evidence when available, without counting both the placeholder and its replacement.
+- The verified importer/resolver already uses adjusted per-page rewards once. Collected examples:
+  Stockade 378 has base 2,750, factor 2.1 and final 5,800; Gnomeregan 2922 has base 2,650,
+  factor 1.8 and final 4,750. Do not apply another Forever bonus. The legacy generic 2.375 fallback
+  is not the universal formula; reconcile/replace it before claiming a verified continuous route.
+
+The policy is approved; the new scenario-route compiler/UI is still to implement. Full-archive
+collection is now deployed separately: 2,535 unique quest IDs across both factions, every guide
+family/conditional branch and all known dungeon references. Details are in
+`docs/forever-leveling-archive.md`. Collection completing does not implement this route builder.
+
+### Small quest-only gaps and natural combat reserve (October 15; simplified policy)
+
+The owner notes that mandatory outdoor objective kills and dungeon trash/boss clears add XP
+which the default quest-only audit does not count. Do not force extra quest detours merely to
+eliminate a small quest-only shortfall which ordinary progression may cover. The current engine
+can consume explicit combat scenarios, but defaults to no combat credit; this is not a measured
+claim that clears give no XP.
+
+The earlier proposed interpretation of “0.3” as a fixed fraction of one level is superseded by
+the owner's simpler policy above. Do not implement a special threshold or a flat 30% XP bonus.
+
+- A small numeric gap can be described as covered by the expected natural combat buffer in the
+  planning view. It is not missing quest evidence or a confirmed kill payout. Do not introduce
+  extra scenario controls or require kill counts just to continue planning.
+- Check the weakest member, mandatory activity before the particular gate, and the accumulated
+  XP balance. Never forgive the same-sized gap independently at each chapter or reset the
+  incoming bar to the next advertised level. One clear's combat reserve cannot be spent twice.
+- Do not weaken real pickup/access minima or ready-state checks. Record actual party bars at
+  dungeon departures and use them to resolve the small shortfall before suggesting extra work.
+- If a real combat estimate is available, avoid overlapping activities and retain its party/level
+  assumptions. Detailed combat modeling is optional for this planning baseline, not a new blocker.
+- Combat already included in a saved actual XP bar is not added again. Actual level progression
+  also determines subsequent quest reward reductions; ignored bonus XP must not preserve full
+  payouts incorrectly far beyond their proper hand-in levels.
+
+This records the intended policy for the continuous route rebuild. No runtime threshold, status
+change, guessed kill payout or readiness relaxation has been implemented by this discussion.
+
+### Findings that change the approach
+
+- Current `premadeEntryLevel` cannot move a dungeon earlier: it takes the maximum of the old
+  requested level and the At-level recommendation. Candidate selection then attaches quests to
+  those pre-existing brackets. This is an itinerary validator, not an XP-funded route builder.
+- Source recommendations, minimum acceptance levels, quest levels and full-clear difficulty are
+  conflated. For example, Treaty has a guide-column claim of 16 versus a Journal/published minimum
+  of 9. Keep the conflict until reviewed; do not silently relax it or turn every recommendation
+  into an authoritative quest requirement.
+- Late ordering is especially wrong: RFK 35 versus At-level 31; RFD 45 versus 39; Uldaman 47 versus
+  42; ZF 49 versus 44. BFD 28 appears after Excavation's 29 gate. LBRS and Stratholme become level-60
+  activities under the conservative policy. None of these should remain fixed merely for bookmark
+  compatibility.
+- The current selected dungeon packages are small. The frozen reference totals include Hall
+  13,300, Deadmines 13,500, Gnomeregan 14,350 at 33, SM 20,350 across its selected three-wing
+  package, and Stratholme's four core quests 31,500 at 59. These are not one or more guaranteed
+  levels. Preparation payouts, dungeon payouts and city returns need distinct ownership.
+- Fresh evidence has 626 published records but only 328 usable XP facts. All 298 unknown records
+  share renderer/primary/numeric parsing issues. The parser also reports missing primary data when
+  the renderer check fails, so the signature alone does not establish which source element is
+  actually absent. Fix diagnostics and inspect permitted fixtures before expecting more crawling
+  to solve numeric coverage. Human/warrior has 294/334 scheduled hand-ins with typed XP facts.
+- The installed Quest Journal contains both old reward strings and lower client-cache fallbacks;
+  its runtime explicitly prefers live rewards. They are not interchangeable numeric facts. The
+  local `questcache.wdb` is now nonempty: 61 bounded records, build 70374, including all five Hall
+  quest IDs. Its reward fields/layout are not decoded or validated yet. This is a useful additional
+  evidence source, not permission to promote guessed fields or cross-build data into production.
+- Blizzard's October 8 notes increased dungeon kill XP by about 20% and changed lower-level-enemy
+  penalties in mixed-level parties back to individual-member evaluation. Keep the owner's solo-XP/5
+  budget as an explicit conservative scenario, not a claim that it is the full current server rule.
+  Do not multiply an already-current observation by 1.2 again. See the linked official notes below.
+
+Detailed frozen-input audit, all 21 requested stops and arithmetic examples:
+[r7 whole-route audit](forever-leveling-full-route-audit.md#october-15-r7-follow-up-flexible-entries-do-not-fund-the-route).
+
+### 1. Normalize evidence before choosing the new route
+
+Create one build/ruleset/locale-pinned fact set with these distinct fields:
+
+- Quest identity and availability; faction, race, class and phase restrictions.
+- `questLevel`, proven `minimumAcceptLevel`, source-recommended level and unresolved claims.
+- Base XP versus effective XP by hand-in level, each with source/effective-build provenance.
+- Actual prerequisite semantics: all/any parents, item start, accepted versus rewarded requirement,
+  mutual exclusions, exclusive breadcrumbs and one-time versus repeatable rewards.
+- Ordered objectives: NPC/object/item IDs, quotas, personal versus shared credit, loot distribution
+  and required actions. Pickup and hand-in positions are not combat locations.
+- Dungeon scope, relevant final bosses, access/key requirements and difficulty evidence.
+- Per-member starting XP, class/race, paid quest history, current quest stages and group presence.
+- Kill-credit rule, XP modifiers, current quest-log capacity and travel assumptions as versioned
+  rules, not unnamed constants. Local RXP paths use both 25 and 40 slots; confirm actual capacity.
+
+Evidence priority is reviewed compatible game observations, compatible decoded query/cache fields,
+current numeric reference data, then clearly labeled historical estimates. Capture time alone does
+not prove effective-build compatibility. Preserve conflicts and known authoritative zero rewards.
+The guide's column headed Level is not independently proof of a hard acceptance floor.
+
+The cache experiment must remain read-only: identify the build-specific layout, validate titles,
+IDs, boundaries and numeric fields against known Hall/Deadmines/Gnomeregan cases, then reconcile
+differences. A modern emulator's packet structure is only an investigation aid, not a Forever
+schema. No broad quest/NPC scanning or re-enabling the disabled collectors is required for this.
+
+Repair/verify the reference parser before widening numeric collection. Classify failures separately
+as renderer drift, unavailable primary dataset, absent scaling data, access denial or genuine
+unknown. Retain last-good data. Do not bypass source challenges or increase crawler concurrency.
+Prioritize the **blocking quest frontier and its chains**, not another unranked ID sweep.
+
+### 2. Restore the full quest graph, then remove inefficient work
+
+Use all applicable authorized source chapters as the baseline graph. Do not start with the short
+fixed bridge lists and hope another few kill quests fill the difference. The current group-profile
+library compiler exposes 1,074 Human-warrior candidates, including alternatives, deliveries and
+already-scheduled quests; this is not a claim of 1,074 independent eligible quest rewards.
+
+Keep source order constraints separate from proven quest prerequisites. In particular, handing in
+A before accepting B in a source step does not automatically prove that B requires A. Review the
+current compiler's adjacency-derived parents before using them to reject useful batches.
+
+Form complete local batches containing pickup → required objectives → hand-in and any real parent
+chain. Score the entire chain, not just its final reward. Keep useful training, pet unlocks,
+transport learning and future dungeon preparation even when they grant no XP. Distinguish a
+required access step from an optional throughput or loot upgrade.
+
+Prefer shared kill quotas and overlapping camps; then named targets with reviewed trophy credit,
+nearby guaranteed interactions and short deliveries on an existing journey. Collection avoidance
+is a strong cost preference, not a reason to remove unavoidable access quests or force a larger
+unbounded grind. For personal loot, model all five quotas and the actual distribution rule. A
+head quest is not automatically one kill for the whole party. Unknown drop rates cannot become
+100% or an invented completion time.
+
+Source coordinates within 12 map-percentage points do not establish a short walk: terrain,
+continent, floors, boats and routes matter. Do not add a Stonetalon/Felwood detour merely because
+its source chapter's nominal level matches a gap.
+
+### 3. Compile real dungeon packages, not reward lists
+
+For every requested stop, compile a complete package with:
+
+1. Off-route prerequisites placed at earlier natural visits where legal and useful.
+2. Pickups immediately before departure, subject to the actual quest-log capacity.
+3. Entry/access and party-readiness checks before any inside XP is credited.
+4. Ordered inside objectives, key/item acquisitions, escorts and in-dungeon pickups/returns.
+5. Outside deliveries at their real locations and times, followed by the next route decision.
+
+Start with **all known compatible general quests**, then explicitly select/omit by whole-trip cost.
+The current 2–4 core quests per instance must not remain an arbitrary upper limit. Personal class
+quests credit only their owners; Horde quests cannot fill Alliance deficits. Do not invent
+matching-faction quests from a parity assumption. Overlapping wings and prerequisite deliveries
+must not pay the same quest more than once.
+
+Special packages requiring explicit review:
+
+- Hall: resolve guide-level/minimum conflicts; map chain and five personal items; keep Ironforge
+  returns separate from the clear. At 16 + 0 its five references give 16 + 13,300, not 19.
+- Ruins: required clear versus optional insignia farm, inside starts, and Stormwind deliveries.
+  Compare its order with Deadmines around the shared level-19 window using total journey costs.
+- Deadmines/Stockade: retain Defias and Letter → Bazil → Riots. Compare bandanas, memories and
+  explosives as optional real chains, not obligatory low-drop fillers or free bonus rewards.
+- BFD/Excavation: reorder by funded windows/geography. Treat relic discovery, its first delivery
+  and the follow-up as separate stages, not a reward paid at entry.
+- Gnomeregan: expand beyond the current three core quests; distinguish exterior work from the
+  main run, terminal sequence, city returns and back-door access. Pay low-level exterior quests
+  earlier only when the journey actually saves time; do not invent a second free dungeon visit.
+- RFK/SM/RFD: move compatible preparation earlier; confirm escort/wave costs and five-player
+  credit. Plan SM Library → key access → other required wings, not three copies of one shared
+  quest payout. Desolace lead-ins remain real journeys and hard prerequisites where established.
+- Uldaman/ZF/Maraudon/ST: scope-specific end-boss difficulty may require a higher entry than the
+  headline At-level reference. Include real tablets, mallet, scepter and Hakkar chains. Do not
+  force a low-drop collection merely because its final dungeon hand-in looks profitable alone.
+- BRD: prison/Windsor/probe, outside returns, note, Shred, Jail Break and Emperor are real separate
+  stages/visits. Integrate MC/Onyxia/Shadowforge goals without pretending all are one clear or all
+  players' preparation is identical.
+- LBRS: a possible key/gem return is conditional, not a guaranteed second-run completion. Treat
+  seal/gem availability and individual quest state honestly; never pay one-time quests twice.
+- Stratholme: define living/undead/both-side scope; do not call two traversals one short clear.
+  One-run-to-60 depends on its calculated entry bar and selected rewards, not the dungeon name.
+- Drowned City, Krol'dok and Alcaz: retrieve/review real quest packages and level evidence. Until
+  then they are unresolved requested modules, not zero-XP stops or invented full-level bonuses.
+
+### 4. Replace fixed appointments with constrained entry windows
+
+At-level is a **difficulty preference**, not an XP formula or universal hard floor. Quest hand-in
+reduction depends on each quest/hand-in level; combat XP depends on enemies and each member's level.
+Even an At-level run can include low-level quests with reduced payouts.
+
+For each reviewed package evaluate the At-level point and adjacent levels, normally ±1. Prefer
+At-level or one above when travel and readiness are otherwise comparable. Allow a nearby earlier
+entry for a capable premade only when access, quest eligibility and the package's hardest required
+encounter support it. A wider window requires a specific scope/boss justification, not pressure to
+fill a gap. Never raise the whole group's entry solely to unlock an optional class quest.
+
+| Package              |   Source At-level | Candidate window to evaluate, not a promised entry                                      |
+| -------------------- | ----------------: | --------------------------------------------------------------------------------------- |
+| Hall of Thanes       |                14 | 14–16; resolve Treaty/guide minimum conflict before an earlier complete package         |
+| Ruins of Lordaeron   |                19 | 18–20; compare order with Deadmines                                                     |
+| Deadmines            |                19 | 18–20; required Defias stages must already be legal and complete                        |
+| Blackfathom Deeps    |                25 | 24–26; compare geography with Stockade, not after a fixed Excavation appointment        |
+| The Stockade         |                26 | 25–27; preserve remote Fury and Letter chains                                           |
+| Excavation: Wetlands |                29 | 28–30; don't retain the old hardcoded 27 as a guaranteed full-clear level               |
+| City of Dalaran      | 31, current guide | 30–32; reconcile the catalog's null/stale availability data first                       |
+| Razorfen Kraul       |                31 | 30–32, rather than a fixed 35 after Gnomeregan                                          |
+| Gnomeregan           |                33 | 32–34; review exterior quest timing separately                                          |
+| Drowned City         |   Not established | Original 37 is only an owner preference until evidence is obtained                      |
+| Scarlet Monastery    |                37 | 36–38; split wings/access and use the hardest required scope                            |
+| Razorfen Downs       |                39 | 38–40, rather than automatically waiting to 45                                          |
+| Krol'dok             |   Not established | Original 42 is provisional, with no certified quest funding                             |
+| Uldaman              |                42 | Start with 41–43 candidates; full-clear boss floor can require a later reviewed window  |
+| Zul'Farrak           |                44 | Start with 43–45; review required boss/mallet scope before selecting                    |
+| Maraudon             |                46 | Start with 45–47; full Princess route may justify a later nearby entry                  |
+| Alcaz Prison         |   Not established | Original 50 is provisional, with no certified quest funding                             |
+| Sunken Temple        |                51 | Start with 50–52; validate hardest required encounter/class variants                    |
+| BRD                  |                55 | 54–57 by prison/Emperor scope, not one interchangeable visit                            |
+| LBRS                 |                60 | Evaluate 58–59 as an explicit experienced-premade leveling branch; otherwise post-60    |
+| Stratholme           |                60 | Evaluate 58–59 only with supported scope/readiness; finish-to-60 requires the entry bar |
+
+The table covers all 21 requested stops, not all dungeons in the game. Missing packages retain
+their requested status. Do not certify an available-only variant as containing those three.
+WC/SFK/Dire Maul/Scholomance can be compared as additional alternatives only where actual Alliance
+quests, travel and difficulty justify them; they are not automatic fillers for the owner's route.
+
+Select order among overlapping feasible windows, rather than globally sorting the old requested
+levels. In particular, evaluate RFK/Dalaran before Gnomeregan and ZF before Maraudon; older ordering
+must not force wasted overleveling. Do not infer a complete optimal order from the table alone.
+
+### 5. Build the continuous five-player route before rendering chapters
+
+Use a pure event replay with `totalXp = sum(curve below level) + currentXp`, separately per member:
+
+- Validate each pickup's real restrictions, parent states and minimum at that exact point.
+- Resolve every quest reward at the **pre-hand-in** level; apply its effective scaling once, add
+  the one-time reward once, and carry all level overflow into the next event.
+- Count mandatory outdoor and dungeon combat by unique activity, with objective overlap and
+  sequential stages distinguished. A shared kill is not five separate kills and is not also
+  added again as a trash-clear estimate.
+- Use solo-XP/5 as the conservative planning scenario when its underlying kill counts and
+  level-appropriate solo XP are established. Unknown combat is not credited. Split activity at
+  level changes where enemy XP changes. Keep expected/live-calibrated estimates separate.
+- Complete item/objective stages without awarding XP prematurely. Evaluate all five players,
+  including a lagging member, personal class rewards and individual loot/credit needs.
+- Check entry before adding any inside reward. Skipping optional work preserves required chains
+  and accepted quest obligations. Forecasting never changes actual XP, quest reports or readiness.
+
+The route generator consumes that replay; it does not assign a target then reset everyone to it.
+Starting from the full legal source graph, insert/reorder dungeon packages and prune unnecessary
+outdoor batches only when every member remains funded at every later affected gate. Re-simulate
+after each removal, insertion, order change or optional-quest selection.
+
+For each remaining shortfall compare eligible complete nearby batches, not isolated reward IDs.
+Use deterministic bounded look-ahead over the next 2–3 overlapping dungeon windows and region
+transitions. Rank by total party time, completion/drop risk, lost XP from unnecessary delay and
+future unlock value. Retain alternative orders when travel data cannot distinguish them; do not
+claim global optimality. No optimization dependency or general-purpose solver is required first.
+
+An accepted batch must name quests, objectives, quota, prerequisite closure, locations, individual
+XP contribution and exit state. A finite measured kill loop may be a disclosed fallback, but
+unbounded “kill until ready” cannot silently complete the author's budget or be called a pure
+quest route. If safe candidates cannot reach a window, report infeasibility rather than invent XP.
+
+Unknown optional rewards may be excluded from the reference branch, not described as actual zero.
+If selected, propagate uncertainty or re-anchor with actual XP after completion. Unknown critical
+rewards/eligibility cannot certify a departure. Any interval model must also handle changed
+overlevel rewards; simply ignoring an unknown bonus and keeping all later full payouts is unsafe.
+
+There are 2,424,700 required XP from 45 + 0 to 60 on the pinned curve. The current selected packages
+do not justify an assumption of dungeon-only leveling after 45. Prove the quest/combat ledger or
+retain the necessary efficient outdoor batches. Likewise, 31,500 core Stratholme XP alone requires
+entry at 59 + 178,300 or higher to finish 60; more real quests/combat can lower that threshold.
+
+### 6. Cost the actual journey and preserve the existing UX
+
+Total cost includes travel, boat waits, pickups, chain returns, combat, personal collections,
+escort duration, training and hand-ins. A premade has no group-assembly delay, not zero travel.
+Use the actual transport/hearth/key state. Unknown times remain unknown or explicit scenarios;
+an XP/hour input cannot invent a shortest travel path. Request only the specific Alliance travel
+measurements that still change the selected candidates after this data-first analysis.
+
+The primary route tree and split map/scrolling reader stay. Compile their chapters **after** the
+event route is funded, grouping geographic work and small preparation checklists. Main rows show:
+
+- Planned entry window and the modeled incoming bar, or the player's fresh actual bar.
+- Remaining payable quest XP, combat estimate separately and the modeled after-hand-in bar.
+- The explicit next outdoor batch needed for the next gate; never the next dungeon's required
+  level presented as this dungeon's earned exit.
+- Quest count, whole-trip time range/evidence and why a detour/collection was kept or omitted.
+
+For example: `Hall · enter 16 + 0 → quests +13,300 → 16 + 13,300 (83%)`, with combat separate.
+Place Ruins' level-19 departure requirement in the actual intervening route decision, not as a
+second competing Hall chapter budget. Exact main-route expected ranges must come from the replay.
+
+Publish immutable compiled route/evidence revisions. A newly crawled reward triggers re-audit and
+a candidate revision, not silent reordering of a saved player's route. Preserve factual paid quest
+history and semantically identical action IDs. Old bookmarks need mappings and newly required
+earlier chains need explicit repair steps. Offer a reviewed migration; do not copy completion to
+new actions or drop accepted quests because the regenerated route uses a different order.
+
+### 7. Implementation sequence and completion proof
+
+Keep changes inside the existing leveling architecture:
+
+- `quest-eligibility.ts`, `dungeon-model.ts`, `dungeon-catalog.ts`: separate recommendation,
+  authoritative acceptance/access fields, source conflicts and scope-specific difficulty.
+- `campaign-library.ts`, `campaign-library-route.ts`, `campaign-route.ts`: compile source graphs
+  and full packages before selecting a path; retain old appointments only as preferences/aliases.
+- `premade.ts`, `dungeon-scheduling.ts`: one shared flexible-window policy, replacing the competing
+  hardcoded-floor behavior without weakening actual access gates.
+- `campaign-xp.ts`, `campaign-coverage.ts`: continuous per-member event replay and complete-route
+  feasibility; retain a separately labeled independent diagnostic rather than resetting the route.
+- `campaign-sections.ts` and existing campaign/XP UI components: project the funded artifact and
+  its true entry/exit bars instead of attaching budgets to preset geographic brackets.
+- `scripts/audit-leveling-quest-xp.mjs` and route tests: add full-party compilation verification
+  plus an independent ledger oracle; a real failed funding gate must prevent complete publication.
+
+1. **Evidence gate:** freeze/reconcile the fact set; repair numeric-parser diagnostics/fixtures;
+   investigate the 61-record cache; resolve hard minima versus recommendations. Produce a missing
+   critical-input report with exact quest IDs, not another generic “more evidence needed” banner.
+2. **Authoring engine:** refactor source/prerequisite edges and compile full dungeon packages;
+   remove fixed `from/to/nextLevel` values as execution inputs while retaining original preferences
+   and legacy link aliases. Reuse existing pure XP helpers and quest schemas where correct.
+3. **First proof:** generate the complete Human-warrior-led 1–60 artifact, not just a 1–20 demo.
+   First deeply review 13–30 and 45–60, then validate every event/checkpoint. Model all five party
+   profiles explicitly; the leader's class is not the class of the other four. Include a complete
+   source-backed fallback for any optional unavailable dungeon; do not call a missing required
+   requested package fulfilled.
+4. **Independent verification:** use a separate small ledger oracle over compiled events, then
+   reconcile its hand-ins, kills, cumulative XP and gates with the production planner. This must
+   catch Hall's false 16→19 gain, not merely repeat the same planner's assumptions.
+5. **Full matrix:** validate all 33 current race/class editions, mixed starts/classes/unequal bars,
+   paid quests, partial objectives, accepted optional chains, all selected extras, raid on/off,
+   entry policies, source changes, combat uncertainty, overlevel reductions and cap crossings.
+   Personal starter branches must be modeled or anchored to declared actual rendezvous bars.
+6. **Browser/export gate:** render the verified artifact and assert its numbers match the oracle
+   on every chapter, not only selected cards. Regress refresh, Next versus Done, old saves,
+   reordered bookmarks, mobile and accessibility. Approval of the browser precedes export; web
+   and RestedXP must replay the same events and stop/skip rules with matching totals.
+7. **Release gate:** prevent a complete-route publication when any required checkpoint lacks
+   eligibility, paid-once accounting or XP funding for any player. Keep software checks and the
+   content-funding gate distinct. A flag or a new label must not override a failed content gate.
+
+Required deliverables before asking the owner to review another “complete” route:
+
+- A frozen fact manifest and gap report with source/rule/build hashes.
+- A compiled full-route artifact listing every quest/activity and why each is selected.
+- Per-member before/after XP and prerequisite state at every departure and final 60.
+- The all-21 requested-package inclusion report, including explicit unresolved modules.
+- Whole-trip comparison of the chosen order against the previous order, with measured versus
+  assumed times distinguished.
+- Independent oracle + matrix + browser receipts. No arithmetic discrepancy may be relabeled
+  as UX, and a reference-model pass must not be called a playtested server result.
+
+No runtime, crawler, addon, database, deployment, commit or push is part of this planning turn.
+Official rule references: [October 1 quest bonus changes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/4),
+[October 8 combat/party changes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/5),
+and [the dungeon difficulty/quest reference](https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location).
+
 ## Source-library integration receipt (October 15, 2026)
 
 Implemented locally: the full applicable source inventory now feeds an automatic kill-first

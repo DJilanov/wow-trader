@@ -11,7 +11,12 @@ import { resolveQuestReward, type QuestRewardFact } from "./quest-rewards.js";
 import type { PremadeProgress } from "./premade-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { estimateGroupCombat, type GroupCombatInput } from "./group-combat.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261015-v3";
+import {
+  applyCampaignCombat,
+  createCampaignCombatState,
+  type CampaignCombatRow,
+} from "./campaign-combat.js";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261015-v4-combat";
 
 export interface XpPosition {
   readonly level: number;
@@ -34,6 +39,9 @@ export interface CampaignXpMemberForecast {
   readonly referenceQuestXp: number;
   readonly estimatedQuestXp: number;
   readonly combatXp: number;
+  readonly outdoorCombatXp: number;
+  readonly dungeonCombatXp: number;
+  readonly combatRows: readonly CampaignCombatRow[];
   readonly rewards: readonly CampaignXpRewardRow[];
   readonly unknownQuestIds: readonly number[];
   readonly eligibilityIssues: readonly string[];
@@ -55,6 +63,7 @@ export interface CampaignXpCheckpoint {
 export interface CampaignXpSectionForecast {
   readonly sectionId: string;
   readonly members: readonly CampaignXpMemberForecast[];
+  readonly skippedOptionalActionIds: readonly string[];
 }
 export interface CampaignCombatScenario {
   readonly actionId: string;
@@ -92,6 +101,14 @@ export function forecastCampaignXp(
   } = {},
 ): readonly CampaignXpSectionForecast[] {
   const actions = activeCampaignActions(plan, progress);
+  if (plan.combat && plan.combat.targetBuild !== plan.targetBuild)
+    throw new Error("Combat data belongs to a different route build.");
+  const automaticCombat = new Map(
+    actions.map((action) => [
+      action.id,
+      plan.combat?.activities.filter((activity) => activity.actionId === action.id) ?? [],
+    ]),
+  );
   const unmodeledExtras = new Set(campaignUnmodeledExtras(plan, progress));
   const from =
     options.fromActionId === undefined
@@ -166,6 +183,7 @@ export function forecastCampaignXp(
       issue: invalid
         ? "The saved XP bar does not fit the reference level curve; verify the curve and record fresh actual XP."
         : null,
+      combat: createCampaignCombatState(plan.combat, member),
     };
   });
   const selected = new Set(actions.slice(from).map((a) => a.id));
@@ -173,6 +191,7 @@ export function forecastCampaignXp(
   return sections.map((section, sectionIndex): CampaignXpSectionForecast => {
     const entries = actions.filter((a) => selected.has(a.id) && section.actionIds.includes(a.id));
     const targetLevel = campaignSectionTarget(sections, sectionIndex, progress, facts).level;
+    const skippedOptionalActionIds: string[] = [];
     const summaries = ledgers.map((ledger) => ({
       start: ledger.total === null || ledger.unknown.size > 0 ? null : position(ledger.total),
       rewards: [] as CampaignXpRewardRow[],
@@ -182,8 +201,14 @@ export function forecastCampaignXp(
       referenceQuestXp: 0,
       estimatedQuestXp: 0,
       combatXp: 0,
+      outdoorCombatXp: 0,
+      dungeonCombatXp: 0,
+      combatRows: [] as CampaignCombatRow[],
     }));
     for (const action of entries) {
+      const partyLevels = ledgers.map((ledger) =>
+        ledger.total === null ? null : position(ledger.total).level,
+      );
       const modeled: PremadeProgress = {
         ...progress,
         members: ledgers.map((ledger, player) => ({
@@ -191,10 +216,13 @@ export function forecastCampaignXp(
           ...(ledger.total === null ? { level: null, currentXp: null } : position(ledger.total)),
           questStates: ledger.states,
           confirmations: ledger.confirmations,
-          xpNeedsUpdate: ledger.total === null || ledger.incomplete,
+          xpNeedsUpdate: ledger.total === null || ledger.unknown.size > 0 || ledger.halt !== null,
         })),
       };
-      if (campaignOptionalXpReady(plan, modeled, action)) continue;
+      if (campaignOptionalXpReady(plan, modeled, action)) {
+        skippedOptionalActionIds.push(action.id);
+        continue;
+      }
       for (const [player, ledger] of ledgers.entries()) {
         const summary = summaries[player]!;
         const { rewards, eligibilityIssues } = summary;
@@ -372,6 +400,53 @@ export function forecastCampaignXp(
             break;
           }
           if (change.state !== "rewarded") {
+            if (plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id))
+              for (const activity of automaticCombat.get(action.id) ?? []) {
+                const objectives = activity.objectives.filter(
+                  (objective) =>
+                    objective.questId === change.questId &&
+                    (activity.questWide ||
+                      objective.objectiveIndex === (change.objectiveIndex ?? 1)),
+                );
+                if (!objectives.length) continue;
+                if (
+                  activity.environment === "dungeon" &&
+                  plan.legs.find((leg) => leg.id === action.legId)?.kind !== "dungeon"
+                ) {
+                  halt(
+                    `${action.id}: an inside-dungeon objective is placed before its dungeon visit; no future clear XP or hand-in is credited.`,
+                    true,
+                  );
+                  break;
+                }
+                const last = activity.objectives.at(-1);
+                const result = applyCampaignCombat({
+                  activity: {
+                    ...activity,
+                    id: `${activity.id}-${change.questId}-${change.objectiveIndex ?? 1}`,
+                    objectives,
+                    profile:
+                      last?.questId === change.questId &&
+                      (activity.questWide || last.objectiveIndex === (change.objectiveIndex ?? 1))
+                        ? activity.profile
+                        : null,
+                  },
+                  combat: plan.combat,
+                  state: ledger.combat,
+                  questStates: ledger.states,
+                  position: position(ledger.total),
+                  partySize: action.leaderOnly ? 1 : 5,
+                  partyLevels: action.leaderOnly ? [position(ledger.total).level] : partyLevels,
+                });
+                ledger.total += result.xp;
+                summary.combatXp += result.xp;
+                if (activity.environment === "outdoor") summary.outdoorCombatXp += result.xp;
+                else summary.dungeonCombatXp += result.xp;
+                summary.combatRows.push(...result.rows);
+                summary.evidenceIssues.push(...result.issues);
+                if (result.xp > 0 || result.issues.length) ledger.incomplete = true;
+              }
+            if (ledger.halt) break;
             ledger.confirmations[
               `campaign-objective-${change.questId}-${change.objectiveIndex ?? 1}`
             ] = true;
@@ -439,6 +514,9 @@ export function forecastCampaignXp(
         referenceQuestXp,
         estimatedQuestXp,
         combatXp,
+        outdoorCombatXp,
+        dungeonCombatXp,
+        combatRows,
       } = summaries[player]!;
       const endpoint =
         ledger.total === null || ledger.unknown.size > 0 || ledger.halt
@@ -456,6 +534,9 @@ export function forecastCampaignXp(
         referenceQuestXp,
         estimatedQuestXp,
         combatXp,
+        outdoorCombatXp,
+        dungeonCombatXp,
+        combatRows,
         rewards,
         unknownQuestIds: [...ledger.unknown],
         eligibilityIssues,
@@ -478,6 +559,6 @@ export function forecastCampaignXp(
                   : "covered",
       };
     });
-    return { sectionId: section.id, members };
+    return { sectionId: section.id, members, skippedOptionalActionIds };
   });
 }

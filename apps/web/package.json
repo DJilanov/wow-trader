@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "next dev --port 3000",
+    "dev": "next dev --webpack --port 3000",
     "lint": "eslint src next.config.ts",
     "start": "next start --port 3000",
     "test": "vitest run --passWithNoTests",

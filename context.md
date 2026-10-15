@@ -18,8 +18,10 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-library-20261015-r7` is active; `kfc-helper-zones-20261014-r6`
-  is the immediate compatible rollback. `kfc-helper-xp-20261014-r5`, `kfc-helper-chapters-20261014-r4`,
+  `kfc-helper-xp-repair-20261015-r8` is active. r7 and older readers are not compatible with newly
+  published v2 XP facts; retain the r8 reference reader when rolling back unrelated features.
+  `kfc-helper-library-20261015-r7`, `kfc-helper-zones-20261014-r6`,
+  `kfc-helper-xp-20261014-r5`, `kfc-helper-chapters-20261014-r4`,
   `kfc-helper-route-20261013-r3` and
   `kfc-helper-campaign-20261013-r2` retain earlier
   campaign reader; `kfc-helper-premade-20261013-r1` retains the earlier circuit.
@@ -56,6 +58,238 @@ its server-side source or probability.
 - Tested operation and Forever migration: `docs/runbooks/tbc-validation.md`.
 
 ## Latest delivery and remaining validation
+
+### Required combat XP implementation (2026-10-15; local)
+
+- Implemented literal-only corrected Static provider import, versioned combat contracts and
+  historical XP calculator, typed quest/NPC/quota joins, campaign integration and folded target
+  panels in both-faction source readers. Existing party size selects solo or conservative shared
+  XP. Quest rewards stay whole; kills precede hand-ins and level-ups affect later rewards.
+- Local dataset: 13,391 named NPCs, 5,232 quests, source revision
+  `49e7dbca1f18eb3b8e57ee5d9562ac3e5c9adcc4`, payload SHA
+  `2bf6ce6b5aa2959b30bf133f7e96b8468725efe3b323b14fdb336f3505090fef`.
+  All authored Static layers included; Dynamic corrections/derived passes are not applied.
+  Kept `private-reference`; production refuses it until actual source-publication authorization
+  is recorded. No private exports committed or deployed.
+- Audit reconciles 1,383 variant kill-objective rows across 205 distinct quest IDs, including
+  120 Alliance/138 Horde IDs with overlap. One unnamed NPC is omitted and Infernal's inverted
+  51–50 range is unknown, not corrected by guess. Name-based credit proxies have unknown XP
+  eligibility, not verified zero payouts. Numeric goal text supplies missing guide quotas;
+  conflicts stay unresolved. These are reference counts, not playable totals or level-60 proof.
+- Shared accepted objectives credit the same kills once; later acceptances need new kills.
+  Already-started quests with unknown remaining counts receive no duplicated full quota.
+  Dungeon path/quest overlap, current-build measured per-player payouts, hard entry checks and
+  conditional optional-filler pruning are covered. Existing actual progress is never rewritten.
+- Zero reviewed dungeon paths/calibrated kill contexts are currently imported. Their data entry
+  and validation are implemented, but unmeasured clears do not receive guessed populations,
+  quest multipliers or flat level bonuses. Full route funding remains unproved.
+- Optional `KFCForeverGuides` observer now has `/kfcguide combat`: bounded passive XP messages,
+  public context and explicitly unverified target-name candidates. Off by default/until reload;
+  `/kfcguide stop` stops it. Secret guards and mocks; no bulk scans, protected actions, trader
+  addon changes, installation into WoW or live-client verification.
+- Commands: `pnpm leveling:combat:import` and `pnpm leveling:combat:audit`. Existing `pnpm dev`
+  discovers the local artifacts automatically. Operation/details: `docs/forever-leveling-combat-xp.md`.
+- Verification: 227 leveling and 220 web unit tests passed; both package lints and strict types,
+  package build/import, script lint and Lua mocks passed. Real-data browser smoke passed for
+  Alliance/Horde, solo/five players, exact estimates/NPC links, 320–1440px, axe accessibility and
+  unchanged actual saves. Final audit receipt:
+  `artifacts/leveling/audits/2026-10-15/combat-implementation-final-v2/combat-audit.json`.
+- Fixed local dev-only hydration: Next's separate React debug WebSocket was blocked; inline debug
+  metadata (`experimental.reactDebugChannel: false`) restored hydration. Web dev uses webpack to
+  avoid the independent Turbopack Google-font query failure. No allowed-origin/security relaxation.
+  Production webpack builds pass with test-only local font transport responses; the default
+  Turbopack build and real Google font delivery are not claimed verified by these checks.
+- Final optimized webpack build passed (59 static pages). The production-mode browser smoke also
+  passed with the owned synthetic dataset: both factions, solo/five, target panels, campaign
+  coverage metrics, mobile widths, accessibility and unchanged completion saves. Real provider
+  publication stays held. QA screenshots are temporary, not public website assets.
+- `scripts/prepare-leveling-combat-fixture.mjs` creates owned synthetic archive/combat fixtures in a
+  fresh temporary directory for production-mode QA. It never copies or authorizes provider data.
+  No production/crawler/database changes, commit or push requested/performed.
+
+### Explicit combat-XP feasibility research (2026-10-15; historical input)
+
+- Owner now asks to model required outdoor kills and dungeon clears directly, with conservative
+  solo XP / 5 in five-player mode, instead of treating all combat as an unspecified buffer.
+  Research/plan: `docs/forever-leveling-combat-xp-research.md`. This section records the earlier
+  research-only state; the subsequent local implementation is described above.
+- Current extracted world snapshot has zero quest-objective rows and only 179 creature-difficulty
+  rows. Found QuestieDB's independent Forever provider as a useful additional candidate source.
+  Pinned revision `49e7dbca1f18eb3b8e57ee5d9562ac3e5c9adcc4`; raw-only feasibility pass finds
+  2,230/2,535 queued quest IDs, 269 creature-objective quests with all referenced level ranges,
+  and 1,373/1,519 guide mob names. These are uncorrected discovery counts, not live validation.
+  Effective correction layers, quotas, ID matching and license/provenance review remain necessary.
+- Official October 8 notes confirm approximately +20% dungeon kill XP relative to prior Forever
+  tuning and per-player ordinary level penalties; they do not publish an absolute XP formula.
+  Current player reports are sanity checks, not a calibrated all-dungeon table. Need path-specific
+  trash/boss counts and versioned payout estimates; eventual opt-in passive measurements can
+  refine these without re-enabling the disabled bulk NPC/quest scanners.
+- Preserve full per-player quest XP, apply no quest coefficient to combat, count overlapping kills
+  once, never divide observed party XP again, carry real XP bars and level-ups continuously.
+  Existing group-combat helper/ledger accept scenarios but default audits still supply no combat.
+- Read-only source/local-data research and documentation only; no crawler interruption, production
+  change, addon installation, provider publication, commit or deployment. Existing quest-XP
+  collection continues independently. Private raw audit receipt under
+  `artifacts/leveling/audits/2026-10-15/combat-research/`.
+- Verification: 21 existing group-combat/campaign-budget tests passed, plus focused documentation
+  formatting and `git diff --check`. These do not validate live-game XP or the planned adapter.
+
+### Simplified dungeon XP planning policy (2026-10-15; preceding baseline)
+
+- Use unscaled base XP × 2.375 once for unconfirmed/future dungeon quest rewards. Known collected
+  final amounts still take precedence and are never multiplied again or replaced by the estimate.
+- Required outdoor kills and dungeon clears are the assumed buffer if actual quest rewards use
+  1.8/2.1 instead. This is a planning assumption, not a measured guarantee or fabricated XP fact.
+  Do not build a compensation engine, require kill-by-kill evidence, add multiple coefficient
+  scenarios or implement the earlier proposed fixed 0.3-level threshold merely to plan the route.
+- Carry the XP balance forward and keep actual level/prerequisite checks. Offer efficient catch-up
+  only if the party is actually short at a checkpoint; no preemptive grind detours for small
+  estimate differences. Unknown quest identities/lifecycles remain distinct from reward estimates.
+- Updated the binding product plan; documentation only, no runtime/deployment changes. This
+  supersedes the earlier threshold/scenario proposals below without altering collected facts.
+
+### Natural combat buffer for small quest-only deficits (2026-10-15; earlier discussion)
+
+- Owner wants mandatory quest-objective kills and dungeon clears to cover small quest-only
+  differences instead of adding unnecessary quest detours. Current forecast supports explicit
+  combat scenarios but its default audit supplies none; quest-only XP is intentionally incomplete
+  as a projection of all rewards earned while playing.
+- The earlier proposed “0.3 of one level” threshold was not implemented and is now superseded
+  by the simpler owner-approved baseline above. Do not add it as a new requirement.
+- Carry balances continuously, assess the lagging member and kills available before each gate,
+  do not forgive the allowance anew per chapter, and keep actual minimum-level checks. Actual bars
+  reconcile the reserve; combat already in those bars is not credited twice. Unknown quest rewards
+  and missing prerequisites are separate problems. Details in the binding product plan.
+- Documentation only: no runtime/UI edits, deployment, threshold activation or new tests required.
+  Collection continues independently under the existing full-archive worker configuration.
+
+### Full RestedXP import and both-faction XP collection (2026-10-15)
+
+- Owner expanded the intended guide to Alliance and Horde. Re-ran the authorized pinned importer
+  from `/Users/dimitarjilanov/Desktop/restedxp-analysis` into the isolated
+  `artifacts/leveling/audits/2026-10-15/both-factions/archive/`: 157 guides, 22,604 steps,
+  2,394 original action quest IDs. All chapter/aggregate/provenance checks passed. Manifest SHA
+  `43b8ce0a5286dadbaa89ea9b2d53e6ed328fca613ed5e33429151cf24c226fc5` exactly matches the
+  existing production archive. Both factions were already imported/readable; XP collection was
+  incomplete. No newer private bundle was silently substituted and no duplicate archive deployed.
+- Added complete collection inventory and CLI: all factions, guide families, class/race/season
+  branches, source actions and runtime references, plus all known dungeon identities/gates.
+  This does not mark conditional work eligible or collection farms desirable in a premade route.
+  Runtime argument positions were checked against the installed public addon functions; item IDs,
+  objective numbers and reward choices are not mistaken for quest IDs. Optional negative hand-ins,
+  daily alternatives and condition-only references are preserved, with per-step provenance.
+- Full queue: 2,535 unique IDs, including 2,397 guide-referenced IDs and 299 known dungeon IDs
+  (overlapping sets). It contains all 2,394 original archive IDs, all 1,419 previous priority IDs
+  and all 106 previously omitted Alliance references. Three extra guide-only references recovered:
+  742 (daily alternative), 1522 (condition), 5923 (signed optional hand-in).
+- Queue SHA `336bb641f1c6e5a62ad1c91170d609c9bfbc75c32c1948811bbed6c20784f805`;
+  new worker `crawl-20261015-r8-full-archive`. Serialized phases are recovery → original priority
+  → full archive → original base. Independent archive checkpoint:
+  `shared/archive-xp-336bb641f1c6e5a6-status.json`; active configuration:
+  `shared/queues/reference-crawler-full-archive.config.cjs`. Recovery resumed at its saved cursor;
+  no original queue/checkpoint was reset. PM2 saved. Guards/pacing/one worker unchanged.
+- At 09:15 UTC the full queue's publication coverage was 349 available, 296 unknown, 1,890 not
+  published, zero conflicts/expired; collection is not complete. A 3–4 day check-in window is
+  reasonable at one-minute HTTP pacing with redirects, not a completion guarantee. Source access
+  failures still stop safely. `pnpm leveling:xp:status:archive` distinguishes these states and
+  validates queue/record checksums; details/commands in `docs/forever-leveling-archive.md`.
+- Web/publisher remain r8 at unchanged PIDs 2871046/2871067; ingest PID 1169337 unchanged. Only
+  the isolated crawler was replaced. No website build/restart, database, addon or player-save edits.
+  Local verification: 192 leveling tests, 70 reference tests, 2 archive CLI integration tests,
+  both strict typechecks/lints/builds and focused formatting. No commit/push requested/performed.
+- Owner approves parity estimates for Drowned City/Krol'dok/Alcaz, anchored to Hall of Thanes,
+  Ruins of Lordaeron and Dalaran. These may fund explicitly conditional planning scenarios; never
+  fabricate quest IDs or insert estimated rewards into the verified XP archive. Full package sizes
+  differ by anchor/faction; use template scenarios, not one claimed confirmed quest count. This
+  policy is recorded in the binding route plan; its route/UI integration remains to implement.
+- Verified old-dungeon facts are already scaled, using each page's own coefficient once. Collected
+  examples: Stockade 378 = 2,750 × 2.1 → 5,800; Gnomeregan 2922 = 2,650 × 1.8 → 4,750.
+  Legacy `estimateDungeonReward`/parity fallback still uses generic 2.375 in some cases and remains
+  an estimate, not a universal Forever rule. Added regressions for distinct page factors and for
+  the reward resolver preferring final scaled facts without another multiplier. Before route
+  certification, replace/reconcile remaining legacy fallbacks against the full collected evidence.
+
+### Repairing the 298 unknown quest rewards (2026-10-15; deployed, backfill running)
+
+- Confirmed root cause with one permitted, durably paced capture: the source changed
+  `global-core.js?52d4f803` to `global-core.js?97211824`. All 298 original unknown records have
+  primary quest/minimum levels; the old parser incorrectly reported missing primary metadata
+  alongside the real renderer-verification failure. The immutable display records do not retain
+  scaling inputs, so most old unknowns cannot be repaired offline.
+- Independently inspected both public core assets and the unchanged `quest.js?5f36c4ad`.
+  `roundQuestXp` and `getMaxPlayerLevel` are byte-identical between core revisions. v2 accepts
+  only these two verified renderer pairs, records the actual pair, and distinguishes missing
+  edition/metadata from unverified renderer. Unknown future versions remain held, not estimated.
+- Backward-compatible readers accept original v1 facts and new v2 facts. Fresh known facts remain
+  cached; old unknown facts are refreshed once after the parser capability upgrade. A current-v2
+  unknown does not cause an unbounded retry loop. Reuse only the validated same-entity canonical
+  URL, avoiding the usual redundant redirect while retaining pacing and redirect/access checks.
+- Helper web and publisher: `kfc-helper-xp-repair-20261015-r8`, Next build
+  `Gp5T4j4uU0t9I8sWX_Y14`. Built from the actual active r7 with scoped reference-package changes,
+  not the dirty monorepo. Compatible readers were activated before producing v2 records.
+  Ingestion stays at PID 1169337 / its existing release; no database, player-save, route/UI or addon
+  changes. No commit/push requested/performed.
+- Worker: `crawl-20261015-r7-xp-repair`. One serialized recovery → original 1,419-ID priority →
+  base sequence, with independent hash-bound checkpoints. Original priority checkpoint paused at
+  cursor 648 and base at 746, preserved byte-for-byte while recovery runs. Same 60-second durable
+  HTTP pacing, robots/429/503/denial/challenge stops, 384 MiB heap and 8 GiB/2 GiB storage guards.
+- Frozen recovery queue has 317 IDs: the original 298 unknowns plus 19 newly affected records.
+  Queue SHA `d3ba3ad0b531151fa4ec7026b8904cca0a1ea7bb9a90176471b384cffdcce07b`;
+  configuration `shared/queues/reference-crawler-recovery.config.cjs`, checkpoint
+  `shared/recovery-xp-d3ba3ad0b531151f-status.json`. PM2 configuration saved. At least roughly
+  five hours of collection is required; this is not a claim that all 298 are already resolved.
+- At 08:53:09 UTC the captured Red Crystal (4811) was repaired offline from its exact verified
+  source bytes and published at 490 XP. Coverage increased from 328 to 329 available facts,
+  645 total / 316 unknown / no conflicts. Existing known facts are not overwritten by unknowns.
+  Updated counts must be read from the recovery status tool, not inferred from crawl cursors.
+  At 08:56:10 UTC: 331 available / 314 unknown / no conflicts, with 3/298 original records resolved
+  and 295 pending. Frozen post-activation receipt: `artifacts/leveling/audits/2026-10-15/xp-repair/`.
+- `scripts/repair-leveling-quest-xp.mjs` prepares immutable deduplicated queues and reports the
+  original cohort separately from newly found unknowns. It validates index/record schemas,
+  checksums, identities and freshness, refuses output overwrite, and checks the expected cohort.
+  See `docs/wowhead-reference-enrichment.md` for exact progress and safe-stop commands.
+- Verification: 68 reference-data tests, 5 focused web tests, recovery-tool integration test,
+  strict reference types/lint, focused format/lint, all 626 frozen records through the new reader,
+  Linux production build/private preview and live real-XP browser/mobile/a11y suite passed.
+  Full-route XP funding remains a separate failed content audit and pending route rebuild.
+
+### XP-funded flexible-entry rebuild (2026-10-15; research/plan only)
+
+- Owner returned the route's XP sufficiency for the seventh time and now explicitly permits entry
+  flexibility near At-level. r7's preset appointments are not a complete funded route. Do not make
+  another label-only or small-selection patch and call this fixed.
+- The binding replacement is the new opening section of `docs/forever-leveling-product-plan.md`;
+  fresh whole-route evidence and all 21 stops are in the opening follow-up of
+  `docs/forever-leveling-full-route-audit.md`. Generate a continuous five-player route from the
+  full legal source graph and complete dungeon packages, then derive chapters. Compare nearby
+  dungeon windows/order; old requested levels become preferences, not fixed progression inputs.
+- Independent arithmetic: Hall at 16 + 0 pays 13,300 reference quest XP, leaving level 16; adding
+  the three unpaid map-chain rewards gives 15,940, still under the 16,000 next bar. The 19 target
+  is a next-departure requirement, not a Hall exit. At 59, core Stratholme gives 31,500 against a
+  209,800 bar; dungeon-only 45–60 and a one-clear finish are not established.
+- Re-froze published XP at 08:01:28 UTC: 626 validated records, 328 available, 298 unknown, no
+  recorded conflicts. Human/warrior: 294/334 scheduled hand-ins have available typed facts.
+  All unknowns share parser-verification errors; existing diagnostics also conflate renderer and
+  primary-data failure. More crawling alone has not increased the 328 numeric facts. No worker
+  configuration, parser code or collection policy was changed by this research.
+- Fresh audit: 33 editions, 132 policy/raid cases, 6,000 independent checks; 912 blocked,
+  3,172 incomplete, 1,832 shortfall, 84 reference-covered. `--require-covered` exits 2.
+  Evidence: `artifacts/leveling/audits/2026-10-15/entry-plan/`; semantic audit SHA
+  `97739d108a29c4050bfbd66dccd437999d572affbc2da5198eb48edc073ec98d`.
+- Additional source found read-only: local `questcache.wdb` is no longer empty. 65,220 bytes,
+  header build 70374/enUS, 61 bounded records including all five Hall IDs; SHA
+  `165882299afc09db14330f221ca0df487eb0df25442c4bb8c930a95d3d8e2889`. Frozen privately with the
+  audit. Record envelopes were checked; XP/restriction fields are not decoded or authoritative yet.
+  Installed RXP is now v4.11.23; do not replace the frozen authorized guide on that basis.
+- Research verified Blizzard's October 8 dungeon-kill XP and mixed-level party rule changes and
+  the current dungeon guide's City of Dalaran At-level 31. Keep difficulty, hard quest/access
+  minima, per-quest hand-in scaling and per-member combat penalties separate. Solo-XP/5 remains
+  a conservative owner-specified scenario, not a measured complete server formula.
+- Planned complete-route publication requires a full compiled event artifact, all five per-member
+  ledgers, all requested-module inclusion/gap reporting, an independent XP oracle, the full profile
+  matrix and browser/RestedXP parity. Drowned City/Krol'dok/Alcaz remain unresolved, never free XP.
+  No runtime implementation, addon change, database write, crawler restart, commit/push or new
+  deployment this turn. r7 stays live; the substantive correction is still to implement.
 
 ### Verified library deployment (2026-10-15)
 

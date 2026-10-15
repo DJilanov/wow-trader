@@ -36,6 +36,8 @@
     "format:check": "prettier --check .",
     "lint": "eslint scripts && turbo run lint",
     "leveling:feedback": "node scripts/leveling-feedback.mjs",
+    "leveling:combat:import": "pnpm --filter @wow-trader/leveling build && node scripts/import-leveling-combat.mjs",
+    "leveling:combat:audit": "pnpm --filter @wow-trader/leveling build && node scripts/audit-leveling-combat.mjs",
     "leveling:xp:queue": "node scripts/leveling-quest-xp-queue.mjs",
     "leveling:xp:audit": "node scripts/audit-leveling-quest-xp.mjs",
     "leveling:xp:verify": "node scripts/audit-leveling-quest-xp.mjs --require-covered",

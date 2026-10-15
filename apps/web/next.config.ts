@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  distDir: process.env.WOW_TRADER_BUILD_DIR || ".next",
   output: "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
+  // Inline dev debug metadata so an unavailable WebSocket cannot suspend hydration.
+  experimental: { reactDebugChannel: false },
   serverExternalPackages: ["postgres"],
   async redirects() {
     return [

@@ -19,6 +19,7 @@ import {
 } from "./premade-model.js";
 import { emptyCampaignProgress, type CampaignProgress } from "./campaign-model.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
+import type { CampaignCombatPlan } from "./combat-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { extractCampaignQuestBatches, type CampaignQuestBatch } from "./campaign-catchup.js";
 import { buildCampaignQuestLibrary, type LibraryObjective } from "./campaign-library.js";
@@ -97,6 +98,7 @@ export interface CampaignPlan {
   readonly rewardNotice?: string | null;
   readonly catchUpBatches?: readonly CampaignQuestBatch[];
   readonly library?: CampaignLibrarySelection;
+  readonly combat?: CampaignCombatPlan;
 }
 
 const beforeStop: Readonly<Record<string, readonly string[]>> = {

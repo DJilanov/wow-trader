@@ -23,7 +23,11 @@ import {
   offersThanesReplacement,
   THANES_REPLACEMENT,
   dungeonCarryoverRequirements,
+  indexCombatReferences,
+  resolveCombatObjectives,
 } from "@wow-trader/leveling";
+import type { ChapterCombatReference } from "../lib/leveling-combat";
+import { LevelingCombatTargets } from "./leveling-combat-targets";
 import { useLeveling } from "./leveling-provider";
 import { LevelingEntityLinks } from "./leveling-entity-links";
 import { LevelingStepProgress } from "./leveling-step-progress";
@@ -52,6 +56,7 @@ import {
 import styles from "./leveling-experience.module.css";
 
 interface ImportedReaderProps {
+  readonly combat?: ChapterCombatReference | null;
   readonly chapter: ChapterReference;
   readonly guide: ImportedChapter;
   readonly defaultProfile: CharacterProfile;
@@ -143,6 +148,7 @@ export function ImportedLevelingReader(props: ImportedReaderProps): React.JSX.El
 }
 
 function SourceLevelingReader({
+  combat,
   chapter,
   guide,
   defaultProfile,
@@ -158,6 +164,7 @@ function SourceLevelingReader({
       : null;
   const profile = matching?.profile ?? defaultProfile;
   const label = getChapterLabel(chapter, profile);
+  const combatIndex = useMemo(() => (combat ? indexCombatReferences(combat) : null), [combat]);
   const race = getLevelingRace(profile.faction, profile.raceId);
   const [dungeons, setDungeons] = useState<readonly string[]>([]);
   const [hideDone, setHideDone] = useState(false);
@@ -328,6 +335,18 @@ function SourceLevelingReader({
           />
         }
       >
+        {!conditional && combatIndex && combat && (
+          <LevelingCombatTargets
+            objectives={resolveCombatObjectives(
+              view.directives,
+              combatIndex,
+              `${guide.chapterId}:${view.step.id}`,
+            )}
+            npcs={combat.npcs}
+            referenceLevel={profile.level ?? label.minimumLevel}
+            partySize={profile.party.size}
+          />
+        )}
         {view.directives.some((directive) => [".target", ".mob"].includes(directive.tag)) && (
           <p className={styles.stepQuickFacts}>
             {view.directives

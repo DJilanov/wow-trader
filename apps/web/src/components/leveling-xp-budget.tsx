@@ -17,6 +17,13 @@ import styles from "./leveling-xp-budget.module.css";
 function bar(value: XpPosition | null): string {
   return value ? `Level ${value.level} + ${value.currentXp.toLocaleString("en-US")} XP` : "Unknown";
 }
+function xpRange(values: readonly number[]): string {
+  const minimum = Math.min(...values),
+    maximum = Math.max(...values);
+  return minimum === maximum
+    ? minimum.toLocaleString("en-US")
+    : `${minimum.toLocaleString("en-US")}–${maximum.toLocaleString("en-US")}`;
+}
 
 export function LevelingLibraryStatus({
   plan,
@@ -84,8 +91,25 @@ export function LevelingRewardStatus({ plan }: { readonly plan: CampaignPlan }):
       <p>
         Route under validation. Dungeon entry levels are targets, not guaranteed chapter gains.
         Five-player planning credits 1/5 of solo kill XP per player, while each player keeps the
-        full eligible quest reward. Unmeasured combat is excluded, not assumed to fill a gap.
+        full eligible quest reward. Outdoor combat uses a historical estimate, not a confirmed
+        Forever payout. Unmeasured combat is excluded, not assumed to fill a gap.
       </p>
+      {plan.combat && (
+        <details>
+          <summary>Combat reference coverage</summary>
+          <p>
+            {
+              plan.combat.activities.filter((activity) =>
+                activity.objectives.some((objective) => objective.requiredKills !== null),
+              ).length
+            }{" "}
+            objective steps have reconciled kill quotas. Source revision{" "}
+            {plan.combat.sourceRevision.slice(0, 12)}. Collection drops and current dungeon tuning
+            remain separate.
+          </p>
+          {plan.combat.notice && <p>{plan.combat.notice}</p>}
+        </details>
+      )}
       {plan.rewardNotice && <p role="status">{plan.rewardNotice}</p>}
       <button
         type="button"
@@ -115,6 +139,12 @@ export function LevelingChapterBudget({
   const rows = live ? forecast.members : audit.forecast.members;
   const relevant = audit.audience === "leader" ? rows.slice(0, 1) : rows;
   const values = relevant.map((member) => member.referenceQuestXp + member.estimatedQuestXp);
+  const outdoorRows = relevant.flatMap((member) =>
+    member.combatRows.filter((row) => row.environment === "outdoor"),
+  );
+  const dungeonRows = relevant.flatMap((member) =>
+    member.combatRows.filter((row) => row.environment === "dungeon"),
+  );
   const minimum = Math.min(...values),
     maximum = Math.max(...values);
   const xp =
@@ -157,7 +187,7 @@ export function LevelingChapterBudget({
         ? "XP coverage unresolved"
         : status === "shortfall"
           ? "More XP work needed"
-          : "Quest-only reference reaches target";
+          : "Modeled XP reaches target";
   return (
     <section
       className={styles.coverage}
@@ -167,11 +197,11 @@ export function LevelingChapterBudget({
     >
       <strong>{label}</strong>
       <details open={!compact} className={styles.budget}>
-        <summary>Review XP deficit, assumptions and quest evidence</summary>
+        <summary>Review quest + combat XP and remaining work</summary>
         <p>
           {live
             ? "From your saved current step and actual bars."
-            : `Independent quest-only check from level ${audit.referenceEntryLevel}, empty XP bar; earlier prerequisites are assumed. Not a continuous route forecast.`}
+            : `Independent quest + required-combat check from level ${audit.referenceEntryLevel}, empty XP bar; earlier prerequisites are assumed. Not a continuous route forecast.`}
         </p>
         <dl className={styles.metrics}>
           <div>
@@ -185,7 +215,31 @@ export function LevelingChapterBudget({
             <dt>Accounted quest XP / player</dt>
             <dd>
               {xp}
-              <small>Only rewards reached before a blocker; no combat added</small>
+              <small>Only hand-ins reached before a blocker</small>
+            </dd>
+          </div>
+          <div>
+            <dt>Required outdoor combat / player</dt>
+            <dd>
+              {outdoorRows.some((row) => row.xp !== null)
+                ? xpRange(relevant.map((member) => member.outdoorCombatXp))
+                : "Not accounted"}
+              <small>
+                {outdoorRows.some((row) => row.basis === "reference-estimate")
+                  ? "Lower-end historical estimate · no rested XP"
+                  : outdoorRows.some((row) => row.basis === "observed")
+                    ? "Matched controlled observations · no rested XP"
+                    : "No resolved XP-paying kills reached before the blocker"}
+              </small>
+            </dd>
+          </div>
+          <div>
+            <dt>Dungeon combat / player</dt>
+            <dd>
+              {dungeonRows.some((row) => row.xp !== null)
+                ? xpRange(relevant.map((member) => member.dungeonCombatXp))
+                : "Unmeasured"}
+              <small>Requires a sourced clear path and current tuning; no flat level bonus</small>
             </dd>
           </div>
           <div>
@@ -211,12 +265,19 @@ export function LevelingChapterBudget({
               <small>
                 {remaining === null
                   ? "Resolve the blocker before predicting an exit"
-                  : "Must come from additional quests or evidenced combat"}
+                  : "Remaining after the quest and combat XP accounted above"}
               </small>
             </dd>
           </div>
         </dl>
         {blocked && <p className={styles.warning}>{blocked.blockedReason}</p>}
+        {forecast.skippedOptionalActionIds.length > 0 && (
+          <p>
+            This forecast omits {forecast.skippedOptionalActionIds.length} unstarted optional steps
+            after every player reaches the departure target. Required unlocks and accepted chains
+            remain. Actual saved progress is unchanged.
+          </p>
+        )}
         {audit.conflictingMinimumIds.length > 0 && (
           <p className={styles.warning}>
             Conflicting pickup levels: {audit.conflictingMinimumIds.join(", ")}. Conservative
@@ -256,14 +317,14 @@ export function LevelingXpBudget({
       data-xp-forecast-revision={CAMPAIGN_XP_REVISION}
       onToggle={(event): void => setOpen(event.currentTarget.open)}
     >
-      <summary>Per-player XP coverage · quest-only forecast</summary>
+      <summary>Per-player XP coverage · quests + required combat</summary>
       {open && (
         <>
           {plan && <LevelingRewardStatus plan={plan} />}
           <p>
             From the saved current step and fresh actual XP. Overflow carries forward; rewards are
-            resolved at the predicted hand-in level. Combat is not included, and predictions never
-            change saved progress.
+            resolved at the predicted hand-in level. Required combat is included where identities,
+            quotas and a payout model are available. Estimates never change saved progress.
           </p>
           <div
             className={styles.scroll}
@@ -277,6 +338,7 @@ export function LevelingXpBudget({
                   <th scope="col">Player</th>
                   <th scope="col">Entry bar</th>
                   <th scope="col">Quest XP</th>
+                  <th scope="col">Combat XP</th>
                   <th scope="col">Subtotal exit</th>
                   <th scope="col">Gap to target</th>
                 </tr>
@@ -300,6 +362,14 @@ export function LevelingXpBudget({
                       </small>
                     </td>
                     <td>
+                      {member.combatXp.toLocaleString("en-US")}
+                      <small>
+                        {member.outdoorCombatXp.toLocaleString("en-US")} outdoor ·{" "}
+                        {member.dungeonCombatXp.toLocaleString("en-US")} dungeon
+                      </small>
+                      <small>Reference estimate; unmeasured kills excluded</small>
+                    </td>
+                    <td>
                       {bar(member.endpoint)}
                       <small>
                         {member.status === "blocked"
@@ -310,7 +380,7 @@ export function LevelingXpBudget({
                               ? "Before the forecast starting step"
                               : member.status === "no-start"
                                 ? "Record actual XP"
-                                : "Quest-only reference scenario"}
+                                : "Quest + combat reference scenario"}
                       </small>
                     </td>
                     <td>
@@ -358,6 +428,38 @@ export function LevelingXpBudget({
           </div>
           {selected && (
             <>
+              {selected.combatRows.length > 0 && (
+                <details className={styles.budget}>
+                  <summary>
+                    Combat breakdown ·{" "}
+                    {selected.combatRows.reduce((sum, row) => sum + row.kills, 0)} modeled target
+                    kills
+                  </summary>
+                  <ul className={styles.rewards}>
+                    {selected.combatRows.map((row, index) => (
+                      <li key={`${row.activityId}-${row.npcId}-${index}`}>
+                        <a
+                          href={`https://www.wowhead.com/forever/npc=${row.npcId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {row.name}
+                        </a>
+                        {" · "}
+                        {row.kills} kills · level {row.minimumLevel ?? "?"}
+                        {row.maximumLevel !== row.minimumLevel ? `–${row.maximumLevel ?? "?"}` : ""}
+                        <small>
+                          {row.xp === null
+                            ? "XP unmeasured; not added"
+                            : `${row.xp.toLocaleString("en-US")} XP added · ${row.basis === "observed" ? "matched observations" : "reference estimate"}`}{" "}
+                          · {row.environment}
+                        </small>
+                        <small>{row.source}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
               <ul>
                 {[...selected.eligibilityIssues, ...selected.evidenceIssues].map((issue, index) => (
                   <li key={`${index}-${issue}`}>{issue}</li>

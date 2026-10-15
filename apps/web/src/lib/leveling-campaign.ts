@@ -1,6 +1,7 @@
 import {
   CHAPTER_REFERENCES,
   buildCampaignPlan,
+  attachCampaignCombat,
   type CampaignPlan,
   type CampaignRace,
   type CampaignSource,
@@ -11,6 +12,7 @@ import { getImportedLevelingChapter, getLevelingArchiveManifest } from "./leveli
 import { getLevelingMaps } from "./leveling-maps";
 import type { LevelingChapterMaps } from "./leveling-map-data";
 import { getLevelingRewardSnapshot } from "./leveling-quest-xp";
+import { getLevelingCombatSnapshot } from "./leveling-combat";
 
 let cache:
   | {
@@ -52,7 +54,7 @@ export async function getLevelingCampaign(
   const current = cache;
   const key = `${race}-${leaderClass ?? "general"}`;
   const existing = current.plans.get(key);
-  if (existing) return withRewardSnapshot(await existing);
+  if (existing) return withEvidence(await existing, await current.sources);
   if (current.plans.size >= 6) {
     const oldest = current.plans.keys().next().value;
     if (oldest !== undefined) current.plans.delete(oldest);
@@ -62,14 +64,17 @@ export async function getLevelingCampaign(
   );
   current.plans.set(key, plan);
   try {
-    return withRewardSnapshot(await plan);
+    return withEvidence(await plan, await current.sources);
   } catch (error: unknown) {
     if (cache === current) cache = undefined;
     throw error;
   }
 }
 
-async function withRewardSnapshot(plan: CampaignPlan): Promise<CampaignPlan> {
+async function withEvidence(
+  plan: CampaignPlan,
+  sources: readonly CampaignSource[],
+): Promise<CampaignPlan> {
   const ids = [
     ...new Set([
       ...plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
@@ -77,15 +82,31 @@ async function withRewardSnapshot(plan: CampaignPlan): Promise<CampaignPlan> {
       ...(plan.library?.choices ?? []).map((choice) => choice.questId),
     ]),
   ];
-  const snapshot = await getLevelingRewardSnapshot(ids);
+  const [snapshot, combat] = await Promise.all([
+    getLevelingRewardSnapshot(ids),
+    getLevelingCombatSnapshot(),
+  ]);
+  const enriched =
+    combat.data && combat.data.targetBuild === plan.targetBuild
+      ? attachCampaignCombat(plan, sources, combat.data, combat.revision)
+      : plan;
   return {
-    ...plan,
+    ...enriched,
     catchUpBatches: (plan.catchUpBatches ?? []).filter(
       (batch) => batch.objectiveType === "shared-kills" && !batch.conditional,
     ),
     rewardFacts: snapshot.facts,
     rewardRevision: snapshot.revision,
-    rewardNotice: snapshot.notice,
+    rewardNotice:
+      [
+        snapshot.notice,
+        combat.notice,
+        combat.data && combat.data.targetBuild !== plan.targetBuild
+          ? "Combat references belong to a different client build and are excluded."
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" ") || null,
   };
 }
 

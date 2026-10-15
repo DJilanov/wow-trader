@@ -53,6 +53,7 @@ import {
 } from "./leveling-xp-budget";
 import { LevelingDungeonPreparation } from "./leveling-campaign-outline";
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
+import { LevelingCombatTargets } from "./leveling-combat-targets";
 
 interface CampaignProps {
   readonly plan: CampaignPlan;
@@ -374,6 +375,18 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         }
       >
         <div data-campaign-action={entry.id} className={styles.instructions}>
+          {plan.combat?.activities
+            .filter((activity) => activity.actionId === entry.id)
+            .map((activity) => (
+              <LevelingCombatTargets
+                key={activity.id}
+                objectives={activity.objectives}
+                npcs={plan.combat!.npcs}
+                referenceLevel={plan.legs.find((phase) => phase.id === entry.legId)?.from ?? 1}
+                partySize={entry.leaderOnly ? 1 : 5}
+                environment={activity.environment}
+              />
+            ))}
           {entry.instructions.map((line, lineIndex) => (
             <p key={lineIndex}>{line}</p>
           ))}

@@ -32,6 +32,7 @@ import {
   emptyLevelingMaps,
 } from "../../../../../../../lib/leveling-map-data";
 import { getLevelingMaps } from "../../../../../../../lib/leveling-maps";
+import { getChapterCombatReference } from "../../../../../../../lib/leveling-combat";
 import {
   WESTFALL_CHAPTER_ID,
   WESTFALL_READER_PATH,
@@ -215,6 +216,7 @@ export default async function LevelingChapterPage({
         <ImportedLevelingReader
           chapter={chapter}
           guide={imported}
+          combat={await getChapterCombatReference(imported)}
           defaultProfile={profile}
           maps={{
             ...maps,
