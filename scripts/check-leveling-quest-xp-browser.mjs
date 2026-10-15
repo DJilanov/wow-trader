@@ -44,7 +44,7 @@ progress.members = progress.members.map((member) => ({
   level: 13,
   currentXp: 0,
   xpNeedsUpdate: false,
-  questStates: { 9: "accepted" },
+  questStates: { 9: "objectives-complete" },
 }));
 progress.campaigns[plan.release] = { selectedActionId: handIn.id, completion: {} };
 const data = {

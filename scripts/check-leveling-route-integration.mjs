@@ -61,6 +61,14 @@ try {
   await expect(page.getByLabel("Campaign chapter", { exact: true })).toHaveValue("start-115");
   await page.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
   await expect.poll(async () => (await session()).profile.party.size).toBe(5);
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  for (let player = 1; player <= 5; player++) {
+    const xp = page.getByRole("form", { name: `Actual XP for player ${player}`, exact: true });
+    await xp.getByLabel(`Player ${player} actual level`, { exact: true }).fill("1");
+    await xp.getByLabel(`Player ${player} actual XP`, { exact: true }).fill("0");
+    await xp.getByRole("button", { name: "Save actual XP", exact: true }).click();
+  }
+  await page.getByRole("button", { name: "Close settings", exact: true }).click();
   await page.getByRole("button", { name: "Next step", exact: true }).click();
   const next = (await journey()).selectedActionId;
   assert.deepEqual((await journey()).completion, {});

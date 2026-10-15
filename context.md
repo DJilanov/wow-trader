@@ -18,8 +18,8 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-zones-20261014-r6` is active; `kfc-helper-xp-20261014-r5`
-  is the immediate compatible rollback. `kfc-helper-chapters-20261014-r4`,
+  `kfc-helper-library-20261015-r7` is active; `kfc-helper-zones-20261014-r6`
+  is the immediate compatible rollback. `kfc-helper-xp-20261014-r5`, `kfc-helper-chapters-20261014-r4`,
   `kfc-helper-route-20261013-r3` and
   `kfc-helper-campaign-20261013-r2` retain earlier
   campaign reader; `kfc-helper-premade-20261013-r1` retains the earlier circuit.
@@ -57,7 +57,41 @@ its server-side source or probability.
 
 ## Latest delivery and remaining validation
 
-### Kill-first source-library route integration (2026-10-15; local web, live data collection)
+### Verified library deployment (2026-10-15)
+
+- Code committed and pushed to `origin/main`: `6429682` (campaign/library integration and previously
+  deployed leveling/quest-XP foundation), then `418f25f` (dungeon-fact formatting). Unrelated market,
+  ingestion, catalog-guardian, SEO, addon and local-document changes remain untouched in the worktree.
+- Live Helper release: `kfc-helper-library-20261015-r7`, copied from the actual r6 baseline and
+  overlaid with 30 changed leveling/web source and test files. Existing catalog, dependency,
+  environment, native/world data and media baselines were preserved. Linux leveling build/types and
+  webpack production build passed; Next build ID `q2Z_3OjlJDvL3BZ9WDNgh`. Standalone static/public
+  contents were copied into their correct nested roots. No migration or native-data publication.
+- Local verification: 186 leveling, 61 reference-data, 215 web and 6 world-data tests (468 total),
+  strict types, focused ESLint/formatting, all 33 source-flow variants and preservation of 26,878
+  original action identities passed. Existing unrelated pacing-file formatting was not changed.
+- Private three-scenario coverage checks passed for a real inserted library action, underlevel
+  departure, unknown XP, read-only refresh, exact-step reload, 390/320 px and WCAG A/AA. Public
+  navigation/progress, real published XP and compact-preparation browser suites passed, as did 12
+  public HTTP routes. Both Traders remain usable without catalog-review/database warnings.
+- The preview initially omitted the reference directory because production supplies it through PM2,
+  not `web.env`; corrected the private environment and reran XP checks. Browser fixtures now report
+  completed objectives before hand-ins, provide actual party bars through Settings before gated
+  pickup, and assert target labels rather than the retired misleading gain ranges. Runtime guards
+  were not weakened to make the checks pass. Browser tests only wrote isolated browser-local saves.
+- Only `kfc-helper-web` reloaded: PID 2862455, restart count 107. All 21 other PM2 services retained
+  their PID/status/restart counts, including ingestion, guild, crawler and publisher. PM2 was saved.
+  The private preview/tunnel were stopped and port 19214 closed. Removed only the candidate's
+  regenerable 396 MiB Next build cache; production assets and rollback releases remain intact.
+  Root disk is 75% used with 19 GiB free.
+- Crawler remains on its frozen 1,419-ID queue and existing PID 2857530; at 07:52:53 UTC it had
+  completed 260 records (242 cached, 18 fetched), with no job error. These are processed references,
+  not 260 verified quest-XP facts. Collection and publication continue without website rebuilds.
+- This is a review deployment, not certification of a funded/playtested 1–60 route. The frozen
+  full-route coverage gate still fails honestly; missing rewards, prerequisites, travel/combat
+  measurements and dungeon bundles must be resolved before certifying/exporting RestedXP.
+
+### Kill-first source-library route integration (2026-10-15; deployed review edition)
 
 - Implemented the owner's request to use the full supplied quest pool, rather than only offering
   extra quests in a suggestion panel. `campaign-library.ts` reads applicable source chapters at
@@ -105,8 +139,8 @@ its server-side source or probability.
   33 source-flow/lifecycle checks and save compatibility passed. Browser coverage includes a real
   inserted library step, underlevel entry, read-only refresh, exact-step reload, mobile and WCAG.
   Workflow: `workflow-20261015-v4`; source selection: `source-backbone-20261015-v1`; XP ledger:
-  `checkpoint-ledger-20261015-v3`. Website changes are local only; no commit, push, web deployment,
-  database migration or real-player progress modification was performed.
+  `checkpoint-ledger-20261015-v3`. Subsequently committed, pushed and deployed in r7; see the
+  verification receipt above. No database migration or real-player progress modification.
 
 ### Use the full source quest pool to complete the premade route (2026-10-15; research/selection brief)
 

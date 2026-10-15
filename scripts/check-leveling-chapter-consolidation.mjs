@@ -92,9 +92,9 @@ try {
   ).toHaveCount(0);
   await expect(page.locator('[data-route-chapter][data-kind="dungeon"]')).toHaveCount(21);
   const card = page.locator('[data-route-chapter="prepare-thanes"]');
-  await expect(card).toContainText("13–16");
-  await expect(card).toContainText("Party XP still needed");
-  await expect(card).toContainText("One level target: 16");
+  await expect(card.getByRole("link", { name: /^Goal 16 Westfall/ })).toBeVisible();
+  await expect(card.locator('[data-section-coverage="prepare-thanes"]')).toBeAttached();
+  await expect(card).not.toContainText("13–16");
   await expect(card).toHaveAttribute("data-kind", "zone");
   await expect(
     card.getByRole("heading", { name: "Westfall → Dun Morogh", exact: true }),

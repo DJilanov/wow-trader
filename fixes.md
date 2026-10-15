@@ -6,6 +6,25 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
+## Verified quest-library release (2026-10-15)
+
+- Shipped `6429682` + `418f25f` as `kfc-helper-library-20261015-r7`, retaining actual production r6
+  as the rollback and preserving the native catalogs/media/dependencies. Only Helper web reloaded;
+  all 21 other PM2 services retained their process identities. No migration or player-save write.
+- Passed 468 local tests, focused types/lint/format, Linux production builds, 33 source-flow/save
+  checks, private coverage scenarios, three public browser suites and 12 public HTTP routes.
+  Both Traders remain available without catalog-review/database errors. Full 1–60 XP certification
+  remains explicitly blocked by the documented evidence/coverage gaps, not falsely marked complete.
+- Canary processes must inherit `WOW_TRADER_REFERENCE_DIRECTORY` from the live PM2 configuration
+  as well as loading `web.env`; otherwise published XP incorrectly appears unconfigured in the
+  preview. Production retained its configured directory. No runtime validation was relaxed.
+- Smoke fixtures must report completed objectives before predicting hand-in rewards and save actual
+  party bars before minimum-level-gated pickups. Updated those fixtures and retired bracket-label
+  assertions, then reran public tests. Next still previews without completion; Done enforces facts.
+- Stopped the canary and SSH tunnel, closed port 19214 and discarded only the release's regenerable
+  396 MiB build cache. Disk: 75% / 19 GiB free. Worker PID 2857530 continued the same frozen queue;
+  at 07:52:53 UTC: 260/1,419 processed, no job error. Full receipt: `context.md`.
+
 ## Full quest pool missing from the premade route (2026-10-15)
 
 - The old campaign trimmed source quests into short fixed lists, while fallback suggestions
