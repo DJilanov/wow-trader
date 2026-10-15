@@ -1,0 +1,79 @@
+.areas {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  padding: 12px 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.areas > li {
+  padding-left: 12px;
+  border-left: 2px solid var(--gold-low);
+}
+.location {
+  display: block;
+  color: var(--ink);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.areas ul,
+.preparation ul {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.areas a,
+.preparation a {
+  color: var(--gold);
+  display: inline-block;
+  padding-block: 4px;
+  text-decoration: none;
+}
+.areas a:hover,
+.preparation a:hover {
+  text-decoration: underline;
+}
+.optional {
+  color: var(--muted);
+}
+.optional summary {
+  cursor: pointer;
+  padding-block: 4px;
+}
+.preparation {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 4px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.preparation summary {
+  cursor: pointer;
+  color: var(--gold);
+  padding-block: 10px;
+}
+.preparation small {
+  display: block;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 4px;
+  font-size: 11px;
+}
+.preparation p {
+  line-height: 1.65;
+  color: var(--muted);
+}
+.preparation .note {
+  font-size: 11px;
+}
+.preparation .warning {
+  color: var(--gold);
+}
+.areas :is(a, summary):focus-visible,
+.preparation :is(a, summary):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}

@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { ReferenceTask } from "./contracts.js";
-import { readCrawlJobStatus, runCrawlJob } from "./job.js";
+import { readCrawlJobStatus, runCrawlJob, runPriorityCrawlJob } from "./job.js";
 
 const tasks: ReferenceTask[] = [1, 2, 3, 4, 5].map((id): ReferenceTask => ({
   game: "forever",
@@ -41,6 +41,43 @@ function options(root: string): Parameters<typeof runCrawlJob>[1] {
 }
 
 describe("durable catalog crawl", () => {
+  it("serializes priority work before resuming the unchanged base checkpoint", async () => {
+    const root = await mkdtemp(join(tmpdir(), "reference-job-priority-"));
+    try {
+      await expect(
+        runCrawlJob(tasks, {
+          ...options(root),
+          fetcher: async (input, init): Promise<Response> =>
+            String(input).includes("item=2")
+              ? new Response(null, { status: 403 })
+              : fetcher(input, init),
+        }),
+      ).rejects.toThrow(/403/);
+      const before = (await readCrawlJobStatus(join(root, "status.json")))!;
+      const order: string[] = [];
+      const result = await runPriorityCrawlJob(tasks, tasks.slice(3), {
+        ...options(root),
+        priorityStatusPath: join(root, "priority.json"),
+        onTaskStart: (key): void => {
+          order.push(key);
+        },
+      });
+      expect(order.slice(0, 2)).toEqual(["forever-item-4", "forever-item-5"]);
+      expect(result.base.queueSha256).toBe(before.queueSha256);
+      expect(result.base).toMatchObject({ cursor: 5, counts: { crawled: 3, cached: 2 } });
+      expect(result.priority).toMatchObject({ cursor: 2, questXp: true });
+      expect(result.base.questXp).toBe(false);
+      await expect(
+        runPriorityCrawlJob(tasks, tasks, {
+          ...options(root),
+          priorityStatusPath: join(root, "status.json"),
+        }),
+      ).rejects.toThrow(/separate/);
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
   it("finishes every batch, persists progress and does not publish", async () => {
     const root = await mkdtemp(join(tmpdir(), "reference-job-"));
     try {

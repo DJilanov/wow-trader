@@ -7,7 +7,7 @@ import { crawlReferences } from "./crawler.js";
 import { publishReferences, readStagedReference } from "./store.js";
 import { atomicJsonWrite } from "./store.js";
 import { seedFromHelperSitemaps } from "./seeds.js";
-import { readCrawlJobStatus, runCrawlJob } from "./job.js";
+import { readCrawlJobStatus, runCrawlJob, runPriorityCrawlJob } from "./job.js";
 import { readRequestPacing } from "./pacing.js";
 
 async function main(): Promise<void> {
@@ -21,6 +21,9 @@ async function main(): Promise<void> {
       limit: { type: "string" },
       "delay-ms": { type: "string" },
       refresh: { type: "boolean" },
+      "quest-xp": { type: "boolean" },
+      "priority-queue": { type: "string" },
+      "priority-status": { type: "string" },
       approve: { type: "boolean" },
       sitemap: { type: "string", multiple: true },
       game: { type: "string" },
@@ -38,15 +41,21 @@ async function main(): Promise<void> {
     const status = await readCrawlJobStatus(values.status);
     if (!status) throw new Error("No crawl checkpoint exists yet");
     const pacing = values.staging ? await readRequestPacing(values.staging) : null;
-    console.log(JSON.stringify({
-      ...status,
-      ...(pacing ? { requestPacing: {
-        delayMs: pacing.delayMs,
-        maximumRequestsPerHour: Math.floor(3600000 / pacing.delayMs),
-        lastRequestedAt: new Date(pacing.lastRequestedAt).toISOString(),
-        notBefore: new Date(pacing.notBefore).toISOString(),
-      } } : {}),
-    }));
+    console.log(
+      JSON.stringify({
+        ...status,
+        ...(pacing
+          ? {
+              requestPacing: {
+                delayMs: pacing.delayMs,
+                maximumRequestsPerHour: Math.floor(3600000 / pacing.delayMs),
+                lastRequestedAt: new Date(pacing.lastRequestedAt).toISOString(),
+                notBefore: new Date(pacing.notBefore).toISOString(),
+              },
+            }
+          : {}),
+      }),
+    );
     return;
   }
   if (command === "seed") {
@@ -73,7 +82,7 @@ async function main(): Promise<void> {
     .min(1)
     .max(250000)
     .parse(JSON.parse(await readFile(values.queue, "utf8")));
-  if (command === "crawl-all") {
+  if (command === "crawl-all" || command === "crawl-priority") {
     if (!values.status || !values["permission-ref"])
       throw new Error("Full crawl requires --status and --permission-ref");
     setPriority(0, 10);
@@ -82,33 +91,51 @@ async function main(): Promise<void> {
     process.once("SIGINT", stop);
     process.once("SIGTERM", stop);
     try {
-      console.log(
-        JSON.stringify(
-          await runCrawlJob(tasks, {
-            directory: values.staging,
-            statusPath: values.status,
-            permissionRef: values["permission-ref"],
-            signal: controller.signal,
-            refresh: values.refresh ?? false,
-            ...(values["batch-size"] ? { batchSize: Number(values["batch-size"]) } : {}),
-            ...(values["delay-ms"] ? { delayMs: Number(values["delay-ms"]) } : {}),
-            ...(values["min-free-disk-mb"]
-              ? { minFreeDiskBytes: Number(values["min-free-disk-mb"]) * 1024 ** 2 }
-              : {}),
-            ...(values["max-staging-mb"]
-              ? { maxStagingBytes: Number(values["max-staging-mb"]) * 1024 ** 2 }
-              : {}),
-            onProgress: (key, gaps): void =>
-              console.log(
-                JSON.stringify({
-                  key,
-                  status: gaps.length ? "incomplete" : "ready_for_review",
-                  gaps,
-                }),
-              ),
-          }),
-        ),
-      );
+      const options = {
+        directory: values.staging,
+        statusPath: values.status,
+        permissionRef: values["permission-ref"],
+        signal: controller.signal,
+        refresh: values.refresh ?? false,
+        questXp: values["quest-xp"] ?? false,
+        ...(values["batch-size"] ? { batchSize: Number(values["batch-size"]) } : {}),
+        ...(values["delay-ms"] ? { delayMs: Number(values["delay-ms"]) } : {}),
+        ...(values["min-free-disk-mb"]
+          ? { minFreeDiskBytes: Number(values["min-free-disk-mb"]) * 1024 ** 2 }
+          : {}),
+        ...(values["max-staging-mb"]
+          ? { maxStagingBytes: Number(values["max-staging-mb"]) * 1024 ** 2 }
+          : {}),
+        onProgress: (key: string, gaps: readonly string[]): void =>
+          console.log(
+            JSON.stringify({ key, status: gaps.length ? "incomplete" : "ready_for_review", gaps }),
+          ),
+      };
+      if (command === "crawl-priority") {
+        if (!values["priority-queue"] || !values["priority-status"] || values.refresh)
+          throw new Error(
+            "Priority crawl requires separate queue/checkpoint and no global refresh.",
+          );
+        if ((await stat(values["priority-queue"])).size > 32000000)
+          throw new Error("Priority queue too large");
+        const priority = z
+          .array(referenceTaskSchema)
+          .min(1)
+          .max(10000)
+          .parse(JSON.parse(await readFile(values["priority-queue"], "utf8")));
+        if (priority.some((task) => task.game !== "forever" || task.kind !== "quest"))
+          throw new Error("Leveling priority accepts Forever quests only.");
+        console.log(
+          JSON.stringify(
+            await runPriorityCrawlJob(tasks, priority, {
+              ...options,
+              priorityStatusPath: values["priority-status"],
+            }),
+          ),
+        );
+        return;
+      }
+      console.log(JSON.stringify(await runCrawlJob(tasks, options)));
     } finally {
       process.removeListener("SIGINT", stop);
       process.removeListener("SIGTERM", stop);
@@ -120,6 +147,7 @@ async function main(): Promise<void> {
         await crawlReferences(tasks, {
           directory: values.staging,
           permissionRef: values["permission-ref"],
+          questXp: values["quest-xp"] ?? false,
           ...(values.limit ? { limit: Number(values.limit) } : {}),
           ...(values["delay-ms"] ? { delayMs: Number(values["delay-ms"]) } : {}),
           refresh: values.refresh ?? false,

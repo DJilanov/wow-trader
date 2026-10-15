@@ -1,10 +1,327 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-10-05
+Last updated: 2026-10-15
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## Full quest pool missing from the premade route (2026-10-15)
+
+- The old campaign trimmed source quests into short fixed lists, while fallback suggestions
+  required already-collected XP and rejected every loot objective as a farm. Missing XP evidence
+  therefore hid available content rather than allowing its source-backed instructions to appear.
+- Added a full applicable source-library compiler and route integrator. Shared NPC kill counters,
+  named trophies, bounded nearby short quests and necessary lead-ins now enter the ordered route
+  with source coordinates, dependencies and pickup/objective/return stages. Unknown numeric XP
+  does not erase the quest or become zero. Unsupported objectives remain explicitly held.
+- Optional collection farms are excluded; necessary dungeon unlock collections remain. Explicit
+  NPC counters prevent a neighboring item quota from contaminating a kill quest; clearer alternate
+  source stages can replace ambiguous mixed steps. Item use, escorts, timed events, missing
+  objectives and personal class conditions cannot masquerade as ordinary shared kills/free XP.
+- Preserve paid-once rewards, actual bars, accepted chains, raid toggle and old save/action IDs.
+  Named trophies never imply one kill gives all five their item; forecasts retain that uncertainty.
+  Nearby root selection is a map/step-distance heuristic, not a measured travel optimization.
+- Human/warrior now schedules 36 additional quests; generic Human schedules 28. This expands
+  content but does not yet certify the whole 1–60 budget. Numeric reward/lifecycle collection,
+  travel/combat validation and missing dungeon bundles remain necessary.
+- Expanded the existing single crawler to a separate immutable 1,419-ID priority queue. All 614
+  original IDs/cache/checkpoints survive; one-minute pacing, storage limits and access-policy
+  stops remain. Current/rollback paths, hashes and the verification receipt are in `context.md`
+  and `docs/wowhead-reference-enrichment.md`. No website deployment or database migration.
+- Passed 186 leveling + 215 web tests, strict types, scoped lint/format, production webpack build,
+  33 source-flow/lifecycle variants, 26,878-ID compatibility and browser/mobile/accessibility checks.
+  Full-matrix XP verification still exits 2 correctly; passing software checks is not proof that
+  every advertised level is funded. No commit or push was requested/performed.
+
+## False chapter XP coverage and skipped later questing (2026-10-15; local implementation)
+
+- Root causes were shared progression errors, not a missing XP-per-level curve: later source
+  actions inherited level 16, forecasts omitted the real dungeon departure gate, and cards summed
+  rewards at a fixed reference level instead of following each player's paid history and gates.
+- Only the intended starter keeps the early override. Later optional XP phases use their own
+  targets and cannot skip a lagging/stale player or mandatory unlock. Pickup prerequisites,
+  conservative conflicting minima, every modeled objective and actual departure levels now gate
+  forecasts. Impossible or unverified steps stop that member before subsequent rewards/combat.
+- Each eligible player retains full quest hand-in XP; explicit group-combat scenarios credit
+  `floor(solo kill XP / 5) × unique kills` per member. Faster camp clearing affects time only.
+  Unmeasured kills are not invented to fill deficits, and duplicate combat activities are rejected.
+- A shared ledger/target resolver feeds cards and details. Dungeon entry is not the next departure
+  target. Known amounts, paid history, historical estimates, missing facts, pickup conflicts,
+  independent reference diagnostics and actual bars are distinguished. No predicted gain changes
+  actual progress. Blocked exits/deficits stay unresolved rather than borrowing later rewards.
+- Optional complete source-backed shared-kill batches can be persisted in appropriate phases.
+  Collection, class/runtime-conditional, item-use and ambiguous objectives are excluded from
+  recommendations; source-chain hand-ins and each player's eligibility are checked. Refresh and
+  add/remove do not grant XP or clear reported history. Existing saves, bookmarks and action IDs
+  remain compatible with production r6.
+- `leveling:xp:verify` now fails closed with exit 2 unless independent budgets and every relevant
+  player's continuous forecast support the route through level 60. Current full-matrix result:
+  33 variants, 132 scenarios, 6,000 chapter checks, **not certified**. Missing content/evidence and
+  uncalibrated combat remain; do not claim that this fix funds every 1–60 transition.
+- 172 leveling + 215 web tests, strict types, scoped lint/format, production webpack build, 33 source-flow projections,
+  r6 save compatibility (26,878 identities) and local browser/mobile/WCAG checks passed. Full
+  reproducible data/commands and remaining work: `docs/forever-leveling-full-route-audit.md`.
+- Local only. Production still runs `kfc-helper-zones-20261014-r6`; the 614-ID crawler queue is
+  unchanged. The prepared 638-ID catch-up queue has not been installed. No commit/push/deployment
+  or database mutation was performed for this correction.
+
+## Zone questing mislabeled as multiple levels of preparation (2026-10-14)
+
+- The shared section builder grouped all work before a dungeon under “Prepare for…”. This included
+  personal zone questing and optional XP batches, making normal leveling look like several levels
+  of preparation. Geographic titles and contiguous area subsections now describe that same work.
+- Public sections use `zone`; internal legs and their execution kinds remain unchanged. All old
+  `prepare-*` URLs, action/source IDs, level brackets, save identities, participant scopes, quest
+  order, Next/Done and per-player XP calculations are preserved. Adjacent Dun Morogh phases share
+  one area heading; no separate level-13 cards were reintroduced.
+- Preparation is a small collapsed “Before [dungeon]” checklist. It links only existing selected
+  prerequisite/pickup steps and displays reported progress separately for the players who need
+  them. It neither marks steps done nor pretends that missing source edges are complete.
+- Catch-up is collapsed only when every action satisfies the existing actual-XP readiness rules.
+  Mixed phases with required pickups remain available. Unknown/stale bars and unverified dungeon
+  bundles keep their previous gates; no extra levels, rewards or travel times were invented.
+- 143 leveling and 214 web tests, strict type/lint and Linux builds passed. The presentation-only
+  compatibility audit covered 33 editions and 26,878 preserved action identities, comparing the
+  full executable plans, chapter identities/brackets and XP forecasts against r5. Browser checks
+  cover collapsed preparation, individual reports, conditional work, legacy links, navigation,
+  real XP, long zone titles at 390/320 px and automated WCAG A/AA.
+- Active `kfc-helper-zones-20261014-r6` preserves the actual r5 production/catalog baseline.
+  Only Helper web was reloaded; r5 remains the immediate rollback. No migration, dependency/native-data change, commit or
+  push is needed. A cold web typecheck exceeded the inherited 384 MiB runtime heap; the check and
+  build pass with process-local 1536 MiB, without increasing any PM2 production limits.
+- The integration browser audit now waits for the new reader URL and its expected streamed title.
+  Waiting for any nonempty title could accept the previous dashboard's title before Next replaced
+  it. This repairs the test's readiness check without suppressing accessibility validation or
+  altering production metadata behavior.
+- Public geography, integration and real-XP browser checks and 12 public routes passed after
+  deployment. Both Traders retained working catalogs. Temporary preview/tunnel stopped, PM2 saved,
+  and 19214 closed. No user data was removed. Operational PID/storage receipts are in `context.md`.
+
+## Missing quest XP, not-found redirect and misleading route totals (2026-10-14; repaired foundation)
+
+- The source parser extracted Gains as text, but real numeric XP is rendered from literal primary
+  quest metadata and `WH.Wow.Quest.setupScalingRewards`. Fresh display cache entries therefore
+  had no usable XP. Added a separate versioned, renderer-pinned XP parser and cache capability,
+  sidecars, checksum-addressed publication and current-client identity checks. No evaluated
+  JavaScript, comment data, catalog mutation or extra unpaced source requests are involved.
+- The full crawler had stopped at cursor 746 because quest 260 redirects to the exact
+  `/forever/quests?notFound=260` listing. Only this explicit same-edition not-found form is now
+  quarantined; unrelated redirects and genuine source restrictions still stop. The base queue,
+  cursor, durable pacing and old staging are retained.
+- The isolated `crawl-20261014-r6-xp` runs a separate 614-ID priority queue/checkpoint and then
+  resumes the old base queue automatically. Priority checkpoint is
+  `/home/wow-trader-reference-worker/shared/priority-xp-32bec0be2d118c31-status.json`.
+  See `docs/wowhead-reference-enrichment.md` for queue hashes, limits and inspection commands.
+- New pure per-player forecasts carry XP across sections, resolve at the predicted hand-in level,
+  pay one-time quests once, preserve individual progress and show unknowns/gates. Historical
+  estimates do not certify an exit; default combat contribution is excluded. Optional Stratholme
+  quest 5848 no longer inflates its four-quest core. Predictions never mark actual quests done.
+- Active Helper release: `kfc-helper-xp-20261014-r5`, immediate rollback:
+  `kfc-helper-chapters-20261014-r4`. Only Helper web and reference publisher were reloaded;
+  ingestion remains independently pinned. No migration, dependency change, commit or push.
+- 415 relevant tests, strict type/lint, Linux production builds, all 33 source projections and
+  26,878 preserved action identities passed. Five private browser suites passed, including real
+  quest XP, read-only refresh, navigation/progress, mobile overflow and automated WCAG A/AA.
+- Public XP, consolidation and integration checks and 12 public routes passed. Deployment checks
+  caught a nested `standalone/apps/web/public/public` copy: copied the original asset contents to
+  the correct root and verified the logo's checksum/HTTP 200. The activation script now requires
+  the exact `public/kfc-icon.svg` path, not just a directory. No user data was deleted.
+- A regression reproduced a conflict being replaced by an unknown renderer refresh. Publication
+  now retains that conflict; a repeated available claim also stays conflicted rather than silently
+  becoming approved. The focused test failed before the guard and passed after it. Numeric
+  contradictions need review, not a refresh button or newer capture timestamp.
+- At 11:36 UTC the XP index had 24 available facts, with collection continuing. The saved audit
+  covers 33 editions but does not prove 1–60 sufficiency. Combat measurement, complete unlock
+  restrictions, efficient deficit-driven top-ups and full RestedXP export remain next work.
+
+For debugging, distinguish `shared/published/index.json` (display references) from
+`shared/published/quest-xp/index.json` (reward evidence). The preview/live web process must have
+`WOW_TRADER_REFERENCE_DIRECTORY` set to the published root. Missing configuration yields an
+explicit notice and no facts, not synthetic XP. Do not clear source checkpoints or pacing to
+make a missing reward appear; inspect parser issues and publisher validation instead.
+
+## Reference crawler blocked by unrelated edition preload (2026-10-13; recovered)
+
+### Cause and repair
+
+- PM2 `kfc-helper-reference-crawl` (351) had stopped October 8 at 18:02 UTC, cursor 607 / 60,614,
+  with `Gatherer edition mismatch` on `tbc-item-818`. Publisher 352 remained online; free disk
+  and staging budgets were not the cause. The last completed record was `forever-item-823`.
+- A single-item diagnostic used the existing worker, staging/pacing state, public robots policy,
+  user agent and 60-second gate while the full worker was stopped. The canonical Tigerseye page
+  had an edition-4 unrelated item dataset and an edition-5 dataset containing the actual target.
+  The old parser threw on the unrelated dataset before reaching the valid primary item.
+- `packages/reference-data/src/parser.ts` now skips foreign item datasets and, if any occur,
+  requires a matching requested-edition target. A foreign same-ID dataset cannot supply or overwrite
+  facts. Wrong primary names, executable data expressions, canonical/XML mismatches and unsafe
+  literals still fail. AH buyout estimates and non-allowlisted database flags are still excluded.
+- Added 15 focused regressions for TBC/Forever, both dataset orders, unrelated/same IDs, foreign-only
+  data, mismatched names and executable data. Eight regressions failed before the patch; all 53
+  package tests now pass, as do strict typecheck and lint. Replaying the reduced real fixture
+  extracts only the allowlisted `sellprice: 100`, not its AH estimate or database flags.
+
+### Isolated deployment and rollback
+
+- Active runtime: `/home/wow-trader-reference-worker/releases/crawl-20261013-r5`.
+  Previous runtime: `crawl-20261007-r4`. Private backup/receipts:
+  `/home/wow-trader-reference-worker/backups/20261013-edition.nXim7d/`.
+- Built from the deployed r4 source maps rather than the dirty development package. Strict build
+  and declaration generation passed; source-map comparison of all eight production modules shows
+  only `parser.ts` changed. Existing CLI exports and package versions are unchanged.
+- The deployment preflight caught 73 dependency aliases pointing at retained r2. In the new r5
+  candidate only, changed them to relative release-local links, verified all 2,086 dependency-file
+  hashes, and removed one confirmed dangling development self-link. No dependency payload, old
+  release or live data was removed. The former targets are recorded in `dependency-link-repair.json`.
+  Keep r2 while retaining r4: the old r4 rollback still depends on it; r5 is self-contained.
+- Atomically switched only the worker's `current` symlink and restarted only PM2 351 at 05:52 UTC.
+  Saved PM2's process list. New PID: `2576854`; deployment receipt: `deployment.json`. All other
+  21 PM2 services retained their PID/status/restart counts during activation.
+- Preserved the full queue SHA-256
+  `263ccf01fb130062f7f4bc8eef6fcf72ba84f736ebbed2adca9637357a8bf951`, all 60,614 tasks, cursor 607,
+  previous staging and durable request-pacing state. No IDs were skipped or rewritten to force progress.
+  One worker, 60-second minimum between every HTTP attempt, 384 MiB heap, 8 GiB disk reserve,
+  2 GiB staging ceiling, low CPU priority and `autorestart: false` remain unchanged.
+- If rollback is needed, stop only this worker, confirm its lock-owning PID is gone, point `current`
+  back to the retained r4, and save PM2. Do not erase the queue, checkpoint, pacing or live locks.
+  r4 retains the known Tigerseye parser defect; do not restart it expecting that issue to be fixed.
+
+### Live verification
+
+- At 06:00 UTC, worker 351 remained online with the same new PID, approximately 97 MiB RSS,
+  cursor 609 / 60,614, no error and `forever-item-826` in progress. Newly saved TBC item 818
+  (Tigerseye) and Forever quest 212 (A Meal Served Cold) both passed the existing publisher as
+  complete. No incomplete counter increase, lost progress, skipped IDs or queue hash change.
+- `https://helper.kfcguild.online/tbc/encyclopedia/items/818` returned HTTP 200 and rendered
+  `Item details & source context`, the canonical TBC Wowhead link and capture date 13/10/2026.
+  Published checksum, exact identity, vendor price and 230 source/use relations verified; no
+  AH buyout estimate or database flags were imported. The material's source classification
+  remains subject to unchanged exact-client publication validation.
+- Publication checks: 371 complete, 177 partial, 61 held. Manifest: 557 entries (including nine
+  historical entries now held by validation), versus 555 before repair. Do not call all manifest
+  entries currently approved. Publisher PID `2015759` and restart count 2 remained unchanged.
+  Root free space: 25.28 GiB. Recovery receipts: `progress-verification.json` and
+  `final-verification.json` in the private backup directory above.
+- Follow-up at 06:31 UTC: same PID, cursor 621, 621 crawled records, 229 incomplete, zero cached/
+  not-found records, no error and `forever-item-832` in progress. This confirms 14 new completed
+  records over approximately 38 minutes, not merely a successful restart. The unchanged source
+  completeness rules flagged one additional incomplete record without stopping the crawl.
+  The public Forever quest-212 page also returned HTTP 200 with its title and new dated reference.
+- Only the new test file was formatted. Final regression suite, strict typecheck, lint, new-test
+  formatting and `git diff --check` passed. The shared parser patch, regression tests and these
+  notes remain local; no commit/push was requested. The running worker uses its immutable r5,
+  independent of later development-checkout edits.
+
+Genuine access denials, source challenges, primary-item conflicts and rate-limit cooldowns must still
+stop or hold data. Do not treat this repair as permission to bypass them. No web/publisher/ingestion
+deployment, native database write, migration, dependency upgrade, commit or push was requested.
+
+## Versioned catalog guardian deployment (2026-10-09; installed)
+
+- The earlier 70291 repair was already live, but the scheduled Mac watcher still loaded mutable
+  repository scripts and local development dependencies. Replaced that installation with a
+  content-addressed bundle outside the worktree. It includes its own Node executable, compiled
+  production-only catalog CLI and self-contained macOS extractor. The scheduled job needs no
+  `tsx`, pnpm/Corepack, .NET SDK, external .NET runtime or development checkout.
+- Active Mac release: `9fa6db30d08f91cd070be39f99028fa3b0905ec55338550b903f6aa7805b174b`,
+  approximately 197 MiB under
+  `/Users/dimitarjilanov/Library/Application Support/WowTraderCatalogGuardian/releases/`.
+- Deployed and checksum-verified its portable Linux-compatible CLI runtime:
+  `45970dd4b92c9e37fc8b1d9778ab5ce7079ba3299e2401ab1012a833e70fac6f` under
+  `/home/wow-trader-system/shared/catalog-tooling/releases/`. Server audit checked all 102 real
+  artifacts and relationship validation returned valid with 23,946 items / 2,239 recipes.
+- The installer refuses to interrupt a locked run, validates the bundle and native tool startups,
+  runs a production-connected dry-run, and restores the previous plist on activation failure.
+  Private rollback plist: `rollback/1791570353190.plist`; deployment receipt: `deployment.json`.
+- LaunchAgent interval remains 300 seconds, with the same `.build.info` / Forever hotfix watch
+  paths. It now runs from the versioned release, reports that release in status, and is `current`
+  for published 70291 without another import or web reload. Mutable artifacts/definitions now go
+  into the separate installation `work/` directory, not the release or development repository.
+- Verification: eight runtime/release regressions plus four cache tests and 11 catalog tests passed;
+  focused lint, strict catalog typecheck, Node syntax, three package builds and self-contained
+  macOS publish succeeded. Old Mac job configuration, earlier server runtime and catalog backup
+  remain available. Reinstall after changing guardian/extractor code; do not edit immutable releases.
+- Ran a fresh complete extraction with the deployed native executable, official definitions in its
+  own `work/` cache, and a restricted command path excluding developer tooling. All 23,946 items,
+  31,849 spells and 2,239 recipes re-extracted successfully. The bundled Node CLI audited all 102
+  artifacts and passed relationship validation. The native icon pipeline decoded all 2,953 icons
+  with zero unavailable assets; the bundled media checker verified their checksums.
+- A restricted-path `--publish --verify-tools` run verified startup and returned `current` without
+  importing or reloading again. Four live HTTP checks passed: default/explicit Forever crafting
+  each show 50 opportunities, AH item search works and TBC crafting shows 50 opportunities. No
+  checked catalog-review/database/server-error markers remain. All 22 PM2 services retained their
+  PID, status and restart count, including the already-stopped reference crawler. No web release
+  switch, migration, new scan, commit or push was needed for this deployment.
+
+This deploys the missing-tooling prevention, not an exemption from exact-data validation. Genuine
+economy changes still require review; unavailable client/definitions, an offline Mac or failed SSH
+connectivity can still delay publication.
+
+## Build 70291 publication failure after a slim web deployment (2026-10-09; recovered)
+
+### Cause
+
+- Scan `e544e04f-b8a2-4f19-8f1f-cc33fa738ae8` was already accepted and processed: build 70291,
+  `UNKNOWN / ClassicBetaPvP / alliance`, 3,106 markets, 11,633 price levels, completed 17:45:55 UTC.
+- The Mac guardian repeatedly failed with `ssh exited with code 1: sh: 1: tsx: not found`.
+  Active web release `kfc-helper-reference-auto-20261008-r1` correctly serves a slim production build,
+  but lacks `packages/catalog/node_modules/.bin/tsx` and `packages/catalog/dist/cli.js`.
+  The guardian incorrectly assumed every web release included catalog developer tooling.
+- Guardian status also merged previous snapshot fields into a new build's error: build 70291 could
+  appear beside a 70245 manifest/assessment. Those stale fields were not evidence of a 70291 approval.
+  No fallback to old recipes or weakening of the exact-build guard was appropriate.
+
+### Durable repair
+
+- `scripts/catalog-guardian.mjs` now builds catalog/contracts/db, deploys only production dependencies,
+  and ships the compiled Node CLI plus catalog/media verifiers to a content-addressed shared runtime.
+  Audit, validation, reviewed import and publication use that exact runtime rather than `current`'s
+  development package scripts. The subsequent versioned Mac deployment above also removed the
+  scheduled job's local SDK/development-tool dependency.
+- `scripts/catalog-runtime.mjs` fingerprints every regular file and portable internal symlink.
+  Source and destination audits reject changed/unlisted files, external or absolute links, missing
+  compiled CLI and environment files. pnpm 9's dangling excluded-package links are removed only
+  inside a newly generated, package-identity-checked temporary deployment; external live links fail.
+- Runtime fingerprint/release:
+  `2c95f188630808ce348ea3c372162c3c979eaa91e26af01fa4bbff42a73924ca`, approximately 31 MiB under
+  `/home/wow-trader-system/shared/catalog-tooling/releases/`. Retain this shared tooling independently
+  of old application release cleanup. It contains no production environment file or collector token.
+- `sync-production-media.sh` accepts a validated `WOW_TRADER_MEDIA_VERIFIER` path, so guardian icon
+  validation is also independent of a slim web release. Other callers retain the existing default.
+- Snapshot preparation drops stale manifest/assessment/published-ID fields and retains notification
+  de-duplication. Runtime regressions are included in the root test command.
+
+### Recovery and evidence
+
+- Reused the exact installed `1.60.1.70291` extraction pinned to official definitions revision
+  `9073201543de7fd0af41ed42042b8d32c3f52938`, hotfix
+  `8f792ef0e23f260503538004465fa80df639597decba8f76382162a6538ea8c7`.
+- All 102 artifacts and normalized relationships validated. Published 23,946 named items,
+  31,849 spells, 12 professions and 2,239 recipes. Compared with published 70245, there were
+  no profession, recipe-economy, craft-time or transformation changes; item/spell metadata additions
+  passed the unchanged promotion policy. This is not a claim that unnamed source IDs are usable items.
+- Verified custom-format pre-publication backup:
+  `/home/wow-trader-system/shared/backups/wow_trader-pre-wow_classic_beta-70291-8f792ef0-catalog-20261009.dump`
+  (173,424,780 bytes). Existing published snapshots were retained.
+- Synchronized immutable catalog/media release `wow_classic_beta-70291-enUS-8f792ef0-9073201`,
+  repeated server audit/validation, imported as reviewed, verified all 2,953 icons, then published
+  build ID `2ce8312f-c061-4dba-bb46-10adf97b299e` at 18:03:25 UTC.
+- Reloaded only Helper web: PID `2157846`, restart count 92. Its application release remains
+  `kfc-helper-reference-auto-20261008-r1`; ingestion remains PID `1169337` / zero restarts and
+  reference publisher PID `2015759` / two restarts. No migration or application source deployment.
+- The temporarily paused Mac LaunchAgent was restored with its unchanged five-minute interval and
+  watch paths. Both a manual idempotency check and the scheduled process report build 70291 `current`.
+- Six public checks passed: default and explicit-market Forever crafting each render 50 opportunities;
+  Forever AH item search, TBC Trader, community and guild return HTTP 200 without the checked
+  catalog/database/server-error markers. No new upload or rescan was needed. An already-open browser
+  tab may need refreshing because its saved scan ID itself did not change during catalog publication.
+- Verification: six runtime regressions, four cache tests, 11 catalog tests, focused script/catalog
+  lint, catalog strict typecheck, catalog/contracts/db production builds, shell/Node syntax, formatting,
+  server runtime checksums and exact SQL item/recipe/scan counts. No commit or push requested.
+
+Compatible future builds can publish without catalog dev dependencies on the web server. Genuine
+economy changes, unavailable exact definitions, missing hotfix cache, or an offline maintainer Mac
+remain real publication constraints; do not bypass them or invent catalog provenance.
 
 ## Verified dungeon release and deployment checks (2026-10-05; deployed r6)
 

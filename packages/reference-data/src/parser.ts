@@ -8,6 +8,11 @@ import {
   type ReferenceRecord,
   type ReferenceTask,
 } from "./contracts.js";
+import {
+  QUEST_XP_PARSER_VERSION,
+  questXpRecordSchema,
+  type QuestXpRecord,
+} from "./quest-xp-contracts.js";
 
 interface Expression extends Node {
   value?: unknown;
@@ -171,17 +176,22 @@ export function parseWowheadPage(
   const relations: ReferenceRecord["relations"] = [];
   const numericFacts: Record<string, number> = {};
   let quickFacts: string[] = [];
+  let matchingItemData = false;
+  let foreignItemData = false;
   for (const element of $("script").toArray()) {
     const script = $(element).text();
     if (script.length > 2_000_000) throw new Error("Reference script too large");
     if (task.kind === "item" && script.includes("WH.Gatherer.addData")) {
       for (const call of calls(script, "WH.Gatherer.addData")) {
         if (literal(call.arguments?.[0]) !== 3) continue;
-        if (literal(call.arguments?.[1]) !== (task.game === "tbc" ? 5 : 16))
-          throw new Error("Gatherer edition mismatch");
+        if (literal(call.arguments?.[1]) !== (task.game === "tbc" ? 5 : 16)) {
+          foreignItemData = true;
+          continue;
+        }
         const entry = object(object(literal(call.arguments?.[2]))?.[String(task.id)]);
         if (!entry) continue;
         if (entry.name_enus !== name) throw new Error("Reference item name mismatch");
+        matchingItemData = true;
         const equip = object(entry.jsonequip);
         for (const [key, value] of Object.entries(equip ?? {}))
           if (numericKeys.has(key) && typeof value === "number" && Number.isFinite(value))
@@ -247,10 +257,20 @@ export function parseWowheadPage(
           const giver = match[2]?.match(/\[url=([^\]]+)\]([^[]+)\[\/url\]/);
           if (!giver) continue;
           const link = new URL(giver[1] ?? "", canonical);
-          const identity = link.pathname.match(new RegExp(`^/${task.game}/(npc|object)=([1-9]\\d*)(?:/|$)`));
+          const identity = link.pathname.match(
+            new RegExp(`^/${task.game}/(npc|object)=([1-9]\\d*)(?:/|$)`),
+          );
           const id = Number(identity?.[2]);
-          if (link.origin !== "https://www.wowhead.com" || link.search || link.hash ||
-              link.username || link.password || !identity || !Number.isSafeInteger(id) || id > 2147483647)
+          if (
+            link.origin !== "https://www.wowhead.com" ||
+            link.search ||
+            link.hash ||
+            link.username ||
+            link.password ||
+            !identity ||
+            !Number.isSafeInteger(id) ||
+            id > 2147483647
+          )
             throw new Error("Quest giver identity or edition mismatch");
           relations.push({
             relation: match[1]!,
@@ -262,6 +282,8 @@ export function parseWowheadPage(
       }
     }
   }
+  // Related-item preloads can cross editions; a matching primary dataset must still be present.
+  if (foreignItemData && !matchingItemData) throw new Error("Gatherer edition mismatch");
   const tooltipLines = options.itemXml ? parseItemXml(options.itemXml, task, name) : [];
   if (options.itemXml) {
     const xml = load(options.itemXml, { xmlMode: true });
@@ -367,4 +389,145 @@ function parseQuestSections($: CheerioAPI): {
     return text ? [text] : [];
   });
   return { objectives: objectiveText ? [objectiveText] : [], description, rewards };
+}
+
+export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXpRecord {
+  if (record.kind !== "quest") throw new Error("Quest XP extraction requires a quest record");
+  if (Buffer.byteLength(html) > 4_000_000) throw new Error("Quest XP page too large");
+  referenceRecordSchema.parse(record);
+  if (createHash("sha256").update(html).digest("hex") !== record.sourceSha256)
+    throw new Error("Quest XP source checksum mismatch");
+  const $ = load(html);
+  if ($('link[rel="canonical"]').attr("href") !== record.sourceUrl)
+    throw new Error("Quest XP canonical mismatch");
+  let primary: Record<string, unknown> | null = null;
+  let scaling: Record<string, unknown> | null = null;
+  let matchingEdition = false;
+  for (const element of $("script").toArray()) {
+    const script = $(element).text();
+    if (script.length > 2_000_000) throw new Error("Quest XP script too large");
+    if (script.includes("WH.Gatherer.addData"))
+      for (const call of calls(script, "WH.Gatherer.addData")) {
+        if (
+          literal(call.arguments?.[0]) !== 5 ||
+          literal(call.arguments?.[1]) !== (record.game === "forever" ? 16 : 5)
+        )
+          continue;
+        const entry = object(object(literal(call.arguments?.[2]))?.[String(record.id)]);
+        if (entry) {
+          if (entry.name_enus !== record.name) throw new Error("Quest XP primary name mismatch");
+          matchingEdition = true;
+        }
+      }
+    if (script.includes("$.extend"))
+      for (const call of calls(script, "$.extend")) {
+        const target = call.arguments?.[0];
+        if (
+          target?.type !== "MemberExpression" ||
+          !target.computed ||
+          target.object?.name !== "g_quests" ||
+          literal(target.property) !== record.id
+        )
+          continue;
+        const data = object(literal(call.arguments?.[1]));
+        if (!data || data.id !== record.id || data.name !== record.name)
+          throw new Error("Quest XP metadata identity mismatch");
+        if (primary) throw new Error("Duplicate primary quest metadata");
+        primary = data;
+      }
+    if (script.includes("WH.Wow.Quest.setupScalingRewards"))
+      for (const call of calls(script, "WH.Wow.Quest.setupScalingRewards")) {
+        if (scaling) throw new Error("Duplicate quest XP scaling configuration");
+        scaling = object(literal(call.arguments?.[0]));
+      }
+  }
+  const number = (value: unknown, minimum: number, maximum: number): number | null => {
+    if (value === undefined || value === null || value === -1) return null;
+    if (
+      typeof value !== "number" ||
+      !Number.isSafeInteger(value) ||
+      value < minimum ||
+      value > maximum
+    )
+      throw new Error("Invalid primary quest XP number");
+    return value;
+  };
+  const questLevel = number(primary?.level, 1, 60);
+  const minimumLevel = primary?.reqlevel === 0 ? 1 : number(primary?.reqlevel, 1, 60);
+  const issues: string[] = [];
+  let fullXp: number | null = null;
+  let referenceBaseXp: number | null = null,
+    pageMultiplier: number | null = null;
+  const xpByLevel: QuestXpRecord["xpByLevel"] = [];
+  const scripts = $("script[src]")
+    .toArray()
+    .map((element) => $(element).attr("src"));
+  const rendererMatches =
+    scripts.includes("https://wow.zamimg.com/js/quest.js?5f36c4ad") &&
+    scripts.includes("https://wow.zamimg.com/js/global-core.js?52d4f803");
+  const round = (amount: number): number => {
+    const step = amount < 1000 ? 10 : 50;
+    return Math.round(amount / step) * step;
+  };
+  if (!rendererMatches) issues.push("unverified_quest_xp_renderer_revision");
+  if (matchingEdition && primary && rendererMatches) {
+    const data = object(scaling?.xp),
+      levels = object(data?.levels);
+    const multiplier = data?.multiplier;
+    if (
+      levels &&
+      typeof multiplier === "number" &&
+      Number.isFinite(multiplier) &&
+      multiplier >= 0 &&
+      multiplier <= 20
+    ) {
+      pageMultiplier = multiplier;
+      const bases = new Map<number, number>();
+      for (const [key, amount] of Object.entries(levels)) {
+        if (!/^[1-9]\d?$/.test(key)) throw new Error("Invalid quest XP table level");
+        const level = number(Number(key), 1, 60),
+          base = number(amount, 0, 1_000_000);
+        if (level === null || base === null) throw new Error("Invalid quest XP level table");
+        bases.set(level, base);
+      }
+      const maximum = number(scaling?.maxLevel, 1, 60),
+        minimum = number(scaling?.minLevel, 1, 60);
+      if (maximum === null || minimum === null || minimum > maximum)
+        throw new Error("Invalid quest XP scaling bounds");
+      if (questLevel !== null && minimum === maximum && questLevel === maximum) {
+        referenceBaseXp = bases.get(maximum) ?? null;
+        fullXp = referenceBaseXp === null ? null : round(Math.round(referenceBaseXp * multiplier));
+      }
+      for (let level = minimum; level <= 59; level++) {
+        const base = bases.get(Math.min(level, maximum));
+        if (base === undefined) continue;
+        const difference = level - maximum;
+        const reduction = difference >= 10 ? 0.1 : difference >= 6 ? 1 - (difference - 5) * 0.2 : 1;
+        const reward = round(Math.round(base * multiplier) * reduction);
+        if (reward > 1_000_000) throw new Error("Scaled quest XP exceeds budget");
+        xpByLevel.push({ level, xp: reward });
+      }
+    } else issues.push("missing_xp_scaling_configuration");
+  } else issues.push("missing_primary_quest_dataset");
+  if (fullXp === null && !xpByLevel.length) issues.push("missing_numeric_quest_xp");
+  return questXpRecordSchema.parse({
+    schema: "quest-xp-evidence.v1",
+    parserVersion: QUEST_XP_PARSER_VERSION,
+    game: record.game,
+    kind: "quest",
+    id: record.id,
+    name: record.name,
+    sourceUrl: record.sourceUrl,
+    sourceSha256: record.sourceSha256,
+    capturedAt: record.capturedAt,
+    questLevel,
+    minimumLevel,
+    fullXp,
+    referenceBaseXp,
+    pageMultiplier,
+    rendererRevision: "quest-5f36c4ad-core-52d4f803",
+    xpByLevel: xpByLevel.sort((a, b) => a.level - b.level),
+    status: fullXp !== null || xpByLevel.length ? "available" : "unknown",
+    issues,
+  });
 }

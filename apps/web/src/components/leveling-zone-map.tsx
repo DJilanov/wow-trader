@@ -374,7 +374,11 @@ export function LevelingZoneMap({
               below.
             </p>
           )}
-          <figcaption className={styles.mapFooter}>
+          <figcaption
+            className={styles.mapFooter}
+            tabIndex={0}
+            aria-label="Map locations and coordinate evidence"
+          >
             <details className={styles.mapEvidence}>
               <summary>Map key & evidence</summary>
               <span className={styles.guideLegend}>Gold circles: source guide waypoints.</span>{" "}

@@ -45,17 +45,7 @@ export async function loadWorldSnapshot(manifestPath: string): Promise<WorldBund
   );
 
   const loadArtifact = async <T>(name: string, schema: z.ZodType<T>): Promise<T[]> => {
-    const artifact = manifest.normalizedArtifacts[name];
-    if (!artifact) throw new Error(`Manifest is missing normalized artifact '${name}'`);
-    const artifactPath = resolveArtifactPath(snapshotDirectory, artifact.path);
-    await assertChecksum(artifactPath, artifact.sha256, name);
-    const records = await readNdjson(artifactPath, schema);
-    if (records.length !== artifact.recordCount) {
-      throw new Error(
-        `Record count mismatch for '${name}': expected ${artifact.recordCount}, received ${records.length}`,
-      );
-    }
-    return records;
+    return loadWorldArtifact(snapshotDirectory, manifest.normalizedArtifacts[name], name, schema);
   };
 
   const loadOptionalArtifact = async <T>(name: string, schema: z.ZodType<T>): Promise<T[]> =>
@@ -162,6 +152,40 @@ export async function loadWorldSnapshot(manifestPath: string): Promise<WorldBund
     contentTunings,
     mapMedia,
   };
+}
+
+export async function loadWorldQuestSnapshot(
+  manifestPath: string,
+): Promise<Pick<WorldBundle, "manifest" | "quests">> {
+  const path = resolve(manifestPath);
+  const manifest = worldSnapshotManifestSchema.parse(JSON.parse(await readFile(path, "utf8")));
+  return {
+    manifest,
+    quests: await loadWorldArtifact(
+      dirname(path),
+      manifest.normalizedArtifacts.quests,
+      "quests",
+      worldQuestSchema,
+    ),
+  };
+}
+
+async function loadWorldArtifact<T>(
+  root: string,
+  artifact:
+    { readonly path: string; readonly sha256: string; readonly recordCount: number } | undefined,
+  name: string,
+  schema: z.ZodType<T>,
+): Promise<T[]> {
+  if (!artifact) throw new Error(`Manifest is missing normalized artifact '${name}'`);
+  const path = resolveArtifactPath(root, artifact.path);
+  await assertChecksum(path, artifact.sha256, name);
+  const records = await readNdjson(path, schema);
+  if (records.length !== artifact.recordCount)
+    throw new Error(
+      `Record count mismatch for '${name}': expected ${artifact.recordCount}, received ${records.length}`,
+    );
+  return records;
 }
 
 async function readNdjson<T>(path: string, schema: z.ZodType<T>): Promise<T[]> {

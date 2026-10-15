@@ -29,6 +29,7 @@ interface LevelingReaderWorkspaceProps {
   readonly title: string;
   readonly minimumLevel: number;
   readonly maximumLevel: number;
+  readonly levelLabel?: string;
   readonly profile: string;
   readonly dashboardHref: string;
   readonly completed: number;
@@ -59,6 +60,7 @@ export function LevelingReaderWorkspace({
   title,
   minimumLevel,
   maximumLevel,
+  levelLabel,
   profile,
   dashboardHref,
   completed,
@@ -224,10 +226,7 @@ export function LevelingReaderWorkspace({
         </Link>
         <div className={styles.workspaceTitle}>
           <h1>
-            {title}{" "}
-            <span>
-              {minimumLevel}–{maximumLevel}
-            </span>
+            {title} <span>{levelLabel ?? `${minimumLevel}–${maximumLevel}`}</span>
           </h1>
           <p title={profile}>{profile}</p>
         </div>

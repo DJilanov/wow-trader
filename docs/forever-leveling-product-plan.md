@@ -1,6 +1,433 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
-Status: first free browser route and calculation engine implemented and deployed as a preview. Updated October 4, 2026. Live route/addon validation and payment activation remain pending.
+## Source-library integration receipt (October 15, 2026)
+
+Implemented locally: the full applicable source inventory now feeds an automatic kill-first
+selection pass, not only a panel of optional suggestions. Selected full quest lifecycles and their
+source-chain lead-ins are materialized in the normal zone/dungeon chapter flow. Existing source
+steps, saves, participant scopes and original action IDs are retained.
+
+- Explicit shared NPC counters and named-target trophies are preferred. Broad collection farms,
+  personal/unsupported conditions, incomplete stages and unreviewed dungeon-only objectives stay
+  held. Required access chains retain unavoidable item collections. Trophy drop/credit rules for
+  all five remain uncertain until established; selection does not assume guaranteed drops.
+- Nearby short returns/interactions require a bounded same-map/floor cluster; delivery roots also
+  require a short source-step span. These heuristics do not estimate travel minutes or certify a
+  global optimum. New-zone branches still need travel review as reward evidence becomes available.
+- Human/warrior gains 36 quests, including Worgen, Ormer, Redridge named targets, Felwood and
+  Plaguelands work, for 334 scheduled hand-in IDs. Human/general gains 28, for 310. Most other
+  candidates are held, not falsely declared unavailable or all automatically suitable for a party.
+- Actual dungeon XP/overflow is carried forward. Unstarted optional loops become unnecessary when
+  all five fresh bars meet the target; accepted chains and required unlocks stay. Forecasts never
+  modify actual progress, repeat paid quests or pretend to know unmeasured combat amounts.
+- Expanded reward collection is running on the existing worker with a 1,419-ID immutable priority
+  queue. Default legacy queue generation remains 614 IDs; use `--library` for the full pool.
+  Current operations, immutable hashes and rollback: `wowhead-reference-enrichment.md`.
+
+Passed 401 unit tests, strict types, scoped lint/format, production webpack build, all 33
+source-flow/lifecycle variants, original save compatibility and browser/mobile/WCAG checks.
+The 132-scenario / 6,000-chapter frozen-input XP audit **still fails certification**. This delivery
+expands usable route content and data collection; it does not claim that every 1–60 deficit is
+resolved, travel is calibrated, or the full RestedXP export is ready. Website changes are not deployed.
+
+## Complete the route from the full quest backbone (October 15, 2026; selection plan)
+
+The trimmed premade campaign is not the full supplied quest library. A Human-warrior 1x solo
+reference inventory finds 951 distinct hand-in IDs across 44 eligible reference chapters, of which
+748 are not scheduled in the premade plan. Alternative chapters and dependent deliveries are
+included in that pool; do not present them all as immediately eligible efficient choices.
+Only 6 of these unused IDs have available typed XP in the frozen October 15 04:47 UTC snapshot.
+Broader selection and targeted reward extraction are needed, not a claim of exhausted content.
+
+1. Start with the full eligible source route/chains and the owner's approved At-level dungeon
+   appointments. Keep personal starts separate and carry real per-member XP/overflow continuously.
+2. Prefer shared kill quotas, overlapping camps and named targets. Include reliable bounded
+   head/trophy quests once loot/credit rules and all five personal quotas are established. Avoid
+   low-drop multi-item farms unless required for an approved unlock; unknown drops stay uncertain.
+3. Preserve prerequisite closures, access items, future dungeon pickups, class requirements and
+   necessary transport/turn-in visits. Do not delete a low-XP lead-in that unlocks valuable work.
+4. Fetch reward/minimum evidence for the additional selected chains, not only the old trimmed
+   itinerary. Replace the broad keyword collection filter with reviewed objective categories;
+   the word "loot" alone does not distinguish a reliable named trophy from a long random farm.
+5. Simulate full eligible hand-in XP, explicit unique combat at the conservative solo-XP/5 rule,
+   dungeon rewards and evidenced trash XP. A dungeon's gain is not a fixed level; hand-in level,
+   eligibility, reward scope and incoming overflow matter. The original source's 44 explicit
+   grinding steps also show why no-dungeon solo leveling is not a quest-only XP proof.
+6. Prune unnecessary outdoor XP-only batches after the simulation, while retaining unlocks.
+   Choose geographically coherent kill loops rather than the highest isolated reward or long
+   courier chains. Offer nearby reserve work only when the lagging player's actual bar needs it.
+7. Audit the resulting continuous route, not the sum of independent empty-bar diagnostic gaps.
+   Certify only funded, eligible, correctly ordered checkpoints for every member; keep travel
+   assumptions and unverified content visible. Preserve paid history and bookmark compatibility.
+
+This is the next route-selection implementation brief, not a claim that the unused quests have
+already been inserted, their rewards extracted or a new release deployed.
+
+## XP repair implementation (October 15, 2026; local review)
+
+The progression/ledger corrections below are now implemented locally, not deployed. Cards and the
+reader share sequential per-player budgets, conservative pickup minima and actual departure gates.
+Future rewards cannot fund an earlier entry; chapter targets are not promised earned level ranges.
+Complete source-backed shared-kill batches can be added in eligible phases without changing actual
+XP or paid quest history. Missing, collection, conditional and ambiguous objectives remain held.
+
+The owner's five-player planning rule is explicit: eligible hand-ins retain full quest XP; unique
+combat activities credit one fifth of solo XP per player. Camp clear speed improves time, not XP.
+Without compatible solo kill values and counts, combat stays unknown and cannot fund a gap. This
+conservative assumption is not a verified Forever group-XP formula or a measured speedrun pace.
+
+The strict audit now checks 33 variants, 132 policy/raid scenarios and 6,000 independent chapter
+budgets. It correctly rejects current 1–60 certification. Completing reward extraction, full
+prerequisite/lifecycle evidence, the three unknown dungeon bundles and calibrated combat/content
+budgets remains necessary; no amount of passing UI/unit tests substitutes for that work.
+See the [dated implementation receipt](forever-leveling-full-route-audit.md#october-15-implementation-receipt-local-only)
+for reproducible inputs, checks and unresolved work. Production remains r6; no RestedXP export
+or in-game playtest certification is claimed.
+
+## Whole-route audit supersedes XP-readiness assumptions (October 14, 2026)
+
+Read [the full-route audit and correction plan](forever-leveling-full-route-audit.md) before further
+route changes. It covers all 33 implemented Alliance race/class variants, 1,500 chapter instances,
+132 cumulative policy/raid scenarios and 1,386 dungeon-handoff diagnostics. This is an analysis
+delivery, not an implemented correction or certification of the current 1–60 route.
+
+The curve matches all 59 extracted leveling requirements, but handwritten milestone ranges were
+not funded by a validated activity budget. The reported 20–26 card has only 18,660 of 170,800
+required XP before incoming dungeon rewards/combat. Independent full-interval checks confirm the
+same issue elsewhere, including the intended dungeon-heavy 45+ section.
+
+Fix the confirmed control-flow defects first: later source-backed catch-up actions inherit a
+level-16 target and can skip needed work in five phases; the forecast also omits the entry-level
+check at the actual departure action and can borrow later dungeon XP to appear ready. Cards,
+per-player execution and selected difficulty/raid/extra scope must share one ledger and gate model.
+Then complete lifecycle/reward evidence, calibrate per-player combat, and select named efficient
+batches to close every remaining checkpoint deficit. Retain explicit unresolved status wherever
+proof is missing. Existing unit, identity and compatibility checks do not certify XP coverage.
+
+Status: browser route and calculation engine implemented as a review edition. Updated October 14, 2026. In-game route/addon validation and payment activation remain pending.
+
+## Zone-first chapters and compact dungeon preparation (October 14, 2026)
+
+The r4/r5 consolidation solved overlapping level brackets but called every between-dungeon block
+“Prepare for…”, even when most of its work was ordinary questing. The new geographic presentation
+keeps the same brackets and executable route, while making the main questing locations the titles.
+For example, the Human 13–16 chapter is “Westfall → Dun Morogh”, with one Dun Morogh subsection
+containing its quest chain and conditional catch-up. Stockade's bridge is “Redridge Mountains →
+Duskwood → Wetlands”; later bridges name Badlands, Desolace, Burning Steppes and the Plaguelands.
+
+- Main locations are reviewed display metadata, not invented coordinates, new travel optimization
+  or a claim that every detour occurs in that zone. Action maps and travel instructions stay intact.
+- Consecutive phases in the same area share a heading. Subsections have no competing level ranges.
+  City deliveries remain visible in the ordered outline, even when the main title emphasizes zones.
+- Preparation is a small, collapsed “Before [dungeon]” checklist inside the zone chapter and reader.
+  Known prerequisites/pickups link to their existing exact steps and show individual reported
+  progress; missing tasks/edges are not invented. It also shows actual party level/XP readiness.
+  This checklist is not a second XP budget and cannot complete a quest or certify an unknown bundle.
+- XP-only work is collapsed as unnecessary only under the existing per-player readiness rules.
+  Required pickups embedded in such a phase remain accessible; unknown/stale XP never means ready.
+- Old `prepare-*` chapter IDs remain compatibility URLs. Only the public section kind/title/area
+  presentation changes; internal legs, action IDs, participant scopes, Next/Done, source anchors,
+  release/save identity, XP targets and the `workflow-20261014-v2` execution revision do not change.
+
+Deployed: `kfc-helper-zones-20261014-r6`, based on the actual r5 baseline. Validation passed 143 leveling
+and 214 web tests, strict type/lint and the Linux production build. The presentation-only audit
+compares all 33 editions to r5, preserving all 26,878 action identities, every chapter URL/bracket
+and per-player XP forecasts. Browser regressions cover zone headings, collapsed preparation,
+partial-party reports, conditional catch-up, navigation, real XP, mobile layout and WCAG A/AA.
+Only Helper web was reloaded; r5 remains the immediate rollback. See `context.md` for the receipt.
+This UX refinement does not certify the 1–60 XP budget or
+finish the full RestedXP compiler.
+
+## Integrated race-route delivery (October 14, 2026; deployed r4)
+
+### Consolidated questing chapters (October 14, 2026)
+
+Public chapters now project a shared section model rather than displaying every internal phase as
+a separate route. Human's Westfall finish, Dun Morogh/Map preparation and conditional extra XP are
+one 13–16 “Prepare for Hall of Thanes” chapter, followed by a level-16 dungeon event. All later
+between-dungeon preparation is consolidated in the same way. This yields 44–46 public chapters
+across the 33 race/class editions while preserving all 21 requested dungeon stops and source anchors.
+
+One actual per-player XP target applies to each preparation chapter. Unknown/stale bars need an
+update; full bracket requirements are explanatory, not earned rewards. Dungeon events show entry
+requirements without another overlapping XP budget. Previously paid rewards are not reforecast.
+
+The shared execution controller bypasses already reported quest stages and unnecessary XP work,
+keeps class-conditioned personal steps, and preserves required pickups even inside a mixed XP phase.
+Completion applies only to the participant/stage still needing it, not blindly to all five. Map item
+acquisition/use and the Farsen/spy source steps are retained; mandatory preparation is followed by
+a fresh actual-XP check before the nearby trogg catch-up phase. Mixed-race eligibility remains
+explicitly confirmed in game, not inferred from a leader's history or a nominal guide level.
+
+Stable action IDs and save identity are preserved; new preparation goals use new IDs. Legacy
+chapter IDs resolve to their public section, and retired early-bookmark aliases resume at the
+preparation/readiness step without copying old completion into a wider participant scope. The
+executable revision is `workflow-20261014-v2`, separate from stable save/source identity. Freeze
+this revision, its predicates and source hash for the later RestedXP compiler after approval.
+
+The authored premade route belongs in the existing questing flow, not in a parallel product.
+Alliance race dashboards at `/forever/leveling/routes/alliance-{race}` now project the campaign's
+ordered chapters; `/chapters/premade-{sectionId}` uses the existing fixed-map/scrolling-checklist
+reader. Previous individual-leg chapter URLs remain valid compatibility entry points.
+Outdoor preparation, XP-only batches and dungeon objectives share the same ordered action model.
+The former `/forever/leveling/premade` remains a compatible review/bookmark surface, not the setup
+destination. The detailed dungeon ledger remains a reference, not a second quest order.
+
+- Bare Alliance race URLs show the revised premade review edition. Setup sends five-player Alliance
+  parties to `?plan=premade` and solo/small groups to `?plan=questing`; the in-page edition selector
+  keeps both available. Horde remains on its original route until a Horde dungeon route is authored.
+- Chapter IDs, source anchors, release identity and all Next/Done transitions come from the same
+  campaign model. Maps keep source coordinates and historical pickup evidence distinct.
+- Character/race/class progress is release-scoped. Old outdoor checks are preserved, never copied
+  blindly into reordered multi-quest tasks. Browsing a premade edition with a solo character does
+  not imply five-player readiness; explicitly saving the route preserves that character's old checks.
+- Chapter cards show distinct selected-quest counts, known/estimated reward subtotals, unknown
+  hand-ins, bracket XP requirements and scenario time from observed XP/hour. They do not promise
+  those rewards fill the XP budget or double-count dungeon bonuses.
+- Deep links, same-chapter hash changes, chapter boundaries, reload, back navigation, race/class
+  selection and exact dashboard continuation need browser regressions before each publication.
+
+Source audit: 61 authorized Alliance source chapters project 33 race/class editions, with all 21
+requested stops, 53–55 internal phases and 44–46 public chapters. This is structural/source
+validation, not a playthrough.
+Drowned City, Krol'dok and Alcaz still have unverified bundles; later historical chains, group credit,
+travel durations and actual party XP must be checked in game. No missing pickups/rewards are invented.
+
+After approval, freeze this same campaign revision for RestedXP compilation. The existing compiler
+still only covers the earlier Westfall/Thanes preview. The full campaign adapter, runtime-condition
+mapping, prerequisite/objective validation and actual installed RestedXP import/playthrough remain
+release gates; the website is not evidence that a complete 1–60 addon pack is already available.
+
+Deployment: `kfc-helper-chapters-20261014-r4`, preserving the actual r3 application/catalog baseline.
+Validation passed 342 leveling/web tests, strict TypeScript/lint and production builds, all 33
+authorized-source projections, and a previous-release compatibility audit of 26,614 preserved
+action identities and 238 retired-bookmark aliases. Four private browser suites and public
+consolidation/integration assertions passed, including per-player quest reports, stale XP gates,
+conditional continuation, legacy links, 390/320 px layouts and automated WCAG A/AA checks.
+Twelve public route checks passed; no catalog, archive or database changes were needed.
+The source and operational receipt is in `context.md`; r3 was r4's immediate compatible app
+rollback, although its reader uses the old individual-phase URLs rather than new section URLs.
+The later XP release retains r4 as its immediate rollback.
+
+## Priority quest-reward ingestion and cumulative XP coverage (October 14, 2026; foundation deployed)
+
+This is the next correctness gate for the published review route. Chapter ranges are authored
+targets, not a demonstrated reward budget. The existing UI/progress regressions do not prove
+that its activities supply enough XP. Repair the data adapter and simulate the existing executable
+order before proposing any further leveling or travel claims.
+
+Implementation receipt: `kfc-helper-xp-20261014-r5` introduced literal-only, renderer-pinned
+quest XP extraction, separate continuously published XP evidence, a serialized 614-ID priority queue,
+and cumulative per-player quest-only forecasts on the existing route/reader. Reward resolution uses
+the actual predicted hand-in level, carries overflow and deduplicates payouts. Unknown rewards and
+eligibility problems remain visible and cannot certify coverage. Actual saved progress is untouched.
+The four-quest Stratholme core excludes optional quest 5848. Maintainer queue/audit scripts and
+415 passing relevant tests cover the implementation; five private browser suites cover the UI.
+
+This completes the ingestion and quest-only simulation foundation below, not the entire optimization
+plan. Collection/review is still running (24 available facts at 11:36 UTC). Combat calibration,
+complete restriction/prerequisite closure, deficit-selected low-travel top-ups, mixed-race starter
+modeling and full RestedXP compilation/import validation remain outstanding. Authoring ranges are
+still targets, not a certified 1–60 XP budget. Operational details are in `context.md` and
+`wowhead-reference-enrichment.md`. The inventory and blocker observations below describe the
+pre-implementation audit; the exact not-found redirect was subsequently diagnosed and repaired.
+
+### Inspected inventory and operational constraints
+
+- The current generic Human campaign references 304 distinct quest IDs. The union of all 33
+  Alliance race/class editions contains 614 IDs, with 584 distinct selected hand-in identities.
+  Of those hand-in identities, 510 lack a usable reward in at least one current projection/context.
+  These are selected action identities, not an independent prerequisite-closure or optional-quest
+  inventory. Expand the queue for verified missing prerequisite edges and selected optional branches.
+- On October 14 the single production crawler is stopped at cursor 746 / 60,614, on
+  `forever-quest-260`, with `Source redirected outside the permitted entity`. Its durable
+  checkpoint was last updated October 13 at 12:09:29 UTC. Inspect the exact redirect before
+  resuming; do not relax edition/identity checks or skip access restrictions to make progress.
+- Staging has 248 Forever quest records; 86 intersect the all-edition campaign union, including
+  72 from the generic Human route. None of those 86 exposes numeric XP or XP text in the normalized
+  reward fields. Existing crawl completeness/SEO readiness therefore does not mean XP readiness.
+- `parser.ts` keeps quest reward sections as plain text, while its numeric-fact parsing is for
+  items. `premadeReward` only consults the reviewed Journal and historical baseline files.
+  Prioritizing pages alone will not connect the missing rewards to the simulator.
+- Page presentations can differ: some retrieved/indexed Forever pages expose numeric Gains and
+  character-level controls, while their plain non-rendered responses omit them. Pilot real page
+  payloads to establish the field/table and its level context before treating extraction as solved.
+  An absent amount is unknown, not zero. Do not use comment XP, search snippets or an old Changes
+  table as an authoritative current reward. The current crawler excludes comments and must continue
+  doing so. A challenged page stops the source request; no browser/challenge bypass is proposed.
+
+### 1. Build and process an XP-specific priority queue
+
+Generate a deterministic, checksum-versioned inventory from campaign quest changes, required gate
+IDs and prerequisite closure. Deduplicate by game edition and quest ID, recording affected
+sections, earliest useful checkpoint, requirement/optional status and missing XP/eligibility facts.
+
+Priority order:
+
+1. Human 1–16 coverage and required Thanes unlocks, then the following Human dungeon/preparation
+   checkpoints. Within a checkpoint prefer unknown hand-in rewards and necessary gate facts.
+2. Remaining Human 1–60 rewards and shared dungeon chains; reconcile already staged records first.
+3. Other race/class starting branches and explicitly selected optional quest bundles.
+4. Resume the ordinary catalog backlog after the priority inventory is processed.
+
+Use a separate priority manifest and checkpoint, serialized through the same worker and staging
+store. The minimal initial rollout can gracefully stop the normal job, run the reviewed priority
+job through the existing bounded CLI, then resume the original job unchanged. Do not edit/reorder
+`all-catalog.json` under its hash-bound cursor, reset the base checkpoint or run two crawlers.
+If automatic priority scheduling is added, check for it only at safe task/batch boundaries and
+maintain separate counters/cursors; processing priority work must not advance the base cursor.
+
+Retain existing durable request pacing, cooldowns, locks, disk/storage limits and source denial
+stops. An XP parser revision must not silently cache-hit a fresh record without XP extraction:
+use parser-version/capability metadata and selectively refresh such records under the same pacing.
+No fixed completion date is promised; a quest may require redirects and page XP may remain absent.
+
+### 2. Normalize usable reward evidence, not just a number
+
+Add a narrow quest-XP parser beside the existing literal-only Cheerio/Acorn parser. Validate
+actual payload patterns with real allowed responses. Inspect only the primary same-edition quest
+data or its Gains/XP controls, never unrelated preload IDs, comments or historical change rows.
+Do not evaluate source JavaScript or invent field names/endpoints without a real fixture.
+
+Publish a separate checksum-addressed leveling-reward evidence artifact and atomic manifest.
+This avoids changing the strict existing display-reference record or writing external estimates
+into native quest/catalog tables. It can be produced from the same fetched response without
+another request. Its publisher/reader must validate identity, provenance, freshness and conflicts;
+old display references remain valid. XP readiness is independent of page indexing completeness.
+Account for the additional artifact bytes in the worker's existing storage limits.
+
+Each reward claim needs edition/quest ID, amount or level-to-amount table, semantic basis
+(`full-reward`, `at-character-level`, `historical-base`, `scenario`, `unknown`), applicable
+character level/modifier context when known, source URL/hash, capture/parser revision and effective
+patch/build claim. A source crawl timestamp does not prove exact client-build compatibility;
+leave build unconfirmed when the page does not supply it. Retain contradictory claims for review.
+Record minimum/quest level, faction/race/class restrictions, prerequisite alternatives and
+completion scope separately; a list order is not automatically a prerequisite edge.
+
+Resolution order is compatible context-pinned observation → usable current Forever page fact →
+reviewed Journal claim with its provenance → explicit historical-base planning scenario → unknown.
+Do not promote a newer conflicting page blindly over a compatible observed reward. A Forever
+amount is never multiplied again. World rewards never inherit a dungeon coefficient merely
+because their chain leads to an instance. A scalar whose selected character level is unknown
+cannot establish a full-reward table. Use an evidenced overlevel rule/table or leave that context
+unresolved; the current coarse `level > questLevel + 5` rejection is not a complete reduction model.
+
+The October 1 notes reduce the extra dungeon reward above normal, not total quest XP, and also
+mention individual recalibrations. The existing 2.375×/2.2× scenarios remain labeled fallbacks,
+not universal facts. October 8 also changes combat XP and party-level adjustments. Keep those
+rule revisions separate from reward facts and never apply a combat buff to a quest reward.
+[Official October 1 notes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/4),
+[official October 8 notes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/5).
+
+### 3. Simulate the actual route continuously for each player
+
+Implement pure TypeScript forecast logic in `packages/leveling`, accepting a frozen plan,
+reward-evidence snapshot, curve/rule revision and each player's actual starting state. Keep the
+existing actual-progress ledger separate: a prediction never marks a quest rewarded or overwrites
+saved actual level/XP. Unknown starting bars need input; a default level-1 run is explicitly an
+authoring scenario, not the player's live state. Five starters may differ by race/class and meet
+at the rendezvous; do not forecast the leader's personal start for the other four.
+
+Represent cumulative earned XP as `C(level) + currentXp`, where `C(level)` sums the curve below
+that level. For each executable action in order:
+
+1. Validate actual/forecast minimum levels, faction/race/class restrictions, accepted quests,
+   prerequisite alternatives, key/items and selected visit scope. An impossible pickup blocks
+   the branch; nominal guide levels cannot grant eligibility.
+2. Add combat only for a unique modeled encounter/activity with an applicable per-member claim.
+   Accepting a quest or confirming an objective grants no hand-in reward.
+3. At a real planned hand-in, resolve reward at that player's predicted **before-hand-in** level
+   and modifier context. Count it once per player/quest/eligible completion cycle. Preserve
+   shared-chain and multi-visit identities. Unknown rewards remain explicitly unresolved.
+4. Advance the level using the curve, carrying overflow. Re-evaluate the next reward's level
+   context and eligibility. Never reset to a chapter's nominal starting level or discard overflow.
+5. At every entry checkpoint evaluate each player's actual selected-policy level and unlock
+   gates. A predicted ready result is not actual confirmation for Next/Done in the live reader.
+
+For a checkpoint the per-player deficit is `max(0, C(entryLevel) - predictedCumulativeXp)`.
+Report all five deficits; the maximum identifies the XP-lagging player, not a five-player sum.
+Required unlocks are a separate readiness condition even when the XP deficit is zero. Show a
+quest-only coverage result and a quest-plus-combat scenario; do not label a route covered solely
+because unknown rewards or optimistic combat might close the gap. The primary path, compatibility
+reader, dungeon reference and future RestedXP compiler must consume the same selected quest scope
+and forecast engine, fixing the current four-versus-five Stratholme forecasting mismatch.
+
+### 4. Model combat and select concrete efficient top-ups
+
+Resolve objective target IDs/counts where evidence exists. Shared concurrent objectives can count
+the same kill once; sequential chain stages cannot be merged merely because the target matches.
+Never multiply a shared kill quota by five, count the same kill in a quest and a clear twice, or
+blindly divide a solo XP reference by five. Personal loot requirements and party-credit eligibility
+need their own rules; unknown drop rate/distribution cannot produce a precise completion time.
+
+Maintain separate outdoor/dungeon per-player combat claims by build/rule revision, enemy level/
+type, party levels, credited members and modifiers. Prefer bounded current-group observations
+with before/after level/XP and separately logged hand-ins/discovery; a mixed activity XP delta
+cannot all become kill XP. The existing observer records the level after `QUEST_TURNED_IN`, so
+extend its context before using it to train hand-in reductions. Retain secret-value guards and
+bounded storage. Unobserved future clears remain scenarios; zero in a conservative lower bound
+means excluded unknown combat, not a claim that the activity awards zero XP.
+
+If a checkpoint has a shortfall, choose a complete nearby eligible shared-kill/quest batch using
+marginal per-player reward versus full party time: travel, prerequisite work, kills, pickups,
+hand-ins, collection/escort waits and the slowest member's readiness. Preserve necessary class
+abilities and future dungeon unlocks, even if their immediate XP/minute is low. Use measured
+travel/clear durations when available; otherwise show ranges or unknown time, not an exact ETA.
+The first solver can deterministically score authored candidate batches and re-simulate after
+each selection rather than introduce a global optimizer. Do not claim it is a proven optimum.
+
+Prescribe named quest batches and, only with compatible XP evidence, a remaining kill count/range.
+Recheck actual party XP after the batch and stop when ready. If no eligible measured batch can
+close the deficit, retain an explicit unresolved/top-up checkpoint; do not add phantom rewards,
+assume new faction-parity quests, prescribe repeated one-time quest payouts or silently enter
+earlier than the selected policy. Dungeon-only leveling from 45 is an outcome to test, not an input.
+
+### 5. User-facing report, verification and rollout
+
+Each section should show actual/forecast entry level and bar, target dungeon level, resolved quest
+count/XP, separately labeled combat range, predicted exit level/bar, unknown reward IDs, residual
+deficit and required unlocks. Expand to a per-quest reward/source/hand-in-level breakdown and
+per-player readiness. Distinguish reward evidence coverage from software/source-flow validation.
+
+Implementation order: XP parser pilot → reviewed priority crawl/publication → generic reward
+adapter → quest-only cumulative simulator → objective/combat sidecar and top-up selection → shared
+chapter/reference UI. Validate Human 1–20 first, then every later checkpoint and all 33 branches.
+Keep unresolved late dungeon bundles visible; data ingestion alone does not author them.
+
+Required regressions include numeric zero versus missing XP, locale separators, explicit selected
+level, primary data versus historical/comment contamination, edition/ID mismatch, changed/conflicting
+rewards, fresh records without XP capability, cursor/pacing preservation, duplicate hand-ins,
+multi-stage/visit chains, individual eligibility, overlapping/sequential kill objectives, level-up
+between hand-ins, level-60 conversion boundary, unknown combat, unequal party bars, optional XP
+skipping with mandatory unlocks and reload/bookmark compatibility. Produce an audit of every
+checkpoint's budget; unit test success alone is not a coverage sign-off. Freeze approved route,
+reward and rules hashes for the subsequent RestedXP export; do not silently rewrite an approved
+running guide when a new page observation arrives.
+
+This research changed documentation only. The crawler was not resumed or reprioritized, and no
+website, addon, native data, commit, push or deployment was changed.
+
+## Latest delivery target: approved premade-five route → RestedXP (October 13, 2026)
+
+The owner confirmed the next authored edition is an ultra-efficient coordinated five-player
+dungeon-quest route through 60: batch necessary world chains and shared-kill work, skip inefficient
+personal collection filler, and make progression depend on actual XP/quest readiness. The website
+is the review/test surface; after owner approval, compile that exact frozen revision into a separate
+KFC guide pack for RestedXP. Do not maintain independent web and addon quest orders.
+
+The every-stop preparation plan, installed DungeonJournal 1.6.3 audit, new Alliance SM quest,
+base-versus-adjusted XP rules, candidate 2.375× ordinary bonus tier, faction-parity what-if,
+adaptive late-game checkpoints and compiler/export gates are specified in
+[the expanded circuit plan](forever-leveling-dungeon-route-choice-plan.md#five-player-speed-guide-and-final-restedxp-edition-2026-10-13-expanded-plan).
+Its [source/calculation receipt](forever-leveling-premade-xp-audit.json) is research data, not a live catalog.
+
+The existing compiler remains a Westfall/Thanes preview. Installed RestedXP is now v4.11.23;
+the v4.11.14 references below describe the original verified release. Use public custom-guide
+registration for the installable pack; the account-sensitive GUI paste format is not a proven
+raw-text import path. The expanded 1–60 browser route is implemented; the full addon export remains
+pending approval and validation. Default At-level gates remain conservative; the requested-target
+policy is an explicit experienced-party choice, never a substitute for quest pickup requirements.
+Supporter/payment activation is unchanged.
 
 The next dungeon-preparation, chain-state, reward-choice and marginal/full-trip comparison phase is
 specified in [the dungeon integration plan](forever-leveling-dungeon-integration-plan.md).

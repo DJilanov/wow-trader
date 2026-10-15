@@ -54,7 +54,7 @@ await context.addInitScript(
 );
 
 try {
-  await page.goto(new URL("/forever/leveling/routes/alliance-human", base).href);
+  await page.goto(new URL("/forever/leveling/routes/alliance-human?plan=questing", base).href);
   const tree = page.getByRole("list", { name: "Full chapter route tree", exact: true });
   const start = tree.locator(`[data-chapter-node="${startId}"]`);
   const end = tree.locator(`[data-chapter-node="${endId}"]`);
@@ -173,7 +173,7 @@ try {
     };
   });
   const deniedPage = await denied.newPage();
-  await deniedPage.goto(new URL("/forever/leveling/routes/alliance-human", base).href);
+  await deniedPage.goto(new URL("/forever/leveling/routes/alliance-human?plan=questing", base).href);
   await deniedPage.getByLabel("Your effective XP/hour", { exact: true }).fill("10000");
   await expect(
     deniedPage.getByText("This pace is not saved; browser storage is unavailable.", {

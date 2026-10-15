@@ -11,7 +11,8 @@ import {
   referenceUrl,
   type ReferenceTask,
 } from "./contracts.js";
-import { parseWowheadPage } from "./parser.js";
+import { parseQuestXpPage, parseWowheadPage } from "./parser.js";
+import { readStagedQuestXp } from "./quest-xp-store.js";
 import { atomicJsonWrite, readStagedReference } from "./store.js";
 import { DEFAULT_REQUEST_DELAY_MS, requestGate, validateRequestDelay } from "./pacing.js";
 
@@ -34,6 +35,7 @@ export interface CrawlOptions {
   readonly limit?: number;
   readonly delayMs?: number;
   readonly refresh?: boolean;
+  readonly questXp?: boolean;
   readonly fetcher?: typeof fetch;
   readonly sleep?: (milliseconds: number) => Promise<void>;
   readonly now?: () => number;
@@ -56,10 +58,17 @@ export interface CrawlResult {
   readonly notFound: number;
 }
 
-class SourceNotFound extends Error {}
+class SourceNotFound extends Error {
+  constructor(
+    message: string,
+    readonly status: 301 | 404 = 404,
+  ) {
+    super(message);
+  }
+}
 
 const missingPageSchema = referenceTaskSchema
-  .extend({ checkedAt: z.iso.datetime(), status: z.literal(404) })
+  .extend({ checkedAt: z.iso.datetime(), status: z.union([z.literal(404), z.literal(301)]) })
   .strict();
 
 export async function crawlReferences(
@@ -96,7 +105,11 @@ export async function crawlReferences(
   const lock = await open(lockPath, "wx", 0o600);
   try {
     const gate = await requestGate(root, sleep, options.now ?? Date.now, options.signal);
-    async function request(url: string, init: Omit<RequestInit, "signal">, delayMs: number): Promise<Response> {
+    async function request(
+      url: string,
+      init: Omit<RequestInit, "signal">,
+      delayMs: number,
+    ): Promise<Response> {
       await gate.beforeRequest(delayMs);
       const response = await fetcher(url, { ...init, signal: requestSignal() });
       if (response.status === 429 || response.status === 503) {
@@ -106,10 +119,14 @@ export async function crawlReferences(
       }
       return response;
     }
-    const robotsResponse = await request("https://www.wowhead.com/robots.txt", {
-      redirect: "error",
-      headers: { "user-agent": CRAWLER_AGENT },
-    }, requestedDelay);
+    const robotsResponse = await request(
+      "https://www.wowhead.com/robots.txt",
+      {
+        redirect: "error",
+        headers: { "user-agent": CRAWLER_AGENT },
+      },
+      requestedDelay,
+    );
     if (!robotsResponse.ok) throw new Error(`Robots fetch failed: HTTP ${robotsResponse.status}`);
     const policy = robotsParser(
       "https://www.wowhead.com/robots.txt",
@@ -147,15 +164,30 @@ export async function crawlReferences(
           throw new Error("Source redirected outside the permitted entity");
         if (policy.isAllowed(current, CRAWLER_AGENT) !== true)
           throw new Error("Source disallowed by robots policy");
-        const response = await request(current, {
-          redirect: "manual",
-          headers: { "user-agent": CRAWLER_AGENT, accept: "text/html,application/xml" },
-        }, delay);
+        const response = await request(
+          current,
+          {
+            redirect: "manual",
+            headers: { "user-agent": CRAWLER_AGENT, accept: "text/html,application/xml" },
+          },
+          delay,
+        );
         if ([301, 302, 303, 307, 308].includes(response.status)) {
           const target = response.headers.get("location");
           await response.body?.cancel();
           if (!target) throw new Error("Source redirect has no target");
-          current = new URL(target, current).href;
+          const redirected = new URL(target, current);
+          if (
+            response.status === 301 &&
+            redirected.origin === "https://www.wowhead.com" &&
+            !redirected.username &&
+            !redirected.password &&
+            !redirected.hash &&
+            redirected.pathname === `/${task.game}/${task.kind}s` &&
+            redirected.search === `?notFound=${task.id}`
+          )
+            throw new SourceNotFound("Source explicitly redirected this entity to not-found", 301);
+          current = redirected.href;
           continue;
         }
         if (response.status === 404) {
@@ -186,7 +218,17 @@ export async function crawlReferences(
       const key = referenceKey(task);
       await options.onTaskStart?.(key);
       const previous = await readStagedReference(root, task);
-      if (previous && referenceIsFresh(previous) && !options.refresh) {
+      const previousXp =
+        options.questXp && task.kind === "quest" ? await readStagedQuestXp(root, task) : null;
+      if (
+        previous &&
+        referenceIsFresh(previous) &&
+        !options.refresh &&
+        (!options.questXp ||
+          task.kind !== "quest" ||
+          (previousXp?.sourceSha256 === previous.sourceSha256 &&
+            previousXp.capturedAt === previous.capturedAt))
+      ) {
         cached++;
         await options.onTaskComplete?.({
           key,
@@ -211,10 +253,13 @@ export async function crawlReferences(
           permissionRef: options.permissionRef,
           ...(xml ? { itemXml: xml.text } : {}),
         });
-        const gaps = referenceQualityGaps(record);
+        const questXp =
+          options.questXp && task.kind === "quest" ? parseQuestXpPage(page.text, record) : null;
+        const gaps = [...referenceQualityGaps(record), ...(questXp?.issues ?? [])];
         if (Buffer.byteLength(JSON.stringify(record)) + 1 > 300000)
           throw new Error("Extracted reference exceeds staging budget");
         await atomicJsonWrite(resolve(root, `${referenceKey(task)}.json`), record);
+        if (questXp) await atomicJsonWrite(resolve(root, `${referenceKey(task)}.xp.json`), questXp);
         crawled++;
         if (gaps.length) incomplete++;
         await options.onProgress?.(key, gaps);
@@ -223,7 +268,7 @@ export async function crawlReferences(
         if (!(error instanceof SourceNotFound)) throw error;
         await atomicJsonWrite(missingPath, {
           ...task,
-          status: 404,
+          status: error.status,
           checkedAt: new Date().toISOString(),
         });
         notFound++;

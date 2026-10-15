@@ -60,7 +60,7 @@ describe("scoped dungeon itineraries", () => {
     const core = itineraryDungeonOption("deadmines", human, plan);
     expect(core.questIds).toHaveLength(6);
     expect(core.questIds).not.toContain(92753);
-    expect(core.questXp).toBe(21867);
+    expect(core.questXp).toBe(21836);
     for (const prepared of [
       { ...plan, questStates: { "92752": "rewarded" as const } },
       { ...plan, questStates: { "92753": "accepted" as const } },

@@ -1,13 +1,13 @@
 # WoW Trader project context
 
-Last updated: 2026-10-05
+Last updated: 2026-10-15
 
 ## Goal and current target
 
 Build a player-facing WoW economy product with a build-versioned item/profession/recipe archive,
 approximately 30-minute Auction House history, realistic crafting opportunities, and evidence-backed
 market guidance. TBC Anniversary remains the original validation baseline; Forever Classic Beta build
-70205 is now the active public catalog and leveling-preview target.
+70291 is now the active public catalog. Build 70205 remains the current validated world/leveling archive.
 
 Client presence, announced content, phase availability, observed sources, and estimated drop rates
 are separate facts. Extraction can reveal a shipped rare recipe before it drops, but it cannot prove
@@ -18,8 +18,13 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-leveling-dungeons-20261005-r6` is active; `kfc-helper-leveling-quality-20261004-r5`
-  is the immediate web rollback. The full pre-feature rollback remains
+  `kfc-helper-zones-20261014-r6` is active; `kfc-helper-xp-20261014-r5`
+  is the immediate compatible rollback. `kfc-helper-chapters-20261014-r4`,
+  `kfc-helper-route-20261013-r3` and
+  `kfc-helper-campaign-20261013-r2` retain earlier
+  campaign reader; `kfc-helper-premade-20261013-r1` retains the earlier circuit.
+  The October 10 talents release also
+  remains available. Older rollback remains
   `kfc-helper-leveling-preview-20261004-r1`. Ingestion remains independently pinned to
   `kfc-helper-ingest-auction-20261001-r1`.
 - Primary stack: strict TypeScript, pnpm/Turborepo, Next.js, Fastify, Zod, Drizzle, PostgreSQL.
@@ -50,7 +55,704 @@ its server-side source or probability.
   `docs/forever-encyclopedia-plan.md`.
 - Tested operation and Forever migration: `docs/runbooks/tbc-validation.md`.
 
+## Latest delivery and remaining validation
+
+### Kill-first source-library route integration (2026-10-15; local web, live data collection)
+
+- Implemented the owner's request to use the full supplied quest pool, rather than only offering
+  extra quests in a suggestion panel. `campaign-library.ts` reads applicable source chapters at
+  the selected race/class/1x profile; `campaign-library-route.ts` inserts selected full quest
+  lifecycles and source-chain lead-ins into the existing chapter flow. Old release/save identity,
+  chapter links, participant ownership and all 26,878 original action IDs remain compatible.
+- Selection prefers explicit NPC kill counters/shared-kill instructions and named trophies.
+  Collection farms, unsupported/class-specific conditions, incomplete lifecycles, long optional
+  courier chains and dungeon quests misidentified as outdoor work are held with reasons. Required
+  dungeon chains may retain their necessary collection steps. Nearby short interactions/returns
+  require same-map/floor source coordinates within 12 map-percentage points; delivery-only roots
+  also need pickup/return within eight steps of the same chapter. This is a spatial authoring
+  heuristic, not measured travel time or a global speedrun optimum.
+- Human/general gains 28 quests (310 total distinct scheduled hand-ins, 900 actions); Human/warrior
+  gains 36 (334 total, 966 actions). Warrior additions include 19 shared-kill roots, 7 named-trophy
+  roots, one nearby interaction and 9 prerequisite quests. Example families: Worgen in the Woods,
+  Ormer's Revenge, named Redridge targets, Felwood/Timbermaw and Plaguelands kill work. 254 warrior
+  collection-farm candidates remain held. These counts are not proof of funding every level.
+- Dungeon gains/overflow continue through the per-player ledger. Unstarted optional work is skipped
+  once every fresh actual bar meets its target; accepted chains and required unlocks remain.
+  Nothing grants actual XP. Named-trophy forecasts explicitly remain unverified until loot/credit
+  is established; no guaranteed drop, single-kill completion or respawn time is inferred.
+- Expanded XP collection is **running**, using existing `crawl-20261014-r6-xp` code and PM2 worker
+  `kfc-helper-reference-crawl` (358), PID 2857530 after scoped reconfiguration. Frozen active queue:
+  1,419 unique source-backed quest IDs, including all 614 original IDs; SHA
+  `1e25e00fcd345e03cba14f3aa3e3fae78fb1c92cf63ba0db881438989e827e8b`.
+  Checkpoint: `/home/wow-trader-reference-worker/shared/priority-xp-1e25e00fcd345e03-status.json`.
+  At 07:23:46 UTC: cursor 156, 152 cached, 4 crawled, no job error. One worker, 60-second durable
+  pacing, 384 MiB heap, 8 GiB reserve/2 GiB staging cap and source-access stops are unchanged.
+  Old priority/base checkpoints and pacing/cache were preserved; PM2 list saved. No concurrent crawl.
+- `pnpm leveling:xp:queue --library --destination=<directory>` generates the expanded inventory.
+  Default generation intentionally retains the old 614-ID contract. The final local generator
+  produces the same 1,419-ID set with refined ordering, SHA
+  `84d8b04476efe3997b27817c68507887ae28ea754158af42eaf47d71ef2dec49`.
+  Do not overwrite the active frozen queue or reuse its checkpoint with a different hash. Active
+  and rollback PM2 configurations are under `shared/queues/reference-crawler-*.config.cjs`.
+- Final frozen-input audit: 33 variants, 132 scenarios, 6,000 chapter checks; semantic SHA
+  `0e5a3e1a934c7246ea4b87f5d73ac90202142a7f8e66668ab4903b681035f44c`, artifact
+  `artifacts/leveling/audits/2026-10-15/library/campaign-xp-audit-0e5a3e1a934c7246.json`.
+  Coverage remains false: 908 blocked, 3,176 incomplete, 1,832 shortfall, 84 reference-covered
+  independent checks. Extra unknown rewards increase incomplete counts; this is not a zero-XP
+  verdict or a sum of real journey deficits. Full reward/lifecycle, new-zone travel and combat
+  validation, missing dungeon bundles and playtesting still remain before certification/export.
+- 186 leveling and 215 web tests, strict types, scoped lint/format, production webpack build,
+  33 source-flow/lifecycle checks and save compatibility passed. Browser coverage includes a real
+  inserted library step, underlevel entry, read-only refresh, exact-step reload, mobile and WCAG.
+  Workflow: `workflow-20261015-v4`; source selection: `source-backbone-20261015-v1`; XP ledger:
+  `checkpoint-ledger-20261015-v3`. Website changes are local only; no commit, push, web deployment,
+  database migration or real-player progress modification was performed.
+
+### Use the full source quest pool to complete the premade route (2026-10-15; research/selection brief)
+
+- Owner challenged the remaining deficits: the supplied solo guides reach 60 without requiring
+  dungeon XP, so use their omitted quests rather than treating the current trimmed selection as
+  the whole library. Prefer a moving shared-kill route; avoid low-drop personal collections where
+  possible. Named-target head/trophy quests are candidates, not automatically collection farms.
+- Read-only inventory for Human warrior, 1x, solo/no-dungeon reference view: 44 eligible reference
+  chapters contain 951 distinct hand-in IDs. 748 are absent from the current premade campaign.
+  This includes alternative chapters and chain deliveries; it is a candidate pool, not 748
+  independently eligible efficient quests. The campaign has 298 hand-in IDs including dungeon work.
+- In the frozen October 15 04:47 UTC published snapshot, only 6 of those 748 unused source IDs have
+  available typed XP facts; 742 do not. The existing crawler queue was built around the trimmed
+  route. Missing reward evidence is not evidence that additional source quests do not exist.
+- The same source view has 44 steps explicitly mentioning grinding. A solo guide without dungeon
+  XP is not a quest-hand-in-only proof: it still receives full solo combat XP, unlike the owner's
+  conservative five-player solo-XP/5 planning rule.
+- Correct next implementation direction: use full eligible source chains as the quest backbone,
+  attach the approved At-level dungeon appointments, carry cumulative incoming XP/overflow, then
+  remove unnecessary XP-only batches while preserving future dungeon prerequisites. Do not add
+  up independent empty-bar chapter deficits or assume every dungeon grants exactly one level.
+- Replace the broad collection exclusion with reviewed objective categories: shared kill counts;
+  named targets; bounded/reliable trophies; low-drop multi-item farms; uncertain objectives.
+  Verify each trophy's drop/credit behavior and all five personal quotas; never infer guaranteed
+  drops or one-kill-for-all merely from the quest title. Prioritize geographically overlapping
+  kill batches, necessary unlocks and on-route turn-ins; retain a nearby reserve for actual XP gaps.
+- Expand reward collection for the selected additional chains before declaring the rebuilt route
+  funded. Phase/access, race/class gates, dependencies and travel remain selection constraints.
+  Research only this turn: no new runtime implementation, crawler mutation, commit or deployment.
+
+### Whole-route XP repairs and five-player budget checks (2026-10-15; local, not deployed)
+
+- Implemented the October 14 audit's progression repairs: the early level-16 override no longer
+  skips later XP phases; live controls and forecasts share conservative pickup minima and known
+  prerequisites; each member stops at an impossible pickup, missing stage or dungeon departure.
+  Future dungeon rewards/combat cannot pay for entering that dungeon. All modeled objectives must
+  precede their hand-in, already-paid rewards remain paid once, and predictions never award actual XP.
+- Owner clarified the intended five-player assumption: combat credits one fifth of solo XP to each
+  member, while eligible quest hand-ins retain their full reward. `group-combat.ts` applies this only
+  to explicit unique kill activities. Unknown combat is excluded; faster shared camp clear time
+  does not multiply XP, kill quotas or quest payouts. This is a conservative planning assumption,
+  not a calibrated Forever server formula.
+- Chapter cards and the reader now use the same sequential per-player ledger and target resolver.
+  Independent authoring budgets explicitly assume prior prerequisites/empty entry bars, distinct
+  from the player's actual continuous forecast. Blocked exits/gaps remain unresolved. Authored
+  ranges are target/entry labels, not promised level gains; dungeon entry and next departure are
+  separate. Compact reader diagnostics do not replace the ordered quest list.
+- Complete additional source-backed quest batches can be added/removed in XP phases. Recommendations
+  require fresh bars for all five, eligible known rewards/minima, matching source regions and pure
+  shared-kill objectives. Conditional, collection, item-use and ambiguous mixed objectives are held.
+  Source-chain returns stay prerequisites. Selection, refresh and removal preserve actual bars,
+  completed checks, quest history and existing save/release identities.
+- Reproducible audit receipt: `docs/forever-leveling-full-route-audit.md`. Frozen published index
+  `2026-10-15T04:47:40.237Z` contains 534 records, only 328 available XP facts. All 33 variants,
+  132 policy/raid scenarios and 6,000 independent chapter checks ran. Statuses: 1,126 blocked,
+  2,300 incomplete, 2,310 shortfall, 264 reference-covered. These are scenario/chapter counts,
+  not unique quests or evidence of continuous playable coverage.
+- Coverage gate remains **false**.
+  `pnpm leveling:xp:verify --destination=<directory> --rewards=<published-root>` exits 2 on missing coverage. It requires every relevant member's
+  supported cumulative progress, not just Player 1 or a group average. Final semantic audit SHA
+  `34f80f850da3cbc95e96070e2a5f44d87ce5ad27d5069e974ef9e578cdeb290e`;
+  artifact/snapshot/queues: `artifacts/leveling/audits/2026-10-15/` (ignored by Git).
+- Prepared `leveling:xp:queue --catch-up`: 638 IDs, SHA
+  `2cb94970b54f31c642fd41f9d5da5a8483b37b019fac4b31dc8ae263ee596eb8`.
+  The existing 614-ID queue/hash is unchanged. No crawler reprioritization or restart was performed.
+- Still required: enough evidenced quests/combat to fund every transition, complete server-side
+  prerequisite/lifecycle evidence, the three missing dungeon bundles, live curve/combat observations
+  and playtesting. The route is not a completed XP-certified 1–60 plan or finished RestedXP export.
+  Workflow revision is `workflow-20261015-v3`; ledger revision is
+  `checkpoint-ledger-20261015-v2`; existing save identities and 26,878 original action IDs survive.
+- Verification: 172 leveling and 215 web tests, strict typechecks, scoped lint/format, all 33
+  source-flow projections and r6 save compatibility passed. Browser regressions passed under
+  webpack: entry blockers, read-only reward refresh, exact-step reload, compact diagnostics,
+  target/entry labels, 390/320 px layouts and automated WCAG A/AA. Default Turbopack preview hit
+  an installed `next/font` internal resolution error; no font/config workaround was committed.
+  Production webpack build passed compilation/types, 59 static pages and tracing with a process-local
+  3072 MiB heap. The temporary local preview is stopped. No commit, push, deployment,
+  migration, real-player progress write or production service change was made this turn.
+
+### Whole-route XP and feasibility audit (2026-10-14; analysis only, corrections pending)
+
+- Owner reported the 20–26 Redridge/Duskwood/Wetlands chapter showing just 18,660 XP and requested
+  an audit of every section, not one-by-one fixes. Full findings and prioritized correction plan:
+  `docs/forever-leveling-full-route-audit.md`. The current campaign is not a certified 1–60 route;
+  previous software/UX checks must not be presented as proof that the itinerary supplies its levels.
+- Audited all 33 implemented Alliance race/class projections: 1,500 chapter instances, 132
+  cumulative Player-1 difficulty/raid scenarios, five-player isolated section diagnostics and
+  1,386 independent dungeon-handoff scenarios. Other members' personal starter branches are not
+  inferred from Player 1. No Horde premade campaign or full in-game playthrough is certified.
+- All 59 code leveling requirements match the extracted build-70205 Total column. 20→26 requires
+  170,800 from an empty level-20 bar; 18,660 covers 10.93%, less than the first 23,200-XP level.
+  Dark Iron War (303) has published 2,450 XP but requires 25; resolving the entire card at 20
+  mislabels this pickup-context failure as an unknown reward. Incoming dungeon XP and combat
+  must be modeled separately, not used to assume the remaining gap is filled.
+- Confirmed critical shared control bug: `sourceActions` assigns `xpTargetLevel: 16` to later
+  source-backed XP bridges. `campaignOptionalXpReady` can then skip still-needed Redridge,
+  Duskwood, Searing Gorge, Burning Steppes and final catch-up work. Reproduced 1,780 wrongly
+  skippable quest-action instances across 33 projections (54 in Human/general). Not fixed yet.
+- Confirmed forecast/live-controller mismatch: Stockade at level 25 + 20,000 XP is blocked by
+  actual entry checks, but the simulator credits later dungeon rewards and reports `covered`
+  at 26 + 10,900 without reporting the earlier level-26 entry violation. Not fixed yet.
+- Default At-level policy conflicts with displayed requested levels: Ruins 19/18, Excavation
+  29/27, Dalaran 31/30, LBRS 60/57 and Stratholme 60/59. Three stops still have no usable quest
+  bundle; 43 selected dungeon records have unknown lifecycle metadata. There are 11 conflicting
+  pickup-minimum claims. No calibrated combat/route-time budget or deficit-closing content solver.
+- Frozen published XP index `2026-10-14T19:24:40.309Z`: 256 validated numeric records, covering
+  248/584 distinct scheduled hand-in IDs across all branches (235/282 Human/general). The existing
+  crawler continues independently; this audit did not reprioritize/restart it or fetch extra quests.
+- Full ignored local artifact:
+  `artifacts/leveling/audits/2026-10-14/whole-route-audit-2071569f75fe6529.json`, semantic payload SHA
+  `2071569f75fe6529eda98fece9956d52efb473ea4c4c08ad9d36e702f626d05e`.
+  Frozen evidence is beside it in `reward-snapshot/`. The existing cumulative audit output is
+  `campaign-xp-audit-4ecbb41d45441e07.json` in the same directory. Every cumulative final XP remains
+  unresolved; this is not evidence that actual combat gives zero XP.
+- Six governing local source files match production SHA-256. All 33 real-source flow checks and
+  143 leveling tests pass, but the semantic defects above and overall budget gaps remain. Work
+  changed documentation/audit artifacts only; active release remains r6. No runtime edits,
+  database writes, service restarts, deployment, commit or push. Next work is the correction plan,
+  beginning with skip targets and action-time entry feasibility, then the complete evidence/combat
+  ledger and named deficit-closing batches for every checkpoint.
+
+### Zone-first chapters and compact preparation (2026-10-14; implemented and deployed)
+
+- Owner requested zone chapters rather than multiple levels labeled as dungeon preparation.
+  Active release: `kfc-helper-zones-20261014-r6`, copied from the actual r5 baseline with 11 scoped
+  source/test files overlaid. Only Helper web was reloaded after private verification; r5 remains
+  the immediate rollback. Crawler, publisher, ingestion and guild services were not restarted.
+- The public section model now has geographic titles, `zone` kind and contiguous area subsections.
+  Human 13–16 is “Westfall → Dun Morogh”; the Stockade bridge names Redridge, Duskwood and Wetlands.
+  Internal phases remain ordered beneath those areas, without extra overlapping level ranges.
+- A shared collapsed “Before [dungeon]” checklist shows existing known prerequisite/pickup steps,
+  per-player reported states and actual XP readiness. It cannot grant progress or claim an unknown
+  bundle verified. Only required states found in the selected section become checklist links.
+  The existing source chains and coordinates remain authoritative; geography is display metadata.
+- Optional catch-up is collapsed only when the existing execution predicates deem every action
+  unnecessary. Required pickups in mixed XP phases remain visible. No new skipping/XP rules.
+- 143 leveling + 214 web tests (357), local strict type/lint and Linux production builds passed.
+  All 33 real-source projections passed. The new `--presentation-only` compatibility audit
+  proves identical executable plans, chapter IDs/brackets/ownership and XP forecasts against r5,
+  preserving 26,878 action identities. The build host's inherited 384 MiB runtime heap was too
+  small for a cold standalone web typecheck; rerunning that check with a process-local 1536 MiB
+  heap passed. Production runtime limits remain unchanged. No core dump was created.
+- Five private browser suites passed; consolidation, integration and real-XP checks were rerun
+  after the final heading-hierarchy refinement. The extended geography suite also checks the long
+  Stockade title at 390/320 px. Automated WCAG A/AA, legacy navigation and save/report checks pass.
+  The integration test now awaits the target chapter URL and its streamed title before its audit;
+  a nonempty previous-dashboard title did not prove the new reader's metadata was ready. No
+  production metadata setting was changed to avoid that timing race.
+- No migration, dependency change, native-data write, crawler/publisher/ingestion/guild restart,
+  commit or push was part of this refinement. Full 1–60 XP sufficiency and RestedXP export remain
+  separate validation work; the geographic labels do not certify either.
+- Public geography/consolidation, navigation/integration and real-XP browser checks passed after
+  activation, as did 12 public routes and both Traders without catalog/database warnings. Web PID
+  2750617, restart count 105. Publisher 2742521 and crawler 2732022 retained their PIDs. PM2 saved;
+  the temporary preview and SSH tunnel were stopped and loopback port 19214 was closed. Root disk
+  is 74% used / 20 GiB free. Twenty other services retained their PID/status/restart counts.
+  Separately, `ai-cv-api` performed a graceful cluster replacement at 13:00 UTC (exit 0/SIGINT),
+  is online at PID 2750984/restart 1971, and was not targeted by any task command. Kernel logs show
+  no OOM kills in the build/deployment window; available RAM was 4.9 GiB at the final check.
+
+### Priority quest XP pipeline and cumulative forecast (2026-10-14; implemented and deployed)
+
+- Live website release: `kfc-helper-xp-20261014-r5`, built from the actual r4 baseline with only
+  scoped reference/leveling changes. Only Helper web and its reference publisher were reloaded.
+  The independently pinned ingestion application and guild applications were not changed.
+- Literal-only parsing now reads primary quest metadata plus Wowhead's scaling-reward configuration.
+  The inspected renderer revisions `quest.js?5f36c4ad` and `global-core.js?52d4f803` establish the
+  multiplier, overlevel reduction and rounding order. For example, quest 9 resolves to 1,050 XP
+  at level 13; quest 214's 1,250 base becomes 2,950 full reference XP and 2,400 at level 23.
+  Already-adjusted Forever rewards are never multiplied by the dungeon scenario coefficient again.
+  Missing/changing renderer revisions, absent numeric payloads and conflicting claims stay unknown.
+- XP artifacts are separate from display references and native catalogs: `quest-xp-evidence.v1`,
+  checksum-addressed files and `shared/published/quest-xp/index.json`. The existing publisher validates
+  current-client identities and publishes them continuously without a database migration or writes.
+- Isolated crawler release `crawl-20261014-r6-xp` is running a deterministic 614-quest priority queue
+  (304 Human IDs first), followed automatically by the unchanged 60,614-record base queue. Priority
+  checkpoint: `shared/priority-xp-32bec0be2d118c31-status.json`; queue hash begins `32bec0be2d118c31`.
+  The base cursor remains 746 during priority work. One worker, durable 60-second HTTP pacing,
+  source-access stops, 384 MiB heap, 8 GiB disk reserve and 2 GiB staging limit remain in force.
+  An exact same-edition `301 /quests?notFound=ID` is now quarantined like a 404; all other unrelated
+  redirects still stop. At 11:36 UTC, 24 usable XP facts had published; counts continue to increase.
+- `forecastCampaignXp` replays each player's saved current action and fresh actual XP, carries
+  overflow across chapters, resolves each reward at its predicted hand-in level and pays a quest
+  only once per player. Pickup/hand-in level gates, required hand-ins and unverified bundles are
+  visible. Leader-only steps do not grant the other four players the leader's rewards. Unknown
+  rewards propagate unknown future hand-in levels, endpoints and gaps; stale/invalid bars require
+  input. Forecasts and data refresh never write actual progress or unlock completion gates.
+- The existing Human route now has published-reward coverage and collapsible per-player XP tables
+  with individual reward/source/level breakdowns. XP data refresh requires no site rebuild.
+  Reference, historical estimate and unknown are distinct; all default forecasts exclude combat.
+  Stratholme's default scope is the four core quests; Of Love and Family (5848) stays optional.
+- Maintainer commands: `pnpm leveling:xp:queue -- --destination=<directory>` and
+  `pnpm leveling:xp:audit -- --destination=<directory> --rewards=<published-directory>`.
+  See the enrichment runbook for full flags and runtime paths. The server audit at 11:36 UTC
+  covered all 33 editions with 24 XP facts; receipt `shared/reports/quest-xp/`
+  `campaign-xp-audit-a9dcd2e5db11ce20.json`. This quest-only authoring scenario is not a certified run.
+- Verification: 61 reference + 140 leveling + 214 web tests (415), strict TypeScript/lint and Linux
+  production builds passed. All 33 real-source projections passed; compatibility preserved 26,878
+  action identities without retiring any. Five private browser suites passed, including real XP,
+  read-only refresh, progress/navigation regressions, 390/320 px layouts and automated WCAG A/AA.
+- Public real-XP, consolidation and integration browser checks passed, as did 12 public routes
+  and both Traders without catalog-review/database warnings. Corrected the release's nested
+  standalone public-assets copy; the logo now returns HTTP 200. Activation now requires that
+  exact asset path. A regression also proves an unknown refresh cannot erase a held XP conflict.
+- Final 11:51 UTC check: priority cursor 31 / 614, no error, 31 available published XP records,
+  zero unknown/conflict records in that snapshot. Continuous publication advanced without a site
+  rebuild. Helper web PID 2741457, publisher PID 2742521 and crawler PID 2732022 were online.
+  All 20 unrelated services retained their PID/status/restart counts during website activation.
+  PM2 was saved; the temporary preview and SSH tunnel were stopped, and port 19214 was closed.
+  Root disk: 72% used / 21 GiB free. Local maintainer audit also passed all 33 editions with a
+  frozen 29-fact snapshot. Source edits remain local; no commit or push was requested.
+- Still required: finish/review the source queue and missing prerequisite/restriction facts; measure
+  per-player combat and travel; use proven deficits to select efficient nearby top-up batches;
+  compile and import-test the complete RestedXP export. Mixed-race personal starts need their own
+  saved bars/history. Full 1–60 sufficiency and optimal time are not certified by this delivery.
+
+### Priority Wowhead XP and proper coverage calculation (2026-10-14; pre-implementation research)
+
+- Owner proposes prioritizing Wowhead quest rewards. The implementation-ready data/queue/simulation
+  plan is in `docs/forever-leveling-product-plan.md`, “Priority quest-reward ingestion and cumulative
+  XP coverage.” It extends the existing circuit's evidence tiers, rather than replacing them with
+  a blanket quest multiplier. Only documentation changed; no crawler/production mutation.
+- Source audit generated 304 distinct action quest IDs for Human general; 614 across all 33
+  Alliance race/class editions, including 584 distinct hand-in IDs. Of those hand-in identities,
+  510 lack a usable reward in at least one current context. Counts precede extra prerequisite closure.
+- Production crawler is stopped at cursor 746 / 60,614 on `forever-quest-260`; October 13 12:09:29
+  UTC checkpoint error is `Source redirected outside the permitted entity`. It was not restarted.
+  Staging has 248 quest records; 86 match the campaign union (72 Human), with zero usable numeric
+  XP fields or XP text in their normalized rewards. Existing complete reference status is not XP-ready.
+- Prioritize reviewed early Human/gate/reward IDs via a separate hash-bound priority queue and
+  checkpoint on the same serialized worker; preserve base cursor, global pacing and access checks.
+  Inspect the blocked redirect first. Existing fresh cache records need XP-capability/version checks
+  and selective refresh; prioritization alone does not repair the current text-only quest parser.
+- Normalize amount/table plus source/hash, before-hand-in level/modifier context, semantic basis
+  and effective patch/build claims. Separate XP evidence artifacts avoid breaking strict display
+  reference records or altering native catalogs. Actual Forever rewards are not multiplied again;
+  unknown/selected-level/page-history amounts must not be mistaken for full neutral rewards.
+- Replay the same executable order per player with cumulative XP/overflow, individual prerequisite/
+  level/quest eligibility and one-time hand-in identities. Quest-only coverage and combat scenarios
+  stay separate; hand-in-level reductions update as the forecast levels change. Shared objectives
+  count combat once, while staged objectives/personal loot keep distinct work. Preserve actual save
+  values; predictions never grant progress. Choose complete nearby batches to close measured gaps.
+- Rechecked official October 1 quest-bonus recalibration and October 8 approximately 20% dungeon
+  combat buff/party-level correction. Reward and combat rules need pinned separate revisions;
+  source capture dates do not certify an exact client build. The observer needs before/after level
+  context, not just its current post-event level. Full 1–60 sufficiency is still unproven.
+
+### XP coverage audit (2026-10-14; pre-implementation diagnosis)
+
+- Owner challenges whether the listed quest/dungeon route actually supplies its advertised levels.
+  Recalculation confirms the public ranges are authored targets, not validated earned-XP coverage.
+  The source/compatibility/browser tests do not prove the route delivers enough XP.
+- Human preparation 13→16 needs 38,700 XP from an empty level-13 bar. All 17 selected hand-in
+  rewards are unknown to the current `premadeReward` resolver. Outdoor source archives contain
+  quest IDs/instructions, not resolved reward amounts; most outdoor chapters therefore show no
+  calculable subtotal, which must not be interpreted as zero real rewards.
+- At requested entry levels and before combat/outdoor rewards, the current core estimates are
+  Thanes 13,300 versus 33,700 needed for 16→18; Deadmines 15,650 versus 170,800 for 20→26;
+  Maraudon 55,000 versus 135,100 for 48→49; the actual four-quest campaign Stratholme scope
+  76,700 versus 209,800 for 59→60 (not the older five-quest reference forecast of 92,400).
+  These subtotals mix reported/reference and estimated rewards, not guaranteed current-game XP.
+- No numeric five-player outdoor/dungeon combat budget or cumulative 1–60 coverage simulation
+  currently proves the missing amounts. The 2.375× ordinary dungeon coefficient is explicitly
+  a planning estimate, not a verified universal server formula; do not apply it to world quests.
+- Next required work is quest-reward resolution, per-player cumulative XP/hand-in-level and
+  eligibility simulation, explicit group-combat estimates and deficits/top-up plans at every
+  checkpoint. Missing rewards/three unverified dungeon bundles remain unknown. No product change
+  or deployment was made by this diagnosis.
+
+### Level-13 chapter consolidation (2026-10-14; deployed and publicly verified r4)
+
+- Owner reports three competing level-13 cards on the integrated Human route. Live browser/source
+  inspection confirms `start-125` (Westfall 13–15, 28 actions/13 quest IDs), `early-party-kills`
+  (conditional XP 13–16, 10 actions/4 IDs), and `ironforge-rendezvous` (required prep 13–16,
+  4 actions/1 ID). They are sequential internal phases, not three route alternatives. The dashboard
+  previously promoted every leg to a full chapter. Their displayed bracket XP targets were 24,300,
+  38,700 and 38,700 respectively: overlapping requirements, not additive earned quest XP.
+- This is not just presentation. Quests 9/12 reappear from Westfall in the party XP phase, 432/433
+  reappear from the earlier starter source, and 96391 reappears in rendezvous. Deduplication keys
+  distinguish leader and all-five scope; the reward-state ledger avoids a second payout, but the
+  reader still repeats tasks. Human source 116 also includes the trogg/map material and an early
+  96393 pickup, so moving cards without reconciling source ownership/travel would hide the issue.
+- Proposed presentation: one public 13–16 chapter, “Prepare for Hall of Thanes,” with clearly
+  marked required unlock/pickup/travel phases and conditional nearby XP work. Keep the level-16
+  dungeon as the next major chapter. Resolve the exact geographic order from source waypoints;
+  do not require a Westfall→Dun Morogh→Westfall detour or the entire old solo chapter by default.
+- Proposed route work: reconcile already-earned quest states per member; maintain a single
+  lifecycle/objective identity and distinguish eligible unfinished members from a reported leader
+  completion. Finish required preparation and recheck fresh actual XP before prescribing remaining
+  filler. Preserve required acquisition/use steps for unlock items such as the Dark Iron Map.
+  Unknown bars/eligibility/reward evidence are not zero gaps or assumed completion; existing mixed-
+  race membership is not fully modeled and needs explicit personal-branch/manual readiness checks.
+- Project public sections/phases and one flattened executable order from the shared route model,
+  not a JSX-only group for this one level. Compute one chapter XP gap from actual bars and count
+  distinct remaining rewards separately; keep travel/preparation time distinct from XP/hour
+  scenarios. Audit similar overlaps across all 33 race/class projections, not only Human.
+- Preserve stable action/source anchors and old bookmarks. Any action moves or ownership changes
+  need explicit version/migration validation; never automatically transfer a leader completion to
+  the whole party. The same conditional order must feed the later RestedXP compiler.
+- Acceptance: one 13–16 card, no repeated earned quests/rewards, all-five actual-level/unlock
+  gates intact, no filler when ready, no lost future chains, monotonic public progression, and
+  regression checks for Next/Done/reload/deep links/partial-party and mixed-race states.
+- Implemented shared `campaignSections` and conditional quest/XP helpers. The Human/Dwarf/Gnome
+  route now has 46 public chapters, Night Elf 45 and Skyborne 44, all retaining 21 dungeon stops.
+  Internal phases remain stable, but related preparation/XP work is one public chapter; dungeons
+  are entry-level events, not another repeated bracket budget. Per-player deficits use the fresh
+  actual bars (maximum gap, not five-player sum); unknown/stale bars require input.
+- Existing action/save identity is retained. Execution revision is `workflow-20261014-v2`.
+  Old chapter IDs resolve to their containing public section. Retired early map/Westfall-filler
+  bookmarks map to a real preparation/readiness step, without copying a leader completion into
+  party progress. Required map source goals moved out of the early Human starter; additional
+  Farsen/spy goals have new suffixed IDs so an old check cannot claim them completed.
+- Reports target each still-needed participant/stage, preserve already accepted/completed states,
+  and never award XP. Automatic Next/Done bypass satisfied quests and unnecessary XP tasks;
+  unknown XP does not imply readiness. Required dungeon/preparation quest rows remain active even
+  inside XP phases, including explicit skip. Actual Stockade pickups are retained in Redridge/
+  Duskwood using their verified quest IDs; personal class-conditioned instructions are kept.
+- New repeatable browser regressions cover the one level-13 card, partial-party reports, stale
+  XP/readiness gates, source map item-use text, old phase/retired step links, continuation and
+  390/320 px accessibility. All 33 real-data projections pass one-time action ownership and
+  non-decreasing public level order. No database, addon, commit or push change.
+- Verification passed 131 leveling + 211 web unit tests, strict TypeScript/lint, production
+  builds and all 33 source projections. The previous-release compatibility audit confirms 26,614
+  preserved action identities and 238 valid retired-bookmark aliases across the 33 editions.
+  Four browser suites passed against the private production build: consolidation, integration,
+  original solo chapter tree and compatible campaign reader. Public consolidation/integration
+  checks passed, including partial-player reports, stale XP, conditional Next, bookmarks,
+  reload, Back/Forward, 390/320 px layouts and automated WCAG A/AA audits.
+- r4 copied the actual live r3 baseline and overlaid 17 checksum-matched scoped source/test/docs
+  files. Only Helper web reloaded; configuration, lockfile, credentials, archives, catalogs,
+  databases, ingestion and guild stayed unchanged. Twelve existing public routes returned 200;
+  the exact Human URL has one `prepare-thanes` card and `workflow-20261014-v2`. Forever Trader
+  has no catalog-review/database warning. The initial smoke list incorrectly used a nonexistent
+  `/forever/leveling/setup`; the verified setup URL is `/forever/leveling`.
+- Live Helper PID 2707925 / restarts 102 after one activation reload (baseline 101). Ingestion
+  remains PID 1169337 / zero restarts; guild remains PID 2507624 / 93. Runtime heap remains
+  384 MiB and PM2 memory guard 600 MiB. Private preview PM2 app deleted, PM2 saved, SSH tunnel
+  and isolated local dev stopped, generated next-env imports restored. r4 is 948 MiB; disk is
+  71% with 22 GiB free. No retained releases or user data deleted.
+- r3 preserves existing saves but lacks new consolidated chapter URLs. Its old individual-phase
+  URLs and `/premade` reader remain the rollback surfaces. Keep browser backups. Gameplay/travel
+  validation, mixed-race personal branches, three unverified dungeon bundles and the full
+  RestedXP campaign compiler/import remain outstanding; consolidation is not an optimality proof.
+
 ## Implemented
+
+### Premade quest route integrated into the existing chapter flow (2026-10-13; deployed r3)
+
+- Owner rejected a separate linked campaign. The existing Alliance race dashboard now projects the
+  campaign's ordered 1–60 chapters, and its `chapters/premade-{legId}` pages reuse the fixed-map/
+  scrolling reader. It is the same campaign/action/source model, not a copy or redirected directory.
+- Bare Alliance race URLs show the revised review route. Setup five-player Alliance groups select
+  `?plan=premade`; solo/small-group setups select `?plan=questing`. The in-page edition selector
+  retains the original outdoor route. Horde stays unchanged. `/premade` remains compatible for
+  existing bookmarks, with `/premade/dungeons` as the detailed evidence reference.
+- Class-aware setup and exact Continue links, chapter-local bookmarks, hash/popstate restoration,
+  cross-chapter Next/Done, counts/XP/time and per-release completion use the one shared route model.
+  Browsing never auto-completes source steps or awards XP. Connecting a saved solo character to
+  the five-player route is explicit and preserves old outdoor progress/other characters.
+- RestedXP full export remains after approval and runtime/source validation. Three unknown dungeon
+  bundles and historical later chains remain visible; this is not a certified/optimal playthrough.
+- Further local research traced native fragment entries with null history state: Next 16.3.5's
+  Back handler ignores them. Registered same-chapter fragments and normalized a null Back entry
+  through a validated race/chapter route, without relying on private router state fields. Browser
+  regressions now cover the fast Next → Back → Forward case as well as exact reload/continuation.
+- Scoped verification: 126 leveling + 211 web unit tests, local/Linux strict TypeScript and lint,
+  all 33 source-data projections, Linux production builds, three browser suites on the private
+  candidate (integrated route, preserved original chapter tree, compatibility campaign), actual
+  Group/Chill setup completion, 390/320 px layout and automated WCAG A/AA checks. Real map assets
+  exposed and verified fixes for a toolbar contrast issue and a keyboard-scrollable figure caption.
+- Publication copied the actual r2 baseline and overlaid 17 checksum-matched feature/test/docs
+  files. Lockfile, Next configuration and launcher are unchanged. Only Helper web was reloaded;
+  credentials, catalogs/markets, world/authorized archives, ingestion and guild processes stayed
+  unchanged. No schema migration, addon installation, RestedXP full export, commit or push.
+- Public integration browser assertions passed, including same URL/21 embedded dungeon chapters,
+  Next/Done, class selection, exact bookmarks, same-chapter hashes, Back/Forward, edition changes,
+  mobile/a11y, Horde isolation and invalid chapter 404s. Twelve public routes returned 200. The
+  exact Human URL contains the revised tree and Deadmines reader paths, not just the old side link;
+  Forever Trader has no catalog-review/database warning.
+- The public browser completed all assertions and closed Chrome, but an idle Node test-process
+  handle lingered after teardown; that test process was interrupted afterward. All three private
+  browser suites exited normally. No browser/test listener or production test write remains.
+- Live Helper PID 2643752 / restarts 100 after one activation reload, about 261 MiB RSS. Ingestion
+  remains PID 1169337 / zero restarts; guild remains 2507624 / 93. Runtime heap stays at 384 MiB;
+  only temporary builds used 1,536 MiB. Candidate PM2 app deleted, PM2 saved, private SSH tunnel
+  and isolated local dev stopped. Local generated next-env imports restored to their initial paths.
+  r3 is about 934 MiB; disk is 69% with 23 GiB free. No old releases, catalogs or user data removed.
+- r2 understands the same campaign saves and is the rollback; after rollback the new chapter URLs
+  are unavailable, but the compatible `/forever/leveling/premade?race=…&class=…` reader retains
+  the same release/step progress. Keep browser backups; r1 is not a compatible campaign-save reader.
+
+### Continuous premade 1–60 campaign (2026-10-13; deployed and publicly verified r2)
+
+- Owner clarified that a dungeon directory is not the desired product. `/forever/leveling/premade`
+  is now one continuous campaign: race-specific start, Ironforge rendezvous, world prerequisite
+  and grouped-kill batches, all 21 requested dungeon stops, scoped actual hand-ins and level-60
+  finish. The older detailed circuit/individual quest ledger remains at `/premade/dungeons`.
+- Five Alliance race families and 28 legal race/class branches plus five generic branches yield
+  33 projections from 61 checksum-validated authorized questing chapters. Depending on race/class,
+  the plan contains 53–55 chapters and 743–881 source-backed/authored actions. Human generic: 55
+  chapters / 803 actions. Generic branches explicitly do not resolve personal class/pet steps;
+  choose Player 1's class in Settings. Mixed-race players use their own starts and meet at 16.
+- Curated post-start outdoor work keeps required Defias, Letter/Bazil, Greenwarden, Scarlet and
+  Onyxia preparation; separates XP-only Thorium Point/Firegut work from the actual unlocks; and
+  retains BRD's probe, outside returns, Crumpled Note/Shred/Jail Break and Emperor/Core ordering.
+  Native parent chains and objective/hand-in ordering are checked; Temple objectives cannot be
+  paid in an earlier world block. Classic Lonebrow preparation is labeled historical/current-game
+  verification needed, not inferred from client presence. Source group/solo route hints are manual
+  for this explicitly five-player audience; race/class/XP-rate predicates still apply.
+- Paid quest ledgers are shared with the earlier reference but chapter bookmarks are not overwritten.
+  Starting reports affect Player 1 only; shared path reports require explicit confirmation for all
+  five. Multi-objective quests remain accepted until every known selected objective is reported.
+  Hand-ins dirty actual XP; a previously rewarded quest never pays twice or dirties refreshed XP.
+  Next previews without completion, Done records then advances, and the final checkpoint stays
+  at the finish. Hiding an optional raid action selects the next visible action, not level 1.
+- Actual entry/pickup checks and required unlock hand-ins block Done, not read-only browsing.
+  Skipping an XP-only block checks all five fresh bars, including an immediately following raised
+  At-level gate; it never rewards quests or skips a preparation block. Maps use current source
+  coordinates, reference pickups are separately labeled, and briefings show their chapter's points.
+- Of Love and Family is excluded from this speed campaign's core because its Fordring collection
+  prerequisites are not free. The old five-quest reference forecast is not reused for the new
+  four-quest Stratholme scope. No guessed world-XP multiplier or arbitrary universal mob-kill XP.
+  Drowned City/Krol'dok/Alcaz remain explicitly unverified; Next can reach the real outdoor fallback
+  without claiming those dungeons completed or crediting imagined rewards. In-game XP, group
+  credit, timing and later lifecycle review still matter; this is not a guaranteed/playtested run.
+- Added pure shared campaign model/progression and two repeatable source/browser audits. Scoped
+  local and Linux checks: 126 leveling + 207 web tests, strict typechecks, full package lint,
+  leveling/Next production builds, all 33 data projections, continuous/legacy browser regressions,
+  390/320 px and WCAG A/AA checks. Original full chapter-path browser regressions also pass.
+- Release r2 copies the live r1 baseline and overlays exactly 18 checksum-verified feature files;
+  lockfile, launcher and Next configuration are unchanged. Production credentials, world/archive,
+  market/catalog data and ingestion are unchanged. Only Helper web was reloaded. No migrations,
+  source archive publication, addon install, commit or push. The runtime stays at its 384 MiB heap;
+  only the temporary build/typecheck used 1,536 MiB after the runtime-sized build check ran out of
+  memory. Candidate served successfully around 248 MiB RSS. RestedXP export remains after approval
+  and actual route validation; the model carries source anchors for that later compiler phase.
+- Public HTTPS browser regression passed for saved exact step, Next/Done, required entry and final
+  gates, previewing past the three evidence gaps, all 21 stops/full path, race/class selection,
+  mobile 390/320 px and WCAG A/AA checks. No page JavaScript errors or server writes were observed.
+  Main/class-specific campaign, old reference, setup, Alliance/Horde dashboards, both Traders,
+  talents and data status all returned 200; Forever Trader has no catalog/database-review warning.
+  Helper PID 2635888 / restarts 99 after one activation reload, RSS about 266 MiB. Ingestion remains
+  1169337 / zero restarts and guild 2507624 / 93. Temporary candidate/tunnel/local server were
+  stopped and PM2 saved; no old releases/data were deleted. Disk is around 68% / 24 GiB free.
+- Before rollback, export and retain browser backups. r1's strict premade schema cannot read the
+  new `campaigns` field; do not erase new progress to make old code parse it. Immediate app rollback
+  is the retained r1 release; no database/market/world/archive restore or ingestion restart is needed.
+
+### Premade-five dungeon speed guide (2026-10-13; implemented and deployed)
+
+- New review route: `/forever/leveling/premade`, linked from leveling setup and Alliance dashboards.
+  All 21 requested stops have preparation/clear/hand-in/checkpoint stages, shared-kill bridge
+  guidance, optional personal collection work, two-stop lookahead, quest/Wowhead links and
+  reference-pickup maps in a fixed-map/scrolling-reader layout. Existing chapter bookmarks remain
+  separate. Drowned City, Krol'dok and Alcaz have no verified quest bundles and cannot be marked
+  as completed runs. Historical later-dungeon plans remain labeled unverified, not playtested.
+- Imported installed Journal 1.6.3 with literal-only parsing: 100 unique dungeon quest IDs,
+  104 associations, 164 total quest/prerequisite records. Explicit base XP and adjusted reward
+  provenance are separate. Empty genuinely blank rows are skipped; malformed identified rows fail.
+  Updated Dalaran/Library/Wetlands chains without changing the build-70205 world archive.
+- Reported Forever rewards bypass multipliers. Unknown ordinary dungeon rewards use the audited
+  2.375× historical scenario with estimated rounding; exceptions, overlevel reductions and absent
+  rewards remain unknown. No 20% kill-XP change is applied to quest rewards. Hypothetical extra
+  faction quests are per-stop scenarios, never invented quest IDs or actual departure permission.
+- All five actual XP bars and quest ledgers persist in the existing local workspace/backups.
+  Hand-in changes require fresh actual XP; Next does not tick, Done ticks then advances, and
+  checkpoint completion checks all five actual next-entry levels plus known prerequisite/item
+  gates. Final Stratholme completion stays at its checkpoint instead of resetting the route.
+  Conservative At-level floors remain default; requested lower levels require explicit expert mode.
+- Trips accept owner-entered whole-trip timing ranges, not fabricated measured speed. RFK's
+  pendant collection/Darnassus return and Stratholme Flesh are optional, not required speed filler.
+- RestedXP export remains withheld until browser approval and route/data validation. The shared
+  TypeScript route model is implemented, but the complete circuit compiler/pack is not delivered.
+- Verification: 116 leveling + 206 web tests, strict typechecks and focused lint pass locally;
+  the same tests, full package lint/typechecks, leveling build and production Next build pass on
+  Linux. Private/public Chrome regressions cover saved stop/stage, Next vs Done, five hand-ins,
+  actual-XP refresh, blocked departure, entry policy, optional collections, per-stop scenarios,
+  all 21 nodes, 390/320 px layouts and automated WCAG A/AA checks. Actual native map tiles return
+  200 and reference pickup circles render. Ten existing dungeon-itinerary/chapter-tree browser
+  regression groups also pass against the private candidate. No page JavaScript errors observed.
+- Deployment: copied the actual live October 10 baseline into an isolated release and overlaid
+  exactly 21 checksum-verified feature files. Lockfile, Next configuration and production launcher
+  match the baseline. Atomically switched `current`, reloaded only Helper web, and confirmed public
+  preview, leveling/Alliance/Horde dashboards, both Traders, Encyclopedia/talents and data status
+  return 200. Forever Trader retains the published catalog without review/database warnings.
+  No migration, catalog publication, addon install, ingestion restart, commit or push was made.
+- Runtime handoff: Helper web PID 2619996 / restart count 98 after the one activation reload;
+  ingestion remains PID 1169337 / zero restarts and guild PID 2507624 / 93. Temporary candidate,
+  SSH tunnel and isolated local dev server were stopped; PM2 saved. The retained candidate release
+  is about 915 MiB; disk is 67% used with about 25 GiB free. No previous releases/data were deleted.
+- Approval URL: https://helper.kfcguild.online/forever/leveling/premade. Back up browser progress
+  before rolling back: the older strict schema cannot read a new `premade` field. Immediate rollback
+  is the untouched October 10 talents baseline; do not restart ingestion or restore databases.
+
+### Premade-five circuit research receipt (2026-10-13; historical planning context)
+
+- Owner supplied an Alliance dungeon sequence from Thanes 16 through a Stratholme finish to 60,
+  including prerequisite preparation, BRD raid/key stages and two proposed LBRS gem runs. Latest
+  refinement prioritizes an ultra-efficient premade of five: shared-kill bridges, necessary chain
+  batches, optional collection drops without group waiting, and actual-XP-gated next departures.
+  The browser is the review surface; after owner approval, export the same frozen route revision
+  as a separate KFC RestedXP guide pack, not a second manually maintained itinerary.
+  Research/XP audit and every-stop preparation windows are appended to
+  `docs/forever-leveling-dungeon-route-choice-plan.md` under the October 13 circuit section.
+- Pinned curve: 20→26 costs 170,800 XP; prepared Deadmines scenario adds 25,086 before kills/world
+  preparation. Fresh 58→60 costs 412,100: no evidence supports a guaranteed single-Stratholme finish
+  from there. Use prerequisite-rich outdoor bridges and an adaptive final entry, not repeated XP spam.
+- Found mixed XP provenance: quest 378's reported Forever fallback 5,750 is multiplied to 13,712
+  by the global Crest estimate. Normalize base versus already-adjusted rewards before shipping any
+  circuit forecasts. No implementation/fix of that estimator was requested in this planning turn.
+- Current native planning data remains 70205 / DungeonJournal 1.4.4. Installed 1.6.3 adds candidate
+  Dalaran/Library quests and revised Wetlands gates; old importer fails closed on an empty DM row.
+  A literal-only research audit of current Journal declarations found 100 unique dungeon quest IDs
+  / 104 associations and one empty row; no addon Lua was executed or live catalog imported.
+  Its reader prefers loaded non-secret live rewards, then global/per-quest fallbacks; old reward
+  strings are not the active XP source. Importer currently ignores its explicit BASE_XP table.
+  Three requested new dungeons have no usable quest bundle in the planner. Later identities alone
+  do not provide complete lifecycles, prerequisite graphs or reward totals.
+- Added durable research receipt `docs/forever-leveling-premade-xp-audit.json`: 72 late historical
+  baseline lookups, 69 numeric / three unknown, eight diagnostic bundles, Journal hashes and the
+  requested Deadmines/Stockade/Gnomer comparisons. These are not current Forever server facts.
+- Candidate ordinary tier: 2.375× base with proposed nearest-50 display rounding reproduces Crest
+  6,200, Red Silk Bandanas 2,950, new Alliance SM Past Due 96800 at 6,750 and Dalaran Starving
+  Arcane 92457 at 9,400. The official October 1 rule halves EXTRA XP: `B + (oldXP-B)/2`.
+  Old 3.75× becomes 2.375×; Thanes' old ~3.4× becomes ~2.2×. This is a planning fit, not proof
+  of one universal server formula. Techbot 2,650→4,750 and Fury's historical 2,750 versus reported
+  5,750 are exceptions/context gaps; known adjusted values are never multiplied again.
+- New faction-balancing quests are an owner-requested upside scenario, not announced fact or
+  invented IDs. Discover/reconcile per-dungeon pages/category/reward items plus Journal updates;
+  count the same generic first-visit scope and keep class/deferred/zero-XP stages separate.
+- Late-game diagnostic: pinned fresh 45→60 costs 2,424,700 per player. Even the generous RFD
+  directory scenario gives 29,308 for a 240,700 gap to 47; new ordinary fit barely changes this.
+  "Dungeons only after 45" is not established without kills, new quests and measured preparation.
+  Stratholme candidate five-quest scope excluding opportunistic Flesh collection gives 92,760
+  under the original Crest scenario, fitting ~59 + 55.8% before kills, not a guaranteed 58→60 clear.
+  Recomputed both full and candidate bundles with the new ordinary 2.375× / proposed nearest-50
+  fit: RFD directory 29,200, Mara 103,100, ST 96,050; Stratholme selected five 92,400 → ~59 + 56%.
+- Official October 8 notes now open Dalaran, revise dungeon kill XP and return Excavation's relic
+  for follow-ups. Refresh these build-specific assumptions; do not add a 20% quest-XP multiplier.
+  BRD cannot finish the full Alliance Onyxia attunement without its later UBRS tail; two LBRS runs
+  do not guarantee personal gem sets. Some Stratholme quest chains need later outside hand-ins.
+- Exact proposed levels conflict with the existing At-level floor policy for Ruins/Excavation/
+  Dalaran/LBRS and a pre-60 Stratholme finish. Owner confirms the coordinated-five audience;
+  plan a separate experienced-premade policy with visible exceptions for web approval, preserve
+  actual access/pickup minima and do not change the current public conservative gates yet.
+- Installed RestedXP is v4.11.23. Public RegisterGuide supports an installable KFC guide pack;
+  the current GUI paste importer uses an encoded account-sensitive format, not raw guide text.
+  Existing compiler is still a hardcoded Westfall/Thanes preview with per-chapter lifecycle reset:
+  shared circuit model, global validation, conditional XP bridges and full packaging need work.
+- Verification: 104 leveling tests and strict typecheck passed; 157 authorized chapter
+  checksums/schemas checked, all 60 XP curve rows matched. Independent durable JSON/math checks
+  and scoped diff whitespace check passed. Research/docs only; no production code/data, addon, crawler queue,
+  migration, deployment, commit or push. Earlier crawler recovery remains live and separate.
+
+### Reference crawler edition-preload repair (2026-10-13; live)
+
+- The full-catalog crawler had stopped on October 8 at cursor 607 / 60,614, on TBC item 818
+  (Tigerseye). Its canonical TBC page included an unrelated edition-4 item preload before the
+  correct edition-5 target. The parser incorrectly treated any foreign preload as a primary-item
+  mismatch. A paced, robots-permitted diagnostic reproduced the failure without changing the
+  full-catalog checkpoint.
+- The parser ignores foreign item datasets but still requires a matching requested-edition primary
+  item whenever foreign datasets occur. Same-ID foreign facts are never merged. Item names,
+  canonical/XML identities, literal-only script parsing and numeric-fact allowlists remain checked.
+- Deployed only the isolated worker as `crawl-20261013-r5`, resuming the unchanged queue/checkpoint
+  with the same 60-second pacing, 384 MiB heap and storage safeguards. At 06:00 UTC it was online,
+  advanced to 609, with both item 818 and Forever quest 212 published as complete. The live Tigerseye
+  page renders its new attributed reference. No web/publisher/ingestion reload,
+  database write, migration, new dependency, commit or push was requested.
+- Follow-up at 06:31 UTC confirmed the same worker still running at cursor 621 (14 new records),
+  no error, unchanged request limit, and `forever-item-832` in progress. Both newly published item
+  and quest detail pages returned HTTP 200 with their current attributed references.
+- All 53 reference tests, strict typecheck, lint and an isolated production build passed. Source-map
+  comparison proves only `parser.ts` changed in the deployed runtime, excluding unrelated local
+  publication edits. Dependency files are identical to the existing runtime, with release-local
+  relative links replacing inherited old-release aliases. Backup and verification: `fixes.md`;
+  ongoing operation: `docs/wowhead-reference-enrichment.md`.
+- Genuine source challenges, incompatible primary data or storage-budget exhaustion still stop
+  the worker intentionally. This repair does not exempt records from publication validation.
+
+### Versioned catalog watcher deployed (2026-10-09; live)
+
+- Replaced the Mac LaunchAgent's development-repository execution path with an immutable,
+  content-addressed release containing Node, the production-only compiled catalog CLI and a
+  self-contained native extractor. Scheduled checks need no development checkout, `tsx`,
+  pnpm/Corepack, .NET SDK or externally installed .NET runtime.
+- Active Mac release `9fa6db30d08f91cd070be39f99028fa3b0905ec55338550b903f6aa7805b174b`
+  lives under `~/Library/Application Support/WowTraderCatalogGuardian/releases/`; its separate
+  `work/` directory holds mutable catalog/media artifacts and official definitions caches.
+- Server CLI runtime `45970dd4b92c9e37fc8b1d9778ab5ce7079ba3299e2401ab1012a833e70fac6f`
+  is deployed under shared catalog tooling. Native startups, local/server checksums and server
+  real-catalog audit/validation passed. The installed five-minute job reports 70291 `current`.
+- Installer refuses to interrupt a locked run, verifies tools before activation, retains/restores
+  the old plist on failure, and records the deployment/rollback paths in `deployment.json`.
+  Repo edits intentionally require reinstallation to change the deployed watcher. Exact build,
+  hotfix, definitions and economic compatibility guards remain intact.
+- Eight runtime/release + four build-cache + 11 catalog tests, focused lint/typecheck/syntax and
+  catalog/contracts/db/self-contained extractor builds passed. A fresh standalone restricted-path
+  extraction, 102-artifact audit, relationship validation and all 2,953 icon decodes/checksums passed.
+  Four live Forever/TBC Trader checks passed; all 22 PM2 service PID/status/restart counters were
+  unchanged. No new import, web reload/release switch, migration, commit or push requested.
+  Full deployment receipt and caveats: `fixes.md`; workflow: `docs/production-deployment.md`.
+
+### Exact-build 70291 catalog publication repair (2026-10-09; live)
+
+- The scan uploaded correctly, but the guardian could not publish its catalog: the slim October 8
+  web release omitted catalog development dependencies and compiled artifacts, while publication
+  still invoked `pnpm catalog:*` through dev-only `tsx`. The exact-build guard was correct and remains.
+- Guardian publication now builds a portable, production-dependency-only compiled CLI and verifies
+  its files/symlinks by SHA-256 on both hosts. Catalog and media validators live independently in
+  `shared/catalog-tooling/releases/<fingerprint>`; publication no longer needs the web release's
+  dev dependencies. Only dangling links inside a newly generated temporary deployment are pruned.
+- Preparing a new snapshot clears stale manifest/assessment/build-ID fields while preserving
+  notification de-duplication. Build 70291 can no longer display an old 70245 assessment in its status.
+- Published catalog ID `2ce8312f-c061-4dba-bb46-10adf97b299e`: 23,946 named items, 31,849 spells,
+  12 professions, 2,239 recipes and 2,953 verified icons. All 102 artifacts and relationships passed;
+  comparison with 70245 preserved recipe/profession/transformation economics. Exact definitions:
+  `9073201543de7fd0af41ed42042b8d32c3f52938`.
+- Existing scan `e544e04f-b8a2-4f19-8f1f-cc33fa738ae8` has 3,106 markets and 11,633 price levels;
+  no rescan or invented market data was needed. Public default/explicit Forever crafting pages each
+  render 50 opportunity rows, AH item search works, and TBC/guild/community smoke checks pass.
+- Only Helper web was reloaded, retaining the October 8 application release. Ingestion and reference
+  publisher retained their processes. The existing Mac LaunchAgent was restored to its five-minute
+  schedule; an idempotent rerun reports `current` without importing/reloading again.
+- Verified six runtime regressions, four build-cache tests, 11 catalog tests, focused lint/typechecks,
+  three package production builds, server checksum verification, SQL counts and six public pages.
+  No migration, web source rebuild, credential change, commit or push. Full recovery receipt:
+  `fixes.md`; ongoing publication process: `docs/production-deployment.md`.
+
+### Server storage audit and approved cleanup (2026-10-05; completed)
+
+- Initial read-only audit found obsolete releases/builds and download caches. User then approved
+  cleanup with “clear”. Fresh guards checked exact paths/inodes, mounts, live/saved PM2, process
+  working directories, Nginx/systemd/cron references, retained symlinks, open files and package locks.
+- Removed 30 obsolete Helper releases, 34 old community builds, npm `_cacache` and 292 APT archive
+  entries. Actual recovery was 28.18 GiB: available space increased from 6.6 to 34.8 GiB and root
+  usage dropped from 91% to 52%. Seven Helper releases and three community builds remain.
+- Preserved `kfc-helper-item-market-20260927-r13`: unmanaged Next.js PID `687835` still uses its
+  standalone directory and listens on `127.0.0.1:19212`. Its process was not stopped. The raid staging
+  copy also remains pending unique-source/configuration review. Shared game data, installers,
+  databases, secrets, backups, rollback copies and unrelated live websites were preserved.
+- All 19 PM2 services retained PID/status/restart count; six public Helper/Trader/Leveling/chapter/
+  community/guild checks returned HTTP 200 without checked error markers. No service restart,
+  migration, deployment, commit or push. Builds were permanently deleted; caches are downloadable.
+- Exact removed/retained paths and cleanup receipt: `docs/server-storage-audit-2026-10-05.md`.
+  No automated release retention was added.
 
 ### Verified dungeon production release (2026-10-05; deployed r6)
 

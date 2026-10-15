@@ -145,7 +145,12 @@ describe("crawler controls", () => {
       ).rejects.toThrow(/Crawl delay/);
       expect(requests).toBe(0);
       await expect(
-        crawlReferences([task], { directory: root, permissionRef: "test", fetcher, sleep: async (): Promise<void> => {} }),
+        crawlReferences([task], {
+          directory: root,
+          permissionRef: "test",
+          fetcher,
+          sleep: async (): Promise<void> => {},
+        }),
       ).rejects.toThrow(/robots crawl-delay/);
       expect(requests).toBe(1);
     } finally {
@@ -225,20 +230,85 @@ describe("crawler controls", () => {
 });
 
 describe("reference edge cases", () => {
+  it("quarantines the exact same-edition notFound redirect without requesting the listing", async () => {
+    const root = await mkdtemp(join(tmpdir(), "reference-not-found-redirect-"));
+    const quest: ReferenceTask = { game: "forever", kind: "quest", id: 260 };
+    const requests: string[] = [];
+    const fetcher: typeof fetch = async (input): Promise<Response> => {
+      requests.push(String(input));
+      return String(input).endsWith("robots.txt")
+        ? new Response("User-agent: *\nAllow: /")
+        : new Response(null, {
+            status: 301,
+            headers: { location: "/forever/quests?notFound=260" },
+          });
+    };
+    const options = {
+      directory: root,
+      permissionRef: "test",
+      fetcher,
+      sleep: async (): Promise<void> => {},
+    };
+    try {
+      expect(await crawlReferences([quest], options)).toMatchObject({ notFound: 1, crawled: 0 });
+      expect(requests).toHaveLength(2);
+      expect(
+        JSON.parse(await readFile(join(root, "forever-quest-260.missing.json"), "utf8")),
+      ).toMatchObject({ id: 260, status: 301 });
+      expect(await crawlReferences([quest], options)).toMatchObject({ cached: 1, notFound: 0 });
+      expect(requests).toHaveLength(3);
+      for (const location of [
+        "/tbc/quests?notFound=260",
+        "/forever/quests?notFound=261",
+        "/forever/quests?notFound=260&other=1",
+        "https://user@www.wowhead.com/forever/quests?notFound=260",
+        "/forever/quests?notFound=260#other",
+      ]) {
+        await expect(
+          crawlReferences([quest], {
+            ...options,
+            refresh: true,
+            fetcher: async (input): Promise<Response> =>
+              String(input).endsWith("robots.txt")
+                ? new Response("User-agent: *\nAllow: /")
+                : new Response(null, { status: 301, headers: { location } }),
+          }),
+        ).rejects.toThrow(/redirected/);
+      }
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
   it("keeps same-edition NPC and object quest givers without weakening identity checks", () => {
     const parseQuest = (link: string): ReferenceRecord => {
       const markup = `[ul][li][icon name=quest-start]Start: [url=/forever/npc=261/test]Starter[/url][/icon][/li][li][icon name=quest-end]End: [url=${link}]Destination[/url][/icon][/li][/ul]`;
-      return parseWowheadPage(`<link rel="canonical" href="https://www.wowhead.com/forever/quest=37"><h1>Test Quest</h1><script>WH.markup.printHtml(${JSON.stringify(markup)}, "infobox-contents-0");</script>`,
-        { game: "forever", kind: "quest", id: 37 }, { url: "https://www.wowhead.com/forever/quest=37", capturedAt: new Date().toISOString(), permissionRef: "test" });
+      return parseWowheadPage(
+        `<link rel="canonical" href="https://www.wowhead.com/forever/quest=37"><h1>Test Quest</h1><script>WH.markup.printHtml(${JSON.stringify(markup)}, "infobox-contents-0");</script>`,
+        { game: "forever", kind: "quest", id: 37 },
+        {
+          url: "https://www.wowhead.com/forever/quest=37",
+          capturedAt: new Date().toISOString(),
+          permissionRef: "test",
+        },
+      );
     };
     expect(parseQuest("/forever/object=55/test").relations).toEqual([
       { relation: "start", kind: "npc", id: 261, name: "Starter" },
       { relation: "end", kind: "object", id: 55, name: "Destination" },
     ]);
     expect(parseQuest("/forever/npc=55/test").relations[1]?.kind).toBe("npc");
-    for (const link of ["/tbc/object=55", "/object=55", "https://example.com/forever/object=55",
-      "https://user@www.wowhead.com/forever/object=55", "/forever/object=0", "/forever/object=9007199254740993",
-      "/forever/object=55?edition=tbc", "/forever/object=55#tbc", "/forever/item=55"])
+    for (const link of [
+      "/tbc/object=55",
+      "/object=55",
+      "https://example.com/forever/object=55",
+      "https://user@www.wowhead.com/forever/object=55",
+      "/forever/object=0",
+      "/forever/object=9007199254740993",
+      "/forever/object=55?edition=tbc",
+      "/forever/object=55#tbc",
+      "/forever/item=55",
+    ])
       expect(() => parseQuest(link)).toThrow(/identity or edition mismatch/);
   });
 

@@ -211,6 +211,9 @@ importers:
       "@wow-trader/market":
         specifier: workspace:*
         version: link:../../packages/market
+      "@wow-trader/reference-data":
+        specifier: workspace:*
+        version: link:../../packages/reference-data
       "@wow-trader/world-data":
         specifier: workspace:*
         version: link:../../packages/world-data

@@ -1,12 +1,12 @@
 import { createHash } from "node:crypto";
 import type * as FileSystem from "node:fs";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { loadWorldSnapshot } from "./snapshot.js";
+import { loadWorldQuestSnapshot, loadWorldSnapshot } from "./snapshot.js";
 
 const streams = vi.hoisted(() => ({ active: 0, maximum: 0, opened: 0 }));
 vi.mock("node:fs", async (importOriginal) => {
@@ -127,6 +127,26 @@ async function makeSnapshot(): Promise<string> {
 }
 
 describe("world snapshot media validation", (): void => {
+  it("loads verified quest identities without opening unrelated media", async (): Promise<void> => {
+    const bundle = await loadWorldQuestSnapshot(await makeSnapshot());
+    expect(bundle.quests).toEqual([]);
+    expect(bundle.manifest.product).toBe("wow_classic_beta");
+    expect(streams.opened).toBe(0);
+  });
+
+  it("retains quest artifact checksum and count validation", async (): Promise<void> => {
+    const manifestPath = await makeSnapshot();
+    const contents = JSON.parse(await readFile(manifestPath, "utf8")) as {
+      normalizedArtifacts: { quests: { recordCount: number; sha256: string } };
+    };
+    contents.normalizedArtifacts.quests.recordCount = 1;
+    await writeFile(manifestPath, JSON.stringify(contents));
+    await expect(loadWorldQuestSnapshot(manifestPath)).rejects.toThrow(/Record count mismatch/);
+    contents.normalizedArtifacts.quests.recordCount = 0;
+    contents.normalizedArtifacts.quests.sha256 = "a".repeat(64);
+    await writeFile(manifestPath, JSON.stringify(contents));
+    await expect(loadWorldQuestSnapshot(manifestPath)).rejects.toThrow(/Checksum mismatch/);
+  });
   it("checks every tile without opening thousands of streams simultaneously", async (): Promise<void> => {
     const bundle = await loadWorldSnapshot(await makeSnapshot());
     expect(bundle.mapMedia.tiles).toHaveLength(40);

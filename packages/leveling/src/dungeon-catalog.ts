@@ -12,7 +12,7 @@ import {
 export const LEGACY_DUNGEON_RELEASE = "dungeons-v1-build-70205-oct-01";
 export const DUNGEON_RELEASE = "dungeons-v2-build-70205-at-level";
 export const DUNGEON_FACTS = dungeonFactsSchema.parse(rawFacts);
-const source = "ForeverDungeonJournal 1.4.4";
+const source = DUNGEON_FACTS.source;
 export const DUNGEON_REFERENCE = z
   .object({
     schemaVersion: z.literal(1),
@@ -88,7 +88,13 @@ const notes: Readonly<Record<number, readonly string[]>> = {
     "Titan Relic starts Elder Knowledge inside the dungeon. Earthen Echo follows the Thunder Bluff hand-in.",
   ],
   98815: [
-    "The current guide requires Daily Delivery first. This gate has not yet been confirmed in game.",
+    "Journal 1.6.3 requires Young Crocolisk Skins; the older guide also lists Daily Delivery. Confirm the disputed breadcrumb in game.",
+  ],
+  92457: [
+    "An Alarming Request must be handed in first. Some spawn mixes require multiple clears; do not promise one-run completion.",
+  ],
+  96800: [
+    "New Alliance Library quest. Bring its book to Magus Olvek in Dalaran; verify object availability for all five players.",
   ],
   95682: ["Dragonmaw Rumors is a possible lead-in, not a verified mandatory prerequisite."],
 };
@@ -118,11 +124,7 @@ gates.set(2930, {
   id: "prismatic-punch-card",
   label: "Prismatic Punch Card obtained through the four terminals",
 });
-gates.set(98815, {
-  kind: "confirmation",
-  id: "daily-delivery-rewarded",
-  label: "Daily Delivery prerequisite rewarded (reference; verify in game)",
-});
+gates.set(98815, { kind: "quest", questId: 484, state: "rewarded" });
 gates.set(214, {
   kind: "all",
   gates: [
@@ -137,7 +139,7 @@ gates.set(214, {
 gates.set(1806, { kind: "quest", questId: 1654, state: "rewarded" });
 const allianceChains = new Set([
   96391, 65, 132, 135, 141, 142, 155, 153, 303, 389, 1651, 1652, 1653, 1654, 92742, 92744, 92745,
-  92747, 92748, 92749, 92750, 92751, 92752, 92819, 95647, 95810, 2041,
+  92747, 92748, 92749, 92750, 92751, 92752, 92819, 95647, 95810, 2041, 92432, 92459,
 ]);
 const hordeChains = new Set([870, 877, 880, 1489, 1490, 5726, 5727, 2842, 95664]);
 const supplementalQuests: readonly DungeonQuest[] = DUNGEON_FACTS.quests.map(
@@ -214,7 +216,7 @@ const supplementalQuests: readonly DungeonQuest[] = DUNGEON_FACTS.quests.map(
             `Pickup-level conflict: supplemental ${quest.minimumLevel ?? "unknown"}, current guide ${reference.minimumLevel}. Use the conservative gate and confirm in game.`,
         ),
     ],
-    evidence: { source, build: null, effectiveDate: "2026-10-04", status: "reference" },
+    evidence: { source, build: null, effectiveDate: "2026-10-13", status: "reference" },
   }),
 );
 const supplementalIds = new Set(supplementalQuests.map((quest) => quest.id));

@@ -1,0 +1,100 @@
+import { z } from "zod";
+import { classSlugs } from "./model.js";
+import { campaignProgressSchema } from "./campaign-model.js";
+
+export const PREMADE_ROUTE_REVISION = "premade-five-20261013-v1";
+export const premadeStopIds = [
+  "thanes",
+  "lordaeron",
+  "deadmines",
+  "stockade",
+  "excavation",
+  "blackfathom",
+  "dalaran",
+  "gnomeregan",
+  "razorfen-kraul",
+  "drowned-city",
+  "scarlet-monastery",
+  "kroldok",
+  "razorfen-downs",
+  "uldaman",
+  "maraudon",
+  "zul-farrak",
+  "alcaz",
+  "sunken-temple",
+  "blackrock-depths",
+  "lower-blackrock",
+  "stratholme",
+] as const;
+export const premadeProgressSchema = z
+  .object({
+    revision: z.literal(PREMADE_ROUTE_REVISION),
+    campaigns: z.record(z.string().regex(/^[a-z0-9-]{1,100}$/), campaignProgressSchema).default({}),
+    selectedStopId: z.enum(premadeStopIds).default("thanes"),
+    selectedStage: z.enum(["prepare", "clear", "hand-in", "checkpoint"]).default("prepare"),
+    stages: z.record(z.string().regex(/^[a-z0-9-]{1,90}$/), z.boolean()).default({}),
+    selectedExtras: z.record(z.string().regex(/^[1-9]\d{0,5}$/), z.boolean()).default({}),
+    selectedBatches: z
+      .record(
+        z.string().regex(/^[a-z0-9-]{1,100}$/),
+        z.array(z.string().regex(/^quest-[1-9]\d{0,5}$/)).max(30),
+      )
+      .default({}),
+    difficultyPolicy: z.enum(["at-level", "experienced-premade"]).default("at-level"),
+    raidGoals: z.boolean().default(true),
+    parityScenarios: z
+      .partialRecord(
+        z.enum(premadeStopIds),
+        z
+          .object({
+            extraQuests: z.number().int().min(0).max(10),
+            baseXp: z.number().int().min(0).max(10_000).nullable(),
+          })
+          .strict(),
+      )
+      .default({}),
+    timings: z
+      .record(
+        z.string().regex(/^[a-z0-9-]{1,60}$/),
+        z
+          .object({
+            min: z.number().int().min(0).max(10_000),
+            max: z.number().int().min(0).max(10_000),
+          })
+          .strict()
+          .refine((time) => time.max >= time.min, "Maximum time must not be below minimum"),
+      )
+      .default({}),
+    members: z
+      .array(
+        z
+          .object({
+            level: z.number().int().min(1).max(60).nullable().default(null),
+            currentXp: z.number().int().min(0).max(1_000_000).nullable().default(null),
+            classSlug: z.enum(classSlugs).nullable().default(null),
+            xpNeedsUpdate: z.boolean().default(true),
+            confirmations: z
+              .record(z.string().regex(/^[a-z0-9-]{1,100}$/), z.boolean())
+              .default({}),
+            questStates: z
+              .record(
+                z.string().regex(/^[1-9]\d{0,5}$/),
+                z.enum(["not-started", "accepted", "objectives-complete", "rewarded"]),
+              )
+              .default({}),
+          })
+          .strict(),
+      )
+      .length(5),
+  })
+  .strict();
+export type PremadeProgress = z.infer<typeof premadeProgressSchema>;
+export type PremadeMember = PremadeProgress["members"][number];
+export type PremadeStageId = PremadeProgress["selectedStage"];
+
+export function emptyPremadeProgress(): PremadeProgress {
+  return premadeProgressSchema.parse({
+    revision: PREMADE_ROUTE_REVISION,
+    members: Array.from({ length: 5 }, () => ({})),
+  });
+}

@@ -1,0 +1,1779 @@
+{
+  "schema": "kfc-premade-xp-baselines.v1",
+  "researchedAt": "2026-10-13",
+  "game": "classic-era-historical-reference",
+  "calibration": {
+    "id": "crest-95189-6200-at-20-build-70205",
+    "numerator": 6200,
+    "denominator": 2600,
+    "coefficient": 2.3846153846153846,
+    "status": "owner-requested-planning-scenario-not-universal-observation"
+  },
+  "targetCurve": {
+    "build": 70205,
+    "source": "artifacts/leveling-evidence/leveling-20261004T101848Z/xp.txt",
+    "status": "client-extracted-runtime-unconfirmed"
+  },
+  "baselineSources": {
+    "primaryIdentityGuide": "https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location",
+    "historicalXpFallback": "https://classicdb.ch/",
+    "reason": "Wowhead text exposes identities and instructions but not the numeric XP fields for these late pages. Historical fallback values must not be represented as current Forever rewards."
+  },
+  "records": [
+    {
+      "id": 7070,
+      "title": "Shadowshard Fragments",
+      "baseXp": 3450,
+      "questLevel": 42,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=7070"
+    },
+    {
+      "id": 7041,
+      "title": "Vyletongue Corruption",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7041"
+    },
+    {
+      "id": 7065,
+      "title": "Corruption of Earth and Seed",
+      "baseXp": 6100,
+      "questLevel": 51,
+      "minimumLevel": 45,
+      "source": "https://classicdb.ch/?quest=7065"
+    },
+    {
+      "id": 7028,
+      "title": "Twisted Evils",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7028"
+    },
+    {
+      "id": 7044,
+      "title": "Legends of Maraudon",
+      "baseXp": 6100,
+      "questLevel": 49,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7044"
+    },
+    {
+      "id": 7066,
+      "title": "Seed of Life",
+      "baseXp": 6100,
+      "questLevel": 51,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=7066"
+    },
+    {
+      "id": 7067,
+      "title": "The Pariah's Instructions",
+      "baseXp": 5450,
+      "questLevel": 48,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=7067"
+    },
+    {
+      "id": 7046,
+      "title": "The Scepter of Celebras",
+      "baseXp": 5700,
+      "questLevel": 49,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7046"
+    },
+    {
+      "id": 1360,
+      "title": "Reclaimed Treasures",
+      "baseXp": 3600,
+      "questLevel": 43,
+      "minimumLevel": 33,
+      "source": "https://classicdb.ch/?quest=1360"
+    },
+    {
+      "id": 2398,
+      "title": "The Lost Dwarves",
+      "baseXp": 340,
+      "questLevel": 40,
+      "minimumLevel": 35,
+      "source": "https://classicdb.ch/?quest=2398"
+    },
+    {
+      "id": 2240,
+      "title": "The Hidden Chamber",
+      "baseXp": 3900,
+      "questLevel": 40,
+      "minimumLevel": 35,
+      "source": "https://classicdb.ch/?quest=2240"
+    },
+    {
+      "id": 17,
+      "title": "Uldaman Reagent Run",
+      "baseXp": 3450,
+      "questLevel": 42,
+      "minimumLevel": 38,
+      "source": "https://classicdb.ch/?quest=17"
+    },
+    {
+      "id": 704,
+      "title": "Agmond's Fate",
+      "baseXp": 2850,
+      "questLevel": 38,
+      "minimumLevel": 30,
+      "source": "https://classicdb.ch/?quest=704"
+    },
+    {
+      "id": 1139,
+      "title": "The Lost Tablets of Will",
+      "baseXp": 5850,
+      "questLevel": 45,
+      "minimumLevel": 35,
+      "source": "https://classicdb.ch/?quest=1139"
+    },
+    {
+      "id": 2198,
+      "title": null,
+      "baseXp": null,
+      "questLevel": null,
+      "minimumLevel": null,
+      "source": "https://classicdb.ch/?quest=2198"
+    },
+    {
+      "id": 2418,
+      "title": "Power Stones",
+      "baseXp": 3500,
+      "questLevel": 36,
+      "minimumLevel": 30,
+      "source": "https://classicdb.ch/?quest=2418"
+    },
+    {
+      "id": 709,
+      "title": "Solution to Doom",
+      "baseXp": 3150,
+      "questLevel": 40,
+      "minimumLevel": 30,
+      "source": "https://classicdb.ch/?quest=709"
+    },
+    {
+      "id": 2278,
+      "title": "The Platinum Discs",
+      "baseXp": 4200,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2278"
+    },
+    {
+      "id": 3636,
+      "title": "Bring the Light",
+      "baseXp": 4300,
+      "questLevel": 42,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=3636"
+    },
+    {
+      "id": 3523,
+      "title": "Scourge of the Downs",
+      "baseXp": 290,
+      "questLevel": 37,
+      "minimumLevel": 32,
+      "source": "https://classicdb.ch/?quest=3523"
+    },
+    {
+      "id": 3525,
+      "title": "Extinguishing the Idol",
+      "baseXp": 4250,
+      "questLevel": 37,
+      "minimumLevel": 32,
+      "source": "https://classicdb.ch/?quest=3525"
+    },
+    {
+      "id": 6626,
+      "title": "A Host of Evil",
+      "baseXp": 3450,
+      "questLevel": 35,
+      "minimumLevel": 28,
+      "source": "https://classicdb.ch/?quest=6626"
+    },
+    {
+      "id": 2991,
+      "title": "Nekrum's Medallion",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2991"
+    },
+    {
+      "id": 2768,
+      "title": "Divino-matic Rod",
+      "baseXp": 6300,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2768"
+    },
+    {
+      "id": 2865,
+      "title": "Scarab Shells",
+      "baseXp": 3900,
+      "questLevel": 45,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2865"
+    },
+    {
+      "id": 3042,
+      "title": "Troll Temper",
+      "baseXp": 3900,
+      "questLevel": 45,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=3042"
+    },
+    {
+      "id": 2846,
+      "title": "Tiara of the Deep",
+      "baseXp": 6050,
+      "questLevel": 46,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2846"
+    },
+    {
+      "id": 2770,
+      "title": null,
+      "baseXp": null,
+      "questLevel": null,
+      "minimumLevel": null,
+      "source": "https://classicdb.ch/?quest=2770"
+    },
+    {
+      "id": 3527,
+      "title": "The Prophecy of Mosh'aru",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=3527"
+    },
+    {
+      "id": 4143,
+      "title": "Haze of Evil",
+      "baseXp": 5100,
+      "questLevel": 52,
+      "minimumLevel": 47,
+      "source": "https://classicdb.ch/?quest=4143"
+    },
+    {
+      "id": 1475,
+      "title": "Into The Temple of Atal'Hakkar",
+      "baseXp": 7100,
+      "questLevel": 50,
+      "minimumLevel": 38,
+      "source": "https://classicdb.ch/?quest=1475"
+    },
+    {
+      "id": 1446,
+      "title": "Jammal'an the Prophet",
+      "baseXp": 6550,
+      "questLevel": 53,
+      "minimumLevel": 38,
+      "source": "https://classicdb.ch/?quest=1446"
+    },
+    {
+      "id": 3373,
+      "title": "The Essence of Eranikus",
+      "baseXp": 2800,
+      "questLevel": 55,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=3373"
+    },
+    {
+      "id": 3446,
+      "title": "Into the Depths",
+      "baseXp": 4900,
+      "questLevel": 51,
+      "minimumLevel": 46,
+      "source": "https://classicdb.ch/?quest=3446"
+    },
+    {
+      "id": 3447,
+      "title": "Secret of the Circle",
+      "baseXp": 6100,
+      "questLevel": 51,
+      "minimumLevel": 46,
+      "source": "https://classicdb.ch/?quest=3447"
+    },
+    {
+      "id": 3528,
+      "title": "The God Hakkar",
+      "baseXp": 7900,
+      "questLevel": 53,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=3528"
+    },
+    {
+      "id": 4262,
+      "title": "Overmaster Pyron",
+      "baseXp": 5100,
+      "questLevel": 52,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4262"
+    },
+    {
+      "id": 4263,
+      "title": "Incendius!",
+      "baseXp": 5800,
+      "questLevel": 56,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4263"
+    },
+    {
+      "id": 4286,
+      "title": "The Good Stuff",
+      "baseXp": 5800,
+      "questLevel": 56,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4286"
+    },
+    {
+      "id": 4126,
+      "title": "Hurley Blackbreath",
+      "baseXp": 7050,
+      "questLevel": 55,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4126"
+    },
+    {
+      "id": 4341,
+      "title": "Kharan Mighthammer",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4341"
+    },
+    {
+      "id": 4362,
+      "title": "The Fate of the Kingdom",
+      "baseXp": 8050,
+      "questLevel": 59,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4362"
+    },
+    {
+      "id": 4241,
+      "title": "Marshal Windsor",
+      "baseXp": 5450,
+      "questLevel": 54,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4241"
+    },
+    {
+      "id": 4322,
+      "title": "Jail Break!",
+      "baseXp": 7750,
+      "questLevel": 58,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4322"
+    },
+    {
+      "id": 4136,
+      "title": "Ribbly Screwspigot",
+      "baseXp": 2650,
+      "questLevel": 53,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4136"
+    },
+    {
+      "id": 4123,
+      "title": "The Heart of the Mountain",
+      "baseXp": 5650,
+      "questLevel": 55,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4123"
+    },
+    {
+      "id": 7848,
+      "title": "Attunement to the Core",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=7848"
+    },
+    {
+      "id": 3802,
+      "title": "Dark Iron Legacy",
+      "baseXp": 5100,
+      "questLevel": 52,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=3802"
+    },
+    {
+      "id": 4201,
+      "title": "The Love Potion",
+      "baseXp": 5450,
+      "questLevel": 54,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4201"
+    },
+    {
+      "id": 4024,
+      "title": "A Taste of Flame",
+      "baseXp": 6200,
+      "questLevel": 58,
+      "minimumLevel": 52,
+      "source": "https://classicdb.ch/?quest=4024"
+    },
+    {
+      "id": 4701,
+      "title": "Put Her Down",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4701"
+    },
+    {
+      "id": 5089,
+      "title": "General Drakkisath's Command",
+      "baseXp": 6850,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5089"
+    },
+    {
+      "id": 5001,
+      "title": "Bijou's Belongings",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5001"
+    },
+    {
+      "id": 4862,
+      "title": "En-Ay-Es-Tee-Why",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4862"
+    },
+    {
+      "id": 4729,
+      "title": "Kibler's Exotic Pets",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4729"
+    },
+    {
+      "id": 4866,
+      "title": "Mother's Milk",
+      "baseXp": 9950,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4866"
+    },
+    {
+      "id": 4742,
+      "title": "Seal of Ascension",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 57,
+      "source": "https://classicdb.ch/?quest=4742"
+    },
+    {
+      "id": 4867,
+      "title": "Urok Doomhowl",
+      "baseXp": 9950,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4867"
+    },
+    {
+      "id": 4788,
+      "title": "The Final Tablets",
+      "baseXp": 7750,
+      "questLevel": 58,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=4788"
+    },
+    {
+      "id": 5214,
+      "title": "The Great Fras Siabi",
+      "baseXp": 8550,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5214"
+    },
+    {
+      "id": 5251,
+      "title": "The Archivist",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5251"
+    },
+    {
+      "id": 5282,
+      "title": "The Restless Souls",
+      "baseXp": 8850,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5282"
+    },
+    {
+      "id": 5122,
+      "title": "The Medallion of Faith",
+      "baseXp": null,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5122"
+    },
+    {
+      "id": 5262,
+      "title": "The Truth Comes Crashing Down",
+      "baseXp": 8800,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5262"
+    },
+    {
+      "id": 5848,
+      "title": "Of Love and Family",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 52,
+      "source": "https://classicdb.ch/?quest=5848"
+    },
+    {
+      "id": 5243,
+      "title": "Houses of the Holy",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5243"
+    },
+    {
+      "id": 5212,
+      "title": "The Flesh Does Not Lie",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5212"
+    },
+    {
+      "id": 5213,
+      "title": "The Active Agent",
+      "baseXp": 6850,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5213"
+    },
+    {
+      "id": 5125,
+      "title": "Aurius' Reckoning",
+      "baseXp": 9950,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5125"
+    },
+    {
+      "id": 5263,
+      "title": "Above and Beyond",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5263"
+    },
+    {
+      "id": 5463,
+      "title": "Menethil's Gift",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 57,
+      "source": "https://classicdb.ch/?quest=5463"
+    },
+    {
+      "id": 8945,
+      "title": "Dead Man's Plea",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 58,
+      "source": "https://classicdb.ch/?quest=8945"
+    }
+  ],
+  "analysis": {
+    "schema": "kfc-premade-xp-analysis.v1",
+    "coefficient": 2.3846153846153846,
+    "caveats": [
+      "Historical Classic fallback values, not verified current Forever XP",
+      "No overlevel reductions, kill XP, prerequisite XP, class bonuses or unknown rewards counted",
+      "Directory totals include mutually sequential/re-entry/deferred stages and are NOT first-run predictions",
+      "Candidate cores are review scopes, NOT approved itineraries",
+      "Per-quest rounding is display arithmetic, not an observed server rounding rule"
+    ],
+    "xp45to60": 2424700,
+    "rows": [
+      {
+        "id": "razorfen-downs",
+        "level": 45,
+        "target": 47,
+        "quests": [
+          3636,
+          3523,
+          3525,
+          6626
+        ],
+        "outside": [
+          6626
+        ],
+        "candidateCore": [
+          3636,
+          3523,
+          3525
+        ],
+        "deferred": [],
+        "rawKnownXp": 12290,
+        "generousDirectoryScenario": {
+          "knownXp": 29308,
+          "unknownIds": []
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 24531,
+          "unknownIds": []
+        },
+        "candidateCoreScenario": {
+          "knownXp": 21081,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 219619,
+        "requiredXpToNextStop": 240700,
+        "lowestClassicQuestLevels": [
+          {
+            "id": 3523,
+            "level": 37,
+            "outsideSupportedHandInWindow": true
+          },
+          {
+            "id": 3525,
+            "level": 37,
+            "outsideSupportedHandInWindow": true
+          },
+          {
+            "id": 6626,
+            "level": 35,
+            "outsideSupportedHandInWindow": true
+          }
+        ]
+      },
+      {
+        "id": "uldaman",
+        "level": 47,
+        "target": 48,
+        "quests": [
+          1360,
+          2398,
+          2240,
+          17,
+          704,
+          1139,
+          2198,
+          2418,
+          709,
+          2278
+        ],
+        "outside": [
+          704,
+          2418,
+          709
+        ],
+        "candidateCore": [
+          1360,
+          2398,
+          2240,
+          1139,
+          2278
+        ],
+        "deferred": [
+          2198
+        ],
+        "rawKnownXp": 30840,
+        "generousDirectoryScenario": {
+          "knownXp": 73542,
+          "unknownIds": [
+            2198
+          ]
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 60388,
+          "unknownIds": [
+            2198
+          ]
+        },
+        "candidateCoreScenario": {
+          "knownXp": 42661,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 86439,
+        "requiredXpToNextStop": 129100,
+        "lowestClassicQuestLevels": [
+          {
+            "id": 2398,
+            "level": 40,
+            "outsideSupportedHandInWindow": true
+          },
+          {
+            "id": 2240,
+            "level": 40,
+            "outsideSupportedHandInWindow": true
+          },
+          {
+            "id": 704,
+            "level": 38,
+            "outsideSupportedHandInWindow": true
+          },
+          {
+            "id": 2418,
+            "level": 36,
+            "outsideSupportedHandInWindow": true
+          },
+          {
+            "id": 709,
+            "level": 40,
+            "outsideSupportedHandInWindow": true
+          }
+        ]
+      },
+      {
+        "id": "maraudon",
+        "level": 48,
+        "target": 49,
+        "quests": [
+          7070,
+          7041,
+          7065,
+          7028,
+          7044,
+          7066,
+          7067,
+          7046
+        ],
+        "outside": [
+          7070,
+          7067
+        ],
+        "candidateCore": [
+          7041,
+          7065,
+          7044,
+          7066,
+          7046
+        ],
+        "deferred": [],
+        "rawKnownXp": 43400,
+        "generousDirectoryScenario": {
+          "knownXp": 103491,
+          "unknownIds": []
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 91168,
+          "unknownIds": []
+        },
+        "candidateCoreScenario": {
+          "knownXp": 69749,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 65351,
+        "requiredXpToNextStop": 135100,
+        "lowestClassicQuestLevels": [
+          {
+            "id": 7070,
+            "level": 42,
+            "outsideSupportedHandInWindow": true
+          }
+        ]
+      },
+      {
+        "id": "zul-farrak",
+        "level": 49,
+        "target": 50,
+        "quests": [
+          2991,
+          2768,
+          2865,
+          3042,
+          2846,
+          2770,
+          3527
+        ],
+        "outside": [],
+        "candidateCore": [
+          2991,
+          2768,
+          2846,
+          2770,
+          3527
+        ],
+        "deferred": [],
+        "rawKnownXp": 30650,
+        "generousDirectoryScenario": {
+          "knownXp": 73088,
+          "unknownIds": [
+            2770
+          ]
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 73088,
+          "unknownIds": [
+            2770
+          ]
+        },
+        "candidateCoreScenario": {
+          "knownXp": 54488,
+          "unknownIds": [
+            2770
+          ]
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 86712,
+        "requiredXpToNextStop": 141200,
+        "lowestClassicQuestLevels": []
+      },
+      {
+        "id": "sunken-temple",
+        "level": 53,
+        "target": 55,
+        "quests": [
+          4143,
+          1475,
+          1446,
+          3373,
+          3446,
+          3447,
+          3528
+        ],
+        "outside": [],
+        "candidateCore": [
+          1475,
+          1446,
+          3373,
+          3446,
+          3447,
+          3528
+        ],
+        "deferred": [],
+        "rawKnownXp": 40450,
+        "generousDirectoryScenario": {
+          "knownXp": 96458,
+          "unknownIds": []
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 96458,
+          "unknownIds": []
+        },
+        "candidateCoreScenario": {
+          "knownXp": 84296,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 256704,
+        "requiredXpToNextStop": 341000,
+        "lowestClassicQuestLevels": []
+      },
+      {
+        "id": "blackrock-depths",
+        "level": 55,
+        "target": 57,
+        "quests": [
+          4262,
+          4263,
+          4286,
+          4126,
+          4341,
+          4362,
+          4241,
+          4322,
+          4136,
+          4123,
+          7848,
+          3802,
+          4201,
+          4024
+        ],
+        "outside": [
+          4262
+        ],
+        "candidateCore": [
+          4263,
+          4126,
+          4341,
+          4362,
+          4241,
+          4322,
+          4136,
+          4123,
+          7848,
+          3802
+        ],
+        "deferred": [],
+        "rawKnownXp": 83050,
+        "generousDirectoryScenario": {
+          "knownXp": 198044,
+          "unknownIds": []
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 190982,
+          "unknownIds": []
+        },
+        "candidateCoreScenario": {
+          "knownXp": 144270,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 224430,
+        "requiredXpToNextStop": 368700,
+        "lowestClassicQuestLevels": []
+      },
+      {
+        "id": "lower-blackrock",
+        "level": 57,
+        "target": 58,
+        "quests": [
+          4701,
+          5089,
+          5001,
+          4862,
+          4729,
+          4866,
+          4742,
+          4867,
+          4788
+        ],
+        "outside": [],
+        "candidateCore": [
+          4701,
+          5089,
+          5001,
+          4862,
+          4729,
+          4867,
+          4788
+        ],
+        "deferred": [
+          4742
+        ],
+        "rawKnownXp": 68400,
+        "generousDirectoryScenario": {
+          "knownXp": 163110,
+          "unknownIds": []
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 163110,
+          "unknownIds": []
+        },
+        "candidateCoreScenario": {
+          "knownXp": 119591,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 75409,
+        "requiredXpToNextStop": 195000,
+        "lowestClassicQuestLevels": []
+      },
+      {
+        "id": "stratholme-composite",
+        "level": 58,
+        "target": 60,
+        "quests": [
+          5214,
+          5251,
+          5282,
+          5122,
+          5262,
+          5848,
+          5243,
+          5212,
+          5213,
+          5125,
+          5263,
+          5463,
+          8945
+        ],
+        "outside": [],
+        "candidateCore": [
+          5214,
+          5251,
+          5282,
+          5848,
+          5243,
+          5212
+        ],
+        "deferred": [
+          5262,
+          5213,
+          5263,
+          5463,
+          8945
+        ],
+        "rawKnownXp": 94300,
+        "generousDirectoryScenario": {
+          "knownXp": 224867,
+          "unknownIds": [
+            5122
+          ]
+        },
+        "scopeAwareDirectoryScenario": {
+          "knownXp": 224867,
+          "unknownIds": [
+            5122
+          ]
+        },
+        "candidateCoreScenario": {
+          "knownXp": 108498,
+          "unknownIds": []
+        },
+        "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 303602,
+        "requiredXpToNextStop": 412100,
+        "lowestClassicQuestLevels": []
+      }
+    ],
+    "hypotheticalStratholmeEntry": {
+      "level": 59,
+      "minimumXpIntoLevel": 101302,
+      "percentage": 48.3,
+      "selectedCandidateQuestXp": 108498,
+      "guaranteed": false
+    },
+    "hypotheticalStratholmeEntryWithoutFleshCollection": {
+      "questIds": [
+        5214,
+        5251,
+        5282,
+        5848,
+        5243
+      ],
+      "excludedOpportunisticCollection": 5212,
+      "level": 59,
+      "minimumXpIntoLevel": 117040,
+      "percentage": 55.8,
+      "selectedCandidateQuestXp": 92760,
+      "guaranteed": false
+    },
+    "syntheticDropComparison": {
+      "label": "Hypothetical 10 items each, five players, 20% drop chance; NOT any real quest's drop rate",
+      "killCredit": {
+        "groupKills": 10
+      },
+      "oneSharedDrop": {
+        "expectedKills": 250,
+        "p90GroupKills": 291
+      },
+      "independentPersonalDrops": {
+        "p90AllPlayersReadyKills": 83
+      }
+    }
+  },
+  "calibrationReview": {
+    "status": "planning-estimate-not-reverse-engineered-server-formula",
+    "ordinaryBonusTier": {
+      "coefficient": 2.375,
+      "proposedDisplayRounding": 50,
+      "matchingQuestIds": [
+        95189,
+        214,
+        96800,
+        92457
+      ]
+    },
+    "ownerCrestComparison": {
+      "coefficient": 2.3846153846153846,
+      "retainedFor": "historical audit comparability; not applied to reported Forever amounts"
+    },
+    "patchTransform": {
+      "formula": "newXp = baseXp + 0.5 * (oldXp - baseXp)",
+      "source": "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/4",
+      "caveat": "only where old/base are same quest and compatible context; individual rewards also recalibrated"
+    },
+    "exceptions": [
+      96403,
+      2922,
+      378,
+      2929,
+      2930
+    ],
+    "observationRequirements": [
+      "exact quest ID and edition",
+      "build/date",
+      "player level immediately before hand-in",
+      "personal XP modifiers",
+      "unadjusted baseline identity",
+      "server turn-in reward rather than an unconfirmed base client-cache value"
+    ],
+    "factionParity": {
+      "status": "owner-requested-upside-scenario-not-announced-mechanic",
+      "formula": "additionalCount=max(0, matchedGenericHordeCount-matchedGenericAllianceCount)",
+      "constraints": [
+        "compare identical dungeon/wing/first-visit scope and exclude class/profession quests",
+        "unnamed quests are aggregate forecast only, never invented quest IDs or exportable actions",
+        "equal counts do not imply equal XP or prerequisites",
+        "do not extend automatically to faction-capital dungeons"
+      ]
+    },
+    "comparisons": [
+      {
+        "questId": 95189,
+        "title": "Crest of Lordaeron",
+        "dungeon": "Ruins of Lordaeron",
+        "baseXp": 2600,
+        "foreverXp": 6200,
+        "baseSource": "Data/QuestRewards.lua:FOREVER_QUEST_BASE_XP",
+        "rewardSource": "existing calibration: owner-reported turn-in at level 20, build 70205",
+        "kind": "ordinary-dungeon-fit",
+        "context": "reported; not independently observed in this audit",
+        "comparisonRatio": 2.3846153846153846,
+        "ordinaryTierPrediction": 6200,
+        "ordinaryTierResidual": 0
+      },
+      {
+        "questId": 214,
+        "title": "Red Silk Bandanas",
+        "dungeon": "The Deadmines",
+        "baseXp": 1250,
+        "foreverXp": 2950,
+        "baseSource": "Data/QuestRewards.lua:FOREVER_QUEST_BASE_XP",
+        "rewardSource": "https://www.wowhead.com/forever/it/quest=214/red-silk-bandanas",
+        "kind": "ordinary-dungeon-fit",
+        "context": "page Gains; hand-in context unconfirmed",
+        "legacyReportedXp": 4688,
+        "legacySource": "same page: beta comment, date/build not established",
+        "comparisonRatio": 2.36,
+        "ordinaryTierPrediction": 2950,
+        "ordinaryTierResidual": 0
+      },
+      {
+        "questId": 96800,
+        "title": "Past Due",
+        "dungeon": "Scarlet Monastery: Library",
+        "baseXp": 2850,
+        "foreverXp": 6750,
+        "baseSource": "https://www.wowhead.com/forever/item=273169/the-lost-magic-of-the-runemasters (Objective of quest list)",
+        "rewardSource": "https://www.wowhead.com/forever/quest=96800/past-due; Data/Dungeons.lua:liveXPFallback",
+        "kind": "ordinary-dungeon-fit",
+        "context": "page Gains agrees with offline Journal fallback; runtime/build not verified",
+        "comparisonRatio": 2.3684210526315788,
+        "ordinaryTierPrediction": 6750,
+        "ordinaryTierResidual": 0
+      },
+      {
+        "questId": 92457,
+        "title": "Starving Arcane",
+        "dungeon": "City of Dalaran",
+        "baseXp": 3950,
+        "foreverXp": 9400,
+        "baseSource": "https://www.wowhead.com/forever/quests/max-req-level:89 (quest list reference)",
+        "rewardSource": "https://www.wowhead.com/forever/quest=92457/starving-arcane; Data/QuestUpdates.lua:FOREVER_QUEST_XP_FALLBACK",
+        "kind": "ordinary-dungeon-fit",
+        "context": "page Gains agrees with offline Journal; objective can need additional runs",
+        "comparisonRatio": 2.3797468354430378,
+        "ordinaryTierPrediction": 9400,
+        "ordinaryTierResidual": 0
+      },
+      {
+        "questId": 96403,
+        "title": "Important Heirlooms",
+        "dungeon": "Hall of Thanes",
+        "baseXp": 1350,
+        "foreverXp": 2950,
+        "baseSource": "Data/QuestRewards.lua:FOREVER_QUEST_BASE_XP",
+        "rewardSource": "https://www.wowhead.com/forever/quest=96403/important-heirlooms",
+        "kind": "different-bonus-tier",
+        "context": "legacy text 4590 implies old 3.4x; halving extra gives 2.2x, not 2.375x",
+        "comparisonRatio": 2.185185185185185,
+        "ordinaryTierPrediction": 3200,
+        "ordinaryTierResidual": -250
+      },
+      {
+        "questId": 2922,
+        "title": "Save Techbot's Brain!",
+        "dungeon": "Gnomeregan outside entrance",
+        "baseXp": 2650,
+        "foreverXp": 4750,
+        "baseSource": "Data/Dungeons.lua:liveXPFallback; https://www.wowhead.com/forever/guide/gnomeregan-dungeon-overview-location-rewards",
+        "rewardSource": "https://www.wowhead.com/forever/quest=2922/save-techbots-brain",
+        "kind": "exception-or-context-mismatch",
+        "context": "guide/fallback 2650 versus page Gains 4750; outside objective, hand-in context unknown",
+        "comparisonRatio": 1.7924528301886793,
+        "ordinaryTierPrediction": 6300,
+        "ordinaryTierResidual": -1550
+      },
+      {
+        "questId": 378,
+        "title": "The Fury Runs Deep",
+        "dungeon": "The Stockade",
+        "baseXp": 2750,
+        "foreverXp": 5750,
+        "baseSource": "https://classicdb.ch/?quest=378 (historical, not current Forever base)",
+        "rewardSource": "Data/QuestUpdates.lua: explicit beta-window observation",
+        "kind": "exception-or-context-mismatch",
+        "context": "unknown player level/build/modifiers; do not use as ordinary calibration or multiply again",
+        "comparisonRatio": 2.090909090909091,
+        "ordinaryTierPrediction": 6550,
+        "ordinaryTierResidual": -800
+      },
+      {
+        "questId": 2929,
+        "title": "The Grand Betrayal",
+        "dungeon": "Gnomeregan",
+        "baseXp": 2750,
+        "foreverXp": null,
+        "baseSource": "Data/Dungeons.lua:liveXPFallback; https://www.wowhead.com/forever/guide/gnomeregan-dungeon-overview-location-rewards",
+        "rewardSource": null,
+        "kind": "same-reference-not-an-independent-boost-sample",
+        "context": "both guide and addon supply 2750; requested exact quest page unavailable; no observed boosted pair",
+        "comparisonRatio": null,
+        "ordinaryTierPrediction": 6550,
+        "ordinaryTierResidual": null
+      },
+      {
+        "questId": 2930,
+        "title": "Data Rescue",
+        "dungeon": "Gnomeregan",
+        "baseXp": 3650,
+        "foreverXp": null,
+        "baseSource": "Data/Dungeons.lua:liveXPFallback; https://www.wowhead.com/forever/guide/gnomeregan-dungeon-overview-location-rewards",
+        "rewardSource": null,
+        "kind": "same-reference-not-an-independent-boost-sample",
+        "context": "3650 agrees across offline references; quest page does not expose numeric XP in retrieved text",
+        "comparisonRatio": null,
+        "ordinaryTierPrediction": 8650,
+        "ordinaryTierResidual": null
+      }
+    ]
+  },
+  "journalAudit": {
+    "version": "1.6.3",
+    "sources": [
+      {
+        "file": "Data/Dungeons.lua",
+        "sha256": "c83ae4b6e606cccc88517af90e5146e9893fd9ea155bb6a8833cb7a341f56339"
+      },
+      {
+        "file": "Data/QuestChains.lua",
+        "sha256": "9b68fbb2b6a5c773cadb17a9f82051538ffeb81eeea3cd98df4d72458dad377c"
+      },
+      {
+        "file": "Data/QuestRewards.lua",
+        "sha256": "cd4105893496e37e0bc437cce3e3cabfe4392daa636b373a0050a012286f33b5"
+      },
+      {
+        "file": "Data/QuestUpdates.lua",
+        "sha256": "0ec1276dd68764468ad9a45396adcf5856fa030d2c646155726685ac17959e6e"
+      }
+    ],
+    "summary": {
+      "uniqueDungeonQuestIds": 100,
+      "associations": 104,
+      "emptyRows": [
+        "The Deadmines"
+      ]
+    },
+    "runtimeRewardOrder": "non-secret successfully loaded live value, then FOREVER_QUEST_XP_FALLBACK, then liveXPFallback; old rewards text not an active XP fallback",
+    "caveats": [
+      "No game Lua executed or catalog imported",
+      "Client cache and offline values may be base/stale/scaled; player level, build and personal modifiers are not established",
+      "Half-extra arithmetic is a source-backed patch transform, not proof these old texts all belong to that patch"
+    ],
+    "requestedDungeonComparisons": [
+      {
+        "dungeon": "Hall of Thanes",
+        "quests": [
+          {
+            "id": 96395,
+            "title": "An Ancient Grudge",
+            "baseXp": 1050,
+            "offlineFallback": 1050,
+            "legacyText": 3570,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 96403,
+            "title": "Important Heirlooms",
+            "baseXp": 1350,
+            "offlineFallback": 1350,
+            "legacyText": 4590,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 96394,
+            "title": "The Restless Dead",
+            "baseXp": 1050,
+            "offlineFallback": 1050,
+            "legacyText": 3570,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 96393,
+            "title": "Old Ironforge Incursion",
+            "baseXp": 1450,
+            "offlineFallback": 1450,
+            "legacyText": 4930,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 98423,
+            "title": "The Treaty of Understanding",
+            "baseXp": 1150,
+            "offlineFallback": 1150,
+            "legacyText": 3900,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          }
+        ]
+      },
+      {
+        "dungeon": "The Deadmines",
+        "quests": [
+          {
+            "id": 214,
+            "title": "Red Silk Bandanas",
+            "baseXp": 1250,
+            "offlineFallback": 1250,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 168,
+            "title": "Collecting Memories",
+            "baseXp": 1350,
+            "offlineFallback": 1350,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 92753,
+            "title": "Destruction in Deadmines",
+            "baseXp": 1350,
+            "offlineFallback": 1350,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 167,
+            "title": "Oh Brother...",
+            "baseXp": 1550,
+            "offlineFallback": 1550,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 2040,
+            "title": "Underground Assault",
+            "baseXp": 1550,
+            "offlineFallback": 1550,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 166,
+            "title": "The Defias Brotherhood",
+            "baseXp": 2600,
+            "offlineFallback": 2600,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 373,
+            "title": "The Unsent Letter",
+            "baseXp": 870,
+            "offlineFallback": 870,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          }
+        ]
+      },
+      {
+        "dungeon": "The Stockade",
+        "quests": [
+          {
+            "id": 386,
+            "title": "What Comes Around...",
+            "baseXp": null,
+            "offlineFallback": 2000,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 377,
+            "title": "Crime and Punishment",
+            "baseXp": null,
+            "offlineFallback": 2100,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 387,
+            "title": "Quell the Uprising",
+            "baseXp": null,
+            "offlineFallback": 2650,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 388,
+            "title": "The Color of Blood",
+            "baseXp": null,
+            "offlineFallback": 2650,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 378,
+            "title": "The Fury Runs Deep",
+            "baseXp": null,
+            "offlineFallback": 5750,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 391,
+            "title": "The Stockade Riots",
+            "baseXp": null,
+            "offlineFallback": 2350,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          }
+        ]
+      },
+      {
+        "dungeon": "Gnomeregan",
+        "quests": [
+          {
+            "id": 2922,
+            "title": "Save Techbot's Brain!",
+            "baseXp": null,
+            "offlineFallback": 2650,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2926,
+            "title": "Gnogaine",
+            "baseXp": null,
+            "offlineFallback": 2200,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2962,
+            "title": "The Only Cure is More Green Glow",
+            "baseXp": null,
+            "offlineFallback": 2450,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2928,
+            "title": "Gyrodrillmatic Excavationators",
+            "baseXp": null,
+            "offlineFallback": 2450,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2924,
+            "title": "Essential Artificials",
+            "baseXp": null,
+            "offlineFallback": 3050,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2930,
+            "title": "Data Rescue",
+            "baseXp": null,
+            "offlineFallback": 3650,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2929,
+            "title": "The Grand Betrayal",
+            "baseXp": null,
+            "offlineFallback": 2750,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2843,
+            "title": "Gnomer-gooooone!",
+            "baseXp": null,
+            "offlineFallback": null,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2841,
+            "title": "Rig Wars",
+            "baseXp": null,
+            "offlineFallback": 2750,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2904,
+            "title": "A Fine Mess",
+            "baseXp": null,
+            "offlineFallback": 2450,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2951,
+            "title": "The Sparklematic 5200!",
+            "baseXp": null,
+            "offlineFallback": null,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2948,
+            "title": "Gnome Improvement",
+            "baseXp": null,
+            "offlineFallback": 2750,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 2950,
+            "title": "Nogg's Ring Redo",
+            "baseXp": null,
+            "offlineFallback": 2750,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          }
+        ]
+      },
+      {
+        "dungeon": "City of Dalaran",
+        "quests": [
+          {
+            "id": 92456,
+            "title": "A Green Sample",
+            "baseXp": null,
+            "offlineFallback": 3950,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 92489,
+            "title": "Power Overwhelming",
+            "baseXp": null,
+            "offlineFallback": 3950,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 92457,
+            "title": "Starving Arcane",
+            "baseXp": null,
+            "offlineFallback": 9400,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 92458,
+            "title": "Heart of Disruption",
+            "baseXp": null,
+            "offlineFallback": 9400,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 96984,
+            "title": "Heart of Disruption",
+            "baseXp": null,
+            "offlineFallback": 9400,
+            "legacyText": null,
+            "sourceField": "FOREVER_QUEST_XP_FALLBACK"
+          },
+          {
+            "id": 96987,
+            "title": "Opportunistic Education",
+            "baseXp": null,
+            "offlineFallback": 3950,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 96988,
+            "title": "Source of Power",
+            "baseXp": null,
+            "offlineFallback": 3950,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 96986,
+            "title": "The Grave Knight",
+            "baseXp": null,
+            "offlineFallback": 3950,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          }
+        ]
+      },
+      {
+        "dungeon": "Scarlet Monastery: Library",
+        "quests": [
+          {
+            "id": 1050,
+            "title": "Mythology of the Titans",
+            "baseXp": null,
+            "offlineFallback": 3550,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 96800,
+            "title": "Past Due",
+            "baseXp": null,
+            "offlineFallback": 6750,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 1049,
+            "title": "Compendium of the Fallen",
+            "baseXp": null,
+            "offlineFallback": 3550,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 1394,
+            "title": "Final Passage",
+            "baseXp": null,
+            "offlineFallback": 4200,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          },
+          {
+            "id": 1113,
+            "title": "Hearts of Zeal",
+            "baseXp": null,
+            "offlineFallback": 3300,
+            "legacyText": null,
+            "sourceField": "liveXPFallback"
+          }
+        ]
+      }
+    ]
+  },
+  "ordinaryTierAnalysis": {
+    "coefficient": 2.375,
+    "displayRounding": 50,
+    "status": "historical baselines with ordinary tier assumed; before overlevel reductions; not current first-run predictions",
+    "rows": [
+      {
+        "id": "razorfen-downs",
+        "requiredXpToNextStop": 240700,
+        "generousDirectoryScenario": {
+          "knownXp": 29200,
+          "unknownIds": []
+        },
+        "candidateScopeScenario": {
+          "knownXp": 21000,
+          "unknownIds": []
+        }
+      },
+      {
+        "id": "uldaman",
+        "requiredXpToNextStop": 129100,
+        "generousDirectoryScenario": {
+          "knownXp": 73250,
+          "unknownIds": [
+            2198
+          ]
+        },
+        "candidateScopeScenario": {
+          "knownXp": 42500,
+          "unknownIds": []
+        }
+      },
+      {
+        "id": "maraudon",
+        "requiredXpToNextStop": 135100,
+        "generousDirectoryScenario": {
+          "knownXp": 103100,
+          "unknownIds": []
+        },
+        "candidateScopeScenario": {
+          "knownXp": 69500,
+          "unknownIds": []
+        }
+      },
+      {
+        "id": "zul-farrak",
+        "requiredXpToNextStop": 141200,
+        "generousDirectoryScenario": {
+          "knownXp": 72700,
+          "unknownIds": [
+            2770
+          ]
+        },
+        "candidateScopeScenario": {
+          "knownXp": 54200,
+          "unknownIds": [
+            2770
+          ]
+        }
+      },
+      {
+        "id": "sunken-temple",
+        "requiredXpToNextStop": 341000,
+        "generousDirectoryScenario": {
+          "knownXp": 96050,
+          "unknownIds": []
+        },
+        "candidateScopeScenario": {
+          "knownXp": 83950,
+          "unknownIds": []
+        }
+      },
+      {
+        "id": "blackrock-depths",
+        "requiredXpToNextStop": 368700,
+        "generousDirectoryScenario": {
+          "knownXp": 197300,
+          "unknownIds": []
+        },
+        "candidateScopeScenario": {
+          "knownXp": 143700,
+          "unknownIds": []
+        }
+      },
+      {
+        "id": "lower-blackrock",
+        "requiredXpToNextStop": 195000,
+        "generousDirectoryScenario": {
+          "knownXp": 162450,
+          "unknownIds": []
+        },
+        "candidateScopeScenario": {
+          "knownXp": 119100,
+          "unknownIds": []
+        }
+      },
+      {
+        "id": "stratholme-composite",
+        "requiredXpToNextStop": 412100,
+        "generousDirectoryScenario": {
+          "knownXp": 224000,
+          "unknownIds": [
+            5122
+          ]
+        },
+        "candidateScopeScenario": {
+          "knownXp": 108100,
+          "unknownIds": []
+        }
+      }
+    ],
+    "stratholmeWithoutFlesh": {
+      "knownXp": 92400,
+      "unknownIds": [],
+      "minimumXpIntoLevel59": 117400,
+      "percentageIntoLevel59": 56
+    }
+  }
+}

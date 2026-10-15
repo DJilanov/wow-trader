@@ -8,6 +8,7 @@ import { DUNGEON_FACTS, DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { dungeonQuestCompatibility, getDungeonQuest } from "./dungeon-planner.js";
 import type { PersonalDungeonPlan } from "./dungeon-model.js";
 import { xpToCheckpoint } from "./calculator.js";
+import { reportedForeverReward } from "./dungeon-xp.js";
 
 export const THANES_REPLACEMENT = {
   version: "thanes-darkshore-v1-70205-crest",
@@ -79,6 +80,8 @@ export function calibratedDungeonQuestXp(questId: number, level: number): number
   )
     return null;
   const isDungeon = DUNGEON_FACTS.associations.some((entry) => entry.questId === questId);
+  const reported = reportedForeverReward(questId);
+  if (reported !== null) return reported;
   return Math.round(
     quest.referenceXp *
       (isDungeon ? DUNGEON_XP_CALIBRATION.reportedXp / DUNGEON_XP_CALIBRATION.baselineXp : 1),

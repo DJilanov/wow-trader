@@ -11,6 +11,10 @@ const require = createRequire(new URL("../packages/companion-core/package.json",
 const { parse } = require("luaparse");
 const root = process.argv[2];
 if (!root) throw new Error("Usage: node scripts/import-leveling-dungeons.mjs <addon-directory>");
+const toc = await readFile(resolve(root, "ForeverDungeonJournal.toc"), "utf8");
+const version = toc.match(/^## Version:\s*(\S+)/m)?.[1];
+if (!["1.4.4", "1.6.3"].includes(version))
+  throw new Error(`Unreviewed DungeonJournal version: ${version ?? "missing"}`);
 const tables = {};
 const sources = [];
 const constants = { ALBA_FAIRMOON_LOCATION: "Alba Fairmoon, Sentinel Hill inn, Westfall" };
@@ -72,6 +76,7 @@ for (const file of [
           "QUEST_PREREQ_DETAILS",
           "QUEST_START_MAPS",
           "FOREVER_QUEST_XP_FALLBACK",
+          "FOREVER_QUEST_BASE_XP",
           "PREREQ_REWARD_ITEMS_FALLBACK",
           "QUEST_SHAREABILITY_AUDIT",
         ].includes(keys[0])
@@ -89,8 +94,14 @@ const associations = [];
 const originals = new Map();
 for (const [dungeon, data] of Object.entries(tables.DB)) {
   for (const quest of data.quests) {
-    if (!Number.isSafeInteger(quest.id)) throw new Error(`Invalid quest in ${dungeon}`);
-    associations.push({ dungeon, questId: quest.id });
+    if (!Number.isSafeInteger(quest.id)) {
+      if (version === "1.6.3" && Object.keys(quest).length === 0) continue;
+      throw new Error(`Invalid quest in ${dungeon}`);
+    }
+    associations.push({
+      dungeon: dungeon === "Hall of Thanes" ? "The Hall of Thanes" : dungeon,
+      questId: quest.id,
+    });
     originals.set(quest.id, quest);
     names.set(quest.id, quest.name);
   }
@@ -129,6 +140,7 @@ const quests = [...ids]
       objective: data.objective ?? null,
       position: map ? { mapId: map.mapID, x: map.x * 100, y: map.y * 100 } : null,
       referenceXp: tables.FOREVER_QUEST_XP_FALLBACK[id] ?? data.liveXPFallback ?? null,
+      baseXp: tables.FOREVER_QUEST_BASE_XP?.[id] ?? null,
       shareable: tables.QUEST_SHAREABILITY_AUDIT?.[id] ?? null,
       rewards: {
         fixed:
@@ -146,14 +158,18 @@ const quests = [...ids]
         .map((quest) => quest.id),
     };
   });
-if (associations.length !== 94 || new Set(associations.map((entry) => entry.questId)).size !== 92)
+const coverage = version === "1.6.3" ? [104, 100] : [94, 92];
+if (
+  associations.length !== coverage[0] ||
+  new Set(associations.map((entry) => entry.questId)).size !== coverage[1]
+)
   throw new Error("Supplemental source changed: review association coverage before publishing.");
 process.stdout.write(
   JSON.stringify(
     {
       schemaVersion: 1,
       targetBuild: 70205,
-      source: "ForeverDungeonJournal 1.4.4 reference; runtime unconfirmed",
+      source: `ForeverDungeonJournal ${version} reference; runtime unconfirmed`,
       sources,
       associations,
       quests,

@@ -1,52 +1,52 @@
 {
   "schemaVersion": 1,
   "targetBuild": 70205,
-  "source": "ForeverDungeonJournal 1.4.4 reference; runtime unconfirmed",
+  "source": "ForeverDungeonJournal 1.6.3 reference; runtime unconfirmed",
   "sources": [
     {
       "file": "Dungeons.lua",
-      "sha256": "038341f4a475305f2f54cf085aea61754a8bbdc220afdb07df4379e11e093373"
+      "sha256": "c83ae4b6e606cccc88517af90e5146e9893fd9ea155bb6a8833cb7a341f56339"
     },
     {
       "file": "QuestChains.lua",
-      "sha256": "2621d7ce2629ecffcf3dfc6aa8e9a94334b7e57891a5fbfe3658d228a1311431"
+      "sha256": "9b68fbb2b6a5c773cadb17a9f82051538ffeb81eeea3cd98df4d72458dad377c"
     },
     {
       "file": "QuestMaps.lua",
-      "sha256": "4c2301af0d89f4e0b801407d4fcf42d8f66ddbc14507cc7eee63da3db0dff3a3"
+      "sha256": "66c46e5df3b8ada4a05f555c90108a4212c6845efefb5fe7c639e059948d21a9"
     },
     {
       "file": "QuestRewards.lua",
-      "sha256": "7653428e17cc12981e3146110121f3e7d69a27aa9ba2053b8bb259efc8209297"
+      "sha256": "cd4105893496e37e0bc437cce3e3cabfe4392daa636b373a0050a012286f33b5"
     },
     {
       "file": "QuestShareability.lua",
-      "sha256": "ed1c5a67d9af8bfcbe28f06049890618d14cce7defe678caed2d5ff3ebdce2f0"
+      "sha256": "4f50d1354902aae9a43adc21cebdbfb7a3004ba372bba7ddb2dbdec6691dd542"
     },
     {
       "file": "QuestUpdates.lua",
-      "sha256": "5f8b32ab8b0d3d221fbfec699565696a6334347af88413b3286122af433ea823"
+      "sha256": "0ec1276dd68764468ad9a45396adcf5856fa030d2c646155726685ac17959e6e"
     }
   ],
   "associations": [
     {
-      "dungeon": "Hall of Thanes",
+      "dungeon": "The Hall of Thanes",
       "questId": 96395
     },
     {
-      "dungeon": "Hall of Thanes",
+      "dungeon": "The Hall of Thanes",
       "questId": 96403
     },
     {
-      "dungeon": "Hall of Thanes",
+      "dungeon": "The Hall of Thanes",
       "questId": 96394
     },
     {
-      "dungeon": "Hall of Thanes",
+      "dungeon": "The Hall of Thanes",
       "questId": 96393
     },
     {
-      "dungeon": "Hall of Thanes",
+      "dungeon": "The Hall of Thanes",
       "questId": 98423
     },
     {
@@ -195,15 +195,19 @@
     },
     {
       "dungeon": "Blackfathom Deeps",
+      "questId": 6922
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
       "questId": 1806
+    },
+    {
+      "dungeon": "Blackfathom Deeps",
+      "questId": 1740
     },
     {
       "dungeon": "Ragefire Chasm",
       "questId": 5723
-    },
-    {
-      "dungeon": "Ragefire Chasm",
-      "questId": 5722
     },
     {
       "dungeon": "Ragefire Chasm",
@@ -311,6 +315,18 @@
     },
     {
       "dungeon": "City of Dalaran",
+      "questId": 92457
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "questId": 92458
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "questId": 96984
+    },
+    {
+      "dungeon": "City of Dalaran",
       "questId": 96987
     },
     {
@@ -367,7 +383,11 @@
     },
     {
       "dungeon": "Gnomeregan",
-      "questId": 2945
+      "questId": 2948
+    },
+    {
+      "dungeon": "Gnomeregan",
+      "questId": 2950
     },
     {
       "dungeon": "Razorfen Kraul",
@@ -395,7 +415,7 @@
     },
     {
       "dungeon": "Razorfen Kraul",
-      "questId": 6522
+      "questId": 6521
     },
     {
       "dungeon": "Scarlet Monastery: Graveyard",
@@ -403,6 +423,26 @@
     },
     {
       "dungeon": "Scarlet Monastery: Graveyard",
+      "questId": 1113
+    },
+    {
+      "dungeon": "Scarlet Monastery: Library",
+      "questId": 1050
+    },
+    {
+      "dungeon": "Scarlet Monastery: Library",
+      "questId": 96800
+    },
+    {
+      "dungeon": "Scarlet Monastery: Library",
+      "questId": 1049
+    },
+    {
+      "dungeon": "Scarlet Monastery: Library",
+      "questId": 1394
+    },
+    {
+      "dungeon": "Scarlet Monastery: Library",
       "questId": 1113
     }
   ],
@@ -423,6 +463,7 @@
         "y": 47.599999999999994
       },
       "referenceXp": 1350,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -443,6 +484,7 @@
       "objective": "Take Wiley's Note back to Gryan Stoutmantle in Westfall.",
       "position": null,
       "referenceXp": 680,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -463,6 +505,7 @@
       "objective": "Take Wiley's Note to Master Mathias Shaw in Stormwind.",
       "position": null,
       "referenceXp": 680,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -483,6 +526,7 @@
       "objective": "Take Shaw's Report to Gryan Stoutmantle in Westfall.",
       "position": null,
       "referenceXp": 340,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -503,6 +547,7 @@
       "objective": "Track down the Defias Messenger in Westfall and bring his message to Gryan Stoutmantle.",
       "position": null,
       "referenceXp": 1350,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -527,6 +572,7 @@
         "y": 47.3
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -547,6 +593,7 @@
       "objective": "Escort the Defias Traitor until he reveals the Defias hideout, then return to Gryan Stoutmantle.",
       "position": null,
       "referenceXp": 1700,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -571,6 +618,7 @@
         "y": 47.5
       },
       "referenceXp": 2600,
+      "baseXp": 2600,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -590,7 +638,14 @@
         ]
       },
       "requiredItems": [],
-      "chain": [65, 132, 135, 141, 142, 155]
+      "chain": [
+        65,
+        132,
+        135,
+        141,
+        142,
+        155
+      ]
     },
     {
       "id": 167,
@@ -608,6 +663,7 @@
         "y": 43.8
       },
       "referenceXp": 1550,
+      "baseXp": 1550,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -645,6 +701,7 @@
         "y": 43.8
       },
       "referenceXp": 1350,
+      "baseXp": 1350,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -682,6 +739,7 @@
         "y": 47.349999999999994
       },
       "referenceXp": 1250,
+      "baseXp": 1250,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -705,7 +763,89 @@
         ]
       },
       "requiredItems": [],
-      "chain": [65, 132, 135, 141, 142, 155]
+      "chain": [
+        65,
+        132,
+        135,
+        141,
+        142,
+        155
+      ]
+    },
+    {
+      "id": 275,
+      "title": "Blisters on The Land",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 20,
+      "questLevel": 26,
+      "pickup": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "turnin": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "objective": "Kill 12 Fen Creepers, then return to Rethiel the Greenwarden.",
+      "position": {
+        "mapId": 1437,
+        "x": 56.2,
+        "y": 40.6
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 276,
+      "title": "Tramping Paws",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 20,
+      "questLevel": 21,
+      "pickup": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "turnin": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "objective": "Kill 15 Mosshide Gnolls and 10 Mosshide Mongrels, then return to Rethiel the Greenwarden.",
+      "position": {
+        "mapId": 1437,
+        "x": 56.2,
+        "y": 40.6
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 277,
+      "title": "Fire Taboo",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 20,
+      "questLevel": 23,
+      "pickup": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "turnin": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "objective": "Bring Rethiel the Greenwarden 9 Crude Flints.",
+      "position": {
+        "mapId": 1437,
+        "x": 56.2,
+        "y": 40.6
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
     },
     {
       "id": 303,
@@ -723,6 +863,7 @@
         "y": 18.2
       },
       "referenceXp": 2450,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -743,6 +884,7 @@
       "objective": "Take An Unsent Letter from Edwin VanCleef to Baros Alexston in Stormwind.",
       "position": null,
       "referenceXp": 870,
+      "baseXp": 870,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -767,6 +909,7 @@
         "y": 47.8
       },
       "referenceXp": 2100,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -804,6 +947,7 @@
         "y": 18.2
       },
       "referenceXp": 5750,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -823,7 +967,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": [303]
+      "chain": [
+        303
+      ]
     },
     {
       "id": 386,
@@ -837,10 +983,11 @@
       "objective": "Kill Targorr the Dread in The Stockade and bring his head to Guard Berton.",
       "position": {
         "mapId": 1433,
-        "x": 26.6,
-        "y": 46.800000000000004
+        "x": 21.2,
+        "y": 46.6
       },
       "referenceXp": 2000,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -878,6 +1025,7 @@
         "y": 69.3
       },
       "referenceXp": 2650,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -902,6 +1050,7 @@
         "y": 46.6
       },
       "referenceXp": 2650,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -922,10 +1071,11 @@
       "objective": "Speak with Warden Thelwater outside The Stockade.",
       "position": {
         "mapId": 1453,
-        "x": 51.4,
-        "y": 68.4
+        "x": 57.699999999999996,
+        "y": 47.9
       },
       "referenceXp": 440,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -950,13 +1100,117 @@
         "y": 69.3
       },
       "referenceXp": 2350,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": [373, 389]
+      "chain": [
+        373,
+        389
+      ]
+    },
+    {
+      "id": 463,
+      "title": "The Greenwarden",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 20,
+      "questLevel": 21,
+      "pickup": "First Mate Fitzsimmons, Menethil Harbor, Wetlands",
+      "turnin": "Rethiel the Greenwarden, The Green Belt, Wetlands",
+      "objective": "Find Rethiel the Greenwarden in the Wetlands.",
+      "position": {
+        "mapId": 1437,
+        "x": 10.8,
+        "y": 59.599999999999994
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 484,
+      "title": "Young Crocolisk Skins",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 18,
+      "questLevel": 22,
+      "pickup": "James Halloran, Menethil Harbor, Wetlands",
+      "turnin": "James Halloran, Menethil Harbor, Wetlands",
+      "objective": "Obtain 4 Young Crocolisk Skins for James Halloran in Menethil Harbor.",
+      "position": {
+        "mapId": 1437,
+        "x": 8,
+        "y": 55.00000000000001
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 544,
+      "title": "Prison Break In",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 34,
+      "pickup": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "turnin": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "objective": "Find the four Forsaken traitors at the Lordamere Internment Camp, recover their Bloodstone artifacts, and return to Magus Wordeen Voidglare.",
+      "position": {
+        "mapId": 1424,
+        "x": 61.5,
+        "y": 20.7
+      },
+      "referenceXp": 3350,
+      "baseXp": null,
+      "shareable": true,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 545,
+      "title": "Dalaran Patrols",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 35,
+      "pickup": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "turnin": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "objective": "Kill 6 Dalaran Summoners and 12 Elemental Slaves, then return to Magus Wordeen Voidglare in Tarren Mill.",
+      "position": {
+        "mapId": 1424,
+        "x": 61.5,
+        "y": 20.7
+      },
+      "referenceXp": 2050,
+      "baseXp": null,
+      "shareable": true,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
     },
     {
       "id": 865,
@@ -974,6 +1228,7 @@
         "y": 36.7
       },
       "referenceXp": 1350,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [
@@ -1007,6 +1262,7 @@
         "y": 32
       },
       "referenceXp": 680,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1027,6 +1283,7 @@
       "objective": "Take the Dried Seeds to the Stagnant Oasis and test them at the fissure, then return to Tonga.",
       "position": null,
       "referenceXp": 1150,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -1047,6 +1304,7 @@
       "objective": "Bring 8 Altered Snapjaw Shells to Tonga Runetotem at the Crossroads.",
       "position": null,
       "referenceXp": 1150,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1071,6 +1329,7 @@
         "y": 31.3
       },
       "referenceXp": 2200,
+      "baseXp": 2200,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1090,7 +1349,13 @@
         ]
       },
       "requiredItems": [],
-      "chain": [870, 877, 880, 1489, 1490]
+      "chain": [
+        870,
+        877,
+        880,
+        1489,
+        1490
+      ]
     },
     {
       "id": 959,
@@ -1108,6 +1373,7 @@
         "y": 38.3
       },
       "referenceXp": 1350,
+      "baseXp": 1350,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1132,6 +1398,7 @@
         "y": 21
       },
       "referenceXp": 1700,
+      "baseXp": 1700,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1169,6 +1436,7 @@
         "y": 5.609999999999999
       },
       "referenceXp": 2750,
+      "baseXp": 2750,
       "shareable": true,
       "rewards": {
         "fixed": [
@@ -1198,6 +1466,7 @@
         "y": 54.50000000000001
       },
       "referenceXp": 2100,
+      "baseXp": 2100,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1235,12 +1504,73 @@
         "y": 39.800000000000004
       },
       "referenceXp": 3300,
+      "baseXp": 3300,
       "shareable": true,
       "rewards": {
         "fixed": [
           {
             "id": 6414,
             "title": "Seal of Sylvanas"
+          }
+        ],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1049,
+      "title": "Compendium of the Fallen",
+      "faction": "horde",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 38,
+      "pickup": "Sage Truthseeker, Thunder Bluff",
+      "turnin": "Sage Truthseeker, Thunder Bluff",
+      "objective": "Retrieve the Compendium of the Fallen from the Monastery and return to Sage Truthseeker in Thunder Bluff.",
+      "position": null,
+      "referenceXp": 3550,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 7747,
+            "title": "Vile Protector"
+          },
+          {
+            "id": 17508,
+            "title": "Forcestone Buckler"
+          },
+          {
+            "id": 7749,
+            "title": "Omega Orb"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1050,
+      "title": "Mythology of the Titans",
+      "faction": "alliance",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 38,
+      "pickup": "Librarian Mae Paledust, Ironforge",
+      "turnin": "Librarian Mae Paledust, Ironforge",
+      "objective": "Retrieve Mythology of the Titans from the Monastery and bring it to Librarian Mae Paledust in Ironforge.",
+      "position": null,
+      "referenceXp": 3550,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [
+          {
+            "id": 7746,
+            "title": "Explorers' League Commendation"
           }
         ],
         "choices": []
@@ -1260,6 +1590,7 @@
       "objective": "Return Vorrel Sengutz's wedding ring (from Nancy Vishas) to Monika Sengutz in Tarren Mill.",
       "position": null,
       "referenceXp": 3300,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1293,6 +1624,7 @@
         "y": 40.9
       },
       "referenceXp": 2000,
+      "baseXp": 2000,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1330,6 +1662,7 @@
         "y": 24
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1354,6 +1687,7 @@
         "y": 46
       },
       "referenceXp": 3350,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1373,7 +1707,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": [1100]
+      "chain": [
+        1100
+      ]
     },
     {
       "id": 1102,
@@ -1391,6 +1727,7 @@
         "y": 59
       },
       "referenceXp": 4050,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1428,6 +1765,7 @@
         "y": 69
       },
       "referenceXp": 3300,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1452,13 +1790,16 @@
         "y": 69
       },
       "referenceXp": 3300,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": [1109]
+      "chain": [
+        1109
+      ]
     },
     {
       "id": 1142,
@@ -1472,6 +1813,7 @@
       "objective": "Find Treshala's Pendant and return it to Treshala Fallowbrook in Darnassus.",
       "position": null,
       "referenceXp": 3050,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1505,6 +1847,7 @@
       "objective": "Escort Willix the Importer out of Razorfen Kraul.",
       "position": null,
       "referenceXp": 3050,
+      "baseXp": 3050,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1531,6 +1874,181 @@
       "chain": []
     },
     {
+      "id": 1149,
+      "title": "Test of Faith",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 26,
+      "pickup": "Dorn Plainstalker, Thousand Needles",
+      "turnin": "Dorn Plainstalker, Thousand Needles",
+      "objective": "If you have faith, leap from the planks overlooking Thousand Needles.",
+      "position": {
+        "mapId": 1441,
+        "x": 53.800000000000004,
+        "y": 41.4
+      },
+      "referenceXp": 1050,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1150,
+      "title": "Test of Endurance",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Dorn Plainstalker, Thousand Needles",
+      "turnin": "Dorn Plainstalker, Thousand Needles",
+      "objective": "Bring Grenka's Claw to Dorn Plainstalker in Thousand Needles.",
+      "position": {
+        "mapId": 1441,
+        "x": 53.800000000000004,
+        "y": 41.4
+      },
+      "referenceXp": 2450,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1151,
+      "title": "Test of Strength",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Dorn Plainstalker, Thousand Needles",
+      "turnin": "Dorn Plainstalker, Thousand Needles",
+      "objective": "Bring Fragments of Rok'Alim to Dorn Plainstalker in Thousand Needles.",
+      "position": {
+        "mapId": 1441,
+        "x": 53.800000000000004,
+        "y": 41.4
+      },
+      "referenceXp": 3050,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1152,
+      "title": "Test of Lore",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Dorn Plainstalker, Thousand Needles",
+      "turnin": "Braug Dimspirit, Talondeep Path, Stonetalon Mountains",
+      "objective": "Find Braug Dimspirit near the entrance to Talondeep Path in Stonetalon Mountains.",
+      "position": {
+        "mapId": 1441,
+        "x": 53.800000000000004,
+        "y": 41.4
+      },
+      "referenceXp": 1200,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1154,
+      "title": "Test of Lore",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Braug Dimspirit, Talondeep Path, Stonetalon Mountains",
+      "turnin": "Braug Dimspirit, Talondeep Path, Stonetalon Mountains",
+      "objective": "Find the Legacy of the Aspects and return it to Braug Dimspirit near the entrance to Talondeep Path in Stonetalon Mountains.",
+      "position": {
+        "mapId": 1442,
+        "x": 78.60000000000001,
+        "y": 45.4
+      },
+      "referenceXp": 1850,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1159,
+      "title": "Test of Lore",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Braug Dimspirit, Talondeep Path, Stonetalon Mountains",
+      "turnin": "Parqual Fintallas, Undercity",
+      "objective": "Find Parqual Fintallas in Undercity.",
+      "position": {
+        "mapId": 1442,
+        "x": 78.60000000000001,
+        "y": 45.4
+      },
+      "referenceXp": 1200,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 1160,
+      "title": "Test of Lore",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 36,
+      "pickup": "Parqual Fintallas, Undercity",
+      "turnin": "Parqual Fintallas, Undercity",
+      "objective": "Find The Beginnings of the Undead Threat and return it to Parqual Fintallas in Undercity.",
+      "position": {
+        "mapId": 1458,
+        "x": 57.599999999999994,
+        "y": 65.2
+      },
+      "referenceXp": 2100,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
       "id": 1198,
       "title": "In Search of Thaelrid",
       "faction": "alliance",
@@ -1546,6 +2064,7 @@
         "y": 24
       },
       "referenceXp": 2400,
+      "baseXp": 2400,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1570,6 +2089,7 @@
         "y": 24
       },
       "referenceXp": 2550,
+      "baseXp": 2550,
       "shareable": true,
       "rewards": {
         "fixed": [
@@ -1603,6 +2123,7 @@
       "objective": "Defeat Twilight Lord Kelris and recover the Head of Kelris.",
       "position": null,
       "referenceXp": 3300,
+      "baseXp": 3300,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1644,6 +2165,7 @@
         "y": 37
       },
       "referenceXp": 2100,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1668,6 +2190,7 @@
         "y": 43.1
       },
       "referenceXp": 2400,
+      "baseXp": 2400,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1687,7 +2210,49 @@
         ]
       },
       "requiredItems": [],
-      "chain": [3765]
+      "chain": [
+        3765
+      ]
+    },
+    {
+      "id": 1394,
+      "title": "Final Passage",
+      "faction": "horde",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 36,
+      "pickup": "Parqual Fintallas, Undercity",
+      "turnin": "Dorn Plainstalker, Thousand Needles",
+      "objective": "Speak to Dorn Plainstalker in Thousand Needles.",
+      "position": null,
+      "referenceXp": 4200,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 6804,
+            "title": "Windstorm Hammer"
+          },
+          {
+            "id": 6806,
+            "title": "Dancing Flame"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": [
+        1149,
+        1150,
+        1151,
+        1152,
+        1154,
+        6627,
+        1159,
+        1160,
+        6628
+      ]
     },
     {
       "id": 1486,
@@ -1705,6 +2270,7 @@
         "y": 36.3
       },
       "referenceXp": 1600,
+      "baseXp": 1600,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1738,6 +2304,7 @@
         "y": 35.699999999999996
       },
       "referenceXp": 2050,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1771,6 +2338,7 @@
       "objective": "Speak with Hamuul Runetotem on Elder Rise in Thunder Bluff.",
       "position": null,
       "referenceXp": 290,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1791,6 +2359,7 @@
       "objective": "Speak with Nara Wildmane in Thunder Bluff.",
       "position": null,
       "referenceXp": 115,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1815,13 +2384,16 @@
         "y": 36.7
       },
       "referenceXp": 1350,
+      "baseXp": 1350,
       "shareable": true,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": [865]
+      "chain": [
+        865
+      ]
     },
     {
       "id": 1651,
@@ -1839,6 +2411,7 @@
         "y": 88.6
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1859,6 +2432,7 @@
       "objective": "Speak to Duthorian Rall in Stormwind.",
       "position": null,
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1879,6 +2453,7 @@
       "objective": "Speak to Jordan Stilwell in Ironforge.",
       "position": null,
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1903,6 +2478,7 @@
         "y": 36.8
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -1944,6 +2520,7 @@
         "y": 57.199999999999996
       },
       "referenceXp": 2550,
+      "baseXp": 2550,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -1973,6 +2550,7 @@
       "objective": "Wait for Jordan Stilwell to finish forging a weapon for you.",
       "position": null,
       "referenceXp": 5500,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [
@@ -1984,7 +2562,12 @@
         "choices": []
       },
       "requiredItems": [],
-      "chain": [1651, 1652, 1653, 1654, 1806]
+      "chain": [
+        1651,
+        1652,
+        1653,
+        1654
+      ]
     },
     {
       "id": 2040,
@@ -2002,6 +2585,7 @@
         "y": 34
       },
       "referenceXp": 1550,
+      "baseXp": 1550,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2043,6 +2627,7 @@
         "y": 50.5
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2067,6 +2652,7 @@
         "y": 25
       },
       "referenceXp": 2750,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2104,6 +2690,7 @@
         "y": 25.2
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2128,6 +2715,7 @@
         "y": 77
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [
@@ -2139,7 +2727,10 @@
         "choices": []
       },
       "requiredItems": [],
-      "chain": [2841, 2842]
+      "chain": [
+        2841,
+        2842
+      ]
     },
     {
       "id": 2904,
@@ -2153,6 +2744,7 @@
       "objective": "Escort Kernobee to the Clockwerk Run exit, then report to Scooty in Booty Bay.",
       "position": null,
       "referenceXp": 2450,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2190,6 +2782,7 @@
         "y": 50
       },
       "referenceXp": 2650,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2214,6 +2807,7 @@
         "y": 46
       },
       "referenceXp": 3050,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2238,6 +2832,7 @@
         "y": 49
       },
       "referenceXp": 2200,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2262,6 +2857,7 @@
         "y": 34
       },
       "referenceXp": 2450,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2299,6 +2895,7 @@
         "y": 49
       },
       "referenceXp": 2750,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2336,6 +2933,7 @@
         "y": 48
       },
       "referenceXp": 3650,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2360,18 +2958,127 @@
       "classSlug": null,
       "minimumLevel": 28,
       "questLevel": 34,
-      "pickup": "Grime-Encrusted Ring (dropped by Dark Iron Agents)",
+      "pickup": "Grime-Encrusted Ring, dropped by Dark Iron dwarves in Gnomeregan",
       "turnin": "The Sparklematic 5200, inside Gnomeregan",
-      "objective": "Find a way to remove the grime from the Grime-Encrusted Ring (use the Sparklematic 5200).",
+      "objective": "Find a way to remove the grime from the Grime-Encrusted Ring by using the Sparklematic 5200.",
       "position": null,
-      "referenceXp": 2700,
-      "shareable": null,
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": false,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
       "chain": []
+    },
+    {
+      "id": 2947,
+      "title": "Return of the Ring",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 34,
+      "pickup": "The Sparklematic 5200, inside Gnomeregan",
+      "turnin": "Talvash del Kissel, Mystic Ward, Ironforge",
+      "objective": "Take the Brilliant Gold Ring to Talvash del Kissel in Ironforge.",
+      "position": null,
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 2948,
+      "title": "Gnome Improvement",
+      "faction": "alliance",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 35,
+      "pickup": "Talvash del Kissel, Mystic Ward, Ironforge",
+      "turnin": "Talvash del Kissel, Mystic Ward, Ironforge",
+      "objective": "Bring the Brilliant Gold Ring, a Silver Bar, a Moss Agate, and 30 silver coins to Talvash del Kissel in Ironforge.",
+      "position": {
+        "mapId": 1455,
+        "x": 35.699999999999996,
+        "y": 4
+      },
+      "referenceXp": 2750,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [
+          {
+            "id": 9538,
+            "title": "Talvash's Gold Ring"
+          }
+        ],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": [
+        2945,
+        2947
+      ]
+    },
+    {
+      "id": 2949,
+      "title": "Return of the Ring",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 34,
+      "pickup": "The Sparklematic 5200, inside Gnomeregan",
+      "turnin": "Nogg, Valley of Honor, Orgrimmar",
+      "objective": "Take the Brilliant Gold Ring to Nogg in Orgrimmar.",
+      "position": null,
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 2950,
+      "title": "Nogg's Ring Redo",
+      "faction": "horde",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 35,
+      "pickup": "Nogg, Valley of Honor, Orgrimmar",
+      "turnin": "Nogg, Valley of Honor, Orgrimmar",
+      "objective": "Bring the Brilliant Gold Ring, a Silver Bar, a Moss Agate, and 30 silver coins to Nogg in Orgrimmar.",
+      "position": {
+        "mapId": 1454,
+        "x": 76,
+        "y": 25
+      },
+      "referenceXp": 2750,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [
+          {
+            "id": 9588,
+            "title": "Nogg's Gold Ring"
+          }
+        ],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": [
+        2945,
+        2949
+      ]
     },
     {
       "id": 2951,
@@ -2385,6 +3092,7 @@
       "objective": "Insert a Grime-Encrusted Object into the Sparklematic 5200, with three silver coins to start the machine.",
       "position": null,
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [
@@ -2414,13 +3122,16 @@
         "y": 49
       },
       "referenceXp": 2450,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": [2926]
+      "chain": [
+        2926
+      ]
     },
     {
       "id": 3765,
@@ -2438,6 +3149,7 @@
         "y": 67.4
       },
       "referenceXp": 1450,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2449,7 +3161,7 @@
     {
       "id": 5722,
       "title": "Searching for the Lost Satchel",
-      "faction": "horde",
+      "faction": "both",
       "classSlug": null,
       "minimumLevel": 9,
       "questLevel": 16,
@@ -2462,6 +3174,7 @@
         "y": 32.2
       },
       "referenceXp": 880,
+      "baseXp": 880,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2486,6 +3199,7 @@
         "y": 32.2
       },
       "referenceXp": 1050,
+      "baseXp": 1050,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2506,6 +3220,7 @@
       "objective": "Take the Grimtotem Satchel to Rahauro in Thunder Bluff.",
       "position": null,
       "referenceXp": 1450,
+      "baseXp": 1450,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -2525,7 +3240,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": []
+      "chain": [
+        5722
+      ]
     },
     {
       "id": 5725,
@@ -2543,6 +3260,7 @@
         "y": 92.60000000000001
       },
       "referenceXp": 1450,
+      "baseXp": 1450,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2580,6 +3298,7 @@
         "y": 37.8
       },
       "referenceXp": 910,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2600,6 +3319,7 @@
       "objective": "Speak with Neeru Fireblade in the Cleft of Shadow, then return to Thrall.",
       "position": null,
       "referenceXp": 460,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -2624,13 +3344,17 @@
         "y": 37.8
       },
       "referenceXp": 1150,
+      "baseXp": 1150,
       "shareable": true,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": [5726, 5727]
+      "chain": [
+        5726,
+        5727
+      ]
     },
     {
       "id": 5761,
@@ -2648,6 +3372,7 @@
         "y": 50.6
       },
       "referenceXp": 1150,
+      "baseXp": 1150,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2657,9 +3382,49 @@
       "chain": []
     },
     {
-      "id": 6522,
+      "id": 6521,
       "title": "An Unholy Alliance",
       "faction": "horde",
+      "classSlug": null,
+      "minimumLevel": 28,
+      "questLevel": 36,
+      "pickup": "Varimathras, Royal Quarter, Undercity",
+      "turnin": "Varimathras, Royal Quarter, Undercity",
+      "objective": "Bring Ambassador Malcin's Head to Varimathras in the Undercity.",
+      "position": null,
+      "referenceXp": 3500,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 17039,
+            "title": "Skullbreaker"
+          },
+          {
+            "id": 17042,
+            "title": "Nail Spitter"
+          },
+          {
+            "id": 17043,
+            "title": "Zealot's Robe"
+          },
+          {
+            "id": 270054,
+            "title": "Cultist's Chestguard"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": [
+        6522
+      ]
+    },
+    {
+      "id": 6522,
+      "title": "An Unholy Alliance",
+      "faction": "both",
       "classSlug": null,
       "minimumLevel": 28,
       "questLevel": 36,
@@ -2667,7 +3432,8 @@
       "turnin": "Varimathras, Royal Quarter, Undercity",
       "objective": "Take the Small Scroll to Varimathras in the Undercity.",
       "position": null,
-      "referenceXp": 2800,
+      "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -2684,10 +3450,11 @@
       "minimumLevel": 18,
       "questLevel": 27,
       "pickup": "Argent Guard Thaelrid, inside Blackfathom Deeps",
-      "turnin": "Bashana Runetotem, Thunder Bluff",
+      "turnin": "Bashana Runetotem, Elder Rise, Thunder Bluff",
       "objective": "Defeat Twilight Lord Kelris and recover the Head of Kelris.",
       "position": null,
       "referenceXp": 3300,
+      "baseXp": 3300,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2729,6 +3496,7 @@
         "y": 64.2
       },
       "referenceXp": 435,
+      "baseXp": 435,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2753,6 +3521,7 @@
         "y": 34
       },
       "referenceXp": 1750,
+      "baseXp": 1750,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2773,6 +3542,7 @@
       "objective": "Bring the Damp Note to Je'neu Sancrea in Ashenvale.",
       "position": null,
       "referenceXp": 1300,
+      "baseXp": 1300,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -2796,7 +3566,8 @@
         "x": 12,
         "y": 34
       },
-      "referenceXp": 2650,
+      "referenceXp": 6489,
+      "baseXp": 2650,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2812,7 +3583,59 @@
         ]
       },
       "requiredItems": [],
-      "chain": [6564]
+      "chain": [
+        6564
+      ]
+    },
+    {
+      "id": 6627,
+      "title": "Test of Lore",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Braug Dimspirit, Talondeep Path, Stonetalon Mountains",
+      "turnin": "Braug Dimspirit, Talondeep Path, Stonetalon Mountains",
+      "objective": "Answer Braug Dimspirit's question successfully and then speak to him again.",
+      "position": {
+        "mapId": 1442,
+        "x": 78.60000000000001,
+        "y": 45.4
+      },
+      "referenceXp": 245,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 6628,
+      "title": "Test of Lore",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "pickup": "Parqual Fintallas, Undercity",
+      "turnin": "Parqual Fintallas, Undercity",
+      "objective": "Answer Parqual Fintallas' question successfully and then speak to him again.",
+      "position": {
+        "mapId": 1458,
+        "x": 57.599999999999994,
+        "y": 65.2
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
     },
     {
       "id": 6921,
@@ -2829,11 +3652,46 @@
         "x": 12,
         "y": 34
       },
-      "referenceXp": 2750,
+      "referenceXp": 6746,
+      "baseXp": 2750,
       "shareable": true,
       "rewards": {
         "fixed": [],
         "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 6922,
+      "title": "Baron Aquanis",
+      "faction": "horde",
+      "classSlug": null,
+      "minimumLevel": 21,
+      "questLevel": 30,
+      "pickup": "Strange Water Globe, dropped by Baron Aquanis inside Blackfathom Deeps",
+      "turnin": "Je'neu Sancrea, Zoram'gar Outpost, Ashenvale",
+      "objective": "Bring the Strange Water Globe to Je'neu Sancrea at Zoram'gar Outpost, Ashenvale.",
+      "position": null,
+      "referenceXp": 7468,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 16886,
+            "title": "Outlaw Sabre"
+          },
+          {
+            "id": 16887,
+            "title": "Witch's Finger"
+          },
+          {
+            "id": 270043,
+            "title": "Dreamer's Chestguard"
+          }
+        ]
       },
       "requiredItems": [],
       "chain": []
@@ -2854,6 +3712,7 @@
         "y": 30
       },
       "referenceXp": 2650,
+      "baseXp": 2650,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -2878,6 +3737,7 @@
         "y": 43
       },
       "referenceXp": 2200,
+      "baseXp": 2200,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2907,6 +3767,7 @@
       "objective": "Bring the Blood-Stained Letter to Orphan Matron Nightingale.",
       "position": null,
       "referenceXp": 2600,
+      "baseXp": 2600,
       "shareable": false,
       "rewards": {
         "fixed": [
@@ -2936,6 +3797,7 @@
         "y": 89.5
       },
       "referenceXp": 2200,
+      "baseXp": 2200,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2969,6 +3831,7 @@
         "y": 60.199999999999996
       },
       "referenceXp": 0,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -2987,6 +3850,56 @@
       "chain": []
     },
     {
+      "id": 92432,
+      "title": "An Alarming Request",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 33,
+      "pickup": "Emissary Jacques, Southshore, Hillsbrad Foothills",
+      "turnin": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "objective": "Report to the Image of Archmage Modera near the City of Dalaran.",
+      "position": {
+        "mapId": 1424,
+        "x": 48.4,
+        "y": 60.199999999999996
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": true,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 92434,
+      "title": "Blood in the Streets",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 34,
+      "pickup": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "turnin": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "objective": "Find a way into Dalaran along Lordamere Lake.",
+      "position": {
+        "mapId": 1424,
+        "x": 61.5,
+        "y": 20.7
+      },
+      "referenceXp": 270,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
       "id": 92456,
       "title": "A Green Sample",
       "faction": "alliance",
@@ -2998,6 +3911,7 @@
       "objective": "Retrieve a Fel Infused Blossom from Dalaran's central garden.",
       "position": null,
       "referenceXp": 3950,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3016,6 +3930,74 @@
       "chain": []
     },
     {
+      "id": 92457,
+      "title": "Starving Arcane",
+      "faction": "alliance",
+      "classSlug": null,
+      "minimumLevel": 24,
+      "questLevel": 33,
+      "pickup": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "turnin": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "objective": "Defeat 8 Seeking Remnants, 8 Saturated Remnants, and 8 Mana Echoes inside the City of Dalaran for Archmage Modera outside of Dalaran.",
+      "position": null,
+      "referenceXp": 9400,
+      "baseXp": null,
+      "shareable": true,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 279837,
+            "title": "Fallen Guard's Pendant"
+          },
+          {
+            "id": 279838,
+            "title": "Arcane Infused Rod"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": [
+        92432
+      ]
+    },
+    {
+      "id": 92458,
+      "title": "Heart of Disruption",
+      "faction": "alliance",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 33,
+      "pickup": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "turnin": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "objective": "Collect the Arcane Mote for the Image of Archmage Modera near the City of Dalaran.",
+      "position": null,
+      "referenceXp": 9400,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 279839,
+            "title": "Spellguard Pauldrons"
+          },
+          {
+            "id": 279840,
+            "title": "Renewing Footpads"
+          },
+          {
+            "id": 279841,
+            "title": "Defender of Dalaran"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": [
+        92432
+      ]
+    },
+    {
       "id": 92489,
       "title": "Power Overwhelming",
       "faction": "alliance",
@@ -3027,6 +4009,7 @@
       "objective": "Slay Arcanic Enigma, the Mana Elemental in the City of Dalaran, and return to High Sorcerer Andromath in Stormwind City.",
       "position": null,
       "referenceXp": 3950,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3060,6 +4043,7 @@
         "y": 53.300000000000004
       },
       "referenceXp": 460,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -3084,6 +4068,7 @@
         "y": 53.300000000000004
       },
       "referenceXp": 460,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3108,6 +4093,7 @@
         "y": 53.300000000000004
       },
       "referenceXp": 490,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3132,6 +4118,7 @@
         "y": 53.300000000000004
       },
       "referenceXp": 580,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3156,6 +4143,7 @@
         "y": 53.300000000000004
       },
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3176,6 +4164,7 @@
       "objective": "Obtain 10 Coarse Dynamite, then return to Sprite Jumpsprocket in Stormwind.",
       "position": null,
       "referenceXp": 580,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3196,6 +4185,7 @@
       "objective": "Talk to Stormwind Intelligence about acquiring a remote detonator.",
       "position": null,
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3216,6 +4206,7 @@
       "objective": "Bring the Remote Detonator Kit back to Sprite Jumpsprocket in the Dwarven District.",
       "position": null,
       "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3236,6 +4227,7 @@
       "objective": "Return to Alba Fairmoon at the Sentinel Hill inn in Westfall with the completed explosives.",
       "position": null,
       "referenceXp": 580,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -3256,13 +4248,26 @@
       "objective": "Find the forge in the Deadmines and plant the Extra-Destructive Explosives beside it.",
       "position": null,
       "referenceXp": 1350,
+      "baseXp": 1350,
       "shareable": false,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": [92742, 92744, 92745, 92747, 92748, 92749, 92750, 92751, 92752, 92753, 92819]
+      "chain": [
+        92742,
+        92744,
+        92745,
+        92747,
+        92748,
+        92749,
+        92750,
+        92751,
+        92752,
+        92753,
+        92819
+      ]
     },
     {
       "id": 92819,
@@ -3280,12 +4285,43 @@
         "y": 53.300000000000004
       },
       "referenceXp": 680,
+      "baseXp": null,
       "shareable": true,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 93680,
+      "title": "Key to the City",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 33,
+      "pickup": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "turnin": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "objective": "Acquire the Grimy Key for Magus Wordeen Voidglare in Tarren Mill.",
+      "position": {
+        "mapId": 1424,
+        "x": 61.5,
+        "y": 20.7
+      },
+      "referenceXp": null,
+      "baseXp": null,
+      "shareable": true,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [
+        {
+          "id": 279469,
+          "title": "Grimy Key"
+        }
+      ],
       "chain": []
     },
     {
@@ -3300,6 +4336,7 @@
       "objective": "Return the Crest of Lordaeron to Stormwind.",
       "position": null,
       "referenceXp": 2600,
+      "baseXp": 2600,
       "shareable": true,
       "rewards": {
         "fixed": [
@@ -3325,6 +4362,7 @@
       "objective": "Collect 10 Bloodied Insignias.",
       "position": null,
       "referenceXp": 2600,
+      "baseXp": 2600,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3354,6 +4392,7 @@
       "objective": "Bring the Crest of Lordaeron to the Undercity.",
       "position": null,
       "referenceXp": 2600,
+      "baseXp": 2600,
       "shareable": true,
       "rewards": {
         "fixed": [
@@ -3383,6 +4422,7 @@
         "y": 71.6
       },
       "referenceXp": 2600,
+      "baseXp": 2600,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3412,6 +4452,7 @@
       "objective": "Collect the Head of the Baron in Ruins of Lordaeron.",
       "position": null,
       "referenceXp": 1650,
+      "baseXp": 1650,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3445,6 +4486,7 @@
       "objective": "Kill a Highland Horror within Excavation Sites and bring its root core to Rethiel the Greenwarden in the Wetlands.",
       "position": null,
       "referenceXp": 6150,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3464,7 +4506,12 @@
         ]
       },
       "requiredItems": [],
-      "chain": []
+      "chain": [
+        463,
+        276,
+        277,
+        275
+      ]
     },
     {
       "id": 95647,
@@ -3482,6 +4529,32 @@
         "y": 58.8
       },
       "referenceXp": 4900,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": []
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 95663,
+      "title": "Dragonmaw Rumors",
+      "faction": "both",
+      "classSlug": null,
+      "minimumLevel": 24,
+      "questLevel": 31,
+      "pickup": "Zaruk, Hammerfall, Arathi Highlands",
+      "turnin": "Deathstalker Agent, hills above the Dragonmaw camp, Wetlands",
+      "objective": "Travel to the Wetlands and meet the Deathstalker Agent in the hills above the Dragonmaw camp.",
+      "position": {
+        "mapId": 1417,
+        "x": 74,
+        "y": 36
+      },
+      "referenceXp": null,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3502,6 +4575,7 @@
       "objective": "Take the Titan Relic to the Elder Rise in Thunder Bluff and look for someone who can tell you more about it.",
       "position": null,
       "referenceXp": 1400,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -3522,6 +4596,7 @@
       "objective": "Defeat 2 Dragonmaw Saboteurs and 4 Dragonmaw Warders, recover the Dragonmaw Dispatch, and report to the Deathstalker Agent outside the dungeon.",
       "position": null,
       "referenceXp": 7158,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3537,7 +4612,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": []
+      "chain": [
+        95663
+      ]
     },
     {
       "id": 95697,
@@ -3551,6 +4628,7 @@
       "objective": "Enter the Excavation Sites in the Wetlands and bring back 4 Thicket Raptor Meat.",
       "position": null,
       "referenceXp": 6950,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3580,6 +4658,7 @@
       "objective": "Look for Dorin Songblade's brother, Daewyn, in Whelgar's Excavation Site.",
       "position": null,
       "referenceXp": 6150,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3600,6 +4679,7 @@
       "objective": "Report Daewyn's fate to Dorin Songblade in Lakeshire.",
       "position": null,
       "referenceXp": 3150,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3629,6 +4709,7 @@
       "objective": "Take the Reed-woven Heart back to Caitlin Grassman in Menethil Harbor.",
       "position": null,
       "referenceXp": 6150,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -3644,7 +4725,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": [95647]
+      "chain": [
+        95647
+      ]
     },
     {
       "id": 95810,
@@ -3658,6 +4741,7 @@
       "objective": "Deliver the Titan Relic to Prospector Whelgar at the Wetlands excavation site.",
       "position": null,
       "referenceXp": 630,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -3682,6 +4766,7 @@
         "y": 60
       },
       "referenceXp": 1050,
+      "baseXp": null,
       "shareable": false,
       "rewards": {
         "fixed": [],
@@ -3702,6 +4787,7 @@
       "objective": "Enter Hall of Thanes and claim Durgen Dirgehammer's Head.",
       "position": null,
       "referenceXp": 1450,
+      "baseXp": 1450,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3721,7 +4807,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": [96391]
+      "chain": [
+        96391
+      ]
     },
     {
       "id": 96394,
@@ -3735,6 +4823,7 @@
       "objective": "Kill 15 Enraged Apparitions and 10 Tormented Souls, then put Anvilmar's spirit to rest.",
       "position": null,
       "referenceXp": 1050,
+      "baseXp": 1050,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3764,6 +4853,7 @@
       "objective": "Put the spirit of Faldrim Anvilmar to rest.",
       "position": null,
       "referenceXp": 1050,
+      "baseXp": 1050,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3793,6 +4883,7 @@
       "objective": "Collect 8 Dwarven Heirlooms from the Hall of Thanes.",
       "position": null,
       "referenceXp": 1350,
+      "baseXp": 1350,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3811,6 +4902,75 @@
       "chain": []
     },
     {
+      "id": 96800,
+      "title": "Past Due",
+      "faction": "alliance",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 38,
+      "pickup": "Magus Olvek, Dalaran, Alterac Mountains",
+      "turnin": "Magus Olvek, Dalaran, Alterac Mountains",
+      "objective": "Retrieve The Lost Magic of the Runemasters from the Scarlet Monastery.",
+      "position": null,
+      "referenceXp": 6750,
+      "baseXp": null,
+      "shareable": null,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 276898,
+            "title": "Salve and Salvation"
+          },
+          {
+            "id": 276899,
+            "title": "Knucklebound Thimble"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": []
+    },
+    {
+      "id": 96984,
+      "title": "Heart of Disruption",
+      "faction": "horde",
+      "classSlug": null,
+      "minimumLevel": 30,
+      "questLevel": 33,
+      "pickup": "Image of Archmage Modera, Lordamere Lake near Dalaran",
+      "turnin": "Magus Wordeen Voidglare, Tarren Mill, Hillsbrad Foothills",
+      "objective": "Collect the Arcane Mote in the City of Dalaran for Magus Wordeen Voidglare in Tarren Mill.",
+      "position": null,
+      "referenceXp": 9400,
+      "baseXp": null,
+      "shareable": false,
+      "rewards": {
+        "fixed": [],
+        "choices": [
+          {
+            "id": 279842,
+            "title": "Battle Spaulders"
+          },
+          {
+            "id": 279843,
+            "title": "Enchanted Sandals"
+          },
+          {
+            "id": 279844,
+            "title": "Striking Staff"
+          }
+        ]
+      },
+      "requiredItems": [],
+      "chain": [
+        544,
+        93680,
+        545,
+        92434
+      ]
+    },
+    {
       "id": 96986,
       "title": "The Grave Knight",
       "faction": "horde",
@@ -3822,6 +4982,7 @@
       "objective": "Defeat Atrexis the Grave Knight in the Dalaran Underbelly.",
       "position": null,
       "referenceXp": 3950,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3846,11 +5007,12 @@
       "classSlug": null,
       "minimumLevel": 24,
       "questLevel": 33,
-      "pickup": "Rexxie Copperclutch, near the Dalaran sewer entrance",
-      "turnin": "Rexxie Copperclutch, near the Dalaran sewer entrance",
+      "pickup": "Rexxie Copperclutch, inside the dungeon, near the sewer entrance",
+      "turnin": "Rexxie Copperclutch, inside the dungeon, near the sewer entrance",
       "objective": "Recover The Founding of Dalaran and deliver it to Rexxie Copperclutch.",
       "position": null,
       "referenceXp": 3950,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3880,6 +5042,7 @@
       "objective": "Collect 6 Cracked Sentry Cores from the constructs in Dalaran.",
       "position": null,
       "referenceXp": 3950,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3909,6 +5072,7 @@
       "objective": "Deliver the Abominable Head to the Undercity.",
       "position": null,
       "referenceXp": 1650,
+      "baseXp": 1650,
       "shareable": true,
       "rewards": {
         "fixed": [],
@@ -3942,6 +5106,7 @@
       "objective": "Deliver the Treaty of Understanding to Magni Bronzebeard in Ironforge.",
       "position": null,
       "referenceXp": 1150,
+      "baseXp": 1150,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -3962,13 +5127,16 @@
       "objective": "Collect 4 Thicket Raptor Hides and take them to James Halloran in Menethil Harbor.",
       "position": null,
       "referenceXp": 1150,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
         "choices": []
       },
       "requiredItems": [],
-      "chain": []
+      "chain": [
+        484
+      ]
     },
     {
       "id": 98823,
@@ -3982,6 +5150,7 @@
       "objective": "Deliver the Titan Relic to Muln Earthfury on Skywatcher Plateau in northwest Mulgore.",
       "position": null,
       "referenceXp": 3150,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -4001,7 +5170,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": [95664]
+      "chain": [
+        95664
+      ]
     },
     {
       "id": 98824,
@@ -4015,6 +5186,7 @@
       "objective": "Deliver the Titan Relic to High Explorer Magellas in the Hall of Explorers.",
       "position": null,
       "referenceXp": 3150,
+      "baseXp": null,
       "shareable": null,
       "rewards": {
         "fixed": [],
@@ -4034,7 +5206,9 @@
         ]
       },
       "requiredItems": [],
-      "chain": [95810]
+      "chain": [
+        95810
+      ]
     }
   ]
 }

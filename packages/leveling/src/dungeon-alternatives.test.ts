@@ -59,10 +59,10 @@ describe("Crest-calibrated dungeon alternatives", () => {
     expect(DUNGEON_XP_CALIBRATION.status).toBe("estimated");
     expect(calibratedDungeonQuestXp(95189, 20)).toBe(6200);
     const estimate = estimateThanesReplacement(character(), emptyDungeonPlan());
-    expect(estimate.questXp).toBe(11_685);
-    expect(estimate.fullBundleXp).toBe(14_427);
+    expect(estimate.questXp).toBe(11_416);
+    expect(estimate.fullBundleXp).toBe(14_158);
     expect(estimate.neededXp).toBe(14_400);
-    expect(estimate.gapXp).toBe(2715);
+    expect(estimate.gapXp).toBe(2984);
     expect(estimate.coverage).toBe("needs-kills");
     expect(estimate.questIds).not.toContain(98423);
   });
@@ -70,12 +70,12 @@ describe("Crest-calibrated dungeon alternatives", () => {
     expect(calibratedDungeonQuestXp(96391, 15)).toBe(1050);
     const estimate = estimateThanesReplacement(character(), replacementPlan({ killXp: 2000 }));
     expect(estimate.neededXp).toBe(14_400);
-    expect(estimate.gapXp).toBe(715);
+    expect(estimate.gapXp).toBe(984);
   });
   it("uses XP already earned and a per-player kill estimate exactly once", () => {
     const estimate = estimateThanesReplacement(
       character(),
-      replacementPlan({ currentXp: 1000, killXp: 1715 }),
+      replacementPlan({ currentXp: 1000, killXp: 1984 }),
     );
     expect(estimate.neededXp).toBe(13_400);
     expect(estimate.gapXp).toBe(0);
@@ -93,7 +93,7 @@ describe("Crest-calibrated dungeon alternatives", () => {
         ...emptyDungeonPlan(),
         questStates: { 96395: "objectives-complete" },
       }).questXp,
-    ).toBe(11_685);
+    ).toBe(11_416);
   });
   it("does not pretend an invalid XP bar is a known comparison", () => {
     for (const currentXp of [14_400, 50_000]) {
@@ -134,13 +134,13 @@ describe("Crest-calibrated dungeon alternatives", () => {
     expect(
       estimateThanesReplacement(
         character(),
-        replacementPlan({ killXp: 2715, tripMinutes: 60, outdoorMinutes: 90 }),
+        replacementPlan({ killXp: 2984, tripMinutes: 60, outdoorMinutes: 90 }),
       ).savedMinutes,
     ).toBe(30);
     expect(
       estimateThanesReplacement(
         character(),
-        replacementPlan({ killXp: 2715, tripMinutes: 100, outdoorMinutes: 90 }),
+        replacementPlan({ killXp: 2984, tripMinutes: 100, outdoorMinutes: 90 }),
       ).savedMinutes,
     ).toBe(-10);
   });

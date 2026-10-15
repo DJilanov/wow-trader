@@ -19,6 +19,7 @@ export const crawlJobStatusSchema = z
     cursor: counter,
     permissionRef: z.string().min(1),
     refresh: z.boolean(),
+    questXp: z.boolean().default(false),
     state: z.enum(["running", "completed", "blocked", "interrupted"]),
     pid: z.number().int().positive(),
     startedAt: z.iso.datetime(),
@@ -51,6 +52,24 @@ interface JobOptions extends CrawlOptions {
   readonly maxStagingBytes?: number;
   readonly availableDiskBytes?: () => Promise<number>;
   readonly crawl?: (tasks: readonly ReferenceTask[], options: CrawlOptions) => Promise<CrawlResult>;
+}
+
+export async function runPriorityCrawlJob(
+  baseTasks: readonly ReferenceTask[],
+  priorityTasks: readonly ReferenceTask[],
+  options: JobOptions & { readonly priorityStatusPath: string },
+): Promise<{ priority: CrawlJobStatus; base: CrawlJobStatus }> {
+  if (resolve(options.priorityStatusPath) === resolve(options.statusPath))
+    throw new Error("Priority and base checkpoints must be separate.");
+  const priority = await runCrawlJob(priorityTasks, {
+    ...options,
+    statusPath: options.priorityStatusPath,
+    questXp: true,
+    refresh: false,
+  });
+  options.signal?.throwIfAborted();
+  const base = await runCrawlJob(baseTasks, { ...options, questXp: false, refresh: false });
+  return { priority, base };
 }
 
 export async function readCrawlJobStatus(path: string): Promise<CrawlJobStatus | null> {
@@ -107,7 +126,8 @@ export async function runCrawlJob(
       (previous.queueSha256 !== queueSha256 ||
         previous.total !== queue.length ||
         previous.permissionRef !== options.permissionRef ||
-        previous.refresh !== (options.refresh ?? false))
+        previous.refresh !== (options.refresh ?? false) ||
+        previous.questXp !== (options.questXp ?? false))
     )
       throw new Error(
         "Queue or crawl policy differs from saved checkpoint; use a separate status file",
@@ -121,6 +141,7 @@ export async function runCrawlJob(
       cursor: 0,
       permissionRef: options.permissionRef,
       refresh: options.refresh ?? false,
+      questXp: options.questXp ?? false,
       state: "running",
       pid: process.pid,
       startedAt: now,
@@ -170,7 +191,7 @@ export async function runCrawlJob(
             throw new Error("Crawler violated queue order");
           status.currentKey = key;
           await save();
-          if (stagedBytes + 300000 > maxStaging)
+          if (stagedBytes + (options.questXp ? 400000 : 300000) > maxStaging)
             throw new Error("Stopped: staging storage budget exhausted");
           await options.onTaskStart?.(key);
         },
@@ -184,6 +205,16 @@ export async function runCrawlJob(
           const size = (await stat(resolve(root, filename))).size;
           stagedBytes += size - (sizes.get(filename) ?? 0);
           sizes.set(filename, size);
+          if (
+            options.questXp &&
+            result.key.includes("-quest-") &&
+            !filename.endsWith(".missing.json")
+          ) {
+            const xpFilename = `${result.key}.xp.json`;
+            const xpSize = (await stat(resolve(root, xpFilename))).size;
+            stagedBytes += xpSize - (sizes.get(xpFilename) ?? 0);
+            sizes.set(xpFilename, xpSize);
+          }
           if (result.outcome === "cached") status.counts.cached++;
           else if (result.outcome === "not_found") status.counts.notFound++;
           else {

@@ -15,11 +15,11 @@ import {
 import { ForeverIcon } from "./forever-icon";
 import { useLeveling } from "./leveling-provider";
 import {
-  levelingDashboardPath,
   profileSummary,
   readSharedCharacter,
   readingPositionPath,
 } from "../lib/leveling-experience";
+import { levelingPlanDashboardPath } from "../lib/leveling-route-plan";
 import styles from "./leveling-experience.module.css";
 import { LevelingBackupControls } from "./leveling-backup-controls";
 
@@ -78,7 +78,7 @@ export function LevelingSetup(): React.JSX.Element {
     updateDraft({ ...draft, raceId, classSlug: raceId === draft.raceId ? draft.classSlug : null });
   }
   function finish(profile: CharacterProfile): void {
-    if (saveCharacter(profile, editingId)) router.push(levelingDashboardPath(profile));
+    if (saveCharacter(profile, editingId)) router.push(levelingPlanDashboardPath(profile));
   }
   const race = getLevelingRace(draft.faction, draft.raceId);
   const editingSession = workspace.sessions.find((entry) => entry.id === editingId);
@@ -102,9 +102,10 @@ export function LevelingSetup(): React.JSX.Element {
           <Link
             className={styles.button}
             href={
-              session.lastReader
+              session.lastReader &&
+              !(session.profile.faction === "alliance" && session.profile.party.size === 5)
                 ? readingPositionPath(session)
-                : levelingDashboardPath(session.profile)
+                : levelingPlanDashboardPath(session.profile)
             }
           >
             Resume my route →
@@ -123,7 +124,23 @@ export function LevelingSetup(): React.JSX.Element {
           )}
         </div>
       )}
-      {stage === 0 && <LevelingBackupControls />}
+      {stage === 0 && (
+        <>
+          <LevelingBackupControls />
+          <div className={styles.resume}>
+            <div>
+              <span className="eyebrow">New Alliance review edition</span>
+              <strong>Premade 5 · complete 1–60 leveling plan</strong>
+            </div>
+            <Link
+              className={styles.button}
+              href="/forever/leveling/routes/alliance-human?plan=premade"
+            >
+              Preview the revised quest route →
+            </Link>
+          </div>
+        </>
+      )}
       <ol className={styles.stepper} aria-label="Character setup">
         {stages.map((label, index) => (
           <li key={label} aria-current={index === stage ? "step" : undefined}>
@@ -304,7 +321,7 @@ export function LevelingSetup(): React.JSX.Element {
                 ⚑
               </span>
               <strong>Group</strong>
-              <span>Adventure together. Review group quests and dungeons.</span>
+              <span>Five-player Alliance parties follow the revised dungeon-quest route.</span>
               <small>2–5 players · readiness matters</small>
             </button>
           </div>
@@ -399,7 +416,8 @@ export function LevelingSetup(): React.JSX.Element {
               ← Back to race
             </button>
             <span className={styles.muted}>
-              Current quest order stays intact. Mode-specific route refinements come next.
+              Solo and small groups keep the outdoor route. Five-player Alliance parties use the
+              revised dungeon-quest chapter order.
             </span>
           </div>
         </>

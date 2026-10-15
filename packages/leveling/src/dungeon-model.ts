@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { classSlugs } from "./model.js";
+import { premadeProgressSchema } from "./premade-model.js";
 
 export const dungeonQuestStates = [
   "unknown",
@@ -43,6 +44,7 @@ export interface DungeonQuest {
   readonly objectiveStage: "before" | "inside" | "multiple-visits" | "unknown";
   readonly gate: DungeonGate;
   readonly referenceXp: number | null;
+  readonly baseXp?: number | null;
   readonly shareable: boolean | null;
   readonly rewards: {
     readonly fixed: readonly DungeonRewardItem[];
@@ -109,6 +111,7 @@ export const dungeonFactsSchema = z
             .strict()
             .nullable(),
           referenceXp: z.number().nonnegative().nullable(),
+          baseXp: z.number().nonnegative().nullable().default(null),
           shareable: z.boolean().nullable(),
           rewards: z
             .object({ fixed: z.array(rewardItemSchema), choices: z.array(rewardItemSchema) })
@@ -123,6 +126,7 @@ export const dungeonFactsSchema = z
 
 export const personalDungeonPlanSchema = z
   .object({
+    premade: premadeProgressSchema.nullable().default(null),
     visits: z.record(
       z.string().regex(/^[a-z0-9-]{1,80}$/),
       z.enum(["planned", "deferred", "finished"]),
@@ -253,6 +257,7 @@ export const personalDungeonPlanSchema = z
 export type PersonalDungeonPlan = z.infer<typeof personalDungeonPlanSchema>;
 export function emptyDungeonPlan(): PersonalDungeonPlan {
   return {
+    premade: null,
     visits: {},
     selectedQuests: {},
     questStates: {},

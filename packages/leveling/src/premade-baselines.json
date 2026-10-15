@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "id": 1053,
+      "title": "In the Name of the Light",
+      "baseXp": 4700,
+      "questLevel": 40,
+      "minimumLevel": 34,
+      "source": "https://classicdb.ch/?quest=1053"
+    },
+    {
+      "id": 1101,
+      "title": "The Crone of the Kraul",
+      "baseXp": 3350,
+      "questLevel": 34,
+      "minimumLevel": 29,
+      "source": "https://classicdb.ch/?quest=1101"
+    },
+    {
+      "id": 1142,
+      "title": "Mortality Wanes",
+      "baseXp": 3050,
+      "questLevel": 30,
+      "minimumLevel": 25,
+      "source": "https://classicdb.ch/?quest=1142"
+    },
+    {
+      "id": 1221,
+      "title": "Blueleaf Tubers",
+      "baseXp": 2100,
+      "questLevel": 26,
+      "minimumLevel": 20,
+      "source": "https://classicdb.ch/?quest=1221"
+    },
+    {
+      "id": 7070,
+      "title": "Shadowshard Fragments",
+      "baseXp": 3450,
+      "questLevel": 42,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=7070"
+    },
+    {
+      "id": 7041,
+      "title": "Vyletongue Corruption",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7041"
+    },
+    {
+      "id": 7065,
+      "title": "Corruption of Earth and Seed",
+      "baseXp": 6100,
+      "questLevel": 51,
+      "minimumLevel": 45,
+      "source": "https://classicdb.ch/?quest=7065"
+    },
+    {
+      "id": 7028,
+      "title": "Twisted Evils",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7028"
+    },
+    {
+      "id": 7044,
+      "title": "Legends of Maraudon",
+      "baseXp": 6100,
+      "questLevel": 49,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7044"
+    },
+    {
+      "id": 7066,
+      "title": "Seed of Life",
+      "baseXp": 6100,
+      "questLevel": 51,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=7066"
+    },
+    {
+      "id": 7067,
+      "title": "The Pariah's Instructions",
+      "baseXp": 5450,
+      "questLevel": 48,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=7067"
+    },
+    {
+      "id": 7046,
+      "title": "The Scepter of Celebras",
+      "baseXp": 5700,
+      "questLevel": 49,
+      "minimumLevel": 41,
+      "source": "https://classicdb.ch/?quest=7046"
+    },
+    {
+      "id": 1360,
+      "title": "Reclaimed Treasures",
+      "baseXp": 3600,
+      "questLevel": 43,
+      "minimumLevel": 33,
+      "source": "https://classicdb.ch/?quest=1360"
+    },
+    {
+      "id": 2398,
+      "title": "The Lost Dwarves",
+      "baseXp": 340,
+      "questLevel": 40,
+      "minimumLevel": 35,
+      "source": "https://classicdb.ch/?quest=2398"
+    },
+    {
+      "id": 2240,
+      "title": "The Hidden Chamber",
+      "baseXp": 3900,
+      "questLevel": 40,
+      "minimumLevel": 35,
+      "source": "https://classicdb.ch/?quest=2240"
+    },
+    {
+      "id": 17,
+      "title": "Uldaman Reagent Run",
+      "baseXp": 3450,
+      "questLevel": 42,
+      "minimumLevel": 38,
+      "source": "https://classicdb.ch/?quest=17"
+    },
+    {
+      "id": 704,
+      "title": "Agmond's Fate",
+      "baseXp": 2850,
+      "questLevel": 38,
+      "minimumLevel": 30,
+      "source": "https://classicdb.ch/?quest=704"
+    },
+    {
+      "id": 1139,
+      "title": "The Lost Tablets of Will",
+      "baseXp": 5850,
+      "questLevel": 45,
+      "minimumLevel": 35,
+      "source": "https://classicdb.ch/?quest=1139"
+    },
+    {
+      "id": 2198,
+      "title": null,
+      "baseXp": null,
+      "questLevel": null,
+      "minimumLevel": null,
+      "source": "https://classicdb.ch/?quest=2198"
+    },
+    {
+      "id": 2418,
+      "title": "Power Stones",
+      "baseXp": 3500,
+      "questLevel": 36,
+      "minimumLevel": 30,
+      "source": "https://classicdb.ch/?quest=2418"
+    },
+    {
+      "id": 709,
+      "title": "Solution to Doom",
+      "baseXp": 3150,
+      "questLevel": 40,
+      "minimumLevel": 30,
+      "source": "https://classicdb.ch/?quest=709"
+    },
+    {
+      "id": 2278,
+      "title": "The Platinum Discs",
+      "baseXp": 4200,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2278"
+    },
+    {
+      "id": 3636,
+      "title": "Bring the Light",
+      "baseXp": 4300,
+      "questLevel": 42,
+      "minimumLevel": 39,
+      "source": "https://classicdb.ch/?quest=3636"
+    },
+    {
+      "id": 3523,
+      "title": "Scourge of the Downs",
+      "baseXp": 290,
+      "questLevel": 37,
+      "minimumLevel": 32,
+      "source": "https://classicdb.ch/?quest=3523"
+    },
+    {
+      "id": 3525,
+      "title": "Extinguishing the Idol",
+      "baseXp": 4250,
+      "questLevel": 37,
+      "minimumLevel": 32,
+      "source": "https://classicdb.ch/?quest=3525"
+    },
+    {
+      "id": 6626,
+      "title": "A Host of Evil",
+      "baseXp": 3450,
+      "questLevel": 35,
+      "minimumLevel": 28,
+      "source": "https://classicdb.ch/?quest=6626"
+    },
+    {
+      "id": 2991,
+      "title": "Nekrum's Medallion",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2991"
+    },
+    {
+      "id": 2768,
+      "title": "Divino-matic Rod",
+      "baseXp": 6300,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2768"
+    },
+    {
+      "id": 2865,
+      "title": "Scarab Shells",
+      "baseXp": 3900,
+      "questLevel": 45,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2865"
+    },
+    {
+      "id": 3042,
+      "title": "Troll Temper",
+      "baseXp": 3900,
+      "questLevel": 45,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=3042"
+    },
+    {
+      "id": 2846,
+      "title": "Tiara of the Deep",
+      "baseXp": 6050,
+      "questLevel": 46,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=2846"
+    },
+    {
+      "id": 2770,
+      "title": null,
+      "baseXp": null,
+      "questLevel": null,
+      "minimumLevel": null,
+      "source": "https://classicdb.ch/?quest=2770"
+    },
+    {
+      "id": 3527,
+      "title": "The Prophecy of Mosh'aru",
+      "baseXp": 5250,
+      "questLevel": 47,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=3527"
+    },
+    {
+      "id": 4143,
+      "title": "Haze of Evil",
+      "baseXp": 5100,
+      "questLevel": 52,
+      "minimumLevel": 47,
+      "source": "https://classicdb.ch/?quest=4143"
+    },
+    {
+      "id": 1475,
+      "title": "Into The Temple of Atal'Hakkar",
+      "baseXp": 7100,
+      "questLevel": 50,
+      "minimumLevel": 38,
+      "source": "https://classicdb.ch/?quest=1475"
+    },
+    {
+      "id": 1446,
+      "title": "Jammal'an the Prophet",
+      "baseXp": 6550,
+      "questLevel": 53,
+      "minimumLevel": 38,
+      "source": "https://classicdb.ch/?quest=1446"
+    },
+    {
+      "id": 3373,
+      "title": "The Essence of Eranikus",
+      "baseXp": 2800,
+      "questLevel": 55,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=3373"
+    },
+    {
+      "id": 3446,
+      "title": "Into the Depths",
+      "baseXp": 4900,
+      "questLevel": 51,
+      "minimumLevel": 46,
+      "source": "https://classicdb.ch/?quest=3446"
+    },
+    {
+      "id": 3447,
+      "title": "Secret of the Circle",
+      "baseXp": 6100,
+      "questLevel": 51,
+      "minimumLevel": 46,
+      "source": "https://classicdb.ch/?quest=3447"
+    },
+    {
+      "id": 3528,
+      "title": "The God Hakkar",
+      "baseXp": 7900,
+      "questLevel": 53,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=3528"
+    },
+    {
+      "id": 4262,
+      "title": "Overmaster Pyron",
+      "baseXp": 5100,
+      "questLevel": 52,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4262"
+    },
+    {
+      "id": 4263,
+      "title": "Incendius!",
+      "baseXp": 5800,
+      "questLevel": 56,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4263"
+    },
+    {
+      "id": 4286,
+      "title": "The Good Stuff",
+      "baseXp": 5800,
+      "questLevel": 56,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4286"
+    },
+    {
+      "id": 4126,
+      "title": "Hurley Blackbreath",
+      "baseXp": 7050,
+      "questLevel": 55,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4126"
+    },
+    {
+      "id": 4341,
+      "title": "Kharan Mighthammer",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4341"
+    },
+    {
+      "id": 4362,
+      "title": "The Fate of the Kingdom",
+      "baseXp": 8050,
+      "questLevel": 59,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4362"
+    },
+    {
+      "id": 4241,
+      "title": "Marshal Windsor",
+      "baseXp": 5450,
+      "questLevel": 54,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4241"
+    },
+    {
+      "id": 4322,
+      "title": "Jail Break!",
+      "baseXp": 7750,
+      "questLevel": 58,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4322"
+    },
+    {
+      "id": 4136,
+      "title": "Ribbly Screwspigot",
+      "baseXp": 2650,
+      "questLevel": 53,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=4136"
+    },
+    {
+      "id": 4123,
+      "title": "The Heart of the Mountain",
+      "baseXp": 5650,
+      "questLevel": 55,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4123"
+    },
+    {
+      "id": 7848,
+      "title": "Attunement to the Core",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=7848"
+    },
+    {
+      "id": 3802,
+      "title": "Dark Iron Legacy",
+      "baseXp": 5100,
+      "questLevel": 52,
+      "minimumLevel": 48,
+      "source": "https://classicdb.ch/?quest=3802"
+    },
+    {
+      "id": 4201,
+      "title": "The Love Potion",
+      "baseXp": 5450,
+      "questLevel": 54,
+      "minimumLevel": 50,
+      "source": "https://classicdb.ch/?quest=4201"
+    },
+    {
+      "id": 4024,
+      "title": "A Taste of Flame",
+      "baseXp": 6200,
+      "questLevel": 58,
+      "minimumLevel": 52,
+      "source": "https://classicdb.ch/?quest=4024"
+    },
+    {
+      "id": 4701,
+      "title": "Put Her Down",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4701"
+    },
+    {
+      "id": 5089,
+      "title": "General Drakkisath's Command",
+      "baseXp": 6850,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5089"
+    },
+    {
+      "id": 5001,
+      "title": "Bijou's Belongings",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5001"
+    },
+    {
+      "id": 4862,
+      "title": "En-Ay-Es-Tee-Why",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4862"
+    },
+    {
+      "id": 4729,
+      "title": "Kibler's Exotic Pets",
+      "baseXp": 6400,
+      "questLevel": 59,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4729"
+    },
+    {
+      "id": 4866,
+      "title": "Mother's Milk",
+      "baseXp": 9950,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4866"
+    },
+    {
+      "id": 4742,
+      "title": "Seal of Ascension",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 57,
+      "source": "https://classicdb.ch/?quest=4742"
+    },
+    {
+      "id": 4867,
+      "title": "Urok Doomhowl",
+      "baseXp": 9950,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=4867"
+    },
+    {
+      "id": 4788,
+      "title": "The Final Tablets",
+      "baseXp": 7750,
+      "questLevel": 58,
+      "minimumLevel": 40,
+      "source": "https://classicdb.ch/?quest=4788"
+    },
+    {
+      "id": 5214,
+      "title": "The Great Fras Siabi",
+      "baseXp": 8550,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5214"
+    },
+    {
+      "id": 5251,
+      "title": "The Archivist",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5251"
+    },
+    {
+      "id": 5282,
+      "title": "The Restless Souls",
+      "baseXp": 8850,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5282"
+    },
+    {
+      "id": 5122,
+      "title": "The Medallion of Faith",
+      "baseXp": null,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5122"
+    },
+    {
+      "id": 5262,
+      "title": "The Truth Comes Crashing Down",
+      "baseXp": 8800,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5262"
+    },
+    {
+      "id": 5848,
+      "title": "Of Love and Family",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 52,
+      "source": "https://classicdb.ch/?quest=5848"
+    },
+    {
+      "id": 5243,
+      "title": "Houses of the Holy",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5243"
+    },
+    {
+      "id": 5212,
+      "title": "The Flesh Does Not Lie",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5212"
+    },
+    {
+      "id": 5213,
+      "title": "The Active Agent",
+      "baseXp": 6850,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5213"
+    },
+    {
+      "id": 5125,
+      "title": "Aurius' Reckoning",
+      "baseXp": 9950,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5125"
+    },
+    {
+      "id": 5263,
+      "title": "Above and Beyond",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 55,
+      "source": "https://classicdb.ch/?quest=5263"
+    },
+    {
+      "id": 5463,
+      "title": "Menethil's Gift",
+      "baseXp": 6600,
+      "questLevel": 60,
+      "minimumLevel": 57,
+      "source": "https://classicdb.ch/?quest=5463"
+    },
+    {
+      "id": 8945,
+      "title": "Dead Man's Plea",
+      "baseXp": 8300,
+      "questLevel": 60,
+      "minimumLevel": 58,
+      "source": "https://classicdb.ch/?quest=8945"
+    }
+  ]
+}

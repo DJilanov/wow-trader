@@ -1,9 +1,10 @@
 # Permissioned Wowhead reference enrichment
 
 October 7, 2026. The owner confirmed crawler permission, not an API/export entitlement.
-The crawler is deployed as an isolated production worker. Website enrichment/index-policy changes
-remain local and unpublished; native database rows are not overwritten. KFC recruitment and the
-neutral WoW Forever community keep their own Discord destinations.
+The crawler is deployed as an isolated production worker. Continuous publication is implemented
+separately from crawling; see [the publication runbook](reference-auto-publication.md) for validation,
+partial display, index eligibility and rollout. Native database rows are not overwritten. KFC
+recruitment and the neutral WoW Forever community keep their own Discord destinations.
 
 ## Boundary
 
@@ -33,7 +34,8 @@ A crashed run may leave its lock behind: confirm no worker is running before rem
 lock. Source 404s are quarantined for seven days, count toward the batch limit, and do not stall later
 IDs. `--refresh` rechecks them. Access denials, parser drift and challenges still stop the whole batch.
 Extracted facts are cached rather than storing entire pages containing other users' comments.
-Fresh staging records are skipped; `--refresh` explicitly rechecks them. Forever freshness is 14 days,
+Fresh staging records are skipped; `--refresh` explicitly rechecks them. XP-enabled runs selectively
+fetch a fresh legacy display record if it lacks the current typed XP capability. Forever freshness is 14 days,
 TBC 90 days. A failed fetch never overwrites the last valid record.
 
 ## Run a bounded batch
@@ -103,6 +105,133 @@ releases were deployed and verified first; no Helper website, database schema
 or reference publication was included in this worker update. Release/checkpoint
 backups remain under `/home/wow-trader-reference-worker/backups/20261007-r4`.
 
+October 13 reliability correction: the worker had stopped on October 8 at cursor 607 on TBC
+Tigerseye (818). A paced diagnostic found an unrelated edition-4 item preload alongside the correct
+edition-5 primary dataset. The parser now ignores foreign preloads while requiring the requested
+edition's matching primary item whenever foreign datasets occur. Another edition's same-ID facts
+are never merged, and primary-name, canonical/XML identity and literal-only parsing checks remain.
+Fifteen regressions cover dataset order, both games, same/unrelated IDs and rejected primary data;
+all 53 reference tests, strict typecheck, lint and an isolated production build passed.
+
+The October 13 worker release was `crawl-20261013-r5`, resumed from the preserved cursor 607. Only `parser.ts`
+changed across its eight deployed source modules; no unrelated development/publication edits were
+shipped. Dependency aliases are now relative and confined to the release, with unchanged dependency
+payloads. r4/r2 remain retained for rollback. Private deployment/checkpoint/diagnostic receipts are
+under `/home/wow-trader-reference-worker/backups/20261013-edition.nXim7d/`. At 06:00 UTC the worker
+was online at cursor 609; item 818 and Forever quest 212 had both published as complete. The live
+Tigerseye detail page rendered the new reference. See `fixes.md` for the
+recovery receipt. Pacing, queue hash, storage budgets and source-access stop conditions are unchanged.
+Follow-up at 06:31 UTC confirmed cursor 621, the same running PID, and no error; 14 new records
+had completed since the preserved checkpoint.
+
+### October 15: full source-library leveling priority
+
+The owner requested filling the premade route from the full supplied quest library, prioritizing
+shared kills and named trophies over low-drop collection farms. A separate immutable priority
+snapshot now contains 1,419 unique Forever quest IDs, including all 614 original priority IDs.
+The same `crawl-20261014-r6-xp` runtime and PM2 process 358 are used; no additional worker or
+website release was deployed. Existing staging/pacing, the old priority checkpoint and the base
+checkpoint are preserved. The same 60-second minimum, 384 MiB heap, 8 GiB reserve, 2 GiB staging
+cap and fail-closed source policy apply. PM2 was saved after the scoped worker reconfiguration.
+
+Active snapshot SHA-256:
+`1e25e00fcd345e03cba14f3aa3e3fae78fb1c92cf63ba0db881438989e827e8b`.
+
+```text
+shared/queues/forever-leveling-xp-1e25e00fcd345e03.json
+shared/priority-xp-1e25e00fcd345e03-status.json
+shared/queues/reference-crawler-library.config.cjs
+shared/queues/reference-crawler-previous.config.cjs
+```
+
+At 07:23:46 UTC the new checkpoint was at 156 / 1,419 (152 cache hits, four crawled), without a
+job error. This is collection progress, not four verified XP facts or completed route certification.
+No fixed completion time is promised; missing fields, access restrictions and storage limits can
+hold data or stop the job. Publication continues through the existing independently validated
+publisher; native catalogs/players are not modified.
+
+Generate a new full-library snapshot locally:
+
+```sh
+pnpm leveling:xp:queue --library --destination=/absolute/path/to/new-queue-directory
+```
+
+Default generation deliberately retains the old 614-ID contract. Current source-selection
+refinements produce the same 1,419-ID set with a different ranked order, hash
+`84d8b04476efe3997b27817c68507887ae28ea754158af42eaf47d71ef2dec49`.
+Keep the active snapshot frozen: changing order means a new hash and a separate checkpoint, not
+overwriting an active file. Local inventories/config receipts live under
+`artifacts/leveling/audits/2026-10-15/library-queues/`.
+
+Inspect or roll back on the server:
+
+```sh
+node /home/wow-trader-reference-worker/current/dist/cli.js status --status /home/wow-trader-reference-worker/shared/priority-xp-1e25e00fcd345e03-status.json --staging /home/wow-trader-reference-worker/shared/staging
+pm2 stop kfc-helper-reference-crawl
+pm2 startOrReload /home/wow-trader-reference-worker/shared/queues/reference-crawler-previous.config.cjs --only kfc-helper-reference-crawl --update-env
+pm2 save
+```
+
+Stopping is graceful and saves progress/releases locks. The previous configuration resumes its
+own preserved checkpoint. Do not delete caches, alter pacing or launch a second worker.
+
+### October 14: priority leveling rewards and exact missing-quest redirects
+
+Active worker release: `crawl-20261014-r6-xp`. Helper web and publisher release:
+`kfc-helper-xp-20261014-r5`. The base job had stopped at cursor 746 on quest 260. A permitted,
+durably paced diagnostic found its exact `301 /forever/quests?notFound=260` response. Only this
+same-origin/same-edition exact-ID not-found form is quarantined for seven days without following
+the listing page. Its real HTTP status remains 301. Other redirects, challenges and denials still
+fail closed. The original base queue, checkpoint and pacing were preserved.
+
+The literal-only XP parser reads the same-edition primary quest and
+`WH.Wow.Quest.setupScalingRewards` payload. It never runs source JavaScript or imports comments.
+Inspected public renderers `quest.js?5f36c4ad` and `global-core.js?52d4f803` establish the rounding
+and overlevel rules; a different/missing revision holds numeric XP as unknown pending inspection.
+The primary quest's `xp` is not assumed to be the final displayed amount. Store base, page multiplier,
+full reward and per-character-level table separately; never multiply an adjusted Forever fact again.
+For example, quest 214's base 1,250 and 2.375 page multiplier produce 2,950 full XP, but 2,400 at
+level 23 using the renderer's rounding order. A capture timestamp does not establish a client build.
+
+XP sidecars (`forever-quest-ID.xp.json`) use `quest-xp-evidence.v1` and parser revision
+`wowhead-quest-xp-20261014-v1`. The publisher validates current-client identities, preserves better
+existing facts and holds conflicting claims. It writes immutable checksum-addressed records under
+`shared/published/quest-xp/records/` and atomically updates `quest-xp/index.json`, independently of
+display-reference completeness/SEO readiness. Native catalogs and databases are not modified.
+The website reads fresh snapshots on request; reward refresh preserves player saves.
+
+Generate the queue locally from the authorized archive (not guessed ID ranges):
+
+```sh
+pnpm leveling:xp:queue -- --destination=/absolute/path/to/new-queue-directory
+pnpm leveling:xp:audit -- --destination=/absolute/path/to/reports --rewards=/absolute/path/to/published
+```
+
+The active queue has 614 IDs across 33 Alliance race/class editions, with 304 Human IDs prioritized.
+The generator includes known prerequisite edges; the current inventory added zero prerequisite-only
+IDs and must not be mistaken for a complete externally verified prerequisite graph. The queue hash
+is `32bec0be2d118c31288f66c39884355ce6f04d8045724cc7829b98c2a3121447`. Runtime paths:
+
+```text
+shared/queues/forever-leveling-xp-32bec0be2d118c31.json
+shared/queues/forever-leveling-xp-32bec0be2d118c31.inventory.json
+shared/priority-xp-32bec0be2d118c31-status.json
+shared/status.json  (base cursor remains 746 while priority work runs)
+```
+
+`crawl-priority` processes the separately hash-bound priority checkpoint with `--quest-xp` capability,
+then resumes the base queue with its original policy. No concurrent workers or checkpoint resets.
+The deployed PM2 configuration supplies both queues/checkpoints. Inspect priority progress with:
+
+```sh
+node /home/wow-trader-reference-worker/current/dist/cli.js status --status /home/wow-trader-reference-worker/shared/priority-xp-32bec0be2d118c31-status.json --staging /home/wow-trader-reference-worker/shared/staging
+```
+
+At 11:36 UTC, 24 usable facts were published. Collection can leave rewards unknown; this count is
+data coverage, not proof of reaching 60. One worker, 60-second durable pacing, storage limits and
+access-policy stops remain unchanged. 61 reference tests passed, including real-payload XP
+rounding, source validation, capability refresh, priority/base resume and missing-entity redirects.
+
 Production paths on `89.167.46.193`:
 
 ```text
@@ -145,10 +274,15 @@ facts or every record is approved. Review incomplete records and exact-build mis
 With `--staging`, status also reports the configured maximum HTTP rate, last attempt
 and next permitted request time. Those request timestamps are not record-completion
 timestamps. Old staged facts can exceed their freshness window while a full crawl
-runs; review and explicitly publish selected fresh batches rather than assuming
-that eventual queue completion makes the whole catalog publication-ready.
+runs. The continuous publisher checks freshness as each record becomes available;
+eventual queue completion does not make stale or conflicting facts publication-ready.
 
 ## Review and publish
+
+The October 8 continuous-publisher workflow supersedes manual approval for every record.
+Validated complete records can publish automatically; useful matching partial facts can display
+without index eligibility. Conflicts and unusable facts are held for exceptional review. The manual
+commands below remain available for a specifically reviewed complete batch and local previews.
 
 The report flags absent tooltips/classifications, unresolved item details, missing source/use context,
 and missing quest objectives, requirements, giver or reward context. A candidate passing these
@@ -171,9 +305,10 @@ Set `WOW_TRADER_REFERENCE_DIRECTORY` to this **published directory**, not stagin
 deploying Helper. The website verifies record identity, edition, captured date, checksum and quality.
 Ensure the PM2 application's operating-system user can read the published directory and its files;
 the crawler creates owner-readable artifacts. Ship the manifest and every referenced record together.
-Known item name, classification and level-requirement conflicts with client records suppress the
-reference, item indexing and sitemap inclusion. Sitemap checks read only the core client identity
-fields for candidate approved IDs in bounded database queries. These current-build comparisons are
+Known item name, classification, level-requirement and comparable primary-stat/weapon conflicts
+with client records suppress the reference, item indexing and sitemap inclusion. Sitemap checks
+read the native identity, primary stats and weapon facts for candidate IDs in bounded database
+queries scoped to the selected build. These current-build comparisons are
 not added to the existing persistent catalog cache or mixed into source evidence.
 This is not a complete stat/effect comparison: reviewers still need to
 compare the remaining client fields. It displays attributed source facts beside client/runtime facts,
@@ -181,7 +316,7 @@ never writes them into the native
 catalog tables or lets them silently change economic calculations. New client builds require review
 when their facts differ; the source crawl timestamp is not an exact-build certification.
 
-## Local pilot and remaining rollout
+## Historical local pilot
 
 Nine real edition-specific records were crawled locally: Forever items 25, 2362, 281728;
 Forever quests 92753, 95189, 1654; TBC items 32837, 32375, 22450. Six passed the completeness
@@ -198,10 +333,10 @@ still need a working local database; no production catalog accuracy sign-off is 
 Queues seeded from the inspected Helper maps contain 30,133 distinct TBC items and 23,824 distinct
 Forever items (53,957 combined). They are in `/tmp/kfc-helper-reference-pilot/all-tbc-items.json`
 and `all-forever-items.json`. These older sitemap queues were superseded for the managed run by the
-fresh live inventory above. The full crawl has started, but is **not completed or published**.
-Review exact-build conflicts, then publish approved records to a durable application-readable store
-before releasing the indexing policy. The crawler does not automatically send collected records to
-Google.
+fresh live inventory above. The full source queue remains incomplete. Since October 8, validated
+records are published continuously to the durable store without waiting for the full queue; see
+[the rollout results](reference-auto-publication.md#verified-production-rollout). Publication does
+not automatically submit records to Google or guarantee indexing.
 
 Verification: reference package tests, lint, strict typecheck and build; Helper web tests, lint,
 typecheck and production build. KFC's focused tests and typecheck pass, and its new Tools page
@@ -210,8 +345,8 @@ because local PostgreSQL at port 5454 is unavailable; local Redis is also unavai
 
 ## Indexing policy and release order
 
-The candidate Helper release makes unapproved item/quest detail pages `noindex, follow`. Item URLs
-are removed from its generated sitemaps until approved evidence exists. Approved quest references
+The active Helper release makes incomplete or conflicting item/quest detail pages `noindex, follow`.
+Item URLs are removed from its generated sitemaps until complete matching evidence exists. Quest references
 can render independently with an explicit external-evidence label. Existing tools, search functions,
 client records, recipes and professions remain usable. Private/download/API routes stay protected.
 
@@ -220,8 +355,8 @@ page passes the new index gate**. Sitemap eligibility also checks that the appro
 complete and checksum-valid; a manifest alone is insufficient. Changed client builds can invalidate
 a previously reviewed match, so re-review the references alongside catalog publication.
 Do not accidentally deploy an empty artifact or call that a complete
-enrichment release. Stage/review important records, configure the published path, verify both accepted
-and held pages, then release this policy deliberately. The current live site is unchanged.
+enrichment release. Stage/review important records, configure the published path and verify both
+accepted and held pages. This policy and continuous publication are now active in the October 8 release.
 
 Validate desktop/mobile source sections, canonical URLs, structured data and source links; HTTP 200
 does not imply indexability. Check a deliberately incomplete record is absent from the sitemap and

@@ -7,7 +7,18 @@ import {
   getChapterLabel,
   DUNGEON_QUESTS,
   THANES_REPLACEMENT,
+  campaignRace,
+  campaignSectionFor,
 } from "@wow-trader/leveling";
+import { LevelingCampaign } from "../../../../../../../components/leveling-campaign";
+import {
+  getLevelingCampaign,
+  getLevelingCampaignMaps,
+} from "../../../../../../../lib/leveling-campaign";
+import {
+  CAMPAIGN_CHAPTER_PREFIX,
+  campaignLeaderClass,
+} from "../../../../../../../lib/leveling-route-plan";
 import { LevelingReader } from "../../../../../../../components/leveling-reader";
 import { ImportedLevelingReader } from "../../../../../../../components/imported-leveling-reader";
 import {
@@ -36,7 +47,11 @@ import {
 
 interface ChapterProps {
   readonly params: Promise<{ readonly routeId: string; readonly chapterId: string }>;
-  readonly searchParams: Promise<{ readonly edition?: string; readonly outdoor?: string }>;
+  readonly searchParams: Promise<{
+    readonly edition?: string;
+    readonly outdoor?: string;
+    readonly class?: string | string[];
+  }>;
 }
 export const dynamic = "force-dynamic";
 function resolveChapter(
@@ -67,6 +82,25 @@ export function generateStaticParams(): { routeId: string; chapterId: string }[]
 }
 export async function generateMetadata({ params, searchParams }: ChapterProps): Promise<Metadata> {
   const { routeId, chapterId } = await params;
+  if (chapterId.startsWith(CAMPAIGN_CHAPTER_PREFIX)) {
+    const profile = profileForRouteId(routeId);
+    if (!profile || profile.faction !== "alliance") notFound();
+    const plan = await getLevelingCampaign(
+      campaignRace(profile.raceId),
+      campaignLeaderClass(profile, (await searchParams).class),
+    );
+    const leg = plan
+      ? campaignSectionFor(plan, chapterId.slice(CAMPAIGN_CHAPTER_PREFIX.length))
+      : null;
+    if (!leg) notFound();
+    return createHelperMetadata({
+      title: `${leg.title} — Forever Premade Quest Route`,
+      description:
+        "Follow the revised five-player quest order, prerequisite chains, map waypoints and explicit actual-XP checkpoints.",
+      path: `/forever/leveling/routes/${routeId}/chapters/${chapterId}`,
+      noIndex: true,
+    });
+  }
   const { profile, chapter } = resolveChapter(routeId, chapterId);
   const label = getChapterLabel(chapter, profile);
   const route = getPublicChapter(chapter, profile);
@@ -91,6 +125,25 @@ export default async function LevelingChapterPage({
   searchParams,
 }: ChapterProps): Promise<React.JSX.Element> {
   const { routeId, chapterId } = await params;
+  if (chapterId.startsWith(CAMPAIGN_CHAPTER_PREFIX)) {
+    const profile = profileForRouteId(routeId);
+    if (!profile || profile.faction !== "alliance") notFound();
+    const plan = await getLevelingCampaign(
+      campaignRace(profile.raceId),
+      campaignLeaderClass(profile, (await searchParams).class),
+    );
+    const requested = chapterId.slice(CAMPAIGN_CHAPTER_PREFIX.length);
+    const leg = plan ? campaignSectionFor(plan, requested) : null;
+    if (!plan || !leg) notFound();
+    return (
+      <LevelingCampaign
+        key={`${plan.release}-${leg.id}`}
+        plan={plan}
+        maps={await getLevelingCampaignMaps(plan)}
+        legId={requested}
+      />
+    );
+  }
   const { profile, chapter } = resolveChapter(routeId, chapterId);
   const path = `/forever/leveling/routes/${routeId}/chapters/${chapterId}`;
   const route = getPublicChapter(chapter, profile);

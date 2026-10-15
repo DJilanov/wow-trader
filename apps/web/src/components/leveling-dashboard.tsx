@@ -33,7 +33,7 @@ import { LevelingDungeonPlans } from "./leveling-dungeon-plans";
 import { LevelingChapterPath } from "./leveling-chapter-path";
 import type { ChapterActivity } from "../lib/leveling-chapter-path";
 
-interface LevelingDashboardProps {
+export interface LevelingDashboardProps {
   readonly defaultProfile: CharacterProfile;
   readonly archiveChapters?: readonly GuideChapterSummary[];
   readonly archiveBuild: number | null;
@@ -123,7 +123,11 @@ export function LevelingDashboard({
         </div>
         {race && (
           <span className={styles.heroPortrait}>
-            <ForeverIcon iconKey={race.icon} snapshotChecksum="leveling-70205" />
+            <ForeverIcon
+              iconKey={race.icon}
+              snapshotChecksum="leveling-70205"
+              alt={`${race.name} portrait`}
+            />
           </span>
         )}
       </header>
@@ -317,9 +321,9 @@ export function LevelingDashboard({
         <LevelingDungeonPlans profile={profile} sessionId={matchingSession?.id ?? null} />
       </details>
       <p className={styles.footnote}>
-        Speed, Chill and Group set the planning context. Current published quest order is unchanged;
-        optimized mode-specific lists are a later content phase. Extracted references do not
-        establish server availability or completed playtesting.
+        This edition retains the original outdoor quest order. The Premade 5 edition has a
+        separately authored dungeon-quest order. Extracted references do not establish server
+        availability or completed playtesting.
         {publicChapter && archiveChapters.length > 0 && (
           <>
             <br />
