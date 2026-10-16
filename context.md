@@ -18,8 +18,9 @@ its server-side source or probability.
 - Remote: `git@github.com:DJilanov/wow-trader.git`
 - Local: `/Users/dimitarjilanov/work/test/wow-trader`
 - Branch: `main`, tracking `origin/main`. Production web release
-  `kfc-helper-combat-20261015-r9` is active, preserving the r8 reference reader. r7 and older readers
-  are not compatible with newly published v2 XP facts; use r8 or newer for rollback.
+  `kfc-helper-simulator-20261016-r11` is active; reference publisher remains on the r10 runtime.
+  Both retain the v3 reader accepting v1/v2/v3 facts. Roll back web only to compatible
+  `kfc-helper-xp-reader-20261016-r10`, not a v2-only r9 or earlier release.
   `kfc-helper-library-20261015-r7`, `kfc-helper-zones-20261014-r6`,
   `kfc-helper-xp-20261014-r5`, `kfc-helper-chapters-20261014-r4`,
   `kfc-helper-route-20261013-r3` and
@@ -58,6 +59,39 @@ its server-side source or probability.
 - Tested operation and Forever migration: `docs/runbooks/tbc-validation.md`.
 
 ## Latest delivery and remaining validation
+
+### Simulator release and daily worker deployed
+
+- Feature commit `14f9b5d` is pushed to `origin/main`. Only simulator/update changes were staged;
+  unrelated worktree edits and the personal document remain untouched and uncommitted.
+- Active web release `kfc-helper-simulator-20261016-r11`, Linux build `8HugevLp4-Lvt8LDnKKT7`,
+  is composed from the live r10 baseline plus the feature overlay. Existing catalog observatory,
+  navigation/sitemaps, launchers/package scripts and v3 XP readers are preserved. Deployment metadata
+  lives in the release's `simulator-deployment.json`; source is not a wholesale dirty-worktree upload.
+- Linux passed 41 data tests, 230 web tests, lint/typecheck/webpack build and all 15 browser combat
+  profiles, Raid loading and desktop/mobile layout checks. All 3,475 simulator assets and 661 new
+  talent icons/backgrounds passed server SHA-256 checks. Public HTTPS tests passed the new nine-class
+  selector, class/profile navigation, mobile choices and a genuine combat run without JS errors.
+- `kfc-helper-web` is PID 3057652. New PM2 `kfc-helper-official-updates` is PID 3057700, namespace
+  `kfc`, saved for startup. Its first run succeeded for both official notes and talents; next check
+  is October 17 at 06:00 UTC. Talent source generated October 16/build 70425, checksum
+  `02d195f23062210e4f6f4ea1b2b06e32587a18f56f228862148fa68fd9e8ee18`, is published. Source imports
+  do not auto-patch the pinned combat engine or change the AH catalog.
+- Ingestion PID 1169337, reference publisher PID 3041638 and crawler PID 3041944 were not restarted.
+  The existing guild application (PM2 30) and other services were not modified.
+- Verified pre-publication backup: `/home/wow-trader-system/shared/backups/simulator-20261016-r11-Qr28yC/wow_trader.dump`
+  (216,217,477 bytes; custom dump listing verified). Prior publication pointers and web environment
+  backup are retained on the server. Web and updater share the immutable talent-assets root; old
+  preview assets remain available. No migration or Docker/Go installation on the server.
+- Offline full-workspace install encountered an unrelated missing Electron tarball. This isolated
+  release uses copied Linux dependencies from r10 with exact-version, release-local links for the
+  already installed `cheerio@1.2.0` and `robots-parser@3.0.1`; all server checks passed afterward.
+  The pinned WASM was built locally, verified after transfer and runs on the user's device.
+- Only r11's generated build cache (274 MiB) was removed; runtime, source, published assets,
+  database backup and rollback release are retained. Private preview and SSH tunnel are stopped.
+- Next requested task is research on replacing the dated inner WoWSims interface with modern KFC
+  UI. Keep the reviewed Go/WASM engine and typed worker contracts; do not implement that redesign
+  merely from the current difficulty/approach question.
 
 ### Simulator selector matches the Encyclopedia design
 

@@ -6,6 +6,20 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
+## October 16 simulator production release
+
+- Pushed feature commit `14f9b5d`; deployed `kfc-helper-simulator-20261016-r11` / build
+  `8HugevLp4-Lvt8LDnKKT7` from r10 plus the scoped simulator overlay, not the unrelated worktree.
+- Existing v3 XP readers and catalog surfaces retained; crawler, reference publisher and ingestion
+  PIDs unchanged. Daily official/talent updater is active in PM2 and its first source checks passed.
+- Published October 16/build-70425 talent source after verifying all 661 image assets; legacy assets
+  and immutable snapshots retained. The pinned combat model remains independent of source updates.
+- Verified backup `shared/backups/simulator-20261016-r11-Qr28yC/wow_trader.dump` (216,217,477 bytes).
+  Rollback target is compatible r10; do not downgrade the XP reader or erase newly published facts.
+- Passed Linux 41 data/230 web tests, production build/lint/types, all 15 private combat profiles,
+  public HTTPS combat run and mobile/class-selection checks. Removed only the new 274 MiB generated
+  build cache and stopped the private preview; retained all runtime/source/rollback and backups.
+
 ## October 16 simulator selector design
 
 - The simulator now reuses the Encyclopedia's compact class cards, round local icons, class colours

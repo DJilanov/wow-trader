@@ -13,9 +13,32 @@ reused engine, not a Warrior-first pilot: 15 individual profiles across nine cla
 builder. Tank profiles keep their provisional encounter assumptions; unimplemented healing agents
 are not presented as working simulators.
 
-The local implementation and operating instructions are recorded below. Production has not been
-changed, and the daily production worker is not activated. The original research and later model
-validation requirements remain applicable; automatic news ingestion is not automatic model approval.
+The implementation is deployed and the daily production worker is active. The original research
+and later model validation requirements remain applicable; automatic news ingestion is not
+automatic model approval.
+
+## Production deployment October 16
+
+Feature commit `14f9b5d` is pushed. Web release `kfc-helper-simulator-20261016-r11`, build
+`8HugevLp4-Lvt8LDnKKT7`, retains the r10 production baseline and v3 XP readers with the scoped
+simulator overlay. Existing catalog surfaces, crawler/publisher and ingestion runtime are preserved.
+The new updater is saved in PM2 under `kfc-helper-official-updates`, namespace `kfc`.
+
+The first notes and talent checks succeeded at 10:00 UTC. The published talent snapshot is generated
+October 16 for build 70425, checksum
+`02d195f23062210e4f6f4ea1b2b06e32587a18f56f228862148fa68fd9e8ee18`. All 661 new talent assets and
+3,475 simulator files were hash-verified on the server. Both sources are next due at 06:00 UTC on
+October 17. Daily publication remains independent from the pinned combat model and AH catalog.
+
+Linux validation passed 41 data tests, 230 web tests, lint, TypeScript and the production build.
+Every supported individual profile produced a browser combat result; Raid and mobile layouts passed.
+The public HTTPS class/profile flow also produced a real combat result after activation.
+
+The verified pre-publication backup is
+`/home/wow-trader-system/shared/backups/simulator-20261016-r11-Qr28yC/wow_trader.dump`
+(216,217,477 bytes). The release retains prior publication pointers and the web environment backup.
+Rollback must use the compatible r10 web runtime, not a pre-v3 XP reader. Source/runtime files,
+published assets and backups are retained; only the new generated build cache was removed.
 
 ## Existing data and concrete gaps
 
@@ -306,7 +329,7 @@ Daily notes are the small independent delivery. Modern item normalization and cl
 validation are the substantial work; a complete all-class simulator should be planned as several
 validated releases, not one automatic patch-note conversion.
 
-## Implemented local release
+## Implemented release
 
 ### Simulator and equipment policy
 
@@ -352,8 +375,9 @@ existing PostgreSQL publication pointer. Full-checksum asset URLs preserve old s
 12-character asset URLs remain readable and ambiguous prefixes fail explicitly. Neither importing
 the feed nor publishing notes modifies the separately pinned combat model.
 
-The live feed inspected on October 16 has 466 complete talents and 1,826 spellbook entries for build
-70425 with no validation issues. It has been inspected, not published to production by this task.
+The published October 16 feed has 466 complete talents and 1,826 spellbook entries for build 70425
+with no validation issues. It retains its attributed beta-source provenance, not independent
+client-verification status.
 
 ### Current client extraction
 
