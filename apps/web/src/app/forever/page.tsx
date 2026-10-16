@@ -8,7 +8,7 @@ import { createHelperMetadata, HELPER_SITE_URL } from "../../lib/seo";
 export const metadata: Metadata = createHelperMetadata({
   title: "WoW Forever Database, Professions & Auction House Tools",
   description:
-    "Explore WoW Forever Auction House scans, the WoW Trader Collector, talent calculator, spellbooks, racials, class abilities, Legacy perks, maps, quests, and bosses.",
+    "Explore WoW Forever Auction House scans, leveling, all-class combat simulation, talent calculator, spellbooks, patch notes, maps, quests and bosses.",
   path: "/forever",
   keywords: [
     "WoW Forever database",
@@ -43,10 +43,20 @@ export default function ForeverHelperPage(): React.JSX.Element {
       <HelperSelection
         eyebrow="WoW Forever · live beta tools"
         title="Explore, trade or find your path"
-        description="Choose your leveling journey, browse the Forever Encyclopedia or inspect accepted Auction House scans from the native WoW Trader Collector."
+        description="Choose your leveling journey, simulate your build, browse the Forever Encyclopedia or inspect accepted Auction House scans from the native WoW Trader Collector."
         backHref="/"
         backLabel="Change game"
         options={[
+          {
+            title: "Simulator",
+            eyebrow: "Gear, talents and combat",
+            description:
+              "Compare builds, rotations and equipment across every supported class, tank profile and raid simulation.",
+            status: "All classes · Forever beta model",
+            image: { src: "/wow-assets/tools/encyclopedia.jpg", kind: "icon" },
+            tone: "encyclopedia",
+            href: "/forever/simulator",
+          },
           {
             title: "Leveling",
             eyebrow: "Your path through Azeroth",

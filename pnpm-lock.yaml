@@ -384,9 +384,15 @@ importers:
       "@wow-trader/db":
         specifier: workspace:*
         version: link:../db
+      cheerio:
+        specifier: 1.2.0
+        version: 1.2.0
       drizzle-orm:
         specifier: 0.45.2
         version: 0.45.2(postgres@3.4.9)
+      robots-parser:
+        specifier: 3.0.1
+        version: 3.0.1
       zod:
         specifier: 4.6.5
         version: 4.6.5

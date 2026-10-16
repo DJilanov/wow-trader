@@ -13,6 +13,8 @@ import { FOREVER_CLIENT_PRODUCT } from "../lib/game-versions";
 import { HELPER_SHARE_IMAGE, HELPER_SITE_URL } from "../lib/seo";
 import { WESTFALL_READER_PATH } from "../lib/leveling-experience";
 
+import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
+
 export const dynamic = "force-dynamic";
 
 const getCachedSitemapCatalogData = unstable_cache(getSitemapCatalogData, ["tbc-sitemap-catalog"], {
@@ -39,6 +41,15 @@ const foreverClasses = [
 ] as const;
 
 const staticEntries: MetadataRoute.Sitemap = [
+  ...[
+    "/forever/simulator",
+    ...SIMULATOR_SPECS.map((spec) => `/forever/simulator/${spec.slug}`),
+  ].map((path) => ({
+    url: `${HELPER_SITE_URL}${path}`,
+    lastModified: new Date("2026-10-16T00:00:00Z"),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  })),
   {
     url: `${HELPER_SITE_URL}/forever/leveling`,
     lastModified: new Date(WESTFALL_ROUTE.reviewedAt),

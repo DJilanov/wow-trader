@@ -9,7 +9,7 @@ describe("robots", () => {
     expect(result.rules).toContainEqual({
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/data-status", "/calculator/", "/opportunities"],
+      disallow: ["/api/", "/forever-sim/", "/data-status", "/calculator/", "/opportunities"],
     });
   });
 

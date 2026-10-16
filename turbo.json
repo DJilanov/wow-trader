@@ -2,7 +2,9 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": [
         "dist/**",
         "dist-utility/**",
@@ -17,6 +19,11 @@
       "persistent": true,
       "passThroughEnv": [
         "DATABASE_URL",
+        "FOREVER_SIMULATOR_ROOT",
+        "FOREVER_UPDATES_ROOT",
+        "FOREVER_MECHANICS_ROOT",
+        "FOREVER_ASSET_ROOT",
+        "FOREVER_ASSET_RELEASES_ROOT",
         "INGEST_API_HOST",
         "INGEST_API_KEYS",
         "INGEST_API_PORT",
@@ -32,13 +39,20 @@
       ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "typecheck": {
-      "dependsOn": ["^build", "^typecheck"]
+      "dependsOn": [
+        "^build",
+        "^typecheck"
+      ]
     }
   }
 }

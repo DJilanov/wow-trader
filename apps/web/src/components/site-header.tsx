@@ -9,6 +9,7 @@ const navigation = [
   ["Forever Trader", "/forever/trader"],
   ["Forever Leveling", "/forever/leveling"],
   ["Forever Encyclopedia", "/forever/encyclopedia"],
+  ["Simulator", "/forever/simulator"],
   ["Get Collector", "/forever/addon"],
   ["TBC Tools", "/tbc"],
   ["Data status", "/data-status"],

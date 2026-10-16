@@ -47,6 +47,28 @@ async function main(arguments_) {
   logStep("Building workspace packages");
   await runPnpm(["exec", "turbo", "run", "build", "--output-logs=errors-only"]);
 
+  logStep("Preparing the versioned all-class Forever simulator");
+  const { prepareSimulator } = await import("./prepare-forever-simulator.mjs");
+  const simulator = await prepareSimulator();
+  process.env.FOREVER_SIMULATOR_ROOT = resolve(
+    process.env.FOREVER_SIMULATOR_ROOT || "artifacts/forever-simulator",
+  );
+  logStep(`Simulator ${simulator.release} is ready`);
+  process.env.FOREVER_UPDATES_ROOT = resolve(
+    process.env.FOREVER_UPDATES_ROOT || "artifacts/forever-updates",
+  );
+  process.env.FOREVER_MECHANICS_ROOT = resolve(
+    process.env.FOREVER_MECHANICS_ROOT || "artifacts/forever-client-data",
+  );
+  logStep("Checking the local official-notes archive");
+  try {
+    await runPnpm(["forever:updates", "--local-only"]);
+  } catch {
+    logStep(
+      "Official notes could not refresh; keeping the last good archive and starting the website",
+    );
+  }
+
   const foreverAssetRoot = await ensureForeverPreview();
   process.env.FOREVER_ASSET_ROOT = foreverAssetRoot;
 

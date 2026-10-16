@@ -40,6 +40,7 @@ const characterLinks = [
   ["racials", "Racials", "/forever/encyclopedia/racials"],
   ["abilities", "Class abilities", "/forever/encyclopedia/abilities"],
   ["legacy", "Legacy", "/forever/encyclopedia/legacy"],
+  ["simulator", "Simulator ↗", "/forever/simulator"],
 ] as const;
 
 const worldLinks = [

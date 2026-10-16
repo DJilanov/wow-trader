@@ -75,7 +75,8 @@ internal sealed class CascTableExtractor
       }
       catch (Exception exception) when (
           tolerateUnavailableTables &&
-          exception.Message.Contains("File not found", StringComparison.OrdinalIgnoreCase))
+          (exception is FileNotFoundException ||
+           exception.Message.Contains("File not found", StringComparison.OrdinalIgnoreCase)))
       {
         Console.WriteLine($"Unavailable in this client build: {tableName}");
       }

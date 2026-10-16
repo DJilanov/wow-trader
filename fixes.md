@@ -1,10 +1,44 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-10-15
+Last updated: 2026-10-16
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## October 16 simulator selector design
+
+- The simulator now reuses the Encyclopedia's compact class cards, round local icons, class colours
+  and ordering. Shared appearance metadata prevents the two selectors drifting independently.
+- Multi-profile choices use a class query and anchored panel; single-profile classes open directly.
+  Workspace navigation shows only the selected class, not a row of 16 unrelated text links.
+- 230 web tests, lint/typecheck/build and desktop/tablet/mobile Playwright flow checks passed.
+  Existing engine/model data and production services were not modified; local preview is port 3017.
+
+## October 16 simulator and daily source integration safeguards
+
+- All supported Forever-engine profiles are available locally, not only Warrior. Source is pinned
+  to `9a27c3d6af91d1ca0dbcf94a124b8869ad522108`; 1,908 real-source equipment records remain, 939
+  projections/rankings are excluded, and the old Classic fallback cannot reintroduce excluded stats.
+- Immutable engine builds include the builder/overlay/vendor identities, remove only their generated
+  upstream build cache before rebuilding, reject mixed release references, and retain published
+  releases. Browser combat checks cover all 15 individual profiles; Raid has a load check.
+- Daily notes enforce topic identity, full stream pagination, official staff/author evidence,
+  robots/access/size rules and Retry-After even with force. DB publication wins over a stale local
+  archive; unchanged local captures can subsequently be persisted to DB. No per-view upstream fetch.
+- Talent updates require all nine complete classes, consistent beta build evidence and non-backwards
+  dates. Verify/stage all assets before publication; corrupt immutable assets fail closed. New
+  full-checksum asset URLs and old short URLs coexist, with explicit ambiguous-prefix handling.
+- Notes/talent worker is prepared for 06:00 UTC PM2 operation but has not been activated in production.
+  Keep the worker and web asset-release root identical. Source refresh does not modify combat code.
+- Current-client audit now joins modern stat budgets and item-effect link tables. Build 70425:
+  12,400 equipment records, 12,328 resolved base-field records, 536 sets/1,477 effects and 469 talents.
+  Seven positions and 147 rank texts remain unresolved; never guess them or auto-promote into a model.
+- Next runtime filesystem roots are deliberately excluded from static tracing. Web tests search
+  `src`, not generated standalone copies. Blank optional root settings retain their intended defaults.
+- Passed 41 data tests, 226 web tests, strict types/lint, .NET build, focused Go core tests and
+  browser/production build checks. Current implementation is local only; see the operating steps in
+  `docs/forever-patch-notes-talents-simulator-plan.md`. Existing production/crawler release unchanged.
 
 ## Verified quest-library release (2026-10-15)
 

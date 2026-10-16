@@ -25,6 +25,28 @@ export interface ForeverAssetSyncResult {
   readonly missing: readonly string[];
 }
 
+export async function verifyForeverAssets(
+  data: ForeverExport,
+  supplemental: ForeverSupplemental,
+  outputRoot: string,
+  snapshotChecksum: string,
+): Promise<boolean> {
+  const entries = await readReusableEntries(outputRoot, snapshotChecksum);
+  for (const reference of collectAssetReferences(data, supplemental)) {
+    if (!/^[a-z0-9_]+$/i.test(reference.key)) return false;
+    const expected = entries.get(`${reference.kind}:${reference.key}`);
+    if (!expected) return false;
+    try {
+      const actual = manifestEntry(reference, await readFile(assetPath(outputRoot, reference)));
+      if (actual.bytes !== expected.bytes || actual.sha256 !== expected.sha256) return false;
+    } catch (error: unknown) {
+      if (isMissingFileError(error)) return false;
+      throw error;
+    }
+  }
+  return true;
+}
+
 export async function syncForeverAssets(
   data: ForeverExport,
   supplemental: ForeverSupplemental,

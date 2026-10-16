@@ -24,7 +24,7 @@ const BLOCKED_CRAWLERS = [
 ] as const;
 
 export default function robots(): MetadataRoute.Robots {
-  const disallow = ["/api/", "/data-status", "/calculator/", "/opportunities"];
+  const disallow = ["/api/", "/forever-sim/", "/data-status", "/calculator/", "/opportunities"];
 
   return {
     rules: [

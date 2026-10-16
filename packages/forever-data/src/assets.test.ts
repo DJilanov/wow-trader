@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { syncForeverAssets } from "./assets.js";
+import { syncForeverAssets, verifyForeverAssets } from "./assets.js";
 import type { ForeverExport } from "./schemas.js";
 
 const temporaryDirectories: string[] = [];
@@ -84,7 +84,14 @@ describe("Forever asset synchronization", () => {
     expect(first).toMatchObject({ total: 2, downloaded: 2, reused: 0, missing: [] });
     expect(requests).toBe(2);
 
+    expect(await verifyForeverAssets(fixture, { spellbookIcons: {} }, outputRoot, checksum)).toBe(
+      true,
+    );
+
     await writeFile(join(outputRoot, "icons/class_warrior.jpg"), new Uint8Array([1, 2, 3]));
+    expect(await verifyForeverAssets(fixture, { spellbookIcons: {} }, outputRoot, checksum)).toBe(
+      false,
+    );
     const second = await syncForeverAssets(
       fixture,
       { spellbookIcons: {} },

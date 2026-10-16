@@ -5,6 +5,7 @@ import {
 } from "@wow-trader/forever-data/server";
 
 import { getDatabase } from "./database";
+import { FOREVER_CLASS_APPEARANCES } from "./forever-classes";
 
 export interface ForeverClassDirectoryEntry {
   readonly name: string;
@@ -24,30 +25,6 @@ export interface ForeverClassPageData {
   readonly snapshot: PublishedForeverSnapshot;
 }
 
-const classOrder = [
-  "Warrior",
-  "Paladin",
-  "Hunter",
-  "Rogue",
-  "Priest",
-  "Shaman",
-  "Mage",
-  "Warlock",
-  "Druid",
-] as const;
-
-const classColors: Readonly<Record<string, string>> = {
-  Warrior: "#c69b6d",
-  Paladin: "#f48cba",
-  Hunter: "#aad372",
-  Rogue: "#fff468",
-  Priest: "#ffffff",
-  Shaman: "#0070dd",
-  Mage: "#3fc7eb",
-  Warlock: "#8788ee",
-  Druid: "#ff7c0a",
-};
-
 export async function getForeverSnapshot(
   checksum?: string,
 ): Promise<PublishedForeverSnapshot | null> {
@@ -57,14 +34,14 @@ export async function getForeverSnapshot(
 export function getForeverClassDirectory(
   data: ForeverExport,
 ): readonly ForeverClassDirectoryEntry[] {
-  return classOrder.flatMap((name) => {
+  return FOREVER_CLASS_APPEARANCES.flatMap(({ name, slug, color }) => {
     const classData = data.talents[name];
     if (!classData) return [];
     return [
       {
         name,
-        slug: name.toLowerCase(),
-        color: classColors[name] ?? "#d7913a",
+        slug,
+        color,
         icon: classData.icon,
         treeNames: classData.trees.map(({ name: treeName }) => treeName),
         talentCount: classData.trees.reduce((total, tree) => total + tree.talents.length, 0),
@@ -102,7 +79,7 @@ export function foreverAssetUrl(
   key: number | string,
   snapshotChecksum: string,
 ): string {
-  return `/api/forever-assets/${kind}/${encodeURIComponent(String(key))}?v=${snapshotChecksum.slice(0, 12)}`;
+  return `/api/forever-assets/${kind}/${encodeURIComponent(String(key))}?v=${snapshotChecksum}`;
 }
 
 export function sourceText(value: string): string {

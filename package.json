@@ -53,7 +53,12 @@
     "extract:forever:world": "tools/extractor-dotnet/run-forever-world-extraction.sh",
     "forever:addon-seeds": "node scripts/generate-forever-addon-seeds.mjs",
     "world:audit": "pnpm --filter @wow-trader/world-data dev audit",
-    "world:import": "pnpm --filter @wow-trader/world-data dev import"
+    "world:import": "pnpm --filter @wow-trader/world-data dev import",
+    "forever:updates": "node packages/forever-data/dist/updates-cli.js",
+    "simulator:prepare": "node scripts/prepare-forever-simulator.mjs",
+    "simulator:smoke": "node scripts/smoke-forever-simulator.mjs",
+    "extract:forever:mechanics": "pnpm --filter @wow-trader/forever-data build && node scripts/extract-forever-mechanics.mjs",
+    "forever:mechanics:import": "node scripts/import-forever-mechanics.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

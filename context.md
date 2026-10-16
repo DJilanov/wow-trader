@@ -1,6 +1,6 @@
 # WoW Trader project context
 
-Last updated: 2026-10-15
+Last updated: 2026-10-16
 
 ## Goal and current target
 
@@ -58,6 +58,78 @@ its server-side source or probability.
 - Tested operation and Forever migration: `docs/runbooks/tbc-validation.md`.
 
 ## Latest delivery and remaining validation
+
+### Simulator selector matches the Encyclopedia design
+
+- Replaced the large simulator panels with the Encyclopedia's existing `forever-class-grid` cards:
+  circular local icons, class-coloured glow, serif labels, compact descriptions and identical class
+  ordering. Class appearance metadata now lives in `apps/web/src/lib/forever-classes.ts` and is
+  shared with the existing Encyclopedia directory; no simulator DB dependency was introduced.
+- Single-profile classes open directly. Multi-profile cards expose their supported choices at
+  `/forever/simulator?class=<slug>#simulator-profiles`; the selection is shareable and works through
+  normal links. All 15 individual profiles remain accessible; Raid has its own compact card.
+- Profile pages now show a circular class portrait and only that class's profile tabs, with a clear
+  return to class selection. Technical/beta details remain accessible in compact disclosures rather
+  than occupying the selection grid. Combat code, model release, URLs and market/crawler state are
+  unchanged.
+- Passed 230 web tests, lint, strict typecheck, and production build. Playwright verified all nine
+  loaded local icons, Druid selection/three profiles/Feral Tank navigation, invalid class handling,
+  Raid and 1,440/768/390px layouts without overflow or JavaScript errors. Screenshots were inspected;
+  the redesigned Warrior class → profile → embedded simulation flow produced a real combat result.
+- Local preview remains `http://localhost:3017/forever/simulator`. No commit, push or deployment was
+  requested or performed for this design change.
+
+### All class simulator and daily source updates implemented locally
+
+- User authorizes implementing the previous plan and explicitly requires all WoWSims-supported
+  classes/specs, not a Warrior-only pilot. No commit/push/deploy request in this turn.
+- Official notes contracts/parser, bounded robots-aware Discourse fetching, immutable DB/file
+  publication, source cooldowns, daily health/locks and CLI are in `packages/forever-data/src/updates*.ts`.
+  DB publication takes precedence over the local archive; a local-only capture can later be imported
+  into DB. Failures preserve last-good notes. Changes renders class/system/category summaries with
+  original-post links, independently from the existing catalog and preview-source history.
+- Reused source is pinned gunba Forever revision `9a27c3d6af91d1ca0dbcf94a124b8869ad522108`, checked
+  out at `.cache/forever-sim-upstream`. Read its root AGENTS.md. All 15 launched individual pages
+  across nine classes plus raid are in scope; four unlaunched healer agents must not be advertised.
+  All 15 individual profiles produced real browser combat results; Raid loaded cleanly. Four
+  unlaunched healer agents are excluded. npm dependencies installed with ignore-scripts.
+- Native Go 1.27.2, verified against the official SHA, is isolated under
+  `.cache/simulator-toolchain/go`; protoc-gen-go is under `.cache/simulator-toolchain/bin`.
+  Fork npm protoc wrapper installed protoc 36.2; `make proto` passed. No Docker/system Go install.
+- Reproducible preparation uses `scripts/prepare-forever-simulator.mjs` plus the reviewed host overlay.
+  Self-hosted versioned WASM/workers/JS/CSS/fonts; no remote website iframe or server-side simulation.
+  Retains 1,908 real-source equipment records, excludes 939 projected records/rankings and restricts
+  the Classic fallback DB. The clean generated build avoids copying stale hashed bundles, and the
+  release identity includes the builder, source/config, overlay and vendor hashes.
+- `/forever/simulator` has all supported profile links and a raid builder; navigation and Forever
+  home are integrated. `/forever/simulator/data` shows the separate current-client audit. The
+  manifest-listed asset route streams WASM, supports conditional/HEAD caching, rejects traversal and
+  escaping symlinks, and applies a scoped CSP. Operational assets are not indexed in search.
+- The separate .NET `mechanics-snapshot` command succeeds with reviewed WoWDBDefs revision
+  `996e53f029c0213b223aecb94d754f6b4b9efb49`: 58 item/Trait/curve/spell tables plus CombatRatings,
+  exact build/hotfix capture, checksums and encrypted-record counts. No AH catalog mutation.
+  Artifact: `artifacts/forever-mechanics/70425/8464d7adbd3e6aba33b8c8ccefe6085c7b5c2ac0672685cbfb7e8671b01fffb8/mechanics-20261016T084757Z-2aedcf9205934b11898d991d60ee8d1d/manifest.json`.
+- Normalized audit checksum `b52b73d2765c00a0569a86f2923843ea1c264fafd5af9d5eec3874db4d7a23aa`:
+  12,400 equippable records, 12,328 resolved base-field records, 536 sets, 1,477 set effects and
+  469 active talents across all nine classes. Seven layouts and 147 rank-text records need review.
+  This audit is not a claim that every item/proc is simulator-ready or server-verified.
+- Daily worker `scripts/forever-updates-worker.mjs` and PM2 config check notes plus the structured
+  talent feed at 06:00 UTC, with independent failure handling. All-class validation and verified
+  immutable assets precede talent DB publication; old URLs/snapshots remain readable. Worker/web
+  must share `FOREVER_ASSET_RELEASES_ROOT`; keep legacy asset root for historical releases.
+  The October 16/build-70425 live feed validates with 466 complete talents/1,826 spellbook entries.
+  No current task has published it to production or activated the PM2 worker.
+- Verified 41 forever-data and 226 web tests, strict types, focused script/package/web lints,
+  .NET build (zero warnings/errors), selected Go core mechanics tests, all-profile browser runs,
+  desktop/mobile layout checks, and production Next build. Tracing boundaries prevent runtime data
+  paths from bundling the project; source-scoped web tests avoid discovering generated build copies.
+- Preview server is on port 3017, with absolute simulator/notes roots and isolated
+  `.next-simulator-dev`. No production changes, commits or pushes were made. Deployment instructions
+  and future model gates: `docs/forever-patch-notes-talents-simulator-plan.md`.
+- Remaining model work: durable entity reconciliation/save migrations across tree changes,
+  individual effect and dungeon-set validation, controlled game evidence and simulation-backed BiS.
+  Daily news/talent publication never auto-generates or silently patches combat code.
+
 
 ### Combat XP web deployment (2026-10-15)
 

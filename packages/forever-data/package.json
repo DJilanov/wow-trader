@@ -11,13 +11,33 @@
     "./server": {
       "types": "./dist/server.d.ts",
       "import": "./dist/server.js"
+    },
+    "./updates": {
+      "types": "./dist/updates.d.ts",
+      "import": "./dist/updates.js"
+    },
+    "./updates-server": {
+      "types": "./dist/updates-server.d.ts",
+      "import": "./dist/updates-server.js"
+    },
+    "./simulator": {
+      "types": "./dist/simulator.d.ts",
+      "import": "./dist/simulator.js"
+    },
+    "./mechanics": {
+      "types": "./dist/mechanics.d.ts",
+      "import": "./dist/mechanics.js"
+    },
+    "./talent-sync": {
+      "types": "./dist/talent-sync.d.ts",
+      "import": "./dist/talent-sync.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/public.ts src/server.ts src/cli.ts --format esm --dts --sourcemap --clean",
+    "build": "tsup src/public.ts src/server.ts src/simulator.ts src/mechanics.ts src/talent-sync.ts src/updates.ts src/updates-server.ts src/updates-cli.ts src/cli.ts --format esm --dts --sourcemap --clean",
     "dev": "tsx src/cli.ts",
     "lint": "eslint src",
     "test": "vitest run",
@@ -25,7 +45,9 @@
   },
   "dependencies": {
     "@wow-trader/db": "workspace:*",
+    "cheerio": "1.2.0",
     "drizzle-orm": "0.45.2",
+    "robots-parser": "3.0.1",
     "zod": "4.6.5"
   },
   "devDependencies": {

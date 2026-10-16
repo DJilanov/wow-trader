@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/gunba/wow-forever-sim.git",
+  "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+  "toolchain": "go1.27.2",
+  "goDownloads": {
+    "darwin-x64": "587b59182488b23aa6e5fc25110405a3e0e5b38ed2f5b2f46ed13c32aee356fe",
+    "darwin-arm64": "76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5",
+    "linux-x64": "ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5",
+    "linux-arm64": "94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8"
+  }
+}
