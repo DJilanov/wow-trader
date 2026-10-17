@@ -39,6 +39,11 @@ export default async function ForeverSimulatorPage({
         </p>
       </header>
       <ForeverSimulatorClassSelector selectedClass={selectedClass?.slug ?? null} />
+      {process.env.NODE_ENV === "development" ? (
+        <p>
+          <Link href="/forever/simulator/review">Review local calculated builds →</Link>
+        </p>
+      ) : null}
       {selectedClass ? (
         <section
           className="simulator-profile-picker"
@@ -95,8 +100,13 @@ export default async function ForeverSimulatorPage({
         </p>
         {manifest ? (
           <p>
-            {manifest.itemCount.toLocaleString()} real-source items ·{" "}
-            {manifest.excludedModeledItems.toLocaleString()} projected items excluded · Engine{" "}
+            {manifest.itemCount.toLocaleString()} selectable items ·{" "}
+            {(manifest.currentItemCount ?? manifest.itemCount).toLocaleString()} current Forever
+            records
+            {manifest.provisionalItemCount
+              ? ` · ${manifest.provisionalItemCount.toLocaleString()} provisional Classic pre-raid references`
+              : ""}{" "}
+            · {manifest.excludedModeledItems.toLocaleString()} projected items excluded · Engine{" "}
             {manifest.revision.slice(0, 10)}.
           </p>
         ) : (
@@ -112,17 +122,6 @@ export default async function ForeverSimulatorPage({
           Review official updates and data freshness →
         </Link>
       </details>
-      <p className="muted">
-        Based on{" "}
-        <a href="https://github.com/wowsims/classic" target="_blank" rel="noreferrer">
-          WoWSims
-        </a>{" "}
-        and the{" "}
-        <a href="https://github.com/gunba/wow-forever-sim" target="_blank" rel="noreferrer">
-          Forever adaptation
-        </a>
-        , under the MIT license. Equipment presence is not proof of phase availability.
-      </p>
     </article>
   );
 }

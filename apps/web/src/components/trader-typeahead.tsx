@@ -135,6 +135,9 @@ export function TraderTypeahead({
           value={draftMarket}
         >
           {markets.length === 0 ? <option value="">No scans available</option> : null}
+          {initialMarket && !markets.some((market) => market.value === initialMarket) ? (
+            <option value={initialMarket}>Selected market has no accepted scan</option>
+          ) : null}
           {markets.map((market) => (
             <option key={market.value} value={market.value}>
               {market.label}

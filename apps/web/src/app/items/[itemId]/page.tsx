@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { referenceIndexGaps } from "@wow-trader/reference-data";
 
 import { DataUnavailable } from "../../../components/data-unavailable";
+import { CatalogReference } from "../../../components/catalog-reference";
+import { getCatalogReference, itemReferenceMatchesClient } from "../../../lib/catalog-reference";
 import { ItemTooltip } from "../../../components/item-tooltip";
 import { JsonLd } from "../../../components/json-ld";
+import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
 import { getItemDetail, type ItemMarketData } from "../../../lib/data";
 import { formatCopper, formatRelativeTime } from "../../../lib/format";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
@@ -18,55 +22,86 @@ interface ItemPageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: ItemPageProps): Promise<Metadata> {
+export async function createCatalogItemMetadata(
+  { params }: ItemPageProps,
+  config: CatalogPageConfig,
+): Promise<Metadata> {
   const { itemId } = await params;
   const numericItemId = Number(itemId);
   const fallback = createHelperMetadata({
-    title: `TBC Item ${itemId}`,
-    description: `TBC Classic item ${itemId} in the build-aware KFC Helper item database.`,
-    path: `/tbc/encyclopedia/items/${encodeURIComponent(itemId)}`,
-    noIndex: !Number.isSafeInteger(numericItemId) || numericItemId <= 0,
+    title: `${config.gameLabel} Item ${itemId}`,
+    description: `${config.gameLabel} item ${itemId} in the build-aware KFC Helper item database.`,
+    path: `${config.encyclopediaBasePath}/items/${encodeURIComponent(itemId)}`,
+    noIndex: true,
   });
   if (!Number.isSafeInteger(numericItemId) || numericItemId <= 0) return fallback;
 
   try {
-    const item = await getItemDetail(numericItemId);
+    const item = await getItemDetail(numericItemId, config.clientProduct);
     if (!item) return { ...fallback, robots: { index: false, follow: true } };
+    const reference = await getCatalogReference(config.wowheadGamePath, "item", numericItemId);
     return createHelperMetadata({
-      title: `${item.name} — TBC Item ${item.itemId}`,
-      description: `${item.name} (item ${item.itemId}) from TBC Classic: item level ${item.itemLevel}, requirements, stats, effects, sockets, set data, vendor value, and build provenance.`,
-      path: `/tbc/encyclopedia/items/${item.itemId}`,
-      keywords: [item.name, `${item.name} TBC`, `TBC item ${item.itemId}`],
+      title: `${item.name} — ${config.gameLabel} Item ${item.itemId}`,
+      description: `${item.name} (item ${item.itemId}) from ${config.gameLabel}: item level ${item.itemLevel}, requirements, stats, effects, crafting relationships, market history, and build provenance.`,
+      path: `${config.encyclopediaBasePath}/items/${item.itemId}`,
+      keywords: [
+        item.name,
+        `${item.name} ${config.gameLabel}`,
+        `${config.gameLabel} item ${item.itemId}`,
+      ],
+      noIndex: !reference || referenceIndexGaps(reference, item).length > 0,
     });
   } catch {
     return fallback;
   }
 }
 
+export function generateMetadata(props: ItemPageProps): Promise<Metadata> {
+  return createCatalogItemMetadata(props, TBC_CATALOG_PAGE_CONFIG);
+}
+
 export default async function ItemPage({
   params,
   searchParams,
 }: ItemPageProps): Promise<React.JSX.Element> {
+  return CatalogItemPage({
+    params,
+    ...(searchParams ? { searchParams } : {}),
+    config: TBC_CATALOG_PAGE_CONFIG,
+  });
+}
+
+export async function CatalogItemPage({
+  params,
+  searchParams,
+  config,
+}: ItemPageProps & { readonly config: CatalogPageConfig }): Promise<React.JSX.Element> {
   const itemId = Number((await params).itemId);
   if (!Number.isSafeInteger(itemId) || itemId <= 0) notFound();
   const viewer = parseViewer(await searchParams);
 
   try {
-    const item = await getItemDetail(itemId);
+    const item = await getItemDetail(itemId, config.clientProduct);
     if (!item) notFound();
+    const reference = await getCatalogReference(config.wowheadGamePath, "item", itemId);
     return (
       <>
         <JsonLd
           data={createBreadcrumbJsonLd([
             { name: "KFC Helper", path: "/" },
-            { name: "TBC Encyclopedia", path: "/tbc/encyclopedia" },
-            { name: item.name, path: `/tbc/encyclopedia/items/${item.itemId}` },
+            { name: config.encyclopediaLabel, path: config.encyclopediaBasePath },
+            {
+              name: item.name,
+              path: `${config.encyclopediaBasePath}/items/${item.itemId}`,
+            },
           ])}
         />
         <article className="detail-page">
           <header className="item-library-header">
             <div>
-              <span className="eyebrow">TBC Encyclopedia · Item {item.itemId}</span>
+              <span className="eyebrow">
+                {config.encyclopediaLabel} · Item {item.itemId}
+              </span>
               <h2>In-game item inspection</h2>
               <p>
                 Client facts are rendered in familiar tooltip order. Change the viewer to evaluate
@@ -105,7 +140,7 @@ export default async function ItemPage({
                   type="number"
                   name="level"
                   min="1"
-                  max="80"
+                  max={config.maximumViewerLevel}
                   defaultValue={viewer.level ?? ""}
                   placeholder="70"
                 />
@@ -117,6 +152,7 @@ export default async function ItemPage({
           </section>
 
           <ItemTooltip item={item} viewerClassId={viewer.classId} viewerLevel={viewer.level} />
+          <CatalogReference record={itemReferenceMatchesClient(reference, item) ? reference : null} clientItem={item} />
 
           <section className="detail-grid">
             <div className="panel">
@@ -167,17 +203,26 @@ export default async function ItemPage({
               <div className="loot-info-pending" role="status">
                 <span aria-hidden="true">?</span>
                 <div>
-                  <strong>Acquisition data is not imported yet</strong>
+                  <strong>
+                    {item.acquisition.length
+                      ? "Acquisition leads require review"
+                      : "Acquisition evidence has not been confirmed"}
+                  </strong>
                   <p>
-                    Verified drops, quest rewards, vendors, phase availability, and drop-rate
-                    evidence will appear here in the next development phase.
+                    Client source hints are kept separate from observed drops. Candidate
+                    relationships never become confirmed sources or drop rates without stronger
+                    evidence.
                   </p>
                 </div>
               </div>
               <dl className="metric-list loot-info-facts">
                 <div>
                   <dt>Source</dt>
-                  <dd>Pending verification</dd>
+                  <dd>
+                    {item.acquisition.length
+                      ? `${item.acquisition.length} candidate relationship${item.acquisition.length === 1 ? "" : "s"}`
+                      : "Pending verification"}
+                  </dd>
                 </div>
                 <div>
                   <dt>Drop chance</dt>
@@ -186,7 +231,7 @@ export default async function ItemPage({
               </dl>
               <a
                 className="loot-reference-link"
-                href={`https://www.wowhead.com/tbc/item=${item.itemId}`}
+                href={`https://www.wowhead.com/${config.wowheadGamePath}/item=${item.itemId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 referrerPolicy="no-referrer"
@@ -199,6 +244,19 @@ export default async function ItemPage({
                 External community reference. Its source and drop-rate claims are not imported into
                 our evidence model.
               </small>
+              {item.acquisition.length ? (
+                <ul className="link-list">
+                  {item.acquisition.slice(0, 8).map((source) => (
+                    <li key={`${source.sourceInfoId}:${source.targetKind}:${source.targetId}`}>
+                      <span>
+                        <strong>{source.targetName}</strong>
+                        <small>{source.description}</small>
+                      </span>
+                      <StatusEvidence requiresReview={source.requiresReview} />
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </div>
           </section>
           <section className="panel item-data-boundary" aria-labelledby="data-boundary-heading">
@@ -219,6 +277,14 @@ export default async function ItemPage({
     if (isNextNavigationError(error)) throw error;
     return <DataUnavailable title="Item data is unavailable" />;
   }
+}
+
+function StatusEvidence({
+  requiresReview,
+}: {
+  readonly requiresReview: boolean;
+}): React.JSX.Element {
+  return <span>{requiresReview ? "Candidate" : "Client relationship"}</span>;
 }
 
 function parseViewer(

@@ -6,6 +6,7 @@ export * from "./profile.js";
 export * from "./chapter-catalog.js";
 export * from "./chapter-data.js";
 export * from "./guide-archive.js";
+export * from "./archive-quest-inventory.js";
 export * from "./dungeon-model.js";
 export * from "./dungeon-catalog.js";
 export * from "./dungeon-planner.js";

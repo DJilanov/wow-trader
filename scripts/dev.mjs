@@ -45,7 +45,7 @@ async function main(arguments_) {
   await runPnpm(["db:migrate"]);
 
   logStep("Building workspace packages");
-  await runPnpm(["exec", "turbo", "run", "build", "--output-logs=errors-only"]);
+  await runPnpm(["build", "--output-logs=errors-only"]);
 
   logStep("Preparing the versioned all-class Forever simulator");
   const { prepareSimulator } = await import("./prepare-forever-simulator.mjs");

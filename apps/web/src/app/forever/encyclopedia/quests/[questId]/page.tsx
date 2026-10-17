@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { referenceIndexGaps } from "@wow-trader/reference-data";
+import { DataUnavailable } from "../../../../../components/data-unavailable";
+import { CatalogReference } from "../../../../../components/catalog-reference";
+import { getCatalogReference } from "../../../../../lib/catalog-reference";
 
 import { ForeverEncyclopediaNav } from "../../../../../components/forever-encyclopedia-nav";
 import { ForeverWorldState } from "../../../../../components/forever-world-state";
@@ -16,19 +21,43 @@ interface QuestPageProps {
   readonly params: Promise<{ readonly questId: string }>;
 }
 
+const getQuestPageData = cache(
+  async (
+    id: number,
+  ): Promise<{
+    readonly data: Awaited<ReturnType<typeof getForeverQuest>>;
+    readonly reference: Awaited<ReturnType<typeof getCatalogReference>>;
+    readonly clientUnavailable: boolean;
+  }> => {
+    const reference = await getCatalogReference("forever", "quest", id);
+    try {
+      return { data: await getForeverQuest(id), reference, clientUnavailable: false };
+    } catch (error) {
+      console.error("Quest client data unavailable", {
+        id,
+        error: error instanceof Error ? error.name : "Unknown error",
+      });
+      return { data: null, reference, clientUnavailable: true };
+    }
+  },
+);
+
 export async function generateMetadata({ params }: QuestPageProps): Promise<Metadata> {
   const { questId } = await params;
   const id = parsePositiveId(questId);
-  const data = id ? await getForeverQuest(id) : null;
+  const { data, reference } = id ? await getQuestPageData(id) : { data: null, reference: null };
   const title =
-    data?.observations.find((observation) => observation.title)?.title ?? data?.quest.title ?? null;
+    data?.observations.find((observation) => observation.title)?.title ??
+    data?.quest.title ??
+    reference?.name ??
+    null;
   return createHelperMetadata({
     title: `${title ?? `Quest ${questId}`} · WoW Forever`,
     description: title
       ? `Objectives, rewards, quest giver evidence, and build-scoped client facts for ${title} in WoW Forever.`
       : `Build-scoped client and observation evidence for WoW Forever quest ${questId}.`,
     path: `/forever/encyclopedia/quests/${questId}`,
-    noIndex: !title,
+    noIndex: !reference || !title || reference.name !== title || referenceIndexGaps(reference).length > 0,
   });
 }
 
@@ -36,8 +65,27 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
   const { questId } = await params;
   const id = parsePositiveId(questId);
   if (!id) notFound();
-  const data = await getForeverQuest(id);
-  if (!data) notFound();
+  const { data, reference, clientUnavailable } = await getQuestPageData(id);
+  if (!data) {
+    if (!reference && clientUnavailable)
+      return <DataUnavailable title="Quest client data is currently unavailable" />;
+    if (!reference) notFound();
+    return (
+      <article className="forever-reference-page forever-world-page">
+        <header className="forever-reference-hero compact">
+          <div>
+            <Link href="/forever/encyclopedia/quests">Quest index</Link>
+            <h1>{reference.name}</h1>
+            <p>
+              External reference; exact-build client and runtime evidence is not available for this
+              quest yet.
+            </p>
+          </div>
+        </header>
+        <CatalogReference record={reference} />
+      </article>
+    );
+  }
   const titledObservation = data.observations.find((observation) => observation.title);
   const detailObservation = data.observations.find(
     (observation) => observation.questText || observation.objectiveText || observation.progressText,
@@ -46,7 +94,7 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
     (observation) => observation.evidenceKind === "server_query",
   );
   const rewards = collectRewards(data.observations);
-  const questTitle = titledObservation?.title ?? data.quest.title ?? `Quest ${data.quest.questId}`;
+  const questTitle = titledObservation?.title ?? data.quest.title ?? reference?.name ?? `Quest ${data.quest.questId}`;
   return (
     <article className="forever-reference-page forever-world-page">
       <header className="forever-reference-hero forever-world-hero compact">
@@ -71,6 +119,7 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
         <ForeverWorldState build={data.build} />
       </header>
       <ForeverEncyclopediaNav active="quests" />
+      <CatalogReference record={reference?.name === questTitle ? reference : null} />
       <section className="forever-quest-evidence-grid">
         <article>
           <span className="eyebrow">Static client evidence</span>

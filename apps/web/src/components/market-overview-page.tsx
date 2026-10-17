@@ -4,9 +4,12 @@ import { notFound } from "next/navigation";
 import { getMarketOverview } from "../lib/data";
 import { formatCopper, formatRelativeTime } from "../lib/format";
 import { DataUnavailable } from "./data-unavailable";
+import { MarketFactionTabs } from "./market-faction-tabs";
+import { parseAuctionHouseType } from "../lib/market-selection";
 
 export interface MarketPageProps {
   readonly params: Promise<{ readonly region: string; readonly realm: string }>;
+  readonly searchParams?: Promise<{ readonly auctionHouseType?: string | readonly string[] }>;
 }
 
 export interface MarketOverviewPageConfig {
@@ -19,14 +22,28 @@ export interface MarketOverviewPageConfig {
 
 export async function MarketOverviewPage({
   params,
+  searchParams,
   config,
 }: MarketPageProps & { readonly config: MarketOverviewPageConfig }): Promise<React.JSX.Element> {
   const { region, realm } = await params;
   if (!isSafeMarketRouteValue(region) || !isSafeMarketRouteValue(realm)) notFound();
+  const raw = await searchParams;
+  const requestedType = raw?.auctionHouseType;
+  const auctionHouseType = parseAuctionHouseType(
+    typeof requestedType === "string" ? requestedType : undefined,
+  );
+  if (requestedType !== undefined && !auctionHouseType) notFound();
 
   try {
-    const market = await getMarketOverview(region, realm, config.clientProduct);
-    if (!market) notFound();
+    const market = await getMarketOverview(region, realm, config.clientProduct, auctionHouseType);
+    if (!market && !auctionHouseType) notFound();
+    const selectedFaction = auctionHouseType ?? market?.scan.auctionHouseType;
+    const traderHref = `${config.traderPath}?${new URLSearchParams({
+      market: `${region}|${realm}|${selectedFaction}`,
+      ...(selectedFaction === "alliance" || selectedFaction === "horde"
+        ? { faction: selectedFaction }
+        : {}),
+    }).toString()}`;
     return (
       <article className="detail-page">
         <header className="page-intro">
@@ -38,75 +55,104 @@ export async function MarketOverviewPage({
             <p>The 250 markets with the greatest available quantity in the latest accepted scan.</p>
           </div>
         </header>
-        <section className="scan-banner" aria-label="Market scan status">
-          <div>
-            <span>Observed</span>
-            <strong>{formatRelativeTime(market.scan.completedAt)}</strong>
-          </div>
-          <div>
-            <span>Auction House</span>
-            <strong>{market.scan.auctionHouseType}</strong>
-          </div>
-          <div>
-            <span>Client build</span>
-            <strong>{market.scan.clientBuild}</strong>
-          </div>
-          <div>
-            <span>Completeness</span>
-            <strong>{(market.scan.completeness * 100).toFixed(0)}%</strong>
-          </div>
-        </section>
-        {!market.catalogAvailable ? (
-          <aside className="workspace-limitation">
-            <strong>Exact catalog review pending</strong>
+        <MarketFactionTabs
+          selected={selectedFaction}
+          links={{
+            alliance: "?auctionHouseType=alliance",
+            horde: "?auctionHouseType=horde",
+          }}
+        />
+        {!market ? (
+          <div className="workspace-empty">
+            <strong>
+              No{" "}
+              {auctionHouseType === "horde"
+                ? "Horde"
+                : auctionHouseType === "alliance"
+                  ? "Alliance"
+                  : "selected-market"}{" "}
+              Auction House scan is available
+            </strong>
             <p>
-              These prices and quantities come from the accepted in-game scan. Names and crafting
-              links stay disabled until the matching build {market.scan.clientBuild} catalog is
-              published. <Link href={config.traderPath}>Return to {config.gameLabel} Trader.</Link>
+              This faction has no accepted scan for this market. Prices from another faction are not
+              substituted.
             </p>
-          </aside>
-        ) : null}
-        {market.rows.length === 0 ? (
-          <p className="inline-empty">
-            The matching catalog build is not published, so item names cannot be joined safely.
-          </p>
-        ) : (
-          <div className="table-shell">
-            <table>
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Market key</th>
-                  <th>Minimum</th>
-                  <th>Quantity</th>
-                  <th>Listings</th>
-                </tr>
-              </thead>
-              <tbody>
-                {market.rows.map((row) => (
-                  <tr key={row.marketKey}>
-                    <td>
-                      {market.catalogAvailable && config.itemBasePath ? (
-                        <Link href={`${config.itemBasePath}/${row.itemId}`}>
-                          <strong>{row.itemName}</strong>
-                          <small>Item {row.itemId}</small>
-                        </Link>
-                      ) : (
-                        <span>
-                          <strong>{row.itemName}</strong>
-                          <small>Catalog name pending</small>
-                        </span>
-                      )}
-                    </td>
-                    <td>{row.marketKey}</td>
-                    <td>{formatCopper(row.minimumPriceCopper)}</td>
-                    <td>{row.availableQuantity.toLocaleString()}</td>
-                    <td>{row.listingCount.toLocaleString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Link href={traderHref}>Return to {config.gameLabel} Trader</Link>
           </div>
+        ) : (
+          <>
+            <section className="scan-banner" aria-label="Market scan status">
+              <div>
+                <span>Observed</span>
+                <strong>{formatRelativeTime(market.scan.completedAt)}</strong>
+              </div>
+              <div>
+                <span>Auction House</span>
+                <strong>{market.scan.auctionHouseType}</strong>
+              </div>
+              <div>
+                <span>Client build</span>
+                <strong>{market.scan.clientBuild}</strong>
+              </div>
+              <div>
+                <span>Completeness</span>
+                <strong>{(market.scan.completeness * 100).toFixed(0)}%</strong>
+              </div>
+            </section>
+            {!market.catalogAvailable ? (
+              <aside className="workspace-limitation">
+                <strong>Exact catalog review pending</strong>
+                <p>
+                  These prices and quantities come from the accepted in-game scan. Names and
+                  crafting links stay disabled until the matching build {market.scan.clientBuild}{" "}
+                  catalog is published.{" "}
+                  <Link href={traderHref}>Return to {config.gameLabel} Trader.</Link>
+                </p>
+              </aside>
+            ) : null}
+            {market.rows.length === 0 ? (
+              <p className="inline-empty">
+                The matching catalog build is not published, so item names cannot be joined safely.
+              </p>
+            ) : (
+              <div className="table-shell">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Market key</th>
+                      <th>Minimum</th>
+                      <th>Quantity</th>
+                      <th>Listings</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {market.rows.map((row) => (
+                      <tr key={row.marketKey}>
+                        <td>
+                          {market.catalogAvailable && config.itemBasePath ? (
+                            <Link href={`${config.itemBasePath}/${row.itemId}`}>
+                              <strong>{row.itemName}</strong>
+                              <small>Item {row.itemId}</small>
+                            </Link>
+                          ) : (
+                            <span>
+                              <strong>{row.itemName}</strong>
+                              <small>Catalog name pending</small>
+                            </span>
+                          )}
+                        </td>
+                        <td>{row.marketKey}</td>
+                        <td>{formatCopper(row.minimumPriceCopper)}</td>
+                        <td>{row.availableQuantity.toLocaleString()}</td>
+                        <td>{row.listingCount.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </>
         )}
       </article>
     );

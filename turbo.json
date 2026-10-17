@@ -2,17 +2,20 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "outputs": [
         "dist/**",
         "dist-utility/**",
         "out/**",
         ".webpack/**",
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "!.next/dev/**"
       ]
+    },
+    "@wow-trader/desktop#build": {
+      "dependsOn": ["^build"],
+      "cache": false
     },
     "dev": {
       "cache": false,
@@ -39,20 +42,13 @@
       ]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "typecheck": {
-      "dependsOn": [
-        "^build",
-        "^typecheck"
-      ]
+      "dependsOn": ["^build", "^typecheck"]
     }
   }
 }

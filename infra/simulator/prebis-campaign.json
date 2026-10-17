@@ -1,0 +1,33 @@
+{
+  "schema": "kfc-prebis-campaign-config.v1",
+  "validationIterations": 100000,
+  "maxFeedbackRounds": 6,
+  "maxFinalizationRounds": 4,
+  "minimumFreeGiB": 4,
+  "cases": [
+    {
+      "id": "arms-alliance",
+      "spec": "warrior/arms",
+      "faction": "alliance",
+      "scenario": "conservative"
+    },
+    {
+      "id": "arms-alliance-procs",
+      "spec": "warrior/arms",
+      "faction": "alliance",
+      "scenario": "provisional-procs"
+    },
+    {
+      "id": "fury-horde",
+      "spec": "warrior/fury",
+      "faction": "horde",
+      "scenario": "conservative"
+    },
+    {
+      "id": "fury-horde-procs",
+      "spec": "warrior/fury",
+      "faction": "horde",
+      "scenario": "provisional-procs"
+    }
+  ]
+}

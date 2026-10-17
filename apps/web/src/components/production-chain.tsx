@@ -6,9 +6,13 @@ import { ItemIcon } from "./item-icon";
 
 interface ProductionChainProps {
   readonly recipe: RecipeDetail;
+  readonly encyclopediaBasePath?: string;
 }
 
-export function ProductionChain({ recipe }: ProductionChainProps): React.JSX.Element {
+export function ProductionChain({
+  recipe,
+  encyclopediaBasePath = "/tbc/encyclopedia",
+}: ProductionChainProps): React.JSX.Element {
   return (
     <section className="production-chain-section" aria-labelledby="production-chain-heading">
       <header className="section-heading production-chain-heading">
@@ -36,7 +40,11 @@ export function ProductionChain({ recipe }: ProductionChainProps): React.JSX.Ele
       <ol className="production-root-list">
         {recipe.productionChain.map((material) => (
           <li key={material.itemId}>
-            <MaterialBranch material={material} depth={0} />
+            <MaterialBranch
+              material={material}
+              depth={0}
+              encyclopediaBasePath={encyclopediaBasePath}
+            />
           </li>
         ))}
       </ol>
@@ -56,7 +64,7 @@ export function ProductionChain({ recipe }: ProductionChainProps): React.JSX.Ele
         <div className="production-final-outputs">
           {recipe.outputs.map((output, index) =>
             output.itemId ? (
-              <Link key={output.itemId} href={`/tbc/encyclopedia/items/${output.itemId}`}>
+              <Link key={output.itemId} href={`${encyclopediaBasePath}/items/${output.itemId}`}>
                 <ItemIcon
                   fileDataId={output.iconFileDataId}
                   quality={output.quality ?? 0}
@@ -79,9 +87,11 @@ export function ProductionChain({ recipe }: ProductionChainProps): React.JSX.Ele
 function MaterialBranch({
   material,
   depth,
+  encyclopediaBasePath,
 }: {
   readonly material: ProductionMaterialNode;
   readonly depth: number;
+  readonly encyclopediaBasePath: string;
 }): React.JSX.Element {
   const eligibleMethods = material.methods.filter((method) => method.economicEligible);
   const timeGatedMethods = material.methods.filter((method) => method.timeGated);
@@ -137,14 +147,22 @@ function MaterialBranch({
     >
       <summary className="production-material-summary">{summary}</summary>
       <div className="production-material-body">
-        <MethodGroup methods={eligibleMethods} depth={depth} />
+        <MethodGroup
+          methods={eligibleMethods}
+          depth={depth}
+          encyclopediaBasePath={encyclopediaBasePath}
+        />
         {uncertainMethods.length > 0 ? (
           <details className="production-excluded-group">
             <summary>
               {uncertainMethods.length} variable-output method
               {uncertainMethods.length === 1 ? "" : "s"} · not used for guaranteed material totals
             </summary>
-            <MethodGroup methods={uncertainMethods} depth={depth} />
+            <MethodGroup
+              methods={uncertainMethods}
+              depth={depth}
+              encyclopediaBasePath={encyclopediaBasePath}
+            />
           </details>
         ) : null}
         {timeGatedMethods.length > 0 ? (
@@ -153,7 +171,11 @@ function MaterialBranch({
               {timeGatedMethods.length} cooldown method{timeGatedMethods.length === 1 ? "" : "s"} ·
               informational only, excluded from all profit calculations
             </summary>
-            <MethodGroup methods={timeGatedMethods} depth={depth} />
+            <MethodGroup
+              methods={timeGatedMethods}
+              depth={depth}
+              encyclopediaBasePath={encyclopediaBasePath}
+            />
           </details>
         ) : null}
         {cyclicMethods.length > 0 ? (
@@ -162,7 +184,11 @@ function MaterialBranch({
               {cyclicMethods.length} circular method{cyclicMethods.length === 1 ? "" : "s"} ·
               excluded because the route consumes its own upstream material
             </summary>
-            <MethodGroup methods={cyclicMethods} depth={depth} />
+            <MethodGroup
+              methods={cyclicMethods}
+              depth={depth}
+              encyclopediaBasePath={encyclopediaBasePath}
+            />
           </details>
         ) : null}
         {material.omittedMethodCount > 0 ? (
@@ -180,9 +206,11 @@ function MaterialBranch({
 function MethodGroup({
   methods,
   depth,
+  encyclopediaBasePath,
 }: {
   readonly methods: readonly ProductionMethodNode[];
   readonly depth: number;
+  readonly encyclopediaBasePath: string;
 }): React.JSX.Element | null {
   if (methods.length === 0) return null;
   return (
@@ -190,7 +218,7 @@ function MethodGroup({
       {methods.map((method, index) => (
         <div key={method.methodId} className="production-method-option">
           {index > 0 ? <span className="production-or">OR</span> : null}
-          <MethodFlow method={method} depth={depth} />
+          <MethodFlow method={method} depth={depth} encyclopediaBasePath={encyclopediaBasePath} />
         </div>
       ))}
     </div>
@@ -200,16 +228,23 @@ function MethodGroup({
 function MethodFlow({
   method,
   depth,
+  encyclopediaBasePath,
 }: {
   readonly method: ProductionMethodNode;
   readonly depth: number;
+  readonly encyclopediaBasePath: string;
 }): React.JSX.Element {
   return (
     <div className={`production-method ${method.timeGated ? "is-time-gated" : ""}`}>
       <div className="production-method-inputs">
         <span>Inputs for this step</span>
         {method.inputs.map((input) => (
-          <MaterialBranch key={input.itemId} material={input} depth={depth + 1} />
+          <MaterialBranch
+            key={input.itemId}
+            material={input}
+            depth={depth + 1}
+            encyclopediaBasePath={encyclopediaBasePath}
+          />
         ))}
       </div>
       <div className="production-method-action">
@@ -217,7 +252,7 @@ function MethodFlow({
         <div>
           <small>{method.kind === "item_use" ? "Item conversion" : method.profession?.name}</small>
           {method.kind === "profession" ? (
-            <Link href={`/tbc/encyclopedia/recipes/${method.spellId}`}>{method.name}</Link>
+            <Link href={`${encyclopediaBasePath}/recipes/${method.spellId}`}>{method.name}</Link>
           ) : (
             <strong>{method.name}</strong>
           )}
@@ -227,7 +262,7 @@ function MethodFlow({
       </div>
       <div className="production-method-output">
         <span>Creates</span>
-        <Link href={`/tbc/encyclopedia/items/${method.output.itemId}`}>
+        <Link href={`${encyclopediaBasePath}/items/${method.output.itemId}`}>
           <ItemIcon
             fileDataId={method.output.iconFileDataId}
             quality={method.output.quality}

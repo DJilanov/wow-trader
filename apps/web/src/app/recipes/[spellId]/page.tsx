@@ -7,6 +7,7 @@ import { ItemIcon } from "../../../components/item-icon";
 import { JsonLd } from "../../../components/json-ld";
 import { ProductionChain } from "../../../components/production-chain";
 import { StatusPill } from "../../../components/status-pill";
+import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
 import { getRecipeDetail, type RecipeDetail } from "../../../lib/data";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
 
@@ -16,36 +17,54 @@ interface RecipePageProps {
   readonly params: Promise<{ readonly spellId: string }>;
 }
 
-export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
+export async function createCatalogRecipeMetadata(
+  { params }: RecipePageProps,
+  config: CatalogPageConfig,
+): Promise<Metadata> {
   const { spellId } = await params;
   const numericSpellId = Number(spellId);
   const fallback = createHelperMetadata({
-    title: `TBC Recipe ${spellId}`,
-    description: `TBC Classic crafting recipe ${spellId} in the build-aware KFC Helper profession database.`,
-    path: `/tbc/encyclopedia/recipes/${encodeURIComponent(spellId)}`,
+    title: `${config.gameLabel} Recipe ${spellId}`,
+    description: `${config.gameLabel} crafting recipe ${spellId} in the build-aware KFC Helper profession database.`,
+    path: `${config.encyclopediaBasePath}/recipes/${encodeURIComponent(spellId)}`,
     noIndex: !Number.isSafeInteger(numericSpellId) || numericSpellId <= 0,
   });
   if (!Number.isSafeInteger(numericSpellId) || numericSpellId <= 0) return fallback;
 
   try {
-    const recipe = await getRecipeDetail(numericSpellId);
+    const recipe = await getRecipeDetail(numericSpellId, config.clientProduct);
     if (!recipe) return { ...fallback, robots: { index: false, follow: true } };
     return createHelperMetadata({
-      title: `${recipe.name} — TBC ${recipe.profession.name} Recipe`,
-      description: `${recipe.name} (spell ${recipe.recipeSpellId}) for TBC ${recipe.profession.name}: exact reagents, outputs, skill ${recipe.requiredSkillRank}, learning items, cooldowns, and material chain.`,
-      path: `/tbc/encyclopedia/recipes/${recipe.recipeSpellId}`,
-      keywords: [recipe.name, `${recipe.name} recipe`, `TBC ${recipe.profession.name} recipes`],
+      title: `${recipe.name} — ${config.gameLabel} ${recipe.profession.name} Recipe`,
+      description: `${recipe.name} (spell ${recipe.recipeSpellId}) for ${config.gameLabel} ${recipe.profession.name}: exact reagents, outputs, skill ${recipe.requiredSkillRank}, learning evidence, cooldowns, and material chain.`,
+      path: `${config.encyclopediaBasePath}/recipes/${recipe.recipeSpellId}`,
+      keywords: [
+        recipe.name,
+        `${recipe.name} recipe`,
+        `${config.gameLabel} ${recipe.profession.name} recipes`,
+      ],
     });
   } catch {
     return fallback;
   }
 }
 
+export function generateMetadata(props: RecipePageProps): Promise<Metadata> {
+  return createCatalogRecipeMetadata(props, TBC_CATALOG_PAGE_CONFIG);
+}
+
 export default async function RecipePage({ params }: RecipePageProps): Promise<React.JSX.Element> {
+  return CatalogRecipePage({ params, config: TBC_CATALOG_PAGE_CONFIG });
+}
+
+export async function CatalogRecipePage({
+  params,
+  config,
+}: RecipePageProps & { readonly config: CatalogPageConfig }): Promise<React.JSX.Element> {
   const spellId = Number((await params).spellId);
   if (!Number.isSafeInteger(spellId) || spellId <= 0) notFound();
   try {
-    const recipe = await getRecipeDetail(spellId);
+    const recipe = await getRecipeDetail(spellId, config.clientProduct);
     if (!recipe) notFound();
     return (
       <>
@@ -54,9 +73,12 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
             { name: "KFC Helper", path: "/" },
             {
               name: recipe.profession.name,
-              path: `/tbc/encyclopedia/professions/${recipe.profession.slug}`,
+              path: `${config.encyclopediaBasePath}/professions/${recipe.profession.slug}`,
             },
-            { name: recipe.name, path: `/tbc/encyclopedia/recipes/${recipe.recipeSpellId}` },
+            {
+              name: recipe.name,
+              path: `${config.encyclopediaBasePath}/recipes/${recipe.recipeSpellId}`,
+            },
           ])}
         />
         <article className="detail-page">
@@ -65,7 +87,7 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
               <span className="eyebrow">Crafting spell {recipe.recipeSpellId}</span>
               <h1>{recipe.name}</h1>
               <p>
-                <Link href={`/tbc/encyclopedia/professions/${recipe.profession.slug}`}>
+                <Link href={`${config.encyclopediaBasePath}/professions/${recipe.profession.slug}`}>
                   {recipe.profession.name}
                 </Link>{" "}
                 · skill {recipe.requiredSkillRank}
@@ -94,7 +116,10 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
                 <span>Direct inputs</span>
                 {recipe.inputs.length ? (
                   recipe.inputs.map((input) => (
-                    <Link key={input.itemId} href={`/tbc/encyclopedia/items/${input.itemId}`}>
+                    <Link
+                      key={input.itemId}
+                      href={`${config.encyclopediaBasePath}/items/${input.itemId}`}
+                    >
                       <ItemIcon
                         fileDataId={input.iconFileDataId}
                         quality={input.quality}
@@ -121,7 +146,10 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
                 <span>Final output</span>
                 {recipe.outputs.map((output, index) =>
                   output.itemId ? (
-                    <Link key={output.itemId} href={`/tbc/encyclopedia/items/${output.itemId}`}>
+                    <Link
+                      key={output.itemId}
+                      href={`${config.encyclopediaBasePath}/items/${output.itemId}`}
+                    >
                       <ItemIcon
                         fileDataId={output.iconFileDataId}
                         quality={output.quality ?? 0}
@@ -139,7 +167,7 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
             </div>
           </section>
 
-          <ProductionChain recipe={recipe} />
+          <ProductionChain recipe={recipe} encyclopediaBasePath={config.encyclopediaBasePath} />
 
           <section className="detail-grid">
             <div className="panel">
@@ -173,7 +201,10 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
                 <ul className="link-list">
                   {recipe.teachingItems.map((item) => (
                     <li key={item.itemId}>
-                      <Link className="detail-item" href={`/tbc/encyclopedia/items/${item.itemId}`}>
+                      <Link
+                        className="detail-item"
+                        href={`${config.encyclopediaBasePath}/items/${item.itemId}`}
+                      >
                         <ItemIcon
                           fileDataId={item.iconFileDataId}
                           quality={item.quality}

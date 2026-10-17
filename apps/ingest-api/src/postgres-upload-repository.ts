@@ -28,7 +28,7 @@ import {
   type WowTraderDatabase,
 } from "@wow-trader/db";
 import { analyzePriceHistory, summarizeOrderBook } from "@wow-trader/market";
-import { and, count, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, count, desc, eq, gte, lte, inArray, sql } from "drizzle-orm";
 import type { PgInsertValue, PgTable } from "drizzle-orm/pg-core";
 
 import { PayloadConflictError } from "./errors.js";
@@ -740,12 +740,41 @@ export class PostgresUploadRepository implements UploadRepository {
       .limit(1);
     if (!scan) return null;
 
+    const historyRows = await this.#database
+      .select({
+        itemId: marketItemObservations.itemId,
+        startedAt: sql<string | null>`MIN(${marketScans.completedAt})::text`,
+        buckets:
+          sql<number>`COUNT(DISTINCT FLOOR(EXTRACT(EPOCH FROM ${marketScans.completedAt}) / 1800))`.mapWith(
+            Number,
+          ),
+      })
+      .from(marketItemObservations)
+      .innerJoin(marketScans, eq(marketScans.scanId, marketItemObservations.scanId))
+      .innerJoin(rawUploads, eq(rawUploads.payloadId, marketScans.payloadId))
+      .where(
+        and(
+          eq(rawUploads.clientProduct, query.clientProduct),
+          eq(marketScans.clientBuild, query.clientBuild),
+          eq(marketScans.region, query.region),
+          eq(marketScans.realmId, query.realmId),
+          eq(marketScans.auctionHouseType, query.auctionHouseType),
+          eq(marketScans.qualityAccepted, true),
+          eq(marketItemObservations.marketKey, sql`CAST(${marketItemObservations.itemId} AS text)`),
+          gte(marketScans.completedAt, new Date(scan.completedAt.getTime() - 7 * 86400000)),
+          lte(marketScans.completedAt, scan.completedAt),
+        ),
+      )
+      .groupBy(marketItemObservations.itemId);
+    const history = new Map(historyRows.map((row) => [row.itemId, row]));
+
     return {
       schemaVersion: "market-intelligence.v1",
       modelVersion: "robust-market-signal-v1",
       ...query,
       generatedAt: first.generatedAt.toISOString(),
       sourceScanAt: scan.completedAt.toISOString(),
+      sourceScanId: first.asOfScanId,
       items: rows.map((row) => ({
         itemId: row.itemId,
         name: row.name,
@@ -763,6 +792,10 @@ export class PostgresUploadRepository implements UploadRepository {
         currentListingCount: row.currentListingCount,
         confidenceBasisPoints: row.confidenceBasisPoints,
         direction: parseStoredDirection(row.direction),
+        historyStartedAt: history.get(row.itemId)?.startedAt
+          ? new Date(history.get(row.itemId)!.startedAt!).toISOString()
+          : null,
+        recentObservationCount: history.get(row.itemId)?.buckets ?? 0,
       })),
     };
   }

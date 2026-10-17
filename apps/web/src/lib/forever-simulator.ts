@@ -1,7 +1,6 @@
 import { createReadStream } from "node:fs";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { Readable } from "node:stream";
 import {
   SIMULATOR_SPECS,
   simulatorManifestSchema,
@@ -26,6 +25,49 @@ const types: Readonly<Record<string, string>> = {
   txt: "text/plain; charset=utf-8",
   bin: "application/octet-stream",
 };
+
+function simulatorAssetStream(path: string, signal: AbortSignal): ReadableStream<Uint8Array> {
+  const source = createReadStream(path);
+  const chunks: AsyncIterator<Uint8Array> = source[Symbol.asyncIterator]();
+  let stopped = false;
+  let abort: () => void;
+  const stop = (): void => {
+    stopped = true;
+    signal.removeEventListener("abort", abort);
+    source.destroy();
+  };
+  return new ReadableStream<Uint8Array>({
+    start(controller): void {
+      abort = (): void => {
+        if (stopped) return;
+        stop();
+        controller.error(signal.reason ?? new DOMException("Download aborted", "AbortError"));
+      };
+      signal.addEventListener("abort", abort, { once: true });
+      if (signal.aborted) abort();
+    },
+    async pull(controller): Promise<void> {
+      try {
+        const chunk = await chunks.next();
+        // A cancelled browser request can finish an outstanding disk read afterwards.
+        if (stopped) return;
+        if (chunk.done) {
+          stop();
+          controller.close();
+        } else {
+          controller.enqueue(chunk.value);
+        }
+      } catch (error: unknown) {
+        if (stopped) return;
+        stop();
+        controller.error(error);
+      }
+    },
+    cancel(): void {
+      stop();
+    },
+  });
+}
 
 export function simulatorDirectory(): string {
   // Runtime-managed releases are deployed separately from the Next standalone bundle.
@@ -116,7 +158,7 @@ export async function serveSimulatorAsset(
     return new Response(null, { status: 304, headers });
   headers["content-length"] = String(info.size);
   if (request.method === "HEAD") return new Response(null, { headers });
-  return new Response(Readable.toWeb(createReadStream(path)) as ReadableStream<Uint8Array>, {
+  return new Response(simulatorAssetStream(path, request.signal), {
     headers,
   });
 }

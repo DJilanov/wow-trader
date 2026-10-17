@@ -19,6 +19,12 @@ automatic model approval.
 
 ## Production deployment October 16
 
+The later explicitly authorized workspace/default rollout superseded r11 with
+`kfc-helper-simulator-defaults-20261016-r13`, web build `Okduac8sM7yer2b5g0VFZ`, engine
+`9b66034db413bba9d6cb8139`. See `../context.md` and `../fixes.md` for first-open defaults,
+loading recovery, corrected tank talents and the subsequent pre-raid accessory audit.
+The r11 receipt below remains historical; no new commit or push was requested for the follow-ups.
+
 Feature commit `14f9b5d` is pushed. Web release `kfc-helper-simulator-20261016-r11`, build
 `8HugevLp4-Lvt8LDnKKT7`, retains the r10 production baseline and v3 XP readers with the scoped
 simulator overlay. Existing catalog surfaces, crawler/publisher and ingestion runtime are preserved.
@@ -39,6 +45,96 @@ The verified pre-publication backup is
 (216,217,477 bytes). The release retains prior publication pointers and the web environment backup.
 Rollback must use the compatible r10 web runtime, not a pre-v3 XP reader. Source/runtime files,
 published assets and backups are retained; only the new generated build cache was removed.
+
+## Shared KFC workspace redesign
+
+The approved second approach retains the upstream control/state implementations and combat
+engine. `infra/simulator/workspace.ts` is copied into the pinned engine's `ui/core` during
+preparation; its relative type import resolves there. `workspace-adapter.mjs` applies narrow,
+idempotent source hooks and fails on changed constructor/renderer contracts. The shared stylesheet
+loads after upstream styles. All overlay files participate in the immutable release identity;
+preparation also rechecks inputs before publication to reject edits made during a build.
+
+The redesigned interface uses KFC typography, warm borders, dark surfaces and readable quality
+colours. Existing nodes are reorganized into the class header, build tabs, slot-labelled equipment
+cards, build library and a sticky simulation/results panel. Stats are a disclosure; utility tools
+remain available. Mobile switches between Build and Results. The site wrapper offers fullscreen
+focus mode, with an error message and new-tab alternative when the browser cannot enter fullscreen.
+The Build library now precedes Equipment in the DOM and visual order at every viewport width;
+it no longer switches to a side column on large screens.
+
+Keep import/export below their original SimHeader in the DOM: its API queries within that root
+when class-specific importers/exporters are registered. Those toggles use explicit click triggers
+instead of the inherited hover-open/click-close behaviour. Keyboard tabs explicitly retain their
+focus index after Bootstrap activation and include the asynchronously added Batch tab. The talent
+carousel's negative margins must use the actual mobile workspace padding, not the desktop value.
+The detailed-results toolbar uses the measured workspace-header height and a lower stacking layer.
+Its embedded single-iteration button posts to its own simulator window, not the enclosing Next
+website; the existing same-origin/source check on the receiver is retained.
+
+Oversized WASM jobs may not yield promptly to the inherited Stop request. Show “Stopping…” and,
+after five seconds, offer an explicit engine restart that warns it clears current results. Never
+reload automatically. Existing browser-persisted build settings survive this recovery; ordinary
+cooperative cancellation continues using the original signal manager. This is a presentation and
+recovery layer, not a change to combat math or a claim that native cancellation is instantaneous.
+
+`pnpm dev` already prepares the current overlay before starting the site. Targeted checks:
+
+```sh
+pnpm simulator:test
+pnpm simulator:prepare
+SIMULATOR_TEST_URL=http://localhost:3017 pnpm simulator:smoke:workspace --interactions-only
+```
+
+For engine-parity validation, capture `--capture-baseline` before changing an existing release,
+then run the smoke command without either flag after rebuilding. The ignored baseline records
+fixed-seed requests and displayed metrics for all 15 profiles plus the WASM hash. Since the tank
+starter extension below, the twelve non-tank profiles retain exact request/result comparisons
+after removing only the newly supplied default enchants;
+the three tanks validate their new real-item equipment and finite results instead of expecting
+their old empty/projected setup. The added PvP set definitions intentionally change the WASM hash;
+its bytes are verified against the new release manifest. UI-only checks do not require the local
+golden file. Screenshots also stay under ignored simulator artifacts.
+The suite checks desktop/tablet/mobile layouts, item modals, imports/exports, keyboard tabs,
+talents/rotations, Raid loading, focus mode and recovery from an unresponsive long-running worker.
+
+This redesign is local for visual review; production release r11 has not been changed by it.
+The original UI-only release was `47249ed45374259f39bf44ed` (3,482 files). Eight overlay regression
+tests and 230 web tests passed, alongside lint, strict types and production builds. All 15
+fixed-seed requests/results and the WASM hash match the original baseline. The browser matrix
+passed at 1,440/1,024/768/390px, including report layering, keyboard focus, real embedded reruns,
+focus mode and fault-injected stalled-worker recovery with preserved settings and a real rerun.
+
+Protection Warrior, Protection Paladin and Feral Tank now have real-item blue PvP starters,
+using the current-client-checked Mortarplate, Chevalier and Dragonhide armor respectively.
+The 16 missing Paladin/Druid records are admitted narrowly; no modeled ranking is restored.
+Equipment-only loads retain the player's talents/rotation and turn off forced Tier 1. Shared
+weights, the calculation, source evidence and set-bonus limitations are documented in
+`docs/simulator-tank-starters.md`. These are provisional starting loadouts, not a BiS ranking.
+The original starter release was `4a8eae4d6a64c8a7f2859076` (3,483 files, 1,924 items).
+The threat-accessory release was `41f89cd6f53e404dfe132ee3` (3,483 files, 1,927 items).
+The tooltip release was `4a30cdef5ca4a6f1da3935ca` (3,484 files, 1,927 items).
+The current prepared local release is `fba685b35451678279ffa37e` (3,485 files, 1,927 items),
+adding reviewed role/school-specific default enchants to all 28 supplied gear lists without
+changing starter items, accessory priorities or existing saved characters. Receipt and policy:
+`docs/simulator-default-enchants.md`. Tooltip mechanics-source requirements and prior verification:
+`docs/simulator-item-tooltips-enchants-plan.md`. Additional tank/DPS priority research:
+`docs/simulator-enchant-priorities.md`. Existing EP sorting is not a best-enchant proof;
+provisional procs require explicit consent and unsupported choices are disabled.
+Warrior/Bear now prioritize threat with verified offensive trinkets and AV/new-BG rings;
+Paladin remains defensive. The three additional rings come directly from the SHA-pinned
+build-70425 client snapshot, not stale Classic/planner stats. Horde/Alliance gear eligibility,
+first-load defaults and raid defaults are distinct; missing/unresolved evidence fails closed.
+The maintainer explicitly declined unverified Classic-stat Hand of Justice / Blackhand's Breadth.
+The parent website also forwards outside pointerdown to the iframe's existing item-picker close
+control, with strict same-origin/parent checks. Native inside-frame backdrop and Escape behavior
+is retained. Method/source requirements and checks are in `docs/simulator-tank-starters.md`.
+Production remains unchanged.
+
+Validation for the preceding threat-accessory release: 21 focused Node and 230 web tests; strict web/engine
+types, Next and pinned Vite production builds; focused Go set checks; all 15 combat profiles
+and the full responsive browser suite, including both factions and outside-frame cancellation.
+Twelve untouched profiles preserve their exact original fixed-seed requests/results.
 
 ## Existing data and concrete gaps
 

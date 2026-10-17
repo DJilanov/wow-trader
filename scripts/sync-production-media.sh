@@ -8,6 +8,7 @@ media_release_name=${2:-}
 media_product=${3:-wow_anniversary}
 deploy_host=${WOW_TRADER_DEPLOY_HOST:-root@89.167.46.193}
 deploy_root=${WOW_TRADER_DEPLOY_ROOT:-/home/wow-trader-system}
+media_verifier=${WOW_TRADER_MEDIA_VERIFIER:-$deploy_root/current/scripts/verify-item-media.mjs}
 
 if [[ -z "$media_directory" || -z "$media_release_name" ]]; then
   echo "Usage: scripts/sync-production-media.sh <media-build-directory> <media-release-name> [wow_anniversary|wow_classic_beta]" >&2
@@ -23,6 +24,10 @@ if [[ ! "$deploy_root" =~ ^/home/[A-Za-z0-9._/-]+$ || "$deploy_root" == *".."* ]
 fi
 if [[ ! "$media_release_name" =~ ^[A-Za-z0-9._-]+$ ]]; then
   echo "Media release name contains unsupported characters" >&2
+  exit 2
+fi
+if [[ ! "$media_verifier" =~ ^/home/[A-Za-z0-9._/-]+$ || "$media_verifier" == *".."* ]]; then
+  echo "WOW_TRADER_MEDIA_VERIFIER must be a safe absolute path below /home" >&2
   exit 2
 fi
 if [[ "$media_product" != "wow_anniversary" && "$media_product" != "wow_classic_beta" ]]; then
@@ -44,6 +49,6 @@ ssh "$deploy_host" "mkdir -p '$remote_media_directory'; if [ -f '$remote_media_d
 rsync -az --checksum --partial "$media_directory/manifest.json" "$media_directory/icons" \
   "$deploy_host:$remote_media_directory/"
 ssh "$deploy_host" \
-  "node '$deploy_root/current/scripts/verify-item-media.mjs' '$remote_media_directory' && ln -sfn '$remote_media_directory/icons' '$remote_media_root/current'"
+  "node '$media_verifier' '$remote_media_directory' && ln -sfn '$remote_media_directory/icons' '$remote_media_root/current'"
 
 echo "Synchronized and activated $media_product item media $media_release_name"

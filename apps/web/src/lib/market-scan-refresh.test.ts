@@ -15,4 +15,9 @@ describe("hasNewerMarketScan", () => {
     expect(hasNewerMarketScan("not-a-date", "2026-09-27T07:31:05.000Z")).toBe(false);
     expect(hasNewerMarketScan("2026-09-27T07:31:05.000Z", "not-a-date")).toBe(false);
   });
+
+  it("refreshes when the first valid scan becomes available for an empty faction", () => {
+    expect(hasNewerMarketScan("2026-10-01T16:00:00Z", null)).toBe(true);
+    expect(hasNewerMarketScan("invalid", null)).toBe(false);
+  });
 });

@@ -9,6 +9,8 @@ import { createDatabase } from "@wow-trader/db";
 import { auditCatalogSnapshot } from "./audit.js";
 import { diffCatalogs } from "./diff.js";
 import { importCatalog } from "./import.js";
+import { assessCatalogPromotion } from "./promotion.js";
+import { createSemanticCatalogDiff } from "./semantic-diff.js";
 import { loadCatalogSnapshot } from "./snapshot.js";
 import { validateCatalog } from "./validation.js";
 
@@ -26,14 +28,49 @@ async function main(args: readonly string[]): Promise<void> {
     case "diff":
       await diffCommand(commandArgs);
       return;
+    case "semantic-diff":
+      await semanticDiffCommand(commandArgs);
+      return;
+    case "assess-promotion":
+      await assessPromotionCommand(commandArgs);
+      return;
     case "import":
       await importCommand(commandArgs);
       return;
     default:
       throw new Error(
-        "Usage: catalog <audit manifest | validate manifest [--tbc-golden] | diff from-manifest to-manifest [--output file] | import manifest [--publish]>",
+        "Usage: catalog <audit manifest | validate manifest [--tbc-golden] | diff from-manifest to-manifest [--output file] | semantic-diff from-manifest to-manifest [--output file] | assess-promotion from-manifest to-manifest | import manifest [--publish]>",
       );
   }
+}
+
+async function semanticDiffCommand(args: readonly string[]): Promise<void> {
+  const fromPath = requiredPositional(args, 0, "source manifest path");
+  const toPath = requiredPositional(args, 1, "target manifest path");
+  const diff = createSemanticCatalogDiff(
+    await loadCatalogSnapshot(fromPath),
+    await loadCatalogSnapshot(toPath),
+  );
+  await writeOutput(args, diff);
+}
+
+async function assessPromotionCommand(args: readonly string[]): Promise<void> {
+  const sourcePath = requiredPositional(args, 0, "source manifest path");
+  const targetPath = requiredPositional(args, 1, "target manifest path");
+  const assessment = assessCatalogPromotion(
+    await loadCatalogSnapshot(sourcePath),
+    await loadCatalogSnapshot(targetPath),
+  );
+  const output = `${JSON.stringify(assessment, null, 2)}\n`;
+  const outputIndex = args.indexOf("--output");
+  if (outputIndex >= 0) {
+    const outputPath = args[outputIndex + 1];
+    if (!outputPath) throw new Error("--output requires a file path");
+    await writeFile(resolve(outputPath), output, { encoding: "utf8", flag: "wx" });
+  } else {
+    process.stdout.write(output);
+  }
+  if (assessment.decision === "review_required") process.exitCode = 3;
 }
 
 async function auditCommand(args: readonly string[]): Promise<void> {
@@ -55,7 +92,11 @@ async function diffCommand(args: readonly string[]): Promise<void> {
   const fromPath = requiredPositional(args, 0, "source manifest path");
   const toPath = requiredPositional(args, 1, "target manifest path");
   const diff = diffCatalogs(await loadCatalogSnapshot(fromPath), await loadCatalogSnapshot(toPath));
-  const output = `${JSON.stringify(diff, null, 2)}\n`;
+  await writeOutput(args, diff);
+}
+
+async function writeOutput(args: readonly string[], value: unknown): Promise<void> {
+  const output = `${JSON.stringify(value, null, 2)}\n`;
   const outputIndex = args.indexOf("--output");
   if (outputIndex >= 0) {
     const outputPath = args[outputIndex + 1];

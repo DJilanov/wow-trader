@@ -11,11 +11,15 @@ const MAX_QUERY_LENGTH = 120;
 interface EncyclopediaTypeaheadProps {
   readonly initialQuery: string;
   readonly section: EncyclopediaSection;
+  readonly basePath?: string;
+  readonly placeholder?: string;
 }
 
 export function EncyclopediaTypeahead({
   initialQuery,
   section,
+  basePath = "/tbc/encyclopedia",
+  placeholder = "Arcane Crystal, Transmute Undeath, 17563…",
 }: EncyclopediaTypeaheadProps): React.JSX.Element {
   const router = useRouter();
   const [draft, setDraft] = useState(initialQuery);
@@ -55,12 +59,12 @@ export function EncyclopediaTypeahead({
 
       lastNavigation.current = normalizedQuery;
       startTransition(() => {
-        router.replace(suffix ? `/tbc/encyclopedia?${suffix}` : "/tbc/encyclopedia", {
+        router.replace(suffix ? `${basePath}?${suffix}` : basePath, {
           scroll: false,
         });
       });
     },
-    [initialQuery, router, section],
+    [basePath, initialQuery, router, section],
   );
 
   useEffect(() => {
@@ -89,7 +93,7 @@ export function EncyclopediaTypeahead({
           maxLength={MAX_QUERY_LENGTH}
           name="q"
           onChange={(event) => setDraft(event.target.value)}
-          placeholder="Arcane Crystal, Transmute Undeath, 17563…"
+          placeholder={placeholder}
           ref={input}
           spellCheck={false}
           type="search"

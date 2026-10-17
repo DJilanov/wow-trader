@@ -31,6 +31,7 @@ import {
   transformationInputs,
   transformationOutputs,
   transformationVersions,
+  worldLootSourceCandidates,
   type WowTraderDatabase,
 } from "@wow-trader/db";
 import { forecastPrice, summarizeOrderBook, type PriceForecast } from "@wow-trader/market";
@@ -204,6 +205,17 @@ export interface ItemDetail {
   readonly producedBy: readonly { readonly recipeSpellId: number; readonly name: string }[];
   readonly teaches: readonly { readonly recipeSpellId: number; readonly name: string }[];
   readonly market: ItemMarketData | null;
+  readonly acquisition: readonly {
+    readonly sourceInfoId: number;
+    readonly targetKind: string;
+    readonly targetId: number;
+    readonly targetName: string;
+    readonly mapId: number | null;
+    readonly creatureId: number | null;
+    readonly evidenceKind: string;
+    readonly description: string;
+    readonly requiresReview: boolean;
+  }[];
 }
 
 export interface ItemSpellEffect {
@@ -405,6 +417,44 @@ export async function getSitemapCatalogData(
     professionSlugs: professionRows.map(({ slug }) => slug),
     markets: marketRows,
   };
+}
+
+export async function getReferenceClientItems(
+  itemIds: readonly number[],
+  clientProduct: string,
+): Promise<readonly Pick<ItemDetail, "itemId" | "name" | "classId" | "subclassId" | "requiredLevel" | "delayMs" | "stats" | "damages">[]> {
+  if (!itemIds.length) return [];
+  const database = getDatabase();
+  const build = await getLatestBuild(database, undefined, clientProduct);
+  if (!build) return [];
+  const items: Array<Pick<ItemDetail, "itemId" | "name" | "classId" | "subclassId" | "requiredLevel" | "delayMs" | "stats" | "damages">> = [];
+  for (let offset = 0; offset < itemIds.length; offset += 10_000) {
+    const ids = itemIds.slice(offset, offset + 10_000);
+    const [rows, stats, damages] = await Promise.all([
+      database.select({
+        itemId: itemVersions.itemId,
+        name: itemVersions.name,
+        classId: itemVersions.classId,
+        subclassId: itemVersions.subclassId,
+        requiredLevel: itemVersions.requiredLevel,
+        delayMs: itemVersions.delayMs,
+      }).from(itemVersions).where(and(eq(itemVersions.buildId, build.id), inArray(itemVersions.itemId, ids))),
+      database.select().from(itemStats).where(and(eq(itemStats.buildId, build.id), inArray(itemStats.itemId, ids))),
+      database.select().from(itemDamages).where(and(eq(itemDamages.buildId, build.id), inArray(itemDamages.itemId, ids))),
+    ]);
+    const statsByItem = new Map<number, typeof stats>();
+    const damageByItem = new Map<number, typeof damages>();
+    for (const stat of stats) {
+      const group = statsByItem.get(stat.itemId) ?? [];
+      group.push(stat); statsByItem.set(stat.itemId, group);
+    }
+    for (const damage of damages) {
+      const group = damageByItem.get(damage.itemId) ?? [];
+      group.push(damage); damageByItem.set(damage.itemId, group);
+    }
+    items.push(...rows.map((row) => ({ ...row, stats: statsByItem.get(row.itemId) ?? [], damages: damageByItem.get(row.itemId) ?? [] })));
+  }
+  return items;
 }
 
 export async function getSitemapMarketData(
@@ -788,6 +838,7 @@ export async function getItemDetail(
     gameRaces,
     limitCategories,
     requiredAbilities,
+    acquisition,
   ] = await Promise.all([
     database
       .select({
@@ -942,6 +993,26 @@ export async function getItemDetail(
             ),
           )
           .limit(1),
+    database
+      .select({
+        sourceInfoId: worldLootSourceCandidates.sourceInfoId,
+        targetKind: worldLootSourceCandidates.targetKind,
+        targetId: worldLootSourceCandidates.targetId,
+        targetName: worldLootSourceCandidates.targetName,
+        mapId: worldLootSourceCandidates.mapId,
+        creatureId: worldLootSourceCandidates.creatureId,
+        evidenceKind: worldLootSourceCandidates.evidenceKind,
+        description: worldLootSourceCandidates.description,
+        requiresReview: worldLootSourceCandidates.requiresReview,
+      })
+      .from(worldLootSourceCandidates)
+      .where(
+        and(
+          eq(worldLootSourceCandidates.buildId, build.id),
+          eq(worldLootSourceCandidates.itemId, itemId),
+        ),
+      )
+      .orderBy(worldLootSourceCandidates.targetKind, worldLootSourceCandidates.targetName),
   ]);
 
   const [itemSet, gem, socketBonus] = await Promise.all([
@@ -1001,6 +1072,7 @@ export async function getItemDetail(
     producedBy,
     teaches,
     market,
+    acquisition,
   };
 }
 
@@ -1008,6 +1080,7 @@ export async function getMarketOverview(
   region: string,
   realmId: string,
   clientProduct: string = TBC_CLIENT_PRODUCT,
+  auctionHouseType?: "alliance" | "horde" | "neutral" | "region" | "unknown",
 ): Promise<MarketOverview | null> {
   const database = getDatabase();
   const [scan] = await database
@@ -1017,6 +1090,7 @@ export async function getMarketOverview(
       and(
         eq(marketScans.region, region),
         eq(marketScans.realmId, realmId),
+        auctionHouseType ? eq(marketScans.auctionHouseType, auctionHouseType) : undefined,
         scanProductCondition(database, clientProduct),
       ),
     )

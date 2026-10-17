@@ -6,6 +6,133 @@ separately from crawling; see [the publication runbook](reference-auto-publicati
 partial display, index eligibility and rollout. Native database rows are not overwritten. KFC
 recruitment and the neutral WoW Forever community keep their own Discord destinations.
 
+## October 17: durable recovery from the quest 581 source denial
+
+The full-archive worker stopped at 478/2,535 because Wowhead consistently returned HTTP 403 for
+quest 581 from both production and a separate network. Release `crawl-20261017-r10-source-wait`
+preserves that exact checkpoint and now waits six hours between access-denial retries instead of
+remaining permanently stopped. The first live retry entered `waiting` until 12:21:29 UTC without
+skipping a record or changing crawler identity. Diagnosis, implementation boundaries, production
+receipt, verification and rollback constraints are in
+[the October 17 source-recovery receipt](reference-crawler-source-recovery-2026-10-17.md).
+
+## October 16: whitespace identity repair and v3 renderer/backfill
+
+Active web/publisher reader is `kfc-helper-xp-reader-20261016-r10`, accepting v1/v2/v3 facts.
+Worker `crawl-20261016-r9-xp` uses a fresh 127-ID unknown-reward recovery checkpoint before the
+unchanged priority/full-archive/base queues. Quest 2866's metadata had a trailing name space;
+surrounding whitespace now matches the already-trimmed heading without accepting another ID/name.
+
+Core revision `25318d8a` was independently reviewed: rounding/level-cap bodies match the previous
+reviewed core, and quest script `5f36c4ad` is unchanged. Only that exact pair is added, not arbitrary
+future hashes. Compatible readers went live first. The original captured quest 2866 has already
+published at 2,700 XP, preserving its source SHA/time. Source gaps may still remain.
+
+**Retain v3-compatible readers/workers after new records exist; r9/v2-only rollback is unsafe.**
+Current recovery status, backup, SHA proofs, deployment/tests and safe stop/resume guidance:
+[October 16 repair receipt](forever-leveling-xp-repair-2026-10-16.md).
+The status/active-release labels below are historical snapshots, not the current phase.
+
+## October 15 follow-up: distinguish active progress from a historical base checkpoint
+
+Current worker is `crawl-20261015-r8-full-archive`: recovery → priority → full archive → base.
+Helper web is combat r9, preserving the v2 reader; the running publisher retains its compatible
+reader. Release labels in the earlier rollout sections below are historical receipts.
+
+The base `shared/status.json` retains its October 13 `blocked` state at cursor 746 while earlier
+phases run. That is not the current pipeline's health. The active job owns `staging/.job.lock`,
+whose `statusPath` identifies its checkpoint. At 16:34 UTC priority was running at 725/1,419,
+without errors; recovery had completed. The archive checkpoint is created only when its phase starts.
+
+The deployed crawler already handles quest 260's exact same-edition/id not-found HTTP 301 without
+following its listing, and the job resumes legacy blocked checkpoints at their saved cursor.
+Both compiled source-map hashes matched the tested source. A new regression proves that complete
+phase sequence, safe quarantine, continued processing and preserved counts. All 71 reference-data
+tests pass. No restart, checkpoint reset, extra source request or new production rollout was needed.
+Do not clear history or weaken redirect checks; a different future redirect must still stop.
+
+For the currently active phase, use this read-only command (change the status path when its phase
+changes), rather than interpreting the base checkpoint as a live failure:
+
+```sh
+node /home/wow-trader-reference-worker/current/dist/cli.js status --status /home/wow-trader-reference-worker/shared/priority-xp-1e25e00fcd345e03-status.json --staging /home/wow-trader-reference-worker/shared/staging
+```
+
+## October 15: verified renderer repair and the 298-record recovery
+
+Active readers: `kfc-helper-xp-repair-20261015-r8` (web + publisher). Active isolated worker:
+`crawl-20261015-r7-xp-repair`. The original snapshot at 08:01:28 UTC has 626 checksummed records,
+328 available and 298 unknown. All 298 unknowns have primary quest/minimum levels; the old
+`missing_primary_quest_dataset` diagnostic was a consequence of its combined condition, not proof
+that metadata was absent. A permitted capture of quest 4811 confirmed the changed core asset.
+
+Reviewed primary assets (SHA-256):
+
+- `https://wow.zamimg.com/js/global-core.js?52d4f803`:
+  `52d4f803602b6932b2ffe02d0fe582fa0d98673cd88e60d49e9e4df0d03e3701`
+- `https://wow.zamimg.com/js/global-core.js?97211824`:
+  `9721182430cd627f42a37be85aebc3370fa61430639555260365391fdeb17ed1`
+- `https://wow.zamimg.com/js/quest.js?5f36c4ad`:
+  `5f36c4ad6b8159cef34450542f3264c877c07f2c1c2079815ade2fd712101bdf`
+
+Literal AST inspection found byte-identical `roundQuestXp` function bodies (SHA
+`d2d2b79f00dba1e3978785d683225f8a430c5768a75035051cd39f4982ad8f85`) and max-player-level
+function bodies (SHA `ae0588a6d0eff97ecb1ed8c0bbf9cbc43ed5488ba4e4ceb8da1abbea36612298`)
+between core versions. The unchanged quest renderer establishes the multiplier, reduction and
+rounding order. Only those two exact renderer pairs are accepted, not arbitrary hash changes.
+Unverified future renderers remain unknown with null `rendererRevision`; never infer XP from
+comments, Classic level tables or a global Forever multiplier to make this report pass.
+
+Parser capability is `wowhead-quest-xp-20261015-v2`. Readers retain v1 support, and previously
+available/conflicting facts remain protected. An old unknown gets one version-aware refresh;
+a current-v2 unknown is cached rather than continuously retried. Refresh starts from the validated
+same-entity canonical URL, removing the avoidable extra redirect but not its rate limit. Existing
+normalized captures omit the dynamic XP payload, so most of the original 298 require refetching.
+The single private HTML diagnostic was reprocessed offline with its original source SHA/time;
+quest 4811 became available at 490 XP and published at 08:53:09 UTC.
+
+Recovery is serialized ahead of the existing priority and base jobs. It never resets either
+checkpoint. Original priority cursor 648 and base cursor 746 were preserved byte-for-byte.
+The recovery queue contains the frozen original 298 first, then 19 new affected records (317 total).
+Queue SHA: `d3ba3ad0b531151fa4ec7026b8904cca0a1ea7bb9a90176471b384cffdcce07b`.
+At least roughly five hours is necessary at the unchanged one-minute request pace; robots,
+redirects and access interruptions can extend that. PM2 configuration was saved.
+
+```text
+/home/wow-trader-reference-worker/shared/queues/reference-crawler-recovery.config.cjs
+/home/wow-trader-reference-worker/shared/queues/forever-xp-recovery-d3ba3ad0b531151f.json
+/home/wow-trader-reference-worker/shared/recovery-xp-d3ba3ad0b531151f-status.json
+/home/wow-trader-reference-worker/backups/20261015-xp-repair.Gskb8I/baseline/
+```
+
+Inspect processing progress and verified publication separately on the server:
+
+```sh
+node /home/wow-trader-reference-worker/current/dist/cli.js status --status /home/wow-trader-reference-worker/shared/recovery-xp-d3ba3ad0b531151f-status.json --staging /home/wow-trader-reference-worker/shared/staging
+cd /home/wow-trader-system/current
+node scripts/repair-leveling-quest-xp.mjs status --baseline /home/wow-trader-reference-worker/backups/20261015-xp-repair.Gskb8I/baseline --rewards /home/wow-trader-reference-worker/shared/published --expected-unknown 298
+```
+
+The latter reports actual available facts, original-cohort resolved/remaining IDs and outstanding
+issues; crawl completion alone is not numeric resolution. `prepare --destination <new-directory>`
+creates a checksummed deduplicated queue/inventory without overwriting outputs. The baseline index
+SHA is `d6a2e74a6fa335f091544a47607210a334b518d21c698f6640a834daf2b132da`.
+Check all remaining unknown/conflict IDs before claiming full coverage; newly collected quests are
+reported separately from the original 298. The publisher validates identities against current client
+quests and makes accepted rewards available on refresh without a new web build.
+
+Safe stop: `pm2 stop kfc-helper-reference-crawl`. Resume only after reviewing access failures with
+`pm2 startOrReload /home/wow-trader-reference-worker/shared/queues/reference-crawler-recovery.config.cjs --only kfc-helper-reference-crawl --update-env`.
+Do not downgrade readers to unpatched r7 or the worker to v1 after v2 facts exist: old schemas reject
+those records. Keep compatible r8 readers when stopping collection/rolling back unrelated features.
+Do not remove pacing state/locks or launch a second worker to accelerate this recovery.
+
+Verification: 68 reference-data tests, 5 focused web tests, recovery-tool integration test, strict
+reference types/lint, focused formatting/lint, 626-record backward-read validation, Linux production
+build/private preview and the live XP/browser/mobile/a11y suite. No database/native-catalog writes,
+player-save mutation, addon changes or route/UI edits. This evidence repair is not the pending
+XP-funded 1–60 route rebuild or proof of sufficient experience in its chapters.
+
 ## Boundary
 
 Use explicit `/tbc/item=ID`, `/forever/item=ID` and edition-specific quest pages. Public item XML
@@ -14,22 +141,35 @@ HTML and JavaScript are parsed with Cheerio and Acorn, never evaluated. Imported
 plain strings and a numeric-fact allowlist, not executable HTML. Comments, user profiles, screenshots,
 news, guide prose and Wowhead's Auction House buyout estimates are not imported.
 
-Default: one worker, at least 60 seconds between every HTTP attempt, including robots,
-redirects and XML, at most 20 uncached records per invocation. This is a conservative
-operator policy, not a documented Wowhead quota. The configurable minimum is 40 seconds
-(at most 90 requests/hour), and the maximum is 120 seconds. A robots crawl-delay can increase it, and a larger or invalid
-robots delay stops the run rather than creating an overflowing timer. The crawler reads robots before
-each run, checks redirects against the original entity/edition and host, limits body size and request
-duration, persists Retry-After cooldowns, and stops on blocked/challenged pages. No proxy
-rotation, browser impersonation, credential use or challenge bypass is implemented.
+Default: one worker with a fresh 72–90 second delay between source-navigation starts,
+including robots, redirects and item HTML/XML, and at most 20 uncached records per invocation.
+A separate durable rolling window caps starts at 50 per 60 minutes even when the configured delay
+is lower or the worker restarts. This is a conservative operator policy, not a documented Wowhead
+quota. The configurable delay bounds are 40–120 seconds. A robots crawl-delay can increase them,
+and a larger or invalid robots delay stops the run rather than creating an overflowing timer. The
+crawler reads robots before each run, checks redirects against the original entity/edition and host,
+limits body size and request duration, persists Retry-After cooldowns, and stops on
+blocked/challenged pages. Browsertrix page assets are normal browser subresource requests and are
+not counted as separate source navigations. No proxy rotation, browser impersonation, credential
+use or challenge bypass is implemented.
 
 The staging directory has an exclusive `.crawl.lock`; publication has a separate `.publish.lock`.
-`.request-pacing.json` persists the last HTTP attempt and next permitted time under
-that lock, including between batches and restarts. A 429 or 503 saves the source's
+`.request-pacing.json` persists the rolling navigation history, last attempt and next permitted time
+under that lock, including between batches and restarts. Version 1 pacing files are read without
+discarding their last known request and are upgraded on the next write. A 429 or 503 saves the source's
 cooldown and stops without an immediate retry. Missing/invalid Retry-After defaults
 to five minutes. Long cooldowns stop before any further request, including robots;
 resume only after that time and review the source response. Never delete pacing
 state to bypass throttling. Malformed state fails closed.
+
+Managed full-catalog workers use `--wait-on-source-cooldown`. A plain HTTP 403 without
+`Retry-After` records a six-hour durable cooldown, exposes the active checkpoint as `waiting` with
+its `retryAt`, and retries that same entity after the cooldown. A source-provided `Retry-After`
+takes precedence. Only bounded cooldowns up to 24 hours are waited automatically; longer or invalid
+values, challenges, robots denials and parser failures still stop for operator review. This is
+low-frequency outage recovery, not a bypass: the worker keeps its declared identity, single-worker
+pacing and exact URL, and does not add proxy rotation, cookies or browser impersonation.
+
 A crashed run may leave its lock behind: confirm no worker is running before removing that specific
 lock. Source 404s are quarantined for seven days, count toward the batch limit, and do not stall later
 IDs. `--refresh` rechecks them. Access denials, parser drift and challenges still stop the whole batch.
@@ -49,6 +189,18 @@ pnpm --filter @wow-trader/reference-data dev crawl --queue /tmp/forever-items.js
 pnpm --filter @wow-trader/reference-data dev report --queue /tmp/forever-items.json --staging /tmp/wowhead-staging
 ```
 
+For local diagnostics, add `--browsertrix-screencast-port 9037` and open
+`http://127.0.0.1:9037`. The viewer is disabled by default, bound only to host loopback and available
+only while Browsertrix is actively processing a page. `BROWSERTRIX_SCREENCAST_PORT=9037` provides
+the equivalent opt-in for managed local runs. Do not publish this port on a network interface.
+
+Recognized challenges also produce a sanitized, read-only screenshot report under
+`<staging>/challenge-evidence/`. Open the newest report with
+`pnpm --filter @wow-trader/reference-data dev challenge-report --staging <staging> --open`. Raw
+challenge HTML and verification tokens are not copied into the report. The architecture and the
+separate input-mapping design for owned test targets are documented in
+`docs/operator-assisted-challenge-inspection.md`.
+
 For quests use `--kind quest`, real quest IDs, and the correct edition. For a large item queue,
 download our own advertised sitemap files and seed only their exact item/quest routes:
 
@@ -63,8 +215,8 @@ Quest detail URLs were not mass-listed in the current Helper sitemap. Build a re
 from actual routes/client IDs; do not pretend the item sitemaps cover all quests.
 
 Repeat the same crawl command to resume bounded batches. The inspected item inventory is roughly
-54k records; two source documents per item at 60 seconds each already means about
-75 days, before quest pages, redirects or interruptions. A record is not one HTTP
+54k records; two source documents per item at the default average delay already mean about
+101 days, before quest pages, redirects or interruptions. A record is not one source
 request. Expect weeks to months, not a fixed completion date. Prioritize leveling
 rewards, raid items and frequently used crafting materials for reviewed batches.
 Do not start a concurrent full-catalog scrape or increase worker count just to finish faster.
@@ -241,8 +393,8 @@ Production paths on `89.167.46.193`:
 /home/wow-trader-reference-worker/shared/status.json        durable checkpoint
 ```
 
-PM2 process `kfc-helper-reference-crawl` runs a single worker, 100-record batches, at
-least 60 seconds between all HTTP attempts (at most 60/hour), a 384 MB Node heap,
+PM2 process `kfc-helper-reference-crawl` runs a single worker, 100-record batches, with a
+72–90 second navigation delay and a durable maximum of 50 navigation starts per rolling hour, a 384 MB Node heap,
 an 8 GiB free-disk reserve and a 2 GiB staging ceiling. Batch size is not requests/hour. The
 running process has reduced CPU priority. Its PM2 configuration is
 `infra/pm2/reference-crawler.config.cjs`; only this worker's portable runtime was shipped, not the

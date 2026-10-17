@@ -41,8 +41,14 @@ case "$application" in
     : "${WEB_ORIGIN:?WEB_ORIGIN is required}"
     exec node apps/ingest-api/dist/server.js
     ;;
+  reference-publisher)
+    : "${DATABASE_URL:?DATABASE_URL is required}"
+    : "${WOW_TRADER_WORLD_SNAPSHOT:?WOW_TRADER_WORLD_SNAPSHOT is required}"
+    shift
+    exec node scripts/reference-publisher.mjs "$@"
+    ;;
   *)
-    echo "Usage: scripts/run-production.sh <web|ingest>" >&2
+    echo "Usage: scripts/run-production.sh <web|ingest|reference-publisher>" >&2
     exit 2
     ;;
 esac

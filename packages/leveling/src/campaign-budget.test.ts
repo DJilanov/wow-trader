@@ -78,6 +78,28 @@ const fact: QuestRewardFact = {
 };
 
 describe("checkpoint budget regressions", () => {
+  it("uses already-scaled Stockade evidence instead of the legacy fallback or another multiplier", () => {
+    const scaled: QuestRewardFact = {
+      ...fact,
+      questId: 378,
+      questLevel: 27,
+      minimumLevel: 25,
+      fullXp: 5800,
+      xpByLevel: [
+        { level: 27, xp: 5800 },
+        { level: 33, xp: 4600 },
+      ],
+      sourceUrl: "https://www.wowhead.com/forever/quest=378/the-fury-runs-deep",
+    };
+    expect(resolveQuestReward(378, 27, [scaled])).toMatchObject({
+      xp: 5800,
+      basis: "wowhead-reference",
+    });
+    expect(resolveQuestReward(378, 33, [scaled])).toMatchObject({
+      xp: 4600,
+      basis: "wowhead-reference",
+    });
+  });
   it("never certifies a whole route while one party member lacks a supported level-60 exit", () => {
     const plan = route([action("finish", "zone")], "finish", 60, 60);
     const state = party(60);

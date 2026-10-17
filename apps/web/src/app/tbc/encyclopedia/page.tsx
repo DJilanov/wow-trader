@@ -13,6 +13,7 @@ import {
   type EncyclopediaSection,
 } from "../../../lib/encyclopedia";
 import { TBC_BIS_CLASSES } from "../../../lib/bis-directory";
+import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
 import { createHelperMetadata } from "../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -26,23 +27,29 @@ interface EncyclopediaPageProps {
   }>;
 }
 
-export async function generateMetadata({ searchParams }: EncyclopediaPageProps): Promise<Metadata> {
+export async function createCatalogDirectoryMetadata(
+  { searchParams }: EncyclopediaPageProps,
+  config: CatalogPageConfig,
+): Promise<Metadata> {
   const raw = await searchParams;
   const hasSearchState = Boolean(getParam(raw.q) || getParam(raw.type));
   return createHelperMetadata({
-    title: "TBC Item, Recipe & Profession Encyclopedia",
-    description:
-      "Search 30,000+ audited TBC items plus profession recipes, reagents, outputs, teaching links, stats, requirements, and exact game IDs.",
-    path: "/tbc/encyclopedia",
+    title: `${config.gameLabel} Item, Recipe & Profession Encyclopedia`,
+    description: `Search audited ${config.gameLabel} items and profession recipes with reagents, outputs, teaching links, stats, requirements, and exact game IDs.`,
+    path: `${config.encyclopediaBasePath}${config.clientProduct === TBC_CATALOG_PAGE_CONFIG.clientProduct ? "" : "/catalog"}`,
     keywords: [
-      "TBC item database",
-      "TBC recipe database",
-      "TBC profession database",
-      "TBC item IDs",
-      "TBC crafting recipes",
+      `${config.gameLabel} item database`,
+      `${config.gameLabel} recipe database`,
+      `${config.gameLabel} profession database`,
+      `${config.gameLabel} item IDs`,
+      `${config.gameLabel} crafting recipes`,
     ],
     noIndex: hasSearchState,
   });
+}
+
+export function generateMetadata(props: EncyclopediaPageProps): Promise<Metadata> {
+  return createCatalogDirectoryMetadata(props, TBC_CATALOG_PAGE_CONFIG);
 }
 
 const sections: readonly { readonly value: EncyclopediaSection; readonly label: string }[] = [
@@ -55,15 +62,35 @@ const sections: readonly { readonly value: EncyclopediaSection; readonly label: 
 export default async function EncyclopediaPage({
   searchParams,
 }: EncyclopediaPageProps): Promise<React.JSX.Element> {
+  return CatalogDirectoryPage({
+    searchParams,
+    config: TBC_CATALOG_PAGE_CONFIG,
+    catalogPath: TBC_CATALOG_PAGE_CONFIG.encyclopediaBasePath,
+    showBis: true,
+  });
+}
+
+export async function CatalogDirectoryPage({
+  searchParams,
+  config,
+  catalogPath,
+  showBis,
+}: EncyclopediaPageProps & {
+  readonly config: CatalogPageConfig;
+  readonly catalogPath: string;
+  readonly showBis: boolean;
+}): Promise<React.JSX.Element> {
   const raw = await searchParams;
   const query = getParam(raw.q) ?? "";
   const section = parseEncyclopediaSection(getParam(raw.type));
 
   try {
-    const data = await getEncyclopediaData(query, section);
+    const data = await getEncyclopediaData(query, section, config.clientProduct);
     if (!data) {
       return (
-        <DataUnavailable title="The TBC Encyclopedia is waiting for a published catalog build" />
+        <DataUnavailable
+          title={`The ${config.encyclopediaLabel} is waiting for a published catalog build`}
+        />
       );
     }
 
@@ -72,10 +99,12 @@ export default async function EncyclopediaPage({
       <article className="encyclopedia-page">
         <header className="encyclopedia-hero">
           <div>
-            <Link className="helper-back-link" href="/tbc">
-              <span aria-hidden="true">←</span> TBC tools
+            <Link className="helper-back-link" href={config.encyclopediaBasePath}>
+              <span aria-hidden="true">←</span> {config.encyclopediaLabel}
             </Link>
-            <span className="eyebrow">TBC build {data.build.buildNumber}</span>
+            <span className="eyebrow">
+              {config.gameLabel} build {data.build.buildNumber}
+            </span>
             <h1>Azeroth, indexed.</h1>
             <p>
               Search client-extracted items, crafting recipes, professions, or an exact item, spell,
@@ -89,13 +118,18 @@ export default async function EncyclopediaPage({
           </div>
         </header>
 
-        <EncyclopediaTypeahead initialQuery={data.query} section={section} />
+        <EncyclopediaTypeahead
+          basePath={catalogPath}
+          initialQuery={data.query}
+          placeholder="Item, recipe, profession, or exact ID…"
+          section={section}
+        />
 
         <nav className="encyclopedia-tabs" aria-label="Encyclopedia record type">
           {sections.map((option) => (
             <Link
               className={section === option.value ? "active" : undefined}
-              href={encyclopediaHref(data.query, option.value)}
+              href={encyclopediaHref(catalogPath, data.query, option.value)}
               key={option.value}
             >
               {option.label}
@@ -113,9 +147,17 @@ export default async function EncyclopediaPage({
         ) : null}
 
         {data.query.length === 0 ? (
-          <EncyclopediaStart data={data} />
+          <EncyclopediaStart
+            data={data}
+            encyclopediaBasePath={config.encyclopediaBasePath}
+            showBis={showBis}
+          />
         ) : data.searched && resultCount > 0 ? (
-          <EncyclopediaResults data={data} resultCount={resultCount} />
+          <EncyclopediaResults
+            data={data}
+            encyclopediaBasePath={config.encyclopediaBasePath}
+            resultCount={resultCount}
+          />
         ) : data.searched ? (
           <div className="workspace-empty encyclopedia-empty">
             <strong>No catalog records found</strong>
@@ -125,11 +167,19 @@ export default async function EncyclopediaPage({
       </article>
     );
   } catch {
-    return <DataUnavailable title="The TBC Encyclopedia is temporarily unavailable" />;
+    return <DataUnavailable title={`The ${config.encyclopediaLabel} is temporarily unavailable`} />;
   }
 }
 
-function EncyclopediaStart({ data }: { readonly data: EncyclopediaData }): React.JSX.Element {
+function EncyclopediaStart({
+  data,
+  encyclopediaBasePath,
+  showBis,
+}: {
+  readonly data: EncyclopediaData;
+  readonly encyclopediaBasePath: string;
+  readonly showBis: boolean;
+}): React.JSX.Element {
   return (
     <section className="encyclopedia-start" aria-labelledby="browse-professions-heading">
       <div className="encyclopedia-counts" aria-label="Catalog coverage">
@@ -153,8 +203,11 @@ function EncyclopediaStart({ data }: { readonly data: EncyclopediaData }): React
         </div>
         <span>Every relationship points back to the published client build.</span>
       </div>
-      <ProfessionResults professions={data.professions} />
-      <BisDirectory />
+      <ProfessionResults
+        encyclopediaBasePath={encyclopediaBasePath}
+        professions={data.professions}
+      />
+      {showBis ? <BisDirectory /> : null}
     </section>
   );
 }
@@ -217,9 +270,11 @@ function roleLabel(role: "damage" | "healing" | "tank"): string {
 
 function EncyclopediaResults({
   data,
+  encyclopediaBasePath,
   resultCount,
 }: {
   readonly data: EncyclopediaData;
+  readonly encyclopediaBasePath: string;
   readonly resultCount: number;
 }): React.JSX.Element {
   return (
@@ -239,7 +294,7 @@ function EncyclopediaResults({
                 <Link
                   aria-describedby={`item-preview-${item.itemId}`}
                   className="encyclopedia-item-card"
-                  href={`/tbc/encyclopedia/items/${item.itemId}`}
+                  href={`${encyclopediaBasePath}/items/${item.itemId}`}
                 >
                   <ItemIcon fileDataId={item.iconFileDataId} quality={item.quality} size="large" />
                   <span>
@@ -267,7 +322,7 @@ function EncyclopediaResults({
             {data.recipes.map((recipe) => (
               <Link
                 className="encyclopedia-recipe-row"
-                href={`/tbc/encyclopedia/recipes/${recipe.recipeSpellId}`}
+                href={`${encyclopediaBasePath}/recipes/${recipe.recipeSpellId}`}
                 key={recipe.recipeSpellId}
               >
                 <span className="encyclopedia-record-icon" aria-hidden="true">
@@ -295,7 +350,10 @@ function EncyclopediaResults({
 
       {data.professions.length > 0 ? (
         <ResultSection title="Professions" count={data.professions.length}>
-          <ProfessionResults professions={data.professions} />
+          <ProfessionResults
+            encyclopediaBasePath={encyclopediaBasePath}
+            professions={data.professions}
+          />
         </ResultSection>
       ) : null}
     </section>
@@ -304,14 +362,16 @@ function EncyclopediaResults({
 
 function ProfessionResults({
   professions,
+  encyclopediaBasePath,
 }: {
   readonly professions: EncyclopediaData["professions"];
+  readonly encyclopediaBasePath: string;
 }): React.JSX.Element {
   return (
     <div className="encyclopedia-profession-grid">
       {professions.map((profession) => (
         <Link
-          href={`/tbc/encyclopedia/professions/${profession.slug}`}
+          href={`${encyclopediaBasePath}/professions/${profession.slug}`}
           key={profession.skillLineId}
         >
           <span className="encyclopedia-record-icon profession" aria-hidden="true">
@@ -354,12 +414,12 @@ function ResultSection({
   );
 }
 
-function encyclopediaHref(query: string, section: EncyclopediaSection): string {
+function encyclopediaHref(basePath: string, query: string, section: EncyclopediaSection): string {
   const search = new URLSearchParams();
   if (query) search.set("q", query);
   if (section !== "all") search.set("type", section);
   const suffix = search.toString();
-  return suffix ? `/tbc/encyclopedia?${suffix}` : "/tbc/encyclopedia";
+  return suffix ? `${basePath}?${suffix}` : basePath;
 }
 
 function getParam(value: SearchParamValue): string | undefined {

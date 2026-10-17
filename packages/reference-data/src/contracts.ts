@@ -16,6 +16,8 @@ const relationSchema = z.object({
   name: z.string().min(1).max(300),
 });
 
+const questContentStateSchema = z.enum(["present", "none", "unknown"]);
+
 export const referenceRecordSchema = referenceTaskSchema
   .extend({
     schema: z.literal("wowhead-reference.v1"),
@@ -30,6 +32,13 @@ export const referenceRecordSchema = referenceTaskSchema
     objectives: z.array(z.string().max(4000)).max(100),
     description: z.string().max(16000),
     rewards: z.array(z.string().max(4000)).max(100),
+    questContent: z
+      .object({
+        objectives: questContentStateSchema,
+        rewards: questContentStateSchema,
+      })
+      .strict()
+      .optional(),
     relations: z.array(relationSchema).max(2000),
   })
   .strict()
@@ -91,12 +100,14 @@ export function referenceQualityGaps(record: ReferenceRecord): string[] {
       gaps.push("unresolved_item_details");
     if (!record.relations.length) gaps.push("missing_acquisition_or_use_context");
   } else {
-    if (!record.objectives.length) gaps.push("missing_quest_objectives");
+    if (!record.objectives.length && record.questContent?.objectives !== "none")
+      gaps.push("missing_quest_objectives");
     if (!record.quickFacts.some((fact) => /(?:Requires level|Level:)/i.test(fact)))
       gaps.push("missing_quest_requirements");
     if (!record.relations.some((relation) => relation.relation === "start"))
       gaps.push("missing_quest_giver");
-    if (!record.rewards.length) gaps.push("missing_quest_rewards");
+    if (!record.rewards.length && record.questContent?.rewards !== "none")
+      gaps.push("missing_quest_rewards");
   }
   return gaps;
 }

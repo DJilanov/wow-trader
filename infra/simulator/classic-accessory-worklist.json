@@ -1,0 +1,235 @@
+{
+  "schema": "kfc-classic-accessory-worklist.v1",
+  "reviewedAt": "2026-10-16",
+  "referenceSource": "https://github.com/wowsims/classic/blob/7779ebbf79dc7f1341e6ab939b28a3402c9a730a/assets/database/db.json",
+  "foreverSnapshot": "b52b73d2765c00a0569a86f2923843ea1c264fafd5af9d5eec3874db4d7a23aa",
+  "simulationInput": false,
+  "notice": "Identity and review work list, not confirmed Forever stats, loot sources or availability. A missing extracted record does not prove removal. Classic reference phases do not establish Forever release phases. No historical stat or proc fallback is authorized by this file.",
+  "promotionRequirements": [
+    "Resolve the current Forever item record or an authenticated in-game tooltip/export.",
+    "Verify current stats, class and faction restrictions, required level and unique-equipped rules.",
+    "Verify acquisition separately; retain the pre-raid-only starter policy.",
+    "Audit proc chance, cooldown, shared cooldown and eligible events before assigning simulated value."
+  ],
+  "items": [
+    {
+      "id": 11815,
+      "name": "Hand of Justice",
+      "slot": "trinket",
+      "roles": ["melee", "bear-threat"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 13965,
+      "name": "Blackhand's Breadth",
+      "slot": "trinket",
+      "roles": ["physical"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 12930,
+      "name": "Briarwood Reed",
+      "slot": "trinket",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 13968,
+      "name": "Eye of the Beast",
+      "slot": "trinket",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 11832,
+      "name": "Burst of Knowledge",
+      "slot": "trinket",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18465,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Rogue",
+      "roles": ["physical"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18466,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Warrior",
+      "roles": ["tank"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18467,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Warlock",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18468,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Mage",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18469,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Priest",
+      "roles": ["healer"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18470,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Druid",
+      "roles": ["healer"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18471,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Shaman",
+      "roles": ["healer"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18472,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Paladin",
+      "roles": ["healer"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18473,
+      "name": "Royal Seal of Eldre'Thalas",
+      "slot": "trinket",
+      "class": "Hunter",
+      "roles": ["ranged"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 19325,
+      "name": "Don Julio's Band",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "separately-client-verified"
+    },
+    {
+      "id": 13001,
+      "name": "Maiden's Circle",
+      "slot": "ring",
+      "roles": ["caster"],
+      "evidence": "separately-client-verified"
+    },
+    {
+      "id": 21563,
+      "name": "Don Rodrigo's Band",
+      "slot": "ring",
+      "roles": ["caster"],
+      "evidence": "client-present-needs-admission"
+    },
+    {
+      "id": 17713,
+      "name": "Blackstone Ring",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "forever-source-record"
+    },
+    {
+      "id": 13098,
+      "name": "Painweaver Band",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 18500,
+      "name": "Tarnished Elven Ring",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 12543,
+      "name": "Songstone of Ironforge",
+      "slot": "ring",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 12548,
+      "name": "Magni's Will",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 13178,
+      "name": "Rosewine Circle",
+      "slot": "ring",
+      "roles": ["healer"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 15855,
+      "name": "Ring of Protection",
+      "slot": "ring",
+      "roles": ["tank"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 11669,
+      "name": "Naglering",
+      "slot": "ring",
+      "roles": ["tank"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 12344,
+      "name": "Seal of Ascension",
+      "slot": "ring",
+      "roles": ["caster"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 2246,
+      "name": "Myrmidon's Signet",
+      "slot": "ring",
+      "roles": ["physical", "tank"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 13373,
+      "name": "Band of Flesh",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 16058,
+      "name": "Fordring's Seal",
+      "slot": "ring",
+      "roles": ["healer"],
+      "evidence": "not-in-reviewed-export"
+    },
+    {
+      "id": 9533,
+      "name": "Masons Fraternity Ring",
+      "slot": "ring",
+      "roles": ["physical"],
+      "evidence": "forever-source-record"
+    }
+  ]
+}

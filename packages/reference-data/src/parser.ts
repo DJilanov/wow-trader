@@ -178,6 +178,7 @@ export function parseWowheadPage(
   let quickFacts: string[] = [];
   let matchingItemData = false;
   let foreignItemData = false;
+  let matchingQuestData = false;
   for (const element of $("script").toArray()) {
     const script = $(element).text();
     if (script.length > 2_000_000) throw new Error("Reference script too large");
@@ -196,6 +197,20 @@ export function parseWowheadPage(
         for (const [key, value] of Object.entries(equip ?? {}))
           if (numericKeys.has(key) && typeof value === "number" && Number.isFinite(value))
             numericFacts[key] = value;
+      }
+    }
+    if (task.kind === "quest" && script.includes("WH.Gatherer.addData")) {
+      for (const call of calls(script, "WH.Gatherer.addData")) {
+        if (
+          literal(call.arguments?.[0]) !== 5 ||
+          literal(call.arguments?.[1]) !== (task.game === "forever" ? 16 : 5)
+        )
+          continue;
+        const entry = object(object(literal(call.arguments?.[2]))?.[String(task.id)]);
+        if (!entry) continue;
+        if (typeof entry.name_enus !== "string" || entry.name_enus.trim() !== name)
+          throw new Error("Reference quest name mismatch");
+        matchingQuestData = true;
       }
     }
     if (script.includes("new Listview")) {
@@ -297,8 +312,8 @@ export function parseWowheadPage(
   }
   const quest =
     task.kind === "quest"
-      ? parseQuestSections($)
-      : { objectives: [], description: "", rewards: [] };
+      ? parseQuestSections($, matchingQuestData)
+      : { objectives: [], description: "", rewards: [], questContent: undefined };
   return referenceRecordSchema.parse({
     ...task,
     schema: "wowhead-reference.v1",
@@ -349,10 +364,17 @@ function parseItemXml(xml: string, task: ReferenceTask, name: string): string[] 
     .filter(Boolean);
 }
 
-function parseQuestSections($: CheerioAPI): {
+function parseQuestSections(
+  $: CheerioAPI,
+  matchingQuestData: boolean,
+): {
   objectives: string[];
   description: string;
   rewards: string[];
+  questContent: {
+    objectives: "present" | "none" | "unknown";
+    rewards: "present" | "none" | "unknown";
+  };
 } {
   const article = $("h1").first().parent();
   const clean = article.clone();
@@ -378,17 +400,53 @@ function parseQuestSections($: CheerioAPI): {
       .trim();
   };
   const objectiveText = textBetween(contents.findIndex((node) => $(node).is("h1")));
+  const progressIndex = contents.findIndex(
+    (node) => $(node).is("h2") && $(node).text().trim() === "Progress",
+  );
+  const progressEnd = contents.findIndex(
+    (node, position) => position > progressIndex && $(node).is("h1,h2"),
+  );
+  const progressRows =
+    progressIndex < 0
+      ? []
+      : contents
+          .slice(progressIndex + 1, progressEnd < 0 ? undefined : progressEnd)
+          .flatMap((node) => {
+            const fragment = $(node);
+            const rows = fragment.is("table.icon-list tr")
+              ? fragment
+              : fragment.find("table.icon-list tr");
+            return rows
+              .toArray()
+              .map((row) => $(row).text().replace(/\s+/g, " ").trim())
+              .filter(Boolean);
+          });
+  const objectives = objectiveText ? [objectiveText] : [...new Set(progressRows)];
   const description = textBetween(
     contents.findIndex((node) => $(node).is("h2") && $(node).text().trim() === "Description"),
   );
+  let hasRewardHeading = false;
   const rewards = contents.flatMap((node, index) => {
     if (!$(node).is("h2") || !/^(?:Rewards|Gains)$/.test($(node).text().trim())) return [];
+    hasRewardHeading = true;
     const text = textBetween(index)
       .replace(/^Upon completion of this quest you will gain:\s*/i, "")
       .trim();
     return text ? [text] : [];
   });
-  return { objectives: objectiveText ? [objectiveText] : [], description, rewards };
+  return {
+    objectives,
+    description,
+    rewards,
+    questContent: {
+      objectives: objectives.length ? "present" : matchingQuestData ? "none" : "unknown",
+      rewards: rewards.length
+        ? "present"
+        : matchingQuestData && !hasRewardHeading
+          ? "none"
+          : "unknown",
+    },
+  };
 }
 
 export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXpRecord {
@@ -415,7 +473,8 @@ export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXp
           continue;
         const entry = object(object(literal(call.arguments?.[2]))?.[String(record.id)]);
         if (entry) {
-          if (entry.name_enus !== record.name) throw new Error("Quest XP primary name mismatch");
+          if (typeof entry.name_enus !== "string" || entry.name_enus.trim() !== record.name)
+            throw new Error("Quest XP primary name mismatch");
           matchingEdition = true;
         }
       }
@@ -430,7 +489,12 @@ export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXp
         )
           continue;
         const data = object(literal(call.arguments?.[1]));
-        if (!data || data.id !== record.id || data.name !== record.name)
+        if (
+          !data ||
+          data.id !== record.id ||
+          typeof data.name !== "string" ||
+          data.name.trim() !== record.name
+        )
           throw new Error("Quest XP metadata identity mismatch");
         if (primary) throw new Error("Duplicate primary quest metadata");
         primary = data;
@@ -462,19 +526,29 @@ export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXp
   const scripts = $("script[src]")
     .toArray()
     .map((element) => $(element).attr("src"));
-  const rendererMatches =
-    scripts.includes("https://wow.zamimg.com/js/quest.js?5f36c4ad") &&
-    scripts.includes("https://wow.zamimg.com/js/global-core.js?52d4f803");
+  const coreRevision = ["52d4f803", "97211824", "25318d8a", "154e707b"].find((revision) =>
+    scripts.includes(`https://wow.zamimg.com/js/global-core.js?${revision}`),
+  );
+  const rendererRevision =
+    scripts.includes("https://wow.zamimg.com/js/quest.js?5f36c4ad") && coreRevision
+      ? (`quest-5f36c4ad-core-${coreRevision}` as QuestXpRecord["rendererRevision"])
+      : null;
   const round = (amount: number): number => {
     const step = amount < 1000 ? 10 : 50;
     return Math.round(amount / step) * step;
   };
-  if (!rendererMatches) issues.push("unverified_quest_xp_renderer_revision");
-  if (matchingEdition && primary && rendererMatches) {
+  if (!rendererRevision) issues.push("unverified_quest_xp_renderer_revision");
+  if (!matchingEdition) issues.push("missing_matching_quest_edition");
+  if (!primary) issues.push("missing_primary_quest_dataset");
+  if (matchingEdition && primary && rendererRevision) {
+    const explicitlyNoXp = primary.xp === undefined && scaling === null;
     const data = object(scaling?.xp),
       levels = object(data?.levels);
     const multiplier = data?.multiplier;
-    if (
+    if (explicitlyNoXp) {
+      fullXp = 0;
+      referenceBaseXp = 0;
+    } else if (
       levels &&
       typeof multiplier === "number" &&
       Number.isFinite(multiplier) &&
@@ -508,7 +582,7 @@ export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXp
         xpByLevel.push({ level, xp: reward });
       }
     } else issues.push("missing_xp_scaling_configuration");
-  } else issues.push("missing_primary_quest_dataset");
+  }
   if (fullXp === null && !xpByLevel.length) issues.push("missing_numeric_quest_xp");
   return questXpRecordSchema.parse({
     schema: "quest-xp-evidence.v1",
@@ -525,7 +599,7 @@ export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXp
     fullXp,
     referenceBaseXp,
     pageMultiplier,
-    rendererRevision: "quest-5f36c4ad-core-52d4f803",
+    rendererRevision,
     xpByLevel: xpByLevel.sort((a, b) => a.level - b.level),
     status: fullXp !== null || xpByLevel.length ? "available" : "unknown",
     issues,

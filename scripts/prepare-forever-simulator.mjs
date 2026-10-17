@@ -17,6 +17,10 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
 import console from "node:console";
+import { workspaceInputs } from "../infra/simulator/workspace-adapter.mjs";
+import { prepareInspectionData } from "../infra/simulator/inspection-data.mjs";
+import { prepareDefaultEnchants } from "../infra/simulator/default-enchants.mjs";
+import { acquireSimulatorWorkspace } from "../infra/simulator/simulator-workspace.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const source = join(root, ".cache/forever-sim-upstream");
@@ -27,6 +31,15 @@ const output = resolve(
 const configuration = join(root, "infra/simulator/upstream.json");
 
 export async function prepareSimulator() {
+  const workspace = await acquireSimulatorWorkspace(root, join(output, ".build.lock"));
+  try {
+    return await prepareUnlockedSimulator();
+  } finally {
+    await workspace.release();
+  }
+}
+
+async function prepareUnlockedSimulator() {
   const configRaw = await readFile(configuration);
   const config = JSON.parse(configRaw);
   if (
@@ -37,7 +50,13 @@ export async function prepareSimulator() {
   const overlay = await readFile(join(root, "infra/simulator/host-adapter.mjs"));
   const vendorRaw = await readFile(join(root, "infra/simulator/vendors.json"));
   const builder = await readFile(fileURLToPath(import.meta.url));
-  const release = sha(Buffer.concat([configRaw, overlay, vendorRaw, builder])).slice(0, 24);
+  const workspace = await Promise.all(
+    workspaceInputs.map((name) => readFile(join(root, "infra/simulator", name))),
+  );
+  const release = sha(Buffer.concat([configRaw, overlay, vendorRaw, builder, ...workspace])).slice(
+    0,
+    24,
+  );
   await mkdir(output, { recursive: true });
   const lockPath = join(output, ".build.lock");
   const lock = await open(lockPath, "wx", 0o600);
@@ -104,11 +123,63 @@ export async function prepareSimulator() {
       source,
       environment,
     );
+    await prepareInspectionData(root, source);
+    await run(
+      go,
+      ["run", "./tools/database/gen_db", "-outDir=assets", "-gen=db"],
+      source,
+      environment,
+    );
+    await prepareDefaultEnchants(source);
+    await run(
+      go,
+      [
+        "test",
+        "-tags",
+        "with_db",
+        "./sim/core",
+        "./sim/common",
+        "-run",
+        "TestKfcEnchant|TestKfcTankStarterSetThresholds|TestKfcFlameWrathSelfRetaliation|TestKfcDungeonSetMana|TestKfcManualCrowdPummeler|TestKfcDrakkisath",
+      ],
+      source,
+      environment,
+    );
     // This is our generated build cache, not source or a published release. Old hashed bundles
     // otherwise accumulate and can carry references to a previous release into a new manifest.
     await rm(join(source, "dist/classic"), { recursive: true, force: true });
     await run("make", ["dist/classic/.dirstamp"], source, environment);
     await cp(join(source, "dist/classic"), temporary, { recursive: true });
+    await cp(
+      join(source, "ui/core/kfc_tank_starters.json"),
+      join(temporary, "kfc-tank-starters.json"),
+    );
+    await cp(join(source, "ui/core/kfc_inspection.json"), join(temporary, "kfc-inspection.json"));
+    await cp(
+      join(source, "ui/core/kfc_dungeon_mana.json"),
+      join(temporary, "kfc-dungeon-mana-models.json"),
+    );
+    await cp(join(source, "ui/core/kfc_mcp_model.json"), join(temporary, "kfc-mcp-model.json"));
+    await cp(
+      join(source, "ui/core/kfc_drakkisath_models.json"),
+      join(temporary, "kfc-drakkisath-models.json"),
+    );
+    await cp(
+      join(source, "ui/core/kfc_prebis_import.json"),
+      join(temporary, "kfc-prebis-import.json"),
+    );
+    const classicReference = JSON.parse(
+      await readFile(join(root, "infra/simulator/classic-prebis-reference.json"), "utf8"),
+    );
+    await writeFile(join(temporary, "CLASSIC-REFERENCE-LICENSE.txt"), classicReference.license);
+    await cp(
+      join(root, "infra/simulator/classic-accessory-worklist.json"),
+      join(temporary, "classic-accessory-worklist.json"),
+    );
+    await cp(
+      join(source, "ui/core/kfc_default_enchants.json"),
+      join(temporary, "kfc-default-enchants.json"),
+    );
     await hostSimulatorAssets(temporary, `/forever-sim/${release}/`, JSON.parse(vendorRaw));
     await cp(join(source, "LICENSE"), join(temporary, "LICENSE.txt"));
     const pages = [];
@@ -116,6 +187,17 @@ export async function prepareSimulator() {
       if (entry.isDirectory() && (await exists(join(temporary, entry.name, "index.html"))))
         pages.push(entry.name);
     const files = await indexFiles(temporary, "", release);
+    const currentInputs = await Promise.all(
+      [
+        configuration,
+        join(root, "infra/simulator/host-adapter.mjs"),
+        join(root, "infra/simulator/vendors.json"),
+        fileURLToPath(import.meta.url),
+        ...workspaceInputs.map((name) => join(root, "infra/simulator", name)),
+      ].map((path) => readFile(path)),
+    );
+    if (sha(Buffer.concat(currentInputs)).slice(0, 24) !== release)
+      throw new Error("Simulator inputs changed during build; retry after editing");
     const manifest = {
       schema: "kfc-forever-simulator.v1",
       release,
@@ -123,17 +205,19 @@ export async function prepareSimulator() {
       revision: config.revision,
       preparedAt: new Date().toISOString(),
       itemCount: data.itemCount,
+      currentItemCount: data.currentItemCount,
+      provisionalItemCount: data.provisionalItemCount,
       excludedModeledItems: data.excludedModeledItems,
       pages: pages.sort(),
       files,
-      dataProvenance: "pinned-upstream-forever-data",
+      dataProvenance: "pinned-forever-with-labelled-classic-pre-raid-references",
       mechanicsStatus: "beta_model",
     };
     await atomicJson(join(temporary, "manifest.json"), manifest);
     await rename(temporary, destination);
     await atomicJson(join(output, "active.json"), manifest);
     console.log(
-      `[simulator] Prepared ${pages.length} pages with ${data.itemCount} real-source items, ${data.excludedModeledItems} projected items excluded`,
+      `[simulator] Prepared ${pages.length} pages with ${data.currentItemCount} current Forever items and ${data.provisionalItemCount} provisional Classic pre-raid items; ${data.excludedModeledItems} projected items excluded`,
     );
     return manifest;
   } finally {

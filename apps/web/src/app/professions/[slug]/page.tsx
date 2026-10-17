@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { DataUnavailable } from "../../../components/data-unavailable";
 import { JsonLd } from "../../../components/json-ld";
 import { StatusPill } from "../../../components/status-pill";
+import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
 import { getProfessionDetail } from "../../../lib/data";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
 
@@ -14,24 +15,27 @@ interface ProfessionPageProps {
   readonly params: Promise<{ readonly slug: string }>;
 }
 
-export async function generateMetadata({ params }: ProfessionPageProps): Promise<Metadata> {
+export async function createCatalogProfessionMetadata(
+  { params }: ProfessionPageProps,
+  config: CatalogPageConfig,
+): Promise<Metadata> {
   const { slug } = await params;
   const fallback = createHelperMetadata({
-    title: `${slug.replaceAll("-", " ")} — TBC Profession`,
-    description: `TBC Classic ${slug.replaceAll("-", " ")} recipes and profession data from the audited KFC Helper catalog.`,
-    path: `/tbc/encyclopedia/professions/${encodeURIComponent(slug)}`,
+    title: `${slug.replaceAll("-", " ")} — ${config.gameLabel} Profession`,
+    description: `${config.gameLabel} ${slug.replaceAll("-", " ")} recipes and profession data from the audited KFC Helper catalog.`,
+    path: `${config.encyclopediaBasePath}/professions/${encodeURIComponent(slug)}`,
   });
 
   try {
-    const profession = await getProfessionDetail(slug);
+    const profession = await getProfessionDetail(slug, config.clientProduct);
     if (!profession) return { ...fallback, robots: { index: false, follow: true } };
     return createHelperMetadata({
-      title: `TBC ${profession.name} Recipes & Profession Guide`,
-      description: `Browse ${profession.recipes.length.toLocaleString("en-US")} audited TBC ${profession.name} recipes with skill requirements, outputs, learning relationships, cooldown evidence, and exact spell IDs.`,
-      path: `/tbc/encyclopedia/professions/${profession.slug}`,
+      title: `${config.gameLabel} ${profession.name} Recipes & Profession Guide`,
+      description: `Browse ${profession.recipes.length.toLocaleString("en-US")} audited ${config.gameLabel} ${profession.name} recipes with skill requirements, outputs, learning relationships, cooldown evidence, and exact spell IDs.`,
+      path: `${config.encyclopediaBasePath}/professions/${profession.slug}`,
       keywords: [
-        `TBC ${profession.name}`,
-        `TBC ${profession.name} recipes`,
+        `${config.gameLabel} ${profession.name}`,
+        `${config.gameLabel} ${profession.name} recipes`,
         `${profession.name} profession guide`,
       ],
     });
@@ -40,21 +44,32 @@ export async function generateMetadata({ params }: ProfessionPageProps): Promise
   }
 }
 
+export function generateMetadata(props: ProfessionPageProps): Promise<Metadata> {
+  return createCatalogProfessionMetadata(props, TBC_CATALOG_PAGE_CONFIG);
+}
+
 export default async function ProfessionPage({
   params,
 }: ProfessionPageProps): Promise<React.JSX.Element> {
+  return CatalogProfessionPage({ params, config: TBC_CATALOG_PAGE_CONFIG });
+}
+
+export async function CatalogProfessionPage({
+  params,
+  config,
+}: ProfessionPageProps & { readonly config: CatalogPageConfig }): Promise<React.JSX.Element> {
   try {
-    const profession = await getProfessionDetail((await params).slug);
+    const profession = await getProfessionDetail((await params).slug, config.clientProduct);
     if (!profession) notFound();
     return (
       <>
         <JsonLd
           data={createBreadcrumbJsonLd([
             { name: "KFC Helper", path: "/" },
-            { name: "TBC Encyclopedia", path: "/tbc/encyclopedia" },
+            { name: config.encyclopediaLabel, path: config.encyclopediaBasePath },
             {
               name: profession.name,
-              path: `/tbc/encyclopedia/professions/${profession.slug}`,
+              path: `${config.encyclopediaBasePath}/professions/${profession.slug}`,
             },
           ])}
         />
@@ -96,7 +111,7 @@ export default async function ProfessionPage({
                   {profession.recipes.map((recipe) => (
                     <tr key={recipe.spellId}>
                       <td>
-                        <Link href={`/tbc/encyclopedia/recipes/${recipe.spellId}`}>
+                        <Link href={`${config.encyclopediaBasePath}/recipes/${recipe.spellId}`}>
                           <strong>{recipe.name}</strong>
                           <small>Spell {recipe.spellId}</small>
                         </Link>

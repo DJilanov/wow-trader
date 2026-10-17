@@ -32,6 +32,7 @@ export interface BuildAppOptions {
   readonly repository: UploadRepository;
   readonly rawPayloadStore: RawPayloadStore;
   readonly apiKeys: readonly string[];
+  readonly marketReadApiKeys?: readonly string[];
   readonly webOrigin: string;
   readonly logger?: boolean;
 }
@@ -46,6 +47,8 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   if (options.apiKeys.length === 0) {
     throw new Error("At least one ingestion API key is required");
   }
+  if (options.marketReadApiKeys?.some((key) => key.length < 32 || options.apiKeys.includes(key)))
+    throw new Error("Read-only market credentials must be separate from ingestion keys");
 
   const app = Fastify({
     bodyLimit: 32 * 1024 * 1024,
@@ -225,7 +228,10 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
           timeWindow: "1 minute",
         },
       },
-      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      preHandler: createApiKeyAuthenticator([
+        ...options.apiKeys,
+        ...(options.marketReadApiKeys ?? []),
+      ]),
       schema: {
         querystring: marketIntelligenceQuerySchema,
         response: {

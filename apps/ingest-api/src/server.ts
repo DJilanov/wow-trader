@@ -13,6 +13,7 @@ const app = await buildApp({
   repository: new PostgresUploadRepository(database.db),
   rawPayloadStore: new FileRawPayloadStore(config.rawUploadDirectory),
   apiKeys: config.apiKeys,
+  marketReadApiKeys: config.marketReadApiKeys,
   webOrigin: config.webOrigin,
   logger: true,
 });

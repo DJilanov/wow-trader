@@ -28,5 +28,35 @@
     "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.woff2",
     "path": "vendor/webfonts/fa-brands-400.woff2",
     "sha256": "29bc44694c394921d1f00271128a2e4cd8293516216e24eac07a73fa821fc1f5"
+  },
+  {
+    "url": "https://fonts.gstatic.com/s/cinzel/v26/8vIJ7ww63mVu7gt79mT7.woff2",
+    "path": "vendor/fonts/cinzel.woff2",
+    "sha256": "09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370"
+  },
+  {
+    "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+    "path": "vendor/fonts/inter.woff2",
+    "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62"
+  },
+  {
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2",
+    "path": "vendor/fonts/mono.woff2",
+    "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/cinzel/OFL.txt",
+    "path": "vendor/fonts/cinzel-OFL.txt",
+    "sha256": "f2b3029aba64c378bf0963b62945eee15e564fe4330b934c8f2eb058282b5e83"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/OFL.txt",
+    "path": "vendor/fonts/inter-OFL.txt",
+    "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/jetbrainsmono/OFL.txt",
+    "path": "vendor/fonts/mono-OFL.txt",
+    "sha256": "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d"
   }
 ]

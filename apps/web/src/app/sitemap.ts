@@ -8,11 +8,13 @@ import {
   getForeverBossDirectory,
   getForeverInstanceDirectory,
   getForeverMapDirectory,
+  getForeverWorldData,
+  getForeverQuestDirectory,
 } from "../lib/forever-world";
-import { FOREVER_CLIENT_PRODUCT } from "../lib/game-versions";
+import { FOREVER_CLIENT_PRODUCT, TBC_CLIENT_PRODUCT } from "../lib/game-versions";
 import { HELPER_SHARE_IMAGE, HELPER_SITE_URL } from "../lib/seo";
 import { WESTFALL_READER_PATH } from "../lib/leveling-experience";
-
+import { getIndexableReferenceIds } from "../lib/catalog-reference";
 import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 
 export const dynamic = "force-dynamic";
@@ -94,6 +96,12 @@ const staticEntries: MetadataRoute.Sitemap = [
     priority: 0.9,
   },
   {
+    url: `${HELPER_SITE_URL}/forever/data`,
+    lastModified: staticLastModified,
+    changeFrequency: "daily",
+    priority: 0.88,
+  },
+  {
     url: `${HELPER_SITE_URL}/tbc`,
     lastModified: staticLastModified,
     changeFrequency: "weekly",
@@ -116,6 +124,12 @@ const staticEntries: MetadataRoute.Sitemap = [
     lastModified: staticLastModified,
     changeFrequency: "daily",
     priority: 0.95,
+  },
+  {
+    url: `${HELPER_SITE_URL}/forever/encyclopedia/catalog`,
+    lastModified: staticLastModified,
+    changeFrequency: "daily",
+    priority: 0.9,
   },
   ...[
     "racials",
@@ -150,6 +164,22 @@ const staticEntries: MetadataRoute.Sitemap = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [world, questDirectory] = await Promise.all([
+    getForeverWorldData(),
+    getForeverQuestDirectory(),
+  ]).catch(() => [null, null] as const);
+  const questTitles = new Map<number, string | null>(
+    world?.quests.map((quest) => [quest.questId, quest.title ?? null]),
+  );
+  for (const quest of questDirectory?.titledQuests ?? [])
+    questTitles.set(quest.questId, quest.title);
+  const approvedQuests = await getIndexableReferenceIds("forever", "quest", {
+    quests: questTitles,
+  });
+  const questEntries = [...approvedQuests].map(([id, lastModified]) => ({
+    url: `${HELPER_SITE_URL}/forever/encyclopedia/quests/${id}`,
+    lastModified,
+  }));
   const foreverEntries = await getForeverSitemapEntries().catch(() => []);
   const foreverMarketEntries = await getCachedForeverSitemapMarkets()
     .then<MetadataRoute.Sitemap>((markets) =>
@@ -163,14 +193,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .catch(() => []);
   try {
     const catalog = await getCachedSitemapCatalogData();
-    if (!catalog) return [...staticEntries, ...foreverMarketEntries, ...foreverEntries];
+    if (!catalog)
+      return [...staticEntries, ...foreverMarketEntries, ...foreverEntries, ...questEntries];
+    const approvedItems = await getIndexableReferenceIds("tbc", "item", {
+      product: TBC_CLIENT_PRODUCT,
+    });
 
-    const itemEntries: MetadataRoute.Sitemap = catalog.itemIds.map((itemId) => ({
-      url: `${HELPER_SITE_URL}/tbc/encyclopedia/items/${itemId}`,
-      lastModified: catalog.publishedAt,
-      changeFrequency: "monthly",
-      priority: 0.62,
-    }));
+    const itemEntries: MetadataRoute.Sitemap = catalog.itemIds
+      .filter((itemId) => approvedItems.has(itemId))
+      .map((itemId) => ({
+        url: `${HELPER_SITE_URL}/tbc/encyclopedia/items/${itemId}`,
+        lastModified: approvedItems.get(itemId),
+        changeFrequency: "monthly",
+        priority: 0.62,
+      }));
     const recipeEntries: MetadataRoute.Sitemap = catalog.recipeSpellIds.map((spellId) => ({
       url: `${HELPER_SITE_URL}/tbc/encyclopedia/recipes/${spellId}`,
       lastModified: catalog.publishedAt,
@@ -207,9 +243,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...marketEntries,
       ...foreverMarketEntries,
       ...foreverEntries,
+      ...questEntries,
     ];
   } catch {
-    return [...staticEntries, ...foreverMarketEntries, ...foreverEntries];
+    return [...staticEntries, ...foreverMarketEntries, ...foreverEntries, ...questEntries];
   }
 }
 

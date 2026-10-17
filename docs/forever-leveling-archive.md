@@ -3,6 +3,97 @@
 Implemented and published on October 4, 2026 after the owner's redistribution authorization.
 Release provenance, verification and rollback: `forever-leveling-release-2026-10-04.md`.
 
+Current collection incident/recovery status: the archive checkpoint is preserved at quest 581 and
+the managed worker now performs bounded, durable source-denial retries. See
+[the October 17 source-recovery receipt](reference-crawler-source-recovery-2026-10-17.md).
+
+## October 15: full import revalidated; Alliance and Horde XP collection deployed
+
+The complete authorized import was reproduced into the isolated
+`artifacts/leveling/audits/2026-10-15/both-factions/archive/` from the same pinned decoded source.
+Its 157 chapters, 22,604 steps and 2,394 original action quest IDs validate and produce the exact
+production manifest SHA `43b8ce0a5286dadbaa89ea9b2d53e6ed328fca613ed5e33429151cf24c226fc5`.
+Both factions were already imported on the website; the old XP queue did not cover that entire
+archive. No new account bundle was substituted and no duplicate live archive was necessary.
+
+The new full-archive collection inventory retains all guide families, factions and conditional
+branches, not only the current premade route selection. It includes every original action ID,
+runtime quest-list references, daily alternatives, signed optional hand-ins, quest-linked items,
+and known dungeon identities/prerequisite gates. Installed addon argument semantics were inspected:
+objective counts, item IDs, reward-choice numbers and non-quest flags are not swept in as quests.
+Every guide occurrence retains chapter/step/line/conditions. Collection does not imply that a
+conditional quest is eligible, or that a collection farm will be chosen for the optimized route.
+
+Queue summary:
+
+- 2,535 unique Forever quest IDs.
+- 2,397 guide-referenced IDs: 2,394 original action IDs plus 742 (daily alternative), 1522
+  (condition-only) and 5923 (signed optional hand-in).
+- 299 known dungeon-referenced IDs, overlapping the guide pool; 138 are additional IDs.
+- Every previous 1,419-ID priority entry and all 106 omitted Alliance archive references included.
+- Metadata memberships: 98 Alliance chapters, 60 Horde chapters, including one shared Zephras
+  chapter. These overlap; original source groups are 98 Alliance / 59 Horde, not 158 unique guides.
+
+Queue SHA `336bb641f1c6e5a62ad1c91170d609c9bfbc75c32c1948811bbed6c20784f805`. Its inventory
+is `leveling-archive-xp-priority.v1`, pinning the archive/build/manifest and each source occurrence.
+Generation requires the entire reviewed authorized catalog, checks each chapter and its indexed
+quest IDs, and refuses existing output files. It does not alter a running worker:
+
+```sh
+pnpm leveling:xp:queue:archive --archive=/absolute/path/to/authorized/archive --destination=/absolute/path/to/new-queue-directory
+```
+
+Deployed worker `crawl-20261015-r8-full-archive` serializes recovery → existing Alliance priority →
+full archive → general catalog. The original three checkpoints/queues remain preserved; the new
+archive has its own hash-bound checkpoint. Fresh usable XP is cached, not collected again. One
+worker, 72–90 second durable navigation pacing, a 50-start rolling-hour cap,
+robots/access/challenge/rate-limit stops and storage guards
+remain unchanged. Helper web/publisher/ingestion were not rebuilt or restarted for this extension.
+
+```text
+/home/wow-trader-reference-worker/shared/queues/reference-crawler-full-archive.config.cjs
+/home/wow-trader-reference-worker/shared/queues/forever-archive-xp-336bb641f1c6e5a6.json
+/home/wow-trader-reference-worker/shared/queues/forever-archive-xp-336bb641f1c6e5a6.inventory.json
+/home/wow-trader-reference-worker/shared/archive-xp-336bb641f1c6e5a6-status.json
+/home/wow-trader-reference-worker/backups/20261015-full-archive.utUCEK/
+```
+
+The archive checkpoint is created only when its phase begins. While recovery/priority still run,
+inspect the actual publication coverage independently from processing cursors on the server:
+
+```sh
+cd /home/wow-trader-system/current
+node scripts/leveling-archive-xp-status.mjs --queue /home/wow-trader-reference-worker/shared/queues/forever-archive-xp-336bb641f1c6e5a6.json --rewards /home/wow-trader-reference-worker/shared/published --expected-sha256 336bb641f1c6e5a62ad1c91170d609c9bfbc75c32c1948811bbed6c20784f805
+```
+
+This read-only tool validates queue/record checksums, schemas, identities and freshness. It separates
+available, unknown, conflict, expired and unpublished IDs; a known zero is available, not missing.
+`complete` is false unless all queue IDs have available fresh XP; source-missing/removed quests may
+remain unresolved. At 09:15 UTC: 349 available, 296 unknown, 1,890 unpublished, zero conflicts/expired.
+Given remaining requests and redirects, three–four days is a reasonable check-in window, not a
+promise that source access, numeric evidence, both continuous routes or playtesting will be finished.
+
+Safe stop: `pm2 stop kfc-helper-reference-crawl`. The managed configuration now keeps an inspected
+HTTP 403 checkpoint online in `waiting` state and retries no more frequently than the durable source
+cooldown (six hours when no `Retry-After` is supplied). It never skips the quest or changes the
+crawler identity. Challenges, robots denials, invalid state and cooldowns over 24 hours still stop
+for review. Resume a manually stopped or fail-closed worker with:
+
+```sh
+pm2 startOrReload /home/wow-trader-reference-worker/shared/queues/reference-crawler-full-archive.config.cjs --only kfc-helper-reference-crawl --update-env
+```
+
+Owner-approved parity for unknown new dungeons is now recorded in the binding route plan. Those
+assumed rewards belong to a separately labeled planning scenario, never to this verified XP store.
+Old dungeon rewards use their actual per-page coefficients when collected: Stockade examples use
+2.1 and Gnomeregan examples 1.8; generic 2.375 survives only as a legacy fallback estimate, not
+a universal scaling rule. Actual hand-in level/rounding and single application remain mandatory.
+
+Verification: 192 leveling tests, 70 reference-data tests, 2 CLI integration tests, both package
+types/lints/builds, full provenance/quest-set checks and resumed production-worker verification.
+No database/addon/player-save changes or commit/push. Source continuation/label gaps below and
+the full faction-specific XP-funded route/compiler work remain unresolved.
+
 ## What was extracted
 
 The reviewed decoded RestedXP collection contains 157 guide variants (98 Alliance, 59 Horde),

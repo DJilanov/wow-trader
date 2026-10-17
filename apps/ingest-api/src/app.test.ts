@@ -18,6 +18,7 @@ import type { RawPayloadStore } from "./raw-payload-store.js";
 import type { UploadRepository } from "./repositories.js";
 
 const API_KEY = "test-api-key-with-enough-entropy";
+const READ_KEY = "test-market-read-key-with-at-least-32-characters";
 const apps: Awaited<ReturnType<typeof buildApp>>[] = [];
 
 afterEach(async () => {
@@ -119,6 +120,47 @@ describe("ingestion API", () => {
       schemaVersion: "market-intelligence.v1",
       items: [{ itemId: 12808, signal: "bargain" }],
     });
+  });
+  it("permits a market-only credential to read intelligence but not write or read uploads", async () => {
+    const app = await buildApp({
+      repository: new InMemoryRepository(),
+      rawPayloadStore: new InMemoryRawPayloadStore(),
+      apiKeys: [API_KEY],
+      marketReadApiKeys: [READ_KEY],
+      webOrigin: "http://localhost:3000",
+    });
+    apps.push(app);
+    const headers = { authorization: `Bearer ${READ_KEY}` };
+    const read = await app.inject({
+      method: "GET",
+      url: "/v1/market-intelligence?clientProduct=wow_anniversary&clientBuild=69795&region=EU&realmId=Spineshatter&auctionHouseType=horde",
+      headers,
+    });
+    expect(read.statusCode).toBe(200);
+    const upload = await app.inject({
+      method: "POST",
+      url: "/v1/uploads/auction-scan",
+      headers,
+      payload: createPayload(),
+    });
+    expect(upload.statusCode).toBe(401);
+    const receipt = await app.inject({
+      method: "GET",
+      url: "/v1/uploads/f6714653-a4c4-4208-b7ee-b0a21a816593",
+      headers,
+    });
+    expect(receipt.statusCode).toBe(401);
+  });
+  it("rejects credentials shared between market reads and ingestion", async () => {
+    await expect(
+      buildApp({
+        repository: new InMemoryRepository(),
+        rawPayloadStore: new InMemoryRawPayloadStore(),
+        apiKeys: [READ_KEY],
+        marketReadApiKeys: [READ_KEY],
+        webOrigin: "http://localhost:3000",
+      }),
+    ).rejects.toThrow(/separate/);
   });
 });
 

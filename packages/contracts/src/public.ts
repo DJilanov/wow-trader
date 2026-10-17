@@ -57,6 +57,8 @@ export const marketIntelligenceItemSchema = z.object({
   currentListingCount: z.number().int().nonnegative().nullable(),
   confidenceBasisPoints: z.number().int().min(0).max(10_000).nullable(),
   direction: z.enum(["up", "flat", "down"]).nullable(),
+  historyStartedAt: isoDateTimeSchema.nullable().optional(),
+  recentObservationCount: z.number().int().nonnegative().optional(),
 });
 
 export const marketIntelligencePackSchema = z.object({
@@ -69,6 +71,7 @@ export const marketIntelligencePackSchema = z.object({
   auctionHouseType: z.enum(["alliance", "horde", "neutral", "region", "unknown"]),
   generatedAt: isoDateTimeSchema,
   sourceScanAt: isoDateTimeSchema,
+  sourceScanId: z.string().uuid().optional(),
   items: z.array(marketIntelligenceItemSchema).max(250_000),
 });
 

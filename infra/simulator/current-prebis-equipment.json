@@ -1,0 +1,1402 @@
+{
+  "schema": "kfc-current-prebis-review.v1",
+  "status": "reviewed-stationary-model-historical-acquisition",
+  "clientVersion": "1.60.1.70425",
+  "snapshotBytesSha256": "b52b73d2765c00a0569a86f2923843ea1c264fafd5af9d5eec3874db4d7a23aa",
+  "mechanicsManifestBytesSha256": "89ab45e5831a45d32fba9db6982c63e307348f2b2d9cfcef7db9a2b1ad942f72",
+  "itemSparseBytesSha256": "6cf48cf5814af53fdbbc12373c6e61dee005f0dc08fdf6ea52b8f52d3af23295",
+  "combatRatingsBytesSha256": "4ad5dad5fb5941ec42a0affffb5dbeb9b42bad4e5207060f5d87ec2b5b35ddfa",
+  "utilityTableBytesSha256": {
+    "ItemEffect": "e5fe6bc4c120389e6e762cd6221bfccea06c921be76573eef8040e17a4cb37d8",
+    "ItemXItemEffect": "9d07111a9dfe7f96f6de57c98abc51f75a143672ed77e928b91caade68893d0d",
+    "SpellEffect": "644f5a388c7036a5296fa05faf3533f43c817220969ca53f9a1f39a3e26d5d93",
+    "SpellAuraOptions": "9c38e0f6be9a7cd359aa789a66697e8fdc30c8d77314b74cac5dbc6449001eec"
+  },
+  "historicalReferenceBytesSha256": "299d49da366e7bf2c1d2d8795390d7e656553a6377f06baa51a08c6ff09b1c2d",
+  "historicalDatabaseBytesSha256": "07a0691b49e618794e480bc68ca25a35011a5d6a9b5f2da0cee94740d49c55ce",
+  "normalizerBytesSha256": "bbb4c32e383fd199aa6f353d17eae80705e2e229bda4cda8ec2843d3ade699ce",
+  "sourceStage": "current-prebis-92fe9f39504a09ce",
+  "sourceCompilerReview": "compiler-parity-15709babc53c4dd5",
+  "sourceSetReview": "set-runtime-3c01e421bac195c8",
+  "sourceFactionReview": "pvp-access-542b9d68eaddb39b",
+  "notice": "Reviewed current-client stats and wearer/set metadata. Acquisition remains historical/provisional, not confirmed Forever drops or vendors. Unknown effects and health regeneration remain excluded. Supported static set bonuses and the three reviewed mana procs follow the current engine. Other unverified set procs, health regeneration and crowd-control utility are not included in stationary damage calculations. Historical faction access is an explicit simulation eligibility assumption, not a verified current wearer restriction.",
+  "candidates": [
+    {
+      "item": {
+        "id": 7718,
+        "name": "Herod's Shoulder",
+        "icon": "inv_shoulder_01",
+        "type": 3,
+        "stats": [
+          0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 196, 12,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 42,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 3
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 37,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [796],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 3975,
+            "zoneId": 796
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 3975,
+            "zoneId": 796
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 7722,
+        "name": "Triune Amulet",
+        "icon": "inv_jewelry_amulet_01",
+        "type": 2,
+        "stats": [
+          0, 0, 7, 0, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 44,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 39,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [796],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 3977,
+            "zoneId": 796
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 3977,
+            "zoneId": 796
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 9401,
+        "name": "Nordic Longshank",
+        "icon": "inv_sword_24",
+        "type": 13,
+        "stats": [
+          0, 8, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 43,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "weaponType": 9,
+        "handType": 2,
+        "weaponDamageMin": 45,
+        "weaponDamageMax": 84,
+        "weaponSpeed": 2.2
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 38,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1337],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 6906,
+            "zoneId": 1337
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 6906,
+            "zoneId": 1337
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 9408,
+        "name": "Ironshod Bludgeon",
+        "icon": "inv_staff_28",
+        "type": 13,
+        "stats": [
+          8, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 42,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "weaponType": 8,
+        "handType": 4,
+        "weaponDamageMin": 75,
+        "weaponDamageMax": 112,
+        "weaponSpeed": 2.5
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 37,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1337],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 7228,
+            "zoneId": 1337
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 7228,
+            "zoneId": 1337
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 9426,
+        "name": "Monolithic Bow",
+        "icon": "inv_weapon_bow_01",
+        "type": 14,
+        "stats": [
+          6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 41,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "rangedWeaponType": 1,
+        "weaponDamageMin": 69,
+        "weaponDamageMax": 128,
+        "weaponSpeed": 2.7
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 36,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1337],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "zoneId": 1337
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 1337,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 9431,
+        "name": "Papal Fez",
+        "icon": "inv_helmet_28",
+        "type": 1,
+        "stats": [
+          0, 0, 0, 17, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 8, 0
+        ],
+        "ilvl": 43,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 1
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 38,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1337],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "zoneId": 1337
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 1337,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 10769,
+        "name": "Glowing Eye of Mordresh",
+        "icon": "inv_misc_orb_03",
+        "type": 2,
+        "stats": [
+          0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 7, 0
+        ],
+        "ilvl": 41,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 36,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [722],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 7357,
+            "zoneId": 722
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 7357,
+            "zoneId": 722
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 10770,
+        "name": "Mordresh's Lifeless Skull",
+        "icon": "inv_misc_bone_elfskull_01",
+        "type": 13,
+        "stats": [
+          0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 41,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "weaponType": 5,
+        "handType": 3
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 36,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [722],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 7357,
+            "zoneId": 722
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 7357,
+            "zoneId": 722
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 10776,
+        "name": "Silky Spider Cape",
+        "icon": "inv_misc_cape_17",
+        "type": 4,
+        "stats": [
+          0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 42,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 1
+      },
+      "status": "staged-not-admitted",
+      "effectReviews": [
+        {
+          "itemEffectId": 233785,
+          "spellId": 1293819,
+          "status": "passive-utility-not-modeled",
+          "mechanicIds": [7, 11],
+          "durationReductionPercent": 7,
+          "zeroContributionScope": "Stationary encounter without root or snare mechanics only."
+        }
+      ],
+      "currentMetadata": {
+        "requiredLevel": 37,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [722],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 7355,
+            "zoneId": 722
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 7355,
+            "zoneId": 722
+          }
+        }
+      ],
+      "reviewRequired": ["unmodeled-utility-disclosure", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 11310,
+        "name": "Flameseer Mantle",
+        "icon": "inv_shoulder_05",
+        "type": 3,
+        "stats": [
+          0, 0, 0, 0, 10, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 47,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 1
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 42,
+        "binding": 1,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1337],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "npcId": 7291,
+            "zoneId": 1337
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 7291,
+            "zoneId": 1337
+          }
+        }
+      ],
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 13107,
+        "name": "Magiskull Cuffs",
+        "icon": "inv_bracer_13",
+        "type": 6,
+        "stats": [
+          0, 0, 7, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 62,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 1
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 57,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "classic-pre-raid",
+        "presets": ["ui/warlock/gear_sets/prebis.gear.json"],
+        "evidence": "Explicit pinned Classic pre-raid preset. Historical acquisition only; Forever availability unverified."
+      },
+      "reviewRequired": ["provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16671,
+        "name": "Bindings of Elements",
+        "icon": "inv_bracer_02",
+        "type": 6,
+        "stats": [
+          0, 0, 7, 8, 10, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0, 148, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 57,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 3,
+        "setId": 187,
+        "setName": "The Elements"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 52,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 187
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017, 2057],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2057,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16681,
+        "name": "Beaststalker's Bindings",
+        "icon": "inv_bracer_17",
+        "type": 6,
+        "stats": [
+          0, 15, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 148, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 57,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 3,
+        "setId": 186,
+        "setName": "Beaststalker Armor"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 52,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 186
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1583, 2017],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 1583,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16685,
+        "name": "Magister's Belt",
+        "icon": "inv_belt_08",
+        "type": 8,
+        "stats": [
+          0, 0, 6, 21, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 58,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 1,
+        "setId": 181,
+        "setName": "Magister's Regalia"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 53,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 181
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1583, 2017, 2057],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 1583,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2057,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16702,
+        "name": "Dreadmist Belt",
+        "icon": "inv_belt_12",
+        "type": 8,
+        "stats": [
+          0, 0, 10, 14, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 58,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 1,
+        "setId": 183,
+        "setName": "Dreadmist Raiment"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 53,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 183
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017, 2057],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2057,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16710,
+        "name": "Shadowcraft Bracers",
+        "icon": "inv_bracer_07",
+        "type": 6,
+        "stats": [
+          0, 15, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 57,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "setId": 184,
+        "setName": "Shadowcraft Armor"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 52,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 184
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017, 2057],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 10505,
+            "zoneId": 2057
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2057,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16714,
+        "name": "Wildheart Bracers",
+        "icon": "inv_bracer_09",
+        "type": 6,
+        "stats": [
+          5, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 3, 0
+        ],
+        "ilvl": 57,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "setId": 185,
+        "setName": "Wildheart Raiment"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 52,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 185
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017, 2057],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2057,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16716,
+        "name": "Wildheart Belt",
+        "icon": "inv_belt_15",
+        "type": 8,
+        "stats": [
+          0, 0, 9, 17, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 93, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 4, 0
+        ],
+        "ilvl": 58,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "setId": 185,
+        "setName": "Wildheart Raiment"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 53,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 185
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1583, 2057],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 1583,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 10507,
+            "zoneId": 2057
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2057,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16717,
+        "name": "Wildheart Gloves",
+        "icon": "inv_gauntlets_17",
+        "type": 7,
+        "stats": [
+          0, 0, 0, 9, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 4, 0
+        ],
+        "ilvl": 59,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "setId": 185,
+        "setName": "Wildheart Raiment"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 54,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 185
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 10516,
+            "zoneId": 2017
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16723,
+        "name": "Lightforge Belt",
+        "icon": "inv_belt_11",
+        "type": 8,
+        "stats": [
+          10, 0, 9, 15, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 341, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 58,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 4,
+        "setId": 188,
+        "setName": "Lightforge Armor"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 53,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 188
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16724,
+        "name": "Lightforge Gauntlets",
+        "icon": "inv_gauntlets_19",
+        "type": 7,
+        "stats": [
+          14, 0, 9, 5, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 386, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 59,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 4,
+        "setId": 188,
+        "setName": "Lightforge Armor"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 54,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 188
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [2017],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "npcId": 10808,
+            "zoneId": 2017
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 16736,
+        "name": "Belt of Valor",
+        "icon": "inv_belt_34",
+        "type": 8,
+        "stats": [
+          14, 7, 12, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 341, 0, 6,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "ilvl": 58,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 4,
+        "setId": 189,
+        "setName": "Battlegear of Valor"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 53,
+        "binding": 2,
+        "maxCount": 0,
+        "uniqueEquipped": false,
+        "classMask": -1,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 0,
+        "limitCategory": 0,
+        "setId": 189
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "dungeon",
+        "zoneIds": [1583, 2017],
+        "evidence": "Pinned Classic dungeon acquisition; Forever source and availability remain unverified."
+      },
+      "historicalSources": [
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 1583,
+            "otherName": "Trash"
+          }
+        },
+        {
+          "drop": {
+            "difficulty": 1,
+            "zoneId": 2017,
+            "otherName": "Trash"
+          }
+        }
+      ],
+      "reviewRequired": ["current-set-runtime", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 22879,
+        "name": "Legionnaire's Leather Chestpiece",
+        "icon": "inv_chest_leather_05",
+        "type": 5,
+        "stats": [
+          0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 34, 1, 1, 0, 0, 0, 0, 0, 0, 188, 34,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0
+        ],
+        "ilvl": 68,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "classAllowlist": [6],
+        "unique": true
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 60,
+        "binding": 1,
+        "maxCount": 1,
+        "uniqueEquipped": false,
+        "classMask": 8,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 12,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "classic-pre-raid",
+        "presets": ["ui/rogue/gear_sets/combat_sinister_strike_prebis.gear.json"],
+        "evidence": "Explicit pinned Classic pre-raid preset. Historical acquisition only; Forever availability unverified."
+      },
+      "historicalSources": [
+        {
+          "soldBy": {
+            "npcId": 12792,
+            "npcName": "Lady Palanseer"
+          }
+        }
+      ],
+      "reviewRequired": ["historical-vendor-access-and-faction", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 23258,
+        "name": "Champion's Leather Shoulders",
+        "icon": "inv_shoulder_14",
+        "type": 3,
+        "stats": [
+          0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 1, 1, 0, 0, 0, 0, 0, 0, 146, 22,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0
+        ],
+        "ilvl": 71,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "classAllowlist": [6],
+        "unique": true
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 60,
+        "binding": 1,
+        "maxCount": 1,
+        "uniqueEquipped": false,
+        "classMask": 8,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 14,
+        "limitCategory": 0,
+        "setId": 0
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "classic-pre-raid",
+        "presets": ["ui/rogue/gear_sets/combat_sinister_strike_prebis.gear.json"],
+        "evidence": "Explicit pinned Classic pre-raid preset. Historical acquisition only; Forever availability unverified."
+      },
+      "historicalSources": [
+        {
+          "soldBy": {
+            "npcId": 12792,
+            "npcName": "Lady Palanseer"
+          }
+        }
+      ],
+      "reviewRequired": ["historical-vendor-access-and-faction", "provisional-Forever-acquisition"]
+    },
+    {
+      "item": {
+        "id": 23298,
+        "name": "Knight-Captain's Leather Chestpiece",
+        "icon": "inv_chest_leather_05",
+        "type": 5,
+        "stats": [
+          0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 34, 1, 1, 0, 0, 0, 0, 0, 0, 188, 34,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0
+        ],
+        "ilvl": 68,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "classAllowlist": [6],
+        "unique": true,
+        "setId": 548,
+        "setName": "Lieutenant Commander's Guard"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 60,
+        "binding": 1,
+        "maxCount": 1,
+        "uniqueEquipped": false,
+        "classMask": 8,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 12,
+        "limitCategory": 0,
+        "setId": 548
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "classic-pre-raid",
+        "presets": ["ui/rogue/gear_sets/combat_backstab_prebis.gear.json"],
+        "evidence": "Explicit pinned Classic pre-raid preset. Historical acquisition only; Forever availability unverified."
+      },
+      "historicalSources": [
+        {
+          "soldBy": {
+            "npcId": 12777,
+            "npcName": "Captain Dirgehammer"
+          }
+        }
+      ],
+      "reviewRequired": [
+        "current-set-runtime",
+        "historical-vendor-access-and-faction",
+        "provisional-Forever-acquisition"
+      ]
+    },
+    {
+      "item": {
+        "id": 23313,
+        "name": "Lieutenant Commander's Leather Shoulders",
+        "icon": "inv_shoulder_14",
+        "type": 3,
+        "stats": [
+          0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 1, 1, 0, 0, 0, 0, 0, 0, 146, 22,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0
+        ],
+        "ilvl": 71,
+        "quality": 3,
+        "phase": 1,
+        "expansion": 1,
+        "armorType": 2,
+        "classAllowlist": [6],
+        "unique": true,
+        "setId": 548,
+        "setName": "Lieutenant Commander's Guard"
+      },
+      "status": "staged-not-admitted",
+      "currentMetadata": {
+        "requiredLevel": 60,
+        "binding": 1,
+        "maxCount": 1,
+        "uniqueEquipped": false,
+        "classMask": 8,
+        "raceMasks": [-1, -1],
+        "requiredPvpRank": 14,
+        "limitCategory": 0,
+        "setId": 548
+      },
+      "historicalAcquisition": {
+        "allowed": true,
+        "kind": "classic-pre-raid",
+        "presets": ["ui/rogue/gear_sets/combat_backstab_prebis.gear.json"],
+        "evidence": "Explicit pinned Classic pre-raid preset. Historical acquisition only; Forever availability unverified."
+      },
+      "historicalSources": [
+        {
+          "soldBy": {
+            "npcId": 12777,
+            "npcName": "Captain Dirgehammer"
+          }
+        }
+      ],
+      "reviewRequired": [
+        "current-set-runtime",
+        "historical-vendor-access-and-faction",
+        "provisional-Forever-acquisition"
+      ]
+    }
+  ],
+  "blocked": [
+    {
+      "id": 9394,
+      "name": "Horned Viking Helmet",
+      "reason": "current-effects-unreviewed",
+      "effectIds": [98478],
+      "unsupportedModifiers": []
+    },
+    {
+      "id": 9419,
+      "name": "Galgann's Firehammer",
+      "reason": "current-effects-unreviewed",
+      "effectIds": [98539],
+      "unsupportedModifiers": []
+    },
+    {
+      "id": 18760,
+      "name": "Necromantic Band",
+      "reason": "current-stats-unmodeled",
+      "effectIds": [],
+      "unsupportedModifiers": [46]
+    }
+  ]
+}

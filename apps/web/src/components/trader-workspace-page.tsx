@@ -4,6 +4,8 @@ import { CraftingPlanPanel } from "./crafting-plan";
 import { DataUnavailable } from "./data-unavailable";
 import { MarketItemBrowser } from "./market-item-browser";
 import { MarketScanAutoRefresh } from "./market-scan-auto-refresh";
+import { MarketFactionTabs } from "./market-faction-tabs";
+import { parseMarketFaction, type MarketFaction } from "../lib/market-selection";
 import {
   OpportunityCalculationDetails,
   OpportunitySummary,
@@ -29,6 +31,7 @@ type SearchParamValue = string | readonly string[] | undefined;
 export interface TraderWorkspacePageProps {
   readonly searchParams: Promise<{
     readonly market?: SearchParamValue;
+    readonly faction?: SearchParamValue;
     readonly mode?: SearchParamValue;
     readonly profession?: SearchParamValue;
     readonly q?: SearchParamValue;
@@ -62,6 +65,7 @@ export interface TraderWorkspaceConfig {
 
 interface WorkspaceParameters {
   readonly market: string;
+  readonly faction: MarketFaction | undefined;
   readonly mode: "crafts" | "items";
   readonly profession: string;
   readonly q: string;
@@ -99,6 +103,7 @@ export async function TraderWorkspacePage({
   const raw = await searchParams;
   const parameters: WorkspaceParameters = {
     market: getParam(raw.market) ?? "",
+    faction: parseMarketFaction(getParam(raw.faction)),
     mode: getParam(raw.mode) === "items" ? "items" : "crafts",
     profession: getParam(raw.profession) ?? "",
     q: getParam(raw.q) ?? "",
@@ -114,6 +119,7 @@ export async function TraderWorkspacePage({
     const workspace = await getMarketWorkspace({
       clientProduct: config.clientProduct,
       market: parameters.market,
+      ...(parameters.faction ? { faction: parameters.faction } : {}),
       profession: parameters.profession,
       query: parameters.mode === "crafts" ? parameters.q : "",
       route: parameters.route,
@@ -124,7 +130,9 @@ export async function TraderWorkspacePage({
       ...(parameters.mode === "items" ? { pageSize: 1 } : {}),
     });
     const selectedMarket = workspace.scan?.market ?? parameters.market;
-    const current = { ...parameters, market: selectedMarket };
+    const selectedFaction =
+      parameters.faction ?? parseMarketFaction(workspace.scan?.auctionHouseType);
+    const current = { ...parameters, market: selectedMarket, faction: selectedFaction };
     const itemBrowser =
       parameters.mode === "items" && workspace.scan?.catalogAvailable
         ? await getMarketItemBrowser({
@@ -169,7 +177,7 @@ export async function TraderWorkspacePage({
           {workspace.scan ? (
             <Link
               className={`scan-health freshness-${workspace.scan.freshness.state}`}
-              href={`${config.marketBasePath}/${encodeURIComponent(workspace.scan.region)}/${encodeURIComponent(workspace.scan.realmId)}`}
+              href={`${config.marketBasePath}/${encodeURIComponent(workspace.scan.region)}/${encodeURIComponent(workspace.scan.realmId)}?auctionHouseType=${workspace.scan.auctionHouseType}`}
             >
               <span className="scan-freshness-dot" aria-hidden="true" />
               <span>
@@ -218,6 +226,22 @@ export async function TraderWorkspacePage({
           </Link>
         </nav>
 
+        <MarketFactionTabs
+          selected={selectedFaction}
+          links={{
+            alliance: workspaceHref(config.basePath, current, {
+              faction: "alliance",
+              market: "",
+              page: 1,
+            }),
+            horde: workspaceHref(config.basePath, current, {
+              faction: "horde",
+              market: "",
+              page: 1,
+            }),
+          }}
+        />
+
         <TraderTypeahead
           basePath={config.basePath}
           initialMarket={selectedMarket}
@@ -245,6 +269,12 @@ export async function TraderWorkspacePage({
             initialCompletedAt={workspace.scan.completedAt.toISOString()}
             realmId={workspace.scan.realmId}
             region={workspace.scan.region}
+            clientProduct={config.clientProduct}
+          />
+        ) : selectedFaction && !parameters.market ? (
+          <MarketScanAutoRefresh
+            auctionHouseType={selectedFaction}
+            initialCompletedAt={null}
             clientProduct={config.clientProduct}
           />
         ) : null}
@@ -279,6 +309,10 @@ export async function TraderWorkspacePage({
                 <span>Freshness</span>
                 <strong>{workspace.scan.freshness.label}</strong>
                 <small>{Math.round(workspace.scan.completeness * 100)}% scan coverage</small>
+                <small>
+                  Scanned {formatRelativeTime(workspace.scan.completedAt)}; uploaded{" "}
+                  {formatRelativeTime(workspace.scan.uploadedAt)}
+                </small>
               </div>
             </section>
 
@@ -290,7 +324,7 @@ export async function TraderWorkspacePage({
                   data={itemBrowser}
                   encyclopediaItemPath={config.encyclopediaItemPath}
                   market={selectedMarket}
-                  preservedParameters={profileSearchParameters(parameters)}
+                  preservedParameters={profileSearchParameters(current)}
                   query={parameters.q}
                 />
               ) : (
@@ -596,7 +630,16 @@ export async function TraderWorkspacePage({
             )}
           </>
         ) : (
-          <DataUnavailable title={`No ${config.gameLabel} Auction House scan is available`} />
+          <div className="workspace-empty">
+            <strong>{`No ${selectedFaction === "horde" ? "Horde" : selectedFaction === "alliance" ? "Alliance" : "selected-market"} Auction House scan is available`}</strong>
+            <p>
+              No accepted scan matches this selection. Prices from another faction are not
+              substituted.
+            </p>
+            {config.collectorPath ? (
+              <Link href={config.collectorPath}>Get WoW Trader Collector</Link>
+            ) : null}
+          </div>
         )}
       </article>
     );
@@ -715,6 +758,7 @@ function workspaceHref(
   };
   const search = new URLSearchParams();
   if (merged.market) search.set("market", merged.market);
+  if (merged.faction) search.set("faction", merged.faction);
   if (merged.mode === "items") search.set("mode", "items");
   if (merged.profession) search.set("profession", merged.profession);
   if (merged.q) search.set("q", merged.q);
@@ -739,6 +783,7 @@ function profileSearchParameters(
   parameters: WorkspaceParameters,
 ): readonly { readonly name: string; readonly value: string }[] {
   const values: { name: string; value: string }[] = [];
+  if (parameters.faction) values.push({ name: "faction", value: parameters.faction });
   if (parameters.profession) values.push({ name: "profession", value: parameters.profession });
   if (parameters.route !== "best") values.push({ name: "route", value: parameters.route });
   if (parameters.sort !== "total-profit") values.push({ name: "sort", value: parameters.sort });

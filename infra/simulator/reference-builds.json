@@ -1,0 +1,422 @@
+{
+  "schema": "kfc-simulator-reference-builds.v1",
+  "targetRevision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+  "catalogRelease": "5df1a1d37d43e95fa440c1b5",
+  "importedAt": "2026-10-16T16:19:34.295Z",
+  "notice": "Four attributed public reference examples, not a mirror of rankings. Only factual talent allocations and equipment IDs are retained; narrative, stat tables, rankings and reported DPS are not republished. Talents are search seeds only. Missing items, original enchants and foreign APLs are never installed. Current gear, buffs, rotations and encounter settings remain controlled by each local experiment.",
+  "builds": [
+    {
+      "id": "fury",
+      "profile": "warrior",
+      "variant": "fury",
+      "name": "MythicSim fury 18/31/2",
+      "source": "https://mythicsim.com/wow-forever/tier-list/sims/7ade8650-c6b1-44a3-b72c-71ded01b080e",
+      "sourceResponseSha256": "957b44ff88d146a536cf7b35312c01a7092d900bdfd99afd80c56b0dd107da70",
+      "sourceEngineRevision": "5af130344b6fb5150a5b3a2295f26d20adee625d",
+      "generatedAt": "2026-10-16T13:58:41.397644Z",
+      "treeSha256": "f9e71247014e43d0e33041ce7fc42e589d4005558d2da56a99a24bb3ea36924e",
+      "talentsString": "20305213002-05353005102010501-2",
+      "fields": {
+        "improvedHeroicStrike": 2,
+        "improvedRend": 3,
+        "improvedTacticalMastery": 5,
+        "improvedOverpower": 2,
+        "angerManagement": 1,
+        "deepWounds": 3,
+        "impale": 2,
+        "cruelty": 5,
+        "lingeringRage": 3,
+        "unbridledWrath": 5,
+        "furiousPrecision": 3,
+        "dualWieldSpecialization": 5,
+        "ragingBlows": 1,
+        "improvedExecute": 2,
+        "deathWish": 1,
+        "flurry": 5,
+        "bloodthirst": 1,
+        "improvedBloodrage": 2
+      },
+      "treePoints": [18, 31, 2],
+      "sourceEncounter": {
+        "duration": 120,
+        "variation": 15,
+        "targetLevel": 63,
+        "targetCount": 1,
+        "rotationId": "warrior/dps/dps_reck"
+      },
+      "gearReference": [
+        {
+          "id": 12640,
+          "originalEnchant": 1506
+        },
+        {
+          "id": 15411,
+          "originalEnchant": 856
+        },
+        {
+          "id": 12927,
+          "originalEnchant": 0
+        },
+        {
+          "id": 13340,
+          "originalEnchant": 7667
+        },
+        {
+          "id": 252484,
+          "originalEnchant": 1891
+        },
+        {
+          "id": 12936,
+          "originalEnchant": 1885
+        },
+        {
+          "id": 15063,
+          "originalEnchant": 927
+        },
+        {
+          "id": 272403,
+          "originalEnchant": 0
+        },
+        {
+          "id": 15062,
+          "originalEnchant": 1506
+        },
+        {
+          "id": 14616,
+          "originalEnchant": 1887
+        },
+        {
+          "id": 18500,
+          "originalEnchant": 0
+        },
+        {
+          "id": 18500,
+          "originalEnchant": 0
+        },
+        {
+          "id": 11684,
+          "originalEnchant": 1900
+        },
+        {
+          "id": 13204,
+          "originalEnchant": 1900
+        },
+        {
+          "id": 18323,
+          "originalEnchant": 0
+        }
+      ],
+      "unavailableGearIds": [272403],
+      "gearImport": "reference-only-not-admitted",
+      "rotationImport": "not-ported",
+      "status": "talent-search-seed-not-a-recommendation"
+    },
+    {
+      "id": "arms",
+      "profile": "warrior",
+      "variant": "arms",
+      "name": "MythicSim arms 39/10/2",
+      "source": "https://mythicsim.com/wow-forever/tier-list/sims/ce50ecc4-769c-4493-a3de-97e7a613df42",
+      "sourceResponseSha256": "52e9f62ac380a6c5e2ca0ecc407c308ae178c1e9e239a3ce35fe94f509ea8735",
+      "sourceEngineRevision": "5af130344b6fb5150a5b3a2295f26d20adee625d",
+      "generatedAt": "2026-10-16T13:58:23.115040Z",
+      "treeSha256": "f9e71247014e43d0e33041ce7fc42e589d4005558d2da56a99a24bb3ea36924e",
+      "talentsString": "30325213132515201-0505-2",
+      "fields": {
+        "improvedHeroicStrike": 3,
+        "improvedRend": 3,
+        "improvedCharge": 2,
+        "improvedTacticalMastery": 5,
+        "improvedOverpower": 2,
+        "angerManagement": 1,
+        "deepWounds": 3,
+        "spearingStrike": 1,
+        "twoHandedWeaponSpecialization": 3,
+        "impale": 2,
+        "bloodthrill": 5,
+        "sweepingStrikes": 1,
+        "weaponmaster": 5,
+        "improvedSlam": 2,
+        "mortalStrike": 1,
+        "cruelty": 5,
+        "unbridledWrath": 5,
+        "improvedBloodrage": 2
+      },
+      "treePoints": [39, 10, 2],
+      "sourceEncounter": {
+        "duration": 120,
+        "variation": 15,
+        "targetLevel": 63,
+        "targetCount": 1,
+        "rotationId": "warrior/dps/arms"
+      },
+      "gearReference": [
+        {
+          "id": 12640,
+          "originalEnchant": 1506
+        },
+        {
+          "id": 15411,
+          "originalEnchant": 856
+        },
+        {
+          "id": 12927,
+          "originalEnchant": 0
+        },
+        {
+          "id": 13340,
+          "originalEnchant": 7667
+        },
+        {
+          "id": 252484,
+          "originalEnchant": 1891
+        },
+        {
+          "id": 12936,
+          "originalEnchant": 1885
+        },
+        {
+          "id": 15063,
+          "originalEnchant": 927
+        },
+        {
+          "id": 13142,
+          "originalEnchant": 0
+        },
+        {
+          "id": 15065,
+          "originalEnchant": 1506
+        },
+        {
+          "id": 275618,
+          "originalEnchant": 1887
+        },
+        {
+          "id": 18500,
+          "originalEnchant": 0
+        },
+        {
+          "id": 18500,
+          "originalEnchant": 0
+        },
+        {
+          "id": 13982,
+          "originalEnchant": 1900
+        },
+        {
+          "id": 18323,
+          "originalEnchant": 0
+        }
+      ],
+      "unavailableGearIds": [13982],
+      "gearImport": "reference-only-not-admitted",
+      "rotationImport": "not-ported",
+      "status": "talent-search-seed-not-a-recommendation"
+    },
+    {
+      "id": "shockadin",
+      "profile": "retribution_paladin",
+      "variant": "shockadin",
+      "name": "MythicSim shockadin 23/0/28",
+      "source": "https://mythicsim.com/wow-forever/tier-list/sims/c528b8d7-3266-4393-9f8e-3fd06d111907",
+      "sourceResponseSha256": "0091c381179687ed8e1c1cd65b02fa88a9ab5b4cb9eed587220ee0a8ddf9019a",
+      "sourceEngineRevision": "5af130344b6fb5150a5b3a2295f26d20adee625d",
+      "generatedAt": "2026-10-16T13:51:10.464864Z",
+      "treeSha256": "7bbfbe082285418dd5227b9549762323f41e824d16bc337333988ef1833489b2",
+      "talentsString": "550031032001012--052252300012303",
+      "fields": {
+        "divineStrength": 5,
+        "divineIntellect": 5,
+        "improvedSeals": 3,
+        "unyieldingFaith": 1,
+        "reverence": 3,
+        "purifyingPower": 2,
+        "divineFavor": 1,
+        "holyShock": 1,
+        "consecratedGround": 2,
+        "benediction": 5,
+        "improvedJudgement": 2,
+        "holyConduit": 2,
+        "conviction": 5,
+        "vindication": 2,
+        "sanctifiedJudgement": 3,
+        "sacredArbiter": 1,
+        "twoHandedWeaponSpecialization": 2,
+        "vengeance": 3,
+        "championOfTheLight": 3
+      },
+      "treePoints": [23, 0, 28],
+      "sourceEncounter": {
+        "duration": 120,
+        "variation": 15,
+        "targetLevel": 63,
+        "targetCount": 1,
+        "rotationId": "paladin/retribution/shockadin"
+      },
+      "gearReference": [
+        {
+          "id": 250599,
+          "originalEnchant": 1506
+        },
+        {
+          "id": 12103,
+          "originalEnchant": 8218
+        },
+        {
+          "id": 12927,
+          "originalEnchant": 0
+        },
+        {
+          "id": 272411,
+          "originalEnchant": 7667
+        },
+        {
+          "id": 252483,
+          "originalEnchant": 1891
+        },
+        {
+          "id": 12936,
+          "originalEnchant": 7665
+        },
+        {
+          "id": 12632,
+          "originalEnchant": 7646
+        },
+        {
+          "id": 16723,
+          "originalEnchant": 0
+        },
+        {
+          "id": 252486,
+          "originalEnchant": 1506
+        },
+        {
+          "id": 11822,
+          "originalEnchant": 1887
+        },
+        {
+          "id": 13001,
+          "originalEnchant": 0
+        },
+        {
+          "id": 12543,
+          "originalEnchant": 0
+        },
+        {
+          "id": 2801,
+          "originalEnchant": 7662
+        },
+        {
+          "id": 272435,
+          "originalEnchant": 0
+        }
+      ],
+      "unavailableGearIds": [272411, 16723, 2801],
+      "gearImport": "reference-only-not-admitted",
+      "rotationImport": "not-ported",
+      "status": "talent-search-seed-not-a-recommendation"
+    },
+    {
+      "id": "survival",
+      "profile": "hunter",
+      "variant": "survival",
+      "name": "MythicSim survival 0/20/31",
+      "source": "https://mythicsim.com/wow-forever/tier-list/sims/58097a04-18fc-4fe0-b7be-883ed9667400",
+      "sourceResponseSha256": "d109db99d47d8b00ccfcf5a09ebee23dd53af2ddc97448f5ea9407c12ee7a562",
+      "sourceEngineRevision": "5af130344b6fb5150a5b3a2295f26d20adee625d",
+      "generatedAt": "2026-10-16T14:17:22.361183Z",
+      "treeSha256": "1759d89389161eb55759d6d7c2a204984fcc3a25c60ae070f0bf09df8b0dba9e",
+      "talentsString": "-00531500114-530200230050022151",
+      "fields": {
+        "lethalAttacks": 5,
+        "improvedStings": 3,
+        "efficiency": 1,
+        "carefulAim": 5,
+        "loneWolf": 1,
+        "trueshotAura": 1,
+        "mortalShots": 4,
+        "improvedTracking": 5,
+        "deflection": 3,
+        "savageStrikes": 2,
+        "cleverTraps": 2,
+        "surefooted": 3,
+        "predatorsEdge": 5,
+        "exposePrey": 2,
+        "survivalistsDiscipline": 2,
+        "striderKick": 1,
+        "lightningReflexes": 5,
+        "laceratingStrikes": 1
+      },
+      "treePoints": [0, 20, 31],
+      "sourceEncounter": {
+        "duration": 120,
+        "variation": 15,
+        "targetLevel": 63,
+        "targetCount": 1,
+        "rotationId": "hunter/dps/survival_weave"
+      },
+      "gearReference": [
+        {
+          "id": 252605,
+          "originalEnchant": 1508
+        },
+        {
+          "id": 15411,
+          "originalEnchant": 904
+        },
+        {
+          "id": 12927,
+          "originalEnchant": 0
+        },
+        {
+          "id": 13340,
+          "originalEnchant": 7667
+        },
+        {
+          "id": 252483,
+          "originalEnchant": 1891
+        },
+        {
+          "id": 16681,
+          "originalEnchant": 1883
+        },
+        {
+          "id": 16676,
+          "originalEnchant": 1887
+        },
+        {
+          "id": 272397,
+          "originalEnchant": 0
+        },
+        {
+          "id": 16678,
+          "originalEnchant": 1508
+        },
+        {
+          "id": 13967,
+          "originalEnchant": 1887
+        },
+        {
+          "id": 18500,
+          "originalEnchant": 0
+        },
+        {
+          "id": 18500,
+          "originalEnchant": 0
+        },
+        {
+          "id": 12784,
+          "originalEnchant": 1900
+        },
+        {
+          "id": 18738,
+          "originalEnchant": 664
+        }
+      ],
+      "unavailableGearIds": [16681, 272397],
+      "gearImport": "reference-only-not-admitted",
+      "rotationImport": "not-ported",
+      "status": "talent-search-seed-not-a-recommendation"
+    }
+  ]
+}

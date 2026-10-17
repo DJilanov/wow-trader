@@ -93,8 +93,47 @@ handling, and release reconciliation are documented in
 The exact-build world, quest, boss-model, spell, vendor, and loot evidence strategy is tracked in
 [`docs/forever-max-coverage-plan.md`](docs/forever-max-coverage-plan.md).
 
+The published Forever client catalog is also searchable at `/forever/encyclopedia/catalog`, with
+stable item, recipe, and profession URLs. `/forever/data` exposes the evidence observatory and the
+versioned public JSON endpoints for catalog/build changes, profession coverage, evidence-gated
+market signals, and world-data coverage. Entity endpoints retain exact build identity and encode
+large copper values as strings. Candidate loot relationships remain visibly distinct from confirmed
+sources and drop rates.
+
+Forever Leveling is a primary product at `/forever/leveling`: choose faction, race and
+Speed/Chill/Group, then browse compatible chapter brackets. The authorized local archive supplies
+157 guide variants and 22,604 source steps through level 60 for both factions and every race;
+conditions and incomplete transitions remain explicit, not a claim of seamless playtested routes.
+Character progress is local and isolated. The original Westfall 13–15 preview/calculator stays
+separate at `?edition=kfc`, and old planner saves can still be imported explicitly.
+See [`docs/forever-leveling-experience-plan.md`](docs/forever-leveling-experience-plan.md) for the
+UX and [`docs/forever-leveling-archive.md`](docs/forever-leveling-archive.md) for extraction, authorization,
+coverage gaps and archive deployment. This navigation/full-reader revision is local until deployed.
+
 The account-network calculation, safety boundaries, and Forever migration steps are documented in
 [`docs/account-crafting-network.md`](docs/account-crafting-network.md).
+
+## Repeatable pre-raid simulations
+
+After reviewing/admitting new Forever item data, run the complete configured research pipeline:
+
+```sh
+pnpm simulator:prebis:update
+```
+
+It prepares/verifies the simulator, supplies its own temporary local server, runs full equipment,
+set, enchant, talent and rotation feedback serially, audits accessories, and saves local review
+receipts. Repeat the command to resume unchanged inputs; changed inputs start a versioned campaign.
+Use `pnpm simulator:prebis:plan` and `pnpm simulator:prebis:status` for read-only inspection.
+Automation currently covers Arms/Fury, not all classes; unfinished policies are shown explicitly.
+No public build, guide, saved player setup or deployment is changed automatically. See the
+[update runbook](docs/simulator-update-runbook.md) and
+[BiS/rotation guide product plan](docs/simulator-rotation-guides-content-plan.md).
+
+For a completed case, `pnpm simulator:prebis:share --case=arms-alliance` verifies a full-build
+browser link for the development-only `/forever/simulator/review` page. Explicit `--allow-pending`
+permits only a labelled, core-reviewed preview. Proc-model consent is never carried by a link;
+the player must enable it explicitly in the engine's Enchant tab before simulating.
 
 ## Production
 
@@ -119,6 +158,23 @@ The production companion endpoint is `https://helper.kfcguild.online`. Keep its 
 the repository and use a state file outside the worktree. Unattended 30-minute collection remains
 disabled until the documented retention and monitoring gate is implemented.
 
+The maintainer Mac also runs a separate catalog guardian. It watches the Forever client build and
+hotfix cache, resolves the exact WoWDBDefs merge, extracts and audits a new snapshot, compares its
+economy topology with production, generates item media, takes a verified server backup, and promotes
+compatible updates through the existing SSH-controlled release path. It has no collector token or
+database credential; the owner connection remains readable only on the server. Install or inspect it
+with:
+
+```bash
+pnpm catalog:guardian -- --dry-run
+pnpm catalog:guardian:install:macos
+pnpm catalog:guardian:uninstall:macos
+```
+
+Automatic promotion stops for missing hotfixes or definitions, extractor/schema drift, excessive
+row-count drift, and any profession, recipe reagent/yield/cooldown/requirement, or transformation
+change. The Auction House scan remains accepted while those material changes await review.
+
 ## TBC catalog
 
 ```bash
@@ -138,6 +194,11 @@ misclassified as lost catalog items.
 
 The first import deliberately leaves a build in `review_required`. Re-run the validated exact
 snapshot with `--publish` only after review. Both import and promotion are idempotent.
+
+Use `pnpm catalog:semantic-diff from/manifest.json to/manifest.json` for a field-level report that
+classifies item changes by identity, equipment, economy, availability, or evidence and treats recipe
+topology as economic data. Raw extraction records are deliberately excluded from this reader-facing
+comparison.
 
 ## Auction House collection
 

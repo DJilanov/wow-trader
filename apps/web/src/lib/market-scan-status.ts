@@ -8,8 +8,8 @@ export type MarketAuctionHouseType = "alliance" | "horde" | "neutral" | "region"
 
 export interface MarketScanSelector {
   readonly clientProduct: SupportedClientProduct;
-  readonly region: string;
-  readonly realmId: string;
+  readonly region?: string;
+  readonly realmId?: string;
   readonly auctionHouseType: MarketAuctionHouseType;
 }
 
@@ -17,13 +17,15 @@ export async function getLatestMarketScanStatus(
   selector: MarketScanSelector,
 ): Promise<{ readonly scanId: string; readonly completedAt: Date } | null> {
   const database = getDatabase();
+  if (Boolean(selector.region) !== Boolean(selector.realmId))
+    throw new Error("Region and realm must be selected together");
   const [scan] = await database
     .select({ scanId: marketScans.scanId, completedAt: marketScans.completedAt })
     .from(marketScans)
     .where(
       and(
-        eq(marketScans.region, selector.region),
-        eq(marketScans.realmId, selector.realmId),
+        selector.region ? eq(marketScans.region, selector.region) : undefined,
+        selector.realmId ? eq(marketScans.realmId, selector.realmId) : undefined,
         eq(marketScans.auctionHouseType, selector.auctionHouseType),
         eq(marketScans.qualityAccepted, true),
         inArray(

@@ -160,6 +160,7 @@ describe("crawler controls", () => {
 
   it("honors robots, resumes cached records and supports document XML", async () => {
     const root = await mkdtemp(join(tmpdir(), "reference-crawl-"));
+    let clock = Date.parse("2026-10-17T12:00:00Z");
     const requests: string[] = [];
     const delays: number[] = [];
     const fetcher: typeof fetch = async (input): Promise<Response> => {
@@ -177,8 +178,11 @@ describe("crawler controls", () => {
       directory: root,
       permissionRef: "test",
       fetcher,
+      random: (): number => 0.5,
+      now: (): number => clock,
       sleep: async (ms: number): Promise<void> => {
         delays.push(ms);
+        clock += ms;
       },
     };
     try {
@@ -188,7 +192,7 @@ describe("crawler controls", () => {
         incomplete: 0,
         notFound: 0,
       });
-      expect(delays).toEqual([60000, 60000, 60000]);
+      expect(delays).toEqual([81000, 81000, 81000]);
       expect((await readStagedReference(root, task))?.id).toBe(25);
       expect(await crawlReferences([task], options)).toEqual({
         crawled: 0,
@@ -332,6 +336,25 @@ describe("reference edge cases", () => {
     expect(referenceQualityGaps({ ...quest, rewards: [] })).toContain("missing_quest_rewards");
   });
 
+  it("extracts progress-table objectives and accepts source-confirmed quests without rewards", () => {
+    const questHtml =
+      '<link rel="canonical" href="https://www.wowhead.com/forever/quest=308/distracting-jarven"><div><h1>Distracting Jarven</h1><h2>Progress</h2><p>Bring me a drink.</p><table class="icon-list"><tr><td><a>Thunder Ale</a><span>&nbsp;(1)</span></td></tr></table><h2>Completion</h2><p>Thank you.</p></div><script>WH.Gatherer.addData(5,16,{"308":{"name_enus":"Distracting Jarven"}});WH.markup.printHtml("[ul][li]Level: 7[/li][li][icon name=quest-start]Start: [url=/forever/npc=1373]Jarven Thunderbrew[/url][/icon][/li][/ul]", "infobox-contents-0");</script>';
+    const quest = parseWowheadPage(
+      questHtml,
+      { game: "forever", kind: "quest", id: 308 },
+      {
+        url: "https://www.wowhead.com/forever/quest=308/distracting-jarven",
+        capturedAt: new Date().toISOString(),
+        permissionRef: "test",
+      },
+    );
+
+    expect(quest.objectives).toEqual(["Thunder Ale (1)"]);
+    expect(quest.rewards).toEqual([]);
+    expect(quest.questContent).toEqual({ objectives: "present", rewards: "none" });
+    expect(referenceQualityGaps(quest)).toEqual([]);
+  });
+
   it("requires rich tooltips for equipment but not fabricated stats for materials", () => {
     expect(referenceQualityGaps({ ...fixture(), tooltipLines: ["Test Sword"] })).toContain(
       "missing_item_tooltip",
@@ -387,6 +410,7 @@ describe("reference edge cases", () => {
   it("persists Retry-After and stops without retrying rate limits or access denials", async () => {
     for (const status of [429, 403]) {
       const root = await mkdtemp(join(tmpdir(), "reference-rate-"));
+      let clock = Date.parse("2026-10-17T12:00:00Z");
       const delays: number[] = [];
       let limited = false;
       const fetcher: typeof fetch = async (input): Promise<Response> => {
@@ -404,8 +428,11 @@ describe("reference edge cases", () => {
         directory: root,
         permissionRef: "test",
         fetcher,
+        random: (): number => 0.5,
+        now: (): number => clock,
         sleep: async (ms: number): Promise<void> => {
           delays.push(ms);
+          clock += ms;
         },
       };
       try {
@@ -413,7 +440,7 @@ describe("reference edge cases", () => {
           await expect(crawlReferences([task], options)).rejects.toThrow(/HTTP 403/);
         else {
           await expect(crawlReferences([task], options)).rejects.toThrow(/rate limited/);
-          expect(delays).toEqual([60000, 60000]);
+          expect(delays).toEqual([81000, 81000]);
           expect(await readStagedReference(root, task)).toBeNull();
           const blocked: typeof fetch = async (input): Promise<Response> =>
             String(input).endsWith("/robots.txt")

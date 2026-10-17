@@ -121,6 +121,15 @@ export default function ForeverHelperPage(): React.JSX.Element {
           </p>
           <Link href="/forever/trader">Open the Forever Trader →</Link>
         </div>
+        <div className="panel">
+          <span className="eyebrow">Open evidence</span>
+          <h2>See what changed—and what is still unknown</h2>
+          <p>
+            The public observatory exposes build changes, profession coverage, stricter market
+            research gates, world-data coverage, and versioned JSON endpoints.
+          </p>
+          <Link href="/forever/data">Open the data observatory →</Link>
+        </div>
       </section>
     </>
   );

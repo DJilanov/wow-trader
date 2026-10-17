@@ -21,6 +21,7 @@ required_paths=(
   "$release_directory/apps/web/.next/standalone/apps/web/server.js"
   "$release_directory/apps/web/.next/standalone/apps/web/.next/static"
   "$release_directory/apps/web/.next/standalone/apps/web/public"
+  "$release_directory/apps/web/.next/standalone/apps/web/public/kfc-icon.svg"
   "$release_directory/apps/ingest-api/dist/server.js"
   "$deploy_root/shared/env/web.env"
   "$deploy_root/shared/env/ingest.env"

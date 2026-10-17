@@ -1,10 +1,927 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-10-16
+Last updated: 2026-10-17
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## October 17 reviewed builds on the normal Warrior page
+
+The completed local builds previously required the separate /forever/simulator/review screen.
+They now appear above the engine on /forever/simulator/warrior in a reviewed-build selector.
+Both Arms scenarios and conservative Fury are available; only completed current-release/profile
+evidence is eligible. Explicit Load build imports every combat setting without leaving the
+page. Visits/selection alone do not replace saved characters, and provisional consent stays OFF.
+This is development-only presentation, not public/default promotion or deployment.
+The embedded engine's original Arms/Fury starter presets have NOT been replaced. To see reviewed
+equipment, use the outer Simulation-tested pre-raid builds selector and explicit Load build.
+
+Browser testing also found two wrapper bugs. Nested modal focus placed its close button behind
+fixed site navigation; a cleaned-up shown.bs.modal listener now reveals the header (fullscreen
+excluded). Mobile hides the desktop Simulate button, so the old readiness test never cleared
+the loading overlay; it now accepts an explicitly initialized visible workspace while preserving
+all origin/path/loading/hidden guards. The mobile test was observed failing before/passing after.
+
+Actual desktop/mobile import/consent/zero-combat/zero-error smoke PASSES in receipt9675a121f3fea193;
+31 focused tests, tsc, scoped ESLint and Prettier pass. The broader existing frame smoke also
+passes four profiles/reload, missed-load and blocked-asset retry; it ran before the final mobile
+marker adjustment, which is covered by the final actual mobile import and unit tests. Sources,
+exact hashes and command are in context.md. No frozen numerical source or worker count changed.
+
+The separate private browser holdout2677 actually exited1 after a development-page navigation
+destroyed its execution context. Three completed measurement-only arms and both reserved ranges
+are retained, with no partial fourth result/final verdict. Native campaign51962 is unaffected.
+Continuation must use an immutable non-HMR host; see its failure receipt/context, not stale live IDs.
+The same declared experiment is now resumed by private `probe-fury-spearing-resume.mjs`, using
+the unchanged checksum-verifying loopback asset server and a non-executable holder document.
+All three saved complete requests are checked before reuse; only five missing100k jobs run.
+Four actual admissions and an exact25/1337 replay canary pass; real first-job progress is seen.
+Six resume-contract tests and one focused existing server-integrity test pass. This is runtime
+recovery, not a complete/gaining experiment. The original source remains frozen, both ranges
+reserved, native workers unchanged. Full final fingerprint/contrast/native checks still remain.
+
+The provisional Fury core has since closed without adopting the noisy BRage20 challenger:
+only one independent range clears its confidence threshold, so BRage30 is retained. Independent
+readonly proof7af6ebd2d69d1769 verifies the six raw closing/selected-gear records, exact full core
+receipt and26 disjoint historical/reserved ranges; core reference853.4213563DPS/400k. Actual
+trinket child85247 now owns the six workers, not terminal talent63467/feedback80788. This is
+correct no-gain handling, not proof of every Warrior frontier or public preset promotion.
+That trinket child has since completed:1,625 screens/7 close candidates, HoJ+Adaptive retained.
+Owned replaydf7b6c3ff844fec6 matches all1,641 raw records/4.85m represented iterations;
+range-only proofe191afdf73ccdac3 checks29 historical/reserved allocations. Current ring
+child9106/workers9126–9131 now own the native work;85247 is terminal. No default promotion.
+
+## October 17 packed simulation-evidence prototype
+
+The declared wider Fury search must not allocate millions of separate4KiB files or retain every
+result/APL in memory. A PRIVATE packed scalar store and real-data probe now exist under
+`artifacts/forever-simulator/optimization/review-tools/`; this is not live-pipeline integration.
+Immutable checksum-named packs preserve exact IDs, sample sizes and double-precision metrics,
+reject detail/error/unknown fields, publish without overwrite, and bound index/pack buffers.
+The campaign still owns its single-writer lease. Crash leftovers are not successful evidence.
+
+All40 combined storage/stage/ranking tests pass; checksum-bound reload optimization has a failing-
+before/passing-after regression and still detects tampered evicted packs. Latest storage receipt
+ef245a8f6c9ec558 verifies10,000
+lookups plus10,000 streamed rows after reopen, all original-file hashes and pinned inputs.
+Temporary copies use524,288 allocated bytes versus40,960,000 for original JSONs; ONLY those
+isolated temporary copies were removed. No existing cache/evidence was deleted, migrated or
+archived, no numerical input/worker count changed. Private bounded stage execution and readonly
+family/control-aware ranking now reproduce the complete1,625-request real trinket bank plus13
+aliases; proof08d0b62df56f3ea6 matches a full reference sort for42 families/top5/control. Reopen
+uses no provider calls, max256 full requests/90 retained references. Providers were readonly
+cache replay, not new simulations. O(N) digest indexes remain explicit; missing/changed evidence
+and coverage fail closed. Scoped lint and actual ignore-override formatting pass. Full-frontier
+generation/cost checks and coordinated owned-source/reader integration remain required at a
+completed campaign boundary. Full scope,
+hashes and limitations are in `context.md` and `docs/simulator-prebis-optimization.md`.
+
+Private `fury-expanded-policy-stream.mjs` now feeds the composed Fury bank one parent at a time,
+preserving every source-family alias and rejecting missing/extra request counts. Seven producer
+tests and47 combined producer/storage/stage/ranking tests pass,0 skipped. The complete generation-
+only probe57436/PID97848 has now exited0. Receipt85f6a56796bdd149 passes all2,976,090 attempts /
+2,863,290 unique requests/112,800 aliases, exact prior rotation stream/mode counts and13 fresh
+source/input checks.6,124 families allow a12,254-reference configured retention bound. This is
+not a numerical simulation or constant-memory claim: the legacy69,930-parent array and explicit
+digest indexes remain.21.72min/peak1.82GiB is generation-only under load, not native throughput.
+Native/running-browser pins remain frozen; the completed own probe is not a live process.
+
+## October 17 reusable full accessory replay
+
+Added `scripts/review-prebis-accessories.mjs` and its12 passing regression tests. The read-only
+tool reconstructs current legal pairs/source identities, replays every raw screen, rebuilds the
+shortlist, independently recalculates all100k confidence comparisons and rejects contradictory
+status/selection. Empty shortlists still require both measured controls. Archive containment,
+symlinks, size, precision, scalar fields and end-of-run source/input identities are guarded.
+All six current completed Arms/Fury ring/trinket audits pass actual full replay; receipt hashes
+are recorded in context.md. No new damage samples, workers, builds, leases, cache writes/deletes
+or public promotion. Raw core and global-range proofs remain separate. Future one-command
+integration belongs at the next frozen-input boundary, not a live source mutation.
+
+## October 17 private browser-verifier contracts
+
+These are local research/operator fixes, not combat-engine changes or a production deployment.
+The current six-worker numerical campaign, source/data bytes and ownership are unchanged.
+
+The new four-arm100k browser experiment first had a20-minute per-job timeout, too close to its
+observed runtime under load. That private attempt was deliberately SIGTERM-aborted after20k
+progress, with its browser children verified closed; no partial metric/verdict was used. The
+replacement keeps all arms/100k precision, uses a one-hour bound and fresh disjoint RNG ranges,
+including protection for both old reserved ranges. No native campaign was interrupted. This is
+an operator runtime-bound correction, not an engine calculation change or completed gain claim.
+
+- ComputeStats pads a party to five slots. The admission verifier now requires one party/five
+  slots/exactly one active rotation, exact action counts and zero valid-policy warnings. Unknown
+  and unlearned spell negative controls must identify the exact unavailable spell, not any error.
+- Battle-residence Fury policies legitimately omit Berserker-only Whirlwind. The action verifier
+  permits that only for the explicit residence family; all other tested families must cast WW.
+  Every tested policy must cast Bloodthirst; Spearing policies must actually cast Spearing and
+  both stances, while no-Spearing controls must not cast it. No gameplay policy was altered.
+- Fresh UI settings omit protobuf-default false/zero fields and pad manual-stat arrays with
+  zeros. Two-hand capture compares generated settings/player protobuf values and canonicalizes
+  only strictly all-zero manual-stat vectors. Nonzero, malformed and sparse vectors fail; the
+  sparse-vector regression was observed failing before/passing after the helper correction.
+  Level0 is normalized to60 only under the documented api.proto/core.PlayerLevel contract;
+  other levels still fail this level60-only control check.
+  Equipment, talents/APLs, buffs, encounter, consumes and enabled effects remain checked.
+- WASM response decoding now stays in the browser and returns compact metrics plus response
+  hashes, avoiding expensive transfer of raw byte arrays/debug logs to the operator process.
+- Final review-page smoke now resolves relative links against the actual page origin before
+  checking the exact saved URL, and limits storage instrumentation to real HTTP-loopback
+  documents. Opaque about:blank popup documents had caused errors in the TEST instrumentation;
+  no application storage/CSP behavior was changed and no real application errors are ignored.
+  Actual final Fury desktop/mobile/link/import/consent checks pass in receipt78f57311a823e7a7.
+
+Actual evidence:153 representative WASM admissions plus two exact negative controls
+(`fury-browser-admission-34e30c8f1e3d335d`); seven real UI combat executions
+(`fury-browser-execution-800fd86f107f0ac2`); exact-request replay with actual cast counts and all
+seven UI results reproduced (`fury-browser-actions-b1f661ccaa06edf4`). All are low-N/representative
+integration evidence, NOT new-policy native parity, independent rankings or full2.86m coverage.
+Five admission, seven action-metric and five control-normalization focused tests pass.
+Fresh real Alliance/Horde two-hand control captures also pass (`two-hand-fury-browser-controls-af67571108054340`),
+preserving all decoded combat controls and16 actual item stat vectors; they remain unoptimized
+browser-only controls. Full receipt hashes/status are in `context.md`.
+
+## October 17 local build-share dialog race
+
+The first FINAL proc-share smoke timed out because the enchant selector blocked Export. The
+review utility clicked Close while Bootstrap was still opening the dialog; `Modal.hide()` ignores
+that call during its transition. Numerical feedback, accessory audits and the export were intact.
+
+`scripts/review-prebis-browser.mjs`, used by `review-prebis-build.mjs`, now waits for actual
+`shown.bs.modal` and `hidden.bs.modal` events around consent inspection. It only asserts the
+checkbox is OFF, never changes consent, force-hides DOM or relies on a fixed delay. Temporary
+observers/markers are removed. No combat engine, numerical input, worker count or website default
+was changed; this is an operator-tool fix, not a production UI deployment.
+
+Verified: all9 focused `pnpm simulator:prebis:share:test` tests pass,0 skipped, including the real
+Bootstrap opacity-transition negative control (old immediate close stays stuck), corrected close
+and already-enabled-consent rejection without mutation. Scoped ESLint passes. Actual FINAL
+`simulator:prebis:share --case=arms-alliance-procs` passes in two fresh contexts with complete
+combat settings unchanged/consent OFF; receiptdd1a5306345f12d0. The real review-page final link also
+passes200/noindex, desktop/mobile layout, full-settings equality, consent OFF, zero combat requests
+and zero page errors. Both current Arms cases are reviewed-local; the same campaign has advanced
+to conservative Horde Fury. Full immutable receipt hashes and actual live handles are in context.md.
+
+## October 17 repeatable simulator update workflow
+
+`pnpm simulator:prebis:update` wraps preparation, versioned all-slot/set/enchant feedback,
+both accessory audits, final rotation checks and local reviewed exports. Read-only plan/status
+commands expose changed items, stale evidence and unfinished spec policies. Resume verifies hashes;
+confirmed accessory/rotation gains restart full feedback, not a patch to an already-reviewed build.
+New accessory baselines are checked against real independent measurements and the current legal
+candidate bank, then recaptured in the browser. Campaign receipts tie every required final gate.
+See `docs/simulator-update-runbook.md`. No public build/default, deployment or commit is automatic.
+Current full policies are Arms/Fury; other class/spec work is still required. The temporary
+checksum-protected loopback server passed a real browser/archived-native2-iteration parity smoke.
+The long-term deliverable is original, crawlable Wowhead-style BiS guides, including independently
+tested alternatives, acquisition, enchants, talents and rotation; the simulation runner is their
+evidence source, not a substitute for those unfinished guides.
+All204 simulator tests and scoped lint/format/whitespace checks pass. The native workspace guard
+has an isolated failing-before/passing-after regression. The earlier ring audit finished untouched:
+4,042 pairs /23 near challengers;4,090 simulations /12,884,000 iterations; no confirmed challenger.
+Receipt `accessory-rings-f2fd9c30f025a040.json`; exact old nine-source archive
+`source-archives/accessory-audits-e8b2911afb10cd44.json`. No complete numerical campaign through
+the new orchestrator is claimed yet.
+The real updater has passed prepare/Go/22-page build,23 browser-template captures, native preflight
+and fresh Arms control. Local UIe14af46d79721e1ad50a6f04/native3dde/DB029b. Campaign4ee5e4d6…
+is running under exec64337/PID51962; verify actual liveness before relying on those IDs. Its source/
+catalog/model inputs are frozen. Both Arms cases and conservative Horde Fury now have reviewed
+local exports; the Fury provisional-proc case is running. Full Warrior/style/frontier/all-class
+work and the overall numerical campaign remain incomplete; public r15
+remains unchanged. Full current state paths are in `context.md`.
+
+## October 17 current Blackhand/Eye effects and fresh Arms restart
+
+The previous MCP-stage freeze below is preserved historical evidence, not the current engine.
+CURRENT LOCAL UI21a0ef96934be4ef740d6de4, native
+3dde1e2bc7192e1899e92d2c46404cdaa997bc8ded9667a9f7255bbac22f8e90,
+DB029bd1e5c3e7382a0ee230c503fed0cb22220ea5bb4db16347d632321b6bd0f4.
+Still2,591 items; two of637 historical references now have explicitly partial current effects.
+
+`drakkisath-trinkets.mjs` validates exact current raw links/item effects/spell effects/options/
+duration/text, with checksums and selected-record digests. The importer replaces old2% crit
+with current passive1%; it does not add both. Runtime/tooltip share the same model. Blackhand
+13965 uses5% owner-only attack/spell crit versus one marked target; Eye13968 uses7% spell hit,
+not melee/ranged hit. Both20s/CD300s/shared20s. No new uses leak into Classic ruleset.
+Core caster/defender attack-table hooks avoid a raid-wide/global crit buff. A native guard
+rejects stale compiled2% data instead of running the corrected handler on obsolete passives.
+
+Missing ItemSparse/base metadata, acquisition, empty scripted1318945/1318846 and Blackhand's
+Orc/Ogre doubling remain unverified/unmodeled, clearly disclosed. No claim of complete current
+metadata, observed server behavior or final BiS. HoJ retains its labelled provisional model.
+
+`pnpm simulator:prebis:verify-drakkisath` receipt5082090688c48977 passes four real native/browser
+cases (25runs each;299s/599s:25/50uses). Go missing-use overlay fails the intended runtime test;
+current actual crit calculations, owner/target scope, hit scope, cooldown/reset and Classic
+guard pass. Initial harness used a Warrior forbidden from Eye; switched to a permitted Druid,
+without weakening class rules. Failed casts mutate generic engine CD before a shared-CD check;
+the harness correctly tests readiness with CanCast. Inclusive end-time events explain a terminal
+zero-uptime use at300s, so integration fixtures stop1s before boundaries. The initial Warlock
+fixture's inherited free Tier1 was disabled to match the native contract. Passing final results
+are recorded separately from those fixture mistakes; no tolerance was loosened.
+
+181 Node tests, scoped lint/format, strict upstream TypeScript, installed Go checks and22-page
+build pass. Five-profile browser catalog smoke passes. Native3dde is exactly archived.
+Fresh Arms bluea385a1ce5d970b09/controld126c4767ee2153c captured554.60DPS (not optimized).
+Feedback4f2018033bc0096cc80fa960a329fa5eff055efbcd32c4a3135e60030b192518 launched in exec93636:
+241 legal seeds, six workers,100k independent-seed validation. Poll actual process/handle before
+assuming it remains live. Do not mutate frozen source/database or resume old interrupted1946….
+Public r15 unchanged; no new commit/push/deploy. Full all-class goal remains active/incomplete.
+
+User's next phase is preserved in docs/simulator-rotation-guides-content-plan.md: build-specific
+rotation explanations tied to actual winning APLs, then useful original upgrade/stat/patch
+analysis and server-rendered canonical guide pages. No unverified best-DPS/Google ranking claims.
+
+Current Arms talent-stage receipt0c12bcb9eafee951 now completes18,429 simulations /6,799,800
+iterations and three stable refinement rounds:39/10/2, Overpower first, Slam + Hamstring, Battle,
+no Heroic Strike on fixed blues. Two100k independent checks pass9.6015%/9.6232% combined
+talent/APL gains against identical incumbent gear (572.9395→627.9505;572.9136→628.0461DPS).
+Do not attribute that entire gain to talents alone or apply this rotation blindly to final gear.
+
+New optional `node scripts/verify-simulator-talent-candidate.mjs --baseline=<file>
+--talent-review=<file>` verifies the selected talent/APL in a real browser using its exact
+archived native SHA, without rebuilding/mutating frozen engine inputs. Immutable browser
+receipt27f8f91da13a3f9e matches625.2632721/UI625.26 at25/1337, including exact search/browser
+context equality. These are integration checks, not the 100k gain measurement.
+
+Driver3377/gear child9812/workers9824–9829 are the subsequent live stage of exec93636; recheck
+actual liveness before reporting. Gear, actual-gear talent feedback, final browser/rotation
+review and all remaining specs are NOT complete. No public defaults were changed.
+All182 simulator tests pass with the new CLI argument regression; scoped lint/format and diff
+whitespace pass. Gear pass1 completed11,939 real sims /1,563,040 iterations; pass2 is active.
+
+SUBSEQUENT UPDATE: gear1a8354872ea4fb89 completed four passes /45,684 real sims /6,297,260
+iterations, including two100k independent A/B ranges. Both pass:628.040879→797.047460 and
+628.011386→797.030115DPS. Mean628.026132→797.038787 (+26.9117%) is equipment/enchant improvement
+at fixed talents/APL, not the total talent+gear gain and not a comparison to a different engine.
+Exact current pool coverage and gear legality independently PASS on new actual-gear baseline
+5f4c98404dc4b18a (SHA5f4c98404dc4b18a450563df3db0b8028f0008973e467d63849d4f0212d54b4b).
+Its temporary accessory choice is11815 +272437; do not label Frozen or Blackhand BiS by name
+or use the old2% passive. Five historical IDs [22340,12927,12555,13098,11815] remain disclosed.
+
+Same exec93636/driver3377 now runs actual-gear talent child16074/workers16086–16091 (241seeds,
+450policies/two controls,25retained). Prior gear child9812 and all9824–9829 workers are terminal
+after success, not stalled. Recheck actual liveness each turn. Full session has three completed
+steps[talents,gear,feedback]; no final review/export. Accessory/close-contender head-to-head
+checks on final gear are required before promotion; a validated challenger returns to feedback.
+No source/catalog inputs changed during the running loop. All-class goal remains incomplete.
+
+LATEST: actual-gear talents405730e27a298490 pass39/10/2 with HS≥90 at21,005 sims /7,256,000
+iterations. Both100k ranges prove+0.6719%/+0.6729% over No-HS on SAME actual gear. Browser
+receipt8f3e195f858d9ff3 matches815.9640981/UI815.96 at25/1337, not the high-iteration mean.
+Gear7b8b2a15d2269546 converges unchanged; final talents1dd11f32f0ae0ca9 keep incumbent with
+no proven gain. Fresh control screening correctly reuses cached real sims, not fabricated
+zero-work evidence. Final browser0154b12ffaf31f98 and review71bc85c4f2716167 complete native3dde
+conservative Arms feedback at reference802.4207629DPS /400k measurements. Final baseline37fd40….
+Session4f201803 is closed-loop-reviewed; exec93636/driver3377 and ALL its children are terminal
+after success. Do not resume it or treat a completed child as a stalled process.
+
+Final accessory checks are separate before publication. New audit-simulator-accessories.mjs /
+accessory-challengers.mjs reserve the shared workspace, validate closed current evidence and
+screen all legal ordered pairs at2k/new disjoint RNG range, not EP-selected favorites. All
+within four estimated SE get both100k confirmations; three SE improvement required in BOTH.
+Controls are shared in one worker-pool batch. Uncertainty is explicit; no global-optimality,
+statistical-equality or server-verification assertion is made. Significant winners re-enter
+full feedback. Sources/DB/tree/catalog/native are pinned; interruptions/errors retain caches,
+mark failure and release only the owned lock. Immutable results never overwrite old receipts.
+
+188 tests and scoped lint/format/whitespace pass; real bank matches1,625 trinket/4,042 ring pairs.
+Readiness negative rejects unfinished gear evidence without touching the live feedback lock.
+Full new audit integration is NOT completed yet: exec56912/PID24515/workers24749–24754 are
+currently screening trinkets under identity36945089a218c35191fce24584a2b3290bd13f17db7b67c4ecc537c50702f2e2.
+Progressaccessory-audit-trinkets-71bc85c4f2716167.progress.json. Recheck actual liveness. Freeze
+audit source/input files until terminal. Then rings/final rotation/export; current Arms proc
+and Fury/remaining class cases still outstanding. No deployment or optimized public default.
+5.1GiB free; cache2.1GiB, nothing deleted or archived.
+
+## October 17 Manual Crowd Pummeler runtime correction (previous freeze)
+
+Verified bug: already-eligible9449 had current ItemEffect98990 charges3/CD180000ms but registered
+Forever runtime used30s/unlimited charges and all-attack haste. Isolated actual Go test failed.
+Stopped old feedback exec84303/driver31738/session1946fe9d… with SIGTERM for this concrete bug:
+sessioninterrupted/zero steps, all children/workers terminal, lock released. Do NOT resume it.
+All cached computations and exact f59e binary are preserved, not blessed as new model evidence.
+
+Owned manual-crowd-pummeler.mjs/Go helper/test now install through the SAME native/browser adapter.
+Current raw snapshot/manifest/table hashes, item/link, unique ownership, on-use conditions,
+charges/cooldown, aura319 payload/target/scaling and duration are checked. Model gives50% melee
+speed/30s,180s CD, max3 uses per item/encounter and resets charges between independent iterations.
+No ranged/resource haste is assigned. Classic retains its original30s/all-attack behavior.
+Client-supported model, not an in-game server observation; aura semantics use the primary enum.
+
+Original/fixed receipt staged-mcp/42937b7094c29600/review.json: old fails expected cooldown;
+fixed passes Classic/Forever, charge/early-use limits, melee/ranged/expiry and encounter reset.
+The initial test reset needed Cleanup; the corrected lifecycle passes.177 Node tests, scoped
+ESLint/Prettier, strict TypeScript and full22-page build/installed Go checks pass.
+
+LOCAL UIb17a877c7b8dc0b6ce96fa12/native5eafabc2a9f47cc6aab93e002517845a5829f6a448ac3bdacb962e8bdc284991.
+DBaacaba…/2,591 items unchanged. Native is exactly archived. Browser proofmcp-browser-b6864d11c2d38029:
+over25 simulations,300s old263/new50 item uses;600s old511/new75, real native/browser DPS agree.
+Unchanged non-MCP Arms812.9482600 remains exact. Forced integration fixtures, NOT BiS results.
+Five-profile catalog smoke passes, including new model tooltip and recovered item restrictions.
+Fresh current control7304da1b8a8cf699/a853e1d5fdf4eb18 and warm start2b0ae4f0dddd214a are captured;
+browser/native receipt8a4bf408a749287d again matches812.9482600/UI812.95. Current mana receipt
+7c164627c5dc2557 passes all three cases. No optimizer is running yet; new priority below.
+Public r15/engine5df1 is unchanged; no new commit/push/deployment/default promotion.
+
+NEXT: current partial-effect reconciliation. Immutable read-only audititem-model-coverage-abb967aed3ba61d4.json
+finds80 admitted current on-use items and135 historical references with raw effect links (23
+historical on-use items). This is NOT runtime support approval or complete current item metadata.
+Blackhand13965 has known1% passive crit +20s/300s5% owner-specific target crit use and a dummy aura;
+Eye13968 has known1% spell crit +20s/300s7% spell hit use and a dummy aura. Their ItemSparse/
+normalized records are missing; do NOT represent the Classic2% fallback as current or add known
+passives twice. Unknown dummy behavior and base metadata remain explicit gaps. HoJ also has
+partial links/missing metadata. Reconcile provenance/models before restarting a gear ranking.
+Full goal remains active/incomplete;6.3GiB free. No old releases/cache/evidence removed.
+
+## October 17 immutable control migration and current-catalog revalidation
+
+New baseline-control.mjs binds current experiments to immutable content-addressed blue controls,
+without overwriting either legacy canonical file. Talent search, feedback source fingerprints,
+rotation audits and exports resolve the same control. Hash, DB/revision/spec/class/race/faction,
+path and no-chain guards fail closed. New control/reference creation, inherited feedback refs,
+old-evidence behavior and equipped item/enchant migration negatives are covered by five new tests.
+Full Node suite174 and scoped ESLint/Prettier pass; canonical legacy byte hashes remain unchanged.
+
+New Arms blue baseline58fc6a1f4c1c2bbc/controlc0cf3a3921dcaf96 and Fury blue2c64adc00641752b/
+controlc982c62576a4fba0 were captured in the actual new browser. The capture CLI no longer accepts
+--replace and normalizes known raid-recipe weapon consumes before capture. Earlier Furyc516/d38d
+is a retained diagnostic, not the current non-raid control. No production defaults changed.
+
+`pnpm simulator:prebis:refresh` revalidates unchanged equipped item/enchant data against exact
+archived/current databases and current non-raid rules, then recaptures a current browser request.
+It links the new immutable control and preserves parent lineage, NOT old optimization validity.
+Arms conservative warm start572ee0202ddc31ca and browser/native receipt54a48c228d24894f pass:
+812.9482600/UI812.95 at25/1337. This is context parity, not new100k optimality evidence.
+
+INTERRUPTED feedback exec84303/driverPID31738, session1946fe9dc01af2b4e7b8d9c5d3d53ab89b2447353f75908c1d289a1687446d0b.
+It ran six workers/241 legal seeds, initial Arms talent stage;100k disjoint
+validation ranges/max6 rounds. Nativef59e/DBaacaba/UI3857. Algorithm64220fd362ada8febade319d0c6ce78ec35ab0ae94b1fe6e4ff4fe8c387ac8c3;
+47 frozen inputs. The verified MCP bug caused its deliberate interruption; it is terminal and
+must not be resumed. New model/control identity is required, then final independent rotation
+audit/export, explicit-proc Arms and remaining cases sequentially. Goal remains active.
+The first451-policy/two-control rotation screen completed and retained26 variants. New cache
+namespaceb7545a20cc816c649d8e4887fe0d6248e5beca899522bac7992febdb958b0475 had1,413 jobs /
+1,157,500 iterations at the measured snapshot; NOT final evidence. Talent child31959 and six
+native workers32179–32184 were live at that checkpoint, and are now terminal. Nativef59e archive hash is verified; all four old reviewed
+Warrior inputs still load their original controls through the new resolver.
+
+## October 17 current-item recovery and provenance admission
+
+LOCAL UI3857bbcbda4b436714931a96 now contains2,591 items:1,954 current-stat and637 unchanged
+historical Classic-stat references. Nativef59e2df32f80ccdfb6aac7214c4698a378ba443f51f39111013ec1bc9b353615;
+databaseaacabaeeb0be7bd8b241373d5372f3ad3a86cbef6d2af69e80f2e2b868523048. Public r15/engine5df1
+was rechecked and remains2,565 items; no new deployment or optimized default promotion occurred.
+
+The26 reviewed records are now owned in current-prebis-equipment.json and admitted through a
+guarded shared raw-evidence loader/pure merge. Historical stats never overwrite current data.
+All snapshot/table/rating/compiler/reference hashes are checked; changed acquisition, existing
+conflicting items, raid sources or unknown IDs fail closed. IDs9394/9419/18760 remain blocked.
+Build/native/browser data agree exactly, including all26 gameplay objects/current metadata.
+
+Current stat provenance and provisional historical acquisition are separately retained through
+tooltip/search, candidate eligibility, gear review, independent review and portable export.
+Four Rogue PvP items retain current class/unique/set metadata; historical faction access is an
+explicit unverified model, not a claimed client wearer restriction. Raw PvP rank indices remain
+raw, not displayed ranks. Cape CC, Gouge utility and unsupported D1 procs stay disclosed/unmodeled.
+
+Reproduce `pnpm simulator:prebis:verify-current`: receiptcurrent-prebis-browser-6610123df8eac186
+validates raw inputs, compiled identity and real browser/native Rogue/Warlock/Hunter combat.
+`node scripts/smoke-simulator-catalog.mjs` additionally passes five profiles, search/tooltip,
+equip/reload/combat, one-time reward ownership and incompatible faction rejection. Initial harness
+slot typos were corrected (Wrist label,23313 is Shoulders); the complete rerun passes.
+Mana integration verifier also passes with this engine/catalog, receipt04bcf7322baa2cd5, all three
+fixtures versus exact archived62fe requests. These are integration checks, NOT BiS recommendations.
+169 Node tests, strict TypeScript, scoped ESLint/Prettier, diff whitespace and build manifest checks
+pass. Old binaries/UI/DB/exports remain preserved. No optimizer is running;6.5GiB remains free.
+
+NEXT: immutable versioned blue controls are now implemented and affected-case revalidation is
+running above. Existing canonical blue filenames contain old DB hashes; never overwrite them
+to make new checks pass. The full all-class
+goal remains active/incomplete. Actual new eligibility is20 recovered IDs per archived Warrior
+case, and all four old coverage checks correctly return false. Rogue-only PvP does not leak
+into Warrior candidates. No commit/push/new deploy was performed.
+
+## October 17 earlier model integration (superseded local build)
+
+Three reviewed five-piece mana procs are now installed in the LOCAL native/browser builders:
+Magister181, Devout182, Beaststalker186. Support reporting and actual dispatch both recognize
+only these three models; the other six unsupported D1 procs remain disabled. Native5f67aa508b8263496307c4f636d9d6b586c61d9afbc6ddbde83e9f26f3465b23;
+local UI45fc7e86c7768fbd7b4a08a2,22 pages. DBb11f…/2,565 items unchanged;26 recovered items
+remained staged at that checkpoint; the newer local recovery above supersedes it. No production
+deployment/default promotion. Old62fe binary archived exactly;
+old UI/data/exports retained. Closed Arms cases below are62fe-specific, not fresh5f67 results.
+
+Real browser proof27455b6a7d86c7a4 covers all three five-piece fixtures: native/browser DPS
+matches at25/1337 and actual mana recovery is positive, versusZERO in archived62fe for the
+same requests. Fixture item/enchant equality, DB equality, revision and verifier hash are
+checked. These are integration fixtures, not optimized BiS/DPS-gain claims. Reproduce with
+`pnpm simulator:prebis:verify-dungeon-mana`.162 Node tests/10 focused tests pass; installed
+Go core/common checks, scoped ESLint/Prettier/gofmt and full22-page browser build pass.
+Initial parallel Go diagnostic collided with generated enchant writes; sequential rerun after
+build passes. Serialize direct Go tests/source-generation builds to avoid that diagnostic race.
+
+Post-integration isolated original/fixed proof7c08e0f408a15871 passes and still leaves active
+inputs untouched. It now covers both dispatch and support-query files; pre-integration017423…,
+1bdb… and older receipts are preserved. New feedback fingerprint includes42 source/data inputs.
+Unchanged Arms25/1337 smoke812.9482600 is NOT fresh100k optimization evidence. Data recovery
+and affected-case revalidation are next; all-class goal remains active/incomplete.6.7GiB free.
+
+## October 17 archived reviewed build exports
+
+LATEST: conservative Arms feedback6dea2e63d16aba70, final450-policy audit91086cea65cefad7 and
+exporta2d3a980b135f4c6 are COMPLETE on native62fe/current recipe70425.805.8479651 modeled DPS /
+400k disjoint iterations;39/10/2, overpower-first, Heroic Strike≥90, Slam+Hamstring, Battle.
+Baseline3939cd5c21bb1896, gearf80d4c745a0d8b04, closing talents5af8c8760fecb771,
+browser0e5ebbc83707bb82 (812.9482600/UI812.95). Rejected selection-stage808.30/pants237819:
+no independently established gain, so kept previous gear/pants237825. Six historical items
+remain provisional. Export replays unchanged; local reviewed case, no public promotion.
+
+PROC ARMS ALSO COMPLETE: feedback934449847cdffa59, all451-policy audit2d84c16042b49842,
+portable exportdaa3c5e00130f01e.826.3643075 modeled DPS/400k disjoint iterations,39/10/2,
+same overpower-first/HS≥90/Slam+Hamstring/Battle. Baselineb0f05768fb4f2bbf, gear78d2322132465931,
+closing talents2e8d0b1e737f37b5, browser71ccfa1e96cd839f (827.6142760/UI827.61). Export requires
+explicit provisional opt-in and retains six historical items. SHA5ffe8a36baa6a9c385077eab68f6854d12f897dd86f233e4b9e26c341bd91f13;
+replay succeeds, settings exact, no private paths/native request. No public promotion.
+
+Feedback session887efa7dc106c54f… is closed-loop-reviewed.39407/driver4272/children4345/15547/
+33742/workers33754–33759, final audit49689/59266 and export60379 are TERMINAL; do not restart.
+Algorithm98cfe6d6…/native62fe/catalogb11f/UI23e8 and37 inputs stayed unchanged through closure.
+Old75555/62789/90074/70251, audit41345 and exports74249/15372 are also terminal.
+The reviewed staged D1/current-item integrations can now proceed in new versions; old evidence
+must be preserved and affected cases rerun, never relabelled as current coverage. The all-class
+goal is incomplete;23 named damage cases plus Shockadin/other supported good hybrids remain.
+
+Proc talent report7fc3b4f9f6e1ec8a has finished17,662 jobs/6,730,100 iterations. Both100k
+holdouts reject the screening winner213252… (825.8630→825.3907 /825.8928→825.5721); actual
+selection keeps303252… /39/10/2.
+Do not confuse the printed screening winner with the independently selected incumbent.
+
+Gear78d2322132465931 is now converged/independently accepted:825.5363→826.2631 and
+825.4975→826.3064 on two100k ranges, mean826.2847237. Changes: head enchant1506→2543,
+waist19044→20041, pants237825→237819. Same six historical provisional items; explicit
+Crusader scenario, not conservative. Closing actual-gear talents2e8d… completed23,607 jobs/
+7,869,300 iterations; both100k checks reject the utility-point screening swap303152…:
+826.3356→826.2446 /826.5522→826.6223. Final audit retains the exact incumbent on both100k
+ranges826.6339/826.2004. All closing review/export work is now complete for this frozen case.
+The D1 mana staging guard additionally pins exact targeting and every resolved scaling/
+coefficient field on proc and energize payloads. New regression failed before/pass after;
+real70425 validation and original/fixed Go checks pass. Current staged receipt1bdb498b89c30906
+replacesce343… for future integration; old evidence is preserved and active inputs unchanged.
+All158 simulator tests, scoped ESLint/Prettier and diff whitespace checks pass.2.7GiB free;
+no generated measurement caches or user data removed.
+
+Set548 review3c01e421bac195c8 now proves current2pc40 AP/40 RAP and6pc20 Stamina match the
+executed registered callbacks, exactly once and never below threshold. New owned Go regression
+current-prebis-sets_test.go passes seven0–6-piece fixtures via overlay, leaving active engine/
+data untouched. Four-piece Gouge cooldown remains an explicit unmodeled utility/no-op, not a
+fabricated damage stat or complete PvP model. Candidate23298/23313 stay staged and Rogue-only;
+historical vendor/faction access remains unverified. No current catalog admission or new spec
+optimization was started. Receipt/command/source hashes are recorded under staged-current-prebis.
+
+Historical PvP source review542b9d68eaddb39b independently confirms faction grouping in installed
+AtlasLoot Classic:22879/23258 Horde,23298/23313 Alliance, matched to pinned vendor records.
+Keep that access provisional. Preserve current class8/proto6, Horde set0/Alliance548 and raw
+RequiredPVPRank indices; do not display raw12/14 as player-facing rank requirements or restore
+old set522. No catalog admission or active input changed. Screening303152… was subsequently
+rejected by independent checks; retain303252… /39/10/2 instead.
+
+Extended-catalog/MythicSim request rechecked: public HTTPS still has2,565 items,637 provisional
+Classic references/all14 types; HoJ/Blackhand present and sampled raid IDs absent. Four live
+bounded source GETs pass current-tree validation with unchanged talent allocations/source
+engine; source bytes differ but pinned evidence is preserved. Cached replay and10 focused
+tests pass. Four attributed examples remain local search seeds, not newly deployed defaults.
+
+Historical recovery notes follow; their older running-status statements are superseded above.
+
+LATEST CATALOG STAGING: current-prebis-92fe9f39504a09ce now stages26 rather than25 records.
+Silky Spider Cape10776 was unnecessarily grouped with unresolved damage/on-use effects. Its
+checksummed ItemEffect233785→spell1293819 is only passive root/snare-duration reduction. Exact
+links, passive trigger, absence of conditions/proc options and both static self-targeted-7%
+modifier payloads are checked.10 Stamina/30 armor are normalized; the utility is retained as
+unmodeled metadata with a stationary/no-control-effects scope, never damage stats. Missing or
+changed evidence still fails closed, and9394/9419/18760 stay blocked. Not active admission.
+Two red/green regressions,12 staging tests and157 total tests pass. Actual CLI/replay passes;
+all25 older candidate/provenance objects are unchanged. Independent compiler parity15709babc53c4dd5
+matches all26 UI item objects. Frozen37 inputs/native62fe/database/UI/public release unchanged.
+
+CURRENT ENGINE CORRECTION: inherited Flame Wrath11809 retaliated against self-inflicted damage,
+then against its own reflected damage, endlessly. One-iteration seed1337 passed; the exact80-
+iteration trial stalled. A SIGQUIT stack showed repeated `item_effects.go:1068/1083` shield casts
+and roughly1.8 million recursive frames.147 other two-hand candidates completed normally.
+
+`item-effects-adapter.mjs` adds a source-unit guard to that one item callback, retaining landed
+enemy-hit reflection. Native and browser preparation both install the same guarded/idempotent
+patch. A dedicated Go regression prevents runaway recursion in its old-code failure, rejects
+self/missed hits and confirms one retaliation for a landed enemy hit. It failed on the original
+in BOTH Classic/Forever rulesets and passes corrected.133 Node tests pass. New native62fe851b…
+completes the exact80-iteration reproducer at676.7153284 DPS, receipt7bff86b5475f3f74. Timeouts now
+identify the job and item IDs without logging requests or private data.
+
+Old native3dad4336014e… is archived as `optimization/native-engines/kfc-prebis-<full-sha>`;
+all old measurement caches are retained. Native identity changes require fresh current-engine
+validation, not relabelling old numbers. Browser rebuild91336/PID13308 COMPLETED: active local
+UI23e8cccb25de7635d64ebdaa, same2,565-item database. Actual browser80-iteration receipt
+7f16f25ae805173c matches native676.7153284 /UI676.72. Three no-Flame-Wrath cases match old/new
+DPS and stdev exactly at25/1337 (receipt d65dcda28bd4dd69); that smoke proof does not replace
+100k optimization validation. Old feedback77278/d239… is FAILED and all children are terminal.
+Never treat its checkpoint as converged gear. Corrected feedback81764 /driver33085 subsequently
+FAILED at a separate enchant-recipe ambiguity (below). Initial talent report9d9b58b1a93dcf34 completed18,429 jobs /
+6,799,800 iterations and retains39/10/2. Same blue gear572.8192→628.1005 /572.9685→627.9475,
+two independent100k ranges. Replacement feedback75555 /driver62789 completed initial gear
+f67713e0341799fc in three passes,627.7810→800.6746 /627.8869→800.6847 on two100k ranges.
+Mean800.6796804 is gear-stage evidence, not a final recommendation. Actual-gear talent pass
+1619449f6450e801 completed19,666 jobs/6,984,400 iterations. Same39/10/2, but Heroic Strike≥90
+validates800.5882→805.8693 /800.8100→805.8507 at100k twice. Driver75555/62789 is now sweeping
+gear again in child90074, checkpointf80d4c745a0d8b04; not complete. Statecf635d56e3e8d5df…,
+algorithm98cfe6d6f0ddfd07…. Preserve its37 frozen inputs.155 Node tests,
+Go red/green regressions, scoped checks and22-page local build pass. Public r15
+has NOT been redeployed by this correction. See `context.md` for the current handles/state.
+
+TWO-HAND ENCHANT RECIPE ALIASES: effect241 has both Minor Impact7745 and Lesser Striking13503.
+Both fit a two-hand weapon, so the old exact-one-match optimizer evidence guard crashed. This
+also affects943/1897 alias groups. `describePrebisGear` now checks compatible non-raid acquisition
+first, requires identical confidence/payload across matches, and records one stable canonical
+recipe plus all matching recipeKeys. Stats/effects count once. Hand/class restrictions and proc
+policy are unchanged; conflicting payloads/status still fail closed. Two regression tests fail
+before/pass after; all163 actual checkpoint enchant cases and145 total tests pass. Failed
+checkpointb153ec22943d7c59 is retained, not accepted. Replacement75555 reused completed talent
+report9d9b… unchanged and existing native measurements, then passed enchant14. Native62fe, item
+database b11f… and local/public UI are unchanged; no new native/browser build was needed.
+
+ARMS PROC SCENARIO: the old Fury-only capture command assumed two occupied weapon slots. It now
+uses tested `provisionalWarriorWeaponSettings` for Fury dual wield or Arms two-hand/empty off-hand.
+Real weapon compatibility and explicit provisional policy are checked; invalid/already-enabled
+policies fail, and no off-hand or static100 Strength is fabricated. Capture removes inherited
+gear/rotation convergence links and records the exact parent baseline. Five new regressions pass;
+all150 simulator tests and scoped lint/format pass. Actual Arms capture75a3bc4ec5ca3f1b and
+browser/native proofb2e89afd22e22fd3 match818.4139441 /818.41 at25/1337 on native62fe/UI23e8.
+This is only parity and an explicit opt-in seed. Conservative feedback75555 remains the sole
+optimization run; finish it before the separate proc feedback. Frozen37 inputs remain unchanged.
+
+D1 MANA DISPATCH STAGED, NOT ACTIVE: generated set definitions override all manual bonuses,
+including valid five-piece callbacks. Isolated `dungeon-set-mana.go` plus a guarded dispatch
+adapter restores only Magister181/Devout182/Beaststalker186 five-piece models. The70425 client
+has exact5%/200-mana payloads; effect/option/set rows, handler source and checksums are verified
+before testing. No blanket fallback enables unknown scripts or double-counts flat bonuses.
+`pnpm simulator:prebis:stage-dungeon-mana` creates Go overlays under artifacts, NEVER writes
+the active upstream source/binary/database/UI. Original-source test fails in all six5/6-piece
+cases; corrected overlay passes actual resource recovery, accepted/rejected event types,
+four-piece controls and duplicate-bonus checks. Adjacent core set tests pass with that overlay.
+Receipt `staged-dungeon-mana/ce34347abbcc95bb/review.json` replays unchanged after checking staged
+source/overlay/log hashes. Timing-bearing logs are content-addressed, not compared to new wall
+times.155 Node tests and scoped checks pass. Integration/native-browser parity and affected
+optimization reruns remain required after the live frozen experiment. Other six D1 procs remain
+gated; ProcChance100 in scripted client records is NOT a verified100% proc rate.
+
+CURRENT-ITEM STAGING: `pnpm simulator:prebis:stage-current` adds no active equipment. It verifies
+the70425 snapshot, raw ItemSparse, unchanged level60 rating coefficients and every pinned
+historical source record before staging25 missing current-value items. Reportf9bdd2cd8fee8a90
+under `optimization/staged-current-prebis/` is immutable and explicitly not admitted. All25 item
+objects match the existing Python engine compiler exactly (receipt9c1bb17eef23b3e7 against the
+identical item values in prior079198…). Three effects plus18760 HealthRegen stay blocked.
+Class masks/current sets/weapon hands/unique limits are preserved; vendor faction and set runtime
+remain review gates. Actual repeated CLI use caught preset-only acquisition's optional
+`historicalSources: undefined`: JSON omitted it and replay failed. Conditional omission plus a
+failing-before/passing-after round-trip test fixes replay; ten staging tests and143 total pass.
+No live driver input or public/native/browser catalog changed. See `docs/simulator-catalog-coverage.md`.
+
+PREVIOUS ENGINE: both Alliance Fury cases completed against active recipe audit70425. Conservative
+853.3332 DPS / 400k: receipt 50e934c2c10f5eb1, audit a7e4a531dc15fd21, export b2714b7d3ca2e43f.
+Explicit provisional procs 872.5248 / 400k: receipt 4f4cc4d9d75fcca4, audit d692820be35ccfa8,
+export a2ca6ee18e6c7ee6. Both retain 19/31/1 and exact incumbent APL. All former 48315/90009/
+28978 processes are terminal. Current recipe guard removes three unused waist candidates only;
+old 70291 guard is archived exactly. Previously tested supersets remain valid when acquisition
+tightens; new untested candidates, illegal winners, invalid IDs and skipped enchants still fail.
+Actual reviewed cases pass these current checks without recomputing unchanged combat inputs.
+
+Arms now has a separate fixed-blue control and actual native/browser parity, NOT an optimized
+recommendation: `baselines/warrior-arms-alliance-blue.json`, proof f56e02bebbb2949c (570.277235 /
+570.28 at 25/1337). Blue PvP core, Arcanite Reaper, no off-hand, current craft audit, distinct
+professions, zero paid stats/rage/free Tier 1 and known non-raid weapon consumes. Capture CLI
+accepts `--spec=warrior/arms`; verifier accepts both warrior variants. Arms policy and feedback/
+audit/export adapters are now implemented, but actual Arms optimization/review remains pending.
+Initial talent stage379987245a573450 is now COMPLETE:16,550 new jobs/5,409,300 iterations,
+39/10/2, same blue gear573.1161→627.8911 /572.9106→627.7543 on two independent100k A/B ranges.
+This is not final pre-BiS. Its89228/PID79099 workers are terminal. Feedback driver77278/PID96012
+subsequently failed at Flame Wrath; read the engine-recovery block above before restarting.
+241 legal seeds,451 policies on0/2 Slam controls,26 retained. Actual probe
+d5e24d907eaca962 validates/executes 1,804 policy/control cases with zero warnings and verifies
+that an intentionally unavailable spell does trigger a warning. No new combat engine binary.
+Arms without Spearing Strike removes its action; absent Bloodthrill conditions become false,
+including beneath negation. Final-policy coverage resolves/deduplicates actual talent actions.
+
+Talent report writes are now immutable and exact completed reruns verify/reuse original evidence
+rather than overwriting measured counters with zero/cache-only run totals. Identity includes the
+native binary, algorithm and baseline; the algorithm includes the complete fixed control used
+for talent seeds and policy screening. Former 77335/PID71475 was intentionally stopped before
+completion to add this identity guard; its completed measurements remain cached. Actual completed
+Arms replay now passes: serialized report SHA81d44149… and original counters stay exactly unchanged,
+with no new talent simulations. No Fury case was recomputed or invalidated by the adaptation;
+both real exports remain exactly b2714b7d3ca2e43f /a2ca6ee18e6c7ee6. Full suite130 passing, scoped
+checks, live all-slot catalog check and cached four-example MythicSim import pass.
+
+Further coverage audit0902bab96c450e2f finds29 current-stat records absent from the simulator despite
+historical non-raid acquisition evidence. These must use current values, not bypass the Classic
+fallback guard.26 effect-free;3 current ItemEffect payloads need review;18760 contains unsupported
+HealthRegen. ItemEffect row IDs must be resolved to SpellID before spell lookup. Raw current
+wearer/unique/set metadata is available for all29, including four Rogue-only legacy PvP pieces
+and a main-hand-only weapon. The audit has NOT changed the running database or engine. Required
+admission and affected-case revalidation are in `docs/simulator-catalog-coverage.md`.
+Read the current-state block in `context.md`; older running-status paragraphs below are history.
+
+`pnpm simulator:prebis:export --feedback-review=<final-review.json>
+--rotation-review=<final-audit.json>` now packages one completed Fury case without requiring all
+23 prototype profiles. It reconstructs the linked feedback receipt, requires the final rotation
+audit and 100k-per-range validation, checks current eligibility/enchants/consumes/tree/database/
+native binary, and preserves provisional warnings and full benchmark settings. Local evidence
+paths and opaque native requests are omitted. It does not publish presets or touch saved builds.
+Actual conservative output `reviewed-builds/warrior-fury-523f78e38367229c.json` was created and
+then verified unchanged on repeat. Legal identical historical rings are supported; exported
+provenance IDs are deduplicated without changing equipped items. Full Node suite 115 passing.
+Proc gear bf4fc67991a11b6e subsequently converged and validated 871.96→872.58 modeled DPS;
+only neck changed to Mark of Fordring. Current 48315 child 25641 is doing talent/APL feedback
+on baseline feae9b0c38fccffa. Old gear child 2372 is terminal. No active hashed driver/model
+inputs changed. See `context.md` before restarting anything.
+
+Fresh recipe snapshot 70425 is extracted and validated separately; staged audit is
+`artifacts/forever-simulator/craft-acquisition-70425.json` (1,153 reviewed / 45 raid-dependent /
+3 unresolved). The three new unresolved utility recipes reference missing ItemSparse records
+(their base Item IDs exist);
+their raw recipe/reagent rows still exist. All other catalog recipe input lists and all selected
+Fury craft inputs match 70291. `simulator:prebis:audit-crafts` now accepts explicit `--snapshot`
+and immutable staged `--output`; it rejects replacing the active audit from another snapshot.
+The 70291 input stayed unchanged until the live driver finished; 70425 is now active. The generic normalizer's
+zero stat/effect output is NOT a replacement for the separate 70425 mechanics data. Full Node
+suite now 116 passing; acquisition CLI staging/invalid-argument regressions pass.
+
+## October 16 all-slot pre-raid catalog release r15
+
+Validation correction: older optimizer verdicts below are superseded, not published proof.
+The Go engine uses seed + iteration; legacy talent validation overlapped finalist selection,
+and four distinct final starts covered only 71,826 unique seeds across 80k recorded iterations.
+`simulation-seeds.mjs` now assigns experiment-derived disjoint stage/check ranges; current gates
+reject actual old reports until rerun. Native large-int64 seed reproducibility passes. New driver
+46850 subsequently completed the corrected loop: receipt 2fe6c2e3b56ba5f1, 853.32 DPS / 80k
+genuinely disjoint iterations. Higher-precision driver 88372 subsequently completed too:
+d3ac43f7e5c96d5f, 853.33 DPS / 400k disjoint iterations; browser parity and 100k all-225 rotation
+audit 145022ad… pass, exact incumbent retained. The separate provisional-weapon-enchant case
+now runs at 100k in session 48315; it is not a public or server-verified recommendation.
+Old 53634 was deliberately interrupted and all its processes exited. All 108 Node tests and
+scoped lint pass. Native serial/parallel parity and actual completed-session replay pass too.
+Precision is checked for both talent and gear evidence; independent ranges use one bounded
+worker-pool batch, preserving cache IDs/deduplication. Preserve
+archived measurements/cache; no old optimizer result was published and no deployment changed.
+
+Read-only client proc audit now documented in `docs/simulator-proc-enchant-evidence.md`:
+payloads/durations are supported by checksummed build-70425 rows, but modeled PPM, trigger
+eligibility and dual-wield behavior are not thereby verified. Crusader's extra passive 458112
+has conditional trigger metadata; do not turn its 100% field into an every-swing proc model.
+No combat code or public opt-in changed. Active 48315 calculation continues on its original
+hashed inputs. Initial talent evidence eb1c969168e41f5c is complete (12,157 jobs / 4,009,200
+iterations): independent 100k checks find no proven gain and keep exact 19/31/1. Gear child
+2372 is now active; no gear convergence or public-preset promotion is claimed.
+
+Subsequent local calculation work: fixed all-blue Fury baseline now matches browser/native exactly;
+first 19/32/0 talent result is independently validated, but not final/promoted. The first gear result
+was rejected: duplicate one-time Blackhand rewards plus Naxx shoulder/AQ glove enchants. Ownership
+and raid-enchant guards now reject it (including through the actual feedback importer); tests
+preserve legal identical non-unique rings and distinguish enchant spell IDs sharing one effect.
+Corrected search `warrior-fury-e471584151ba6667-gear.json` converged and passed two independent
+20k seeds (637.40→854.07, 637.64→853.99). It uses one Blackhand + HoJ and non-raid enchants.
+This is gear-stage evidence, NOT final talent/gear feedback or a published recommendation.
+The strict 45-item raid-material crafting exclusion remains active. See next steps in `context.md`.
+Real browser ownership regression passes, and actual-gear native/browser parity passes at
+25 iterations/1337 (848.7672714203109 / 848.77 displayed). The 225-policy talent feedback pass
+completed: same 19/32/0 with early Rend, independently 853.93→857.56 / 853.59→857.45 on that gear.
+That gear recheck subsequently retained the incumbent. Latest local UI release
+`7eb089633ade2f02ad73c3f9` passes browser ownership/parity, 78 tests, lint, types and build.
+Public r15 remains unchanged; Horde-only results cannot become Alliance defaults.
+See `context.md` for exact processes/artifacts and next verification steps.
+
+Subsequent continuation closed the original Horde loop: gear unchanged, final talent/APL pass
+retains exact incumbent, real browser parity passes, and linked four-seed review reports 857.67
+DPS across 80k iterations. This is the original full-consumable case: inherited Elemental
+Sharpening Stones require an MC recipe, so it is not an all-inputs-no-raids claim. Separate
+Alliance/Human Dense-stone talent pass and first gear search validated (620.26→845.24 DPS),
+selecting a different weapon/trinket combination. Actual-gear talent feedback then validated
+19/31/1 with Improved Bloodrage (846.81 / 847.16 on independent 20k seeds). Expanded gear recheck
+a500ea… converged through three passes and validates 846.87→853.71 mean DPS; its full current
+pool/enchant coverage passed the older audit; later 21f2c3…/9e8c9d… rechecks supply fresh validation.
+Corrected 20k/100k feedback completed through 46850/88372; active provisional case is 48315
+on the new explicit-proc baseline 2e5a473c…. These are still local, not published recommendations.
+Native Crusader sensitivity improves both validation seeds but retains explicit provisional
+proc uncertainty; full proc-aware feedback is still required. Public opt-in remains unchanged.
+Shared acquisition context also fixes Maiden's Circle being mislabelled PvP; current client
+stats are retained and historical pre-raid source evidence stays separate. The coverage audit
+also removed the item-level floor/accessory EP cutoff and added deterministic scripted haste/
+weapon-damage enchants plus all per-slot set subsets; the MC scope formula stays excluded.
+Older restricted flat-enchant results are conditional references, not unrestricted maximums.
+Explicit provisional models require actual browser opt-in and retain their uncertainty labels.
+Added a resumable Fury feedback driver with actual item/enchant coverage checks: narrow older
+reports are reoptimized, not treated as finished. It requires immutable linked evidence, fresh
+native-binary identity, actual browser parity and the four-seed audit; no automatic publication.
+Latest Node suite: 108 passing. Read active session IDs in `context.md`; no new production deployment occurred.
+The public r15 defaults remain unchanged. Never treat screening DPS or a prototype artifact as
+published, converged BiS; finish gear→talents/APL→gear feedback and browser validation first.
+
+- Live `kfc-helper-simulator-prebis-20261016-r15`, build `mrHKZCVJebJBWwyjWNUdm`, engine
+  `5df1a1d37d43e95fa440c1b5`. 2,565 selectable items = 1,928 current + 637 provisional Classic.
+  Covers all 14 equipment types. No new raid loot; unknown acquisition, raid reputation/vendors,
+  raid world bosses and unresolved variants fail closed. Current Forever IDs always win.
+- `classic-prebis-equipment.json` retains 839 pinned historical source records and evidence;
+  `classic-acquisition.mjs` revalidates every new import. Historical stats, procs and set effects
+  are not represented as verified Forever data. MIT notice preserved.
+- Do not add new fields/provenance enums to immutable manifests without updating the strict web
+  reader: the old reader correctly rejected the mixed-source manifest during local testing. New
+  reader accepts historical releases and reconciles optional current/provisional counts. Rebuilt
+  only scoped r13-baseline web/package sources. No optimizer results/talent changes published.
+- First-open defaults no longer enable a free Tier 1 bonus. Existing custom saves remain exact.
+- Passed 51 Node / 44 data / 237 web tests, Go checks, lint/types/Linux build, 3,488 asset hashes,
+  15 real-combat profiles, old combat parity and full responsive workspace tests. Linux/public
+  picker smoke includes Truestrike, Felstriker, HoJ/BHB, caster trinkets and a Druid relic, equip,
+  provenance, saved reload and real combat. Public all-profile first-open/reload checks pass.
+- Hydration-race smoke must hold only one required parent script, not every Next chunk/CSS:
+  blocking everything starves same-origin iframe assets in the HTTP/1 preflight. Before hydration,
+  assert initialized DOM attachment, then complete load; actual visibility is asserted after hydration.
+- Only Helper web changed PID to 3094851/restarts 114; all workers/ingest/guild PIDs preserved.
+  Receipt: r15 `simulator-workspace-deployment.json`; rollback manifest stored alongside it.
+  Rollback r13 is compatible with the live leveling v3 reader. Stale r14 was never activated.
+  No Git commit/push requested.
+- MythicSim follow-up is imported locally as four reference talent seeds (Fury, Arms, Shockadin,
+  Survival), not published defaults. See `infra/simulator/reference-builds.json` and
+  `docs/simulator-reference-builds.md`. Strict field/rank/51-point/tree-hash checks pass. Source
+  equipment and enchants remain reference-only because each set has non-admitted IDs; foreign
+  rotations and published DPS are not imported. No extra raid items or engine sync was performed.
+
+## October 16 simulator loading, defaults, tank talents and r13 deployment
+
+- Live release `kfc-helper-simulator-defaults-20261016-r13`, build `Okduac8sM7yer2b5g0VFZ`,
+  engine `9b66034db413bba9d6cb8139`. r12 first shipped workspace/tooltips/enchants. No new Git
+  commit/push was requested. Only Helper web restarted; guild site and all workers stayed unchanged.
+- The iframe can finish before React hydration. Poll actual same-origin/profile readiness in
+  addition to listening for load. Individual engines signal when initial gear/talents finish;
+  Raid must not receive that individual-only flag. Add a 30-second Reload engine recovery action.
+- First visits persist a usable loadout. Recover legacy all-empty equipment once, backing up
+  exact JSON under `<settingsKey>_kfc-starter-initialized-v1_backup`. Shared links override defaults;
+  nonempty custom characters, removed enchants and later deliberate empty builds remain intact.
+- Warrior starter: 8/5/38, full Defiance, no Unbridled Wrath. Bear: 0/41/10, full Feral Instinct,
+  no Balance point. Build checks validate actual tree ranks, prerequisites, tiers and 51-point totals.
+- Removed Model & tools and outbound promotional/source links. Options/import/export and bundled
+  MIT/OFL licenses remain. Existing personal talent choices are not overwritten by preset changes.
+- Bounded pull-based asset streaming prevents enqueue/close after cancellation. No per-request
+  whole-WASM buffering. 32 aborted large downloads completed without `ERR_INVALID_STATE`;
+  Next still emits its separate destination-closed-early log for deliberately aborted transfers.
+- Verification passed: 237 web tests, 38 simulator Node tests, lint/typecheck, Linux production
+  build, 3,485 asset hashes, all 15 real combat profiles and full workspace checks. Public HTTPS
+  and Linux preflight pass hydration/retry and all-profile default/saved-build preservation tests.
+- Follow-up accessory audit keeps pre-raid starters (user confirmed), fixes role-inappropriate
+  DPS trinkets and reviews rings. Classic IDs are retained in `infra/simulator/classic-accessory-worklist.json`;
+  missing extracted records do not prove removal and do not authorize old stats as confirmed data.
+
+Accessory follow-up: candidate r14 / engine `8563438e2a68f0802bc6a190` is staged, NOT live.
+43 Node tests pass; extended browser checks were still running when the user asked to reconsider
+Frozen Heart. It is a verified starter fallback, not a BiS result. Classic candidates currently
+contain IDs/names only. Hold activation pending the verified-only versus provisional-Classic
+comparison decision; do not imply those missing items were simulated or proven removed.
+
+## October 16 default preset enchants
+
+- Local release `fba685b35451678279ffa37e` (3,485 files / 1,927 real-source items) adds
+  role-appropriate enchants to every supplied non-empty default: 28 lists, 15 profiles,
+  265 assignments. This was local at its original receipt and subsequently shipped through r12/r13.
+- Enchants are written into supplied preset JSON during preparation, not filled at runtime.
+  Existing saved builds stay exact. Load a named gear set to adopt the new default enchants.
+- The adapter uses actual item types and compatible application variants, including shields,
+  two-handers and Hunter-only ranged scopes. No provisional proc, unknown effect, wrong school,
+  fake Classic fallback or wearer-profession requirement is silently added.
+- Manifest `kfc-default-enchants.json` publishes choices/evidence; tank gear-only stats stay
+  separate from enchant bonuses. Guide: `docs/simulator-default-enchants.md`.
+- Go tests load all 28 specs and match their static enchant totals to UI metadata. The browser
+  parity check removes only enchants for comparison with the existing twelve-profile golden
+  baseline; it never rewrites that baseline to conceal a changed formula.
+- The expanded rows exposed gear previews obstructing the enchant picker, including its own
+  mini gear rail. Previews are now click-through; long content remains available in the native
+  details dialog. Also restrict inspection to the active modal/dialog and clean up on shown.
+  Browser regressions cover outside hover and deliberately hover the rail before candidate clicks.
+- Final verification passed: 34 Node tests, all 28 real-spec Go legality/stat-total checks,
+  strict TS/Vite/WASM build, cached release SHA verification and both complete browser suites.
+  All 15 combat profiles, all named gear presets, both faction variants, custom saved empty
+  enchants and twelve exact unenchanted golden scenarios pass. Context/documentation updated.
+
+## October 16 local item tooltips and source-audited enchants
+
+- Prior release `4a30cdef5ca4a6f1da3935ca` (3,484 files / 1,927 items) was local, not deployed.
+  Full receipt: `docs/simulator-item-tooltips-enchants-plan.md`. No commit/push was requested.
+- Replaced the missing external renderer with safe local stat previews. Added visible Add/Change
+  enchants, searchable effects, No enchant, source/model labels and explicit provisional opt-in.
+  Current set counts/suffixes are instance-aware; client effect references do not imply simulation.
+- Audited 182 choice records and corrected 39 static payloads from SHA-pinned build-70425 tables.
+  Minor Agility/Stamina now give +3. Legacy health/mana names may now correspond to stamina/intellect;
+  do not trust names or `assets/enchants/descriptions.json` over resolved current-client payloads.
+  Ranged-only scope hit stays in its Go handler, never generic melee/spell hit. Unverified or
+  unsupported effects are not silently treated as working; no Classic fallback was reopened.
+- New controls initially queried the DB during empty-slot construction before it was ready.
+  Guarding that startup path was verified in real browsers. Virtual row height and CSS agree;
+  details dialogs remain inside the active Bootstrap modal to preserve focus and Escape handling.
+- The inherited `TypedEvent.freezeAllAndDo` logs/swallow errors. Validate saved/raid equipment
+  before that batch so an unknown enchant reaches the recovery alert. Original saved JSON is
+  backed up under `<settingsKey>_enchant_recovery` and downloadable without being stripped.
+- Compatibility is checked in TS and Go, including normal gear, item swaps, imports and simulations.
+  Stats and hover text share the same reviewed payloads. Provisional consent resets on reload;
+  gear IDs survive and the user is told to opt in again before running an unverified proc model.
+- Verified 29 Node tests, focused Go parity/legality/set tests, strict TS/Vite/WASM build, all 15
+  combat profiles and dedicated Playwright flows (including exact backup/download, illegal/provisional
+  activation, shield/two-hand positives, five widths, native details, iframe visible bounds/scroll).
+  Existing workspace regression suite retains twelve exact golden combat requests/results and
+  covers tank starters, imports/exports, Raid, fullscreen, parent dismissal and worker recovery.
+- Tank/DPS recommendation research: `docs/simulator-enchant-priorities.md`. No new automatic
+  recommendation/paid-enchant application or changed starter weights. Guide priorities shortlist
+  candidates; claiming best requires scenario-aware full-build comparisons and uncertainty.
+
+## October 16 outside-frame item picker and threat-first accessories
+
+- Outside-click failure was the iframe boundary: native picker backdrops already worked, but
+  clicking the surrounding website produced no child-document event. The parent wrapper now
+  sends a narrow dismissal message on pointerdown. The workspace requires its same-origin parent
+  and invokes only the existing selector close control; cleanup and equipment state are preserved.
+- Per the user's clarified policy, no Classic-stat Hand of Justice or Blackhand's Breadth was
+  added. Warrior/Bear now use offensive weights and Adaptive Combat Assistant + Frozen Heart of
+  the Mountain, with Don Julio's Band and their faction's Darkspear Islands melee ring. Paladin
+  uses defensive trinkets. A five-pair seed-1337 comparison informed the choice; not global BiS.
+- The ring source is the exact, existing build-70425 normalized client checksum file, required
+  in FOREVER_MECHANICS_ROOT. Its SHA is verified; old planner values cannot override current
+  stats. Only three reviewed rings are admitted; no raid pool or generic Classic fallback opens.
+- Theramore Signet, not the similarly named mana-regeneration Militant's Band, is the Alliance
+  counterpart to Insurgent's Band. Separate eligibility/default/raid handling avoids cross-faction
+  ring promises. Tests caught a Horde-default Bear receiving the Alliance base set; first-load
+  defaults now choose the actually eligible preset. Existing saved builds remain untouched.
+- Disabled faction presets reject activation in code. Shared unique-equipped category guards
+  remain enforced; the unsafe old combined Warrior Tanky shortcut is no longer advertised.
+- Method/source details and current gear totals: `docs/simulator-tank-starters.md`. Local only.
+- Final verified local release `41f89cd6f53e404dfe132ee3`: 3,483 files / 1,927 items. All 21
+  focused Node and 230 web tests, pinned engine Go/types/Vite build, Next production build,
+  lint/format/diff checks passed. All 15 combat profiles ran; twelve unchanged profiles retain
+  exact golden requests/results. Both factions, disabled activation, save/reload, five widths,
+  native/parent outside-click behavior, message-origin/source guards and remaining workspace/
+  recovery regressions passed. New ring AP populates both melee/ranged AP; no spell-hit doubling.
+
+## October 16 Build library placement and real-item tank starter sets
+
+- Build library is now above Equipment at every width, including ≥1,500px. Its existing node is
+  moved, not cloned, so keyboard order matches the visual order and handlers remain intact.
+- Empty tank gear libraries came from projected upstream launch gear and removal of modeled
+  ranked profiles. Added narrow Mortarplate, Chevalier and Dragonhide gear presets using 24
+  client-checked blue armor pieces and legal stat-weighted fillers; never restore fake rankings.
+- The 16 newly admitted armor records have explicit class/family/rarity/slot/stat/set guards.
+  Their broad vendor-import faction flag was inferred from the exporting character, not the
+  unrestricted client race mask. Vendor access is still provisional, not silently guaranteed.
+- New defaults and explicit starter loads turn off forced Tier 1. Existing saved gear/talents/
+  rotation survive reload, and gear-only loading preserves talents/rotation. Normal gear and
+  combined-build loaders now propagate the preset's existing load callback.
+- Filler selection checks weapon/shield/relic compatibility, professions, class/faction/level,
+  random suffixes, duplicate items and shared unique-equipped categories. Review caught a
+  category-707 Paladin trinket conflict; a regression now rejects it. Ranged stat sticks receive
+  no main-hand DPS score. No arbitrary bonus stats, paid hit or enchants are introduced.
+- Current-client Sanctuary/Vindication AP/SP/stamina thresholds replace missing/obsolete set
+  definitions without double-counting legacy effects. Four-piece utility and incomplete class/
+  proc mechanics remain labeled limitations. No BiS or crit-immunity promise is made.
+- Read `docs/simulator-tank-starters.md` for source hashes, numeric methodology and runtime usage.
+  All new source/Go inputs participate in immutable release hashing; extracted records remain
+  generated artifacts, not committed data. This work remains local; production r11 is unchanged.
+- Verified release `4a8eae4d6a64c8a7f2859076` (3,483 files): 16 Node regressions, focused Go
+  set tests, pinned TypeScript/Vite build and lint/format/diff checks. All 15 combat runs passed;
+  twelve unchanged profiles match the pre-redesign request/result golden data. Browser starter
+  loading/save/reload, explicit Tier 1 reset, saved-build/talent/rotation preservation, five
+  viewport sizes through 390px, Raid/focus/menus/keyboard, embedded reruns and fault-injected
+  restart/recovery passed. Starter JSON is served successfully and desktop/mobile images reviewed.
+
+## October 16 shared simulator workspace redesign
+
+- Implemented the approved shared-UI approach in owned build overlays, not changes to combat math.
+  Existing import/export controls must stay under their owning SimHeader; moving them outside
+  breaks class-specific registration. The new layout keeps that containment and original handlers.
+- Explicit click triggers fix hover-open/click-close menus. Keyboard navigation maintains explicit
+  focus indices after Bootstrap activation and handles late-added Batch tabs. Mobile talent
+  carousel margins now match the actual workspace padding, removing a four-pixel overflow.
+- Results toolbar stacking/offset follows the actual new header, including its mobile layout.
+  Embedded single-iteration actions target their own same-origin simulator frame, not the website
+  parent, while preserving the existing receiver's origin/source guard.
+- All workspace inputs participate in release hashing. A pre-publication recheck rejects source
+  edits during a build; prior immutable assets remain available. Fonts are self-hosted with
+  SHA-256 pins and their OFL notices. No dependencies, migrations or production changes.
+- Oversized native worker cancellation can stall. The new UI reports “Stopping…” and offers an
+  explicit, delayed engine restart that warns it clears results; never auto-reload the user's work.
+  The combat engine and existing cooperative cancellation are unchanged.
+- Original fixed-seed golden capture lives in ignored simulator artifacts; use the focused unit
+  and browser commands in `docs/forever-patch-notes-talents-simulator-plan.md` to reproduce checks.
+- Final local release `47249ed45374259f39bf44ed`: all 3,482 files verified; eight overlay tests,
+  230 web tests, lint/types/production builds, all 15 deterministic combat comparisons and the
+  desktop/tablet/mobile interaction matrix passed. Tested real embedded report reruns, JSON
+  export/import, reference saving and injected stalled-worker recovery with retained settings.
+  No commit, push, deployment or production service change for this redesign.
 
 ## October 16 simulator production release
 
@@ -53,6 +970,106 @@ database credentials, SavedVariables contents, or other secrets here.
 - Passed 41 data tests, 226 web tests, strict types/lint, .NET build, focused Go core tests and
   browser/production build checks. Current implementation is local only; see the operating steps in
   `docs/forever-patch-notes-talents-simulator-plan.md`. Existing production/crawler release unchanged.
+
+## October 16 crawler restart: trailing quest name and third XP renderer
+
+- Quest 2866's ID was correct; its literal metadata name had a trailing space. Trim only
+  surrounding quest-name whitespace, while preserving ID/edition/name and duplicate-data checks.
+- Independently fetched core `25318d8a` and the unchanged quest renderer through the durable gate.
+  XP rounding/cap bodies are byte-identical to the reviewed source. Added only that verified pair.
+- Parser v3 and v1/v2/v3-compatible web/publisher readers deployed before new facts. Reprocessed
+  the real captured page with original SHA/time; quest 2866 published at 2,700 XP, no inferred XP.
+- New isolated 127-unknown backfill runs first, then resumes priority at 1,133, archive and base
+  at 746. Old queues/checkpoints, all rate/access/storage controls and ingestion were preserved.
+- Verified active progress at 07:11 UTC: 5/127 processed, no errors; quest 658 published as
+  2,800 XP. Three pages still lack numeric scaling data and remain unknown, not failed or zero XP.
+- 78 local reference + 220 web + 3 CLI tests passed; Linux 76 reference + 220 web, build and
+  private/public browser/mobile/a11y checks passed. No commit/push requested for this follow-up.
+- Keep v3-compatible r10 readers for rollback. Full receipts, queue hashes and safe commands:
+  `docs/forever-leveling-xp-repair-2026-10-16.md`.
+
+## Historical general-queue block is not a live crawler failure (2026-10-15)
+
+- `shared/status.json` still records the October 13 quest-260 redirect failure because the
+  base queue is waiting behind leveling work. Reporting that file alone as the current pipeline
+  outage was misleading. Read the active phase/checkpoint identified by `.job.lock` instead.
+- The exact `301 /forever/quests?notFound=260` quarantine fix is already in the deployed bundle;
+  both crawler and resume source hashes match the local tested source. Other hosts/editions/IDs,
+  ambiguous redirects, robots/access denials and rate-limit responses still fail closed.
+- New regression proves a legacy blocked base checkpoint resumes after recovery/priority/archive,
+  handles the missing quest without following the listing, and continues without resetting prior
+  counters or re-fetching completed work. All 71 reference tests, lint and strict types passed.
+- Production queues, cursors, pacing, locks and processes were not changed. Do not fabricate a
+  missing marker or clear historical errors. The general queue resumes automatically after the
+  leveling queues; the active priority worker was healthy at 725/1,419 at 16:34 UTC.
+
+## Full Alliance/Horde archive collection, not just the 298 failures (2026-10-15)
+
+- Reimported and verified the entire authorized source: 157 variants / 22,604 steps / 2,394
+  action quest IDs. Its manifest exactly matches the already deployed archive; both factions
+  were present. The 298 were failed XP records, not the whole imported library.
+- Added full-archive inventory/generator/status tooling. Collect all source branches and known
+  dungeon/chain references rather than filtering through the Alliance premade selection. The
+  2,535-ID queue includes every old 1,419-ID priority entry and all 106 omitted Alliance references.
+  Runtime conditions, daily alternatives and signed optional hand-ins add three further source
+  IDs. Item/objective/reward-choice numbers are not blindly imported as quest IDs.
+- Deployed worker `crawl-20261015-r8-full-archive`, preserving recovery → priority → archive →
+  base sequencing, separate hash-bound checkpoints and all rate/access/storage protections.
+  Configuration: `shared/queues/reference-crawler-full-archive.config.cjs`; archive checkpoint:
+  `shared/archive-xp-336bb641f1c6e5a6-status.json`. PM2 saved. No Helper/ingestion reload.
+- Full coverage at 09:15 UTC: 349 available / 296 unknown / 1,890 unpublished, not complete.
+  Three–four days is an estimate for collection, not a promise that both routes will be finished.
+  See `docs/forever-leveling-archive.md` for progress commands and remaining source-label gaps.
+- Passed 192 leveling + 70 reference + 2 archive CLI integration tests, focused lints/types,
+  package builds, provenance/queue/subset checks and resumed-worker verification. No commit/push.
+- Owner-approved unknown-dungeon parity is a scenario policy for the next route calculation, not
+  fake published XP. Verified old-dungeon records already use distinct page factors (Stockade
+  2.1, Gnomeregan 1.8, for example); generic 2.375 remains only in legacy estimates and must not
+  be advertised as the universal rule or multiplied into already-adjusted facts.
+
+## Quest XP renderer drift and cached unknowns (2026-10-15; deployed, backfill running)
+
+- The 298 unknown records were not missing primary quest metadata. A paced source capture showed
+  the new core revision `97211824`; the old parser accepted only `52d4f803` and emitted a misleading
+  missing-metadata error too. Compared both core scripts: XP rounding and max-player-level
+  functions are byte-identical; the quest renderer remains `5f36c4ad`.
+- Parser v2 supports both inspected pairs, keeps unknown future revisions held, reports precise
+  diagnostics and records the actual renderer pair (null when unverified). Backward-compatible
+  web/publisher readers were deployed first. Old available records remain cached; old unknowns
+  are eligible for one capability refresh, while current unknowns do not retry continuously.
+- Production readers: `kfc-helper-xp-repair-20261015-r8`; isolated worker:
+  `crawl-20261015-r7-xp-repair`. Queue `forever-xp-recovery-d3ba3ad0b531151f.json` repairs the
+  original 298 before 19 newly affected records, then resumes the unchanged priority/base jobs.
+  All access/rate/storage guards remain. Do not reset their checkpoints or start another worker.
+- First verified repair published at 08:53:09 UTC: quest 4811, 490 XP. Available facts 328→329;
+  remaining original cohort 297 at that point. Backfill is asynchronous, not already complete.
+  Progress tool and operational paths are in `docs/wowhead-reference-enrichment.md`.
+  At 08:56:10 UTC: 3/298 resolved, 295 pending; total usable facts 331, no conflicts.
+- Passed 68 reference tests + 5 web tests + recovery CLI integration test, types/lint/format,
+  Linux production build/private preview and the live XP/browser/mobile/accessibility suite.
+  Ingestion PID 1169337 unchanged; no database, addon or route/UI edits. No commit/push this turn.
+- Once v2 records are published, do not roll readers back to unpatched r7: it rejects their schema.
+  Safe operational rollback is to stop collection and retain compatible r8 readers/publisher.
+  This fixes evidence collection, not the still-unfunded 1–60 route described below.
+
+## Open: preset dungeon levels are not a funded leveling route (2026-10-15)
+
+The owner's repeated feasibility complaint remains valid after r7. The XP calculator and warnings
+do not fund the itinerary. Hall's 13,300 reference XP does not provide 16→19's 53,100 requirement;
+even its three unpaid prerequisite payouts bring the sum only to 15,940 before combat. Current
+conservative LBRS/Stratholme entries at 60 cannot contribute leveling XP.
+
+The proper next work is the binding flexible-entry/continuous-route rebuild at the beginning of
+`docs/forever-leveling-product-plan.md`, not another renamed bracket or small quest addition.
+All 21 requested stops, fresh numeric/source gaps and the failed full audit are documented at the
+start of `docs/forever-leveling-full-route-audit.md`. This is a plan, **not an implemented fix**.
+
+Fresh frozen evidence at the time: 626 records / 328 numeric facts; 298 unknowns needed source/parser
+diagnosis (now fixed and backfilling as described above), not a claim that crawling succeeded numerically.
+Read-only cache inspection found 61 build-70374
+quest records, but reward fields have not been decoded. No disabled scans were re-enabled.
+Existing content verification still exits 2 across 33 editions/132 cases/6,000 independent checks.
+No runtime change, commit, push or deployment was part of this research.
 
 ## Verified quest-library release (2026-10-15)
 

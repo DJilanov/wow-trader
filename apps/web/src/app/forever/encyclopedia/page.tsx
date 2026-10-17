@@ -12,7 +12,9 @@ import {
   getForeverClassDirectory,
   getForeverSnapshot,
 } from "../../../lib/forever";
+import { getDashboardData } from "../../../lib/data";
 import { getForeverSearchDirectory, getForeverWorldOverview } from "../../../lib/forever-world";
+import { FOREVER_CLIENT_PRODUCT } from "../../../lib/game-versions";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -35,10 +37,11 @@ export const metadata: Metadata = createHelperMetadata({
 
 export default async function ForeverEncyclopediaPage(): Promise<React.JSX.Element> {
   try {
-    const [snapshot, world, worldSearch] = await Promise.all([
+    const [snapshot, world, worldSearch, catalog] = await Promise.all([
       getForeverSnapshot(),
       getForeverWorldOverview().catch(() => null),
       getForeverSearchDirectory().catch(() => []),
+      getDashboardData(FOREVER_CLIENT_PRODUCT).catch(() => null),
     ]);
     if (!snapshot) {
       return <DataUnavailable title="The Forever preview archive is waiting for review" />;
@@ -131,6 +134,26 @@ export default async function ForeverEncyclopediaPage(): Promise<React.JSX.Eleme
           </section>
 
           <section className="forever-library-grid" aria-label="Forever encyclopedia collections">
+            <LibraryCard
+              href="/forever/leveling"
+              count={1}
+              eyebrow="Free route preview & XP planner"
+              title="Leveling routes"
+            >
+              Compare crowded Westfall quests with a Hall of Thanes visit at the recommended level,
+              preserve unlocks, and include the full dungeon trip in your XP and time calculation.
+            </LibraryCard>
+            {catalog?.build ? (
+              <LibraryCard
+                href="/forever/encyclopedia/catalog"
+                count={catalog.counts.items}
+                eyebrow={`Client build ${catalog.build.buildNumber}`}
+                title="Items, recipes & professions"
+              >
+                Search the exact client catalog, inspect in-game item stats, follow deterministic
+                crafting chains, and keep source candidates separate from confirmed evidence.
+              </LibraryCard>
+            ) : null}
             <LibraryCard
               href="/forever/encyclopedia/spellbooks/warrior"
               count={counts.spellbookEntries}

@@ -1,6 +1,6 @@
 # KFC Helper production deployment runbook
 
-Last verified against `89.167.46.193`: 2026-09-30.
+Last verified against `89.167.46.193`: 2026-10-04.
 
 The TBC and WoW Forever preview product is live at `https://helper.kfcguild.online`. This document
 records the deployed topology, its operational runbook, and the storage work that must be completed
@@ -10,14 +10,24 @@ before unattended 30-minute Auction House uploads are enabled.
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the
   time of verification) and serves `kfcguild.online` from `/home/kfc-website-system`.
-- Helper release `kfc-helper-nginx-streaming-20260930-r18` is active. It publishes
+- Helper web release `kfc-helper-leveling-preview-20261004-r1` is active. It publishes
   product-isolated TBC and Forever Trader/market routes, executable-depth crafting recommendations,
   arbitrary Auction House item search with evidence-gated buy verdicts, robust price intelligence
   with interactive craft/item charts, browser-local crafting plans, the reviewed WoW Forever preview
-  Encyclopedia, and the Collector download surface in addition to canonical metadata and search
-  routes. Release `kfc-helper-market-bigint-20260929-r17` is the immediate application rollback.
+  Encyclopedia, free Westfall leveling preview/XP-time planner, and the Collector download surface
+  in addition to canonical metadata and search
+  routes and explicit Alliance/Horde selection. Release
+  `kfc-helper-forever-research-20261004-r4` is the immediate web application rollback.
+- The Forever catalog is partitioned across four dynamic sitemap shards capped at 8,000 URLs for
+  current data. Together they publish 26,075 profession, recipe, and item URLs; the root sitemap
+  publishes another 32,536 unique static, TBC, market, and world URLs, including both leveling URLs.
+  A live root-plus-shards crawl
+  completed without a process restart. After the public page and API caches were also warmed, the
+  web process stabilized at about 361 MiB, below its 600 MiB restart guard.
 - `kfc-helper-web` and `kfc-helper-ingest` run as named PM2 siblings in the `kfc` namespace on
-  `127.0.0.1:19210` and `127.0.0.1:19211`. The saved PM2 process list contains all three apps.
+  `127.0.0.1:19210` and `127.0.0.1:19211`. Ingestion runs independently from
+  `releases/kfc-helper-ingest-auction-20261001-r1`; changing `current` changes the web release only.
+  The saved PM2 process list contains all three apps.
 - Nginx redirects HTTP to HTTPS and routes the Helper UI and authenticated `/v1/` ingestion traffic.
   Internal health and API-documentation routes are not public. Dotfile probes terminate at Nginx,
   recognizable non-Google crawlers are rejected, and Googlebot-shaped traffic is limited to six
@@ -68,6 +78,16 @@ before unattended 30-minute Auction House uploads are enabled.
   `wow_classic_beta-70124-enUS-3055d2ff-005c13a` was verified and activated before publication. The
   verified pre-publication backup is
   `shared/backups/wow_trader-pre-forever-70124-catalog-20260930.dump` (22,101,567 bytes).
+- Forever build 70205 was published from exact WoWDBDefs revision
+  `3e46d21a41a07ce7e63835fd79c561e0d5dce92b` after local and server-side audit/validation. Its
+  recipe graph is unchanged from 70124; three enchanting recipes gained a three-second cast time.
+  The 2,949-icon release `wow_classic_beta-70205-enUS-eba98a15-3e46d21` was verified and activated
+  before publication. The verified pre-publication backup is
+  `shared/backups/wow_trader-pre-forever-70205-catalog-20261004.dump` (29,049,471 bytes).
+- The catalog guardian subsequently detected hotfix-only revision `f1e43a57…` for the same build.
+  It automatically proved unchanged recipe economics, created verified backup
+  `wow_trader-pre-wow_classic_beta-70205-f1e43a57-catalog-20261004.dump` (35,029,084 bytes), and
+  activated `wow_classic_beta-70205-enUS-f1e43a57-3e46d21` with 23,819 items and 2,951 icons.
 - A custom-format prelaunch backup was verified with `pg_restore --list` and restored into a
   disposable database. Its restored counts matched the live catalog and market data.
 - A separate 7.8 MiB pre-migration custom-format backup was checked with `pg_restore --list` before
@@ -222,6 +242,69 @@ The maintainer-only import environment then points to
 The tunnel can be closed immediately after publication. If the two existing fixed-IP PostgreSQL
 exceptions are not used by another workflow, remove them from UFW and `pg_hba.conf` and bind
 PostgreSQL to localhost. Audit those consumers first so this hardening does not break another app.
+
+### Automatic compatible catalog promotion
+
+The maintainer Mac runs LaunchAgent `online.kfcguild.wow-trader-catalog-guardian`. It is triggered by
+changes to `.build.info` or the Forever `DBCache.bin` and also checks every five minutes. This catches
+both numbered client releases and hotfix-only changes that retain the same build number.
+
+The guardian performs the complete publication sequence: exact WoWDBDefs revision resolution,
+client extraction, 102-artifact audit, relationship validation, semantic comparison against the
+latest published snapshot, icon extraction and verification, a unique custom-format PostgreSQL
+backup, immutable catalog/media synchronization, repeated server-side audit/validation, reviewed
+import, publication, and a web-only PM2 reload. Runs are locked and every operation is idempotent.
+
+Catalog publication must not depend on development dependencies in the active web release or the
+maintainer's mutable working tree. The macOS installer builds catalog/contracts/db once, prepares
+a portable production-only CLI, publishes a self-contained native extractor, and copies Node and
+the guardian scripts into `~/Library/Application Support/WowTraderCatalogGuardian/releases/<fingerprint>`.
+The LaunchAgent executes that exact release, including its own Node binary, and stores extracted
+artifacts and definitions under the separate `work/` directory. No development checkout, `tsx`,
+pnpm, Corepack, .NET SDK or externally installed .NET runtime is needed by the scheduled job.
+The installer verifies the whole release, performs startup checks and a dry-run against production,
+and installs its CLI in `shared/catalog-tooling/releases/<content-fingerprint>`. Its compiled
+`dist/cli.js`, runtime verifier and media verifier are checked before server use. Audit, validation,
+reviewed import and publication run with Node against that exact immutable runtime, not
+`pnpm catalog:*` through `current`. Keep shared catalog tooling when cleaning old application releases.
+No owner environment file or collector credential is copied into the runtime.
+
+The runtime verifier rejects altered/unlisted files, non-portable symlinks, environment files and
+missing compiled entry points. Preparation removes only dangling pnpm deployment links inside the
+new temporary package, never installed application dependencies. Status preparation clears fields
+from previous snapshots while preserving review-notification de-duplication. A 70291 error must not
+inherit a 70245 assessment or manifest. The October 9 repair and exact publication receipt are in
+`fixes.md`.
+
+Installation refuses to interrupt an active guardian run. It retains the previous LaunchAgent plist
+in the private `rollback/` directory and restores it if activation fails. `deployment.json` records
+the active release, server runtime and rollback plist. The five-minute interval and client/hotfix
+watch paths are unchanged. Re-run the installer after changing guardian or extractor code; editing
+the repository alone intentionally cannot change the deployed job. Retain active/recent Mac releases
+and shared server tooling when removing old website releases. Uninstalling removes the LaunchAgent,
+not its release packages, extracted data, status or rollback files.
+
+Automatic publication requires an applied hotfix cache, an exact 40-character official definitions
+revision, an unchanged extractor version, item/spell counts within 10%, and unchanged profession,
+recipe-economy, and item-transformation topology. Item/spell metadata and recipe craft-time changes
+are safe because the exact extracted snapshot replaces them atomically. Reagent, yield, cooldown,
+skill requirement, profession, recipe membership, or transformation changes stop in
+`review_required` and generate one macOS notification per build/hotfix pair.
+
+The guardian does not contain collector tokens or production database credentials. It uses the
+maintainer's existing batch SSH identity; PostgreSQL owner credentials remain in protected server
+environment files. Status is stored at
+`~/Library/Application Support/WowTraderCatalogGuardian/status.json`, with logs under
+`~/Library/Logs/WowTraderCatalogGuardian`. Operational commands are:
+
+```bash
+pnpm catalog:guardian -- --dry-run
+pnpm catalog:guardian:install:macos
+pnpm catalog:guardian:uninstall:macos
+```
+
+If WoWDBDefs has not published the exact client layout, the guardian records
+`waiting_for_definitions` and retries without weakening the website's exact-build guard.
 
 ## Phase 2: release layout and secrets
 
@@ -513,8 +596,9 @@ deliberately visible rather than being implied by a successful application deplo
 
 ## Rollback
 
-For an application-only failure, repoint `current` to the previous immutable release and reload only
-`kfc-helper-web` and `kfc-helper-ingest`. The KFC process remains untouched.
+For a web-only failure, repoint `current` to the previous immutable web release and restart only
+`kfc-helper-web`. Ingestion has its own release path and must not be restarted for a web rollback.
+Roll ingestion back separately through its named PM2 declaration. The KFC process remains untouched.
 
 For a bad catalog publication, retain the previous build and add an explicit catalog promotion/
 demotion operation; never delete or overwrite its evidence. Repoint the matching media only after
@@ -536,3 +620,38 @@ place before its evidence is preserved.
 5. Replace maintainer-alpha token entry with per-installation pairing/revocation; complete signed,
    notarized macOS and signed Windows distribution; and pass native clean-machine Windows/Linux
    runtime drills before a public Collector rollout.
+
+## Alliance And Horde Markets: October 1, 2026
+
+Both Trader workspaces and market detail pages now expose Alliance/Horde selection. The selected
+faction is preserved through tool modes, search, filters and market links. Queries and workspace
+cache keys remain faction-specific; a missing requested market never substitutes another faction's
+prices. Existing Collector payloads and ingestion already support both factions, so no database
+migration or ingestion restart was required.
+
+As observed during this release, Forever has accepted Alliance scans only. Selecting Horde shows
+an explicit empty state and Collector link, not Alliance results. The faction-only empty view
+polls for its first accepted scan and refreshes when one arrives. That lookup always includes the
+exact client product and Auction House type. Public status responses are `no-store`; regional
+lookups require both region and realm. Horde availability is not a claim that a Horde scan has
+been received or that its prices are globally shared with Alliance.
+
+The workspace distinguishes scan completion from upload receipt time. The October 1 Alliance
+scan completed at 14:58:13 UTC and arrived at 15:42:18 UTC; upload/processing succeeded with
+2,443 items, but uploading it did not renew its freshness. Build 70124 had five accepted scans,
+below the six-observation source baseline. Discord recommendations independently require
+12 recent time-spread half-hour buckets and at least 24 hours of exact-build/faction history,
+along with a fresh, supported price signal and the existing quality/supply checks.
+
+For new data, keep the Companion running, complete a new full scan at the selected faction's AH,
+then `/reload` or log out so WoW writes SavedVariables. Check that Companion reports the upload
+as processed. Reuploading the same saved scan is idempotent and does not add new observations.
+Accepted scans update the webpage even while recommendations are still collecting; a public
+Discord tip additionally needs to pass its eligibility and four-hour publication controls.
+
+Only owned web files were staged into a separate copy of the previous web release. Local and
+Linux builds, typecheck/lint and all 99 web tests passed. Desktop/mobile Playwright checks passed
+against both staged and public production URLs, including faction isolation, missing-Horde views,
+filter preservation, actual item icons, layout and JavaScript errors. A local mocked first-Horde
+scan verified automatic refresh without inserting fabricated production data. Only
+`kfc-helper-web` was restarted; ingestion and the Discord bridge retained their existing processes.

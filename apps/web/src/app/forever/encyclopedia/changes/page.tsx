@@ -8,6 +8,7 @@ import { ForeverOfficialUpdates } from "../../../../components/forever-official-
 import { FOREVER_CLASSES } from "@wow-trader/forever-data/updates";
 import { getForeverSnapshot, sourceText } from "../../../../lib/forever";
 import { getForeverOfficialUpdates } from "../../../../lib/forever-updates";
+import { getForeverObservatoryReport } from "../../../../lib/forever-observatory";
 import { createHelperMetadata } from "../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -17,11 +18,7 @@ export const metadata: Metadata = createHelperMetadata({
   description:
     "Follow daily official WoW Forever development updates alongside client-catalog changes and talent-source history, with separate build evidence and original source links.",
   path: "/forever/encyclopedia/changes",
-  keywords: [
-    "WoW Forever changes",
-    "WoW Forever talents changes",
-    "WoW Forever beta data",
-  ],
+  keywords: ["WoW Forever changes", "WoW Forever talents changes", "WoW Forever beta data"],
 });
 
 export default async function ForeverChangesPage({
@@ -31,16 +28,14 @@ export default async function ForeverChangesPage({
 }): Promise<React.JSX.Element> {
   try {
     const requestedClass = (await searchParams).class;
-    const selectedClass =
-      FOREVER_CLASSES.find((value) => value === requestedClass) ?? null;
-    const [snapshot, official] = await Promise.all([
+    const selectedClass = FOREVER_CLASSES.find((value) => value === requestedClass) ?? null;
+    const [snapshot, observatory, official] = await Promise.all([
       getForeverSnapshot().catch(() => null),
+      getForeverObservatoryReport().catch(() => null),
       getForeverOfficialUpdates(),
     ]);
-    if (!snapshot && !official.publication) {
-      return (
-        <DataUnavailable title="Forever change history is waiting for review" />
-      );
+    if (!snapshot && !observatory && !official.publication) {
+      return <DataUnavailable title="Forever change history is waiting for review" />;
     }
     return (
       <article className="forever-reference-page">
@@ -51,17 +46,13 @@ export default async function ForeverChangesPage({
           <span className="eyebrow">Official updates and source history</span>
           <h1>Forever changes</h1>
           <p>
-            Follow Blizzard&apos;s development updates, compare extracted client
-            builds and review the exact talent snapshot available in the
-            Encyclopedia. Announcements and verified game data are shown
-            separately.
+            Follow Blizzard&apos;s development updates, compare extracted client builds and review
+            the exact talent snapshot available in the Encyclopedia. Announcements and verified game
+            data are shown separately.
           </p>
         </header>
         <ForeverEncyclopediaNav active="changes" />
-        <nav
-          className="official-updates-filters"
-          aria-label="Filter official notes by class"
-        >
+        <nav className="official-updates-filters" aria-label="Filter official notes by class">
           <Link
             aria-current={!selectedClass ? "page" : undefined}
             href="/forever/encyclopedia/changes"
@@ -79,6 +70,42 @@ export default async function ForeverChangesPage({
           ))}
         </nav>
         <ForeverOfficialUpdates {...official} selectedClass={selectedClass} />
+        {observatory?.catalog.changes ? (
+          <section className="panel" aria-labelledby="catalog-changes-heading">
+            <span className="eyebrow">Extracted client catalog</span>
+            <h2 id="catalog-changes-heading">
+              {observatory.catalog.previous?.buildNumber ===
+              observatory.catalog.current?.buildNumber
+                ? `Build ${observatory.catalog.current?.buildNumber} hotfix update`
+                : `Build ${observatory.catalog.previous?.buildNumber} → ${observatory.catalog.current?.buildNumber}`}
+            </h2>
+            <div className="encyclopedia-counts" aria-label="Normalized catalog changes">
+              <div>
+                <strong>{observatory.catalog.changes.items.added.toLocaleString()}</strong>
+                <span>Items added</span>
+              </div>
+              <div>
+                <strong>{observatory.catalog.changes.items.changed.toLocaleString()}</strong>
+                <span>Items changed</span>
+              </div>
+              <div>
+                <strong>{observatory.catalog.changes.recipes.changed.toLocaleString()}</strong>
+                <span>Recipes changed</span>
+              </div>
+            </div>
+            <p>{observatory.catalog.changes.note}</p>
+            <Link href="/forever/data">Review evidence and public data →</Link>
+          </section>
+        ) : (
+          <section className="panel" aria-labelledby="catalog-changes-heading">
+            <span className="eyebrow">Extracted client catalog</span>
+            <h2 id="catalog-changes-heading">A second published build is required</h2>
+            <p>
+              The first baseline is preserved. Field-level item and recipe comparisons will appear
+              here after the next compatible build is published.
+            </p>
+          </section>
+        )}
         {snapshot ? (
           <>
             <div className="forever-change-list">
@@ -99,14 +126,12 @@ export default async function ForeverChangesPage({
         ) : (
           <section className="panel">
             <h2>Preview-source history is unavailable</h2>
-            <p>Official development notes remain available independently.</p>
+            <p>The extracted client-catalog comparison above remains independently scoped.</p>
           </section>
         )}
       </article>
     );
   } catch {
-    return (
-      <DataUnavailable title="Forever change history is temporarily unavailable" />
-    );
+    return <DataUnavailable title="Forever change history is temporarily unavailable" />;
   }
 }

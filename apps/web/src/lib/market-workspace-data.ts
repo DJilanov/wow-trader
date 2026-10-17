@@ -28,6 +28,7 @@ import { DISENCHANT_MATERIAL_ITEM_IDS, getDisenchantDistribution } from "./disen
 import { formatCopper, formatPercentBasisPoints } from "./format";
 import { TBC_CLIENT_PRODUCT } from "./game-versions";
 import { getMarketScanFreshness, type MarketScanFreshness } from "./market-freshness";
+import { selectMarketScan, type MarketFaction } from "./market-selection";
 import { createMarketPriceSignal, type MarketPriceSignal } from "./market-price-signal";
 import {
   createMarketOpportunityHistory,
@@ -60,6 +61,7 @@ export type WorkspaceSort = "total-profit" | "profit" | "roi" | "specialization-
 export interface MarketWorkspaceFilters {
   readonly clientProduct?: string;
   readonly market?: string;
+  readonly faction?: MarketFaction;
   readonly profession?: string;
   readonly query?: string;
   readonly route?: WorkspaceRouteFilter;
@@ -167,6 +169,7 @@ export interface MarketWorkspaceData {
     readonly realmId: string;
     readonly auctionHouseType: string;
     readonly completedAt: Date;
+    readonly uploadedAt: Date;
     readonly completeness: number;
     readonly itemCount: number;
     readonly clientBuild: number;
@@ -253,13 +256,16 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
       realmId: marketScans.realmId,
       auctionHouseType: marketScans.auctionHouseType,
       completedAt: marketScans.completedAt,
+      uploadedAt: rawUploads.receivedAt,
       completeness: marketScans.completeness,
       itemCount: marketScans.itemCount,
     })
     .from(marketScans)
+    .innerJoin(rawUploads, eq(rawUploads.payloadId, marketScans.payloadId))
     .where(
       and(
         eq(marketScans.qualityAccepted, true),
+        filters.faction ? eq(marketScans.auctionHouseType, filters.faction) : undefined,
         inArray(
           marketScans.payloadId,
           database
@@ -272,9 +278,12 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
     .orderBy(desc(marketScans.completedAt))
     .limit(250);
   const markets = uniqueMarkets(recentScans);
-  const selected =
-    recentScans.find((scan) => marketValue(scan) === filters.market) ?? recentScans.at(0) ?? null;
-  if (!selected) return emptyWorkspace(markets, "Run and upload a full Auction House scan first.");
+  const selected = selectMarketScan(recentScans, filters.market, filters.faction);
+  if (!selected)
+    return emptyWorkspace(
+      markets,
+      "No accepted scan matches this Auction House. Run and upload a full scan for the selected faction.",
+    );
 
   const [build] = await database
     .select()
@@ -298,6 +307,7 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
         realmId: selected.realmId,
         auctionHouseType: selected.auctionHouseType,
         completedAt: selected.completedAt,
+        uploadedAt: selected.uploadedAt,
         completeness: selected.completeness,
         itemCount: selected.itemCount,
         clientBuild: selected.clientBuild,
@@ -306,6 +316,7 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
         historyScanCount: recentScans.filter(
           (scan) =>
             scan.region === selected.region &&
+            scan.clientBuild === selected.clientBuild &&
             scan.realmId === selected.realmId &&
             scan.auctionHouseType === selected.auctionHouseType,
         ).length,
@@ -755,6 +766,7 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
       realmId: selected.realmId,
       auctionHouseType: selected.auctionHouseType,
       completedAt: selected.completedAt,
+      uploadedAt: selected.uploadedAt,
       completeness: selected.completeness,
       itemCount: selected.itemCount,
       clientBuild: selected.clientBuild,
@@ -804,6 +816,7 @@ function workspaceCacheKey(filters: MarketWorkspaceFilters): string {
   return JSON.stringify({
     clientProduct: filters.clientProduct ?? TBC_CLIENT_PRODUCT,
     market: filters.market ?? "",
+    faction: filters.faction ?? "",
     profession: filters.profession ?? "",
     query: filters.query?.trim() ?? "",
     route: filters.route ?? "best",

@@ -6,10 +6,11 @@ import { describe, expect, it } from "vitest";
 import { SIMULATOR_REVISION, SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 import { readSimulatorManifest, serveSimulatorAsset } from "./forever-simulator";
 
-async function fixture(): Promise<{ directory: string; release: string }> {
+async function fixture(
+  bytes = Buffer.from("simulator test asset"),
+): Promise<{ directory: string; release: string }> {
   const directory = await mkdtemp(join(tmpdir(), "forever-sim-assets-")),
     release = "a".repeat(24);
-  const bytes = Buffer.from("simulator test asset");
   await mkdir(join(directory, release), { recursive: true });
   await writeFile(join(directory, release, "lib.wasm"), bytes);
   const manifest = {
@@ -103,6 +104,61 @@ describe("Self-hosted Forever simulator assets", () => {
           )
         ).status,
       ).toBe(404);
+    } finally {
+      await rm(f.directory, { recursive: true, force: true });
+    }
+  });
+  it("streams large files in bounded chunks and tolerates cancellation during disk reads", async () => {
+    const bytes = Buffer.alloc(2 * 1024 * 1024, 42);
+    const f = await fixture(bytes);
+    try {
+      await Promise.all(
+        Array.from({ length: 32 }, async (_, index) => {
+          const response = await serveSimulatorAsset(
+            new Request("http://localhost/test"),
+            f.release,
+            ["lib.wasm"],
+            f.directory,
+          );
+          const reader = response.body!.getReader();
+          const pending = reader.read();
+          if (index % 2) {
+            const first = await pending;
+            expect(first.value!.length).toBeLessThan(bytes.length);
+          }
+          await reader.cancel();
+          await pending;
+          expect((await reader.read()).done).toBe(true);
+        }),
+      );
+      const complete = await serveSimulatorAsset(
+        new Request("http://localhost/test"),
+        f.release,
+        ["lib.wasm"],
+        f.directory,
+      );
+      expect(Buffer.from(await complete.arrayBuffer()).equals(bytes)).toBe(true);
+    } finally {
+      await rm(f.directory, { recursive: true, force: true });
+    }
+  });
+  it("closes aborted downloads before or during reading without poisoning later requests", async () => {
+    const f = await fixture(Buffer.alloc(2 * 1024 * 1024));
+    try {
+      for (const abortBeforeResponse of [true, false]) {
+        const controller = new AbortController();
+        if (abortBeforeResponse) controller.abort();
+        const response = await serveSimulatorAsset(
+          new Request("http://localhost/test", { signal: controller.signal }),
+          f.release,
+          ["lib.wasm"],
+          f.directory,
+        );
+        const reader = response.body!.getReader();
+        if (!abortBeforeResponse) await reader.read();
+        controller.abort();
+        await expect(reader.read()).rejects.toMatchObject({ name: "AbortError" });
+      }
     } finally {
       await rm(f.directory, { recursive: true, force: true });
     }

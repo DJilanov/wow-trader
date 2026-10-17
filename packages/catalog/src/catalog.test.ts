@@ -10,6 +10,8 @@ import { describe, expect, it } from "vitest";
 import { auditCatalogSnapshot } from "./audit.js";
 import { diffCatalogs } from "./diff.js";
 import { createSnapshotKey } from "./import.js";
+import { assessCatalogPromotion } from "./promotion.js";
+import { createSemanticCatalogDiff } from "./semantic-diff.js";
 import { validateCatalog } from "./validation.js";
 
 describe("createSnapshotKey", () => {
@@ -51,6 +53,95 @@ describe("diffCatalogs", () => {
     expect(diff.recipes.changed).toEqual([17_563]);
     expect(diff.fromBuild).toBe(69_795);
     expect(diff.toBuild).toBe(69_796);
+  });
+});
+
+describe("createSemanticCatalogDiff", () => {
+  it("explains item and recipe economics changes without comparing raw evidence", () => {
+    const before = createGoldenBundle();
+    const after = createGoldenBundle();
+    after.manifest.buildNumber += 1;
+    after.items[0] = { ...after.items[0]!, sellPriceCopper: "125", rawRecord: { changed: true } };
+    after.recipeInputs[0] = { ...after.recipeInputs[0]!, quantity: 3 };
+
+    const diff = createSemanticCatalogDiff(before, after);
+
+    expect(diff.items).toEqual([
+      expect.objectContaining({
+        id: 7_080,
+        kind: "changed",
+        fields: [expect.objectContaining({ field: "sellPriceCopper", impact: "economy" })],
+      }),
+    ]);
+    expect(diff.recipes).toEqual([
+      expect.objectContaining({
+        id: 17_563,
+        kind: "changed",
+        fields: [expect.objectContaining({ field: "inputs", impact: "economy" })],
+      }),
+    ]);
+    expect(diff.summary.economyChanges).toBe(2);
+  });
+});
+
+describe("assessCatalogPromotion", () => {
+  it("allows raw evidence, item metadata, spell, and recipe craft-time changes", () => {
+    const before = createGoldenBundle();
+    const after = createPromotionTarget(before);
+    after.items[0] = {
+      ...after.items[0]!,
+      sellPriceCopper: "99",
+      rawRecord: { updated: true },
+    };
+    after.spells[0] = { ...after.spells[0]!, description: "Updated description" };
+    after.recipes[0] = { ...after.recipes[0]!, craftTimeMs: 3_000, rawRecord: { updated: true } };
+
+    const assessment = assessCatalogPromotion(before, after);
+
+    expect(assessment.decision).toBe("auto_publish");
+    expect(assessment.blockers).toEqual([]);
+    expect(assessment.changes.items.changed).toEqual([7_080]);
+    expect(assessment.changes.recipeCraftTimes.changed).toEqual([17_563]);
+    expect(assessment.changes.recipeEconomics.changed).toEqual([]);
+  });
+
+  it("requires review when recipe economics change", () => {
+    const before = createGoldenBundle();
+    const after = createPromotionTarget(before);
+    after.recipeInputs[0] = { ...after.recipeInputs[0]!, quantity: 2 };
+
+    const assessment = assessCatalogPromotion(before, after);
+
+    expect(assessment.decision).toBe("review_required");
+    expect(assessment.blockers.map((blocker) => blocker.code)).toContain(
+      "recipe_economics_changed",
+    );
+    expect(assessment.changes.recipeEconomics.changed).toEqual([17_563]);
+  });
+
+  it("requires an exact definitions revision and applied hotfixes", () => {
+    const before = createGoldenBundle();
+    const after = createPromotionTarget(before);
+    after.manifest.definitions.revision = "floating";
+    after.manifest.hotfix = { status: "missing", sha256: null };
+
+    const assessment = assessCatalogPromotion(before, after);
+
+    expect(assessment.decision).toBe("review_required");
+    expect(assessment.blockers.map((blocker) => blocker.code)).toEqual(
+      expect.arrayContaining(["definitions_unverified", "hotfix_missing"]),
+    );
+  });
+
+  it("stops automatic promotion on excessive normalized row-count drift", () => {
+    const before = createGoldenBundle();
+    const after = createPromotionTarget(before);
+    after.items = after.items.slice(0, 5);
+
+    const assessment = assessCatalogPromotion(before, after);
+
+    expect(assessment.decision).toBe("review_required");
+    expect(assessment.blockers.map((blocker) => blocker.code)).toContain("item_count_drift");
   });
 });
 
@@ -231,6 +322,20 @@ function createGoldenBundle(): CatalogBundle {
       },
     ],
   };
+}
+
+function createPromotionTarget(source: CatalogBundle): CatalogBundle {
+  const target = structuredClone(source);
+  target.manifest.buildNumber += 1;
+  target.manifest.clientVersion = "2.5.6.69796";
+  target.manifest.buildKey = "d".repeat(32);
+  target.manifest.cdnKey = "e".repeat(32);
+  target.manifest.definitions = {
+    source: "wowdev/WoWDBDefs",
+    revision: "f".repeat(40),
+  };
+  target.manifest.hotfix = { status: "applied", sha256: "a".repeat(64) };
+  return target;
 }
 
 function createItem(itemId: number, name: string): CatalogBundle["items"][number] {

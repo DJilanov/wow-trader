@@ -84,6 +84,8 @@ export const simulatorManifestSchema = z
     revision: z.literal(SIMULATOR_REVISION),
     preparedAt: z.iso.datetime(),
     itemCount: z.number().int().positive(),
+    currentItemCount: z.number().int().nonnegative().optional(),
+    provisionalItemCount: z.number().int().nonnegative().optional(),
     excludedModeledItems: z.number().int().nonnegative(),
     pages: z.array(z.string().regex(/^[a-z_]+$/)).min(SIMULATOR_SPECS.length),
     files: z.record(
@@ -95,10 +97,22 @@ export const simulatorManifestSchema = z
         })
         .strict(),
     ),
-    dataProvenance: z.literal("pinned-upstream-forever-data"),
+    dataProvenance: z.enum([
+      "pinned-upstream-forever-data",
+      "pinned-forever-with-labelled-classic-pre-raid-references",
+    ]),
     mechanicsStatus: z.literal("beta_model"),
   })
-  .strict();
+  .strict()
+  .refine((manifest) => {
+    if (manifest.currentItemCount === undefined && manifest.provisionalItemCount === undefined)
+      return manifest.dataProvenance === "pinned-upstream-forever-data";
+    return (
+      manifest.currentItemCount !== undefined &&
+      manifest.provisionalItemCount !== undefined &&
+      manifest.currentItemCount + manifest.provisionalItemCount === manifest.itemCount
+    );
+  }, "Item provenance counts must reconcile with the catalog total");
 export type SimulatorManifest = z.infer<typeof simulatorManifestSchema>;
 
 export function getSimulatorSpec(slug: string): SimulatorSpec | null {

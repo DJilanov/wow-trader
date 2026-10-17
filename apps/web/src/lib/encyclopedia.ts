@@ -26,7 +26,7 @@ import { and, count, desc, eq, ilike, inArray, or } from "drizzle-orm";
 
 import { getDatabase } from "./database";
 import { includesMaskValue, includesSplitMaskValue } from "./data";
-import { TBC_CLIENT_PRODUCT } from "./game-versions";
+import { TBC_CLIENT_PRODUCT, type SupportedClientProduct } from "./game-versions";
 import type { ItemTooltipRecord } from "./item-tooltip";
 
 export type EncyclopediaSection = "all" | "items" | "recipes" | "professions";
@@ -129,12 +129,13 @@ export function isEncyclopediaQuerySearchable(query: string): boolean {
 export async function getEncyclopediaData(
   rawQuery: string,
   section: EncyclopediaSection,
+  clientProduct: SupportedClientProduct = TBC_CLIENT_PRODUCT,
 ): Promise<EncyclopediaData | null> {
   const database = getDatabase();
   const [build] = await database
     .select()
     .from(gameBuilds)
-    .where(and(eq(gameBuilds.status, "published"), eq(gameBuilds.product, TBC_CLIENT_PRODUCT)))
+    .where(and(eq(gameBuilds.status, "published"), eq(gameBuilds.product, clientProduct)))
     .orderBy(desc(gameBuilds.publishedAt))
     .limit(1);
   if (!build) return null;

@@ -10,10 +10,10 @@ const HARD_REFRESH_DELAY_MILLISECONDS = 4_000;
 
 interface MarketScanAutoRefreshProps {
   readonly clientProduct: string;
-  readonly region: string;
-  readonly realmId: string;
+  readonly region?: string;
+  readonly realmId?: string;
   readonly auctionHouseType: string;
-  readonly initialCompletedAt: string;
+  readonly initialCompletedAt: string | null;
 }
 
 export function MarketScanAutoRefresh({
@@ -53,8 +53,7 @@ export function MarketScanAutoRefresh({
       activeRequest = new AbortController();
       const search = new URLSearchParams({
         product: clientProduct,
-        region,
-        realm: realmId,
+        ...(region && realmId ? { region, realm: realmId } : {}),
         auctionHouseType,
       });
       try {

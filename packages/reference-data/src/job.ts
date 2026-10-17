@@ -1,5 +1,6 @@
 import { mkdir, open, readFile, readdir, stat, statfs, unlink } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { setTimeout as pause } from "node:timers/promises";
 import { z } from "zod";
 import { referenceKey, referenceTaskSchema, type ReferenceTask } from "./contracts.js";
 import {
@@ -9,6 +10,7 @@ import {
   type CrawlTaskResult,
 } from "./crawler.js";
 import { atomicJsonWrite, referenceChecksum } from "./store.js";
+import { MAX_AUTOMATIC_SOURCE_COOLDOWN_MS, SourceCooldownError } from "./pacing.js";
 
 const counter = z.number().int().nonnegative();
 export const crawlJobStatusSchema = z
@@ -20,13 +22,14 @@ export const crawlJobStatusSchema = z
     permissionRef: z.string().min(1),
     refresh: z.boolean(),
     questXp: z.boolean().default(false),
-    state: z.enum(["running", "completed", "blocked", "interrupted"]),
+    state: z.enum(["running", "waiting", "completed", "blocked", "interrupted"]),
     pid: z.number().int().positive(),
     startedAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
     completedAt: z.iso.datetime().nullable(),
     currentKey: z.string().nullable(),
     lastCompletedKey: z.string().nullable(),
+    retryAt: z.iso.datetime().nullable().default(null),
     error: z.string().nullable(),
     counts: z
       .object({ crawled: counter, cached: counter, incomplete: counter, notFound: counter })
@@ -38,6 +41,8 @@ export const crawlJobStatusSchema = z
       status.cursor > status.total ||
       status.counts.crawled + status.counts.cached + status.counts.notFound !== status.cursor ||
       status.counts.incomplete > status.counts.crawled ||
+      (status.state === "waiting" && !status.retryAt) ||
+      (status.state !== "waiting" && status.retryAt !== null) ||
       (status.state === "completed" && (status.cursor !== status.total || !status.completedAt))
     )
       context.addIssue({ code: "custom", message: "Inconsistent crawl checkpoint" });
@@ -57,10 +62,37 @@ interface JobOptions extends CrawlOptions {
 export async function runPriorityCrawlJob(
   baseTasks: readonly ReferenceTask[],
   priorityTasks: readonly ReferenceTask[],
-  options: JobOptions & { readonly priorityStatusPath: string },
-): Promise<{ priority: CrawlJobStatus; base: CrawlJobStatus }> {
-  if (resolve(options.priorityStatusPath) === resolve(options.statusPath))
-    throw new Error("Priority and base checkpoints must be separate.");
+  options: JobOptions & {
+    readonly priorityStatusPath: string;
+    readonly recovery?: {
+      readonly tasks: readonly ReferenceTask[];
+      readonly statusPath: string;
+    };
+    readonly archive?: {
+      readonly tasks: readonly ReferenceTask[];
+      readonly statusPath: string;
+    };
+  },
+): Promise<{
+  recovery?: CrawlJobStatus;
+  priority: CrawlJobStatus;
+  archive?: CrawlJobStatus;
+  base: CrawlJobStatus;
+}> {
+  const checkpoints = [options.priorityStatusPath, options.statusPath];
+  if (options.recovery) checkpoints.push(options.recovery.statusPath);
+  if (options.archive) checkpoints.push(options.archive.statusPath);
+  if (new Set(checkpoints.map((path) => resolve(path))).size !== checkpoints.length)
+    throw new Error("Recovery, priority, archive and base checkpoints must be separate.");
+  const recovery = options.recovery
+    ? await runCrawlJob(options.recovery.tasks, {
+        ...options,
+        statusPath: options.recovery.statusPath,
+        questXp: true,
+        refresh: false,
+      })
+    : undefined;
+  options.signal?.throwIfAborted();
   const priority = await runCrawlJob(priorityTasks, {
     ...options,
     statusPath: options.priorityStatusPath,
@@ -68,8 +100,17 @@ export async function runPriorityCrawlJob(
     refresh: false,
   });
   options.signal?.throwIfAborted();
+  const archive = options.archive
+    ? await runCrawlJob(options.archive.tasks, {
+        ...options,
+        statusPath: options.archive.statusPath,
+        questXp: true,
+        refresh: false,
+      })
+    : undefined;
+  options.signal?.throwIfAborted();
   const base = await runCrawlJob(baseTasks, { ...options, questXp: false, refresh: false });
-  return { priority, base };
+  return { ...(recovery ? { recovery } : {}), priority, ...(archive ? { archive } : {}), base };
 }
 
 export async function readCrawlJobStatus(path: string): Promise<CrawlJobStatus | null> {
@@ -149,12 +190,14 @@ export async function runCrawlJob(
       completedAt: null,
       currentKey: null,
       lastCompletedKey: null,
+      retryAt: null,
       error: null,
       counts: { crawled: 0, cached: 0, incomplete: 0, notFound: 0 },
       ...previous,
     };
     status.state = "running";
     status.pid = process.pid;
+    status.retryAt = null;
     status.error = null;
     const save = async (): Promise<void> => {
       if (!status) throw new Error("Missing job state");
@@ -182,63 +225,93 @@ export async function runCrawlJob(
         throw new Error("Stopped: free disk below crawl safety reserve");
       const batch = queue.slice(status.cursor, status.cursor + batchSize);
       const start = status.cursor;
-      await (options.crawl ?? crawlReferences)(batch, {
-        ...options,
-        limit: batch.length,
-        onTaskStart: async (key: string): Promise<void> => {
-          if (!status) throw new Error("Missing job state");
-          if (key !== referenceKey(queue[status.cursor]!))
-            throw new Error("Crawler violated queue order");
-          status.currentKey = key;
-          await save();
-          if (stagedBytes + (options.questXp ? 400000 : 300000) > maxStaging)
-            throw new Error("Stopped: staging storage budget exhausted");
-          await options.onTaskStart?.(key);
-        },
-        onTaskComplete: async (result: CrawlTaskResult): Promise<void> => {
-          if (!status || result.key !== referenceKey(queue[status.cursor]!))
-            throw new Error("Crawler completion does not match checkpoint");
-          const filename =
-            result.outcome === "not_found" || result.gaps.includes("source_not_found")
-              ? `${result.key}.missing.json`
-              : `${result.key}.json`;
-          const size = (await stat(resolve(root, filename))).size;
-          stagedBytes += size - (sizes.get(filename) ?? 0);
-          sizes.set(filename, size);
-          if (
-            options.questXp &&
-            result.key.includes("-quest-") &&
-            !filename.endsWith(".missing.json")
-          ) {
-            const xpFilename = `${result.key}.xp.json`;
-            const xpSize = (await stat(resolve(root, xpFilename))).size;
-            stagedBytes += xpSize - (sizes.get(xpFilename) ?? 0);
-            sizes.set(xpFilename, xpSize);
-          }
-          if (result.outcome === "cached") status.counts.cached++;
-          else if (result.outcome === "not_found") status.counts.notFound++;
-          else {
-            status.counts.crawled++;
-            if (result.gaps.length) status.counts.incomplete++;
-          }
-          status.cursor++;
-          status.lastCompletedKey = result.key;
-          status.currentKey = null;
-          await save();
-          await options.onTaskComplete?.(result);
-        },
-      });
+      try {
+        await (options.crawl ?? crawlReferences)(batch, {
+          ...options,
+          limit: batch.length,
+          onTaskStart: async (key: string): Promise<void> => {
+            if (!status) throw new Error("Missing job state");
+            if (key !== referenceKey(queue[status.cursor]!))
+              throw new Error("Crawler violated queue order");
+            status.currentKey = key;
+            await save();
+            if (stagedBytes + (options.questXp ? 400000 : 300000) > maxStaging)
+              throw new Error("Stopped: staging storage budget exhausted");
+            await options.onTaskStart?.(key);
+          },
+          onTaskComplete: async (result: CrawlTaskResult): Promise<void> => {
+            if (!status || result.key !== referenceKey(queue[status.cursor]!))
+              throw new Error("Crawler completion does not match checkpoint");
+            const filename =
+              result.outcome === "not_found" || result.gaps.includes("source_not_found")
+                ? `${result.key}.missing.json`
+                : `${result.key}.json`;
+            const size = (await stat(resolve(root, filename))).size;
+            stagedBytes += size - (sizes.get(filename) ?? 0);
+            sizes.set(filename, size);
+            if (
+              options.questXp &&
+              result.key.includes("-quest-") &&
+              !filename.endsWith(".missing.json")
+            ) {
+              const xpFilename = `${result.key}.xp.json`;
+              const xpSize = (await stat(resolve(root, xpFilename))).size;
+              stagedBytes += xpSize - (sizes.get(xpFilename) ?? 0);
+              sizes.set(xpFilename, xpSize);
+            }
+            if (result.outcome === "cached") status.counts.cached++;
+            else if (result.outcome === "not_found") status.counts.notFound++;
+            else {
+              status.counts.crawled++;
+              if (result.gaps.length) status.counts.incomplete++;
+            }
+            status.cursor++;
+            status.lastCompletedKey = result.key;
+            status.currentKey = null;
+            await save();
+            await options.onTaskComplete?.(result);
+          },
+        });
+      } catch (error) {
+        if (!(error instanceof SourceCooldownError) || !options.waitOnSourceCooldown) throw error;
+        const now = (options.now ?? Date.now)();
+        const waitMs = error.retryAt - now;
+        if (
+          !Number.isSafeInteger(waitMs) ||
+          waitMs <= 0 ||
+          waitMs > MAX_AUTOMATIC_SOURCE_COOLDOWN_MS
+        )
+          throw error;
+        status.state = "waiting";
+        status.retryAt = new Date(error.retryAt).toISOString();
+        status.error = error.message.slice(0, 1000);
+        await save();
+        const sleep =
+          options.sleep ??
+          (async (milliseconds: number): Promise<void> => {
+            await pause(milliseconds, undefined, { signal: options.signal });
+          });
+        await sleep(waitMs);
+        options.signal?.throwIfAborted();
+        status.state = "running";
+        status.retryAt = null;
+        status.error = null;
+        await save();
+        continue;
+      }
       if (status.cursor !== start + batch.length)
         throw new Error("Crawler returned before completing batch");
     }
     status.state = "completed";
     status.currentKey = null;
+    status.retryAt = null;
     status.completedAt = new Date().toISOString();
     await save();
     return status;
   } catch (error) {
     if (status) {
       status.state = options.signal?.aborted ? "interrupted" : "blocked";
+      status.retryAt = null;
       status.error = (error instanceof Error ? error.message : "Crawl job failed").slice(0, 1000);
       status.updatedAt = new Date().toISOString();
       await atomicJsonWrite(statusPath, crawlJobStatusSchema.parse(status));

@@ -4,8 +4,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSimulatorSpec } from "@wow-trader/forever-data/simulator";
 import { getSimulatorClass } from "../../../../lib/forever-simulator-directory";
-import { ForeverSimulatorFrame } from "../../../../components/forever-simulator-frame";
+import { ForeverSimulatorReviewedWorkspace } from "../../../../components/forever-simulator-reviewed-workspace";
 import { readSimulatorManifest } from "../../../../lib/forever-simulator";
+import {
+  readLocalSimulatorReviews,
+  reviewedBuildsForSimulator,
+} from "../../../../lib/forever-simulator-local-reviews";
 import { createHelperMetadata } from "../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +32,10 @@ export default async function SimulatorPage({
   if (!spec) notFound();
   const classEntry = getSimulatorClass(spec.className?.toLowerCase());
   const manifest = await readSimulatorManifest();
+  const builds =
+    manifest && process.env.NODE_ENV === "development"
+      ? reviewedBuildsForSimulator(await readLocalSimulatorReviews(), manifest.release, spec.page)
+      : [];
   return (
     <article
       className="forever-simulator-workspace"
@@ -78,10 +86,11 @@ export default async function SimulatorPage({
         <Link href="/forever/encyclopedia/changes">Check the latest official notes →</Link>
       </details>
       {manifest ? (
-        <ForeverSimulatorFrame
+        <ForeverSimulatorReviewedWorkspace
           key={`${manifest.release}:${spec.page}`}
           title={`${spec.name} combat simulator`}
           src={`/forever-sim/${manifest.release}/${spec.page}/`}
+          builds={builds}
         />
       ) : (
         <section className="panel">
@@ -92,10 +101,6 @@ export default async function SimulatorPage({
           </p>
         </section>
       )}
-      <p className="muted">
-        Engine by <a href="https://github.com/wowsims/classic">WoWSims</a> and{" "}
-        <a href="https://github.com/gunba/wow-forever-sim">Forever contributors</a> · MIT.
-      </p>
     </article>
   );
 }

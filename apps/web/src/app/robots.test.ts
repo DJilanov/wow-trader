@@ -23,4 +23,16 @@ describe("robots", () => {
 
     expect(blockedRule).toMatchObject({ disallow: "/" });
   });
+
+  it("publishes every bounded Forever catalog sitemap shard", () => {
+    const result = robots();
+
+    expect(result.sitemap).toEqual([
+      "https://helper.kfcguild.online/sitemap.xml",
+      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/0.xml",
+      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/1.xml",
+      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/2.xml",
+      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/3.xml",
+    ]);
+  });
 });
