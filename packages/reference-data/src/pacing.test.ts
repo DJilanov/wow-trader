@@ -19,7 +19,7 @@ describe("durable source request pacing", () => {
     expect(validateRequestDelay(60000)).toBe(60000);
   });
 
-  it("spaces robots, permitted redirects, XML and restarted batches with one gate", async () => {
+  it("spaces robots, permitted redirects and XML while reusing robots across restarts", async () => {
     const root = await mkdtemp(join(tmpdir(), "reference-pacing-"));
     let clock = Date.now();
     const requested: number[] = [];
@@ -51,8 +51,8 @@ describe("durable source request pacing", () => {
     try {
       await crawlReferences([{ game: "forever", kind: "item", id: 25 }], options);
       await crawlReferences([{ game: "forever", kind: "item", id: 25 }], options);
-      expect(urls).toHaveLength(5);
-      expect(urls.filter((url) => url.endsWith("robots.txt"))).toHaveLength(2);
+      expect(urls).toHaveLength(4);
+      expect(urls.filter((url) => url.endsWith("robots.txt"))).toHaveLength(1);
       for (let index = 1; index < requested.length; index++)
         expect(requested[index]! - requested[index - 1]!).toBeGreaterThanOrEqual(81000);
       expect(await readRequestPacing(root)).toMatchObject({

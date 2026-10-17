@@ -3,9 +3,6 @@
 Five operator tools are available while Wowhead returns HTTP 403 to the reference crawler:
 `questie-quest-xp`, `blizzard-probe`, `blizzard-quest-xp`, `import-quest-xp`, and `probe`.
 
-They exist so the project can keep producing evidence without changing the crawler's declared identity,
-replaying cookies or bypassing the source's access controls.
-
 ## Local QuestieDB import and flavor filtering
 
 `questie-quest-xp` reads the generated data from an installed QuestieDB without executing Lua. It

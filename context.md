@@ -73,6 +73,14 @@ its server-side source or probability.
   This is the research order, not a claim that the runner already supports those pending policies.
   Tank survival/threat recommendations remain separate objectives, not DPS completions.
 
+- October17 owner priority: after a spec's final feedback/audits are reviewed, update the embedded
+  simulator's **Preset Configurations and Gear Sets before BiS guide pages**. Both surfaces must
+  come from the same completed reviewed build (all17 slots/enchants, matching talents/APL and
+  spec options). The separate outer local reviewed-build selector does NOT satisfy this delivery
+  requirement. Preserve player-saved builds and explicit provisional-proc consent. Perform engine
+  preset integration/rebuild only at an ownership/input boundary, not under a live campaign;
+  validate actual built-in clicks and fresh/saved-browser behavior before calling a spec delivered.
+
 - Long-term product clarified: original, crawlable Wowhead-style per-class/spec BiS guides,
   not just the simulator/build picker. Reference was read directly; its Classic/SoM rankings
   are NOT Forever evidence. Guide contract now includes every slot, tested alternatives and
@@ -113,17 +121,58 @@ its server-side source or probability.
   campaign4ee5e4d6… still reports changes=false/owner alive, last39.96GiB free. Current proc
   trinket screen has finished all1,625 pairs and precision checks for7 candidates with no
   established challenger; the next continuation's full raw/range reviews are recorded below.
-- Latest continuation is PROGRESS: proc trinket stage is complete with independent raw/range
+- Preceding continuation was PROGRESS: proc trinket stage is complete with independent raw/range
   receipts, the sixth browser holdout row and completed secondary subcontrast are saved, and
   the entire wider request-generation proof85f6a56796bdd149 has passed and is terminal. This
   does not finish the current proc case, wider numerical Warrior search or all-class objective.
-  Native rings9106 and browser resumer53287 remain active; no model/input mutation or deployment.
+  Native rings9106 remains active; browser resumer53287 has since completed successfully as
+  documented below. No model/input mutation or deployment.
   Latest status remains4ee5e4d6…/changes=false/owner alive,39.92GiB free. Ring screen was last
   observed533/3,794; current browser seventh job is70,021/100k. These are observations, not
   completion or substitutes for checking the actual handles on the next turn.
-- Current continuation is PROGRESS: seventh browser holdout measurement saved; both ranges
-  of the predeclared talent-point secondary contrast now complete. The final primary arm
-  remains live, native ring screening continues, and no source/policy recommendation changed.
+- Earlier continuation was PROGRESS: all eight browser measurements are now saved and the
+  complete producer and independent request/context/contrast/allocation reviews pass. Ten new
+  reviewer regressions and11 existing contracts pass,0 skipped. The tested primary Spearing
+  policy has no established gain; wider numerical search/native parity remain pending. Native
+  rings9106 continues on six workers. No policy/default/source promotion or deployment.
+  Latest actual status: same4ee5e4d6… identity, numerical changes=false, owner alive,39.4GiB
+  free. All3,794 ring pairs are screened;31 close candidates/control are now in both100k
+  confirmations. These are ongoing measurements, not a completed ring verdict.
+  Shared repository HEAD moved externally to c315dd3 (merge); this goal turn created no Git
+  commit/push/deployment. Both verifier byte hashes remain unchanged and a fresh current-input
+  status still matches4ee5e4d6… with changes=false. Preserve the external commit and unrelated
+  reference-crawler documentation edits; no rollback/reset was performed.
+- Current continuation is PROGRESS: implemented a private, pure reviewed-to-built-in preset
+  overlay and readonly staging probe. `reviews/reviewed-preset-staging-00bd0f61e51932f3.json`
+  prepares all five Arms/Fury gear/APL/presets files from completed conservative cases, without
+  applying them. It reconstructs the real exporter contract from linked gear/talent/browser/
+  rotation evidence, checks current model/catalog, pre-raid legality and reviewed enchants, and
+  refuses unfinished cases, stale identities and proc defaults. Eight actual-data regression
+  tests pass. Preset Configurations receives matching options/consumes/race as well as gear,
+  talents/APL; Gear Sets deliberately changes gear/enchants only. Tooltips retain historical
+  acquisition/access warnings and do not promise unchanged buffs/encounter reproduce reference
+  DPS. Existing specialty builds/default aliases are preserved; player storage is not touched.
+  Actual upstream virtual TypeScript proof `reviews/reviewed-preset-virtual-types-1bab83199ba5ce25.json`
+  passes with ZERO baseline/candidate diagnostics and an intentionally missing options-decoder
+  negative control. An earlier probe omitted the existing Vite ambient declarations and showed
+  four probe-configuration errors; including the actual project declaration fixes the probe,
+  not application source. No cached files/browser release/preset have been changed yet.
+  Private helpers: `review-tools/reviewed-preset-overlay.mjs`, its test,
+  `stage-reviewed-presets.mjs`, `probe-reviewed-preset-types.mjs`. At the idle workspace/input
+  boundary, integrate into owned preparation sources, rebuild with explicit model compatibility,
+  and verify actual built-in clicks plus fresh and saved browser behavior BEFORE BiS pages or
+  calling these spec presets delivered. Do not blindly relabel old numerical evidence for a
+  new UI release or rerun/overwrite the frozen owner mid-job.
+- Completed the private bounded higher-precision handoff: `review-tools/packed-refinement-bank.mjs`
+  and8 tests,48 combined storage/stage/ranking/handoff tests pass. Real-data replay
+  `reviews/packed-refinement-handoff-183a0e5089196c57.json` rechecks1,629 original raw records,
+  reconstructs all1,625 screen requests/1,638 provenance rows and all42 ranked families, retains
+  83 selected full requests/85 selected provenance rows (1,454,761 JSON payload bytes), and
+  prepares both existing100k audit ranges without losing the required control. Only four
+  existing100k records were replayed;162 prepared range-specific requests remain unmeasured.
+  NO new combat, RNG allocations, native throughput claim or full2.86m search completion.
+  Own temporary copies only were removed. `probe-packed-refinement-bank.mjs` is the isolated
+  real-data probe; all original input/cache fingerprints are rechecked, not changed.
 - Real temporary-server/current-browser/exact archived-native smoke passes at2 iterations:
   UI796.25/native796.2515962395962DPS. It is an integration check, not a new recommendation.
   The actual campaign command correctly refuses the live ring audit BEFORE any capture/build
@@ -394,7 +443,9 @@ its server-side source or probability.
   `e191afdf73ccdac3bd08ca23d60a2ec5e28b725906fd104214eadf701e086be7`, checks29 historical/
   reserved allocations together. These role samples share seeds across candidates; they are
   not4.85m independent selected-build draws. Ring bank has3,794 ordered pairs, now screening.
-  Final rings/rotation/export gates and all wider Warrior frontiers remain pending; do not
+  Ring screening has since completed all3,794 pairs;31 near candidates/control are undergoing
+  both100k confirmation ranges. Final rings/rotation/export gates and all wider Warrior
+  frontiers remain pending; do not
   promote this core or start Rogue. Both Arms
   cases and conservative Horde Fury are reviewed-local for their declared domains. No other
   class has begun numerical optimization. Recheck actual handles before reporting live.
@@ -697,7 +748,7 @@ its server-side source or probability.
   range, not a final contrast verdict.
   Do not call this a gain or pool it with paired controls as additional
   independent RNG draws. Full end-of-experiment fingerprint/contrast/native-parity review remains.
-- The SAME predeclared03c90d6e numerical experiment is now RESUMED separately on an isolated,
+- The SAME predeclared03c90d6e numerical experiment was RESUMED separately on an isolated,
   checksum-verifying loopback server, with NO Next development-page/HMR dependency:
   exec16021 /PID53287, `review-tools/probe-fury-spearing-resume.mjs`. Original probe8d12be6c…
   remains unchanged so its complete numerical identity/fingerprints regenerate exactly03c90d6e;
@@ -748,6 +799,38 @@ its server-side source or probability.
   Artifact files are excluded by .prettierignore, so default Prettier calls did NOT format/check
   these private files; do not claim they did or format a pinned live source. Formatting at owned
   integration must explicitly address that ignore. App-source formatting checks were real.
+- FULL BROWSER HOLDOUT is now TERMINAL SUCCESS: exec16021/PID53287 exit0. Its owned Chromium
+  processes53705–53708 and esbuild53625 are absent; no browser/server run should be restarted.
+  Producer receipt `reviews/fury-spearing-holdout-resumed-d7e5e25b01a85fde.json`, SHA
+  `d7e5e25b01a85fdeccaf34abebfde4a6570dd7c92ebfa2e7110a718b835d1b29`, completes all8 rows.
+  Primary joint policy averages +0.0497854DPS: first range-0.0262927 vs0.4010392 threshold,
+  second +0.1258635 vs0.4019155. NOT a confirmed gain; no new rotation/talent is adopted.
+  Secondary return-order-only is-0.0870012; the no-cast IHS/Spearing point trade costs3.0467127;
+  adding entry/hold/casts to that weaker learned control restores3.1834993. That last secondary
+  gain is NOT a3.18DPS upgrade over the retained original baseline or a policy-promotion proof.
+  New private reviewer `review-tools/review-fury-spearing-holdout.mjs` reconstructs exact
+  protobuf requests/control context/51-point trade/seed identities and codecs, verifies all8
+  preserved measurement receipts and current source pins/canary/admissions, independently
+  recalculates all4 contrast verdicts and checks32 known allocations. Input allocation proof
+  `reviews/fury-live-allocations-34d717537b668e0e.json` includes active ring identitye841ee53…
+  (3,794 candidates), not completed ring results. Independent review
+  `reviews/fury-spearing-independent-407beb9996ba2cbb.json`, SHA
+  `407beb9996ba2cbb71cc917949d81a6d7e46d89c4807f6d1f3529c5afec2dae0`, PASSES as browser-
+  holdout-only. Reviewer source SHA159c4819e3a96d9b4eb99f1456e335fddd857a86f8d3e7d85d7c15e6a7147b57.
+  Ten new actual-report/altered-evidence regressions and11 existing holdout/resume-contract
+  tests pass,0 skipped; scoped lint and actual ignore-override formatting pass. No new combat,
+  native build or worker lease was created by the reviewer; only protobuf codecs regenerated
+  in memory. Raw final protobuf progress payloads were NOT persisted; this checks reported
+  decoded measurements, request/source identities and arithmetic, not independent binary
+  re-decoding or another combat execution. An additional arbitrary-correlation sensitivity
+  bound, using estimated marginal variances, leaves all conclusions unchanged. The live
+  criterion was not altered; it is not a simultaneous confidence guarantee.
+  Completed800k arm-role samples share200k distinct seed values. Resumer executed only5×100k
+  missing jobs plus one25-iteration canary;3 prior completed rows are reused, not new samples.
+  New-policy native parity, wider priority/filler/Spearing/style/set/access numerical feedback
+  and final publication remain pending. A fixed-policy non-gain must NOT eliminate other
+  Spearing policies or complete Warrior/the all-class goal. Native campaign51962/rings9106
+  still owns the six-worker lease; its sources/data remain frozen despite browser completion.
 - PACKED SCALAR EVIDENCE prototype now passes40 combined storage/stage/ranking tests and a
   real10,000-record storage round-trip plus complete1,625-request stage/ranking replay.
   Private files: `review-tools/packed-evidence-store.mjs`, `.test.mjs` and

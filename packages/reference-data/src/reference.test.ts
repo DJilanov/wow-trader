@@ -200,7 +200,7 @@ describe("crawler controls", () => {
         incomplete: 0,
         notFound: 0,
       });
-      expect(requests).toHaveLength(4);
+      expect(requests).toHaveLength(3);
     } finally {
       await rm(root, { recursive: true, force: true });
     }
@@ -260,7 +260,7 @@ describe("reference edge cases", () => {
         JSON.parse(await readFile(join(root, "forever-quest-260.missing.json"), "utf8")),
       ).toMatchObject({ id: 260, status: 301 });
       expect(await crawlReferences([quest], options)).toMatchObject({ cached: 1, notFound: 0 });
-      expect(requests).toHaveLength(3);
+      expect(requests).toHaveLength(2);
       for (const location of [
         "/tbc/quests?notFound=260",
         "/forever/quests?notFound=261",
@@ -400,7 +400,7 @@ describe("reference edge cases", () => {
         incomplete: 0,
         cached: 2,
       });
-      expect(requests).toBe(5);
+      expect(requests).toBe(4);
       expect(await readStagedReference(root, missing)).toBeNull();
     } finally {
       await rm(root, { recursive: true, force: true });

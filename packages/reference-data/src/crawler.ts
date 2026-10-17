@@ -39,6 +39,7 @@ import {
   type RequestGate,
 } from "./pacing.js";
 import { CRAWLER_AGENT } from "./identity.js";
+import { loadRobotsPolicyText } from "./robots-cache.js";
 
 export { CRAWLER_AGENT };
 
@@ -290,19 +291,19 @@ export async function crawlReferences(
   try {
     const gate = await requestGate(root, sleep, options.now ?? Date.now, options.signal);
     const request = createRequester(options, gate);
-    const robotsResponse = await request(
-      `${ENTITY_ORIGIN}/robots.txt`,
-      {
-        redirect: "error",
-        headers: { "user-agent": CRAWLER_AGENT },
-      },
-      requestedDelay.next(),
-    );
-    if (!robotsResponse.ok) throw new Error(`Robots fetch failed: HTTP ${robotsResponse.status}`);
-    const policy = robotsParser(
-      `${ENTITY_ORIGIN}/robots.txt`,
-      await limitedText(robotsResponse, 500000),
-    );
+    const robots = await loadRobotsPolicyText(root, (options.now ?? Date.now)(), async () => {
+      const response = await request(
+        `${ENTITY_ORIGIN}/robots.txt`,
+        {
+          redirect: "error",
+          headers: { "user-agent": CRAWLER_AGENT },
+        },
+        requestedDelay.next(),
+      );
+      if (!response.ok) throw new Error(`Robots fetch failed: HTTP ${response.status}`);
+      return limitedText(response, 500000);
+    });
+    const policy = robotsParser(`${ENTITY_ORIGIN}/robots.txt`, robots.text);
     const robotsDelay = policy.getCrawlDelay(CRAWLER_AGENT) ?? 0;
     if (!Number.isFinite(robotsDelay) || robotsDelay < 0 || robotsDelay > 120)
       throw new Error("Unsupported robots crawl-delay; stopped");
@@ -464,9 +465,7 @@ async function crawlWithFetcher(
       }
       if (!response.ok) {
         await response.body?.cancel();
-        throw new Error(
-          `Source HTTP ${response.status}; stopped`,
-        );
+        throw new Error(`Source HTTP ${response.status}; stopped`);
       }
       const contentType = response.headers.get("content-type") ?? "";
       if (!CONTENT_TYPE_PATTERN.test(contentType)) {

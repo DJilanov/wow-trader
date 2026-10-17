@@ -17,6 +17,15 @@ This is development-only presentation, not public/default promotion or deploymen
 The embedded engine's original Arms/Fury starter presets have NOT been replaced. To see reviewed
 equipment, use the outer Simulation-tested pre-raid builds selector and explicit Load build.
 
+Owner now requires actual built-in Preset Configurations and Gear Sets to be updated immediately
+after spec review, ahead of BiS guide pages. Private staging00bd0f61e51932f3 prepares the five
+matching conservative Arms/Fury files from the fully reconstructed reviewed exporter; eight
+actual-data regressions pass. Virtual upstream TypeScript/dependency check1bab83199ba5ce25
+passes with zero diagnostics and a missing-API negative control. No engine/preset publication
+has occurred: the live native owner still requires frozen inputs. The next idle boundary must
+integrate owned preparation, verify model compatibility/rebuild and exercise the actual built-in
+clicks/fresh defaults/saved characters; staging or the outer selector is NOT that delivery.
+
 Browser testing also found two wrapper bugs. Nested modal focus placed its close button behind
 fixed site navigation; a cleaned-up shown.bs.modal listener now reveals the header (fullscreen
 excluded). Mobile hides the desktop Simulate button, so the old readiness test never cleared
@@ -41,6 +50,16 @@ Six resume-contract tests and one focused existing server-integrity test pass. T
 recovery, not a complete/gaining experiment. The original source remains frozen, both ranges
 reserved, native workers unchanged. Full final fingerprint/contrast/native checks still remain.
 
+That resumed browser experiment has now completed and exited0. Producerd7e5e25b01a85fde and
+independent request/context/math/source review407beb9996ba2cbb both pass. All eight rows are
+saved; primary fixed-policy gain+0.0497854DPS is NOT established on either100k range. The
+secondary+3.1834993DPS entry/hold gain is against a weaker learned/no-cast control, not an
+upgrade over the original. Ten reviewer regressions plus11 contracts pass,0 skipped, with lint/
+format checks. The current32 allocated ranges are disjoint. Native parity/full expanded-policy
+feedback remain pending; raw protobuf progress payloads were not stored, and no new combat was
+executed by the reviewer. Browser53287/its children are terminal, not live or to be restarted;
+native ring9106 remains active. No default promotion, deployment or hidden sample-count increase.
+
 The provisional Fury core has since closed without adopting the noisy BRage20 challenger:
 only one independent range clears its confidence threshold, so BRage30 is retained. Independent
 readonly proof7af6ebd2d69d1769 verifies the six raw closing/selected-gear records, exact full core
@@ -51,6 +70,9 @@ That trinket child has since completed:1,625 screens/7 close candidates, HoJ+Ada
 Owned replaydf7b6c3ff844fec6 matches all1,641 raw records/4.85m represented iterations;
 range-only proofe191afdf73ccdac3 checks29 historical/reserved allocations. Current ring
 child9106/workers9126–9131 now own the native work;85247 is terminal. No default promotion.
+The ring broad screen has since completed all3,794 pairs;31 close candidates/control are now
+in both100k confirmation ranges. Keep these inputs frozen and check actual handles before
+calling the ongoing audit live or complete.
 
 ## October 17 packed simulation-evidence prototype
 

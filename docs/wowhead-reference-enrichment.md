@@ -150,10 +150,12 @@ and a larger or invalid robots delay stops the run rather than creating an overf
 crawler reads robots before each run, checks redirects against the original entity/edition and host,
 limits body size and request duration, persists Retry-After cooldowns, and stops on
 blocked/challenged pages. Browsertrix page assets are normal browser subresource requests and are
-not counted as separate source navigations. No proxy rotation, browser impersonation, credential
-use or challenge bypass is implemented.
+not counted as separate source navigations.
 
 The staging directory has an exclusive `.crawl.lock`; publication has a separate `.publish.lock`.
+The last validated robots policy is stored as `.robots-policy.json` in staging and reused for 24
+hours. Restarts inside that window do not request `robots.txt` again or consume another pacing slot;
+after expiry, the refresh uses the same durable rolling request gate as entity pages.
 `.request-pacing.json` persists the rolling navigation history, last attempt and next permitted time
 under that lock, including between batches and restarts. Version 1 pacing files are read without
 discarding their last known request and are upgraded on the next write. A 429 or 503 saves the source's
@@ -193,6 +195,10 @@ For local diagnostics, add `--browsertrix-screencast-port 9037` and open
 `http://127.0.0.1:9037`. The viewer is disabled by default, bound only to host loopback and available
 only while Browsertrix is actively processing a page. `BROWSERTRIX_SCREENCAST_PORT=9037` provides
 the equivalent opt-in for managed local runs. Do not publish this port on a network interface.
+
+For an interactive browser with no saved profile, see
+[the clean Browsertrix session runbook](runbooks/browsertrix-clean-browser-session.md). It is for
+diagnosis only, not a crawler transport, and its profile must not be fed back into this worker.
 
 Recognized challenges also produce a sanitized, read-only screenshot report under
 `<staging>/challenge-evidence/`. Open the newest report with

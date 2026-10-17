@@ -259,7 +259,7 @@ describe("typed quest reward evidence", () => {
       expect(await crawlReferences([task], options)).toMatchObject({ crawled: 1 });
       expect((await readStagedQuestXp(root, task))?.fullXp).toBe(1050);
       expect(await crawlReferences([task], options)).toMatchObject({ cached: 1 });
-      expect(requests).toBe(3);
+      expect(requests).toBe(2);
     } finally {
       await rm(root, { recursive: true, force: true });
     }

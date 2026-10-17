@@ -1,5 +1,12 @@
 # Simulation-tested pre-raid gear
 
+Delivery priority (owner, October17): once a spec passes its final review, publish its matching
+**Preset Configurations and Gear Sets first**; original BiS guide pages are secondary. A separate
+review selector is not a substitute for these built-in first-impression surfaces. Generate both
+from the same reviewed source, including all17 slots/enchants, legal talents, APL and spec options.
+Preserve saved characters and opt-in-only provisional models. Rebuild only outside a live native
+workspace, then verify real built-in selection, fresh-browser defaults and existing saved setups.
+
 Repeatable catalog updates: `pnpm simulator:prebis:update` now owns preparation, versioned
 campaigns, checkpoints, full existing feedback, accessory/rotation challenges and local exports.
 See [the update runbook](simulator-update-runbook.md) for one-command execution, read-only
@@ -26,7 +33,8 @@ all1,625 ordered pairs at2k plus7 near candidates/control on both100k ranges. Fu
 df7b6c3ff844fec6 matches all1,641 raw records/4,850,000 represented iterations, exact identities,
 shortlist and verdicts. BHB+HoJ is0.188DPS lower on average here, not a universal ranking.
 Separate range proofe191afdf73ccdac3 checks all29 historical/reserved ranges. Final rings
-(3,794 pairs), rotation and export remain pending; this core
+(all3,794 pairs screened;31 close candidates/control in both100k confirmations), rotation
+and export remain pending; this core
 is not a public/default recommendation or completion of the wider Warrior frontiers.
 This is not a completed numerical campaign
 or new public recommendation. Earlier UI21a audit receipts below
@@ -86,6 +94,29 @@ hash-linked local reviews are offered; this development-only UI is not public pr
 The embedded engine's original Arms/Fury starter presets are still unchanged; selecting those
 does NOT select the newly reviewed setup. Use the outer reviewed selector plus Load build.
 Replacing built-in presets requires a separate reviewed integration at an input boundary.
+
+That integration is now staged but NOT applied: private proof
+`reviews/reviewed-preset-staging-00bd0f61e51932f3.json` produces matching Arms39/10/2 and
+Fury19/32/0 gear/enchants/APL/talents/spec-options from the completed conservative exports.
+It replays the real exporter and checks linked final audits/current model, talent legality,
+pre-raid gear and reviewed enchants. Eight actual-data regression tests pass. Virtual compilation
+with the real upstream compiler/dependencies and existing Vite declarations has zero errors,
+including a failing negative control for an invented options-decoder API; proof1bab83199ba5ce25.
+The initial four ambient errors came from the probe omitting the actual declaration, not an
+application defect. Player storage/specialty builds stay untouched. Gear Sets changes equipment
+only; Preset Configurations adds the matching talents/APL/options/consumes/race, not a silent
+replacement of professions/buffs/encounter. Fresh defaults and actual compiled UI clicks still
+need verification after owned, model-compatible preparation/rebuild at the idle boundary.
+This staged source is NOT published or a completed spec delivery; BiS guide pages remain second.
+
+Private bounded refinement helper `review-tools/packed-refinement-bank.mjs` now preserves the
+selected full requests and every selected alias/control across higher-precision stages. Its8
+tests and48 combined storage/execution/ranking/handoff tests pass. Real probe183a0e5089196c57
+replays all1,625 real screen requests/1,638 provenance rows and42 families, retains83 unique
+requests/85 provenance rows within1,454,761 payload bytes, then reconstructs both existing100k
+ranges exactly. All1,629 original raw records are rechecked. Four existing precision results
+are reused;162 prepared range-specific requests are NOT measured. No new simulations, reserved
+seeds, full-frontier execution, native cost/throughput evidence or current pipeline integration.
 
 `node scripts/review-prebis-workspace.mjs` passes actual1440/390 imports, full-settings/share
 hash matching, consent-OFF and zero-combat/error checks; receipt9675a121f3fea193.31 focused
@@ -590,14 +621,34 @@ expanded-policy/gear feedback or a reviewed recommendation. `context.md` records
 actual terminal handle, reserved ranges, failure receipt and declaration. The native campaign
 was not interrupted and its numerical inputs/worker count remain unchanged.
 
-That exact predeclared experiment has now resumed via private `probe-fury-spearing-resume.mjs`
+That exact predeclared experiment was resumed via private `probe-fury-spearing-resume.mjs`
 on the existing checksum-verifying loopback asset server, not a Next development page. It
 regenerates the original numerical identity, verifies all three complete saved requests/metrics,
 and runs only the five missing100k jobs. The original ranges/precision remain; a partial fourth
 job is not reused or counted separately. All four admissions and an exact25/1337 replay canary
 pass before new work. Its first missing job has actual progress; this is NOT a final contrast.
 Six resume-contract tests and one focused server-integrity test pass. See `context.md` for the
-actual live handle, immutable startup record, source freeze and remaining final review gates.
+original handle, immutable startup record and the completed review below.
+
+The resumed producer has now exited0 with all eight measurements in receiptd7e5e25b01a85fde.
+The primary fixed-policy comparison averages+0.0497854DPS, with -0.0262927/+0.1258635 on the
+two100k ranges versus roughly0.401DPS thresholds: no established upgrade. Secondary entry/hold
+adds3.1834993DPS to the weaker learned/no-cast control, not to the retained original baseline.
+Neither this non-gain nor the secondary mechanism check eliminates other Spearing policies.
+
+Independent private reviewer `review-fury-spearing-holdout.mjs` passes as407beb9996ba2cbb:
+exact reconstructed protobuf/talent/context/seed identities, all eight preserved measurements,
+current sources/codecs/canary/admissions, independent contrast arithmetic and32 known RNG
+allocations, including active proc ring identitye841ee53…. Ten actual-report/altered-evidence
+regressions plus11 existing contracts pass,0 skipped; scoped lint/explicit-override format pass.
+An arbitrary-correlation sensitivity check leaves conclusions unchanged without changing the
+live criterion. It uses estimated marginal variances, not a simultaneous confidence guarantee.
+The original raw protobuf progress payloads were not saved; this verifies reported decoded
+measurements and source/request/math identities, not another combat run or binary re-decoding.
+Eight arm-role jobs total800k samples but share200k seed values. Only five missing100k jobs and
+one25-iteration canary were newly executed by the resumer. Owned browser/server processes are
+closed; native rings continue unchanged. New-policy native parity, full wider feedback and
+promotion remain separate gates. No default/public recommendation changes from this experiment.
 
 The first browser attempt was deliberately stopped after20k progress because its20-minute
 per-job timeout was too close to the observed100k runtime. No partial sample was used. The
