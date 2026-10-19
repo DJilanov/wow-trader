@@ -117,3 +117,26 @@ Do not publish the ZIP until the bounded review above passes. The broader measur
 separate: replace or observe the historical reward values, calibrate relevant combat/dungeon
 profiles and collect actual five-player bars at unresolved checkpoints. Package installation success
 must never be presented as measured XP, timing or full-route certification.
+
+## Web test deployment — 2026-10-19
+
+The browser campaign and reward-evidence changes are deployed for maintainer testing as
+`kfc-helper-leveling-campaign-test-20261019-r1`. The leveling implementation is committed in
+`fbc0d36`; identity-conflict handling is corrected in `0e0541b`. The release was layered over the
+previous active source so unrelated, newer KFC web work was preserved. Only `kfc-helper-web` was
+reloaded; ingestion remains pinned to its independent release.
+
+The optional historical import is installed outside the application release at
+`/home/wow-trader-reference-worker/shared/imports/quest-xp-import.json`. Its verified SHA-256 is
+`ec63dbbbdbe00acea0fc4845d84826b01a5def17c1a7326d6b20bf4612e7a01c`. A current-client identity
+conflict now holds the quest even when that import contains a numeric estimate; historical evidence
+cannot bypass the conflict gate.
+
+Server verification passed 252 leveling tests and 396 web tests, package typechecks, package lints,
+and both production builds. Public smoke checks returned HTTP 200 for data status, leveling and the
+premade planner; the legacy Helper URL retained its one-to-one HTTP 301 redirect. The default live
+edition reports 414 of 438 routed quests from published Forever evidence and 24 labeled historical
+estimates. This web deployment does not open the addon ZIP publication gate described above.
+
+Immediate web rollback is `kfc-helper-leveling-quest-completion-20261018-r1`. Its release directory
+and the pre-activation web environment backup are retained on the server.
