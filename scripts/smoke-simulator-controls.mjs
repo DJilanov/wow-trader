@@ -181,12 +181,23 @@ try {
     await stop.waitFor({ state: "visible", timeout: 10000 });
     const started = Date.now();
     await stop.click();
-    await page
-      .getByText(
-        "Run stopped. Results were cleared; your saved character and builds are kept. You can simulate again.",
-        { exact: true },
-      )
-      .waitFor({ timeout: 30000 });
+    // Cooperative cancellation may finish before the fallback reload is needed.
+    await page.waitForFunction(
+      () => {
+        const frame = globalThis.document.querySelector(".forever-simulator-frame iframe");
+        const document = frame?.contentDocument;
+        const results = document?.querySelector(".results-content");
+        return (
+          document?.querySelector('.sim-ui[data-kfc-initialized="true"]') &&
+          !document.querySelector(".sim-abort-button") &&
+          document.querySelector(".dps-action")?.disabled === false &&
+          results &&
+          results.textContent.trim() === ""
+        );
+      },
+      null,
+      { timeout: 15000 },
+    );
     frame = await ready(page);
     assert.deepEqual(await saved(frame), before);
     assert.deepEqual(
@@ -216,6 +227,15 @@ try {
         phase: "stop-recovery-and-next-combat",
         workers,
         recoveredMs,
+        recoveryMode:
+          (await page
+            .getByText(
+              "Run stopped. Results were cleared; your saved character and builds are kept. You can simulate again.",
+              { exact: true },
+            )
+            .count()) > 0
+            ? "fallback-reload"
+            : "cooperative-cancellation",
         savedSettingsPreserved: true,
         errors,
       }),
