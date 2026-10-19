@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
+import { withHelperBasePath } from "../lib/site-path";
+
 const navigation = [
   ["Forever Trader", "/forever/trader"],
   ["Forever Leveling", "/forever/leveling"],
@@ -36,7 +38,13 @@ export function SiteHeader(): React.JSX.Element {
           onClick={() => setMobileOpen(false)}
         >
           <span className="brand-mark" aria-hidden="true">
-            <Image alt="" height={30} priority src="/kfc-icon.svg" width={30} />
+            <Image
+              alt=""
+              height={30}
+              priority
+              src={withHelperBasePath("/kfc-icon.svg")}
+              width={30}
+            />
           </span>
           <span>
             <strong className="brand-name">KFC</strong>

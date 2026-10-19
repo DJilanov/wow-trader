@@ -62,6 +62,8 @@ wait_for_url() {
 }
 
 wait_for_url "Ingestion API" "http://127.0.0.1:19211/health"
-wait_for_url "Web application" "http://127.0.0.1:19210/api/v1/data-status"
+wait_for_url "Web application" "http://127.0.0.1:19210/tools/api/v1/data-status"
+
+node "$release_directory/scripts/smoke-site-assets.mjs"
 
 echo "Activated $release_name"

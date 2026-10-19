@@ -15,6 +15,7 @@ import {
 import { TBC_BIS_CLASSES } from "../../../lib/bis-directory";
 import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
 import { createHelperMetadata } from "../../../lib/seo";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 
@@ -238,7 +239,9 @@ function BisDirectory(): React.JSX.Element {
                   alt=""
                   height={38}
                   loading="eager"
-                  src={`/wow-assets/classes/${gameClass.className.toLowerCase()}.jpg`}
+                  src={withHelperBasePath(
+                    `/wow-assets/classes/${gameClass.className.toLowerCase()}.jpg`,
+                  )}
                   width={38}
                 />
               </span>
@@ -387,7 +390,7 @@ function ProfessionResults({
               alt=""
               height={38}
               loading="eager"
-              src={`/wow-assets/professions/${profession.slug}.jpg`}
+              src={withHelperBasePath(`/wow-assets/professions/${profession.slug}.jpg`)}
               width={38}
             />
           </span>

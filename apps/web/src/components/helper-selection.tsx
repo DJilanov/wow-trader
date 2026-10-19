@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { withHelperBasePath } from "../lib/site-path";
+
 interface HelperSelectionOption {
   readonly title: string;
   readonly eyebrow: string;
@@ -56,7 +58,7 @@ export function HelperSelection({
                   alt=""
                   height={option.image.kind === "logo" ? 90 : 56}
                   loading="eager"
-                  src={option.image.src}
+                  src={withHelperBasePath(option.image.src)}
                   width={option.image.kind === "logo" ? 160 : 56}
                 />
               </span>

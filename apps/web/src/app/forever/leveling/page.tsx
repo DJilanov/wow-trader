@@ -5,6 +5,7 @@ import { JsonLd } from "../../../components/json-ld";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
 import styles from "../../../components/leveling-experience.module.css";
 import { getLevelingArchiveManifest } from "../../../lib/leveling-archive";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ export default async function ForeverLevelingPage(): Promise<React.JSX.Element> 
         </div>
         <Image
           className={styles.introLogo}
-          src="/wow-assets/games/forever-logo.jpg"
+          src={withHelperBasePath("/wow-assets/games/forever-logo.jpg")}
           width={160}
           height={108}
           alt="World of Warcraft Forever"

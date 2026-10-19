@@ -5,6 +5,7 @@ import Link from "next/link";
 import { JsonLd } from "../../../components/json-ld";
 import { getCompanionRelease, type CompanionReleaseAsset } from "../../../lib/companion-release";
 import { createHelperMetadata, HELPER_SITE_URL } from "../../../lib/seo";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 
@@ -50,7 +51,7 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
           className="addon-game-mark"
           height={144}
           priority
-          src="/wow-assets/games/forever-logo.jpg"
+          src={withHelperBasePath("/wow-assets/games/forever-logo.jpg")}
           width={144}
         />
         <div>
