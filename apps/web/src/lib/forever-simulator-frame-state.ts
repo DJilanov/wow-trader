@@ -1,3 +1,5 @@
+import { simulatorBuildQuery } from "./forever-simulator-frame-navigation";
+
 export interface SimulatorFrameViewport {
   readonly top: number;
   readonly height: number;
@@ -36,10 +38,15 @@ export function isSimulatorFrameReady(
     const document = frame.contentDocument;
     if (!document || document.location.href === "about:blank") return false;
     const actual = new URL(document.location.href);
+    // The engine applies a named build, then consumes its query with history.replaceState.
+    const consumedBuildQuery =
+      actual.search === "" &&
+      expected.searchParams.size === 1 &&
+      simulatorBuildQuery(expected.searchParams.get("build")) !== "";
     if (
       actual.origin !== expected.origin ||
       canonicalEnginePath(actual.pathname) !== canonicalEnginePath(expected.pathname) ||
-      actual.search !== expected.search
+      (actual.search !== expected.search && !consumedBuildQuery)
     )
       return false;
     if (document.querySelector('.sim-ui[data-kfc-initialized="false"]')) return false;

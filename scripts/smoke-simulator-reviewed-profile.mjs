@@ -9,6 +9,7 @@ import process from "node:process";
 import { URL } from "node:url";
 import { inflateSync } from "node:zlib";
 import { assertProcConsentDisabled } from "./review-prebis-browser.mjs";
+import { assertSimulatorPageScroll } from "./simulator-page-scroll.mjs";
 import { loadSimulatorBuildSettingsCodec } from "../artifacts/forever-simulator/optimization/review-tools/simulator-build-settings-codec.mjs";
 
 const root = resolve(import.meta.dirname, "..");
@@ -34,6 +35,9 @@ assert.equal(
   reference.sha256,
 );
 assert.equal(publication.profile, profile);
+const displayRelease =
+  process.env.SIMULATOR_PRESET_SAFETY_RELEASE ?? publication.presentationRelease;
+assert(/^[a-f0-9]{24}$/.test(displayRelease));
 const require = createRequire(join(root, ".cache/forever-sim-upstream/package.json"));
 const esbuild = require("esbuild");
 let compiled;
@@ -106,7 +110,10 @@ try {
     assert((await page.goto(new URL(mount + "/forever/simulator/" + profile, base).href))?.ok());
     await ready(page);
     const selector = page.getByLabel("Choose a build");
-    assert.equal(await selector.locator("option").count(), publication.builds.length);
+    assert.equal(
+      await selector.locator('option:not([value=""])').count(),
+      publication.builds.length,
+    );
     for (const build of publication.builds) {
       assert(
         typeof build.displayName === "string" && build.displayName.length > 0,
@@ -134,7 +141,7 @@ try {
             .querySelector(".forever-simulator-frame iframe")
             ?.getAttribute("src") ?? "";
         return src.includes(release) && src.includes("#");
-      }, publication.presentationRelease);
+      }, displayRelease);
       let frame = await ready(page);
       const url = new URL(build.href, base);
       const expected = api.IndividualSimSettings.toJson(
@@ -144,16 +151,21 @@ try {
       assert.equal(await frame.evaluate(() => globalThis.__kfcReviewedCombatRequests), 0);
       await assertProcConsentDisabled(frame);
       const configuration = frame.locator(".preset-configuration-picker-root:visible").first();
+      const presetName =
+        profile === "rogue" && build.id === "rogue-combat-static"
+          ? "Combat · Backstab · pre-raid tested"
+          : build.displayName;
       if (viewport.width <= 400)
         await frame.getByRole("button", { name: "Build", exact: true }).click();
-      await configuration.getByText(build.displayName, { exact: true }).click();
+      await configuration.getByText(presetName, { exact: true }).click();
       assert.deepEqual(codec.normalize(await saved(frame)), codec.normalize(expected));
       const sets = frame
         .locator(".saved-data-manager-root:visible")
         .filter({ hasText: /^Gear Sets/ });
-      assert.equal(await sets.getByText(build.displayName, { exact: true }).count(), 1);
+      assert.equal(await sets.getByText(presetName, { exact: true }).count(), 1);
       await page.reload();
       frame = await ready(page);
+      await assertSimulatorPageScroll(frame);
       assert.deepEqual(codec.normalize(await saved(frame)), codec.normalize(expected));
       await assertProcConsentDisabled(frame);
       assert(
@@ -198,10 +210,7 @@ try {
   const privateProof = await browser.newContext();
   try {
     const response = await privateProof.request.get(
-      new URL(
-        mount + "/forever-sim/" + publication.presentationRelease + "/kfc-reviewed-presets.json",
-        base,
-      ).href,
+      new URL(mount + "/forever-sim/" + displayRelease + "/kfc-reviewed-presets.json", base).href,
     );
     assert.equal(response.status(), 404, "Private preset proof must not be publicly served");
   } finally {
@@ -213,7 +222,7 @@ try {
       status: "passed",
       origin: base.href,
       profile,
-      presentationRelease: publication.presentationRelease,
+      presentationRelease: displayRelease,
       checks,
       errors,
       independentOptimizationValidation: false,

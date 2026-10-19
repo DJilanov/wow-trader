@@ -1,0 +1,835 @@
+{
+  "schema": "kfc-historical-mm-confirmation-math-fixture.v1",
+  "scope": "Exact historical1% math control only, not a corrected-model delivery or an approved public build.",
+  "source": {
+    "declaration": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/129f1c7380b6c0eb76445c0ba4c408cb9d2a412008aa6dedec8b7ae8d6e1ce94/declaration.json",
+      "sha256": "129f1c7380b6c0eb76445c0ba4c408cb9d2a412008aa6dedec8b7ae8d6e1ce94"
+    },
+    "result": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/129f1c7380b6c0eb76445c0ba4c408cb9d2a412008aa6dedec8b7ae8d6e1ce94/result-d828db56a78a9a97.json",
+      "sha256": "d828db56a78a9a9713b57f5abe643b5f726706f9e8af1fe173dd81f88d97e6be"
+    }
+  },
+  "plan": {
+    "arms": [
+      {
+        "name": "selected",
+        "category": "selected"
+      },
+      {
+        "name": "talent-best",
+        "category": "talent"
+      },
+      {
+        "name": "rotation-best",
+        "category": "rotation"
+      },
+      {
+        "name": "pet-petnone",
+        "category": "family"
+      },
+      {
+        "name": "pet-windserpent",
+        "category": "family"
+      },
+      {
+        "name": "pet-carrionbird",
+        "category": "family"
+      },
+      {
+        "name": "pet-scorpid",
+        "category": "family"
+      },
+      {
+        "name": "family-summonhawk",
+        "category": "family"
+      },
+      {
+        "name": "family-lonewolf",
+        "category": "family"
+      },
+      {
+        "name": "gear-alternative-1",
+        "category": "gear"
+      },
+      {
+        "name": "enchant-best",
+        "category": "enchant"
+      }
+    ],
+    "policy": {
+      "version": "practical-first-pass-confirmation.v1",
+      "iterations": 20000,
+      "ranges": 2,
+      "reservedRangeIterations": 100000,
+      "inspectedIterations": 10000,
+      "inspectedSeed": 77191,
+      "maximumArms": 12,
+      "maximumRetainedGapFraction": 0.01,
+      "standardErrorMultiplier": 3
+    },
+    "seeds": [3537748678200000, 3537748678300000],
+    "requestIds": [
+      "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+      "4f1ab77694cfdb09602cee970957e6445cb58f85c1f3d4baf72f75a0bfbf2d37",
+      "8ce42a0cfeb78699243d4564b40c3e642b992a009172471bb50e19524aa3f141",
+      "f9d240b19037e997de51fbd45836fbc46f7742c73991eae37db78bdbe54fc88c",
+      "ca91c71cb1c760f426a61197ed433c5d7365438e067c4058c0f1b7fae7fcd078",
+      "e60f7949ac872514267336f4a7a92c4f013da298602334595b3f87514b010765",
+      "390ebc51d096102b9669ad6481fd6a3e1098f08e7908e3d4bfac1c7a4556d2bc",
+      "ce87c12e821d902d54db3388affdd39d734f06b9f45dba6f53e261d1c1d24673",
+      "7c57ddd4d55c65f361e04e54c6a720fd9b49f039fbc303237771b36e78fcd428",
+      "f30eea2e1215ad4427318466d4635c7d266a88e7d243b543f444688f257dca3b",
+      "98fef4fe2be9fc715eda90689e43bb03f1a6eb4a007400e5e9feda2c409609ef",
+      "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+      "155fc1054dde23bb224489693905f3eee73fb6c1d96af4272cf6172247b18e9e",
+      "51e7bad88361b532252bb7fe658c56004547f9048905a1d15c514d324acc6d71",
+      "4305b5e477ad9ad6374fcba65559a00dd43a1b88a01705d61dbb340a5ade42bf",
+      "009bd948dbbab18cb396f36e01a5ad775b388d4b047067fec68df4dfcd3bc303",
+      "f741f94ab64c3e63cbe24cd6bad43b3b5d8b779d8f01e9ce9b37a2427e7802ba",
+      "cc1ac0adf976e6b43c297242d8c34ce404e91cd4d5c75af3163db96d9e4c0738",
+      "cb381d7f95b6b40cb6c26d3e6fe9671c4d462be627b59b39c48e3f3a32d96d98",
+      "e259c392d400bb36535ca25da019def97d26401d4eb2697db355a596cd382ddf",
+      "e7f6ac343922015f512f9d57f47fb88eeda74a0bb773f32431f2c8abb6de389e",
+      "29ffcb07b572f5b1733ed0789b3c8ceb1acda82a261c7a12a08b19fb77852a86"
+    ],
+    "inspectedSeedRanges": [
+      {
+        "seed": 1337,
+        "iterations": 4000
+      },
+      {
+        "seed": 77191,
+        "iterations": 10000
+      },
+      {
+        "seed": 1089790699200000,
+        "iterations": 200000
+      },
+      {
+        "seed": 1253580552200000,
+        "iterations": 200000
+      },
+      {
+        "seed": 2247222508200000,
+        "iterations": 200000
+      }
+    ]
+  },
+  "records": [
+    {
+      "seed": 3537748678200000,
+      "arm": "selected",
+      "metric": {
+        "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+        "dps": 849.1078902702751,
+        "stdev": 22.39254116651814,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "talent-best",
+      "metric": {
+        "id": "4f1ab77694cfdb09602cee970957e6445cb58f85c1f3d4baf72f75a0bfbf2d37",
+        "dps": 857.0647699659174,
+        "stdev": 22.494252525856584,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "rotation-best",
+      "metric": {
+        "id": "8ce42a0cfeb78699243d4564b40c3e642b992a009172471bb50e19524aa3f141",
+        "dps": 854.4568101454003,
+        "stdev": 21.964979781555847,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "pet-petnone",
+      "metric": {
+        "id": "f9d240b19037e997de51fbd45836fbc46f7742c73991eae37db78bdbe54fc88c",
+        "dps": 842.885954823117,
+        "stdev": 25.198467228177694,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "pet-windserpent",
+      "metric": {
+        "id": "ca91c71cb1c760f426a61197ed433c5d7365438e067c4058c0f1b7fae7fcd078",
+        "dps": 849.8728882379338,
+        "stdev": 22.550464700508698,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "pet-carrionbird",
+      "metric": {
+        "id": "e60f7949ac872514267336f4a7a92c4f013da298602334595b3f87514b010765",
+        "dps": 839.4625003359469,
+        "stdev": 22.28614477664897,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "pet-scorpid",
+      "metric": {
+        "id": "390ebc51d096102b9669ad6481fd6a3e1098f08e7908e3d4bfac1c7a4556d2bc",
+        "dps": 837.4412610188127,
+        "stdev": 21.892259316276593,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "family-summonhawk",
+      "metric": {
+        "id": "ce87c12e821d902d54db3388affdd39d734f06b9f45dba6f53e261d1c1d24673",
+        "dps": 826.5743337435373,
+        "stdev": 21.33104187224102,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "family-lonewolf",
+      "metric": {
+        "id": "7c57ddd4d55c65f361e04e54c6a720fd9b49f039fbc303237771b36e78fcd428",
+        "dps": 850.226575663518,
+        "stdev": 22.288047998154155,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "gear-alternative-1",
+      "metric": {
+        "id": "f30eea2e1215ad4427318466d4635c7d266a88e7d243b543f444688f257dca3b",
+        "dps": 854.5490794259895,
+        "stdev": 22.507357259845183,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678200000,
+      "arm": "enchant-best",
+      "metric": {
+        "id": "98fef4fe2be9fc715eda90689e43bb03f1a6eb4a007400e5e9feda2c409609ef",
+        "dps": 849.5601524624578,
+        "stdev": 22.34991757562989,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "selected",
+      "metric": {
+        "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+        "dps": 849.0241850785676,
+        "stdev": 22.14831695894134,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "talent-best",
+      "metric": {
+        "id": "155fc1054dde23bb224489693905f3eee73fb6c1d96af4272cf6172247b18e9e",
+        "dps": 856.7820457396882,
+        "stdev": 22.35663511232191,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "rotation-best",
+      "metric": {
+        "id": "51e7bad88361b532252bb7fe658c56004547f9048905a1d15c514d324acc6d71",
+        "dps": 854.637548180276,
+        "stdev": 21.977368555409218,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "pet-petnone",
+      "metric": {
+        "id": "4305b5e477ad9ad6374fcba65559a00dd43a1b88a01705d61dbb340a5ade42bf",
+        "dps": 843.1110990016114,
+        "stdev": 25.736995706269024,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "pet-windserpent",
+      "metric": {
+        "id": "009bd948dbbab18cb396f36e01a5ad775b388d4b047067fec68df4dfcd3bc303",
+        "dps": 850.0504471502289,
+        "stdev": 22.435076306193263,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "pet-carrionbird",
+      "metric": {
+        "id": "f741f94ab64c3e63cbe24cd6bad43b3b5d8b779d8f01e9ce9b37a2427e7802ba",
+        "dps": 839.5581994510591,
+        "stdev": 22.37232486473759,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "pet-scorpid",
+      "metric": {
+        "id": "cc1ac0adf976e6b43c297242d8c34ce404e91cd4d5c75af3163db96d9e4c0738",
+        "dps": 837.555438732511,
+        "stdev": 21.735845960089502,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "family-summonhawk",
+      "metric": {
+        "id": "cb381d7f95b6b40cb6c26d3e6fe9671c4d462be627b59b39c48e3f3a32d96d98",
+        "dps": 826.5637651197985,
+        "stdev": 21.383242370632704,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "family-lonewolf",
+      "metric": {
+        "id": "e259c392d400bb36535ca25da019def97d26401d4eb2697db355a596cd382ddf",
+        "dps": 849.9463588753473,
+        "stdev": 22.15157615802869,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "gear-alternative-1",
+      "metric": {
+        "id": "e7f6ac343922015f512f9d57f47fb88eeda74a0bb773f32431f2c8abb6de389e",
+        "dps": 854.3667687378604,
+        "stdev": 22.4180512113892,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3537748678300000,
+      "arm": "enchant-best",
+      "metric": {
+        "id": "29ffcb07b572f5b1733ed0789b3c8ceb1acda82a261c7a12a08b19fb77852a86",
+        "dps": 849.6890582019612,
+        "stdev": 22.130183062681382,
+        "iterations": 20000
+      }
+    }
+  ],
+  "expected": {
+    "status": "material-challenger-or-uncertainty-needs-correction",
+    "accepted": false,
+    "strictRetainedDominancePassed": false,
+    "selectedArm": "selected",
+    "selectedDps": 849.0660376744213,
+    "selectedIterations": 40000,
+    "iterationsPerRange": 20000,
+    "largestConservativeRetainedGapFraction": 0.010163824207106717,
+    "maximumRetainedGapFraction": 0.01,
+    "comparisons": [
+      {
+        "arm": "talent-best",
+        "category": "talent",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "4f1ab77694cfdb09602cee970957e6445cb58f85c1f3d4baf72f75a0bfbf2d37",
+              "dps": 857.0647699659174,
+              "stdev": 22.494252525856584,
+              "iterations": 20000
+            },
+            "difference": 7.956879695642328,
+            "standardError": 0.22443454464400248,
+            "threshold": 0.6733036339320074,
+            "conservativeGapFraction": 0.010163824207106717
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "155fc1054dde23bb224489693905f3eee73fb6c1d96af4272cf6172247b18e9e",
+              "dps": 856.7820457396882,
+              "stdev": 22.35663511232191,
+              "iterations": 20000
+            },
+            "difference": 7.757860661120617,
+            "standardError": 0.2225271980746661,
+            "threshold": 0.6675815942239982,
+            "conservativeGapFraction": 0.009923677562335795
+          }
+        ],
+        "challengerConfirmedBetter": true,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": 7.857370178381473,
+        "largestConservativeGapFraction": 0.010163824207106717
+      },
+      {
+        "arm": "rotation-best",
+        "category": "rotation",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "8ce42a0cfeb78699243d4564b40c3e642b992a009172471bb50e19524aa3f141",
+              "dps": 854.4568101454003,
+              "stdev": 21.964979781555847,
+              "iterations": 20000
+            },
+            "difference": 5.348919875125148,
+            "standardError": 0.221797907643238,
+            "threshold": 0.665393722929714,
+            "conservativeGapFraction": 0.007083097056300439
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "51e7bad88361b532252bb7fe658c56004547f9048905a1d15c514d324acc6d71",
+              "dps": 854.637548180276,
+              "stdev": 21.977368555409218,
+              "iterations": 20000
+            },
+            "difference": 5.613363101708387,
+            "standardError": 0.22063008325407693,
+            "threshold": 0.6618902497622308,
+            "conservativeGapFraction": 0.007391136155785615
+          }
+        ],
+        "challengerConfirmedBetter": true,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": 5.4811414884167675,
+        "largestConservativeGapFraction": 0.007391136155785615
+      },
+      {
+        "arm": "pet-petnone",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "f9d240b19037e997de51fbd45836fbc46f7742c73991eae37db78bdbe54fc88c",
+              "dps": 842.885954823117,
+              "stdev": 25.198467228177694,
+              "iterations": 20000
+            },
+            "difference": -6.221935447158103,
+            "standardError": 0.23836827080630454,
+            "threshold": 0.7151048124189137,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "4305b5e477ad9ad6374fcba65559a00dd43a1b88a01705d61dbb340a5ade42bf",
+              "dps": 843.1110990016114,
+              "stdev": 25.736995706269024,
+              "iterations": 20000
+            },
+            "difference": -5.913086076956233,
+            "standardError": 0.24009798958948395,
+            "threshold": 0.7202939687684519,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -6.067510762057168,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "pet-windserpent",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "ca91c71cb1c760f426a61197ed433c5d7365438e067c4058c0f1b7fae7fcd078",
+              "dps": 849.8728882379338,
+              "stdev": 22.550464700508698,
+              "iterations": 20000
+            },
+            "difference": 0.7649979676587009,
+            "standardError": 0.22471641663473302,
+            "threshold": 0.674149249904199,
+            "conservativeGapFraction": 0.0016948932333025577
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "009bd948dbbab18cb396f36e01a5ad775b388d4b047067fec68df4dfcd3bc303",
+              "dps": 850.0504471502289,
+              "stdev": 22.435076306193263,
+              "iterations": 20000
+            },
+            "difference": 1.0262620716613355,
+            "standardError": 0.22292157735159274,
+            "threshold": 0.6687647320547783,
+            "conservativeGapFraction": 0.001996441130306857
+          }
+        ],
+        "challengerConfirmedBetter": true,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": 0.8956300196600182,
+        "largestConservativeGapFraction": 0.001996441130306857
+      },
+      {
+        "arm": "pet-carrionbird",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "e60f7949ac872514267336f4a7a92c4f013da298602334595b3f87514b010765",
+              "dps": 839.4625003359469,
+              "stdev": 22.28614477664897,
+              "iterations": 20000
+            },
+            "difference": -9.64538993432825,
+            "standardError": 0.22339406313731433,
+            "threshold": 0.670182189411943,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "f741f94ab64c3e63cbe24cd6bad43b3b5d8b779d8f01e9ce9b37a2427e7802ba",
+              "dps": 839.5581994510591,
+              "stdev": 22.37232486473759,
+              "iterations": 20000
+            },
+            "difference": -9.46598562750853,
+            "standardError": 0.22260602686889278,
+            "threshold": 0.6678180806066784,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -9.55568778091839,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "pet-scorpid",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "390ebc51d096102b9669ad6481fd6a3e1098f08e7908e3d4bfac1c7a4556d2bc",
+              "dps": 837.4412610188127,
+              "stdev": 21.892259316276593,
+              "iterations": 20000
+            },
+            "difference": -11.666629251462382,
+            "standardError": 0.2214381310733665,
+            "threshold": 0.6643143932200994,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "cc1ac0adf976e6b43c297242d8c34ce404e91cd4d5c75af3163db96d9e4c0738",
+              "dps": 837.555438732511,
+              "stdev": 21.735845960089502,
+              "iterations": 20000
+            },
+            "difference": -11.468746346056605,
+            "standardError": 0.21943050650655524,
+            "threshold": 0.6582915195196657,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -11.567687798759493,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "family-summonhawk",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "ce87c12e821d902d54db3388affdd39d734f06b9f45dba6f53e261d1c1d24673",
+              "dps": 826.5743337435373,
+              "stdev": 21.33104187224102,
+              "iterations": 20000
+            },
+            "difference": -22.53355652673781,
+            "standardError": 0.21868233207663454,
+            "threshold": 0.6560469962299036,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "cb381d7f95b6b40cb6c26d3e6fe9671c4d462be627b59b39c48e3f3a32d96d98",
+              "dps": 826.5637651197985,
+              "stdev": 21.383242370632704,
+              "iterations": 20000
+            },
+            "difference": -22.46041995876908,
+            "standardError": 0.21769140984372237,
+            "threshold": 0.6530742295311671,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -22.496988242753446,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "family-lonewolf",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "7c57ddd4d55c65f361e04e54c6a720fd9b49f039fbc303237771b36e78fcd428",
+              "dps": 850.226575663518,
+              "stdev": 22.288047998154155,
+              "iterations": 20000
+            },
+            "difference": 1.118685393242913,
+            "standardError": 0.22340355676020837,
+            "threshold": 0.6702106702806251,
+            "conservativeGapFraction": 0.0021067947713383326
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "e259c392d400bb36535ca25da019def97d26401d4eb2697db355a596cd382ddf",
+              "dps": 849.9463588753473,
+              "stdev": 22.15157615802869,
+              "iterations": 20000
+            },
+            "difference": 0.9221737967797026,
+            "standardError": 0.2214994661843086,
+            "threshold": 0.6644983985529258,
+            "conservativeGapFraction": 0.0018688186075474396
+          }
+        ],
+        "challengerConfirmedBetter": true,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": 1.0204295950113078,
+        "largestConservativeGapFraction": 0.0021067947713383326
+      },
+      {
+        "arm": "gear-alternative-1",
+        "category": "gear",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "f30eea2e1215ad4427318466d4635c7d266a88e7d243b543f444688f257dca3b",
+              "dps": 854.5490794259895,
+              "stdev": 22.507357259845183,
+              "iterations": 20000
+            },
+            "difference": 5.441189155714369,
+            "standardError": 0.22450022613758266,
+            "threshold": 0.673500678412748,
+            "conservativeGapFraction": 0.007201310815968018
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "e7f6ac343922015f512f9d57f47fb88eeda74a0bb773f32431f2c8abb6de389e",
+              "dps": 854.3667687378604,
+              "stdev": 22.4180512113892,
+              "iterations": 20000
+            },
+            "difference": 5.3425836592928135,
+            "standardError": 0.2228359221748367,
+            "threshold": 0.66850776652451,
+            "conservativeGapFraction": 0.007080000230218489
+          }
+        ],
+        "challengerConfirmedBetter": true,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": 5.391886407503591,
+        "largestConservativeGapFraction": 0.007201310815968018
+      },
+      {
+        "arm": "enchant-best",
+        "category": "enchant",
+        "ranges": [
+          {
+            "seed": 3537748678200000,
+            "selected": {
+              "id": "ab333c260de7488e6228f8f2d38297d73de8fb0ec799cb40e90358fa36e7f144",
+              "dps": 849.1078902702751,
+              "stdev": 22.39254116651814,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "98fef4fe2be9fc715eda90689e43bb03f1a6eb4a007400e5e9feda2c409609ef",
+              "dps": 849.5601524624578,
+              "stdev": 22.34991757562989,
+              "iterations": 20000
+            },
+            "difference": 0.45226219218272945,
+            "standardError": 0.22371239522338265,
+            "threshold": 0.671137185670148,
+            "conservativeGapFraction": 0.0013230349060768874
+          },
+          {
+            "seed": 3537748678300000,
+            "selected": {
+              "id": "e17a41cfaa4592c2ba1d0bfdce1bade1532d2ae2ecdf2dc1fb3a85028cab7c77",
+              "dps": 849.0241850785676,
+              "stdev": 22.14831695894134,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "29ffcb07b572f5b1733ed0789b3c8ceb1acda82a261c7a12a08b19fb77852a86",
+              "dps": 849.6890582019612,
+              "stdev": 22.130183062681382,
+              "iterations": 20000
+            },
+            "difference": 0.6648731233935905,
+            "standardError": 0.22139251867458376,
+            "threshold": 0.6641775560237513,
+            "conservativeGapFraction": 0.0015653861253603196
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": 0.55856765778816,
+        "largestConservativeGapFraction": 0.0015653861253603196
+      }
+    ]
+  }
+}

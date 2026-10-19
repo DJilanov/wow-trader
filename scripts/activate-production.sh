@@ -41,6 +41,13 @@ for required_path in "${required_paths[@]}"; do
   fi
 done
 
+if [[ -f "$deploy_root/shared/forever-simulator/model-update.json" ]]; then
+  : "${WOW_TRADER_CANDIDATE_URL:?Start the candidate web server and set WOW_TRADER_CANDIDATE_URL before activation}"
+  node "$release_directory/scripts/verify-simulator-deployment.mjs" \
+    "--base-url=$WOW_TRADER_CANDIDATE_URL" \
+    "--artifact-root=$deploy_root/shared/forever-simulator"
+fi
+
 ln -sfn "$release_directory" "$deploy_root/current"
 WOW_TRADER_DEPLOY_ROOT="$deploy_root" pm2 startOrReload \
   "$deploy_root/current/ecosystem.config.cjs" \

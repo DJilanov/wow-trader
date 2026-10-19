@@ -102,6 +102,26 @@ export const simulatorManifestSchema = z
       "pinned-forever-with-labelled-classic-pre-raid-references",
     ]),
     mechanicsStatus: z.literal("beta_model"),
+    itemWeaponSkillPolicy: z
+      .object({
+        schema: z.literal("kfc-item-weapon-skills.v1"),
+        mode: z.literal("ignore-item-bonuses"),
+        basis: z.literal("owner-directed-model-assumption"),
+        notice: z.string().min(1).max(4000),
+        changes: z
+          .array(
+            z
+              .object({
+                id: z.number().int().positive().safe(),
+                name: z.string().max(500).optional(),
+                previousWeaponSkills: z.array(z.number().finite()).max(16),
+              })
+              .strict(),
+          )
+          .max(20000),
+      })
+      .strict()
+      .optional(),
   })
   .strict()
   .refine((manifest) => {

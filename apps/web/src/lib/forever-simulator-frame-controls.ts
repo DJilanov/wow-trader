@@ -3,6 +3,7 @@ import { withHelperBasePath } from "./site-path";
 interface SimulatorFrameControlsOptions {
   readonly onRestart: (url: string) => void;
   readonly onRun: () => void;
+  readonly onLoadSelectedBuild?: (() => void) | undefined;
 }
 
 export const simulatorStopGraceMs = 1200;
@@ -99,6 +100,12 @@ export function connectSimulatorFrameControls(
   chooseRace.textContent = "Choose race";
   const focusRace = (): void => race?.focus();
   chooseRace.addEventListener("click", focusRace);
+  const loadBuild = frameDocument.createElement("button");
+  loadBuild.type = "button";
+  loadBuild.className = "btn";
+  loadBuild.textContent = "Load full tested build";
+  const applySelectedBuild = (): void => options.onLoadSelectedBuild?.();
+  loadBuild.addEventListener("click", applySelectedBuild);
   const dismiss = frameDocument.createElement("button");
   dismiss.type = "button";
   dismiss.className = "btn";
@@ -108,7 +115,7 @@ export function connectSimulatorFrameControls(
   };
   dismiss.addEventListener("click", hideNotice);
   frameDocument.addEventListener("change", hideNotice);
-  notice.append(message, chooseRace, dismiss);
+  notice.append(message, chooseRace, loadBuild, dismiss);
   actions.prepend(notice);
 
   const originalAlert = frameWindow.alert;
@@ -119,7 +126,13 @@ export function connectSimulatorFrameControls(
       : "Simulation notice";
     detail.textContent = text;
     chooseRace.hidden = !race || !/different faction/i.test(text);
+    loadBuild.hidden = !options.onLoadSelectedBuild || !/different faction/i.test(text);
+    if (!loadBuild.hidden)
+      detail.append(
+        " Choose a compatible race or load the full tested build, which replaces your current setup including race and encounter settings.",
+      );
     notice.hidden = false;
+    notice.scrollIntoView({ block: "center", behavior: "smooth" });
   };
   // Native alerts are suppressed inside our sandbox. Keep validation intact and render its message.
   frameWindow.alert = showNotice;
@@ -152,6 +165,7 @@ export function connectSimulatorFrameControls(
     if (frame.contentDocument === frameDocument && frameWindow.alert === showNotice)
       frameWindow.alert = originalAlert;
     chooseRace.removeEventListener("click", focusRace);
+    loadBuild.removeEventListener("click", applySelectedBuild);
     dismiss.removeEventListener("click", hideNotice);
     frameDocument.removeEventListener("change", hideNotice);
     if (raceControl && racePlaceholder.parentNode) racePlaceholder.replaceWith(raceControl);

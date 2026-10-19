@@ -16,10 +16,14 @@ import {
 interface ForeverSimulatorFrameProps {
   readonly src: string;
   readonly title: string;
+  readonly onPresetSelected: (name: string) => void;
+  readonly onLoadSelectedBuild: (() => void) | undefined;
 }
 export function ForeverSimulatorFrame({
   src,
   title,
+  onPresetSelected,
+  onLoadSelectedBuild,
 }: ForeverSimulatorFrameProps): React.JSX.Element {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
@@ -56,9 +60,10 @@ export function ForeverSimulatorFrame({
         const actual = element.contentDocument?.location.href;
         const route = actual ? simulatorNavigationHref(actual, src, window.location.origin) : null;
         const expected = simulatorNavigationHref(src.split("#")[0]!, src, window.location.origin);
-        if (route && expected && route !== expected) router.push(route, { scroll: false });
+        if (route && expected && route.split("?")[0] !== expected.split("?")[0])
+          router.push(route, { scroll: false });
       } catch {
-        // Foreign documents cannot drive host navigation; readiness keeps recovery visible.
+        // A foreign document cannot drive host navigation; readiness retains its recovery state.
       }
       timer = window.setTimeout(() => setSlow(true), 30000);
       poll = window.setInterval(check, 250);
@@ -78,8 +83,9 @@ export function ForeverSimulatorFrame({
     if (!loaded || !element) return;
     return connectSimulatorFrameNavigation(element, src, {
       onNavigate: (href): void => router.push(href, { scroll: false }),
+      onPresetSelected,
     });
-  }, [loaded, src, attempt, documentVersion, router]);
+  }, [loaded, src, attempt, documentVersion, router, onPresetSelected]);
   useEffect(() => {
     const element = frame.current;
     if (!loaded || fullscreen || !element) return;
@@ -95,6 +101,7 @@ export function ForeverSimulatorFrame({
       restoreResults.current = false;
     }
     return connectSimulatorFrameControls(element, {
+      onLoadSelectedBuild,
       onRun: (): void => setRestarted(false),
       onRestart: (url): void => {
         restoreResults.current =
@@ -106,7 +113,7 @@ export function ForeverSimulatorFrame({
         element.contentWindow?.location.replace(url);
       },
     });
-  }, [loaded, src, attempt, documentVersion]);
+  }, [loaded, src, attempt, documentVersion, onLoadSelectedBuild]);
   useEffect(() => {
     const element = frame.current;
     const frameDocument = loaded ? element?.contentDocument : null;

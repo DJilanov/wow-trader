@@ -12,6 +12,7 @@ import { prepareItemEffectFixes } from "./item-effects-adapter.mjs";
 import { prepareDungeonManaModels } from "./dungeon-set-mana-adapter.mjs";
 import { assertDrakkisathDatabase } from "./drakkisath-trinkets.mjs";
 import { assertSimulatorWorkspaceAccess } from "./simulator-workspace.mjs";
+import { assertItemWeaponSkillsIgnored, patchItemWeaponSkills } from "./item-weapon-skills.mjs";
 
 export function nativeSimulationTimeout(iterations) {
   assert(Number.isSafeInteger(iterations) && iterations > 0, "Invalid simulation iteration count");
@@ -88,6 +89,22 @@ class NativeWorker {
   }
 }
 
+export async function openNativeRunners(binary, upstream, expectedSha256, workerCount = 4) {
+  assert(Number.isInteger(workerCount) && workerCount >= 1 && workerCount <= 6);
+  assert(/^[a-f0-9]{64}$/.test(expectedSha256), "Invalid native engine checksum");
+  assert.equal(
+    createHash("sha256")
+      .update(await readFile(binary))
+      .digest("hex"),
+    expectedSha256,
+    "Staged native engine changed",
+  );
+  return Array.from(
+    { length: workerCount },
+    () => new NativeWorker(binary, upstream, expectedSha256),
+  );
+}
+
 export async function createNativeRunners(
   root,
   workerCount = Math.min(6, Math.max(1, availableParallelism() - 2)),
@@ -95,6 +112,15 @@ export async function createNativeRunners(
   assert(Number.isInteger(workerCount) && workerCount >= 1 && workerCount <= 6);
   await assertSimulatorWorkspaceAccess(root);
   const upstream = join(root, ".cache/forever-sim-upstream");
+  assertItemWeaponSkillsIgnored(
+    JSON.parse(await readFile(join(upstream, "assets/database/db.json"), "utf8")),
+  );
+  const characterSource = await readFile(join(upstream, "sim/core/character.go"), "utf8");
+  assert.equal(
+    patchItemWeaponSkills(characterSource),
+    characterSource,
+    "Prepare the no-item-skill engine before running new searches; old evidence is unchanged",
+  );
   await prepareItemEffectFixes(root, upstream);
   await prepareDungeonManaModels(root, upstream);
   assertDrakkisathDatabase(

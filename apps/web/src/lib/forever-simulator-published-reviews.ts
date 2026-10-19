@@ -6,6 +6,7 @@ import { z } from "zod";
 import type { LocalSimulatorBuildReview } from "./forever-simulator-local-reviews";
 import type { SimulatorPresentation } from "./forever-simulator-presentation";
 import { simulatorDirectory } from "./forever-simulator";
+import { validateSimulatorModelUpdateBuilds } from "./forever-simulator-model-updates";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const release = z.string().regex(/^[a-f0-9]{24}$/);
@@ -165,6 +166,12 @@ export async function readPublishedSimulatorReviews(
     )
       throw new Error("Published simulator review approval is stale");
     const builds = value.builds.map(toLocalBuildReview);
+    await validateSimulatorModelUpdateBuilds(
+      profile,
+      presentation.manifest,
+      value.builds,
+      directory,
+    );
     createPublishedSimulatorProfile(presentation, profile, builds);
     return builds;
   } catch (error: unknown) {

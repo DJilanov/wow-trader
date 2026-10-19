@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import console from "node:console";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -17,6 +18,11 @@ import { createHelperMetadata } from "../../../../lib/seo";
 import { readPublishedSimulatorReviews } from "../../../../lib/forever-simulator-published-reviews";
 import { withHelperBasePath } from "../../../../lib/site-path";
 import { simulatorBuildQuery } from "../../../../lib/forever-simulator-frame-navigation";
+import { simulatorBuildForLink } from "../../../../lib/forever-simulator-build-selection";
+import {
+  readSimulatorPresetSafety,
+  remapSimulatorPresetHref,
+} from "../../../../lib/forever-simulator-preset-safety";
 
 export const dynamic = "force-dynamic";
 interface SimulatorPageProps {
@@ -38,12 +44,15 @@ export default async function SimulatorPage({
 }: SimulatorPageProps): Promise<React.JSX.Element> {
   const spec = getSimulatorSpec((await params).slug);
   if (!spec) notFound();
-  const buildQuery = simulatorBuildQuery((await searchParams).build);
+  const requestedBuild = (await searchParams).build;
+  const buildQuery = simulatorBuildQuery(requestedBuild);
   const classEntry = getSimulatorClass(spec.className?.toLowerCase());
   const presentation = await readSimulatorPresentation(spec.page);
   const manifest = presentation?.manifest ?? null;
-  const builds =
-    presentation && process.env.NODE_ENV === "development"
+  const reviewedBuilds =
+    presentation &&
+    process.env.NODE_ENV === "development" &&
+    !manifest?.files["kfc-item-weapon-skills.json"]
       ? buildsForPresentation(
           reviewedBuildsForSimulator(
             await readLocalSimulatorReviews(),
@@ -56,6 +65,30 @@ export default async function SimulatorPage({
       : presentation
         ? await readPublishedSimulatorReviews(presentation, spec.page)
         : [];
+  let safetyRelease: string | null = null;
+  let presetSafetyUnavailable = false;
+  if (presentation) {
+    try {
+      safetyRelease = await readSimulatorPresetSafety(presentation, spec.page);
+    } catch (error: unknown) {
+      console.warn(
+        "[simulator] Preset safety selection unavailable",
+        error instanceof Error ? error.message : "Unknown error",
+      );
+      presetSafetyUnavailable = true;
+    }
+  }
+  const displayRelease = safetyRelease ?? manifest?.release;
+  const builds =
+    safetyRelease && manifest
+      ? reviewedBuilds.map((build) => ({
+          ...build,
+          href: build.href
+            ? remapSimulatorPresetHref(build.href, spec.page, manifest.release, safetyRelease)
+            : null,
+        }))
+      : reviewedBuilds;
+  const linkedBuild = simulatorBuildForLink(builds, requestedBuild);
   return (
     <article
       className="forever-simulator-workspace"
@@ -109,14 +142,37 @@ export default async function SimulatorPage({
           model. Engine {manifest?.revision.slice(0, 10) ?? "not prepared"} must be reviewed and
           rebuilt separately.
         </p>
+        {manifest?.files["kfc-item-weapon-skills.json"] ? (
+          <p>
+            Item-granted weapon skill is ignored in this model. Items retain their other stats and
+            effects; talents and racials are unchanged.
+          </p>
+        ) : null}
         <Link href="/forever/encyclopedia/changes">Check the latest official notes →</Link>
       </details>
-      {manifest ? (
+      {!presetSafetyUnavailable && manifest?.files["kfc-item-weapon-skills.json"] ? (
+        <p className="simulator-reviewed-warning" role="status">
+          Item weapon-skill bonuses are now ignored. Saved characters are unchanged—load a current
+          preset to use the revised gear.
+        </p>
+      ) : null}
+      {presetSafetyUnavailable ? (
+        <section className="panel" role="status">
+          <h2>Preset update under review</h2>
+          <p>
+            Verified pre-raid presets are temporarily unavailable. We will not substitute older,
+            unaudited gear. Your saved characters remain in this browser.
+          </p>
+        </section>
+      ) : manifest ? (
         <ForeverSimulatorReviewedWorkspace
-          key={`${manifest.release}:${spec.page}:${buildQuery}`}
+          key={`${displayRelease}:${spec.page}:${buildQuery}`}
           title={`${spec.name} combat simulator`}
-          src={withHelperBasePath(`/forever-sim/${manifest.release}/${spec.page}/${buildQuery}`)}
+          src={withHelperBasePath(
+            linkedBuild?.href ?? `/forever-sim/${displayRelease}/${spec.page}/${buildQuery}`,
+          )}
           builds={builds}
+          initialBuildId={linkedBuild?.id}
         />
       ) : (
         <section className="panel">

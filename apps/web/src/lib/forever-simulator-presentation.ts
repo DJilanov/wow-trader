@@ -6,6 +6,7 @@ import { z } from "zod";
 import type { SimulatorManifest } from "@wow-trader/forever-data/simulator";
 import type { LocalSimulatorBuildReview } from "./forever-simulator-local-reviews";
 import { readSimulatorManifest, simulatorDirectory } from "./forever-simulator";
+import { readSimulatorModelUpdate } from "./forever-simulator-model-updates";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const releaseId = z.string().regex(/^[a-f0-9]{24}$/);
@@ -458,6 +459,16 @@ export async function readSimulatorPresentation(
     sourceRelease: active.release,
     kind: "base",
   };
+  try {
+    const update = await readSimulatorModelUpdate(profile, directory);
+    if (update) return { ...update, kind: "reviewed-presets" };
+  } catch (error: unknown) {
+    console.warn(
+      "[simulator] Model update approval unavailable",
+      error instanceof Error ? error.message : "Unknown error",
+    );
+    return fallback;
+  }
   let pointerDocument: Awaited<ReturnType<typeof document>>;
   try {
     pointerDocument = await document(directory, "presentation.json", 32_000);

@@ -16,6 +16,33 @@ const legacy = {
 };
 
 describe("simulator manifest provenance compatibility", () => {
+  it("accepts a disclosed item-skill policy without loosening other manifest fields", () => {
+    const itemWeaponSkillPolicy = {
+      schema: "kfc-item-weapon-skills.v1",
+      mode: "ignore-item-bonuses",
+      basis: "owner-directed-model-assumption",
+      notice: "Synthetic unit-test policy only; not server verification.",
+      changes: [{ id: 18392, name: "Distracting Dagger", previousWeaponSkills: [0, 0, 0, 0, 6] }],
+    };
+    expect(
+      simulatorManifestSchema.parse({ ...legacy, itemWeaponSkillPolicy }).itemWeaponSkillPolicy,
+    ).toEqual(itemWeaponSkillPolicy);
+    for (const changed of [
+      { mode: "delete-items" },
+      { basis: "server-verified" },
+      { unknown: true },
+      { changes: [{ id: 18392, previousWeaponSkills: [NaN] }] },
+    ])
+      expect(
+        simulatorManifestSchema.safeParse({
+          ...legacy,
+          itemWeaponSkillPolicy: { ...itemWeaponSkillPolicy, ...changed },
+        }).success,
+      ).toBe(false);
+    expect(
+      simulatorManifestSchema.safeParse({ ...legacy, unknownManifestProperty: true }).success,
+    ).toBe(false);
+  });
   it("accepts previous immutable releases for rollback", () => {
     expect(simulatorManifestSchema.safeParse(legacy).success).toBe(true);
   });

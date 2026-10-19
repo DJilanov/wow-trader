@@ -51,6 +51,30 @@ describe("Simulator frame readiness", () => {
       expect(isSimulatorFrameReady(fixture(href), src, origin)).toBe(false);
     expect(isSimulatorFrameReady(fixture(), "https://other.example" + src, origin)).toBe(false);
   });
+  it("accepts a consumed named-build query, but not unrelated or invalid stripped parameters", () => {
+    expect(isSimulatorFrameReady(fixture(), src + "?build=Arms+34%2F17%2F0", origin)).toBe(true);
+    for (const query of [
+      "?other=1",
+      "?build=",
+      "?build=one&build=two",
+      "?build=%00bad",
+      "?build=Arms&other=1",
+    ])
+      expect(isSimulatorFrameReady(fixture(), src + query, origin)).toBe(false);
+    expect(
+      isSimulatorFrameReady(fixture(origin + src + "?build=wrong"), src + "?build=Arms", origin),
+    ).toBe(false);
+  });
+  it("does not declare a hidden, failed or uninitialized engine ready", () => {
+    expect(isSimulatorFrameReady(fixture(origin + src, false), src, origin)).toBe(false);
+    const missing = {
+      contentDocument: { location: { href: origin + src }, querySelector: () => null },
+    } as unknown as HTMLIFrameElement;
+    expect(isSimulatorFrameReady(missing, src, origin)).toBe(false);
+    expect(isSimulatorFrameReady({ contentDocument: null } as HTMLIFrameElement, src, origin)).toBe(
+      false,
+    );
+  });
   it("accepts the reverse-proxy engine alias without accepting another profile or build query", () => {
     expect(isSimulatorFrameReady(fixture(), `/tools${src}`, origin)).toBe(true);
     expect(isSimulatorFrameReady(fixture(`${origin}/tools${src}`), src, origin)).toBe(true);
@@ -65,16 +89,6 @@ describe("Simulator frame readiness", () => {
       ),
     ).toBe(false);
   });
-  it("does not declare a hidden, failed or uninitialized engine ready", () => {
-    expect(isSimulatorFrameReady(fixture(origin + src, false), src, origin)).toBe(false);
-    const missing = {
-      contentDocument: { location: { href: origin + src }, querySelector: () => null },
-    } as unknown as HTMLIFrameElement;
-    expect(isSimulatorFrameReady(missing, src, origin)).toBe(false);
-    expect(isSimulatorFrameReady({ contentDocument: null } as HTMLIFrameElement, src, origin)).toBe(
-      false,
-    );
-  });
   it("handles browser access restrictions without crashing the host page", () => {
     const restricted = {
       get contentDocument(): Document {
@@ -82,6 +96,20 @@ describe("Simulator frame readiness", () => {
       },
     } as HTMLIFrameElement;
     expect(isSimulatorFrameReady(restricted, src, origin)).toBe(false);
+  });
+  it("recognizes an applied named build after the engine consumes its query", () => {
+    const requested = `${src}?build=Arms+34%2F17%2F0`;
+    expect(isSimulatorFrameReady(fixture(), requested, origin)).toBe(true);
+    expect(isSimulatorFrameReady(fixture(), `${src}?other=Arms`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(), `${requested}&extra=1`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(), `${src}?build=one&build=two`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(), `${src}?build=%00bad`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(origin + src + "?build=Fury"), requested, origin)).toBe(
+      false,
+    );
+    const pending = fixture();
+    pending.contentDocument!.querySelector = (() => ({})) as Document["querySelector"];
+    expect(isSimulatorFrameReady(pending, requested, origin)).toBe(false);
   });
   it("keeps loading visible until the initial gear and talents finish loading", () => {
     const loading = fixture();

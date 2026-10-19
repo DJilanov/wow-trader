@@ -16,6 +16,7 @@ import { prepareItemEffectFixes } from "./item-effects-adapter.mjs";
 import { prepareDungeonManaModels } from "./dungeon-set-mana-adapter.mjs";
 import { loadCurrentPrebisRecovery } from "./current-prebis-recovery.mjs";
 import { reconcileDrakkisathPassives } from "./drakkisath-trinkets.mjs";
+import { prepareItemWeaponSkills } from "./item-weapon-skills.mjs";
 
 export async function adaptSource(root) {
   await prepareItemEffectFixes(join(root, "../.."), root);
@@ -47,7 +48,8 @@ export async function adaptSource(root) {
     { ...prebis.manifest, currentItems: recovered.currentItems },
     JSON.parse(await readFile(join(root, "ui/core/kfc_drakkisath_models.json"), "utf8")),
   );
-  await writeFile(equipmentPath, JSON.stringify(reconciled.equipment));
+  const itemSkills = await prepareItemWeaponSkills(join(root, "../.."), root, reconciled.equipment);
+  await writeFile(equipmentPath, JSON.stringify(itemSkills.equipment));
   await writeFile(join(root, "ui/core/kfc_prebis_import.json"), JSON.stringify(reconciled.imports));
   const rankedPath = join(root, "ui/core/forever_ranked_profiles.json");
   const ranked = original("ui/core/forever_ranked_profiles.json");
@@ -81,6 +83,7 @@ export async function adaptSource(root) {
     currentItemCount: starters.equipment.items.length + recovered.addedCount,
     provisionalItemCount: prebis.manifest.items.length,
     excludedModeledItems: before - equipment.items.length,
+    itemWeaponSkillPolicy: itemSkills.manifest,
   };
 }
 

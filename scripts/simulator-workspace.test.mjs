@@ -109,6 +109,8 @@ test("release identity includes every workspace source file", async () => {
     "prebis-pool.mjs",
     "prebis-runner.go",
     "item-effects-adapter.mjs",
+    "item-weapon-skills.mjs",
+    "item-weapon-skills_test.go",
     "flame-wrath_test.go",
     "manual-crowd-pummeler.mjs",
     "manual-crowd-pummeler.go",

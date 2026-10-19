@@ -21,6 +21,7 @@ import { workspaceInputs } from "../infra/simulator/workspace-adapter.mjs";
 import { prepareInspectionData } from "../infra/simulator/inspection-data.mjs";
 import { prepareDefaultEnchants } from "../infra/simulator/default-enchants.mjs";
 import { acquireSimulatorWorkspace } from "../infra/simulator/simulator-workspace.mjs";
+import { assertItemWeaponSkillsIgnored } from "../infra/simulator/item-weapon-skills.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const source = join(root, ".cache/forever-sim-upstream");
@@ -131,6 +132,9 @@ async function prepareUnlockedSimulator() {
       environment,
     );
     await prepareDefaultEnchants(source);
+    assertItemWeaponSkillsIgnored(
+      JSON.parse(await readFile(join(source, "assets/database/db.json"), "utf8")),
+    );
     await run(
       go,
       [
@@ -140,7 +144,7 @@ async function prepareUnlockedSimulator() {
         "./sim/core",
         "./sim/common",
         "-run",
-        "TestKfcEnchant|TestKfcTankStarterSetThresholds|TestKfcFlameWrathSelfRetaliation|TestKfcDungeonSetMana|TestKfcManualCrowdPummeler|TestKfcDrakkisath",
+        "TestKfcEnchant|TestKfcTankStarterSetThresholds|TestKfcFlameWrathSelfRetaliation|TestKfcDungeonSetMana|TestKfcManualCrowdPummeler|TestKfcDrakkisath|TestKfcItemWeaponSkills",
       ],
       source,
       environment,
@@ -167,6 +171,10 @@ async function prepareUnlockedSimulator() {
     await cp(
       join(source, "ui/core/kfc_prebis_import.json"),
       join(temporary, "kfc-prebis-import.json"),
+    );
+    await cp(
+      join(source, "ui/core/kfc_item_weapon_skills.json"),
+      join(temporary, "kfc-item-weapon-skills.json"),
     );
     const classicReference = JSON.parse(
       await readFile(join(root, "infra/simulator/classic-prebis-reference.json"), "utf8"),
@@ -208,6 +216,7 @@ async function prepareUnlockedSimulator() {
       currentItemCount: data.currentItemCount,
       provisionalItemCount: data.provisionalItemCount,
       excludedModeledItems: data.excludedModeledItems,
+      itemWeaponSkillPolicy: data.itemWeaponSkillPolicy,
       pages: pages.sort(),
       files,
       dataProvenance: "pinned-forever-with-labelled-classic-pre-raid-references",
