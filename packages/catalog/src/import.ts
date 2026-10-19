@@ -478,6 +478,7 @@ export function createSnapshotKey(bundle: CatalogBundle): string {
     bundle.manifest.locale,
     bundle.manifest.hotfix.sha256 ?? bundle.manifest.hotfix.status,
     bundle.manifest.definitions.revision,
+    bundle.manifest.extractor.version,
     bundle.manifest.schemaVersion,
   ].join(":");
 }

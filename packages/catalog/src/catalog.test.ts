@@ -15,9 +15,9 @@ import { createSemanticCatalogDiff } from "./semantic-diff.js";
 import { validateCatalog } from "./validation.js";
 
 describe("createSnapshotKey", () => {
-  it("includes the normalized snapshot schema version", () => {
+  it("includes the extractor and normalized snapshot schema versions", () => {
     expect(createSnapshotKey(createGoldenBundle())).toBe(
-      `wow_anniversary:2.5.6.69795:69795:enUS:${"c".repeat(64)}:definition-revision:catalog-snapshot-manifest.v4`,
+      `wow_anniversary:2.5.6.69795:69795:enUS:${"c".repeat(64)}:definition-revision:0.4.0:catalog-snapshot-manifest.v4`,
     );
   });
 });
