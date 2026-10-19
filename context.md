@@ -13,8 +13,18 @@ not unfinished MM/Survival. Keep Warrior's current live selection and unrelated 
 features. Stage only simulator/dependency changes on the current production source, verify
 desktop/mobile/full imports/presets/guide/real small combat, then reload Helper WEB ONLY.
 No database migration, ingestion/crawler/guild restart or unrelated dirty-source deployment.
-Current work is staging, not yet a successful deployment. Original Hunter class clock remains
-2026-10-18T21:33:17.772Z →2026-10-19T21:33:17.772Z. MM2% delivery resumes after this rollout.
+DEPLOYED successfully2026-10-19T03:39:39Z: source0356a87 pushed, release
+kfc-helper-hunter-reviewed-20261019-r2, buildf6wrYfrlHBX0eIkZ51X3f. BM is live at
+https://kfcguild.online/tools/forever/simulator/hunter with full presets/gear/enchants and
+six-priority rotation guidance. Public desktop/mobile/full-import/persistence/25-fight combat
+and Warrior regression smokes passed. Local485 web tests/lint/tsc and Linux99 focused tests/
+production build passed; all3,494 Hunter assets verified. A concurrent newer leveling release
+was preserved by restaging from it; ONLY Helper web restarted, protected services unchanged.
+Rollback: kfc-helper-leveling-campaign-test-20261019-r1; private backups
+shared/backups/hunter-20261019-r2.UPyGyq. Temporary staging processes/tunnels stopped.
+See docs/hunter-production-publication.md for the exact receipt. MM/Survival are NOT promoted.
+Original Hunter class clock remains2026-10-18T21:33:17.772Z →2026-10-19T21:33:17.772Z.
+MM2% delivery resumes after this rollout; no completed numerical searches need restarting.
 
 ## Goal and current target
 

@@ -1,10 +1,33 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-10-17
+Last updated: 2026-10-19
 
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
+
+## October19 Hunter Beast Mastery production publication
+
+The owner's2% practical-margin approval resolves the historical MM policy blocker below;
+it does NOT change the raw failed1% confirmation or mean MM has been published.
+BM source0356a87 was committed/pushed and deployed successfully03:39:39UTC as
+kfc-helper-hunter-reviewed-20261019-r2, buildf6wrYfrlHBX0eIkZ51X3f. Live Hunter UI
+94239fb7240949919b83f8ad now has the actual reviewed gear/enchants/configurations and
+six-priority rotation guide. Numerical sourcee14af46d79721e1ad50a6f04 stays unchanged.
+The publication reader preserves optional rotation introductions/priorities/caveats and old
+guide-less publications; regression tests cover validation and exactOptionalPropertyTypes.
+
+A production-current guard caught a concurrent leveling deployment before activation.
+The final build preserves that newer leveling source instead of overwriting it with the old
+staging baseline. Only Helper web restarted; ingestion/crawler/guild state stayed unchanged.
+Local485 web tests/lint/tsc, Linux99 tests/production build, all3,494 Hunter asset hashes,
+and public Hunter desktop/mobile/full-import/preset/gear/rotation/persistence checks passed.
+Actual25-fight Hunter and Warrior public browser smokes passed; they are functional checks,
+not new independent numerical validation. Temporary staging servers/tunnels are stopped.
+Rollback web: kfc-helper-leveling-campaign-test-20261019-r1; backup
+shared/backups/hunter-20261019-r2.UPyGyq. Full receipt: docs/hunter-production-publication.md.
+MM2% qualification/delivery and Survival remain pending; preserve all old results/checkpoints
+and the original shared Hunter deadline2026-10-19T21:33:17.772Z.
 
 ## October 17 reviewed builds on the normal Warrior page
 
