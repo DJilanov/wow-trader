@@ -213,6 +213,15 @@ try {
     assert.equal(await frame.locator(".dps-action").isEnabled(), true);
     const recoveredMs = Date.now() - started;
     assert(recoveredMs < 15000, "Stop recovery exceeded 15 seconds including engine loading");
+    const recoveryMode =
+      (await page
+        .getByText(
+          "Run stopped. Results were cleared; your saved character and builds are kept. You can simulate again.",
+          { exact: true },
+        )
+        .count()) > 0
+        ? "fallback-reload"
+        : "cooperative-cancellation";
     await fight(frame);
     assert.equal(await frame.locator("#player-race").inputValue(), "1");
     assert.equal(await frame.locator("#player-race").count(), 1);
@@ -227,15 +236,7 @@ try {
         phase: "stop-recovery-and-next-combat",
         workers,
         recoveredMs,
-        recoveryMode:
-          (await page
-            .getByText(
-              "Run stopped. Results were cleared; your saved character and builds are kept. You can simulate again.",
-              { exact: true },
-            )
-            .count()) > 0
-            ? "fallback-reload"
-            : "cooperative-cancellation",
+        recoveryMode,
         savedSettingsPreserved: true,
         errors,
       }),
