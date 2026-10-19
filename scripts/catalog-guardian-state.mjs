@@ -15,3 +15,10 @@ export function canReusePublishedCatalog(
     (!expectedExtractorVersion || published.extractorVersion === expectedExtractorVersion),
   );
 }
+
+export function catalogExtractorCacheSegment(extractorVersion) {
+  if (!/^[A-Za-z0-9._-]+$/.test(extractorVersion)) {
+    throw new Error("Catalog extractor cache version contains unsupported characters.");
+  }
+  return `extractor-${extractorVersion}`;
+}

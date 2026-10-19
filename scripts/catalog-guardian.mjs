@@ -26,7 +26,10 @@ import {
   verifyCatalogRuntime,
   verifyGuardianRelease,
 } from "./catalog-runtime.mjs";
-import { canReusePublishedCatalog } from "./catalog-guardian-state.mjs";
+import {
+  canReusePublishedCatalog,
+  catalogExtractorCacheSegment,
+} from "./catalog-guardian-state.mjs";
 import { resolveCatalogPromotionApproval } from "./catalog-review-approval.mjs";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
@@ -168,7 +171,12 @@ async function reconcile(options) {
     return;
   }
 
-  const catalogOutput = join(workRoot, "artifacts/local-catalog", definitionsRevision.slice(0, 12));
+  const catalogOutput = join(
+    workRoot,
+    "artifacts/local-catalog",
+    definitionsRevision.slice(0, 12),
+    catalogExtractorCacheSegment(installation?.catalogExtractorVersion ?? "mutable"),
+  );
   let targetManifest = await findManifest(join(workRoot, "artifacts"), {
     product: options.product,
     buildNumber: installed.buildNumber,

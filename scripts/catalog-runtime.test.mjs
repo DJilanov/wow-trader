@@ -11,7 +11,10 @@ import {
   writeCatalogRuntimeManifest,
   writeGuardianReleaseManifest,
 } from "./catalog-runtime.mjs";
-import { canReusePublishedCatalog } from "./catalog-guardian-state.mjs";
+import {
+  canReusePublishedCatalog,
+  catalogExtractorCacheSegment,
+} from "./catalog-guardian-state.mjs";
 
 test("published catalog reuse includes the extractor version", () => {
   const published = {
@@ -24,6 +27,12 @@ test("published catalog reuse includes the extractor version", () => {
   assert.equal(canReusePublishedCatalog(published, installed, "hotfix", "0.4.0"), true);
   assert.equal(canReusePublishedCatalog(published, installed, "hotfix", "0.5.0"), false);
   assert.equal(canReusePublishedCatalog(published, installed, "other", "0.4.0"), false);
+});
+
+test("catalog extraction caches are isolated by extractor version", () => {
+  assert.equal(catalogExtractorCacheSegment("0.5.0"), "extractor-0.5.0");
+  assert.notEqual(catalogExtractorCacheSegment("0.4.0"), catalogExtractorCacheSegment("0.5.0"));
+  assert.throws(() => catalogExtractorCacheSegment("../0.5.0"), /unsupported characters/);
 });
 
 /** @param {import('node:test').TestContext} t @returns {Promise<string>} */
