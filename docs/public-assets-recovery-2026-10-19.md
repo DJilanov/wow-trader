@@ -14,6 +14,14 @@ Two independent failures affected public pages while their HTML still returned H
   now use the existing idempotent `withHelperBasePath` helper. Simulator class artwork already
   used the correct paths. This issue is separate from catalog item PNG extraction.
 
+Two navigation boundaries also required corrections. The guild header must perform a document
+navigation into the independently deployed `/tools` app. Next's guild router cannot consume the
+Helper app's React Server Component response. Embedded simulator class/build links must navigate
+the host route and preserve the selected `build` query; otherwise the iframe and its readiness
+expectation disagree. The host now connects the engine menu to its router, supports named build
+queries, and recognizes both valid proxy aliases for the same engine profile. Origin, release,
+profile and query checks remain enforced. This changes navigation, not simulation model bytes.
+
 Run the asset smoke after a public deployment or disk cleanup:
 
 ```sh

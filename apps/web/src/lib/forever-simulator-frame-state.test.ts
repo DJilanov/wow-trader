@@ -51,6 +51,20 @@ describe("Simulator frame readiness", () => {
       expect(isSimulatorFrameReady(fixture(href), src, origin)).toBe(false);
     expect(isSimulatorFrameReady(fixture(), "https://other.example" + src, origin)).toBe(false);
   });
+  it("accepts the reverse-proxy engine alias without accepting another profile or build query", () => {
+    expect(isSimulatorFrameReady(fixture(), `/tools${src}`, origin)).toBe(true);
+    expect(isSimulatorFrameReady(fixture(`${origin}/tools${src}`), src, origin)).toBe(true);
+    expect(
+      isSimulatorFrameReady(fixture(`${origin}${src}?build=Arms`), `/tools${src}`, origin),
+    ).toBe(false);
+    expect(
+      isSimulatorFrameReady(
+        fixture(origin + src.replace("tank_warrior", "mage")),
+        `/tools${src}`,
+        origin,
+      ),
+    ).toBe(false);
+  });
   it("does not declare a hidden, failed or uninitialized engine ready", () => {
     expect(isSimulatorFrameReady(fixture(origin + src, false), src, origin)).toBe(false);
     const missing = {

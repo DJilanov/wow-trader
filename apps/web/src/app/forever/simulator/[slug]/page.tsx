@@ -16,10 +16,12 @@ import {
 import { createHelperMetadata } from "../../../../lib/seo";
 import { readPublishedSimulatorReviews } from "../../../../lib/forever-simulator-published-reviews";
 import { withHelperBasePath } from "../../../../lib/site-path";
+import { simulatorBuildQuery } from "../../../../lib/forever-simulator-frame-navigation";
 
 export const dynamic = "force-dynamic";
 interface SimulatorPageProps {
   readonly params: Promise<{ readonly slug: string }>;
+  readonly searchParams: Promise<{ readonly build?: string | readonly string[] }>;
 }
 export async function generateMetadata({ params }: SimulatorPageProps): Promise<Metadata> {
   const spec = getSimulatorSpec((await params).slug);
@@ -32,9 +34,11 @@ export async function generateMetadata({ params }: SimulatorPageProps): Promise<
 }
 export default async function SimulatorPage({
   params,
+  searchParams,
 }: SimulatorPageProps): Promise<React.JSX.Element> {
   const spec = getSimulatorSpec((await params).slug);
   if (!spec) notFound();
+  const buildQuery = simulatorBuildQuery((await searchParams).build);
   const classEntry = getSimulatorClass(spec.className?.toLowerCase());
   const presentation = await readSimulatorPresentation(spec.page);
   const manifest = presentation?.manifest ?? null;
@@ -109,9 +113,9 @@ export default async function SimulatorPage({
       </details>
       {manifest ? (
         <ForeverSimulatorReviewedWorkspace
-          key={`${manifest.release}:${spec.page}`}
+          key={`${manifest.release}:${spec.page}:${buildQuery}`}
           title={`${spec.name} combat simulator`}
-          src={withHelperBasePath(`/forever-sim/${manifest.release}/${spec.page}/`)}
+          src={withHelperBasePath(`/forever-sim/${manifest.release}/${spec.page}/${buildQuery}`)}
           builds={builds}
         />
       ) : (

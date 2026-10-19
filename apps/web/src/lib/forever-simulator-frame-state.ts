@@ -38,7 +38,7 @@ export function isSimulatorFrameReady(
     const actual = new URL(document.location.href);
     if (
       actual.origin !== expected.origin ||
-      actual.pathname.replace(/\/$/, "") !== expected.pathname.replace(/\/$/, "") ||
+      canonicalEnginePath(actual.pathname) !== canonicalEnginePath(expected.pathname) ||
       actual.search !== expected.search
     )
       return false;
@@ -51,4 +51,8 @@ export function isSimulatorFrameReady(
     // An inaccessible/navigated frame stays in the visible loading/recovery state.
     return false;
   }
+}
+
+function canonicalEnginePath(pathname: string): string {
+  return pathname.replace(/^\/tools(?=\/forever-sim\/)/u, "").replace(/\/$/u, "");
 }

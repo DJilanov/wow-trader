@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  connectSimulatorFrameNavigation,
+  simulatorNavigationHref,
+} from "../lib/forever-simulator-frame-navigation";
 import { connectSimulatorFrameControls } from "../lib/forever-simulator-frame-controls";
 import { connectSimulatorPageScroll } from "../lib/forever-simulator-frame-layout";
 import {
@@ -16,6 +21,7 @@ export function ForeverSimulatorFrame({
   src,
   title,
 }: ForeverSimulatorFrameProps): React.JSX.Element {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -46,6 +52,14 @@ export function ForeverSimulatorFrame({
       setLoaded(false);
       setSlow(false);
       setDocumentVersion((value) => value + 1);
+      try {
+        const actual = element.contentDocument?.location.href;
+        const route = actual ? simulatorNavigationHref(actual, src, window.location.origin) : null;
+        const expected = simulatorNavigationHref(src.split("#")[0]!, src, window.location.origin);
+        if (route && expected && route !== expected) router.push(route, { scroll: false });
+      } catch {
+        // Foreign documents cannot drive host navigation; readiness keeps recovery visible.
+      }
       timer = window.setTimeout(() => setSlow(true), 30000);
       poll = window.setInterval(check, 250);
       check();
@@ -58,7 +72,14 @@ export function ForeverSimulatorFrame({
       window.clearInterval(poll);
       element.removeEventListener("load", onLoad);
     };
-  }, [src, attempt]);
+  }, [src, attempt, router]);
+  useEffect(() => {
+    const element = frame.current;
+    if (!loaded || !element) return;
+    return connectSimulatorFrameNavigation(element, src, {
+      onNavigate: (href): void => router.push(href, { scroll: false }),
+    });
+  }, [loaded, src, attempt, documentVersion, router]);
   useEffect(() => {
     const element = frame.current;
     if (!loaded || fullscreen || !element) return;
