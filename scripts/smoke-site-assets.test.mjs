@@ -10,7 +10,7 @@ async function fixture(t, options = {}) {
     if (request.url === "/") {
       response.setHeader("content-type", "text/html");
       response.end(
-        '<link rel="stylesheet" href="/_next/static/style.css"><script src="/_next/static/app.js"></script><img src="/tools/_next/image?url=%2Ftools%2Flogo.jpg&amp;w=64&amp;q=75">',
+        '<link rel="stylesheet" href="/_next/static/style.css"><script src="/_next/static/app.js"></script><img src="/tools/_next/image?url=%2Ftools%2Flogo.jpg&amp;w=64&amp;q=75"><img src="/tools/api/item-icons/123">',
       );
     } else if (request.url === "/_next/static/style.css") {
       response.writeHead(options.cssStatus ?? 200, { "content-type": "text/css" });
@@ -18,7 +18,10 @@ async function fixture(t, options = {}) {
     } else if (request.url === "/_next/static/app.js") {
       response.setHeader("content-type", "application/javascript");
       response.end("export {};");
-    } else if (request.url === "/tools/_next/image?url=%2Ftools%2Flogo.jpg&w=64&q=75") {
+    } else if (
+      request.url === "/tools/_next/image?url=%2Ftools%2Flogo.jpg&w=64&q=75" ||
+      request.url === "/tools/api/item-icons/123"
+    ) {
       response.setHeader("content-type", options.imageType ?? "image/jpeg");
       response.end("image bytes");
     } else {
@@ -40,7 +43,7 @@ async function fixture(t, options = {}) {
 
 test("checks styles, scripts and optimized images including HTML-escaped queries", async (t) => {
   const origin = await fixture(t);
-  assert.deepEqual(await verifySiteAssets([origin]), { pages: 1, assets: 3 });
+  assert.deepEqual(await verifySiteAssets([origin]), { pages: 1, assets: 4 });
 });
 
 test("fails when HTML loads but its stylesheet is missing", async (t) => {

@@ -40,6 +40,11 @@ its assets fail. It deduplicates assets and limits concurrency to four. Producti
 runs this check after service health checks; browser verification should additionally confirm
 hydration, lazy-loaded artwork and navigation on desktop and mobile.
 
+Recovery verification: all 475 web tests and the production build passed. Browser checks at
+1440×1080 and 390×844 verified the guild Tools link, Warrior→Mage class switching, the named
+Arms build, Back/Forward and reload with no engine asset failures. The Helper release is
+`public-navigation-20261019-r2`; the guild build is `.next-release-20261019-navigation-r1`.
+
 Cleanup must identify active directories from the saved and running process configuration.
 For the guild site that means the actual PM2 `KFC_BUILD_DIR`, not an assumed `.next` directory
 or the newest directory name. For Helper it means the resolved `current` symlink, the pinned
