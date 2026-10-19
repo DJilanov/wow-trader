@@ -83,6 +83,20 @@ describe("Simulator frame readiness", () => {
     } as HTMLIFrameElement;
     expect(isSimulatorFrameReady(restricted, src, origin)).toBe(false);
   });
+  it("recognizes an applied named build after the engine consumes its query", () => {
+    const requested = `${src}?build=Arms+34%2F17%2F0`;
+    expect(isSimulatorFrameReady(fixture(), requested, origin)).toBe(true);
+    expect(isSimulatorFrameReady(fixture(), `${src}?other=Arms`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(), `${requested}&extra=1`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(), `${src}?build=one&build=two`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(), `${src}?build=%00bad`, origin)).toBe(false);
+    expect(isSimulatorFrameReady(fixture(origin + src + "?build=Fury"), requested, origin)).toBe(
+      false,
+    );
+    const pending = fixture();
+    pending.contentDocument!.querySelector = (() => ({})) as Document["querySelector"];
+    expect(isSimulatorFrameReady(pending, requested, origin)).toBe(false);
+  });
   it("keeps loading visible until the initial gear and talents finish loading", () => {
     const loading = fixture();
     loading.contentDocument!.querySelector = (() => ({})) as Document["querySelector"];

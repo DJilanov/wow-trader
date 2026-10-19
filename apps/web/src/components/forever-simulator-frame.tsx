@@ -56,7 +56,8 @@ export function ForeverSimulatorFrame({
         const actual = element.contentDocument?.location.href;
         const route = actual ? simulatorNavigationHref(actual, src, window.location.origin) : null;
         const expected = simulatorNavigationHref(src.split("#")[0]!, src, window.location.origin);
-        if (route && expected && route !== expected) router.push(route, { scroll: false });
+        if (route && expected && route.split("?")[0] !== expected.split("?")[0])
+          router.push(route, { scroll: false });
       } catch {
         // Foreign documents cannot drive host navigation; readiness keeps recovery visible.
       }
