@@ -613,20 +613,9 @@
         "id": "razorfen-downs",
         "level": 45,
         "target": 47,
-        "quests": [
-          3636,
-          3523,
-          3525,
-          6626
-        ],
-        "outside": [
-          6626
-        ],
-        "candidateCore": [
-          3636,
-          3523,
-          3525
-        ],
+        "quests": [3636, 3523, 3525, 6626],
+        "outside": [6626],
+        "candidateCore": [3636, 3523, 3525],
         "deferred": [],
         "rawKnownXp": 12290,
         "generousDirectoryScenario": {
@@ -665,45 +654,18 @@
         "id": "uldaman",
         "level": 47,
         "target": 48,
-        "quests": [
-          1360,
-          2398,
-          2240,
-          17,
-          704,
-          1139,
-          2198,
-          2418,
-          709,
-          2278
-        ],
-        "outside": [
-          704,
-          2418,
-          709
-        ],
-        "candidateCore": [
-          1360,
-          2398,
-          2240,
-          1139,
-          2278
-        ],
-        "deferred": [
-          2198
-        ],
+        "quests": [1360, 2398, 2240, 17, 704, 1139, 2198, 2418, 709, 2278],
+        "outside": [704, 2418, 709],
+        "candidateCore": [1360, 2398, 2240, 1139, 2278],
+        "deferred": [2198],
         "rawKnownXp": 30840,
         "generousDirectoryScenario": {
           "knownXp": 73542,
-          "unknownIds": [
-            2198
-          ]
+          "unknownIds": [2198]
         },
         "scopeAwareDirectoryScenario": {
           "knownXp": 60388,
-          "unknownIds": [
-            2198
-          ]
+          "unknownIds": [2198]
         },
         "candidateCoreScenario": {
           "knownXp": 42661,
@@ -743,27 +705,9 @@
         "id": "maraudon",
         "level": 48,
         "target": 49,
-        "quests": [
-          7070,
-          7041,
-          7065,
-          7028,
-          7044,
-          7066,
-          7067,
-          7046
-        ],
-        "outside": [
-          7070,
-          7067
-        ],
-        "candidateCore": [
-          7041,
-          7065,
-          7044,
-          7066,
-          7046
-        ],
+        "quests": [7070, 7041, 7065, 7028, 7044, 7066, 7067, 7046],
+        "outside": [7070, 7067],
+        "candidateCore": [7041, 7065, 7044, 7066, 7046],
         "deferred": [],
         "rawKnownXp": 43400,
         "generousDirectoryScenario": {
@@ -792,42 +736,22 @@
         "id": "zul-farrak",
         "level": 49,
         "target": 50,
-        "quests": [
-          2991,
-          2768,
-          2865,
-          3042,
-          2846,
-          2770,
-          3527
-        ],
+        "quests": [2991, 2768, 2865, 3042, 2846, 2770, 3527],
         "outside": [],
-        "candidateCore": [
-          2991,
-          2768,
-          2846,
-          2770,
-          3527
-        ],
+        "candidateCore": [2991, 2768, 2846, 2770, 3527],
         "deferred": [],
         "rawKnownXp": 30650,
         "generousDirectoryScenario": {
           "knownXp": 73088,
-          "unknownIds": [
-            2770
-          ]
+          "unknownIds": [2770]
         },
         "scopeAwareDirectoryScenario": {
           "knownXp": 73088,
-          "unknownIds": [
-            2770
-          ]
+          "unknownIds": [2770]
         },
         "candidateCoreScenario": {
           "knownXp": 54488,
-          "unknownIds": [
-            2770
-          ]
+          "unknownIds": [2770]
         },
         "remainingToNextStopBeforeKillsPreparationAndUnknownRewards": 86712,
         "requiredXpToNextStop": 141200,
@@ -837,24 +761,9 @@
         "id": "sunken-temple",
         "level": 53,
         "target": 55,
-        "quests": [
-          4143,
-          1475,
-          1446,
-          3373,
-          3446,
-          3447,
-          3528
-        ],
+        "quests": [4143, 1475, 1446, 3373, 3446, 3447, 3528],
         "outside": [],
-        "candidateCore": [
-          1475,
-          1446,
-          3373,
-          3446,
-          3447,
-          3528
-        ],
+        "candidateCore": [1475, 1446, 3373, 3446, 3447, 3528],
         "deferred": [],
         "rawKnownXp": 40450,
         "generousDirectoryScenario": {
@@ -878,36 +787,10 @@
         "level": 55,
         "target": 57,
         "quests": [
-          4262,
-          4263,
-          4286,
-          4126,
-          4341,
-          4362,
-          4241,
-          4322,
-          4136,
-          4123,
-          7848,
-          3802,
-          4201,
-          4024
+          4262, 4263, 4286, 4126, 4341, 4362, 4241, 4322, 4136, 4123, 7848, 3802, 4201, 4024
         ],
-        "outside": [
-          4262
-        ],
-        "candidateCore": [
-          4263,
-          4126,
-          4341,
-          4362,
-          4241,
-          4322,
-          4136,
-          4123,
-          7848,
-          3802
-        ],
+        "outside": [4262],
+        "candidateCore": [4263, 4126, 4341, 4362, 4241, 4322, 4136, 4123, 7848, 3802],
         "deferred": [],
         "rawKnownXp": 83050,
         "generousDirectoryScenario": {
@@ -930,30 +813,10 @@
         "id": "lower-blackrock",
         "level": 57,
         "target": 58,
-        "quests": [
-          4701,
-          5089,
-          5001,
-          4862,
-          4729,
-          4866,
-          4742,
-          4867,
-          4788
-        ],
+        "quests": [4701, 5089, 5001, 4862, 4729, 4866, 4742, 4867, 4788],
         "outside": [],
-        "candidateCore": [
-          4701,
-          5089,
-          5001,
-          4862,
-          4729,
-          4867,
-          4788
-        ],
-        "deferred": [
-          4742
-        ],
+        "candidateCore": [4701, 5089, 5001, 4862, 4729, 4867, 4788],
+        "deferred": [4742],
         "rawKnownXp": 68400,
         "generousDirectoryScenario": {
           "knownXp": 163110,
@@ -975,49 +838,18 @@
         "id": "stratholme-composite",
         "level": 58,
         "target": 60,
-        "quests": [
-          5214,
-          5251,
-          5282,
-          5122,
-          5262,
-          5848,
-          5243,
-          5212,
-          5213,
-          5125,
-          5263,
-          5463,
-          8945
-        ],
+        "quests": [5214, 5251, 5282, 5122, 5262, 5848, 5243, 5212, 5213, 5125, 5263, 5463, 8945],
         "outside": [],
-        "candidateCore": [
-          5214,
-          5251,
-          5282,
-          5848,
-          5243,
-          5212
-        ],
-        "deferred": [
-          5262,
-          5213,
-          5263,
-          5463,
-          8945
-        ],
+        "candidateCore": [5214, 5251, 5282, 5848, 5243, 5212],
+        "deferred": [5262, 5213, 5263, 5463, 8945],
         "rawKnownXp": 94300,
         "generousDirectoryScenario": {
           "knownXp": 224867,
-          "unknownIds": [
-            5122
-          ]
+          "unknownIds": [5122]
         },
         "scopeAwareDirectoryScenario": {
           "knownXp": 224867,
-          "unknownIds": [
-            5122
-          ]
+          "unknownIds": [5122]
         },
         "candidateCoreScenario": {
           "knownXp": 108498,
@@ -1036,13 +868,7 @@
       "guaranteed": false
     },
     "hypotheticalStratholmeEntryWithoutFleshCollection": {
-      "questIds": [
-        5214,
-        5251,
-        5282,
-        5848,
-        5243
-      ],
+      "questIds": [5214, 5251, 5282, 5848, 5243],
       "excludedOpportunisticCollection": 5212,
       "level": 59,
       "minimumXpIntoLevel": 117040,
@@ -1069,12 +895,7 @@
     "ordinaryBonusTier": {
       "coefficient": 2.375,
       "proposedDisplayRounding": 50,
-      "matchingQuestIds": [
-        95189,
-        214,
-        96800,
-        92457
-      ]
+      "matchingQuestIds": [95189, 214, 96800, 92457]
     },
     "ownerCrestComparison": {
       "coefficient": 2.3846153846153846,
@@ -1085,13 +906,7 @@
       "source": "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-8/2360696/4",
       "caveat": "only where old/base are same quest and compatible context; individual rewards also recalibrated"
     },
-    "exceptions": [
-      96403,
-      2922,
-      378,
-      2929,
-      2930
-    ],
+    "exceptions": [96403, 2922, 378, 2929, 2930],
     "observationRequirements": [
       "exact quest ID and edition",
       "build/date",
@@ -1264,9 +1079,7 @@
     "summary": {
       "uniqueDungeonQuestIds": 100,
       "associations": 104,
-      "emptyRows": [
-        "The Deadmines"
-      ]
+      "emptyRows": ["The Deadmines"]
     },
     "runtimeRewardOrder": "non-secret successfully loaded live value, then FOREVER_QUEST_XP_FALLBACK, then liveXPFallback; old rewards text not an active XP fallback",
     "caveats": [
@@ -1681,9 +1494,7 @@
         "requiredXpToNextStop": 129100,
         "generousDirectoryScenario": {
           "knownXp": 73250,
-          "unknownIds": [
-            2198
-          ]
+          "unknownIds": [2198]
         },
         "candidateScopeScenario": {
           "knownXp": 42500,
@@ -1707,15 +1518,11 @@
         "requiredXpToNextStop": 141200,
         "generousDirectoryScenario": {
           "knownXp": 72700,
-          "unknownIds": [
-            2770
-          ]
+          "unknownIds": [2770]
         },
         "candidateScopeScenario": {
           "knownXp": 54200,
-          "unknownIds": [
-            2770
-          ]
+          "unknownIds": [2770]
         }
       },
       {
@@ -1759,9 +1566,7 @@
         "requiredXpToNextStop": 412100,
         "generousDirectoryScenario": {
           "knownXp": 224000,
-          "unknownIds": [
-            5122
-          ]
+          "unknownIds": [5122]
         },
         "candidateScopeScenario": {
           "knownXp": 108100,

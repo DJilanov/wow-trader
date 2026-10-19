@@ -18,6 +18,59 @@ export interface CampaignCatchUpRecommendation {
   readonly sourceUrl: string;
 }
 
+export function compileCampaignFunding(plan: CampaignPlan): CampaignPlan {
+  const facts = plan.rewardFacts ?? [];
+  const assigned = new Set<string>();
+  const defaults: Record<string, string[]> = {};
+  const candidates = (plan.catchUpBatches ?? [])
+    .filter((batch) => {
+      const fact = facts.find((entry) => entry.questId === batch.questId);
+      return (
+        batch.objectiveType === "shared-kills" &&
+        !batch.conditional &&
+        batch.actions.every((action) => !(action.requiredQuestIds?.length ?? 0)) &&
+        fact?.status === "available" &&
+        fact.evidenceKind !== "historical-reference" &&
+        fact.minimumLevel !== null &&
+        !questEligibility(batch.questId, facts).minimumConflict
+      );
+    })
+    .sort(
+      (left, right) => left.referenceLevel - right.referenceLevel || left.questId - right.questId,
+    );
+  for (const batch of candidates) {
+    const minimum = questEligibility(batch.questId, facts).minimumLevel!;
+    const legs = plan.legs
+      .map((leg, index) => ({
+        leg,
+        index,
+        block: CAMPAIGN_BRIDGES.find((entry) => entry.id === leg.id),
+      }))
+      .filter(
+        ({ leg, block }) =>
+          leg.kind === "xp-bridge" &&
+          block !== undefined &&
+          Math.max(minimum, batch.referenceLevel) <= leg.to &&
+          batch.sourceIds.some((sourceId) => block.sourceIds.includes(sourceId)),
+      )
+      .sort(
+        (left, right) =>
+          Math.abs(left.leg.to - batch.referenceLevel) -
+            Math.abs(right.leg.to - batch.referenceLevel) || left.index - right.index,
+      );
+    const leg = legs[0]?.leg;
+    if (!leg || assigned.has(batch.id)) continue;
+    (defaults[leg.id] ??= []).push(batch.id);
+    assigned.add(batch.id);
+  }
+  return {
+    ...plan,
+    defaultCatchUpBatches: Object.fromEntries(
+      Object.entries(defaults).filter(([, batchIds]) => batchIds.length > 0),
+    ),
+  };
+}
+
 export function recommendCampaignCatchUp(
   plan: CampaignPlan,
   legId: string,
@@ -37,7 +90,10 @@ export function recommendCampaignCatchUp(
     xpToCheckpoint(member.level!, member.currentXp!, targetLevel, FOREVER_XP_CURVE),
   );
   if (!needsXp.some((gap) => gap !== null && gap > 0)) return [];
-  const chosen = new Set(Object.values(progress.selectedBatches ?? {}).flat());
+  const chosen = new Set([
+    ...Object.values(plan.defaultCatchUpBatches ?? {}).flat(),
+    ...Object.values(progress.selectedBatches ?? {}).flat(),
+  ]);
   const recommendations: CampaignCatchUpRecommendation[] = [];
   for (const batch of plan.catchUpBatches ?? []) {
     if (

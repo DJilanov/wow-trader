@@ -331,15 +331,17 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             {journey.completion[entry.id] === "skipped" && <span>Skipped XP work</span>}
             {entry.libraryQuestId && (
               <span>
-                {entry.libraryRequired
-                  ? "Required source-chain lead-in"
-                  : entry.libraryObjective === "named-trophy"
-                    ? "Named trophy · verify loot for all five"
-                    : entry.libraryObjective === "delivery"
-                      ? "On-route chain return"
-                      : entry.libraryObjective === "interaction"
-                        ? "Nearby source objective"
-                        : "Source-library kill loop"}
+                {entry.libraryBackbone
+                  ? "Main questing chapter"
+                  : entry.libraryRequired
+                    ? "Required source-chain lead-in"
+                    : entry.libraryObjective === "named-trophy"
+                      ? "Named trophy · verify loot for all five"
+                      : entry.libraryObjective === "delivery"
+                        ? "On-route chain return"
+                        : entry.libraryObjective === "interaction"
+                          ? "Nearby source objective"
+                          : "Source-library kill loop"}
               </span>
             )}
             {entry.questChanges.length > 0 && entryTargets.length === 0 && (
@@ -472,7 +474,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             ? `Entry ${premadeEntryLevel(entryStop, progress, plan.rewardFacts)}`
             : `Target ${xpAudit.targetLevel}`
       }
-      profile={`${race.name} start · 21 dungeon stops with the world route between them`}
+      profile={`${race.name} start · ${chapters.filter((entry) => entry.kind === "dungeon").length} verified dungeon stops with the world route between them`}
       dashboardHref={
         legId
           ? `/forever/leveling/routes/alliance-${plan.race}?plan=premade${plan.leaderClass ? `&class=${plan.leaderClass}` : ""}`
@@ -791,8 +793,8 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       ))}
       {leg.id === "level-60-finish" && journey.completion[action.id] === "done" && (
         <p className={styles.save} role="status">
-          All five have reported level 60. Earlier incomplete tasks remain unchecked. RestedXP
-          export follows approval and route validation.
+          All five have reported level 60. Earlier incomplete tasks remain unchecked. The RestedXP
+          review pack still requires a successful bounded in-game validation before public release.
         </p>
       )}
       {plan.leaderClass === null && (

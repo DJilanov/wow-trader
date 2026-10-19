@@ -162,7 +162,8 @@ export default function WestfallLevelingPage(): React.JSX.Element {
         <p>
           The level curve was extracted from {LEVELING_EVIDENCE.curveSource} in client{" "}
           {WESTFALL_ROUTE.clientBuild}. Level 13 needs 11,400 XP to reach 14; level 14 needs 12,900
-          XP to reach 15. These are client values pending a runtime check.
+          XP to reach 15. The source file is byte-identical on client build{" "}
+          {LEVELING_EVIDENCE.curveReverifiedBuild}; an in-game runtime check remains separate.
         </p>
       </section>
       <section className={styles.section}>

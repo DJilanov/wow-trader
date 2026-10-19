@@ -632,6 +632,41 @@ describe("automatic campaign combat", () => {
       endpoint: { level: 20, currentXp: 1290 },
       status: "incomplete",
     });
+    expect(forecast.evidenceIssues.join(" ")).toContain("historical formula");
+  });
+  it("treats controlled matching combat observations as exact route evidence", () => {
+    const base = route();
+    const plan: CampaignPlan = {
+      ...base,
+      rewardFacts: [{ ...base.rewardFacts![0]!, fullXp: FOREVER_XP_CURVE[20]! - 290 }],
+      combat: {
+        ...base.combat!,
+        killXpEvidence: [
+          {
+            ...evidence,
+            environment: "outdoor",
+            unrestedXpPerPlayer: 29,
+          },
+        ],
+      },
+    };
+    const progress = emptyPremadeProgress();
+    const member = forecastCampaignXp(plan, {
+      ...progress,
+      members: progress.members.map((entry) => ({
+        ...entry,
+        level: 20,
+        currentXp: 0,
+        xpNeedsUpdate: false,
+      })),
+    })[0]!.members[0]!;
+    expect(member).toMatchObject({
+      endpoint: { level: 21, currentXp: 0 },
+      combatXp: 290,
+      status: "shortfall",
+    });
+    expect(member.combatRows.every((row) => row.basis === "observed")).toBe(true);
+    expect(member.evidenceIssues).toEqual([]);
   });
   it("does not use later dungeon kills to pay its entry gate", () => {
     const plan = route();

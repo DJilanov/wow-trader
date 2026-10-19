@@ -1,13 +1,42 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Current implementation status (October 18, 2026)
+
+The Alliance five-player route compiler is implemented locally across all 33 supported leader
+race/class editions. It consumes the applicable RestedXP backbone, 18 verified dungeon bundles,
+published quest rewards, labeled historical fallbacks and explicit actual-party XP checkpoints.
+The latest 132-scenario audit has no audience-relevant shortfalls, blockers, missing starts or
+unresolved hand-in values. Main source quests, accepted lifecycles, downstream prerequisites and
+required dungeon unlocks cannot be discarded by the ahead-of-target optimization.
+
+The full RestedXP review-pack compiler is also implemented. It successfully compiled all 28 exact
+Alliance race/class editions into deterministic leader/party chains; the five class-null browser
+editions are intentionally not packageable. The current Human/Warrior receipt contains 2,427
+actions, 850 distinct hand-ins, 71 leader chapters and 67 party chapters. It is build-gated for
+70450 and parser-targeted to RestedXP v4.11.26. See the
+[addon review runbook](forever-leveling-addon-review.md). Public download remains blocked on the
+bounded in-game install/parser/quest-tracking/reload review, not on another export implementation.
+
+This completes the software route and safety-gate work described below; it does not satisfy the
+separate evidence/playtest gate. Twenty-six scheduled rewards still use labeled historical values,
+and the private combat snapshot has no reviewed dungeon population or calibrated kill context.
+Every unmeasured gap is represented by a checkpoint that requires fresh actual bars for all five.
+The exact counts, hashes and remaining evidence boundary are in the
+[whole-route audit](forever-leveling-full-route-audit.md#october-18-five-player-route-compiler-completion).
+
+The level-cost curve was re-extracted from installed client build 70450 and is byte-identical to the
+route's build-70205 curve. Reward identities are now bound to the current published client build in
+the runtime revision. The authorized guide-source archive itself remains a 70205 artifact; installed
+RestedXP `v4.11.26` must be separately diffed and authorized before claiming current-source parity.
+Older dated sections below are retained as decision history; their “pending” implementation or
+export wording does not override this current status section.
+
 ## Binding correction plan: XP-funded dungeon appointments (October 15, 2026)
 
-Status: the full XP-funded route is still a plan, **not certified or fully implemented**. The
-required-combat subsystem is now implemented locally, as detailed below. This section supersedes the fixed
-entry appointments, fixed zone brackets and any implication of a complete premade route in the
-historical receipts below. Production r7 is still a review itinerary with failed XP coverage.
-The owner's latest direction permits flexible entries close to the dungeon's At-level reference;
-the earlier request's exact levels/order are preferences, not hard progression constraints.
+Status: this is the historical binding plan that drove the October 18 implementation above. The
+compiled route is now implemented, but remains deliberately uncertified until its estimated reward
+and combat inputs are replaced or observed. The criteria below remain the publication standard and
+must not be weakened merely because the executable guide can continue through actual-bar gates.
 
 ### Outcome and non-negotiable acceptance criteria
 
@@ -94,10 +123,11 @@ are not public. This is an explicit scenario assumption, not recovered game data
   factor 1.8 and final 4,750. Do not apply another Forever bonus. The legacy generic 2.375 fallback
   is not the universal formula; reconcile/replace it before claiming a verified continuous route.
 
-The policy is approved; the new scenario-route compiler/UI is still to implement. Full-archive
-collection is now deployed separately: 2,535 unique quest IDs across both factions, every guide
+Historical status at that checkpoint: the scenario-route compiler/UI was still to implement. The
+October 18 compiler described at the top of this document supersedes that software status.
+Full-archive collection contains 2,535 unique quest IDs across both factions, every guide
 family/conditional branch and all known dungeon references. Details are in
-`docs/forever-leveling-archive.md`. Collection completing does not implement this route builder.
+`docs/forever-leveling-archive.md`; collection alone never constituted route certification.
 
 ### Small quest-only gaps and natural combat reserve (October 15; simplified policy)
 
@@ -861,11 +891,13 @@ adaptive late-game checkpoints and compiler/export gates are specified in
 [the expanded circuit plan](forever-leveling-dungeon-route-choice-plan.md#five-player-speed-guide-and-final-restedxp-edition-2026-10-13-expanded-plan).
 Its [source/calculation receipt](forever-leveling-premade-xp-audit.json) is research data, not a live catalog.
 
-The existing compiler remains a Westfall/Thanes preview. Installed RestedXP is now v4.11.23;
+At that checkpoint, the existing compiler remained a Westfall/Thanes preview and installed RestedXP
+was v4.11.23;
 the v4.11.14 references below describe the original verified release. Use public custom-guide
 registration for the installable pack; the account-sensitive GUI paste format is not a proven
-raw-text import path. The expanded 1–60 browser route is implemented; the full addon export remains
-pending approval and validation. Default At-level gates remain conservative; the requested-target
+raw-text import path. The expanded 1–60 browser route is implemented; the full addon export is now a
+local review artifact and remains pending in-game approval and validation. Default At-level gates
+remain conservative; the requested-target
 policy is an explicit experienced-party choice, never a substitute for quest pickup requirements.
 Supporter/payment activation is unchanged.
 
@@ -999,16 +1031,16 @@ routes follow the same validation process before being advertised as supported.
 
 ## Existing projects and source findings
 
-| Concern                    | Existing location                                                           | What the implementer should reuse                                                                                     |
-| -------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Helper UI and public guide | `/Users/dimitarjilanov/work/test/wow-trader/apps/web`                       | Next.js App Router, Encyclopedia navigation, metadata helpers and KFC design tokens                                   |
-| Quest/map reference data   | `apps/web/src/lib/forever-world.ts` and existing Forever data packages      | Build-specific identities and evidence; inspect current query contracts before extending them                         |
-| Contribution persistence   | Existing PostgreSQL/Drizzle code in `packages/db`                           | Existing migration, transaction and role conventions                                                                  |
-| Community listing          | `/Users/dimitarjilanov/work/test/discord-website`                           | `app/(site)/addons/page.tsx` and `content/community-tools.ts`                                                         |
-| RestedXP runtime           | `/Applications/World of Warcraft/_classic_beta_/Interface/AddOns/RXPGuides` | Installed v4.11.14: `GuideLoader.lua`, `functions.lua`, `SettingsPanel.lua`, `DB/forever/db.lua`                      |
-| Supplemental dungeon facts | Installed `ForeverDungeonJournal` v1.4.4                                    | Quest identities, pickup/turn-in locations and chain leads; current rewards still require observations                |
-| Private analysis           | `/Users/dimitarjilanov/Desktop/restedxp-analysis`                           | Inventory, quest coverage, congestion candidates and math scenarios; keep private source exports out of public assets |
-| Payment integration        | `/Users/dimitarjilanov/work/vrachka.bg`                                     | Existing Revolut implementation, order handling, webhook verification and secret configuration                        |
+| Concern                    | Existing location                                                           | What the implementer should reuse                                                                                                         |
+| -------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Helper UI and public guide | `/Users/dimitarjilanov/work/test/wow-trader/apps/web`                       | Next.js App Router, Encyclopedia navigation, metadata helpers and KFC design tokens                                                       |
+| Quest/map reference data   | `apps/web/src/lib/forever-world.ts` and existing Forever data packages      | Build-specific identities and evidence; inspect current query contracts before extending them                                             |
+| Contribution persistence   | Existing PostgreSQL/Drizzle code in `packages/db`                           | Existing migration, transaction and role conventions                                                                                      |
+| Community listing          | `/Users/dimitarjilanov/work/test/discord-website`                           | `app/(site)/addons/page.tsx` and `content/community-tools.ts`                                                                             |
+| RestedXP runtime           | `/Applications/World of Warcraft/_classic_beta_/Interface/AddOns/RXPGuides` | Installed v4.11.26; original loader inspection was v4.11.14: `GuideLoader.lua`, `functions.lua`, `SettingsPanel.lua`, `DB/forever/db.lua` |
+| Supplemental dungeon facts | Installed `ForeverDungeonJournal` v1.4.4                                    | Quest identities, pickup/turn-in locations and chain leads; current rewards still require observations                                    |
+| Private analysis           | `/Users/dimitarjilanov/Desktop/restedxp-analysis`                           | Inventory, quest coverage, congestion candidates and math scenarios; keep private source exports out of public assets                     |
+| Payment integration        | `/Users/dimitarjilanov/work/vrachka.bg`                                     | Existing Revolut implementation, order handling, webhook verification and secret configuration                                            |
 
 The supplied RestedXP file contains **157 guides**: 98 Alliance and 59 Horde. Its decoded content
 matches the installed guide caches. The analysis found 22,604 raw steps, 2,197 dungeon-related steps
@@ -1405,7 +1437,8 @@ the matching listing only after the stated readiness checks pass.
 - [Blizzard October 1 beta changes](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-october-1/2360696/4).
 - [Dungeon quest reference, updated October 2](https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location).
 - [Alliance Crest of Lordaeron, quest 95189](https://www.wowhead.com/forever/quest=95189/crest-of-lordaeron).
-- [RestedXP source](https://github.com/RestedXP/RXPGuides); reconcile with the installed v4.11.14 files.
+- [RestedXP source](https://github.com/RestedXP/RXPGuides); reconcile the pinned archive with the
+  installed v4.11.26 files before publishing a current-version addon pack.
 - [Revolut popup integration](https://developer.revolut.com/docs/sdks/merchant-web-sdk/payment-methods/pop-up).
 - Owner-specified checkout reference:
   `/Users/dimitarjilanov/work/vrachka.bg/apps/web/src/features/checkout/checkout-sheet.tsx`,

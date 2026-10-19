@@ -32,5 +32,7 @@ export * from "./combat-import.js";
 export * from "./campaign-combat.js";
 export * from "./campaign-catchup.js";
 export * from "./campaign-catchup-planner.js";
+export * from "./campaign-pickup-gates.js";
 export * from "./campaign-library.js";
 export * from "./campaign-library-route.js";
+export * from "./campaign-addon.js";

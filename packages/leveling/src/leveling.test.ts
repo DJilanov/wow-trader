@@ -12,6 +12,7 @@ import {
   createThanesBranch,
   DUNGEON_LEVELS,
   FOREVER_XP_CURVE,
+  LEVELING_EVIDENCE,
   missingPrerequisites,
   planDungeonLevel,
   THANES_ROUTE,
@@ -152,6 +153,13 @@ describe("incremental dungeon comparisons", () => {
     expect(xpToCheckpoint(13, 400, 15, FOREVER_XP_CURVE)).toBe(23_900);
     expect(xpToCheckpoint(13, 0, 14, { 14: 12900 })).toBeNull();
     expect(xpToCheckpoint(59, 0, 60, FOREVER_XP_CURVE)).toBe(209_800);
+  });
+  it("records the current-client revalidation without relabeling the source route build", () => {
+    expect(LEVELING_EVIDENCE).toMatchObject({
+      clientBuild: 70205,
+      curveReverifiedBuild: 70450,
+      curveSha256: "935253a23756f0ab7a760e8e4ab22184e1aca49285944ea68efc0a8820e459e6",
+    });
   });
   it("never turns a blank numeric input into zero", () => {
     expect(parseNumericInput(" ")).toBeNull();

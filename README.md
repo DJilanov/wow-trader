@@ -104,6 +104,14 @@ Forever Leveling is a primary product at `/forever/leveling`: choose faction, ra
 Speed/Chill/Group, then browse compatible chapter brackets. The authorized local archive supplies
 157 guide variants and 22,604 source steps through level 60 for both factions and every race;
 conditions and incomplete transitions remain explicit, not a claim of seamless playtested routes.
+The coordinated Alliance premade view additionally compiles 33 leader race/class editions through
+18 evidence-backed dungeon visits. Every hand-in has a numeric planning value, historical fallback
+values remain labeled, and unmeasured progression stops at a fresh five-player XP checkpoint rather
+than assuming hidden combat gains.
+The deterministic RestedXP review-pack compiler covers all 28 exact Alliance race/class editions
+and produces separate leader and party guide chains from that same route model. Build, install,
+rollback and in-game review instructions are in
+[`docs/forever-leveling-addon-review.md`](docs/forever-leveling-addon-review.md).
 Character progress is local and isolated. The original Westfall 13–15 preview/calculator stays
 separate at `?edition=kfc`, and old planner saves can still be imported explicitly.
 See [`docs/forever-leveling-experience-plan.md`](docs/forever-leveling-experience-plan.md) for the

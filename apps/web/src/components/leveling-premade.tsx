@@ -867,9 +867,9 @@ export function LevelingPremade({
       </div>
       <div className={styles.release}>
         <p>
-          Review revision {revision}. After approval, this same route model will be compiled into
-          the KFC RestedXP guide pack. Export is not released while quest identities/route
-          validation are incomplete.
+          Review revision {revision}. The KFC RestedXP review pack is compiled from this same route
+          model. Public download remains held until build 70450 with RestedXP v4.11.26 passes the
+          bounded in-game install, parser, quest-tracking, checkpoint and reload review.
         </p>
         <p>
           {storageStatus === "saved"

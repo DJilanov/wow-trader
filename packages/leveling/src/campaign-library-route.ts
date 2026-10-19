@@ -1,5 +1,9 @@
 import type { CampaignAction, CampaignLeg, CampaignPlan } from "./campaign.js";
-import type { CampaignLibraryQuest, LibraryObjective } from "./campaign-library.js";
+import type {
+  CampaignLibraryQuest,
+  CampaignSourceLevelGate,
+  LibraryObjective,
+} from "./campaign-library.js";
 import { CAMPAIGN_BRIDGES } from "./campaign-route.js";
 import { getPremadeQuest } from "./premade.js";
 
@@ -11,12 +15,12 @@ export interface CampaignLibraryChoice {
   readonly referenceLevel: number;
   readonly prerequisiteIds: readonly number[];
   readonly legId: string | null;
-  readonly role: "kill-loop" | "nearby-quest" | "prerequisite" | "held";
+  readonly role: "questing-backbone" | "kill-loop" | "nearby-quest" | "prerequisite" | "held";
   readonly reason: string | null;
 }
 
 export interface CampaignLibrarySelection {
-  readonly revision: "source-backbone-20261015-v1";
+  readonly revision: "source-backbone-20261018-v2";
   readonly choices: readonly CampaignLibraryChoice[];
 }
 
@@ -26,30 +30,42 @@ interface Placement {
   readonly anchor: number;
   readonly required: boolean;
   readonly raidOnly: boolean;
+  readonly backbone: boolean;
 }
 
 export function integrateCampaignQuestLibrary(
   plan: CampaignPlan,
   library: readonly CampaignLibraryQuest[],
   mandatoryQuestIds: ReadonlySet<number>,
+  levelGates: readonly CampaignSourceLevelGate[] = [],
 ): CampaignPlan {
   const byId = new Map(library.map((quest) => [quest.questId, quest]));
   const owned = new Set(
     plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
+  );
+  const sharedOwned = new Set(
+    plan.actions.flatMap((action) =>
+      action.leaderOnly ? [] : action.questChanges.map((change) => change.questId),
+    ),
   );
   const paidAt = new Map<number, number>();
   plan.legs.forEach((leg, index) => {
     for (const action of plan.actions.filter((entry) => entry.legId === leg.id))
       for (const change of action.questChanges)
         if (change.state === "rewarded")
-          paidAt.set(change.questId, Math.min(paidAt.get(change.questId) ?? index, index));
+          if (!action.leaderOnly)
+            paidAt.set(change.questId, Math.min(paidAt.get(change.questId) ?? index, index));
   });
   const selected = new Map<number, Placement>();
   const held = new Map<number, string>();
   const roots = new Set<number>();
   const extraLegs = new Map<string, { readonly leg: CampaignLeg; readonly before: number }>();
 
-  function location(quest: CampaignLibraryQuest): {
+  function locationFor(
+    sourceId: number,
+    referenceLevel: number,
+    zone: string,
+  ): {
     readonly legId: string;
     readonly anchor: number;
   } {
@@ -60,31 +76,29 @@ export function integrateCampaignQuestLibrary(
           leg.kind !== "starter" &&
           leg.kind !== "dungeon" &&
           leg.kind !== "finish" &&
-          quest.referenceLevel >= leg.from - 3 &&
-          quest.referenceLevel <= leg.to + 1 &&
+          referenceLevel >= leg.from - 3 &&
+          referenceLevel <= leg.to + 1 &&
           CAMPAIGN_BRIDGES.some(
-            (block) => block.id === leg.id && block.sourceIds.includes(quest.sourceId),
+            (block) => block.id === leg.id && block.sourceIds.includes(sourceId),
           ),
       )
       .sort(
         (left, right) =>
-          Math.abs(left.leg.from - quest.referenceLevel) -
-            Math.abs(right.leg.from - quest.referenceLevel) || left.index - right.index,
+          Math.abs(left.leg.from - referenceLevel) - Math.abs(right.leg.from - referenceLevel) ||
+          left.index - right.index,
       )[0];
     if (matching) return { legId: matching.leg.id, anchor: matching.index };
-    let before = plan.legs.findIndex(
-      (leg) => leg.kind === "dungeon" && leg.from > quest.referenceLevel,
-    );
+    let before = plan.legs.findIndex((leg) => leg.kind === "dungeon" && leg.from > referenceLevel);
     if (before < 0) before = plan.legs.length - 1;
     const next = plan.legs[before]!;
-    const legId = `library-${quest.sourceId}-before-${next.id}`;
+    const legId = `library-${sourceId}-before-${next.id}`;
     if (!extraLegs.has(legId))
       extraLegs.set(legId, {
         before,
         leg: {
           id: legId,
-          title: quest.zone,
-          from: plan.legs[before - 1]?.from ?? quest.referenceLevel,
+          title: zone,
+          from: referenceLevel,
           to: next.from,
           kind: "xp-bridge",
           stopId: null,
@@ -95,14 +109,96 @@ export function integrateCampaignQuestLibrary(
       });
     return { legId, anchor: before };
   }
+  const location = (
+    quest: CampaignLibraryQuest,
+  ): { readonly legId: string; readonly anchor: number } =>
+    locationFor(quest.sourceId, quest.referenceLevel, quest.zone);
+  const locationForGate = (
+    gate: CampaignSourceLevelGate,
+  ): { readonly legId: string; readonly anchor: number } => {
+    const source = gate.action.source;
+    if (source) {
+      const ordinal = sourceStepOrdinal(gate.action);
+      const candidates = plan.actions
+        .filter((action) => action.source?.chapterId === source.chapterId)
+        .sort(
+          (left, right) =>
+            Math.abs(sourceStepOrdinal(left) - ordinal) -
+            Math.abs(sourceStepOrdinal(right) - ordinal),
+        );
+      const match = candidates[0];
+      if (match) {
+        const anchor = plan.legs.findIndex((leg) => leg.id === match.legId);
+        if (anchor >= 0) return { legId: match.legId, anchor };
+      }
+    }
+    return locationFor(gate.sourceId, gate.referenceLevel, gate.zone);
+  };
+  const lifecycleClosures = [...owned].flatMap((questId) => {
+    const existing = plan.actions.filter((action) =>
+      action.questChanges.some((change) => change.questId === questId),
+    );
+    const phases = new Set(
+      existing.flatMap((action) =>
+        action.questChanges
+          .filter((change) => change.questId === questId)
+          .map((change) => `${change.state}-${change.objectiveIndex ?? 0}`),
+      ),
+    );
+    if (!phases.has("accepted-0") || phases.has("rewarded-0")) return [];
+    const quest = byId.get(questId);
+    if (!quest?.complete || quest.held || quest.abandoned) return [];
+    const existingAnchor = Math.max(
+      ...existing.map((action) => plan.legs.findIndex((leg) => leg.id === action.legId)),
+    );
+    if (existingAnchor < 0) throw new Error(`Owned quest ${questId} has no campaign leg.`);
+    const sourceTarget = location(quest);
+    const anchor = Math.max(existingAnchor, sourceTarget.anchor);
+    const legId =
+      sourceTarget.anchor >= existingAnchor ? sourceTarget.legId : plan.legs[anchor]!.id;
+    const actions = quest.actions.flatMap((action) => {
+      const retained = action.questChanges.filter((change) => {
+        const key = `${change.state}-${change.objectiveIndex ?? 0}`;
+        if (change.state === "accepted" || phases.has(key)) return false;
+        phases.add(key);
+        return true;
+      });
+      if (!retained.length) return [];
+      return [
+        {
+          ...action,
+          id: `library-close-${questId}-${action.id}`,
+          legId,
+          questChanges: retained,
+          leaderOnly: existing.every((entry) => entry.leaderOnly),
+          raidOnly: existing.every((entry) => entry.raidOnly),
+          requiredQuestIds: [],
+          libraryQuestId: questId,
+          libraryBackbone: quest.backbone,
+          libraryObjective: quest.objective,
+          libraryRequired: true,
+          xpOptional: false,
+        },
+      ];
+    });
+    if (
+      actions.some(
+        (action) =>
+          !action.leaderOnly && action.questChanges.some((change) => change.state === "rewarded"),
+      )
+    )
+      paidAt.set(questId, anchor);
+    return actions.length ? [{ questId, legId, actions }] : [];
+  });
 
   function closure(
     questId: number,
     anchor: number,
     required: boolean,
+    allowCollection = false,
     visiting = new Set<number>(),
   ): { readonly quests: readonly CampaignLibraryQuest[]; readonly reason: string | null } {
-    if (owned.has(questId))
+    if (sharedOwned.has(questId))
       return {
         quests: [],
         reason:
@@ -115,7 +211,10 @@ export function integrateCampaignQuestLibrary(
     const quest = byId.get(questId);
     if (!quest || !quest.complete || quest.held)
       return { quests: [], reason: `Quest ${questId} lacks a complete shared-party source chain.` };
-    if (quest.objective === "unclassified" || (!required && quest.objective === "collection"))
+    if (
+      (!allowCollection && quest.objective === "unclassified") ||
+      (!required && !allowCollection && quest.objective === "collection")
+    )
       return {
         quests: [],
         reason: `Quest ${questId} needs ${quest.objective === "collection" ? "collection farming" : "objective review"}.`,
@@ -123,18 +222,51 @@ export function integrateCampaignQuestLibrary(
     const next = new Set(visiting).add(questId);
     const result: CampaignLibraryQuest[] = [];
     for (const parent of quest.prerequisiteIds) {
-      const branch = closure(parent, anchor, required, next);
+      const branch = closure(parent, anchor, required, allowCollection, next);
       if (branch.reason) return branch;
       result.push(...branch.quests);
     }
     result.push(quest);
     const unique = [...new Map(result.map((entry) => [entry.questId, entry])).values()];
-    if (!required && unique.filter((entry) => entry.objective === "delivery").length > 6)
+    if (
+      !required &&
+      !allowCollection &&
+      unique.filter((entry) => entry.objective === "delivery").length > 6
+    )
       return {
         quests: [],
         reason: "More than six non-combat lead-ins; held instead of forcing a long courier chain.",
       };
     return { quests: unique, reason: null };
+  }
+
+  for (const quest of library.filter((entry) => entry.backbone)) {
+    if (sharedOwned.has(quest.questId) || selected.has(quest.questId)) continue;
+    if (getPremadeQuest(quest.questId)) {
+      held.set(
+        quest.questId,
+        "Dungeon quest: review its dungeon bundle, not the outdoor source backbone.",
+      );
+      continue;
+    }
+    const target = location(quest);
+    const branch = closure(quest.questId, target.anchor, false, true);
+    if (branch.reason) {
+      held.set(quest.questId, branch.reason);
+      continue;
+    }
+    roots.add(quest.questId);
+    for (const entry of branch.quests) {
+      if (sharedOwned.has(entry.questId) || selected.has(entry.questId)) continue;
+      selected.set(entry.questId, {
+        quest: entry,
+        legId: target.legId,
+        anchor: target.anchor,
+        required: false,
+        raidOnly: false,
+        backbone: true,
+      });
+    }
   }
 
   // Required dungeon unlocks are retained even if they include an unavoidable collection stage.
@@ -159,14 +291,16 @@ export function integrateCampaignQuestLibrary(
           anchor: Math.min(previous?.anchor ?? anchor, anchor),
           required: true,
           raidOnly: (previous?.raidOnly ?? true) && action.raidOnly,
+          backbone: previous?.backbone ?? false,
         });
       }
     }
   }
   for (const quest of library) {
     if (
-      owned.has(quest.questId) ||
+      sharedOwned.has(quest.questId) ||
       selected.has(quest.questId) ||
+      quest.backbone ||
       quest.referenceLevel < 13 ||
       quest.referenceLevel >= 60
     )
@@ -214,6 +348,7 @@ export function integrateCampaignQuestLibrary(
           anchor: placement.anchor,
           required: false,
           raidOnly: false,
+          backbone: false,
         });
       else {
         const existing = selected.get(entry.questId)!;
@@ -221,8 +356,51 @@ export function integrateCampaignQuestLibrary(
       }
     }
   }
+  let moved = true;
+  while (moved) {
+    moved = false;
+    for (const [questId, placement] of selected) {
+      const parent = placement.quest.prerequisiteIds
+        .map((id) => selected.get(id))
+        .filter((entry): entry is Placement => entry !== undefined)
+        .sort((left, right) => right.anchor - left.anchor)[0];
+      if (!parent || parent.anchor <= placement.anchor) continue;
+      selected.set(questId, {
+        ...placement,
+        legId: parent.legId,
+        anchor: parent.anchor,
+      });
+      moved = true;
+    }
+  }
+  const ownedRaidOnly = new Set(
+    [...sharedOwned].filter((questId) => {
+      const questActions = plan.actions.filter((action) =>
+        action.questChanges.some((change) => change.questId === questId),
+      );
+      return questActions.length > 0 && questActions.every((action) => action.raidOnly);
+    }),
+  );
+  let raidChanged = true;
+  while (raidChanged) {
+    raidChanged = false;
+    for (const [questId, placement] of selected) {
+      if (
+        placement.raidOnly ||
+        !placement.quest.prerequisiteIds.some(
+          (id) => ownedRaidOnly.has(id) || selected.get(id)?.raidOnly,
+        )
+      )
+        continue;
+      selected.set(questId, { ...placement, raidOnly: true });
+      raidChanged = true;
+    }
+  }
+  const promotedToShared = new Set(
+    [...selected.keys()].filter((questId) => owned.has(questId) && !sharedOwned.has(questId)),
+  );
   const additions = new Map<string, CampaignAction[]>();
-  for (const { quest, legId, anchor, required, raidOnly } of selected.values()) {
+  for (const { quest, legId, anchor, required, raidOnly, backbone } of selected.values()) {
     const target = plan.legs.slice(anchor).find((leg) => leg.kind === "dungeon")?.from ?? 60;
     const entries = additions.get(legId) ?? [];
     for (const action of quest.actions)
@@ -231,9 +409,10 @@ export function integrateCampaignQuestLibrary(
         legId,
         raidOnly,
         libraryQuestId: quest.questId,
+        libraryBackbone: backbone,
         libraryObjective: quest.objective,
         libraryRequired: required,
-        xpOptional: !required,
+        xpOptional: !required && !backbone,
         xpTargetLevel: target,
         instructions: [
           ...action.instructions,
@@ -251,6 +430,37 @@ export function integrateCampaignQuestLibrary(
       });
     additions.set(legId, entries);
   }
+  for (const closure of lifecycleClosures) {
+    if (promotedToShared.has(closure.questId)) continue;
+    const entries = additions.get(closure.legId) ?? [];
+    entries.push(...closure.actions);
+    additions.set(closure.legId, entries);
+  }
+  for (const gate of levelGates) {
+    if (plan.actions.some((action) => action.id === gate.action.id)) continue;
+    const target = locationForGate(gate);
+    const entries = additions.get(target.legId) ?? [];
+    const routedSourceActions = gate.action.source
+      ? plan.actions.filter(
+          (action) =>
+            action.legId === target.legId &&
+            action.source?.chapterId === gate.action.source!.chapterId,
+        )
+      : [];
+    entries.push({
+      ...gate.action,
+      legId: target.legId,
+      leaderOnly:
+        routedSourceActions.length > 0
+          ? routedSourceActions.every((action) => action.leaderOnly)
+          : gate.action.leaderOnly,
+      raidOnly:
+        routedSourceActions.length > 0
+          ? routedSourceActions.every((action) => action.raidOnly)
+          : gate.action.raidOnly,
+    });
+    additions.set(target.legId, entries);
+  }
   const stages: CampaignLeg[] = [];
   const actions: CampaignAction[] = [];
   const usedExtra = [...extraLegs.values()].filter((entry) => additions.has(entry.leg.id));
@@ -259,9 +469,28 @@ export function integrateCampaignQuestLibrary(
     emit(baseLeg);
   }
   function emit(leg: CampaignLeg): void {
-    const original = plan.actions.filter((action) => action.legId === leg.id);
-    const extra = additions.get(leg.id) ?? [];
-    const entries = orderLibraryActions([...original, ...extra]);
+    const original = plan.actions
+      .filter((action) => action.legId === leg.id)
+      .flatMap((action): readonly CampaignAction[] => {
+        if (!action.leaderOnly) return [action];
+        const retained = action.questChanges.filter(
+          (change) => !promotedToShared.has(change.questId),
+        );
+        if (retained.length === action.questChanges.length) return [action];
+        if (!retained.length) return [];
+        const description = (change: CampaignAction["questChanges"][number]): string =>
+          `${change.state === "accepted" ? "Accept" : change.state === "rewarded" ? "Hand in" : `Complete objective ${change.objectiveIndex ?? 1} of`} ${change.title}.`;
+        return [
+          {
+            ...action,
+            title: retained.map(description).join(" · "),
+            instructions: retained.map(description),
+            questChanges: retained,
+          },
+        ];
+      });
+    const extra = [...(additions.get(leg.id) ?? [])].sort(sourceActionOrder);
+    const entries = orderLibraryActions(mergeSourceActions(original, extra));
     actions.push(...entries);
     stages.push({
       ...leg,
@@ -274,7 +503,7 @@ export function integrateCampaignQuestLibrary(
     });
   }
   const choices = library
-    .filter((quest) => !owned.has(quest.questId))
+    .filter((quest) => !sharedOwned.has(quest.questId))
     .map((quest): CampaignLibraryChoice => {
       const placement = selected.get(quest.questId);
       return {
@@ -286,11 +515,13 @@ export function integrateCampaignQuestLibrary(
         prerequisiteIds: quest.prerequisiteIds,
         legId: placement?.legId ?? null,
         role: placement
-          ? !roots.has(quest.questId)
-            ? "prerequisite"
-            : ["delivery", "interaction"].includes(quest.objective)
-              ? "nearby-quest"
-              : "kill-loop"
+          ? quest.backbone
+            ? "questing-backbone"
+            : !roots.has(quest.questId)
+              ? "prerequisite"
+              : ["delivery", "interaction"].includes(quest.objective)
+                ? "nearby-quest"
+                : "kill-loop"
           : "held",
         reason: placement
           ? null
@@ -313,7 +544,7 @@ export function integrateCampaignQuestLibrary(
     legs: stages,
     actions,
     catchUpBatches: plan.catchUpBatches?.filter((batch) => !inserted.has(batch.questId)) ?? [],
-    library: { revision: "source-backbone-20261015-v1", choices },
+    library: { revision: "source-backbone-20261018-v2", choices },
   };
 }
 
@@ -356,21 +587,43 @@ export function nearbyLibraryQuest(
   );
 }
 
+function sourceStepOrdinal(action: CampaignAction): number {
+  const value = Number(action.source?.stepId.split("-").at(-1));
+  return Number.isSafeInteger(value) ? value : Number.MAX_SAFE_INTEGER;
+}
+
+function mergeSourceActions(
+  original: readonly CampaignAction[],
+  extra: readonly CampaignAction[],
+): readonly CampaignAction[] {
+  const result = [...original];
+  for (const action of extra) {
+    if (!action.source) {
+      result.push(action);
+      continue;
+    }
+    const ordinal = sourceStepOrdinal(action);
+    const before = result.findIndex(
+      (candidate) =>
+        candidate.source?.chapterId === action.source!.chapterId &&
+        sourceStepOrdinal(candidate) > ordinal,
+    );
+    if (before >= 0) {
+      result.splice(before, 0, action);
+      continue;
+    }
+    let after = -1;
+    for (const [index, candidate] of result.entries())
+      if (candidate.source?.chapterId === action.source.chapterId) after = index;
+    result.splice(after >= 0 ? after + 1 : result.length, 0, action);
+  }
+  return result;
+}
+
 function orderLibraryActions(entries: readonly CampaignAction[]): readonly CampaignAction[] {
   if (!entries.some((action) => action.libraryQuestId)) return entries;
   const phase = { accepted: 0, "objectives-complete": 1, rewarded: 2 };
-  const pending = [...entries].sort((left, right) => {
-    const ending = (action: CampaignAction): boolean =>
-      action.kind === "xp-check" || action.id.endsWith("-deliveries");
-    if (ending(left) !== ending(right)) return Number(ending(left)) - Number(ending(right));
-    if (left.questChanges.length === 0 || right.questChanges.length === 0)
-      return Number(left.questChanges.length > 0) - Number(right.questChanges.length > 0);
-    const source = (action: CampaignAction): number =>
-      Number(/^chapter-\d+-(\d+)-/.exec(action.source?.chapterId ?? "")?.[1] ?? 99) * 10000000 +
-      Number(action.source?.chapterId.split("-")[1] ?? 9999) * 10000 +
-      Number(action.source?.stepId.split("-").at(-1) ?? 9999);
-    return source(left) - source(right);
-  });
+  const pending = [...entries];
   const result: CampaignAction[] = [];
   while (pending.length) {
     const index = pending.findIndex(
@@ -399,4 +652,12 @@ function orderLibraryActions(entries: readonly CampaignAction[]): readonly Campa
     result.push(pending.splice(index, 1)[0]!);
   }
   return result;
+}
+
+function sourceActionOrder(left: CampaignAction, right: CampaignAction): number {
+  const source = (action: CampaignAction): number =>
+    Number(/^chapter-\d+-(\d+)-/.exec(action.source?.chapterId ?? "")?.[1] ?? 99) * 10000000 +
+    Number(action.source?.chapterId.split("-")[1] ?? 9999) * 10000 +
+    Number(action.source?.stepId.split("-").at(-1) ?? 9999);
+  return source(left) - source(right);
 }

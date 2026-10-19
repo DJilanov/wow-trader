@@ -1,5 +1,108 @@
 # Forever leveling: whole-route XP and feasibility audit
 
+## October 18 five-player route compiler completion
+
+The same route now has a full deterministic RestedXP review-pack compiler. All 28 exact Alliance
+race/class editions compile into separate leader and party chains without lifecycle or serialization
+failures. The Human/Warrior review receipt, immutable hashes, install procedure and remaining
+in-game gate are recorded in the [addon review runbook](forever-leveling-addon-review.md). This
+closes the software export gap; it does not change the evidence/playtest verdict below.
+
+The Alliance premade compiler now produces a continuous, source-ordered 1–60 itinerary for every
+supported leader race/class edition. This is an executable guide with conservative actual-XP gates,
+not a claim that every grind duration or dungeon clear has been measured. The compiler now:
+
+- routes the full applicable RestedXP questing backbone while retaining source order, prerequisites,
+  race/class conditions and paid-once quest state;
+- excludes orphan objective/return phases and keeps known dungeon quests in the dungeon planner
+  instead of placing their inside-instance objectives in outdoor chapters;
+- closes source lifecycles that continue in a later chapter, replays leader-only prerequisites for
+  the full party before shared children, and omits prompts the source later abandons or never closes;
+- makes source `.xp` directives, starter handoffs, every dungeon departure and the final level-60
+  handoff explicit actual-bar checkpoints;
+- never skips a main backbone quest, a prerequisite used by a later pickup, an accepted quest
+  lifecycle or a required dungeon unlock merely because the party is already ahead on XP; and
+- includes only the 18 dungeons with modeled quest/access bundles. Drowned City, Krol'dok and Alcaz
+  Prison remain research-only and are not emitted as executable visits.
+
+The completed fetch is fully consumed. All 277 valid records from the 278-item fallback queue are in
+the published snapshot; quest 3343 is the reviewed not-found result. Across the union of all 33
+compiled editions, the current route schedules 1,159 distinct hand-ins:
+
+- 1,133 have published numeric Forever XP;
+- 26 have fetched Forever pages but no published numeric XP and therefore use explicitly labeled
+  historical Questie estimates; and
+- zero lack a numeric planning value after that fallback.
+
+The route archive remains source-pinned to build 70205. A fresh build-70450 client extraction on
+October 18 produced a byte-identical `gametables/xp.txt` (SHA-256
+`935253a23756f0ab7a760e8e4ab22184e1aca49285944ea68efc0a8820e459e6`), identical 100-row
+effective `QuestXP` data and identical results for all 35 requested `QuestV2` sample rows. This
+confirms the calculator's level-cost curve on the installed current client; it does not prove route
+source parity or observed quest/combat payouts.
+
+The 26 estimated route rewards are `977, 1124, 1125, 1126, 1185, 3783, 3961, 3962, 4005, 4363,
+4504, 4507, 4508, 4510, 4809, 4901, 4902, 5121, 5123, 5128, 5163, 5527, 6402, 6403, 6844,
+6845`. They are not promoted to Forever facts. The browser and audit resolve them as
+`base-estimate`, expose the estimate count, and require fresh in-game bars at the next checkpoint.
+
+The final quest-only audit is
+`artifacts/leveling/audits/2026-10-18/five-player/campaign-xp-audit-768a070f97dc647d.json`, semantic
+SHA-256 `768a070f97dc647d9c6ee34d263fd19f13b6a1864e172d62223c219282cab9da`.
+It evaluates 33 editions, four policy combinations each, 132 scenarios and 5,208 chapter checks.
+Every scenario starts all five players at level 1. Player 1 follows the selected source branch;
+Players 2–5 complete their own personal branches and rendezvous through explicit fresh-bar gates.
+Results:
+
+- action range 1,974–2,512, leg range 62–71, and exactly 18 executable dungeon legs per edition;
+- zero relevant continuous shortfalls, blockers, missing starts or unresolved hand-in values;
+- 4,434 independent chapter checks remain incomplete and 774 are reference-covered; and
+- all 24,744 audience-relevant continuous member checks are incomplete because explicit checkpoint
+  XP and/or estimated evidence is still present. The 1,296 diagnostic shortfalls for Players 2–5
+  inside Player 1-only starter sections are intentionally outside those sections' audience and do
+  not represent shared-route deficits.
+
+The private combat-reference audit is
+`artifacts/leveling/audits/2026-10-18/five-player-combat-reference/campaign-xp-audit-eab28d745222fb90.json`,
+semantic SHA-256 `eab28d745222fb9099b2a041575f5e9e366489d7ce6a0fc0ffe3e4fe74d26601`.
+It also has zero relevant shortfalls and blockers. All 5,208 chapter checks remain incomplete because
+the snapshot is private reference evidence and still has zero reviewed dungeon-clear profiles and
+zero calibrated kill contexts.
+
+The publication gate therefore remains false by design. The guide is safe to execute because every
+unproven gap stops on an actual party bar; it is not yet a measured speedrun, a calibrated
+time-to-level model or a playtest certificate. Closing that final evidence boundary requires live
+five-player observations, reviewed dungeon populations/payouts and Forever-specific replacements
+for the 26 historical rewards—not more hidden constants in the calculator.
+
+## October 18 quest-evidence completion checkpoint
+
+The completed fallback crawl closes the reward-data gap for the active Alliance campaign, not every
+quest in the larger archive inventory. It produced 277 valid staged quest/XP pairs from the 278-item
+fallback queue; quest 3343 was a verified not-found result. Before synchronization, all 277 pairs
+passed the current strict reference and XP schemas. The production staging backup is
+`/home/wow-trader-reference-worker/backups/20261018-local-quest-completion-164833/quest-staging-before.tar.gz`
+with SHA-256 `017c7c9a08c59b890834de9c6e72e3e6fc3a9a3494031af3cb2cc88ceb280f6a`.
+
+Release `kfc-helper-leveling-quest-completion-20261018-r1` adds a narrow publication rule for
+same-edition XP facts whose IDs occur in the checksum-bound leveling archive queue but are absent
+from the current static quest table. It does not relax known title conflicts, publish a quest detail
+page, or make that page indexable. IDs 308, 1641, and 1645 were compared byte-for-byte with staging
+after publication and are available with a legitimate zero-XP reward.
+
+The post-publication audit is
+`/home/wow-trader-system/shared/reports/leveling-quest-completion-20261018/campaign-xp-audit-a4382a7d60fd3fd3.json`
+with SHA-256 `a4382a7d60fd3fd3ab0be71970997fcb063547f65953c6670530b025bcd28ff5`.
+Across 33 editions, 132 scenarios, and 6,000 chapter checks, all 619 unique hand-in IDs now have an
+available XP fact. The gate still fails: 1,278 checks are blocked, 2,224 incomplete, 2,234 shortfall,
+and 264 reference-covered. Those remaining failures are route authoring, eligibility, sequencing,
+combat-budget, and transition-funding work; they must not be described as missing reward data.
+
+The broader checksum-bound archive queue remains intentionally visible as unfinished: 2,535 IDs,
+1,479 available records, 173 unknown records, and 883 unpublished IDs. Completing the current
+campaign therefore does not justify claiming that every archived quest has been fetched or that the
+whole route is certified.
+
 ## October 15 combat implementation follow-up
 
 The local [required combat XP implementation](forever-leveling-combat-xp.md) now joins corrected
@@ -131,8 +234,8 @@ so these reasons must be separated before diagnosing the true source change. Com
 previous frozen snapshot, records increased from 534 to 626 while usable facts remained 328.
 More IDs processed is not demonstrated numeric-data progress. No crawler change was made here.
 
-The local Journal 1.6.3 has old reward strings, base/cache fallbacks and runtime overrides. The
-currently installed RXP is v4.11.23, newer than the archived guide receipt; its quest helpers and
+The local Journal 1.6.3 has old reward strings, base/cache fallbacks and runtime overrides. The RXP
+version installed at this October 15 checkpoint was v4.11.23, newer than the archived guide receipt; its quest helpers and
 guide metadata are not a reviewed comprehensive static XP table. Do not silently replace the
 authorized frozen route or infer server payouts from strings that its own UI removes.
 

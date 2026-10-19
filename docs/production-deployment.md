@@ -194,6 +194,50 @@ The repository contains the following production controls:
 `pnpm dev` remains the convenient local environment command, but it is not a production start or
 publish command.
 
+## Leveling quest-XP evidence activation
+
+The web release and the leveling reward evidence have separate lifecycles. `deploy-production.sh`
+intentionally excludes `artifacts/`, so a normal application deployment does not install the
+historical reward fallback. Provision that immutable input explicitly before enabling
+`WOW_TRADER_LEVELING_QUEST_XP_IMPORT`.
+
+The reviewed local import currently has these exact properties:
+
+- source: `artifacts/reference/questie/quest-xp-import.json`
+- size: `1,048,230` bytes
+- SHA-256: `ec63dbbbdbe00acea0fc4845d84826b01a5def17c1a7326d6b20bf4612e7a01c`
+- role: historical fallback only; a published Forever value or conflict always wins
+
+Stage, verify, and install it without placing it in an immutable application release:
+
+```bash
+scp artifacts/reference/questie/quest-xp-import.json \
+  root@89.167.46.193:/tmp/quest-xp-import.json
+
+ssh root@89.167.46.193 '
+  set -eu
+  expected=ec63dbbbdbe00acea0fc4845d84826b01a5def17c1a7326d6b20bf4612e7a01c
+  actual=$(sha256sum /tmp/quest-xp-import.json | awk "{print \$1}")
+  test "$actual" = "$expected"
+  install -d -m 0755 /home/wow-trader-reference-worker/shared/imports
+  install -m 0644 /tmp/quest-xp-import.json \
+    /home/wow-trader-reference-worker/shared/imports/quest-xp-import.json
+  rm /tmp/quest-xp-import.json
+'
+```
+
+Add this line once to `/home/wow-trader-system/shared/env/web.env`:
+
+```dotenv
+WOW_TRADER_LEVELING_QUEST_XP_IMPORT=/home/wow-trader-reference-worker/shared/imports/quest-xp-import.json
+```
+
+Deploy the compatible web code before reloading `kfc-helper-web`; the currently active release does
+not understand this variable. After activation, verify the file checksum again, load at least one
+premade route, and confirm that its evidence summary distinguishes published Forever rewards from
+historical estimates. The historical values close numerical planning holes but do not open the
+publication coverage gate or constitute a playtest certificate.
+
 ## Phase 1: PostgreSQL provisioning
 
 Create one database and separate least-privilege roles:

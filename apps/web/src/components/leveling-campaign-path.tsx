@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   DUNGEON_RELEASE,
+  LEVELING_EVIDENCE,
   PREMADE_STOPS,
   activeCampaignActions,
   currentCampaignAction,
@@ -157,7 +158,10 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
               travel in order, without treating preparation as several levels of its own.
             </p>
           </div>
-          <span className={pathStyles.count}>{chapters.length} chapters · 21 dungeon stops</span>
+          <span className={pathStyles.count}>
+            {chapters.length} chapters ·{" "}
+            {chapters.filter((entry) => entry.kind === "dungeon").length} verified dungeon stops
+          </span>
         </header>
         <div className={pathStyles.tools}>
           <label>
@@ -300,9 +304,11 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
         </ol>
       </section>
       <p className={styles.muted}>
-        Review edition {plan.release} · class {plan.leaderClass ?? "unresolved"} · build{" "}
-        {plan.targetBuild}. Actual XP and game-state checks remain necessary. RestedXP will be
-        compiled from this same ordered route after approval and validation.
+        Review edition {plan.release} · class {plan.leaderClass ?? "unresolved"} · source guide
+        build {plan.targetBuild} · reward identity build {plan.rewardBuild ?? "unavailable"}. The XP
+        curve is byte-verified unchanged on build {LEVELING_EVIDENCE.curveReverifiedBuild}. Actual
+        XP and game-state checks remain necessary. The RestedXP review pack is compiled from this
+        same ordered route; public release waits for its bounded in-game validation.
       </p>
       <LevelingBackupControls />
       {storageStatus === "memory" && (

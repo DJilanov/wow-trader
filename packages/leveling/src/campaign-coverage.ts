@@ -67,7 +67,6 @@ export function auditCampaignSections(
       section.from,
       section.kind === "dungeon" ? gate : 1,
     );
-    if (section.kind === "dungeon") levelFloor = entryLevel;
     const goal = campaignSectionTarget(sections, index, selection, plan.rewardFacts);
     const targetLevel = goal.level;
     const entries = actions.filter((action) => section.actionIds.includes(action.id));
@@ -127,6 +126,9 @@ export function auditCampaignSections(
         if (action.leaderOnly && player !== 0) return;
         for (const change of action.questChanges) states[String(change.questId)] = change.state;
       });
+    // Each section is an independent proof obligation. Outdoor sections advance to their departure
+    // target; dungeon sections retain their entry floor so the following world route owns the gap.
+    levelFloor = Math.max(levelFloor, targetLevel);
     return {
       sectionId: section.id,
       audience: section.kind === "starter" ? "leader" : "party",

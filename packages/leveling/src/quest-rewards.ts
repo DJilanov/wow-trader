@@ -11,6 +11,7 @@ export interface QuestRewardFact {
   readonly sourceUrl: string;
   readonly capturedAt: string;
   readonly status: "available" | "unknown" | "conflict";
+  readonly evidenceKind?: "published-forever" | "historical-reference" | "observed-forever";
 }
 
 export interface QuestRewardResolution extends DungeonRewardEstimate {
@@ -44,11 +45,17 @@ export function resolveQuestReward(
       `Pickup requires level ${minimumLevel}; this is an ineligible hand-in context, not a missing reward.`,
     );
   if (fact?.status === "available") {
+    const basis =
+      fact.evidenceKind === "historical-reference"
+        ? ("base-estimate" as const)
+        : fact.evidenceKind === "observed-forever"
+          ? ("reported-forever" as const)
+          : ("wowhead-reference" as const);
     const reward = fact.xpByLevel.find((entry) => entry.level === level)?.xp;
     if (reward !== undefined)
       return {
         xp: reward,
-        basis: "wowhead-reference",
+        basis,
         source: fact.sourceUrl,
         minimumLevel,
       };
@@ -60,7 +67,7 @@ export function resolveQuestReward(
     )
       return {
         xp: fact.fullXp,
-        basis: "wowhead-reference",
+        basis,
         source: fact.sourceUrl,
         minimumLevel,
       };

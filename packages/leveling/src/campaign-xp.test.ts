@@ -189,5 +189,8 @@ describe("cumulative per-player route XP", () => {
     expect(
       resolveQuestReward(300001, 14, [fact(300001, 100, { status: "conflict" })]).xp,
     ).toBeNull();
+    expect(
+      resolveQuestReward(300001, 14, [fact(300001, 100, { evidenceKind: "historical-reference" })]),
+    ).toMatchObject({ xp: 100, basis: "base-estimate" });
   });
 });

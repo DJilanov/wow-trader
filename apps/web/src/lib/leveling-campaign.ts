@@ -2,6 +2,8 @@ import {
   CHAPTER_REFERENCES,
   buildCampaignPlan,
   attachCampaignCombat,
+  compileCampaignFunding,
+  compileCampaignPickupGates,
   type CampaignPlan,
   type CampaignRace,
   type CampaignSource,
@@ -90,24 +92,27 @@ async function withEvidence(
     combat.data && combat.data.targetBuild === plan.targetBuild
       ? attachCampaignCombat(plan, sources, combat.data, combat.revision)
       : plan;
-  return {
-    ...enriched,
-    catchUpBatches: (plan.catchUpBatches ?? []).filter(
-      (batch) => batch.objectiveType === "shared-kills" && !batch.conditional,
-    ),
-    rewardFacts: snapshot.facts,
-    rewardRevision: snapshot.revision,
-    rewardNotice:
-      [
-        snapshot.notice,
-        combat.notice,
-        combat.data && combat.data.targetBuild !== plan.targetBuild
-          ? "Combat references belong to a different client build and are excluded."
-          : null,
-      ]
-        .filter(Boolean)
-        .join(" ") || null,
-  };
+  return compileCampaignFunding(
+    compileCampaignPickupGates({
+      ...enriched,
+      catchUpBatches: (plan.catchUpBatches ?? []).filter(
+        (batch) => batch.objectiveType === "shared-kills" && !batch.conditional,
+      ),
+      rewardFacts: snapshot.facts,
+      rewardRevision: snapshot.revision,
+      rewardBuild: snapshot.clientBuild,
+      rewardNotice:
+        [
+          snapshot.notice,
+          combat.notice,
+          combat.data && combat.data.targetBuild !== plan.targetBuild
+            ? "Combat references belong to a different client build and are excluded."
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" ") || null,
+    }),
+  );
 }
 
 export async function getLevelingCampaignMaps(plan: CampaignPlan): Promise<LevelingChapterMaps> {

@@ -22,7 +22,11 @@ import type { QuestRewardFact } from "./quest-rewards.js";
 import type { CampaignCombatPlan } from "./combat-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { extractCampaignQuestBatches, type CampaignQuestBatch } from "./campaign-catchup.js";
-import { buildCampaignQuestLibrary, type LibraryObjective } from "./campaign-library.js";
+import {
+  buildCampaignQuestLibrary,
+  buildCampaignSourceLevelGates,
+  type LibraryObjective,
+} from "./campaign-library.js";
 import {
   integrateCampaignQuestLibrary,
   type CampaignLibrarySelection,
@@ -63,6 +67,7 @@ export interface CampaignAction {
   readonly kind: "instructions" | "quests" | "checkpoint" | "unverified" | "xp-check";
   readonly leaderOnly: boolean;
   readonly targetLevel: number | null;
+  readonly targetCurrentXp?: number;
   readonly targetStopId: PremadeProgress["selectedStopId"] | null;
   readonly raidOnly: boolean;
   readonly requiredQuestIds?: readonly number[];
@@ -70,8 +75,10 @@ export interface CampaignAction {
   readonly xpTargetLevel?: number;
   readonly catchUpBatchId?: string;
   readonly libraryQuestId?: number;
+  readonly libraryBackbone?: boolean;
   readonly libraryObjective?: LibraryObjective;
   readonly libraryRequired?: boolean;
+  readonly sourceGateConflictQuestIds?: readonly number[];
 }
 export interface CampaignLeg {
   readonly id: string;
@@ -84,6 +91,12 @@ export interface CampaignLeg {
   readonly unresolvedQuestIds: readonly number[];
   readonly stopId: PremadeProgress["selectedStopId"] | null;
 }
+export interface CampaignLifecycleExclusion {
+  readonly actionId: string;
+  readonly questId: number;
+  readonly state: CampaignQuestChange["state"];
+  readonly reason: "missing-prior-pickup" | "incomplete-lifecycle";
+}
 export interface CampaignPlan {
   readonly release: string;
   readonly race: CampaignRace;
@@ -95,8 +108,11 @@ export interface CampaignPlan {
   readonly executionRevision?: string;
   readonly rewardFacts?: readonly QuestRewardFact[];
   readonly rewardRevision?: string;
+  readonly rewardBuild?: number | null;
   readonly rewardNotice?: string | null;
   readonly catchUpBatches?: readonly CampaignQuestBatch[];
+  readonly defaultCatchUpBatches?: Readonly<Record<string, readonly string[]>>;
+  readonly lifecycleExclusions?: readonly CampaignLifecycleExclusion[];
   readonly library?: CampaignLibrarySelection;
   readonly combat?: CampaignCombatPlan;
 }
@@ -159,6 +175,169 @@ const historicalLonebrow = {
     "Historical Classic hand-in: Falfindel Waywarder, Thalanaar. Deliver the journal before accepting The Crone of the Kraul.",
   position: null,
 };
+
+function campaignBackboneSources(leaderClass: ClassSlug | null): ReadonlySet<number> {
+  return new Set([
+    127,
+    ...(leaderClass === "hunter" ? [129, 6, 7] : [128, 130, 8, 9]),
+    10,
+    11,
+    ...(leaderClass === "hunter" ? [] : [12]),
+    13,
+    14,
+    15,
+    16,
+    leaderClass === "hunter" ? 17 : 18,
+    19,
+    20,
+    21,
+    ...(leaderClass === "hunter" ? [26] : [24, 25]),
+    27,
+    28,
+    leaderClass === "warlock" ? 30 : 29,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+  ]);
+}
+
+function lifecycleSafePlan(plan: CampaignPlan): CampaignPlan {
+  const states = new Map<number, CampaignQuestChange["state"]>();
+  const exclusions: CampaignLifecycleExclusion[] = [];
+  const actions = plan.actions.flatMap((action): readonly CampaignAction[] => {
+    const retained = action.questChanges.filter((change) => {
+      if (change.state === "accepted") {
+        states.set(change.questId, change.state);
+        return true;
+      }
+      const current = states.get(change.questId);
+      if (current !== "accepted" && current !== "objectives-complete") {
+        exclusions.push({
+          actionId: action.id,
+          questId: change.questId,
+          state: change.state,
+          reason: "missing-prior-pickup",
+        });
+        return false;
+      }
+      states.set(change.questId, change.state);
+      return true;
+    });
+    if (retained.length === action.questChanges.length) return [action];
+    if (!retained.length) return [];
+    const description = (change: CampaignQuestChange): string =>
+      `${change.state === "accepted" ? "Accept" : change.state === "rewarded" ? "Hand in" : `Complete objective ${change.objectiveIndex ?? 1} of`} ${change.title}.`;
+    return [
+      {
+        ...action,
+        title: retained.map(description).join(" · "),
+        instructions: retained.map(description),
+        questChanges: retained,
+      },
+    ];
+  });
+  const actionIds = new Set(actions.map((action) => action.id));
+  return {
+    ...plan,
+    actions,
+    legs: plan.legs.map((leg) => {
+      const owned = actions.filter((action) => action.legId === leg.id);
+      return {
+        ...leg,
+        actionIds: owned.map((action) => action.id),
+        questIds: [
+          ...new Set(
+            owned.flatMap((action) => action.questChanges.map((change) => change.questId)),
+          ),
+        ],
+      };
+    }),
+    bookmarkAliases: Object.fromEntries(
+      Object.entries(plan.bookmarkAliases ?? {}).filter(([, target]) => actionIds.has(target)),
+    ),
+    lifecycleExclusions: exclusions,
+  };
+}
+
+function lifecycleCompletePlan(plan: CampaignPlan): CampaignPlan {
+  const phases = new Map<number, Set<CampaignQuestChange["state"]>>();
+  for (const action of plan.actions)
+    for (const change of action.questChanges) {
+      const states = phases.get(change.questId) ?? new Set<CampaignQuestChange["state"]>();
+      states.add(change.state);
+      phases.set(change.questId, states);
+    }
+  const incomplete = new Set(
+    [...phases]
+      .filter(([, states]) => !states.has("accepted") || !states.has("rewarded"))
+      .map(([questId]) => questId),
+  );
+  if (!incomplete.size) return plan;
+  const required = plan.actions.find((action) =>
+    action.requiredQuestIds?.some((questId) => incomplete.has(questId)),
+  );
+  if (required) throw new Error(`Required quest lifecycle is incomplete before ${required.id}.`);
+  const exclusions: CampaignLifecycleExclusion[] = [...(plan.lifecycleExclusions ?? [])];
+  const actions = plan.actions.flatMap((action): readonly CampaignAction[] => {
+    const removed = action.questChanges.filter((change) => incomplete.has(change.questId));
+    if (!removed.length) return [action];
+    exclusions.push(
+      ...removed.map((change) => ({
+        actionId: action.id,
+        questId: change.questId,
+        state: change.state,
+        reason: "incomplete-lifecycle" as const,
+      })),
+    );
+    const retained = action.questChanges.filter((change) => !incomplete.has(change.questId));
+    if (!retained.length) return [];
+    const description = (change: CampaignQuestChange): string =>
+      `${change.state === "accepted" ? "Accept" : change.state === "rewarded" ? "Hand in" : `Complete objective ${change.objectiveIndex ?? 1} of`} ${change.title}.`;
+    return [
+      {
+        ...action,
+        title: retained.map(description).join(" · "),
+        instructions: retained.map(description),
+        questChanges: retained,
+      },
+    ];
+  });
+  const actionIds = new Set(actions.map((action) => action.id));
+  return {
+    ...plan,
+    actions,
+    legs: plan.legs.map((leg) => {
+      const owned = actions.filter((action) => action.legId === leg.id);
+      return {
+        ...leg,
+        actionIds: owned.map((action) => action.id),
+        questIds: [
+          ...new Set(
+            owned.flatMap((action) => action.questChanges.map((change) => change.questId)),
+          ),
+        ],
+      };
+    }),
+    bookmarkAliases: Object.fromEntries(
+      Object.entries(plan.bookmarkAliases ?? {}).filter(([, target]) => actionIds.has(target)),
+    ),
+    lifecycleExclusions: exclusions,
+  };
+}
 
 export function buildCampaignPlan(
   race: CampaignRace,
@@ -604,6 +783,9 @@ export function buildCampaignPlan(
       if (!block) throw new Error(`Missing preparation block ${id}.`);
       outdoor(block);
     }
+    // Research-only stops stay in the dungeon catalog, but cannot enter the executable
+    // campaign until their access, lifecycle and quest bundle have source evidence.
+    if (stop.dataStatus === "missing-quest-data") continue;
     const legId = `dungeon-${stop.id}`,
       start = actions.length;
     instructions(legId, `${stop.name}: prepare before entering`, [stop.preparation, ...stop.notes]);
@@ -633,23 +815,7 @@ export function buildCampaignPlan(
           } as Readonly<Record<string, readonly number[]>>
         )[stop.id] ?? [],
     });
-    if (stop.dataStatus === "missing-quest-data") {
-      add(legId, "evidence", {
-        title: `${stop.name}: quest/access evidence missing`,
-        instructions: [
-          stop.clear,
-          "Use Next to continue to the outdoor fallback without claiming a verified dungeon quest clear. No XP is credited for this proposed stop.",
-        ],
-        questChanges: [],
-        positions: [],
-        source: null,
-        kind: "unverified",
-        leaderOnly: false,
-        targetLevel: null,
-        targetStopId: null,
-        raidOnly: false,
-      });
-    } else if (stop.id === "blackrock-depths") {
+    if (stop.id === "blackrock-depths") {
       sourceActions(
         {
           id: legId,
@@ -845,13 +1011,27 @@ export function buildCampaignPlan(
         ),
     ),
   };
-  return options.includeLibrary === false
-    ? base
-    : integrateCampaignQuestLibrary(
-        base,
-        buildCampaignQuestLibrary(usable, profile, dungeonTags),
-        retainedDungeonQuestIds,
-      );
+  const safeBase = lifecycleSafePlan(base);
+  const backboneSources = campaignBackboneSources(leaderClass);
+  const routedChapterIds = new Set(
+    safeBase.actions.flatMap((action) => (action.source ? [action.source.chapterId] : [])),
+  );
+  const levelGateSources = new Set([
+    ...backboneSources,
+    ...usable
+      .filter((source) => routedChapterIds.has(source.guide.chapterId))
+      .map((source) => source.reference.sourceId),
+  ]);
+  const expanded =
+    options.includeLibrary === false
+      ? safeBase
+      : integrateCampaignQuestLibrary(
+          safeBase,
+          buildCampaignQuestLibrary(usable, profile, dungeonTags, backboneSources),
+          retainedDungeonQuestIds,
+          buildCampaignSourceLevelGates(usable, profile, dungeonTags, levelGateSources),
+        );
+  return lifecycleCompletePlan(expanded);
 }
 
 export function activeCampaignActions(
@@ -879,7 +1059,13 @@ export function activeCampaignActions(
       result.push(action);
       continue;
     }
-    for (const id of progress.selectedBatches?.[leg.id] ?? []) {
+    const selected = [
+      ...new Set([
+        ...(plan.defaultCatchUpBatches?.[leg.id] ?? []),
+        ...(progress.selectedBatches?.[leg.id] ?? []),
+      ]),
+    ];
+    for (const id of selected) {
       const batch = plan.catchUpBatches?.find((entry) => entry.id === id);
       const block = CAMPAIGN_BRIDGES.find((entry) => entry.id === leg.id);
       if (
@@ -952,6 +1138,7 @@ function questChangeNeeded(change: CampaignQuestChange, member: PremadeMember): 
   const state = member.questStates[String(change.questId)];
   if (state === "rewarded") return false;
   if (change.state === "accepted") return state === undefined || state === "not-started";
+  if (state === undefined || state === "not-started") return false;
   if (change.state === "objectives-complete")
     return (
       state !== "objectives-complete" &&
@@ -978,14 +1165,37 @@ export function campaignOptionalXpReady(
   action: CampaignAction,
 ): boolean {
   const leg = plan.legs.find((entry) => entry.id === action.legId);
-  if (!leg || (leg.kind !== "xp-bridge" && !action.xpOptional)) return false;
+  if (!leg || action.libraryBackbone || (leg.kind !== "xp-bridge" && !action.xpOptional))
+    return false;
+  if (action.kind === "xp-check" && action.targetLevel !== null) {
+    const targetLevel = action.targetLevel;
+    const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
+    return members.every(
+      (member) =>
+        member.level !== null &&
+        member.currentXp !== null &&
+        !member.xpNeedsUpdate &&
+        (member.level > targetLevel ||
+          (member.level === targetLevel && member.currentXp >= (action.targetCurrentXp ?? 0))),
+    );
+  }
   if (campaignRequiredDungeonQuest(action)) return false;
+  const actionQuestIds = new Set(action.questChanges.map((change) => change.questId));
   if (
-    action.libraryQuestId &&
+    actionQuestIds.size > 0 &&
     progress.members.some((member) =>
-      ["accepted", "objectives-complete"].includes(
-        member.questStates[String(action.libraryQuestId)] ?? "",
+      [...actionQuestIds].some((questId) =>
+        ["accepted", "objectives-complete"].includes(member.questStates[String(questId)] ?? ""),
       ),
+    )
+  )
+    return false;
+  if (
+    actionQuestIds.size > 0 &&
+    plan.actions.some(
+      (candidate) =>
+        (progress.raidGoals || !candidate.raidOnly) &&
+        candidate.requiredQuestIds?.some((questId) => actionQuestIds.has(questId)),
     )
   )
     return false;
@@ -1072,9 +1282,10 @@ export function campaignActionReasons(
               `Record Player ${player + 1}'s actual level ${minimumLevel} or above before quest ${change.questId}. Conflicting minima remain conservative.`,
             ];
           if (gate && questGateResult(gate, staged) === "blocked")
-            return [
-              `Quest ${change.questId}: finish the required prerequisite or item check before this pickup.`,
-            ];
+            if (!action.sourceGateConflictQuestIds?.includes(change.questId))
+              return [
+                `Quest ${change.questId}: finish the required prerequisite or item check before this pickup.`,
+              ];
           const quest = getPremadeQuest(change.questId);
           if (
             quest?.faction === "horde" ||
@@ -1087,14 +1298,27 @@ export function campaignActionReasons(
     }
     return [];
   }
-  if (action.kind === "xp-check")
-    return progress.members.some(
+  if (action.kind === "xp-check") {
+    const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
+    const stale = members.some(
       (member) => member.level === null || member.currentXp === null || member.xpNeedsUpdate,
-    )
-      ? [
-          "Record fresh actual levels and XP for all five after preparation; unknown or stale bars cannot decide whether extra quests are needed.",
-        ]
-      : [];
+    );
+    if (stale)
+      return [
+        "Record fresh actual levels and XP for all five after preparation; unknown or stale bars cannot decide whether extra quests are needed.",
+      ];
+    if (action.targetLevel === null) return [];
+    const ready = members.every(
+      (member) =>
+        member.level! > action.targetLevel! ||
+        (member.level === action.targetLevel && member.currentXp! >= (action.targetCurrentXp ?? 0)),
+    );
+    return ready
+      ? []
+      : [
+          `Continue the source grind until all five reach level ${action.targetLevel}${action.targetCurrentXp ? ` + ${action.targetCurrentXp.toLocaleString("en-US")} XP` : ""}.`,
+        ];
+  }
   if (action.kind !== "checkpoint") return [];
   const stop = PREMADE_STOPS.find((entry) => entry.id === action.targetStopId);
   const minimum = stop ? premadeEntryLevel(stop, progress, facts) : action.targetLevel;

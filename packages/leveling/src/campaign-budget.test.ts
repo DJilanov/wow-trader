@@ -134,6 +134,78 @@ describe("checkpoint budget regressions", () => {
     },
   );
 
+  it("checks only the leader at a leader-only XP gate", () => {
+    const gate = {
+      ...action("leader-gate", "zone"),
+      kind: "xp-check" as const,
+      leaderOnly: true,
+      targetLevel: 6,
+      targetCurrentXp: 0,
+    };
+    const progress = emptyPremadeProgress();
+    progress.members[0] = {
+      ...progress.members[0]!,
+      level: 6,
+      currentXp: 0,
+      xpNeedsUpdate: false,
+    };
+    expect(campaignActionReasons(gate, progress)).toEqual([]);
+    expect(campaignActionReasons({ ...gate, leaderOnly: false }, progress)[0]).toContain(
+      "all five",
+    );
+  });
+
+  it("never skips a quest lifecycle that a later source-chain pickup requires", () => {
+    const parent = {
+      ...action("parent", "zone"),
+      kind: "quests" as const,
+      questChanges: [
+        {
+          questId: 100,
+          title: "Required parent",
+          state: "rewarded" as const,
+          objectiveIndex: null,
+        },
+      ],
+    };
+    const child = {
+      ...action("child", "zone"),
+      kind: "quests" as const,
+      requiredQuestIds: [100],
+      questChanges: [
+        {
+          questId: 101,
+          title: "Dependent child",
+          state: "accepted" as const,
+          objectiveIndex: null,
+        },
+      ],
+    };
+    const plan = route([parent, child], "xp-bridge", 20, 26);
+    expect(campaignOptionalXpReady(plan, party(26), parent)).toBe(false);
+  });
+
+  it("never abandons an accepted non-library quest when its XP work becomes optional", () => {
+    const objective = {
+      ...action("objective", "zone"),
+      kind: "quests" as const,
+      xpOptional: true,
+      questChanges: [
+        {
+          questId: 100,
+          title: "Accepted quest",
+          state: "objectives-complete" as const,
+          objectiveIndex: 1,
+        },
+      ],
+    };
+    const progress = party(26);
+    progress.members[0]!.questStates["100"] = "accepted";
+    expect(
+      campaignOptionalXpReady(route([objective], "xp-bridge", 20, 26), progress, objective),
+    ).toBe(false);
+  });
+
   it("does not borrow rewards or combat after an impossible entry to fund that entry", () => {
     const entry = { ...action("entry", "zone"), kind: "checkpoint" as const, targetLevel: 26 };
     const reward = {
@@ -255,7 +327,7 @@ describe("checkpoint budget regressions", () => {
     expect(questGateResult({ kind: "item", itemId: 1 }, member)).toBe("unknown");
   });
 
-  it("distinguishes the current dungeon entry from the next departure budget", () => {
+  it("keeps a dungeon run separate from the following outdoor departure budget", () => {
     const entry = {
       ...action("stockade-entry", "stockade"),
       kind: "checkpoint" as const,
@@ -290,8 +362,10 @@ describe("checkpoint budget regressions", () => {
     };
     const member = forecastCampaignXp(plan, party(26))[0]!.members[0]!;
     expect(member.checkpoints[0]!.targetLevel).toBe(26);
-    expect(member.targetLevel).toBe(29);
-    expect(member.status).toBe("shortfall");
+    expect(member.targetLevel).toBe(26);
+    expect(member.status).toBe("covered");
+    const chapters = auditCampaignSections(plan, party(26));
+    expect(chapters.map((chapter) => chapter.referenceEntryLevel)).toEqual([26, 29]);
   });
 
   it("does not pay a hand-in before every modeled objective has completed", () => {

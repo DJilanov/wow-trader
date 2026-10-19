@@ -6,6 +6,7 @@ import {
 import { getGuideStepView, type ImportedDirective } from "./guide-archive.js";
 import type { CharacterProfile } from "./profile.js";
 import type { CampaignAction, CampaignSource } from "./campaign.js";
+import { FOREVER_XP_CURVE } from "./westfall.js";
 
 export type LibraryObjective =
   "shared-kills" | "named-trophy" | "delivery" | "interaction" | "collection" | "unclassified";
@@ -20,7 +21,9 @@ export interface CampaignLibraryQuest {
   readonly prerequisiteIds: readonly number[];
   readonly held: boolean;
   readonly complete: boolean;
-  readonly actions: readonly CampaignAction[];
+  readonly abandoned: boolean;
+  readonly backbone: boolean;
+  readonly actions: readonly (CampaignAction & { readonly referenceLevel: number })[];
 }
 
 interface LibraryStage {
@@ -32,6 +35,13 @@ interface LibraryStage {
   readonly objective: LibraryObjective | null;
   readonly held: boolean;
   readonly completionGuard: boolean;
+}
+
+export interface CampaignSourceLevelGate {
+  readonly action: CampaignAction;
+  readonly sourceId: number;
+  readonly referenceLevel: number;
+  readonly zone: string;
 }
 
 const personalCondition =
@@ -46,6 +56,97 @@ const lifecycleChecks = new Set([
   ".maxlevel",
   ".xp",
 ]);
+
+function sourceXpTarget(argumentsValue: string): {
+  readonly level: number;
+  readonly currentXp: number;
+} | null {
+  const value = argumentsValue.trim();
+  if (/^[<>]/.test(value)) return null;
+  const match = /^(\d{1,2})(?:\.(\d+)|([+-])(\d+))?$/.exec(value);
+  if (!match) return null;
+  const level = Number(match[1]);
+  if (!Number.isSafeInteger(level) || level < 1 || level > 60) return null;
+  if (level === 60) return { level, currentXp: 0 };
+  if (match[2]) {
+    const fraction = Number(`0.${match[2]}`);
+    return { level, currentXp: Math.floor(FOREVER_XP_CURVE[level]! * fraction) };
+  }
+  if (match[3] === "+") {
+    const currentXp = Number(match[4]);
+    return currentXp < FOREVER_XP_CURVE[level]! ? { level, currentXp } : null;
+  }
+  if (match[3] === "-") {
+    if (level <= 1) return null;
+    const remaining = Number(match[4]);
+    const currentXp = FOREVER_XP_CURVE[level - 1]! - remaining;
+    return currentXp >= 0 ? { level: level - 1, currentXp } : null;
+  }
+  return { level, currentXp: 0 };
+}
+
+export function buildCampaignSourceLevelGates(
+  sources: readonly CampaignSource[],
+  profile: CharacterProfile,
+  dungeonTags: readonly string[],
+  backboneSourceIds: ReadonlySet<number>,
+): readonly CampaignSourceLevelGate[] {
+  const result: CampaignSourceLevelGate[] = [];
+  for (const { reference, guide } of sources) {
+    if (
+      !backboneSourceIds.has(reference.sourceId) ||
+      chapterEligibility(reference, profile) !== "match"
+    )
+      continue;
+    const label = getChapterLabel(reference, profile);
+    let referenceLevel = label.minimumLevel;
+    for (const step of guide.steps) {
+      const view = getGuideStepView(step, profile, { dungeons: dungeonTags });
+      if (view.condition !== "match") continue;
+      for (const [index, directive] of view.directives.entries()) {
+        if (
+          directive.tag !== ".xp" ||
+          personalCondition.test(step.condition) ||
+          personalCondition.test(directive.condition)
+        )
+          continue;
+        const target = sourceXpTarget(directive.arguments);
+        if (!target) continue;
+        const labelText = `level ${target.level}${target.currentXp ? ` + ${target.currentXp.toLocaleString("en-US")} XP` : ""}`;
+        result.push({
+          sourceId: reference.sourceId,
+          referenceLevel,
+          zone: label.zone,
+          action: {
+            id: `library-level-gate-${reference.sourceId}-${step.id}-${index}`,
+            legId: "unassigned",
+            title: directive.text || `Reach ${labelText}`,
+            instructions: [
+              directive.text ||
+                `Continue the source route until every party member reaches ${labelText}.`,
+              "This is an actual XP checkpoint. Record the party bars; the planner does not award unobserved combat XP.",
+            ],
+            questChanges: [],
+            positions: view.directives.flatMap((entry) =>
+              entry.position ? [{ sourceLine: entry.sourceLine, position: entry.position }] : [],
+            ),
+            source: { chapterId: guide.chapterId, version: guide.version, stepId: step.id },
+            kind: "xp-check",
+            leaderOnly: false,
+            targetLevel: target.level,
+            targetCurrentXp: target.currentXp,
+            targetStopId: null,
+            raidOnly: false,
+            xpOptional: true,
+            xpTargetLevel: target.level,
+          },
+        });
+        referenceLevel = Math.max(referenceLevel, target.level);
+      }
+    }
+  }
+  return result;
+}
 
 export function classifyLibraryObjective(
   text: string,
@@ -115,11 +216,13 @@ export function buildCampaignQuestLibrary(
   sources: readonly CampaignSource[],
   profile: CharacterProfile,
   dungeonTags: readonly string[],
+  backboneSourceIds: ReadonlySet<number> = new Set(),
 ): readonly CampaignLibraryQuest[] {
   const stages = new Map<number, Map<string, LibraryStage>>();
   const titles = new Map<number, string>();
   const parents = new Map<number, Set<number>>();
   const collectionIds = new Set<number>();
+  const abandonedIds = new Set<number>();
   const sorted = [...sources]
     .filter((source) => chapterEligibility(source.reference, profile) === "match")
     .sort(
@@ -130,7 +233,9 @@ export function buildCampaignQuestLibrary(
     );
   for (const { reference, guide } of sorted) {
     const label = getChapterLabel(reference, profile);
+    let referenceLevel = label.minimumLevel;
     for (const step of guide.steps) {
+      let previousReturn: number | null = null;
       const view = getGuideStepView(
         {
           ...step,
@@ -143,11 +248,15 @@ export function buildCampaignQuestLibrary(
       );
       if (view.condition !== "match") continue;
       for (const directive of view.directives) {
+        if (directive.tag !== ".abandon") continue;
+        const questId = Number(directive.arguments.split(",")[0]);
+        if (Number.isSafeInteger(questId) && questId > 0) abandonedIds.add(questId);
+      }
+      for (const directive of view.directives) {
         if (directive.tag !== ".collect") continue;
         const id = Number(directive.arguments.split(",")[2]);
         if (Number.isSafeInteger(id) && id > 0) collectionIds.add(id);
       }
-      let previousReturn: number | null = null;
       for (const [offset, directive] of view.directives.entries()) {
         const state =
           directive.tag === ".accept"
@@ -252,7 +361,7 @@ export function buildCampaignQuestLibrary(
         byPhase.set(phaseKey, {
           action,
           sourceId: reference.sourceId,
-          level: label.minimumLevel,
+          level: referenceLevel,
           zone: label.zone,
           ordinal: step.ordinal,
           objective,
@@ -266,6 +375,11 @@ export function buildCampaignQuestLibrary(
             ),
         });
         stages.set(questId, byPhase);
+      }
+      for (const directive of view.directives) {
+        if (directive.tag !== ".xp") continue;
+        const target = sourceXpTarget(directive.arguments);
+        if (target) referenceLevel = Math.max(referenceLevel, target.level);
       }
     }
   }
@@ -302,7 +416,9 @@ export function buildCampaignQuestLibrary(
           byPhase.get("accepted-0")?.level ?? anchor.level,
         ),
         prerequisiteIds,
+        backbone: entries.some((entry) => backboneSourceIds.has(entry.sourceId)),
         complete: byPhase.has("accepted-0") && byPhase.has("rewarded-0"),
+        abandoned: abandonedIds.has(questId),
         held:
           entries.some((entry) => entry.held) ||
           (!objectives.length && entries.some((entry) => entry.completionGuard)),
@@ -315,6 +431,7 @@ export function buildCampaignQuestLibrary(
           )
           .map((entry) => ({
             ...entry.action,
+            referenceLevel: entry.level,
             title: entry.action.title.replace(/Quest \d+/, title),
             questChanges: entry.action.questChanges.map((change) => ({ ...change, title })),
             ...(entry.action.questChanges[0]?.state === "accepted" && prerequisiteIds.length

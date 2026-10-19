@@ -391,12 +391,12 @@ outdoor prerequisites and later follow-up rewards. They assume all selected rewa
 unfinished and obtainable. They are not audited one-visit predictions. Reward hand-in ordering and
 overlevel reductions must be checked separately.
 
-| Proposed stop | Selected quests | Scenario quest XP | Endpoint from a fresh target-level bar | XP required to next proposed stop | Remaining XP before other gains |
-| --- | ---: | ---: | --- | ---: | ---: |
-| Thanes at 16 → Ruins at 18 | 5 | 14,427 | 16 + 90.2% | 33,700 | 19,273 |
-| Ruins at 18 → Deadmines at 20 | 4 Alliance | 22,535 | 19 + 14.7% | 40,700 | 18,165 |
-| Deadmines at 20 → Stockade at 26 | 7 prepared | 25,086 | 21 + 7.5% | 170,800 | 145,714 |
-| Deadmines at 20, without explosives | 6 core | 21,867 | 20 + 94.3% | 170,800 | 148,933 |
+| Proposed stop                       | Selected quests | Scenario quest XP | Endpoint from a fresh target-level bar | XP required to next proposed stop | Remaining XP before other gains |
+| ----------------------------------- | --------------: | ----------------: | -------------------------------------- | --------------------------------: | ------------------------------: |
+| Thanes at 16 → Ruins at 18          |               5 |            14,427 | 16 + 90.2%                             |                            33,700 |                          19,273 |
+| Ruins at 18 → Deadmines at 20       |      4 Alliance |            22,535 | 19 + 14.7%                             |                            40,700 |                          18,165 |
+| Deadmines at 20 → Stockade at 26    |      7 prepared |            25,086 | 21 + 7.5%                              |                           170,800 |                         145,714 |
+| Deadmines at 20, without explosives |          6 core |            21,867 | 20 + 94.3%                             |                           170,800 |                         148,933 |
 
 The six Defias preparation stages are shared by two finales and pay once, not twice. The optional
 explosives chain adds nine pre-entry stages; no-XP stages still take time. Preparation already in
@@ -423,17 +423,17 @@ at RFK 35, Blueleaf Tubers does too. Do not score them as full-value or silently
 the complete-quest plan. Allow their content rewards with unconfirmed XP until reductions are known.
 The rest of the late circuit lacks reward/lifecycle evidence rather than having no quests.
 
-| Late bridge | XP needed from a fresh start bar; subtract actual progress and feasible gains |
-| --- | ---: |
-| Dalaran 30 → Gnomeregan 33 | 152,700 |
-| SM 38 → Krol'dok 42 | 353,000 |
-| Krol'dok 42 → RFD 45 | 319,100 |
-| Alcaz 50 → Sunken Temple 53 | 461,800 |
-| BRD 55 → LBRS 57 | 368,700 |
-| 57 → 60 | 607,100 |
-| 58 → 60 | 412,100 |
-| 59 → 60 | 209,800 |
-| 59 with 80% of its bar already earned → 60 | 41,960 |
+| Late bridge                                | XP needed from a fresh start bar; subtract actual progress and feasible gains |
+| ------------------------------------------ | ----------------------------------------------------------------------------: |
+| Dalaran 30 → Gnomeregan 33                 |                                                                       152,700 |
+| SM 38 → Krol'dok 42                        |                                                                       353,000 |
+| Krol'dok 42 → RFD 45                       |                                                                       319,100 |
+| Alcaz 50 → Sunken Temple 53                |                                                                       461,800 |
+| BRD 55 → LBRS 57                           |                                                                       368,700 |
+| 57 → 60                                    |                                                                       607,100 |
+| 58 → 60                                    |                                                                       412,100 |
+| 59 → 60                                    |                                                                       209,800 |
+| 59 with 80% of its bar already earned → 60 |                                                                        41,960 |
 
 These are checkpoint costs, not quest totals or recommended entry levels. A single final Stratholme
 run cannot be promised to cover 58→60 without evidence for 412,100 remaining per-player XP. Make
@@ -448,29 +448,29 @@ first level in the band. Validate the actual character state at the exact source
 that needs level 25 cannot be moved to level 22 just to batch a town visit. References to an
 instance-entry preparation leg below remain subject to the selected scheduling policy.
 
-| Owner's stop | Preparation window | Circuit preparation and one-run scope |
-| --- | --- | --- |
-| Hall of Thanes · 16 | Dun Morogh / Ironforge before 16 | Resolve Underground Map 96391 → Incursion 96393. Collect outdoor pickups; reserve inside starts and Treaty 98423 at 16. Return to IF before calculating departure for Ruins. |
-| Ruins of Lordaeron · 18 | Travel stage 17–18 | Alliance inside-start/item objectives are not pre-entry pickups. Plan transport, inside objects, four compatible rewards and actual outside hand-ins. Show the premade-only below-band proposal during web review. |
-| Deadmines · 20 | Westfall 13–19; SW pickup stop | Complete shared Defias 65→132→135→141→142→155. Stage the full 92742…92752 explosives path separately. Collect city quests, do outer-mine objectives, clear, finish the explosives exit before Hearthstone, and hand in the Letter. |
-| Stockade · 26 | Redridge/Duskwood 22+; Wetlands 25+ | Retain Letter 373→Bazil 389→Riots 391. Complete Dark Iron War 303→Fury 378; take remote quest heads back to their proper hubs. The Wetlands preparation loop can also prepare Excavation. |
-| Excavation · 27 | Wetlands / Redridge 24–26 | Candidate 1.6.3 chains: Greenwarden 463→276→277→275→95646, Skins 484→98815, and Lost in the Thicket Things 95647→Heartwoven 95809. Daily Delivery is disputed as a hard gate: newer source calls it a breadcrumb. Resolve that conflict before publishing. After relic quest 95810, deliver the returned relic through Prism 98824 without another clear. |
-| Blackfathom Deeps · 28 | IF / Darkshore / Darnassus before 28 | Collect the faction city bundle and 1198 before meeting Thaelrid for 1200. Schedule lower-level hand-ins carefully; entering at 28 leaves little room before their overlevel reductions. A class's outside materials are not another whole-party quest reward. |
-| City of Dalaran · 30 | SW pickups earlier; Southshore / entrance at actual gate | Review four Alliance quests and the key-bearing stage. Preserve candidate pickup minima and possible insufficient enemy counts; do not promise all objectives from one clear before checking. At-level source is 31. |
-| Gnomeregan · 33 | SW / IF / Kharanos 30–32 | Review Gnogaine→Green Glow's outside hand-in before later samples; expose a pre-entry/probe leg if needed. Stage punch-card upgrades in route order. Separate escort, ring and repeatable machine rewards; distinguish normal entrance from key shortcut. |
-| Razorfen Kraul · 35 | Ratchet / Thalanaar while crossing Kalimdor | Bring Blueleaf starting items; prepare Lonebrow 1100→Crone 1101. Schedule inside Willix/Mortality work and their real exits. The Horde RFK→RFD unlock is not an Alliance prerequisite. |
-| The Drowned City · 37 | Reserve STV route passage 35–36 | Verify actual quest IDs, faction, pickup/chain scope and rewards before filling this stop. Client names and public dungeon announcement do not provide a complete quest package. |
-| SM Library + Armory + Cathedral · 38 | Desolace / Southshore 34–37 | Prepare Down the Scarlet Path 261→1052→Light 1053; optional Brother Anton 6141 is a breadcrumb unless a real gate proves otherwise. Do Library first for its key/book, then the other two wings. Count the shared four-boss reward once. |
-| Krol'dok · 42 | Reserve Riverglades passage 40–41 | Author a verified zone-to-dungeon unlock overlay. Do not turn every Riverglades storyline into a mandatory prerequisite or estimate rewards absent from the catalog. |
-| Razorfen Downs · 45 | City pickup / Southern Barrens 43–44 | Stage compatible world pickup and inside Belnistrasz sequence. Check all five players completed the required combat stage before starting the escort. Do not import Horde-only RFK preparation. |
-| Uldaman · 47 | IF / Loch Modan / Badlands 44–46 | Audit necklace, reagent, tablet and dwarf chains; complete feasible outside/probe stages and city returns before the main clear. Partition follow-ups needing another entry. Low-level reward reductions are part of this deliberately later visit. |
-| Maraudon · 48 | Desolace / Dustwallow 46–47 | Collect faction fragments/corruption and neutral objectives. A first quest-complete clear includes required orange/purple sections, Celebras and Princess; a portal-only Princess shortcut is a different scope. |
-| Zul'Farrak · 49 | Tanaris / Dustwallow / Hinterlands 46–48 | Prepare remote quests and a party summon item. Finish Screecher Spirits before the Mosh'aru stage; keep its follow-up work for Sunken Temple. Score escort/pyramid and summoned-boss goals only if the route actually includes them. |
-| Alcaz Prison · 50 | Reserve Dustwallow passage 48–49 | Quest bundle/access/reward evidence is missing. Do not assume the old Missing Diplomat chain is its new mandatory attunement. Keep a visible authoring gap rather than made-up quest instructions. |
-| Sunken Temple · 53 | Start long world chains during 46–52 passages | Carry the ZF→Hakkar chain through its intervening world steps; prepare Brohann/Marvon and relevant reagent/class quests. Verify summon materials and each dungeon scope. Reserve actual remote hand-in time. |
-| BRD · 55 | World work 50–54; unlock leg at eligible BRD level | Batch SW/IF/Burning Steppes objectives. Prepare Core and Shadowforge goals; separate prison/unlock, world hand-in and main-clear legs for Windsor and the royal chain. Onyxia completion has a later UBRS tail. |
-| LBRS · 57, two planned visits | Burning Steppes before the first clear | Collect compatible quests and finish the ST-linked Final Tablets prerequisites. Assign a key holder, track three gem objectives per character, and make visit 2 conditional on what is missing. An outside forging stage and Vaelan return are not completed by two boss clears. |
-| Stratholme · finish 60 | WPL / EPL while filling the measured final XP gap | Prepare the feasible first-visit bundle before entering. Choose living/dead/both sides explicitly; later unlocks needing an outside hand-in or another instance are deferred, not included as first-run XP. Actual entry level depends on verified gains and the chosen difficulty policy. |
+| Owner's stop                         | Preparation window                                       | Circuit preparation and one-run scope                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------ | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hall of Thanes · 16                  | Dun Morogh / Ironforge before 16                         | Resolve Underground Map 96391 → Incursion 96393. Collect outdoor pickups; reserve inside starts and Treaty 98423 at 16. Return to IF before calculating departure for Ruins.                                                                                                                                                                              |
+| Ruins of Lordaeron · 18              | Travel stage 17–18                                       | Alliance inside-start/item objectives are not pre-entry pickups. Plan transport, inside objects, four compatible rewards and actual outside hand-ins. Show the premade-only below-band proposal during web review.                                                                                                                                        |
+| Deadmines · 20                       | Westfall 13–19; SW pickup stop                           | Complete shared Defias 65→132→135→141→142→155. Stage the full 92742…92752 explosives path separately. Collect city quests, do outer-mine objectives, clear, finish the explosives exit before Hearthstone, and hand in the Letter.                                                                                                                        |
+| Stockade · 26                        | Redridge/Duskwood 22+; Wetlands 25+                      | Retain Letter 373→Bazil 389→Riots 391. Complete Dark Iron War 303→Fury 378; take remote quest heads back to their proper hubs. The Wetlands preparation loop can also prepare Excavation.                                                                                                                                                                 |
+| Excavation · 27                      | Wetlands / Redridge 24–26                                | Candidate 1.6.3 chains: Greenwarden 463→276→277→275→95646, Skins 484→98815, and Lost in the Thicket Things 95647→Heartwoven 95809. Daily Delivery is disputed as a hard gate: newer source calls it a breadcrumb. Resolve that conflict before publishing. After relic quest 95810, deliver the returned relic through Prism 98824 without another clear. |
+| Blackfathom Deeps · 28               | IF / Darkshore / Darnassus before 28                     | Collect the faction city bundle and 1198 before meeting Thaelrid for 1200. Schedule lower-level hand-ins carefully; entering at 28 leaves little room before their overlevel reductions. A class's outside materials are not another whole-party quest reward.                                                                                            |
+| City of Dalaran · 30                 | SW pickups earlier; Southshore / entrance at actual gate | Review four Alliance quests and the key-bearing stage. Preserve candidate pickup minima and possible insufficient enemy counts; do not promise all objectives from one clear before checking. At-level source is 31.                                                                                                                                      |
+| Gnomeregan · 33                      | SW / IF / Kharanos 30–32                                 | Review Gnogaine→Green Glow's outside hand-in before later samples; expose a pre-entry/probe leg if needed. Stage punch-card upgrades in route order. Separate escort, ring and repeatable machine rewards; distinguish normal entrance from key shortcut.                                                                                                 |
+| Razorfen Kraul · 35                  | Ratchet / Thalanaar while crossing Kalimdor              | Bring Blueleaf starting items; prepare Lonebrow 1100→Crone 1101. Schedule inside Willix/Mortality work and their real exits. The Horde RFK→RFD unlock is not an Alliance prerequisite.                                                                                                                                                                    |
+| The Drowned City · 37                | Reserve STV route passage 35–36                          | Verify actual quest IDs, faction, pickup/chain scope and rewards before filling this stop. Client names and public dungeon announcement do not provide a complete quest package.                                                                                                                                                                          |
+| SM Library + Armory + Cathedral · 38 | Desolace / Southshore 34–37                              | Prepare Down the Scarlet Path 261→1052→Light 1053; optional Brother Anton 6141 is a breadcrumb unless a real gate proves otherwise. Do Library first for its key/book, then the other two wings. Count the shared four-boss reward once.                                                                                                                  |
+| Krol'dok · 42                        | Reserve Riverglades passage 40–41                        | Author a verified zone-to-dungeon unlock overlay. Do not turn every Riverglades storyline into a mandatory prerequisite or estimate rewards absent from the catalog.                                                                                                                                                                                      |
+| Razorfen Downs · 45                  | City pickup / Southern Barrens 43–44                     | Stage compatible world pickup and inside Belnistrasz sequence. Check all five players completed the required combat stage before starting the escort. Do not import Horde-only RFK preparation.                                                                                                                                                           |
+| Uldaman · 47                         | IF / Loch Modan / Badlands 44–46                         | Audit necklace, reagent, tablet and dwarf chains; complete feasible outside/probe stages and city returns before the main clear. Partition follow-ups needing another entry. Low-level reward reductions are part of this deliberately later visit.                                                                                                       |
+| Maraudon · 48                        | Desolace / Dustwallow 46–47                              | Collect faction fragments/corruption and neutral objectives. A first quest-complete clear includes required orange/purple sections, Celebras and Princess; a portal-only Princess shortcut is a different scope.                                                                                                                                          |
+| Zul'Farrak · 49                      | Tanaris / Dustwallow / Hinterlands 46–48                 | Prepare remote quests and a party summon item. Finish Screecher Spirits before the Mosh'aru stage; keep its follow-up work for Sunken Temple. Score escort/pyramid and summoned-boss goals only if the route actually includes them.                                                                                                                      |
+| Alcaz Prison · 50                    | Reserve Dustwallow passage 48–49                         | Quest bundle/access/reward evidence is missing. Do not assume the old Missing Diplomat chain is its new mandatory attunement. Keep a visible authoring gap rather than made-up quest instructions.                                                                                                                                                        |
+| Sunken Temple · 53                   | Start long world chains during 46–52 passages            | Carry the ZF→Hakkar chain through its intervening world steps; prepare Brohann/Marvon and relevant reagent/class quests. Verify summon materials and each dungeon scope. Reserve actual remote hand-in time.                                                                                                                                              |
+| BRD · 55                             | World work 50–54; unlock leg at eligible BRD level       | Batch SW/IF/Burning Steppes objectives. Prepare Core and Shadowforge goals; separate prison/unlock, world hand-in and main-clear legs for Windsor and the royal chain. Onyxia completion has a later UBRS tail.                                                                                                                                           |
+| LBRS · 57, two planned visits        | Burning Steppes before the first clear                   | Collect compatible quests and finish the ST-linked Final Tablets prerequisites. Assign a key holder, track three gem objectives per character, and make visit 2 conditional on what is missing. An outside forging stage and Vaelan return are not completed by two boss clears.                                                                          |
+| Stratholme · finish 60               | WPL / EPL while filling the measured final XP gap        | Prepare the feasible first-visit bundle before entering. Choose living/dead/both sides explicitly; later unlocks needing an outside hand-in or another instance are deferred, not included as first-run XP. Actual entry level depends on verified gains and the chosen difficulty policy.                                                                |
 
 This table is original route-authoring guidance based on the inspected catalog and revised primary
 references, not a republication of all source guide instructions. Exact accepted quest IDs,
@@ -611,16 +611,16 @@ Requested cross-checks produced the following distinctions. Page amounts are ret
 values, not turn-ins independently observed by this audit; matching offline sources are not multiple
 independent observations.
 
-| Quest / ID | Base or base-like reference | Reported/listed Forever reward | Interpretation |
-| --- | ---: | ---: | --- |
-| Deadmines: Red Silk Bandanas · 214 | 1,250, explicit Journal base | 2,950, quest-page Gains | Supports the ordinary boosted tier; Journal fallback still contains 1,250. An older beta comment says 4,688, not the current amount. |
-| Deadmines: Underground Assault · 2040 | 1,550, explicit Journal base | Earlier beta comment: 5,813; current numeric reward not retrieved | Historical boost evidence only; do not label the old comment current. |
-| Stockade: The Fury Runs Deep · 378 | 2,750, historical reference | 5,750, Journal's explicit beta-window observation | Keep 5,750 as reported Forever, never multiply it again; character/build/modifiers of that observation are missing. |
-| Gnomeregan: Save Techbot's Brain · 2922 | 2,650, Journal and overview guide | 4,750, quest-page Gains | Outside-instance objective / different tier or context. A universal 2.375× model would predict 6,300, so this cannot train that tier. |
-| Gnomeregan: Grand Betrayal · 2929; Data Rescue · 2930 | 2,750; 3,650 in both Journal and overview | Independent current boosted amounts not established | Identical reference fields do not prove 1× live rewards or establish a new coefficient. The exact retrieved 2930 page omits numeric XP. |
-| New Alliance SM: Past Due · 96800 | 2,850 in the quest list | 6,750 in Journal and quest-page Gains | Add to the Library plan; reported Forever amount is already adjusted. |
-| New Dalaran: Starving Arcane · 92457 | 3,950 in the quest list | 9,400 in Journal and quest-page Gains | Supports the ordinary tier, but spawn counts can require multiple clears. |
-| New Thanes: Important Heirlooms · 96403 | 1,350, explicit Journal base | 2,950, quest-page Gains | Lower bonus tier than ordinary 2.375×. Old text was 4,590, approximately 3.4× base. |
+| Quest / ID                                            |               Base or base-like reference |                                    Reported/listed Forever reward | Interpretation                                                                                                                          |
+| ----------------------------------------------------- | ----------------------------------------: | ----------------------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Deadmines: Red Silk Bandanas · 214                    |              1,250, explicit Journal base |                                           2,950, quest-page Gains | Supports the ordinary boosted tier; Journal fallback still contains 1,250. An older beta comment says 4,688, not the current amount.    |
+| Deadmines: Underground Assault · 2040                 |              1,550, explicit Journal base | Earlier beta comment: 5,813; current numeric reward not retrieved | Historical boost evidence only; do not label the old comment current.                                                                   |
+| Stockade: The Fury Runs Deep · 378                    |               2,750, historical reference |                 5,750, Journal's explicit beta-window observation | Keep 5,750 as reported Forever, never multiply it again; character/build/modifiers of that observation are missing.                     |
+| Gnomeregan: Save Techbot's Brain · 2922               |         2,650, Journal and overview guide |                                           4,750, quest-page Gains | Outside-instance objective / different tier or context. A universal 2.375× model would predict 6,300, so this cannot train that tier.   |
+| Gnomeregan: Grand Betrayal · 2929; Data Rescue · 2930 | 2,750; 3,650 in both Journal and overview |               Independent current boosted amounts not established | Identical reference fields do not prove 1× live rewards or establish a new coefficient. The exact retrieved 2930 page omits numeric XP. |
+| New Alliance SM: Past Due · 96800                     |                   2,850 in the quest list |                             6,750 in Journal and quest-page Gains | Add to the Library plan; reported Forever amount is already adjusted.                                                                   |
+| New Dalaran: Starving Arcane · 92457                  |                   3,950 in the quest list |                             9,400 in Journal and quest-page Gains | Supports the ordinary tier, but spawn counts can require multiple clears.                                                               |
+| New Thanes: Important Heirlooms · 96403               |              1,350, explicit Journal base |                                           2,950, quest-page Gains | Lower bonus tier than ordinary 2.375×. Old text was 4,590, approximately 3.4× base.                                                     |
 
 References: [Red Silk Bandanas](https://www.wowhead.com/forever/it/quest=214/red-silk-bandanas),
 [Underground Assault](https://www.wowhead.com/forever/quest=2040/underground-assault),
@@ -711,16 +711,16 @@ generous **directory scenarios** include optional, world and deferred rewards, i
 reductions, and exclude kill/preparation XP. They are not first-run forecasts or upper bounds on all
 future Forever additions. Unknown rewards are outside the known subtotal in both columns.
 
-| Visit → next target | Generous known XP · 2.375× fit | Original 31/13 scenario | XP needed from a fresh bar | Why the speed bundle can be smaller |
-| --- | ---: | ---: | ---: | --- |
-| RFD 45 → 47 | 29,200 | 29,308 | 240,700 | Outside Host of Evil, low-level hand-ins and escort readiness. |
-| Uldaman 47 → 48 | 73,250 + one unknown | 73,542 + one unknown | 129,100 | World collections, low-level reductions and necklace return/re-entry. |
-| Maraudon 48 → 49 | 103,100 | 103,491 | 135,100 | Outside fragments/Pariah and optional Twisted Evils are not free first-clear rewards. |
-| ZF 49 → 50 | 72,700 + one unknown | 73,088 + one unknown | 141,200 | Collection rewards and Gahz'rilla baseline still need review. |
-| ST 53 → 55 | 96,050 | 96,458 | 341,000 | Long prerequisites and remote delivery; personal class quests are separate. |
-| BRD 55 → 57 | 197,300 | 198,044 | 368,700 | Composite prison/royal/world-return itinerary, not all rewards from one entry. |
-| LBRS 57 → 58 | 162,450 | 163,110 | 195,000 | Includes deferred/RNG gem and risky transport goals, not only the fast first visit. |
-| Stratholme 58 → 60 | 224,000 + one unknown | 224,867 + one unknown | 412,100 | Composite directory includes later outside unlocks and another-instance goals. |
+| Visit → next target | Generous known XP · 2.375× fit | Original 31/13 scenario | XP needed from a fresh bar | Why the speed bundle can be smaller                                                   |
+| ------------------- | -----------------------------: | ----------------------: | -------------------------: | ------------------------------------------------------------------------------------- |
+| RFD 45 → 47         |                         29,200 |                  29,308 |                    240,700 | Outside Host of Evil, low-level hand-ins and escort readiness.                        |
+| Uldaman 47 → 48     |           73,250 + one unknown |    73,542 + one unknown |                    129,100 | World collections, low-level reductions and necklace return/re-entry.                 |
+| Maraudon 48 → 49    |                        103,100 |                 103,491 |                    135,100 | Outside fragments/Pariah and optional Twisted Evils are not free first-clear rewards. |
+| ZF 49 → 50          |           72,700 + one unknown |    73,088 + one unknown |                    141,200 | Collection rewards and Gahz'rilla baseline still need review.                         |
+| ST 53 → 55          |                         96,050 |                  96,458 |                    341,000 | Long prerequisites and remote delivery; personal class quests are separate.           |
+| BRD 55 → 57         |                        197,300 |                 198,044 |                    368,700 | Composite prison/royal/world-return itinerary, not all rewards from one entry.        |
+| LBRS 57 → 58        |                        162,450 |                 163,110 |                    195,000 | Includes deferred/RNG gem and risky transport goals, not only the fast first visit.   |
+| Stratholme 58 → 60  |          224,000 + one unknown |   224,867 + one unknown |                    412,100 | Composite directory includes later outside unlocks and another-instance goals.        |
 
 Fresh 45→60 requires **2,424,700 per-player XP** on this curve. A dungeon-heavy finish is a
 reasonable design target; one quest clear at each named stop has not been shown to supply it.
@@ -840,16 +840,25 @@ Freeze its content hash; export exactly that version. Approval is a content deci
 that inaccessible late-beta content has been playtested. Draft/unverified sections stay labeled;
 unknown quest identities cannot become navigable in-game instructions through approval alone.
 
-### 7. RestedXP delivery: what works and what still needs implementation
+### 7. RestedXP delivery: implementation receipt and remaining validation
 
-The installed RestedXP is now **v4.11.23**. Its public `RXPGuides.RegisterGuide` supports a separate
+The RestedXP version installed at the original planning checkpoint was **v4.11.23**. Its public
+`RXPGuides.RegisterGuide` supports a separate
 custom guide pack, Forever headers, chained chapters and actual-level/XP directives. Our existing
 deterministic compiler already registers a KFC pack, but is a **Westfall/Thanes 0.1.0 preview** with
 hardcoded packaging/v4.11.14 text, simple actions and quest-state validation reset per chapter.
-It does not yet export this full circuit or the browser's extended imported-route branches.
+That paragraph describes the superseded preview, not the current compiler.
 [Public loader](https://github.com/RestedXP/RXPGuides/blob/main/GuideLoader.lua).
 
-Delivery plan after browser approval:
+As of October 18, the full compiler and immutable review ZIP are implemented against the currently
+installed RestedXP v4.11.26 and runtime build 70450. All 28 exact Alliance race/class editions
+compile from the browser's ordered campaign actions. Global lifecycle validation, leader/party
+groups, chained chapters, source positions, quest directives, exact XP gates, build guards,
+manifest hashes and rollback instructions are present. The five generic class-null browser editions
+cannot be exported because RestedXP needs an exact class filter. The detailed receipt and test flow
+are in the [addon review runbook](forever-leveling-addon-review.md).
+
+Implemented delivery contract:
 
 1. Extend the existing shared model/compiler, rather than hand-writing a second guide. Validate
    lifecycle globally across chapters, objective indexes, branches, item states and actual XP
@@ -888,9 +897,10 @@ RestedXP itself. Existing supporter/contribution choices remain a separate activ
    new-dungeon bundles. Each new segment needs real IDs, objectives, pickup/hand-in map and gates.
 4. Review the browser's full route, named omissions, actual-XP branches, each class/race, party
    readiness, loops, loot-capacity risks and timing inputs. Owner approval freezes the revision.
-5. Extend the RestedXP compiler/export and test that web and addon select the same ordered quest
-   actions. Check no dangling labels/next chapters, conditional skipped accept/turn-in mismatches,
-   unsupported directives, unsafe Lua interpolation or per-chapter duplicate rewards.
+5. Rebuild the RestedXP review artifact from the same ordered quest actions whenever its source,
+   reward snapshot or runtime target changes. The compiler rejects orphan legs, unverified actions,
+   duplicate IDs, incomplete/backward lifecycle transitions and unsafe multiline directive
+   interpolation; overlapping complete paid-once lifecycles are emitted once per role.
 6. Load the pack and perform a bounded in-game check of available segments, pickup/complete/
    turn-in behavior, objective tracking, XP fillers and reload/resume. Document untested future
    scope; automated arithmetic or owner approval is not a live 1–60 playthrough.
@@ -903,9 +913,10 @@ compare predicted versus actual checkpoint gaps, revise only affected reward tie
 and issue a new immutable guide revision. Running guides do not silently change under users.
 
 Research scripts execute only local TypeScript calculations and literal AST parsing, not addon Lua.
-Verification: all 104 existing leveling tests and strict TypeScript typecheck passed. The durable
+Historical verification at this checkpoint: all 104 then-existing leveling tests and strict
+TypeScript typecheck passed. The durable
 JSON receipt was independently checked for 72 unique IDs / 69 known baselines, both eight-bundle
 calculations, explicit unknowns, four ordinary-tier matches and the adaptive Stratholme threshold.
-Scoped `git diff --check` passed. These checks do not validate a live 1–60 clear or the future export.
-No full guide ZIP was generated or installed, and no payment, production data or deployed reader
-behavior changed.
+Scoped `git diff --check` passed. These historical checks do not validate a live 1–60 clear. The
+full review ZIP has since been generated locally, but it has not been installed in-game, published,
+or connected to payment. Current verification is recorded in the addon review runbook.

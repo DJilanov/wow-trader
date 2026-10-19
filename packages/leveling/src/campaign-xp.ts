@@ -16,7 +16,7 @@ import {
   createCampaignCombatState,
   type CampaignCombatRow,
 } from "./campaign-combat.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261015-v4-combat";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261018-v5";
 
 export interface XpPosition {
   readonly level: number;
@@ -39,6 +39,7 @@ export interface CampaignXpMemberForecast {
   readonly referenceQuestXp: number;
   readonly estimatedQuestXp: number;
   readonly combatXp: number;
+  readonly estimatedCombatXp: number;
   readonly outdoorCombatXp: number;
   readonly dungeonCombatXp: number;
   readonly combatRows: readonly CampaignCombatRow[];
@@ -201,6 +202,7 @@ export function forecastCampaignXp(
       referenceQuestXp: 0,
       estimatedQuestXp: 0,
       combatXp: 0,
+      estimatedCombatXp: 0,
       outdoorCombatXp: 0,
       dungeonCombatXp: 0,
       combatRows: [] as CampaignCombatRow[],
@@ -232,6 +234,7 @@ export function forecastCampaignXp(
           const state = ledger.states[String(change.questId)];
           if (ledger.paid.has(change.questId)) return false;
           if (change.state === "accepted") return !state || state === "not-started";
+          if (!state || state === "not-started") return false;
           if (change.state === "objectives-complete")
             return (
               state !== "objectives-complete" &&
@@ -316,6 +319,24 @@ export function forecastCampaignXp(
           halt(`${action.id}: the quest bundle is unverified.`);
           continue;
         }
+        if (action.kind === "xp-check" && action.targetLevel !== null) {
+          const target = cumulative({
+            level: action.targetLevel,
+            currentXp: action.targetCurrentXp ?? 0,
+          });
+          if (ledger.total < target) {
+            const required = target - ledger.total;
+            ledger.total = target;
+            ledger.incomplete = true;
+            summary.combatXp += required;
+            summary.estimatedCombatXp += required;
+            summary.outdoorCombatXp += required;
+            summary.evidenceIssues.push(
+              `${action.id}: the source requires ${required} additional grind XP at this checkpoint; the forecast advances to the target, but actual kills and time remain unobserved.`,
+            );
+          }
+          continue;
+        }
         const kills = combat.get(action.id)?.[player] ?? 0;
         if (unknownCombat.has(action.id)) {
           ledger.incomplete = true;
@@ -357,10 +378,17 @@ export function forecastCampaignXp(
             };
             const gate = eligibility.gate ? questGateResult(eligibility.gate, member) : "ready";
             if (gate === "blocked") {
-              halt(
-                `${change.questId}: required prerequisite or item check has not been completed before pickup.`,
-              );
-              break;
+              if (action.sourceGateConflictQuestIds?.includes(change.questId)) {
+                ledger.incomplete = true;
+                summary.evidenceIssues.push(
+                  `${change.questId}: the selected build-specific source offers this pickup before the older reference gate is satisfied; verify actual eligibility in game.`,
+                );
+              } else {
+                halt(
+                  `${change.questId}: required prerequisite or item check has not been completed before pickup.`,
+                );
+                break;
+              }
             }
             const quest = getPremadeQuest(change.questId);
             if (minimum === null || (quest && !eligibility.lifecycleKnown)) {
@@ -444,7 +472,7 @@ export function forecastCampaignXp(
                 else summary.dungeonCombatXp += result.xp;
                 summary.combatRows.push(...result.rows);
                 summary.evidenceIssues.push(...result.issues);
-                if (result.xp > 0 || result.issues.length) ledger.incomplete = true;
+                if (result.issues.length) ledger.incomplete = true;
               }
             if (ledger.halt) break;
             ledger.confirmations[
@@ -514,6 +542,7 @@ export function forecastCampaignXp(
         referenceQuestXp,
         estimatedQuestXp,
         combatXp,
+        estimatedCombatXp,
         outdoorCombatXp,
         dungeonCombatXp,
         combatRows,
@@ -534,6 +563,7 @@ export function forecastCampaignXp(
         referenceQuestXp,
         estimatedQuestXp,
         combatXp,
+        estimatedCombatXp,
         outdoorCombatXp,
         dungeonCombatXp,
         combatRows,

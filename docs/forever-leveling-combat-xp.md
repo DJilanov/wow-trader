@@ -5,6 +5,34 @@ web-only in `kfc-helper-combat-20261015-r9`. The provider import remains private
 restart, database change or installation into the player's WoW addon directory was performed.
 [Deployment verification and rollback](forever-leveling-combat-release-2026-10-15.md).
 
+## October 18 five-player integration hardening
+
+The current campaign compiler now attaches combat evidence only after lifecycle-safe route
+construction. Known dungeon quests that are not selected in a reviewed dungeon bundle are held in
+the dungeon planner; their inside-instance objectives cannot leak into an outdoor chapter. Optional
+XP pruning also retains every accepted quest and every quest needed by a later source-chain pickup.
+
+The full private-reference matrix covers 33 editions and 132 scenarios with zero relevant
+shortfalls, blockers or missing starts. Its immutable audit is
+`artifacts/leveling/audits/2026-10-18/five-player-combat-reference/campaign-xp-audit-eab28d745222fb90.json`
+(SHA-256 `eab28d745222fb9099b2a041575f5e9e366489d7ce6a0fc0ffe3e4fe74d26601`).
+All chapter checks remain incomplete rather than falsely certified: the dataset still contains no
+reviewed dungeon-clear profile or calibrated kill context, and source checkpoint XP remains an
+unobserved amount until actual party bars are recorded.
+
+Passive evidence is now session-scoped. Observer records include a bounded `sessionId` and public
+`instanceType`, and the review command groups candidate observations without auto-approving them:
+
+```sh
+pnpm leveling:combat:review --input=/absolute/path/to/KFCForeverGuideEvidence.lua \
+  --destination=artifacts/leveling/combat-review
+```
+
+The reviewer accepts only bounded SavedVariables input, rejects malformed/secret values, separates
+outdoor and party-instance observations, and emits review candidates. A human must still establish
+the killed NPC, un-rested payout context and repeated sample validity before producing calibrated
+evidence.
+
 ## Delivered behavior
 
 - Source quest readers for both factions expose a folded target panel: NPC links, level ranges,

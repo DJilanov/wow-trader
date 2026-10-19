@@ -1,6 +1,6 @@
 import type { RaceId } from "./profile.js";
 
-export const CAMPAIGN_VERSION = "campaign-20261013-v1";
+export const CAMPAIGN_VERSION = "campaign-20261018-v2";
 export const CAMPAIGN_RACES = ["human", "dwarf", "gnome", "night-elf", "skyborne"] as const;
 export type CampaignRace = (typeof CAMPAIGN_RACES)[number];
 
@@ -222,7 +222,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   },
   {
     id: "stv-group-batch",
-    title: "STV group kills and the Drowned City approach",
+    title: "STV group kills and the Scarlet Monastery approach",
     from: 35,
     to: 37,
     purpose: "xp-bridge",
@@ -231,7 +231,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     instructions: [
       "Deliver RFK's selected rewards, then use the hunt kill stages and Kurzen objectives on one coordinated STV loop. Do not farm ears, tusks, pages or tiger blood.",
       "The selected boss hunt stages may require a guaranteed quest trophy for each character; check all five before returning.",
-      "Drowned City has no verified quest bundle yet. Its proposed stop is kept in the path, with this outdoor batch as the real XP fallback rather than invented dungeon quests.",
+      "Continue directly to the verified Scarlet Monastery preparation. Drowned City remains visible in the research catalog, but is not an executable stop until its access and quest bundle are verified.",
     ],
   },
   {
@@ -258,7 +258,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [1396, 684, 685, 523, 537, 512, 600],
     instructions: [
       "Batch the SM book/finale deliveries before selecting more XP work. Use the sourced Arathi/Alterac named and shared-kill sequence below, then the relevant eastern route toward the next stop.",
-      "Krol'dok's quest/access bundle is not in the validated catalog. Review its proposed level-42 stop, but do not award it imagined XP or claim a verified Riverglades unlock.",
+      "Continue directly toward the verified Razorfen Downs route. Krol'dok remains in the research catalog, but is not an executable stop until its access and quest bundle are verified.",
     ],
   },
   {
@@ -316,7 +316,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   },
   {
     id: "dustwallow-alcaz",
-    title: "ZF hand-ins and the Alcaz decision",
+    title: "ZF hand-ins and the Sunken Temple continuation",
     from: 49,
     to: 50,
     purpose: "xp-bridge",
@@ -324,7 +324,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [5863, 2781, 2875, 3362],
     instructions: [
       "Return the ZF quest bundle and carry the Mosh'aru chain forward. Use only still-unrewarded adjacent kill objectives for any remaining level-50 gap.",
-      "Alcaz Prison's verified access/quest bundle is missing. Do not send the group through The Missing Diplomat on an unsupported assumption that it unlocks this dungeon.",
+      "Continue directly through the verified Sunken Temple preparation. Alcaz Prison remains in the research catalog, but is not an executable stop until its access and quest bundle are verified.",
     ],
   },
   {
@@ -345,7 +345,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     from: 50,
     to: 53,
     purpose: "preparation",
-    sourceIds: [31, 33, 35, 37, 41, 44],
+    sourceIds: [31, 33, 35, 37, 40, 41, 44],
     quests: [3445, 3444, 1475],
     instructions: [
       "Batch Thorium Point's selected golem/spider/dinosaur/Dark Iron kill objectives. Leave spyglass/tuyere and unrelated material farms out of the core path.",

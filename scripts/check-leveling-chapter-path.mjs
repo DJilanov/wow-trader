@@ -173,7 +173,9 @@ try {
     };
   });
   const deniedPage = await denied.newPage();
-  await deniedPage.goto(new URL("/forever/leveling/routes/alliance-human?plan=questing", base).href);
+  await deniedPage.goto(
+    new URL("/forever/leveling/routes/alliance-human?plan=questing", base).href,
+  );
   await deniedPage.getByLabel("Your effective XP/hour", { exact: true }).fill("10000");
   await expect(
     deniedPage.getByText("This pace is not saved; browser storage is unavailable.", {

@@ -1,7 +1,33 @@
 # Quest XP sources and probes
 
-Five operator tools are available while Wowhead returns HTTP 403 to the reference crawler:
-`questie-quest-xp`, `blizzard-probe`, `blizzard-quest-xp`, `import-quest-xp`, and `probe`.
+Six operator tools are available while Wowhead returns HTTP 403 or a challenge to the reference
+crawler: `questie-quest-xp`, `blizzard-probe`, `blizzard-quest-xp`, `import-quest-xp`,
+`import-saved-html`, and `probe`.
+
+## Current leveling consumption (October 18, 2026)
+
+The completed 278-item fallback queue yielded 277 valid published numeric Forever records and one
+reviewed not-found quest (3343). The five-player Alliance compiler's 33-edition union currently has
+1,159 hand-in IDs: 1,133 published numeric Forever rewards, 26 historical Questie estimates and zero
+unresolved numeric planning values. The historical rows are never relabeled as Forever evidence.
+
+Production/runtime fallback is opt-in through
+`WOW_TRADER_LEVELING_QUEST_XP_IMPORT=/absolute/path/to/quest-xp-import.json`. Published available or
+conflicting Forever facts always win. Only a missing/unknown primary may receive a schema-validated,
+size-bounded historical fallback, and the browser shows the resulting estimate count. The same
+semantics are available to the offline matrix:
+
+```sh
+pnpm --filter @wow-trader/leveling build
+pnpm --filter @wow-trader/reference-data build
+node scripts/audit-leveling-quest-xp.mjs \
+  --destination=artifacts/leveling/audits/current \
+  --rewards=/absolute/path/to/published \
+  --reward-import=artifacts/reference/questie/quest-xp-import.json
+```
+
+The current route audit and the exact 26 estimated IDs are documented in
+[`forever-leveling-full-route-audit.md`](forever-leveling-full-route-audit.md#october-18-five-player-route-compiler-completion).
 
 ## Local QuestieDB import and flavor filtering
 
@@ -200,6 +226,42 @@ node dist/cli.js import-quest-xp \
 
 `--queue` and `--staging` are optional; both are recommended so unexpected ids and disagreements are
 visible before the import is used.
+
+## Saved-page import (manual capture)
+
+This is the offline path for isolated pages opened normally in an authorized browser. It reads only
+the HTML file you saved; it does not automate, reuse or replay the browser session, and it makes no
+network requests.
+
+1. Open the page in Brave.
+2. Use **File → Save Page As** and choose **Webpage, HTML Only** or **Webpage, Complete**. Save the
+   rendered entity page, not a challenge, login or error page.
+3. Put the `.html`/`.htm` files in a directory outside Git. Chrome's `_files` sidecar directories are
+   ignored.
+4. Import the directory:
+
+```sh
+pnpm --filter @wow-trader/reference-data dev import-saved-html \
+  --input /absolute/path/to/saved-pages \
+  --staging /absolute/path/to/wowhead-staging \
+  --permission-ref manual-capture-2026-10-17 \
+  --captured-at 2026-10-17T14:30:00Z \
+  --output /absolute/path/to/manual-capture-report.json
+```
+
+The canonical URL in the page determines `game`, `kind` and `id`; the filename is irrelevant. Each
+record keeps the page SHA-256, canonical URL, capture time and permission reference. Quests also get
+a typed XP record when the saved page contains the normal Wowhead XP payload.
+
+- A file without a canonical Wowhead entity URL is rejected and does not write anything.
+- An existing staged record with a different page hash is reported as a conflict and is not
+  overwritten. Re-run with `--force` only after reviewing the conflict.
+- `--captured-at` is optional; when omitted, the file modification time is recorded.
+- The result JSON lists `imported`, `skipped`, `conflicts` and `rejected` entries.
+- MHTML (`.mhtml`) captures are not supported; save HTML.
+
+This is suitable for a small number of reviewed gaps, not a scalable replacement for approved source
+access or an authoritative export.
 
 ## `probe`
 

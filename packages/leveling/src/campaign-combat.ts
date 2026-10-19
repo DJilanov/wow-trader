@@ -473,6 +473,10 @@ export function applyCampaignCombat(input: {
       build: combat.targetBuild,
       ...(input.partyLevels ? { partyLevels: input.partyLevels } : {}),
     });
+    if (estimate.basis === "reference-estimate")
+      issues.push(
+        `${activity.id}:${npc.id}: combat XP uses the historical formula because this exact Forever build, level, party size and environment have not been observed.`,
+      );
     rows.push({
       activityId: activity.id,
       environment: activity.environment,

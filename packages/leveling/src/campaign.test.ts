@@ -4,6 +4,7 @@ import { parseGuideChapter } from "./guide-archive.js";
 import {
   buildCampaignPlan,
   campaignActionReasons,
+  campaignQuestTargets,
   updateCampaignAction,
   activeCampaignActions,
   skipCampaignXpBlock,
@@ -21,7 +22,7 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
   return buildCampaignPlan("human", "b".repeat(64), [
     source(
       115,
-      "step\n.accept 783 >> Accept A Threat Within\nstep\n.turnin 783 >> Turn in A Threat Within",
+      "step\n.accept 783 >> Accept A Threat Within\nstep\n.turnin 783 >> Turn in A Threat Within\nstep\n.xp 6 >> Reach level 6",
     ),
     source(
       116,
@@ -42,23 +43,92 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
-  it("starts at level 1, ends at 60, includes every dungeon and owns every action", () => {
+  it("starts at level 1, ends at 60, includes only evidenced dungeons and owns every action", () => {
     const route = plan();
     expect(route.legs[0]?.from).toBe(1);
     expect(route.legs.at(-1)?.to).toBe(60);
-    expect(route.legs.filter((leg) => leg.kind === "dungeon")).toHaveLength(21);
+    expect(route.legs.filter((leg) => leg.kind === "dungeon")).toHaveLength(18);
     expect(route.legs.some((leg) => leg.id === "duskwood-watch")).toBe(true);
     for (const action of route.actions)
       expect(route.legs.find((leg) => leg.id === action.legId)?.actionIds).toContain(action.id);
     expect(new Set(route.actions.map((action) => action.id)).size).toBe(route.actions.length);
-    expect(route.actions.filter((action) => action.kind === "unverified")).toHaveLength(3);
+    expect(route.actions.filter((action) => action.kind === "unverified")).toHaveLength(0);
+    const starterGate = route.actions.find(
+      (action) => action.id === "library-level-gate-115-source-step-0003-0",
+    );
+    expect(starterGate).toMatchObject({
+      legId: "start-115",
+      leaderOnly: true,
+      kind: "xp-check",
+      targetLevel: 6,
+    });
+    expect(route.actions.indexOf(starterGate!)).toBeLessThan(
+      route.actions.findIndex((action) => action.legId === "start-116"),
+    );
+    expect(
+      route.legs.some((leg) =>
+        ["dungeon-drowned-city", "dungeon-kroldok", "dungeon-alcaz"].includes(leg.id),
+      ),
+    ).toBe(false);
     expect(
       route.actions
         .flatMap((action) => action.questChanges)
         .some((change) => change.questId === 5848),
     ).toBe(false);
+    const active = new Set<number>();
+    for (const action of route.actions)
+      for (const change of action.questChanges) {
+        if (change.state === "accepted") active.add(change.questId);
+        else {
+          expect(active.has(change.questId)).toBe(true);
+          if (change.state === "rewarded") active.delete(change.questId);
+        }
+      }
+    expect(active).toEqual(new Set());
   });
-  it("places Scarlet's delivery after RFK and retains the actual BRD return sequence", () => {
+  it("excludes conditional source phases whose pickup is not in the compiled route", () => {
+    const route = buildCampaignPlan("human", "b".repeat(64), [
+      source(
+        115,
+        "step <<Hunter\n.accept 100 >> Accept Conditional Work\nstep\n.complete 100,1\nstep\n.turnin 100 >> Turn in Conditional Work",
+      ),
+      source(116, "step\n.accept 52 >> Accept Protect the Frontier"),
+      source(117, "step\n.accept 224 >> Accept In Defense of the King's Lands"),
+      source(125, "step\n.accept 65 >> Accept The Defias Brotherhood"),
+    ]);
+    expect(
+      route.actions
+        .flatMap((action) => action.questChanges)
+        .some((change) => change.questId === 100),
+    ).toBe(false);
+    expect(route.lifecycleExclusions).toEqual([
+      {
+        actionId: "start-115-115-source-step-0002",
+        questId: 100,
+        state: "objectives-complete",
+        reason: "missing-prior-pickup",
+      },
+      {
+        actionId: "start-115-115-source-step-0003",
+        questId: 100,
+        state: "rewarded",
+        reason: "missing-prior-pickup",
+      },
+      {
+        actionId: "start-116-116-source-step-0001",
+        questId: 52,
+        state: "accepted",
+        reason: "incomplete-lifecycle",
+      },
+      {
+        actionId: "start-117-117-source-step-0001",
+        questId: 224,
+        state: "accepted",
+        reason: "incomplete-lifecycle",
+      },
+    ]);
+  });
+  it("places Scarlet's delivery after RFK and retains only complete BRD lifecycles", () => {
     const route = plan();
     const handIn = route.actions.findIndex((action) =>
       action.questChanges.some((change) => change.questId === 1052 && change.state === "rewarded"),
@@ -72,7 +142,7 @@ describe("continuous 1–60 premade campaign", () => {
       );
     expect(position(4242, "rewarded")).toBeLessThan(position(4264, "accepted"));
     expect(position(4264, "rewarded")).toBeLessThan(position(4282, "rewarded"));
-    expect(position(4282, "rewarded")).toBeLessThanOrEqual(position(4322, "accepted"));
+    expect(position(4322, "accepted")).toBe(-1);
   });
   it("does not complete work on Next and records the exact next step on Done", () => {
     const route = plan(),
@@ -93,6 +163,7 @@ describe("continuous 1–60 premade campaign", () => {
         (change) => change.questId === 52 && change.state === "objectives-complete",
       ),
     );
+    progress.members[0]!.questStates[52] = "accepted";
     progress = updateCampaignAction(route, progress, objectives[0]!.id, true);
     expect(progress.members[0]?.questStates[52]).toBe("accepted");
     expect(progress.members[1]?.questStates[52]).toBeUndefined();
@@ -105,6 +176,7 @@ describe("continuous 1–60 premade campaign", () => {
         action.questChanges.some((change) => change.questId === 783 && change.state === "rewarded"),
       )!;
     let progress = recordPremadeXp(emptyPremadeProgress(), 0, 2, 10);
+    progress.members[0]!.questStates[783] = "objectives-complete";
     progress = updateCampaignAction(route, progress, handIn.id, true);
     expect(progress.members[0]?.xpNeedsUpdate).toBe(true);
     progress = recordPremadeXp(progress, 0, 2, 50);
@@ -112,19 +184,14 @@ describe("continuous 1–60 premade campaign", () => {
     expect(progress.members[0]?.currentXp).toBe(50);
     expect(progress.members[0]?.xpNeedsUpdate).toBe(false);
   });
-  it("guards actual entries and required unlocks, never inferred or missing quest XP", () => {
+  it("guards actual entries and required unlocks without executable research-only stops", () => {
     const route = plan(),
       entry = route.actions.find((action) => action.id === "dungeon-thanes-entry")!;
     let progress = emptyPremadeProgress();
     expect(() => updateCampaignAction(route, progress, entry.id, true)).toThrow("fresh actual");
     for (let i = 0; i < 5; i++) progress = recordPremadeXp(progress, i, 20, 0);
     expect(campaignActionReasons(entry, progress)[0]).toContain("preparation hand-ins");
-    const unverified = route.actions.find((action) => action.kind === "unverified")!;
-    expect(() => updateCampaignAction(route, progress, unverified.id, true)).toThrow("no verified");
-    expect(
-      updateCampaignAction(route, progress, unverified.id, false).campaigns[route.release]
-        ?.completion[unverified.id],
-    ).toBeUndefined();
+    expect(route.actions.some((action) => action.kind === "unverified")).toBe(false);
   });
   it("keeps optional raid goals off and finishes without looping back to level 1", () => {
     const route = plan();
@@ -184,5 +251,20 @@ describe("continuous 1–60 premade campaign", () => {
     };
     expect(currentCampaignAction(route, progress).id).not.toBe(route.actions[0]!.id);
     expect(currentCampaignAction(route, progress).raidOnly).toBe(false);
+  });
+  it("does not offer an objective or hand-in when its optional pickup was never accepted", () => {
+    const route = plan();
+    const objective = route.actions.find((action) =>
+      action.questChanges.some((change) => change.state === "objectives-complete"),
+    )!;
+    const reward = route.actions.find((action) =>
+      action.questChanges.some(
+        (change) =>
+          change.state === "rewarded" &&
+          objective.questChanges.some((entry) => entry.questId === change.questId),
+      ),
+    )!;
+    expect(campaignQuestTargets(objective, emptyPremadeProgress())).toEqual([]);
+    expect(campaignQuestTargets(reward, emptyPremadeProgress())).toEqual([]);
   });
 });

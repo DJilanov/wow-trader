@@ -46,7 +46,7 @@ for (const race of CAMPAIGN_RACES)
       new Set(sections.flatMap((section) => section.actionIds)).size,
       plan.actions.length,
     );
-    assert.equal(sections.filter((section) => section.kind === "dungeon").length, 21);
+    assert.equal(sections.filter((section) => section.kind === "dungeon").length, 18);
     for (const section of sections) {
       assert.deepEqual(
         section.areas.flatMap((area) => area.legIds),
@@ -69,13 +69,18 @@ for (const race of CAMPAIGN_RACES)
       assert.ok(sections[index].from >= sections[index - 1].from, "Public levels move backward");
     assert.equal(plan.legs[0].from, 1);
     assert.equal(plan.legs.at(-1).to, 60);
-    assert.equal(plan.legs.filter((leg) => leg.kind === "dungeon").length, 21);
-    assert.equal(plan.actions.filter((action) => action.kind === "unverified").length, 3);
+    assert.equal(plan.legs.filter((leg) => leg.kind === "dungeon").length, 18);
+    assert.equal(plan.actions.filter((action) => action.kind === "unverified").length, 0);
     assert.ok(plan.actions.length > 500);
     assert.equal(new Set(plan.actions.map((action) => action.id)).size, plan.actions.length);
     const states = new Map();
     for (const action of plan.actions) {
       for (const change of action.questChanges) {
+        if (change.state !== "accepted")
+          assert.ok(
+            ["accepted", "objectives-complete"].includes(states.get(change.questId)),
+            `${race}/${leaderClass}: ${change.questId} has ${change.state} without a compiled pickup`,
+          );
         if (action.libraryQuestId) {
           if (change.state === "accepted")
             for (const parent of action.requiredQuestIds ?? [])
@@ -90,7 +95,9 @@ for (const race of CAMPAIGN_RACES)
               `Library lifecycle out of order for ${change.questId}`,
             );
           assert.ok(
-            action.libraryObjective !== "collection" || action.libraryRequired,
+            action.libraryObjective !== "collection" ||
+              action.libraryRequired ||
+              action.libraryBackbone,
             "An optional collection farm entered the kill-first route",
           );
         }

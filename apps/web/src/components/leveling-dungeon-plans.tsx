@@ -22,6 +22,7 @@ import {
   type DungeonVisit,
   type DungeonQuestState,
 } from "@wow-trader/leveling";
+import Link from "next/link";
 import { useLeveling } from "./leveling-provider";
 import { LevelingRewardPreviewCard } from "./leveling-reward-preview";
 import styles from "./leveling-dungeon-plans.module.css";
@@ -458,9 +459,9 @@ export function LevelingDungeonPlans({
                               {quest.rewards.fixed.map((item, index) => (
                                 <span key={item.id}>
                                   {index > 0 ? " + " : ""}
-                                  <a href={`/forever/encyclopedia/items/${item.id}`}>
+                                  <Link href={`/forever/encyclopedia/items/${item.id}`}>
                                     {item.title}
-                                  </a>{" "}
+                                  </Link>{" "}
                                   <a
                                     href={`https://www.wowhead.com/forever/item=${item.id}`}
                                     target="_blank"
@@ -492,9 +493,9 @@ export function LevelingDungeonPlans({
                                       }))
                                     }
                                   />{" "}
-                                  <a href={`/forever/encyclopedia/items/${item.id}`}>
+                                  <Link href={`/forever/encyclopedia/items/${item.id}`}>
                                     {item.title}
-                                  </a>{" "}
+                                  </Link>{" "}
                                   <a
                                     href={`https://www.wowhead.com/forever/item=${item.id}`}
                                     target="_blank"

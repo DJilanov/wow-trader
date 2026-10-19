@@ -35,12 +35,24 @@ export function LevelingLibraryStatus({
   const kills = selected.filter(
     (choice) => choice.role === "kill-loop" && choice.objective === "shared-kills",
   ).length;
+  const backbone = selected.filter((choice) => choice.role === "questing-backbone").length;
   const trophies = selected.filter((choice) => choice.objective === "named-trophy").length;
   const prerequisites = selected.filter((choice) => choice.role === "prerequisite").length;
   const nearby = selected.filter((choice) => choice.role === "nearby-quest").length;
-  const available = selected.filter((choice) =>
+  const published = selected.filter((choice) =>
     plan.rewardFacts?.some(
-      (fact) => fact.questId === choice.questId && fact.status === "available",
+      (fact) =>
+        fact.questId === choice.questId &&
+        fact.status === "available" &&
+        fact.evidenceKind !== "historical-reference",
+    ),
+  ).length;
+  const historical = selected.filter((choice) =>
+    plan.rewardFacts?.some(
+      (fact) =>
+        fact.questId === choice.questId &&
+        fact.status === "available" &&
+        fact.evidenceKind === "historical-reference",
     ),
   ).length;
   const farms = plan.library.choices.filter(
@@ -48,11 +60,12 @@ export function LevelingLibraryStatus({
   ).length;
   return (
     <details className={styles.budget} data-library-quests={selected.length}>
-      <summary>Kill-first quest backbone · {selected.length} additional quests</summary>
+      <summary>Source quest backbone · {selected.length} routed quests</summary>
       <p>
-        {kills} shared-kill quests · {trophies} named-target trophy quests · {nearby} nearby short
-        quests · {prerequisites} chain lead-ins. Source order and pickup/objective/return stages are
-        included in the quest list, not just a recommendation panel.
+        {backbone} main chapter quests · {kills} extra shared-kill quests · {trophies} named-target
+        trophy quests · {nearby} nearby short quests · {prerequisites} chain lead-ins. Source order
+        and pickup/objective/return stages are included in the quest list, not just a recommendation
+        panel.
       </p>
       <p>
         {farms} collection-farm candidates are held. Required dungeon unlocks are retained. Named
@@ -60,10 +73,15 @@ export function LevelingLibraryStatus({
         assumed.
       </p>
       <p>
-        {available} / {selected.length} additional quests have published XP evidence. Missing values
-        remain unresolved, not zero. Dungeon gains carry forward; unstarted XP loops become
-        unnecessary when every player reaches their target. Accepted chains and required unlocks
-        remain.
+        {published} / {selected.length} routed quests have published Forever XP evidence.
+        {historical > 0
+          ? " " +
+            historical +
+            " use labeled historical estimates where no published numeric Forever XP is available."
+          : ""}{" "}
+        Missing values remain unresolved, not zero. Dungeon gains carry forward; unstarted XP loops
+        become unnecessary when every player reaches their target. Accepted chains and required
+        unlocks remain.
       </p>
     </details>
   );
@@ -79,14 +97,30 @@ export function LevelingRewardStatus({ plan }: { readonly plan: CampaignPlan }):
         .map((change) => change.questId),
     ),
   );
-  const available =
-    plan.rewardFacts?.filter((fact) => fact.status === "available" && handIns.has(fact.questId))
-      .length ?? 0;
+  const published =
+    plan.rewardFacts?.filter(
+      (fact) =>
+        fact.status === "available" &&
+        fact.evidenceKind !== "historical-reference" &&
+        handIns.has(fact.questId),
+    ).length ?? 0;
+  const historical =
+    plan.rewardFacts?.filter(
+      (fact) =>
+        fact.status === "available" &&
+        fact.evidenceKind === "historical-reference" &&
+        handIns.has(fact.questId),
+    ).length ?? 0;
+  const unresolved = Math.max(0, handIns.size - published - historical);
   return (
-    <div className={styles.source} data-xp-evidence={available}>
+    <div className={styles.source} data-xp-evidence={published}>
       <p>
-        {available} / {handIns.size} hand-ins have published Wowhead XP evidence. This is data
-        coverage, not proof of reaching the next level.
+        {published} / {handIns.size} hand-ins have published Forever XP evidence. {historical} use
+        historical reference estimates; {unresolved} remain unresolved. This is data coverage, not
+        proof of reaching the next level.
+        {plan.rewardBuild !== undefined && plan.rewardBuild !== null
+          ? ` Quest identities were checked against client build ${plan.rewardBuild}.`
+          : " Current-client identity evidence is unavailable."}
       </p>
       <p>
         Route under validation. Dungeon entry levels are targets, not guaranteed chapter gains.
@@ -108,6 +142,17 @@ export function LevelingRewardStatus({ plan }: { readonly plan: CampaignPlan }):
             remain separate.
           </p>
           {plan.combat.notice && <p>{plan.combat.notice}</p>}
+        </details>
+      )}
+      {(plan.lifecycleExclusions?.length ?? 0) > 0 && (
+        <details>
+          <summary>Profile-safe source filtering</summary>
+          <p>
+            {plan.lifecycleExclusions!.length} source phase
+            {plan.lifecycleExclusions!.length === 1 ? " was" : "s were"} excluded because this race,
+            class, and dungeon branch never received the corresponding quest. The route never awards
+            XP for an orphan objective or hand-in.
+          </p>
         </details>
       )}
       {plan.rewardNotice && <p role="status">{plan.rewardNotice}</p>}
@@ -145,6 +190,7 @@ export function LevelingChapterBudget({
   const dungeonRows = relevant.flatMap((member) =>
     member.combatRows.filter((row) => row.environment === "dungeon"),
   );
+  const hasSourceGrind = relevant.some((member) => member.estimatedCombatXp > 0);
   const minimum = Math.min(...values),
     maximum = Math.max(...values);
   const xp =
@@ -221,15 +267,17 @@ export function LevelingChapterBudget({
           <div>
             <dt>Required outdoor combat / player</dt>
             <dd>
-              {outdoorRows.some((row) => row.xp !== null)
+              {outdoorRows.some((row) => row.xp !== null) || hasSourceGrind
                 ? xpRange(relevant.map((member) => member.outdoorCombatXp))
                 : "Not accounted"}
               <small>
-                {outdoorRows.some((row) => row.basis === "reference-estimate")
-                  ? "Lower-end historical estimate · no rested XP"
-                  : outdoorRows.some((row) => row.basis === "observed")
-                    ? "Matched controlled observations · no rested XP"
-                    : "No resolved XP-paying kills reached before the blocker"}
+                {hasSourceGrind
+                  ? "Source XP checkpoint · actual kill mix and time remain unobserved"
+                  : outdoorRows.some((row) => row.basis === "reference-estimate")
+                    ? "Lower-end historical estimate · no rested XP"
+                    : outdoorRows.some((row) => row.basis === "observed")
+                      ? "Matched controlled observations · no rested XP"
+                      : "No resolved XP-paying kills reached before the blocker"}
               </small>
             </dd>
           </div>

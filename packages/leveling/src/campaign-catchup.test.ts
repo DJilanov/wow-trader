@@ -3,7 +3,7 @@ import { CHAPTER_REFERENCES } from "./chapter-data.js";
 import { parseGuideChapter } from "./guide-archive.js";
 import { createCharacterProfile } from "./profile.js";
 import { extractCampaignQuestBatches } from "./campaign-catchup.js";
-import { recommendCampaignCatchUp } from "./campaign-catchup-planner.js";
+import { compileCampaignFunding, recommendCampaignCatchUp } from "./campaign-catchup-planner.js";
 import { activeCampaignActions, type CampaignPlan, updateCampaignAction } from "./campaign.js";
 import { emptyPremadeProgress, premadeProgressSchema } from "./premade-model.js";
 import { campaignSections, campaignSectionActions } from "./campaign-sections.js";
@@ -134,6 +134,17 @@ describe("source-backed additional quest batches", () => {
     expect(updated.campaigns[plan.release]!.selectedActionId).toBe(actions[1]!.id);
     expect(forecastCampaignXp(plan, reloaded)[0]!.members[0]!.referenceQuestXp).toBe(2500);
     expect(recommendCampaignCatchUp(plan, "redridge-kill-batch", reloaded)).toEqual([]);
+  });
+  it("compiles eligible source-backed kill batches into the default route", () => {
+    const plan = compileCampaignFunding(fixture());
+    expect(plan.defaultCatchUpBatches).toEqual({
+      "redridge-kill-batch": ["quest-300001"],
+    });
+    expect(activeCampaignActions(plan, party())).toHaveLength(4);
+    expect(recommendCampaignCatchUp(plan, "redridge-kill-batch", party())).toEqual([]);
+    expect(compileCampaignFunding({ ...fixture(), rewardFacts: [] }).defaultCatchUpBatches).toEqual(
+      {},
+    );
   });
   it("does not pay already rewarded quests twice and never hides the remaining coverage gap", () => {
     const plan = fixture();

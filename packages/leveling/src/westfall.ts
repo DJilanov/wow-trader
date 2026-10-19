@@ -17,6 +17,11 @@ export const LEVELING_EVIDENCE = {
   hotfixSha256: "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b",
   curveSha256: "935253a23756f0ab7a760e8e4ab22184e1aca49285944ea68efc0a8820e459e6",
   curveSource: "gametables/xp.txt · Total column · current client extraction",
+  curveReverifiedBuild: 70450,
+  curveCompatibilityCapturedAt: "2026-10-18T19:03:05.796559Z",
+  curveCompatibilityDefinitionsRevision: "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+  curveCompatibilityHotfixSha256:
+    "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2",
   runtimeCurveConfirmed: false,
   questRewardsConfirmed: false,
   betaLevelCap: 30,

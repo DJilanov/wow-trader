@@ -7,6 +7,21 @@ Current collection incident/recovery status: the archive checkpoint is preserved
 the managed worker now performs bounded, durable source-denial retries. See
 [the October 17 source-recovery receipt](reference-crawler-source-recovery-2026-10-17.md).
 
+## October 18: current-client curve revalidation
+
+A fresh read-only extraction from installed client `1.60.1.70450` is preserved at
+`artifacts/leveling-evidence/leveling-20261018T190302Z`. It used WoWDBDefs revision
+`bfebcbc5181f47b954e7886862f92c5577dbbe4a` and hotfix SHA-256
+`a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2`.
+
+The extracted `gametables/xp.txt` is byte-for-byte identical to the build-70205 source: both have
+SHA-256 `935253a23756f0ab7a760e8e4ab22184e1aca49285944ea68efc0a8820e459e6`. The 100 effective
+`QuestXP` rows and all 35 requested `QuestV2` sample rows are also unchanged. This revalidates the
+level-cost curve used by the calculator on 70450. It does not relabel the authorized RestedXP route
+archive as a 70450 extraction, prove runtime quest payouts, or replace the required in-game route
+playthrough. The installed RestedXP version is now `v4.11.26`; its guide-source changes still need a
+separate authorized source diff before a new archive publication.
+
 ## October 15: full import revalidated; Alliance and Horde XP collection deployed
 
 The complete authorized import was reproduced into the isolated

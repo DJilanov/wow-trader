@@ -237,18 +237,10 @@ export function campaignSectionTarget(
 ): { readonly level: number; readonly kind: "next-departure" | "departure" | "chapter-target" } {
   const section = sections[index];
   if (!section) throw new Error("Unknown campaign section.");
-  const target =
-    section.kind === "dungeon"
-      ? sections.slice(index + 1).find((entry) => entry.kind === "dungeon")
-      : section;
-  const stop = PREMADE_STOPS.find((entry) => entry.id === target?.stopId);
+  const stop = PREMADE_STOPS.find((entry) => entry.id === section.stopId);
   return {
-    level: stop
-      ? premadeEntryLevel(stop, progress, facts)
-      : section.kind === "dungeon"
-        ? 60
-        : section.to,
-    kind: section.kind === "dungeon" ? "next-departure" : stop ? "departure" : "chapter-target",
+    level: stop ? premadeEntryLevel(stop, progress, facts) : section.to,
+    kind: section.kind === "dungeon" ? "chapter-target" : stop ? "departure" : "chapter-target",
   };
 }
 

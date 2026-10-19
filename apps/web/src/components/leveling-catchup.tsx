@@ -31,6 +31,7 @@ export function LevelingCatchUpSuggestions({
   );
   if (!leg || leg.kind !== "xp-bridge") return null;
   const selected = progress.selectedBatches?.[legId] ?? [];
+  const defaults = plan.defaultCatchUpBatches?.[legId] ?? [];
   const active =
     session?.profile.raceId === plan.race &&
     session.profile.classSlug === plan.leaderClass &&
@@ -104,6 +105,12 @@ export function LevelingCatchUpSuggestions({
         XP. These complete source-backed quest batches exclude collection farms and unclassified
         objectives. Ranked by reward for the XP-lagging players, not an unmeasured XP/hour claim.
       </p>
+      {defaults.length > 0 && (
+        <p>
+          {defaults.length} validated batch(es) are already part of the default route and disappear
+          automatically once every player reaches this checkpoint.
+        </p>
+      )}
       {selected.length > 0 && (
         <p>
           {selected.length} batch(es) already added to the ordered quest list. Previously reported
