@@ -2,6 +2,42 @@
 
 Last updated: 2026-10-19
 
+## October 19 13:09 UTC — committed source deployment verified live
+
+Owner's required flow completed: commit → push → build the pushed commit on Linux → candidate
+checks → activate → public verification. Deployed source commit `4d043d38c545c5242c6e02217dc85af38152ce4c`
+as `kfc-helper-item-skills-source-20261019-4d043d3` at13:07:22UTC, build `1jnaeGW0m9oD-Wy4VrpYq`.
+Receipt `/home/wow-trader-system/current/source-deployment.json` is `verified-live` at13:09:26UTC.
+Only Helper web restarted. Guild PID3542598, ingestion PID3528524 and reference publisher PID3390339
+remained running. Rollback: `kfc-helper-item-skills-source-20261019-f953109`.
+
+Live model81d964b453f4e6abb50a81e7 / presentation8df7a7e5afd43f588d6ca257: nine approved
+builds (5Warrior/3Rogue/1Hunter),2,591 items, all formerly skill-bearing items retained, every item
+weapon-skill vector zero; other item stats/procs, talents/racials and the archive stay unchanged.
+Source/schema deployment regression was caused by a later stale-source release, NOT missing data.
+The new committed deployment gate checks the exact selection/library/DB checksum and item policy,
+hidden proofs and stable pointers; its CLI now executes through `current` symlinks (7 regressions).
+
+Verification:532 committed-source web tests,216 simulator tests,4 manifest tests,7 deployment tests,
+strict TypeScript/lint and Linux production builds pass. The last code change affects only the
+deployment checker; application source is byte-identical to the tested f953109 application.
+Public desktop/mobile full shares, class URL/history/named links, Arms/two-hand combat, scrolling,
+logo, consent and Stop/retry pass. Real Stop recovery1/4workers:1790/2002ms with edits preserved.
+Final4d release's public gate, desktop/mobile Warrior smoke+25fights and21assets/3pages pass.
+These small browser fights are operational smoke tests, NOT fresh optimization confirmation.
+
+Concurrent pushed navigation/artwork changes were preserved. A clean detached integration checkout
+at `/tmp/wow-trader-release-20261019.wFHiXR` avoided stashing/reverting the primary dirty tree.
+Primary `main` is intentionally behind origin because four unrelated modified icon/map files
+prevent a safe fast-forward; do not reset/stash that work automatically. Source changes ARE
+committed/pushed on origin/main and production was built from that source, not Mac build files.
+
+Research status is unchanged: local MM/SV P355df… remain local, Feral is NOT published. Its blue,
+gear and state studies are complete/replayed; a still+6.7% capped gear sweep requires closing
+feedback before fresh confirmation/delivery. Original Druid deadline remains October20
+11:34:18.783UTC. No numerical study, engine, model selector or class clock was changed here.
+Global all-class optimization goal remains ACTIVE. See `docs/simulator-source-release-2026-10-19.md`.
+
 ## Active owner decision and deployment — October19
 
 The owner approved a DISCLOSED2% retained-contender margin for the practical first pass.

@@ -9,6 +9,10 @@ The selected corrected model and all its data remained intact, but approved buil
 the old engine was selected and requests for the new database returned HTTP 500. A healthy process
 or HTTP 200 simulator page alone did not detect this regression.
 
+This server's environment caps runtime Node heaps at 768 MB. Use a build-only override such as
+`NODE_OPTIONS=--max-old-space-size=3072` for compilation/type checking; keep the live runtime
+limit unchanged. Do not skip checks to fit the smaller runtime heap.
+
 ## Release checks
 
 1. Commit the complete reader, manifest schema, navigation changes and their tests. Push the commit.

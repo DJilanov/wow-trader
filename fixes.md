@@ -6,6 +6,25 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
+## October 19 — source-controlled weapon-skill deployment recovery COMPLETE
+
+Source `4d043d3` is pushed and deployed; Linux build `1jnaeGW0m9oD-Wy4VrpYq`, activation13:07:22UTC
+and public verification13:09:26UTC. Only Helper web restarted. Nine approved builds/2,591 items,
+zero item weapon-skill bonuses, retained gear/other effects and saved characters verified.
+
+Fixed stale-reader/schema deployment regressions without replacing reviewed data. New gate
+rejects wrong engine, empty/missing approved builds, bad DB bytes/skills and exposed proofs.
+Added a CLI-symlink regression: a checker invoked through `current` must execute, never silently
+return success. Seven deployment tests pass. Stop QA now checks real idle/cleared-results state
+and both cooperative/fallback cancellation; it does not require a fallback when normal Stop works.
+Named-link QA distinguishes published production builds from newer local-only MM/SV results.
+
+532 web/216 simulator/4 manifest tests, strict checks and production builds pass. Public
+desktop/mobile navigation, Arms/two-hand combat,1/4-worker Stop recovery, preserved edits, final
+25-fight smoke and21assets across3pages pass. Receipt: `current/source-deployment.json`.
+See `docs/simulator-source-release-2026-10-19.md` for source flow, rollback, build heap and
+dirty-tree/integration-checkout notes. Unfinished Feral/MM/SV research was not published.
+
 ## October19 Hunter Beast Mastery production publication
 
 The owner's2% practical-margin approval resolves the historical MM policy blocker below;
