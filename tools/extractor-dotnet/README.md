@@ -75,8 +75,9 @@ complete manifest is reused on subsequent starts.
 
 Production media verification also receives the target catalog manifest. It checks the item
 artifact checksum, product/build identity, and that every non-null catalog icon ID has a verified
-PNG. An older media manifest cannot pass just because its own files are intact; unavailable
-referenced icons block publication until resolved. The guardian checks media for already-published
+PNG or an explicit unavailable-asset entry with a reason. An older media manifest cannot pass just
+because its own files are intact. Unavailable assets are reported separately from extracted PNGs;
+zero-filled client assets cannot be decoded or replaced with invented item artwork. The guardian checks media for already-published
 catalogs too, so missing images can be repaired without republishing catalog rows. Media release
 names include the manifest SHA-256 to keep repaired image sets distinct and immutable.
 

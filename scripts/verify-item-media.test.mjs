@@ -67,6 +67,7 @@ test("verifies complete catalog coverage and deduplicates shared icon IDs", asyn
     buildNumber: 70_450,
     clientVersion: "1.60.1.70450",
     iconCount: 1,
+    unavailableIconCount: 0,
     requiredIconCount: 1,
     product: "wow_classic_beta",
     verified: true,
@@ -81,15 +82,34 @@ test("rejects a checksum-valid older media set missing newly resolved catalog ic
   );
 });
 
-test("unavailable entries cannot hide missing catalog PNGs", async (t) => {
+test("reports genuinely unavailable client assets separately from extracted PNGs", async (t) => {
   const { mediaDirectory, catalogPath } = await fixture(t, [7_731_377, 7_731_372]);
   const manifestPath = join(mediaDirectory, "manifest.json");
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   manifest.unavailableIcons.push({ fileDataId: 7_731_372, reason: "Unsupported BLP" });
   await writeFile(manifestPath, JSON.stringify(manifest));
+  const { stdout } = await execute(process.execPath, [verifier, mediaDirectory, catalogPath]);
+  const report = JSON.parse(stdout);
+  assert.equal(report.iconCount, 1);
+  assert.equal(report.requiredIconCount, 2);
+  assert.equal(report.unavailableIconCount, 1);
+});
+
+test("unavailable assets require a reason and cannot also be listed as extracted", async (t) => {
+  const { mediaDirectory, catalogPath } = await fixture(t, [7_731_377, 7_731_372]);
+  const manifestPath = join(mediaDirectory, "manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  manifest.unavailableIcons = [{ fileDataId: 7_731_372, reason: "" }];
+  await writeFile(manifestPath, JSON.stringify(manifest));
   await assert.rejects(
     execute(process.execPath, [verifier, mediaDirectory, catalogPath]),
-    /missing 1 catalog icons/,
+    /Invalid unavailable icon entry/,
+  );
+  manifest.unavailableIcons = [{ fileDataId: 7_731_377, reason: "Unsupported BLP" }];
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  await assert.rejects(
+    execute(process.execPath, [verifier, mediaDirectory, catalogPath]),
+    /Invalid unavailable icon entry/,
   );
 });
 

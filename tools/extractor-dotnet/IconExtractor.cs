@@ -79,6 +79,10 @@ internal sealed class IconExtractor
           try
           {
             var source = build.OpenFileByFDID((uint)fileDataId);
+            if (source.Length == 0 || source.All(value => value == 0))
+            {
+              throw new InvalidDataException("Client asset contains no readable image data (empty or zero-filled).");
+            }
             using var sourceStream = new MemoryStream(source, writable: false);
             using var blp = new BlpFile(sourceStream);
             pixels = blp.GetPixels(0, out decodedWidth, out decodedHeight, bgra: false);

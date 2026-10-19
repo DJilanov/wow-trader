@@ -52,6 +52,24 @@ if (actualFiles.length !== expectedFiles.size) {
   throw new Error(`Expected ${expectedFiles.size} icons but found ${actualFiles.length}`);
 }
 
+const unavailableIds = new Set();
+if (!Array.isArray(manifest.unavailableIcons)) {
+  throw new Error("Item media manifest has no unavailable-icon report");
+}
+for (const entry of manifest.unavailableIcons) {
+  if (
+    !Number.isSafeInteger(entry.fileDataId) ||
+    entry.fileDataId <= 0 ||
+    typeof entry.reason !== "string" ||
+    entry.reason.trim().length === 0 ||
+    unavailableIds.has(entry.fileDataId) ||
+    expectedFiles.has(`${entry.fileDataId}.png`)
+  ) {
+    throw new Error(`Invalid unavailable icon entry: ${String(entry.fileDataId)}`);
+  }
+  unavailableIds.add(entry.fileDataId);
+}
+
 let requiredIconCount;
 if (catalogManifestArgument) {
   const catalogPath = resolve(catalogManifestArgument);
@@ -78,7 +96,9 @@ if (catalogManifestArgument) {
     }
     requiredIds.add(iconFileDataId);
   }
-  const missingIds = [...requiredIds].filter((id) => !expectedFiles.has(`${id}.png`));
+  const missingIds = [...requiredIds].filter(
+    (id) => !expectedFiles.has(`${id}.png`) && !unavailableIds.has(id),
+  );
   if (missingIds.length > 0) {
     throw new Error(
       `Item media is missing ${missingIds.length} catalog icons: ${missingIds.slice(0, 20).join(", ")}`,
@@ -92,6 +112,7 @@ process.stdout.write(
     buildNumber: manifest.buildNumber,
     clientVersion: manifest.clientVersion,
     iconCount: expectedFiles.size,
+    unavailableIconCount: unavailableIds.size,
     requiredIconCount,
     product: manifest.product,
     verified: true,
