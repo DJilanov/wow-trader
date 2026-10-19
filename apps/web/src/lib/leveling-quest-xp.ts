@@ -88,6 +88,7 @@ export async function getLevelingRewardSnapshot(
       (entry) => entry.game === "forever" && wanted.has(entry.id),
     );
     const facts: QuestRewardFact[] = [];
+    const heldIds = new Set<number>();
     let held = 0;
     for (let offset = 0; offset < entries.length; offset += 16) {
       const batch = await Promise.all(
@@ -98,6 +99,7 @@ export async function getLevelingRewardSnapshot(
           // Requested IDs originate in the checksummed leveling plan. Some live server-side quests
           // have no static client task row, but a conflicting static title still invalidates them.
           if (title && title !== record.name) {
+            heldIds.add(record.id);
             held++;
             return null;
           }
@@ -131,7 +133,8 @@ export async function getLevelingRewardSnapshot(
     if (imported) {
       const byId = new Map(facts.map((fact) => [fact.questId, fact]));
       for (const record of imported.records) {
-        if (!wanted.has(record.id) || record.status !== "available") continue;
+        if (!wanted.has(record.id) || heldIds.has(record.id) || record.status !== "available")
+          continue;
         const primary = byId.get(record.id);
         if (primary?.status === "available" || primary?.status === "conflict") continue;
         const fallback: QuestRewardFact = {

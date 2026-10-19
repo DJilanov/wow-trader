@@ -92,6 +92,7 @@ function createWorld(title = "The Killing Fields"): ForeverWorldData {
 }
 async function setup(title = "The Killing Fields"): Promise<void> {
   vi.stubEnv("WOW_TRADER_REFERENCE_DIRECTORY", "/tmp/leveling-xp-test");
+  vi.stubEnv("WOW_TRADER_LEVELING_QUEST_XP_IMPORT", "");
   vi.mocked(readQuestXpIndex).mockResolvedValue({
     schema: "quest-xp-index.v1",
     publishedAt: capturedAt,
@@ -204,6 +205,13 @@ describe("quest XP adapter", () => {
         evidenceKind: "historical-reference",
       });
       expect(result.notice).toContain("remain estimates");
+
+      await setup("Different quest");
+      vi.stubEnv("WOW_TRADER_LEVELING_QUEST_XP_IMPORT", input);
+      const held = await getLevelingRewardSnapshot([9]);
+
+      expect(held.facts).toEqual([]);
+      expect(held.notice).toContain("held for current-client identity checks");
     } finally {
       await rm(root, { recursive: true, force: true });
     }
