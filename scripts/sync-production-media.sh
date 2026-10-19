@@ -6,12 +6,13 @@ repository_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 media_directory=${1:-}
 media_release_name=${2:-}
 media_product=${3:-wow_anniversary}
+catalog_manifest=${4:-}
 deploy_host=${WOW_TRADER_DEPLOY_HOST:-root@89.167.46.193}
 deploy_root=${WOW_TRADER_DEPLOY_ROOT:-/home/wow-trader-system}
 media_verifier=${WOW_TRADER_MEDIA_VERIFIER:-$deploy_root/current/scripts/verify-item-media.mjs}
 
 if [[ -z "$media_directory" || -z "$media_release_name" ]]; then
-  echo "Usage: scripts/sync-production-media.sh <media-build-directory> <media-release-name> [wow_anniversary|wow_classic_beta]" >&2
+  echo "Usage: scripts/sync-production-media.sh <media-build-directory> <media-release-name> [wow_anniversary|wow_classic_beta] [catalog-manifest]" >&2
   exit 2
 fi
 if [[ ! "$deploy_host" =~ ^[A-Za-z0-9._@:-]+$ ]]; then
@@ -36,15 +37,16 @@ if [[ "$media_product" != "wow_anniversary" && "$media_product" != "wow_classic_
 fi
 
 media_directory=$(cd "$media_directory" && pwd)
-node "$repository_root/scripts/verify-item-media.mjs" "$media_directory"
+node "$repository_root/scripts/verify-item-media.mjs" "$media_directory" ${catalog_manifest:+"$catalog_manifest"}
 
 if [[ "$media_product" == "wow_classic_beta" ]]; then
   remote_media_root="$deploy_root/shared/media/forever"
 else
   remote_media_root="$deploy_root/shared/media"
 fi
-remote_media_directory="$remote_media_root/releases/$media_release_name"
 local_manifest_sha=$(shasum -a 256 "$media_directory/manifest.json" | awk '{print $1}')
+media_release_name="$media_release_name-$local_manifest_sha"
+remote_media_directory="$remote_media_root/releases/$media_release_name"
 ssh "$deploy_host" "mkdir -p '$remote_media_directory'; if [ -f '$remote_media_directory/manifest.json' ]; then remote_manifest_sha=\$(sha256sum '$remote_media_directory/manifest.json' | awk '{print \$1}'); test \"\$remote_manifest_sha\" = '$local_manifest_sha'; fi"
 rsync -az --checksum --partial "$media_directory/manifest.json" "$media_directory/icons" \
   "$deploy_host:$remote_media_directory/"

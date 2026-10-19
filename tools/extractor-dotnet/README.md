@@ -73,6 +73,13 @@ exact published catalog. It produces `icons/<file-data-id>.png` plus `manifest.j
 records dimensions, SHA-256 values, and any referenced assets that are not decodable BLP files. A
 complete manifest is reused on subsequent starts.
 
+Production media verification also receives the target catalog manifest. It checks the item
+artifact checksum, product/build identity, and that every non-null catalog icon ID has a verified
+PNG. An older media manifest cannot pass just because its own files are intact; unavailable
+referenced icons block publication until resolved. The guardian checks media for already-published
+catalogs too, so missing images can be repaired without republishing catalog rows. Media release
+names include the manifest SHA-256 to keep repaired image sets distinct and immutable.
+
 ## Forever world snapshot
 
 `pnpm extract:forever:world` creates a separate `world-snapshot-manifest.v1` rather than mixing

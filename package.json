@@ -58,7 +58,7 @@
     "leveling:evidence:queue": "node scripts/leveling-evidence-crawl-queue.mjs",
     "leveling:evidence:compile": "node scripts/leveling-quest-evidence.mjs",
     "leveling:xp:verify": "node scripts/audit-leveling-quest-xp.mjs --require-covered",
-    "test": "node --test scripts/build-cache.test.mjs scripts/catalog-review-approval.test.mjs scripts/catalog-runtime.test.mjs scripts/leveling-evidence-crawl-queue.test.mjs scripts/leveling-quest-evidence.test.mjs scripts/leveling-quest-validation-plan.test.mjs scripts/review-leveling-combat-evidence.test.mjs scripts/review-leveling-grind-evidence.test.mjs scripts/review-leveling-reward-evidence.test.mjs scripts/review-leveling-quest-validation.test.mjs && node scripts/build-cache.mjs --run test",
+    "test": "node --test scripts/build-cache.test.mjs scripts/catalog-review-approval.test.mjs scripts/catalog-runtime.test.mjs scripts/verify-item-media.test.mjs scripts/leveling-evidence-crawl-queue.test.mjs scripts/leveling-quest-evidence.test.mjs scripts/leveling-quest-validation-plan.test.mjs scripts/review-leveling-combat-evidence.test.mjs scripts/review-leveling-grind-evidence.test.mjs scripts/review-leveling-reward-evidence.test.mjs scripts/review-leveling-quest-validation.test.mjs && node scripts/build-cache.mjs --run test",
     "typecheck": "node scripts/build-cache.mjs --run typecheck",
     "extract:tbc": "tools/extractor-dotnet/run-tbc-validation.sh",
     "extract:icons": "tools/extractor-dotnet/run-icon-extraction.sh",

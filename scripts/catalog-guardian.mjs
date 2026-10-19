@@ -136,6 +136,7 @@ async function reconcile(options) {
       installation?.catalogExtractorVersion ?? null,
     )
   ) {
+    await ensurePublishedItemMedia(options, published);
     await updateStatus({
       state: "current",
       product: options.product,
@@ -540,6 +541,7 @@ async function ensurePublishedManifest(options, published) {
     locale: options.locale,
     hotfixHash: published.hotfixHash,
     definitionsRevision: published.definitionsRevision,
+    extractorVersion: published.extractorVersion,
   });
   if (existing) return existing;
   const releaseName = makeReleaseName(
@@ -589,7 +591,7 @@ async function ensureItemMedia(options, manifestPath) {
   try {
     await run(
       process.execPath,
-      [join(repositoryRoot, "scripts/verify-item-media.mjs"), mediaDirectory],
+      [join(repositoryRoot, "scripts/verify-item-media.mjs"), mediaDirectory, manifestPath],
       { capture: true },
     );
     return mediaDirectory;
@@ -651,8 +653,58 @@ async function ensureItemMedia(options, manifestPath) {
   await run(process.execPath, [
     join(repositoryRoot, "scripts/verify-item-media.mjs"),
     mediaDirectory,
+    manifestPath,
   ]);
   return mediaDirectory;
+}
+
+async function ensurePublishedItemMedia(options, published) {
+  const manifestPath = await ensurePublishedManifest(options, published);
+  const mediaDirectory = await ensureItemMedia(options, manifestPath);
+  const mediaSha256 = await sha256File(join(mediaDirectory, "manifest.json"));
+  const mediaScope = options.product === "wow_classic_beta" ? "/forever" : "";
+  const remote = await run(
+    "ssh",
+    [
+      options.deployHost,
+      `if [ -f '${options.deployRoot}/shared/media${mediaScope}/current/../manifest.json' ]; then sha256sum '${options.deployRoot}/shared/media${mediaScope}/current/../manifest.json'; fi`,
+    ],
+    { capture: true },
+  );
+  if (remote.stdout.trim().split(/\s/)[0] === mediaSha256) return;
+  if (options.dryRun) {
+    log(
+      `Catalog media is verified locally; publication will synchronize ${options.product} icons.`,
+    );
+    return;
+  }
+  const runtime = await ensureCatalogRuntime(options);
+  await synchronizeItemMedia(options, manifestPath, mediaDirectory, runtime);
+  log(`Repaired item media for published catalog build ${published.buildNumber}.`);
+}
+
+async function synchronizeItemMedia(options, manifestPath, mediaDirectory, runtime) {
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  const releaseName = makeReleaseName(
+    manifest.product,
+    manifest.buildNumber,
+    manifest.locale,
+    manifest.hotfix.sha256,
+    manifest.definitions.revision,
+  );
+  await run(
+    join(repositoryRoot, "scripts/sync-production-media.sh"),
+    [mediaDirectory, releaseName, options.product, manifestPath],
+    {
+      cwd: repositoryRoot,
+      env: {
+        ...process.env,
+        WOW_TRADER_DEPLOY_HOST: options.deployHost,
+        WOW_TRADER_DEPLOY_ROOT: options.deployRoot,
+        WOW_TRADER_MEDIA_VERIFIER: `${runtime.directory}/verify-item-media.mjs`,
+      },
+    },
+  );
 }
 
 async function ensureCatalogRuntime(options) {
@@ -780,19 +832,7 @@ node "$runtime/dist/cli.js" import "$manifest"
     ],
     { input: verifyAndImport },
   );
-  await run(
-    join(repositoryRoot, "scripts/sync-production-media.sh"),
-    [mediaDirectory, releaseName, options.product],
-    {
-      cwd: repositoryRoot,
-      env: {
-        ...process.env,
-        WOW_TRADER_DEPLOY_HOST: options.deployHost,
-        WOW_TRADER_DEPLOY_ROOT: options.deployRoot,
-        WOW_TRADER_MEDIA_VERIFIER: `${runtime.directory}/verify-item-media.mjs`,
-      },
-    },
-  );
+  await synchronizeItemMedia(options, manifestPath, mediaDirectory, runtime);
 
   const promote = `set -Eeuo pipefail
 deploy_root=$2

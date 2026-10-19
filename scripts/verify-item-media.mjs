@@ -2,13 +2,17 @@
 
 import { createHash } from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import process from "node:process";
+import { gunzipSync } from "node:zlib";
 
 const mediaDirectoryArgument = process.argv[2];
 if (!mediaDirectoryArgument) {
-  throw new Error("Usage: node scripts/verify-item-media.mjs <media-build-directory>");
+  throw new Error(
+    "Usage: node scripts/verify-item-media.mjs <media-build-directory> [catalog-manifest]",
+  );
 }
+const catalogManifestArgument = process.argv[3];
 
 const mediaDirectory = resolve(mediaDirectoryArgument);
 const manifestPath = resolve(mediaDirectory, "manifest.json");
@@ -48,11 +52,47 @@ if (actualFiles.length !== expectedFiles.size) {
   throw new Error(`Expected ${expectedFiles.size} icons but found ${actualFiles.length}`);
 }
 
+let requiredIconCount;
+if (catalogManifestArgument) {
+  const catalogPath = resolve(catalogManifestArgument);
+  const catalog = JSON.parse(await readFile(catalogPath, "utf8"));
+  for (const field of ["product", "clientVersion", "buildNumber"]) {
+    if (manifest[field] !== catalog[field]) {
+      throw new Error(`Item media ${field} does not match the target catalog`);
+    }
+  }
+  const artifact = catalog.normalizedArtifacts?.items;
+  if (!artifact || typeof artifact.path !== "string") {
+    throw new Error("Catalog manifest has no normalized items artifact");
+  }
+  const contents = await readFile(resolve(dirname(catalogPath), artifact.path));
+  if (createHash("sha256").update(contents).digest("hex") !== artifact.sha256) {
+    throw new Error("Catalog items artifact checksum mismatch");
+  }
+  const requiredIds = new Set();
+  for (const line of gunzipSync(contents).toString("utf8").split("\n").filter(Boolean)) {
+    const { iconFileDataId } = JSON.parse(line);
+    if (iconFileDataId === null) continue;
+    if (!Number.isSafeInteger(iconFileDataId) || iconFileDataId <= 0) {
+      throw new Error(`Invalid catalog icon ID: ${String(iconFileDataId)}`);
+    }
+    requiredIds.add(iconFileDataId);
+  }
+  const missingIds = [...requiredIds].filter((id) => !expectedFiles.has(`${id}.png`));
+  if (missingIds.length > 0) {
+    throw new Error(
+      `Item media is missing ${missingIds.length} catalog icons: ${missingIds.slice(0, 20).join(", ")}`,
+    );
+  }
+  requiredIconCount = requiredIds.size;
+}
+
 process.stdout.write(
   `${JSON.stringify({
     buildNumber: manifest.buildNumber,
     clientVersion: manifest.clientVersion,
     iconCount: expectedFiles.size,
+    requiredIconCount,
     product: manifest.product,
     verified: true,
   })}\n`,
