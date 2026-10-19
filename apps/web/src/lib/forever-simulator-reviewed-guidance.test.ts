@@ -1,8 +1,10 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ForeverSimulatorReviewedWorkspace } from "../components/forever-simulator-reviewed-workspace";
 import type { LocalSimulatorBuildReview } from "./forever-simulator-local-reviews";
+
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn() }) }));
 
 const build: LocalSimulatorBuildReview = {
   id: "rogue-subtlety-guide-test",
