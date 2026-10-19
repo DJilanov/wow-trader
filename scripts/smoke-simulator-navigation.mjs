@@ -162,6 +162,7 @@ try {
     frame = await ready(page);
     assert.equal(await page.getByLabel("Choose a build").inputValue(), "arms-alliance");
     await assertSimulatorPageScroll(frame);
+    const hunterCases = [];
     for (const [name, id, label] of [
       ["Survival 7/11/33", "hunter-survival-static", "Survival · first-pass tested"],
       ["Marksmanship 5/35/11", "hunter-marksmanship-static", "Marksmanship · first-pass tested"],
@@ -176,17 +177,24 @@ try {
           url.searchParams.get("build") === name,
       );
       frame = await ready(page);
-      assert.equal(await page.getByLabel("Choose a build").inputValue(), id);
-      assert.equal(
-        await frame
-          .locator(".preset-configuration-picker-root .active .saved-data-set-name")
-          .first()
-          .innerText(),
-        label,
-      );
+      const selector = page.getByLabel("Choose a build");
+      const published = (await selector.locator(`option[value="${id}"]`).count()) === 1;
+      const activePreset = await frame
+        .locator(".preset-configuration-picker-root .active .saved-data-set-name")
+        .first()
+        .innerText();
+      if (published) {
+        assert.equal(await selector.inputValue(), id);
+        assert.equal(activePreset, label);
+      } else {
+        // Older approved releases expose starters, not the developer's newer reviewed builds.
+        assert.notEqual(await selector.inputValue(), id);
+        assert.notEqual(activePreset, label);
+      }
+      hunterCases.push({ id, published, activePreset });
       await assertSimulatorPageScroll(frame);
     }
-    console.log(JSON.stringify({ phase: "hunter-named-reviewed-builds", viewport, cases: 2 }));
+    console.log(JSON.stringify({ phase: "hunter-named-builds", viewport, cases: hunterCases }));
     // Also exercise a non-reviewed build query which the engine intentionally consumes.
     await page.goto(new URL(mount + "/forever/simulator/mage?build=Fire+0%2F35%2F16", base).href);
     frame = await ready(page);
