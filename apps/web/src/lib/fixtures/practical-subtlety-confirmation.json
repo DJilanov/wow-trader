@@ -1,0 +1,606 @@
+{
+  "schema": "kfc-practical-confirmation-math-fixture.v1",
+  "source": {
+    "identity": "7208b47e15d9a007777498020fcaca2e973a15c0d305a5033762c1131b7e8f44",
+    "resultSha256": "0dd0f3624a4856f6eedb6e678df313f746815e37def26c11cacb3834b7744c6a"
+  },
+  "plan": {
+    "arms": [
+      {
+        "name": "selected",
+        "category": "selected"
+      },
+      {
+        "name": "talent-best",
+        "category": "talent"
+      },
+      {
+        "name": "builder-backstab",
+        "category": "family"
+      },
+      {
+        "name": "builder-sinister-strike",
+        "category": "family"
+      },
+      {
+        "name": "family-cutthroat",
+        "category": "family"
+      },
+      {
+        "name": "family-thousandcuts",
+        "category": "family"
+      },
+      {
+        "name": "gear-alternative-1",
+        "category": "gear"
+      },
+      {
+        "name": "gear-alternative-2",
+        "category": "gear"
+      }
+    ],
+    "policy": {
+      "version": "practical-first-pass-confirmation.v1",
+      "iterations": 20000,
+      "ranges": 2,
+      "reservedRangeIterations": 100000,
+      "inspectedIterations": 10000,
+      "inspectedSeed": 77191,
+      "maximumArms": 12,
+      "maximumRetainedGapFraction": 0.01,
+      "standardErrorMultiplier": 3
+    },
+    "seeds": [3845649546200000, 3845649546300000],
+    "requestIds": [
+      "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+      "ff854355d4ad2626e355c43685bb47708e0c87bc9f4366902031c3095154fb45",
+      "9a451268d16ba52ae20e7db33b2d34c3bd0934705ad25028196590210939c9b9",
+      "acf58d241673086246c854ee34e2f4321b0a3a67684e3efe18302320d504c8bd",
+      "ac1aa51c30c7ddae1325c7027e5f3b38fb2d882c758dae406b9c27be958e387b",
+      "a75d9698f77bd5bb96e1fbb8d5a38099506d4d4157177a6920ac87c04a33fca8",
+      "f778b8c3c7c6615f3e0c2418a8a3e5de67ca8556d6e67b014e907d7aa45b755c",
+      "804daed6cc6c78b4e23b55644b4eaa82b7cae3656a263d62c1e2890504a2d05f",
+      "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+      "5c9527424497abf026537f4eba7da560d4664313ed242d2b8911dbfdd6ea46d2",
+      "427609448bdb2454a4b6b62b93f2b95255f30f0149fc262c6b8b2586636d7dc5",
+      "ea7d53583695edca3428ca14b7cfe0279c23907126fc1caed32d4c2cc5069044",
+      "bbb7e3cc28622b8dace9da405f4917905369b4a4fc215ccc872a088279ac5a1c",
+      "7766fefac4cafa2b886f54ce951357d00687ad23fd433509cc7c32e036e216ef",
+      "15ea201297ccdb034f0dd322a8cdf7bd79f869acfd7d0975e0fe12732d4e3bc6",
+      "e93111bb749530b0599eb8e487a8602d14ed82ebae86a5144f12f1ce0d2d4153"
+    ],
+    "inspectedSeedRanges": [
+      {
+        "seed": 1337,
+        "iterations": 4000
+      },
+      {
+        "seed": 77191,
+        "iterations": 10000
+      },
+      {
+        "seed": 1089790699200000,
+        "iterations": 200000
+      },
+      {
+        "seed": 1253580552200000,
+        "iterations": 200000
+      },
+      {
+        "seed": 2247222508200000,
+        "iterations": 200000
+      }
+    ]
+  },
+  "records": [
+    {
+      "seed": 3845649546200000,
+      "arm": "selected",
+      "metric": {
+        "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+        "dps": 629.184051839639,
+        "stdev": 17.2181998877625,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "talent-best",
+      "metric": {
+        "id": "ff854355d4ad2626e355c43685bb47708e0c87bc9f4366902031c3095154fb45",
+        "dps": 629.0598179106279,
+        "stdev": 17.238891116547375,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "builder-backstab",
+      "metric": {
+        "id": "9a451268d16ba52ae20e7db33b2d34c3bd0934705ad25028196590210939c9b9",
+        "dps": 606.255447281004,
+        "stdev": 17.15435551664077,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "builder-sinister-strike",
+      "metric": {
+        "id": "acf58d241673086246c854ee34e2f4321b0a3a67684e3efe18302320d504c8bd",
+        "dps": 584.2215255931995,
+        "stdev": 17.639447824531466,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "family-cutthroat",
+      "metric": {
+        "id": "ac1aa51c30c7ddae1325c7027e5f3b38fb2d882c758dae406b9c27be958e387b",
+        "dps": 628.1856438114817,
+        "stdev": 17.214486742394886,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "family-thousandcuts",
+      "metric": {
+        "id": "a75d9698f77bd5bb96e1fbb8d5a38099506d4d4157177a6920ac87c04a33fca8",
+        "dps": 626.4885390555233,
+        "stdev": 18.632185051270664,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "gear-alternative-1",
+      "metric": {
+        "id": "f778b8c3c7c6615f3e0c2418a8a3e5de67ca8556d6e67b014e907d7aa45b755c",
+        "dps": 625.4112994836607,
+        "stdev": 16.84980033540596,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546200000,
+      "arm": "gear-alternative-2",
+      "metric": {
+        "id": "804daed6cc6c78b4e23b55644b4eaa82b7cae3656a263d62c1e2890504a2d05f",
+        "dps": 624.8398490707226,
+        "stdev": 16.65445659021329,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "selected",
+      "metric": {
+        "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+        "dps": 629.2212057590921,
+        "stdev": 17.202662631411194,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "talent-best",
+      "metric": {
+        "id": "5c9527424497abf026537f4eba7da560d4664313ed242d2b8911dbfdd6ea46d2",
+        "dps": 629.0169600603405,
+        "stdev": 17.127065263670655,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "builder-backstab",
+      "metric": {
+        "id": "427609448bdb2454a4b6b62b93f2b95255f30f0149fc262c6b8b2586636d7dc5",
+        "dps": 606.0859268547263,
+        "stdev": 17.21430155173421,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "builder-sinister-strike",
+      "metric": {
+        "id": "ea7d53583695edca3428ca14b7cfe0279c23907126fc1caed32d4c2cc5069044",
+        "dps": 584.182370066859,
+        "stdev": 17.7148282089988,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "family-cutthroat",
+      "metric": {
+        "id": "bbb7e3cc28622b8dace9da405f4917905369b4a4fc215ccc872a088279ac5a1c",
+        "dps": 628.1432483386926,
+        "stdev": 17.10376948487437,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "family-thousandcuts",
+      "metric": {
+        "id": "7766fefac4cafa2b886f54ce951357d00687ad23fd433509cc7c32e036e216ef",
+        "dps": 626.5214836912078,
+        "stdev": 18.646051465813063,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "gear-alternative-1",
+      "metric": {
+        "id": "15ea201297ccdb034f0dd322a8cdf7bd79f869acfd7d0975e0fe12732d4e3bc6",
+        "dps": 625.5263627981318,
+        "stdev": 16.888999377977257,
+        "iterations": 20000
+      }
+    },
+    {
+      "seed": 3845649546300000,
+      "arm": "gear-alternative-2",
+      "metric": {
+        "id": "e93111bb749530b0599eb8e487a8602d14ed82ebae86a5144f12f1ce0d2d4153",
+        "dps": 624.8081875037252,
+        "stdev": 16.799053986024585,
+        "iterations": 20000
+      }
+    }
+  ],
+  "expected": {
+    "status": "accepted-practical-first-pass",
+    "accepted": true,
+    "strictRetainedDominancePassed": true,
+    "selectedArm": "selected",
+    "selectedDps": 629.2026287993656,
+    "selectedIterations": 40000,
+    "iterationsPerRange": 20000,
+    "largestConservativeRetainedGapFraction": 0.0006240185651440929,
+    "maximumRetainedGapFraction": 0.01,
+    "comparisons": [
+      {
+        "arm": "talent-best",
+        "category": "talent",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "ff854355d4ad2626e355c43685bb47708e0c87bc9f4366902031c3095154fb45",
+              "dps": 629.0598179106279,
+              "stdev": 17.238891116547375,
+              "iterations": 20000
+            },
+            "difference": -0.12423392901109764,
+            "standardError": 0.17228548608387192,
+            "threshold": 0.5168564582516157,
+            "conservativeGapFraction": 0.0006240185651440929
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "5c9527424497abf026537f4eba7da560d4664313ed242d2b8911dbfdd6ea46d2",
+              "dps": 629.0169600603405,
+              "stdev": 17.127065263670655,
+              "iterations": 20000
+            },
+            "difference": -0.20424569875160614,
+            "standardError": 0.17164905565661948,
+            "threshold": 0.5149471669698584,
+            "conservativeGapFraction": 0.0004937873443782338
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": false,
+        "averageChallengerDpsDifference": -0.1642398138813519,
+        "largestConservativeGapFraction": 0.0006240185651440929
+      },
+      {
+        "arm": "builder-backstab",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "9a451268d16ba52ae20e7db33b2d34c3bd0934705ad25028196590210939c9b9",
+              "dps": 606.255447281004,
+              "stdev": 17.15435551664077,
+              "iterations": 20000
+            },
+            "difference": -22.928604558635016,
+            "standardError": 0.1718630734867511,
+            "threshold": 0.5155892204602532,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "427609448bdb2454a4b6b62b93f2b95255f30f0149fc262c6b8b2586636d7dc5",
+              "dps": 606.0859268547263,
+              "stdev": 17.21430155173421,
+              "iterations": 20000
+            },
+            "difference": -23.135278904365805,
+            "standardError": 0.17208483075567552,
+            "threshold": 0.5162544922670266,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -23.03194173150041,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "builder-sinister-strike",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "acf58d241673086246c854ee34e2f4321b0a3a67684e3efe18302320d504c8bd",
+              "dps": 584.2215255931995,
+              "stdev": 17.639447824531466,
+              "iterations": 20000
+            },
+            "difference": -44.96252624643944,
+            "standardError": 0.17430096484662846,
+            "threshold": 0.5229028945398854,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "ea7d53583695edca3428ca14b7cfe0279c23907126fc1caed32d4c2cc5069044",
+              "dps": 584.182370066859,
+              "stdev": 17.7148282089988,
+              "iterations": 20000
+            },
+            "difference": -45.03883569223308,
+            "standardError": 0.17460623415051518,
+            "threshold": 0.5238187024515455,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -45.00068096933626,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "family-cutthroat",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "ac1aa51c30c7ddae1325c7027e5f3b38fb2d882c758dae406b9c27be958e387b",
+              "dps": 628.1856438114817,
+              "stdev": 17.214486742394886,
+              "iterations": 20000
+            },
+            "difference": -0.9984080281573142,
+            "standardError": 0.17216343415183052,
+            "threshold": 0.5164903024554915,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "bbb7e3cc28622b8dace9da405f4917905369b4a4fc215ccc872a088279ac5a1c",
+              "dps": 628.1432483386926,
+              "stdev": 17.10376948487437,
+              "iterations": 20000
+            },
+            "difference": -1.077957420399457,
+            "standardError": 0.1715328732636795,
+            "threshold": 0.5145986197910385,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -1.0381827242783856,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "family-thousandcuts",
+        "category": "family",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "a75d9698f77bd5bb96e1fbb8d5a38099506d4d4157177a6920ac87c04a33fca8",
+              "dps": 626.4885390555233,
+              "stdev": 18.632185051270664,
+              "iterations": 20000
+            },
+            "difference": -2.6955127841156354,
+            "standardError": 0.17939129398604306,
+            "threshold": 0.5381738819581292,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "7766fefac4cafa2b886f54ce951357d00687ad23fd433509cc7c32e036e216ef",
+              "dps": 626.5214836912078,
+              "stdev": 18.646051465813063,
+              "iterations": 20000
+            },
+            "difference": -2.699722067884295,
+            "standardError": 0.17938880077584282,
+            "threshold": 0.5381664023275284,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -2.6976174259999652,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "gear-alternative-1",
+        "category": "gear",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "f778b8c3c7c6615f3e0c2418a8a3e5de67ca8556d6e67b014e907d7aa45b755c",
+              "dps": 625.4112994836607,
+              "stdev": 16.84980033540596,
+              "iterations": 20000
+            },
+            "difference": -3.772752355978241,
+            "standardError": 0.17034996018754908,
+            "threshold": 0.5110498805626472,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "15ea201297ccdb034f0dd322a8cdf7bd79f869acfd7d0975e0fe12732d4e3bc6",
+              "dps": 625.5263627981318,
+              "stdev": 16.888999377977257,
+              "iterations": 20000
+            },
+            "difference": -3.6948429609602726,
+            "standardError": 0.17046552460827194,
+            "threshold": 0.5113965738248158,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -3.733797658469257,
+        "largestConservativeGapFraction": 0
+      },
+      {
+        "arm": "gear-alternative-2",
+        "category": "gear",
+        "ranges": [
+          {
+            "seed": 3845649546200000,
+            "selected": {
+              "id": "d19ac17eb690fcf2020f68e355ad9fa8ea2d20f990cf8aff911e33c66498dad8",
+              "dps": 629.184051839639,
+              "stdev": 17.2181998877625,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "804daed6cc6c78b4e23b55644b4eaa82b7cae3656a263d62c1e2890504a2d05f",
+              "dps": 624.8398490707226,
+              "stdev": 16.65445659021329,
+              "iterations": 20000
+            },
+            "difference": -4.344202768916375,
+            "standardError": 0.16938673674320595,
+            "threshold": 0.5081602102296179,
+            "conservativeGapFraction": 0
+          },
+          {
+            "seed": 3845649546300000,
+            "selected": {
+              "id": "c27d11af12946190b0db5a78b4cbe242c640aceaa982f2ca9bfd1e4d9ec7d18a",
+              "dps": 629.2212057590921,
+              "stdev": 17.202662631411194,
+              "iterations": 20000
+            },
+            "contender": {
+              "id": "e93111bb749530b0599eb8e487a8602d14ed82ebae86a5144f12f1ce0d2d4153",
+              "dps": 624.8081875037252,
+              "stdev": 16.799053986024585,
+              "iterations": 20000
+            },
+            "difference": -4.413018255366865,
+            "standardError": 0.17002055999724264,
+            "threshold": 0.5100616799917279,
+            "conservativeGapFraction": 0
+          }
+        ],
+        "challengerConfirmedBetter": false,
+        "selectedConfirmedBetter": true,
+        "averageChallengerDpsDifference": -4.37861051214162,
+        "largestConservativeGapFraction": 0
+      }
+    ]
+  }
+}

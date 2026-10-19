@@ -106,7 +106,10 @@ export async function serveSimulatorAsset(
 ): Promise<Response> {
   if (
     !/^[a-f0-9]{24}$/.test(release) ||
-    segments.some((part) => !part || part === "." || part === ".." || !/^[a-z0-9_.-]+$/i.test(part))
+    segments.some(
+      (part) => !part || part === "." || part === ".." || !/^[a-z0-9_.-]+$/i.test(part),
+    ) ||
+    segments.includes("kfc-reviewed-presets.json")
   )
     return new Response(null, { status: 404 });
   const manifest = await readSimulatorManifest(directory, release);

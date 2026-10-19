@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdtemp, mkdir, rm, symlink, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -34,6 +34,38 @@ async function fixture(
 }
 
 describe("Self-hosted Forever simulator assets", () => {
+  it("keeps internal preset provenance private even when checksummed in a release manifest", async () => {
+    const f = await fixture();
+    try {
+      const path = join(f.directory, f.release, "manifest.json");
+      const manifest = JSON.parse(await readFile(path, "utf8")) as {
+        files: Record<string, { bytes: number; sha256: string }>;
+      };
+      const bytes = Buffer.from("synthetic internal provenance fixture");
+      manifest.files["kfc-reviewed-presets.json"] = {
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      };
+      await writeFile(path, JSON.stringify(manifest));
+      await writeFile(join(f.directory, f.release, "kfc-reviewed-presets.json"), bytes);
+      expect(
+        (await readSimulatorManifest(f.directory, f.release))?.files["kfc-reviewed-presets.json"],
+      ).toBeDefined();
+      for (const method of ["GET", "HEAD"])
+        expect(
+          (
+            await serveSimulatorAsset(
+              new Request("http://localhost/internal", { method }),
+              f.release,
+              ["kfc-reviewed-presets.json"],
+              f.directory,
+            )
+          ).status,
+        ).toBe(404);
+    } finally {
+      await rm(f.directory, { recursive: true, force: true });
+    }
+  });
   it("includes every launched class profile and raid, without advertising unimplemented healers", () => {
     expect(SIMULATOR_SPECS).toHaveLength(16);
     expect(

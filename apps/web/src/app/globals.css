@@ -8987,9 +8987,16 @@ a.helper-choice-card:focus-visible {
 .simulator-reviewed-assumptions summary {
   cursor: pointer;
 }
-.simulator-reviewed-assumptions ul {
+.simulator-reviewed-assumptions ul,
+.simulator-reviewed-rotation ol {
   padding-left: 20px;
   color: var(--muted);
+}
+.simulator-reviewed-rotation p {
+  color: var(--muted);
+}
+.simulator-reviewed-rotation li + li {
+  margin-top: 6px;
 }
 .forever-simulator-frame {
   position: relative;

@@ -5,12 +5,17 @@ import { notFound } from "next/navigation";
 import { getSimulatorSpec } from "@wow-trader/forever-data/simulator";
 import { getSimulatorClass } from "../../../../lib/forever-simulator-directory";
 import { ForeverSimulatorReviewedWorkspace } from "../../../../components/forever-simulator-reviewed-workspace";
-import { readSimulatorManifest } from "../../../../lib/forever-simulator";
+import {
+  buildsForPresentation,
+  readSimulatorPresentation,
+} from "../../../../lib/forever-simulator-presentation";
 import {
   readLocalSimulatorReviews,
   reviewedBuildsForSimulator,
 } from "../../../../lib/forever-simulator-local-reviews";
 import { createHelperMetadata } from "../../../../lib/seo";
+import { readPublishedSimulatorReviews } from "../../../../lib/forever-simulator-published-reviews";
+import { withHelperBasePath } from "../../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 interface SimulatorPageProps {
@@ -31,11 +36,22 @@ export default async function SimulatorPage({
   const spec = getSimulatorSpec((await params).slug);
   if (!spec) notFound();
   const classEntry = getSimulatorClass(spec.className?.toLowerCase());
-  const manifest = await readSimulatorManifest();
+  const presentation = await readSimulatorPresentation(spec.page);
+  const manifest = presentation?.manifest ?? null;
   const builds =
-    manifest && process.env.NODE_ENV === "development"
-      ? reviewedBuildsForSimulator(await readLocalSimulatorReviews(), manifest.release, spec.page)
-      : [];
+    presentation && process.env.NODE_ENV === "development"
+      ? buildsForPresentation(
+          reviewedBuildsForSimulator(
+            await readLocalSimulatorReviews(),
+            presentation.sourceRelease,
+            spec.page,
+          ),
+          presentation,
+          spec.page,
+        )
+      : presentation
+        ? await readPublishedSimulatorReviews(presentation, spec.page)
+        : [];
   return (
     <article
       className="forever-simulator-workspace"
@@ -48,7 +64,13 @@ export default async function SimulatorPage({
           </Link>
           <div className="simulator-character-heading">
             {classEntry ? (
-              <Image src={classEntry.icon} width={60} height={60} className="forever-icon" alt="" />
+              <Image
+                src={withHelperBasePath(classEntry.icon)}
+                width={60}
+                height={60}
+                className="forever-icon"
+                alt=""
+              />
             ) : null}
             <div>
               <span className="eyebrow">{classEntry?.name ?? "Raid"} · Combat simulator</span>
@@ -89,7 +111,7 @@ export default async function SimulatorPage({
         <ForeverSimulatorReviewedWorkspace
           key={`${manifest.release}:${spec.page}`}
           title={`${spec.name} combat simulator`}
-          src={`/forever-sim/${manifest.release}/${spec.page}/`}
+          src={withHelperBasePath(`/forever-sim/${manifest.release}/${spec.page}/`)}
           builds={builds}
         />
       ) : (

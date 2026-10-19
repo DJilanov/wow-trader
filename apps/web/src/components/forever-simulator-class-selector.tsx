@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getSimulatorClassDirectory } from "../lib/forever-simulator-directory";
+import { withHelperBasePath } from "../lib/site-path";
 
 interface ForeverSimulatorClassSelectorProps {
   readonly selectedClass: string | null;
@@ -29,7 +30,13 @@ export function ForeverSimulatorClassSelector({
             aria-current={selectedClass === entry.slug ? "true" : undefined}
             style={{ "--forever-class": entry.color } as React.CSSProperties}
           >
-            <Image className="forever-icon" src={entry.icon} width={52} height={52} alt="" />
+            <Image
+              className="forever-icon"
+              src={withHelperBasePath(entry.icon)}
+              width={52}
+              height={52}
+              alt=""
+            />
             <span>
               <strong>{entry.name}</strong>
               <small>{entry.description}</small>

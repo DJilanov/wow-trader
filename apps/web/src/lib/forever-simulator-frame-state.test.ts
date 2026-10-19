@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isSimulatorFrameReady,
   simulatorDialogScrollOffset,
+  simulatorFrameViewport,
 } from "./forever-simulator-frame-state";
 
 const origin = "http://localhost:3017";
@@ -19,6 +20,14 @@ function fixture(href = origin + src, visible = true, disabled = false): HTMLIFr
 }
 
 describe("Simulator frame readiness", () => {
+  it("positions embedded dialogs in the host's visible viewport, below its navigation", () => {
+    expect(simulatorFrameViewport(200, 1800, 72, 1000)).toEqual({ top: 0, height: 800 });
+    expect(simulatorFrameViewport(-400, 1800, 72, 1000)).toEqual({ top: 472, height: 928 });
+    expect(simulatorFrameViewport(-1600, 1800, 72, 1000)).toEqual({ top: 1672, height: 128 });
+    expect(simulatorFrameViewport(1200, 1800, 72, 1000)).toEqual({ top: 0, height: 0 });
+    expect(simulatorFrameViewport(-1900, 1800, 72, 1000)).toEqual({ top: 1800, height: 0 });
+    expect(simulatorFrameViewport(0, 800, -20, 1000)).toEqual({ top: 0, height: 800 });
+  });
   it("keeps embedded modal headers below fixed navigation and within the viewport", () => {
     expect(simulatorDialogScrollOffset(-6, 0, 73, 1000)).toBe(-95);
     expect(simulatorDialogScrollOffset(89, 0, 73, 1000)).toBe(0);

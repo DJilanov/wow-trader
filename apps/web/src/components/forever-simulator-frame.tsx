@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { connectSimulatorFrameControls } from "../lib/forever-simulator-frame-controls";
+import { connectSimulatorPageScroll } from "../lib/forever-simulator-frame-layout";
 import {
   isSimulatorFrameReady,
   simulatorDialogScrollOffset,
@@ -17,11 +19,14 @@ export function ForeverSimulatorFrame({
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [documentVersion, setDocumentVersion] = useState(0);
+  const [restarted, setRestarted] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [canFullscreen, setCanFullscreen] = useState(false);
   const [focusError, setFocusError] = useState(false);
   const container = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLIFrameElement>(null);
+  const restoreResults = useRef(false);
   useEffect(() => {
     setLoaded(false);
     setSlow(false);
@@ -33,17 +38,54 @@ export function ForeverSimulatorFrame({
       window.clearInterval(poll);
       window.clearTimeout(timer);
     };
-    const timer = window.setTimeout(() => setSlow(true), 30000);
-    const poll = window.setInterval(check, 250);
-    element.addEventListener("load", check);
+    let timer = window.setTimeout(() => setSlow(true), 30000);
+    let poll = window.setInterval(check, 250);
+    const onLoad = (): void => {
+      window.clearTimeout(timer);
+      window.clearInterval(poll);
+      setLoaded(false);
+      setSlow(false);
+      setDocumentVersion((value) => value + 1);
+      timer = window.setTimeout(() => setSlow(true), 30000);
+      poll = window.setInterval(check, 250);
+      check();
+    };
+    element.addEventListener("load", onLoad);
     // SSR frames can finish loading before React attaches event handlers.
     check();
     return () => {
       window.clearTimeout(timer);
       window.clearInterval(poll);
-      element.removeEventListener("load", check);
+      element.removeEventListener("load", onLoad);
     };
   }, [src, attempt]);
+  useEffect(() => {
+    const element = frame.current;
+    if (!loaded || fullscreen || !element) return;
+    return connectSimulatorPageScroll(element);
+  }, [loaded, fullscreen, src, attempt, documentVersion]);
+  useEffect(() => {
+    const element = frame.current;
+    if (!loaded || !element) return;
+    if (restoreResults.current) {
+      element.contentDocument
+        ?.querySelector<HTMLButtonElement>('.kfc-mobile-nav [aria-controls="kfc-simulation-panel"]')
+        ?.click();
+      restoreResults.current = false;
+    }
+    return connectSimulatorFrameControls(element, {
+      onRun: (): void => setRestarted(false),
+      onRestart: (url): void => {
+        restoreResults.current =
+          element.contentDocument?.querySelector<HTMLElement>(".sim-ui")?.dataset.mobileView ===
+          "results";
+        setRestarted(true);
+        setLoaded(false);
+        setSlow(false);
+        element.contentWindow?.location.replace(url);
+      },
+    });
+  }, [loaded, src, attempt, documentVersion]);
   useEffect(() => {
     const element = frame.current;
     const frameDocument = loaded ? element?.contentDocument : null;
@@ -64,7 +106,7 @@ export function ForeverSimulatorFrame({
     // Modal focus can scroll a nested frame's close control behind the host's fixed header.
     frameDocument.addEventListener("shown.bs.modal", revealDialog);
     return () => frameDocument.removeEventListener("shown.bs.modal", revealDialog);
-  }, [loaded, src, attempt]);
+  }, [loaded, src, attempt, documentVersion]);
   useEffect(() => {
     setCanFullscreen(document.fullscreenEnabled);
     const updateFullscreen = (): void => {
@@ -108,6 +150,13 @@ export function ForeverSimulatorFrame({
       {focusError ? (
         <p role="status" className="simulator-focus-error">
           Fullscreen is unavailable. Use “Open in new tab” for a larger workspace.
+        </p>
+      ) : null}
+      {restarted ? (
+        <p role="status" className="simulator-focus-error">
+          {loaded
+            ? "Run stopped. Results were cleared; your saved character and builds are kept. You can simulate again."
+            : "Stopping the busy engine… Your saved character and builds are kept. Results will be cleared."}
         </p>
       ) : null}
       {!loaded ? (

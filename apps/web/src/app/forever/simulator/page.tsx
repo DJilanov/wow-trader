@@ -5,6 +5,7 @@ import { ForeverSimulatorClassSelector } from "../../../components/forever-simul
 import { getSimulatorClass } from "../../../lib/forever-simulator-directory";
 import { readSimulatorManifest } from "../../../lib/forever-simulator";
 import { createHelperMetadata } from "../../../lib/seo";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = createHelperMetadata({
@@ -54,7 +55,7 @@ export default async function ForeverSimulatorPage({
           <header>
             <Image
               className="forever-icon"
-              src={selectedClass.icon}
+              src={withHelperBasePath(selectedClass.icon)}
               width={52}
               height={52}
               alt=""

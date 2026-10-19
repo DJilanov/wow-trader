@@ -1,3 +1,19 @@
+export interface SimulatorFrameViewport {
+  readonly top: number;
+  readonly height: number;
+}
+
+export function simulatorFrameViewport(
+  frameTop: number,
+  frameHeight: number,
+  headerBottom: number,
+  viewportHeight: number,
+): SimulatorFrameViewport {
+  const top = Math.max(0, Math.min(frameHeight, Math.max(0, headerBottom) - frameTop));
+  const bottom = Math.max(top, Math.min(frameHeight, viewportHeight - frameTop));
+  return { top, height: bottom - top };
+}
+
 export function simulatorDialogScrollOffset(
   frameTop: number,
   dialogTop: number,

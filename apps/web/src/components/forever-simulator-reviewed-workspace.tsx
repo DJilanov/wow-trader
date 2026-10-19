@@ -3,6 +3,8 @@
 import { useId, useState } from "react";
 import type { LocalSimulatorBuildReview } from "../lib/forever-simulator-local-reviews";
 import { ForeverSimulatorFrame } from "./forever-simulator-frame";
+import { withHelperBasePath } from "../lib/site-path";
+import { rotationGuidanceText } from "../lib/forever-simulator-rotation-guidance";
 
 interface ForeverSimulatorReviewedWorkspaceProps {
   readonly src: string;
@@ -16,10 +18,10 @@ interface LoadedBuild {
 }
 
 function buildLabel(build: LocalSimulatorBuildReview): string {
+  if (build.displayName) return build.displayName;
   const variant = build.spec.split("/")[1]?.replaceAll("_", " ") ?? build.spec;
   const name = variant.charAt(0).toUpperCase() + variant.slice(1);
-  const faction = build.faction.charAt(0).toUpperCase() + build.faction.slice(1);
-  return `${name} · ${faction} · ${build.requiresProvisionalEnchantOptIn ? "Provisional proc enchants" : "Standard enchants"}`;
+  return `${name} · ${build.requiresProvisionalEnchantOptIn ? "Provisional proc enchants" : "Standard enchants"}`;
 }
 
 export function ForeverSimulatorReviewedWorkspace({
@@ -48,7 +50,7 @@ export function ForeverSimulatorReviewedWorkspace({
         <section className="simulator-reviewed-builds" aria-label="Reviewed pre-raid builds">
           <div className="simulator-reviewed-heading">
             <div>
-              <span className="eyebrow">Local research · Reviewed calculations</span>
+              <span className="eyebrow">Reviewed calculations · Pre-raid equipment</span>
               <h2>Simulation-tested pre-raid builds</h2>
             </div>
             <span className="simulator-reviewed-count">
@@ -79,8 +81,9 @@ export function ForeverSimulatorReviewedWorkspace({
           </p>
           {selected.referenceDps !== null ? (
             <p className="simulator-reviewed-reference">
-              {selected.referenceDps.toFixed(2)} modeled DPS · 400,000 core-feedback measurements ·
-              Scenario-specific, not a cross-class ranking.
+              {selected.referenceDps.toFixed(2)} modeled DPS ·{" "}
+              {(selected.validationIterations ?? 400000).toLocaleString("en-US")} validation fights
+              · Scenario-specific, not a cross-class ranking.
             </p>
           ) : null}
           {selected.requiresProvisionalEnchantOptIn ? (
@@ -89,6 +92,26 @@ export function ForeverSimulatorReviewedWorkspace({
               explicitly allow provisional proc models before simulating this scenario. Repeat after
               a reload; the build never enables them automatically.
             </p>
+          ) : null}
+          {selected.rotationGuidance ? (
+            <details
+              className="simulator-reviewed-assumptions simulator-reviewed-rotation"
+              key={`rotation-${selected.id}`}
+            >
+              <summary>Rotation guide · {selected.rotationGuidance.talents}</summary>
+              <p>{rotationGuidanceText(selected.rotationGuidance.scenario)}</p>
+              {selected.rotationGuidance.instruction ? (
+                <p>{rotationGuidanceText(selected.rotationGuidance.instruction)}</p>
+              ) : null}
+              <ol>
+                {selected.rotationGuidance.priorities.map((priority) => (
+                  <li key={priority}>{rotationGuidanceText(priority)}</li>
+                ))}
+              </ol>
+              {selected.rotationGuidance.caveats.map((caveat) => (
+                <p key={caveat}>{rotationGuidanceText(caveat)}</p>
+              ))}
+            </details>
           ) : null}
           {selected.warnings.length ? (
             <details className="simulator-reviewed-assumptions" key={selected.id}>
@@ -109,7 +132,7 @@ export function ForeverSimulatorReviewedWorkspace({
       ) : null}
       <ForeverSimulatorFrame
         key={`${loadedBuild?.id ?? "saved"}:${loadedBuild?.revision ?? 0}`}
-        src={loadedBuild?.href ?? src}
+        src={withHelperBasePath(loadedBuild?.href ?? src)}
         title={title}
       />
     </>

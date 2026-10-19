@@ -1,6 +1,20 @@
 # WoW Trader project context
 
-Last updated: 2026-10-17
+Last updated: 2026-10-19
+
+## Active owner decision and deployment — October19
+
+The owner approved a DISCLOSED2% retained-contender margin for the practical first pass.
+This resolves the earlier pending-policy blocker. Preserve the original failed MM1% result
+unchanged; do not claim that a new2% contract or MM delivery has already been completed.
+The owner also explicitly requested COMMIT/PUSH/DEPLOY HUNTER. Immediate deployment scope
+is the already accepted and browser-approved Beast Mastery build/UI94239fb7240949919b83f8ad,
+not unfinished MM/Survival. Keep Warrior's current live selection and unrelated production
+features. Stage only simulator/dependency changes on the current production source, verify
+desktop/mobile/full imports/presets/guide/real small combat, then reload Helper WEB ONLY.
+No database migration, ingestion/crawler/guild restart or unrelated dirty-source deployment.
+Current work is staging, not yet a successful deployment. Original Hunter class clock remains
+2026-10-18T21:33:17.772Z →2026-10-19T21:33:17.772Z. MM2% delivery resumes after this rollout.
 
 ## Goal and current target
 

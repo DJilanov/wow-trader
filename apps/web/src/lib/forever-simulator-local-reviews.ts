@@ -3,6 +3,12 @@ import { readFile, readdir, realpath, stat } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve } from "node:path";
 import { z } from "zod";
 import { readSimulatorManifest, simulatorDirectory } from "./forever-simulator";
+import { applyBoundedLocalSimulatorDeliveries } from "./forever-simulator-bounded-reviews";
+import { appendFirstPassSimulatorDeliveries } from "./forever-simulator-first-pass-reviews";
+import { appendRogueCombatSimulatorDelivery } from "./forever-simulator-rogue-reviews";
+import { appendMutilateFirstPassSimulatorDelivery } from "./forever-simulator-mutilate-reviews";
+import { appendSubtletyFirstPassSimulatorDelivery } from "./forever-simulator-subtlety-reviews";
+import { appendHunterBeastMasterySimulatorDelivery } from "./forever-simulator-hunter-reviews";
 
 const hashSchema = z.string().regex(/^[a-f0-9]{64}$/);
 const latestSchema = z.object({ identity: hashSchema });
@@ -45,6 +51,22 @@ const shareSchema = z.object({
   warnings: z.array(z.string()).max(20),
   campaignFinal: finalSchema.optional(),
 });
+const deliveriesSchema = z
+  .object({
+    schema: z.literal("kfc-local-reviewed-deliveries.v1"),
+    campaignIdentity: hashSchema,
+    sourceRelease: z.string().regex(/^[a-f0-9]{24}$/),
+    cases: z.record(
+      caseIdSchema,
+      z.object({ supersedesExportSha256: hashSchema, share: referenceSchema }).strict(),
+    ),
+  })
+  .strict();
+const modelSchema = z.object({
+  revision: z.string(),
+  dbSha256: hashSchema,
+  nativeBinarySha256: hashSchema,
+});
 const feedbackSchema = z.object({
   schema: z.literal("kfc-prebis-feedback-review.v1"),
   status: z.literal("closed-loop-verified"),
@@ -72,6 +94,15 @@ export interface LocalSimulatorBuildReview {
   readonly referenceDps: number | null;
   readonly requiresProvisionalEnchantOptIn: boolean;
   readonly warnings: readonly string[];
+  readonly displayName?: string;
+  readonly validationIterations?: number;
+  readonly rotationGuidance?: {
+    readonly talents: string;
+    readonly scenario: string;
+    readonly instruction?: string;
+    readonly priorities: readonly string[];
+    readonly caveats: readonly string[];
+  };
 }
 export type LocalSimulatorReviews =
   | { readonly status: "disabled" | "empty" }
@@ -118,11 +149,15 @@ async function readBoundedJson(
   return JSON.parse(await readFile(canonicalPath, "utf8")) as unknown;
 }
 
-async function readReference(root: string, reference: ReviewReference): Promise<unknown> {
+async function readReference(
+  root: string,
+  reference: ReviewReference,
+  maximumBytes: number = 8_000_000,
+): Promise<unknown> {
   const path = isAbsolute(reference.path)
     ? reference.path
     : resolve(root, "../../..", reference.path);
-  const value = await readBoundedJson(root, path);
+  const value = await readBoundedJson(root, path, maximumBytes);
   if (hash(value) !== reference.sha256) throw new Error("Local simulator review hash mismatch");
   return value;
 }
@@ -205,6 +240,22 @@ export async function readLocalSimulatorReviews(
     await readBoundedJson(root, `campaigns/${latest.identity}/state.json`),
   );
   if (state.identity !== latest.identity) throw new Error("Local campaign identity mismatch");
+  let deliveries: z.infer<typeof deliveriesSchema> | undefined;
+  try {
+    const candidate = deliveriesSchema.parse(
+      await readBoundedJson(root, "reviewed-deliveries.json", 128_000),
+    );
+    if (
+      candidate.campaignIdentity === state.identity &&
+      candidate.sourceRelease === manifest.release
+    ) {
+      if (Object.keys(candidate.cases).some((id) => !Object.hasOwn(state.cases, id)))
+        throw new Error("Unknown local delivered case");
+      deliveries = candidate;
+    }
+  } catch (error: unknown) {
+    if (!isMissing(error)) throw error;
+  }
   let names: string[];
   try {
     names = await readdir(join(root, "share-links"));
@@ -224,13 +275,16 @@ export async function readLocalSimulatorReviews(
     shares.push(share);
   }
   const cases: LocalSimulatorBuildReview[] = [];
+  const predecessors = new Map<string, string>();
+  let databaseSha256: string | undefined;
   for (const [id, entry] of Object.entries(state.cases)) {
     if (entry.entry.id !== id) throw new Error("Local campaign case identity mismatch");
     const complete = entry.status === "reviewed-local";
-    const review = complete
+    let final = entry.final;
+    let review = complete
       ? entry.final?.review
       : entry.steps.filter((step) => step.kind === "feedback").at(-1)?.files.output;
-    const share = shares.find(
+    let share = shares.find(
       (value) =>
         value.caseId === id &&
         value.campaignIdentity === state.identity &&
@@ -238,6 +292,29 @@ export async function readLocalSimulatorReviews(
         value.feedbackReview.sha256 === review?.sha256 &&
         value.status === (complete ? "reviewed-local" : "core-reviewed-final-audits-pending"),
     );
+    const delivery = deliveries?.cases[id];
+    if (delivery) {
+      if (
+        !complete ||
+        !entry.final ||
+        entry.active ||
+        delivery.supersedesExportSha256 !== entry.final.exported.sha256
+      )
+        throw new Error("Stale local delivered predecessor");
+      const upgraded = shareSchema.parse(await readReference(root, delivery.share, 600_000));
+      if (
+        upgraded.caseId !== id ||
+        upgraded.campaignIdentity !== state.identity ||
+        upgraded.sourceRelease !== manifest.release ||
+        upgraded.status !== "reviewed-local" ||
+        !upgraded.campaignFinal ||
+        hash(upgraded.feedbackReview) !== hash(upgraded.campaignFinal.review)
+      )
+        throw new Error("Stale local delivered share");
+      share = upgraded;
+      final = upgraded.campaignFinal;
+      review = final.review;
+    }
     const row: LocalSimulatorBuildReview = {
       id,
       spec: entry.entry.spec,
@@ -251,7 +328,8 @@ export async function readLocalSimulatorReviews(
       warnings: [],
     };
     if (share && review) {
-      const feedback = feedbackSchema.parse(await readReference(root, review));
+      const feedbackValue = await readReference(root, review);
+      const feedback = feedbackSchema.parse(feedbackValue);
       if (
         feedback.revision !== manifest.revision ||
         feedback.baselineSha256 !== share.baseline.sha256 ||
@@ -261,16 +339,42 @@ export async function readLocalSimulatorReviews(
           row.requiresProvisionalEnchantOptIn
       )
         throw new Error("Local share is linked to a different combat setup");
-      await readReference(root, share.baseline);
+      const baselineValue = await readReference(root, share.baseline);
+      if (delivery && final) {
+        const model = modelSchema.parse(feedbackValue);
+        const baselineModel = z
+          .object({ revision: z.string(), dbSha256: hashSchema, sourceRelease: z.string() })
+          .parse(baselineValue);
+        const exportedModel = modelSchema.parse(await readReference(root, final.exported));
+        const faction = z.object({ faction: z.string() }).parse(feedbackValue).faction;
+        databaseSha256 ??= hash(
+          await readBoundedJson(
+            directory,
+            `${manifest.release}/assets/database/db.json`,
+            128_000_000,
+          ),
+        );
+        if (
+          model.dbSha256 !== databaseSha256 ||
+          model.revision !== manifest.revision ||
+          baselineModel.revision !== model.revision ||
+          baselineModel.dbSha256 !== model.dbSha256 ||
+          baselineModel.sourceRelease !== manifest.release ||
+          hash(exportedModel) !== hash(model) ||
+          faction.toLowerCase() !== entry.entry.faction.toLowerCase()
+        )
+          throw new Error("Stale local delivered model");
+      }
       if (complete) {
         if (
-          !entry.final ||
+          !final ||
           !share.campaignFinal ||
-          hash(entry.final) !== hash(share.campaignFinal) ||
-          entry.final.baseline.sha256 !== share.baseline.sha256
+          hash(final) !== hash(share.campaignFinal) ||
+          final.baseline.sha256 !== share.baseline.sha256
         )
           throw new Error("Local share is missing the final campaign evidence");
-        await assertFinalEvidence(root, entry.final, row.requiresProvisionalEnchantOptIn);
+        await assertFinalEvidence(root, final, row.requiresProvisionalEnchantOptIn);
+        predecessors.set(id, final.exported.sha256);
       }
       cases.push({
         ...row,
@@ -281,5 +385,107 @@ export async function readLocalSimulatorReviews(
       });
     } else cases.push(row);
   }
-  return { status: "ready", identity: state.identity, release: manifest.release, cases };
+  const reviewed = await applyBoundedLocalSimulatorDeliveries({
+    cases,
+    predecessors,
+    campaignIdentity: state.identity,
+    sourceRelease: manifest.release,
+    revision: manifest.revision,
+    read: (path, maximumBytes) => readBoundedJson(root, path, maximumBytes),
+    reference: (ref, maximumBytes) => readReference(root, ref, maximumBytes),
+    databaseSha256: async () =>
+      (databaseSha256 ??= hash(
+        await readBoundedJson(
+          directory,
+          `${manifest.release}/assets/database/db.json`,
+          128_000_000,
+        ),
+      )),
+  });
+  const firstPass = await appendFirstPassSimulatorDeliveries({
+    cases: reviewed,
+    campaignIdentity: state.identity,
+    sourceRelease: manifest.release,
+    revision: manifest.revision,
+    read: (path, maximumBytes) => readBoundedJson(root, path, maximumBytes),
+    reference: (ref, maximumBytes) => readReference(root, ref, maximumBytes),
+    databaseSha256: async () =>
+      (databaseSha256 ??= hash(
+        await readBoundedJson(
+          directory,
+          `${manifest.release}/assets/database/db.json`,
+          128_000_000,
+        ),
+      )),
+  });
+  const withRogue = await appendRogueCombatSimulatorDelivery({
+    cases: firstPass,
+    campaignIdentity: state.identity,
+    sourceRelease: manifest.release,
+    revision: manifest.revision,
+    read: (path, maximumBytes) => readBoundedJson(root, path, maximumBytes),
+    reference: (ref, maximumBytes) => readReference(root, ref, maximumBytes),
+    databaseSha256: async () =>
+      (databaseSha256 ??= hash(
+        await readBoundedJson(
+          directory,
+          `${manifest.release}/assets/database/db.json`,
+          128_000_000,
+        ),
+      )),
+  });
+  const withMutilate = await appendMutilateFirstPassSimulatorDelivery({
+    cases: withRogue,
+    campaignIdentity: state.identity,
+    sourceRelease: manifest.release,
+    revision: manifest.revision,
+    read: (path, maximumBytes) => readBoundedJson(root, path, maximumBytes),
+    reference: (ref, maximumBytes) => readReference(root, ref, maximumBytes),
+    databaseSha256: async () =>
+      (databaseSha256 ??= hash(
+        await readBoundedJson(
+          directory,
+          `${manifest.release}/assets/database/db.json`,
+          128_000_000,
+        ),
+      )),
+  });
+  const withSubtlety = await appendSubtletyFirstPassSimulatorDelivery({
+    cases: withMutilate,
+    campaignIdentity: state.identity,
+    sourceRelease: manifest.release,
+    revision: manifest.revision,
+    read: (path, maximumBytes) => readBoundedJson(root, path, maximumBytes),
+    reference: (ref, maximumBytes) => readReference(root, ref, maximumBytes),
+    databaseSha256: async () =>
+      (databaseSha256 ??= hash(
+        await readBoundedJson(
+          directory,
+          `${manifest.release}/assets/database/db.json`,
+          128_000_000,
+        ),
+      )),
+  });
+  const withHunter = await appendHunterBeastMasterySimulatorDelivery({
+    cases: withSubtlety,
+    campaignIdentity: state.identity,
+    sourceRelease: manifest.release,
+    revision: manifest.revision,
+    read: (path, maximumBytes) => readBoundedJson(root, path, maximumBytes),
+    reference: (ref, maximumBytes) => readReference(root, ref, maximumBytes),
+    databaseSha256: async () =>
+      (databaseSha256 ??= hash(
+        await readBoundedJson(
+          directory,
+          `${manifest.release}/assets/database/db.json`,
+          128_000_000,
+        ),
+      )),
+  });
+  return {
+    status: "ready",
+    identity: state.identity,
+    release: manifest.release,
+    cases: withHunter,
+  };
 }
