@@ -14,6 +14,7 @@ import type {
   LevelingMapPoint,
   LevelingZoneArt,
 } from "../lib/leveling-map-data";
+import { withHelperBasePath } from "../lib/site-path";
 import styles from "./leveling-experience.module.css";
 
 interface LevelingZoneMapProps {
@@ -115,7 +116,7 @@ function ZoneCanvas({ zone, points, buildNumber, onLocation }: ZoneCanvasProps):
       const probe = new Image();
       probe.onload = () => setLoaded((current) => new Set([...current, fileDataId]));
       probe.onerror = () => setFailed(true);
-      probe.src = `/api/forever-map-media/${fileDataId}?v=${buildNumber}`;
+      probe.src = withHelperBasePath(`/api/forever-map-media/${fileDataId}?v=${buildNumber}`);
       return probe;
     });
     return () => {
@@ -210,7 +211,7 @@ function ZoneCanvas({ zone, points, buildNumber, onLocation }: ZoneCanvasProps):
         {zone.tiles.map((tile) => (
           <image
             key={`${tile.rowIndex}-${tile.columnIndex}-${tile.fileDataId}`}
-            href={`/api/forever-map-media/${tile.fileDataId}?v=${buildNumber}`}
+            href={withHelperBasePath(`/api/forever-map-media/${tile.fileDataId}?v=${buildNumber}`)}
             x={tile.columnIndex * zone.tileWidth}
             y={tile.rowIndex * zone.tileHeight}
             width={zone.tileWidth}
@@ -233,7 +234,9 @@ function ZoneCanvas({ zone, points, buildNumber, onLocation }: ZoneCanvasProps):
               {overlay.tiles.map((tile) => (
                 <image
                   key={`${tile.rowIndex}-${tile.columnIndex}-${tile.fileDataId}`}
-                  href={`/api/forever-map-media/${tile.fileDataId}?v=${buildNumber}`}
+                  href={withHelperBasePath(
+                    `/api/forever-map-media/${tile.fileDataId}?v=${buildNumber}`,
+                  )}
                   x={overlay.offsetX + tile.columnIndex * zone.tileWidth}
                   y={overlay.offsetY + tile.rowIndex * zone.tileHeight}
                   width={tile.width}

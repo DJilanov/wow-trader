@@ -5,7 +5,7 @@ import { pathToFileURL, URL } from "node:url";
 
 /** @param {string[]} pages @returns {Promise<{pages: number, assets: number}>} */
 export async function verifySiteAssets(pages) {
-  const assets = new Set();
+  const assets = new Map();
   for (const page of pages) {
     const pageUrl = new URL(page);
     if (!["http:", "https:"].includes(pageUrl.protocol) || pageUrl.username || pageUrl.password) {
@@ -17,11 +17,12 @@ export async function verifySiteAssets(pages) {
     if (!response.ok) throw new Error(`Page HTTP ${response.status}: ${page}`);
     const html = await response.text();
     let pageAssets = 0;
-    for (const match of html.matchAll(/<(?:img|script|link)\b[^>]*\b(?:src|href)="([^"]+)"/gu)) {
-      const asset = new URL(match[1].replaceAll("&amp;", "&"), response.url);
+    for (const match of html.matchAll(/<(img|script|link)\b[^>]*\b(?:src|href)="([^"]+)"/gu)) {
+      const asset = new URL(match[2].replaceAll("&amp;", "&"), response.url);
       if (asset.origin !== pageUrl.origin) continue;
-      if (!expectedContentType(asset.pathname)) continue;
-      assets.add(asset.href);
+      const contentType = match[1] === "img" ? /^image\//iu : expectedContentType(asset.pathname);
+      if (!contentType) continue;
+      assets.set(asset.href, contentType);
       pageAssets++;
     }
     if (pageAssets === 0) throw new Error(`No page assets discovered: ${page}`);
@@ -32,14 +33,14 @@ export async function verifySiteAssets(pages) {
   await Promise.all(
     Array.from({ length: Math.min(4, pending.length) }, async () => {
       while (cursor < pending.length) {
-        const url = pending[cursor++];
+        const [url, expectedType] = pending[cursor++];
         try {
           const response = await globalThis.fetch(url, {
             signal: globalThis.AbortSignal.timeout(30_000),
           });
           const contentType = response.headers.get("content-type") ?? "";
           await response.arrayBuffer();
-          if (!response.ok || !expectedContentType(new URL(url).pathname)?.test(contentType)) {
+          if (!response.ok || !expectedType.test(contentType)) {
             failures.push(`HTTP ${response.status} ${contentType}: ${url}`);
           }
         } catch (error) {

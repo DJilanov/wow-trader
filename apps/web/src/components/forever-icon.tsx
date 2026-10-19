@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { withHelperBasePath } from "../lib/site-path";
 
 interface ForeverIconProps {
   readonly iconKey: string;
@@ -32,7 +33,9 @@ export function ForeverIcon({
       decoding="async"
       loading="lazy"
       onError={() => setFailed(true)}
-      src={`/api/forever-assets/icon/${encodeURIComponent(iconKey)}?v=${snapshotChecksum.slice(0, 12)}`}
+      src={withHelperBasePath(
+        `/api/forever-assets/icon/${encodeURIComponent(iconKey)}?v=${snapshotChecksum.slice(0, 12)}`,
+      )}
     />
   );
 }

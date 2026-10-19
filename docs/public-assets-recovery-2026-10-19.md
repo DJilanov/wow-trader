@@ -13,6 +13,10 @@ Two independent failures affected public pages while their HTML still returned H
   HTTP 400 even though the source artwork existed under `/tools/wow-assets`. These components
   now use the existing idempotent `withHelperBasePath` helper. Simulator class artwork already
   used the correct paths. This issue is separate from catalog item PNG extraction.
+- The expanded audit also found extensionless race-icon API URLs missing that prefix. The
+  shared icon component, directory map previews, Leaflet tiles and leveling SVG tiles/image
+  probes now address `/tools/api/...` explicitly. The asset smoke checks every declared image,
+  including URLs without a filename extension; an HTML response is not accepted as an image.
 
 Two navigation boundaries also required corrections. The guild header must perform a document
 navigation into the independently deployed `/tools` app. Next's guild router cannot consume the
@@ -39,6 +43,11 @@ declared in each page, checks response status and media type, and fails if HTML 
 its assets fail. It deduplicates assets and limits concurrency to four. Production activation
 runs this check after service health checks; browser verification should additionally confirm
 hydration, lazy-loaded artwork and navigation on desktop and mobile.
+
+Recovery verification: all 475 web tests and the production build passed. Browser checks at
+1440×1080 and 390×844 verified the guild Tools link, Warrior→Mage class switching, the named
+Arms build, Back/Forward and reload with no engine asset failures. The Helper release is
+`public-navigation-20261019-r2`; the guild build is `.next-release-20261019-navigation-r1`.
 
 Cleanup must identify active directories from the saved and running process configuration.
 For the guild site that means the actual PM2 `KFC_BUILD_DIR`, not an assumed `.next` directory
