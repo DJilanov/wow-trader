@@ -4,6 +4,9 @@ The [audit/browser consumer](forever-leveling-quest-validation-consumer.md) is n
 locally. Use its current review.3 package and latest backlog. Real observations and explicit
 approval are still required; no actual recording was approved by the implementation.
 
+The browser consumer is now [deployed for testing](forever-leveling-test-deployment-2026-10-19.md).
+That release does not approve recordings or open the addon publication gate.
+
 The route audit separates five kinds of in-game quest uncertainty from reward XP and grind
 measurements:
 

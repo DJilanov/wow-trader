@@ -6,7 +6,9 @@ Quest collection is now complete for the queued identified content: 353 captured
 reviewed unavailable page 3343, all 83 route-evidence pages, and published-format Forever rewards for
 all 1,161 real hand-in IDs in the local matrix. Historical hand-in fallbacks are now zero. See the
 [October 19 completion receipt](forever-leveling-quest-completion-2026-10-19.md) for hashes, source
-disagreements, the new review ZIP and remaining in-game/release work. Production is unchanged.
+disagreements and the new review ZIP. The authorized
+[browser test release](forever-leveling-test-deployment-2026-10-19.md) is now live from commit
+101882a. Addon publication and real in-game validation remain pending.
 
 The later [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md) covers
 the implemented private-observation→audit→public-coverage→browser path, party identity settings,
@@ -164,7 +166,7 @@ it with verification receipts as each task lands.
 | Finish source/observation-to-audit consumption     | Engineering                              | Observation/audit/browser consumer implemented locally; static source disagreements remain under review | Approved proof clears only matching build, quest, release/compiler and covered race/class/party contexts; private observations never reach the browser |
 | Rebuild the route matrix and catch-up instructions | Engineering                              | Bundle matrix implemented and audited locally                                                           | 33 editions / 132 scenarios: zero relevant blockers or shortfalls; 18 sourced plus 3 planning-only dungeon stops                                       |
 | Run bounded in-game package and context checks     | Owner, with generated test checklist     | Pending                                                                                                 | Install/parser, tracking, reload/resume and specific disputed quest/party behaviours pass                                                              |
-| Release and retain rollback                        | Engineering, after release authorization | Pending                                                                                                 | Tests/builds pass; pushed commit, deployed source and data revisions agree; browser/assets and rollback verified                                       |
+| Release and retain rollback                        | Engineering, after release authorization | Browser test release deployed; addon publication pending                                                | Tests/builds pass; pushed commit, deployed source and data revisions agree; browser/assets and rollback verified                                       |
 
 Quest 3343 was previously classified from the source's explicit not-found redirect; the owner also
 confirmed the page is unavailable in the browser. This does not establish that the quest is absent

@@ -1,7 +1,8 @@
 # Forever guaranteed dungeon quest bundles
 
-Status: implemented and verified locally on October 19, 2026. Not committed or deployed by this
-task. Quest availability is an owner-confirmed product input; unidentified quests are not presented
+Status: implemented, committed and deployed for
+[browser testing](forever-leveling-test-deployment-2026-10-19.md) on October 19, 2026.
+Quest availability is an owner-confirmed product input; unidentified quests are not presented
 as collected source records or executable quest instructions.
 
 The subsequent [quest-completion receipt](forever-leveling-quest-completion-2026-10-19.md) supersedes

@@ -4,6 +4,10 @@ Status: implemented and verified locally on October 19, 2026. No real observatio
 by this task, no in-game test is claimed, and no production configuration or deployment was changed.
 The [completed quest fetch](forever-leveling-quest-completion-2026-10-19.md) is a separate receipt.
 
+The later authorized [browser test deployment](forever-leveling-test-deployment-2026-10-19.md) is now
+live. The local verification and no-deployment statement above describe the implementation checkpoint,
+not that later release; real observations and addon approval remain outstanding.
+
 ## Implemented pipeline and evidence boundaries
 
 `quest-validation-evidence.ts` validates private reviewed observations. The pure

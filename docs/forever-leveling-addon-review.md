@@ -2,6 +2,9 @@
 
 Status: local review artifact, not a public or playtested release. Updated October 19, 2026.
 
+The browser guide is separately [deployed for testing](forever-leveling-test-deployment-2026-10-19.md)
+from commit 101882a. This does not publish or approve the addon ZIP.
+
 For new recordings use review.3 from the
 [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md):
 `kfc-premade5-human-warrior-3589f8e108c94fba.zip`, compiler `campaign-addon-20261019-v9`, ZIP SHA-256
@@ -156,7 +159,7 @@ separate: replace or observe the historical reward values, calibrate relevant co
 profiles and collect actual five-player bars at unresolved checkpoints. Package installation success
 must never be presented as measured XP, timing or full-route certification.
 
-## Web test deployment — 2026-10-19
+## Earlier web test deployment — 2026-10-19
 
 The browser campaign and reward-evidence changes are deployed for maintainer testing as
 `kfc-helper-leveling-campaign-test-20261019-r1`. The leveling implementation is committed in

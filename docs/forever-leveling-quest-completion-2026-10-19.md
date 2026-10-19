@@ -3,6 +3,10 @@
 Status: reconciled and verified locally. This receipt does not describe a production deployment,
 an in-game playtest or a completed Horde campaign.
 
+A later authorized [browser test release](forever-leveling-test-deployment-2026-10-19.md) is now live.
+The local snapshot and earlier verification receipts below remain historical evidence, not addon
+playtest or measured-route certification.
+
 The subsequent [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md)
 documents the newer review.3 package, observation consumption and fresh browser checks. Earlier
 review.2 ZIP and audit identities below are historical receipts, not the latest recorder.
@@ -148,12 +152,12 @@ pickup boundaries, personal eligibility/party credit, full lifecycle observation
 the full Horde itinerary and explicit source approval remain distinct follow-ups. The observation
 consumer has since been implemented; its receipt does not replace actual in-game evidence.
 
-Production remains unchanged by this task. Deploy only from a reviewed, pushed source revision;
+The later browser test release uses a reviewed, pushed source revision. For further releases,
 merge these normalized quest pairs through the existing publisher, preserve conflicting/newer
 public records, and verify the web guide reads the same XP snapshot as the audit. Do not activate
 the review ZIP as a public download before its bounded install/parser/tracking/reload checks pass.
 
-The subsequent read-only server check found the web `current` symlink at
+The pre-deployment read-only server check found the web `current` symlink at
 `/home/wow-trader-system/releases/kfc-helper-item-skills-source-20261019-4d043d3` and the world snapshot
 at `wow-classic-beta-70205-extractor-0.4.0-fb8e9cb7`. These are observed deployment path identities,
 not proof that the local leveling changes were deployed. Preserve that newer web baseline when
