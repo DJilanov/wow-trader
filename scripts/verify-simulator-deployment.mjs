@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { Buffer } from "node:buffer";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
 import process from "node:process";
 import { pathToFileURL, URL } from "node:url";
@@ -104,7 +104,10 @@ export async function verifySimulatorDeployment(
   };
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(await realpath(resolve(process.argv[1]))).href
+) {
   const args = process.argv.slice(2);
   assert.equal(args.length, 2, "Supply --base-url=<url> --artifact-root=<directory>");
   assert(args[0].startsWith("--base-url=") && args[1].startsWith("--artifact-root="));

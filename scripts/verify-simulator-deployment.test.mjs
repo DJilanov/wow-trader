@@ -1,14 +1,34 @@
 import assert from "node:assert/strict";
 import { Buffer } from "node:buffer";
+import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
-import { URL } from "node:url";
+import { fileURLToPath, URL } from "node:url";
+import { promisify } from "node:util";
+import process from "node:process";
 import { verifySimulatorDeployment } from "./verify-simulator-deployment.mjs";
 
 const hash = (value) => createHash("sha256").update(value).digest("hex");
+
+test("the CLI executes through a deployment symlink instead of silently succeeding", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "kfc-gate-symlink-"));
+  try {
+    const alias = join(directory, "current-check.mjs");
+    await symlink(
+      fileURLToPath(new URL("./verify-simulator-deployment.mjs", import.meta.url)),
+      alias,
+    );
+    await assert.rejects(
+      promisify(execFile)(process.execPath, [alias]),
+      (error) => error.code !== 0 && /Supply --base-url/.test(error.stderr),
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
 
 async function fixture(run) {
   const artifactRoot = await mkdtemp(join(tmpdir(), "kfc-deployment-gate-"));
