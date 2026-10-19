@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LevelingSetup } from "../../../components/leveling-setup";
 import { JsonLd } from "../../../components/json-ld";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
@@ -61,9 +62,9 @@ export default async function ForeverLevelingPage(): Promise<React.JSX.Element> 
       <noscript>
         <p className={styles.notice}>
           Character setup needs JavaScript. You can still{" "}
-          <a href="/forever/leveling/routes/alliance-human/chapters/chapter-125-13-15-westfall?edition=kfc">
+          <Link href="/forever/leveling/routes/alliance-human/chapters/chapter-125-13-15-westfall?edition=kfc">
             read the original Westfall preview
-          </a>{" "}
+          </Link>{" "}
           without creating an account.
         </p>
       </noscript>

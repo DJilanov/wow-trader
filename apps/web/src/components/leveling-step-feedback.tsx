@@ -8,6 +8,7 @@ import {
   feedbackCategoryLabels,
   levelingFeedbackSchema,
 } from "../lib/leveling-feedback";
+import { withHelperBasePath } from "../lib/site-path";
 import styles from "./leveling-experience.module.css";
 
 interface FeedbackProps {
@@ -53,7 +54,7 @@ export function LevelingStepFeedback({
     setStatus("sending");
     setNotice(null);
     try {
-      const response = await fetch("/api/v1/leveling-feedback", {
+      const response = await fetch(withHelperBasePath("/api/v1/leveling-feedback"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),

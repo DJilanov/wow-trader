@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { levelingRewardPreviewSchema, type LevelingRewardPreview } from "../lib/leveling-rewards";
+import { withHelperBasePath } from "../lib/site-path";
 
 interface PreviewProps {
   readonly itemId: number;
@@ -17,7 +18,7 @@ export function LevelingRewardPreviewCard({ itemId, name }: PreviewProps): React
     if (state.kind === "loading" || state.kind === "ready") return;
     setState({ kind: "loading" });
     try {
-      const response = await fetch(`/api/v1/leveling-rewards/${itemId}`, {
+      const response = await fetch(withHelperBasePath(`/api/v1/leveling-rewards/${itemId}`), {
         credentials: "same-origin",
         signal: AbortSignal.timeout(15000),
       });

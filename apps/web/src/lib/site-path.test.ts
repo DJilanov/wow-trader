@@ -4,6 +4,12 @@ import manifest from "../app/manifest";
 import { HELPER_BASE_PATH, withHelperBasePath } from "./site-path";
 
 describe("Helper base path", () => {
+  it.each(["/api/v1/leveling-rewards/4604", "/api/v1/leveling-feedback"])(
+    "keeps guide request %s under the tools mount",
+    (path: string) => {
+      expect(withHelperBasePath(path)).toBe(`/tools${path}`);
+    },
+  );
   it("prefixes application routes and preserves query strings", () => {
     expect(withHelperBasePath("/forever/encyclopedia?type=recipe")).toBe(
       "/tools/forever/encyclopedia?type=recipe",

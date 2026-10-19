@@ -62,9 +62,35 @@ describe("durable leveling feedback endpoint", () => {
     expect(store).not.toHaveBeenCalled();
   });
   it("allows the configured HTTPS origin behind the loopback proxy", async () => {
+    expect((await POST(request(report, { origin: "https://kfcguild.online" }))).status).toBe(201);
     expect((await POST(request(report, { origin: "https://helper.kfcguild.online" }))).status).toBe(
       201,
     );
+  });
+  it("does not broaden the canonical origin to paths, lookalikes or cross-site posts", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    try {
+      for (const origin of [
+        "https://kfcguild.online.evil.example",
+        "https://kfcguild.online/tools",
+        "http://kfcguild.online",
+        "https://kfcguild.online:444",
+      ])
+        expect((await POST(request(report, { origin }))).status).toBe(403);
+      expect(
+        (
+          await POST(
+            request(report, {
+              origin: "https://kfcguild.online",
+              "sec-fetch-site": "cross-site",
+            }),
+          )
+        ).status,
+      ).toBe(403);
+      expect(store).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
   it("allows only known development loopback aliases on the matching port", async () => {
     expect((await POST(request(report, { origin: "http://127.0.0.1:3000" }))).status).toBe(201);
