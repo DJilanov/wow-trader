@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import type { ForeverMapDirectoryEntry } from "../lib/forever-world";
+import { withHelperBasePath } from "../lib/site-path";
 
 interface ForeverMapDirectoryProps {
   readonly buildNumber: number;
@@ -129,7 +130,7 @@ function MapCard({
 }): React.JSX.Element {
   const style = map.previewFileDataId
     ? ({
-        "--forever-map-preview": `url("/api/forever-map-media/${map.previewFileDataId}?v=${buildNumber}")`,
+        "--forever-map-preview": `url("${withHelperBasePath(`/api/forever-map-media/${map.previewFileDataId}?v=${buildNumber}`)}")`,
       } as React.CSSProperties)
     : undefined;
   return (

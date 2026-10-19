@@ -13,6 +13,10 @@ Two independent failures affected public pages while their HTML still returned H
   HTTP 400 even though the source artwork existed under `/tools/wow-assets`. These components
   now use the existing idempotent `withHelperBasePath` helper. Simulator class artwork already
   used the correct paths. This issue is separate from catalog item PNG extraction.
+- The expanded audit also found extensionless race-icon API URLs missing that prefix. The
+  shared icon component, directory map previews, Leaflet tiles and leveling SVG tiles/image
+  probes now address `/tools/api/...` explicitly. The asset smoke checks every declared image,
+  including URLs without a filename extension; an HTML response is not accepted as an image.
 
 Two navigation boundaries also required corrections. The guild header must perform a document
 navigation into the independently deployed `/tools` app. Next's guild router cannot consume the

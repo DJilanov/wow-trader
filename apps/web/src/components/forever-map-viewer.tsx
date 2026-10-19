@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
+import { withHelperBasePath } from "../lib/site-path";
 
 interface MapTile {
   readonly tileId: number;
@@ -110,7 +111,7 @@ export function ForeverMapViewer({
         const right = left + tileWidth;
         leaflet
           .imageOverlay(
-            `/api/forever-map-media/${tile.fileDataId}?v=${buildNumber}`,
+            withHelperBasePath(`/api/forever-map-media/${tile.fileDataId}?v=${buildNumber}`),
             [
               [height - bottom, left],
               [height - top, right],
