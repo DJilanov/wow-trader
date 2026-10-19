@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { ItemDetail } from "../lib/data";
+import type { SupportedClientProduct } from "../lib/game-versions";
 import {
   bindingText,
   calculateWeaponDps,
@@ -22,6 +23,7 @@ interface ItemTooltipProps {
   readonly item: ItemDetail;
   readonly viewerClassId: number | null;
   readonly viewerLevel: number | null;
+  readonly product: SupportedClientProduct;
 }
 
 interface ItemTooltipContentProps {
@@ -36,6 +38,7 @@ export function ItemTooltip({
   item,
   viewerClassId,
   viewerLevel,
+  product,
 }: ItemTooltipProps): React.JSX.Element {
   const unresolvedEffects = [...item.effects, ...(item.itemSet?.effects ?? [])].filter(
     (effect) => !formatItemEffect(effect).exact,
@@ -43,7 +46,12 @@ export function ItemTooltip({
 
   return (
     <div className="item-inspection">
-      <ItemIcon fileDataId={item.iconFileDataId} quality={item.quality} size="large" />
+      <ItemIcon
+        fileDataId={item.iconFileDataId}
+        product={product}
+        quality={item.quality}
+        size="large"
+      />
       <ItemTooltipContent
         item={item}
         viewerClassId={viewerClassId}

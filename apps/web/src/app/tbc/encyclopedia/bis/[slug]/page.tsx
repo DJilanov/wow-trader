@@ -8,6 +8,7 @@ import { ItemIcon } from "../../../../../components/item-icon";
 import { JsonLd } from "../../../../../components/json-ld";
 import { getTbcBisCatalog } from "../../../../../lib/bis-catalog";
 import { getTbcBisList, TBC_BIS_CLASSES } from "../../../../../lib/bis-directory";
+import { TBC_CLIENT_PRODUCT } from "../../../../../lib/game-versions";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -196,7 +197,12 @@ export default async function BisPage({ params }: BisPageProps): Promise<React.J
 function CandidateItem({ item }: { readonly item: AdaptedCatalogItem }): React.JSX.Element {
   return (
     <Link href={`/tbc/encyclopedia/items/${item.itemId}`}>
-      <ItemIcon fileDataId={item.iconFileDataId} quality={item.quality} size="small" />
+      <ItemIcon
+        fileDataId={item.iconFileDataId}
+        product={TBC_CLIENT_PRODUCT}
+        quality={item.quality}
+        size="small"
+      />
       <span>
         <strong>{item.name}</strong>
         <small>

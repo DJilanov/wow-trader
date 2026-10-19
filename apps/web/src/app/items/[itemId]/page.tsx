@@ -151,8 +151,16 @@ export async function CatalogItemPage({
             </form>
           </section>
 
-          <ItemTooltip item={item} viewerClassId={viewer.classId} viewerLevel={viewer.level} />
-          <CatalogReference record={itemReferenceMatchesClient(reference, item) ? reference : null} clientItem={item} />
+          <ItemTooltip
+            item={item}
+            product={config.clientProduct}
+            viewerClassId={viewer.classId}
+            viewerLevel={viewer.level}
+          />
+          <CatalogReference
+            record={itemReferenceMatchesClient(reference, item) ? reference : null}
+            clientItem={item}
+          />
 
           <section className="detail-grid">
             <div className="panel">

@@ -1,17 +1,20 @@
 import Link from "next/link";
 
 import type { RecipeDetail } from "../lib/data";
+import type { SupportedClientProduct } from "../lib/game-versions";
 import type { ProductionMaterialNode, ProductionMethodNode } from "../lib/production-chain";
 import { ItemIcon } from "./item-icon";
 
 interface ProductionChainProps {
   readonly recipe: RecipeDetail;
   readonly encyclopediaBasePath?: string;
+  readonly product: SupportedClientProduct;
 }
 
 export function ProductionChain({
   recipe,
   encyclopediaBasePath = "/tbc/encyclopedia",
+  product,
 }: ProductionChainProps): React.JSX.Element {
   return (
     <section className="production-chain-section" aria-labelledby="production-chain-heading">
@@ -44,6 +47,7 @@ export function ProductionChain({
               material={material}
               depth={0}
               encyclopediaBasePath={encyclopediaBasePath}
+              product={product}
             />
           </li>
         ))}
@@ -69,6 +73,7 @@ export function ProductionChain({
                   fileDataId={output.iconFileDataId}
                   quality={output.quality ?? 0}
                   size="small"
+                  product={product}
                 />
                 <span>
                   <strong>{formatOutputQuantity(output)}</strong> {output.itemName}
@@ -88,10 +93,12 @@ function MaterialBranch({
   material,
   depth,
   encyclopediaBasePath,
+  product,
 }: {
   readonly material: ProductionMaterialNode;
   readonly depth: number;
   readonly encyclopediaBasePath: string;
+  readonly product: SupportedClientProduct;
 }): React.JSX.Element {
   const eligibleMethods = material.methods.filter((method) => method.economicEligible);
   const timeGatedMethods = material.methods.filter((method) => method.timeGated);
@@ -107,7 +114,12 @@ function MaterialBranch({
     0;
   const summary = (
     <>
-      <ItemIcon fileDataId={material.iconFileDataId} quality={material.quality} size="small" />
+      <ItemIcon
+        fileDataId={material.iconFileDataId}
+        product={product}
+        quality={material.quality}
+        size="small"
+      />
       <span className="production-material-name">
         <strong>
           {material.requiredQuantity}× {material.name}
@@ -151,6 +163,7 @@ function MaterialBranch({
           methods={eligibleMethods}
           depth={depth}
           encyclopediaBasePath={encyclopediaBasePath}
+          product={product}
         />
         {uncertainMethods.length > 0 ? (
           <details className="production-excluded-group">
@@ -162,6 +175,7 @@ function MaterialBranch({
               methods={uncertainMethods}
               depth={depth}
               encyclopediaBasePath={encyclopediaBasePath}
+              product={product}
             />
           </details>
         ) : null}
@@ -175,6 +189,7 @@ function MaterialBranch({
               methods={timeGatedMethods}
               depth={depth}
               encyclopediaBasePath={encyclopediaBasePath}
+              product={product}
             />
           </details>
         ) : null}
@@ -188,6 +203,7 @@ function MaterialBranch({
               methods={cyclicMethods}
               depth={depth}
               encyclopediaBasePath={encyclopediaBasePath}
+              product={product}
             />
           </details>
         ) : null}
@@ -207,10 +223,12 @@ function MethodGroup({
   methods,
   depth,
   encyclopediaBasePath,
+  product,
 }: {
   readonly methods: readonly ProductionMethodNode[];
   readonly depth: number;
   readonly encyclopediaBasePath: string;
+  readonly product: SupportedClientProduct;
 }): React.JSX.Element | null {
   if (methods.length === 0) return null;
   return (
@@ -218,7 +236,12 @@ function MethodGroup({
       {methods.map((method, index) => (
         <div key={method.methodId} className="production-method-option">
           {index > 0 ? <span className="production-or">OR</span> : null}
-          <MethodFlow method={method} depth={depth} encyclopediaBasePath={encyclopediaBasePath} />
+          <MethodFlow
+            method={method}
+            depth={depth}
+            encyclopediaBasePath={encyclopediaBasePath}
+            product={product}
+          />
         </div>
       ))}
     </div>
@@ -229,10 +252,12 @@ function MethodFlow({
   method,
   depth,
   encyclopediaBasePath,
+  product,
 }: {
   readonly method: ProductionMethodNode;
   readonly depth: number;
   readonly encyclopediaBasePath: string;
+  readonly product: SupportedClientProduct;
 }): React.JSX.Element {
   return (
     <div className={`production-method ${method.timeGated ? "is-time-gated" : ""}`}>
@@ -244,6 +269,7 @@ function MethodFlow({
             material={input}
             depth={depth + 1}
             encyclopediaBasePath={encyclopediaBasePath}
+            product={product}
           />
         ))}
       </div>
@@ -267,6 +293,7 @@ function MethodFlow({
             fileDataId={method.output.iconFileDataId}
             quality={method.output.quality}
             size="small"
+            product={product}
           />
           <span>
             <strong>{method.producedQuantity ?? formatMethodOutput(method)}×</strong>{" "}

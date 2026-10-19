@@ -124,7 +124,7 @@ internal sealed class ArtifactWriter
         DateTimeOffset.UtcNow,
         new HotfixManifest(hotfixStatus, hotfixHash),
         new DefinitionsManifest("wowdev/WoWDBDefs", options.DefinitionsRevision),
-        new ExtractorManifest("wow-trader-extractor", "0.4.0", options.ExtractorRevision),
+        new ExtractorManifest("wow-trader-extractor", "0.5.0", options.ExtractorRevision),
         rawArtifacts,
         normalizedArtifacts);
     WriteJson("manifest.json", manifest);

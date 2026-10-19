@@ -156,6 +156,7 @@ export async function CatalogDirectoryPage({
           <EncyclopediaResults
             data={data}
             encyclopediaBasePath={config.encyclopediaBasePath}
+            product={config.clientProduct}
             resultCount={resultCount}
           />
         ) : data.searched ? (
@@ -271,10 +272,12 @@ function roleLabel(role: "damage" | "healing" | "tank"): string {
 function EncyclopediaResults({
   data,
   encyclopediaBasePath,
+  product,
   resultCount,
 }: {
   readonly data: EncyclopediaData;
   readonly encyclopediaBasePath: string;
+  readonly product: CatalogPageConfig["clientProduct"];
   readonly resultCount: number;
 }): React.JSX.Element {
   return (
@@ -296,7 +299,12 @@ function EncyclopediaResults({
                   className="encyclopedia-item-card"
                   href={`${encyclopediaBasePath}/items/${item.itemId}`}
                 >
-                  <ItemIcon fileDataId={item.iconFileDataId} quality={item.quality} size="large" />
+                  <ItemIcon
+                    fileDataId={item.iconFileDataId}
+                    product={product}
+                    quality={item.quality}
+                    size="large"
+                  />
                   <span>
                     <strong>{item.name}</strong>
                     <small>

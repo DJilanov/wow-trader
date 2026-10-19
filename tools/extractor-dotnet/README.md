@@ -23,7 +23,7 @@ SHA-256 in the manifest. Normalized records are sorted by stable IDs before comp
 descriptors are deterministic for the same inputs. `extractedAt` intentionally makes the enclosing
 manifest itself differ across runs.
 
-Snapshot schema v3 normalizes the following build facts:
+Snapshot schema v4 normalizes the following build facts:
 
 ```text
 SkillLine + SkillLineAbility -> profession and recipe candidates
@@ -33,6 +33,7 @@ ItemEffect                   -> teaching item relationships
 SpellCastTimes               -> craft time
 SpellCooldowns/Categories    -> direct and shared cooldowns
 Item + ItemSparse            -> item facts and teaching skill requirements
+ItemModifiedAppearance + ItemAppearance -> fallback item icons when Item.IconFileDataID is absent
 Item stats/damage/resistance -> ordered combat facts and weapon inputs
 ItemSet + ItemSetSpell       -> sets, members, thresholds, and bonus spells
 ItemEffect + spell tables    -> item use/equip/proc relationships and display evidence
@@ -47,6 +48,10 @@ The exact build may legitimately ship zero rows for an optional relationship fam
 still records that table and count so a later Forever build can activate the same contract without
 silently changing the archive shape. Every supported table is written as a base/effective raw pair;
 every normalized artifact is sorted and checksummed.
+
+Catalog extractor `0.5.0` keeps `Item.IconFileDataID` authoritative when it is present. When that
+field is absent, it deterministically selects the default modified appearance and uses
+`ItemAppearance.DefaultIconFileDataID`, retaining both joined source records in the item evidence.
 
 Run the pinned TBC validation with `pnpm extract:tbc`. The wrapper accepts these migration overrides:
 

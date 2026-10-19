@@ -73,6 +73,8 @@ if (args.FirstOrDefault() == "world-snapshot")
 var tableNames = new[]
 {
     "Item",
+    "ItemModifiedAppearance",
+    "ItemAppearance",
     "ItemSparse",
     "ItemSearchName",
     "ItemSet",

@@ -155,7 +155,7 @@ describe("auditCatalogSnapshot", () => {
       const report = await auditCatalogSnapshot(manifestPath);
 
       expect(report.valid).toBe(true);
-      expect(report.artifacts.verified).toBe(33);
+      expect(report.artifacts.verified).toBe(35);
       expect(report.items.normalizedRecords).toBe(1);
       expect(report.items.sourceIdsWithoutUsableName).toEqual({ count: 1, sampleIds: [2] });
       expect(report.items.sourceIdsMissingFromNormalized.count).toBe(0);
@@ -176,6 +176,22 @@ describe("auditCatalogSnapshot", () => {
 
       expect(report.valid).toBe(false);
       expect(report.items.sourceIdsMissingFromNormalized).toEqual({ count: 1, sampleIds: [1] });
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+
+  it("audits an item icon resolved from its default appearance", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "wow-trader-catalog-audit-"));
+    try {
+      const fixture = createAppearanceIconAuditFixture();
+      const manifestPath = await writeAuditSnapshot(directory, fixture.normalizedItems, fixture);
+
+      const report = await auditCatalogSnapshot(manifestPath);
+
+      expect(report.valid).toBe(true);
+      expect(report.items.normalizedFieldMismatches.count).toBe(0);
+      expect(report.items.rawRecordMismatches.count).toBe(0);
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
@@ -393,6 +409,8 @@ function createSpell(spellId: number, name: string): CatalogBundle["spells"][num
 
 interface ItemAuditFixture {
   readonly itemRows: readonly Record<string, unknown>[];
+  readonly modifiedAppearanceRows: readonly Record<string, unknown>[];
+  readonly appearanceRows: readonly Record<string, unknown>[];
   readonly sparseRows: readonly Record<string, unknown>[];
   readonly searchNameRows: readonly Record<string, unknown>[];
   readonly normalizedItems: readonly CatalogItem[];
@@ -464,13 +482,52 @@ function createItemAuditFixture(): ItemAuditFixture {
       item,
       itemSparse: sparse,
       itemSearchName: null,
+      itemModifiedAppearance: null,
+      itemAppearance: null,
     },
   };
   return {
     itemRows: [item, unnamedItem],
+    modifiedAppearanceRows: [],
+    appearanceRows: [],
     sparseRows: [sparse],
     searchNameRows: [],
     normalizedItems: [normalizedItem],
+  };
+}
+
+function createAppearanceIconAuditFixture(): ItemAuditFixture {
+  const fixture = createItemAuditFixture();
+  const item = { ...fixture.itemRows[0], IconFileDataID: 0 };
+  const modifiedAppearance = {
+    id: 310_952,
+    ItemID: 1,
+    ItemAppearanceModifierID: 0,
+    ItemAppearanceID: 133_306,
+    OrderIndex: 0,
+  };
+  const appearance = {
+    id: 133_306,
+    DefaultIconFileDataID: 7_731_377,
+  };
+  return {
+    ...fixture,
+    itemRows: [item, fixture.itemRows[1]!],
+    modifiedAppearanceRows: [modifiedAppearance],
+    appearanceRows: [appearance],
+    normalizedItems: [
+      {
+        ...fixture.normalizedItems[0]!,
+        iconFileDataId: 7_731_377,
+        rawRecord: {
+          item,
+          itemSparse: fixture.sparseRows[0],
+          itemSearchName: null,
+          itemModifiedAppearance: modifiedAppearance,
+          itemAppearance: appearance,
+        },
+      },
+    ],
   };
 }
 
@@ -499,6 +556,16 @@ async function writeAuditSnapshot(
       directory,
       "raw/ItemSearchName.effective.ndjson.gz",
       fixture.searchNameRows,
+    ),
+    "ItemModifiedAppearance.effective": await writeNdjsonArtifact(
+      directory,
+      "raw/ItemModifiedAppearance.effective.ndjson.gz",
+      fixture.modifiedAppearanceRows,
+    ),
+    "ItemAppearance.effective": await writeNdjsonArtifact(
+      directory,
+      "raw/ItemAppearance.effective.ndjson.gz",
+      fixture.appearanceRows,
     ),
   };
   const normalizedArtifactNames = [

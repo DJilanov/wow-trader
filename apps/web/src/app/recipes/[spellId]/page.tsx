@@ -122,6 +122,7 @@ export async function CatalogRecipePage({
                     >
                       <ItemIcon
                         fileDataId={input.iconFileDataId}
+                        product={config.clientProduct}
                         quality={input.quality}
                         size="small"
                       />
@@ -152,6 +153,7 @@ export async function CatalogRecipePage({
                     >
                       <ItemIcon
                         fileDataId={output.iconFileDataId}
+                        product={config.clientProduct}
                         quality={output.quality ?? 0}
                         size="small"
                       />
@@ -167,7 +169,11 @@ export async function CatalogRecipePage({
             </div>
           </section>
 
-          <ProductionChain recipe={recipe} encyclopediaBasePath={config.encyclopediaBasePath} />
+          <ProductionChain
+            recipe={recipe}
+            encyclopediaBasePath={config.encyclopediaBasePath}
+            product={config.clientProduct}
+          />
 
           <section className="detail-grid">
             <div className="panel">
@@ -207,6 +213,7 @@ export async function CatalogRecipePage({
                       >
                         <ItemIcon
                           fileDataId={item.iconFileDataId}
+                          product={config.clientProduct}
                           quality={item.quality}
                           size="small"
                         />

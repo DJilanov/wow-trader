@@ -35,6 +35,7 @@ internal sealed class CatalogNormalizer
   public NormalizedCatalog Normalize()
   {
     var itemRows = Index("Item");
+    var itemAppearanceRows = Index("ItemAppearance");
     var sparseRows = Index("ItemSparse");
     var searchNameRows = Index("ItemSearchName");
     var spellNameRows = Index("SpellName");
@@ -94,7 +95,10 @@ internal sealed class CatalogNormalizer
         .Select(candidate => GetInt(candidate.Ability, "SkillLine"))
         .ToHashSet();
     var professions = CreateProfessions(professionSkillLines, usedProfessionIds);
-    var items = CreateItems(itemRows, sparseRows, searchNameRows);
+    var appearanceIconEvidence = CreateAppearanceIconEvidence(
+        Rows("ItemModifiedAppearance"),
+        itemAppearanceRows);
+    var items = CreateItems(itemRows, sparseRows, searchNameRows, appearanceIconEvidence);
     var normalizedItemIds = items.Select(item => item.ItemId).ToHashSet();
     var spells = CreateSpells(
         spellNameRows,
@@ -394,7 +398,8 @@ internal sealed class CatalogNormalizer
   private static IReadOnlyList<CatalogItem> CreateItems(
       IReadOnlyDictionary<int, IReadOnlyDictionary<string, object?>> itemRows,
       IReadOnlyDictionary<int, IReadOnlyDictionary<string, object?>> sparseRows,
-      IReadOnlyDictionary<int, IReadOnlyDictionary<string, object?>> searchNameRows)
+      IReadOnlyDictionary<int, IReadOnlyDictionary<string, object?>> searchNameRows,
+      IReadOnlyDictionary<int, AppearanceIconEvidence> appearanceIconEvidence)
   {
     var ids = itemRows.Keys.Concat(sparseRows.Keys).Concat(searchNameRows.Keys).Distinct().Order();
     var items = new List<CatalogItem>();
@@ -409,7 +414,9 @@ internal sealed class CatalogNormalizer
       if (string.IsNullOrWhiteSpace(name)) continue;
 
       var requiredSkill = GetInt(sparse, "RequiredSkill");
-      var icon = GetInt(item, "IconFileDataID");
+      var directIcon = GetInt(item, "IconFileDataID");
+      appearanceIconEvidence.TryGetValue(id, out var appearanceIcon);
+      var icon = directIcon > 0 ? directIcon : appearanceIcon?.IconFileDataId ?? 0;
       var itemSetId = GetInt(sparse, "ItemSet");
       var limitCategoryId = GetInt(sparse, "LimitCategory");
       var socketBonusEnchantmentId = GetInt(sparse, "Socket_match_enchantment_ID");
@@ -455,9 +462,51 @@ internal sealed class CatalogNormalizer
             ["item"] = item,
             ["itemSparse"] = sparse,
             ["itemSearchName"] = searchName,
+            ["itemModifiedAppearance"] = directIcon > 0
+                ? null
+                : appearanceIcon?.ModifiedAppearance,
+            ["itemAppearance"] = directIcon > 0 ? null : appearanceIcon?.Appearance,
           }));
     }
     return items;
+  }
+
+  private static IReadOnlyDictionary<int, AppearanceIconEvidence> CreateAppearanceIconEvidence(
+      IReadOnlyList<IReadOnlyDictionary<string, object?>> modifiedAppearanceRows,
+      IReadOnlyDictionary<int, IReadOnlyDictionary<string, object?>> appearanceRows)
+  {
+    var selected = new Dictionary<int, AppearanceIconEvidence>();
+    var selectedRanks = new Dictionary<int, (int ModifierKind, int Order, int Modifier, int Relation)>();
+    foreach (var modifiedAppearance in modifiedAppearanceRows)
+    {
+      var itemId = GetInt(modifiedAppearance, "ItemID");
+      var appearanceId = GetInt(modifiedAppearance, "ItemAppearanceID");
+      if (itemId <= 0 || appearanceId <= 0 || !appearanceRows.TryGetValue(appearanceId, out var appearance))
+      {
+        continue;
+      }
+
+      var iconFileDataId = GetInt(appearance, "DefaultIconFileDataID");
+      if (iconFileDataId <= 0) continue;
+
+      var modifierId = Math.Max(0, GetInt(modifiedAppearance, "ItemAppearanceModifierID"));
+      var rank = (
+          ModifierKind: modifierId == 0 ? 0 : 1,
+          Order: Math.Max(0, GetInt(modifiedAppearance, "OrderIndex")),
+          Modifier: modifierId,
+          Relation: Math.Max(0, GetInt(modifiedAppearance, "id")));
+      if (selectedRanks.TryGetValue(itemId, out var selectedRank) && rank.CompareTo(selectedRank) >= 0)
+      {
+        continue;
+      }
+
+      selectedRanks[itemId] = rank;
+      selected[itemId] = new AppearanceIconEvidence(
+          iconFileDataId,
+          modifiedAppearance,
+          appearance);
+    }
+    return selected;
   }
 
   private static IReadOnlyList<CatalogSpell> CreateSpells(
@@ -1038,4 +1087,9 @@ internal sealed class CatalogNormalizer
       int MaximumQuantity,
       int ExpectedNumerator,
       int ExpectedDenominator);
+
+  private sealed record AppearanceIconEvidence(
+      int IconFileDataId,
+      IReadOnlyDictionary<string, object?> ModifiedAppearance,
+      IReadOnlyDictionary<string, object?> Appearance);
 }

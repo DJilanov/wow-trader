@@ -70,6 +70,23 @@ export async function auditCatalogSnapshot(
     manifest,
     "ItemSearchName.effective",
   );
+  const modifiedAppearanceRows = await loadOptionalRawTable(
+    snapshotDirectory,
+    manifest,
+    "ItemModifiedAppearance.effective",
+  );
+  const appearanceRows = await loadOptionalRawTable(
+    snapshotDirectory,
+    manifest,
+    "ItemAppearance.effective",
+  );
+  const appearanceIconEvidence = selectAppearanceIconEvidence(
+    modifiedAppearanceRows,
+    appearanceRows,
+  );
+  const auditsAppearanceIcons =
+    manifest.rawTables["ItemModifiedAppearance.effective"] !== undefined &&
+    manifest.rawTables["ItemAppearance.effective"] !== undefined;
 
   const sourceIds = new Set([...itemRows.keys(), ...sparseRows.keys(), ...searchNameRows.keys()]);
   const normalizableSourceIds = new Set(
@@ -92,13 +109,28 @@ export async function auditCatalogSnapshot(
     const item = itemRows.get(itemId);
     const sparse = sparseRows.get(itemId);
     const searchName = searchNameRows.get(itemId);
-    const expected = normalizeItemFields(itemId, item, sparse, searchName);
+    const directIconFileDataId = getInteger(item, "IconFileDataID");
+    const appearanceIcon =
+      directIconFileDataId > 0 ? undefined : appearanceIconEvidence.get(itemId);
+    const expected = normalizeItemFields(
+      itemId,
+      item,
+      sparse,
+      searchName,
+      appearanceIcon?.iconFileDataId ?? null,
+    );
     if (!sameNormalizedFields(actual, expected)) normalizedFieldMismatches.push(itemId);
 
     const rawRecordMatches =
       isDeepStrictEqual(actual.rawRecord.item, item ?? null) &&
       isDeepStrictEqual(actual.rawRecord.itemSparse, sparse ?? null) &&
-      isDeepStrictEqual(actual.rawRecord.itemSearchName, searchName ?? null);
+      isDeepStrictEqual(actual.rawRecord.itemSearchName, searchName ?? null) &&
+      (!auditsAppearanceIcons ||
+        (isDeepStrictEqual(
+          actual.rawRecord.itemModifiedAppearance,
+          appearanceIcon?.modifiedAppearance ?? null,
+        ) &&
+          isDeepStrictEqual(actual.rawRecord.itemAppearance, appearanceIcon?.appearance ?? null)));
     if (!rawRecordMatches) rawRecordMismatches.push(itemId);
   }
 
@@ -170,6 +202,16 @@ async function loadRawTable(
   return records;
 }
 
+async function loadOptionalRawTable(
+  snapshotDirectory: string,
+  manifest: CatalogSnapshotManifest,
+  name: string,
+): Promise<ReadonlyMap<number, JsonRecord>> {
+  return manifest.rawTables[name]
+    ? loadRawTable(snapshotDirectory, manifest, name)
+    : new Map<number, JsonRecord>();
+}
+
 async function verifyArtifact(
   snapshotDirectory: string,
   name: string,
@@ -222,9 +264,12 @@ function normalizeItemFields(
   item: JsonRecord | undefined,
   sparse: JsonRecord | undefined,
   searchName: JsonRecord | undefined,
+  appearanceIconFileDataId: number | null,
 ): Omit<CatalogItem, "rawRecord"> {
   const requiredSkill = getInteger(sparse, "RequiredSkill");
-  const iconFileDataId = getInteger(item, "IconFileDataID");
+  const directIconFileDataId = getInteger(item, "IconFileDataID");
+  const iconFileDataId =
+    directIconFileDataId > 0 ? directIconFileDataId : (appearanceIconFileDataId ?? 0);
   const optionalPositive = (field: string): number | null => {
     const value = getInteger(sparse, field);
     return value > 0 ? value : null;
@@ -271,6 +316,47 @@ function normalizeItemFields(
     sellPriceCopper: String(Math.max(0, getInteger(sparse, "SellPrice"))),
     iconFileDataId: iconFileDataId > 0 ? iconFileDataId : null,
   };
+}
+
+interface AppearanceIconEvidence {
+  readonly iconFileDataId: number;
+  readonly modifiedAppearance: JsonRecord;
+  readonly appearance: JsonRecord;
+  readonly rank: readonly [number, number, number, number];
+}
+
+function selectAppearanceIconEvidence(
+  modifiedAppearanceRows: ReadonlyMap<number, JsonRecord>,
+  appearanceRows: ReadonlyMap<number, JsonRecord>,
+): ReadonlyMap<number, AppearanceIconEvidence> {
+  const selected = new Map<number, AppearanceIconEvidence>();
+  for (const modifiedAppearance of modifiedAppearanceRows.values()) {
+    const itemId = getInteger(modifiedAppearance, "ItemID");
+    const appearanceId = getInteger(modifiedAppearance, "ItemAppearanceID");
+    const appearance = appearanceRows.get(appearanceId);
+    const iconFileDataId = getInteger(appearance, "DefaultIconFileDataID");
+    if (itemId <= 0 || appearanceId <= 0 || !appearance || iconFileDataId <= 0) continue;
+
+    const modifierId = Math.max(0, getInteger(modifiedAppearance, "ItemAppearanceModifierID"));
+    const rank = [
+      modifierId === 0 ? 0 : 1,
+      Math.max(0, getInteger(modifiedAppearance, "OrderIndex")),
+      modifierId,
+      Math.max(0, getInteger(modifiedAppearance, "id")),
+    ] as const;
+    const current = selected.get(itemId);
+    if (current && compareRanks(rank, current.rank) >= 0) continue;
+    selected.set(itemId, { iconFileDataId, modifiedAppearance, appearance, rank });
+  }
+  return selected;
+}
+
+function compareRanks(left: readonly number[], right: readonly number[]): number {
+  for (let index = 0; index < Math.min(left.length, right.length); index += 1) {
+    const difference = left[index]! - right[index]!;
+    if (difference !== 0) return difference;
+  }
+  return left.length - right.length;
 }
 
 function sameNormalizedFields(

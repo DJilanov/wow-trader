@@ -158,6 +158,11 @@ internal static class CatalogValidator
       ValidateTbcGoldenItem(catalog, issues);
       ValidateTbcGoldenTransformation(catalog, issues);
     }
+    if (string.Equals(build.Product, "wow_classic_beta", StringComparison.Ordinal) &&
+        build.BuildNumber == 70_450)
+    {
+      ValidateForeverGoldenAppearanceIcon(catalog, issues);
+    }
 
     var encryptedSections = tables.Values.Sum(table => table.EncryptedSectionCount);
     var encryptedRecords = tables.Values.Sum(table => table.EncryptedRecordCount);
@@ -195,6 +200,27 @@ internal static class CatalogValidator
             tables.ToDictionary(pair => pair.Key, pair => pair.Value.EffectiveRows.Count),
             encryptedSections,
             encryptedRecords),
+        issues);
+  }
+
+  private static void ValidateForeverGoldenAppearanceIcon(
+      NormalizedCatalog catalog,
+      ICollection<ValidationIssue> issues)
+  {
+    const int itemId = 277_026;
+    const int expectedIconFileDataId = 7_731_377;
+    var item = catalog.Items.FirstOrDefault(candidate => candidate.ItemId == itemId);
+    AddGoldenIssue(
+        item is not null,
+        "forever_golden_item_missing",
+        $"Forever appearance-backed item {itemId} is missing",
+        issues);
+    if (item is null) return;
+
+    AddGoldenIssue(
+        item.IconFileDataId == expectedIconFileDataId,
+        "forever_golden_appearance_icon_missing",
+        $"Forever item {itemId} must resolve appearance icon {expectedIconFileDataId}",
         issues);
   }
 
