@@ -38,7 +38,9 @@ import {
   transformationVersions,
   type WowTraderDatabase,
 } from "@wow-trader/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
+
+import { pruneSupersededCatalogBuilds } from "./retention.js";
 
 const INSERT_CHUNK_SIZE = 1_000;
 
@@ -51,6 +53,7 @@ export interface ImportCatalogResult {
   readonly snapshotKey: string;
   readonly duplicate: boolean;
   readonly published: boolean;
+  readonly prunedBuilds: number;
 }
 
 export async function importCatalog(
@@ -64,6 +67,9 @@ export async function importCatalog(
   }
 
   return database.transaction(async (transaction) => {
+    await transaction.execute(
+      sql`SELECT pg_advisory_xact_lock(hashtextextended(${`${bundle.manifest.product}:${bundle.manifest.locale}`}, 0))`,
+    );
     const [existing] = await transaction
       .select({ id: gameBuilds.id, status: gameBuilds.status })
       .from(gameBuilds)
@@ -71,19 +77,40 @@ export async function importCatalog(
       .limit(1);
     if (existing) {
       if (options.publish && existing.status === "review_required") {
+        const prunedBuilds = await pruneSupersededCatalogBuilds(transaction, {
+          currentBuildId: existing.id,
+          product: bundle.manifest.product,
+          locale: bundle.manifest.locale,
+          publishing: true,
+        });
         await transaction
           .update(gameBuilds)
           .set({ status: "published", publishedAt: new Date() })
           .where(eq(gameBuilds.id, existing.id));
+        return {
+          buildId: existing.id,
+          snapshotKey,
+          duplicate: true,
+          published: true,
+          prunedBuilds,
+        };
       } else if (options.publish && existing.status !== "published") {
         throw new Error(`Catalog build cannot be published from status ${existing.status}`);
       }
+
+      const prunedBuilds = await pruneSupersededCatalogBuilds(transaction, {
+        currentBuildId: existing.id,
+        product: bundle.manifest.product,
+        locale: bundle.manifest.locale,
+        publishing: options.publish,
+      });
 
       return {
         buildId: existing.id,
         snapshotKey,
         duplicate: true,
         published: options.publish || existing.status === "published",
+        prunedBuilds,
       };
     }
 
@@ -453,6 +480,13 @@ export async function importCatalog(
       },
     );
 
+    const prunedBuilds = await pruneSupersededCatalogBuilds(transaction, {
+      currentBuildId: build.id,
+      product: bundle.manifest.product,
+      locale: bundle.manifest.locale,
+      publishing: options.publish,
+    });
+
     await transaction
       .update(gameBuilds)
       .set({
@@ -466,6 +500,7 @@ export async function importCatalog(
       snapshotKey,
       duplicate: false,
       published: options.publish,
+      prunedBuilds,
     };
   });
 }
