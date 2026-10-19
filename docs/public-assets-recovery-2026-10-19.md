@@ -51,9 +51,11 @@ checks at 1440×1080 and 390×844 verified the guild Tools link, loaded leveling
 class switching, named Arms builds, Arms/two-hand combat runs, Back/Forward and reload with no
 engine asset failures. The model-aware deployment gate passed before activation and publicly
 afterward, preserving all 2,591 simulator items and the approved Warrior/Rogue/Hunter libraries.
-The Helper release is `public-navigation-20261019-r3`, exported from pushed commit `ff5b214`;
-the guild build is `.next-release-20261019-navigation-r1`. Only Helper web was restarted for the
-final release; ingestion remains pinned to its own release. Existing static chunks were retained
+The recovery candidate `public-navigation-20261019-r3` was exported from pushed commit `ff5b214`.
+The final active Helper release is `kfc-helper-item-skills-source-20261019-f953109`, which includes
+that commit; its icon, map and simulator-frame sources match the verified recovery candidate.
+The guild build is `.next-release-20261019-navigation-r1`. Only Helper web was restarted for the
+final Helper releases; ingestion remains pinned to its own release. Existing static chunks were retained
 for already-open tabs. The server's 768 MB runtime limit was insufficient for Next's build-time
 TypeScript worker, so only the build command used a 2 GB heap; runtime settings were unchanged.
 
