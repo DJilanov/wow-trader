@@ -15,11 +15,12 @@ export async function verifySiteAssets(pages) {
       signal: globalThis.AbortSignal.timeout(30_000),
     });
     if (!response.ok) throw new Error(`Page HTTP ${response.status}: ${page}`);
+    const documentUrl = new URL(response.url);
     const html = await response.text();
     let pageAssets = 0;
     for (const match of html.matchAll(/<(img|script|link)\b[^>]*\b(?:src|href)="([^"]+)"/gu)) {
       const asset = new URL(match[2].replaceAll("&amp;", "&"), response.url);
-      if (asset.origin !== pageUrl.origin) continue;
+      if (asset.origin !== documentUrl.origin) continue;
       const contentType = match[1] === "img" ? /^image\//iu : expectedContentType(asset.pathname);
       if (!contentType) continue;
       assets.set(asset.href, contentType);
