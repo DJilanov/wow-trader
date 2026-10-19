@@ -182,6 +182,8 @@ async function prepareRelease() {
     await mkdir(join(temporaryDirectory, "bin"));
     for (const script of [
       "catalog-guardian.mjs",
+      "catalog-guardian-state.mjs",
+      "catalog-review-approval.mjs",
       "catalog-runtime.mjs",
       "sync-production-media.sh",
       "verify-item-media.mjs",
@@ -207,6 +209,13 @@ async function prepareRelease() {
       "--output",
       join(temporaryDirectory, "extractor"),
     ]);
+    const catalogExtractor = join(temporaryDirectory, "extractor/WowTrader.Extractor");
+    const catalogExtractorVersionResult = await execute(catalogExtractor, ["--catalog-version"]);
+    const catalogExtractorVersion = catalogExtractorVersionResult.stdout.trim();
+    if (!/^\d+\.\d+\.\d+$/.test(catalogExtractorVersion))
+      throw new Error(
+        `Invalid catalog extractor version: ${catalogExtractorVersion || "missing"}.`,
+      );
     const revision = await execute("git", ["rev-parse", "HEAD"], { cwd: repositoryRoot });
     await writeFile(
       join(temporaryDirectory, "installation.json"),
@@ -217,6 +226,7 @@ async function prepareRelease() {
           arch: process.arch,
           nodeVersion: process.version,
           sourceRevision: revision.stdout.trim(),
+          catalogExtractorVersion,
           catalogRuntimeFingerprint: runtimeFingerprint,
         },
         null,

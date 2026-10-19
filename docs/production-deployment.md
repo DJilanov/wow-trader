@@ -335,6 +335,10 @@ are safe because the exact extracted snapshot replaces them atomically. Reagent,
 skill requirement, profession, recipe membership, or transformation changes stop in
 `review_required` and generate one macOS notification per build/hotfix pair.
 
+The installed guardian records its catalog extractor version. A published build/hotfix pair is
+considered current only when that version also matches; installing an extractor upgrade therefore
+forces a fresh extraction and the normal semantic-review gate even when the game files are unchanged.
+
 The guardian does not contain collector tokens or production database credentials. It uses the
 maintainer's existing batch SSH identity; PostgreSQL owner credentials remain in protected server
 environment files. Status is stored at

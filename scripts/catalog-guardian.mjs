@@ -26,6 +26,8 @@ import {
   verifyCatalogRuntime,
   verifyGuardianRelease,
 } from "./catalog-runtime.mjs";
+import { canReusePublishedCatalog } from "./catalog-guardian-state.mjs";
+import { resolveCatalogPromotionApproval } from "./catalog-review-approval.mjs";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const catalogCli = join(repositoryRoot, "packages/catalog/node_modules/.bin/tsx");
@@ -33,7 +35,7 @@ const guardianDirectory = join(homedir(), "Library/Application Support/WowTrader
 const statusPath = join(guardianDirectory, "status.json");
 const lockPath = join(guardianDirectory, "guardian.lock");
 let workRoot = repositoryRoot;
-/** @type {{catalogRuntimeFingerprint: string, sourceRevision: string} | null} */
+/** @type {{catalogExtractorVersion: string, catalogRuntimeFingerprint: string, sourceRevision: string} | null} */
 let installation = null;
 let definitionsSource = join(workRoot, ".cache/wowdbdefs/catalog-guardian-source");
 const defaultWowRoot = "/Applications/World of Warcraft";
@@ -74,6 +76,7 @@ async function loadInstallation() {
     metadata.schemaVersion !== "catalog-guardian-installation.v1" ||
     metadata.platform !== process.platform ||
     metadata.arch !== process.arch ||
+    !/^\d+\.\d+\.\d+$/.test(metadata.catalogExtractorVersion) ||
     !/^[a-f0-9]{64}$/.test(metadata.catalogRuntimeFingerprint) ||
     !/^[a-f0-9]{40}$/.test(metadata.sourceRevision)
   )
@@ -123,9 +126,12 @@ async function reconcile(options) {
 
   const published = await readPublishedCatalog(options);
   if (
-    published &&
-    published.buildNumber === installed.buildNumber &&
-    published.hotfixHash === hotfixHash
+    canReusePublishedCatalog(
+      published,
+      installed,
+      hotfixHash,
+      installation?.catalogExtractorVersion ?? null,
+    )
   ) {
     await updateStatus({
       state: "current",
@@ -169,6 +175,7 @@ async function reconcile(options) {
     locale: options.locale,
     hotfixHash,
     definitionsRevision,
+    extractorVersion: installation?.catalogExtractorVersion,
   });
   if (!targetManifest) {
     log(`Extracting ${installed.version} with definitions ${definitionsRevision.slice(0, 12)}.`);
@@ -248,7 +255,12 @@ async function reconcile(options) {
 
   const sourceManifest = await ensurePublishedManifest(options, published);
   const assessment = await assessPromotion(sourceManifest, targetManifest);
-  if (assessment.decision !== "auto_publish") {
+  const approval = resolveCatalogPromotionApproval(
+    assessment.decision,
+    await sha256File(targetManifest),
+    options.approvedManifestSha256,
+  );
+  if (!approval.approved) {
     await notifyReviewRequired(installed.buildNumber, hotfixHash);
     await updateStatus({
       state: "review_required",
@@ -273,13 +285,18 @@ async function reconcile(options) {
       definitionsRevision,
       manifestPath: targetManifest,
       assessment,
-      message: `Build ${installed.buildNumber} passed automatic promotion policy; dry run did not publish it.`,
+      approvedManifestSha256: approval.mode === "reviewed" ? approval.manifestSha256 : undefined,
+      promotionMode: approval.mode,
+      message:
+        approval.mode === "reviewed"
+          ? `Build ${installed.buildNumber} has an exact reviewed-manifest approval; dry run did not publish it.`
+          : `Build ${installed.buildNumber} passed automatic promotion policy; dry run did not publish it.`,
     });
     return;
   }
 
   const runtime = await ensureCatalogRuntime(options);
-  await publishCatalog(options, targetManifest, mediaDirectory, assessment, runtime);
+  await publishCatalog(options, targetManifest, mediaDirectory, assessment, approval, runtime);
 }
 
 function parseOptions(arguments_) {
@@ -291,6 +308,7 @@ function parseOptions(arguments_) {
   let deployRoot = defaultDeployRoot;
   let dryRun = true;
   let verifyTools = false;
+  let approvedManifestSha256;
   for (let index = 0; index < arguments_.length; index += 1) {
     const flag = arguments_[index];
     if (flag === "--publish") {
@@ -314,6 +332,7 @@ function parseOptions(arguments_) {
     else if (flag === "--region") region = value.toLowerCase();
     else if (flag === "--deploy-host") deployHost = value;
     else if (flag === "--deploy-root") deployRoot = value;
+    else if (flag === "--approve-manifest-sha256") approvedManifestSha256 = value;
     else throw new Error(`Unknown option: ${flag}`);
   }
   if (!/^[a-z0-9_]+$/.test(product)) throw new Error("Product contains unsupported characters.");
@@ -323,7 +342,19 @@ function parseOptions(arguments_) {
     throw new Error("Deploy host contains unsupported characters.");
   if (!/^\/home\/[A-Za-z0-9._/-]+$/.test(deployRoot) || deployRoot.includes(".."))
     throw new Error("Deploy root must be a safe path below /home.");
-  return { wowRoot, product, locale, region, deployHost, deployRoot, dryRun, verifyTools };
+  if (approvedManifestSha256 !== undefined && !/^[a-f0-9]{64}$/.test(approvedManifestSha256))
+    throw new Error("Reviewed catalog approval must be an exact lowercase SHA-256 fingerprint.");
+  return {
+    wowRoot,
+    product,
+    locale,
+    region,
+    deployHost,
+    deployRoot,
+    dryRun,
+    verifyTools,
+    approvedManifestSha256,
+  };
 }
 
 async function readInstalledBuild(wowRoot, product) {
@@ -407,7 +438,8 @@ async function findManifest(searchRoot, expected) {
         manifest.buildNumber === expected.buildNumber &&
         manifest.locale === expected.locale &&
         manifest.hotfix?.sha256 === expected.hotfixHash &&
-        manifest.definitions?.revision === expected.definitionsRevision
+        manifest.definitions?.revision === expected.definitionsRevision &&
+        (!expected.extractorVersion || manifest.extractor?.version === expected.extractorVersion)
       ) {
         return path;
       }
@@ -441,7 +473,7 @@ set -a
 set +a
 psql "$DATABASE_URL" --no-align --tuples-only --field-separator='|' \\
   --set=product="$3" --set=locale="$4" <<'SQL'
-SELECT id, build_number, client_version, COALESCE(hotfix_hash, ''), definitions_revision
+SELECT id, build_number, client_version, COALESCE(hotfix_hash, ''), definitions_revision, extractor_version
 FROM game_build
 WHERE product = :'product' AND locale = :'locale' AND status = 'published'
 ORDER BY published_at DESC NULLS LAST, created_at DESC
@@ -464,19 +496,33 @@ SQL
   );
   const line = result.stdout.trim().split(/\r?\n/).at(-1);
   if (!line) return null;
-  const [buildId, buildNumberText, clientVersion, hotfixHash, definitionsRevision] =
-    line.split("|");
+  const [
+    buildId,
+    buildNumberText,
+    clientVersion,
+    hotfixHash,
+    definitionsRevision,
+    extractorVersion,
+  ] = line.split("|");
   const buildNumber = Number(buildNumberText);
   if (
     !buildId ||
     !Number.isSafeInteger(buildNumber) ||
     !clientVersion ||
     !hotfixHash ||
-    !definitionsRevision
+    !definitionsRevision ||
+    !extractorVersion
   ) {
     throw new Error("Production returned malformed published-catalog metadata.");
   }
-  return { buildId, buildNumber, clientVersion, hotfixHash, definitionsRevision };
+  return {
+    buildId,
+    buildNumber,
+    clientVersion,
+    hotfixHash,
+    definitionsRevision,
+    extractorVersion,
+  };
 }
 
 async function ensurePublishedManifest(options, published) {
@@ -631,7 +677,14 @@ node "$2/dist/cli.js" audit "$4"
   }
 }
 
-async function publishCatalog(options, manifestPath, mediaDirectory, assessment, runtime) {
+async function publishCatalog(
+  options,
+  manifestPath,
+  mediaDirectory,
+  assessment,
+  approval,
+  runtime,
+) {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   const releaseName = makeReleaseName(
     manifest.product,
@@ -778,8 +831,13 @@ pm2 save >/dev/null
     definitionsRevision: manifest.definitions.revision,
     manifestPath,
     assessment,
+    approvedManifestSha256: approval.mode === "reviewed" ? approval.manifestSha256 : undefined,
+    promotionMode: approval.mode,
     publishedBuildId: published.buildId,
-    message: `Catalog build ${manifest.buildNumber} was automatically verified and published.`,
+    message:
+      approval.mode === "reviewed"
+        ? `Catalog build ${manifest.buildNumber} was explicitly reviewed and published.`
+        : `Catalog build ${manifest.buildNumber} was automatically verified and published.`,
   });
   await notify(`Catalog build ${manifest.buildNumber} published`, "WoW Trader crafting is ready.");
 }

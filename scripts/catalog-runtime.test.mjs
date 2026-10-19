@@ -11,6 +11,20 @@ import {
   writeCatalogRuntimeManifest,
   writeGuardianReleaseManifest,
 } from "./catalog-runtime.mjs";
+import { canReusePublishedCatalog } from "./catalog-guardian-state.mjs";
+
+test("published catalog reuse includes the extractor version", () => {
+  const published = {
+    buildNumber: 70_450,
+    hotfixHash: "hotfix",
+    extractorVersion: "0.4.0",
+  };
+  const installed = { buildNumber: 70_450 };
+
+  assert.equal(canReusePublishedCatalog(published, installed, "hotfix", "0.4.0"), true);
+  assert.equal(canReusePublishedCatalog(published, installed, "hotfix", "0.5.0"), false);
+  assert.equal(canReusePublishedCatalog(published, installed, "other", "0.4.0"), false);
+});
 
 /** @param {import('node:test').TestContext} t @returns {Promise<string>} */
 async function fixture(t) {

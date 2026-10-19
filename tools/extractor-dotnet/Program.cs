@@ -1,6 +1,12 @@
 using System.Security.Cryptography;
 using WowTrader.Extractor;
 
+if (args is ["--catalog-version"])
+{
+  Console.Out.WriteLine(ArtifactWriter.ExtractorVersion);
+  return;
+}
+
 if (args.FirstOrDefault() == "mechanics-snapshot")
 {
   try { MechanicsSnapshotCommand.Run(CliOptions.Parse(args)); }

@@ -7,6 +7,8 @@ namespace WowTrader.Extractor;
 
 internal sealed class ArtifactWriter
 {
+  internal const string ExtractorVersion = "0.5.0";
+
   private static readonly JsonSerializerOptions CompactJson = new()
   {
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -124,7 +126,7 @@ internal sealed class ArtifactWriter
         DateTimeOffset.UtcNow,
         new HotfixManifest(hotfixStatus, hotfixHash),
         new DefinitionsManifest("wowdev/WoWDBDefs", options.DefinitionsRevision),
-        new ExtractorManifest("wow-trader-extractor", "0.5.0", options.ExtractorRevision),
+        new ExtractorManifest("wow-trader-extractor", ExtractorVersion, options.ExtractorRevision),
         rawArtifacts,
         normalizedArtifacts);
     WriteJson("manifest.json", manifest);
