@@ -981,6 +981,20 @@ quest bundle in the first calculator. Do not present other reference rows as imp
   observations, not scans. Secret values are rejected before comparison; saved state is validated.
   `/reload` writes the normal SavedVariables file. Observer mock tests are in
   `apps/addon/KFCForeverGuides/Observer.test.lua`; they are not a live WoW compatibility claim.
+- Review packages also include the separate `GrindObserver.lua`. The guide allowlists and prints the
+  exact checkpoint ID; an opt-in session records the public XP bar, active/combat duration, party and
+  area context, contamination counters and bounded target-name kill mix. Raw SavedVariables require
+  explicit offline approval before `campaign-grind-evidence.v1` can enter an audit. Recording and
+  review are documented in `docs/forever-leveling-grind-evidence.md`.
+- Reward observations now use build-guarded sessions with exact package and private character
+  provenance. `campaign-quest-reward-evidence.v1` exports only reviewed exact-level facts and never
+  promotes a scaled observation to base XP. The audit and addon compiler accept it only for the same
+  runtime build; see `docs/forever-leveling-reward-evidence.md`.
+- `QuestObserver.lua` records bounded manual sessions for named-target, personal eligibility,
+  lifecycle, pickup-level and source-gate checks. A deterministic build-70450 plan contains 112 task
+  pairs across 65 quests. Explicit review redacts character and quest text, but observations do not
+  clear global route rules until the full required party/edition/lifecycle context exists; see
+  `docs/forever-leveling-quest-validation.md`.
 - Browser planning choices are schema/version-checked, saved locally and shareable in a URL without
   character identity. The ordered selected branch appears only after a positive, eligible comparison.
   The addon preview packages the default level-14 bundle; custom browser selections do not silently

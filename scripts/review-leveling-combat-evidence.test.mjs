@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { reviewCombatSavedVariables } from "./review-leveling-combat-evidence.mjs";
 
-function savedVariables(samples) {
+function savedVariables(samples, schemaVersion = 2) {
   const rows = samples
     .map(
       (entry, index) => `
@@ -23,7 +23,7 @@ function savedVariables(samples) {
     }`,
     )
     .join(",");
-  return `KFCForeverGuideEvidence = { ["schemaVersion"] = 2, ["combat"] = {${rows} } }`;
+  return `KFCForeverGuideEvidence = { ["schemaVersion"] = ${schemaVersion}, ["combat"] = {${rows} } }`;
 }
 
 test("groups controlled observations but requires explicit context approval", () => {
@@ -74,4 +74,9 @@ test("rejects executable Lua and obsolete observer output", () => {
       ),
     /current KFCForeverGuides observer/,
   );
+});
+
+test("accepts combat samples from the grind-capable observer schema", () => {
+  const review = reviewCombatSavedVariables(savedVariables([{ xp: 29 }], 3));
+  assert.equal(review.report.sampleCount, 1);
 });

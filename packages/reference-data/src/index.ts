@@ -8,11 +8,13 @@ export * from "./blizzard-api.js";
 export * from "./blizzard-collector.js";
 export * from "./questie-source.js";
 export * from "./questie-collector.js";
+export * from "./quest-reference.js";
 export { readQuestXpIndex, readPublishedQuestXp, publishQuestXpCycle } from "./quest-xp-store.js";
 export {
   readReferenceIndex,
   readApprovedReference,
   readPublishedReference,
+  readStagedReference,
   publishCollectedReferences,
   atomicJsonWrite,
 } from "./store.js";

@@ -135,11 +135,31 @@ describe("cumulative per-player route XP", () => {
   it("honors pickup gates and never counts unverified combat as proven coverage", () => {
     const route = { ...plan(), rewardFacts: [fact(300001, 250, { minimumLevel: 15 })] };
     expect(forecastCampaignXp(route, progress())[0]?.members[0]?.endpoint).toBeNull();
-    expect(
-      forecastCampaignXp(plan(), progress(16, 0), {
-        combat: [{ actionId: "first", xpByPlayer: [100, 100, 100, 100, 100] }],
-      })[0]?.members[0]?.status,
-    ).toBe("incomplete");
+    const member = forecastCampaignXp(plan(), progress(16, 0), {
+      combat: [{ actionId: "first", xpByPlayer: [100, 100, 100, 100, 100] }],
+    })[0]!.members[0]!;
+    expect(member.status).toBe("incomplete");
+    expect(member.issues.map((issue) => issue.code)).toContain("combat-scenario-estimated");
+    expect(member.evidence.combat).toBe("estimated");
+  });
+  it("exposes historical reward evidence as a structured, deduplicated issue", () => {
+    const route = {
+      ...plan(),
+      rewardFacts: [
+        fact(300001, 250, { evidenceKind: "historical-reference" }),
+        fact(300002, 400),
+        fact(300003, 70),
+      ],
+    };
+    const member = forecastCampaignXp(route, progress())[0]!.members[0]!;
+    expect(member.evidence.reward).toBe("estimated");
+    expect(member.issues).toContainEqual(
+      expect.objectContaining({
+        code: "reward-historical-estimate",
+        questId: 300001,
+        resolution: "offline-or-in-game",
+      }),
+    );
   });
   it("stops adding leveling XP at 60 even when another hand-in follows", () => {
     const route = {

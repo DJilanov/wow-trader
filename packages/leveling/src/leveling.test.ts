@@ -228,9 +228,13 @@ describe("original RestedXP compiler", () => {
     expect(output.lua).toContain(".complete 38,4");
     expect(output.lua).toContain(".turnin 96395");
     expect(output.lua).toContain(".xp 14");
+    expect(output.lua).toContain("/kfcguide grind level-fourteen");
+    expect(output.lua).toContain("namespace.grindCheckpoints = {");
+    expect(output.lua).toContain('namespace.compiler = "original-addon-20261019-v4"');
     expect(output.lua).not.toContain(".dungeon");
     expect(output.lua).not.toContain("#xprate");
     expect(output.toc).toContain("Dependencies: RXPGuides");
+    expect(output.toc).toContain("GrindObserver.lua");
     for (const step of WESTFALL_ROUTE.steps) expect(output.lua).toContain(`#label ${step.id}`);
   });
   it("rejects completion/turn-in before acceptance", () => {

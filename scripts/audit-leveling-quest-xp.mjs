@@ -24,6 +24,11 @@ import {
   combatManifestSchema,
   compileCampaignFunding,
   compileCampaignPickupGates,
+  CAMPAIGN_EVIDENCE_CATALOG,
+  campaignEvidenceIssueKey,
+  campaignGrindEvidenceSchema,
+  campaignQuestRewardEvidenceSchema,
+  mergeQuestRewardEvidence,
 } from "../packages/leveling/dist/index.js";
 import {
   readQuestXpIndex,
@@ -37,13 +42,15 @@ const args = rawArgs[0] === "--" ? rawArgs.slice(1) : rawArgs;
 if (
   args.some(
     (argument) =>
-      !/^--(?:destination|rewards|progress|combat)=.+/.test(argument) &&
+      !/^--(?:destination|rewards|progress|combat|grind-evidence|reward-evidence|runtime-build)=.+/.test(
+        argument,
+      ) &&
       !/^--reward-import=.+/.test(argument) &&
       argument !== "--require-covered",
   )
 )
   throw new Error(
-    "Use --destination=directory --rewards=published-directory [--reward-import=file] [--combat=combat-directory] [--progress=party-state.json] [--require-covered].",
+    "Use --destination=directory --rewards=published-directory [--reward-import=file] [--reward-evidence=file] [--combat=combat-directory] [--grind-evidence=file --runtime-build=number] [--progress=party-state.json] [--require-covered].",
   );
 const value = (name) =>
   args.find((argument) => argument.startsWith(`--${name}=`))?.slice(name.length + 3);
@@ -62,6 +69,9 @@ const manifest = guideArchiveManifestSchema.parse(
 );
 if (manifest.publication !== "authorized")
   throw new Error("Only authorized source archives can be audited.");
+const runtimeBuild = value("runtime-build") ? Number(value("runtime-build")) : manifest.targetBuild;
+if (!Number.isSafeInteger(runtimeBuild) || runtimeBuild <= 0)
+  throw new Error("Runtime build must be a positive integer.");
 const sources = [];
 for (const entry of manifest.chapters) {
   const reference = CHAPTER_REFERENCES.find((chapter) => chapter.id === entry.chapterId);
@@ -95,9 +105,18 @@ if (value("combat")) {
     throw new Error("Combat, rewards and guide builds do not match.");
   combatSnapshot = { manifest: combatManifest, dataset };
 }
+let grindEvidence = null;
+let grindEvidenceSha256 = null;
+if (value("grind-evidence")) {
+  const raw = await bounded(resolve(value("grind-evidence")), 8_000_000);
+  grindEvidence = campaignGrindEvidenceSchema.parse(JSON.parse(raw));
+  grindEvidenceSha256 = checksum(raw);
+  if (grindEvidence.measurements.some((measurement) => measurement.build !== runtimeBuild))
+    throw new Error("Grind evidence and runtime builds do not match.");
+}
 const index = await readQuestXpIndex(resolve(rewardsRoot));
-const facts = [],
-  recordHashes = [];
+let facts = [];
+const recordHashes = [];
 for (const entry of index?.records ?? []) {
   if (entry.game !== "forever") continue;
   const record = await readPublishedQuestXp(resolve(rewardsRoot), entry);
@@ -111,6 +130,7 @@ for (const entry of index?.records ?? []) {
     sourceUrl: record.sourceUrl,
     capturedAt: record.capturedAt,
     status: record.status,
+    evidenceKind: "published-forever",
   });
   recordHashes.push(entry.sha256);
 }
@@ -141,6 +161,17 @@ if (value("reward-import")) {
     byId.set(record.id, fallback);
     historicalRewardIds.push(record.id);
   }
+}
+let observedRewardEvidence = null;
+let observedRewardEvidenceSha256 = null;
+let observedRewardIds = [];
+if (value("reward-evidence")) {
+  const raw = await bounded(resolve(value("reward-evidence")), 8_000_000);
+  observedRewardEvidence = campaignQuestRewardEvidenceSchema.parse(JSON.parse(raw));
+  observedRewardEvidenceSha256 = checksum(raw);
+  const merged = mergeQuestRewardEvidence(facts, observedRewardEvidence, runtimeBuild);
+  facts = [...merged.facts];
+  observedRewardIds = [...merged.observedQuestIds];
 }
 let base = emptyPremadeProgress();
 for (let player = 0; player < base.members.length; player++)
@@ -202,7 +233,10 @@ for (const race of CAMPAIGN_RACES)
           difficultyPolicy,
           raidGoals,
           chapters: auditCampaignSections(plan, scenario),
-          sections: forecastCampaignXp(plan, scenario),
+          sections: forecastCampaignXp(plan, scenario, {
+            ...(grindEvidence ? { grindEvidence } : {}),
+            grindRuntimeBuild: runtimeBuild,
+          }),
         });
       }
     projections.push({
@@ -303,13 +337,112 @@ const routeHandIns = [
 const availableRewardIds = new Set(
   facts.filter((fact) => fact.status === "available").map((fact) => fact.questId),
 );
-const historicalRewardIdSet = new Set(historicalRewardIds);
+const observedRewardIdSet = new Set(observedRewardIds);
+const remainingHistoricalRewardIds = historicalRewardIds.filter(
+  (id) => !observedRewardIdSet.has(id),
+);
+const historicalRewardIdSet = new Set(remainingHistoricalRewardIds);
 const routeHistoricalRewardIds = routeHandIns.filter((id) => historicalRewardIdSet.has(id));
 const routePublishedRewardIds = routeHandIns.filter(
-  (id) => availableRewardIds.has(id) && !historicalRewardIdSet.has(id),
+  (id) =>
+    availableRewardIds.has(id) && !historicalRewardIdSet.has(id) && !observedRewardIdSet.has(id),
 );
+const routeObservedRewardIds = routeHandIns.filter((id) => observedRewardIdSet.has(id));
+const evidenceTasksByKey = new Map();
+for (const projection of projections)
+  for (const policy of projection.policies)
+    for (const chapter of policy.chapters) {
+      const members =
+        chapter.audience === "leader"
+          ? chapter.forecast.members.slice(0, 1)
+          : chapter.forecast.members;
+      for (const member of members)
+        for (const issue of member.issues) {
+          const key = campaignEvidenceIssueKey(issue);
+          const definition = CAMPAIGN_EVIDENCE_CATALOG[issue.code];
+          const current = evidenceTasksByKey.get(key) ?? {
+            key,
+            code: issue.code,
+            domain: issue.domain,
+            label: definition.label,
+            requiredEvidence: definition.requiredEvidence,
+            releaseImpact: definition.releaseImpact,
+            resolution: issue.resolution,
+            blocksForecast: issue.blocksForecast,
+            actionId: issue.actionId,
+            questId: issue.questId,
+            occurrences: 0,
+            editions: new Set(),
+            sections: new Set(),
+            scenarios: new Set(),
+            players: new Set(),
+            exampleMessages: new Set(),
+          };
+          if (
+            current.code !== issue.code ||
+            current.domain !== issue.domain ||
+            current.resolution !== issue.resolution
+          )
+            throw new Error(`Inconsistent campaign evidence task ${key}.`);
+          current.occurrences++;
+          current.editions.add(`${projection.race}:${projection.leaderClass ?? "general"}`);
+          current.sections.add(chapter.sectionId);
+          current.scenarios.add(
+            `${policy.difficultyPolicy}:${policy.raidGoals ? "raid-goals" : "no-raid-goals"}`,
+          );
+          current.players.add(member.player);
+          if (current.exampleMessages.size < 5) current.exampleMessages.add(issue.message);
+          evidenceTasksByKey.set(key, current);
+        }
+    }
+const evidenceTasks = [...evidenceTasksByKey.values()]
+  .map((task) => ({
+    ...task,
+    editions: [...task.editions].sort(),
+    sections: [...task.sections].sort(),
+    scenarios: [...task.scenarios].sort(),
+    players: [...task.players].sort((left, right) => left - right),
+    exampleMessages: [...task.exampleMessages],
+  }))
+  .sort(
+    (left, right) =>
+      ({ blocker: 0, validation: 1, measurement: 2 })[left.releaseImpact] -
+        { blocker: 0, validation: 1, measurement: 2 }[right.releaseImpact] ||
+      left.code.localeCompare(right.code) ||
+      left.key.localeCompare(right.key),
+  );
+const evidenceTaskCounts = Object.fromEntries(
+  ["blocker", "validation", "measurement"].map((impact) => [
+    impact,
+    evidenceTasks.filter((task) => task.releaseImpact === impact).length,
+  ]),
+);
+const evidenceBacklog = {
+  schema: "campaign-evidence-backlog.v1",
+  calculatorRevision: CAMPAIGN_XP_REVISION,
+  archiveSha256: manifest.sourceSha256,
+  targetBuild: manifest.targetBuild,
+  rewardIndexSha256: index?.sha256 ?? null,
+  summary: {
+    tasks: evidenceTasks.length,
+    byReleaseImpact: evidenceTaskCounts,
+    byResolution: Object.fromEntries(
+      ["offline", "in-game", "offline-or-in-game"].map((resolution) => [
+        resolution,
+        evidenceTasks.filter((task) => task.resolution === resolution).length,
+      ]),
+    ),
+    affectedEditions: new Set(evidenceTasks.flatMap((task) => task.editions)).size,
+    affectedSections: new Set(evidenceTasks.flatMap((task) => task.sections)).size,
+  },
+  tasks: evidenceTasks,
+};
+const evidenceBacklogSha256 = checksum(JSON.stringify(evidenceBacklog));
+const evidenceBacklogFile = `campaign-evidence-backlog-${evidenceBacklogSha256.slice(0, 16)}.json`;
+await mkdir(resolve(destination), { recursive: true });
+await atomicJsonWrite(join(resolve(destination), evidenceBacklogFile), evidenceBacklog);
 const report = {
-  schema: "campaign-xp-audit.v5",
+  schema: "campaign-xp-audit.v8",
   calculatorRevision: CAMPAIGN_XP_REVISION,
   mode: value("progress")
     ? "provided-party-state"
@@ -321,17 +454,26 @@ const report = {
   recordHashes,
   rewardEvidence: {
     publishedForeverFacts: facts.filter(
-      (fact) => fact.status === "available" && fact.evidenceKind !== "historical-reference",
+      (fact) => fact.status === "available" && fact.evidenceKind === "published-forever",
     ).length,
-    historicalEstimateFacts: historicalRewardIds.length,
-    historicalEstimateIds: historicalRewardIds.sort((left, right) => left - right),
+    observedForeverFacts: observedRewardIds.length,
+    observedForeverIds: observedRewardIds,
+    observedRuntimeBuild: observedRewardEvidence?.runtimeBuild ?? null,
+    observedFileSha256: observedRewardEvidenceSha256,
+    observerSourceSha256: observedRewardEvidence?.sourceSha256 ?? null,
+    historicalEstimateFacts: remainingHistoricalRewardIds.length,
+    historicalEstimateIds: remainingHistoricalRewardIds.sort((left, right) => left - right),
     importRevision: rewardImport?.revision ?? null,
     importSha256: rewardImport?.exportSha256 ?? null,
     routeHistoricalEstimateFacts: routeHistoricalRewardIds.length,
     routeHistoricalEstimateIds: routeHistoricalRewardIds,
+    routeObservedForeverFacts: routeObservedRewardIds.length,
+    routeObservedForeverIds: routeObservedRewardIds,
     status: routeHistoricalRewardIds.length
       ? "Historical addon-database values fill route hand-ins without published numeric Forever XP. They are estimates and cannot certify the route until observed or replaced by Forever-specific evidence."
-      : "No historical reward fallback is attached.",
+      : observedRewardIds.length
+        ? "Reviewed current-build hand-in observations replace historical fallbacks at their exact observed levels; full XP is used only when an observation is in the known full-reward band."
+        : "No historical reward fallback is attached.",
   },
   combat: {
     rule: GROUP_COMBAT_RULE,
@@ -347,8 +489,28 @@ const report = {
         : "Private combat references are attached for local diagnosis only and cannot pass the publication coverage gate."
       : "Conservative quest-only lower bound. No combat XP is granted without a validated compatible combat snapshot.",
   },
+  grindEvidence: {
+    sourceStatus: grindEvidence ? "reviewed" : "not-provided",
+    runtimeBuild,
+    fileSha256: grindEvidenceSha256,
+    observerSourceSha256: grindEvidence?.sourceSha256 ?? null,
+    measurements: grindEvidence?.measurements.length ?? 0,
+    checkpoints: grindEvidence
+      ? [...new Set(grindEvidence.measurements.map((measurement) => measurement.checkpointId))]
+          .length
+      : 0,
+    status: grindEvidence
+      ? "Explicitly reviewed grind sessions are attached only to matching build, release, party size, and checkpoints."
+      : "No reviewed adaptive-grind measurements are attached.",
+  },
   startingBranches:
     "All five players start at level 1. Player 1 follows each projected source branch; Players 2-5 complete their own personal branches and must record fresh actual bars at the shared rendezvous checkpoints. Unmodeled personal-branch XP remains explicit estimated checkpoint XP, never an assumed quest reward.",
+  evidenceBacklog: {
+    schema: evidenceBacklog.schema,
+    file: evidenceBacklogFile,
+    sha256: evidenceBacklogSha256,
+    ...evidenceBacklog.summary,
+  },
   summary: {
     editions: projections.length,
     scenarios: projections.reduce((sum, entry) => sum + entry.policies.length, 0),
@@ -370,6 +532,8 @@ const report = {
     ],
     uniqueHandInQuestIds: routeHandIns.length,
     publishedForeverHandInRewardIds: routePublishedRewardIds.length,
+    observedForeverHandInRewardIds: routeObservedRewardIds.length,
+    observedForeverHandInRewardQuestIds: routeObservedRewardIds,
     historicalHandInRewardIds: routeHistoricalRewardIds.length,
     historicalHandInRewardQuestIds: routeHistoricalRewardIds,
     availableHandInRewardIds: routeHandIns.filter((id) => availableRewardIds.has(id)).length,
@@ -377,6 +541,7 @@ const report = {
     chapterStatusCounts,
     memberStatusCounts,
     diagnosticAllMemberStatusCounts: diagnosticMemberStatusCounts,
+    evidenceTaskCounts,
     blockers: [...blockerCounts.entries()]
       .map(([reason, count]) => ({ reason, count }))
       .sort((left, right) => right.count - left.count || left.reason.localeCompare(right.reason)),
@@ -394,10 +559,9 @@ report.routeCoveragePassed = routeReady;
 report.publicationEvidencePassed = publicationReady;
 report.coverageGatePassed = ready;
 const hash = createHash("sha256").update(JSON.stringify(report)).digest("hex");
-await mkdir(resolve(destination), { recursive: true });
 const path = join(resolve(destination), `campaign-xp-audit-${hash.slice(0, 16)}.json`);
 await atomicJsonWrite(path, report);
 process.stdout.write(
-  `${JSON.stringify({ path, sha256: hash, ...report.summary, lifecycleExclusions: projections.reduce((sum, entry) => sum + entry.lifecycleExclusions.length, 0), xpFacts: facts.filter((fact) => fact.status === "available").length, historicalRewardEstimates: historicalRewardIds.length, mode: report.mode, coverageGatePassed: ready, coverage: ready ? "Offline reference budgets passed; this is not a playtest certification." : "Not certified; inspect each checkpoint's blockers, unknowns, estimates and deficits." })}\n`,
+  `${JSON.stringify({ path, sha256: hash, evidenceBacklog: join(resolve(destination), evidenceBacklogFile), evidenceBacklogSha256, ...report.summary, lifecycleExclusions: projections.reduce((sum, entry) => sum + entry.lifecycleExclusions.length, 0), xpFacts: facts.filter((fact) => fact.status === "available").length, observedRewardFacts: observedRewardIds.length, historicalRewardEstimates: remainingHistoricalRewardIds.length, mode: report.mode, coverageGatePassed: ready, coverage: ready ? "Offline reference budgets passed; this is not a playtest certification." : "Not certified; inspect the evidence backlog for exact blockers, validation work, and measurements." })}\n`,
 );
 if (args.includes("--require-covered") && !ready) process.exitCode = 2;

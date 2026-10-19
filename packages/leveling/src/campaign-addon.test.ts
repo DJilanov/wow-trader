@@ -127,12 +127,16 @@ describe("full campaign RestedXP compiler", () => {
     expect(first.lua).toContain("#forever");
     expect(first.lua).toContain("namespace.sourceBuild = 70205");
     expect(first.lua).toContain("namespace.runtimeBuild = 70450");
+    expect(first.lua).toContain('["party-xp"] = true');
     expect(first.lua.match(/\.accept 1 /g)).toHaveLength(1);
     expect(first.lua.match(/\.accept 2 /g)).toHaveLength(2);
     expect(first.lua.match(/\.xp 20\+1000/g)).toHaveLength(2);
+    expect(first.lua.match(/\/kfcguide grind party-xp/g)).toHaveLength(2);
     expect(first.lua).not.toContain("\n.accept 999");
     expect(first.lua).not.toContain("<< Rogue");
     expect(first.toc).toContain("## Interface: 16001");
+    expect(first.toc).toContain("GrindObserver.lua");
+    expect(first.readme).toContain("/kfcguide grind <checkpoint-id>");
     expect(first.readme).toContain("Other party members finish their own normal personal starter");
   });
 

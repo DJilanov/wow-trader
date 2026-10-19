@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import { chmod, mkdir, mkdtemp, readFile, rename, rm, utimes, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { compileGuides } from "./compiler.js";
+import { compileGuides, GUIDE_COMPILER_REVISION } from "./compiler.js";
 import { THANES_ROUTE, WESTFALL_ROUTE } from "./westfall.js";
 
 async function main(): Promise<void> {
@@ -18,6 +18,14 @@ async function main(): Promise<void> {
     "README.txt": compiled.readme,
     "Observer.lua": await readFile(
       path.join(repository, "apps/addon/KFCForeverGuides/Observer.lua"),
+      "utf8",
+    ),
+    "GrindObserver.lua": await readFile(
+      path.join(repository, "apps/addon/KFCForeverGuides/GrindObserver.lua"),
+      "utf8",
+    ),
+    "QuestObserver.lua": await readFile(
+      path.join(repository, "apps/addon/KFCForeverGuides/QuestObserver.lua"),
       "utf8",
     ),
   };
@@ -55,6 +63,7 @@ async function main(): Promise<void> {
     JSON.stringify(
       {
         schemaVersion: "kfc-leveling-artifact.v1",
+        compilerRevision: GUIDE_COMPILER_REVISION,
         releaseId: WESTFALL_ROUTE.id,
         version: WESTFALL_ROUTE.version,
         state: "preview",

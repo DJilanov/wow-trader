@@ -27,6 +27,8 @@ import {
   getLevelingRace,
   guideArchiveManifestSchema,
   importedChapterSchema,
+  campaignQuestRewardEvidenceSchema,
+  mergeQuestRewardEvidence,
 } from "../packages/leveling/dist/index.js";
 import {
   questXpImportSetSchema,
@@ -61,7 +63,7 @@ function parseArguments(raw) {
     const match = /^--([a-z-]+)=(.+)$/.exec(argument);
     if (!match || values.has(match[1]))
       throw new Error(
-        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--destination=dir --race=race --class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all].",
+        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--destination=dir --race=race --class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all].",
       );
     values.set(match[1], match[2]);
   }
@@ -69,6 +71,7 @@ function parseArguments(raw) {
     "archive",
     "rewards",
     "reward-import",
+    "reward-evidence",
     "destination",
     "race",
     "class",
@@ -102,6 +105,7 @@ function parseArguments(raw) {
     archive: resolve(values.get("archive")),
     rewards: resolve(values.get("rewards")),
     rewardImport: resolve(values.get("reward-import")),
+    rewardEvidence: values.has("reward-evidence") ? resolve(values.get("reward-evidence")) : null,
     destination: values.has("destination") ? resolve(values.get("destination")) : null,
     race: values.get("race"),
     leaderClass: values.get("class"),
@@ -139,7 +143,7 @@ async function loadSources(root) {
   return { manifest, sources };
 }
 
-async function loadRewardFacts(root, importPath) {
+async function loadRewardFacts(root, importPath, evidencePath, runtimeBuild) {
   const index = await readQuestXpIndex(root);
   if (!index) throw new Error("Published quest XP index is unavailable.");
   const facts = [];
@@ -184,29 +188,60 @@ async function loadRewardFacts(root, importPath) {
     byId.set(record.id, fallback);
     historicalIds.push(record.id);
   }
+  let observed = null;
+  let observedSha256 = null;
+  let observedIds = [];
+  if (evidencePath) {
+    const evidenceRaw = await bounded(evidencePath, MAXIMUM_IMPORT_BYTES);
+    observed = campaignQuestRewardEvidenceSchema.parse(JSON.parse(evidenceRaw));
+    observedSha256 = sha256(evidenceRaw);
+    const merged = mergeQuestRewardEvidence(facts, observed, runtimeBuild);
+    facts.splice(0, facts.length, ...merged.facts);
+    observedIds = [...merged.observedQuestIds];
+  }
+  const observedIdSet = new Set(observedIds);
+  const remainingHistoricalIds = historicalIds.filter((id) => !observedIdSet.has(id));
   return {
     facts,
-    historicalIds,
-    revision: `quest-xp-${sha256(`${JSON.stringify(index)}:${imported.exportSha256}:${imported.revision}`).slice(0, 24)}`,
+    historicalIds: remainingHistoricalIds,
+    observedIds,
+    observedSha256,
+    observedSourceSha256: observed?.sourceSha256 ?? null,
+    revision: `quest-xp-${sha256(`${JSON.stringify(index)}:${imported.exportSha256}:${imported.revision}:${observedSha256 ?? "no-observations"}`).slice(0, 24)}`,
     index,
     imported,
   };
 }
 
-async function writePackage(destination, releaseId, artifact, manifestBase) {
+async function loadObserverFiles() {
+  const [observer, grindObserver, questObserver] = await Promise.all([
+    readFile(resolve(import.meta.dirname, "../apps/addon/KFCForeverGuides/Observer.lua"), "utf8"),
+    readFile(
+      resolve(import.meta.dirname, "../apps/addon/KFCForeverGuides/GrindObserver.lua"),
+      "utf8",
+    ),
+    readFile(
+      resolve(import.meta.dirname, "../apps/addon/KFCForeverGuides/QuestObserver.lua"),
+      "utf8",
+    ),
+  ]);
+  return {
+    "Observer.lua": observer,
+    "GrindObserver.lua": grindObserver,
+    "QuestObserver.lua": questObserver,
+  };
+}
+
+async function writePackage(destination, releaseId, artifact, manifestBase, observerFiles) {
   await mkdir(destination, { recursive: true });
   const temporary = await mkdtemp(join(destination, ".campaign-addon-"));
   try {
     const addon = join(temporary, "KFCForeverGuides");
     await mkdir(addon);
-    const observer = await readFile(
-      resolve(import.meta.dirname, "../apps/addon/KFCForeverGuides/Observer.lua"),
-      "utf8",
-    );
     const files = {
       "Guides.lua": artifact.lua,
       "KFCForeverGuides.toc": artifact.toc,
-      "Observer.lua": observer,
+      ...observerFiles,
       "README.txt": artifact.readme,
     };
     const hashes = {};
@@ -268,7 +303,7 @@ async function main() {
   const input = parseArguments(process.argv.slice(2));
   const [{ manifest, sources }, rewards] = await Promise.all([
     loadSources(input.archive),
-    loadRewardFacts(input.rewards, input.rewardImport),
+    loadRewardFacts(input.rewards, input.rewardImport, input.rewardEvidence, input.runtimeBuild),
   ]);
   const compileEdition = (race, leaderClass) => {
     const base = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
@@ -277,9 +312,8 @@ async function main() {
         ...base,
         rewardFacts: rewards.facts,
         rewardRevision: rewards.revision,
-        rewardBuild: null,
-        rewardNotice:
-          "Historical fallback values remain estimates; this addon package is an in-game review artifact.",
+        rewardBuild: rewards.observedIds.length ? input.runtimeBuild : null,
+        rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. This addon package is an in-game review artifact.`,
       }),
     );
     const progress = { ...emptyPremadeProgress(), raidGoals: input.raidGoals };
@@ -344,6 +378,7 @@ async function main() {
   const historicalRouteIds = rewards.historicalIds
     .filter((id) => routeHandIns.has(id))
     .sort((left, right) => left - right);
+  const observerFiles = await loadObserverFiles();
   const semantic = {
     compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
     state: "review",
@@ -362,6 +397,9 @@ async function main() {
     rewardIndexPublishedAt: rewards.index.publishedAt,
     rewardImportRevision: rewards.imported.revision,
     rewardImportSha256: rewards.imported.exportSha256,
+    rewardEvidenceSha256: rewards.observedSha256,
+    rewardObserverSourceSha256: rewards.observedSourceSha256,
+    observedRewardIds: rewards.observedIds,
     historicalRouteIds,
     guideSummaries: artifact.guides,
     actionIds: actions.map((action) => action.id),
@@ -369,18 +407,27 @@ async function main() {
       toc: sha256(artifact.toc),
       lua: sha256(artifact.lua),
       readme: sha256(artifact.readme),
+      observer: sha256(observerFiles["Observer.lua"]),
+      grindObserver: sha256(observerFiles["GrindObserver.lua"]),
+      questObserver: sha256(observerFiles["QuestObserver.lua"]),
     },
   };
   const semanticSha256 = sha256(JSON.stringify(semantic));
   const releaseId = `kfc-premade5-${plan.race}-${plan.leaderClass}-${semanticSha256.slice(0, 16)}`;
-  const result = await writePackage(input.destination, releaseId, artifact, {
-    ...semantic,
-    semanticSha256,
-    actionCount: actions.length,
-    handInQuestCount: routeHandIns.size,
-    leaderGuideCount: artifact.guides.find((guide) => guide.role === "leader")?.names.length ?? 0,
-    partyGuideCount: artifact.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
-  });
+  const result = await writePackage(
+    input.destination,
+    releaseId,
+    artifact,
+    {
+      ...semantic,
+      semanticSha256,
+      actionCount: actions.length,
+      handInQuestCount: routeHandIns.size,
+      leaderGuideCount: artifact.guides.find((guide) => guide.role === "leader")?.names.length ?? 0,
+      partyGuideCount: artifact.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
+    },
+    observerFiles,
+  );
   process.stdout.write(
     `${JSON.stringify({ directory: result.directory, releaseId, reused: result.reused, semanticSha256, zip: result.manifest.zip, actionCount: actions.length, handInQuestCount: routeHandIns.size, historicalRouteIds, sourceBuild: plan.targetBuild, runtimeBuild: input.runtimeBuild, state: "review" })}\n`,
   );

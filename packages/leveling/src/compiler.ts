@@ -1,5 +1,7 @@
 import { validateRoute, type LevelingRoute } from "./model.js";
 
+export const GUIDE_COMPILER_REVISION = "original-addon-20261019-v4" as const;
+
 export interface GuideArtifact {
   readonly toc: string;
   readonly lua: string;
@@ -24,7 +26,17 @@ export function compileGuides(inputs: readonly LevelingRoute[]): GuideArtifact {
   const lua: string[] = [
     "local _, namespace = ...",
     `namespace.release = ${luaString(primary.version)}`,
+    `namespace.compiler = ${luaString(GUIDE_COMPILER_REVISION)}`,
     `namespace.build = ${primary.clientBuild}`,
+    "namespace.grindCheckpoints = {",
+    ...routes
+      .flatMap((route) => route.steps)
+      .filter((step) => step.action === "checkpoint")
+      .map((step) => step.id)
+      .filter((id, index, ids) => ids.indexOf(id) === index)
+      .sort()
+      .map((id) => `  [${luaString(id)}] = true,`),
+    "}",
     'if not RXPGuides or type(RXPGuides.RegisterGuide) ~= "function" then return end',
     "local _, build = GetBuildInfo()",
     "if tonumber(build) ~= namespace.build then",
@@ -57,9 +69,12 @@ export function compileGuides(inputs: readonly LevelingRoute[]): GuideArtifact {
       if (step.optional) lines.push("    #optional");
       if (step.position)
         lines.push(`    .goto ${step.position.zone},${step.position.x},${step.position.y}`);
-      if (step.action === "checkpoint")
+      if (step.action === "checkpoint") {
         lines.push(`    .xp ${step.level} >> ${singleLine(step.text)}`);
-      else if (step.action === "complete" && step.questId !== null) {
+        lines.push(
+          `    >> Maintainer evidence: start /kfcguide grind ${step.id} before this grind, then use /kfcguide grind stop at the checkpoint.`,
+        );
+      } else if (step.action === "complete" && step.questId !== null) {
         const quest = route.quests.find((entry) => entry.id === step.questId)!;
         for (const objectiveIndex of quest.objectiveIndexes)
           lines.push(`    .complete ${step.questId},${objectiveIndex} >> ${singleLine(step.text)}`);
@@ -73,9 +88,9 @@ export function compileGuides(inputs: readonly LevelingRoute[]): GuideArtifact {
     lua.push(`RXPGuides.RegisterGuide([${delimiter}[\n${guide}]${delimiter}])`);
   }
   return {
-    toc: `## Interface: ${primary.interfaceVersion}\n## Title: KFC Forever Guides · Preview\n## Notes: Original Westfall route and Hall of Thanes alternative. Requires a playthrough before release.\n## Author: KFC Guild\n## Version: ${primary.version}\n## Dependencies: RXPGuides\n## SavedVariables: KFCForeverGuideEvidence\nGuides.lua\nObserver.lua\n`,
+    toc: `## Interface: ${primary.interfaceVersion}\n## Title: KFC Forever Guides · Preview\n## Notes: Original Westfall route and Hall of Thanes alternative. Requires a playthrough before release.\n## Author: KFC Guild\n## Version: ${primary.version}\n## Dependencies: RXPGuides\n## SavedVariables: KFCForeverGuideEvidence\nGuides.lua\nObserver.lua\nGrindObserver.lua\nQuestObserver.lua\n`,
     lua: lua.join("\n") + "\n",
-    readme: `KFC Forever Guides ${primary.version} — maintainer preview\n\nCoverage: Alliance Westfall 13–15 and the level-14 Hall of Thanes alternative.\nBuild: ${primary.clientBuild}; RestedXP v4.11.14; Interface ${primary.interfaceVersion}.\nThe browser and addon use the same route and step IDs. This is not a complete 1–60 guide.\n\nExit WoW. Extract KFCForeverGuides into the Classic Beta Interface/AddOns directory.\nWindows: your WoW folder\\_classic_beta_\\Interface\\AddOns\\KFCForeverGuides\nmacOS: /Applications/World of Warcraft/_classic_beta_/Interface/AddOns/KFCForeverGuides\nEnable KFCForeverGuides and RXPGuides, then select the KFC Forever Guides (A) group.\nNever overwrite RXPGuides or SavedVariables. Keep the previous KFC folder for rollback.\n\n/kfcguide xp records your current level curve value.\n/kfcguide observe enables bounded quest turn-in evidence until reload; /kfcguide stop stops it.\n/kfcguide combat records up to 2000 passive kill-XP messages with public party/map context until reload.\nTarget-name matches are attribution candidates, never automatically verified XP facts.\n/reload writes KFCForeverGuideEvidence to the addon SavedVariables file.\nEvidence collection performs no quest scans, NPC scans, targeting or protected UI actions.\n\nValidate pickups, tracking, skipped optional steps and the Sentinel Hill return in game.\nCurrent reward XP is unknown; enter your actual reward in the free browser planner.\nGuide registration is disabled on a different client build until a reviewed update.\nBrowser: https://helper.kfcguild.online${primary.path}\n`,
+    readme: `KFC Forever Guides ${primary.version} — maintainer preview\n\nCoverage: Alliance Westfall 13–15 and the level-14 Hall of Thanes alternative.\nBuild: ${primary.clientBuild}; RestedXP v4.11.14; Interface ${primary.interfaceVersion}.\nThe browser and addon use the same route and step IDs. This is not a complete 1–60 guide.\n\nExit WoW. Extract KFCForeverGuides into the Classic Beta Interface/AddOns directory.\nWindows: your WoW folder\\_classic_beta_\\Interface\\AddOns\\KFCForeverGuides\nmacOS: /Applications/World of Warcraft/_classic_beta_/Interface/AddOns/KFCForeverGuides\nEnable KFCForeverGuides and RXPGuides, then select the KFC Forever Guides (A) group.\nNever overwrite RXPGuides or SavedVariables. Keep the previous KFC folder for rollback.\n\n/kfcguide xp records your current level curve value.\n/kfcguide observe enables bounded quest turn-in evidence until reload; /kfcguide stop stops it.\n/kfcguide combat records up to 2000 passive kill-XP messages with public party/map context until reload.\n/kfcguide grind <checkpoint-id> records checkpoint XP, duration, area, party context, and an attributed kill mix until grind stop.\n/kfcguide validate <quest-id> <kind> records a bounded manual quest-validation session until validate stop.\nTarget-name matches are attribution candidates, never automatically verified XP facts.\n/reload writes KFCForeverGuideEvidence to the addon SavedVariables file.\nEvidence collection performs no quest scans, NPC scans, targeting or protected UI actions.\n\nValidate pickups, tracking, skipped optional steps and the Sentinel Hill return in game.\nCurrent reward XP is unknown; enter your actual reward in the free browser planner.\nGuide registration is disabled on a different client build until a reviewed update.\nBrowser: https://helper.kfcguild.online${primary.path}\n`,
   };
 }
 

@@ -16,7 +16,14 @@ import {
   createCampaignCombatState,
   type CampaignCombatRow,
 } from "./campaign-combat.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261018-v5";
+import {
+  campaignEvidenceIssueKey,
+  summarizeCampaignEvidence,
+  type CampaignEvidenceIssue,
+  type CampaignEvidenceSummary,
+} from "./campaign-evidence.js";
+import { grindMeasurementTotal, type CampaignGrindEvidence } from "./grind-evidence.js";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261019-v8";
 
 export interface XpPosition {
   readonly level: number;
@@ -47,6 +54,10 @@ export interface CampaignXpMemberForecast {
   readonly unknownQuestIds: readonly number[];
   readonly eligibilityIssues: readonly string[];
   readonly evidenceIssues: readonly string[];
+  readonly issues: readonly CampaignEvidenceIssue[];
+  readonly inheritedIssueCount: number;
+  readonly inheritedEvidence: CampaignEvidenceSummary;
+  readonly evidence: CampaignEvidenceSummary;
   readonly checkpoints: readonly CampaignXpCheckpoint[];
   readonly blockedAtActionId: string | null;
   readonly blockedReason: string | null;
@@ -99,11 +110,19 @@ export function forecastCampaignXp(
     readonly combat?: readonly CampaignCombatScenario[];
     readonly groupCombat?: readonly CampaignGroupCombatScenario[];
     readonly facts?: readonly QuestRewardFact[];
+    readonly grindEvidence?: CampaignGrindEvidence;
+    readonly grindRuntimeBuild?: number;
   } = {},
 ): readonly CampaignXpSectionForecast[] {
   const actions = activeCampaignActions(plan, progress);
   if (plan.combat && plan.combat.targetBuild !== plan.targetBuild)
     throw new Error("Combat data belongs to a different route build.");
+  const grindMeasurements = options.grindEvidence?.measurements ?? [];
+  const grindRuntimeBuild = options.grindRuntimeBuild ?? plan.targetBuild;
+  if (!Number.isSafeInteger(grindRuntimeBuild) || grindRuntimeBuild <= 0)
+    throw new Error("Grind runtime build is invalid.");
+  if (grindMeasurements.some((measurement) => measurement.build !== grindRuntimeBuild))
+    throw new Error("Grind evidence belongs to a different runtime build.");
   const automaticCombat = new Map(
     actions.map((action) => [
       action.id,
@@ -165,6 +184,18 @@ export function forecastCampaignXp(
       (member.level === 60
         ? member.currentXp !== 0
         : member.currentXp >= FOREVER_XP_CURVE[member.level]!);
+    const progressIssue: CampaignEvidenceIssue | null = invalid
+      ? {
+          code: "saved-xp-invalid",
+          domain: "progress",
+          message:
+            "The saved XP bar does not fit the reference level curve; verify the curve and record fresh actual XP.",
+          resolution: "in-game",
+          actionId: null,
+          questId: null,
+          blocksForecast: true,
+        }
+      : null;
     return {
       total:
         invalid || member.level === null || member.currentXp === null || member.xpNeedsUpdate
@@ -181,9 +212,10 @@ export function forecastCampaignXp(
       unknown: new Set<number>(),
       blocked: new Set<number>(),
       halt: null as { actionId: string; reason: string; data: boolean } | null,
-      issue: invalid
-        ? "The saved XP bar does not fit the reference level curve; verify the curve and record fresh actual XP."
-        : null,
+      issue: progressIssue?.message ?? null,
+      issues: new Map(
+        progressIssue ? [[campaignEvidenceIssueKey(progressIssue), progressIssue]] : [],
+      ),
       combat: createCampaignCombatState(plan.combat, member),
     };
   });
@@ -198,6 +230,9 @@ export function forecastCampaignXp(
       rewards: [] as CampaignXpRewardRow[],
       eligibilityIssues: ledger.issue ? [ledger.issue] : ([] as string[]),
       evidenceIssues: [] as string[],
+      issues: [] as CampaignEvidenceIssue[],
+      inheritedIssueCount: ledger.issues.size,
+      inheritedEvidence: summarizeCampaignEvidence([...ledger.issues.values()]),
       checkpoints: [] as CampaignXpCheckpoint[],
       referenceQuestXp: 0,
       estimatedQuestXp: 0,
@@ -228,6 +263,15 @@ export function forecastCampaignXp(
       for (const [player, ledger] of ledgers.entries()) {
         const summary = summaries[player]!;
         const { rewards, eligibilityIssues } = summary;
+        const markIssue = (
+          issue: CampaignEvidenceIssue,
+          bucket: "evidence" | "eligibility" = "evidence",
+        ): void => {
+          ledger.incomplete = true;
+          summary.issues.push(issue);
+          ledger.issues.set(campaignEvidenceIssueKey(issue), issue);
+          (bucket === "evidence" ? summary.evidenceIssues : eligibilityIssues).push(issue.message);
+        };
         if (action.leaderOnly && player !== 0) continue;
         if (ledger.total === null || ledger.halt) continue;
         const needed = (change: (typeof action.questChanges)[number]): boolean => {
@@ -251,24 +295,34 @@ export function forecastCampaignXp(
             (change) => change.state === "objectives-complete" && needed(change),
           )
         ) {
-          ledger.incomplete = true;
-          summary.evidenceIssues.push(
-            `${action.libraryQuestId}: named-target loot/credit for five players is unverified; no one-kill completion or drop rate is assumed.`,
-          );
+          markIssue({
+            code: "named-target-unverified",
+            domain: "route",
+            message: `${action.libraryQuestId}: named-target loot/credit for five players is unverified; no one-kill completion or drop rate is assumed.`,
+            resolution: "in-game",
+            actionId: action.id,
+            questId: action.libraryQuestId ?? null,
+            blocksForecast: false,
+          });
         }
-        const halt = (reason: string, data = false): void => {
-          ledger.halt = { actionId: action.id, reason, data };
-          ledger.incomplete = true;
-          (data ? summary.evidenceIssues : eligibilityIssues).push(reason);
+        const halt = (issue: CampaignEvidenceIssue, data = false): void => {
+          ledger.halt = { actionId: action.id, reason: issue.message, data };
+          markIssue(issue, data ? "evidence" : "eligibility");
         };
         if (
           action.kind !== "checkpoint" &&
           action.questChanges.some((change) => change.state === "accepted" && needed(change)) &&
           action.requiredQuestIds?.some((id) => ledger.states[String(id)] !== "rewarded")
         ) {
-          halt(
-            `${action.id}: required source-chain hand-ins remain missing (${action.requiredQuestIds.join(", ")}).`,
-          );
+          halt({
+            code: "source-prerequisite-missing",
+            domain: "route",
+            message: `${action.id}: required source-chain hand-ins remain missing (${action.requiredQuestIds.join(", ")}).`,
+            resolution: "offline",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: true,
+          });
           continue;
         }
         if (action.kind === "checkpoint") {
@@ -278,7 +332,15 @@ export function forecastCampaignXp(
           );
           if (missingExtra) {
             halt(
-              `${entryStop!.name}: optional quest ${missingExtra.questId} is selected but not modeled in this route. Review or deselect it in the detailed dungeon planner; no assumed reward is added.`,
+              {
+                code: "optional-quest-unmodeled",
+                domain: "route",
+                message: `${entryStop!.name}: optional quest ${missingExtra.questId} is selected but not modeled in this route. Review or deselect it in the detailed dungeon planner; no assumed reward is added.`,
+                resolution: "offline",
+                actionId: action.id,
+                questId: missingExtra.questId,
+                blocksForecast: true,
+              },
               true,
             );
             continue;
@@ -305,18 +367,33 @@ export function forecastCampaignXp(
             ready,
           });
           if (!ready) {
-            halt(
-              entryStop?.dataStatus === "missing-quest-data"
+            const missingAccessData = entryStop?.dataStatus === "missing-quest-data";
+            halt({
+              code: missingAccessData ? "dungeon-access-unverified" : "checkpoint-not-ready",
+              domain: missingAccessData ? "route" : "progress",
+              message: missingAccessData
                 ? `${entryStop.name}: the quest/access bundle is unverified.`
                 : missingQuests.length
                   ? `${action.id}: required preparation hand-ins remain missing (${missingQuests.join(", ")}).`
                   : `${action.id}: entry requires level ${minimum ?? "unknown"}; forecast is level ${current.level}. Future rewards cannot fund this departure.`,
-            );
+              resolution: missingAccessData ? "offline-or-in-game" : "in-game",
+              actionId: action.id,
+              questId: missingQuests[0] ?? null,
+              blocksForecast: true,
+            });
             continue;
           }
         }
         if (action.kind === "unverified") {
-          halt(`${action.id}: the quest bundle is unverified.`);
+          halt({
+            code: "quest-bundle-unverified",
+            domain: "route",
+            message: `${action.id}: the quest bundle is unverified.`,
+            resolution: "offline-or-in-game",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: true,
+          });
           continue;
         }
         if (action.kind === "xp-check" && action.targetLevel !== null) {
@@ -326,26 +403,54 @@ export function forecastCampaignXp(
           });
           if (ledger.total < target) {
             const required = target - ledger.total;
+            const measured = grindMeasurements.some(
+              (measurement) =>
+                measurement.checkpointId === action.id &&
+                measurement.release === plan.release &&
+                measurement.party.size === progress.members.length &&
+                grindMeasurementTotal(measurement.start) < target &&
+                grindMeasurementTotal(measurement.finish) >= target,
+            );
             ledger.total = target;
-            ledger.incomplete = true;
             summary.combatXp += required;
             summary.estimatedCombatXp += required;
             summary.outdoorCombatXp += required;
-            summary.evidenceIssues.push(
-              `${action.id}: the source requires ${required} additional grind XP at this checkpoint; the forecast advances to the target, but actual kills and time remain unobserved.`,
-            );
+            if (!measured)
+              markIssue({
+                code: "adaptive-grind-unmeasured",
+                domain: "combat",
+                message: `${action.id}: the source requires ${required} additional grind XP at this checkpoint; the forecast advances to the target, but a reviewed five-player camp, kill mix, XP gain, and duration that reaches this checkpoint is unavailable.`,
+                resolution: "in-game",
+                actionId: action.id,
+                questId: null,
+                blocksForecast: false,
+              });
           }
           continue;
         }
         const kills = combat.get(action.id)?.[player] ?? 0;
         if (unknownCombat.has(action.id)) {
-          ledger.incomplete = true;
-          summary.evidenceIssues.push(
-            `${action.id}: kill count or solo kill XP is unknown; no group combat XP has been added.`,
-          );
+          markIssue({
+            code: "combat-input-unknown",
+            domain: "combat",
+            message: `${action.id}: kill count or solo kill XP is unknown; no group combat XP has been added.`,
+            resolution: "offline-or-in-game",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: false,
+          });
         }
         summary.combatXp += kills;
-        if (kills > 0) ledger.incomplete = true;
+        if (kills > 0)
+          markIssue({
+            code: "combat-scenario-estimated",
+            domain: "combat",
+            message: `${action.id}: an explicit combat scenario contributes XP, but it is not accepted as observed route evidence.`,
+            resolution: "in-game",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: false,
+          });
         if (ledger.total !== null) ledger.total += kills;
         for (const change of action.questChanges) {
           if (!needed(change)) continue;
@@ -354,16 +459,27 @@ export function forecastCampaignXp(
           const eligibility = questEligibility(change.questId, facts);
           const minimum = eligibility.minimumLevel;
           if (eligibility.minimumConflict) {
-            ledger.incomplete = true;
-            summary.evidenceIssues.push(
-              `${change.questId}: pickup minimum claims disagree (${eligibility.minimumClaims.join(" / ")}); using conservative level ${minimum}.`,
-            );
+            markIssue({
+              code: "pickup-level-conflict",
+              domain: "eligibility",
+              message: `${change.questId}: pickup minimum claims disagree (${eligibility.minimumClaims.join(" / ")}); using conservative level ${minimum}.`,
+              resolution: "offline-or-in-game",
+              actionId: action.id,
+              questId: change.questId,
+              blocksForecast: false,
+            });
           }
           if (change.state === "accepted") {
             if (minimum && (level === null || level < minimum)) {
-              halt(
-                `${change.questId}: pickup requires level ${minimum}; forecast is below the gate.`,
-              );
+              halt({
+                code: "checkpoint-not-ready",
+                domain: "progress",
+                message: `${change.questId}: pickup requires level ${minimum}; forecast is below the gate.`,
+                resolution: "in-game",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: true,
+              });
               ledger.blocked.add(change.questId);
               break;
             }
@@ -379,30 +495,54 @@ export function forecastCampaignXp(
             const gate = eligibility.gate ? questGateResult(eligibility.gate, member) : "ready";
             if (gate === "blocked") {
               if (action.sourceGateConflictQuestIds?.includes(change.questId)) {
-                ledger.incomplete = true;
-                summary.evidenceIssues.push(
-                  `${change.questId}: the selected build-specific source offers this pickup before the older reference gate is satisfied; verify actual eligibility in game.`,
-                );
+                markIssue({
+                  code: "source-gate-conflict",
+                  domain: "eligibility",
+                  message: `${change.questId}: the selected build-specific source offers this pickup before the older reference gate is satisfied; verify actual eligibility in game.`,
+                  resolution: "in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: false,
+                });
               } else {
-                halt(
-                  `${change.questId}: required prerequisite or item check has not been completed before pickup.`,
-                );
+                halt({
+                  code: "source-prerequisite-missing",
+                  domain: "eligibility",
+                  message: `${change.questId}: required prerequisite or item check has not been completed before pickup.`,
+                  resolution: "offline-or-in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: true,
+                });
                 break;
               }
             }
             const quest = getPremadeQuest(change.questId);
             if (minimum === null || (quest && !eligibility.lifecycleKnown)) {
-              ledger.incomplete = true;
-              summary.evidenceIssues.push(
-                `${change.questId}: pickup level or dungeon quest lifecycle remains unverified.`,
-              );
+              markIssue({
+                code: "quest-lifecycle-unverified",
+                domain: "eligibility",
+                message: `${change.questId}: pickup level or dungeon quest lifecycle remains unverified.`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: false,
+              });
             }
             if (
               quest?.faction === "horde" ||
               (quest?.classSlug && member.classSlug && quest.classSlug !== member.classSlug) ||
               (player === 0 && quest?.raceIds.length && !quest.raceIds.includes(plan.race))
             ) {
-              halt(`${change.questId}: faction, class or race is not eligible for this pickup.`);
+              halt({
+                code: "quest-ineligible",
+                domain: "eligibility",
+                message: `${change.questId}: faction, class or race is not eligible for this pickup.`,
+                resolution: "offline",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: true,
+              });
               break;
             }
             if (
@@ -410,10 +550,15 @@ export function forecastCampaignXp(
               (quest?.classSlug && !member.classSlug) ||
               (player !== 0 && quest?.raceIds.length)
             ) {
-              ledger.incomplete = true;
-              summary.evidenceIssues.push(
-                `${change.questId}: lifecycle, item or personal eligibility needs confirmation.`,
-              );
+              markIssue({
+                code: "personal-eligibility-unverified",
+                domain: "eligibility",
+                message: `${change.questId}: lifecycle, item or personal eligibility needs confirmation.`,
+                resolution: "in-game",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: false,
+              });
             }
             ledger.states[String(change.questId)] = "accepted";
             continue;
@@ -422,9 +567,15 @@ export function forecastCampaignXp(
             !ledger.states[String(change.questId)] ||
             ledger.states[String(change.questId)] === "not-started"
           ) {
-            halt(
-              `${change.questId}: no earlier pickup or confirmed held quest exists before ${change.state}.`,
-            );
+            halt({
+              code: "quest-pickup-missing",
+              domain: "route",
+              message: `${change.questId}: no earlier pickup or confirmed held quest exists before ${change.state}.`,
+              resolution: "offline",
+              actionId: action.id,
+              questId: change.questId,
+              blocksForecast: true,
+            });
             break;
           }
           if (change.state !== "rewarded") {
@@ -442,7 +593,15 @@ export function forecastCampaignXp(
                   plan.legs.find((leg) => leg.id === action.legId)?.kind !== "dungeon"
                 ) {
                   halt(
-                    `${action.id}: an inside-dungeon objective is placed before its dungeon visit; no future clear XP or hand-in is credited.`,
+                    {
+                      code: "dungeon-objective-misordered",
+                      domain: "route",
+                      message: `${action.id}: an inside-dungeon objective is placed before its dungeon visit; no future clear XP or hand-in is credited.`,
+                      resolution: "offline",
+                      actionId: action.id,
+                      questId: change.questId,
+                      blocksForecast: true,
+                    },
                     true,
                   );
                   break;
@@ -471,8 +630,16 @@ export function forecastCampaignXp(
                 if (activity.environment === "outdoor") summary.outdoorCombatXp += result.xp;
                 else summary.dungeonCombatXp += result.xp;
                 summary.combatRows.push(...result.rows);
-                summary.evidenceIssues.push(...result.issues);
-                if (result.issues.length) ledger.incomplete = true;
+                for (const message of result.issues)
+                  markIssue({
+                    code: "combat-profile-unverified",
+                    domain: "combat",
+                    message,
+                    resolution: "offline-or-in-game",
+                    actionId: action.id,
+                    questId: change.questId,
+                    blocksForecast: false,
+                  });
               }
             if (ledger.halt) break;
             ledger.confirmations[
@@ -489,9 +656,15 @@ export function forecastCampaignXp(
             objectiveKeys.has(change.questId) &&
             ledger.states[String(change.questId)] !== "objectives-complete"
           ) {
-            halt(
-              `${change.questId}: required objectives have not all been completed before hand-in.`,
-            );
+            halt({
+              code: "quest-objectives-incomplete",
+              domain: "route",
+              message: `${change.questId}: required objectives have not all been completed before hand-in.`,
+              resolution: "offline",
+              actionId: action.id,
+              questId: change.questId,
+              blocksForecast: true,
+            });
             break;
           }
           const reward =
@@ -515,13 +688,30 @@ export function forecastCampaignXp(
           if (reward.xp === null) {
             ledger.unknown.add(change.questId);
             halt(
-              `${change.questId}: reward at the next hand-in is unresolved; later levels cannot be predicted.`,
+              {
+                code: "reward-unresolved",
+                domain: "reward",
+                message: `${change.questId}: reward at the next hand-in is unresolved; later levels cannot be predicted.`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: true,
+              },
               true,
             );
           } else {
             if (reward.basis === "base-estimate") {
               summary.estimatedQuestXp += reward.xp;
-              if (reward.xp > 0) ledger.incomplete = true;
+              if (reward.xp > 0)
+                markIssue({
+                  code: "reward-historical-estimate",
+                  domain: "reward",
+                  message: `${change.questId}: the reward uses a historical estimate instead of published Forever XP evidence.`,
+                  resolution: "offline-or-in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: false,
+                });
             } else summary.referenceQuestXp += reward.xp;
             if (ledger.total !== null) ledger.total += reward.xp;
           }
@@ -538,6 +728,9 @@ export function forecastCampaignXp(
         rewards,
         eligibilityIssues,
         evidenceIssues,
+        issues,
+        inheritedIssueCount,
+        inheritedEvidence,
         checkpoints,
         referenceQuestXp,
         estimatedQuestXp,
@@ -571,6 +764,17 @@ export function forecastCampaignXp(
         unknownQuestIds: [...ledger.unknown],
         eligibilityIssues,
         evidenceIssues: [...new Set(evidenceIssues)],
+        issues: [
+          ...new Map(
+            issues.map((issue) => [
+              `${issue.code}:${issue.actionId ?? ""}:${issue.questId ?? ""}:${issue.message}`,
+              issue,
+            ]),
+          ).values(),
+        ],
+        inheritedIssueCount,
+        inheritedEvidence,
+        evidence: summarizeCampaignEvidence([...ledger.issues.values()]),
         checkpoints,
         blockedAtActionId: ledger.halt?.actionId ?? null,
         blockedReason: ledger.halt?.reason ?? null,

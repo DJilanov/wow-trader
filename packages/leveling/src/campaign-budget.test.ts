@@ -10,6 +10,7 @@ import { forecastCampaignXp } from "./campaign-xp.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { resolveQuestReward, type QuestRewardFact } from "./quest-rewards.js";
 import { auditCampaignSections, campaignCoverageReady } from "./campaign-coverage.js";
+import { campaignGrindEvidenceSchema } from "./grind-evidence.js";
 
 function action(id: string, legId: string): CampaignAction {
   return {
@@ -153,6 +154,117 @@ describe("checkpoint budget regressions", () => {
     expect(campaignActionReasons({ ...gate, leaderOnly: false }, progress)[0]).toContain(
       "all five",
     );
+  });
+
+  it("distinguishes a funded adaptive level gate from missing XP data", () => {
+    const gate = {
+      ...action("adaptive-level", "zone"),
+      kind: "xp-check" as const,
+      targetLevel: 21,
+      targetCurrentXp: 0,
+    };
+    const member = forecastCampaignXp(route([gate], "xp-bridge", 20, 21), party(20))[0]!
+      .members[0]!;
+    expect(member).toMatchObject({
+      endpoint: { level: 21, currentXp: 0 },
+      status: "incomplete",
+      evidence: { combat: "adaptive", reward: "verified" },
+    });
+    expect(member.issues).toContainEqual(
+      expect.objectContaining({
+        code: "adaptive-grind-unmeasured",
+        actionId: "adaptive-level",
+        blocksForecast: false,
+      }),
+    );
+  });
+
+  it("accepts only reviewed matching five-player grind evidence for an adaptive gate", () => {
+    const gate = {
+      ...action("adaptive-level", "zone"),
+      kind: "xp-check" as const,
+      targetLevel: 21,
+      targetCurrentXp: 0,
+    };
+    const grindEvidence = campaignGrindEvidenceSchema.parse({
+      schema: "campaign-grind-evidence.v1",
+      sourceSha256: "b".repeat(64),
+      measurements: [
+        {
+          sessionId: "70205:1792400000:1",
+          checkpointId: "adaptive-level",
+          build: 70205,
+          release: "budget-test",
+          compiler: "campaign-addon-test",
+          character: { fingerprint: "a".repeat(24), class: "PRIEST", race: "Human" },
+          startedAt: 1792400000,
+          endedAt: 1792403600,
+          start: { level: 20, xp: 0, xpMax: 23200 },
+          finish: { level: 21, xp: 0, xpMax: 25200 },
+          xpGained: 23200,
+          elapsedSeconds: 3600,
+          activeSeconds: 3500,
+          combatSeconds: 3000,
+          party: {
+            size: 5,
+            startLevels: [20, 20, 20, 20, 20],
+            endLevels: [21, 21, 21, 21, 21],
+          },
+          areas: [
+            {
+              mapId: 1436,
+              zone: "Westfall",
+              subzone: "Moonbrook",
+              instanceId: 0,
+              instanceType: "none",
+              capturedAt: 1792400000,
+            },
+          ],
+          killCount: 100,
+          unattributedKillCount: 0,
+          reportedKillXp: 23200,
+          unparsedKillMessageCount: 0,
+          killMix: [
+            {
+              npcId: 127,
+              name: "Defias Trapper",
+              level: 20,
+              count: 100,
+              reportedXp: 23200,
+              unparsedMessages: 0,
+            },
+          ],
+          questTurnIns: 0,
+          deaths: 0,
+          restedAtStart: 0,
+          restedAtEnd: 0,
+          source: "Reviewed observer fixture",
+          contextVerified: true,
+        },
+      ],
+    });
+    const routePlan = route([gate], "xp-bridge", 20, 21);
+    const measured = forecastCampaignXp(routePlan, party(20), { grindEvidence });
+    expect(measured[0]!.members.every((member) => member.status !== "incomplete")).toBe(true);
+    expect(measured[0]!.members.every((member) => member.endpoint?.level === 21)).toBe(true);
+    expect(
+      measured[0]!.members
+        .flatMap((member) => member.issues)
+        .some((issue) => issue.code === "adaptive-grind-unmeasured"),
+    ).toBe(false);
+    const currentBuildEvidence = {
+      ...grindEvidence,
+      measurements: [{ ...grindEvidence.measurements[0]!, build: 70450 }],
+    };
+    expect(() =>
+      forecastCampaignXp(routePlan, party(20), { grindEvidence: currentBuildEvidence }),
+    ).toThrow("different runtime build");
+    expect(
+      forecastCampaignXp(routePlan, party(20), {
+        grindEvidence: currentBuildEvidence,
+        grindRuntimeBuild: 70450,
+      })[0]!.members.flatMap((member) => member.issues),
+    ).not.toContainEqual(expect.objectContaining({ code: "adaptive-grind-unmeasured" }));
   });
 
   it("never skips a quest lifecycle that a later source-chain pickup requires", () => {

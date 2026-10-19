@@ -188,6 +188,13 @@ ID during AoE or rapid target changes. Mixed, ambiguous, boosted and bonus-affec
 unverified. The observer is prepared in the repository, not installed into WoW by this task, and
 its live Forever API behavior still needs testing.
 
+Adaptive checkpoint timing uses the separate `GrindObserver.lua` module. `/kfcguide grind
+<checkpoint-id>` records a bounded XP-bar session with active/combat duration, party and area
+context, kill mix, deaths, quest-turn-in contamination, and exact package provenance. The generated
+guide allowlists its checkpoint IDs and prints the matching command at each XP step. See
+[`forever-leveling-grind-evidence.md`](forever-leveling-grind-evidence.md) for recording and explicit
+review approval instructions.
+
 ## Verification
 
 Regression coverage includes sharing, gray/cap behavior, mixed levels, rank/tuning boundaries,

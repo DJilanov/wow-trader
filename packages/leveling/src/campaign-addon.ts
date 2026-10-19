@@ -2,7 +2,7 @@ import type { ClassSlug } from "./model.js";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import type { CampaignRace } from "./campaign-route.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261018-v4" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261019-v7" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;
@@ -110,6 +110,10 @@ function actionLines(action: CampaignAction): readonly string[] {
   lines.push(...positionLines(action));
   const xp = action.kind === "xp-check" || action.kind === "checkpoint" ? xpLine(action) : null;
   if (xp) lines.push(xp);
+  if (action.kind === "xp-check" && action.targetLevel !== null)
+    lines.push(
+      `    >> Maintainer evidence: start /kfcguide grind ${action.id} before this grind, then use /kfcguide grind stop at the checkpoint.`,
+    );
   lines.push(...questLines(action));
   const questText = new Set(action.questChanges.map(questInstruction));
   for (const instruction of action.instructions) {
@@ -295,12 +299,22 @@ export function compileCampaignAddon(
   const browser =
     options.browserBaseUrl ?? "https://kfcguild.online/tools/forever/leveling/premade";
   const query = `?race=${encodeURIComponent(plan.race)}&class=${encodeURIComponent(plan.leaderClass)}`;
+  const grindCheckpoints = [
+    ...new Set(
+      actions
+        .filter((action) => action.kind === "xp-check" && action.targetLevel !== null)
+        .map((action) => action.id),
+    ),
+  ].sort();
   const bootstrap = [
     "local _, namespace = ...",
     `namespace.release = ${JSON.stringify(plan.release)}`,
     `namespace.compiler = ${JSON.stringify(CAMPAIGN_ADDON_COMPILER_REVISION)}`,
     `namespace.sourceBuild = ${plan.targetBuild}`,
     `namespace.runtimeBuild = ${options.runtimeBuild}`,
+    "namespace.grindCheckpoints = {",
+    ...grindCheckpoints.map((checkpoint) => `  [${JSON.stringify(checkpoint)}] = true,`),
+    "}",
     'if not RXPGuides or type(RXPGuides.RegisterGuide) ~= "function" then return end',
     "local _, build = GetBuildInfo()",
     "if tonumber(build) ~= namespace.runtimeBuild then",
@@ -311,9 +325,9 @@ export function compileCampaignAddon(
     ...party.lua,
   ];
   return {
-    toc: `## Interface: ${options.interfaceVersion}\n## Title: KFC Forever Guides · Premade 5 Review\n## Notes: Source-ordered five-player route. Actual party XP gates and in-game review are required.\n## Author: KFC Guild\n## Version: ${options.version}\n## Dependencies: RXPGuides\n## SavedVariables: KFCForeverGuideEvidence\nGuides.lua\nObserver.lua\n`,
+    toc: `## Interface: ${options.interfaceVersion}\n## Title: KFC Forever Guides · Premade 5 Review\n## Notes: Source-ordered five-player route. Actual party XP gates and in-game review are required.\n## Author: KFC Guild\n## Version: ${options.version}\n## Dependencies: RXPGuides\n## SavedVariables: KFCForeverGuideEvidence\nGuides.lua\nObserver.lua\nGrindObserver.lua\nQuestObserver.lua\n`,
     lua: `${bootstrap.join("\n")}\n`,
-    readme: `KFC Forever Guides ${options.version} — Premade 5 review package\n\nEdition: ${raceLabels[plan.race]} ${classLabels[plan.leaderClass]} leader.\nSource guide build: ${plan.targetBuild}. Review runtime build: ${options.runtimeBuild}.\nTested parser target: RestedXP ${options.restedXpVersion}; Interface ${options.interfaceVersion}.\nCampaign release: ${plan.release}. Compiler: ${CAMPAIGN_ADDON_COMPILER_REVISION}.\n\nThis ZIP contains two guide groups. The designated leader uses the Leader group. Other party members finish their own normal personal starter route, then use the Party group for shared work. Leader-only steps are intentionally absent from the Party group.\n\nThe addon cannot see all five players' XP bars or web progress. At every XP checkpoint, stop until the browser confirms every participating player is ready. Do not skip accepted chains, prerequisites, or dungeon preparation because one character is ahead.\n\nThis is a review artifact, not a playtested public release. Twenty-six route rewards still use labeled historical estimates, combat timing is not calibrated, and late content can be inaccessible during the current beta. Keep the previous KFC folder for rollback. Never overwrite RXPGuides or its SavedVariables.\n\n/kfcguide xp records the current level curve value.\n/kfcguide observe enables bounded quest turn-in evidence until reload; /kfcguide stop stops it.\n/kfcguide combat records bounded passive kill-XP messages with public party/map context until reload.\n/reload writes KFCForeverGuideEvidence to the addon SavedVariables file.\n\nBrowser route: ${browser}${query}\n`,
+    readme: `KFC Forever Guides ${options.version} — Premade 5 review package\n\nEdition: ${raceLabels[plan.race]} ${classLabels[plan.leaderClass]} leader.\nSource guide build: ${plan.targetBuild}. Review runtime build: ${options.runtimeBuild}.\nTested parser target: RestedXP ${options.restedXpVersion}; Interface ${options.interfaceVersion}.\nCampaign release: ${plan.release}. Compiler: ${CAMPAIGN_ADDON_COMPILER_REVISION}.\n\nThis ZIP contains two guide groups. The designated leader uses the Leader group. Other party members finish their own normal personal starter route, then use the Party group for shared work. Leader-only steps are intentionally absent from the Party group.\n\nThe addon cannot see all five players' XP bars or web progress. At every XP checkpoint, stop until the browser confirms every participating player is ready. Do not skip accepted chains, prerequisites, or dungeon preparation because one character is ahead.\n\nThis is a review artifact, not a playtested public release. ${plan.rewardNotice ?? "Reward evidence remains under review."} Combat timing is not calibrated, and late content can be inaccessible during the current beta. Keep the previous KFC folder for rollback. Never overwrite RXPGuides or its SavedVariables.\n\n/kfcguide xp records the current level curve value.\n/kfcguide observe enables bounded quest turn-in evidence until reload; /kfcguide stop stops it.\n/kfcguide combat records bounded passive kill-XP messages with public party/map context until reload.\n/kfcguide grind <checkpoint-id> starts a bounded checkpoint measurement; use grind stop when the XP checkpoint is reached.\n/kfcguide validate <quest-id> <kind> records a bounded manual quest-validation session until validate stop.\n/reload writes KFCForeverGuideEvidence to the addon SavedVariables file.\n\nBrowser route: ${browser}${query}\n`,
     guides: [leader.summary, party.summary],
   };
 }

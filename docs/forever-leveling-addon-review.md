@@ -1,6 +1,6 @@
 # Forever premade-five RestedXP review package
 
-Status: local review artifact, not a public or playtested release. Updated October 18, 2026.
+Status: local review artifact, not a public or playtested release. Updated October 19, 2026.
 
 ## Delivered
 
@@ -13,7 +13,8 @@ Each exact Alliance race/class edition contains:
 - deterministic per-leg `#next` chains, retained map positions and accept/complete/turn-in steps;
 - exact `.xp level+current` checkpoints, including the browser-confirmed all-five readiness rule;
 - a runtime build guard, explicit source-build identity and a pinned RestedXP parser target; and
-- the bounded quest/combat evidence observer already maintained by the KFC addon.
+- bounded quest/combat evidence plus opt-in adaptive-grind and quest-validation observers.
+- build/session-bound quest-reward evidence with an explicit offline approval step.
 
 The compiler refuses generic class-null editions, unverified actions, unknown legs, duplicate action
 IDs, incomplete or backward quest lifecycle transitions and multiline guide-directive injection.
@@ -26,9 +27,9 @@ All 28 exact Alliance race/class editions compile successfully. Across that matr
 The five additional browser editions are class-neutral selectors and are deliberately not addon
 editions.
 
-## Current Human/Warrior receipt
+## Previous Human/Warrior receipt
 
-The first review package is:
+The first immutable review package is retained at:
 
 `artifacts/leveling/campaign-addon-review/kfc-premade5-human-warrior-a9e3928bc2d11770/`
 
@@ -43,9 +44,12 @@ The first review package is:
 - evidence boundary: 23 scheduled rewards in this edition still use labeled historical references;
   combat and late-beta content remain unverified
 
-The ZIP contains only `Guides.lua`, `Observer.lua`, `KFCForeverGuides.toc` and `README.txt`. A
-separate manifest binds every file hash, source/reward identities, selected edition and guide/action
-inventory. Rebuilding unchanged inputs reuses the same release and hashes.
+That receipt predates `GrindObserver.lua` and `QuestObserver.lua`; it must not be used to collect
+adaptive-checkpoint or structured quest-validation measurements. The next build contains
+`Guides.lua`, `Observer.lua`, `GrindObserver.lua`, `QuestObserver.lua`, `KFCForeverGuides.toc` and
+`README.txt`. A separate manifest binds every file hash,
+source/reward identities, selected edition and guide/action inventory. The new observer changes the
+semantic identity, so it correctly creates a new immutable release rather than modifying this one.
 
 ## Build commands
 
@@ -83,8 +87,19 @@ pnpm leveling:addon:campaign -- \
 ```
 
 `--raid-goals` is an explicit edition choice; omitting it keeps optional raid preparation disabled.
+After approving an observation artifact, add
+`--reward-evidence=artifacts/leveling/evidence/rewards/reward-evidence-<hash>.json`; omit that optional
+argument until the file exists. The dedicated reward-evidence runbook documents its review gate.
 Never substitute a different current-client build or RestedXP version without rebuilding and
 repeating the review.
+
+The compiler was also exercised against the checksum-valid but incomplete October 15 local reward
+snapshot. It produced the build-70450 observer smoke package at
+`artifacts/leveling/campaign-addon-review/kfc-premade5-human-warrior-5b742b1472cc9a42/` (ZIP
+SHA-256 `1b887343da0ffbe3c8c331dabbc844f4de103626fd6bfc1fb13d860d686c7b92`). Its manifest correctly
+reports 567 route rewards falling back to historical data, so it is suitable for bounded observer
+API tests only—not route certification or publication. Rebuild from the newer complete published
+reward root before the full in-game route review.
 
 ## Bounded in-game review
 
@@ -103,9 +118,18 @@ repeating the review.
 7. Reload during an accepted quest and at a chapter boundary. Confirm both RestedXP progression and
    KFC evidence persist without duplicate rewards or a reset to chapter one.
 8. Use `/kfcguide xp`, then bounded `/kfcguide observe` and `/kfcguide combat` sessions where useful.
-   Stop collection with `/kfcguide stop` and `/reload` before copying SavedVariables for review.
-9. Test rollback by quitting WoW, removing only this KFC folder and restoring the previous KFC copy.
-   RestedXP core and its SavedVariables must remain untouched.
+   At XP steps, use the exact `/kfcguide grind <checkpoint-id>` command printed by the guide and
+   finish it with `/kfcguide grind stop`. Follow the contamination and approval procedure in
+   [`forever-leveling-grind-evidence.md`](forever-leveling-grind-evidence.md).
+   Review quest turn-ins separately with
+   [`forever-leveling-reward-evidence.md`](forever-leveling-reward-evidence.md); never publish raw
+   SavedVariables containing character identity.
+   Follow [`forever-leveling-quest-validation.md`](forever-leveling-quest-validation.md) for named
+   targets, eligibility, lifecycle and disputed pickup/gate sessions.
+9. Stop remaining collection with `/kfcguide stop` and `/reload` before copying SavedVariables for
+   review.
+10. Test rollback by quitting WoW, removing only this KFC folder and restoring the previous KFC copy.
+    RestedXP core and its SavedVariables must remain untouched.
 
 Record the client build, RestedXP version, selected groups, first/last tested action IDs, Lua errors,
 checkpoint results, reload result and observer SavedVariables. A bounded successful review proves

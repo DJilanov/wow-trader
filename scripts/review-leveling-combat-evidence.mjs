@@ -125,7 +125,7 @@ export function reviewCombatSavedVariables(source, options = {}) {
     throw new Error("Combat SavedVariables input exceeds its size budget.");
   const root = table(parseLuaDataLiteral(rootLiteral(source)));
   const schemaVersion = integer(root.get("schemaVersion"), 1, 100);
-  if (schemaVersion !== 2)
+  if (schemaVersion !== 2 && schemaVersion !== 3)
     throw new Error("Run the current KFCForeverGuides observer before reviewing combat evidence.");
   const rawSamples = array(root.get("combat"));
   if (rawSamples.length > 2000) throw new Error("Combat sample count exceeds the observer limit.");
