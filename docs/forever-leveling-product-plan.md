@@ -1,6 +1,221 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
-## Current implementation status (October 18, 2026)
+## Current completion plan: guaranteed new-dungeon quest bundles (October 19, 2026)
+
+Quest collection is now complete for the queued identified content: 353 captured pages plus the
+reviewed unavailable page 3343, all 83 route-evidence pages, and published-format Forever rewards for
+all 1,161 real hand-in IDs in the local matrix. Historical hand-in fallbacks are now zero. See the
+[October 19 completion receipt](forever-leveling-quest-completion-2026-10-19.md) for hashes, source
+disagreements, the new review ZIP and remaining in-game/release work. Production is unchanged.
+
+The later [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md) covers
+the implemented private-observation→audit→public-coverage→browser path, party identity settings,
+current review.3 ZIP, 311 leveling/586 web tests and unchanged real-evidence gates. Static source
+differences still need explicit review; no real observations or production release are implied.
+The final source report has all 83 pages, 66 source-ready rows, 14 conflicts and three manual-review
+rows. Source pickup parsing and bounded starter-item origins are covered by 19 world-data and 22
+pipeline tests; no new page requests were needed.
+
+This is the current implementation contract. It supersedes the October 15 description of missing
+new-dungeon quest counts as optional parity scenarios. The October 18 receipt below records its
+then-tested software; the October 19 receipt covers the later bundle implementation. Neither
+receipt establishes that the full Horde campaign is implemented.
+
+The guaranteed-bundle work below is now implemented locally: four selected slots per faction for
+the three unidentified dungeons, Lordaeron's fourth real quest selected, editable planning levels,
+slot/dungeon exclusions, continuous estimated XP, and explicit planning-only browser/addon notes.
+The full Horde campaign remains separate work. See the current
+[implementation and verification receipt](forever-leveling-guaranteed-bundles.md).
+
+### Confirmed product input and remaining unknowns
+
+The owner confirms four quests per faction for each applicable newly introduced Forever dungeon.
+Treat that bundle count as a fixed, owner-confirmed planning input, not as a probability that the
+quests might exist. Preserve that provenance; do not present it as independently collected source
+data or measured rewards. Missing IDs must not exclude these dungeons from the planning route.
+
+| Information                            | Planning treatment                                                  | Evidence still needed                                                   |
+| -------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Four quests per faction                | Guaranteed bundle input supplied by the owner                       | Independently sourced identities when available                         |
+| Known quest IDs and restrictions       | Retain all real quests and evaluate each member's eligibility       | Resolve source/build conflicts rather than erase restrictions           |
+| Missing quest IDs                      | Stable internal bundle slots, not fabricated game IDs               | Map slots to real quests without counting both                          |
+| Uncollected reward amounts             | Level-appropriate unscaled reference base XP × 2.375, once          | Replace with compatible collected or observed final rewards             |
+| Planning quest level                   | Explicit dungeon setting, e.g. the owner's Dalaran level-33 example | Keep separate from entry level, pickup minimum and actual hand-in level |
+| Pickups, objectives, access and travel | Retain known instructions; mark unidentified details pending        | Real source details before emitting exact executable steps              |
+
+Four Alliance and four Horde slots are alternative faction bundles, not eight rewards for one
+player. They are quest counts, not four guaranteed levels or four independently verified payouts.
+Known extra quests remain in the catalog; four is not a cap that deletes real content.
+Select the complete four-quest bundle by default when offering the dungeon. Players may skip
+quests or the dungeon; a default recommendation is not permission to report unearned rewards.
+
+Real quest-ID arrays for Drowned City, Krol'dok and Alcaz Prison remain empty by design until the
+IDs are identified. Their separate guaranteed bundles now contain four selected slots per faction
+and are included as planning-only dungeon legs in the Alliance campaign. No fake numeric IDs are
+inserted into the quest catalog. Both faction bundle models are implemented; the full executable
+campaign compiler still covers Alliance, not Horde.
+
+### Concrete sourced anchor: City of Dalaran
+
+The owner supplied the [City of Dalaran quest listing](https://www.wowhead.com/forever/zone=16544/city-of-dalaran)
+as the concrete four-quest example. The eight existing local Wowhead XP captures from October 18
+also pass the quest-XP record schema and agree on quest level 33, reference base XP 3,950, page
+multiplier 2.375 and final full reward 9,400 per quest:
+
+| Faction  | Real quest IDs             | Full bundle quest XP per eligible character |
+| -------- | -------------------------- | ------------------------------------------- |
+| Alliance | 92456, 92489, 92457, 92458 | 4 × 9,400 = 37,600                          |
+| Horde    | 96984, 96987, 96988, 96986 | 4 × 9,400 = 37,600                          |
+
+These are real identified quests, not unidentified bundle slots. Their final 9,400 values must
+take precedence over a recomputed estimate; do not multiply them by 2.375 again. The captured
+level-specific rewards still determine the result at other hand-in levels. Quest level 33 must
+not be promoted to a minimum pickup level or mandatory dungeon entry level.
+
+The Alliance itinerary now selects all four quests by default, including Starving Arcane 92457,
+so its full-bundle forecast includes 37,600 quest XP before hand-in-level reductions. Dungeon
+visits and individual quest execution remain player choices: use Next without Done or navigate to
+another chapter to leave work unfinished rather than falsely recording it as complete. The guide
+must not require another clear merely because an objective remains unfinished. These navigation
+choices do not award rewards, update actual XP or satisfy access/prerequisite checks.
+
+The earlier three-quest subtotal of 28,200 is not the default Dalaran bundle. Keep all four quests
+in the default campaign/export, while detailed saved trip selections remain explicit player choices.
+Forecast rewards describe the chosen plan, not already earned XP; use actual party bars after the
+player skips work. Do not infer that quest availability guarantees all objectives in one clear.
+
+Use this as the regression anchor for exact-four faction accounting, real-ID replacement,
+selected-versus-full totals and prevention of double scaling. Other dungeon levels must use their
+own level-appropriate base rewards; Dalaran's absolute 37,600 is not a universal dungeon total.
+The live page required JavaScript verification during this check, so the numeric validation here
+uses the existing saved captures rather than claiming a fresh independent live-page extraction.
+
+Local implementation receipt: all four Dalaran quests and all four Lordaeron quests are in the
+default premade selection and compiled campaign lifecycle; Thanes' fifth known quest is retained.
+The three unidentified dungeons each have four default-selected planning slots per faction.
+Verification includes 292 leveling tests, 577 web tests, package checks, the production web build,
+all 28 exact addon editions and desktop/mobile control/persistence checks. This remains local,
+not deployed; missing quest details and the other completion tasks below are not declared complete.
+
+### Bundle identity, replacement and persistence
+
+- Introduce a small, schema-validated bundle model alongside the existing dungeon and campaign
+  models. Keep it separate from public quest/reference records, whose numeric IDs represent real
+  game entities. Suggested owning module: `packages/leveling/src/dungeon-bundles.ts`. Apply the
+  guarantee to an explicit inventory of newly introduced dungeons, not every classic dungeon.
+- Give each slot a deterministic internal key such as `drowned-city:alliance:quest-1`. Record
+  dungeon, faction, configured planning quest level, reference pattern, count provenance and an
+  optional real quest mapping. Do not generate fake numeric IDs, Wowhead links or `.accept`,
+  `.complete` or `.turnin` commands for unidentified slots.
+- Reconcile known quests against the guaranteed bundle. With two mapped core quests, create only
+  two remaining unidentified slots, not four additional rewards. Preserve extra and restricted
+  real quests separately; a class-only reward cannot silently become a reward for every member.
+- Require an explicit reviewed mapping when a real ID replaces a slot. Never match by list order
+  or reward similarity alone. One real quest pays once per member, even across prerequisites,
+  multiple visits and bundle/catalog representations. Faction alternatives can reference a shared
+  real quest without awarding it twice to the same character.
+- Preserve slot identity, source revision and replacement history in saved plans. A new evidence
+  release must not mark a quest accepted/rewarded, erase completion or reinterpret a player's
+  stored progress. Validate legacy saves and provide a versioned migration if the schema changes.
+
+### One XP ledger with explicit reward provenance
+
+Use the compatible collected final reward at the relevant hand-in level first, retaining legitimate
+zero-XP rewards and existing identity-conflict checks. If no such reward exists, use a reviewed
+unscaled base reference for the real quest; for an unidentified slot, use the selected anchor's
+level-dependent base-XP pattern at the configured planning quest level. Apply 2.375 once, retaining
+per-quest rounding and applicable hand-in-level reductions. A planning level of 33 is not permission
+to accept a quest at 33, evidence of a minimum level, or a replacement for the player's actual bar.
+Initialize each unidentified bundle from the owner's selected upper dungeon planning level, such
+as Dalaran 33, with a per-dungeon override. Do not silently substitute an entry minimum, maximum
+enemy level or a different catalog difficulty band's upper bound for that setting.
+
+Never multiply already-adjusted Wowhead rewards again. Do not apply the dungeon coefficient to
+outdoor prerequisites, kill XP or the player level-cost curve. Do not copy the same absolute reward
+bundle between dungeon levels. A missing base pattern must produce an actionable configuration
+error, not zero XP, arbitrary XP or a claim that the guaranteed quests do not exist.
+
+Carry each member's XP continuously through pickups, dungeon work and hand-ins, awarding quest XP
+at the planned hand-in rather than at dungeon entry. Expose the known reward subtotal, estimated
+reward subtotal and combined planning endpoint from the same ledger. A resolved real quest replaces
+its slot; it is never an extra line of earned XP. Scope consumption and replacement to the correct
+character, faction and release.
+
+Keep expected mandatory combat as the owner's natural planning reserve where measurements are
+absent. Do not add a fabricated fixed buffer, apply a second combat bonus, or require every grind
+checkpoint to be timed before authoring the route. Where compatible explicit combat is available,
+count it once; combat already reflected in an actual XP bar cannot be awarded again. Actual party
+bars, legal access and known quest restrictions still govern live readiness. Supply a specific
+nearby catch-up option only when actual progress is short, without discarding accepted chains or
+required future unlocks.
+
+### Implementation tasks and acceptance checks
+
+The status column describes inspected functionality, not estimated completion percentages. Update
+it with verification receipts as each task lands.
+
+| Task                                               | Owner                                    | Status                                                                                                  | Completion check                                                                                                                                       |
+| -------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Reconcile the remaining quest queue                | Crawler + engineering review             | Collection and local XP integration complete: 353 captured, 1 reviewed unavailable; all 83 route pages  | All 1,161 real hand-in IDs have available Forever rewards; no historical hand-in fallback; source disagreements stay explicit                          |
+| Add guaranteed faction bundle slots                | Engineering                              | Implemented locally                                                                                     | Three unidentified dungeons have four selected stable slots per faction; known extra quests are retained; no fake game IDs                             |
+| Unify reward selection and replacement             | Engineering                              | Implemented for guaranteed bundles                                                                      | Actual final XP wins; 2.375 applies only to unscaled estimates; replacement, prior rewards, zero XP and restrictions are tested                        |
+| Integrate both faction planning routes             | Engineering                              | Partial: both faction bundles and Alliance itinerary implemented                                        | Alliance includes three planning legs; full Horde campaign compilation and audit remain separate work                                                  |
+| Align browser and addon presentation               | Engineering                              | Implemented locally                                                                                     | Editable levels, slot and dungeon exclusions, persistence and labeled estimated XP; 28 addon editions emit no invented directives                      |
+| Finish source/observation-to-audit consumption     | Engineering                              | Observation/audit/browser consumer implemented locally; static source disagreements remain under review | Approved proof clears only matching build, quest, release/compiler and covered race/class/party contexts; private observations never reach the browser |
+| Rebuild the route matrix and catch-up instructions | Engineering                              | Bundle matrix implemented and audited locally                                                           | 33 editions / 132 scenarios: zero relevant blockers or shortfalls; 18 sourced plus 3 planning-only dungeon stops                                       |
+| Run bounded in-game package and context checks     | Owner, with generated test checklist     | Pending                                                                                                 | Install/parser, tracking, reload/resume and specific disputed quest/party behaviours pass                                                              |
+| Release and retain rollback                        | Engineering, after release authorization | Pending                                                                                                 | Tests/builds pass; pushed commit, deployed source and data revisions agree; browser/assets and rollback verified                                       |
+
+Quest 3343 was previously classified from the source's explicit not-found redirect; the owner also
+confirmed the page is unavailable in the browser. This does not establish that the quest is absent
+from the game. If any supported route depends on it, obtain alternative evidence or a reviewed
+replacement; do not silently delete it or award guessed XP as a verified fact.
+
+### Verification and finish lines
+
+Add focused tests for four independent slots per faction, partial and complete ID discovery,
+known extra quests, class restrictions, duplicate mappings, authoritative zero rewards, exactly-once
+scaling, quest-level versus hand-in-level handling, level-60 XP, and persisted-plan migration.
+Include integration tests proving that all three formerly empty dungeon bundles contribute to the
+planning forecast while unidentified slots remain absent from executable quest directives. Test
+the actual-XP checkpoint path, stale build/evidence rejection and replacement without losing saves.
+
+Run package tests, strict typechecks and lint first, then rebuild the full supported browser/addon
+matrix and inspect the resulting continuous per-member XP ledgers. Rebuild the existing 33 Alliance
+browser editions and 28 exact addon editions; enumerate the implemented Horde matrix explicitly
+rather than treating Alliance results as proof for Horde. Check desktop/mobile rendering, save/resume
+and matching browser/addon endpoints. Preserve one reproducible report bound to code commit,
+source archive, runtime build, bundle configuration and reward/evidence checksums.
+
+The first finish line is a complete **planning guide**: all applicable dungeons included, guaranteed
+quest counts respected, known and estimated XP visible, continuous per-member funding calculated,
+and actionable instructions for all identified content. Missing IDs do not block that finish line,
+but unidentified quest details must remain visibly pending. Do not claim the entire catalog was
+fetched merely because the current crawl queue completed.
+
+The second finish line is an **executable guide for the supported content**: real pickup/objective/
+hand-in instructions, current access/eligibility checks and a successful bounded addon review. It
+can ship with transparently estimated XP and actual-party checkpoints; it cannot claim exact
+instructions for unidentified quests or a fully measured optimal 1–60 time.
+
+Keep measured reward/combat/timing certification separate. The pre-bundle backlog had 26 historical
+reward estimates, 112 quest-validation task/code pairs and 105 grind-measurement tasks. The new
+bundle audit has zero blocking tasks, 147 validation tasks and 106 measurement tasks; it still uses
+26 historical route rewards from the frozen published snapshot. The completed-quest audit supersedes
+that reward count: zero historical hand-ins, 121 validation tasks and 106 measurement tasks remain.
+These are evidence requirements, not blocking bugs or a demand for one recording per task. Batch
+tests only when their build and character/party contexts genuinely match. Inaccessible beta
+content remains explicitly untested, without holding the planning product hostage to future IDs.
+
+The bundle identity/replacement, reward ledger, route consumers and audit are now implemented and
+verified locally. The fresh rewards, source report, 33-edition audit, 28-edition addon matrix and
+targeted in-game checklist have now been rebuilt. Next: perform the bounded in-game review and
+authorized release, plus explicit review of the remaining static source differences. The observation
+consumer is now implemented and tested; actual observations and source approval remain separate.
+Do not expand to an unrelated full-archive crawl as
+a release prerequisite, and do not claim a deployment until a pushed release is actually activated.
+
+## Verified implementation snapshot (October 18, 2026)
 
 The Alliance five-player route compiler is implemented locally across all 33 supported leader
 race/class editions. It consumes the applicable RestedXP backbone, 18 verified dungeon bundles,
@@ -17,8 +232,8 @@ actions, 850 distinct hand-ins, 71 leader chapters and 67 party chapters. It is 
 [addon review runbook](forever-leveling-addon-review.md). Public download remains blocked on the
 bounded in-game install/parser/quest-tracking/reload review, not on another export implementation.
 
-This completes the software route and safety-gate work described below; it does not satisfy the
-separate evidence/playtest gate. Twenty-six scheduled rewards still use labeled historical values,
+This completes the then-tested software route and safety-gate work described below; it does not
+satisfy the separate evidence/playtest gate. Twenty-six scheduled rewards still use labeled historical values,
 and the private combat snapshot has no reviewed dungeon population or calibrated kill context.
 Every unmeasured gap is represented by a checkpoint that requires fresh actual bars for all five.
 The exact counts, hashes and remaining evidence boundary are in the
@@ -28,8 +243,8 @@ The level-cost curve was re-extracted from installed client build 70450 and is b
 route's build-70205 curve. Reward identities are now bound to the current published client build in
 the runtime revision. The authorized guide-source archive itself remains a 70205 artifact; installed
 RestedXP `v4.11.26` must be separately diffed and authorized before claiming current-source parity.
-Older dated sections below are retained as decision history; their “pending” implementation or
-export wording does not override this current status section.
+Older dated sections below are retained as decision history. The October 19 completion contract
+above overrides conflicting scenario/count or implementation-completeness wording in this snapshot.
 
 ## Binding correction plan: XP-funded dungeon appointments (October 15, 2026)
 
@@ -99,6 +314,10 @@ separate issue, and an estimated route is not relabeled as observed or playteste
 
 ### Owner-approved unknown-dungeon parity scenarios (October 15)
 
+Historical policy: the October 19 contract above replaces the optional-count interpretation with
+four owner-confirmed quests per faction and an explicit implementation backlog. Reward amounts
+and unknown quest details remain distinct from that guaranteed count.
+
 The owner permits assuming that unmodeled new dungeons (currently Drowned City, Krol'dok and
 Alcaz Prison) have comparable quest packages and level-scaled rewards to Hall of Thanes, Ruins of
 Lordaeron and City of Dalaran. Do not keep the planning route blocked merely because their IDs
@@ -124,7 +343,8 @@ are not public. This is an explicit scenario assumption, not recovered game data
   is not the universal formula; reconcile/replace it before claiming a verified continuous route.
 
 Historical status at that checkpoint: the scenario-route compiler/UI was still to implement. The
-October 18 compiler described at the top of this document supersedes that software status.
+October 18 compiler completed the evidenced Alliance itinerary, but still omitted the three unknown
+bundles; the October 19 task table records the remaining guaranteed-bundle and faction work.
 Full-archive collection contains 2,535 unique quest IDs across both factions, every guide
 family/conditional branch and all known dungeon references. Details are in
 `docs/forever-leveling-archive.md`; collection alone never constituted route certification.

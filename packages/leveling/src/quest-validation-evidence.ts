@@ -14,6 +14,7 @@ export const questValidationEvidenceCodeSchema = z.enum([
 const partyMemberSchema = z
   .object({
     fingerprint: fingerprintSchema,
+    rosterFingerprint: fingerprintSchema.optional(),
     level: z.number().int().min(1).max(100),
     class: z.string().min(1).max(60),
     race: z.string().min(1).max(60),
@@ -54,9 +55,22 @@ const snapshotSchema = z
     rewarded: z.boolean().nullable(),
     availableAtGossip: z.boolean().nullable(),
     objectives: z.array(objectiveSchema).max(20),
+    prerequisites: z
+      .array(
+        z
+          .object({
+            questId: z.number().int().min(1).max(10_000_000),
+            onQuest: z.boolean().nullable(),
+            rewarded: z.boolean().nullable(),
+          })
+          .strict(),
+      )
+      .max(50)
+      .optional(),
     target: z
       .object({
         npcId: z.number().int().min(1).max(10_000_000).nullable(),
+        fingerprint: fingerprintSchema.optional(),
         name: z.string().min(1).max(200),
         level: z.number().int().min(1).max(100).nullable(),
       })
@@ -142,6 +156,53 @@ export const campaignQuestValidationObservationSchema = z
       context.addIssue({ code: "custom", message: "Party membership changed." });
     if (observation.startParty.members[0]?.fingerprint !== observation.character.fingerprint)
       context.addIssue({ code: "custom", message: "Player is not the first party member." });
+    for (const party of [observation.startParty, observation.endParty]) {
+      if (new Set(party.members.map((member) => member.fingerprint)).size !== party.size)
+        context.addIssue({ code: "custom", message: "Party members must be distinct." });
+      const correlated = party.members.flatMap((member) =>
+        member.rosterFingerprint ? [member.rosterFingerprint] : [],
+      );
+      if (
+        correlated.length &&
+        (correlated.length !== party.size || new Set(correlated).size !== party.size)
+      )
+        context.addIssue({
+          code: "custom",
+          message: "Roster correlation must identify every distinct party member.",
+        });
+    }
+    if (
+      observation.startParty.members.some((member, index) => {
+        const end = observation.endParty.members[index];
+        return (
+          member.rosterFingerprint !== end?.rosterFingerprint ||
+          member.class !== end?.class ||
+          member.race !== end?.race
+        );
+      })
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Party correlation or character context changed.",
+      });
+    const own = observation.startParty.members[0];
+    if (own?.class !== observation.character.class || own?.race !== observation.character.race)
+      context.addIssue({ code: "custom", message: "Character does not match the party context." });
+    for (const [index, snapshot] of observation.snapshots.entries()) {
+      if (index > 0 && snapshot.capturedAt < observation.snapshots[index - 1]!.capturedAt)
+        context.addIssue({ code: "custom", message: "Quest snapshots must be chronological." });
+      if (
+        new Set(snapshot.objectives.map((objective) => objective.index)).size !==
+        snapshot.objectives.length
+      )
+        context.addIssue({ code: "custom", message: "Objective indexes must be unique." });
+      if (
+        snapshot.prerequisites &&
+        new Set(snapshot.prerequisites.map((quest) => quest.questId)).size !==
+          snapshot.prerequisites.length
+      )
+        context.addIssue({ code: "custom", message: "Prerequisite identities must be unique." });
+    }
     if (
       observation.events.some(
         (event) =>

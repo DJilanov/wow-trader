@@ -1,5 +1,6 @@
 import {
   activeCampaignActions,
+  campaignIncludedLegs,
   type CampaignAction,
   type CampaignLeg,
   type CampaignPlan,
@@ -91,6 +92,7 @@ export interface CampaignSection {
   readonly questIds: readonly number[];
   readonly unresolvedQuestIds: readonly number[];
   readonly stopId: CampaignLeg["stopId"];
+  readonly planningOnly: boolean;
 }
 
 export function campaignSections(
@@ -99,6 +101,7 @@ export function campaignSections(
 ): readonly CampaignSection[] {
   const sections: CampaignSection[] = [];
   const active = progress ? activeCampaignActions(plan, progress) : plan.actions;
+  const includedLegs = campaignIncludedLegs(plan, progress);
   let pending: CampaignLeg[] = [];
   function section(
     id: string,
@@ -117,6 +120,7 @@ export function campaignSections(
       from: legs[0]!.from,
       to,
       stopId,
+      planningOnly: legs.some((leg) => leg.bundleId !== undefined),
       legIds: legs.map((leg) => leg.id),
       actionIds: legs.flatMap((leg) =>
         active.filter((action) => action.legId === leg.id).map((action) => action.id),
@@ -125,9 +129,9 @@ export function campaignSections(
       unresolvedQuestIds: [...new Set(legs.flatMap((leg) => leg.unresolvedQuestIds))],
     });
   }
-  for (let index = 0; index < plan.legs.length; index++) {
-    const leg = plan.legs[index]!;
-    if (leg.kind === "starter" && plan.legs[index + 1]?.kind === "starter") {
+  for (let index = 0; index < includedLegs.length; index++) {
+    const leg = includedLegs[index]!;
+    if (leg.kind === "starter" && includedLegs[index + 1]?.kind === "starter") {
       section(leg.id, leg.title, "starter", [leg], leg.to, null);
     } else if (leg.kind === "dungeon") {
       if (pending.length) {

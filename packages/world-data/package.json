@@ -23,9 +23,11 @@
     "@wow-trader/contracts": "workspace:*",
     "@wow-trader/db": "workspace:*",
     "drizzle-orm": "0.45.2",
+    "luaparse": "0.3.1",
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@types/luaparse": "0.2.13",
     "@types/node": "26.5.1",
     "tsup": "8.5.1",
     "tsx": "4.23.13",

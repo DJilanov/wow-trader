@@ -12,6 +12,7 @@ import {
 } from "../packages/reference-data/dist/index.js";
 
 const DUNGEON_AREA_IDS = {
+  "Razorfen Kraul": [491],
   "Scarlet Monastery": [796, 6109, 6386, 10008, 10009, 10010],
   "Razorfen Downs": [722],
   Uldaman: [1337, 1517, 10033],
@@ -240,10 +241,7 @@ function evidenceStatus(code, evidence) {
   }
   if (code === "personal-eligibility-unverified")
     return evidence.pageFacts?.side ? "source-ready" : "pending-page";
-  if (code === "source-gate-conflict")
-    return evidence.pageFacts && (evidence.historical || evidence.pageFacts.series.length)
-      ? "manual-review"
-      : "pending-page";
+  if (code === "source-gate-conflict") return evidence.pageFacts ? "manual-review" : "pending-page";
   return "manual-review";
 }
 
@@ -257,20 +255,58 @@ function inferPickup(quest, entitiesByKey, dungeonNames) {
     for (const id of group) {
       if (!Number.isSafeInteger(id) || id <= 0) continue;
       const entity = entitiesByKey.get(`${kind}:${id}`);
-      const areaIds = isRecord(entity?.data.spawns)
-        ? Object.keys(entity.data.spawns).map(Number).filter(Number.isSafeInteger)
-        : [];
-      givers.push({ kind, id, name: entity?.name ?? null, areaIds });
+      const sources =
+        kind === "item" && entity?.data.startQuest === quest.id
+          ? [
+              ...numericArray(entity.data.npcDrops).map((id) => ({ kind: "npc", id })),
+              ...numericArray(entity.data.objectDrops).map((id) => ({ kind: "object", id })),
+            ].map((source) => {
+              const origin = entitiesByKey.get(`${source.kind}:${source.id}`);
+              return { ...source, name: origin?.name ?? null, areaIds: entityAreaIds(origin) };
+            })
+          : [];
+      const areaIds =
+        kind === "item"
+          ? [...new Set(sources.flatMap((source) => source.areaIds))].sort((a, b) => a - b)
+          : entityAreaIds(entity);
+      givers.push({
+        kind,
+        id,
+        name: entity?.name ?? null,
+        areaIds,
+        ...(kind === "item" ? { sources } : {}),
+      });
     }
   }
+  const areas = givers.flatMap((giver) => giver.areaIds);
+  const locationsComplete =
+    givers.length > 0 &&
+    givers.every(
+      (giver) =>
+        giver.areaIds.length > 0 &&
+        (!giver.sources || giver.sources.every((source) => source.areaIds.length > 0)),
+    );
   return {
-    stage: givers.some((giver) => giver.areaIds.some((id) => dungeonAreas.has(id)))
-      ? "inside"
-      : givers.some((giver) => giver.areaIds.length)
-        ? "before"
-        : "unknown",
+    stage: !locationsComplete
+      ? "unknown"
+      : areas.every((id) => dungeonAreas.has(id))
+        ? "inside"
+        : areas.every((id) => !dungeonAreas.has(id))
+          ? "before"
+          : "unknown",
     givers,
   };
+}
+
+function entityAreaIds(entity) {
+  const areas = isRecord(entity?.data.spawns)
+    ? Object.keys(entity.data.spawns)
+        .map(Number)
+        .filter((id) => Number.isSafeInteger(id) && id > 0)
+    : [];
+  // A compact Lua table can decode as an array; its index is not an area ID.
+  const zoneId = number(entity?.data.zoneID);
+  return [...new Set(areas.length ? areas : zoneId === null ? [] : [zoneId])].sort((a, b) => a - b);
 }
 
 function historicalPrerequisites(quest) {

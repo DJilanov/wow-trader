@@ -114,6 +114,47 @@ function fixture(): { readonly plan: CampaignPlan; readonly actions: readonly Ca
 }
 
 describe("full campaign RestedXP compiler", () => {
+  it("binds passive prerequisite capture to the disputed quest without adding prerequisite actions", () => {
+    const { plan, actions } = fixture();
+    const extra = [
+      {
+        ...action("gate-accept", "shared", false, 92744, "accepted"),
+        sourceGateConflictQuestIds: [92744],
+      },
+      action("gate-objective", "shared", false, 92744, "objectives-complete"),
+      action("gate-reward", "shared", false, 92744, "rewarded"),
+    ];
+    const artifact = compileCampaignAddon(plan, [...actions, ...extra], options);
+    expect(artifact.lua).toContain("namespace.questValidationPrerequisites = {");
+    expect(artifact.lua).toContain("[92744] = { 92742 },");
+    expect(artifact.lua).not.toContain(".accept 92742");
+  });
+  it("labels guaranteed bundles without generating invented quest or location directives", () => {
+    const { plan, actions } = fixture();
+    const planning: CampaignAction = {
+      ...actions[0]!,
+      id: "guaranteed-bundle",
+      legId: "shared",
+      leaderOnly: false,
+      kind: "instructions",
+      questChanges: [],
+      positions: [],
+      instructions: ["Four guaranteed quests; IDs pending."],
+      bundleId: "drowned-city",
+    };
+    const artifact = compileCampaignAddon(plan, [...actions, planning], options);
+    expect(artifact.lua).toContain("PLANNING ONLY: four owner-confirmed faction quests");
+    expect(artifact.lua.match(/\.accept 2 /g)).toHaveLength(2);
+    expect(artifact.lua).not.toContain(".accept 0");
+    expect(artifact.lua).not.toContain(".turnin drowned-city");
+    expect(() =>
+      compileCampaignAddon(
+        plan,
+        [...actions, { ...planning, positions: actions[0]!.positions }],
+        options,
+      ),
+    ).toThrow("cannot emit quest or location");
+  });
   it("emits deterministic leader and party chains from the same campaign actions", () => {
     const { plan, actions } = fixture();
     const first = compileCampaignAddon(plan, actions, options);

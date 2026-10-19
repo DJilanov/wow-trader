@@ -1,8 +1,10 @@
 import type { ClassSlug } from "./model.js";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import type { CampaignRace } from "./campaign-route.js";
+import { gateQuestIds } from "./dungeon-model.js";
+import { questEligibility } from "./quest-eligibility.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261019-v7" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261019-v9" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;
@@ -107,6 +109,13 @@ function actionLines(action: CampaignAction): readonly string[] {
   if (action.kind === "unverified")
     throw new Error(`Unverified action ${action.id} cannot enter the addon package.`);
   const lines = ["step", `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`];
+  if (action.bundleId) {
+    if (action.questChanges.length || action.positions.length)
+      throw new Error("Planning-only bundles cannot emit quest or location directives.");
+    lines.push(
+      "    >> PLANNING ONLY: four owner-confirmed faction quests. IDs, objectives and access details are pending. Skip this optional stop or use actual in-game information; no quest completion is inferred.",
+    );
+  }
   lines.push(...positionLines(action));
   const xp = action.kind === "xp-check" || action.kind === "checkpoint" ? xpLine(action) : null;
   if (xp) lines.push(xp);
@@ -314,6 +323,17 @@ export function compileCampaignAddon(
     `namespace.runtimeBuild = ${options.runtimeBuild}`,
     "namespace.grindCheckpoints = {",
     ...grindCheckpoints.map((checkpoint) => `  [${JSON.stringify(checkpoint)}] = true,`),
+    "}",
+    "namespace.questValidationPrerequisites = {",
+    ...[...new Set(actions.flatMap((action) => action.sourceGateConflictQuestIds ?? []))]
+      .sort((a, b) => a - b)
+      .map((questId) => {
+        const gate = questEligibility(questId, plan.rewardFacts).gate;
+        const ids = gate ? [...new Set(gateQuestIds(gate))].sort((a, b) => a - b) : [];
+        if (ids.length > 50)
+          throw new Error("Quest validation prerequisite count exceeds its budget.");
+        return `  [${questId}] = { ${ids.join(", ")} },`;
+      }),
     "}",
     'if not RXPGuides or type(RXPGuides.RegisterGuide) ~= "function" then return end',
     "local _, build = GetBuildInfo()",

@@ -12,6 +12,12 @@ import { FOREVER_XP_CURVE } from "./westfall.js";
 import { xpToCheckpoint } from "./calculator.js";
 import { questEligibility } from "./quest-eligibility.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
+import { dungeonBundleKey, type DungeonBundle } from "./dungeon-bundle-model.js";
+import {
+  forecastDungeonBundle,
+  getDungeonBundle,
+  type DungeonBundleRewardRow,
+} from "./dungeon-bundles.js";
 import {
   premadeProgressSchema,
   type PremadeMember,
@@ -56,7 +62,8 @@ export interface PremadeStop {
   readonly bridge: string;
   readonly notes: readonly string[];
   readonly quests: readonly PremadeQuestChoice[];
-  readonly dataStatus: "journal-reference" | "historical-reference" | "missing-quest-data";
+  readonly dataStatus:
+    "journal-reference" | "historical-reference" | "missing-quest-data" | "guaranteed-bundle";
 }
 function choices(
   core: readonly number[],
@@ -119,7 +126,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     notes: [
       "Requested level 18 is below the conservative At-level 19 band. Only the experienced-premade policy exposes this proposal.",
     ],
-    quests: choices([95250, 95189, 92415], [95195]),
+    quests: choices([95250, 95189, 92415, 95195]),
     dataStatus: "journal-reference",
   },
   {
@@ -216,16 +223,16 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     preparation:
       "Collect A Green Sample and Power Overwhelming in Stormwind. At level 30, complete An Alarming Request in Southshore before the Modera quests. Collect Past Due for the later SM Library visit.",
     clear:
-      "Complete the garden/boss/key objectives. Do Starving Arcane's kills during the core route; some spawn mixes need multiple visits, so do not reset only for this optional reward.",
+      "All four quests are selected by default. Complete the garden, boss, key and Starving Arcane objectives you choose to do. If you skip an objective or the dungeon, continue without marking it complete; no extra clear is required by the guide.",
     handIn:
       "Deliver the Modera objectives, then the selected Stormwind rewards. Keep the sewer-key state separate from starting or finishing a quest.",
     bridge:
       "Use shared-kill work and actual XP to 33. Batch the Gnomer city and Kharanos preparations; preserve necessary flight and training stops.",
     notes: [
       "The conservative band is 31. The introductory quest and key-bearing quest have a recorded level-30 minimum.",
-      "Starving Arcane and Heart of Disruption have reported 9,400 rewards, not base 9,400 to boost again.",
+      "Each of the four quests has a collected full reward of 9,400 XP, for 37,600 before hand-in-level reductions. These final rewards are not multiplied again.",
     ],
-    quests: choices([92456, 92489, 92458], [92457]),
+    quests: choices([92456, 92489, 92457, 92458]),
     dataStatus: "journal-reference",
   },
   {
@@ -279,15 +286,18 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     nextLevel: 38,
     zone: "Stranglethorn Vale",
     preparation:
-      "Reserve the STV passage while preparing the next level checkpoint. No quest bundle/access chain has been verified in this catalog.",
+      "Plan the optional STV visit with all four faction quest slots selected. Exact pickups and access requirements are pending identification; no locations or prerequisites are invented.",
     clear:
-      "Quest identities and actual objective scope are still unavailable; this is a reserved reference stop, not a runnable quest route.",
-    handIn: "Unknown rewards are not zero and cannot unlock the next departure.",
+      "Four quests are guaranteed by the owner. Their IDs and objectives remain pending; review the planning slots, or skip this dungeon without reporting completion.",
+    handIn:
+      "Forecast four level-37 rewards using the Dalaran reward tier. Record actual XP after any real hand-ins; estimates never update your character.",
     bridge:
-      "Keep the reviewed shared-kill/outdoor continuation until the dungeon adapter has real IDs and gates.",
-    notes: ["Missing quest data; no fictional quest names or rewards are supplied."],
+      "Carry the planned rewards into the next checkpoint. If you skip the dungeon, use your actual XP and the outdoor continuation instead.",
+    notes: [
+      "Four owner-confirmed quests per faction; level 37 is an editable planning input, not a proven pickup gate. IDs, objectives and access instructions remain pending.",
+    ],
     quests: [],
-    dataStatus: "missing-quest-data",
+    dataStatus: "guaranteed-bundle",
   },
   {
     id: "scarlet-monastery",
@@ -319,13 +329,18 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     nextLevel: 45,
     zone: "Riverglades",
     preparation:
-      "Reserve the Riverglades passage and review actual unlocks; no usable quest bundle has been extracted for this planner.",
-    clear: "Reference stop only until IDs, prerequisites and scope are known.",
-    handIn: "Do not predict rewards from the dungeon name or invent an attunement.",
-    bridge: "Keep shared-kill progress to the next actual gate, preserving the future RFD pickup.",
-    notes: ["Missing quest data; the requested target stays visible for owner review."],
+      "Plan the optional Riverglades visit with all four faction quest slots selected. Confirm real access separately; no attunement is inferred.",
+    clear:
+      "Four guaranteed quest slots are included in planning; quest IDs and objectives are pending. Skip the dungeon if desired without recording a completed run.",
+    handIn:
+      "Forecast four level-42 rewards using the Dalaran reward tier, then replace the forecast with actual party XP after playing.",
+    bridge:
+      "Use actual party progress at the next gate and preserve the future RFD pickup, whether you visit or skip Krol'dok.",
+    notes: [
+      "Four owner-confirmed quests per faction; level 42 is an editable planning input. No invented quest IDs, pickups or objectives.",
+    ],
     quests: [],
-    dataStatus: "missing-quest-data",
+    dataStatus: "guaranteed-bundle",
   },
   {
     id: "razorfen-downs",
@@ -414,13 +429,18 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     nextLevel: 53,
     zone: "Dustwallow Marsh",
     preparation:
-      "Reserve the Dustwallow passage. Dungeon access and quest identities remain unverified; Missing Diplomat is not assumed to unlock it.",
-    clear: "This stop is reference-only until its real quest package is known.",
-    handIn: "No fabricated rewards or instant level gains are included.",
-    bridge: "Continue the necessary ZF→ST world chain and shared-kill work to the actual ST gate.",
-    notes: ["Missing quest data; retain a usable outdoor fallback."],
+      "Plan the optional Dustwallow visit with four faction quest slots. Access and identities are pending; Missing Diplomat is not assumed to unlock it.",
+    clear:
+      "All four guaranteed quest slots are selected for planning. Exact objectives remain pending; you may skip the dungeon without reporting quest completion.",
+    handIn:
+      "Forecast four level-50 rewards from the Dalaran reward tier. These estimates are not earned XP; save actual bars after real hand-ins.",
+    bridge:
+      "Retain the ZF→ST world chain and use actual XP for the Temple gate, including when you skip Alcaz.",
+    notes: [
+      "Four owner-confirmed quests per faction; level 50 is an editable planning input. Exact pickup, objective and hand-in details are pending.",
+    ],
     quests: [],
-    dataStatus: "missing-quest-data",
+    dataStatus: "guaranteed-bundle",
   },
   {
     id: "sunken-temple",
@@ -521,6 +541,18 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
 export function getPremadeStop(id: string): PremadeStop | null {
   return PREMADE_STOPS.find((stop) => stop.id === id) ?? null;
 }
+export function updatePremadeDungeonBundle(
+  progress: PremadeProgress,
+  bundle: DungeonBundle,
+): PremadeProgress {
+  return premadeProgressSchema.parse({
+    ...progress,
+    guaranteedBundles: {
+      ...progress.guaranteedBundles,
+      [dungeonBundleKey(bundle.dungeonId, bundle.faction)]: bundle,
+    },
+  });
+}
 export function getPremadeQuest(id: number): DungeonQuest | null {
   return DUNGEON_QUESTS.find((quest) => quest.id === id) ?? null;
 }
@@ -588,6 +620,9 @@ export function premadeReward(choice: PremadeQuestChoice, level: number): Dungeo
 }
 export interface PremadeMemberForecast {
   readonly knownQuestXp: number;
+  readonly bundleQuestXp: number;
+  readonly bundleRewards: readonly DungeonBundleRewardRow[];
+  readonly unknownBundleSlotKeys: readonly string[];
   readonly unknownQuestIds: readonly number[];
   readonly requiredXp: number | null;
   readonly gapXp: number | null;
@@ -641,6 +676,29 @@ export function forecastPremadeMember(
     return { choice, reward };
   });
   const knownQuestXp = rewards.reduce((sum, entry) => sum + (entry.reward.xp ?? 0), 0);
+  const bundle =
+    stop.dataStatus === "guaranteed-bundle"
+      ? getDungeonBundle(stop.id, "alliance", progress.guaranteedBundles)
+      : null;
+  const bundleForecast = bundle
+    ? forecastDungeonBundle(
+        bundle,
+        valid ? { level: handInLevel, currentXp: handInXp } : null,
+        {
+          ...member,
+          questStates: {
+            ...member.questStates,
+            ...Object.fromEntries(
+              rewards
+                .filter((entry) => entry.reward.xp !== null)
+                .map((entry) => [entry.choice.questId, "rewarded"]),
+            ),
+          },
+        },
+        (questId, level) => resolveReward({ questId, role: "core" }, level),
+      )
+    : null;
+  const bundleQuestXp = (bundleForecast?.referenceXp ?? 0) + (bundleForecast?.estimatedXp ?? 0);
   const unknownQuestIds = rewards
     .filter((entry) => entry.reward.xp === null)
     .map((entry) => entry.choice.questId);
@@ -650,7 +708,10 @@ export function forecastPremadeMember(
     valid && !member.xpNeedsUpdate
       ? xpToCheckpoint(member.level!, member.currentXp!, target, FOREVER_XP_CURVE)
       : null;
-  const gapXp = requiredXp === null ? null : Math.max(0, requiredXp - knownQuestXp);
+  const gapXp =
+    requiredXp === null || bundleForecast?.unknownSlotKeys.length
+      ? null
+      : Math.max(0, requiredXp - knownQuestXp - bundleQuestXp);
   const parity = progress.parityScenarios[stop.id];
   const parityXp =
     !parity || parity.baseXp === null
@@ -658,9 +719,9 @@ export function forecastPremadeMember(
       : parity.extraQuests *
         (50 * Math.round((parity.baseXp * ORDINARY_DUNGEON_XP_MULTIPLIER) / 50));
   let endpoint: PremadeMemberForecast["endpoint"] = null;
-  if (valid && !member.xpNeedsUpdate) {
+  if (valid && !member.xpNeedsUpdate && !bundleForecast?.unknownSlotKeys.length) {
     let level = member.level!,
-      xp = member.currentXp! + knownQuestXp;
+      xp = member.currentXp! + knownQuestXp + bundleQuestXp;
     while (level < 60 && xp >= FOREVER_XP_CURVE[level]!) {
       xp -= FOREVER_XP_CURVE[level]!;
       level++;
@@ -673,6 +734,9 @@ export function forecastPremadeMember(
   }
   return {
     knownQuestXp,
+    bundleQuestXp,
+    bundleRewards: bundleForecast?.rows ?? [],
+    unknownBundleSlotKeys: bundleForecast?.unknownSlotKeys ?? [],
     unknownQuestIds,
     requiredXp,
     gapXp,
@@ -686,9 +750,9 @@ export function premadeCheckpointReasons(
   progress: PremadeProgress,
 ): readonly string[] {
   const reasons: string[] = [];
-  if (stop.dataStatus === "missing-quest-data")
+  if (stop.dataStatus === "missing-quest-data" || stop.dataStatus === "guaranteed-bundle")
     reasons.push(
-      "This reserved stop has no verified quest bundle; it cannot be marked as a completed run.",
+      "The guaranteed quest count is included in planning, but exact quest/access details are pending. Use Next without Done to skip; do not report an unidentified bundle as a verified completed run.",
     );
   if (
     !progress.members.every((member) => forecastPremadeMember(stop, progress, member).actualReady)
@@ -773,7 +837,7 @@ export function advancePremadeStage(progress: PremadeProgress, done: boolean): P
   if (!stop) throw new Error("Unknown circuit stop.");
   const stageIndex = PREMADE_STAGES.findIndex((stage) => stage.id === progress.selectedStage);
   const next = PREMADE_STAGES[stageIndex + 1];
-  if (!next && premadeCheckpointReasons(stop, progress).length > 0)
+  if (done && !next && premadeCheckpointReasons(stop, progress).length > 0)
     throw new Error(premadeCheckpointReasons(stop, progress)[0]);
   const nextStop = PREMADE_STOPS[stopIndex + 1];
   return premadeProgressSchema.parse({

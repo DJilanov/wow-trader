@@ -35,9 +35,9 @@ C_Map = { GetBestMapForUnit = function() return 1429 end }
 C_GossipInfo = { GetAvailableQuests = function() return { { questID = 19 } } end }
 C_QuestLog = {
     GetLogIndexForQuestID = function() return onQuest and 4 or 0 end,
-    IsOnQuest = function() return onQuest end,
+    IsOnQuest = function(id) return id ~= 18 and onQuest end,
     ReadyForTurnIn = function() return ready end,
-    IsQuestFlaggedCompleted = function() return rewarded end,
+    IsQuestFlaggedCompleted = function(id) return id ~= 18 and rewarded end,
     GetQuestObjectives = function()
         return { { text = "Kill Hogger", numFulfilled = fulfilled, numRequired = 1, finished = fulfilled == 1 } }
     end,
@@ -46,6 +46,7 @@ local namespace = {
     release = "campaign-20261019",
     compiler = "campaign-addon-20261019-v7",
     runtimeBuild = 70450,
+    questValidationPrerequisites = { [19] = {18} },
 }
 assert(loadfile("apps/addon/KFCForeverGuides/QuestObserver.lua"))("KFCForeverGuides", namespace)
 
@@ -57,6 +58,10 @@ assert(session.questId == 19 and session.evidenceCode == "named-target-unverifie
 assert(session.startParty.size == 5 and #session.startParty.members == 5)
 assert(session.snapshots[1].availableAtGossip == true)
 assert(session.snapshots[1].target.npcId == 448)
+assert(session.snapshots[1].target.guid == "Creature-0-1-2-3-448-0000000001")
+assert(session.snapshots[1].prerequisites[1].questId == 18)
+assert(session.snapshots[1].prerequisites[1].onQuest == false)
+assert(session.snapshots[1].prerequisites[1].rewarded == false)
 
 now = now + 1
 onQuest = true

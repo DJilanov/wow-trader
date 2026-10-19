@@ -188,7 +188,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     sourceIds: [14],
     quests: [681, 564],
     instructions: [
-      "Return the Dalaran rewards and collect Past Due now for the later Scarlet Library visit. Do not reset Dalaran only for missing optional Starving Arcane spawns.",
+      "Return the Dalaran rewards you completed and collect Past Due now for the later Scarlet Library visit. All four Dalaran quests are offered by default; skip any unfinished objective without reporting its hand-in. Dungeon visits remain optional, with no forced reset for missing spawns.",
       "Batch Southshore/Arathi named and shared-kill work, then use the Ironforge/Kharanos visit for Gnomeregan pickups.",
       "The first punch card and its terminal upgrade order are required for the selected Gnomer quest. Personal robot guts, samples and the distant escort are not forced filler.",
     ],
@@ -231,7 +231,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     instructions: [
       "Deliver RFK's selected rewards, then use the hunt kill stages and Kurzen objectives on one coordinated STV loop. Do not farm ears, tusks, pages or tiger blood.",
       "The selected boss hunt stages may require a guaranteed quest trophy for each character; check all five before returning.",
-      "Continue directly to the verified Scarlet Monastery preparation. Drowned City remains visible in the research catalog, but is not an executable stop until its access and quest bundle are verified.",
+      "Review Drowned City's optional four-quest planning stop, then continue to Scarlet Monastery preparation. Quest IDs and access details remain pending; skip the dungeon if desired and use actual party XP for the next gate.",
     ],
   },
   {
@@ -258,7 +258,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [1396, 684, 685, 523, 537, 512, 600],
     instructions: [
       "Batch the SM book/finale deliveries before selecting more XP work. Use the sourced Arathi/Alterac named and shared-kill sequence below, then the relevant eastern route toward the next stop.",
-      "Continue directly toward the verified Razorfen Downs route. Krol'dok remains in the research catalog, but is not an executable stop until its access and quest bundle are verified.",
+      "Review Krol'dok's optional four-quest planning stop before the Razorfen Downs continuation. Exact quest/access instructions remain pending; planning rewards are not earned XP.",
     ],
   },
   {
@@ -324,7 +324,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [5863, 2781, 2875, 3362],
     instructions: [
       "Return the ZF quest bundle and carry the Mosh'aru chain forward. Use only still-unrewarded adjacent kill objectives for any remaining level-50 gap.",
-      "Continue directly through the verified Sunken Temple preparation. Alcaz Prison remains in the research catalog, but is not an executable stop until its access and quest bundle are verified.",
+      "Review Alcaz Prison's optional four-quest planning stop, then retain the Sunken Temple preparation. Quest identities and access are pending; skipped rewards must not be reported as earned XP.",
     ],
   },
   {

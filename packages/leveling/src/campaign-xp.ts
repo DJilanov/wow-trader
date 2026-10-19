@@ -23,7 +23,20 @@ import {
   type CampaignEvidenceSummary,
 } from "./campaign-evidence.js";
 import { grindMeasurementTotal, type CampaignGrindEvidence } from "./grind-evidence.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261019-v8";
+import {
+  forecastDungeonBundle,
+  getDungeonBundle,
+  type DungeonBundleRewardRow,
+} from "./dungeon-bundles.js";
+import {
+  createQuestValidationResolver,
+  type QuestValidationResolution,
+} from "./quest-validation-coverage.js";
+import type { CampaignQuestValidationEvidence } from "./quest-validation-evidence.js";
+import { LEVELING_RACES } from "./profile.js";
+import { createQuestValidationCertificateResolver } from "./quest-validation-certificates.js";
+import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261019-v10";
 
 export interface XpPosition {
   readonly level: number;
@@ -51,10 +64,12 @@ export interface CampaignXpMemberForecast {
   readonly dungeonCombatXp: number;
   readonly combatRows: readonly CampaignCombatRow[];
   readonly rewards: readonly CampaignXpRewardRow[];
+  readonly bundleRewards: readonly (DungeonBundleRewardRow & { readonly actionId: string })[];
   readonly unknownQuestIds: readonly number[];
   readonly eligibilityIssues: readonly string[];
   readonly evidenceIssues: readonly string[];
   readonly issues: readonly CampaignEvidenceIssue[];
+  readonly validationResolutions: readonly QuestValidationResolution[];
   readonly inheritedIssueCount: number;
   readonly inheritedEvidence: CampaignEvidenceSummary;
   readonly evidence: CampaignEvidenceSummary;
@@ -71,6 +86,7 @@ export interface CampaignXpCheckpoint {
   readonly position: XpPosition | null;
   readonly missingXp: number | null;
   readonly ready: boolean;
+  readonly planningOnly: boolean;
 }
 export interface CampaignXpSectionForecast {
   readonly sectionId: string;
@@ -102,19 +118,51 @@ function position(total: number): XpPosition {
   return { level, currentXp: level === 60 ? 0 : currentXp };
 }
 
+export interface CampaignXpForecastOptions {
+  readonly fromActionId?: string;
+  readonly combat?: readonly CampaignCombatScenario[];
+  readonly groupCombat?: readonly CampaignGroupCombatScenario[];
+  readonly facts?: readonly QuestRewardFact[];
+  readonly grindEvidence?: CampaignGrindEvidence;
+  readonly grindRuntimeBuild?: number;
+  readonly questValidation?: {
+    readonly evidences: readonly CampaignQuestValidationEvidence[];
+    readonly runtimeBuild: number;
+    readonly compilerRevision: string;
+  };
+}
+
 export function forecastCampaignXp(
   plan: CampaignPlan,
   progress: PremadeProgress,
-  options: {
-    readonly fromActionId?: string;
-    readonly combat?: readonly CampaignCombatScenario[];
-    readonly groupCombat?: readonly CampaignGroupCombatScenario[];
-    readonly facts?: readonly QuestRewardFact[];
-    readonly grindEvidence?: CampaignGrindEvidence;
-    readonly grindRuntimeBuild?: number;
-  } = {},
+  options: CampaignXpForecastOptions = {},
 ): readonly CampaignXpSectionForecast[] {
   const actions = activeCampaignActions(plan, progress);
+  const resolveValidation = options.questValidation
+    ? createQuestValidationResolver(
+        options.questValidation.evidences,
+        options.questValidation.runtimeBuild,
+        options.questValidation.compilerRevision,
+      )
+    : null;
+  const resolveCertificate = plan.questValidationCoverage
+    ? createQuestValidationCertificateResolver(
+        plan.questValidationCoverage,
+        options.questValidation?.runtimeBuild ??
+          plan.questValidationRuntimeBuild ??
+          plan.rewardBuild ??
+          plan.targetBuild,
+        CAMPAIGN_ADDON_COMPILER_REVISION,
+      )
+    : null;
+  const objectiveIndexes = new Map<number, Set<number>>();
+  for (const action of actions)
+    for (const change of action.questChanges) {
+      if (change.state !== "objectives-complete") continue;
+      const indexes = objectiveIndexes.get(change.questId) ?? new Set<number>();
+      indexes.add(change.objectiveIndex ?? 1);
+      objectiveIndexes.set(change.questId, indexes);
+    }
   if (plan.combat && plan.combat.targetBuild !== plan.targetBuild)
     throw new Error("Combat data belongs to a different route build.");
   const grindMeasurements = options.grindEvidence?.measurements ?? [];
@@ -208,6 +256,11 @@ export function forecastCampaignXp(
           .filter((id) => member.questStates[id] === "rewarded")
           .map(Number),
       ),
+      bundlePaid: new Set(
+        Object.entries(member.bundleSlotStates ?? {})
+          .filter(([, state]) => state === "rewarded")
+          .map(([key]) => key),
+      ),
       incomplete: false,
       unknown: new Set<number>(),
       blocked: new Set<number>(),
@@ -228,9 +281,11 @@ export function forecastCampaignXp(
     const summaries = ledgers.map((ledger) => ({
       start: ledger.total === null || ledger.unknown.size > 0 ? null : position(ledger.total),
       rewards: [] as CampaignXpRewardRow[],
+      bundleRewards: [] as (DungeonBundleRewardRow & { readonly actionId: string })[],
       eligibilityIssues: ledger.issue ? [ledger.issue] : ([] as string[]),
       evidenceIssues: [] as string[],
       issues: [] as CampaignEvidenceIssue[],
+      validationResolutions: [] as QuestValidationResolution[],
       inheritedIssueCount: ledger.issues.size,
       inheritedEvidence: summarizeCampaignEvidence([...ledger.issues.values()]),
       checkpoints: [] as CampaignXpCheckpoint[],
@@ -267,6 +322,55 @@ export function forecastCampaignXp(
           issue: CampaignEvidenceIssue,
           bucket: "evidence" | "eligibility" = "evidence",
         ): void => {
+          if (
+            (resolveValidation || resolveCertificate) &&
+            issue.questId !== null &&
+            !issue.blocksForecast
+          ) {
+            const eligibility = questEligibility(issue.questId, facts);
+            const context = {
+              release: plan.release,
+              raceId: player === 0 ? plan.race : (progress.members[player]!.raceId ?? null),
+              classSlug:
+                player === 0
+                  ? (plan.leaderClass ?? progress.members[player]!.classSlug)
+                  : progress.members[player]!.classSlug,
+              partySize: progress.members.length,
+              partyMembers: progress.members.map((member, index) => ({
+                raceId: index === 0 ? plan.race : (member.raceId ?? null),
+                classSlug: index === 0 ? (plan.leaderClass ?? member.classSlug) : member.classSlug,
+              })),
+              objectiveIndexes:
+                issue.code === "named-target-unverified"
+                  ? action.questChanges
+                      .filter(
+                        (change) =>
+                          change.questId === issue.questId &&
+                          change.state === "objectives-complete",
+                      )
+                      .map((change) => change.objectiveIndex ?? 1)
+                  : [...(objectiveIndexes.get(issue.questId) ?? [])].sort(
+                      (left, right) => left - right,
+                    ),
+              targetNpcIds: [
+                ...new Set(
+                  (automaticCombat.get(action.id) ?? []).flatMap((activity) =>
+                    activity.objectives
+                      .filter((objective) => objective.questId === issue.questId)
+                      .flatMap((objective) => objective.npcIds),
+                  ),
+                ),
+              ].sort((left, right) => left - right),
+              minimumLevelClaims: eligibility.minimumClaims,
+              prerequisiteGate: eligibility.gate,
+            };
+            const resolution =
+              resolveValidation?.(issue, context) ?? resolveCertificate?.(issue, context);
+            if (resolution) {
+              summary.validationResolutions.push(resolution);
+              return;
+            }
+          }
           ledger.incomplete = true;
           summary.issues.push(issue);
           ledger.issues.set(campaignEvidenceIssueKey(issue), issue);
@@ -359,12 +463,14 @@ export function forecastCampaignXp(
             missingXp === 0 &&
             missingQuests.length === 0 &&
             entryStop?.dataStatus !== "missing-quest-data";
+          const planningOnly = entryStop?.dataStatus === "guaranteed-bundle";
           summary.checkpoints.push({
             actionId: action.id,
             targetLevel: minimum ?? targetLevel,
             position: current,
             missingXp,
             ready,
+            planningOnly,
           });
           if (!ready) {
             const missingAccessData = entryStop?.dataStatus === "missing-quest-data";
@@ -383,6 +489,88 @@ export function forecastCampaignXp(
             });
             continue;
           }
+          if (planningOnly)
+            markIssue({
+              code: "dungeon-details-pending",
+              domain: "route",
+              message: `${entryStop.name}: four faction quests are owner-confirmed. Planning continues, but quest identities, access and executable instructions remain pending.`,
+              resolution: "offline-or-in-game",
+              actionId: action.id,
+              questId: null,
+              blocksForecast: false,
+            });
+        }
+        if (action.bundleId) {
+          const bundle = getDungeonBundle(action.bundleId, "alliance", progress.guaranteedBundles);
+          if (!bundle) throw new Error("Unknown guaranteed dungeon bundle.");
+          const forecast = forecastDungeonBundle(
+            bundle,
+            position(ledger.total),
+            {
+              questStates: ledger.states,
+              classSlug:
+                player === 0
+                  ? (plan.leaderClass ?? progress.members[player]!.classSlug)
+                  : progress.members[player]!.classSlug,
+              raceId: player === 0 ? plan.race : progress.members[player]!.raceId,
+              bundleSlotStates: {
+                ...progress.members[player]!.bundleSlotStates,
+                ...Object.fromEntries(
+                  [...ledger.bundlePaid].map((key) => [key, "rewarded" as const]),
+                ),
+              },
+            },
+            (questId, level) => resolveQuestReward(questId, level, facts),
+          );
+          summary.bundleRewards.push(
+            ...forecast.rows.map((row) => ({ ...row, actionId: action.id })),
+          );
+          if (forecast.endpoint === null) {
+            halt(
+              {
+                code: "reward-unresolved",
+                domain: "reward",
+                message: `${action.id}: a mapped real quest has unresolved reward evidence; later XP cannot be predicted.`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: null,
+                blocksForecast: true,
+              },
+              true,
+            );
+            continue;
+          }
+          ledger.total = cumulative(forecast.endpoint);
+          summary.referenceQuestXp += forecast.referenceXp;
+          summary.estimatedQuestXp += forecast.estimatedXp;
+          for (const row of forecast.rows) {
+            if (row.state !== "selected") continue;
+            ledger.bundlePaid.add(row.slotKey);
+            if (row.questId !== null) {
+              ledger.paid.add(row.questId);
+              ledger.states[String(row.questId)] = "rewarded";
+            }
+          }
+          markIssue({
+            code: "dungeon-details-pending",
+            domain: "route",
+            message: `${action.id}: guaranteed slots are planning entries, not executable quest identities or observed hand-ins.`,
+            resolution: "offline-or-in-game",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: false,
+          });
+          if (forecast.estimatedXp > 0)
+            markIssue({
+              code: "dungeon-bundle-estimated",
+              domain: "reward",
+              message: `${action.id}: ${forecast.estimatedXp} quest XP is estimated from the level-${bundle.planningQuestLevel} Dalaran-tier bundle, not multiplied party XP or collected rewards.`,
+              resolution: "offline-or-in-game",
+              actionId: action.id,
+              questId: null,
+              blocksForecast: false,
+            });
+          continue;
         }
         if (action.kind === "unverified") {
           halt({
@@ -518,6 +706,9 @@ export function forecastCampaignXp(
               }
             }
             const quest = getPremadeQuest(change.questId);
+            const memberRace = player === 0 ? plan.race : progress.members[player]!.raceId;
+            const memberFaction =
+              LEVELING_RACES.find((race) => race.id === memberRace)?.faction ?? "alliance";
             if (minimum === null || (quest && !eligibility.lifecycleKnown)) {
               markIssue({
                 code: "quest-lifecycle-unverified",
@@ -530,9 +721,9 @@ export function forecastCampaignXp(
               });
             }
             if (
-              quest?.faction === "horde" ||
+              (quest && quest.faction !== "both" && quest.faction !== memberFaction) ||
               (quest?.classSlug && member.classSlug && quest.classSlug !== member.classSlug) ||
-              (player === 0 && quest?.raceIds.length && !quest.raceIds.includes(plan.race))
+              (memberRace && quest?.raceIds.length && !quest.raceIds.includes(memberRace))
             ) {
               halt({
                 code: "quest-ineligible",
@@ -548,7 +739,7 @@ export function forecastCampaignXp(
             if (
               gate === "unknown" ||
               (quest?.classSlug && !member.classSlug) ||
-              (player !== 0 && quest?.raceIds.length)
+              (!memberRace && quest?.raceIds.length)
             ) {
               markIssue({
                 code: "personal-eligibility-unverified",
@@ -726,9 +917,11 @@ export function forecastCampaignXp(
       const {
         start,
         rewards,
+        bundleRewards,
         eligibilityIssues,
         evidenceIssues,
         issues,
+        validationResolutions,
         inheritedIssueCount,
         inheritedEvidence,
         checkpoints,
@@ -761,6 +954,7 @@ export function forecastCampaignXp(
         dungeonCombatXp,
         combatRows,
         rewards,
+        bundleRewards,
         unknownQuestIds: [...ledger.unknown],
         eligibilityIssues,
         evidenceIssues: [...new Set(evidenceIssues)],
@@ -773,6 +967,7 @@ export function forecastCampaignXp(
           ).values(),
         ],
         inheritedIssueCount,
+        validationResolutions,
         inheritedEvidence,
         evidence: summarizeCampaignEvidence([...ledger.issues.values()]),
         checkpoints,

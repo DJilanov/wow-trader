@@ -486,10 +486,16 @@ importers:
       drizzle-orm:
         specifier: 0.45.2
         version: 0.45.2(postgres@3.4.9)
+      luaparse:
+        specifier: 0.3.1
+        version: 0.3.1
       zod:
         specifier: 4.6.5
         version: 4.6.5
     devDependencies:
+      '@types/luaparse':
+        specifier: 0.2.13
+        version: 0.2.13
       '@types/node':
         specifier: 26.5.1
         version: 26.5.1

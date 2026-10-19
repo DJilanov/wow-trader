@@ -29,6 +29,9 @@ import {
   importedChapterSchema,
   campaignQuestRewardEvidenceSchema,
   mergeQuestRewardEvidence,
+  DUNGEON_BUNDLE_REVISION,
+  DUNGEON_BUNDLE_XP_SOURCE,
+  DEFAULT_DUNGEON_BUNDLE_LEVELS,
 } from "../packages/leveling/dist/index.js";
 import {
   questXpImportSetSchema,
@@ -381,6 +384,11 @@ async function main() {
   const observerFiles = await loadObserverFiles();
   const semantic = {
     compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+    guaranteedDungeonBundles: {
+      revision: DUNGEON_BUNDLE_REVISION,
+      defaultQuestLevels: DEFAULT_DUNGEON_BUNDLE_LEVELS,
+      xpReference: DUNGEON_BUNDLE_XP_SOURCE,
+    },
     state: "review",
     version: input.version,
     campaignRelease: plan.release,

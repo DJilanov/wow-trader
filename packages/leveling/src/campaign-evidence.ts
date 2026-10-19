@@ -23,7 +23,9 @@ export type CampaignEvidenceCode =
   | "dungeon-objective-misordered"
   | "combat-profile-unverified"
   | "reward-unresolved"
-  | "reward-historical-estimate";
+  | "reward-historical-estimate"
+  | "dungeon-bundle-estimated"
+  | "dungeon-details-pending";
 
 export interface CampaignEvidenceIssue {
   readonly code: CampaignEvidenceCode;
@@ -163,6 +165,18 @@ export const CAMPAIGN_EVIDENCE_CATALOG = {
       "Replace the fallback with published Forever XP or an exact current-build hand-in observation.",
     releaseImpact: "validation",
   },
+  "dungeon-bundle-estimated": {
+    label: "Guaranteed dungeon rewards use a planning estimate",
+    requiredEvidence:
+      "Replace the level-scaled bundle estimate with compatible real quest reward evidence.",
+    releaseImpact: "validation",
+  },
+  "dungeon-details-pending": {
+    label: "Guaranteed dungeon quest identities and access are pending",
+    requiredEvidence:
+      "Identify the four faction quests and source their pickup, objectives, hand-ins and access requirements.",
+    releaseImpact: "validation",
+  },
 } as const satisfies Record<CampaignEvidenceCode, CampaignEvidenceDefinition>;
 
 export function summarizeCampaignEvidence(
@@ -177,7 +191,7 @@ export function summarizeCampaignEvidence(
   return {
     reward: has("reward-unresolved")
       ? "unresolved"
-      : has("reward-historical-estimate")
+      : has("reward-historical-estimate") || has("dungeon-bundle-estimated")
         ? "estimated"
         : "verified",
     eligibility: blocks("eligibility")

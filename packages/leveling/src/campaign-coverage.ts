@@ -1,6 +1,10 @@
 import { activeCampaignActions, type CampaignPlan } from "./campaign.js";
 import { campaignSections, campaignSectionTarget } from "./campaign-sections.js";
-import { forecastCampaignXp, type CampaignXpSectionForecast } from "./campaign-xp.js";
+import {
+  forecastCampaignXp,
+  type CampaignXpSectionForecast,
+  type CampaignXpForecastOptions,
+} from "./campaign-xp.js";
 import { emptyPremadeProgress, type PremadeProgress } from "./premade-model.js";
 import { PREMADE_STOPS, premadeEntryLevel } from "./premade.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
@@ -52,6 +56,7 @@ export function campaignCoverageReady(
 export function auditCampaignSections(
   plan: CampaignPlan,
   selection: PremadeProgress = emptyPremadeProgress(),
+  options: CampaignXpForecastOptions = {},
 ): readonly CampaignSectionCoverage[] {
   const actions = activeCampaignActions(plan, selection);
   const sections = campaignSections(plan, selection);
@@ -82,7 +87,7 @@ export function auditCampaignSections(
         confirmations: {},
       })),
     };
-    const forecast = forecastCampaignXp({ ...plan, actions: entries }, progress).find(
+    const forecast = forecastCampaignXp({ ...plan, actions: entries }, progress, options).find(
       (entry) => entry.sectionId === section.id,
     )!;
     const handIns = [

@@ -132,7 +132,17 @@ function normalizeParty(raw, field, sourceSha256, issues) {
       .update(`kfc-quest-party-v1:${[...guids].sort().join(":")}`)
       .digest("hex")
       .slice(0, 24);
-    return { size, setFingerprint, members };
+    return {
+      size,
+      setFingerprint,
+      members: members.map((member, index) => ({
+        ...member,
+        rosterFingerprint: createHash("sha256")
+          .update(`kfc-quest-member-v1:${setFingerprint}:${guids[index]}`)
+          .digest("hex")
+          .slice(0, 24),
+      })),
+    };
   } catch (error) {
     issues.push(error instanceof Error ? error.message : `${field} is invalid.`);
     return null;
@@ -194,7 +204,26 @@ function normalizeSnapshots(raw, sourceSha256, issues) {
           : null;
         const level = rawTarget.has("level") ? integer(rawTarget.get("level"), 1, 100) : null;
         if (!name) throw new Error(`snapshots[${snapshotIndex + 1}].target is invalid.`);
-        target = { npcId, name, level };
+        const guid = rawTarget.has("guid") ? string(rawTarget.get("guid"), 200) : null;
+        const guidId = guid?.match(/^(?:Creature|Vehicle)-\d+-\d+-\d+-\d+-(\d+)-/);
+        if (guid && (!guidId || Number(guidId[1]) !== npcId))
+          throw new Error("Target GUID does not match its numeric NPC identity.");
+        target =
+          npcId === null
+            ? null
+            : {
+                npcId,
+                name,
+                level,
+                ...(guid
+                  ? {
+                      fingerprint: createHash("sha256")
+                        .update(`kfc-quest-target-v1:${guid}`)
+                        .digest("hex")
+                        .slice(0, 24),
+                    }
+                  : {}),
+              };
       }
       const rawLocation = table(value.get("location"), `snapshots[${snapshotIndex + 1}].location`);
       const mapId = rawLocation.has("mapId")
@@ -202,6 +231,17 @@ function normalizeSnapshots(raw, sourceSha256, issues) {
         : null;
       const zone = rawLocation.has("zone") ? string(rawLocation.get("zone"), 200) : null;
       const subzone = rawLocation.has("subzone") ? string(rawLocation.get("subzone"), 200) : null;
+      const prerequisites = value.has("prerequisites")
+        ? array(value.get("prerequisites"), "prerequisites").map((rawPrerequisite) => {
+            const prerequisite = table(rawPrerequisite, "prerequisite");
+            const questId = integer(prerequisite.get("questId"), 1, 10_000_000);
+            const onQuest = nullableBoolean(prerequisite, "onQuest");
+            const rewarded = nullableBoolean(prerequisite, "rewarded");
+            if (questId === null || onQuest === undefined || rewarded === undefined)
+              throw new Error("Prerequisite state is invalid.");
+            return { questId, onQuest, rewarded };
+          })
+        : undefined;
       return {
         capturedAt,
         onQuest,
@@ -209,6 +249,7 @@ function normalizeSnapshots(raw, sourceSha256, issues) {
         rewarded,
         availableAtGossip,
         objectives,
+        ...(prerequisites ? { prerequisites } : {}),
         target,
         location: { mapId, zone, subzone },
       };

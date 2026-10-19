@@ -43,11 +43,12 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
-  it("starts at level 1, ends at 60, includes only evidenced dungeons and owns every action", () => {
+  it("starts at level 1, ends at 60, distinguishes sourced and planning dungeons and owns every action", () => {
     const route = plan();
     expect(route.legs[0]?.from).toBe(1);
     expect(route.legs.at(-1)?.to).toBe(60);
-    expect(route.legs.filter((leg) => leg.kind === "dungeon")).toHaveLength(18);
+    expect(route.legs.filter((leg) => leg.kind === "dungeon" && !leg.bundleId)).toHaveLength(18);
+    expect(route.legs.filter((leg) => leg.bundleId)).toHaveLength(3);
     expect(route.legs.some((leg) => leg.id === "duskwood-watch")).toBe(true);
     for (const action of route.actions)
       expect(route.legs.find((leg) => leg.id === action.legId)?.actionIds).toContain(action.id);
@@ -65,11 +66,15 @@ describe("continuous 1–60 premade campaign", () => {
     expect(route.actions.indexOf(starterGate!)).toBeLessThan(
       route.actions.findIndex((action) => action.legId === "start-116"),
     );
-    expect(
-      route.legs.some((leg) =>
-        ["dungeon-drowned-city", "dungeon-kroldok", "dungeon-alcaz"].includes(leg.id),
-      ),
-    ).toBe(false);
+    for (const leg of route.legs.filter((leg) => leg.bundleId)) {
+      const entries = route.actions.filter((action) => action.legId === leg.id);
+      expect(
+        entries.every(
+          (action) => action.questChanges.length === 0 && action.positions.length === 0,
+        ),
+      ).toBe(true);
+      expect(entries.some((action) => action.bundleId === leg.bundleId)).toBe(true);
+    }
     expect(
       route.actions
         .flatMap((action) => action.questChanges)
@@ -192,6 +197,26 @@ describe("continuous 1–60 premade campaign", () => {
     for (let i = 0; i < 5; i++) progress = recordPremadeXp(progress, i, 20, 0);
     expect(campaignActionReasons(entry, progress)[0]).toContain("preparation hand-ins");
     expect(route.actions.some((action) => action.kind === "unverified")).toBe(false);
+  });
+  it("includes all four Dalaran lifecycles and keeps navigation separate from completion", () => {
+    const route = plan();
+    const actions = route.actions.filter((action) => action.legId === "dungeon-dalaran");
+    for (const questId of [92456, 92489, 92457, 92458]) {
+      expect(
+        actions
+          .flatMap((action) => action.questChanges)
+          .filter((change) => change.questId === questId)
+          .map((change) => change.state),
+      ).toEqual(["accepted", "objectives-complete", "rewarded"]);
+    }
+    const accept = actions.find((action) =>
+      action.questChanges.some((change) => change.questId === 92457 && change.state === "accepted"),
+    )!;
+    const progress = recordPremadeXp(emptyPremadeProgress(), 0, 33, 0);
+    const next = updateCampaignAction(route, progress, accept.id, false);
+    expect(next.campaigns[route.release]!.selectedActionId).not.toBe(accept.id);
+    expect(next.campaigns[route.release]!.completion).toEqual({});
+    expect(next.members).toEqual(progress.members);
   });
   it("keeps optional raid goals off and finishes without looping back to level 1", () => {
     const route = plan();

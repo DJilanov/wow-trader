@@ -15,6 +15,8 @@ import { getLevelingMaps } from "./leveling-maps";
 import type { LevelingChapterMaps } from "./leveling-map-data";
 import { getLevelingRewardSnapshot } from "./leveling-quest-xp";
 import { getLevelingCombatSnapshot } from "./leveling-combat";
+import { getLevelingQuestValidationCoverage } from "./leveling-quest-validation";
+import { campaignRewardQuestIds, isSupportedCatchUpBatch } from "./leveling-reward-inventory";
 
 let cache:
   | {
@@ -77,13 +79,7 @@ async function withEvidence(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
 ): Promise<CampaignPlan> {
-  const ids = [
-    ...new Set([
-      ...plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
-      ...(plan.catchUpBatches ?? []).map((batch) => batch.questId),
-      ...(plan.library?.choices ?? []).map((choice) => choice.questId),
-    ]),
-  ];
+  const ids = campaignRewardQuestIds(plan);
   const [snapshot, combat] = await Promise.all([
     getLevelingRewardSnapshot(ids),
     getLevelingCombatSnapshot(),
@@ -92,19 +88,25 @@ async function withEvidence(
     combat.data && combat.data.targetBuild === plan.targetBuild
       ? attachCampaignCombat(plan, sources, combat.data, combat.revision)
       : plan;
+  const validation = await getLevelingQuestValidationCoverage(snapshot.clientBuild);
   return compileCampaignFunding(
     compileCampaignPickupGates({
       ...enriched,
-      catchUpBatches: (plan.catchUpBatches ?? []).filter(
-        (batch) => batch.objectiveType === "shared-kills" && !batch.conditional,
-      ),
+      catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
       rewardFacts: snapshot.facts,
-      rewardRevision: snapshot.revision,
+      rewardRevision: `${snapshot.revision}:${validation.revision}`,
       rewardBuild: snapshot.clientBuild,
+      ...(validation.data
+        ? {
+            questValidationCoverage: validation.data,
+            questValidationRuntimeBuild: validation.data.runtimeBuild,
+          }
+        : {}),
       rewardNotice:
         [
           snapshot.notice,
           combat.notice,
+          validation.notice,
           combat.data && combat.data.targetBuild !== plan.targetBuild
             ? "Combat references belong to a different client build and are excluded."
             : null,

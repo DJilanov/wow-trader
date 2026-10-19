@@ -1,6 +1,11 @@
 import { z } from "zod";
 import { classSlugs } from "./model.js";
+import { LEVELING_RACES, raceIds } from "./profile.js";
 import { campaignProgressSchema } from "./campaign-model.js";
+import {
+  dungeonBundleOverridesSchema,
+  dungeonBundleSlotStatesSchema,
+} from "./dungeon-bundle-model.js";
 
 export const PREMADE_ROUTE_REVISION = "premade-five-20261013-v1";
 export const premadeStopIds = [
@@ -34,6 +39,7 @@ export const premadeProgressSchema = z
     selectedStage: z.enum(["prepare", "clear", "hand-in", "checkpoint"]).default("prepare"),
     stages: z.record(z.string().regex(/^[a-z0-9-]{1,90}$/), z.boolean()).default({}),
     selectedExtras: z.record(z.string().regex(/^[1-9]\d{0,5}$/), z.boolean()).default({}),
+    guaranteedBundles: dungeonBundleOverridesSchema.default({}),
     selectedBatches: z
       .record(
         z.string().regex(/^[a-z0-9-]{1,100}$/),
@@ -72,6 +78,7 @@ export const premadeProgressSchema = z
             level: z.number().int().min(1).max(60).nullable().default(null),
             currentXp: z.number().int().min(0).max(1_000_000).nullable().default(null),
             classSlug: z.enum(classSlugs).nullable().default(null),
+            raceId: z.enum(raceIds).nullable().optional(),
             xpNeedsUpdate: z.boolean().default(true),
             confirmations: z
               .record(z.string().regex(/^[a-z0-9-]{1,100}$/), z.boolean())
@@ -82,12 +89,24 @@ export const premadeProgressSchema = z
                 z.enum(["not-started", "accepted", "objectives-complete", "rewarded"]),
               )
               .default({}),
+            bundleSlotStates: dungeonBundleSlotStatesSchema.default({}),
           })
           .strict(),
       )
       .length(5),
   })
-  .strict();
+  .strict()
+  .superRefine((progress, context) => {
+    for (const [index, member] of progress.members.entries()) {
+      const race = LEVELING_RACES.find((entry) => entry.id === member.raceId);
+      if (race && member.classSlug && !race.classes.includes(member.classSlug))
+        context.addIssue({
+          code: "custom",
+          path: ["members", index, "classSlug"],
+          message: "Class is not available for this race.",
+        });
+    }
+  });
 export type PremadeProgress = z.infer<typeof premadeProgressSchema>;
 export type PremadeMember = PremadeProgress["members"][number];
 export type PremadeStageId = PremadeProgress["selectedStage"];

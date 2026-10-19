@@ -28,6 +28,9 @@ import {
   nextCampaignAction,
   campaignSectionXpGap,
   campaignRequiredDungeonQuest,
+  getDungeonBundle,
+  dungeonBundleKey,
+  updatePremadeDungeonBundle,
   type CampaignAction,
   type CampaignPlan,
   type PremadeProgress,
@@ -54,6 +57,9 @@ import {
 import { LevelingDungeonPreparation } from "./leveling-campaign-outline";
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
 import { LevelingCombatTargets } from "./leveling-combat-targets";
+import { LevelingDungeonBundle } from "./leveling-dungeon-bundle";
+import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
+import { LevelingPartyIdentity } from "./leveling-party-identity";
 
 interface CampaignProps {
   readonly plan: CampaignPlan;
@@ -121,6 +127,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
   const [confirmed, setConfirmed] = useState<string | null>(null);
   const settingsButton = useRef<HTMLButtonElement>(null);
   const batchRevision = JSON.stringify(progress.selectedBatches ?? {});
+  const bundleRevision = JSON.stringify(progress.guaranteedBundles ?? {});
   const race = getLevelingRace("alliance", plan.race)!;
   useEffect(() => {
     if (!loaded) return;
@@ -186,7 +193,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       window.removeEventListener("hashchange", restore);
       window.removeEventListener("popstate", restoreHistory);
     };
-  }, [loaded, legId, plan.release, active?.id, progress.raidGoals, batchRevision]);
+  }, [loaded, legId, plan.release, active?.id, progress.raidGoals, batchRevision, bundleRevision]);
   function savePlan(): void {
     const matching =
       session?.profile.faction === "alliance" && session.profile.raceId === plan.race
@@ -305,6 +312,9 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       nextCampaignAction(plan, progress, action.id).id === entry.id && entry.id !== action.id;
     const entryTargets = campaignQuestTargets(entry, progress);
     const targetNames = entryTargets.map((index) => `Player ${index + 1}`).join(", ");
+    const entryBundle = entry.bundleId
+      ? getDungeonBundle(entry.bundleId, "alliance", progress.guaranteedBundles)
+      : null;
     return (
       <LevelingQuestCard
         key={entry.id}
@@ -392,6 +402,16 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           {entry.instructions.map((line, lineIndex) => (
             <p key={lineIndex}>{line}</p>
           ))}
+          {entryBundle && (
+            <LevelingDungeonBundle
+              key={dungeonBundleKey(entryBundle.dungeonId, entryBundle.faction)}
+              bundle={entryBundle}
+              dungeonName={leg.title}
+              disabled={!enabled}
+              rewardFacts={plan.rewardFacts ?? []}
+              onChange={(next) => update(updatePremadeDungeonBundle(progress, next))}
+            />
+          )}
           <div className={styles.links}>
             {[...new Set(entry.questChanges.map((change) => change.questId))].map((id) => (
               <LevelingEntityLinks key={id} kind="quest" id={id} />
@@ -474,7 +494,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             ? `Entry ${premadeEntryLevel(entryStop, progress, plan.rewardFacts)}`
             : `Target ${xpAudit.targetLevel}`
       }
-      profile={`${race.name} start · ${chapters.filter((entry) => entry.kind === "dungeon").length} verified dungeon stops with the world route between them`}
+      profile={`${race.name} start · ${chapters.filter((entry) => entry.kind === "dungeon" && !entry.planningOnly).length} sourced dungeon stops + ${chapters.filter((entry) => entry.planningOnly).length} guaranteed-bundle planning stops`}
       dashboardHref={
         legId
           ? `/forever/leveling/routes/alliance-${plan.race}?plan=premade${plan.leaderClass ? `&class=${plan.leaderClass}` : ""}`
@@ -599,6 +619,12 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             Include MC / Onyxia BRD stages / Shadowforge goals
           </label>
           <h3>Actual party XP · update after hand-ins</h3>
+          <LevelingPartyIdentity
+            progress={progress}
+            disabled={!enabled}
+            leader={{ raceId: plan.race, classSlug: plan.leaderClass }}
+            onChange={update}
+          />
           <div className={styles.partyXp}>
             {progress.members.map((member, memberIndex) => (
               <PremadePartyXp
@@ -754,6 +780,12 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         Follow the areas in order. Dungeon pickups and prerequisite chains belong to the zone
         questing, not a separate leveling bracket. Catch-up is only for the XP still needed.
       </p>
+      <LevelingOptionalDungeonBundles
+        progress={progress}
+        disabled={!enabled}
+        rewardFacts={plan.rewardFacts ?? []}
+        onChange={(bundle) => update(updatePremadeDungeonBundle(progress, bundle))}
+      />
       {leg.unresolvedQuestIds.length > 0 && (
         <p className={styles.warning}>
           Preparation references still needing source detail: {leg.unresolvedQuestIds.join(", ")}.

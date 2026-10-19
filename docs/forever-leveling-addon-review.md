@@ -2,6 +2,20 @@
 
 Status: local review artifact, not a public or playtested release. Updated October 19, 2026.
 
+For new recordings use review.3 from the
+[quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md):
+`kfc-premade5-human-warrior-3589f8e108c94fba.zip`, compiler `campaign-addon-20261019-v9`, ZIP SHA-256
+`5256525275dedaa6dfe39ec12743df3e3c55b7b804ff9a8632da33a4de958855`.
+It adds the passive prerequisite/NPC-instance context required by the consumer. Older package
+receipts below are retained for provenance and rollback, not as the current recording instructions.
+
+The earlier completed-quest review.2 ZIP is
+`artifacts/leveling/campaign-addon-review/kfc-premade5-human-warrior-aeaf87d7cab25c8c/kfc-premade5-human-warrior-aeaf87d7cab25c8c.zip`.
+It contains 2,445 actions and 852 distinct hand-ins with no historical route-reward fallback.
+All 28 exact editions compile; the matrix now spans 2,109–2,469 actions and 725–864 hand-ins.
+See the [completion receipt](forever-leveling-quest-completion-2026-10-19.md) for checksums and data
+identity. Older package counts below are historical receipts, not the current reward state.
+
 ## Delivered
 
 The campaign addon compiler consumes the same funded, source-ordered campaign actions as the web
@@ -22,8 +36,8 @@ When personal and shared source branches contain the same complete paid-once lif
 that lifecycle once for the affected role. A source guide update, reward snapshot update or target
 build produces a new immutable semantic identity.
 
-All 28 exact Alliance race/class editions compile successfully. Across that matrix, editions contain
-2,091–2,451 actions, 723–862 distinct hand-ins, 66–71 leader chapters and 64–68 party chapters.
+All 28 exact Alliance race/class editions compile successfully. Across the current matrix, editions contain
+2,109–2,469 actions, 725–864 distinct hand-ins, 69–74 leader chapters and 67–71 party chapters.
 The five additional browser editions are class-neutral selectors and are deliberately not addon
 editions.
 
@@ -69,7 +83,7 @@ pnpm leveling:addon:campaign -- \
   --runtime-build=70450 \
   --restedxp-version=v4.11.26 \
   --interface=16001 \
-  --version=0.2.0-review.1
+  --version=0.2.0-review.3
 ```
 
 Before making any edition available, compile the entire exact-edition matrix:
@@ -82,7 +96,7 @@ pnpm leveling:addon:campaign -- \
   --runtime-build=70450 \
   --restedxp-version=v4.11.26 \
   --interface=16001 \
-  --version=0.2.0-review.1 \
+  --version=0.2.0-review.3 \
   --verify-all
 ```
 

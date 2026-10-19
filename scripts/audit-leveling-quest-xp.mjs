@@ -29,9 +29,16 @@ import {
   campaignGrindEvidenceSchema,
   campaignQuestRewardEvidenceSchema,
   mergeQuestRewardEvidence,
+  DUNGEON_BUNDLE_REVISION,
+  DUNGEON_BUNDLE_XP_SOURCE,
+  DEFAULT_DUNGEON_BUNDLE_LEVELS,
+  campaignQuestValidationEvidenceSchema,
+  CAMPAIGN_ADDON_COMPILER_REVISION,
+  questValidationCertificate,
+  questValidationCoverageSchema,
 } from "../packages/leveling/dist/index.js";
 import {
-  readQuestXpIndex,
+  questXpIndexSchema,
   readPublishedQuestXp,
   questXpImportSetSchema,
   atomicJsonWrite,
@@ -42,7 +49,7 @@ const args = rawArgs[0] === "--" ? rawArgs.slice(1) : rawArgs;
 if (
   args.some(
     (argument) =>
-      !/^--(?:destination|rewards|progress|combat|grind-evidence|reward-evidence|runtime-build)=.+/.test(
+      !/^--(?:destination|rewards|progress|combat|grind-evidence|reward-evidence|quest-validation-evidence|runtime-build)=.+/.test(
         argument,
       ) &&
       !/^--reward-import=.+/.test(argument) &&
@@ -50,7 +57,7 @@ if (
   )
 )
   throw new Error(
-    "Use --destination=directory --rewards=published-directory [--reward-import=file] [--reward-evidence=file] [--combat=combat-directory] [--grind-evidence=file --runtime-build=number] [--progress=party-state.json] [--require-covered].",
+    "Use --destination=directory --rewards=published-directory [--reward-import=file] [--reward-evidence=file] [--quest-validation-evidence=file (repeatable)] [--combat=combat-directory] [--grind-evidence=file --runtime-build=number] [--progress=party-state.json] [--require-covered].",
   );
 const value = (name) =>
   args.find((argument) => argument.startsWith(`--${name}=`))?.slice(name.length + 3);
@@ -114,7 +121,12 @@ if (value("grind-evidence")) {
   if (grindEvidence.measurements.some((measurement) => measurement.build !== runtimeBuild))
     throw new Error("Grind evidence and runtime builds do not match.");
 }
-const index = await readQuestXpIndex(resolve(rewardsRoot));
+const rewardIndexRaw = await bounded(
+  join(resolve(rewardsRoot), "quest-xp", "index.json"),
+  4_000_000,
+);
+const index = questXpIndexSchema.parse(JSON.parse(rewardIndexRaw));
+const rewardIndexSha256 = checksum(rewardIndexRaw);
 let facts = [];
 const recordHashes = [];
 for (const entry of index?.records ?? []) {
@@ -174,6 +186,32 @@ if (value("reward-evidence")) {
   observedRewardIds = [...merged.observedQuestIds];
 }
 let base = emptyPremadeProgress();
+const questValidationInputs = [];
+for (const argument of args.filter((argument) =>
+  argument.startsWith("--quest-validation-evidence="),
+)) {
+  const path = resolve(argument.slice("--quest-validation-evidence=".length));
+  const raw = await bounded(path, 8_000_000);
+  const evidence = campaignQuestValidationEvidenceSchema.parse(JSON.parse(raw));
+  if (evidence.runtimeBuild !== runtimeBuild)
+    throw new Error("Quest validation and runtime builds do not match.");
+  questValidationInputs.push({ evidence, sha256: checksum(raw) });
+}
+if (questValidationInputs.length > 20)
+  throw new Error("At most 20 quest-validation evidence files may be attached.");
+const forecastOptions = {
+  ...(grindEvidence ? { grindEvidence } : {}),
+  grindRuntimeBuild: runtimeBuild,
+  ...(questValidationInputs.length
+    ? {
+        questValidation: {
+          evidences: questValidationInputs.map((input) => input.evidence),
+          runtimeBuild,
+          compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+        },
+      }
+    : {}),
+};
 for (let player = 0; player < base.members.length; player++)
   base = recordPremadeXp(base, player, 1, 0);
 if (value("progress"))
@@ -232,11 +270,8 @@ for (const race of CAMPAIGN_RACES)
         policies.push({
           difficultyPolicy,
           raidGoals,
-          chapters: auditCampaignSections(plan, scenario),
-          sections: forecastCampaignXp(plan, scenario, {
-            ...(grindEvidence ? { grindEvidence } : {}),
-            grindRuntimeBuild: runtimeBuild,
-          }),
+          chapters: auditCampaignSections(plan, scenario, forecastOptions),
+          sections: forecastCampaignXp(plan, scenario, forecastOptions),
         });
       }
     projections.push({
@@ -256,7 +291,9 @@ for (const race of CAMPAIGN_RACES)
           ),
         ],
         xpCheckActions: plan.actions.filter((action) => action.kind === "xp-check").length,
-        verifiedDungeonLegs: plan.legs.filter((leg) => leg.kind === "dungeon").length,
+        verifiedDungeonLegs: plan.legs.filter((leg) => leg.kind === "dungeon" && !leg.bundleId)
+          .length,
+        planningDungeonLegs: plan.legs.filter((leg) => leg.bundleId).length,
       },
       lifecycleExclusions: plan.lifecycleExclusions ?? [],
       library: plan.library ?? null,
@@ -422,7 +459,8 @@ const evidenceBacklog = {
   calculatorRevision: CAMPAIGN_XP_REVISION,
   archiveSha256: manifest.sourceSha256,
   targetBuild: manifest.targetBuild,
-  rewardIndexSha256: index?.sha256 ?? null,
+  rewardIndexSha256,
+  questValidationEvidenceSha256s: questValidationInputs.map((input) => input.sha256),
   summary: {
     tasks: evidenceTasks.length,
     byReleaseImpact: evidenceTaskCounts,
@@ -441,6 +479,36 @@ const evidenceBacklogSha256 = checksum(JSON.stringify(evidenceBacklog));
 const evidenceBacklogFile = `campaign-evidence-backlog-${evidenceBacklogSha256.slice(0, 16)}.json`;
 await mkdir(resolve(destination), { recursive: true });
 await atomicJsonWrite(join(resolve(destination), evidenceBacklogFile), evidenceBacklog);
+let publicQuestValidation = null;
+if (questValidationInputs.length) {
+  const certificates = new Map();
+  for (const projection of projections)
+    for (const policy of projection.policies)
+      for (const section of [
+        ...policy.sections,
+        ...policy.chapters.map((chapter) => chapter.forecast),
+      ])
+        for (const member of section.members)
+          for (const resolution of member.validationResolutions) {
+            const certificate = questValidationCertificate(resolution);
+            const key = `${certificate.code}:${certificate.questId}:${certificate.contextKey}`;
+            if (!certificates.has(key)) certificates.set(key, certificate);
+          }
+  const coverage = questValidationCoverageSchema.parse({
+    schema: "campaign-quest-validation-coverage.v1",
+    runtimeBuild,
+    compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+    certificates: [...certificates.values()].sort((left, right) =>
+      `${left.code}:${left.questId}:${left.contextKey}`.localeCompare(
+        `${right.code}:${right.questId}:${right.contextKey}`,
+      ),
+    ),
+  });
+  const sha256 = checksum(`${JSON.stringify(coverage)}\n`);
+  const path = join(resolve(destination), `quest-validation-coverage-${sha256}.json`);
+  await atomicJsonWrite(path, coverage);
+  publicQuestValidation = { path, sha256, certificateCount: coverage.certificates.length };
+}
 const report = {
   schema: "campaign-xp-audit.v8",
   calculatorRevision: CAMPAIGN_XP_REVISION,
@@ -451,7 +519,28 @@ const report = {
   curveBuild: 70205,
   curveSha256: createHash("sha256").update(JSON.stringify(FOREVER_XP_CURVE)).digest("hex"),
   rewardIndex: index,
+  rewardIndexSha256,
+  questValidation: {
+    runtimeBuild,
+    compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+    evidenceSha256s: questValidationInputs.map((input) => input.sha256),
+    publicCoverage: publicQuestValidation,
+    observationCount: questValidationInputs.reduce(
+      (total, input) => total + input.evidence.observations.length,
+      0,
+    ),
+    status:
+      "Reviewed observations clear only matching quest/code, release/compiler, build and covered race/class/party contexts. They never alter gates, XP or saved quest state.",
+  },
   recordHashes,
+  guaranteedDungeonBundles: {
+    revision: DUNGEON_BUNDLE_REVISION,
+    defaultQuestLevels: DEFAULT_DUNGEON_BUNDLE_LEVELS,
+    xpReference: DUNGEON_BUNDLE_XP_SOURCE,
+    overrides: base.guaranteedBundles,
+    status:
+      "Four owner-confirmed quest slots per faction; unidentified quests contribute labeled planning XP, not observed rewards or executable quest directives.",
+  },
   rewardEvidence: {
     publishedForeverFacts: facts.filter(
       (fact) => fact.status === "available" && fact.evidenceKind === "published-forever",
@@ -529,6 +618,9 @@ const report = {
     },
     verifiedDungeonLegs: [
       ...new Set(projections.map((projection) => projection.route.verifiedDungeonLegs)),
+    ],
+    planningDungeonLegs: [
+      ...new Set(projections.map((projection) => projection.route.planningDungeonLegs)),
     ],
     uniqueHandInQuestIds: routeHandIns.length,
     publishedForeverHandInRewardIds: routePublishedRewardIds.length,

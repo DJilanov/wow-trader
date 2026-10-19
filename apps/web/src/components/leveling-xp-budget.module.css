@@ -38,6 +38,13 @@
   border-left: 3px solid var(--gold);
   padding-left: 0.7rem;
 }
+.evidenceSummary {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+.evidenceSummary li {
+  margin: 0.3rem 0;
+}
 @media (max-width: 480px) {
   .metrics {
     grid-template-columns: minmax(0, 1fr);

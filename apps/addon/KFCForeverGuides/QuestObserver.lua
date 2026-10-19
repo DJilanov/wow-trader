@@ -141,7 +141,7 @@ local function targetContext()
     local id = guid:match("^Creature%-%d+%-%d+%-%d+%-%d+%-(%d+)-")
         or guid:match("^Vehicle%-%d+%-%d+%-%d+%-%d+%-(%d+)-")
     return {
-        npcId = id and tonumber(id) or nil, name = name,
+        npcId = id and tonumber(id) or nil, guid = id and guid or nil, name = name,
         level = level and math.floor(level) or nil,
     }
 end
@@ -191,13 +191,35 @@ local function snapshot()
         objectives = questObjectives(active.questId, index), target = targetContext(),
         location = locationContext(),
     }
+    local prerequisites = namespace.questValidationPrerequisites
+        and namespace.questValidationPrerequisites[active.questId]
+    if type(prerequisites) == "table" then
+        value.prerequisites = {}
+        for _, questId in ipairs(prerequisites) do
+            if #value.prerequisites >= 50 then break end
+            local held, completed = nil, nil
+            if type(C_QuestLog) == "table" then
+                if type(C_QuestLog.IsOnQuest) == "function" then
+                    held = publicBoolean(C_QuestLog.IsOnQuest(questId))
+                end
+                if type(C_QuestLog.IsQuestFlaggedCompleted) == "function" then
+                    completed = publicBoolean(C_QuestLog.IsQuestFlaggedCompleted(questId))
+                end
+            end
+            table.insert(value.prerequisites, { questId = questId, onQuest = held, rewarded = completed })
+        end
+    end
     local signature = tostring(value.onQuest) .. ":" .. tostring(value.readyForTurnIn)
         .. ":" .. tostring(value.rewarded) .. ":" .. tostring(value.availableAtGossip)
     for _, objective in ipairs(value.objectives) do
         signature = signature .. ":" .. tostring(objective.fulfilled) .. ":"
             .. tostring(objective.required) .. ":" .. tostring(objective.finished)
     end
-    if value.target then signature = signature .. ":" .. tostring(value.target.npcId) end
+    if value.target then signature = signature .. ":" .. tostring(value.target.guid or value.target.npcId) end
+    for _, prerequisite in ipairs(value.prerequisites or {}) do
+        signature = signature .. ":" .. tostring(prerequisite.questId) .. ":"
+            .. tostring(prerequisite.onQuest) .. ":" .. tostring(prerequisite.rewarded)
+    end
     if active.lastSnapshotSignature == signature then return end
     active.lastSnapshotSignature = signature
     while #active.snapshots >= 30 do table.remove(active.snapshots, 1) end

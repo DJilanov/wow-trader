@@ -7,6 +7,10 @@ import {
   emptyPremadeProgress,
   advancePremadeStage,
   emptyCampaignProgress,
+  getDungeonBundle,
+  updateDungeonBundleSlot,
+  updatePremadeDungeonBundle,
+  recordPremadeMemberIdentity,
 } from "@wow-trader/leveling";
 import {
   WESTFALL_CHAPTER_ID,
@@ -20,6 +24,39 @@ import {
 import { exportLevelingBackup, readLevelingBackup } from "./leveling-backup";
 
 describe("premade party persistence", () => {
+  it("preserves guaranteed bundle levels, exclusions and slot choices through workspace backup", () => {
+    let workspace = updateCharacterSession(
+      emptyLevelingWorkspace(),
+      "bundle-party",
+      createCharacterProfile(),
+    );
+    const bundle = updateDungeonBundleSlot(
+      { ...getDungeonBundle("alcaz", "alliance")!, included: false, planningQuestLevel: 33 },
+      2,
+      { selected: false },
+    );
+    const premade = recordPremadeMemberIdentity(
+      updatePremadeDungeonBundle(emptyPremadeProgress(), bundle),
+      1,
+      { raceId: "gnome", classSlug: "priest" },
+    );
+    premade.members[0]!.questStates["92456"] = "rewarded";
+    premade.stages["dalaran-clear"] = true;
+    workspace = updatePersonalDungeonPlan(workspace, "bundle-party", (plan) => ({
+      ...plan,
+      premade,
+    }));
+    const restored = readLevelingBackup(exportLevelingBackup(workspace)).sessions[0]!.dungeonPlans[
+      DUNGEON_RELEASE
+    ]!.premade!;
+    const saved = getDungeonBundle("alcaz", "alliance", restored.guaranteedBundles)!;
+    expect(saved.included).toBe(false);
+    expect(saved.planningQuestLevel).toBe(33);
+    expect(saved.slots[1]!.selected).toBe(false);
+    expect(restored.members[0]!.questStates["92456"]).toBe("rewarded");
+    expect(restored.stages["dalaran-clear"]).toBe(true);
+    expect(restored.members[1]).toMatchObject({ raceId: "gnome", classSlug: "priest" });
+  });
   it("saves the continuous campaign alongside the old circuit without overwriting chapter progress", () => {
     let workspace = updateCharacterSession(
       emptyLevelingWorkspace(),

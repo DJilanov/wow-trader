@@ -9,6 +9,7 @@ import { scheduleDungeonVisit } from "./dungeon-scheduling.js";
 import {
   chapterDungeonOptions,
   createDungeonTrip,
+  defaultDungeonBundle,
   dungeonRouteOption,
   dungeonTripSourceReasons,
   compareDungeonCheckpoint,
@@ -81,6 +82,18 @@ describe("strict At-level schedules", () => {
   });
 });
 describe("full chapter dungeon coverage", () => {
+  it("defaults to four Dalaran quests per faction without overriding a player's saved selection", () => {
+    const dalaran = visit("dalaran");
+    for (const { profile, questIds } of [
+      { profile: { ...human, level: 33 }, questIds: [92456, 92489, 92457, 92458] },
+      { profile: { ...horde, level: 33 }, questIds: [96984, 96987, 96988, 96986] },
+    ]) {
+      expect(defaultDungeonBundle(dalaran, profile)).toEqual(questIds);
+      const selected = questIds.slice(0, 3);
+      const plan = { ...emptyDungeonPlan(), selectedQuests: { dalaran: selected } };
+      expect(dungeonRouteOption(dalaran, profile, plan).questIds).toEqual(selected);
+    }
+  });
   it("accounts for every known-level visit on an applicable race path", () => {
     const seen = new Set<string>(["thanes"]);
     for (const race of LEVELING_RACES) {

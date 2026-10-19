@@ -17,6 +17,10 @@ import {
   resolveQuestReward,
   premadeCheckpointReasons,
   selectedPremadeQuests,
+  getDungeonBundle,
+  dungeonBundleKey,
+  forecastDungeonBundle,
+  updatePremadeDungeonBundle,
   advancePremadeStage,
   recordPremadeXp,
   updatePremadeQuestState,
@@ -30,6 +34,8 @@ import { useLeveling } from "./leveling-provider";
 import { LevelingZoneMap } from "./leveling-zone-map";
 import { LevelingEntityLinks } from "./leveling-entity-links";
 import { LevelingBackupControls } from "./leveling-backup-controls";
+import { LevelingDungeonBundle } from "./leveling-dungeon-bundle";
+import { LevelingPartyIdentity } from "./leveling-party-identity";
 import type { LevelingChapterMaps } from "../lib/leveling-map-data";
 import styles from "./leveling-premade.module.css";
 
@@ -138,6 +144,10 @@ export function LevelingPremade({
   const stop = getPremadeStop(progress.selectedStopId) ?? PREMADE_STOPS[0]!;
   const stopIndex = PREMADE_STOPS.findIndex((entry) => entry.id === stop.id);
   const selected = selectedPremadeQuests(stop, progress);
+  const bundle =
+    stop.dataStatus === "guaranteed-bundle"
+      ? getDungeonBundle(stop.id, "alliance", progress.guaranteedBundles)
+      : null;
   const parity = progress.parityScenarios[stop.id] ?? { extraQuests: 0, baseXp: null };
   const preparation = premadePreparationQuests(stop, progress);
   const forecasts = progress.members.map((member) =>
@@ -482,6 +492,15 @@ export function LevelingPremade({
         <summary>Your full dungeon path · quests, XP and time</summary>
         <ol>
           {PREMADE_STOPS.map((entry, index) => {
+            const entryBundle =
+              entry.dataStatus === "guaranteed-bundle"
+                ? getDungeonBundle(entry.id, "alliance", progress.guaranteedBundles)
+                : null;
+            const bundleForecast = entryBundle
+              ? forecastDungeonBundle(entryBundle, null, {}, (questId, level) =>
+                  resolveQuestReward(questId, level, rewardFacts),
+                )
+              : null;
             const quests = selectedPremadeQuests(entry, progress),
               rewards = quests.map((q) =>
                 resolveQuestReward(q.questId, premadeEntryLevel(entry, progress), rewardFacts),
@@ -500,9 +519,11 @@ export function LevelingPremade({
                   </span>
                   <strong>{entry.name}</strong>
                   <small>
-                    {quests.length
-                      ? `${quests.length} selected quests · ${number(rewards.reduce((n, q) => n + (q.xp ?? 0), 0))} known/estimated XP${unknown ? ` + ${unknown} unknown` : ""}`
-                      : "Quest bundle not verified"}
+                    {entryBundle
+                      ? `${entryBundle.slots.filter((slot) => slot.selected).length}/4 guaranteed slots selected · ${number((bundleForecast?.referenceXp ?? 0) + (bundleForecast?.estimatedXp ?? 0))} planning XP · IDs pending`
+                      : quests.length
+                        ? `${quests.length} selected quests · ${number(rewards.reduce((n, q) => n + (q.xp ?? 0), 0))} known/estimated XP${unknown ? ` + ${unknown} unknown` : ""}`
+                        : "Quest bundle not verified"}
                   </small>
                   <small>
                     {progress.timings[entry.id]
@@ -543,11 +564,13 @@ export function LevelingPremade({
                 Requested {stop.level} · current policy {premadeEntryLevel(stop, progress)}
               </span>
               <span>
-                {stop.dataStatus === "missing-quest-data"
-                  ? "Quest data missing"
-                  : stop.dataStatus === "historical-reference"
-                    ? "Historical reference · not playtested"
-                    : "Journal 1.6.3 · runtime verification pending"}
+                {stop.dataStatus === "guaranteed-bundle"
+                  ? "Four guaranteed quests · identities pending"
+                  : stop.dataStatus === "missing-quest-data"
+                    ? "Quest data missing"
+                    : stop.dataStatus === "historical-reference"
+                      ? "Historical reference · not playtested"
+                      : "Journal 1.6.3 · runtime verification pending"}
               </span>
             </div>
           </div>
@@ -583,12 +606,23 @@ export function LevelingPremade({
               {note}
             </p>
           ))}
+          {bundle && (
+            <LevelingDungeonBundle
+              key={dungeonBundleKey(bundle.dungeonId, bundle.faction)}
+              bundle={bundle}
+              dungeonName={stop.name}
+              disabled={!editable}
+              rewardFacts={rewardFacts}
+              onChange={(next) => update(updatePremadeDungeonBundle(progress, next))}
+            />
+          )}
           <details className={styles.party} open={progress.selectedStage === "checkpoint"}>
             <summary>Party XP checkpoint · record all five actual bars</summary>
             <p>
               Enter current in-game values after hand-ins. Quest ticks never add XP. Rewards are per
               player, not multiplied or divided by five.
             </p>
+            <LevelingPartyIdentity progress={progress} disabled={!editable} onChange={update} />
             {progress.members.map((member, index) => (
               <PremadePartyXp
                 key={`${index}-${member.level}-${member.currentXp}`}
@@ -604,6 +638,9 @@ export function LevelingPremade({
                   <strong>Player {index + 1}</strong>
                   <span>
                     {number(forecast.knownQuestXp)} remaining known/estimated quest XP
+                    {bundle
+                      ? ` + ${number(forecast.bundleQuestXp)} guaranteed-bundle planning XP`
+                      : ""}
                     {forecast.unknownQuestIds.length
                       ? ` + ${forecast.unknownQuestIds.length} unknown`
                       : ""}
@@ -615,8 +652,8 @@ export function LevelingPremade({
                   </span>
                   {forecast.endpoint && (
                     <small>
-                      Known-reward scenario: {forecast.endpoint.level} + {forecast.endpoint.percent}
-                      %
+                      {bundle ? "Planning scenario" : "Known-reward scenario"}:{" "}
+                      {forecast.endpoint.level} + {forecast.endpoint.percent}%
                     </small>
                   )}
                   <small className={forecast.actualReady ? styles.ready : styles.warning}>
@@ -643,9 +680,13 @@ export function LevelingPremade({
           )}
           {progress.selectedStage !== "checkpoint" && (
             <section>
-              <h3>Selected quest bundle · {selected.length} objectives</h3>
+              <h3>
+                Selected quest bundle ·{" "}
+                {selected.length + (bundle?.slots.filter((slot) => slot.selected).length ?? 0)}{" "}
+                quests / slots
+              </h3>
               {selected.map(renderQuest)}
-              {selected.length === 0 && (
+              {selected.length === 0 && !bundle && (
                 <p className={styles.warning}>
                   No verified quest IDs for this new dungeon yet. This stop is reviewable but not a
                   completed/runnable quest bundle.

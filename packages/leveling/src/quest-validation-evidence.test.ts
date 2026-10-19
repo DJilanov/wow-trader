@@ -95,4 +95,24 @@ describe("campaign quest validation evidence", () => {
       }),
     ).toThrow();
   });
+
+  it("rejects reversed snapshots and inconsistent character identity", () => {
+    const row = structuredClone(observation());
+    expect(() =>
+      campaignQuestValidationEvidenceSchema.parse({
+        schema: "campaign-quest-validation-evidence.v1",
+        sourceSha256: "b".repeat(64),
+        runtimeBuild: 70450,
+        observations: [{ ...row, snapshots: [...row.snapshots].reverse() }],
+      }),
+    ).toThrow(/chronological/);
+    expect(() =>
+      campaignQuestValidationEvidenceSchema.parse({
+        schema: "campaign-quest-validation-evidence.v1",
+        sourceSha256: "b".repeat(64),
+        runtimeBuild: 70450,
+        observations: [{ ...row, character: { ...row.character, class: "WARRIOR" } }],
+      }),
+    ).toThrow(/Character/);
+  });
 });

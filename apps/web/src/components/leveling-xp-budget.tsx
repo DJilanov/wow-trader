@@ -12,6 +12,7 @@ import {
   FOREVER_XP_CURVE,
 } from "@wow-trader/leveling";
 import { estimateChapterMinutes, formatChapterMinutes } from "../lib/leveling-chapter-path";
+import { describeChapterEvidence } from "../lib/leveling-xp-evidence";
 import styles from "./leveling-xp-budget.module.css";
 
 function bar(value: XpPosition | null): string {
@@ -226,22 +227,16 @@ export function LevelingChapterBudget({
           ? "shortfall"
           : "reference-covered"
     : audit.status;
-  const label =
-    status === "blocked"
-      ? "Progression blocked"
-      : status === "incomplete"
-        ? "XP coverage unresolved"
-        : status === "shortfall"
-          ? "More XP work needed"
-          : "Modeled XP reaches target";
+  const presentation = describeChapterEvidence(relevant);
   return (
     <section
       className={styles.coverage}
       data-section-coverage={audit.sectionId}
       data-coverage-status={status}
+      data-evidence-status={presentation.state}
       aria-label="Chapter XP budget"
     >
-      <strong>{label}</strong>
+      <strong>{presentation.label}</strong>
       <details open={!compact} className={styles.budget}>
         <summary>Review quest + combat XP and remaining work</summary>
         <p>
@@ -249,12 +244,31 @@ export function LevelingChapterBudget({
             ? "From your saved current step and actual bars."
             : `Independent quest + required-combat check from level ${audit.referenceEntryLevel}, empty XP bar; earlier prerequisites are assumed. Not a continuous route forecast.`}
         </p>
+        {presentation.details.length > 0 && (
+          <ul className={styles.evidenceSummary} aria-label="Outstanding evidence">
+            {presentation.details.map((detail) => (
+              <li key={detail}>{detail}</li>
+            ))}
+          </ul>
+        )}
         <dl className={styles.metrics}>
           <div>
             <dt>Quest hand-ins</dt>
             <dd>
               {audit.handInQuestIds.length}
               <small>{audit.availableRewardIds.length} have published XP evidence</small>
+              {relevant.some((member) => member.bundleRewards.length > 0) && (
+                <small>
+                  Plus{" "}
+                  {Math.max(
+                    ...relevant.map(
+                      (member) =>
+                        member.bundleRewards.filter((row) => row.state === "selected").length,
+                    ),
+                  )}{" "}
+                  selected guaranteed quest slots · IDs pending
+                </small>
+              )}
             </dd>
           </div>
           <div>
@@ -401,11 +415,12 @@ export function LevelingXpBudget({
                       <small>
                         {member.estimatedQuestXp
                           ? `${member.estimatedQuestXp.toLocaleString("en-US")} estimated`
-                          : "No historical estimate added"}
+                          : "No estimated quest XP added"}
                       </small>
                       <small>
-                        {member.unknownQuestIds.length
-                          ? `${member.unknownQuestIds.length} unresolved rewards so far`
+                        {member.unknownQuestIds.length ||
+                        member.bundleRewards.some((row) => row.xp === null)
+                          ? `${member.unknownQuestIds.length + member.bundleRewards.filter((row) => row.xp === null).length} unresolved rewards so far`
                           : "No unresolved rewards"}
                       </small>
                     </td>
@@ -476,6 +491,25 @@ export function LevelingXpBudget({
           </div>
           {selected && (
             <>
+              {selected.bundleRewards.length > 0 && (
+                <details className={styles.budget} open>
+                  <summary>Guaranteed dungeon quest slots · planning only</summary>
+                  <ul className={styles.rewards}>
+                    {selected.bundleRewards.map((row) => (
+                      <li key={`${row.actionId}-${row.slotKey}`}>
+                        {row.questId === null ? row.slotKey : `Quest ${row.questId}`}
+                        {" · "}
+                        {row.state === "selected"
+                          ? row.xp === null
+                            ? "XP unresolved"
+                            : `${row.xp.toLocaleString("en-US")} ${row.basis === "base-estimate" ? "estimated" : "reference"} XP`
+                          : row.state}
+                        <small>{row.source}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
               {selected.combatRows.length > 0 && (
                 <details className={styles.budget}>
                   <summary>
@@ -509,9 +543,15 @@ export function LevelingXpBudget({
                 </details>
               )}
               <ul>
-                {[...selected.eligibilityIssues, ...selected.evidenceIssues].map((issue, index) => (
-                  <li key={`${index}-${issue}`}>{issue}</li>
+                {selected.issues.map((issue) => (
+                  <li key={`${issue.code}-${issue.actionId}-${issue.questId}`}>{issue.message}</li>
                 ))}
+                {selected.inheritedIssueCount > 0 && (
+                  <li>
+                    {selected.inheritedIssueCount} earlier evidence issue
+                    {selected.inheritedIssueCount === 1 ? "" : "s"} still affect this forecast.
+                  </li>
+                )}
               </ul>
               {selected.rewards.length ? (
                 <ol className={styles.rewards}>

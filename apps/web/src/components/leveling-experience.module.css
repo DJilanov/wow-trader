@@ -1271,6 +1271,10 @@
   padding: 16px 20px;
   border-bottom: 1px solid var(--line);
   flex: 0 0 auto;
+  min-height: 0;
+  max-height: 45%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--surface);
 }
 .workspaceQuestToolbar .readerToolbar {

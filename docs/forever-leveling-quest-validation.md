@@ -1,5 +1,9 @@
 # Forever quest validation sessions
 
+The [audit/browser consumer](forever-leveling-quest-validation-consumer.md) is now implemented
+locally. Use its current review.3 package and latest backlog. Real observations and explicit
+approval are still required; no actual recording was approved by the implementation.
+
 The route audit separates five kinds of in-game quest uncertainty from reward XP and grind
 measurements:
 
@@ -16,13 +20,13 @@ anything over the network.
 
 ## Generate the exact recording plan
 
-The checked-in build-70450 plan is
+The generated build-70450 plan is
 `artifacts/leveling/evidence/campaign-quest-validation-plan.json`. Regenerate it whenever the audit
 backlog or compiled quest evidence changes:
 
 ```sh
 pnpm leveling:quest:plan -- \
-  --backlog=artifacts/leveling/audits/2026-10-19/evidence-backlog/campaign-evidence-backlog-6236cd9318e622b4.json \
+  --backlog=artifacts/leveling/audits/2026-10-19/quest-validation-consumer/campaign-evidence-backlog-6f3c9ebbb9f42e67.json \
   --quest-evidence=artifacts/leveling/evidence/campaign-quest-source-evidence.json \
   --output=artifacts/leveling/evidence/campaign-quest-validation-plan.json \
   --runtime-build=70450
@@ -75,7 +79,7 @@ First produce an immutable report with no approval:
 ```sh
 pnpm leveling:quest:review -- \
   --saved-variables=/absolute/path/to/KFCForeverGuides.lua \
-  --backlog=artifacts/leveling/audits/2026-10-19/evidence-backlog/campaign-evidence-backlog-6236cd9318e622b4.json \
+  --backlog=artifacts/leveling/audits/2026-10-19/quest-validation-consumer/campaign-evidence-backlog-6f3c9ebbb9f42e67.json \
   --destination=artifacts/leveling/evidence/quest-validations \
   --expected-build=70450
 ```
@@ -86,7 +90,7 @@ location, target and derived signals. Then approve only clean session IDs:
 ```sh
 pnpm leveling:quest:review -- \
   --saved-variables=/absolute/path/to/KFCForeverGuides.lua \
-  --backlog=artifacts/leveling/audits/2026-10-19/evidence-backlog/campaign-evidence-backlog-6236cd9318e622b4.json \
+  --backlog=artifacts/leveling/audits/2026-10-19/quest-validation-consumer/campaign-evidence-backlog-6f3c9ebbb9f42e67.json \
   --destination=artifacts/leveling/evidence/quest-validations \
   --expected-build=70450 \
   --approve=70450:1792500000:1
@@ -100,9 +104,10 @@ fingerprint is stable only to correlate the same five-member test roster across 
 
 ## Evidence boundary
 
-An approved artifact is an observation, not an automatic route correction. It deliberately does not
-clear audit tasks yet: named-target certification requires the full five-character set; personal
-eligibility must cover every affected edition; lifecycle may require several phases; and a failed
-pickup attempt needs visual/NPC context before it can establish a negative. After recordings are
-available, reconcile the complete context set and add a separately tested audit consumer rather than
-turning one successful character into a global rule.
+An approved artifact is an observation, not an automatic route correction. The consumer clears only
+matching quest/code, build, release/compiler and covered character/party contexts. Five-player credit
+requires five distinct correlated members and the same NPC instance; an acceptance by one class
+does not certify other classes, and partial lifecycle phases are not complete proof. A failed pickup
+attempt still needs visual/NPC context before it can establish a negative. See the consumer runbook
+for the repeatable audit option, public coverage artifact and browser checksum/runtime configuration.
+Actual XP, completion state and legal pickup/access gates are never changed by an approval.

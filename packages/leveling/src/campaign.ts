@@ -19,6 +19,9 @@ import {
 } from "./premade-model.js";
 import { emptyCampaignProgress, type CampaignProgress } from "./campaign-model.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
+import type { QuestValidationCoverage } from "./quest-validation-certificates.js";
+import { getDungeonBundle } from "./dungeon-bundles.js";
+import type { GuaranteedDungeonId } from "./dungeon-bundle-model.js";
 import type { CampaignCombatPlan } from "./combat-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { extractCampaignQuestBatches, type CampaignQuestBatch } from "./campaign-catchup.js";
@@ -79,6 +82,7 @@ export interface CampaignAction {
   readonly libraryObjective?: LibraryObjective;
   readonly libraryRequired?: boolean;
   readonly sourceGateConflictQuestIds?: readonly number[];
+  readonly bundleId?: GuaranteedDungeonId;
 }
 export interface CampaignLeg {
   readonly id: string;
@@ -90,6 +94,7 @@ export interface CampaignLeg {
   readonly questIds: readonly number[];
   readonly unresolvedQuestIds: readonly number[];
   readonly stopId: PremadeProgress["selectedStopId"] | null;
+  readonly bundleId?: GuaranteedDungeonId;
 }
 export interface CampaignLifecycleExclusion {
   readonly actionId: string;
@@ -110,6 +115,8 @@ export interface CampaignPlan {
   readonly rewardRevision?: string;
   readonly rewardBuild?: number | null;
   readonly rewardNotice?: string | null;
+  readonly questValidationCoverage?: QuestValidationCoverage;
+  readonly questValidationRuntimeBuild?: number;
   readonly catchUpBatches?: readonly CampaignQuestBatch[];
   readonly defaultCatchUpBatches?: Readonly<Record<string, readonly string[]>>;
   readonly lifecycleExclusions?: readonly CampaignLifecycleExclusion[];
@@ -783,9 +790,9 @@ export function buildCampaignPlan(
       if (!block) throw new Error(`Missing preparation block ${id}.`);
       outdoor(block);
     }
-    // Research-only stops stay in the dungeon catalog, but cannot enter the executable
-    // campaign until their access, lifecycle and quest bundle have source evidence.
     if (stop.dataStatus === "missing-quest-data") continue;
+    const bundle =
+      stop.dataStatus === "guaranteed-bundle" ? getDungeonBundle(stop.id, "alliance") : null;
     const legId = `dungeon-${stop.id}`,
       start = actions.length;
     instructions(legId, `${stop.name}: prepare before entering`, [stop.preparation, ...stop.notes]);
@@ -815,7 +822,25 @@ export function buildCampaignPlan(
           } as Readonly<Record<string, readonly number[]>>
         )[stop.id] ?? [],
     });
-    if (stop.id === "blackrock-depths") {
+    if (bundle) {
+      add(legId, "bundle-rewards", {
+        title: `${stop.name}: four guaranteed quest slots · planning only`,
+        instructions: [
+          "All four faction quest slots are selected by default. Quest availability is owner-confirmed; IDs, objectives, access and hand-in locations remain pending.",
+          `The default planning quest level is ${bundle.planningQuestLevel}; the editable level-specific Dalaran reward tier and 2.375 coefficient fund the forecast, not your actual XP bar.`,
+          "Review or skip this optional stop. No quest IDs, pickups or completion events are invented. Record actual party XP after playing before deciding the next departure.",
+        ],
+        questChanges: [],
+        positions: [],
+        source: null,
+        kind: "instructions",
+        leaderOnly: false,
+        targetLevel: null,
+        targetStopId: stop.id,
+        raidOnly: false,
+        bundleId: bundle.dungeonId,
+      });
+    } else if (stop.id === "blackrock-depths") {
       sourceActions(
         {
           id: legId,
@@ -938,6 +963,7 @@ export function buildCampaignPlan(
       ],
       unresolvedQuestIds: [],
       stopId: stop.id,
+      ...(bundle ? { bundleId: bundle.dungeonId } : {}),
     });
   }
   outdoor(CAMPAIGN_BRIDGES.find((block) => block.id === "final-xp-fallback")!);
@@ -1034,12 +1060,24 @@ export function buildCampaignPlan(
   return lifecycleCompletePlan(expanded);
 }
 
+export function campaignIncludedLegs(
+  plan: CampaignPlan,
+  progress?: PremadeProgress,
+): readonly CampaignLeg[] {
+  return plan.legs.filter(
+    (leg) =>
+      !leg.bundleId ||
+      getDungeonBundle(leg.bundleId, "alliance", progress?.guaranteedBundles)?.included !== false,
+  );
+}
+
 export function activeCampaignActions(
   plan: CampaignPlan,
   progress: PremadeProgress,
 ): readonly CampaignAction[] {
+  const includedLegs = new Set(campaignIncludedLegs(plan, progress).map((leg) => leg.id));
   const base = plan.actions
-    .filter((action) => progress.raidGoals || !action.raidOnly)
+    .filter((action) => includedLegs.has(action.legId) && (progress.raidGoals || !action.raidOnly))
     .map((action) =>
       progress.raidGoals
         ? action
@@ -1255,6 +1293,16 @@ export function campaignActionReasons(
   progress: PremadeProgress,
   facts: readonly QuestRewardFact[] = [],
 ): readonly string[] {
+  if (
+    action.bundleId ||
+    (action.kind === "checkpoint" &&
+      PREMADE_STOPS.some(
+        (stop) => stop.id === action.targetStopId && stop.dataStatus === "guaranteed-bundle",
+      ))
+  )
+    return [
+      "This optional dungeon is funded in planning, but quest identities and access details are pending. Use Next to preview or skip; it cannot be reported as a verified completed quest bundle.",
+    ];
   if (action.kind === "unverified")
     return [
       "This proposed dungeon has no verified quest/access bundle; previewing it cannot mark a completed run.",

@@ -17,6 +17,7 @@ import {
   campaignSections,
   campaignSectionFor,
   campaignSectionActions,
+  updatePremadeDungeonBundle,
   type CampaignPlan,
   type CharacterProfile,
 } from "@wow-trader/leveling";
@@ -31,6 +32,7 @@ import {
 } from "./leveling-xp-budget";
 import { LevelingCampaignOutline, LevelingDungeonPreparation } from "./leveling-campaign-outline";
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
+import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
 import { campaignChapterPath } from "../lib/leveling-route-plan";
 import { CHAPTER_PACE_KEY, parseChapterPace } from "../lib/leveling-chapter-path";
 import styles from "./leveling-experience.module.css";
@@ -42,7 +44,7 @@ interface CampaignPathProps {
 }
 
 export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): React.JSX.Element {
-  const { session, loaded, notice, storageStatus } = useLeveling();
+  const { session, loaded, notice, storageStatus, setDungeonPlan } = useLeveling();
   const fallback = useMemo(emptyPremadeProgress, []);
   const active =
     session?.profile.faction === "alliance" &&
@@ -147,6 +149,18 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
         )}
         <LevelingRewardStatus plan={plan} />
         <LevelingLibraryStatus plan={plan} />
+        <LevelingOptionalDungeonBundles
+          progress={progress}
+          disabled={!loaded || !active}
+          rewardFacts={plan.rewardFacts ?? []}
+          onChange={(bundle) => {
+            if (active)
+              setDungeonPlan(active.id, (current) => ({
+                ...current,
+                premade: updatePremadeDungeonBundle(current.premade ?? fallback, bundle),
+              }));
+          }}
+        />
       </section>
       <section className={pathStyles.path} aria-labelledby="chapters-heading">
         <header className={pathStyles.heading}>
@@ -160,7 +174,10 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
           </div>
           <span className={pathStyles.count}>
             {chapters.length} chapters ·{" "}
-            {chapters.filter((entry) => entry.kind === "dungeon").length} verified dungeon stops
+            {chapters.filter((entry) => entry.kind === "dungeon" && !entry.planningOnly).length}{" "}
+            sourced dungeon stops
+            {" + "}
+            {chapters.filter((entry) => entry.planningOnly).length} planning stops
           </span>
         </header>
         <div className={pathStyles.tools}>
@@ -226,7 +243,12 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                   >
                     <div className={pathStyles.nodeTop}>
                       <span>
-                        Chapter {ordinal + 1} · {leg.kind === "zone" ? "zone questing" : leg.kind}
+                        Chapter {ordinal + 1} ·{" "}
+                        {leg.planningOnly
+                          ? "guaranteed bundle · planning only"
+                          : leg.kind === "zone"
+                            ? "zone questing"
+                            : leg.kind}
                       </span>
                       <span>
                         {done}/{entries.length} done{skipped ? ` · ${skipped} skipped` : ""}
@@ -278,10 +300,12 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                         and actual XP readiness still apply.
                       </p>
                     )}
-                    {entries.some((action) => action.kind === "unverified") && (
+                    {(leg.planningOnly ||
+                      entries.some((action) => action.kind === "unverified")) && (
                       <p className={pathStyles.warning}>
-                        Quest bundle unverified. This chapter cannot certify completion or award
-                        assumed XP.
+                        Four quests are owner-confirmed and included in the planning forecast. IDs
+                        and exact instructions are pending; this chapter cannot certify a completed
+                        run or add earned XP.
                       </p>
                     )}
                     {leg.unresolvedQuestIds.length > 0 && (
