@@ -22,6 +22,11 @@ expectation disagree. The host now connects the engine menu to its router, suppo
 queries, and recognizes both valid proxy aliases for the same engine profile. Origin, release,
 profile and query checks remain enforced. This changes navigation, not simulation model bytes.
 
+The engine consumes a named `build` query after applying it, using `history.replaceState` inside
+the iframe. Readiness accepts that consumption only for a single valid named-build parameter
+after the normal initialized/visible checks. Other mismatched queries and foreign profiles or
+releases remain blocked. The outer page retains the selected build for sharing and reloading.
+
 Run the asset smoke after a public deployment or disk cleanup:
 
 ```sh
