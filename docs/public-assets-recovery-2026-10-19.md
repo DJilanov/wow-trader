@@ -44,10 +44,20 @@ its assets fail. It deduplicates assets and limits concurrency to four. Producti
 runs this check after service health checks; browser verification should additionally confirm
 hydration, lazy-loaded artwork and navigation on desktop and mobile.
 
-Recovery verification: all 475 web tests and the production build passed. Browser checks at
-1440×1080 and 390×844 verified the guild Tools link, Warrior→Mage class switching, the named
-Arms build, Back/Forward and reload with no engine asset failures. The Helper release is
-`public-navigation-20261019-r2`; the guild build is `.next-release-20261019-navigation-r1`.
+Recovery verification: all 532 web tests, lint, typecheck and the production build passed for
+the final Helper candidate. The asset smoke and simulator deployment gate unit tests also
+passed (nine tests). The expanded public audit verified 59 assets across eight pages. Browser
+checks at 1440×1080 and 390×844 verified the guild Tools link, loaded leveling imagery, simulator
+class switching, named Arms builds, Arms/two-hand combat runs, Back/Forward and reload with no
+engine asset failures. The model-aware deployment gate passed before activation and publicly
+afterward, preserving all 2,591 simulator items and the approved Warrior/Rogue/Hunter libraries.
+The recovery candidate `public-navigation-20261019-r3` was exported from pushed commit `ff5b214`.
+The final active Helper release is `kfc-helper-item-skills-source-20261019-f953109`, which includes
+that commit; its icon, map and simulator-frame sources match the verified recovery candidate.
+The guild build is `.next-release-20261019-navigation-r1`. Only Helper web was restarted for the
+final Helper releases; ingestion remains pinned to its own release. Existing static chunks were retained
+for already-open tabs. The server's 768 MB runtime limit was insufficient for Next's build-time
+TypeScript worker, so only the build command used a 2 GB heap; runtime settings were unchanged.
 
 Cleanup must identify active directories from the saved and running process configuration.
 For the guild site that means the actual PM2 `KFC_BUILD_DIR`, not an assumed `.next` directory
