@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  basePath: "/tools",
   distDir: process.env.WOW_TRADER_BUILD_DIR || ".next",
   output: "standalone",
   poweredByHeader: false,
@@ -8,6 +9,20 @@ const nextConfig: NextConfig = {
   // Inline dev debug metadata so an unavailable WebSocket cannot suspend hydration.
   experimental: { reactDebugChannel: false },
   serverExternalPackages: ["postgres"],
+  async rewrites() {
+    if (process.env.NODE_ENV !== "development") return [];
+    const port = process.env.PORT ?? "3000";
+    if (!/^[1-9]\d{0,4}$/.test(port) || Number(port) > 65535)
+      throw new Error("Invalid local simulator proxy port");
+    // Immutable engine bundles retain their root-relative asset URLs. Production has Nginx.
+    return [
+      {
+        source: "/forever-sim/:release([a-f0-9]{24})/:asset*",
+        destination: `http://127.0.0.1:${port}/tools/forever-sim/:release/:asset*`,
+        basePath: false,
+      },
+    ];
+  },
   async redirects() {
     return [
       {
