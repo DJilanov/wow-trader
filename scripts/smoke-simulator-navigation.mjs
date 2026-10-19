@@ -179,10 +179,10 @@ try {
       frame = await ready(page);
       const selector = page.getByLabel("Choose a build");
       const published = (await selector.locator(`option[value="${id}"]`).count()) === 1;
-      const activePreset = await frame
+      const active = frame
         .locator(".preset-configuration-picker-root .active .saved-data-set-name")
-        .first()
-        .innerText();
+        .first();
+      const activePreset = (await active.count()) > 0 ? await active.innerText() : null;
       if (published) {
         assert.equal(await selector.inputValue(), id);
         assert.equal(activePreset, label);
