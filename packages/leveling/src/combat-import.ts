@@ -206,10 +206,27 @@ export function importQuestieCombatData(input: {
       const id = nullableInteger(table(entry).get(1), 1, 10000000);
       return id === null ? [] : numericIds(itemRows.get(id)?.get(2));
     });
+    const itemObjectives = [...table(objectives.get(3)).values()].flatMap((entry, offset) => {
+      const itemId = nullableInteger(table(entry).get(1), 1, 10000000);
+      return itemId === null
+        ? []
+        : [
+            {
+              objectiveIndex:
+                creatureIds.length || table(objectives.get(2)).size ? null : offset + 1,
+              itemId,
+              // Slot two is display text, not a required quantity.
+              quantity: null,
+              npcIds: numericIds(itemRows.get(itemId)?.get(2)),
+              sharing: "unknown" as const,
+            },
+          ];
+    });
     quests.push({
       questId,
       creatureIds: [...new Set(creatureIds)],
       itemCreatureIds: [...new Set(itemCreatureIds)],
+      itemObjectives,
       objectiveText: [...table(row.get(8)).values()].filter(
         (text): text is string => typeof text === "string",
       ),

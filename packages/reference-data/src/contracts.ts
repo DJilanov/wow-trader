@@ -19,11 +19,30 @@ const spellAcquisitionRelations = new Set([
   "contained-in-object",
 ]);
 
+export const dropStatisticsSchema = z
+  .object({
+    percent: z.number().finite().min(0).max(100).nullable(),
+    drops: z.number().int().nonnegative().nullable(),
+    attempts: z.number().int().positive().nullable(),
+    minimumQuantity: z.number().int().positive().max(10000).nullable(),
+    maximumQuantity: z.number().int().positive().max(10000).nullable(),
+  })
+  .strict()
+  .refine(
+    (entry) =>
+      entry.minimumQuantity === null ||
+      entry.maximumQuantity === null ||
+      entry.minimumQuantity <= entry.maximumQuantity,
+    "Invalid drop stack bounds",
+  );
+export type DropStatistics = z.infer<typeof dropStatisticsSchema>;
+
 export const referenceRelationSchema = z.object({
   relation: z.string().min(1).max(80),
   kind: z.enum(["npc", "quest", "spell", "item", "object"]),
   id: z.number().int().positive(),
   name: z.string().min(1).max(300),
+  dropStatistics: dropStatisticsSchema.optional(),
 });
 type ReferenceRelation = z.infer<typeof referenceRelationSchema>;
 
@@ -74,6 +93,17 @@ export const referenceRecordSchema = referenceTaskSchema
         rewards: questContentStateSchema,
       })
       .strict()
+      .optional(),
+    requiredItems: z
+      .array(
+        z
+          .object({
+            itemId: z.number().int().positive(),
+            quantity: z.number().int().min(1).max(10000),
+          })
+          .strict(),
+      )
+      .max(100)
       .optional(),
     relations: z.array(referenceRelationSchema).max(2000),
   })

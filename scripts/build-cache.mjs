@@ -135,6 +135,21 @@ async function clean(dryRun = false) {
   process.stdout.write(
     `[build-cache] ${dryRun ? "Would remove" : "Removed"} ${result.removed.length} cache entries (${(result.bytes / gib).toFixed(2)} GiB).\n`,
   );
+  // The wrapper is also used in isolated fixtures without the optional macOS policy.
+  if (process.platform === "darwin") {
+    const policy = join(repositoryRoot, "scripts/storage-retention.mjs");
+    const exists = await lstat(policy).catch((error) => {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    });
+    if (exists) {
+      const { maintainStorage } = await import("./storage-retention.mjs");
+      const storage = await maintainStorage({ repository: repositoryRoot, dryRun, full: false });
+      process.stdout.write(
+        `[storage] ${dryRun ? "Would remove" : "Removed"} ${(storage.removedBytes / gib).toFixed(2)} GiB of inactive previews/releases.\n`,
+      );
+    }
+  }
 }
 
 if (process.argv[1] && pathToFileURL(await realpath(process.argv[1])).href === import.meta.url) {

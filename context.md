@@ -2,6 +2,727 @@
 
 Last updated: 2026-10-20
 
+## October20 09:26UTC — Demonology qualified/staged-browser approved; local selection still pending
+
+Actual export43634 TERMINAL0 at09:13UTC: selected10k native/WASM parity PASS, nativeJobs0/
+browserJobs1, immutable build5313308452d6281ec79cc1db93c7b1bcb0b24131eea752bf4a105f48a56c95b6
+at optimization/warlock-demonology-first-pass-v1/build-5313308452d6281e.json. Qualification
+semantic d6e3ec0a84922240895c4a198fd15605cb59097f9ce8e21e99be66e721e2c251.
+Selected parity optimization/reviews/warlock-demonology-selected-parity-c71a82c6d4e5912a.json,
+semanticc71a82c6d4e5912a7f4207c3b8e3e853e1776b7f0f4ebbb8a5a9c2d63f8a210b.
+Selected830.2573884583082DPS/40k,2/31/18,Succubus/Imp/Spellstone,11priority bindings plus
+Soul Link at-1s. Both1%/2%accepted with disclosed0.9796078% conservative retained gap.
+Export scope numericalJobs/Iterations sums terminal invocations (85,771/14,557,040); complete
+raw ancestry is122,497unique origins/17,495,120fights, including earlier same-study resumed
+80fight requests. Do not describe terminal-invocation counts as all historical comparisons.
+
+Actual-qualified overlay3tests PASS; readonly presentation57544 PASS. Actual UI build55141
+TERMINAL0/PASS: release2de6e7eac83112b255a8a8d0,3495files,actual all-class TypeScript0,
+every numerical asset identical to A4, all28starter presets audited. UI builder/overlay/
+overlay-test/reviewer/reviewer-test and referenced source files are NOW FROZEN, no edits.
+Actual staged browser67931 TERMINAL0/PASS: all15screens/28gear sets/configurations safe,
+both1440/390px full Warlock share imports, separate DS/Ruin Imp setup, saved characters,
+provisional-consent off. Actual UI25fights/native843.1378934461561 vs browser843.14,
+seed819700001. Approval optimization/reviews/profile-model-browser-ab482545ec391384.json;
+staged selection optimization/warlock-demonology-first-pass-v1/browser-selection-2de6e7eac83112b255a8a8d0.json.
+
+APP changes now exist: new forever-simulator-fresh-demonology.ts/.test.ts and profile-
+model-updates-warlock.test.ts; targeted additions to existing profile-model-updates.ts
+(preserving earlier Mage/Balance work). Strict reader hard-pins qualified531330... and
+confirmationa5fe4d..., validates mixed V2blue/V1gear/feedback/fresh source graph, pet/stone
+state, both assessments and bound Soul Link instructions. Profile support is Warlock-only;
+exact48MB read limits added only for actual blue/feedback result paths. No weaker generic
+validation, aliases, model rebuilds, sample DPS or global limit increase.
+
+Real exported fixtures (not synthetic approvals): model-first-pass-demonology.json.gz,
+semantic98f4b22c815d14274db0c333e6ccc9d82942340147fcc2044a9d32da9c92fb82,4,433,913bytes/
+35,315,538uncompressed/16documents; model-profile-demonology-v1.json.gz,semantic
+11e72c34b32c42521955c51ed649682aba2a5a6c3d10c335dfbf3bd51eff8bbb,344,967bytes.
+Fresh reader19615 all42tests PASS (21newDemonology +21Arcane regression). New profile suite
+83054 initially caught four test-fixture issues, NOT production validation changes: Zod
+parsed clones weren't written back in two negative cases; missing shares rejected at an
+earlier boundary than expected. Tests corrected to actually mutate parity and substitute
+duplicate opposite-width evidence; rejection assertions remain strict. Final77569 all14PASS,
+report/tmp/wow-trader-warlock-profile-20261020-0924.json. Web typecheck19925 PASS.
+
+Current BROAD simulator regression49030 LIVE, output
+/tmp/wow-trader-simulator-regression-20261020-0926.json; final web typecheck26478 and lint31258
+also LIVE. Poll these. Actual isolated selector24754 --plan PASS, existing16cases preserved,
+21source references verified; NO local selection yet. After broad tests/typecheck/lint PASS:
+node artifacts/forever-simulator/optimization/review-tools/select-warlock-demonology-local-v1.mjs 2de6e7eac83112b255a8a8d0 --select
+Then new PREPARED main-page reviewer (not run yet):
+node artifacts/forever-simulator/optimization/review-tools/review-warlock-demonology-main-page-v1.mjs 2de6e7eac83112b255a8a8d0 --review
+It targets actual http://localhost:3017/tools/forever/simulator/warlock and checks both
+desktop/mobile defaults/config/gear/talent/guide/share/tooltip/one-global-scroller/reload/
+working Simulate at25fights vs staged parity. Source lint88568 PASS. Visually inspect BOTH
+actual screenshots via view_image after it passes. All local delivery gates precede next
+Warlock spec. Preserve Magea5f95... and Balance854113... pointers/all16existingcases. No
+commit/push/deploy, no production changes. Helper69b4b817... remains frozen. Original
+Warlock deadlineOctober21 06:24:18.106UTC/one-used-correction/full all-class scope unchanged.
+
+## October20 09:09UTC — actual confirmed-source proof PASS; qualified export43634 live
+
+This goal turn is PROGRESS: actual fresh75809 completed/accepted; independent true
+confirmed-source33355 TERMINAL0/all2PASS (455.95s), all24raw fresh origins and original
+1%/owner2%math exactly replayed,12declaration mutations rejected. Accepted result remains
+830.2573884583082DPS/40k, conservative retained gap0.9796078%, strict dominancefalse and
+nearby gains disclosed. Do not change incumbent or claim global/server proof.
+
+Actual qualified export43634/PID92953 LIVE since08:58:33UTC, same handle confirmed live09:13UTC and
+live process CPU. Exact command:
+node artifacts/forever-simulator/optimization/review-tools/export-warlock-demonology-first-pass-build-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/a5fe4dfecdeb3064cc64e3ed70fa1df17b56fd13d21a9d63a5d521799fedbc40/completed.json --export
+It reached actual selected10k WASM parity at09:09UTC; selected parity/export completion
+is NOT claimed. qualified-build.json is still absent09:13UTC. Quiet observation is NOT a
+terminal condition; poll43634, never restart solely because it takes longer than earlier
+audits. Original Warlock deadlineOctober21 06:24:18.106UTC unchanged; no new correction.
+
+NOW FROZEN at export dispatch: warlock-demonology-confirmed-source-v1.mjs/.test.mjs;
+rotation-guidance-v1.mjs/.test.mjs; selected-parity-v1.mjs/.test.mjs;
+selected-parity-fixture-v1.mjs; selected-wasm-parity-v1.mjs/.test.mjs;
+probe-warlock-demonology-selected-parity-v1.mjs;
+export-warlock-demonology-first-pass-build-v1.mjs, plus inherited numerical/confirmation/
+model/capture/history sources. Do NOT edit or format those files. Helper69b4b817... intact
+at09:08UTC, all4retention alternatives still preserved. UI-only tools below are separate.
+
+Presentation overlay/builder/reviewer/selector/fixture exporter from08:56checkpoint are
+prepared and lint/format checked, NOT compiled or browser-approved yet. Reviewer's resource
+failure path was strengthened BEFORE use: cleanup covers setup failures; failed browser/
+server/lease cleanup prevents a passed approval from being written. New genuine regression
+review-warlock-demonology-presentation-v1.test.mjs93641 TERMINAL0/all1PASS (10.3s): real
+missing-manifest failure releases its acquired root workspace lock, leaves all four active
+pointer files byte-identical, and cannot create a passed staged selection. No fake combat
+data/browser approval. Reviewer source/test are now in builder own-source pins. Latest
+node--check, scoped lint44029 and format78948 PASS; git diff --check PASS.
+
+NEXT after43634 terminal0: inspect actual qualified build/hash/parity refs, then execute
+warlock-demonology-preset-overlay-v1.test.mjs using that genuine export (three tests are
+prepared but have NOT run). Run build-warlock-demonology-presentation-v1.mjs --plan, then
+--build only after guards. It must typecheck every class and preserve every numerical
+asset byte-for-byte; virtual sources only, no frozen upstream edits. Add real strict web
+Demonology reader/fixture and Warlock proof/pointer/browser support (exact read limits and
+V2blue/V1rest details in08:56checkpoint). Then staged browser review, fixture/reader/full
+regression tests, isolated local selection preserving existing16cases, actual3017 main
+desktop/mobile/first-visit/gear/config/talent/guide/share/saved-character QA BEFORE next spec.
+No app/default/local-pointer edits this turn, no commit/push/deploy. Full objective ACTIVE;
+all remaining Warlock/Priest/Shaman/hybrid/Shockadin/incremental workflow scope unchanged.
+
+## October20 08:56UTC — fresh Demonology accepted; independent confirmed-source33355 live
+
+Previous goal turn was PROGRESS (full343stage proof, final-arm150origin tests and actual
+fresh dispatch). This turn also PROGRESS: owner75809/child72557 TERMINAL0 at08:49:52UTC,
+same a5fe4dfecdeb3064cc64e3ed70fa1df17b56fd13d21a9d63a5d521799fedbc40 identity.
+Result result-e1711295aa3af302.json, semantic
+e1711295aa3af302abca8fabaddc7a1c2260e7e573fdbf02128fb9792693a9ba.
+Exactly24newrequests/480000fights/zero scalar reuses; all122497origins preserved. Selected
+830.2573884583082DPS/40000fights, unchanged incumbent. accepted=true for BOTH original1%
+and owner2%, largest conservative retained gap0.009796078445503792 (0.9796078%).
+strictRetainedDominancePassed=false: state/gear/enchant contenders have measured tiny gains,
+so status is accepted-with-disclosed-nearby-gains, NOT globally best or live-server proof.
+Do not replace the winner using holdouts. Original class deadline/one-used-correction intact.
+
+Actual independent confirmed-source2tests33355 LIVE since08:50UTC. Poll same handle; it
+replays blue/gear/full343stage feedback and all24raw holdouts/reservation math. Actual
+selected WASM/qualified export have NOT run. After33355 terminal0, run:
+node artifacts/forever-simulator/optimization/review-tools/export-warlock-demonology-first-pass-build-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/a5fe4dfecdeb3064cc64e3ed70fa1df17b56fd13d21a9d63a5d521799fedbc40/completed.json --export
+This independently reloads confirmation, runs selected inspected10k WASM parity with own
+source pins, then writes immutable qualified build only after successful cleanup. Existing
+selected structural2/gate3guards PASS. Current rotation guidance72217 all3PASS; visible
+instruction now also includes exact pre-pull Soul Link, without changing numerical inputs.
+New confirmed-source/parity/guidance/export inputs are not frozen until actual parity/export
+dispatch; all previously executed numerical inputs remain FROZEN. Helper69b4b817... intact.
+
+NEW PRIVATE presentation tools prepared/linted, NOT executed with a qualified build yet:
+warlock-demonology-preset-overlay-v1.mjs/.test.mjs;
+build-warlock-demonology-presentation-v1.mjs (--plan/--build);
+review-warlock-demonology-presentation-v1.mjs (--review <release>);
+select-warlock-demonology-local-v1.mjs (<release> --plan/--select);
+export-warlock-demonology-delivery-fixture-v1.mjs (--export <release>).
+Overlay updates all first-visit/configuration/gear/talent/APL/demon/sacrifice/stone/consume
+defaults, explicitly preserves DS/Ruin's separate Imp options, and edits only virtual source
+strings (upstream source stays frozen). Three actual-qualified overlay tests await real
+export; do not create a fake approved fixture. Compile must preserve every numerical asset.
+Staged browser reviewer covers all28gear sets/configurations, both viewport imports,
+saved Warlock preservation,25fight actual class8 native/browser parity, all six existing
+profile pointers and provisional-consent off. Selector adds only Warlock and preserves16
+existing cases; actual strict-reader/API/browser checks still must prove these claims.
+
+Next app work AFTER qualified export: add strict fresh Demonology reader/real exported
+fixture and Warlock-only profile proof/pointer/browser schema support; keep all Mage/Balance
+paths unchanged. Exact immutable source-result read-limit allowlists need48MB for blue
+48e23.../result-0ab3f5d4eaee0deb.json and feedbackbdc3.../result-d1de1e63af9ddf0e.json
+(actual35MiB/42MiB), not a global larger limit. Gear result is1.2MiB; fresh result is small.
+Reader must accept blue declarationV2 but gear/feedback/confirmationV1, actual class8,
+state pet/sacrifice/stone fields and bound Soul Link pre-pull instructions. Do not copy
+Mage-only mana/frost-power/fixed-talent assumptions. Nextjs TypeScript guide fully read.
+App files have NOT been edited this turn. Actual local defaults/main desktop-mobile handoff
+still precede Affliction/DS-Ruin/Destruction; no commit/push/deploy. Full all-class objective
+ACTIVE/incomplete (23original damage cases PLUS explicitly requested Shockadin and required
+coverage/alternate/tank qualifications documented below); no scope reduction or clock reset.
+
+## October20 08:41UTC — actual fresh confirmation75809 dispatched; new boundary frozen
+
+Final-arm/source/fresh-range tests92585 TERMINAL0,all3PASS (456.2s), independently proving
+all150retained state10k origins (not merely6leaders),17gear finalists and unchanged arms.
+Readonly preflight25911 TERMINAL0/PASS, identity
+a5fe4dfecdeb3064cc64e3ed70fa1df17b56fd13d21a9d63a5d521799fedbc40.
+12frozen arms/24freshrequests/two20k ranges, seeds350990702200000/350990702300000.
+Zero new combat/writes in preflight. Final focused regression16811 all13PASS, scoped18file
+ESLint42055 and explicit Prettier2743 PASS, git diff --check PASS. Guidance coverage includes
+two additional legal parser-only configurations for Siphon Life/Shadowburn, with NO DPS or
+ranking claims; no numerical search input was edited. Final guidance97211 all3PASS.
+
+Actual confirmation-delivery owner75809/child72557 LIVE, started2026-10-20T08:40:00.876Z,
+command SHAeb98e9adc3449002b6cd200b7925b3bd12654eb374a321be799e01e0bec30933.
+Exact command is in the08:34checkpoint below. Same originalOctober21 06:24:18.106UTC
+deadline, one correction already used, no new clock. It is still independently preparing
+the full source; fresh combat and acceptance are NOT claimed. Poll75809, no duplicate.
+
+NOW FROZEN at actual dispatch: warlock-demonology-feedback-source-v1.mjs;
+feedback-origins-v1.test.mjs; feedback-completed-v1.test.mjs; final-arms-v1.mjs;
+final-scenario-v1.test.mjs; confirmation-context-v1.mjs; confirmation-v1.test.mjs;
+run-warlock-demonology-confirmation-v1.mjs (all except run- use warlock-demonology- prefix),
+plus every inherited numerical/source/history/reservation input. Do NOT format/edit them.
+Dynamic fresh native-origin cap122497 is original122473 plus24genuine new requests;
+confirmed-source reader uses300000index but separately enforces the exact declaration cap.
+No relabelling reserved100k RNG spacing as measured100k; each arm measures40k total.
+
+Still NOT executed against fresh qualification / not fresh numerical inputs: confirmed-source-v1.mjs/.test.mjs,
+rotation-guidance-v1.mjs/.test.mjs, selected-parity-v1.mjs/.test.mjs,
+selected-parity-fixture-v1.mjs, selected-wasm-parity-v1.mjs/.test.mjs,
+probe-warlock-demonology-selected-parity-v1.mjs,
+export-warlock-demonology-first-pass-build-v1.mjs. Most have structural tests PASS, but NO
+actual fresh source audit/selected WASM/export yet. New confirmed-source2tests prepared
+against a5fe4d.../completed.json; run only after75809 terminal0 and genuine completion.
+They preserve separate original1% vs owner2%, all24raw fresh origins, fixed incumbent,
+actual40k sample count and12declaration mutation rejections. No missing-test bypass.
+
+Next:75809 terminal0 → actual confirmed-source2tests → selected parity/qualified export →
+strict frontend reader/fixture and Warlock-only virtual default/preset/gear/talent/APL/
+enchants/rotation-guide presentation, first-visit/saved-build and desktop/mobile QA BEFORE
+next Warlock spec. Historical helper69b4b817... verified unchanged08:40UTC; four alternative
+retention patches remain preserved. No app/default/pointer change, commit/push/deploy.
+Full all-class objective still ACTIVE and incomplete; original remaining scope unchanged.
+
+## October20 08:34UTC — full343stage feedback proof PASS; fresh preparation is current
+
+Independent completed-feedback audit22879 TERMINAL0,all2PASS (429.4s). All343stages,
+raw origins/9native-WASM control reports/source pins reproduce the actual closed outcome;
+15declaration mutations reject. Strongest inspected gear837.64221 vs fixed830.20550
+(+0.89577%); strongest state835.44516 (+0.63113%). Neither replaced the incumbent under
+the predeclared material-gain rule. These are inspected results, not fresh proof.
+
+Actual-source final-arm/fresh-range tests92585 are LIVE, and readonly confirmation
+preflight25911 is LIVE. Both independently load the genuine completed source; no native
+combat/writes. Do not dispatch fresh fights until both PASS. Confirmation context/driver
+and its new test are still unfrozen until dispatch. Source closure is no longer pending;
+final arms, true fresh acceptance and local handoff still are. Original clock unchanged.
+
+New rotation guidance exact-binds every actual action/prepull/threshold across all30policies
+and talent/pet families; all3tests26968 PASS. Actual selected2/31/18/150-retained-source
+WASM projection2tests81834 PASS; selected-parity gate3tests PASS, including actual unclosed
+Warlock7a29gear rejection. Those are structural guards, NOT actual selected10k WASM combat.
+New confirmed-source reader/selected-parity driver/probe/qualified export are prepared and
+linted, not executed against fresh confirmation. Own confirmed-source test still needs
+creation against actual fresh completion once known; no missing-file bypass. Guide calls
+Searing Pain the Brand applicator, never a separate castable Brand. All new helper files
+remain under private review-tools; no application/preset/public pointer/deploy edit.
+
+Next actual command after92585/25911 PASS (same original deadline):
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology confirmation-delivery -- artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-confirmation-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/bdc3c471e76b456217155cf050d331f0fc7137ed0e4def311bb3de3716dc9d38/completed.json
+Freeze all newly executed source-reader/final-arm/confirmation inputs/tests at dispatch.
+After real confirmation replay, actual selected parity/export and strict frontend reader/
+virtual Warlock-only preset presentation/browser handoff precede next Warlock spec.
+When implementing first-visit Demonology defaults, preserve DS/Ruin's separate Imp options;
+do not accidentally change it by repointing a shared DefaultOptions. All-class objective
+ACTIVE; no numerical winner change, second correction, clock reset, commit/push/deploy.
+
+## October20 08:22UTC — Demonology feedback completed; independent proof running
+
+Owner63336/child26378 TERMINAL0 at08:21:44UTC; do not restart. Actual feedback identity
+bdc3c471e76b456217155cf050d331f0fc7137ed0e4def311bb3de3716dc9d38, result
+result-d1de1e63af9ddf0e.json, semantic SHA
+d1de1e63af9ddf0e1f075884b2b6c22f0ecc895d499fa29371c2ac73bbd58382.
+42,113new native requests/5,787,140fights/31,756reuses; complete ancestry122,473origins/
+17,015,120fights. Evaluation reports closed=true after one further complete gear sweep
+and state recheck, retaining830.2054996134663DPS/10k,2/31/18,Succubus/Imp/Spellstone.
+This is not fresh confirmation or a qualified public preset. All9actual detailed native/
+WASM controls PASS with complete player/pet/resource equality,225fights each/errors[].
+State parity state-parity-688a5270e47755e8.json, semantic
+3c5fae110b16d4025b4d6482671063a943545aa539d97738cf903eb9546eb7e6.
+
+Independent completed-feedback audit22879 is LIVE: warlock-demonology-feedback-completed-v1.test.mjs
+authenticates full ancestry/raw controls/pins and independently replays all stages, requiring
+real closure. New feedback reader uses300000capacity without editing frozen200000gear reader.
+Three genuine raw-origin tests plus two scenario guards PASS (7368,all5); scoped lint/format
+PASS. Completed-feedback test and final-arm/fresh-confirmation helpers are newly prepared;
+the latter have NOT run on the real closed source yet. Require that proof before --plan and
+actual original-budget confirmation-delivery. Final arms must reconstruct genuine10k raw
+origins for ALL retained states (ranking has retained/leaders, NOT ranked). No invented
+metrics/combinations or changed winner. Fresh two20k ranges retain separate owner2% and
+original1% results. Original14UI controls seed847000001/25verified and excluded, alongside
+other controls/history; reservation independently checks all registered class holdouts.
+
+Numerical feedback inputs remain FROZEN. Newly prepared reader/arm/context/driver/tests are
+not frozen until fresh dispatch; do not edit executed inputs. Historical cache helper
+69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37 remains intact per
+owner; all4retention variants preserved. Original Warlock deadlineOctober21 06:24:18.106UTC,
+one correction used, no clock reset. Next: actual feedback proof → genuine final-arm guards/
+readonly confirmation plan → fresh validation → selected parity/local presets/gear/talents/
+APL/enchants/rotation guide/main desktop-mobile QA BEFORE next Warlock spec. No new public
+preset, commit, push or deployment. Full all-class objective ACTIVE, not achieved.
+
+## October20 07:58UTC — actual original-clock Demonology feedback63336 dispatched
+
+This turn is PROGRESS: actual all-slot gear completion/audit,8new state/feedback guards,
+zero-combat preflight PASS and actual next numerical owner. Preflight17530 TERMINAL0/PASS:
+154gear stages/21,959used native origins independently replayed, all17slot eligibility
+unchanged,10,507current-context gear proposals/25groups,2,398talent values (2,281anchors +
+117legal neighbors),19,236initial state candidates,9detailed controls,12,016source pins.
+Initial state streamca6b53e2e2c41a66397f68bf49f0e4160c1aa0a3ddf64fa989816893de497f1d.
+Derived source frame style one-hand-offhand; actual equipped handType1. Full original
+deadline and the300000origin/3cycle bounded feedback policy are preserved.
+
+Actual owner63336/child26378 is LIVE, verified PID and persisted budget. Started
+2026-10-20T07:56:29.069Z, command3dfaff94194fe111b650d4095745db932f15d514037c5c879815444566be823f:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology state-recheck -- artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-feedback-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/7a29d4042faf639354483e65c94a68f1de25a23eac615febfe09cf43b53b9f43/completed.json
+Original Warlock START2026-10-20T06:24:18.106Z → DEADLINE2026-10-21T06:24:18.106Z,
+NOT reset. One correction used/completed, this is the ordinary original state-recheck.
+Current process is PREPARING:9actual native/WASM state controls and subsequent scalar
+feedback have NOT yet been claimed passed. Poll63336; no duplicate owner or changed args.
+
+NOW FROZEN at actual dispatch: warlock-demonology-geared-v1.mjs/.test.mjs;
+warlock-demonology-feedback-context-v1.mjs; warlock-demonology-feedback-v1.mjs/.test.mjs;
+warlock-demonology-state-recheck-v1.mjs/.test.mjs;
+warlock-demonology-state-parity-v1.mjs/.test.mjs;
+run-warlock-demonology-feedback-v1.mjs, plus all inherited executed sources. Do not format
+or edit them. All9projection inputs are distinct and include all demons/stones, opposite
+Pact/Brand/Conflagrate mechanics and alternate ShadowBolt/SearingPain filler; exact full
+player/pet/resource comparison is required on actual combat. Final state tests74134 ALL4PASS,
+parity20657 ALL2PASS, feedback pure tests ALL2PASS; actual gear audit48371 ALL1PASS.
+Final10file scopedlint3731/format79615 and git diff --check PASS. No skipped assertion,
+invented DPS, model/source-pin edits, sample prices, public preset or deploy.
+
+NEXT while owner runs: prepare independent feedback-source loader/replay (new files ONLY),
+use300000origin capacity and validate all imported journals/new local admissions,9actual
+raw native/WASM controls and complete evaluateDemonologyFeedback readonly stages/outcome.
+Old readDemonologyOrigins in geared reader caps200000 and is now frozen: do NOT modify it
+or accidentally use its smaller index for feedback. Full closure is mandatory before
+fresh2% AND separate original1% confirmation, selected native/WASM and actual local
+Warlock presets/gear/enchants/talents/APL/rotation guide/main desktop-mobile handoff. Do
+not change the selected winner using fresh validation outcomes. Finish local delivery
+BEFORE Affliction/DS-Ruin/Destruction. Global remaining scope/incremental update workflow
+unchanged. Historical cache helper69b4b817... stays frozen per owner,4retention variants
+preserved. No commit/push/deploy. Full objective still ACTIVE, not achieved.
+
+## October20 07:54UTC — actual gear complete/audited; bounded geared feedback prepared
+
+Previous goal turn was PROGRESS (blue full proof and actual gear dispatch). Current turn
+also PROGRESS: gear51672/child99908 TERMINAL0 at07:38:48UTC. DO NOT restart it. Gear identity
+7a29d4042faf639354483e65c94a68f1de25a23eac615febfe09cf43b53b9f43; result
+optimization/bounded-native-studies/7a29d4042faf639354483e65c94a68f1de25a23eac615febfe09cf43b53b9f43/result-ce1f7ecdfcca7302.json
+semantic SHAce1f7ecdfcca7302ec5552940041f866559f7faa02354ce0f791654e74d8b099.
+21,955newconfigs/2,877,120fights/668reuses,154stages. Eight actual native/WASM controls
+PASS (8native+8browser/200fights each/errors[]), full player/pet/resource equality, parity
+optimization/warlock-demonology-first-pass-v1/gear-parity-009c2d1e903ee217.json, semantic
+e3d23c80230f0c559bd5d07622d06b8a384c4b19984cc665c50ccd94ea2a63de.
+Actual independent geared-source test48371 ALL1PASS (252.0s), every stage/origin/selected
+item replayed. First sweep764.40501DPS/+21.25894%; second830.2054996134663DPS/stdev34.07429
+at10k/seed77191, +8.60807%. stoppedForSmallGain=false: this is a capped material-gain gear
+result, NOT converged/final/qualified/publication-ready. Continue full feedback, do not wave
+away8.6% under the owner's2% retained-contender tolerance. Frozen2/31/18 Succubus/Imp/Spellstone
+blue state unchanged by gear phase. Actual selected gear is in the completed artifact.
+
+NEW unexecuted numerical modules under private optimization/review-tools:
+warlock-demonology-state-recheck-v1.mjs/.test.mjs; feedback-v1.mjs/.test.mjs;
+state-parity-v1.mjs/.test.mjs; feedback-context-v1.mjs; run-warlock-demonology-feedback-v1.mjs.
+All filenames except run- carry warlock-demonology- prefix. Broad actual-geared recheck keeps
+all2281talent anchors plus legal one-point neighbors, all4active demons and both independently
+captured stones, all30known policy inputs, then all16legal active/sacrificed Pact pairs on
+retained states. Actual incumbent at matching precision is mandatory throughout. Uses
+80/80/80/500/2000/10k stages with protected mechanics families; no false global-optimum claim.
+Nonmaterial/tied changes keep incumbent. Original ordinary state-recheck phase includes up
+to3explicit gear-plus-state feedback cycles, each with2complete all17-slot/pair/set/enchant
+sweeps, matching the established Mage workflow. Maxretained origins300000, fail safely rather
+than truncate; state proposals max200000. Caps are NOT closure. Same original class clock,
+one extraordinary correction already used; no renamed phase/spec or new deadline.
+
+Tests: first state test8355 failed only a label-count assumption (28distinct APLs from30
+labels when Conflagrate unavailable). Replaced that assertion with STRICT proof that every
+one of30generated policy inputs has an exact native-request representative; no policy loss.
+Final74134 ALL4PASS, genuine measured10k baseline/gain/tie comparisons, no invented DPS.
+Pure feedback closure/policy tests ALL2PASS. Nine-control projection test initially93896
+assumed an unavailable simultaneous Pact-off/Brand-off/Conflagrate-on anchor; corrected to
+independently exercise EACH actual measured counterfactual. Final20657 ALL2PASS, all9unique
+class8 inputs, four demons/both stones and actual opposite-mechanic/filler projections.
+No frozen blue/gear/model input edited. Final10file ESLint3731/format79615 and diff-check PASS.
+
+Actual READ-ONLY preflight17530 is LIVE, no numerical owner/new fights yet:
+node artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-feedback-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/7a29d4042faf639354483e65c94a68f1de25a23eac615febfe09cf43b53b9f43/completed.json --plan
+Poll SAME handle. Only after PASS, original-budget actual dispatch:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology state-recheck -- artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-feedback-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/7a29d4042faf639354483e65c94a68f1de25a23eac615febfe09cf43b53b9f43/completed.json
+Freeze all new feedback/geared-reader source/test inputs at actual dispatch. It MUST run
+9actual detailed native/WASM full-player/pet/resource controls before scalar work. Projection
+tests are not those actual9combat controls. Source frame style is recorded separately from
+actual equipped hand type; no fresh UI capture is claimed for derived frames.
+
+NEXT after actual feedback completion: new independent feedback source reader/replay must
+honor declared300000-origin capacity (old readDemonologyOrigins in geared reader caps200000;
+don't edit the frozen reader or accidentally import its smaller index). Verify complete
+closure, then fresh2% plus separate original1%, selected native/WASM and actual Warlock
+presets/gear/enchants/talents/APL/guide/browser handoff BEFORE next spec. Fresh outcomes must
+never be used to cherry-pick a new winner. No commit/push/deploy/public pointer changed.
+Historical helper69b4b817... is intact; owner explicitly confirmed keeping it unchanged.
+All4retention variants preserved. Entire all-class/good-spec goal remains ACTIVE, not done.
+
+## October20 07:25UTC — independent blue audit PASS; actual all-slot gear owner51672 dispatched
+
+This goal turn is PROGRESS, not merely a status restatement. Blue52424 is TERMINAL0, full
+result0ab3f5d4.../58,405origins/8,350,860fights/260stages independently verified by actual
+completed-source test36702, ALL1PASS (128.58s). Read-only gear preflight85209 TERMINAL0/PASS:
+10,451 distinct legal gear proposals/25groups/all17slots,8detailed canaries proposed,
+11,981source pins,0native/browserjobs/0filesystemwrites. Slot candidate counts:
+73,43,56,83,89,29,68,64,62,73,62,62,43,43,153,27,29. Includes3,013legal hand pairs,
+3,794ring pairs,1,789trinket pairs,1,060set proposals and all compatible enchants. No EP/
+quality/ilvl filtering or raid-dependency exception. Actual blue winner/proof hashes below.
+
+Actual SAME ORIGINAL Warlock supervisor phase GEAR is now LIVE: exec51672/child99908:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology gear -- artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-gear-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/completed.json
+Started07:24:46.630UTC (actual persisted budget record verified), command
+c416b8096ebf80e4eb7b27bba7bae0daa33318ea15ed2bbdbf9a6570fe417695.
+Original startOctober20 06:24:18.106UTC,
+deadlineOctober21 06:24:18.106UTC unchanged. Single class correction already used/completed.
+Poll51672; don't start duplicate jobs. Initial preparation replays source before8actual
+native/WASM gear controls; these controls/scalar sweeps are NOT yet reported as completed.
+
+NEWLY FROZEN at actual dispatch: run-warlock-demonology-gear-v1.mjs; selected-v1 reader,
+selected-v1 and selected-completed-v1 tests; fixed-context-gear-bank-v1 module/test;
+gear-requests-v1 module/test; browser-gear-v1; gear-parity-v1 module/test, all with
+warlock-demonology- prefix under optimization/review-tools. Existing blue/context/requests/
+verifier/capture and inherited A4/Mage/Balance inputs remain frozen. DO NOT FORMAT THEM.
+warlock-demonology-geared-v1.mjs is only prepared/linted/syntax-checked, NOT an actual
+completed-gear source audit yet; it is not used as a numerical input in this gear owner.
+
+Owner explicitly confirmed keeping simulation-cache.mjs unchanged during the simulations.
+Historical69b4b817... intact, all4concurrent cache-retention variants remain preserved with
+alternative re-applicable patches. Latestgit diff --check PASS; no unrelated edits reverted.
+No new preset/public pointer/commit/push/deploy. Current MageA5/Balance8541/all16cases unchanged.
+Next: poll actual gear, independently replay completed gear with new geared reader/tests,
+then actual-geared talent/APL/pet/stone feedback, fresh2% and separate original1%, selected
+native/WASM and actual local Warlock presets/gear/enchants/talents/APL/rotation guide/browser
+handoff BEFORE Affliction/DS-Ruin/Destruction. Full all-class/good-spec goal remains ACTIVE.
+
+## October20 07:23UTC — Demonology blue complete; independent audit and gear preflight LIVE
+
+Owner52424/child66453 TERMINAL0 at07:21:11UTC. DO NOT restart it. Study48e23... completed
+all6rounds and260saved stages with full internal read-only replay. Actual58,405 unique
+native origins/8,350,860 fights across original/resumed journals; latest invocation21,679
+newjobs/5,412,780fights,1,495source reuses. Completed result:
+optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/result-0ab3f5d4eaee0deb.json
+semantic SHA0ab3f5d4eaee0deb0f236374d3930ad3fb518dedbecdea7cfaa6f2b35664c41e.
+Round request counts36,496/20,216/2,284/311/303/299; retained738/310/311/303/299/295.
+Fixed-blue inspected leader630.3906378093977DPS/stdev25.560117322425853 at10k/seed77191,
+allocation2/31/18, one-hand/offhand Spellstone, activeSuccubus/sacrificedImp, ShadowBolt/
+bothDoTs/Doom/Brand/execute/Tap15 policy. This is NOT final pre-BiS, fresh independent
+validation, qualification or a published preset. All-slot gear and geared-state recheck remain.
+
+Actual independent completed-source test36702 and read-only gear preflight85209 are LIVE:
+node --test artifacts/forever-simulator/optimization/review-tools/warlock-demonology-selected-completed-v1.test.mjs
+node artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-gear-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/completed.json --plan
+Both independently read/replay the actual source; neither starts new combat or writes a
+qualified result. Poll SAME handles, not a missing old supervisor. Only after BOTH pass:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology gear -- artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-gear-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/completed.json
+Then FREEZE new gear driver, selected-source reader/tests, gear-bank/request/projection/
+parity modules/tests and all inherited numerical inputs. It must first run8actual full
+player/pet/resource native/WASM controls, then at most2complete17-slot/pair/set/enchant sweeps.
+Gear-source reader warlock-demonology-geared-v1.mjs is prepared/linted, not yet exercised on
+an actual gear completion. Do not claim it passed. Fresh/state/local default delivery remain.
+
+Latest scoped9file lint10015 PASS, explicit formatting PASS,5gear boundary tests8111 PASS,
+syntax/geared reader and git diff --check PASS. Helper69b4b817... intact at07:22:42UTC.
+Another process reintroduced the already-preserved f736... variant once; exact approved
+restore repeated without stopping/recomputing the loaded numerical search. Coordination
+question remains unanswered. No source guard weakened or discarded evidence. Same original
+Warlock deadlineOctober21 06:24:18.106UTC; ONE correction already used. No commit/push/deploy.
+All-class objective remains ACTIVE with all prior and remaining scope unchanged.
+
+## October20 07:15UTC — live blue refinement; full-slot gear dispatch prepared and5newtests PASS
+
+Previous goal turn was PROGRESS: exact approved restoration, genuine6guard tests and same
+owned numerical resume. Current owner52424/child66453 remains LIVE, identity48e23..., now
+10k inspection after all talent/APL/active-demon/sacrifice and80/500/2000 stages. Last checked
+58,191 unique native origins/6,210,860 fights; this is running progress, NOT a final outcome.
+Original Warlock start/deadline unchanged; one class correction already used. Do not restart.
+
+Prepared new class8 all-slot gear owner run-warlock-demonology-gear-v1.mjs, request factory,
+browser equipped-item/enchant projection,8real-data gear canaries and independent geared
+source replay module (all under private optimization/review-tools). Covers all17slots,
+ordered hands/rings/trinkets, complete sets and legal enchants; retains actual selected
+talents/APL/active demon/sacrifice/stone and20yd/Greater20MP5/WizardOil scenario. Uses bounded
+two complete sweeps with no EP/ilvl/quality pruning. Full normalized player AND pet damage,
+auras and resources must match native/WASM exactly before scalar dispatch. Structural tests
+use genuine14saved controls and real catalog gear, not invented DPS results. First run91834
+caught a ported enum-name typo before any gear calculations plus concurrent parent drift;
+corrected new adapter, did not alter frozen blue/model. Serial rerun8111 ALL5PASS; scoped
+lint20015/65701/25857 and explicit formatting checks PASS, git diff --check PASS.
+
+warlock-demonology-selected-completed-v1.test.mjs is prepared but NOT yet run; it must audit
+the actual completed blue study before gear. New geared reader is only prepared/linted,
+NOT evidence of completed gear replay. Planned READ-ONLY gear preflight after blue/audit:
+node artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-gear-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/completed.json --plan
+Only after that passes, dispatch the SAME command without --plan through original Warlock
+budget phase gear. It runs8actual derived native/WASM controls first, then scalar sweeps.
+
+Concurrent cache edits continued: worker-drain variant ae5b88c2... and formatted f7368374...
+also preserved byte-for-byte with alternative patches in the same source-drift folder.
+Both patch applicability checks PASS; actual helper restored69b4b817... after each. The
+already-loaded bounded study uses only unchanged simulationHash, NOT createSimulationCache;
+no new numerical code, guard relaxation, deleted measurements or extra restart for these
+two restores. Nonblocking coordination question sent: keep this helper unchanged while
+studies need its historical pin. Do not reapply any alternative patch during these studies.
+Read-only inspection confirms storage maintenance targets optimization/simulation-cache,
+NOT bounded-native-studies packed evidence. Disk now42GiB available; no cleanup by this turn.
+
+No new preset, public pointer, commit, push or deployment. MageA5/Balance8541/all16local cases
+remain unchanged. Full all-class/good-spec/rotation/gear/preset/browser/incremental scope
+remains ACTIVE; Demonology gear, state feedback, fresh2%/separate1%, selected parity and
+actual local default/guide delivery still precede Affliction/DS-Ruin/Destruction.
+
+## October20 07:03UTC — approved frozen-helper recovery; same Warlock correction resumed
+
+Supersedes the pending06:34 statuses below. Combined correction23277/child36622 actually
+dispatched06:44:33UTC and wrote independently verified prepared-v2.json, then began blue
+study48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6:36,496 unique
+initial candidates, six workers. The single class correction is now USED. Its command is:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology correction -- artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-blue-v2.mjs --blue
+It was intentionally interrupted on a real concurrent source edit, terminal1 at06:50:18UTC;
+27,743 admitted native jobs/2,219,440 fights,27,701 verified by the last emitted progress.
+Those are interrupted counters, NOT a finished result or qualification.
+
+Owner approved preserving the cache-retention patch and restoring the frozen helper. Backup:
+optimization/source-drift/cache-retention-20261020/ (under artifacts/forever-simulator/).
+Complete modified .mjs and re-applicable .patch preserved. ACTUAL saved capture pin requires
+simulation-cache.mjs SHA69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37;
+concurrent retention version SHA15e46d1f4e21f23d1e2ab18bafaa01a3fa75f2a57145c4c7894e1a3384117029.
+These hashes correct the reversed labels in the intermediate session summary. Restored bytes
+match the genuine prepared capture pin; forward git apply --check of preserved patch PASS.
+Retention implementation/unrelated edits untouched. No evidence deleted, guard weakened,
+source pin rewritten, budget reset, commit, push or deployment.
+
+First recovery resumed22603/child52941 and reused saved measurements, finishing all36,496
+first-round requests. A concurrent formatter then changed the helper again to2102f44b... .
+Stopped that owner safely at07:00:37UTC, preserved BOTH full source variants and alternative
+patches in the same recovery folder, and restored exact69b4b817... again. Latest identical
+correction is exec52424/child66453, original class start06:24:18.106UTC and deadlineOctober21
+06:24:18.106UTC unchanged. It passed preparation and emitted the SAME48e23... study identity.
+Poll52424 before restarting anything. Keep the frozen helper out of concurrent formatting.
+V2 verifier/request/blue driver and their tests are now FROZEN numerical inputs. Final
+pre-dispatch23tests plus final8post-cleanup tests/lint/format passed. New unexecuted
+warlock-demonology-fixed-context-gear-bank-v1.mjs/.test.mjs prepare all17slots, ordered
+weapon/jewelry pairs, complete sets and legal enchants without EP pruning. Its initial
+test failed ONLY at parent source-drift guard; after recovery rerun74318 ALL3PASS.
+New warlock-demonology-selected-v1.mjs/.test.mjs prepare independent read-only replay of
+the actual source journals/packed stages/rankings. Three genuine initial-declaration/source
+guard tests59754 PASS (all36,496 requests,15mutations and reject controls-as-completion).
+This is NOT yet a completed-study replay: blue remains live; full outcome audit still needed.
+New files scoped ESLint40171/explicitformat PASS; frozen helper node --check/patch checks/
+git diff --check PASS. No executed blue/model/capture helper was edited.
+Blue source replay/audit, gear/state feedback, fresh2% plus separate1%, selectedWASM and
+actual local presets/guide/browser delivery still remain before the next Warlock spec.
+MageA5/Balance8541/all16local cases unchanged; whole all-class goal remains ACTIVE.
+
+## October20 06:34UTC — Warlock actual14controls measured; V2 full pet-metrics audit/18tests PASS
+
+This goal turn is PROGRESS: implemented real Warlock class8 controls,2281legal Demonology
+talent anchors/2136structured/108allocations,30APL policies, both hand styles and both weapon
+stones, plus14actual mechanic captures. Source is the same authenticated all-classA4 model;
+no Mage requests/numerics are inherited. Actual8Premier Felweave blues already exist. Their
+combat data matches the current vendor input exactly, but frozen compiledDB omits Horde
+metadata: a PRIVATE study acquisition map enforces vendor faction2 without changing the DB.
+Regression rejects Alliance acquisition or altered stats/faction. WizardOil/Greater20MP5,
+trained ShadowBolt9/Corruption6/Immolate7 (no assumed raid books), no borrowed ISB/freeT1/
+swaps/manual stats. All four demons/sacrifices, Pact/Brand/Decimation/Knowledge/SoulLink
+on/off and a Conflagrate hybrid are real controls. External Life Tap healing/pet survival
+remain explicit DPS scenario assumptions, not a survival/tank proof.
+
+Actual original Warlock class budget STARTED2026-10-20T06:24:18.106Z; DEADLINE2026-10-21T06:24:18.106Z.
+Never reset it. Owner83052/child8668 TERMINAL1 after182.5s, not live: all14actual UI captures
+and14native/WASM parity jobs completed successfully (350native fights,350parityWASM plus
+350initial UI-capture fights), but V1's final semantic verifier expected passive Brand casts.
+Brand correctly has0casts and positive damaging hits, so preserve the failure and all raw
+measurements; DO NOT rerun --capture or edit its executed sources to force a passing record.
+Frozen command3f61872c7ae8a0ad474c80f3fecaab45a51ee3e28724bf4040e5093614aecf37:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run warlock demonology talents-rotation -- artifacts/forever-simulator/optimization/review-tools/capture-warlock-demonology-controls-v1.mjs --capture
+Raw parity: optimization/warlock-demonology-first-pass-v1/control-parity.json,
+semantic237dcc92b0243adaf6d0978ce704e635f33fca88fec3abdaf4308462a27f9285,
+byte2fba42dfd84c31ac62b7e648f8c5629e45438b1fffa1a9582402a3d71755bf3a.
+Actual results: optimization/reviews/warlock-demonology-mechanics-JwNs6b.
+
+NEW verify-warlock-demonology-controls-v2.mjs independently authenticates original14captures,
+source pins/raw native+WASM hashes and ALL complete normalized player/pet metrics exactly.
+Sorts only Go map-derived action/aura/resource ordering; no values/tolerances changed.
+Requires positive Brand damage/hits, correct child1293697/1293698, isPassive=true and0casts;
+inactive talent controls must lack its damage. No combat rerun/newmodel/relabelling of V1.
+Actual4genuine-source regressions78998 PASS, including fails-under-V1/passes-under-V2 and
+rejecting zeroed/wrong-child damage or any changed pet damage/aura/mana. V2 --plan39064 PASS
+for all14,0jobs/0writes. prepared.json and prepared-v2.json have NOT been created/selected.
+V2 is still UNFROZEN until an actual owned write/search dispatch; only read-only checks ran.
+
+New warlock-demonology-requests-v1.mjs enumerates all16legal active/sacrificed Pact pairs or
+4nonPact active demons, strips inherited sacrifice when Pact absent, and derives ONLY options
+from a separately captured class8 hand/stone frame, preserving all gear/buffs/encounter fields.
+Derived frames are explicitly NOT called fresh browser captures. All4tests34166 PASS.
+Initial10pure/boundary tests14451 PASS. Final serial4file suite79502 ALL18PASS,0failed;
+final9file ESLint25092/format11074 and final git diff --check all PASS. No web/application edits,
+new qualified preset, completed DPS talent/gear search, commit, push or deployment.
+
+CRITICAL orchestration discovery: a second `talents-rotation` command with a different source/
+args is correctly REJECTED before spawning (attempted V2 verification-only dispatch; no new
+budget run/job was started). The original phase belongs to the frozen capture command.
+Do NOT rename specs/phases, reset clocks, weaken the supervisor or spend the one permitted
+class correction on a verification-only command and then need another changed search.
+Next safe action: create/test a SINGLE correction-phase driver that authenticates V2's saved
+14controls, immutably writes/loads prepared-v2.json, THEN runs the actual first blue talent/
+APL/pet search in the SAME frozen owned command. Original class correction is still UNUSED.
+Use existing bounded-native-study runtime/6workers/admissions/packed evidence. Its declaration
+must pin new request/driver/verifier/test sources, preserve all2281talents/30APLs, legitimate
+pet alternatives/both hand/stone frames and protected talent families, explicit bounded
+narrowing/precision/reuse; cache validated option frames rather than reparsing them for every
+candidate. After blue: ordinary gear/state-recheck/confirmation-delivery phases remain unused.
+All17slots/pairs/sets/enchants, geared feedback closure, fresh2% plus separate original1%,
+selectedWASM and actual local presets/guide/main desktop-mobile handoff remain BEFORE next spec.
+
+Five actual capture inputs NOW FROZEN: warlock-demonology-blue-v1.mjs and its test,
+warlock-demonology-context-v1.mjs, capture-warlock-demonology-controls-v1.mjs and its test.
+Preserve all A4/Mage/Balance/other executed proof inputs. New request/V2 verifier files have
+only undergone structural/read-only tests so remain unfrozen until numerical dispatch.
+No actual numerical owner is live now. Full all-class/good-spec goal stays ACTIVE; current
+MageA5/Balance8541 and all16local cases remain unchanged, not globally/live-server optimal.
+
+## October20 06:06UTC — Mage local handoff complete; online source research requested
+
+Supersedes the pending statuses below. Local selector90048 completed successfully:
+optimization/reviews/mage-local-selection-bf5a41f1022c249f.json. Mage presentation is now
+a5f95c49c57e46f727b0267a, with Frost, Fire and Arcane in the actual library/configurations/
+gear sets and their measured talents, enchants, consumes, APL and guidance. Existing Balance
+override8541139367b8024ee87f3632 and all13nonMage cases remain unchanged;16local cases total.
+Actual main review11461 completed, report optimization/reviews/mage-main-page-9dd2805bff950089.json:
+all6 desktop/mobile cases PASS, errors[], working Simulate/reload/tooltips/one global scroller.
+All6screenshots in optimization/screenshots/mage-main-three-44RaW3 were visually inspected.
+Final regression86010:37actual test files/452tests PASS,0failures; report
+/tmp/wow-trader-simulator-regression-20261020-0555.json. Webtypecheck99349/scopedlint15325 PASS.
+Those report contents, selected registry and six main-page cases were independently reread
+at06:04UTC; no new simulation or test execution during the subsequent research-only turn.
+Local route: http://localhost:3017/tools/forever/simulator/mage. OriginalMage clock/deadline
+unchanged. All executed numerical and presentation/review sources remain frozen. Nothing
+committed, pushed or deployed; whole all-class objective remains ACTIVE, not complete.
+
+Owner asks to research the internet rather than require them to supply missing evidence.
+Checked onOctober20:
+- Wowhead's authored Alchemy overview (updatedOctober12) lists Greater Mageblood's recipe
+  at175Alchemy, Friendly Azeroth Commerce/Durotar Supply,120Merchant's Favor. This supports
+  the owner's non-raid acquisition classification; it is not a newly extracted server table.
+  https://www.wowhead.com/forever/guide/professions/alchemy-overview-trainer-locations-recipes
+- Blizzard's October15notes explicitly increase Warlock Shadow Mastery from1/2/3/4/5% to
+  2/4/6/8/10%; compare current model before admitting Warlock numerical results.
+  https://eu.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-15-october/631316/6
+- MythicSim publishes reference builds/settings and its community engines. Tier-list header
+  says120second reference fights and some specs use older snapshots. Do NOT compare those
+  DPS values directly with our300second results or treat their presets as proven pre-raid BiS.
+  https://mythicsim.com/wow-forever/tier-list
+  https://github.com/sage3648/mythicsim-forever-engine
+- Their changelog/source reports changed school-elixir semantics and shared elixir crit
+  riders. These are cross-check leads, NOT independently verified defects in our frozen
+  model. Do not silently repin/recompile or invalidate proofs based on a community claim.
+  https://mythicsim.com/changelog
+  https://github.com/sage3648/mythicsim-forever-engine-go/commit/37c2dfbdae9ce927cb2e2be648378cb269db23c1
+
+Next implementation remains Warlock, one spec at a time only after existing class-budget
+inspection, current local/client/source comparison and actual class-specific model controls.
+No Warlock study or class-clock reset was started by this research-only request.
+
+## October20 05:52UTC — verified3Mage bundleA5 staged PASS; local selection90048 running
+
+This turn is PROGRESS, not a wait-only restatement. Export84674 TERMINAL0: real selected10k
+native/WASM identical659.736646922818DPS/stdev28.39404413434053 (0difference), parity
+4f37b298fff4eeb54a62968d85f80b99e21fa40f7c9d4d1104959a17cb3735da. Actual qualified Arcane
+build7478d76ea2471cbba72308176bec257e3226f676f4bfb233982d7ddd8aeabb3e,
+qualificationffd9f304920e881b6367053a6f9116d3b82d03f6b385ad4b072c486d115b40fc.
+Both1%/2%fresh40k acceptance659.7836986476648DPS/0.59261% conservative retained gap retained.
+
+Actual3qualified-build overlay3tests PASS (Frost/Fire files/defaults unchanged; exact Arcane
+gear/APL/consumes/20yd; mutated even-resealed exports/source-renames rejected). Old builder3
+created immutableUNSELECTEDd2c99c1273d9edd53fe5b49d using old2-build schema; preserve archive,
+DO NOT select it or edit it. Caught the version/cardinality mismatch before any public change.
+New builder4 uses explicit profile-proof.v3, identity-input.v4 and unchanged frozen overlay3.
+Final --plan34124 and actual --build58099 TERMINAL0: valid presentationa5f95c49c57e46f727b0267a,
+numericalsourceA4,3495files,3builds/28starters, actual all-class virtualTypeScript PASS.
+No native model rebuild/search or source/schema weakening; old V1/V2 exact cardinalities kept.
+
+New strict web Arcane reader pinned7478/confirmation27818, genuine16-document fixture
+model-first-pass-arcane.json.gz hashd0e0cb9f7f6306a62d0a526a89c9e5d2d7682a2da7dcd1293774d412a7e72902
+(43.56MB raw/4.37MBcompressed). Actualreader/fixture exporter74286 PASS; all21tests83972 PASS.
+Profile registry supports strict V3 tupleFrost+Fire+Arcane and matching browser.v3, rejects
+lost/duplicated/foreign coverage; only exact2known immutableArcane results gain16/48MB bounds,
+default8MB retained. Shares require exact2perbuild/uniqueid+width/full coverage. Webtypecheck
+92289 PASS; scopedlint/format PASS. Old6file92test run had1resource timeout under concurrent
+compile; serial1worker rerun28601 ALL92PASS without changing any assertions or timeouts.
+
+Actualstagedreview35977 TERMINAL0/PASS:15profile menus/all28starters,6full Mage desktop/mobile
+shares,3actual25-fight native/browser checks atseed819700001 (Arcane666.05044/666.05). All
+numerical assets unchanged; privateproof optimization/reviews/profile-model-browser-dd9c39a27e216c7d.json.
+Actual profile fixtureV3 hash9b2bb0ee5cfbb3c4790578cffa303b8e235421c8e5db4918cc77032973815c85,
+model-profile-mage-v3.json.gz. NewV3profile19tests93687 ALLPASS. Total132focused web tests
+PASS (92old+21Arcane+19V3); publicselector--plan6608 PASS,48genuine source refs/13nonMage cases.
+
+Actual LOCAL selector90048 LIVE since05:51:28UTC:
+node artifacts/forever-simulator/optimization/review-tools/select-mage-cumulative-local-v3.mjs a5f95c49c57e46f727b0267a --select
+Poll90048; don't restart. SelectorV3 now FROZEN at dispatch. It MUST preserve both old Mage
+numerics/public facts plus the Balance override and all13nonMage cases. Newsource/test/registry
+files are NOT numerical inputs; they may receive additional regression-only coverage before
+final broader checks. Nothing deployed. Actual main-page6case reviewV3/screenshots/visual
+inspection and final broader tests/typecheck/lint still required before Arcane/Mage handoff
+or any next spec. OriginalMage deadlineOct20 16:22:54UTC; no reset/correction/recalculation.
+
+All numerical/qualification/selected-parity/helper and actual UI-build/staged-review sources
+remain FROZEN. Do not reformat them. Use builder4 (not3), reviewer3, selector3 and mainreview3.
+Full objective ACTIVE, all remaining classes/specs/incremental-item workflow still in scope.
+No commit/push/deploy or other external mutation authorized/performed; preserve dirty worktree.
+
+## October20 05:30UTC — Arcane actual confirmation2tests/export preflight PASS; selected-WASM/export84674 running
+
+Latest05:33:57UTC verified84674 still LIVE, actualPID23380~100%CPU/3min30s, full source
+authentication underway. Poll SAME handle; no native/WASM completion or qualified export
+reported yet. Do not restart it or claim the public Arcane preset is updated. Current-turn
+actual confirmed-source2tests65456 PASS; V3 staged/main/local-selector lint87728/48239,
+explicit formatting and final diff check PASS. No new Next changes or remote actions.
+
+This turn is PROGRESS: fresh confirmation completed/accepted, independent full-source2
+tests65456 TERMINAL0/PASS and export --plan64505 TERMINAL0/PASS,0newcombat/writes in either.
+Original1% and owner2% both pass; nearby gains disclosed; strict dominance NOT claimed.
+Actual export84674 LIVE since05:30:28UTC:
+node artifacts/forever-simulator/optimization/review-tools/export-mage-arcane-first-pass-build-v2.mjs artifacts/forever-simulator/optimization/bounded-native-studies/27818d497835784e91e416eaa71f31e4352d983a2d57117a51a84fa86df2ebe0/completed.json --export
+Poll84674, no restart for quiet source authentication. It verifies the complete actual
+source again, then does ONE selected10000-fight WASM replay against the genuine existing
+native inspection b95922d27926a9344f64120ef978efcd81aa704bd71a3d74f2a30d8176f6c589,
+659.736646922818DPS/stdev28.39404413434053, seed77191. This is inspected-range engine parity,
+NOT another fresh holdout or native search. Only then may an immutable qualified export
+exist. Original Mage deadlineOct20 16:22:54UTC retained. No final build/export hash yet.
+
+All numerical/source/confirmation inputs remain FROZEN. At this dispatch ALSO FREEZE new
+Arcane confirmed-source reader/test, guidance/test, selected-parity/WASM helpers/tests,
+actual-geared fixture, probe and exporter (all ownPins/exportSourceFiles). Never edit/reformat.
+New V3 overlay/build/staged-review/local-selector/main-review remain UNEXECUTED and UNFROZEN
+until their respective actual build/review dispatch. They preserve Frost+Fire and Balance,
+require3reviewed Mage builds/6main desktop-mobile cases; actual scopedlint/format PASS.
+
+After84674 terminal0: inspect genuine qualified-build.json, add positive actual3build overlay
+tests, run V3 presentation --plan then actual immutable all-class virtual build. Add a strict
+Arcane web source reader with the ACTUAL build/confirmation pins (no placeholder approval),
+its genuine fixture/regressions, and extend profile-registry unions/dispatch without weakening
+old readers. Actual stagedbrowser/profilefixture/strictselection +main6cases/screenshots
+remain before any next spec. No Next source changes/public pointer/commit/push/deploy yet.
+Full objective ACTIVE; all remaining class/spec and later incremental-item requirements intact.
+
 ## October20 05:27UTC — Arcane fresh40k accepted; audit65456/export preflight64505 running
 
 This goal turn is PROGRESS. Prior turn genuinely closed feedback/audited it and dispatched

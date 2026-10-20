@@ -4,6 +4,7 @@ import { emptyPremadeProgress } from "./premade-model.js";
 import { PREMADE_STOPS, getPremadeQuest, premadeEntryLevel } from "./premade.js";
 import { questEligibility } from "./quest-eligibility.js";
 import { createCampaignPickupBudget } from "./campaign-pickup-budget.js";
+import { forecastCampaignXp } from "./campaign-xp.js";
 
 function gateAction(action: CampaignAction, minimumLevel: number, questId: number): CampaignAction {
   return {
@@ -191,9 +192,10 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
         ? [change.questId]
         : [];
     });
-    const action = sourceGateConflictQuestIds.length
+    let action = sourceGateConflictQuestIds.length
       ? { ...observed, sourceGateConflictQuestIds }
       : observed;
+    const originalChanges = action.questChanges;
     for (const change of action.questChanges) {
       if (change.state === "accepted") break;
       if (change.state === "rewarded") reward(action, change.questId);
@@ -218,7 +220,35 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
       const gate = gateAction(action, maximum.minimumLevel, maximum.questId);
       if ((action.leaderOnly ? leaderBudget : partyBudget).isFunded(maximum.minimumLevel))
         aliases[gate.id] = action.id;
-      else actions.push(gate);
+      else {
+        const firstPickup = action.questChanges.findIndex((change) => change.state === "accepted");
+        if (firstPickup > 0) {
+          const prefix = action.questChanges.slice(0, firstPickup);
+          const labels = prefix.map(
+            (change) => `${change.state === "rewarded" ? "Turn in" : "Complete"} ${change.title}`,
+          );
+          actions.push({
+            ...action,
+            id: `${action.id}-before-pickup`,
+            questChanges: prefix,
+            title: labels.join(" · "),
+            instructions: labels,
+          });
+          const remaining = action.questChanges.slice(firstPickup);
+          action = {
+            ...action,
+            questChanges: remaining,
+            title: remaining
+              .map(
+                (change) =>
+                  `${change.state === "accepted" ? "Accept" : change.state === "rewarded" ? "Turn in" : "Complete"} ${change.title}`,
+              )
+              .join(" · "),
+            instructions: action.instructions.filter((line) => !labels.includes(line)),
+          };
+        }
+        actions.push(gate);
+      }
       if (!action.raidOnly) {
         if (action.leaderOnly) leaderFloor = maximum.minimumLevel;
         else {
@@ -245,13 +275,13 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
         leaderFloor = Math.max(leaderFloor, action.targetLevel);
       }
     }
-    for (const change of action.questChanges) questStates.set(change.questId, change.state);
+    for (const change of originalChanges) questStates.set(change.questId, change.state);
   }
   const ids = new Set(actions.map((action) => action.id));
   if (ids.size !== actions.length) throw new Error("Duplicate campaign pickup gate identity.");
-  return {
+  const compiled: CampaignPlan = {
     ...plan,
-    executionRevision: "workflow-20261020-v8",
+    executionRevision: "workflow-20261020-v9",
     actions,
     legs: plan.legs.map((leg) => {
       const owned = actions.filter((action) => action.legId === leg.id);
@@ -269,6 +299,51 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
       Object.entries(aliases)
         .map(([alias, target]): [string, string] => [alias, aliases[target] ?? target])
         .filter(([, target]) => ids.has(target)),
+    ),
+  };
+  if (!plan.combat) return compiled;
+  // This is a hypothetical route start, never a write to the player's actual progress.
+  const progress = emptyPremadeProgress();
+  progress.members = progress.members.map((member, index) => ({
+    ...member,
+    level: 1,
+    currentXp: 0,
+    xpNeedsUpdate: false,
+    classSlug: index === 0 ? plan.leaderClass : null,
+  }));
+  const events = forecastCampaignXp(compiled, progress, { noAssumedGrinding: true });
+  const funded = new Map(
+    events.flatMap((section) =>
+      section.members.flatMap((member) =>
+        member.steps
+          .filter(
+            (step) =>
+              step.phase === "accepted" && step.shortfallXp === 0 && step.status === "projected",
+          )
+          .map((step) => [`${member.player}:${step.actionId}:${step.questId}`, true] as const),
+      ),
+    ),
+  );
+  const omitted = new Map<string, string>();
+  for (const [index, action] of compiled.actions.entries()) {
+    const questId = action.pickupQuestId;
+    if (questId === undefined) continue;
+    const next = compiled.actions[index + 1];
+    const players = action.leaderOnly ? [1] : [1, 2, 3, 4, 5];
+    if (next && players.every((player) => funded.has(`${player}:${next.id}:${questId}`)))
+      omitted.set(action.id, next.id);
+  }
+  return {
+    ...compiled,
+    actions: compiled.actions.filter((action) => !omitted.has(action.id)),
+    legs: compiled.legs.map((leg) => ({
+      ...leg,
+      actionIds: leg.actionIds.filter((id) => !omitted.has(id)),
+    })),
+    bookmarkAliases: Object.fromEntries(
+      Object.entries({ ...compiled.bookmarkAliases, ...Object.fromEntries(omitted) }).map(
+        ([alias, target]) => [alias, omitted.get(target) ?? target],
+      ),
     ),
   };
 }

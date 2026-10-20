@@ -19,6 +19,7 @@ const { values } = parseArgs({
   options: {
     backlog: { type: "string" },
     "base-queue": { type: "string" },
+    "additional-queue": { type: "string" },
     queue: { type: "string" },
     report: { type: "string" },
   },
@@ -27,7 +28,7 @@ const { values } = parseArgs({
 
 if (!values.backlog || !values.queue || !values.report) {
   throw new Error(
-    "Pass --backlog=<campaign evidence backlog> --queue=<crawler queue> --report=<plan report> [--base-queue=<existing queue>].",
+    "Pass --backlog=<campaign evidence backlog> --queue=<crawler queue> --report=<plan report> [--base-queue=<existing quest queue>] [--additional-queue=<Forever quest/item queue>].",
   );
 }
 
@@ -39,7 +40,7 @@ async function readJson(path, maximumBytes) {
   return { raw, value: JSON.parse(raw) };
 }
 
-function parseReferenceQueue(value, label) {
+function parseReferenceQueue(value, label, allowItems = false) {
   if (!Array.isArray(value)) throw new Error(`${label} must be an array.`);
   const tasks = value.map((task) => {
     if (
@@ -47,18 +48,20 @@ function parseReferenceQueue(value, label) {
       typeof task !== "object" ||
       Array.isArray(task) ||
       task.game !== "forever" ||
-      task.kind !== "quest" ||
+      (task.kind !== "quest" && !(allowItems && task.kind === "item")) ||
       !Number.isSafeInteger(task.id) ||
       task.id <= 0 ||
       task.id > 2_147_483_647 ||
       Object.keys(task).some((key) => !["game", "kind", "id"].includes(key))
     ) {
-      throw new Error(`${label} contains an invalid Forever quest task.`);
+      throw new Error(
+        `${label} contains an invalid Forever ${allowItems ? "quest/item" : "quest"} task.`,
+      );
     }
-    return { game: "forever", kind: "quest", id: task.id };
+    return { game: "forever", kind: task.kind, id: task.id };
   });
-  if (new Set(tasks.map((task) => task.id)).size !== tasks.length)
-    throw new Error(`${label} contains duplicate quest ids.`);
+  if (new Set(tasks.map((task) => `${task.kind}:${task.id}`)).size !== tasks.length)
+    throw new Error(`${label} contains duplicate task identities.`);
   return tasks;
 }
 
@@ -109,10 +112,21 @@ const baseTasks = values["base-queue"]
   : [];
 const baseIds = new Set(baseTasks.map((task) => task.id));
 const selectedIds = [...questEvidence.keys()].sort((left, right) => left - right);
-const queueById = new Map(baseTasks.map((task) => [task.id, task]));
-for (const id of selectedIds) queueById.set(id, { game: "forever", kind: "quest", id });
-const queue = [...queueById.values()].sort((left, right) => left.id - right.id);
-if (queue.length > 10_000) throw new Error("Merged crawler queue exceeds 10,000 quests.");
+const key = (task) => `${task.kind}:${task.id}`;
+const queueByKey = new Map(baseTasks.map((task) => [key(task), task]));
+for (const id of selectedIds) queueByKey.set(`quest:${id}`, { game: "forever", kind: "quest", id });
+const additionalInput = values["additional-queue"]
+  ? await readJson(values["additional-queue"], 8_000_000)
+  : null;
+const additionalTasks = additionalInput
+  ? parseReferenceQueue(additionalInput.value, "Additional queue", true)
+  : [];
+const alreadyQueued = additionalTasks.filter((task) => queueByKey.has(key(task))).length;
+for (const task of additionalTasks) queueByKey.set(key(task), task);
+const queue = [...queueByKey.values()].sort(
+  (left, right) => left.kind.localeCompare(right.kind) || left.id - right.id,
+);
+if (queue.length > 10_000) throw new Error("Merged crawler queue exceeds 10,000 tasks.");
 
 const queueRaw = JSON.stringify(queue);
 const queueSha256 = createHash("sha256").update(queueRaw).digest("hex");
@@ -125,13 +139,25 @@ const report = {
       : null,
   backlogSha256: createHash("sha256").update(backlogInput.raw).digest("hex"),
   queueSha256,
+  ...(additionalInput
+    ? { additionalQueueSha256: createHash("sha256").update(additionalInput.raw).digest("hex") }
+    : {}),
   summary: {
     sourceEvidenceTasks: Object.values(issueCounts).reduce((total, count) => total + count, 0),
     sourceEvidenceQuests: selectedIds.length,
     baseQueueQuests: baseTasks.length,
     alreadyInBaseQueue: selectedIds.filter((id) => baseIds.has(id)).length,
     addedToBaseQueue: selectedIds.filter((id) => !baseIds.has(id)).length,
-    mergedQueueQuests: queue.length,
+    mergedQueueQuests: queue.filter((task) => task.kind === "quest").length,
+    ...(additionalInput
+      ? {
+          additionalQueueTasks: additionalTasks.length,
+          additionalAlreadyQueued: alreadyQueued,
+          additionalAdded: additionalTasks.length - alreadyQueued,
+          mergedQueueItems: queue.filter((task) => task.kind === "item").length,
+          mergedQueueTasks: queue.length,
+        }
+      : {}),
     byEvidenceCode: issueCounts,
   },
   exclusions: [

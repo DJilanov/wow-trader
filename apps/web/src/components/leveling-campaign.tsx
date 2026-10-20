@@ -60,6 +60,7 @@ import { LevelingCombatTargets } from "./leveling-combat-targets";
 import { LevelingDungeonBundle } from "./leveling-dungeon-bundle";
 import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
 import { LevelingPartyIdentity } from "./leveling-party-identity";
+import { LevelingStepProjection, LevelingCombatPlanningSettings } from "./leveling-step-projection";
 
 interface CampaignProps {
   readonly plan: CampaignPlan;
@@ -387,6 +388,14 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         }
       >
         <div data-campaign-action={entry.id} className={styles.instructions}>
+          {selected && entry.questChanges.length > 0 && (
+            <LevelingStepProjection
+              plan={plan}
+              progress={progress}
+              actionId={entry.id}
+              currentActionId={currentCampaignAction(plan, progress).id}
+            />
+          )}
           {plan.combat?.activities
             .filter((activity) => activity.actionId === entry.id)
             .map((activity) => (
@@ -621,6 +630,11 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             Include MC / Onyxia BRD stages / Shadowforge goals
           </label>
           <h3>Actual party XP · update after hand-ins</h3>
+          <LevelingCombatPlanningSettings
+            progress={progress}
+            disabled={!enabled}
+            onChange={update}
+          />
           <LevelingPartyIdentity
             progress={progress}
             disabled={!enabled}

@@ -12,6 +12,10 @@
   "scripts": {
     "build": "node scripts/build-cache.mjs --run build",
     "clean:build-cache": "node scripts/build-cache.mjs",
+    "clean:storage": "node scripts/storage-retention.mjs --apply",
+    "clean:storage:preview": "node scripts/storage-retention.mjs --dry-run",
+    "storage:install:macos": "node scripts/install-storage-maintenance-macos.mjs",
+    "storage:test": "node --test scripts/storage-retention.test.mjs scripts/storage-monitor.test.mjs scripts/build-cache.test.mjs scripts/simulator-search-cache.test.mjs",
     "catalog:audit": "pnpm --filter @wow-trader/catalog dev audit",
     "catalog:assess-promotion": "pnpm --filter @wow-trader/catalog dev assess-promotion",
     "catalog:diff": "pnpm --filter @wow-trader/catalog dev diff",
@@ -45,6 +49,7 @@
     "leveling:addon:campaign": "pnpm --filter @wow-trader/leveling build && pnpm --filter @wow-trader/reference-data build && node scripts/build-leveling-campaign-addon.mjs",
     "leveling:feedback": "node scripts/leveling-feedback.mjs",
     "leveling:combat:import": "pnpm --filter @wow-trader/leveling build && node scripts/import-leveling-combat.mjs",
+    "leveling:loot:prepare": "pnpm --filter @wow-trader/leveling build && pnpm --filter @wow-trader/reference-data build && node scripts/prepare-leveling-loot.mjs",
     "leveling:combat:audit": "pnpm --filter @wow-trader/leveling build && node scripts/audit-leveling-combat.mjs",
     "leveling:combat:review": "pnpm --filter @wow-trader/leveling build && node scripts/review-leveling-combat-evidence.mjs",
     "leveling:grind:review": "pnpm --filter @wow-trader/leveling build && node scripts/review-leveling-grind-evidence.mjs",

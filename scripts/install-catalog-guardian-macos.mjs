@@ -19,6 +19,7 @@ import { dirname, join, resolve } from "node:path";
 import process from "node:process";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { pruneGuardianReleases, storageActivity } from "./storage-retention.mjs";
 import {
   buildCatalogRuntime,
   verifyGuardianRelease,
@@ -154,6 +155,11 @@ async function main(arguments_) {
   } finally {
     if (lockHeld) await unlink(lockPath);
     await rm(pendingPlist, { force: true });
+  }
+  try {
+    await pruneGuardianReleases(homedir(), { dryRun: false, active: await storageActivity() });
+  } catch (error) {
+    process.stderr.write(`[guardian-retention] ${error.message}\n`);
   }
   process.stdout.write(
     `Installed ${label}; it checks every ${options.intervalSeconds} seconds.\nRelease: ${release.directory}\nServer runtime: ${release.runtimeFingerprint}\nRollback: ${backupPath ?? "first installation"}\nLogs: ${logDirectory}\n`,

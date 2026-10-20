@@ -1,6 +1,7 @@
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { setTimeout as pause } from "node:timers/promises";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { WARCRecord, WARCSerializer } from "warcio";
 import type { ReferenceTask } from "./contracts.js";
@@ -46,6 +47,9 @@ afterEach(async (): Promise<void> => {
   delete process.env.FAKE_FIXTURE;
   delete process.env.FAKE_MARKER;
   delete process.env.FAKE_EXIT;
+  delete process.env.FAKE_SLEEP;
+  delete process.env.FAKE_COPY_ERROR;
+  delete process.env.FAKE_REMOVE_ERROR;
   await rm(root, { recursive: true, force: true });
 });
 
@@ -174,6 +178,8 @@ async function fixture(
     );
   }
   await writeFile(join(collection, "archive", "rec-test.warc.gz"), Buffer.concat(records));
+  await mkdir(join(collection, "downloads"), { recursive: true });
+  await writeFile(join(collection, "downloads", "profile.tar.gz"), "private browser profile");
 }
 
 async function fakeDocker(): Promise<string> {
@@ -182,18 +188,24 @@ async function fakeDocker(): Promise<string> {
     path,
     `#!/bin/sh
 set -eu
-for arg in "$@"; do
-  case "$arg" in
-    type=bind,source=*,target=/crawls)
-      src="\${arg#type=bind,source=}"
-      src="\${src%,target=/crawls}"
-      ;;
-  esac
-done
 printf '%s\\n' "$@" >> "$FAKE_MARKER"
-mkdir -p "$src/collections"
-cp -R "$FAKE_FIXTURE/collections/crawl" "$src/collections/crawl"
-exit "\${FAKE_EXIT:-0}"
+case "$1" in
+  run)
+    if [ -n "\${FAKE_SLEEP:-}" ]; then sleep "$FAKE_SLEEP"; fi
+    exit "\${FAKE_EXIT:-0}"
+    ;;
+  cp)
+    if [ -n "\${FAKE_COPY_ERROR:-}" ]; then echo 'copy transport failed' >&2; exit 1; fi
+    src="\${2#*:}"
+    src="$FAKE_FIXTURE/\${src#/crawls/}"
+    if [ ! -e "$src" ]; then echo 'Could not find the file' >&2; exit 1; fi
+    cp -R "$src" "$3"
+    ;;
+  rm)
+    if [ -n "\${FAKE_REMOVE_ERROR:-}" ]; then echo 'container removal failed' >&2; exit 1; fi
+    ;;
+  *) echo 'unexpected Docker operation' >&2; exit 1 ;;
+esac
 `,
     { mode: 0o755 },
   );
@@ -232,6 +244,54 @@ function options(): Parameters<typeof crawlReferences>[1] {
 }
 
 describe("Browsertrix crawler transport", () => {
+  it("retains the complete archive only when explicitly requested", async () => {
+    await arrange("ok");
+    await crawlReferences([task], { ...options(), keepBrowsertrixArchive: true });
+    const runs = await readdir(join(root, "work"));
+    expect(runs.length).toBeGreaterThan(0);
+    for (const run of runs)
+      expect(
+        await readFile(
+          join(root, "work", run, "collections/crawl/downloads/profile.tar.gz"),
+          "utf8",
+        ),
+      ).toBe("private browser profile");
+  });
+
+  it("removes its container and workspace when copying results fails", async () => {
+    const marker = await arrange("ok");
+    process.env.FAKE_COPY_ERROR = "1";
+    await expect(crawlReferences([task], options())).rejects.toThrow("copy transport failed");
+    expect(await readFile(marker, "utf8")).toContain("rm\n--force\nwow-trader-crawl-");
+    expect(await readdir(join(root, "work"))).toEqual([]);
+  });
+
+  it("reports failed container removal instead of silently leaking a workspace", async () => {
+    await arrange("ok");
+    process.env.FAKE_REMOVE_ERROR = "1";
+    await expect(crawlReferences([task], options())).rejects.toThrow("container removal failed");
+    expect(await readdir(join(root, "work"))).toEqual([]);
+  });
+
+  it("removes the named container on cancellation without reading incomplete results", async () => {
+    const marker = await arrange("ok");
+    process.env.FAKE_SLEEP = "2";
+    const controller = new AbortController();
+    const running = crawlReferences([task], { ...options(), signal: controller.signal });
+    const rejected = expect(running).rejects.toThrow();
+    for (let attempt = 0; attempt < 100; attempt++) {
+      const args = await readFile(marker, "utf8").catch(() => "");
+      if (args.includes("run\n")) break;
+      await pause(10);
+    }
+    controller.abort();
+    await rejected;
+    const args = await readFile(marker, "utf8");
+    expect(args).toContain("rm\n--force\nwow-trader-crawl-");
+    expect(args).not.toContain("cp\n");
+    expect(await readdir(join(root, "work"))).toEqual([]);
+  });
+
   it("drives the pinned image and ingests HTML plus item XML from WARC", async () => {
     const marker = await arrange("ok");
     expect(await crawlReferences([task], options())).toEqual({
@@ -255,6 +315,12 @@ describe("Browsertrix crawler transport", () => {
       expect(args).toContain(expected);
     expect(args).not.toContain("--screencastPort");
     expect(args).not.toContain("--publish");
+    expect(args).not.toContain("target=/crawls");
+    expect(args).not.toContain("--rm\n");
+    expect(args).toContain("online.kfcguild.storage=browsertrix-workspace");
+    expect(args).toContain("rm\n--force\nwow-trader-crawl-");
+    expect(args).not.toContain("/downloads");
+    expect(await readdir(join(root, "work"))).toEqual([]);
     expect((await readRequestPacing(join(root, "staging")))?.notBefore).toBe(
       Date.parse("2026-10-17T12:00:00Z") + 40000,
     );
@@ -369,6 +435,18 @@ describe("Browsertrix crawler transport", () => {
     expect(
       JSON.parse(await readFile(join(root, "staging", "forever-item-25.missing.json"), "utf8")),
     ).toMatchObject({ id: 25, status });
+  });
+
+  it("skips the item XML navigation when HTML-only parsing is requested", async () => {
+    const marker = await arrange("ok");
+    const result = await crawlReferences([task], { ...options(), skipItemXml: true });
+    expect(result).toMatchObject({ crawled: 1, notFound: 0 });
+    const args = await readFile(marker, "utf8");
+    expect(args).not.toContain("item=25&xml");
+    const record = await readStagedReference(join(root, "staging"), task);
+    expect(record?.relations).toEqual([
+      { relation: "sold-by", kind: "npc", id: 1, name: "Vendor" },
+    ]);
   });
 
   it("maps a rate-limit exit code to a durable cooldown", async () => {

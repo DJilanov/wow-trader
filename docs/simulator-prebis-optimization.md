@@ -1,5 +1,121 @@
 # Simulation-tested pre-raid gear
 
+## Latest execution checkpoint — October20 09:26UTC
+
+Demonology qualified531330... after actual selected10k native/WASM parity. UI2de6e7ea...
+compiled/all-class TypeScript0/numerical bytes unchanged, staged15screen/28preset/both-
+viewport/25fight parity PASS. New strict web reader/real fixtures42tests +profile14tests
+PASS; broad regression49030/final typecheck/lint current. Local selector --plan PASS/all16
+existingcases preserved. Actual local selection/main desktop-mobile QA/screenshots remain
+before next spec. Full original scope/deadline/frozen helper unchanged; no deployment.
+
+## Latest execution checkpoint — October20 09:09UTC
+
+Actual fresh confirmed-source audit33355 all2PASS,40k fixed incumbent830.25739DPS,
+both1%/2%accepted with disclosed0.979608% conservative retained gap. Qualified export43634
+is LIVE; selected10k WASM started09:09UTC, completion/export still unclaimed09:13UTC. Setup-failure
+review regression93641 PASS, no lock leak/approval/pointer changes. Virtual presentation,
+strict web reader and actual local defaults/guide/browser QA still precede next spec.
+Same original deadline/frozen helper/full all-class scope; no production change.
+
+## Latest execution checkpoint — October20 08:56UTC
+
+Demonology fresh75809 TERMINAL0,24newrequests/480000fights, selected830.25739DPS/40k.
+Original1% AND owner2% accepted; conservative gap0.979608%, strict dominancefalse so nearby
+gains stay disclosed. Independent full confirmed-source replay33355 LIVE. Real selected
+WASM/export then strict frontend/virtual defaults/guide/browser handoff remain before next
+Warlock spec. Presentation tools prepared only, no app or production change. Original
+deadline/frozen helper/all-class scope unchanged; exact recovery at top ofcontext.md.
+
+## Latest execution checkpoint — October20 08:41UTC
+
+All150retained Demonology10k origins/final-arm guards92585 PASS; readonly confirmation
+preflight25911 PASS. Actual original-budget fresh75809/child72557 dispatched08:40UTC:
+12fixed contenders/two20k ranges, a5fe4d... . Preparation is live, fresh acceptance unclaimed.
+Inputs now FROZEN; same original deadline/helper. Prepared true confirmed-source tests,
+selected parity/export and actual local presets/guide/browser handoff remain. Focused13
+regressions/lint/format PASS. No production change; full recovery at top ofcontext.md.
+
+## Latest execution checkpoint — October20 08:34UTC
+
+Independent Demonology343stage/raw-origin/control/pin proof22879 ALL2PASS. Current
+final-arm tests92585/readonly confirmation preflight25911 precede fresh two20k validation.
+Nearby inspected gear+0.89577%/state+0.63113% remain disclosed, not selected from holdouts.
+Exact rotation guidance3/projection2/selected gate3guards PASS; no actual final selected
+WASM or fresh qualification yet. Local presets/guide/browser still precede next spec.
+Original deadline/frozen helper/all-class objective unchanged; no production change.
+
+## Latest execution checkpoint — October20 08:22UTC
+
+Demonology feedback63336 TERMINAL0:42,113newrequests/5.787mfights,9actual detailed native/
+WASM controls exact. One further complete gear/state cycle reports closed=true, retaining
+830.20550DPS/10k,2/31/18 Succubus/Imp/Spellstone. Independent full-source replay22879 is
+LIVE; fresh validation has NOT run. New raw-origin/scenario guards5PASS. Prepared final
+arms require genuine10k native origins, no invented high-precision/cross-context metrics.
+Original class deadline/all-class scope and frozen helper unchanged. Local defaults/guide/
+browser handoff still required before next spec; no production change. Recovery incontext.md.
+
+## Latest execution checkpoint — October20 07:58UTC
+
+Actual original-clock Demonology feedback63336/child26378 dispatched after preflight PASS:
+19,236initial states/2,398talents, all pets/stones and full17slot gear continuation,9real
+detailed controls first. All8new state/parity/closure guards and154stage gear proof PASS.
+New numerical inputs FROZEN. Gear830.20550DPS remains capped/provisional; closure, fresh
+2%/separate1%, selected parity and actual local presets/guide/browser still remain. Same
+Warlock24h deadline/all-class scope; full recovery incontext.md. No production change.
+
+## Latest execution checkpoint — October20 07:54UTC
+
+Demonology all-slot gear and independent154stage replay PASS;21,955newconfigs/2.877mfights,
+8actual native/WASM gear controls exact. Selected830.20550DPS/10k remains provisional:
+second sweep+8.608%, capped not converged. New broad actual-geared state/feedback driver
+and9real-data control projections prepared; final4+2+2guard tests PASS. Read-only preflight
+17530 is current, actual feedback not yet dispatched. Ordinary bounded feedback/fresh2%/
+separate1%/selected parity/local defaults/guide/browser delivery remain. Full recovery and
+freeze rules are at top ofcontext.md. Same24h Warlock deadline; no new public preset/deploy.
+
+## Latest execution checkpoint — October20 07:25UTC
+
+Demonology fixed-blue search and independent full260stage/58,405origin replay PASS.
+Actual original-budget all-slot gear51672/child99908 dispatched after read-only preflight:
+10,451distinct proposals/all17slots/hands/jewelry/sets/enchants,8detailed canaries first.
+Frozen blue winner630.39064DPS/10k is NOT final pre-BiS or independently confirmed DPS.
+Actual gear/state/fresh confirmation/selected parity/local defaults and guide remain before
+next Warlock spec. Same original24h deadline; source freeze/recovery/commands in context.md.
+
+## Latest execution checkpoint — October20 07:17UTC
+
+Demonology blue owner52424 is in10k inspection after the talent/APL/pet/sacrifice passes.
+New17-slot gear driver, browser projections,8real-data detailed canary inputs and independent
+geared reader are prepared. Serial5input/parity guards PASS, including all14saved full pet
+metrics and mutation rejection. Actual completed-blue replay/gear canaries/sweeps have NOT
+run yet. They precede state feedback, fresh confirmation and local preset/guide delivery.
+Original Warlock deadline/scope remain unchanged; exact recovery is at the top ofcontext.md.
+
+## Latest execution checkpoint — October20 07:03UTC
+
+Warlock Demonology's real blue search48e23... is now running,14saved controls independently
+verified/exported by V2. The one class correction is used. After a concurrent frozen-helper
+edit, the owner approved preserving its complete source/patch and restoring the actual
+historical source pin. A concurrent formatter touched it again; that variant is also saved.
+Latest identical correction52424/child66453 resumed with checkpoints; original24h
+deadlineOctober21 06:24:18.106UTC unchanged. No deleted evidence or new published preset.
+All3gear-bank and3initial-source guards PASS; full blue-outcome replay still awaits completion.
+Full source hashes/recovery/commands in context.md; all remaining scope below is unchanged.
+
+## Latest first-pass delivery checkpoint — October20 06:34UTC
+
+Frost, Fire and Arcane are now actually delivered and browser-verified locally on Mage
+presentationa5f95c49c57e46f727b0267a; their final37file/452test regression passed. This is
+local model-specific first-pass delivery, not a production deployment or global-optimum claim.
+Warlock is next, starting with Demonology. Actual14control captures and native/WASM parity
+are measured; the corrected read-only verifier confirms full player/pet/resource equality.
+All18focused tests pass. The passive Brand cast-count guard failure remains preserved; no
+Warlock talent/gear rankings or qualified preset are published. Original class deadline is
+October21 06:24:18.106UTC. See context/runbook for the frozen phase-command constraint and
+the next combined correction driver; no new calculations or class-clock reset are implied.
+The complete remaining class/spec/rotation/gear/UI/incremental-update scope below is unchanged.
+
 ## Current owner policy: broad first pass before exhaustive tuning
 
 Deliver practical near-optimal (~95% target, not a proven global percentage) pre-raid gear,

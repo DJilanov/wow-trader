@@ -1,5 +1,174 @@
 # Repeatable pre-raid simulation updates
 
+## October20 09:26UTC — broad regression precedes isolated Warlock local selection
+
+Selected10k WASM/export43634 PASS, qualified531330... . UI2de6e7ea... compiled with exact
+A4numerical assets; actual staged browser67931 PASS/all15screens/28sets/desktop+mobile/
+25fight parity. New strict web reader/real fixtures42tests and profile14tests PASS, no
+weakened assertions. Broad49030/final typecheck26478/lint31258 current. Selector24754
+--plan PASS, all16existingcases intact. --select then prepared actual3017 main desktop/
+mobile reviewer +BOTH screenshot inspections remain before next spec. Commands incontext.md.
+New UI builder/overlay/reviewer inputs FROZEN. No commit/push/deploy; helper unchanged.
+
+## October20 09:09UTC — poll export43634, not completed source audit33355
+
+Confirmed-source33355 TERMINAL0/all2PASS. Actual qualified export43634/PID92953 is live;
+it reached actual selected10k WASM09:09UTC, completion/export still unclaimed09:13UTC.
+Quiet is not terminal.
+New export/parity/guidance inputs FROZEN. Presentation reviewer now guards setup/cleanup
+and writes approval only after successful cleanup; genuine missing-release regression
+93641 PASS with all four pointers preserved. Actual-qualified overlay3tests/build/strict
+web reader/fixtures/staged browser/isolated local selection/main QA remain. No app/default/
+deployment edits; full commands/freeze/recovery at top ofcontext.md.
+
+## October20 08:56UTC — stop polling75809; audit33355 precedes selected export
+
+Actual fresh75809 TERMINAL0; a5fe4d.../e1711295...,both1%/2%accepted,40kselected
+830.25739DPS, conservative retained gap0.979608%, no winner change/global-optimum claim.
+Independent full confirmed-source33355 is current. After terminal0 execute qualified export
+command at top ofcontext.md, which performs real selected10k WASM before export. Newly
+prepared Warlock virtual presentation/overlay/review/local-selector/fixture scripts remain
+unexecuted against a qualified build. Strict frontend reader/actual fixtures/browser/main
+handoff still precede next spec. Source freeze and original class deadline unchanged.
+
+## October20 08:41UTC — poll actual confirmation75809, not completed preflight25911
+
+Final-arm92585 all3PASS/150real10k origins; readonly25911 PASS. Actual confirmation75809/
+child72557 started08:40UTC, a5fe4d...; original deadline intact. New confirmation inputs
+now FROZEN (list incontext.md). No acceptance claim yet. After terminal0 run prepared
+warlock-demonology-confirmed-source-v1.test.mjs against genuine a5fe4d... completion,
+then actual selected WASM/qualified export/local reader/presets/guide/browser handoff.
+Focused13guards/lint/format PASS. No public preset, commit/push/deploy; helper stays frozen.
+
+## October20 08:34UTC — full feedback audit PASS; await92585 and25911 before fresh
+
+Audit22879 TERMINAL0,all2PASS/full343stage replay. Current actual-source final-arm tests
+92585 and readonly confirmation preflight25911 must PASS before original confirmation-
+delivery dispatch (exact command incontext.md). New rotation guidance3/projection2/gate3
+guards PASS, not final WASM combat. Prepared confirmed reader/parity/export remain unrun;
+confirmed-source test needs actual fresh completion. Preserve DS/Ruin's separate pet options
+when later making tested Demonology the first-visit default. No preset/deploy yet.
+
+## October20 08:22UTC — poll independent audit22879, not completed feedback63336
+
+Actual feedback63336 TERMINAL0, bdc3c471.../d1de1e63...,9full-metrics native/WASM controls
+PASS. One complete further gear/state cycle reports closed=true; unchanged10k incumbent.
+Independent completed-feedback replay22879 is current; new300000-origin reader must prove
+all ancestry/controls/stages/pins before confirmation. Raw-origin/scenario5guards PASS.
+Final-arm/context/confirmation driver prepared but not yet executed against closed source.
+Require genuine10k origins for all retained states, then readonly --plan, then original-
+budget confirmation-delivery (two20k, owner2% plus separate1%). No clock reset, second
+correction, preset or deployment. Keep helper frozen69b4b817...; exact recovery incontext.md.
+
+## October20 07:58UTC — poll actual feedback63336, not completed preflight17530
+
+Preflight17530 TERMINAL0/PASS; actual original-budget state-recheck63336/child26378 LIVE.
+Exact command/command hash/start/unchanged deadline/freeze list at top ofcontext.md. Must
+pass9actual detailed native/WASM controls before scalar feedback. New inputs now FROZEN.
+No extra correction/clock, no duplicate run, no publication. Next independent feedback
+source reader is new work and must use300000origins plus all journal/control/stage proofs;
+the inherited200000origin geared reader must not be edited. Fresh confirmation/local
+default/guide/browser handoff still remain after feedback closure. Full scope unchanged.
+
+## October20 07:54UTC — completed gear audit PASS; feedback preflight17530 is current
+
+Stop polling completed51672. Actual gear7a29d404.../ce1f7ecd... and independent154stage
+audit48371 PASS; second-sweep8.608% gain means capped, NOT closed. New ordinary original-
+budget state-recheck driver is prepared: up to3explicit complete gear/state feedback cycles,
+max300000retained origins, all17slots/pairs/sets/enchants, all anchors/neighbors/pets/stones/
+known policy inputs. Final4+2+2guard tests/lint/format PASS. Preflight17530 is live, zero
+combat/writes. Poll then dispatch ONLY after PASS using exact command at top ofcontext.md.
+Freeze its new source/test inputs at dispatch;9actual detailed player/pet native/WASM
+controls must pass before scalar work. Later feedback reader must use300000origin capacity,
+not geared reader's200000limit. Same deadline/scope, no new correction/clock/publication.
+
+## October20 07:25UTC — actual gear51672 is current; stop polling completed blue/audit
+
+Blue52424, independent audit36702 and gear preflight85209 all TERMINAL0/PASS.
+Gear51672/child99908 dispatched under originalWarlock deadline; full command in context.md.
+It replays authentic blue source, runs8actual full-player/pet/resource native/WASM controls,
+then bounded2complete17-slot/pair/set/enchant sweeps over10,451initial unique proposals.
+Do not claim those combat controls or gear sweeps finished yet. All new gear inputs/readers
+used by the owner are now FROZEN (full list context). Owner explicitly confirmed keeping
+the historical cache helper unchanged. No duplicate owners, class-clock reset or publication.
+Independent completed-gear source proof/state/fresh/parity/local UI handoff still remain.
+
+## October20 07:17UTC — actual completed-blue audit must precede the new gear owner
+
+Blue52424/child66453 is still live in10k inspection, not ready for publication. All5new
+Warlock gear-input/projection/full-pet parity tests8111 pass. New gear owner/reader are only
+prepared/linted. When52424 is terminal0, run warlock-demonology-selected-completed-v1.test.mjs
+to independently replay the genuine completed48e23... source; then the read-only gear --plan
+command at the top ofcontext.md. Only after both pass dispatch phase gear through the SAME
+original24h Warlock supervisor. It must execute8actual detailed native/WASM controls BEFORE
+scalar sweeps. Do not mistake structural projection tests for those actual combat runs.
+Keep simulation-cache.mjs at actual historical69b4b817...; all four concurrent variants are
+preserved as alternative recovery patches. Do not run broad formatting across frozen files.
+No class-clock reset, second correction or production change is authorized by this status.
+
+## October20 07:03UTC — same correction resumed after approved exact-source recovery
+
+Warlock correction is USED, prepared-v2.json exists, blue study48e23... is underway.
+Latest exec52424/child66453 resumes exactly the interrupted23277 command/checkpoints,
+same study48e23... and originalOctober21 06:24:18.106UTC deadline. First resume22603 also
+stopped safely after a concurrent formatter touched the helper; both changed source/patch
+variants are saved. No new phase, clock or model. See context.md for command.
+Owner-approved recovery preserved concurrent retention .mjs/.patch in
+optimization/source-drift/cache-retention-20261020/ under artifacts/forever-simulator/.
+Actual frozen simulation-cache.mjs pin69b4b817... restored and verified; saved modified
+version15e46d1f... remains recoverable and forward git apply --check PASS. Leave it unapplied
+until these frozen studies finish. Do not delete checkpoints or weaken source validation.
+Gear-bank structural rerun74318 ALL3PASS; new selected-source guards59754 ALL3PASS.
+These guards do not substitute for full completed-study replay. Source audit/gear/state/fresh/parity/local UI
+delivery still remain. Latest exact hashes/status are at the top ofcontext.md.
+
+## October20 06:34UTC — Warlock's original phase command is immutable; correction not yet spent
+
+Original Warlock clock2026-10-20T06:24:18.106Z →2026-10-21T06:24:18.106Z. Capture83052 is
+TERMINAL1, not live. All14actual captures/native-WASM checks completed, but the final V1
+semantic guard counted passive Brand casts instead of hits/damage. Preserve its source/data.
+V2 verifier read-only preflight and4genuine-source regressions PASS; final18tests PASS.
+No prepared-v2.json or actual talent/gear search yet. Do not restart --capture.
+The supervisor rejects replacing the original talents-rotation command: create/test ONE
+correction-phase driver that exports/loads the independently verified existing14controls
+AND runs the actual blue talent/APL/pet search under that same owned frozen command. Do not
+consume the single correction on a verification-only dispatch. No clock/spec/phase bypasses.
+The permitted correction remains UNUSED; gear/state/confirmation phases also remain unused.
+Five actual capture source/test files are frozen; new V2 verifier/request files are not yet
+numerical inputs. Source hashes, proof paths, detailed next search scope and guard evidence
+are at the top ofcontext.md. MageA5/Balance8541 and all local/public defaults unchanged.
+
+## October20 06:06UTC — Mage handoff finished; do not restart completed owners
+
+Selector90048 and mainreview11461 are TERMINAL0/PASS. Current local Mage presentation is
+a5f95c49c57e46f727b0267a, sourceA4; Balance remains8541139367b8024ee87f3632. Reports:
+optimization/reviews/mage-local-selection-bf5a41f1022c249f.json and
+optimization/reviews/mage-main-page-9dd2805bff950089.json. All6main desktop/mobile cases and
+visual screenshots PASS, final37file/452test regression PASS, webtypecheck/scopedlint PASS.
+Actual local route: http://localhost:3017/tools/forever/simulator/mage. No deployment.
+All executed numerical/presentation/review inputs stay immutable; unsupportedD2c stays
+archived/unselected. Next class is not yet started: inspect its authoritative existing
+24hbudget and compare online/client mechanics before new class-specific controls/studies.
+Full completion evidence and October20online research are at the top ofcontext.md.
+
+## October20 05:52UTC — approved3MageA5 bundle; actual local selector90048 running
+
+Actual newqualified Arcane7478... and selected10kparity4f37... verified. Use BUILDER4 for
+proof.v3, overlay3, stagedreview3, selector3 and mainreview3. D2c bundlefrombuilder3 is an
+unsupported old-schema archive: never select/edit/rebuild it. Valid bundleA5f95c49c57e46f727b0267a
+staged browser PASS,132focusedweb tests/typecheck PASS, strictselection6608 PASS. Actual
+selector90048 running; full command incontext.md. Poll then do mainreview3 <A5> --review,
+inspect all6screenshots and final wider checks before the next spec. No production change.
+
+## October20 05:30UTC — actual exporter84674 is current
+
+Confirmed-source2tests65456 and export preflight64505 TERMINAL0/PASS. Poll84674 actual
+export --export (full command incontext.md), not completed confirmation80633. It must
+replay selected10kWASM against genuine native inspection before immutable qualification.
+Confirmed-source/guide/selected-parity/export helpers/tests NOW FROZEN. No source edits.
+After success: actual3build overlay tests, V3 --plan/build, strict Arcane web reader/fixtures,
+registry integration, staged browser/selection/main6cases/screenshots. No new spec/deploy.
+
 ## October20 05:27UTC — confirmation terminal; audit65456/export preflight64505 are current
 
 Never restart80633:27818d49.../a60bcfc9... accepted659.78370DPS40k,0.59261% conservative

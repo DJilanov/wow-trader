@@ -1,5 +1,10 @@
 # Required combat XP: implementation and operation
 
+Latest local extension (October 20): see [per-step theoretical progress and loot preparation](forever-leveling-theoretical-progress.md).
+This work is not deployed. Group estimates now use level-weighted shares, with no assumed party
+bonus and other members held at the objective-start level snapshot; the older equal-level
+description below records the earlier delivery.
+
 October 15, 2026. Implemented and, after owner approval, committed/pushed as `35137da` and deployed
 web-only in `kfc-helper-combat-20261015-r9`. The provider import remains private/local; no crawler
 restart, database change or installation into the player's WoW addon directory was performed.
@@ -66,7 +71,7 @@ Equal-level normal baseline is `45 + 5 × player level`; the implementation reca
 each kill. Unknown level distributions use the lower end of the modeled payout range for the
 route forecast, not an invented uniform average.
 
-Group planning divides the modeled solo payout by party size, flooring per kill. Quest hand-ins
+For equal-level members, group planning divides the modeled solo payout by party size, flooring per kill. Quest hand-ins
 remain whole per eligible player. No unverified party bonus is added. Missing party levels or
 an overleveled member that may trigger suppression prevent a shared payout estimate. This
 approximation is not a guaranteed lower bound on a server with unknown tuning.

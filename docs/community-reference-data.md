@@ -227,6 +227,12 @@ This join is an identity inference, not a spell-page relation. It is enabled bec
 explicitly chose the optimized approach; review `listingNameJoins` before publication and keep the
 strict mode available for conflict work.
 
+Item tasks default to **HTML-only** crawling. The item HTML page carries the tooltip, class/subclass,
+`sourcemore` relations, `dropped-by` rows and `dropStatistics`, so the separate `&xml` document is only
+needed for troubleshooting. This halves the item navigation budget (one source navigation instead of
+two). Set `ITEM_XML=1` to restore the old HTML+XML path; the WAF guard then uses 170 seconds per item
+instead of 85. The item listing crawl and quest pages are unaffected.
+
 The `status-profession.sh` view prints listing record/entry/relation counts, source-label counts, and
 parser warnings. If a listing record has `no_listing_entries` or unexpected warnings, keep the detail
 fallback in place and inspect the listing page before trusting a bulk result. A saved listing page can

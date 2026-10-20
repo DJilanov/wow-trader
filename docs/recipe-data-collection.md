@@ -118,6 +118,10 @@ Before the detail crawl, run the bounded profession listing phase:
 $HOME/wow-trader-reference/run-profession-listings.sh
 ```
 
+Item detail tasks default to **HTML-only** crawling: tooltip, class/subclass, acquisition relations and
+`dropStatistics` are parsed from the item page, so the extra `&xml` navigation is skipped. Use
+`ITEM_XML=1` to restore the old two-navigation path for troubleshooting.
+
 It fetches about 24 listing pages (one spell and one recipe-item listing per profession) and stores
 conservative evidence under `<staging>/listings/`. The listing parser reads the real
 `var listviewspells`/`var listviewitems` arrays. Only exact links become relations; broad source

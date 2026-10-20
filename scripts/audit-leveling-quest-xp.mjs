@@ -2,6 +2,7 @@ import { readFile, mkdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { createHash } from "node:crypto";
 import process from "node:process";
+import { pruneAudits, storageReferences, storageActivity } from "./storage-retention.mjs";
 import {
   CHAPTER_REFERENCES,
   CAMPAIGN_RACES,
@@ -657,3 +658,14 @@ process.stdout.write(
   `${JSON.stringify({ path, sha256: hash, evidenceBacklog: join(resolve(destination), evidenceBacklogFile), evidenceBacklogSha256, ...report.summary, lifecycleExclusions: projections.reduce((sum, entry) => sum + entry.lifecycleExclusions.length, 0), xpFacts: facts.filter((fact) => fact.status === "available").length, observedRewardFacts: observedRewardIds.length, historicalRewardEstimates: remainingHistoricalRewardIds.length, mode: report.mode, coverageGatePassed: ready, coverage: ready ? "Offline reference budgets passed; this is not a playtest certification." : "Not certified; inspect the evidence backlog for exact blockers, validation work, and measurements." })}\n`,
 );
 if (args.includes("--require-covered") && !ready) process.exitCode = 2;
+if (process.platform === "darwin") {
+  try {
+    const repository = resolve(import.meta.dirname, "..");
+    await pruneAudits(repository, await storageReferences(repository), {
+      dryRun: false,
+      active: await storageActivity(),
+    });
+  } catch (error) {
+    process.stderr.write(`[audit-retention] ${error.message}\n`);
+  }
+}

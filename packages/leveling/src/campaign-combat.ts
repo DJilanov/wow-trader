@@ -19,6 +19,8 @@ import { createCharacterProfile } from "./profile.js";
 import { getGuideStepView } from "./guide-archive.js";
 import { chapterEligibility } from "./chapter-catalog.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
+import { resolveCombatQuota } from "./combat-loot.js";
+import type { LootScenario, LootKillEstimate } from "./quest-loot.js";
 
 export interface CombatReferenceIndex {
   readonly npcs: ReadonlyMap<number, CombatNpc>;
@@ -73,6 +75,18 @@ function referenceObjectives(
   const quest = index.quests.get(questId);
   if (!quest) return [];
   if (!quest.onlyCreatureObjectives) {
+    const mapped = quest.itemObjectives?.filter((item) => item.objectiveIndex !== null) ?? [];
+    if (mapped.length)
+      return mapped.map((item) => ({
+        questId,
+        objectiveIndex: item.objectiveIndex!,
+        npcIds: item.npcIds,
+        requiredKills: null,
+        credit: "personal-loot",
+        source: `QuestieDB corrected quest ${questId}`,
+        reason: "Loot kills require compatible drop and sharing evidence.",
+        loot: { itemId: item.itemId, quantity: item.quantity, sharing: item.sharing },
+      }));
     const npcIds = quest.creatureIds.length ? quest.creatureIds : quest.itemCreatureIds;
     return [
       {
@@ -152,9 +166,9 @@ export function resolveCombatObjectives(
           matches = id === undefined ? [] : [id];
         }
       }
-      const interactive = directives.some((entry) =>
-        [".use", ".cast", ".gossip", ".interact"].includes(entry.tag),
-      );
+      const interactive =
+        segment.some((entry) => [".use", ".cast", ".gossip", ".interact"].includes(entry.tag)) &&
+        !/^(?:kill|slay|destroy)\s/i.test(directive.text);
       const killHint =
         /^(?:kill|slay|destroy)\s/i.test(directive.text) ||
         directives.some((entry) => entry.tag === ".mob" && targetName(entry.arguments) === label) ||
@@ -184,9 +198,11 @@ export function resolveCombatObjectives(
       const sourceMobs = directives
         .filter((entry) => entry.tag === ".mob")
         .map((entry) => targetName(entry.arguments));
-      const itemMobs = (quest?.itemCreatureIds ?? []).filter((id) =>
+      const item = quest?.itemObjectives?.find((entry) => entry.objectiveIndex === objectiveIndex);
+      const itemMobs = (item?.npcIds ?? quest?.itemCreatureIds ?? []).filter((id) =>
         sourceMobs.includes(targetName(npcs.get(id)?.name ?? "")),
       );
+      const lootMobs = itemMobs.length ? itemMobs : (item?.npcIds ?? []);
       const nonCombat =
         !!quest &&
         quest.creatureIds.length === 0 &&
@@ -197,16 +213,25 @@ export function resolveCombatObjectives(
       return {
         questId,
         objectiveIndex: Number.isInteger(objectiveIndex) && objectiveIndex > 0 ? objectiveIndex : 1,
-        npcIds: knownKill ? matches : [...new Set([...matches, ...itemMobs])],
+        npcIds: knownKill ? matches : [...new Set([...matches, ...lootMobs])],
         requiredKills: knownKill ? count : null,
         credit: knownKill
           ? "shared-kills"
-          : itemMobs.length
+          : lootMobs.length
             ? "personal-loot"
             : nonCombat
               ? "non-combat"
               : "unknown",
         source,
+        ...(item
+          ? {
+              loot: {
+                itemId: item.itemId,
+                quantity: item.quantity ?? sourceCount,
+                sharing: item.sharing,
+              },
+            }
+          : {}),
         reason:
           knownKill || nonCombat
             ? null
@@ -214,7 +239,7 @@ export function resolveCombatObjectives(
               ? "Guide and corrected quest text disagree on the required kill quota."
               : interactive
                 ? "Interaction/summon objectives are not assumed to award kill XP."
-                : itemMobs.length
+                : lootMobs.length
                   ? "Personal quest drops: required party kills and drop chance are unverified."
                   : !quest
                     ? "Quest objective references have not been imported."
@@ -308,6 +333,7 @@ export function attachCampaignCombat(
               ? "Source variants disagree on the creature or quota."
               : (candidates[0]?.reason ??
                 "No reconciled creature kill quota is available for this objective."),
+          ...(candidates.length === 1 && candidates[0]?.loot ? { loot: candidates[0].loot } : {}),
         },
       ];
     });
@@ -387,6 +413,9 @@ export function attachCampaignCombat(
     activities,
     notice: notices.length ? notices.join(" ") : null,
     killXpEvidence: dataset.killXpEvidence.filter((entry) => ids.has(entry.npcId)),
+    ...(dataset.lootDrops
+      ? { lootDrops: dataset.lootDrops.filter((drop) => ids.has(drop.npcId)) }
+      : {}),
   };
   return { ...plan, combat };
 }
@@ -403,6 +432,7 @@ export interface CampaignCombatRow {
   readonly maximumXp: number | null;
   readonly source: string;
   readonly basis: "reference-estimate" | "observed" | "excluded" | "unknown";
+  readonly lootEstimate?: Extract<LootKillEstimate, { status: "estimated" }>;
 }
 export interface CampaignCombatState {
   readonly counters: Map<string, number | null>;
@@ -435,6 +465,9 @@ export function applyCampaignCombat(input: {
   readonly position: CombatXpPosition;
   readonly partySize: number;
   readonly partyLevels?: readonly (number | null)[];
+  readonly lootScenario?: LootScenario;
+  readonly xpMultiplier?: number;
+  readonly playerIndex?: number;
 }): {
   readonly xp: number;
   readonly rows: readonly CampaignCombatRow[];
@@ -448,6 +481,19 @@ export function applyCampaignCombat(input: {
     issues: string[] = [];
   let xp = 0,
     position = input.position;
+  const quotaCache = new Map<CombatObjective, ReturnType<typeof resolveCombatQuota>>();
+  const quota = (objective: CombatObjective): ReturnType<typeof resolveCombatQuota> => {
+    const existing = quotaCache.get(objective);
+    if (existing) return existing;
+    const value = resolveCombatQuota(
+      objective,
+      combat,
+      partySize,
+      input.lootScenario ?? "expected",
+    );
+    quotaCache.set(objective, value);
+    return value;
+  };
   const active = [
     ...new Map(
       combat.activities
@@ -457,9 +503,8 @@ export function applyCampaignCombat(input: {
   ].filter(
     (objective) =>
       questStates[String(objective.questId)] === "accepted" &&
-      objective.credit === "shared-kills" &&
       objective.npcIds.length === 1 &&
-      objective.requiredKills !== null,
+      quota(objective).kills !== null,
   );
   function kill(npc: CombatNpc, count: number, source: string): void {
     const estimate = estimateCreatureKills({
@@ -472,6 +517,8 @@ export function applyCampaignCombat(input: {
       evidence: combat.killXpEvidence ?? [],
       build: combat.targetBuild,
       ...(input.partyLevels ? { partyLevels: input.partyLevels } : {}),
+      ...(input.xpMultiplier === undefined ? {} : { xpMultiplier: input.xpMultiplier }),
+      ...(input.playerIndex === undefined ? {} : { playerIndex: input.playerIndex }),
     });
     if (estimate.basis === "reference-estimate")
       issues.push(
@@ -503,7 +550,7 @@ export function applyCampaignCombat(input: {
       const key = combatObjectiveKey(objective),
         previous = state.counters.get(key);
       if (previous !== null)
-        state.counters.set(key, Math.min(objective.requiredKills!, (previous ?? 0) + count));
+        state.counters.set(key, Math.min(quota(objective).kills!, (previous ?? 0) + count));
     }
   }
   for (const pack of activity.profile?.packs ?? []) {
@@ -519,12 +566,9 @@ export function applyCampaignCombat(input: {
     if (objective.credit === "non-combat") continue;
     if (questStates[String(objective.questId)] !== "accepted") continue;
     const key = combatObjectiveKey(objective);
-    if (
-      objective.credit !== "shared-kills" ||
-      objective.requiredKills === null ||
-      objective.npcIds.length !== 1
-    ) {
-      issues.push(`${key}: ${objective.reason ?? "Required kills are unresolved."}`);
+    const resolved = quota(objective);
+    if (resolved.kills === null || objective.npcIds.length !== 1) {
+      issues.push(`${key}: ${resolved.reason ?? "Required kills are unresolved."}`);
       continue;
     }
     const counted = state.counters.get(key);
@@ -534,13 +578,22 @@ export function applyCampaignCombat(input: {
       );
       continue;
     }
-    const remaining = Math.max(0, objective.requiredKills - (counted ?? 0));
+    const remaining = Math.max(0, resolved.kills - (counted ?? 0));
     const npc = npcs.get(objective.npcIds[0]!);
     if (!npc) {
       issues.push(`${key}: creature reference is missing.`);
       continue;
     }
-    if (remaining) kill(npc, remaining, objective.source);
+    if (remaining) {
+      kill(npc, remaining, objective.source);
+      if (resolved.lootEstimate) {
+        const last = rows.length - 1;
+        rows[last] = { ...rows[last]!, lootEstimate: resolved.lootEstimate };
+        issues.push(
+          `${key}: loot kills use an edition-reference probability model, not guaranteed drops or verified current-build rates.`,
+        );
+      }
+    }
   }
   return { xp, rows, issues: [...new Set(issues)] };
 }

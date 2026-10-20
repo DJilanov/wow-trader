@@ -12,9 +12,17 @@ import {
 } from "./forever-simulator-fresh-frost";
 import { fireModelEntrySchema, readFreshFireSimulatorBuild } from "./forever-simulator-fresh-fire";
 import {
+  arcaneModelEntrySchema,
+  readFreshArcaneSimulatorBuild,
+} from "./forever-simulator-fresh-arcane";
+import {
   greaterBalanceModelEntrySchema,
   readFreshGreaterBalanceSimulatorBuild,
 } from "./forever-simulator-fresh-greater-balance";
+import {
+  demonologyModelEntrySchema,
+  readFreshDemonologySimulatorBuild,
+} from "./forever-simulator-fresh-demonology";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/),
   releaseId = z.string().regex(/^[a-f0-9]{24}$/),
@@ -35,6 +43,7 @@ const selectionSchema = z
       .object({
         mage: z.unknown().optional(),
         balance_druid: z.unknown().optional(),
+        warlock: z.unknown().optional(),
       })
       .strict(),
   })
@@ -76,17 +85,24 @@ const mageProofSchema = z
     schema: z.enum([
       "kfc-simulator-profile-model-update.v1",
       "kfc-simulator-profile-model-update.v2",
+      "kfc-simulator-profile-model-update.v3",
     ]),
     profile: z.literal("mage"),
     builds: z.union([
       z.tuple([frostModelEntrySchema]),
       z.tuple([frostModelEntrySchema, fireModelEntrySchema]),
+      z.tuple([frostModelEntrySchema, fireModelEntrySchema, arcaneModelEntrySchema]),
     ]),
   })
   .strict()
   .refine(
     (proof: { readonly schema: string; readonly builds: readonly unknown[] }): boolean => {
-      const expected = proof.schema === "kfc-simulator-profile-model-update.v1" ? 1 : 2;
+      const expected =
+        proof.schema === "kfc-simulator-profile-model-update.v1"
+          ? 1
+          : proof.schema === "kfc-simulator-profile-model-update.v2"
+            ? 2
+            : 3;
       return proof.builds.length === expected;
     },
     { path: ["builds"], message: "Profile version omitted or added a reviewed Mage spec" },
@@ -99,7 +115,15 @@ const balanceProofSchema = z
     builds: z.tuple([greaterBalanceModelEntrySchema]),
   })
   .strict();
-const proofSchema = z.union([mageProofSchema, balanceProofSchema]);
+const warlockProofSchema = z
+  .object({
+    ...proofFields,
+    schema: z.literal("kfc-simulator-profile-model-update.warlock.v1"),
+    profile: z.literal("warlock"),
+    builds: z.tuple([demonologyModelEntrySchema]),
+  })
+  .strict();
+const proofSchema = z.union([mageProofSchema, balanceProofSchema, warlockProofSchema]);
 export const simulatorProfileModelBrowserChecks = Object.freeze({
   allPresets: true,
   reviewedShares: true,
@@ -120,11 +144,13 @@ const browserSchema = z
     schema: z.enum([
       "kfc-profile-model-browser.v1",
       "kfc-profile-model-browser.v2",
+      "kfc-profile-model-browser.v3",
       "kfc-profile-model-browser.balance.v1",
+      "kfc-profile-model-browser.warlock.v1",
     ]),
     status: z.literal("passed"),
     capturedAt: z.iso.datetime(),
-    profile: z.enum(["mage", "balance_druid"]),
+    profile: z.enum(["mage", "balance_druid", "warlock"]),
     sourceRelease: releaseId,
     release: releaseId,
     proofSha256: digest,
@@ -210,13 +236,15 @@ export async function validateSimulatorProfileModelBuilds(
   }[],
   directory: string,
 ): Promise<boolean> {
-  if (profile !== "mage" && profile !== "balance_druid") return false;
+  if (profile !== "mage" && profile !== "balance_druid" && profile !== "warlock") return false;
   const raw = await document(directory, manifest.release + "/kfc-reviewed-presets.json", 2_000_000);
   if (
     ![
       "kfc-simulator-profile-model-update.v1",
       "kfc-simulator-profile-model-update.v2",
+      "kfc-simulator-profile-model-update.v3",
       "kfc-simulator-profile-model-update.balance.v1",
+      "kfc-simulator-profile-model-update.warlock.v1",
     ].includes(z.object({ schema: z.string() }).parse(raw.value).schema)
   )
     return false;
@@ -240,7 +268,7 @@ export async function readSimulatorProfileModelUpdate(
   directory: string,
 ): Promise<{ readonly manifest: SimulatorManifest; readonly sourceRelease: string } | null> {
   // Validate only the requested pointer so another class's unavailable update stays isolated.
-  if (profile !== "mage" && profile !== "balance_druid") return null;
+  if (profile !== "mage" && profile !== "balance_druid" && profile !== "warlock") return null;
   let raw: Awaited<ReturnType<typeof document>>;
   try {
     raw = await document(directory, "profile-model-updates.json", 32_000);
@@ -342,21 +370,32 @@ export async function readSimulatorProfileModelUpdate(
         // Larger allowances apply only to these already-replayed immutable study results.
         const limit =
             path ===
-            "optimization/bounded-native-studies/1b8cd38af0234f6f815c773f0007c59a7de6b3421046077b4c6ad09e1401c27d/result-56e2f089fa20f3f3.json"
-              ? 16_000_000
+              "optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/result-0ab3f5d4eaee0deb.json" ||
+            path ===
+              "optimization/bounded-native-studies/bdc3c471e76b456217155cf050d331f0fc7137ed0e4def311bb3de3716dc9d38/result-d1de1e63af9ddf0e.json"
+              ? 48_000_000
               : path ===
-                  "optimization/bounded-native-studies/5d9d1732dd471c3053701b59f7ba0c165a82f2af3729893a372c440b921454a0/result-b660b911c5437803.json"
-                ? 48_000_000
+                  "optimization/bounded-native-studies/aa0fdcb74c74b8d7dff34c3308cc710188600e6883a2a6bebdb0e84612484b00/result-658d7909096cef89.json"
+                ? 16_000_000
                 : path ===
-                    "optimization/bounded-native-studies/0633bfe09207ed3589eb2b4861a7ba47f498d170f8c8dce3a860cf78f59ded56/result-a4a5d7bbcaae2034.json"
-                  ? 16_000_000
+                    "optimization/bounded-native-studies/8b54f815b9081267376b03f5dc815e879bb8dc7af0665ebab06f900272a619e6/result-b5ff24f59ee30e54.json"
+                  ? 48_000_000
                   : path ===
-                      "optimization/bounded-native-studies/aed586fd81fa3d1586fa898d07d573d8848a9cbe982ff05ee925090aceac760d/result-049dcd0fd6f6f58b.json"
-                    ? 32_000_000
+                      "optimization/bounded-native-studies/1b8cd38af0234f6f815c773f0007c59a7de6b3421046077b4c6ad09e1401c27d/result-56e2f089fa20f3f3.json"
+                    ? 16_000_000
                     : path ===
-                        "optimization/bounded-native-studies/d752a04ead822dc7511ca82909e24a96fe6df07fa7ecd9c0c0eeb20e5f597dba/result-1427f90944b15ba2.json"
-                      ? 16_000_000
-                      : 8_000_000,
+                        "optimization/bounded-native-studies/5d9d1732dd471c3053701b59f7ba0c165a82f2af3729893a372c440b921454a0/result-b660b911c5437803.json"
+                      ? 48_000_000
+                      : path ===
+                          "optimization/bounded-native-studies/0633bfe09207ed3589eb2b4861a7ba47f498d170f8c8dce3a860cf78f59ded56/result-a4a5d7bbcaae2034.json"
+                        ? 16_000_000
+                        : path ===
+                            "optimization/bounded-native-studies/aed586fd81fa3d1586fa898d07d573d8848a9cbe982ff05ee925090aceac760d/result-049dcd0fd6f6f58b.json"
+                          ? 32_000_000
+                          : path ===
+                              "optimization/bounded-native-studies/d752a04ead822dc7511ca82909e24a96fe6df07fa7ecd9c0c0eeb20e5f597dba/result-1427f90944b15ba2.json"
+                            ? 16_000_000
+                            : 8_000_000,
           value = await document(directory, path, limit);
         if (ref.byteSha256)
           requireMatch(ref.byteSha256 === value.sha256, "Profile source byte checksum changed");
@@ -368,7 +407,11 @@ export async function readSimulatorProfileModelUpdate(
         ? await readFreshFrostSimulatorBuild(entry, options)
         : entry.id === "mage-fire-static"
           ? await readFreshFireSimulatorBuild(entry, options)
-          : await readFreshGreaterBalanceSimulatorBuild(entry, options);
+          : entry.id === "mage-arcane-static"
+            ? await readFreshArcaneSimulatorBuild(entry, options)
+            : entry.id === "warlock-demonology-static"
+              ? await readFreshDemonologySimulatorBuild(entry, options)
+              : await readFreshGreaterBalanceSimulatorBuild(entry, options);
     const player = z.record(z.string(), z.unknown()).parse(build.settings.player);
     requireMatch(
       proof.presets.some(
@@ -397,11 +440,15 @@ export async function readSimulatorProfileModelUpdate(
       browser.sourceRelease === source.release &&
       browser.proofSha256 === pointer.proofSha256 &&
       browser.schema ===
-        (proof.schema === "kfc-simulator-profile-model-update.balance.v1"
-          ? "kfc-profile-model-browser.balance.v1"
-          : proof.schema === "kfc-simulator-profile-model-update.v1"
-            ? "kfc-profile-model-browser.v1"
-            : "kfc-profile-model-browser.v2"),
+        (proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
+          ? "kfc-profile-model-browser.warlock.v1"
+          : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
+            ? "kfc-profile-model-browser.balance.v1"
+            : proof.schema === "kfc-simulator-profile-model-update.v1"
+              ? "kfc-profile-model-browser.v1"
+              : proof.schema === "kfc-simulator-profile-model-update.v2"
+                ? "kfc-profile-model-browser.v2"
+                : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -410,7 +457,13 @@ export async function readSimulatorProfileModelUpdate(
         .array(
           z
             .object({
-              id: z.enum(["mage-frost-static", "mage-fire-static", "balance-static"]),
+              id: z.enum([
+                "mage-frost-static",
+                "mage-fire-static",
+                "mage-arcane-static",
+                "balance-static",
+                "warlock-demonology-static",
+              ]),
               iterations: z.literal(25),
               nativeDps: z.number().finite().positive(),
               browserDps: z.number().finite().positive(),
@@ -418,12 +471,18 @@ export async function readSimulatorProfileModelUpdate(
             .passthrough(),
         )
         .min(1)
-        .max(2),
+        .max(3),
       shares: z
         .array(
           z
             .object({
-              id: z.enum(["mage-frost-static", "mage-fire-static", "balance-static"]),
+              id: z.enum([
+                "mage-frost-static",
+                "mage-fire-static",
+                "mage-arcane-static",
+                "balance-static",
+                "warlock-demonology-static",
+              ]),
               viewport: z.object({ width: z.number().int().positive() }).passthrough(),
               fullMeasuredSettingsPreserved: z.literal(true),
             })
@@ -451,6 +510,10 @@ export async function readSimulatorProfileModelUpdate(
     evidence.parityChecks.length === proof.builds.length &&
       new Set(evidence.parityChecks.map((row): string => row.id)).size === proof.builds.length &&
       evidence.parityChecks.every((row) => Math.abs(row.nativeDps - row.browserDps) <= 0.011) &&
+      evidence.shares.length === proof.builds.length * 2 &&
+      new Set(evidence.shares.map((row): string => `${row.id}:${row.viewport.width}`)).size ===
+        evidence.shares.length &&
+      evidence.shares.every((row): boolean => proof.builds.some((build) => build.id === row.id)) &&
       proof.builds.every(
         (build): boolean =>
           evidence.parityChecks.some((row): boolean => row.id === build.id) &&
@@ -463,9 +526,11 @@ export async function readSimulatorProfileModelUpdate(
     "Profile browser approval omitted parity/desktop/mobile share import",
   );
   const expectedOtherProfiles =
-    profile === "mage"
-      ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
-      : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
+    profile === "warlock"
+      ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
+      : profile === "mage"
+        ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
+        : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
   requireMatch(
     expectedOtherProfiles.every((profile) =>
       evidence.otherProfiles.some((row) => row.profile === profile),

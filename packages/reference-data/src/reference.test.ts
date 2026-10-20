@@ -103,6 +103,20 @@ describe("permissioned reference extraction", () => {
     });
   });
 
+  it("extracts item tooltip, class, subclass and relations from HTML without XML", () => {
+    const htmlOnly =
+      '<link rel="canonical" href="https://www.wowhead.com/forever/item=25/test-sword"><h1>Test Sword</h1><script>WH.Gatherer.addData(3,16,{"25":{"name_enus":"Test Sword","jsonequip":{"dmgmin1":1,"dmgmax1":3}}}); g_items[25].tooltip_enus = "<table><tr><td>Test Sword<br>Item Level 2<br>1 - 3 Damage</td></tr></table>"; $.extend(g_items[25], {"classs":2,"subclass":7}); new Listview({template:"npc",id:"sold-by",data:[{id:1,name:"Vendor"}]});</script>';
+    const record = parseWowheadPage(htmlOnly, task, {
+      url: "https://www.wowhead.com/forever/item=25",
+      capturedAt: new Date().toISOString(),
+      permissionRef: "test",
+    });
+    expect(record.tooltipLines).toEqual(["Test Sword", "Item Level 2", "1 - 3 Damage"]);
+    expect(record.numericFacts).toEqual({ dmgmin1: 1, dmgmax1: 3, classId: 2, subclassId: 7 });
+    expect(record.relations).toEqual([{ relation: "sold-by", kind: "npc", id: 1, name: "Vendor" }]);
+    expect(referenceQualityGaps(record)).toEqual([]);
+  });
+
   it("fails closed if a taught-by relation changes entity kind", () => {
     const spell = referenceTaskSchema.parse({ game: "forever", kind: "spell", id: 3275 });
     expect(() =>

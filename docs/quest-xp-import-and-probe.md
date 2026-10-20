@@ -55,6 +55,7 @@ XP fallback queue:
 pnpm leveling:evidence:queue -- \
   --backlog=artifacts/leveling/audits/2026-10-19/evidence-backlog/campaign-evidence-backlog-6236cd9318e622b4.json \
   --base-queue=artifacts/reference/questie/unresolved.json \
+  --additional-queue=artifacts/leveling/loot-preparation/queue.json \
   --queue=artifacts/reference/questie/leveling-evidence-unresolved.json \
   --report=artifacts/reference/questie/leveling-evidence-unresolved.report.json
 ```
@@ -71,6 +72,16 @@ captures. The local operator launcher uses the merged queue by default:
 ~/wow-trader-reference/run-questie-crawl.sh
 ~/wow-trader-reference/status-questie.sh
 ```
+
+October 20: the supplemental loot queue is now merged into both the generated source and the
+operator queue. Its 595 tasks overlap 52 existing quest tasks, leaving 897 total entries:
+548 quests and 349 items. All prior tasks, including the quarantined quest 3343, are preserved.
+`--additional-queue` accepts strict Forever quest/item tasks and deduplicates by kind and ID;
+omitting it retains the old quest-only generation behavior. Keep the flag when regenerating.
+The queue merge does not start, restart or change the active profession crawl, its profile or pacing.
+Old staged records may lack the new quantity/drop fields: use the bounded loot-only refresh
+instructions in [the theoretical-progress guide](forever-leveling-theoretical-progress.md#prepared-local-data-and-the-next-crawl)
+when collecting those fields, rather than force-refreshing every old quest or its confirmed 404.
 
 The status output has a separate `leveling route evidence` section so unrelated quality gaps from
 the original archive do not hide the route collection count. After the route pages finish, compile

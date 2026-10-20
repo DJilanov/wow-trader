@@ -1,4 +1,10 @@
 import { z } from "zod";
+import {
+  questItemObjectiveSchema,
+  questLootDropSchema,
+  type LootSharing,
+  type QuestLootDrop,
+} from "./quest-loot.js";
 
 const id = z.number().int().positive().max(10_000_000);
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
@@ -29,6 +35,7 @@ export const combatQuestSchema = z
     itemCreatureIds: z.array(id).max(1000),
     objectiveText: z.array(z.string().max(12000)).max(100),
     onlyCreatureObjectives: z.boolean().default(false),
+    itemObjectives: z.array(questItemObjectiveSchema).max(100).optional(),
   })
   .strict();
 export type CombatQuestReference = z.infer<typeof combatQuestSchema>;
@@ -106,6 +113,7 @@ export const combatDatasetSchema = z
     quests: z.array(combatQuestSchema).max(30000),
     dungeons: z.array(dungeonCombatProfileSchema).max(100),
     killXpEvidence: z.array(killXpEvidenceSchema).max(10000).default([]),
+    lootDrops: z.array(questLootDropSchema).max(100000).optional(),
   })
   .strict()
   .superRefine((data, context) => {
@@ -122,6 +130,17 @@ export const combatDatasetSchema = z
         message: "Public combat data requires authorization provenance",
       });
     const npcIds = new Set(data.npcs.map((npc) => npc.id));
+    const dropIds = (data.lootDrops ?? []).map((drop) => `${drop.itemId}:${drop.npcId}`);
+    if (
+      new Set(dropIds).size !== dropIds.length ||
+      data.lootDrops?.some(
+        (drop) => drop.targetBuild !== data.targetBuild || !npcIds.has(drop.npcId),
+      )
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Duplicate, foreign-build or missing-creature loot reference",
+      });
     const contexts = data.killXpEvidence.map((entry) =>
       [
         entry.build,
@@ -176,6 +195,11 @@ export interface CombatObjective {
   readonly credit: "shared-kills" | "personal-loot" | "non-combat" | "unknown";
   readonly source: string;
   readonly reason: string | null;
+  readonly loot?: {
+    readonly itemId: number;
+    readonly quantity: number | null;
+    readonly sharing: LootSharing;
+  };
 }
 export interface CombatActivity {
   readonly id: string;
@@ -194,6 +218,7 @@ export interface CampaignCombatPlan {
   readonly activities: readonly CombatActivity[];
   readonly notice: string | null;
   readonly killXpEvidence?: readonly KillXpEvidence[];
+  readonly lootDrops?: readonly QuestLootDrop[];
 }
 
 export function combatObjectiveKey(

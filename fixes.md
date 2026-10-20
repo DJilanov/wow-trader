@@ -6,6 +6,176 @@ This file records completed fixes and the evidence needed to resume debugging in
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.
 
+## October20 09:26UTC — qualified export and staged browser PASS; main selection pending
+
+43634 TERMINAL0; actual10k selected native/WASM PASS, qualified531330... . UI release
+2de6e7eac83112b255a8a8d0 compiled/all-class TypeScript0/numerical assets unchanged. Staged
+browser67931 PASS/all15screens/28sets/bothviewport shares/actual25fight parity. Strict web
+reader +two real fixtures added,42fresh reader/14profile tests PASS; typecheck19925 PASS.
+Four initial negative-test fixture mistakes corrected without weakening production guards.
+Broad regression49030, final typecheck26478/lint31258 current. Selector --plan24754 PASS,
+existing16cases preserved; no local default selection yet. Actual --select/main QA commands
+and source freeze boundaries incontext.md. No production change; historical helper intact.
+
+## October20 09:09UTC — confirmed-source proof PASS, export43634 is current
+
+33355 all2PASS/full raw fresh replay and mutation guards. Actual qualified export43634/
+PID92953 is LIVE, actual selected10k WASM stage started09:09UTC; no completed export yet09:13.
+Poll same handle; do not restart
+on quiet/slow observation. New confirmed/parity/guidance/export inputs now FROZEN; full
+list/command incontext.md. New browser-review setup/cleanup regression93641 all1PASS:
+missing real manifest leaves no workspace lock/approval and preserves all four pointers.
+Presentation tools prepared only; actual-qualified overlay/build/web reader/browser/local
+handoff still pending. No app/preset/deploy changes. Historical helper unchanged69b4b817....
+
+## October20 08:56UTC — actual fresh accepted, source replay33355 current
+
+75809 TERMINAL0, a5fe4d.../e1711295...,24newrequests/480000fights. Fixed incumbent
+830.25739DPS/40k; both1%/2%accepted, conservative gap0.979608%, strict dominancefalse.
+Tiny gains remain disclosed, no holdout winner replacement. Independent full confirmed-source
+audit33355 LIVE; selected WASM/export NOT yet run. New Warlock-only virtual presentation/
+overlay/review/selector/fixture scripts prepared, actual-qualified tests still await export.
+Visible guide now includes Soul Link pre-pull; all3guideguards PASS. No app/default/pointer/
+deployment changes; helper69b4b817... unchanged. Full commands/freeze boundaries incontext.md.
+
+## October20 08:41UTC — fresh confirmation75809 is current
+
+Final-arm tests92585 all3PASS/all150genuine10k state origins; preflight25911 PASS.
+Actual original-budget confirmation75809/child72557 dispatched08:40:00.876UTC, identity
+a5fe4d...;12fixedarms/two20k ranges/24newrequests. It is preparing, NOT accepted yet.
+New confirmation reader/arm/context/driver inputs FROZEN; exact boundary/command/recovery
+incontext.md. New confirmed-source2tests prepared, run only after real completion. Focused
+regression13PASS/lint/format PASS. No actual selected WASM/export/preset/deploy yet.
+Historical helper unchanged69b4b817..., four retention alternatives preserved.
+
+## October20 08:34UTC — full feedback proof passed; no fresh qualification yet
+
+Audit22879 ALL2PASS,343stages/9actual detailed controls and full raw ancestry/pins.
+Final-arm/fresh-range tests92585 and readonly preflight25911 are current, no combat/writes.
+Exact rotation guidance3guards and selected WASM projection2/gate3guards PASS; these do
+not claim actual final WASM execution. Confirmed reader/parity/export prepared only.
+Keep69b4b817... helper frozen. Full next command/source freeze boundary incontext.md.
+
+## October20 08:22UTC — actual Demonology feedback closed; source proof remains
+
+63336 TERMINAL0; bdc3c471.../d1de1e63...,42,113newrequests/5,787,140fights,9actual
+full-player/pet/resource native/WASM controls PASS. One additional gear/state cycle reports
+closed=true and retains830.20550DPS/10k. Independent complete replay22879 now LIVE; do NOT
+equate reported closure with independent fresh qualification. New300000-origin reader
+and real-origin/scenario guards all5PASS. Final-arm/fresh helpers prepared, not dispatched;
+all retained10k states require genuine raw origins. No preset/deploy yet. Keep cache helper
+69b4b817... unchanged; all4retention alternatives preserved. Full recovery incontext.md.
+
+## October20 07:58UTC — original-clock actual-geared feedback is running
+
+Preflight17530 PASS, all17slot pools preserved,10,507current gear proposals and19,236initial
+states/2,398talents,9actual detailed controls planned. Final state4/parity2/feedback2tests
+PASS; actual154stage gear proof PASS. Actual owner63336/child26378 dispatched07:56:29.069UTC
+under unchangedOctober21 06:24:18.106UTC deadline. New feedback inputs now FROZEN, not to
+be formatted. It still has to execute9actual class8 native/WASM controls before scalar
+feedback; no new qualification or preset yet. Independent feedback reader must allow
+declared300000origins, not frozen geared-reader's200000index. Full recovery incontext.md.
+
+## October20 07:54UTC — gear cap is not convergence; actual154stage proof passed
+
+Gear51672 TERMINAL0,7a29d404.../ce1f7ecd...,21,955newconfigs/2,877,120fights. Eight actual
+full-player/pet/resource native/WASM controls PASS, independent154stage geared replay48371
+PASS. Selected830.20550DPS/10k is NOT qualified: second sweep still gained8.608%, so needs
+ordinary actual-geared feedback. New state/feedback/projection guards final4+2+2tests PASS,
+including all30policy inputs with exact-APL deduplication and9unique real-data canary inputs.
+No fabricated DPS or weakened coverage. Read-only feedback preflight17530 LIVE; actual
+state-recheck command and next freeze boundary are at top ofcontext.md. Same original
+October21 06:24:18.106UTC deadline; no new preset/deploy. Keep historical helper unchanged.
+
+## October20 07:25UTC — real58,405-origin source audit PASS; original-budget gear dispatched
+
+Blue52424 TERMINAL0:58,405unique origins/8,350,860fights/260stages, result0ab3f5d4... .
+Independent actual completed-source test36702 PASS, read-only gear preflight85209 PASS.
+10,451distinct legal proposals/all17slots/hands/jewelry/sets/enchants;8actual detailed
+canaries must precede scalar sweeps. Actual phase gear51672/child99908 now LIVE, same
+originalOctober21 06:24:18.106UTC deadline. New gear inputs are FROZEN; do not format them.
+Owner confirmed helper must stay unchanged; exact69b4b817... intact. Keep all4alternative
+retention snapshots/patches. No qualified preset or production change. Commands/remaining
+scope and precise source boundaries are at the top ofcontext.md.
+
+## October20 07:17UTC — Warlock full gear/pet parity boundary tested before numerical dispatch
+
+New class8 gear request/browser projection and8real-catalog canary builder are prepared.
+Serial8111 ALL5tests PASS: four actual hand/stone frames, native request equivalence,
+all14saved full player/pet/resource controls, changed-pet rejection and no-auto hits guard.
+Initial enum-name typo was caught/fixed before gear dispatch; frozen numerical inputs were
+not edited. Gear driver and independent geared reader prepared/linted/formatted, not run.
+Blue owner52424 remains live in10k inspection; full completed-source audit and gear are next.
+Additional concurrent worker-drain cache helper variants ae5b88c2.../f7368374... are preserved
+with alternative source snapshots/patches in the same recovery folder. Exact69b4b817... helper
+restored under existing approval; new wrappers are not used by the running bounded search.
+No evidence removed, model/clock reset, qualification, public preset change or deployment.
+Full status, safe command and remaining scope are at the top ofcontext.md.
+
+## October20 07:03UTC — preserve concurrent cache change before restoring frozen inputs
+
+Approved by owner: saved full retention helper and re-applicable patch under
+artifacts/forever-simulator/optimization/source-drift/cache-retention-20261020/.
+Actual historical capture pin is69b4b817...; concurrent retention version15e46d1f... .
+Restored ONLY simulation-cache.mjs to that exact pin; patch forward applicability PASS.
+New cache-retention implementation and unrelated work remain intact. No evidence removed.
+Warlock correction23277 stopped safely with checkpoints. Another formatter modified the
+helper after first resume22603; its complete2102f44b... version and alternative patch were
+also preserved, patch check PASS, exact69b4b817... restored again. Latest identical owner
+is52424/child66453, same study48e23... and unchangedOctober21 06:24:18.106UTC deadline.
+One correction is already used. Six gear-bank/source-guard tests now PASS; source-reader
+completed-outcome replay still awaits the running study. Scoped lint/format/syntax/diff PASS.
+Actual verified prepared-v2.json exists;36,496-candidate blue study48e23... is not yet final.
+Do not reapply retention patch during frozen studies or reset/rename budget phases.
+Full hashes, source boundaries, commands and remaining delivery are at the top ofcontext.md.
+
+## October20 06:34UTC — verify passive pet procs by damage/hits, not cast counts
+
+Warlock actual14UI controls and14native/WASM jobs match DPS exactly. The initial final
+semantic guard rejected Demonic Brand because its passive child records0casts despite
+positive hits/damage. Keep failed owner83052/raw parity/source immutable. New V2 verifier
+authenticates the existing data and compares complete normalized player+pet metrics exactly,
+then requires positive Brand damage/hits/correct child/passive flag/zero casts. All18focused
+tests PASS, including genuine failing-before/passing-after and mutation rejection. No fights
+rerun or model changed. V2 proof has not yet been persisted; run/search handoff still remains.
+Original Warlock deadlineOctober21 06:24:18.106UTC. The supervisor correctly rejects changing
+an already owned phase command: next use ONE combined allowed correction driver for V2
+verification/export AND the real blue search, not a verification-only correction. Full paths,
+frozen inputs, raw hashes and safe next action are at the top ofcontext.md. Nothing deployed.
+
+## October20 06:06UTC — all3Mage presets actually selected and browser-verified locally
+
+Selector90048 and main review11461 completed successfully; pending statuses below are
+historical. Correct Mage presentationa5f95c49c57e46f727b0267a preserves Frost/Fire numerics,
+the independent Balance override and13nonMage cases. Main-page report9dd2805bff950089 has
+all6desktop/mobile cases PASS/errors[]; all6screenshots visually reviewed. Working preset
+loading, reload, tooltips, Simulate and one global scroller checked. Final37files/452tests,
+webtypecheck99349 and scopedlint15325 PASS. OriginalMage deadline preserved; executed
+sources remain frozen. Local only, no commit/push/deploy. Internet evidence and exact
+recovery/report paths are at the top ofcontext.md; whole all-class objective remains active.
+
+## October20 05:52UTC — explicit3Mage schema prevents silently weakening old2-build delivery
+
+Arcane actual10k native/WASM parity exact; qualified7478.../fresh659.78370DPS40k accepted.
+3actual overlay tests, webtypecheck, Arcane21, old92 serial regression and V3profile19 all
+PASS (132focused web total). Old parallel test run had1timeout; serial rerunpassed with
+unchanged assertions/timeouts. Build3's old-schema3case bundleD2c stays archived/unselected.
+New builder4 generatesA5f95c... with explicit proof.v3/browser.v3 and preserves old V1/V2
+cardinality gates. Actualall-class TypeScript/staged15profile-menu/6share/3parity checks PASS.
+Strict selection preflight6608 PASS; actualLOCAL selector90048 running, same originalMage
+deadline. Must retain Frost/Fire numerics, Balance and other13cases. Main6case browser/
+screenshots and broader final regression still remain; no deploy. Full recovery incontext.md.
+
+## October20 05:30UTC — actual fresh source validation passed; selected browser replay now owns export
+
+Fresh Arcane2tests65456 and export preflight64505 PASS, accepted659.78370DPS40k with both
+1%/2% checks preserved/nearby gains disclosed. Actual exporter84674 LIVE; it performs ONE
+real selected10kWASM replay against original native659.73665/stdev28.39404 atseed77191,
+then creates immutable qualified output only if exact parity succeeds. No new native search.
+Its confirmed-source/guide/parity/export helpers/tests NOW FROZEN. Full command/recovery in
+context.md. V3 presets/build/review/selector/main scripts only prepared/linted; website
+source/selection and production unchanged. Do not claim final3Mage UI delivery yet.
+
 ## October20 05:27UTC — fresh Arcane accepted without changing the winner or hiding nearby gains
 
 80633 TERMINAL0: actual27818d49.../a60bcfc9...,24fresh20kjobs/0reuses/480000fights.

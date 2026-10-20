@@ -1,4 +1,6 @@
 export * from "./contracts.js";
+export * from "./drop-statistics.js";
+export { parseWowheadPage } from "./parser.js";
 export * from "./client-validation.js";
 export * from "./publication.js";
 export * from "./quest-xp-contracts.js";

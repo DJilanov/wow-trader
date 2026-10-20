@@ -113,6 +113,7 @@ async function main(): Promise<void> {
       browser: { type: "string" },
       refresh: { type: "boolean" },
       "quest-xp": { type: "boolean" },
+      "no-item-xml": { type: "boolean" },
       "priority-queue": { type: "string" },
       "priority-status": { type: "string" },
       "recovery-queue": { type: "string" },
@@ -599,6 +600,7 @@ async function main(): Promise<void> {
             ? { browsertrixUserAgentSuffix: values["user-agent-suffix"] }
             : {}),
           refresh: values.refresh ?? false,
+          skipItemXml: values["no-item-xml"] ?? false,
           onProgress: (key, gaps): void => {
             console.log(
               JSON.stringify({

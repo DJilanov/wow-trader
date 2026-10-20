@@ -89,6 +89,48 @@ const evidence: KillXpEvidence = {
 };
 
 describe("combat XP calculation", () => {
+  it("weights unequal party levels rather than paying each player the same fraction", () => {
+    const common = {
+      npc,
+      kills: 1,
+      environment: "outdoor" as const,
+      partySize: 2,
+      partyLevels: [20, 18],
+    };
+    expect(
+      estimateCreatureKills({ ...common, position: { level: 20, currentXp: 0 }, playerIndex: 0 })
+        .xp,
+    ).toBe(Math.floor((145 * 20) / 38));
+    expect(
+      estimateCreatureKills({ ...common, position: { level: 18, currentXp: 0 }, playerIndex: 1 })
+        .xp,
+    ).toBe(Math.floor((145 * 18) / 38));
+  });
+  it("applies a configured kill multiplier only to reference estimates, not measured final XP", () => {
+    expect(
+      estimateCreatureKills({
+        npc,
+        kills: 1,
+        position: { level: 20, currentXp: 0 },
+        partySize: 1,
+        environment: "outdoor",
+        xpMultiplier: 2,
+      }).xp,
+    ).toBe(290);
+    expect(
+      estimateCreatureKills({
+        npc,
+        kills: 1,
+        position: { level: 20, currentXp: 0 },
+        partySize: 5,
+        environment: "dungeon",
+        evidence: [evidence],
+        build: 70205,
+        partyLevels: [20, 20, 20, 20, 20],
+        xpMultiplier: 2,
+      }).xp,
+    ).toBe(39);
+  });
   it("keeps solo rewards whole and shares each kill conservatively", () => {
     const input = {
       npc,
@@ -272,6 +314,26 @@ describe("literal-only provider import", () => {
     expect(imported.npcs[0]).toMatchObject({ minimumLevel: null, maximumLevel: null });
     expect(imported.quests[0]).toMatchObject({ creatureIds: [1], itemCreatureIds: [1] });
   });
+  it("retains item identities without treating display labels as quantities and holds mixed ordering", () => {
+    const exported = (kind: string, body: string): string =>
+      `-- Base -> authored corrections.\nlocal ${kind} = {}\n${body}\nreturn ${kind}\n`;
+    const imported = importQuestieCombatData({
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "",
+      provider: data.provider,
+      npcExport: exported("npc", 'npc[1]={"Target",nil,nil,3,3,0}'),
+      itemExport: exported("item", 'item[750]={"Meat",{1}}'),
+      questExport: exported(
+        "quest",
+        'quest[33]={"Wolves",nil,nil,1,1,nil,nil,nil,nil,{nil,nil,{{750,"Meat"}}}}\nquest[34]={"Mixed",nil,nil,1,1,nil,nil,nil,nil,{{{1}},nil,{{750}}}}',
+      ),
+    });
+    expect(imported.quests[0]!.itemObjectives).toEqual([
+      { itemId: 750, quantity: null, objectiveIndex: 1, npcIds: [1], sharing: "unknown" },
+    ]);
+    expect(imported.quests[1]!.itemObjectives?.[0]?.objectiveIndex).toBeNull();
+  });
   it("requires explicit public authorization and rejects duplicate identities", () => {
     expect(() => combatDatasetSchema.parse({ ...data, publication: "authorized" })).toThrow(
       /authorization/,
@@ -341,6 +403,48 @@ describe("quest combat binding and overlap", () => {
       resolveCombatObjectives(guide.steps[0]!.directives, indexCombatReferences(data), "test")[0]!
         .requiredKills,
     ).toBeNull();
+  });
+  it("does not let an unrelated neighboring use-item objective erase a known kill quota", () => {
+    const guide = parseGuideChapter(
+      "step\n.complete 300001,1 --Kill Harvest Watcher (10)\n.mob Harvest Watcher\n.complete 300002,1 --Book read (1)\n.use 123",
+      "chapter-test",
+      "a".repeat(64),
+      70205,
+    );
+    expect(
+      resolveCombatObjectives(guide.steps[0]!.directives, indexCombatReferences(data), "test")[0],
+    ).toMatchObject({ requiredKills: 10, credit: "shared-kills" });
+  });
+  it("binds an explicit source item counter when the provider has no quantity", () => {
+    const guide = parseGuideChapter(
+      "step\n.complete 300001,1 --Meat (8)\n.mob Harvest Watcher",
+      "chapter-test",
+      "a".repeat(64),
+      70205,
+    );
+    const references = indexCombatReferences({
+      ...data,
+      quests: [
+        {
+          ...data.quests[0]!,
+          creatureIds: [],
+          itemCreatureIds: [114],
+          onlyCreatureObjectives: false,
+          itemObjectives: [
+            {
+              itemId: 750,
+              quantity: null,
+              objectiveIndex: 1,
+              npcIds: [114],
+              sharing: "unknown",
+            },
+          ],
+        },
+      ],
+    });
+    expect(
+      resolveCombatObjectives(guide.steps[0]!.directives, references, "test")[0],
+    ).toMatchObject({ credit: "personal-loot", loot: { itemId: 750, quantity: 8 } });
   });
   it("recovers omitted guide quotas from explicit corrected objective text", () => {
     const guide = parseGuideChapter(

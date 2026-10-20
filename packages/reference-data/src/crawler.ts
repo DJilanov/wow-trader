@@ -9,13 +9,15 @@
  * Supplying `options.fetcher` selects the in-process transport used by unit
  * tests and offline tooling; it is never selected silently.
  */
-import { spawn } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { mkdir, mkdtemp, open, readFile, readdir, rm, stat, unlink } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { basename, dirname, resolve } from "node:path";
 import { setTimeout as pause } from "node:timers/promises";
+import { promisify } from "node:util";
 import { WARCParser, type WARCRecord } from "warcio";
 import { z } from "zod";
 import {
@@ -87,6 +89,7 @@ const BROWSERTRIX_REPORT_BYTES = 50_000_000;
 const BROWSERTRIX_LOG_BYTES = 20_000_000;
 const BROWSERTRIX_SCREENSHOT_BYTES = 10_000_000;
 const BROWSERTRIX_DOCKER_STOP_GRACE_MS = 30_000;
+const executeDockerCommand = promisify(execFile);
 
 const ENTITY_ORIGIN = "https://www.wowhead.com";
 const CONTENT_TYPE_PATTERN = /(?:text\/html|application\/xml|text\/xml)/i;
@@ -111,6 +114,8 @@ export interface CrawlOptions {
   readonly random?: () => number;
   readonly refresh?: boolean;
   readonly questXp?: boolean;
+  /** Skip the item `&xml` navigation and parse tooltip/class from the HTML page. */
+  readonly skipItemXml?: boolean;
   readonly waitOnSourceCooldown?: boolean;
   /** Selects the in-process fetch transport instead of Browsertrix. */
   readonly fetcher?: typeof fetch;
@@ -149,8 +154,8 @@ export interface CrawlOptions {
    */
   readonly browsertrixUserAgentSuffix?: string;
   /**
-   * Parent directory for a fresh per-run workspace mounted into the crawler as
-   * /crawls. Defaults to BROWSERTRIX_WORK_DIR or the OS temp directory.
+   * Parent directory for copied crawl results. Disposable browser data stays
+   * inside Docker. Defaults to BROWSERTRIX_WORK_DIR or the OS temp directory.
    */
   readonly browsertrixWorkDirectory?: string;
   /** Keep the WARC workspace. Defaults to BROWSERTRIX_KEEP_ARCHIVE=1. */
@@ -837,7 +842,10 @@ async function crawlWithFetcher(
     if (crawled + notFound >= limit) break;
     try {
       const page = await source(previous?.sourceUrl ?? referenceUrl(task), task);
-      const xml = task.kind === "item" ? await source(`${referenceUrl(task)}&xml`, task) : null;
+      const xml =
+        task.kind === "item" && !options.skipItemXml
+          ? await source(`${referenceUrl(task)}&xml`, task)
+          : null;
       const record = parseWowheadPage(page.text, task, {
         url: page.url,
         capturedAt: page.capturedAt,
@@ -914,7 +922,7 @@ async function crawlWithBrowsertrix(
         previous,
         missingPath,
         htmlUrl: previous?.sourceUrl ?? referenceUrl(task),
-        xmlUrl: task.kind === "item" ? `${referenceUrl(task)}&xml` : null,
+        xmlUrl: task.kind === "item" && !options.skipItemXml ? `${referenceUrl(task)}&xml` : null,
       },
     });
     pendingCount++;
@@ -1220,22 +1228,79 @@ async function executeBrowsertrix(
   const image =
     options.browsertrixImage ?? process.env.BROWSERTRIX_IMAGE ?? BROWSERTRIX_DEFAULT_IMAGE;
   const docker = process.env.BROWSERTRIX_DOCKER ?? "docker";
-  const launch = await prepareBrowsertrixLaunch(options);
+  const container = `wow-trader-crawl-${randomUUID()}`;
+  let primaryError: unknown;
   if (keep) process.stderr.write(`Browsertrix archive directory: ${work}\n`);
   if (screencastPort !== undefined)
     process.stderr.write(
       `Browsertrix screencast: http://127.0.0.1:${screencastPort} (active during this page)\n`,
     );
   try {
+    const launch = await prepareBrowsertrixLaunch(options);
     const run = await spawnDocker(
       docker,
-      browsertrixArgs(work, image, seeds, launch, screencastPort),
+      browsertrixArgs(container, image, seeds, launch, screencastPort),
       options.signal,
     );
+    options.signal?.throwIfAborted();
+    await copyBrowsertrixResults(docker, container, work, keep, run.exitCode !== 0, options.signal);
     const archive = await readBrowsertrixArchive(work, isTarget, run.exitCode !== 0);
     return { archive, run };
+  } catch (error) {
+    primaryError = error;
+    throw error;
   } finally {
-    if (!keep) await rm(work, { recursive: true, force: true });
+    try {
+      await executeDockerCommand(docker, ["rm", "--force", container], {
+        timeout: BROWSERTRIX_DOCKER_STOP_GRACE_MS,
+        maxBuffer: 200_000,
+      }).catch((error: unknown): void => {
+        if (error instanceof Error && /No such container/i.test(error.message)) return;
+        if (!primaryError) throw error;
+        process.stderr.write(`Browsertrix container cleanup failed: ${String(error)}\n`);
+      });
+    } finally {
+      if (!keep) await rm(work, { recursive: true, force: true });
+    }
+  }
+}
+
+async function copyBrowsertrixResults(
+  docker: string,
+  container: string,
+  work: string,
+  keep: boolean,
+  runFailed: boolean,
+  signal?: AbortSignal,
+): Promise<void> {
+  const copy = async (source: string, destination: string): Promise<boolean> => {
+    try {
+      await executeDockerCommand(docker, ["cp", `${container}:${source}`, destination], {
+        timeout: 120_000,
+        maxBuffer: 200_000,
+        signal,
+      });
+      return true;
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        /Could not find the file|no such file or directory/i.test(error.message)
+      )
+        return false;
+      throw error;
+    }
+  };
+  if (keep) {
+    if (!(await copy("/crawls/.", work))) throw new Error("Browsertrix workspace is missing");
+    return;
+  }
+  const destination = resolve(work, "collections", BROWSERTRIX_COLLECTION);
+  await mkdir(destination, { recursive: true });
+  // Copy only parser inputs. The browser profile and downloads stay inside Docker,
+  // avoiding deleted host files retained by Docker Desktop's file-sharing service.
+  for (const name of ["archive", "pages", "reports", ...(runFailed ? ["logs"] : [])]) {
+    if (!(await copy(`/crawls/collections/${BROWSERTRIX_COLLECTION}/${name}`, destination)))
+      await copy(`/crawls/${BROWSERTRIX_COLLECTION}/${name}`, destination);
   }
 }
 
@@ -1249,7 +1314,7 @@ function browsertrixTaskBatchSize(): number {
 }
 
 function browsertrixArgs(
-  workDirectory: string,
+  container: string,
   image: string,
   seeds: readonly string[],
   launch: BrowsertrixLaunch,
@@ -1261,10 +1326,23 @@ function browsertrixArgs(
     300,
     Math.ceil(seeds.length * (BROWSERTRIX_PAGE_LOAD_TIMEOUT_SECONDS + 20) + 120),
   );
-  const args = ["run", "--rm", "--init", "--shm-size=1g"];
+  const args = [
+    "run",
+    "--name",
+    container,
+    "--label",
+    "online.kfcguild.storage=browsertrix-workspace",
+    "--label",
+    `online.kfcguild.owner-pid=${process.pid}`,
+    "--init",
+    "--shm-size=1g",
+    "--log-opt",
+    "max-size=10m",
+    "--log-opt",
+    "max-file=2",
+  ];
   if (launch.network) args.push("--network", launch.network);
   for (const host of launch.addHosts) args.push("--add-host", host);
-  args.push("--mount", `type=bind,source=${workDirectory},target=/crawls`);
   if (launch.profile?.hostDirectory)
     args.push(
       "--mount",

@@ -37,7 +37,9 @@ import type { CampaignQuestValidationEvidence } from "./quest-validation-evidenc
 import { LEVELING_RACES } from "./profile.js";
 import { createQuestValidationCertificateResolver } from "./quest-validation-certificates.js";
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261020-v12";
+import type { CampaignXpEvent } from "./campaign-xp-event.js";
+import type { LootScenario } from "./quest-loot.js";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261020-v13";
 
 export interface XpPosition {
   readonly level: number;
@@ -65,6 +67,7 @@ export interface CampaignXpMemberForecast {
   readonly dungeonCombatXp: number;
   readonly combatRows: readonly CampaignCombatRow[];
   readonly rewards: readonly CampaignXpRewardRow[];
+  readonly steps: readonly CampaignXpEvent[];
   readonly bundleRewards: readonly (DungeonBundleRewardRow & { readonly actionId: string })[];
   readonly unknownQuestIds: readonly number[];
   readonly eligibilityIssues: readonly string[];
@@ -121,9 +124,13 @@ function position(total: number): XpPosition {
 
 export interface CampaignXpForecastOptions {
   readonly fromActionId?: string;
+  readonly throughActionId?: string;
   readonly combat?: readonly CampaignCombatScenario[];
   readonly groupCombat?: readonly CampaignGroupCombatScenario[];
   readonly facts?: readonly QuestRewardFact[];
+  readonly noAssumedGrinding?: boolean;
+  readonly lootScenario?: LootScenario;
+  readonly outdoorXpMultiplier?: number;
   readonly grindEvidence?: CampaignGrindEvidence;
   readonly grindRuntimeBuild?: number;
   readonly questValidation?: {
@@ -184,6 +191,12 @@ export function forecastCampaignXp(
       ? 0
       : actions.findIndex((a) => a.id === options.fromActionId);
   if (from < 0) throw new Error("Unknown forecast starting action.");
+  const through =
+    options.throughActionId === undefined
+      ? actions.length - 1
+      : actions.findIndex((action) => action.id === options.throughActionId);
+  if (options.throughActionId !== undefined && through < from)
+    throw new Error("Unknown or reversed forecast ending action.");
   const combat = new Map<string, readonly number[]>();
   const activities = new Set<string>();
   const unknownCombat = new Set<string>();
@@ -273,7 +286,7 @@ export function forecastCampaignXp(
       combat: createCampaignCombatState(plan.combat, member),
     };
   });
-  const selected = new Set(actions.slice(from).map((a) => a.id));
+  const selected = new Set(actions.slice(from, through + 1).map((a) => a.id));
   const sections = campaignSections(plan, progress);
   return sections.map((section, sectionIndex): CampaignXpSectionForecast => {
     const entries = actions.filter((a) => selected.has(a.id) && section.actionIds.includes(a.id));
@@ -282,6 +295,7 @@ export function forecastCampaignXp(
     const summaries = ledgers.map((ledger) => ({
       start: ledger.total === null || ledger.unknown.size > 0 ? null : position(ledger.total),
       rewards: [] as CampaignXpRewardRow[],
+      steps: [] as CampaignXpEvent[],
       bundleRewards: [] as (DungeonBundleRewardRow & { readonly actionId: string })[],
       eligibilityIssues: ledger.issue ? [ledger.issue] : ([] as string[]),
       evidenceIssues: [] as string[],
@@ -590,6 +604,7 @@ export function forecastCampaignXp(
           const target = cumulative(xpTarget);
           if (ledger.total < target) {
             const required = target - ledger.total;
+            if (options.noAssumedGrinding) continue;
             const measured = grindMeasurements.some(
               (measurement) =>
                 measurement.checkpointId === action.id &&
@@ -645,89 +660,126 @@ export function forecastCampaignXp(
             ledger.total === null || ledger.unknown.size > 0 ? null : position(ledger.total).level;
           const eligibility = questEligibility(change.questId, facts);
           const minimum = eligibility.minimumLevel;
-          if (eligibility.minimumConflict) {
-            markIssue({
-              code: "pickup-level-conflict",
-              domain: "eligibility",
-              message: `${change.questId}: pickup minimum claims disagree (${eligibility.minimumClaims.join(" / ")}); using conservative level ${minimum}.`,
-              resolution: "offline-or-in-game",
-              actionId: action.id,
-              questId: change.questId,
-              blocksForecast: false,
-            });
-          }
-          if (change.state === "accepted") {
-            if (minimum && (level === null || level < minimum)) {
-              halt({
-                code: "checkpoint-not-ready",
-                domain: "progress",
-                message: `${change.questId}: pickup requires level ${minimum}; forecast is below the gate.`,
-                resolution: "in-game",
-                actionId: action.id,
-                questId: change.questId,
-                blocksForecast: true,
-              });
-              ledger.blocked.add(change.questId);
-              break;
-            }
-            const member = {
-              ...progress.members[player]!,
-              classSlug:
-                player === 0
-                  ? (plan.leaderClass ?? progress.members[player]!.classSlug)
-                  : progress.members[player]!.classSlug,
-              questStates: ledger.states,
-              confirmations: ledger.confirmations,
-            };
-            const gate = eligibility.gate ? questGateResult(eligibility.gate, member) : "ready";
-            if (gate === "blocked") {
-              if (action.sourceGateConflictQuestIds?.includes(change.questId)) {
-                markIssue({
-                  code: "source-gate-conflict",
-                  domain: "eligibility",
-                  message: `${change.questId}: the selected build-specific source offers this pickup before the older reference gate is satisfied; verify actual eligibility in game.`,
-                  resolution: "in-game",
-                  actionId: action.id,
-                  questId: change.questId,
-                  blocksForecast: false,
-                });
-              } else {
-                halt({
-                  code: "source-prerequisite-missing",
-                  domain: "eligibility",
-                  message: `${change.questId}: required prerequisite or item check has not been completed before pickup.`,
-                  resolution: "offline-or-in-game",
-                  actionId: action.id,
-                  questId: change.questId,
-                  blocksForecast: true,
-                });
-                break;
-              }
-            }
-            const quest = getPremadeQuest(change.questId);
-            const memberRace = player === 0 ? plan.race : progress.members[player]!.raceId;
-            const memberFaction =
-              LEVELING_RACES.find((race) => race.id === memberRace)?.faction ?? "alliance";
-            if (minimum === null || (quest && !eligibility.lifecycleKnown)) {
+          const before = position(ledger.total);
+          const questXpBefore = summary.referenceQuestXp + summary.estimatedQuestXp;
+          const combatXpBefore = summary.combatXp;
+          try {
+            if (eligibility.minimumConflict) {
               markIssue({
-                code: "quest-lifecycle-unverified",
+                code: "pickup-level-conflict",
                 domain: "eligibility",
-                message: `${change.questId}: pickup level or dungeon quest lifecycle remains unverified.`,
+                message: `${change.questId}: pickup minimum claims disagree (${eligibility.minimumClaims.join(" / ")}); using conservative level ${minimum}.`,
                 resolution: "offline-or-in-game",
                 actionId: action.id,
                 questId: change.questId,
                 blocksForecast: false,
               });
             }
+            if (change.state === "accepted") {
+              if (minimum && (level === null || level < minimum)) {
+                halt({
+                  code: "checkpoint-not-ready",
+                  domain: "progress",
+                  message: `${change.questId}: pickup requires level ${minimum}; forecast is below the gate.`,
+                  resolution: "in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: true,
+                });
+                ledger.blocked.add(change.questId);
+                break;
+              }
+              const member = {
+                ...progress.members[player]!,
+                classSlug:
+                  player === 0
+                    ? (plan.leaderClass ?? progress.members[player]!.classSlug)
+                    : progress.members[player]!.classSlug,
+                questStates: ledger.states,
+                confirmations: ledger.confirmations,
+              };
+              const gate = eligibility.gate ? questGateResult(eligibility.gate, member) : "ready";
+              if (gate === "blocked") {
+                if (action.sourceGateConflictQuestIds?.includes(change.questId)) {
+                  markIssue({
+                    code: "source-gate-conflict",
+                    domain: "eligibility",
+                    message: `${change.questId}: the selected build-specific source offers this pickup before the older reference gate is satisfied; verify actual eligibility in game.`,
+                    resolution: "in-game",
+                    actionId: action.id,
+                    questId: change.questId,
+                    blocksForecast: false,
+                  });
+                } else {
+                  halt({
+                    code: "source-prerequisite-missing",
+                    domain: "eligibility",
+                    message: `${change.questId}: required prerequisite or item check has not been completed before pickup.`,
+                    resolution: "offline-or-in-game",
+                    actionId: action.id,
+                    questId: change.questId,
+                    blocksForecast: true,
+                  });
+                  break;
+                }
+              }
+              const quest = getPremadeQuest(change.questId);
+              const memberRace = player === 0 ? plan.race : progress.members[player]!.raceId;
+              const memberFaction =
+                LEVELING_RACES.find((race) => race.id === memberRace)?.faction ?? "alliance";
+              if (minimum === null || (quest && !eligibility.lifecycleKnown)) {
+                markIssue({
+                  code: "quest-lifecycle-unverified",
+                  domain: "eligibility",
+                  message: `${change.questId}: pickup level or dungeon quest lifecycle remains unverified.`,
+                  resolution: "offline-or-in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: false,
+                });
+              }
+              if (
+                (quest && quest.faction !== "both" && quest.faction !== memberFaction) ||
+                (quest?.classSlug && member.classSlug && quest.classSlug !== member.classSlug) ||
+                (memberRace && quest?.raceIds.length && !quest.raceIds.includes(memberRace))
+              ) {
+                halt({
+                  code: "quest-ineligible",
+                  domain: "eligibility",
+                  message: `${change.questId}: faction, class or race is not eligible for this pickup.`,
+                  resolution: "offline",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: true,
+                });
+                break;
+              }
+              if (
+                gate === "unknown" ||
+                (quest?.classSlug && !member.classSlug) ||
+                (!memberRace && quest?.raceIds.length)
+              ) {
+                markIssue({
+                  code: "personal-eligibility-unverified",
+                  domain: "eligibility",
+                  message: `${change.questId}: lifecycle, item or personal eligibility needs confirmation.`,
+                  resolution: "in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: false,
+                });
+              }
+              ledger.states[String(change.questId)] = "accepted";
+              continue;
+            }
             if (
-              (quest && quest.faction !== "both" && quest.faction !== memberFaction) ||
-              (quest?.classSlug && member.classSlug && quest.classSlug !== member.classSlug) ||
-              (memberRace && quest?.raceIds.length && !quest.raceIds.includes(memberRace))
+              !ledger.states[String(change.questId)] ||
+              ledger.states[String(change.questId)] === "not-started"
             ) {
               halt({
-                code: "quest-ineligible",
-                domain: "eligibility",
-                message: `${change.questId}: faction, class or race is not eligible for this pickup.`,
+                code: "quest-pickup-missing",
+                domain: "route",
+                message: `${change.questId}: no earlier pickup or confirmed held quest exists before ${change.state}.`,
                 resolution: "offline",
                 actionId: action.id,
                 questId: change.questId,
@@ -735,180 +787,174 @@ export function forecastCampaignXp(
               });
               break;
             }
-            if (
-              gate === "unknown" ||
-              (quest?.classSlug && !member.classSlug) ||
-              (!memberRace && quest?.raceIds.length)
-            ) {
-              markIssue({
-                code: "personal-eligibility-unverified",
-                domain: "eligibility",
-                message: `${change.questId}: lifecycle, item or personal eligibility needs confirmation.`,
-                resolution: "in-game",
-                actionId: action.id,
-                questId: change.questId,
-                blocksForecast: false,
-              });
-            }
-            ledger.states[String(change.questId)] = "accepted";
-            continue;
-          }
-          if (
-            !ledger.states[String(change.questId)] ||
-            ledger.states[String(change.questId)] === "not-started"
-          ) {
-            halt({
-              code: "quest-pickup-missing",
-              domain: "route",
-              message: `${change.questId}: no earlier pickup or confirmed held quest exists before ${change.state}.`,
-              resolution: "offline",
-              actionId: action.id,
-              questId: change.questId,
-              blocksForecast: true,
-            });
-            break;
-          }
-          if (change.state !== "rewarded") {
-            if (plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id))
-              for (const activity of automaticCombat.get(action.id) ?? []) {
-                const objectives = activity.objectives.filter(
-                  (objective) =>
-                    objective.questId === change.questId &&
-                    (activity.questWide ||
-                      objective.objectiveIndex === (change.objectiveIndex ?? 1)),
-                );
-                if (!objectives.length) continue;
-                if (
-                  activity.environment === "dungeon" &&
-                  plan.legs.find((leg) => leg.id === action.legId)?.kind !== "dungeon"
-                ) {
-                  halt(
-                    {
-                      code: "dungeon-objective-misordered",
-                      domain: "route",
-                      message: `${action.id}: an inside-dungeon objective is placed before its dungeon visit; no future clear XP or hand-in is credited.`,
-                      resolution: "offline",
+            if (change.state !== "rewarded") {
+              if (plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id))
+                for (const activity of automaticCombat.get(action.id) ?? []) {
+                  const objectives = activity.objectives.filter(
+                    (objective) =>
+                      objective.questId === change.questId &&
+                      (activity.questWide ||
+                        objective.objectiveIndex === (change.objectiveIndex ?? 1)),
+                  );
+                  if (!objectives.length) continue;
+                  if (
+                    activity.environment === "dungeon" &&
+                    plan.legs.find((leg) => leg.id === action.legId)?.kind !== "dungeon"
+                  ) {
+                    halt(
+                      {
+                        code: "dungeon-objective-misordered",
+                        domain: "route",
+                        message: `${action.id}: an inside-dungeon objective is placed before its dungeon visit; no future clear XP or hand-in is credited.`,
+                        resolution: "offline",
+                        actionId: action.id,
+                        questId: change.questId,
+                        blocksForecast: true,
+                      },
+                      true,
+                    );
+                    break;
+                  }
+                  const last = activity.objectives.at(-1);
+                  const result = applyCampaignCombat({
+                    activity: {
+                      ...activity,
+                      id: `${activity.id}-${change.questId}-${change.objectiveIndex ?? 1}`,
+                      objectives,
+                      profile:
+                        last?.questId === change.questId &&
+                        (activity.questWide || last.objectiveIndex === (change.objectiveIndex ?? 1))
+                          ? activity.profile
+                          : null,
+                    },
+                    combat: plan.combat,
+                    state: ledger.combat,
+                    questStates: ledger.states,
+                    position: position(ledger.total),
+                    partySize: action.leaderOnly ? 1 : 5,
+                    partyLevels: action.leaderOnly ? [position(ledger.total).level] : partyLevels,
+                    lootScenario: options.lootScenario ?? "expected",
+                    xpMultiplier:
+                      activity.environment === "outdoor"
+                        ? (options.outdoorXpMultiplier ??
+                          progress.combatPlanning?.outdoorXpMultiplier ??
+                          1)
+                        : 1,
+                    playerIndex: action.leaderOnly ? 0 : player,
+                  });
+                  ledger.total += result.xp;
+                  summary.combatXp += result.xp;
+                  if (activity.environment === "outdoor") summary.outdoorCombatXp += result.xp;
+                  else summary.dungeonCombatXp += result.xp;
+                  summary.combatRows.push(...result.rows);
+                  for (const message of result.issues)
+                    markIssue({
+                      code: "combat-profile-unverified",
+                      domain: "combat",
+                      message,
+                      resolution: "offline-or-in-game",
                       actionId: action.id,
                       questId: change.questId,
-                      blocksForecast: true,
-                    },
-                    true,
-                  );
-                  break;
+                      blocksForecast: false,
+                    });
                 }
-                const last = activity.objectives.at(-1);
-                const result = applyCampaignCombat({
-                  activity: {
-                    ...activity,
-                    id: `${activity.id}-${change.questId}-${change.objectiveIndex ?? 1}`,
-                    objectives,
-                    profile:
-                      last?.questId === change.questId &&
-                      (activity.questWide || last.objectiveIndex === (change.objectiveIndex ?? 1))
-                        ? activity.profile
-                        : null,
-                  },
-                  combat: plan.combat,
-                  state: ledger.combat,
-                  questStates: ledger.states,
-                  position: position(ledger.total),
-                  partySize: action.leaderOnly ? 1 : 5,
-                  partyLevels: action.leaderOnly ? [position(ledger.total).level] : partyLevels,
-                });
-                ledger.total += result.xp;
-                summary.combatXp += result.xp;
-                if (activity.environment === "outdoor") summary.outdoorCombatXp += result.xp;
-                else summary.dungeonCombatXp += result.xp;
-                summary.combatRows.push(...result.rows);
-                for (const message of result.issues)
+              if (ledger.halt) break;
+              ledger.confirmations[
+                `campaign-objective-${change.questId}-${change.objectiveIndex ?? 1}`
+              ] = true;
+              ledger.states[String(change.questId)] = [
+                ...(objectiveKeys.get(change.questId) ?? []),
+              ].every((key) => ledger.confirmations[key])
+                ? "objectives-complete"
+                : "accepted";
+              continue;
+            }
+            if (
+              objectiveKeys.has(change.questId) &&
+              ledger.states[String(change.questId)] !== "objectives-complete"
+            ) {
+              halt({
+                code: "quest-objectives-incomplete",
+                domain: "route",
+                message: `${change.questId}: required objectives have not all been completed before hand-in.`,
+                resolution: "offline",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: true,
+              });
+              break;
+            }
+            const reward =
+              level === null || ledger.blocked.has(change.questId) || (minimum && level < minimum)
+                ? {
+                    xp: null,
+                    basis: "unknown" as const,
+                    source:
+                      level === null
+                        ? "Record fresh actual XP before forecasting."
+                        : "The quest's pickup gate is not met in this forecast.",
+                  }
+                : resolveQuestReward(change.questId, level, facts);
+            rewards.push({
+              actionId: action.id,
+              questId: change.questId,
+              title: change.title,
+              handInLevel: level,
+              ...reward,
+            });
+            if (reward.xp === null) {
+              ledger.unknown.add(change.questId);
+              halt(
+                {
+                  code: "reward-unresolved",
+                  domain: "reward",
+                  message: `${change.questId}: reward at the next hand-in is unresolved; later levels cannot be predicted.`,
+                  resolution: "offline-or-in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: true,
+                },
+                true,
+              );
+            } else {
+              if (reward.basis === "base-estimate") {
+                summary.estimatedQuestXp += reward.xp;
+                if (reward.xp > 0)
                   markIssue({
-                    code: "combat-profile-unverified",
-                    domain: "combat",
-                    message,
+                    code: "reward-historical-estimate",
+                    domain: "reward",
+                    message: `${change.questId}: the reward uses a historical estimate instead of published Forever XP evidence.`,
                     resolution: "offline-or-in-game",
                     actionId: action.id,
                     questId: change.questId,
                     blocksForecast: false,
                   });
-              }
+              } else summary.referenceQuestXp += reward.xp;
+              if (ledger.total !== null) ledger.total += reward.xp;
+            }
+            ledger.paid.add(change.questId);
+            if (!ledger.blocked.has(change.questId))
+              ledger.states[String(change.questId)] = "rewarded";
             if (ledger.halt) break;
-            ledger.confirmations[
-              `campaign-objective-${change.questId}-${change.objectiveIndex ?? 1}`
-            ] = true;
-            ledger.states[String(change.questId)] = [
-              ...(objectiveKeys.get(change.questId) ?? []),
-            ].every((key) => ledger.confirmations[key])
-              ? "objectives-complete"
-              : "accepted";
-            continue;
-          }
-          if (
-            objectiveKeys.has(change.questId) &&
-            ledger.states[String(change.questId)] !== "objectives-complete"
-          ) {
-            halt({
-              code: "quest-objectives-incomplete",
-              domain: "route",
-              message: `${change.questId}: required objectives have not all been completed before hand-in.`,
-              resolution: "offline",
+          } finally {
+            summary.steps.push({
               actionId: action.id,
               questId: change.questId,
-              blocksForecast: true,
+              phase: change.state,
+              objectiveIndex: change.objectiveIndex,
+              title: change.title,
+              before,
+              after: ledger.halt || ledger.unknown.size ? null : position(ledger.total),
+              questXp: summary.referenceQuestXp + summary.estimatedQuestXp - questXpBefore,
+              combatXp: summary.combatXp - combatXpBefore,
+              minimumLevel: minimum,
+              shortfallXp:
+                change.state === "accepted" && minimum !== null
+                  ? Math.max(0, cumulative({ level: minimum, currentXp: 0 }) - cumulative(before))
+                  : 0,
+              status: ledger.unknown.size ? "unknown" : ledger.halt ? "blocked" : "projected",
             });
-            break;
           }
-          const reward =
-            level === null || ledger.blocked.has(change.questId) || (minimum && level < minimum)
-              ? {
-                  xp: null,
-                  basis: "unknown" as const,
-                  source:
-                    level === null
-                      ? "Record fresh actual XP before forecasting."
-                      : "The quest's pickup gate is not met in this forecast.",
-                }
-              : resolveQuestReward(change.questId, level, facts);
-          rewards.push({
-            actionId: action.id,
-            questId: change.questId,
-            title: change.title,
-            handInLevel: level,
-            ...reward,
-          });
-          if (reward.xp === null) {
-            ledger.unknown.add(change.questId);
-            halt(
-              {
-                code: "reward-unresolved",
-                domain: "reward",
-                message: `${change.questId}: reward at the next hand-in is unresolved; later levels cannot be predicted.`,
-                resolution: "offline-or-in-game",
-                actionId: action.id,
-                questId: change.questId,
-                blocksForecast: true,
-              },
-              true,
-            );
-          } else {
-            if (reward.basis === "base-estimate") {
-              summary.estimatedQuestXp += reward.xp;
-              if (reward.xp > 0)
-                markIssue({
-                  code: "reward-historical-estimate",
-                  domain: "reward",
-                  message: `${change.questId}: the reward uses a historical estimate instead of published Forever XP evidence.`,
-                  resolution: "offline-or-in-game",
-                  actionId: action.id,
-                  questId: change.questId,
-                  blocksForecast: false,
-                });
-            } else summary.referenceQuestXp += reward.xp;
-            if (ledger.total !== null) ledger.total += reward.xp;
-          }
-          ledger.paid.add(change.questId);
-          if (!ledger.blocked.has(change.questId))
-            ledger.states[String(change.questId)] = "rewarded";
-          if (ledger.halt) break;
         }
       }
     }
@@ -916,6 +962,7 @@ export function forecastCampaignXp(
       const {
         start,
         rewards,
+        steps,
         bundleRewards,
         eligibilityIssues,
         evidenceIssues,
@@ -953,6 +1000,7 @@ export function forecastCampaignXp(
         dungeonCombatXp,
         combatRows,
         rewards,
+        steps,
         bundleRewards,
         unknownQuestIds: [...ledger.unknown],
         eligibilityIssues,

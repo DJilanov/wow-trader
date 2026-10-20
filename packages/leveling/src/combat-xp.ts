@@ -1,7 +1,7 @@
 import type { CombatNpc, KillXpEvidence } from "./combat-model.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 
-export const COMBAT_XP_RULE = "classic-reference-conservative-share-20261015-v1";
+export const COMBAT_XP_RULE = "classic-reference-level-weighted-no-bonus-20261020-v2";
 export interface CombatXpPosition {
   readonly level: number;
   readonly currentXp: number;
@@ -88,6 +88,8 @@ export function estimateCreatureKills(input: {
   readonly evidence?: readonly KillXpEvidence[];
   readonly build?: number;
   readonly partyLevels?: readonly (number | null)[];
+  readonly xpMultiplier?: number;
+  readonly playerIndex?: number;
 }): CombatKillEstimate {
   const { npc, kills, position, partySize, environment } = input;
   advanceCombatPosition(position, 0);
@@ -98,6 +100,14 @@ export function estimateCreatureKills(input: {
     !Number.isSafeInteger(kills) ||
     kills < 0 ||
     kills > 10000 ||
+    (input.xpMultiplier !== undefined &&
+      (!Number.isFinite(input.xpMultiplier) ||
+        input.xpMultiplier < 0 ||
+        input.xpMultiplier > 100)) ||
+    (input.playerIndex !== undefined &&
+      (!Number.isInteger(input.playerIndex) ||
+        input.playerIndex < 0 ||
+        input.playerIndex >= partySize)) ||
     (input.dungeonMultiplier !== null &&
       input.dungeonMultiplier !== undefined &&
       (!Number.isFinite(input.dungeonMultiplier) ||
@@ -150,8 +160,9 @@ export function estimateCreatureKills(input: {
   const payouts = (level: number): readonly number[] | null => {
     const values: number[] = [];
     for (let mobLevel = npc.minimumLevel!; mobLevel <= npc.maximumLevel!; mobLevel++) {
-      const partyLevels =
-        input.partyLevels ?? Array.from({ length: partySize }, () => position.level);
+      const partyLevels = (
+        input.partyLevels ?? Array.from({ length: partySize }, () => position.level)
+      ).map((memberLevel, index) => (index === (input.playerIndex ?? 0) ? level : memberLevel!));
       const matching = input.evidence?.filter(
         (entry) =>
           entry.npcId === npc.id &&
@@ -178,7 +189,14 @@ export function estimateCreatureKills(input: {
         return null;
       values.push(
         Math.floor(
-          Math.floor(classicNormalKillXp(level, mobLevel) * rankFactor * tuning) / partySize,
+          (Math.floor(
+            classicNormalKillXp(Math.max(...partyLevels), mobLevel) *
+              rankFactor *
+              tuning *
+              (input.xpMultiplier ?? 1),
+          ) *
+            level) /
+            partyLevels.reduce((sum, value) => sum + value, 0),
         ),
       );
     }

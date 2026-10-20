@@ -48,6 +48,10 @@ export const premadeProgressSchema = z
       .default({}),
     difficultyPolicy: z.enum(["at-level", "experienced-premade"]).default("at-level"),
     raidGoals: z.boolean().default(true),
+    combatPlanning: z
+      .object({ outdoorXpMultiplier: z.number().finite().min(0).max(100) })
+      .strict()
+      .optional(),
     parityScenarios: z
       .partialRecord(
         z.enum(premadeStopIds),

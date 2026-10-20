@@ -1,5 +1,14 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Current local work: per-step theoretical progress (October 20, 2026)
+
+Implemented, not deployed: chronological per-quest XP, resolved required kills, conditional
+loot-luck scenarios, saved actual-XP anchoring, editable outdoor multiplier and a targeted
+missing-loot-data queue. The local Human/Warrior model no longer needs the 96627 level-4 prompt.
+Current data limitations, exact queue counts and collection commands are in the
+[implementation contract](forever-leveling-theoretical-progress.md). Production authorization,
+missing drop/count data and current server kill-XP calibration remain separate requirements.
+
 ## Current test release: remove already-funded pickup gates (October 20, 2026)
 
 Committed, pushed and deployed as `015b205`: earlier required, verified hand-ins now

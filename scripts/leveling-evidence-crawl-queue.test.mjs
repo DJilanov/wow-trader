@@ -119,3 +119,69 @@ test("rejects invalid base queues", async () => {
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("merges supplemental loot tasks without losing quests or conflating item and quest IDs", async () => {
+  const root = await mkdtemp(join(tmpdir(), "leveling-loot-queue-"));
+  try {
+    const backlog = join(root, "backlog.json"),
+      base = join(root, "base.json"),
+      additional = join(root, "loot.json");
+    const queue = join(root, "queue.json"),
+      report = join(root, "report.json");
+    await writeFile(
+      backlog,
+      JSON.stringify({
+        schema: "campaign-evidence-backlog.v1",
+        tasks: [{ key: "reward-unresolved:33", code: "reward-unresolved", questId: 33 }],
+      }),
+    );
+    await writeFile(base, JSON.stringify([{ game: "forever", kind: "quest", id: 3343 }]));
+    await writeFile(
+      additional,
+      JSON.stringify([
+        { game: "forever", kind: "quest", id: 33 },
+        { game: "forever", kind: "item", id: 33 },
+        { game: "forever", kind: "quest", id: 18 },
+      ]),
+    );
+    const args = [
+      script,
+      `--backlog=${backlog}`,
+      `--base-queue=${base}`,
+      `--additional-queue=${additional}`,
+      `--queue=${queue}`,
+      `--report=${report}`,
+    ];
+    await exec(process.execPath, args);
+    const first = await readFile(queue, "utf8");
+    assert.deepEqual(JSON.parse(first), [
+      { game: "forever", kind: "item", id: 33 },
+      { game: "forever", kind: "quest", id: 18 },
+      { game: "forever", kind: "quest", id: 33 },
+      { game: "forever", kind: "quest", id: 3343 },
+    ]);
+    const { summary } = JSON.parse(await readFile(report, "utf8"));
+    assert.equal(summary.additionalAlreadyQueued, 1);
+    assert.equal(summary.additionalAdded, 2);
+    assert.equal(summary.mergedQueueTasks, 4);
+    assert.equal(summary.mergedQueueQuests, 3);
+    assert.equal(summary.mergedQueueItems, 1);
+    await exec(process.execPath, args);
+    assert.equal(await readFile(queue, "utf8"), first);
+    for (const invalid of [
+      [{ game: "tbc", kind: "item", id: 33 }],
+      [{ game: "forever", kind: "spell", id: 33 }],
+      [{ game: "forever", kind: "item", id: 33, refresh: true }],
+      [
+        { game: "forever", kind: "item", id: 33 },
+        { game: "forever", kind: "item", id: 33 },
+      ],
+    ]) {
+      await writeFile(additional, JSON.stringify(invalid));
+      await assert.rejects(exec(process.execPath, args), /invalid Forever|duplicate task/);
+      assert.equal(await readFile(queue, "utf8"), first, "Invalid input changed the live queue");
+    }
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});

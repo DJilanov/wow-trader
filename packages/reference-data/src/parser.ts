@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 import { parse, type Node } from "acorn";
 import { simple } from "acorn-walk";
 import { load, type CheerioAPI } from "cheerio";
+import { parseDropStatistics } from "./drop-statistics.js";
+import { parseRequiredQuestItems } from "./quest-items.js";
 import {
   referenceRecordSchema,
   referenceTaskSchema,
@@ -25,6 +27,8 @@ export interface Expression extends Node {
   object?: Expression;
   property?: Expression;
   computed?: boolean;
+  left?: Expression;
+  right?: Expression;
   properties?: Array<{
     type: string;
     computed?: boolean;
@@ -186,6 +190,9 @@ export function parseWowheadPage(
   let matchingItemData = false;
   let foreignItemData = false;
   let matchingQuestData = false;
+  let htmlItemTooltip: string | undefined;
+  let htmlClassId: number | undefined;
+  let htmlSubclassId: number | undefined;
   for (const element of $("script").toArray()) {
     const script = $(element).text();
     if (script.length > 2_000_000) throw new Error("Reference script too large");
@@ -200,11 +207,21 @@ export function parseWowheadPage(
         if (!entry) continue;
         if (entry.name_enus !== name) throw new Error("Reference item name mismatch");
         matchingItemData = true;
+        if (typeof entry.classs === "number" && Number.isSafeInteger(entry.classs))
+          htmlClassId = entry.classs;
+        if (typeof entry.subclass === "number" && Number.isSafeInteger(entry.subclass))
+          htmlSubclassId = entry.subclass;
         const equip = object(entry.jsonequip);
         for (const [key, value] of Object.entries(equip ?? {}))
           if (numericKeys.has(key) && typeof value === "number" && Number.isFinite(value))
             numericFacts[key] = value;
       }
+    }
+    if (task.kind === "item" && script.includes("g_items")) {
+      const facts = parseHtmlItemFacts(script, task.id);
+      if (facts.tooltip) htmlItemTooltip = facts.tooltip;
+      if (facts.classId !== undefined) htmlClassId = facts.classId;
+      if (facts.subclassId !== undefined) htmlSubclassId = facts.subclassId;
     }
     if (task.kind === "quest" && script.includes("WH.Gatherer.addData")) {
       for (const call of calls(script, "WH.Gatherer.addData")) {
@@ -246,13 +263,17 @@ export function parseWowheadPage(
             Number.isSafeInteger(row.id) &&
             row.id > 0 &&
             typeof row.name === "string"
-          )
+          ) {
+            const dropStatistics =
+              relation === "dropped-by" && kind === "npc" ? parseDropStatistics(row) : undefined;
             relations.push({
               relation,
               kind: kind as ReferenceRecord["relations"][number]["kind"],
               id: row.id,
               name: plainText(row.name),
+              ...(dropStatistics ? { dropStatistics } : {}),
             });
+          }
         }
       }
     }
@@ -307,7 +328,11 @@ export function parseWowheadPage(
   }
   // Related-item preloads can cross editions; a matching primary dataset must still be present.
   if (foreignItemData && !matchingItemData) throw new Error("Gatherer edition mismatch");
-  const tooltipLines = options.itemXml ? parseItemXml(options.itemXml, task, name) : [];
+  const tooltipLines = options.itemXml
+    ? parseItemXml(options.itemXml, task, name)
+    : htmlItemTooltip
+      ? parseItemTooltipLines(htmlItemTooltip)
+      : [];
   if (options.itemXml) {
     const xml = load(options.itemXml, { xmlMode: true });
     numericFacts.classId = Number(xml("wowhead > item > class").attr("id"));
@@ -317,6 +342,9 @@ export function parseWowheadPage(
       !Number.isSafeInteger(numericFacts.subclassId)
     )
       throw new Error("Item classification missing");
+  } else if (task.kind === "item") {
+    if (Number.isSafeInteger(htmlClassId)) numericFacts.classId = htmlClassId!;
+    if (Number.isSafeInteger(htmlSubclassId)) numericFacts.subclassId = htmlSubclassId!;
   }
   const quest =
     task.kind === "quest"
@@ -337,6 +365,7 @@ export function parseWowheadPage(
     numericFacts,
     quickFacts,
     ...quest,
+    ...(task.kind === "quest" ? { requiredItems: parseRequiredQuestItems($, task.game) } : {}),
     relations,
   });
 }
@@ -359,7 +388,13 @@ function parseItemXml(xml: string, task: ReferenceTask, name: string): string[] 
     !(link.pathname === expected || link.pathname.startsWith(`${expected}/`))
   )
     throw new Error("Item XML edition mismatch");
-  const tooltip = load(item.children("htmlTooltip").text());
+  return parseItemTooltipLines(item.children("htmlTooltip").text());
+}
+
+function parseItemTooltipLines(html: string): string[] {
+  if (Buffer.byteLength(html) > 300_000 || /<!DOCTYPE|<!ENTITY/i.test(html))
+    throw new Error("Unsupported item tooltip");
+  const tooltip = load(html);
   tooltip("script,style,iframe,object,.whtt-extra,.whtt-sellprice").remove();
   tooltip("br").replaceWith("\n");
   tooltip("td,th,span").append(" ");
@@ -370,6 +405,65 @@ function parseItemXml(xml: string, task: ReferenceTask, name: string): string[] 
     .split("\n")
     .map((line) => line.replace(/\s+/g, " ").trim())
     .filter(Boolean);
+}
+
+interface HtmlItemFacts {
+  readonly tooltip?: string;
+  readonly classId?: number;
+  readonly subclassId?: number;
+}
+
+function parseHtmlItemFacts(script: string, id: number): HtmlItemFacts {
+  if (script.length > 2_000_000) throw new Error("Reference script too large");
+  let ast: Node;
+  try {
+    ast = parse(script, { ecmaVersion: "latest" });
+  } catch {
+    return {};
+  }
+  let tooltip: string | undefined;
+  let classId: number | undefined;
+  let subclassId: number | undefined;
+  simple(ast, {
+    AssignmentExpression(node: Node): void {
+      const assignment = node as Expression;
+      const left = assignment.left;
+      if (left?.type !== "MemberExpression") return;
+      const target = left.object;
+      if (target?.type !== "MemberExpression" || !target.computed) return;
+      if (target.object?.type !== "Identifier" || target.object.name !== "g_items") return;
+      if (literal(target.property) !== id) return;
+      const property = left.property;
+      const propertyName = property?.type === "Identifier" ? property.name : property?.value;
+      if (propertyName !== "tooltip_enus") return;
+      try {
+        const value = literal(assignment.right);
+        if (typeof value === "string") tooltip = value;
+      } catch {
+        // Leave the tooltip missing; the quality gap will surface it.
+      }
+    },
+  });
+  for (const call of calls(script, "$.extend")) {
+    const target = call.arguments?.[0];
+    if (target?.type !== "MemberExpression" || !target.computed) continue;
+    if (target.object?.type !== "Identifier" || target.object.name !== "g_items") continue;
+    if (literal(target.property) !== id) continue;
+    try {
+      const data = object(literal(call.arguments?.[1]));
+      if (typeof data?.classs === "number" && Number.isSafeInteger(data.classs))
+        classId = data.classs;
+      if (typeof data?.subclass === "number" && Number.isSafeInteger(data.subclass))
+        subclassId = data.subclass;
+    } catch {
+      // Leave the classification missing; the quality gap will surface it.
+    }
+  }
+  return {
+    ...(tooltip ? { tooltip } : {}),
+    ...(classId !== undefined ? { classId } : {}),
+    ...(subclassId !== undefined ? { subclassId } : {}),
+  };
 }
 
 function parseQuestSections(
