@@ -68,7 +68,7 @@ describe("campaign pickup level gates", () => {
     }));
     expect(campaignActionReasons(compiled.actions[0]!, progress)[0]).toContain("level 5");
   });
-  it("makes an implicit phase-entry level an explicit actual-XP checkpoint", () => {
+  it("records actual XP at a phase handoff without enforcing the chapter's reference level", () => {
     const original = {
       id: "phase-instructions",
       legId: "phase",
@@ -105,9 +105,9 @@ describe("campaign pickup level gates", () => {
     };
     const compiled = compileCampaignPickupGates(plan);
     expect(compiled.actions[0]).toMatchObject({
-      id: "phase-entry-level-20",
+      id: "phase-entry-xp",
       kind: "xp-check",
-      targetLevel: 20,
+      targetLevel: null,
       targetCurrentXp: 0,
     });
   });
@@ -241,7 +241,7 @@ describe("campaign pickup level gates", () => {
     };
     const compiled = compileCampaignPickupGates(plan);
     expect(compiled.actions.map((action) => action.id)).toEqual([
-      "prepare-entry-level-14",
+      "prepare-entry-xp",
       "prepare-work",
       "prepare-departure-level-16-before-thanes",
       "dungeon-entry",
@@ -304,7 +304,7 @@ describe("campaign pickup level gates", () => {
     };
     const compiled = compileCampaignPickupGates(plan);
     expect(compiled.actions.map((action) => action.id)).toEqual([
-      "final-work-entry-level-58",
+      "final-work-entry-xp",
       "final-work",
       "final-work-departure-level-60-before-finish",
       "finish-checkpoint",

@@ -1,6 +1,7 @@
 import {
   activeCampaignActions,
   campaignOptionalXpReady,
+  campaignXpTarget,
   campaignUnmodeledExtras,
   type CampaignPlan,
 } from "./campaign.js";
@@ -36,7 +37,7 @@ import type { CampaignQuestValidationEvidence } from "./quest-validation-evidenc
 import { LEVELING_RACES } from "./profile.js";
 import { createQuestValidationCertificateResolver } from "./quest-validation-certificates.js";
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261019-v10";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261020-v11";
 
 export interface XpPosition {
   readonly level: number;
@@ -584,11 +585,9 @@ export function forecastCampaignXp(
           });
           continue;
         }
-        if (action.kind === "xp-check" && action.targetLevel !== null) {
-          const target = cumulative({
-            level: action.targetLevel,
-            currentXp: action.targetCurrentXp ?? 0,
-          });
+        const xpTarget = campaignXpTarget(action, progress, facts);
+        if (action.kind === "xp-check" && xpTarget !== null) {
+          const target = cumulative(xpTarget);
           if (ledger.total < target) {
             const required = target - ledger.total;
             const measured = grindMeasurements.some(
@@ -607,7 +606,7 @@ export function forecastCampaignXp(
               markIssue({
                 code: "adaptive-grind-unmeasured",
                 domain: "combat",
-                message: `${action.id}: the source requires ${required} additional grind XP at this checkpoint; the forecast advances to the target, but a reviewed five-player camp, kill mix, XP gain, and duration that reaches this checkpoint is unavailable.`,
+                message: `${action.id}: the next requirement needs ${required} additional XP at this checkpoint; the forecast advances to the target, but a reviewed five-player camp, kill mix, XP gain, and duration that reaches this checkpoint is unavailable.`,
                 resolution: "in-game",
                 actionId: action.id,
                 questId: null,

@@ -1,5 +1,17 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Latest planner change: actual-XP zone handoffs (October 20, 2026)
+
+Implemented locally; commit/push and deployment for browser testing are now authorized. See
+[the adaptive-handoff contract and checks](forever-leveling-adaptive-handoffs.md).
+Outdoor chapter level ranges and imported source-only grinding suggestions are advisory, not
+mandatory zone-entry levels. Carry actual XP forward and require extra levels only at a real
+quest pickup or the next selected stop. Personal starter checks use the leader; shared checks
+still use all five. Dungeon and catch-up targets follow the chosen policy, and excluded optional
+dungeons no longer retain their departure gates. Required unlocks, fresh-bar checks, source
+conflicts and evidence/publication gates remain intact. The October 19 release below is still
+the deployed version until this change's activation and browser checks are verified.
+
 ## Current completion plan: guaranteed new-dungeon quest bundles (October 19, 2026)
 
 Quest collection is now complete for the queued identified content: 353 captured pages plus the

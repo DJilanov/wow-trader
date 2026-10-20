@@ -1,0 +1,104 @@
+import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+import { mkdtemp } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { URL } from "node:url";
+import process from "node:process";
+import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
+
+const packagePath = process.argv
+  .find((argument) => argument.startsWith("--playwright-package="))
+  ?.slice("--playwright-package=".length);
+if (!packagePath)
+  throw new Error("Pass --playwright-package=<installed @playwright/test/package.json>.");
+const require = createRequire(resolve(packagePath));
+const { chromium, expect } = require("@playwright/test");
+const base = new URL(process.env.LEVELING_TEST_HELPER ?? "http://127.0.0.1:3317");
+if (
+  !["localhost", "127.0.0.1", "[::1]"].includes(base.hostname) ||
+  !["http:", "https:"].includes(base.protocol) ||
+  base.username ||
+  base.password
+)
+  throw new Error("Use a local preview, never production.");
+
+const output = await mkdtemp(join(tmpdir(), "wow-trader-adaptive-handoffs-"));
+const browser = await chromium.launch({ headless: true });
+try {
+  for (const width of [1440, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 1000 } });
+    await context.route("**/*", (route) =>
+      ["GET", "HEAD"].includes(route.request().method()) ? route.continue() : route.abort(),
+    );
+    const page = await context.newPage();
+    const errors = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    page.setDefaultTimeout(30000);
+    const response = await page.goto(
+      new URL("/tools/forever/leveling/premade?race=human&class=warrior", base).href,
+      { waitUntil: "networkidle", timeout: 90000 },
+    );
+    assert.equal(response?.status(), 200);
+    await page.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
+    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await page.getByLabel("Player 1 actual level", { exact: true }).fill("5");
+    await page.getByLabel("Player 1 actual XP", { exact: true }).fill("123");
+    await page
+      .getByRole("form", { name: "Actual XP for player 1", exact: true })
+      .getByRole("button", { name: "Save actual XP", exact: true })
+      .click();
+    const savedMembers = () =>
+      page.evaluate((release) => {
+        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+        return workspace.sessions.find((session) => session.id === workspace.activeId).dungeonPlans[
+          release
+        ].premade.members;
+      }, DUNGEON_RELEASE);
+    const before = await savedMembers();
+    const handoffSaved = () =>
+      page.evaluate((release) => {
+        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+        const progress = workspace.sessions.find((session) => session.id === workspace.activeId)
+          .dungeonPlans[release].premade;
+        return Object.values(progress.campaigns).some(
+          (journey) => journey.completion["start-116-entry-xp"] === "done",
+        );
+      }, DUNGEON_RELEASE);
+    assert.equal(before[0].level, 5);
+    assert.equal(before[0].currentXp, 123);
+    await page.goto(
+      new URL(
+        "/tools/forever/leveling/routes/alliance-human/chapters/premade-start-116?plan=premade&class=warrior",
+        base,
+      ).href,
+      { waitUntil: "networkidle", timeout: 90000 },
+    );
+    await expect(page.locator('[data-campaign-action="start-116-entry-xp"]')).toBeVisible();
+    await expect(page.getByText("No fixed zone-entry level", { exact: false })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Done", exact: true })).toBeEnabled();
+    await expect(page.getByText("Reach level 6 before Elwynn Forest", { exact: true })).toHaveCount(
+      0,
+    );
+    await page.getByRole("button", { name: "Done", exact: true }).click();
+    await expect.poll(handoffSaved).toBe(true);
+    assert.deepEqual(await savedMembers(), before, "A zone handoff changed actual party XP.");
+    await page.reload({ waitUntil: "networkidle" });
+    await expect.poll(handoffSaved).toBe(true);
+    await expect(page.getByText(/^1\/\d+ chapter steps done/)).toBeVisible();
+    assert.deepEqual(await savedMembers(), before, "A reload changed actual party XP.");
+    assert.equal(
+      await page.evaluate(
+        () => globalThis.document.documentElement.scrollWidth > globalThis.innerWidth,
+      ),
+      false,
+      "Adaptive handoff controls overflow the viewport.",
+    );
+    assert.deepEqual(errors, [], "The reader raised a browser error.");
+    await page.screenshot({ path: join(output, `${width}.png`), fullPage: true });
+    await context.close();
+  }
+  process.stdout.write(`${JSON.stringify({ status: "passed", widths: [1440, 390], output })}\n`);
+} finally {
+  await browser.close();
+}

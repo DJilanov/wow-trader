@@ -306,17 +306,22 @@ export function LevelingChapterBudget({
           </div>
           <div>
             <dt>
-              {audit.goalKind === "next-departure"
-                ? "Next departure target"
-                : live
-                  ? "Forecast target"
-                  : "Reference target"}
+              {audit.goalKind === "actual-xp"
+                ? "Zone handoff"
+                : audit.goalKind === "next-departure"
+                  ? "Next departure target"
+                  : live
+                    ? "Forecast target"
+                    : "Reference target"}
             </dt>
             <dd>
-              Level {live ? relevant[0]!.targetLevel : audit.targetLevel}
+              {audit.goalKind === "actual-xp"
+                ? "Continue from actual XP"
+                : `Level ${live ? relevant[0]!.targetLevel : audit.targetLevel}`}
               <small>
-                {required?.toLocaleString("en-US") ?? "Unknown"} XP from{" "}
-                {live ? "saved entry bars" : "the reference entry bar"}
+                {audit.goalKind === "actual-xp"
+                  ? "Quest prerequisites still apply; the chapter range is not a grind target."
+                  : `${required?.toLocaleString("en-US") ?? "Unknown"} XP from ${live ? "saved entry bars" : "the reference entry bar"}`}
               </small>
             </dd>
           </div>

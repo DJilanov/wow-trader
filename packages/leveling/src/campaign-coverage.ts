@@ -17,7 +17,7 @@ export interface CampaignSectionCoverage {
   readonly audience: "leader" | "party";
   readonly referenceEntryLevel: number;
   readonly targetLevel: number;
-  readonly goalKind: "next-departure" | "departure" | "chapter-target";
+  readonly goalKind: ReturnType<typeof campaignSectionTarget>["kind"];
   readonly requiredXp: number | null;
   readonly handInQuestIds: readonly number[];
   readonly availableRewardIds: readonly number[];

@@ -468,7 +468,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
                 {blocked.length
                   ? blocked.join(" ")
                   : entry.kind === "xp-check"
-                    ? "All five bars are fresh. The next step uses the actual remaining gap."
+                    ? `${entry.leaderOnly ? "The leader's bar is" : "All five bars are"} fresh. The next step uses the actual remaining gap.`
                     : "All five actual entry levels are ready."}
               </p>
               <button type="button" onClick={() => settingsButton.current?.click()}>
@@ -492,7 +492,9 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           ? "Route target 60"
           : chapter.kind === "dungeon" && entryStop
             ? `Entry ${premadeEntryLevel(entryStop, progress, plan.rewardFacts)}`
-            : `Target ${xpAudit.targetLevel}`
+            : chapter.kind === "starter"
+              ? "Continue from actual XP"
+              : `Target ${xpAudit.targetLevel}`
       }
       profile={`${race.name} start · ${chapters.filter((entry) => entry.kind === "dungeon" && !entry.planningOnly).length} sourced dungeon stops + ${chapters.filter((entry) => entry.planningOnly).length} guaranteed-bundle planning stops`}
       dashboardHref={
@@ -666,8 +668,11 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             </span>
             <h2>{chapter.title}</h2>
             <p>
-              Target level {xpAudit.targetLevel} · {questIds.length} quest IDs · targets are not
-              guaranteed level gains
+              {chapter.kind === "starter"
+                ? "No fixed zone-entry level · continue from actual XP"
+                : `Target level ${xpAudit.targetLevel} · targets are not guaranteed level gains`}
+              {" · "}
+              {questIds.length} quest IDs
             </p>
             <p>
               Current area: {currentArea.title} ·{" "}

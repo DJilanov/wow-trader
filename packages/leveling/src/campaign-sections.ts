@@ -238,9 +238,14 @@ export function campaignSectionTarget(
   index: number,
   progress: PremadeProgress,
   facts: readonly QuestRewardFact[] = [],
-): { readonly level: number; readonly kind: "next-departure" | "departure" | "chapter-target" } {
+): {
+  readonly level: number;
+  readonly kind: "next-departure" | "departure" | "chapter-target" | "actual-xp";
+} {
   const section = sections[index];
   if (!section) throw new Error("Unknown campaign section.");
+  if (section.kind === "starter")
+    return { level: progress.members[0]?.level ?? 1, kind: "actual-xp" };
   const stop = PREMADE_STOPS.find((entry) => entry.id === section.stopId);
   return {
     level: stop ? premadeEntryLevel(stop, progress, facts) : section.to,
@@ -253,12 +258,10 @@ export function campaignSectionXpGap(
   progress: PremadeProgress,
   facts: readonly QuestRewardFact[] = [],
 ): CampaignXpGap | null {
-  if (section.kind === "dungeon") return null;
+  if (section.kind === "dungeon" || section.kind === "starter") return null;
   const stop = PREMADE_STOPS.find((entry) => entry.id === section.stopId);
   const targetLevel = stop ? premadeEntryLevel(stop, progress, facts) : section.to;
-  const members = (
-    section.kind === "starter" ? progress.members.slice(0, 1) : progress.members
-  ).map((member, index) => ({
+  const members = progress.members.map((member, index) => ({
     player: index + 1,
     remainingXp:
       member.level === null || member.currentXp === null || member.xpNeedsUpdate

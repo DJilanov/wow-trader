@@ -229,11 +229,19 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                 data-kind={leg.kind}
               >
                 <div className={pathStyles.milestone}>
-                  <span>{leg.kind === "dungeon" ? "Entry" : "Target"}</span>
+                  <span>
+                    {leg.kind === "starter"
+                      ? "Actual"
+                      : leg.kind === "dungeon"
+                        ? "Entry"
+                        : "Target"}
+                  </span>
                   <strong>
-                    {leg.kind === "dungeon" && stop
-                      ? premadeEntryLevel(stop, progress, plan.rewardFacts)
-                      : audit.targetLevel}
+                    {leg.kind === "starter"
+                      ? (progress.members[0]?.level ?? "—")
+                      : leg.kind === "dungeon" && stop
+                        ? premadeEntryLevel(stop, progress, plan.rewardFacts)
+                        : audit.targetLevel}
                   </strong>
                 </div>
                 <div className={pathStyles.branches}>
@@ -259,10 +267,9 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                       href={campaignChapterPath(plan, leg.id)}
                     >
                       <span className={pathStyles.bracket}>
-                        {leg.kind === "dungeon" ? "Entry " : "Goal "}
-                        {leg.kind === "dungeon" && stop
-                          ? premadeEntryLevel(stop, progress, plan.rewardFacts)
-                          : audit.targetLevel}
+                        {leg.kind === "starter"
+                          ? "Actual XP · no fixed level"
+                          : `${leg.kind === "dungeon" ? "Entry" : "Goal"} ${leg.kind === "dungeon" && stop ? premadeEntryLevel(stop, progress, plan.rewardFacts) : audit.targetLevel}`}
                       </span>
                       <h3>
                         {leg.kind === "dungeon" ? "⚑ " : ""}

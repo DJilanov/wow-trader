@@ -1,4 +1,4 @@
-import { type CampaignPlan, type CampaignAction } from "./campaign.js";
+import { campaignCatchUpTarget, type CampaignPlan, type CampaignAction } from "./campaign.js";
 import { CAMPAIGN_BRIDGES } from "./campaign-route.js";
 import { forecastCampaignXp } from "./campaign-xp.js";
 import { questEligibility } from "./quest-eligibility.js";
@@ -85,7 +85,7 @@ export function recommendCampaignCatchUp(
     )
   )
     return [];
-  const targetLevel = leg.to;
+  const targetLevel = campaignCatchUpTarget(plan, progress, legId);
   const needsXp = progress.members.map((member) =>
     xpToCheckpoint(member.level!, member.currentXp!, targetLevel, FOREVER_XP_CURVE),
   );

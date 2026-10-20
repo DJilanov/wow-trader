@@ -1071,21 +1071,62 @@ export function campaignIncludedLegs(
   );
 }
 
+export function campaignXpTarget(
+  action: CampaignAction,
+  progress: PremadeProgress,
+  facts: readonly QuestRewardFact[] = [],
+): { readonly level: number; readonly currentXp: number } | null {
+  const stop = PREMADE_STOPS.find((entry) => entry.id === action.targetStopId);
+  const level = stop ? premadeEntryLevel(stop, progress, facts) : action.targetLevel;
+  return level === null ? null : { level, currentXp: stop ? 0 : (action.targetCurrentXp ?? 0) };
+}
+
+export function campaignCatchUpTarget(
+  plan: CampaignPlan,
+  progress: PremadeProgress,
+  legId: string,
+): number {
+  const legs = campaignIncludedLegs(plan, progress);
+  const index = legs.findIndex((leg) => leg.id === legId);
+  if (index < 0) throw new Error("Unknown or inactive campaign block.");
+  const destination = legs
+    .slice(index + 1)
+    .find((leg) => leg.kind === "dungeon" || leg.kind === "finish");
+  const stop = PREMADE_STOPS.find((entry) => entry.id === destination?.stopId);
+  return stop
+    ? premadeEntryLevel(stop, progress, plan.rewardFacts)
+    : (destination?.from ?? legs[index]!.to);
+}
+
 export function activeCampaignActions(
   plan: CampaignPlan,
   progress: PremadeProgress,
 ): readonly CampaignAction[] {
   const includedLegs = new Set(campaignIncludedLegs(plan, progress).map((leg) => leg.id));
   const base = plan.actions
-    .filter((action) => includedLegs.has(action.legId) && (progress.raidGoals || !action.raidOnly))
-    .map((action) =>
-      progress.raidGoals
-        ? action
+    .filter(
+      (action) =>
+        includedLegs.has(action.legId) &&
+        (progress.raidGoals || !action.raidOnly) &&
+        (!action.targetStopId ||
+          getDungeonBundle(action.targetStopId, "alliance", progress.guaranteedBundles)
+            ?.included !== false),
+    )
+    .map((original) => {
+      const action = progress.raidGoals
+        ? original
         : {
-            ...action,
-            questChanges: action.questChanges.filter((change) => !raidQuestIds.has(change.questId)),
-          },
-    );
+            ...original,
+            questChanges: original.questChanges.filter(
+              (change) => !raidQuestIds.has(change.questId),
+            ),
+          };
+      if (action.targetStopId === null) return action;
+      const target = campaignXpTarget(action, progress, plan.rewardFacts);
+      return target
+        ? { ...action, targetLevel: target.level, targetCurrentXp: target.currentXp }
+        : action;
+    });
   const result: CampaignAction[] = [];
   for (const [index, action] of base.entries()) {
     if (base[index - 1]?.legId === action.legId) {
@@ -1205,18 +1246,19 @@ export function campaignOptionalXpReady(
   const leg = plan.legs.find((entry) => entry.id === action.legId);
   if (!leg || action.libraryBackbone || (leg.kind !== "xp-bridge" && !action.xpOptional))
     return false;
-  if (action.kind === "xp-check" && action.targetLevel !== null) {
-    const targetLevel = action.targetLevel;
+  const xpTarget = campaignXpTarget(action, progress, plan.rewardFacts);
+  if (action.kind === "xp-check" && xpTarget !== null) {
     const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
     return members.every(
       (member) =>
         member.level !== null &&
         member.currentXp !== null &&
         !member.xpNeedsUpdate &&
-        (member.level > targetLevel ||
-          (member.level === targetLevel && member.currentXp >= (action.targetCurrentXp ?? 0))),
+        (member.level > xpTarget.level ||
+          (member.level === xpTarget.level && member.currentXp >= xpTarget.currentXp)),
     );
   }
+  if (action.kind === "xp-check") return false;
   if (campaignRequiredDungeonQuest(action)) return false;
   const actionQuestIds = new Set(action.questChanges.map((change) => change.questId));
   if (
@@ -1237,17 +1279,7 @@ export function campaignOptionalXpReady(
     )
   )
     return false;
-  const nextLeg = plan.legs[plan.legs.indexOf(leg) + 1];
-  const stop = PREMADE_STOPS.find(
-    (entry) =>
-      entry.id === (action.xpOptional && leg.kind === "starter" ? "thanes" : nextLeg?.stopId),
-  );
-  const target = Math.max(
-    action.xpOptional && leg.kind === "starter"
-      ? (action.xpTargetLevel ?? leg.to)
-      : Math.max(leg.to, action.xpTargetLevel ?? 0),
-    stop ? premadeEntryLevel(stop, progress, plan.rewardFacts) : 0,
-  );
+  const target = campaignCatchUpTarget(plan, progress, leg.id);
   const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
   return members.every(
     (member) =>
@@ -1353,18 +1385,19 @@ export function campaignActionReasons(
     );
     if (stale)
       return [
-        "Record fresh actual levels and XP for all five after preparation; unknown or stale bars cannot decide whether extra quests are needed.",
+        `Record fresh actual levels and XP for ${action.leaderOnly ? "the leader" : "all five"} after preparation; unknown or stale bars cannot decide whether extra quests are needed.`,
       ];
-    if (action.targetLevel === null) return [];
+    const target = campaignXpTarget(action, progress, facts);
+    if (target === null) return [];
     const ready = members.every(
       (member) =>
-        member.level! > action.targetLevel! ||
-        (member.level === action.targetLevel && member.currentXp! >= (action.targetCurrentXp ?? 0)),
+        member.level! > target.level ||
+        (member.level === target.level && member.currentXp! >= target.currentXp),
     );
     return ready
       ? []
       : [
-          `Continue the source grind until all five reach level ${action.targetLevel}${action.targetCurrentXp ? ` + ${action.targetCurrentXp.toLocaleString("en-US")} XP` : ""}.`,
+          `The next requirement needs ${action.leaderOnly ? "the leader" : "all five"} at level ${target.level}${target.currentXp ? ` + ${target.currentXp.toLocaleString("en-US")} XP` : ""}. Cover only the remaining gap, then record fresh actual XP.`,
         ];
   }
   if (action.kind !== "checkpoint") return [];
@@ -1470,9 +1503,7 @@ export function skipCampaignXpBlock(
     -1,
   );
   if (last < 0) throw new Error("Unknown campaign block.");
-  const nextLeg = plan.legs.find((entry) => entry.id === actions[last + 1]?.legId);
-  const stop = PREMADE_STOPS.find((entry) => entry.id === nextLeg?.stopId);
-  const minimum = Math.max(leg.to, stop ? premadeEntryLevel(stop, progress) : leg.to);
+  const minimum = campaignCatchUpTarget(plan, progress, legId);
   if (
     !progress.members.every(
       (member) =>
