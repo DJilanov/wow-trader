@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import console from "node:console";
+import { writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import process from "node:process";
@@ -17,6 +18,15 @@ async function ready(page) {
     .locator('.sim-ui[data-kfc-initialized="true"]')
     .waitFor({ timeout: 60000 });
   await page.locator(".simulator-loading").waitFor({ state: "hidden", timeout: 15000 });
+}
+
+async function reloadEngine(page) {
+  const element = await page.locator("iframe").elementHandle(),
+    engine = await element.contentFrame(),
+    navigation = page.waitForEvent("framenavigated", { predicate: (frame) => frame === engine });
+  await page.locator("iframe").evaluate((iframe) => iframe.contentWindow.location.reload());
+  await navigation;
+  await ready(page);
 }
 
 async function current(page) {
@@ -47,6 +57,9 @@ try {
         errors = [];
       page.on("pageerror", (error) => errors.push(error.message));
       try {
+        await page.addInitScript(() =>
+          globalThis.localStorage.setItem("classic_wasmconcurrency", "1"),
+        );
         await page.goto(`${base}/forever/simulator/${spec.slug}`, {
           waitUntil: "domcontentloaded",
         });
@@ -63,8 +76,7 @@ try {
           core((await current(page)).value);
           configurations++;
         }
-        await page.reload({ waitUntil: "domcontentloaded" });
-        await ready(page);
+        await reloadEngine(page);
         const before = await current(page);
         core(before.value);
         const optedOut = globalThis.structuredClone(before.value);
@@ -77,8 +89,7 @@ try {
             value: optedOut,
           },
         );
-        await page.reload({ waitUntil: "domcontentloaded" });
-        await ready(page);
+        await reloadEngine(page);
         const restored = (await current(page)).value;
         assert.equal(restored.raidBuffs.trueshotAura ?? false, false, "Manual opt-out overwritten");
         assert.equal(restored.raidBuffs.moonkinAura ?? false, false);
@@ -89,8 +100,7 @@ try {
           (key) => globalThis.localStorage.removeItem(key + "_kfc-raid-defaults-core-v1"),
           before.key,
         );
-        await page.reload({ waitUntil: "domcontentloaded" });
-        await ready(page);
+        await reloadEngine(page);
         const migrated = (await current(page)).value;
         core(migrated);
         assert.deepEqual(migrated.player, optedOut.player);
@@ -119,7 +129,12 @@ try {
       }
     }
   }
-  console.log(JSON.stringify({ status: "passed", base, checked }, null, 2));
+  const report = { status: "passed", base, checked };
+  if (process.env.SIMULATOR_SMOKE_REPORT)
+    await writeFile(process.env.SIMULATOR_SMOKE_REPORT, JSON.stringify(report, null, 2) + "\n", {
+      flag: "wx",
+    });
+  console.log(JSON.stringify(report, null, 2));
 } finally {
   await browser.close();
 }

@@ -7,8 +7,14 @@ UI follow-up: a shared seven-buff default adapter is now implemented and passes8
 tests plus typecheck/lint. It covers all individual class/tank pages, including one-time
 current-character migration, without altering any measured build or its DPS reference.
 Historical full benchmark imports deliberately retain their recorded buffs. This UI
-correction is not completion of the remaining numerical revalidations. Actual all-profile
-browser smoke and production rollout are in progress; see context.md for final receipts.
+correction is not completion of the remaining numerical revalidations. App9d53d0c is live;
+local/candidate30desktop/mobile cases/58configuration selections and eight candidate/public
+functional25fight combat runs pass. Seven public model/database/privacy gates also pass.
+The full public30case/58configuration persistence/default sweep also passes; candidate and
+public case/result arrays match exactly. Preview/tunnel/proxy are closed. OnlyHelperweb
+restarted, with runtime768MB and previous artifact roots preserved. See context.md for
+the exact9d53d0c deployment, receipts and guarded rollback. Other numerical follow-ups
+remain separate; this UI change does not relabel old measurements.
 
 October20 17:50UTC: sourcec8265bc, Hunterpresentationc98e5e028954b29c1ee0354e. All3Hunter
 40k references905.7161/910.6219/868.5296 are live in actual defaults/configs/GearSets/library,

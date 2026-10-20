@@ -2645,3 +2645,8 @@ models, gear, source pins and DPS references are unchanged. Full Load build repr
 its recorded benchmark rather than silently receiving newly labelled combat inputs.
 The displayed reference caption explains that current defaults or edits can differ.
 This change does not qualify unfinished specs or replace numerical raid revalidation.
+
+The shared default correction is deployed as app9d53d0c and publicly verified across all15
+individual profiles at desktop/mobile widths,58configuration selections and eight short
+functional combat runs. The865web tests and production build pass. No old publication,
+measured share, fresh sample, class budget or numerical source changed; see context.md.

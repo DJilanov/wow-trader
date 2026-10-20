@@ -11,7 +11,14 @@ including a one-time current-character migration. Later opt-outs and named/expli
 imported builds stay intact. No frozen model, publication, measured share or DPS number
 is changed. Old asset URLs remain immutable; the new query has its own content ETag.
 Readiness/navigation support the version query. Full865web tests, typecheck and scoped
-lint/format pass; actual full browser sweep and production rollout are in progress.
+lint/format pass; local/candidate30cases and58configuration checks pass. App9d53d0c is
+committed/pushed/deployed, NextbuildxrvpD95X1qKeeTm1O0kjX. OnlyHelperweb restarted3725915/156;
+old artifact root/private env/runtime768MB preserved. Candidate and public8actual25fight
+combat checks and public7profile/database/privacy gates pass. All30public desktop/mobile
+cases and58configuration selections pass; candidate/public case and result arrays are
+identical. Preview19214 and local3018/3019 tunnel/proxy stopped; live PID/restarts stable,
+health/guild/Trader/Leveling200. Prior source/assets retained for guarded rollback.
+Exact paths, known stream-cancellation logs and cleanup-guard details are incontext.md.
 Use `node scripts/smoke-simulator-raid-defaults.mjs` with SIMULATOR_TEST_URL pointing to
 the Helper mount; see context.md for the eventual deployment outcome.
 

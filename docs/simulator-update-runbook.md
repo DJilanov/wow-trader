@@ -4400,3 +4400,9 @@ Run `node scripts/smoke-simulator-raid-defaults.mjs` against the Helper mount th
 `SIMULATOR_TEST_URL`. Before deploying a changed adapter, bump its URL/storage version
 and verify all class profiles, presets, reloads, opt-outs, migration and full imports.
 Retain the unmodified immutable artifact roots and their existing checksum/proof gates.
+
+Verified rollout: app9d53d0c, NextbuildxrvpD95X1qKeeTm1O0kjX. Full865web tests, Linux build,
+local/candidate/public30desktop/mobile cases/58configuration checks and eight short
+candidate/public combat runs pass. Candidate/public arrays match. The test runner reloads
+only its engine frame for preference checks and optionally writes a new immutable JSON
+receipt with SIMULATOR_SMOKE_REPORT. Source/artifact identities and rollback are incontext.md.

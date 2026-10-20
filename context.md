@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-20
 
-## October20 — shared raid-wide defaults correction (verification/deployment in progress)
+## October20 18:32UTC — shared raid-wide defaults DEPLOYED and publicly verified
 
 Owner reconfirmed that ordinary class auras/buffs are raid-wide. New presentation-only
 `forever-simulator-raid-defaults.ts` enables Moonkin/Leader/Trueshot/Shout/Strength/Grace/
@@ -19,11 +19,36 @@ the reference caption now explicitly explains this difference. Navigation/readin
 recognize the internal version query without exposing it in shareable host URLs.
 
 Full web865tests/114suites, typecheck, scoped lint/format and49focused regressions PASS.
-Actual all-profile desktop/mobile smoke is running; first three Druid pages passed.
-An earlier development sweep hit a transient Hunter host-loader timeout while source
-edits caused hot reload; a fresh isolated Hunter check passes. Do not call it a passing
-full sweep until terminal success. Production is still c8265bc; source commit/push,
-isolated Linux build/browser checks and web-only activation/public verification follow.
+Actual local AND isolated production-candidate sweeps pass30desktop/mobile cases across
+all15profiles, including58visible configuration selections, reloads, opt-outs, migration
+and exact historical Warrior import. Eight candidate25fight combat runs pass, including
+Fury/Arms/Two-hand Fury/Rogue/Hunter/Mage/Feral/Warlock. Arms explicitly selects Human
+for its Alliance-only gear; the existing faction guard remains intact.
+
+App source9d53d0ce0a850f3a712e7a052923777190a6f83e is committed/pushed/live at
+/home/wow-trader-system/releases/kfc-helper-raid-defaults-20261020-9d53d0c;
+NextbuildxrvpD95X1qKeeTm1O0kjX. Existing Hunter artifact root is reused unchanged;
+1258committedGitblobs and28186artifact byte/SHA checks pass. Linux10dependency builds+
+Nextcompile/typecheck pass. OnlyHelperweb restarted: PID3725915/restart156; all protected
+guild/ingestion/publisher/updates/crawler processes unchanged. Runtimeheap still768MB;
+the2GB override was build-only. Only publicSEO_RUM_BUILD changed; no migration/Nginx edit.
+Public7profile/database/proof-privacy gates, all30desktop/mobile cases/58configuration
+selections and all8combat runs PASS. Full candidate/public check arrays and same-seed
+combat result arrays compare exactly equal; verified.json records the independent comparison.
+Receipts: optimization/raid-defaults-deployment-20261020-9d53d0c and server shared/backups/
+raid-defaults-20261020-9d53d0c. Owned preview19214/PID3725162 and local3018/3019 proxy/tunnel
+are stopped. Stop guards were corrected for Next's standalone cwd and renamed process
+title, retaining exact cwd/port/host checks; prior controller versions are backed up.
+Unrelated preview19212 was untouched. Live health, guild home, Trader and Leveling are200;
+disk71%/22GBfree. Rapid QA still records known destination-stream-closed messages; browser
+checks have no page errors and the live PID/restart count stays stable. Previousc826source
+and all immutable assets remain intact. Guarded rollback (only while this exact9dsource
+is active): node /home/wow-trader-system/shared/backups/raid-defaults-20261020-9d53d0c/
+activate-raid-defaults-deployment-v1.mjs --rollback on89.167.46.193. It restores prior source
+and the one public build label, restarting onlyHelperweb. The pending Git follow-up is
+documentation and faster receipt-writing QA only; no newer app change awaits deployment.
+All-class numerical optimization/revalidation remains active and separate; no old measured
+DPS, numerical input, source pin, engine or remaining-class qualification was changed.
 Frozen simulation-cache.mjs remains69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
 
 ## October20 17:50UTC — Hunter committed, pushed, DEPLOYED and publicly verified
