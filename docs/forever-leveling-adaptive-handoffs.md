@@ -1,14 +1,14 @@
 # Actual-XP zone handoffs
 
-Implemented, committed, pushed and deployed for browser testing on October 20, 2026 from
-`d4390d397975ba7624e48630e17293338414bfd3`. See the
-[verified deployment and rollback receipt](forever-leveling-test-deployment-2026-10-20.md).
-The October 19 release remains the immediate rollback, not the active web version.
+The current browser test release is `015b2057183e5fbf84081e5efc21002168c5e64b`, deployed and
+verified on October 20, 2026. See the [funded-pickup deployment receipt](forever-leveling-funded-pickups-deployment-2026-10-20.md).
+It extends the original `d4390d3` handoff deployment, which is now the immediate rollback.
+The [earlier receipt](forever-leveling-test-deployment-2026-10-20.md) remains historical.
 
-## Local follow-up: quest-funded pickup checks (October 20)
+## Quest-funded pickup checks (October 20)
 
-Implemented locally after that deployment; not committed, pushed or deployed yet. The live
-version above does not include this follow-up.
+Committed, pushed and deployed as `015b205`. Both the private candidate and the active production
+build passed the extended desktop/mobile browser regression.
 
 The compiler now checks earlier required hand-ins before inserting a pickup-level XP gate.
 For Human/Warrior quest 18, the nine preceding hand-ins provide 1,040 XP; level 2 requires
@@ -31,11 +31,11 @@ This is a conservative minimum-level proof, not a saved XP-bar estimate:
   required for outdoor observations and real dungeon/finish checks. No proof or bookmark
   migration changes saved levels, XP, or quest reports.
 
-Local revisions are `workflow-20261020-v8`, `checkpoint-ledger-20261020-v12`, and
+Current revisions are `workflow-20261020-v8`, `checkpoint-ledger-20261020-v12`, and
 `campaign-addon-20261020-v11`. Existing audit/review artifacts remain historical; no addon is
 installed or published by this change.
 
-Local automated verification: 346 leveling tests (22 new funding regressions), 691 web tests,
+Initial development verification: 346 leveling tests (22 new funding regressions), 691 web tests,
 both strict typechecks, leveling/touched-script lint, formatting and the leveling build pass.
 The extended browser regression also passes at widths 1440 and 390 on a local development
 preview: level-5 Elwynn handoff, the old quest-18 bookmark, no redundant level-2 card, confirmed
@@ -43,8 +43,12 @@ earlier rewards with a stale level-1 bar, pickup/report persistence after reload
 XP and other party members, no overflow and no browser errors. Browser assertions wait up to
 30 seconds for development hydration; the initial five-second check was too short. Screenshots:
 `/var/folders/xw/7z04bfmn5cv5hl86pp_4dtnw0000gp/T/wow-trader-adaptive-handoffs-dqcwSH`.
-The follow-up has not received a new production Next.js build or deployment. The local preview
-was stopped after verification.
+The subsequent clean release passed 346 leveling and 552 web tests; the larger development
+count includes unrelated workspace tests excluded from this deployment. All 11 shared packages
+and production Next build `O65ZgiMwjXg25136SWj1c` were built from the exact pushed source on the
+server. Candidate/live browser checks, six public pages and 57 assets, simulator compatibility,
+unchanged published data and protected process identities passed. Only Helper web restarted.
+Temporary previews and tunnels were stopped. See the current receipt above for rollback details.
 The checks below describe the earlier deployed handoff work unless explicitly updated here.
 
 ## Behavior
@@ -79,7 +83,7 @@ do not reset the player to a chapter's reference level. A remaining gap at a rea
 still be projected as adaptive XP work, explicitly labeled as unmeasured until reviewed evidence
 exists. This projection does not update saved XP or certify an in-game camp, kill mix or duration.
 
-Revisions are `workflow-20261020-v7`, `checkpoint-ledger-20261020-v11`, and
+The original handoff release used `workflow-20261020-v7`, `checkpoint-ledger-20261020-v11`, and
 `campaign-addon-20261020-v10`. Old audit reports and review ZIPs remain historical artifacts, not
 evidence for the new workflow. Rebuild and review a new addon before publishing it; this change
 does not install an addon or alter the live download.

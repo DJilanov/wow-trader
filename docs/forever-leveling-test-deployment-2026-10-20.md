@@ -1,7 +1,9 @@
 # Adaptive leveling planner test deployment — October 20, 2026
 
-Status: deployed and verified for browser testing. Real in-game validation, measured grinding
-evidence and addon publication remain separate gates.
+Status: historical verified release, now the immediate rollback. The active web release is
+the [later funded-pickup deployment](forever-leveling-funded-pickups-deployment-2026-10-20.md),
+`015b205`. Real in-game validation, measured grinding evidence and addon publication remain
+separate gates. The rollback command at the bottom applies only if this historical release is active.
 
 ## Exact release
 

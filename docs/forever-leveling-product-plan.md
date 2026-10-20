@@ -1,15 +1,19 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
-## Local follow-up: remove already-funded pickup gates (October 20, 2026)
+## Current test release: remove already-funded pickup gates (October 20, 2026)
 
-Implemented locally, not yet committed or deployed: earlier required, verified hand-ins now
+Committed, pushed and deployed as `015b205`: earlier required, verified hand-ins now
 remove redundant minimum-level prompts, including quest 18's level-2 instruction (1,040 prior
 quest XP versus 400 required). Reported rewards can prove a minimum without inventing an actual
 XP bar; future/optional rewards and leader-only XP cannot fund other participants. Real shortfalls
-and prerequisites remain. See the [local funding contract and checks](forever-leveling-adaptive-handoffs.md).
-The deployed version remains `d4390d3` below.
+and prerequisites remain. See the [funding contract and checks](forever-leveling-adaptive-handoffs.md)
+and [verified release/rollback receipt](forever-leveling-funded-pickups-deployment-2026-10-20.md).
+Clean release tests (346 leveling, 552 web), server production build and desktop/mobile candidate
+and live checks passed. No addon publication or in-game certification is implied. The previous
+`d4390d3` web release is the immediate rollback; newer unrelated Git commits are not deployed by
+this scoped release.
 
-## Latest planner change: actual-XP zone handoffs (October 20, 2026)
+## Earlier planner change: actual-XP zone handoffs (October 20, 2026)
 
 Committed, pushed and deployed for browser testing as `d4390d3`. See
 [the adaptive-handoff contract](forever-leveling-adaptive-handoffs.md) and
@@ -19,8 +23,8 @@ mandatory zone-entry levels. Carry actual XP forward and require extra levels on
 quest pickup or the next selected stop. Personal starter checks use the leader; shared checks
 still use all five. Dungeon and catch-up targets follow the chosen policy, and excluded optional
 dungeons no longer retain their departure gates. Required unlocks, fresh-bar checks, source
-conflicts and evidence/publication gates remain intact. The October 19 release below is retained
-as the immediate rollback; the adaptive planner is now the active web version. This does not
+conflicts and evidence/publication gates remain intact. The October 19 release below was the
+rollback for this earlier deployment; the current funded-pickup release and rollback are above. This does not
 publish an addon or certify real in-game execution.
 
 ## Current completion plan: guaranteed new-dungeon quest bundles (October 19, 2026)
