@@ -1,5 +1,53 @@
 # Repeatable pre-raid simulation updates
 
+## October20 17:10UTC — Hunter numerical work finished; presentation and deployment next
+
+SV independent source3tests/selected3tests PASS; actual selected10k browser/native parity
+is exact (receipt1897547c999fbf89). Fresh40k868.5296DPS, conservative retained gap0.922642%,
+original1% and owner2% PASS. Full gear and state remain exactly applicable; do not restart
+the searches or reserve new fresh ranges. Qualified export tests/write are running; BM/MM
+already exported. New all3Hunter overlay/builder/reviewer/selector preserves internal proof
+identities while mapping the original public -static IDs, and keeps a separate safe starter.
+Presentation compilation authenticates reviewed immutable exports through the strict web
+reader and verifies merged frozen source pins once, without re-running numerical selection.
+Then actual staged/main desktop/mobile handoff and authorized commit→push→deploy. Keep
+other class selections and saves, all numerical assets, cache helper and source pins unchanged.
+
+## October20 — BM fresh qualification complete; finish all Hunter specs before deployment
+
+BM full gear/state/raw replay, fresh40k reference905.7161DPS and actual inspected10k native/
+WASM parity all PASS. Unchanged selected state means full gear coverage still applies;
+do not fabricate or rerun a gear correction. The bounded joint APL search is inspected:
+fresh12-arm coverage explicitly lacks an independent same-talents rotation category.
+Use new hunter-bm-raid-qualified-export-v1 and export-hunter-bm-raid-build-v1, not frozen old
+model-bound wrappers. Default level/variation normalization is guidance-only after pinned
+engine/wire verification; measured settings never change. Export tests3PASS/buildc1639945
+is complete locally, not yet public UI approval.
+
+MM genuine A4model/Greater20 bridge controls/input tests and4new-origin/40k diagnostic pass.
+Its full two-sweep gear study now passes independent raw/source/control/stage replay:
+55,125new origins/5,795,040fights, +1.355% first-sweep gear gain then small-gain stop. Current
+910.339DPS/10k is inspected, not final fresh reference. Eight actual pet/no-pet/APL/talent
+native/WASM controls also pass. Actual MMstate study1198new origins/486640fights and complete
+independent audit pass; talents7/40/4/Cat/Aimed-then-Sniper remain unchanged. The inspected
+alternate+0.9472% remains explicit, not silently replaced using fresh samples. Four fresh-plan
+tests pass. Actual24new-origin/480k confirmation accepts910.6219DPS/40k with0.995878%
+conservative retained gap, owner2% and original1% PASS; no adaptive winner. Independent
+confirmation3tests, exact inspected10k native/browser parity and qualified export3tests
+PASS (builddde8f58d66bc02db). MM's authentic GUI
+settings are preserved. V2bridge audit reads invocation counters from the immutable result,
+not canonical completed.json; no rerun of the actual measurements was needed.
+Do not reuse BM numerical evidence, omit no-pet/Lone Wolf MM families, or relabel old MM/SV
+numbers under A4. Latest owner authorizes commit→push→deploy AFTER all3Hunter specs and
+combined real UI handoff; older no-deploy-authorization notes below are superseded.
+
+SVbridge6input+3audit tests, two detailed native/WASM controls and4new-origin/40k diagnostic
+PASS. Legacy12/Greater20 DPS are identically868.377 here; onlyMP5 differs by8. Four actual
+SVstate-preparation tests PASS, preserving5yard own-Mark/trap/melee semantics. SVgear6tests
+and six native/browser controls now running; do not borrow MM's ranged rotation or BM's
+missing-GUI assumptions. Actual blue source prepared.json stores row.control.settings and
+the original winner is dual-wield-Cat. Finish the true SVhandoff before all3class UI rollout.
+
 ## October20 — Hunter BM seven-buff supplemental pass
 
 New hunter-bm-raid-core-bridge-v1 comparison/audit prove actual class2/A4/Greater20; six input

@@ -2,6 +2,47 @@
 
 Last updated: 2026-10-20
 
+## October20 — Hunter BM browser share must explicitly select Forever rules
+
+The minimal measured BM GUI metadata contains faction only. Loading that raw share calls
+Sim.fromProto, which defaults its omitted ruleset to Classic0; actual measured wire/native
+uses Forever1. Real UI smoke caught747.40browser vs906.4486native; selected inspected10k
+raw-WASM parity remains exact. Fix is a presentation-only RulesetForever field, authenticated
+against all12measured request templates, never a combat/model/gear change or fresh rerun.
+Pure2regression tests pass. Failed V1 UI95a2072e remains unapproved/unselected. V2 build and
+actual browser/profile/main-page verification precede authorized commit→push→deploy.
+
+## October20 17:10UTC — all Hunter seven-buff confirmations and selected browser parity pass
+
+SV full gear/state/fresh source audits pass;16/4/31/Cat/melee state unchanged. Fresh40k
+reference868.5296DPS with0.922642% conservative retained gap (original1%/owner2% PASS).
+Selected inspected10k browser/native DPS and variance match exactly, receipt1897547c999fbf89.
+BM905.7161/MM910.6219 qualified exports are complete. Finish SV qualified export and combined
+Hunter UI handoff, preserving public IDs, saved characters and separate safe Pet/Melee starter,
+then proper authorized commit→push→deploy. No production mutation yet; seecontext.md.
+
+## October20 — Hunter BM/MM qualified numerically; Survival final class pass underway
+
+All17-slot/pair/set/enchant pass completed27,802new origins/2,928,000fights; finite actual-gear
+talent/nine-APL/five-pet feedback completed520new origins/308,020fights and retained exactly
+the previous state, so no redundant applicability sweep/correction receipt. Fresh12-arm
+two20k confirmation accepted905.7161DPS/40k, conservative retained gap0.15023%, owner2% and
+original1% both pass. Complete raw-source audits pass. Actual inspected10k browser replay
+matches native DPS/stdev exactly; parity receipt e9f23c7e22c7a513. Full UI handoff is distinct
+and remains pending. Marksmanship bridge and its canonical-completion audit pass. Full
+two-sweep gear study55,125new origins/5,795,040fights independently replays, selecting
+910.339DPS/inspected10k (+1.355% gear gain; not fresh reference). Eight actual MMstate
+native/browser controls and1198-origin/486640fight state-source replay pass. State remains
+7/40/4/Cat/Aimed-then-Sniper; inspected alternate+0.9472% is below the1% change threshold.
+MMfresh24-origin/480k confirmation accepts910.6219DPS/40k; conservative retained gap0.995878%
+passes original1% and owner2%. Independent3test confirmation replay, selected actual10k
+native/browser exact equality, and qualified-export3tests PASS (builddde8f58d66bc02db).
+SVbridge/input/independent audit and melee-state preparation tests PASS. Its Greater20
+changesMP5 only, with equal868.377DPS in both inspected consume arms. SVfull-gear6tests
+and six actual native/browser gear controls PASS; finite all-slot sweep now starting.
+Finish SV and combined Hunter defaults/presets/import/guide/UI QA, then owner-authorized
+commit→push→deploy. No production or Hunter default pointer changed yet; seecontext.md.
+
 ## October20 — Hunter BM bridge retains actual class, pet and mutually exclusive mana consume
 
 New supplemental bridge proves M81-to-A4 with real class2 Hunter, unchanged seven-buff combat

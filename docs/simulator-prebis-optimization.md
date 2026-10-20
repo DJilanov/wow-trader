@@ -1,5 +1,45 @@
 # Simulation-tested pre-raid gear
 
+## October20 17:10UTC — three Hunter references accepted; final UI handoff pending
+
+Fresh independent40k references are BM905.7161, MM910.6219 and Survival868.5296modeledDPS.
+SV independently replayed27,779full-gear origins/2,918,120fights and1249state origins/
+543,220fights; unchanged16/4/31/Cat/immolation-hawk-cooldown preserves full gear applicability.
+Its24new-origin/480k fresh comparison has0.922642% conservative retained gap, passing both
+original1% and owner2%; actual inspected10k browser/native DPS/variance equality also passes.
+No separately fresh rotation/enchant arm exists for SV; coverage remains explicit. Export
+tests/write and actual shared3-spec UI/default/config/GearSets/import/save/Simulate/Stop QA
+precede the owner-authorized commit→push→deploy. These are conditional model results, not
+server guarantees, a global optimum, or a normalized cross-class ranking.
+
+## October20 — BM/MM numerical handoff complete; Survival revalidation underway
+
+BM fresh confirmation accepts905.7161modeledDPS/40,000fights (0.15023% conservative retained
+gap, original1% and owner2% PASS). Full17-slot gear study27,802origins/2,928,000fights and
+bounded joint state study520origins/308,020fights independently replay exactly; selected
+31/20/0/Raptor/Multi remains unchanged, retaining current full gear applicability. Actual
+inspected10k native/browser DPS and stdev match exactly. Three qualified-export tests PASS;
+exportc1639945a99fb2e7 is local, not yet a public/default promotion. Genuine pinned wire/
+engine defaults are filled in guidance only, never in measured settings.
+
+MM model/Greater20 transition controls, all6input tests and all3corrected independent audit
+tests PASS. New bridge diagnostic896.1319→898.2924DPS is inspected, not fresh qualification.
+MM all-slot preparation tests6PASS and all6actual gear controls PASS. Its full two-sweep
+study55,125new origins/5,795,040fights independently replays; new inspected10k gear baseline
+910.339DPS is a1.355% improvement. Eight MMstate controls and1198-origin/486640fight bounded
+state search also independently replay. State stays7/40/4/Cat/Aimed-then-Sniper; strongest
+inspected alternate+0.9472% is below the1% change threshold. Four fresh-plan tests PASS.
+Actual two20k confirmation accepts910.6219DPS/40k with0.995878% conservative retained gap,
+original1% and owner2% PASS. Full independent confirmation audit, actual selected10k native/
+browser equality and qualified-export3tests PASS; builddde8f58d is local and still requires
+shared all3Hunter actual UI handoff. SVbridge/independent audit and melee-state input tests
+PASS, along with6full-gear tests and six native/browser controls; finite gear sweep starting.
+MM source includes authenticated GUI metadata unlike BM; preserve it exactly, checking Dwarf/
+Alliance consistency rather than overwriting it. No numerical jobs used the failed initial
+metadata preflight. MM-specific follow-up preserves Lone Wolf/no-pet families, fourteenAPLs
+and sixpet/no-pet options. Complete MM→SV and combined actual UI/default/preset/import QA
+before the newly owner-authorized commit→push→production deploy. Original clocks preserved.
+
 ## October20 — Hunter BM seven-buff gear revalidation started
 
 Actual class2 A4 bridge and full native/WASM pet/resource/stat checks pass; the recorded

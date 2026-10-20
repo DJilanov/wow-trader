@@ -3,18 +3,44 @@
 Status: measured and independently replayed locally. This does not replace the deployed
 presets or qualify new optimal gear/talents.
 
+Hunter update,17:10UTC: all three fresh40k confirmations now pass: BM905.7161, MM910.6219,
+SV868.5296modeledDPS. SV conservative retained gap0.922642% passes original1% and owner2%.
+Its27,779-origin full gear pass and1249-origin state review retained16/4/31/Cat/melee APL;
+exact unchanged-state applicability avoids a redundant gear correction. Independent fresh
+source replay and selected inspected10k native/browser DPS/stdev equality pass. SV fresh
+coverage has no separate rotation/enchant arm; those were inspected in the bounded search,
+not each fresh-confirmed. Export tests/write and shared three-spec UI handoff are pending.
+The owner authorizes commit→push→deploy after that handoff; production remains unchanged.
+
 Feral follow-up now has accepted fresh confirmation (752.06 DPS / 40,000 fights) and an
 actual selected browser replay of the original inspected 10,000 fights with exact native
 DPS/variance equality. Its corrected V2 preset is now selected on the actual local Helper
 page, with desktop/mobile default, configuration, gear, rotation-guide and combat checks
 passed. All 819 web tests pass. Production is unchanged; this does not assert global optimality.
 
-Hunter BM follow-up is in progress. The actual-class A4 transition independently reproduces
-the historical engine's legacy12 inputs, and Greater Mageblood replaces12MP5 with20MP5
-(+8, never stacked). Four new diagnostic origins/40,000 fights measure903.2534 versus905.7553
-DPS on the fixed build, with complete native/WASM pet/resource/stat parity. These inspected
-diagnostics do not qualify a new Hunter set. All17-slot gear revalidation follows; current
-BM/MM/SV defaults and production references remain unchanged.
+Hunter BM now has accepted fresh confirmation: **905.72 DPS / 40,000 fights**, with a
+0.15023% conservative retained-contender gap, passing both owner2% and original1% checks.
+The all17-slot/pair/set/enchant pass measured27,802 configurations/2,928,000 fights; bounded
+actual-gear talent/nine-APL/five-pet feedback added520 configurations/308,020 fights. The
+selected state is unchanged, so its full gear evidence still applies without another sweep.
+Independent raw-source audits and actual selected10k browser/native equality pass. Different
+APLs were inspected jointly; not every rotation received separate fresh40k confirmation.
+
+Marksmanship's actual-class A4/Greater20 bridge also passes: the legacy12 model reproduces
+its previous inputs, Greater20 adds exactly8MP5 without stacking, and four new diagnostic
+origins/40,000 fights measure896.1319 versus898.2924 DPS on the fixed build. These are inspected
+diagnostics, not its fresh final qualification. MM full gear work now measures55,125new
+configurations/5,795,040fights across two finite all-slot/pair/set/enchant sweeps, accepting
+a1.355% gear improvement before the small-gain stop. Its1198-configuration/486640fight
+talent/fourteen-APL/sixpet-or-no-pet review retains7/40/4/Cat/Aimed-then-Sniper. Strongest
+inspected alternate is+0.9472%, below the1% material threshold. Independent complete source
+audits and all native/WASM controls pass. Fresh two20k confirmation accepts910.6219DPS/40k;
+conservative retained gap0.995878% passes original1% and owner2%. Independent confirmation
+audit, selected inspected10k native/browser equality and qualified export all pass. SVbridge
+and independent audit pass, with legacy/GreaterDPS both868.377 in this scenario. SVfinite
+gear/melee-state work is underway; it finishes before
+the owner-authorized combined Hunter UI verification and commit→push→production rollout.
+Current BM/MM/SV defaults and production references remain unchanged.
 
 The owner requested that every DPS receive Moonkin Aura, Leader of the Pack, Trueshot Aura,
 Battle Shout, Strength of Earth, Grace of Air and Windfury. This experiment changes only that

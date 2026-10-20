@@ -27,6 +27,10 @@ import {
   raidFeralModelEntrySchema,
   readRaidFeralSimulatorBuild,
 } from "./forever-simulator-raid-feral";
+import {
+  raidHunterModelEntrySchema,
+  readRaidHunterSimulatorBuild,
+} from "./forever-simulator-raid-hunter";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/),
   releaseId = z.string().regex(/^[a-f0-9]{24}$/),
@@ -49,6 +53,7 @@ const selectionSchema = z
         balance_druid: z.unknown().optional(),
         warlock: z.unknown().optional(),
         feral_druid: z.unknown().optional(),
+        hunter: z.unknown().optional(),
       })
       .strict(),
   })
@@ -141,6 +146,27 @@ const proofSchema = z.union([
   balanceProofSchema,
   warlockProofSchema,
   raidFeralProofSchema,
+  z
+    .object({
+      ...proofFields,
+      schema: z.literal("kfc-simulator-profile-model-update.hunter-raid.v1"),
+      profile: z.literal("hunter"),
+      builds: z.tuple([
+        raidHunterModelEntrySchema,
+        raidHunterModelEntrySchema,
+        raidHunterModelEntrySchema,
+      ]),
+    })
+    .strict()
+    .refine(
+      (proof): boolean =>
+        proof.builds.map((entry): string => entry.id).join(",") ===
+        "hunter-beast-mastery-static,hunter-marksmanship-static,hunter-survival-static",
+      {
+        path: ["builds"],
+        message: "Hunter publication omitted, duplicated or reordered a reviewed spec",
+      },
+    ),
 ]);
 export const simulatorProfileModelBrowserChecks = Object.freeze({
   allPresets: true,
@@ -166,10 +192,11 @@ const browserSchema = z
       "kfc-profile-model-browser.balance.v1",
       "kfc-profile-model-browser.warlock.v1",
       "kfc-profile-model-browser.feral-raid.v1",
+      "kfc-profile-model-browser.hunter-raid.v1",
     ]),
     status: z.literal("passed"),
     capturedAt: z.iso.datetime(),
-    profile: z.enum(["mage", "balance_druid", "warlock", "feral_druid"]),
+    profile: z.enum(["mage", "balance_druid", "warlock", "feral_druid", "hunter"]),
     sourceRelease: releaseId,
     release: releaseId,
     proofSha256: digest,
@@ -259,6 +286,7 @@ export async function validateSimulatorProfileModelBuilds(
     profile !== "mage" &&
     profile !== "balance_druid" &&
     profile !== "warlock" &&
+    profile !== "hunter" &&
     profile !== "feral_druid"
   )
     return false;
@@ -271,6 +299,7 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.balance.v1",
       "kfc-simulator-profile-model-update.warlock.v1",
       "kfc-simulator-profile-model-update.feral-raid.v1",
+      "kfc-simulator-profile-model-update.hunter-raid.v1",
     ].includes(z.object({ schema: z.string() }).parse(raw.value).schema)
   )
     return false;
@@ -298,6 +327,7 @@ export async function readSimulatorProfileModelUpdate(
     profile !== "mage" &&
     profile !== "balance_druid" &&
     profile !== "warlock" &&
+    profile !== "hunter" &&
     profile !== "feral_druid"
   )
     return null;
@@ -428,7 +458,11 @@ export async function readSimulatorProfileModelUpdate(
                               "optimization/bounded-native-studies/d752a04ead822dc7511ca82909e24a96fe6df07fa7ecd9c0c0eeb20e5f597dba/result-1427f90944b15ba2.json"
                             ? 16_000_000
                             : path ===
-                                "optimization/bounded-native-studies/00186ca37797b13afb6c90a40df1a1304c8562b3a825868509c016365c84c6bd/result-89141bf23de4429e.json"
+                                  "optimization/bounded-native-studies/00186ca37797b13afb6c90a40df1a1304c8562b3a825868509c016365c84c6bd/result-89141bf23de4429e.json" ||
+                                path ===
+                                  "optimization/bounded-native-studies/a4a2975e0f448713c92d3150bf745b43af152ba1056002252f0ed8ebad2776dd/result-4770f7c11586c018.json" ||
+                                path ===
+                                  "optimization/bounded-native-studies/986daa45ffaa7babdeecf7db1665dca762570958794e6d3228396186167ec302/result-7f6818720cf72276.json"
                               ? 16_000_000
                               : 8_000_000,
           value = await document(directory, path, limit);
@@ -448,7 +482,9 @@ export async function readSimulatorProfileModelUpdate(
               ? await readFreshDemonologySimulatorBuild(entry, options)
               : entry.id === "feral-cat-static"
                 ? await readRaidFeralSimulatorBuild(entry, options)
-                : await readFreshGreaterBalanceSimulatorBuild(entry, options);
+                : entry.profile === "hunter"
+                  ? await readRaidHunterSimulatorBuild(entry, options)
+                  : await readFreshGreaterBalanceSimulatorBuild(entry, options);
     const player = z.record(z.string(), z.unknown()).parse(build.settings.player);
     requireMatch(
       proof.presets.some(
@@ -477,17 +513,19 @@ export async function readSimulatorProfileModelUpdate(
       browser.sourceRelease === source.release &&
       browser.proofSha256 === pointer.proofSha256 &&
       browser.schema ===
-        (proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
-          ? "kfc-profile-model-browser.feral-raid.v1"
-          : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
-            ? "kfc-profile-model-browser.warlock.v1"
-            : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
-              ? "kfc-profile-model-browser.balance.v1"
-              : proof.schema === "kfc-simulator-profile-model-update.v1"
-                ? "kfc-profile-model-browser.v1"
-                : proof.schema === "kfc-simulator-profile-model-update.v2"
-                  ? "kfc-profile-model-browser.v2"
-                  : "kfc-profile-model-browser.v3"),
+        (proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
+          ? "kfc-profile-model-browser.hunter-raid.v1"
+          : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
+            ? "kfc-profile-model-browser.feral-raid.v1"
+            : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
+              ? "kfc-profile-model-browser.warlock.v1"
+              : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
+                ? "kfc-profile-model-browser.balance.v1"
+                : proof.schema === "kfc-simulator-profile-model-update.v1"
+                  ? "kfc-profile-model-browser.v1"
+                  : proof.schema === "kfc-simulator-profile-model-update.v2"
+                    ? "kfc-profile-model-browser.v2"
+                    : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -503,6 +541,9 @@ export async function readSimulatorProfileModelUpdate(
                 "balance-static",
                 "warlock-demonology-static",
                 "feral-cat-static",
+                "hunter-beast-mastery-static",
+                "hunter-marksmanship-static",
+                "hunter-survival-static",
               ]),
               iterations: z.literal(25),
               nativeDps: z.number().finite().positive(),
@@ -523,6 +564,9 @@ export async function readSimulatorProfileModelUpdate(
                 "balance-static",
                 "warlock-demonology-static",
                 "feral-cat-static",
+                "hunter-beast-mastery-static",
+                "hunter-marksmanship-static",
+                "hunter-survival-static",
               ]),
               viewport: z.object({ width: z.number().int().positive() }).passthrough(),
               fullMeasuredSettingsPreserved: z.literal(true),
@@ -567,13 +611,15 @@ export async function readSimulatorProfileModelUpdate(
     "Profile browser approval omitted parity/desktop/mobile share import",
   );
   const expectedOtherProfiles =
-    profile === "feral_druid"
-      ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
-      : profile === "warlock"
-        ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
-        : profile === "mage"
-          ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
-          : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
+    profile === "hunter"
+      ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
+      : profile === "feral_druid"
+        ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
+        : profile === "warlock"
+          ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
+          : profile === "mage"
+            ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
+            : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
   requireMatch(
     expectedOtherProfiles.every((profile) =>
       evidence.otherProfiles.some((row) => row.profile === profile),

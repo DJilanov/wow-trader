@@ -2,6 +2,533 @@
 
 Last updated: 2026-10-20
 
+## October20 17:28UTC — Hunter local delivery COMPLETE; proper commit/push/production deployment next
+
+Approved V2 presentationc98e5e028954b29c1ee0354e passes all15staged pages/28safe starter
+audits, three Hunter configurations plus separate Pet/Melee starter, six1440/390full shares,
+and all3actual25fight native/UI parity checks. Browser approvalbcce79ed9cde286e. Strict
+web reader11tests and Hunter profile22tests PASS;830full-web tests passed before the new
+22-test suite. Typecheck/scoped lint/format and11deployment-gate tests PASS.
+
+Actual local selector --select passed, preserving14other public cases/sixother profiles;
+receiptcab2722ff8f0dc69, repeat --select is idempotent/zero writes. Main3017QA all6build/
+viewport cases PASS, receipt023e1389ee3af1ff: defaults/configs/GearSets/source-bound guide,
+Greater20/seven buffs/full shares, saved characters/reload, tooltips, one global scroller,
+zero overflow/page errors, actual25fight Simulate. BM100k Stop cancels gracefully and
+preserves settings; no fallback needed. Desktop BM/mobile SV screenshots visually inspected.
+
+Finite deployment inventory optimization/deployment-20261020-qGG9Ou:28186files/
+1010639461bytes/eightcurrent source-presentation roots, every asset SHA/size and all7strict
+profile readers authenticated. Generated simulator.tar.gz198MB is ready. Prior production
+91b06f5 remains active; no server mutation, commit or push by this session yet. Deploy uses
+latest committed app, including the owner's648282c Feral raid reader/default handoff. Only
+Helper web may restart; preserve database, ingestion, crawler, guild web and all private env.
+Next proper commit→push→isolated Linux source build/artifact root→stage7profile+34viewport/
+15combat checks→guarded web-onlyactivation→same public checks. Full global goal ACTIVE.
+
+## October20 17:22UTC — Hunter numerical/export work complete; V2 fixes a genuine BM GUI ruleset defect
+
+All SV source/confirmation/selected/export tests PASS. Qualified build2ffd6a535c009e2e,
+full SHA2ffd6a535c009e2ee3e563924b75768c746821f4068253802c3ffc8a25fc1d7e,
+868.5295598055536fresh40kDPS; parity1897547c999fbf89 exact inspected10k native/WASM.
+BM/MMqualified unchanged. New strict shared Hunter web reader and11actual-fixture tests
+PASS. Existing Mage/Feral/model regressions41PASS; full web112suites/830tests PASS146.85s.
+Typecheck and scoped app/private lint PASS. Cache helper exact frozen69b4b817... unchanged.
+
+V1 shared UI95a2072e301460243d5d4f12 built/typechecked all15pages/28safe starter sets,
+all3Hunterconfigs/4gear sets and1440/390full shares PASS. Actual25fight UI parity then
+correctly FAILED BM (747.40browser vs906.4486native). Diagnostic proves BM export's GUI
+settings contain only faction, omitting ruleset; Sim.fromProto defaults that omission to
+Classic0, while actual native and measured request templates use Forever1. No combat-
+model defect, parameter change, new gear search or new holdout is needed. V1 remains
+immutable/unapproved/unselected; DO NOT deploy or overwrite it.
+
+New pure hunter-raid-presentation-settings-v1 fills ONLY the measured GUI RulesetForever
+after authenticating all12actual Forever wire templates, preserving measured settings and
+export hashes. Its2regressions PASS. New build-hunter-raid-presentation-v2 and review-...-v2
+files preserve frozen V1 source; V2 cleanup regression/scoped lint PASS, actual build16095
+LIVE (all-class TypeScript PASS). When terminal, review its actual release using V2.
+New select-hunter-raid-local-v1 (14other existing cases) and main-page QA script are ready.
+Profile fixture generator and22Hunter profile tests are staged but await successful actual
+browser approval/fixture. Full app reader/bundle includes new Hunter proof and isolated
+pointer, no existing profile or saved character changed. Allow16MB ONLY for the two exact
+known new MM/SV state results (10.2/12.1MB); default8MB stays unchanged.
+
+Next: V2actualbrowser→profilefixture/tests→strict local selector→actual3017main-page QA
+(all3at1440/390, defaults/configs/GearSets/shares/guides/tooltips/global-scroll/reload/Simulate
+and Stop/restart-fallback)→owner-authorized commit→push→candidateLinuxbuild/isolatedartifact
+inventory→stage/publicverification→web-onlyactivation. No commit/push/deploy yet. Server
+still previous reviewed release/PID3686049/restart154,68%/24GB free. Full goal ACTIVE.
+
+## October20 17:05UTC — all three Hunter fresh confirmations PASS; shared UI delivery underway
+
+SV state completed986daa45ffaa7babdeecf7db1665dca762570958794e6d3228396186167ec302:
+1249NEW/543220fights/57within-study reuses/0oldimports; unchanged16/4/31/Cat/immolation-hawk-
+cooldown, so full gear applicability is exact without another correction. State-source4tests
+and confirmation-preparation4tests PASS. Actual fresh study485fc9f2f0f7530cf7605c44cefca90553f47c11940109e7d5371c4598ac7a32
+TERMINAL0,24NEW/480000fights/0imports. Selected868.5295598055536DPS/40000fresh fights,
+retained conservative gap0.922642%, owner2% and original1% PASS. Confirmation summary70698b6f33fcac946ef523f3845d65b720c6e048c8586d8ac0bfb0b0c4314587.
+Fresh coverage lacks separate rotation/enchant arm; all13APLs and enchants were inspected,
+but do not claim each got fresh40k. Actual source3tests/selected3tests and selected10k
+browser replay are running on31708/22048/48400; no new numerical optimization requested.
+
+BM905.7161/MM910.6219 qualified exports/parity already PASS. New shared3-spec Hunter
+virtual overlay/builder/reviewer/selector prepared. Actual original safe Pet/Melee starter
+is separate, first default BM, source-qualified internal IDs explicitly map to old public
+-static IDs. All17slot evidence, seven buffs and Greater20 survive; other profiles and
+saves must be preserved. New web profile proof/reader is being added, no public pointer
+selected yet. Owner explicitly authorizes proper commit→push→deploy after Hunter finish.
+Production read-only preflight: Helper still PID3686049/restart154;68%/24GB free. No
+server mutations or commit/push/deploy by this session yet. Full25DPS+3tank goal ACTIVE.
+
+## October20 16:43UTC — SV gear audit and all8melee-state controls PASS; actual state scalar starting
+
+9221 TERMINAL0/all3independent gear-source tests PASS (~92.3s), full27,779origin/2,918,120
+fight raw/control/declaration/pinned-source/saved-stage replay and tamper rejection. Actual
+76641 TERMINAL0:8native+8WASM/200fights each full player/pet/actions/resources/stats controls
+PASS, including PetNone with active Hawks, all5permanent pets, actual melee APL and talent
+change. Controls semantic0c6b996c5dffd5ae3b7bf00bf2a1e249291a9b916c23863f994bee7fe852112c.
+
+Actual SVstate --run now launched16:42UTC on its own handle. It reauthenticates completed
+gear and detailed controls before bounded current-gear talent/thirteen-melee-APL/sixpet-or-
+no-pet scalar work, then explicitly remeasures all old retained states10k. New executed
+source/context/driver remain FROZEN. Poll same handle to terminal, independent state-source
+4tests; real focused gear applicability if material state change (never fake closed), then
+actual fresh two20k confirmation/audit, selected10k native/browser and qualified export.
+SVstate-source reader/tests exist and lint/formatPASS, not executed; once actual new state
+identity is known, pin it and control0c6b... BEFORE first audit execution as done for MM.
+BM905.7161/MM910.6219 already qualified/exported locally; shared all3Hunter actual UI/preset/
+default/guide/share/saved/Simulate/Stop QA and owner-authorized commit→push→deploy follow.
+No Hunter public pointer change, commit, push or deploy performed yet. Full goal ACTIVE.
+
+## October20 16:40UTC — SV full gear COMPLETE; independent audit + actual melee-state controls starting
+
+27568/PID6649 TERMINAL0,16:38:48UTC, study670d9d43ce5bac7b0b36bee40ffc44f4ed968425e0d8685494226158155cace3.
+27,779NEWorigins/2,918,120fights/0oldimports,480valid within-study reuses, full saved replay.
+One complete17-slot/pair/set/enchant sweep; strongest inspected gear874.1603 vs current
+868.4977916567341DPS (+0.6519869%, below1%/3SE material rule), small-gain stop. No redundant
+second sweep or cap continuation. These10k values are inspected, not fresh public references.
+Result643446621a335fd7568f00671f7b6654868243c81ee7d423bc94eeeb111c76cd;
+selectionb7d515ffd02970702503c41d80a39c502e96135228d914c3c19e7f378b42020e.
+
+Actual SVgear-source3tests9221 and SVstate --controls76641 LIVE, started16:39UTC. Each
+first completely authenticates/replays gear raw origins/controls/source/declaration/stages;
+concurrency is read-only replay plus ONE8control native/WASM batch, not two scalar studies.
+Wait BOTH terminal before actual SVstate --run. New state context/driver sources now FROZEN.
+SVstate-source reader/4tests are staged, formatted24600/lint91557PASS, not executed. It
+derives exact expected declaration/control hashes from actual source with no placeholder;
+optionally pin actual new state identity/control SHA before its first audit execution, as
+done for MM. It supports changed state/applicability-required honestly; no fabricated ready
+flag or post-holdout optimization. Source/private/helper/engines remain frozen.
+
+Next SVstatecontrols/run/audit→actual focused applicability IF material state change→fresh
+two20k confirmation/audit→selected10k native/browser/export→combined all3Hunter actual
+virtual preset/default/config/GearSets/guidance/share/saved/Simulate/Stop UI + proper
+commit→push→deploy. Owner's latest conditional authorization remains; full all25DPS+3tanks
+goal ACTIVE, no class history reset. No new Hunter pointer or production change by this
+session. Only live handles now9221/76641; GP27568 finished, don't poll/restart it.
+
+Web preparation read-only: apps/web/AGENTS.md fully read; installed Next16.3.5 guide
+05-server-and-client-components.md ALL604lines read to EOF16:35UTC. Feral raid-reader540lines
+fully read. Profile-model-updates.ts first192lines only read (read remaining before editing).
+Existing Hunter pure guidance validators are in forever-simulator-hunter-reviews.ts,
+forever-simulator-hunter-marksmanship-reviews.ts and forever-simulator-fresh-survival.ts;
+reuse PURE guidance validation, not old model/schema/sourceRole delivery wrappers. New Hunter
+reader/profile proof must honestly cover3A4raid exports, preserve old public build IDs,
+separate safe unoptimized Pet/Melee starter, other profile pointers and personal saves.
+BMexport idhunter-beast-mastery/MMidhunter-marksmanship are internal, while existing public
+IDs end-static: map explicitly without falsifying qualified build/proof identity. Use A4
+generated common/consumables TS overlays for Greater enum2 when compiling actual new UI.
+
+## October20 16:26UTC — SV actual full gear sweep LIVE; independent reader and melee-state driver ready
+
+84262 TERMINAL0/all6SVfull gear tests PASS (~44.9s), lint8152PASS. Actual94400 TERMINAL0:
+six native+sixWASM/150fights each complete gear controls PASS; controls semantic
+7594fcca7e53934c52860c0673d980b2dab297ac45e8747a4092844111e2d36f.
+Actual SV--run27568/PID6649 LIVE, study670d9d43ce5bac7b0b36bee40ffc44f4ed968425e0d8685494226158155cace3;
+scalar began16:23:07UTC.26,889unique initial proposals/27groups/all17eligible slots, hands/
+ring/trinket pairs/sets/nonraid enchants, max2sweeps/80krecords/6workers,0oldimports. At16:25
+1909new origins/390620fights, group10, no errors. Poll SAME27568, do not restart quiet phases.
+
+New hunter-sv-raid-core-gear-source-v1 reader/3tests pin this ACTUAL study identity and six-
+control reference; format61117/lint96905 PASS. NOT executed until actual complete. New
+hunter-sv-raid-core-state-context-v1 and run-hunter-sv-raid-core-states-v1 are formatted90902/
+lint96905PASS, NOT executed. They bind genuine old SVbuild2c36... and b60...confirmationPlan
+original12arms, prepared162fa.../eight control records, unique dual-wield-Cat base-blue
+row.control.settings. Correct source schema is kfc-hunter-survival-corrected-model-controls.v1,
+not MM's capture schema. SVstate preparer/test are already FROZEN/all4PASS, aliasing actual
+pure hunterSurvivalStateCandidate with13meleeAPLs/sixpet-or-no-pet and real locks. Full
+current-gear native/browser own-Mark/trap/Hawk/pet/8control tests, finite state, independent
+replay, actual applicability if changed, fresh confirmation/parity/export still required.
+
+SVbridge audit semantic a31afea2e3df91741538cf6ef655956017e4df19aeabeb0948cd1ef5af22641b.
+BMfresh905.7161/buildc1639945 and MMfresh910.6219/builddde8f58d qualified with exact selected
+native/browser parity and full export tests; all3shared Hunter actual presentation/defaults/
+Preset Configurations/Gear Sets/rotation guides/full-share/saved reload/Simulate/Stop must
+be tested before selection/commit→push→deploy. Owner explicitly authorized that completion
+rollout; no new Hunter pointer, commit, push or production deployment has occurred yet.
+No browser/native jobs besides current SVgear; other current handles all terminal.
+
+## October20 16:20UTC — SV bridge/tests COMPLETE; actual gear tests and controls LIVE
+
+SV8933 TERMINAL0/all6input tests PASS (~16.5s), actual39052 TERMINAL0/2native+2WASM25fight
+full unit/pet/actions/resources/stats controls PASS. M81legacy12 reproduces exactly on A4;
+Greater20 adds exactly8MP5 and no other stat. Actual4655/PID1743 TERMINAL0,16:17:06UTC:
+studye2872bdbca707a39c005afd28d7b3d0587c4b6662a52d9bc531c4beb18f3b72b,
+4NEWorigins/40k/0imports, legacy and Greater BOTH868.376994717329DPS/inspected20k per arm.
+No DPS benefit in THIS mana-sufficient scenario; never claim a gain, stacked32MP5 or global
+consume equivalence. Summary5ac8e6be4744c321eea3bdfab952919246b414b910365de9fe169bced3a07167.
+Actual V2audit3tests14891 and --verify25227 TERMINAL0/PASS (~14.5s), all raw4origins/stat/
+metadata checks. All5SVbridge source/test/driver/audit files now FROZEN.
+
+SVstate PURE preparer/test26852 TERMINAL0/all4authentic input/template/8control/adversarial
+tests PASS (~9s), scoped lint66698 and format69679PASS. These2executed files FROZEN. Genuine
+M81SVblue winner is dual-wield|Cat (not two-hand), state16/4/31, source qualified2c36...;
+use prepared.json.records label dual-wield-Cat, kind base-blue, row.control.settings.player.
+rotation. Old SVconfirmationb60.../confirmationPlan.originalPlan supplies retained states.
+Actual new sourceGreater20/all7 flags/5yards/owned Mark/trap/melee action list reconstructs
+exactly;72class2 ammo/stone/pet templates, no old DPS imported. Pure candidate alias reuses
+actual exported hunterSurvivalStateCandidate and its lock checks, not a fake MM role.
+
+New SVfull gear context/test/driver3files use audited actual SVsource and preserve ALL GUI,
+Dwarf/Alliance/level60/5yards semantics (copied only pure same-class gear pipeline, not MM
+evidence/numerics). Actual gear6tests84262 and --controls94400 LIVE, scoped lint8152 LIVE;
+format56084TERMINAL0PASS. These3sources now FROZEN on execution. After both PASS run
+run-hunter-sv-raid-core-gear-v1.mjs --run, at most2finite sweeps/all17slots,80kcap/6workers,
+no old imports. Then actual current-gear SVstate/own Mark/trap controls and feedback, real
+applicability if needed, fresh two20k confirmation/selected parity/export. BM905.7161/MM
+910.6219 fresh qualified exports are complete but not new shared Hunter UI/public defaults.
+Finish all3 + main-page QA then authorized proper commit→push→deploy; production not changed
+by this session, no new Hunter pointer selected. Cache69b4... unchanged16:07UTC.
+
+## October20 16:15UTC — MM qualified export COMPLETE; Survival bridge actual tests/controls starting
+
+67116 TERMINAL0/all3MMqualified-export tests PASS (~318.6s), actual45462 TERMINAL0 export:
+hunter-mm-raid-delivery-v1/build-dde8f58d66bc02db.json,
+semanticdde8f58d66bc02dbb17b7f5551755e48fe157ce7e0802ab3a17f4a94acef3d52.
+Accepted40k910.6218716145411, full all17slot/two-sweep gear evidence, genuine unchanged7/40/4
+state, Cat/Aimed-then-Sniper guidance, exact native/browser inspected10k parity and declared
+nearby gains/fresh rotation-coverage limits all bound. BOTH BM and MM numerical handoffs
+complete; shared-class actual UI handoff/public selection still pending until SVcomplete.
+
+SVactual bridge6input tests and2native+2WASMcontrols now launched on own handles. Its5bridge
+sources are now FROZEN on execution, genuine class2/Dwarf/Alliance/fullGUI/level60/5yd/Cat/
+own-HunterMark. Actual oldsource2c36... remains M81; no old numeric origin is imported as A4.
+After controls+tests PASS run run-hunter-sv-raid-core-bridge-v1.mjs --run, then V2audit3tests
+and hunter-sv-raid-core-bridge-audit-v2.mjs --verify. Canonical completed.json metadata guard
+is already correct in V2. No change to frozen helper69b4.../engine/model/class clocks.
+
+SVstate PURE preparer hunter-sv-raid-core-states-v1.mjs staged, format49081/lint98947PASS,
+NOT executed yet. It reuses actual exported hunterSurvivalStateCandidate under an explicit
+alias, no duplicate/fake MMstate implementation. Thirteen actual melee APLs/sixpet-or-no-pet
+policies; known laceratingStrikes/exposePrey locks remain in existing pure SVrecheck helper.
+Old SVconfirmation declarationb60a16c5... holds confirmationPlan.originalPlan; full authentic
+blue rotation input is hunter-survival-first-pass-v1/prepared.json, semantic162fa5cbbfc5321139a5edae0f378ad67e6c9794f2ce701b6ea82d5cfd711262.
+It has8records {label,kind,control,captured,...}; base-blue two-hand-Cat / dual-wield-Cat are
+record.control.settings, not MM's capture schema/record.settings. Choose/reconstruct the
+genuine complete source, including own-Mark/traps/melee, and validate exact APL equality.
+Next finish SVbridge→finite fullgear/SVstate/fresh confirmation/parity/export→combined
+all3real Hunter presets/defaults/config/gear/guide/main desktop/mobile/saved/import/Simulate/
+Stop QA→proper commit→push→production deploy. No Hunter pointer/deploy/commit performed yet.
+
+## October20 16:09UTC — MM independent audit + selected browser PASS; qualified export starting
+
+51756 TERMINAL0/all3fresh confirmation-source tests PASS (~174.1s), all24new origins/
+480kfights and complete raw/plan/reservation/mean/statistical replay. 52673 TERMINAL0/all3
+selected input/negative/plan-only tests PASS (~229.1s). Actual41751 TERMINAL0: ONE actual
+A4/class2 MMinspected10k browser replay matches native DPS/stdev EXACTLY,0new native.
+Receipt00a238d699627193593ab2fcad85284d2f998b4e313a403b4d982b2b866e7933;
+fresh reference910.6218716145411/40k remains separate from inspected910.3389939791292.
+Actual MMqualified-export3tests + export-hunter-mm-raid-build-v1.mjs --write now launched
+concurrently. Their3sources now FROZEN. Poll both actual handles before SVnumerical work.
+All SV5bridge files are staged/lint16978 and format13928PASS, NOT executed yet. Next use
+genuine SVcontrols/test then bridge scalar/audit, preserve actual Dwarf/Alliance GUI/level60/
+5yards/Cat/own-HunterMark source (not BM's missing-GUI or MM's ranged-rotation assumptions).
+Shared class presentation/default/config/gear/guide/actual UI tests and commit→push→prod
+wait until all3Hunter specs completed. No Hunter public pointer or production update yet.
+Cache69b4... unchanged16:07UTC; no external user edits reverted.
+
+## October20 16:02UTC — MM fresh confirmation ACCEPTED; audit/selected browser checks LIVE
+
+31068/PID84295 TERMINAL0,15:58:23UTC, study26bf389e72ff5d4b602b4dbcbcf7b561c4a7ad59237d505cf057ddedf93e4394.
+24NEWorigins/480,000fights/0imports or reuse, complete saved replay and original reservation.
+Selected7/40/4/Cat/Aimed-then-Sniper/sevenbuffs/Greater20 reference910.6218716145411DPS/40k.
+Conservative retained gap0.009958782655811084 (~0.995878%), original1% and owner2% PASS;
+strict dominancefalse and nearby gains explicitly disclosed. selectionChanged=false.
+Result5a68bc4616393d571e499d1070bbe46ea72e7d70989717d0e3518afa80473d2e;
+summaryefaaeb319d06880a76da3e7ac548954ea1911ce2412b37c248236beebb81689a.
+This is conditional practical evidence, not global maximum or server-mechanics proof.
+
+Actual fresh-source3tests51756, selected-parity3tests52673 and actual inspected10k browser
+probe41751 are LIVE (launched15:59UTC), quiet full source-preparation phase confirmed on
+same handles16:01UTC. Each loads the genuine complete confirmation-source verifier before
+using input; concurrency is2read-only suites +ONE leased browser job,0new native. No source
+guard is skipped or public pointer changed. New MMconfirmation source-reader/test and
+MMselected coordinator/test/probe are now FROZEN. Poll all to terminal; do not restart.
+Expected inspected native910.3389939791292 remains DISTINCT from fresh910.6218716145411.
+After actual selected parity PASS, run MMqualified-export3tests and export-hunter-mm-raid-
+build-v1.mjs --write. Those3sources are staged/lint+formatPASS, not yet executed. They
+preserve explicit level60/omitted variation settings, genuine17slot gear/full2sweep proof,
+source-bound7/40/4 guidance, unavailable-rotation fresh category and near-stronger candidates.
+
+SV PREPARATION ONLY:5new hunter-sv-raid-core-bridge-v1 context/test/driver and bridge-audit-v2
+reader/test files exist. Formatter13928 and lint16978 TERMINAL0PASS. NOT executed/no SV
+combats yet. Use canonical-completion V2audit design, not MMfailed V1. Actual historical
+SVsource inspected: classHunter/Dwarf/level60/Alliance full GUI metadata/distance5/Cat, legacy
+12MP5; source2c36d3f4b402a313c8df12ec2aeb6e5dfdebfc8a5b9506dcd900b8c86db12eda.
+After MMnumerical handoff, SVbridge controls/scalar/audit→own finite gear/melee Survival
+state/confirmation/parity/export, then shared all3Hunter presentation +real UI checks and
+proper commit→push→deploy. New Hunter module must preserve existing public build IDs,
+separate safe Pet/Melee starter, all other class selections and personal saved characters.
+Use A4generated common/consumables overlays for Greater20, not old cached enum1only code.
+No new Hunter preset/pointer, commit, push or deployment performed in this turn yet.
+
+## October20 15:56UTC — MM actual fresh confirmation measuring, same handle31068
+
+Actual31068/PID84295 LIVE, study26bf389e72ff5d4b602b4dbcbcf7b561c4a7ad59237d505cf057ddedf93e4394.
+Source authentication finished; actual sampling began15:55:28UTC.200,000new fights/10new
+origins seen15:56:13, no errors. Frozen12arms cover selectedCat, strongestRaptor/talent,
+PetNone/all5offensive pets, opposite SummonHawk/LoneWolf families, gear and enchant, plus
+retainedtalents. coverage.unavailableCategories=[rotation]:14joint APLs were INSPECTED;
+no same-talents standalone alternate APL was separately fresh confirmed. Do not claimall
+rotations received40k or alter the already-frozen experiment to force a category.
+Fresh seeds217310756200000/217310756300000;20kmeasured each/40k per arm,100k-wide reservation.
+Holdouts cannot replace selectedwinner. Poll SAME31068 to terminal, then run actual
+hunter-mm-raid-confirmation-source-v1.test.mjs (3tests) before selected browser/export.
+All5docs formatted30724PASS and gitdiff--checkPASS; source/cash/model pins unchanged.
+
+## October20 15:52UTC — MM state audit and fresh-plan tests PASS; actual confirmation starting
+
+40290 TERMINAL0/all4independent actual-state source tests PASS (~160.2s), authenticating
+all1198new origins/486640fights, complete eight controls and all retained/finalist stages,
+exact910.33899 full-gear baseline reproduction, threshold math and unchanged applicability.
+95365 TERMINAL0/all4authentic frozen-arm/independent-range/tamper/no-write-readiness tests
+PASS (~191.5s); all6pet/no-pet families and genuine gear arm included. Source/plan/verifier
+files now FROZEN; no old-schema or fake BM roles. Original1% remains separate from owner2%.
+Actual run-hunter-mm-raid-confirmation-v1.mjs --run launched15:51UTC on its own handle;
+it authenticates immutable sources, freezes/reserves plan and measures two NEW20k ranges
+per arm (100k reservation width is not100k measurements). No adaptive holdout winner change.
+Next poll actual handle to terminal, independent confirmation-source3tests, selected actual
+10k native/WASM and qualified export. Those files are staged/lint+format PASS but have NOT
+executed yet. Only after MMcomplete move to SV; combined actual Hunter UI/browser + proper
+commit→push→deploy remains authorized. Production/Hunter pointers unchanged.
+
+## October20 15:48UTC — MM state COMPLETE, unchanged; full gear applicability exact
+
+7614/PID78755 TERMINAL0,15:47:23UTC. Actual state studya4a2975e0f448713c92d3150bf745b43af152ba1056002252f0ed8ebad2776dd:
+1198NEWorigins/486,640fights/67valid same-context reuses/0oldimports, all saved stages replay.
+206initial MMtalent/pet candidates,14joint APLs/sixpet-or-no-pet policies,28inspected finalists
+and all9distinct historical retained states remeasured. Current remains7/40/4,
+502-0053552301523051-4, Cat, aimed-then-sniper/30%Sniper/15%Arcane/Sting at12yards. Current
+inspected910.3389939791292DPS; leader918.9617070815261 (+0.947198%, below declared1% threshold).
+materialChange=false/gearApplicabilityRequired=false. Do not adapt using heldouts or start
+redundant third gear sweep; source proves exact unchanged-state applicability after full2sweeps.
+Result4770f7c11586c018a491e8fb7efd7e924caa11821c3769db02fa63f97fe57750;
+selection20c6a28d090659d64b17d167fed3a1533fd1331e9cb7c06529065da3e4e74b57.
+
+Actual independent state-source4tests40290 and genuine confirmation-preparation4tests95365
+are LIVE concurrently, both complete independent source replay first, no new combat/reservations
+in tests. Newly staged reader now also pins the ACTUAL a4a297... identity and actual8control
+referencea64588... (added before its first execution), rather than leaving the pre-run
+identity unconstrained. It is now FROZEN. Same for actual6confirmation setup files on test
+execution. Do not edit any measured/pinned source, helper, model or cache69b4... .
+Next wait both terminal, actual run-hunter-mm-raid-confirmation-v1.mjs --run to freeze/reserve
+fresh two20k ranges, independent confirmation replay, selected native/WASM and export.
+Near-stronger inspected state is explicitly disclosed in the staged new MMexport warnings;
+original1% remains separate from owner2%, not silently relabelled as strict/global optimality.
+SV then combined actual Hunter UI/default/config/gear/guide/saved/import/simulate/stop QA,
+commit→push→production deploy remains the owner's instruction. No new Hunter public pointer.
+
+## October20 15:42UTC — MM full gear audit PASS; eight actual state controls PASS; scalar starting
+
+65519 TERMINAL0/all3complete independent gear-source tests PASS (~152.5s), authenticating
+all55,125new origins/5,795,040fights and190saved stages, rejecting changed buffs/imports/
+class/DPS/qualification/reuse metadata. Actual43464 TERMINAL0:8native+8WASM/200fights each
+state controls PASS, full player/pet/actions/resources/stats plus correct no-pet and Hawk
+handling. Controls semantic a64588c560bd3a4efadf710d2ea06b2344123b6473bf37c28068ce7047d908ab.
+Actual state --run launched15:41UTC, handle7614 LIVE; first authenticates completed full-gear
+source before bounded MMtalent/fourteen-APL/sixpet-or-no-pet work. No new public reference
+or Hunter pointer changed. Poll same run, then actual independent state-source4tests; finish
+real applicability if material change, otherwise fresh two20k confirmation/parity/export.
+Source/cache/model files stay frozen, original class history and latest deploy authority kept.
+
+## October20 15:38UTC — MM full gear COMPLETE; independent audit and actual state controls starting
+
+1915/PID52043 TERMINAL0,15:37:12UTC. Two finite complete all-slot/pair/set/enchant sweeps,
+55,125NEWorigins/5,795,040fights/0old imports,1409valid same-context request reuses, all190
+saved stages replay exactly. First sweep accepted+1.35503897% gear improvement; second
+gain0/small-gain-stop. Current inspected10k baseline910.3389939791292DPS, not fresh final
+reference. Study951b68014d6f695a2836e03d9efab5ce30dbbbfbf188a4ce36b0b3ee0f555019;
+resultf7df94018060748af0aedebb175a1629c83e06b5beb3318c6e7291d4d62cb081;
+selectionc8e71f6596e1593abd2c4fd44981e44e39b9bbe944998ecba1d6fec7b97d6bd4.
+No gear-cap continuation is required, but actual selected-gear state feedback still is.
+
+Actual independent gear-source3tests65519 LIVE. Actual state --controls43464 LIVE; it first
+performs the SAME complete independent gear raw/control/declaration/stage authentication
+before any of its8native+8WASM25fight jobs. This safe concurrency is read-only gear replay
+plus one leased browser batch, not two scalar studies or skipped audit. If any source guard
+fails, no state scalar search may start. New MMstate context/driver sources now FROZEN on
+execution. Poll both same handles to terminal; next state --run, independent state audit,
+fresh confirmation and actual selected parity/qualified export. All downstream files exist,
+formatted/linted, but NOT yet numerically executed or claimed qualified. Next SV then shared
+class UI handoff and commit→push→production deployment per owner's latest instruction.
+
+## October20 15:32UTC — MM second finite gear sweep LIVE; downstream source/confirmation tools ready
+
+Actual1915/PID52043 remains LIVE, study951b68014d6f695a2836e03d9efab5ce30dbbbfbf188a4ce36b0b3ee0f555019.
+First sweep found material gear improvement, so policy correctly starts its second/final
+allowed sweep, not a repeated arbitrary search. At15:32:18UTC45917new origins/4,664,720fights,
+sweep2/group13, no error reported. Do not call it finished/converged or start MMstates until
+this exact handle finishes and the independent gear-source3tests pass. Coverage26896unique
+initial proposals/27groups/all17eligible slot pools (same pool counts as BM), not BM26900.
+If second cap is still material, honest retained gear applicability is required after state.
+
+MMstate source-reader/tests now implemented, lint2590/format82737PASS. Unlike BM's hardcoded
+study identity it reconstructs the exact current declaration and eight-control reference from
+authentic completed source and verifies all raw/control/stage inputs and source pins; no
+unknown SHA placeholder or missing declared data. Not yet executed. New MMconfirmation
+arms/context/tests/driver/source-reader are formatted/lint24717PASS, not executed. They
+bind genuine current state+gear sources, all6pet/no-pet proposals and explicit Hawk/Lone Wolf
+family alternatives. Conditional unchanged-state path must NOT be forced if actual state
+or gear-cap applicability is unresolved. Original1% remains separate from owner2%.
+
+New hunter-ranged-selected-wasm-parity-v2.mjs/test are genuine PURE class2 controls supporting
+both offensive pets and protobuf-omitted PetNone. Actual13609 TERMINAL0/all3authentic-input
+tests PASS (~9.8s), lint26721PASS; these2executed helper sources FROZEN. Derived no-pet input
+is explicitly a proposal, not a measured result; unsupported Wolf and wrong class/precision
+are rejected. Old selected helper remains untouched. New MMselected coordinator/test/probe
+use it under honest A4/MM namespaces; staged MMqualified export/test/CLI retain measured
+settings and verified guidance-only defaults, genuine coverage metadata. Scoped lint33452
+and format99221PASS. NOT executed until accepted fresh confirmation/actual selected parity.
+
+No web/app change yet this turn, only private immutable evidence/tools and5documentation
+files. Current HEAD648282c (owner's commit of earlier verified Feral work); gitdiff--check
+and all5doc formatting checks96765PASS. No commit/push/deploy done. Cache helper69b4... still
+unchanged15:30UTC;38GiBfree15:20UTC. All3Hunter finish + combined actual UI/default/import/
+configs/GearSets/guide/simulate/stop QA then proper commit→push→deploy remains authorized.
+
+## October20 15:20UTC — BM qualified export complete; MM actual full gear sweep LIVE
+
+BM86646 TERMINAL0/all3qualified-export tests PASS (~257s); actual65266 TERMINAL0 exports
+hunter-bm-raid-delivery-v1/build-c1639945a99fb2e7.json, semanticc1639945a99fb2e7ab8b5ae469ebeb5cd808f81bcfcad8c1328e0e53088536df.
+Fresh905.7161DPS/40k, exact selected inspected10k browser parity, full gear/unchanged-state
+evidence,31/20/0 Raptor/Multi guidance and all17 gear/enchants preserved. This is numerical
+handoff, NOT actual full UI approval or production selection.
+
+MM bridge V1audit failed because it expected invocation counters in canonical completed.json;
+no measurement changed. V2audit/tests54277/12567 TERMINAL0/all3PASS and lint48505PASS.
+V2strictly validates canonical completion shape and the actual result.invocation counters,
+then independently authenticates every4new/40k origin and complete model/control/stat replay.
+Auditdabb6a7f794e5e844d43b68b8e67bf173616d6113d1dd5317913ef045a65dccb at
+hunter-mm-raid-core-bridge-v1/audit-v2.json. Failed V1source kept, not falsely approved.
+
+Initial MM gear preflight rejected its real GUI metadata (BM source omits it); no gear
+measurements/control artifacts occurred under that failed version. New MM context preserves
+ALL authentic settings exactly, checks matching Dwarf/Alliance, rather than stripping GUI.
+Actual87803 TERMINAL0/all6gear tests PASS (~40.5s); lint2317 PASS. Actual40749 TERMINAL0:
+6native+6WASM/150fights each detailed gear controls PASS, semantic9b9b8f904823d9da72f9114876859752552d22ea075a59f9848a84345ffd3656.
+Actual1915/PID52043 --run LIVE, study951b68014d6f695a2836e03d9efab5ce30dbbbfbf188a4ce36b0b3ee0f555019,
+scalar began15:16:46UTC, six workers/80kcap/two finite sweeps/all17slots. Gear context/tests/
+driver are now FROZEN. Poll same handle, do not restart quiet preparation or within-stage work.
+New MMgear-source reader/tests pin this real study and controls; lint30252 PASS, tests NOT
+run until completion. Own source pins/strict full saved replay, no old numerical imports.
+
+New actual MMstate preparer/tests73451 TERMINAL0/all4PASS (~9.3s), lint26323PASS; these2files
+now FROZEN.72actual class2 ammo/stone/pet templates, all7flags/Greater20,14MM shot priorities,
+all6pet/no-pet options and Lone Wolf/Hawk families retained. Eight distinct real controls.
+New MMstate context/driver are scoped lint30252PASS and prepared for completed gear; use
+genuine M81corrected buildd2cb69.../its confirmationPlan.originalPlan12arms, actual6record
+MMcapture36975d2c.../unique base-blue dual-wield Cat action list (includes Sniper Shot), not
+BM capture. Driver verifies actual Hawk casts when appropriate and no hidden permanent
+pet for PetNone. Numerical states not launched yet. MMconfirmation preparer/context/tests/
+driver/source-reader are staged, formatted; lint24717 LIVE, NOT executed. They require exact
+unchanged-state applicability and honest measured current state+gear arms; if material
+state changes occur, complete a real applicability pass first rather than fake readiness.
+Next finish MMgear/audit→actualstatecontrols/run/audit→freshconfirmation/parity/export→SV.
+Then combined real Hunter defaults/config/gear/guidance/import QA and proper owner-authorized
+commit→push→deploy. Production/Hunter pointers unchanged; fullallclass goal ACTIVE.
+
+## October20 15:11UTC — BM selected browser parity PASS; MM model/consume bridge complete
+
+94460 TERMINAL0/all3BM selected parity input/plan-only tests PASS. Actual90819 TERMINAL0:
+one inspected10k A4/class2 WASM replay matches authentic native DPS and stdev exactly,
+0new native, receipt e9f23c7e22c7a5133e3ce994630e11d29004afdae5f4a6b65e3f4fc268d3b5b6.
+Fresh independent reference remains905.7161033808443/40k, not inspected905.9737. New BM
+qualified export/tests/CLI are scoped-lint/format PASS and FROZEN on execution; actual
+86646 tests and65266 --write are LIVE, authenticating complete sources before export.
+Guidance-only views fill verified pinned engine level60/zero variation defaults; measured
+settings are untouched. Export explicitly records exact unchanged-state full-gear coverage
+and no fabricated correction. Real shared-class UI approval still required.
+
+MM now proceeds after BM numerical qualification. New genuine hunter-mm-raid-core-bridge-v1
+context/driver/tests/audit use actual hunter-marksmanship-static source and class2/Cat;
+no fake BM role or model reuse. Six input tests6999, lint71157 and actual2native+2WASM
+controls26815 PASS, including all phases/pet/resources/stats and +8MP5 only. Actual81795
+TERMINAL0:4new A4origins/40k/0imports, study8172081205649a123eea0840f12310f70a19aab1df4b45793e76a1dd6fe003d6,
+legacy896.1319066755422 vs Greater898.2924412138859 inspected20k per arm. Summary94a35c24d3d183612fd30fa9cdc64ad53d056218e8b1d4f32d1abbdf10e412fd;
+source audit/tests55207/39090 LIVE. MM driver persists canonical completed.json, preserving
+idempotent summary identity. All5executed MM bridge sources FROZEN. Next actual finite
+all-slot gear, MM-specific talent/no-pet/pet/APL feedback and fresh confirmation, then SV.
+Latest owner explicitly authorizes proper commit→push→production deploy only AFTER all3
+Hunter specs and real combined defaults/config/gear/guide/import/browser QA. Production and
+Hunter pointers unchanged. Cache helper SHA69b4... unchanged; original clocks preserved.
+
+## October20 14:59UTC — Hunter BM fresh audit PASS; actual selected browser parity starting
+
+49098 TERMINAL0/all3independent fresh-source tests PASS (~123.3s): every24new origin/480k
+fight, frozen source/legality/input, original range reservation, complete saved stage and
+both statistical assessments authenticated. Fresh reference905.7161033808443DPS/40k stays
+separate from inspected905.9737. No adaptive winner or public promotion.
+
+New hunter-bm-raid-selected-parity-v1.mjs/test/probe use existing PURE class2 Hunter selected
+WASM helpers under an honest A4supplemental coordinator, not the old model/budget/sourceRole
+wrapper. Actual inspected10k input/native origin is bound to the accepted40k qualification,
+all seven flags/Greater20/pet/class preserved. Scoped lint/format91706 PASS. Three focused
+input/plan-only tests and actual --run browser probe are now launched concurrently: both
+authenticate the same immutable source, tests never start combat or write state; probe is
+one inspected10k WASM job/0new native. These3new executed parity files are now FROZEN.
+No public pointer/production update until complete Hunter class and real UI handoff.
+
+## October20 14:56UTC — Hunter BM fresh confirmation ACCEPTED; independent audit running
+
+Actual25792/PID21827 TERMINAL0 (14:54:42UTC), studyff705895...:24NEWorigins/480,000fights,
+12frozen arms/two fresh20k ranges each, zero imports/reuse, exact saved replay and reservation.
+Selected31/20/0/Raptor/Multi/Greater20/seven-buff reference905.7161033808443DPS/40,000fights.
+Conservative retained gap0.1502266%, owner2% and original1% accepted, selectionChanged=false.
+Result09eb8d86d48a06fa8e3d9ae1e61dcc684662d0ea91482fac22090c1f226963f8;
+summary6b569d14de5b7dffc7e34d2e2a22ae091d5d659a01e9bdd62393dcaca0aa760a.
+This is conditional practical evidence, not a global optimum/live-server guarantee.
+
+Actual hunter-bm-raid-confirmation-source-v1.test.mjs now RUNNING: separate complete raw/
+reservation/source/statistical replay,3tests. New audit sources now FROZEN. NEXT actual
+selected A4/class2 inspected10k browser parity via existing PURE Hunter parity helpers under
+a new honest coordinator (not the old sourceRole/model/budget-bound wrapper), then qualified
+export/preset overlay. No Hunter default pointer has changed yet.
+
+Coverage disclosure: frozen12arms include all5pets, talent, gear and enchant alternatives.
+No same-talents standalone different-APL finalist existed, so coverage.unavailableCategories
+explicitly contains rotation. The bounded joint9APL search and inspected19finalists DID
+test different APLs; best alternate Aimed setup902.0302DPS also changes talents and remains
+inspected-only, not fresh40k confirmed. Do not claim every APL had fresh confirmation, alter
+the already-frozen experiment, or turn this into the deferred exhaustive rotation search.
+
+Latest owner authorizes production rollout AFTER Hunter is finished. All3Hunter specs share
+one engine/presentation: keep current public package intact while completing BM→MM→SV
+sequentially, then build/browser-test all3real defaults/configs/gear/guidance and proper
+commit→push→deploy. Do not pass old M81 MM/SV evidence off as fresh A4 merely to expose BM
+early. This shared-package dependency does not narrow the full all25DPS+3tank objective.
+
+## October20 — NEW owner deployment instruction: finish Hunter, then deploy production
+
+Owner explicitly requested: "after you finish the hunter deploy to prod". Treat this as
+conditional authorization to finish BM, Marksmanship and Survival and their real defaults/
+Preset Configurations/Gear Sets/rotation guidance/browser checks, then use the owner's
+standing proper commit→push→deploy workflow. Do not deploy an unfinished partial Hunter
+rollout or silently drop the other specs. Preserve all other reviewed class presets and
+saved characters, and include only verified relevant changes. This supersedes earlier
+"no new deployment authorization" notes below; it does not reset simulation clocks or
+authorize unrelated production/database/nginx/crawler changes. Full all-class goal ACTIVE.
+
 ## October20 14:48UTC — Hunter BM confirmation wiring PASS; actual fresh confirmation starting
 
 61597 TERMINAL0/all4state-source audit tests PASS (~101s): authentic520new origins/308,020fights,
