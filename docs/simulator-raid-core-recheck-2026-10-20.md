@@ -1,7 +1,15 @@
 # Raid-core DPS recheck — October 20, 2026
 
-Status: measured and independently replayed locally. This does not replace the deployed
-presets or qualify new optimal gear/talents.
+Status: Feral and all three Hunter raid revalidations are deployed and publicly verified.
+Other class follow-ups remain separate; older measurements are not relabelled.
+
+October20 17:50UTC: sourcec8265bc, Hunterpresentationc98e5e028954b29c1ee0354e. All3Hunter
+40k references905.7161/910.6219/868.5296 are live in actual defaults/configs/GearSets/library,
+with7core buffs and Greater20. Feral18c6325ffc446938063c598f/752.0645 is also live from the
+previously committed handoff.852tests and both candidate/public34desktop/mobile checks /
+15combat runs each pass with identical settings/results. Only Helperweb restarted; see
+docs/simulator-hunter-raid-deployment-2026-10-20.md for exact source/build/artifacts/rollback.
+Earlier chronological notes below describe the stages before this verified deployment.
 
 Hunter update,17:10UTC: all three fresh40k confirmations now pass: BM905.7161, MM910.6219,
 SV868.5296modeledDPS. SV conservative retained gap0.922642% passes original1% and owner2%.

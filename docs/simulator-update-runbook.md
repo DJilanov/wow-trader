@@ -1,5 +1,22 @@
 # Repeatable pre-raid simulation updates
 
+## October20 17:50UTC — Hunter shipped and production verified
+
+Use approvedV2c98e5e028954b29c1ee0354e, not failedV195a2072e. Qualified BM/MM/SV inputs and
+40k references are unchanged:905.7161/910.6219/868.5296. Pure presentation metadata fills
+the verified Forever GUI ruleset for BM; never edit measured settings or rerun searches to
+fix this browser fallback. Actual defaults/configs/GearSets/firstvisit and all6local cases
+(including gracefulStop) pass.852webtests/113suites, scoped lint/format/typecheck PASS.
+
+Proper commit→push→Linuxsourcebuild→candidate/public→activation workflow completed for
+c8265bc. Both environments pass all7route/model/privacy gates,34build/viewport checks and
+15combat smokes, identical settings/results.1255sourceblobs+28186artifactchecks pass. Only
+Helperweb restarted; previous source/artifact root retained. Production runtime stays768MB;
+use a temporary2GB BUILD-only override when TypeScript exceeds that limit, not an env-file
+change. See docs/simulator-hunter-raid-deployment-2026-10-20.md for exact identities, receipts,
+rollback and observed public stream-cancellation logs. Do not restart finished Hunter jobs.
+The all-class goal remains active; remaining specs and other raid-buff rechecks are separate.
+
 ## October20 17:10UTC — Hunter numerical work finished; presentation and deployment next
 
 SV independent source3tests/selected3tests PASS; actual selected10k browser/native parity

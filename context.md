@@ -2,6 +2,44 @@
 
 Last updated: 2026-10-20
 
+## October20 17:50UTC — Hunter committed, pushed, DEPLOYED and publicly verified
+
+App sourcec8265bc83f6afd6fb826953b04e6e6de99719139 (pushed main), Nextbuild
+vhpM-M2aA9XUerueM6Q6o, active /home/wow-trader-system/releases/kfc-helper-hunter-raid-20261020-c8265bc.
+Artifactroot /home/wow-trader-system/shared/simulator-releases/hunter-raid-20261020-c8265bc;
+Hunterpresentationc98e5e028954b29c1ee0354e/A4model. Public https://kfcguild.online/tools/forever/simulator/hunter .
+All3fresh40k references now actually in defaults/configs/GearSets/library: BM905.7161
+(31/20/0/Raptor),MM910.6219 (7/40/4/Cat),SV868.5296 (16/4/31/Cat/melee). Seven core buffs
+include Strength/Grace/Windfury once; Greater20, no raid dependencies/item skill bonuses.
+Separate Pet/Melee starter and saves preserved; Load build applies complete benchmark.
+
+Full local web852tests/113suites PASS; typecheck/lint/format, numerical/source/GUI/preset
+regressions PASS. Local main6cases includes actual25fights, guides/tooltips, one scroller,
+reload and graceful100k Stop. Linux all11dependencies+Nextcompile/typecheck and11deployment
+gate tests PASS. Initial768MB-build TypeScript OOM was resolved with temporary2GB build-only
+heap; actual live runtime/private env still768MB. No simulation model or measured settings
+changed. FailedUI95a2072e remains immutable/unapproved; only V2c98e... may be used.
+
+Candidate AND public all7route/database/proof-privacy gates and34desktop/mobile build /
+15actual25fight browser checks PASS, exact loaded-settings/same-seed-result arrays identical.
+Local receipts optimization/deployment-20261020-qGG9Ou/{browser-stage,browser-public,
+gate-stage,gate-public,verified}.json; server receipt /home/wow-trader-system/shared/backups/hunter-raid-20261020-c8265bc.
+Source1255Gitblobs and28186artifact size/SHA checks PASS pre/post build/activation/public.
+OnlyHelperweb restarted: PID3721788/restart155; guild/ingestion/publisher/official-updates/
+stoppedcrawler exact unchanged. No migration/Nginx/other-service mutation. Only two public
+env values changed; private values/runtime heap preserved.12old valid asset roots retained
+byhardlink; pre-existing unservable5c556... safety-only directory untouched. Preview3721165,
+local tunnel/proxy closed; unrelated server19212preview untouched. Live/guild/Trader/Leveling
+HTTP200, disk70%/22GBfree. Public rapid-navigation test logged destination-stream-closed
+messages (no failed browser asset/page checks); do not claim a clean backend error log.
+
+Guardedrollback is documented in docs/simulator-hunter-raid-deployment-2026-10-20.md;
+requires exactcurrentc826source before restoring previous91b06f5source/publicenv. Appsource
+includes owner's earlier648282cFeralraid handoff, also now live18c6325ffc446938063c598f/
+752.0645fresh40k; other5class publications unchanged. Final documentation-only follow-up
+may advance Git HEAD without changing this deployed app identity. Full25DPS+3tank goal
+remains ACTIVE: remaining class/spec work and seven-buff follow-ups are not all complete.
+
 ## October20 17:28UTC — Hunter local delivery COMPLETE; proper commit/push/production deployment next
 
 Approved V2 presentationc98e5e028954b29c1ee0354e passes all15staged pages/28safe starter

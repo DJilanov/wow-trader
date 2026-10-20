@@ -1,5 +1,16 @@
 # Simulation-tested pre-raid gear
 
+## October20 17:50UTC — Hunter raid revalidation live
+
+All three current A4/Greater20 Hunter builds are deployed in actual defaults, Preset
+Configurations, Gear Sets and the reviewed library at the public Hunter simulator.
+Fresh40k references: BM31/20/0/Raptor905.7161, MM7/40/4/Cat910.6219 and Survival16/4/31/Cat
+melee868.5296modeledDPS. All7core buffs apply once; no global-BiS or cross-class-rank claim.
+PublicV2presentationc98e5e028954b29c1ee0354e fixes omitted BM GUI ruleset only. Sourcec8265bc
+is committed/pushed/deployed;852tests, real local6-case UI/Stop and both candidate/public
+34-case/15combat sweeps PASS. Measured gear/state/holdouts remain unchanged, no reruns.
+Exact release/rollback/evidence: docs/simulator-hunter-raid-deployment-2026-10-20.md.
+
 ## October20 17:10UTC — three Hunter references accepted; final UI handoff pending
 
 Fresh independent40k references are BM905.7161, MM910.6219 and Survival868.5296modeledDPS.

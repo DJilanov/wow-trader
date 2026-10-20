@@ -2,6 +2,19 @@
 
 Last updated: 2026-10-20
 
+## October20 17:50UTC — refreshed Hunter presets DEPLOYED (c8265bc)
+
+Public https://kfcguild.online/tools/forever/simulator/hunter now delivers approvedV2
+c98e5e028954b29c1ee0354e: BM905.72/MM910.62/SV868.53fresh modeledDPS/40k with all7core buffs
+and Greater20. Actual defaults/configs/GearSets/library/guides updated; saved characters
+unchanged. The browser-only BM Classic/Forever fallback is fixed without numerical reruns.
+Full852webtests, local6UIcases+Stop and candidate/public34desktop/mobile checks+15combat
+runs each PASS, exact stage/public arrays identical. OnlyHelperweb restarted3721788/155;
+other services/privateenv/768MB-runtime unchanged. Build used temporary2GB after a768MB
+TypeScript OOM. Preview/tunnel/proxy closed, rollback retained, livehealth200/disk70%/22GB.
+See docs/simulator-hunter-raid-deployment-2026-10-20.md and latestcontext.md for exact paths,
+receipts, known stream-cancellation log entries and guarded rollback. No broad cleanup done.
+
 ## October20 — Hunter BM browser share must explicitly select Forever rules
 
 The minimal measured BM GUI metadata contains faction only. Loading that raw share calls
