@@ -1,5 +1,16 @@
 # Simulation-tested pre-raid gear
 
+## October20 — fifteen DPS builds now published
+
+The ready first-pass builds below are live in source91b06f5, not merely local. Public and
+staged browser sweeps each pass34desktop/mobile checks plus15genuine25fight functional runs,
+with exact result/settings equality. Each displayed independent reference still uses40k
+validation fights. Full release receipt: simulator-reviewed-deployment-2026-10-20.md.
+Owner requested a NEW common-core raid-buff recheck next: Moonkin/Leader of the Pack/Trueshot/
+Battle Shout/Strength of Earth/Grace of Air/Windfury. Those new numerical results do not yet
+exist; current references remain scenario-specific and are not a cross-class tier ranking.
+Remaining specs and optimized tanks still require work; full goal is not complete.
+
 ## October20 — local first-pass delivery and authorized production handoff
 
 Ready locally: WarriorFury/2HFury/Arms, RogueCombat/Mutilate/Subtlety, HunterBM/MM/Survival,

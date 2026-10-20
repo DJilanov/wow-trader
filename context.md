@@ -2,6 +2,84 @@
 
 Last updated: 2026-10-20
 
+## October20 10:09UTC — production deployment and all public checks COMPLETE
+
+Full public browser40774 TERMINAL0:34desktop/mobile checks,15real25fight runs,errors[].
+Exact comparison of every checked row with the final stage report PASS; saved settings and
+same-seed result arrays match. Machine receipt optimization/deployment-20261020-qZeHKX/
+verified.json, also copied to server backup directory. Public7profile deployment gate PASS;
+guild/Trader/Leveling200 and legacyredirect200. Application remains pushed91b06f5, Nextbuild
+FxgzTlOyYvw9WgD6-Cxb5, webPID3686049/restart154. Final source1243blobs reverified. Full771web
+tests,11deployment tests locally/Linux,all11packagebuilds/Nextstrictcompile PASS. See final
+docs/simulator-reviewed-deployment-2026-10-20.md for source/artifact roots and guarded rollback.
+Local stage proxyPID49294/tunnel45678 were resolved and stopped. Preview cleanup guard
+initially refused Next's changed standalone cwd; after exact cwd/command/port inspection
+and verifying it was NOT the live PM2 PID, only temporary previewPID3684670 was stopped.
+Final live health200, all other KFC/Discord PIDs unchanged. Server49GBused/24GBfree/68%.
+No artifact/evidence/release deletions. Documentation receipt is the only follow-up commit;
+the production APPLICATION identity remains91b06f5, not a later documentation commit.
+
+NEXT priority: owner's common7raid-buff recheck described below; NO such numerical runs yet.
+Keep current17publication entries/15DPS builds honest as scenario-specific references. Do not
+silently transform numbers, assume missing JSON self-aura flags mean missing effective auras,
+overwrite numerical pins, reset existing class clocks, or start a full exhaustive grid. First
+audit actual buff mechanics/contexts, then fresh identified incumbent/control comparisons and
+bounded gear/talent feedback in the existing first-pass tolerance. Full all-class goal ACTIVE.
+
+## October20 10:04UTC — reviewed builds ACTIVE on production; public browser sweep in progress
+
+Application commit91b06f575c0f1aaaea9b6288ffe07f2f5f73dd2e is pushed and source-built on
+the server. Current web release kfc-helper-simulator-reviewed-20261020-91b06f5, build
+FxgzTlOyYvw9WgD6-Cxb5. Actual activation99444 TERMINAL0/healthy: webPID3686049/restart154.
+All five non-web KFC processes preserved exact PID/status/restart counts. No database,
+ingestion, crawler, addon or Nginx changes. Environment changed only public simulator root
+and SEO build marker; runtime heap retained. New isolated artifact root:
+/home/wow-trader-system/shared/simulator-releases/reviewed-20261020-91b06f5.
+Original root/shared/forever-simulator remains intact;12older immutable release directories
+retained by hardlinks in the new root so already-open tabs keep their asset URLs.
+
+All1,243source bytes verified against pushed Git blobs before/after build and before switch.
+All21,128bundle files/784,794,816bytes verified on server. All11shared package builds and Next
+production compile/typecheck pass. Local full web771/771tests in109suites; deployment11/11
+tests/lint pass locally AND Linux. Correct-cwd simulator-only487/487 also passes.
+Actual complete staged browser60240 TERMINAL0:34desktop/mobile preset imports/full settings/
+scroll/reloads +15real25fight runs, errors[]. Stored actual report:
+optimization/deployment-20261020-qZeHKX/browser-stage.json. Earlier stage adapters encountered
+interception cleanup errors; replaced ONLY the test adapter with a local HTTP asset-mount
+proxy. One initial Feral reload observation timed out, but isolated both widths and the full
+final34case rerun pass, no application/model edits. Do not claim a diagnosed app fix.
+
+PUBLIC HTTP/data/private-proof gate70968 TERMINAL0/all7profiles PASS, current15DPS builds
+plus2proc variants. Legacy Helper Mage URL301->canonical200. Actual full public browser
+sweep40774 LIVE: poll this SAME handle; it already ran Fury/Arms successfully. It must finish
+34checks/15runs, then compare its same-seed result arrays exactly with browser-stage.json.
+No new raid-buff numerical runs have started. Source and numeric helper69b4b817... unchanged.
+Remote activation/rollback receipt directory:
+/home/wow-trader-system/shared/backups/simulator-reviewed-20261020-91b06f5.
+Inside: activated.json, activation.json (PUBLIC env lines only), compatibility.json,
+source-manifest.json, manifest.json, browser-stage.json and activation controller.
+Immediate guarded WEB-only rollback command:
+ssh root@89.167.46.193 'node /home/wow-trader-system/shared/backups/simulator-reviewed-20261020-91b06f5/activate-reviewed-deployment-20261020.mjs --rollback'
+It restores previous source015b205 and original two public env values, no data reversal.
+
+After public sweep: upload report, record final receipt in deployment doc + fixes/runbook,
+commit/push DOCUMENTATION ONLY (application remains91b06f5); stop previewPID3684670 after
+validating its command/cwd, then local proxy session75671 and tunnel85363. Both are test-only.
+Keep old releases/evidence and all numerical studies. Full all-class goal remains ACTIVE.
+
+Owner's NEW priority after deployment: recheck ready DPS using raid-wide Moonkin Aura,
+Leader of the Pack, Trueshot Aura, Battle Shout, Strength of Earth, Grace of Air and Windfury.
+Owner confirmed NOT duplicate totem stacking. Current saved benchmarks differ: Warrior lacks
+externalTrueshot; Hunter/Feral have missing external flags; Mage has noKings while others do;
+some self auras may be supplied automatically, so inspect effective buffs/stats instead of
+assuming missing JSON flag means absent effect. Native model already ORs raid/party auras,
+uses maximum tristates, and enables Forever Grace+WF together; WF is a party field, so provide
+it explicitly for each single-player benchmark. Preserve current references and sourcepins;
+new baseline gets fresh identified inputs/controls/holdouts and bounded gear/talent feedback,
+not a blanket multiplier or relabeling old DPS. Original Warlock class deadline/correction
+history still applies to its existing campaign. Remaining Warlock/Priest/Shaman/Paladin and
+optimized tanks are not complete. No next-spec search or buff calculation has begun yet.
+
 ## October20 — reviewed simulator deployment authorized; release preparation
 
 Owner committed the current source as685c6d5 and explicitly requested production deployment.

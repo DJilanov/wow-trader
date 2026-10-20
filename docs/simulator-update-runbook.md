@@ -1,5 +1,17 @@
 # Repeatable pre-raid simulation updates
 
+## October20 — public deployment complete
+
+Application91b06f5/buildFxgzTlOyYvw9WgD6-Cxb5 is active. All7profile public routes/database
+checks pass. Stage/public each34desktop/mobile reviewed imports/reloads and15actual25fight
+simulations pass; result/settings arrays match exactly. Local771web tests,11deployment tests
+on both platforms and all package/Next production builds pass. Only web restarted; twelve
+older immutable bundles retained by hardlinks for existing tabs and original roots retained
+for rollback. Final release identity, evidence and guarded rollback:
+simulator-reviewed-deployment-2026-10-20.md. Current15DPS builds/2additionalproc variants are
+not the forthcoming shared7raid-buff comparison. Owner requested that recheck next; do not
+alter existing provenance, numerical pins or references without new measured qualification.
+
 ## October20 — owner-authorized reviewed-build deployment
 
 Demonology is selected and actual main-page browser approved at1440/390px, including real

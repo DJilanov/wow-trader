@@ -2,6 +2,19 @@
 
 Last updated: 2026-10-20
 
+## October20 — reviewed presets deployed through pushed source and verified publicly
+
+Live application91b06f5/buildFxgzTlOyYvw9WgD6-Cxb5 serves17entries/15DPS builds across7profiles.
+Owner's685c6d5 plus deployment-gate follow-up were pushed, source-built on Linux, and all1243
+Git blobs/21128artifact files verified. Local full771web tests,11deployment tests on both
+platforms and production build pass. Stage/public each34desktop/mobile imports/reloads plus
+15real25fight runs pass with zero browser errors; all result/settings rows match exactly.
+Only Helper web restarted; old source/artifact roots remain and12older immutable asset-release
+directories are hardlinked into the new root to preserve existing browser tabs. No database,
+ingestion, worker or Nginx change. Full receipt/guarded rollback:
+docs/simulator-reviewed-deployment-2026-10-20.md. New owner-requested seven-raid-buff calculations
+are separate and not yet done; do not describe the current DPS references as that comparison.
+
 ## October20 — independently selected simulator releases in deployment verification
 
 The deployment gate previously required every publication/iframe to match model-update.json,
