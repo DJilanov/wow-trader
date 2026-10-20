@@ -2,15 +2,17 @@
 
 ## Latest planner change: actual-XP zone handoffs (October 20, 2026)
 
-Implemented locally; commit/push and deployment for browser testing are now authorized. See
-[the adaptive-handoff contract and checks](forever-leveling-adaptive-handoffs.md).
+Committed, pushed and deployed for browser testing as `d4390d3`. See
+[the adaptive-handoff contract](forever-leveling-adaptive-handoffs.md) and
+[the October 20 release/rollback receipt](forever-leveling-test-deployment-2026-10-20.md).
 Outdoor chapter level ranges and imported source-only grinding suggestions are advisory, not
 mandatory zone-entry levels. Carry actual XP forward and require extra levels only at a real
 quest pickup or the next selected stop. Personal starter checks use the leader; shared checks
 still use all five. Dungeon and catch-up targets follow the chosen policy, and excluded optional
 dungeons no longer retain their departure gates. Required unlocks, fresh-bar checks, source
-conflicts and evidence/publication gates remain intact. The October 19 release below is still
-the deployed version until this change's activation and browser checks are verified.
+conflicts and evidence/publication gates remain intact. The October 19 release below is retained
+as the immediate rollback; the adaptive planner is now the active web version. This does not
+publish an addon or certify real in-game execution.
 
 ## Current completion plan: guaranteed new-dungeon quest bundles (October 19, 2026)
 
@@ -19,8 +21,9 @@ reviewed unavailable page 3343, all 83 route-evidence pages, and published-forma
 all 1,161 real hand-in IDs in the local matrix. Historical hand-in fallbacks are now zero. See the
 [October 19 completion receipt](forever-leveling-quest-completion-2026-10-19.md) for hashes, source
 disagreements and the new review ZIP. The authorized
-[browser test release](forever-leveling-test-deployment-2026-10-19.md) is now live from commit
-101882a. Addon publication and real in-game validation remain pending.
+[October 19 browser test release](forever-leveling-test-deployment-2026-10-19.md) at `101882a` was
+superseded by the October 20 adaptive planner above. Addon publication and real in-game validation
+remain pending.
 
 The later [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md) covers
 the implemented private-observation→audit→public-coverage→browser path, party identity settings,

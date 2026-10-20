@@ -1,8 +1,9 @@
 # Actual-XP zone handoffs
 
-Implemented on October 20, 2026. Commit/push and deployment for browser testing are authorized and
-in progress. Until activation is verified, the
-[October 19 deployment receipt](forever-leveling-test-deployment-2026-10-19.md) describes the live site.
+Implemented, committed, pushed and deployed for browser testing on October 20, 2026 from
+`d4390d397975ba7624e48630e17293338414bfd3`. See the
+[verified deployment and rollback receipt](forever-leveling-test-deployment-2026-10-20.md).
+The October 19 release remains the immediate rollback, not the active web version.
 
 ## Behavior
 
@@ -63,8 +64,11 @@ does not install an addon or alter the live download.
   earned XP, mobile controls and first-run save. Screenshots:
   `/var/folders/xw/7z04bfmn5cv5hl86pp_4dtnw0000gp/T/wow-trader-guaranteed-bundles-cPFOoA`.
 
-The temporary localhost preview was stopped after verification. No production process, published
-data, installed addon or public download was changed. Real in-game route validation remains open.
+The initial local preview was stopped after verification. The subsequent authorized deployment
+restarted only Helper web; published data, installed addons and public downloads were unchanged.
+The clean release independently passed 324 leveling and 552 web tests; the larger development
+count above includes unrelated workspace tests that were deliberately excluded from deployment.
+Real in-game route validation remains open.
 
 Run the focused checks from the repository root:
 
