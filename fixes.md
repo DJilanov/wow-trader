@@ -2,6 +2,134 @@
 
 Last updated: 2026-10-20
 
+## October20 — Hunter BM bridge retains actual class, pet and mutually exclusive mana consume
+
+New supplemental bridge proves M81-to-A4 with real class2 Hunter, unchanged seven-buff combat
+settings and complete native/WASM pet/resource/stat equality. Legacy12 becomes Greater20,
+an8MP5 delta, never an additive32MP5. Narrow codec exports no Class/Stat enum objects: actual
+class is validated through IndividualSimSettings decoding instead of guessed exports. Six
+regressions and three independent raw-origin audit tests pass; four new40k scalar origins
+give903.2534 versus905.7553DPS on the fixed setup, not new BiS qualification. Sources frozen;
+gear/state/fresh confirmation/UI handoff still pending. Hunter pointers/production unchanged.
+
+## October20 — corrected Feral setup delivered on the actual local Helper page
+
+V2presentation18c6325ffc446938063c598f uses unchanged A4engine/qualified9f925e/fresh40k752.06DPS,
+not unapproved C3. First visits now correctly use5yards; saved characters remain unchanged.
+Actual15screen staged QA,28starter audits, both full-share viewports and native/browser25fight
+control PASS. New18profile tests and full111suites/819web tests/typecheck/lint/format PASS.
+Local selector25947 updates ONLY Feral and preserves16other builds/all6other model roots;
+actual idempotent replay preserves all4pointer JSON bytes. Actual main page73852 passes both
+desktop/mobile configs/gear/guide/tooltips/reloads/one-scroller/Simulate (750.20/25diagnostic
+fights, distinct from752.06/40k reference). Screenshots visually checked. Local URL:
+http://localhost:3017/tools/forever/simulator/feral-druid . Receipts/nextHunter work incontext.md.
+No production, DB, nginx, commit or push change.
+
+## October20 — Feral first-visit range bug caught before selection
+
+Actual compiled C3package passed TypeScript/assets but browser QA found Cat default0yards,
+not benchmark5. Config loads were5; first visits read OtherDefaults, which lacked distance.
+Failed C3was never approved/selected. New V2pure overlay adds only distanceFromTarget:5 via
+the existing OtherDefaults contract, preserving saved characters and qualified numerical
+evidence. Two focused regressions plus genuine failed-setup cleanup test PASS; lint/format
+PASS. Actual replacement build21624 is live, then strict browser/profile/main-page checks.
+No numerical search restart or production mutation; frozen V1/artifacts stay untouched.
+
+## October20 — new honest Feral presentation adapter, build in progress
+
+Per-profile model reader now accepts the separately qualified A4raid-revalidation schema,
+not old M81 evidence relabelled as new. Strict requested-pointer isolation and exact numerical
+asset/build/source checks remain; only the audited8.54MB state result has16MB read limit.
+Typecheck/lint pass. New virtual Cat presentation --plan9817 passes (c3d9e705...), actual
+--build33556 is live. Missing-release browser-review cleanup regression passes, with no
+false approval or leaked lease. Current local page returns200, no preset switched yet.
+Actual compiled/browser/profile-fixture/default/config/guide QA still follow; seecontext.md.
+
+## October20 — actual selected Feral A4 browser replay and honest export adapter
+
+Selected10k inspected browser replay29788 TERMINAL0: exact native/browser DPS and stdev,
+receipt bddd17be25cd4a7187281b1e1556a95f35e8ce594daa79dcb5c5efd37cd8e986. Fresh40k
+reference remains752.0645DPS, separate from inspected752.1064. No fresh native samples.
+Three export tests8764 PASS after fixing an omitted protobuf-zero compatibility issue in
+the NEW adapter only: verified actual-wire defaults are exposed to a guidance-only view;
+stored measured settings and old frozen helper/guide/model remain unchanged. New honest
+raid-revalidated schema/namespace avoids M81/A4 codec or old-role spoofing. Qualified export
+89990 TERMINAL0/build9f925eb2459ccbc3; pure virtual Cat overlay4tests PASS. Genuine13document
+gzip fixture and source-bound web reader30tests PASS, exact export/confirmation/parity pins.
+The actual APL has empty prepull; do not invent instructions or mutate measured settings.
+Broad default concurrency hit5s source-heavy timeouts; bounded full rerun29562 TERMINAL0:
+110suites/801tests PASS, including30new individually parameterized reader cases. No frozen
+helper or old tests changed to pass. No public selection/deployment; actual
+per-profile A4presentation and desktop/mobile UI handoff still follow. Details atcontext.md.
+
+## October20 — Feral seven-buff independent confirmation verified
+
+Actual24new origins/480kfights,12frozen arms/two disjoint20k ranges each/0imports or reuse.
+Selected752.0645DPS/40k, conservative retained gap0.69846%, owner2% and original1% accepted.
+Nearby gear/enchant gains disclosed; no holdout winner change. Full separate raw/stage/
+statistical/reservation/source replay and7focused tests/lint/format pass. Executed new files
+frozen; cache helper/models/old clocks untouched. Next actual A4selected browser10k parity,
+honest new adapter/export and real preset/guide/UI delivery. No new selection/deployment.
+Important old-M81 publisher/codec incompatibility and complete evidence at top ofcontext.md.
+
+## October20 — focused retained-gear applicability and stable replay receipts
+
+New Feral delta tools retain94gear proposals across all24previous group families plus
+coupled combinations, including every17high-precision finalist, and remeasure them under
+the materially changed state. Five tests/lint/format pass; seven genuine native/WASM controls
+pass full equality. Actual scalar25454/PID58104 TERMINAL0:300new origins/414520fights and
+full saved replay; gear unchanged at inspected752.11DPS, leader756.32(+0.56%) below1% change.
+Separate full-origin/control replay40877/all3negative/integration tests PASS. Applicability
+is genuinely closed; fresh confirmation remains pending. Current pools
+are explicitly retained-only; no full new all-item sweep/global2% proof is claimed.
+The new immutable selection receipt uses canonical stored completion and original totals,
+separately reporting current-invocation reuse in CLI. Operational completed CLI replay21840
+TERMINAL0:0new native jobs/replayedCompletedStudy=true; actual receipt remains byte-identical,
+SHA b8d3445cdc8a5053b92c74b34471b17dd6ddaee136751e155aa9a1aff07474ba. Old executed
+drivers/reports and numeric helper remain frozen.
+
+## October20 — Feral Greater20 consume bridge verified without model/source edits
+
+Existing M81 Feral had no Mageblood. New actual class1 controls safely bridge to existing
+A4 engine: exact unchanged None player/pet/resource metrics/effective stats, identical
+native/WASM responses, exactly20MP5 added by verified non-raid Greater Mageblood. Four new
+A4 scalar requests/40kfights complete; both None seeds reproduce M81 results without
+importing them.20k per arm:741.2528->744.2543DPS(+0.405%). Separate raw-origin/control audit,
+nine actual-input/replay/negative tests and scoped lint pass. Models/frozen cache helper
+unchanged. All executed bridge files frozen. The bounded all17slot gear delta subsequently
+completed:12231new configurations/1592620fights, full24group sweep and saved replay pass.
+Largest inspected combined gain0.52% is below the existing1% material threshold; current
+gear retained. Actual completed-gear replay/integration3tests and state-preparation5tests
+pass. Six new actual native/WASM state controls/150fights per engine pass full parity;
+bounded state search25634/PID45465 TERMINAL0:558new origins/280700fights, exact saved replay.
+Selected inspected DPS744.29->752.11(+1.05%), talents050022-45010032021030212051-055,
+five-point Rip/60energy shifting/Rune. Material change requires retained-gear applicability
+before fresh confirmation. Separate source replay16335/all3tests/lint PASS verifies every
+origin/control/selection and rejects tampered claims. New state source files are frozen;
+original helper unchanged. No new public preset/reference or deployment.
+No new public preset/reference, commit, push or deployment. Details at top ofcontext.md.
+
+## October20 — actual raid-core diagnostic audited; public presets remain untouched
+
+All15standard current presets now have paired20k old/new core-buff measurements. Actual30
+native/WASM full controls,60raw scalar origins/600kfights/0reuse, saved replay and separate
+raw-origin/statistics audit pass. All12focused tests/lint/format pass. These are inspected
+exploratory ranges, not new independent optimum qualifications. Full evidence/matrix and
+Feral/Hunter next steps: docs/simulator-raid-core-recheck-2026-10-20.md. Native models/helper
+are untouched; all executed newsource files frozen. No website, reference DPS, class-clock,
+correction history, commit/push/deployment or public build selection changed in this phase.
+
+## October20 — raid-core comparison input guards, local only
+
+New private raid-core tools derive all15standard selected presets from their reviewed source
+templates and actual item/enchant projections, changing only the owner's six raid flags and
+canonical party Windfury coverage. Eight real-input regression tests/lint pass. Strict checks
+reject class spoofing, unknown gear, changed consumes/encounter and exclusive Flametongue;
+the detailed parity validator normalizes actual protobuf oneof action IDs and recursively
+checks pets/resources using a genuine old control regression. No game-engine change or new
+production update. Actual new control run61268 is LIVE/frozen; scalar measurements have not
+started. See top ofcontext.md; do not mistake a fixed-build diagnostic for qualified new BiS.
+
 ## October20 — reviewed presets deployed through pushed source and verified publicly
 
 Live application91b06f5/buildFxgzTlOyYvw9WgD6-Cxb5 serves17entries/15DPS builds across7profiles.

@@ -2,6 +2,784 @@
 
 Last updated: 2026-10-20
 
+## October20 14:48UTC — Hunter BM confirmation wiring PASS; actual fresh confirmation starting
+
+61597 TERMINAL0/all4state-source audit tests PASS (~101s): authentic520new origins/308,020fights,
+seven complete controls, all19inspected state finalists and every8historical retained state
+replayed. Exact905.9736809050329full-gear baseline DPS/stdev and original request identity
+reproduced; materiality rule independently recomputed. Selected31/20/0/Raptor/Multi remains
+unchanged; no correction needed and no fabricated applicability record.
+
+New hunter-bm-raid-confirmation-{arms-,}v1.mjs, test and run-hunter-bm-raid-confirmation-v1.mjs
+implement genuine mixed state/gear inspected contenders, all5implemented pets, exact same
+scenario, legality/enchants/Greater20/seven-buff/class2 checks, old original Hunter/M81/core/
+known historical RNG exclusions and global range reservation. Canonical summaries exclude
+unstable invocation counters. User2% wrapper preserves original1%, no holdout winner change.
+74922 TERMINAL0/all4authentic input/fresh-range/tamper/no-write-readiness tests PASS (~129.6s);
+lint7681/format PASS. No fake legacy sourceRole or retrospective new-model numbers.
+
+Actual run-hunter-bm-raid-confirmation-v1.mjs --run launched14:48UTC, handle25792/PID21827,
+studyff705895222ad89a75f539157a8c1664352fe553cdd323f69668b2423250d280; it first
+reauthenticates/replays the entire measured source, freezes/reserves the plan and then uses
+two NEW20k ranges per arm, zero numerical imports.100k reservation is NOT100k measured fights.
+Actual fresh measurement began14:50:58UTC; same handle confirmed live14:51:15UTC, no errors.
+New hunter-bm-raid-confirmation-source-v1 reader/3tests are implemented, scoped lint32417 and
+format PASS, not yet executed because actual fresh completion is required. It reconstructs
+the immutable declaration/reservation, authenticates every new raw admission, replays all
+retained comparisons and preserves original1%/owner2% statistics without starting combat.
+All4confirmation source files are NOW FROZEN. Poll actual handle; do not restart on a quiet
+preparation phase or observation timeout. Next full independent confirmation source replay,
+actual selected native/WASM parity, qualified export and faithful shared Hunter UI delivery
+preserving MM/SV original engines/evidence. No new default/preset pointer, commit, push or
+production deployment. Full all25wanted DPS/3tank goal ACTIVE, original clocks unchanged.
+
+## October20 14:40UTC — Hunter BM state COMPLETE, unchanged; no redundant gear correction needed
+
+86228/PID11233 TERMINAL0, study5c82fb59...:520new origins/308,020fights,38valid within-context
+reuses, zero old imports, complete saved replay. Actual67talent candidates/four retained roots,
+bounded nine-APL/five-pet expansion, all8distinct historical retained states remeasured10k.
+Selected still31/20/0,5320001505101251-00522510005, maintain Hawks/Sting/Multi-Shot/15%Arcane,
+Raptor;905.9736809050329DPS/inspected10k. Highest retained state906.7498653780299 (+0.08567%)
+is below1% and3SE, not accepted as a material change. Exact original gear-request ID survives.
+gearApplicabilityRequired=false: full-gear evidence applies to exactly this unchanged state;
+do not launch another27k-layout sweep or fabricate a correction receipt.
+
+Resultd4c15dd9d95e08cceb69515ba1b739b39d88b4ea34e2258ce26bba67ff5bd2ed;
+canonical summarybd28de7374badd3fed4ba38ee6b598b6978ab82fcaebca48d41d1b546f87ef75.
+New hunter-bm-raid-core-state-source-v1{,.test}.mjs scoped lint/format PASS; actual four-test
+independent full source replay now RUNNING on its own handle. It additionally requires exact
+full-gear baseline DPS/stdev reproduction and genuine10k coverage of every retained state,
+recomputes the materiality rule and rejects changed buffs/imports/qualification/applicability.
+These audit files are now FROZEN. Next genuine fresh two20k retained-contender confirmation,
+selected native/WASM and truthful Hunter UI delivery preserving MM/SV. No new preset/public
+reference, commit, push or deploy; full goal ACTIVE and original clocks unchanged.
+
+## October20 14:34UTC — Hunter BM actual pet/APL/talent controls PASS; state scalar starting
+
+17603 TERMINAL0:7native+7WASM/175fights per engine, complete player/pet/actions/resources/
+stats parity plus offensive pet ability exercise PASS, clean cleanup. Controls semantic
+53b37c51e62e85dec8236a3b339780477f541949e0ee328e4e4f340b436a71de at
+optimization/hunter-bm-raid-core-states-v1/controls.json. All executed state preparer/context/
+driver/test sources are FROZEN; do not modify them or old helpers. Actual --run launched
+14:34UTC, handle86228/PID11233, study5c82fb594e5907599205534ee611c60976885b6244afc857dd7105376a275a80.
+It replays the finished full-gear source first; then finite
+current-gear talents/nine APLs/five implemented pets and mandatory retained-state10k checks.
+Actual14:37:35UTC:511new origins/218,020fights, inspected-finalist phase, no errors reported.
+Coverage:67initial candidates,4retained talent roots,8distinct retained historical states.
+New hunter-bm-raid-core-state-source-v1 reader/tests are prepared and scoped lint/format PASS;
+they pin this ACTUAL study identity and controls53b37c... and will authenticate/replay every
+real origin/stage/control/retained state after actual completion. Those4tests are NOT run yet.
+No old numerical imports, UI pointer change or production mutation. Cache helper still
+69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+
+## October20 14:31UTC — Hunter BM independent gear audit PASS; actual state controls starting
+
+23398 TERMINAL0/all3tests PASS (~94.6s): complete authentic27,802origin/2,928,000fight source,
+all six detailed controls, every saved scalar stage and canonical summary independently
+replayed with0new combat. Altered buffs/class/imports/DPS/qualification/completion rejected.
+No gear change: inspected905.9736809050329vs906.3192826404206leader (+0.03815%, below1% and3SE).
+Do not call this final independent qualification; retain nearby leader for later confirmation.
+New gear-source reader/tests are now FROZEN for downstream provenance.
+
+Actual run-hunter-bm-raid-core-states-v1.mjs --controls launched14:31UTC on its own exec handle.
+It first reauthenticates/replays the finished gear source, then seven genuine actual-gear
+pet/APL/talent native/WASM controls. No scalar state search yet. No new public preset or
+production update. Next poll that handle to terminal, then --run; cache helper/models and
+old class clocks unchanged, full original goal ACTIVE.
+
+## October20 14:29UTC — Hunter BM full gear study COMPLETE; independent replay tests running
+
+Previous goal turn was PROGRESS: six actual native/WASM gear controls passed, all-slot
+numerical work advanced, new actual-input state tests passed, and complete source/state
+coordinators were implemented. Full all-class goal remains ACTIVE; not narrowed to Hunter.
+
+Actual25259/PID92999 is now TERMINAL0 (14:28:25UTC), not live. Study52676c96... completed
+27,802new origins/2,928,000fights across every supplied17-slot/pair/set/enchant group; no old
+imports.467same-context exact-request reuses are valid. Complete saved-stage replay matched.
+One full sweep ended under the existing small-gain rule; no redundant second sweep launched.
+Selected incumbent remains905.9736809050329DPS/inspected10k, not a fresh public reference.
+Canonical completion result649e0e4f46c301d858300461c8c59e80e079a6e7be4d227e6f2ef8160b110ac1;
+selection summaryb1d7c2b75bab44a868b0f67d6bb0532fc78895ea2f257287dbb726a091ef72f7.
+
+Independent hunter-bm-raid-core-gear-source-v1.test.mjs now RUNNING on its actual exec handle;
+then run run-hunter-bm-raid-core-states-v1.mjs --controls (actual seven pet/APL/talent cases)
+and --run. Those both load/authenticate/replay the complete finished gear source before
+numerical work. All pending state/source files pass scoped lint and formatting (60701/2246).
+Four pure state-input tests remain PASS. No new UI/model pointer, commit, push or deploy.
+
+## October20 14:24UTC — Hunter BM all-slot pass LIVE; owner asked for default rollout status
+
+Status answer: NOT all updated/default-deployed. Existing Warrior/Rogue already include the
+three totems in reviewed saved scenarios. Feral seven-buff default is delivered LOCALLY on
+3017; production unchanged. Hunter BM is being revalidated; new MM/SV follow afterward.
+Do not claim all defaults or production have been updated, nor deploy without new authority.
+
+Actual gear scalar handle25259/PID92999 is LIVE, identity
+52676c96ed176e28bc9570dc8e47a58135b0ebef2e0c59853f4061bd8714d19c.
+Latest observed14:23:07UTC:20,070new origins/1,928,400fights, sweep1/group14 ring-pair screen;
+27group families/26,900unique initial proposals. Ordered hands alone17,517layouts, rings4042,
+trinkets1625, sets2030. Same-context exact-request reuse is deliberate and valid; old-context
+imports are zero. Do NOT restart on an observation timeout. Poll state.json for concise progress
+and the actual25259handle for terminal result. All3executed gear files remain frozen.
+
+New hunter-bm-raid-core-gear-source-v1{,.test}.mjs are prepared/scoped lint PASS, but full source
+replay tests REQUIRE actual completed gear source and have NOT run yet. Reader authenticates
+the pinned actual52676...declaration, all six real controls, new raw journals, canonical
+summary and complete bounded saved-stage replay with0new combat. Internal sourceReused may
+be positive for identical requests within THIS study; do not falsely equate it to old imports.
+
+New hunter-bm-raid-core-states-v1{,.test}.mjs:62913 TERMINAL0/all4authentic-input tests PASS,
+lint28252 PASS/format PASS. Pure actual-class2 state preparer has60pet/ammo/stone templates,
+7distinct real pet/APL/talent controls, retained historical state proposals (no DPS imports),
+legal one-point neighbors, existing bounded9APL/5pet expansion and mandatory inspected10k
+remeasurement of every retained source state. Requires gear applicability after a material
+state change or unresolved gear cap. No new state numerical controls/scalars started yet.
+
+New hunter-bm-raid-core-state-context-v1.mjs and run-hunter-bm-raid-core-states-v1.mjs connect
+the ACTUAL finished gear reader to authenticated historical build9bead9ab.../declaration
+0b7f4d38... and original no-combat UI capture69e76caf... (for complete APL action templates).
+Do not pass a fabricated old sourceRole to old pet-control wrappers. Driver has --plan,
+--controls then --run, canonical completion summaries, seven full native/WASM pet ability/
+resource/action controls and no imported numerical origins. These two are not yet executed;
+an unused import lint finding was fixed before numerical execution. Full source/state-context
+checks follow gear completion, then actual controls/state/applicability/fresh confirmation/
+faithful Hunter UI preserving MM/SV. No public source changed in this Hunter work.
+
+## October20 14:14UTC — Hunter BM gear controls PASS; finite all-slot scalar pass starting
+
+New hunter-bm-raid-core-gear-v1 context/driver/6tests:43770 TERMINAL0/all6PASS, scoped lint87724
+PASS, formatted. Exact authenticated class2/Dwarf combat settings retained; only explicit
+Alliance acquisition metadata is added. All17eligible slots/orderedhands/rings/trinkets/sets/
+non-raid enchants,12stone/ammo templates, 2finite sweeps max and80k-record fail-closed cap.
+Raid-material Core Marksman Rifle18282 remains excluded. No old numerical origins imported.
+
+First non-numerical test55958 correctly rejected old generic blue controls: the first gun
+candidate is now the incumbent, producing only5distinct inputs. New supplemental control
+preparer requires an actual ammo-type switch; no frozen old helper was edited. Actual33840
+TERMINAL0:6native+6WASM/150fights each engine, complete player/pet/resource/action/stat parity,
+cleanup PASS; controls semantic28cdb47efd54b2873ea693d46edc7d932b57ec38b31b947f0dc24d1555622040.
+All3new executed gear source files are NOW FROZEN. New scalar --run launched14:14UTC;
+poll its actual exec handle, never restart on observation timeout. Summary stores canonical
+completed.json, not unstable invocation reuse counters. Native state/selected gear is not
+qualified or published yet. Local disk41GiB free; cache helper69b4b817... unchanged.
+
+## October20 14:07UTC — Hunter BM actual-class A4/Greater bridge independently verified
+
+Hunter BM seven-buff supplemental revalidation is IN PROGRESS. No Hunter preset/model pointer
+has changed; BM/MM/SV remain on their existing reviewed M81 presentation. Feral remains delivered
+locally as below. Production91b06f5 and the original class clocks/correction budgets are unchanged.
+
+New frozen hunter-bm-raid-core-bridge-v1 tools prove actual class2 Hunter/pet, all seven buffs,
+unchanged gear/talents/APL/scenario, M81-to-A4 item equivalence and mutually exclusive legacy12
+versus Greater20 (+8MP5, never stacked). Six focused tests pass. Actual controls79076 TERMINAL0:
+two25-fight native plus two WASM runs; complete player/pet/actions/resources/stat parity passes.
+Historical legacy12 control reproduces900.5733727369584DPS exactly; Greater20 gives902.340661.
+
+Scalar60964/PID78892 TERMINAL0, study394891b34b8561d583cf8d4785ea1bc0b25abfb2b68c41c2b5375abf34f1e66a:
+4new A4 origins/40,000 fights/zero imports or reuse/exact saved replay. Inspected20k-per-arm means
+legacy12=903.2533534016395 and Greater20=905.7553370445869 (+0.277%). This is a fixed-build model/
+consume diagnostic, NOT fresh confirmation or a new BiS set. Historical legacy is not eligible
+for the new preset. Separate raw-origin/control/statistical audit9671 and3tests84519 PASS.
+Comparison semanticfa49b4895a6e393c0fb986d3d93b243f6b8fa4605f3c4cf695b351064628096f;
+audit semanticd7445ffb9cc275b2f134672b51f37aad1b1c5f0f6d330b9a3ccb5a885cd1b92c.
+All5executed bridge/audit source files are FROZEN; do not rerun immutable summary writers.
+
+NEXT: fresh finite Hunter BM all17-slot/pair/set/non-raid-enchant gear screen with actual A4
+Greater20 templates and six real native/WASM gear controls. Reuse pure Hunter gear helpers,
+not old numerical origins or unnecessary old blue searches. Current combat settings omit GUI
+faction; derive only faction metadata from the authenticated Dwarf/Alliance source, preserving
+all combat inputs exactly. A4's8additional items are Mage-only, not Hunter candidates. Then
+actual-gear state/pet/consumable check, retained applicability, independent confirmation and
+source-faithful Hunter UI delivery preserving old MM/SV engines/evidence. No active worker
+currently; cache helper69b4b817... unchanged. No commit/push/deploy authorized for this work.
+
+## October20 13:41UTC — Feral raid-revalidation DELIVERED LOCALLY; Hunter BM next
+
+This goal turn is PROGRESS: real immutable compilation, browser-discovered/fixed first-visit
+bug, authenticated runtime publication, actual local selection, full desktop/mobile main-page
+combat and819web regressions all completed. No required Cat UI handoff remains. Full all-class
+goal stays ACTIVE; no new commit/push/deploy authorized. Production remains91b06f5.
+
+LOCAL: http://localhost:3017/tools/forever/simulator/feral-druid
+Selected Feral presentation18c6325ffc446938063c598f/sourceA4a4eabfa5c89f3813c1b74bde.
+Qualified immutable build9f925eb2459ccbc33ea2d46723b1d8db79a83f32bf2be85d42d2c47e70e1b1be,
+fresh40k reference752.0645151927594DPS,9/32/10/Greater20/seven raid-core buffs, Rune,
+Shred/Rake/five-CP Rip/60energy shifting. Original1%/owner2% assessments preserved, conservative
+retained gap0.69846%; nearby better alternatives disclosed, no global optimality/server proof.
+Earlier inspected10k752.1064 and25fight browser750.20 are NOT the fresh40k reference.
+
+V2build21624 TERMINAL0/3495files/all-class virtual TypeScript PASS/numerical assets unchanged.
+V1C3 remains unapproved; do not delete/rewrite it or its failed QA. V2only corrects first-visit
+distance through existing OtherDefaults:5yards, not0. Both overlay versions and all executed
+builder/review/test files are FROZEN. No engine/helper or fresh numerical search was rerun.
+Actual staged63478 TERMINAL0:15screens/28starter gear sets, full configs/gear/defaults,
+saved characters, desktop/mobile full shares, no unrequested combat and clean cleanup.
+One diagnostic25fight native/browser check:750.203911879646 vs displayed750.20, seed819700001;
+not fresh independent validation. Browser approval:
+optimization/reviews/profile-model-browser-766ad1b44e32441e.json,
+semantic766ad1b44e32441e5fe495fe7191026e385d05e4f474db5b264729b19460a9e1.
+Presentation proof byteSHA8152d6f8b7348b8145db0306e0b215ce38094bbf90dfdf0398b443ed9fb508c7.
+
+Authentic6document profile fixture apps/web/src/lib/fixtures/model-profile-feral-raid-v1.json.gz,
+344021bytes/semantic86cbc213455e5757cbd2c32b3b44d2ddc2fe08ed4fd3cc0a6164c6e3f8ac9ca6.
+Combined with existing13document numerical fixture. New profile tests70913/all18PASS,
+including truly resealed invalid proofs (manifest.files is actually reassigned), all6other
+profile preservation rows, both viewport shares, scalar parity, bad schema/class and malformed
+unrelated pointers. New numerical reader30tests remain PASS. Full bounded suite28106 TERMINAL0:
+111suites/819tests PASS/130.39s. Final typecheck33360, scoped lint84871, source formatting PASS.
+
+Actual local selector --plan26316 PASS/23source refs/16other existing build entries. --select
+25947 TERMINAL0, receipt optimization/reviews/feral-raid-local-selection-8bb3c23f5a0dd7ca.json.
+Only old pinned Feral publicationa3cbd862... was replaced; old artifacts retained/backups saved.
+All6other selected class/profile presentations,16other build entries, active.json and
+model-update.json unchanged. Actual subsequent --plan returns already-selected-and-verified,
+0persistent writes; before/after SHA of all4pointer JSONs byte-identical, independently checked.
+Selector follows result/declaration references only for bounded-study schemas, not raw summary
+objects such as consumeBridge.result. No role/class/model spoof or old clock reset.
+
+Actual main-page73852 TERMINAL0:1440x1080 and390x844, first default/configs/Gear Sets/7action
+rotation guide/Greater20/full measured imports/reload/proc opt-in off/item stats tooltip/
+single global scroller/no horizontal overflow/Simulate all PASS. Two genuine25fight browser
+runs both750.20, matching staged native control at display precision. Receipt:
+optimization/reviews/feral_druid-main-page-49a99512d7e1a229.json.
+Screenshots optimization/screenshots/feral-raid-main-O2C54o/main-feral-{1440,390}.png inspected
+visually: KFC styling/logo/class heading, library first, readable desktop/mobile, no clipping.
+No active simulation/build/test/browser job remains; existing dev server3017 stays available.
+
+NEXT: Hunter Beast Mastery seven-buff bounded revalidation, finish actual defaults/configs/
+gear/guide before Marksmanship then Survival. Earlier fixed-build diagnostic increases were
+BM4.61%/MM4.98%/SV10.46%, NOT optimized/fresh references or cross-class rankings. Preserve
+historical M81 measurements as proposals/evidence only; if moving Hunter to A4/Greater20,
+first prove actual-class bridge/consume applicability without Mage/Feral class spoofing.
+Inspect raid-core-buffs-v1 and hunter-beast-mastery-first-pass-{blue,geared,state-source,
+final-context,confirmed,selected}-v1 files as relevant; never re-run frozen old writers or
+reuse old-context scalars as new. Reuse finite retained proposals/algorithms, not full global
+talent grids; honor2% practical margin and original1% disclosure. Keep cache helper69b4b817...
+unchanged, old clocks/corrections intact. Optional normal-stat-buff question remains unanswered.
+
+Full remaining original scope NOT narrowed: WarlockAffliction/DS-Ruin/Destruction, PriestShadow/
+Smite, ShamanElemental/Stormcaller/Enhancement, PaladinRetribution/Shockadin, optimized3tank
+roles; other completed profiles' seven-buff revalidations still follow as needed. Original
+Warlock deadlineOct21 06:24:18.106UTC remains. Do not mark all25DPS+3tanks complete because
+15old standard DPS builds are published or one new Cat setup is now delivered locally.
+
+## October20 13:23UTC — actual browser caught default range; V2 presentation correction BUILDING
+
+This turn is PROGRESS: actual3495file immutable C3presentation compiled/all-class TypeScript
+passed, then real browser QA exposed a genuine first-visit bug. Build33556 TERMINAL0:
+c3d9e705b8ab1208053d3ecf/sourceA4, unchanged numerical assets. Review76446 TERMINAL1 after
+Warrior/Rogue/Hunter gear/config checks passed: Cat first-visit distanceFromTarget was omitted
+(default0), not the measured5yards. This was NOT relaxed into a pass or treated as a harmless
+serialization difference. No browser approval or selection exists for C3 (directly checked
+13:23UTC); cleanup completed on actual failure. Feral profile pointer still absent; old source
+M81/presentation3c62628.../publicationa3cbd862... remains active. No new native combat in C3QA.
+
+Cause verified in actual upstream contracts: OtherDefaults permits distanceFromTarget, and
+IndividualSimUI.setDefaults reads defaults.other?.distanceFromTarget ||0. Original Cat
+OtherDefaults supplied only professions; explicit Preset Configurations loaded5correctly.
+Fix is new pure feral-raid-preset-overlay-v2.mjs calling immutable V1, then adding ONLY
+distanceFromTarget:5 to Cat OtherDefaults. Professions/gear/talents/rotation/consumes/buffs/
+actual qualified9f925e settings and saved characters are unchanged. New focused2tests compare
+every output withV1, require this sole content difference, preserve actual build SHA and
+reject changed/already-overridden defaults. No numerical reoptimization/holdouts needed.
+
+New build/review-feral-raid-presentation-v2.mjs +review.test preserve the exact strict QA
+(including5yard default). V2builder pins both overlay versions/tests and its actual V2review
+files, never edits C3/V1/frozen numeric sources. Actual55647 TERMINAL0/all3tests PASS
+(2overlay plus missing-release cleanup;~6.7seconds), lint17821 PASS/format PASS. Actual
+V2 --build21624 is LIVE since13:21:29UTC; same-handle poll at13:23:06 confirms still running.
+Do NOT restart on observation timeout. It re-verifies the existing source chain before
+compilation; expected no new native/WASM search jobs. V2executed files are NOW FROZEN.
+Do not use old C3 for profile fixtures/selection. Use the NEW actual V2release after terminal0.
+
+New per-profile runtime schema/typed reader from prior block still typecheck/lint PASS,
+but actual new profile fixture/tests and broad regressions are pending. Public test file
+forever-simulator-profile-model-raid-feral.test.ts is prepared but intentionally awaits the
+authentic successful staged fixture; do not run full suite yet. Exporter/selector/main QA
+from prior block use release arguments and work with the successful V2package without fake
+schemas or copied approvals. Selector explicitly pins old predecessor and16other build
+cases. No local selection, production mutation, commit or deploy. Full goal ACTIVE.
+
+NEXT: poll21624 to terminal, then
+node artifacts/forever-simulator/optimization/review-tools/review-feral-raid-presentation-v2.mjs --review <actual-new-release>
+If passed, export real profile fixture, test runtime gate/bounded full web suite, strict
+selector --plan/--select, actual main-page desktop/mobile +screenshots. Finish Cat defaults/
+config/gear/guide before Hunter3 or the remaining original classes/specs. Cache helper69b4...
+and original clocks/correction history/WarlockOct21deadline/full25DPS+3tank scope unchanged.
+
+## October20 13:15UTC — Feral presentation preview PASS; actual build33556 LIVE
+
+Previous goal turn was PROGRESS: selected real browser parity, immutable qualified9f925eb2,
+source-bound new-schema adapter, authentic fixture and110suites/801web tests passed. This turn
+adds actual Feral-specific presentation/review/fixture/selection/main-page QA tools instead
+of another numerical search. Source/model/helper/clocks unchanged; no deployment authorized.
+
+New build-feral-raid-presentation-v1.mjs adapts the existing virtual presentation architecture
+without editing frozen old builders. Authenticates loadFeralRaidExport/root qualified9f925e,
+binds actual12mixed frames/currentA4codec, repairs/audits28starters, refuses any repair to
+measured Cat gear, copies numerical assets byte-for-byte, all-class virtual TypeScript and
+Vite compile, new honest kfc-simulator-profile-model-update.feral-raid.v1 proof. Model-source
+A4 remainsa4eabfa5c89f3813c1b74bde. Old Feral M81 publication stays immutable.
+Actual --plan9817 TERMINAL0: proposedreleasec3d9e705b8ab1208053d3ecf,1reviewed Cat build,
+28starters/104source-safety repaired slots (unselected other starter presentations, NOT
+the six other currently selected class models).0native/browser jobs; selected=false.
+Actual --build33556 LIVE since13:11:30UTC. Latest same-handle poll at13:14:50 confirms still
+running. Do not restart on observation timeouts. It spends minutes verifying inherited
+evidence before compilation. New builder/review/review-test source files are NOW FROZEN
+for that identity; do not reformat them or the executed overlay/old numeric helpers.
+
+New review-feral-raid-presentation-v1.mjs tests actual15screens/28presets, safe non-raid gear,
+current9/32/10/default consumes/seven-buff coverage, full desktop/mobile shares, saved-character
+preservation, one actual25fight native/browser delivery comparison and pointer preservation.
+It checks its actual presentation source pins before/after and publishes only after cleanup.
+Separate supplemental role, no old-Druid deadline reset/spoof. Missing-real-release cleanup
+test54813 TERMINAL0/all1PASS (~9.9s); lease released/no false passed record/pointers unchanged.
+Initial scoped lint64120/61144 and formatting PASS.
+
+Runtime apps/web/src/lib/forever-simulator-profile-model-updates.ts now supports the honest
+feral_druid per-profile A4proof/browser schema and exact new typed reader. Requested-pointer
+isolation preserved, all other model schemas still strict. Only audited state89141bf result
+gets path-specific16MB allowance; default8MB remains. It checks the6other selected profile
+preservation rows. Typecheck95770/lint83472 PASS. No Feral profile pointer selected yet;
+existing localhost:3017/tools/forever/simulator/feral-druid still returns200 (HEAD52741).
+
+New UNFROZEN export-feral-raid-profile-fixture-v1.mjs and
+apps/web/src/lib/forever-simulator-profile-model-raid-feral.test.ts await actual built/browser
+reviewed package; no fake fixture. Do NOT run full suite until that real fixture is exported.
+New select-feral-raid-local-v1.mjs has explicit predecessor pin to current publication
+a3cbd862.../sourceM81/presentation3c62628..., preserves16other existing build cases and every
+other pointer/publication, backs up old JSON before local-only atomic selection. New
+review-feral-raid-main-page-v1.mjs targets the actual feral-druid slug on3017, verifies7buffs,
+configs/gear/guide/full imports/reload/global-scroller/tooltips and desktop/mobile Simulate.
+These two tools have not run. No user saved characters/browser profiles modified.
+
+NEXT: poll33556 to terminal; then actual staged
+node artifacts/forever-simulator/optimization/review-tools/review-feral-raid-presentation-v1.mjs --review <actualrelease>
+Do not claim actual all-class compile/model asset/browser success until observed. Then
+export genuine profile fixture, run new profile tests and bounded full web regressions,
+strict local selection --plan then --select, actual main-page QA/screenshots. Finish Cat
+first impressions before Hunter recheck or remaining original classes/specs. Old Warlock
+deadlineOct21 06:24:18.106UTC/full all-class scope remain. No new commit/push/deploy authority.
+
+## October20 13:00UTC — Feral selected browser/export/adapter and801web tests PASS; UI NEXT
+
+This goal turn is PROGRESS: selected actual A4browser10k replay29788/PID98018 is TERMINAL0,
+not an observation timeout. Native/browser DPS AND stdev differences are exactly0 for inspected
+request553bf068.../752.1064099727375DPS. Separate fresh40k reference stays752.0645151927594.
+Receipt optimization/reviews/feral-raid-selected-bddd17be25cd4a71.json, semantic
+bddd17be25cd4a7187281b1e1556a95f35e8ce594daa79dcb5c5efd37cd8e986,
+byte c9ae958f0cf26af190633694feaf0282893627e84d27f9774db075f2c20baf2b.
+0new native jobs/1browser job/10000inspected fights, proper cleanup completed before receipt.
+All three selected-parity files are frozen. This proves selected scalar parity, NOT actual
+main-page import/defaults/mobile UI or server mechanics. All seven requested buffs remain once.
+
+New honest qualified schema kfc-raid-revalidated-prebis-build.v1, separate feral-raid-delivery-v1
+namespace, preserves actual settings/state/12mixed wire templates, original1%/owner2% math,
+94retained-only gear applicability, nearby better alternatives and non-public status. Initial
+export tests caught omitted protobuf durationVariation=0; corrected ONLY the new export adapter:
+decode the actual selected wire and verify zero/false defaults, then supply0 to a guidance-only
+view. Measured settings/requests/old frozen guide stay byte-for-byte unchanged. Regression
+explicitly asserts the omission remains in saved settings. Actual8764 TERMINAL0/all3PASS;
+scoped lint40895 PASS. Those three export files are now frozen, no reformatting.
+
+Actual export89990 TERMINAL0: immutable private qualified build9f925eb2459ccbc33ea2d46723b1d8db79a83f32bf2be85d42d2c47e70e1b1be,
+optimization/feral-raid-delivery-v1/build-9f925eb2459ccbc3.json and qualified-build.json.
+No public preset selection. Pure feral-raid-preset-overlay-v1.mjs +test bind new schema/actual
+9/32/10 APL, enchants/consumes/normal buffs plus seven-buff first visits and Windfury once.
+Actual163.06ms/all4tests PASS. Virtual Cat-only files; no upstream/personal-save/other-profile
+edits. New export-feral-raid-web-fixture-v1.mjs generated AUTHENTIC13document fixture:
+apps/web/src/lib/fixtures/feral-raid-delivery.json.gz,2296173bytes/14192501uncompressed,
+semantic2faad048978a73e3e8b49e5adf32bcd0150b90ac2ab1672a34f94c4a076dbc66. No new combat.
+Only the exact audited state result89141bf... needs16MB allowance (actual8539010bytes);
+all other fixture documents retain8MB limit. Apply the same path-specific allowance when
+wiring the runtime reference callback, never loosen all evidence globally.
+
+New intentional web delivery-reader API forever-simulator-raid-feral.ts +test verifies exact
+build/confirmation/parity pins, real state/applicability/holdout chain,12mixed frame IDs,
+recomputed1%/2% statistics/reservation, saved zero omissions, all7buffs once, Greater20 and
+source-bound guidance. Actual59752 all18tests PASS. Genuine current APL has EMPTY prepull;
+the new schema/reader correctly allows it and binds every actual action instead of inventing
+prepull instructions. Tests reject all altered/missing genuine docs and resealed changes.
+First broad default-concurrency suite26859 failed17/789ONLY on5s timeouts across10source-heavy
+suites. New missing-document cases are now separately parameterized (30new web tests) so one
+timer does not cover13replays. Full bounded rerun29562 TERMINAL0:
+pnpm --filter @wow-trader/web exec vitest run src --passWithNoTests --maxWorkers=2
+All110suites/801tests PASS in119.27seconds, including all30new reader tests. This bounded
+command is the reliable full check; default unconstrained run hit source-heavy timeouts,
+not numerical/assertion differences. No old tests or frozen helpers were edited to pass.
+Final typecheck23641/scoped lint44067/format43904/diff checks PASS. Frozen helper69b4b817...
+is unchanged. No active combat, simulation, export or test job remains. New web delivery
+adapter is intentionally not wired into public selection until real presentation/browser QA.
+
+NEXT: a separate honest per-profile Feral A4presentation/proof/browser schema and actual local
+desktop/mobile defaults/config/gear/guide/import/reload/combat QA before selecting or next spec.
+Do not feed new A4build into old M81/schema/role adapters. Preserve existing ready builds,
+normal-buff unanswered choice, old clocks/corrections and frozen helper69b4b817... . No new
+commit/push/deploy authorized; production remains91b06f5. Full goal remains ACTIVE.
+
+## October20 12:22UTC — Feral fresh confirmation COMPLETE/replayed; selected delivery NEXT
+
+Previous turn was PROGRESS (actual retained-gear closure/414520fights plus replay/idempotence).
+This turn: actual --run37826/PID82923 TERMINAL0 at12:15:53UTC;24new A4native requests/
+480000fights, zero numerical reuse/imports. Twelve frozen genuinely inspected arms; two fresh
+20k ranges each, selected arm unchanged after holdouts. Final input tests50487/all4PASS,
+--plan85890/0writes PASS, lint35584/85034 and format/diff checks PASS. All three executed
+source files are NOW FROZEN: feral-raid-confirmation-v1.mjs,+test,run-feral-raid-confirmation-v1.mjs.
+Separate source reader feral-raid-confirmation-source-v1.mjs +test also NOW FROZEN:
+actual98339 TERMINAL0/all3PASS; lint6372/format PASS. Full24raw admissions/packed stages/
+plan/statistics/reservation/source replay proven. No Feral job remains active. Seven tests PASS.
+
+Fresh SELECTED752.0645151927594DPS/40000fights. Owner2% AND original1% accepted;
+largest conservative retained gap0.0069845687976534685 (0.6984569%), status
+accepted-with-disclosed-nearby-gains. Strict retained dominance FALSE: gear alternative
+genuinely+4.548367530855046DPS average, enchant alternative+2.937087706176669. Disclose
+these nearby gains; do NOT choose another winner from holdouts or claim global optimality.
+Selected9/32/10 talents050022-45010032021030212051-055; Shred/Rake/five-CP Rip/60energy
+shifting/Rune/Greater20/seven core buffs+existing normal Feral stat buffs. Inspected10k
+752.1064099727375/553bf068... is NOT the fresh40k reference. readyForSelectedDelivery=true;
+publicPromotionAllowed=false. No preset/default/config/guide selected locally or deployed yet.
+
+Study8a7e0a6aee6b9541ce7937847eed945c2f68aebf384b1fcb86e283d914c59ece;
+resultbbbdecab12ffeb0027795e2b69ee7108fdc6b1325b4be80c6dd29ab756a4ec89.
+Summary optimization/feral-raid-confirmation-v1/confirmation.json, semantic
+6d9cc23ad8d0a8320ca2e6eea6827cfb8d18134df6dd0707c40071d69d875312.
+Model/source root A4a4eabfa5c89f3813c1b74bde, sourcePins12073. Reservation context
+6eecbeafd14567592521943da0358074155a6dceb770637ce3cb42c66644675e in
+optimization/first-pass-validation-reservations; semantic95897f5314ec0da90adc9affc615981671063560344866cfd436778a6888a0c8,
+byte28cd6556af8eef5c8f2a2992e264bcbe01783a8fedaa58f060501801908896a5.
+Seeds1861009171200000/1861009171300000,20k measured per arm/range,100k-wide reservations
+NOT100k measured fights. Known unregistered Rogue/core/old-Feral/selection/control history
+and global registry checked disjoint before dispatch; genuine inspected origins verified
+and no proposed holdout request ID appeared in upstream journals. No clock/correction reset.
+
+NEXT: selected actual A4browser10k parity, then qualified export and real local delivery.
+Use loadFeralRaidConfirmationResult(root), assert accepted/selectionChanged=false/40k selected.
+Pure frozen prepareFeralSelectedWasmParity/reviewFeralSelectedWasmParity in
+feral-selected-wasm-parity-v1.mjs ALREADY accept actual class1/A4 via codec/db/backend.
+Reuse these with installInspectedClassScalarWorker (inspected-class-scalar-worker.mjs),
+INSPECTED10k/seed77191 only, selected native origin553bf068... from
+confirmed.context.inspectedOrigins (retained-gear9f8... journal). Do NOT rerun fresh seeds.
+The old ensureFeralSelectedParity wrapper is NOT usable: hardcodesM81/old sourceRole and
+original Druid budget. Do NOT spoof release/role/class or reset clock; implement a separate
+honest supplemental A4coordinator/receipt. Original Druid first pass was previously completed;
+this is the additional owner-requested post-deployment raid revalidation. No more gear/talent
+search is needed for the accepted practical scope. Preserve real stats bytes/native origin,
+exact native/WASM frame/DPS/stdev; proper lease/worker/browser/server/SIGINT cleanup and
+source checks before/after. Scalar parity is not actual UI-import/server-mechanics proof.
+
+Then add an honest source-bound qualified export/rotation guide/new per-profile A4presentation.
+Important: scripts/simulator-model-first-pass-input.mjs currently hardcodes old M81codec via
+loadGearParityCodec for Feral; old typed reader/overlay expects old schema. Never feed A4
+under old codec/schema/role, rewrite build91859ebb or old qualified artifacts to force it.
+Use the newer Balance/Mage/Warlock A4presentation builders as examples; preserve all15old
+builds/other selected roots. New mixed gear/state arm frames and evidence stay authenticated.
+Before web/framework edits read apps/web/AGENTS.md (read this turn) and relevant installed
+Next docs. Actual first default/Preset Configurations/Gear Sets/talents/enchants/consumes/APL/
+rotation guide/import/reload/race-saved-build preservation/one global scroller/combat at
+desktop/mobile must pass before next spec. Defaults/library first, BiS pages secondary;
+no Horde/Alliance marketing labels. New fresh40k reference stays distinct from inspected10k.
+No new commit/push/deploy authorization. Finish local Feral delivery before Hunter3 then
+remaining original classes/specs; full goal ACTIVE, tank starters not optimized. Original
+WarlockOct21 06:24:18.106UTC deadline/previous clocks/corrections unchanged. Cache helper
+69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37 MUST remain unchanged.
+
+## October20 11:58UTC — Feral applicability/operational replay COMPLETE; fresh confirmation NEXT
+
+Previous goal turn was PROGRESS: full gear/state calculations and separate raw replay
+completed; not merely a status wait. This turn implements the finite retained-only applicability
+bank/context/driver/test, without editing frozen math. Five actual-input tests66839 PASS,
+lint94013/36433 and format/diff checks PASS. New executed files are NOW FROZEN:
+feral-raid-retained-gear-v1.mjs,feral-raid-retained-gear-v1.test.mjs,
+run-feral-raid-retained-gear-v1.mjs. Do not edit/reformat them or any inherited source/helper.
+
+Actual controls66603/PID55908 TERMINAL0:7native+7WASM/175fights each, exact full player/pet/
+resource equality/actual stats and clean cleanup. Controls9b12b1fe28089e87d4090d3c2b6c265a22c01e1df4f42c91df1980ae82bbe048,
+in optimization/feral-raid-retained-gear-v1. Includes actual new selected talents/APL with
+dagger/held-offhand, staff, Wolfshead, MCP, multi-slot set and alternate enchant. Original
+full-bank rows serve only as structural canary proposals, not new all-pool damage evidence.
+
+Actual --run25454/PID58104 TERMINAL0 at11:52:09UTC. Study9f8d843ebadef89d4aa8228ac0fd10f7477cf3faaf82f823f537ad979385d7cc
+dispatched~11:49UTC.94unique retained gear proposals, all24prior group families plus one
+coupled group, all17old inspected finalists mandatory; zero rejected proposals. Current
+candidateIdsBySlot explicitly cover retained proposals only (not full119/43/etc pools).
+At most existing2sweeps,6workers/3000origin cap. No imported numerical journals; all new
+state inputs are measured, with only exact same-study reuse. First10k control must exactly
+reproduce actual state553bf068.../752.1064099727375 before applicability can close.
+Completed300new origins/414520fights/310exact same-study reuses, full saved-result replay
+passes. One sweep stops for small gain: current752.1064099727375DPS/10k vs inspected
+leader756.3213494345258(+0.560418%); unchanged gear. gearApplicabilityClosed=true,
+stateRecheckRequired=false. New control exactly reproduces selected state553bf068... .
+Result121cd041ef3d296abef3998ea55eed60ce5cd7dc89665450d577ae259fd1bc7e;
+selection5110bbc02979ecc3a4fee86560653021ac1a72568ccc2dfd1869b37ba42656d3.
+No fresh seed reservation or new public preset exists. Initial94retained proposals plus a
+new measured nonconflicting composite, not another full11k search or global2% proof.
+
+New driver fixes the completed-summary idempotence issue for THIS new artifact only:
+immutable report uses the stored canonical completion object and original total origin/fight
+counts, not mutable current-invocation reuse flags. CLI separately reports invocationNativeJobs
+and replayedCompletedStudy. Old executed drivers/reports remain untouched; their prior recovery
+warning below still applies. On an abnormal stop inspect process/completed.json before resume.
+
+Separate reader/test feral-raid-retained-source-v1.mjs +test are NOW FROZEN after actual
+execution. Test40877 TERMINAL0/all3PASS, lint58545 PASS/format PASS: every300genuine origin/
+packed stage/selection and all7full controls/canonical receipt/source ancestry replayed.
+Negative tests reject altered DPS/talents, full-current-pool claims, publication and mutable
+invocation metadata. readyForFreshConfirmation=true is genuinely proven because new gear
+and settings match the already measured new state exactly. No state/source flag was rewritten.
+
+Operational completed-CLI replay21840/PID67888 TERMINAL0: original --run25454 was already
+genuinely terminal before replay started. Actual invocationNativeJobs=0/replayedCompletedStudy=true;
+same semantic selection5110bbc... and byteSHA
+b8d3445cdc8a5053b92c74b34471b17dd6ddaee136751e155aa9a1aff07474ba, independently asserted
+after completion. New-driver summary idempotence is actually tested, not merely intended.
+No Feral job remains active. This is operational replay, NOT fresh validation. Eight focused
+tests, all7actual native/WASM controls, saved and separate full raw-origin replays, CLI
+zero-combat replay, lint/format/diff checks pass. Frozen numeric helper69b4b817... unchanged.
+
+NEXT: use loadFeralRetainedResult(root), assert readyForFreshConfirmation plus exact unchanged
+gear/settings/state. Build a NEW honest confirmation context (do not fake the old closing
+schema/clock). Up to12genuine inspected10k arms: selected frozen first, actual current-state
+talent/rotation/Tea-Rune/no-shifting/Claw alternatives from loaded.base.state.evaluation.finalists,
+plus actual new-state gear/enchant alternatives from loaded.evaluation.sweeps.at(-1).finalists.
+Never invent a gear+alternate-state combination or relabel raw IDs. Gear-arm requests use
+loaded.base.request(gear,n,seed); state-arm requests use loaded.base.state.prepared.request
+with a genuine reconstructed candidate. Every inspected hash must match its source metric;
+selected553bf068... . All arms need actual legality/enchant/frame/scenario checks.
+
+Use freezeApprovedFirstPassConfirmation (owner2%, preserve original1%), with readiness refs
+to actual state00186... result and newly closed applicability9f8... result. Reserve two
+fresh20k ranges through openPracticalFirstPassReservation BEFORE any holdout execution;
+exclude known Rogue100k history, core correction ranges, old registered Feral/class holdouts,
+1337/77191/177191 and actual25fight control windows. Existing global reservation registry
+checks all registered first-pass experiments. Source/backend remain A4; M81 history is only
+an exclusion, never a numerical import. Record every genuine inspected source origin and
+verify no holdout request was already inspected. Freeze declaration/source before dispatch.
+At most24new scalar requests/480kfights, not100k fights merely because slots reserve100k.
+Never select a new winner after holdouts. Then selected native/WASM, actual local UI import,
+defaults/Preset Configurations/Gear Sets/enchants/APL/rotation guidance and desktop/mobile QA.
+No new commit/push/deploy authorization. Full all-class objective remains ACTIVE; do not
+call ready tank starters or remaining Warlock/Priest/Shaman/Paladin work done. Original
+WarlockOct21 06:24:18.106UTC deadline and all prior clocks/correction history stay unchanged.
+
+## October20 11:36UTC — Feral gear/state COMPLETE and replayed; gear applicability NEXT
+
+Actual controls3166 TERMINAL0:2native+2WASM/50fights per engine, full player/pet/resource
+parity. A4None reproduces genuine M81 raid-core control exactly (745.9390154276427DPS/25)
+and all effective stats; Greater20 adds exactly20MP5, no other stat delta or12+20 stacking.
+Actual scalar6811/PID6977 TERMINAL0:4new A4origins/40000fights/0imports, saved replay passes.
+Inspected20k per arm: None741.2527956619066, Greater744.2542546590025 (+3.001459/+0.404917%).
+Both remeasured None seeds exactly reproduce genuine M81 metrics, not cross-model reuse.
+Independent audit7302 TERMINAL0 replays4raw admissions, model/context/source binding, full
+controls/stats and deltas. Initial6tests48545/audit3tests7890 PASS; lint94475/80534 PASS.
+All five executed Feral bridge/audit source files are NOW FROZEN. Do not reformat them.
+
+Artifacts optimization/feral-raid-core-bridge-v1:
+controls5710495ffd431f86fb0e8d8145e99d250535a8591211949334c92bb586c6edd2;
+comparison2d023177a8ef8ae7ac1bb81ce8d645a41a02171eb8302554e24a85f9c46237d7;
+auditcf9202a707b0996fc8bad446da95b602b6caaba78687a16a182b6633d928cf56.
+Study b054154653fadd2012431a3566484572f1efd27c408895262d1e96e7326da9ff,
+result c88b71d4aab6644824113d553cbead2cc0085dec079f0838b75572ba9b66ec82.
+This is consume/context evidence, NOT fresh qualification, optimized new gear or publication.
+
+Separate FROZEN Feral raid-core gear context/driver/test:
+feral-raid-core-gear-v1.mjs,run-feral-raid-core-gear-v1.mjs,feral-raid-core-gear-v1.test.mjs.
+Actual test handle94676 TERMINAL0/all4PASS; lint83608 TERMINAL0. Actual gear controls27121
+TERMINAL0:7native+7WASM/175fights per engine, full player/pet/resource parity and actual
+stat decoding. Controls semantic4813d0e50940a135b5fbbd94ef62624ed12676b70b872916c6dfd0c0f50cd3dc.
+All three executed gear files are NOW FROZEN too; never reformat/edit them. Scoped eight-file
+format check passes. Actual --run97812/PID23574 TERMINAL0 at11:23:57UTC; PID is gone.
+Actual study adddafcf559ecdd6de5d52cb029c6d9e295956a5ebd70c991ad194ee063b91c2 dispatched
+11:13:20UTC;12231new A4requests/1592620fights,374same-study exact-input reuses, no imported
+old-context journals. ALL24groups/17eligible slots/pairs/sets/enchants and saved-result replay
+complete. One sweep stopped for small gain: incumbent744.2895172166477DPS/10k; inspected
+leader748.1577812021769(+0.519726%). No material1% change, so original gear retained.
+Selection3bf590f6d635718cc94f84cebe55ee7823863d0313cdaf8a6c68149be05cac93;
+resultf5d4bf605d33cdf3e64fe8de528a7beaf6fdade5ed6d0cbe258fadc1016a6e66.
+These are INSPECTED selection numbers, not fresh40k qualification or an optimized public preset.
+Structural preflight79921 TERMINAL0 covers all17 pools,24groups,11704generated proposals,
+11489unique gear layouts: all single slots, hands/rings/trinket pairs, sets, enchants,
+including Wolfshead/MCP; no EP/ilevel pruning or old-context numeric import. Same existing
+finite two-sweep gear policy, fixed reviewed talents/APL+Greater20. Must run seven actual
+native/WASM gear controls before --run. Then state/APL feedback and fresh confirmation;
+new gear pass alone cannot authorize presets or new BiS. Original clocks/correction budgets
+unchanged; Warlock deadlineOct21 06:24:18.106UTC. Public application still91b06f5.
+
+NEW state tools are NOW FROZEN after genuine actual-gear controls:
+feral-raid-core-states-v1.mjs +test,feral-raid-core-state-context-v1.mjs +test,
+run-feral-raid-core-states-v1.mjs. Original five state-preparation tests41377 PASS, scoped
+lint35204/37921 and five-file format check PASS. Initial87825 failed a strict rotation guard
+because actual published protobuf JSON omits inFrontOfTarget:false; fixed ONLY in new
+state-preparation clone after verifying the actual wire is false. No frozen engine/source
+or original settings changed. Class/consume/target-position rejection and immutability tested.
+Actual completed-gear context test12166 TERMINAL0/all3PASS: full read-only replay of ALL
+12231gear origins/packed stages, full prior7gear controls/source pins, actual selected-gear
+state derivation and default/APL equivalence. No new combat during replay. Actual state
+--controls92843/PID42071 TERMINAL0:6native+6WASM controls/150fights per engine, exact full
+player/pet/resource parity, actual stat decoding and clean browser/worker/server cleanup.
+Controls e99d37c6e8fe2935f7d08b6ccfaf462ac89777758a56650106924f83613ddc9b, dir
+optimization/feral-raid-core-states-v1. Five-file lint35204/37921 and format PASS;8state
+preparation/integration tests PASS. No math source/model/cache helper was modified.
+
+Actual --run25634/PID45465 TERMINAL0 at11:33:34UTC. Study
+00186ca37797b13afb6c90a40df1a1304c8562b3a825868509c016365c84c6bd:
+558new A4requests/280700fights,36exact same-study reuses,0imported journals; full saved
+replay passes. Result89141bf23de4429e33b6701db35726b868fa643f0b03e7de321bbbe81067f149.
+Selection15ed04cd8e2ce1703917421de50260200651c3f4c90ab83702a1e28f03817daf, in
+optimization/feral-raid-core-states-v1/selection.json. Original incumbent744.2895172166477
+vs selected752.1064099727375DPS/10k, +1.0502489%; materialChange=true,
+gearApplicabilityRequired=true. New talents050022-45010032021030212051-055; move1point
+BloodFrenzy(primalFury) toNature'sReach. NewAPL shred-rip5-shift60 (5CP Rip/60energy
+shifting), Rune retained. Raid buffs/Greater20/gear/race/encounter unchanged. These are
+INSPECTED numbers, not fresh holdouts or an authorized public preset.
+
+New feral-raid-core-state-source-v1.mjs +test independently replay ALL558raw state origins,
+packed stage streams/selection and6actual native/WASM controls after the full gear replay.
+Test16335 TERMINAL0/all3PASS, lint84044 PASS. Negative tests reject changed selected DPS,
+talents/state/readiness/publication claims. These two executed reader/test files are NOW
+FROZEN too. All state source files/models/helper remain unchanged after math dispatch.
+No Feral combat job remains active. Completed studies should use read-only source loaders,
+not rerun the old --run driver: its first-invocation immutable report contains live invocation
+metadata and is not an idempotent completed-study summary writer. After abnormal termination,
+inspect actual completed.json first; never overwrite origins or report metadata to force resume.
+There are326initial talent/conjured candidates,5historical talent roots and10distinct retained
+historical states from12original arms. sourcePins12000. New --run uses six workers, existing
+finite talent/APL recheck anchored ONLY to historical
+high-precision retained roots plus legal current one-point neighbors (no full old blue-grid
+restart). Every old retained state is also explicitly remeasured among inspected finalists.
+Tea/Rune, Shred/Claw, shifting/no-shifting/Rake/Rip families remain protected. Scope12000
+new-origin cap. Gear applicability must close after any material state change, and fresh
+independent owner2% confirmation/selected parity/actual preset+guide+browser delivery remain.
+
+NEXT concrete action: finite focused RETAINED-GEAR applicability pass under the new selected
+talents/APL, not a full11k restart. Use pinned completed all-slot gear evaluation groups'
+leaders (up to5/group), all17inspected gear finalists and their measured combinations as
+PROPOSALS ONLY; remeasure under new state, preserving all prior slot/pair/set/enchant families,
+incumbent and real hand/stone legality. Make the reduced-current-context scope explicit;
+do not claim another full all-pool sweep or global2% proof. Reuse existing practical finite
+selection policy with a retained-only bank/proposal scope and bounded native record cap.
+If a material gear change is found, actual-gear state feedback must be checked again; if gear
+is unchanged and applicability is reviewed, the just-completed state's exact requests remain
+applicable. Initial next-pass10k request must exactly match selected state553bf0684b9aee878fc3ec517289c780769c9194a4bae3e1d3f23aabb2186837.
+Use prepared.templates filtered to selected Rune and feralGearRequest with actual state.settings
+to preserve native raw identity; no admission/result ID rewriting. Same-backend exact-origin
+reuse may import genuine state journals only after backend/frame/request verification; never
+reuse old-context numbers by item name or EP ranking. Seven real hand/stone/set/enchant controls
+must precede scalar gear dispatch. Then freeze genuinely inspected retained arms and reserve
+two disjoint fresh20k ranges with existing owner2% wrapper (preserve original1% assessment),
+before selected native/WASM/UI/default/config/gear/enchants/APL/guide delivery. Original
+class clocks/correction history and WarlockOct21 deadline stay unchanged; full goal ACTIVE.
+
+Read before next work: new state-source/context/states helpers plus frozen practical-first-
+pass-gear-v1 and gear-bank/requests/parity helpers. For fresh confirmation use existing
+practical-first-pass-approved-margin-v1.mjs,practical-first-pass-confirmation-v1.mjs,
+practical-first-pass-reservation-v1.mjs and readKnownRogueValidationHistory for exclusions.
+Those were inspected this turn, not edited. No new final reservation exists yet. No new
+commit/push/deploy authorization; public application remains prior91b06f5, local current work
+is docs/private evidence only. Next prioritize Hunter3 then remaining original classes/specs.
+
+## October20 10:47UTC — initial seven-buff comparisons COMPLETE / independently audited
+
+Actual controls61268 TERMINAL0/all30native+WASM controls (750native/750browser fights),
+full player/pet/resource equality and real stat responses. Actual scalar owner41389/PID87826
+TERMINAL0:60new requests/600000fights/0reuse, both bounded studies replayed. No worker is
+still running. Comparison9159a783ab47632649d965fd640f704c4f586929b2126f0350fd5b18063364de.
+Independent audit66842 TERMINAL0 replays ALL60raw origins/means/variances/model bindings
+and30detailed controls; audit tests64270 all4PASS. Initial8tests28597PASS, lint60503/62824 and
+format pass. Newly executed audit module/test are NOW FROZEN too; never edit any of the seven
+raid-core files after execution. Numeric helper69b4b817... remains unchanged.
+
+Actual artifact dir optimization/raid-core-recheck-v1 under artifacts/forever-simulator:
+controls.json semantic eea14bfca16de89eae7ce88fd2b2b37c8cf5c89c187cecf41cba78c56ebb9214;
+comparison.json semantic9159a783...;audit.json semantic
+0ad59c0105acc4a8522ee9cfa60ce164e5b6c4316877032ab1ef338b282a8e2c.
+Physical study0f71d17d57e73fc5d94e9f6583702052f7fab0698aab97d4f28adfe1ef3bf5a3,
+result72fbecc78f10d0d0ca5580b61ded1755c7ba054dc6e0e59eb6022d07dc58ad35 (40jobs/400kfights).
+A4studyf0cbbb38dc1ba00ae06df72c363ee6f89b19912842f436d8bff28c4ceba32581,
+resultcd783dc52d372620645d1e52000554990e85c6ea29afd04a79b656a422ae778d (20jobs/200kfights).
+
+Effects, BOTH old/new remeasured20k each (not old40kpublished references): Feral653.23->741.25
+(+13.47%),HunterBM863.44->903.25(+4.61%),MM853.65->896.13(+4.98%),SV786.14->868.38(+10.46%),
+Demonology830.09->836.09(+0.72%). Warrior+0.00-0.01%, Rogue+0.14-0.19%; Balance/Mages unchanged.
+All are fixed-build exploratory comparisons, inspected77191/177191 ranges. NOT fresh final
+qualification, new optimized BiS or a cross-class ranking. Public presets were NOT changed.
+Full matrix/provenance: docs/simulator-raid-core-recheck-2026-10-20.md.
+
+Async owner question is OPEN (no answer assumed): for FINAL raid baseline also standardize
+Gift/Mark,Fortitude,ArcaneIntellect,DivineSpirit,Kings/Might/Wisdom,ManaSpring, no worldbuffs
+or borrowed cooldowns? Current7buff run deliberately isolates only the explicit request.
+Do not block safe work pending that optional answer: Feral already has ALL those standard
+stat buffs, so its core-raid next pass is unchanged whichever answer arrives.
+
+NEXT safe concrete action: prioritize Feral then Hunter bounded all17slot/talent feedback,
+using old contenders as proposals but never old changed-context numeric results. Feral's
+existing consumes have NO Mageblood (not legacy12). Owner-confirmed non-raid Greater20 is
+an untested upgrade for this preset: first bridge current Feral seven-buff input from M81
+to existing immutable A4 (all original2591item rows unchanged,8Mageblues added), measure
+actual native/WASM25fights atNone andGreater20 with class1/real Feral guards and compare
+A4None full metrics/stats with the genuine M81 raid-core control. Never force enum2 through
+M81, stack12+20, spoof Mage class guards or reuse numbers between different native backends.
+No rebuild/source edit of either frozen model is needed. Then bounded gear/retained-state
+rechecks and independent confirmation before any new local preset/default/UI changes.
+
+Relevant existing helpers to read before new code: feral-fixed-context-gear-bank-v1.mjs,
+feral-first-pass-geared-v1.mjs,feral-gear-requests-v1.mjs,feral-gear-parity-v1.mjs,
+feral-first-pass-state-source-v1.mjs,feral-closing-source-v1.mjs. They are inherited frozen
+sources; new delta context/driver must be separate. Do NOT reset original class clocks or
+correction history; this is the owner's additional post-deployment scenario request, not
+permission for another exhaustive old-scenario pass. Keep practical2% target. Original
+Warlock deadlineOctober21 06:24:18.106UTC unchanged; its remaining3specs still need completion.
+Full all-class goal remains ACTIVE. Only local documentation/private artifacts changed;
+no new commit/push/deploy has been requested or performed for these numerical diagnostics.
+
+## October20 10:32UTC — seven-buff fixed-build recheck: actual controls LIVE
+
+Previous goal turn made concrete progress: production source91b06f5 deployed/verified;
+documentation9b6cd9d pushed. Current source worktree was clean before this continuation.
+Owner's post-deployment request is being implemented LOCALLY, not changing production.
+
+New private tools in artifacts/forever-simulator/optimization/review-tools/:
+raid-core-buffs-v1.mjs, raid-core-parity-v1.mjs, raid-core-recheck-context-v1.mjs,
+raid-core-buffs-v1.test.mjs, run-raid-core-recheck-v1.mjs. All are NOW FROZEN at actual
+--controls dispatch61268 (10:32UTC). Poll this SAME live session; do not edit/format sources
+or restart merely because output is quiet. Eight focused tests28597 PASS on actual15published
+settings, both real item/enchant projections, exact buff-only derivation, rejected mutations,
+and full player/pet/resource equality using genuine earlier Warlock control files. Scoped
+lint60503 PASS. Class enum was verified against common.proto (Rogue=6); before-dispatch tests
+caught/fixed a validator sort using JSON IDs instead of protobuf oneofs, and an inactive-pet
+fixture assumption. No numerical engine/model/source file was changed.
+
+Readiness --plan passed for all15standard cases;12096source pins. It reads actual strict
+published-build readers/proofs and selected original request templates; recomposes equipped
+item/enchant payloads against the actual compiled DB, verifies all other saved settings, then
+changes ONLY six raid flags + the corresponding canonical party fields/WF. This is explicitly
+derived from reviewed templates, not falsely described as a new UI capture. Regular totem/
+shout tristates are used; frozen Forever implementations ignore removed Vanilla improvement
+talents. Party duplicates are removed; Flametongue conflict is rejected rather than hidden.
+
+Model/context: physicalM81/source81d964b... with admitted835f93f... binary and original codec;
+Mage/Balance/DemonologyA4/a4eab... with native4d743.../current20MP5 codec. Both frozen source
+models are verified, not rebuilt or mixed/reused. Detailed controls must pass actual native
+vs WASM full player/pet/resource comparisons and expose actual WASM stat responses. Scope is
+initial fixed-build isolated buff effects; existing individual buffs/debuffs/encounters remain
+unchanged, so NOT a shared-model cross-class ranking. Two proc-opt-in variants remain separate.
+
+Next after61268 terminal0: run same driver --run. It requires genuine controls.json and does
+exactly60scalar requests/600000fights across two model-specific bounded studies: each of15
+old/new pairs at explicitly INSPECTED77191/177191 seeds,10k each,4workers, one spec pair at a
+time. These are NOT fresh final holdouts or a new BiS qualification. No original class clock,
+correction budget, existing reference or public preset is reset/changed. Driver output dir:
+artifacts/forever-simulator/optimization/raid-core-recheck-v1; control-<profile>.json batches
+are immutable and reusable after exact replay if resuming. Final comparison.json only after
+both bounded studies are complete/replayed. Preserve all raw admissions and current helper
+69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+
+After initial comparison: inspect effective stats/self-provider dedup and actual changed DPS;
+bounded gear/talent feedback under the owner's2%first-pass tolerance precedes new qualified
+presets. Do not convert an unchanged fixed-build sample into proof of global optimality or
+reuse old numerical cache across changed combat inputs. Then continue unfinished specs;
+all-class goal remains ACTIVE, not narrowed to this15build diagnostic. No commit/push/deploy
+authorization for new numerical results is inferred from the completed deployment request.
+
 ## October20 10:09UTC — production deployment and all public checks COMPLETE
 
 Full public browser40774 TERMINAL0:34desktop/mobile checks,15real25fight runs,errors[].
@@ -724,6 +1502,7 @@ committed, pushed or deployed; whole all-class objective remains ACTIVE, not com
 
 Owner asks to research the internet rather than require them to supply missing evidence.
 Checked onOctober20:
+
 - Wowhead's authored Alchemy overview (updatedOctober12) lists Greater Mageblood's recipe
   at175Alchemy, Friendly Azeroth Commerce/Durotar Supply,120Merchant's Favor. This supports
   the owner's non-raid acquisition classification; it is not a newly extracted server table.
@@ -2071,8 +2850,8 @@ Read route/static docs too before touching asset routes. Local activee14af46d…
 model-update pointsP3c62628…/M81, no new selection has been promoted.
 
 Supplemental audit: first-party TalentsForever /data.json (generatedOct16/client70425) includes
-Frostbolt Rank11 in Mage spellbook; trainer check metadata MaginorDumas/Stormwind Sep18/
-69913. This does NOT independently prove launch acquisition; retain max-rank assumption,
+Frostbolt Rank11 in Mage spellbook; trainer check metadata MaginorDumas/Stormwind Sep18/ 69913.
+This does NOT independently prove launch acquisition; retain max-rank assumption,
 do NOT invent a Forever raid ban from Classic's AQ book. Primary export/source page:
 https://talentsforever.com/mage , https://talentsforever.com/data.json . No numerical model
 changed from this lookup. Correct guide gem names: item8008 ManaRuby,8007 ManaCitrine,

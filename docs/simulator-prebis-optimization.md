@@ -1,5 +1,114 @@
 # Simulation-tested pre-raid gear
 
+## October20 — Hunter BM seven-buff gear revalidation started
+
+Actual class2 A4 bridge and full native/WASM pet/resource/stat checks pass; the recorded
+12MP5 consume is replaced, not stacked, by verified non-raid Greater20. Four new40k scalar
+origins independently replay to903.2534/905.7553DPS on the same fixed old build; this is not
+a new optimized or fresh public reference. New finite gear context covers every eligible17
+slot, ordered hands/jewelry, sets and non-raid enchants with exact ammo/stone templates.
+Six focused tests/lint pass, including explicit raid-material rifle exclusion and unchanged
+combat settings. Old generic controls duplicated the current gun; the supplemental helper
+instead requires an actual ammo-type change. Real native/WASM gear controls are next, then
+bounded gear/state/confirmation/UI. Existing Hunter presets/production remain unchanged.
+
+## October20 — Feral seven-buff setup is now delivered locally
+
+The actual Feral Helper page now defaults to the newly confirmed9/32/10 Cat setup, including
+gear/enchants/APL/Rune/Greater20 and all seven requested raid buffs. Independent reference:
+752.06modeled DPS/40k fights, conditional on the recorded model/scenario and2% retained margin,
+not global optimality. Default range bug was caught by browser QA and fixed in V2presentation
+18c6325ffc446938063c598f without changing the numerical evidence. Actual desktop/mobile main
+defaults/configs/Gear Sets/guide/import/reload/tooltips/one global scroller/Simulate all pass;
+screenshots inspected. Full819web tests/typecheck/lint/format pass, all16other build entries
+preserved. http://localhost:3017/tools/forever/simulator/feral-druid . Not deployed;15old
+standard DPS references remain the production baseline. Next HunterBM, thenMM/Survival.
+Remaining original classes/specs and optimized tanks are still required for the full goal.
+
+## October20 — selected Feral browser parity passed; delivery is still local work
+
+Actual selected10k A4browser replay matches its admitted native inspected DPS/stdev exactly.
+This is not another independent sample: reference remains752.0645DPS from fresh40k confirmation.
+New honest raid-revalidated export tests3PASS, preserving recorded settings while adapting
+verified omitted protobuf zeros for guidance. Export/private adapter work does not yet change
+the public default, Gear Sets or Preset Configurations. Qualified export9f925eb2 now exists;
+authentic13document reader30tests and virtual Cat overlay4tests PASS. Bounded broad rerun
+passes110suites/801tests after default-concurrency5s timeouts. Complete per-profile presentation and
+desktop/mobile actual UI handoff before selection or moving to Hunter. All seven
+requested buffs apply once, no duplicate totem stacking. Production remains unchanged.
+
+## October20 — Feral freshly confirmed under seven-buff raid assumptions
+
+Twelve frozen measured arms/two fresh20k ranges each:24new origins/480kfights/0imports or
+reuse. Selected9/32/10/Shred/Rake/five-CP Rip/60energy shift/Rune/Greater20 reaches752.0645
+DPS/40k. Conservative retained gap0.69846%, passing owner2% and original1%. Strict dominance
+is false; slightly better gear/enchant alternatives stay disclosed and winner unchanged.
+Full independent raw/plan/statistics/reservation replay and7tests/lint/format PASS. Conditional
+practical first-pass evidence, not global optimum/live mechanics. Selected A4browser parity,
+qualified export and actual local defaults/configs/gear/guide delivery remain before publish.
+
+## October20 — focused post-state gear applicability in progress
+
+To avoid repeating a full11k-layout search after a1.05% state change, the finite applicability
+pass remeasures94earlier top proposals across all24group families, measured combinations
+and all17inspected finalists. Current pool coverage is explicitly retained-only; this is not
+global2% proof. Five actual-input tests and seven native/WASM controls pass; scalar work
+completed300new origins/414520fights, exact saved replay, and a separate full-origin/control
+replay with3tests PASS. Gear unchanged: inspected752.11DPS vs756.32leader(+0.56%, below1%).
+Applicability is genuinely closed with exact new-state request equality; fresh independent
+confirmation remains pending. No old-context
+DPS, inspected ranges or public references are relabelled. Details/handles incontext.md.
+
+## October20 — measured Feral consume applicability before gear feedback
+
+Current Feral had no Mageblood, not legacy12. Actual class1 native/WASM full controls and
+four new A4scalar origins/40kfights prove existing A4 reproduces M81 None exactly and
+Greater20 adds only20MP5. Inspected20k means741.2528->744.2543(+0.405%), independently
+replayed; nine tests/lint pass. No engine patch, old-model result relabelling or publication.
+Next is a finite all17slot/pair/set/enchant gear pass under the seven-buff+Greater20 frame,
+then actual-gear talent/APL and fresh retained-contender confirmation for owner2% target.
+The gear preflight has11489unique proposals, including low-ilevel special items; it is
+not exhaustive global combination proof. Original clock/correction history stays intact.
+
+The gear pass completed its full24group sweep/12231new actual configurations and1592620
+fights, then exact saved replay. Current gear is retained: inspected10k744.29DPS vs748.16
+best combined proposal (+0.52%, below1% material change). This is not fresh confirmation.
+Next actual-gear state pass anchors to historical high-precision retained talent roots,
+legal current neighbors and the finite joint Cat APL/Tea/Rune search; all historical retained
+states also receive explicit current-context finalist measurements. No old-context result
+is relabelled or full old blue talent grid restarted. Five preparation and three actual-gear
+integration tests/lint/format pass. Full completed-gear replay and six genuine native/WASM
+state controls pass. The bounded state search completed558new origins/280700fights and
+saved replay; separate complete state-origin/control replay and3negative/selection tests
+pass. Inspected DPS744.29->752.11(+1.05%), new Nature'sReach point/BloodFrenzy reduction,
+five-point Rip/60energy shifting with Rune. Material state change triggers a finite focused
+retained-gear applicability pass before fresh confirmation; no full old blue-grid restart.
+Presets/rotation guidance remain gated. This is still not a global optimum or fresh result.
+
+## October20 — measured seven-buff diagnostic, not reoptimized presets
+
+All15standard builds were remeasured with only the requested raid-core coverage changed.
+30native/WASM detailed controls,60new scalar origins/600kfights and independent replay pass;
+12focused tests/lint/format pass. Feral rises13.47%, Hunter4.61/4.98/10.46%; meaningful gear/
+talent rechecks are still required. Other buffs/debuffs remain class-specific; no tier-list
+or newBiS qualification is claimed. Original public builds stay unchanged. Matrix/evidence:
+simulator-raid-core-recheck-2026-10-20.md. Prioritize Feral/Hunter bounded feedback next;
+Feral also needs an honest existing-A4/Greater20 consume check (current preset has none),
+not an invalid enum in M81. Remaining original classes/specs and tanks are still unfinished.
+
+## October20 — isolate raid-core buff effects before new optimization
+
+Owner requested all DPS receive Moonkin Aura, Leader of the Pack, Trueshot Aura, Battle Shout,
+Strength of Earth, Grace of Air and Windfury. The new diagnostic preserves all other inputs,
+uses actual published shares/source templates and full native/WASM player/pet/resource
+controls, then60scalar requests/600kfights. Its two seeds are declared inspected, NOT fresh
+qualification. Eight actual-input regression tests/lint pass; detailed controls are live.
+Regular tristates avoid removed Vanilla improvement assumptions; duplicate party copies are
+removed and exclusive Flametongue conflicts fail explicitly. Existing source models stay
+separate; other class-specific assumptions still differ. Results therefore measure within-
+build buff effects, not a cross-class tier list or newly optimized BiS. Required bounded
+gear/talent feedback and remaining original classes/specs are not waived.
+
 ## October20 — fifteen DPS builds now published
 
 The ready first-pass builds below are live in source91b06f5, not merely local. Public and
