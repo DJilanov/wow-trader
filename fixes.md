@@ -2,6 +2,19 @@
 
 Last updated: 2026-10-20
 
+## October20 — every class must use the shared raid-wide default baseline
+
+Hunter/Feral-specific publications did not update other profiles' first-visit defaults,
+and previously auto-saved characters retained missing auras. A shared versioned HTML
+adapter now supplies all seven owner-requested buffs across individual class/tank UIs,
+including a one-time current-character migration. Later opt-outs and named/explicitly
+imported builds stay intact. No frozen model, publication, measured share or DPS number
+is changed. Old asset URLs remain immutable; the new query has its own content ETag.
+Readiness/navigation support the version query. Full865web tests, typecheck and scoped
+lint/format pass; actual full browser sweep and production rollout are in progress.
+Use `node scripts/smoke-simulator-raid-defaults.mjs` with SIMULATOR_TEST_URL pointing to
+the Helper mount; see context.md for the eventual deployment outcome.
+
 ## October20 17:50UTC — refreshed Hunter presets DEPLOYED (c8265bc)
 
 Public https://kfcguild.online/tools/forever/simulator/hunter now delivers approvedV2

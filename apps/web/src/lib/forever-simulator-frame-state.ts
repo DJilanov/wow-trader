@@ -39,9 +39,12 @@ export function isSimulatorFrameReady(
     if (!document || document.location.href === "about:blank") return false;
     const actual = new URL(document.location.href);
     // The engine applies a named build, then consumes its query with history.replaceState.
+    const expectedQuery = new URLSearchParams(expected.search);
+    expectedQuery.delete("build");
     const consumedBuildQuery =
-      actual.search === "" &&
-      expected.searchParams.size === 1 &&
+      actual.searchParams.toString() === expectedQuery.toString() &&
+      expected.searchParams.getAll("build").length === 1 &&
+      [...expected.searchParams.keys()].every((key) => key === "build" || key === "raidDefaults") &&
       simulatorBuildQuery(expected.searchParams.get("build")) !== "";
     if (
       actual.origin !== expected.origin ||

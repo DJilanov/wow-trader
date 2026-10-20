@@ -34,6 +34,85 @@ async function fixture(
 }
 
 describe("Self-hosted Forever simulator assets", () => {
+  it("adapts only versioned HTML, with separate integrity caching and identical HEAD metadata", async () => {
+    const f = await fixture();
+    try {
+      const module = "bundle/preset_utils-test.chunk.js";
+      const html = `<head><link rel="modulepreload" href="/forever-sim/${f.release}/${module}"><script type="module" src="/entry.js"></script></head>`;
+      const path = join(f.directory, f.release, "manifest.json");
+      const manifest = JSON.parse(await readFile(path, "utf8")) as {
+        files: Record<string, { bytes: number; sha256: string }>;
+      };
+      manifest.files["warrior/index.html"] = {
+        bytes: Buffer.byteLength(html),
+        sha256: createHash("sha256").update(html).digest("hex"),
+      };
+      manifest.files[module] = { bytes: 0, sha256: createHash("sha256").update("").digest("hex") };
+      await mkdir(join(f.directory, f.release, "warrior"));
+      await writeFile(join(f.directory, f.release, "warrior/index.html"), html);
+      await writeFile(path, JSON.stringify(manifest));
+      const original = await serveSimulatorAsset(
+        new Request("http://localhost/warrior/"),
+        f.release,
+        ["warrior"],
+        f.directory,
+      );
+      expect(await original.text()).toBe(html);
+      const url = "http://localhost/warrior/?raidDefaults=core-v1";
+      const adapted = await serveSimulatorAsset(
+        new Request(url),
+        f.release,
+        ["warrior"],
+        f.directory,
+      );
+      const body = await adapted.text();
+      expect(body).toContain('data-kfc-raid-defaults="core-v1"');
+      expect(body.indexOf("installSimulatorRaidDefaults")).toBeLessThan(
+        body.indexOf('src="/entry.js"'),
+      );
+      expect(adapted.headers.get("etag")).toBe(
+        `"${createHash("sha256").update(body).digest("hex")}"`,
+      );
+      expect(adapted.headers.get("etag")).not.toBe(original.headers.get("etag"));
+      expect(adapted.headers.get("content-length")).toBe(String(Buffer.byteLength(body)));
+      const head = await serveSimulatorAsset(
+        new Request(url, { method: "HEAD" }),
+        f.release,
+        ["warrior"],
+        f.directory,
+      );
+      expect(head.headers.get("etag")).toBe(adapted.headers.get("etag"));
+      expect(head.headers.get("content-length")).toBe(adapted.headers.get("content-length"));
+      expect(await head.text()).toBe("");
+      expect(
+        (
+          await serveSimulatorAsset(
+            new Request(url, { headers: { "if-none-match": original.headers.get("etag")! } }),
+            f.release,
+            ["warrior"],
+            f.directory,
+          )
+        ).status,
+      ).toBe(200);
+      expect(
+        (
+          await serveSimulatorAsset(
+            new Request(url, { headers: { "if-none-match": adapted.headers.get("etag")! } }),
+            f.release,
+            ["warrior"],
+            f.directory,
+          )
+        ).status,
+      ).toBe(304);
+      delete manifest.files[module];
+      await writeFile(path, JSON.stringify(manifest));
+      expect(
+        (await serveSimulatorAsset(new Request(url), f.release, ["warrior"], f.directory)).status,
+      ).toBe(503);
+    } finally {
+      await rm(f.directory, { recursive: true, force: true });
+    }
+  });
   it("keeps internal preset provenance private even when checksummed in a release manifest", async () => {
     const f = await fixture();
     try {

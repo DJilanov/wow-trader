@@ -2,6 +2,30 @@
 
 Last updated: 2026-10-20
 
+## October20 — shared raid-wide defaults correction (verification/deployment in progress)
+
+Owner reconfirmed that ordinary class auras/buffs are raid-wide. New presentation-only
+`forever-simulator-raid-defaults.ts` enables Moonkin/Leader/Trueshot/Shout/Strength/Grace/
+Windfury in every individual class/tank profile. Normal tristates match the existing
+seven-buff model; Windfury excludes Flametongue, and unrelated buffs/settings are retained.
+Versioned `raidDefaults=core-v1` HTML installs the adapter before engine construction,
+without rewriting immutable release files, combat models, measured shares or numerical
+proofs. Separate ETag/HEAD/conditional-cache tests protect old immutable URLs.
+
+An existing auto-saved current character is updated once per profile. Later opt-outs,
+named saved builds and explicit hash/build/profile/race imports are preserved. Historical
+Load build remains the exact measured setup, not a silently re-labelled seven-buff result;
+the reference caption now explicitly explains this difference. Navigation/readiness
+recognize the internal version query without exposing it in shareable host URLs.
+
+Full web865tests/114suites, typecheck, scoped lint/format and49focused regressions PASS.
+Actual all-profile desktop/mobile smoke is running; first three Druid pages passed.
+An earlier development sweep hit a transient Hunter host-loader timeout while source
+edits caused hot reload; a fresh isolated Hunter check passes. Do not call it a passing
+full sweep until terminal success. Production is still c8265bc; source commit/push,
+isolated Linux build/browser checks and web-only activation/public verification follow.
+Frozen simulation-cache.mjs remains69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+
 ## October20 17:50UTC — Hunter committed, pushed, DEPLOYED and publicly verified
 
 App sourcec8265bc83f6afd6fb826953b04e6e6de99719139 (pushed main), Nextbuild

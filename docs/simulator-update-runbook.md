@@ -4385,3 +4385,18 @@ Current local browser releasee14af46d79721e1ad50a6f04 uses unchanged native3dde/
 4ee5e4d6… is ongoing, not a completed all-class result. Exact cached screening measurements were
 reused as intended; independent validation remains separate. Check `context.md` and the live
 status command for the current run rather than relying on this historical launch note.
+
+## Shared raid-wide UI defaults
+
+Every individual class/tank workspace uses versioned `raidDefaults=core-v1` HTML to
+enable Moonkin Aura, Leader of the Pack, Trueshot Aura, Battle Shout, Strength of Earth,
+Grace of Air and Windfury once. Other buffs are retained; Flametongue is excluded when
+Windfury is selected. This presentation adapter does not change the combat engine or
+recalculate historical measured references. Full benchmark imports preserve their own
+buffs; the reference caption distinguishes those inputs from edited/default scenarios.
+The auto-saved current character migrates once; named saves and later opt-outs survive.
+
+Run `node scripts/smoke-simulator-raid-defaults.mjs` against the Helper mount through
+`SIMULATOR_TEST_URL`. Before deploying a changed adapter, bump its URL/storage version
+and verify all class profiles, presets, reloads, opt-outs, migration and full imports.
+Retain the unmodified immutable artifact roots and their existing checksum/proof gates.

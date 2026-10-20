@@ -111,6 +111,25 @@ describe("Simulator frame readiness", () => {
     pending.contentDocument!.querySelector = (() => ({})) as Document["querySelector"];
     expect(isSimulatorFrameReady(pending, requested, origin)).toBe(false);
   });
+  it("recognizes a consumed build while keeping the versioned raid defaults query", () => {
+    const query = "?raidDefaults=core-v1";
+    expect(isSimulatorFrameReady(fixture(origin + src + query), src + query, origin)).toBe(true);
+    expect(
+      isSimulatorFrameReady(
+        fixture(origin + src + query),
+        src + "?build=Arms&raidDefaults=core-v1",
+        origin,
+      ),
+    ).toBe(true);
+    expect(isSimulatorFrameReady(fixture(), src + query, origin)).toBe(false);
+    expect(
+      isSimulatorFrameReady(
+        fixture(origin + src + query),
+        src + "?build=Arms&build=Fury&raidDefaults=core-v1",
+        origin,
+      ),
+    ).toBe(false);
+  });
   it("keeps loading visible until the initial gear and talents finish loading", () => {
     const loading = fixture();
     loading.contentDocument!.querySelector = (() => ({})) as Document["querySelector"];

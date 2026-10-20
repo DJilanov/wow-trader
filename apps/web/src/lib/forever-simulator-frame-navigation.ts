@@ -1,5 +1,6 @@
 import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 import { withHelperBasePath } from "./site-path";
+import { simulatorRaidDefaultsVersion } from "./forever-simulator-raid-defaults";
 
 export function simulatorBuildQuery(value: unknown): string {
   if (
@@ -16,6 +17,11 @@ export function simulatorNavigationHref(href: string, src: string, origin: strin
   try {
     const current = new URL(src, origin);
     const target = new URL(href, current);
+    if (
+      target.searchParams.getAll("raidDefaults").length === 1 &&
+      target.searchParams.get("raidDefaults") === simulatorRaidDefaultsVersion
+    )
+      target.searchParams.delete("raidDefaults");
     const pattern = /^\/(?:tools\/)?forever-sim\/([a-f0-9]{24})\/([a-z_]+)\/?$/;
     const source = pattern.exec(current.pathname);
     const destination = pattern.exec(target.pathname);
@@ -154,7 +160,9 @@ export function connectSimulatorFrameNavigation(
     for (const toggle of [...open].reverse()) toggle.click();
   };
   frame.ownerDocument.addEventListener("pointerdown", dismissMenus, true);
-  if (!new URL(src, origin).hash && !new URL(src, origin).search) {
+  const initialUrl = new URL(src, origin);
+  initialUrl.searchParams.delete("raidDefaults");
+  if (!initialUrl.hash && !initialUrl.search) {
     const active = [
       ...document.querySelectorAll<HTMLElement>(
         ".preset-configuration-picker-root .active .saved-data-set-name",

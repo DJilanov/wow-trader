@@ -1,4 +1,5 @@
 import { createReadStream } from "node:fs";
+import { createHash } from "node:crypto";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import {
@@ -6,6 +7,10 @@ import {
   simulatorManifestSchema,
   type SimulatorManifest,
 } from "@wow-trader/forever-data/simulator";
+import {
+  simulatorRaidDefaultsModule,
+  simulatorRaidDefaultsVersion,
+} from "./forever-simulator-raid-defaults";
 
 const types: Readonly<Record<string, string>> = {
   html: "text/html; charset=utf-8",
@@ -139,7 +144,28 @@ export async function serveSimulatorAsset(
   const info = await stat(path);
   if (!info.isFile() || info.size !== expected.bytes)
     return new Response("Simulator asset failed integrity checks", { status: 503 });
-  const etag = `"${expected.sha256}"`;
+  let adaptedHtml: Buffer | undefined;
+  if (
+    extension === "html" &&
+    new URL(request.url).searchParams.get("raidDefaults") === simulatorRaidDefaultsVersion
+  ) {
+    const html = await readFile(path, "utf8");
+    const module =
+      /href="(\/forever-sim\/[a-f0-9]{24}\/bundle\/preset_utils-[a-zA-Z0-9_-]+\.chunk\.js)"/.exec(
+        html,
+      )?.[1];
+    if (!module || !manifest.files[module.replace(`/forever-sim/${release}/`, "")])
+      return new Response("Simulator raid defaults unavailable", { status: 503 });
+    const marker = '<script type="module"';
+    if (!html.includes(marker)) return new Response("Simulator entry unavailable", { status: 503 });
+    adaptedHtml = Buffer.from(
+      html.replace(
+        marker,
+        `<script type="module" data-kfc-raid-defaults="${simulatorRaidDefaultsVersion}">${simulatorRaidDefaultsModule(module)}</script>\n${marker}`,
+      ),
+    );
+  }
+  const etag = `"${adaptedHtml ? createHash("sha256").update(adaptedHtml).digest("hex") : expected.sha256}"`;
   const headers: Record<string, string> = {
     "content-type": types[extension]!,
     "cache-control": "public, max-age=31536000, immutable",
@@ -160,9 +186,12 @@ export async function serveSimulatorAsset(
       .includes(etag)
   )
     return new Response(null, { status: 304, headers });
-  headers["content-length"] = String(info.size);
+  headers["content-length"] = String(adaptedHtml?.length ?? info.size);
   if (request.method === "HEAD") return new Response(null, { headers });
-  return new Response(simulatorAssetStream(path, request.signal), {
-    headers,
-  });
+  return new Response(
+    adaptedHtml ? new Uint8Array(adaptedHtml) : simulatorAssetStream(path, request.signal),
+    {
+      headers,
+    },
+  );
 }

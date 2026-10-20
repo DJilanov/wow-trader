@@ -81,6 +81,27 @@ describe("Embedded simulator navigation", () => {
       simulatorNavigationHref(`${origin}/forever-sim/${release}/tank_warrior`, src, origin),
     ).toBe("/forever/simulator/tank-warrior");
   });
+  it("strips only the valid internal defaults version from host navigation", () => {
+    expect(
+      simulatorNavigationHref(
+        "../warrior/?build=Arms&raidDefaults=core-v1",
+        src + "?raidDefaults=core-v1",
+        origin,
+      ),
+    ).toBe("/forever/simulator/warrior?build=Arms");
+    expect(simulatorNavigationHref("../warrior/?raidDefaults=unknown", src, origin)).toBeNull();
+    expect(
+      simulatorNavigationHref("../warrior/?raidDefaults=core-v1&raidDefaults=core-v1", src, origin),
+    ).toBeNull();
+    const onPresetSelected = vi.fn();
+    const disconnect = connectSimulatorFrameNavigation(
+      frameWithActiveLabel("Fury"),
+      src + "?raidDefaults=core-v1",
+      { onNavigate: vi.fn(), onPresetSelected },
+    );
+    expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith("Fury", "initial");
+    disconnect();
+  });
 
   it.each([
     `https://external.example/forever-sim/${release}/warrior/`,

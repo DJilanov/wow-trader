@@ -2635,3 +2635,13 @@ Focused checks: `pnpm simulator:test`, `pnpm simulator:smoke:defaults`,
 `pnpm simulator:smoke:workspace` and `pnpm simulator:smoke:inspection`.
 Historical engine-parity fixtures must reconstruct **all** archived gear slots and the archived
 Tier 1 option; do not recapture their golden values merely because the defaults improved.
+
+## Shared raid-wide defaults versus measured benchmark scenarios
+
+The October20 presentation-only default correction enables all seven owner-requested
+raid-core buffs on every individual class/tank page, with a one-time current-character
+migration and preserved named saves/imports/later opt-outs. Existing measured shares,
+models, gear, source pins and DPS references are unchanged. Full Load build reproduces
+its recorded benchmark rather than silently receiving newly labelled combat inputs.
+The displayed reference caption explains that current defaults or edits can differ.
+This change does not qualify unfinished specs or replace numerical raid revalidation.

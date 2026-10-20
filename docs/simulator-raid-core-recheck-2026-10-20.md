@@ -3,6 +3,13 @@
 Status: Feral and all three Hunter raid revalidations are deployed and publicly verified.
 Other class follow-ups remain separate; older measurements are not relabelled.
 
+UI follow-up: a shared seven-buff default adapter is now implemented and passes865web
+tests plus typecheck/lint. It covers all individual class/tank pages, including one-time
+current-character migration, without altering any measured build or its DPS reference.
+Historical full benchmark imports deliberately retain their recorded buffs. This UI
+correction is not completion of the remaining numerical revalidations. Actual all-profile
+browser smoke and production rollout are in progress; see context.md for final receipts.
+
 October20 17:50UTC: sourcec8265bc, Hunterpresentationc98e5e028954b29c1ee0354e. All3Hunter
 40k references905.7161/910.6219/868.5296 are live in actual defaults/configs/GearSets/library,
 with7core buffs and Greater20. Feral18c6325ffc446938063c598f/752.0645 is also live from the

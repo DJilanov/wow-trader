@@ -13,6 +13,7 @@ import {
   isSimulatorFrameReady,
   simulatorDialogScrollOffset,
 } from "../lib/forever-simulator-frame-state";
+import { simulatorRaidDefaultsSrc } from "../lib/forever-simulator-raid-defaults";
 
 interface ForeverSimulatorFrameProps {
   readonly src: string;
@@ -21,11 +22,12 @@ interface ForeverSimulatorFrameProps {
   readonly onLoadSelectedBuild: (() => void) | undefined;
 }
 export function ForeverSimulatorFrame({
-  src,
+  src: source,
   title,
   onPresetSelected,
   onLoadSelectedBuild,
 }: ForeverSimulatorFrameProps): React.JSX.Element {
+  const src = simulatorRaidDefaultsSrc(source);
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);

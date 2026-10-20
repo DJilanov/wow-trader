@@ -155,7 +155,8 @@ export function ForeverSimulatorReviewedWorkspace({
             <p className="simulator-reviewed-reference">
               {selected.referenceDps.toFixed(2)} modeled DPS ·{" "}
               {(selected.validationIterations ?? 400000).toLocaleString("en-US")} validation fights
-              · Scenario-specific, not a cross-class ranking.
+              · Measured with the build’s recorded buffs; current defaults or edits may differ. Not
+              a cross-class ranking.
             </p>
           ) : null}
           {selected?.requiresProvisionalEnchantOptIn ? (
