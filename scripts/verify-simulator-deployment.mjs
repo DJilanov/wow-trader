@@ -26,6 +26,26 @@ export async function verifySimulatorDeployment(
   assert.equal(selection.schema, "kfc-simulator-model-update-selection.v1");
   assert(releasePattern.test(selection.release));
   assert(releasePattern.test(selection.sourceRelease));
+  let profileSelectionBytes = null;
+  try {
+    profileSelectionBytes = await readFile(resolve(directory, "profile-model-updates.json"));
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  const profileSelection = profileSelectionBytes
+    ? JSON.parse(profileSelectionBytes.toString("utf8"))
+    : { schema: "kfc-simulator-profile-model-selection.v1", profiles: {} };
+  assert.equal(profileSelection.schema, "kfc-simulator-profile-model-selection.v1");
+  assert(profileSelection.profiles && typeof profileSelection.profiles === "object");
+  assert(!Array.isArray(profileSelection.profiles));
+  for (const [profile, selected] of Object.entries(profileSelection.profiles)) {
+    assert(
+      SIMULATOR_SPECS.some((entry) => entry.page === profile),
+      "Unknown profile selection",
+    );
+    assert(selected && releasePattern.test(selected.release), "Invalid profile release");
+    assert(releasePattern.test(selected.sourceRelease), "Invalid profile source release");
+  }
   const pointerBytes = await readFile(resolve(directory, "published-reviews.json"));
   const pointer = JSON.parse(pointerBytes.toString("utf8"));
   assert.equal(pointer.schema, "kfc-published-simulator-reviews.v1");
@@ -38,6 +58,7 @@ export async function verifySimulatorDeployment(
     return response;
   };
   const profiles = [];
+  const releases = new Set([selection.release]);
   for (const [profile, reference] of Object.entries(pointer.profiles)) {
     assert(/^[a-z_]+$/.test(profile), "Invalid published simulator profile");
     assert(
@@ -47,13 +68,15 @@ export async function verifySimulatorDeployment(
     const publication = await json(resolve(directory, reference.path));
     assert.equal(checksum(JSON.stringify(publication)), reference.sha256);
     assert.equal(publication.profile, profile);
-    assert.equal(publication.presentationRelease, selection.release);
+    const selected = profileSelection.profiles[profile] ?? selection;
+    assert.equal(publication.presentationRelease, selected.release);
+    releases.add(selected.release);
     assert(publication.builds.length > 0, "No approved builds in publication");
     const spec = SIMULATOR_SPECS.find((entry) => entry.page === profile);
     assert(spec, "Unknown simulator profile: " + profile);
     const html = await (await request(`/forever/simulator/${spec.slug}`)).text();
     assert(
-      html.includes(`src="${mount}/forever-sim/${selection.release}/${profile}/`),
+      html.includes(`src="${mount}/forever-sim/${selected.release}/${profile}/`),
       `${profile}: server ignored the selected simulator model`,
     );
     assert(html.includes("Choose a build"), `${profile}: Build library is missing`);
@@ -64,44 +87,58 @@ export async function verifySimulatorDeployment(
     profiles.push({ profile, builds: publication.builds.length });
   }
   assert(profiles.length > 0, "No published simulator profiles");
-  const manifest = await json(resolve(directory, selection.release, "manifest.json"));
-  assert.equal(manifest.release, selection.release);
-  const asset = manifest.files["assets/database/db.json"];
-  assert(asset, "Missing simulator item database");
-  const bytes = Buffer.from(
-    await (
-      await request(`/forever-sim/${selection.release}/assets/database/db.json`)
-    ).arrayBuffer(),
-  );
-  assert.equal(bytes.length, asset.bytes, "Public simulator database size mismatch");
-  assert.equal(checksum(bytes), asset.sha256, "Public simulator database checksum mismatch");
-  const database = JSON.parse(bytes.toString("utf8"));
-  assert.equal(database.items.length, manifest.itemCount);
-  assert.equal(manifest.itemWeaponSkillPolicy?.mode, "ignore-item-bonuses");
-  assert(
-    database.items.every((item) => (item.weaponSkills ?? []).every((value) => value === 0)),
-    "Public database still grants item weapon skill",
-  );
-  for (const item of manifest.itemWeaponSkillPolicy.changes)
+  const databases = {};
+  for (const release of releases) {
+    const manifest = await json(resolve(directory, release, "manifest.json"));
+    assert.equal(manifest.release, release);
+    const asset = manifest.files["assets/database/db.json"];
+    assert(asset, "Missing simulator item database");
+    const bytes = Buffer.from(
+      await (await request(`/forever-sim/${release}/assets/database/db.json`)).arrayBuffer(),
+    );
+    assert.equal(bytes.length, asset.bytes, "Public simulator database size mismatch");
+    assert.equal(checksum(bytes), asset.sha256, "Public simulator database checksum mismatch");
+    const database = JSON.parse(bytes.toString("utf8"));
+    assert.equal(database.items.length, manifest.itemCount);
+    assert.equal(manifest.itemWeaponSkillPolicy?.mode, "ignore-item-bonuses");
     assert(
-      database.items.some((row) => row.id === item.id),
-      `Skill-bearing item ${item.id} removed`,
+      database.items.every((item) => (item.weaponSkills ?? []).every((value) => value === 0)),
+      "Public database still grants item weapon skill",
     );
-  for (const name of ["kfc-reviewed-presets.json", "kfc-preset-safety.json"]) {
-    const response = await fetcher(
-      new URL(`${mount}/forever-sim/${selection.release}/${name}`, base).href,
-      { signal: globalThis.AbortSignal.timeout(30000), redirect: "error" },
-    );
-    assert.equal(response.status, 404, `Private simulator proof exposed: ${name}`);
+    for (const item of manifest.itemWeaponSkillPolicy.changes)
+      assert(
+        database.items.some((row) => row.id === item.id),
+        `Skill-bearing item ${item.id} removed`,
+      );
+    for (const name of ["kfc-reviewed-presets.json", "kfc-preset-safety.json"]) {
+      const response = await fetcher(
+        new URL(`${mount}/forever-sim/${release}/${name}`, base).href,
+        { signal: globalThis.AbortSignal.timeout(30000), redirect: "error" },
+      );
+      assert.equal(response.status, 404, `Private simulator proof exposed: ${name}`);
+    }
+    databases[release] = database.items.length;
   }
   assert.deepEqual(await readFile(resolve(directory, "model-update.json")), selectionBytes);
   assert.deepEqual(await readFile(resolve(directory, "published-reviews.json")), pointerBytes);
+  if (profileSelectionBytes)
+    assert.deepEqual(
+      await readFile(resolve(directory, "profile-model-updates.json")),
+      profileSelectionBytes,
+    );
   return {
     status: "passed",
     sourceRelease: selection.sourceRelease,
     presentationRelease: selection.release,
     profiles,
-    items: database.items.length,
+    items: databases[selection.release],
+    profileReleases: Object.fromEntries(
+      profiles.map(({ profile }) => [
+        profile,
+        profileSelection.profiles[profile]?.release ?? selection.release,
+      ]),
+    ),
+    databases,
     itemWeaponSkillsIgnored: true,
     privateProofsHidden: true,
   };

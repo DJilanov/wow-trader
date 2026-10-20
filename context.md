@@ -2,6 +2,34 @@
 
 Last updated: 2026-10-20
 
+## October20 — reviewed simulator deployment authorized; release preparation
+
+Owner committed the current source as685c6d5 and explicitly requested production deployment.
+Use the pushed committed source, not a dirty-worktree overlay or asset-only sync. Demonology
+is now locally delivered: selector65aa2b388d91582b preserves all16existing cases; main-page
+review89ba83015c834e69 passes both1440/390px, actual25fight843.14DPS runs, saved settings,
+default/config/gear/guide/tooltips/single scrolling and consent. Both screenshots inspected.
+The correct-cwd full simulator regression passed487/487 across39suites; the earlier root-cwd
+486/487 report was a test invocation mistake, not an application defect. Typecheck/lint pass.
+
+Local selected publication now has17entries across7profiles (Fury/Arms provisional-proc
+variants included),15distinct DPS spec/variant builds. Tank starters remain unoptimized.
+Complete all-class goal stays active; finish production delivery before the next Warlock spec.
+Original Warlock deadline unchanged. Deployment gate now checks per-profile presentations,
+every matching public DB and private-proof404, rather than requiring the physical release
+for every class. All11deployment regression tests and the actual local7profile gate pass.
+Strict-runtime artifact inventory: optimization/deployment-20261020-qZeHKX/manifest.json,
+21,128files,784,794,816bytes,sixreleases; every asset size/SHA checked and actual readers
+validated each publication. No production mutation yet. Web rollback source015b205/release
+kfc-helper-leveling-test-20261020-015b205. Keep non-web processes and data untouched.
+Final release receipt: docs/simulator-reviewed-deployment-2026-10-20.md.
+
+Owner's NEXT task, explicitly after deployment: recheck every DPS under one consistent
+raid-wide buff scenario. Owner confirmed "double totems" means Strength of Earth + Grace of
+Air, with Windfury also active, plus Hunter Trueshot Aura. It does NOT mean duplicate-stacked
+copies. Preserve current references and frozen studies; new scenarios require fresh identified
+inputs and feedback if rankings change. Do not silently reinterpret existing DPS as raid-buffed.
+
 ## October20 09:26UTC — Demonology qualified/staged-browser approved; local selection still pending
 
 Actual export43634 TERMINAL0 at09:13UTC: selected10k native/WASM parity PASS, nativeJobs0/

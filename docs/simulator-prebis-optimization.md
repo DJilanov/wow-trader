@@ -1,5 +1,17 @@
 # Simulation-tested pre-raid gear
 
+## October20 — local first-pass delivery and authorized production handoff
+
+Ready locally: WarriorFury/2HFury/Arms, RogueCombat/Mutilate/Subtlety, HunterBM/MM/Survival,
+DruidFeralDPS/Balance, MageFrost/Fire/Arcane, WarlockDemonology. These are conditional
+scenario-specific first passes, not globally perfect builds or a cross-class tier ranking.
+Each displayed reference uses40kvalidation fights; two additional Warrior proc-opt-in
+variants are separate from conservative defaults. Demonology's actual main-page desktop/
+mobile defaults/imports/configs/gear/guide/Simulate checks now pass and screenshots reviewed.
+Full487simulator tests and11deployment tests pass. Owner requested deployment of the committed
+source. Production success must be established separately; see simulator-reviewed-deployment-2026-10-20.md.
+Remaining DPS specs and optimized tanks are not claimed complete; full goal remains active.
+
 ## Latest execution checkpoint — October20 09:26UTC
 
 Demonology qualified531330... after actual selected10k native/WASM parity. UI2de6e7ea...

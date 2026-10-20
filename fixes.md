@@ -2,6 +2,17 @@
 
 Last updated: 2026-10-20
 
+## October20 — independently selected simulator releases in deployment verification
+
+The deployment gate previously required every publication/iframe to match model-update.json,
+which describes only the shared physical presentation. It now follows optional per-class
+profile-model-updates.json, checks every referenced public database byte/SHA and ignored
+weapon-skill policy, and checks private-proof404 for every selected release. Original
+single-model deployments remain supported. All11regressions and the real local7profile gate
+pass; no numerical source or simulator model was edited. Demonology local delivery passes
+both viewport checks and actual Simulate. Owner authorized committed-source deployment;
+live verification/rollback receipt: docs/simulator-reviewed-deployment-2026-10-20.md.
+
 This file records completed fixes and the evidence needed to resume debugging in a later session.
 Read it together with `context.md` for the wider product history. Do not store collector tokens,
 database credentials, SavedVariables contents, or other secrets here.

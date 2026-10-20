@@ -178,3 +178,81 @@ test("rejects skill bonuses even when the served database matches its manifest",
     );
   });
 });
+
+async function profileFixture(run) {
+  await fixture(async (values) => {
+    const { artifactRoot, documents, responses, release } = values;
+    const profileRelease = "c".repeat(24);
+    const publicationPath = "published-reviews/mage-0123456789abcdef.json";
+    const publication = {
+      profile: "mage",
+      presentationRelease: profileRelease,
+      builds: [{ id: "mage-frost-static" }],
+    };
+    const selection = {
+      schema: "kfc-simulator-profile-model-selection.v1",
+      profiles: { mage: { release: profileRelease, sourceRelease: "d".repeat(24) } },
+    };
+    documents["published-reviews.json"].profiles.mage = {
+      path: publicationPath,
+      sha256: hash(JSON.stringify(publication)),
+    };
+    await mkdir(join(artifactRoot, profileRelease));
+    await writeFile(join(artifactRoot, publicationPath), JSON.stringify(publication));
+    await writeFile(join(artifactRoot, "profile-model-updates.json"), JSON.stringify(selection));
+    await writeFile(
+      join(artifactRoot, "published-reviews.json"),
+      JSON.stringify(documents["published-reviews.json"]),
+    );
+    await writeFile(
+      join(artifactRoot, profileRelease, "manifest.json"),
+      JSON.stringify({ ...documents[release + "/manifest.json"], release: profileRelease }),
+    );
+    responses.set("/tools/forever/simulator/mage", {
+      status: 200,
+      body: `<iframe src="/tools/forever-sim/${profileRelease}/mage/"></iframe><label>Choose a build</label><select><option value="mage-frost-static">Frost</option></select>`,
+    });
+    responses.set(`/tools/forever-sim/${profileRelease}/assets/database/db.json`, {
+      ...responses.get(`/tools/forever-sim/${release}/assets/database/db.json`),
+    });
+    await run({ ...values, profileRelease, selection });
+  });
+}
+
+test("verifies independent class releases without replacing the existing physical model", async () => {
+  await profileFixture(async ({ artifactRoot, fetcher, release, profileRelease }) => {
+    const result = await verifySimulatorDeployment(
+      { baseUrl: "https://helper.test/tools", artifactRoot },
+      fetcher,
+    );
+    assert.deepEqual(result.profileReleases, { warrior: release, mage: profileRelease });
+    assert.deepEqual(result.databases, { [release]: 1, [profileRelease]: 1 });
+  });
+});
+
+test("rejects a class-specific page that silently falls back to the global model", async () => {
+  await profileFixture(async ({ artifactRoot, fetcher, responses, release }) => {
+    responses.get("/tools/forever/simulator/mage").body =
+      `<iframe src="/tools/forever-sim/${release}/mage/"></iframe><label>Choose a build</label>`;
+    await assert.rejects(
+      verifySimulatorDeployment({ baseUrl: "https://helper.test/tools", artifactRoot }, fetcher),
+      /ignored the selected simulator model/,
+    );
+  });
+});
+
+test("checks database bytes and proof privacy for every independently selected class", async () => {
+  for (const failure of ["database", "proof"]) {
+    await profileFixture(async ({ artifactRoot, fetcher, responses, profileRelease }) => {
+      responses.set(
+        `/tools/forever-sim/${profileRelease}/` +
+          (failure === "database" ? "assets/database/db.json" : "kfc-reviewed-presets.json"),
+        { status: 200, body: "{}" },
+      );
+      await assert.rejects(
+        verifySimulatorDeployment({ baseUrl: "https://helper.test/tools", artifactRoot }, fetcher),
+        /database size mismatch|Private simulator proof exposed/,
+      );
+    });
+  }
+});

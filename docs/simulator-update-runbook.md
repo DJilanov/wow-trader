@@ -1,5 +1,18 @@
 # Repeatable pre-raid simulation updates
 
+## October20 — owner-authorized reviewed-build deployment
+
+Demonology is selected and actual main-page browser approved at1440/390px, including real
+Simulate, all measured settings, first defaults, configs/gear/guide and one global scroller.
+All487simulator tests and11deployment-gate regressions pass. Deployment checker now follows
+profile-model-updates.json for Mage/Balance/Warlock, verifies every selected public database
+and keeps proof files private; it must not assume all classes use the physical-model release.
+17publication entries cover15distinct DPS builds across7profiles. Tanks remain starters.
+Owner confirmed deployment of committed source685c6d5, not a dirty overlay or asset-only sync.
+Stage exact pushed source plus the checksum-verified finite artifact closure, verify before
+web-only activation, preserve old source/artifact roots for rollback, then run public checks.
+Current status and eventual receipt: simulator-reviewed-deployment-2026-10-20.md.
+
 ## October20 09:26UTC — broad regression precedes isolated Warlock local selection
 
 Selected10k WASM/export43634 PASS, qualified531330... . UI2de6e7ea... compiled with exact
