@@ -505,14 +505,8 @@ SQL
   );
   const line = result.stdout.trim().split(/\r?\n/).at(-1);
   if (!line) return null;
-  const [
-    buildId,
-    buildNumberText,
-    clientVersion,
-    hotfixHash,
-    definitionsRevision,
-    extractorVersion,
-  ] = line.split("|");
+  const [buildId, buildNumberText, clientVersion, hotfixHash, definitionsRevision, extractorVersion] =
+    line.split("|");
   const buildNumber = Number(buildNumberText);
   if (
     !buildId ||
@@ -766,6 +760,7 @@ if [ ! -e "$backup" ]; then
   pg_dump --format=custom --no-owner --no-acl --file="$backup" "$DATABASE_URL"
 fi
 pg_restore --list "$backup" >/dev/null
+node "$deploy_root/current/scripts/prune-catalog-backups.mjs" "$backup"
 mkdir -p "$4"
 `;
   await run(

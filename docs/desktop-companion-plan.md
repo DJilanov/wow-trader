@@ -28,7 +28,7 @@ maintainer Mac with its prior settings and OS-encrypted credential preserved.
 Companion `0.3.0` adds exact-market intelligence synchronization after every stable-file
 reconciliation. It downloads only the product/build/region/realm/Auction-House pack matching the
 latest scan and atomically replaces the collector's generated `MarketData.lua`; collector updates
-preserve that generated file. Collector `0.10.0` consumes the pack in its Market Intel panel,
+preserve that generated file. Collector `0.12.0` consumes the pack in its Market Intel panel,
 tooltips, and account-wide local watchlist after `/reload`. A mismatched pack is rejected in game.
 
 Companion `0.2.0` was the first package published as an immutable macOS Intel DMG and promoted from

@@ -116,7 +116,8 @@ export async function collectQuestieQuestXp(
   const eligibleTasks = tasks.filter((task) => !excludedIds.has(task.id));
   const availableIds = new Set<number>();
   const missingXpIds = new Set<number>();
-  const rows: { readonly id: number; readonly level: number | null; readonly xp: number | null }[] = [];
+  const rows: { readonly id: number; readonly level: number | null; readonly xp: number | null }[] =
+    [];
 
   for (const task of eligibleTasks) {
     const row = xpRows.get(task.id);

@@ -120,6 +120,27 @@
       "when": 1791137272390,
       "tag": "0016_white_runaways",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1792294731023,
+      "tag": "0017_chubby_silver_samurai",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1792304814817,
+      "tag": "0018_nappy_ma_gnuci",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1792398232808,
+      "tag": "0019_premium_shard",
+      "breakpoints": true
     }
   ]
 }

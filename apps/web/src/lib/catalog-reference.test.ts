@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   getCatalogReference,
+  getCatalogReferenceSearchSurface,
   getIndexableReferenceIds,
   itemReferenceMatchesClient,
 } from "./catalog-reference";
@@ -51,6 +52,37 @@ describe("published catalog reference gate", () => {
     expect(itemReferenceMatchesClient(fixture(), { ...item, name: "Other Sword" })).toBe(false);
     expect(itemReferenceMatchesClient(fixture(), { ...item, classId: 4 })).toBe(false);
     expect(itemReferenceMatchesClient(fixture(), { ...item, requiredLevel: 20 })).toBe(false);
+  });
+
+  it("uses the same eligibility policy for page metadata and sitemap admission", () => {
+    const item = { itemId: 25, name: "Test Sword", classId: 2, subclassId: 7, requiredLevel: 1 };
+    const eligible = getCatalogReferenceSearchSurface("forever", "item", 25, fixture(), {
+      clientItem: item,
+      pageExists: true,
+    });
+    const conflicting = getCatalogReferenceSearchSurface("forever", "item", 25, fixture(), {
+      clientItem: { ...item, name: "Different Sword" },
+      pageExists: true,
+    });
+    const incomplete = getCatalogReferenceSearchSurface(
+      "forever",
+      "item",
+      25,
+      { ...fixture(), relations: [] },
+      { clientItem: item, pageExists: true },
+    );
+
+    expect(eligible).toMatchObject({
+      state: "indexable",
+      reasons: ["eligible"],
+      contentHash: "a".repeat(64),
+    });
+    expect(eligible.outgoingLinks).toContain(
+      "https://kfcguild.online/tools/forever/encyclopedia/npcs/1",
+    );
+    expect(conflicting).toMatchObject({ state: "review_required" });
+    expect(conflicting.reasons).toContain("identity_conflict");
+    expect(incomplete.reasons).toContain("required_evidence_missing");
   });
 
   it("includes only fresh, complete, checksum-valid files of the requested edition in sitemaps", async () => {

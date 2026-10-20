@@ -14,7 +14,7 @@ import {
   type QuestXpRecord,
 } from "./quest-xp-contracts.js";
 
-interface Expression extends Node {
+export interface Expression extends Node {
   value?: unknown;
   name?: string;
   operator?: string;
@@ -34,7 +34,7 @@ interface Expression extends Node {
   }>;
 }
 
-function literal(node: Expression | undefined, depth = 0): unknown {
+export function literal(node: Expression | undefined, depth = 0): unknown {
   if (!node || depth > 30) throw new Error("Unsupported reference expression");
   if (node.type === "Literal") return node.value;
   if (node.type === "UnaryExpression" && node.operator === "-") {
@@ -58,19 +58,19 @@ function literal(node: Expression | undefined, depth = 0): unknown {
   throw new Error(`Nonliteral reference expression: ${node.type}`);
 }
 
-function field(node: Expression | undefined, key: string): Expression | undefined {
+export function field(node: Expression | undefined, key: string): Expression | undefined {
   return node?.properties?.find(
     (property) => !property.computed && (property.key.name ?? property.key.value) === key,
   )?.value;
 }
 
-function object(value: unknown): Record<string, unknown> | null {
+export function object(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : null;
 }
 
-function plainText(html: string): string {
+export function plainText(html: string): string {
   const $ = load(html);
   $("script,style,iframe,object").remove();
   return $.root().text().replace(/\s+/g, " ").trim();
@@ -83,7 +83,7 @@ function expressionPath(node: Expression | undefined): string {
   return "";
 }
 
-function calls(script: string, name: string): Expression[] {
+export function calls(script: string, name: string): Expression[] {
   const result: Expression[] = [];
   const inspect = (node: Node): void => {
     const expression = node as Expression;
@@ -98,6 +98,8 @@ function calls(script: string, name: string): Expression[] {
 
 const relationKinds = new Set(["npc", "quest", "spell", "item", "object"]);
 const allowedRelations = new Set([
+  "taught-by-npc",
+  "taught-by-item",
   "dropped-by",
   "sold-by",
   "reward-from",
@@ -110,6 +112,11 @@ const allowedRelations = new Set([
   "used-by",
   "objective-of",
   "provided-for",
+  "series",
+]);
+const constrainedRelationKinds = new Map<string, string>([
+  ["taught-by-npc", "npc"],
+  ["taught-by-item", "item"],
 ]);
 const numericKeys = new Set([
   "str",
@@ -219,15 +226,16 @@ export function parseWowheadPage(
         const idNode = field(config, "id"),
           kindNode = field(config, "template");
         if (!idNode || !kindNode) continue;
-        const relation = literal(idNode),
+        const relationValue = literal(idNode),
           kind = literal(kindNode);
-        if (
-          typeof relation !== "string" ||
-          typeof kind !== "string" ||
-          !allowedRelations.has(relation) ||
-          !relationKinds.has(kind)
-        )
-          continue;
+        if (typeof relationValue !== "string" || typeof kind !== "string") continue;
+        // Real item pages suffix quest-backed tabs (for example
+        // "reward-from-q"); the storage contract uses the unsuffixed id.
+        const relation = relationValue.endsWith("-q") ? relationValue.slice(0, -2) : relationValue;
+        if (!allowedRelations.has(relation) || !relationKinds.has(kind)) continue;
+        const constrainedKind = constrainedRelationKinds.get(relation);
+        if (constrainedKind && kind !== constrainedKind)
+          throw new Error("Reference acquisition relation kind changed");
         const data = literal(field(config, "data"));
         if (!Array.isArray(data)) throw new Error("Reference relation table changed");
         for (const value of data) {

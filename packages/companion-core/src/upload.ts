@@ -3,10 +3,13 @@ import { createHash } from "node:crypto";
 import {
   auctionScanUploadSchema,
   canonicalJson,
+  professionSnapshotUploadSchema,
   uploadReceiptSchema,
   uploadStatusSchema,
   type AuctionScanUpload,
   type JsonValue,
+  type ProfessionSnapshotData,
+  type ProfessionSnapshotUpload,
   type UploadReceipt,
   type UploadStatus,
   type WorldDiagnosticsData,
@@ -15,6 +18,7 @@ import {
 } from "@wow-trader/contracts";
 
 import type {
+  CollectorProfessionSnapshot,
   CollectorSavedVariables,
   CollectorScan,
   CollectorWorldDiagnostics,
@@ -103,6 +107,69 @@ export function createAuctionScanUpload(
   });
 }
 
+export function createProfessionSnapshotUpload(
+  savedVariables: CollectorSavedVariables,
+  snapshot: CollectorProfessionSnapshot,
+): ProfessionSnapshotUpload {
+  const data: ProfessionSnapshotData = {
+    snapshotId: snapshot.snapshotID,
+    moneyCopper: String(snapshot.moneyCopper),
+    inventoryScope: snapshot.inventoryScope,
+    inventory: snapshot.inventory
+      .map((item) => ({ itemId: item.itemID, quantity: item.quantity }))
+      .sort((left, right) => left.itemId - right.itemId),
+    professions: snapshot.professions
+      .map((profession) => ({
+        professionSkillLineId: profession.professionSkillLineID,
+        parentProfessionSkillLineId: profession.parentProfessionSkillLineID ?? null,
+        name: profession.name,
+        skillLevel: profession.skillLevel,
+        maximumSkillLevel: profession.maximumSkillLevel,
+        skillModifier: profession.skillModifier,
+        apiFlavor: profession.apiFlavor,
+        recipeListComplete: profession.recipeListComplete,
+        specializationSpellIds: [...profession.specializationSpellIDs].sort(
+          (left, right) => left - right,
+        ),
+        knownRecipes: profession.knownRecipes
+          .map((recipe) => ({
+            recipeSpellId: recipe.recipeSpellID,
+            name: recipe.name ?? null,
+            cooldownSecondsRemaining: recipe.cooldownSecondsRemaining ?? null,
+            isDayCooldown: recipe.isDayCooldown ?? null,
+            charges: recipe.charges ?? null,
+            maximumCharges: recipe.maximumCharges ?? null,
+          }))
+          .sort((left, right) => left.recipeSpellId - right.recipeSpellId),
+      }))
+      .sort((left, right) => left.professionSkillLineId - right.professionSkillLineId),
+  };
+  const checksum = createHash("sha256")
+    .update(canonicalJson(data as JsonValue))
+    .digest("hex");
+
+  return professionSnapshotUploadSchema.parse({
+    schemaVersion: "profession-snapshot.v1",
+    payloadType: "profession_snapshot",
+    payloadId: snapshot.snapshotID,
+    addonVersion: snapshot.addonVersion,
+    clientProduct: snapshot.clientProduct,
+    clientBuild: snapshot.clientBuild,
+    locale: snapshot.locale,
+    region: snapshot.region,
+    realmId: snapshot.realmID,
+    sourceCharacter: {
+      ...snapshot.sourceCharacter,
+      guid: snapshot.sourceCharacter.guid ?? null,
+    },
+    anonymousInstallationId: savedVariables.installationId,
+    capturedAt: toIsoDateTime(snapshot.capturedAt),
+    completedAt: toIsoDateTime(snapshot.completedAt),
+    checksum,
+    data,
+  });
+}
+
 export function createWorldDiagnosticsUpload(
   savedVariables: CollectorSavedVariables,
 ): WorldDiagnosticsUpload | null {
@@ -174,8 +241,23 @@ export function createWorldDiagnosticsUpload(
       attemptId: observation.attemptID ?? null,
       location: normalizeLocation(observation.location),
     })),
+    lootSessions: diagnostics.lootSessions.map((session) => ({
+      sessionId: session.sessionID,
+      capturedAt: toIsoDateTime(session.capturedAt),
+      sourceType: session.sourceType,
+      sourceId: session.sourceID ?? null,
+      sourceName: session.sourceName ?? null,
+      sourceGuid: session.sourceGuid ?? null,
+      sourceQuantity: session.sourceQuantity ?? null,
+      slotCount: session.slotCount,
+      money: session.money ?? null,
+      encounterId: session.encounterID ?? null,
+      attemptId: session.attemptID ?? null,
+      observerLocation: normalizeLocation(session.observerLocation),
+    })),
     lootObservations: diagnostics.lootObservations.map((observation) => ({
       observationId: observation.observationID,
+      lootSessionId: observation.lootSessionID ?? null,
       capturedAt: toIsoDateTime(observation.capturedAt),
       slotIndex: observation.slotIndex,
       itemId: observation.itemID,
@@ -336,6 +418,26 @@ export function createWorldDiagnosticsUpload(
       })),
       observerLocation: normalizeLocation(observation.observerLocation),
     })),
+    trainerObservations: diagnostics.trainerObservations.map((observation) => ({
+      observationId: observation.observationID,
+      capturedAt: toIsoDateTime(observation.capturedAt),
+      sourceType: observation.sourceType,
+      sourceId: observation.sourceID,
+      sourceGuid: observation.sourceGuid ?? null,
+      sourceName: observation.sourceName ?? null,
+      serviceIndex: observation.serviceIndex,
+      serviceName: observation.serviceName,
+      serviceRank: observation.serviceRank ?? null,
+      serviceType: observation.serviceType,
+      spellId: observation.spellID ?? null,
+      icon: observation.icon ?? null,
+      moneyCost: observation.moneyCost,
+      requiredLevel: observation.requiredLevel ?? null,
+      requiredSkillLine: observation.requiredSkillLine ?? null,
+      requiredSkillRank: observation.requiredSkillRank ?? null,
+      allFiltersEnabled: observation.allFiltersEnabled,
+      observerLocation: normalizeLocation(observation.observerLocation),
+    })),
   };
   const checksum = createHash("sha256")
     .update(canonicalJson(data as JsonValue))
@@ -398,6 +500,15 @@ export async function uploadWorldDiagnostics(
   return uploadPayload(endpoint, apiKey, "/v1/uploads/world-diagnostics", upload, options);
 }
 
+export async function uploadProfessionSnapshot(
+  endpoint: URL,
+  apiKey: string,
+  upload: ProfessionSnapshotUpload,
+  options: RequestOptions = {},
+): Promise<UploadReceipt> {
+  return uploadPayload(endpoint, apiKey, "/v1/uploads/profession-snapshot", upload, options);
+}
+
 export async function waitForAuctionScanProcessed(
   endpoint: URL,
   apiKey: string,
@@ -411,6 +522,18 @@ export async function waitForAuctionScanProcessed(
 }
 
 export async function waitForWorldDiagnosticsProcessed(
+  endpoint: URL,
+  apiKey: string,
+  payloadId: string,
+  options: RequestOptions & {
+    readonly pollIntervalMilliseconds?: number;
+    readonly timeoutMilliseconds?: number;
+  } = {},
+): Promise<UploadStatus> {
+  return waitForUploadProcessed(endpoint, apiKey, payloadId, options);
+}
+
+export async function waitForProfessionSnapshotProcessed(
   endpoint: URL,
   apiKey: string,
   payloadId: string,
@@ -500,7 +623,7 @@ async function uploadPayload(
   endpoint: URL,
   apiKey: string,
   route: string,
-  upload: WorldDiagnosticsUpload,
+  upload: WorldDiagnosticsUpload | ProfessionSnapshotUpload,
   options: RequestOptions,
 ): Promise<UploadReceipt> {
   const response = await fetch(new URL(route, endpoint), {
@@ -547,12 +670,14 @@ function hasDiagnosticEvidence(diagnostics: CollectorWorldDiagnostics): boolean 
     diagnostics.healthObservations.length > 0 ||
     diagnostics.encounterAttempts.length > 0 ||
     diagnostics.encounterLoot.length > 0 ||
+    diagnostics.lootSessions.length > 0 ||
     diagnostics.lootObservations.length > 0 ||
     diagnostics.npcSightings.length > 0 ||
     diagnostics.spellObservations.length > 0 ||
     Object.keys(diagnostics.questQueries).length > 0 ||
     diagnostics.questObservations.length > 0 ||
-    diagnostics.vendorObservations.length > 0
+    diagnostics.vendorObservations.length > 0 ||
+    diagnostics.trainerObservations.length > 0
   );
 }
 
@@ -568,6 +693,7 @@ function diagnosticTimestamps(data: WorldDiagnosticsData): {
       Date.parse(row.endedAt),
     ]),
     ...data.encounterLoot.map((row) => Date.parse(row.capturedAt)),
+    ...data.lootSessions.map((row) => Date.parse(row.capturedAt)),
     ...data.lootObservations.map((row) => Date.parse(row.capturedAt)),
     ...data.npcSightings.map((row) => Date.parse(row.capturedAt)),
     ...data.spellObservations.flatMap((row) => [
@@ -577,6 +703,7 @@ function diagnosticTimestamps(data: WorldDiagnosticsData): {
     ...data.questQueries.map((row) => Date.parse(row.capturedAt)),
     ...data.questObservations.map((row) => Date.parse(row.capturedAt)),
     ...data.vendorObservations.map((row) => Date.parse(row.capturedAt)),
+    ...data.trainerObservations.map((row) => Date.parse(row.capturedAt)),
   ];
   return { minimum: Math.min(...timestamps), maximum: Math.max(...timestamps) };
 }

@@ -75,8 +75,7 @@ describe("external quest XP import", () => {
     expect(result.set.records[2]!.issues).toEqual(
       expect.arrayContaining(["missing_reward_xp", "formula_derived_reward"]),
     );
-    for (const record of result.set.records)
-      expect(record.sourceKind).toBe("server-database");
+    for (const record of result.set.records) expect(record.sourceKind).toBe("server-database");
   });
 
   it("is deterministic for the same input and rejects duplicate identities", async () => {

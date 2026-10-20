@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
-export const HELPER_SITE_URL = "https://helper.kfcguild.online";
+import { withHelperBasePath } from "./site-path";
+
+export const HELPER_SITE_ORIGIN = "https://kfcguild.online";
+export const HELPER_SITE_URL = `${HELPER_SITE_ORIGIN}/tools`;
+export const LEGACY_HELPER_SITE_ORIGIN = "https://helper.kfcguild.online";
 export const HELPER_SITE_NAME = "KFC Helper";
 export const HELPER_SHARE_IMAGE = "/og/helper";
 
@@ -27,7 +31,7 @@ export function createBreadcrumbJsonLd(
       "@type": "ListItem",
       position: index + 1,
       name,
-      item: new URL(path, HELPER_SITE_URL).toString(),
+      item: helperAbsoluteUrl(path),
     })),
   };
 }
@@ -39,8 +43,8 @@ export function createHelperMetadata({
   keywords = [],
   noIndex = false,
 }: HelperMetadataOptions): Metadata {
-  const canonical = new URL(path, HELPER_SITE_URL).toString();
-  const image = new URL(HELPER_SHARE_IMAGE, HELPER_SITE_URL).toString();
+  const canonical = helperAbsoluteUrl(path);
+  const image = helperAbsoluteUrl(HELPER_SHARE_IMAGE);
   const fullTitle = `${title} · ${HELPER_SITE_NAME}`;
 
   return {
@@ -87,4 +91,8 @@ export function createHelperMetadata({
         }
       : undefined,
   };
+}
+
+export function helperAbsoluteUrl(path: string): string {
+  return new URL(withHelperBasePath(path), HELPER_SITE_ORIGIN).toString().replace(/\/$/, "");
 }

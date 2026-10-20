@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { hasNewerMarketScan } from "../lib/market-scan-refresh";
+import { withHelperBasePath } from "../lib/site-path";
 
 const STATUS_POLL_INTERVAL_MILLISECONDS = 5_000;
 const HARD_REFRESH_DELAY_MILLISECONDS = 4_000;
@@ -57,10 +58,13 @@ export function MarketScanAutoRefresh({
         auctionHouseType,
       });
       try {
-        const response = await fetch(`/api/v1/market-scan-status?${search.toString()}`, {
-          cache: "no-store",
-          signal: activeRequest.signal,
-        });
+        const response = await fetch(
+          withHelperBasePath(`/api/v1/market-scan-status?${search.toString()}`),
+          {
+            cache: "no-store",
+            signal: activeRequest.signal,
+          },
+        );
         const body: unknown = await response.json().catch(() => null);
         const completedAt = readCompletedAt(body);
         if (

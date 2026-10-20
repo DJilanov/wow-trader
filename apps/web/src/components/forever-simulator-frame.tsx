@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   connectSimulatorFrameNavigation,
   simulatorNavigationHref,
+  type SimulatorPresetSelectionSource,
 } from "../lib/forever-simulator-frame-navigation";
 import { connectSimulatorFrameControls } from "../lib/forever-simulator-frame-controls";
 import { connectSimulatorPageScroll } from "../lib/forever-simulator-frame-layout";
@@ -16,7 +17,7 @@ import {
 interface ForeverSimulatorFrameProps {
   readonly src: string;
   readonly title: string;
-  readonly onPresetSelected: (name: string) => void;
+  readonly onPresetSelected: (name: string, source: SimulatorPresetSelectionSource) => void;
   readonly onLoadSelectedBuild: (() => void) | undefined;
 }
 export function ForeverSimulatorFrame({

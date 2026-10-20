@@ -94,6 +94,13 @@ export default async function ForeverChangesPage({
               </div>
             </div>
             <p>{observatory.catalog.changes.note}</p>
+            {observatory.catalog.changeSet ? (
+              <Link
+                href={`/forever/encyclopedia/changes/${observatory.catalog.changeSet.from.buildNumber}-to-${observatory.catalog.changeSet.to.buildNumber}`}
+              >
+                Inspect the reviewed build comparison →
+              </Link>
+            ) : null}
             <Link href="/forever/data">Review evidence and public data →</Link>
           </section>
         ) : (

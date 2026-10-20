@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { referenceIndexGaps } from "@wow-trader/reference-data";
 import { DataUnavailable } from "../../../../../components/data-unavailable";
 import { CatalogReference } from "../../../../../components/catalog-reference";
-import { getCatalogReference } from "../../../../../lib/catalog-reference";
+import {
+  getCatalogReference,
+  getCatalogReferenceSearchSurface,
+} from "../../../../../lib/catalog-reference";
 
 import { ForeverEncyclopediaNav } from "../../../../../components/forever-encyclopedia-nav";
 import { ForeverWorldState } from "../../../../../components/forever-world-state";
@@ -45,19 +47,29 @@ const getQuestPageData = cache(
 export async function generateMetadata({ params }: QuestPageProps): Promise<Metadata> {
   const { questId } = await params;
   const id = parsePositiveId(questId);
-  const { data, reference } = id ? await getQuestPageData(id) : { data: null, reference: null };
+  const { data, reference, clientUnavailable } = id
+    ? await getQuestPageData(id)
+    : { data: null, reference: null, clientUnavailable: false };
   const title =
     data?.observations.find((observation) => observation.title)?.title ??
     data?.quest.title ??
     reference?.name ??
     null;
+  const searchSurface = id
+    ? getCatalogReferenceSearchSurface("forever", "quest", id, reference, {
+        ...(!clientUnavailable
+          ? { clientQuestPresent: Boolean(data), clientQuestTitle: title }
+          : {}),
+        pageExists: Boolean(data || reference),
+      })
+    : null;
   return createHelperMetadata({
     title: `${title ?? `Quest ${questId}`} · WoW Forever`,
     description: title
       ? `Objectives, rewards, quest giver evidence, and build-scoped client facts for ${title} in WoW Forever.`
       : `Build-scoped client and observation evidence for WoW Forever quest ${questId}.`,
     path: `/forever/encyclopedia/quests/${questId}`,
-    noIndex: !reference || !title || reference.name !== title || referenceIndexGaps(reference).length > 0,
+    noIndex: !searchSurface || searchSurface.state !== "indexable",
   });
 }
 
@@ -94,7 +106,11 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
     (observation) => observation.evidenceKind === "server_query",
   );
   const rewards = collectRewards(data.observations);
-  const questTitle = titledObservation?.title ?? data.quest.title ?? reference?.name ?? `Quest ${data.quest.questId}`;
+  const questTitle =
+    titledObservation?.title ??
+    data.quest.title ??
+    reference?.name ??
+    `Quest ${data.quest.questId}`;
   return (
     <article className="forever-reference-page forever-world-page">
       <header className="forever-reference-hero forever-world-hero compact">

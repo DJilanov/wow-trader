@@ -1,6 +1,6 @@
 local ADDON_NAME, Addon = ...
 
-local ADDON_VERSION = "0.10.0"
+local ADDON_VERSION = "0.12.0"
 local SAVED_SCHEMA_VERSION = 1
 local MARKET_KEY_VERSION = 1
 local MAX_QUEUED_SCANS = 8
@@ -170,8 +170,8 @@ local function InitializeSavedVariables()
   if type(WOW_TRADER_SAVED.marketWatchlist) ~= "table" then
     WOW_TRADER_SAVED.marketWatchlist = {}
   end
-  if type(WOW_TRADER_SAVED.worldDiagnostics) == "table" then
-    WOW_TRADER_SAVED.worldDiagnostics.enabled = false
+  if type(WOW_TRADER_SAVED.professionSnapshots) ~= "table" then
+    WOW_TRADER_SAVED.professionSnapshots = {}
   end
 end
 
@@ -1073,8 +1073,7 @@ function Addon.GetItemMarketIntelligence(itemId)
 end
 
 local function IsRetiredDiagnosticsCommand(command)
-  return string.find(command, "diagnostics", 1, true) == 1 or
-    string.find(command, "questsample", 1, true) == 1 or
+  return string.find(command, "questsample", 1, true) == 1 or
     string.find(command, "questscan", 1, true) == 1 or
     string.find(command, "bossmodels", 1, true) == 1
 end
@@ -1083,6 +1082,10 @@ SLASH_WOWTRADER1 = "/wowtrader"
 SlashCmdList.WOWTRADER = function(command)
   command = string.match(command or "", "^%s*(.-)%s*$")
   local normalizedCommand = string.lower(command)
+  if type(Addon.HandleWorldEvidenceCommand) == "function" and
+    Addon.HandleWorldEvidenceCommand(normalizedCommand) then
+    return
+  end
   if normalizedCommand == "probe" then
     Addon.RunProbe()
     return
@@ -1094,6 +1097,13 @@ SlashCmdList.WOWTRADER = function(command)
     return
   elseif normalizedCommand == "cancel" then
     Addon.CancelScan()
+    return
+  elseif normalizedCommand == "professions" then
+    if type(Addon.CaptureProfessionSnapshot) == "function" then
+      Addon.CaptureProfessionSnapshot()
+    else
+      Print("the profession collector is unavailable.")
+    end
     return
   elseif normalizedCommand == "minimap" then
     if type(Addon.ShowMinimapButton) == "function" then
@@ -1136,7 +1146,7 @@ SlashCmdList.WOWTRADER = function(command)
 
   InitializeSavedVariables()
   Print(string.format(
-    "%d market scan(s) queued. Commands: ui, market [item], watch <item ID>, minimap, probe, scan, status, cancel",
+    "%d market scan(s) queued. Commands: ui, market [item], watch <item ID>, minimap, probe, scan, professions, evidence, status, cancel",
     #WOW_TRADER_SAVED.scans
   ))
 end

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
+
 import { withHelperBasePath } from "../lib/site-path";
 
 interface MapTile {
@@ -16,10 +17,10 @@ interface MapMarker {
   readonly id: string;
   readonly name: string;
   readonly description: string;
-  readonly kind: "area_poi" | "boss" | "quest_poi" | "taxi";
+  readonly kind: "area_poi" | "boss" | "community_npc" | "community_object" | "quest_poi" | "taxi";
   readonly x: number;
   readonly y: number;
-  readonly evidence: "exact_client" | "review_required";
+  readonly evidence: "exact_client" | "published_community" | "review_required";
   readonly href: string | null;
   readonly points: readonly { readonly x: number; readonly y: number }[];
 }
@@ -74,7 +75,13 @@ export function ForeverMapViewer({
   const visibleMarkers = useMemo(
     () =>
       markers.filter((marker) => {
-        if (marker.kind === "area_poi" && !layers.places) return false;
+        if (
+          (marker.kind === "area_poi" ||
+            marker.kind === "community_npc" ||
+            marker.kind === "community_object") &&
+          !layers.places
+        )
+          return false;
         if (marker.kind === "boss" && !layers.bosses) return false;
         if (marker.kind === "taxi" && !layers.taxi) return false;
         if (marker.kind === "quest_poi" && !layers.quests) return false;
@@ -295,11 +302,7 @@ export function ForeverMapViewer({
               <dl>
                 <div>
                   <dt>Evidence</dt>
-                  <dd>
-                    {selected.evidence === "exact_client"
-                      ? "Exact client record"
-                      : "Review required"}
-                  </dd>
+                  <dd>{evidenceLabel(selected.evidence)}</dd>
                 </div>
                 <div>
                   <dt>Precision</dt>
@@ -332,9 +335,7 @@ export function ForeverMapViewer({
                         <strong>{marker.name}</strong>
                         <small>
                           {mapKindLabel(marker.kind)} ·{" "}
-                          {marker.evidence === "exact_client"
-                            ? "exact client evidence"
-                            : "review required"}
+                          {evidenceLabel(marker.evidence).toLocaleLowerCase("en")}
                         </small>
                       </span>
                     </button>
@@ -399,7 +400,9 @@ function layerGroupFor(
   kind: MapMarker["kind"],
   groups: Record<keyof LayerVisibility, LayerGroup>,
 ): LayerGroup {
-  if (kind === "area_poi") return groups.places;
+  if (kind === "area_poi" || kind === "community_npc" || kind === "community_object") {
+    return groups.places;
+  }
   if (kind === "boss") return groups.bosses;
   if (kind === "taxi") return groups.taxi;
   return groups.quests;
@@ -407,6 +410,8 @@ function layerGroupFor(
 
 function mapKindLabel(kind: MapMarker["kind"]): string {
   if (kind === "boss") return "Boss";
+  if (kind === "community_npc") return "Community NPC location";
+  if (kind === "community_object") return "Community object location";
   if (kind === "taxi") return "Flight point";
   if (kind === "quest_poi") return "Quest POI";
   return "Place";
@@ -416,5 +421,13 @@ function markerSymbol(kind: MapMarker["kind"]): string {
   if (kind === "taxi") return "↗";
   if (kind === "quest_poi") return "!";
   if (kind === "boss") return "◆";
+  if (kind === "community_npc") return "●";
+  if (kind === "community_object") return "■";
   return "•";
+}
+
+function evidenceLabel(evidence: MapMarker["evidence"]): string {
+  if (evidence === "exact_client") return "Exact client record";
+  if (evidence === "published_community") return "Published community coordinate";
+  return "Review required";
 }

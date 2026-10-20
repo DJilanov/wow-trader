@@ -4,6 +4,7 @@ import {
   auctionScanUploadSchema,
   canonicalJson,
   catalogRecipeOutputSchema,
+  professionSnapshotUploadSchema,
   type JsonValue,
   worldCombatSpellObservationSchema,
   worldHealthObservationSchema,
@@ -62,6 +63,26 @@ describe("auctionScanUploadSchema", () => {
     });
 
     expect(result.success).toBe(false);
+  });
+});
+
+describe("professionSnapshotUploadSchema", () => {
+  it("accepts character recipe eligibility, cooldown, inventory, and capital evidence", () => {
+    const result = professionSnapshotUploadSchema.safeParse(validProfessionSnapshotUpload());
+
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects duplicate recipes and a mismatched snapshot ID", () => {
+    const upload = validProfessionSnapshotUpload();
+    const data = upload.data as {
+      snapshotId: string;
+      professions: Array<{ knownRecipes: unknown[] }>;
+    };
+    data.snapshotId = "2a527e2f-bd73-4f35-9991-9ac43cf507bc";
+    data.professions[0]!.knownRecipes.push(data.professions[0]!.knownRecipes[0]);
+
+    expect(professionSnapshotUploadSchema.safeParse(upload).success).toBe(false);
   });
 });
 
@@ -159,6 +180,59 @@ function validAuctionScanUpload(): Record<string, unknown> {
     data: {
       scanId: "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
       itemSnapshots: [],
+    },
+  };
+}
+
+function validProfessionSnapshotUpload(): Record<string, unknown> {
+  return {
+    schemaVersion: "profession-snapshot.v1",
+    payloadType: "profession_snapshot",
+    payloadId: "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
+    addonVersion: "0.11.0",
+    clientProduct: "wow_anniversary",
+    clientBuild: 69795,
+    locale: "enUS",
+    region: "EU",
+    realmId: "Spineshatter",
+    sourceCharacter: {
+      name: "Crafter",
+      realmId: "Spineshatter",
+      faction: "horde",
+      guid: "Player-1234-ABCDEF",
+    },
+    anonymousInstallationId: "anonymous-test-installation",
+    capturedAt: "2026-10-18T10:30:00.000Z",
+    completedAt: "2026-10-18T10:30:01.000Z",
+    checksum: "a".repeat(64),
+    data: {
+      snapshotId: "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
+      moneyCopper: "123456",
+      inventoryScope: "bags",
+      inventory: [{ itemId: 12808, quantity: 7 }],
+      professions: [
+        {
+          professionSkillLineId: 171,
+          parentProfessionSkillLineId: null,
+          name: "Alchemy",
+          skillLevel: 375,
+          maximumSkillLevel: 375,
+          skillModifier: 0,
+          apiFlavor: "c_trade_skill_ui",
+          recipeListComplete: true,
+          specializationSpellIds: [28672],
+          knownRecipes: [
+            {
+              recipeSpellId: 17563,
+              name: "Transmute: Arcanite",
+              cooldownSecondsRemaining: 3600,
+              isDayCooldown: true,
+              charges: null,
+              maximumCharges: null,
+            },
+          ],
+        },
+      ],
     },
   };
 }

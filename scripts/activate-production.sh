@@ -41,6 +41,22 @@ for required_path in "${required_paths[@]}"; do
   fi
 done
 
+(
+  source "$deploy_root/shared/env/web.env"
+  if [[ "${SEO_RUM_ENABLED:-false}" == "true" ]]; then
+    if [[ "${SEO_RUM_BUILD:-}" != "$release_name" ]]; then
+      echo "Cannot activate: SEO_RUM_BUILD must match $release_name" >&2
+      exit 1
+    fi
+    if ! grep --recursive --silent --fixed-strings --binary-files=without-match \
+      "$release_name" \
+      "$release_directory/apps/web/.next/standalone/apps/web/server.js"; then
+      echo "Cannot activate: the web build does not contain the configured RUM release label" >&2
+      exit 1
+    fi
+  fi
+)
+
 if [[ -f "$deploy_root/shared/forever-simulator/model-update.json" ]]; then
   : "${WOW_TRADER_CANDIDATE_URL:?Start the candidate web server and set WOW_TRADER_CANDIDATE_URL before activation}"
   node "$release_directory/scripts/verify-simulator-deployment.mjs" \

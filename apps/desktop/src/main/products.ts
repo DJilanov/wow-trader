@@ -11,12 +11,14 @@ import {
 
 import type { DesktopProductStatus } from "../shared/contracts.js";
 
-const COLLECTOR_VERSION = "0.10.0";
+const COLLECTOR_VERSION = "0.12.0";
 const ADDON_FILES: Readonly<Record<string, string>> = {
-  "Collector.lua": "8d2b0f7214ef8a47ad111fcd129c22b8e0f16a3e8afe08579f88d262c77fbc54",
+  "Collector.lua": "b2a9737ec85ff467c57f3869c8f89d1ec65002eca1971436ed973dab471adb66",
+  "Professions.lua": "24ce92e0f6f78dcd2ab2fe6b7257e0ecaa7b0105b44c7774a630160d6cf6fc24",
+  "WorldEvidence.lua": "a5e8ebe31c345ebb21e5892d75691f8e259b3fc46ea8ed16df15b449d135f006",
   "UI.lua": "28b7fa4b9f440468a82defd8c8f60c62102160a4afda4ca41e19a28ab43925aa",
   "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
-  "WowTraderCollector.toc": "6340d0f57822ecd64fc938a519e0c9f2d4d967cd49d99efe785ce8e3b8c2c672",
+  "WowTraderCollector.toc": "42ceb1d510342ef4b7e3d67cd954cd0ed4c655ad8f204099c508e79a89415e6d",
 };
 const GENERATED_MARKET_DATA_FILE = "MarketData.lua";
 

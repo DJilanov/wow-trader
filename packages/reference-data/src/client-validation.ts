@@ -73,7 +73,7 @@ export function referenceIndexGaps(record: ReferenceRecord, item?: ReferenceClie
 export function referenceDisplayable(record: ReferenceRecord): boolean {
   const gaps = referenceQualityGaps(record);
   if (gaps.includes("placeholder_name") || gaps.includes("unresolved_item_details")) return false;
-  return record.kind === "item"
-    ? record.tooltipLines.length > 0 || record.relations.length > 0
-    : record.objectives.length > 0 || record.rewards.length > 0 || record.relations.length > 0;
+  if (record.kind === "item") return record.tooltipLines.length > 0 || record.relations.length > 0;
+  if (record.kind === "spell") return record.relations.length > 0;
+  return record.objectives.length > 0 || record.rewards.length > 0 || record.relations.length > 0;
 }

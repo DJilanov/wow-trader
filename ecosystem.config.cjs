@@ -1,3 +1,5 @@
+const process = require("node:process");
+
 const deployRoot = process.env.WOW_TRADER_DEPLOY_ROOT ?? "/home/wow-trader-system";
 
 const sharedProcessOptions = {
@@ -23,7 +25,7 @@ module.exports = {
       ...sharedProcessOptions,
       name: "kfc-helper-web",
       args: ["web"],
-      max_memory_restart: "600M",
+      max_memory_restart: "1100M",
       env_production: {
         NODE_ENV: "production",
         WOW_TRADER_ENV_FILE: `${deployRoot}/shared/env/web.env`,

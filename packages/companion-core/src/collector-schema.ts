@@ -156,6 +156,7 @@ const collectorEncounterLootSchema = z.object({
 
 const collectorLootObservationSchema = z.object({
   observationID: z.string().uuid(),
+  lootSessionID: z.string().uuid().nullish(),
   capturedAt: z.number().int().positive().safe(),
   slotIndex: z.number().int().positive().safe(),
   itemID: z.number().int().positive().safe(),
@@ -166,6 +167,21 @@ const collectorLootObservationSchema = z.object({
   sourceID: z.number().int().positive().safe().nullish(),
   sourceGuid: nullableString(256),
   sourceQuantity: nullableSafeInteger,
+  encounterID: z.number().int().positive().safe().nullish(),
+  attemptID: z.string().uuid().nullish(),
+  observerLocation: collectorLocationSchema,
+});
+
+const collectorLootSessionSchema = z.object({
+  sessionID: z.string().uuid(),
+  capturedAt: z.number().int().positive().safe(),
+  sourceType: z.string().min(1).max(64),
+  sourceID: z.number().int().positive().safe().nullish(),
+  sourceName: nullableString(256),
+  sourceGuid: nullableString(256),
+  sourceQuantity: nullableSafeInteger,
+  slotCount: z.number().int().nonnegative().safe(),
+  money: nullableSafeInteger,
   encounterID: z.number().int().positive().safe().nullish(),
   attemptID: z.string().uuid().nullish(),
   observerLocation: collectorLocationSchema,
@@ -344,8 +360,30 @@ const collectorVendorObservationSchema = z.object({
   observerLocation: collectorLocationSchema,
 });
 
+const collectorTrainerObservationSchema = z.object({
+  observationID: z.string().uuid(),
+  observationKey: z.string().min(1).max(512),
+  capturedAt: z.number().int().positive().safe(),
+  sourceType: z.string().min(1).max(64),
+  sourceID: z.number().int().positive().safe(),
+  sourceGuid: nullableString(256),
+  sourceName: nullableString(256),
+  serviceIndex: z.number().int().positive().safe(),
+  serviceName: z.string().min(1).max(512),
+  serviceRank: nullableString(128),
+  serviceType: z.string().min(1).max(64),
+  spellID: z.number().int().positive().safe().nullish(),
+  icon: textureReferenceSchema,
+  moneyCost: z.number().int().nonnegative().safe(),
+  requiredLevel: nullableSafeInteger,
+  requiredSkillLine: nullableString(256),
+  requiredSkillRank: nullableSafeInteger,
+  allFiltersEnabled: z.boolean(),
+  observerLocation: collectorLocationSchema,
+});
+
 export const collectorWorldDiagnosticsSchema = z.object({
-  schemaVersion: z.union([z.literal(3), z.literal(4), z.literal(5)]),
+  schemaVersion: z.union([z.literal(3), z.literal(4), z.literal(5), z.literal(6)]),
   addonVersion: nullableString(64),
   clientProduct: nullableString(64),
   clientBuild: z.number().int().positive().safe().nullish(),
@@ -356,6 +394,7 @@ export const collectorWorldDiagnosticsSchema = z.object({
   region: z.string().min(2).max(8).nullish(),
   encounterAttempts: z.array(collectorEncounterAttemptSchema).max(100).default([]),
   encounterLoot: z.array(collectorEncounterLootSchema).max(1_000).default([]),
+  lootSessions: z.array(collectorLootSessionSchema).max(5_000).default([]),
   npcSightings: z.array(collectorNpcSightingSchema).max(5_000).default([]),
   lootObservations: z.array(collectorLootObservationSchema).max(5_000).default([]),
   healthObservations: z.array(collectorHealthObservationSchema).max(5_000).default([]),
@@ -364,15 +403,62 @@ export const collectorWorldDiagnosticsSchema = z.object({
   questQueries: collectorQuestQueryRecordSchema.default({}),
   questObservations: z.array(collectorQuestObservationSchema).max(10_000).default([]),
   vendorObservations: z.array(collectorVendorObservationSchema).max(10_000).default([]),
+  trainerObservations: z.array(collectorTrainerObservationSchema).max(10_000).default([]),
+});
+
+const collectorProfessionRecipeSchema = z.object({
+  recipeSpellID: z.number().int().positive().safe(),
+  name: nullableString(512),
+  cooldownSecondsRemaining: nullableSafeInteger,
+  isDayCooldown: z.boolean().nullish(),
+  charges: nullableSafeInteger,
+  maximumCharges: nullableSafeInteger,
+});
+
+const collectorProfessionSchema = z.object({
+  professionSkillLineID: z.number().int().positive().safe(),
+  parentProfessionSkillLineID: z.number().int().positive().safe().nullish(),
+  name: z.string().min(1).max(256),
+  skillLevel: z.number().int().nonnegative().safe(),
+  maximumSkillLevel: z.number().int().nonnegative().safe(),
+  skillModifier: z.number().int().safe(),
+  apiFlavor: z.enum(["c_trade_skill_ui", "legacy_trade_skill", "profession_list_only"]),
+  recipeListComplete: z.boolean(),
+  specializationSpellIDs: z.array(z.number().int().positive().safe()).max(64).default([]),
+  knownRecipes: z.array(collectorProfessionRecipeSchema).max(10_000).default([]),
+});
+
+const collectorProfessionInventoryItemSchema = z.object({
+  itemID: z.number().int().positive().safe(),
+  quantity: z.number().int().positive().safe(),
+});
+
+export const collectorProfessionSnapshotSchema = z.object({
+  snapshotID: z.string().uuid(),
+  addonVersion: z.string().min(1).max(64),
+  clientProduct: z.string().min(1).max(64),
+  clientBuild: z.number().int().positive().safe(),
+  locale: z.string().regex(/^[a-z]{2}[A-Z]{2}$/),
+  region: z.string().min(2).max(8),
+  realmID: z.string().min(1).max(128),
+  sourceCharacter: collectorSourceCharacterSchema,
+  capturedAt: z.number().int().positive().safe(),
+  completedAt: z.number().int().positive().safe(),
+  moneyCopper: z.number().int().nonnegative().safe(),
+  inventoryScope: z.enum(["bags", "bags_and_bank"]),
+  inventory: z.array(collectorProfessionInventoryItemSchema).max(50_000),
+  professions: z.array(collectorProfessionSchema).max(64),
 });
 
 export const collectorSavedVariablesSchema = z.object({
   schemaVersion: z.literal(1),
   installationId: z.string().min(16).max(128),
   scans: z.array(collectorScanSchema).max(8),
+  professionSnapshots: z.array(collectorProfessionSnapshotSchema).max(16).default([]),
   worldDiagnostics: collectorWorldDiagnosticsSchema.optional(),
 });
 
 export type CollectorScan = z.infer<typeof collectorScanSchema>;
+export type CollectorProfessionSnapshot = z.infer<typeof collectorProfessionSnapshotSchema>;
 export type CollectorWorldDiagnostics = z.infer<typeof collectorWorldDiagnosticsSchema>;
 export type CollectorSavedVariables = z.infer<typeof collectorSavedVariablesSchema>;

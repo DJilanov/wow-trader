@@ -9,7 +9,11 @@ const EVIDENCE_DIRECTORY = "challenge-evidence";
 export const challengeEvidenceSchema = z
   .object({
     schema: z.literal("wowhead-challenge-evidence.v1"),
-    key: z.string().regex(/^(?:tbc|forever)-(?:item|quest)-\d+$/),
+    key: z
+      .string()
+      .regex(
+        /^(?:(?:tbc|forever)-(?:item|quest|spell)-\d+|(?:tbc|forever)-(?:spell|item)-list-[a-z0-9-]+)$/,
+      ),
     url: z.url(),
     capturedAt: z.iso.datetime(),
     status: z.number().int().min(100).max(599),

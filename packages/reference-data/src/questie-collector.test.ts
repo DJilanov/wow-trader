@@ -47,11 +47,12 @@ describe("Questie source parsing", () => {
   });
 
   it("rejects malformed and duplicate generated rows", () => {
-    expect(() =>
-      parseQuestieXpDatabase("QuestXP.db = {\n[1] = {2, 3},\n[1] = {2, 3},\n}"),
-    ).toThrow(/Duplicate Questie quest id/);
-    expect(() => parseQuestieXpDatabase("QuestXP.db = {\nrunCode()\n}"))
-      .toThrow(/Unsupported Questie XP row/);
+    expect(() => parseQuestieXpDatabase("QuestXP.db = {\n[1] = {2, 3},\n[1] = {2, 3},\n}")).toThrow(
+      /Duplicate Questie quest id/,
+    );
+    expect(() => parseQuestieXpDatabase("QuestXP.db = {\nrunCode()\n}")).toThrow(
+      /Unsupported Questie XP row/,
+    );
   });
 });
 

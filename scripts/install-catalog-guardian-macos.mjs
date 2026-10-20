@@ -213,9 +213,7 @@ async function prepareRelease() {
     const catalogExtractorVersionResult = await execute(catalogExtractor, ["--catalog-version"]);
     const catalogExtractorVersion = catalogExtractorVersionResult.stdout.trim();
     if (!/^\d+\.\d+\.\d+$/.test(catalogExtractorVersion))
-      throw new Error(
-        `Invalid catalog extractor version: ${catalogExtractorVersion || "missing"}.`,
-      );
+      throw new Error(`Invalid catalog extractor version: ${catalogExtractorVersion || "missing"}.`);
     const revision = await execute("git", ["rev-parse", "HEAD"], { cwd: repositoryRoot });
     await writeFile(
       join(temporaryDirectory, "installation.json"),

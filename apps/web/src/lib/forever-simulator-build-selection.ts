@@ -1,5 +1,17 @@
 import type { LocalSimulatorBuildReview } from "./forever-simulator-local-reviews";
 
+export function simulatorBuildSelectionStorageKey(src: string): string | null {
+  try {
+    const url = new URL(src, "https://helper.invalid"),
+      match = /^\/(?:tools\/)?forever-sim\/([a-f0-9]{24})\/([a-z_]+)\/?$/.exec(url.pathname);
+    if (url.origin !== "https://helper.invalid" || url.username || url.password || !match)
+      return null;
+    return `kfc.simulator.reviewed-build-selection.v1:${match[1]}:${match[2]}`;
+  } catch {
+    return null;
+  }
+}
+
 export function simulatorBuildLabel(build: LocalSimulatorBuildReview): string {
   if (build.displayName) return build.displayName;
   const variant = build.spec.split("/")[1]?.replaceAll("_", " ") ?? build.spec;
@@ -36,6 +48,12 @@ const communityBuilds: Readonly<Record<string, string>> = {
   "Marksmanship 7/40/4": "hunter-marksmanship-static",
   "Survival 7/11/33": "hunter-survival-static",
   "Survival 16/4/31": "hunter-survival-static",
+  "Feral Cat 7/34/10": "feral-cat-static",
+  "Feral Cat 8/33/10": "feral-cat-static",
+  "Balance 38/0/13": "balance-static",
+  "Balance 39/0/12": "balance-static",
+  "Moonkin 38/0/13": "balance-static",
+  "Moonkin 39/0/12": "balance-static",
 };
 
 export function simulatorBuildForLink(

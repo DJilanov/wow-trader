@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { CatalogRecipePage, createCatalogRecipeMetadata } from "../../../../recipes/[spellId]/page";
 import { FOREVER_CATALOG_PAGE_CONFIG } from "../../../../../lib/catalog-page-config";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3_600;
 
 interface ForeverRecipePageProps {
   readonly params: Promise<{ readonly spellId: string }>;

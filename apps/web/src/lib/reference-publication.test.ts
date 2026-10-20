@@ -2,14 +2,19 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ReferenceRecord } from "@wow-trader/reference-data";
+import type * as CatalogReferenceModule from "./catalog-reference";
 
 vi.mock("./data", (): object => ({ getItemDetail: vi.fn(), getReferenceClientItems: vi.fn() }));
-vi.mock("./catalog-reference", (): object => ({ getCatalogReference: vi.fn() }));
+vi.mock("./catalog-reference", async (importOriginal): Promise<object> => ({
+  ...(await importOriginal<typeof CatalogReferenceModule>()),
+  getCatalogReference: vi.fn(),
+}));
 import { createCatalogItemMetadata } from "../app/items/[itemId]/page";
 import { CatalogReference } from "../components/catalog-reference";
 import { getItemDetail } from "./data";
 import { getCatalogReference } from "./catalog-reference";
 import { FOREVER_CATALOG_PAGE_CONFIG } from "./catalog-page-config";
+import { HELPER_SITE_URL } from "./seo";
 
 afterEach((): void => {
   vi.resetAllMocks();
@@ -61,9 +66,7 @@ describe("automatic publication page policy", () => {
     vi.mocked(getCatalogReference).mockResolvedValue(fixture());
     const complete = await createCatalogItemMetadata(props, FOREVER_CATALOG_PAGE_CONFIG);
     expect(complete.robots).toBeUndefined();
-    expect(complete.alternates?.canonical).toBe(
-      "https://helper.kfcguild.online/forever/encyclopedia/items/25",
-    );
+    expect(complete.alternates?.canonical).toBe(`${HELPER_SITE_URL}/forever/encyclopedia/items/25`);
     vi.mocked(getCatalogReference).mockResolvedValue({ ...fixture(), relations: [] });
     expect(
       (await createCatalogItemMetadata(props, FOREVER_CATALOG_PAGE_CONFIG)).robots,

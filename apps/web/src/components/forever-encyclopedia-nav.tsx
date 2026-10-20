@@ -10,6 +10,8 @@ type ForeverEncyclopediaSection =
   | "legacy"
   | "leveling"
   | "maps"
+  | "npcs"
+  | "objects"
   | "quests"
   | "racials"
   | "spellbooks"
@@ -47,6 +49,8 @@ const characterLinks = [
 
 const worldLinks = [
   ["maps", "Maps", "/forever/encyclopedia/maps"],
+  ["npcs", "NPCs", "/forever/encyclopedia/npcs"],
+  ["objects", "Objects", "/forever/encyclopedia/objects"],
   ["instances", "Instances", "/forever/encyclopedia/instances"],
   ["bosses", "Bosses", "/forever/encyclopedia/bosses"],
   ["quests", "Quests", "/forever/encyclopedia/quests"],

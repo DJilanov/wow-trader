@@ -42,9 +42,11 @@ export function simulatorNavigationHref(href: string, src: string, origin: strin
   }
 }
 
+export type SimulatorPresetSelectionSource = "initial" | "user";
+
 interface SimulatorFrameNavigationOptions {
   readonly onNavigate: (href: string) => void;
-  readonly onPresetSelected?: (name: string) => void;
+  readonly onPresetSelected?: (name: string, source: SimulatorPresetSelectionSource) => void;
 }
 
 export function connectSimulatorFrameNavigation(
@@ -130,7 +132,7 @@ export function connectSimulatorFrameNavigation(
       label.click();
       return;
     }
-    options.onPresetSelected?.(label.textContent?.trim() ?? "");
+    options.onPresetSelected?.(label.textContent?.trim() ?? "", "user");
   };
   document.addEventListener("click", click, true);
   const keepClickMenuOpen = (event: Event): void => {
@@ -158,7 +160,8 @@ export function connectSimulatorFrameNavigation(
         ".preset-configuration-picker-root .active .saved-data-set-name",
       ),
     ].find((label) => label.getClientRects().length > 0);
-    options.onPresetSelected?.(active?.textContent?.trim() ?? "");
+    const name = active?.textContent?.trim();
+    if (name) options.onPresetSelected?.(name, "initial");
   }
   return () => {
     document.removeEventListener("click", click, true);

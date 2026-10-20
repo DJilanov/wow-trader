@@ -14,9 +14,13 @@ export async function seedFromHelperSitemaps(
     const $ = load(xml, { xmlMode: true });
     for (const element of $("url > loc").toArray()) {
       const url = new URL($(element).text());
-      if (url.origin !== "https://helper.kfcguild.online" || url.search || url.hash)
+      const legacy = url.origin === "https://helper.kfcguild.online";
+      const consolidated =
+        url.origin === "https://kfcguild.online" && url.pathname.startsWith("/tools/");
+      if ((!legacy && !consolidated) || url.search || url.hash)
         throw new Error("Unexpected Helper sitemap URL");
-      const match = url.pathname.match(new RegExp(`^/${game}/encyclopedia/(items|quests)/(\\d+)$`));
+      const helperPath = consolidated ? url.pathname.slice("/tools".length) : url.pathname;
+      const match = helperPath.match(new RegExp(`^/${game}/encyclopedia/(items|quests)/(\\d+)$`));
       if (!match) continue;
       const task: ReferenceTask = {
         game,

@@ -1,6 +1,6 @@
 "use client";
 
-import type { Spellbook, SpellDescription, TalentClass } from "@wow-trader/forever-data";
+import type { Spellbook, SpellDescription } from "@wow-trader/forever-data";
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -8,12 +8,13 @@ import { ForeverIcon } from "./forever-icon";
 
 interface ForeverSpellbookProps {
   readonly className: string;
-  readonly classData: TalentClass;
+  readonly classIcon: string;
   readonly color: string;
   readonly descriptions: Readonly<Record<string, SpellDescription>>;
   readonly icons: Readonly<Record<string, string>>;
   readonly snapshotChecksum: string;
   readonly spellbook: Spellbook;
+  readonly treeIcons: Readonly<Record<string, string>>;
 }
 
 type SpellEntry = Spellbook["general"][number];
@@ -41,25 +42,24 @@ const SPELLS_PER_PAGE = 12;
 
 export function ForeverSpellbook({
   className,
-  classData,
+  classIcon,
   color,
   descriptions,
   icons,
   snapshotChecksum,
   spellbook,
+  treeIcons,
 }: ForeverSpellbookProps): React.JSX.Element {
   const tabs = useMemo<readonly BookTab[]>(
     () => [
-      { name: "General", icon: classData.icon, spells: spellbook.general },
+      { name: "General", icon: classIcon, spells: spellbook.general },
       ...spellbook.tabs.map((tab) => ({
         name: tab.name,
-        icon:
-          classData.trees.find((tree) => tree.name === tab.name.replace(/\s*\(.*\)$/, ""))?.icon ??
-          classData.icon,
+        icon: treeIcons[tab.name.replace(/\s*\(.*\)$/, "")] ?? classIcon,
         spells: tab.spells,
       })),
     ],
-    [classData, spellbook],
+    [classIcon, spellbook, treeIcons],
   );
   const [activeTab, setActiveTab] = useState(Math.min(1, tabs.length - 1));
   const [page, setPage] = useState(0);
@@ -129,7 +129,7 @@ export function ForeverSpellbook({
                 {visibleSpells?.map((entry, index) => {
                   const [name, rank] = entry;
                   const trainingLevels = spellbook.levels?.[name];
-                  const icon = spellbook.icons?.[name] ?? icons[name] ?? classData.icon;
+                  const icon = spellbook.icons?.[name] ?? icons[name] ?? classIcon;
                   return (
                     <li key={`${name}:${rank}:${index}`}>
                       <button

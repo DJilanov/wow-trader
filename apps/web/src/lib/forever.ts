@@ -6,6 +6,7 @@ import {
 
 import { getDatabase } from "./database";
 import { FOREVER_CLASS_APPEARANCES } from "./forever-classes";
+import { withHelperBasePath } from "./site-path";
 
 export interface ForeverClassDirectoryEntry {
   readonly name: string;
@@ -79,7 +80,9 @@ export function foreverAssetUrl(
   key: number | string,
   snapshotChecksum: string,
 ): string {
-  return `/api/forever-assets/${kind}/${encodeURIComponent(String(key))}?v=${snapshotChecksum}`;
+  return withHelperBasePath(
+    `/api/forever-assets/${kind}/${encodeURIComponent(String(key))}?v=${snapshotChecksum}`,
+  );
 }
 
 export function sourceText(value: string): string {

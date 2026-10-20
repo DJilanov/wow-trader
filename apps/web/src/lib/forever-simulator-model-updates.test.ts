@@ -273,6 +273,37 @@ describe("numerical item-skill corrections have an independent fail-closed publi
     await rm(join(state.directory, "model-update.json"));
     expect(await readSimulatorModelUpdate("warrior", state.directory)).toBeNull();
   });
+  it("admits the reviewed stat-label source only, without opening arbitrary shared core files or duplicate paths", async () => {
+    const state = await fixture();
+    state.proof.virtualSourceFiles = [
+      { path: "ui/warrior/presets.ts", sha256: "e".repeat(64) },
+      { path: "ui/core/proto_utils/names.ts", sha256: "e".repeat(64) },
+    ];
+    await state.rewrite();
+    expect((await readSimulatorModelUpdate("warrior", state.directory))?.manifest.release).toBe(
+      release,
+    );
+    for (const path of [
+      "ui/core/proto_utils/stats.ts",
+      "ui/core/proto/common.ts",
+      "ui/core/proto_utils/../names.ts",
+      "ui/core/proto_utils/names.js",
+    ]) {
+      state.proof.virtualSourceFiles = [{ path, sha256: "e".repeat(64) }];
+      await state.rewrite();
+      await expect(readSimulatorModelUpdate("warrior", state.directory)).rejects.toThrow(
+        /virtual source scope/,
+      );
+    }
+    state.proof.virtualSourceFiles = [
+      { path: "ui/core/proto_utils/names.ts", sha256: "e".repeat(64) },
+      { path: "ui/core/proto_utils/names.ts", sha256: "e".repeat(64) },
+    ];
+    await state.rewrite();
+    await expect(readSimulatorModelUpdate("warrior", state.directory)).rejects.toThrow(
+      /virtual source scope/,
+    );
+  });
   it.each([
     "allPresets",
     "savedCharacterPreserved",

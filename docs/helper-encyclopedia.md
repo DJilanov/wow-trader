@@ -2,31 +2,43 @@
 
 ## Product boundary
 
-Deploy this application at `helper.kfcguild.online`. The main guild website remains responsible for
-guild identity, recruitment, raids, news, and guides; it needs only a `Helper` link to the subdomain.
-The helper deployment owns build-versioned game data, catalog search, Auction House scans, and
-calculations. Keeping those concerns on a subdomain avoids coupling the data pipeline or its release
-cadence to the guild website.
+Publish this application under `https://kfcguild.online/tools`. The main guild application remains
+responsible for guild identity, recruitment, raids, news, and guides; Nginx delegates only `/tools`
+and `/tools/*` to the independently deployed Helper process. The Helper owns build-versioned game
+data, catalog search, Auction House scans, and calculations without coupling its build or runtime to
+the guild application.
+
+`https://helper.kfcguild.online` is now a compatibility and ingestion host. Its authenticated `/v1/`
+routes continue to reach the isolated ingestion process, while every public page receives a
+one-to-one permanent redirect to the equivalent `/tools` URL. Do not redirect `/v1/` to the public
+application path.
 
 The helper uses the parent site's exact KFC mark, Cinzel/Inter/JetBrains Mono font stack, dark/amber
 tokens, fixed navigation proportions, square controls, and card ornament language. It links back to
 `https://kfcguild.online` in global navigation and the footer. In-game item tooltips deliberately keep
-their familiar WoW presentation within that shared shell. No login or cross-subdomain cookie is
-required for the current public tools.
+their familiar WoW presentation within that shared shell. No login or cross-host cookie is required
+for the current public tools.
 
 ## Route contract
 
 ```text
-/
-├── /tbc
-│   ├── /tbc/trader
-│   └── /tbc/encyclopedia
-│       ├── /tbc/encyclopedia/items/:itemId
-│       ├── /tbc/encyclopedia/recipes/:spellId
-│       └── /tbc/encyclopedia/professions/:slug
-└── /forever
-    ├── Trader              (disabled until catalog + AH scan exist)
-    └── Encyclopedia        (disabled until an audited catalog exists)
+/tools
+├── /tools/tbc
+│   ├── /tools/tbc/trader
+│   └── /tools/tbc/encyclopedia
+│       ├── /tools/tbc/encyclopedia/items/:itemId
+│       ├── /tools/tbc/encyclopedia/recipes/:spellId
+│       └── /tools/tbc/encyclopedia/professions/:slug
+└── /tools/forever
+    ├── /tools/forever/trader
+    ├── /tools/forever/leveling
+    ├── /tools/forever/simulator
+    └── /tools/forever/encyclopedia
+        ├── /tools/forever/encyclopedia/npcs[/page/:pageNumber]
+        ├── /tools/forever/encyclopedia/npcs/:npcId
+        ├── /tools/forever/encyclopedia/objects[/page/:pageNumber]
+        ├── /tools/forever/encyclopedia/objects/:objectId
+        └── /tools/forever/encyclopedia/changes/:fromBuild-to-:toBuild
 ```
 
 The first choice is the game data universe. The second is the user job: make economic decisions in
@@ -89,21 +101,26 @@ Every future entity should retain:
    loot-table presence. Keep server-side source/drop-rate observations separate from client facts.
 5. Add build comparison so maintainers can answer what was added, removed, or changed between TBC
    hotfixes and Forever releases.
-6. Add canonical metadata, sitemap entries, and structured data once the public hostname and stable
-   route policy are confirmed.
+6. Keep canonical metadata, sitemap entries, and structured data on the canonical `/tools` URLs;
+   never emit the legacy Helper hostname as a canonical.
 
 ## Forever activation
 
-Forever cards remain visibly unavailable rather than serving TBC data under a Forever label. At
-release, run the existing extraction/audit/publish checklist, bind the confirmed client product key
-to the Forever route, extract its icons, and enable Encyclopedia only after the published-build
-queries and golden relationships pass. Trader additionally requires a compatible collector payload
-and at least one accepted market scan for the same client product and build.
+Forever build 70450 is active with an audited published catalog, product-specific media, and an exact
+accepted market scan. Every future build still passes the same extraction, audit, relationship,
+media, and publication gates before its Encyclopedia becomes current. Trader rankings additionally
+require a compatible accepted scan for that exact client product and build; an unmatched scan remains
+visible as market evidence but fails closed for catalog-backed rankings.
 
 ## Deployment handoff
 
-1. Deploy this Next.js application with its current PostgreSQL, icon-media, and ingestion settings.
-2. Point `helper.kfcguild.online` to that deployment using the hosting provider's required DNS record.
-3. Add a `Helper` navigation link on `kfcguild.online` targeting the HTTPS subdomain.
-4. Verify TLS, the reciprocal KFC Guild link, `/`, `/tbc`, `/tbc/trader`, `/tbc/encyclopedia`, and
-   namespaced detail routes before exposing the link publicly.
+1. Deploy this Next.js application with `basePath: "/tools"` and its current PostgreSQL and media
+   settings; keep ingestion on its independently pinned process.
+2. Proxy apex `/tools` and `/tools/*` to the Helper web process without changing other guild routes.
+3. Preserve legacy-host `/v1/` ingestion and redirect legacy public pages one-to-one to `/tools`.
+4. Publish the Helper sitemap and catalog shards from the apex `robots.txt` response.
+5. Verify TLS, guild routes, `/tools`, both game choosers, both Traders, both Encyclopedias, detail
+   routes, static assets, canonical URLs, redirects, and an unauthenticated ingestion rejection.
+
+The exact cutover, verification, and rollback procedure is recorded in
+[`kfc-tools-site-migration-2026-10-18.md`](kfc-tools-site-migration-2026-10-18.md).

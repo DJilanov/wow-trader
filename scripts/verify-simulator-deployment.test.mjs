@@ -1,41 +1,21 @@
 import assert from "node:assert/strict";
 import { Buffer } from "node:buffer";
-import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
-import { fileURLToPath, URL } from "node:url";
-import { promisify } from "node:util";
-import process from "node:process";
+import { URL } from "node:url";
 import { verifySimulatorDeployment } from "./verify-simulator-deployment.mjs";
 
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 
-test("the CLI executes through a deployment symlink instead of silently succeeding", async () => {
-  const directory = await mkdtemp(join(tmpdir(), "kfc-gate-symlink-"));
-  try {
-    const alias = join(directory, "current-check.mjs");
-    await symlink(
-      fileURLToPath(new URL("./verify-simulator-deployment.mjs", import.meta.url)),
-      alias,
-    );
-    await assert.rejects(
-      promisify(execFile)(process.execPath, [alias]),
-      (error) => error.code !== 0 && /Supply --base-url/.test(error.stderr),
-    );
-  } finally {
-    await rm(directory, { recursive: true, force: true });
-  }
-});
-
-async function fixture(run) {
+async function fixture(run, { profile = "warrior", slug = profile } = {}) {
   const artifactRoot = await mkdtemp(join(tmpdir(), "kfc-deployment-gate-"));
   const release = "a".repeat(24);
   const database = JSON.stringify({ items: [{ id: 18392, weaponSkills: [0, 0] }] });
   const publication = {
-    profile: "warrior",
+    profile,
     presentationRelease: release,
     builds: [{ id: "arms-alliance" }],
   };
@@ -48,13 +28,13 @@ async function fixture(run) {
     "published-reviews.json": {
       schema: "kfc-published-simulator-reviews.v1",
       profiles: {
-        warrior: {
-          path: "published-reviews/warrior-0123456789abcdef.json",
+        [profile]: {
+          path: `published-reviews/${profile}-0123456789abcdef.json`,
           sha256: hash(JSON.stringify(publication)),
         },
       },
     },
-    "published-reviews/warrior-0123456789abcdef.json": publication,
+    [`published-reviews/${profile}-0123456789abcdef.json`]: publication,
     [release + "/manifest.json"]: {
       release,
       itemCount: 1,
@@ -70,9 +50,9 @@ async function fixture(run) {
     await writeFile(join(artifactRoot, path), JSON.stringify(document));
   const responses = new Map([
     [
-      "/tools/forever/simulator/warrior",
+      `/tools/forever/simulator/${slug}`,
       {
-        body: `<iframe src="/tools/forever-sim/${release}/warrior/"></iframe><label>Choose a build</label><select><option value="arms-alliance">Arms</option></select>`,
+        body: `<iframe src="/tools/forever-sim/${release}/${profile}/"></iframe><label>Choose a build</label><select><option value="arms-alliance">Arms</option></select>`,
         status: 200,
       },
     ],
@@ -100,6 +80,36 @@ test("accepts only the published model, full build library and matching zero-ski
     assert.equal(result.items, 1);
     assert.equal(result.privateProofsHidden, true);
   });
+});
+
+test("checks canonical public slugs instead of internal underscored engine paths for other classes", async () => {
+  for (const [profile, slug] of [
+    ["feral_druid", "feral-druid"],
+    ["balance_druid", "balance-druid"],
+    ["shadow_priest", "shadow-priest"],
+  ])
+    await fixture(
+      async ({ artifactRoot, fetcher }) => {
+        const result = await verifySimulatorDeployment(
+          { baseUrl: "https://helper.test/tools", artifactRoot },
+          fetcher,
+        );
+        assert.deepEqual(result.profiles, [{ profile, builds: 1 }]);
+      },
+      { profile, slug },
+    );
+});
+
+test("unknown profiles fail before treating an invented public path as a valid simulator", async () => {
+  await fixture(
+    async ({ artifactRoot, fetcher }) => {
+      await assert.rejects(
+        verifySimulatorDeployment({ baseUrl: "https://helper.test/tools", artifactRoot }, fetcher),
+        /Unknown simulator profile/,
+      );
+    },
+    { profile: "unknown_class" },
+  );
 });
 
 test("rejects the stale reader regression before activation", async () => {

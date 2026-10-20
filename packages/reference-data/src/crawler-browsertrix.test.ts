@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { WARCRecord, WARCSerializer } from "warcio";
 import type { ReferenceTask } from "./contracts.js";
-import { crawlReferences } from "./crawler.js";
+import { crawlListings, crawlReferences } from "./crawler.js";
 import { readRequestPacing } from "./pacing.js";
 import { readStagedReference } from "./store.js";
 
@@ -15,6 +15,8 @@ const xml =
   '<wowhead><item id="25"><name>Test Sword</name><class id="2">Weapons</class><subclass id="7">Swords</subclass><link>https://www.wowhead.com/forever/item=25/test-sword</link><htmlTooltip><![CDATA[<table><tr><td>Test Sword<br>Item Level 2<br>1 - 3 Damage</td></tr></table>]]></htmlTooltip></item></wowhead>';
 const questHtml =
   '<link rel="canonical" href="https://www.wowhead.com/forever/quest=1"><h1>Test Quest</h1>';
+const listingHtml =
+  '<link rel="canonical" href="https://www.wowhead.com/forever/spells/professions/alchemy"><h1>Alchemy</h1><table><thead><tr><th>Name</th><th>Reagents</th><th>Skill</th><th>Source</th></tr></thead><tbody><tr><td><a href="/forever/spell=2329/elixir">Elixir</a></td><td><a href="/forever/item=2447/peacebloom">Peacebloom</a></td><td>1</td><td>Trainer <a href="/forever/npc=2326/thamner-pol">Thamner Pol</a></td></tr></tbody></table>';
 const screenshot = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
   "base64",
@@ -83,7 +85,7 @@ async function screenshotRecord(url: string): Promise<Buffer> {
 }
 
 async function fixture(
-  variant: "ok" | "missing" | "redirect" | "rate-limit" | "waf-challenge" | "chunk",
+  variant: "ok" | "missing" | "redirect" | "rate-limit" | "waf-challenge" | "chunk" | "listing-ok",
 ): Promise<void> {
   const collection = join(root, "fixture", "collections", "crawl");
   await mkdir(join(collection, "archive"), { recursive: true });
@@ -91,7 +93,20 @@ async function fixture(
   await mkdir(join(collection, "reports"), { recursive: true });
   await mkdir(join(collection, "logs"), { recursive: true });
   const records: Buffer[] = [];
-  if (variant === "ok" || variant === "chunk") {
+  if (variant === "listing-ok") {
+    records.push(
+      await responseRecord(
+        "https://www.wowhead.com/forever/spells/professions/alchemy?filter=20%3B1%3B0",
+        200,
+        "text/html; charset=utf-8",
+        listingHtml,
+      ),
+    );
+    await writeFile(
+      join(collection, "pages", "pages.jsonl"),
+      `${JSON.stringify({ url: "https://www.wowhead.com/forever/spells/professions/alchemy?filter=20%3B1%3B0", status: 200, seed: true })}\n`,
+    );
+  } else if (variant === "ok" || variant === "chunk") {
     records.push(
       await responseRecord(
         "https://www.wowhead.com/forever/item=25",
@@ -186,7 +201,7 @@ exit "\${FAKE_EXIT:-0}"
 }
 
 async function arrange(
-  variant: "ok" | "missing" | "redirect" | "rate-limit" | "waf-challenge" | "chunk",
+  variant: "ok" | "missing" | "redirect" | "rate-limit" | "waf-challenge" | "chunk" | "listing-ok",
   exitCode = "0",
 ): Promise<string> {
   await fixture(variant);
@@ -365,6 +380,32 @@ describe("Browsertrix crawler transport", () => {
     expect((await readRequestPacing(join(root, "staging")))?.notBefore).toBe(
       Date.parse("2026-10-17T12:00:00Z") + 300000,
     );
+  });
+
+  it("crawls a profession listing into separate listing evidence", async () => {
+    await arrange("listing-ok");
+    const task = {
+      game: "forever" as const,
+      kind: "spell-list" as const,
+      path: "/forever/spells/professions/alchemy?filter=20%3B1%3B0",
+    };
+    const result = await crawlListings([task], { ...options(), limit: 1 });
+    expect(result).toMatchObject({ crawled: 1, rejected: 0, notFound: 0 });
+    const record = JSON.parse(
+      await readFile(join(root, "staging", "listings", "forever-spell-list-alchemy.json"), "utf8"),
+    );
+    expect(record).toMatchObject({
+      schema: "wowhead-listing.v1",
+      kind: "spell-list",
+      profession: "alchemy",
+      entries: [
+        {
+          id: 2329,
+          sourceTypes: ["trainer"],
+          relations: [{ relation: "taught-by-npc", kind: "npc", id: 2326, name: "Thamner Pol" }],
+        },
+      ],
+    });
   });
 
   it("rejects an AWS WAF challenge before parsing the entity", async () => {

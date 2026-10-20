@@ -1,6 +1,7 @@
 import { getProfessionDetail } from "../../../../../../../lib/data";
 import { FOREVER_CLIENT_PRODUCT } from "../../../../../../../lib/game-versions";
 import { publicJsonResponse } from "../../../../../../../lib/public-api";
+import { helperAbsoluteUrl } from "../../../../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,9 @@ export async function GET(_request: Request, { params }: RouteContext): Promise<
     return publicJsonResponse(
       {
         schemaVersion: "forever-profession.v1",
-        canonicalUrl: `https://helper.kfcguild.online/forever/encyclopedia/professions/${encodeURIComponent(slug)}`,
+        canonicalUrl: helperAbsoluteUrl(
+          `/forever/encyclopedia/professions/${encodeURIComponent(slug)}`,
+        ),
         profession,
       },
       { maxAgeSeconds: 3_600 },

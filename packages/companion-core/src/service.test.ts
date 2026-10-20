@@ -9,6 +9,7 @@ import { readCompanionState } from "./state.js";
 
 const temporaryDirectories: string[] = [];
 const SCAN_ID = "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8";
+const PROFESSION_SNAPSHOT_ID = "f6714653-a4c4-4208-b7ee-b0a21a816593";
 const SAVED_VARIABLES = `WOW_TRADER_SAVED = {
   ["schemaVersion"] = 1,
   ["installationId"] = "67af914b-851d-44a0-b4ba-bb01458b7cbf",
@@ -33,6 +34,40 @@ const SAVED_VARIABLES = `WOW_TRADER_SAVED = {
           ["priceLevels"] = {
             [1] = { ["unitPriceCopper"] = 12500, ["quantity"] = 7, ["listingCount"] = 3 },
           },
+        },
+      },
+    },
+  },
+  ["professionSnapshots"] = {
+    [1] = {
+      ["snapshotID"] = "${PROFESSION_SNAPSHOT_ID}",
+      ["addonVersion"] = "0.11.0",
+      ["clientProduct"] = "wow_anniversary",
+      ["clientBuild"] = 69795,
+      ["locale"] = "enUS",
+      ["region"] = "EU",
+      ["realmID"] = "Spineshatter",
+      ["sourceCharacter"] = {
+        ["name"] = "Crafter",
+        ["realmId"] = "Spineshatter",
+        ["faction"] = "horde",
+      },
+      ["capturedAt"] = 1789468200,
+      ["completedAt"] = 1789468210,
+      ["moneyCopper"] = 123456,
+      ["inventoryScope"] = "bags",
+      ["inventory"] = {},
+      ["professions"] = {
+        [1] = {
+          ["professionSkillLineID"] = 171,
+          ["name"] = "Alchemy",
+          ["skillLevel"] = 375,
+          ["maximumSkillLevel"] = 375,
+          ["skillModifier"] = 0,
+          ["apiFlavor"] = "c_trade_skill_ui",
+          ["recipeListComplete"] = true,
+          ["specializationSpellIDs"] = {},
+          ["knownRecipes"] = {},
         },
       },
     },
@@ -118,18 +153,71 @@ describe("companion service", () => {
     await service.checkNow();
     await service.stop();
 
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
     expect(phases).toContain("checking");
     expect(phases).toContain("scan_detected");
     expect(phases).toContain("uploading");
     await expect(readCompanionState(statePath)).resolves.toMatchObject({
       uploadedScanIds: [SCAN_ID],
       uploadedDiagnosticPayloadIds: [expect.any(String)],
+      uploadedProfessionSnapshotIds: [PROFESSION_SNAPSHOT_ID],
       activities: [{ scanId: SCAN_ID, status: "processed" }],
     });
     await expect(
       readFile(path.join(rootPath, "Interface/AddOns/WowTraderCollector/MarketData.lua"), "utf8"),
     ).resolves.toContain("robust-market-signal-v1");
+  });
+
+  it("keeps successful uploads healthy when exact-market intelligence is unavailable", async () => {
+    const rootPath = await temporaryProductRoot();
+    const savedVariablesPath = path.join(
+      rootPath,
+      "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua",
+    );
+    await mkdir(path.dirname(savedVariablesPath), { recursive: true });
+    await writeFile(savedVariablesPath, SAVED_VARIABLES, "utf8");
+    const statePath = path.join(rootPath, "state.json");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof fetch>().mockImplementation(async (input, init) => {
+        const url = new URL(String(input));
+        if (url.pathname === "/v1/market-intelligence") {
+          return Response.json(
+            { error: "not_found", message: "No market intelligence exists for this exact market" },
+            { status: 404 },
+          );
+        }
+        const body = JSON.parse(String(init?.body)) as { payloadId: string };
+        return Response.json(
+          { payloadId: body.payloadId, status: "processed", duplicate: false },
+          { status: 202 },
+        );
+      }),
+    );
+
+    const service = new DefaultCompanionService({
+      endpoint: new URL("https://helper.example.test"),
+      statePath,
+      products: [{ id: "tbc", kind: "tbc", label: "TBC", rootPath, enabled: true }],
+      automaticUploads: false,
+      apiKey: "test-key-with-enough-entropy",
+      pollIntervalMilliseconds: 60_000,
+    });
+    await service.start();
+
+    await expect(service.checkNow()).resolves.toMatchObject({
+      phase: "up_to_date",
+      errorCode: null,
+      message:
+        "Uploads are current. Market intelligence is not available for this exact market yet.",
+    });
+    await service.stop();
+
+    await expect(readCompanionState(statePath)).resolves.toMatchObject({
+      uploadedScanIds: [SCAN_ID],
+      uploadedDiagnosticPayloadIds: [expect.any(String)],
+      uploadedProfessionSnapshotIds: [PROFESSION_SNAPSHOT_ID],
+    });
   });
 
   it("requires a credential without touching a discovered scan", async () => {

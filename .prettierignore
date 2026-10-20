@@ -10,4 +10,9 @@ artifacts/
 catalog-snapshots/
 raw-uploads/
 forever-preview-assets/
+packages/reference-data/src/fixtures/*.html
 .npmrc
+
+# Byte-pinned simulation inputs: change only with a versioned numerical release.
+infra/simulator/classic-prebis-reference.json
+infra/simulator/talent-presets.mjs

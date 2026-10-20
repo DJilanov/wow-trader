@@ -7,6 +7,14 @@ import {
   readFreshSurvivalSimulatorBuild,
   type FreshSurvivalSimulatorBuild,
 } from "./forever-simulator-fresh-survival";
+import {
+  readFreshFeralSimulatorBuild,
+  type FreshFeralSimulatorBuild,
+} from "./forever-simulator-fresh-feral";
+import {
+  readFreshBalanceSimulatorBuild,
+  type FreshBalanceSimulatorBuild,
+} from "./forever-simulator-fresh-balance";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const record = z.record(z.string(), z.unknown());
@@ -29,8 +37,13 @@ const referenceSchema = z
 export type ModelFirstPassReference = z.infer<typeof referenceSchema>;
 export const simulatorModelFirstPassEntrySchema = z
   .object({
-    id: z.enum(["hunter-marksmanship-static", "hunter-survival-static"]),
-    profile: z.literal("hunter"),
+    id: z.enum([
+      "hunter-marksmanship-static",
+      "hunter-survival-static",
+      "feral-cat-static",
+      "balance-static",
+    ]),
+    profile: z.enum(["hunter", "feral_druid", "balance_druid"]),
     build: referenceSchema,
     settingsSha256: digest,
     hrefSha256: digest,
@@ -45,7 +58,17 @@ export const simulatorModelFirstPassEntrySchema = z
       .min(2)
       .max(12),
   })
-  .strict();
+  .strict()
+  .refine(
+    (entry): boolean =>
+      entry.profile ===
+      (entry.id === "feral-cat-static"
+        ? "feral_druid"
+        : entry.id === "balance-static"
+          ? "balance_druid"
+          : "hunter"),
+    "First-pass build profile does not match its ID",
+  );
 export type SimulatorModelFirstPassEntry = z.infer<typeof simulatorModelFirstPassEntrySchema>;
 
 const metric = z
@@ -227,7 +250,10 @@ const buildSchema = z
   })
   .strict();
 export type SimulatorModelFirstPassBuild =
-  z.infer<typeof buildSchema> | FreshSurvivalSimulatorBuild;
+  | z.infer<typeof buildSchema>
+  | FreshSurvivalSimulatorBuild
+  | FreshFeralSimulatorBuild
+  | FreshBalanceSimulatorBuild;
 export interface ModelFirstPassOptions {
   readonly sourceRelease: string;
   readonly revision: string;
@@ -249,6 +275,8 @@ export async function readSimulatorModelFirstPassBuild(
   options: ModelFirstPassOptions,
 ): Promise<SimulatorModelFirstPassBuild> {
   const entry = simulatorModelFirstPassEntrySchema.parse(rawEntry);
+  if (entry.id === "balance-static") return readFreshBalanceSimulatorBuild(entry, options);
+  if (entry.id === "feral-cat-static") return readFreshFeralSimulatorBuild(entry, options);
   if (entry.id === "hunter-survival-static") return readFreshSurvivalSimulatorBuild(entry, options);
   requireMatch(
     entry.build.path.endsWith(`/build-${entry.build.sha256.slice(0, 16)}.json`),

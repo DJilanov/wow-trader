@@ -97,6 +97,9 @@ export const gameBuilds = pgTable(
   },
   (table) => [
     uniqueIndex("game_build_snapshot_key_uidx").on(table.snapshotKey),
+    uniqueIndex("game_build_published_product_locale_uidx")
+      .on(table.product, table.locale)
+      .where(sql`${table.status} = 'published'`),
     index("game_build_current_idx").on(
       table.product,
       table.locale,
@@ -655,7 +658,7 @@ export const recipeInputs = pgTable(
       name: "recipe_input_item_version_fk",
       columns: [table.buildId, table.reagentItemId],
       foreignColumns: [itemVersions.buildId, itemVersions.itemId],
-    }),
+    }).onDelete("cascade"),
     check("recipe_input_quantity_check", sql`${table.quantity} > 0`),
     index("recipe_input_reagent_idx").on(table.buildId, table.reagentItemId),
   ],
@@ -687,7 +690,7 @@ export const recipeOutputs = pgTable(
       name: "recipe_output_item_version_fk",
       columns: [table.buildId, table.outputItemId],
       foreignColumns: [itemVersions.buildId, itemVersions.itemId],
-    }),
+    }).onDelete("cascade"),
     check(
       "recipe_output_identity_check",
       sql`${table.outputItemId} IS NOT NULL OR ${table.enchantmentId} IS NOT NULL`,
@@ -723,12 +726,12 @@ export const recipeTeachingItems = pgTable(
       name: "recipe_teaching_item_item_version_fk",
       columns: [table.buildId, table.teachingItemId],
       foreignColumns: [itemVersions.buildId, itemVersions.itemId],
-    }),
+    }).onDelete("cascade"),
     foreignKey({
       name: "recipe_teaching_item_learning_spell_version_fk",
       columns: [table.buildId, table.learningSpellId],
       foreignColumns: [spellVersions.buildId, spellVersions.spellId],
-    }),
+    }).onDelete("cascade"),
   ],
 );
 
@@ -785,7 +788,7 @@ export const transformationInputs = pgTable(
       name: "transformation_input_item_version_fk",
       columns: [table.buildId, table.itemId],
       foreignColumns: [itemVersions.buildId, itemVersions.itemId],
-    }),
+    }).onDelete("cascade"),
     check("transformation_input_quantity_check", sql`${table.quantity} > 0`),
     index("transformation_input_item_idx").on(table.buildId, table.itemId),
   ],
@@ -816,7 +819,7 @@ export const transformationOutputs = pgTable(
       name: "transformation_output_item_version_fk",
       columns: [table.buildId, table.itemId],
       foreignColumns: [itemVersions.buildId, itemVersions.itemId],
-    }),
+    }).onDelete("cascade"),
     check("transformation_output_minimum_check", sql`${table.minimumQuantity} >= 0`),
     check(
       "transformation_output_range_check",
@@ -884,6 +887,145 @@ export const rawUploads = pgTable(
   (table) => [
     index("raw_upload_status_idx").on(table.status, table.receivedAt),
     index("raw_upload_market_idx").on(table.region, table.realmId, table.auctionHouseType),
+  ],
+);
+
+export const characterProfessionSnapshots = pgTable(
+  "character_profession_snapshot",
+  {
+    snapshotId: uuid("snapshot_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .unique()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    region: text("region").notNull(),
+    realmId: text("realm_id").notNull(),
+    characterName: text("character_name").notNull(),
+    characterFaction: text("character_faction").notNull(),
+    characterGuid: text("character_guid"),
+    anonymousInstallationId: text("anonymous_installation_id").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    completedAt: timestamp("completed_at", { withTimezone: true, mode: "date" }).notNull(),
+    moneyCopper: bigint("money_copper", { mode: "bigint" }).notNull(),
+    inventoryScope: text("inventory_scope").notNull(),
+    professionCount: integer("profession_count").notNull(),
+    knownRecipeCount: integer("known_recipe_count").notNull(),
+    inventoryItemCount: integer("inventory_item_count").notNull(),
+  },
+  (table) => [
+    index("character_profession_snapshot_character_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.realmId,
+      table.characterName,
+      table.completedAt,
+    ),
+    check("character_profession_snapshot_money_check", sql`${table.moneyCopper} >= 0`),
+    check(
+      "character_profession_snapshot_scope_check",
+      sql`${table.inventoryScope} IN ('bags', 'bags_and_bank')`,
+    ),
+  ],
+);
+
+export const characterProfessions = pgTable(
+  "character_profession",
+  {
+    snapshotId: uuid("snapshot_id")
+      .notNull()
+      .references(() => characterProfessionSnapshots.snapshotId, { onDelete: "cascade" }),
+    professionSkillLineId: integer("profession_skill_line_id").notNull(),
+    parentProfessionSkillLineId: integer("parent_profession_skill_line_id"),
+    name: text("name").notNull(),
+    skillLevel: integer("skill_level").notNull(),
+    maximumSkillLevel: integer("maximum_skill_level").notNull(),
+    skillModifier: integer("skill_modifier").notNull(),
+    apiFlavor: text("api_flavor").notNull(),
+    recipeListComplete: boolean("recipe_list_complete").notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.snapshotId, table.professionSkillLineId] }),
+    index("character_profession_skill_line_idx").on(table.professionSkillLineId),
+    check("character_profession_skill_check", sql`${table.skillLevel} >= 0`),
+    check("character_profession_max_skill_check", sql`${table.maximumSkillLevel} >= 0`),
+  ],
+);
+
+export const characterProfessionSpecializations = pgTable(
+  "character_profession_specialization",
+  {
+    snapshotId: uuid("snapshot_id").notNull(),
+    professionSkillLineId: integer("profession_skill_line_id").notNull(),
+    specializationSpellId: integer("specialization_spell_id").notNull(),
+  },
+  (table) => [
+    primaryKey({
+      columns: [table.snapshotId, table.professionSkillLineId, table.specializationSpellId],
+    }),
+    foreignKey({
+      name: "character_profession_specialization_snapshot_fk",
+      columns: [table.snapshotId],
+      foreignColumns: [characterProfessionSnapshots.snapshotId],
+    }).onDelete("cascade"),
+    foreignKey({
+      name: "character_profession_specialization_profession_fk",
+      columns: [table.snapshotId, table.professionSkillLineId],
+      foreignColumns: [characterProfessions.snapshotId, characterProfessions.professionSkillLineId],
+    }).onDelete("cascade"),
+    index("character_profession_specialization_spell_idx").on(table.specializationSpellId),
+  ],
+);
+
+export const characterKnownRecipes = pgTable(
+  "character_known_recipe",
+  {
+    snapshotId: uuid("snapshot_id").notNull(),
+    professionSkillLineId: integer("profession_skill_line_id").notNull(),
+    recipeSpellId: integer("recipe_spell_id").notNull(),
+    name: text("name"),
+    cooldownSecondsRemaining: integer("cooldown_seconds_remaining"),
+    isDayCooldown: boolean("is_day_cooldown"),
+    charges: integer("charges"),
+    maximumCharges: integer("maximum_charges"),
+  },
+  (table) => [
+    primaryKey({
+      columns: [table.snapshotId, table.professionSkillLineId, table.recipeSpellId],
+    }),
+    foreignKey({
+      name: "character_known_recipe_snapshot_fk",
+      columns: [table.snapshotId],
+      foreignColumns: [characterProfessionSnapshots.snapshotId],
+    }).onDelete("cascade"),
+    foreignKey({
+      name: "character_known_recipe_profession_fk",
+      columns: [table.snapshotId, table.professionSkillLineId],
+      foreignColumns: [characterProfessions.snapshotId, characterProfessions.professionSkillLineId],
+    }).onDelete("cascade"),
+    index("character_known_recipe_recipe_idx").on(table.recipeSpellId),
+    check(
+      "character_known_recipe_cooldown_check",
+      sql`${table.cooldownSecondsRemaining} IS NULL OR ${table.cooldownSecondsRemaining} >= 0`,
+    ),
+  ],
+);
+
+export const characterInventoryItems = pgTable(
+  "character_inventory_item",
+  {
+    snapshotId: uuid("snapshot_id")
+      .notNull()
+      .references(() => characterProfessionSnapshots.snapshotId, { onDelete: "cascade" }),
+    itemId: integer("item_id").notNull(),
+    quantity: integer("quantity").notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.snapshotId, table.itemId] }),
+    index("character_inventory_item_item_idx").on(table.itemId),
+    check("character_inventory_item_quantity_check", sql`${table.quantity} > 0`),
   ],
 );
 
@@ -1016,10 +1158,50 @@ export const worldEncounterActorObservations = pgTable(
   ],
 );
 
+export const worldLootSessions = pgTable(
+  "world_loot_session",
+  {
+    sessionId: uuid("session_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    sourceType: text("source_type").notNull(),
+    sourceId: integer("source_id"),
+    sourceName: text("source_name"),
+    sourceGuid: text("source_guid"),
+    sourceQuantity: integer("source_quantity"),
+    slotCount: integer("slot_count").notNull(),
+    money: bigint("money", { mode: "bigint" }),
+    encounterId: integer("encounter_id"),
+    attemptId: uuid("attempt_id"),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+    observerLocation: jsonb("observer_location").notNull(),
+  },
+  (table) => [
+    check("world_loot_session_slot_count_check", sql`${table.slotCount} >= 0`),
+    check("world_loot_session_money_check", sql`${table.money} IS NULL OR ${table.money} >= 0`),
+    index("world_loot_session_source_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.sourceType,
+      table.sourceId,
+      table.capturedAt,
+    ),
+  ],
+);
+
 export const worldLootObservations = pgTable(
   "world_loot_observation",
   {
     observationId: uuid("observation_id").primaryKey(),
+    lootSessionId: uuid("loot_session_id").references(() => worldLootSessions.sessionId, {
+      onDelete: "set null",
+    }),
     payloadId: uuid("payload_id")
       .notNull()
       .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
@@ -1228,6 +1410,49 @@ export const worldVendorObservations = pgTable(
       table.capturedAt,
     ),
     index("world_vendor_observation_item_idx").on(table.itemId, table.sourceId),
+  ],
+);
+
+export const worldTrainerObservations = pgTable(
+  "world_trainer_observation",
+  {
+    observationId: uuid("observation_id").primaryKey(),
+    payloadId: uuid("payload_id")
+      .notNull()
+      .references(() => rawUploads.payloadId, { onDelete: "cascade" }),
+    clientProduct: text("client_product").notNull(),
+    clientBuild: integer("client_build").notNull(),
+    locale: text("locale").notNull(),
+    capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
+    sourceType: text("source_type").notNull(),
+    sourceId: integer("source_id").notNull(),
+    sourceGuid: text("source_guid"),
+    sourceName: text("source_name"),
+    serviceIndex: integer("service_index").notNull(),
+    serviceName: text("service_name").notNull(),
+    serviceRank: text("service_rank"),
+    serviceType: text("service_type").notNull(),
+    spellId: integer("spell_id"),
+    icon: jsonb("icon"),
+    moneyCost: bigint("money_cost", { mode: "bigint" }).notNull(),
+    requiredLevel: integer("required_level"),
+    requiredSkillLine: text("required_skill_line"),
+    requiredSkillRank: integer("required_skill_rank"),
+    allFiltersEnabled: boolean("all_filters_enabled").notNull(),
+    mapId: integer("map_id"),
+    uiMapId: integer("ui_map_id"),
+    observerLocation: jsonb("observer_location").notNull(),
+  },
+  (table) => [
+    check("world_trainer_observation_cost_check", sql`${table.moneyCost} >= 0`),
+    index("world_trainer_observation_source_idx").on(
+      table.clientProduct,
+      table.clientBuild,
+      table.sourceId,
+      table.capturedAt,
+    ),
+    index("world_trainer_observation_spell_idx").on(table.spellId, table.sourceId),
+    index("world_trainer_observation_name_idx").on(table.serviceName, table.sourceId),
   ],
 );
 
@@ -2178,6 +2403,98 @@ export const externalDataPublications = pgTable("external_data_publication", {
     .notNull()
     .defaultNow(),
 });
+
+export const communityReferenceSnapshots = pgTable(
+  "community_reference_snapshot",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    buildId: uuid("build_id")
+      .notNull()
+      .references(() => gameBuilds.id, { onDelete: "cascade" }),
+    sourceId: uuid("source_id")
+      .notNull()
+      .references(() => externalDataSources.id, { onDelete: "restrict" }),
+    sourceVersion: text("source_version").notNull(),
+    sourceRevision: text("source_revision").notNull(),
+    locale: text("locale").notNull(),
+    licenseRef: text("license_ref").notNull(),
+    checksum: text("checksum").notNull(),
+    includedAuthored: boolean("included_authored").notNull().default(false),
+    status: externalSnapshotStatusEnum("status").notNull().default("review_required"),
+    manifest: jsonb("manifest").$type<unknown>().notNull(),
+    importedAt: timestamp("imported_at", { withTimezone: true, mode: "date" })
+      .notNull()
+      .defaultNow(),
+    publishedAt: timestamp("published_at", { withTimezone: true, mode: "date" }),
+  },
+  (table) => [
+    uniqueIndex("community_reference_snapshot_build_source_revision_uidx").on(
+      table.buildId,
+      table.sourceId,
+      table.sourceRevision,
+    ),
+    index("community_reference_snapshot_current_idx").on(
+      table.buildId,
+      table.status,
+      table.publishedAt,
+    ),
+  ],
+);
+
+export const communityReferenceEntities = pgTable(
+  "community_reference_entity",
+  {
+    snapshotId: uuid("snapshot_id")
+      .notNull()
+      .references(() => communityReferenceSnapshots.id, { onDelete: "cascade" }),
+    entityKind: text("entity_kind").notNull(),
+    entityId: integer("entity_id").notNull(),
+    name: text("name"),
+    data: jsonb("data").$type<unknown>().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.snapshotId, table.entityKind, table.entityId] }),
+    index("community_reference_entity_lookup_idx").on(table.entityKind, table.entityId),
+    index("community_reference_entity_name_idx").on(table.entityKind, table.name),
+  ],
+);
+
+export const communityReferenceRelations = pgTable(
+  "community_reference_relation",
+  {
+    snapshotId: uuid("snapshot_id")
+      .notNull()
+      .references(() => communityReferenceSnapshots.id, { onDelete: "cascade" }),
+    sourceKind: text("source_kind").notNull(),
+    sourceId: integer("source_id").notNull(),
+    relationKind: text("relation_kind").notNull(),
+    targetKind: text("target_kind").notNull(),
+    targetId: integer("target_id").notNull(),
+    evidence: jsonb("evidence").$type<unknown>().notNull(),
+  },
+  (table) => [
+    primaryKey({
+      columns: [
+        table.snapshotId,
+        table.sourceKind,
+        table.sourceId,
+        table.relationKind,
+        table.targetKind,
+        table.targetId,
+      ],
+    }),
+    index("community_reference_relation_source_idx").on(
+      table.sourceKind,
+      table.sourceId,
+      table.relationKind,
+    ),
+    index("community_reference_relation_target_idx").on(
+      table.targetKind,
+      table.targetId,
+      table.relationKind,
+    ),
+  ],
+);
 
 export const levelingFeedback = pgTable(
   "leveling_feedback",

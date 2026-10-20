@@ -4,9 +4,14 @@ import { mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, resolve } from "node:path";
 import { loadEnvFile } from "node:process";
 
-import { createDatabase } from "@wow-trader/db";
+import { loadCatalogSnapshot } from "@wow-trader/catalog";
+import { createDatabase, worldTrainerObservations } from "@wow-trader/db";
+import { and, eq } from "drizzle-orm";
 
+import { buildCommunityCoverage } from "./community-coverage.js";
+import { importQuestieForeverBundle } from "./community-import.js";
 import { importWorldSnapshot } from "./import.js";
+import { loadQuestieForeverExport } from "./questie-forever.js";
 import { loadQuestieForeverBaked } from "./questie-baked.js";
 import { loadWorldSnapshot } from "./snapshot.js";
 
@@ -16,12 +21,23 @@ async function main(args: readonly string[]): Promise<void> {
   const normalizedArgs =
     args[0] === "--" ? args.slice(1) : args[1] === "--" ? [args[0]!, ...args.slice(2)] : args;
   const [command, manifestPath, ...flags] = normalizedArgs;
-  if (command === "questie-baked-export" && manifestPath) {
+  if (!command || !manifestPath) {
+    throw new Error(usage());
+  }
+  if (command === "community-audit" || command === "community-import") {
+    await runCommunityCommand(command, manifestPath, flags);
+    return;
+  }
+  if (command === "community-coverage") {
+    await runCommunityCoverageCommand(manifestPath, flags);
+    return;
+  }
+  if (command === "questie-baked-export") {
     await runQuestieBakedExport(manifestPath, flags);
     return;
   }
-  if (!command || !manifestPath || !["audit", "import"].includes(command)) {
-    throw new Error("Usage: world-data <audit|import> /path/to/manifest.json [--publish]");
+  if (!["audit", "import"].includes(command)) {
+    throw new Error(usage());
   }
   const resolvedManifestPath = isAbsolute(manifestPath)
     ? manifestPath
@@ -130,6 +146,181 @@ async function runQuestieBakedExport(tocPath: string, flags: readonly string[]):
   );
 }
 
+async function runCommunityCoverageCommand(
+  catalogManifestPath: string,
+  flags: readonly string[],
+): Promise<void> {
+  const parsedFlags = parseFlags(
+    flags,
+    new Set(["include-authored", "include-observations"]),
+    new Set([
+      "community",
+      "source-version",
+      "source-revision",
+      "license-ref",
+      "queue",
+      "report",
+      "game",
+    ]),
+  );
+  const catalog = await loadCatalogSnapshot(resolveInputPath(catalogManifestPath));
+  const community = await loadQuestieForeverExport(
+    resolveInputPath(requiredFlag(parsedFlags, "community")),
+    {
+      sourceVersion: requiredFlag(parsedFlags, "source-version"),
+      sourceRevision: requiredFlag(parsedFlags, "source-revision"),
+      licenseRef: requiredFlag(parsedFlags, "license-ref"),
+      includedAuthored: parsedFlags.has("include-authored"),
+    },
+  );
+  const game = optionalFlag(parsedFlags, "game") ?? "forever";
+  if (!/^[a-z0-9-]+$/.test(game)) throw new Error("--game must be a lowercase URL slug");
+  const observedTrainerSpellIds = parsedFlags.has("include-observations")
+    ? await loadObservedTrainerSpellIds(catalog)
+    : new Set<number>();
+  const result = buildCommunityCoverage(catalog, community, {
+    game,
+    observedTrainerSpellIds,
+  });
+  const queuePath = resolveInputPath(requiredFlag(parsedFlags, "queue"));
+  const reportPath = resolveInputPath(requiredFlag(parsedFlags, "report"));
+  await Promise.all([
+    atomicJsonWrite(queuePath, result.tasks),
+    atomicJsonWrite(reportPath, result.report),
+  ]);
+  process.stdout.write(
+    `${JSON.stringify(
+      {
+        queuePath,
+        reportPath,
+        queueSha256: result.report.queueSha256,
+        summary: result.report.summary,
+      },
+      null,
+      2,
+    )}\n`,
+  );
+}
+
+async function loadObservedTrainerSpellIds(
+  catalog: Awaited<ReturnType<typeof loadCatalogSnapshot>>,
+): Promise<ReadonlySet<number>> {
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) throw new Error("DATABASE_URL is required with --include-observations");
+  const database = createDatabase(databaseUrl);
+  try {
+    const observations = await database.db
+      .select({
+        spellId: worldTrainerObservations.spellId,
+        serviceName: worldTrainerObservations.serviceName,
+      })
+      .from(worldTrainerObservations)
+      .where(
+        and(
+          eq(worldTrainerObservations.clientProduct, catalog.manifest.product),
+          eq(worldTrainerObservations.clientBuild, catalog.manifest.buildNumber),
+          eq(worldTrainerObservations.locale, catalog.manifest.locale),
+        ),
+      );
+    const recipeIds = new Set(catalog.recipes.map((recipe) => recipe.recipeSpellId));
+    const recipeIdsByName = new Map<string, number[]>();
+    for (const spell of catalog.spells) {
+      if (!recipeIds.has(spell.spellId)) continue;
+      const key = normalizeName(spell.name);
+      const ids = recipeIdsByName.get(key) ?? [];
+      ids.push(spell.spellId);
+      recipeIdsByName.set(key, ids);
+    }
+    const result = new Set<number>();
+    for (const observation of observations) {
+      if (observation.spellId !== null && recipeIds.has(observation.spellId)) {
+        result.add(observation.spellId);
+        continue;
+      }
+      const matchingIds = recipeIdsByName.get(normalizeName(observation.serviceName)) ?? [];
+      if (matchingIds.length === 1) result.add(matchingIds[0]!);
+    }
+    return result;
+  } finally {
+    await database.close();
+  }
+}
+
+async function runCommunityCommand(
+  command: "community-audit" | "community-import",
+  directory: string,
+  flags: readonly string[],
+): Promise<void> {
+  const parsedFlags = parseFlags(
+    flags,
+    new Set(
+      command === "community-import" ? ["publish", "include-authored"] : ["include-authored"],
+    ),
+    new Set(
+      command === "community-import"
+        ? [
+            "source-version",
+            "source-revision",
+            "license-ref",
+            "license-name",
+            "product",
+            "build",
+            "locale",
+          ]
+        : ["source-version", "source-revision", "license-ref"],
+    ),
+  );
+  const bundle = await loadQuestieForeverExport(
+    isAbsolute(directory) ? directory : resolve(process.cwd(), directory),
+    {
+      sourceVersion: requiredFlag(parsedFlags, "source-version"),
+      sourceRevision: requiredFlag(parsedFlags, "source-revision"),
+      licenseRef: requiredFlag(parsedFlags, "license-ref"),
+      includedAuthored: parsedFlags.has("include-authored"),
+    },
+  );
+  if (command === "community-audit") {
+    process.stdout.write(
+      `${JSON.stringify(
+        {
+          sourceKind: bundle.sourceKind,
+          sourceVersion: bundle.sourceVersion,
+          sourceRevision: bundle.sourceRevision,
+          includedAuthored: bundle.includedAuthored,
+          checksum: bundle.checksum,
+          artifacts: bundle.artifacts,
+          entityCount: bundle.entities.length,
+          relationCount: bundle.relations.length,
+        },
+        null,
+        2,
+      )}\n`,
+    );
+    return;
+  }
+
+  const buildNumber = Number(requiredFlag(parsedFlags, "build"));
+  if (!Number.isSafeInteger(buildNumber) || buildNumber <= 0) {
+    throw new Error("--build must be a positive integer");
+  }
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) throw new Error("DATABASE_URL is required for import");
+  const database = createDatabase(databaseUrl);
+  try {
+    const licenseName = optionalFlag(parsedFlags, "license-name");
+    const result = await importQuestieForeverBundle(database.db, bundle, {
+      product: requiredFlag(parsedFlags, "product"),
+      buildNumber,
+      locale: requiredFlag(parsedFlags, "locale"),
+      publish: parsedFlags.has("publish"),
+      ...(licenseName ? { licenseName } : {}),
+    });
+    process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+  } finally {
+    await database.close();
+  }
+}
+
 function parseFlags(
   flags: readonly string[],
   booleanFlags: ReadonlySet<string>,
@@ -160,6 +351,11 @@ function requiredFlag(flags: ReadonlyMap<string, string | true>, name: string): 
   return value;
 }
 
+function optionalFlag(flags: ReadonlyMap<string, string | true>, name: string): string | undefined {
+  const value = flags.get(name);
+  return typeof value === "string" && value.trim() ? value : undefined;
+}
+
 function resolveInputPath(path: string): string {
   return isAbsolute(path) ? path : resolve(import.meta.dirname, "../../../", path);
 }
@@ -168,11 +364,31 @@ function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function normalizeName(value: string): string {
+  return value
+    .normalize("NFKD")
+    .toLocaleLowerCase("en")
+    .replace(/[’']/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 async function atomicJsonWrite(path: string, value: unknown): Promise<void> {
   await mkdir(dirname(path), { recursive: true });
   const temporaryPath = `${path}.${process.pid}.tmp`;
   await writeFile(temporaryPath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
   await rename(temporaryPath, path);
+}
+
+function usage(): string {
+  return [
+    "Usage:",
+    "  world-data <audit|import> /path/to/manifest.json [--publish]",
+    "  world-data community-audit /path/to/combined --source-version VERSION --source-revision REVISION --license-ref URL [--include-authored]",
+    "  world-data community-import /path/to/combined --product PRODUCT --build NUMBER --locale LOCALE --source-version VERSION --source-revision REVISION --license-ref URL [--license-name NAME] [--include-authored] [--publish]",
+    "  world-data community-coverage /path/to/catalog/manifest.json --community /path/to/combined --source-version VERSION --source-revision REVISION --license-ref URL --queue /path/to/queue.json --report /path/to/report.json [--game forever] [--include-authored] [--include-observations]",
+    "  world-data questie-baked-export /path/to/QuestieDB_Forever.toc --quest-ids /path/to/queue-or-report.json --output /path/to/bundle.json --source-version VERSION --source-revision REVISION --license-ref REFERENCE [--without-givers]",
+  ].join("\n");
 }
 
 function loadRootEnvironment(): void {

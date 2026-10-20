@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { referenceIndexGaps } from "@wow-trader/reference-data";
 
 import { DataUnavailable } from "../../../components/data-unavailable";
 import { CatalogReference } from "../../../components/catalog-reference";
-import { getCatalogReference, itemReferenceMatchesClient } from "../../../lib/catalog-reference";
+import {
+  getCatalogReference,
+  getCatalogReferenceSearchSurface,
+  itemReferenceMatchesClient,
+} from "../../../lib/catalog-reference";
 import { ItemTooltip } from "../../../components/item-tooltip";
 import { JsonLd } from "../../../components/json-ld";
 import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
-import { getItemDetail, type ItemMarketData } from "../../../lib/data";
+import { getItemDetail, type ItemDetail, type ItemMarketData } from "../../../lib/data";
 import { formatCopper, formatRelativeTime } from "../../../lib/format";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
 
@@ -40,6 +44,13 @@ export async function createCatalogItemMetadata(
     const item = await getItemDetail(numericItemId, config.clientProduct);
     if (!item) return { ...fallback, robots: { index: false, follow: true } };
     const reference = await getCatalogReference(config.wowheadGamePath, "item", numericItemId);
+    const searchSurface = getCatalogReferenceSearchSurface(
+      config.wowheadGamePath,
+      "item",
+      numericItemId,
+      reference,
+      { clientItem: item, pageExists: true },
+    );
     return createHelperMetadata({
       title: `${item.name} — ${config.gameLabel} Item ${item.itemId}`,
       description: `${item.name} (item ${item.itemId}) from ${config.gameLabel}: item level ${item.itemLevel}, requirements, stats, effects, crafting relationships, market history, and build provenance.`,
@@ -49,7 +60,7 @@ export async function createCatalogItemMetadata(
         `${item.name} ${config.gameLabel}`,
         `${config.gameLabel} item ${item.itemId}`,
       ],
-      noIndex: !reference || referenceIndexGaps(reference, item).length > 0,
+      noIndex: searchSurface.state !== "indexable",
     });
   } catch {
     return fallback;
@@ -212,14 +223,16 @@ export async function CatalogItemPage({
                 <span aria-hidden="true">?</span>
                 <div>
                   <strong>
-                    {item.acquisition.length
-                      ? "Acquisition leads require review"
-                      : "Acquisition evidence has not been confirmed"}
+                    {item.observedDrops.length || item.observedVendors.length
+                      ? "Live acquisition evidence is available"
+                      : item.acquisition.length || item.communityAcquisition.length
+                        ? "Acquisition leads require review"
+                        : "Acquisition evidence has not been confirmed"}
                   </strong>
                   <p>
-                    Client source hints are kept separate from observed drops. Candidate
-                    relationships never become confirmed sources or drop rates without stronger
-                    evidence.
+                    Live loot windows, reviewed community relationships, and client source hints
+                    remain separate. An observed frequency is not presented as the server&apos;s
+                    configured drop chance.
                   </p>
                 </div>
               </div>
@@ -227,14 +240,22 @@ export async function CatalogItemPage({
                 <div>
                   <dt>Source</dt>
                   <dd>
-                    {item.acquisition.length
-                      ? `${item.acquisition.length} candidate relationship${item.acquisition.length === 1 ? "" : "s"}`
-                      : "Pending verification"}
+                    {item.observedDrops.length
+                      ? `${item.observedDrops.length} observed loot source${item.observedDrops.length === 1 ? "" : "s"}`
+                      : item.observedVendors.length
+                        ? `${item.observedVendors.length} observed vendor${item.observedVendors.length === 1 ? "" : "s"}`
+                        : item.acquisition.length || item.communityAcquisition.length
+                          ? `${item.acquisition.length + item.communityAcquisition.length} candidate relationship${item.acquisition.length + item.communityAcquisition.length === 1 ? "" : "s"}`
+                          : "Pending verification"}
                   </dd>
                 </div>
                 <div>
                   <dt>Drop chance</dt>
-                  <dd>Unknown</dd>
+                  <dd>
+                    {item.observedDrops.length === 1
+                      ? `${item.observedDrops[0]!.itemSessions} / ${item.observedDrops[0]!.eligibleSessions} observed sessions`
+                      : "Unknown"}
+                  </dd>
                 </div>
               </dl>
               <a
@@ -252,6 +273,59 @@ export async function CatalogItemPage({
                 External community reference. Its source and drop-rate claims are not imported into
                 our evidence model.
               </small>
+              {item.observedDrops.length ? (
+                <ul className="link-list" aria-label="Observed loot sources">
+                  {item.observedDrops.slice(0, 8).map((source) => (
+                    <li key={`${source.sourceType}:${source.sourceId}`}>
+                      <span>
+                        <strong>
+                          {source.sourceName ?? `${source.sourceType} ${source.sourceId}`}
+                        </strong>
+                        <small>
+                          Item seen in {source.itemSessions} of {source.eligibleSessions} captured
+                          loot sessions
+                        </small>
+                      </span>
+                      <span>Observed in game</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {item.observedVendors.length ? (
+                <ul className="link-list" aria-label="Observed vendors">
+                  {item.observedVendors.slice(0, 8).map((vendor) => (
+                    <li key={vendor.sourceId}>
+                      <span>
+                        <strong>{vendor.sourceName ?? `Vendor ${vendor.sourceId}`}</strong>
+                        <small>
+                          {formatCopper(vendor.price)} for {vendor.stackCount}
+                          {vendor.available === null ? "" : ` · ${vendor.available} available`}
+                        </small>
+                      </span>
+                      <span>Observed vendor UI</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {item.communityAcquisition.length ? (
+                <ul className="link-list" aria-label="Published community source relationships">
+                  {item.communityAcquisition.slice(0, 8).map((source) => {
+                    const href = communityTargetHref(config, source.targetKind, source.targetId);
+                    const label = source.targetName ?? `${source.targetKind} ${source.targetId}`;
+                    return (
+                      <li
+                        key={`${source.sourceRevision}:${source.relationKind}:${source.targetKind}:${source.targetId}`}
+                      >
+                        <span>
+                          <strong>{href ? <Link href={href}>{label}</Link> : label}</strong>
+                          <small>{communityRelationLabel(source.relationKind)}</small>
+                        </span>
+                        <span>{communityEvidenceLabel(source)}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : null}
               {item.acquisition.length ? (
                 <ul className="link-list">
                   {item.acquisition.slice(0, 8).map((source) => (
@@ -285,6 +359,39 @@ export async function CatalogItemPage({
     if (isNextNavigationError(error)) throw error;
     return <DataUnavailable title="Item data is unavailable" />;
   }
+}
+
+function communityEvidenceLabel(source: ItemDetail["communityAcquisition"][number]): string {
+  if (source.evidenceStatus === "corroborated") {
+    return `QuestieDB + ${source.observedEvidenceCount} live observation${source.observedEvidenceCount === 1 ? "" : "s"}`;
+  }
+  if (source.evidenceStatus === "conflicting") {
+    return `${source.conflictingObservedNameCount} identity conflict${source.conflictingObservedNameCount === 1 ? "" : "s"} · review required`;
+  }
+  return "QuestieDB · pinned revision";
+}
+
+function communityTargetHref(config: CatalogPageConfig, kind: string, id: number): string | null {
+  if (config.wowheadGamePath !== "forever") return null;
+  if (kind === "npc") return `${config.encyclopediaBasePath}/npcs/${id}`;
+  if (kind === "object") return `${config.encyclopediaBasePath}/objects/${id}`;
+  if (kind === "quest") return `${config.encyclopediaBasePath}/quests/${id}`;
+  if (kind === "item") return `${config.encyclopediaBasePath}/items/${id}`;
+  return null;
+}
+
+function communityRelationLabel(relationKind: string): string {
+  const labels: Readonly<Record<string, string>> = {
+    contained_in_item: "Contained in item",
+    dropped_by_npc: "NPC drop relationship",
+    dropped_by_object: "Object drop relationship",
+    related_to_quest: "Related quest",
+    rewarded_by_quest: "Quest reward relationship",
+    sold_by_npc: "Vendor relationship",
+    starts_quest: "Starts quest",
+    teaches_spell: "Teaches spell",
+  };
+  return labels[relationKind] ?? relationKind.replaceAll("_", " ");
 }
 
 function StatusEvidence({

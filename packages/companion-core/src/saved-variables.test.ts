@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { parseCollectorSavedVariables } from "./saved-variables.js";
-import { createAuctionScanUpload, createWorldDiagnosticsUpload } from "./upload.js";
+import {
+  createAuctionScanUpload,
+  createProfessionSnapshotUpload,
+  createWorldDiagnosticsUpload,
+} from "./upload.js";
 
 const SOURCE = `WOW_TRADER_SAVED = {
   ["schemaVersion"] = 1,
@@ -185,6 +189,93 @@ describe("collector SavedVariables", () => {
     });
   });
 
+  it("preserves loot denominators and trainer acquisition evidence", () => {
+    const savedVariables = parseCollectorSavedVariables(`WOW_TRADER_SAVED = {
+      ["schemaVersion"] = 1,
+      ["installationId"] = "67af914b-851d-44a0-b4ba-bb01458b7cbf",
+      ["scans"] = {},
+      ["worldDiagnostics"] = {
+        ["schemaVersion"] = 6,
+        ["addonVersion"] = "0.12.0",
+        ["clientProduct"] = "wow_classic_beta",
+        ["clientBuild"] = 70450,
+        ["locale"] = "enUS",
+        ["region"] = "EU",
+        ["lootSessions"] = {
+          [1] = {
+            ["sessionID"] = "2a527e2f-bd73-4f35-9991-9ac43cf507bc",
+            ["capturedAt"] = 1792319400,
+            ["sourceType"] = "Creature",
+            ["sourceID"] = 1234,
+            ["sourceName"] = "Test Creature",
+            ["sourceGuid"] = "Creature-0-0-0-0-1234-0000000000",
+            ["sourceQuantity"] = 1,
+            ["slotCount"] = 1,
+            ["money"] = 12,
+            ["observerLocation"] = { ["capturedAt"] = 1792319400, ["uiMapID"] = 14 },
+          },
+        },
+        ["lootObservations"] = {
+          [1] = {
+            ["observationID"] = "5af7529f-6e55-431a-8f20-157ab45d30cf",
+            ["lootSessionID"] = "2a527e2f-bd73-4f35-9991-9ac43cf507bc",
+            ["capturedAt"] = 1792319400,
+            ["slotIndex"] = 1,
+            ["itemID"] = 400,
+            ["itemName"] = "Recipe: Test",
+            ["quantity"] = 1,
+            ["sourceType"] = "Creature",
+            ["sourceID"] = 1234,
+            ["sourceGuid"] = "Creature-0-0-0-0-1234-0000000000",
+            ["sourceQuantity"] = 1,
+            ["observerLocation"] = { ["capturedAt"] = 1792319400, ["uiMapID"] = 14 },
+          },
+        },
+        ["trainerObservations"] = {
+          [1] = {
+            ["observationID"] = "61e54168-0634-4cad-8fd4-88aaecf76d2b",
+            ["observationKey"] = "1234:900",
+            ["capturedAt"] = 1792319401,
+            ["sourceType"] = "Creature",
+            ["sourceID"] = 5678,
+            ["sourceName"] = "Test Trainer",
+            ["serviceIndex"] = 1,
+            ["serviceName"] = "Test Recipe",
+            ["serviceType"] = "available",
+            ["spellID"] = 900,
+            ["moneyCost"] = 1000,
+            ["requiredLevel"] = 10,
+            ["requiredSkillLine"] = "Alchemy",
+            ["requiredSkillRank"] = 50,
+            ["allFiltersEnabled"] = true,
+            ["observerLocation"] = { ["capturedAt"] = 1792319401, ["uiMapID"] = 14 },
+          },
+        },
+      },
+    }`);
+
+    expect(createWorldDiagnosticsUpload(savedVariables)).toMatchObject({
+      data: {
+        lootSessions: [{ sourceId: 1234, slotCount: 1, money: 12 }],
+        lootObservations: [
+          {
+            lootSessionId: "2a527e2f-bd73-4f35-9991-9ac43cf507bc",
+            itemId: 400,
+            sourceId: 1234,
+          },
+        ],
+        trainerObservations: [
+          {
+            sourceId: 5678,
+            spellId: 900,
+            serviceName: "Test Recipe",
+            allFiltersEnabled: true,
+          },
+        ],
+      },
+    });
+  });
+
   it("normalizes empty optional client strings before upload validation", () => {
     const savedVariables = parseCollectorSavedVariables(
       SOURCE.replace('["difficultyName"] = "Normal",', '["difficultyName"] = "",').replace(
@@ -208,5 +299,77 @@ describe("collector SavedVariables", () => {
       objectiveType: null,
     });
     expect(createWorldDiagnosticsUpload(savedVariables)).not.toBeNull();
+  });
+
+  it("parses and normalizes a profession snapshot", () => {
+    const savedVariables = parseCollectorSavedVariables(`WOW_TRADER_SAVED = {
+      ["schemaVersion"] = 1,
+      ["installationId"] = "67af914b-851d-44a0-b4ba-bb01458b7cbf",
+      ["scans"] = {},
+      ["professionSnapshots"] = {
+        [1] = {
+          ["snapshotID"] = "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
+          ["addonVersion"] = "0.11.0",
+          ["clientProduct"] = "wow_anniversary",
+          ["clientBuild"] = 69795,
+          ["locale"] = "enUS",
+          ["region"] = "EU",
+          ["realmID"] = "Spineshatter",
+          ["sourceCharacter"] = {
+            ["name"] = "Crafter",
+            ["realmId"] = "Spineshatter",
+            ["faction"] = "horde",
+            ["guid"] = "Player-1234-ABCDEF",
+          },
+          ["capturedAt"] = 1792319400,
+          ["completedAt"] = 1792319401,
+          ["moneyCopper"] = 123456,
+          ["inventoryScope"] = "bags",
+          ["inventory"] = {
+            [1] = { ["itemID"] = 12808, ["quantity"] = 7 },
+          },
+          ["professions"] = {
+            [1] = {
+              ["professionSkillLineID"] = 171,
+              ["name"] = "Alchemy",
+              ["skillLevel"] = 375,
+              ["maximumSkillLevel"] = 375,
+              ["skillModifier"] = 0,
+              ["apiFlavor"] = "c_trade_skill_ui",
+              ["recipeListComplete"] = true,
+              ["specializationSpellIDs"] = { [1] = 28672 },
+              ["knownRecipes"] = {
+                [1] = {
+                  ["recipeSpellID"] = 17563,
+                  ["name"] = "Transmute: Arcanite",
+                  ["cooldownSecondsRemaining"] = 3600,
+                  ["isDayCooldown"] = true,
+                },
+              },
+            },
+          },
+        },
+      },
+    }`);
+
+    const upload = createProfessionSnapshotUpload(
+      savedVariables,
+      savedVariables.professionSnapshots[0]!,
+    );
+    expect(upload).toMatchObject({
+      payloadType: "profession_snapshot",
+      sourceCharacter: { name: "Crafter", realmId: "Spineshatter" },
+      data: {
+        moneyCopper: "123456",
+        inventory: [{ itemId: 12808, quantity: 7 }],
+        professions: [
+          {
+            professionSkillLineId: 171,
+            specializationSpellIds: [28672],
+            knownRecipes: [{ recipeSpellId: 17563, cooldownSecondsRemaining: 3600, charges: null }],
+          },
+        ],
+      },
+    });
   });
 });

@@ -1,6 +1,7 @@
 import { getRecipeDetail } from "../../../../../../../lib/data";
 import { FOREVER_CLIENT_PRODUCT } from "../../../../../../../lib/game-versions";
 import { publicJsonResponse } from "../../../../../../../lib/public-api";
+import { helperAbsoluteUrl } from "../../../../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export async function GET(_request: Request, { params }: RouteContext): Promise<
     return publicJsonResponse(
       {
         schemaVersion: "forever-recipe.v1",
-        canonicalUrl: `https://helper.kfcguild.online/forever/encyclopedia/recipes/${recipe.recipeSpellId}`,
+        canonicalUrl: helperAbsoluteUrl(`/forever/encyclopedia/recipes/${recipe.recipeSpellId}`),
         recipe,
       },
       { maxAgeSeconds: 3_600 },

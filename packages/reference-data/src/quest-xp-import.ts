@@ -255,7 +255,9 @@ function readRows(input: string, format: "csv" | "json"): readonly RawRow[] {
       throw new Error("Import CSV has duplicate columns");
     return rows.map((values, index): RawRow => {
       if (values.length !== names.length)
-        throw new Error(`Import CSV row ${index + 2} has ${values.length} fields, expected ${names.length}`);
+        throw new Error(
+          `Import CSV row ${index + 2} has ${values.length} fields, expected ${names.length}`,
+        );
       const row: Record<string, unknown> = {};
       for (let column = 0; column < names.length; column++) row[names[column]!] = values[column];
       return normalizeRow(row, `CSV row ${index + 2}`);
@@ -267,12 +269,13 @@ function readRows(input: string, format: "csv" | "json"): readonly RawRow[] {
   } catch {
     throw new Error("Import JSON is not valid JSON");
   }
-  const records =
-    Array.isArray(parsed)
-      ? parsed
-      : typeof parsed === "object" && parsed !== null && Array.isArray((parsed as { records?: unknown }).records)
-        ? (parsed as { records: unknown[] }).records
-        : null;
+  const records = Array.isArray(parsed)
+    ? parsed
+    : typeof parsed === "object" &&
+        parsed !== null &&
+        Array.isArray((parsed as { records?: unknown }).records)
+      ? (parsed as { records: unknown[] }).records
+      : null;
   if (!records) throw new Error("Import JSON must be an array or an object with a records array");
   if (!records.length) throw new Error("Import JSON has no records");
   return records.map((entry, index): RawRow => {
@@ -295,7 +298,10 @@ function normalizeRow(row: Readonly<Record<string, unknown>>, label: string): Ra
   };
 }
 
-function compare(staged: QuestXpRecord, record: Omit<QuestXpImportRecord, "status">): readonly string[] {
+function compare(
+  staged: QuestXpRecord,
+  record: Omit<QuestXpImportRecord, "status">,
+): readonly string[] {
   if (staged.status !== "available") return [];
   const fields: string[] = [];
   if (
@@ -328,7 +334,8 @@ export async function buildQuestXpImport(
   if (!options.revision.trim()) throw new Error("Import requires a content revision");
   const rows = readRows(options.input, options.format);
   const importedAt = options.importedAt ?? new Date().toISOString();
-  const exportSha256 = options.exportSha256 ?? createHash("sha256").update(options.input).digest("hex");
+  const exportSha256 =
+    options.exportSha256 ?? createHash("sha256").update(options.input).digest("hex");
   if (!sha256.safeParse(exportSha256).success) throw new Error("Import source SHA-256 is invalid");
   const seen = new Set<number>();
   for (const row of rows) {

@@ -8,6 +8,10 @@ import {
   readSimulatorModelFirstPassBuild,
   simulatorModelFirstPassEntrySchema,
 } from "./forever-simulator-model-first-pass";
+import {
+  readSimulatorProfileModelUpdate,
+  validateSimulatorProfileModelBuilds,
+} from "./forever-simulator-profile-model-updates";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const releaseId = z.string().regex(/^[a-f0-9]{24}$/);
@@ -212,6 +216,7 @@ export async function validateSimulatorModelUpdateBuilds(
   directory: string = simulatorDirectory(),
 ): Promise<void> {
   if (!manifest.files["kfc-item-weapon-skills.json"]) return;
+  if (await validateSimulatorProfileModelBuilds(profile, manifest, builds, directory)) return;
   const raw = await document(directory, `${manifest.release}/kfc-reviewed-presets.json`, 2_000_000);
   const proof = approvedProofSchema.parse(raw.value);
   const expected = [
@@ -235,6 +240,8 @@ export async function readSimulatorModelUpdate(
   profile: string,
   directory: string = simulatorDirectory(),
 ): Promise<SimulatorModelUpdate | null> {
+  const profileUpdate = await readSimulatorProfileModelUpdate(profile, directory);
+  if (profileUpdate) return profileUpdate;
   let raw: Awaited<ReturnType<typeof document>>;
   try {
     raw = await document(directory, "model-update.json", 32_000);
@@ -373,9 +380,11 @@ export async function readSimulatorModelUpdate(
       proof.virtualSourceFiles.length &&
       proof.virtualSourceFiles.every(
         (file) =>
+          file.path === "ui/core/proto_utils/names.ts" ||
           /^ui\/[a-z_]+\/(?:presets\.ts|sim\.ts|gear_sets\/[^/]+\.gear\.json|apls\/[^/]+\.apl\.json)$/.test(
             file.path,
-          ) || /^ui\/core\/(?:kfc_[a-z_]+\.(?:json|ts)|individual_sim_ui\.ts)$/.test(file.path),
+          ) ||
+          /^ui\/core\/(?:kfc_[a-z_]+\.(?:json|ts)|individual_sim_ui\.ts)$/.test(file.path),
       ),
     "Invalid model-update virtual source scope",
   );
@@ -464,7 +473,7 @@ export async function readSimulatorModelUpdate(
         reference: async (reference): Promise<unknown> => {
           const path = reference.path.replace(/^artifacts\/forever-simulator\//, "");
           const maximumBytes =
-            entry.id === "hunter-survival-static" &&
+            ["hunter-survival-static", "feral-cat-static", "balance-static"].includes(entry.id) &&
             /^optimization\/bounded-native-studies\/[a-f0-9]{64}\/result-[a-f0-9]{16}\.json$/.test(
               path,
             )

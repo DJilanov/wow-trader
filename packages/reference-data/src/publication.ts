@@ -22,7 +22,7 @@ const stateSchema = z
   .object({
     schema: z.literal("reference-publication.v1"),
     updatedAt: z.iso.datetime(),
-    checks: z.record(z.string().regex(/^(forever|tbc)-(item|quest)-\d+$/), checkSchema),
+    checks: z.record(z.string().regex(/^(forever|tbc)-(item|quest|spell)-\d+$/), checkSchema),
   })
   .strict();
 
@@ -67,7 +67,7 @@ export async function runReferencePublicationCycle(options: PublicationCycleOpti
     const due: Array<{ task: ReferenceTask; signature: string; nextCheckAt: number }> = [];
     const now = Date.now();
     for (const name of (await readdir(options.staging)).sort()) {
-      const match = /^(forever|tbc)-(item|quest)-(\d+)\.json$/.exec(name);
+      const match = /^(forever|tbc)-(item|quest|spell)-(\d+)\.json$/.exec(name);
       if (!match) continue;
       const task = referenceTaskSchema.parse({
         game: match[1],

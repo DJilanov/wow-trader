@@ -16,7 +16,7 @@ export async function downloadMarketIntelligence(
   apiKey: string,
   scan: CollectorScan,
   options: RequestOptions = {},
-): Promise<MarketIntelligencePack> {
+): Promise<MarketIntelligencePack | null> {
   const url = new URL("/v1/market-intelligence", endpoint);
   url.search = new URLSearchParams({
     clientProduct: scan.clientProduct,
@@ -32,6 +32,7 @@ export async function downloadMarketIntelligence(
       : AbortSignal.timeout(60_000),
   });
   const body: unknown = await response.json().catch(() => null);
+  if (response.status === 404 && readErrorCode(body) === "not_found") return null;
   if (!response.ok) {
     const message = readErrorMessage(body) ?? `HTTP ${response.status}`;
     throw new Error(`Market intelligence download failed: ${message}`);
@@ -107,4 +108,9 @@ function luaNumber(value: number | null): string {
 function readErrorMessage(value: unknown): string | null {
   if (!value || typeof value !== "object" || !("message" in value)) return null;
   return typeof value.message === "string" ? value.message : null;
+}
+
+function readErrorCode(value: unknown): string | null {
+  if (!value || typeof value !== "object" || !("error" in value)) return null;
+  return typeof value.error === "string" ? value.error : null;
 }

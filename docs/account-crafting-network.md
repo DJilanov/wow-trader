@@ -100,7 +100,12 @@ Do not reuse the TBC specialization map implicitly. For a new Forever build:
 
 ## Next personalization slice
 
-Extend the addon snapshot with character profession skill, specialization spell IDs, and known
-recipe spell IDs. The server can then construct `allowedRecipeSpellIds` for the production planner
-instead of using the current catalog-access simulation. Inventory and capital should be added after
-recipe eligibility; owned materials must show both cash cost and replacement/opportunity cost.
+Collector `0.12.0` and `profession-snapshot.v1` now carry character profession skill,
+specialization spell IDs, known recipe spell IDs, live cooldown state, scoped inventory, and money
+through the companion and ingestion API. Server persistence is normalized and idempotent.
+
+The remaining product slice is to select the latest valid snapshot per character, construct
+`allowedRecipeSpellIds`, and feed the chosen character/account profile into the production planner.
+Owned materials must show both cash cost and replacement/opportunity cost. Do not enable the filter
+until the live validation set in `docs/recipe-data-collection.md` proves recipe-list completeness for
+both modern and legacy trade-skill APIs.

@@ -9169,3 +9169,85 @@ a.helper-choice-card:focus-visible {
     white-space: normal;
   }
 }
+
+.community-entity-summary {
+  margin-top: 24px;
+}
+
+.community-location-list {
+  display: grid;
+  gap: 24px;
+}
+
+.community-location-card {
+  min-width: 0;
+}
+
+.community-location-card > header {
+  align-items: end;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.community-location-card > header h3 {
+  margin: 4px 0 0;
+}
+
+.community-location-card > header > span,
+.community-location-note,
+.community-coordinate-plot figcaption {
+  color: var(--dim);
+  font-size: 0.85rem;
+}
+
+.community-location-card .forever-map-explorer {
+  margin: 0;
+}
+
+.community-coordinate-plot {
+  margin: 0;
+}
+
+.community-coordinate-plot svg {
+  aspect-ratio: 16 / 9;
+  background: #101b22;
+  border: 1px solid color-mix(in srgb, var(--line), transparent 20%);
+  border-radius: 14px;
+  display: block;
+  max-height: 620px;
+  width: 100%;
+}
+
+.community-coordinate-plot rect {
+  fill: #101b22;
+  stroke: #315064;
+  stroke-width: 0.3;
+}
+
+.community-coordinate-plot circle {
+  fill: #e0b86b;
+  stroke: #2c1e09;
+  stroke-width: 0.2;
+}
+
+.community-coordinate-plot figcaption,
+.community-location-note {
+  margin: 8px 0 0;
+}
+
+.forever-map-pin.community_npc,
+.forever-map-pin.community_object,
+.forever-map-result-icon.community_npc,
+.forever-map-result-icon.community_object {
+  background: #e0b86b;
+  color: #211706;
+}
+
+@media (max-width: 620px) {
+  .community-location-card > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

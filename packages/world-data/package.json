@@ -20,6 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@wow-trader/catalog": "workspace:*",
     "@wow-trader/contracts": "workspace:*",
     "@wow-trader/db": "workspace:*",
     "drizzle-orm": "0.45.2",

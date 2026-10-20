@@ -2,6 +2,7 @@ import type {
   AuctionScanUpload,
   MarketIntelligencePack,
   MarketIntelligenceQuery,
+  ProfessionSnapshotUpload,
   PublicDataStatus,
   UploadReceipt,
   UploadStatus,
@@ -16,6 +17,11 @@ export interface UploadRepository {
   ): Promise<UploadReceipt>;
   acceptWorldDiagnostics(
     upload: WorldDiagnosticsUpload,
+    rawPayloadUri: string,
+    envelopeHash: string,
+  ): Promise<UploadReceipt>;
+  acceptProfessionSnapshot(
+    upload: ProfessionSnapshotUpload,
     rawPayloadUri: string,
     envelopeHash: string,
   ): Promise<UploadReceipt>;

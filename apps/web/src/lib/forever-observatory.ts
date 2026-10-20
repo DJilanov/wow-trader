@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import {
   gameBuilds,
   itemDamages,
@@ -32,6 +34,7 @@ export interface ForeverObservatoryReport {
     readonly current: BuildSummary | null;
     readonly previous: BuildSummary | null;
     readonly changes: CatalogChangeSummary | null;
+    readonly changeSet: CatalogChangeSet | null;
     readonly professions: readonly ProfessionSummary[];
   };
   readonly market: MarketResearchSummary;
@@ -47,7 +50,7 @@ export interface ForeverObservatoryReport {
   readonly publicationRules: readonly string[];
 }
 
-interface BuildSummary {
+export interface BuildSummary {
   readonly snapshotKey: string;
   readonly buildNumber: number;
   readonly version: string;
@@ -63,12 +66,42 @@ interface EntityChangeCounts {
   readonly removed: number;
   readonly changed: number;
   readonly sampleIds: readonly number[];
+  readonly ids: EntityChangeIds;
 }
 
-interface CatalogChangeSummary {
+interface EntityChangeIds {
+  readonly added: readonly number[];
+  readonly removed: readonly number[];
+  readonly changed: readonly number[];
+}
+
+export interface CatalogChangeSummary {
   readonly items: EntityChangeCounts;
   readonly recipes: EntityChangeCounts;
   readonly note: string;
+}
+
+export interface CatalogChangeSet {
+  readonly schemaVersion: "catalog-change-set.v1";
+  readonly id: string;
+  readonly contentHash: string;
+  readonly from: BuildSummary;
+  readonly to: BuildSummary;
+  readonly review: {
+    readonly status: "approved";
+    readonly basis: "published_catalog_pair";
+    readonly approvedAt: string;
+  };
+  readonly entities: {
+    readonly items: EntityChangeIds;
+    readonly recipes: EntityChangeIds;
+  };
+}
+
+export interface LatestCatalogComparisonIdentity {
+  readonly fromBuildNumber: number;
+  readonly toBuildNumber: number;
+  readonly lastModified: Date;
 }
 
 interface ProfessionSummary {
@@ -145,14 +178,21 @@ export async function getForeverObservatoryReport(): Promise<ForeverObservatoryR
     : 0;
   const latestMarketItems = market.scan?.itemCount ?? 0;
   const worldCounts = world?.counts;
+  const currentSummary = current ? buildSummary(current) : null;
+  const previousSummary = previous ? buildSummary(previous) : null;
+  const changeSet =
+    currentSummary && previousSummary && changes
+      ? createCatalogChangeSet(previousSummary, currentSummary, changes)
+      : null;
 
   return {
     schemaVersion: "forever-observatory.v1",
     generatedAt: new Date().toISOString(),
     catalog: {
-      current: current ? buildSummary(current) : null,
-      previous: previous ? buildSummary(previous) : null,
+      current: currentSummary,
+      previous: previousSummary,
       changes,
+      changeSet,
       professions: professionSummaries,
     },
     market,
@@ -173,6 +213,25 @@ export async function getForeverObservatoryReport(): Promise<ForeverObservatoryR
       "Client source hints and candidate relationships are not confirmed loot sources or drop rates.",
       "BiS and class-scaling conclusions remain unpublished until a build-locked mechanics model passes validation.",
     ],
+  };
+}
+
+export async function getLatestCatalogComparisonIdentity(): Promise<LatestCatalogComparisonIdentity | null> {
+  const rows = await getDatabase()
+    .select({
+      buildNumber: gameBuilds.buildNumber,
+      publishedAt: gameBuilds.publishedAt,
+    })
+    .from(gameBuilds)
+    .where(and(eq(gameBuilds.product, FOREVER_CLIENT_PRODUCT), eq(gameBuilds.status, "published")))
+    .orderBy(desc(gameBuilds.buildNumber), desc(gameBuilds.publishedAt), desc(gameBuilds.createdAt))
+    .limit(2);
+  const [current, previous] = rows;
+  if (!current?.publishedAt || !previous?.publishedAt) return null;
+  return {
+    fromBuildNumber: previous.buildNumber,
+    toBuildNumber: current.buildNumber,
+    lastModified: current.publishedAt,
   };
 }
 
@@ -494,6 +553,41 @@ function summarizeChanges(
     removed: removed.length,
     changed: changed.length,
     sampleIds: [...added, ...removed, ...changed].sort(numericSort).slice(0, 20),
+    ids: {
+      added: added.sort(numericSort),
+      removed: removed.sort(numericSort),
+      changed: changed.sort(numericSort),
+    },
+  };
+}
+
+export function createCatalogChangeSet(
+  from: BuildSummary,
+  to: BuildSummary,
+  changes: CatalogChangeSummary,
+): CatalogChangeSet {
+  if (!from.publishedAt || !to.publishedAt) {
+    throw new Error("Catalog change sets require two published builds");
+  }
+  const immutableContent = {
+    schemaVersion: "catalog-change-set.v1" as const,
+    from,
+    to,
+    review: {
+      status: "approved" as const,
+      basis: "published_catalog_pair" as const,
+      approvedAt: to.publishedAt,
+    },
+    entities: {
+      items: changes.items.ids,
+      recipes: changes.recipes.ids,
+    },
+  };
+  const contentHash = createHash("sha256").update(stableStringify(immutableContent)).digest("hex");
+  return {
+    ...immutableContent,
+    id: `${from.buildNumber}-to-${to.buildNumber}-${contentHash.slice(0, 12)}`,
+    contentHash,
   };
 }
 

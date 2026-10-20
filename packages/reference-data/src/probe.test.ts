@@ -110,6 +110,9 @@ describe("source access probe", () => {
     expect(probeUrl("https://www.wowhead.com/robots.txt")).toBe(
       "https://www.wowhead.com/robots.txt",
     );
+    expect(probeUrl("https://www.wowhead.com/forever/spell=3275/linen-bandage")).toBe(
+      "https://www.wowhead.com/forever/spell=3275/linen-bandage",
+    );
     for (const value of [
       "https://www.wowhead.com/forever/quest=581?xml",
       "https://www.wowhead.com/forever/quests?notFound=581",

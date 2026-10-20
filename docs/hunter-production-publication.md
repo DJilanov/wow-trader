@@ -3,6 +3,24 @@
 Owner authorization: October19,2026 — commit, push and deploy Hunter. The owner separately
 approved a disclosed2% retained-contender margin for subsequent practical-pass work.
 
+## Current status after the item-skill correction
+
+The October19 07:11UTC item-skill deployment supersedes the original numerical references
+below: public BM uses model `81d964b453f4e6abb50a81e7` and UI `8df7a7e5afd43f588d6ca257`.
+See [the correction receipt and scope](simulator-item-skill-correction.md).
+
+MM is now independently revalidated and delivered LOCALLY at
+`http://localhost:3017/tools/forever/simulator/hunter`, UI `c95e6739068e19b1ca245c38` on that
+same corrected model. Its40k modeled reference is853.2199466184707DPS, retained gap1.0290092%
+under the owner's2% policy. The original strict1% failure remains historical evidence, not the
+current local delivery status. Actual gear/talents/APL/enchants/guide, selected10k native/WASM
+parity and desktop/mobile preset/host tests pass. Receipt:
+`optimization/reviews/hunter-mm-model-local-host-20261019.json` (`productionUpdated:false`).
+Survival remains unfinished. A later MM production rollout must preserve the newer independent
+leveling deployment; do not copy the entire dirty worktree or restore an obsolete web symlink.
+
+The following sections preserve the original BM deployment's exact historical evidence.
+
 ## Reviewed scope
 
 Ship Beast Mastery only. Numerical source `e14af46d79721e1ad50a6f04`, approved UI

@@ -9,9 +9,10 @@ import { ProductionChain } from "../../../components/production-chain";
 import { StatusPill } from "../../../components/status-pill";
 import { TBC_CATALOG_PAGE_CONFIG, type CatalogPageConfig } from "../../../lib/catalog-page-config";
 import { getRecipeDetail, type RecipeDetail } from "../../../lib/data";
+import { formatCopper } from "../../../lib/format";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3_600;
 
 interface RecipePageProps {
   readonly params: Promise<{ readonly spellId: string }>;
@@ -203,26 +204,49 @@ export async function CatalogRecipePage({
             </div>
             <div className="panel">
               <h2>How it is learned</h2>
-              {recipe.teachingItems.length ? (
-                <ul className="link-list">
-                  {recipe.teachingItems.map((item) => (
-                    <li key={item.itemId}>
-                      <Link
-                        className="detail-item"
-                        href={`${config.encyclopediaBasePath}/items/${item.itemId}`}
-                      >
-                        <ItemIcon
-                          fileDataId={item.iconFileDataId}
-                          product={config.clientProduct}
-                          quality={item.quality}
-                          size="small"
-                        />
-                        {item.name}
-                      </Link>
-                      <span>Item {item.itemId}</span>
-                    </li>
-                  ))}
-                </ul>
+              {recipe.teachingItems.length || recipe.trainers.length ? (
+                <>
+                  {recipe.teachingItems.length ? (
+                    <ul className="link-list" aria-label="Teaching items">
+                      {recipe.teachingItems.map((item) => (
+                        <li key={item.itemId}>
+                          <Link
+                            className="detail-item"
+                            href={`${config.encyclopediaBasePath}/items/${item.itemId}`}
+                          >
+                            <ItemIcon
+                              fileDataId={item.iconFileDataId}
+                              product={config.clientProduct}
+                              quality={item.quality}
+                              size="small"
+                            />
+                            {item.name}
+                          </Link>
+                          <span>Teaching item {item.itemId}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {recipe.trainers.length ? (
+                    <ul className="link-list" aria-label="Observed trainers">
+                      {recipe.trainers.map((trainer) => (
+                        <li key={trainer.sourceId}>
+                          <span>
+                            <strong>{trainer.sourceName ?? `Trainer ${trainer.sourceId}`}</strong>
+                            <small>
+                              {trainer.serviceName}
+                              {trainer.serviceRank ? ` · ${trainer.serviceRank}` : ""}
+                            </small>
+                          </span>
+                          <span>
+                            {formatCopper(trainer.moneyCost)} · observed trainer UI
+                            {trainer.allFiltersEnabled ? "" : " · partial filters"}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </>
               ) : (
                 <p className="inline-empty">
                   No teaching item relationship is present. This commonly means a trainer, quest, or

@@ -1,62 +1,104 @@
 # KFC Helper production deployment runbook
 
-Last verified against `89.167.46.193`: 2026-10-04.
+Last verified against `89.167.46.193`: 2026-10-18.
 
-The TBC and WoW Forever preview product is live at `https://helper.kfcguild.online`. This document
-records the deployed topology, its operational runbook, and the storage work that must be completed
-before unattended 30-minute Auction House uploads are enabled.
+The TBC and WoW Forever product is published at `https://kfcguild.online/tools`. The legacy
+`helper.kfcguild.online` host retains authenticated `/v1/` ingestion and permanently redirects public
+pages to their equivalent `/tools` URLs. This document records the deployed topology, its operational
+runbook, and the storage work that must be completed before unattended 30-minute Auction House
+uploads are enabled.
 
 ## Current production state
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the
   time of verification) and serves `kfcguild.online` from `/home/kfc-website-system`.
-- Helper web release `kfc-helper-leveling-preview-20261004-r1` is active. It publishes
+- Helper web release `kfc-helper-leveling-quest-completion-20261018-r1` is active. It publishes
   product-isolated TBC and Forever Trader/market routes, executable-depth crafting recommendations,
   arbitrary Auction House item search with evidence-gated buy verdicts, robust price intelligence
   with interactive craft/item charts, browser-local crafting plans, the reviewed WoW Forever preview
   Encyclopedia, free Westfall leveling preview/XP-time planner, and the Collector download surface
   in addition to canonical metadata and search
-  routes and explicit Alliance/Horde selection. Release
-  `kfc-helper-forever-research-20261004-r4` is the immediate web application rollback.
-- The Forever catalog is partitioned across four dynamic sitemap shards capped at 8,000 URLs for
-  current data. Together they publish 26,075 profession, recipe, and item URLs; the root sitemap
-  publishes another 32,536 unique static, TBC, market, and world URLs, including both leveling URLs.
-  A live root-plus-shards crawl
-  completed without a process restart. After the public page and API caches were also warmed, the
-  web process stabilized at about 361 MiB, below its 600 MiB restart guard.
+  routes and explicit Alliance/Horde selection. The reviewed Warrior simulator now serves five
+  approved builds and UI `43d50c157f60e48c403c088b`, numerical source
+  `e14af46d79721e1ad50a6f04`. Release `kfc-helper-seo-activation-20261018-r4` is the immediate web
+  rollback; `kfc-helper-seo-foundation-20261018-r2`, the earlier
+  `kfc-helper-simulator-controls-20261018-r1`,
+  `kfc-helper-warrior-reviewed-20261018-r16` release and simulator selection
+  backup `shared/backups/warrior-20261018-r16.ZIoIFo` remain available behind it. Public routes use
+  the `/tools` base path. Activation health-reloaded both PM2 applications, but ingestion remains
+  pinned to `kfc-helper-ingest-professions-20261018-r1`; no database or ingestion-code change
+  occurred. Build `Vnc9jbEhnGULZY9sh2yxO` publishes `lastmod` only where the application has an
+  evidence-backed review or publication timestamp instead of assigning one blanket date to static
+  routes.
+- The active Alliance leveling campaign now has fresh, checksum-verified XP facts for all 619 unique
+  quest hand-ins. Production audit
+  `shared/reports/leveling-quest-completion-20261018/campaign-xp-audit-a4382a7d60fd3fd3.json`
+  has SHA-256 `a4382a7d60fd3fd3ab0be71970997fcb063547f65953c6670530b025bcd28ff5`.
+  Its coverage gate remains closed because route sequencing and XP-budget shortfalls are unresolved;
+  complete reward evidence is not a claim that the whole 1–60 route is feasible or playtested.
+- The hosted simulator exposes its native Race picker beside Simulate, renders validation inline
+  without relaxing faction/sandbox rules, and restarts an unresponsive canceled run after1.2s.
+  Stored character/library and mobile Results view survive; results are explicitly cleared.
+  Recovery strips the original share hash to avoid overwriting later edits. Mobile navigation
+  follows the visible browser viewport. Engine/model/publication bytes are unchanged. Controls
+  smoke: `node scripts/smoke-simulator-controls.mjs`; reviewed imports: the published smoke below.
+- The live Helper sitemap set contains 6,292 unique URLs across its root document and two bounded
+  catalog shards. The exhaustive release audit fetched every URL and found 6,292 indexable pages,
+  zero duplicate declarations, and zero issues. The guild sitemap remains independently owned by
+  the guild application.
 - `kfc-helper-web` and `kfc-helper-ingest` run as named PM2 siblings in the `kfc` namespace on
   `127.0.0.1:19210` and `127.0.0.1:19211`. Ingestion runs independently from
-  `releases/kfc-helper-ingest-auction-20261001-r1`; changing `current` changes the web release only.
-  The saved PM2 process list contains all three apps.
-- Nginx redirects HTTP to HTTPS and routes the Helper UI and authenticated `/v1/` ingestion traffic.
-  Internal health and API-documentation routes are not public. Dotfile probes terminate at Nginx,
-  recognizable non-Google crawlers are rejected, and Googlebot-shaped traffic is limited to six
-  catalog requests per minute per address. API request buffering and Helper response buffering are
-  disabled so this product does not depend on Nginx temporary-file storage.
+  `releases/kfc-helper-ingest-professions-20261018-r1`; changing `current` changes the web release
+  only. `kfc-helper-ingest-auction-20261001-r1` remains the immediate ingestion rollback. The
+  reference publisher and official-update worker remain independently online; the reference crawler
+  is intentionally stopped. The saved PM2 process list also retains the scheduled SEO audit, which
+  is stopped between its 03:17 runs by design.
+- Nginx redirects HTTP to HTTPS, routes apex `/tools` to the Helper web process, preserves legacy-host
+  `/v1/` ingestion, and redirects legacy public pages one-to-one. Internal health and API-documentation
+  routes are not public. Dotfile probes terminate at Nginx. Googlebot, Bingbot, and OAI-SearchBot
+  share a 30-request-per-minute per-address tools budget with a small burst; ordinary browser traffic
+  does not consume that limiter. API request buffering and Helper response buffering are disabled so
+  this product does not depend on Nginx temporary-file storage.
+- Keep the apex `/forever-sim/` asset mount onto upstream `/tools/forever-sim/`. Reviewed immutable
+  bundles embed their original root-relative script, style, database, worker and WASM URLs; moving
+  only the outer iframe to `/tools` does not rewrite those bytes. Removing this mount leaves a 200
+  outer page but 404 assets and an empty loading iframe. The migration test and Nginx deployment
+  smoke cover this mount. Run `SIMULATOR_SMOKE_COMBAT=1 node scripts/smoke-simulator-published.mjs`
+  from the prepared local research workspace after proxy/base-path changes: it checks real
+  desktop/mobile loading, all five reviewed imports, persistence, consent, failed assets and a
+  small browser simulation. Twenty-five smoke fights are not independent numerical validation.
 - Let's Encrypt issued the subdomain certificate; automatic renewal is installed. The certificate
   observed during deployment expires on 2026-12-14.
 - PostgreSQL 15 contains the migrated `wow_trader` database with separate owner, read-only web, and
   limited ingestion roles. Credentials exist only in mode-0600 server environment files.
 - The published TBC build contains 30,133 items. Its 3,163 verified item icons are served from an
   immutable, checksum-verified media release.
-- The published Forever build `1.60.1.70124` contains 23,605 named items, 12 professions, and 2,239
-  valid recipes. Its separate immutable media release contains 2,948 verified item icons; the roots
-  must stay separate because identical file-data IDs can resolve to different bytes by product.
-- Companion `0.3.4` is available from `/forever/addon` as checksum-verified, range-capable macOS
+- The published Forever build `1.60.1.70450` at hotfix `a00ad2b8…` contains 24,008 named items, 12
+  professions, and 2,228 valid recipes. Its separate immutable media release
+  `wow_classic_beta-70450-enUS-a00ad2b8-bfebcbc` contains 2,959 verified item icons; the roots must
+  stay separate because identical file-data IDs can resolve to different bytes by product.
+- Companion `0.3.4` is available from `/tools/forever/addon` as checksum-verified, range-capable macOS
   Intel, macOS Apple Silicon, Windows x64, and Linux x64 downloads. The two DMGs and two portable
   ZIP archives are unsigned private-token maintainer-alpha artifacts. The Apple Silicon package is
   a verified native arm64 build but has not been runtime-smoked on physical Apple Silicon hardware;
   the Windows and Linux packages are not represented as installers or native-runtime-certified
   public builds.
+- Companion `0.3.5` is locally installed for validation. It treats an exact-market intelligence
+  HTTP 404 as optional availability after successful uploads, while continuing to fail on a missing
+  route or other server errors. It is not yet the public `/tools/forever/addon` release.
+- Migrations `0017` and `0018` add profession snapshots and world evidence. They were applied after
+  verifying the 217,270,179-byte custom-format backup
+  `shared/backups/wow_trader-pre-ingest-professions-20261018.dump`. The public profession upload
+  route now validates requests, and a pending snapshot replay completed successfully.
 - The published Forever evidence snapshot has checksum `f9922e4e8784…cc213` and exposes 9 classes,
   27 trees, 470 talents, 401 spellbook entries, racials, class abilities, Legacy perks, and source
   history. Its 574 icons/backgrounds passed local and server-side byte/SHA-256 verification before
   the shared asset pointer changed.
-- Fifteen retained scans have produced 63,989 compact per-item observations. Signal rebuilding
-  currently exposes 5,521 TBC, 2,295 Forever build-70009, 2,362 Forever build-70058, and 2,357
-  Forever build-70124 exact-market rows. Build 70124 honestly restarts history at `Collecting 1/6`;
-  evidence is never mixed across client builds. Duplicate replay remains idempotent through the
-  public HTTPS endpoint.
+- Market observations and signals remain partitioned by product, build, region, realm, and faction.
+  The active Forever 70450 Alliance scan has 100% reported coverage, 2,847 item markets, one of the
+  six observations required for normal-price signals, and 236 current profitable quotes. Evidence is
+  never mixed across client builds. Duplicate replay remains idempotent through the public HTTPS
+  endpoint.
 - Migration `0014_productive_praxagora.sql` was applied after verifying the 14,879,415-byte custom
   backup at `shared/backups/wow_trader-pre-market-intelligence-20260927.dump`. The ingestion role has
   scoped `DELETE` access only to the derived `market_item_signal` table so exact-market signal sets
@@ -95,16 +137,17 @@ before unattended 30-minute Auction House uploads are enabled.
 - The KFC desktop/mobile navigation includes a first-party `Helper` link. The Helper remains an
   independently deployable application so its release or failure does not replace process 30.
 - The KFC site has a dedicated WoW Forever landing page and share image. HTTP and HTTPS `www` traffic
-  canonicalize to `https://kfcguild.online`, while Helper HTTP traffic canonicalizes to its HTTPS
-  subdomain.
+  canonicalize to `https://kfcguild.online`. Legacy Helper public traffic canonicalizes to the apex
+  tools path, while HTTP `/v1/` upgrades to the legacy HTTPS ingestion host.
 - Full-depth retention/compaction and monitoring are not implemented yet. Automatic 30-minute
   uploads are intentionally disabled until the storage gate below is complete.
 
 ## Deployment decision
 
-Deploy the product at `https://helper.kfcguild.online` as a KFC-branded service backed by the
-server's existing PostgreSQL installation. Do not install Docker, Redis, a WoW client, CASC tools,
-or the .NET extractor on the server.
+Publish the product at `https://kfcguild.online/tools` as a KFC-branded service backed by the
+server's existing PostgreSQL installation. Keep `https://helper.kfcguild.online/v1/` as the stable
+authenticated ingestion endpoint. Do not install Docker, Redis, a WoW client, CASC tools, or the
+.NET extractor on the server.
 
 Keep the existing PM2 application `kfc-website` intact. It is currently PM2 ID 30 and serves
 `kfcguild.online` from `/home/kfc-website-system` on port 19200. PM2 numeric IDs are runtime-assigned
@@ -118,7 +161,7 @@ new UFW rules. Nginx is the only public entrypoint.
 
 Putting the Helper inside PM2 process 30 would require merging two independent Next.js applications
 and the ingestion API into the KFC repository and runtime. That would couple releases and allow a
-Helper failure to affect the guild site. The subdomain, shared design, KFC navigation link, PM2
+Helper failure to affect the guild site. The apex `/tools` proxy boundary, shared design, PM2
 namespace, and server ownership make it part of KFC without creating that failure domain.
 
 ## Verified server baseline at initial deployment
@@ -127,8 +170,10 @@ namespace, and server ownership make it part of KFC without creating that failur
   `6.0.14`.
 - PostgreSQL `15.19` is active. The `wow_trader` database was created during deployment.
 - PM2 startup persistence for the root process list is enabled.
-- Nginx terminates TLS for `kfcguild.online` and proxies it to port 19200.
-- `helper.kfcguild.online` resolves to this server and is protected by a valid TLS certificate.
+- Nginx terminates TLS for `kfcguild.online`, proxies `/tools` to port 19210, and proxies other
+  routes to port 19200.
+- `helper.kfcguild.online` resolves to this server, has a valid TLS certificate, preserves `/v1/`,
+  and redirects public pages to the apex tools path.
 - Ports 19210 and 19211 were unused before deployment and now listen on loopback only.
 - The server had 7.6 GiB RAM, about 4.2 GiB available, and 31 GiB free disk at inspection time.
 - Existing PostgreSQL databases occupy approximately 2.9 GiB in total.
@@ -141,19 +186,19 @@ not a production dependency for the web or ingestion processes.
 ## Target topology
 
 ```text
-kfcguild.online (PM2: kfc-website, existing ID 30)
+kfcguild.online
         |
-        +-- Helper navigation link
-                    |
-                    v
+      Nginx
+        |-- /tools, /tools/* ---> 127.0.0.1:19210 (kfc-helper-web)
+        `-- all other routes ---> 127.0.0.1:19200 (kfc-website)
+
 helper.kfcguild.online
         |
-        v
       Nginx
-        |-- all UI routes ------> 127.0.0.1:19210 (kfc-helper-web)
-        `-- /v1/* uploads ------> 127.0.0.1:19211 (kfc-helper-ingest)
-                                      |             |
-                                      `------ PostgreSQL 15
+        |-- /v1/* uploads ------> 127.0.0.1:19211 (kfc-helper-ingest)
+        `-- public pages -------> 301 to kfcguild.online/tools/*
+
+All three application processes share PostgreSQL 15 through separate roles.
 
 Local maintainer machine
         |-- catalog import --> SSH tunnel --> 127.0.0.1:5432 on server
@@ -339,6 +384,30 @@ The installed guardian records its catalog extractor version. A published build/
 considered current only when that version also matches; installing an extractor upgrade therefore
 forces a fresh extraction and the normal semantic-review gate even when the game files are unchanged.
 
+After reviewing a blocked semantic diff, approval must identify the exact manifest bytes. Run the
+installed immutable guardian once with `--dry-run`, then repeat with `--publish` only if the dry run
+verifies the same manifest and media:
+
+```bash
+guardian_release=$(jq -r .releaseDirectory \
+  "$HOME/Library/Application Support/WowTraderCatalogGuardian/deployment.json")
+manifest_sha256=$(shasum -a 256 /absolute/path/to/manifest.json | awk '{print $1}')
+
+"$guardian_release/bin/node" "$guardian_release/scripts/catalog-guardian.mjs" \
+  --approve-manifest-sha256 "$manifest_sha256" --dry-run --verify-tools
+
+"$guardian_release/bin/node" "$guardian_release/scripts/catalog-guardian.mjs" \
+  --approve-manifest-sha256 "$manifest_sha256" --publish --verify-tools
+```
+
+The override is accepted only for a lowercase SHA-256 matching the guardian's current extracted
+manifest. It does not disable audit, validation, media verification, production backup, reviewed
+import, web reload, or post-publication verification, and it cannot carry over to another hotfix.
+
+Build 70450 was reviewed and promoted through this path. The exact pre-publication backup is
+`shared/backups/wow_trader-pre-wow_classic_beta-70450-a00ad2b8-catalog-20261018.dump`
+(217,275,484 bytes, SHA-256 `d4c64e7d13980777a25974b3990c3756db9c240eba97f2f696b016914322cb35`).
+
 The guardian does not contain collector tokens or production database credentials. It uses the
 maintainer's existing batch SSH identity; PostgreSQL owner credentials remain in protected server
 environment files. Status is stored at
@@ -493,7 +562,9 @@ and unsigned warnings; do not relabel it public until pairing and signing are co
 The PM2 ecosystem should start only built production artifacts. Initial settings:
 
 - `kfc-helper-web`: fork mode, one instance, `NODE_ENV=production`, port 19210, loopback hostname,
-  approximately 600 MiB memory restart ceiling.
+  768 MiB V8 heap and approximately 1.1 GiB PM2 memory restart ceiling. The previous 384 MiB heap
+  was insufficient for the earlier 6,294-page release audit; the larger heap completed without a
+  restart and garbage-collected back below the burst peak.
 - `kfc-helper-ingest`: fork mode, one instance, `NODE_ENV=production`, port 19211, loopback hostname,
   approximately 350 MiB memory restart ceiling.
 - Both: no watch mode, restart delay, timestamped logs, and enough shutdown time for open database
@@ -503,25 +574,41 @@ Activate by stable process name with PM2's idempotent `startOrReload`, then run 
 script deployments against numeric ID 30. Verify that `kfc-website` remains online and still points
 to `/home/kfc-website-system` before and after activation.
 
+## Phase 3a: SEO release and measurement services
+
+The web release includes evidence-gated search eligibility, a complete/sampled HTTP release audit,
+opt-in aggregate-only Web Vitals, a read-only Search Console importer, and a bounded IndexNow
+outbox. Their contracts, protected environment settings, activation order, and rollback boundaries
+are maintained in [`seo-operations.md`](seo-operations.md). Do not activate Search Console or
+IndexNow with placeholder credentials. Do not submit IndexNow before the new release passes its
+complete production SEO audit.
+
+The crawler is independent of these services. SEO deployment, audits, and credential setup must not
+start or reconfigure `kfc-helper-reference-crawl`.
+
+Production runs the 03:17 sampled audit and 5% privacy-minimal Web Vitals aggregation. The current
+release passed its complete 6,292-page audit and latest 400-page sample with zero issues. IndexNow verified its public key and
+accepted the first bounded 500-URL batch with HTTP 200; 5,791 eligible URLs remain pending in the
+mode-0600 outbox state. Search Console has not been started without owner OAuth credentials and
+verified property access.
+
 ## Phase 4: DNS, TLS, and Nginx
 
-1. Add an `A` record for `helper.kfcguild.online` pointing to `89.167.46.193`.
-2. Wait for public DNS resolution from more than one resolver.
-3. Add a dedicated Nginx server block and issue a Let's Encrypt certificate for the subdomain.
-4. Redirect HTTP to HTTPS.
-5. Proxy normal routes to `127.0.0.1:19210`.
-6. Proxy `/v1/` to `127.0.0.1:19211`.
-7. Set an upload-body limit compatible with the API's 32 MiB application limit and a timeout longer
+1. Keep the existing apex and legacy-host DNS records and certificates valid.
+2. Proxy apex `/tools` and `/tools/*` to `127.0.0.1:19210`; leave all other apex routes on 19200.
+3. Redirect legacy-host public pages one-to-one to the equivalent apex `/tools` URL.
+4. Preserve legacy-host `/v1/` on `127.0.0.1:19211` and redirect its HTTP form to HTTPS on the same
+   host.
+5. Set an upload-body limit compatible with the API's 32 MiB application limit and a timeout longer
    than the companion's 60-second request timeout.
-8. Do not publicly proxy the API documentation or internal health endpoint.
-9. Add normal forwarding headers and basic Nginx request throttling in front of the API's existing
+6. Do not publicly proxy the API documentation or internal health endpoint.
+7. Add normal forwarding headers and basic Nginx request throttling in front of the API's existing
    bearer-token authentication and rate limit.
-10. Keep the ACME challenge prefix ahead of the generic dotfile rejection rule. Reject recognizable
-    non-Google crawler user agents before proxying, and apply the crawler limiter only to
-    Googlebot-shaped UI requests. Human browser traffic uses an empty Nginx key so it is not counted
-    or delayed. User-agent matching is an origin-load control, not proof of crawler identity; verify
-    actual Google traffic against Google's published IP ranges or forward-confirmed reverse DNS when
-    an IP allowlist becomes necessary.
+8. Keep the ACME challenge prefix ahead of the generic dotfile rejection rule. Apply the tools
+   crawler limiter only to explicitly supported search-crawler classes. Human browser traffic uses
+   an empty Nginx key so it is not counted or delayed. User-agent matching is an origin-load control,
+   not proof of crawler identity; use each provider's published verification method if an IP
+   allowlist becomes necessary.
 
 Deploy later Helper Nginx changes with `pnpm deploy:production:nginx`. The command preserves the
 active config as a timestamped rollback file, runs `nginx -t`, performs a graceful reload, and sends
@@ -598,24 +685,25 @@ not replace aggregation.
 
 After the Helper passes its standalone smoke tests:
 
-1. Add `Helper` to both desktop and mobile navigation in the KFC repository, linking to
-   `https://helper.kfcguild.online` in the same tab.
-2. Treat `helper.kfcguild.online` as a first-party host in KFC referral analytics.
-3. Preserve the existing KFC site deployment and restart only the named `kfc-website` process after
+1. Point desktop and mobile tool navigation at `https://kfcguild.online/tools`.
+2. Remove `/tools` from the guild sitemap because the Helper sitemap owns that canonical URL.
+3. Advertise the Helper root sitemap and bounded catalog shards from the apex `robots.txt` response.
+4. Preserve the existing KFC site deployment and restart only the named `kfc-website` process after
    its own build/check succeeds.
-4. Verify navigation in both directions and at mobile width.
-
-This is the only code change required inside the existing process 30 application.
+5. Verify navigation in both directions and at mobile width.
 
 ## Acceptance checklist
 
 The initial release has passed every checked item below. The two unchecked operational gates are
 deliberately visible rather than being implied by a successful application deployment.
 
-- [x] `pnpm check` and formatting pass for the exact deployed source snapshot.
+- [x] `pnpm check` passes for the exact deployed source snapshot. Every migration-touched file passes
+      its focused formatting check; 17 unrelated pre-existing files still fail the repository-wide
+      Prettier check and were preserved rather than rewritten for this release.
 - [x] Database migration, grants, backup, and restore drill have passed.
 - [x] Both Helper ports answer only on loopback.
-- [x] `https://helper.kfcguild.online` has a valid certificate and redirects HTTP to HTTPS.
+- [x] `https://kfcguild.online/tools` is canonical; legacy public pages redirect one-to-one while
+      legacy `/v1/` remains an ingestion route.
 - [x] Root, TBC chooser, Trader, Encyclopedia, item, recipe, profession, and BiS candidate routes return
       successfully against the published server catalog.
 - [x] Item icons are served from the synchronized media set with no systematic 404s.
@@ -644,9 +732,10 @@ deliberately visible rather than being implied by a successful application deplo
 
 ## Rollback
 
-For a web-only failure, repoint `current` to the previous immutable web release and restart only
-`kfc-helper-web`. Ingestion has its own release path and must not be restarted for a web rollback.
-Roll ingestion back separately through its named PM2 declaration. The KFC process remains untouched.
+For a web-only failure, restore the saved pair of Nginx configurations, run `nginx -t`, reload,
+repoint `current` to the previous immutable web release, and restart only `kfc-helper-web`. Restart
+`kfc-website` with its prior `KFC_BUILD_DIR` when the guild build also needs rollback. Ingestion has
+its own release path and must not be restarted for a web rollback.
 
 For a bad catalog publication, retain the previous build and add an explicit catalog promotion/
 demotion operation; never delete or overwrite its evidence. Repoint the matching media only after

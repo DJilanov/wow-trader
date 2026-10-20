@@ -5,6 +5,7 @@ import { readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
 import process from "node:process";
 import { pathToFileURL, URL } from "node:url";
+import { SIMULATOR_SPECS } from "../packages/forever-data/dist/simulator.js";
 
 const checksum = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const json = async (path) => JSON.parse(await readFile(path, "utf8"));
@@ -48,7 +49,9 @@ export async function verifySimulatorDeployment(
     assert.equal(publication.profile, profile);
     assert.equal(publication.presentationRelease, selection.release);
     assert(publication.builds.length > 0, "No approved builds in publication");
-    const html = await (await request(`/forever/simulator/${profile}`)).text();
+    const spec = SIMULATOR_SPECS.find((entry) => entry.page === profile);
+    assert(spec, "Unknown simulator profile: " + profile);
+    const html = await (await request(`/forever/simulator/${spec.slug}`)).text();
     assert(
       html.includes(`src="${mount}/forever-sim/${selection.release}/${profile}/`),
       `${profile}: server ignored the selected simulator model`,

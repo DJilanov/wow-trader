@@ -3,8 +3,10 @@ import Link from "next/link";
 import { Cinzel, Inter, JetBrains_Mono } from "next/font/google";
 
 import { SiteHeader } from "../components/site-header";
+import { SeoWebVitals } from "../components/seo-web-vitals";
 import { JsonLd } from "../components/json-ld";
-import { HELPER_SHARE_IMAGE, HELPER_SITE_URL } from "../lib/seo";
+import { helperAbsoluteUrl, HELPER_SITE_ORIGIN, HELPER_SITE_URL } from "../lib/seo";
+import { withHelperBasePath } from "../lib/site-path";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
@@ -27,7 +29,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(HELPER_SITE_URL),
+  metadataBase: new URL(HELPER_SITE_ORIGIN),
   applicationName: "KFC Helper",
   title: {
     default: "KFC Helper | WoW Forever & TBC Database Tools",
@@ -57,9 +59,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: { url: "/kfc-icon.svg", type: "image/svg+xml" },
+    icon: { url: withHelperBasePath("/kfc-icon.svg"), type: "image/svg+xml" },
   },
-  manifest: "/manifest.webmanifest",
+  manifest: withHelperBasePath("/manifest.webmanifest"),
   robots: {
     index: true,
     follow: true,
@@ -71,18 +73,18 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  alternates: { canonical: `${HELPER_SITE_URL}/` },
+  alternates: { canonical: HELPER_SITE_URL },
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: `${HELPER_SITE_URL}/`,
+    url: HELPER_SITE_URL,
     siteName: "KFC Helper",
     title: "KFC Helper — WoW Forever & TBC Trader and Encyclopedia",
     description:
       "Search audited game data and compare crafting, Auction House, disenchant, and vendor routes with explainable calculations.",
     images: [
       {
-        url: HELPER_SHARE_IMAGE,
+        url: helperAbsoluteUrl("/og/helper"),
         width: 1200,
         height: 630,
         alt: "KFC Helper — WoW Forever and TBC Trader and Encyclopedia",
@@ -94,7 +96,7 @@ export const metadata: Metadata = {
     title: "KFC Helper — WoW Forever & TBC Tools",
     description:
       "Build-aware items, recipes, professions, crafting routes, and Auction House intelligence.",
-    images: [HELPER_SHARE_IMAGE],
+    images: [helperAbsoluteUrl("/og/helper")],
   },
 };
 
@@ -103,8 +105,8 @@ const structuredData = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": `${HELPER_SITE_URL}/#website`,
-      url: `${HELPER_SITE_URL}/`,
+      "@id": `${HELPER_SITE_URL}#website`,
+      url: HELPER_SITE_URL,
       name: "KFC Helper",
       alternateName: "KFC Guild Helper",
       description:
@@ -113,12 +115,17 @@ const structuredData = {
     },
     {
       "@type": "WebApplication",
-      "@id": `${HELPER_SITE_URL}/#application`,
+      "@id": `${HELPER_SITE_URL}#application`,
       name: "KFC Helper",
-      url: `${HELPER_SITE_URL}/`,
+      url: HELPER_SITE_URL,
       applicationCategory: "GameApplication",
       operatingSystem: "Web",
       isAccessibleForFree: true,
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
       description:
         "A World of Warcraft Trader and Encyclopedia for WoW Forever and The Burning Crusade.",
       about: [
@@ -133,6 +140,7 @@ const structuredData = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>): React.JSX.Element {
+  const rum = seoRumConfig();
   return (
     <html
       className={`${cinzel.variable} ${inter.variable} ${jetBrainsMono.variable}`}
@@ -141,6 +149,7 @@ export default function RootLayout({
     >
       <body>
         <JsonLd data={structuredData} />
+        {rum ? <SeoWebVitals build={rum.build} sampleRate={rum.sampleRate} /> : null}
         <SiteHeader />
         <div className="page-frame">
           <main>{children}</main>
@@ -155,4 +164,18 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+function seoRumConfig(): { readonly build: string; readonly sampleRate: number } | null {
+  if (process.env.SEO_RUM_ENABLED !== "true" || !process.env.SEO_RUM_ROOT) return null;
+  const build = process.env.SEO_RUM_BUILD;
+  if (!build || !/^[A-Za-z0-9._-]{1,80}$/.test(build)) return null;
+  const requestedRate = Number(process.env.SEO_RUM_SAMPLE_RATE ?? "0.05");
+  return {
+    build,
+    sampleRate:
+      Number.isFinite(requestedRate) && requestedRate > 0 && requestedRate <= 1
+        ? requestedRate
+        : 0.05,
+  };
 }

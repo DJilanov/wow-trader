@@ -22,10 +22,13 @@ import { downloadMarketIntelligence, installMarketIntelligence } from "./market-
 import { nextWatchRetry, type WatchRetry } from "./retry.js";
 import {
   createAuctionScanUpload,
+  createProfessionSnapshotUpload,
   createWorldDiagnosticsUpload,
   uploadAuctionScan,
+  uploadProfessionSnapshot,
   uploadWorldDiagnostics,
   waitForAuctionScanProcessed,
+  waitForProfessionSnapshotProcessed,
   waitForWorldDiagnosticsProcessed,
 } from "./upload.js";
 
@@ -233,6 +236,7 @@ export class DefaultCompanionService implements CompanionService {
 
     let pendingScanCount = 0;
     let processedAny = false;
+    let marketIntelligenceUnavailable = false;
     for (const { product, paths } of pathsByProduct) {
       for (const filePath of paths) {
         const signature = await this.#readStableSignature(filePath, manual);
@@ -318,6 +322,55 @@ export class DefaultCompanionService implements CompanionService {
               lastProcessedScanId: scan.scanId,
             });
           }
+          const uploadedProfessionSnapshotIds: Set<string> = new Set(
+            this.#state.uploadedProfessionSnapshotIds,
+          );
+          const pendingProfessionSnapshots = savedVariables.professionSnapshots.filter(
+            (snapshot) => !uploadedProfessionSnapshotIds.has(snapshot.snapshotID),
+          );
+          for (const professionSnapshot of pendingProfessionSnapshots) {
+            const characterLabel = `${professionSnapshot.sourceCharacter.name}-${professionSnapshot.realmID}`;
+            this.#publish("scan_detected", "New profession data was detected.", {
+              activeScanId: professionSnapshot.snapshotID,
+              activeCharacterLabel: characterLabel,
+              pendingScanCount,
+            });
+            this.#publish("uploading", "Uploading character professions and inventory…", {
+              activeScanId: professionSnapshot.snapshotID,
+              activeCharacterLabel: characterLabel,
+              pendingScanCount,
+            });
+            const upload = createProfessionSnapshotUpload(savedVariables, professionSnapshot);
+            const receipt = await uploadProfessionSnapshot(this.#endpoint, this.#apiKey, upload, {
+              signal: this.#abortController?.signal,
+            });
+            if (receipt.status === "accepted") {
+              this.#publish("processing", "The server is processing profession data…", {
+                activeScanId: professionSnapshot.snapshotID,
+                activeCharacterLabel: characterLabel,
+                pendingScanCount,
+              });
+              await waitForProfessionSnapshotProcessed(
+                this.#endpoint,
+                this.#apiKey,
+                receipt.payloadId,
+                { signal: this.#abortController?.signal },
+              );
+            }
+            uploadedProfessionSnapshotIds.add(professionSnapshot.snapshotID);
+            this.#state = {
+              ...this.#state,
+              uploadedProfessionSnapshotIds: [...uploadedProfessionSnapshotIds].slice(-1_000),
+            };
+            await writeCompanionState(this.#statePath, this.#state);
+            processedAny = true;
+            this.#publish("up_to_date", "Profession data processed successfully.", {
+              activeScanId: null,
+              activeCharacterLabel: characterLabel,
+              pendingScanCount,
+              lastProcessedAt: this.#now().toISOString(),
+            });
+          }
           const latestMarketScan = savedVariables.scans.at(-1);
           if (latestMarketScan) {
             const marketIntelligence = await downloadMarketIntelligence(
@@ -326,13 +379,17 @@ export class DefaultCompanionService implements CompanionService {
               latestMarketScan,
               { signal: this.#abortController?.signal },
             );
-            await installMarketIntelligence(product.rootPath, marketIntelligence);
-            processedAny = true;
-            this.#publish(
-              "up_to_date",
-              "Market history synchronized. Reload WoW to activate updated in-game signals.",
-              { activeScanId: null, pendingScanCount },
-            );
+            if (marketIntelligence) {
+              await installMarketIntelligence(product.rootPath, marketIntelligence);
+              processedAny = true;
+              this.#publish(
+                "up_to_date",
+                "Market history synchronized. Reload WoW to activate updated in-game signals.",
+                { activeScanId: null, pendingScanCount },
+              );
+            } else {
+              marketIntelligenceUnavailable = true;
+            }
           }
           const diagnosticsUpload = createWorldDiagnosticsUpload(savedVariables);
           if (
@@ -402,6 +459,13 @@ export class DefaultCompanionService implements CompanionService {
       }
     }
 
+    if (marketIntelligenceUnavailable) {
+      return this.#publish(
+        "up_to_date",
+        "Uploads are current. Market intelligence is not available for this exact market yet.",
+        { pendingScanCount, activeScanId: null, activeCharacterLabel: null, errorCode: null },
+      );
+    }
     if (processedAny) return this.#snapshot;
     return this.#publish(
       currentPaths.size > 0 ? "up_to_date" : "waiting_for_saved_scan",

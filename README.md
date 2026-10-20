@@ -120,6 +120,13 @@ coverage gaps and archive deployment. This navigation/full-reader revision is lo
 
 The account-network calculation, safety boundaries, and Forever migration steps are documented in
 [`docs/account-crafting-network.md`](docs/account-crafting-network.md).
+Community NPC/object/acquisition provenance is documented in
+[`docs/community-reference-data.md`](docs/community-reference-data.md), and the exact in-game
+profession/trainer validation workflow is in
+[`docs/recipe-data-collection.md`](docs/recipe-data-collection.md).
+The evidence-gated search surface, release audit, privacy-minimal Web Vitals, read-only Search
+Console intelligence, and bounded IndexNow workflow are documented in
+[`docs/seo-operations.md`](docs/seo-operations.md).
 
 ## Repeatable pre-raid simulations
 
@@ -145,10 +152,12 @@ the player must enable it explicitly in the engine's Enchant tab before simulati
 
 ## Production
 
-The no-Docker TBC and WoW Forever preview deployment is live at
-`https://helper.kfcguild.online`. It uses the server's PostgreSQL installation and named PM2
-processes while extraction, catalog review, media generation, and companion collection stay on the
-maintainer machine. The complete topology, deployment, publication, rollback, and storage gate are in
+The no-Docker TBC and WoW Forever product is published at
+`https://kfcguild.online/tools`. The legacy `helper.kfcguild.online` host keeps the authenticated
+`/v1/` ingestion API and permanently redirects public pages to their matching `/tools` URLs. The
+deployment uses the server's PostgreSQL installation and named PM2 processes while extraction,
+catalog review, media generation, and companion collection stay on the maintainer machine. The
+complete topology, deployment, publication, rollback, and storage gate are in
 [`docs/production-deployment.md`](docs/production-deployment.md).
 
 To publish a reviewed local catalog, open a short-lived SSH tunnel, load the owner connection string
@@ -162,9 +171,10 @@ set +a
 ./scripts/publish-catalog-production.sh /absolute/path/to/manifest.json --tbc-golden --publish
 ```
 
-The production companion endpoint is `https://helper.kfcguild.online`. Keep its bearer key outside
-the repository and use a state file outside the worktree. Unattended 30-minute collection remains
-disabled until the documented retention and monitoring gate is implemented.
+The production companion endpoint remains `https://helper.kfcguild.online` because its authenticated
+`/v1/` routes are intentionally not moved. Keep its bearer key outside the repository and use a
+state file outside the worktree. Unattended 30-minute collection remains disabled until the
+documented retention and monitoring gate is implemented.
 
 The maintainer Mac also runs a separate catalog guardian. It watches the Forever client build and
 hotfix cache, resolves the exact WoWDBDefs merge, extracts and audits a new snapshot, compares its
@@ -182,6 +192,10 @@ pnpm catalog:guardian:uninstall:macos
 Automatic promotion stops for missing hotfixes or definitions, extractor/schema drift, excessive
 row-count drift, and any profession, recipe reagent/yield/cooldown/requirement, or transformation
 change. The Auction House scan remains accepted while those material changes await review.
+After review, the immutable guardian supports a one-run `--approve-manifest-sha256` override. It is
+bound to the exact extracted manifest and retains every audit, backup, media, import, and verification
+gate. The reviewed dry-run and publication procedure is documented in
+[`docs/production-deployment.md`](docs/production-deployment.md#automatic-compatible-catalog-promotion).
 
 ## TBC catalog
 
@@ -243,15 +257,17 @@ open "apps/desktop/out/WoW Trader Companion-darwin-x64/WoW Trader Companion.app"
 ```
 
 The first-run dashboard discovers TBC and Forever automatically, accepts a dedicated collector
-token into macOS secure storage, verifies/installs collector `0.10.0`, and explains the product-aware
+token into macOS secure storage, verifies/installs collector `0.12.0`, and explains the product-aware
 scan plus `/reload` boundary. It keeps watching from the tray after the window closes. Use
 `Automatic uploads` for normal operation and `Check for scans now` for an immediate manual pass.
 TBC and Forever roots can be configured independently. Local state and redacted rotating logs live
 under the operating system's application-data directory, not in this repository.
 
-After processing a scan, Companion `0.3.0` also downloads the exact matching market-intelligence
+After processing a scan, Companion `0.3.5` also downloads the exact matching market-intelligence
 pack and installs it atomically into the collector. The addon's Market Intel panel, item tooltips,
 and local watchlist then use the same robust price bands as the website after the next `/reload`.
+If the server has not produced intelligence for that exact product, build, realm, and faction yet,
+uploads remain successful and the Companion reports the pack as not yet available.
 
 `pnpm desktop:make` creates unsigned local ZIP/DMG artifacts. Do not distribute those artifacts to
 players yet: public release still requires per-installation pairing, macOS signing/notarization,

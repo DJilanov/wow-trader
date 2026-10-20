@@ -2,10 +2,11 @@
 
 The companion safely parses `WOW_TRADER_SAVED` from the collector's SavedVariables file without
 executing Lua, validates every field, computes the canonical SHA-256 payload checksum, and uploads
-each scan exactly once from the local state file.
+each market scan, profession snapshot, and retained diagnostics payload exactly once from the local
+state file.
 
 The root `pnpm dev` command starts watch mode automatically for the installed WoW product. The only
-player actions are the in-game Auctionator scan and `/reload` or logout. Watch mode discovers all
+player actions are the in-game market/profession capture and `/reload` or logout. Watch mode discovers all
 account-wide collector files, waits for two matching file signatures before reading, and retries a
 failed parse or upload with bounded exponential backoff. A scan is recorded locally only after the
 API confirms `processed`; an accepted-but-unconfirmed request remains retryable and idempotent.
@@ -37,3 +38,9 @@ On macOS, `pnpm companion:install:macos` creates and starts the per-user
 persists scan IDs under `~/Library/Application Support/WowTraderCompanion`, and survives login and
 process crashes. `pnpm companion:uninstall:macos` stops the service but deliberately retains its
 state and protected API key so a reinstall cannot replay old scans.
+
+An exact-market intelligence `404` is optional availability, not an upload failure. The companion
+keeps successful scan, profession, and world-evidence receipts, continues reconciliation, and shows
+an `up_to_date` message explaining that intelligence is not available for that exact market yet.
+Authentication failures, server errors, malformed responses, and network failures remain retryable
+errors.

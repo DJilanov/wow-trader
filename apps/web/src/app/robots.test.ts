@@ -9,7 +9,13 @@ describe("robots", () => {
     expect(result.rules).toContainEqual({
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/forever-sim/", "/data-status", "/calculator/", "/opportunities"],
+      disallow: [
+        "/tools/api/",
+        "/tools/forever-sim/",
+        "/tools/data-status",
+        "/tools/calculator/",
+        "/tools/opportunities",
+      ],
     });
   });
 
@@ -28,11 +34,9 @@ describe("robots", () => {
     const result = robots();
 
     expect(result.sitemap).toEqual([
-      "https://helper.kfcguild.online/sitemap.xml",
-      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/0.xml",
-      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/1.xml",
-      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/2.xml",
-      "https://helper.kfcguild.online/forever/encyclopedia/sitemap/3.xml",
+      "https://kfcguild.online/tools/sitemap.xml",
+      "https://kfcguild.online/tools/forever/encyclopedia/sitemap/0.xml",
+      "https://kfcguild.online/tools/forever/encyclopedia/sitemap/1.xml",
     ]);
   });
 });

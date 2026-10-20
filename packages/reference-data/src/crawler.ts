@@ -27,6 +27,21 @@ import {
   type ReferenceTask,
 } from "./contracts.js";
 import { parseQuestXpPage, parseWowheadPage } from "./parser.js";
+import { parseWowheadListing } from "./listing-parser.js";
+import {
+  listingKey,
+  listingTaskSchema,
+  listingUrl,
+  type ListingRecord,
+  type ListingTask,
+} from "./listing-contracts.js";
+import {
+  listingErrorPath,
+  listingIsFresh,
+  listingMissingPath,
+  readStagedListing,
+  writeStagedListing,
+} from "./listing-store.js";
 import { writeChallengeEvidence } from "./challenge-evidence.js";
 import { readStagedQuestXp } from "./quest-xp-store.js";
 import { QUEST_XP_PARSER_VERSION } from "./quest-xp-contracts.js";
@@ -144,7 +159,7 @@ export interface CrawlOptions {
 
 export interface CrawlTaskResult {
   readonly key: string;
-  readonly outcome: "crawled" | "cached" | "not_found";
+  readonly outcome: "crawled" | "cached" | "not_found" | "rejected";
   readonly gaps: readonly string[];
 }
 
@@ -153,6 +168,10 @@ export interface CrawlResult {
   readonly cached: number;
   readonly incomplete: number;
   readonly notFound: number;
+}
+
+export interface ListingCrawlResult extends CrawlResult {
+  readonly rejected: number;
 }
 
 interface DelayPolicy {
@@ -321,6 +340,310 @@ export async function crawlReferences(
     await lock.close();
     await unlink(lockPath);
   }
+}
+
+/**
+ * Crawls the bounded profession listing pages that expose many recipes at once.
+ *
+ * Listing evidence is stored separately from entity records. The queue planner
+ * uses it only to remove detail-page tasks whose exact acquisition relation is
+ * present; broad labels and ambiguous links remain unresolved.
+ */
+export async function crawlListings(
+  tasks: readonly ListingTask[],
+  options: CrawlOptions,
+): Promise<ListingCrawlResult> {
+  if (options.fetcher) throw new Error("Listing crawl requires the Browsertrix transport");
+  options.signal?.throwIfAborted();
+  if (!options.permissionRef.trim()) throw new Error("A permission reference is required");
+  const queue = [
+    ...new Map(
+      tasks.map((task) => {
+        const validated = listingTaskSchema.parse(task);
+        return [listingKey(validated), validated] as const;
+      }),
+    ).values(),
+  ];
+  if (queue.length === 0) throw new Error("Listing queue is empty");
+  const limit = options.limit ?? 30;
+  if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100)
+    throw new Error("Listing limit must be 1-100");
+  const requestedDelay = createDelayPolicy(options);
+  const screencastPort = browsertrixScreencastPort(options);
+  const root = resolve(options.directory);
+  await mkdir(root, { recursive: true });
+  const lockPath = resolve(root, ".crawl.lock");
+  const lock = await open(lockPath, "wx", 0o600);
+  try {
+    const sleep =
+      options.sleep ??
+      (async (milliseconds: number): Promise<void> => {
+        await pause(milliseconds, undefined, { signal: options.signal });
+      });
+    const gate = await requestGate(root, sleep, options.now ?? Date.now, options.signal);
+    const request = createRequester(options, gate);
+    const robots = await loadRobotsPolicyText(root, (options.now ?? Date.now)(), async () => {
+      const response = await request(
+        `${ENTITY_ORIGIN}/robots.txt`,
+        { redirect: "error", headers: { "user-agent": CRAWLER_AGENT } },
+        requestedDelay.next(),
+      );
+      if (!response.ok) throw new Error(`Robots fetch failed: HTTP ${response.status}`);
+      return limitedText(response, 500000);
+    });
+    const policy = robotsParser(`${ENTITY_ORIGIN}/robots.txt`, robots.text);
+    const robotsDelay = policy.getCrawlDelay(CRAWLER_AGENT) ?? 0;
+    if (!Number.isFinite(robotsDelay) || robotsDelay < 0 || robotsDelay > 120)
+      throw new Error("Unsupported robots crawl-delay; stopped");
+    const delay = requestedDelay.withFloor(Math.ceil(robotsDelay * 1000));
+    return await crawlListingTasks(
+      queue,
+      options,
+      { root, gate, delay, policy, ...(screencastPort !== undefined ? { screencastPort } : {}) },
+      limit,
+    );
+  } finally {
+    await lock.close();
+    await unlink(lockPath);
+  }
+}
+
+async function crawlListingTasks(
+  queue: readonly ListingTask[],
+  options: CrawlOptions,
+  context: CrawlContext,
+  limit: number,
+): Promise<ListingCrawlResult> {
+  const { root, gate, delay, policy, screencastPort } = context;
+  let crawled = 0,
+    cached = 0,
+    incomplete = 0,
+    notFound = 0,
+    rejected = 0;
+  for (const task of queue) {
+    options.signal?.throwIfAborted();
+    const key = listingKey(task);
+    await options.onTaskStart?.(key);
+    const previous = await readStagedListing(root, task);
+    if (previous && listingIsFresh(previous) && !options.refresh) {
+      cached++;
+      await options.onTaskComplete?.({
+        key,
+        outcome: "cached",
+        gaps: previous.entries.length ? [] : ["no_listing_entries"],
+      });
+      continue;
+    }
+    if (
+      !options.refresh &&
+      (await recentlyMissingListing(root, task, (options.now ?? Date.now)()))
+    ) {
+      cached++;
+      await options.onTaskComplete?.({ key, outcome: "cached", gaps: ["source_not_found"] });
+      continue;
+    }
+    if (crawled + notFound + rejected >= limit) break;
+    await gate.beforeRequest(delay.next());
+    const result = await executeBrowsertrix(
+      [listingUrl(task)],
+      listingTargetMatcher(task),
+      options,
+      screencastPort,
+    );
+    if (result.run.exitCode !== 0)
+      await throwBrowsertrixFailure(result.run, result.archive, options, gate, delay);
+    let page: { text: string; url: string; capturedAt: string };
+    try {
+      page = await captureListingSource(
+        result.archive,
+        listingUrl(task),
+        task,
+        policy,
+        options.signal,
+      );
+    } catch (error) {
+      if (error instanceof SourceNotFound) {
+        await atomicJsonWrite(listingMissingPath(root, task), {
+          ...task,
+          status: error.status,
+          checkedAt: new Date().toISOString(),
+        });
+        notFound++;
+        await options.onProgress?.(key, ["source_not_found"]);
+        await options.onTaskComplete?.({
+          key,
+          outcome: "not_found",
+          gaps: ["source_not_found"],
+        });
+        continue;
+      }
+      if (error instanceof SourceChallengeError) {
+        await writeListingChallengeEvidence(result.archive, error, task, root);
+        throw error;
+      }
+      throw error;
+    }
+
+    let record: ListingRecord;
+    try {
+      record = parseWowheadListing(page.text, task, {
+        url: page.url,
+        capturedAt: page.capturedAt,
+        permissionRef: options.permissionRef,
+      });
+    } catch (error) {
+      await atomicJsonWrite(listingErrorPath(root, task), {
+        schema: "wowhead-listing-error.v1",
+        ...task,
+        sourceUrl: page.url,
+        capturedAt: new Date().toISOString(),
+        message: error instanceof Error ? error.message : String(error),
+      });
+      rejected++;
+      await options.onProgress?.(key, ["listing_parser_error"]);
+      await options.onTaskComplete?.({
+        key,
+        outcome: "rejected",
+        gaps: ["listing_parser_error"],
+      });
+      continue;
+    }
+
+    await writeStagedListing(root, record);
+    await rm(listingMissingPath(root, task), { force: true });
+    await rm(listingErrorPath(root, task), { force: true });
+    const gaps = record.entries.length ? [] : ["no_listing_entries"];
+    crawled++;
+    if (gaps.length) incomplete++;
+    await options.onProgress?.(key, gaps);
+    await options.onTaskComplete?.({ key, outcome: "crawled", gaps });
+  }
+  return { crawled, cached, incomplete, notFound, rejected };
+}
+
+async function recentlyMissingListing(
+  root: string,
+  task: ListingTask,
+  now: number,
+): Promise<boolean> {
+  try {
+    const info = await stat(listingMissingPath(root, task));
+    return now - info.mtimeMs < 7 * 86400000;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return false;
+    throw error;
+  }
+}
+
+async function writeListingChallengeEvidence(
+  archive: CrawlArchive,
+  error: SourceChallengeError,
+  task: ListingTask,
+  root: string,
+): Promise<void> {
+  const capture = archive.captures.get(urlKey(error.url));
+  if (!capture) return;
+  const screenshot = archive.screenshots.get(urlKey(error.url)) ?? null;
+  await writeChallengeEvidence({
+    stagingDirectory: root,
+    key: listingKey(task),
+    url: capture.url,
+    capturedAt: capture.capturedAt,
+    status: capture.status,
+    contentType: capture.contentType,
+    responseBody: capture.text,
+    screenshot,
+  });
+}
+
+function listingTargetMatcher(task: ListingTask): (url: string) => boolean {
+  const expected = new URL(listingUrl(task));
+  return (raw: string): boolean => {
+    let url: URL;
+    try {
+      url = new URL(raw);
+    } catch {
+      return false;
+    }
+    return (
+      url.origin === ENTITY_ORIGIN &&
+      !url.username &&
+      !url.password &&
+      (url.pathname === expected.pathname || url.pathname.startsWith(`${expected.pathname}/`))
+    );
+  };
+}
+
+async function captureListingSource(
+  archive: CrawlArchive,
+  url: string,
+  task: ListingTask,
+  policy: RobotsPolicy,
+  signal?: AbortSignal,
+): Promise<{ text: string; url: string; capturedAt: string }> {
+  let current = url;
+  for (let attempt = 0; attempt < SOURCE_REDIRECT_LIMIT; attempt++) {
+    signal?.throwIfAborted();
+    assertPermittedListing(current, task);
+    if (policy.isAllowed(current, CRAWLER_AGENT) !== true)
+      throw new Error("Source disallowed by robots policy");
+    const capture = archive.captures.get(urlKey(current));
+    if (!capture) {
+      const page = pageFor(archive, current);
+      if (page?.status === 404) throw new SourceNotFound("Listing document not found");
+      const skipped = archive.skipped.get(urlKey(current));
+      if (skipped === "robotsTxt") throw new Error("Source disallowed by robots policy");
+      if (skipped === "redirectToExcluded")
+        throw new Error("Listing redirected outside the permitted profession");
+      throw new Error(`Browsertrix archived no response for ${current}`);
+    }
+    if (capture.status === 404) throw new SourceNotFound("Listing document not found");
+    if (REDIRECT_STATUSES.has(capture.status)) {
+      if (!capture.location) throw new Error("Listing redirect has no target");
+      const next = new URL(capture.location, current);
+      if (!listingRedirectAllowed(next, task))
+        throw new SourceNotFound("Listing redirected outside the requested profession", 301);
+      current = next.href;
+      continue;
+    }
+    if (capture.status < 200 || capture.status > 299)
+      throw new Error(`Source HTTP ${capture.status}; stopped without bypassing access controls`);
+    if (!CONTENT_TYPE_PATTERN.test(capture.contentType))
+      throw new Error("Unexpected source content type");
+    if (capture.tooLarge) throw new Error("Source exceeds response budget");
+    if (CHALLENGE_PATTERN.test(capture.text)) throw new SourceChallengeError(current);
+    return { text: capture.text, url: current, capturedAt: capture.capturedAt };
+  }
+  throw new Error("Too many source redirects or retries");
+}
+
+function assertPermittedListing(url: string, task: ListingTask): void {
+  const parsed = new URL(url);
+  const expected = new URL(listingUrl(task));
+  if (
+    parsed.origin !== ENTITY_ORIGIN ||
+    parsed.username ||
+    parsed.password ||
+    parsed.hash ||
+    (parsed.pathname !== expected.pathname && parsed.pathname !== `${expected.pathname}/`)
+  )
+    throw new Error("Listing edition or path mismatch");
+  if (task.kind === "item-list" && parsed.search)
+    throw new Error("Listing query changed outside the permitted filter");
+  if (task.kind === "spell-list" && parsed.search && parsed.search !== "?filter=20%3B1%3B0")
+    throw new Error("Listing filter changed outside the permitted value");
+}
+
+function listingRedirectAllowed(next: URL, task: ListingTask): boolean {
+  const expected = new URL(listingUrl(task));
+  return (
+    next.origin === ENTITY_ORIGIN &&
+    !next.username &&
+    !next.password &&
+    !next.hash &&
+    (next.pathname === expected.pathname || next.pathname === `${expected.pathname}/`) &&
+    (!next.search || (task.kind === "spell-list" && next.search === "?filter=20%3B1%3B0"))
+  );
 }
 
 function createDelayPolicy(options: CrawlOptions): DelayPolicy {
@@ -648,7 +971,12 @@ async function crawlWithBrowsertrix(
       ];
       for (const seed of seeds) {
         await gate.beforeRequest(delay.next());
-        const result = await executeBrowsertrix([seed], pending, options, screencastPort);
+        const result = await executeBrowsertrix(
+          [seed],
+          entityTargetMatcher(pending),
+          options,
+          screencastPort,
+        );
         archive = mergeArchives(archive, result.archive);
         if (result.run.exitCode !== 0) {
           failure = result.run;
@@ -875,7 +1203,7 @@ function environmentList(name: string): string[] {
 
 async function executeBrowsertrix(
   seeds: readonly string[],
-  pending: readonly PendingTask[],
+  isTarget: (url: string) => boolean,
   options: CrawlOptions,
   screencastPort?: number,
 ): Promise<{ archive: CrawlArchive; run: BrowsertrixRun }> {
@@ -904,11 +1232,7 @@ async function executeBrowsertrix(
       browsertrixArgs(work, image, seeds, launch, screencastPort),
       options.signal,
     );
-    const archive = await readBrowsertrixArchive(
-      work,
-      entityTargetMatcher(pending),
-      run.exitCode !== 0,
-    );
+    const archive = await readBrowsertrixArchive(work, isTarget, run.exitCode !== 0);
     return { archive, run };
   } finally {
     if (!keep) await rm(work, { recursive: true, force: true });

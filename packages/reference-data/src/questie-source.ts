@@ -30,11 +30,8 @@ export function parseQuestieXpDatabase(source: string): readonly QuestieXpRow[] 
       break;
     }
     if (!line.trim() || /^\s*--/.test(line)) continue;
-    const match = line.match(
-      /^\s*\[(\d+)]\s*=\s*\{\s*(-?\d+)\s*,\s*(\d+)\s*}\s*,?\s*(?:--.*)?$/,
-    );
-    if (!match)
-      throw new Error(`Unsupported Questie XP row at line ${index + 1}`);
+    const match = line.match(/^\s*\[(\d+)]\s*=\s*\{\s*(-?\d+)\s*,\s*(\d+)\s*}\s*,?\s*(?:--.*)?$/);
+    if (!match) throw new Error(`Unsupported Questie XP row at line ${index + 1}`);
     const questId = boundedInteger(match[1]!, 1, MAX_QUEST_ID, "Questie quest id");
     const questLevel = boundedInteger(match[2]!, -1, MAX_QUEST_LEVEL, "Questie quest level");
     const baseXp = boundedInteger(match[3]!, 0, MAX_QUEST_XP, "Questie quest XP");

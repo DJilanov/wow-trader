@@ -111,7 +111,7 @@ const manifest = {
   version,
   channel: "maintainer-alpha",
   publishedAt: new Date().toISOString(),
-  collectorVersion: "0.10.0",
+  collectorVersion: "0.12.0",
   supportedProducts: ["wow_anniversary", "wow_classic_beta"],
   minimumMacOs: "12",
   minimumWindows: "10",
@@ -119,6 +119,9 @@ const manifest = {
   notes: [
     "Installs and updates WowTraderCollector for WoW Forever and TBC Anniversary.",
     "Uploads validated native Forever scans after /reload or logout.",
+    "Uploads private character profession, known-recipe, cooldown, inventory, and capital snapshots.",
+    "Treats missing exact-market intelligence as optional availability, not an upload failure.",
+    "Can collect bounded NPC, quest, vendor, trainer, and loot evidence when explicitly enabled in game.",
     "Keeps upload failures visible during automatic retry cooldowns, including multi-installation setups.",
     "Shows an explicit checking state while manual scan reconciliation is running.",
     "Synchronizes build- and realm-specific price history into the addon's Market Intel panel.",

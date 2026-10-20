@@ -19,7 +19,7 @@ const MARKERS: readonly { readonly marker: string; readonly pattern: RegExp }[] 
 // Cookies are deliberately not captured: a probe documents the transport, not a session.
 const IGNORED_HEADERS = new Set(["set-cookie"]);
 
-const entityPath = /^\/(?:tbc|forever)\/(?:item|quest)=\d+(?:\/[a-z0-9][a-z0-9-]{0,200})?$/;
+const entityPath = /^\/(?:tbc|forever)\/(?:item|quest|spell)=\d+(?:\/[a-z0-9][a-z0-9-]{0,200})?$/;
 
 /**
  * Restricts probes to the exact public entity paths and robots.txt. A probe may
@@ -36,7 +36,7 @@ export function probeUrl(value: string): string {
     throw new Error("Probe URL must be a public wowhead.com entity");
   if (url.hash) throw new Error("Probe URL must not carry a fragment");
   if (url.pathname !== "/robots.txt" && !entityPath.test(url.pathname))
-    throw new Error("Probe URL must be robots.txt or an exact item/quest entity path");
+    throw new Error("Probe URL must be robots.txt or an exact item/quest/spell entity path");
   return url.href;
 }
 
@@ -119,7 +119,9 @@ export async function probeSource(options: ProbeOptions): Promise<SourceProbeEvi
     bodyBytes: body.byteLength,
     bodySha256: createHash("sha256").update(body).digest("hex"),
     pageTitle: title,
-    challengeMarkers: MARKERS.filter(({ pattern }) => pattern.test(text)).map(({ marker }) => marker),
+    challengeMarkers: MARKERS.filter(({ pattern }) => pattern.test(text)).map(
+      ({ marker }) => marker,
+    ),
     headers,
   };
   return sourceProbeEvidenceSchema.parse(evidence);

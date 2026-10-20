@@ -495,7 +495,8 @@ decision profit after fees rather than only fitting historical prices.
 - Normalize item level and disenchant eligibility. (Complete for TBC.)
 - Apply the versioned static TBC distribution and enable craft-to-disenchant. (Complete.)
 - Optionally collect outcomes to audit the static model.
-- Collect known recipes, skills, cooldown state, inventory, and optional capital.
+- Collect known recipes, skills, cooldown state, inventory, and optional capital. (Collection and
+  persistence complete in `profession-snapshot.v1`; planner personalization awaits live validation.)
 - Enable personalized `what can I do now?` filtering.
 
 Acceptance: the same realm produces different valid plans for different characters, and no

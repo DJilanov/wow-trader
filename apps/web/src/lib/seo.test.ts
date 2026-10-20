@@ -47,6 +47,16 @@ describe("Helper SEO metadata", () => {
     });
   });
 
+  it("keeps the helper root on the guild-owned tools URL", () => {
+    const metadata = createHelperMetadata({
+      title: "Tools",
+      description: "Guild tools.",
+      path: "/",
+    });
+
+    expect(metadata.alternates).toEqual({ canonical: HELPER_SITE_URL });
+  });
+
   it("numbers breadcrumbs and resolves their absolute URLs", () => {
     expect(
       createBreadcrumbJsonLd([

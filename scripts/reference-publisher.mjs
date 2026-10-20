@@ -1,4 +1,5 @@
-import { stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
@@ -9,12 +10,39 @@ import { loadWorldQuestSnapshot } from "../packages/world-data/dist/index.js";
 import {
   referenceClientConflicts,
   referenceIndexGaps,
+  referenceTaskSchema,
   runReferencePublicationCycle,
   publishQuestXpCycle,
 } from "../packages/reference-data/dist/index.js";
+import {
+  referenceNonItemClientConflicts,
+  referenceQuestXpClientConflicts,
+} from "./reference-publication-identity.mjs";
 
 const root = "/home/wow-trader-reference-worker/shared";
 const products = { forever: "wow_classic_beta", tbc: "wow_anniversary" };
+
+export async function readLevelingQuestAllowlist(path, expectedSignature) {
+  if (!path) {
+    if (expectedSignature) throw new Error("Leveling quest queue path is missing");
+    return { ids: new Set(), signature: null };
+  }
+  const info = await stat(path);
+  if (info.size > 4_000_000) throw new Error("Leveling quest queue is too large");
+  const raw = await readFile(path, "utf8");
+  const tasks = referenceTaskSchema.array().min(1).max(10_000).parse(JSON.parse(raw));
+  if (tasks.some((task) => task.game !== "forever" || task.kind !== "quest"))
+    throw new Error("Leveling quest queue contains a non-Forever quest");
+  const ids = new Set(tasks.map((task) => task.id));
+  if (ids.size !== tasks.length) throw new Error("Leveling quest queue contains duplicate IDs");
+  const signature = createHash("sha256").update(JSON.stringify(tasks)).digest("hex");
+  if (expectedSignature && signature !== expectedSignature)
+    throw new Error("Leveling quest queue checksum mismatch");
+  return {
+    ids,
+    signature,
+  };
+}
 
 async function readPublicationClientItems(sql, tasks, builds) {
   const items = new Map();
@@ -38,6 +66,26 @@ async function readPublicationClientItems(sql, tasks, builds) {
   return items;
 }
 
+async function readPublicationClientRecipes(sql, tasks, builds) {
+  const recipes = new Map();
+  for (const [game, product] of Object.entries(products)) {
+    const ids = tasks
+      .filter((task) => task.game === game && task.kind === "spell")
+      .map((task) => task.id);
+    const build = builds.find((entry) => entry.product === product);
+    if (!ids.length || !build) continue;
+    const rows = await sql`
+      SELECT r.recipe_spell_id AS "spellId", s.name
+      FROM recipe_version r
+      INNER JOIN spell_version s
+        ON s.build_id = r.build_id AND s.spell_id = r.recipe_spell_id
+      WHERE r.build_id = ${build.id} AND r.recipe_spell_id IN ${sql(ids)}
+    `;
+    for (const recipe of rows) recipes.set(`${game}-spell-${recipe.spellId}`, recipe.name);
+  }
+  return recipes;
+}
+
 async function main() {
   if (process.argv.slice(2).some((argument) => argument !== "--once"))
     throw new Error("Usage: reference-publisher.mjs [--once]");
@@ -48,6 +96,10 @@ async function main() {
   const destination = process.env.WOW_TRADER_REFERENCE_DIRECTORY ?? resolve(root, "published");
   const statusPath =
     process.env.WOW_TRADER_REFERENCE_PUBLICATION_STATUS ?? resolve(root, "publication-status.json");
+  const levelingQuestAllowlist = await readLevelingQuestAllowlist(
+    process.env.WOW_TRADER_LEVELING_QUEST_QUEUE,
+    process.env.WOW_TRADER_LEVELING_QUEST_QUEUE_SHA256,
+  );
   const once = process.argv.includes("--once");
   let stop = false;
   process.on("SIGTERM", () => {
@@ -83,9 +135,16 @@ async function main() {
             ORDER BY product, published_at DESC
           `;
           if (builds.length !== 2) throw new Error("Both published client builds are required");
-          const revision = JSON.stringify({ builds, worldSignature });
+          const revision = JSON.stringify({
+            builds,
+            worldSignature,
+            levelingQuestQueue: levelingQuestAllowlist.signature,
+          });
           const validator = async (tasks) => {
-            const items = await readPublicationClientItems(sql, tasks, builds);
+            const [items, recipes] = await Promise.all([
+              readPublicationClientItems(sql, tasks, builds),
+              readPublicationClientRecipes(sql, tasks, builds),
+            ]);
             return (record) => {
               if (record.kind === "item") {
                 const item = items.get(`${record.game}-item-${record.id}`);
@@ -96,13 +155,7 @@ async function main() {
                     }
                   : { conflicts: ["missing_current_client_item"], indexGaps: [] };
               }
-              const title = quests.get(record.id);
-              const conflicts =
-                record.game !== "forever" || !quests.has(record.id)
-                  ? ["missing_current_client_quest"]
-                  : title && title !== record.name
-                    ? ["client_quest_title_conflict"]
-                    : [];
+              const conflicts = referenceNonItemClientConflicts(record, recipes, quests);
               return { conflicts, indexGaps: referenceIndexGaps(record) };
             };
           };
@@ -117,14 +170,27 @@ async function main() {
             staging,
             destination,
             revision,
-            validate: async (task) => validator([task]),
+            validate: async (task) => {
+              const validate = await validator([task]);
+              return (record) => {
+                const result = validate(record);
+                return {
+                  ...result,
+                  conflicts: referenceQuestXpClientConflicts(
+                    record,
+                    result.conflicts,
+                    levelingQuestAllowlist.ids,
+                  ),
+                };
+              };
+            },
           });
           return { ...display, questXp };
         });
         console.log(JSON.stringify({ updatedAt: new Date().toISOString(), ...result }));
       } catch (error) {
         console.error(
-          `Publication cycle failed: ${error instanceof Error ? error.name : "unknown_error"}`,
+          `Publication cycle failed: ${error instanceof Error ? `${error.name}: ${error.message}` : "unknown_error"}`,
         );
         if (once) throw error;
       }
@@ -138,6 +204,8 @@ async function main() {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   main().catch((error) => {
-    console.error(error instanceof Error ? error.name : "Publication failed");
+    console.error(
+      error instanceof Error ? `${error.name}: ${error.message}` : "Publication failed",
+    );
     process.exitCode = 1;
   });

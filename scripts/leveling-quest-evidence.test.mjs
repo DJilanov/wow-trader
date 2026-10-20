@@ -110,6 +110,61 @@ test("cross-checks current pages with historical lifecycle structure", async () 
   }
 });
 
+test("keeps missing pages and item-start stages explicit", async () => {
+  const root = await mkdtemp(join(tmpdir(), "leveling-quest-evidence-pending-"));
+  try {
+    const staging = join(root, "staging");
+    await mkdir(staging);
+    const plan = join(root, "plan.json");
+    const questie = join(root, "questie.json");
+    const output = join(root, "output.json");
+    await writeFile(
+      plan,
+      JSON.stringify({
+        schema: "leveling-evidence-crawl-plan.v1",
+        quests: [
+          {
+            id: 3373,
+            sourceUrl: "https://www.wowhead.com/forever/quest=3373",
+            evidenceCodes: ["quest-lifecycle-unverified"],
+          },
+        ],
+      }),
+    );
+    await writeFile(
+      questie,
+      JSON.stringify({
+        sourceKind: "questiedb_forever",
+        sourceVersion: "1.0.4",
+        sourceRevision: "revision",
+        checksum: "a".repeat(64),
+        artifacts: [],
+        entities: [
+          {
+            kind: "quest",
+            id: 3373,
+            name: "The Essence of Eranikus",
+            data: { requiredLevel: 48, startedBy: { 3: [10454] } },
+          },
+          { kind: "item", id: 10454, name: "Essence of Eranikus", data: {} },
+        ],
+      }),
+    );
+    await exec(process.execPath, [
+      script,
+      `--plan=${plan}`,
+      `--questie=${questie}`,
+      `--staging=${staging}`,
+      `--output=${output}`,
+    ]);
+    const report = JSON.parse(await readFile(output, "utf8"));
+    assert.equal(report.quests[0].state, "pending-current-page");
+    assert.equal(report.quests[0].pickup.stage, "unknown");
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 for (const id of [92744, 1144]) {
   test(`classifies captured quest ${id} without requesting its page again`, async () => {
     const root = await mkdtemp(join(tmpdir(), "leveling-quest-evidence-captured-"));
@@ -359,58 +414,3 @@ for (const scenario of pickupCases) {
     }
   });
 }
-
-test("keeps missing pages and item-start stages explicit", async () => {
-  const root = await mkdtemp(join(tmpdir(), "leveling-quest-evidence-pending-"));
-  try {
-    const staging = join(root, "staging");
-    await mkdir(staging);
-    const plan = join(root, "plan.json");
-    const questie = join(root, "questie.json");
-    const output = join(root, "output.json");
-    await writeFile(
-      plan,
-      JSON.stringify({
-        schema: "leveling-evidence-crawl-plan.v1",
-        quests: [
-          {
-            id: 3373,
-            sourceUrl: "https://www.wowhead.com/forever/quest=3373",
-            evidenceCodes: ["quest-lifecycle-unverified"],
-          },
-        ],
-      }),
-    );
-    await writeFile(
-      questie,
-      JSON.stringify({
-        sourceKind: "questiedb_forever",
-        sourceVersion: "1.0.4",
-        sourceRevision: "revision",
-        checksum: "a".repeat(64),
-        artifacts: [],
-        entities: [
-          {
-            kind: "quest",
-            id: 3373,
-            name: "The Essence of Eranikus",
-            data: { requiredLevel: 48, startedBy: { 3: [10454] } },
-          },
-          { kind: "item", id: 10454, name: "Essence of Eranikus", data: {} },
-        ],
-      }),
-    );
-    await exec(process.execPath, [
-      script,
-      `--plan=${plan}`,
-      `--questie=${questie}`,
-      `--staging=${staging}`,
-      `--output=${output}`,
-    ]);
-    const report = JSON.parse(await readFile(output, "utf8"));
-    assert.equal(report.quests[0].state, "pending-current-page");
-    assert.equal(report.quests[0].pickup.stage, "unknown");
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
-});

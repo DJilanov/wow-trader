@@ -6,7 +6,8 @@ import { dirname, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import { referenceQualityGaps, referenceTaskSchema, type ReferenceTask } from "./contracts.js";
-import { crawlReferences } from "./crawler.js";
+import { crawlListings, crawlReferences } from "./crawler.js";
+import { listingTaskSchema } from "./listing-contracts.js";
 import { publishReferences, readStagedReference } from "./store.js";
 import { atomicJsonWrite } from "./store.js";
 import { seedFromHelperSitemaps } from "./seeds.js";
@@ -18,6 +19,7 @@ import {
   SourceCooldownError,
 } from "./pacing.js";
 import { buildQuestXpImport, IMPORT_SOURCE_KINDS } from "./quest-xp-import.js";
+import { importSavedHtml } from "./manual-capture.js";
 import { probeSource } from "./probe.js";
 import {
   blizzardApiConfigFromEnvironment,
@@ -100,6 +102,8 @@ async function main(): Promise<void> {
       "browsertrix-screencast-port": { type: "string" },
       profile: { type: "string" },
       "save-profile": { type: "boolean" },
+      force: { type: "boolean" },
+      "captured-at": { type: "string" },
       "proxy-server": { type: "string" },
       "add-host": { type: "string", multiple: true },
       network: { type: "string" },
@@ -201,7 +205,7 @@ async function main(): Promise<void> {
           .map((id) => referenceTaskSchema.parse({ game, kind: values.kind, id: Number(id) }))
       : await seedFromHelperSitemaps(values.sitemap ?? [], game);
     if (!tasks.length)
-      throw new Error("No item/quest seeds; supply --sitemap files or --kind and --ids");
+      throw new Error("No item/quest/spell seeds; supply --sitemap files or --kind and --ids");
     await atomicJsonWrite(operatorPath(values.queue), tasks);
     console.log(JSON.stringify({ seeded: tasks.length }));
     return;
@@ -229,6 +233,70 @@ async function main(): Promise<void> {
     });
     await atomicJsonWrite(values.output, result.set);
     console.log(JSON.stringify({ ...result.report, output: values.output }));
+    return;
+  }
+  if (command === "import-saved-html") {
+    if (!values.input || !values.staging || !values["permission-ref"])
+      throw new Error("import-saved-html requires --input, --staging and --permission-ref");
+    const result = await importSavedHtml({
+      input: operatorPath(values.input),
+      staging: operatorPath(values.staging),
+      permissionRef: values["permission-ref"],
+      ...(values.force ? { force: true } : {}),
+      ...(values["captured-at"] ? { capturedAt: values["captured-at"] } : {}),
+    });
+    if (values.output) await writeJson(operatorPath(values.output), result);
+    console.log(JSON.stringify(result));
+    return;
+  }
+  if (command === "crawl-listings") {
+    if (!values.queue || !values.staging || !values["permission-ref"])
+      throw new Error("crawl-listings requires --queue, --staging and --permission-ref");
+    const queuePath = operatorPath(values.queue);
+    if ((await stat(queuePath)).size > 32000000)
+      throw new Error("Listing queue exceeds size budget");
+    const listingTasks = z
+      .array(listingTaskSchema)
+      .min(1)
+      .max(100)
+      .parse(JSON.parse(await readFile(queuePath, "utf8")));
+    console.log(
+      JSON.stringify(
+        await crawlListings(listingTasks, {
+          directory: operatorPath(values.staging),
+          permissionRef: values["permission-ref"],
+          ...(values.limit ? { limit: Number(values.limit) } : {}),
+          ...(values["delay-ms"] ? { delayMs: Number(values["delay-ms"]) } : {}),
+          ...(values["delay-min-ms"] ? { delayMinMs: Number(values["delay-min-ms"]) } : {}),
+          ...(values["delay-max-ms"] ? { delayMaxMs: Number(values["delay-max-ms"]) } : {}),
+          ...(values["browsertrix-screencast-port"]
+            ? { browsertrixScreencastPort: Number(values["browsertrix-screencast-port"]) }
+            : {}),
+          ...(values.profile ? { browsertrixProfile: values.profile } : {}),
+          ...(values["save-profile"] ? { browsertrixSaveProfile: true } : {}),
+          ...(values["proxy-server"] ? { browsertrixProxy: values["proxy-server"] } : {}),
+          ...(values["add-host"]?.length ? { browsertrixAddHosts: values["add-host"] } : {}),
+          ...(values.network ? { browsertrixNetwork: values.network } : {}),
+          ...(values["extra-chrome-arg"]?.length
+            ? { browsertrixExtraChromeArgs: values["extra-chrome-arg"] }
+            : {}),
+          ...(values["user-agent-suffix"] !== undefined
+            ? { browsertrixUserAgentSuffix: values["user-agent-suffix"] }
+            : {}),
+          ...(values["wait-on-source-cooldown"] ? { waitOnSourceCooldown: true } : {}),
+          refresh: values.refresh ?? false,
+          onProgress: (key: string, gaps: readonly string[]): void => {
+            console.log(
+              JSON.stringify({
+                key,
+                status: gaps.length ? "incomplete" : "ready_for_review",
+                gaps,
+              }),
+            );
+          },
+        }),
+      ),
+    );
     return;
   }
   if (command === "probe") {
@@ -570,7 +638,7 @@ async function main(): Promise<void> {
     );
   } else
     throw new Error(
-      "Unknown command; choose seed, crawl, crawl-all, crawl-priority, challenge-report, import-quest-xp, questie-quest-xp, probe, blizzard-probe, blizzard-quest-xp, status, report, or publish",
+      "Unknown command; choose seed, crawl, crawl-all, crawl-listings, crawl-priority, challenge-report, import-quest-xp, questie-quest-xp, probe, blizzard-probe, blizzard-quest-xp, status, report, or publish",
     );
 }
 

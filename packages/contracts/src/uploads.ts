@@ -108,6 +108,122 @@ export const auctionScanUploadSchema = z
     path: ["completedAt"],
   });
 
+export const professionSnapshotRecipeSchema = z
+  .object({
+    recipeSpellId: wowIdSchema,
+    name: z.string().min(1).max(512).nullable(),
+    cooldownSecondsRemaining: nonnegativeIntegerSchema.nullable(),
+    isDayCooldown: z.boolean().nullable(),
+    charges: nonnegativeIntegerSchema.nullable(),
+    maximumCharges: nonnegativeIntegerSchema.nullable(),
+  })
+  .refine(
+    (value) =>
+      value.charges === null ||
+      value.maximumCharges === null ||
+      value.charges <= value.maximumCharges,
+    { message: "Recipe charges cannot exceed maximum charges", path: ["charges"] },
+  );
+
+export const professionSnapshotProfessionSchema = z
+  .object({
+    professionSkillLineId: wowIdSchema,
+    parentProfessionSkillLineId: wowIdSchema.nullable(),
+    name: z.string().min(1).max(256),
+    skillLevel: nonnegativeIntegerSchema,
+    maximumSkillLevel: nonnegativeIntegerSchema,
+    skillModifier: z.number().int().safe(),
+    apiFlavor: z.enum(["c_trade_skill_ui", "legacy_trade_skill", "profession_list_only"]),
+    recipeListComplete: z.boolean(),
+    specializationSpellIds: z.array(wowIdSchema).max(64),
+    knownRecipes: z.array(professionSnapshotRecipeSchema).max(10_000),
+  })
+  .superRefine((value, context) => {
+    if (value.skillLevel > value.maximumSkillLevel) {
+      context.addIssue({
+        code: "custom",
+        message: "Profession skill cannot exceed maximum skill",
+        path: ["skillLevel"],
+      });
+    }
+    addDuplicateNumberIssues(
+      value.specializationSpellIds,
+      context,
+      "Specialization spell IDs must be unique",
+      "specializationSpellIds",
+    );
+    addDuplicateNumberIssues(
+      value.knownRecipes.map((recipe) => recipe.recipeSpellId),
+      context,
+      "Known recipe spell IDs must be unique within a profession",
+      "knownRecipes",
+    );
+  });
+
+export const professionSnapshotInventoryItemSchema = z.object({
+  itemId: wowIdSchema,
+  quantity: z.number().int().positive().safe(),
+});
+
+export const professionSnapshotDataSchema = z
+  .object({
+    snapshotId: z.string().uuid(),
+    moneyCopper: z
+      .string()
+      .regex(/^\d+$/)
+      .refine((value) => BigInt(value) <= 9_223_372_036_854_775_807n, {
+        message: "Money exceeds signed 64-bit storage",
+      }),
+    inventoryScope: z.enum(["bags", "bags_and_bank"]),
+    inventory: z.array(professionSnapshotInventoryItemSchema).max(50_000),
+    professions: z.array(professionSnapshotProfessionSchema).max(64),
+  })
+  .superRefine((value, context) => {
+    addDuplicateNumberIssues(
+      value.inventory.map((item) => item.itemId),
+      context,
+      "Inventory item IDs must be unique",
+      "inventory",
+    );
+    addDuplicateNumberIssues(
+      value.professions.map((profession) => profession.professionSkillLineId),
+      context,
+      "Profession skill line IDs must be unique",
+      "professions",
+    );
+  });
+
+export const professionSnapshotUploadSchema = z
+  .object({
+    schemaVersion: z.literal("profession-snapshot.v1"),
+    payloadType: z.literal("profession_snapshot"),
+    payloadId: z.string().uuid(),
+    addonVersion: z.string().min(1).max(64),
+    clientProduct: z.string().min(1).max(64),
+    clientBuild: z.number().int().positive().safe(),
+    locale: localeSchema,
+    region: z.string().min(2).max(8),
+    realmId: z.string().min(1).max(128),
+    sourceCharacter: sourceCharacterSchema,
+    anonymousInstallationId: z.string().min(16).max(128),
+    capturedAt: isoDateTimeSchema,
+    completedAt: isoDateTimeSchema,
+    checksum: sha256Schema,
+    data: professionSnapshotDataSchema,
+  })
+  .refine((value) => value.payloadId === value.data.snapshotId, {
+    message: "Payload and profession snapshot IDs must match",
+    path: ["data", "snapshotId"],
+  })
+  .refine((value) => value.realmId === value.sourceCharacter.realmId, {
+    message: "Snapshot and character realm IDs must match",
+    path: ["sourceCharacter", "realmId"],
+  })
+  .refine((value) => Date.parse(value.completedAt) >= Date.parse(value.capturedAt), {
+    message: "Snapshot completion cannot precede capture",
+    path: ["completedAt"],
+  });
+
 const nullableWowIdSchema = wowIdSchema.nullable();
 
 export const worldObservationLocationSchema = z.object({
@@ -195,6 +311,7 @@ export const worldEncounterLootObservationSchema = z.object({
 
 export const worldLootObservationSchema = z.object({
   observationId: z.string().uuid(),
+  lootSessionId: z.string().uuid().nullable().default(null),
   capturedAt: isoDateTimeSchema,
   slotIndex: z.number().int().positive().safe(),
   itemId: wowIdSchema,
@@ -205,6 +322,21 @@ export const worldLootObservationSchema = z.object({
   sourceId: nullableWowIdSchema,
   sourceGuid: z.string().min(1).max(256).nullable(),
   sourceQuantity: nonnegativeIntegerSchema.nullable(),
+  encounterId: nullableWowIdSchema,
+  attemptId: z.string().uuid().nullable(),
+  observerLocation: worldObservationLocationSchema,
+});
+
+export const worldLootSessionSchema = z.object({
+  sessionId: z.string().uuid(),
+  capturedAt: isoDateTimeSchema,
+  sourceType: z.string().min(1).max(64),
+  sourceId: nullableWowIdSchema,
+  sourceName: z.string().min(1).max(256).nullable(),
+  sourceGuid: z.string().min(1).max(256).nullable(),
+  sourceQuantity: nonnegativeIntegerSchema.nullable(),
+  slotCount: nonnegativeIntegerSchema,
+  money: nonnegativeIntegerSchema.nullable(),
   encounterId: nullableWowIdSchema,
   attemptId: z.string().uuid().nullable(),
   observerLocation: worldObservationLocationSchema,
@@ -376,17 +508,40 @@ export const worldVendorObservationSchema = z.object({
   observerLocation: worldObservationLocationSchema,
 });
 
+export const worldTrainerObservationSchema = z.object({
+  observationId: z.string().uuid(),
+  capturedAt: isoDateTimeSchema,
+  sourceType: z.string().min(1).max(64),
+  sourceId: wowIdSchema,
+  sourceGuid: z.string().min(1).max(256).nullable(),
+  sourceName: z.string().min(1).max(256).nullable(),
+  serviceIndex: z.number().int().positive().safe(),
+  serviceName: z.string().min(1).max(512),
+  serviceRank: z.string().min(1).max(128).nullable(),
+  serviceType: z.string().min(1).max(64),
+  spellId: nullableWowIdSchema,
+  icon: z.union([nonnegativeIntegerSchema, z.string().min(1).max(1_024)]).nullable(),
+  moneyCost: nonnegativeIntegerSchema,
+  requiredLevel: nonnegativeIntegerSchema.nullable(),
+  requiredSkillLine: z.string().min(1).max(256).nullable(),
+  requiredSkillRank: nonnegativeIntegerSchema.nullable(),
+  allFiltersEnabled: z.boolean(),
+  observerLocation: worldObservationLocationSchema,
+});
+
 export const worldDiagnosticsDataSchema = z.object({
   modelResolutions: z.array(worldModelResolutionSchema).max(1_000),
   healthObservations: z.array(worldHealthObservationSchema).max(5_000),
   encounterAttempts: z.array(worldEncounterAttemptSchema).max(100),
   encounterLoot: z.array(worldEncounterLootObservationSchema).max(1_000),
+  lootSessions: z.array(worldLootSessionSchema).max(5_000).default([]),
   lootObservations: z.array(worldLootObservationSchema).max(5_000),
   npcSightings: z.array(worldNpcSightingSchema).max(5_000),
   spellObservations: z.array(worldCombatSpellObservationSchema).max(20_000),
   questQueries: z.array(worldQuestQueryObservationSchema).max(10_000),
   questObservations: z.array(worldQuestObservationSchema).max(10_000),
   vendorObservations: z.array(worldVendorObservationSchema).max(10_000),
+  trainerObservations: z.array(worldTrainerObservationSchema).max(10_000).default([]),
 });
 
 export const worldDiagnosticsUploadSchema = z
@@ -425,10 +580,29 @@ export const uploadReceiptSchema = z.object({
   duplicate: z.boolean(),
 });
 
+function addDuplicateNumberIssues(
+  values: readonly number[],
+  context: z.RefinementCtx,
+  message: string,
+  pathPrefix: string,
+): void {
+  const seen = new Set<number>();
+  values.forEach((value, index) => {
+    if (seen.has(value)) {
+      context.addIssue({ code: "custom", message, path: [pathPrefix, index] });
+    }
+    seen.add(value);
+  });
+}
+
 export type AuctionScanUpload = z.infer<typeof auctionScanUploadSchema>;
 export type AuctionScanData = z.infer<typeof auctionScanDataSchema>;
 export type AuctionItemSnapshot = z.infer<typeof auctionItemSnapshotSchema>;
 export type AuctionPriceLevel = z.infer<typeof auctionPriceLevelSchema>;
+export type ProfessionSnapshotRecipe = z.infer<typeof professionSnapshotRecipeSchema>;
+export type ProfessionSnapshotProfession = z.infer<typeof professionSnapshotProfessionSchema>;
+export type ProfessionSnapshotData = z.infer<typeof professionSnapshotDataSchema>;
+export type ProfessionSnapshotUpload = z.infer<typeof professionSnapshotUploadSchema>;
 export type WorldObservationLocation = z.infer<typeof worldObservationLocationSchema>;
 export type WorldDiagnosticsData = z.infer<typeof worldDiagnosticsDataSchema>;
 export type WorldDiagnosticsUpload = z.infer<typeof worldDiagnosticsUploadSchema>;

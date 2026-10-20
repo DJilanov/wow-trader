@@ -6,6 +6,7 @@ import {
 } from "../../../components/trader-workspace-page";
 import { TBC_CLIENT_PRODUCT } from "../../../lib/game-versions";
 import { createHelperMetadata } from "../../../lib/seo";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,7 @@ export default function TbcTraderPage(props: TraderWorkspacePageProps): Promise<
       encyclopediaRecipePath: "/tbc/encyclopedia/recipes",
       encyclopediaItemPath: "/tbc/encyclopedia/items",
       marketBasePath: "/tbc/markets",
-      opportunityApiBasePath: "/api/v1/tbc/opportunity-details",
+      opportunityApiBasePath: withHelperBasePath("/api/v1/tbc/opportunity-details"),
       collectorPath: null,
       displayRegion: (region) => region.toUpperCase(),
       specializationCopy: "supported",

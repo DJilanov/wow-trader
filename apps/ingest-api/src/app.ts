@@ -9,6 +9,7 @@ import {
   canonicalJson,
   marketIntelligencePackSchema,
   marketIntelligenceQuerySchema,
+  professionSnapshotUploadSchema,
   publicDataStatusSchema,
   uploadReceiptSchema,
   uploadStatusSchema,
@@ -145,6 +146,49 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
         envelopeHash,
       );
 
+      return reply.code(202).send(receipt);
+    },
+  );
+
+  app.post(
+    "/v1/uploads/profession-snapshot",
+    {
+      config: {
+        rateLimit: {
+          max: 60,
+          timeWindow: "1 minute",
+        },
+      },
+      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      schema: {
+        body: professionSnapshotUploadSchema,
+        response: {
+          202: uploadReceiptSchema,
+          401: errorResponseSchema,
+          409: errorResponseSchema,
+          422: errorResponseSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const canonicalData = canonicalJson(request.body.data as JsonValue);
+      const calculatedChecksum = createHash("sha256").update(canonicalData).digest("hex");
+      if (!safeStringEqual(calculatedChecksum, request.body.checksum)) {
+        throw new PayloadChecksumError();
+      }
+
+      const canonicalEnvelope = canonicalJson(request.body as JsonValue);
+      const envelopeHash = createHash("sha256").update(canonicalEnvelope).digest("hex");
+      const rawPayloadUri = await options.rawPayloadStore.put(
+        request.body.payloadId,
+        envelopeHash,
+        canonicalEnvelope,
+      );
+      const receipt = await options.repository.acceptProfessionSnapshot(
+        request.body,
+        rawPayloadUri,
+        envelopeHash,
+      );
       return reply.code(202).send(receipt);
     },
   );

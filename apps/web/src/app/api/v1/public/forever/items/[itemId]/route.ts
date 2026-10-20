@@ -1,6 +1,7 @@
 import { getItemDetail } from "../../../../../../../lib/data";
 import { FOREVER_CLIENT_PRODUCT } from "../../../../../../../lib/game-versions";
 import { publicJsonResponse } from "../../../../../../../lib/public-api";
+import { helperAbsoluteUrl } from "../../../../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export async function GET(_request: Request, { params }: RouteContext): Promise<
     return publicJsonResponse(
       {
         schemaVersion: "forever-item.v1",
-        canonicalUrl: `https://helper.kfcguild.online/forever/encyclopedia/items/${item.itemId}`,
+        canonicalUrl: helperAbsoluteUrl(`/forever/encyclopedia/items/${item.itemId}`),
         item,
       },
       { maxAgeSeconds: 3_600 },

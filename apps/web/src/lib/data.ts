@@ -1,6 +1,9 @@
 import { calculateCraftingOpportunity } from "@wow-trader/economics";
 import {
   auctionPriceLevels,
+  communityReferenceEntities,
+  communityReferenceRelations,
+  communityReferenceSnapshots,
   gameClassVersions,
   gameBuilds,
   gameRaceVersions,
@@ -19,6 +22,7 @@ import {
   itemStats,
   itemSubclassVersions,
   itemVersions,
+  marketItemObservations,
   marketScans,
   professions,
   professionVersions,
@@ -32,10 +36,28 @@ import {
   transformationOutputs,
   transformationVersions,
   worldLootSourceCandidates,
+  worldLootObservations,
+  worldLootSessions,
+  worldTrainerObservations,
+  worldVendorObservations,
   type WowTraderDatabase,
 } from "@wow-trader/db";
 import { forecastPrice, summarizeOrderBook, type PriceForecast } from "@wow-trader/market";
-import { and, count, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
+import { assessEvidenceNameAgreement } from "@wow-trader/world-data";
+import {
+  and,
+  count,
+  desc,
+  eq,
+  ilike,
+  inArray,
+  isNotNull,
+  isNull,
+  or,
+  sql,
+  type SQL,
+} from "drizzle-orm";
+import { cache } from "react";
 
 import { formatCopper, formatPercentBasisPoints } from "./format";
 import { getDatabase } from "./database";
@@ -126,6 +148,19 @@ export interface RecipeDetail {
     readonly iconFileDataId: number | null;
     readonly quality: number;
   }[];
+  readonly trainers: readonly {
+    readonly sourceId: number;
+    readonly sourceName: string | null;
+    readonly serviceName: string;
+    readonly serviceRank: string | null;
+    readonly serviceType: string;
+    readonly moneyCost: bigint;
+    readonly requiredLevel: number | null;
+    readonly requiredSkillLine: string | null;
+    readonly requiredSkillRank: number | null;
+    readonly allFiltersEnabled: boolean;
+    readonly observedAt: Date;
+  }[];
   readonly productionChain: readonly ProductionMaterialNode[];
 }
 
@@ -215,6 +250,31 @@ export interface ItemDetail {
     readonly evidenceKind: string;
     readonly description: string;
     readonly requiresReview: boolean;
+  }[];
+  readonly communityAcquisition: readonly {
+    readonly relationKind: string;
+    readonly targetKind: string;
+    readonly targetId: number;
+    readonly targetName: string | null;
+    readonly sourceRevision: string;
+    readonly evidenceStatus: "single_source" | "corroborated" | "conflicting";
+    readonly observedEvidenceCount: number;
+    readonly conflictingObservedNameCount: number;
+  }[];
+  readonly observedDrops: readonly {
+    readonly sourceType: string;
+    readonly sourceId: number;
+    readonly sourceName: string | null;
+    readonly itemSessions: number;
+    readonly eligibleSessions: number;
+  }[];
+  readonly observedVendors: readonly {
+    readonly sourceId: number;
+    readonly sourceName: string | null;
+    readonly price: bigint;
+    readonly stackCount: number;
+    readonly available: number | null;
+    readonly observedAt: Date;
   }[];
 }
 
@@ -422,37 +482,71 @@ export async function getSitemapCatalogData(
 export async function getReferenceClientItems(
   itemIds: readonly number[],
   clientProduct: string,
-): Promise<readonly Pick<ItemDetail, "itemId" | "name" | "classId" | "subclassId" | "requiredLevel" | "delayMs" | "stats" | "damages">[]> {
+): Promise<
+  readonly Pick<
+    ItemDetail,
+    "itemId" | "name" | "classId" | "subclassId" | "requiredLevel" | "delayMs" | "stats" | "damages"
+  >[]
+> {
   if (!itemIds.length) return [];
   const database = getDatabase();
   const build = await getLatestBuild(database, undefined, clientProduct);
   if (!build) return [];
-  const items: Array<Pick<ItemDetail, "itemId" | "name" | "classId" | "subclassId" | "requiredLevel" | "delayMs" | "stats" | "damages">> = [];
+  const items: Array<
+    Pick<
+      ItemDetail,
+      | "itemId"
+      | "name"
+      | "classId"
+      | "subclassId"
+      | "requiredLevel"
+      | "delayMs"
+      | "stats"
+      | "damages"
+    >
+  > = [];
   for (let offset = 0; offset < itemIds.length; offset += 10_000) {
     const ids = itemIds.slice(offset, offset + 10_000);
     const [rows, stats, damages] = await Promise.all([
-      database.select({
-        itemId: itemVersions.itemId,
-        name: itemVersions.name,
-        classId: itemVersions.classId,
-        subclassId: itemVersions.subclassId,
-        requiredLevel: itemVersions.requiredLevel,
-        delayMs: itemVersions.delayMs,
-      }).from(itemVersions).where(and(eq(itemVersions.buildId, build.id), inArray(itemVersions.itemId, ids))),
-      database.select().from(itemStats).where(and(eq(itemStats.buildId, build.id), inArray(itemStats.itemId, ids))),
-      database.select().from(itemDamages).where(and(eq(itemDamages.buildId, build.id), inArray(itemDamages.itemId, ids))),
+      database
+        .select({
+          itemId: itemVersions.itemId,
+          name: itemVersions.name,
+          classId: itemVersions.classId,
+          subclassId: itemVersions.subclassId,
+          requiredLevel: itemVersions.requiredLevel,
+          delayMs: itemVersions.delayMs,
+        })
+        .from(itemVersions)
+        .where(and(eq(itemVersions.buildId, build.id), inArray(itemVersions.itemId, ids))),
+      database
+        .select()
+        .from(itemStats)
+        .where(and(eq(itemStats.buildId, build.id), inArray(itemStats.itemId, ids))),
+      database
+        .select()
+        .from(itemDamages)
+        .where(and(eq(itemDamages.buildId, build.id), inArray(itemDamages.itemId, ids))),
     ]);
     const statsByItem = new Map<number, typeof stats>();
     const damageByItem = new Map<number, typeof damages>();
     for (const stat of stats) {
       const group = statsByItem.get(stat.itemId) ?? [];
-      group.push(stat); statsByItem.set(stat.itemId, group);
+      group.push(stat);
+      statsByItem.set(stat.itemId, group);
     }
     for (const damage of damages) {
       const group = damageByItem.get(damage.itemId) ?? [];
-      group.push(damage); damageByItem.set(damage.itemId, group);
+      group.push(damage);
+      damageByItem.set(damage.itemId, group);
     }
-    items.push(...rows.map((row) => ({ ...row, stats: statsByItem.get(row.itemId) ?? [], damages: damageByItem.get(row.itemId) ?? [] })));
+    items.push(
+      ...rows.map((row) => ({
+        ...row,
+        stats: statsByItem.get(row.itemId) ?? [],
+        damages: damageByItem.get(row.itemId) ?? [],
+      })),
+    );
   }
   return items;
 }
@@ -500,7 +594,7 @@ export async function searchCatalog(
     .limit(40);
 }
 
-export async function getRecipeDetail(
+async function getRecipeDetailUncached(
   recipeSpellId: number,
   clientProduct: string = TBC_CLIENT_PRODUCT,
 ): Promise<RecipeDetail | null> {
@@ -543,73 +637,146 @@ export async function getRecipeDetail(
     .limit(1);
   if (!recipe) return null;
 
-  const [inputs, outputs, teachingItems] = await Promise.all([
-    database
-      .select({
-        itemId: recipeInputs.reagentItemId,
-        name: itemVersions.name,
-        quantity: recipeInputs.quantity,
-        optional: recipeInputs.optional,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(recipeInputs)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, recipeInputs.buildId),
-          eq(itemVersions.itemId, recipeInputs.reagentItemId),
+  const [inputs, outputs, catalogTeachingItems, communityTeachingItems, trainerRows] =
+    await Promise.all([
+      database
+        .select({
+          itemId: recipeInputs.reagentItemId,
+          name: itemVersions.name,
+          quantity: recipeInputs.quantity,
+          optional: recipeInputs.optional,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(recipeInputs)
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, recipeInputs.buildId),
+            eq(itemVersions.itemId, recipeInputs.reagentItemId),
+          ),
+        )
+        .where(
+          and(eq(recipeInputs.buildId, build.id), eq(recipeInputs.recipeSpellId, recipeSpellId)),
+        )
+        .orderBy(recipeInputs.slot),
+      database
+        .select({
+          itemId: recipeOutputs.outputItemId,
+          itemName: itemVersions.name,
+          enchantmentId: recipeOutputs.enchantmentId,
+          minimumQuantity: recipeOutputs.minimumQuantity,
+          maximumQuantity: recipeOutputs.maximumQuantity,
+          expectedNumerator: recipeOutputs.expectedQuantityNumerator,
+          expectedDenominator: recipeOutputs.expectedQuantityDenominator,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(recipeOutputs)
+        .leftJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, recipeOutputs.buildId),
+            eq(itemVersions.itemId, recipeOutputs.outputItemId),
+          ),
+        )
+        .where(
+          and(eq(recipeOutputs.buildId, build.id), eq(recipeOutputs.recipeSpellId, recipeSpellId)),
+        )
+        .orderBy(recipeOutputs.slot),
+      database
+        .select({
+          itemId: recipeTeachingItems.teachingItemId,
+          name: itemVersions.name,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(recipeTeachingItems)
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, recipeTeachingItems.buildId),
+            eq(itemVersions.itemId, recipeTeachingItems.teachingItemId),
+          ),
+        )
+        .where(
+          and(
+            eq(recipeTeachingItems.buildId, build.id),
+            eq(recipeTeachingItems.recipeSpellId, recipeSpellId),
+          ),
         ),
-      )
-      .where(and(eq(recipeInputs.buildId, build.id), eq(recipeInputs.recipeSpellId, recipeSpellId)))
-      .orderBy(recipeInputs.slot),
-    database
-      .select({
-        itemId: recipeOutputs.outputItemId,
-        itemName: itemVersions.name,
-        enchantmentId: recipeOutputs.enchantmentId,
-        minimumQuantity: recipeOutputs.minimumQuantity,
-        maximumQuantity: recipeOutputs.maximumQuantity,
-        expectedNumerator: recipeOutputs.expectedQuantityNumerator,
-        expectedDenominator: recipeOutputs.expectedQuantityDenominator,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(recipeOutputs)
-      .leftJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, recipeOutputs.buildId),
-          eq(itemVersions.itemId, recipeOutputs.outputItemId),
-        ),
-      )
-      .where(
-        and(eq(recipeOutputs.buildId, build.id), eq(recipeOutputs.recipeSpellId, recipeSpellId)),
-      )
-      .orderBy(recipeOutputs.slot),
-    database
-      .select({
-        itemId: recipeTeachingItems.teachingItemId,
-        name: itemVersions.name,
-        iconFileDataId: itemVersions.iconFileDataId,
-        quality: itemVersions.quality,
-      })
-      .from(recipeTeachingItems)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, recipeTeachingItems.buildId),
-          eq(itemVersions.itemId, recipeTeachingItems.teachingItemId),
-        ),
-      )
-      .where(
-        and(
-          eq(recipeTeachingItems.buildId, build.id),
-          eq(recipeTeachingItems.recipeSpellId, recipeSpellId),
-        ),
-      ),
-  ]);
-  const productionMethods = await getProductionMethods(database, build.id);
+      database
+        .select({
+          itemId: communityReferenceRelations.sourceId,
+          name: itemVersions.name,
+          iconFileDataId: itemVersions.iconFileDataId,
+          quality: itemVersions.quality,
+        })
+        .from(communityReferenceRelations)
+        .innerJoin(
+          communityReferenceSnapshots,
+          eq(communityReferenceSnapshots.id, communityReferenceRelations.snapshotId),
+        )
+        .innerJoin(
+          itemVersions,
+          and(
+            eq(itemVersions.buildId, build.id),
+            eq(itemVersions.itemId, communityReferenceRelations.sourceId),
+          ),
+        )
+        .where(
+          and(
+            eq(communityReferenceSnapshots.buildId, build.id),
+            eq(communityReferenceSnapshots.status, "published"),
+            eq(communityReferenceRelations.sourceKind, "item"),
+            eq(communityReferenceRelations.relationKind, "teaches_spell"),
+            eq(communityReferenceRelations.targetKind, "spell"),
+            eq(communityReferenceRelations.targetId, recipeSpellId),
+          ),
+        )
+        .orderBy(itemVersions.name),
+      database
+        .select({
+          sourceId: worldTrainerObservations.sourceId,
+          sourceName: worldTrainerObservations.sourceName,
+          serviceName: worldTrainerObservations.serviceName,
+          serviceRank: worldTrainerObservations.serviceRank,
+          serviceType: worldTrainerObservations.serviceType,
+          moneyCost: worldTrainerObservations.moneyCost,
+          requiredLevel: worldTrainerObservations.requiredLevel,
+          requiredSkillLine: worldTrainerObservations.requiredSkillLine,
+          requiredSkillRank: worldTrainerObservations.requiredSkillRank,
+          allFiltersEnabled: worldTrainerObservations.allFiltersEnabled,
+          observedAt: worldTrainerObservations.capturedAt,
+        })
+        .from(worldTrainerObservations)
+        .where(
+          and(
+            eq(worldTrainerObservations.clientProduct, clientProduct),
+            eq(worldTrainerObservations.clientBuild, build.buildNumber),
+            or(
+              eq(worldTrainerObservations.spellId, recipeSpellId),
+              and(
+                isNull(worldTrainerObservations.spellId),
+                eq(worldTrainerObservations.serviceName, recipe.name),
+              ),
+            ),
+          ),
+        )
+        .orderBy(desc(worldTrainerObservations.capturedAt))
+        .limit(500),
+    ]);
+  const teachingItems = [
+    ...new Map(
+      [...catalogTeachingItems, ...communityTeachingItems].map((item) => [item.itemId, item]),
+    ).values(),
+  ];
+  const trainers = [...new Map(trainerRows.map((trainer) => [trainer.sourceId, trainer])).values()];
+  const productionMethods = await getProductionMethods(
+    database,
+    build.id,
+    inputs.map((input) => input.itemId),
+  );
 
   return {
     recipeSpellId,
@@ -626,137 +793,68 @@ export async function getRecipeDetail(
     inputs,
     outputs,
     teachingItems,
+    trainers,
     productionChain: buildProductionChain(inputs, productionMethods),
   };
 }
 
+export const getRecipeDetail = cache(getRecipeDetailUncached);
+
 async function getProductionMethods(
   database: WowTraderDatabase,
   buildId: string,
+  rootItemIds: readonly number[],
 ): Promise<readonly ProductionMethodSource[]> {
-  const [recipeMethodRows, recipeInputRows, transformationMethodRows, transformationInputRows] =
-    await Promise.all([
-      database
-        .select({
-          recipeSpellId: recipeVersions.recipeSpellId,
-          name: spellVersions.name,
-          professionName: professionVersions.name,
-          professionSlug: professions.slug,
-          requiredSkillRank: recipeVersions.requiredSkillRank,
-          cooldownMs: recipeVersions.cooldownMs,
-          categoryCooldownMs: recipeVersions.categoryCooldownMs,
-          outputItemId: recipeOutputs.outputItemId,
-          outputName: itemVersions.name,
-          outputIconFileDataId: itemVersions.iconFileDataId,
-          outputQuality: itemVersions.quality,
-          minimumQuantity: recipeOutputs.minimumQuantity,
-          maximumQuantity: recipeOutputs.maximumQuantity,
-        })
-        .from(recipeOutputs)
-        .innerJoin(
-          recipeVersions,
-          and(
-            eq(recipeVersions.buildId, recipeOutputs.buildId),
-            eq(recipeVersions.recipeSpellId, recipeOutputs.recipeSpellId),
-          ),
-        )
-        .innerJoin(
-          spellVersions,
-          and(
-            eq(spellVersions.buildId, recipeVersions.buildId),
-            eq(spellVersions.spellId, recipeVersions.recipeSpellId),
-          ),
-        )
-        .innerJoin(
-          professionVersions,
-          and(
-            eq(professionVersions.buildId, recipeVersions.buildId),
-            eq(professionVersions.skillLineId, recipeVersions.professionSkillLineId),
-          ),
-        )
-        .innerJoin(professions, eq(professions.skillLineId, recipeVersions.professionSkillLineId))
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, recipeOutputs.buildId),
-            eq(itemVersions.itemId, recipeOutputs.outputItemId),
-          ),
-        )
-        .where(eq(recipeOutputs.buildId, buildId)),
-      database
-        .select({
-          recipeSpellId: recipeInputs.recipeSpellId,
-          itemId: recipeInputs.reagentItemId,
-          name: itemVersions.name,
-          quantity: recipeInputs.quantity,
-          iconFileDataId: itemVersions.iconFileDataId,
-          quality: itemVersions.quality,
-        })
-        .from(recipeInputs)
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, recipeInputs.buildId),
-            eq(itemVersions.itemId, recipeInputs.reagentItemId),
-          ),
-        )
-        .where(eq(recipeInputs.buildId, buildId)),
-      database
-        .select({
-          transformationId: transformationVersions.transformationId,
-          spellId: transformationVersions.spellId,
-          name: spellVersions.name,
-          cooldownMs: transformationVersions.cooldownMs,
-          categoryCooldownMs: transformationVersions.categoryCooldownMs,
-          outputItemId: transformationOutputs.itemId,
-          outputName: itemVersions.name,
-          outputIconFileDataId: itemVersions.iconFileDataId,
-          outputQuality: itemVersions.quality,
-          minimumQuantity: transformationOutputs.minimumQuantity,
-          maximumQuantity: transformationOutputs.maximumQuantity,
-        })
-        .from(transformationOutputs)
-        .innerJoin(
-          transformationVersions,
-          and(
-            eq(transformationVersions.buildId, transformationOutputs.buildId),
-            eq(transformationVersions.transformationId, transformationOutputs.transformationId),
-          ),
-        )
-        .innerJoin(
-          spellVersions,
-          and(
-            eq(spellVersions.buildId, transformationVersions.buildId),
-            eq(spellVersions.spellId, transformationVersions.spellId),
-          ),
-        )
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, transformationOutputs.buildId),
-            eq(itemVersions.itemId, transformationOutputs.itemId),
-          ),
-        )
-        .where(eq(transformationOutputs.buildId, buildId)),
-      database
-        .select({
-          transformationId: transformationInputs.transformationId,
-          itemId: transformationInputs.itemId,
-          name: itemVersions.name,
-          quantity: transformationInputs.quantity,
-          iconFileDataId: itemVersions.iconFileDataId,
-          quality: itemVersions.quality,
-        })
-        .from(transformationInputs)
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, transformationInputs.buildId),
-            eq(itemVersions.itemId, transformationInputs.itemId),
-          ),
-        )
-        .where(eq(transformationInputs.buildId, buildId)),
+  const recipeMethodRows: RecipeProductionMethodRow[] = [];
+  const recipeInputRows: RecipeProductionInputRow[] = [];
+  const transformationMethodRows: TransformationProductionMethodRow[] = [];
+  const transformationInputRows: TransformationProductionInputRow[] = [];
+  const visitedItemIds = new Set<number>();
+  const loadedRecipeIds = new Set<number>();
+  const loadedTransformationIds = new Set<number>();
+  let frontier = [...new Set(rootItemIds)];
+
+  // The renderer expands at most five craft levels. Query only producers that can appear in that
+  // bounded tree instead of loading every recipe and transformation in the selected game build.
+  for (let depth = 0; depth <= 5 && frontier.length > 0; depth += 1) {
+    const outputItemIds = frontier.filter((itemId) => !visitedItemIds.has(itemId));
+    if (outputItemIds.length === 0) break;
+    outputItemIds.forEach((itemId) => visitedItemIds.add(itemId));
+
+    const [recipeRows, transformationRows] = await Promise.all([
+      findRecipeProductionMethods(database, buildId, outputItemIds),
+      findTransformationProductionMethods(database, buildId, outputItemIds),
     ]);
+    recipeMethodRows.push(...recipeRows);
+    transformationMethodRows.push(...transformationRows);
+
+    const recipeIds = [
+      ...new Set(
+        recipeRows
+          .map((row) => row.recipeSpellId)
+          .filter((recipeSpellId) => !loadedRecipeIds.has(recipeSpellId)),
+      ),
+    ];
+    const transformationIds = [
+      ...new Set(
+        transformationRows
+          .map((row) => row.transformationId)
+          .filter((transformationId) => !loadedTransformationIds.has(transformationId)),
+      ),
+    ];
+    recipeIds.forEach((recipeSpellId) => loadedRecipeIds.add(recipeSpellId));
+    transformationIds.forEach((transformationId) => loadedTransformationIds.add(transformationId));
+
+    const [newRecipeInputs, newTransformationInputs] = await Promise.all([
+      findRecipeProductionInputs(database, buildId, recipeIds),
+      findTransformationProductionInputs(database, buildId, transformationIds),
+    ]);
+    recipeInputRows.push(...newRecipeInputs);
+    transformationInputRows.push(...newTransformationInputs);
+    frontier = [...newRecipeInputs, ...newTransformationInputs]
+      .map((row) => row.itemId)
+      .filter((itemId) => !visitedItemIds.has(itemId));
+  }
 
   const recipeInputsBySpellId = groupBy(recipeInputRows, (row) => row.recipeSpellId);
   const transformationInputsById = groupBy(transformationInputRows, (row) => row.transformationId);
@@ -808,6 +906,183 @@ async function getProductionMethods(
   ];
 }
 
+async function findRecipeProductionMethods(
+  database: WowTraderDatabase,
+  buildId: string,
+  outputItemIds: readonly number[],
+) {
+  if (outputItemIds.length === 0) return [];
+  return database
+    .select({
+      recipeSpellId: recipeVersions.recipeSpellId,
+      name: spellVersions.name,
+      professionName: professionVersions.name,
+      professionSlug: professions.slug,
+      requiredSkillRank: recipeVersions.requiredSkillRank,
+      cooldownMs: recipeVersions.cooldownMs,
+      categoryCooldownMs: recipeVersions.categoryCooldownMs,
+      outputItemId: recipeOutputs.outputItemId,
+      outputName: itemVersions.name,
+      outputIconFileDataId: itemVersions.iconFileDataId,
+      outputQuality: itemVersions.quality,
+      minimumQuantity: recipeOutputs.minimumQuantity,
+      maximumQuantity: recipeOutputs.maximumQuantity,
+    })
+    .from(recipeOutputs)
+    .innerJoin(
+      recipeVersions,
+      and(
+        eq(recipeVersions.buildId, recipeOutputs.buildId),
+        eq(recipeVersions.recipeSpellId, recipeOutputs.recipeSpellId),
+      ),
+    )
+    .innerJoin(
+      spellVersions,
+      and(
+        eq(spellVersions.buildId, recipeVersions.buildId),
+        eq(spellVersions.spellId, recipeVersions.recipeSpellId),
+      ),
+    )
+    .innerJoin(
+      professionVersions,
+      and(
+        eq(professionVersions.buildId, recipeVersions.buildId),
+        eq(professionVersions.skillLineId, recipeVersions.professionSkillLineId),
+      ),
+    )
+    .innerJoin(professions, eq(professions.skillLineId, recipeVersions.professionSkillLineId))
+    .innerJoin(
+      itemVersions,
+      and(
+        eq(itemVersions.buildId, recipeOutputs.buildId),
+        eq(itemVersions.itemId, recipeOutputs.outputItemId),
+      ),
+    )
+    .where(
+      and(eq(recipeOutputs.buildId, buildId), inArray(recipeOutputs.outputItemId, outputItemIds)),
+    );
+}
+
+async function findRecipeProductionInputs(
+  database: WowTraderDatabase,
+  buildId: string,
+  recipeSpellIds: readonly number[],
+) {
+  if (recipeSpellIds.length === 0) return [];
+  return database
+    .select({
+      recipeSpellId: recipeInputs.recipeSpellId,
+      itemId: recipeInputs.reagentItemId,
+      name: itemVersions.name,
+      quantity: recipeInputs.quantity,
+      iconFileDataId: itemVersions.iconFileDataId,
+      quality: itemVersions.quality,
+    })
+    .from(recipeInputs)
+    .innerJoin(
+      itemVersions,
+      and(
+        eq(itemVersions.buildId, recipeInputs.buildId),
+        eq(itemVersions.itemId, recipeInputs.reagentItemId),
+      ),
+    )
+    .where(
+      and(eq(recipeInputs.buildId, buildId), inArray(recipeInputs.recipeSpellId, recipeSpellIds)),
+    )
+    .orderBy(recipeInputs.recipeSpellId, recipeInputs.slot);
+}
+
+async function findTransformationProductionMethods(
+  database: WowTraderDatabase,
+  buildId: string,
+  outputItemIds: readonly number[],
+) {
+  if (outputItemIds.length === 0) return [];
+  return database
+    .select({
+      transformationId: transformationVersions.transformationId,
+      spellId: transformationVersions.spellId,
+      name: spellVersions.name,
+      cooldownMs: transformationVersions.cooldownMs,
+      categoryCooldownMs: transformationVersions.categoryCooldownMs,
+      outputItemId: transformationOutputs.itemId,
+      outputName: itemVersions.name,
+      outputIconFileDataId: itemVersions.iconFileDataId,
+      outputQuality: itemVersions.quality,
+      minimumQuantity: transformationOutputs.minimumQuantity,
+      maximumQuantity: transformationOutputs.maximumQuantity,
+    })
+    .from(transformationOutputs)
+    .innerJoin(
+      transformationVersions,
+      and(
+        eq(transformationVersions.buildId, transformationOutputs.buildId),
+        eq(transformationVersions.transformationId, transformationOutputs.transformationId),
+      ),
+    )
+    .innerJoin(
+      spellVersions,
+      and(
+        eq(spellVersions.buildId, transformationVersions.buildId),
+        eq(spellVersions.spellId, transformationVersions.spellId),
+      ),
+    )
+    .innerJoin(
+      itemVersions,
+      and(
+        eq(itemVersions.buildId, transformationOutputs.buildId),
+        eq(itemVersions.itemId, transformationOutputs.itemId),
+      ),
+    )
+    .where(
+      and(
+        eq(transformationOutputs.buildId, buildId),
+        inArray(transformationOutputs.itemId, outputItemIds),
+      ),
+    );
+}
+
+async function findTransformationProductionInputs(
+  database: WowTraderDatabase,
+  buildId: string,
+  transformationIds: readonly number[],
+) {
+  if (transformationIds.length === 0) return [];
+  return database
+    .select({
+      transformationId: transformationInputs.transformationId,
+      itemId: transformationInputs.itemId,
+      name: itemVersions.name,
+      quantity: transformationInputs.quantity,
+      iconFileDataId: itemVersions.iconFileDataId,
+      quality: itemVersions.quality,
+    })
+    .from(transformationInputs)
+    .innerJoin(
+      itemVersions,
+      and(
+        eq(itemVersions.buildId, transformationInputs.buildId),
+        eq(itemVersions.itemId, transformationInputs.itemId),
+      ),
+    )
+    .where(
+      and(
+        eq(transformationInputs.buildId, buildId),
+        inArray(transformationInputs.transformationId, transformationIds),
+      ),
+    )
+    .orderBy(transformationInputs.transformationId, transformationInputs.slot);
+}
+
+type RecipeProductionMethodRow = Awaited<ReturnType<typeof findRecipeProductionMethods>>[number];
+type RecipeProductionInputRow = Awaited<ReturnType<typeof findRecipeProductionInputs>>[number];
+type TransformationProductionMethodRow = Awaited<
+  ReturnType<typeof findTransformationProductionMethods>
+>[number];
+type TransformationProductionInputRow = Awaited<
+  ReturnType<typeof findTransformationProductionInputs>
+>[number];
+
 export async function getItemDetail(
   itemId: number,
   clientProduct: string = TBC_CLIENT_PRODUCT,
@@ -839,6 +1114,9 @@ export async function getItemDetail(
     limitCategories,
     requiredAbilities,
     acquisition,
+    communityAcquisitionRows,
+    observedDrops,
+    observedVendorRows,
   ] = await Promise.all([
     database
       .select({
@@ -1013,6 +1291,56 @@ export async function getItemDetail(
         ),
       )
       .orderBy(worldLootSourceCandidates.targetKind, worldLootSourceCandidates.targetName),
+    database
+      .select({
+        relationKind: communityReferenceRelations.relationKind,
+        targetKind: communityReferenceRelations.targetKind,
+        targetId: communityReferenceRelations.targetId,
+        targetName: communityReferenceEntities.name,
+        sourceRevision: communityReferenceSnapshots.sourceRevision,
+      })
+      .from(communityReferenceRelations)
+      .innerJoin(
+        communityReferenceSnapshots,
+        eq(communityReferenceSnapshots.id, communityReferenceRelations.snapshotId),
+      )
+      .leftJoin(
+        communityReferenceEntities,
+        and(
+          eq(communityReferenceEntities.snapshotId, communityReferenceRelations.snapshotId),
+          eq(communityReferenceEntities.entityKind, communityReferenceRelations.targetKind),
+          eq(communityReferenceEntities.entityId, communityReferenceRelations.targetId),
+        ),
+      )
+      .where(
+        and(
+          eq(communityReferenceSnapshots.buildId, build.id),
+          eq(communityReferenceSnapshots.status, "published"),
+          eq(communityReferenceRelations.sourceKind, "item"),
+          eq(communityReferenceRelations.sourceId, itemId),
+        ),
+      )
+      .orderBy(communityReferenceRelations.relationKind, communityReferenceEntities.name),
+    getObservedDropSources(database, itemId, clientProduct, build.buildNumber),
+    database
+      .select({
+        sourceId: worldVendorObservations.sourceId,
+        sourceName: worldVendorObservations.sourceName,
+        price: worldVendorObservations.price,
+        stackCount: worldVendorObservations.stackCount,
+        available: worldVendorObservations.available,
+        observedAt: worldVendorObservations.capturedAt,
+      })
+      .from(worldVendorObservations)
+      .where(
+        and(
+          eq(worldVendorObservations.clientProduct, clientProduct),
+          eq(worldVendorObservations.clientBuild, build.buildNumber),
+          eq(worldVendorObservations.itemId, itemId),
+        ),
+      )
+      .orderBy(desc(worldVendorObservations.capturedAt))
+      .limit(1_000),
   ]);
 
   const [itemSet, gem, socketBonus] = await Promise.all([
@@ -1020,6 +1348,25 @@ export async function getItemDetail(
     getGemDetail(database, build.id, item.gemPropertiesId),
     getItemEnchantmentDetail(database, build.id, item.socketBonusEnchantmentId),
   ]);
+  const communityAcquisition = communityAcquisitionRows.map((source) => {
+    const observedNames =
+      source.relationKind === "dropped_by_npc"
+        ? observedDrops
+            .filter((drop) => drop.sourceId === source.targetId)
+            .map((drop) => drop.sourceName)
+        : source.relationKind === "sold_by_npc"
+          ? observedVendorRows
+              .filter((vendor) => vendor.sourceId === source.targetId)
+              .map((vendor) => vendor.sourceName)
+          : [];
+    const agreement = assessEvidenceNameAgreement(source.targetName, observedNames);
+    return {
+      ...source,
+      evidenceStatus: agreement.status,
+      observedEvidenceCount: agreement.observedCount,
+      conflictingObservedNameCount: agreement.conflictingObservedCount,
+    };
+  });
 
   return {
     itemId,
@@ -1073,7 +1420,84 @@ export async function getItemDetail(
     teaches,
     market,
     acquisition,
+    communityAcquisition,
+    observedDrops,
+    observedVendors: [
+      ...new Map(observedVendorRows.map((vendor) => [vendor.sourceId, vendor])).values(),
+    ],
   };
+}
+
+async function getObservedDropSources(
+  database: WowTraderDatabase,
+  itemId: number,
+  clientProduct: string,
+  clientBuild: number,
+): Promise<ItemDetail["observedDrops"]> {
+  const itemSessions = sql<number>`count(distinct ${worldLootObservations.lootSessionId})::int`;
+  const sourceName = sql<string | null>`max(${worldLootSessions.sourceName})`;
+  const hits = await database
+    .select({
+      sourceType: worldLootSessions.sourceType,
+      sourceId: worldLootSessions.sourceId,
+      sourceName,
+      itemSessions,
+    })
+    .from(worldLootObservations)
+    .innerJoin(
+      worldLootSessions,
+      eq(worldLootSessions.sessionId, worldLootObservations.lootSessionId),
+    )
+    .where(
+      and(
+        eq(worldLootObservations.clientProduct, clientProduct),
+        eq(worldLootObservations.clientBuild, clientBuild),
+        eq(worldLootObservations.itemId, itemId),
+        isNotNull(worldLootSessions.sourceId),
+      ),
+    )
+    .groupBy(worldLootSessions.sourceType, worldLootSessions.sourceId);
+  const validHits = hits.filter(
+    (hit): hit is typeof hit & { readonly sourceId: number } => hit.sourceId !== null,
+  );
+  if (validHits.length === 0) return [];
+
+  const eligibleSessions = sql<number>`count(*)::int`;
+  const totals = await database
+    .select({
+      sourceType: worldLootSessions.sourceType,
+      sourceId: worldLootSessions.sourceId,
+      eligibleSessions,
+    })
+    .from(worldLootSessions)
+    .where(
+      and(
+        eq(worldLootSessions.clientProduct, clientProduct),
+        eq(worldLootSessions.clientBuild, clientBuild),
+        or(
+          ...validHits.map((hit) =>
+            and(
+              eq(worldLootSessions.sourceType, hit.sourceType),
+              eq(worldLootSessions.sourceId, hit.sourceId),
+            ),
+          ),
+        ),
+      ),
+    )
+    .groupBy(worldLootSessions.sourceType, worldLootSessions.sourceId);
+  const totalsBySource = new Map(
+    totals.map((total) => [
+      `${total.sourceType}:${total.sourceId ?? "unknown"}`,
+      total.eligibleSessions,
+    ]),
+  );
+  return validHits.map((hit) => ({
+    sourceType: hit.sourceType,
+    sourceId: hit.sourceId,
+    sourceName: hit.sourceName,
+    itemSessions: hit.itemSessions,
+    eligibleSessions: totalsBySource.get(`${hit.sourceType}:${hit.sourceId}`) ?? hit.itemSessions,
+  }));
 }
 
 export async function getMarketOverview(
@@ -1099,22 +1523,18 @@ export async function getMarketOverview(
   if (!scan) return null;
 
   const build = await getLatestBuild(database, scan.clientBuild, clientProduct);
-  const minimumPrice = sql<string>`min(${auctionPriceLevels.unitPriceCopper})::text`;
-  const availableQuantity = sql<string>`sum(${auctionPriceLevels.quantity})::text`;
-  const listingCount = sql<string>`sum(${auctionPriceLevels.listingCount})::text`;
   if (!build) {
     const aggregateRows = await database
       .select({
-        itemId: auctionPriceLevels.itemId,
-        marketKey: auctionPriceLevels.marketKey,
-        minimumPrice,
-        availableQuantity,
-        listingCount,
+        itemId: marketItemObservations.itemId,
+        marketKey: marketItemObservations.marketKey,
+        minimumPriceCopper: marketItemObservations.minimumPriceCopper,
+        availableQuantity: marketItemObservations.availableQuantity,
+        listingCount: marketItemObservations.listingCount,
       })
-      .from(auctionPriceLevels)
-      .where(eq(auctionPriceLevels.scanId, scan.scanId))
-      .groupBy(auctionPriceLevels.itemId, auctionPriceLevels.marketKey)
-      .orderBy(desc(sql`sum(${auctionPriceLevels.quantity})`))
+      .from(marketItemObservations)
+      .where(eq(marketItemObservations.scanId, scan.scanId))
+      .orderBy(desc(marketItemObservations.availableQuantity))
       .limit(250);
 
     return {
@@ -1124,30 +1544,32 @@ export async function getMarketOverview(
         itemId: row.itemId,
         itemName: `Item ${row.itemId}`,
         marketKey: row.marketKey,
-        minimumPriceCopper: BigInt(row.minimumPrice),
-        availableQuantity: parseSafeCount(row.availableQuantity, "available quantity"),
-        listingCount: parseSafeCount(row.listingCount, "listing count"),
+        minimumPriceCopper: row.minimumPriceCopper,
+        availableQuantity: row.availableQuantity,
+        listingCount: row.listingCount,
       })),
     };
   }
 
   const aggregateRows = await database
     .select({
-      itemId: auctionPriceLevels.itemId,
+      itemId: marketItemObservations.itemId,
       itemName: itemVersions.name,
-      marketKey: auctionPriceLevels.marketKey,
-      minimumPrice,
-      availableQuantity,
-      listingCount,
+      marketKey: marketItemObservations.marketKey,
+      minimumPriceCopper: marketItemObservations.minimumPriceCopper,
+      availableQuantity: marketItemObservations.availableQuantity,
+      listingCount: marketItemObservations.listingCount,
     })
-    .from(auctionPriceLevels)
+    .from(marketItemObservations)
     .innerJoin(
       itemVersions,
-      and(eq(itemVersions.buildId, build.id), eq(itemVersions.itemId, auctionPriceLevels.itemId)),
+      and(
+        eq(itemVersions.buildId, build.id),
+        eq(itemVersions.itemId, marketItemObservations.itemId),
+      ),
     )
-    .where(eq(auctionPriceLevels.scanId, scan.scanId))
-    .groupBy(auctionPriceLevels.itemId, auctionPriceLevels.marketKey, itemVersions.name)
-    .orderBy(desc(sql`sum(${auctionPriceLevels.quantity})`))
+    .where(eq(marketItemObservations.scanId, scan.scanId))
+    .orderBy(desc(marketItemObservations.availableQuantity))
     .limit(250);
 
   return {
@@ -1157,9 +1579,9 @@ export async function getMarketOverview(
       itemId: row.itemId,
       itemName: row.itemName,
       marketKey: row.marketKey,
-      minimumPriceCopper: BigInt(row.minimumPrice),
-      availableQuantity: parseSafeCount(row.availableQuantity, "available quantity"),
-      listingCount: parseSafeCount(row.listingCount, "listing count"),
+      minimumPriceCopper: row.minimumPriceCopper,
+      availableQuantity: row.availableQuantity,
+      listingCount: row.listingCount,
     })),
   };
 }
@@ -1669,11 +2091,4 @@ async function getItemMarketData(
       availableQuantity: observation.availableQuantity,
     })),
   };
-}
-
-function parseSafeCount(value: string, name: string): number {
-  const parsed = Number(value);
-  if (!Number.isSafeInteger(parsed) || parsed < 0)
-    throw new RangeError(`${name} is outside the safe range`);
-  return parsed;
 }

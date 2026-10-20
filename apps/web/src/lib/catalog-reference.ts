@@ -11,6 +11,12 @@ import {
   type ReferenceTask,
 } from "@wow-trader/reference-data";
 import { getReferenceClientItems } from "./data";
+import { helperAbsoluteUrl } from "./seo";
+import {
+  assessSearchSurface,
+  isIndexableSearchSurface,
+  type SearchSurfaceEntry,
+} from "./search-surface";
 
 type ReferenceClientContext =
   | {
@@ -18,6 +24,14 @@ type ReferenceClientContext =
     }
   | { readonly product: string }
   | { readonly quests: ReadonlyMap<number, string | null> };
+
+interface CatalogReferenceSurfaceOptions {
+  readonly path?: string;
+  readonly pageExists?: boolean;
+  readonly clientItem?: ReferenceClientItem | null;
+  readonly clientQuestPresent?: boolean;
+  readonly clientQuestTitle?: string | null;
+}
 
 export const getCatalogReference = cache(
   async (
@@ -76,16 +90,19 @@ export async function getIndexableReferenceIds(
         }),
       );
       for (const record of records) {
-        if (!record || referenceIndexGaps(record).length) continue;
-        if (kind === "item" && identities) {
-          const nativeItem = identities.get(record.id);
-          if (!nativeItem || referenceIndexGaps(record, nativeItem).length) continue;
-        }
-        if (kind === "quest" && client && "quests" in client) {
-          if (!client.quests.has(record.id)) continue;
-          const title = client.quests.get(record.id);
-          if (title && title !== record.name) continue;
-        }
+        if (!record) continue;
+        const surface = getCatalogReferenceSearchSurface(game, kind, record.id, record, {
+          ...(kind === "item" && identities
+            ? { clientItem: identities.get(record.id) ?? null }
+            : {}),
+          ...(kind === "quest" && client && "quests" in client
+            ? {
+                clientQuestPresent: client.quests.has(record.id),
+                clientQuestTitle: client.quests.get(record.id) ?? null,
+              }
+            : {}),
+        });
+        if (!isIndexableSearchSurface(surface)) continue;
         approved.set(record.id, new Date(record.capturedAt));
       }
     }
@@ -110,4 +127,80 @@ export function itemReferenceMatchesClient(
   item: ReferenceClientItem,
 ): boolean {
   return Boolean(record && !referenceClientConflicts(record, item).length);
+}
+
+export function getCatalogReferenceSearchSurface(
+  game: ReferenceTask["game"],
+  kind: ReferenceTask["kind"],
+  id: number,
+  record: ReferenceRecord | null,
+  options: CatalogReferenceSurfaceOptions = {},
+): SearchSurfaceEntry {
+  const clientContextSupplied =
+    "clientItem" in options || "clientQuestPresent" in options || "clientQuestTitle" in options;
+  const clientIdentityPresent =
+    kind === "item"
+      ? options.clientItem !== null
+      : kind === "quest"
+        ? options.clientQuestPresent !== false
+        : true;
+  const identityConflict = Boolean(
+    record &&
+    ((kind === "item" &&
+      options.clientItem &&
+      referenceClientConflicts(record, options.clientItem).length > 0) ||
+      (kind === "quest" && options.clientQuestTitle && record.name !== options.clientQuestTitle)),
+  );
+  const requiredEvidencePresent = Boolean(
+    record &&
+    referenceIndexGaps(
+      record,
+      kind === "item" && options.clientItem ? options.clientItem : undefined,
+    ).length === 0,
+  );
+  const path = options.path ?? catalogReferencePath(game, kind, id);
+  const url = helperAbsoluteUrl(path);
+  return assessSearchSurface({
+    url,
+    pageExists:
+      options.pageExists ?? (Boolean(record) && (!clientContextSupplied || clientIdentityPresent)),
+    authoritativeIdentityPresent: clientIdentityPresent,
+    identityConflict,
+    requiredEvidencePresent,
+    lastModified: record ? safeDate(record.capturedAt) : null,
+    contentHash: record?.sourceSha256 ?? null,
+    outgoingLinks:
+      record?.relations.flatMap((relation) => {
+        const relatedPath = catalogRelationPath(game, relation.kind, relation.id);
+        return relatedPath ? [helperAbsoluteUrl(relatedPath)] : [];
+      }) ?? [],
+    evidenceKinds: [
+      ...(clientContextSupplied && clientIdentityPresent ? (["exact_client"] as const) : []),
+      ...(record ? (["published_reference"] as const) : []),
+    ],
+  });
+}
+
+function catalogReferencePath(
+  game: ReferenceTask["game"],
+  kind: ReferenceTask["kind"],
+  id: number,
+): string {
+  const segment = kind === "spell" ? "recipes" : `${kind}s`;
+  return `/${game}/encyclopedia/${segment}/${id}`;
+}
+
+function catalogRelationPath(game: ReferenceTask["game"], kind: string, id: number): string | null {
+  const segment =
+    kind === "spell"
+      ? "recipes"
+      : kind === "item" || kind === "quest" || kind === "npc" || kind === "object"
+        ? `${kind}s`
+        : null;
+  return segment ? `/${game}/encyclopedia/${segment}/${id}` : null;
+}
+
+function safeDate(value: string): Date | null {
+  const date = new Date(value);
+  return Number.isNaN(date.valueOf()) ? null : date;
 }

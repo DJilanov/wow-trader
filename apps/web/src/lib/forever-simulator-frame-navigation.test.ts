@@ -1,12 +1,68 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
-import { simulatorBuildQuery, simulatorNavigationHref } from "./forever-simulator-frame-navigation";
+import {
+  connectSimulatorFrameNavigation,
+  simulatorBuildQuery,
+  simulatorNavigationHref,
+} from "./forever-simulator-frame-navigation";
 
 const origin = "https://kfcguild.online";
 const release = "5c5564b645a7ac7a24b887f3";
 const src = `/tools/forever-sim/${release}/hunter/`;
 
+function frameWithActiveLabel(text: string | undefined): HTMLIFrameElement {
+  const labels =
+    text === undefined ? [] : [{ textContent: text, getClientRects: (): unknown[] => [{}] }];
+  const document = {
+    createElement: (): { textContent: string; remove: () => void } => ({
+      textContent: "",
+      remove: vi.fn(),
+    }),
+    head: { append: vi.fn() },
+    querySelectorAll: (selector: string): typeof labels =>
+      selector.includes(".active .saved-data-set-name") ? labels : [],
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  };
+  return {
+    contentDocument: document,
+    ownerDocument: {
+      location: { origin },
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    },
+  } as unknown as HTMLIFrameElement;
+}
+
 describe("Embedded simulator navigation", () => {
+  it.each([undefined, "", "   "])(
+    "does not invent an initial preset event for an absent or blank active chip: %s",
+    (label: string | undefined) => {
+      const onPresetSelected = vi.fn(),
+        disconnect = connectSimulatorFrameNavigation(frameWithActiveLabel(label), src, {
+          onNavigate: vi.fn(),
+          onPresetSelected,
+        });
+      expect(onPresetSelected).not.toHaveBeenCalled();
+      disconnect();
+    },
+  );
+  it("reports a real active configuration as an initial event, not a user selection", () => {
+    const onPresetSelected = vi.fn(),
+      disconnect = connectSimulatorFrameNavigation(
+        frameWithActiveLabel(" Balance · pre-raid tested "),
+        src,
+        {
+          onNavigate: vi.fn(),
+          onPresetSelected,
+        },
+      );
+    expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith(
+      "Balance · pre-raid tested",
+      "initial",
+    );
+    disconnect();
+  });
   it("maps every supported engine profile to its canonical host route", () => {
     for (const spec of SIMULATOR_SPECS) {
       for (const prefix of ["", "/tools"]) {

@@ -4,7 +4,7 @@ import {
   storeLevelingFeedback,
   validateFeedbackPosition,
 } from "../../../../lib/leveling-feedback-store";
-import { HELPER_SITE_URL } from "../../../../lib/seo";
+import { HELPER_SITE_ORIGIN, LEGACY_HELPER_SITE_ORIGIN } from "../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
 const headers = { "Cache-Control": "no-store" };
@@ -12,11 +12,7 @@ const headers = { "Cache-Control": "no-store" };
 export async function POST(request: Request): Promise<Response> {
   const origin = request.headers.get("origin");
   const requestUrl = new URL(request.url);
-  const allowedOrigins = [
-    requestUrl.origin,
-    new URL(HELPER_SITE_URL).origin,
-    "https://kfcguild.online",
-  ];
+  const allowedOrigins = [requestUrl.origin, HELPER_SITE_ORIGIN, LEGACY_HELPER_SITE_ORIGIN];
   // Next dev canonicalizes loopback Request URLs to localhost, even when browsed via 127.0.0.1.
   if (
     process.env.NODE_ENV !== "production" &&

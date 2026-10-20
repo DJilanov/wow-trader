@@ -16,6 +16,7 @@ import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { ForeverIcon } from "./forever-icon";
+import { withHelperBasePath } from "../lib/site-path";
 
 interface ForeverTalentCalculatorProps {
   readonly className: string;
@@ -427,7 +428,9 @@ function TalentTreeView({
   treeIndex,
 }: TalentTreeViewProps): React.JSX.Element {
   const maximumRow = Math.max(1, ...tree.talents.map(({ row }) => row));
-  const background = `/api/forever-assets/background/${tree.bg}?v=${snapshotChecksum.slice(0, 12)}`;
+  const background = withHelperBasePath(
+    `/api/forever-assets/background/${tree.bg}?v=${snapshotChecksum.slice(0, 12)}`,
+  );
   return (
     <article className="forever-tree">
       <header>

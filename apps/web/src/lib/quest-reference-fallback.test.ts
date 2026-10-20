@@ -1,13 +1,18 @@
 import type { ReferenceRecord } from "@wow-trader/reference-data";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type * as CatalogReferenceModule from "./catalog-reference";
 
-vi.mock("./catalog-reference", (): object => ({ getCatalogReference: vi.fn() }));
+vi.mock("./catalog-reference", async (importOriginal): Promise<object> => ({
+  ...(await importOriginal<typeof CatalogReferenceModule>()),
+  getCatalogReference: vi.fn(),
+}));
 vi.mock("./forever-world", (): object => ({ getForeverQuest: vi.fn() }));
 
 import QuestPage, { generateMetadata } from "../app/forever/encyclopedia/quests/[questId]/page";
 import { getCatalogReference } from "./catalog-reference";
 import { getForeverQuest } from "./forever-world";
+import { HELPER_SITE_URL } from "./seo";
 
 afterEach((): void => {
   vi.restoreAllMocks();
@@ -66,9 +71,7 @@ describe("quest reference fallback", () => {
     const props = { params: Promise.resolve({ questId: "1" }) };
     const metadata = await generateMetadata(props);
     const markup = renderToStaticMarkup(await QuestPage(props));
-    expect(metadata.alternates?.canonical).toBe(
-      "https://helper.kfcguild.online/forever/encyclopedia/quests/1",
-    );
+    expect(metadata.alternates?.canonical).toBe(`${HELPER_SITE_URL}/forever/encyclopedia/quests/1`);
     expect(metadata.robots).toBeUndefined();
     expect(markup).toContain("External reference");
     expect(markup).toContain("Bring the item.");

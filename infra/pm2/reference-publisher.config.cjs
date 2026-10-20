@@ -21,6 +21,10 @@ module.exports = {
         NODE_ENV: "production",
         WOW_TRADER_ENV_FILE: `${deployRoot}/shared/env/web.env`,
         WOW_TRADER_REFERENCE_DIRECTORY: "/home/wow-trader-reference-worker/shared/published",
+        WOW_TRADER_LEVELING_QUEST_QUEUE:
+          "/home/wow-trader-reference-worker/shared/queues/forever-archive-xp-336bb641f1c6e5a6.json",
+        WOW_TRADER_LEVELING_QUEST_QUEUE_SHA256:
+          "336bb641f1c6e5a62ad1c91170d609c9bfbc75c32c1948811bbed6c20784f805",
       },
     },
   ],

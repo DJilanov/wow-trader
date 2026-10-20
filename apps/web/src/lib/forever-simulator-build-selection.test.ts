@@ -4,6 +4,7 @@ import {
   simulatorBuildForLink,
   simulatorBuildForPreset,
   simulatorBuildLabel,
+  simulatorBuildSelectionStorageKey,
 } from "./forever-simulator-build-selection";
 
 function build(id: string, displayName?: string, provisional = false): LocalSimulatorBuildReview {
@@ -23,6 +24,23 @@ function build(id: string, displayName?: string, provisional = false): LocalSimu
 }
 
 describe("Reviewed build selection", () => {
+  it("scopes a remembered choice to its exact model/profile without including share data", () => {
+    const release = "a".repeat(24),
+      path = `/forever-sim/${release}/balance_druid/`,
+      key = simulatorBuildSelectionStorageKey(path);
+    expect(key).toBe(`kfc.simulator.reviewed-build-selection.v1:${release}:balance_druid`);
+    expect(simulatorBuildSelectionStorageKey(`/tools${path}`)).toBe(key);
+    expect(simulatorBuildSelectionStorageKey(`${path}#saved-share`)).toBe(key);
+    expect(simulatorBuildSelectionStorageKey(path.replace("balance_druid", "mage"))).not.toBe(key);
+    expect(simulatorBuildSelectionStorageKey(path.replace(release, "b".repeat(24)))).not.toBe(key);
+    for (const invalid of [
+      `https://other.invalid${path}`,
+      `/forever-sim/bad/balance_druid/`,
+      `https://user:password@helper.invalid${path}`,
+      "/forever/simulator/balance-druid",
+    ])
+      expect(simulatorBuildSelectionStorageKey(invalid)).toBeNull();
+  });
   const twoHand = build("two-hand-fury-static", "Two-hand Fury · Standard enchants");
   const arms = build("arms-static", "Arms · Standard enchants");
   const combat = build("rogue-combat-static", "Combat · Backstab · Standard enchants");
@@ -70,5 +88,27 @@ describe("Reviewed build selection", () => {
     expect(simulatorBuildForPreset([bm, mm, sv], sv.displayName!)).toBe(sv);
     expect(simulatorBuildForLink([bm, mm, sv], "Pet/Melee 16/11/24")).toBeNull();
     expect(simulatorBuildForLink([bm], "Survival 7/11/33")).toBeNull();
+  });
+  it("maps old and current Cat links and configuration labels to the measured Cat build, not a tank starter", () => {
+    const cat = build("feral-cat-static", "Feral Cat · first-pass tested");
+    for (const name of ["Feral Cat 7/34/10", "Feral Cat 8/33/10", "feral-cat-static"])
+      expect(simulatorBuildForLink([cat], name)).toBe(cat);
+    expect(simulatorBuildForPreset([cat], cat.displayName!)).toBe(cat);
+    expect(simulatorBuildForLink([cat], "Feral Tank")).toBeNull();
+    expect(simulatorBuildForLink([], "Feral Cat 8/33/10")).toBeNull();
+  });
+  it("maps the old and measured Moonkin links to the approved caster build without selecting Cat or tank", () => {
+    const moonkin = build("balance-static", "Balance · first-pass tested");
+    const cat = build("feral-cat-static", "Feral Cat · first-pass tested");
+    for (const name of [
+      "Balance 38/0/13",
+      "Balance 39/0/12",
+      "Moonkin 38/0/13",
+      "Moonkin 39/0/12",
+      "balance-static",
+    ])
+      expect(simulatorBuildForLink([cat, moonkin], name)).toBe(moonkin);
+    expect(simulatorBuildForPreset([cat, moonkin], moonkin.displayName!)).toBe(moonkin);
+    expect(simulatorBuildForLink([cat], "Balance 39/0/12")).toBeNull();
   });
 });

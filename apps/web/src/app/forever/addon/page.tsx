@@ -109,7 +109,7 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
                     {asset.signed ? "signed" : "unsigned alpha"}
                   </p>
                 </div>
-                <a href={`/downloads/companion/${asset.id}`}>Download</a>
+                <a href={withHelperBasePath(`/downloads/companion/${asset.id}`)}>Download</a>
                 <code title={asset.sha256}>SHA-256 {asset.sha256.slice(0, 16)}…</code>
               </article>
             ))}

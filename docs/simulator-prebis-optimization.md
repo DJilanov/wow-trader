@@ -1,18 +1,1050 @@
 # Simulation-tested pre-raid gear
 
+## Current owner policy: broad first pass before exhaustive tuning
+
+Deliver practical near-optimal (~95% target, not a proven global percentage) pre-raid gear,
+enchants, talents and rotation guidance for every supported class/good spec first.
+Use four batches/spec: baseline talents/rotation, all-slot/pair/set/enchant gear, one
+selected-gear recheck, confirmation/parity/browser/default delivery. Target2–4h/spec and
+maximum24h/class shared across specs/resumes. One short material correction, no endless
+feedback loops for sub1–2% differences. Physical → casters → hybrids; actual simulator
+presets/defaults before articles. Full legality, raw provenance and native/browser parity
+remain mandatory. Existing100k evidence is preserved, not weakened or relabelled.
+
+Maximum-effort ("100%") tuning is a SEPARATE follow-up only after every first-pass class
+is delivered AND the owner explicitly requests it. Do not begin automatically. The local
+budget wrapper is implemented/tested and guards the actual Subtlety blue/gear owners and
+prepared state recheck; it does not retrofit the already-frozen studies. Current usage
+and operational constraints are in `simulator-update-runbook.md`.
+
+LATEST October19 10:04UTC: Survival blue, both complete gear sweeps and the actual geared
+talent/APL/pet recheck are COMPLETE and independently replayed. Gear8ed798d9… finished55,341
+new jobs/5,809,780 fights; state93e16fff… finished1,768 new jobs/540,300 fights and all nine
+real detailed pet/guardian/ability controls passed exactly. Independent208 gear stages and
+30 state stages/source/origins pass. Best inspected state gain0.788133758% is below the
+declared material threshold, so keep original16/4/31 dual-wield Cat/Hawk,786.26477509DPS/10k;
+NO redundant gear correction. Fresh owner-approved2% two20k confirmation, selected parity
+and actual presets/gear/guide/browser delivery still remain before publishing Survival.
+All old owners/monitors are stopped; no UI/publication/production change. Same original
+Hunter deadline/model. See context for the completed source/result SHAs and exact next work.
+
+PREVIOUS October19 09:22UTC: Survival fixed-blue talent/APL study c316e811… is COMPLETE,
+3,367 new jobs/560,740 fights; all20 stages/all origins independently replay. Inspected
+16/4/31 dual-wield Cat/Hawk leader657.14689256DPS/10k is NOT final pre-BiS. Eight actual
+browser/native mechanic controls passed, including negative own-Mark/Expose-Prey checks.
+All17-slot gear bank/26,653 unique proposals and13 focused tests pass. Supervised gear
+exec84776/PID91869 dispatched under ORIGINAL21:33:17.772Z Hunter deadline; it must pass six
+derived gear canaries before scalar work. Geared-state/pet recheck, fresh2% confirmation,
+selected parity and actual presets/guide/browser handoff remain. BM/MM local delivery and
+production are unchanged. Poll the existing owner, do not restart it or edit frozen sources.
+
+PREVIOUS October19 08:35UTC: Marksmanship practical first pass is DELIVERED LOCALLY at
+`http://localhost:3017/tools/forever/simulator/hunter`. Corrected numerical model
+`81d964b453f4e6abb50a81e7`, local UI `c95e6739068e19b1ca245c38`. Actual Build library,
+configuration, gear/enchants,7/40/4 talents, Cat, APL and rotation guide match the measured
+build. Corrected-model confirmation853.2199466184707DPS/40k, conservative retained gap
+1.0290092%, accepted under the owner's2% policy; original1% failures remain separate.
+27,829 new jobs/3,487,180 fights include one complete model-change gear correction, retained
+states and12-arm fresh confirmation. Selected native/WASM10k parity is exact. All15 profile
+menus,20 desktop/mobile shares and actual localhost combat/navigation pass. BM defaults and
+other27 gear presets remain unchanged. No production deployment of MM. Survival is next,
+not started numerically; original Hunter deadline21:33:17.772Z is unchanged. Do not rerun
+completed MM/BM/Warrior/Rogue or silently begin exhaustive tuning. Latest evidence/receipts
+and public-versus-local release distinction are in `context.md`.
+
+HISTORICAL00:44UTC: MM confirmation129f1c7380b6c0eb76445c0ba4c408cb9d2a412008aa6dedec8b7ae8d6e1ce94
+completed00:42:52UTC/exit0, resultd828db56a78a9a9713b57f5abe643b5f726706f9e8af1fe173dd81f88d97e6be.
+Eleven frozen authentic arms,22 NEW jobs/440,000 fights, two20k per arm. Unchanged original
+7/40/4 Cat849.06603767DPS/40k. ACCEPTED FALSE under the original1% policy: conservative
+retained gap1.01638242%, strict dominanceFALSE. Preserve this actual failure; no adaptive
+winner, fabricated approval or repeated tiny-gain search. An async owner choice asks whether
+a disclosed2% retained-contender margin suits the practical~95% pass; unanswered so far.
+No contract changed, selected parity/share/presets/guide/browser approval or MM publication.
+By00:47UTC independent actual result replay/fail-closed regression tests PASSED/exit0,
+all22 original holdouts/six stages/exact original incumbent;64 focused private tests pass.
+At00:54UTC a genuine11-arm state/guide fixture c708c154466d57fc… was independently exported,
+446,113 bytes/no new fights/original acceptanceFALSE. Eight new actual adapter tests cover
+all six pet/no-pet policies/Hawk/Lone Wolf/exact guide bindings and fail-closed source handling.
+Full web suite PASSES482 tests/79 files;66 focused private tests, scoped lint/web tsc pass.
+This is not accepted build/share/preset/browser delivery. Same Hunter clock/BM/defaults/production.
+
+HISTORICAL00:36UTC: MM state4c60bf47… completed00:26:11UTC/
+exit0, result43826ffad368e6283aac988986db090ebaed6d76695dcc8082a3ad7023ce9600.
+2,585 NEW jobs/652,120 fights/46 reuses/30 stages. Best inspected856.96689221 is only0.91482%
+above original849.19824006, so materialChangeFALSE/applicabilityRequiredFALSE. NO gear
+correction. Independent complete source replay PASSED00:30:39UTC, all30 stages/2,589 genuine
+request origins/actual eight pet controls/action-bound guide;46 focused private tests pass.
+Final unchanged-state arm/context/owner preparation and actual context/CLI tests are underway.
+No fresh confirmation or MM preset claimed yet. Existing1%/two20k policy stays unchanged;
+no adaptive holdout winner or tiny-gain gear loop. Same original Hunter clock. Finish actual
+MM presets/guide/parity/browser delivery before Survival; BM/defaults/production unchanged.
+
+HISTORICAL00:25UTC: MM gearfb232f26… completed00:16:01UTC/exit0, result86e7a095b9be2da6…;
+55,363 NEW jobs/5,820,840 fights/924 reuses/189 stages, two-sweep small-gain stop. Selected
+7/40/4 Cat849.19824006DPS/10k still needs state recheck/confirmation. Independent source/
+native replay and actual eight-input constructor integration PASS/terminal0 by00:20:28UTC:
+189 stages/55,367 origins/exact original10k identity, no new fights. Forty-two focused tests
+pass. State owner71824/exec94083 is LIVE since00:20:51UTC; full source validation and all
+eight actual pet/Hawk parity controls now PASS200 fights/backend, zero differences. Scalar
+4c60bf47… genuinely started00:23:50UTC with1,444 candidates; at00:24:44 joint-select,
+2,529 NEW jobs/300,120 fights, no completed state verdict. Original Hunter deadline; poll
+same owner, do not duplicate/restart or edit frozen inputs. Next actual pet/Hawk parity, ONE
+geared recheck, at most one material correction, fresh two20k confirmation and actual MM
+presets/guide/browser QA before Survival. No unchanged-state gear rerun, BM/deeper search
+or deployment. New guide/state/source/parity/material-correction paths are implemented.
+
+LATEST23:59UTC: Marksmanship blue52c6b2fa… completed23:53:26UTC/exit0, result1f41a0948d5e84e0…;
+4,766 NEW jobs/586,840 fights,625 legal talent setups/14 APLs/four hand/no-pet/Cat controls.
+Twenty stages/all native origins independently replay. Inspected7/40/4 Cat707.77018302DPS/
+10k is not final BiS. Six real class2 source captures and six native/WASM no-pet/Cat/Hawk/
+shot canaries pass. All17-slot gear fb232f26… is now LIVE48523/exec7243, same original Hunter
+deadline,26,653 initial proposals/27 groups and six exact derived gear parity controls passed.
+At23:59:40 weapon screen6,528;8,820 new jobs/997,800 fights. No completion or MM preset yet.
+72-frame no-pet/five-family derivation and bounded recheck family protection are prepared;
+28 focused private tests/scoped21-file ESLint pass. One actual geared recheck, fresh two20k
+confirmation and actual MM presets/guidance still remain. BM/Warrior/Rogue/model/production
+unchanged. Do not rerun BM, start Survival or reopen exhaustive searches. See runbook for the
+existing owner command; source pins are frozen and its clock must not reset.
+
+LATEST23:41UTC: Hunter BM is DELIVERED LOCALLY at
+http://localhost:3017/tools/forever/simulator/hunter. Actual Build library/configuration/gear/
+enchants/talents/APL/pet/ammo/consumes and six-priority guide are available. Fresh characters
+use compatible Dwarf/professions; explicit presets preserve existing character context and
+full Load build applies the measured scenario. UI94239fb7240949919b83f8ad uses unchanged
+numericale14 assets and strict class2 v6 approval, not a relabelled Rogue proof. Actual desktop/
+mobile browser approval6e63226596355ceb, safe selection537915ccf9dee2bf and complete-host
+smoke9e61e5d95d8b837a pass. Original MM/Survival/Pet-Melee configurations, saved storage and
+Warrior/Rogue are preserved.474 web tests/78 files, web lint, tsc, isolated Next production
+build and three actual overlay tests pass.25 browser UI fights, zero new native optimization.
+Successful sources are frozen. BM practical first pass is DONE; next Marksmanship, then
+Survival, ORIGINAL Hunter class deadline unchanged. No production deployment or tiny-gain
+refinement. Earlier pending-delivery/LIVE entries below are chronological history.
+
+LATEST23:10UTC: Hunter BM full browser handoff COMPLETED23:09:03/exit0, build9bead9ab180843c3…/
+shareb8546bfac8babd36…, pointer under0b7f4d…. Eleven inspected frames/33 genuine native
+origins, exact all17 slots/enchants/talents/APL/pet/ammo/full combat settings survive actual
+export/import/reload with proc consentOFF, no auto-combat and zero errors. All older Warrior/
+three Rogue/root presentation/campaign pointers remain unchanged. Guide has six action-bound
+priorities/one prepull plus intro/caveats. Successful sources are frozen. Numerical first pass
+accepted863.55449117DPS/40k and actual native/browser0delta are DONE; no more BM retuning.
+Next actual local presets/gear/enchants/guide via typed adapter/immutable Hunter UI/browser QA/
+safe selection BEFORE Marksmanship. Root still has no Hunter presentation. No deployment.
+
+October19 23:04UTC: Actual selected Hunter class2 browser10k/native10k parity PASSED/exec34138
+terminal0, ZERO DPS difference. Reportc7c6f14985e69f9d, semanticSHA
+c7c6f14985e69f9d5f9268f4f6deca2f9b5434efee822711c1b91e17a4911f2d. Source confirmation/
+parent/native/RNG replay genuinely passed; successful helper/reader/producer/test bytes are
+frozen. Actual export/import/reload handoff dispatched against0b7f4d…; not completed yet.
+Typed adapter, real Hunter presets/guide/host approval remain. No optimized public Hunter/deploy.
+
+October19 22:58UTC: Hunter fresh confirmation0b7f4d38… COMPLETED22:57:32/exit0, result6d46720f909b202c…;
+22 NEW jobs/440,000 fights,11 preselected arms × two fresh20k ranges. AcceptedTRUE, unchanged
+incumbent863.55449117DPS/40k, largest conservative retained gap~0.13353% under1% policy.
+Original correction/native/RNG source replay passed; no global95% proof or tiny-gain rerun.
+Selected parity probe exec34138 is live loading the genuine completed source before one
+actual browser10k comparison to the original native10k. No actual selected browser pass yet.
+Positive handoff, typed adapter, immutable Hunter presets and host/browser QA still remain.
+39 focused new tests/28-file scoped lint/format pass. No optimized public Hunter or deployment.
+
+October19 22:51UTC: Hunter correctioned476175… COMPLETED22:50:35/exit0, result866764c45125cafd…,
+27,798 NEW jobs/2,915,420 fights/471 exact reuses/94 stages. Inspected best gear alternate is
+only+0.0744949%, so the single-correction policy keeps31/20/0 Raptor863.44862713DPS and
+unchanged gear. No second correction. Fresh confirmation owner81468/exec53730 is doing strict
+completed-source preflight; no actual holdout dispatch observed yet. Original deadline stays.
+Result/parity/build/handoff preparation adds14 passing focused tests/11-file scoped lint,
+39 new tests across groups. Mock-only browser transport is not actual WASM proof. Accepted
+fresh confirmation, selected parity and real local presets/guide/browser handoff still remain.
+No public optimized Hunter preset or deployment. Older LIVE observations below are history.
+
+October19 22:37UTC: Hunter BM state59089fa8… COMPLETED22:30:03/exit0, result f6ec3e5b6fba79f3…:
+2,424 NEW jobs/425,860 fights. Selected31/20/0 Raptor863.44862713DPS/10k, +1.7777937% over
+848.36642224 original control; same Multi-Shot/Hawks/Sting/15% Arcane policy. Independent
+reader replays all23 stages/2,428 requested source origins, raw five-pet parity and exact guide.
+18 new focused tests and ten-file scoped lint pass. This is NOT independent confirmation.
+The ONE material-state gear correction ed476175… is LIVE62216/exec67968, numerical start
+22:37:14UTC, six workers/original shared deadline. Same17 pools/27 groups,26,900 contextual
+proposals. New correction policy permits exactly one sweep, not another state/gear loop.
+Downstream final-source/arm/confirmation preparation is not positive completed-source proof.
+That preparation now passes seven focused tests (25 combined new) and17-file scoped lint/
+format. Pure positive arms use an explicit in-memory projection around genuine state10k rows,
+not a fabricated completed correction. The prepared owner will require full actual correction
+replay, real arm origins, legality and shared fresh-two20k RNG ownership before dispatch.
+At22:41:43 the same correction62216/exec67968 is live at weapon-pair screen6144/17517;
+8,470 new jobs/969,800 fights so far, no completion. Do not start duplicate/confirmation yet.
+Still no optimized public Hunter preset or deployment. Earlier progress chronology follows.
+
+October19(local),22:24UTC: Hunter Beast Mastery blue53b1d9e7… COMPLETED/exit0,
+4,327 new jobs/503,100 fights in about2m20s actual dispatch. All10 original streams/origins
+also independently replayed. Fixed-blue32/14/5/Multi-Shot leader720.00979DPS/10k is only an
+inspected selection. Explicit Beaststalker fallback (no admitted Hunter PvP-blue armor),
+Dragonkin tracking and full1.2s Cat assumptions. Real owner/Cat/Hawk baseline canaries pass.
+All17-slot gear preflight26,653 distinct proposals/27 groups and actual six derived weapon/
+ammo/set/enchant native-WASM controls pass, zero difference. Off-hand-buff preflight regression
+fixed in the new adapter without changing original blue evidence.33 focused tests and scoped
+22-file lint/format pass. Gear2149d25f… COMPLETED22:15:26UTC/exit0:55,365 NEW jobs/5,818,660
+NEW fights,925 exact reuses, result ec4068009675cc3e…. Inspected848.36642224DPS/10k; two-sweep
+cap is NOT global convergence. Downstream reader independently replayed all188 original stages/
+55,369 requested source origins, exact selected native identity54613d60…, zero new combat.
+State preflight caught an incorrect Bat Screech expectation: pinned Forever gives Screech to
+Carrion Bird and disables Bat's focus dump. Corrected the new unpublished helper/test only;
+no frozen model/blue/gear change.18 focused pet/state/guide/CLI tests and scoped lint pass.
+Same state command resumed52058/exec7943, original shared deadline2026-10-19T21:33:17.772Z.
+All five actual pet-family/native-WASM owner/pet/Hawk/ability controls subsequently PASS:
+report5181d58cc028a69d, semanticSHAa726dd5327f968224553a4a96a3e9fd5de70cea510c60ae6bdccdcca20f6e6bf.
+State59089fa819824a6b73e35b53c5ef3e29b76f228e186f448f733775a9f275d021 genuinely dispatched
+22:27:24UTC with1,897 initial candidates/six workers; no completed state result yet.
+One bounded selected-gear recheck, fresh20k confirmation and actual presets/rotation delivery
+remain; Hunter is not yet an optimized public preset. Do not edit executing/frozen inputs or
+start another spec/duplicate owner. Maximum-effort is deferred; production is unchanged.
+
+LATEST October19(local): Subtlety is DELIVERED LOCALLY, not only exported. Combined Rogue
+UIe34ea26538dc7abafe2a276c has a v5 proof covering Combat/Mutilate/Subtlety. Actual desktop/
+mobile approvald7c0ee7d412713a8, safe local selection815dff605ef34f30 and complete-host smoke
+2ddad4acca0905f2 all pass. Subtlety gear/enchants,20/0/31 talents, poisons/APL and14-priority
+guide plus introduction are available at http://localhost:3017/tools/forever/simulator/rogue.
+Combat stays default; Mutilate/Warrior/numericale14/storage are unchanged. The new truthful
+typed adapter verifies source/native evidence and two20k math without parsing the20MB search
+on every request.451 web tests/76 files, tsc, full web ESLint and isolated production build
+pass. UI approval used three25-fight browser jobs; no new native optimization. Production is
+unchanged. Sources pinned by the successful proofs must not be reformatted. The older pending
+delivery notes below are historical; next is Hunter admission groundwork, not more Rogue runs.
+Owner reaffirmed approximately95% gear AND rotations for all classes first; deeper tuning
+requires a separate request after every first pass. Four batches/spec are not four fights.
+
+LATEST20:43UTC: actual Subtlety export/import/reload handoff completed terminal0 by20:40,
+build691f7309…/share9f434ed3…/pointer under7208b47e…. Exact gear/talents/APL/poisons/full
+scenario, proc consentOFF, no automatic combat and all older deliveries unchanged. No new
+native/WASM fights.891 pins,8 exact native frames/24 original admissions embedded. Six
+new private exporter/CLI tests and four-file lint/format pass; sources are now FROZEN.
+New reusable typed web confirmation-math API passes8 regressions against the actual
+checksummed result, including per-range gap/precision/RNG/overflow refusal; it is not a
+source-authentication shortcut and is not yet wired to reviews. Web436 tests/75 files,
+tsc/touched lint/format pass terminal0.
+Actual truthful20k adapter + combined THREE-spec UI/proof/desktop-mobile/default/guide
+approval/selection are STILL REQUIRED before Hunter. No new search or deployment.
+
+LATEST20:23UTC: final7208b47e… COMPLETED20:15:35/terminal0/16 new requests/320,000 fights,
+result0dd0f3624a4856f6…. Practical acceptance and strict retained dominanceTRUE; unchanged
+selected mean629.20262880DPS/40k, largest retained conservative per-range gap0.0624018565%.
+Independent full confirmed-source replay passes (two tests). Actual selected10k native/WASM
+paritye6d3ccee… also passes with EXACT zero difference, no new native jobs. Selection stays
+20/0/31/Hemorrhage/pool60/InstantMH-DeadlyOH; no corrective/exhaustive loop. All36 focused
+private tests and12-file lint pass;428 web tests/tsc/touched lint/web format pass. Optional
+rotation introduction now renders with three SSR regressions. Preserve now-pinned private
+bytes, including one cosmetic guard-test Prettier warning. Actual Subtlety build/share and
+combined three-spec local preset/browser/default/guide rollout still remain before Hunter.
+No public Subtlety recommendation, production deployment or automatic maximum-effort phase.
+
+LATEST20:09UTC: completed-state and final-arm full source replays passed (four integration/
+mutation tests);20 confirmation/registry/history/CLI regressions and scoped source lint pass.
+Actual read-only final preflight7208b47e… freezes eight genuinely inspected10k alternatives,
+all six historical Rogue RNG ranges excluded,16 planned fresh20k requests/320,000 fights.
+Guarded supervisor61926/child62148/exec83600 now revalidates the source before allocation/
+dispatch, original class clock unchanged. Do not duplicate it or mutate frozen execution bytes.
+No final independent acceptance/browser/preset yet; new result/parity readers await positive
+evidence. This closes selection for the practical pass, not a new exhaustive search.
+
+LATEST19:48UTC: actual selected-gear stateedd809… COMPLETED19:47:55/terminal0/full replay/
+cleanup, result2af874d6e31bc8f5….3,057 new jobs/487,920 fights. Best nearby change0.00986%
+is immaterial: keep628.91990542DPS/10k,20/0/31/Hemorrhage/pool60/InstantMH-DeadlyOH.
+No corrective search is triggered. Exact14-action guidance is embedded privately. Final
+source adapter/replay, fresh two20k confirmation, selected native-WASM and actual combined
+three-spec browser/preset/default/guide rollout remain; no20k claims or public approval yet.
+Do not mislabel capped gear as globally converged or reopen an exhaustive tiny-gain loop.
+
+LATEST19:45UTC: FULL actual selected-gear state preflight55044 passed178 original stages/
+72,441 used native origins and exact control identity, no new combat. Guarded40802/41011/
+exec85712 now runs state studyedd809ed6d3bded3d207dea1a870c09521181f35d83c407fc5de47db67ec5638,
+841 pins/2,028 initial candidates/32 poison-stone frames/six workers, numerical start19:44:53.
+Read-only guide probe passed2,439 unique actual-gear instructions/APL bindings without new
+fights. Prepared20k confirmation/registry/history tools pass25 combined tests and lint/format,
+but no actual final20k plan/claim/jobs or public Subtlety preset is yet approved. Keep the
+class clock and frozen execution bytes; no exhaustive follow-up or deployment.
+
+LATEST19:35UTC: Subtlety gear95bfd083… COMPLETED two full27-group sweeps/full saved replay/
+cleanup, terminal0/result78548975f8836c87…. Actual72,437 new requests/7,087,040 fights,
+selected inspected10k628.91991DPS versus blue529.93234. Last sweep still gained1.3904%,
+so its truthful result is capped-needs-state-recheck, not convergence or final BiS. Actual
+read-only state preflight exec55044 independently verifies the completed source now. No
+state numerical dispatch or public preset yet. New truthful two20k confirmation, shared
+RNG registry and known-history exclusions pass25 combined regressions; six-file lint/format
+passes. Existing100k receipts remain unchanged. Final source readiness/actual holdouts/
+native-WASM/browser/default/guide gates still remain; no deployment.
+
+LATEST19:13UTC: Subtlety blue84ec8e44… completed18:45UTC/exit0, actual1,297,840 fights,
+20/0/31/Hemorrhage/pool60 baseline529.93234DPS/10k, not final BiS. Full independent source
+replay verified30 original streams/10,313 native admissions without new combat. Gear95bfd083…
+is LIVE72179/exec46509,35,467 unique legal proposals/all17 slots/27 groups, two-sweep cap,
+825 pins/six workers; all four actual derived native/WASM gear controls matched exactly.
+It reached first-sweep10k finalists at19:13UTC; do not duplicate it or edit its pinned bytes.
+Actual72179 was verified in sweep2/group7 at19:15UTC; all22 quick-recheck/guidance/wire/CLI
+tests and scoped six-file lint/format pass. No actual state recheck has started yet.
+The quick one-expansion selected-gear recheck and exact action-bound rotation-guidance exporter
+are now implemented/tested, but do not execute without the genuine completed gear source.
+Source replay, material-change applicability, fresh20k confirmation, selected parity and actual
+local presets/guidance still remain. No public Subtlety recommendation or production deployment.
+
+LATEST18:15UTC: Mutilate is now DELIVERED LOCALLY, not only exported. Use
+http://localhost:3017/tools/forever/simulator/rogue and select Mutilate · first-pass tested.
+Combined UIc5b69b502f8eee396c32ccf9 preserves Combat defaults/Warrior43d50…/numericale14.
+V4 proof/browser contracts require BOTH Rogue builds; actual desktop/mobile selectors,
+saved characters, proc consentOFF and class6/25-fight raw-request checks pass for each.
+Approvala40e41f356fc449a; safe local selection4faf9f94f42671c7. Actual host smoke6010fcd00892bc41
+verifies complete Mutilate/Combat loads,5 visible guide priorities, no automatic sim or
+overflow. No new native search or holdout tuning; strict Mutilate optimum verdict stays
+FALSE under the separate disclosed practical-first-pass acceptance. All422 web tests,
+lint/typecheck/scoped format, immutable UI typecheck and isolated production build pass.
+Next is Subtlety/remaining physical, then casters, hybrids. No production deployment or
+automatic exhaustive phase. Full receipts/source paths are in the current runbook/context.
+
+LATEST17:59UTC: actual practical Mutilate acceptance and full browser handoff are complete,
+without changing strict b58… passedFALSE or tuning from its holdouts. Current retained
+gains remain below1% including each range's three-SE allowance; actual largest0.220624885%.
+Build51d5b6b4113e4beb/share62f5a5d752e7a35c preserve30/21/0/InstantMH-DeadlyOH/Evis3/
+SliceRefresh5/no Rupture and contain exact-APL-derived written guidance. Actual inspected
+native/WASM10k670.37447577 match exactly; independent incumbent200k669.95743089 is separate.
+Full real export/import/reload/proc-consentOFF completed terminal0; no extra native fights.
+Typed web-reader positive probe passed113 files and all159 simulator web tests (19 new).
+Thirteen focused numerical/result/parity tests and3 actual combined-preset/typecheck tests
+passed. Combined6-file virtual overlay preserves current Combat defaults/Subtlety and
+removes obsolete duplicate Mutilate talents. Immutable UI build, explicit combined proof/
+browser approval, local selection and VISIBLE rotation guidance remain; Mutilate has not
+replaced its starter on the website yet. Exact commands/roles: current runbook/context.
+Keep new/old web-reader compilation serial (legacy esbuild helpers stop a shared service).
+
+LATEST17:37UTC: Mutilate final b58aa143… completed22 fresh100k jobs/2.2m fights, exact
+result7fbc9555a3c01e2205abd0e37a88a9a9781df798a6b9ac72ba0d0fb52a281358.
+Strict incumbent validation remains passedFALSE: poison/APL alternatives improve only
+0.1802%/0.1055% over669.95743089DPS. Retain that honest verdict without another exhaustive
+search under the new policy. Actual final source/measurement replay47337 completed
+terminal0, exact verdict/zero new combat/browser jobs/writes. Fourteen budget/result-reader
+regressions, scoped lint/format and documentation whitespace checks passed. Actual Mutilate first-pass
+export/parity/browser/default delivery remains; Combat/Warrior local builds are unchanged.
+
+## Authoritative checkpoint: October18,15:07UTC
+
+UPDATE17:16UTC: retained selected-state gear18cc… COMPLETED/CLOSED,8cf7d9f99a9aab25…,
+one unchanged pass/83 stages/cleanup,665.87172DPS/10k. A final pin check correctly stopped
+the original owner after12028 saved results when two sources were reformatted. Owner
+approved restoring formatting only; all964 original pins verified. Exact study resumed
+as98092/69973, terminal0/ZERO new fights, no metrics discarded. The two byte-pinned inputs
+are now ignored by routine Prettier; operational audit/logs preserved in current runbook.
+New genuine refined reader and two-family independent validation/strict cross-Rogue seed
+registry have16 focused tests/lint passing. Actual final --plan27252 is validating both
+closed chains/origins/effective contexts. No Mutilate heldout range/fight consumed yet.
+Broader regressions88304 and final formatting33355 pending; final combat/WASM/browser/
+actual Mutilate presets still remain. Primary core unchanged; do not restart closed searches.
+
+UPDATE16:58UTC: CURRENT76940/13508 runs six-worker selected-state retained gear18cc37081c64f21ee89a4677a3e804da792330fd67a811c3d29b1e76509f5648,
+964 frozen pins/scoped caffeinate77148. Actual source replay +4 native/WASM gear controls
+passed100 fights/engine/no errors/cleanup; prep40322d13fcff4457…, bank10946 unique proposals/
+11071 entries/all17 pools/27 groups. At16:57:37,213 new jobs/51720 fights/pass1group2.
+V2 supervisor repair completed terminal0 with EXACT original10e… result/zero new jobs;
+old failed history preserved. Fourteen new selected/gear tests and two return-contract
+regressions plus scoped lint/format pass. Wait for real18cc completion; its new result-role
+reader/full replay still needs implementation before fresh cross-family holds/WASM/browser/
+actual Mutilate presets. No closed primary rerun or production mutation.
+
+UPDATE16:53UTC: learned-family feedback10e34872… COMPLETED five rounds/248 stages/cleanup,
+827a85835187b6be…, selected real10k665.87172DPS (31/20/0, DeadlyMH-InstantOH, Evis3/Slice3,
+Venom ability disabled but learned1).1673 new jobs/1228100 fights. Original owner30768
+ended1 AFTER success due to a missing supervisor return, not failed numerical evidence.
+New tested v2 wrapper preserves the old checkpoint and reconciles metadata as73991/77726,
+without editing frozen source or rerunning combat. Selected-state reader actual full replay
+passed; selected-gear owner is implemented with14 focused tests/lint/format passing, --plan
+1331 still replaying. No actual selected-state gear controls/search yet. Primary670.37448
+core remains closed; cross-family independent holds/full browser/Mutilate presets remain.
+
+UPDATE16:40UTC: retained gear32df… COMPLETED two passes/166 replayed stages/cleanup,
+resultb87735d393c80fbc…, selected real10k612.88696DPS.23173/59981 is terminal0.
+Actual source replay and16 poison native/WASM controls passed400 fights/engine/no errors,
+proof0932b1cc026f91ec…. CURRENT30768/15351 now runs six-worker constrained-family
+feedback10e348729f5d01f21f6d81e362a4587b7caa9b157aaf80e734bac8526b084d84,944 sealed pins,
+257 setups/220 talents/16 poison pairs/56 families, not an idle waiter. Last-no-change-gear
+applicability tools are under test; actual family closure/final comparison/preset delivery
+remain. Primary closed670.37448DPS is untouched. See current context/runbook for owners/logs.
+
+UPDATE16:28UTC: retained-Venom gear32dfc52f… is LIVE as23173/59981 with six workers and900
+fixed pins; actual four native/WASM gear controls passed, preparationdce18ca9a7af8c11….
+The prior owner timed out during verified macOS idle/maintenance sleep; all saved results
+and origins survived, exact declaration resumed with scoped idle-sleep prevention. Current
+pass2/group9 added1516 requests/723680 fights after recovery, without restarting primary.
+Queued30768/15351 requires genuine gear completion/full raw-origin replay/16 poison controls
+before constrained-family feedback; no watcher workers yet. Actual source/parity/feedback
+remains pending. Current context/runbook have logs/commands; do not duplicate these owners.
+
+UPDATE15:40UTC: primary Mutilate core is CLOSED, not still live. Feedback25ac… completed
+two rounds/100 stages, Eviscerate3CP/30-21-0/Instant-Deadly670.37448DPS/10k; gear35e…
+completed one no-change full10820-proposal/all17-pool pass/33 finalists. Both numerical
+owners are terminal0. Actual closure131672c1b8f1e072… replays both sources and every
+finalist without new combat; do not rerun unchanged feedback. Separate retained learned
+Venom31/18/2 seed52f9a17d1c8efc1c… is genuine2k same-gear evidence, not a final comparison.
+Its257-setup constrained feedback bank is proposals-only. Opposite-family full gear/
+feedback/closure, new independent final holds, WASM/browser and actual Mutilate presets
+remain. No current native owner/worker; continue that family stage, not the completed primary.
+
+UPDATE15:15UTC supersedes the process labels in this checkpoint: Mutilate first gear33c…
+COMPLETED four passes/all329 stages/cleanup, result04042315628b53c3…. Its650.86754DPS/10k
+set is selection only. Owner26076/99181 is terminal success. Actual source replay and all16
+selected-gear poison native/WASM controls passed (400 fights/engine), preparation68e474….
+Current29343/44744 is the numerical owner of six-worker feedback25ac312992772de6…, with864
+frozen pins and533 initial candidate setups. Further gear applicability, opposite-Venom,
+independent final checks and actual Mutilate UI/default delivery still remain.
+
+Older CURRENT/LIVE paragraphs below are historical, not process-liveness evidence.
+Combat Rogue has completed independent validation/native-WASM/full-browser approval and
+is delivered locally as UI27e48915c9158e05c6c2685e, preserving Warrior43d50… and numerical
+e14 unchanged. Mutilate fixed-blue selection is complete; its all-slot study33c1087f… is
+not yet a publishable build. Three intentional Mac reboots were recovered without discarding
+research. Current six-worker owner26076/exec99181 and observer29343/exec44744 were checked
+live;49762 retained admissions/7000120 represented fights/653 packs/all810 pins verified.
+The latest resume needs no orphan recovery or repeated admitted fights. Its full replay
+must finish before remaining comparisons; progress files alone do not prove completion.
+
+Selected-gear talent/poison/APL feedback is queued. Versioned Mutilate selected-state gear
+preparation/refinement and full read-only refined-source replay are implemented/tested but
+not numerically executed yet. Opposite-Venom family comparison, applicability, independent
+final holds and actual Mutilate default/preset delivery remain. Then Subtlety/other physical
+classes, casters, hybrids; the exhaustive Fury grid stays deferred. All-class goal is active,
+not reduced to the completed Warrior/Combat builds. Exact evidence/commands: context.md and
+simulator-update-runbook.md. No commit/push/deploy is newly authorized.
+
+## Historical calculation checkpoints
+
+CORRECTED GEAR V2 LIVE: new versioned selected-feedback reader reconstructs five banks/rounds,
+all60 distinct native finalist origins and actual16/33/2/APL/poisons. Full zero-combat source
+replay and4 native/4 actual WASM gear controls pass (100 fights per engine), full raw parity/
+equivalence/cleanup; proofc6f01698937ff6bf. All51 tests/scoped lint/format pass. Actual bank
+has16,226 unique proposals/27groups/all17 pools, including7,792 weapon pairs and1,464 sets.
+Study2924201b868efd06… /28611 /exec30362 now runs8 workers, pass1/group4 at08:31:49UTC:
+448 NEW jobs/105,200 fights/12 exact reuses. Poll same owner; all pinned files stay immutable.
+Every accepted change uses fixed10k/conservative gate. Source/model unchanged; no preset yet.
+Changed gear still needs feedback, retained SS full gear/new final holds/local presets remain.
+
+ACTUAL-GEAR FEEDBACK COMPLETE: explicit recovery loader verifies completed precision/model/plan,
+all4 scalar origins and both raw gear canaries, preserving a new context schema/stabilityfalse.
+Default gear loading remains strict. Actual16-poison native/
+WASM parity400 fights per engine, full raw/equivalence checks and zero-combat source replay/
+cleanup pass; preparation452cdaf83cbced2a. Feedbackc03603cef192ce43… completed five rounds,
+4,393 new jobs/1,493,520 fights/3,580 exact reuses; result64bb9e467fc081c8. Fixed-gear16/33/2
+Backstab/Eviscerate4CP/Instant+Deadly gives695.7376738 inspected10k DPS, not final validation.
+Full reentry reuses the exact result/zero jobs; owner/workers are gone. All46 tests/scoped
+lint/format pass. New exported bounded-gear v2 fixes conditional2k/10k acceptance in four
+callback regressions, but has NOT run numerical gear yet. Next class6 preparation/parity/owner
+must use completed feedback settings, not stale blue talents; keep source files immutable.
+Gear remains UNSTABLE. Full applicability/closure, retained Sinister Strike full gear, new
+final holds and real local presets remain. Inspected100k recovery ranges are not final holds.
+
+FOCUSED RECOVERY COMPLETE: diagnostic876bad32a31f457a fully reproduces446 original stage groups
+with zero combat. The cycle differs only in necklaces15411/22340, with10k gain0.1479687DPS
+versus descriptive unpaired SE0.2502277, reversing2k ranking. New explicit recovery study
+0ed80582279d0be2… completed4 new100k requests/result57113f1f155d1700 with full replay/cleanup.
+Split Mark gains-0.0666788 /+0.2722339 retain Pendant as control, not proof Mark is inferior.
+No stable gear/final validation is claimed. Both actual native/WASM canaries pass (proofb2c54f45…), exercising
+the new reusable batch IO positively. Old failed52e… has NO completion and remains guarded.
+Actual command reentry reuses same result/zero new combat or parity. No owner/worker remains.
+All40 combined regressions/scoped lint/format pass. This is selection only,
+not stable gear, final validation or a preset. Actual-gear feedback needs an explicit new
+recovery-source adapter; closure/alternate builder/final/local-preset gates still follow.
+
+CURRENT TERMINAL CORRECTION: original Rogue gear52e973415a4cded5… /9388 /exec2885 FAILED
+at07:36:24UTC after pass5's10k finalists repeated a visited loadout.85,922 new jobs/10,195,120
+fights remain cached; original owner/eight workers are gone. No completed receipt exists, so
+the old completed-gear feedback guard must still refuse it. Do not restart or call it stable.
+Diagnostic audit97814 /exec30273 now regenerates exact contexts and verifies original sealed
+stages/native origins with combat forbidden. Three cycle-observer contract tests pass; full
+actual replay and an honest precision/feedback recovery remain pending. All older LIVE labels
+below are historical checkpoints, not evidence of a still-running numerical owner.
+
+RETAINED BUILDER SOURCE: actual native blue origins now reconstruct a separate same-scenario
+Sinister Strike candidate WITHOUT replacing the global Backstab selection. The new preparation
+fully replays completed bluef412… with zero combat, then saves35,467 legal all-slot/pair/set/
+enchant proposals, including27,085 weapon pairs and all191 eligible main-hand items. Proof
+21d40d450c2c2986 is explicitly proposals-only; derived gear parity and actual measurements still
+follow. All34 focused tests/scoped lint/format pass; saved proof hash/92 source pins reverify.
+Original9388 /exec2885 remains
+the sole numerical owner, now pass5 rings past8.91m new fights. Do not infer sword inferiority
+from same-dagger-gear builder checks, call this a preset or start a second numerical owner.
+
+ROGUE PROGRESSION AUDIT: actual-gear handoff now verifies the full sequential incumbent/selected
+layout chain, stability/finalist evidence, fixed policy and honest pass-limit status. Genuine
+completed blue/Warrior receipts are rejected as wrong sources.30 focused tests/lint/format pass.
+The unchanged owner9388 /exec2885 is live in pass4 past6.32m new fights; no Rogue preset yet.
+
+ROGUE HANDOFF IMPLEMENTED: completed-gear context + reusable small combat batch now back the
+preparation and feedback commands. Actual current plans return `awaiting-completed-gear`;
+a premature real feedback run correctly refuses before workers/writes.25 tests/scoped lint/
+format pass, but positive gear replay,16 poison native/WASM IO and feedback have NOT executed.
+The same gear owner9388 /exec2885 is live in pass3 past4.98m new fights;696 model pins hold.
+Do not duplicate the owner, edit its inputs or treat these guard tests as a publishable preset.
+
+ROGUE FEEDBACK PREPARATION: new candidate/request/strategy helpers preserve the incumbent,
+declared talent anchors/legal neighbors, compatible builders and all16 poison pairs through
+actual encoded RogueOptions. Blue-fixture structural inspection yields1,396 distinct candidates;
+this is NOT actual-gear optimization or a started feedback run.19 focused tests/scoped lint/
+format pass. The same gear owner9388 /exec2885 remains live, past17k new jobs/1.97m fights,
+with unchanged696 model pins. Regenerate feedback on genuine completed gear; no preset yet.
+
+LIVE COMBAT GEAR: study52e973415a4cded5… owner9388 /exec2885 runs8 workers after genuine
+derived native/WASM proof80576ef8a7aa3519. Four25-fight controls agree on full scalars/actions/
+auras: selected talents/APL, mace off-hand/weightstone, set and enchant. Class6 and verified
+browser item data remain intact; engine unchanged. Actual all-slot/pair/set/enchant feedback
+is now running, not just proposed. Poll the same owner; pinned inputs must not change. Six
+passes are a limit, not convergence. Backstab is the current builder; retained Sinister Strike
+alternatives, actual-gear talent/poison feedback and final validation/presets still follow.
+New32 poison/stone templates are unit-only preparation, not measured DPS. Refs: context/runbook.
+
+CURRENT COMBAT ROGUE: bounded blue selectionf412ae63… completed8,270 new native jobs/1,154,400
+fights and272 exact result reuses, with full origin/packed replay and cleanup. The544-talent
+bank includes240 newly covered31-point Combat builds;12 internal weapon/builder/faction
+families and actual captured controls survive the80/500/2k/10k stages. Current18/31/2 Backstab
+leader575.4463387 at10k is selection only, NOT independent validation or a new preset. Gear
+preparation13522175… independently replays that completed study with zero combat, then records
+16,174 legal all-slot/pair/set/enchant proposals. New Rogue gear policy follows actual builder
+requirements rather than locking the starting blue hand style, retaining all acquisition and
+ownership gates.29 focused tests and scoped lint/format pass. Actual gear/poison/talent feedback,
+builder comparisons, final fresh validation and preset delivery remain. Full refs: context/runbook.
+Exhaustive rotation grids remain AFTER all usable first-pass classes/specs; no grid restarted.
+
+AUTHORITATIVE LOCAL DELIVERY October18: actual localhost3017 Warrior now includes **Two-hand
+Fury · Standard enchants**,735.3701882 modeledDPS/200k, in the build picker and matching engine
+configurations/gear sets. Optional first-pass pointer and UI43d50c157f60e48c403c088b are selected
+locally; original numerical manifest/model, campaign, old presets/default/proc consent and saved
+characters remain intact. Strict raw-worker + actual UI/native10k proof1a213946… and main-page
+desktop/mobile/reload/precision proof0bb045b3… passed. No deploy or global-optimum claim.
+
+The first-pass typed reader does not manufacture legacy completion. It reconstructs frozen
+inputs/seeds/100k contrasts/mean/uncertainty and links model/core/parity/share evidence. V2
+presentation approval explicitly covers new exports AND raw worker checks before any adapter
+replacement.322 web tests/strict TS,27 private regressions and actual browser checks pass.
+
+Rogue's small combat gate now passes: proofe234d4a26e6f3317 records28 native and28 actual WASM
+jobs at25 fights each (700 per engine), with exact DPS/variance/action counts and matching
+aura metrics. Venom positive/negative and no-Vanish Cutthroat/Ambush exercise pass. The safe
+class-compatible path preserves class6 and verified browser item data; four regressions pass.
+Earlier26 admission-only calls remain separate, never cached as DPS. These canaries are not
+an optimized Rogue preset or final validation. Next: bounded Combat talent/APL and all-slot/
+poison feedback/holds/preset delivery, then Mutilate/Subtlety. Broaden31-point Combat anchors
+before screening the304-seed starting bank, which covers only32–34 Combat points. Full refs:
+context/runbook. User-confirmed order: all usable first-pass classes/specs, physical → casters
+→ hybrids, THEN exhaustive rotation grids. No large sweep is running; two weeks is not a
+measured ETA. Never restart the stopped nearly3m Fury grid as a first-pass prerequisite.
+
+AUTHORITATIVE October18 checkpoint (supersedes older CURRENT/LIVE progress below): initial
+gear9b0cc94b… and actual-gear feedback0e943772… are complete. Core dadd6c4cc2eea483… closed after
+one full recheck under the improved HS45/post-swing Slam rotation: stable gear and stable
+talent/APL evidence share EXACT full settings; no unchanged feedback rerun. Result34bf5695…
+has11,618 new requests/1,881,260 fights,185 origin reuses and33 ten-thousand-iteration finalists.
+Warm replay/cleanup passed; previous owners/workers are gone. Actual native/WASM proof66d62f25…
+matches735.4848558 DPS and variance exactly at inspected10k, not fresh independent validation.
+
+Final-validation contract/CLI now freeze selected plus strongest distinct item, non-tied
+enchant-only, talent-changing and same-talents rotation-changing finalists BEFORE two new100k
+ranges. Accessory order alone is neither a new item layout nor an enchant change. Seven new
+tests and six core-loop tests pass, including failed-before-fixed classification and refusal
+to turn a holdout winner into a new incumbent. Near ties remain explicitly uncertain. Full
+source replay/raw original admissions/model pins precede launch. Final holdouts and real local
+preset handoff remain; no completed/public2H preset or global optimum is claimed.
+
+FINAL CHECK UPDATE: studyf0c4c19d… / resultd22f0e49… completed10 genuinely NEW100k jobs,
+1m fights with zero old-origin reuse. The frozen selected build has200k/735.3701882308056DPS.
+No challenger defeats it in both disjoint ranges; all four alternatives remain uncertain near
+ties, NOT proven inferior/equivalent. Full replay/cleanup passed; no native worker remains.
+Export boundary + isolated browser CLI now reuse that evidence;18 core/validation/export tests
+pass. First handoff11556 failed before publication on protobuf default/zero JSON differences.
+Typed default/bonus-vector/cap-level normalization now has three strict regression tests,
+21 tests total. Actual re-run32936 /9066 SUCCEEDED: build43804dfa… / sharee6f03a52… verifies
+all17slots/enchants/effective settings/disabled proc consent through isolated full browser
+export/import/reload, with zero new combat and no historical delivery or user-storage changes.
+No owner/worker remains at05:05:59UTC. Local typed reader and built-in Preset Configurations/
+Gear Sets + main build picker remain to integrate before progressing to the next spec.
+
+USER SEQUENCING: first usable validated preset per spec for all classes, physical → casters →
+hybrids, THEN exhaustive rotation refinement. Do not restart the preserved nearly3m Fury grid.
+The suggested two weeks is not an evidence-backed ETA. No commit/push/deploy newly requested.
+
+CURRENT feedback progress: while SAME gear owner10469 / exec13497 runs pass5, actual controller
+53198 / exec52532 waits for its cleanup-gated completion before starting fixed-selected-gear
+talent/APL feedback. It has zero native jobs/workers so far; poll the existing controller,
+do not create another one. Its final identity is derived only from the genuine completed gear.
+
+The bounded first feedback bank has1,072 candidates (all legal one-point Fury neighbors,
+talent-resolved Spearing, local rage/stance/Rend/core-priority changes and a few untalented Slam
+packages), not the deferred Cartesian grid. Real WASM admissionbd5beaf759717859 passes all and
+rejects both negative controls, with zero combat. Nine tests/lint/format pass. A new-generator
+learned-Spearing/null-insertion regression was caught and fixed before numerical use; prior
+Fury deliveries/blue/gear evidence are unaffected. Selector refines80/500/2k/10k, preserves
+incumbent/families, requires a conservative10k gain and regenerates neighbors after changes.
+No fresh holdout, global optimum, final-gear parity or public preset is claimed. Changed
+talents/APL or an unstable source gear result require new gear feedback before final approval.
+At04:22UTC gear had43,033 NEW requests/5,970,560 fights plus4,543 exact-origin reuses. Commands
+and full evidence refs: runbook/context. All classes' first-pass builds precede exhaustive work.
+
+CURRENT actual gear progress: correct derived blade/weightstone requests now pass native/WASM
+parity for all three representative weapon types (proof2700b314388ab5ec), preserving original
+capture/raw IDs and separating native wire-equivalence proof from real WASM execution. These
+are derived inputs, not fabricated UI captures. Current blue study remains complete.
+
+Actual bounded all-slot owner10469 / exec13497 is LIVE under study9b0cc94b11cc8acb… . First bank:
+10,542 unique gear proposals/24 groups, all149 matching-consume weapons, all occupied slots,
+3,794 ring/1,625 trinket pairs,3,055 set assignments and enchants. Every group uses one frozen
+pass context; chosen nonoverlapping composites are measured, not valued by summing gains.
+Repeat80/500/2k passes and10k stable finalists; pass-limit/cycle is not convergence or approval.
+
+Shared private runtime reuses exact reviewed native origins across groups/passes, preserves
+raw journals and sealed packs, rejects missing origin/cache evidence, and completely replays
+before cleanup-gated completion. All13 focused tests/nine-file lint/format and read-only plan
+pass. At04:00UTC4,698 new requests/676,320 fights and37 raw-origin reuses had completed. Re-poll
+the SAME actual owner; do not duplicate/restart or edit pins. Adaptive actual-gear talents/APL,
+final holdouts and real preset delivery remain. No finished2H/public/global-optimum claim;
+the exhaustive rotation phase stays AFTER first-pass builds for all classes. Commands: runbook.
+
+CURRENT actual two-hand progress: the bounded blue talent/Spearing study COMPLETED26,603 native
+requests/3,208,660 simulated fights and full independent read-only reconstruction. Original
+26,101 admitted policies plus captured control get80-iteration screening;289→143→69 leaders
+advance through500/2k/10k while all58 families stay represented. Result6fb98383… selects20/31/0
+`20305203122-25053000152110501`,533.12268DPS versus511.14204 for the SAME blue gear at10k.
+These are exploratory selection scores, NOT final prebis or a global optimum; no final100k
+holdouts or finished2H preset/default was consumed/published. All workers/lease cleaned up.
+
+Actual preparatione578fe31… replays every raw origin/pack with zero combat and produces24 gear
+proposal groups:all occupied slots,149 two-hand weapons,3,794 ring/1,625 trinket pairs,3,055 set
+assignments and enchants. It is explicitly not measured gear evidence. All75 blunt weapons
+remain eligible but need a matching DenseWeightstone request/context verified before combat;
+74 blades use the existing DenseSharpeningStone context. Do not rank incompatible consumes or
+drop weapon families. Next: correct contexts → bounded gear selection/adaptive talent/APL
+feedback → independent final checks → real local preset delivery, then remaining classes.
+Seventeen focused tests, scoped lint/format and actual full replay pass. Commands/refs: runbook
+and `context.md`. The separate3m-policy experiment remains deferred until all first-pass builds.
+
+CURRENT USER PRIORITY: deliver the first usable, validated pre-raid builds for ALL requested
+classes/good specs before running exhaustive rotation grids. Physical → casters → hybrids;
+finish each spec's bounded talent/rotation/all-slot feedback and real local presets first.
+The stopped nearly3m Fury APL study remains preserved for the later refinement phase, not a
+per-spec release prerequisite. Reuse its existing measurements; do not auto-resume it now.
+The suggested two-week duration is unmeasured, not an ETA. This supersedes any earlier text
+requiring the complete expanded frontier before progressing to another class.
+
+Current two-hand gate: six actual fixed-blue native/WASM canaries match exactly in DPS AND
+standard deviation (report5f8790a2115e2b17,150 iterations per engine). Original1,741 talent seeds
+and26,101-policy browser admission are reproduced/reused without another full admission sweep.
+Four new bank tests and24 existing provider/two-hand tests pass. This is engine parity, NOT
+two-hand damage optimization/gear completion; actual bounded selection remains next. No native
+worker/lease remains and no public/local preset or production deploy changed. Context has refs.
+
+CURRENT delivery: the bounded current Spearing Fury setup is now available from the actual
+localhost3017 Warrior build picker (Fury · Provisional proc enchants,873.12 modeledDPS). Explicit
+new export704cbccc…/browsershareea45c68d…/main-page proof21b87251… reuse all completed core/
+selected-context/accessory/parity evidence with ZERO new combat and no exhaustive grid. Actual
+load/reload preserves the full setup, keeps proc consent OFF and passes390px mobile checks.
+Original campaign/delivery remain intact; no public defaults/deploy or global optimum is claimed.
+All305 web tests,5 private export tests, strict TS, scoped lint/format and real browser checks
+pass. Optional new pointer and typed reader enforce current predecessor/model/proof links; no old
+receipt is relabelled. Next: bounded2HFury → remaining physical specs → casters → hybrids. Full
+all-class goal remains active. Exact source/artifact/handoff refs: `context.md` and the runbook.
+
+CURRENT scope correction: the user challenged the nearly3m Fury expansion after a reviewed build
+had already been delivered yesterday (export9c792cf6…/browser share53169ffa…, opt-in only).
+That Cartesian APL grid is optional further research, not missing gear tests or a prerequisite
+for practical spec delivery. Earlier REQUIRED-full-frontier annotations are superseded, not
+rewritten into completed evidence. Optional owner46615 / exec45216 is deliberately stopped;
+2,304 sealed80-iteration records are preserved, all workers are absent and lock released. No
+full-grid verdict or global optimum is claimed. Keep the multi-spec goal active: finish genuine
+bounded browser/export/preset handoff and then progress through remaining requested specs.
+Optional infrastructure passes85 tests, actual no-combat preflight and scoped lint/format.
+Current accessory cohort did complete without a gain; full provenance is in `context.md`.
+
+Latest full-frontier implementation: the private owner now preserves all2,863,290 original
+policies/6,124 families plus every78 extension through the declared staged search. It requires
+the actual completed/reconstructed accessory cohort before generation; a gain needs feedback.
+Accessory1265 / exec2913 now COMPLETED and all workers are absent. Result5ec2aeb4a26235de/full
+replayc443383faa9cfff5 verify5,329 raw/native measurements/13.794m iterations:all5,297 ordered
+pair screens plus32 fresh100k requests. Both cases retain the incumbent. No wider native frontier
+or preset is complete; historical LIVE annotations below are superseded.
+
+The single-pass helper now uses v2 semantic coverage/model-bound bank identities; runtime cache/
+worker counters stay separate. This fixes warm replay changing a finalist's identity without
+changing its evidence. All83 related tests pass, including byte-identical full synthetic warm
+replay with zero new measurements. Native-origin checks precede ranking; a compact57-byte origin
+payload plus O(N) Map avoids retaining millions of response objects, while full raw journals stay
+authoritative. Full readonly reconstruction and successful cleanup gate completion. Actual real
+accessory-loader integration/preflight are running read-only. Earlier62-test/helper hashes below
+are historical. No cross-catalog reuse or all-class/global-optimality claim. Commands: runbook.
+
+Latest actual accessory progress: trinket case5d2ba32dc8eee66f finds no gain after every1,625 pair,
+five preregistered challengers and both fresh100k ranges. HoJ + Blackhand's Breadth stay selected.
+SAME1265 / exec2913 now runs rings (1,070/3,672 at02:17:44UTC, overall2,707 jobs/6.59m iterations).
+Whole-cohort raw review and final gates remain; no preset was published.
+
+New independent single-pass ranking/refinement-bank APIs now retain exact overall/family/control
+leaders and ALL selected early/cross-family provenance in one producer pass. Shared control and
+equipment are factored once; immutable raw IDs remain distinct from later precision requests.
+Compact O(N) metadata/indexes have explicit rejection budgets, not a constant-memory or global-
+BiS claim. All62 relevant tests pass (11 new), including an independent full sort, both old
+passes, late evicted policy reentry, warm cache, mutations and a SMALL real-control/Spearing
+prefix with fixture-only scores. Scoped lint/format pass. This is full-frontier preparation,
+NOT native evaluation of its original2.86m+extension bank or a new public pipeline. Live1265 and
+all its frozen inputs remain untouched. Exact API paths/limits and remaining work: runbook/context.
+
+LATEST continuation: genuine v2 closing4ad195… now passes the downstream full raw/native-context
+loader. The explicit v2 set gate REUSES its already-completed3,111-layout/17-added audit without
+another set simulation or legacy receipt. Actual full ordered accessory cohort3cdb1c64… is LIVE
+as1265 / exec2913 with8 D1 workers:1,625 trinket pairs followed by3,672 ring pairs at2k each.
+At01:55:59UTC344 new jobs/688,000 iterations completed. Every four-SE near tie advances; complete
+shortlists MUST be immutably persisted before fresh100k ranges and reproduced by raw replay.
+Cached/resumed scalars need matching known native origins before use. A trinket gain stops rings
+for full feedback. All37 final-source tests and8-file scoped lint/format pass. No new preset or
+completed class is claimed; exact command/state/frozen source pins: `context.md`. Settle the
+accessory feedback before the preserved full2.86m+extension frontier and final publication gates.
+
+LATEST authoritative update (October18): actual gear result129bba4519f19e9c rejects head1506 in
+both100k ranges and retains original2543. FULL raw reviewdb7915396e1bbe7e verifies all77,051 raw
+records/7,826,580 iterations but correctly stops at needs-selected-context-sweep: its stable
+checkpoint described the rejected gear. All old gear/reviewer owners are complete, not live.
+The fixed-selected-context audit85994 / exec39787 is now COMPLETED and cleaned up. It retains one constant
+gear/talent/APL/model context across27 full single-slot/pair/set/enchant groups and reuses verified
+raw native evidence. Actual dry-run:37,254/37,424 screens already measured, ONLY170 missing;
+refinement/confirmation costs are additional. All17 new expanded set layouts remain mandatory.
+Original head-loss evidence is an explicitly scoped historical exclusion, not fresh validation
+or a global item blacklist. All new hypotheses freeze together before independent100k ranges.
+Actual result5366f45d48775a0f/replay27c68e976e788876 verifies38,870 unique records/5,069,920
+represented iterations: ONLY506 actual new jobs/1,431,100 iterations plus38,819 cache references.
+Every group's10k finalist leader is the incumbent; there are zero new hypotheses to confirm.
+Separate v2 closing4ad195d121ebe647 independently replays the complete audit/raw native origins,
+keeps the failed original scope unchanged, and passes core-loop unchanged-context talent reuse.
+The four historical selected100k observations give873.1177850881771DPS/400k; this is not new
+validation, wider/global optimization or preset approval. All47 targeted tests and13-file scoped
+lint/format pass. No numerical/reviewer process is live. Next explicitly support this v2 proof
+in downstream context/set prerequisites (NOW implemented above), then full accessory audits and the wider frontier.
+Do not repeat the already-measured set/greedy work or relabel a v1 receipt. Cross-catalog reuse
+and remaining classes stay pending. Source pins are frozen; commands/status: `context.md`.
+
+Latest corrected-v2 progress (October18): actual talent result2cd5f32560bd0702 completes and
+retains the incumbent after three stable refinements and both fresh100k ranges. FULL raw review
+8d47a4ee75d74a54 reconstructs88,762 unique records/36,707,900 represented iterations with zero
+combat, separate imported/current native origins and fresh-scalar decisions.14377 is cleaned up.
+All141 relevant tests and scoped checks pass. SAME49984 runs actual all17-slot/enchant gear under
+32197 after genuine positive preflight;NEW68262 queues guarded full raw gear replay/closing.
+Earlier37091/43605/53033 were deliberately stopped: a validation fallback cannot inherit the
+stable sweep of different candidate gear. Selected-context mismatch now requires an explicit
+recheck; confirmed changed gear requires actual talent feedback. No set/accessory continuation
+is presently queued. Its no-combat gate also has an isolated real-bank integration
+test with clearly test-only scalar fixtures. Explicit v2 context/raw paths are supported,
+the old v1/accessory loader stays strict, and all queued/shared sources/tests remain frozen.
+Unchanged gear reuses valid research; changed gear requires new talent feedback with no reused
+score. Expanded set assignments are a separate required gate before accessories. No final
+gear/closing/set/accessory result, public preset, cross-catalog reuse or all-class completion is
+claimed. Old observer references below are historical. Exact ownership/state: `context.md`.
+
+Full wider-frontier preparation remains in scope: actual structural reviewd38afb493a05309d
+preserves the original69,930 parents plus the new incumbent/reassigned family and exact serialized
+control.78 local extension requests are retained; overlap with the original2.86m bank is unknown.
+It reuses generation-only evidence, not DPS. The new eight-worker packed executor passes source-
+equivalence/concurrency/readonly-digest tests while original source pins stay immutable. Full
+current-context numerical evaluation and feedback are still pending, not replaced by a small list.
+
+CRITICAL latest recovery (October18): the original live private refinement merged stale candidate
+fields over fresh4000 results. Its later decisions are unusable, while raw scalars are valid.
+The old owner and observer chain are stopped; no preset was promoted. Actual verified indexbf3634…
+recovers67,402 raw rows/32,119,900 iterations. Corrected v2 owner14377 / exec64143 (0c5c9f47…)
+reuses initial broad stages/first refinement with ZERO new full simulations, preserves fresh
+scores/IDs/precision and is running real neighbor work. All126 focused tests pass, including the
+actual old-stage regression. V2 raw review/imported accounting and explicit gear adaptation are
+next; old v1 consumers/watchers must not be reused. Full current state is in `context.md`.
+
+Latest delta prerequisite (October18): the actual equipped Crusader profile exposed a lost
+proc-policy handoff; the validated authorization is now preserved without granting opt-in to
+conservative profiles. All117 focused tests pass. Only waiting accessory observer88111 was
+stopped and remains unqueued while the earlier numerical/review chain runs. Close the documented
+set-slot delta before restoring expensive accessory audits. Real historical proofe5bd98c9eefc0765
+finds exact cached measurements for3,096 of3,111 expanded set requests;15 opposite-ring armor
+layouts remain unmeasured. This is ZERO new combat and historical original-backend reuse only.
+Current-D1 delta execution/confirmation/feedback still needs implementation on genuine results;
+no wider frontier/class scope or public/local preset is declared complete. See `context.md`.
+
+Accessory continuation (October18): explicit private context validation, all-pair plans, frozen
+admitted execution/resume and full raw replay are implemented. Current catalog tests cover every
+3,672 ring and1,625 trinket ordered pair, with the owned four-SE shortlist and both100k/three-SE
+confirmation rule. A gain reopens feedback instead of approving a preset; a trinket gain stops
+the now-stale ring audit. Completed exact cohorts replay from unchanged raw evidence/journals
+with zero new combat. The earlier101-test queued setup is now superseded by the latest prerequisite
+above; observer88111 is no longer running. The positive private result remains pending the same live
+talent/gear chain. No global engine, public/local preset or broader class scope is changed.
+
+Closing-feedback continuation (October18): a new explicit private applicability receipt compares
+the complete effective native context after genuine full gear replay. Unchanged gear reuses the
+completed fixed-gear talent/APL search within its existing policy, with all four selected100k raw
+records rechecked; changed gear produces needs-feedback settings and no reused score/closure.
+This starts no combat, never recycles historical holdouts as fresh and cannot approve presets or
+replace final accessories/rotation/browser gates. All88 focused tests pass. Live observer78234 /
+exec38381 waits behind the raw gear chain; the actual positive private result remains pending.
+Cross-catalog reuse and every broader class/frontier scope remain unchanged; inspect `context.md`.
+
+Current research continuation (October18): private talent-to-gear handoff/executor/CLI are now
+implemented and queued, not numerically completed. They require the real stable private talent
+result/full raw replay, preserve both100k/three-SE talent decisions and use the pinned owned
+all-slot/enchant source through explicit frozen-backend bindings. No old talent report, global
+binary or public preset is replaced. Preflight prohibits combat until fresh validation ranges
+are checked; completed gear steps have their own needs-raw-review pointer and must still close
+actual-gear talent feedback. A corrected optional-seed boundary now freezes exact bytes/absence
+and passes actual-source first-batch tests. All82 focused tests, CLI help/partial-review rejection
+and source lint/syntax/explicit format pass. Live gear continuation60848 / exec40230 replaces
+stopped49113; raw gear observer65140 / exec46485 waits behind it. The new full source/raw-cache
+gear replay reconstructs every configured pass/output and checks every native admission without
+combat, but cannot close talents or approve presets. Actual historical old-backend integration
+proof4788dd6bc3719950 reproduces all27 configured groups and38,699 raw records with ZERO new
+combat/cache writes. That is separate from the still-pending private gear result and its
+mandatory admitted-native journals. Inspect `context.md` before
+edits or a new run. All broader class scopes stay intact; no new public/local build is promoted.
+
 Delivery priority (owner, October17): once a spec passes its final review, publish its matching
 **Preset Configurations and Gear Sets first**; original BiS guide pages are secondary. A separate
 review selector is not a substitute for these built-in first-impression surfaces. Generate both
 from the same reviewed source, including all17 slots/enchants, legal talents, APL and spec options.
-Preserve saved characters and opt-in-only provisional models. Rebuild only outside a live native
-workspace, then verify real built-in selection, fresh-browser defaults and existing saved setups.
+Preserve saved characters and opt-in-only provisional models. Shared model rebuilds require an
+idle native workspace. Isolated immutable UI-only releases must prove byte-identical model assets
+and exact-request/WASM parity, then verify built-in selection, fresh defaults and saved setups.
+
+Local delivery now uses UI33992eeffcad164ba55b00a0 over unchanged numerical sourcee14af46d79721e1ad50a6f04.
+Actual conservative Arms/Fury configurations and gear sets are updated. Names are faction-neutral;
+built-in configurations preserve the selected race, while full benchmark imports retain their
+documented complete-setup behavior. Current browser approval3e35fce39ce8d6f5 passes all desktop/mobile
+and saved-data checks. The wrapper uses the host scrollbar and viewport-aware item/enchant dialogs;
+scroll reviewb439b8539360147c covers all tabs, resizing, focus mode and reloads on Warrior and Mage.
+This is local delivery, not production deployment or completion of all Warrior search frontiers.
+
+Current numerical continuation (October18): an actual6/8/10/12-worker forward/reverse benchmark
+recommends8 at55.1697vs44.0233jobs/s (~25.3% throughput gain). All2,120 warm/timed requests
+match their256 original measured inputs; repeat same-seed iterations are not independent samples.
+Benchmarkab7de815863b1f4c and readonly replaycd30554a8be01594 pass without shared-source changes.
+Current Spearing pilot3195091312db20b7 then executes all nine legal one-point donors ×41
+current-incumbent variants plus original control:370 actual native/WASM25-iteration pairs and
+370 native500 screens in disjoint4+4 stages. Full readonly proof81ac6fba09b522ae reproduces all
+370 parity records/raw screens and source/binary pins. Both unavailable-spell negatives reject;
+all49 focused tests and source syntax/lint/explicit format pass. Its500-iteration leader is not
+the eventual winner. Completed confirmation7f89db72df9f427f refines all370 at2k, measures16
+finalists at10k and confirms a frozen Improved Heroic Strike-to-Spearing donor at both fresh100k
+ranges (+2.69606/+2.53137DPS, three-SE rule). This costs390 new native jobs/1.3m iterations.
+Full readonly reviewffcec8bd3512ed39 reproduces all raw evidence and68 disjoint ranges. Browser
+capturebf58c48c28aadf7d creates pending-feedback baseline1e56260f2c8b6624 with inherited
+convergence removed; its25-iteration869.92 display is only a parity canary. Full actual-gear
+feedback remains required, including candidate-talent-aware Spearing/no-Spearing APL resolution
+before using the existing Fury talent optimizer. The confirmed two-range873.12207 mean is not
+a final build benchmark or public replacement. All36 union/subset/stage/confirmation tests and
+new-script syntax/lint/format passed in that numerical turn. Full2.86m parents/styles/sets/
+scenarios and other classes remain. No live owner, shared stage-cap/default change, public
+recommendation change, commit or deployment.
+
+Actual Spearing talent feedback now runs as11223 / exec73953, identity258215f7c9b1cc2….
+The new isolated policy restores every unlearned candidate's exact no-Spearing parent, preserves
+the captured learned incumbent and covers226 parents/7,346 variants with1,093 legal seeds
+(200 unlearned/893 learned). All29 actual native/WASM parity controls pass before the7,572500
+rotation screen; family-retained seed crosses and adaptive talent feedback follow. Independent
+live-prefix proofd0d3ed3b8f55bea4 rechecks every screen request identity and1,165 journal/cache
+pairs with zero new combat, not a complete search verdict. All39 focused regressions plus new
+source syntax/lint/format pass. Fresh100k ranges are reserved against the full history (70 total).
+The private result is not a completed owned gear/enchant feedback receipt or preset approval;
+full raw replay and subsequent feedback/delivery gates remain. Existing sources/models/defaults
+and production are unchanged. See `context.md` before any new run or source edit.
+
+The SAME run now completes7,572 screening measurements/3,786,000 iterations and advances to
+54,515 talent crosses with55 retained policies/23 families;82 exact measurements are reused.
+Full screen-only proof3b0a2313dc9670d2 checks every raw result,7,601 native admissions,29 parity
+records and70 allocated ranges without new combat. New readonly replay reconstructs retention,
+seed/neighbour decisions, convergence, frozen finalists and fresh holdouts; all52 focused
+regressions and syntax/lint/format pass. A pinned read-only follow-up24709 / exec35910 is live
+and queues full terminal-result replay; it does not restart combat or approve a preset. Actual
+full-result end-to-end replay and all subsequent equipment/delivery gates remain uncompleted.
+
+Native template proofa6a0cfa471892f04 now compares two pairs across three existing captures under
+the same admitted binary/DB/codec, retaining raw request identities. It checks11 changed-input
+guards and saved native/WASM25 canaries with zero new combat or cache writes. Seven new tests
+and the related existing suite pass59 cases. This prevents unsafe capture-only cache relabelling
+and prepares stable native templates, but automatic feedback/cross-catalog integration is not
+implemented. Both current owner/queued reviewer stay live; the next actual gear stage needs an
+explicit source-bound evidence/backend handoff. Existing scalar transport already supports that
+search, so a duplicate detailed runner is unnecessary. No global model/binary/preset changes.
+
+Latest numerical state (October17): the broader proc Fury source and confirmation are now
+TERMINAL SUCCESS. All69,930 screens/5052k refinements and16 actual10k finalists lead to a frozen
+Hamstring30/HS45/BRage20 challenger. Both fresh100k ranges pass (+3.06818/+3.12657DPS against
+0.28265/0.28296 thresholds), requiring feedback rather than direct preset promotion. Result
+8138b01b2542dfb7 and new full readonly proofefed39c13efc50a6 replay the complete bank, final
+raw records and52 linked disjoint allocations. The verifier starts no new simulations.
+Exact recapture3c99e393389def9d passes actual native/browser parity2dcfa7c81371ec6b. Full
+feedback6a0fb4e307e55ce1… is now TERMINAL SUCCESS as coree828a8f073bc67af,870.4411919DPS/400k.
+The gear and19/32/0 talents stay unchanged; closing selection reuses old measurements and runs
+only two new100k validations. Trinkets01cdb370ddc0f587 retain BHB+HoJ; ringsa79f430f6a8f0742
+also retain19325+18500. Full replay/indexf634b37be4216586 verifies3,692 raw records and actual
+closure73b055ddf456fb37 reconciles64 ranges. Final rotation5d7d50ba2837862a now retains the
+incumbent; full replay670cc34325d28694 checks244 raw records and66 ranges. Owned export
+9c792cf6d96586af succeeds at870.44119DPS/400k. Explicit local delivery53169ffac6f488d8 now
+updates the main-page optional proc benchmark without rewriting campaign history. Actual wrapper
+browser proofcb2d644d26447e26 passes complete import/reload, all17 slots/enchants, talents/APL,
+scenario, four faction-neutral choices and consent OFF on desktop/mobile. All38 reader regressions/
+all298 web tests, TypeScript/lint/format pass; numerical status remains unchanged. Conservative
+default presets, opt-in rules and releases stay
+unchanged. Subsequent paragraphs describe preceding research; the latest handles/hashes in
+`context.md` are authoritative.
+
+Its first talent audit7a59e5a1329a9cef is now complete:11,528 jobs /3,624,200 iterations retain
+19/32/0 and the new Hamstring rotation after three stable rounds. Full readonly producer replay
+502c7bb873b01955 reconstructs all11,528 raw records and the complete adaptive decision; actual
+range proof4615122733db8fb2 reconciles its two fresh100k allocations against the54-range ledger.
+Both start zero simulations. Gear child85084 subsequently completes a zero-change27-group pass;
+full raw coverage0a845fbbc65eb1e0 checks38,699 records. Closing replay6566ea78fcdff829 reproduces
+all11,528 talent records with no combat. Combined closure61116af78eebd6d9 binds current evidence,
+byte-identical setup and58 disjoint ranges. Full trinket replay/index3a2f96ebca2234de verifies
+1,629 raw records; range proofdfcf913021b63445 confirms61 linked allocations. Ring and final
+rotation/preset gates are not bypassed by that core closure or by exact-context cache reuse.
+
+Actual fixed-context reuse proof9753c7c039921097 shows the old/current normalized native
+controls and full69,930 canonical policy domains are identical. Current69,931 JSON rows include
+one field-order alias; all six changed-input controls reject equivalence. No simulator/cache
+write runs. This preserves old broader-search applicability, not cross-catalog cache migration.
+Actual private cache-only reconciliation80609574f42fd87e now reanalyses current retention using
+the original payloads/IDs. All69,930 screens, all504 current2k refinements and15 of16 current10k
+finalists are reused; original69,930/505/16 raw stages and pins are reverified. Only ONE10k
+measurement was missing. After rings retained the same core and released ownership, private
+completionafa5f5f8a7a0efdb measures exactly that request and retains incumbent0 across all16
+metrics. Independent readonly replay reopens its new packed record and reconstructs selection.
+No original-cache writes run; all31 focused subset/stage/confirmation regressions, wrong-kind/
+stale-core guards, syntax/lint/format and actual execution pass. Current retention/selection is
+complete, not a fresh benchmark. Final owned rotation/export subsequently completes with17
+new jobs/350k iterations and227 reused requests; all23 focused export/rotation/subset/confirmation
+tests pass. The optional benchmark's browser delivery now passes as recorded above; conservative
+built-ins stay unchanged. Wider frontiers/classes and catalog-delta integration remain incomplete.
+Do not repeat the unchanged damage search or globally exclude old losers.
+
+The original four-case Warrior campaign is now `configured-cases-reviewed`. Revised proc Fury
+rotation070a5cde127e5366 retains the incumbent and exports6cf877ab6cf74265 at867.4098794DPS/400k,
+opt-in only. Full readonly replay716aafc302b3b695 checks every225 screen,16 finalists,243 raw
+records and48 linked RNG allocations; final producer runs17 new jobs/350k iterations and reuses
+226 records. A completed-case real share/import is available locally as23d19af3c75528bb. This
+is not completion of the wider priority/Spearing/style/set searches or the other classes.
+Actual Helper wrapper proofaed1a78b5de9fcc7 verifies all four build choices, selecting/loading
+the new867.41 proc case, exact equipped gear/talents/APL and consent OFF in the real enchant
+modal. No default preset, user's saved character, combat simulation or deployment is changed.
+
+The previously queued wider native sweep stopped before damage search on nil Go party-stat
+padding. A private adapter guard has real failing-before/passing-after valid/unknown/unlearned
+admission regressions. New isolated build1384810a0ca5a08c leaves the original combat binary
+unchanged. Fresh owner19767 / exec72115, identitycb4e9eb75315ae83…, passes both negatives and
+all65 native/WASM scalar checks before starting the full69,930-policy CONSERVATIVE Fury sweep.
+Its broader result/independent confirmation and any consequent feedback remain pending. No
+equivalent full proc sweep or Rogue damage search has started; do not mutate its pinned inputs.
+
+Its confirmation follow-up is now preregistered and actually queued as31955 / exec86510,
+identity6df9591afc124840…. It waits for19767 and the native lease to end, replays all69,930
+screen measurements/family retention and the complete retained2k bank, then measures top16
+plus incumbent at10k/77191. One frozen winner receives both fresh100k ranges, with seeds
+1845057918400000/1845057918500000 disjoint from all48 linked historical allocations. No
+positive challenger can bypass full gear/talent feedback or directly update a preset. Four
+new protocol tests and all39 focused packed/refinement/provider tests, lint/format pass; real
+end-to-end confirmation remains queued, not completed. The index/delta-update roadmap is not
+silently substituted for these required numerical checks or claimed implemented by this work.
+
+The broader CONSERVATIVE run and follow-up have now completed: full69,930 screening plus5052k
+refinements,16 actual10k finalists and four actual100k holdouts. The frozen maintenance-first:1
+challenger gains0.18675/0.30561DPS against thresholds0.26114/0.26282: only one range passes, so
+KEEP the original reviewed conservative build. Result2c7b0ba7b5246192 and fresh readonly proof
+4c2f3490c1c4167f verify final selection, raw metrics, retained incumbent and50 disjoint allocations.
+No preset or feedback restart is justified. This closes that fixed-context bank, not all Fury.
+
+The corresponding full PROC source43735 / exec56494, identity1ae9426d2ca20786…, subsequently
+completes after both negatives and all266 actual native/WASM parity comparisons (44,265 canary
+iterations) pass. Its69,930 policies are distinct from the earlier253-family sample. Follow-up
+45654 / exec5446, identityb735e088300bc3f7…, completes both fresh100k ranges
+3073761516400000/3073761516500000, checked against all50 prior allocations. Preregistration
+870cc98ff5c57b4a records52 disjoint allocations before measurement. The confirmed proc gain
+and new actual feedback are described above; neither old handle remains live. All24 focused
+frontier/protocol/provider tests and lint/format pass. Original completed sources, model,
+defaults and public releases stay unchanged; learned Spearing/styles/sets remain pending.
+
+Latest numerical progress (October17): revised Fury provisional-proc gear searchdf8597b2fe825d2b
+converges after4 passes /155,540 actual jobs /15,198,580 stage iterations. Two independent100k
+comparisons improve853.5428941→867.3799640DPS on average. Full readonly proof
+`reviews/fury-post-rotation-gear-0e87a77b453002b2.json` replays all27 final slot/pair/set/enchant
+groups and38,700 unique raw cache records, source/legality/shortlist identities and disjoint
+validation ranges. The869.31 adaptive score is not this independent estimate. New actual-gear
+baselineca578f0b60e761b2 now closes talent feedback:6ea03912178f3cfe retains19/32/0 and the exact
+APL after three stable rounds and two independent comparisons. Browserddcf2ba0dacdceb6 passes
+native872.96369/UI872.96 at25/1337; that is not the high-precision estimate. Core90a11fefaf564a1e
+is867.4098793855617 modeledDPS /400k. Independent readonly closure9b7d5bb5e57e72ff links full
+current evidence, reconstructs the exact core and checks40 historical/reserved ranges. Its final
+ring/rotation gates subsequently close as recorded above; wider Warrior frontiers remain.
+
+Revised proc trinket audit893f3b5244a61e73 now retains BHB+HoJ across all1,625 ordered2k pairs
+and both100k comparisons of its only close challenger (reversed order, exactly zero difference).
+Full readonly replaye0f42e37815fd738 matches1,629 raw records /3.65m represented iterations,
+current identity/shortlist/selection/verdict; range prooff71537e094db3991 checks43 historical/
+reserved Fury allocations including this screen and two confirmation ranges. No new feedback
+loop or public preset promotion. Ring audit6928a2a8148eaa16 is now complete: all3,672 ordered2k
+pairs and nine close challengers/control on both100k ranges retain19325+18500, with no confirmed
+gain. Full replay/index19d716fdc6ae32d6 verifies3,692 raw records /9.344m represented iterations.
+RNG proofc732f828a1dea945 extends the43-range ledger to46. Final rotation6798 subsequently
+closes unchanged; see the newer completed-case export/replay above.
+
+The revised proc context now also has NEW real wider-family measurements, not only a queued
+plan: report8711f7ee0fe50eb8 screens one declared incumbent-threshold-close representative from
+each253 family at80/1337, then reruns top12 plus incumbent (12 total) at2k/77191. Fresh UI bytes
+match the native-verified context;25/1337 WASM canary is exactly872.9636896843117. All actions
+are admitted before combat.267 browser jobs /44,290 scenario iterations include the UI capture
+and scalar canary; they are NOT independent holdout samples or native jobs. Best selection
+delta is only+0.00135508DPS (867.49311 vs867.49176), with no established gain. Keep the reviewed
+rotation/core; no preset or feedback restart. Readonly review06ae4f4bb078eb80 reproduces all266
+raw records, serialized requests, retention/ranking and codec byte hashes/68 codec-source pins.
+All22 focused family/frontier/provider tests pass. The other69,677 proc policies, full native
+cross-policy parity/independent confirmation and wider Warrior frontiers remain unmeasured by
+this experiment. The separately queued full69,930 native sweep is conservative Fury, not proc.
+
+Whole-search replay now covers both current Arms cases, conservative Fury, revised proc Fury
+and its earlier pre-gear talent stage, including EVERY measured adaptive-neighbor round. Private
+`review-tools/review-talent-search-replay.mjs --talent-review=<completed-talents.json>` executes
+the original producer with AST-bound readonly imports/cache and virtual output/checkpoints.
+Missing records never start simulations. All substantive evidence must match; only original
+new-job accounting differs. Each receipt pins63 inputs and rereads the raw records. This is
+same-code reconstruction, not independent algorithm proof or fresh DPS. Current proc receipt
+fe7dc7aa47f55d90 verifies11,696 unique records/3,657,000 represented iterations, not new samples.
+Seven fail-closed tests and all24 combined Rogue/replay tests pass. See `context.md` for all five
+receipts. This maintainer-only pilot does not replace the owned update command or alter a lease.
+
+Rogue preparation now includes talent-resolved Venom maintenance, dagger Backstab/Ambush
+Cutthroat support, optional-spell filtering, Rupture/Hemorrhage, finisher/pooling and Cold Blood
+timing policies. A real combo-point stall was caught by a failing-before/passing-after regression;
+all17 control/seed/rotation tests pass. Browser receipt7b8bf1e419851e6e pins40 inputs and admits
+18 paired UI blue controls,782 legal talent/APL proposal rows and10 alternate policies, while
+both unknown/unlearned-spell negatives correctly warn. All812 raw request/results were saved
+and independently reread. This executes no Rogue DPS/native jobs: actual combat exercise,
+native parity, complete policy/slot feedback, independent rankings and preset delivery remain.
+Private reproducer: `node artifacts/forever-simulator/optimization/review-tools/probe-rogue-rotation-admission.mjs`.
+The Warrior-first order, numerical owner and queued wider sweep are unchanged.
+
+Rogue's next backend gate now has24 actual UI-built binary RaidSim controls in receipt
+9fbb3653f9b5de69, with matching zero-warning stats admission,48 pinned inputs and complete
+player/poison/gear/enchant/raid/encounter/options checks. A tested capture-only transport blocks
+all damage requests before delivery; these are intercepted intents, not combat jobs. They cover
+both acquisition factions/hand styles, Venom/no-Venom and legal Cutthroat/Backstab controls.
+The four new contract/boundary tests bring combined preparation/replay checks to28. Native
+admission/parity and real combat exercise remain required before numerical optimization; no
+baseline, recommendation or preset is silently promoted. Shared models/leases remain unchanged.
 
 Repeatable catalog updates: `pnpm simulator:prebis:update` now owns preparation, versioned
 campaigns, checkpoints, full existing feedback, accessory/rotation challenges and local exports.
 See [the update runbook](simulator-update-runbook.md) for one-command execution, read-only
 plan/status, new-item admission and the explicit unfinished all-class policy list.
 
-Latest orchestration integration: local UIe14af46d79721e1ad50a6f04 (same native3dde/DB029b)
+Future item-update reuse now has a private historical-index pilot, not yet incremental
+execution. Eight completed Warrior accessory contexts preserve21,928 pair entries and22,124
+verified old raw measurements with exact old-context identities, five screening leaders,
+near ties and historical-confirmation links. Weaker items are retained; the five leaders are
+not promoted as independently validated builds. Six regression tests/all26 combined index/
+campaign/cache tests and actual cohort indexing pass. The shared model/cache/update command
+is unchanged and `supportsCrossCatalogReuse=false`; dependency compatibility, delta search and
+non-accessory/talent indexing remain. See the runbook and `context.md` for receipt paths/scope.
+
+Earlier orchestration checkpoints (superseded by the latest progress above): local
+UIe14af46d79721e1ad50a6f04 (same native3dde/DB029b)
 was built through the real update command. All23 templates and fresh Arms control were captured;
 campaign4ee5e4d6… has finished both Arms cases and the declared conservative Horde Fury case,
 including final accessory/rotation gates and exports. Its Fury provisional-proc case is running.
@@ -33,8 +1065,17 @@ all1,625 ordered pairs at2k plus7 near candidates/control on both100k ranges. Fu
 df7b6c3ff844fec6 matches all1,641 raw records/4,850,000 represented iterations, exact identities,
 shortlist and verdicts. BHB+HoJ is0.188DPS lower on average here, not a universal ranking.
 Separate range proofe191afdf73ccdac3 checks all29 historical/reserved ranges. Final rings
-(all3,794 pairs screened;31 close candidates/control in both100k confirmations), rotation
-and export remain pending; this core
+ace5391725b231c7 now retains19325+13098 after all3,794 pairs/31 close candidates and both100k
+confirmation ranges. Full owned replaya430be7242a966f4 matches all3,858 raw records/13,988,000
+represented iterations, complete current identity, shortlist and verdicts. Range proof84ea75e9c27db537
+checks32 historical/reserved native/browser allocations. Final rotationadac69dbafd379a8 has
+now found a gain in BRage<=10, so parent51962 has correctly restarted full feedback on the new
+captured644e97be82a1650e baseline, not exported a premature recommendation. Both configured
+1.96-SE comparisons pass (+0.3723/+0.5776DPS); this is NOT the accessory3-SE rule. Independent
+proof0db821eee12cf01f replays every245 raw records/785k represented iterations and the exact
+recapture (only the selected rotation changes; no inherited gear convergence), plus34 disjoint
+historical/reserved allocations. Only19 jobs/550k iterations were new to that rotation stage.
+Feedback child61779 is now active; final feedback/accessories/rotation/export remain pending. This core
 is not a public/default recommendation or completion of the wider Warrior frontiers.
 This is not a completed numerical campaign
 or new public recommendation. Earlier UI21a audit receipts below
@@ -467,6 +1508,27 @@ fixed stat-priority list. Tank starters retain their survival-oriented equipment
 
 ## Completion scope
 
+Both broader fixed-context Fury sources and confirmations are now terminal. Conservative
+screening/refinement/confirmation keeps the incumbent. The proc counterpart's frozen challenger
+passes both fresh100k ranges by about3.1DPS, and full readonly proofefed39c13efc50a6 replays all
+69,930 screens,505 refinements,16 finalists and four holdouts. Required feedback then closes as
+coree828a8f073bc67af, not direct preset promotion. Its full trinket/ring audits retain the current
+gear, cache-only reanalysis plus one10k request closes current retention, and the final226-policy
+owned rotation retains the incumbent. Raw replay670cc34325d28694 checks all244 final records and
+66 linked ranges; owned export9c792cf6d96586af is870.44119DPS/400k. Its optional benchmark is now
+verified on the actual local Warrior page, not made a default or deployed. There is no live native
+owner at this checkpoint. Do not restart completed sources. The separate admission binary never
+overwrites the shared combat engine; unknown/unlearned actions still reject before broad search.
+
+Real calibrationdb7d101ff3390079 measures64 sampled policies/5,120 iterations plus an exact
+25-iteration native-control match. At one browser worker under existing load it took68.74s,
+making the full browser sweep approximately20.86h at that observed rate. This motivated the
+completed native screens; it is not a reliable ETA or a claim of exhaustive APL optimality.
+Its fixed-gear browser adapter uses the verified final-gear capture, not the baseline's retained
+original blue request. Sampled policies do not beat the incumbent, but unmeasured policies cannot
+be ruled out. The full2.86m learned-Spearing stream, other talents/styles and independent precision
+remain required separately. Current exact handles and scope are recorded in `context.md`.
+
 The owner-approved research order is physical → casters → hybrids:
 
 1. Finish Warrior's Arms/Fury cases and final audits, with the reviewed builds available for
@@ -478,6 +1540,22 @@ This supersedes the earlier physical → hybrids → casters proposal. It does n
 policies to the currently Warrior-only campaign. No Warlock numerical optimization has started;
 its initial audit was read-only preparation. Each spec still closes its own full feedback loop
 before the next one starts, and tank survival/threat objectives remain separate from DPS.
+
+Rogue preparation is now source-tested while Warrior remains live, not a numerical class start.
+Private structural proof514e3bb82c7c4d39 covers18 all-blue controls (four ordered hand-style
+combinations for Combat/Subtlety, dual daggers for Mutilate, both acquisition factions), static
+pre-raid enchants and legal304/357/121 proposal banks. All10 actual-data tests and the readonly
+probe pass; no Rogue browser/native/combat job ran. Controls return no inherited request bytes
+or convergence. An observed regression caught the raid-only +15 Agility glove recipe: replace
+only that control enchant with +7 while retaining same-effect +15 weapon enchants whose sources
+are legal. Shared/published defaults and the existing acquisition gate are unchanged.
+
+Next Rogue policy work must exercise Venom and Cutthroat, resolve optional talent actions,
+preserve both hand-style and Hack-and-Slash weapon-family choices, and distinguish target-type
+Murder bonuses. Do not interpret legal seed counts as optimized talents or every51-point build.
+Current modeled Forever poison fields are not Classic weapon imbues; confirm current charges/
+Venom existing-stack behavior from client evidence rather than imposing an assumed Classic rule.
+Fresh browser admission/native parity, owned campaign integration and full feedback remain ahead.
 
 ### Weapon-style coverage before declaring a spec finished
 

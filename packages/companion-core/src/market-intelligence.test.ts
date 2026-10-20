@@ -2,14 +2,20 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { MarketIntelligencePack } from "@wow-trader/contracts";
 
-import { installMarketIntelligence, serializeMarketIntelligence } from "./market-intelligence.js";
+import type { CollectorScan } from "./collector-schema.js";
+import {
+  downloadMarketIntelligence,
+  installMarketIntelligence,
+  serializeMarketIntelligence,
+} from "./market-intelligence.js";
 
 const temporaryDirectories: string[] = [];
 
 afterEach(async () => {
+  vi.unstubAllGlobals();
   await Promise.all(
     temporaryDirectories
       .splice(0)
@@ -34,7 +40,76 @@ describe("market intelligence addon data", () => {
     );
     await expect(readFile(installed, "utf8")).resolves.toContain("WOW_TRADER_MARKET_DATA");
   });
+
+  it("treats an exact-market 404 as optional unavailable data", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof fetch>().mockResolvedValue(
+        Response.json(
+          {
+            error: "not_found",
+            message: "No market intelligence exists for this exact market",
+          },
+          { status: 404 },
+        ),
+      ),
+    );
+
+    await expect(
+      downloadMarketIntelligence(new URL("https://helper.example.test"), "test-key", scan()),
+    ).resolves.toBeNull();
+  });
+
+  it("still rejects non-404 market API failures", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(
+          Response.json({ error: "internal_error", message: "Try again" }, { status: 500 }),
+        ),
+    );
+
+    await expect(
+      downloadMarketIntelligence(new URL("https://helper.example.test"), "test-key", scan()),
+    ).rejects.toThrow("Market intelligence download failed: Try again");
+  });
+
+  it("does not hide a missing route as optional market availability", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(
+          Response.json(
+            { error: "Not Found", message: "Route GET:/v1/market-intelligence not found" },
+            { status: 404 },
+          ),
+        ),
+    );
+
+    await expect(
+      downloadMarketIntelligence(new URL("https://helper.example.test"), "test-key", scan()),
+    ).rejects.toThrow("Route GET:/v1/market-intelligence not found");
+  });
 });
+
+function scan(): CollectorScan {
+  return {
+    scanId: "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
+    addonVersion: "0.12.0",
+    clientProduct: "wow_classic_beta",
+    clientBuild: 70450,
+    locale: "enUS",
+    region: "EU",
+    realmId: "ClassicBetaPvP",
+    auctionHouseType: "horde",
+    capturedAt: 1_792_309_600,
+    completedAt: 1_792_309_610,
+    completeness: 1,
+    itemSnapshots: [],
+  };
+}
 
 function pack(name: string): MarketIntelligencePack {
   return {

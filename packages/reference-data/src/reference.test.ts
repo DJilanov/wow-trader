@@ -2,7 +2,13 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { referenceQualityGaps, type ReferenceRecord, type ReferenceTask } from "./contracts.js";
+import {
+  referenceQualityGaps,
+  referenceTaskSchema,
+  referenceUrl,
+  type ReferenceRecord,
+  type ReferenceTask,
+} from "./contracts.js";
 import { crawlReferences } from "./crawler.js";
 import { parseWowheadPage } from "./parser.js";
 import { publishReferences, readApprovedReference, readStagedReference } from "./store.js";
@@ -23,6 +29,95 @@ function fixture(): ReferenceRecord {
 }
 
 describe("permissioned reference extraction", () => {
+  it("accepts recipe spell tasks and extracts acquisition relations", () => {
+    const spell = referenceTaskSchema.parse({ game: "forever", kind: "spell", id: 3275 });
+    const record = parseWowheadPage(
+      '<link rel="canonical" href="https://www.wowhead.com/forever/spell=3275/linen-bandage"><h1>Linen Bandage</h1><script>new Listview({template:"npc",id:"taught-by-npc",data:[{id:2326,name:"Thamner Pol"}]});new Listview({template:"item",id:"taught-by-item",data:[{id:16084,name:"Expert First Aid - Under Wraps"}]});</script>',
+      spell,
+      {
+        url: referenceUrl(spell),
+        capturedAt: new Date().toISOString(),
+        permissionRef: "test",
+      },
+    );
+
+    expect(referenceUrl(spell)).toBe("https://www.wowhead.com/forever/spell=3275");
+    expect(record.relations).toEqual([
+      { relation: "taught-by-npc", kind: "npc", id: 2326, name: "Thamner Pol" },
+      {
+        relation: "taught-by-item",
+        kind: "item",
+        id: 16084,
+        name: "Expert First Aid - Under Wraps",
+      },
+    ]);
+    expect(referenceQualityGaps(record)).toEqual([]);
+    expect(referenceQualityGaps({ ...record, relations: [] })).toEqual([
+      "missing_acquisition_context",
+    ]);
+    expect(
+      referenceQualityGaps({
+        ...record,
+        relations: [{ relation: "created-by", kind: "spell", id: 1, name: "Unrelated" }],
+      }),
+    ).toEqual(["missing_acquisition_context"]);
+    expect(
+      referenceQualityGaps({
+        ...record,
+        name: "Spell 3275",
+        relations: [{ relation: "taught-by-npc", kind: "item", id: 1, name: "Wrong kind" }],
+      }),
+    ).toEqual(["placeholder_name", "missing_acquisition_context"]);
+  });
+
+  it("normalizes quest-suffixed item relation tabs", () => {
+    const record = parseWowheadPage(
+      '<link rel="canonical" href="https://www.wowhead.com/forever/item=25/test-sword"><h1>Test Sword</h1><script>new Listview({template:"quest",id:"reward-from-q",data:[{id:715,name:"Liquid Stone"}]});</script>',
+      task,
+      {
+        url: "https://www.wowhead.com/forever/item=25",
+        capturedAt: new Date().toISOString(),
+        permissionRef: "test",
+      },
+    );
+    expect(record.relations).toEqual([
+      { relation: "reward-from", kind: "quest", id: 715, name: "Liquid Stone" },
+    ]);
+  });
+
+  it("preserves quest-series rows as supporting context", () => {
+    const record = parseWowheadPage(
+      '<link rel="canonical" href="https://www.wowhead.com/forever/quest=1053/test"><h1>Test Quest</h1><script>WH.Gatherer.addData(5,16,{"1053":{"name_enus":"Test Quest"}});new Listview({template:"quest",id:"series",data:[{id:1052,name:"Earlier Quest"}]});</script>',
+      { game: "forever", kind: "quest", id: 1053 },
+      {
+        url: "https://www.wowhead.com/forever/quest=1053/test",
+        capturedAt: "2026-10-19T06:00:00.000Z",
+        permissionRef: "test",
+      },
+    );
+    expect(record.relations).toContainEqual({
+      relation: "series",
+      kind: "quest",
+      id: 1052,
+      name: "Earlier Quest",
+    });
+  });
+
+  it("fails closed if a taught-by relation changes entity kind", () => {
+    const spell = referenceTaskSchema.parse({ game: "forever", kind: "spell", id: 3275 });
+    expect(() =>
+      parseWowheadPage(
+        '<link rel="canonical" href="https://www.wowhead.com/forever/spell=3275/linen-bandage"><h1>Linen Bandage</h1><script>new Listview({template:"item",id:"taught-by-npc",data:[{id:2326,name:"Thamner Pol"}]});</script>',
+        spell,
+        {
+          url: referenceUrl(spell),
+          capturedAt: new Date().toISOString(),
+          permissionRef: "test",
+        },
+      ),
+    ).toThrow(/relation kind changed/);
+  });
+
   it("extracts entity facts without executing scripts or importing comments and prices", () => {
     const record = fixture();
     expect(record.tooltipLines).toEqual(["Test Sword", "Item Level 2", "1 - 3 Damage"]);

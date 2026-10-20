@@ -6,6 +6,7 @@ import {
 } from "../../../components/trader-workspace-page";
 import { FOREVER_CLIENT_PRODUCT } from "../../../lib/game-versions";
 import { createHelperMetadata } from "../../../lib/seo";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +47,7 @@ export default function ForeverTraderPage(
       encyclopediaRecipePath: "/forever/encyclopedia/recipes",
       encyclopediaItemPath: "/forever/encyclopedia/items",
       marketBasePath: "/forever/markets",
-      opportunityApiBasePath: "/api/v1/forever/opportunity-details",
+      opportunityApiBasePath: withHelperBasePath("/api/v1/forever/opportunity-details"),
       collectorPath: "/forever/addon",
       displayRegion: (region) => (region.toUpperCase() === "UNKNOWN" ? "Forever Beta" : region),
       specializationCopy: "unverified",

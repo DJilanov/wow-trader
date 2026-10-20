@@ -2,6 +2,7 @@ import type {
   AuctionScanUpload,
   MarketIntelligencePack,
   MarketIntelligenceQuery,
+  ProfessionSnapshotUpload,
   PublicDataStatus,
   UploadReceipt,
   UploadStatus,
@@ -9,6 +10,11 @@ import type {
 } from "@wow-trader/contracts";
 import {
   auctionPriceLevels,
+  characterInventoryItems,
+  characterKnownRecipes,
+  characterProfessions,
+  characterProfessionSnapshots,
+  characterProfessionSpecializations,
   gameBuilds,
   itemVersions,
   marketScans,
@@ -20,10 +26,12 @@ import {
   worldEncounterObservations,
   worldHealthObservations,
   worldLootObservations,
+  worldLootSessions,
   worldModelObservations,
   worldNpcObservations,
   worldQuestObservations,
   worldSpellObservations,
+  worldTrainerObservations,
   worldVendorObservations,
   type WowTraderDatabase,
 } from "@wow-trader/db";
@@ -378,6 +386,7 @@ export class PostgresUploadRepository implements UploadRepository {
 
       const encounterLoot = upload.data.encounterLoot.map((observation) => ({
         observationId: observation.observationId,
+        lootSessionId: null,
         payloadId: upload.payloadId,
         clientProduct: upload.clientProduct,
         clientBuild: upload.clientBuild,
@@ -399,6 +408,7 @@ export class PostgresUploadRepository implements UploadRepository {
       }));
       const lootWindows = upload.data.lootObservations.map((observation) => ({
         observationId: observation.observationId,
+        lootSessionId: observation.lootSessionId,
         payloadId: upload.payloadId,
         clientProduct: upload.clientProduct,
         clientBuild: upload.clientBuild,
@@ -418,6 +428,30 @@ export class PostgresUploadRepository implements UploadRepository {
         sourceQuantity: observation.sourceQuantity,
         location: observation.observerLocation,
       }));
+      await insertInChunks(
+        transaction,
+        worldLootSessions,
+        upload.data.lootSessions.map((session) => ({
+          sessionId: session.sessionId,
+          payloadId: upload.payloadId,
+          clientProduct: upload.clientProduct,
+          clientBuild: upload.clientBuild,
+          locale: upload.locale,
+          capturedAt: new Date(session.capturedAt),
+          sourceType: session.sourceType,
+          sourceId: session.sourceId,
+          sourceName: session.sourceName,
+          sourceGuid: session.sourceGuid,
+          sourceQuantity: session.sourceQuantity,
+          slotCount: session.slotCount,
+          money: session.money === null ? null : BigInt(session.money),
+          encounterId: session.encounterId,
+          attemptId: session.attemptId,
+          mapId: session.observerLocation.mapId,
+          uiMapId: session.observerLocation.uiMapId,
+          observerLocation: session.observerLocation,
+        })),
+      );
       await insertInChunks(transaction, worldLootObservations, [...encounterLoot, ...lootWindows]);
       await insertInChunks(
         transaction,
@@ -572,6 +606,180 @@ export class PostgresUploadRepository implements UploadRepository {
           mapId: observation.observerLocation.mapId,
           uiMapId: observation.observerLocation.uiMapId,
           observerLocation: observation.observerLocation,
+        })),
+      );
+      await insertInChunks(
+        transaction,
+        worldTrainerObservations,
+        upload.data.trainerObservations.map((observation) => ({
+          observationId: observation.observationId,
+          payloadId: upload.payloadId,
+          clientProduct: upload.clientProduct,
+          clientBuild: upload.clientBuild,
+          locale: upload.locale,
+          capturedAt: new Date(observation.capturedAt),
+          sourceType: observation.sourceType,
+          sourceId: observation.sourceId,
+          sourceGuid: observation.sourceGuid,
+          sourceName: observation.sourceName,
+          serviceIndex: observation.serviceIndex,
+          serviceName: observation.serviceName,
+          serviceRank: observation.serviceRank,
+          serviceType: observation.serviceType,
+          spellId: observation.spellId,
+          icon: observation.icon,
+          moneyCost: BigInt(observation.moneyCost),
+          requiredLevel: observation.requiredLevel,
+          requiredSkillLine: observation.requiredSkillLine,
+          requiredSkillRank: observation.requiredSkillRank,
+          allFiltersEnabled: observation.allFiltersEnabled,
+          mapId: observation.observerLocation.mapId,
+          uiMapId: observation.observerLocation.uiMapId,
+          observerLocation: observation.observerLocation,
+        })),
+      );
+
+      await transaction
+        .update(rawUploads)
+        .set({ status: "processed", processedAt: new Date() })
+        .where(eq(rawUploads.payloadId, upload.payloadId));
+
+      return { payloadId: upload.payloadId, status: "processed", duplicate: false };
+    });
+  }
+
+  public async acceptProfessionSnapshot(
+    upload: ProfessionSnapshotUpload,
+    rawPayloadUri: string,
+    envelopeHash: string,
+  ): Promise<UploadReceipt> {
+    return this.#database.transaction(async (transaction) => {
+      const [existingUpload] = await transaction
+        .select({
+          checksum: rawUploads.checksum,
+          envelopeHash: rawUploads.envelopeHash,
+          status: rawUploads.status,
+        })
+        .from(rawUploads)
+        .where(eq(rawUploads.payloadId, upload.payloadId))
+        .limit(1);
+
+      if (existingUpload) {
+        if (
+          existingUpload.checksum !== upload.checksum ||
+          existingUpload.envelopeHash !== envelopeHash
+        ) {
+          throw new PayloadConflictError("The payload ID was already used with different content");
+        }
+        return {
+          payloadId: upload.payloadId,
+          status: existingUpload.status === "processed" ? "processed" : "accepted",
+          duplicate: true,
+        };
+      }
+
+      await transaction.insert(rawUploads).values({
+        payloadId: upload.payloadId,
+        payloadType: upload.payloadType,
+        schemaVersion: upload.schemaVersion,
+        checksum: upload.checksum,
+        envelopeHash,
+        status: "processing",
+        clientProduct: upload.clientProduct,
+        clientBuild: upload.clientBuild,
+        locale: upload.locale,
+        region: upload.region,
+        realmId: upload.realmId,
+        auctionHouseType: "unknown",
+        sourceCharacterName: upload.sourceCharacter.name,
+        sourceCharacterRealmId: upload.sourceCharacter.realmId,
+        sourceCharacterFaction: upload.sourceCharacter.faction,
+        sourceCharacterGuid: upload.sourceCharacter.guid,
+        anonymousInstallationId: upload.anonymousInstallationId,
+        capturedAt: new Date(upload.capturedAt),
+        completedAt: new Date(upload.completedAt),
+        completeness:
+          upload.data.professions.length > 0 &&
+          upload.data.professions.every((profession) => profession.recipeListComplete)
+            ? 1
+            : 0,
+        rawPayloadUri,
+      });
+
+      const knownRecipeCount = upload.data.professions.reduce(
+        (total, profession) => total + profession.knownRecipes.length,
+        0,
+      );
+      await transaction.insert(characterProfessionSnapshots).values({
+        snapshotId: upload.data.snapshotId,
+        payloadId: upload.payloadId,
+        clientProduct: upload.clientProduct,
+        clientBuild: upload.clientBuild,
+        locale: upload.locale,
+        region: upload.region,
+        realmId: upload.realmId,
+        characterName: upload.sourceCharacter.name,
+        characterFaction: upload.sourceCharacter.faction,
+        characterGuid: upload.sourceCharacter.guid,
+        anonymousInstallationId: upload.anonymousInstallationId,
+        capturedAt: new Date(upload.capturedAt),
+        completedAt: new Date(upload.completedAt),
+        moneyCopper: BigInt(upload.data.moneyCopper),
+        inventoryScope: upload.data.inventoryScope,
+        professionCount: upload.data.professions.length,
+        knownRecipeCount,
+        inventoryItemCount: upload.data.inventory.length,
+      });
+
+      await insertInChunks(
+        transaction,
+        characterProfessions,
+        upload.data.professions.map((profession) => ({
+          snapshotId: upload.data.snapshotId,
+          professionSkillLineId: profession.professionSkillLineId,
+          parentProfessionSkillLineId: profession.parentProfessionSkillLineId,
+          name: profession.name,
+          skillLevel: profession.skillLevel,
+          maximumSkillLevel: profession.maximumSkillLevel,
+          skillModifier: profession.skillModifier,
+          apiFlavor: profession.apiFlavor,
+          recipeListComplete: profession.recipeListComplete,
+        })),
+      );
+      await insertInChunks(
+        transaction,
+        characterProfessionSpecializations,
+        upload.data.professions.flatMap((profession) =>
+          profession.specializationSpellIds.map((specializationSpellId) => ({
+            snapshotId: upload.data.snapshotId,
+            professionSkillLineId: profession.professionSkillLineId,
+            specializationSpellId,
+          })),
+        ),
+      );
+      await insertInChunks(
+        transaction,
+        characterKnownRecipes,
+        upload.data.professions.flatMap((profession) =>
+          profession.knownRecipes.map((recipe) => ({
+            snapshotId: upload.data.snapshotId,
+            professionSkillLineId: profession.professionSkillLineId,
+            recipeSpellId: recipe.recipeSpellId,
+            name: recipe.name,
+            cooldownSecondsRemaining: recipe.cooldownSecondsRemaining,
+            isDayCooldown: recipe.isDayCooldown,
+            charges: recipe.charges,
+            maximumCharges: recipe.maximumCharges,
+          })),
+        ),
+      );
+      await insertInChunks(
+        transaction,
+        characterInventoryItems,
+        upload.data.inventory.map((item) => ({
+          snapshotId: upload.data.snapshotId,
+          itemId: item.itemId,
+          quantity: item.quantity,
         })),
       );
 

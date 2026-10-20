@@ -248,9 +248,10 @@ reproducible from a build identifier. The import format already accepts the resu
 ### 4. Import a page saved manually by an authorized user
 
 For isolated records, open the accessible page normally and use the browser's **Save Page As**
-feature to save HTML. An offline importer can validate the canonical quest identity and parse the
-saved document without automating the browser session. Preserve the capture time, original URL and
-permission/provenance reference alongside the derived record.
+feature to save HTML. The `import-saved-html` command validates the canonical quest identity and
+parses the saved document without automating the browser session. It preserves the capture time,
+original URL and permission/provenance reference alongside the record. See
+[the saved-page import usage](quest-xp-import-and-probe.md#saved-page-import-manual-capture).
 
 This is suitable for a small number of urgent gaps, not a scalable replacement for approved source
 access or an authoritative export.

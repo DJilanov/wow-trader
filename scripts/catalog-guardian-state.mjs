@@ -10,9 +10,9 @@ export function canReusePublishedCatalog(
 ) {
   return Boolean(
     published &&
-    published.buildNumber === installed.buildNumber &&
-    published.hotfixHash === hotfixHash &&
-    (!expectedExtractorVersion || published.extractorVersion === expectedExtractorVersion),
+      published.buildNumber === installed.buildNumber &&
+      published.hotfixHash === hotfixHash &&
+      (!expectedExtractorVersion || published.extractorVersion === expectedExtractorVersion),
   );
 }
 

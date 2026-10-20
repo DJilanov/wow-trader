@@ -27,7 +27,7 @@ const structuredData = {
   name: "WoW Forever Database, Professions & Auction House Tools",
   description:
     "The KFC Helper home for WoW Forever talents, spellbooks, racials, Legacy perks, items, recipes, professions, crafting, and Auction House data.",
-  isPartOf: { "@id": `${HELPER_SITE_URL}/#website` },
+  isPartOf: { "@id": `${HELPER_SITE_URL}#website` },
   about: {
     "@type": "VideoGame",
     name: "World of Warcraft: Forever",

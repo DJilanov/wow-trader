@@ -5,6 +5,7 @@ import { DataUnavailable } from "../../../components/data-unavailable";
 import { JsonLd } from "../../../components/json-ld";
 import { getForeverObservatoryReport } from "../../../lib/forever-observatory";
 import { createHelperMetadata, HELPER_SITE_URL } from "../../../lib/seo";
+import { withHelperBasePath } from "../../../lib/site-path";
 
 export const dynamic = "force-dynamic";
 
@@ -106,7 +107,9 @@ export default async function ForeverDataPage(): Promise<React.JSX.Element> {
           </p>
           <ul className="link-list">
             <li>
-              <a href="/api/v1/public/forever/observatory">Observatory report (JSON)</a>
+              <a href={withHelperBasePath("/api/v1/public/forever/observatory")}>
+                Observatory report (JSON)
+              </a>
             </li>
             <li>
               <code>/api/v1/public/forever/items/{"{itemId}"}</code>
@@ -117,7 +120,9 @@ export default async function ForeverDataPage(): Promise<React.JSX.Element> {
             {report.catalog.professions[0] ? (
               <li>
                 <a
-                  href={`/api/v1/public/forever/professions/${report.catalog.professions[0].slug}`}
+                  href={withHelperBasePath(
+                    `/api/v1/public/forever/professions/${report.catalog.professions[0].slug}`,
+                  )}
                 >
                   Profession endpoint example (JSON)
                 </a>

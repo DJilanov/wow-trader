@@ -12,9 +12,14 @@ import {
   getForeverQuestDirectory,
 } from "../lib/forever-world";
 import { FOREVER_CLIENT_PRODUCT, TBC_CLIENT_PRODUCT } from "../lib/game-versions";
-import { HELPER_SHARE_IMAGE, HELPER_SITE_URL } from "../lib/seo";
+import { getLatestCatalogComparisonIdentity } from "../lib/forever-observatory";
+import { helperAbsoluteUrl, HELPER_SITE_URL } from "../lib/seo";
 import { WESTFALL_READER_PATH } from "../lib/leveling-experience";
 import { getIndexableReferenceIds } from "../lib/catalog-reference";
+import {
+  getCommunityReferenceSitemapData,
+  getIndexableCommunityDirectoryKinds,
+} from "../lib/community-reference";
 import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 
 export const dynamic = "force-dynamic";
@@ -27,8 +32,11 @@ const getCachedForeverSitemapMarkets = unstable_cache(
   ["forever-sitemap-markets"],
   { revalidate: 3600 },
 );
-
-const staticLastModified = new Date("2026-09-27T00:00:00.000Z");
+const getCachedCommunityReferenceSitemapData = unstable_cache(
+  getCommunityReferenceSitemapData,
+  ["forever-community-sitemap"],
+  { revalidate: 3600 },
+);
 
 const foreverClasses = [
   "warrior",
@@ -43,6 +51,11 @@ const foreverClasses = [
 ] as const;
 
 const staticEntries: MetadataRoute.Sitemap = [
+  {
+    url: HELPER_SITE_URL,
+    lastModified: new Date("2026-10-18T00:00:00Z"),
+    images: [helperAbsoluteUrl("/og/helper")],
+  },
   ...[
     "/forever/simulator",
     ...SIMULATOR_SPECS.map((spec) => `/forever/simulator/${spec.slug}`),
@@ -71,63 +84,48 @@ const staticEntries: MetadataRoute.Sitemap = [
     priority: 0.8,
   },
   {
-    url: `${HELPER_SITE_URL}/`,
-    lastModified: staticLastModified,
-    changeFrequency: "weekly",
-    priority: 0.85,
-    images: [new URL(HELPER_SHARE_IMAGE, HELPER_SITE_URL).toString()],
-  },
-  {
     url: `${HELPER_SITE_URL}/forever`,
-    lastModified: staticLastModified,
+    lastModified: new Date("2026-10-18T00:00:00Z"),
     changeFrequency: "weekly",
     priority: 0.95,
   },
   {
     url: `${HELPER_SITE_URL}/forever/trader`,
-    lastModified: staticLastModified,
     changeFrequency: "daily",
     priority: 0.95,
   },
   {
     url: `${HELPER_SITE_URL}/forever/addon`,
-    lastModified: staticLastModified,
     changeFrequency: "weekly",
     priority: 0.9,
   },
   {
     url: `${HELPER_SITE_URL}/forever/data`,
-    lastModified: staticLastModified,
     changeFrequency: "daily",
     priority: 0.88,
   },
   {
     url: `${HELPER_SITE_URL}/tbc`,
-    lastModified: staticLastModified,
     changeFrequency: "weekly",
     priority: 0.8,
   },
   {
     url: `${HELPER_SITE_URL}/tbc/trader`,
-    lastModified: staticLastModified,
     changeFrequency: "daily",
     priority: 0.9,
   },
   {
     url: `${HELPER_SITE_URL}/tbc/encyclopedia`,
-    lastModified: staticLastModified,
     changeFrequency: "weekly",
     priority: 0.9,
   },
   {
     url: `${HELPER_SITE_URL}/forever/encyclopedia`,
-    lastModified: staticLastModified,
     changeFrequency: "daily",
     priority: 0.95,
   },
   {
     url: `${HELPER_SITE_URL}/forever/encyclopedia/catalog`,
-    lastModified: staticLastModified,
     changeFrequency: "daily",
     priority: 0.9,
   },
@@ -143,20 +141,17 @@ const staticEntries: MetadataRoute.Sitemap = [
     "quests",
   ].map((section) => ({
     url: `${HELPER_SITE_URL}/forever/encyclopedia/${section}`,
-    lastModified: staticLastModified,
     changeFrequency: "weekly" as const,
     priority: 0.72,
   })),
   ...foreverClasses.flatMap((classSlug) => [
     {
       url: `${HELPER_SITE_URL}/forever/encyclopedia/talents/${classSlug}`,
-      lastModified: staticLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.82,
     },
     {
       url: `${HELPER_SITE_URL}/forever/encyclopedia/spellbooks/${classSlug}`,
-      lastModified: staticLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.78,
     },
@@ -180,12 +175,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${HELPER_SITE_URL}/forever/encyclopedia/quests/${id}`,
     lastModified,
   }));
-  const foreverEntries = await getForeverSitemapEntries().catch(() => []);
+  const [foreverEntries, comparison, community] = await Promise.all([
+    getForeverSitemapEntries().catch(() => []),
+    getLatestCatalogComparisonIdentity().catch(() => null),
+    getCachedCommunityReferenceSitemapData().catch(() => null),
+  ]);
+  const communityDirectoryEntries: MetadataRoute.Sitemap = getIndexableCommunityDirectoryKinds(
+    community,
+  ).map((kind) => ({
+    url: `${HELPER_SITE_URL}/forever/encyclopedia/${kind === "npc" ? "npcs" : "objects"}`,
+    lastModified: community?.publishedAt,
+    changeFrequency: "weekly",
+    priority: 0.72,
+  }));
+  const changeEntries: MetadataRoute.Sitemap = comparison
+    ? [
+        {
+          url: `${HELPER_SITE_URL}/forever/encyclopedia/changes/${comparison.fromBuildNumber}-to-${comparison.toBuildNumber}`,
+          lastModified: comparison.lastModified,
+          changeFrequency: "monthly",
+          priority: 0.7,
+        },
+      ]
+    : [];
   const foreverMarketEntries = await getCachedForeverSitemapMarkets()
     .then<MetadataRoute.Sitemap>((markets) =>
       markets.map(({ region, realmId }) => ({
         url: `${HELPER_SITE_URL}/forever/markets/${encodeURIComponent(region)}/${encodeURIComponent(realmId)}`,
-        lastModified: staticLastModified,
         changeFrequency: "daily",
         priority: 0.62,
       })),
@@ -194,7 +210,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const catalog = await getCachedSitemapCatalogData();
     if (!catalog)
-      return [...staticEntries, ...foreverMarketEntries, ...foreverEntries, ...questEntries];
+      return [
+        ...staticEntries,
+        ...communityDirectoryEntries,
+        ...foreverMarketEntries,
+        ...foreverEntries,
+        ...changeEntries,
+        ...questEntries,
+      ];
     const approvedItems = await getIndexableReferenceIds("tbc", "item", {
       product: TBC_CLIENT_PRODUCT,
     });
@@ -222,20 +245,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const bisEntries: MetadataRoute.Sitemap = TBC_BIS_CLASSES.flatMap(({ lists }) =>
       lists.map(({ slug }) => ({
         url: `${HELPER_SITE_URL}/tbc/encyclopedia/bis/${encodeURIComponent(slug)}`,
-        lastModified: staticLastModified,
         changeFrequency: "weekly" as const,
         priority: 0.68,
       })),
     );
     const marketEntries: MetadataRoute.Sitemap = catalog.markets.map(({ region, realmId }) => ({
       url: `${HELPER_SITE_URL}/tbc/markets/${encodeURIComponent(region)}/${encodeURIComponent(realmId)}`,
-      lastModified: staticLastModified,
       changeFrequency: "daily",
       priority: 0.55,
     }));
 
     return [
       ...staticEntries,
+      ...communityDirectoryEntries,
       ...professionEntries,
       ...bisEntries,
       ...recipeEntries,
@@ -243,10 +265,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...marketEntries,
       ...foreverMarketEntries,
       ...foreverEntries,
+      ...changeEntries,
       ...questEntries,
     ];
   } catch {
-    return [...staticEntries, ...foreverMarketEntries, ...foreverEntries, ...questEntries];
+    return [
+      ...staticEntries,
+      ...communityDirectoryEntries,
+      ...foreverMarketEntries,
+      ...foreverEntries,
+      ...changeEntries,
+      ...questEntries,
+    ];
   }
 }
 
@@ -261,19 +291,16 @@ async function getForeverSitemapEntries(): Promise<MetadataRoute.Sitemap> {
       .filter((map) => map.system === 0)
       .map((map) => ({
         url: `${HELPER_SITE_URL}/forever/encyclopedia/maps/${map.uiMapId}`,
-        lastModified: staticLastModified,
         changeFrequency: "weekly" as const,
         priority: map.featured ? 0.78 : 0.62,
       })),
     ...instances.map((instance) => ({
       url: `${HELPER_SITE_URL}/forever/encyclopedia/instances/${instance.mapId}`,
-      lastModified: staticLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.68,
     })),
     ...bosses.map((boss) => ({
       url: `${HELPER_SITE_URL}/forever/encyclopedia/bosses/${boss.creatureId}`,
-      lastModified: staticLastModified,
       changeFrequency: "weekly" as const,
       priority: boss.creatureId >= 200_000 ? 0.76 : 0.64,
     })),

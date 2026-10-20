@@ -4,13 +4,16 @@ import path from "node:path";
 import {
   DefaultCompanionService,
   createAuctionScanUpload,
+  createProfessionSnapshotUpload,
   createWorldDiagnosticsUpload,
   discoverCollectorSavedVariables,
   readCollectorSavedVariables,
   readCompanionState,
   uploadAuctionScan,
+  uploadProfessionSnapshot,
   uploadWorldDiagnostics,
   waitForAuctionScanProcessed,
+  waitForProfessionSnapshotProcessed,
   waitForWorldDiagnosticsProcessed,
   writeCompanionState,
   type CompanionSnapshot,
@@ -55,6 +58,17 @@ async function main(): Promise<void> {
             auctionHouseType: scan.auctionHouseType,
             capturedAt: new Date(scan.capturedAt * 1_000).toISOString(),
             marketCount: scan.itemSnapshots.length,
+          })),
+          professionSnapshots: savedVariables.professionSnapshots.map((snapshot) => ({
+            snapshotId: snapshot.snapshotID,
+            build: snapshot.clientBuild,
+            character: `${snapshot.sourceCharacter.name}-${snapshot.realmID}`,
+            professionCount: snapshot.professions.length,
+            knownRecipeCount: snapshot.professions.reduce(
+              (total, profession) => total + profession.knownRecipes.length,
+              0,
+            ),
+            inventoryItemCount: snapshot.inventory.length,
           })),
         },
         null,
@@ -131,6 +145,7 @@ async function uploadSavedVariables(
   const state = await readCompanionState(statePath);
   const uploadedScanIds = new Set(state.uploadedScanIds);
   const uploadedDiagnosticPayloadIds = new Set(state.uploadedDiagnosticPayloadIds);
+  const uploadedProfessionSnapshotIds = new Set(state.uploadedProfessionSnapshotIds);
   const pendingScans = savedVariables.scans.filter((scan) => !uploadedScanIds.has(scan.scanId));
 
   for (const scan of pendingScans) {
@@ -147,15 +162,39 @@ async function uploadSavedVariables(
     uploadedScanIds.add(scan.scanId);
     await writeCompanionState(statePath, {
       ...state,
-      schemaVersion: 3,
+      schemaVersion: 4,
       uploadedScanIds: [...uploadedScanIds],
       uploadedDiagnosticPayloadIds: [...uploadedDiagnosticPayloadIds].slice(-1_000),
+      uploadedProfessionSnapshotIds: [...uploadedProfessionSnapshotIds].slice(-1_000),
     });
     process.stdout.write(
       receipt.duplicate
         ? `Scan ${scan.scanId} already exists as payload ${receipt.payloadId}; recorded locally.\n`
         : `Uploaded scan ${scan.scanId} as payload ${receipt.payloadId}.\n`,
     );
+  }
+  const pendingProfessionSnapshots = savedVariables.professionSnapshots.filter(
+    (snapshot) => !uploadedProfessionSnapshotIds.has(snapshot.snapshotID),
+  );
+  for (const snapshot of pendingProfessionSnapshots) {
+    const characterLabel = `${snapshot.sourceCharacter.name}-${snapshot.realmID}`;
+    process.stdout.write(
+      `Uploading profession snapshot ${snapshot.snapshotID} from ${characterLabel}...\n`,
+    );
+    const upload = createProfessionSnapshotUpload(savedVariables, snapshot);
+    const receipt = await uploadProfessionSnapshot(endpoint, apiKey, upload);
+    if (receipt.status === "accepted") {
+      await waitForProfessionSnapshotProcessed(endpoint, apiKey, receipt.payloadId);
+    }
+    uploadedProfessionSnapshotIds.add(snapshot.snapshotID);
+    await writeCompanionState(statePath, {
+      ...state,
+      schemaVersion: 4,
+      uploadedScanIds: [...uploadedScanIds],
+      uploadedDiagnosticPayloadIds: [...uploadedDiagnosticPayloadIds].slice(-1_000),
+      uploadedProfessionSnapshotIds: [...uploadedProfessionSnapshotIds].slice(-1_000),
+    });
+    process.stdout.write(`Uploaded profession snapshot ${snapshot.snapshotID}.\n`);
   }
   const diagnosticsUpload = createWorldDiagnosticsUpload(savedVariables);
   const pendingDiagnostics =
@@ -171,16 +210,17 @@ async function uploadSavedVariables(
     uploadedDiagnosticPayloadIds.add(pendingDiagnostics.payloadId);
     await writeCompanionState(statePath, {
       ...state,
-      schemaVersion: 3,
+      schemaVersion: 4,
       uploadedScanIds: [...uploadedScanIds],
       uploadedDiagnosticPayloadIds: [...uploadedDiagnosticPayloadIds].slice(-1_000),
+      uploadedProfessionSnapshotIds: [...uploadedProfessionSnapshotIds].slice(-1_000),
     });
     process.stdout.write(`Uploaded world evidence ${pendingDiagnostics.payloadId}.\n`);
   }
   const diagnosticsCount = pendingDiagnostics ? 1 : 0;
   return {
-    pendingCount: pendingScans.length + diagnosticsCount,
-    uploadedCount: pendingScans.length + diagnosticsCount,
+    pendingCount: pendingScans.length + pendingProfessionSnapshots.length + diagnosticsCount,
+    uploadedCount: pendingScans.length + pendingProfessionSnapshots.length + diagnosticsCount,
   };
 }
 

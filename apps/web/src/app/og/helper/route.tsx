@@ -102,7 +102,7 @@ export function GET(): ImageResponse {
         }}
       >
         <span>Audited game data · explainable calculations</span>
-        <span style={{ color: "#d6a354" }}>helper.kfcguild.online</span>
+        <span style={{ color: "#d6a354" }}>kfcguild.online/tools</span>
       </div>
     </div>,
     {

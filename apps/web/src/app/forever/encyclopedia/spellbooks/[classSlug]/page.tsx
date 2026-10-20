@@ -13,6 +13,7 @@ import {
   getForeverSnapshot,
 } from "../../../../../lib/forever";
 import { createHelperMetadata } from "../../../../../lib/seo";
+import { selectForeverSpellbookClientData } from "../../../../../lib/forever-spellbook-client-data";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,13 @@ export default async function ForeverSpellbookPage({
     if (!pageData) notFound();
     const spellbook = pageData.snapshot.data.spellbooks[pageData.className];
     if (!spellbook) notFound();
+    const spellbookClientData = selectForeverSpellbookClientData(
+      pageData.className,
+      pageData.classData,
+      spellbook,
+      pageData.snapshot.data.spell_desc,
+      pageData.snapshot.supplemental.spellbookIcons,
+    );
     const directory = getForeverClassDirectory(pageData.snapshot.data);
     return (
       <article className="forever-talent-page forever-spellbook-page">
@@ -83,13 +91,14 @@ export default async function ForeverSpellbookPage({
           ))}
         </nav>
         <ForeverSpellbook
-          classData={pageData.classData}
+          classIcon={spellbookClientData.classIcon}
           className={pageData.className}
           color={pageData.color}
-          descriptions={pageData.snapshot.data.spell_desc}
-          icons={pageData.snapshot.supplemental.spellbookIcons}
+          descriptions={spellbookClientData.descriptions}
+          icons={spellbookClientData.icons}
           snapshotChecksum={pageData.snapshot.checksum}
           spellbook={spellbook}
+          treeIcons={spellbookClientData.treeIcons}
         />
         <ForeverSnapshotNotice
           data={pageData.snapshot.data}

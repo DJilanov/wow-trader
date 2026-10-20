@@ -6,6 +6,12 @@ crawler: `questie-quest-xp`, `blizzard-probe`, `blizzard-quest-xp`, `import-ques
 
 ## Current leveling consumption (October 18, 2026)
 
+Superseded for local guide verification by the
+[October 19 completion receipt](forever-leveling-quest-completion-2026-10-19.md): 353/354 queue pages
+captured (3343 confirmed unavailable), all 83 route-evidence pages, all 1,161 real hand-in IDs covered
+by Forever rewards and zero historical hand-in fallbacks. Production publication is a separate step.
+The October 18 figures below are retained as historical context.
+
 The completed 278-item fallback queue yielded 277 valid published numeric Forever records and one
 reviewed not-found quest (3343). The five-player Alliance compiler's 33-edition union currently has
 1,159 hand-in IDs: 1,133 published numeric Forever rewards, 26 historical Questie estimates and zero
@@ -23,11 +29,61 @@ pnpm --filter @wow-trader/reference-data build
 node scripts/audit-leveling-quest-xp.mjs \
   --destination=artifacts/leveling/audits/current \
   --rewards=/absolute/path/to/published \
-  --reward-import=artifacts/reference/questie/quest-xp-import.json
+  --reward-import=artifacts/reference/questie/quest-xp-import.json \
+  --reward-evidence=artifacts/leveling/evidence/rewards/reward-evidence-<hash>.json \
+  --runtime-build=70450
 ```
+
+`--reward-evidence` is optional and accepts only explicitly approved current-build observations.
+See [`forever-leveling-reward-evidence.md`](forever-leveling-reward-evidence.md). Exact observed
+level rows override historical estimates; a scaled observation never becomes an observed base value.
 
 The current route audit and the exact 26 estimated IDs are documented in
 [`forever-leveling-full-route-audit.md`](forever-leveling-full-route-audit.md#october-18-five-player-route-compiler-completion).
+
+## Route-evidence quest queue
+
+The Questie fallback queue is an XP queue, not a complete route-metadata queue. A quest with usable
+Questie XP can therefore still need its current Wowhead page for pickup level, faction/race/class
+restrictions, quest giver, turn-in target, objectives, prerequisite context, or current reward
+evidence.
+
+Generate a deduplicated crawler queue from a campaign evidence backlog and merge it with the original
+XP fallback queue:
+
+```sh
+pnpm leveling:evidence:queue -- \
+  --backlog=artifacts/leveling/audits/2026-10-19/evidence-backlog/campaign-evidence-backlog-6236cd9318e622b4.json \
+  --base-queue=artifacts/reference/questie/unresolved.json \
+  --queue=artifacts/reference/questie/leveling-evidence-unresolved.json \
+  --report=artifacts/reference/questie/leveling-evidence-unresolved.report.json
+```
+
+The report records why each quest was selected and the fields expected from its page. It deliberately
+excludes named-target party-credit checks and adaptive-grind measurements because a page cannot prove
+those behaviors; they remain in-game evidence tasks.
+
+The October 19 evidence backlog selects 83 unique quest pages from 130 evidence issues. Seven were
+already in the 278-quest XP queue, so the merged queue contains 354 quests and adds 76 new page
+captures. The local operator launcher uses the merged queue by default:
+
+```sh
+~/wow-trader-reference/run-questie-crawl.sh
+~/wow-trader-reference/status-questie.sh
+```
+
+The status output has a separate `leveling route evidence` section so unrelated quality gaps from
+the original archive do not hide the route collection count. After the route pages finish, compile
+the current Wowhead facts together with the selected, non-executed local QuestieDB lifecycle rows:
+
+```sh
+~/wow-trader-reference/compile-leveling-evidence.sh
+```
+
+The compiler keeps four states distinct: `source-ready`, `pending-current-page`, `manual-review`, and
+`conflict`. A current page does not silently override a disagreeing curated minimum, and historical
+QuestieDB data cannot by itself certify current Forever behavior. Personal party eligibility and
+party-credit behavior remain in-game checks even when their source restrictions are complete.
 
 ## Local QuestieDB import and flavor filtering
 

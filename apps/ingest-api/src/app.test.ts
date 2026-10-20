@@ -6,6 +6,7 @@ import {
   type JsonValue,
   type MarketIntelligencePack,
   type MarketIntelligenceQuery,
+  type ProfessionSnapshotUpload,
   type PublicDataStatus,
   type UploadReceipt,
   type UploadStatus,
@@ -96,6 +97,25 @@ describe("ingestion API", () => {
     expect(response.statusCode).toBe(202);
     expect(response.json()).toMatchObject({ payloadId: payload.payloadId, status: "processed" });
     expect(repository.acceptedDiagnostics).toEqual([payload]);
+    expect(rawStore.entries).toHaveLength(1);
+  });
+
+  it("accepts authenticated, checksummed profession snapshots", async () => {
+    const repository = new InMemoryRepository();
+    const rawStore = new InMemoryRawPayloadStore();
+    const app = await buildTestApp(repository, rawStore);
+    const payload = createProfessionSnapshotPayload();
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/v1/uploads/profession-snapshot",
+      headers: { authorization: `Bearer ${API_KEY}` },
+      payload,
+    });
+
+    expect(response.statusCode).toBe(202);
+    expect(response.json()).toMatchObject({ payloadId: payload.payloadId, status: "processed" });
+    expect(repository.acceptedProfessionSnapshots).toEqual([payload]);
     expect(rawStore.entries).toHaveLength(1);
   });
 
@@ -230,12 +250,14 @@ function createDiagnosticsPayload(): WorldDiagnosticsUpload {
     healthObservations: [],
     encounterAttempts: [],
     encounterLoot: [],
+    lootSessions: [],
     lootObservations: [],
     npcSightings: [],
     spellObservations: [],
     questQueries: [],
     questObservations: [],
     vendorObservations: [],
+    trainerObservations: [],
   };
   const checksum = createHash("sha256")
     .update(canonicalJson(data as JsonValue))
@@ -257,6 +279,63 @@ function createDiagnosticsPayload(): WorldDiagnosticsUpload {
   };
 }
 
+function createProfessionSnapshotPayload(): ProfessionSnapshotUpload {
+  const data: ProfessionSnapshotUpload["data"] = {
+    snapshotId: "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
+    moneyCopper: "123456",
+    inventoryScope: "bags",
+    inventory: [{ itemId: 12808, quantity: 7 }],
+    professions: [
+      {
+        professionSkillLineId: 171,
+        parentProfessionSkillLineId: null,
+        name: "Alchemy",
+        skillLevel: 375,
+        maximumSkillLevel: 375,
+        skillModifier: 0,
+        apiFlavor: "c_trade_skill_ui",
+        recipeListComplete: true,
+        specializationSpellIds: [28672],
+        knownRecipes: [
+          {
+            recipeSpellId: 17563,
+            name: "Transmute: Arcanite",
+            cooldownSecondsRemaining: 3600,
+            isDayCooldown: true,
+            charges: null,
+            maximumCharges: null,
+          },
+        ],
+      },
+    ],
+  };
+  const checksum = createHash("sha256")
+    .update(canonicalJson(data as JsonValue))
+    .digest("hex");
+  return {
+    schemaVersion: "profession-snapshot.v1",
+    payloadType: "profession_snapshot",
+    payloadId: data.snapshotId,
+    addonVersion: "0.11.0",
+    clientProduct: "wow_anniversary",
+    clientBuild: 69795,
+    locale: "enUS",
+    region: "EU",
+    realmId: "Spineshatter",
+    sourceCharacter: {
+      name: "Crafter",
+      realmId: "Spineshatter",
+      faction: "horde",
+      guid: "Player-1234-ABCDEF",
+    },
+    anonymousInstallationId: "anonymous-test-installation",
+    capturedAt: "2026-10-18T10:30:00.000Z",
+    completedAt: "2026-10-18T10:30:01.000Z",
+    checksum,
+    data,
+  };
+}
+
 class InMemoryRawPayloadStore implements RawPayloadStore {
   public readonly entries: { payloadId: string; envelopeHash: string; content: string }[] = [];
 
@@ -269,6 +348,7 @@ class InMemoryRawPayloadStore implements RawPayloadStore {
 class InMemoryRepository implements UploadRepository {
   public readonly accepted: AuctionScanUpload[] = [];
   public readonly acceptedDiagnostics: WorldDiagnosticsUpload[] = [];
+  public readonly acceptedProfessionSnapshots: ProfessionSnapshotUpload[] = [];
 
   public async acceptAuctionScan(upload: AuctionScanUpload): Promise<UploadReceipt> {
     this.accepted.push(upload);
@@ -277,6 +357,11 @@ class InMemoryRepository implements UploadRepository {
 
   public async acceptWorldDiagnostics(upload: WorldDiagnosticsUpload): Promise<UploadReceipt> {
     this.acceptedDiagnostics.push(upload);
+    return { payloadId: upload.payloadId, status: "processed", duplicate: false };
+  }
+
+  public async acceptProfessionSnapshot(upload: ProfessionSnapshotUpload): Promise<UploadReceipt> {
+    this.acceptedProfessionSnapshots.push(upload);
     return { payloadId: upload.payloadId, status: "processed", duplicate: false };
   }
 
