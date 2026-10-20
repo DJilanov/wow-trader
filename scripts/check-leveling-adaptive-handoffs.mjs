@@ -13,7 +13,8 @@ const packagePath = process.argv
 if (!packagePath)
   throw new Error("Pass --playwright-package=<installed @playwright/test/package.json>.");
 const require = createRequire(resolve(packagePath));
-const { chromium, expect } = require("@playwright/test");
+const { chromium, expect: browserExpect } = require("@playwright/test");
+const expect = browserExpect.configure({ timeout: 30000 });
 const base = new URL(process.env.LEVELING_TEST_HELPER ?? "http://127.0.0.1:3317");
 if (
   !["localhost", "127.0.0.1", "[::1]"].includes(base.hostname) ||
@@ -87,6 +88,60 @@ try {
     await expect.poll(handoffSaved).toBe(true);
     await expect(page.getByText(/^1\/\d+ chapter steps done/)).toBeVisible();
     assert.deepEqual(await savedMembers(), before, "A reload changed actual party XP.");
+    await page.screenshot({ path: join(output, `${width}.png`), fullPage: true });
+
+    // Report earlier hand-ins in this isolated test session, leaving its observed bar stale.
+    await page.evaluate((release) => {
+      const key = "kfc-leveling:characters:v1";
+      const workspace = JSON.parse(globalThis.localStorage.getItem(key));
+      const progress = workspace.sessions.find((session) => session.id === workspace.activeId)
+        .dungeonPlans[release].premade;
+      progress.members[0] = {
+        ...progress.members[0],
+        level: 1,
+        currentXp: 0,
+        xpNeedsUpdate: true,
+        questStates: Object.fromEntries(
+          [783, 5261, 91741, 92124, 33, 7, 15, 91743, 3100].map((id) => [id, "rewarded"]),
+        ),
+      };
+      for (const journey of Object.values(progress.campaigns)) {
+        journey.selectedActionId = "start-115-level-2-18";
+        journey.completion = {};
+      }
+      globalThis.localStorage.setItem(key, JSON.stringify(workspace));
+    }, DUNGEON_RELEASE);
+    const reported = await savedMembers();
+    await page.goto(
+      new URL(
+        "/tools/forever/leveling/routes/alliance-human/chapters/premade-start-115?plan=premade&class=warrior#campaign-start-115-level-2-18",
+        base,
+      ).href,
+      { waitUntil: "networkidle", timeout: 90000 },
+    );
+    await expect(
+      page.locator('[data-campaign-action="start-115-115-source-step-0046"]'),
+    ).toBeVisible();
+    await expect(page.locator('[data-campaign-action="start-115-level-2-18"]')).toHaveCount(0);
+    await expect(
+      page.getByText("Every participating player must reach level 2", { exact: false }),
+    ).toHaveCount(0);
+    await page.getByRole("checkbox", { name: "I completed this in game", exact: true }).check();
+    await expect(page.getByRole("button", { name: "Done", exact: true })).toBeEnabled();
+    await page.screenshot({ path: join(output, `funded-pickup-${width}.png`), fullPage: true });
+    await page.getByRole("button", { name: "Done", exact: true }).click();
+    await expect.poll(async () => (await savedMembers())[0].questStates["18"]).toBe("accepted");
+    await page.reload({ waitUntil: "networkidle" });
+    const afterPickup = await savedMembers();
+    assert.deepEqual(
+      afterPickup[0],
+      {
+        ...reported[0],
+        questStates: { ...reported[0].questStates, 18: "accepted" },
+      },
+      "Reporting a funded pickup changed the observed XP bar or other quest reports.",
+    );
+    assert.deepEqual(afterPickup.slice(1), reported.slice(1), "Leader XP leaked to the party.");
     assert.equal(
       await page.evaluate(
         () => globalThis.document.documentElement.scrollWidth > globalThis.innerWidth,
@@ -95,10 +150,20 @@ try {
       "Adaptive handoff controls overflow the viewport.",
     );
     assert.deepEqual(errors, [], "The reader raised a browser error.");
-    await page.screenshot({ path: join(output, `${width}.png`), fullPage: true });
     await context.close();
   }
   process.stdout.write(`${JSON.stringify({ status: "passed", widths: [1440, 390], output })}\n`);
+} catch (error) {
+  for (const context of browser.contexts())
+    for (const page of context.pages()) {
+      await page.screenshot({ path: join(output, "failure.png"), fullPage: true });
+      const text = await page.locator("body").innerText();
+      const warnings = text.match(
+        /.{0,60}(?:Record fresh|before quest|not eligible|minimum level).{0,180}/g,
+      );
+      process.stderr.write(`${JSON.stringify({ url: page.url(), warnings, output })}\n`);
+    }
+  throw error;
 } finally {
   await browser.close();
 }

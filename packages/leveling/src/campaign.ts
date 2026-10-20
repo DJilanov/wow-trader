@@ -24,6 +24,7 @@ import { getDungeonBundle } from "./dungeon-bundles.js";
 import type { GuaranteedDungeonId } from "./dungeon-bundle-model.js";
 import type { CampaignCombatPlan } from "./combat-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
+import { campaignPickupLevelMet } from "./campaign-pickup-budget.js";
 import { extractCampaignQuestBatches, type CampaignQuestBatch } from "./campaign-catchup.js";
 import {
   buildCampaignQuestLibrary,
@@ -82,6 +83,7 @@ export interface CampaignAction {
   readonly libraryObjective?: LibraryObjective;
   readonly libraryRequired?: boolean;
   readonly sourceGateConflictQuestIds?: readonly number[];
+  readonly pickupQuestId?: number;
   readonly bundleId?: GuaranteedDungeonId;
 }
 export interface CampaignLeg {
@@ -1249,6 +1251,10 @@ export function campaignOptionalXpReady(
   const xpTarget = campaignXpTarget(action, progress, plan.rewardFacts);
   if (action.kind === "xp-check" && xpTarget !== null) {
     const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
+    if (action.pickupQuestId !== undefined)
+      return members.every((member) =>
+        campaignPickupLevelMet(member, xpTarget.level, plan.rewardFacts ?? []),
+      );
     return members.every(
       (member) =>
         member.level !== null &&
@@ -1357,7 +1363,7 @@ export function campaignActionReasons(
         if (!questChangeNeeded(change, staged)) continue;
         if (change.state === "accepted") {
           const { minimumLevel, gate } = questEligibility(change.questId, facts);
-          if (minimumLevel !== null && (member.level === null || member.level < minimumLevel))
+          if (minimumLevel !== null && !campaignPickupLevelMet(staged, minimumLevel, facts))
             return [
               `Record Player ${player + 1}'s actual level ${minimumLevel} or above before quest ${change.questId}. Conflicting minima remain conservative.`,
             ];
@@ -1380,6 +1386,13 @@ export function campaignActionReasons(
   }
   if (action.kind === "xp-check") {
     const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
+    const target = campaignXpTarget(action, progress, facts);
+    if (
+      action.pickupQuestId !== undefined &&
+      target !== null &&
+      members.every((member) => campaignPickupLevelMet(member, target.level, facts))
+    )
+      return [];
     const stale = members.some(
       (member) => member.level === null || member.currentXp === null || member.xpNeedsUpdate,
     );
@@ -1387,7 +1400,6 @@ export function campaignActionReasons(
       return [
         `Record fresh actual levels and XP for ${action.leaderOnly ? "the leader" : "all five"} after preparation; unknown or stale bars cannot decide whether extra quests are needed.`,
       ];
-    const target = campaignXpTarget(action, progress, facts);
     if (target === null) return [];
     const ready = members.every(
       (member) =>

@@ -5,6 +5,48 @@ Implemented, committed, pushed and deployed for browser testing on October 20, 2
 [verified deployment and rollback receipt](forever-leveling-test-deployment-2026-10-20.md).
 The October 19 release remains the immediate rollback, not the active web version.
 
+## Local follow-up: quest-funded pickup checks (October 20)
+
+Implemented locally after that deployment; not committed, pushed or deployed yet. The live
+version above does not include this follow-up.
+
+The compiler now checks earlier required hand-ins before inserting a pickup-level XP gate.
+For Human/Warrior quest 18, the nine preceding hand-ins provide 1,040 XP; level 2 requires
+400 XP. The separate level-2 instruction is therefore removed and its old bookmark resolves to
+the actual quest pickup. The real-data check removed 332 such gate instances across the 28
+supported exact race/class editions, using 61 checksummed chapters and 1,652 reward records.
+
+This is a conservative minimum-level proof, not a saved XP-bar estimate:
+
+- Use only earlier required, applicable route rewards; deduplicate hand-ins. Future rewards,
+  explicitly XP-optional/raid work, unidentified bundles and estimated kills cannot remove a pickup gate.
+- Check each threshold against the lowest verified reward at every eligible hand-in level
+  below it, including overlevel reductions. Missing/conflicting/historical evidence cannot
+  establish paid XP. Conflicting minimum levels remain conservative.
+- Keep leader-only and shared budgets separate. Leader starter XP is not party XP.
+- At execution time, only an observed sufficient level or already reported hand-ins can prove
+  eligibility. Reports have no timestamps, so their order is treated conservatively rather than
+  inferred from quest IDs. Merely planning a hand-in does not satisfy the actual pickup.
+- Preserve genuine shortfall gates and all prerequisite checks. Fresh actual bars are still
+  required for outdoor observations and real dungeon/finish checks. No proof or bookmark
+  migration changes saved levels, XP, or quest reports.
+
+Local revisions are `workflow-20261020-v8`, `checkpoint-ledger-20261020-v12`, and
+`campaign-addon-20261020-v11`. Existing audit/review artifacts remain historical; no addon is
+installed or published by this change.
+
+Local automated verification: 346 leveling tests (22 new funding regressions), 691 web tests,
+both strict typechecks, leveling/touched-script lint, formatting and the leveling build pass.
+The extended browser regression also passes at widths 1440 and 390 on a local development
+preview: level-5 Elwynn handoff, the old quest-18 bookmark, no redundant level-2 card, confirmed
+earlier rewards with a stale level-1 bar, pickup/report persistence after reload, unchanged saved
+XP and other party members, no overflow and no browser errors. Browser assertions wait up to
+30 seconds for development hydration; the initial five-second check was too short. Screenshots:
+`/var/folders/xw/7z04bfmn5cv5hl86pp_4dtnw0000gp/T/wow-trader-adaptive-handoffs-dqcwSH`.
+The follow-up has not received a new production Next.js build or deployment. The local preview
+was stopped after verification.
+The checks below describe the earlier deployed handoff work unless explicitly updated here.
+
 ## Behavior
 
 - Chapter names such as “1–6 Northshire” and “6–11 Elwynn Forest” describe the source route,

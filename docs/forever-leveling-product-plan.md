@@ -1,5 +1,14 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Local follow-up: remove already-funded pickup gates (October 20, 2026)
+
+Implemented locally, not yet committed or deployed: earlier required, verified hand-ins now
+remove redundant minimum-level prompts, including quest 18's level-2 instruction (1,040 prior
+quest XP versus 400 required). Reported rewards can prove a minimum without inventing an actual
+XP bar; future/optional rewards and leader-only XP cannot fund other participants. Real shortfalls
+and prerequisites remain. See the [local funding contract and checks](forever-leveling-adaptive-handoffs.md).
+The deployed version remains `d4390d3` below.
+
 ## Latest planner change: actual-XP zone handoffs (October 20, 2026)
 
 Committed, pushed and deployed for browser testing as `d4390d3`. See

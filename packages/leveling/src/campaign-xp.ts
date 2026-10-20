@@ -37,7 +37,7 @@ import type { CampaignQuestValidationEvidence } from "./quest-validation-evidenc
 import { LEVELING_RACES } from "./profile.js";
 import { createQuestValidationCertificateResolver } from "./quest-validation-certificates.js";
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261020-v11";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261020-v12";
 
 export interface XpPosition {
   readonly level: number;

@@ -1,17 +1,18 @@
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import { gateQuestIds } from "./dungeon-model.js";
 import { emptyPremadeProgress } from "./premade-model.js";
-import { PREMADE_STOPS, premadeEntryLevel } from "./premade.js";
+import { PREMADE_STOPS, getPremadeQuest, premadeEntryLevel } from "./premade.js";
 import { questEligibility } from "./quest-eligibility.js";
+import { createCampaignPickupBudget } from "./campaign-pickup-budget.js";
 
 function gateAction(action: CampaignAction, minimumLevel: number, questId: number): CampaignAction {
   return {
     id: `${action.legId}-level-${minimumLevel}-${questId}`,
     legId: action.legId,
-    title: `Reach level ${minimumLevel} before quest ${questId}`,
+    title: `Check remaining XP before quest ${questId}`,
     instructions: [
-      `Every participating player must reach level ${minimumLevel} before accepting quest ${questId}.`,
-      "Continue unfinished source quests or fight suitable nearby enemies, then record the actual XP bars. The planner does not award unobserved combat XP.",
+      `Quest ${questId} has a minimum level of ${minimumLevel}. Check ${action.leaderOnly ? "the leader's" : "each participating player's"} progress before this pickup.`,
+      "If earlier hand-ins already cover it, continue without extra grinding. Only make up a real remaining XP shortfall; unknown rewards are not assumed earned.",
     ],
     questChanges: [],
     positions: action.positions,
@@ -24,6 +25,7 @@ function gateAction(action: CampaignAction, minimumLevel: number, questId: numbe
     raidOnly: action.raidOnly,
     xpOptional: true,
     xpTargetLevel: minimumLevel,
+    pickupQuestId: questId,
   };
 }
 
@@ -119,6 +121,21 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
   const questStates = new Map<number, CampaignAction["questChanges"][number]["state"]>();
   const actions: CampaignAction[] = [];
   const aliases: Record<string, string> = { ...plan.bookmarkAliases };
+  const leaderBudget = createCampaignPickupBudget(plan.rewardFacts ?? []);
+  const partyBudget = createCampaignPickupBudget(plan.rewardFacts ?? []);
+
+  function reward(action: CampaignAction, questId: number): void {
+    if (action.raidOnly || action.xpOptional) return;
+    const quest = getPremadeQuest(questId);
+    if (quest?.faction === "horde") return;
+    if (
+      (!quest?.classSlug || quest.classSlug === plan.leaderClass) &&
+      (!quest?.raceIds.length || quest.raceIds.includes(plan.race))
+    )
+      leaderBudget.reward(questId);
+    if (!action.leaderOnly && !quest?.classSlug && !quest?.raceIds.length)
+      partyBudget.reward(questId);
+  }
   for (const original of plan.actions) {
     if (original.legId !== currentLegId) {
       const leg = plan.legs.find((entry) => entry.id === original.legId);
@@ -177,6 +194,10 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
     const action = sourceGateConflictQuestIds.length
       ? { ...observed, sourceGateConflictQuestIds }
       : observed;
+    for (const change of action.questChanges) {
+      if (change.state === "accepted") break;
+      if (change.state === "rewarded") reward(action, change.questId);
+    }
     const pickups = action.questChanges.filter((change) => change.state === "accepted");
     const requirements = pickups
       .map((change) => ({
@@ -194,7 +215,10 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
     const required = requirements.find((entry) => entry.minimumLevel > floor);
     if (required) {
       const maximum = requirements.at(-1)!;
-      actions.push(gateAction(action, maximum.minimumLevel, maximum.questId));
+      const gate = gateAction(action, maximum.minimumLevel, maximum.questId);
+      if ((action.leaderOnly ? leaderBudget : partyBudget).isFunded(maximum.minimumLevel))
+        aliases[gate.id] = action.id;
+      else actions.push(gate);
       if (!action.raidOnly) {
         if (action.leaderOnly) leaderFloor = maximum.minimumLevel;
         else {
@@ -204,6 +228,16 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
       }
     }
     actions.push(action);
+    for (const change of action.questChanges) {
+      if (change.state === "rewarded") reward(action, change.questId);
+      if (change.state === "accepted" && !action.raidOnly && !action.xpOptional) {
+        const minimum = questEligibility(change.questId, plan.rewardFacts).minimumLevel;
+        if (minimum !== null) {
+          leaderBudget.requireLevel(minimum);
+          if (!action.leaderOnly) partyBudget.requireLevel(minimum);
+        }
+      }
+    }
     if (action.kind === "xp-check" && action.targetLevel !== null && !action.raidOnly) {
       if (action.leaderOnly) leaderFloor = Math.max(leaderFloor, action.targetLevel);
       else {
@@ -217,7 +251,7 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
   if (ids.size !== actions.length) throw new Error("Duplicate campaign pickup gate identity.");
   return {
     ...plan,
-    executionRevision: "workflow-20261020-v7",
+    executionRevision: "workflow-20261020-v8",
     actions,
     legs: plan.legs.map((leg) => {
       const owned = actions.filter((action) => action.legId === leg.id);
