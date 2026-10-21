@@ -78,8 +78,13 @@ try {
     for (const spec of SIMULATOR_SPECS.filter((entry) => entry.role !== "raid")) {
       const context = await browser.newContext({ viewport: { width, height: 1000 } }),
         page = await context.newPage(),
-        errors = [];
+        errors = [],
+        failedRequests = [];
       page.on("pageerror", (error) => errors.push(error.message));
+      context.on("requestfailed", (request) =>
+        failedRequests.push({ url: request.url(), error: request.failure()?.errorText }),
+      );
+      console.log(`CHECK ${spec.slug} ${width}px`);
       try {
         await page.addInitScript(() =>
           globalThis.localStorage.setItem("classic_wasmconcurrency", "1"),
@@ -155,6 +160,26 @@ try {
         console.log(
           `PASS ${spec.slug} ${width}px: full improved raid buffs and Kings, ${configurations} configurations, reload, opt-out, migration`,
         );
+      } catch (error) {
+        const failure = {
+          status: "failed",
+          version: "full-v2",
+          base,
+          profile: spec.page,
+          width,
+          checked,
+          message: error instanceof Error ? error.message : String(error),
+          errors,
+          failedRequests,
+        };
+        console.error(JSON.stringify(failure));
+        if (process.env.SIMULATOR_SMOKE_REPORT)
+          await writeFile(
+            process.env.SIMULATOR_SMOKE_REPORT + `.failed-${Date.now()}.json`,
+            JSON.stringify(failure, null, 2) + "\n",
+            { flag: "wx" },
+          );
+        throw error;
       } finally {
         await context.close();
       }

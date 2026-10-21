@@ -1,5 +1,7 @@
 # Full raid-support defaults — October 21, 2026
 
+Status: deployed and publicly verified, October21 05:50UTC.
+
 The owner's default scenario is the raid-supported happy path, not an unbuffed or
 five-player-only character. `infra/simulator/raid-buff-defaults.v2.json` is the
 versioned shared contract for every individual DPS, healer and tank workspace.
@@ -60,3 +62,39 @@ Use commit → push → committed-source Linux build → isolated candidate veri
 Helper-web-only activation → public verification. Reuse the authenticated immutable
 simulator artifact root; no database migration or numerical model rebuild is needed.
 Record actual source/build identities and a guarded rollback receipt after activation.
+
+## Verified production receipt
+
+Application commit: `02ace4654afda36d418b89e1a8d5bc63db0ab836`.
+Next build: `yWC11NQoY8J_92V-Fny0U`.
+Source: `/home/wow-trader-system/releases/kfc-helper-full-raid-defaults-20261021-02ace46`.
+The existing `hunter-raid-20261020-c8265bc` simulator artifact root is reused unchanged.
+Receipts are under `shared/backups/full-raid-defaults-20261021-02ace46` on the server and
+`artifacts/forever-simulator/optimization/full-raid-defaults-deployment-20261021-02ace46`
+locally.
+
+All865 web tests pass with2workers, as do49 focused regressions, lint/format, typecheck,
+Linux dependency/production builds and11 deployment-gate tests. All1266 committed source
+blobs and28186 simulator asset checksums pass. Candidate and public each pass30 desktop/
+mobile cases,58 preset selections and8 genuine25-fight combat runs. Their actual check
+arrays, buff settings and same-seed results match exactly (`verified.json`). These smoke
+fights do not qualify new BiS references. Guild home, Trader and Leveling return200.
+
+The first public attempts timed out alongside a second controlled Helper-web restart at
+05:39:44UTC, after activation. Its caller is not established; no engine exception/OOM was
+recorded. Isolated checks and the full repeated sweep passed with PID3786548/restart158
+stable. Do not present the failed attempts as passes or claim a proven memory fix. No
+memory/watchdog, Nginx, database, worker or numerical-model setting was changed. Protected
+guild/ingestion/publisher/update/crawler processes were checked separately. The owned
+preview, local dev server, proxy and tunnel have been stopped.
+
+Guarded rollback, only while this exact release remains active:
+
+```sh
+ssh root@89.167.46.193 \
+  'node /home/wow-trader-system/shared/backups/full-raid-defaults-20261021-02ace46/activate-full-raid-defaults-deployment-v2.mjs --rollback'
+```
+
+The controller restores the preceding source and public build label, restarts only Helper
+web and checks health. It does not reverse data or saved characters. Stop if a later
+deployment has moved production.

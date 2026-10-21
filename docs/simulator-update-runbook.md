@@ -4454,8 +4454,19 @@ status command for the current run rather than relying on this historical launch
 
 ## Shared raid-wide UI defaults
 
-Every individual class/tank workspace uses versioned `raidDefaults=core-v1` HTML to
-enable Moonkin Aura, Leader of the Pack, Trueshot Aura, Battle Shout, Strength of Earth,
+October21 correction: the current contract is
+`infra/simulator/raid-buff-defaults.v2.json`, applied as `raidDefaults=full-v2` to all
+individual profiles. It adds supported static raid buffs and individual Kings/Might/
+Wisdom, selects improved ranks, and migrates existing core-v1 characters once. Full
+imports and later opt-outs still retain their exact settings. The original core-v1
+rollout below is historical, not the new maximum-support baseline. See
+`docs/simulator-full-raid-defaults-2026-10-21.md` for scope and verification. Do not edit
+frozen numerical sources or relabel previous DPS; new calculations must pin the full-v2
+contract and actual resulting requests. Player buffs are not limited to16; this adapter
+does not alter or enforce boss debuff slots.
+
+The original October20 rollout used versioned `raidDefaults=core-v1` HTML in every
+class/tank workspace to enable Moonkin Aura, Leader of the Pack, Trueshot Aura, Battle Shout, Strength of Earth,
 Grace of Air and Windfury once. Other buffs are retained; Flametongue is excluded when
 Windfury is selected. This presentation adapter does not change the combat engine or
 recalculate historical measured references. Full benchmark imports preserve their own

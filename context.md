@@ -2,6 +2,88 @@
 
 Last updated: 2026-10-21
 
+## October21 05:50UTC — full improved raid defaults VERIFIED LIVE
+
+Application02ace4654afda36d418b89e1a8d5bc63db0ab836 / NextbuildyWC11NQoY8J_92V-Fny0U
+is live at kfcguild.online/tools/forever/simulator/* . All15individual DPS/tank/healer
+profiles now default to full-v2, including improved totem settings and individual Kings/
+Might/Wisdom. All865web tests with2workers,49focused regressions, lint/format/typecheck,
+Linux10dependency/Next builds and11deployment-gate tests pass.1266sourceGitblobs and
+28186unchanged asset hashes pass. Candidate AND repeated public30desktop/mobile cases,
+58configurations and8genuine25fight combat runs pass; arrays, buff settings and same-seed
+results compare exactly equal. Actual comparison: full-raid-defaults-deployment-20261021-
+02ace46/verified.json (local optimization and server shared/backups). The first failed
+public attempts remain failures; see05:46entry for the coincident controlled restart.
+
+Final stable webPID3786548/restart158; protected services unchanged. Guild/Trader/Leveling
+are200. Owned previewPID3785633, localdev3017, tunnel3019 and proxy3018 are stopped;
+there are no owned QA listeners left. No DB/Nginx/memory/model/numerical-source changes.
+Source/current, rollback guard and remaining numerical scope are documented in
+docs/simulator-full-raid-defaults-2026-10-21.md. Older DPS references/full benchmark
+imports remain exact historical evidence, NOT newly full-v2-qualified results. Future
+calculations must pin the new JSON contract and actual request, not resume/relabel old
+seven-buff sources. The all-class goal is still ACTIVE/incomplete; no numerical worker
+is running and the original Warlock deadline was not extended.
+
+## October21 05:46UTC — full-v2 DEPLOYED; repeated public QA running
+
+App02ace4654afda36d418b89e1a8d5bc63db0ab836 is committed/pushed and active at
+/home/wow-trader-system/releases/kfc-helper-full-raid-defaults-20261021-02ace46;
+NextbuildyWC11NQoY8J_92V-Fny0U. Reuses unchanged Hunter artifact root. Source1266blobs,
+28186asset hashes, Linux10dependency/Next/typecheck builds, local865web tests with2workers,
+49focused regressions, lint/format and11deployment-gate tests pass. Candidate30desktop/
+mobile cases/58configurations and8genuine25fight combat smoke cases pass. Public route/
+database/privacy gate and source integrity pass; guild,Trader,Leveling return200.
+
+Only Helperweb was restarted by this deployment, initiallyPID3786135/restart157.
+At05:39:44UTC a second controlled SIGINT restart occurred with source unchanged, producing
+PID3786548/restart158 and coinciding with both public-test timeouts. No engine exception
+or OOM was recorded; do not assert memory is the cause. Asked owner whether another session
+is restarting this service. Isolated Mage initialization and actual Two-hand Fury simulation
+pass. Public browser sweep is RUNNING as handle57398, now past Mage desktop; wait for it,
+then run combat-public again and compare actual candidate/public arrays before calling
+the rollout fully verified. The earlier public browser19742/combat56467 are TERMINAL1,
+not passes. New QA logging retains profile/request diagnostics on future failures.
+
+Receipt: optimization/full-raid-defaults-deployment-20261021-02ace46 and server shared/
+backups/full-raid-defaults-20261021-02ace46. Guarded rollback controller is
+activate-full-raid-defaults-deployment-v2.mjs --rollback, only while02ace46 remains active.
+Owned previewPID3785633/port19214, tunnel99128/3019 and proxy64972/3018 remain running;
+stop only those after verification. Local dev31612/3017 was started for QA and is still up;
+initial local broad sweep hit dev proxy/manifest transport errors, not a full local pass.
+No database, Nginx, memory/watchdog setting, worker, model, numerical input or old DPS was
+changed. Native cache helper hash remains69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+
+Affliction's10gear/state regressions including the genuine10k metadata boundary now pass,
+as does scoped lint. No numerical worker is running. Original Warlock deadline unchanged;
+do not resume old seven-buff inputs as if they used the owner's new full-v2 baseline.
+
+## October21 05:16UTC — full improved raid support requested; deployment in progress
+
+Owner explicitly requires raid-supported happy-path defaults for every class/character,
+including improved totems and Kings, then deployment. The 16-slot cap is for boss debuffs,
+not player buffs. This takes priority over continuing the old seven-buff Affliction run.
+New shared contract: infra/simulator/raid-buff-defaults.v2.json; version full-v2 includes
+all supported static class raid buffs, improved UI settings and individual Kings/Might/
+Wisdom. Separate world buffs/assigned external cooldown counts and all encounter/debuff/
+gear/rotation settings remain unchanged. Current engine intentionally ignores removed
+Vanilla improvement talents; no extra unsupported multipliers or frozen model edits.
+
+49 focused adapter/asset/readiness/navigation tests and scoped lint pass. The actual live
+site fails the new upgraded-buff regression before deployment, confirming the old setting.
+Local15-profile desktop/mobile sweep and full web suite are running. Full suite initially
+hit existing5-second timeouts under unrestricted parallelism; rerun uses2workers without
+changing test timeouts/assertions. No new source has been deployed yet. See
+docs/simulator-full-raid-defaults-2026-10-21.md for the contract and operational boundary.
+
+Affliction preflight84362 is TERMINAL1: full completed-blue replay passed, but ranked
+candidate.metric metadata reached the strict combat factory. Fixed only the unexecuted
+gear/state adapters to strip that inspection-only metadata and added actual selected10k
+request-identity regressions. No gear numerical worker started; completed blue and all
+frozen V1/V2 files remain untouched. Future full-v2 calculations require new exact request
+identities; do not relabel the completed old-baseline search. Original Warlock deadline
+06:24:18.106UTC remains unchanged, with no extension granted. Global goal is incomplete.
+
 ## October21 04:57UTC — Affliction blue COMPLETE; independent gear preflight LIVE
 
 Handle76912 is now TERMINAL0, runcc4b93fd-0e72-47e8-873d-4eee893de7c2 is

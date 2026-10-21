@@ -2,6 +2,28 @@
 
 Last updated: 2026-10-21
 
+## October21 — full raid-support default correction
+
+The old seven-buff overlay omitted individual Kings/Might/Wisdom and selected regular
+totems. New full-v2 JSON contract enables supported improved class raid buffs across
+all15individual profiles. Kings is applied through player.setBuffs, not the raid owner.
+Existing core-v1 characters migrate once; named/full imported builds and later opt-outs
+remain intact. Preset/race queries no longer incorrectly skip migration. Unlimited player
+buffs do not consume boss debuff slots; this change does not modify or enforce boss debuffs.
+No frozen combat model or historical DPS/evidence changes. Application02ace46 is deployed
+and publicly verified:865web tests, Linux build/typecheck,30desktop/mobile cases/58preset
+selections and8real combat smoke runs on both candidate and live, with exact same-seed
+settings/results comparison. Initial public failures coincided with an additional
+controlled web restart; full repeats passed with stablePID3786548/restart158. No engine
+exception or memory cause was established; no memory setting was changed. Owned test
+services are stopped. Consult context.md and docs/simulator-full-raid-defaults-2026-10-21.md
+for actual receipts and guarded rollback.
+
+Affliction gear preflight84362 failed before numerical gear dispatch on inspection-only
+candidate.metric metadata; new gear/state adapters strip only this metadata, with genuine
+selected10k request-identity regressions. The completed blue search is preserved; no
+current numerical worker is running or claiming the new full-v2 baseline.
+
 ## October21 — Affliction JSON recovery explicitly approved
 
 The authorized correction completed successfully as runcc4b93fd-0e72-47e8-873d-4eee893de7c2;
