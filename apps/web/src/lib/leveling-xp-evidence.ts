@@ -5,7 +5,14 @@ import {
 } from "@wow-trader/leveling";
 
 export type ChapterEvidenceState =
-  "blocked" | "unknown" | "shortfall" | "estimated-reward" | "adaptive" | "review" | "verified";
+  | "blocked"
+  | "unknown"
+  | "shortfall"
+  | "estimated-reward"
+  | "estimated-combat"
+  | "adaptive"
+  | "review"
+  | "verified";
 
 interface ChapterEvidenceMember {
   readonly status: "covered" | "shortfall" | "incomplete" | "blocked" | "no-start" | "before-start";
@@ -80,7 +87,9 @@ export function describeChapterEvidence(
       `${plural(adaptiveCheckpoints, "level checkpoint")} use adaptive grinding; the required XP is known, but the kills and duration are unmeasured.`,
     );
   if (otherCombat)
-    details.push(`${plural(otherCombat, "combat input")} need measured or reviewed evidence.`);
+    details.push(
+      `${plural(otherCombat, "combat assumption or omitted input")} ${otherCombat === 1 ? "remains" : "remain"} explicit. Sourced estimates can support planning; unknown XP is excluded. Measurements refine accuracy; they are not a prerequisite for planning.`,
+    );
   if (eligibility)
     details.push(`${plural(eligibility, "eligibility rule")} need source or in-game confirmation.`);
   if (route) details.push(`${plural(route, "route condition")} need validation.`);
@@ -108,7 +117,7 @@ export function describeChapterEvidence(
     label = "XP outcome needs current data";
   } else if (shortfall) {
     state = "shortfall";
-    label = "More XP work needed";
+    label = "Known-XP subtotal below target";
   } else if (historicalRewards || bundleEstimates) {
     state = "estimated-reward";
     label = bundleEstimates
@@ -117,6 +126,9 @@ export function describeChapterEvidence(
   } else if (adaptiveCheckpoints && !otherCombat && !eligibility && !route && !progress) {
     state = "adaptive";
     label = "XP target modeled with adaptive grinding";
+  } else if (otherCombat && !eligibility && !route && !progress) {
+    state = "estimated-combat";
+    label = "XP target modeled; combat remains estimated or excluded";
   } else if (issues.length || members.some((member) => member.status === "incomplete")) {
     state = "review";
     label = "XP target modeled; route evidence needs review";

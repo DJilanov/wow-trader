@@ -1,5 +1,36 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Current scope correction: planning before comprehensive recordings (October 21, 2026)
+
+The owner approved finishing the theoretical guide with sourced estimates, rather than waiting
+for exhaustive measurements. The new continuous planning gate allows labeled estimates and omitted
+unknown extra combat when known inputs already fund the route. Real XP gaps, unmet requirements,
+missing bars and an unsupported level-60 endpoint still fail. Independent chapter diagnostics,
+measurement certification and publication permission remain separate checks.
+
+Dungeon-clear profiles are optional inputs for additional path-specific kills, not a prerequisite
+for including dungeon quests. Group Loot is accepted as the party setting, not as a blanket
+quest-item sharing rule. The browser now describes these boundaries without demanding recordings
+before the guide can be used. Public rules and historical formulas remain reference estimates;
+uncontrolled player reports are not relabeled as calibrated evidence. See the
+[planning contract and offline check](forever-leveling-theoretical-progress.md#planning-is-separate-from-measurement-certification).
+This remains code-only: no new ZIP, installation, publication, commit or deployment.
+
+The full real-archive planning audit now passes all **33 editions / 132 scenarios / 6,000 chapter
+checks**, retaining every one of the 1,161 published hand-in XP facts. All scenarios are
+`ready-with-estimates`; continuous relevant forecasts have zero blockers or shortfalls. Strict
+coverage and private-data publication gates remain false, and the validation/measurement backlog
+is unchanged rather than hidden. The reproducible receipt and hashes are in the
+[planning verification section](forever-leveling-theoretical-progress.md#october-21-planning-gate-and-optional-measurement-inputs).
+
+The code-only completion review now also passes real desktop/mobile browser checks at 1440 and
+390 px and a fresh in-memory compile of all 28 exact addon editions. The XP result is presented
+before folded detailed assumptions, with the label and bar on separate lines. Actual saved bars
+are unchanged; genuine gaps and missing actual data remain visible. See the
+[completion acceptance audit](forever-leveling-theoretical-progress.md#code-only-browser-completion-review-october-21).
+This finishes the supported Alliance planning implementation, not full Horde execution, an
+installed addon review, measured certification or an authorized release.
+
 ## Current local work: reuse captured loot evidence (October 21, 2026)
 
 Implemented locally, not deployed: named-counter recovery resolves all remaining quest-quantity
@@ -8,10 +39,11 @@ overrides and conditional stack data are preserved, and sample ratios carry expl
 The reference kill model now applies enemy-level adjustments per player, not using the highest
 party member's level. The read-only loot status distinguishes captured pages from calculable facts.
 
-Current private output: 0 pending quests, 21 already-captured item-data gaps, 1,153 sampled drop
-references and **zero fixed-stack facts**. Missing loot semantics, current-build calibration,
-source authorization and in-game validation still prevent full-route certification. No bulk
-recrawl is needed for the recovered quest quantities. See the
+Current private output: 0 pending quests, 12 already-captured item-data gaps, 1,164 drop
+references (1,153 sample-based plus 11 reported overrides) and **zero fixed-stack facts**.
+Missing loot semantics, current-build calibration, source authorization and in-game validation
+still prevent full-route certification. No bulk recrawl is needed for the recovered quest
+quantities or the ten targeted item-rate refreshes. See the
 [current evidence contract and commands](forever-leveling-theoretical-progress.md).
 
 The remaining variable-stack engine gap is now implemented locally: conditional stack weights
@@ -20,6 +52,54 @@ with bounded work. The parser also recognizes the source's explicit zero-denomin
 encoding, without guessing it from legacy nulls. These capabilities do not manufacture missing
 weights or remove the current evidence limitations; the joint cross-quest inventory model remains
 separate work.
+
+The latest local source-context correction also distinguishes proven vendor purchases from mob
+drops and makes combat use the same class/party/source-rate context as the route constructor.
+Version-matched selected steps can reuse a default branch without relaxing per-step eligibility.
+The real-archive check passes all 11 Dwarf/Gnome class editions; the fresh 33-edition / 132-scenario
+audit has 29 fewer validation tasks and one fewer measurement task. All 1,161 hand-in rewards remain
+available. Source authorization, loot/sharing evidence and live validation still remain; no crawler
+or deployment was started by this task.
+
+Two further source-bound acquisition cases now avoid fabricated drop work: the Rogue's prescribed
+successful pickpocket (quest 2242), and the guaranteed elixir supplied by an earlier matching
+hand-in (quest 3909, reward quest 4041). The latter requires both item and guaranteed-reward quest
+captures, not a bare reward relation. The checker passes the real source variants and selected
+routes; 450 leveling tests and the full 865-test web suite pass, with a successful optimized web
+build. The full web rerun used two workers without changing expectations or timeout limits.
+The fresh v17 matrix retains all 1,161 hand-in XP facts and removes two more validation tasks;
+the 57 quest-page issue entries represent 55 unique quests already queued and captured, with no
+new missing quest pages.
+Corpse-use objectives and unverified live-target spell effects stay unresolved. The targeted
+ten-item rate refresh ran on October 21: nine items gained numeric reported rates (15 NPC rows)
+and one (`266434`) still has no rate. The generic coverage queue now has 12 captured item records,
+with one remaining rate-refresh candidate; 631 cached records were reused otherwise. No broader
+quest crawl or deployment was started.
+
+The refreshed captures now feed a single-success calculation: a solo one-item objective (or one
+item per independently looting player) does not need an exact stack distribution. A known minimum
+stack covering the whole quota is handled the same way. No stack facts are fabricated; pooled
+party quotas, unknown sharing and unverified sample-count rates remain held. The full leveling
+suite passes 456 tests, the full web suite passes 865 tests with two workers after other CPU-heavy
+checks finish, and the production build passes. The v18 matrix still has all 1,161 hand-in XP facts,
+but unchanged party-sharing/calibration gaps prevent certification. Resaan's Heirloom remains an
+interaction/acquisition review rather than an assumed 100% drop. See the current contract for the
+new audit and verification receipt.
+
+The addon packager now accepts checksum/schema/build-validated combat references, attached before
+funding just as in the browser. All 28 exact editions pass in memory both with and without this
+option, preserving hand-ins; Human/Warrior removes the redundant 96627 checkpoint only with the
+reference input. Current identities are calculator v18 / addon compiler v18. Passed: 457 leveling
+tests, six input-validation tests, 127 focused leveling web tests, typechecks, scoped lint and the
+production build. The earlier full XP audit and 865-test web receipt above were not rerun or
+relabeled for this integration-only change.
+
+The owner confirmed WoW Forever and requested code-only work. No ZIP was built or installed, and
+nothing was committed, published or deployed. Recording instructions now identify review.3 as
+historical and incompatible with current-revision certification. A future approved package must
+use confirmed client/parser versions; see
+[recording readiness](forever-leveling-addon-review.md#current-recording-readiness). This does not
+remove missing loot/sharing, calibration, authorization or live-validation requirements.
 
 ## Current local work: per-step theoretical progress (October 20, 2026)
 
@@ -70,7 +150,7 @@ remain pending.
 
 The later [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md) covers
 the implemented private-observation→audit→public-coverage→browser path, party identity settings,
-current review.3 ZIP, 311 leveling/586 web tests and unchanged real-evidence gates. Static source
+historical review.3 ZIP, 311 leveling/586 web tests and unchanged real-evidence gates. Static source
 differences still need explicit review; no real observations or production release are implied.
 The final source report has all 83 pages, 66 source-ready rows, 14 conflicts and three manual-review
 rows. Source pickup parsing and bounded starter-item origins are covered by 19 world-data and 22
@@ -269,8 +349,10 @@ content remains explicitly untested, without holding the planning product hostag
 
 The bundle identity/replacement, reward ledger, route consumers and audit are now implemented and
 verified locally. The fresh rewards, source report, 33-edition audit, 28-edition addon matrix and
-targeted in-game checklist have now been rebuilt. Next: perform the bounded in-game review and
-authorized release, plus explicit review of the remaining static source differences. The observation
+targeted in-game checklist have now been rebuilt. For a later executable/distributed release
+(currently deferred): perform the bounded in-game review and authorized release, plus explicit
+review of the remaining static source differences. These do not hold up the approved code-only
+planning finish line. The observation
 consumer is now implemented and tested; actual observations and source approval remain separate.
 Do not expand to an unrelated full-archive crawl as
 a release prerequisite, and do not claim a deployment until a pushed release is actually activated.

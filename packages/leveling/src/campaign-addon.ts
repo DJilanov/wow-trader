@@ -4,7 +4,7 @@ import type { CampaignRace } from "./campaign-route.js";
 import { gateQuestIds } from "./dungeon-model.js";
 import { questEligibility } from "./quest-eligibility.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261021-v14" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261021-v18" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;

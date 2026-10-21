@@ -45,6 +45,32 @@ describe("chapter XP evidence presentation", () => {
     });
   });
 
+  it("allows combat estimates and omitted optional XP without demanding a measurement", () => {
+    const presentation = describeChapterEvidence([
+      member([issue({ code: "combat-profile-unverified" })]),
+    ]);
+    expect(presentation).toMatchObject({ state: "estimated-combat" });
+    expect(presentation.details.join(" ")).toContain("Sourced estimates can support planning");
+    expect(presentation.details.join(" ")).toContain("unknown XP is excluded");
+    expect(presentation.details.join(" ")).not.toContain("need measured");
+  });
+
+  it("does not hide a real gap, blocker or missing reward behind optional measurements", () => {
+    const warning = issue({ code: "combat-profile-unverified" });
+    expect(describeChapterEvidence([member([warning], { residualXp: 10 })])).toMatchObject({
+      state: "shortfall",
+      label: "Known-XP subtotal below target",
+    });
+    expect(
+      describeChapterEvidence([member([warning], { blockedReason: "Prerequisite missing" })]),
+    ).toMatchObject({ state: "blocked" });
+    expect(
+      describeChapterEvidence([
+        member([warning, issue({ code: "reward-unresolved", domain: "reward" })]),
+      ]),
+    ).toMatchObject({ state: "unknown" });
+  });
+
   it("keeps historical rewards distinct from missing rewards", () => {
     expect(
       describeChapterEvidence([

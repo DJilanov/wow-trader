@@ -1,16 +1,43 @@
 # Forever premade-five RestedXP review package
 
-Status: local review artifact, not a public or playtested release. Updated October 19, 2026.
+Status: local review artifacts, not a public or playtested release. Updated October 21, 2026.
 
-The browser guide is separately [deployed for testing](forever-leveling-test-deployment-2026-10-19.md)
-from commit 101882a. This does not publish or approve the addon ZIP.
+## Current recording readiness
 
-For new recordings use review.3 from the
+The owner confirmed WoW Forever as the target and requested code-only work for now. Packaging,
+installation and publication are deferred. New recordings are held until an approved current
+package is prepared. The latest existing ZIP
+below uses compiler `campaign-addon-20261019-v9`; the current compiler is
+`campaign-addon-20261021-v18`, with calculator `checkpoint-ledger-20261021-v18`. The observation
+consumer requires an exact compiler match. Do not record against review.3 expecting it to certify
+the current revision, or relabel an old package/export to bypass that match. No replacement ZIP
+was built or installed during this update. Confirm the actual client build and RestedXP version
+before preparing the next review package.
+
+The packager now accepts explicit `--combat=<directory>` input. It checks the bounded regular
+files, schemas, checksums and archive-build identity, then attaches references before compiling
+pickup gates, as the browser does. Missing or invalid explicit input fails; it never silently
+falls back. Omitting the option keeps quest-only behavior. Local private references remain
+private: the output manifest records only their hash/build/publication state, not the NPC dataset.
+No publication authorization or actual player XP is inferred.
+
+`--verify-all` remains an in-memory check: it writes no package or ZIP. All 28 exact editions
+passed with and without the optional reference input. With the prepared data, action counts range
+from 2,120 to 2,480 and distinct hand-ins from 725 to 864. Human/Warrior retains all 852 hand-ins
+while its redundant quest-96627 checkpoint is removed (2,457 versus 2,458 quest-only actions).
+Real game eligibility, actual-XP checks and unresolved loot remain enforced.
+
+The receipts below are historical, not instructions to install an older recording package.
+
+The browser's earlier [October 19 test deployment](forever-leveling-test-deployment-2026-10-19.md)
+used commit 101882a. That historical deployment did not publish or approve the addon ZIP.
+
+The historical review.3 package from the
 [quest-validation consumer receipt](forever-leveling-quest-validation-consumer.md):
 `kfc-premade5-human-warrior-3589f8e108c94fba.zip`, compiler `campaign-addon-20261019-v9`, ZIP SHA-256
 `5256525275dedaa6dfe39ec12743df3e3c55b7b804ff9a8632da33a4de958855`.
-It adds the passive prerequisite/NPC-instance context required by the consumer. Older package
-receipts below are retained for provenance and rollback, not as the current recording instructions.
+It added the passive prerequisite/NPC-instance context required by the consumer. These package
+receipts are retained for provenance and rollback, not as current recording instructions.
 
 The earlier completed-quest review.2 ZIP is
 `artifacts/leveling/campaign-addon-review/kfc-premade5-human-warrior-aeaf87d7cab25c8c/kfc-premade5-human-warrior-aeaf87d7cab25c8c.zip`.
@@ -39,8 +66,9 @@ When personal and shared source branches contain the same complete paid-once lif
 that lifecycle once for the affected role. A source guide update, reward snapshot update or target
 build produces a new immutable semantic identity.
 
-All 28 exact Alliance race/class editions compile successfully. Across the current matrix, editions contain
-2,109–2,469 actions, 725–864 distinct hand-ins, 69–74 leader chapters and 67–71 party chapters.
+All 28 exact Alliance race/class editions compile successfully. The current combat-reference
+matrix contains 2,120–2,480 actions and 725–864 distinct hand-ins. Earlier chapter/action counts
+below describe their historical package revisions, not a newly built ZIP.
 The five additional browser editions are class-neutral selectors and are deliberately not addon
 editions.
 
@@ -68,10 +96,13 @@ adaptive-checkpoint or structured quest-validation measurements. The next build 
 source/reward identities, selected edition and guide/action inventory. The new observer changes the
 semantic identity, so it correctly creates a new immutable release rather than modifying this one.
 
-## Build commands
+## Build commands after package approval
 
 Set `WOW_TRADER_REFERENCE_PUBLISHED` to a local copy of the checksum-valid published reference root.
 The build refuses missing records, failed checksums and unauthorized or modified route archives.
+The runtime/parser versions below are the previously reviewed values, not automatic detection of
+the currently installed client. Reconfirm them before building. The review.4 version is an example
+for a future package, not an existing download.
 
 ```sh
 export WOW_TRADER_REFERENCE_PUBLISHED=/absolute/path/to/reference-published
@@ -80,13 +111,14 @@ pnpm leveling:addon:campaign -- \
   --archive=artifacts/leveling/archive \
   --rewards="$WOW_TRADER_REFERENCE_PUBLISHED" \
   --reward-import=artifacts/reference/questie/quest-xp-import.json \
+  --combat=artifacts/leveling/loot-preparation/combat \
   --destination=artifacts/leveling/campaign-addon-review \
   --race=human \
   --class=warrior \
   --runtime-build=70450 \
   --restedxp-version=v4.11.26 \
   --interface=16001 \
-  --version=0.2.0-review.3
+  --version=0.2.0-review.4
 ```
 
 Before making any edition available, compile the entire exact-edition matrix:
@@ -96,10 +128,11 @@ pnpm leveling:addon:campaign -- \
   --archive=artifacts/leveling/archive \
   --rewards="$WOW_TRADER_REFERENCE_PUBLISHED" \
   --reward-import=artifacts/reference/questie/quest-xp-import.json \
+  --combat=artifacts/leveling/loot-preparation/combat \
   --runtime-build=70450 \
   --restedxp-version=v4.11.26 \
   --interface=16001 \
-  --version=0.2.0-review.3 \
+  --version=0.2.0-review.4 \
   --verify-all
 ```
 

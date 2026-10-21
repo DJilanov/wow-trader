@@ -5,6 +5,7 @@ import { forecastCampaignXp } from "./campaign-xp.js";
 import { emptyPremadeProgress } from "./premade-model.js";
 import { applyCampaignCombat, createCampaignCombatState } from "./campaign-combat.js";
 import { resolveCombatQuota } from "./combat-loot.js";
+import { compileCampaignAddon } from "./campaign-addon.js";
 import type { CampaignPlan, CampaignAction, CampaignQuestChange } from "./campaign.js";
 import type { CampaignCombatPlan, CombatObjective } from "./combat-model.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
@@ -131,6 +132,42 @@ function route(loot = false): CampaignPlan {
   };
 }
 describe("chronological theoretical progress", () => {
+  it("keeps addon pickup checkpoints aligned with the combat-funded browser plan", () => {
+    const raw = route();
+    const actions: readonly CampaignAction[] = [
+      ...raw.actions,
+      action("next-objective", [change(96627, "objectives-complete")]),
+      action("next-turnin", [change(96627, "rewarded")]),
+      {
+        ...action("party-rejoin", []),
+        leaderOnly: false,
+        kind: "instructions",
+        instructions: ["Record actual party XP."],
+      },
+    ];
+    const plan = {
+      ...raw,
+      actions,
+      legs: [{ ...raw.legs[0]!, actionIds: actions.map((entry) => entry.id) }],
+    };
+    const { combat: _, ...withoutCombat } = plan;
+    const funded = compileCampaignPickupGates(plan);
+    const questOnly = compileCampaignPickupGates(withoutCombat);
+    const options = {
+      version: "0.2.0-test.1",
+      runtimeBuild: 70450,
+      interfaceVersion: 16001,
+      restedXpVersion: "v4.11.26",
+    };
+    const addon = compileCampaignAddon(funded, funded.actions, options);
+    const fallback = compileCampaignAddon(questOnly, questOnly.actions, options);
+    expect(funded.actions.some((entry) => entry.pickupQuestId === 96627)).toBe(false);
+    expect(questOnly.actions.some((entry) => entry.pickupQuestId === 96627)).toBe(true);
+    expect(addon.lua).not.toContain("#label kfc-starter-level-4-96627");
+    expect(fallback.lua).toContain("#label kfc-starter-level-4-96627");
+    expect(addon.lua).toContain(".accept 96627");
+    expect(addon.readme).toContain("The addon cannot see all five players' XP bars");
+  });
   it("holds missing loot counts and known mismatching source builds", () => {
     const combat = route(true).combat!,
       loot = combat.activities[0]!.objectives[0]!;
@@ -205,6 +242,90 @@ describe("chronological theoretical progress", () => {
         "expected",
       ),
     ).toMatchObject({ kills: null, reason: expect.stringContaining("multi-item") });
+  });
+  it("uses reported one-item acquisition chances without inventing stack or sharing evidence", () => {
+    const base = route(true).combat!;
+    const loot = base.activities[0]!.objectives[0]!;
+    const single = { ...loot, loot: { ...loot.loot!, quantity: 1 } };
+    const drop = {
+      ...base.lootDrops![0]!,
+      probabilityBasis: "reported-override" as const,
+      minimumQuantity: null,
+      maximumQuantity: null,
+    };
+    const combat = { ...base, lootDrops: [drop] };
+    expect(resolveCombatQuota(single, combat, 1, "expected")).toMatchObject({
+      kills: 3,
+      lootEstimate: { minimumKills: 1, expectedKills: 2.5 },
+    });
+    expect(resolveCombatQuota(single, combat, 5, "expected")).toMatchObject({
+      kills: null,
+      reason: expect.stringContaining("sharing"),
+    });
+    expect(
+      resolveCombatQuota(
+        { ...single, loot: { ...single.loot, sharing: "pooled" } },
+        combat,
+        5,
+        "expected",
+      ),
+    ).toMatchObject({ kills: null, reason: expect.stringContaining("Items per") });
+    expect(
+      resolveCombatQuota(
+        single,
+        { ...combat, lootDrops: [{ ...drop, probabilityBasis: "sample-ratio" }] },
+        1,
+        "expected",
+      ),
+    ).toMatchObject({ kills: null, reason: expect.stringContaining("Sample item counts") });
+    expect(
+      resolveCombatQuota(
+        single,
+        {
+          ...combat,
+          lootDrops: [
+            { ...drop, probabilityBasis: "sample-ratio", minimumQuantity: 1, maximumQuantity: 1 },
+          ],
+        },
+        1,
+        "expected",
+      ).kills,
+    ).toBe(3);
+  });
+  it("carries reported single-success loot scenarios into chronological XP with unknown stacks", () => {
+    const raw = route(true);
+    const combat = raw.combat!;
+    const plan = {
+      ...raw,
+      combat: {
+        ...combat,
+        activities: combat.activities.map((activity) => ({
+          ...activity,
+          objectives: activity.objectives.map((objective) => ({
+            ...objective,
+            loot: { ...objective.loot!, quantity: 1 },
+          })),
+        })),
+        lootDrops: [
+          {
+            ...combat.lootDrops![0]!,
+            probabilityBasis: "reported-override" as const,
+            minimumQuantity: null,
+            maximumQuantity: null,
+          },
+        ],
+      },
+    };
+    const state = emptyPremadeProgress();
+    const before = JSON.stringify({ plan, state });
+    const result = forecastCampaignSteps(plan, state, { basis: "route-start" })[0]!;
+    expect(result.steps.find((step) => step.phase === "objectives-complete")).toMatchObject({
+      combatXp: 165,
+      after: { level: 1, currentXp: 165 },
+      fastLoot: { level: 1, currentXp: 55 },
+      slowLoot: { level: 1, currentXp: 275 },
+    });
+    expect(JSON.stringify({ plan, state })).toBe(before);
   });
   it("counts objectives before rewards and the same-visit reward before pickup, without invented grind", () => {
     const plan = compileCampaignPickupGates(route());

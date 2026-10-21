@@ -1,5 +1,59 @@
 # Repeatable pre-raid simulation updates
 
+## October21 — Priest model and phase ownership
+
+Priest's new isolated modelbbbde15964092df1ecbf1dec extends A4with8missing verified
+class5PvP blues and current explicit ID549set effects; old model/results stay frozen.
+Use run-priest-shadow-blue-v1.mjs --plan for read-only construction checks. Numerical
+dispatch must use the existing class-budget runner with priest/shadow/talents-rotation
+and that exact script --run. The SAME child owns real11case browser captures, native/raw
+WASM parity and blue talent/APL narrowing, so a later successful-phase command change
+does not consume the one shared correction. First dispatch starts the Priest24hdeadline,
+shared with Smite. Observe authoritative live handles and checkpoint evidence before any
+resume; never edit pinned source/results or reset the clock. Captures, raw responses and
+source checksums are kept under priest-shadow-first-pass-v1 and reviews.80/80/500/2000/
+10000rounds are practical narrowing, not finalBiS. Require all17slot/pair/set/enchant search,
+geared feedback, fresh2%/separate1% confirmation, selected parity and actualUI/guide handoff.
+Full-v2 buffs plus real CoE/JotW/improvedJotC are explicit. Observed25fight target aura
+counts are not a universal16slot engine guarantee. The other32missing vendor blues and
+the upstream ShadowFocusdisplay1%versus2% mismatch remain separately scoped follow-ups.
+
+## October21 — completed full-raid Affliction and local delivery
+
+Affliction qualified build5090d4dc677a3f18 is747.6164254231074modeled DPS/40k with
+30/0/21, Succubus and Spellstone. Full-v2 gear/state feedback closed after three total
+gear sweeps, then fresh two20k ranges accepted the fixed incumbent under both the
+original1% and approved2% retained-margin checks. Selected inspected10k native/WASM
+parity also passed. None of these measurements proves global optimality or live beta
+mechanics. Historical blue search supplies a seed, not falsely relabeled full-buff data.
+
+Immutable local UI release2e4bfb0b779559053237eb6f preserves the actual Demonology build
+and adds qualified Affliction to the library, Preset Configurations, Gear Sets, talents,
+APL and bound rotation instructions. New strict web reader and authentic compressed
+fixtures retain the complete numerical chain. Old one-spec Warlock proofs stay valid;
+the new version requires the exact [Demonology,Affliction] tuple and matching browser
+schema. Never relax this into wildcard acceptance of future Warlock exports.
+
+The all-class compilation,28starter gear audits,15profile menus, four share imports,
+two native/browser25fight diagnostics and four actual desktop/mobile main-page cases
+pass. Local selection preserves all16other published cases and their profile pointers.
+Main receipt: optimization/reviews/warlock-main-page-2901489365b4da78.json. Review at
+http://localhost:3017/tools/forever/simulator/warlock . Production is not changed.
+Completed local marker: optimization/warlock-affliction-full-raid-v2/delivered-local.json;
+do not rewrite the older numerical pipeline's finished state to record the later UI work.
+Full907web tests/116files pass serially, as do strict tsc, scoped lint/format and the isolated
+Next production build under.next-affliction-delivery-20261021-v1. The initial concurrent
+run hit one existing Mage-fixture5s timeout; identical assertions pass in the full serial
+rerun. Generated next-env imports are restored; unrelated leveling work is preserved.
+
+The numerical pipeline finished09:40:43UTC inside the original four-hour extension.
+The separate owner-approved11:36:17→12:06:17UTC window permits delivery and25fight
+smoke checks only, not further optimization. Frozen numerical sources/old ledgers must
+remain untouched. Do not restart completed studies or treat automated continuations as
+runtime extensions. DS/Ruin/Destruction and the remaining classes/tanks still need their
+own verified work. Exact current checks and remaining scope are at the top ofcontext.md;
+the earlier chronological recovery notes below are historical, not current blockers.
+
 ## October21 — approved Affliction JSON-only correction
 
 Completed owner76912/child27452, runcc4b93fd-0e72-47e8-873d-4eee893de7c2, TERMINAL0. All19real
@@ -4453,6 +4507,13 @@ reused as intended; independent validation remains separate. Check `context.md` 
 status command for the current run rather than relying on this historical launch note.
 
 ## Shared raid-wide UI defaults
+
+The full-v2 numerical follow-through is now measured and independently replayed:
+`docs/simulator-full-raid-recheck-2026-10-21.md`. All15existing standard builds have paired
+20k/scenario comparisons (600000fights total) and30detailed native/WASM controls. These
+use inspected seeds and cannot replace a fresh optimized/public qualification. The
+new private full-buff/Affliction request adapters use the exact deployed JSON on all3
+protobuf buff owners; old seven-buff numerical helpers remain immutable.
 
 October21 correction: the current contract is
 `infra/simulator/raid-buff-defaults.v2.json`, applied as `raidDefaults=full-v2` to all

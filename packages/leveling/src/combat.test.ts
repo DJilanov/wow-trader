@@ -21,6 +21,7 @@ import { parseGuideChapter } from "./guide-archive.js";
 import { forecastCampaignXp } from "./campaign-xp.js";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
+import { CHAPTER_REFERENCES } from "./chapter-data.js";
 
 const npc: CombatNpc = {
   id: 114,
@@ -493,6 +494,99 @@ describe("quest combat binding and overlap", () => {
       resolveCombatObjectives(guide.steps[0]!.directives, references, "test")[0],
     ).toMatchObject({ credit: "non-combat", npcIds: [], requiredKills: null });
   });
+  it("does not model vendor purchases as creature drops or invented kill XP", () => {
+    const guide = parseGuideChapter(
+      "step\n* Buy [Meat] from him\n.complete 300001,1 --Collect Meat (x8)\n.target Harvest Watcher",
+      "chapter-test",
+      "a".repeat(64),
+      70205,
+    );
+    const references = indexCombatReferences({
+      ...data,
+      quests: [
+        {
+          ...data.quests[0]!,
+          creatureIds: [],
+          itemCreatureIds: [114],
+          onlyCreatureObjectives: false,
+          itemObjectives: [
+            {
+              itemId: 750,
+              quantity: 8,
+              objectiveIndex: 1,
+              npcIds: [114],
+              sharing: "unknown",
+              vendorEvidence: {
+                npcIds: [114],
+                sourceUrl: "https://example.test/item=750",
+                sourceSha256: "a".repeat(64),
+                capturedAt: "2026-10-21T00:00:00.000Z",
+              },
+            },
+          ],
+        },
+      ],
+    });
+    const objectives = resolveCombatObjectives(guide.steps[0]!.directives, references, "test");
+    expect(objectives[0]).toMatchObject({ credit: "non-combat", npcIds: [], requiredKills: null });
+    expect(objectives[0]!.loot).toBeUndefined();
+    const combat = {
+      revision: "test",
+      sourceRevision: "a".repeat(40),
+      targetBuild: 70205,
+      npcs: data.npcs,
+      activities: [],
+      notice: null,
+    };
+    expect(
+      applyCampaignCombat({
+        activity: activity("purchase", objectives),
+        combat,
+        state: createCampaignCombatState(combat, emptyPremadeProgress().members[0]!),
+        questStates: { "300001": "accepted" },
+        position: { level: 1, currentXp: 0 },
+        partySize: 1,
+      }),
+    ).toEqual({ xp: 0, rows: [], issues: [] });
+  });
+  it("preserves a separate kill objective beside a purchase in the same quest step", () => {
+    const guide = parseGuideChapter(
+      "step\n.complete 300001,1 --Kill Harvest Watcher (x10)\n.mob Harvest Watcher\n* Buy [Meat] from him\n.complete 300001,2 --Collect Meat (x8)\n.target Test Merchant",
+      "chapter-test",
+      "a".repeat(64),
+      70205,
+    );
+    const references = indexCombatReferences({
+      ...data,
+      npcs: [...data.npcs, { ...npc, id: 1247, name: "Test Merchant" }],
+      quests: [
+        {
+          ...data.quests[0]!,
+          onlyCreatureObjectives: false,
+          itemObjectives: [
+            {
+              itemId: 750,
+              quantity: 8,
+              objectiveIndex: 2,
+              npcIds: [1247],
+              sharing: "unknown",
+              vendorEvidence: {
+                npcIds: [1247],
+                sourceUrl: "https://example.test/item=750",
+                sourceSha256: "a".repeat(64),
+                capturedAt: "2026-10-21T00:00:00.000Z",
+              },
+            },
+          ],
+        },
+      ],
+    });
+    const objectives = resolveCombatObjectives(guide.steps[0]!.directives, references, "test");
+    expect(objectives).toMatchObject([
+      { objectiveIndex: 1, credit: "shared-kills", npcIds: [114], requiredKills: 10 },
+      { objectiveIndex: 2, credit: "non-combat", npcIds: [], requiredKills: null },
+    ]);
+  });
   it("recovers omitted guide quotas from explicit corrected objective text", () => {
     const guide = parseGuideChapter(
       "step\n.complete 300001,1\n.mob Harvest Watcher",
@@ -764,6 +858,85 @@ describe("automatic campaign combat", () => {
       },
     };
   }
+  it.each(["dwarf", "human"] as const)(
+    "resolves a version-matched XP-rate-gated source selected for %s",
+    (race) => {
+      const reference = CHAPTER_REFERENCES.find(
+        (entry) => entry.id === "chapter-123-6-11-dun-morogh-hunter",
+      )!;
+      const guide = parseGuideChapter(
+        "step << Hunter\n.group 5\n.complete 300001,1 --Kill Harvest Watcher (x10)\n.mob Harvest Watcher",
+        reference.id,
+        "a".repeat(64),
+        70205,
+      );
+      const raw = route();
+      const actions = raw.actions.map((action) =>
+        action.id === "step-1"
+          ? {
+              ...action,
+              source: {
+                chapterId: reference.id,
+                version: guide.version,
+                stepId: guide.steps[0]!.id,
+              },
+            }
+          : action,
+      );
+      const attached = attachCampaignCombat(
+        { ...raw, race, leaderClass: "hunter", actions },
+        [{ reference, guide }],
+        data,
+        "test",
+      );
+      expect(attached.combat!.activities[0]!.objectives).toMatchObject([
+        {
+          questId: 300001,
+          objectiveIndex: 1,
+          credit: "shared-kills",
+          npcIds: [114],
+          requiredKills: 10,
+        },
+      ]);
+    },
+  );
+  it("does not borrow a different source version or bypass a step's race condition", () => {
+    const reference = CHAPTER_REFERENCES.find(
+      (entry) => entry.id === "chapter-123-6-11-dun-morogh-hunter",
+    )!;
+    for (const [condition, stale] of [
+      ["Hunter", true],
+      ["Dwarf", false],
+    ] as const) {
+      const guide = parseGuideChapter(
+        `step << ${condition}\n.complete 300001,1 --Kill Harvest Watcher (x10)\n.mob Harvest Watcher`,
+        reference.id,
+        "a".repeat(64),
+        70205,
+      );
+      const raw = route();
+      const actions = raw.actions.map((action) =>
+        action.id === "step-1"
+          ? {
+              ...action,
+              source: {
+                chapterId: reference.id,
+                version: guide.version + (stale ? "-stale" : ""),
+                stepId: guide.steps[0]!.id,
+              },
+            }
+          : action,
+      );
+      const attached = attachCampaignCombat(
+        { ...raw, race: "human", leaderClass: "hunter", actions },
+        [{ reference, guide }],
+        data,
+        "test",
+      );
+      expect(attached.combat!.activities[0]!.objectives[0]!.credit).toBe("unknown");
+      expect(attached.combat!.activities[0]!.objectives[0]!.requiredKills).toBeNull();
+    }
+  });
   it("includes required kills before hand-in and keeps each player's full quest reward", () => {
     const progress = emptyPremadeProgress();
     const party = {

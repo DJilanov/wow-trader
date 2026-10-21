@@ -42,15 +42,14 @@ export function resolveCombatQuota(
   if (drops.length !== 1)
     return { kills: null, reason: "A unique compatible drop probability is missing." };
   const drop = drops[0]!;
-  if (
-    drop.probabilityBasis === "sample-ratio" &&
-    ((drop.minimumQuantity !== null && drop.minimumQuantity !== 1) ||
-      (drop.maximumQuantity !== null && drop.maximumQuantity !== 1) ||
-      drop.quantityDistribution?.some((entry) => entry.percent > 0 && entry.quantity !== 1))
-  )
+  const singleItemDrops = drop.quantityDistribution
+    ? drop.quantityDistribution.every((entry) => entry.percent === 0 || entry.quantity === 1)
+    : drop.minimumQuantity === 1 && drop.maximumQuantity === 1;
+  if (drop.probabilityBasis === "sample-ratio" && !singleItemDrops)
     return {
       kills: null,
-      reason: "Sample item counts do not establish a per-kill probability for multi-item drops.",
+      reason:
+        "Sample item counts do not establish a per-kill probability for unknown or multi-item drops.",
     };
   if (drop.sourceBuild != null && drop.sourceBuild !== combat.targetBuild)
     return { kills: null, reason: "The drop reference was captured for a different client build." };

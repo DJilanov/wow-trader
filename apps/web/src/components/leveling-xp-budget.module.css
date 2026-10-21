@@ -111,6 +111,13 @@
 .rewards li {
   margin: 0.75rem 0;
 }
+.projectionRow > strong,
+.projectionRow > span {
+  display: block;
+}
+.projectionRow > span {
+  margin-top: 0.25rem;
+}
 .rewards {
   overflow-wrap: anywhere;
 }

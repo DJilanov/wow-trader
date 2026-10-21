@@ -2,6 +2,112 @@
 
 Last updated: 2026-10-21
 
+## October21 — isolated Priest catalog/set fix and supervised first-pass preparation
+
+The A4database omitted8current Priest PvP blues; its legacy name-based Champion's
+Raiment bonus was15spell-damage/44healing instead of current23SpellPower. New isolated
+modelbbbde15964092df1ecbf1dec imports the8raw-client/vendor-verified records and an
+explicit ID549set definition, including20Stamina at6pieces. Native0–6piece ComputeStats,
+GreaterMageblood20MP5 and compiled native/WASM checks pass without changing old models
+or relabeling historical results. The other32missing class-specific blues remain backlog.
+
+New Shadow request/control/search tools use genuine class5frames, complete source pins,
+retained raw target responses and checksummed control evidence. Controls and blue search
+share one supervised talents-rotation owner; this prevents spending a successful phase
+on capture then requiring a different command for that same phase. The actual first
+dispatch starts the shared Priest24hclock; preparation did not.8structural/ranking tests,
+scoped lint/format and zero-job preflight pass. All-slot optimization/confirmation and
+real UI/guidance still follow; no final Priest BiS or global16-debuff enforcement claim.
+Affliction delivery is complete locally and no expired Warlock window is reused.
+
+## October21 — qualified Affliction delivery and strict multi-spec reader
+
+The capacity-resilient local pipeline completed its real feedback, independent40k
+confirmation and selected10k native/WASM parity within the approved four-hour window.
+Affliction is747.6164modeled DPS,30/0/21, with a0.6766%conservative retained gap; both
+1% and2% checks pass. The same incumbent was retained before/after holdouts. No global
+optimum or live-mechanics validation is claimed.
+
+The user separately approved30delivery-only minutes,11:36:17→12:06:17UTC. No new search
+was launched. Actual preset/configuration/gear/rotation-guide delivery is selected locally
+as2e4bfb0b779559053237eb6f, retaining Demonology and the other16existing cases unchanged.
+Both Warlock builds pass desktop/mobile main-page Simulate, reload, exact full settings,
+item tooltips, rotation instructions and one global scroller. Staged smoke results match
+native at25fights. Production, original class ledger and frozen numerical sources are
+unchanged; DS/Ruin/Destruction are still starters, not falsely approved builds.
+
+The new pinned Affliction web reader validates authentic source hashes, full-v2 buffs,
+confirmation math/request identities and source parity. The profile reader admits only
+the exact new two-spec schema with corresponding browser proof, preserving old one-spec
+delivery. Source-file size exceptions name only the three audited immutable Affliction
+results. New23reader/17profile regressions pass. One initial5s profile-fixture I/O timeout
+was corrected to an explicit15s integration limit without weakening assertions. Full web
+suite now passes907tests/116files serially; its first two-worker run had one pre-existing
+Mage-v3 fixture5s timeout during the concurrent build, with no changed Mage assertions.
+Strict tsc, scoped lint/format, diff checks and isolated Next production build all pass.
+Completed local-delivery marker283908b912ec3a09 preserves the qualified/export/browser
+links without rewriting the earlier numerical pipeline's finished history. Handoff
+identities and the next eligible caster work are maintained at the top ofcontext.md.
+
+## October21 — approved Warlock extension, full-buff provider guard and capacity-resilient calculations
+
+The human reply "extend and finish it" approved one shared additional06:53:06→10:53:06UTC
+window. Separate supervisor and child checks preserve the original24h ledger byte-for-
+byte and enforce the same new hard deadline. No per-spec clock resets.
+
+Eight actual full-buff Affliction native/browser controls matched, but the old metric
+normalizer wrongly rejected two spell11767 aura rows. The pinned engine intentionally
+registers external and pet-owned Blood Pact as distinct exclusive providers sharing an
+ActionID. The new validator retains and compares both complete rows, rejects other
+unexpected duplicates, and keeps the full player/pet/resource/range checks. Eight real
+raw-control/negative regressions pass. A separate V3 gear continuation reuses the exact
+saved control report; no capture, request, metric or frozen old source was rewritten.
+
+The one-shot local Affliction pipeline now watches the existing gear owner, then chains
+supervised geared talent/APL feedback, fresh confirmation and selected-parity/qualified
+export. This lets calculations progress through a model-service capacity interruption;
+it does not bypass OpenAI capacity or auto-publish failed/unreviewed results. Logs and
+state remain private, and any phase failure preserves checkpoints for diagnosis.
+
+Unexecuted state-screening requests share verified full-buff option frames so all six
+workers can run. Actual native-effective-wire equivalence is tested at80/500/2000/10000/
+20000 iterations; final10k and holdout identities remain fully materialized and unchanged.
+At07:52 both gear measurement sweeps finished21973new evaluations/2896280fights; internal
+replay remains active. This is not completed feedback, qualification, UI delivery or
+global BiS. Current process handles, deadline and handoff steps are at the top ofcontext.md.
+
+## October21 — full-buff Affliction gear path prepared without exceeding the class budget
+
+Separate V2 seed/parity/gear-runner/strict-reader modules are implemented. They do not
+rename the old blue evidence as full-buff data. All17slots/25groups/10451unique gear
+proposals and8control definitions pass actual-source preflight (96old stages/103592origins,
+zero new fights). Eight final construction/negative tests and scoped lint pass, including
+rejection of missing Kings and misleading legacy/full-buff profile/declaration labels.
+
+No gear simulation or new Affliction combat control was launched. The original Warlock
+window expired06:24:18UTC; actual CLI negative verification refuses new dispatch and
+leaves the budget ledger unchanged. Requested up-to4h extension remains unapproved;
+an automated goal continuation is not owner consent. Preserve all old ledgers/checkpoints.
+See context.md and the real preflight receipt under optimization/reviews/
+affliction-full-raid-gear-preflight-20261021-064101.json. Global work is not complete.
+
+## October21 — numerical full-raid follow-through completed, not new BiS
+
+All15existing standard DPS builds were measured with the same deployed full-v2 JSON:
+60genuine scalar origins/600000fights, plus30native/rawWASM full player/pet/resource
+controls. Independent raw-origin replay and4negative/qualification regression tests
+pass. Four shared full-buff wire tests and4actual-data Affliction adapter tests pass too.
+The new adapter fixes the numerical side's missing individual Kings/Might/Wisdom by
+changing only the3proper buff owners, never the declared class or unrelated settings.
+
+Report: docs/simulator-full-raid-recheck-2026-10-21.md; immutable measured summary:
+optimization/raid-full-recheck-v2/comparison.json, semanticSHA
+f52e3c0d92e1f7129e8902fbdbe1626178371239417b0d7264507052ebc54c57.
+Historical/public DPS was not overwritten. Fixed-gear comparisons are not fresh holdouts
+or a new gear/talent/APL feedback qualification. No native workers remain. Warlock's
+original deadline and all completed/frozen source evidence are preserved; a new bounded
+window is required for unfinished full-buff optimization, not an automatic clock reset.
+
 ## October21 — full raid-support default correction
 
 The old seven-buff overlay omitted individual Kings/Might/Wisdom and selected regular

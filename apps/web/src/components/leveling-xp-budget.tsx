@@ -124,10 +124,10 @@ export function LevelingRewardStatus({ plan }: { readonly plan: CampaignPlan }):
           : " Current-client identity evidence is unavailable."}
       </p>
       <p>
-        Route under validation. Dungeon entry levels are targets, not guaranteed chapter gains.
-        Five-player planning credits 1/5 of solo kill XP per player, while each player keeps the
-        full eligible quest reward. Outdoor combat uses a historical estimate, not a confirmed
-        Forever payout. Unmeasured combat is excluded, not assumed to fill a gap.
+        Planning guide with explicit assumptions, not a playtest certification. Group kill XP uses
+        level-weighted shares (1/5 for equal-level members), while each player keeps the full
+        eligible quest reward. Historical combat estimates may support planning; unresolved combat
+        is excluded, not assumed to fill a gap. Measurements are optional refinements.
       </p>
       {plan.combat && (
         <details>
@@ -141,6 +141,12 @@ export function LevelingRewardStatus({ plan }: { readonly plan: CampaignPlan }):
             objective steps have reconciled kill quotas. Source revision{" "}
             {plan.combat.sourceRevision.slice(0, 12)}. Collection drops and current dungeon tuning
             remain separate.
+          </p>
+          <p>
+            Dungeon-clear profiles are optional: they add sourced extra trash/boss kills, not
+            permission to plan dungeon quests. Known compatible quest kills count once; unknown
+            additional dungeon XP remains excluded. Group Loot is the party setting, not a blanket
+            quest-item sharing rule.
           </p>
           {plan.combat.notice && <p>{plan.combat.notice}</p>}
         </details>
@@ -301,7 +307,10 @@ export function LevelingChapterBudget({
               {dungeonRows.some((row) => row.xp !== null)
                 ? xpRange(relevant.map((member) => member.dungeonCombatXp))
                 : "Unmeasured"}
-              <small>Requires a sourced clear path and current tuning; no flat level bonus</small>
+              <small>
+                Compatible quest kills count once. Extra clear-path XP is optional and excluded
+                without sourced counts and tuning; no flat level bonus.
+              </small>
             </dd>
           </div>
           <div>
@@ -352,8 +361,8 @@ export function LevelingChapterBudget({
           </p>
         )}
         <p>
-          Combat planning: 1/5 solo kill XP per member. Shared kills are counted once, not five
-          times. Fast camp clears improve time, not reward amounts.
+          Combat planning: level-weighted shares, or 1/5 for equal-level members. Shared kills are
+          counted once, not five times. Fast camp clears improve time, not reward amounts.
         </p>
         <small>
           Gap equivalent at your observed pace:{" "}
@@ -435,7 +444,7 @@ export function LevelingXpBudget({
                         {member.outdoorCombatXp.toLocaleString("en-US")} outdoor ·{" "}
                         {member.dungeonCombatXp.toLocaleString("en-US")} dungeon
                       </small>
-                      <small>Reference estimate; unmeasured kills excluded</small>
+                      <small>Estimates are labeled; unresolved kills are excluded</small>
                     </td>
                     <td>
                       {bar(member.endpoint)}
@@ -443,7 +452,9 @@ export function LevelingXpBudget({
                         {member.status === "blocked"
                           ? "Blocked before completion; later rewards excluded"
                           : member.status === "incomplete"
-                            ? "Incomplete scenario, not a validated exit"
+                            ? member.endpoint === null
+                              ? "Outcome unresolved; inspect missing inputs"
+                              : "Planning subtotal; evidence remains unverified"
                             : member.status === "before-start"
                               ? "Before the forecast starting step"
                               : member.status === "no-start"

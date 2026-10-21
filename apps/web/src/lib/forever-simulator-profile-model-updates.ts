@@ -24,6 +24,10 @@ import {
   readFreshDemonologySimulatorBuild,
 } from "./forever-simulator-fresh-demonology";
 import {
+  afflictionModelEntrySchema,
+  readFreshAfflictionSimulatorBuild,
+} from "./forever-simulator-fresh-affliction";
+import {
   raidFeralModelEntrySchema,
   readRaidFeralSimulatorBuild,
 } from "./forever-simulator-raid-feral";
@@ -125,14 +129,24 @@ const balanceProofSchema = z
     builds: z.tuple([greaterBalanceModelEntrySchema]),
   })
   .strict();
-const warlockProofSchema = z
-  .object({
-    ...proofFields,
-    schema: z.literal("kfc-simulator-profile-model-update.warlock.v1"),
-    profile: z.literal("warlock"),
-    builds: z.tuple([demonologyModelEntrySchema]),
-  })
-  .strict();
+const warlockProofSchema = z.union([
+  z
+    .object({
+      ...proofFields,
+      schema: z.literal("kfc-simulator-profile-model-update.warlock.v1"),
+      profile: z.literal("warlock"),
+      builds: z.tuple([demonologyModelEntrySchema]),
+    })
+    .strict(),
+  z
+    .object({
+      ...proofFields,
+      schema: z.literal("kfc-simulator-profile-model-update.warlock.v2"),
+      profile: z.literal("warlock"),
+      builds: z.tuple([demonologyModelEntrySchema, afflictionModelEntrySchema]),
+    })
+    .strict(),
+]);
 const raidFeralProofSchema = z
   .object({
     ...proofFields,
@@ -191,6 +205,7 @@ const browserSchema = z
       "kfc-profile-model-browser.v3",
       "kfc-profile-model-browser.balance.v1",
       "kfc-profile-model-browser.warlock.v1",
+      "kfc-profile-model-browser.warlock.v2",
       "kfc-profile-model-browser.feral-raid.v1",
       "kfc-profile-model-browser.hunter-raid.v1",
     ]),
@@ -298,6 +313,7 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.v3",
       "kfc-simulator-profile-model-update.balance.v1",
       "kfc-simulator-profile-model-update.warlock.v1",
+      "kfc-simulator-profile-model-update.warlock.v2",
       "kfc-simulator-profile-model-update.feral-raid.v1",
       "kfc-simulator-profile-model-update.hunter-raid.v1",
     ].includes(z.object({ schema: z.string() }).parse(raw.value).schema)
@@ -432,39 +448,48 @@ export async function readSimulatorProfileModelUpdate(
         // Larger allowances apply only to these already-replayed immutable study results.
         const limit =
             path ===
-              "optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/result-0ab3f5d4eaee0deb.json" ||
-            path ===
-              "optimization/bounded-native-studies/bdc3c471e76b456217155cf050d331f0fc7137ed0e4def311bb3de3716dc9d38/result-d1de1e63af9ddf0e.json"
-              ? 48_000_000
+            "optimization/bounded-native-studies/764404e8248b94f6e9426ffa9b70e64f67f90c6606c3902858197fd2bcd4c86c/result-538b27f2a952a950.json"
+              ? 24_000_000
               : path ===
-                  "optimization/bounded-native-studies/aa0fdcb74c74b8d7dff34c3308cc710188600e6883a2a6bebdb0e84612484b00/result-658d7909096cef89.json"
-                ? 16_000_000
+                  "optimization/bounded-native-studies/13c0c0f5b6bb6ed56fab585bbef64ef1539e7d19e2a04d9abfd8632d5ba11674/result-8b3cfae2b00019a5.json"
+                ? 32_000_000
                 : path ===
-                    "optimization/bounded-native-studies/8b54f815b9081267376b03f5dc815e879bb8dc7af0665ebab06f900272a619e6/result-b5ff24f59ee30e54.json"
-                  ? 48_000_000
+                    "optimization/bounded-native-studies/0f24b12bcfc52c5b9f3e50592177cc56f84dceaf4c4b023a3901e2cbf00c39a5/result-52535fb7bed47421.json"
+                  ? 16_000_000
                   : path ===
-                      "optimization/bounded-native-studies/1b8cd38af0234f6f815c773f0007c59a7de6b3421046077b4c6ad09e1401c27d/result-56e2f089fa20f3f3.json"
-                    ? 16_000_000
+                        "optimization/bounded-native-studies/48e23a84fbe19e57cee64b4156f02b0743a91df8584914285c99df9076376da6/result-0ab3f5d4eaee0deb.json" ||
+                      path ===
+                        "optimization/bounded-native-studies/bdc3c471e76b456217155cf050d331f0fc7137ed0e4def311bb3de3716dc9d38/result-d1de1e63af9ddf0e.json"
+                    ? 48_000_000
                     : path ===
-                        "optimization/bounded-native-studies/5d9d1732dd471c3053701b59f7ba0c165a82f2af3729893a372c440b921454a0/result-b660b911c5437803.json"
-                      ? 48_000_000
+                        "optimization/bounded-native-studies/aa0fdcb74c74b8d7dff34c3308cc710188600e6883a2a6bebdb0e84612484b00/result-658d7909096cef89.json"
+                      ? 16_000_000
                       : path ===
-                          "optimization/bounded-native-studies/0633bfe09207ed3589eb2b4861a7ba47f498d170f8c8dce3a860cf78f59ded56/result-a4a5d7bbcaae2034.json"
-                        ? 16_000_000
+                          "optimization/bounded-native-studies/8b54f815b9081267376b03f5dc815e879bb8dc7af0665ebab06f900272a619e6/result-b5ff24f59ee30e54.json"
+                        ? 48_000_000
                         : path ===
-                            "optimization/bounded-native-studies/aed586fd81fa3d1586fa898d07d573d8848a9cbe982ff05ee925090aceac760d/result-049dcd0fd6f6f58b.json"
-                          ? 32_000_000
+                            "optimization/bounded-native-studies/1b8cd38af0234f6f815c773f0007c59a7de6b3421046077b4c6ad09e1401c27d/result-56e2f089fa20f3f3.json"
+                          ? 16_000_000
                           : path ===
-                              "optimization/bounded-native-studies/d752a04ead822dc7511ca82909e24a96fe6df07fa7ecd9c0c0eeb20e5f597dba/result-1427f90944b15ba2.json"
-                            ? 16_000_000
+                              "optimization/bounded-native-studies/5d9d1732dd471c3053701b59f7ba0c165a82f2af3729893a372c440b921454a0/result-b660b911c5437803.json"
+                            ? 48_000_000
                             : path ===
-                                  "optimization/bounded-native-studies/00186ca37797b13afb6c90a40df1a1304c8562b3a825868509c016365c84c6bd/result-89141bf23de4429e.json" ||
-                                path ===
-                                  "optimization/bounded-native-studies/a4a2975e0f448713c92d3150bf745b43af152ba1056002252f0ed8ebad2776dd/result-4770f7c11586c018.json" ||
-                                path ===
-                                  "optimization/bounded-native-studies/986daa45ffaa7babdeecf7db1665dca762570958794e6d3228396186167ec302/result-7f6818720cf72276.json"
+                                "optimization/bounded-native-studies/0633bfe09207ed3589eb2b4861a7ba47f498d170f8c8dce3a860cf78f59ded56/result-a4a5d7bbcaae2034.json"
                               ? 16_000_000
-                              : 8_000_000,
+                              : path ===
+                                  "optimization/bounded-native-studies/aed586fd81fa3d1586fa898d07d573d8848a9cbe982ff05ee925090aceac760d/result-049dcd0fd6f6f58b.json"
+                                ? 32_000_000
+                                : path ===
+                                    "optimization/bounded-native-studies/d752a04ead822dc7511ca82909e24a96fe6df07fa7ecd9c0c0eeb20e5f597dba/result-1427f90944b15ba2.json"
+                                  ? 16_000_000
+                                  : path ===
+                                        "optimization/bounded-native-studies/00186ca37797b13afb6c90a40df1a1304c8562b3a825868509c016365c84c6bd/result-89141bf23de4429e.json" ||
+                                      path ===
+                                        "optimization/bounded-native-studies/a4a2975e0f448713c92d3150bf745b43af152ba1056002252f0ed8ebad2776dd/result-4770f7c11586c018.json" ||
+                                      path ===
+                                        "optimization/bounded-native-studies/986daa45ffaa7babdeecf7db1665dca762570958794e6d3228396186167ec302/result-7f6818720cf72276.json"
+                                    ? 16_000_000
+                                    : 8_000_000,
           value = await document(directory, path, limit);
         if (ref.byteSha256)
           requireMatch(ref.byteSha256 === value.sha256, "Profile source byte checksum changed");
@@ -480,11 +505,13 @@ export async function readSimulatorProfileModelUpdate(
             ? await readFreshArcaneSimulatorBuild(entry, options)
             : entry.id === "warlock-demonology-static"
               ? await readFreshDemonologySimulatorBuild(entry, options)
-              : entry.id === "feral-cat-static"
-                ? await readRaidFeralSimulatorBuild(entry, options)
-                : entry.profile === "hunter"
-                  ? await readRaidHunterSimulatorBuild(entry, options)
-                  : await readFreshGreaterBalanceSimulatorBuild(entry, options);
+              : entry.id === "warlock-affliction-static"
+                ? await readFreshAfflictionSimulatorBuild(entry, options)
+                : entry.id === "feral-cat-static"
+                  ? await readRaidFeralSimulatorBuild(entry, options)
+                  : entry.profile === "hunter"
+                    ? await readRaidHunterSimulatorBuild(entry, options)
+                    : await readFreshGreaterBalanceSimulatorBuild(entry, options);
     const player = z.record(z.string(), z.unknown()).parse(build.settings.player);
     requireMatch(
       proof.presets.some(
@@ -517,15 +544,17 @@ export async function readSimulatorProfileModelUpdate(
           ? "kfc-profile-model-browser.hunter-raid.v1"
           : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
             ? "kfc-profile-model-browser.feral-raid.v1"
-            : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
-              ? "kfc-profile-model-browser.warlock.v1"
-              : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
-                ? "kfc-profile-model-browser.balance.v1"
-                : proof.schema === "kfc-simulator-profile-model-update.v1"
-                  ? "kfc-profile-model-browser.v1"
-                  : proof.schema === "kfc-simulator-profile-model-update.v2"
-                    ? "kfc-profile-model-browser.v2"
-                    : "kfc-profile-model-browser.v3"),
+            : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
+              ? "kfc-profile-model-browser.warlock.v2"
+              : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
+                ? "kfc-profile-model-browser.warlock.v1"
+                : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
+                  ? "kfc-profile-model-browser.balance.v1"
+                  : proof.schema === "kfc-simulator-profile-model-update.v1"
+                    ? "kfc-profile-model-browser.v1"
+                    : proof.schema === "kfc-simulator-profile-model-update.v2"
+                      ? "kfc-profile-model-browser.v2"
+                      : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -540,6 +569,7 @@ export async function readSimulatorProfileModelUpdate(
                 "mage-arcane-static",
                 "balance-static",
                 "warlock-demonology-static",
+                "warlock-affliction-static",
                 "feral-cat-static",
                 "hunter-beast-mastery-static",
                 "hunter-marksmanship-static",
@@ -563,6 +593,7 @@ export async function readSimulatorProfileModelUpdate(
                 "mage-arcane-static",
                 "balance-static",
                 "warlock-demonology-static",
+                "warlock-affliction-static",
                 "feral-cat-static",
                 "hunter-beast-mastery-static",
                 "hunter-marksmanship-static",

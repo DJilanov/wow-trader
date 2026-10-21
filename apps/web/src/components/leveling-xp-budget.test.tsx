@@ -61,5 +61,7 @@ describe("starter zone XP presentation", () => {
     expect(markup).toContain("Continue from actual XP");
     expect(markup).toContain("the chapter range is not a grind target");
     expect(markup).not.toContain("Level 6");
+    expect(markup).toContain("Extra clear-path XP is optional and excluded");
+    expect(markup).not.toContain("Requires a sourced clear path and current tuning");
   });
 });

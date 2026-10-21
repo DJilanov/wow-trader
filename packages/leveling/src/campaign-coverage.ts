@@ -52,6 +52,95 @@ export function campaignCoverageReady(
   );
 }
 
+export const CAMPAIGN_PLANNING_REVISION = "continuous-planning-20261021-v1";
+
+export interface CampaignPlanningReadiness {
+  readonly ready: boolean;
+  readonly status: "ready" | "ready-with-estimates" | "blocked";
+  readonly blockingSectionIds: readonly string[];
+  readonly estimatedSectionIds: readonly string[];
+  readonly reason: string | null;
+}
+
+/** Continuous planning feasibility, not publication permission or measured route certification. */
+export function campaignPlanningReadiness(
+  chapters: readonly CampaignSectionCoverage[],
+  cumulative: readonly CampaignXpSectionForecast[],
+): CampaignPlanningReadiness {
+  const blocked = (reason: string): CampaignPlanningReadiness => ({
+    ready: false,
+    status: "blocked",
+    blockingSectionIds: [],
+    estimatedSectionIds: [],
+    reason,
+  });
+  const chapterIds = new Set(chapters.map((chapter) => chapter.sectionId));
+  const sectionIds = new Set(cumulative.map((section) => section.sectionId));
+  if (
+    chapters.length === 0 ||
+    chapterIds.size !== chapters.length ||
+    sectionIds.size !== cumulative.length ||
+    chapterIds.size !== sectionIds.size ||
+    chapters.some((chapter, index) => chapter.sectionId !== cumulative[index]?.sectionId)
+  )
+    return blocked("A complete, uniquely identified continuous route forecast is required.");
+
+  const byId = new Map(cumulative.map((section) => [section.sectionId, section]));
+  const blockingSectionIds: string[] = [];
+  const estimatedSectionIds: string[] = [];
+  for (const chapter of chapters) {
+    const section = byId.get(chapter.sectionId)!;
+    const members = chapter.audience === "leader" ? section.members.slice(0, 1) : section.members;
+    const expectedPlayers = chapter.audience === "leader" ? [1] : [1, 2, 3, 4, 5];
+    if (
+      members.length !== expectedPlayers.length ||
+      members.some(
+        (member, index) =>
+          member.player !== expectedPlayers[index] ||
+          member.endpoint === null ||
+          member.residualXp === null ||
+          member.residualXp > 0 ||
+          member.blockedReason !== null ||
+          ["blocked", "shortfall", "no-start", "before-start"].includes(member.status) ||
+          member.issues.some((issue) => issue.blocksForecast) ||
+          member.checkpoints.some((checkpoint) => !checkpoint.ready),
+      )
+    )
+      blockingSectionIds.push(chapter.sectionId);
+    if (
+      members.some(
+        (member) =>
+          member.status === "incomplete" ||
+          member.issues.length > 0 ||
+          member.inheritedIssueCount > 0 ||
+          member.estimatedQuestXp > 0 ||
+          member.estimatedCombatXp > 0 ||
+          member.combatRows.some((row) => row.basis !== "observed" && row.basis !== "excluded"),
+      )
+    )
+      estimatedSectionIds.push(chapter.sectionId);
+  }
+  const finish = cumulative.at(-1)!;
+  if (
+    finish.members.length !== 5 ||
+    finish.members.some(
+      (member, index) => member.player !== index + 1 || member.endpoint?.level !== 60,
+    )
+  ) {
+    if (!blockingSectionIds.includes(finish.sectionId)) blockingSectionIds.push(finish.sectionId);
+  }
+  const ready = blockingSectionIds.length === 0;
+  return {
+    ready,
+    status: ready ? (estimatedSectionIds.length ? "ready-with-estimates" : "ready") : "blocked",
+    blockingSectionIds,
+    estimatedSectionIds,
+    reason: ready
+      ? null
+      : "The continuous known-input forecast has an unmet requirement, missing player bar, XP gap or unsupported level-60 finish.",
+  };
+}
+
 // Independent authoring diagnostics assume earlier actions, not a playable continuous journey.
 export function auditCampaignSections(
   plan: CampaignPlan,

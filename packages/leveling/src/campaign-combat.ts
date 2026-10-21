@@ -15,12 +15,14 @@ import {
   type CombatXpPosition,
 } from "./combat-xp.js";
 import { getPremadeQuest } from "./premade.js";
-import { createCharacterProfile } from "./profile.js";
+import { createCampaignSourceProfile } from "./campaign-source-profile.js";
 import { getGuideStepView } from "./guide-archive.js";
 import { chapterEligibility } from "./chapter-catalog.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { resolveCombatQuota } from "./combat-loot.js";
 import type { LootScenario, LootKillEstimate } from "./quest-loot.js";
+import { isExplicitVendorPurchase } from "./combat-purchase.js";
+import { nonKillCollectionMethod } from "./combat-nonkill.js";
 
 export interface CombatReferenceIndex {
   readonly npcs: ReadonlyMap<number, CombatNpc>;
@@ -214,6 +216,44 @@ export function resolveCombatObjectives(
           reason:
             "The item is provided at pickup; no additional collection kills are assumed after acceptance.",
         };
+      if (
+        !knownKill &&
+        isExplicitVendorPurchase(directives, offset, counter?.[1], item?.vendorEvidence, npcs)
+      )
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "The source explicitly buys this item from a referenced vendor; no kill XP is attributed to the purchase.",
+        };
+      const nonKillMethod =
+        !knownKill && !conflict && !providerKillHint && item
+          ? nonKillCollectionMethod({
+              directives,
+              offset,
+              questId,
+              item,
+              sourceQuantity: counter ? Number(counter[2]) : null,
+              npcs,
+            })
+          : null;
+      if (nonKillMethod)
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            nonKillMethod === "pickpocket"
+              ? "The source prescribes one successful pickpocket and explicitly avoids fighting this creature; no required kill XP is assumed."
+              : "A matching quest hand-in supplies this single item before collection; no additional item-drop kills are assumed.",
+        };
       const itemMobs = (item?.npcIds ?? quest?.itemCreatureIds ?? []).filter((id) =>
         sourceMobs.includes(targetName(npcs.get(id)?.name ?? "")),
       );
@@ -274,11 +314,23 @@ export function attachCampaignCombat(
   const byStep = new Map<string, readonly CombatObjective[]>();
   const byObjective = new Map<string, CombatObjective[]>();
   const references = indexCombatReferences(dataset);
-  const profile = { ...createCharacterProfile("alliance", plan.race), classSlug: plan.leaderClass };
+  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const selectedSteps = new Set(
+    plan.actions.flatMap((action) =>
+      action.source
+        ? [`${action.source.chapterId}:${action.source.version}:${action.source.stepId}`]
+        : [],
+    ),
+  );
   const dungeons = DUNGEON_VISITS.flatMap((visit) => (visit.sourceTag ? [visit.sourceTag] : []));
   for (const { guide, reference } of sources) {
-    if (chapterEligibility(reference, profile) !== "match") continue;
+    const eligible = chapterEligibility(reference, profile) === "match";
+    if (!eligible && chapterEligibility({ ...reference, defaults: [] }, profile) !== "match")
+      continue;
     for (const step of guide.steps) {
+      // Defaults choose branches; exact planned steps can reuse a source for another supported race.
+      if (!eligible && !selectedSteps.has(`${guide.chapterId}:${guide.version}:${step.id}`))
+        continue;
       const source = `${guide.chapterId}:${step.id}`;
       const view = getGuideStepView(
         {
@@ -292,7 +344,7 @@ export function attachCampaignCombat(
       );
       if (view.condition !== "match") continue;
       const objectives = resolveCombatObjectives(view.directives, references, source);
-      byStep.set(source, objectives);
+      byStep.set(`${guide.chapterId}:${guide.version}:${step.id}`, objectives);
       for (const objective of objectives) {
         const key = combatObjectiveKey(objective),
           entries = byObjective.get(key) ?? [];
@@ -309,7 +361,7 @@ export function attachCampaignCombat(
     if (!completions.length) continue;
     const leg = plan.legs.find((entry) => entry.id === action.legId)!;
     const exact = action.source
-      ? byStep.get(`${action.source.chapterId}:${action.source.stepId}`)
+      ? byStep.get(`${action.source.chapterId}:${action.source.version}:${action.source.stepId}`)
       : undefined;
     const referencesForAction = completions.flatMap((change): readonly CombatObjective[] => {
       const objectiveIndex = change.objectiveIndex ?? 1;
@@ -318,9 +370,9 @@ export function attachCampaignCombat(
         if (reference.length) return reference;
       }
       const candidates = (
-        exact ??
-        byObjective.get(`${change.questId}:${objectiveIndex}`) ??
-        []
+        action.source
+          ? (exact ?? [])
+          : (byObjective.get(`${change.questId}:${objectiveIndex}`) ?? [])
       ).filter(
         (entry) => entry.questId === change.questId && entry.objectiveIndex === objectiveIndex,
       );

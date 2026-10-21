@@ -34,9 +34,15 @@ Named-target evidence establishes observed credit, not guaranteed drops or one-k
 future groups. A current page marked source-ready is not itself an approved in-game observation.
 Missing trusted NPC references also keep named-target evidence unresolved.
 
-## Current recording package
+## Recording package compatibility
 
-Use review.3 for new recordings, not the older review.1/review.2 artifacts:
+October 21 readiness check: **do not use the historical review.3 ZIP for new current-revision
+certification**. It embeds compiler `campaign-addon-20261019-v9`, while the current compiler is
+`campaign-addon-20261021-v18`. Its manifest and ZIP remain unchanged, and no replacement ZIP was
+created or installed. Prepare an approved matching review package only after confirming the actual
+client build/parser versions. See [current package readiness](forever-leveling-addon-review.md#current-recording-readiness).
+
+Historical review.3 receipt:
 
 `artifacts/leveling/campaign-addon-review/kfc-premade5-human-warrior-3589f8e108c94fba/kfc-premade5-human-warrior-3589f8e108c94fba.zip`
 
@@ -54,7 +60,7 @@ also use a separate hash. Non-NPC target names are discarded. Raw SavedVariables
 Legacy exports remain readable, but missing instance/prerequisite data cannot prove those checks,
 and an old compiler cannot certify the current one.
 
-The current recording plan is `artifacts/leveling/evidence/campaign-quest-validation-plan.json`,
+The historical recording plan is `artifacts/leveling/evidence/campaign-quest-validation-plan.json`,
 SHA-256 `bb2357694ecd6e67905d3f825560d1c9b0e423508c6430bec06b422599a1efc7`.
 It contains 112 task/code pairs across 65 quests. Follow the
 [recording and explicit approval procedure](forever-leveling-quest-validation.md).

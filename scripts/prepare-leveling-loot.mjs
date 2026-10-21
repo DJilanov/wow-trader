@@ -214,6 +214,11 @@ const initial = prepareCampaignLootReferences(dataset, questIds, captures, overr
 for (const quest of initial.data.quests)
   if (questIds.has(quest.questId))
     for (const item of quest.itemObjectives ?? []) await capture("item", item.itemId);
+for (const item of [...captures])
+  if (item.kind === "item")
+    for (const relation of item.relations)
+      if (relation.relation === "reward-from" && relation.kind === "quest")
+        await capture("quest", relation.id);
 const prepared = prepareCampaignLootReferences(dataset, questIds, captures, overrides);
 const capturedKeys = new Set(captures.map((capture) => `${capture.kind}:${capture.id}`));
 const outputRoot = join(destination, "combat");
@@ -246,6 +251,7 @@ const report = {
   publication: prepared.data.publication,
   outputCombatSha256: emittedHash,
   queueSha256: hash(JSON.stringify(prepared.queue) + "\n"),
+  refreshQueueSha256: hash(JSON.stringify(prepared.refreshQueue) + "\n"),
   summary: {
     lootQuests: prepared.questIds.length,
     providedItemObjectives: prepared.data.quests.reduce(
@@ -254,6 +260,7 @@ const report = {
     ),
     questsNeedingItemIdentityOrQuantity: prepared.queue.filter((t) => t.kind === "quest").length,
     itemsNeedingDropRates: prepared.queue.filter((t) => t.kind === "item").length,
+    capturedRateRefreshCandidates: prepared.refreshQueue.length,
     quantifiedDrops: prepared.data.lootDrops?.length ?? 0,
     sampleBasedDrops:
       prepared.data.lootDrops?.filter((drop) => drop.probabilityBasis === "sample-ratio").length ??
@@ -276,6 +283,7 @@ const report = {
   cacheErrors,
 };
 await atomicJsonWrite(join(destination, "queue.json"), prepared.queue);
+await atomicJsonWrite(join(destination, "rate-refresh-queue.json"), prepared.refreshQueue);
 await atomicJsonWrite(join(destination, "report.json"), report);
 console.log(
   JSON.stringify({

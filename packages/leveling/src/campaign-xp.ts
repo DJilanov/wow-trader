@@ -39,7 +39,7 @@ import { createQuestValidationCertificateResolver } from "./quest-validation-cer
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
 import type { CampaignXpEvent } from "./campaign-xp-event.js";
 import type { LootScenario } from "./quest-loot.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261021-v15";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261021-v18";
 
 export interface XpPosition {
   readonly level: number;

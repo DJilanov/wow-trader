@@ -294,4 +294,131 @@ describe("missing loot data crawl preparation", () => {
     expect(result.queue).toEqual([]);
     expect(result.reviews).toEqual([]);
   });
+  it("separates captured rate-refresh candidates from non-drop acquisition reviews", () => {
+    const absent = prepareCampaignLootReferences(dataset(), new Set([33]), [quest]);
+    expect(absent.refreshQueue).toEqual([]);
+    const missingRate: LootCapture = {
+      ...item,
+      relations: [
+        {
+          ...item.relations[0]!,
+          dropStatistics: {
+            percent: null,
+            attempts: 100,
+            minimumQuantity: null,
+            maximumQuantity: null,
+          },
+        },
+      ],
+    };
+    const refresh = prepareCampaignLootReferences(dataset(), new Set([33]), [quest, missingRate]);
+    expect(refresh.refreshQueue).toEqual([{ game: "forever", kind: "item", id: 750 }]);
+    const vendor: LootCapture = {
+      ...item,
+      relations: [{ relation: "sold-by", kind: "npc", id: 299 }],
+    };
+    const review = prepareCampaignLootReferences(dataset(), new Set([33]), [quest, vendor]);
+    expect(review.queue).toEqual([{ game: "forever", kind: "item", id: 750 }]);
+    expect(review.refreshQueue).toEqual([]);
+    expect(review.data.quests[0]!.itemObjectives?.[0]?.vendorEvidence).toEqual({
+      npcIds: [299],
+      sourceUrl: vendor.sourceUrl,
+      sourceSha256: vendor.sourceSha256,
+      capturedAt: vendor.capturedAt,
+    });
+  });
+  it("retains corroborated guaranteed rewards with both source provenances", () => {
+    const rewardItem: LootCapture = {
+      ...item,
+      name: "Test Elixir",
+      relations: [
+        { relation: "reward-from", kind: "quest", id: 4041 },
+        { relation: "reward-from", kind: "quest", id: 4041 },
+      ],
+    };
+    const rewardQuest: LootCapture = {
+      ...quest,
+      id: 4041,
+      sourceUrl: "https://www.wowhead.com/forever/quest=4041",
+      sourceSha256: "b".repeat(64),
+      rewards: ["You will receive: Test Elixir"],
+    };
+    const before = JSON.stringify([rewardItem, rewardQuest]);
+    const result = prepareCampaignLootReferences(dataset(), new Set([33]), [
+      quest,
+      rewardItem,
+      rewardQuest,
+    ]);
+    expect(result.data.quests[0]!.itemObjectives?.[0]?.rewardEvidence).toEqual({
+      quests: [
+        {
+          questId: 4041,
+          sourceUrl: rewardQuest.sourceUrl,
+          sourceSha256: rewardQuest.sourceSha256,
+          capturedAt: rewardQuest.capturedAt,
+        },
+      ],
+      sourceUrl: rewardItem.sourceUrl,
+      sourceSha256: rewardItem.sourceSha256,
+      capturedAt: rewardItem.capturedAt,
+    });
+    expect(result.queue).toEqual([{ game: "forever", kind: "item", id: 750 }]);
+    expect(result.refreshQueue).toEqual([]);
+    expect(JSON.stringify([rewardItem, rewardQuest])).toBe(before);
+  });
+  it("does not promote an uncorroborated, choice or mismatched reward to guaranteed acquisition", () => {
+    const rewardItem: LootCapture = {
+      ...item,
+      name: "Test Elixir",
+      relations: [{ relation: "reward-from", kind: "quest", id: 4041 }],
+    };
+    for (const rewards of [
+      undefined,
+      ["You may choose: Test Elixir"],
+      ["You will receive: Test Elixir (2)"],
+      ["You will receive: Other Elixir"],
+    ]) {
+      const result = prepareCampaignLootReferences(dataset(), new Set([33]), [
+        quest,
+        rewardItem,
+        { ...quest, id: 4041, ...(rewards ? { rewards } : {}) },
+      ]);
+      expect(result.data.quests[0]!.itemObjectives?.[0]?.rewardEvidence).toBeUndefined();
+    }
+    expect(
+      prepareCampaignLootReferences(dataset(), new Set([33]), [quest, rewardItem]).data.quests[0]!
+        .itemObjectives?.[0]?.rewardEvidence,
+    ).toBeUndefined();
+  });
+  it("does not retain stale guaranteed-reward attribution when the current capture contradicts it", () => {
+    const original = dataset();
+    original.quests[0]!.itemObjectives = [
+      {
+        itemId: 750,
+        quantity: 1,
+        objectiveIndex: 1,
+        npcIds: [299],
+        sharing: "unknown",
+        rewardEvidence: {
+          quests: [
+            {
+              questId: 4041,
+              sourceUrl: quest.sourceUrl,
+              sourceSha256: quest.sourceSha256,
+              capturedAt: quest.capturedAt,
+            },
+          ],
+          sourceUrl: item.sourceUrl,
+          sourceSha256: item.sourceSha256,
+          capturedAt: item.capturedAt,
+        },
+      },
+    ];
+    const unavailable = prepareCampaignLootReferences(original, new Set([33]), []);
+    expect(unavailable.data.quests[0]!.itemObjectives?.[0]?.rewardEvidence).toEqual(
+      original.quests[0]!.itemObjectives[0]!.rewardEvidence,
+    );
+    const refreshed = prepareCampaignLootReferences(original, new Set([33]), [quest, item]);
+    expect(refreshed.data.quests[0]!.itemObjectives?.[0]?.rewardEvidence).toBeUndefined();
+  });
 });

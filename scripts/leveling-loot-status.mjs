@@ -61,6 +61,21 @@ if (
   new Set(queue.map((task) => `${task.kind}:${task.id}`)).size !== queue.length
 )
   throw Error("Invalid loot queue");
+let refreshCandidates = null;
+if (report.refreshQueueSha256 !== undefined) {
+  const refreshRaw = await bounded(join(root, "rate-refresh-queue.json"), 8_000_000);
+  if (createHash("sha256").update(refreshRaw).digest("hex") !== report.refreshQueueSha256)
+    throw Error("Loot rate-refresh queue checksum mismatch");
+  const refreshQueue = referenceTaskSchema.array().max(10000).parse(JSON.parse(refreshRaw));
+  const pending = new Set(queue.map((task) => `${task.game}:${task.kind}:${task.id}`));
+  const identities = refreshQueue.map((task) => `${task.game}:${task.kind}:${task.id}`);
+  if (
+    new Set(identities).size !== identities.length ||
+    refreshQueue.some((task, index) => task.kind !== "item" || !pending.has(identities[index]))
+  )
+    throw Error("Invalid loot rate-refresh queue");
+  refreshCandidates = refreshQueue.length;
+}
 let captured = 0;
 for (const task of queue) if (await readStagedReference(staging, task)) captured++;
 const drops = dataset.lootDrops ?? [];
@@ -70,6 +85,7 @@ const result = {
   targetBuild: dataset.targetBuild,
   combatSha256: manifest.sha256,
   publication: dataset.publication,
+  refreshCandidates,
   remaining: {
     quests: queue.filter((task) => task.kind === "quest").length,
     items: queue.filter((task) => task.kind === "item").length,
@@ -94,6 +110,7 @@ if (values.human)
       `coverage snapshot: ${result.preparedAt}`,
       `coverage queue:    ${result.remaining.quests} quest(s), ${result.remaining.items} item(s)`,
       `already captured:  ${captured}/${queue.length}; unfetched: ${result.remaining.unfetched}`,
+      `rate refresh:      ${result.refreshCandidates ?? "not prepared"} candidate(s)`,
       `drop references:   ${drops.length} (${result.dropFacts.sampled} sample-based); fixed quantity: ${result.dropFacts.fixedQuantity}`,
       `weighted quantity: ${result.dropFacts.weightedQuantity} drop reference(s)`,
       `unknown quantity:  ${result.dropFacts.unknownQuantity} drop reference(s)`,

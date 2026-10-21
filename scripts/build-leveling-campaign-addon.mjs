@@ -16,10 +16,12 @@ import process from "node:process";
 
 import {
   CAMPAIGN_ADDON_COMPILER_REVISION,
+  CAMPAIGN_XP_REVISION,
   CHAPTER_REFERENCES,
   CAMPAIGN_RACES,
   activeCampaignActions,
   buildCampaignPlan,
+  attachCampaignCombat,
   compileCampaignAddon,
   compileCampaignFunding,
   compileCampaignPickupGates,
@@ -38,6 +40,7 @@ import {
   readPublishedQuestXp,
   readQuestXpIndex,
 } from "../packages/reference-data/dist/index.js";
+import { readAddonCombatReference } from "./leveling-addon-combat.mjs";
 
 const MAXIMUM_MANIFEST_BYTES = 4_000_000;
 const MAXIMUM_CHAPTER_BYTES = 8_000_000;
@@ -66,7 +69,7 @@ function parseArguments(raw) {
     const match = /^--([a-z-]+)=(.+)$/.exec(argument);
     if (!match || values.has(match[1]))
       throw new Error(
-        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--destination=dir --race=race --class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all].",
+        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--combat=dir] [--destination=dir --race=race --class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all].",
       );
     values.set(match[1], match[2]);
   }
@@ -75,6 +78,7 @@ function parseArguments(raw) {
     "rewards",
     "reward-import",
     "reward-evidence",
+    "combat",
     "destination",
     "race",
     "class",
@@ -109,6 +113,7 @@ function parseArguments(raw) {
     rewards: resolve(values.get("rewards")),
     rewardImport: resolve(values.get("reward-import")),
     rewardEvidence: values.has("reward-evidence") ? resolve(values.get("reward-evidence")) : null,
+    combat: values.has("combat") ? resolve(values.get("combat")) : null,
     destination: values.has("destination") ? resolve(values.get("destination")) : null,
     race: values.get("race"),
     leaderClass: values.get("class"),
@@ -138,7 +143,9 @@ async function loadSources(root) {
     if (
       guide.chapterId !== entry.chapterId ||
       guide.sourceSha256 !== entry.sourceSha256 ||
-      guide.targetBuild !== manifest.targetBuild
+      guide.targetBuild !== manifest.targetBuild ||
+      guide.version !== entry.version ||
+      guide.steps.length !== entry.stepCount
     )
       throw new Error(`Guide chapter identity mismatch: ${entry.chapterId}`);
     sources.push({ reference, guide });
@@ -308,15 +315,26 @@ async function main() {
     loadSources(input.archive),
     loadRewardFacts(input.rewards, input.rewardImport, input.rewardEvidence, input.runtimeBuild),
   ]);
+  const combat = await readAddonCombatReference(input.combat, manifest.targetBuild);
+  const combatReference = combat
+    ? {
+        sha256: combat.revision,
+        sourceBuild: combat.data.targetBuild,
+        publication: combat.data.publication,
+      }
+    : null;
   const compileEdition = (race, leaderClass) => {
     const base = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
+    const enriched = combat
+      ? attachCampaignCombat(base, sources, combat.data, combat.revision)
+      : base;
     const plan = compileCampaignFunding(
       compileCampaignPickupGates({
-        ...base,
+        ...enriched,
         rewardFacts: rewards.facts,
         rewardRevision: rewards.revision,
         rewardBuild: rewards.observedIds.length ? input.runtimeBuild : null,
-        rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. This addon package is an in-game review artifact.`,
+        rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. ${combat ? "Combat references fund hypothetical planning only; actual player XP and unverified loot remain held. " : ""}This addon package is an in-game review artifact.`,
       }),
     );
     const progress = { ...emptyPremadeProgress(), raidGoals: input.raidGoals };
@@ -357,12 +375,19 @@ async function main() {
           ).size,
           leaderGuides: artifact.guides.find((guide) => guide.role === "leader")?.names.length ?? 0,
           partyGuides: artifact.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
+          pickupGateQuestIds: [
+            ...new Set(
+              actions.flatMap((action) =>
+                action.pickupQuestId === undefined ? [] : [action.pickupQuestId],
+              ),
+            ),
+          ].sort((left, right) => left - right),
           luaSha256: sha256(artifact.lua),
         };
       });
     });
     process.stdout.write(
-      `${JSON.stringify({ mode: "verify-all", editionCount: editions.length, sourceBuild: manifest.targetBuild, runtimeBuild: input.runtimeBuild, actionRange: { minimum: Math.min(...editions.map((entry) => entry.actions)), maximum: Math.max(...editions.map((entry) => entry.actions)) }, handInRange: { minimum: Math.min(...editions.map((entry) => entry.handIns)), maximum: Math.max(...editions.map((entry) => entry.handIns)) }, editions })}\n`,
+      `${JSON.stringify({ mode: "verify-all", compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION, calculatorRevision: CAMPAIGN_XP_REVISION, editionCount: editions.length, sourceBuild: manifest.targetBuild, runtimeBuild: input.runtimeBuild, combatReference, actionRange: { minimum: Math.min(...editions.map((entry) => entry.actions)), maximum: Math.max(...editions.map((entry) => entry.actions)) }, handInRange: { minimum: Math.min(...editions.map((entry) => entry.handIns)), maximum: Math.max(...editions.map((entry) => entry.handIns)) }, editions })}\n`,
     );
     return;
   }
@@ -384,6 +409,8 @@ async function main() {
   const observerFiles = await loadObserverFiles();
   const semantic = {
     compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+    calculatorRevision: CAMPAIGN_XP_REVISION,
+    combatReference,
     guaranteedDungeonBundles: {
       revision: DUNGEON_BUNDLE_REVISION,
       defaultQuestLevels: DEFAULT_DUNGEON_BUNDLE_LEVELS,

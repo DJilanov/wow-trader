@@ -72,15 +72,6 @@ export function LevelingStepProjection({
         model, not observed XP. No grinding XP is invented to pass a requirement. Saved bars are
         unchanged.
       </p>
-      <p>
-        Totals include only resolved inputs; missing kills can add XP. Page drop rates may not
-        reflect the current build. Shared objective overlap uses deterministic kill-count scenarios,
-        not a joint loot-inventory simulation.
-      </p>
-      <p>
-        Group estimates use level-weighted shares without a party bonus. Other members' levels are
-        held at the objective's starting snapshot; exact server tuning remains unverified.
-      </p>
       {!plan.combat && (
         <p>
           Combat references are unavailable here. Kill XP is missing, not zero; a quest-only
@@ -96,7 +87,10 @@ export function LevelingStepProjection({
       ) : (
         <ul className={styles.rewards}>
           {rows.map((row, index) => (
-            <li key={`${row.player}-${row.questId}-${row.phase}-${index}`}>
+            <li
+              key={`${row.player}-${row.questId}-${row.phase}-${index}`}
+              className={styles.projectionRow}
+            >
               <strong>
                 Player {row.player} · {row.title} ·{" "}
                 {row.phase === "rewarded"
@@ -127,6 +121,23 @@ export function LevelingStepProjection({
           ))}
         </ul>
       )}
+      <details data-combat-assumptions="true">
+        <summary>Model assumptions and optional refinements</summary>
+        <p>
+          Totals include only resolved inputs; missing kills can add XP. Page drop rates may not
+          reflect the current build. Shared objective overlap uses deterministic kill-count
+          scenarios, not a joint loot-inventory simulation.
+        </p>
+        <p>
+          Group estimates use level-weighted shares without a party bonus. Other members' levels are
+          held at the objective's starting snapshot; exact server tuning remains unverified.
+        </p>
+        <p>
+          Measurements and dungeon-clear profiles are optional refinements, not prerequisites for
+          planning. Extra dungeon trash/boss XP is excluded unless a sourced path and payout are
+          available. Group Loot does not establish whether each quest item is shared or personal.
+        </p>
+      </details>
       {projections.some((player) => player.issues.length > 0) && (
         <p>
           Some inputs are unresolved or theoretical. Missing drop rates, loot sharing and server
@@ -179,7 +190,8 @@ export function LevelingCombatPlanningSettings({
       </label>
       <p>
         Default 1× is a theoretical assumption, not the quest-reward multiplier. Dungeon tuning uses
-        its separate combat profile. This setting never awards actual XP.
+        a separate sourced payout; a clear profile is needed only to add its extra kills. This
+        setting never awards actual XP.
       </p>
       {error && <p role="alert">{error}</p>}
       <button type="submit" disabled={disabled}>

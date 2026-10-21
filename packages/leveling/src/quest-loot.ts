@@ -5,6 +5,36 @@ const id = z.number().int().positive().max(10_000_000);
 export const lootSharingSchema = z.enum(["independent", "pooled", "unknown"]);
 export type LootSharing = z.infer<typeof lootSharingSchema>;
 
+const acquisitionSourceFields = {
+  sourceUrl: z.url(),
+  sourceSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  capturedAt: z.iso.datetime(),
+};
+
+export const questVendorEvidenceSchema = z
+  .object({
+    npcIds: z
+      .array(id)
+      .min(1)
+      .max(1000)
+      .refine((ids) => new Set(ids).size === ids.length),
+    ...acquisitionSourceFields,
+  })
+  .strict();
+export type QuestVendorEvidence = z.infer<typeof questVendorEvidenceSchema>;
+
+export const questRewardItemEvidenceSchema = z
+  .object({
+    quests: z
+      .array(z.object({ questId: id, ...acquisitionSourceFields }).strict())
+      .min(1)
+      .max(1000)
+      .refine((quests) => new Set(quests.map((quest) => quest.questId)).size === quests.length),
+    ...acquisitionSourceFields,
+  })
+  .strict();
+export type QuestRewardItemEvidence = z.infer<typeof questRewardItemEvidenceSchema>;
+
 export const lootQuantityDistributionSchema = z
   .array(
     z
@@ -28,6 +58,8 @@ export const questItemObjectiveSchema = z
     npcIds: z.array(id).max(1000),
     sharing: lootSharingSchema,
     provided: z.boolean().optional(),
+    vendorEvidence: questVendorEvidenceSchema.optional(),
+    rewardEvidence: questRewardItemEvidenceSchema.optional(),
   })
   .strict();
 
@@ -140,22 +172,28 @@ export function estimateLootKills(input: {
   if (partySize > 1 && sharing === "unknown")
     return unknown("Quest loot sharing is unknown for this party.");
   if (distribution?.length === 1) minimumQuantity = maximumQuantity = distribution[0]!.quantity;
-  if (distribution && distribution.length > 1)
-    return estimateVariableStackKills({
-      requiredItems: quantity * (sharing === "pooled" ? partySize : 1),
-      probability,
-      independentPlayers: sharing === "independent" ? partySize : 1,
-      weights: distribution,
-    });
-  if (minimumQuantity === null || maximumQuantity === null)
-    return unknown("Items per successful drop are missing; one item is not assumed.");
-  if (minimumQuantity !== maximumQuantity)
-    return unknown(
-      "Variable stacks require their quantity distribution, not a uniform assumption.",
-    );
-  const successes = Math.ceil(
-    (quantity * (sharing === "pooled" ? partySize : 1)) / minimumQuantity,
-  );
+  const requiredItems = quantity * (sharing === "pooled" ? partySize : 1);
+  // Every successful drop supplies at least one item; no exact stack is inferred here.
+  const oneSuccessCompletes =
+    requiredItems === 1 || (minimumQuantity !== null && minimumQuantity >= requiredItems);
+  let successes: number;
+  if (oneSuccessCompletes) successes = 1;
+  else {
+    if (distribution && distribution.length > 1)
+      return estimateVariableStackKills({
+        requiredItems,
+        probability,
+        independentPlayers: sharing === "independent" ? partySize : 1,
+        weights: distribution,
+      });
+    if (minimumQuantity === null || maximumQuantity === null)
+      return unknown("Items per successful drop are missing; one item is not assumed.");
+    if (minimumQuantity !== maximumQuantity)
+      return unknown(
+        "Variable stacks require their quantity distribution, not a uniform assumption.",
+      );
+    successes = Math.ceil(requiredItems / minimumQuantity);
+  }
   const independent = sharing === "independent" ? partySize : 1;
   if (successes > 10_000 || successes / probability > 10_000)
     return unknown("Expected collection exceeds the 10,000-kill planning budget.");

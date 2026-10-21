@@ -38,6 +38,84 @@ describe("conditional quest loot planning", () => {
       expect(independent.expectedKills).toBeLessThan(100);
     }
   });
+  it("needs only the successful-drop probability for a one-item solo quota", () => {
+    const single = { ...input, quantity: 1, minimumQuantity: null, maximumQuantity: null };
+    const before = JSON.stringify(single);
+    expect(estimateLootKills(single)).toEqual({
+      status: "estimated",
+      minimumKills: 1,
+      fastKills: 1,
+      expectedKills: 2.5,
+      slowKills: 5,
+    });
+    expect(JSON.stringify(single)).toBe(before);
+    expect(estimateLootKills({ ...single, probability: 1 })).toMatchObject({
+      status: "estimated",
+      expectedKills: 1,
+      fastKills: 1,
+      slowKills: 1,
+    });
+  });
+  it("models the last independent one-item collector without inferring stack sizes", () => {
+    const probability = 0.4;
+    const result = estimateLootKills({
+      ...input,
+      quantity: 1,
+      probability,
+      minimumQuantity: null,
+      maximumQuantity: null,
+      sharing: "independent",
+      partySize: 5,
+    });
+    if (result.status !== "estimated") throw Error("Expected geometric completion distribution");
+    const exactMean = [5, -10, 10, -5, 1].reduce(
+      (sum, coefficient, index) => sum + coefficient / (1 - (1 - probability) ** (index + 1)),
+      0,
+    );
+    expect(result.expectedKills).toBeCloseTo(exactMean, 9);
+    for (const [quantile, kills] of [
+      [0.1, result.fastKills],
+      [0.9, result.slowKills],
+    ] as const) {
+      expect((1 - (1 - probability) ** kills) ** 5).toBeGreaterThanOrEqual(quantile);
+      expect((1 - (1 - probability) ** (kills - 1)) ** 5).toBeLessThan(quantile);
+    }
+  });
+  it("does not confuse one item per player with a single pooled item", () => {
+    const single = { ...input, quantity: 1, minimumQuantity: null, maximumQuantity: null };
+    expect(estimateLootKills({ ...single, partySize: 5, sharing: "unknown" })).toMatchObject({
+      status: "unknown",
+      reason: expect.stringContaining("sharing"),
+    });
+    expect(estimateLootKills({ ...single, partySize: 5, sharing: "pooled" })).toMatchObject({
+      status: "unknown",
+      reason: expect.stringContaining("Items per"),
+    });
+    expect(estimateLootKills({ ...single, quantity: 2 })).toMatchObject({ status: "unknown" });
+  });
+  it("uses a known lower stack bound when one success satisfies the entire quota", () => {
+    expect(
+      estimateLootKills({
+        ...input,
+        quantity: 1,
+        partySize: 5,
+        sharing: "pooled",
+        minimumQuantity: 5,
+        maximumQuantity: null,
+      }),
+    ).toMatchObject({
+      status: "estimated",
+      expectedKills: 2.5,
+      minimumKills: 1,
+    });
+    expect(
+      estimateLootKills({ ...input, quantity: 4, minimumQuantity: 5, maximumQuantity: 10 }),
+    ).toMatchObject({
+      status: "estimated",
+      expectedKills: 2.5,
+      minimumKills: 1,
+    });
+  });
   it.each([
     { probability: 0 },
     { minimumQuantity: null },

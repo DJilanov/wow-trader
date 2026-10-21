@@ -13,6 +13,7 @@ export interface LootCapture {
   readonly name?: string;
   readonly objectives?: readonly string[];
   readonly requiredItems?: readonly { readonly itemId: number; readonly quantity: number }[];
+  readonly rewards?: readonly string[];
   readonly relations: readonly {
     readonly relation: string;
     readonly kind: string;
@@ -39,6 +40,7 @@ export interface LootCoveragePlan {
     readonly kind: "item" | "quest";
     readonly id: number;
   }[];
+  readonly refreshQueue: LootCoveragePlan["queue"];
   readonly reviews: readonly {
     readonly questId: number;
     readonly itemId: number | null;
@@ -127,6 +129,49 @@ export function prepareCampaignLootReferences(
         );
         const sharing = override?.sharing ?? item.sharing;
         const record = byKey.get(`item:${item.itemId}`);
+        const vendorIds = [
+          ...new Set(
+            record?.relations
+              .filter(
+                (relation) =>
+                  relation.relation === "sold-by" &&
+                  relation.kind === "npc" &&
+                  npcIds.has(relation.id),
+              )
+              .map((relation) => relation.id) ?? [],
+          ),
+        ].sort((a, b) => a - b);
+        const rewardQuests = [
+          ...new Set(
+            record?.relations
+              .filter(
+                (relation) => relation.relation === "reward-from" && relation.kind === "quest",
+              )
+              .map((relation) => relation.id) ?? [],
+          ),
+        ]
+          .sort((a, b) => a - b)
+          .flatMap((questId) => {
+            const reward = byKey.get(`quest:${questId}`);
+            const normalize = (text: string): string =>
+              text.normalize("NFKC").replace(/\s+/g, " ").trim().toLowerCase();
+            // A reward-from relation alone may describe a choice, not a guaranteed item.
+            if (
+              !record?.name ||
+              !reward?.rewards?.some(
+                (text) => normalize(text) === normalize(`You will receive: ${record.name}`),
+              )
+            )
+              return [];
+            return [
+              {
+                questId,
+                sourceUrl: reward.sourceUrl,
+                sourceSha256: reward.sourceSha256,
+                capturedAt: reward.capturedAt,
+              },
+            ];
+          });
         const related =
           record?.relations.filter(
             (r) =>
@@ -232,13 +277,54 @@ export function prepareCampaignLootReferences(
             itemId: item.itemId,
             reason: "Choose an on-route dropping creature; a uniform creature mix is not assumed.",
           });
-        return { ...item, quantity, npcIds: candidates, sharing };
+        const { rewardEvidence: priorRewardEvidence, ...unrewardedItem } = item;
+        return {
+          ...unrewardedItem,
+          quantity,
+          npcIds: candidates,
+          sharing,
+          ...(vendorIds.length && record
+            ? {
+                vendorEvidence: {
+                  npcIds: vendorIds,
+                  sourceUrl: record.sourceUrl,
+                  sourceSha256: record.sourceSha256,
+                  capturedAt: record.capturedAt,
+                },
+              }
+            : {}),
+          ...(rewardQuests.length && record
+            ? {
+                rewardEvidence: {
+                  quests: rewardQuests,
+                  sourceUrl: record.sourceUrl,
+                  sourceSha256: record.sourceSha256,
+                  capturedAt: record.capturedAt,
+                },
+              }
+            : !record && priorRewardEvidence
+              ? { rewardEvidence: priorRewardEvidence }
+              : {}),
+        };
       }),
     };
   });
+  const tasks = [...queue.values()].sort((a, b) => a.kind.localeCompare(b.kind) || a.id - b.id);
   return {
     data: combatDatasetSchema.parse({ ...dataset, quests, lootDrops: [...drops.values()] }),
-    queue: [...queue.values()].sort((a, b) => a.kind.localeCompare(b.kind) || a.id - b.id),
+    queue: tasks,
+    refreshQueue: tasks.filter(
+      (task) =>
+        task.kind === "item" &&
+        byKey
+          .get(`item:${task.id}`)
+          ?.relations.some(
+            (relation) =>
+              relation.relation === "dropped-by" &&
+              relation.kind === "npc" &&
+              relation.dropStatistics?.percent == null,
+          ),
+    ),
     reviews,
     questIds: [...selected].sort((a, b) => a - b),
   };

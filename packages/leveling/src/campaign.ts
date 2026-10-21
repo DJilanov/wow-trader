@@ -1,6 +1,6 @@
 import { getChapterLabel, type ChapterReference } from "./chapter-catalog.js";
 import { getGuideStepView, type ImportedChapter, type ImportedDirective } from "./guide-archive.js";
-import { createCharacterProfile } from "./profile.js";
+import { createCampaignSourceProfile } from "./campaign-source-profile.js";
 import type { ClassSlug } from "./model.js";
 import { gateQuestIds } from "./dungeon-model.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
@@ -357,17 +357,7 @@ export function buildCampaignPlan(
 ): CampaignPlan {
   if (!/^[a-f0-9]{64}$/.test(archiveHash))
     throw new Error("Campaign requires a validated archive hash.");
-  const profile = {
-    ...createCharacterProfile("alliance", race),
-    classSlug: leaderClass,
-    xpRate: 1,
-    party: {
-      size: 5,
-      readiness: "together" as const,
-      tank: "unknown" as const,
-      healer: "unknown" as const,
-    },
-  };
+  const profile = createCampaignSourceProfile(race, leaderClass);
   const usable = sources.filter(
     (source) =>
       source.reference.family === "questing" && source.reference.factions.includes("alliance"),

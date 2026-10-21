@@ -129,6 +129,7 @@ test("reports captures separately from missing fields and model-ready stack evid
       unknownQuantity: 1,
     });
     assert.equal(result.manualReviews, 1);
+    assert.equal(result.refreshCandidates, null);
     assert.match(result.note, /not forecast readiness/);
     assert.equal(await readFile(join(stage, "forever-quest-33.json"), "utf8"), captureRaw);
     assert.match(
@@ -154,6 +155,29 @@ test("reports captures separately from missing fields and model-ready stack evid
       }),
     );
     assert.equal(JSON.parse((await exec(process.execPath, args)).stdout).remaining.total, 2);
+    const refreshPath = join(root, "rate-refresh-queue.json");
+    const refreshRaw = JSON.stringify([{ game: "forever", kind: "item", id: 750 }]);
+    await writeFile(refreshPath, refreshRaw);
+    await writeFile(
+      join(root, "report.json"),
+      JSON.stringify({
+        ...report,
+        refreshQueueSha256: createHash("sha256").update(refreshRaw).digest("hex"),
+      }),
+    );
+    assert.equal(JSON.parse((await exec(process.execPath, args)).stdout).refreshCandidates, 1);
+    await writeFile(refreshPath, "[]");
+    await assert.rejects(exec(process.execPath, args), /rate-refresh queue checksum mismatch/);
+    const foreign = JSON.stringify([{ game: "forever", kind: "item", id: 999 }]);
+    await writeFile(refreshPath, foreign);
+    await writeFile(
+      join(root, "report.json"),
+      JSON.stringify({
+        ...report,
+        refreshQueueSha256: createHash("sha256").update(foreign).digest("hex"),
+      }),
+    );
+    await assert.rejects(exec(process.execPath, args), /Invalid loot rate-refresh queue/);
     await writeFile(join(root, "report.json"), JSON.stringify(report));
     await writeFile(join(stage, "forever-quest-33.json"), JSON.stringify({ ...capture, id: 99 }));
     await assert.rejects(

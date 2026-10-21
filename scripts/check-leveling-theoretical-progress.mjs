@@ -56,9 +56,34 @@ try {
     await expect(page.locator('[data-campaign-action="start-115-level-4-96627"]')).toHaveCount(0);
     const before = await savedProgress();
     const projection = page.locator('[data-step-projection="true"]');
-    await projection.locator("summary").click();
+    await projection.locator(":scope > summary").click();
     await expect(projection).toContainText("level 4 + 1,681 XP");
     await expect(projection).toContainText("Saved bars are unchanged");
+    await expect(projection).toContainText(
+      "Measurements and dungeon-clear profiles are optional refinements, not prerequisites for planning.",
+    );
+    await expect(projection).toContainText(
+      "Group Loot does not establish whether each quest item is shared or personal.",
+    );
+    await expect(page.locator('[aria-label="Chapter XP budget"]')).not.toContainText(
+      "Progression blocked",
+    );
+    const assumptions = projection.locator('[data-combat-assumptions="true"]');
+    assert.equal(await assumptions.evaluate((element) => element.open), false);
+    await assumptions.locator("summary").click();
+    await expect(assumptions).toBeVisible();
+    await expect(assumptions).toContainText("Measurements and dungeon-clear profiles are optional");
+    await assumptions.locator("summary").click();
+    const firstRow = projection.locator("li").first();
+    await firstRow.scrollIntoViewIfNeeded();
+    const headingBox = await firstRow.locator(":scope > strong").boundingBox();
+    const positionBox = await firstRow.locator(":scope > span").boundingBox();
+    assert.ok(headingBox && positionBox, "The XP result must be rendered.");
+    assert.ok(
+      positionBox.y >= headingBox.y + headingBox.height,
+      "The XP bar must start below its quest label, not run into it.",
+    );
+    await projection.screenshot({ path: join(output, `${width}-default-projection.png`) });
     assert.deepEqual((await savedProgress()).members, before.members);
     await projection.getByLabel("Projection starting point").selectOption("actual");
     await expect(projection).toContainText("Record fresh actual XP");
@@ -79,7 +104,7 @@ try {
       before.members,
       "A forecast changed actual XP.",
     );
-    await page.locator('[data-step-projection="true"] summary').click();
+    await page.locator('[data-step-projection="true"] > summary').click();
     await expect(projection).toContainText("Modeled known-XP gap: 20 XP");
     assert.equal(
       await page.evaluate(

@@ -25,6 +25,12 @@ describe("theoretical step XP presentation", () => {
     expect(html).toContain("Saved bars are unchanged");
     expect(html).toContain("Kill XP is missing, not zero");
     expect(html).toContain("Route start · level 1, no bonus XP");
+    expect(html).toContain('data-combat-assumptions="true"');
+    expect(html).toContain("<summary>Model assumptions and optional refinements</summary>");
+    expect(html).toContain("Measurements and dungeon-clear profiles are optional refinements");
+    expect(html).toContain(
+      "Group Loot does not establish whether each quest item is shared or personal",
+    );
   });
   it("exposes a persisted planning multiplier independently of quest XP", () => {
     const progress = emptyPremadeProgress();

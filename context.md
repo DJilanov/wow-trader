@@ -2,6 +2,473 @@
 
 Last updated: 2026-10-21
 
+## October21 12:44UTC — Priest readiness passes; actual controls and blue search are next
+
+Affliction is already delivered locally; its expired Warlock calculation and delivery
+windows are not reused. No new deployment, commit or push has occurred. The global
+all-class goal remains active, including pending DS/Ruin/Destruction.
+
+Priest preparation found8missing current class5PvP blues and a stale legacy set bonus.
+An isolated, compiled modelbbbde15964092df1ecbf1dec extends A4with only those8items:
+2607total items, nativeSHA57fadb0c283f82f0e009a258671fff9860f30e4c9aa35058768a386de344b089.
+Exact current ID549Champion's Raiment bonuses are23SpellPower at2pieces and20Stamina
+at6; the4piece PsychicScream utility and glove pushback protection are explicitly
+outside stationary/no-incoming DPS. Actual raw client1.60.1.70425/vendor/effect evidence,
+native ComputeStats0–6piece cases and GreaterMageblood20MP5 checks pass. Native/WASM
+builds pass. Original A4/Mage/Warlock sources/results are untouched.32other missing
+class-specific vendor blues remain an explicit later-catalog backlog, not silently covered.
+
+Private priest-shadow-*v1 tools now define genuine class5Shadow controls for2hand frames,
+1999legal51point talent strings/85allocations and28APL policies. Actual11browser control
+cases cover full/1/2tickMindFlay, Death/Blast priorities and omission, HolyFire/Smite,
+no-form Penance and SpiritualGuidance. Full-v2 improved raid buffs/Kings are combined
+with real Forever CoE/JotW/improvedJotC boss support, not borrowed disabled Classic
+ShadowWeaving/ISB debuffs. Modelled Death self-damage must not inflate outgoingDPS;
+outside healing is assumed. Raw WASM target responses retain observed control occupancy;
+this is NOT generic boss16-slot enforcement or proof for every later gear/raid context.
+
+All8construction/ranking tests, scoped lint/format and zero-jobblue preflight PASS.
+Original cache-helper and Warlock-ledger hashes remain unchanged. No priest.json or
+Priest combat existed at12:44UTC. The next single supervised talents-rotation command
+owns BOTH real controls/parity and blue narrowing, avoiding duplicate phase identities:
+
+```sh
+NODE_OPTIONS=--max-old-space-size=8192 node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run priest shadow talents-rotation -- artifacts/forever-simulator/optimization/review-tools/run-priest-shadow-blue-v1.mjs --run
+```
+
+That first dispatch starts ONE24hPriest clock shared by Shadow and Smite; do not reset it.
+Sources become frozen at dispatch. Real source-bound captures/checksummed native/WASM
+evidence must pass before6workers measure the3998initial proposals. Narrowing uses80,
+80,500,2000,10000fight rounds, keeping real incumbents/allocation/mechanics leaders,
+not exhaustive talent×APL permutations. This is blue-stage search only, never finalBiS:
+all17slots/pairs/sets/enchants, geared feedback, independent2%/separate1% checks, selected
+parity and actual UI/default/rotation-guide handoff still follow. ShadowFocus tooltip
+currently displays2%/point upstream versus actual1% engine/currenttree; fix only a new
+presentation overlay later, never edit frozen upstream/numerical bytes mid-run.
+
+## October21 11:56UTC — Affliction delivery verification COMPLETE; no production change
+
+Full current web suite:907tests/116files PASS with --maxWorkers=1,335.44s. The first
+two-worker run had906passes and one existing Mage-v3 fixture exceeding its5s timeout
+while the production build ran. No old Mage assertion/source was changed; the complete
+serial rerun passes. New Affliction/profile tests remain23+17PASS. Strict tsc also passes
+after restoring only our two generated next-env.d.ts imports to their original.next/types
+paths. Scoped ESLint, Prettier and git diff --check PASS. Isolated Next16.3.5 production
+build73906 passed compilation, TypeScript and57static pages; output is retained under
+apps/web/.next-affliction-delivery-20261021-v1, not deployed.
+
+Authoritative completed local delivery marker:
+optimization/warlock-affliction-full-raid-v2/delivered-local.json, semanticSHA
+283908b912ec3a09e83b637b2596e8a7518f1eca6f1cb98934dd4a2873b59de1. It independently checks
+the exact qualified export, selected publication/pointer, genuine browser review and all
+four main-page cases. The finished earlier pipeline state remains historical; do not
+rewrite it or mistake its old needs-handoff label for an unfinished actual UI delivery.
+Owned local3017server11271 remains available; all native/browser review workers are done.
+No commit, push, deployment, database write, dependency change or unrelated leveling edit.
+
+Continue the full goal, not just Affliction. Remaining Warlock DS/Ruin/Destruction cannot
+use the expired class/extension clocks or the30minute delivery-only grant for new search.
+The next eligible caster class is Priest (Shadow, then Smite); no priest.json budget or
+Priest numerical source exists yet. Readiness/preparation can precede its first supervised
+24h dispatch; do not start a clock merely to plan, relabel Mage/Warlock requests as Priest,
+or claim an unqualified starter is BiS. Preserve pending Warlock specs in the full scope.
+Further Shaman/Paladin DPS, optimized tanks and the boss16-debuff occupancy requirement
+remain unfinished. The global objective stays active, not complete or globally blocked.
+
+## October21 11:46UTC — Affliction qualified and delivered LOCALLY; broader goal remains active
+
+The independent pipeline finished successfully at09:40:43UTC, inside the approved
+06:53:06→10:53:06UTC window. All numerical owners/workers are terminal; do not restart
+them. Closed full-v2 feedback13c0... used56560new scalar origins/5278440fights and exact
+same-request reuse. Its one continuation cycle closed after3total gear sweeps, with
+unchanged30/0/21 Succubus/Spellstone/ShadowBolt-fullDoTs-Doom/Tap15 state. Confirmation
+70793f82f2a0cf328eadc256188976130537b253d33fa5d356e40e474601d1bb froze12arms before two
+fresh20k ranges: selected747.6164254231074DPS/40000fights, conservative retained gap
+0.006765857530814545. Owner2% and original1% assessments both PASS. This is a practical
+first pass, not globally proven BiS or a live-server guarantee. Actual selected10k
+native/WASM parity passed; qualified build5090d4dc677a3f180bc27f7816e202c9cc1c1aef0849eb4cea871bcd0af21f40.
+
+After the capacity interruption, the user explicitly approved "Yes, finish the delivery
+checks": a separate11:36:17→12:06:17UTC delivery-only window. New delivery-window guard
+permits existing export/compilation/local selection and25fight smoke diagnostics only,
+not more optimization. Its2actual/export/deadline tests PASS. Original class ledger,
+four-hour authorization, cache helper and all completed numerical sources remain intact.
+
+Authentic pinned TS reader: apps/web/src/lib/forever-simulator-fresh-affliction.ts.
+The shared profile reader retains strict warlock.v1 [Demonology] and adds only the exact
+warlock.v2 [Demonology,Affliction] tuple with matching browser schema, full source chain,
+request-template/confirmation math and exact-path source-size allowances. Genuine source
+and browser fixtures are generated from the actual qualified/reviewed artifacts, not
+invented numerical results. New Affliction reader23tests PASS; old Demonology profile14
+and existing caster delivery81tests PASS. New profile17tests initially had one5s I/O
+timeout while other compilers ran; explicit15s integration limits were added and the
+unchanged assertions now all PASS. Strict tsc, scoped lint/format and diff checks PASS.
+
+New immutable presentation2e4bfb0b779559053237eb6f copies the same A4numerical assets,
+compiles all-class virtual TypeScript/Vite, audits28starter gear sets, preserves genuine
+Demonology and keeps DS/Ruin/Destruction as unqualified starters. Its cleanup regression,
+all15profile UI menus, four full shares and two25fight native/browser comparisons PASS.
+Staged browser review8d98b215e3e890fa, exact predecessor-aware local selection08116803fc60079f.
+Other16existing cases/pointers remain unchanged. Main website browser report2901489365b4da78
+passes both builds at1440/390px: real Simulate, reload/full settings, configs/GearSets,
+tooltips, rotation instructions, no auto-combat, consent off and one global scroller.
+Both Affliction screenshots were visually inspected. Owned3017dev server11271 remains
+available at http://localhost:3017/tools/forever/simulator/warlock . Production is unchanged.
+
+Verification completed later at11:56UTC; see the newer entry above for the serial full-suite
+pass, initial parallel test timeout and successful isolated production build73906.
+No commit/push/deploy authorization was added by the delivery-only answer. Do not include concurrent leveling edits in any
+later simulator commit. The all-class objective is active/incomplete: DS/Ruin/Destruction,
+Priest/Shaman/Paladin DPS and optimized tanks remain, and old fixed-build full-v2 buff
+comparisons are not fresh reoptimizations. Boss16-debuff occupancy is not yet enforced or
+proven by the player-buff adapter. Further Warlock optimization needs an explicit bounded
+runtime grant, not reuse of this delivery-only window.
+
+## October21 08:27UTC — independent gear-source audit +9full state controls PASS; feedback scalars LIVE
+
+Pipeline15628/54864, supervised child85648, state study
+13c0c0f5b6bb6ed56fab585bbef64ef1539e7d19e2a04d9abfd8632d5ba11674.
+The separate V3 gear reader reconstructed/audited the actual completed gear source and
+all detailed state controls finished:9native+9rawWASM jobs/225fights per backend, zero
+DPS differences and full player/pet/resource checks, including alternate Imp/Voidwalker/
+Felhunter, stone, Wrack/Nightfall/Conflagrate and Drain Life filler. No guard was bypassed.
+
+Actual current initial-geared bank:27356states,2287distinct talent values from2110
+original anchors plus neighbors; actual hand remains1H/OH. All17item pools unchanged;
+new incumbent expands sets to1117proposals/10508unique total gear proposals. At08:27:54
+the study has8852new evaluations/708160fights. All6native workers14676–14681 are CPU-active,
+confirming the tested shared-option-frame implementation fixes the earlier serialized
+screening without changing effective combat inputs/final10k identities.
+
+Do not edit these now-frozen full-v2 feedback/state/batch-helper/parity/guard/test sources.
+Read progress from the13c0...state.json and pipeline phase log, not the finished gear
+session. No feedback/confirmation/qualified export or new UI delivery exists yet.
+Original ledger/cache helper remain intact; shared extension still ends10:53:06UTC.
+
+## October21 08:23UTC — local review server warm; independent gear-source audit still CPU-active
+
+Pipeline15628/PID54864 and supervised state-recheck child85648 remain LIVE. At08:23 the
+child is still reconstructing/auditing source before detailed state controls; no error
+or new state scalar is reported. Keep frozen V3 gear and full-v2 state files unchanged.
+The genuine gear result is about10MB, so later strict web reference reading needs an
+exact-path16MB allowance forresult-52535fb7bed47421.json, not a broad limit increase.
+
+Owned dev server26045 /listeningPID11271 is newly running on3017, using2GB heap and the
+explicit local FOREVER_SIMULATOR_ROOT. Direct Next dev bypasses catalog/database setup;
+no migration/import/production write was launched. Existing /tools/forever/simulator/warlock
+returns200; it still shows the old selected Demonology-only publication. Do not claim
+Affliction is in UI yet. Next generated only its expected two next-env.d.ts imports
+from.next/types to.next/dev/types; this is our runtime-generated change, not an intentional
+source edit. Preserve/normalize it appropriately before any eventual source commit.
+No AGENTS.md change. All unrelated leveling edits remain untouched.
+
+The goal API still reports the prior blocked status; its API has no active/resume setter.
+The human's explicit extension resolved the actual authority blocker and work continues
+under that grant. Do not mark the all-class objective complete or mistake stale goal
+metadata for revocation of the owner's instruction. No new commit/push/deploy grant.
+
+## October21 08:05UTC — GEAR COMPLETE; automatic independent state-recheck reconstruction LIVE
+
+V3 gear51608 is TERMINAL0, successful extension runf78797c9-4d42-4a2c-a80e-fb4e4215a5bf.
+Canonical completion0f24b12bcfc52c5b9f3e50592177cc56f84dceaf4c4b023a3901e2cbf00c39a5,
+result52535fb7bed47421340ac1c7aace252ce4ccf684fd780b877935601f49a36ec9.
+21973new scalar origins/2896280fights;651exact full-request reuses. Both measurement
+sweeps and runtime internal replay passed. First sweep554.792→685.570DPS (+23.5724%),
+second685.570→748.1995337 (+9.1354%). These are inspected10k values, NOT final fresh DPS.
+Second sweep was still material, so gear is explicitly capped/not converged and further
+gear applicability feedback is mandatory. State remains30/0/21 Succubus/Spellstone,
+shadowbolt/fullDoTs/Doom/Tap15, talents2550010013520105--0550115103.
+
+Pipeline15628/PID54864 automatically advanced at08:04:46UTC to state-recheck. Its child
+is85648, CPU-active~104%, reconstructing the original blue and new V3 gear independently
+before state controls/scalars. Poll the pipeline state/logs; do not run a second owner
+or edit any numerical V3/full-v2 state source now. Deadline still10:53:06UTC.
+Private logstate directory: warlock-affliction-full-raid-v2/extension-pipeline-20261021/.
+
+Latest selected-parity2tests20979 now PASS using fully derived full-v2 actual frames,
+not only legacy buff frames. All new source lint checks pass. Additional prepared
+selector/main-page reviewer pin the actual predecessor, preserve16other published
+cases, expect both Dem/Aff and the current full-v2 iframe query. The authentic qualified
+Affliction overlay tests are written/linted but NOT RUN (the qualification does not yet
+exist). No public app source/selection or production change, commit, push or deployment.
+
+## October21 07:52UTC — gear measurements FINISHED; internal replay active; follow-through prepared
+
+Existing V3 job51608/child29404 remains LIVE, now internal saved-origin/packed-stage replay
+after BOTH actual gear sweeps. At07:52 it reports21973new evaluations/2896280new fights.
+Study0f24b12bcfc52c5b9f3e50592177cc56f84dceaf4c4b023a3901e2cbf00c39a5 has not yet
+written completed.json, so do not call gear independently audited/qualified yet.
+Pipeline15628/PID54864 waits for the exact successful gear terminal record, then handles
+supervised state-recheck and confirmation/export automatically. Continue polling those
+same processes; do not restart or run another owner. Deadline remains10:53:06UTC.
+
+Additional preparation: full-raid selected-parity construction2tests20979 PASS on the
+actual four old capture frames after authenticated full-v2 derivation, including Kings
+and both Improved totems; source inputs stay immutable. Entire new private source set
+scoped lint PASS, git diff --check PASS. No public app source changed yet.
+
+Private presentation/handoff code is prepared and linted:
+warlock-affliction-preset-overlay-v1 plus3genuine-export tests (NOT RUN until a real
+qualified-build.json exists); build/review-warlock-multispec-presentation-v2 plus its
+missing-release cleanup regression; select-warlock-multispec-local-v2 with an explicitly
+captured exact predecessor pointer/publication, and review-warlock-multispec-main-page-v2.
+They preserve the genuine Demonology preset/reference, add only qualified full-v2
+Affliction, audit28starter sets, retain DS/Ruin/Destruction as starters, and require actual
+all-class virtual TypeScript/Vite, full shares/defaults/configurations/GearSets/native-
+browser/desktop-mobile/rotation guide verification before selection. Main-page review
+expects the current ?raidDefaults=full-v2 URL. No new build/review/selection has run.
+
+generate-affliction-delivery-reader-v1.mjs is implemented/linted but NOT RUN. It must read
+the genuine qualified export, then generate an exact-build/confirmation-pinned strict TS
+reader from the existing Demonology architecture. It handles0–3closed feedback cycles,
+0–1SoulLink pre-pull instructions, genuine NoSummon and full-v2 buffs on every arm. After
+generation, integrate the new strict warlock.v2 [Demonology,Affliction] proof/browser
+reader branches, add authentic fixtures/regressions, and explicitly size-allow only the
+already-audited result paths if they exceed8MB. Never insert placeholder pins or promote
+unqualified metrics. No commit/push/deploy authorization was added by preparation.
+
+Source-generation helpers were one-shot mechanical copies; do not rerun their wx writers
+over finalized sources. All numerical V3 gear sources, original measured V1/V2 sources,
+shared cache helper and original24h ledger remain untouched. Unrelated leveling changes
+are still being made by another session and must remain out of simulator edits/commits.
+
+## October21 07:28UTC — capacity-resilient Affliction chain RUNNING
+
+User clarified that "stop" referred to the platform message "Selected model is at
+capacity. Please try a different model", not a request to stop the work. Official OpenAI
+guidance was checked: retry temporary overload or optionally change model if persistent;
+no account allocation or service-capacity override is available here. Do not silently
+change the selected model. Local numerical process remains alive independently.
+
+V3 gear study0f24b12bcfc52c5b9f3e50592177cc56f84dceaf4c4b023a3901e2cbf00c39a5
+started scalar work07:12:35UTC; at07:29 it had10223new evaluations/1106200fights and was
+screening expanded sets after all individual-slot/hand/ring/trinket groups. Six native
+workers exist; this phase's fully materialized per-gear frames serialize some work.
+Do not restart the frozen phase to optimize scheduling or change its request IDs.
+
+New still-unexecuted state/feedback request contexts use shared option frames below10k
+iterations. Actual native-effective-wire equivalence tests cover80/500/2000/10000/20000
+and alternate talents; finals/holdouts stay fully materialized, preserving exact10k
+gear/state identity and closure. Final5tests93313 PASS, including the new equivalence
+and six-worker grouping regressions; scoped lint PASS. Detailed controls still compare
+fully materialized actual player/pet/resource metrics and both Blood Pact providers.
+
+One-shot local pipeline15628 /PID54864 is LIVE, waiting for that exact existing gear run
+f78797c9-4d42-4a2c-a80e-fb4e4215a5bf. It never restarts gear. After successful terminal
+provenance and lock cleanup it automatically runs supervised full-v2 state/feedback,
+fresh confirmation and selected-parity/qualified export. Same10:53:06UTC hard deadline.
+Private logs/state are underwarlock-affliction-full-raid-v2/extension-pipeline-20261021/.
+Any error stops with evidence preserved; no automatic public promotion. Keep these
+new state/confirmation modules unchanged once their numerical phase begins. Native
+helper69b4... and original ledger68677... remain byte-identical. Git diff --check passes.
+
+Affliction preset overlay is implemented/linted but awaits a genuine qualified export
+and actual presentation/browser verification. It preserves Demonology defaults, keeps
+DS/Ruin/Destruction as explicitly unqualified starters, prevents a changed Affliction
+sacrifice leaking into Destruction, and applies full-v2 first-visit raid/individual
+defaults. No new app reader/preset selection/production write/commit/push/deploy yet.
+
+## October21 07:06UTC — full-buff controls pass; provider-metric guard recovery LIVE
+
+Owner grant "extend and finish it" remains one window ending10:53:06UTC. Original ledger
+unchanged. Extension V1 gear run70474bc9-0d3b-4205-a50d-2aa9d91411c7 failed after all8actual
+native/WASM controls matched exactly, before any scalar study dispatch. It rejected two
+auras with spell11767. Actual frozen engine core/BloodPactAura deliberately registers
+external and owned exclusive providers with that same ActionID; one is inactive for the
+selected Succubus. This was a validator identity assumption, not measured engine divergence.
+
+Retained report: warlock-affliction-full-raid-v2/gear-parity-e1958c4d29bf4b97.json.
+New affliction-full-raid-metrics-v1 retains and sorts BOTH complete rows, admits exactly
+the two known aura providers, still rejects duplicate actions/resources/other aura IDs,
+and compares all player/pet/resource fields.8actual raw-control/negative tests PASS;
+changed or missing rows reject. No metrics, captures or request bytes were rewritten.
+
+Separate immutable V3 gear runner/parity/reader and V2 extension supervisor permit only
+this exact failed gear command's validation-only continuation under the same deadline.
+V2/source/history remain intact; full control report is reused without new fights.
+Handle51608 /child29404 is LIVE, doing authenticated saved-blue reconstruction before
+new scalar work. Poll the same handle; do not edit its pinned sources or restart it on
+an observation timeout. Earlier handle23605 is TERMINAL1 with no scalar jobs.
+
+Full-v2 state/feedback/confirmation/selected-parity/export counterparts are prepared
+locally without changing historical V1 code.10construction/guide/negative tests PASS;
+additional exact gear/state request-identity regression is running30174. Scoped lint
+PASS after fixing source-generator escaping. These are preparation, not completed
+numerical feedback/confirmation or public presets. No production write/commit/push/deploy.
+
+## October21 06:53UTC — owner APPROVED one additional four-hour Warlock window
+
+Human reply: "extend and finish it", explicitly answering the request for up to four
+additional Warlock hours. New shared window06:53:06→10:53:06UTC (13:53Sofia), not four
+hours per spec. Preserve original9-run ledger, startedAt/deadlineAt and SHA68677c8e...;
+the old blocked approval boundary is resolved. Separate extension supervisor/child guard
+and append-only run provenance enforce the same deadline. Resume full-v2 Affliction
+all17-slot gear, geared talent/APL feedback, fresh confirmation and verified delivery;
+do not relabel historical DPS or treat best-case support as global optimality proof.
+Unrelated leveling edits and the frozen shared simulation-cache helper remain untouched.
+
+## October21 06:44UTC — blocked audit satisfied: additional Warlock window needs owner approval
+
+The same missing-extension condition has now recurred across3consecutive goal turns:
+the completed full-raid measurement turn, the completed V2 gear-preparation turn, and
+this final authoritative recheck. The first two turns made genuine progress; current
+safe preparation/source checks are complete. No owner reply approving the requested
+up-to4h extension exists. The automated continuation does not authorize it.
+
+At06:44:39UTC the original ledger is still expired at06:24:18.106UTC, has9historical runs,
+zero running records, no class lock and unchanged SHA68677c8e651de3d48b1af794a34de4e34940a407f23c2e6629830aa0825e3b18.
+Process inspection confirms no Warlock/recheck/native worker or preflight is live.
+Authorization search finds only the old exact JSON-correction/Arcane records, no new
+time-extension grant. Native execution correctly refuses before dispatch. Do not weaken
+the guard, reset the ledger, infer approval from goal automation, or call the goal complete.
+
+All-class objective remains unachieved; simulations must resume only after explicit
+owner direction on the additional window. Ready evidence/code and all checkpoints are
+preserved. Global goal status is being set to BLOCKED for this genuine approval boundary,
+not for slow computation or missing numerical accuracy. On an actual resumed owner grant,
+treat the blocked audit as fresh and enforce the newly authorized bounded deadline in
+both supervisor and child guard while retaining the original history.
+
+## October21 06:41UTC — full-buff Affliction GEAR PREPARATION VERIFIED; extension still pending
+
+This goal turn made implementation/verification progress, not a new optimization claim.
+Final read-only preflight87315 is TERMINAL0, after the final metadata-label correction;
+prior4878 also passed. The final run reconstructed all96saved blue stages/103592genuine
+origins and verified the new full-buff seed, all17slot pools,25gear/enchant groups,
+10451unique proposals and8derived control definitions.12038source pins; zero new native
+jobs, zero browser jobs and zero new fights. Actual receipt:
+optimization/reviews/affliction-full-raid-gear-preflight-20261021-064101.json.
+
+Eight final request/gear construction and negative tests39947 PASS; scoped lint32947
+PASS. The API profile now explicitly uses kfc-warlock-affliction-full-raid-request-profile.v2,
+never the old selected-blue profile label. Old selected metrics are only historical seed
+provenance. The new runner and strict independent gear reader use full-raid V2 schemas,
+the separate parity namespace and all3buff-owner checks, including rejection of a
+self-consistent request missing Kings. All-slot gear search is implemented but has NOT
+run. Full-buff Affliction actual combat controls, gear/state feedback, fresh confirmation,
+selected parity and preset/guide/browser delivery are NOT completed.
+
+The original Warlock window expired06:24:18.106UTC. No owner answer approving the requested
+up-to4h extension has arrived; automated goal continuation is not approval. Actual CLI
+negative test proves the numerical entry refuses before source/native dispatch, creates
+no lock and leaves ledger SHA68677c8e651de3d48b1af794a34de4e34940a407f23c2e6629830aa0825e3b18
+unchanged. Native helper remains69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+No active worker or read-only preflight remains. No production change or new commit/push/
+deploy in this preparation turn; unrelated leveling work remains untouched. The all-class
+goal is still ACTIVE/incomplete. Numerical continuation requires owner approval for a
+new explicitly bounded window; do not silently reset/extend the original budget.
+
+The prepared V2 runner still deliberately imports first-pass-budget-owner-v1.mjs, which
+rejects the expired ledger. If the owner approves an extension, bind a new explicit
+authorization to that exact answer, old ledger/run history and full-v2 scenario, and
+enforce the same effective deadline in the supervisor and child guard. Preserve original
+startedAt/deadline/history rather than silently editing the old budget or manually
+bypassing the runner. No such authorization exists yet.
+
+Additional read-only finding: all60retained native/browser control payloads contain
+player/pet metrics and ComputeStats metadata, not target combat aura timing/full result
+bytes. Registered target aura metadata includes unused spells/ranks, not concurrent
+debuff occupancy. Do not present the1–6external flag count as proof of16-slot enforcement.
+
+## October21 06:31UTC — Warlock deadline EXPIRED; only read-only V2 preparation active
+
+No owner answer approving the requested4h extension has arrived. Original deadline
+06:24:18.106UTC has passed. A real negative CLI guard check confirms the new V2 gear
+runner refuses before source/native dispatch, creates no lock, and leaves warlock.json
+byte-identical (SHA68677c8e651de3d48b1af794a34de4e34940a407f23c2e6629830aa0825e3b18).
+Do not reset the original ledger, treat this goal continuation as extension approval,
+start an over-budget owner or relabel the fixed-build comparison as optimized BiS.
+
+Prepared5new full-raid Affliction gear modules: full-raid-seed-v2, full-raid-gear-parity-v2,
+run-full-raid-gear-v2, full-raid-geared-v2 and4-test gear-v2 suite (all filenames include
+warlock-affliction). They retain the genuine old-blue completion only as an initial seed,
+apply the deployed3-owner full-buff contract to all17-slot/pair/set/enchant sweeps, use a
+separate parity namespace, and require new class8 full-player/pet/resource controls and
+independent full-origin gear replay. Four construction/negative tests12850 and scoped
+lint92775 PASS, including a self-consistent gear request deliberately missing Kings.
+No new native/Monte Carlo request has been dispatched by this preparation.
+
+Actual read-only source/gear preflight is STILL LIVE: handle4878 /PID80010, --plan on
+run-warlock-affliction-full-raid-gear-v2.mjs with the genuine764404...completed.json.
+At06:30:08UTC it was CPU-active~106% and2.7GBRSS, not hung. This rebuilds/replays prior
+origins only, does not run new fights, and may be allowed to finish. Poll the SAME handle;
+do not edit these5new source files while it runs or restart on an observation timeout.
+No public/source/engine/old completed study/budget changes. New source may be finalized
+after this preparation check; future numerical dispatch remains owner-approval-gated.
+
+## October21 06:16UTC — full-raid comparison COMPLETE and independently replayed
+
+Handle83410 is TERMINAL0; no native worker remains. Both actual studies completed and
+their runtime replays passed: physical de421939628e03add7faff47664c15a29766d81b57461b32c2680713914f038b
+(24new origins/240000fights), other DPS8cc360f6dd730c3ae5edd106317fea8313fe538bc5c79d2388e2a3e80a609f9b
+(36origins/360000fights). Summary optimization/raid-full-recheck-v2/comparison.json,
+semanticSHAf52e3c0d92e1f7129e8902fbdbe1626178371239417b0d7264507052ebc54c57.
+Independent audit38725 is TERMINAL0: all60raw admitted origins/600000fights and30complete
+native/WASM controls replay correctly. All4replay/negative tests78656 pass, preventing
+forged DPS/classes/request IDs, missing/duplicate specs and false fresh/public qualification.
+
+Full-buff fixed-gear DPS: Fury838.03,Arms802.61,2HFury735.28; RogueCombat662.16,Mutilate648.38,
+Subtlety614.35; HunterBM905.76,MM910.50,SV868.38; Feral752.09,Balance573.83; MageFrost576.47,
+Fire661.75,Arcane669.96; Demonology836.09. These are paired20k inspected comparisons,
+NOT new optimized/public BiS references or common-engine class rankings. Full table,
+scope, genuine source identities and reproduction are in
+docs/simulator-full-raid-recheck-2026-10-21.md. No production value/pointer was changed.
+
+New full-v2 request constructor4tests +actual comparison replay4tests +full Affliction
+adapter4tests all PASS; scoped lint passes. The new Affliction adapter preserves the
+authenticated old-blue winner only as an initial seed, materializes real17-slot gear/
+database changes and then applies all3buff owners. All8real gear canary constructions
+and an alternate genuine Affliction talent/APL state pass full-buff wire checks. This
+is request-construction evidence, NOT fresh Affliction combat parity or finished gear.
+Adapter files: warlock-affliction-full-raid-requests-v2.mjs and its test. They have not
+started a new class numerical phase; original frozen V1/V2 evidence is untouched.
+
+Input audit e7ab8eeb43d740f7 records13–19changed buff fields/build and1–6selected external
+boss debuff flags. It does not prove a whole raid's16-slot enforcement or account for
+other members' effects. Player buffs are uncapped. Core cache helper69b4b817 remains
+unchanged. Global goal is active/incomplete. Original Warlock24h window ends06:24:18.106UTC;
+no additional window/correction was granted. Completing the new full-buff Warlock feedback/
+qualification/UI pipeline needs an explicit bounded extension rather than silently
+resetting that clock or treating the measured fixed-build comparison as BiS completion.
+
+## October21 06:04UTC — full-v2 controls PASS; fixed-build scalar comparison dispatched
+
+Handle45927 is TERMINAL0. All30genuine native/raw-WASM controls passed with zero DPS
+differences and full player/pet/resource parity,750fights on each backend. Actual per-
+profile batches and controls.json are under optimization/raid-full-recheck-v2. All4new
+helper/test/context/runner files and full-v2 JSON are frozen. The same V2 runner --run
+is now dispatched for60scalar requests/600000fights,4workers,15existing standard DPS
+builds only. Poll its actual handle; do not repeat controls or edit source during it.
+These use the inspected77191/177191 ranges, not fresh qualification seeds. No first-pass
+class budget, public selection, reference DPS, engine, gear or rotation was changed.
+
+## October21 06:00UTC — full-v2 numerical fixed-build recheck starting
+
+Previous goal turn was progress: full supported raid defaults were implemented/deployed
+and independently verified. The persistent all-class optimization objective remains active.
+New private raid-full-buffs-v2.mjs reads the SAME deployed JSON contract and derives
+actual full raid/party/individual native requests. Four regressions pass across all15
+authenticated standard publications: exact old/new complete-wire preservation outside
+the3buff owners, correct classes/Kings/improved settings, immutable inputs/idempotence,
+and rejection of wrong class/gear/consumes/encounter/baseline context. Scoped lint passes.
+
+New separate loadFullRaidRecheck/run-raid-full-recheck-v2 files reuse the frozen V1
+authenticated publication loader and pure parity helpers, not its seven-buff transform.
+Preflight PASS with15actual cases and12107source pins. Original class-specific M81/A4
+engines are retained; no cross-engine tier ranking. This is the explicitly requested
+post-deployment fixed-build buff comparison, NOT an Affliction retry, first-pass clock
+reset, new talent/gear search or permission to republish BiS. Policy:30detailed native +
+30rawWASM controls, then60scalar requests/600000fights using the already-inspected77191/
+177191 seeds,4workers. No fresh holdouts or public promotion. Separate output directory:
+optimization/raid-full-recheck-v2. Freeze the4newhelper/test/context/runner files and the
+full-v2 JSON from first control capture onward. Do not format them while work runs.
+
+--controls has just been dispatched; inspect its actual exec handle/process before any
+next dispatch. Do not restart on a wait timeout. On terminal success, run the same V2
+runner with --run to measure the bounded fixed-build pairs, then inspect all15rows and
+preserve provenance rather than updating public historical DPS automatically. Original
+Warlock deadline06:24:18.106UTC remains unchanged; no Affliction gear owner is running.
+
 ## October21 05:50UTC — full improved raid defaults VERIFIED LIVE
 
 Application02ace4654afda36d418b89e1a8d5bc63db0ab836 / NextbuildyWC11NQoY8J_92V-Fny0U

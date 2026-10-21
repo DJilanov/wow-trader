@@ -6,6 +6,13 @@ enemy-level adjustment and level-weighted shares, with no assumed party
 bonus and other members held at the objective-start level snapshot; the older equal-level
 description below records the earlier delivery.
 
+Planning does not require comprehensive measurements or a dungeon-clear profile. The separate
+`--require-plannable` audit checks the funded continuous route while retaining estimates and
+omitted unknown contributions explicitly. Clear profiles add extra path-specific trash/boss XP;
+they are not prerequisites for planning dungeon quests. Real gaps and eligibility checks remain.
+Strict coverage, measured certification and publication authorization are separate. See the
+[current planning contract](forever-leveling-theoretical-progress.md#planning-is-separate-from-measurement-certification).
+
 October 15, 2026. Implemented and, after owner approval, committed/pushed as `35137da` and deployed
 web-only in `kfc-helper-combat-20261015-r9`. The provider import remains private/local; no crawler
 restart, database change or installation into the player's WoW addon directory was performed.
