@@ -104,7 +104,20 @@ describe("combat XP calculation", () => {
     expect(
       estimateCreatureKills({ ...common, position: { level: 18, currentXp: 0 }, playerIndex: 1 })
         .xp,
-    ).toBe(Math.floor((145 * 18) / 38));
+    ).toBe(Math.floor((148 * 18) / 38));
+  });
+  it("uses each member's own enemy-level adjustment rather than inheriting the higher member's penalty", () => {
+    expect(
+      estimateCreatureKills({
+        npc: { ...npc, minimumLevel: 18, maximumLevel: 18 },
+        kills: 1,
+        environment: "outdoor",
+        partySize: 2,
+        partyLevels: [20, 18],
+        playerIndex: 1,
+        position: { level: 18, currentXp: 0 },
+      }).xp,
+    ).toBe(63);
   });
   it("applies a configured kill multiplier only to reference estimates, not measured final XP", () => {
     expect(
@@ -326,13 +339,15 @@ describe("literal-only provider import", () => {
       itemExport: exported("item", 'item[750]={"Meat",{1}}'),
       questExport: exported(
         "quest",
-        'quest[33]={"Wolves",nil,nil,1,1,nil,nil,nil,nil,{nil,nil,{{750,"Meat"}}}}\nquest[34]={"Mixed",nil,nil,1,1,nil,nil,nil,nil,{{{1}},nil,{{750}}}}',
+        'quest[33]={"Wolves",nil,nil,1,1,nil,nil,nil,nil,{nil,nil,{{750,"Meat"}}}}\nquest[34]={"Mixed",nil,nil,1,1,nil,nil,nil,nil,{{{1}},nil,{{750}}}}\nquest[35]={"Supplied",nil,nil,1,1,nil,nil,nil,nil,{nil,nil,{{750}}},750}',
       ),
     });
     expect(imported.quests[0]!.itemObjectives).toEqual([
       { itemId: 750, quantity: null, objectiveIndex: 1, npcIds: [1], sharing: "unknown" },
     ]);
     expect(imported.quests[1]!.itemObjectives?.[0]?.objectiveIndex).toBeNull();
+    // A source-item ID alone does not establish how many objective items were supplied.
+    expect(imported.quests[2]!.itemObjectives?.[0]?.provided).toBeUndefined();
   });
   it("requires explicit public authorization and rejects duplicate identities", () => {
     expect(() => combatDatasetSchema.parse({ ...data, publication: "authorized" })).toThrow(
@@ -445,6 +460,38 @@ describe("quest combat binding and overlap", () => {
     expect(
       resolveCombatObjectives(guide.steps[0]!.directives, references, "test")[0],
     ).toMatchObject({ credit: "personal-loot", loot: { itemId: 750, quantity: 8 } });
+  });
+  it("does not treat a provided item objective as additional kill work", () => {
+    const guide = parseGuideChapter(
+      "step\n.complete 300001,1 --Meat (8)\n.mob Harvest Watcher",
+      "chapter-test",
+      "a".repeat(64),
+      70205,
+    );
+    const references = indexCombatReferences({
+      ...data,
+      quests: [
+        {
+          ...data.quests[0]!,
+          creatureIds: [],
+          itemCreatureIds: [114],
+          onlyCreatureObjectives: false,
+          itemObjectives: [
+            {
+              itemId: 750,
+              quantity: 8,
+              provided: true,
+              objectiveIndex: 1,
+              npcIds: [114],
+              sharing: "unknown",
+            },
+          ],
+        },
+      ],
+    });
+    expect(
+      resolveCombatObjectives(guide.steps[0]!.directives, references, "test")[0],
+    ).toMatchObject({ credit: "non-combat", npcIds: [], requiredKills: null });
   });
   it("recovers omitted guide quotas from explicit corrected objective text", () => {
     const guide = parseGuideChapter(

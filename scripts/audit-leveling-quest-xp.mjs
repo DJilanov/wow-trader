@@ -54,11 +54,11 @@ if (
         argument,
       ) &&
       !/^--reward-import=.+/.test(argument) &&
-      argument !== "--require-covered",
+      argument !== "--require-covered" && argument !== "--retain-audits",
   )
 )
   throw new Error(
-    "Use --destination=directory --rewards=published-directory [--reward-import=file] [--reward-evidence=file] [--quest-validation-evidence=file (repeatable)] [--combat=combat-directory] [--grind-evidence=file --runtime-build=number] [--progress=party-state.json] [--require-covered].",
+    "Use --destination=directory --rewards=published-directory [--reward-import=file] [--reward-evidence=file] [--quest-validation-evidence=file (repeatable)] [--combat=combat-directory] [--grind-evidence=file --runtime-build=number] [--progress=party-state.json] [--require-covered] [--retain-audits].",
   );
 const value = (name) =>
   args.find((argument) => argument.startsWith(`--${name}=`))?.slice(name.length + 3);
@@ -658,7 +658,7 @@ process.stdout.write(
   `${JSON.stringify({ path, sha256: hash, evidenceBacklog: join(resolve(destination), evidenceBacklogFile), evidenceBacklogSha256, ...report.summary, lifecycleExclusions: projections.reduce((sum, entry) => sum + entry.lifecycleExclusions.length, 0), xpFacts: facts.filter((fact) => fact.status === "available").length, observedRewardFacts: observedRewardIds.length, historicalRewardEstimates: remainingHistoricalRewardIds.length, mode: report.mode, coverageGatePassed: ready, coverage: ready ? "Offline reference budgets passed; this is not a playtest certification." : "Not certified; inspect the evidence backlog for exact blockers, validation work, and measurements." })}\n`,
 );
 if (args.includes("--require-covered") && !ready) process.exitCode = 2;
-if (process.platform === "darwin") {
+if (process.platform === "darwin" && !args.includes("--retain-audits")) {
   try {
     const repository = resolve(import.meta.dirname, "..");
     await pruneAudits(repository, await storageReferences(repository), {

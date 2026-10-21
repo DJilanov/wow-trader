@@ -77,15 +77,19 @@ function referenceObjectives(
   if (!quest.onlyCreatureObjectives) {
     const mapped = quest.itemObjectives?.filter((item) => item.objectiveIndex !== null) ?? [];
     if (mapped.length)
-      return mapped.map((item) => ({
+      return mapped.map((item): CombatObjective => ({
         questId,
         objectiveIndex: item.objectiveIndex!,
-        npcIds: item.npcIds,
+        npcIds: item.provided ? [] : item.npcIds,
         requiredKills: null,
-        credit: "personal-loot",
+        credit: item.provided ? "non-combat" : "personal-loot",
         source: `QuestieDB corrected quest ${questId}`,
-        reason: "Loot kills require compatible drop and sharing evidence.",
-        loot: { itemId: item.itemId, quantity: item.quantity, sharing: item.sharing },
+        reason: item.provided
+          ? "The item is provided at pickup; no additional collection kills are assumed after acceptance."
+          : "Loot kills require compatible drop and sharing evidence.",
+        ...(item.provided
+          ? {}
+          : { loot: { itemId: item.itemId, quantity: item.quantity, sharing: item.sharing } }),
       }));
     const npcIds = quest.creatureIds.length ? quest.creatureIds : quest.itemCreatureIds;
     return [
@@ -199,6 +203,17 @@ export function resolveCombatObjectives(
         .filter((entry) => entry.tag === ".mob")
         .map((entry) => targetName(entry.arguments));
       const item = quest?.itemObjectives?.find((entry) => entry.objectiveIndex === objectiveIndex);
+      if (item?.provided)
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "The item is provided at pickup; no additional collection kills are assumed after acceptance.",
+        };
       const itemMobs = (item?.npcIds ?? quest?.itemCreatureIds ?? []).filter((id) =>
         sourceMobs.includes(targetName(npcs.get(id)?.name ?? "")),
       );

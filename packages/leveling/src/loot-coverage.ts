@@ -1,5 +1,7 @@
 import { combatDatasetSchema, type CombatDataset } from "./combat-model.js";
 import type { LootSharing, QuestLootDrop } from "./quest-loot.js";
+import type { LootStackWeight } from "./loot-stack-distribution.js";
+import { capturedItemObjectives } from "./loot-quantities.js";
 
 export interface LootCapture {
   readonly game: "forever" | "tbc";
@@ -8,6 +10,8 @@ export interface LootCapture {
   readonly sourceUrl: string;
   readonly sourceSha256: string;
   readonly capturedAt: string;
+  readonly name?: string;
+  readonly objectives?: readonly string[];
   readonly requiredItems?: readonly { readonly itemId: number; readonly quantity: number }[];
   readonly relations: readonly {
     readonly relation: string;
@@ -15,9 +19,11 @@ export interface LootCapture {
     readonly id: number;
     readonly dropStatistics?: {
       readonly percent: number | null;
+      readonly percentBasis?: "reported" | "reported-override" | "sample-ratio";
       readonly attempts: number | null;
       readonly minimumQuantity: number | null;
       readonly maximumQuantity: number | null;
+      readonly quantityDistribution?: readonly LootStackWeight[];
     };
   }[];
 }
@@ -39,6 +45,16 @@ export interface LootCoveragePlan {
     readonly reason: string;
   }[];
   readonly questIds: readonly number[];
+}
+
+function distributionKey(distribution: readonly LootStackWeight[] | undefined): string | null {
+  return distribution
+    ? JSON.stringify(
+        [...distribution]
+          .sort((a, b) => a.quantity - b.quantity)
+          .map((entry) => [entry.quantity, entry.percent]),
+      )
+    : null;
 }
 
 /** Pure preparation. Captures must be schema-validated by the storage/parser boundary. */
@@ -75,7 +91,8 @@ export function prepareCampaignLootReferences(
       return quest;
     selected.add(quest.questId);
     const capture = byKey.get(`quest:${quest.questId}`);
-    const items = quest.itemObjectives?.length
+    const items: NonNullable<CombatDataset["quests"][number]["itemObjectives"]> = quest
+      .itemObjectives?.length
       ? quest.itemObjectives
       : (capture?.requiredItems ?? []).map((item) => ({
           ...item,
@@ -85,14 +102,25 @@ export function prepareCampaignLootReferences(
           sharing: "unknown" as const,
         }));
     if (!items.length) enqueue("quest", quest.questId);
+    const namedObjectives = capturedItemObjectives(
+      capture?.objectives ?? [],
+      items.flatMap((item) => {
+        const name = byKey.get(`item:${item.itemId}`)?.name;
+        return name ? [{ itemId: item.itemId, name }] : [];
+      }),
+    );
     return {
       ...quest,
       itemObjectives: items.map((item) => {
-        if (item.npcIds.length === 0) return item;
+        const named = namedObjectives.get(item.itemId);
         const quantity =
           item.quantity ??
           capture?.requiredItems?.find((entry) => entry.itemId === item.itemId)?.quantity ??
+          named?.quantity ??
           null;
+        if (item.provided || named?.provided)
+          return { ...item, quantity, provided: true, npcIds: [] };
+        if (item.npcIds.length === 0) return { ...item, quantity };
         if (quantity === null) enqueue("quest", quest.questId);
         const override = overrides.find(
           (entry) => entry.questId === quest.questId && entry.itemId === item.itemId,
@@ -136,8 +164,12 @@ export function prepareCampaignLootReferences(
             itemId: item.itemId,
             npcId: relation.id,
             probability: stats.percent / 100,
+            probabilityBasis: stats.percentBasis ?? "reported",
             minimumQuantity: stats.minimumQuantity,
             maximumQuantity: stats.maximumQuantity,
+            ...(stats.quantityDistribution
+              ? { quantityDistribution: stats.quantityDistribution.map((entry) => ({ ...entry })) }
+              : {}),
             sampleSize: stats.attempts,
             targetBuild: dataset.targetBuild,
             sourceBuild: null,
@@ -152,7 +184,9 @@ export function prepareCampaignLootReferences(
             previous?.capturedAt === drop.capturedAt &&
             (previous.probability !== drop.probability ||
               previous.minimumQuantity !== drop.minimumQuantity ||
-              previous.maximumQuantity !== drop.maximumQuantity)
+              previous.maximumQuantity !== drop.maximumQuantity ||
+              distributionKey(previous.quantityDistribution) !==
+                distributionKey(drop.quantityDistribution))
           ) {
             reviews.push({
               questId: quest.questId,
@@ -172,9 +206,10 @@ export function prepareCampaignLootReferences(
               reason: `Creature ${drop.npcId} has no positive reported drop chance; choose another source or review it.`,
             });
           if (
-            stats.minimumQuantity === null ||
-            stats.maximumQuantity === null ||
-            stats.minimumQuantity !== stats.maximumQuantity
+            !stats.quantityDistribution &&
+            (stats.minimumQuantity === null ||
+              stats.maximumQuantity === null ||
+              stats.minimumQuantity !== stats.maximumQuantity)
           )
             reviews.push({
               questId: quest.questId,

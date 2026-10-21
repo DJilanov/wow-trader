@@ -152,6 +152,60 @@ describe("chronological theoretical progress", () => {
     ).toMatchObject({ kills: null, reason: expect.stringContaining("different client build") });
     expect(resolveCombatQuota(loot, combat, 1, "expected").kills).toBe(20);
   });
+  it("does not interpret sampled item totals as a drop-event rate for multi-item stacks", () => {
+    const combat = route(true).combat!,
+      loot = combat.activities[0]!.objectives[0]!;
+    expect(
+      resolveCombatQuota(
+        loot,
+        {
+          ...combat,
+          lootDrops: [
+            {
+              ...combat.lootDrops![0]!,
+              probabilityBasis: "sample-ratio",
+              minimumQuantity: 2,
+              maximumQuantity: 2,
+            },
+          ],
+        },
+        1,
+        "expected",
+      ),
+    ).toMatchObject({ kills: null, reason: expect.stringContaining("multi-item") });
+  });
+  it("uses a reported variable-stack distribution but not a sampled multi-item count ratio", () => {
+    const combat = route(true).combat!,
+      loot = combat.activities[0]!.objectives[0]!;
+    const drop = {
+      ...combat.lootDrops![0]!,
+      probability: 1,
+      minimumQuantity: null,
+      maximumQuantity: null,
+      quantityDistribution: [
+        { quantity: 1, percent: 50 },
+        { quantity: 2, percent: 50 },
+      ],
+    };
+    const objective = { ...loot, loot: { ...loot.loot!, quantity: 2 } };
+    expect(resolveCombatQuota(objective, { ...combat, lootDrops: [drop] }, 1, "fast").kills).toBe(
+      1,
+    );
+    expect(
+      resolveCombatQuota(objective, { ...combat, lootDrops: [drop] }, 1, "expected").kills,
+    ).toBe(2);
+    expect(resolveCombatQuota(objective, { ...combat, lootDrops: [drop] }, 1, "slow").kills).toBe(
+      2,
+    );
+    expect(
+      resolveCombatQuota(
+        objective,
+        { ...combat, lootDrops: [{ ...drop, probabilityBasis: "sample-ratio" }] },
+        1,
+        "expected",
+      ),
+    ).toMatchObject({ kills: null, reason: expect.stringContaining("multi-item") });
+  });
   it("counts objectives before rewards and the same-visit reward before pickup, without invented grind", () => {
     const plan = compileCampaignPickupGates(route());
     expect(plan.actions.some((a) => a.pickupQuestId === 96627)).toBe(false);
@@ -167,6 +221,37 @@ describe("chronological theoretical progress", () => {
     expect(projection.steps.find((s) => s.phase === "rewarded")!.questXp).toBe(2680);
     expect(JSON.stringify(state)).toBe(before);
     expect(plan.bookmarkAliases?.["starter-level-4-96627"]).toBe("handoff");
+  });
+  it("carries reported variable-stack luck through per-step XP without changing actual progress", () => {
+    const raw = route(true);
+    const plan = {
+      ...raw,
+      combat: {
+        ...raw.combat!,
+        lootDrops: [
+          {
+            ...raw.combat!.lootDrops![0]!,
+            probability: 1,
+            minimumQuantity: 1,
+            maximumQuantity: 2,
+            quantityDistribution: [
+              { quantity: 1, percent: 50 },
+              { quantity: 2, percent: 50 },
+            ],
+          },
+        ],
+      },
+    };
+    const state = emptyPremadeProgress(),
+      before = JSON.stringify({ plan, state });
+    const projection = forecastCampaignSteps(plan, state, { basis: "route-start" })[0]!;
+    expect(projection.steps.find((step) => step.phase === "objectives-complete")).toMatchObject({
+      combatXp: 330,
+      after: { level: 1, currentXp: 330 },
+      fastLoot: { level: 1, currentXp: 275 },
+      slowLoot: { level: 1, currentXp: 385 },
+    });
+    expect(JSON.stringify({ plan, state })).toBe(before);
   });
   it("places a hand-in before a genuine remaining gate rather than adding the hand-in to the gap", () => {
     const raw = route();

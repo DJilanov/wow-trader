@@ -40,6 +40,7 @@ export * from "./group-combat.js";
 export * from "./combat-model.js";
 export * from "./combat-xp.js";
 export * from "./quest-loot.js";
+export type { LootStackWeight } from "./loot-stack-distribution.js";
 export * from "./loot-coverage.js";
 export * from "./combat-import.js";
 export * from "./campaign-combat.js";

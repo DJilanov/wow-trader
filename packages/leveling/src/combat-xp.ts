@@ -1,7 +1,7 @@
 import type { CombatNpc, KillXpEvidence } from "./combat-model.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 
-export const COMBAT_XP_RULE = "classic-reference-level-weighted-no-bonus-20261020-v2";
+export const COMBAT_XP_RULE = "classic-reference-individual-level-no-bonus-20261021-v3";
 export interface CombatXpPosition {
   readonly level: number;
   readonly currentXp: number;
@@ -190,10 +190,7 @@ export function estimateCreatureKills(input: {
       values.push(
         Math.floor(
           (Math.floor(
-            classicNormalKillXp(Math.max(...partyLevels), mobLevel) *
-              rankFactor *
-              tuning *
-              (input.xpMultiplier ?? 1),
+            classicNormalKillXp(level, mobLevel) * rankFactor * tuning * (input.xpMultiplier ?? 1),
           ) *
             level) /
             partyLevels.reduce((sum, value) => sum + value, 0),

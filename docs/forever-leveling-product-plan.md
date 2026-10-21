@@ -1,5 +1,26 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## Current local work: reuse captured loot evidence (October 21, 2026)
+
+Implemented locally, not deployed: named-counter recovery resolves all remaining quest-quantity
+captures; Provided items do not cause additional collection kills after pickup. Reported drop
+overrides and conditional stack data are preserved, and sample ratios carry explicit provenance.
+The reference kill model now applies enemy-level adjustments per player, not using the highest
+party member's level. The read-only loot status distinguishes captured pages from calculable facts.
+
+Current private output: 0 pending quests, 21 already-captured item-data gaps, 1,153 sampled drop
+references and **zero fixed-stack facts**. Missing loot semantics, current-build calibration,
+source authorization and in-game validation still prevent full-route certification. No bulk
+recrawl is needed for the recovered quest quantities. See the
+[current evidence contract and commands](forever-leveling-theoretical-progress.md).
+
+The remaining variable-stack engine gap is now implemented locally: conditional stack weights
+are retained end to end and calculate solo, pooled and independent 2–5-player collection forecasts
+with bounded work. The parser also recognizes the source's explicit zero-denominator percentage
+encoding, without guessing it from legacy nulls. These capabilities do not manufacture missing
+weights or remove the current evidence limitations; the joint cross-quest inventory model remains
+separate work.
+
 ## Current local work: per-step theoretical progress (October 20, 2026)
 
 Implemented, not deployed: chronological per-quest XP, resolved required kills, conditional

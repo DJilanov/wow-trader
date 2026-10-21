@@ -1,6 +1,59 @@
 # WoW Trader fixes and recovery context
 
-Last updated: 2026-10-20
+Last updated: 2026-10-21
+
+## October21 — Affliction JSON recovery explicitly approved
+
+The authorized correction completed successfully as runcc4b93fd-0e72-47e8-873d-4eee893de7c2;
+handle76912 is TERMINAL0 and child27452/workers are gone. All19real controls pass full semantic/native/WASM pet/resource
+checks with zero DPS difference; four original captures retained,15new. The blue search
+is running6workers under764404e8248b94f6e9426ffa9b70e64f67f90c6606c3902858197fd2bcd4c86c.
+Blue numerical work and full replay passed:103592origins/8588760fights; resultSHA
+538b27f2a952a950db4af5f7764bf30ead322316fa91cd43791d1f62cde9fca5. Independent
+completed-source gear preflight84362/PID75607 is live; no new gear owner yet.
+The original deadline stays06:24:18UTC; no engine/source/evidence reset. Eight recovery,
+four gear-construction, four feedback, three guide/scenario and two selected-wire tests pass. Actual gear,
+feedback closure and fresh independent qualification are still pending. Seecontext.md
+for the live handle, immutable prepared report, frozen-source rules and next command.
+
+Owner answered "yes you can"; the original21Oct06:24:18UTC deadline still applies.
+New V2 controls normalize only explicit false channel allowRecast and prove identical
+complete settings wire bytes. They retain the original four captures with original
+provenance, and require15new captures plus19native/WASM controls before the blue search.
+Frozen V1 candidates, policies, source bytes, engine and completed results remain intact.
+The V3 supervisor adds only an exact failed-run/source/command/deadline-bound Affliction
+exception, not another general correction allowance. Eight focused tests and scoped lint
+pass; supervisor preflight passes. Current dispatch/progress is recorded incontext.md.
+
+## October20 — shared Warlock gear-bank structural review completed
+
+New private V2 bank/reviewer uses the actual Affliction context and common class8 gear
+rules, not a renamed Demonology profile or borrowed DPS. Five real-database tests pass:
+all17 slot pools, legal hand layouts/jewellery pairs/set assignments/enchants, identical
+eligibility across all four hand/stone controls, rejected raid-dependent crafting,
+retained legal PvP epics, no item weapon-skill bonuses, and fail-closed safety bounds.
+Scoped lint/format and source/report checks pass. There are 10,457 distinct legal gear
+layouts / 24 groups; this is structural evidence only, zero numerical jobs and no BiS
+publication. Immutable report SHA747809d257ae363f32291e58753c896598c9757bb0fa76ae37e6883b042ac72d
+under optimization/warlock-gear-structure-v2; it pins16 review/helper source files.
+All frozen sources, the class budget and public selections remain unchanged. The same
+extra JSON-only recovery approval is still missing; the repeated-blocker audit now
+leaves numerical optimization blocked pending an explicit owner decision. Seecontext.md.
+
+## October20 — Affliction channel false-default JSON mismatch
+
+The first4actual blue browser captures passed, then Wrack capture failed because browser
+protobuf JSON omits channelSpell.allowRecast:false. Its wire meaning is unchanged, but
+captureSimulatorRequest's strict JSON guard is correct; do NOT weaken that frozen guard.
+No large search/native batch ran. New separate affliction-browser-json-v1 normalizer
+proves byte-identical complete settings for all19control definitions;3focused tests pass,
+plus15V1 preparation tests. Four genuine saved captures and all9executed V1 sources are
+preserved, with an exact recovery backup in warlock-affliction-first-pass-v1.
+
+The original Warlock deadline remains21Oct06:24:18UTC. Demonology already consumed the
+planned class correction. An owner question requests one additional JSON-only recovery;
+do not treat automatic continuation as approval or bypass/reset the supervisor. See the
+latestcontext.md for failed run/command identity and the required narrow V2 recovery.
 
 ## October20 — every class must use the shared raid-wide default baseline
 

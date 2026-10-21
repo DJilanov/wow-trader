@@ -113,6 +113,65 @@ describe("missing loot data crawl preparation", () => {
     expect(result.queue).toEqual([]);
     expect(result.reviews.some((r) => r.reason.includes("items per drop"))).toBe(true);
   });
+  it("retains explicit quantity weights without requesting a redundant stack review", () => {
+    const quantityDistribution = [
+      { quantity: 1, percent: 75 },
+      { quantity: 3, percent: 25 },
+    ];
+    const captured: LootCapture = {
+      ...item,
+      relations: [
+        {
+          ...item.relations[0]!,
+          dropStatistics: {
+            percent: 40,
+            attempts: 100,
+            minimumQuantity: 1,
+            maximumQuantity: 3,
+            quantityDistribution,
+          },
+        },
+      ],
+    };
+    const before = JSON.stringify(captured);
+    const first = prepareCampaignLootReferences(dataset(), new Set([33]), [quest, captured]);
+    expect(first.data.lootDrops?.[0]?.quantityDistribution).toEqual(quantityDistribution);
+    expect(first.reviews.some((review) => review.reason.includes("items per drop"))).toBe(false);
+    const reordered: LootCapture = {
+      ...captured,
+      relations: [
+        {
+          ...captured.relations[0]!,
+          dropStatistics: {
+            ...captured.relations[0]!.dropStatistics!,
+            quantityDistribution: [...quantityDistribution].reverse(),
+          },
+        },
+      ],
+    };
+    const again = prepareCampaignLootReferences(first.data, new Set([33]), [quest, reordered]);
+    expect(again.data.lootDrops).toHaveLength(1);
+    expect(again.reviews.some((review) => review.reason.includes("Conflicting"))).toBe(false);
+    const changed: LootCapture = {
+      ...captured,
+      relations: [
+        {
+          ...captured.relations[0]!,
+          dropStatistics: {
+            ...captured.relations[0]!.dropStatistics!,
+            quantityDistribution: [
+              { quantity: 1, percent: 50 },
+              { quantity: 3, percent: 50 },
+            ],
+          },
+        },
+      ],
+    };
+    const conflict = prepareCampaignLootReferences(first.data, new Set([33]), [quest, changed]);
+    expect(conflict.data.lootDrops).toEqual([]);
+    expect(conflict.reviews.some((review) => review.reason.includes("Conflicting"))).toBe(true);
+    expect(JSON.stringify(captured)).toBe(before);
+  });
   it("ignores a different edition and out-of-route quests", () => {
     expect(
       prepareCampaignLootReferences(dataset(), new Set([33]), [{ ...quest, game: "tbc" }]).queue,
@@ -165,6 +224,54 @@ describe("missing loot data crawl preparation", () => {
     const result = prepareCampaignLootReferences(original, new Set([33]), [quest]);
     expect(result.data.quests[0]!.itemObjectives?.[0]?.quantity).toBe(8);
     expect(result.queue).toEqual([{ game: "forever", kind: "item", id: 750 }]);
+  });
+  it("recovers quantities from previously captured named objective rows without changing the capture", () => {
+    const original = dataset();
+    original.quests[0]!.itemObjectives = [
+      { itemId: 750, quantity: null, objectiveIndex: 1, npcIds: [299], sharing: "unknown" },
+    ];
+    const { requiredItems: _, ...olderQuest } = quest;
+    const captured = { ...olderQuest, objectives: ["Collect the food. Tough Wolf Meat (8)"] };
+    const before = JSON.stringify(captured);
+    const result = prepareCampaignLootReferences(original, new Set([33]), [
+      captured,
+      { ...item, name: "Tough Wolf Meat" },
+    ]);
+    expect(result.data.quests[0]!.itemObjectives?.[0]?.quantity).toBe(8);
+    expect(result.queue).toEqual([]);
+    expect(JSON.stringify(captured)).toBe(before);
+  });
+  it("preserves whether a probability was inferred from collected samples", () => {
+    const result = prepareCampaignLootReferences(dataset(), new Set([33]), [
+      quest,
+      {
+        ...item,
+        relations: [
+          {
+            ...item.relations[0]!,
+            dropStatistics: { ...item.relations[0]!.dropStatistics!, percentBasis: "sample-ratio" },
+          },
+        ],
+      },
+    ]);
+    expect(result.data.lootDrops?.[0]?.probabilityBasis).toBe("sample-ratio");
+  });
+  it("does not recrawl supplied items or add collection kills after pickup", () => {
+    const original = dataset();
+    original.quests[0]!.itemObjectives = [
+      { itemId: 750, quantity: null, objectiveIndex: 1, npcIds: [299], sharing: "unknown" },
+    ];
+    const { requiredItems: _, ...olderQuest } = quest;
+    const result = prepareCampaignLootReferences(original, new Set([33]), [
+      { ...olderQuest, objectives: ["Bring the food. Tough Wolf Meat (Provided) (8)"] },
+      { ...item, name: "Tough Wolf Meat" },
+    ]);
+    expect(result.data.quests[0]!.itemObjectives?.[0]).toMatchObject({
+      quantity: 8,
+      provided: true,
+      npcIds: [],
+    });
+    expect(result.queue).toEqual([]);
   });
   it("does not ask for drop rates on gathering-only item objectives", () => {
     const original = dataset();

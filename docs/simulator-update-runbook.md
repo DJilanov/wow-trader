@@ -1,5 +1,71 @@
 # Repeatable pre-raid simulation updates
 
+## October21 — approved Affliction JSON-only correction
+
+Completed owner76912/child27452, runcc4b93fd-0e72-47e8-873d-4eee893de7c2, TERMINAL0. All19real
+browser/native/WASM controls pass with zero DPS difference and full pet/resource checks.
+Study764404e8248b94f6e9426ffa9b70e64f67f90c6606c3902858197fd2bcd4c86c is
+finished all six rounds and full runtime replay:103592origins/8588760fights. Do not
+restart it or edit its frozen files. Independent completed-source gear preflight is
+live as84362/PID75607; poll that same handle. Require its success before the prepared
+gear→feedback→fresh-confirmation→selected-parity→UI/guide stages. The21new
+construction/wire/guide tests are not numerical qualification. Full state is incontext.md.
+
+The owner explicitly approved this recovery. It is no longer awaiting permission;
+the original21Oct06:24:18UTC deadline still applies. Keep all original V1 source/capture
+bytes. New V2 controls carry wire-equivalence proofs and explicit predecessor references;
+the native search imports the unchanged V1 talent/APL/pet generators and narrowing policy.
+The separate V3 budget supervisor allows only the exact approved Affliction exception.
+Eight focused recovery tests and scoped lint pass. Authorized command, repository root:
+
+```sh
+node artifacts/forever-simulator/optimization/review-tools/run-warlock-affliction-correction-v1.mjs --run
+```
+
+It retains the four original captures, captures15additional controls, checks19native/WASM
+cases and only then starts blue talent/rotation selection. Same-command resumes retain
+the original budget/history and require authoritative terminal/liveness checks first.
+Do not edit frozen files or call blue selection final BiS. Current evidence is at the
+top ofcontext.md; all-slot gear, geared feedback and independent qualification still follow.
+
+## Warlock structural gear preflight, not numerical qualification
+
+The private `warlock-fixed-context-gear-bank-v2.mjs` accepts genuine class8 Warlock
+contexts without invoking Demonology's spec-only guard. It keeps non-raid acquisition,
+faction/profession, uniqueness, quest-choice, equipment and enchant checks intact.
+It does not select gear, run an engine, grant a correction or authorize publication.
+
+Verified commands (repository root):
+
+```sh
+node --test artifacts/forever-simulator/optimization/review-tools/warlock-fixed-context-gear-bank-v2.test.mjs
+node artifacts/forever-simulator/optimization/review-tools/review-warlock-gear-structure-v2.mjs --write
+```
+
+Five tests pass. The immutable structural report is
+`artifacts/forever-simulator/optimization/warlock-gear-structure-v2/747809d257ae363f32291e58753c896598c9757bb0fa76ae37e6883b042ac72d.json`:
+10,641 proposals / 10,457 unique legal loadouts / 24 groups, all17 slot pools and16
+review/helper source pins, zero native/browser jobs. The four actual hand/stone controls
+expose the same eligible pools. Rebuild for the selected talents/APL/options and measure
+the candidates before reporting numerical gear coverage. Existing frozen V1 sources,
+model inputs, budget history and public selections remain unchanged.
+
+The extra Affliction JSON-only recovery still lacks owner approval. Repeated checks
+have exhausted safe structural work; numerical optimization is blocked pending that
+decision. Keep the original21Oct06:24:18UTC deadline. A later approval does not silently
+extend an elapsed deadline; request an explicit extension if needed.
+
+## Affliction first-pass recovery awaiting owner choice
+
+V1 preparation passes15tests/preflight:2110talents,82allocations,54policies,72000proposals.
+Four real browser controls are saved; the fifth exposed an explicit-false JSON default
+round-trip mismatch. New separate normalizer passes3wire-equivalence tests for all19
+control definitions, without changing the model or any old capture/source. Do not weaken
+the fixed-capture guard or edit V1's frozen files. The single class correction is already
+used; await the explicit requested JSON-only exception before a narrow V2 dispatch.
+Keep the original21Oct06:24:18UTC deadline, all failure history, and unqualified status.
+Details and exact recovery backup/failed command are at the top ofcontext.md.
+
 ## October20 17:50UTC — Hunter shipped and production verified
 
 Use approvedV2c98e5e028954b29c1ee0354e, not failedV195a2072e. Qualified BM/MM/SV inputs and

@@ -1,8 +1,24 @@
 import { z } from "zod";
+import { estimateVariableStackKills, type LootStackWeight } from "./loot-stack-distribution.js";
 
 const id = z.number().int().positive().max(10_000_000);
 export const lootSharingSchema = z.enum(["independent", "pooled", "unknown"]);
 export type LootSharing = z.infer<typeof lootSharingSchema>;
+
+export const lootQuantityDistributionSchema = z
+  .array(
+    z
+      .object({ quantity: z.number().int().min(1).max(10000), percent: z.number().min(0).max(100) })
+      .strict(),
+  )
+  .min(1)
+  .max(100)
+  .refine(
+    (entries) =>
+      new Set(entries.map((entry) => entry.quantity)).size === entries.length &&
+      Math.abs(entries.reduce((sum, entry) => sum + entry.percent, 0) - 100) < 0.000001,
+    "Invalid conditional drop quantity distribution",
+  );
 
 export const questItemObjectiveSchema = z
   .object({
@@ -11,6 +27,7 @@ export const questItemObjectiveSchema = z
     quantity: z.number().int().min(1).max(10_000).nullable(),
     npcIds: z.array(id).max(1000),
     sharing: lootSharingSchema,
+    provided: z.boolean().optional(),
   })
   .strict();
 
@@ -19,8 +36,10 @@ export const questLootDropSchema = z
     itemId: id,
     npcId: id,
     probability: z.number().finite().min(0).max(1),
+    probabilityBasis: z.enum(["reported", "reported-override", "sample-ratio"]).optional(),
     minimumQuantity: z.number().int().min(1).max(10_000).nullable(),
     maximumQuantity: z.number().int().min(1).max(10_000).nullable(),
+    quantityDistribution: lootQuantityDistributionSchema.optional(),
     sampleSize: z.number().int().positive().nullable(),
     targetBuild: z.number().int().positive(),
     sourceBuild: z.number().int().positive().nullable().optional(),
@@ -35,9 +54,34 @@ export const questLootDropSchema = z
       drop.maximumQuantity === null ||
       drop.maximumQuantity >= drop.minimumQuantity,
     "Invalid drop stack range",
+  )
+  .refine(
+    (drop) =>
+      !drop.quantityDistribution?.some(
+        (entry) =>
+          entry.percent > 0 &&
+          ((drop.minimumQuantity !== null && entry.quantity < drop.minimumQuantity) ||
+            (drop.maximumQuantity !== null && entry.quantity > drop.maximumQuantity)),
+      ),
+    "Drop stack bounds conflict with the quantity distribution",
   );
 export type QuestLootDrop = z.infer<typeof questLootDropSchema>;
 export type LootScenario = "fast" | "expected" | "slow";
+
+export function lootQuantityModel(drop: {
+  readonly minimumQuantity: number | null;
+  readonly maximumQuantity: number | null;
+  readonly quantityDistribution?: readonly LootStackWeight[] | undefined;
+}): "fixed" | "weighted" | "unknown" {
+  if (drop.quantityDistribution)
+    return drop.quantityDistribution.filter((entry) => entry.percent > 0).length === 1
+      ? "fixed"
+      : "weighted";
+  return drop.minimumQuantity !== null && drop.maximumQuantity === drop.minimumQuantity
+    ? "fixed"
+    : "unknown";
+}
+
 export type LootKillEstimate =
   | {
       readonly status: "estimated";
@@ -54,10 +98,12 @@ export function estimateLootKills(input: {
   readonly probability: number;
   readonly minimumQuantity: number | null;
   readonly maximumQuantity: number | null;
+  readonly quantityDistribution?: readonly LootStackWeight[] | undefined;
   readonly partySize: number;
   readonly sharing: LootSharing;
 }): LootKillEstimate {
-  const { quantity, probability, partySize, sharing, minimumQuantity, maximumQuantity } = input;
+  const { quantity, probability, partySize, sharing } = input;
+  let { minimumQuantity, maximumQuantity } = input;
   if (
     !Number.isInteger(quantity) ||
     quantity < 1 ||
@@ -76,15 +122,37 @@ export function estimateLootKills(input: {
   )
     throw new Error("Invalid quest loot estimate inputs.");
   const unknown = (reason: string): LootKillEstimate => ({ status: "unknown", reason });
+  const distribution =
+    input.quantityDistribution === undefined
+      ? undefined
+      : lootQuantityDistributionSchema
+          .parse(input.quantityDistribution)
+          .filter((entry) => entry.percent > 0);
+  if (
+    distribution?.some(
+      (entry) =>
+        (minimumQuantity !== null && entry.quantity < minimumQuantity) ||
+        (maximumQuantity !== null && entry.quantity > maximumQuantity),
+    )
+  )
+    throw new Error("Drop stack bounds conflict with the quantity distribution.");
   if (probability === 0) return unknown("This creature has no established positive drop chance.");
+  if (partySize > 1 && sharing === "unknown")
+    return unknown("Quest loot sharing is unknown for this party.");
+  if (distribution?.length === 1) minimumQuantity = maximumQuantity = distribution[0]!.quantity;
+  if (distribution && distribution.length > 1)
+    return estimateVariableStackKills({
+      requiredItems: quantity * (sharing === "pooled" ? partySize : 1),
+      probability,
+      independentPlayers: sharing === "independent" ? partySize : 1,
+      weights: distribution,
+    });
   if (minimumQuantity === null || maximumQuantity === null)
     return unknown("Items per successful drop are missing; one item is not assumed.");
   if (minimumQuantity !== maximumQuantity)
     return unknown(
       "Variable stacks require their quantity distribution, not a uniform assumption.",
     );
-  if (partySize > 1 && sharing === "unknown")
-    return unknown("Quest loot sharing is unknown for this party.");
   const successes = Math.ceil(
     (quantity * (sharing === "pooled" ? partySize : 1)) / minimumQuantity,
   );

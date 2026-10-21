@@ -50,6 +50,8 @@
     "leveling:feedback": "node scripts/leveling-feedback.mjs",
     "leveling:combat:import": "pnpm --filter @wow-trader/leveling build && node scripts/import-leveling-combat.mjs",
     "leveling:loot:prepare": "pnpm --filter @wow-trader/leveling build && pnpm --filter @wow-trader/reference-data build && node scripts/prepare-leveling-loot.mjs",
+    "leveling:loot:status": "node scripts/leveling-loot-status.mjs",
+    "leveling:loot:status:test": "node --test scripts/leveling-loot-status.test.mjs",
     "leveling:combat:audit": "pnpm --filter @wow-trader/leveling build && node scripts/audit-leveling-combat.mjs",
     "leveling:combat:review": "pnpm --filter @wow-trader/leveling build && node scripts/review-leveling-combat-evidence.mjs",
     "leveling:grind:review": "pnpm --filter @wow-trader/leveling build && node scripts/review-leveling-grind-evidence.mjs",

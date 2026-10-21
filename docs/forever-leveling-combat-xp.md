@@ -1,7 +1,8 @@
 # Required combat XP: implementation and operation
 
-Latest local extension (October 20): see [per-step theoretical progress and loot preparation](forever-leveling-theoretical-progress.md).
-This work is not deployed. Group estimates now use level-weighted shares, with no assumed party
+Latest local extension (October 21): see [per-step theoretical progress and loot preparation](forever-leveling-theoretical-progress.md).
+The latest extraction/reference changes are not deployed. Group estimates use each player's
+enemy-level adjustment and level-weighted shares, with no assumed party
 bonus and other members held at the objective-start level snapshot; the older equal-level
 description below records the earlier delivery.
 

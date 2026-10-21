@@ -15,6 +15,7 @@ import {
   buildCampaignPlan,
   prepareCampaignLootReferences,
   lootSharingSchema,
+  lootQuantityModel,
   indexCombatReferences,
   resolveCombatObjectives,
 } from "../packages/leveling/dist/index.js";
@@ -22,6 +23,7 @@ import {
   readStagedReference,
   parseWowheadPage,
   atomicJsonWrite,
+  normalizeDropStatistics,
 } from "../packages/reference-data/dist/index.js";
 
 const { values } = parseArgs({
@@ -194,7 +196,16 @@ async function capture(kind, id) {
         });
     }
   }
-  if (record) captures.push(record);
+  if (record)
+    captures.push({
+      ...record,
+      relations: record.relations.map((relation) => ({
+        ...relation,
+        ...(relation.dropStatistics
+          ? { dropStatistics: normalizeDropStatistics(relation.dropStatistics) }
+          : {}),
+      })),
+    });
 }
 for (const quest of dataset.quests)
   if (questIds.has(quest.questId) && (quest.itemCreatureIds.length || quest.itemObjectives?.length))
@@ -204,6 +215,7 @@ for (const quest of initial.data.quests)
   if (questIds.has(quest.questId))
     for (const item of quest.itemObjectives ?? []) await capture("item", item.itemId);
 const prepared = prepareCampaignLootReferences(dataset, questIds, captures, overrides);
+const capturedKeys = new Set(captures.map((capture) => `${capture.kind}:${capture.id}`));
 const outputRoot = join(destination, "combat");
 await mkdir(outputRoot, { recursive: true });
 const serialized = JSON.stringify(prepared.data) + "\n",
@@ -233,11 +245,29 @@ const report = {
   editions,
   publication: prepared.data.publication,
   outputCombatSha256: emittedHash,
+  queueSha256: hash(JSON.stringify(prepared.queue) + "\n"),
   summary: {
     lootQuests: prepared.questIds.length,
+    providedItemObjectives: prepared.data.quests.reduce(
+      (total, quest) => total + (quest.itemObjectives?.filter((item) => item.provided).length ?? 0),
+      0,
+    ),
     questsNeedingItemIdentityOrQuantity: prepared.queue.filter((t) => t.kind === "quest").length,
     itemsNeedingDropRates: prepared.queue.filter((t) => t.kind === "item").length,
     quantifiedDrops: prepared.data.lootDrops?.length ?? 0,
+    sampleBasedDrops:
+      prepared.data.lootDrops?.filter((drop) => drop.probabilityBasis === "sample-ratio").length ??
+      0,
+    fixedQuantityDrops:
+      prepared.data.lootDrops?.filter((drop) => lootQuantityModel(drop) === "fixed").length ?? 0,
+    weightedQuantityDrops:
+      prepared.data.lootDrops?.filter((drop) => lootQuantityModel(drop) === "weighted").length ?? 0,
+    pendingCapturedTasks: prepared.queue.filter((task) =>
+      capturedKeys.has(`${task.kind}:${task.id}`),
+    ).length,
+    pendingUncapturedTasks: prepared.queue.filter(
+      (task) => !capturedKeys.has(`${task.kind}:${task.id}`),
+    ).length,
     sourceQuantitiesRecovered,
     manualReviews: prepared.reviews.length + quantityConflicts.length,
     cachedReferences: captures.length,

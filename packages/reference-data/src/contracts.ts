@@ -19,9 +19,29 @@ const spellAcquisitionRelations = new Set([
   "contained-in-object",
 ]);
 
+const dropQuantityDistributionSchema = z
+  .array(
+    z
+      .object({
+        quantity: z.number().int().positive().max(10000),
+        percent: z.number().finite().min(0).max(100),
+      })
+      .strict(),
+  )
+  .min(1)
+  .max(100)
+  .refine(
+    (entries) =>
+      new Set(entries.map((entry) => entry.quantity)).size === entries.length &&
+      Math.abs(entries.reduce((sum, entry) => sum + entry.percent, 0) - 100) < 0.000001,
+    "Invalid conditional drop quantity distribution",
+  );
+
 export const dropStatisticsSchema = z
   .object({
     percent: z.number().finite().min(0).max(100).nullable(),
+    percentBasis: z.enum(["reported", "reported-override", "sample-ratio"]).optional(),
+    quantityDistribution: dropQuantityDistributionSchema.optional(),
     drops: z.number().int().nonnegative().nullable(),
     attempts: z.number().int().positive().nullable(),
     minimumQuantity: z.number().int().positive().max(10000).nullable(),
@@ -34,6 +54,16 @@ export const dropStatisticsSchema = z
       entry.maximumQuantity === null ||
       entry.minimumQuantity <= entry.maximumQuantity,
     "Invalid drop stack bounds",
+  )
+  .refine(
+    (drop) =>
+      !drop.quantityDistribution?.some(
+        (entry) =>
+          entry.percent > 0 &&
+          ((drop.minimumQuantity !== null && entry.quantity < drop.minimumQuantity) ||
+            (drop.maximumQuantity !== null && entry.quantity > drop.maximumQuantity)),
+      ),
+    "Drop stack bounds conflict with the quantity distribution",
   );
 export type DropStatistics = z.infer<typeof dropStatisticsSchema>;
 
