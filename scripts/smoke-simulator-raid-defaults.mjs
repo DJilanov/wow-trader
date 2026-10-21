@@ -43,8 +43,32 @@ function core(settings) {
   assert.equal(settings.raidBuffs.moonkinAura, true);
   assert.equal(settings.raidBuffs.leaderOfThePack, true);
   assert.equal(settings.raidBuffs.trueshotAura, true);
-  for (const field of ["battleShout", "strengthOfEarthTotem", "graceOfAirTotem"])
-    assert.equal(settings.raidBuffs[field], "TristateEffectRegular");
+  for (const field of [
+    "battleShout",
+    "strengthOfEarthTotem",
+    "graceOfAirTotem",
+    "giftOfTheWild",
+    "powerWordFortitude",
+    "manaSpringTotem",
+    "devotionAura",
+    "stoneskinTotem",
+    "thorns",
+    "retributionAura",
+  ])
+    assert.equal(settings.raidBuffs[field], "TristateEffectImproved", field);
+  for (const field of [
+    "arcaneBrilliance",
+    "divineSpirit",
+    "shadowProtection",
+    "natureResistanceTotem",
+    "fireResistanceAura",
+    "frostResistanceAura",
+  ])
+    assert.equal(settings.raidBuffs[field], true, field);
+  assert.equal(settings.raidBuffs.bloodPact, "TristateEffectRegular");
+  assert.equal(settings.player.buffs.blessingOfKings, true);
+  for (const field of ["blessingOfMight", "blessingOfWisdom"])
+    assert.equal(settings.player.buffs[field], "TristateEffectImproved", field);
   assert.equal(settings.partyBuffs.windfuryTotem, true);
   assert.equal(settings.partyBuffs.flametongueTotem ?? false, false);
 }
@@ -66,7 +90,7 @@ try {
         await ready(page);
         core((await current(page)).value);
         const frame = page.frameLocator("iframe");
-        assert.match(await page.locator("iframe").getAttribute("src"), /raidDefaults=core-v1/);
+        assert.match(await page.locator("iframe").getAttribute("src"), /raidDefaults=full-v2/);
         const presets = frame.locator(".preset-configuration-picker-root .saved-data-set-name");
         let configurations = 0;
         for (let index = 0; index < (await presets.count()); index++) {
@@ -82,6 +106,8 @@ try {
         const optedOut = globalThis.structuredClone(before.value);
         optedOut.raidBuffs.trueshotAura = false;
         delete optedOut.raidBuffs.moonkinAura;
+        optedOut.raidBuffs.strengthOfEarthTotem = "TristateEffectRegular";
+        optedOut.player.buffs.blessingOfKings = false;
         await page.evaluate(
           ({ key, value }) => globalThis.localStorage.setItem(key, JSON.stringify(value)),
           {
@@ -93,17 +119,20 @@ try {
         const restored = (await current(page)).value;
         assert.equal(restored.raidBuffs.trueshotAura ?? false, false, "Manual opt-out overwritten");
         assert.equal(restored.raidBuffs.moonkinAura ?? false, false);
+        assert.equal(restored.raidBuffs.strengthOfEarthTotem, "TristateEffectRegular");
+        assert.equal(restored.player.buffs.blessingOfKings ?? false, false);
         assert.deepEqual(restored.player.equipment, optedOut.player.equipment);
         assert.equal(restored.player.talentsString, optedOut.player.talentsString);
         // Simulate an existing browser before the one-time baseline rollout.
-        await page.evaluate(
-          (key) => globalThis.localStorage.removeItem(key + "_kfc-raid-defaults-core-v1"),
-          before.key,
-        );
+        await page.evaluate((key) => {
+          globalThis.localStorage.removeItem(key + "_kfc-raid-defaults-full-v2");
+          globalThis.localStorage.setItem(key + "_kfc-raid-defaults-core-v1", "1");
+        }, before.key);
         await reloadEngine(page);
         const migrated = (await current(page)).value;
         core(migrated);
-        assert.deepEqual(migrated.player, optedOut.player);
+        assert.deepEqual({ ...migrated.player, buffs: {} }, { ...optedOut.player, buffs: {} });
+        assert.deepEqual(migrated.debuffs, optedOut.debuffs);
         assert.deepEqual(migrated.encounter, optedOut.encounter);
         if (spec.page === "warrior") {
           // The historical full benchmark intentionally retains its measured buff setup.
@@ -117,19 +146,21 @@ try {
           width,
           configurations,
           defaults: true,
+          improvedTotems: true,
+          kings: true,
           reload: true,
           optOut: true,
           migration: true,
         });
         console.log(
-          `PASS ${spec.slug} ${width}px: seven buffs, ${configurations} configurations, reload, opt-out, migration`,
+          `PASS ${spec.slug} ${width}px: full improved raid buffs and Kings, ${configurations} configurations, reload, opt-out, migration`,
         );
       } finally {
         await context.close();
       }
     }
   }
-  const report = { status: "passed", base, checked };
+  const report = { status: "passed", version: "full-v2", base, checked };
   if (process.env.SIMULATOR_SMOKE_REPORT)
     await writeFile(process.env.SIMULATOR_SMOKE_REPORT, JSON.stringify(report, null, 2) + "\n", {
       flag: "wx",

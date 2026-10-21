@@ -58,7 +58,7 @@ describe("Self-hosted Forever simulator assets", () => {
         f.directory,
       );
       expect(await original.text()).toBe(html);
-      const url = "http://localhost/warrior/?raidDefaults=core-v1";
+      const url = "http://localhost/warrior/?raidDefaults=full-v2";
       const adapted = await serveSimulatorAsset(
         new Request(url),
         f.release,
@@ -66,7 +66,7 @@ describe("Self-hosted Forever simulator assets", () => {
         f.directory,
       );
       const body = await adapted.text();
-      expect(body).toContain('data-kfc-raid-defaults="core-v1"');
+      expect(body).toContain('data-kfc-raid-defaults="full-v2"');
       expect(body.indexOf("installSimulatorRaidDefaults")).toBeLessThan(
         body.indexOf('src="/entry.js"'),
       );

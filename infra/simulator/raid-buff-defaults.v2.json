@@ -1,0 +1,34 @@
+{
+  "version": "full-v2",
+  "raid": {
+    "moonkinAura": true,
+    "leaderOfThePack": true,
+    "trueshotAura": true,
+    "battleShout": 2,
+    "strengthOfEarthTotem": 2,
+    "graceOfAirTotem": 2,
+    "arcaneBrilliance": true,
+    "divineSpirit": true,
+    "giftOfTheWild": 2,
+    "powerWordFortitude": 2,
+    "bloodPact": 1,
+    "manaSpringTotem": 2,
+    "devotionAura": 2,
+    "stoneskinTotem": 2,
+    "thorns": 2,
+    "retributionAura": 2,
+    "shadowProtection": true,
+    "natureResistanceTotem": true,
+    "fireResistanceAura": true,
+    "frostResistanceAura": true
+  },
+  "party": {
+    "windfuryTotem": true,
+    "flametongueTotem": false
+  },
+  "individual": {
+    "blessingOfKings": true,
+    "blessingOfMight": 2,
+    "blessingOfWisdom": 2
+  }
+}

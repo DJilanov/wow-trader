@@ -112,12 +112,12 @@ describe("Simulator frame readiness", () => {
     expect(isSimulatorFrameReady(pending, requested, origin)).toBe(false);
   });
   it("recognizes a consumed build while keeping the versioned raid defaults query", () => {
-    const query = "?raidDefaults=core-v1";
+    const query = "?raidDefaults=full-v2";
     expect(isSimulatorFrameReady(fixture(origin + src + query), src + query, origin)).toBe(true);
     expect(
       isSimulatorFrameReady(
         fixture(origin + src + query),
-        src + "?build=Arms&raidDefaults=core-v1",
+        src + "?build=Arms&raidDefaults=full-v2",
         origin,
       ),
     ).toBe(true);
@@ -125,7 +125,7 @@ describe("Simulator frame readiness", () => {
     expect(
       isSimulatorFrameReady(
         fixture(origin + src + query),
-        src + "?build=Arms&build=Fury&raidDefaults=core-v1",
+        src + "?build=Arms&build=Fury&raidDefaults=full-v2",
         origin,
       ),
     ).toBe(false);

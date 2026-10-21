@@ -84,19 +84,19 @@ describe("Embedded simulator navigation", () => {
   it("strips only the valid internal defaults version from host navigation", () => {
     expect(
       simulatorNavigationHref(
-        "../warrior/?build=Arms&raidDefaults=core-v1",
-        src + "?raidDefaults=core-v1",
+        "../warrior/?build=Arms&raidDefaults=full-v2",
+        src + "?raidDefaults=full-v2",
         origin,
       ),
     ).toBe("/forever/simulator/warrior?build=Arms");
     expect(simulatorNavigationHref("../warrior/?raidDefaults=unknown", src, origin)).toBeNull();
     expect(
-      simulatorNavigationHref("../warrior/?raidDefaults=core-v1&raidDefaults=core-v1", src, origin),
+      simulatorNavigationHref("../warrior/?raidDefaults=full-v2&raidDefaults=full-v2", src, origin),
     ).toBeNull();
     const onPresetSelected = vi.fn();
     const disconnect = connectSimulatorFrameNavigation(
       frameWithActiveLabel("Fury"),
-      src + "?raidDefaults=core-v1",
+      src + "?raidDefaults=full-v2",
       { onNavigate: vi.fn(), onPresetSelected },
     );
     expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith("Fury", "initial");

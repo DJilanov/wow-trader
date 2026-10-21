@@ -2,6 +2,7 @@ import { runInNewContext } from "node:vm";
 import { describe, expect, it, vi } from "vitest";
 import {
   installSimulatorRaidDefaults,
+  simulatorRaidBuffDefaults,
   simulatorRaidDefaultsModule,
   simulatorRaidDefaultsSrc,
 } from "./forever-simulator-raid-defaults";
@@ -12,6 +13,7 @@ function fixture(href = "https://kfcguild.online/forever-sim/" + "a".repeat(24) 
   simulator: {
     raid: { buffs: Record<string, unknown> };
     party: { buffs: Record<string, unknown> };
+    player: { buffs: Record<string, unknown> };
     applyDefaults(eventID: number): void;
     loadSettings(): void;
   };
@@ -40,7 +42,11 @@ function fixture(href = "https://kfcguild.online/forever-sim/" + "a".repeat(24) 
       this.buffs = { ...buffs };
       storage.setItem(
         "character",
-        JSON.stringify({ raid: simulator.raid.buffs, party: simulator.party.buffs }),
+        JSON.stringify({
+          raid: simulator.raid.buffs,
+          party: simulator.party.buffs,
+          player: simulator.player.buffs,
+        }),
       );
     }
   }
@@ -48,10 +54,11 @@ function fixture(href = "https://kfcguild.online/forever-sim/" + "a".repeat(24) 
     raid = new Owner();
     party = new Owner();
     sim = { raid: this.raid };
-    player = { getParty: (): Owner => this.party };
+    player = Object.assign(new Owner(), { getParty: (): Owner => this.party });
     applyDefaults(_eventID: number): void {
       this.raid.buffs = { trueshotAura: false, arcaneBrilliance: true };
       this.party.buffs = { flametongueTotem: true, manaTideTotems: 1 };
+      this.player.buffs = { blessingOfKings: false, innervates: 2 };
     }
     getSavedGearStorageKey(): string {
       return "named-gear";
@@ -66,12 +73,16 @@ function fixture(href = "https://kfcguild.online/forever-sim/" + "a".repeat(24) 
         const parsed = JSON.parse(saved) as {
           raid: Record<string, unknown>;
           party: Record<string, unknown>;
+          player?: Record<string, unknown>;
         };
         this.raid.buffs = parsed.raid;
         this.party.buffs = parsed.party;
+        this.player.buffs = parsed.player ?? {};
       }
-      if (new URL(href).hash || new URL(href).searchParams.has("build"))
+      if (new URL(href).hash) {
         this.raid.buffs = { trueshotAura: false, imported: true };
+        this.player.buffs = { blessingOfKings: false, imported: true };
+      }
     }
   }
   const simulator = new Simulator(),
@@ -80,12 +91,13 @@ function fixture(href = "https://kfcguild.online/forever-sim/" + "a".repeat(24) 
     simulator,
     runtime,
     storage,
-    install: (): void => installSimulatorRaidDefaults(runtime, storage, { href }),
+    install: (): void =>
+      installSimulatorRaidDefaults(runtime, storage, { href }, simulatorRaidBuffDefaults),
   };
 }
 
 describe("Shared raid-wide simulator defaults", () => {
-  it("enables all seven buffs, keeps other buffs and selects only one weapon totem", () => {
+  it("enables full improved raid buffs and individual blessings with only one weapon totem", () => {
     const f = fixture();
     f.install();
     f.simulator.loadSettings();
@@ -94,45 +106,92 @@ describe("Shared raid-wide simulator defaults", () => {
       moonkinAura: true,
       leaderOfThePack: true,
       trueshotAura: true,
-      battleShout: 1,
-      strengthOfEarthTotem: 1,
-      graceOfAirTotem: 1,
+      battleShout: 2,
+      strengthOfEarthTotem: 2,
+      graceOfAirTotem: 2,
+      divineSpirit: true,
+      giftOfTheWild: 2,
+      powerWordFortitude: 2,
+      bloodPact: 1,
+      manaSpringTotem: 2,
+      devotionAura: 2,
+      stoneskinTotem: 2,
+      thorns: 2,
+      retributionAura: 2,
+      shadowProtection: true,
+      natureResistanceTotem: true,
+      fireResistanceAura: true,
+      frostResistanceAura: true,
     });
     expect(f.simulator.party.buffs).toEqual({
       flametongueTotem: false,
       windfuryTotem: true,
       manaTideTotems: 1,
     });
+    expect(f.simulator.player.buffs).toEqual({
+      blessingOfKings: true,
+      blessingOfMight: 2,
+      blessingOfWisdom: 2,
+      innervates: 2,
+    });
+    expect(Object.keys(f.simulator.raid.buffs).length).toBeGreaterThan(16);
+    expect(f.simulator.raid.buffs.sanctityAura).toBeUndefined();
+    expect(f.simulator.player.buffs.rallyingCryOfTheDragonslayer).toBeUndefined();
   });
   it("migrates only the current character once, preserving later opt-outs and named saves", () => {
     const f = fixture();
     f.storage.setItem(
       "character",
-      JSON.stringify({ raid: { trueshotAura: false, blessingOfKings: true }, party: {} }),
+      JSON.stringify({
+        raid: { trueshotAura: false, strengthOfEarthTotem: 1 },
+        party: {},
+        player: { blessingOfKings: false, innervates: 3 },
+      }),
     );
+    f.storage.setItem("character_kfc-raid-defaults-core-v1", "1");
     f.storage.setItem("named-gear", "original named build");
     f.install();
     f.simulator.loadSettings();
     expect(f.simulator.raid.buffs.trueshotAura).toBe(true);
-    expect(f.simulator.raid.buffs.blessingOfKings).toBe(true);
-    const saved = JSON.parse(f.storage.getItem("character")!) as { raid: Record<string, unknown> };
+    expect(f.simulator.raid.buffs.strengthOfEarthTotem).toBe(2);
+    expect(f.simulator.player.buffs.blessingOfKings).toBe(true);
+    expect(f.simulator.player.buffs.innervates).toBe(3);
+    const saved = JSON.parse(f.storage.getItem("character")!) as {
+      raid: Record<string, unknown>;
+      player: Record<string, unknown>;
+    };
     saved.raid.trueshotAura = false;
+    saved.raid.strengthOfEarthTotem = 1;
+    saved.player.blessingOfKings = false;
     f.storage.setItem("character", JSON.stringify(saved));
     f.simulator.loadSettings();
     expect(f.simulator.raid.buffs.trueshotAura).toBe(false);
+    expect(f.simulator.raid.buffs.strengthOfEarthTotem).toBe(1);
+    expect(f.simulator.player.buffs.blessingOfKings).toBe(false);
     expect(f.storage.getItem("named-gear")).toBe("original named build");
     f.simulator.applyDefaults(99);
     expect(f.simulator.raid.buffs.trueshotAura).toBe(true);
   });
-  it.each(["#full-share", "?build=Arms", "?profile=reviewed", "?race=Human"])(
-    "does not modify explicit imports or their next reload: %s",
+  it.each(["#full-share", "?build=Arms#full-share"])(
+    "does not modify explicit combat-setting imports: %s",
     (suffix: string) => {
       const f = fixture("https://kfcguild.online/warrior/" + suffix);
       f.install();
       f.simulator.loadSettings();
-      if (suffix.startsWith("#") || suffix.startsWith("?build"))
-        expect(f.simulator.raid.buffs).toEqual({ trueshotAura: false, imported: true });
-      expect(f.storage.getItem("character_kfc-raid-defaults-core-v1")).toBe("1");
+      expect(f.simulator.raid.buffs).toEqual({ trueshotAura: false, imported: true });
+      expect(f.simulator.player.buffs).toEqual({ blessingOfKings: false, imported: true });
+      expect(f.storage.getItem("character_kfc-raid-defaults-full-v2")).toBe("1");
+    },
+  );
+  it.each(["?build=Arms", "?race=Human"])(
+    "migrates old buffs when selecting a preset or race rather than importing settings: %s",
+    (suffix: string) => {
+      const f = fixture("https://kfcguild.online/warrior/" + suffix);
+      f.storage.setItem("character", JSON.stringify({ raid: {}, party: {}, player: {} }));
+      f.install();
+      f.simulator.loadSettings();
+      expect(f.simulator.raid.buffs.strengthOfEarthTotem).toBe(2);
+      expect(f.simulator.player.buffs.blessingOfKings).toBe(true);
     },
   );
   it("installs idempotently and rejects missing/ambiguous runtime contracts", () => {
@@ -142,13 +201,19 @@ describe("Shared raid-wide simulator defaults", () => {
     f.install();
     expect(f.simulator.applyDefaults).toBe(method);
     expect(() =>
-      installSimulatorRaidDefaults({}, f.storage, { href: "https://example.com" }),
+      installSimulatorRaidDefaults(
+        {},
+        f.storage,
+        { href: "https://example.com" },
+        simulatorRaidBuffDefaults,
+      ),
     ).toThrow("contract changed");
     expect(() =>
       installSimulatorRaidDefaults(
         { ...f.runtime, duplicate: Object.values(f.runtime)[0] },
         f.storage,
         { href: "https://example.com" },
+        simulatorRaidBuffDefaults,
       ),
     ).toThrow("contract changed");
   });
@@ -180,6 +245,7 @@ describe("Shared raid-wide simulator defaults", () => {
           setItem: vi.fn(),
         },
         { href: "https://example.com/warrior/" },
+        simulatorRaidBuffDefaults,
       );
       expect(() => f.simulator.loadSettings()).not.toThrow();
       expect(f.simulator.raid.buffs.trueshotAura).toBe(true);
@@ -191,7 +257,7 @@ describe("Shared raid-wide simulator defaults", () => {
   it("versions the iframe URL without losing build queries or share fragments", () => {
     const src = "/tools/forever-sim/" + "a".repeat(24) + "/warrior/?build=Arms#share";
     expect(simulatorRaidDefaultsSrc(src)).toBe(
-      src.replace("#share", "&raidDefaults=core-v1#share"),
+      src.replace("#share", "&raidDefaults=full-v2#share"),
     );
     expect(simulatorRaidDefaultsSrc(simulatorRaidDefaultsSrc(src))).toBe(
       simulatorRaidDefaultsSrc(src),
