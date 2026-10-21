@@ -25,7 +25,7 @@ async function fixture() {
   await mkdir(target, { recursive: true });
   await mkdir(previous);
   await symlink(previous, join(root, "current"));
-  await writeFile(config, "include " + canonical + "/current/nginx-*.conf;");
+  await writeFile(config, "include " + canonical + "/current/nginx-locations*.conf;");
   return { root: canonical, target, previous, config };
 }
 test("delivery activation validates before switching, reloads only Nginx and records actual public verification", async () => {
@@ -107,7 +107,7 @@ test("outside targets, absent edge configuration and an owned activation lock fa
     );
     await writeFile(f.config, "old configuration");
     await assert.rejects(activateStaticDelivery(options), /Deploy the compression-aware/);
-    await writeFile(f.config, "include " + f.root + "/current/nginx-*.conf;");
+    await writeFile(f.config, "include " + f.root + "/current/nginx-locations*.conf;");
     await writeFile(join(f.root, "activation.lock"), "existing owner");
     await assert.rejects(activateStaticDelivery(options), { code: "EEXIST" });
     assert.equal(await readFile(join(f.root, "activation.lock"), "utf8"), "existing owner");

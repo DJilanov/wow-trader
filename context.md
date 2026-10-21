@@ -2,6 +2,63 @@
 
 Last updated: 2026-10-21
 
+## October 21, 16:00 UTC — deployment priority; release corrections awaiting commit authority
+
+User committed/pushed `477382b642d06c43ed69f5a21362bfdd3f651705` and asked to deploy
+the optimizations. It includes the earlier performance work, concurrent leveling work,
+and the new, still-unselected Shadow reader. Deployment used an exact Git archive at
+`/tmp/kfc-performance-source-20261021.b2hfl0`, not the later dirty worktree.
+
+Server candidate: `/home/wow-trader-system/releases/kfc-helper-performance-20261021-477382b`,
+build `L-xJ56ERTXyARuDZcwWQv`. Linux `pnpm check` PASSED after a test-script-only lint
+correction; web result is 119 files / 922 tests. All seven currently published profiles and
+their database/item-skill/private-proof checks passed at loopback port 19227. Candidate
+SSH session 86563 served only the candidate; it was stopped after verification while
+commit authority is pending. Restart it on loopback port 19227 for activation. Full format check flags
+seven unchanged baseline files, including byte-pinned fixtures: do not reformat them.
+Changed performance files pass formatting. Initial deployment session 32145 and retry
+94746 are terminal; do not poll or restart them as though still live.
+
+Production Nginx config was backed up/tested/reloaded by session 1020, whose migration,
+ingestion-boundary and public asset checks PASSED. Backups end `20261021T155301Z`.
+This enables dynamic WASM/RSC gzip and stale wizard redirects, but production web remains
+the previous `kfc-helper-leveling-planning-20261021-6409827` release. Static activation
+58677 FAILED at `nginx -t`: `nginx-*.conf` also included standalone `nginx-smoke.conf`
+inside the server block. Automatic rollback succeeded; the delivery `current` pointer is
+absent, live Nginx syntax/health pass, and no PM2 processes were restarted.
+
+Inactive verified static tree:
+`shared/static-delivery/releases/kfc-static-performance-20261021-477382b-r1` has 27,852
+assets / 1,472 encoded variants / 104,726,678 additional bytes. It was prepared with
+explicit selected source/presentation IDs because the old default also encountered an
+incomplete historical directory `5c5564b645a7ac7a24b887f3`. Do not delete that directory.
+
+Targeted fixes now local: narrow production/controller/test include to
+`nginx-locations*.conf`; standalone syntax test uses that exact pattern; automatic
+staging follows validated model/profile selections rather than unrelated artifact folders;
+test-script imports Node globals and qualifies browser globals. 23 transport/activation/
+migration regressions and scoped ESLint pass. Two asynchronous commit-authority questions
+were sent, the second covering all release-tooling fixes. No answer yet at this checkpoint;
+do not commit/push fixes without approval. The test script also has concurrent edits:
+stage ONLY the lint hunks from the clean snapshot, not all its working-tree contents.
+Other dirty leveling files belong to another workflow and must not be deployed implicitly.
+
+Before resuming deployment: obtain commit authority, commit/push only targeted fixes,
+stage from that committed source, rerun actual Nginx include/HTTP checks, verify the
+candidate and activate/reload ONLY `kfc-helper-web`. Keep ingestion PID 3528524 and
+other services untouched. Verify public cold/warm simulator and desktop/mobile wizard
+timings before saying the performance issue is resolved.
+
+Goal progress since the previous goal turn: Shadow delivery sources/tests and strict
+reader were implemented; all four real-source overlay/cleanup tests, scoped lint and
+TypeScript passed. Plan 56894 and UI build 23400 are TERMINAL0. Actual all-class virtual
+TypeScript passed and isolated UI `0c7bfc2c82fcb26a9f2b3306` has 3,496 files, one qualified
+Shadow recommendation and 28 source-audited starter sets; numerical assets are unchanged.
+Publication plan is `optimization/priest-shadow-first-pass-v1/publication-plan-0c7bfc2c82fcb26a9f2b3306.json`.
+No staged browser review, authentic reader fixtures, main-page selection or Shadow
+publication exists yet. Finish that handoff, then Smite under the SAME original Priest
+deadline, 2026-10-22T12:44:51.403Z. Full optimization goal stays active; no class clock reset.
+
 ## October 21, 15:28 UTC — performance delivery checks passed; not live
 
 The compression and leveling-navigation implementation passed its final local production

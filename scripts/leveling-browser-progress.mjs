@@ -1,9 +1,19 @@
 import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
 
+export async function selectGuideChapter(page, chapterId) {
+  const jump = page
+    .locator("details")
+    .filter({ has: page.getByText("Jump to another chapter", { exact: true }) });
+  if (!(await jump.evaluate((element) => element.open)))
+    await jump.locator("summary").first().click();
+  await page.getByLabel("Campaign chapter", { exact: true }).selectOption(chapterId);
+}
+
 export async function updateGuideProgress(page, { level, xp, player = 0 }) {
   await page.getByRole("button", { name: /^Update (?:my|party) level \/ XP$/ }).click();
   const dialog = page.getByRole("dialog", { name: /^Where are/ });
-  const players = dialog.getByLabel("Player", { exact: true });
+  await dialog.waitFor({ state: "visible" });
+  const players = dialog.getByRole("combobox", { name: /^Player/ });
   if (await players.count()) await players.selectOption(String(player));
   else if (player !== 0) throw new Error("Personal starting chapters only edit your own XP.");
   await dialog.getByLabel("Level", { exact: true }).fill(String(level));
@@ -12,7 +22,7 @@ export async function updateGuideProgress(page, { level, xp, player = 0 }) {
   await dialog.waitFor({ state: "hidden" });
   await page.waitForFunction(
     ({ release, player, level, xp }) => {
-      const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+      const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
       const member = workspace.sessions.find((session) => session.id === workspace.activeId)
         .dungeonPlans[release].premade.members[player];
       return (

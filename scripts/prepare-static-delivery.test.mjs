@@ -15,6 +15,7 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
+import { URL } from "node:url";
 import { brotliDecompressSync, gunzipSync } from "node:zlib";
 import { SIMULATOR_REVISION, SIMULATOR_SPECS } from "../packages/forever-data/dist/simulator.js";
 import {
@@ -89,6 +90,77 @@ test("public inventory refuses internal proofs, HTML, maps, hidden files, traver
     "vendor/fonts/inter.woff2",
   ])
     assert.equal(isPublicDeliveryAsset(name), true, name);
+});
+
+test("automatic staging follows selected models and ignores incomplete, unselected historical directories", async () => {
+  const f = await fixture();
+  try {
+    await mkdir(join(f.source, "b".repeat(24)));
+    await writeFile(
+      join(f.source, "model-update.json"),
+      JSON.stringify({
+        schema: "kfc-simulator-model-update-selection.v1",
+        release: f.release,
+        sourceRelease: f.release,
+      }),
+    );
+    await writeFile(
+      join(f.source, "profile-model-updates.json"),
+      JSON.stringify({
+        schema: "kfc-simulator-profile-model-selection.v1",
+        profiles: {
+          mage: { release: f.release, sourceRelease: f.release },
+        },
+      }),
+    );
+    const options = { simulatorRoot: f.source, output: f.output };
+    assert.deepEqual(
+      (await prepareStaticDelivery(options)).manifestPins.map((row) => row.release),
+      [f.release],
+    );
+    await assert.rejects(prepareStaticDelivery({ ...options, releases: ["b".repeat(24)] }), {
+      code: "ENOENT",
+    });
+    await writeFile(
+      join(f.source, "profile-model-updates.json"),
+      JSON.stringify({
+        schema: "kfc-simulator-profile-model-selection.v1",
+        profiles: {
+          mage: { release: "b".repeat(24), sourceRelease: f.release },
+        },
+      }),
+    );
+    await assert.rejects(prepareStaticDelivery(options), { code: "ENOENT" });
+    await writeFile(
+      join(f.source, "profile-model-updates.json"),
+      JSON.stringify({
+        schema: "kfc-simulator-profile-model-selection.v1",
+        profiles: {
+          mage: { release: "../private", sourceRelease: f.release },
+        },
+      }),
+    );
+    await assert.rejects(prepareStaticDelivery(options), /Invalid selected release/);
+    await assert.rejects(lstat(f.output), { code: "ENOENT" });
+  } finally {
+    await rm(f.root, { recursive: true, force: true });
+  }
+});
+
+test("production and isolated Nginx includes cannot load the standalone smoke configuration inside a server block", async () => {
+  const apex = await readFile(
+      new URL("../infra/nginx/kfcguild.online.conf", import.meta.url),
+      "utf8",
+    ),
+    smoke = await readFile(
+      new URL("../infra/nginx/static-delivery-smoke.conf", import.meta.url),
+      "utf8",
+    );
+  assert.match(apex, /current\/nginx-locations\*\.conf;/);
+  assert.match(smoke, /include nginx-locations\*\.conf;/);
+  assert.doesNotMatch(apex, /current\/nginx-\*\.conf;/);
+  assert.equal(/^nginx-locations.*\.conf$/.test("nginx-locations.conf"), true);
+  assert.equal(/^nginx-locations.*\.conf$/.test("nginx-smoke.conf"), false);
 });
 
 test("dry-run writes nothing; prepared variants decompress to the original hash and frozen inputs remain unchanged", async () => {

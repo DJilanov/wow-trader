@@ -115,9 +115,9 @@ try {
       ({ workspace, origin }) => {
         if (
           globalThis.location.origin === origin &&
-          !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+          !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
         )
-          globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(workspace));
+          globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(workspace));
       },
       { workspace, origin: base.origin },
     );
@@ -138,7 +138,7 @@ try {
     const saved = async () =>
       page.evaluate(
         () =>
-          JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")).sessions[0]
+          JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")).sessions[0]
             .dungeonPlans,
       );
     const snapshot = await saved();

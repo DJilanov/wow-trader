@@ -65,7 +65,7 @@ export function LevelingCatchUpSuggestions({
     setNotice(
       "Quest batch added to this phase. Check all five players' pickup eligibility in game; no XP or completion has been granted.",
     );
-    router.push(campaignChapterPath(plan, legId, actionId));
+    router.push(campaignChapterPath(plan, legId, actionId, progress));
   }
   function removeBatch(id: string): void {
     if (!active || !session) return;
@@ -95,7 +95,7 @@ export function LevelingCatchUpSuggestions({
     setNotice(
       "Batch removed from this plan. Actual XP, quest states and completed checks have been preserved.",
     );
-    router.push(campaignChapterPath(plan, legId, first.id));
+    router.push(campaignChapterPath(plan, legId, first.id, progress));
   }
   return (
     <details className={styles.budget} data-catchup-options={legId}>

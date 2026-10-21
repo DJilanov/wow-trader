@@ -6,7 +6,7 @@ import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
-import { updateGuideProgress } from "./leveling-browser-progress.mjs";
+import { selectGuideChapter, updateGuideProgress } from "./leveling-browser-progress.mjs";
 
 const packagePath = process.argv
   .find((arg) => arg.startsWith("--playwright-package="))
@@ -32,7 +32,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 const url = (path) => new URL(path, base).href;
 const session = () =>
   page.evaluate(() => {
-    const saved = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+    const saved = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
     return saved.sessions.find((entry) => entry.id === saved.activeId);
   });
 const journey = async () =>
@@ -73,12 +73,12 @@ try {
   await page.getByRole("button", { name: "Done", exact: true }).click();
   await expect.poll(async () => (await journey()).completion[next]).toBe("done");
   const chapter = page.getByLabel("Campaign chapter", { exact: true });
-  await chapter.selectOption("prepare-deadmines");
+  await selectGuideChapter(page, "prepare-deadmines");
   await expect(page).toHaveURL(/\/chapters\/premade-prepare-deadmines/);
   await expect(chapter).toHaveValue("prepare-deadmines");
   await page.reload();
   await expect(chapter).toHaveValue("prepare-deadmines");
-  await chapter.selectOption("dungeon-deadmines");
+  await selectGuideChapter(page, "dungeon-deadmines");
   await expect(page).toHaveURL(/\/chapters\/premade-dungeon-deadmines/);
   await expect(chapter).toHaveValue("dungeon-deadmines");
   const ids = await page

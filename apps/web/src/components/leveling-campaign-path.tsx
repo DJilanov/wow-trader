@@ -121,7 +121,10 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
           Your route starts at level {guideForecast.startingLevel} and 0 XP unless you update your
           progress. Follow the quests in order; XP carries forward into the next area.
         </p>
-        <Link className={styles.button} href={campaignChapterPath(plan, current.legId, current.id)}>
+        <Link
+          className={styles.button}
+          href={campaignChapterPath(plan, current.legId, current.id, progress)}
+        >
           {active ? "Continue guide →" : "Open guide →"}
         </Link>
         {!active && (
@@ -209,7 +212,7 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                     </div>
                     <Link
                       className={pathStyles.chapterLink}
-                      href={campaignChapterPath(plan, leg.id)}
+                      href={campaignChapterPath(plan, leg.id, undefined, progress)}
                     >
                       <span className={pathStyles.bracket}>
                         {guide.targetKind === "entry" ? "Entry" : "Target level"}{" "}
@@ -261,7 +264,9 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                     {next && (
                       <div className={pathStyles.transitions}>
                         <span>Then</span>
-                        <Link href={campaignChapterPath(plan, next.id)}>{next.title} →</Link>
+                        <Link href={campaignChapterPath(plan, next.id, undefined, progress)}>
+                          {next.title} →
+                        </Link>
                       </div>
                     )}
                   </article>

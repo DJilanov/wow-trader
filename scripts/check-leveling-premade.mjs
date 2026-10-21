@@ -33,7 +33,7 @@ page.on("response", (response) => {
 });
 const output = await mkdtemp(join(tmpdir(), "kfc-premade-browser-"));
 const saved = () =>
-  page.evaluate(() => JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")));
+  page.evaluate(() => JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")));
 const plan = async () => {
   const workspace = await saved();
   return workspace.sessions.find((session) => session.id === workspace.activeId).dungeonPlans[

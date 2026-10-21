@@ -39,7 +39,7 @@ export async function activateStaticDelivery({
   );
   const config = await readFile(nginxConfig, "utf8");
   assert(
-    config.includes("include " + root + "/current/nginx-*.conf;"),
+    config.includes("include " + root + "/current/nginx-locations*.conf;"),
     "Deploy the compression-aware Nginx configuration before activation",
   );
   const lockPath = join(root, "activation.lock"),

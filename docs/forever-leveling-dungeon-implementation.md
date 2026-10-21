@@ -213,7 +213,11 @@ with level/modifier/build/hotfix/turn-in context before introducing live recomme
 
 ## Storage, feedback and operation
 
-`kfc-leveling:characters:v1` remains the workspace key. Each character defaults missing `dungeonPlans`
+`kfc-leveling:characters:v2` is the workspace key. The new reader migrates the prior
+`kfc-leveling:characters:v1` only when the new key is absent, leaving that older copy untouched.
+An unreadable current save does not resurrect stale legacy progress. The workspace payload still
+uses version 1; new XP-anchor fields require the current reader. Rollback uses the retained old
+copy, not an automatic merge of changes made in both versions. Each character defaults missing `dungeonPlans`
 to `{}` and stores its plan under `dungeons-v1-build-70205-oct-01`. Visits, selected quests, explicit
 states, item confirmations, reward choices, retained XP and scenario inputs are release-scoped.
 The Thanes replacement is stored in `replacements["chapter-126-14-16-darkshore"]`, version

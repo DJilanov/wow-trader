@@ -64,9 +64,9 @@ await context.addInitScript(
   ({ data, origin }) => {
     if (
       globalThis.location.origin === origin &&
-      !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+      !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
     )
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(data));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(data));
   },
   { data: workspace, origin: base.origin },
 );
@@ -78,7 +78,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 const url = (path) => new URL(path, base).href;
 const saved = () =>
   page.evaluate(
-    () => JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")).sessions[0],
+    () => JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")).sessions[0],
   );
 const chapter = page.getByLabel("Campaign chapter", { exact: true });
 try {
@@ -147,7 +147,7 @@ try {
   await expect(page.locator(`#campaign-${selected}`)).toHaveAttribute("data-selected", "true");
   await page.evaluate(
     ({ release }) => {
-      const value = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+      const value = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
       const plan = value.sessions[0].dungeonPlans[release].premade;
       plan.members = plan.members.map((member) => ({
         ...member,
@@ -159,7 +159,7 @@ try {
         },
         xpNeedsUpdate: true,
       }));
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(value));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(value));
     },
     { release: DUNGEON_RELEASE },
   );

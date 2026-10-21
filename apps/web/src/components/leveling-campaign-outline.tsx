@@ -50,7 +50,9 @@ export function LevelingCampaignOutline({
                       ? "Record actual level 60"
                       : "Quest chains & pickups";
               const link = (
-                <Link href={campaignChapterPath(plan, chapter.id, first.id)}>{label}</Link>
+                <Link href={campaignChapterPath(plan, chapter.id, first.id, progress)}>
+                  {label}
+                </Link>
               );
               return (
                 <li key={id} data-campaign-activity={id}>
@@ -101,7 +103,9 @@ export function LevelingDungeonPreparation({
       <ul>
         {checks.map((check) => (
           <li key={check.questId} data-preparation-quest={check.questId}>
-            <Link href={campaignChapterPath(plan, check.legId, check.actionId)}>{check.title}</Link>
+            <Link href={campaignChapterPath(plan, check.legId, check.actionId, progress)}>
+              {check.title}
+            </Link>
             <small>
               {check.stage === "rewarded"
                 ? "Hand in the prerequisite"

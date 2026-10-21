@@ -60,7 +60,7 @@ test("compression covers WASM and stale wizard URLs preserve their query when en
   assert.match(config, /gzip_vary on;/);
   assert.match(
     config,
-    /include \/home\/wow-trader-system\/shared\/static-delivery\/current\/nginx-\*\.conf;/,
+    /include \/home\/wow-trader-system\/shared\/static-delivery\/current\/nginx-locations\*\.conf;/,
   );
   for (const location of ["location = /forever/leveling {", "location /forever/leveling/ {"])
     assert(

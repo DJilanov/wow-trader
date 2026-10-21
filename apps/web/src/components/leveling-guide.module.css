@@ -151,7 +151,8 @@
   align-items: start;
   gap: 12px;
 }
-.dialog h2 {
+.dialog > header > h2 {
+  display: block;
   margin: 0;
   font-family: var(--serif);
   font-size: 22px;

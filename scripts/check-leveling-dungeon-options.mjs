@@ -24,7 +24,7 @@ const page = await context.newPage(),
 page.setDefaultTimeout(30000);
 page.on("pageerror", (e) => errors.push(e.message));
 const output = await mkdtemp(join(tmpdir(), "wow-trader-dungeon-options-"));
-const storage = "kfc-leveling:characters:v1",
+const storage = "kfc-leveling:characters:v2",
   chapter = "chapter-128-19-20-redridge";
 const dashboard = "/forever/leveling/routes/alliance-human";
 const route = (id) => `${dashboard}/dungeons/${id}?chapter=${chapter}`;
@@ -64,9 +64,9 @@ await context.addInitScript(
   ({ workspace, origin }) => {
     if (
       globalThis.location.origin === origin &&
-      !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+      !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
     )
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(workspace));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(workspace));
   },
   { workspace, origin: base.origin },
 );

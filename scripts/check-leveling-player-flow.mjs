@@ -1,12 +1,14 @@
 import assert from "node:assert/strict";
+import console from "node:console";
 import { createRequire } from "node:module";
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import process from "node:process";
 import { parseArgs } from "node:util";
+import { URL } from "node:url";
 import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
-import { updateGuideProgress } from "./leveling-browser-progress.mjs";
+import { selectGuideChapter, updateGuideProgress } from "./leveling-browser-progress.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -31,6 +33,7 @@ assert(
   "Use an isolated local preview, never production.",
 );
 const output = await mkdtemp(join(tmpdir(), `wow-trader-player-flow-${values.mode}-`));
+console.log(`Review evidence: ${output}`);
 const browser = await chromium.launch();
 const checked = [];
 const overview = "/tools/forever/leveling/routes/alliance-human?plan=premade&class=warrior";
@@ -39,7 +42,7 @@ const chapter = (id, hash = "") =>
 
 async function progress(page) {
   return page.evaluate((release) => {
-    const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+    const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
     return workspace.sessions.find((session) => session.id === workspace.activeId).dungeonPlans[
       release
     ].premade;
@@ -56,7 +59,9 @@ async function visit(page, pathname) {
 }
 async function noOverflow(page) {
   assert.equal(
-    await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+    await page.evaluate(
+      () => globalThis.document.documentElement.scrollWidth > globalThis.innerWidth,
+    ),
     false,
     "Horizontal overflow",
   );
@@ -87,7 +92,15 @@ try {
         .locator("dd")
         .innerText();
       assert.equal(nextStart, finish, "Chapter entry reset instead of carrying XP");
-      await first.screenshot({ path: join(output, `chapter-${width}.png`) });
+      if (values.mode === "quest-only") {
+        const breakdown = first.locator("details[data-xp-budget]");
+        await breakdown.locator("summary").first().click();
+        await first
+          .getByText("Some kill XP is unavailable and is not counted.", { exact: false })
+          .waitFor();
+        await breakdown.locator("summary").first().click();
+      }
+      await first.screenshot({ path: join(output, `chapter-${width}.png`), caret: "initial" });
       await noOverflow(page);
 
       await visit(page, chapter("start-115"));
@@ -106,13 +119,13 @@ try {
       await done.waitFor({ state: "visible" });
       await page.waitForFunction(
         () =>
-          ![...document.querySelectorAll("button")].find(
+          ![...globalThis.document.querySelectorAll("button")].find(
             (button) => button.textContent.trim() === "Done",
           )?.disabled,
       );
       await done.click();
       await page.waitForFunction((release) => {
-        const workspace = JSON.parse(localStorage.getItem("kfc-leveling:characters:v1"));
+        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
         return (
           workspace.sessions.find((session) => session.id === workspace.activeId).dungeonPlans[
             release
@@ -121,8 +134,41 @@ try {
       }, DUNGEON_RELEASE);
       assert.equal((await progress(page)).members[0].level, null);
       assert.equal((await progress(page)).members[0].currentXp, null);
-      await page.screenshot({ path: join(output, `reader-${width}.png`) });
+      await page.screenshot({ path: join(output, `reader-${width}.png`), caret: "initial" });
       await noOverflow(page);
+      const legacy = await page.evaluate(() => {
+        const raw = globalThis.localStorage.getItem("kfc-leveling:characters:v2");
+        globalThis.localStorage.setItem("kfc-leveling:characters:v1", raw);
+        globalThis.localStorage.removeItem("kfc-leveling:characters:v2");
+        return raw;
+      });
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await page.getByRole("button", { name: "Update my level / XP", exact: true }).waitFor();
+      await page.waitForFunction(
+        () => globalThis.localStorage.getItem("kfc-leveling:characters:v2") !== null,
+      );
+      assert.equal(
+        await page.evaluate(() => globalThis.localStorage.getItem("kfc-leveling:characters:v1")),
+        legacy,
+      );
+      assert.equal((await progress(page)).members[0].questStates["783"], "accepted");
+      assert.equal((await progress(page)).members[0].level, null);
+    } catch (error) {
+      await writeFile(
+        join(output, `fresh-failure-${width}.json`),
+        JSON.stringify(
+          {
+            message: error.message,
+            url: page.url(),
+            errors,
+            body: await page.locator("body").innerText(),
+          },
+          null,
+          2,
+        ),
+      );
+      await page.screenshot({ path: join(output, `fresh-failure-${width}.png`), caret: "initial" });
+      throw error;
     } finally {
       await context.close();
     }
@@ -205,7 +251,14 @@ try {
       await resumed.getByRole("button", { name: "Update party level / XP", exact: true }).click();
       const dialog = resumed.getByRole("dialog", { name: /^Where are/ });
       await dialog.waitFor();
-      await resumed.screenshot({ path: join(output, `progress-dialog-${width}.png`) });
+      assert(
+        await dialog.getByRole("heading", { name: "Where are your players now?" }).isVisible(),
+        "The dialog heading must not be hidden by mobile reader styles",
+      );
+      await resumed.screenshot({
+        path: join(output, `progress-dialog-${width}.png`),
+        caret: "initial",
+      });
       await resumed.keyboard.press("Escape");
       await dialog.waitFor({ state: "hidden" });
       await noOverflow(resumed);
@@ -213,6 +266,9 @@ try {
         await resumed.setViewportSize({ width: 320, height: 844 });
         await noOverflow(resumed);
       }
+      await selectGuideChapter(resumed, "start-115");
+      await resumed.locator('[data-chapter-plan="start-115"]').waitFor();
+      assert.deepEqual((await progress(resumed)).members, party.members);
       checked.push({
         width,
         defaultLevelOne: true,
@@ -222,10 +278,12 @@ try {
         noInventedActualXp: true,
         stableXpAnchor: true,
         reloadPersistence: true,
+        legacySaveMigratedWithoutOverwrite: true,
         optionalDungeonChoices: true,
         partyCorrection: true,
         realEntryGatePreserved: true,
         escapeClosesDialog: true,
+        chapterJump: true,
       });
       assert.deepEqual(errors, []);
     } catch (error) {
@@ -242,7 +300,7 @@ try {
           2,
         ),
       );
-      await resumed.screenshot({ path: join(output, `failure-${width}.png`) });
+      await resumed.screenshot({ path: join(output, `failure-${width}.png`), caret: "initial" });
       throw error;
     } finally {
       await resumeContext.close();

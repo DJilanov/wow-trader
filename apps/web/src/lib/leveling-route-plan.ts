@@ -48,8 +48,13 @@ export function campaignLeaderClass(
   );
 }
 
-export function campaignChapterPath(plan: CampaignPlan, legId: string, actionId?: string): string {
-  const chapter = campaignSectionFor(plan, legId);
+export function campaignChapterPath(
+  plan: CampaignPlan,
+  legId: string,
+  actionId?: string,
+  progress?: PremadeProgress,
+): string {
+  const chapter = campaignSectionFor(plan, legId, progress);
   if (!chapter) throw new Error("Unknown route chapter.");
   const batchAction =
     actionId &&
@@ -60,8 +65,8 @@ export function campaignChapterPath(plan: CampaignPlan, legId: string, actionId?
       return (
         batch !== undefined &&
         activeCampaignActions(plan, {
-          ...emptyPremadeProgress(),
-          selectedBatches: { [id]: [batch.id] },
+          ...(progress ?? emptyPremadeProgress()),
+          selectedBatches: { ...progress?.selectedBatches, [id]: [batch.id] },
         }).some((action) => action.id === actionId)
       );
     });

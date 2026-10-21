@@ -5,6 +5,7 @@ import {
   buildCampaignPlan,
   campaignActionReasons,
   campaignQuestTargets,
+  campaignQuestAlreadyReported,
   updateCampaignAction,
   activeCampaignActions,
   skipCampaignXpBlock,
@@ -291,5 +292,21 @@ describe("continuous 1–60 premade campaign", () => {
     )!;
     expect(campaignQuestTargets(objective, emptyPremadeProgress())).toEqual([]);
     expect(campaignQuestTargets(reward, emptyPremadeProgress())).toEqual([]);
+    expect(campaignQuestAlreadyReported(objective, emptyPremadeProgress())).toBe(false);
+    expect(campaignQuestAlreadyReported(reward, emptyPremadeProgress())).toBe(false);
+    const progress = emptyPremadeProgress();
+    for (const member of progress.members)
+      for (const change of objective.questChanges)
+        member.questStates[String(change.questId)] = "objectives-complete";
+    expect(campaignQuestAlreadyReported(objective, progress)).toBe(true);
+    expect(campaignQuestAlreadyReported(reward, progress)).toBe(false);
+    for (const member of progress.members)
+      for (const change of reward.questChanges)
+        member.questStates[String(change.questId)] = "rewarded";
+    expect(campaignQuestAlreadyReported(reward, progress)).toBe(true);
+    for (const change of reward.questChanges)
+      delete progress.members[1]!.questStates[String(change.questId)];
+    expect(campaignQuestAlreadyReported({ ...reward, leaderOnly: false }, progress)).toBe(false);
+    expect(campaignQuestAlreadyReported({ ...reward, leaderOnly: true }, progress)).toBe(true);
   });
 });

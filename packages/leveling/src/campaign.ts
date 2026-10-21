@@ -1230,6 +1230,23 @@ export function campaignQuestTargets(
   );
 }
 
+export function campaignQuestAlreadyReported(
+  action: CampaignAction,
+  progress: PremadeProgress,
+): boolean {
+  if (!action.questChanges.length) return false;
+  return progress.members.every((member, index) =>
+    action.leaderOnly && index !== 0
+      ? true
+      : action.questChanges.every((change) => {
+          const state = member.questStates[String(change.questId)];
+          return (
+            state !== undefined && state !== "not-started" && !questChangeNeeded(change, member)
+          );
+        }),
+  );
+}
+
 export function campaignOptionalXpReady(
   plan: CampaignPlan,
   progress: PremadeProgress,

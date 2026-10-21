@@ -80,9 +80,9 @@ await context.addInitScript(
   ({ workspace, origin }) => {
     if (
       globalThis.location.origin === origin &&
-      !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+      !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
     )
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(workspace));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(workspace));
   },
   { workspace, origin: base.origin },
 );
@@ -95,7 +95,7 @@ const dashboard = "/forever/leveling/routes/alliance-human";
 const route = `${dashboard}/dungeons/deadmines?chapter=${chapter}&plan=alternative`;
 const saved = () =>
   page.evaluate(
-    () => JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")).sessions[0],
+    () => JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")).sessions[0],
   );
 const plan = async () => (await saved()).dungeonPlans[DUNGEON_RELEASE];
 const stage = async (id) => {
@@ -225,11 +225,11 @@ try {
 
   await page.evaluate(
     ({ release, key }) => {
-      const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+      const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
       const plan = workspace.sessions[0].dungeonPlans[release];
       plan.activeTripId = null;
       plan.trips[key].alternative.sourceVersion = "changed-source-version";
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(workspace));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(workspace));
     },
     { release: DUNGEON_RELEASE, key },
   );
@@ -262,9 +262,9 @@ try {
   assert.equal((await plan()).trips[wcKey].itinerary, true);
   assert.ok(!(await plan()).trips[wcKey].questIds.includes(1491));
   await page.evaluate(() => {
-    const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+    const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
     workspace.sessions[0].profile.level = 19;
-    globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(workspace));
+    globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(workspace));
   });
   await page.goto(
     new URL(`${dashboard}/dungeons/wailing-caverns?chapter=${wcChapter}#trip-travel`, base).href,

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { CHAPTER_REFERENCES, WESTFALL_ROUTE, createCharacterProfile } from "@wow-trader/leveling";
 import {
   WESTFALL_CHAPTER_ID,
+  LEVELING_STORAGE_KEY,
+  LEGACY_CHARACTER_STORAGE_KEY,
   chapterProgressKey,
   emptyLevelingWorkspace,
   getPublicChapter,
@@ -9,6 +11,7 @@ import {
   levelingChapterPath,
   profileForRouteId,
   readLevelingWorkspace,
+  readStoredLevelingWorkspace,
   readSharedCharacter,
   serializeLevelingWorkspace,
   updateCharacterSession,
@@ -16,6 +19,46 @@ import {
 } from "./leveling-experience";
 
 describe("dedicated leveling workspace", () => {
+  it("restores legacy saves without modifying their rollback copy", () => {
+    const legacy = serializeLevelingWorkspace(
+      updateCharacterSession(emptyLevelingWorkspace(), "first", createCharacterProfile()),
+    );
+    const values = new Map([[LEGACY_CHARACTER_STORAGE_KEY, legacy]]);
+    const restored = readStoredLevelingWorkspace({ getItem: (key) => values.get(key) ?? null });
+    expect(restored).toEqual({ workspace: readLevelingWorkspace(legacy), unreadable: false });
+    expect(values.get(LEGACY_CHARACTER_STORAGE_KEY)).toBe(legacy);
+    expect(values.has(LEVELING_STORAGE_KEY)).toBe(false);
+    values.set(LEVELING_STORAGE_KEY, serializeLevelingWorkspace(restored.workspace!));
+    expect(values.get(LEGACY_CHARACTER_STORAGE_KEY)).toBe(legacy);
+  });
+  it("prefers the current save and never resurrects a stale legacy save if it is corrupt", () => {
+    const legacy = serializeLevelingWorkspace(
+      updateCharacterSession(emptyLevelingWorkspace(), "old", createCharacterProfile()),
+    );
+    const current = serializeLevelingWorkspace(
+      updateCharacterSession(emptyLevelingWorkspace(), "new", createCharacterProfile()),
+    );
+    const values = new Map([
+      [LEGACY_CHARACTER_STORAGE_KEY, legacy],
+      [LEVELING_STORAGE_KEY, current],
+    ]);
+    const storage = { getItem: (key: string): string | null => values.get(key) ?? null };
+    expect(readStoredLevelingWorkspace(storage).workspace?.activeId).toBe("new");
+    for (const corrupt of ["{broken", ""]) {
+      values.set(LEVELING_STORAGE_KEY, corrupt);
+      expect(readStoredLevelingWorkspace(storage)).toEqual({ workspace: null, unreadable: true });
+      expect(values.get(LEVELING_STORAGE_KEY)).toBe(corrupt);
+    }
+    values.clear();
+    expect(readStoredLevelingWorkspace(storage)).toEqual({ workspace: null, unreadable: false });
+    expect(() =>
+      readStoredLevelingWorkspace({
+        getItem: () => {
+          throw new Error("Storage denied");
+        },
+      }),
+    ).toThrow("Storage denied");
+  });
   it("validates route identities and rejects hostile or illegal shared setups", () => {
     expect(profileForRouteId("alliance-night-elf")?.raceId).toBe("night-elf");
     expect(profileForRouteId("horde-human")).toBeNull();

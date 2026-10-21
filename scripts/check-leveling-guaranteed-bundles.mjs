@@ -42,7 +42,7 @@ try {
   await page.getByRole("button", { name: "Start guide", exact: true }).click();
   const savedMembers = () =>
     page.evaluate((release) => {
-      const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+      const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
       return workspace.sessions.find((session) => session.id === workspace.activeId).dungeonPlans[
         release
       ].premade.members;
@@ -162,7 +162,7 @@ try {
   );
   await mobilePage.getByRole("button", { name: "Start guide", exact: true }).click();
   assert.ok(
-    await mobilePage.evaluate(() => globalThis.localStorage.getItem("kfc-leveling:characters:v1")),
+    await mobilePage.evaluate(() => globalThis.localStorage.getItem("kfc-leveling:characters:v2")),
   );
   assert.deepEqual(errors, []);
   await mobileContext.close();

@@ -24,7 +24,7 @@ const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
 const chapterId = "chapter-126-14-16-darkshore";
 const path = `/forever/leveling/routes/alliance-human/chapters/${chapterId}`;
-const storage = "kfc-leveling:characters:v1";
+const storage = "kfc-leveling:characters:v2";
 const release = "dungeons-v2-build-70205-at-level";
 const card = page.locator('[data-dungeon-alternative="thanes"]');
 const navigation = page.getByRole("group", { name: "Step navigation", exact: true });

@@ -23,6 +23,7 @@ import {
   campaignSectionFor,
   campaignSectionActions,
   campaignQuestTargets,
+  campaignQuestAlreadyReported,
   campaignOptionalXpReady,
   nextCampaignAction,
   campaignRequiredDungeonQuest,
@@ -46,6 +47,7 @@ import {
   levelingPlanDashboardPath,
 } from "../lib/leveling-route-plan";
 import styles from "./leveling-campaign.module.css";
+import readerStyles from "./leveling-experience.module.css";
 import { LevelingXpBudget, LevelingChapterBudget } from "./leveling-xp-budget";
 import { LevelingGuideProgress } from "./leveling-guide-progress";
 import guideStyles from "./leveling-guide.module.css";
@@ -138,7 +140,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         .split("/")
         .at(-1)
         ?.replace(/^premade-/, "");
-      if (legId && campaignSectionFor(plan, routeId ?? "")?.id !== chapter.id) return;
+      if (legId && campaignSectionFor(plan, routeId ?? "", progress)?.id !== chapter.id) return;
       const rawId = window.location.hash.replace(/^#campaign-/, "");
       const id = plan.bookmarkAliases?.[rawId] ?? rawId;
       const target =
@@ -148,7 +150,9 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       if (!target) return;
       // Native fragment navigation creates a null history entry, which Next's Back handler ignores.
       if (legId && window.history.state === null)
-        router.replace(campaignChapterPath(plan, target.legId, target.id), { scroll: false });
+        router.replace(campaignChapterPath(plan, target.legId, target.id, progress), {
+          scroll: false,
+        });
       setPreviewId(target.id);
       if (active)
         setDungeonPlan(active.id, (current) => {
@@ -175,14 +179,16 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         const targetLeg = window.location.pathname.startsWith(
           `/forever/leveling/routes/alliance-${plan.race}/chapters/`,
         )
-          ? campaignSectionFor(plan, routeId ?? "")
+          ? campaignSectionFor(plan, routeId ?? "", progress)
           : null;
         if (targetLeg) {
           const id = window.location.hash.replace(/^#campaign-/, "");
           const target = actions.find(
             (entry) => entry.id === id && targetLeg.actionIds.includes(entry.id),
           );
-          router.replace(campaignChapterPath(plan, targetLeg.id, target?.id), { scroll: false });
+          router.replace(campaignChapterPath(plan, targetLeg.id, target?.id, progress), {
+            scroll: false,
+          });
           return;
         }
       }
@@ -241,8 +247,8 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       });
     setConfirmed(null);
     setMessage(null);
-    if (legId && campaignSectionFor(plan, target.legId)?.id !== chapter.id)
-      router.push(campaignChapterPath(plan, target.legId, id), { scroll: false });
+    if (legId && campaignSectionFor(plan, target.legId, progress)?.id !== chapter.id)
+      router.push(campaignChapterPath(plan, target.legId, id, progress), { scroll: false });
     else globalThis.history.replaceState(globalThis.history.state, "", `#campaign-${id}`);
   }
   function advance(done: boolean): void {
@@ -278,8 +284,8 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
   function navigateAfterUpdate(id: string): void {
     setPreviewId(id);
     const target = actions.find((entry) => entry.id === id);
-    if (legId && target && campaignSectionFor(plan, target.legId)?.id !== chapter.id)
-      router.push(campaignChapterPath(plan, target.legId, id), { scroll: false });
+    if (legId && target && campaignSectionFor(plan, target.legId, progress)?.id !== chapter.id)
+      router.push(campaignChapterPath(plan, target.legId, id, progress), { scroll: false });
     else globalThis.history.replaceState(globalThis.history.state, "", `#campaign-${id}`);
   }
   function undo(): void {
@@ -351,7 +357,11 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
               </span>
             )}
             {entry.questChanges.length > 0 && entryTargets.length === 0 && (
-              <span>Already reported in game · no repeat needed</span>
+              <span>
+                {campaignQuestAlreadyReported(entry, progress)
+                  ? "Already reported in game · no repeat needed"
+                  : "Accept the quest before reporting this step"}
+              </span>
             )}
             {campaignOptionalXpReady(plan, progress, entry) && <span>Extra XP not needed</span>}
             {campaignRequiredDungeonQuest(entry) && leg.kind === "xp-bridge" && (
@@ -360,26 +370,33 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           </>
         }
         progress={
-          <input
-            type="checkbox"
-            aria-label={`Completed: ${entry.title}`}
-            checked={done}
-            disabled={!done}
-            onChange={() => {
-              if (done) {
-                select(entry.id);
-                const completion = { ...journey.completion };
-                delete completion[entry.id];
-                update({
-                  ...progress,
-                  campaigns: {
-                    ...progress.campaigns,
-                    [plan.release]: { ...journey, selectedActionId: entry.id, completion },
-                  },
-                });
-              }
-            }}
-          />
+          done ? (
+            <div className={readerStyles.stepStatus}>
+              <label className={readerStyles.completionControl}>
+                <input
+                  type="checkbox"
+                  aria-label={`Completed: ${entry.title}`}
+                  checked={done}
+                  disabled={!done}
+                  onChange={() => {
+                    if (done) {
+                      select(entry.id);
+                      const completion = { ...journey.completion };
+                      delete completion[entry.id];
+                      update({
+                        ...progress,
+                        campaigns: {
+                          ...progress.campaigns,
+                          [plan.release]: { ...journey, selectedActionId: entry.id, completion },
+                        },
+                      });
+                    }
+                  }}
+                />
+                <span>Completed</span>
+              </label>
+            </div>
+          ) : null
         }
       >
         <div data-campaign-action={entry.id} className={styles.instructions}>
@@ -681,68 +698,71 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             <LevelingCatchUpSuggestions plan={plan} legId={leg.id} progress={progress} />
             <LevelingDungeonPreparation plan={plan} chapter={chapter} progress={progress} />
           </div>
-          <label>
-            Campaign chapter
-            <select
-              aria-label="Campaign chapter"
-              value={chapter.id}
-              disabled={!loaded}
-              onChange={(event) => {
-                const section = campaignSectionFor(plan, event.target.value);
-                const target = section
-                  ? actions.find((entry) => section.actionIds.includes(entry.id))
-                  : null;
-                if (target) select(target.id);
-              }}
+          <details className={guideStyles.details}>
+            <summary>Jump to another chapter</summary>
+            <label>
+              Campaign chapter
+              <select
+                aria-label="Campaign chapter"
+                value={chapter.id}
+                disabled={!loaded}
+                onChange={(event) => {
+                  const section = campaignSectionFor(plan, event.target.value, progress);
+                  const target = section
+                    ? actions.find((entry) => section.actionIds.includes(entry.id))
+                    : null;
+                  if (target) select(target.id);
+                }}
+              >
+                {chapters.map((entry, legIndex) => (
+                  <option key={entry.id} value={entry.id}>
+                    {legIndex + 1}. {entry.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              onClick={() => setShowFullPath(!showFullPath)}
+              aria-expanded={showFullPath}
             >
-              {chapters.map((entry, legIndex) => (
-                <option key={entry.id} value={entry.id}>
-                  {legIndex + 1}. {entry.title}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button
-            type="button"
-            onClick={() => setShowFullPath(!showFullPath)}
-            aria-expanded={showFullPath}
-          >
-            Your complete 1–60 path {showFullPath ? "↑" : "↓"}
-          </button>
-          {showFullPath && (
-            <ol className={styles.path} aria-label="Complete leveling campaign">
-              {chapters.map((entry, legIndex) => {
-                const entries = campaignSectionActions(plan, entry, actions),
-                  count = entries.filter((item) => journey.completion[item.id] === "done").length;
-                return (
-                  <li key={entry.id} data-campaign-leg={entry.id} data-kind={entry.kind}>
-                    <button
-                      type="button"
-                      disabled={!loaded || !entries.length}
-                      aria-current={entry.id === chapter.id ? "step" : undefined}
-                      onClick={() => select(entries[0]!.id)}
-                    >
-                      <span>Chapter {legIndex + 1}</span>
-                      <strong>
-                        {entry.kind === "dungeon" ? "⚑ " : ""}
-                        {entry.title}
-                      </strong>
-                      <small>
-                        {count}/{entries.length} steps · {entry.questIds.length} quest IDs
-                        {entry.stopId
-                          ? ` · entry ${premadeEntryLevel(
-                              PREMADE_STOPS.find((stop) => stop.id === entry.stopId)!,
-                              progress,
-                              plan.rewardFacts,
-                            )}`
-                          : ""}
-                      </small>
-                    </button>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
+              Your complete 1–60 path {showFullPath ? "↑" : "↓"}
+            </button>
+            {showFullPath && (
+              <ol className={styles.path} aria-label="Complete leveling campaign">
+                {chapters.map((entry, legIndex) => {
+                  const entries = campaignSectionActions(plan, entry, actions),
+                    count = entries.filter((item) => journey.completion[item.id] === "done").length;
+                  return (
+                    <li key={entry.id} data-campaign-leg={entry.id} data-kind={entry.kind}>
+                      <button
+                        type="button"
+                        disabled={!loaded || !entries.length}
+                        aria-current={entry.id === chapter.id ? "step" : undefined}
+                        onClick={() => select(entries[0]!.id)}
+                      >
+                        <span>Chapter {legIndex + 1}</span>
+                        <strong>
+                          {entry.kind === "dungeon" ? "⚑ " : ""}
+                          {entry.title}
+                        </strong>
+                        <small>
+                          {count}/{entries.length} steps · {entry.questIds.length} quest IDs
+                          {entry.stopId
+                            ? ` · entry ${premadeEntryLevel(
+                                PREMADE_STOPS.find((stop) => stop.id === entry.stopId)!,
+                                progress,
+                                plan.rewardFacts,
+                              )}`
+                            : ""}
+                        </small>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+          </details>
           {leg.kind === "xp-bridge" && (
             <button type="button" disabled={!enabled} onClick={skipBlock}>
               Ready for the next chapter? Skip this XP-only block
@@ -774,7 +794,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
               phase.kind === "xp-bridge" &&
               entries.every((entry) => campaignOptionalXpReady(plan, progress, entry));
             const tasks = (
-              <ol className={styles.tasks}>
+              <ol className={`${styles.tasks} ${readerStyles.questSteps}`}>
                 {entries.map((entry) => renderAction(entry, legActions.indexOf(entry)))}
               </ol>
             );
@@ -798,7 +818,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         <nav className={guideStyles.handoff} aria-label="Next chapter">
           <span className="eyebrow">Up next</span>
           <p>Finish this chapter&apos;s required quests, then continue to {nextChapter.title}.</p>
-          <Link href={campaignChapterPath(plan, nextChapter.id)}>
+          <Link href={campaignChapterPath(plan, nextChapter.id, undefined, progress)}>
             Continue to {nextChapter.title} →
           </Link>
         </nav>

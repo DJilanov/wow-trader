@@ -46,7 +46,7 @@ try {
     await updateGuideProgress(page, { level: 5, xp: 123 });
     const savedMembers = () =>
       page.evaluate((release) => {
-        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
         return workspace.sessions.find((session) => session.id === workspace.activeId).dungeonPlans[
           release
         ].premade.members;
@@ -54,7 +54,7 @@ try {
     const before = await savedMembers();
     const handoffSaved = () =>
       page.evaluate((release) => {
-        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+        const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
         const progress = workspace.sessions.find((session) => session.id === workspace.activeId)
           .dungeonPlans[release].premade;
         return Object.values(progress.campaigns).some(
@@ -87,7 +87,7 @@ try {
 
     // Report earlier hand-ins in this isolated test session, leaving its observed bar stale.
     await page.evaluate((release) => {
-      const key = "kfc-leveling:characters:v1";
+      const key = "kfc-leveling:characters:v2";
       const workspace = JSON.parse(globalThis.localStorage.getItem(key));
       const progress = workspace.sessions.find((session) => session.id === workspace.activeId)
         .dungeonPlans[release].premade;

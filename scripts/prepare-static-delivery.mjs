@@ -66,6 +66,37 @@ function inside(root, path) {
   return offset && offset !== ".." && !offset.startsWith("../") && !isAbsolute(offset);
 }
 
+async function selectedReleases(root) {
+  const selected = new Set();
+  for (const [name, schema] of [
+    ["model-update.json", "kfc-simulator-model-update-selection.v1"],
+    ["profile-model-updates.json", "kfc-simulator-profile-model-selection.v1"],
+  ]) {
+    let bytes;
+    try {
+      bytes = await readFile(join(root, name));
+    } catch (error) {
+      if (error.code === "ENOENT") continue;
+      throw error;
+    }
+    assert(bytes.length <= 32_000, "Simulator selection exceeds its size budget");
+    const pointer = JSON.parse(bytes);
+    assert.equal(pointer.schema, schema, "Unknown simulator selection: " + name);
+    const entries = name === "model-update.json" ? [pointer] : Object.values(pointer.profiles);
+    for (const entry of entries)
+      for (const release of [entry.sourceRelease, entry.release]) {
+        assert(
+          typeof release === "string" && /^[a-f0-9]{24}$/.test(release),
+          "Invalid selected release",
+        );
+        selected.add(release);
+      }
+  }
+  return selected.size
+    ? [...selected]
+    : (await readdir(root)).filter((name) => /^[a-f0-9]{24}$/.test(name));
+}
+
 export function staticDeliveryNginx(publicRoot, { simulator, helper, guild }) {
   assert(
     isAbsolute(publicRoot) && /^[a-z0-9_/. -]+$/i.test(publicRoot),
@@ -158,7 +189,7 @@ export async function prepareStaticDelivery({
   }
   if (simulatorRoot) {
     const root = await sourceRoot(simulatorRoot),
-      selected = releases ?? (await readdir(root)).filter((name) => /^[a-f0-9]{24}$/.test(name));
+      selected = releases ?? (await selectedReleases(root));
     assert(
       selected.length > 0 && selected.length <= 64 && new Set(selected).size === selected.length,
     );

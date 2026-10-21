@@ -3,6 +3,8 @@ import {
   createCharacterProfile,
   emptyPremadeProgress,
   premadeProgressSchema,
+  updatePremadeDungeonBundle,
+  getDungeonBundle,
   type CampaignPlan,
 } from "@wow-trader/leveling";
 import {
@@ -46,6 +48,41 @@ const plan: CampaignPlan = {
 };
 
 describe("integrated quest route editions", () => {
+  it("keeps links valid when excluding an optional dungeon merges its neighboring outdoor chapters", () => {
+    const edition: CampaignPlan = {
+      ...plan,
+      legs: [
+        { ...plan.legs[0]!, id: "before", kind: "preparation", stopId: null },
+        { ...plan.legs[0]!, id: "drowned", stopId: "drowned-city", bundleId: "drowned-city" },
+        { ...plan.legs[0]!, id: "after", kind: "preparation", stopId: null },
+        { ...plan.legs[1]!, id: "deadmines", stopId: "deadmines" },
+      ],
+      actions: ["before", "drowned", "after", "deadmines"].map((legId) => ({
+        ...plan.actions[0]!,
+        id: `${legId}-brief`,
+        legId,
+      })),
+    };
+    const progress = updatePremadeDungeonBundle(emptyPremadeProgress(), {
+      ...getDungeonBundle("drowned-city", "alliance")!,
+      included: false,
+    });
+    expect(() => campaignChapterPath(edition, "prepare-deadmines", "before-brief")).toThrow(
+      "Step does not belong",
+    );
+    expect(campaignChapterPath(edition, "prepare-deadmines", "before-brief", progress)).toContain(
+      "premade-prepare-deadmines?plan=premade#campaign-before-brief",
+    );
+    expect(campaignChapterPath(edition, "before", "before-brief", progress)).toContain(
+      "premade-prepare-deadmines?",
+    );
+    expect(campaignChapterAction(edition, progress, "prepare-deadmines", "before-brief")?.id).toBe(
+      "before-brief",
+    );
+    expect(() =>
+      campaignChapterPath(edition, "prepare-deadmines", "drowned-brief", progress),
+    ).toThrow("Step does not belong");
+  });
   const solo = createCharacterProfile();
   const group = { ...solo, party: { ...solo.party, size: 5 } };
   it("shows the revised path on the exact Alliance URL and retains explicit solo and Horde editions", () => {

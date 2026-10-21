@@ -26,7 +26,8 @@ import {
   type RaceId,
 } from "@wow-trader/leveling";
 
-export const LEVELING_STORAGE_KEY = "kfc-leveling:characters:v1";
+export const LEVELING_STORAGE_KEY = "kfc-leveling:characters:v2";
+export const LEGACY_CHARACTER_STORAGE_KEY = "kfc-leveling:characters:v1";
 const MAX_WORKSPACE_LENGTH = 2_000_000;
 export const LEGACY_PLANNER_STORAGE_KEY = "kfc-leveling:alliance-westfall-13-15:0.1.0";
 export const WESTFALL_CHAPTER_ID =
@@ -209,6 +210,16 @@ export function readLevelingWorkspace(raw: string | null): LevelingWorkspace | n
   } catch {
     return null;
   }
+}
+export function readStoredLevelingWorkspace(storage: Pick<Storage, "getItem">): {
+  workspace: LevelingWorkspace | null;
+  unreadable: boolean;
+} {
+  // Keep the previous generation untouched so an older release can still read its save.
+  const raw =
+    storage.getItem(LEVELING_STORAGE_KEY) ?? storage.getItem(LEGACY_CHARACTER_STORAGE_KEY);
+  const workspace = readLevelingWorkspace(raw);
+  return { workspace, unreadable: raw !== null && workspace === null };
 }
 export function serializeLevelingWorkspace(workspace: LevelingWorkspace): string {
   const raw = JSON.stringify(workspace);

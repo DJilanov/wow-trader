@@ -20,7 +20,7 @@ if (!["localhost", "127.0.0.1", "[::1]"].includes(base.hostname))
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const output = await mkdtemp(join(tmpdir(), "wow-trader-dungeons-browser-"));
 const errors = [];
-const storage = "kfc-leveling:characters:v1";
+const storage = "kfc-leveling:characters:v2";
 const release = "dungeons-v2-build-70205-at-level";
 const chapter = "/forever/leveling/routes/alliance-human/chapters/chapter-125-13-15-westfall";
 const cards = "#leveling-quest-pane > ol > [data-reader-step]";

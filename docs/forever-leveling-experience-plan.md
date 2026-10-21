@@ -37,7 +37,9 @@ reference for the existing implementation, XP arithmetic, evidence, addon and su
   `/forever/leveling/routes/alliance-human/chapters/chapter-125-13-15-westfall?edition=kfc`.
   Its progress/calculator is separate from imported source versions. Without an authorized archive,
   other brackets fall back to metadata-only coverage screens; no instructions are invented.
-- Local characters are isolated under `kfc-leveling:characters:v1` (maximum ten). Step progress is keyed
+- Local characters are isolated under `kfc-leveling:characters:v2` (maximum ten). Existing
+  `kfc-leveling:characters:v1` saves migrate when the new key is absent; the old copy is retained
+  untouched for rollback. The validated workspace payload remains version 1. Step progress is keyed
   by chapter, route version and client build. Pace/party changes preserve facts; faction/race or an
   established class requires another character. Shared setup URLs contain only a validated profile,
   not identity or progress, and are removed only after the imported character is persisted.

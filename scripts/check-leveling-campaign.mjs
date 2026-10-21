@@ -6,6 +6,7 @@ import { resolve, join } from "node:path";
 import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
+import { selectGuideChapter } from "./leveling-browser-progress.mjs";
 
 const packagePath = process.argv
   .find((arg) => arg.startsWith("--playwright-package="))
@@ -29,7 +30,7 @@ page.setDefaultTimeout(30000);
 page.on("pageerror", (error) => errors.push(error.message));
 const data = () =>
   page.evaluate(() => {
-    const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
+    const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"));
     return workspace.sessions.find((session) => session.id === workspace.activeId);
   });
 const journey = async () =>
@@ -40,12 +41,12 @@ try {
     page.getByRole("heading", { name: /Premade 5 · full leveling campaign/ }),
   ).toBeVisible();
   const chapter = page.getByLabel("Campaign chapter", { exact: true });
-  await chapter.selectOption("prepare-stockade");
+  await selectGuideChapter(page, "prepare-stockade");
   await expect(chapter).toHaveValue("prepare-stockade");
   await expect(
     page.getByRole("button", { name: /^Show campaign step:.*Night Watch/ }).first(),
   ).toBeVisible();
-  await chapter.selectOption("start-115");
+  await selectGuideChapter(page, "start-115");
   await page.getByRole("button", { name: "Start guide", exact: true }).click();
   await page.getByRole("button", { name: "Next step", exact: true }).click();
   await expect.poll(async () => (await journey())?.selectedActionId).toBeTruthy();
@@ -61,26 +62,26 @@ try {
   await expect.poll(async () => (await journey()).completion[previousId]).toBe("done");
   await page.reload();
   assert.notEqual((await journey()).selectedActionId, previousId);
-  await chapter.selectOption("prepare-stockade");
+  await selectGuideChapter(page, "prepare-stockade");
   await expect(
     page.getByRole("button", { name: /^Show campaign step:.*Tramping Paws/ }).first(),
   ).toBeVisible();
-  await chapter.selectOption("dungeon-stockade");
+  await selectGuideChapter(page, "dungeon-stockade");
   await page.getByRole("button", { name: /^Show campaign step: Actual entry check:/ }).click();
   await expect(page.getByRole("button", { name: "Done", exact: true })).toBeDisabled();
-  await chapter.selectOption("dungeon-blackrock-depths");
+  await selectGuideChapter(page, "dungeon-blackrock-depths");
   await expect(
     page.getByRole("button", { name: /^Show campaign step:.*Abandoned Hope/ }).first(),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: /^Show campaign step:.*Jail Break/ }).first(),
   ).toBeVisible();
-  await chapter.selectOption("finish-leveling");
+  await selectGuideChapter(page, "finish-leveling");
   await page
     .getByRole("button", { name: /^Show campaign step: All five have reached level 60/ })
     .click();
   await expect(page.getByRole("button", { name: "Done", exact: true })).toBeDisabled();
-  await chapter.selectOption("dungeon-drowned-city");
+  await selectGuideChapter(page, "dungeon-drowned-city");
   await page
     .getByRole("button", { name: /^Show campaign step:.*quest\/access evidence missing/ })
     .click();

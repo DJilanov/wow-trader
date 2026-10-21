@@ -113,10 +113,10 @@ try {
         ({ workspace, origin }) => {
           if (
             globalThis.location.origin === origin &&
-            !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+            !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
           )
             globalThis.localStorage.setItem(
-              "kfc-leveling:characters:v1",
+              "kfc-leveling:characters:v2",
               JSON.stringify(workspace),
             );
         },
@@ -141,7 +141,7 @@ try {
       const panel = page.locator(`#guide-${candidate.step.id} [data-combat-targets]`);
       await expect(panel).toHaveCount(1);
       const saved = await page.evaluate(() => {
-        const session = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"))
+        const session = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"))
           .sessions[0];
         return JSON.stringify({ progress: session.progress, dungeonPlans: session.dungeonPlans });
       });
@@ -189,7 +189,7 @@ try {
       assert.deepEqual(violations, []);
       assert.equal(
         await page.evaluate(() => {
-          const session = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"))
+          const session = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2"))
             .sessions[0];
           return JSON.stringify({ progress: session.progress, dungeonPlans: session.dungeonPlans });
         }),

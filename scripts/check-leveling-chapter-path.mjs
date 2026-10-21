@@ -46,9 +46,9 @@ await context.addInitScript(
   ({ workspace, origin }) => {
     if (
       globalThis.location.origin === origin &&
-      !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+      !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
     )
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(workspace));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(workspace));
   },
   { workspace, origin: base.origin },
 );
@@ -94,7 +94,7 @@ try {
     String(expectedHandIns.size),
   );
   const before = await page.evaluate(() =>
-    JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")),
+    JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")),
   );
   await page.getByLabel("Your effective XP/hour", { exact: true }).fill("7600");
   await expect(start).toContainText("≈1h");
@@ -103,7 +103,7 @@ try {
   await expect(page.getByLabel("Your effective XP/hour", { exact: true })).toHaveValue("7600");
   assert.deepEqual(
     await page.evaluate(() =>
-      JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")),
+      JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")),
     ),
     before,
   );
@@ -119,7 +119,7 @@ try {
   await expect(tree.locator('[data-chapter-node="chapter-125-13-15-westfall"]')).toBeInViewport();
   assert.deepEqual(
     await page.evaluate(() =>
-      JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")),
+      JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")),
     ),
     before,
   );

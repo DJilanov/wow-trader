@@ -74,9 +74,9 @@ await context.addInitScript(
   ({ data, origin }) => {
     if (
       globalThis.location.origin === origin &&
-      !globalThis.localStorage.getItem("kfc-leveling:characters:v1")
+      !globalThis.localStorage.getItem("kfc-leveling:characters:v2")
     )
-      globalThis.localStorage.setItem("kfc-leveling:characters:v1", JSON.stringify(data));
+      globalThis.localStorage.setItem("kfc-leveling:characters:v2", JSON.stringify(data));
   },
   { data, origin: base.origin },
 );
@@ -88,7 +88,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 const saved = () =>
   page.evaluate(
     () =>
-      JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1")).sessions[0]
+      JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v2")).sessions[0]
         .dungeonPlans,
   );
 try {

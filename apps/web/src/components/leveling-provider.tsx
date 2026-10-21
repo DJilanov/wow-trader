@@ -5,7 +5,7 @@ import type { CharacterProfile, PersonalDungeonPlan } from "@wow-trader/leveling
 import {
   LEVELING_STORAGE_KEY,
   emptyLevelingWorkspace,
-  readLevelingWorkspace,
+  readStoredLevelingWorkspace,
   readSharedCharacter,
   serializeLevelingWorkspace,
   updateCharacterSession,
@@ -57,13 +57,12 @@ export function LevelingProvider({
   useEffect(() => {
     let saved = emptyLevelingWorkspace();
     try {
-      const raw = localStorage.getItem(LEVELING_STORAGE_KEY);
-      const parsed = readLevelingWorkspace(raw);
-      if (raw && !parsed)
+      const restored = readStoredLevelingWorkspace(localStorage);
+      if (restored.unreadable)
         setNotice(
           "The saved character setup could not be read. It has not been overwritten; you can start a new setup.",
         );
-      saved = parsed ?? saved;
+      saved = restored.workspace ?? saved;
     } catch {
       setStorageFailed(true);
       setStorageNotice(

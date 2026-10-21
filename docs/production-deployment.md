@@ -38,7 +38,7 @@ pnpm static-delivery:test
 Before normal application activation, deploy the updated Nginx configuration using the
 existing backup/test/reload/redirect smoke workflow. It enables WASM/RSC gzip and contains
 an initially empty wildcard include at
-`/home/wow-trader-system/shared/static-delivery/current/nginx-*.conf`.
+`/home/wow-trader-system/shared/static-delivery/current/nginx-locations*.conf`.
 `scripts/activate-production.sh` then activates its matching delivery stage after web health
 passes. The new activation controller validates all raw/compressed assets, acquires an
 exclusive lock, atomically switches only the delivery symlink, checks/reloads only Nginx,

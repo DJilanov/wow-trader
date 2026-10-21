@@ -2,6 +2,24 @@
 
 Last updated: 2026-10-21
 
+## October 21 — deployment checks exposed two release-tooling defects
+
+The broad `nginx-*.conf` include matched the standalone smoke configuration and Nginx
+correctly refused activation. The delivery controller restored the absent previous
+pointer; live Nginx remains healthy. Narrowed production and test includes to
+`nginx-locations*.conf`, with a regression preventing this collision. Static staging now
+uses selected source/presentation releases so incomplete, unselected historical folders
+do not block deployment; missing selected manifests still fail closed. No historical
+artifact was deleted. Also corrected missing Node/browser global declarations in the
+newly committed leveling test script. 23 focused regressions and scoped lint pass.
+
+Application candidate passed Linux lint/typecheck/tests/build (922 web tests) and all
+seven production-profile checks. The candidate is not active. The live Nginx configuration
+has dynamic gzip and stale-wizard redirects, but the precompressed delivery pointer remains
+absent after rollback. Targeted fixes await explicit commit/push authority; see the latest
+context.md checkpoint for paths, sessions and the safe deployment order. Do not claim
+the full optimization rollout or public latency checks have finished.
+
 ## October21 — compressed delivery implementation and the leveling mount regression
 
 Fixedlocalwizard history losing/tools (oldshare404fresh); added typedURLregressions,
