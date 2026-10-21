@@ -302,7 +302,7 @@ describe("only unfunded pickups get a separate XP check", () => {
     expect(later.actions.some((entry) => entry.pickupQuestId === 18)).toBe(true);
   });
 
-  it("keeps fresh bars mandatory for zone observations even after reward proofs establish a minimum", () => {
+  it("does not force an XP form at a targetless handoff but keeps real XP checks enforced", () => {
     const plan = compileCampaignPickupGates(route());
     const state = reported(plan);
     expect(campaignPickupLevelMet(state.members[0]!, 2, plan.rewardFacts!)).toBe(true);
@@ -312,8 +312,9 @@ describe("only unfunded pickups get a separate XP check", () => {
       questChanges: [],
       targetLevel: null,
     };
-    expect(campaignActionReasons(observation, state, plan.rewardFacts)[0]).toContain(
-      "fresh actual",
-    );
+    expect(campaignActionReasons(observation, state, plan.rewardFacts)).toEqual([]);
+    expect(
+      campaignActionReasons({ ...observation, targetLevel: 5 }, state, plan.rewardFacts)[0],
+    ).toContain("fresh actual");
   });
 });

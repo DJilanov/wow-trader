@@ -31,6 +31,7 @@ rsync -az \
   --exclude='.env.local' \
   --exclude='.env.*.local' \
   --exclude='.next/' \
+  --exclude='.next-*/' \
   --exclude='.turbo/' \
   --exclude='.cache/' \
   --exclude='node_modules/' \
@@ -48,5 +49,7 @@ rsync -az \
 
 ssh "$deploy_host" "cd '$release_directory' && chmod 0755 scripts/*.sh && corepack pnpm install --frozen-lockfile && if [ -r '$web_environment_file' ]; then . '$web_environment_file'; fi && if [ \"\${SEO_RUM_ENABLED:-false}\" = true ]; then export SEO_RUM_ENABLED SEO_RUM_ROOT SEO_RUM_SAMPLE_RATE; export SEO_RUM_BUILD='$release_name'; fi && corepack pnpm check && corepack pnpm format:check && test -f apps/web/.next/standalone/apps/web/server.js && mkdir -p apps/web/.next/standalone/apps/web/.next/static apps/web/.next/standalone/apps/web/public && rsync -a --delete apps/web/.next/static/ apps/web/.next/standalone/apps/web/.next/static/ && rsync -a --delete apps/web/public/ apps/web/.next/standalone/apps/web/public/ && for generated_path in .turbo apps/desktop/.webpack apps/desktop/out apps/web/.next/cache; do if [ -d \"\$generated_path\" ]; then find \"\$generated_path\" -mindepth 1 -delete && rmdir \"\$generated_path\"; fi; done"
 
-echo "Staged and verified $release_directory"
+ssh "$deploy_host" "cd '$release_directory' && bash scripts/stage-static-delivery.sh '$release_name' '$deploy_root'"
+
+echo "Staged and verified $release_directory, including compressed immutable asset delivery"
 echo "Activate only after database migrations, environment files, and item media are ready."

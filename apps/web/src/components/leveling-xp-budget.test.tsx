@@ -1,67 +1,64 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import {
-  auditCampaignSections,
   emptyPremadeProgress,
-  forecastCampaignXp,
-  type CampaignPlan,
+  forecastCampaignGuide,
+  recordCampaignGuideXp,
 } from "@wow-trader/leveling";
-import { LevelingChapterBudget } from "./leveling-xp-budget";
+import { LevelingChapterBudget, LevelingXpBudget } from "./leveling-xp-budget";
+import { guideTestPlan } from "./leveling-guide.test-fixture";
 
-describe("starter zone XP presentation", () => {
-  it("shows an actual-XP handoff instead of a mandatory chapter-range target", () => {
-    const plan: CampaignPlan = {
-      release: "actual-xp-ui-test",
-      race: "human",
-      leaderClass: "warrior",
-      targetBuild: 70205,
-      actions: ["northshire", "elwynn"].map((legId) => ({
-        id: `${legId}-work`,
-        legId,
-        title: "Continue from actual XP",
-        instructions: [],
-        questChanges: [],
-        positions: [],
-        source: null,
-        kind: "instructions",
-        leaderOnly: true,
-        targetLevel: null,
-        targetStopId: null,
-        raidOnly: false,
-      })),
-      legs: [
-        { id: "northshire", title: "Northshire", from: 1, to: 6 },
-        { id: "elwynn", title: "Elwynn Forest", from: 6, to: 11 },
-      ].map((leg) => ({
-        ...leg,
-        kind: "starter",
-        stopId: null,
-        actionIds: [`${leg.id}-work`],
-        questIds: [],
-        unresolvedQuestIds: [],
-      })),
-    };
-    const base = emptyPremadeProgress();
-    const progress = {
-      ...base,
-      members: base.members.map((member) => ({
-        ...member,
-        level: 5,
-        currentXp: 123,
-        xpNeedsUpdate: false,
-      })),
-    };
-    const markup = renderToStaticMarkup(
-      <LevelingChapterBudget
-        audit={auditCampaignSections(plan, progress)[0]!}
-        forecast={forecastCampaignXp(plan, progress)[0]!}
-      />,
+describe("player-facing chapter plan", () => {
+  it("shows a useful default start, calculated finish and numeric target, not an actual-XP audit", () => {
+    const guide = forecastCampaignGuide(guideTestPlan(), emptyPremadeProgress()).sections[0]!;
+    const html = renderToStaticMarkup(<LevelingChapterBudget guide={guide} />);
+    expect(html).toContain('aria-label="Chapter plan"');
+    expect(html).toContain("Level 1 · 0%");
+    expect(html).toContain("Level 2 · 0%");
+    expect(html).toContain("Target level");
+    for (const text of [
+      "Unknown",
+      "Actual XP",
+      "Independent",
+      "Unfunded",
+      "Player 2",
+      "Not estimated",
+    ])
+      expect(html).not.toContain(text);
+    expect(html).toContain("no extra grind just to match a suggested level");
+  });
+  it("uses the same anchored forecast as the reader without changing the baseline target", () => {
+    const plan = guideTestPlan();
+    const progress = recordCampaignGuideXp(
+      plan,
+      emptyPremadeProgress(),
+      0,
+      5,
+      100,
+      "northshire-quest",
     );
-    expect(markup).toContain("Zone handoff");
-    expect(markup).toContain("Continue from actual XP");
-    expect(markup).toContain("the chapter range is not a grind target");
-    expect(markup).not.toContain("Level 6");
-    expect(markup).toContain("Extra clear-path XP is optional and excluded");
-    expect(markup).not.toContain("Requires a sourced clear path and current tuning");
+    const guide = forecastCampaignGuide(plan, progress).sections[0]!;
+    expect(guide.targetLevel).toBe(2);
+    const html = renderToStaticMarkup(<LevelingChapterBudget guide={guide} />);
+    expect(html).toContain("From your update");
+    expect(html).toContain("Level 5");
+  });
+  it("keeps explanations optional and does not render five empty diagnostic rows", () => {
+    const guide = forecastCampaignGuide(guideTestPlan(), emptyPremadeProgress()).sections[0]!;
+    const html = renderToStaticMarkup(<LevelingXpBudget guide={guide} />);
+    expect(html).toContain("XP breakdown &amp; assumptions");
+    expect(html).not.toContain("<table");
+    expect(html).not.toContain("Player 2");
+    expect(html).not.toContain("Entry bar");
+    expect(html).not.toContain("Gap to target");
+  });
+  it("gives one actionable message for missing data rather than five unknown rows", () => {
+    const plan = { ...guideTestPlan(), rewardFacts: [] };
+    const guide = forecastCampaignGuide(plan, emptyPremadeProgress()).sections[0]!;
+    const html = renderToStaticMarkup(<LevelingChapterBudget guide={guide} />);
+    expect(html).toContain("Some XP is missing");
+    expect(html).toContain("before deciding to grind");
+    expect(html).not.toContain("Unknown");
+    expect(html).not.toContain("Progression blocked");
   });
 });

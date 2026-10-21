@@ -1,150 +1,83 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
-  forecastCampaignSteps,
-  type CampaignPlan,
+  FOREVER_XP_CURVE,
+  type CampaignGuideSection,
   type PremadeProgress,
-  type XpPosition,
 } from "@wow-trader/leveling";
-import styles from "./leveling-xp-budget.module.css";
-
-interface ProjectionProps {
-  readonly plan: CampaignPlan;
-  readonly progress: PremadeProgress;
-  readonly actionId: string;
-  readonly currentActionId: string;
-}
-function bar(value: XpPosition | null): string {
-  return value
-    ? `level ${value.level} + ${value.currentXp.toLocaleString("en-US")} XP`
-    : "unresolved";
-}
+import { guideBarLabel, guideMembers } from "../lib/leveling-guide-presentation";
+import styles from "./leveling-guide.module.css";
 
 export function LevelingStepProjection({
-  plan,
-  progress,
+  guide,
   actionId,
-  currentActionId,
-}: ProjectionProps): React.JSX.Element {
-  const [basis, setBasis] = useState<"route-start" | "actual">("route-start");
-  const [open, setOpen] = useState(false);
-  const order = plan.actions.map((action) => action.id);
-  const currentIndex = order.indexOf(currentActionId),
-    selectedIndex = order.indexOf(actionId);
-  const canAnchor = currentIndex >= 0 && selectedIndex >= currentIndex;
-  const projections = useMemo(
-    () =>
-      !open || (!canAnchor && basis === "actual")
-        ? []
-        : forecastCampaignSteps(plan, progress, {
-            basis,
-            throughActionId: actionId,
-            ...(basis === "actual" ? { fromActionId: currentActionId } : {}),
-          }),
-    [plan, progress, basis, actionId, currentActionId, canAnchor, open],
-  );
-  const rows = projections.flatMap((player) =>
-    player.steps
-      .filter((step) => step.actionId === actionId)
-      .map((step) => ({ ...step, player: player.player })),
-  );
+}: {
+  readonly guide: CampaignGuideSection;
+  readonly actionId: string;
+}): React.JSX.Element {
+  const rows = guideMembers(guide).map((member) => {
+    const current = member.steps.filter((step) => step.actionId === actionId);
+    const historical =
+      guide.planned.members
+        .find((row) => row.player === member.player)
+        ?.steps.filter((step) => step.actionId === actionId) ?? [];
+    const steps = current.length ? current : historical;
+    return {
+      player: member.player,
+      steps,
+      endpoint: steps.at(-1)?.after ?? null,
+      historical: !current.length && historical.length > 0,
+    };
+  });
   return (
-    <details
-      className={styles.budget}
+    <section
+      className={styles.step}
       data-step-projection="true"
-      open={open}
-      onToggle={(event) => setOpen(event.currentTarget.open)}
+      aria-label="Expected progress after this step"
     >
-      <summary>Theoretical XP after this step</summary>
-      <label>
-        Projection starting point
-        <select
-          value={basis}
-          onChange={(event) => setBasis(event.target.value === "actual" ? "actual" : "route-start")}
-        >
-          <option value="route-start">Route start · level 1, no bonus XP</option>
-          <option value="actual">Saved actual XP · from current step</option>
-        </select>
-      </label>
-      <p>
-        Outdoor kill XP ×{progress.combatPlanning?.outdoorXpMultiplier ?? 1} · unrested historical
-        model, not observed XP. No grinding XP is invented to pass a requirement. Saved bars are
-        unchanged.
-      </p>
-      {!plan.combat && (
-        <p>
-          Combat references are unavailable here. Kill XP is missing, not zero; a quest-only
-          shortfall does not mean you need extra grinding.
-        </p>
-      )}
-      {rows.length === 0 ? (
-        <p>
-          {basis === "actual"
-            ? "Record fresh actual XP and select a current or later step."
-            : "Earlier missing data or an unmet requirement prevents projecting this step. See the chapter XP breakdown."}
-        </p>
-      ) : (
-        <ul className={styles.rewards}>
-          {rows.map((row, index) => (
-            <li
-              key={`${row.player}-${row.questId}-${row.phase}-${index}`}
-              className={styles.projectionRow}
-            >
-              <strong>
-                Player {row.player} · {row.title} ·{" "}
-                {row.phase === "rewarded"
-                  ? "hand-in"
-                  : row.phase === "accepted"
-                    ? "pickup"
-                    : "objective"}
-              </strong>
-              <span>
-                {bar(row.before)} → {bar(row.after)}
-              </span>
-              <small>
-                {row.questXp.toLocaleString("en-US")} quest XP +{" "}
-                {row.combatXp.toLocaleString("en-US")} modeled kill XP
-              </small>
-              <small>
-                Fast-loot scenario: {bar(row.fastLoot)} · slow-loot scenario: {bar(row.slowLoot)}.
-                These use per-objective P10/P90 kill counts, not a guaranteed or route-wide
-                confidence interval.
-              </small>
-              {row.shortfallXp > 0 && (
-                <small>
-                  Modeled known-XP gap: {row.shortfallXp.toLocaleString("en-US")} XP. Check missing
-                  combat/drop data and your actual bar before adding any grind.
-                </small>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-      <details data-combat-assumptions="true">
-        <summary>Model assumptions and optional refinements</summary>
-        <p>
-          Totals include only resolved inputs; missing kills can add XP. Page drop rates may not
-          reflect the current build. Shared objective overlap uses deterministic kill-count
-          scenarios, not a joint loot-inventory simulation.
-        </p>
-        <p>
-          Group estimates use level-weighted shares without a party bonus. Other members' levels are
-          held at the objective's starting snapshot; exact server tuning remains unverified.
-        </p>
-        <p>
-          Measurements and dungeon-clear profiles are optional refinements, not prerequisites for
-          planning. Extra dungeon trash/boss XP is excluded unless a sourced path and payout are
-          available. Group Loot does not establish whether each quest item is shared or personal.
-        </p>
+      <strong>After this step</strong>
+      {rows.map((row) => (
+        <div key={row.player}>
+          <span>
+            {guide.audience === "personal" ? "" : `Player ${row.player} · `}
+            {guideBarLabel(row.endpoint)}
+          </span>
+          {row.endpoint && row.endpoint.level < 60 && (
+            <progress
+              aria-label={`Player ${row.player} expected progress toward level ${row.endpoint.level + 1}`}
+              value={row.endpoint.currentXp}
+              max={FOREVER_XP_CURVE[row.endpoint.level]}
+            />
+          )}
+          {row.historical && (
+            <small>Route estimate for this earlier step, not your current saved bar.</small>
+          )}
+        </div>
+      ))}
+      <small>
+        {guide.basis === "saved-update"
+          ? "Estimated from your last progress update."
+          : "Estimated from your route's starting level."}{" "}
+        Recorded XP stays unchanged.
+      </small>
+      <details className={styles.details}>
+        <summary>Step XP details</summary>
+        {rows.map((row) => (
+          <p key={row.player}>
+            {guide.audience === "personal" ? "You" : `Player ${row.player}`}:{" "}
+            {row.steps.reduce((sum, step) => sum + step.questXp, 0).toLocaleString("en-US")} quest
+            XP
+            {guide.missingCombat
+              ? " · some kill XP is not available"
+              : ` + ${row.steps.reduce((sum, step) => sum + step.combatXp, 0).toLocaleString("en-US")} estimated kill XP`}
+            {row.endpoint &&
+              ` · ${row.endpoint.currentXp.toLocaleString("en-US")} XP into level ${row.endpoint.level}`}
+            .
+          </p>
+        ))}
       </details>
-      {projections.some((player) => player.issues.length > 0) && (
-        <p>
-          Some inputs are unresolved or theoretical. Missing drop rates, loot sharing and server
-          tuning remain explicit data limitations.
-        </p>
-      )}
-    </details>
+    </section>
   );
 }
 
@@ -189,12 +122,11 @@ export function LevelingCombatPlanningSettings({
         />
       </label>
       <p>
-        Default 1× is a theoretical assumption, not the quest-reward multiplier. Dungeon tuning uses
-        a separate sourced payout; a clear profile is needed only to add its extra kills. This
-        setting never awards actual XP.
+        Adjust this if your server awards different outdoor kill XP. It does not change quest
+        rewards or your recorded progress.
       </p>
       {error && <p role="alert">{error}</p>}
-      <button type="submit" disabled={disabled}>
+      <button className={styles.button} type="submit" disabled={disabled}>
         Save combat planning settings
       </button>
     </form>

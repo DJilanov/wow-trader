@@ -6,6 +6,7 @@ import { join, resolve } from "node:path";
 import { URL } from "node:url";
 import process from "node:process";
 import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
+import { updateGuideProgress } from "./leveling-browser-progress.mjs";
 
 const packagePath = process.argv
   .find((argument) => argument.startsWith("--playwright-package="))
@@ -41,14 +42,8 @@ try {
       { waitUntil: "networkidle", timeout: 90000 },
     );
     assert.equal(response?.status(), 200);
-    await page.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
-    await page.getByLabel("Player 1 actual level", { exact: true }).fill("5");
-    await page.getByLabel("Player 1 actual XP", { exact: true }).fill("123");
-    await page
-      .getByRole("form", { name: "Actual XP for player 1", exact: true })
-      .getByRole("button", { name: "Save actual XP", exact: true })
-      .click();
+    await page.getByRole("button", { name: "Start guide", exact: true }).click();
+    await updateGuideProgress(page, { level: 5, xp: 123 });
     const savedMembers = () =>
       page.evaluate((release) => {
         const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
@@ -76,7 +71,7 @@ try {
       { waitUntil: "networkidle", timeout: 90000 },
     );
     await expect(page.locator('[data-campaign-action="start-116-entry-xp"]')).toBeVisible();
-    await expect(page.getByText("No fixed zone-entry level", { exact: false })).toBeVisible();
+    await expect(page.locator('[data-chapter-plan="start-116"]')).toBeVisible();
     await expect(page.getByRole("button", { name: "Done", exact: true })).toBeEnabled();
     await expect(page.getByText("Reach level 6 before Elwynn Forest", { exact: true })).toHaveCount(
       0,

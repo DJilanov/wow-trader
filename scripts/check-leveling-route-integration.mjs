@@ -6,6 +6,7 @@ import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { DUNGEON_RELEASE } from "../packages/leveling/dist/index.js";
+import { updateGuideProgress } from "./leveling-browser-progress.mjs";
 
 const packagePath = process.argv
   .find((arg) => arg.startsWith("--playwright-package="))
@@ -56,19 +57,12 @@ try {
   }
   await page.screenshot({ path: join(output, "chapter-tree-mobile.png") });
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.getByRole("link", { name: "Open current quest list →", exact: true }).click();
+  await page.getByRole("link", { name: "Open guide →", exact: true }).click();
   await expect(page).toHaveURL(/\/routes\/alliance-human\/chapters\/premade-start-115/);
   await expect(page.getByLabel("Campaign chapter", { exact: true })).toHaveValue("start-115");
-  await page.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
+  await page.getByRole("button", { name: "Start guide", exact: true }).click();
   await expect.poll(async () => (await session()).profile.party.size).toBe(5);
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
-  for (let player = 1; player <= 5; player++) {
-    const xp = page.getByRole("form", { name: `Actual XP for player ${player}`, exact: true });
-    await xp.getByLabel(`Player ${player} actual level`, { exact: true }).fill("1");
-    await xp.getByLabel(`Player ${player} actual XP`, { exact: true }).fill("0");
-    await xp.getByRole("button", { name: "Save actual XP", exact: true }).click();
-  }
-  await page.getByRole("button", { name: "Close settings", exact: true }).click();
+  await updateGuideProgress(page, { level: 1, xp: 0 });
   await page.getByRole("button", { name: "Next step", exact: true }).click();
   const next = (await journey()).selectedActionId;
   assert.deepEqual((await journey()).completion, {});
@@ -108,11 +102,11 @@ try {
   await expect(chapter).not.toHaveValue("dungeon-deadmines");
   await expect(page.locator(`#campaign-${continued}`)).toHaveAttribute("data-selected", "true");
   await page.goto(url("/forever/leveling/routes/alliance-human"));
-  await expect(page.getByRole("link", { name: "Continue playing →", exact: true })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Continue guide →", exact: true })).toHaveAttribute(
     "href",
     new RegExp(`#campaign-${continued}$`),
   );
-  await page.getByRole("link", { name: "Continue playing →", exact: true }).click();
+  await page.getByRole("link", { name: "Continue guide →", exact: true }).click();
   await expect(page.locator(`#campaign-${continued}`)).toHaveAttribute("data-selected", "true");
   await page.goto(url("/forever/leveling/routes/alliance-human?plan=questing"));
   await expect(page.locator('[data-route-plan="premade"]')).toHaveCount(0);
@@ -121,7 +115,7 @@ try {
   await page.goto(url("/forever/leveling/routes/alliance-human?plan=premade"));
   await expect(page.locator('[data-route-plan="premade"]')).toBeVisible();
   assert.equal((await journey()).completion[next], "done");
-  await page.getByRole("link", { name: "Continue playing →", exact: true }).click();
+  await page.getByRole("link", { name: "Continue guide →", exact: true }).click();
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   await page.getByLabel("Player 1 class", { exact: true }).selectOption("warrior");
   await expect(page).toHaveURL(/\/routes\/alliance-human\?plan=premade&class=warrior/);

@@ -14,19 +14,17 @@ import {
   emptyCampaignProgress,
   emptyPremadeProgress,
   getLevelingRace,
-  recordPremadeXp,
   updateCampaignAction,
   skipCampaignXpBlock,
   premadeEntryLevel,
-  forecastCampaignXp,
-  auditCampaignSections,
+  forecastCampaignGuide,
+  initializeCampaignGuideAnchors,
   campaignSections,
   campaignSectionFor,
   campaignSectionActions,
   campaignQuestTargets,
   campaignOptionalXpReady,
   nextCampaignAction,
-  campaignSectionXpGap,
   campaignRequiredDungeonQuest,
   getDungeonBundle,
   dungeonBundleKey,
@@ -40,7 +38,6 @@ import { LevelingReaderWorkspace } from "./leveling-reader-workspace";
 import { LevelingQuestCard } from "./leveling-quest-card";
 import { LevelingZoneMap } from "./leveling-zone-map";
 import { LevelingEntityLinks } from "./leveling-entity-links";
-import { PremadePartyXp } from "./leveling-premade";
 import type { LevelingChapterMaps } from "../lib/leveling-map-data";
 import { levelingChapterPath } from "../lib/leveling-experience";
 import {
@@ -49,11 +46,9 @@ import {
   levelingPlanDashboardPath,
 } from "../lib/leveling-route-plan";
 import styles from "./leveling-campaign.module.css";
-import {
-  LevelingXpBudget,
-  LevelingChapterBudget,
-  LevelingLibraryStatus,
-} from "./leveling-xp-budget";
+import { LevelingXpBudget, LevelingChapterBudget } from "./leveling-xp-budget";
+import { LevelingGuideProgress } from "./leveling-guide-progress";
+import guideStyles from "./leveling-guide.module.css";
 import { LevelingDungeonPreparation } from "./leveling-campaign-outline";
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
 import { LevelingCombatTargets } from "./leveling-combat-targets";
@@ -93,19 +88,15 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
   const chapters = campaignSections(plan, progress);
   const chapter = campaignSectionFor(plan, leg.id, progress)!;
   const currentArea = chapter.areas.find((area) => area.legIds.includes(leg.id))!;
-  const xpGap = campaignSectionXpGap(chapter, progress, plan.rewardFacts);
-  const xpForecast = useMemo(
+  const guideForecast = useMemo(
     () =>
-      forecastCampaignXp(plan, progress, {
-        fromActionId: currentCampaignAction(plan, progress).id,
-      }).find((entry) => entry.sectionId === chapter.id)!,
-    [plan, progress, chapter.id],
+      forecastCampaignGuide(plan, progress, {
+        startingLevel: active?.profile.level ?? 1,
+      }),
+    [plan, progress, active?.profile.level],
   );
-  const xpAudit = useMemo(
-    () => auditCampaignSections(plan, progress).find((entry) => entry.sectionId === chapter.id)!,
-    [plan, progress, chapter.id],
-  );
-  const entryStop = PREMADE_STOPS.find((stop) => stop.id === chapter.stopId);
+  const guide = guideForecast.sections.find((entry) => entry.chapter.id === chapter.id)!;
+  const nextChapter = chapters[chapters.findIndex((entry) => entry.id === chapter.id) + 1];
   const index = actions.findIndex((entry) => entry.id === action.id);
   const legActions = campaignSectionActions(plan, chapter, actions);
   const completed = actions.filter((entry) => journey.completion[entry.id] === "done").length;
@@ -127,9 +118,19 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
   const [showFullPath, setShowFullPath] = useState(false);
   const [confirmed, setConfirmed] = useState<string | null>(null);
   const settingsButton = useRef<HTMLButtonElement>(null);
+  const progressButton = useRef<HTMLButtonElement>(null);
   const batchRevision = JSON.stringify(progress.selectedBatches ?? {});
   const bundleRevision = JSON.stringify(progress.guaranteedBundles ?? {});
   const race = getLevelingRace("alliance", plan.race)!;
+  useEffect(() => {
+    if (!loaded || !active) return;
+    const normalized = initializeCampaignGuideAnchors(plan, progress);
+    if (normalized !== progress)
+      setDungeonPlan(active.id, (current) => ({
+        ...current,
+        premade: initializeCampaignGuideAnchors(plan, current.premade ?? fallback),
+      }));
+  }, [loaded, active, plan, progress, fallback, setDungeonPlan]);
   useEffect(() => {
     if (!loaded) return;
     function restore(): void {
@@ -255,11 +256,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       const selectedId = updated.campaigns[plan.release]?.selectedActionId;
       if (selectedId) navigateAfterUpdate(selectedId);
       setConfirmed(null);
-      setMessage(
-        done
-          ? "Recorded your in-game report. Hand-ins require fresh actual XP; estimates never award XP."
-          : null,
-      );
+      setMessage(done ? "Step completed. Your place is saved." : null);
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : "Campaign progress could not be saved.");
     }
@@ -296,11 +293,9 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       "Task check undone. This does not undo a real quest reward; correct reported quest state separately if needed.",
     );
   }
-  const questIds = [
-    ...new Set(legActions.flatMap((entry) => entry.questChanges.map((change) => change.questId))),
-  ];
   const targets = campaignQuestTargets(action, progress);
-  const needsConfirmation = action.questChanges.length > 0 && targets.length > 0;
+  const needsConfirmation =
+    !action.leaderOnly && action.questChanges.length > 0 && targets.length > 0;
   const doneDisabled =
     !enabled ||
     blocked.length > 0 ||
@@ -332,27 +327,27 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           <>
             <span>
               {entry.kind === "checkpoint"
-                ? "Actual XP gate"
+                ? "Before entering the dungeon"
                 : entry.kind === "unverified"
-                  ? "Evidence gap · no quest XP credited"
+                  ? "Dungeon details still pending"
                   : entry.leaderOnly
-                    ? "Your race branch · Player 1 only"
-                    : "Premade 5 · shared path"}
+                    ? "Your character"
+                    : "Party questing"}
             </span>
             {journey.completion[entry.id] === "skipped" && <span>Skipped XP work</span>}
             {entry.libraryQuestId && (
               <span>
                 {entry.libraryBackbone
-                  ? "Main questing chapter"
+                  ? "Questing"
                   : entry.libraryRequired
-                    ? "Required source-chain lead-in"
+                    ? "Required quest chain"
                     : entry.libraryObjective === "named-trophy"
-                      ? "Named trophy · verify loot for all five"
+                      ? "Check loot for every player"
                       : entry.libraryObjective === "delivery"
-                        ? "On-route chain return"
+                        ? "Quest return"
                         : entry.libraryObjective === "interaction"
-                          ? "Nearby source objective"
-                          : "Source-library kill loop"}
+                          ? "Nearby objective"
+                          : "Optional XP quest"}
               </span>
             )}
             {entry.questChanges.length > 0 && entryTargets.length === 0 && (
@@ -388,13 +383,11 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         }
       >
         <div data-campaign-action={entry.id} className={styles.instructions}>
+          {entry.instructions.map((line, lineIndex) => (
+            <p key={lineIndex}>{line}</p>
+          ))}
           {selected && entry.questChanges.length > 0 && (
-            <LevelingStepProjection
-              plan={plan}
-              progress={progress}
-              actionId={entry.id}
-              currentActionId={currentCampaignAction(plan, progress).id}
-            />
+            <LevelingStepProjection guide={guide} actionId={entry.id} />
           )}
           {plan.combat?.activities
             .filter((activity) => activity.actionId === entry.id)
@@ -408,9 +401,6 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
                 environment={activity.environment}
               />
             ))}
-          {entry.instructions.map((line, lineIndex) => (
-            <p key={lineIndex}>{line}</p>
-          ))}
           {entryBundle && (
             <LevelingDungeonBundle
               key={dungeonBundleKey(entryBundle.dungeonId, entryBundle.faction)}
@@ -433,42 +423,37 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
               </Link>
             )}
           </div>
-          {selected && entry.questChanges.length > 0 && entryTargets.length > 0 && (
-            <div className={styles.report}>
-              <p>Done records {targetNames}'s actual quest report:</p>
-              <ul>
-                {entry.questChanges.map((change, i) => (
-                  <li key={`${change.questId}-${i}`}>
-                    {change.title} ·{" "}
-                    {change.state === "accepted"
-                      ? "accepted"
-                      : change.state === "rewarded"
-                        ? "handed in"
-                        : `objective ${change.objectiveIndex} completed`}
-                    {" · "}
-                    {campaignQuestTargets({ ...entry, questChanges: [change] }, progress)
-                      .map((index) => `Player ${index + 1}`)
-                      .join(", ") || "already reported"}
-                  </li>
-                ))}
-              </ul>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={confirmed === entry.id}
-                  onChange={(event) => setConfirmed(event.target.checked ? entry.id : null)}
-                  disabled={!enabled}
-                />
-                {entry.leaderOnly
-                  ? "I completed this in game"
-                  : entryTargets.length === 5
+          {selected &&
+            entry.questChanges.length > 0 &&
+            entryTargets.length > 0 &&
+            !entry.leaderOnly && (
+              <div className={styles.report}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={confirmed === entry.id}
+                    onChange={(event) => setConfirmed(event.target.checked ? entry.id : null)}
+                    disabled={!enabled}
+                  />
+                  {entryTargets.length === 5
                     ? "All five completed this in game"
                     : `${targetNames} completed this in game`}
-              </label>
-              <small>
-                Confirm each listed player's actual eligibility and quest state. Previously reported
-                stages are kept; no XP is added by a checkmark.
-              </small>
+                </label>
+                <small>
+                  Done reports completion for these players. Already reported quest stages are kept.
+                </small>
+              </div>
+            )}
+          {selected && blocked.length > 0 && entry.kind === "quests" && (
+            <div className={styles.report}>
+              <p role="status">{blocked[0]}</p>
+              <button
+                type="button"
+                disabled={!enabled}
+                onClick={() => progressButton.current?.click()}
+              >
+                Update level / XP
+              </button>
             </div>
           )}
           {selected && ["checkpoint", "xp-check"].includes(entry.kind) && (
@@ -477,11 +462,11 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
                 {blocked.length
                   ? blocked.join(" ")
                   : entry.kind === "xp-check"
-                    ? `${entry.leaderOnly ? "The leader's bar is" : "All five bars are"} fresh. The next step uses the actual remaining gap.`
-                    : "All five actual entry levels are ready."}
+                    ? "Continue when the next quests are available. Update your level only if the estimate needs correcting."
+                    : "The party meets the recorded entry requirements."}
               </p>
-              <button type="button" onClick={() => settingsButton.current?.click()}>
-                Record party XP
+              <button type="button" onClick={() => progressButton.current?.click()}>
+                Update level / XP
               </button>
             </div>
           )}
@@ -494,18 +479,14 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       scope={`${plan.release}-${legId ?? "full"}`}
       ready={loaded}
       title={legId ? chapter.title : "Premade 5 · full leveling campaign"}
-      minimumLevel={legId ? xpAudit.targetLevel : 1}
-      maximumLevel={legId ? xpAudit.targetLevel : 60}
+      minimumLevel={legId ? guide.targetLevel : 1}
+      maximumLevel={legId ? guide.targetLevel : 60}
       levelLabel={
         !legId
           ? "Route target 60"
-          : chapter.kind === "dungeon" && entryStop
-            ? `Entry ${premadeEntryLevel(entryStop, progress, plan.rewardFacts)}`
-            : chapter.kind === "starter"
-              ? "Continue from actual XP"
-              : `Target ${xpAudit.targetLevel}`
+          : `${guide.targetKind === "entry" ? "Entry" : "Target level"} ${guide.targetLevel}`
       }
-      profile={`${race.name} start · ${chapters.filter((entry) => entry.kind === "dungeon" && !entry.planningOnly).length} sourced dungeon stops + ${chapters.filter((entry) => entry.planningOnly).length} guaranteed-bundle planning stops`}
+      profile={`${race.name} · ${plan.leaderClass ?? "choose a class"} · ${guide.audience === "personal" ? "Personal starting route" : "Five-player route"}`}
       dashboardHref={
         legId
           ? `/forever/leveling/routes/alliance-${plan.race}?plan=premade${plan.leaderClass ? `&class=${plan.leaderClass}` : ""}`
@@ -629,7 +610,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             />
             Include MC / Onyxia BRD stages / Shadowforge goals
           </label>
-          <h3>Actual party XP · update after hand-ins</h3>
+          <h3>XP calculation settings</h3>
           <LevelingCombatPlanningSettings
             progress={progress}
             disabled={!enabled}
@@ -641,17 +622,6 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             leader={{ raceId: plan.race, classSlug: plan.leaderClass }}
             onChange={update}
           />
-          <div className={styles.partyXp}>
-            {progress.members.map((member, memberIndex) => (
-              <PremadePartyXp
-                key={`${memberIndex}-${member.level}-${member.currentXp}`}
-                member={member}
-                index={memberIndex}
-                disabled={!enabled}
-                onSave={(level, xp) => update(recordPremadeXp(progress, memberIndex, level, xp))}
-              />
-            ))}
-          </div>
           <p>
             The current quest curve is pinned to build 70205. World rewards are not assumed to have
             the dungeon multiplier. Later references and unverified dungeon data cannot certify a
@@ -682,14 +652,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
             </span>
             <h2>{chapter.title}</h2>
             <p>
-              {chapter.kind === "starter"
-                ? "No fixed zone-entry level · continue from actual XP"
-                : `Target level ${xpAudit.targetLevel} · targets are not guaranteed level gains`}
-              {" · "}
-              {questIds.length} quest IDs
-            </p>
-            <p>
-              Current area: {currentArea.title} ·{" "}
+              {currentArea.title} ·{" "}
               {leg.kind === "xp-bridge"
                 ? "catch-up only if XP is needed"
                 : leg.kind === "starter"
@@ -698,19 +661,24 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
                     ? "dungeon objectives and hand-ins"
                     : "quest chains and pickups"}
             </p>
-            {xpGap && (
-              <p>
-                Actual XP still needed for level {xpGap.targetLevel}:{" "}
-                {xpGap.remainingXp === null
-                  ? "record fresh player bars"
-                  : xpGap.remainingXp.toLocaleString("en-US")}{" "}
-                · one chapter target, not a reward for each phase.
-              </p>
+            <LevelingChapterBudget guide={guide} compact />
+            {!active && loaded ? (
+              <button className={guideStyles.button} type="button" onClick={savePlan}>
+                Start guide
+              </button>
+            ) : (
+              <LevelingGuideProgress
+                plan={plan}
+                progress={progress}
+                actionId={action.id}
+                personal={guide.audience === "personal"}
+                disabled={!enabled}
+                onChange={update}
+                buttonRef={progressButton}
+              />
             )}
-            <LevelingChapterBudget audit={xpAudit} forecast={xpForecast} compact />
-            <LevelingLibraryStatus plan={plan} />
+            <LevelingXpBudget plan={plan} guide={guide} />
             <LevelingCatchUpSuggestions plan={plan} legId={leg.id} progress={progress} />
-            <LevelingXpBudget plan={plan} forecast={xpForecast} />
             <LevelingDungeonPreparation plan={plan} chapter={chapter} progress={progress} />
           </div>
           <label>
@@ -783,22 +751,6 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
         </div>
       }
     >
-      {!active && loaded && (
-        <div className={styles.save}>
-          <h3>Start a whole 1–60 party plan</h3>
-          <p>
-            Use this {race.name} branch to track a five-player route. Existing outdoor quest checks
-            and other characters are preserved.
-          </p>
-          <button type="button" onClick={savePlan}>
-            Save full leveling plan
-          </button>
-        </div>
-      )}
-      <p className={styles.notice}>
-        Follow the areas in order. Dungeon pickups and prerequisite chains belong to the zone
-        questing, not a separate leveling bracket. Catch-up is only for the XP still needed.
-      </p>
       <LevelingOptionalDungeonBundles
         progress={progress}
         disabled={!enabled}
@@ -842,6 +794,15 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           })}
         </section>
       ))}
+      {nextChapter && (
+        <nav className={guideStyles.handoff} aria-label="Next chapter">
+          <span className="eyebrow">Up next</span>
+          <p>Finish this chapter&apos;s required quests, then continue to {nextChapter.title}.</p>
+          <Link href={campaignChapterPath(plan, nextChapter.id)}>
+            Continue to {nextChapter.title} →
+          </Link>
+        </nav>
+      )}
       {leg.id === "level-60-finish" && journey.completion[action.id] === "done" && (
         <p className={styles.save} role="status">
           All five have reported level 60. Earlier incomplete tasks remain unchecked. The RestedXP
@@ -859,8 +820,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           ? "Saved on this device."
           : storageStatus === "memory"
             ? "Storage unavailable: export a backup before leaving."
-            : "Progress saves locally after a change."}{" "}
-        Release {plan.release}.
+            : "Progress saves locally after a change."}
       </p>
     </LevelingReaderWorkspace>
   );

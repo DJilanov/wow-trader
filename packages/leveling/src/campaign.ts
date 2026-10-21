@@ -1377,6 +1377,9 @@ export function campaignActionReasons(
   if (action.kind === "xp-check") {
     const members = action.leaderOnly ? progress.members.slice(0, 1) : progress.members;
     const target = campaignXpTarget(action, progress, facts);
+    // An informational zone handoff has no eligibility gate. Recording an XP bar
+    // may improve its forecast, but must not prevent the player from continuing.
+    if (target === null) return [];
     if (
       action.pickupQuestId !== undefined &&
       target !== null &&
@@ -1390,7 +1393,6 @@ export function campaignActionReasons(
       return [
         `Record fresh actual levels and XP for ${action.leaderOnly ? "the leader" : "all five"} after preparation; unknown or stale bars cannot decide whether extra quests are needed.`,
       ];
-    if (target === null) return [];
     const ready = members.every(
       (member) =>
         member.level! > target.level ||

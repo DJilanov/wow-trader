@@ -35,6 +35,10 @@ import {
   raidHunterModelEntrySchema,
   readRaidHunterSimulatorBuild,
 } from "./forever-simulator-raid-hunter";
+import {
+  shadowPriestModelEntrySchema,
+  readFreshShadowPriestSimulatorBuild,
+} from "./forever-simulator-fresh-shadow-priest";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/),
   releaseId = z.string().regex(/^[a-f0-9]{24}$/),
@@ -58,6 +62,7 @@ const selectionSchema = z
         warlock: z.unknown().optional(),
         feral_druid: z.unknown().optional(),
         hunter: z.unknown().optional(),
+        shadow_priest: z.unknown().optional(),
       })
       .strict(),
   })
@@ -163,6 +168,14 @@ const proofSchema = z.union([
   z
     .object({
       ...proofFields,
+      schema: z.literal("kfc-simulator-profile-model-update.priest-shadow.v1"),
+      profile: z.literal("shadow_priest"),
+      builds: z.tuple([shadowPriestModelEntrySchema]),
+    })
+    .strict(),
+  z
+    .object({
+      ...proofFields,
       schema: z.literal("kfc-simulator-profile-model-update.hunter-raid.v1"),
       profile: z.literal("hunter"),
       builds: z.tuple([
@@ -208,10 +221,11 @@ const browserSchema = z
       "kfc-profile-model-browser.warlock.v2",
       "kfc-profile-model-browser.feral-raid.v1",
       "kfc-profile-model-browser.hunter-raid.v1",
+      "kfc-profile-model-browser.priest-shadow.v1",
     ]),
     status: z.literal("passed"),
     capturedAt: z.iso.datetime(),
-    profile: z.enum(["mage", "balance_druid", "warlock", "feral_druid", "hunter"]),
+    profile: z.enum(["mage", "balance_druid", "warlock", "feral_druid", "hunter", "shadow_priest"]),
     sourceRelease: releaseId,
     release: releaseId,
     proofSha256: digest,
@@ -302,6 +316,7 @@ export async function validateSimulatorProfileModelBuilds(
     profile !== "balance_druid" &&
     profile !== "warlock" &&
     profile !== "hunter" &&
+    profile !== "shadow_priest" &&
     profile !== "feral_druid"
   )
     return false;
@@ -316,6 +331,7 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.warlock.v2",
       "kfc-simulator-profile-model-update.feral-raid.v1",
       "kfc-simulator-profile-model-update.hunter-raid.v1",
+      "kfc-simulator-profile-model-update.priest-shadow.v1",
     ].includes(z.object({ schema: z.string() }).parse(raw.value).schema)
   )
     return false;
@@ -344,6 +360,7 @@ export async function readSimulatorProfileModelUpdate(
     profile !== "balance_druid" &&
     profile !== "warlock" &&
     profile !== "hunter" &&
+    profile !== "shadow_priest" &&
     profile !== "feral_druid"
   )
     return null;
@@ -507,11 +524,13 @@ export async function readSimulatorProfileModelUpdate(
               ? await readFreshDemonologySimulatorBuild(entry, options)
               : entry.id === "warlock-affliction-static"
                 ? await readFreshAfflictionSimulatorBuild(entry, options)
-                : entry.id === "feral-cat-static"
-                  ? await readRaidFeralSimulatorBuild(entry, options)
-                  : entry.profile === "hunter"
-                    ? await readRaidHunterSimulatorBuild(entry, options)
-                    : await readFreshGreaterBalanceSimulatorBuild(entry, options);
+                : entry.id === "priest-shadow-static"
+                  ? await readFreshShadowPriestSimulatorBuild(entry, options)
+                  : entry.id === "feral-cat-static"
+                    ? await readRaidFeralSimulatorBuild(entry, options)
+                    : entry.profile === "hunter"
+                      ? await readRaidHunterSimulatorBuild(entry, options)
+                      : await readFreshGreaterBalanceSimulatorBuild(entry, options);
     const player = z.record(z.string(), z.unknown()).parse(build.settings.player);
     requireMatch(
       proof.presets.some(
@@ -540,21 +559,23 @@ export async function readSimulatorProfileModelUpdate(
       browser.sourceRelease === source.release &&
       browser.proofSha256 === pointer.proofSha256 &&
       browser.schema ===
-        (proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
-          ? "kfc-profile-model-browser.hunter-raid.v1"
-          : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
-            ? "kfc-profile-model-browser.feral-raid.v1"
-            : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
-              ? "kfc-profile-model-browser.warlock.v2"
-              : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
-                ? "kfc-profile-model-browser.warlock.v1"
-                : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
-                  ? "kfc-profile-model-browser.balance.v1"
-                  : proof.schema === "kfc-simulator-profile-model-update.v1"
-                    ? "kfc-profile-model-browser.v1"
-                    : proof.schema === "kfc-simulator-profile-model-update.v2"
-                      ? "kfc-profile-model-browser.v2"
-                      : "kfc-profile-model-browser.v3"),
+        (proof.schema === "kfc-simulator-profile-model-update.priest-shadow.v1"
+          ? "kfc-profile-model-browser.priest-shadow.v1"
+          : proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
+            ? "kfc-profile-model-browser.hunter-raid.v1"
+            : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
+              ? "kfc-profile-model-browser.feral-raid.v1"
+              : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
+                ? "kfc-profile-model-browser.warlock.v2"
+                : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
+                  ? "kfc-profile-model-browser.warlock.v1"
+                  : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
+                    ? "kfc-profile-model-browser.balance.v1"
+                    : proof.schema === "kfc-simulator-profile-model-update.v1"
+                      ? "kfc-profile-model-browser.v1"
+                      : proof.schema === "kfc-simulator-profile-model-update.v2"
+                        ? "kfc-profile-model-browser.v2"
+                        : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -574,6 +595,7 @@ export async function readSimulatorProfileModelUpdate(
                 "hunter-beast-mastery-static",
                 "hunter-marksmanship-static",
                 "hunter-survival-static",
+                "priest-shadow-static",
               ]),
               iterations: z.literal(25),
               nativeDps: z.number().finite().positive(),
@@ -598,6 +620,7 @@ export async function readSimulatorProfileModelUpdate(
                 "hunter-beast-mastery-static",
                 "hunter-marksmanship-static",
                 "hunter-survival-static",
+                "priest-shadow-static",
               ]),
               viewport: z.object({ width: z.number().int().positive() }).passthrough(),
               fullMeasuredSettingsPreserved: z.literal(true),
@@ -642,15 +665,17 @@ export async function readSimulatorProfileModelUpdate(
     "Profile browser approval omitted parity/desktop/mobile share import",
   );
   const expectedOtherProfiles =
-    profile === "hunter"
-      ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
-      : profile === "feral_druid"
-        ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
-        : profile === "warlock"
-          ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
-          : profile === "mage"
-            ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
-            : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
+    profile === "shadow_priest"
+      ? ["warrior", "rogue", "hunter", "feral_druid", "balance_druid", "mage", "warlock"]
+      : profile === "hunter"
+        ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
+        : profile === "feral_druid"
+          ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
+          : profile === "warlock"
+            ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
+            : profile === "mage"
+              ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
+              : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
   requireMatch(
     expectedOtherProfiles.every((profile) =>
       evidence.otherProfiles.some((row) => row.profile === profile),

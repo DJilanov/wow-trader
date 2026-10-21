@@ -826,9 +826,12 @@ export function recordPremadeXp(
     throw new Error("Enter a level from 1–60 and XP below the next-level requirement (0 at 60).");
   return premadeProgressSchema.parse({
     ...progress,
-    members: progress.members.map((member, index) =>
-      index === memberIndex ? { ...member, level, currentXp, xpNeedsUpdate: false } : member,
-    ),
+    members: progress.members.map((member, index) => {
+      if (index !== memberIndex) return member;
+      const updated = { ...member, level, currentXp, xpNeedsUpdate: false };
+      delete updated.guideXpAnchor;
+      return updated;
+    }),
   });
 }
 export function advancePremadeStage(progress: PremadeProgress, done: boolean): PremadeProgress {

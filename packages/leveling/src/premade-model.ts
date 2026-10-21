@@ -7,6 +7,25 @@ import {
   dungeonBundleSlotStatesSchema,
 } from "./dungeon-bundle-model.js";
 
+const questStatesSchema = z.record(
+  z.string().regex(/^[1-9]\d{0,5}$/),
+  z.enum(["not-started", "accepted", "objectives-complete", "rewarded"]),
+);
+const confirmationsSchema = z.record(z.string().regex(/^[a-z0-9-]{1,100}$/), z.boolean());
+
+export const campaignXpAnchorSchema = z
+  .object({
+    release: z.string().regex(/^[a-z0-9-]{1,100}$/),
+    actionId: z.string().regex(/^[a-z0-9-]{1,180}$/),
+    level: z.number().int().min(1).max(60),
+    currentXp: z.number().int().min(0).max(1_000_000),
+    questStates: questStatesSchema,
+    confirmations: confirmationsSchema,
+    bundleSlotStates: dungeonBundleSlotStatesSchema,
+  })
+  .strict();
+export type CampaignXpAnchor = z.infer<typeof campaignXpAnchorSchema>;
+
 export const PREMADE_ROUTE_REVISION = "premade-five-20261013-v1";
 export const premadeStopIds = [
   "thanes",
@@ -84,16 +103,10 @@ export const premadeProgressSchema = z
             classSlug: z.enum(classSlugs).nullable().default(null),
             raceId: z.enum(raceIds).nullable().optional(),
             xpNeedsUpdate: z.boolean().default(true),
-            confirmations: z
-              .record(z.string().regex(/^[a-z0-9-]{1,100}$/), z.boolean())
-              .default({}),
-            questStates: z
-              .record(
-                z.string().regex(/^[1-9]\d{0,5}$/),
-                z.enum(["not-started", "accepted", "objectives-complete", "rewarded"]),
-              )
-              .default({}),
+            confirmations: confirmationsSchema.default({}),
+            questStates: questStatesSchema.default({}),
             bundleSlotStates: dungeonBundleSlotStatesSchema.default({}),
+            guideXpAnchor: campaignXpAnchorSchema.optional(),
           })
           .strict(),
       )

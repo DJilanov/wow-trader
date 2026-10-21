@@ -173,14 +173,14 @@ describe("actual-XP zone handoffs", () => {
     expect(JSON.stringify(state)).toBe(before);
   });
 
-  it("requires fresh bars at a zone handoff even though it has no level target", () => {
+  it("keeps a targetless zone handoff usable without forcing another XP form", () => {
     const plan = compileCampaignPickupGates(starterPlan());
     const state = party(5);
     const handoff = plan.actions.find((entry) => entry.id === "elwynn-entry-xp")!;
     state.members[0]!.xpNeedsUpdate = true;
-    expect(campaignActionReasons(handoff, state)).not.toEqual([]);
+    expect(campaignActionReasons(handoff, state)).toEqual([]);
     expect(campaignOptionalXpReady(plan, state, handoff)).toBe(false);
-    expect(() => updateCampaignAction(plan, state, handoff.id, true)).toThrow("fresh actual");
+    expect(updateCampaignAction(plan, state, handoff.id, true).members).toEqual(state.members);
   });
 
   it("keeps personal starter handoffs leader-only even when their opening brief is shared", () => {

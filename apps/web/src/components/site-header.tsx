@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { withHelperBasePath } from "../lib/site-path";
+import { shouldPrefetchSiteNavigation } from "../lib/site-navigation";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -16,10 +17,6 @@ const navigation = [
   ["TBC Tools", "/tbc"],
   ["Data status", "/data-status"],
 ] as const;
-
-function shouldPrefetch(href: string): boolean {
-  return !href.endsWith("/trader");
-}
 
 export function SiteHeader(): React.JSX.Element {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -34,6 +31,7 @@ export function SiteHeader(): React.JSX.Element {
         <Link
           className="brand"
           href="/"
+          prefetch={shouldPrefetchSiteNavigation("/", pathname)}
           aria-label="KFC Helper home"
           onClick={() => setMobileOpen(false)}
         >
@@ -59,7 +57,7 @@ export function SiteHeader(): React.JSX.Element {
               href={href}
               key={href}
               aria-current={isActive(href) ? "page" : undefined}
-              prefetch={shouldPrefetch(href)}
+              prefetch={shouldPrefetchSiteNavigation(href, pathname)}
             >
               {label}
             </Link>
@@ -91,7 +89,7 @@ export function SiteHeader(): React.JSX.Element {
               key={href}
               aria-current={isActive(href) ? "page" : undefined}
               onClick={() => setMobileOpen(false)}
-              prefetch={shouldPrefetch(href)}
+              prefetch={shouldPrefetchSiteNavigation(href, pathname)}
             >
               {label}
             </Link>

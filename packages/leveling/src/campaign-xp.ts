@@ -9,7 +9,7 @@ import { campaignSections, campaignSectionTarget } from "./campaign-sections.js"
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { getPremadeQuest, PREMADE_STOPS, premadeEntryLevel } from "./premade.js";
 import { resolveQuestReward, type QuestRewardFact } from "./quest-rewards.js";
-import type { PremadeProgress } from "./premade-model.js";
+import type { CampaignXpAnchor, PremadeProgress } from "./premade-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { estimateGroupCombat, type GroupCombatInput } from "./group-combat.js";
 import {
@@ -131,6 +131,7 @@ export interface CampaignXpForecastOptions {
   readonly noAssumedGrinding?: boolean;
   readonly lootScenario?: LootScenario;
   readonly outdoorXpMultiplier?: number;
+  readonly anchors?: readonly (CampaignXpAnchor & { readonly player: number })[];
   readonly grindEvidence?: CampaignGrindEvidence;
   readonly grindRuntimeBuild?: number;
   readonly questValidation?: {
@@ -146,6 +147,29 @@ export function forecastCampaignXp(
   options: CampaignXpForecastOptions = {},
 ): readonly CampaignXpSectionForecast[] {
   const actions = activeCampaignActions(plan, progress);
+  const anchors = new Map<string, NonNullable<CampaignXpForecastOptions["anchors"]>[number][]>();
+  const anchoredPlayers = new Set<number>();
+  for (const anchor of options.anchors ?? []) {
+    if (
+      anchor.release !== plan.release ||
+      !actions.some((action) => action.id === anchor.actionId) ||
+      !Number.isInteger(anchor.player) ||
+      anchor.player < 1 ||
+      anchor.player > progress.members.length ||
+      anchoredPlayers.has(anchor.player) ||
+      !Number.isInteger(anchor.level) ||
+      anchor.level < 1 ||
+      anchor.level > 60 ||
+      !Number.isInteger(anchor.currentXp) ||
+      anchor.currentXp < 0 ||
+      (anchor.level === 60
+        ? anchor.currentXp !== 0
+        : anchor.currentXp >= FOREVER_XP_CURVE[anchor.level]!)
+    )
+      throw new Error("Invalid or duplicate campaign XP anchor.");
+    anchoredPlayers.add(anchor.player);
+    anchors.set(anchor.actionId, [...(anchors.get(anchor.actionId) ?? []), anchor]);
+  }
   const resolveValidation = options.questValidation
     ? createQuestValidationResolver(
         options.questValidation.evidences,
@@ -313,6 +337,65 @@ export function forecastCampaignXp(
       combatRows: [] as CampaignCombatRow[],
     }));
     for (const action of entries) {
+      for (const anchor of anchors.get(action.id) ?? []) {
+        const player = anchor.player - 1;
+        const ledger = ledgers[player]!;
+        const questStates = { ...ledger.states, ...anchor.questStates };
+        const confirmations = { ...ledger.confirmations, ...anchor.confirmations };
+        const bundleSlotStates = {
+          ...Object.fromEntries([...ledger.bundlePaid].map((key) => [key, "rewarded" as const])),
+          ...anchor.bundleSlotStates,
+        };
+        const member = {
+          ...progress.members[player]!,
+          ...anchor,
+          questStates,
+          confirmations,
+          bundleSlotStates,
+        };
+        ledger.total = cumulative(anchor);
+        ledger.states = questStates;
+        ledger.confirmations = confirmations;
+        ledger.paid = new Set(
+          Object.entries(questStates)
+            .filter(([, state]) => state === "rewarded")
+            .map(([id]) => Number(id)),
+        );
+        ledger.bundlePaid = new Set(
+          Object.entries(bundleSlotStates)
+            .filter(([, state]) => state === "rewarded")
+            .map(([key]) => key),
+        );
+        ledger.unknown.clear();
+        ledger.blocked.clear();
+        ledger.issues.clear();
+        ledger.halt = null;
+        ledger.issue = null;
+        ledger.incomplete = false;
+        ledger.combat = createCampaignCombatState(plan.combat, member);
+        // This bar supersedes earlier estimates, not earlier actual quest reports. Only
+        // work after its fixed step is added; moving the reader cursor cannot move it.
+        Object.assign(summaries[player]!, {
+          start: position(ledger.total),
+          rewards: [],
+          steps: [],
+          bundleRewards: [],
+          eligibilityIssues: [],
+          evidenceIssues: [],
+          issues: [],
+          validationResolutions: [],
+          inheritedIssueCount: 0,
+          inheritedEvidence: summarizeCampaignEvidence([]),
+          checkpoints: [],
+          referenceQuestXp: 0,
+          estimatedQuestXp: 0,
+          combatXp: 0,
+          estimatedCombatXp: 0,
+          outdoorCombatXp: 0,
+          dungeonCombatXp: 0,
+          combatRows: [],
+        });
+      }
       const partyLevels = ledgers.map((ledger) =>
         ledger.total === null ? null : position(ledger.total).level,
       );

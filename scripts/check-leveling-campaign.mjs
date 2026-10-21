@@ -46,7 +46,7 @@ try {
     page.getByRole("button", { name: /^Show campaign step:.*Night Watch/ }).first(),
   ).toBeVisible();
   await chapter.selectOption("start-115");
-  await page.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
+  await page.getByRole("button", { name: "Start guide", exact: true }).click();
   await page.getByRole("button", { name: "Next step", exact: true }).click();
   await expect.poll(async () => (await journey())?.selectedActionId).toBeTruthy();
   const nextId = (await journey()).selectedActionId;

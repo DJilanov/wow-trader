@@ -2,6 +2,283 @@
 
 Last updated: 2026-10-21
 
+## October 21, 15:28 UTC — performance delivery checks passed; not live
+
+The compression and leveling-navigation implementation passed its final local production
+build. All 118 web test files / 920 tests passed; the latest standalone TypeScript check,
+scoped ESLint, shell syntax and 21 transport/activation/migration tests also passed. The
+transient type errors from concurrent leveling prop changes are no longer present. Those
+other workflow changes remain user-owned and must not be included accidentally in a
+performance-only commit or deployment.
+
+An actual production-mode browser on port 3022 reached the premade chapter path after
+the reported Human/Warrior/party-five setup in 2.150 s desktop and 1.227 s mobile. Both
+checked back/refresh, the preserved draft and `/tools` mount, and zero page errors. These
+are local functional timings, not proof that public minute-long stalls have been fixed.
+Earlier delayed-response checks verified immediate pending feedback.
+
+The final isolated server delivery is
+`/tmp/kfc-static-delivery-20261021-r1/final-delivery`: 7,045 public assets, 466 encoded
+variants and 69,577,065 additional bytes. Latest Nginx syntax and real loopback HTTP checks
+passed without MIME warnings. WASM is 36,807,360 raw / 6,072,078 gzip bytes; decoded SHA,
+MIME, Vary, identity fallback, 304 and private-proof 404 checks passed. Isolated Nginx
+3852956 exited cleanly. Production Nginx and all application/simulator pointers are
+unchanged. The generated Helper/simulator locations preserve the existing search-crawler
+rate limit. First-activation syntax rollback and regular-current-file protection now have
+regression coverage. Source is not committed/pushed/deployed; public measurements remain
+required after the normal authorized release flow. Do not claim shared numerical-asset
+URLs, cross-request model caching or active Brotli have been delivered.
+
+## October21 15:14UTC — priority compression implementation; Shadow qualification COMPLETE
+
+User approved the compression plan("Cover it")and added the minute-long "Show our chapters"
+leveling transition. Work now prioritizes those implementation/verification tasks while the
+full optimization goal stays ACTIVE. Previous goal turn is concrete progress: freshShadow
+qualification completed and real compression/navigation evidence was produced. No global
+completion or blocker is established. No commit/push/productionactivation has occurred.
+
+Shadow confirmation83572/child57677 is TERMINAL0. Study
+f9c4c638e48053b28675e292e6fc5891c76463f8d64b646d3fddea4207a0637e,
+resultd45291977a64fc4362a1877b504cb4b460b3399abb0cbe8cd07fe2414df64cd7:
+24fresh origins/480000fights, no inherited numeric reuse forholdouts, selected unchanged.
+Actual selected10kWASM/native parity PASSED, report
+optimization/reviews/priest-shadow-selected-parity-eb2293713dd20baa.json,
+semanticSHAeb2293713dd20baaf06707574281c022c08d6a2ecc9446046ce8475369128214.
+Qualified privatebuild priest-shadow-first-pass-v1/build-e4b269361ec5469b.json,
+semanticSHAe4b269361ec5469bf9831af43acef32ad9ed1defc959f60c7bb43ce34a69b923,
+759.3133717239346DPS/40000,18/0/33, conservativegap0.5913647418%; both2%and separate1%
+PASS. Total actualnative35838origins/4781900fights,2gear sweeps,0statecontinuationcycles.
+Do not rerun or edit any frozen confirmation/helper/test/export files. SamePriest deadline
+22Oct12:44:51.403UTC, sharedwithSmite. No numerical owner remains live.
+
+New (not yet built/selected/fullyreviewed) PriestUI helpers:
+priest-shadow-preset-overlay-v1.mjs, priest-shadow-delivery-source-v1.mjs,
+build-priest-shadow-presentation-v1.mjs. Overlay binds genuine qualifiedgear/enchants/
+talents/APL/InnerFire/consumes/defaults, fixes ONLYdisplayShadowFocus*2to*1, preserves
+full-v2support and numericalassets. Builder still needs its OWN presentation reviewer/
+tests (currently some ownSource review names still point to oldWarlock reviewer), fresh
+Priest strictwebreader/profile support, fixtures, compiler/browserapproval/local selection.
+Do not run as though complete. Actual localUI/guidance delivery thenSmite remain.
+
+Performance source now implements separate checksum-verified public delivery mirrors:
+scripts/prepare-static-delivery.mjs, verify-static-delivery.mjs, activate-static-delivery.mjs,
+stage-static-delivery.sh plus tests; infra/nginx/static-delivery-smoke.conf. Uses no deps,
+2compressionworkers, rawsource unchanged, gzip/br roundtripSHA, public allowlist excluding
+HTML/privateproofs/maps/dotfiles, diskbudget2GiB+free reserve1GiB, contentdedup, nochmod
+on sourcehardlinks, previousNextstatic preservation, failclosed partialstage. No runtime
+proof validation/auth/CSP weakened. Brotli sidecars are prepared but server still only has
+gzip_static loaded. New Nginxoptional deliveryinclude, WASM/RSCgzip and stalewizard redirects.
+Source deploy stagesdelivery; activationcontroller atomically switches onlydeliverypointer,
+checks/reloadsNginx, verifiesHTTP and restoresexactpreviouspointeronfailure. No liveactivation.
+
+Leveling diagnosis: unprefixed human link404fresh. Canonical/tools wizardclick reachesroute
+in5.41s in isolatedpubliccheck(not a reproduced60scompute); localhostorigin fullrouteHTML
+5800290bytes/1.57–1.85s. Setup history definitely dropped/tools. Fixedwithtested typed
+leveling-setup-navigation helper; Reacttransitionpendingstate/duplicateclickguard and
+route loading.tsx; headerprefetch and setup preview/resume prefetch suppressed during
+heavy startup. Localbrowser90896 PASS1440/390, history+reload+party/class+visiblepending+
+actual premade route, zeroerrors;8.71sdesktop(firstdevcompile),3.69smobile, each includes
+700ms deliberate response delay to observe pendingfeedback. No publictimingclaim.
+
+Unit/migration suite now19PASS; focusedwebnavigation15PASS; tscPASS; scopedlintPASS after
+adding requiredNodeURL/Buffer/globalThis.AbortSignal imports. Fullserialweb suite57788
+is LIVE; poll SAMEhandle. Freshactive-source status has concurrent changes in leveling-
+campaign/step-projection/xp-budget, packages/leveling and new guidepresentation files from
+another workflow: preserve them; do not claim or commit/deploy them as our performancework.
+Our sourcefrontfiles are ONLYleveling-setup/site-header/newnavigationhelpers/loading.tsx.
+
+Local real mirror60570 built3467assets(13.6MBadditional) at
+/private/tmp/kfc-static-delivery-20261021.2mrdQs/release; it predateslatest transportchanges.
+Remote isolatedstage /tmp/kfc-static-delivery-20261021-r1 built6935actualWarrior+Mageassets,
+334encodedvariants,67.8MBadditional(some0600sourcescopied). IsolatedNginx95811/3851315
+testedgzipGET/HEAD=6072078bytesfor36807360byteWASM, decompressedSHAequal, MIME,Vary,
+identityq0fallback,304,privateproof404. CleanSIGQUIT/exit0; productionNginxNOTreloaded,
+PM2/source/simulatorpointersunchanged. Thatstage emitted a duplicatewasmMIMEwarning;
+latestgenerator removes redundantmapping and uses verifiedsystemmime.types. Needs fresh
+finalstage/productionbuild and actualpublicpostdeploy verification before shipping.
+Originalhelper69b4b817... and originalWarlockledger68677c8e... remainunchanged.
+
+## October21 14:38UTC — Warrior performance diagnosed; Shadow final-boundary tests PASS
+
+Latest human asks why public Warrior takes about30seconds. Read-only fresh Chromium
+reproduces45.03seconds to initializedUI/host loading removal; cached revisit58.00seconds,
+mostly57.60seconds waiting for its HTML response in that observation. No pageerrors.
+Cold JS modules take20–30seconds including high TTFB and slow response-body transfers;
+the197KBcompressed detailed-results module alone takes30.13seconds. Several background
+RSCprefetch requests remain pending. These are observed timings, NOTa proved universal
+root cause or proof that simulation fights are running during startup.
+
+Direct localhostorigin read-only checks on the productionserver give WarriorHTML1.60s,
+engineHTML21ms and detailed-results715KBmodule24ms. Independent publiccurl gives same
+module13.10s/h2 or21.06s/h1(uncompressed), mainHTML3.76s. Network/stream delivery is
+variable; do not claim a specific Nginx/HTTP2 defect is proven or blame userinternet.
+Server has5.0GBavailableRAM/load0.57; process %CPU snapshot is lifetimeaverage, not a
+conclusive event-loop profile. Config has no human-IP rate limit:30r/m key applies only
+to named searchcrawlers. All simulator/static paths currently proxy through Next.
+
+Confirmed additional cost: actual engine lib.wasm36807360bytes is delivered without
+content-encoding even when gzip/br are requested; onlyJS gets gzip. Same immutable bytes
+compress in memory to6072078bytes(gzip5)or4386444bytes(Brotli5). No model/file changed.
+Avoid saying this alone explains the45sUI observation: worker startup begins near its
+end. Simulate button exists/enabled in separate final readiness check; no combat ran.
+Both diagnostic browser processes are closed. No production edit/restart/deploy occurred.
+Potential remedy needs implementation authority: verified immutable static delivery and
+precompression, content-hash shared numerical assets, noncritical prefetch deferral,
+memoized validated model reads with correct invalidation, visible staged startup.
+
+Prior goal turn is progress: feedback39410 is TERMINAL0(completed13:46:01UTC), study
+1053c38b097b5d4e76c34dfdd243f7ebc694630ffb7ba71c39650cdc50d5c39e,
+resultac855c66e262403c7adac8663412ac6ba2958d6eaa3a48087203210f08f9f714.
+5137neworigins/545720fights,117reuses;35814totalorigins/4301900fights. ClosedTRUE,
+0continuationcycles, retained18/0/33/fullMindFlay/gear759.5635887363318DPS10k.
+Independent reader62626 TERMINAL0:14stages/5141usedorigins and12genuine10kfinalarms
+reconstructed. No source/result rewritten, new combat or qualification implied.
+
+Prepared new final helpers: priest-shadow-confirmation-context-v1,
+priest-shadow-confirmed-source-v1, priest-shadow-selected-parity-v1,
+priest-shadow-selected-wasm-parity-v1, priest-shadow-final-arms-v1,
+priest-shadow-rotation-guidance-v1, run-priest-shadow-confirmation-v1 and
+export-priest-shadow-first-pass-build-v1(all.mjs). They keep genuineclass5/currentPriest
+backend, freeze selected before two20kholdouts/max12arms, reserve disjoint globalRNG,
+preserve owner2%and original1%assessment, verify selected inspected10kWASM/native parity,
+and export private qualification under ONEoriginal confirmation-delivery owner command.
+Priest catalog context and A4Greater20consume provenance stay separate.
+
+Actual-source final-boundary tests79697 TERMINAL0:5/5PASS293.08s, including fullfeedback
+replay/armorigins, all11controlfamilies×28policies hash-bound guidance, alteredAPL/
+scenario/foreignclass guards, actualclass5materialized10kwire/equivalence and wrongseed/
+precision/database rejection. Scoped ESLint/Prettier27453 PASS. These are preparation
+tests, NOTfreshconfirmation, executed selectedWASM combat, approvedUI or deployment.
+Next run read-only run-priest-shadow-confirmation-v1.mjs <1053.../completed.json> --plan;
+then supervise EXACTscript/arg under priest/shadow/confirmation-delivery after preflight.
+No native optimizer currently live. SAMEPriest deadline22Oct12:44:51.403UTC, shared with
+Smite, not reset. Original helper69b4b817.../Warlockledger68677c8e... unchanged.
+Keep full remaininggoal scope, productionnavigation bug and unshippedAffliction explicit.
+
+## October21 13:37UTC — independent Shadow gear replay PASS; geared feedback owner LIVE
+
+Previous goal turn made concrete progress: completed real Shadow blue/all-slot searches,
+verified live Mage→Warlock failure and distinguished production artifacts from reader code.
+Current goal resumes Priest calculation/delivery work; no production mutation or deployment
+was authorized by that diagnostic question. Navigation failure and pending Affliction
+artifact publication remain separately recorded, not claimed fixed.
+
+Read-only priest-shadow-geared-v1 independently reconstructed the exact2gear sweeps and
+186packed measurement stages against21351verified native origins, preserving30677total
+inherited/current origins. Selected759.5635887363318DPS/10k is still inspection, NOTfresh
+qualification. Completed source dbe5e79732c9770f... and result4ae19e2309608660... unchanged.
+Its3new actual-source/geared-control/readOnlyfailclosed tests PASS, as do the4state
+construction/wire/pure-decision/closure tests. Scoped lint/format and diffcheck PASS.
+Original cache-helper69b4b817... and Warlock-ledger68677c8e... hashes remain unchanged.
+
+Zero-job feedback preflight passed: same17eligible item pools,10073actual incumbent-
+context gear proposals (set assignments change with incumbent, eligibility does not),
+1999anchors expanded to2168legal talent values/2170states, all28known policies on retained
+states.5genuine materialized class5control wires precede scalars. New state/feedback
+helpers preserve incumbent on nonmaterial/utility ties and require explicit gear
+continuation after a state change or an unclosed gear-sweep cap. At most3feedback cycles;
+a cap is never called convergence. Read-only parity paths cannot fill missing evidence.
+
+Actual feedback handle39410, supervisor child23720, dispatched13:37:14UTC under
+priest/shadow/state-recheck with run-priest-shadow-feedback-v1.mjs and completed gear
+dbe5e79732c9770f8c5eb531028b158b1c5506e62f7a9c728f24f76327d6acc3/completed.json.
+Observe this same owner/actual handle before any resume; no duplicate or frozen-source
+edit. ONEshared Priest deadline remains22Oct12:44:51.403UTC, not reset. Preparation first
+replays completed evidence and checks5geared native/WASM controls, then6workers execute
+bounded state/gear feedback. Fresh2%/separate1% confirmation, selectedparity, real preset/
+gear/default/rotation-guide/browser delivery, then Smite still follow. New independent
+priest-shadow-feedback-source-v1 is prepared but not yet run against numerical output.
+Warlock DS/Ruin/Destruction, otherclasses/tanks, missing32vendorpieces and global
+16boss-debuff coverage remain in the full goal. No global completion is proven.
+
+## October21 — priority live Mage→Warlock report; Shadow gear phase is COMPLETE
+
+User reports that Mage's class menu→Warlock DPS does nothing and asks whether everything
+is deployed. Reproduced with real public desktop1440and mobile390browser clicks, after
+actual engine/host readiness. Correct normal-click handler DOES prevent default and send
+the host RSCnavigation request to/tools/forever/simulator/warlock, but URL staysMage for
+at least15s. A longer diagnostic observed about40s before full-document fallback. No
+page JS exception or failed asset HTTPstatus accompanied that transition. This is not
+evidence that Warlock's engine is missing: direct Warlock returns200and rendered its
+actual iframe/source2de6e7eac83112b255a8a8d0 and ONLY1reviewed build,Demonology830.26DPS.
+Local qualified Affliction is still NOTpublished there, despite application-code delivery.
+Final direct public Warlock browser check also reaches actualengine+host readiness in
+16.924s, with no pageerrors and exactly the Demonology reviewed-build option. This is
+read-only functional readiness, not another damage optimization/qualification. DiffcheckPASS.
+
+Production changed in another concurrent workflow: active source is
+/home/wow-trader-system/releases/kfc-helper-leveling-planning-20261021-6409827,
+Nextbuild_V6aXiJgRR1S2FFLIwxrf, matching localHEAD6409827. That commit now tracks our
+Affliction reader/tests, but it did not publish/select the local2e4bfb0b779559053237eb6f
+simulator artifacts. Earlier deployment identities above/below are historical. Do not
+claim this turn deployed, activated, restarted or wrote production; all diagnosis was
+read-only. The user has not yet requested a new fix/commit/push/deploy in this message.
+
+Navigation evidence: real RSCrequest returns200text/x-component headers in~~2.1s but
+browser transition stayspending and lateraborts for fullnavigation at~~41s. Isolated
+plain SSRWarlock completes3.72s; independent same-tree NodeRSC fetch completes3.08s,
+14029bytes/19records. BrowserCDP observed h2/gzip,5125data bytes and no loadingFinished
+at12s; only that flight remained pending. This localizes a streamed-transition failure,
+not a proven specific Nginx/Next/compression cause. Do not blame usercache or weaken
+guards/CSP. A separate WowheadGreaterMagebloodtooltip CSPblock appeared during one
+instrumented hover; not established as the navigation cause. First diagnostic selector
+mistakes were test-harness errors, not websiteerrors. All temporary browsers closed.
+
+Meanwhile supervised Priest gear handle26384/child3042 finished successfully13:12:12UTC,
+exit0. Do not restart or edit frozen sources. Completion
+bounded-native-studies/dbe5e79732c9770f8c5eb531028b158b1c5506e62f7a9c728f24f76327d6acc3/completed.json;
+result4ae19e2309608660557e47360f9e0bd4c0e7a5777391c6c2c8b8d4d2bafdb3e9.
+21347new scalar origins/2836040fights,615same-request reuses;30677total origins with
+blue ancestors. Two full gear sweeps: first+25.37%, second+0.492%and correctly retained
+incumbent759.5636DPSat10kinspection. This is still NOTindependent confirmation/finalBiS.
+All6derived gear native/WASM controls passed exactly. Original Priest deadline remains
+22Oct12:44:51.403UTC, shared with Smite, never reset while handling this priority report.
+
+New independent geared reader is complete but not yet run against this completion.
+New actual-geared state/feedback helpers are complete;4construction/wire/puredecision/
+closure tests pass on authenticated blue source, scopedlint/format pass. Those are NOT
+geared numerical evidence. Actual state-parity/owned feedback driver, freshconfirmation,
+selectedparity and realPriestUI/guidance still follow. No new numerical owner is live now.
+Cache-helper and original Warlock-ledger hashes remain unchanged. Globalgoal stays active.
+
+## October21 13:03UTC — Shadow blue complete; actual all-slot gear phase LIVE
+
+ONEPriest24hclock began12:44:51.403UTC21Oct and expires12:44:51.403UTC22Oct, shared
+with Smite. Its original ledger is retained; Warlock clocks are not reused or reset.
+Combined controls/blue session87419/PID78943 finished successfully12:51:10UTC. Do not
+restart it or edit its pinned source. Its11actual UIcaptures and11native/rawWASM controls
+all pass, including action/aura/mana parity, Death outgoingDPS exclusion and observed
+6–8targetauras, below16in those controls (not generic enginecap enforcement).
+
+Blue completion: bounded-native-studies/d9aa9dbe72d283ac32def0d0963dd6a12e098566471799493d25f207d05d9cad/completed.json.
+Resultaf8cf59f3afece09a4b2158f19d83d75b4037d58ebede8e2452d77c45b27ebea contains9330real
+scalar origins/920140fights and all5rounds. Selected18/0/33,Troll,one-hand+heldOH, full
+MindFlay/dots-first/bothdots/Death/Blast,605.8500DPSat10k on BLUEgear only. This is NOT
+finalBiS, independent confirmation or a published DPS result. Independent read-only
+source reconstruction replayed19stages/9330origins with zero new combat and passed.
+
+Priest structural all-slot bank covers73/43/56/83/89/29/68/64/62/73/62/62/42/42/140/27/29
+eligible IDs by17slots, including emptyOH, and10016distinct initial fullgear proposals.
+Pairs, complete per-set assignments and every compatible nonraid enchant are included;
+cloth/dagger/mace/staff/heldOH/wand restrictions, acquisition/faction/profession, unique
+and quest-choice rules remain active. No EP/quality/ilvl pruning or raid dependencies.
+3actual-catalog structural tests PASS.4selected-source/request tests PASS and4gear/
+canary/read-onlyfailclosed tests PASS. Initial test-harness calls incorrectly supplied
+post-result pins and metric-bearing ranking records to definition-only guards; fixed
+the callers, preserved all guards and actual numerical sources, then all tests pass.
+Scoped lint/format and zero-jobgearpreflight PASS. No old assertions weakened.
+
+Authoritative live gear handle:26384, child3042, started13:02:54UTC; observe this owner
+before any resume. Command is the original budget runner priest/shadow/gear with
+run-priest-shadow-gear-v1.mjs and the blue completion above. It validates6materialized
+class5native/WASM gear controls before six-worker bounded search, at most2complete
+all-slot sweeps. Sources are frozen. No globalBiS claim: gearedtalent/APLfeedback,
+fresh2%/separate1% confirmation, selected parity and actualpreset/guide/browser delivery
+remain. New independent priest-shadow-geared-v1 reader is prepared for completed
+gear evidence only; its numerical reconstruction cannot invent missing parity/combat.
+The local3017Warlock review stays on the completed Affliction release; no Priest public
+pointer, production, database, commit/push/deployment or unrelated leveling work changed.
+
 ## October21 12:44UTC — Priest readiness passes; actual controls and blue search are next
 
 Affliction is already delivered locally; its expired Warlock calculation and delivery

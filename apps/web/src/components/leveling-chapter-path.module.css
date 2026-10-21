@@ -166,6 +166,7 @@
   color: var(--gold);
 }
 .chapterLink {
+  flex-wrap: wrap;
   color: var(--ink);
   text-decoration: none;
   padding: 12px 0;
@@ -178,7 +179,7 @@
 }
 .bracket {
   color: var(--gold);
-  font-size: 18px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .chapterLink:hover h3 {

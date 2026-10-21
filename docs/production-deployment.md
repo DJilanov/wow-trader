@@ -8,6 +8,71 @@ pages to their equivalent `/tools` URLs. This document records the deployed topo
 runbook, and the storage work that must be completed before unattended 30-minute Auction House
 uploads are enabled.
 
+## October 21 — compressed static delivery and leveling navigation
+
+Implementation is staged and tested, not activated on the public host yet. Application
+delivery must still follow the requested commit → push → verified build → activation flow.
+Do not ship unrelated worktree edits. The current workspace also contains concurrent
+leveling-player-experience changes owned by another workflow.
+
+`scripts/prepare-static-delivery.mjs` builds a separate public delivery tree from validated
+simulator manifests and production Next static directories. Frozen models and simulation
+evidence are never rewritten. Only approved public extensions are copied; HTML, manifests,
+private preset proofs, source maps and dotfiles are excluded. Adapted engine HTML continues
+through Next so `raidDefaults=full-v2` is preserved. Two compression workers roundtrip-check
+gzip/Brotli variants, skip ineffective compression, deduplicate identical content, preserve
+source permissions, enforce a 2 GiB additional-storage budget and retain a 1 GiB free reserve.
+Old Next chunks can be inherited from the preceding delivery tree to keep existing tabs valid.
+
+Normal source deployment now invokes `scripts/stage-static-delivery.sh`, using the configured
+`FOREVER_SIMULATOR_ROOT`, the new Helper static build, and the guild static build when present.
+The guild path can be supplied explicitly with `WOW_TRADER_GUILD_STATIC_ROOT`. Preparation
+defaults to a read-only inventory unless `--prepare` is supplied. Manual inspection commands:
+
+```sh
+pnpm static-delivery:prepare --simulator-root <artifact-root> --output <new-directory>
+pnpm static-delivery:verify --directory <prepared-directory>
+pnpm static-delivery:test
+```
+
+Before normal application activation, deploy the updated Nginx configuration using the
+existing backup/test/reload/redirect smoke workflow. It enables WASM/RSC gzip and contains
+an initially empty wildcard include at
+`/home/wow-trader-system/shared/static-delivery/current/nginx-*.conf`.
+`scripts/activate-production.sh` then activates its matching delivery stage after web health
+passes. The new activation controller validates all raw/compressed assets, acquires an
+exclusive lock, atomically switches only the delivery symlink, checks/reloads only Nginx,
+and verifies actual public gzip/MIME/length/cache/private-file behavior. A failure restores
+the exact preceding pointer and reloads that configuration. It never restarts ingestion,
+crawlers or simulation workers. Successful activation receipts live under
+`shared/static-delivery/activations/`.
+
+The installed Nginx has `gzip_static` but no loaded Brotli module. Prepared `.br` variants
+are not advertised as Brotli delivery; gzip is the initial production path. No custom Nginx
+rebuild is required. Shared content-addressed engine URLs and cross-request validated-model
+caching remain later optimizations, not claims made by this delivery layer.
+
+An isolated server Nginx on loopback port 19876 verified 7,045 actual public assets
+and 466 encoded variants. The real 36,807,360-byte engine arrived as 6,072,078 bytes with
+matching decompressed SHA-256, correct MIME, identity fallback, 304 caching and private-proof
+404s. Syntax and HTTP checks passed without MIME warnings. Generated Helper/simulator
+locations preserve the existing search-crawler limits. The isolated process exited cleanly;
+production Nginx was not reloaded. Its final staging tree is
+`/tmp/kfc-static-delivery-20261021-r1/final-delivery`, not a live deployment receipt.
+
+The leveling wizard previously wrote `/forever/leveling` into browser history without the
+`/tools` mount. The exact reported old URL returned 404 on a fresh visit. Local navigation
+now preserves the mount and character/party query, gives immediate pending feedback, blocks
+duplicate submissions, and has a chapter-path loading boundary. Nginx redirects old wizard
+URLs with their original query intact. Heavy workspace startup does not prefetch unrelated
+header destinations or the setup preview route. Actual desktop/mobile checks pass for
+history, refresh persistence, pending feedback and the premade chapter transition. These
+are local functional checks, not proof that public minute-long stalls are already fixed.
+The latest local production-mode run reached the premade chapter path in 2.150 seconds
+at desktop width and 1.227 seconds at mobile width, with no artificial response delay and
+zero page errors. All 920 web tests, 21 transport/activation/migration tests, TypeScript,
+scoped lint, shell syntax and the production build passed before handoff.
+
 ## Current production state
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the

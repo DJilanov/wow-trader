@@ -39,7 +39,7 @@ try {
     { waitUntil: "networkidle", timeout: 90000 },
   );
   assert.equal(response?.status(), 200);
-  await page.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
+  await page.getByRole("button", { name: "Start guide", exact: true }).click();
   const savedMembers = () =>
     page.evaluate((release) => {
       const workspace = JSON.parse(globalThis.localStorage.getItem("kfc-leveling:characters:v1"));
@@ -160,7 +160,7 @@ try {
     new URL("/tools/forever/leveling/premade?race=human&class=warrior", base).href,
     { waitUntil: "networkidle", timeout: 90000 },
   );
-  await mobilePage.getByRole("button", { name: "Save full leveling plan", exact: true }).click();
+  await mobilePage.getByRole("button", { name: "Start guide", exact: true }).click();
   assert.ok(
     await mobilePage.evaluate(() => globalThis.localStorage.getItem("kfc-leveling:characters:v1")),
   );

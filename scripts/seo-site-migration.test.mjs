@@ -54,6 +54,20 @@ test("immutable simulator bundle URLs still reach Helper after the tools migrati
   assert.doesNotMatch(location, /return 30[1278]/);
 });
 
+test("compression covers WASM and stale wizard URLs preserve their query when entering the Helper mount", async () => {
+  const config = await repositoryFile("infra/nginx/kfcguild.online.conf");
+  assert.match(config, /gzip_types[^;]*application\/wasm[^;]*text\/x-component;/);
+  assert.match(config, /gzip_vary on;/);
+  assert.match(
+    config,
+    /include \/home\/wow-trader-system\/shared\/static-delivery\/current\/nginx-\*\.conf;/,
+  );
+  for (const location of ["location = /forever/leveling {", "location /forever/leveling/ {"])
+    assert(
+      config.includes(location + "\n        return 308 https://kfcguild.online/tools$request_uri;"),
+    );
+});
+
 test("the Nginx deploy activates both hosts and verifies the public migration", async () => {
   const script = await repositoryFile("scripts/deploy-production-nginx.sh");
 

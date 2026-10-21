@@ -1,19 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import {
   DUNGEON_RELEASE,
   LEVELING_EVIDENCE,
-  PREMADE_STOPS,
   activeCampaignActions,
   currentCampaignAction,
   emptyCampaignProgress,
   emptyPremadeProgress,
   getLevelingRace,
-  premadeEntryLevel,
-  auditCampaignSections,
-  forecastCampaignXp,
+  forecastCampaignGuide,
+  initializeCampaignGuideAnchors,
   campaignSections,
   campaignSectionFor,
   campaignSectionActions,
@@ -34,7 +32,6 @@ import { LevelingCampaignOutline, LevelingDungeonPreparation } from "./leveling-
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
 import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
 import { campaignChapterPath } from "../lib/leveling-route-plan";
-import { CHAPTER_PACE_KEY, parseChapterPace } from "../lib/leveling-chapter-path";
 import styles from "./leveling-experience.module.css";
 import pathStyles from "./leveling-chapter-path.module.css";
 
@@ -57,38 +54,24 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
   const journey = progress.campaigns[plan.release] ?? emptyCampaignProgress();
   const actions = activeCampaignActions(plan, progress);
   const current = currentCampaignAction(plan, progress);
-  const forecasts = useMemo(
-    () => forecastCampaignXp(plan, progress, { fromActionId: current.id }),
-    [plan, progress, current.id],
+  const guideForecast = useMemo(
+    () =>
+      forecastCampaignGuide(plan, progress, {
+        startingLevel: active?.profile.level ?? profile.level ?? 1,
+      }),
+    [plan, progress, active?.profile.level, profile.level],
   );
-  const audits = useMemo(() => auditCampaignSections(plan, progress), [plan, progress]);
   const chapters = campaignSections(plan, progress);
   const currentChapter = campaignSectionFor(plan, current.legId, progress)!;
   const race = getLevelingRace("alliance", plan.race)!;
-  const [paceInput, setPaceInput] = useState("");
-  const [paceNotice, setPaceNotice] = useState<string | null>(null);
-  const paceKey = `${CHAPTER_PACE_KEY}:${active?.id ?? `alliance-${plan.race}`}`;
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(paceKey) ?? "";
-      setPaceInput(parseChapterPace(raw) === null ? "" : raw);
-      setPaceNotice(null);
-    } catch {
-      setPaceNotice("Pace cannot be saved on this device.");
-    }
-  }, [paceKey]);
-  function changePace(value: string): void {
-    setPaceInput(value);
-    if (value && parseChapterPace(value) === null) return;
-    try {
-      if (value) localStorage.setItem(paceKey, value);
-      else localStorage.removeItem(paceKey);
-      setPaceNotice(null);
-    } catch {
-      setPaceNotice("Pace is available for this visit only.");
-    }
-  }
-  const pace = parseChapterPace(paceInput);
+    if (!loaded || !active) return;
+    if (initializeCampaignGuideAnchors(plan, progress) !== progress)
+      setDungeonPlan(active.id, (saved) => ({
+        ...saved,
+        premade: initializeCampaignGuideAnchors(plan, saved.premade ?? fallback),
+      }));
+  }, [loaded, active, plan, progress, setDungeonPlan, fallback]);
   return (
     <div
       className={styles.dashboard}
@@ -130,16 +113,16 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
       )}
       {!loaded && <p role="status">Loading your saved route…</p>}
       <section className={styles.continueCard} aria-labelledby="continue-heading">
-        <span className="eyebrow">The revised questing flow · 1–60</span>
+        <span className="eyebrow">Your next chapter</span>
         <h2 id="continue-heading">
-          {active ? `Continue ${currentChapter.title}.` : "Start your dungeon-quest route."}
+          {active ? `Continue ${currentChapter.title}.` : `Start in ${currentChapter.title}.`}
         </h2>
         <p>
-          Quest by area, with a short readiness checklist before each dungeon. Catch-up work can be
-          skipped when all five are ready; required quest chains stay in the route.
+          Your route starts at level {guideForecast.startingLevel} and 0 XP unless you update your
+          progress. Follow the quests in order; XP carries forward into the next area.
         </p>
         <Link className={styles.button} href={campaignChapterPath(plan, current.legId, current.id)}>
-          {active ? "Continue playing →" : "Open current quest list →"}
+          {active ? "Continue guide →" : "Open guide →"}
         </Link>
         {!active && (
           <p className={styles.muted}>
@@ -147,8 +130,6 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
             route; existing solo progress is kept.
           </p>
         )}
-        <LevelingRewardStatus plan={plan} />
-        <LevelingLibraryStatus plan={plan} />
         <LevelingOptionalDungeonBundles
           progress={progress}
           disabled={!loaded || !active}
@@ -168,8 +149,9 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
             <span className="eyebrow">The whole journey · 1–60</span>
             <h2 id="chapters-heading">Your chapter path</h2>
             <p>
-              Zone questing and dungeon runs share one path. Each zone chapter keeps its pickups and
-              travel in order, without treating preparation as several levels of its own.
+              Quest by area, prepare the dungeon quests along the way, and continue to the next
+              stop. Targets guide your route; they are not a reason to grind when the next quests
+              are already available.
             </p>
           </div>
           <span className={pathStyles.count}>
@@ -181,33 +163,10 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
           </span>
         </header>
         <div className={pathStyles.tools}>
-          <label>
-            Your effective XP/hour
-            <input
-              type="number"
-              min="1"
-              max="1000000000"
-              step="any"
-              inputMode="decimal"
-              value={paceInput}
-              onChange={(event) => changePace(event.target.value)}
-              placeholder="Enter your observed pace"
-              aria-describedby="campaign-pace-help"
-            />
-          </label>
           <a className={pathStyles.jump} href={`#path-${currentChapter.id}`}>
             Jump to current chapter ↓
           </a>
         </div>
-        <p id="campaign-pace-help" className={pathStyles.explanation}>
-          Every chapter shows its XP deficit or unresolved blocker. Independent reference budgets
-          assume an empty entry bar and earlier prerequisites, not guaranteed progression. Your
-          observed pace estimates the equivalent gap time, not the itinerary's travel or clear time.
-        </p>
-        {paceInput && pace === null && (
-          <p role="alert">Enter a positive XP/hour up to 1,000,000,000.</p>
-        )}
-        {paceNotice && <p role="status">{paceNotice}</p>}
         <ol className={pathStyles.tree} aria-label="Your ordered leveling chapters">
           {chapters.map((leg, ordinal) => {
             const entries = campaignSectionActions(plan, leg, actions);
@@ -217,9 +176,7 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
             const skipped = entries.filter(
               (action) => journey.completion[action.id] === "skipped",
             ).length;
-            const audit = audits.find((entry) => entry.sectionId === leg.id)!;
-            const forecast = forecasts.find((entry) => entry.sectionId === leg.id)!;
-            const stop = PREMADE_STOPS.find((entry) => entry.id === leg.stopId);
+            const guide = guideForecast.sections.find((entry) => entry.chapter.id === leg.id)!;
             const next = chapters[ordinal + 1];
             return (
               <li
@@ -229,20 +186,8 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                 data-kind={leg.kind}
               >
                 <div className={pathStyles.milestone}>
-                  <span>
-                    {leg.kind === "starter"
-                      ? "Actual"
-                      : leg.kind === "dungeon"
-                        ? "Entry"
-                        : "Target"}
-                  </span>
-                  <strong>
-                    {leg.kind === "starter"
-                      ? (progress.members[0]?.level ?? "—")
-                      : leg.kind === "dungeon" && stop
-                        ? premadeEntryLevel(stop, progress, plan.rewardFacts)
-                        : audit.targetLevel}
-                  </strong>
+                  <span>{guide.targetKind === "entry" ? "Entry" : "Target"}</span>
+                  <strong>{guide.targetLevel}</strong>
                 </div>
                 <div className={pathStyles.branches}>
                   <article
@@ -267,9 +212,8 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                       href={campaignChapterPath(plan, leg.id)}
                     >
                       <span className={pathStyles.bracket}>
-                        {leg.kind === "starter"
-                          ? "Actual XP · no fixed level"
-                          : `${leg.kind === "dungeon" ? "Entry" : "Goal"} ${leg.kind === "dungeon" && stop ? premadeEntryLevel(stop, progress, plan.rewardFacts) : audit.targetLevel}`}
+                        {guide.targetKind === "entry" ? "Entry" : "Target level"}{" "}
+                        {guide.targetLevel}
                       </span>
                       <h3>
                         {leg.kind === "dungeon" ? "⚑ " : ""}
@@ -277,8 +221,8 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                       </h3>
                       <span aria-hidden="true">→</span>
                     </Link>
-                    <LevelingChapterBudget audit={audit} forecast={forecast} pace={pace} />
-                    <LevelingXpBudget forecast={forecast} />
+                    <LevelingChapterBudget guide={guide} />
+                    <LevelingXpBudget guide={guide} />
                     {(leg.kind === "zone" || leg.kind === "finish") && (
                       <LevelingCampaignOutline
                         plan={plan}
@@ -300,19 +244,12 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
                           progress={progress}
                         />
                       ))}
-                    {stop && (
-                      <p className={pathStyles.reward}>
-                        Requested level {stop.level} · current entry policy requires{" "}
-                        {premadeEntryLevel(stop, progress, plan.rewardFacts)}. Every player's quest
-                        and actual XP readiness still apply.
-                      </p>
-                    )}
                     {(leg.planningOnly ||
                       entries.some((action) => action.kind === "unverified")) && (
                       <p className={pathStyles.warning}>
-                        Four quests are owner-confirmed and included in the planning forecast. IDs
-                        and exact instructions are pending; this chapter cannot certify a completed
-                        run or add earned XP.
+                        Four quest slots are selected for this optional dungeon. Quest names and
+                        instructions are still pending; you can skip the stop or adjust its quest
+                        slots.
                       </p>
                     )}
                     {leg.unresolvedQuestIds.length > 0 && (
@@ -334,13 +271,18 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
           })}
         </ol>
       </section>
-      <p className={styles.muted}>
-        Review edition {plan.release} · class {plan.leaderClass ?? "unresolved"} · source guide
-        build {plan.targetBuild} · reward identity build {plan.rewardBuild ?? "unavailable"}. The XP
-        curve is byte-verified unchanged on build {LEVELING_EVIDENCE.curveReverifiedBuild}. Actual
-        XP and game-state checks remain necessary. The RestedXP review pack is compiled from this
-        same ordered route; public release waits for its bounded in-game validation.
-      </p>
+      <details className={pathStyles.method}>
+        <summary>About this guide</summary>
+        <p className={styles.muted}>
+          Review edition {plan.release} · class {plan.leaderClass ?? "unresolved"} · source guide
+          build {plan.targetBuild} · reward identity build {plan.rewardBuild ?? "unavailable"}. The
+          XP curve is byte-verified unchanged on build {LEVELING_EVIDENCE.curveReverifiedBuild}.
+          Actual XP and game-state checks remain necessary. The RestedXP review pack is compiled
+          from this same ordered route; public release waits for its bounded in-game validation.
+        </p>
+        <LevelingRewardStatus plan={plan} />
+        <LevelingLibraryStatus plan={plan} />
+      </details>
       <LevelingBackupControls />
       {storageStatus === "memory" && (
         <p role="status">Storage is unavailable. Export your backup before leaving.</p>

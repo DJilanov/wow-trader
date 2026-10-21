@@ -1,5 +1,33 @@
 # Repeatable pre-raid simulation updates
 
+## October21 — Shadow independent confirmation prepared after authentic closed feedback
+
+Feedback owner39410/study1053c38b097b5d4e76c34dfdd243f7ebc694630ffb7ba71c39650cdc50d5c39e
+is terminal success; do not rerun blue/gear/state phases. Independent reader62626 and
+actual-source5test final suite79697PASS. New run-priest-shadow-confirmation-v1.mjs takes
+that exact artifacts/.../bounded-native-studies/<identity>/completed.json argument;
+append --plan for zerojobs/zerowrites preflight. Numerical dispatch must retain original
+run-first-pass-budget-v1.mjs run priest shadow confirmation-delivery -- <script> <completion>
+owner and same22Oct12:44:51.403UTCdeadline(shared withSmite). Its single command reserves
+globaldisjointRNG, runs selected+retained12arms/two20kfresh ranges, independently replays
+the outcome, then selected10kactualWASM/native parity and private qualifiedexport.
+No adaptive freshholdout winner substitution. Keep separate1%and owner2%assessments,
+Priest catalog provenance and Greater20consume provenance; realUIhandoff still required.
+Final boundary tests are not themselves numerical qualification or publication approval.
+
+## October21 — Shadow geared feedback dispatch
+
+Completed Shadow gear source dbe5e79732c9770f... independently replays2sweeps/186stages
+against authentic native origins. The next budgeted phase is priest/shadow/state-recheck,
+script run-priest-shadow-feedback-v1.mjs with that exact completed.json argument. Its
+--plan adds no jobs or writes. Actual dispatch first validates5materialized geared
+class5native/WASM controls, then measures2170initial states and retained28policy variants,
+with at most3explicit full gear/state continuation cycles. State changes and incomplete
+gear sweeps require actual continuation; a cap is not closure. Observe live owner39410/
+child23720 before resuming, never edit its pinned sources or reuse an expired Warlock
+window. The original shared Priest deadline is22Oct12:44:51.403UTC. Independent2% and
+separate1% confirmation, selectedparity and real preset/guide/browser delivery still follow.
+
 ## October21 — Priest model and phase ownership
 
 Priest's new isolated modelbbbde15964092df1ecbf1dec extends A4with8missing verified

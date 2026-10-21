@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import {
   LEVELING_RACES,
   createCharacterProfile,
@@ -20,6 +20,10 @@ import {
   readingPositionPath,
 } from "../lib/leveling-experience";
 import { levelingPlanDashboardPath } from "../lib/leveling-route-plan";
+import {
+  levelingSetupHistoryPath,
+  type LevelingSetupStage,
+} from "../lib/leveling-setup-navigation";
 import styles from "./leveling-experience.module.css";
 import { LevelingBackupControls } from "./leveling-backup-controls";
 
@@ -28,7 +32,8 @@ const stages = ["Faction", "Race", "Playstyle"] as const;
 export function LevelingSetup(): React.JSX.Element {
   const router = useRouter();
   const { session, loaded, workspace, notice, saveCharacter, selectCharacter } = useLeveling();
-  const [stage, setStage] = useState(0);
+  const [stage, setStage] = useState<LevelingSetupStage>(0);
+  const [isNavigating, startNavigation] = useTransition();
   const [draft, setDraft] = useState<CharacterProfile>(createCharacterProfile);
   const [editingId, setEditingId] = useState<string | undefined>();
   const [groupOpen, setGroupOpen] = useState(false);
@@ -54,13 +59,8 @@ export function LevelingSetup(): React.JSX.Element {
     return () => window.removeEventListener("popstate", restore);
   }, [loaded, workspace.sessions]);
 
-  function move(nextStage: number, profile: CharacterProfile = draft): void {
-    const params = new URLSearchParams({
-      stage: nextStage === 2 ? "style" : nextStage === 1 ? "race" : "faction",
-      draft: JSON.stringify(profile),
-    });
-    if (editingId) params.set("edit", editingId);
-    window.history.pushState(null, "", `/forever/leveling?${params}`);
+  function move(nextStage: LevelingSetupStage, profile: CharacterProfile = draft): void {
+    window.history.pushState(null, "", levelingSetupHistoryPath(nextStage, profile, editingId));
     setDraft(profile);
     setStage(nextStage);
     requestAnimationFrame(() => heading.current?.focus());
@@ -70,15 +70,14 @@ export function LevelingSetup(): React.JSX.Element {
   }
   function updateDraft(profile: CharacterProfile): void {
     setDraft(profile);
-    const url = new URL(window.location.href);
-    url.searchParams.set("draft", JSON.stringify(profile));
-    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    window.history.replaceState(null, "", levelingSetupHistoryPath(stage, profile, editingId));
   }
   function chooseRace(raceId: RaceId): void {
     updateDraft({ ...draft, raceId, classSlug: raceId === draft.raceId ? draft.classSlug : null });
   }
   function finish(profile: CharacterProfile): void {
-    if (saveCharacter(profile, editingId)) router.push(levelingPlanDashboardPath(profile));
+    if (isNavigating || !saveCharacter(profile, editingId)) return;
+    startNavigation(() => router.push(levelingPlanDashboardPath(profile)));
   }
   const race = getLevelingRace(draft.faction, draft.raceId);
   const editingSession = workspace.sessions.find((entry) => entry.id === editingId);
@@ -101,6 +100,7 @@ export function LevelingSetup(): React.JSX.Element {
           </div>
           <Link
             className={styles.button}
+            prefetch={false}
             href={
               session.lastReader &&
               !(session.profile.faction === "alliance" && session.profile.party.size === 5)
@@ -135,6 +135,7 @@ export function LevelingSetup(): React.JSX.Element {
             <Link
               className={styles.button}
               href="/forever/leveling/routes/alliance-human?plan=premade"
+              prefetch={false}
             >
               Preview the revised quest route →
             </Link>
@@ -278,6 +279,8 @@ export function LevelingSetup(): React.JSX.Element {
               type="button"
               className={styles.modeCard}
               onClick={() => finish({ ...draft, pace: "fast" })}
+              disabled={isNavigating}
+              aria-busy={isNavigating}
             >
               <span className={styles.modeSymbol} aria-hidden="true">
                 ↗
@@ -294,6 +297,8 @@ export function LevelingSetup(): React.JSX.Element {
               type="button"
               className={styles.modeCard}
               onClick={() => finish({ ...draft, pace: "relaxed" })}
+              disabled={isNavigating}
+              aria-busy={isNavigating}
             >
               <span className={styles.modeSymbol} aria-hidden="true">
                 ☼
@@ -406,10 +411,21 @@ export function LevelingSetup(): React.JSX.Element {
               <p>
                 <strong>{guidance.title}.</strong> {guidance.text}
               </p>
-              <button type="button" className={styles.button} onClick={() => finish(draft)}>
-                Show our chapters →
+              <button
+                type="button"
+                className={styles.button}
+                onClick={() => finish(draft)}
+                disabled={isNavigating}
+                aria-busy={isNavigating}
+              >
+                {isNavigating ? "Preparing your chapters…" : "Show our chapters →"}
               </button>
             </section>
+          )}
+          {isNavigating && (
+            <p role="status" className={styles.notice}>
+              Preparing your chapter path. Your character and party choices are saved.
+            </p>
           )}
           <div className={styles.actions}>
             <button type="button" className={styles.quietButton} onClick={() => move(1)}>
