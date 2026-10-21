@@ -1,7 +1,9 @@
 # Forever leveling: player experience redesign
 
-Status: implemented and verified, including optimized build and desktop/mobile browser flows.
-Not deployed by this task. This replaces the player-facing
+Status: implemented, verified and deployed on October 21 after explicit deployment authorization.
+The exact runtime commit is `faf65eb`; see the
+[production receipt](forever-leveling-player-experience-deployment-2026-10-21.md).
+This replaces the player-facing
 presentation decisions in the earlier theoretical-progress review; evidence audits remain
 authoring tools, not the main guide interface.
 
@@ -154,8 +156,9 @@ browser scripts are not substitutes for this updated player-flow acceptance chec
 
 ### Release boundary
 
-This pass changes application code and documents the intended player experience. It does
-not install an addon, publish private reference data, deploy a server, or claim a playtested
+The implementation pass changed application code and documented the intended player experience.
+Production deployment followed only after the user's separate authorization; see the receipt above.
+It did not install an addon, publish private reference data, or claim a playtested
 perfect 1–60 route. In particular, current production lacks combat references: quest-based
 estimates work, but missing kill XP remains explicitly uncounted. A later recorded bar can
 correct the remaining route without inventing that missing history.
