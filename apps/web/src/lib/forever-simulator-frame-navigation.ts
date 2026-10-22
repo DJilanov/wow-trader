@@ -49,10 +49,14 @@ export function simulatorNavigationHref(href: string, src: string, origin: strin
 }
 
 export type SimulatorPresetSelectionSource = "initial" | "user";
+export type SimulatorPresetSelectionHandler = (
+  name: string,
+  source: SimulatorPresetSelectionSource,
+) => boolean | void;
 
 interface SimulatorFrameNavigationOptions {
   readonly onNavigate: (href: string) => void;
-  readonly onPresetSelected?: (name: string, source: SimulatorPresetSelectionSource) => void;
+  readonly onPresetSelected?: SimulatorPresetSelectionHandler;
 }
 
 export function connectSimulatorFrameNavigation(
@@ -126,19 +130,32 @@ export function connectSimulatorFrameNavigation(
       options.onNavigate(link.route);
       return;
     }
-    const chip = target.closest(
+    const configuration = target.closest(
       ".preset-configuration-picker-root button.saved-data-set-chip",
     ) as HTMLButtonElement | null;
-    if (!chip || chip.disabled || event.button !== 0) return;
+    const gearPreset = target.closest(
+      ".saved-data-manager-root .saved-data-presets .saved-data-set-chip",
+    ) as HTMLElement | null;
+    const manager = gearPreset?.closest(".saved-data-manager-root");
+    const isGearPreset =
+      manager?.querySelector(".content-block-header")?.textContent?.trim() === "Gear Sets" ||
+      manager?.querySelector(".content-block-title")?.textContent?.trim() === "Gear Sets";
+    const chip = configuration ?? (isGearPreset ? gearPreset : null);
+    if (!chip || ("disabled" in chip && chip.disabled) || event.button !== 0) return;
     const label = chip.querySelector<HTMLElement>(".saved-data-set-name");
     if (!label) return;
+    if (options.onPresetSelected?.(label.textContent?.trim() ?? "", "user") === true) {
+      // A reviewed preset is a complete scenario, not a gear-only edit of the previous character.
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
     // Upstream binds only the inner span: padding and keyboard clicks on the button were inert.
-    if (target.closest(".saved-data-set-name") !== label) {
+    if (configuration && target.closest(".saved-data-set-name") !== label) {
       event.preventDefault();
       label.click();
       return;
     }
-    options.onPresetSelected?.(label.textContent?.trim() ?? "", "user");
   };
   document.addEventListener("click", click, true);
   const keepClickMenuOpen = (event: Event): void => {

@@ -75,30 +75,41 @@ export function ForeverSimulatorReviewedWorkspace({
     setInteractive(true);
   }, [builds, initialBuildId, storageKey]);
   const selected = builds.find((build) => build.id === selectedId);
+  const applyReviewedBuild = useCallback(
+    (build: LocalSimulatorBuildReview): boolean => {
+      const href = build.href;
+      if (!href) return false;
+      explicitSelection.current = true;
+      saveBuildChoice(storageKey, build.id);
+      setSelectedId(build.id);
+      setEnginePreset(null);
+      setLoadedBuild((previous) => ({
+        id: build.id,
+        href,
+        revision: (previous?.revision ?? 0) + 1,
+      }));
+      return true;
+    },
+    [storageKey],
+  );
   const selectEnginePreset = useCallback(
-    (name: string, source: SimulatorPresetSelectionSource): void => {
-      if (source === "initial" && explicitSelection.current) return;
+    (name: string, source: SimulatorPresetSelectionSource): boolean => {
+      if (source === "initial" && explicitSelection.current) return false;
+      const build = simulatorBuildForPreset(builds, name);
+      if (source === "user" && build) return applyReviewedBuild(build);
       if (source === "user") explicitSelection.current = true;
       const id = simulatorBuildForPreset(builds, name)?.id ?? "";
       if (source === "user") saveBuildChoice(storageKey, id);
       setSelectedId(id);
       setEnginePreset(name);
+      return false;
     },
-    [builds, storageKey],
+    [builds, storageKey, applyReviewedBuild],
   );
 
   const loadBuild = useCallback((): void => {
-    const href = selected?.href;
-    if (!selected || !href) return;
-    explicitSelection.current = true;
-    saveBuildChoice(storageKey, selected.id);
-    setEnginePreset(null);
-    setLoadedBuild((previous) => ({
-      id: selected.id,
-      href,
-      revision: (previous?.revision ?? 0) + 1,
-    }));
-  }, [selected, storageKey]);
+    if (selected) applyReviewedBuild(selected);
+  }, [selected, applyReviewedBuild]);
 
   return (
     <>
@@ -120,10 +131,8 @@ export function ForeverSimulatorReviewedWorkspace({
               value={selectedId}
               disabled={!interactive}
               onChange={(event: ChangeEvent<HTMLSelectElement>): void => {
-                explicitSelection.current = true;
-                setEnginePreset(null);
-                saveBuildChoice(storageKey, event.currentTarget.value);
-                setSelectedId(event.currentTarget.value);
+                const build = builds.find((build) => build.id === event.currentTarget.value);
+                if (build) applyReviewedBuild(build);
               }}
               aria-describedby={`${selectId}-warning`}
             >
@@ -148,8 +157,9 @@ export function ForeverSimulatorReviewedWorkspace({
             </button>
           </div>
           <p id={`${selectId}-warning`} className="simulator-reviewed-warning">
-            Save your current character first. Loading replaces gear, enchants, talents, rotation,
-            race, professions, buffs, consumes and encounter settings in this browser.
+            Save your current character first. Selecting a reviewed preset replaces gear, enchants,
+            talents, rotation, race, professions, buffs, consumes and encounter settings in this
+            browser.
           </p>
           {selected && selected.referenceDps !== null ? (
             <p className="simulator-reviewed-reference">
@@ -200,7 +210,7 @@ export function ForeverSimulatorReviewedWorkspace({
             {!interactive
               ? "Preparing build controls…"
               : enginePreset
-                ? `Engine preset selected: ${enginePreset}. Your race, buffs and encounter are unchanged. Load build applies the complete tested scenario.`
+                ? `Current engine preset: ${enginePreset}. Selecting a reviewed preset loads its complete setup, including professions.`
                 : selected && (loadedBuild?.id === selected.id || initialBuildId === selected.id)
                   ? "Reviewed setup selected for the engine below. Loading never starts a simulation."
                   : "Choose Load build to apply this setup to the engine below."}

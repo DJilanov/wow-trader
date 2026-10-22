@@ -35,6 +35,82 @@ function frameWithActiveLabel(text: string | undefined): HTMLIFrameElement {
 }
 
 describe("Embedded simulator navigation", () => {
+  it.each(["configuration", "gear"] as const)(
+    "loads the complete reviewed scenario before a %s chip can apply partial state",
+    (kind) => {
+      const frame = frameWithActiveLabel(undefined);
+      const handlers = new Map<string, EventListener>();
+      const document = frame.contentDocument!;
+      vi.spyOn(document, "addEventListener").mockImplementation((name, handler): void => {
+        handlers.set(name, handler as EventListener);
+      });
+      const label = { textContent: "Smite · pre-raid tested" };
+      const chip = {
+        disabled: false,
+        querySelector: (): typeof label => label,
+        closest: (): object => ({
+          querySelector: (): { textContent: string } => ({ textContent: "Gear Sets" }),
+        }),
+      };
+      const target = {
+        closest: (selector: string): unknown =>
+          selector === ".saved-data-set-name"
+            ? label
+            : selector.includes("preset-configuration")
+              ? kind === "configuration"
+                ? chip
+                : null
+              : selector.includes("saved-data-presets")
+                ? kind === "gear"
+                  ? chip
+                  : null
+                : null,
+      };
+      const onPresetSelected = vi.fn((): boolean => true);
+      const disconnect = connectSimulatorFrameNavigation(frame, src, {
+        onNavigate: vi.fn(),
+        onPresetSelected,
+      });
+      const preventDefault = vi.fn(),
+        stopImmediatePropagation = vi.fn();
+      handlers.get("click")!({
+        target,
+        button: 0,
+        preventDefault,
+        stopImmediatePropagation,
+      } as unknown as Event);
+      expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith("Smite · pre-raid tested", "user");
+      expect(preventDefault).toHaveBeenCalledOnce();
+      expect(stopImmediatePropagation).toHaveBeenCalledOnce();
+      disconnect();
+    },
+  );
+  it("leaves user-saved sets and their names under the engine's control", () => {
+    const frame = frameWithActiveLabel(undefined);
+    const handlers = new Map<string, EventListener>();
+    vi.spyOn(frame.contentDocument!, "addEventListener").mockImplementation(
+      (name, handler): void => {
+        handlers.set(name, handler as EventListener);
+      },
+    );
+    const onPresetSelected = vi.fn((): boolean => true);
+    const disconnect = connectSimulatorFrameNavigation(frame, src, {
+      onNavigate: vi.fn(),
+      onPresetSelected,
+    });
+    const preventDefault = vi.fn(),
+      stopImmediatePropagation = vi.fn();
+    handlers.get("click")!({
+      target: { closest: (): null => null },
+      button: 0,
+      preventDefault,
+      stopImmediatePropagation,
+    } as unknown as Event);
+    expect(onPresetSelected).not.toHaveBeenCalled();
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(stopImmediatePropagation).not.toHaveBeenCalled();
+    disconnect();
+  });
   it.each([undefined, "", "   "])(
     "does not invent an initial preset event for an absent or blank active chip: %s",
     (label: string | undefined) => {
