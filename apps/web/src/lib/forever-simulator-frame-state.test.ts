@@ -130,6 +130,27 @@ describe("Simulator frame readiness", () => {
       ),
     ).toBe(false);
   });
+  it("keeps the completion adapter while a named build query is consumed", () => {
+    const query = "?raidDefaults=full-v2&completionBridge=events-v1";
+    expect(isSimulatorFrameReady(fixture(origin + src + query), src + query, origin)).toBe(true);
+    expect(
+      isSimulatorFrameReady(
+        fixture(origin + src + query),
+        src + "?build=Arms&raidDefaults=full-v2&completionBridge=events-v1",
+        origin,
+      ),
+    ).toBe(true);
+    expect(
+      isSimulatorFrameReady(fixture(origin + src + "?raidDefaults=full-v2"), src + query, origin),
+    ).toBe(false);
+    expect(
+      isSimulatorFrameReady(
+        fixture(origin + src + query),
+        src + "?build=Arms&raidDefaults=full-v2&completionBridge=events-v1&unexpected=1",
+        origin,
+      ),
+    ).toBe(false);
+  });
   it("keeps loading visible until the initial gear and talents finish loading", () => {
     const loading = fixture();
     loading.contentDocument!.querySelector = (() => ({})) as Document["querySelector"];

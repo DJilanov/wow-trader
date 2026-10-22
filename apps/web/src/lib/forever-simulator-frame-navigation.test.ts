@@ -178,6 +178,24 @@ describe("Embedded simulator navigation", () => {
     expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith("Fury", "initial");
     disconnect();
   });
+  it("strips only the supported completion adapter and still initializes the active preset", () => {
+    const query = "?raidDefaults=full-v2&completionBridge=events-v1";
+    expect(simulatorNavigationHref(src + query, src + query, origin)).toBe(
+      "/forever/simulator/hunter",
+    );
+    expect(
+      simulatorNavigationHref("../warrior/" + query + "&build=Arms", src + query, origin),
+    ).toBe("/forever/simulator/warrior?build=Arms");
+    for (const value of ["unknown", "events-v1&completionBridge=events-v1"])
+      expect(simulatorNavigationHref(src + "?completionBridge=" + value, src, origin)).toBeNull();
+    const onPresetSelected = vi.fn();
+    const disconnect = connectSimulatorFrameNavigation(frameWithActiveLabel("Fury"), src + query, {
+      onNavigate: vi.fn(),
+      onPresetSelected,
+    });
+    expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith("Fury", "initial");
+    disconnect();
+  });
 
   it.each([
     `https://external.example/forever-sim/${release}/warrior/`,

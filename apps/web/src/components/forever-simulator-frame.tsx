@@ -15,6 +15,7 @@ import {
 } from "../lib/forever-simulator-frame-state";
 import { simulatorRaidDefaultsSrc } from "../lib/forever-simulator-raid-defaults";
 import { connectSimulatorToolUsage } from "../lib/tool-usage";
+import { simulatorMeasurementSrc } from "../lib/forever-simulator-measurement";
 
 interface ForeverSimulatorFrameProps {
   readonly src: string;
@@ -28,7 +29,7 @@ export function ForeverSimulatorFrame({
   onPresetSelected,
   onLoadSelectedBuild,
 }: ForeverSimulatorFrameProps): React.JSX.Element {
-  const src = simulatorRaidDefaultsSrc(source);
+  const src = simulatorMeasurementSrc(simulatorRaidDefaultsSrc(source));
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [slow, setSlow] = useState(false);

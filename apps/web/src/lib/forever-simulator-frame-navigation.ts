@@ -1,6 +1,7 @@
 import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 import { withHelperBasePath } from "./site-path";
 import { simulatorRaidDefaultsVersion } from "./forever-simulator-raid-defaults";
+import { simulatorMeasurementVersion } from "./forever-simulator-measurement";
 
 export function simulatorBuildQuery(value: unknown): string {
   if (
@@ -22,6 +23,11 @@ export function simulatorNavigationHref(href: string, src: string, origin: strin
       target.searchParams.get("raidDefaults") === simulatorRaidDefaultsVersion
     )
       target.searchParams.delete("raidDefaults");
+    if (
+      target.searchParams.getAll("completionBridge").length === 1 &&
+      target.searchParams.get("completionBridge") === simulatorMeasurementVersion
+    )
+      target.searchParams.delete("completionBridge");
     const pattern = /^\/(?:tools\/)?forever-sim\/([a-f0-9]{24})\/([a-z_]+)\/?$/;
     const source = pattern.exec(current.pathname);
     const destination = pattern.exec(target.pathname);
@@ -179,6 +185,7 @@ export function connectSimulatorFrameNavigation(
   frame.ownerDocument.addEventListener("pointerdown", dismissMenus, true);
   const initialUrl = new URL(src, origin);
   initialUrl.searchParams.delete("raidDefaults");
+  initialUrl.searchParams.delete("completionBridge");
   if (!initialUrl.hash && !initialUrl.search) {
     const active = [
       ...document.querySelectorAll<HTMLElement>(

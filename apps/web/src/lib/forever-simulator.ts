@@ -11,6 +11,10 @@ import {
   simulatorRaidDefaultsModule,
   simulatorRaidDefaultsVersion,
 } from "./forever-simulator-raid-defaults";
+import {
+  simulatorMeasurementModule,
+  simulatorMeasurementVersion,
+} from "./forever-simulator-measurement";
 
 const types: Readonly<Record<string, string>> = {
   html: "text/html; charset=utf-8",
@@ -145,25 +149,34 @@ export async function serveSimulatorAsset(
   if (!info.isFile() || info.size !== expected.bytes)
     return new Response("Simulator asset failed integrity checks", { status: 503 });
   let adaptedHtml: Buffer | undefined;
-  if (
-    extension === "html" &&
-    new URL(request.url).searchParams.get("raidDefaults") === simulatorRaidDefaultsVersion
-  ) {
+  const parameters = new URL(request.url).searchParams;
+  const raidDefaults =
+    parameters.getAll("raidDefaults").length === 1 &&
+    parameters.get("raidDefaults") === simulatorRaidDefaultsVersion;
+  const measurement =
+    parameters.getAll("completionBridge").length === 1 &&
+    parameters.get("completionBridge") === simulatorMeasurementVersion;
+  if (extension === "html" && (raidDefaults || measurement)) {
     const html = await readFile(path, "utf8");
+    if (createHash("sha256").update(html).digest("hex") !== expected.sha256)
+      return new Response("Simulator entry failed integrity checks", { status: 503 });
     const module =
       /href="(\/forever-sim\/[a-f0-9]{24}\/bundle\/preset_utils-[a-zA-Z0-9_-]+\.chunk\.js)"/.exec(
         html,
       )?.[1];
     if (!module || !manifest.files[module.replace(`/forever-sim/${release}/`, "")])
-      return new Response("Simulator raid defaults unavailable", { status: 503 });
+      return new Response("Simulator presentation module unavailable", { status: 503 });
     const marker = '<script type="module"';
     if (!html.includes(marker)) return new Response("Simulator entry unavailable", { status: 503 });
-    adaptedHtml = Buffer.from(
-      html.replace(
-        marker,
-        `<script type="module" data-kfc-raid-defaults="${simulatorRaidDefaultsVersion}">${simulatorRaidDefaultsModule(module)}</script>\n${marker}`,
-      ),
-    );
+    const adapters = [
+      raidDefaults
+        ? `<script type="module" data-kfc-raid-defaults="${simulatorRaidDefaultsVersion}">${simulatorRaidDefaultsModule(module)}</script>`
+        : "",
+      measurement
+        ? `<script type="module" data-kfc-completion-bridge="${simulatorMeasurementVersion}">${simulatorMeasurementModule(module)}</script>`
+        : "",
+    ].filter(Boolean);
+    adaptedHtml = Buffer.from(html.replace(marker, adapters.join("\n") + "\n" + marker));
   }
   const etag = `"${adaptedHtml ? createHash("sha256").update(adaptedHtml).digest("hex") : expected.sha256}"`;
   const headers: Record<string, string> = {
