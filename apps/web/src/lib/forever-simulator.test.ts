@@ -105,8 +105,8 @@ describe("Self-hosted Forever simulator assets", () => {
         ).status,
       ).toBe(304);
       for (const query of [
-        "completionBridge=events-v1",
-        "raidDefaults=full-v2&completionBridge=events-v1",
+        "completionBridge=events-v2",
+        "raidDefaults=full-v2&completionBridge=events-v2",
       ]) {
         const measuredUrl = "http://localhost/warrior/?" + query;
         const measured = await serveSimulatorAsset(
@@ -116,7 +116,7 @@ describe("Self-hosted Forever simulator assets", () => {
           f.directory,
         );
         const body = await measured.text();
-        expect(body).toContain('data-kfc-completion-bridge="events-v1"');
+        expect(body).toContain('data-kfc-completion-bridge="events-v2"');
         expect(body.indexOf("installSimulatorMeasurement")).toBeLessThan(
           body.indexOf('src="/entry.js"'),
         );
@@ -158,7 +158,7 @@ describe("Self-hosted Forever simulator assets", () => {
       }
       for (const query of [
         "completionBridge=unknown",
-        "completionBridge=events-v1&completionBridge=events-v1",
+        "completionBridge=events-v2&completionBridge=events-v2",
       ])
         expect(
           await (
@@ -178,7 +178,7 @@ describe("Self-hosted Forever simulator assets", () => {
       expect(
         (
           await serveSimulatorAsset(
-            new Request("http://localhost/warrior/?completionBridge=events-v1"),
+            new Request("http://localhost/warrior/?completionBridge=events-v2"),
             f.release,
             ["warrior"],
             f.directory,
