@@ -21,15 +21,15 @@ export function createTierBenchmarkSettings(settings, encounter, support) {
   );
   assert(encounter.targets?.length === 1 && encounter.targets[0].level === 63);
   assert(support.version === "full-v2");
-  const next = structuredClone(settings);
-  next.raidBuffs = structuredClone(support.raid);
-  next.partyBuffs = structuredClone(support.party);
-  next.player.buffs = structuredClone(support.individual);
+  const next = globalThis.structuredClone(settings);
+  next.raidBuffs = globalThis.structuredClone(support.raid);
+  next.partyBuffs = globalThis.structuredClone(support.party);
+  next.player.buffs = globalThis.structuredClone(support.individual);
   next.player.level = 60;
   // Self-applied class effects remain in the engine; no external debuff allocation favours a class.
   next.debuffs = {};
   next.encounter = {
-    ...structuredClone(encounter),
+    ...globalThis.structuredClone(encounter),
     duration: tierBenchmarkPolicy.durationSeconds,
     durationVariation: 0,
     useHealth: false,

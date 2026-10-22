@@ -25,7 +25,7 @@ const settings = {
 };
 
 test("uses identical support, duration and external-debuff policy without changing gear or rotation", () => {
-  const before = structuredClone(settings);
+  const before = globalThis.structuredClone(settings);
   const value = createTierBenchmarkSettings(settings, encounter, support);
   assert.deepEqual(settings, before);
   for (const key of ["equipment", "rotation", "talentsString", "consumes", "race"])

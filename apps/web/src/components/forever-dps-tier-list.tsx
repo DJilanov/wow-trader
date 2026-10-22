@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useId, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { filterDpsTierEntries, type DpsTierEntry } from "../lib/forever-dps-tier-list";
@@ -13,6 +13,7 @@ interface ForeverDpsTierListProps {
 export function ForeverDpsTierList({ entries }: ForeverDpsTierListProps): React.JSX.Element {
   const [query, setQuery] = useState("");
   const [classSlug, setClassSlug] = useState("");
+  const filterId = useId();
   const visible = filterDpsTierEntries(entries, query, classSlug);
   const classes = [
     ...new Map(
@@ -29,19 +30,24 @@ export function ForeverDpsTierList({ entries }: ForeverDpsTierListProps): React.
         <span>{entries.length} measured builds</span>
       </div>
       <div className={styles.filters}>
-        <label>
-          Find a spec or class
+        <div>
+          <label htmlFor={`${filterId}-search`}>Find a spec or class</label>
           <input
+            id={`${filterId}-search`}
             type="search"
             value={query}
             maxLength={100}
             placeholder="Try Shadow Priest"
             onChange={(event): void => setQuery(event.target.value)}
           />
-        </label>
-        <label>
-          Class
-          <select value={classSlug} onChange={(event): void => setClassSlug(event.target.value)}>
+        </div>
+        <div>
+          <label htmlFor={`${filterId}-class`}>Class</label>
+          <select
+            id={`${filterId}-class`}
+            value={classSlug}
+            onChange={(event): void => setClassSlug(event.target.value)}
+          >
             <option value="">All classes</option>
             {classes.map(([slug, name]) => (
               <option value={slug} key={slug}>
@@ -49,7 +55,7 @@ export function ForeverDpsTierList({ entries }: ForeverDpsTierListProps): React.
               </option>
             ))}
           </select>
-        </label>
+        </div>
       </div>
       <p className={styles.caption} aria-live="polite">
         {visible.length} of {entries.length} builds · DPS, not healing, survivability or raid

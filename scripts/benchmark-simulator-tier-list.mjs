@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
+import { Buffer } from "node:buffer";
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { join, resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, URL } from "node:url";
 import { inflateSync, deflateSync } from "node:zlib";
 import process from "node:process";
 import console from "node:console";
@@ -16,10 +17,10 @@ const root = resolve(import.meta.dirname, "..");
 const storage = join(root, "artifacts/forever-simulator");
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const json = async (path) => JSON.parse(await readFile(path, "utf8"));
-assert.equal(
-  process.argv.length,
-  2,
-  "Configure the local preview with SIMULATOR_TEST_URL; no numerical overrides are accepted",
+const args = process.argv.slice(2);
+assert(
+  args.length === 0 || (args.length === 1 && args[0] === "--write-snapshot"),
+  "Use only --write-snapshot; numerical overrides are not accepted",
 );
 const origin = new URL(process.env.SIMULATOR_TEST_URL ?? "http://127.0.0.1:3334/tools");
 assert(
@@ -179,6 +180,8 @@ try {
           );
           const result = api.RaidSimResult.fromBinary(response);
           assert(!result.error?.message, result.error?.message);
+          assert.equal(result.iterationsDone, tierBenchmarkPolicy.iterations);
+          assert.equal(result.avgIterationDuration, tierBenchmarkPolicy.durationSeconds);
           const metric = result.raidMetrics.parties[0].players[0].dps;
           assert(
             Number.isFinite(metric.avg) &&
@@ -207,14 +210,26 @@ try {
           });
         }
         assert.equal(evidence.requestSha256, requestSha256);
+        assert.equal(evidence.requestBase64, Buffer.from(bytes).toString("base64"));
         assert.equal(evidence.publicationSha256, reference.sha256);
         const raw = Buffer.from(evidence.responseBase64, "base64");
         assert.equal(hash(raw), evidence.responseSha256);
-        const metric = api.RaidSimResult.fromBinary(raw).raidMetrics.parties[0].players[0].dps;
+        const verifiedResult = api.RaidSimResult.fromBinary(raw);
+        assert.equal(verifiedResult.iterationsDone, tierBenchmarkPolicy.iterations);
+        assert.equal(verifiedResult.avgIterationDuration, tierBenchmarkPolicy.durationSeconds);
+        const metric = verifiedResult.raidMetrics.parties[0].players[0].dps;
         assert.equal(metric.avg, evidence.dps);
         assert.equal(metric.stdev, evidence.stdev);
         const canonical = api.IndividualSimSettings.toBinary(
-          api.IndividualSimSettings.fromJson(settings),
+          api.IndividualSimSettings.fromJson({
+            ...settings,
+            settings: {
+              ...settings.settings,
+              iterations: tierBenchmarkPolicy.iterations,
+              fixedRngSeed: String(tierBenchmarkPolicy.seed),
+              ruleset: 1,
+            },
+          }),
         );
         entries.push({
           id: build.id,
@@ -261,11 +276,32 @@ assert.equal(
   "Expected all 21 non-provisional reviewed builds; review coverage before changing this count",
 );
 const snapshot = { schema: "kfc-forever-dps-tier-list.v1", policySha256, policy, entries };
-await writeFile(
-  join(root, "apps/web/src/lib/data/forever-dps-tier-list.json"),
-  JSON.stringify(snapshot, null, 2) + "\n",
-  { flag: "wx" },
-);
+const output = join(root, "apps/web/src/lib/data/forever-dps-tier-list.json");
+const serialized = JSON.stringify(snapshot, null, 2) + "\n";
+let previous;
+try {
+  previous = await readFile(output, "utf8");
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
+if (previous !== serialized) {
+  if (previous !== undefined) {
+    assert(
+      args.includes("--write-snapshot"),
+      "Snapshot differs; review coverage and use --write-snapshot to publish the new measurements",
+    );
+    const archive = join(directory, `previous-snapshot-${hash(previous).slice(0, 16)}.json`);
+    try {
+      await writeFile(archive, previous, { flag: "wx", mode: 0o600 });
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+      assert.equal(await readFile(archive, "utf8"), previous);
+    }
+  }
+  const temporary = `${output}.tmp-${process.pid}`;
+  await writeFile(temporary, serialized, { flag: "wx" });
+  await rename(temporary, output);
+}
 console.log(
   JSON.stringify({
     status: "measured",
