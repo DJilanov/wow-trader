@@ -1,5 +1,77 @@
 # WoW Trader fixes and recovery context
 
+## October 22, 14:41 UTC — real Priest weapon fix now live; Shockadin gear proof and missing Vigil policies
+
+Repeat live auditbe23c184e0e69957supersedes earlier production-staleness notes. Both
+Priest defaults now use caster Spellblade272683(+94SP,+1%crit). Four actual fresh
+Chromium desktop/mobile visits confirmed exact3weapon slots/enchants, zero page errors
+and zero combat/production writes. All15profiles checked; only unfinished DS/Ruin's
+Sageblade remains a role-review flag.6weapon regressions pass; no deployment by this audit.
+
+Shockadin gear6209completed37874newrequests/4361620fights; independent read-only replay
+57871passed37877origins/180stages. Canonical completion6a7da2e...; actual provisional
+selected702.003659DPS, not a final preset. New separate geared helpers cover a genuine
+coverage omission: Ret/blue policies never cast31Holy Light's Vigil. Explicit bounded
+Vigil rank/timing/mana/priority policies preserve original disabled APL identity and
+full707HolyShock anchors/neighbors. Stones stay compatible with actual weapon types.
+11new tests/lint/format pass. Feedback preflight43776passed4169candidates/820talents/
+23prepared real controls. Actual supervised66865/89958is live at SAME original deadline;
+parent replay then actual native/WASM controls precede scalar work. New files FROZEN.
+Exact commands/hashes/remaining confirmation+cumulative Ret/Shockadin UI are in context.
+No completed-study mutation, model rebuild, clock reset, commit/push/deploy/3017restart.
+
+## October 22, 14:06 UTC — new Shockadin proof preserves weapon and acquisition legality
+
+Actual blue study and independent21172-origin/81stage replay passed. New acquisition
+adapter requires original metadata/PvP-row digests; tests retain Bloodvine/PrimalBatskin
+raid exclusions and distinguish usable ScepterMACE from unusable casterDAGGER. Full
+17slot bank and14derived real native/WASM gear controls passed, including actual Holy
+Shock casts.17focused regressions pass; supervised gear6209/41409is live, inputs frozen.
+Do not restart completed blue or edit running-source hashes. Current handles/hashes,
+canonical-completion requirement and remaining feedback/cumulative Ret+Shock UI work
+are in context.md. No new qualified preset, production change or class-clock reset.
+
+## October 22, 13:32 UTC — Shockadin must not inherit Ret-only talent guards or old scores
+
+New real-input context and request factory support actual21HolyShock/31Vigil families,
+including31/20/0; oldRet >=21Ret guard is not reused. Six input regressions pass. The
+unchanged compiled engine and55controls are authenticated, while the two unused changed
+compiler files remain untouched. Ten NEWnative/WASM controls pass exact parity; actual
+six-worker Shockadin search now running on same Paladin deadline. Raw handles, frozen
+hashes and all remaining gear/feedback/handoff requirements: context.md. No new preset
+or production change; never equate the coarse blue search with qualified BiS.
+
+## October 22, 13:11 UTC — finished Ret local handoff; preserve drifted build sources
+
+Ret release df773b886... now selected locally, preserving all23prior entries/11profiles.
+Actual1440/390px main-page defaults/menus/guide/tooltip/single-scroll/reload/Simulate
+passed;25fight971.27DPS each. Actual delivered-local.json v2 records the handoff.
+Broader332profile/publication tests,31directRet tests, web types, scoped lint/format,
+six handoff tests and six weapon tests pass. No production change.
+
+Original V1main reviewer correctly caught2concurrent uncompiled source changes; files
+are preserved, old hashes NOT waived. Delivery-only V2 authenticates the already-proven
+qualified build and every immutable compiled model/UI asset with original codec and
+realfrontend reader; it does not use mutable-source code as numerical proof. Historical
+source audit remains intact. See context.md for exact drift hashes/receipts and future
+numerical-context constraint. Direct immutable regression63318 also passed.
+
+Fresh all-profile weapon audit d9fa4d688feadbe9 retains the same live stale caster
+weapons and unfinished DS/Ruin finding. Do not call those production presets fixed.
+
+## October 22, 12:58 UTC — staged Ret approved; real frontend reader catches integration limits
+
+Actual15profile staged browser review passed, approvaldd4ffb132d5f007a...;25fight
+native971.2670/browser971.27, both desktop/mobile full shares and11class isolation.
+New code-pinned Ret reader authenticates the corrected model, canonical/historical
+completion references, real40kconfirmation, exact rawWASM and action-bound guide.
+All31direct reader tests pass. Genuine fixtures retain original data, not mock results.
+Profile tests exposed real10.8/9.2MBmodel contexts beyond default8MB; added exact-path+
+hash16MBallowances only, with default limit unchanged. Rerun34543pending. No pointer
+selected or production changed; selection/main-page delivery remain before Shockadin.
+Web typecheck currently reports unrelated concurrent missing tier-list JSON imports.
+Authoritative evidence and next steps: context.md. No numerical restart or source edits.
+
 ## October 22, 12:35 UTC — Ret compiled UI is real but must not bypass browser/registry gates
 
 Isolated UI df773b886... passed actual all-class TypeScript and Vite, then a real staged

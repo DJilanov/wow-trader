@@ -3,7 +3,7 @@ import { z } from "zod";
 export const referenceTaskSchema = z
   .object({
     game: z.enum(["tbc", "forever"]),
-    kind: z.enum(["item", "quest", "spell"]),
+    kind: z.enum(["item", "quest", "spell", "npc"]),
     id: z.number().int().positive().max(2_147_483_647),
   })
   .strict();
@@ -237,6 +237,15 @@ export function referenceQualityGaps(record: ReferenceRecord): string[] {
       gaps.push("missing_quest_giver");
     if (!record.rewards.length && record.questContent?.rewards !== "none")
       gaps.push("missing_quest_rewards");
+  } else if (record.kind === "npc") {
+    // The NPC crawl is targeted at trainers and vendors. A page that exposes
+    // neither an inventory nor a taught-spell list is not useful evidence.
+    if (
+      !record.relations.some(
+        (relation) => relation.relation === "teaches" || relation.relation === "sells",
+      )
+    )
+      gaps.push("missing_npc_inventory_or_teaches");
   } else if (
     !record.relations.some(
       (relation) =>

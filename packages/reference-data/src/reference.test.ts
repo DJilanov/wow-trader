@@ -117,6 +117,44 @@ describe("permissioned reference extraction", () => {
     expect(referenceQualityGaps(record)).toEqual([]);
   });
 
+  it("extracts trainer teaches and vendor sells from an NPC page", () => {
+    const npc = referenceTaskSchema.parse({ game: "forever", kind: "npc", id: 2836 });
+    const record = parseWowheadPage(
+      '<link rel="canonical" href="https://www.wowhead.com/forever/npc=2836/brikk-keencraft"><h1>Brikk Keencraft</h1><script>new Listview({template:"spell",id:"teaches-recipe",data:[{id:3275,name:"Linen Bandage"}]});new Listview({template:"item",id:"sells",data:[{id:2320,name:"Coarse Thread"}]});</script>',
+      npc,
+      {
+        url: referenceUrl(npc),
+        capturedAt: new Date().toISOString(),
+        permissionRef: "test",
+      },
+    );
+
+    expect(referenceUrl(npc)).toBe("https://www.wowhead.com/forever/npc=2836");
+    expect(record.relations).toEqual([
+      { relation: "teaches", kind: "spell", id: 3275, name: "Linen Bandage" },
+      { relation: "sells", kind: "item", id: 2320, name: "Coarse Thread" },
+    ]);
+    expect(referenceQualityGaps(record)).toEqual([]);
+    expect(referenceQualityGaps({ ...record, relations: [] })).toEqual([
+      "missing_npc_inventory_or_teaches",
+    ]);
+  });
+
+  it("fails closed if teaches changes entity kind", () => {
+    const npc = referenceTaskSchema.parse({ game: "forever", kind: "npc", id: 2836 });
+    expect(() =>
+      parseWowheadPage(
+        '<link rel="canonical" href="https://www.wowhead.com/forever/npc=2836/brikk-keencraft"><h1>Brikk Keencraft</h1><script>new Listview({template:"item",id:"teaches-recipe",data:[{id:3275,name:"Linen Bandage"}]});</script>',
+        npc,
+        {
+          url: referenceUrl(npc),
+          capturedAt: new Date().toISOString(),
+          permissionRef: "test",
+        },
+      ),
+    ).toThrow(/relation kind changed/);
+  });
+
   it("fails closed if a taught-by relation changes entity kind", () => {
     const spell = referenceTaskSchema.parse({ game: "forever", kind: "spell", id: 3275 });
     expect(() =>

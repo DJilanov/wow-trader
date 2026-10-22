@@ -559,7 +559,7 @@ export async function readSimulatorProfileModelUpdate(
       reference: async (rawReference: FrostModelEvidenceReference): Promise<unknown> => {
         const ref = frostModelEvidenceReferenceSchema.parse(rawReference),
           path = ref.path.replace(/^artifacts\/forever-simulator\//, "");
-        // Larger allowances apply only to these already-replayed immutable study results.
+        // Larger allowances apply only to these already-replayed study/model records.
         const limit =
             path ===
             "optimization/bounded-native-studies/764404e8248b94f6e9426ffa9b70e64f67f90c6606c3902858197fd2bcd4c86c/result-538b27f2a952a950.json"
@@ -616,7 +616,12 @@ export async function readSimulatorProfileModelUpdate(
               path ===
                 "optimization/bounded-native-studies/0c6d7bc3698fab970542ff444f4b5b395097795caa48e6419b986826a2282b88/result-6b79141f70d57c34.json" ||
               path ===
-                "optimization/bounded-native-studies/efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d/result-d56c115796099683.json"
+                "optimization/bounded-native-studies/efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d/result-d56c115796099683.json" ||
+              (path === "optimization/paladin-free-seal-model-v1/context.json" &&
+                ref.sha256 ===
+                  "81e4694b374864668626f10e76ce279448cf3431388a798b34714fa61fd74ae1") ||
+              (path === "optimization/paladin-pvp-model-v1/context.json" &&
+                ref.sha256 === "d95ad63af68c529a843c9f3134d48fd51bb84763eec03f450485819a96b08596")
               ? 16_000_000
               : limit,
           );

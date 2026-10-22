@@ -117,10 +117,16 @@ const allowedRelations = new Set([
   "objective-of",
   "provided-for",
   "series",
+  // NPC detail pages invert the relationship: a trainer teaches spells and a
+  // vendor sells items.
+  "teaches",
+  "sells",
 ]);
 const constrainedRelationKinds = new Map<string, string>([
   ["taught-by-npc", "npc"],
   ["taught-by-item", "item"],
+  ["teaches", "spell"],
+  ["sells", "item"],
 ]);
 const numericKeys = new Set([
   "str",
@@ -248,7 +254,11 @@ export function parseWowheadPage(
         if (typeof relationValue !== "string" || typeof kind !== "string") continue;
         // Real item pages suffix quest-backed tabs (for example
         // "reward-from-q"); the storage contract uses the unsuffixed id.
-        const relation = relationValue.endsWith("-q") ? relationValue.slice(0, -2) : relationValue;
+        let relation = relationValue.endsWith("-q") ? relationValue.slice(0, -2) : relationValue;
+        // NPC pages use `teaches-recipe` for trainer recipe lists; class
+        // abilities use `teaches`. Both are the inverse `teaches` relation.
+        if (relation === "teaches-recipe") relation = "teaches";
+        if (relation === "sells-recipe") relation = "sells";
         if (!allowedRelations.has(relation) || !relationKinds.has(kind)) continue;
         const constrainedKind = constrainedRelationKinds.get(relation);
         if (constrainedKind && kind !== constrainedKind)

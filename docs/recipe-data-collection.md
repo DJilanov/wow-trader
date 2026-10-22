@@ -122,6 +122,21 @@ Item detail tasks default to **HTML-only** crawling: tooltip, class/subclass, ac
 `dropStatistics` are parsed from the item page, so the extra `&xml` navigation is skipped. Use
 `ITEM_XML=1` to restore the old two-navigation path for troubleshooting.
 
+After the item phase, the targeted NPC phase resolves trainer `teaches` and vendor `sells` lists.
+Generate it from the staged evidence and run it through the same guards:
+
+```bash
+node scripts/recipe-npc-crawl-queue.mjs \
+  --staging "$HOME/wow-trader-reference/staging" \
+  --queue "$HOME/wow-trader-reference/queue/forever-profession-npcs.json"
+
+PHASE=npcs LIMIT=300 "$HOME/wow-trader-reference/run-profession-crawl.sh"
+```
+
+The current staging yields 564 unique NPCs (282 trainer, 289 vendor, 7 both). One navigation per NPC.
+Afterward, `scripts/recipe-npc-evidence.mjs` inverts the staged lists into spell/item evidence. NPC
+pages do not provide the full location join; use QuestieDB locations and crawl only missing IDs.
+
 It fetches about 24 listing pages (one spell and one recipe-item listing per profession) and stores
 conservative evidence under `<staging>/listings/`. The listing parser reads the real
 `var listviewspells`/`var listviewitems` arrays. Only exact links become relations; broad source

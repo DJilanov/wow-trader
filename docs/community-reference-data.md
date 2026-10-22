@@ -233,6 +233,43 @@ needed for troubleshooting. This halves the item navigation budget (one source n
 two). Set `ITEM_XML=1` to restore the old HTML+XML path; the WAF guard then uses 170 seconds per item
 instead of 85. The item listing crawl and quest pages are unaffected.
 
+### Targeted trainer and vendor NPC phase
+
+NPC detail pages are now a first-class `npc` task. The parser stores the inverse lists a trainer or
+vendor page exposes: `teaches` (spell rows) and `sells` (item rows). One navigation per NPC is enough;
+the page is not re-crawled once it is fresh.
+
+Build the queue from the staged profession evidence:
+
+```bash
+node scripts/recipe-npc-crawl-queue.mjs \
+  --staging "$HOME/wow-trader-reference/staging" \
+  --queue "$HOME/wow-trader-reference/queue/forever-profession-npcs.json" \
+  --report "$HOME/wow-trader-reference/queue/forever-profession-npcs.report.json"
+```
+
+Then run the bounded NPC phase through the same launcher, WAF guard, pacing, disk guard and
+auto-continue loop:
+
+```bash
+PHASE=npcs LIMIT=300 "$HOME/wow-trader-reference/run-profession-crawl.sh"
+```
+
+On the current staging the queue has **564 unique NPCs**: 282 trainer NPCs, 289 vendor NPCs and 7
+that are both. The report includes the trainer/vendor link counts and the pending/staged split.
+
+After the NPC batch, invert the staged lists into spell/item evidence without rewriting captures:
+
+```bash
+node scripts/recipe-npc-evidence.mjs \
+  --staging "$HOME/wow-trader-reference/staging" \
+  --output "$HOME/wow-trader-reference/queue/forever-profession-npc-evidence.json"
+```
+
+The NPC phase resolves trainer `teaches` lists and vendor `sells` lists. It does not replace the
+QuestieDB location join: use the resolved NPC IDs against the pinned location export and crawl only
+the IDs that are still missing coordinates.
+
 The `status-profession.sh` view prints listing record/entry/relation counts, source-label counts, and
 parser warnings. If a listing record has `no_listing_entries` or unexpected warnings, keep the detail
 fallback in place and inspect the listing page before trusting a bulk result. A saved listing page can

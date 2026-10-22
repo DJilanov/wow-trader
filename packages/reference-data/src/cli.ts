@@ -206,7 +206,7 @@ async function main(): Promise<void> {
           .map((id) => referenceTaskSchema.parse({ game, kind: values.kind, id: Number(id) }))
       : await seedFromHelperSitemaps(values.sitemap ?? [], game);
     if (!tasks.length)
-      throw new Error("No item/quest/spell seeds; supply --sitemap files or --kind and --ids");
+      throw new Error("No item/quest/spell/npc seeds; supply --sitemap files or --kind and --ids");
     await atomicJsonWrite(operatorPath(values.queue), tasks);
     console.log(JSON.stringify({ seeded: tasks.length }));
     return;

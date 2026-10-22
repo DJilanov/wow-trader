@@ -76,6 +76,15 @@ authorize a deployment, or allow silent deadline extensions.
 
 ## October 22 weapon and delivery audit
 
+Latest repeat at14:19UTC: `optimization/weapon-audit-be23c184e0e69957.json` now supersedes
+the older live-staleness results below. All15profiles,28local/28livepreset entries and
+24local reviewed library links were checked. Only Ret differs local/live; both live
+Priest defaults now have272683Spellblade(+94genericSP,+1%crit). Actual fresh Chromium
+desktop/mobile visits additionally confirmed Shadow and Smite's3weapon slots/enchantIDs
+at1440/390widths:4checks,0pageerrors,0combat,0productionwrites. The only remaining role
+flag is unfinished DS/Ruin Sageblade22383in local+live starter metadata, not a qualified
+DS/Ruin result. Six weapon-audit regressions rerun and passed. This audit did not deploy.
+
 Repeat the read-only audit from the repository root:
 
 ```sh
@@ -121,3 +130,13 @@ physical proc weapons, feral stat sticks, paired hands, missing/invalid data and
 input immutability. Scoped ESLint and formatting pass. No numerical jobs, preset
 changes, commits, push or deployment were performed by this audit. Live delivery
 remains an explicit outstanding task, not an already-deployed fix.
+
+Repeat at 13:03 UTC: report
+`artifacts/forever-simulator/optimization/weapon-audit-d9fa4d688feadbe9.json`.
+All 15 profiles, 28 local and 28 live metadata entries, and now 24 selected local
+library builds were checked after qualified Retribution selection. The ten caster
+library main hands remain relevant spell-power weapons. The same six live caster
+starter rows and unfinished local DS/Ruin row remain flagged. Retribution adds a
+sixth local/live presentation mismatch because it is selected locally but not
+deployed. No combat, preset edits or deployment were performed by this repeat;
+all six weapon-audit regressions were rerun and passed.

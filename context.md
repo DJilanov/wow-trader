@@ -2,6 +2,348 @@
 
 Last updated: 2026-10-22
 
+## October 22, 14:41 UTC — Shockadin gear replay passed; supervised feedback started; live Priest weapons confirmed
+
+This goal turn is PROGRESS: actual gear owner6209/supervisor41201/child41409 TERMINAL0
+at14:27:12UTC. Study dfd2ca5fe0237533a376bfa8d2f439c746806d81c996c316f38e380f34062f1d
+measured37874newrequests/4361620fights,913exact source reuses,2complete gear sweeps.
+Canonical ON-DISK completion SHA6a7da2e27ef69cf6b99ecfe9617198bf63ef51490f27c8f412aa5469af92608d;
+result1d319ca23fc3006911798596aadbc6706602aa986fb5701420f558171f9b69ae.
+Read-only independent verifier57871/PID77281 TERMINAL0:37877verified actualgear origins/
+180packed stages plus original authenticated blue parent, zero fights/writes. Provisional
+selected702.003659DPS vs595.320410blue at same gear-inspection seed; second-sweep leader
+708.765704was only0.963%better and did NOT replace incumbent. Still25/0/26; not final BiS.
+
+Important new coverage: original Ret/blue rotation policies never cast31Holy Light's
+Vigil. NEW separate shockadin-geared-* modules explicitly test Vigil R1/R2/R3,
+0/1.5/3/10s lead,0/20/40/60%mana,before-shock/before-core, CurrentTarget mark guards,
+actual HolyShock cooldown checks and bounded coordinate retention. No model/old study
+changed. Disabled Vigil preserves exact original policy/APL. Unlearned Command falls
+back to Righteousness; no >=21Ret gate. All707HolyShock anchors, legal one-point
+neighbors, actual source/null rank4 policies and exact incumbent remain. Shared class4
+nonraid consume contract reused, never Ret/Shaman DPS. Stones adapt atomically with
+actual compatible weapon geometry. Two feedback cycles+closing check, all17slot gear.
+
+11new tests PASS(9policy/family/request/retention+2actualgear/controls/stone),6weapon
+regressions PASS; scoped12new-file ESLint/format and diff --check PASS. Actual23current-
+gear native/WASM cases are PREPARED, not yet executed. They require learned Vigil casts,
+consumed-mark damage/refund, scalar/action/aura/resource parity and<=16observedauras.
+Read-only --plan43776/PID80200 TERMINAL0 at14:40:17:4169initial candidates/820talentvalues
+(707anchors+neighbors),23controls, exact incumbent preserved; old seasonal sourcecontext
+excluded from ranking and nonraid/curses baseline freshly measured in next phase.
+
+ONE NEW LIVE OWNER session66865, childPID89958, launched14:40:27UTC. Exact command:
+  node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run paladin shockadin state-recheck -- artifacts/forever-simulator/optimization/review-tools/run-paladin-shockadin-feedback-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/dfd2ca5fe0237533a376bfa8d2f439c746806d81c996c316f38e380f34062f1d/completed.json
+Poll SAME66865/89958; initial full parent replay is CPU-active and quiet for~6min,
+then23actual controls precede scalar work. Do not start another owner or restart a quiet
+live process. SAME original deadline2026-10-23T06:54:10.775Z/oneusedcorrection,6workers,
+400000origin cap,13GiBfree. ALLnew geared helpers/reader/runner/tests are NOW FROZEN,
+alongside original blue/gear/runtime inputs. No formatting/edits during execution.
+Key frozen SHA256s (all under optimization/review-tools):
+- run-paladin-shockadin-feedback-v1.mjs f826857398ff7e9a83235c219cd3e966719ea99a33d9e17404b142b664bbac32
+- paladin-shockadin-geared-state-v1.mjs bfa4edd7ce0aaadec402ce1a96e3acd49fba9681dcf1a1b6bbaae74c0fd32261
+- paladin-shockadin-geared-rotation-v1.mjs 93a29be0c2cede819e1a274f6d0219ce85239a63b8dd5307b48f8bc1de01e351
+- paladin-shockadin-geared-requests-v1.mjs 0fb5fef7def8a3b09ee081176982a23330c1ef5e84b3bedfe8695cc513d3a820
+- paladin-shockadin-geared-state-parity-v1.mjs 7e85a09229791365609a241ee892ee12a1884e20e8ced670ce63e0804c38e04c
+- paladin-shockadin-geared-feedback-v1.mjs 13947e99e18135367d94b35423e6ed82a7ee499ca9b167734fd33da12c07f569
+- paladin-shockadin-geared-v1.mjs cf5dd6d2171a7d814f695a4b6b798f95df7c81fce787d8c3339001d05b8702ed
+Cache remains69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+
+Fresh live weapon report optimization/weapon-audit-be23c184e0e69957.json at14:19UTC
+SUPERSEDES older live-staleness reports:15profiles/28local+28livepresets/24librarylinks;
+only Ret now differs local/live. Both LIVE Priest defaults use272683Spellblade(+94SP,
+1%crit). Actual fresh Chromium55721 TERMINAL0 confirmed Shadow AND Smite at1440/390,
+all3weapon slots/enchantIDs,4checks/0pageerrors/0combat/0productionwrites. Only role
+review flag is unfinished DS/Ruin Sageblade22383(local+live), not a qualified build.
+
+NEXT after actual feedback: independent packed/origin replay; finite final inspection+
+fresh2%/separate1%confirmation using canonical ON-DISK completion; selected rawWASM;
+cumulative Ret+Shockadin default/menus/library/exact guide/actual desktop/mobile/Simulate
+delivery. Preserve qualified Ret first-visit default and all24existing librarycases.
+Remaining Warlock/tanks/catalog/debuff/incremental work and six approved older fullraid
+updates stay active; none of those update clocks started. No finished Shockadin claim,
+commit/push/deploy/3017restart. Full goal incomplete; not blocked or complete.
+
+## October 22, 14:06 UTC — actual14gear controls passed; full Shockadin gear search LIVE
+
+Gear preflight85770 is TERMINAL0; real full-bank/derived-wire test89606 is TERMINAL0
+(2tests). All17new focused cases pass in total (6input+4acquisition+2pools+3readonly+
+2fullbank); scoped lint and diff --check pass. No gear source was frozen until these
+actual checks passed. Blue study/replay already terminal0; do not restart either.
+
+ONE live owner: session6209, supervisor41201/child41409, ps14:04:54confirmed LIVE.
+Exact supervised gear command is in the previous entry. Original Paladin deadline
+2026-10-23T06:54:10.775Z unchanged, same shockadin spec and proper gear phase,6workers.
+Study identity dfd2ca5fe0237533a376bfa8d2f439c746806d81c996c316f38e380f34062f1d.
+Latest sampled14:04:53UTC:503new requests/98020fights,8exact source reuses, sweep1group2.
+The21172imported origins are SAME Shockadin blue engine only, NOT Ret scores.
+
+Before scalar jobs, ALL14new actual gear native/WASM25fight controls passed exactly:
+baseline, heldoffhand, shield,2Haxe/mace/polearm/sword, bothcurrentPvPset families,
+HandofJustice, orderedringpair, legalenchant, libram and explicit Scepter13349.
+350fights/engine; action/aura/resource checks require actual HolyShock execution,
+no offhand autos, no unlearned spells and <=16observedtargetauras. Actual receipt:
+optimization/paladin-shockadin-first-pass-v1/gear-parity-3a8167167cf4e912.json,
+SHA dfeaace6fa3a45201cad8012c01010d73d93026224ba43bb14394e896654c1d3.
+
+Complete structural bank18089unique loadouts:7546orderedhands/3916orderedrings/
+1625orderedtrinkets/3112set proposals plus allsingle slots and nonraid enchants.
+Candidate counts by17slots:
+185/43/169/83/241/125/231/209/216/245/64/64/41/41/230/60/11.
+Up to2full sweeps under existing practicalFirstPassGearPolicy; cap is NOT convergence.
+All caster/physical class-legal weapon choices remain; no EP/quality/ilvl/role pruning.
+
+New FROZEN gear sources (and their tests/imported helpers) while6209runs:
+- run-paladin-shockadin-gear-v1.mjs fdbec8d02abf15daaff98d1733d0e21aad3ee8e2e8a2482f6d8a2a594ee01cb2
+- paladin-shockadin-gear-requests-v1.mjs 071c49aab982a8507ac63f53edabbeaa379bccf629ad2679cdb64331ae5f2923
+- paladin-shockadin-gear-parity-v1.mjs ada8afe8a5fb6257913609ecaa0802247217b17f833487d0942bd6732b6dfdd6
+- paladin-shockadin-selected-v1.mjs 94e5451232df161e0f2c6d42a0ffebdaac5759ea3fc11b999e44f0fb04135c31
+- paladin-shockadin-gear-bank-v1.mjs 0cb85e909bb1501b5717e5182b24634e7ec3bc59090f42e4b9c90663d5862519
+- paladin-compiled-acquisition-v1.mjs 6705a76f368131ac29391930afd922b4dd875dcbc8971d4909bd96abece369f0
+Cache69b4b817... rechecked unchanged14:05. Preserve the two concurrently changed unused
+compiler sources; do not restore or silently accept them as old inputs. No new model.
+
+NEXT while actual gear runs: implement separately versioned current-gear Shockadin
+consume/talent/combined-APL feedback, preserving ALL707HolyShock anchors+legal neighbors,
+21Holy and31Vigil families and exact actual incumbent wire. Do not reuse Ret >=21Ret
+guard, the old shockRank0 null-control conversion or old inspected DPS across settings.
+Reuse reviewed class-independent nonraid consume coordinates, not Shaman requests/DPS;
+existing bounded combined-policy bank,2feedback cycles+closing check and full gear
+applicability. First gear requests accept original146blue policies; a new geared factory
+must support combined policies and unlearned-Command fallback without dropping HolyShock
+families. After actual gear completes: independent source/packed-stage/origin replay,
+real current-gear native/WASM controls, supervised state-recheck at SAME deadline.
+
+Final finite inspection+fresh2%/separate1% confirmation must freeze the winner, use
+canonical ON-DISK completion hashes (avoid old runtime-envelope bug), and preserve
+source/template/request/seed identity. Then selected rawWASM, qualification and full
+actual UI handoff. Since Shockadin shares retribution_paladin, UI publication/reader
+must be CUMULATIVE with the already-qualified Ret entry, not overwrite it or change its
+first-visit default. Extend typed profile proof/browser schemas and genuine fixtures;
+same numerical parent e945... and byte-identical assets, preserve all24existing cases.
+No finished Shockadin count, production/3017restart/commit/push/deploy. All remaining
+Warlock specs,3tanks,catalog/debuff/incremental work and approved six older full-raid
+updates remain; none of those update clocks has started. Poll SAME6209/41409.
+
+## October 22, 13:58 UTC — Shockadin blue search and independent replay PASSED; first gear preflight running
+
+Actual owner90371/supervisor1985/child2194 is TERMINAL0 at13:49:30UTC; do not restart.
+Study2a38a94f... measured21172new requests/2138780fights and140exact in-study backend
+reuses (NOT Ret journals). Canonical completed.json SHA
+0be2988efebe1d27939932f9ca619a3a3c29a075d2f3e28e3da885631f244d1a;
+result-c57acd113c94fd8d.json SHA
+c57acd113c94fd8d1281553b46211648676588fc479be502a69e3f9aefd3b981.
+Use that real stored completion, NEVER hash the runtime return envelope/counters.
+
+Read-only independent verifier18419 is TERMINAL0: all21172native origins/81packed stages,
+all5rounds, exact request IDs, saved metrics/rankings and settings replayed. Zero new
+fights/writes/winner changes. New paladin-shockadin-selected-v1.mjs and verifier are
+FROZEN after real replay. Sourcecompletion exact path is bounded-native-studies/2a38.../
+completed.json (full identity in previous entry). Three actual readonly-controls/bad-
+reference/Ret-cross-spec regressions pass; all12input/acquisition/eligible-pool cases
+pass together and scoped strict lint passes.
+
+UNQUALIFIED BLUE result ONLY:25/0/26, talents550030132001212--152250310012301,
+HolyShock1/DivinePrecision2/Vigil0, physical:two-hand:Command frame; rank4HolyShock with
+Consecration-first policy. Inspected10k595.2224483724947DPS (stdev26.769510661062228).
+This is not a final build, independent confirmation, gear optimum or selected preset.
+Round requests14976/6155/111/37/33; retained74/111/37/33/30.
+
+New independently authenticated acquisition helper reproduces ALL32Paladin+48Shaman
+PvP rows' original digests, preserves class/faction and provisional unlocks, and exposes
+2713source records. Missing catalog/craft pins in the later source-audit list are NOT
+waived: exact original Frost capture2625fe87... supplies code-reviewed metadata checksums
+b3135bf7... catalog and0ba55aaa... craft. Current bytes must match. No Mage DPS imported.
+Four tests confirm original80row digests, no mutation/missing/class-drift authorization,
+BloodvineGoggles19999/PrimalBatskin19687raid-material exclusions, usable caster Scepter
+13349MACE vs unusable dagger272683 onPaladin. The latter is NOT blanket caster rejection.
+
+New Shockadin gear-bank adapter explicitly maps publicshockadin to shared class4 Ret
+engine/legality WITHOUT changing player/settings/talents/APL. Both eligible-pool tests
+pass: all17slots, hands/shields/heldoffhands/librams, Scepter admitted, dagger excluded,
+raid-dependent crafts excluded. Physical default-enchant seeds do NOT prune any legal
+enchant; all nonraid alternatives remain numerically tested. Current class4 shared agent
+is not a class-spoof or a renamed Ret score. Future evidence must retain publicShockadin.
+
+Prepared first full gear phase: paladin-shockadin-gear-requests/parity-v1, gear-v1.test
+and run-paladin-shockadin-gear-v1. It uses full17slot/orderedhands/rings/trinkets/sets/
+enchants,2bounded sweeps and14derived parity controls INCLUDING explicit Scepter.
+Native fights have NOT started for gear. Actual --plan LIVE85770; genuine full-bank/
+derived-wire2test suite LIVE89606; scoped5filelint66997LIVE. Poll same handles. Initial
+preflight found/fixed copied budget-import name BEFORE any phase dispatch. Do not
+start gear owner until actual tests/preflight pass; no new correction/clock/model.
+
+Then supervised command is
+  node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run paladin shockadin gear -- artifacts/forever-simulator/optimization/review-tools/run-paladin-shockadin-gear-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/2a38a94f78a70ab4c035667177d49f4e4ee7d923b983e89897ddc3eaa603faf4/completed.json
+After gear: actual current-gear consume/talent/combined-APL feedback (all707HolyShock
+families, not Ret-only), fresh2%/separate1% confirmation, selected rawWASM and complete
+own-profile default/menus/library/exactguide/desktop/mobile handoff. Ret complete local
+24entries/production unchanged. Cache69b4b817... and original/new numerical source hashes
+were rechecked unchanged. Disk remains12GiBfree. Full remaining specs/tanks/catalog and
+approved six older full-raid windows remain active; none of their clocks has started.
+
+## October 22, 13:32 UTC — real Shockadin search LIVE after accepted native/WASM controls
+
+Previous goal turn was PROGRESS: real qualified Ret local handoff/332regressions and
+repeat live weapon audit completed. This turn adds actual Shockadin calculation work,
+not another Ret restart. Full remaining goal scope stays active.
+
+New paladin-shockadin-context-v1 authenticates the unchanged e945... compiled native/
+WASM/database/codec, required historical input bytes, all55real corrected-engine native/
+WASM action/resource controls and actual Ret handoff. It deliberately never reads the
+two changed UNUSED compiler inputs and does not represent their historical pins as
+currently verified. Required talent/tree/settings/capture and runtime helper inputs
+still reject changed or unreviewed bytes. Original capture prepared.json uses its
+independently reviewed74da59dd... content hash; cache helper remains exact69b4b817....
+No Ret ranking or native journal is imported into Shockadin selection.
+
+Six actual-input tests PASS; five-file strict --no-ignore ESLint PASS; real --planPASS:
+707legalHolyShock talents,29allocations,146finite policies,12physical/caster blue frames,
+14976initial proposals. No impossible unlearned Command opening; matching Righteousness
+frames retain all707talents. Actual31Holy/20Protection/0Ret is supported, unlike old
+Ret-only family helpers. Human60/5yards/300s/63Dragonkin/fullimprovedv2/Greater20, no
+externalStormstrike, itemskill, swaps/manualstats/freeT1 or raid acquisition.
+
+ONE live supervised search: session90371, supervisorPID1985/childPID2194, actual ps at
+13:32:22UTC confirmed LIVE. Exact command:
+  node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run paladin shockadin talents-rotation -- artifacts/forever-simulator/optimization/review-tools/run-paladin-shockadin-blue-v1.mjs --run
+Same original Paladin start/deadline06:54:10.775ZOct22/Oct23; spectruthfullyshockadin,
+not alias/correction/modelrebuild/newclock. Six workers, max100000origins, existing5GiB
+disk floor; actualdisk12GiBfree before launch. Preserve all completed Ret artifacts.
+
+ALL10new actual HolyShock-rank/omission/31HolyVigil/hand/armor native+WASM25fight controls
+passed EXACT scalar/action/aura/resource parity and cleanup before search,250fights per
+engine. Study identity
+2a38a94f78a70ab4c035667177d49f4e4ee7d923b983e89897ddc3eaa603faf4.
+Latest sampled measurement13:32:08UTC:5309native requests/424720fights,0source reuses,
+first coarse stage control4. This is NOT blue completion, qualification or a new preset.
+Poll SAME90371/2194, not a state-file-only wait or duplicated process.
+
+FROZEN new numerical sources:
+- paladin-shockadin-context-v1.mjs fe0bb899ec0ec19daff7990571e11851608758e0983b5edd1dda8d5464dad9a3
+- paladin-shockadin-inputs-v1.mjs f0d9f1b30fefdcae9a5c2b880c3bdbed58846f42b644afa366e67e5ebb0195d0
+- paladin-shockadin-controls-v1.mjs ca28d38404087fcdea2960a99d44ed2aa889b8a4b086ccdc903a117dd873b5fb
+- run-paladin-shockadin-blue-v1.mjs 8ea8de8d52f69e5091d3e9ba9c0cc0364702895b47ad78d7d60b882b37a0715f
+Their real-input test and all transitively used existing helpers/cache/raid defaults
+are also frozen. Do not format/edit them while live or relabel completed results.
+
+Next meaningful work while this calculates: separate gear/acquisition context and
+Shockadin-aware all17slot/hands/pairs/sets/enchants + current-gear consume/talent/APL
+feedback. Do not use the Ret-only >=21Ret-point request guard or erase the new HolyShock
+family. Preserve raw wires/support and explicitly handle old blue structural-control
+APL conversion, not the Ret shockRank0 assumption. Complete fresh2%/separate1% final
+confirmation, real default/menus/library/exactguide and desktop/mobile before moving on.
+No Shockadin build selected; no production, commit/push/deploy or3017restart. Other
+Warlock/tank/catalog/update scope remains and the six older update clocks stay unstarted.
+
+## October 22, 13:11 UTC — qualified Ret delivered locally; fresh weapon audit still flags stale live casters
+
+Actual Ret local selection36705 is TERMINAL0. Release df773b886bdbd4f944addb70 is selected
+for retribution_paladin; sourcee945.../qualifiedbuild08c7... unchanged. Its selection
+report is optimization/reviews/retribution_paladin-local-selection-dc68ed556cb74920.json.
+All23prior library entries and11other selected profile releases/settings survived exact
+before/after checks. There are now24local entries (22standard DPS+2proc opt-ins), not24
+universally current/full-raid-complete specs. Actual active/model-update pointers unchanged.
+
+Actual MAIN desktop+mobile reviewer1044 is TERMINAL0. Both1440/390px passed defaults,
+PresetConfigurations/GearSets, fullsettings/Greater20/seal/range,10action11/8/32guide,
+tooltip, oneglobal scroll/nohorizontaloverflow, reload, noautocombat and Simulate.
+Each actual25fight run returned971.27DPS; separate40kreference remains975.0313336343517.
+Report optimization/reviews/paladin-retribution-main-page-bfe9b30877a2031c.json;
+screenshots optimization/screenshots/paladin-retribution-main-iIjU9l were visually read.
+Actual finisher14799 is TERMINAL0 and wrote
+optimization/paladin-retribution-first-pass-v1/delivered-local.json, schema v2,
+status verified-qualified-local-delivery. Ret's complete local handoff is now real.
+
+Important concurrent SOURCE drift, preserved rather than overwritten:
+Full26,251pin read found exactly2changed files, no missing files:
+- .cache/forever-sim-upstream/sim/core/character.go expected e1088dc5a461b691bea614e6a8b941dd728df6d6f7b420b950090549684eb29c,
+  current1b899801667f273b7e2ea9dad830092510a330bbc33c59d7450901ba8a44d067.
+  Removing only the newly added Forever item-skill early-return block in MEMORY reproduces
+  the expected hash; this is substantive drift, not formatting. Original file untouched.
+- .cache/forever-sim-upstream/ui/core/kfc_workspace.ts expected5c51104fff025d6b79ad3850762c46251c93ddde444c24b92e293c421e275390,
+  current3ecefebcabae266d3c617c8235399b390eea1c141053960c830de56a7664c78c.
+Original main reviewerV1 intentionally remains TERMINAL1 on the first changed pin;
+do not claim original mutable-source authentication still passes or waive those hashes.
+
+New delivery-only paladin-retribution-immutable-delivery-v1.mjs authenticates the actual
+code-pinned qualification, full unchanged native/WASM+source/UI manifests and every
+compiled asset, exact codec and actualfrontend reader/math/parity. It uses NO mutable
+build-source tree as numerical evidence and starts no fights/search. Source audit stays
+historical and code-pinned. Its actual preflight83990passed. Versioned main reviewerV2
+and finisherV2 preserve original files; main report explicitly records this verification
+mode and mutableSourceTreeUsed:false. Current sourceSHA of immutablehelper
+b69c93449f081a2ec650cea73e1cf3224df21641ebd30429d85d7b67030018ce;
+mainV2 d4ee103111c655ad157613f72922a70ee97beb5e6526156f6103500d48a2e0f4.
+These, old numerical/UIbuilder/reviewer sources and cache69b4b817... remain frozen.
+This is NOT permission to numerically load the changed cache or rebuild old evidence.
+
+Verification:31directRet+26profile tests pass; broader17file suite48978TERMINAL0,
+332tests PASS including oldMage/Warlock/Hunter/Druid/Priest/Shaman models/publications.
+Web typecheck59663TERMINAL0 (concurrent tier-list missingJSON was resolved separately),
+scoped web ESLint/Prettier and private-source --no-ignore ESLint pass. Six handoff/
+normalization cases and six weapon-audit regressions pass. Actual immutable-delivery
+test63318 is TERMINAL0, one passing real-evidence case in34seconds, zero numerical jobs.
+git diff --check passed. No delivery check remains pending for Ret.
+
+Fresh weapon audit66818 TERMINAL0: optimization/weapon-audit-d9fa4d688feadbe9.json.
+15profiles/28local+28live presets/24decodedlibrary builds; ten caster library mainhands
+have relevant spell power. Same stale livePersuader onShadow/Smite/Elemental/Stormcaller,
+liveSageblade onAffliction/DS-Ruin and unfinishedlocalDS-Ruin remain review findings.
+Six presentations differ locally/live now including newly selectedRet. No production
+changed, no commit/push/deploy or3017restart. Original class clock/deadline/correction
+unchanged. Preserve all concurrent tier-list/reference-data edits and commits.
+
+NEXT: Shockadin at the
+SAME original Paladin deadline2026-10-23T06:54:10.775Z, no new correction. Its707legal
+talent inputs/finiteAPL/controls are already prepared but no Shockadin optimization is
+started. Need an honestly authenticated immutable input context or isolated source
+snapshot for numerical work; do not silently skip the two changed source pins or
+overwrite concurrent edits. Ret handoff no longer blocks Shockadin. All remaining
+Warlock DS-Ruin/Destruction/tanks/catalog/debuff/incremental and approved six older
+full-raid update windows remain in scope; no clock reset or global-optimality claim.
+
+## October 22, 12:58 UTC — staged Ret browser passed; trusted frontend adapter implemented
+
+Reviewer9702/PID66460 is TERMINAL0. Actual staged approval is
+optimization/reviews/profile-model-browser-dd4ffb132d5f007a.json,
+SHA dd4ffb132d5f007abad47e279f6f1405d8c3c5252c5380c3675c6a76bb978e3a,
+captured12:38:29UTC. All15profiles/defaults/menus and both1440/390px full shares passed;
+11other selected class profiles were preserved. Actual25fight seed819700001 native
+971.2670189966564/browser971.27 parity passed. This is NOT the fresh40k975.0313reference.
+Staged browser-selection-df773b886bdbd4f944addb70.json exists, still selected:false.
+
+Implemented forever-simulator-fresh-retribution-paladin.ts and isolated profile-model
+registry/schema dispatch. The reader code-pins qualified build08c7..., sourcee945...,
+confirmation890a... and actual source audita973.... It authenticates canonicalA and the
+explicit exact historical runtime envelope separately, corrected-model55controls,
+closed17slot feedback, actual77191inspection/77291state scores, raw-wire final RNG IDs,
+approved2% AND separate1% math, selected rawWASM and exact action-bound11/8/32guide.
+The genuine export found/fixed two reader assumptions: mechanics control status is
+passed-after-cleanup, and reservation plan hashing must use original raw JSON order,
+not Zod's reordered output. Actual numerical sources/studies were not changed.
+
+Actual delivery fixture model-first-pass-retribution-paladin.json.gz:18real documents,
+semanticSHA a2d12a601109104e52ef8a4bf3e68ed24ca7d1bd51128f542d5e881c72e611b0,
+10,332,309compressed bytes. Actual browser profile fixture also exported, SHA
+9fe1e9ce468007a8510432c2e3936e2c91b1d651d0d32e30554c51ddb9b90ae1.
+All31direct reader regressions pass. Initial26profile tests found16failures because two
+genuine model contexts are10,819,984/9,217,977bytes. Narrow16MBallowances now require
+their exact path AND reviewed hash, alongside the exact9.7MBfeedback result; default8MB
+unchanged. Profile rerun34543 is LIVE, not yet passed. Scoped4fileESLint passed before
+this size adjustment. Web typecheck found only concurrent tier-list JSON missing-module
+errors; do not alter unrelated tier-list changes. Concurrent user/session commits have
+absorbed some current changes; do not claim authorship of unrelated changes or commit.
+
+Next: finish profile regressions, broader prior-class isolation tests and relevant types/
+lint. Then prepared select-paladin-retribution-local-v1.mjs df773... --select preserving
+all23existing entries/11profiles, actual main-page desktop/mobile review on3017 and
+finish-local with its actual report. No Ret pointer selected yet; no completed-local
+claim or Shockadin start until main handoff passes. No production deployment/restart.
+All numerical/builder/reviewer sources and original cache69b4b817... remain frozen.
+Weapon audit6tests rerun PASS; live stale Priest/Elemental weapons remain a delivery
+finding, not a claimed deployed fix. Full remaining class/tank/update scope stays active.
+
 ## October 22, 12:35 UTC — actual Ret UI build PASSED; staged real browser review LIVE
 
 Builder76300/PID48769is TERMINAL0. Both real all-class virtual TypeScript and Vite

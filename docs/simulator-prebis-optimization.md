@@ -1,5 +1,78 @@
 # Simulation-tested pre-raid gear
 
+## October 22, 14:41 UTC — Shockadin gear proof complete; remaining weapon flag isolated
+
+Shockadin gear completed37874newrequests/4361620fights. Independent read-only replay
+passed37877actualgear origins/180packed stages. Selected702.003659DPS/25Holy0Prot26Ret
+is fixed-context provisional, not final qualification. Separate current-gear feedback
+supports all707HolyShock families and explicitly casts Light's Vigil, omitted by the
+old shared Ret policies.11new input/policy/retention/gear tests pass. Read-only preflight
+passed4169candidates/820legal talent layouts. Supervised state-recheck66865/child89958
+is live under the original deadline;23actual current-gear native/WASM controls precede
+scalar jobs. New feedback files frozen. Independent confirmation/UI delivery remain.
+
+Fresh live weapon auditbe23c184e0e69957and4actual desktop/mobile first-visit checks now
+confirm BOTH Priest defaults use272683Spellblade(+94SP,+1%crit), not Persuader. This
+supersedes earlier live-staleness findings; this session did not deploy. All15profiles/
+28local+28livepresets/24librarylinks checked; only unfinished DS/Ruin Sageblade remains
+a caster-mainhand comparison flag.6weapon regressions pass. Ret alone still differs
+local/live. Remaining specs, six approved older fullraid updates and full goal stay open.
+
+## October 22, 14:06 UTC — real Shockadin gear feedback pipeline advances
+
+After independently verified blue narrowing, first all-slot gear preflight and tests
+passed.18089legal loadouts include fullweapon/jewelry/set/enchant combinations. Fourteen
+new native/WASM gear controls match exactly, including Scepter and actual HolyShock;
+17focused regressions pass. Actual six-worker gear measurement dfd2ca5f... is LIVE6209/
+41409 with original class deadline unchanged. Current-gear state/consume feedback,
+fresh2%+separate1% and cumulative Ret+Shock own-profile handoff still remain. Not another
+qualified build or deployment. Full scope/live/frozen details: context.md.
+
+## October 22, 13:58 UTC — independent Shockadin blue proof complete; gear still pending
+
+Actual six-worker blue search finished and an independent read-only replay verified
+21172native origins/81stages. No old Ret scores imported.25/0/26/595.2224blueDPS is NOT
+qualified pre-BiS. The new acquisition and shared-class4 eligibility adapters preserve
+the original80PvP row digests and all17slot choices while rejecting raid crafts and
+unusable weapons. Twelve input/eligibility and three readonly-control regressions pass.
+First complete gear-bank/14wire-control tests/preflight are running; no gear numerical
+owner yet. Actual gear/feedback/fresh2%+1%/own-profile handoff remain before another
+finished build. Exact artifacts, live handles and next action: context.md.
+
+## October 22, 13:32 UTC — Shockadin calculations started, not yet another finished build
+
+Actual Ret full local delivery unlocked Shockadin. Six real-input guards/lint/dryrun
+passed;10real25fight native/WASM mechanics controls match exactly. A supervised six-
+worker study2a38a94f... now measures707legalHolyShock talent inputs across29allocations,
+12blueframes and146finite rotation policies. Original Paladin deadline unchanged; no
+Ret scores imported. All-slot gear/weapon-loadout/enchants, current-gear feedback,
+independent2%+separate1% proof and own-profile UI delivery still precede completion.
+Live session90371/child2194 and frozen sources are recorded in context.md. Production
+unchanged; full remaining spec/tank and six older full-raid update scope stays active.
+
+## October 22, 13:11 UTC — Ret qualified local default and full real handoff complete
+
+Ret df773b886... is selected locally with exact11/8/32guide and40k975.0313DPS reference;
+24library entries now exist (22standard DPS+2proc variants), not24fully current specs.
+All23prior entries/11profiles preserved. Actual desktop/mobile defaults/menus/tooltips/
+single-scroll/reload/Simulate passed and delivered-local.json v2 exists.332broader tests
+and31directRet tests pass, alongside types/lint/format and focused guards. Two mutable
+source changes were preserved; delivery-only V2 authenticates immutable compiled assets
+without misrepresenting historical source pins as currently unchanged. Exact context,
+passed regression63318 and future Shockadin input constraint: context.md. Production remains
+unchanged; all remaining specs/tanks and approved six older full-raid updates remain.
+
+## October 22, 12:58 UTC — Ret staged browser and direct frontend reader pass
+
+Actual15profile/desktop/mobile staged review passed (dd4ffb132d5f007a...), with
+11existing profiles preserved and25fightnative/browser971.2670/971.27. New trusted Ret
+frontend adapter/registry/genuine fixtures retain corrected-model and canonical/legacy
+completion provenance plus independent40k975.0313DPS and exact11/8/32APL.31direct tests
+pass. Profile integration found two large real model contexts, now narrowly hash/path
+allowlisted at16MB, rerunpending. No selection/local-complete/deployment claim yet.
+Existing23entries/production unchanged; selector+actual3017main desktop/mobile remain
+before Shockadin. All-class/tank/authorized older full-raid updates remain in scope.
+
 ## October 22, 12:35 UTC — qualified Ret has a compiled isolated UI, not a finished handoff
 
 All-class TypeScript/Vite passed and produced immutable UI df773b886... with28audited

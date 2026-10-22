@@ -1,5 +1,100 @@
 # Paladin first-pass preparation
 
+## October 22, 14:41 UTC — gear independently replayed; explicit Vigil feedback started
+
+Gear owner6209 TERMINAL0:37874newrequests/4361620fights,2sweeps. Independent read-only
+verifier57871passed37877actualgear origins/180packed stages plus original blue parent.
+Canonical completion6a7da2e27ef69cf6b99ecfe9617198bf63ef51490f27c8f412aa5469af92608d;
+result1d319ca23fc3006911798596aadbc6706602aa986fb5701420f558171f9b69ae.
+Selected702.003659DPS/25Holy0Prot26Ret remains provisional. Second-sweep708.765704leader
+was below1%material gain, so actual selected gear remains702.003659. Not final BiS.
+
+New separate Shockadin geared helpers retain all707HolyShock anchors/legalneighbors,
+both seal frames/actual incumbent/null rank4 policies, combined APL coordinates, two
+nonraid consume sweeps/full17slot feedback. They also cover a search omission: old
+Ret/blue policies never cast31Holy Light's Vigil. New policies test all3ranks, bounded
+timing/mana/priority coordinates, target-mark guards and HolyShock cooldown checks.
+Disabled/unlearned Vigil emits no action. No existing model/study data changed.
+
+11new tests+6weapon regressions pass; scoped lint/format/diff checks pass. Read-only
+feedback preflight43776passed4169initial candidates/820legal talent values/23controls.
+Supervised actual feedback owner66865/child89958 started14:40:27UTC at SAME original
+2026-10-23T06:54:10.775Zdeadline/oneusedcorrection. Initial quiet parent replay precedes
+23actual native/WASM controls, THEN scalar search; controls are not yet claimed passed.
+All new geared helpers/reader/runner/tests frozen. See context.md for command/hashes.
+Fresh independent confirmation and cumulative Ret+Shockadin actual UI handoff remain.
+
+## October 22, 14:06 UTC — all-slot Shockadin gear measurement running
+
+Actual preflight and2full-bank tests passed;17new focused regressions total pass.
+The18089-loadout bank covers all17slots,7546hands/3916rings/1625trinkets/3112sets and
+legal enchants. ALL14actual derived25fight native/WASM controls passed exactly,
+including Scepter/HolyShock execution and resource/16aura checks,350fights/engine.
+Supervised six-worker gear study dfd2ca5f... is LIVE6209/child41409 under SAME original
+Paladin deadline. Existing blue proof and Ret local delivery are preserved. New gear
+source hashes/receipt/required feedback and cumulative Ret+Shock UI handoff are at
+the top of context.md. No Shockadin qualification, public preset or deployment yet.
+
+## October 22, 13:58 UTC — Shockadin blue complete and independently authenticated
+
+Actual study2a38a94f... finished21172new requests/2138780fights,140exact same-study reuses.
+Separate read-only verifier replayed every native origin and81stages successfully.
+The25/0/26blue595.2224DPS/10k result is UNQUALIFIED; all-slot gear and geared state/
+consume feedback still precede independent2%/1% proof and own-profile preset delivery.
+
+New acquisition helper reproduces80originalPvP rows and keeps raid-dependent craft
+exclusions, class restrictions and inferred access. All12input/eligibility tests plus
+3readonly-control regressions pass. All17eligible pools include Scepter as a usable
+Paladin mace and exclude the caster dagger. New first full-bank/14derived-control
+gear preflight85770 and2test89606 are LIVE, not yet passed. No gear fights dispatched.
+Current handles, metadata proof/checksums, exact next command and immutable hashes:
+context.md. Same original Paladin deadline/correction allowance; no production change.
+
+## October 22, 13:32 UTC — Shockadin first numerical study running
+
+After actual complete Ret local handoff, a new compiled-input Shockadin context passed
+six real-data regression tests, strict scoped lint and genuine dry run. It authenticates
+the unchanged corrected engine and all55accepted mechanics controls without consulting
+the two changed unused compiler sources; historical source proof is preserved honestly.
+707legal talents/29allocations/12blueframes/146policies;14976opening proposals.
+
+Actual10new native/WASM controls passed exact action/aura/resource/scalar parity before
+the supervised search began. Same original Paladin deadline/correction allowance; no
+Ret DPS imported, no clock reset. Live session90371/supervisor1985/child2194, study2a38a94f...
+has passed5309requests/424720fights at13:32UTC, still first coarse stage. Freeze all new
+source bytes; full hashes/commands/next gear+feedback requirements are in context.md.
+Not a qualified Shockadin result or selected preset; all-slot weapons remain mandatory.
+
+## October 22, 13:11 UTC — Ret complete local delivery; Shockadin next
+
+Ret qualified40k975.0313DPS/11/8/32 now supplies the actual local default, both menus,
+library and source-bound guide. All23prior entries/11profiles preserved. Real main
+desktop/mobile checks passed including Simulate971.27DPS/25fights, tooltips, oneglobal
+scroll and reload. Actual delivered-local.json v2 recorded; no production deployment.
+Broader332tests+31directRet tests, types/lint/format and focused guards passed.
+
+Two concurrent mutable build-source files changed after source qualification. Neither
+was reverted or accepted as old-source proof. Delivery-only V2 checks the actual sealed
+qualified result and every immutable compiled model/UI asset, exactcodec and frontend
+provenance/math, explicitly excluding mutable source from numerical claims. Original
+source audit/V1failure retained. Direct immutable regression63318 also passed; exact
+refs/hashes are in context.md.
+Shockadin can follow Ret's completed handoff, but must use honestly authenticated inputs
+under the SAME original Paladin deadline/correction allowance; do not bypass drifted
+source hashes. No new Shockadin study has started. Other classes/tanks remain in scope.
+
+## October 22, 12:58 UTC — staged browser approved; frontend delivery under regression test
+
+Actual15profile reviewer passed: approvaldd4ffb132d5f007a..., both full desktop/mobile
+shares,11other profiles unchanged and25fight971.2670native/971.27browser. Ret remains
+unselected. Trusted Ret frontend reader and registry are implemented with18document
+genuine fixture;31direct regressions pass. Profile integration caught exact oversized
+model contexts; narrow path+hash16MBallowances are added and26tests rerunning34543.
+Web typecheck has concurrent unrelated tier-list JSON missing-module errors. No new
+numeric search, correction, deadline or deployment. Full immutable hashes/context and
+pending selector/main-page/finisher work are at the top of context.md. Do not start
+Shockadin until the actual complete Ret main-page delivery passes.
+
 ## October 22, 12:35 UTC — real isolated UI compiled; staged browser reviewer started
 
 Actual all-class TypeScript AND Vite passed, terminal0. Immutable Ret UI releasedf773b886...
