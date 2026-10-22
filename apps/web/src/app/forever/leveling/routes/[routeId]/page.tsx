@@ -9,6 +9,7 @@ import {
 import { LevelingRouteDashboard } from "../../../../../components/leveling-route-dashboard";
 import { getLevelingCampaign } from "../../../../../lib/leveling-campaign";
 import { campaignLeaderClass } from "../../../../../lib/leveling-route-plan";
+import { restedXpReviewExportAvailable } from "../../../../../lib/leveling-restedxp-export";
 import { JsonLd } from "../../../../../components/json-ld";
 import { levelingRouteId, profileForRouteId } from "../../../../../lib/leveling-experience";
 import { createBreadcrumbJsonLd, createHelperMetadata } from "../../../../../lib/seo";
@@ -68,6 +69,7 @@ export default async function LevelingRoutePage({
         ])}
       />
       <LevelingRouteDashboard
+        reviewExportEnabled={restedXpReviewExportAvailable()}
         campaign={campaign}
         requestedMode={typeof query.plan === "string" ? query.plan : undefined}
         defaultProfile={profile}

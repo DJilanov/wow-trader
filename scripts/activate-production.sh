@@ -55,6 +55,17 @@ done
       exit 1
     fi
   fi
+  if [[ "${TOOL_USAGE_ENABLED:-false}" == "true" ]]; then
+    if [[ "${TOOL_USAGE_BUILD:-}" != "$release_name" || -z "${TOOL_USAGE_ROOT:-}" || ! -d "$TOOL_USAGE_ROOT" || ! -w "$TOOL_USAGE_ROOT" ]]; then
+      echo "Cannot activate: tool usage needs the matching release and a writable protected directory" >&2
+      exit 1
+    fi
+    if ! grep --silent --fixed-strings "data-tool-usage-build=\"$release_name\"" \
+      "$release_directory/apps/web/.next/server/app/forever.html"; then
+      echo "Cannot activate: tool usage was not enabled for this compiled release" >&2
+      exit 1
+    fi
+  fi
 )
 
 if [[ -f "$deploy_root/shared/forever-simulator/model-update.json" ]]; then

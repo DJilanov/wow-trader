@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { CharacterProfile, PersonalDungeonPlan } from "@wow-trader/leveling";
 import {
   LEVELING_STORAGE_KEY,
@@ -19,6 +19,7 @@ import {
   type ReadingPosition,
 } from "../lib/leveling-experience";
 import { mergeLevelingBackup } from "../lib/leveling-backup";
+import { reportToolUsage } from "../lib/tool-usage";
 
 interface LevelingContextValue {
   readonly workspace: LevelingWorkspace;
@@ -54,6 +55,7 @@ export function LevelingProvider({
   const [storageNotice, setStorageNotice] = useState<string | null>(null);
   const [persisted, setPersisted] = useState<LevelingWorkspace | null>(null);
   const [storageFailed, setStorageFailed] = useState(false);
+  const pendingSetupSave = useRef(false);
   useEffect(() => {
     let saved = emptyLevelingWorkspace();
     try {
@@ -116,10 +118,13 @@ export function LevelingProvider({
     if (!loaded || workspace.sessions.length === 0) return;
     try {
       localStorage.setItem(LEVELING_STORAGE_KEY, serializeLevelingWorkspace(workspace));
+      if (pendingSetupSave.current) reportToolUsage("leveling_setup_saved", "forever");
+      pendingSetupSave.current = false;
       setPersisted(workspace);
       setStorageFailed(false);
       setStorageNotice(null);
     } catch (error: unknown) {
+      pendingSetupSave.current = false;
       setStorageFailed(true);
       setStorageNotice(
         error instanceof Error && error.message.startsWith("Local progress")
@@ -136,6 +141,7 @@ export function LevelingProvider({
         sessionId ?? `character-${crypto.randomUUID()}`,
         profile,
       );
+      pendingSetupSave.current = true;
       setWorkspace(next);
       return true;
     } catch (error: unknown) {
@@ -156,6 +162,7 @@ export function LevelingProvider({
     const merged = mergeLevelingBackup(workspace, incoming);
     // Persist before acknowledging an import; denied storage must leave the current state untouched.
     localStorage.setItem(LEVELING_STORAGE_KEY, serializeLevelingWorkspace(merged));
+    pendingSetupSave.current = false;
     setPersisted(merged);
     setStorageFailed(false);
     setStorageNotice(null);

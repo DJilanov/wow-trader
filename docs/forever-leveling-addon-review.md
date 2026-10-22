@@ -1,8 +1,28 @@
 # Forever premade-five RestedXP review package
 
-Status: local review artifacts, not a public or playtested release. Updated October 21, 2026.
+Status: local review artifacts, not a public or playtested release. Updated October 22, 2026.
 
-## Current recording readiness
+## Current export review
+
+Use the [current-route export runbook](forever-restedxp-export-2026-10-22.md) for current
+commands, artifacts, evidence and remaining acceptance steps. The target is RestedXP
+**v4.11.27**, last-confirmed client build **70450**, compiler
+**`campaign-addon-20261022-v22`**, review version **`0.2.0-review.6`**.
+
+The new local Human/Warrior leader + Dwarf/Priest member review package is
+`artifacts/leveling/campaign-addon-review/kfc-premade5-human-warrior-6cc4dcb83c6e1f60/`.
+Its 146 native guide documents passed the pinned stock loader; all 28 leader editions
+and all 784 leader/member pairings compile with manifest/action-coverage checks. This is software verification, not in-game
+acceptance. Nothing was installed or published. The browser supports guide-only ZIP
+downloads and local account-bound paste imports; CLI review ZIPs retain the bounded
+observers. Generate a member's own race/class export instead of copying the leader's
+personal starter.
+
+The sections below retain historical receipts and commands from October 21 and earlier.
+Do not use their old compiler/version/counts as current recording instructions, relabel
+an old ZIP, or substitute the older RestedXP target for the current runbook.
+
+## Historical recording readiness (October 21)
 
 The owner confirmed WoW Forever as the target and requested code-only work for now. Packaging,
 installation and publication are deferred. New recordings are held until an approved current

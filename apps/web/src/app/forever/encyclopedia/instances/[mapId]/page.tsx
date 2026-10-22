@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ForeverEncyclopediaNav } from "../../../../../components/forever-encyclopedia-nav";
 import { ForeverWorldState } from "../../../../../components/forever-world-state";
+import { ToolGroupActions } from "../../../../../components/tool-group-actions";
 import { foreverInstanceTypeLabel, getForeverInstance } from "../../../../../lib/forever-world";
 import { createHelperMetadata } from "../../../../../lib/seo";
 
@@ -59,6 +60,14 @@ export default async function ForeverInstancePage({
         <ForeverWorldState build={data.build} />
       </header>
       <ForeverEncyclopediaNav active="instances" />
+      {data.map.instanceType === 1 && (
+        <ToolGroupActions
+          kind="dungeon"
+          label={data.map.name}
+          sourcePath={`/forever/encyclopedia/instances/${data.map.mapId}`}
+          capacity={5}
+        />
+      )}
       <section className="forever-instance-facts" aria-label="Instance facts">
         <div>
           <span>Encounters</span>

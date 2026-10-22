@@ -752,6 +752,65 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
+.quest-directory-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(160px, 1.5fr) repeat(2, minmax(110px, 1fr));
+  align-items: end;
+  gap: 14px;
+  margin: 24px 0;
+}
+.quest-directory-page .forever-reference-hero h1 {
+  font-size: 32px;
+}
+.tool-group-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+  margin-block: 16px;
+}
+.tool-group-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.quest-directory-filters label {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+  font-size: 13px;
+}
+.quest-directory-filters input,
+.quest-directory-filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+}
+.quest-directory-filters button {
+  min-height: 44px;
+}
+.quest-directory-structure {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.quest-directory-structure summary {
+  cursor: pointer;
+}
+.quest-directory-structure section {
+  margin-top: 24px;
+}
+@media (max-width: 700px) {
+  .quest-directory-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .quest-directory-filters label:first-child,
+  .quest-directory-filters label:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+}
 .forever-quest-lines article {
   padding: 18px;
   border: 1px solid var(--line);
@@ -9251,3 +9310,13 @@ a.helper-choice-card:focus-visible {
     flex-direction: column;
   }
 }
+.market-watchlist { margin: 16px 0; border-block: 1px solid var(--line); padding: 14px 0; }
+.market-watchlist summary { cursor: pointer; font-weight: 600; }
+.market-watchlist p { line-height: 1.6; }
+.market-watchlist ul { list-style: none; padding: 0; margin: 16px 0; }
+.market-watchlist li { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); padding: 12px 0; }
+.market-watchlist li > div { min-width: 0; overflow-wrap: anywhere; }
+.market-watchlist small { display: block; color: var(--muted); margin-top: 5px; }
+.market-watchlist button { flex-shrink: 0; }
+.market-watch-control { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.quest-directory-page .forever-quest-lines small { color: var(--muted); }

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { extractQuestReferenceFacts } from "@wow-trader/reference-data";
 import { DataUnavailable } from "../../../../../components/data-unavailable";
 import { CatalogReference } from "../../../../../components/catalog-reference";
+import { ToolGroupActions } from "../../../../../components/tool-group-actions";
 import {
   getCatalogReference,
   getCatalogReferenceSearchSurface,
@@ -78,6 +80,9 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
   const id = parsePositiveId(questId);
   if (!id) notFound();
   const { data, reference, clientUnavailable } = await getQuestPageData(id);
+  const referenceSide = reference ? extractQuestReferenceFacts(reference).side : null;
+  const referenceFaction =
+    referenceSide === "alliance" ? "Alliance" : referenceSide === "horde" ? "Horde" : undefined;
   if (!data) {
     if (!reference && clientUnavailable)
       return <DataUnavailable title="Quest client data is currently unavailable" />;
@@ -95,6 +100,12 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
           </div>
         </header>
         <CatalogReference record={reference} />
+        <ToolGroupActions
+          kind="quest"
+          label={reference.name}
+          sourcePath={`/forever/encyclopedia/quests/${id}`}
+          {...(referenceFaction ? { faction: referenceFaction } : {})}
+        />
       </article>
     );
   }
@@ -136,6 +147,16 @@ export default async function QuestPage({ params }: QuestPageProps): Promise<Rea
       </header>
       <ForeverEncyclopediaNav active="quests" />
       <CatalogReference record={reference?.name === questTitle ? reference : null} />
+      {(titledObservation || data.quest.title || reference) && (
+        <ToolGroupActions
+          kind="quest"
+          label={questTitle}
+          sourcePath={`/forever/encyclopedia/quests/${id}`}
+          {...(reference?.name === questTitle && referenceFaction
+            ? { faction: referenceFaction }
+            : {})}
+        />
+      )}
       <section className="forever-quest-evidence-grid">
         <article>
           <span className="eyebrow">Static client evidence</span>

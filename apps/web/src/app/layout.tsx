@@ -7,6 +7,7 @@ import { SeoWebVitals } from "../components/seo-web-vitals";
 import { JsonLd } from "../components/json-ld";
 import { helperAbsoluteUrl, HELPER_SITE_ORIGIN, HELPER_SITE_URL } from "../lib/seo";
 import { withHelperBasePath } from "../lib/site-path";
+import { toolUsageConfig } from "../lib/tool-usage-store";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
@@ -141,10 +142,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>): React.JSX.Element {
   const rum = seoRumConfig();
+  const usage = toolUsageConfig();
   return (
     <html
       className={`${cinzel.variable} ${inter.variable} ${jetBrainsMono.variable}`}
       data-scroll-behavior="smooth"
+      data-tool-usage-build={usage?.build}
       lang="en"
     >
       <body>
@@ -159,6 +162,7 @@ export default function RootLayout({
             <span>© 2026 KFC Guild · Helper</span>
             <span>Build-aware Azeroth data · Spineshatter EU</span>
             <Link href="https://kfcguild.online">Return to KFC Guild</Link>
+            <a href={withHelperBasePath("/forever/updates.xml")}>Talent reference feed</a>
           </div>
         </footer>
       </body>

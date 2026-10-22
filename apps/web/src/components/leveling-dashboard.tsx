@@ -31,6 +31,7 @@ import styles from "./leveling-experience.module.css";
 import { LevelingBackupControls } from "./leveling-backup-controls";
 import { LevelingDungeonPlans } from "./leveling-dungeon-plans";
 import { LevelingChapterPath } from "./leveling-chapter-path";
+import { ToolGroupActions } from "./tool-group-actions";
 import type { ChapterActivity } from "../lib/leveling-chapter-path";
 
 export interface LevelingDashboardProps {
@@ -110,6 +111,31 @@ export function LevelingDashboard({
                   getChapterLabel(chapter, profile).maximumLevel > (profile.level ?? 1),
               )
             : publicChapter;
+
+  const groupSourcePath =
+    activeTrip && activeVisit
+      ? levelingDungeonPath(
+          profile,
+          activeVisit.id,
+          activeTrip.chapterId,
+          Boolean(activeTrip.alternative || activeTrip.itinerary),
+        )
+      : activeReplacement?.active
+        ? levelingDungeonPath(
+            profile,
+            THANES_REPLACEMENT.visitId,
+            THANES_REPLACEMENT.chapterId,
+            true,
+          )
+        : current
+          ? levelingChapterPath(profile, current.id)
+          : levelingDashboardPath(profile);
+  const groupLabel =
+    activeVisit?.name ??
+    (activeReplacement?.active
+      ? DUNGEON_VISITS.find((visit) => visit.id === THANES_REPLACEMENT.visitId)?.name
+      : undefined) ??
+    (current ? getChapterLabel(current, profile).zone : `${race?.name ?? profile.raceId} leveling`);
 
   return (
     <div className={styles.dashboard}>
@@ -254,7 +280,13 @@ export function LevelingDashboard({
           {profile.party.size > 1 && (
             <>
               <small>Everyone must meet the actual entry and selected quest requirements.</small>
-              <a href="https://www.wowforeverdiscord.online/lfg">Find a leveling group ↗</a>
+              <ToolGroupActions
+                kind="leveling"
+                label={groupLabel}
+                sourcePath={`${groupSourcePath}${groupSourcePath.includes("?") ? "&" : "?"}setup=${encodeURIComponent(JSON.stringify(profile))}`}
+                faction={profile.faction === "alliance" ? "Alliance" : "Horde"}
+                capacity={profile.party.size}
+              />
             </>
           )}
         </aside>

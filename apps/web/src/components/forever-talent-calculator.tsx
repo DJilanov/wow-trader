@@ -17,6 +17,7 @@ import { createPortal } from "react-dom";
 
 import { ForeverIcon } from "./forever-icon";
 import { withHelperBasePath } from "../lib/site-path";
+import { reportToolUsage } from "../lib/tool-usage";
 
 interface ForeverTalentCalculatorProps {
   readonly className: string;
@@ -182,6 +183,7 @@ export function ForeverTalentCalculator({
     const updated = [next, ...savedBuilds].slice(0, 30);
     try {
       localStorage.setItem(storageKey, JSON.stringify(updated));
+      reportToolUsage("talent_build_saved", "forever");
       setSavedBuilds(updated);
       setSaveName("");
       setMessage(`Saved “${name}” in this browser.`);

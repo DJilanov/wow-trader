@@ -2,6 +2,586 @@
 
 Last updated: 2026-10-22
 
+## October 22, 11:57 UTC — final Ret owner TERMINAL1 on exact metadata bug; read-only V2 recovery LIVE
+
+Previous goal turn was PROGRESS: actual all-profile weapon audit, real fresh live-browser
+findings, six tests and the explicit bounded six-class update authorization were recorded.
+This turn is further PROGRESS, not a numerical restart or a new completed class.
+
+IMPORTANT: original final owner70535/supervisor43878/child44087 is now TERMINAL1.
+Actual session returned exit1; the original class ledger records process-failed. Do NOT
+resume that runner, edit frozen original sources or rerun its completed A/B studies.
+Its native finiteA and freshB both completed; independent read failed at
+paladin-retribution-confirmed-source-v1.mjs:62 on the Acompletion reference.
+
+Exact reproduced cause: runBoundedNativeStudy returns the immutable completion PLUS
+runtime-only reused/nativeJobs/nativeIterations/sourceReused fields. The Bdeclaration
+hashed that returned envelope as A's completion reference, rather than the stored file.
+- Actual Acompleted.json hash:7f92e29456b6e809b21336fc5cf7850a5a01494ca48e54398f3eb001e31859f5.
+- Original declared envelope hash:2453f8a06d926a41e5be87fbe4f681b45910cc478135d25f1005678300bc2fe4.
+- Actual AresultSHA:a22657aa0d97355b6c06fd1f9319b295af7881f8ff3bbca3c51c420bd8edff19.
+- The exact9newjobs/90000iterations/3reuses + reused:false reproduce2453... from7f92...
+  byte-for-byte in semantic JSON hashing. Numerical data/winner/seeds are unchanged.
+This is NOT an arbitrary checksum exception and not an accepted/qualified UI result.
+
+New separately versioned read-only recovery (original pinned V1 files untouched):
+- paladin-retribution-completion-transport-v1.mjs/test: accepts only that exact historical
+  completion/result/reference pair, reconstructs the runtime envelope, yields a canonical
+  pointer and explicit audit receipt. Two actual-source tests pass, including rejection
+  of changed counters, metrics, identity, publication claims, checksum and path.
+- paladin-retribution-confirmed-source-v2.mjs: preserves full original corrected/finite/
+  origin/packed-stage/RNG/math replay. It authenticates canonicalA and the historical
+  envelope separately, reproduces the original Bdeclaration EXACTLY using the known
+  envelope, and does not rewrite either original study or relabel metrics. It returns
+  inspectionCompletionCanonical and inspectionTransport alongside the original evaluation.
+- verify-paladin-retribution-confirmed-v2.mjs: no combat/ranking, checks original Paladin
+  deadline and emits a separate source-verification audit ONLY after full replay passes.
+
+ONE live READ-ONLY verifier: session97986, PID90830 (actual ps confirmed at11:56UTC,
+elapsed1:51/~100%CPU). Exact command:
+  node artifacts/forever-simulator/optimization/review-tools/verify-paladin-retribution-confirmed-v2.mjs artifacts/forever-simulator/optimization/bounded-native-studies/890a0b72fb9bbe151e9894e420f24268da36203c637100ad237d6897895e8c9c/completed.json --record
+CLI sourceSHA:a143093d7b67d4950f055807004e0206a37d6227cecc83b7550b87423c0948d8.
+ReaderV2SHA:0aa6b811ba11cf0d1414d181fc24c4a1e91b154f4871fca1b1746a6cd02b215d.
+These four new recovery sources are FROZEN while90830runs. Poll SAME97986/90830;
+source replay previously took~18minutes. No audit/pass artifact exists yet at this entry.
+It starts ZERO native/browser jobs and does not reset the class ledger/deadline/correction.
+
+Additional genuine UI preparation is now implemented, not executed as delivery:
+review-paladin-retribution-presentation-v1.mjs; main-page-v1.mjs; select-local-v1.mjs;
+finish-local-v1.mjs; paladin-retribution-main-settings-v1.mjs +test; handoff-guards-v1.test.
+Actual confirmed settings prove protocol defaults normalize without erasing real weapon,
+improved-totem, seal, range or manual-stat differences; cross-class/spec settings reject.
+Missing staged approval is tested to leave every active pointer unchanged. The selector
+preserves all23existing cases/11existing profiles, not a stale22-case count. Eight new
+handoff/normalization/transport cases pass; all15focused new+existing cases pass together.
+Strict scoped lint passes all11new files. No actual Ret UI build/selection/browser pass.
+
+NEXT after readonlyV2passes: inspect actual audit, then versioned delivery/export handling
+that retains the original immutable Bdeclaration/evaluation, supplies canonical A evidence
+and the explicit transport receipt, and performs selected class4raw-WASM parity. Do not
+silently use broken V1readers/exporter, remove a hash check, edit declared source pins,
+invent a new holdout identity, change winners or start another optimization/correction.
+The current prepared qualified loader/builder/reviewer/finisher still use V1qualification
+and must be adapted only after successful audited V2 replay. A new numerical owner must
+not be hidden under an alias. Any delivery-owner adaptation must preserve original class
+deadline, exclusive owner checks and no-new-search limits. After real export: trusted
+frontend adapter/actual fixtures, positive overlay tests, isolated TS/Vite build, staged
+review, local selector and real main desktop/mobile handoff; THEN Shockadin. All remaining
+classes/tanks/catalog/approved full-raid updates stay in scope. No commit/push/deploy or
+3017restart; cache69b4b817... and five original frozen final sources verified unchanged.
+
+## October 22, 11:38 UTC — full-raid update authorization recorded; all-profile weapon audit completed
+
+Owner explicitly authorized the separately recorded bounded full-raid update phase
+for Warrior/Rogue/Hunter/Druid/Mage/Warlock AFTER Ret/Shockadin. Preserve all old
+ledgers/results; no new update clock has started. Keep2%tolerance/separate1%audit,
+2–4h/class target,24h/class hard cap and no deep timing searches. Exact approval,
+17older-library-buff mismatches,6missing inline guides and required workflow:
+docs/simulator-full-raid-update-plan-2026-10-22.md. Original all-class/tank scope remains.
+
+New user specifically requested weapons across all classes, not just trinkets.
+Completed reusable read-only audit: scripts/audit-simulator-weapons.mjs --live --record.
+Actual immutable report optimization/weapon-audit-8f6fc36a7fe29018.json covers15profiles,
+28local/28live preset-metadata entries and23decoded reviewed local builds. All10caster
+library builds have relevant spell-power main hands; no library role/hand/explicit-
+wearer/item-skill flags. This is NOT a new DPS or complete acquisition/equip-eligibility
+proof. New infra/simulator/weapon-audit.mjs/test has6passing cases; scoped lint/format pass.
+
+FIVE live/local presentation mismatches: Shadow/Smite/Elemental/Enhancement/Warlock.
+SIX live caster-starter rows need explicit review: Persuader22384onShadow,Smite,
+Elemental,Stormcaller; Sageblade22383onAffliction,DS/Ruin. Local UNFINISHED DS/Ruin
+starter also hasSageblade. Never call it a finished/qualified DS/Ruin build. Actual
+fresh live Chromium empty-storage visits confirmed Persuader forShadow,Smite,Elemental
+(not merely cached metadata/saved characters). Both local testedPriests useSpellblade
+272683/+94SP; local Elemental/Stormcaller useWarStaff272603/+94SP. Universal item hit/crit
+are real pinned-engine benefits: lack of SP requires explicit comparison, not automatic
+pool exclusion. The approved update plan now requires whole weapon-loadout comparisons
+and actual default/menu/library/live-release consistency. No presets/deployment changed.
+
+SAME final Ret owner70535/supervisor43878/child44087 remains LIVE, independently
+replaying evidence after actual finiteA and freshB completed. Do not restart it.
+A identity a651ef8e0d8b19cfaabe5671672ed6a5d82f0dfb32b3ebeffed7bc0805900698:
+9new10krequests/90kfights,3exact same-backend reuses;12actual finite arms.
+B identity 890a0b72fb9bbe151e9894e420f24268da36203c637100ad237d6897895e8c9c:
+24genuinely fresh20krequests/480kfights,0reuses; reserved seeds3087891903200000 and
+3087891903300000. Completed11:31:27UTC; result87d201bce4582e4f84007a557780038ac947aa25ac8ec1c0ea3f7cfd5365cef5.
+Stored assessment reports accepted2%and1%,40kselected975.0313336343517DPS,largest
+conservative retained gap0.005495129197292934; do NOT promote that as fully delivered:
+independent source replay, selected raw-WASM parity, qualified export and all UI gates
+still remain. Original Paladin deadline/correction/frozen sources are unchanged.
+RunnerSHAfaaee71f... and cache69b4b817... rechecked. No commit/push/deploy/3017restart.
+
+## October 22, 11:15 UTC — independent Ret preflight PASSED; sole final owner LIVE; UI builder prepared
+
+Previous goal turn is PROGRESS (actual selected-guide regression + source-backed weapon
+comparison) and verified wait. This turn advances the actual next phase, not a restart.
+
+Read-only session18865/observer92908/child8539 is TERMINAL0. The actual final preflight
+passed78854native origins and534packed stages, all12real finite contenders. Selected
+prior b09a8495497181f6d6fe8acabc0702a4c1155459474aa15a7f7b3b6f0e91d483
+is77291/10k; gear-alternative91e2364a5cba52b7876ded4642f9aa222ee66300c6dbe5423472a64d07eff948
+is77191/10k and genuinely is R14Destroyer272682. Other held contenders include real
+state-best, enchant, twist and retained state variants. No metric relabelling/new search.
+Log paladin-retribution-final-preflight-20261022-v1.log contains the actual passed JSON.
+
+The ONE supervised confirmation-delivery owner is now LIVE:
+- session70535, supervisor43878, actual numerical/delivery child44087.
+- commandSHA f730d74d7f1963f034526451092be081c191b5061d760b38bf0d5ae279d45358.
+- runner sourceSHA faaee71f00a560bdf991551266b2269f3a7c42009fe2da9b39d4b4f97567c373.
+- exact command:
+  node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run paladin retribution-dps confirmation-delivery -- artifacts/forever-simulator/optimization/review-tools/run-paladin-retribution-confirmation-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d/completed.json
+- log optimization/paladin-retribution-confirmation-20261022-v1.log.
+At11:14:38child elapsed9:25/~100%CPU, still authenticating/replaying exact parents before
+the finite Ainspection/Bholdouts. There is no A/Bcompletion/identity yet. Quiet parent
+replay took~18minutes in the completed independent preflight and is not a dead handle.
+Poll SAME70535/43878/44087; do not duplicate, restart or preassign final identities/seeds.
+Original Paladin start/deadline2026-10-22T06:54:10.775Z/2026-10-23T06:54:10.775Z and USED
+sole correction are unchanged. The selected incumbent stays fixed through fresh sampling.
+
+ALL sources pinned by this final runner are now FROZEN, including confirmation context,
+final-arms/final-context test, rotation guide/test, confirmation runner, confirmed-source/
+test/CLI, selected-parity/WASM/test, exact exporter/test, generic confirmation/reservation/
+history/seed helpers and previous corrected/model/cache sources. Do not edit them while
+it runs. The runner itself and cache69b4b817... hashes were rechecked unchanged.
+
+New NOT-numerical-input UI preparation (still editable before presentation build):
+- paladin-retribution-qualified-source-v1.mjs: verifies canonical local qualification
+  paths, independently authenticates the actual confirmation/native sources and existing
+  browser parity, exact selected gear/talents/guide/enchant/evidence refs. No combat,
+  writes or starter fallback; an export's claimed accepted flag alone is insufficient.
+- build-paladin-retribution-presentation-v1.mjs: isolated virtual UI builder using the
+  existing project pattern. Real Paladin tree, Ret presets, existing generated Greater20
+  common/consume inputs, all28starter acquisition audits, full virtual TS/Vite build,
+  unchanged model assets, immutable proof/publication plan; does NOT select a profile.
+- paladin-retribution-qualified-source-v1.test.mjs3/3PASS; presentation-guards-v1.test.mjs
+  2/2PASS; actual closed-guide2/2rerunPASS together (7cases total). Six UI-preparation
+  files pass strict scoped ESLint with0warnings. Static guards are NOT a real UI build.
+The preset overlay/qualified reader/builder have NOT yet been positively exercised with
+a real qualified Ret build, and the frontend proof adapter/fixture/trusted hashes,
+staged reviewer/local selector/main desktop/mobile finisher are NOT implemented yet.
+Do not claim default/UI delivery, all-class TS/browser success or a new finished count.
+
+Next: monitor existing70535 through real finite77191inspection, twofresh20kholdouts,
+independent replay and selected class4raw-WASM parity. Then inspect actual completed
+result and exporter (already frozen/tested); a direct --export runs all its read-only
+checks before writes, so redundant separate --plan/--export full replays are unnecessary.
+Only after actual qualified-build.json exists: trusted frontend proof/fixture, positive
+overlay tests, presentation build, staged review, local selection and real default/
+PresetConfigurations/GearSets/library/exactguide/desktop/mobile/Simulate handoff. Ret
+must finish that before Shockadin. All other class/tank/catalog/access/debuff/update
+requirements remain. No commit/push/deploy/3017restart; preserve unrelated live edits.
+
+## October 22, 11:00 UTC — real selected Ret guide verified; same independent preflight remains LIVE
+
+This continuation is PROGRESS plus verified wait: the actual completed corrected Ret
+settings/state/talent-tree/result hashes were used to validate the real rotation guide,
+not just synthetic policy fixtures. New paladin-retribution-closed-guide-v1.test.mjs
+passes2/2: exact11/8/32, rotationSHA
+7eaef58411ced8b04ee76c8fab1f9cb3a697c2606e67eb0fe20a86da79632ce6,
+ten actual priority actions, one prepull, per-action/source text hashes, seal ranks/Echo,
+Consecration mana reserve, execute20%, and no invented unlearned Holy Shock/Exorcism.
+This is actual guide preparation, NOT final numerical qualification or public delivery.
+The new test plus standalone preset overlay pass strict lint. Existing pinned final/
+numerical inputs were not edited while preflight is running.
+
+Authoritative preflight SAME session18865 / observer92908 / child8539 is still LIVE.
+At10:59:54child elapsed13:24/~100%CPU/RSS1.26GiB; actual session poll still running,
+no terminal error or final success output. Log remains
+optimization/paladin-retribution-final-preflight-20261022-v1.log. It first authenticates
+parents then independently reconstructs the full completed78k-native-origin feedback
+before actual finite-contender preparation. Quiet/high-CPU is not missing or failed.
+Do NOT start duplicate verification, kill/restart it, dispatch confirmation before its
+result, or claim it passed. Poll exactly18865/8539; original numerical8434is terminal0.
+Disk32GiB free, enough for the later5GiB selected-browser/build reserve.
+
+Read-only actual item/raid-support audit also checked the compiledDB hashcf9262e1...,
+selected named gear and full improved raid/individual support. Mainhand12790Arcanite
+Champion+2646, Hand of Justice11815, Libram22401. OrdinaryFirepower/Greater20, ShadowOil,
+improvedSoE/GoA/ManaSpring/BattleShout, Hunter/Moonkin/Feral/Kings and partyWindfury are
+present; no externalStormstrike. The pinned Forever core treats Windfury as a party
+buff, not an additional weapon imbue; no server-side behavior is inferred from this.
+
+Important honest ranking disclosure: actual last10k77191gear finalists show R14
+Destroyer272682+same2646enchant at978.8218985143495DPS versus the retainedArcanite
+Champion974.8379016361838, only0.408683%ahead. Both other16slots are identical. R14 was
+tested, not overlooked, and is the strongest gear finalist; the approved2%practical
+policy retained the incumbent. Do not falsely claim Champion beat R14 or global BiS.
+The prepared gear-alternative selection should retain this exact strongest challenger
+for the final finite inspection/holdouts. Inspect actual prepared/declaration output
+after preflight. All values here are archived inspection scores, NOT fresh confirmation.
+
+Next remains: same live preflight result, then original-budget confirmation-delivery
+owner; real finite77191inspection, frozen twofresh20kholdouts, independent source replay
+and actual selected class4browser parity, qualified export, complete website/preset/
+desktop/mobile handoff before Shockadin. No commits/push/deploy/3017restart, no new
+completed count. Remaining all-class/tank/catalog/access/debuff/update scope unchanged.
+
+## October 22, 10:48 UTC — Ret corrected feedback completed and closed; independent final preflight LIVE
+
+CORRECTION session8434/supervisor2494/child2702 is now TERMINAL0 (verified by the actual
+session). Never restart it. Studyefec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d
+finished78854newrequests/8713080fights,5740same-new-backend reuses,78854verified origins.
+Result result-d56c115796099683.json, semanticSHA
+d56c11579609968396cc225e8211bf048cd29ffbf31009e330ad27cf46194b89;
+completionSHA f6fc16802d2dd7f60e2dedc1ff8cf6b550b40dfb6947e50ed91e13427f1ed5a4.
+Actual result hash checked. Feedback genuinely CLOSED: cycle1changed state/context/gear
+and used2gear sweeps; cycle2changed none of them and stopped after1small-gain sweep.
+fixedPointWithinDeclaredPolicy=true, gearApplicabilityRequired=false, closing=null.
+State53003-233-05225331001330301; provisional10k77191gear scalar974.8379016361838DPS,
+NOT fresh confirmed/final/public DPS. Final gearIDs
+12640,15411,20058,13340,252484,12936,272095,20042,250598,20049,19325,22339,272437,11815,
+12790,EMPTY,22401. Original deadline/correction allowance unchanged.
+
+Read-only final-source preflight is LIVE, not another numerical owner:
+- session18865, observerPID92908, actual preflight childPID8539 (~100%CPU when polled).
+- log optimization/paladin-retribution-final-preflight-20261022-v1.log.
+- observer only waited for the existing actual completion; it has already launched:
+  node artifacts/forever-simulator/optimization/review-tools/run-paladin-retribution-confirmation-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d/completed.json --plan
+This includes full independent corrected-source/native-origin/packed-stage replay and
+then strict actual finite-contender/context preflight. It can be quiet for minutes at
+~100%CPU. Poll SAME session18865/child8539; do not launch a duplicate verifier/preflight.
+It has no fights, writes, seed reservations or preset promotions. It had not finished
+at this entry. Inspect terminal result before any confirmation dispatch; if it fails,
+fix only still-un-dispatched final-stage helpers, never frozen corrected/model/cache inputs.
+
+All10final-stage files now pass strict scoped ESLint with0warnings; the source-backed
+WASM3, native-origin2 and export-rejection3 tests passed. New standalone presentation-
+only paladin-retribution-preset-overlay-v1.mjs is implemented/linted, NOT yet exercised
+with a real qualified Ret build. It leaves the old Physical Ret starter's separate APL
+intact, so selecting that unqualified family cannot inherit unlearned tested spells.
+It is not part of numerical/final-context inputs and remains unfrozen for later UI work.
+Main agent read apps/web/AGENTS.md and the installed Next server-and-client-boundary
+guide completely; no frontend source has been changed in this continuation.
+
+Next after preflight passes: inspect actual finite candidates; supervise original-budget
+paladin/retribution-dps/confirmation-delivery with the same runner/completion argument,
+without --plan, capturing exact handles/commandSHA. All sources it pins freeze then.
+Runner performs genuine finite77191inspection, immutable twofresh20kholdouts, independent
+replay and selected class4native/WASM parity. Standalone exporter then needs real result.
+Qualified export, trusted frontend proof/fixture, presentation build, actual default/
+PresetConfigurations/GearSets/library/exactguide and desktop/mobile/Simulate handoff
+still remain before Shockadin. Nothing has been committed/pushed/deployed or restarted
+on3017. All other goal requirements remain active; no new completed-spec count.
+
+## October 22, 10:40 UTC — Ret measurements finished; same owner replaying; final delivery gates implemented
+
+The prior goal turn diagnosed the live Shadow mismatch but did not advance the numerical
+goal. This continuation is PROGRESS: selected native/WASM delivery and qualified export
+gates are implemented, with genuine-source regression tests. Full all-class scope stays active.
+
+The SAME corrective owner8434/supervisor2494/child2702 is LIVE, now doing its own packed
+result replay, not additional fights. Numerical totals stopped at78854newrequests /
+8713080fights /5740exact within-new-backend reuses. Latest poll10:39:03was cycle1gear
+sweep2group5replay; process~100%CPU. There is no completed.json yet. Re-poll this exact
+handle/PID; do not start a duplicate or treat quiet replay as stopped. Study remains
+efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d.
+Original Paladin deadline2026-10-23T06:54:10.775Z and USED sole correction are unchanged.
+
+New un-dispatched final-stage sources under optimization/review-tools/:
+- paladin-retribution-confirmed-source-v1.mjs / verify-paladin-retribution-confirmed-v1.mjs:
+  independently replay actual closed feedback, the real finite77191inspection artifact,
+  pinned source/declaration/reservation and two fresh20kholdouts. No new fights/writes.
+  Its finalInspection field intentionally preserves the inherited enchant inspection.
+- paladin-retribution-selected-wasm-parity-v1.mjs / selected-parity-v1.mjs: actual class4
+  selected10k/77191materialization, current DB projection, exact native scalar origin,
+  genuine raw browser-worker comparison, source-bound immutable report after cleanup.
+  Not a fresh validation seed, engine spoof or publication approval.
+- export-paladin-retribution-first-pass-build-v1.mjs: requires accepted independent40k,
+  approved2% and separate1%, actual closed feedback, existing selected browser parity,
+  legal nonraid gear/enchants and exact-APL instructions; old model refs are explicitly
+  structural-only. Export never launches fights or modifies presets.
+- Confirmation runner now independently replays its Bresult and performs selected
+  browser parity within the same confirmation-delivery owner before stopping for UI.
+  All new reader/parity/export/test sources are included in its prospective source pins.
+  They remain editable ONLY before actual confirmation dispatch. Existing corrective
+  runner/model/reader and cache are still frozen and untouched.
+
+Checks actually passed: selected WASM preparation3/3 on actual command/righteousness
+source frames (log paladin-selected-wasm-source-tests-20261022-v1.log, session14455
+finished), native-origin transport guards2/2 using real archived admissions (not current
+qualification), export rejection guards3/3. Strict scoped ESLint passed the nine final
+files before the last small test addition; re-run final scope before dispatch. Frozen
+simulation-cache SHA remains69b4b817a739a0b5ddb9baee50428f6b7e4ee7e0875b462424401bbf69c32c37.
+
+Not yet done: completed corrected source/closed result audit, full actual final-context
+--plan, real finite inspection, independent holdouts, actual selected browser parity,
+qualified export and public/default/config/GearSets/library/guide/main desktop/mobile
+handoff. No new completed-spec count, numerical DPS, preset or production claim.
+Next: poll8434; when it finishes, run confirmation runner <actual efec.../completed.json>
+--plan. That preflight includes the independent corrected reader, so a separate duplicate
+full verifier run is unnecessary if its exact origin/stage replay succeeds. Inspect real
+finite contenders and fix only still-unfrozen final-stage code if needed. Then supervise
+paladin/retribution-dps/confirmation-delivery with that runner/path, without --plan.
+Do not start Shockadin until Ret's real end-to-end handoff is finished. Preserve unrelated
+leveling/export changes; no commit, push, deployment or3017restart in this continuation.
+
+## October 22, 10:19 UTC — Ret second feedback cycle active; finite final-stage pipeline prepared
+
+Previous goal turn is PROGRESS: a reproduced engine bug was fixed in a separately
+compiled model,55actual controls passed, and the sole corrective owner started. The
+full all-class objective remains active; no new finished-spec or public-preset claim.
+
+The SAME correction owner remains LIVE:session8434/supervisor2494/child2702, study
+efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d.
+At10:19:08it had44690newrequests/5130780fights and had entered feedback-cycle2consume
+coordinates after two complete cycle1gear sweeps. It passed the earlier crash point;
+no further engine error was observed. There is NO completed.json yet. Current phase
+and authoritative process must be re-polled; do not restart a quiet/live owner.
+The original24hdeadline2026-10-23T06:54:10.775Z and used sole correction are unchanged.
+Old-model native journals remain excluded; within-new-backend reuse is legitimate.
+
+New unfrozen final-stage helpers (all under optimization/review-tools/):
+- paladin-retribution-final-arms-v1.mjs: strict full-raid/zero-stat/encounter/declared
+  seal-consume-frame context, actual77291/10kstate-origin reader, finite at-most12
+  measured state/gear/enchant/family contenders, no invented combinations, and genuine
+ 77191inspection binding. A bounded cap cannot become a confirmation context.
+- paladin-retribution-final-context-v1.test.mjs:3/3PASS, actual source-backed class4
+  request/holdout materialization, exact frame binding, and fail-closed scenario/buff/
+  manual-stat/invented-consume/unclosed-feedback checks. The closed-shape fixture tests
+  admission only; it is NOT evidence the live numerical study has converged.
+  Log paladin-retribution-final-context-tests-20261022-v1.log, session23410finished.
+- paladin-retribution-confirmation-context-v1.mjs and
+  run-paladin-retribution-confirmation-v1.mjs: two actual bounded studies under ONE
+  confirmation-delivery owner. First normalize finite genuine contenders at77191/10k,
+  then bind its REAL completed artifact before freezing12-or-fewer contenders for two
+  fresh20kranges, original2%approval/separate1%assessment, immutable selected incumbent,
+  source/seed-history checks and global reservation. This is not another full search.
+
+Syntax and focused strict lint pass across the new helpers. The full completed-source
+preflight/real finite inspection/holdouts have NOT run: they require the actual finished
+corrected feedback and independent replay first. The confirmation context fingerprints
+source and RNG policy; do not relabel77291metrics as77191. No fake preBiS numbers were
+created. These final-stage files are NOT current numerical inputs and remain editable
+until confirmation dispatch. Existing corrected runner/model/reader/cache bytes remain
+frozen. The exact-APL rotation-guidance helper from the previous entry remains3/3green.
+
+Next: poll existing8434until terminal; if completed, read actual result and independently
+verify with verify-paladin-retribution-corrected-v1.mjs. If genuinely closed, run
+run-paladin-retribution-confirmation-v1.mjs <actual-corrected-completed.json> --plan
+read-only. Inspect all actual final-contender origins/requests and fix ONLY un-dispatched
+final-stage code if needed. After it passes, supervise paladin/retribution-dps/
+confirmation-delivery with the exact runner/argument (without --plan). Then independent
+confirmation reader/export, selected native/WASM parity and full real default/menu/
+library/guide/browser handoff still remain before Shockadin. Other outstanding class,
+tank, catalog/access,16-debuff and reusable-update requirements remain in full scope.
+No commit, push, deployment or3017restart. Preserve concurrent leveling/export changes.
+
+## October 22, 10:01 UTC — corrected engine accepted; sole Ret correction measuring
+
+MODEL-REVALIDATION session67101/supervisor92024/child92245 is TERMINAL0, not live.
+All55actual native/WASM cases passed1375fights per engine, exact scalar/action/aura/
+resource checks, including both free/paid regressions. All29original controls preserve
+their original behavior exactly. Accepted report
+optimization/paladin-free-seal-model-v1/controls-c8464cb2cc2f7f5e.json,
+semanticSHA8bb791a81d4aadeec1b2e6f501ff548d6dbf374f4f171278e1681339b308f6a1.
+Model e945e98f232cc81948ee9060is accepted for fresh calculations, not public BiS.
+
+The SOLE original-clock numerical CORRECTION is now LIVE:session8434,
+supervisor2494/child2702, commandSHA
+951ffeeec6b63a73b4b97b893c63c7acaf0089e02eaf41fec1af209c183e412c.
+Exact command:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run paladin retribution-dps correction -- artifacts/forever-simulator/optimization/review-tools/run-paladin-retribution-correction-v1.mjs --run
+Log optimization/paladin-retribution-correction-20261022-v1.log. Study
+efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d.
+At10:01:12it had3523new requests/308720fights and44within-this-new-backend reuses;
+its native origin count is3523, NOT the old53k. importedJournals is explicitly EMPTY.
+It completed initial talent screening and is constructing bounded combined policies.
+The former crashing rank-policy stage still lies ahead at this entry; no final score
+or completed result is claimed. Poll this handle/state; do NOT start a duplicate.
+Update10:02:20: the SAME owner passed rank-policy control0 (320requests) and continued
+to control1,3831newjobs/333360fights total. It has now passed the former crash point;
+this is continued measurement, not completed feedback or final qualification.
+All correction runner/input/helper/reader/declaration-test files it pins are now FROZEN.
+The sole class correction is now USED; do not relabel further changed searches to
+evade it. Original deadline2026-10-23T06:54:10.775Z is unchanged.
+
+New corrected declaration guard tests2/2PASS reject old backend scores/journals,
+altered class/gear/deadline/policy. New source-bound Ret rotation-guidance helper and
+tests3/3PASS cover every146original policy across real learned/unlearned boundaries,
+combined ranks/mana/order/execute, exact action/prepull bindings, free-seal/libram
+caveat, and rejection of changed APL/manual stats/seasonal context. New guide sources
+are NOT numerical inputs and are not yet a public preset/hand-off. They remain editable
+until the confirmation/export phase pins them. Strict scoped lint and diff--check pass.
+
+Remaining sequence: finish actual corrected feedback, independently replay through
+verify-paladin-retribution-corrected-v1.mjs (implemented, not yet run because no completed
+result), genuinely inspect finite final contenders at77191before freezing2%/separate1%
+holdouts, selected native/WASM and full actual own-profile UI/default/menu/library/guide
+handoff, THEN Shockadin. Other Warlock/tank/catalog/access/16-debuff/reusable-update
+requirements remain; full all-class objective stays active. No finished-count change,
+commit, push, deployment or dev restart. Preserve concurrent leveling/export work.
+
+## October 22, 09:52 UTC — isolated fix compiled and input-tested; supervised55case revalidation live
+
+Model build session23390is TERMINAL0. Corrected private releasee945e98f232cc81948ee9060,
+context semanticSHA81e4694b374864668626f10e76ce279448cf3431388a798b34714fa61fd74ae1;
+native de9f74ba61f5aca05066033b4b0e5e996d634eabb755d51a2174600b274f3a79,
+WASM e4bdf681cae2574f6bbab5cd5144351458d248b1437afd6145443abacc33912f.
+It changes only the isolated Sanctified Judgement nil-cost guard; exact catalog bytes,
+original upstream source/cache and existing profile pointers stay unchanged. Both real
+free/paid Go regression cases passed during the actual build, with exact refund checks.
+Build log paladin-free-seal-model-build-20261022-v2.log; context under
+optimization/paladin-free-seal-model-v1/context.json. Builder/patch/Go inputs are FROZEN.
+
+New exact-model/context and55actual-wire preparation tests2/2PASS (session34612exit0,
+paladin-free-seal-context-tests-20261022-v1.log). The context explicitly admits old
+gear/state as STRUCTURAL WARM STARTS ONLY, with no old native-journal imports or DPS
+ranking. Original29controls, prior24geared cases and2actual free/paid cases form the55.
+Two additional corrected-declaration guards PASS and reject old backend/journals,
+altered class/gear, deadline reset and narrowed policy. These do not claim finished
+new-backend combat or optimizer results. Scoped strict lint is green; diff--check green.
+
+Actual supervised MODEL-REVALIDATION owner is LIVE:session67101, supervisor92024/child92245.
+Exact command:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs revalidate-model paladin retribution-dps e945e98f232cc81948ee9060 -- artifacts/forever-simulator/optimization/review-tools/run-paladin-free-seal-controls-v1.mjs --run
+Log optimization/paladin-free-seal-controls-20261022-v1.log. At09:52PID92245is live2m28s,
+authenticating the actual model/captures before55native+55WASM cases/1375fights per engine.
+Original29cases must preserve exact old scalar/action/aura/resource behavior; free-seal
+regressions must execute without refunds/crashes. Do not duplicate a quiet live owner.
+The new free-seal context, its test, control helper and model-control runner are FROZEN.
+
+Next ONLY IF this actual55-case owner passes: use the sole original-clock numerical
+correction with run-paladin-retribution-correction-v1.mjs --run under supervisor
+paladin/retribution-dps/correction. That runner is implemented/syntax-checked/linted and
+its declaration guard tests pass, but has NOT been dispatched. It must revalidate the
+accepted controls read-only, use the NEW backend and ZERO old native-journal imports,
+then run full380-anchor/neighbor/combined-policy/consume/17-slot feedback. No previous
+numerical model is reused. Independent corrected-result reader/CLI is implemented and
+linted but has no completed new result to replay yet. Sole correction remains UNUSED
+at this entry; original deadline2026-10-23T06:54:10.775Z remains unchanged.
+
+After closed feedback: real finite77191inspection (not relabelled77291state metrics),
+fresh frozen2%/separate1%confirmation and actual own-profile handoff, then Shockadin.
+Full remaining all-class goal stays active. No commit/push/deploy/dev restart occurred;
+preserve concurrent leveling changes listed by git status.
+
+## October 22, 09:39 UTC — Ret feedback stopped on a reproduced free-seal engine bug; isolated fix building
+
+Supersedes the earlier LIVE entries:session18850/child62368 is now TERMINAL1. It passed
+all24new native/WASM controls, then stopped during combined rank-policy measurement
+after3564new scalar jobs/312000fights (44initial exact current-request reuses,46atfailure).
+Study5781b8bf9d98a7a4b9c86f1aa5cbc4499e14af8a63b613a7b4ae8f8a16abb108 has NO completed.json
+and is NOT a ranked/qualified result. Do not restart the unchanged failing backend or
+edit its frozen policy/model/cache inputs. All admitted/packed evidence is preserved.
+
+Actual reproduction independently established the cause in2native/2fight diagnostics:
+Libram of Hope22401 subtracts20mana from rank1Righteousness's20mana. Core intentionally
+omits SpellCost for zero base/flat cost. Sanctified Judgement dereferences that nil
+Cost when attempting a refund. Rank2with the same gear succeeds. Immutable report
+optimization/paladin-free-seal-model-v1/reproduction-5093a1571e2c21f3.json,
+semanticSHA5093a1571e2c21f35dd1aca02b7a7e8d954be559aa473f31cadae694b37e0b36.
+
+The narrow isolated patch preserves the existing sim.Proc roll, then skips refunds
+only if currentSealSpell.Cost is nil. Paid-seal formula/RNG path and all other source
+bytes stay unchanged. Pure source-contract test passes. A genuine native Go regression
+passed free-rank1(no refund/no crash) and paid-rank2(exact existing per-cast refund).
+The initial builder compile exposed a proto-oneof accessor typo only in the NEW test;
+fixed using verified GetSpellId(). The failed attempt/log remain; no engine source was
+mutated. Direct focused Go regression is green. Original upstream talents.go SHA
+024e780acf7a427d420f7277d5adbb295f7ef6a817ed967cf97a9de6c10e5bca unchanged.
+
+New isolated model builder is active:session53806was the TERMINAL1compile attempt;
+the v2build session is recorded in the next update. Log
+optimization/paladin-free-seal-model-build-20261022-v2.log. It authenticates the frozen
+parent, keeps the exact database, overlays only Paladin talents.go plus the regression
+test, and compiles native/WASM without changing prior releases/pointers. This is model
+build/diagnostics, not a restarted optimization. Original Paladin deadline remains
+2026-10-23T06:54:10.775Z; sole numerical correction still UNUSED.
+
+Next: accept the isolated build, re-run original/new/free-seal controls against both
+engines, then use the single same-clock correction for corrected-model full feedback.
+Old blue/gear may supply structural warm starts only; do NOT reuse their DPS/native
+journals across the changed backend. All actual anchors and17-slot applicability must
+be remeasured before final qualification. Confirmed corrected-model result, frozen2%/
+separate1%holdouts and own-profile UI delivery still precede Shockadin. Full all-class
+goal remains active; no commit, push, deployment or dev restart authorized/performed.
+
+The new read-only feedback declaration guard tests finished2/2PASS (session56773exit0,
+paladin-retribution-feedback-source-tests-20261022-v1.log). They validate the actual
+declaration and reject altered class/phase/parent/model/deadline/coverage/seasonal context,
+not the missing completed result. Concurrent leveling files appeared; preserve them.
+
+## October 22, 09:22 UTC — Ret gear independently verified; actual geared feedback started
+
+Previous goal turn is progress: the live Shadow diagnosis established a real delivery
+mismatch and confirmed Scepter was tested. The full all-class goal remains active;
+the diagnosis did not authorize production deployment or replace the remaining work.
+
+Ret gear owner9086/7061 is TERMINAL0, not live. All13derived gear controls passed both
+engines. Its37,874new requests/4,361,620fights and913exact-context reuses produced study
+2a418d128aedf76aa65ef7834f3030a4362c96ef56bd041eca4b2ebea88a9e8f,
+completion SHA c0e91434ac0c1e06a55aa1e87ed9f5a33b4fd6429987fa60ca2e01de042d4bad.
+Result result-0b955821d3af30e2.json has semantic SHA
+0b955821d3af30e27ff7242bcf6d7ce5505609d37b09b1c9d53734bee2951183.
+Independent read-only verification73015/25548 is also TERMINAL0:37,877origins and180
+packed stages replayed exactly. Log paladin-retribution-geared-verification-20261022-v1.log.
+Two material gear gains17.8765%/2.9439% mean NOT converged.870.4925DPS/10k is provisional.
+
+New geared feedback corrects inherited seasonal Greater Firepower to ordinary Firepower,
+adds legitimate Elements/Shadow curses, and freshly measures admissible consumes, all380
+Ret talent anchors/neighbors and combined rank/twist/mana/order policies before full
+17-slot gear applicability. Excluded-context DPS cannot win the new ranking.24derived
+native/WASM canaries must precede scalars, including both original captured-APL
+translations; their geometry/source-backed input test passes, but combat is not yet run.
+Original146policy exact-output tests3/3pass. The two initially failing input tests now
+pass: reject JSON manual bonuses and preserve genuine null-policy captured contenders
+using an explicit control-order translation. Earlier4unchanged input cases had passed.
+Strict scoped lint10newfiles and3runner/reader files passes. No relaxed assertion/helper.
+
+Actual supervised state-recheck is now LIVE:session18850, supervisor62160/child62368.
+Exact command:
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run paladin retribution-dps state-recheck -- artifacts/forever-simulator/optimization/review-tools/run-paladin-retribution-feedback-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/2a418d128aedf76aa65ef7834f3030a4362c96ef56bd041eca4b2ebea88a9e8f/completed.json
+Log optimization/paladin-retribution-feedback-20261022-v1.log. At09:22it was authenticating
+the actual completed parents, PID62368live/~100%CPU. Poll this handle; do not restart a
+quiet verification. The10geared/runner input sources pinned by this owner are now FROZEN.
+New standalone feedback reader/verifier is implemented and linted but has no completed
+feedback result yet; it is not a claimed replay/qualification. No correction used;
+ORIGINAL Paladin deadline2026-10-23T06:54:10.775Z and cache69b4b817... remain exact.
+
+At09:30the SAME owner has passed all24native/WASM controls (600fights/engine), exact
+action/aura/resource parity and both carried-control equivalence checks. Report
+optimization/paladin-retribution-first-pass-v1/state-parity-6094757e9ea8ab40.json,
+semanticSHA b9f94be1ae4a8dbb11fac2d4d1eb444234935bb19bbfe2c7b95bbdd70e192520.
+Actual scalar study5781b8bf9d98a7a4b9c86f1aa5cbc4499e14af8a63b613a7b4ae8f8a16abb108
+is measuring, not merely preparing. Coverage380anchors/500initial talent values,
+2306pre-consume initial candidates; all17source slot pools retained. At09:30:48it had
+2937new scalar requests/261840fights; not a final score. New source-reader declaration
+guard tests are live session56773, log paladin-retribution-feedback-source-tests-20261022-v1.log.
+They use genuine saved inputs but do not claim completed feedback/packed replay.
+
+Remaining: actual feedback completion/independent replay, fresh frozen2%/separate1%
+confirmation and complete real default/config/GearSets/library/rotation/browser handoff
+before Shockadin; all other remaining Warlock/tank/catalog/access/debuff/incremental
+requirements remain. No preset, commit, push, deployment or3017restart in this turn.
+Confirmation wiring must honor the actual state inspection seed77291 versus generic
+confirmation's77191: perform a declared finite-arm77191inspection before freezing the
+fresh plan; never relabel existing metrics or edit frozen policies. See Paladin prep doc.
+
+## October 22, 09:21 UTC — live Shadow weapon diagnosis (no preset or deployment changes)
+
+Fresh isolated Chromium inspection of the actual public Shadow route reproduced the
+report: iframe release `3c62628f43a96aa1d77e702b`, “Shadow · pre-raid starter”, main-hand
+Persuader22384 with22Int enchant, not the completed tested Shadow presentation
+`0c7bfc2c82fcb26a9f2b3306`. This is not merely the applicant's saved browser character.
+
+Important qualification: Forever's pinned `sim/core/ruleset.go` explicitly unifies
+item hit/crit for physical and spell attacks. Persuader is therefore not a zero-value
+caster weapon merely because it was a melee weapon in Classic. The earlier diagnostic
+comment that its melee ratings do not justify it was too categorical and was corrected.
+Scepter13349 WAS included in both full gear sweeps. Existing sweep2, slot14 comparisons
+with identical other16slots and weapon enchant: Spellblade272683759.473803DPS,
+Persuader22384718.064793DPS, Scepter13349716.411287DPS (2000iterations each). These are
+archived model-specific comparisons, not new live-page simulations or global BiS proof.
+The completed40k-qualified Shadow build uses caster dagger272683, not Persuader; its
+Rank14 access requirement must remain explicit. Scepter is a dungeon alternative, not
+the highest-DPS weapon in that retained unrestricted nonraid/PvP-allowed context.
+
+Read-only verification passed exact build/result/database hashes, frozen unified-rating
+source hash, same-other-slots/enchant comparisons and all3successful native admission
+records. No new numerical search, preset edits, commit, push or deployment was done.
+The user asked for diagnosis; production still needs the tested Shadow profile delivery
+activated through the normal authorized release flow, preserving saved characters.
+
 ## October 22, 08:33 UTC — independent Ret blue replay passed; original-budget gear owner started
 
 Read-only gear preflight15605/PID538 is TERMINAL0, NOT live. It independently replayed

@@ -52,3 +52,6 @@ export * from "./campaign-pickup-gates.js";
 export * from "./campaign-library.js";
 export * from "./campaign-library-route.js";
 export * from "./campaign-addon.js";
+export * from "./campaign-preparation.js";
+export * from "./restedxp-import.js";
+export * from "./restedxp-documents.js";

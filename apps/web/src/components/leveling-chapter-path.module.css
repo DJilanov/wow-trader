@@ -26,7 +26,9 @@
   line-height: 1.65;
 }
 .count {
-  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   color: var(--gold);
   font-size: 13px;
 }
@@ -244,6 +246,7 @@
 }
 @media (max-width: 600px) {
   .heading {
+    flex-wrap: wrap;
     align-items: start;
     flex-direction: column;
     gap: 4px;

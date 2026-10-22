@@ -1,5 +1,99 @@
 # Simulation-tested pre-raid gear
 
+## October 22, 11:57 UTC — Ret final metadata failure is not another numerical search
+
+Finite inspection and fresh40kqualification measurements are complete, but the final
+owner stopped on an exact completion-file/runtime-envelope hash mismatch. Original
+studies, winner, scores and seeds remain immutable. A one-case strict transport adapter
+and full V2source replay preserve all checksum/origin/math/RNG validation; no new fights
+or class-clock reset. Two real-evidence tests and six handoff/normalization guards pass;
+all15focused cases and scoped lint pass. Read-only verifier97986/PID90830is live, not yet
+successful. Canonical A evidence plus explicit transport receipt, selected raw-WASM
+parity, real export and full UI handoff remain. No new completed count or deployment.
+Authoritative failed/live handles and next steps: context.md.
+
+## October 22, 11:38 UTC — bounded raid updates authorized; weapon delivery audited
+
+Owner approved new separately recorded full-raid update windows for six older classes
+after Ret/Shockadin, preserving original ledgers and2%/separate1%/24h limits. No new
+update clock started. The actual decoded library audit found17older support scenarios
+and6missing inline guides; do not equate existing library entries with full completion.
+All15character profiles/28local+28live preset entries/23library links were also audited
+for weapons. Ten local caster library builds have relevant spell-power main hands,
+but livePriest/Shaman starters are older and still equipPersuader; unfinishedDS/Ruin
+also needs explicit weapon comparisons. Six new regression cases and scoped checks pass.
+No deployment or preset change. Full authorization/evidence/commands and delivery gates:
+docs/simulator-full-raid-update-plan-2026-10-22.md. Actual Ret finiteA/freshB completed;
+same owner independently replays before browser parity and qualification. See context.md.
+
+## October 22, 11:15 UTC — independent Ret source audit passed; final phase started
+
+The real independent audit passed78854native origins/534packed stages and12frozen finite
+contenders. The one original-budget final owner is authenticating those parents before
+finite inspection, fresh40kconfirmation and selected browser parity. It is not another
+gear search or adaptive winner replacement. Qualified UI loader/builder preparation has
+5new passing guards and strict lint; actual qualification, UI build and complete handoff
+still remain. No new completed count or deployment. Authoritative handles: context.md.
+
+## October 22, 10:48 UTC — actual Ret feedback closed, not yet a qualified preset
+
+Corrected Ret completed78854requests/8713080fights and its full internal replay. The
+second cycle changed neither gear nor talents/consume context, so declared feedback
+genuinely closed. An independent read-only final preflight is live; finite inspection,
+fresh confirmation and full browser/UI handoff remain. Provisional~975DPS is not final
+or publicly promoted.8new guards/source tests and10-file strict lint pass. Counts and
+all-class scope stay unchanged. Exact recovery/handles/immutable hashes: context.md.
+
+## October 22, 10:40 UTC — Ret measurements complete, final result replay still active
+
+The sole corrective owner has78854newrequests/8713080fights and is replaying its real
+stages before completion. Actual closed feedback and final DPS are not yet claimed.
+Independent final-evidence reader, selected class4native/WASM parity and strict qualified
+export gates are implemented. Eight new source-backed/guard tests pass; actual finite
+inspection, fresh confirmation, browser parity and complete preset/UI delivery remain.
+All-class scope and counts are unchanged. Exact handles/recovery/frozen inputs: context.md.
+
+## October 22, 10:19 UTC — second Ret feedback cycle; final comparison is finite
+
+The same corrected owner is actively measuring cycle2, beyond5.1million fights with no
+new engine error. The prepared final pipeline authenticates genuine measured contenders,
+normalizes at most12to actual77191/10k inspection, then freezes independent two20kranges.
+No metric relabelling, new full gear search, old-backend reuse or holdout winner selection.
+Three source-backed final-context tests and focused lint pass. Completed numerical source,
+full preflight/confirmation, actual selected parity and UI delivery remain. No completed
+count or production change. Active process and exact next steps: context.md.
+
+## October 22, 10:01 UTC — corrected Ret runtime qualified for fresh search
+
+All55new-backend native/WASM controls pass, including unchanged29original cases and
+real free/paid-seal refund regressions. The sole same-clock corrective feedback owner
+is measuring every actual Ret anchor plus combined policy/consume/full gear feedback,
+with no old-backend DPS/native journals. Source-bound exact-APL guidance has3passing
+tests. No final Ret/default/public count changed. Full references and remaining gates:
+context.md. Finish Ret's real handoff before Shockadin numerical optimization.
+
+## October 22, 09:52 UTC — Ret exposed a real free-seal bug; corrected runtime in revalidation
+
+Actual combined-rank search stopped after3564newjobs on Sanctified Judgement's nil-cost
+refund path: rank1Righteousness is free with Libram of Hope. A real reproduction and
+free/paid native regression prove the cause and narrow fix. The original engine/results
+are preserved; a separately compiled corrected runtime keeps identical catalog bytes.
+New context/input/declaration guards pass, including rejection of old-model journal
+reuse.55new-backend native/WASM mechanics cases are under supervised revalidation before
+the single same-clock corrective feedback pass. No final Ret/preset/finished-count change.
+Actual references, process handles, hashes and recovery sequence: context.md.
+
+## October 22, 09:22 UTC — Ret full gear result verified; feedback underway
+
+The actual Ret gear study finished37,874new native requests/4,361,620fights and13derived
+native/WASM controls. Independent read-only reconstruction passed37,877origins/180packed
+stages. Two material sweep gains mean the provisional result is not converged. The
+supervised geared feedback owner now authenticates this source before24new mechanics
+controls and corrected nonraid consume/talent/combined-policy/all-slot feedback. Original
+class deadline preserved; no correction used. Final fresh confirmation and own-profile
+UI delivery precede Shockadin. Counts and public presets are unchanged; full refs and
+live process recovery are in context.md.
+
 ## October 22, 08:33 UTC — Ret blue finished and independently replayed; gear owner started
 
 The blue study finished14894native requests/1655100fights. Independent read-only replay

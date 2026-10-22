@@ -13,11 +13,13 @@ import styles from "./leveling-experience.module.css";
 interface RouteDashboardProps extends LevelingDashboardProps {
   readonly campaign: CampaignPlan | null;
   readonly requestedMode: string | undefined;
+  readonly reviewExportEnabled?: boolean;
 }
 
 export function LevelingRouteDashboard({
   campaign,
   requestedMode,
+  reviewExportEnabled = false,
   ...props
 }: RouteDashboardProps): React.JSX.Element {
   const { session, loaded } = useLeveling();
@@ -70,7 +72,11 @@ export function LevelingRouteDashboard({
       ) : loaded && needsClass ? (
         <p role="status">Loading your race and class quest route…</p>
       ) : (
-        <LevelingCampaignPath plan={campaign} profile={profile} />
+        <LevelingCampaignPath
+          plan={campaign}
+          profile={profile}
+          reviewExportEnabled={reviewExportEnabled}
+        />
       )}
     </>
   );

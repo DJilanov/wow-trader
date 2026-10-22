@@ -5,6 +5,7 @@ import { DataUnavailable } from "./data-unavailable";
 import { MarketItemBrowser } from "./market-item-browser";
 import { MarketScanAutoRefresh } from "./market-scan-auto-refresh";
 import { MarketFactionTabs } from "./market-faction-tabs";
+import { MarketWatchlist } from "./market-watchlist";
 import { parseMarketFaction, type MarketFaction } from "../lib/market-selection";
 import {
   OpportunityCalculationDetails,
@@ -201,6 +202,7 @@ export async function TraderWorkspacePage({
           ) : null}
         </header>
 
+        <MarketWatchlist />
         <nav className="workspace-mode-tabs" aria-label="Trader tool">
           <Link
             className={parameters.mode === "crafts" ? "active" : undefined}
@@ -644,7 +646,12 @@ export async function TraderWorkspacePage({
       </article>
     );
   } catch {
-    return <DataUnavailable title="The market workspace is unavailable" />;
+    return (
+      <>
+        <DataUnavailable title="The market workspace is unavailable" />
+        <MarketWatchlist />
+      </>
+    );
   }
 }
 

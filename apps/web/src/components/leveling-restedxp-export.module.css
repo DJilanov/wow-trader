@@ -1,0 +1,25 @@
+.panel {
+  min-width: 0;
+}
+.form,
+.member,
+.output {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+  min-width: 0;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.output textarea {
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  font-family: monospace;
+  font-size: 12px;
+}
+.panel p {
+  overflow-wrap: anywhere;
+}

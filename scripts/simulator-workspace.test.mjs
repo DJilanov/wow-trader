@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFile } from "node:fs/promises";
 import { URL } from "node:url";
+import vm from "node:vm";
+import ts from "typescript";
 import {
   linkWorkspaceStyles,
   patchGearSlotLabels,
@@ -187,4 +189,63 @@ test("the workspace omits the tools menu and outbound links but preserves simula
   assert(!source.includes('element("a"'));
   assert(source.includes('options.setAttribute("aria-label", "Simulation options")'));
   assert(source.includes('required(root, ".sim-toolbar").remove()'));
+});
+
+test("only successful engine results notify the host, with no build data and safe disposal", async () => {
+  const source = await readFile(
+    new URL("../infra/simulator/workspace.ts", import.meta.url),
+    "utf8",
+  );
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS },
+  }).outputText;
+  const sent = [];
+  const host = { postMessage: (...args) => sent.push(args) };
+  const window = { parent: host, location: { origin: "https://kfcguild.online" } };
+  const module = { exports: {} };
+  const context = {
+    module,
+    exports: module.exports,
+    window,
+    require: (path) => {
+      assert(
+        ["./kfc_tank_starters.json", "./kfc_prebis_import.json", "./kfc_inspection.js"].includes(
+          path,
+        ),
+      );
+      return {};
+    },
+  };
+  vm.runInNewContext(compiled, context);
+  let complete;
+  const sim = {
+    simResultEmitter: {
+      on: (listener) => {
+        complete = listener;
+        return {
+          dispose: () => {
+            complete = null;
+          },
+        };
+      },
+    },
+  };
+  const dispose = module.exports.installKfcSimulationMeasurement(sim);
+  assert.equal(sent.length, 0);
+  complete(123, { request: { player: "private" }, result: { damage: 100 } });
+  assert.equal(sent.length, 1);
+  assert.deepEqual(JSON.parse(JSON.stringify(sent)), [
+    [{ type: "kfc-simulation-completed", version: 1 }, "https://kfcguild.online"],
+  ]);
+  host.postMessage = () => {
+    throw new Error("host unavailable");
+  };
+  assert.doesNotThrow(() => complete());
+  dispose();
+  assert.equal(complete, null);
+  window.parent = window;
+  const disposeStandalone = module.exports.installKfcSimulationMeasurement(sim);
+  assert.doesNotThrow(() => complete());
+  assert.equal(sent.length, 1);
+  disposeStandalone();
 });

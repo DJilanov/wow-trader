@@ -5,6 +5,7 @@ import type { SupportedClientProduct } from "../lib/game-versions";
 import { getExternalItemReference } from "../lib/item-reference";
 import { ItemIcon } from "./item-icon";
 import { MarketHistoryChart } from "./market-history-chart";
+import { MarketWatchButton } from "./market-watchlist";
 
 interface MarketItemBrowserProps {
   readonly basePath: string;
@@ -148,6 +149,14 @@ export function MarketItemBrowser({
                     </span>
                   </summary>
                   <div className="market-item-detail">
+                    <MarketWatchButton
+                      item={{
+                        product: clientProduct,
+                        market,
+                        itemId: item.itemId,
+                        name: item.name,
+                      }}
+                    />
                     <div className="market-item-guidance">
                       <div>
                         <span className="eyebrow">Current verdict</span>

@@ -1,4 +1,5 @@
 import { isAbsolute } from "node:path";
+import { cache } from "react";
 
 import type {
   WorldArea,
@@ -95,6 +96,8 @@ import { and, desc, eq, inArray, isNotNull, or } from "drizzle-orm";
 import { loadWorldSnapshot } from "@wow-trader/world-data";
 
 import { getDatabase } from "./database";
+import { getIndexableReferenceRecords } from "./catalog-reference";
+import { buildQuestDirectoryEntries, type QuestDirectoryEntry } from "./forever-quest-directory";
 
 export interface ForeverWorldData {
   readonly build: {
@@ -981,71 +984,53 @@ export async function getForeverSearchDirectory(): Promise<readonly ForeverSearc
   return [...maps, ...instances, ...bosses];
 }
 
-export async function getForeverQuestDirectory(): Promise<{
-  readonly build: ForeverWorldData["build"];
-  readonly questCount: number;
-  readonly poiQuestCount: number;
-  readonly lines: readonly {
-    readonly questLine: WorldQuestLine;
-    readonly members: readonly WorldQuestLineMember[];
-  }[];
-  readonly discoverableQuestIds: readonly number[];
-  readonly titledQuests: readonly {
-    readonly questId: number;
-    readonly title: string;
-    readonly evidenceKind: string;
-    readonly capturedAt: Date | null;
-  }[];
-} | null> {
-  const world = await getForeverWorldData();
-  if (!world) return null;
-  const poiQuestIds = new Set(world.questPois.map((poi) => poi.questId));
-  const observedQuests = await loadForeverQuestDirectoryObservations(
-    world.build.product,
-    world.build.buildNumber,
-  );
-  const titledQuestsById = new Map<
-    number,
-    { questId: number; title: string; evidenceKind: string; capturedAt: Date | null }
-  >(
-    world.quests
-      .filter((quest): quest is WorldQuest & { readonly title: string } => Boolean(quest.title))
-      .map((quest) => [
-        quest.questId,
-        {
-          questId: quest.questId,
-          title: quest.title,
-          evidenceKind: "client_task",
-          capturedAt: null,
-        },
-      ]),
-  );
-  for (const observation of observedQuests) {
-    titledQuestsById.set(observation.questId, observation);
-  }
-  const titledQuests = [...titledQuestsById.values()].sort((left, right) =>
-    left.title.localeCompare(right.title),
-  );
-  return {
-    build: world.build,
-    questCount: world.quests.length,
-    poiQuestCount: poiQuestIds.size,
-    lines: world.questLines.map((questLine) => ({
-      questLine,
-      members: world.questLineMembers
-        .filter((member) => member.questLineId === questLine.questLineId)
-        .sort((left, right) => left.orderIndex - right.orderIndex),
-    })),
-    discoverableQuestIds: [
-      ...new Set([
-        ...poiQuestIds,
-        ...world.questLineMembers.map((row) => row.questId),
-        ...titledQuests.map((row) => row.questId),
-      ]),
-    ].sort((left, right) => left - right),
-    titledQuests,
-  };
-}
+export const getForeverQuestDirectory = cache(
+  async (): Promise<{
+    readonly build: ForeverWorldData["build"];
+    readonly questCount: number;
+    readonly poiQuestCount: number;
+    readonly lines: readonly {
+      readonly questLine: WorldQuestLine;
+      readonly members: readonly WorldQuestLineMember[];
+    }[];
+    readonly discoverableQuestIds: readonly number[];
+    readonly titledQuests: readonly QuestDirectoryEntry[];
+  } | null> => {
+    const world = await getForeverWorldData();
+    if (!world) return null;
+    const poiQuestIds = new Set(world.questPois.map((poi) => poi.questId));
+    const observedQuests = await loadForeverQuestDirectoryObservations(
+      world.build.product,
+      world.build.buildNumber,
+    );
+    const clientTitles = new Map(world.quests.map((quest) => [quest.questId, quest.title]));
+    for (const observation of observedQuests)
+      clientTitles.set(observation.questId, observation.title);
+    const references = await getIndexableReferenceRecords("forever", "quest", {
+      quests: clientTitles,
+    });
+    const titledQuests = buildQuestDirectoryEntries(world.quests, observedQuests, references);
+    return {
+      build: world.build,
+      questCount: world.quests.length,
+      poiQuestCount: poiQuestIds.size,
+      lines: world.questLines.map((questLine) => ({
+        questLine,
+        members: world.questLineMembers
+          .filter((member) => member.questLineId === questLine.questLineId)
+          .sort((left, right) => left.orderIndex - right.orderIndex),
+      })),
+      discoverableQuestIds: [
+        ...new Set([
+          ...poiQuestIds,
+          ...world.questLineMembers.map((row) => row.questId),
+          ...titledQuests.map((row) => row.questId),
+        ]),
+      ].sort((left, right) => left - right),
+      titledQuests,
+    };
+  },
+);
 
 export async function getForeverQuest(questId: number): Promise<{
   readonly build: ForeverWorldData["build"];

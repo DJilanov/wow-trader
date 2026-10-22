@@ -1,9 +1,7 @@
 import {
   CHAPTER_REFERENCES,
   buildCampaignPlan,
-  attachCampaignCombat,
-  compileCampaignFunding,
-  compileCampaignPickupGates,
+  prepareCampaignPlan,
   buildCampaignStarters,
   enrichCampaignStarters,
   type CampaignStarterCatalog,
@@ -19,7 +17,7 @@ import type { LevelingChapterMaps } from "./leveling-map-data";
 import { getLevelingRewardSnapshot } from "./leveling-quest-xp";
 import { getLevelingCombatSnapshot } from "./leveling-combat";
 import { getLevelingQuestValidationCoverage } from "./leveling-quest-validation";
-import { campaignRewardQuestIds, isSupportedCatchUpBatch } from "./leveling-reward-inventory";
+import { campaignRewardQuestIds } from "./leveling-reward-inventory";
 import { createHash } from "node:crypto";
 
 let cache:
@@ -51,6 +49,14 @@ async function loadSources(manifest: GuideArchiveManifest): Promise<readonly Cam
     result.push(...batch);
   }
   return result;
+}
+
+export async function getLevelingCampaignExportSources(): Promise<
+  readonly CampaignSource[] | null
+> {
+  const manifest = await getLevelingArchiveManifest();
+  if (!manifest || manifest.targetBuild !== 70205) return null;
+  return cache?.manifest === manifest ? cache.sources : loadSources(manifest);
 }
 
 export async function getLevelingCampaign(
@@ -106,10 +112,6 @@ async function withEvidence(
     getLevelingRewardSnapshot(ids),
     getLevelingCombatSnapshot(),
   ]);
-  const enriched =
-    combat.data && combat.data.targetBuild === plan.targetBuild
-      ? attachCampaignCombat(plan, sources, combat.data, combat.revision)
-      : plan;
   const validation = await getLevelingQuestValidationCoverage(snapshot.clientBuild);
   const factsHash = createHash("sha256").update(JSON.stringify(snapshot.facts)).digest("hex");
   const key = `${snapshot.revision}:${factsHash}:${combat.revision}`;
@@ -126,33 +128,32 @@ async function withEvidence(
     if (enrichedStarters.size >= 2) enrichedStarters.delete(enrichedStarters.keys().next().value!);
     enrichedStarters.set(key, partyStarters);
   }
-  return compileCampaignFunding(
-    compileCampaignPickupGates({
-      ...enriched,
-      starters: partyStarters,
-      catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
-      rewardFacts: snapshot.facts,
-      rewardRevision: `${snapshot.revision}:${validation.revision}`,
-      rewardBuild: snapshot.clientBuild,
-      ...(validation.data
-        ? {
-            questValidationCoverage: validation.data,
-            questValidationRuntimeBuild: validation.data.runtimeBuild,
-          }
-        : {}),
-      rewardNotice:
-        [
-          snapshot.notice,
-          combat.notice,
-          validation.notice,
-          combat.data && combat.data.targetBuild !== plan.targetBuild
-            ? "Combat references belong to a different client build and are excluded."
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" ") || null,
-    }),
-  );
+  return prepareCampaignPlan(plan, sources, {
+    starters: partyStarters,
+    rewardFacts: snapshot.facts,
+    rewardRevision: `${snapshot.revision}:${validation.revision}`,
+    rewardBuild: snapshot.clientBuild,
+    ...(validation.data
+      ? {
+          questValidation: {
+            data: validation.data,
+            runtimeBuild: validation.data.runtimeBuild,
+          },
+        }
+      : {}),
+    combat: combat.data ? { data: combat.data, revision: combat.revision } : null,
+    rewardNotice:
+      [
+        snapshot.notice,
+        combat.notice,
+        validation.notice,
+        combat.data && combat.data.targetBuild !== plan.targetBuild
+          ? "Combat references belong to a different client build and are excluded."
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" ") || null,
+  });
 }
 
 export async function getLevelingCampaignMaps(plan: CampaignPlan): Promise<LevelingChapterMaps> {

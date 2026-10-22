@@ -1,10 +1,18 @@
 import type { ClassSlug } from "./model.js";
-import type { CampaignAction, CampaignPlan } from "./campaign.js";
+import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CampaignRace } from "./campaign-route.js";
 import { gateQuestIds } from "./dungeon-model.js";
 import { questEligibility } from "./quest-eligibility.js";
+import { campaignPartyExport } from "./campaign-addon-party.js";
+import { campaignAddonReadme } from "./campaign-addon-readme.js";
+import { campaignPartyStarterSchema, type CampaignPartyStarter } from "./restedxp-documents.js";
+import {
+  CAMPAIGN_NATIVE_POLICY,
+  campaignNativeInstructions,
+  type CampaignNativeInstructions,
+} from "./campaign-addon-native.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261021-v18" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261022-v22" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;
@@ -12,6 +20,9 @@ export interface CampaignAddonOptions {
   readonly interfaceVersion: number;
   readonly restedXpVersion: string;
   readonly browserBaseUrl?: string;
+  readonly nativeSources?: readonly CampaignSource[];
+  readonly includeObservers?: boolean;
+  readonly partyStarter?: CampaignPartyStarter;
 }
 
 export interface CampaignAddonGuideSummary {
@@ -19,6 +30,12 @@ export interface CampaignAddonGuideSummary {
   readonly group: string;
   readonly names: readonly string[];
   readonly actionIds: readonly string[];
+  readonly requestedActionIds: readonly string[];
+  readonly normalizations: readonly {
+    readonly actionId: string;
+    readonly reason: "duplicate-one-time-quest-phase";
+    readonly removedQuestChanges: CampaignAction["questChanges"];
+  }[];
 }
 
 export interface CampaignAddonArtifact {
@@ -26,6 +43,16 @@ export interface CampaignAddonArtifact {
   readonly lua: string;
   readonly readme: string;
   readonly guides: readonly CampaignAddonGuideSummary[];
+  readonly documents: readonly CampaignAddonGuideDocument[];
+  readonly nativePolicy: typeof CAMPAIGN_NATIVE_POLICY | "normalized-v1";
+}
+
+export interface CampaignAddonGuideDocument {
+  readonly role: "leader" | "party";
+  readonly group: string;
+  readonly name: string;
+  readonly content: string;
+  readonly actionIds: readonly string[];
 }
 
 const raceLabels: Readonly<Record<CampaignRace, string>> = {
@@ -82,12 +109,20 @@ function positionLines(action: CampaignAction): readonly string[] {
     });
 }
 
-function questLines(action: CampaignAction): readonly string[] {
+function questLines(
+  action: CampaignAction,
+  conditions: Readonly<Record<number, string>> = {},
+): readonly string[] {
   return action.questChanges.map((change) => {
     const text = questInstruction(change);
-    if (change.state === "accepted") return `    .accept ${change.questId} >> ${text}`;
-    if (change.state === "rewarded") return `    .turnin ${change.questId} >> ${text}`;
-    return `    .complete ${change.questId},${change.objectiveIndex ?? 1} >> ${text}`;
+    const directive =
+      change.state === "accepted"
+        ? `.accept ${change.questId}`
+        : change.state === "rewarded"
+          ? `.turnin ${change.questId}`
+          : `.complete ${change.questId},${change.objectiveIndex ?? 1}`;
+    const condition = conditions[change.questId];
+    return `    ${directive} >> ${text}${condition ? ` << ${oneLine(condition, "Quest condition")}` : ""}`;
   });
 }
 
@@ -105,10 +140,15 @@ function xpLine(action: CampaignAction): string | null {
   return `    .xp ${target} >> ${oneLine(action.title, "XP checkpoint")}`;
 }
 
-function actionLines(action: CampaignAction): readonly string[] {
+function actionLines(
+  action: CampaignAction,
+  nativeInstructions?: CampaignNativeInstructions,
+): readonly string[] {
   if (action.kind === "unverified")
     throw new Error(`Unverified action ${action.id} cannot enter the addon package.`);
-  const lines = ["step", `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`];
+  const native = nativeInstructions?.(action);
+  const condition = native?.condition ? ` << ${oneLine(native.condition, "Step condition")}` : "";
+  const lines = [`step${condition}`, `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`];
   if (action.bundleId) {
     if (action.questChanges.length || action.positions.length)
       throw new Error("Planning-only bundles cannot emit quest or location directives.");
@@ -116,27 +156,49 @@ function actionLines(action: CampaignAction): readonly string[] {
       "    >> PLANNING ONLY: four owner-confirmed faction quests. IDs, objectives and access details are pending. Skip this optional stop or use actual in-game information; no quest completion is inferred.",
     );
   }
-  lines.push(...positionLines(action));
+  if (native) {
+    for (const directive of native.directives) {
+      const args = directive.arguments ? ` ${directive.arguments}` : "";
+      const description =
+        directive.tag === ".macro" ? directive.text.replaceAll("\n", "\\n") : directive.text;
+      const text = description ? ` >> ${oneLine(description, "Native instruction")}` : "";
+      const gate = directive.condition
+        ? ` << ${oneLine(directive.condition, "Native condition")}`
+        : "";
+      lines.push(`    ${directive.tag}${args}${text}${gate}`);
+    }
+    if (native.canonicalQuestConditions)
+      lines.push(...questLines(action, native.canonicalQuestConditions));
+  } else lines.push(...positionLines(action), ...questLines(action));
   const xp = action.kind === "xp-check" || action.kind === "checkpoint" ? xpLine(action) : null;
   if (xp) lines.push(xp);
-  if (action.kind === "xp-check" && action.targetLevel !== null)
-    lines.push(
-      `    >> Maintainer evidence: start /kfcguide grind ${action.id} before this grind, then use /kfcguide grind stop at the checkpoint.`,
-    );
-  lines.push(...questLines(action));
-  const questText = new Set(action.questChanges.map(questInstruction));
+  const questText = new Set([
+    ...action.questChanges.map(questInstruction),
+    ...(native?.directives ?? [])
+      .filter((directive) => directive.text)
+      .map((directive) => oneLine(directive.text, "Native instruction")),
+  ]);
   for (const instruction of action.instructions) {
     const text = oneLine(instruction, "Action instruction");
     if (!questText.has(text)) lines.push(`    >> ${text}`);
   }
   if (!xp && action.questChanges.length === 0 && action.instructions.length === 0)
     lines.push(`    >> ${oneLine(action.title, "Action title")}`);
-  if (action.xpOptional)
+  if (action.xpOptional && !xp)
     lines.push(
-      "    >> Skip this XP work only after the browser confirms every participating player meets the next checkpoint.",
+      "    >> Skip this extra XP work only when everyone in your party is ready for the next checkpoint.",
     );
-  if (action.leaderOnly)
-    lines.push("    >> Leader-only step. Party members remain on their personal starter route.");
+  if (xp && !action.leaderOnly) {
+    const bar =
+      (action.targetCurrentXp ?? 0) > 0
+        ? ` with at least ${action.targetCurrentXp!.toLocaleString("en-US")} XP into that level`
+        : "";
+    lines.push(
+      "step",
+      `    #label ${oneLine(`kfc-${action.id}-party-ready`, "Party readiness label")}`,
+      `    +Is everyone level ${action.targetLevel}${bar}? Ask in party chat, then check this step to continue together. Your own XP is checked automatically; other players' XP is not visible to this guide.`,
+    );
+  }
   return lines;
 }
 
@@ -236,16 +298,41 @@ function compileRole(
   plan: CampaignPlan,
   actions: readonly CampaignAction[],
   role: "leader" | "party",
-): { readonly lua: readonly string[]; readonly summary: CampaignAddonGuideSummary } {
-  const filtered = normalizeRoleActions(
-    actions.filter((action) => role === "leader" || !action.leaderOnly),
-    role,
+  nativeInstructions?: CampaignNativeInstructions,
+  personalActionIds: ReadonlySet<string> = new Set(),
+  partyStarter?: CampaignPartyStarter,
+): {
+  readonly lua: readonly string[];
+  readonly summary: CampaignAddonGuideSummary;
+  readonly documents: readonly CampaignAddonGuideDocument[];
+} {
+  const requested = actions.filter(
+    (action) => role === "leader" || !action.leaderOnly || personalActionIds.has(action.id),
   );
+  const filtered = normalizeRoleActions(requested, role);
+  const emitted = new Map(filtered.map((action) => [action.id, action]));
+  const normalizations = requested.flatMap((action) => {
+    const removedQuestChanges = action.questChanges.filter(
+      (change) => !emitted.get(action.id)?.questChanges.includes(change),
+    );
+    return removedQuestChanges.length
+      ? [
+          {
+            actionId: action.id,
+            reason: "duplicate-one-time-quest-phase" as const,
+            removedQuestChanges,
+          },
+        ]
+      : [];
+  });
   validateLifecycle(filtered, role);
   const race = raceLabels[plan.race];
   const className = classLabels[plan.leaderClass!];
   const roleTitle = role === "leader" ? "Leader" : "Party";
-  const group = `KFC Forever Premade 5 · ${race} ${className} · ${roleTitle}`;
+  const member = partyStarter
+    ? ` · ${raceLabels[partyStarter.race]} ${classLabels[partyStarter.classSlug]}`
+    : "";
+  const group = `KFC Forever Premade 5 · ${race} ${className} · ${roleTitle}${member}`;
   const legs = plan.legs
     .map((leg) => ({
       leg,
@@ -258,10 +345,11 @@ function compileRole(
       `${String(index + 1).padStart(2, "0")} · ${leg.from}-${leg.to} · ${oneLine(leg.title, "Leg title")}`,
   );
   const lua: string[] = [];
+  const documents: CampaignAddonGuideDocument[] = [];
   for (const [index, entry] of legs.entries()) {
     const lines = [
       "#forever",
-      "<< Alliance",
+      `<< Alliance Forever${role === "leader" ? ` ${race} ${className}` : partyStarter ? ` ${raceLabels[partyStarter.race]} ${classLabels[partyStarter.classSlug]}` : ""}`,
       `#name ${names[index]}`,
       "#version 1",
       `#group ${group}`,
@@ -269,16 +357,27 @@ function compileRole(
     if (role === "leader") lines.push(`#defaultfor ${race} ${className}`);
     if (names[index + 1]) lines.push(`#next ${names[index + 1]}`);
     lines.push("");
-    for (const action of entry.actions) lines.push(...actionLines(action));
-    lua.push(`RXPGuides.RegisterGuide(${luaLongString(`${lines.join("\n")}\n`)})`);
+    for (const action of entry.actions) lines.push(...actionLines(action, nativeInstructions));
+    const content = `${lines.join("\n")}\n`;
+    documents.push({
+      role,
+      group,
+      name: names[index]!,
+      content,
+      actionIds: entry.actions.map((action) => action.id),
+    });
+    lua.push(`RXPGuides.RegisterGuide(${luaLongString(content)})`);
   }
   return {
     lua,
+    documents,
     summary: {
       role,
       group,
       names,
       actionIds: filtered.map((action) => action.id),
+      requestedActionIds: requested.map((action) => action.id),
+      normalizations,
     },
   };
 }
@@ -303,8 +402,32 @@ export function compileCampaignAddon(
   const knownLegs = new Set(plan.legs.map((leg) => leg.id));
   const orphan = actions.find((action) => !knownLegs.has(action.legId));
   if (orphan) throw new Error(`Campaign action has no package leg: ${orphan.id}`);
-  const leader = compileRole(plan, actions, "leader");
-  const party = compileRole(plan, actions, "party");
+  const nativeInstructions = options.nativeSources
+    ? campaignNativeInstructions(plan, options.nativeSources)
+    : undefined;
+  const leader = compileRole(plan, actions, "leader", nativeInstructions);
+  const starter = options.partyStarter
+    ? campaignPartyStarterSchema.parse(options.partyStarter)
+    : undefined;
+  const partyRoute = starter ? campaignPartyExport(plan, actions, starter) : null;
+  const personalNative =
+    partyRoute && options.nativeSources
+      ? campaignNativeInstructions(partyRoute.personalPlan, options.nativeSources)
+      : undefined;
+  const partyNative: CampaignNativeInstructions | undefined = nativeInstructions
+    ? (action: CampaignAction) =>
+        partyRoute?.personalActionIds.has(action.id)
+          ? personalNative!(action)
+          : nativeInstructions(action)
+    : undefined;
+  const party = compileRole(
+    partyRoute?.plan ?? plan,
+    partyRoute?.actions ?? actions,
+    "party",
+    partyNative,
+    partyRoute?.personalActionIds,
+    starter,
+  );
   const browser =
     options.browserBaseUrl ?? "https://kfcguild.online/tools/forever/leveling/premade";
   const query = `?race=${encodeURIComponent(plan.race)}&class=${encodeURIComponent(plan.leaderClass)}`;
@@ -344,10 +467,23 @@ export function compileCampaignAddon(
     ...leader.lua,
     ...party.lua,
   ];
+  const observers = options.includeObservers !== false;
+  const observerToc = observers
+    ? "## SavedVariables: KFCForeverGuideEvidence\nGuides.lua\nObserver.lua\nGrindObserver.lua\nQuestObserver.lua\n"
+    : "Guides.lua\n";
   return {
-    toc: `## Interface: ${options.interfaceVersion}\n## Title: KFC Forever Guides · Premade 5 Review\n## Notes: Source-ordered five-player route. Actual party XP gates and in-game review are required.\n## Author: KFC Guild\n## Version: ${options.version}\n## Dependencies: RXPGuides\n## SavedVariables: KFCForeverGuideEvidence\nGuides.lua\nObserver.lua\nGrindObserver.lua\nQuestObserver.lua\n`,
+    toc: `## Interface: ${options.interfaceVersion}\n## Title: KFC Forever Guides · Premade 5 Review\n## Notes: Selected five-player route. Party-ready confirmations and in-game review are required.\n## Author: KFC Guild\n## Version: ${options.version}\n## Dependencies: RXPGuides\n${observerToc}`,
     lua: `${bootstrap.join("\n")}\n`,
-    readme: `KFC Forever Guides ${options.version} — Premade 5 review package\n\nEdition: ${raceLabels[plan.race]} ${classLabels[plan.leaderClass]} leader.\nSource guide build: ${plan.targetBuild}. Review runtime build: ${options.runtimeBuild}.\nTested parser target: RestedXP ${options.restedXpVersion}; Interface ${options.interfaceVersion}.\nCampaign release: ${plan.release}. Compiler: ${CAMPAIGN_ADDON_COMPILER_REVISION}.\n\nThis ZIP contains two guide groups. The designated leader uses the Leader group. Other party members finish their own normal personal starter route, then use the Party group for shared work. Leader-only steps are intentionally absent from the Party group.\n\nThe addon cannot see all five players' XP bars or web progress. At every XP checkpoint, stop until the browser confirms every participating player is ready. Do not skip accepted chains, prerequisites, or dungeon preparation because one character is ahead.\n\nThis is a review artifact, not a playtested public release. ${plan.rewardNotice ?? "Reward evidence remains under review."} Combat timing is not calibrated, and late content can be inaccessible during the current beta. Keep the previous KFC folder for rollback. Never overwrite RXPGuides or its SavedVariables.\n\n/kfcguide xp records the current level curve value.\n/kfcguide observe enables bounded quest turn-in evidence until reload; /kfcguide stop stops it.\n/kfcguide combat records bounded passive kill-XP messages with public party/map context until reload.\n/kfcguide grind <checkpoint-id> starts a bounded checkpoint measurement; use grind stop when the XP checkpoint is reached.\n/kfcguide validate <quest-id> <kind> records a bounded manual quest-validation session until validate stop.\n/reload writes KFCForeverGuideEvidence to the addon SavedVariables file.\n\nBrowser route: ${browser}${query}\n`,
+    readme: campaignAddonReadme(plan, options, {
+      edition: `${raceLabels[plan.race]} ${classLabels[plan.leaderClass]}`,
+      compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+      browserUrl: `${browser}${query}`,
+      partyMemberEdition: starter
+        ? `${raceLabels[starter.race]} ${classLabels[starter.classSlug]}`
+        : null,
+    }),
     guides: [leader.summary, party.summary],
+    documents: [...leader.documents, ...party.documents],
+    nativePolicy: nativeInstructions ? CAMPAIGN_NATIVE_POLICY : "normalized-v1",
   };
 }

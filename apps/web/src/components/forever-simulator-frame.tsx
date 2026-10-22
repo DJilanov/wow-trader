@@ -14,6 +14,7 @@ import {
   simulatorDialogScrollOffset,
 } from "../lib/forever-simulator-frame-state";
 import { simulatorRaidDefaultsSrc } from "../lib/forever-simulator-raid-defaults";
+import { connectSimulatorToolUsage } from "../lib/tool-usage";
 
 interface ForeverSimulatorFrameProps {
   readonly src: string;
@@ -40,6 +41,11 @@ export function ForeverSimulatorFrame({
   const container = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLIFrameElement>(null);
   const restoreResults = useRef(false);
+  useEffect(() => {
+    const element = frame.current;
+    if (!element) return;
+    return connectSimulatorToolUsage(element);
+  }, [src, attempt]);
   useEffect(() => {
     setLoaded(false);
     setSlow(false);

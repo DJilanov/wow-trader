@@ -114,6 +114,74 @@ function fixture(): { readonly plan: CampaignPlan; readonly actions: readonly Ca
 }
 
 describe("full campaign RestedXP compiler", () => {
+  it("chains a different member's personal starter into shared work without copying the leader's starter", () => {
+    const { plan, actions } = fixture();
+    const personal = [
+      action("priest-accept", "dwarf-start", true, 600, "accepted"),
+      action("priest-complete", "dwarf-start", true, 600, "objectives-complete"),
+      action("priest-turnin", "dwarf-start", true, 600, "rewarded"),
+    ];
+    const memberPlan: CampaignPlan = {
+      ...plan,
+      starters: {
+        entries: personal.map((entry) => ({ action: entry, activities: [] })),
+        routes: [
+          {
+            race: "dwarf",
+            classSlug: "priest",
+            actionIndexes: [0, 1, 2],
+            legs: [
+              {
+                ...plan.legs[0]!,
+                id: "dwarf-start",
+                title: "Coldridge",
+                actionIds: personal.map((entry) => entry.id),
+                questIds: [600],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const addon = compileCampaignAddon(memberPlan, actions, {
+      ...options,
+      partyStarter: { race: "dwarf", classSlug: "priest" },
+    });
+    const party = addon.documents.filter((document) => document.role === "party");
+    expect(party).toHaveLength(2);
+    expect(party[0]!.content).toContain("<< Alliance Forever Dwarf Priest");
+    expect(party[0]!.content).toContain(`#next ${party[1]!.name}`);
+    expect(party[0]!.content).toContain("#label kfc-party-personal-priest-accept");
+    expect(party[0]!.content).toContain(".accept 600");
+    expect(party[1]!.content).toContain(".accept 2");
+    expect(party.map((document) => document.content).join("\n")).not.toContain(".accept 1 ");
+    expect(addon.documents.find((document) => document.role === "leader")!.content).toContain(
+      "<< Alliance Forever Human Warrior",
+    );
+    expect(addon.readme).toContain("Dwarf Priest member's own starter");
+    expect(() =>
+      compileCampaignAddon(plan, actions, {
+        ...options,
+        partyStarter: { race: "dwarf", classSlug: "priest" },
+      }),
+    ).toThrow("personal starter is unavailable");
+  });
+
+  it("uses the leader-equivalent personal branch when the member has the same race/class", () => {
+    const { plan, actions } = fixture();
+    const addon = compileCampaignAddon(plan, actions, {
+      ...options,
+      partyStarter: { race: "human", classSlug: "warrior" },
+    });
+    const party = addon.documents.filter((document) => document.role === "party");
+    expect(party).toHaveLength(2);
+    expect(party[0]!.content).toContain(".accept 1");
+    expect(party[0]!.content).not.toContain("Leader-only step");
+    expect(party[0]!.actionIds).toEqual(
+      actions.filter((entry) => entry.leaderOnly).map((entry) => `party-personal-${entry.id}`),
+    );
+    expect(party[1]!.content).toContain(".accept 2");
+  });
   it("binds passive prerequisite capture to the disputed quest without adding prerequisite actions", () => {
     const { plan, actions } = fixture();
     const extra = [
@@ -161,6 +229,17 @@ describe("full campaign RestedXP compiler", () => {
     const second = compileCampaignAddon(plan, actions, options);
 
     expect(first).toEqual(second);
+    expect(first.documents).toHaveLength(3);
+    for (const document of first.documents) {
+      expect(first.lua).toContain(document.content);
+      expect(document.content).toContain(`#name ${document.name}\n`);
+      expect(document.content).toContain(`#group ${document.group}\n`);
+    }
+    expect(
+      first.documents
+        .filter((document) => document.role === "party")
+        .flatMap((document) => document.actionIds),
+    ).toEqual(sharedActionIds(actions));
     expect(first.guides.map((guide) => [guide.role, guide.names.length])).toEqual([
       ["leader", 2],
       ["party", 1],
@@ -172,7 +251,10 @@ describe("full campaign RestedXP compiler", () => {
     expect(first.lua.match(/\.accept 1 /g)).toHaveLength(1);
     expect(first.lua.match(/\.accept 2 /g)).toHaveLength(2);
     expect(first.lua.match(/\.xp 20\+1000/g)).toHaveLength(2);
-    expect(first.lua.match(/\/kfcguide grind party-xp/g)).toHaveLength(2);
+    expect(first.lua).not.toContain("/kfcguide grind party-xp");
+    expect(first.lua.match(/#label kfc-party-xp-party-ready/g)).toHaveLength(2);
+    expect(first.lua).toContain("Is everyone level 20 with at least 1,000 XP into that level?");
+    expect(first.nativePolicy).toBe("normalized-v1");
     expect(first.lua).not.toContain("\n.accept 999");
     expect(first.lua).not.toContain("<< Rogue");
     expect(first.toc).toContain("## Interface: 16001");
@@ -201,6 +283,17 @@ describe("full campaign RestedXP compiler", () => {
     ];
     const normalized = compileCampaignAddon(plan, [...actions, ...repeated], options);
     expect(normalized.lua.match(/\.accept 2 /g)).toHaveLength(2);
+    for (const guide of normalized.guides) {
+      expect(guide.requestedActionIds).toContain("accept-again");
+      expect(guide.actionIds).not.toContain("accept-again");
+      expect(guide.normalizations).toEqual(
+        repeated.map((entry) => ({
+          actionId: entry.id,
+          reason: "duplicate-one-time-quest-phase",
+          removedQuestChanges: entry.questChanges,
+        })),
+      );
+    }
 
     expect(() =>
       compileCampaignAddon(
@@ -235,3 +328,7 @@ describe("full campaign RestedXP compiler", () => {
     ).toThrow("no package leg");
   });
 });
+
+function sharedActionIds(actions: readonly CampaignAction[]): readonly string[] {
+  return actions.filter((entry) => !entry.leaderOnly).map((entry) => entry.id);
+}

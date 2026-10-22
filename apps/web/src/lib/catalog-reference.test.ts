@@ -9,6 +9,7 @@ import {
   getCatalogReference,
   getCatalogReferenceSearchSurface,
   getIndexableReferenceIds,
+  getIndexableReferenceRecords,
   itemReferenceMatchesClient,
 } from "./catalog-reference";
 
@@ -38,6 +39,104 @@ function fixture(): ReferenceRecord {
 }
 
 describe("published catalog reference gate", () => {
+  it("exposes reviewed quest records only through the existing publication and identity gate", async () => {
+    const root = await mkdtemp(join(tmpdir(), "helper-quest-directory-"));
+    vi.stubEnv("WOW_TRADER_REFERENCE_DIRECTORY", root);
+    const log = vi.spyOn(console, "error").mockImplementation((): void => {});
+    try {
+      await mkdir(join(root, "records"));
+      const valid: ReferenceRecord = {
+        ...fixture(),
+        kind: "quest",
+        id: 10,
+        name: "Named quest",
+        sourceUrl: "https://www.wowhead.com/forever/quest=10",
+        quickFacts: ["Level: 10", "Requires level 5"],
+        objectives: ["Speak to the quest giver."],
+        rewards: ["100 experience"],
+        relations: [{ relation: "start", kind: "npc", id: 1, name: "Quest giver" }],
+      };
+      const records: ReferenceRecord[] = [
+        valid,
+        {
+          ...valid,
+          id: 11,
+          name: "Incomplete quest",
+          sourceUrl: "https://www.wowhead.com/forever/quest=11",
+          rewards: [],
+        },
+        {
+          ...valid,
+          id: 12,
+          name: "Conflicting quest",
+          sourceUrl: "https://www.wowhead.com/forever/quest=12",
+        },
+        {
+          ...valid,
+          id: 13,
+          name: "Corrupt quest",
+          sourceUrl: "https://www.wowhead.com/forever/quest=13",
+        },
+        {
+          ...valid,
+          id: 14,
+          name: "Missing client quest",
+          sourceUrl: "https://www.wowhead.com/forever/quest=14",
+        },
+        {
+          ...valid,
+          id: 15,
+          name: "Stale quest",
+          sourceUrl: "https://www.wowhead.com/forever/quest=15",
+          capturedAt: "2020-01-01T00:00:00.000Z",
+        },
+      ];
+      const entries = [];
+      for (const record of records) {
+        const contents = JSON.stringify(record);
+        const sha256 = createHash("sha256").update(contents).digest("hex");
+        await writeFile(
+          join(root, "records", `${sha256}.json`),
+          record.id === 13 ? "{}" : contents,
+        );
+        entries.push({
+          game: record.game,
+          kind: record.kind,
+          id: record.id,
+          capturedAt: record.capturedAt,
+          sha256,
+        });
+      }
+      await writeFile(
+        join(root, "index.json"),
+        JSON.stringify({
+          schema: "wowhead-reference-index.v1",
+          publishedAt: new Date().toISOString(),
+          records: entries,
+        }),
+      );
+      const client = {
+        quests: new Map<number, string | null>([
+          [10, null],
+          [11, null],
+          [12, "New client title"],
+          [13, null],
+          [15, null],
+        ]),
+      };
+      const approved = await getIndexableReferenceRecords("forever", "quest", client);
+      expect([...approved.keys()]).toEqual([10]);
+      expect(approved.get(10)?.name).toBe("Named quest");
+      expect([...(await getIndexableReferenceIds("forever", "quest", client)).keys()]).toEqual([
+        10,
+      ]);
+      expect((await getIndexableReferenceRecords("tbc", "quest", client)).size).toBe(0);
+    } finally {
+      log.mockRestore();
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
   it("holds every record when no published directory is configured", async () => {
     vi.stubEnv("WOW_TRADER_REFERENCE_DIRECTORY", "");
     expect(await getCatalogReference("forever", "item", 25)).toBeNull();

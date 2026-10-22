@@ -9,6 +9,7 @@ import { getExternalItemReference, getExternalSpellReference } from "../lib/item
 import { AddToCraftingPlanButton } from "./crafting-plan";
 import { ItemIcon } from "./item-icon";
 import { MarketHistoryChart } from "./market-history-chart";
+import { reportToolUsage } from "../lib/tool-usage";
 
 type OpportunityDetail = Pick<
   MarketWorkspaceOpportunity,
@@ -83,11 +84,16 @@ export function OpportunityCalculationDetails({
       const opportunity = readOpportunityDetail(body);
       if (!response.ok || !opportunity) throw new Error("Opportunity detail is unavailable");
       setDetail(opportunity);
+      if (clientProduct === "wow_classic_beta" || clientProduct === "wow_anniversary")
+        reportToolUsage(
+          "crafting_calculation_loaded",
+          clientProduct === "wow_classic_beta" ? "forever" : "tbc",
+        );
       setState("idle");
     } catch (error: unknown) {
       if (!(error instanceof DOMException && error.name === "AbortError")) setState("error");
     }
-  }, [detail, endpoint, state]);
+  }, [clientProduct, detail, endpoint, state]);
 
   return (
     <details

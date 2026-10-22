@@ -20,6 +20,21 @@ function required<T extends HTMLElement>(root: HTMLElement, selector: string): T
   return node;
 }
 
+export function installKfcSimulationMeasurement(sim: SimUI["sim"]): () => void {
+  const listener = sim.simResultEmitter.on((): void => {
+    try {
+      if (window.parent !== window)
+        window.parent.postMessage(
+          { type: "kfc-simulation-completed", version: 1 },
+          window.location.origin,
+        );
+    } catch {
+      // Optional host measurement must not interfere with result delivery.
+    }
+  });
+  return () => listener.dispose();
+}
+
 // Move existing nodes, never clone controls or alter simulation state.
 export function installKfcWorkspace(ui: SimUI): () => void {
   if (ui.isWithinRaidSim) return () => {};
@@ -39,6 +54,7 @@ export function installKfcWorkspace(ui: SimUI): () => void {
       ?.click();
   };
   window.addEventListener("message", dismissItemPicker);
+  const disposeMeasurement = installKfcSimulationMeasurement(ui.sim);
   root.classList.add("kfc-workspace");
   root.dataset.mobileView = "build";
   const simRoot = required(root, ".sim-root");
@@ -315,6 +331,7 @@ export function installKfcWorkspace(ui: SimUI): () => void {
     window.removeEventListener("message", dismissItemPicker);
     disposed = true;
     rulesetListener.dispose();
+    disposeMeasurement();
     resultsObserver.disconnect();
     clearTimeout(stopTimer);
     ui.resultsViewer.buttonElem.removeEventListener("click", requestStop);

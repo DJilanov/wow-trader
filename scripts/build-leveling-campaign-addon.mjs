@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { Buffer } from "node:buffer";
 import { createHash } from "node:crypto";
 import {
   chmod,
@@ -20,12 +21,16 @@ import {
   CHAPTER_REFERENCES,
   CAMPAIGN_RACES,
   activeCampaignActions,
+  campaignUnmodeledExtras,
+  campaignExportSelectionSchema,
+  campaignExportProgress,
+  restedXpDocumentSetSchema,
+  campaignPartyStarterSchema,
+  buildCampaignStarters,
+  enrichCampaignStarters,
   buildCampaignPlan,
-  attachCampaignCombat,
+  prepareCampaignPlan,
   compileCampaignAddon,
-  compileCampaignFunding,
-  compileCampaignPickupGates,
-  emptyPremadeProgress,
   getLevelingRace,
   guideArchiveManifestSchema,
   importedChapterSchema,
@@ -41,6 +46,7 @@ import {
   readQuestXpIndex,
 } from "../packages/reference-data/dist/index.js";
 import { readAddonCombatReference } from "./leveling-addon-combat.mjs";
+import { verifyCampaignAddonReview } from "./campaign-addon-review-check.mjs";
 
 const MAXIMUM_MANIFEST_BYTES = 4_000_000;
 const MAXIMUM_CHAPTER_BYTES = 8_000_000;
@@ -59,7 +65,7 @@ async function bounded(path, maximum) {
 }
 
 function parseArguments(raw) {
-  const flags = new Set(["--raid-goals", "--verify-all"]);
+  const flags = new Set(["--raid-goals", "--verify-all", "--verify-party-matrix"]);
   const values = new Map();
   for (const argument of raw[0] === "--" ? raw.slice(1) : raw) {
     if (flags.has(argument)) {
@@ -69,7 +75,7 @@ function parseArguments(raw) {
     const match = /^--([a-z-]+)=(.+)$/.exec(argument);
     if (!match || values.has(match[1]))
       throw new Error(
-        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--combat=dir] [--destination=dir --race=race --class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all].",
+        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--combat=dir] [--configuration=file] [--destination=dir --race=race --class=class] [--party-race=race --party-class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all [--verify-party-matrix]].",
       );
     values.set(match[1], match[2]);
   }
@@ -79,15 +85,19 @@ function parseArguments(raw) {
     "reward-import",
     "reward-evidence",
     "combat",
+    "configuration",
     "destination",
     "race",
     "class",
+    "party-race",
+    "party-class",
     "runtime-build",
     "restedxp-version",
     "interface",
     "version",
     "raid-goals",
     "verify-all",
+    "verify-party-matrix",
   ]);
   const unknown = [...values.keys()].find((key) => !known.has(key));
   if (unknown) throw new Error(`Unknown option --${unknown}.`);
@@ -100,6 +110,11 @@ function parseArguments(raw) {
   ])
     if (!values.has(required)) throw new Error(`Missing --${required}.`);
   const verifyAll = values.get("verify-all") === "true";
+  const verifyPartyMatrix = values.get("verify-party-matrix") === "true";
+  if (verifyPartyMatrix && !verifyAll)
+    throw new Error("--verify-party-matrix requires --verify-all.");
+  if (verifyPartyMatrix && (values.has("party-race") || values.has("party-class")))
+    throw new Error("Full party-matrix verification cannot use a fixed member edition.");
   if (!verifyAll)
     for (const required of ["destination", "race", "class"])
       if (!values.has(required)) throw new Error(`Missing --${required}.`);
@@ -108,21 +123,31 @@ function parseArguments(raw) {
     if (!Number.isSafeInteger(value) || value <= 0) throw new Error(`Invalid --${key}.`);
     return value;
   };
+  if (values.has("party-race") !== values.has("party-class"))
+    throw new Error("Provide both --party-race and --party-class.");
   return {
     archive: resolve(values.get("archive")),
     rewards: resolve(values.get("rewards")),
     rewardImport: resolve(values.get("reward-import")),
     rewardEvidence: values.has("reward-evidence") ? resolve(values.get("reward-evidence")) : null,
     combat: values.has("combat") ? resolve(values.get("combat")) : null,
+    configuration: values.has("configuration") ? resolve(values.get("configuration")) : null,
     destination: values.has("destination") ? resolve(values.get("destination")) : null,
     race: values.get("race"),
     leaderClass: values.get("class"),
+    partyStarter: values.has("party-race")
+      ? campaignPartyStarterSchema.parse({
+          race: values.get("party-race"),
+          classSlug: values.get("party-class"),
+        })
+      : undefined,
     runtimeBuild: integer("runtime-build"),
     interfaceVersion: integer("interface", "16001"),
     restedXpVersion: values.get("restedxp-version"),
     version: values.get("version") ?? "0.2.0-review.1",
     raidGoals: values.get("raid-goals") === "true",
     verifyAll,
+    verifyPartyMatrix,
   };
 }
 
@@ -242,7 +267,14 @@ async function loadObserverFiles() {
   };
 }
 
-async function writePackage(destination, releaseId, artifact, manifestBase, observerFiles) {
+async function writePackage(
+  destination,
+  releaseId,
+  artifact,
+  manifestBase,
+  observerFiles,
+  documentsRaw,
+) {
   await mkdir(destination, { recursive: true });
   const temporary = await mkdtemp(join(destination, ".campaign-addon-"));
   try {
@@ -276,12 +308,18 @@ async function writePackage(destination, releaseId, artifact, manifestBase, obse
       { cwd: temporary, env: { ...process.env, TZ: "UTC" } },
     );
     const zip = await readFile(join(temporary, zipName));
+    await writeFile(join(temporary, "guides.json"), documentsRaw, { flag: "wx", mode: 0o600 });
     const manifest = {
       schema: "kfc-campaign-addon.v1",
       ...manifestBase,
       releaseId,
       files: hashes,
       zip: { file: zipName, size: zip.length, sha256: sha256(zip) },
+      documents: {
+        file: "guides.json",
+        bytes: Buffer.byteLength(documentsRaw),
+        sha256: sha256(documentsRaw),
+      },
     };
     await writeFile(join(temporary, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, {
       mode: 0o600,
@@ -302,6 +340,25 @@ async function writePackage(destination, releaseId, artifact, manifestBase, obse
       );
       if (existing.semanticSha256 !== manifest.semanticSha256)
         throw new Error(`Existing addon release has different contents: ${final}`);
+      if (JSON.stringify(existing) !== JSON.stringify(manifest))
+        throw new Error(`Existing addon manifest differs from the rebuilt release: ${final}`);
+      for (const [name, expected] of Object.entries(hashes)) {
+        const contents = await bounded(
+          join(final, "KFCForeverGuides", name),
+          MAXIMUM_CHAPTER_BYTES,
+        );
+        if (sha256(contents) !== expected)
+          throw new Error(`Existing addon file checksum failed: ${name}`);
+      }
+      const existingDocuments = await bounded(join(final, "guides.json"), 12_000_000);
+      if (sha256(existingDocuments) !== manifest.documents.sha256)
+        throw new Error("Existing guide document checksum failed.");
+      const existingZipPath = join(final, zipName);
+      const zipMetadata = await stat(existingZipPath);
+      if (!zipMetadata.isFile() || zipMetadata.size !== manifest.zip.size)
+        throw new Error("Existing addon ZIP size failed verification.");
+      if (sha256(await readFile(existingZipPath)) !== manifest.zip.sha256)
+        throw new Error("Existing addon ZIP checksum failed.");
       return { directory: final, manifest: existing, reused: true };
     }
   } finally {
@@ -316,6 +373,18 @@ async function main() {
     loadRewardFacts(input.rewards, input.rewardImport, input.rewardEvidence, input.runtimeBuild),
   ]);
   const combat = await readAddonCombatReference(input.combat, manifest.targetBuild);
+  const selection = campaignExportSelectionSchema.parse(
+    input.configuration
+      ? JSON.parse(await bounded(input.configuration, 100000))
+      : { raidGoals: input.raidGoals },
+  );
+  if (input.raidGoals) selection.raidGoals = true;
+  const starters = enrichCampaignStarters(
+    buildCampaignStarters(manifest.sourceSha256, sources),
+    sources,
+    rewards.facts,
+    combat ? { data: combat.data, revision: combat.revision } : null,
+  );
   const combatReference = combat
     ? {
         sha256: combat.revision,
@@ -323,72 +392,140 @@ async function main() {
         publication: combat.data.publication,
       }
     : null;
-  const compileEdition = (race, leaderClass) => {
-    const base = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
-    const enriched = combat
-      ? attachCampaignCombat(base, sources, combat.data, combat.revision)
-      : base;
-    const plan = compileCampaignFunding(
-      compileCampaignPickupGates({
-        ...enriched,
-        rewardFacts: rewards.facts,
-        rewardRevision: rewards.revision,
-        rewardBuild: rewards.observedIds.length ? input.runtimeBuild : null,
-        rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. ${combat ? "Combat references fund hypothetical planning only; actual player XP and unverified loot remain held. " : ""}This addon package is an in-game review artifact.`,
-      }),
-    );
-    const progress = { ...emptyPremadeProgress(), raidGoals: input.raidGoals };
-    const actions = activeCampaignActions(plan, progress);
+  const compileArtifact = (plan, actions, partyStarter = input.partyStarter) => {
     const artifact = compileCampaignAddon(plan, actions, {
       version: input.version,
       runtimeBuild: input.runtimeBuild,
       interfaceVersion: input.interfaceVersion,
       restedXpVersion: input.restedXpVersion,
+      nativeSources: sources,
+      partyStarter,
     });
+    verifyCampaignAddonReview(plan, actions, artifact, {
+      runtimeBuild: input.runtimeBuild,
+      restedXpVersion: input.restedXpVersion,
+      selection,
+      partyStarter,
+    });
+    return artifact;
+  };
+  const compileEdition = (race, leaderClass) => {
+    const base = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
+    const plan = prepareCampaignPlan(base, sources, {
+      starters,
+      rewardFacts: rewards.facts,
+      rewardRevision: rewards.revision,
+      rewardBuild: rewards.observedIds.length ? input.runtimeBuild : null,
+      combat,
+      rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. ${combat ? "Combat references fund hypothetical planning only; actual player XP and unverified loot remain held. " : ""}This addon package is an in-game review artifact.`,
+    });
+    const progress = campaignExportProgress(selection);
+    const unmodeled = campaignUnmodeledExtras(plan, progress);
+    if (unmodeled.length)
+      throw new Error(`Selected optional quests are not modeled: ${unmodeled.join(", ")}.`);
+    const actions = activeCampaignActions(plan, progress);
+    const artifact = compileArtifact(plan, actions);
     return { plan, actions, artifact };
   };
   if (input.verifyAll) {
-    const editions = CAMPAIGN_RACES.flatMap((race) => {
+    const profiles = CAMPAIGN_RACES.flatMap((race) => {
       const profile = getLevelingRace("alliance", race);
       if (!profile) throw new Error(`Missing Alliance race profile: ${race}`);
-      return profile.classes.map((leaderClass) => {
-        let compiled;
-        try {
-          compiled = compileEdition(race, leaderClass);
-        } catch (error) {
-          throw new Error(
-            `${race}/${leaderClass}: ${error instanceof Error ? error.message : "edition compilation failed"}`,
-          );
-        }
-        const { plan, actions, artifact } = compiled;
-        return {
-          race,
-          leaderClass,
-          release: plan.release,
-          actions: actions.length,
-          handIns: new Set(
-            actions.flatMap((action) =>
-              action.questChanges
-                .filter((change) => change.state === "rewarded")
-                .map((change) => change.questId),
-            ),
-          ).size,
-          leaderGuides: artifact.guides.find((guide) => guide.role === "leader")?.names.length ?? 0,
-          partyGuides: artifact.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
-          pickupGateQuestIds: [
-            ...new Set(
-              actions.flatMap((action) =>
-                action.pickupQuestId === undefined ? [] : [action.pickupQuestId],
-              ),
-            ),
-          ].sort((left, right) => left - right),
-          luaSha256: sha256(artifact.lua),
-        };
-      });
+      return profile.classes.map((classSlug) => ({ race, classSlug }));
     });
-    process.stdout.write(
-      `${JSON.stringify({ mode: "verify-all", compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION, calculatorRevision: CAMPAIGN_XP_REVISION, editionCount: editions.length, sourceBuild: manifest.targetBuild, runtimeBuild: input.runtimeBuild, combatReference, actionRange: { minimum: Math.min(...editions.map((entry) => entry.actions)), maximum: Math.max(...editions.map((entry) => entry.actions)) }, handInRange: { minimum: Math.min(...editions.map((entry) => entry.handIns)), maximum: Math.max(...editions.map((entry) => entry.handIns)) }, editions })}\n`,
-    );
+    const editions = profiles.map(({ race, classSlug: leaderClass }, index) => {
+      let compiled;
+      try {
+        compiled = compileEdition(race, leaderClass);
+      } catch (error) {
+        throw new Error(
+          `${race}/${leaderClass}: ${error instanceof Error ? error.message : "edition compilation failed"}`,
+        );
+      }
+      const { plan, actions, artifact } = compiled;
+      const partyVariants = input.partyStarter
+        ? []
+        : (input.verifyPartyMatrix
+            ? profiles.map((starter) => ({ label: "full-party-matrix", starter }))
+            : [
+                { label: "same-edition", starter: profiles[index] },
+                { label: "independent-starter", starter: profiles[(index + 1) % profiles.length] },
+              ]
+          ).map(({ label, starter }) => {
+            let variant;
+            try {
+              variant = compileArtifact(plan, actions, starter);
+            } catch (error) {
+              throw new Error(
+                `${race}/${leaderClass} member ${starter.race}/${starter.classSlug}: ${error instanceof Error ? error.message : "party compilation failed"}`,
+              );
+            }
+            return {
+              label,
+              starter,
+              partyGuides:
+                variant.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
+              luaSha256: sha256(variant.lua),
+            };
+          });
+      if (input.verifyPartyMatrix)
+        process.stderr.write(
+          `Verified ${index + 1}/${profiles.length}: ${race}/${leaderClass} with ${partyVariants.length} member editions.\n`,
+        );
+      return {
+        race,
+        leaderClass,
+        release: plan.release,
+        actions: actions.length,
+        handIns: new Set(
+          actions.flatMap((action) =>
+            action.questChanges
+              .filter((change) => change.state === "rewarded")
+              .map((change) => change.questId),
+          ),
+        ).size,
+        leaderGuides: artifact.guides.find((guide) => guide.role === "leader")?.names.length ?? 0,
+        partyGuides: artifact.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
+        pickupGateQuestIds: [
+          ...new Set(
+            actions.flatMap((action) =>
+              action.pickupQuestId === undefined ? [] : [action.pickupQuestId],
+            ),
+          ),
+        ].sort((left, right) => left - right),
+        luaSha256: sha256(artifact.lua),
+        partyVariants,
+      };
+    });
+    const report = {
+      mode: "verify-all",
+      compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+      calculatorRevision: CAMPAIGN_XP_REVISION,
+      reviewVersion: input.version,
+      restedXpVersion: input.restedXpVersion,
+      sourceArchiveSha256: manifest.sourceSha256,
+      rewardRevision: rewards.revision,
+      selection,
+      fixedPartyStarter: input.partyStarter ?? null,
+      editionCount: editions.length,
+      fullPartyMatrix: input.verifyPartyMatrix,
+      memberPairings: input.partyStarter
+        ? editions.length
+        : editions.reduce((sum, entry) => sum + entry.partyVariants.length, 0),
+      sourceBuild: manifest.targetBuild,
+      runtimeBuild: input.runtimeBuild,
+      combatReference,
+      actionRange: {
+        minimum: Math.min(...editions.map((entry) => entry.actions)),
+        maximum: Math.max(...editions.map((entry) => entry.actions)),
+      },
+      handInRange: {
+        minimum: Math.min(...editions.map((entry) => entry.handIns)),
+        maximum: Math.max(...editions.map((entry) => entry.handIns)),
+      },
+      editions,
+    };
+    process.stdout.write(`${JSON.stringify(report)}\n`);
     return;
   }
   const race = getLevelingRace("alliance", input.race);
@@ -407,6 +544,27 @@ async function main() {
     .filter((id) => routeHandIns.has(id))
     .sort((left, right) => left - right);
   const observerFiles = await loadObserverFiles();
+  const documentsRaw =
+    JSON.stringify(
+      restedXpDocumentSetSchema.parse({
+        schema: "kfc-restedxp-documents.v1",
+        publication: "review",
+        compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+        routeRelease: plan.release,
+        sourceBuild: plan.targetBuild,
+        runtimeBuild: input.runtimeBuild,
+        restedXpVersion: input.restedXpVersion,
+        nativePolicy: artifact.nativePolicy,
+        edition: {
+          leader: { race: plan.race, classSlug: plan.leaderClass },
+          partyStarter: input.partyStarter,
+        },
+        selection,
+        documents: artifact.documents,
+      }),
+      null,
+      2,
+    ) + "\n";
   const semantic = {
     compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
     calculatorRevision: CAMPAIGN_XP_REVISION,
@@ -427,7 +585,10 @@ async function main() {
     interfaceVersion: input.interfaceVersion,
     race: plan.race,
     leaderClass: plan.leaderClass,
-    raidGoals: input.raidGoals,
+    raidGoals: selection.raidGoals,
+    selection,
+    nativePolicy: artifact.nativePolicy,
+    partyStarter: input.partyStarter ?? null,
     rewardRevision: rewards.revision,
     rewardIndexPublishedAt: rewards.index.publishedAt,
     rewardImportRevision: rewards.imported.revision,
@@ -445,6 +606,7 @@ async function main() {
       observer: sha256(observerFiles["Observer.lua"]),
       grindObserver: sha256(observerFiles["GrindObserver.lua"]),
       questObserver: sha256(observerFiles["QuestObserver.lua"]),
+      documents: sha256(documentsRaw),
     },
   };
   const semanticSha256 = sha256(JSON.stringify(semantic));
@@ -462,6 +624,7 @@ async function main() {
       partyGuideCount: artifact.guides.find((guide) => guide.role === "party")?.names.length ?? 0,
     },
     observerFiles,
+    documentsRaw,
   );
   process.stdout.write(
     `${JSON.stringify({ directory: result.directory, releaseId, reused: result.reused, semanticSha256, zip: result.manifest.zip, actionCount: actions.length, handInQuestCount: routeHandIns.size, historicalRouteIds, sourceBuild: plan.targetBuild, runtimeBuild: input.runtimeBuild, state: "review" })}\n`,

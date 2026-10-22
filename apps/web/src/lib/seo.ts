@@ -57,7 +57,12 @@ export function createHelperMetadata({
       "WoW Auction House tools",
       ...keywords,
     ],
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      ...(path.startsWith("/forever")
+        ? { types: { "application/rss+xml": helperAbsoluteUrl("/forever/updates.xml") } }
+        : {}),
+    },
     openGraph: {
       type: "website",
       locale: "en_GB",

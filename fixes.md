@@ -1,6 +1,112 @@
 # WoW Trader fixes and recovery context
 
+## October 22, 11:57 UTC — Ret completion-file hash must not be a runtime-envelope hash
+
+The actual final owner stopped after completed A/B measurements because B's inspection
+reference hashed the returned completion plus runtime counters, not completed.json.
+The two exact hashes7f92e294.../2453f8a0... are independently reproduced from the actual
+unchanged9-job/90000-fight/3-reuse Aresult. New explicit one-case transport authentication
+rejects arbitrary mismatches and changed metrics/counters; two source tests pass.
+Separately versioned V2reader preserves all origin/math/RNG checks and old files, rather
+than rewriting declarations or rerunning holdouts. Its actual read-only full replay is
+LIVE session97986/PID90830,0native/browser jobs, not yet passed. Exact recovery in context.md.
+
+Six more handoff/normalization tests pass, including actual Ret protocol defaults and
+rejecting cross-class characters/missing staged approvals; all15focused cases pass.
+These are preparation, not Ret preset delivery. Original failed70535is terminal1 and must
+not be restarted; all original pinned sources/cache remain unchanged. Canonical A plus
+explicit transport receipt, selected raw-WASM parity and real export/UI still remain.
+
+## October 22, 11:38 UTC — distinguish stale live weapons from tested local builds
+
+Fresh empty-storage live browser visits confirmed Persuader on Shadow,Smite,Elemental.
+Their current qualified local builds use caster weapons; five class presentations are
+behind locally selected releases. The new read-only scripts/audit-simulator-weapons.mjs
+authenticates actual library/catalog/preset assets and checks all15profiles/28defaults/
+23library entries, including main/off/ranged slots. Six regression cases, lint and format
+pass. Report weapon-audit-8f6fc36a7fe29018.json flags6live caster-starter rows plus local
+unfinishedDS/Ruin; no reviewed library role flags. These findings are NOT deployed fixes
+or proof of optimal gear. Never ban useful universal hit/crit/proc weapons by item name.
+
+Owner-approved separate full-raid update windows AFTER Ret/Shockadin are recorded in
+docs/simulator-full-raid-update-plan-2026-10-22.md, including weapon comparison and actual
+default/menu/library/live-release handoff. Preserve original budgets/results; no new
+update clock started. The actual Ret finite/fresh confirmation completed and same owner
+is replaying before parity; exact recovery state is at the top of context.md.
+
+## October 22, 11:15 UTC — Ret final verification and presentation cannot silently cross classes
+
+Actual independent Ret source audit passed78854origins/534stages; the supervised final
+owner is running on the unchanged clock. New qualification reader refuses missing,
+traversing, altered or other-class exports and authenticates real confirmation/parity
+instead of trusting claimed approval. New isolated builder uses the Paladin tree and
+Ret spec path and preserves numerical assets.3qualification+2presentation guards pass,
+plus2actual-guide reruns; strict6-file lint passes. Positive qualified UI/build/browser
+delivery is still pending. Final runner/input sources are frozen; recovery in context.md.
+
+## October 22, 10:40 UTC — Ret final evidence cannot overwrite acquisition inspection
+
+The new independent Ret reader returns finite final-stage evidence as finalInspection,
+preserving the inherited item/enchant inspection used by legality checks. Final selected
+parity compares actual admitted native77191/10k to class4raw-WASM after exact request/DB
+materialization; those inspected seeds never become fresh holdouts. Export requires real
+accepted40kconfirmation, closed feedback and existing parity, with old-model evidence
+labelled structural-only. Source preparation3/3, actual admission transport2/2 and export
+rejection3/3 tests pass. Actual final numerical/browser/export execution still remains;
+the original corrected owner is replaying78854requests, not stalled or restarted.
+
 Last updated: 2026-10-22
+
+## October 22, 10:19 UTC — preserve actual RNG identities in final Ret confirmation
+
+Frozen Ret state inspection uses77291/10k; generic approved confirmation requires
+genuine77191/10k origins. The prepared final pipeline performs a small real finite
+inspection, binds its completed artifact, and only then freezes fresh independent
+holdouts. Never relabel old metrics, invent unmeasured combinations, restart full search
+or switch winners after viewing holdouts. Strict source-backed context tests3/3pass;
+the actual corrected feedback is still running. No final confirmation/preset claim.
+Exact live handles, source boundaries and next-step preflight: context.md.
+
+## October 22, 10:01 UTC — free-seal fix passes both engines; actual corrective search started
+
+Accepted55native/WASM cases/1375fights per engine include unchanged29original controls,
+all24geared cases and both real free/paid-seal regressions. The isolated correction is
+therefore admitted for fresh optimization. The sole same-deadline corrective study uses
+no old-backend native journals or DPS values; old gear/talents supply structural inputs
+only. Do not restart the failed original backend or modify pinned sources during the
+live correction. Exact active handles, hashes and remaining qualification gates:
+context.md. Nothing was promoted/deployed as final Ret BiS.
+
+## October 22, 09:52 UTC — Sanctified Judgement free-seal crash isolated
+
+Libram of Hope22401removes20mana; rank1Righteousness costs20mana. Core correctly has no
+SpellCost for that free spell, but Sanctified Judgement dereferenced it on a refund proc.
+Actual1fight free case fails/paid rank2succeeds. The isolated patch preserves sim.Proc
+and paid-seal formulas, then refunds only if Cost is non-nil. Genuine native Go tests
+pass both free(no refund/crash) and paid(exact existing refund) paths.
+
+Compiled private corrected releasee945e98f232cc81948ee9060has unchanged catalog and no
+edits to original upstream source/cache/prior models. Actual55case native/WASM checks
+are running; see current context.md for exact handles, hashes and frozen boundaries.
+Never skip the legal free-seal combination, relabel old DPS, import old-backend journals
+or restart the failing original model. The sole same-clock correction must freshly
+remeasure actual anchors/gear/consumes/APLs before final confirmation and UI delivery.
+
+## October 22, 09:22 UTC — Ret geared feedback guards and live Shadow mismatch
+
+Ret full gear result independently replayed37,877origins/180stages after37,874new jobs.
+New feedback guards reject JSON-only manual bonuses and preserve earlier captured
+contenders with an explicit original-control order rather than dropping null policies.
+Original146APL outputs remain exact;24real class4canary inputs cover these translations,
+actual ranks/resources and compatible oils/stones. Correct seasonal Greater Firepower
+to ordinary Firepower and freshly measure the corrected context; never reuse the old
+DPS as an eligible baseline. Actual mechanics combat/ranking are still pending at this
+entry. New owner/source boundaries and exact current handles: context.md.
+
+Fresh public Chromium inspection also reproduced old Shadow starter/Persuader rather
+than the completed local tested Shadow release. Scepter13349was genuinely tested; item
+hit/crit are universal in the pinned Forever engine, so Persuader is not a zero-value
+caster item. The real deployment mismatch remains; no deployment was authorized here.
 
 ## October 22, 08:33 UTC — Ret numerical blue result verified, gear pipeline started
 

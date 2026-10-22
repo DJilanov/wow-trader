@@ -104,6 +104,19 @@ test("standalone packaging copies asset contents and activation requires the top
   assert(activate.includes("apps/web/.next/standalone/apps/web/public/kfc-icon.svg"));
 });
 
+test("optional tool measurement is supplied at build time and checked before activation", async () => {
+  const deploy = await repositoryFile("scripts/deploy-production.sh");
+  const activate = await repositoryFile("scripts/activate-production.sh");
+  assert(deploy.includes("export TOOL_USAGE_ENABLED TOOL_USAGE_ROOT"));
+  assert(deploy.includes("export TOOL_USAGE_BUILD='$release_name'"));
+  assert(activate.includes('${TOOL_USAGE_BUILD:-}" != "$release_name"'));
+  assert(activate.includes("data-tool-usage-build="));
+  assert(
+    activate.indexOf("tool usage was not enabled") <
+      activate.indexOf('ln -sfn "$release_directory"'),
+  );
+});
+
 test("server-rendered application links cannot escape the Helper base path", async () => {
   const appRoot = new URL("apps/web/src/", repositoryRoot);
   const entries = await readdir(appRoot, { recursive: true, withFileTypes: true });

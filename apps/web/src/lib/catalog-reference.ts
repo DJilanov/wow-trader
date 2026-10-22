@@ -59,6 +59,15 @@ export async function getIndexableReferenceIds(
   kind: ReferenceTask["kind"],
   client?: ReferenceClientContext,
 ): Promise<ReadonlyMap<number, Date>> {
+  const records = await getIndexableReferenceRecords(game, kind, client);
+  return new Map([...records].map(([id, record]) => [id, new Date(record.capturedAt)]));
+}
+
+export async function getIndexableReferenceRecords(
+  game: ReferenceTask["game"],
+  kind: ReferenceTask["kind"],
+  client?: ReferenceClientContext,
+): Promise<ReadonlyMap<number, ReferenceRecord>> {
   const root = process.env.WOW_TRADER_REFERENCE_DIRECTORY;
   if (!root) return new Map();
   try {
@@ -67,7 +76,7 @@ export async function getIndexableReferenceIds(
       index?.records.filter(
         (record) => record.game === game && record.kind === kind && referenceIsFresh(record),
       ) ?? [];
-    const approved = new Map<number, Date>();
+    const approved = new Map<number, ReferenceRecord>();
     let clientItems: readonly ReferenceClientItem[] | null = null;
     if (client && !("quests" in client)) {
       clientItems =
@@ -103,7 +112,7 @@ export async function getIndexableReferenceIds(
             : {}),
         });
         if (!isIndexableSearchSurface(surface)) continue;
-        approved.set(record.id, new Date(record.capturedAt));
+        approved.set(record.id, record);
       }
     }
     if (approved.size !== entries.length)

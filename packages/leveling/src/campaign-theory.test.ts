@@ -166,7 +166,8 @@ describe("chronological theoretical progress", () => {
     expect(addon.lua).not.toContain("#label kfc-starter-level-4-96627");
     expect(fallback.lua).toContain("#label kfc-starter-level-4-96627");
     expect(addon.lua).toContain(".accept 96627");
-    expect(addon.readme).toContain("The addon cannot see all five players' XP bars");
+    expect(addon.readme).toContain("The guide cannot see other players' XP or web progress.");
+    expect(addon.readme).toContain("Your own real XP is checked by RestedXP.");
   });
   it("holds missing loot counts and known mismatching source builds", () => {
     const combat = route(true).combat!,

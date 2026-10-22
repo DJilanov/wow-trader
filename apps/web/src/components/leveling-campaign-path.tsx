@@ -34,13 +34,19 @@ import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bund
 import { campaignChapterPath } from "../lib/leveling-route-plan";
 import styles from "./leveling-experience.module.css";
 import pathStyles from "./leveling-chapter-path.module.css";
+import { LevelingRestedXpExport } from "./leveling-restedxp-export";
 
 interface CampaignPathProps {
   readonly plan: CampaignPlan;
   readonly profile: CharacterProfile;
+  readonly reviewExportEnabled?: boolean;
 }
 
-export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): React.JSX.Element {
+export function LevelingCampaignPath({
+  plan,
+  profile,
+  reviewExportEnabled = false,
+}: CampaignPathProps): React.JSX.Element {
   const { session, loaded, notice, storageStatus, setDungeonPlan } = useLeveling();
   const fallback = useMemo(emptyPremadeProgress, []);
   const active =
@@ -146,6 +152,7 @@ export function LevelingCampaignPath({ plan, profile }: CampaignPathProps): Reac
           }}
         />
       </section>
+      {reviewExportEnabled && <LevelingRestedXpExport plan={plan} progress={progress} />}
       <section className={pathStyles.path} aria-labelledby="chapters-heading">
         <header className={pathStyles.heading}>
           <div>
