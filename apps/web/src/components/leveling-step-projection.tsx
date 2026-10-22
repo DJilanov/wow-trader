@@ -55,14 +55,14 @@ export function LevelingStepProjection({
           )}
         </div>
       ))}
-      <small>
-        {guide.basis === "saved-update"
-          ? "Estimated from your last progress update."
-          : "Estimated from your route's starting level."}{" "}
-        Recorded XP stays unchanged.
-      </small>
       <details className={styles.details}>
         <summary>Step XP details</summary>
+        <p>
+          {guide.basis === "saved-update"
+            ? "Estimated from your last progress update."
+            : "Estimated from your route's starting level."}{" "}
+          Recorded XP stays unchanged.
+        </p>
         {rows.map((row) => (
           <p key={row.player}>
             {guide.audience === "personal" ? "You" : `Player ${row.player}`}:{" "}

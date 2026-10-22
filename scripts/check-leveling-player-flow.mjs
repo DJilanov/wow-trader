@@ -92,6 +92,20 @@ try {
         .locator("dd")
         .innerText();
       assert.equal(nextStart, finish, "Chapter entry reset instead of carrying XP");
+      const rendezvous = page.locator('[data-route-chapter="prepare-thanes"]');
+      assert.equal(await rendezvous.getByRole("heading").first().innerText(), "Dun Morogh");
+      const personalFinish = await page
+        .locator('[data-route-chapter="start-125"] dl > div')
+        .nth(1)
+        .locator("dd")
+        .innerText();
+      const partyEntry = await rendezvous.locator("dl > div").first().locator("dd").innerText();
+      assert.equal(
+        partyEntry,
+        personalFinish,
+        "Unrecorded teammates restarted at level 1 instead of projecting their starters",
+      );
+      assert(!partyEntry.includes("Levels 1–"), "Phantom level-1 teammates at rendezvous");
       if (values.mode === "quest-only") {
         const breakdown = first.locator("details[data-xp-budget]");
         await breakdown.locator("summary").first().click();
@@ -110,6 +124,18 @@ try {
       await start.click();
       await page.getByRole("button", { name: "Update my level / XP", exact: true }).waitFor();
       const initial = await progress(page);
+      assert.equal(await page.locator('[data-campaign-action$="-entry-xp"]').count(), 0);
+      assert(
+        !/Record actual XP before|Record fresh actual level and XP|Chapter level ranges are route references/.test(
+          await page.locator("main").innerText(),
+        ),
+      );
+      const outcome = page.locator('[data-chapter-result="start-115"]');
+      assert(
+        (await outcome.innerText()).includes(finish),
+        "The chapter result must show its calculated finish",
+      );
+      assert((await outcome.innerText()).includes("Continue to Elwynn Forest"));
       assert(
         initial.members.every((member) => member.level === null && member.currentXp === null),
         "Planning defaults were written as observations",
@@ -153,6 +179,69 @@ try {
       );
       assert.equal((await progress(page)).members[0].questStates["783"], "accepted");
       assert.equal((await progress(page)).members[0].level, null);
+      await page.getByRole("button", { name: "Settings", exact: true }).click();
+      const settings = page.getByRole("dialog", { name: "Chapter settings & evidence" });
+      await settings.getByLabel("Player 2 race", { exact: true }).selectOption("dwarf");
+      await settings.getByLabel("Player 2 class", { exact: true }).selectOption("priest");
+      await settings.getByRole("button", { name: "Close settings", exact: true }).click();
+      const identities = await progress(page);
+      assert.equal(identities.members[1].raceId, "dwarf");
+      assert.equal(identities.members[1].classSlug, "priest");
+      assert(
+        identities.members.every((member) => member.level === null && member.currentXp === null),
+      );
+      await visit(page, overview);
+      await rendezvous.locator("details[data-xp-budget] > summary").click();
+      const dwarfBar = await rendezvous
+        .locator('ul[aria-label="Party XP estimates"] > li')
+        .nth(1)
+        .locator("p")
+        .first()
+        .innerText();
+      assert(
+        !/Level 1(?: ·|$)|needs an update/.test(dwarfBar),
+        "The alternate starter did not reach the party rendezvous",
+      );
+      assert((await progress(page)).members.every((member) => member.level === null));
+      const westfallLink = new URL(
+        await page.locator('[data-route-chapter="start-125"] a').first().getAttribute("href"),
+        base,
+      );
+      const westfallStep = "start-125-brief";
+      // The old shared chapter URL also contained Westfall; keep those exact-step bookmarks usable.
+      westfallLink.pathname = westfallLink.pathname.replace(
+        "premade-start-125",
+        "premade-prepare-thanes",
+      );
+      westfallLink.hash = `campaign-${westfallStep}`;
+      await visit(page, westfallLink.pathname + westfallLink.search + westfallLink.hash);
+      await page.locator('[data-chapter-plan="start-125"]').waitFor();
+
+      await visit(page, chapter("prepare-stockade", "#campaign-redridge-kill-batch-entry-xp"));
+      const resumedTask = page.locator('[data-reader-step="campaign-redridge-kill-batch-brief"]');
+      await page.waitForFunction(
+        () =>
+          globalThis.document
+            .querySelector('[data-reader-step="campaign-redridge-kill-batch-brief"]')
+            ?.getAttribute("data-selected") === "true",
+      );
+      assert.equal(await page.locator('[data-campaign-action$="-entry-xp"]').count(), 0);
+      const partyTasks = await page.locator("main").innerText();
+      assert(
+        !/Record actual XP before|Record fresh actual level and XP|Chapter level ranges are route references/.test(
+          partyTasks,
+        ),
+      );
+      assert(
+        (await page.locator('[data-chapter-result="prepare-stockade"]').innerText())
+          .toLowerCase()
+          .includes("after this chapter"),
+      );
+      await resumedTask.screenshot({
+        path: join(output, `party-task-${width}.png`),
+        caret: "initial",
+      });
+      await noOverflow(page);
     } catch (error) {
       await writeFile(
         join(output, `fresh-failure-${width}.json`),
@@ -274,7 +363,12 @@ try {
         defaultLevelOne: true,
         numericTarget: true,
         continuousChapterBars: true,
+        independentPartyStarters: true,
+        mixedRaceStarter: true,
         personalDoneWithoutXpForm: true,
+        noRoutineXpTasks: true,
+        chapterFinishVisible: true,
+        removedXpBookmarkResumed: true,
         noInventedActualXp: true,
         stableXpAnchor: true,
         reloadPersistence: true,

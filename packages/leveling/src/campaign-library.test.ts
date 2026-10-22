@@ -225,7 +225,7 @@ describe("full source kill-first quest backbone", () => {
   });
   it("replays a leader-only parent for the party before a shared child", () => {
     const body =
-      "step\n.accept 400010 >> Accept Report\nstep\n.turnin 400010 >> Turn in Report\n.accept 400001 >> Accept Gnoll Patrol\nstep\n.complete 400001,1\nstep\n.turnin 400001 >> Turn in Gnoll Patrol";
+      "step\n.accept 400010 >> Accept Report\nstep\n.turnin 400010 >> Turn in Report\n.accept 400001 >> Accept Gnoll Patrol\nstep\n>>Kill gnolls\n.complete 400001,1\nstep\n.turnin 400001 >> Turn in Gnoll Patrol";
     const parent = library(body).find((quest) => quest.questId === 400010)!;
     const original = {
       ...base(),
@@ -271,6 +271,36 @@ describe("full source kill-first quest backbone", () => {
         ),
       ),
     );
+  });
+  it("does not let the solo source backbone reintroduce personal drop farms into Redridge", () => {
+    const body =
+      "step\n.accept 400020 >> Accept Rare Scales\nstep\n>>Kill whelps and loot their scales\n.complete 400020,1\nstep\n.turnin 400020 >> Turn in Rare Scales\n" +
+      kills;
+    const plan = integrateCampaignQuestLibrary(base(), backboneLibrary(body), new Set());
+    expect(
+      plan.actions.some((action) =>
+        action.questChanges.some((change) => change.questId === 400020),
+      ),
+    ).toBe(false);
+    expect(plan.library?.choices.find((choice) => choice.questId === 400020)).toMatchObject({
+      role: "held",
+      reason: expect.stringContaining("collection farming"),
+    });
+    expect(
+      plan.actions.some((action) =>
+        action.questChanges.some((change) => change.questId === 400001),
+      ),
+    ).toBe(true);
+  });
+  it("does not reintroduce an early collection through a later region's source chain", () => {
+    const body =
+      "step\n.accept 400020 >> Accept Rare Scales\nstep\n>>Kill whelps and loot their scales\n.complete 400020,1\nstep\n.turnin 400020 >> Turn in Rare Scales\n.accept 400021 >> Accept Later Patrol\nstep\n>>Kill enemies\n.complete 400021,1\nstep\n.turnin 400021 >> Turn in Later Patrol";
+    const quests = backboneLibrary(body).map((quest) =>
+      quest.questId === 400021 ? { ...quest, sourceId: 20 } : quest,
+    );
+    const plan = integrateCampaignQuestLibrary(base(), quests, new Set());
+    expect(plan.actions.flatMap((action) => action.questChanges)).toEqual([]);
+    expect(plan.library?.choices.every((choice) => choice.role === "held")).toBe(true);
   });
   it("does not invent a prerequisite from an unrelated return in an earlier source step", () => {
     const quests = library(

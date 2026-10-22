@@ -15,6 +15,9 @@ interface CampaignRewardInventory {
   readonly library?: {
     readonly choices: readonly Pick<CampaignLibraryChoice, "questId" | "role">[];
   };
+  readonly starters?: {
+    readonly entries: readonly { readonly action: CampaignRewardInventory["actions"][number] }[];
+  };
 }
 
 export function isSupportedCatchUpBatch(
@@ -27,6 +30,9 @@ export function campaignRewardQuestIds(plan: CampaignRewardInventory): readonly 
   return [
     ...new Set([
       ...plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
+      ...(plan.starters?.entries ?? []).flatMap((entry) =>
+        entry.action.questChanges.map((change) => change.questId),
+      ),
       ...(plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch).map((batch) => batch.questId),
       ...(plan.library?.choices ?? [])
         .filter((choice) => choice.role !== "held")

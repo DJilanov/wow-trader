@@ -9,6 +9,33 @@ import { LevelingChapterBudget, LevelingXpBudget } from "./leveling-xp-budget";
 import { guideTestPlan } from "./leveling-guide.test-fixture";
 
 describe("player-facing chapter plan", () => {
+  it("shows a shared chapter's projected party entry, not the defaults of unrecorded teammates", () => {
+    const base = guideTestPlan();
+    const plan = {
+      ...base,
+      actions: [
+        ...base.actions,
+        { ...base.actions[0]!, id: "join", legId: "join", leaderOnly: false, questChanges: [] },
+      ],
+      legs: [
+        ...base.legs,
+        {
+          ...base.legs[0]!,
+          id: "join",
+          title: "Dun Morogh",
+          kind: "preparation" as const,
+          actionIds: ["join"],
+        },
+      ],
+    };
+    const progress = emptyPremadeProgress();
+    const guide = forecastCampaignGuide(plan, progress).sections.at(-1)!;
+    const html = renderToStaticMarkup(<LevelingChapterBudget guide={guide} />);
+    expect(html).toContain("Expected entry");
+    expect(html).toContain("Level 3 · 0%");
+    expect(html).not.toContain("Levels 1–");
+    expect(progress.members.every((member) => member.level === null)).toBe(true);
+  });
   it("shows a useful default start, calculated finish and numeric target, not an actual-XP audit", () => {
     const guide = forecastCampaignGuide(guideTestPlan(), emptyPremadeProgress()).sections[0]!;
     const html = renderToStaticMarkup(<LevelingChapterBudget guide={guide} />);
@@ -25,7 +52,7 @@ describe("player-facing chapter plan", () => {
       "Not estimated",
     ])
       expect(html).not.toContain(text);
-    expect(html).toContain("no extra grind just to match a suggested level");
+    expect(html).toContain("Complete the tasks in order");
   });
   it("uses the same anchored forecast as the reader without changing the baseline target", () => {
     const plan = guideTestPlan();

@@ -44,6 +44,48 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
+  it.each(["warrior", "hunter"] as const)(
+    "merges both Ormer kill stages into the existing Wetlands visit for %s",
+    (classSlug) => {
+      const route = buildCampaignPlan(
+        "human",
+        "b".repeat(64),
+        [
+          ...[115, 116, 117, 125, 126].map((id) => source(id, "step\n>>Train and travel")),
+          source(
+            7,
+            "step <<Hunter\n.accept 294 >> Accept Ormer's Revenge\nstep <<Hunter\n.complete 294,1 >> Kill Mottled Raptors\n.complete 294,2 >> Kill Mottled Screechers\nstep\n.turnin 294 >> Turn in Ormer's Revenge\n.accept 295 >> Accept Ormer's Revenge\nstep\n.complete 295,1 >> Kill Mottled Scytheclaws\n.complete 295,2 >> Kill Mottled Razormaws\nstep\n.turnin 295 >> Turn in Ormer's Revenge",
+          ),
+          source(
+            11,
+            "step <<!Hunter\n.accept 294 >> Accept Ormer's Revenge\nstep <<!Hunter\n.complete 294,1 >> Kill Mottled Raptors\n.complete 294,2 >> Kill Mottled Screechers\nstep <<!Hunter\n.turnin 294 >> Turn in Ormer's Revenge\n.accept 295 >> Accept Ormer's Revenge\nstep <<!Hunter\n.complete 295,1 >> Kill Mottled Scytheclaws\n.complete 295,2 >> Kill Mottled Razormaws\nstep <<!Hunter\n.turnin 295 >> Turn in Ormer's Revenge",
+          ),
+        ],
+        classSlug,
+        { includeLibrary: false },
+      );
+      const actions = route.actions.filter((action) => action.legId === "wetlands-early-kills");
+      for (const questId of [294, 295])
+        expect(
+          actions
+            .flatMap((action) => action.questChanges)
+            .filter((change) => change.questId === questId)
+            .map((change) => change.state),
+        ).toEqual(["accepted", "objectives-complete", "objectives-complete", "rewarded"]);
+      const stages = actions.flatMap((action) => action.questChanges);
+      expect(
+        stages.findIndex((change) => change.questId === 294 && change.state === "rewarded"),
+      ).toBeLessThan(
+        stages.findIndex((change) => change.questId === 295 && change.state === "accepted"),
+      );
+      expect(actions.every((action) => !action.leaderOnly)).toBe(true);
+      const ids = route.legs.map((leg) => leg.id);
+      expect(ids.indexOf("wetlands-early-kills")).toBeGreaterThan(ids.indexOf("duskwood-watch"));
+      expect(ids.indexOf("wetlands-early-kills")).toBeLessThan(
+        ids.indexOf("wetlands-prerequisites"),
+      );
+    },
+  );
   it("starts at level 1, ends at 60, distinguishes sourced and planning dungeons and owns every action", () => {
     const route = plan();
     expect(route.legs[0]?.from).toBe(1);
@@ -194,7 +236,7 @@ describe("continuous 1–60 premade campaign", () => {
     const route = plan(),
       entry = route.actions.find((action) => action.id === "dungeon-thanes-entry")!;
     let progress = emptyPremadeProgress();
-    expect(() => updateCampaignAction(route, progress, entry.id, true)).toThrow("fresh actual");
+    expect(() => updateCampaignAction(route, progress, entry.id, true)).toThrow("confirm everyone");
     for (let i = 0; i < 5; i++) progress = recordPremadeXp(progress, i, 20, 0);
     expect(campaignActionReasons(entry, progress)[0]).toContain("preparation hand-ins");
     expect(route.actions.some((action) => action.kind === "unverified")).toBe(false);

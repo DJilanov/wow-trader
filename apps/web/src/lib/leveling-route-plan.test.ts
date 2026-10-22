@@ -11,6 +11,8 @@ import {
   campaignChapterAction,
   campaignChapterPath,
   campaignLeaderClass,
+  campaignLegacyStarterPath,
+  campaignLegacyXpPath,
   levelingPlanDashboardPath,
   levelingRouteMode,
 } from "./leveling-route-plan";
@@ -48,6 +50,57 @@ const plan: CampaignPlan = {
 };
 
 describe("integrated quest route editions", () => {
+  it("resumes removed XP reminders at the next task even across a chapter boundary", () => {
+    const edition: CampaignPlan = {
+      ...plan,
+      bookmarkAliases: {
+        "library-level-gate-115-source-step-0123-0": "second-brief",
+        "first-entry-xp": "first-brief",
+        "foreign-task": "second-brief",
+      },
+    };
+    const progress = emptyPremadeProgress();
+    const before = JSON.stringify(progress);
+    expect(
+      campaignLegacyXpPath(edition, progress, "first", "library-level-gate-115-source-step-0123-0"),
+    ).toBe(campaignChapterPath(edition, "second", "second-brief", progress));
+    expect(campaignLegacyXpPath(edition, progress, "first", "first-entry-xp")).toBeNull();
+    for (const id of ["foreign-task", "second-brief", "unknown-entry-xp"])
+      expect(campaignLegacyXpPath(edition, progress, "first", id)).toBeNull();
+    expect(JSON.stringify(progress)).toBe(before);
+  });
+  it("migrates only bookmarks from the last starter's formerly merged party chapter", () => {
+    const edition: CampaignPlan = {
+      ...plan,
+      legs: [
+        { ...plan.legs[0]!, id: "northshire", kind: "starter", stopId: null },
+        { ...plan.legs[0]!, id: "westfall", kind: "starter", stopId: null },
+        { ...plan.legs[0]!, id: "rendezvous", kind: "preparation", stopId: null },
+        { ...plan.legs[0]!, id: "dungeon-thanes", kind: "dungeon", stopId: "thanes" },
+      ],
+      actions: ["northshire", "westfall", "rendezvous", "dungeon-thanes"].map((legId) => ({
+        ...plan.actions[0]!,
+        id: `${legId}-brief`,
+        legId,
+      })),
+    };
+    const progress = emptyPremadeProgress();
+    const before = JSON.stringify(progress);
+    expect(
+      campaignLegacyStarterPath(edition, progress, "prepare-thanes", "westfall-brief"),
+    ).toContain("premade-westfall?plan=premade#campaign-westfall-brief");
+    expect(
+      campaignLegacyStarterPath(edition, progress, "prepare-thanes", "northshire-brief"),
+    ).toBeNull();
+    expect(
+      campaignLegacyStarterPath(edition, progress, "prepare-thanes", "unknown-step"),
+    ).toBeNull();
+    expect(
+      campaignLegacyStarterPath(edition, progress, "dungeon-thanes", "westfall-brief"),
+    ).toBeNull();
+    expect(campaignLegacyStarterPath(edition, progress, "westfall", "westfall-brief")).toBeNull();
+    expect(JSON.stringify(progress)).toBe(before);
+  });
   it("keeps links valid when excluding an optional dungeon merges its neighboring outdoor chapters", () => {
     const edition: CampaignPlan = {
       ...plan,

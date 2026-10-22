@@ -4,6 +4,9 @@ import {
   attachCampaignCombat,
   compileCampaignFunding,
   compileCampaignPickupGates,
+  buildCampaignStarters,
+  enrichCampaignStarters,
+  type CampaignStarterCatalog,
   type CampaignPlan,
   type CampaignRace,
   type CampaignSource,
@@ -17,12 +20,15 @@ import { getLevelingRewardSnapshot } from "./leveling-quest-xp";
 import { getLevelingCombatSnapshot } from "./leveling-combat";
 import { getLevelingQuestValidationCoverage } from "./leveling-quest-validation";
 import { campaignRewardQuestIds, isSupportedCatchUpBatch } from "./leveling-reward-inventory";
+import { createHash } from "node:crypto";
 
 let cache:
   | {
       readonly manifest: GuideArchiveManifest;
       readonly sources: Promise<readonly CampaignSource[]>;
       readonly plans: Map<string, Promise<CampaignPlan>>;
+      readonly starters: Promise<CampaignStarterCatalog>;
+      readonly enrichedStarters: Map<string, CampaignStarterCatalog>;
     }
   | undefined;
 
@@ -53,22 +59,36 @@ export async function getLevelingCampaign(
 ): Promise<CampaignPlan | null> {
   const manifest = await getLevelingArchiveManifest();
   if (!manifest || manifest.targetBuild !== 70205) return null;
-  if (cache?.manifest !== manifest)
-    cache = { manifest, sources: loadSources(manifest), plans: new Map() };
+  if (cache?.manifest !== manifest) {
+    const sources = loadSources(manifest);
+    cache = {
+      manifest,
+      sources,
+      plans: new Map(),
+      starters: sources.then((value) => buildCampaignStarters(manifest.sourceSha256, value)),
+      enrichedStarters: new Map(),
+    };
+  }
   const current = cache;
   const key = `${race}-${leaderClass ?? "general"}`;
-  const existing = current.plans.get(key);
-  if (existing) return withEvidence(await existing, await current.sources);
-  if (current.plans.size >= 6) {
-    const oldest = current.plans.keys().next().value;
-    if (oldest !== undefined) current.plans.delete(oldest);
+  let pending = current.plans.get(key);
+  if (!pending) {
+    if (current.plans.size >= 6) {
+      const oldest = current.plans.keys().next().value;
+      if (oldest !== undefined) current.plans.delete(oldest);
+    }
+    pending = current.sources.then((sources) =>
+      buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass),
+    );
+    current.plans.set(key, pending);
   }
-  const plan = current.sources.then((sources) =>
-    buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass),
-  );
-  current.plans.set(key, plan);
   try {
-    return withEvidence(await plan, await current.sources);
+    const [plan, sources, starters] = await Promise.all([
+      pending,
+      current.sources,
+      current.starters,
+    ]);
+    return await withEvidence(plan, sources, starters, current.enrichedStarters);
   } catch (error: unknown) {
     if (cache === current) cache = undefined;
     throw error;
@@ -78,8 +98,10 @@ export async function getLevelingCampaign(
 async function withEvidence(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
+  starters: CampaignStarterCatalog,
+  enrichedStarters: Map<string, CampaignStarterCatalog>,
 ): Promise<CampaignPlan> {
-  const ids = campaignRewardQuestIds(plan);
+  const ids = campaignRewardQuestIds({ ...plan, starters });
   const [snapshot, combat] = await Promise.all([
     getLevelingRewardSnapshot(ids),
     getLevelingCombatSnapshot(),
@@ -89,9 +111,25 @@ async function withEvidence(
       ? attachCampaignCombat(plan, sources, combat.data, combat.revision)
       : plan;
   const validation = await getLevelingQuestValidationCoverage(snapshot.clientBuild);
+  const factsHash = createHash("sha256").update(JSON.stringify(snapshot.facts)).digest("hex");
+  const key = `${snapshot.revision}:${factsHash}:${combat.revision}`;
+  let partyStarters = enrichedStarters.get(key);
+  if (!partyStarters) {
+    partyStarters = enrichCampaignStarters(
+      starters,
+      sources,
+      snapshot.facts,
+      combat.data?.targetBuild === plan.targetBuild
+        ? { data: combat.data, revision: combat.revision }
+        : null,
+    );
+    if (enrichedStarters.size >= 2) enrichedStarters.delete(enrichedStarters.keys().next().value!);
+    enrichedStarters.set(key, partyStarters);
+  }
   return compileCampaignFunding(
     compileCampaignPickupGates({
       ...enriched,
+      starters: partyStarters,
       catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
       rewardFacts: snapshot.facts,
       rewardRevision: `${snapshot.revision}:${validation.revision}`,

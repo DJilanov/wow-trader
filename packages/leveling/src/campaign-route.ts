@@ -1,4 +1,5 @@
 import type { RaceId } from "./profile.js";
+import type { ClassSlug } from "./model.js";
 
 export const CAMPAIGN_VERSION = "campaign-20261018-v2";
 export const CAMPAIGN_RACES = ["human", "dwarf", "gnome", "night-elf", "skyborne"] as const;
@@ -26,6 +27,15 @@ export const CAMPAIGN_STARTS: Readonly<Record<CampaignRace, readonly number[]>> 
   skyborne: [157, 125],
 };
 
+export function campaignStarterSourceIds(
+  race: CampaignRace,
+  classSlug: ClassSlug | null,
+): readonly number[] {
+  if (classSlug === "hunter" && race === "human") return [115, 116, 117, 126];
+  if (classSlug === "hunter" && race === "dwarf") return [118, 123, 124, 126];
+  return CAMPAIGN_STARTS[race];
+}
+
 export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   {
     id: "stockade-letter-unlock",
@@ -36,20 +46,20 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     sourceIds: [10, 128],
     quests: [389],
     instructions: [
-      "After the Deadmines Letter hand-in, take Bazil Thredd in Stormwind and deliver it to the Stockade warden. Keep this unlock even if all five are ahead on XP; the later city quest is not unlocked merely by being level 26.",
+      "Hand in The Letter in Stormwind, accept Bazil Thredd, then deliver it to the Stockade warden. Everyone needs to finish this quest to unlock the later Stockade chain.",
     ],
   },
   {
     id: "early-party-kills",
-    title: "Only if needed: finish the early party XP gap",
+    title: "Optional: finish the Dun Morogh trogg quests",
     from: 13,
     to: 16,
     purpose: "xp-bridge",
     sourceIds: [116, 119],
     quests: [432, 433],
     instructions: [
-      "After the required map preparation, use unfinished Dun Morogh trogg quests only if anyone remains below the entry level. Do not return to Westfall just to repeat quests already rewarded. Each listed player must confirm actual pickup eligibility.",
-      "If these quests are already rewarded or do not fill the remaining gap, fight nearby shared mobs together and record actual XP until everyone meets the gate. No assumed reward or universal mob-XP value fills the gap automatically.",
+      "If anyone still needs levels for Hall of Thanes, finish the remaining Dun Morogh trogg quests together. Otherwise, continue to the dungeon.",
+      "If those quests are already done, defeat nearby enemies until everyone is ready. There is no need to return to Westfall.",
     ],
   },
   {
@@ -61,9 +71,9 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     sourceIds: [116, 119, 125, 126],
     quests: [96392, 96390, 96391],
     instructions: [
-      "Finish your personal starting branch and travel to Dun Morogh on the Ironforge approach. Players with different starting zones keep their own class/race instructions; confirm all five can take the selected quests before reporting shared progress.",
-      "Finish class training and required pet/combat unlocks on your personal race route. Set useful hearths, buy supplies and learn flight paths on the journeys you actually make.",
-      "Follow Farsen's Watch and Nip 'Em in the Bud, then collect the Dark Iron Map from the spies and use it to start Underground Map. Every player needs their own map and actual hand-in; the unlock remains required even when ahead on XP.",
+      "Finish your own starting route, then travel to Dun Morogh and meet your party near Ironforge.",
+      "Train your class skills, finish any required pet quests, buy supplies and learn flight paths on the way.",
+      "Complete Farsen's Watch and Nip 'Em in the Bud. Loot a Dark Iron Map from the spies and use it to start Underground Map. Everyone needs to finish the map quest before Hall of Thanes.",
     ],
   },
   {
@@ -104,8 +114,8 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [244, 246, 124],
     extraPickupIds: [386],
     instructions: [
-      "After the Deadmines hand-ins, move as five to Lakeshire. Take the overlapping gnoll objectives and finish them on one loop before returning.",
-      "These are XP work, not a requirement to replay every Redridge quest. Skip fish, scales and stew farms; stop taking filler once all five can reach the next planned gate.",
+      "After the Deadmines hand-ins, travel to Lakeshire together and pick up the gnoll quests below.",
+      "Complete the gnoll objectives together, then return to Lakeshire for the hand-ins.",
     ],
   },
   {
@@ -118,9 +128,23 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [226, 56, 57, 58, 245, 128],
     extraPickupIds: [377],
     instructions: [
-      "Collect the Stockade quest Crime and Punishment while passing Darkshire, and What Comes Around while passing Lakeshire.",
-      "Run the Night Watch kill stages in order, returning each stage before accepting the next. Group kill credit must be checked for everyone; five players do not multiply a quest reward.",
-      "Use the selected wolf, spider and Blackrock kill objectives only for the remaining gap. Do not add Totem of Infliction, Rot Blossoms or tiger-blood-style collections.",
+      "Pick up Crime and Punishment in Darkshire and What Comes Around in Lakeshire for The Stockade.",
+      "Complete each Night Watch stage together. Return it in Darkshire before taking the next stage.",
+      "Follow the wolf, spider and Blackrock objectives listed below.",
+    ],
+  },
+  {
+    id: "wetlands-early-kills",
+    title: "Wetlands: Ormer's shared raptor kills",
+    from: 23,
+    to: 25,
+    purpose: "xp-bridge",
+    sourceIds: [7, 11],
+    quests: [294, 295],
+    instructions: [
+      "Travel to Wetlands, learn the Menethil flight path and pick up Ormer's Revenge at Whelgar's Excavation Site.",
+      "Finish the first raptor quest together and return it to Ormer. Accept the second quest before starting its raptor kills, and make sure everyone gets credit.",
+      "Continue to the Greenwarden and Dun Modr quests below. Skip the skin, banner and trophy collections that are not part of this route.",
     ],
   },
   {
@@ -132,9 +156,9 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     sourceIds: [11, 14],
     quests: [303, 463, 276, 277, 275],
     instructions: [
-      "Do Dark Iron War before Stockade so Fury Runs Deep is actually available. This shared-kill batch is required preparation, not optional XP filler.",
-      "Prepare Excavation on the same Wetlands journey: Greenwarden → Tramping Paws → Fire Taboo → Blisters on the Land.",
-      "Fire Taboo's Crude Flints are an unavoidable selected unlock, not a general collection recommendation. Check all five, batch nearby kills while waiting, and do not pretend the chain is complete without it.",
+      "Finish Dark Iron War before The Stockade to unlock Fury Runs Deep.",
+      "While in Wetlands, follow the Greenwarden → Tramping Paws → Fire Taboo → Blisters on the Land chain for Excavation.",
+      "Collect Crude Flints for every player's Fire Taboo quest before moving on to Blisters on the Land.",
       "Stage Caitlin's lead-in and Dorin Songblade's pickup; retain the current Journal's item and hand-in rules.",
     ],
   },

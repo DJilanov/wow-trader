@@ -7,6 +7,10 @@ import type {
 import { CAMPAIGN_BRIDGES } from "./campaign-route.js";
 import { getPremadeQuest } from "./premade.js";
 
+// These chapters are solo collection-heavy. Party filler must pass the kill-first closure;
+// the separate mandatory-unlock pass below can still retain a necessary collection.
+const killFirstSources = new Set([7, 9, 10, 11, 128]);
+
 export interface CampaignLibraryChoice {
   readonly questId: number;
   readonly title: string;
@@ -20,7 +24,7 @@ export interface CampaignLibraryChoice {
 }
 
 export interface CampaignLibrarySelection {
-  readonly revision: "source-backbone-20261018-v2";
+  readonly revision: "source-backbone-20261021-v3";
   readonly choices: readonly CampaignLibraryChoice[];
 }
 
@@ -211,9 +215,10 @@ export function integrateCampaignQuestLibrary(
     const quest = byId.get(questId);
     if (!quest || !quest.complete || quest.held)
       return { quests: [], reason: `Quest ${questId} lacks a complete shared-party source chain.` };
+    const allowSourceCollection = allowCollection && !killFirstSources.has(quest.sourceId);
     if (
-      (!allowCollection && quest.objective === "unclassified") ||
-      (!required && !allowCollection && quest.objective === "collection")
+      (!allowSourceCollection && quest.objective === "unclassified") ||
+      (!required && !allowSourceCollection && quest.objective === "collection")
     )
       return {
         quests: [],
@@ -230,7 +235,7 @@ export function integrateCampaignQuestLibrary(
     const unique = [...new Map(result.map((entry) => [entry.questId, entry])).values()];
     if (
       !required &&
-      !allowCollection &&
+      !allowSourceCollection &&
       unique.filter((entry) => entry.objective === "delivery").length > 6
     )
       return {
@@ -544,7 +549,7 @@ export function integrateCampaignQuestLibrary(
     legs: stages,
     actions,
     catchUpBatches: plan.catchUpBatches?.filter((batch) => !inserted.has(batch.questId)) ?? [],
-    library: { revision: "source-backbone-20261018-v2", choices },
+    library: { revision: "source-backbone-20261021-v3", choices },
   };
 }
 

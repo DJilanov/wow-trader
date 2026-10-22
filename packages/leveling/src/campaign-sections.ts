@@ -33,6 +33,7 @@ const outdoorAreas: Readonly<Record<string, string>> = {
   "redridge-kill-batch": "Redridge Mountains",
   "duskwood-watch": "Duskwood",
   "wetlands-prerequisites": "Wetlands",
+  "wetlands-early-kills": "Wetlands",
   "excavation-approach": "Wetlands",
   "ashenvale-crossing": "Ashenvale",
   "dalaran-approach": "Hillsbrad Foothills",
@@ -131,7 +132,7 @@ export function campaignSections(
   }
   for (let index = 0; index < includedLegs.length; index++) {
     const leg = includedLegs[index]!;
-    if (leg.kind === "starter" && includedLegs[index + 1]?.kind === "starter") {
+    if (leg.kind === "starter") {
       section(leg.id, leg.title, "starter", [leg], leg.to, null);
     } else if (leg.kind === "dungeon") {
       if (pending.length) {

@@ -4,6 +4,7 @@ import {
   currentCampaignAction,
   campaignSectionFor,
   campaignSectionActions,
+  campaignSections,
   getLevelingRace,
   type CampaignAction,
   type CampaignPlan,
@@ -99,4 +100,40 @@ export function campaignChapterAction(
     actions[0] ??
     null
   );
+}
+
+/** The final starter used to share the first party chapter URL; migrate only that known old scope. */
+export function campaignLegacyStarterPath(
+  plan: CampaignPlan,
+  progress: PremadeProgress,
+  requestedChapterId: string,
+  actionId: string,
+): string | null {
+  const starters = plan.legs.filter((leg) => leg.kind === "starter");
+  const lastStarter = starters.at(-1);
+  const firstShared = campaignSections(plan, progress).find(
+    (section) => section.kind !== "starter",
+  );
+  if (!lastStarter || firstShared?.id !== requestedChapterId) return null;
+  const action = activeCampaignActions(plan, progress).find(
+    (entry) => entry.id === actionId && entry.legId === lastStarter.id,
+  );
+  return action ? campaignChapterPath(plan, action.legId, action.id, progress) : null;
+}
+
+/** Removed XP reminders can point across a chapter boundary to the next real task. */
+export function campaignLegacyXpPath(
+  plan: CampaignPlan,
+  progress: PremadeProgress,
+  requestedChapterId: string,
+  oldActionId: string,
+): string | null {
+  if (!oldActionId.endsWith("-entry-xp") && !oldActionId.startsWith("library-level-gate-"))
+    return null;
+  const targetId = plan.bookmarkAliases?.[oldActionId];
+  if (!targetId) return null;
+  const action = activeCampaignActions(plan, progress).find((entry) => entry.id === targetId);
+  if (!action || campaignSectionFor(plan, action.legId, progress)?.id === requestedChapterId)
+    return null;
+  return campaignChapterPath(plan, action.legId, action.id, progress);
 }

@@ -44,12 +44,15 @@ import { levelingChapterPath } from "../lib/leveling-experience";
 import {
   campaignChapterAction,
   campaignChapterPath,
+  campaignLegacyStarterPath,
+  campaignLegacyXpPath,
   levelingPlanDashboardPath,
 } from "../lib/leveling-route-plan";
 import styles from "./leveling-campaign.module.css";
 import readerStyles from "./leveling-experience.module.css";
 import { LevelingXpBudget, LevelingChapterBudget } from "./leveling-xp-budget";
 import { LevelingGuideProgress } from "./leveling-guide-progress";
+import { LevelingCampaignHandoff } from "./leveling-campaign-handoff";
 import guideStyles from "./leveling-guide.module.css";
 import { LevelingDungeonPreparation } from "./leveling-campaign-outline";
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
@@ -143,6 +146,14 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       if (legId && campaignSectionFor(plan, routeId ?? "", progress)?.id !== chapter.id) return;
       const rawId = window.location.hash.replace(/^#campaign-/, "");
       const id = plan.bookmarkAliases?.[rawId] ?? rawId;
+      const legacyPath =
+        legId &&
+        (campaignLegacyStarterPath(plan, progress, routeId ?? "", id) ??
+          campaignLegacyXpPath(plan, progress, routeId ?? "", rawId));
+      if (legacyPath) {
+        router.replace(legacyPath, { scroll: false });
+        return;
+      }
       const target =
         actions.find(
           (entry) => entry.id === id && (!legId || chapter.actionIds.includes(entry.id)),
@@ -333,12 +344,16 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           <>
             <span>
               {entry.kind === "checkpoint"
-                ? "Before entering the dungeon"
-                : entry.kind === "unverified"
-                  ? "Dungeon details still pending"
-                  : entry.leaderOnly
-                    ? "Your character"
-                    : "Party questing"}
+                ? entry.targetStopId
+                  ? "Before entering the dungeon"
+                  : "Finish"
+                : entry.kind === "xp-check"
+                  ? "Level requirement"
+                  : entry.kind === "unverified"
+                    ? "Dungeon details still pending"
+                    : entry.leaderOnly
+                      ? "Your character"
+                      : "Party questing"}
             </span>
             {journey.completion[entry.id] === "skipped" && <span>Skipped XP work</span>}
             {entry.libraryQuestId && (
@@ -479,10 +494,14 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
                 {blocked.length
                   ? blocked.join(" ")
                   : entry.kind === "xp-check"
-                    ? "Continue when the next quests are available. Update your level only if the estimate needs correcting."
+                    ? "This level requirement is met. Continue to the next task."
                     : "The party meets the recorded entry requirements."}
               </p>
-              <button type="button" onClick={() => progressButton.current?.click()}>
+              <button
+                type="button"
+                disabled={!enabled}
+                onClick={() => progressButton.current?.click()}
+              >
                 Update level / XP
               </button>
             </div>
@@ -814,19 +833,21 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
           })}
         </section>
       ))}
-      {nextChapter && (
-        <nav className={guideStyles.handoff} aria-label="Next chapter">
-          <span className="eyebrow">Up next</span>
-          <p>Finish this chapter&apos;s required quests, then continue to {nextChapter.title}.</p>
-          <Link href={campaignChapterPath(plan, nextChapter.id, undefined, progress)}>
-            Continue to {nextChapter.title} →
-          </Link>
-        </nav>
-      )}
+      <LevelingCampaignHandoff
+        guide={guide}
+        next={
+          nextChapter
+            ? {
+                title: nextChapter.title,
+                href: campaignChapterPath(plan, nextChapter.id, undefined, progress),
+              }
+            : null
+        }
+      />
       {leg.id === "level-60-finish" && journey.completion[action.id] === "done" && (
         <p className={styles.save} role="status">
-          All five have reported level 60. Earlier incomplete tasks remain unchecked. The RestedXP
-          review pack still requires a successful bounded in-game validation before public release.
+          All five have reached level 60. Your progress is saved; earlier unfinished tasks remain
+          available.
         </p>
       )}
       {plan.leaderClass === null && (

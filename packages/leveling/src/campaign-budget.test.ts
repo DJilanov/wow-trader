@@ -152,7 +152,7 @@ describe("checkpoint budget regressions", () => {
     };
     expect(campaignActionReasons(gate, progress)).toEqual([]);
     expect(campaignActionReasons({ ...gate, leaderOnly: false }, progress)[0]).toContain(
-      "all five",
+      "Confirm everyone is level 6",
     );
   });
 

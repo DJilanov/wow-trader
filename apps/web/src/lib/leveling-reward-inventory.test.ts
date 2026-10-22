@@ -29,4 +29,12 @@ describe("active guide reward inventory", () => {
       }),
     ).toEqual([3]);
   });
+  it("loads other race/class starter rewards without duplicating shared quest IDs", () => {
+    expect(
+      campaignRewardQuestIds({
+        actions: [{ questChanges: [{ questId: 1 }] }],
+        starters: { entries: [{ action: { questChanges: [{ questId: 1 }, { questId: 7 }] } }] },
+      }),
+    ).toEqual([1, 7]);
+  });
 });

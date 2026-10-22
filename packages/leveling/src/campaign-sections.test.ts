@@ -97,17 +97,17 @@ describe("public campaign chapters and conditional progress", () => {
     const section = campaignSectionFor(route, "ironforge-rendezvous")!;
     expect(section).toMatchObject({
       id: "prepare-thanes",
-      title: "Westfall → Dun Morogh",
+      title: "Dun Morogh",
       kind: "zone",
       from: 13,
       to: 16,
     });
-    expect(section.areas.map((area) => area.title)).toEqual(["Westfall", "Dun Morogh"]);
-    expect(section.areas[1]?.legIds).toEqual(["ironforge-rendezvous", "early-party-kills"]);
+    expect(section.areas.map((area) => area.title)).toEqual(["Dun Morogh"]);
+    expect(section.areas[0]?.legIds).toEqual(["ironforge-rendezvous", "early-party-kills"]);
     expect(section.areas.flatMap((area) => area.legIds)).toEqual(section.legIds);
     expect(section.actionIds).toEqual(
       original.actions
-        .filter((action) => ["westfall", "map", "extra"].includes(action.legId))
+        .filter((action) => ["map", "extra"].includes(action.legId))
         .map((action) => action.id),
     );
     expect(route.release).toBe(original.release);
@@ -153,22 +153,24 @@ describe("public campaign chapters and conditional progress", () => {
       ),
     ).toEqual([]);
   });
-  it("consolidates the overlapping personal/XP/preparation phases without duplicating step identity", () => {
+  it("keeps the last personal chapter separate from shared preparation without duplicating steps", () => {
     const route = plan(),
       sections = campaignSections(route);
     expect(sections.map((entry) => entry.id)).toEqual([
       "northshire",
       "elwynn",
+      "westfall",
       "prepare-thanes",
       "dungeon-thanes",
     ]);
-    expect(sections.filter((entry) => entry.from === 13)).toHaveLength(1);
-    expect(sections[2]?.legIds).toEqual(["westfall", "map", "extra"]);
+    expect(sections.filter((entry) => entry.from === 13)).toHaveLength(2);
+    expect(sections[2]?.legIds).toEqual(["westfall"]);
+    expect(sections[3]?.legIds).toEqual(["map", "extra"]);
     expect(sections.flatMap((entry) => entry.actionIds)).toEqual(
       route.actions.map((entry) => entry.id),
     );
     expect(campaignSectionFor(route, "map")?.id).toBe("prepare-thanes");
-    expect(sections[3]?.to).toBe(16);
+    expect(sections[4]?.to).toBe(16);
   });
   it("computes one actual per-player deficit, never sums five players or credits a bracket as rewards", () => {
     const section = campaignSectionFor(plan(), "map")!;

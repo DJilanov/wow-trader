@@ -264,7 +264,7 @@ describe("only unfunded pickups get a separate XP check", () => {
     const state = reported(plan);
     state.members[0]!.questStates = {};
     expect(campaignActionReasons(plan.actions.at(-1)!, state, plan.rewardFacts)[0]).toContain(
-      "actual level 2",
+      "Player 1 needs level 2",
     );
   });
 
@@ -315,6 +315,6 @@ describe("only unfunded pickups get a separate XP check", () => {
     expect(campaignActionReasons(observation, state, plan.rewardFacts)).toEqual([]);
     expect(
       campaignActionReasons({ ...observation, targetLevel: 5 }, state, plan.rewardFacts)[0],
-    ).toContain("fresh actual");
+    ).toContain("Confirm you are level 5");
   });
 });

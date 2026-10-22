@@ -27,7 +27,7 @@ export function LevelingChapterBudget({
     >
       <dl className={styles.metrics}>
         <div>
-          <dt>{guide.basis === "saved-update" ? "From your update" : "Starting level"}</dt>
+          <dt>{guide.basis === "saved-update" ? "From your update" : "Expected entry"}</dt>
           <dd>{guideGroupBarLabel(members.map((member) => member.start))}</dd>
         </div>
         <div>
@@ -70,6 +70,18 @@ export function LevelingXpBudget({
               : "Calculated from the start of your route: level 1 and 0 XP unless you chose another starting level."}{" "}
             XP carries between chapters. These estimates do not change your recorded progress.
           </p>
+          {guide.assumedStarterPlayers.length > 0 && (
+            <p>
+              Unspecified identities use a provisional starter estimate. Set each player's race and
+              class in Settings for their own path. Your recorded XP is never copied to teammates.
+            </p>
+          )}
+          {guide.unavailableStarterPlayers.length > 0 && (
+            <p>
+              Set the remaining players' Alliance race and class in Settings, or record their XP at
+              the rendezvous. No level-1 catch-up grind is assumed for a missing starter path.
+            </p>
+          )}
           {guide.missingCombat && (
             <p>
               Some kill XP is unavailable and is not counted. A lower estimate does not mean you

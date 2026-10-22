@@ -10,10 +10,10 @@ function gateAction(action: CampaignAction, minimumLevel: number, questId: numbe
   return {
     id: `${action.legId}-level-${minimumLevel}-${questId}`,
     legId: action.legId,
-    title: `Check remaining XP before quest ${questId}`,
+    title: `Level ${minimumLevel} required: ${action.questChanges.find((change) => change.questId === questId)?.title ?? `quest ${questId}`}`,
     instructions: [
-      `Quest ${questId} has a minimum level of ${minimumLevel}. Check ${action.leaderOnly ? "the leader's" : "each participating player's"} progress before this pickup.`,
-      "If earlier hand-ins already cover it, continue without extra grinding. Only make up a real remaining XP shortfall; unknown rewards are not assumed earned.",
+      `${action.leaderOnly ? "You need" : "Everyone taking this quest needs"} level ${minimumLevel} to accept it. If you are already high enough, continue to the pickup.`,
+      "Otherwise, finish nearby quests or defeat enemies until you reach the required level.",
     ],
     questChanges: [],
     positions: action.positions,
@@ -30,27 +30,6 @@ function gateAction(action: CampaignAction, minimumLevel: number, questId: numbe
   };
 }
 
-function legGateAction(action: CampaignAction, title: string, leaderOnly: boolean): CampaignAction {
-  return {
-    id: `${action.legId}-entry-xp`,
-    legId: action.legId,
-    title: `Record actual XP before ${title}`,
-    instructions: [
-      "Record fresh actual level and XP for participating players, then continue from those bars.",
-      "Chapter level ranges are route references, not entry requirements. Only a quest prerequisite or the next selected stop can require more levels.",
-    ],
-    questChanges: [],
-    positions: action.positions,
-    source: null,
-    kind: "xp-check",
-    leaderOnly,
-    targetLevel: null,
-    targetCurrentXp: 0,
-    targetStopId: null,
-    raidOnly: action.raidOnly,
-  };
-}
-
 function departureGateAction(
   previous: CampaignAction,
   level: number,
@@ -63,9 +42,10 @@ function departureGateAction(
     legId: previous.legId,
     title: `Check required level before ${destinationTitle}`,
     instructions: [
-      "Use the next stop's selected difficulty policy and quest requirements, not the source chapter's level range.",
-      "Only cover the remaining required XP gap with unfinished eligible quests or suitable nearby enemies; stop once the requirement is met.",
-      "Record all five actual XP bars before departure. Forecast quest and combat values guide the gap, but do not mark it complete.",
+      stopId
+        ? `Get the party ready for ${destinationTitle}. The required level follows your dungeon difficulty setting.`
+        : `Reach level ${level} together to finish the route.`,
+      "If everyone is high enough, continue. If someone is behind, finish nearby quests or defeat enemies together until they catch up.",
     ],
     questChanges: [],
     positions: previous.positions,
@@ -79,25 +59,6 @@ function departureGateAction(
     xpOptional: true,
     xpTargetLevel: level,
   };
-}
-
-function actualXpAction(action: CampaignAction): CampaignAction {
-  if (action.kind !== "xp-check" || action.source === null || action.targetLevel === null)
-    return action;
-  const target = `level ${action.targetLevel}${action.targetCurrentXp ? ` + ${action.targetCurrentXp.toLocaleString("en-US")} XP` : ""}`;
-  const observed = {
-    ...action,
-    title: "Record actual level and XP",
-    instructions: [
-      `The source suggests ${target}; this is a route recommendation, not a mandatory grind.`,
-      "Record your actual bars and continue. Extra XP is needed only when the next quest or selected stop requires it.",
-    ],
-    targetLevel: null,
-    targetCurrentXp: 0,
-    xpOptional: false,
-  };
-  delete observed.xpTargetLevel;
-  return observed;
 }
 
 function legacyDepartureLevel(plan: CampaignPlan, stopId: string, fallback: number): number {
@@ -122,6 +83,27 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
   const questStates = new Map<number, CampaignAction["questChanges"][number]["state"]>();
   const actions: CampaignAction[] = [];
   const aliases: Record<string, string> = { ...plan.bookmarkAliases };
+  // Source .xp recommendations and targetless reminders are not gameplay tasks.
+  // Keep their saved positions at the next task, before any new XP is earned.
+  const reminders = new Set(
+    plan.actions
+      .filter(
+        (action) =>
+          action.kind === "xp-check" &&
+          action.questChanges.length === 0 &&
+          ((action.source !== null &&
+            action.targetStopId === null &&
+            action.pickupQuestId === undefined) ||
+            (action.targetLevel === null && action.targetStopId === null)),
+      )
+      .map((action) => action.id),
+  );
+  const routeActions = plan.actions.filter((action) => !reminders.has(action.id));
+  let nextTask: CampaignAction | undefined;
+  for (const action of [...plan.actions].reverse()) {
+    if (!reminders.has(action.id)) nextTask = action;
+    else if (nextTask) aliases[action.id] = nextTask.id;
+  }
   const leaderBudget = createCampaignPickupBudget(plan.rewardFacts ?? []);
   const partyBudget = createCampaignPickupBudget(plan.rewardFacts ?? []);
 
@@ -137,7 +119,7 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
     if (!action.leaderOnly && !quest?.classSlug && !quest?.raceIds.length)
       partyBudget.reward(questId);
   }
-  for (const original of plan.actions) {
+  for (const original of routeActions) {
     if (original.legId !== currentLegId) {
       const leg = plan.legs.find((entry) => entry.id === original.legId);
       if (!leg) throw new Error(`Campaign action has no owning leg: ${original.id}`);
@@ -171,19 +153,15 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
         }
       }
       currentLegId = original.legId;
-      if (!["dungeon", "finish"].includes(leg.kind) && leg.from > 1)
-        actions.push(
-          legGateAction(original, leg.title, leg.kind === "starter" || original.leaderOnly),
-        );
       if (!["dungeon", "finish"].includes(leg.kind)) {
+        aliases[`${leg.id}-entry-xp`] = original.id;
         aliases[`${leg.id}-entry-level-${leg.from}`] = `${leg.id}-entry-xp`;
         if (previousLeg?.kind === "starter")
           aliases[`${previousLeg.id}-departure-level-${previousLeg.to}-before-${leg.id}`] =
             `${leg.id}-entry-xp`;
       }
     }
-    const observed = actualXpAction(original);
-    const sourceGateConflictQuestIds = observed.questChanges.flatMap((change) => {
+    const sourceGateConflictQuestIds = original.questChanges.flatMap((change) => {
       if (change.state !== "accepted" || original.source === null) return [];
       const gate = questEligibility(change.questId, plan.rewardFacts).gate;
       if (!gate) return [];
@@ -193,8 +171,8 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
         : [];
     });
     let action = sourceGateConflictQuestIds.length
-      ? { ...observed, sourceGateConflictQuestIds }
-      : observed;
+      ? { ...original, sourceGateConflictQuestIds }
+      : original;
     const originalChanges = action.questChanges;
     for (const change of action.questChanges) {
       if (change.state === "accepted") break;
@@ -281,23 +259,34 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
   if (ids.size !== actions.length) throw new Error("Duplicate campaign pickup gate identity.");
   const compiled: CampaignPlan = {
     ...plan,
-    executionRevision: "workflow-20261020-v9",
+    executionRevision: "workflow-20261022-v10",
     actions,
-    legs: plan.legs.map((leg) => {
+    legs: plan.legs.flatMap((leg) => {
       const owned = actions.filter((action) => action.legId === leg.id);
-      return {
-        ...leg,
-        actionIds: owned.map((action) => action.id),
-        questIds: [
-          ...new Set(
-            owned.flatMap((action) => action.questChanges.map((change) => change.questId)),
-          ),
-        ],
-      };
+      if (!owned.length && plan.actions.some((action) => action.legId === leg.id)) return [];
+      return [
+        {
+          ...leg,
+          actionIds: owned.map((action) => action.id),
+          questIds: [
+            ...new Set(
+              owned.flatMap((action) => action.questChanges.map((change) => change.questId)),
+            ),
+          ],
+        },
+      ];
     }),
     bookmarkAliases: Object.fromEntries(
       Object.entries(aliases)
-        .map(([alias, target]): [string, string] => [alias, aliases[target] ?? target])
+        .map(([alias, originalTarget]): [string, string] => {
+          let target = originalTarget;
+          const visited = new Set([alias]);
+          while (!ids.has(target) && aliases[target] && !visited.has(target)) {
+            visited.add(target);
+            target = aliases[target]!;
+          }
+          return [alias, target];
+        })
         .filter(([, target]) => ids.has(target)),
     ),
   };

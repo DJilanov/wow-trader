@@ -35,9 +35,10 @@ import {
   integrateCampaignQuestLibrary,
   type CampaignLibrarySelection,
 } from "./campaign-library-route.js";
+import type { CampaignStarterCatalog } from "./campaign-starters.js";
 import {
   CAMPAIGN_BRIDGES,
-  CAMPAIGN_STARTS,
+  campaignStarterSourceIds,
   CAMPAIGN_VERSION,
   type CampaignRace,
   type CampaignOutdoorBlock,
@@ -124,6 +125,7 @@ export interface CampaignPlan {
   readonly lifecycleExclusions?: readonly CampaignLifecycleExclusion[];
   readonly library?: CampaignLibrarySelection;
   readonly combat?: CampaignCombatPlan;
+  readonly starters?: CampaignStarterCatalog;
 }
 
 const beforeStop: Readonly<Record<string, readonly string[]>> = {
@@ -134,6 +136,7 @@ const beforeStop: Readonly<Record<string, readonly string[]>> = {
     "stockade-letter-unlock",
     "redridge-kill-batch",
     "duskwood-watch",
+    "wetlands-early-kills",
     "wetlands-prerequisites",
   ],
   excavation: ["excavation-approach"],
@@ -353,7 +356,7 @@ export function buildCampaignPlan(
   archiveHash: string,
   sources: readonly CampaignSource[],
   leaderClass: ClassSlug | null = null,
-  options: { readonly includeLibrary?: boolean } = {},
+  options: { readonly includeLibrary?: boolean; readonly starterOnly?: boolean } = {},
 ): CampaignPlan {
   if (!/^[a-f0-9]{64}$/.test(archiveHash))
     throw new Error("Campaign requires a validated archive hash.");
@@ -674,22 +677,6 @@ export function buildCampaignPlan(
       }
     }
     if (block.purpose !== "starter") orderLegActions(start);
-    if (block.id === "ironforge-rendezvous") {
-      add(block.id, "xp-readiness", {
-        title: "Record actual party XP after the required preparation",
-        instructions: [
-          "Record fresh levels and XP for all five after these hand-ins. If everyone meets Hall of Thanes' entry requirement, the following extra-XP phase is not needed. Unknown or stale bars do not prove readiness.",
-        ],
-        questChanges: [],
-        positions: [],
-        source: null,
-        kind: "xp-check",
-        leaderOnly: false,
-        targetLevel: null,
-        targetStopId: "thanes",
-        raidOnly: false,
-      });
-    }
     legs.push({
       id: block.id,
       title: block.title,
@@ -752,12 +739,7 @@ export function buildCampaignPlan(
     }
     actions.splice(start, pending.length, ...ordered);
   }
-  const startingIds =
-    leaderClass === "hunter" && race === "human"
-      ? [115, 116, 117, 126]
-      : leaderClass === "hunter" && race === "dwarf"
-        ? [118, 123, 124, 126]
-        : CAMPAIGN_STARTS[race];
+  const startingIds = campaignStarterSourceIds(race, leaderClass);
   for (const id of startingIds) {
     const source = usable.find((source) => source.reference.sourceId === id);
     if (!source) throw new Error(`Starting chapter ${id} is unavailable for ${race}.`);
@@ -776,6 +758,17 @@ export function buildCampaignPlan(
       ],
     });
   }
+  if (options.starterOnly)
+    return lifecycleCompletePlan(
+      lifecycleSafePlan({
+        release: `${CAMPAIGN_VERSION}-${archiveHash.slice(0, 16)}-${race}-${leaderClass ?? "general"}`,
+        race,
+        leaderClass,
+        targetBuild: 70205,
+        actions,
+        legs,
+      }),
+    );
   for (const stop of PREMADE_STOPS) {
     for (const id of beforeStop[stop.id] ?? []) {
       const block = CAMPAIGN_BRIDGES.find((entry) => entry.id === id);
@@ -1002,17 +995,19 @@ export function buildCampaignPlan(
     legs,
     actions,
     bookmarkAliases: Object.fromEntries(
-      [...deferredBookmarks]
-        .flatMap(([oldId, source]) => {
-          if (actions.some((action) => action.id === oldId)) return [];
-          const target = actions.find(
-            (action) =>
-              action.source?.chapterId === source.chapterId &&
-              action.source.stepId === source.stepId &&
-              action.legId === "ironforge-rendezvous",
-          );
-          return target ? [[oldId, target.id]] : [];
-        })
+      [["ironforge-rendezvous-xp-readiness", "early-party-kills-brief"]]
+        .concat(
+          [...deferredBookmarks].flatMap(([oldId, source]) => {
+            if (actions.some((action) => action.id === oldId)) return [];
+            const target = actions.find(
+              (action) =>
+                action.source?.chapterId === source.chapterId &&
+                action.source.stepId === source.stepId &&
+                action.legId === "ironforge-rendezvous",
+            );
+            return target ? [[oldId, target.id]] : [];
+          }),
+        )
         .concat(
           usable
             .filter((source) => [116, 119, 125].includes(source.reference.sourceId))
@@ -1023,7 +1018,7 @@ export function buildCampaignPlan(
                 )
                 .map((step) => [
                   `early-party-kills-${source.reference.sourceId}-${step.id}`,
-                  "ironforge-rendezvous-xp-readiness",
+                  "early-party-kills-brief",
                 ]),
             ),
         ),
@@ -1372,7 +1367,7 @@ export function campaignActionReasons(
           const { minimumLevel, gate } = questEligibility(change.questId, facts);
           if (minimumLevel !== null && !campaignPickupLevelMet(staged, minimumLevel, facts))
             return [
-              `Record Player ${player + 1}'s actual level ${minimumLevel} or above before quest ${change.questId}. Conflicting minima remain conservative.`,
+              `Player ${player + 1} needs level ${minimumLevel} to accept ${change.title}. If they are already high enough, update their level.`,
             ];
           if (gate && questGateResult(gate, staged) === "blocked")
             if (!action.sourceGateConflictQuestIds?.includes(change.questId))
@@ -1408,7 +1403,7 @@ export function campaignActionReasons(
     );
     if (stale)
       return [
-        `Record fresh actual levels and XP for ${action.leaderOnly ? "the leader" : "all five"} after preparation; unknown or stale bars cannot decide whether extra quests are needed.`,
+        `Confirm ${action.leaderOnly ? "you are" : "everyone is"} level ${target.level}${target.currentXp ? ` + ${target.currentXp.toLocaleString("en-US")} XP` : " or higher"} before continuing. Use Update level / XP to save the progress shown in game.`,
       ];
     const ready = members.every(
       (member) =>
@@ -1418,13 +1413,13 @@ export function campaignActionReasons(
     return ready
       ? []
       : [
-          `The next requirement needs ${action.leaderOnly ? "the leader" : "all five"} at level ${target.level}${target.currentXp ? ` + ${target.currentXp.toLocaleString("en-US")} XP` : ""}. Cover only the remaining gap, then record fresh actual XP.`,
+          `${action.leaderOnly ? "Reach" : "Everyone needs to reach"} level ${target.level}${target.currentXp ? ` + ${target.currentXp.toLocaleString("en-US")} XP` : ""} before continuing. Finish nearby quests or defeat enemies, then update your progress.`,
         ];
   }
   if (action.kind !== "checkpoint") return [];
   const stop = PREMADE_STOPS.find((entry) => entry.id === action.targetStopId);
   const minimum = stop ? premadeEntryLevel(stop, progress, facts) : action.targetLevel;
-  if (minimum === null) return ["The entry gate is unknown."];
+  if (minimum === null) return ["The required entry level is not available yet."];
   if (
     !progress.members.every(
       (member) =>
@@ -1434,7 +1429,9 @@ export function campaignActionReasons(
         member.level >= minimum,
     )
   )
-    return [`Save fresh actual level/XP for all five at level ${minimum} or above.`];
+    return [
+      `${stop ? `Before entering ${stop.name}, confirm everyone is level ${minimum} or higher.` : `Confirm everyone has reached level ${minimum}.`} Use Update level / XP to save your party's progress.`,
+    ];
   if (
     action.requiredQuestIds?.some(
       (id) => !progress.members.every((member) => member.questStates[String(id)] === "rewarded"),

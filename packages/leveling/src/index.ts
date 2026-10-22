@@ -30,6 +30,7 @@ export * from "./campaign-xp.js";
 export * from "./campaign-xp-event.js";
 export * from "./campaign-theory.js";
 export * from "./campaign-guide.js";
+export * from "./campaign-starters.js";
 export * from "./campaign-evidence.js";
 export * from "./grind-evidence.js";
 export * from "./reward-evidence.js";

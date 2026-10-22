@@ -33,6 +33,8 @@ export function guideGroupBarLabel(positions: readonly (XpPosition | null)[]): s
 
 export function guideChapterMessage(section: CampaignGuideSection): string {
   const members = guideMembers(section);
+  if (section.unavailableStarterPlayers.length > 0)
+    return "Set your party's race and class in Settings, or update their XP at the rendezvous. Each character follows their own starter path.";
   if (members.some((member) => member.endpoint === null))
     return "Some XP is missing from this estimate. Keep following the quests; update your level before deciding to grind.";
   const extraXp = Math.max(0, ...members.map((member) => member.estimatedCombatXp));
@@ -41,6 +43,6 @@ export function guideChapterMessage(section: CampaignGuideSection): string {
   if (extraXp > 0)
     return `The plan includes up to ${extraXp.toLocaleString("en-US")} extra combat XP at required checkpoints. Skip that work if your actual level is already high enough.`;
   return section.audience === "personal"
-    ? "Follow the quests in order. Continue to the next area when its quests are available—no extra grind just to match a suggested level."
-    : "Follow the quests and required unlocks. Extra XP work is only needed if someone is below the next entry requirement.";
+    ? "Complete the tasks in order, then continue to the next area."
+    : "Complete the tasks together, then continue to the next stop.";
 }

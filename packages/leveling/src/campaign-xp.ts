@@ -39,7 +39,7 @@ import { createQuestValidationCertificateResolver } from "./quest-validation-cer
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
 import type { CampaignXpEvent } from "./campaign-xp-event.js";
 import type { LootScenario } from "./quest-loot.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261021-v18";
+export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261021-v19";
 
 export interface XpPosition {
   readonly level: number;
@@ -123,6 +123,8 @@ function position(total: number): XpPosition {
 }
 
 export interface CampaignXpForecastOptions {
+  /** Forecast-only personal branches; actual quest reporting remains leader-only. Players are 1-based. */
+  readonly personalActionPlayers?: Readonly<Record<string, number>>;
   readonly fromActionId?: string;
   readonly throughActionId?: string;
   readonly combat?: readonly CampaignCombatScenario[];
@@ -147,6 +149,18 @@ export function forecastCampaignXp(
   options: CampaignXpForecastOptions = {},
 ): readonly CampaignXpSectionForecast[] {
   const actions = activeCampaignActions(plan, progress);
+  const personalActions = new Set(
+    plan.actions.filter((action) => action.leaderOnly).map((action) => action.id),
+  );
+  for (const [id, player] of Object.entries(options.personalActionPlayers ?? {})) {
+    if (
+      !Number.isInteger(player) ||
+      player < 1 ||
+      player > progress.members.length ||
+      !personalActions.has(id)
+    )
+      throw new Error("Invalid personal forecast action owner.");
+  }
   const anchors = new Map<string, NonNullable<CampaignXpForecastOptions["anchors"]>[number][]>();
   const anchoredPlayers = new Set<number>();
   for (const anchor of options.anchors ?? []) {
@@ -409,7 +423,11 @@ export function forecastCampaignXp(
           xpNeedsUpdate: ledger.total === null || ledger.unknown.size > 0 || ledger.halt !== null,
         })),
       };
-      if (campaignOptionalXpReady(plan, modeled, action)) {
+      const personalPlayer = (options.personalActionPlayers?.[action.id] ?? 1) - 1;
+      const optionalModel = action.leaderOnly
+        ? { ...modeled, members: [modeled.members[personalPlayer]!] }
+        : modeled;
+      if (campaignOptionalXpReady(plan, optionalModel, action)) {
         skippedOptionalActionIds.push(action.id);
         continue;
       }
@@ -474,7 +492,7 @@ export function forecastCampaignXp(
           ledger.issues.set(campaignEvidenceIssueKey(issue), issue);
           (bucket === "evidence" ? summary.evidenceIssues : eligibilityIssues).push(issue.message);
         };
-        if (action.leaderOnly && player !== 0) continue;
+        if (action.leaderOnly && player !== personalPlayer) continue;
         if (ledger.total === null || ledger.halt) continue;
         const needed = (change: (typeof action.questChanges)[number]): boolean => {
           const state = ledger.states[String(change.questId)];

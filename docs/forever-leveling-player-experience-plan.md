@@ -7,6 +7,14 @@ This replaces the player-facing
 presentation decisions in the earlier theoretical-progress review; evidence audits remain
 authoring tools, not the main guide interface.
 
+The October 21 deployment predates the task-first corrections below. Commit, push and deployment
+were authorized separately on October 22; release preparation is in progress. Deployment is complete
+only after the candidate and public site pass verification.
+
+Post-release correction, implemented locally but not deployed:
+[party starter handoff and kill-first Wetlands merge](forever-leveling-group-kill-route-2026-10-21.md).
+The release acceptance missed the first shared party chapter; that regression is now explicit.
+
 ## Product contract
 
 A player should be able to answer four questions without opening an explanation:
@@ -162,3 +170,68 @@ It did not install an addon, publish private reference data, or claim a playtest
 perfect 1–60 route. In particular, current production lacks combat references: quest-based
 estimates work, but missing kill XP remains explicitly uncounted. A later recorded bar can
 correct the remaining route without inventing that missing history.
+
+## Task-first correction · 22 October 2026
+
+The phase compiler was inserting a "Record actual XP before..." task at nearly every area
+change. Source `.xp` recommendations became further recording tasks. Those are planner
+bookkeeping, not things a player should need to complete to follow a leveling guide.
+
+The player contract is now:
+
+- Follow the actual quest, travel, training and dungeon tasks in order.
+- See expected entry/finish at the top, expected progress after the current quest, and an
+  **After this chapter** summary with the calculated finish and next destination.
+- Correct the estimate using **Update my/party level / XP** when desired. Routine area
+  transitions must not insert an XP form or an empty task into Next/Done navigation.
+- Keep real quest minimum levels, dungeon entry requirements, unlocks and the final level-60
+  confirmation. Planning estimates must never silently satisfy those actual-data checks.
+- Keep calculation caveats in optional XP details. Missing reward/kill data must remain
+  honestly labeled; missing data is not evidence that the player needs to grind.
+
+Implementation:
+
+- `campaign-pickup-gates.ts` removes targetless reminders and source-only `.xp` recommendations,
+  rebuilding task lists and dropping reminder-only phases. Existing entry/reminder bookmarks
+  point at the next real task; alias chains are resolved to live action IDs. A trailing marker
+  with no later task is not mapped backwards over an already-earned reward.
+- The extra Ironforge XP-recording task is removed. Its old bookmark resumes the early-party
+  work; required Dun Morogh hand-ins and the actual Hall of Thanes entry check remain.
+- `campaign-guide.ts` resolves saved correction anchors through those aliases without moving
+  the saved bar, awarding quest completion, or changing the correction when browsing.
+- The reader labels remaining checks as level requirements, shows the chapter result through
+  `leveling-campaign-handoff.tsx`, and keeps repeated step calculation notes behind disclosure.
+  The existing solo/source chapter handoff is unchanged.
+- The archive audit checks compiled task removal and preservation of every quest objective in
+  order across all 33 supported race/class contexts. The browser acceptance check covers the
+  old Lakeshire reminder bookmark, ordinary completion without an XP form, and the chapter result.
+
+The implementation and local checks above did not install an addon or publish private data.
+Production combat-reference availability is unchanged. The separately authorized release follows
+the commit → push → verified candidate → activation workflow.
+
+Verification for this correction:
+
+- All **505 leveling tests** and **150 leveling-related web tests** passed. Both package
+  typechecks, leveling lint, lint for the touched web files, the leveling package build,
+  script syntax checks and `git diff --check` passed. The unrelated full web suite and the
+  optimized Next production build were not rerun for this correction.
+- The updated archive audit passed for **33 race/class contexts and 61 source chapters**,
+  including compiled reminder removal and quest-objective preservation.
+- The complete player-flow sweep passed at **1440 px and 390 px**, including its 320 px
+  overflow probe. Receipt/screenshots: temporary local directory
+  `wow-trader-player-flow-quest-only-o2iCwy` under the operating system's temp directory.
+- After the final wording cleanup, a separate fresh-preview check passed at both widths:
+  the old Lakeshire reminder opens the gnoll task, the task gives direct gameplay instructions,
+  the chapter result shows **Level 26 · 18% → The Stockade** from the loaded quest-only data,
+  and the real level-22 pickup still blocks unconfirmed progress. Those numbers are estimates,
+  not observed progress or a playthrough guarantee. Receipt/screenshots:
+  `wow-trader-task-copy-GT2jLk` under the operating system's temp directory. The desktop/mobile
+  task, chapter-result and requirement screenshots were reviewed.
+- The first browser attempt failed a case-sensitive assertion against a CSS-uppercase eyebrow;
+  its receipt remains in `wow-trader-player-flow-quest-only-YE8vqa`. The assertion now checks
+  the visible text without requiring its case. That attempt is not recorded as a pass.
+- Local preview logs also included a missing race-icon response and a Next development
+  `Gzip` listener warning during the long sweep. No listener limit or asset/publication guard
+  was changed to hide those warnings; the checks above do not certify unrelated assets or
+  production performance.

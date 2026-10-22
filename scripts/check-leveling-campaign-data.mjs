@@ -7,10 +7,12 @@ import {
   CHAPTER_REFERENCES,
   CAMPAIGN_RACES,
   buildCampaignPlan,
+  compileCampaignPickupGates,
   getLevelingRace,
   guideArchiveManifestSchema,
   importedChapterSchema,
   campaignSections,
+  PREMADE_STOPS,
 } from "../packages/leveling/dist/index.js";
 
 const root = resolve(
@@ -34,9 +36,28 @@ for (const entry of manifest.chapters) {
   sources.push({ reference, guide });
 }
 let count = 0;
+const dungeonLegIds = PREMADE_STOPS.filter((stop) => stop.dataStatus !== "missing-quest-data").map(
+  (stop) => `dungeon-${stop.id}`,
+);
 for (const race of CAMPAIGN_RACES)
   for (const leaderClass of [null, ...getLevelingRace("alliance", race).classes]) {
     const plan = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
+    const tasks = compileCampaignPickupGates(plan);
+    assert.ok(!tasks.actions.some((action) => action.id.endsWith("-entry-xp")));
+    assert.ok(
+      !tasks.actions.some((action) => action.kind === "xp-check" && action.source !== null),
+    );
+    assert.ok(!tasks.actions.some((action) => action.id === "ironforge-rendezvous-xp-readiness"));
+    assert.deepEqual(
+      tasks.actions.flatMap((action) => action.questChanges),
+      plan.actions.flatMap((action) => action.questChanges),
+      "Removing bookkeeping steps must not remove or reorder quest objectives",
+    );
+    assert.ok(
+      Object.values(tasks.bookmarkAliases ?? {}).every((id) =>
+        tasks.actions.some((action) => action.id === id),
+      ),
+    );
     const sections = campaignSections(plan);
     assert.deepEqual(
       sections.flatMap((section) => section.actionIds),
@@ -46,7 +67,10 @@ for (const race of CAMPAIGN_RACES)
       new Set(sections.flatMap((section) => section.actionIds)).size,
       plan.actions.length,
     );
-    assert.equal(sections.filter((section) => section.kind === "dungeon").length, 18);
+    assert.deepEqual(
+      sections.filter((section) => section.kind === "dungeon").map((section) => section.id),
+      dungeonLegIds,
+    );
     for (const section of sections) {
       assert.deepEqual(
         section.areas.flatMap((area) => area.legIds),
@@ -65,11 +89,24 @@ for (const race of CAMPAIGN_RACES)
         .find((section) => section.id === "prepare-thanes")
         .legIds.includes("early-party-kills"),
     );
-    for (let index = 1; index < sections.length; index++)
-      assert.ok(sections[index].from >= sections[index - 1].from, "Public levels move backward");
+    // Source chapter ranges are references, not observed/forecast XP. In particular a
+    // Hunter's last starter chapter can have a higher range than the rendezvous reference.
+    // Keep scopes separate; continuous XP is asserted by the player-flow browser check.
+    for (const section of sections)
+      assert.ok(
+        section.legIds.every(
+          (id) =>
+            (plan.legs.find((leg) => leg.id === id).kind === "starter") ===
+            (section.kind === "starter"),
+        ),
+        "A personal starter leaked into a shared chapter",
+      );
     assert.equal(plan.legs[0].from, 1);
     assert.equal(plan.legs.at(-1).to, 60);
-    assert.equal(plan.legs.filter((leg) => leg.kind === "dungeon").length, 18);
+    assert.deepEqual(
+      plan.legs.filter((leg) => leg.kind === "dungeon").map((leg) => leg.id),
+      dungeonLegIds,
+    );
     assert.equal(plan.actions.filter((action) => action.kind === "unverified").length, 0);
     assert.ok(plan.actions.length > 500);
     assert.equal(new Set(plan.actions.map((action) => action.id)).size, plan.actions.length);

@@ -137,19 +137,18 @@ function dungeonPlan(): CampaignPlan {
   };
 }
 
-describe("actual-XP zone handoffs", () => {
+describe("task-first zone handoffs", () => {
   it("lets a level-5 player leave Northshire and accept eligible Goldshire quests", () => {
     const plan = compileCampaignPickupGates(starterPlan());
     const state = party(5, 123);
-    const source = plan.actions.find((entry) => entry.id === "source-grind")!;
-    const handoff = plan.actions.find((entry) => entry.id === "elwynn-entry-xp")!;
-    expect(source.targetLevel).toBeNull();
-    expect(handoff.targetLevel).toBeNull();
+    expect(plan.actions.map((entry) => entry.id)).toEqual([
+      "northshire-work",
+      "elwynn-level-4-62",
+      "goldshire-work",
+    ]);
     expect(plan.actions.some((entry) => entry.targetLevel === 6)).toBe(false);
-    expect(campaignActionReasons(source, state, plan.rewardFacts)).toEqual([]);
-    expect(campaignActionReasons(handoff, state, plan.rewardFacts)).toEqual([]);
     expect(campaignActionReasons(plan.actions.at(-1)!, state, plan.rewardFacts)).toEqual([]);
-    const updated = updateCampaignAction(plan, state, handoff.id, true);
+    const updated = updateCampaignAction(plan, state, "northshire-work", true);
     expect(updated.members).toEqual(state.members);
     expect(updated.campaigns[plan.release]?.selectedActionId).toBe("goldshire-work");
     const section = campaignSections(plan)[0]!;
@@ -173,27 +172,80 @@ describe("actual-XP zone handoffs", () => {
     expect(JSON.stringify(state)).toBe(before);
   });
 
-  it("keeps a targetless zone handoff usable without forcing another XP form", () => {
-    const plan = compileCampaignPickupGates(starterPlan());
-    const state = party(5);
-    const handoff = plan.actions.find((entry) => entry.id === "elwynn-entry-xp")!;
-    state.members[0]!.xpNeedsUpdate = true;
-    expect(campaignActionReasons(handoff, state)).toEqual([]);
-    expect(campaignOptionalXpReady(plan, state, handoff)).toBe(false);
-    expect(updateCampaignAction(plan, state, handoff.id, true).members).toEqual(state.members);
-  });
-
-  it("keeps personal starter handoffs leader-only even when their opening brief is shared", () => {
+  it("removes targetless reminders rather than making the player complete an empty task", () => {
     const base = starterPlan();
+    const reminder = {
+      ...action("record-xp", "elwynn"),
+      kind: "xp-check" as const,
+    };
     const plan = compileCampaignPickupGates({
       ...base,
-      actions: base.actions.map((entry) => ({ ...entry, leaderOnly: false })),
+      actions: [...base.actions.slice(0, -1), reminder, base.actions.at(-1)!],
+      bookmarkAliases: { "old-reminder": "record-xp" },
     });
-    const state = emptyPremadeProgress();
-    state.members[0] = { ...state.members[0]!, level: 5, currentXp: 123, xpNeedsUpdate: false };
-    const handoff = plan.actions.find((entry) => entry.id === "elwynn-entry-xp")!;
-    expect(handoff.leaderOnly).toBe(true);
-    expect(campaignActionReasons(handoff, state)).toEqual([]);
+    expect(plan.actions.some((entry) => entry.id === reminder.id)).toBe(false);
+    expect(plan.bookmarkAliases?.[reminder.id]).toBe("goldshire-work");
+    expect(plan.bookmarkAliases?.["old-reminder"]).toBe("goldshire-work");
+    expect(plan.bookmarkAliases?.["source-grind"]).toBe("goldshire-work");
+  });
+
+  it("does not force another XP form when a zone changes after a hand-in", () => {
+    const plan = compileCampaignPickupGates(starterPlan());
+    const state = party(5);
+    state.members[0]!.xpNeedsUpdate = true;
+    expect(updateCampaignAction(plan, state, "northshire-work", true).members).toEqual(
+      state.members,
+    );
+    expect(
+      plan.actions.every((entry) => entry.targetLevel !== null || entry.kind !== "xp-check"),
+    ).toBe(true);
+  });
+
+  it("does not remove quest work or a real stop requirement just because it also tracks XP", () => {
+    const base = starterPlan();
+    const questWork = { ...base.actions.at(-1)!, kind: "xp-check" as const };
+    const stopGate: CampaignAction = {
+      ...base.actions[1]!,
+      id: "real-stop-gate",
+      targetStopId: "thanes",
+      targetLevel: null,
+    };
+    const plan = compileCampaignPickupGates({ ...base, actions: [questWork, stopGate] });
+    expect(plan.actions.find((entry) => entry.id === questWork.id)?.questChanges).toEqual(
+      questWork.questChanges,
+    );
+    expect(plan.actions.some((entry) => entry.id === stopGate.id)).toBe(true);
+    expect(campaignActionReasons(stopGate, party(5), plan.rewardFacts).length).toBeGreaterThan(0);
+  });
+
+  it("removes a reminder-only phase without leaving an empty chapter in the route", () => {
+    const base = starterPlan();
+    const reminder: CampaignAction = {
+      ...action("empty-entry-xp", "empty"),
+      kind: "xp-check",
+    };
+    const plan = compileCampaignPickupGates({
+      ...base,
+      actions: [base.actions[0]!, reminder, ...base.actions.slice(1)],
+      legs: [
+        base.legs[0]!,
+        { ...base.legs[0]!, id: "empty", actionIds: [reminder.id] },
+        base.legs[1]!,
+      ],
+    });
+    expect(plan.legs.some((leg) => leg.id === "empty")).toBe(false);
+    expect(plan.bookmarkAliases?.[reminder.id]).toBe("goldshire-work");
+  });
+
+  it("never moves a trailing XP correction backwards onto an earlier reward", () => {
+    const base = starterPlan();
+    const reminder: CampaignAction = {
+      ...action("trailing-xp", "elwynn"),
+      kind: "xp-check",
+    };
+    const plan = compileCampaignPickupGates({ ...base, actions: [...base.actions, reminder] });
+    expect(plan.actions.some((entry) => entry.id === reminder.id)).toBe(false);
+    expect(plan.bookmarkAliases?.[reminder.id]).toBeUndefined();
   });
 
   it("retains real pickup minima instead of assuming the chapter's entry level", () => {
@@ -208,16 +260,24 @@ describe("actual-XP zone handoffs", () => {
     expect(campaignActionReasons(gate, party(6), plan.rewardFacts)).toEqual([]);
   });
 
-  it.each(["elwynn-entry-level-6", "northshire-departure-level-6-before-elwynn"])(
-    "migrates the saved legacy checkpoint %s without changing actual XP",
-    (selectedActionId) => {
-      const plan = compileCampaignPickupGates(starterPlan());
-      const state = party(5);
-      state.campaigns[plan.release] = { selectedActionId, completion: {} };
-      expect(currentCampaignAction(plan, state).id).toBe("elwynn-entry-xp");
-      expect(state.members[0]?.level).toBe(5);
-    },
-  );
+  it.each([
+    "source-grind",
+    "elwynn-entry-xp",
+    "elwynn-entry-level-6",
+    "northshire-departure-level-6-before-elwynn",
+  ])("migrates the saved legacy checkpoint %s without changing actual XP", (selectedActionId) => {
+    const plan = compileCampaignPickupGates(starterPlan());
+    const state = party(5);
+    state.campaigns[plan.release] = {
+      selectedActionId,
+      completion: { [selectedActionId]: "done" },
+    };
+    const before = JSON.stringify(state);
+    expect(currentCampaignAction(plan, state).id).toBe("goldshire-work");
+    expect(state.members[0]?.level).toBe(5);
+    expect(state.campaigns[plan.release]!.completion["goldshire-work"]).toBeUndefined();
+    expect(JSON.stringify(state)).toBe(before);
+  });
 
   it("does not export a mandatory .xp directive for a source-only grind recommendation", () => {
     const plan = compileCampaignPickupGates(starterPlan());
@@ -234,7 +294,8 @@ describe("actual-XP zone handoffs", () => {
     expect(artifact.lua).not.toContain(".xp 6");
     expect(artifact.lua).not.toContain(".xp 6+200");
     expect(artifact.lua).toContain(".xp 4");
-    expect(artifact.lua).toContain("not a mandatory grind");
+    expect(artifact.lua).not.toContain("Record actual");
+    expect(artifact.guides.flatMap((guide) => guide.actionIds)).not.toContain("source-grind");
   });
 });
 
@@ -306,7 +367,9 @@ describe("required next-stop XP only", () => {
     expect(campaignActionReasons(gate, state, plan.rewardFacts)[0]).toContain("level 18");
     state.members[4]!.level = 18;
     state.members[4]!.xpNeedsUpdate = true;
-    expect(campaignActionReasons(gate, state, plan.rewardFacts)[0]).toContain("fresh actual");
+    expect(campaignActionReasons(gate, state, plan.rewardFacts)[0]).toContain(
+      "Confirm everyone is level 18",
+    );
     expect(campaignOptionalXpReady(plan, state, gate)).toBe(false);
   });
 

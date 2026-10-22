@@ -17,6 +17,11 @@ import {
 import { recordPremadeXp } from "./premade.js";
 import { questEligibility } from "./quest-eligibility.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
+import {
+  guidePartyScenario,
+  guidePartyAnchors,
+  type GuidePartyScenario,
+} from "./campaign-guide-party.js";
 
 export interface CampaignGuideSection {
   readonly chapter: CampaignSection;
@@ -27,6 +32,8 @@ export interface CampaignGuideSection {
   readonly planned: CampaignXpSectionForecast;
   readonly basis: "route-start" | "saved-update";
   readonly missingCombat: boolean;
+  readonly assumedStarterPlayers: readonly number[];
+  readonly unavailableStarterPlayers: readonly number[];
 }
 export interface CampaignGuideForecast {
   readonly sections: readonly CampaignGuideSection[];
@@ -35,6 +42,7 @@ export interface CampaignGuideForecast {
 }
 
 interface GuideCache {
+  readonly scenarios: Map<string, GuidePartyScenario>;
   readonly plans: Map<string, readonly CampaignXpSectionForecast[]>;
   readonly forecasts: Map<string, CampaignGuideForecast>;
 }
@@ -147,9 +155,9 @@ export function forecastCampaignGuide(
   if (!sections.length) return { sections: [], startingLevel, recordedPlayers: [] };
   const model: PremadeProgress = {
     ...progress,
-    members: progress.members.map((member, index) => ({
+    members: progress.members.map((member) => ({
       ...member,
-      level: index === 0 ? startingLevel : 1,
+      level: startingLevel,
       currentXp: 0,
       xpNeedsUpdate: false,
       questStates: {},
@@ -170,32 +178,45 @@ export function forecastCampaignGuide(
   });
   let currentCache = cache.get(plan);
   if (!currentCache) {
-    currentCache = { plans: new Map(), forecasts: new Map() };
+    currentCache = { scenarios: new Map(), plans: new Map(), forecasts: new Map() };
     cache.set(plan, currentCache);
   }
+  const scenario =
+    currentCache.scenarios.get(configuration) ??
+    retain(currentCache.scenarios, configuration, guidePartyScenario(plan, model));
   const planned =
     currentCache.plans.get(configuration) ??
-    retain(currentCache.plans, configuration, forecastCampaignXp(plan, model));
+    retain(
+      currentCache.plans,
+      configuration,
+      forecastCampaignXp(scenario.plan, scenario.progress, guidePartyAnchors(scenario, [])),
+    );
   const active = activeCampaignActions(plan, progress);
   const order = new Map(active.map((action, index) => [action.id, index]));
   const migrated = initializeCampaignGuideAnchors(plan, progress);
   const anchors: (CampaignXpAnchor & { readonly player: number })[] = migrated.members.flatMap(
     (member, index) => {
       const anchor = member.guideXpAnchor;
+      const actionId = anchor && (plan.bookmarkAliases?.[anchor.actionId] ?? anchor.actionId);
       return anchor &&
+        actionId &&
         anchor.release === plan.release &&
-        order.has(anchor.actionId) &&
+        order.has(actionId) &&
         validBar(anchor) &&
         anchor.level === member.level &&
         anchor.currentXp === member.currentXp
-        ? [{ ...anchor, player: index + 1 }]
+        ? [{ ...anchor, actionId, player: index + 1 }]
         : [];
     },
   );
   const key = `${configuration}:${JSON.stringify(anchors)}`;
   const existing = currentCache.forecasts.get(key);
   if (existing) return existing;
-  const forecast = anchors.length ? forecastCampaignXp(plan, model, { anchors }) : planned;
+  const forecast = anchors.length
+    ? forecastCampaignXp(scenario.plan, scenario.progress, guidePartyAnchors(scenario, anchors))
+    : planned;
+  const plannedById = new Map(planned.map((section) => [section.sectionId, section]));
+  const forecastById = new Map(forecast.map((section) => [section.sectionId, section]));
   return retain(currentCache.forecasts, key, {
     startingLevel,
     recordedPlayers: anchors.map((anchor) => anchor.player),
@@ -213,18 +234,32 @@ export function forecastCampaignGuide(
         targetKind: chapter.kind === "dungeon" ? "entry" : "target",
         targetLevel:
           chapter.kind === "starter"
-            ? starterTarget(plan, chapter, planned[index]!)
+            ? starterTarget(plan, chapter, plannedById.get(chapter.id)!)
             : campaignSectionTarget(sections, index, progress, plan.rewardFacts).level,
-        forecast: forecast[index]!,
-        planned: planned[index]!,
+        forecast: forecastById.get(chapter.id)!,
+        planned: plannedById.get(chapter.id)!,
         basis: relevantAnchors.length ? "saved-update" : "route-start",
+        assumedStarterPlayers:
+          audience === "party"
+            ? scenario.assumedPlayers.filter(
+                (player) => !relevantAnchors.some((anchor) => anchor.player === player),
+              )
+            : [],
+        unavailableStarterPlayers:
+          audience === "party"
+            ? scenario.unavailablePlayers.filter(
+                (player) => !relevantAnchors.some((anchor) => anchor.player === player),
+              )
+            : [],
         missingCombat:
           !plan.combat ||
-          forecast[index]!.members.some(
-            (member) =>
-              member.evidence.combat === "unresolved" ||
-              member.combatRows.some((row) => row.basis === "unknown"),
-          ),
+          forecastById
+            .get(chapter.id)!
+            .members.some(
+              (member) =>
+                member.evidence.combat === "unresolved" ||
+                member.combatRows.some((row) => row.basis === "unknown"),
+            ),
       };
     }),
   });
