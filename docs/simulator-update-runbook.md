@@ -1,5 +1,654 @@
 # Repeatable pre-raid simulation updates
 
+## October 22 — Paladin first numerical-search ownership
+
+Ret's real29-case model controls are complete and independently authenticated. New
+146policy/380talent/12blue-frame code and16policy-canary inputs have12passing tests;
+preflight is not numerical completion. Check current handles/evidence in context.md.
+Do not edit frozen model/control/cache helpers or change already qualified classes.
+
+The original retribution/talents-rotation owner compiled the model, not a talent search.
+Preserve that record exactly. The first genuine DPS owner is explicitly retribution-dps
+under the same Paladin class clock/deadline and class-wide correction allowance; public
+profile remains retribution_paladin/retribution. The new owner guard pins that original
+history and refuses a hidden previous Ret gear/feedback run. Never reset the budget.
+All-slot gear, geared feedback, fresh2%/separate1% confirmation and full actual UI handoff
+still precede Shockadin optimization or a finished Paladin claim.
+
+## October 22, 06:40 UTC — Enhancement finished; next owner may prepare Paladin
+
+Enhancement's selected local defaults, menus, library and guide have real staged/main
+browser approvals and a source-bound delivered marker. All58new frontend cases,4overlay
+and7handoff guards, strict types and scoped lint/format pass. Numerical/reviewer/cache
+sources stay frozen. Do not repeat its blue/gear/feedback/confirmation/parity/browser jobs.
+
+Final broad57-file invocation has858passes and8existing Mage5-second timeouts; it is NOT
+reported as a clean whole-suite run. Unchanged isolated checks passed all affected cases:
+21/22Mage file cases, then its remaining Frost1440case at4133ms under the same limit.
+Every one of the866distinct current cases has passing assertion evidence across these
+runs. Logs and exact terminal owner states are in context.md. No runtime assertion or
+timeout was weakened. No test/finisher/browser owner remains live to wait on.
+
+Paladin's budget remains undefined/not started. Its32-piece/current-set preparation and
+actual native/WASM controls can now follow, then separately delivered Ret and Shockadin
+under the original per-class policy. Production remains unchanged; local completion is
+not authorization to commit, push, deploy or restart the owner's dev server.
+
+## October 22, 06:30 UTC — Enhancement handoff complete; preserve its numerical evidence
+
+Do not repeat Enhancement blue, all-slot gear, feedback or fresh confirmation. Qualified
+build d5c639.../739.4163DPS/40k, presentation dfc6852b677ab3b1132aaac3, staged526aac... and
+main884f3718... now have a real source-bound delivered-local.json marker. Its defaults,
+both preset menus, library and exact eight-action guide passed desktop/mobile rendering,
+reload, tooltips, single scrolling and real combat. Other22local entries are unchanged.
+Full refs and visually inspected screenshot paths are in context.md.
+
+New strict reader/profile fixtures are genuine exports, never hand-made evidence.
+The shared source reader needs a16MBallowance ONLY for immutable Enhancement feedback
+0c6d7bc3.../result-6b79141f70d57c34.json (actual14,973,612bytes); default remains8MB.
+All25strict-profile tests pass. Full57-file regression rerun is active after splitting
+one eight-mutation fixture loop that hit its5-second timeout; no timeout was increased.
+Inspect its actual terminal log before starting the next numerical owner.
+
+The local marker is not production deployment. Do not overwrite the frozen numerical
+sources or cache helper, reset the shared Shaman clock, promote unverified builds, or
+mix a new class's catalog into these existing models. Paladin's budget remains unstarted;
+after clean regressions, prepare its separate32-piece/current-set model and actual
+native/WASM controls, then deliver Retribution before Shockadin optimization.
+
+## October 22, 05:43 UTC — Enhancement fresh confirmation accepted; wait on existing parity/export
+
+Actual study900d1779... completed24fresh requests/480000fights and saved-stage replay.
+Reference739.4162761DPS/40k, conservative retained gap0.8437722%; BOTH owner2% and original
+1% assessments pass with unchanged selection. Do not rerun holdouts or treat this as a
+browser-approved/public preset yet. Exact completion/result hashes are in `context.md`.
+
+The original1024/31858/32079 confirmation owner remains LIVE, independently rebuilding
+the confirmed source before its selected10k raw-WASM parity. A separate zero-combat
+exporter71764/PID46164 independently replays evidence and waits only for that existing
+owner's parity. Both are CPU-active; quiet reconstruction is not a failed process. Logs:
+`shaman-enhancement-first-pass-v1/confirmation-20261022-v1.log` and
+`shaman-enhancement-first-pass-v1/export-20261022-v1.log` under optimization. No second
+numerical owner/model correction/class reset was used. Final sources remain frozen.
+
+After genuine parity and immutable export, use the actual new hashes for the strict
+website reader/fixtures and complete own-profile UI/default/configuration/Gear Sets/
+library/guide/desktop-mobile delivery before Paladin numerics. The latter's15preparation
+tests are not a class model/search or justification to advance before Enhancement handoff.
+
+## October 22, 05:39 UTC — confirmation preflight live; pure Paladin adapters prepared
+
+Follow SAME1024/31858/32079 Enhancement confirmation owner. It is CPU-active in local
+source reconstruction; no fresh dispatch is inferred from elapsed time. All final numeric
+sources remain frozen; do not restart it or begin another numerical class.
+
+New private `paladin-current-pvp-catalog-v1.mjs` prepares all32pieces from actual audited
+inputs, adding24 and explicitly reclassifying8access fields without changing their combat
+stats or any other class record. It never grants old numerical reuse. The pure runtime
+generator preserves2086 and prepares separate401/2082/2084bindings, with explicit damage-
+only utility exclusions. Five additional actual-data/tamper/isolation/Go-parse tests pass;
+no source/model/cache writes or new fights were run. All15Paladin preparation tests are
+complete; actual native/WASM runtime validation/model build and both DPS searches remain.
+See `docs/simulator-paladin-preparation-2026-10-22.md`. Paladin's clock remains unstarted.
+
+## October 22, 05:27 UTC — Enhancement closed; fresh-confirmation owner dispatched
+
+Feedback0c6d7bc3... completed0 including saved-measurement replay. Actual result6b79141f...
+is closed: cycle2 preserves exact gear/state, small-gain stop true, no pending gear
+applicability. Inspected739.0209DPS/10k and16/31/4 are provisional until fresh validation.
+Do not repeat blue/gear/feedback or relabel inspected DPS as a40k reference.
+
+Original-budget confirmation-delivery is already LIVE: session1024, supervisor31858,
+child32079. Follow `optimization/shaman-enhancement-first-pass-v1/confirmation-20261022-v1.log`;
+exact command/completion/hash are at the top of `context.md`. It begins by independently
+replaying sources, so a quiet CPU-active owner is not stuck. No holdout dispatch is claimed
+from process start alone. The final numerical/guidance/export files/tests are now frozen.
+
+After its genuine accepted independent2%/separate1% confirmation and actual selected WASM,
+export the qualified build without new combat. Only its real reviewed hashes can enter
+the strict web reader, fixtures and own-profile UI/default/preset/library/guide/browser
+handoff. No new owner, model correction, class-clock reset, provisional UI promotion or
+deployment is authorized by this checkpoint. Paladin's10-test source-bound input audit is
+complete preparation; its class budget is still unstarted.
+
+## October 22, 05:22 UTC — measured Enhancement feedback done; replay and Paladin input audit
+
+Original Enhancement owner9277/70653/70861 is still CPU-active, now replaying its actual
+saved feedback. Measured phase:76788new requests/9038500fights,2228exact reuses. Do not
+dispatch another owner until this process is genuinely terminal; no completion or closed
+state is assumed from counters. Continue through the existing confirmation gates below
+only after inspecting the actual completion/result. All numerical sources remain frozen.
+
+Paladin preparation stayed read-only and started no class clock/model/combat. The new
+audit retains all32current blue pieces/four families, verifies actual stats and utility
+payloads, reports24missing vendor pieces and exposes the hardcoded faction mismatch.
+Client class mask2 must normalize to simulator Paladin4. Its10tests and CLI pass; the full
+source-bound report and known runtime/talent gaps are in
+`docs/simulator-paladin-preparation-2026-10-22.md`. Repeat the audit with:
+
+```sh
+node artifacts/forever-simulator/optimization/review-tools/inspect-paladin-pvp-inputs-v1.mjs --audit
+```
+
+This is preparation, not a completed Ret/Shockadin search. Finish actual Enhancement
+qualification and local default/preset/guide/browser handoff before Paladin numerics.
+No public presets, other class selections or production data changed.
+
+## October 22, 05:11 UTC — Enhancement cycle2 and guarded presentation preparation
+
+Follow the SAME live feedback owner9277/70653/70861 in study0c6d7bc3...; cycle1 changed
+gear and cycle2 has reached high-precision state finalists. Do not restart completed
+blue/gear or infer closure from progress. Exact log/refs remain at the top of `context.md`.
+
+New `shaman-enhancement-preset-overlay-v1.mjs` prepares only a genuinely accepted/closed
+Enhancement build for its own defaults, equipment/enchants, talents/APL, consumes, class
+imbue/range and full configuration. The caller must independently authenticate the
+qualification. All source warnings survive, other profiles/saves stay untouched and real
+desktop/mobile browser checks are still required. Its2actual wrong-spec/capped-result
+refusal tests pass; there is NO positive render, final export, UI selection or deployment.
+The5-test private incremental-planner pilot is documented below; it does not execute or
+authorize measurement reuse. Scoped lint/format/syntax and whitespace checks pass.
+
+## October 22, 04:42 UTC — gear completed; follow the existing Enhancement feedback owner
+
+The b5c011af... gear phase completed0 with36761new requests/4234940fights and exact
+read-only replay. Its two-sweep result has `stoppedForSmallGain:false`;701.2185/10k is
+provisional and cannot be relabelled as closed feedback. Never repeat completed gear.
+The next original-budget owner is already running: session9277, supervisor70653,
+child70861, enhancement/state-recheck. It was re-polled CPU-active while independently
+reconstructing actual gear evidence. Log:
+`optimization/shaman-enhancement-first-pass-v1/feedback-20261022-v1.log`.
+Quiet output before new parity/scalars is not termination. Do not launch a second owner.
+
+04:44update: that same owner completed independent gear reconstruction, passed29actual
+native/raw-WASM new-context controls and started real scalar feedback in study
+0c6d7bc3698fab970542ff444f4b5b395097795caa48e6419b986826a2282b88. Native workers73874..73879
+are live. State parity56523968... has zero errors/725fights per backend; actual reference
+SHA is recorded in `context.md`. Do not restart or confuse live feedback with qualification.
+
+New actual Enhancement final scenario/arms, fresh-confirmation and independent confirmed-
+source readers, selected native/raw-WASM parity, exact rotation guide and qualified-build
+exporter are implemented/tested but have NOT run qualification or delivery.54new tests
+pass; actual capped Enhancement evidence is refused by the final/export guards. The guide
+binds actual APL actions, Maelstrom stacks/ranks, mana thresholds and learned spells; it
+does not invent ranged instructions. All19confirmation pin files exist.
+
+After the live feedback owner is genuinely terminal, inspect/replay its ACTUAL completion
+and require closed feedback/no remaining gear applicability. Then use the same class
+supervisor's confirmation-delivery phase with `run-shaman-enhancement-confirmation-v1.mjs`
+and that actual completion path. Freeze final/guide/export sources before dispatch.
+The at-most12arms are selected from genuine10k origins before two fresh20k ranges; both
+earlier Shaman builds'100k reserved ranges are excluded. Owner2% and original1% stay
+separate; holdouts never select a replacement winner. Selected10k WASM parity is an
+inspected-range replay, NOT another fresh holdout.
+
+Only then use `export-shaman-enhancement-first-pass-build-v1.mjs` for independent zero-
+combat authentication/export, optionally observing the SAME existing parity owner. Do
+not reconstruct a parity descriptor from later-expanded qualified-loader pins: future
+UI delivery must use the actual authenticated parity reference. Explicit Totem of Storm
+spell-proc and PvP-access assumptions must survive into the website/default tooltips.
+No public selection, deployment, class clock reset or second correction was authorized.
+
+## October 22, 04:25 UTC — Enhancement blue sealed; all-slot gear running
+
+Blue study47540312... completed0 with12955new jobs/1593880fights and exact automatic
+read-only replay. Do not repeat it or its25browser/native controls. The gear owner has
+independently reauthenticated that result and passed11derived actual gear controls.
+Session73798/supervisor43137/child43345 and six native workers are live in study
+`b5c011afebcac76e92a886b4105ddc1f6cc9fd244968ca5db2097dcd41ceec97`.
+Follow `optimization/shaman-enhancement-first-pass-v1/gear-20261022-v1.log` and the actual
+process, not just its lock/state. All running gear/numerical-source files stay frozen.
+
+After its genuine terminal0 completion, the next command independently reconstructs
+the saved all-slot gear result before any new combat. All21new feedback tests pass:
+
+```sh
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run shaman enhancement state-recheck -- artifacts/forever-simulator/optimization/review-tools/run-shaman-enhancement-feedback-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/b5c011afebcac76e92a886b4105ddc1f6cc9fd244968ca5db2097dcd41ceec97/completed.json
+```
+
+Freeze the new Enhancement feedback runner/helpers/tests at dispatch. It uses five
+exact fixed-gear imbue frames, every declared Maelstrom family/neighbor and116APLs,
+finite nonraid consume coordinates, compatible blade/blunt stones, two all-slot feedback
+cycles and a closing state check if gear changes. New-context native/raw-WASM controls
+must precede those scalar jobs; structural request tests are not combat evidence.
+`shaman-enhancement-feedback-source-v1.mjs` independently replays completed origins and
+outcomes without dispatch for the later fresh-confirmation gate. Provisional Totem of
+Storm spell procs/PvP access remain disclosed, not silently excluded or live-verified.
+
+Neither the606.0762/10k blue leader nor the running gear study is a qualified/delivered
+build. Fresh independent2%/original1%, selected parity and real local UI delivery remain.
+Original Shaman clock/correction count and all published entries are unchanged.
+
+## October 22, 04:10 UTC — live Enhancement owner; do not restart
+
+The real Enhancement blue search runs under session48525/supervisor15670/child15879,
+study475403126888c7c65301f4474a34a6ef1237f9207a19f3cc94ee9ef1f085bf58. The child and six
+native workers were confirmed live. All25actual controls passed; prepared semantic SHA
+623d3ac78afacbd582eb0942838a7e50744653132c8a94c59f602bdd422ae402. Blue source files and
+their tests are frozen. Follow the specific process/log, not stale status or lock files:
+`optimization/shaman-enhancement-first-pass-v1/blue-20261022-v1.log`.
+
+Once its actual completion is terminal0, independently authenticate/replay it with the
+new `shaman-enhancement-selected-v1.mjs`. Do not reuse a caster selected reader, fabricate
+class guards, or label this provisional blue winner as delivered. The new Enhancement
+reader reconstructs the exact6330-request input stream, all narrowing rounds and native
+origins from saved evidence without dispatch. Its declaration intentionally matches the
+actual serialized bank (undefined structuredAnchors is omitted; talentsSha binds all633).
+
+The next command, ONLY after blue completion/read-only replay and the new gear tests pass:
+
+```sh
+node artifacts/forever-simulator/optimization/review-tools/run-first-pass-budget-v1.mjs run shaman enhancement gear -- artifacts/forever-simulator/optimization/review-tools/run-shaman-enhancement-gear-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/475403126888c7c65301f4474a34a6ef1237f9207a19f3cc94ee9ef1f085bf58/completed.json
+```
+
+The new gear runner retains all17pools, ordered hands/rings/trinkets, complete sets and
+nonraid enchants;11derived native/WASM gear controls precede scalar sweeps. Totem of the
+Storm1291078's spell-proc chance remains explicitly provisional and cannot be published
+as live-mechanics-verified. Its candidate is not silently excluded from the gear pool.
+Follow with geared talent/APL/imbue/consume feedback, fresh owner2%/original1% assessment,
+selected parity and complete real local UI delivery before the next class's numerics.
+Do not extend the original22October20:34:15.394UTC deadline or consume another correction.
+No deployment, dev3017restart or mutation of the frozen cache helper occurred.
+
+## October 22, 03:47 UTC — verified cumulative Shaman delivery checkpoint
+
+Stormcaller is fully delivered locally, not on production. Do not rerun completed numerical
+studies or re-export their immutable qualification for a status check. Actual marker:
+`optimization/shaman-stormcaller-first-pass-v1/delivered-local.json`, status
+`verified-qualified-local-delivery`. Numerical model137f6ec1..., buildb6a3f749..., qualified
+pointer0c1f09ed..., UI89677ade12794161c4d60db0. Reference563.1360101550861/40k, gap0.5161258%;
+both margins pass. Elemental f7d9... remains the exact first/default build.
+
+Selected raw-WASM parity452c93d0..., staged browser419ebb15..., actual main-pagef45fdf54...
+and publicationf83c3377... are genuine approved artifacts. The source-bound finisher and
+an independent final audit passed; all20other local entries and nine numerical assets
+were preserved. Both desktop/mobile builds passed menus, full Load build, guides, tooltips,
+reload, global scrolling and real25-fight Simulate; all screenshots inspected. Read the
+main and staged references from the actual marker rather than inventing a current hash.
+
+New `shaman-stormcaller-qualified-source-v1.mjs` authenticates the code-pinned independently
+replayed qualification, all raw journals/pins,12wires, margins and WASM without reranking.
+Its expanded source-pin set must not be used to reconstruct the old parity descriptor;
+UI tools use the actual authenticated qualified parity reference. Numerical/export/UI
+and qualified-source files are frozen after these approvals.
+
+Main review initially rejected protobuf-default representation, not changed consumes.
+`shaman-stormcaller-main-settings-v1.mjs` canonicalizes both sides through the pinned
+codec;3tests prove omitted defaults are byte-equivalent while real changes remain visible.
+Main/helper source hashes are included in the actual main report and checked by the
+finisher. Initial failed main log remains; correctedv2passed all4cases. No UI/source
+numerical mutation or class correction was needed.
+
+The complete54-file simulator web suite passed805tests cleanly using:
+
+```sh
+pnpm --filter @wow-trader/web exec vitest run forever-simulator --maxWorkers=1 --minWorkers=1
+```
+
+Strict types/scoped lint/format and CLI guards pass. Exact hashes/logs are in `context.md`.
+No commit/push/deploy or local dev restart occurred. Local22entries/20standardDPS and
+production17/15remain distinct. Next: actual enhancementShaman controls/first pass, not
+caster-wire relabelling, under the original22October20:34:15.394UTC Shaman deadline and
+one already USED correction. Its633talents/116APLs and8tests are unmeasured preparation
+only. Keep the full remaining class/spec/tank/catalog/debuff/update scope and pending
+expired-class/access permissions open.
+
+## October 22, 03:04 UTC — Stormcaller confirmation succeeded; existing owners verify delivery
+
+Do not restart the actual completed fresh study
+`df2bc6d5fbcd89fc97c082e9c046621996c148dc83035470a57b2e6db9bfb7bc`.
+Its24new requests/480kfights internally replayed successfully. Selected40k reference
+563.1360101550861DPS, retained gap0.5161258%; owner2% and original1% PASS, selected build
+unchanged. Source/result hashes and raw evidence are recorded in `context.md`.
+
+Original confirmation exec68075/supervisor40022/child46003 is still live independently
+replaying the complete source before actual selected10k native/raw-WASM parity. Export
+observer29896/supervisor57582 has already started independent zero-combat child62783.
+It requires the actual accepted source and uses `--export --wait-for-parity`; the new
+flag validates the exact original supervised command, original class deadline and live
+owner while waiting for its own descriptor pointer. Full proof validation remains
+mandatory. Four export guards pass. Freeze exporter/test and all active numerical pins.
+Re-poll these owners; do not launch another export or misread silent CPU-active replay.
+
+There is not yet an actual qualified Stormcaller build or code-pinned web reader. Once
+the genuine export exists, implement the strict reader and cumulative ordered
+Elemental+Stormcaller proof/browser registry support, preserving Elemental first/default.
+Only the exact13MBfeedback result needs a16MBallowance. A code-pinned raw-evidence loader
+can then reuse this independently verified qualification for UI delivery without reranking
+the full search at each stage; it must still authenticate journals, wires, math and WASM.
+Follow the actual staged/main/finisher sequence below. No Enhancement numerical dispatch
+before that handoff. Its new633-candidate talent bank is structural only (3tests pass).
+Original Shaman deadline/correction allowance and all existing ready counts are unchanged.
+
+## October 22, 02:20 UTC — Stormcaller feedback measured; internal replay running
+
+Do not rerun blue or gear for status. Gear study `cb8c02798f322ed1dc1216a6c956340e331e07ac16ee093fcb23a777e25e1f2f`
+completed successfully:36,731new requests/4,281,620fights, matching replay and10actual
+native/browser controls. Its inspected534.1837DPS is not a fresh reference; two material
+sweep gains leave `stoppedForSmallGain:false`. Independent feedback --plan replayed
+183gear stages/36,735origins,10frames/15,348proposals/35canaries and19,117pins with zero
+combat jobs/writes. Its several-minute cost is verification, not new simulation sampling.
+
+Current original-budget feedback owner is exec55718/supervisor7500/child7712. Exact
+command and live log are in `context.md`; re-poll that handle, never restart on timeout.
+Actual feedback study is dfbaa4c0c63f565fcffa5344690eaa520a1b4ca18091406fe72d4c40651546e8.
+All35derived native/raw-WASM controls passed with zero DPS difference. Measurement ended
+at95,476new requests/10,571,780fights plus1,975exact source reuses. The same owner is now
+replaying its saved measurements, not starting those fights again. No completed/closed
+feedback result is claimed until this succeeds. One read-only confirmation preflight is
+already queued as exec28071/shell32192 behind the exact original supervisor7500 and real
+completed source. It starts no fresh combat/browser work. Its log is created only after
+7500exits; do not mistake a waiting log absence for failure or start a duplicate plan.
+All geared/consume/state/feedback/runner/test source files declared by this run are frozen.
+Thirty-three focused tests plus scoped lint/format and real preflight pass. The geared
+reader's empty callback was replaced with full pin-union verification before admission.
+Separate Stormcaller adapters preserve no-Lava identity and numeric Quickness ranks1and2.
+
+After actual closed feedback, run its independent reader and confirmation preflight,
+then supervised `run-shaman-stormcaller-confirmation-v1.mjs <feedback-completed.json>`
+under the unchanged `confirmation-delivery` phase. Two fresh20k ranges/retained arm
+preserve owner2% and separate original1% assessments; prior Elemental sibling holdout
+reservations are explicitly excluded. Actual selected parity must exist before
+`export-shaman-stormcaller-first-pass-build-v1.mjs <confirmation-completed.json> --export`.
+These later modules have guard/protocol tests, not a current positive qualification.
+No hardcoded Elemental parity wait or old completion may be used for Stormcaller.
+Keep the existing qualified Elemental build/default; add Stormcaller cumulatively before
+Enhancement numerical work. Full remaining objective stays active; no production change.
+
+Cumulative overlay/build/staged/main-page tools now exist under the Stormcaller prefix.
+They are not built or selected. The overlay has2passing genuine predecessor/refusal
+tests; positive rendering awaits the real qualified build. Scoped lint/format passes.
+Staged reviewer no-shadow passed, but missing-release/cleanup failed because feedback's
+active workspace lease exists. Preserve the initial log and rerun only the failed case
+after this owner is terminal. Never steal the numerical lease. Main review covers both
+builds at1440/390px, unchanged Elemental first/default, configuration versus full-build
+semantics, both guides, tooltips, reload, one scroller and real Simulate. The cumulative
+selector and4-case finisher now exist but are NOT run positively. Combined missing-staged,
+missing-main and source-hygiene guards3/3pass; initial naming collision in the NEW builder
+was fixed without changing the frozen Elemental source. Separate delivery/profile fixture
+exporters also exist. Strict website support still requires actual Stormcaller qualification.
+After fresh validation/selected parity/export and implementation of the strict code-pinned
+website reader, the later delivery sequence is:
+
+```sh
+node artifacts/forever-simulator/optimization/review-tools/export-shaman-stormcaller-delivery-fixture-v1.mjs --qualified
+node artifacts/forever-simulator/optimization/review-tools/build-shaman-stormcaller-presentation-v1.mjs --build
+node artifacts/forever-simulator/optimization/review-tools/review-shaman-stormcaller-presentation-v1.mjs --review <presentation-release>
+node artifacts/forever-simulator/optimization/review-tools/export-shaman-stormcaller-profile-fixture-v1.mjs --export <presentation-release>
+node artifacts/forever-simulator/optimization/review-tools/select-shaman-stormcaller-local-v1.mjs <presentation-release> --select
+node artifacts/forever-simulator/optimization/review-tools/review-shaman-stormcaller-main-page-v1.mjs <presentation-release> --review
+node artifacts/forever-simulator/optimization/review-tools/finish-shaman-stormcaller-local-v1.mjs --record <actual-main-review-path>
+```
+
+Do not run those commands while the numerical workspace is leased, fabricate an approval,
+or skip the independent strict website reader/tests after qualification. The delivery fixture
+exporter requires the genuinely code-reviewed new web reader; its pinned hashes cannot be
+taken from an untrusted incoming entry. No positive UI approval exists from implementation alone.
+
+## October 22, 01:22 UTC — Stormcaller blue verified; gear phase dispatched
+
+The original-budget Stormcaller blue owner completed successfully; do not restart it.
+Actual study `2d925a5ba9548693eefb449049c469bc34acc0e2fa58f5bb0556ed59ec7bbc9b`, result SHA
+`b8306b02cefb19e7ae153edfbcc0cb26ab34c6f7a82b1fe6162a83134689eb39`,33,323new native
+requests/3,325,320fights. All29browser/native/raw-WASM controls have zero DPSdifference
+and pass action/aura/resource/position/imbue checks. The separate no-Lava hybrid bank
+retains both MentalQuickness ranks; the old invalid48-point seed was not reused.
+
+Independent gear preflight replayed120stages/33,323authentic origins with no new combat.
+Pool counts are159/43/141/84/215/104/201/186/183/211/62/62/42/42/241/60/10;25groups,
+17,574unique gear proposals, all ordered hand/jewelry pairs, sets and nonraid enchants.
+Six derived-gear contract tests, seven initial request/owner tests and both2-test
+source/geared refusal suites pass. No completed gear study or fresh DPS reference yet.
+
+Gear owner exec74326/82041/82249 is live under the SAME original Shaman clock and one
+used correction. See `context.md` for its exact command and current handle. Its durable
+log is `optimization/shaman-stormcaller-first-pass-v1/gear-run-20261022-v1.log`.
+Ten actual derived native/WASM gear controls precede scalar ranking. Preserve all active
+source/test/model bytes; observation timeouts do not authorize restarting the run.
+After gear: independently replay, close geared consume/talent/APL/range feedback and
+gear applicability, run fresh2%/original1%confirmation, selected parity and actual local
+defaults/menus/guide/browser handoff. Cumulative Elemental-page delivery must keep its
+existing qualified Elemental build/default and add Stormcaller, not overwrite it.
+
+## October 22 — Elemental qualified and fully delivered locally
+
+The original confirmation and independent export owners completed successfully. Preserve
+the qualified pointer under `optimization/shaman-elemental-first-pass-v2/qualified-build.json`:
+build SHA `f7d9a4c15208213f69ecf93a1269cadf25c006ea61cb036e6206f0bd04df9caf`, model
+`137f6ec1ba5757af03c5bb95`, independent40k reference569.9404181188595DPS and conservative
+retained gap0.3536271%. Both the owner2% and separate original1% assessments pass.
+Selected inspected10k native/raw-WASM DPS and variance agree exactly. This remains a
+conditional first pass, not a globally optimal or live-server-certified build.
+
+`shaman-elemental-qualified-source-v1.mjs` authenticates this exact independently replayed
+snapshot, every raw journal/source pin, actual1%/2%math, twelve wires and selected WASM
+proof without repeating the complete ranking search or dispatching combat. Its genuine
+positive/refusal tests pass. A new qualification requires an independent review and new
+code pin; an incoming entry cannot authorize its own hash. Numerical/export helpers stay
+frozen. The web reservation check hashes the original raw plan, not a reordered parsed copy.
+
+The isolated UI is `a113a7ef745f94bcd9ada196`; compilation and staged browser approval
+passed. Approval: `optimization/reviews/profile-model-browser-b1b62aa1c6f232c8.json`.
+All15pages/28gear sets, both complete shares, unchanged saved characters and actual
+25-fight native/browser parity passed. Both authentic website fixtures are exported;
+strict selection preserved all20previous build entries. Actual main-page desktop/mobile
+approval is `optimization/reviews/shaman-elemental-main-page-31e38bb5944909cc.json`.
+Defaults, both menus, full build loading,9-action guide, tooltips, reload, one scroller and
+real Simulate pass at1440/390px; both25-fight smokes572.77match the staged native control.
+Both screenshots were visually inspected. The source-bound finisher completed0 and wrote
+`optimization/shaman-elemental-first-pass-v2/delivered-local.json`. Final publication,
+staged/main references and actual selected pointer were independently rehashed afterwards.
+Local ready count is21cases/19standardDPS; production remains17/15.
+
+The following commands already completed successfully; do not rebuild or rerun them solely
+to recover context. The selector's existing-selection branch is read-only/idempotent.
+
+```sh
+node artifacts/forever-simulator/optimization/review-tools/select-shaman-elemental-local-v1.mjs a113a7ef745f94bcd9ada196 --select
+node artifacts/forever-simulator/optimization/review-tools/review-shaman-elemental-main-page-v1.mjs a113a7ef745f94bcd9ada196 --review
+```
+
+The actual finisher used `--record optimization/reviews/shaman-elemental-main-page-31e38bb5944909cc.json`.
+Do not synthesize approval records or restart completed studies. No production model or
+selection was changed. Full-suite log records749/751pass; two new viewport test fixtures
+expected the wrong validation stage. Corrected missing/duplicate tests21/21pass; application
+guards are unchanged. Other51files/731tests passed unchanged. Strict types, scoped lint/
+format and browser checks pass. Initial and corrected logs are retained under
+`optimization/shaman-elemental-first-pass-v2/delivery-20261022/`.
+The original Shaman deadline stays22October20:34:15.394UTC; its one correction is used.
+
+Next is Stormcaller. Its separate structural bank is
+`optimization/review-tools/shaman-stormcaller-talents-v1.mjs`:1437legal51-point candidates,
+11anchors/9allocations, no LavaBurst, MentalQuickness rank1or2hybrid investment, actual
+29/22UI starter and separately repaired legal28/23seed. Four pure/source tests pass.
+The original48-point core reference remains invalid. The later same-clock numerical
+progress is recorded above; no new class clock was created. Use the real ElementalShaman
+engine for this variant, not another class token or Elemental's DPS result.
+
+## October 21, 21:02 UTC — corrected Shaman model and bounded owner
+
+Full48 model `e81f4ce09db5771ac8f73ace` passed31actual browser/native/raw-WASM controls,
+but the shared core blocked Elemental melee even between casts. Preserve those captures;
+do not use its damage references for the corrected model. The first owner was deliberately
+interrupted before large scalar ranking.
+
+New isolated model `137f6ec1ba5757af03c5bb95` lives under
+`optimization/shaman-caster-melee-model-v2/context.json`. It changes only Elemental's
+between-cast melee gate. Hardcasts, distance, other specs, Classic, database bytes, full48
+set effects and codecs are unchanged. Focused actual Go tests cover the new gate, previous
+weapon-cast restrictions, real 5/20-yard combat and imbues, and the entire Shaman catalog/
+set-isolation suite. Native/WASM builds passed. An earlier test-only failed attempt remains
+preserved: it incorrectly counted passive proc casts, whereas actual proc hits/damage were
+present. No imbue initialization engine patch was needed.
+
+V2 input/preflight checks passed. The budget supervisor correctly rejected a changed script
+as an ordinary resume. Do not bypass this: the V2 runner explicitly uses the one Shaman
+correction, with an owner regression test and declaration documenting it. That correction
+is consumed for the class. Original shared deadline stays22October20:34:15.394UTC.
+Actual owner: exec57871 / supervisor44736 / child44945, durable log
+`optimization/shaman-elemental-first-pass-v2/correction-run-20261021-v2.log`.
+
+The immutable V2 control stream must prove close-only swings and real passive imbue damage,
+not merely native/WASM agreement. Then complete fixed-blue narrowing, all17-slot gear,
+geared feedback, independent confirmation and actual UI/default/preset/guide delivery.
+The tested structural Shaman caster bank includes all legal armor/hand/shield/relic types,
+ordered jewelry/hand pairs, sets and nonraid enchants without EP/quality/ilvl pruning.
+PvP vendor/faction access remains explicitly provisional, and other class extensions are
+still pending owner answers. No completed Shaman result or production change is claimed.
+
+## October 21, 20:19 UTC — Shaman model ready, numerical admission pending
+
+The isolated full-48-piece Shaman model is `e81f4ce09db5771ac8f73ace`, recorded in
+`optimization/shaman-pvp-model-v1/context.json`. It extends the Greater-20 parent with
+48 items without changing existing records. Source replay, binary roundtrip, native/WASM
+build and focused actual Go runtime tests passed. Tests cover all six set thresholds in
+both Shaman specs, shock-only crit, distinct Wartide healing/spell damage, offsets and
+rank-family isolation, valid 2+2 stacking, Greater 20 MP5 and mobility-only boot effects.
+The current catalog helper's 13 tests and input audit's 10 tests passed.
+
+Preserve the completed model's pinned helpers and runtime test. The new context loader is
+`optimization/review-tools/shaman-pvp-model-context-v1.mjs`. No Shaman clock or optimization
+has started. Actual class-7 browser/native/WASM controls and request-materialization checks
+must precede numerical ranking. Elemental → Stormcaller → Enhancement share one new class
+clock; complete each actual local default/preset/guide/browser handoff before the next spec.
+
+All 48 client stats are included, not merely the earlier 16 vendor-input rows. Their live
+vendor access is unverified: the explicit provisional policy separates Champion/Horde and
+Lieutenant Commander/Alliance rank families. Never label that inference verified stock or
+combine opposite families. Keep the assumption in candidate eligibility and qualification.
+
+Current Forever Stormstrike is a personal next-spell bonus. New controls must NOT select
+the legacy raid-wide external Stormstrike debuff. The saved Balance build does select it;
+all other 19 entries do not. Preserve old evidence and wait for the requested separate
+correction authority because Druid's original deadline expired. Do not reset the clock.
+Fire Nova has no distance gate in the current engine; a ranged-only control must not exploit
+that omission to claim physically valid damage. Actual own-ability behavior still needs
+class-specific canaries. No Shaman model or preset is approved for public selection yet.
+
+## October 21, 19:43 UTC — Smite full local handoff complete
+
+Smite's qualified build is `b66a63df10b5a598`, numeric model `bbbde15964092df1ecbf1dec`,
+520.3905540963231 modeled DPS / 40,000 fresh validation fights. Its 19/25/7 adaptive
+high8/low3/budget20 build keeps the existing measured gear and enchants. No new numerical
+search or additional correction was used during this delivery.
+
+Original UI `8073f8148c9f801f3058505b` was never approved: its reviewer shadowed the qualified
+source with a local array. Frozen V1 files were preserved. Versioned V2 delivery built
+`02dba4297e92d284c017c0bd`, passed all-class TypeScript and all 13 source-hash checks.
+Actual staged approval is `optimization/reviews/profile-model-browser-5171bd79a185dc67.json`.
+Its 15 profiles / 28 gear sets, full desktop/mobile shares, saved characters and actual native/
+browser combat comparison passed. The new 19 authentic profile-reader regressions and strict
+selection preflight passed before selection. Existing 19 build entries were preserved.
+
+Main-page review `optimization/reviews/priest-smite-main-page-371a65093cc3408d.json` passed
+desktop/mobile defaults, Configurations, Gear Sets, full Load build, eight-action guide,
+tooltips, save/reload, one scroller and actual Simulate. Both 25-fight smokes show 521.13 DPS;
+they do not replace the independent 520.39 reference. Screenshots were visually inspected.
+Local route: http://localhost:3017/tools/forever/simulator/smite-priest . Production unchanged.
+
+Final source-bound finisher exec60539 / PID65772 completed successfully. Its genuine
+`optimization/priest-smite-first-pass-v1/delivered-local.json` records
+`verified-qualified-local-delivery`. Staged browser, main-page and publication references
+were independently rehashed after completion; the actual selected pointer matched. The local
+index now exposes 20 entries, including the two explicit opt-in Warrior proc variants.
+Durable log: `optimization/priest-smite-first-pass-v1/local-finish-v2-20261021.log`.
+No Smite process remains live. Do not rerun completed studies. Same original Priest deadline
+and numerical correction limits remain unchanged.
+
+Verification: serial simulator-library suite 687 tests / 49 files passed; the added profile
+suite passed 19 tests; strict web TypeScript, scoped lint and formatting passed. No commits,
+pushes or production class-model changes were made.
+
+Important: [the wider PvP catalog audit](simulator-pvp-catalog-audit-2026-10-21.md) found the
+vendor input covers 88 of 240 current-client Premier blue records. This is a coverage gap,
+not proof every missing piece is live-eligible. Do not dismiss it using the importer's
+hardcoded faction flag or a presumed healing role. Shaman's new read-only input helper and
+10 tests cover the existing 16 vendor pieces and explicitly report 32 more client records;
+actual runtime modeling, source/access review and new-model calculations remain required.
+Spell 22801 is Ghost Wolf speed +15%, not Lightning Shield damage. Preserve frozen models
+and existing class deadlines; pending extension requests remain unanswered.
+
+## October 21, 18:21 UTC — Smite fresh confirmation passed, same delivery owner active
+
+Final-source4tests and read-only confirmation plan passed. Numerical studyd2abe81d... is
+complete:24new origins/480kfights,520.3905540963231DPS/40k,0.4919867%conservative retained
+gap, both original1% and owner2%PASS, unchanged19/25/7adaptive-rank incumbent. Owner92357/
+child68263 is STILLrunning selected10k native/WASM parity and qualified export. Observe it;
+do not launch another confirmation or alter its now-frozen source files. Original shared
+Priest deadline remains22October12:44:51.403UTC. Use only the actual eventual export SHA
+for explicit web-reader pins, genuine fixtures and UI/default/preset/guide delivery.
+
+Keep the faction-coverage question open: import_forever_vendor.py hardcodes every row to
+Horde2. Current Hunter/Druid Alliance pools exclude the missing blues under that assumption,
+but this is not proof the live Alliance vendors cannot sell them. Owner clarification is
+pending; no numerical extension is authorized. Shaman's16missing verified blues and boot
+equipspell22801 need a coherent catalog/effect model before its first numerical phase.
+
+## October 21, 17:40 UTC — actual Smite adaptive-rank correction
+
+Latest17:56UTC: owner77209 is TERMINAL0. V2studyf03164db... closed after one continuation,
+with26,816new origins/3,418,220fights and173internally replayed stages. Inspected result
+is520.3890DPS/10k,19/25/7/high8-low3-budget20; gear unchanged. This is NOT a fresh reference.
+Final-source tests plus the actual zero-job confirmation plan are running in exec99754.
+Re-poll that handle, then require independent two20k qualification, selected parity and
+real local UI handoff. No new correction or class-clock reset is authorized.
+
+Smite's original blue and all-slot gear studies are complete and immutable. Gear source is
+`aaf6ff14b3321c44595eb538cac56f593a5e2e3c65ad06aacde952dacfd8c48e/completed.json`
+under `optimization/bounded-native-studies`. The original feedback was deliberately
+interrupted before scalar ranking because its 34 fixed-rank policies omitted adaptive
+rank switching. V2 preserves those exact requests and adds 48 explicit high/low-rank
+policies, eight real class5 canaries, and retention of mana-budget families.
+
+All 11 focused tests and the independent 186-stage gear preflight pass. Active correction
+owner exec77209/child49967 uses the SAME original Priest deadline, 22 October12:44:51.403UTC.
+Observe that handle; do not restart the old state phase or dispatch another correction.
+V2 numerical helpers/tests are frozen from this dispatch onward. Native/browser equality
+must precede new scalar ranking. All 17-slot eligibility, hand/jewelry pairs, sets and
+enchants remain unchanged; no EP/quality/ilvl pruning or other-model result reuse.
+
+After actual closure: reconstruct authentic origins, test final fixed/adaptive-rank arms,
+freeze the fresh two20k plan, run selected10k native/WASM parity, then export and deliver
+actual Smite defaults/configurations/Gear Sets/guide with real desktop/mobile Simulate.
+The new Smite presentation/selection/fixture/main-page/local-finisher scripts follow the
+Shadow delivery flow but preserve Shadow and all other current class selections. Web
+Smite reader pins, authentic fixtures and positive overlay tests require the actual
+qualified result; do not fill them with placeholders or call the new starter optimized.
+
+## October 21 — Shadow local delivery complete; Smite first pass
+
+Latest16:56UTC: Smite blueca7a5988... is terminal success,10049origins/1,050,800fights;
+current inspected18/25/8/rank5Smite leader399.3706DPS/10k remains unqualified. Six source
+tests and eight independent selected/gear tests PASS. Gear --plan independently replays
+all25stages and covers10016unique initial gear proposals across all17slots/pairs/sets/
+enchants. Gear exec68279/child15811 is now live under the original Priest deadline;
+the old blue exec34601 is terminal. Poll authoritative state, not the older checkpoint below.
+
+Shadow18/0/33 is qualified at759.3134modeledDPS/40k and delivered locally as UI
+`0c7bfc2c82fcb26a9f2b3306`. Main-page desktop/mobile approval is
+`optimization/reviews/priest-shadow-main-page-e1afa028c9dace74.json`; actual25-fight
+UI results757.11match staged parity at both widths. The strict source-bound local marker
+is `optimization/priest-shadow-first-pass-v1/delivered-local.json`. No Shadow production
+publication. Preserve its numerical studies; no rerun is needed.
+
+Smite uses the same authenticated Priest modelbbb but actual Smite spec requests and
+fresh measurements, never Shadow DPS. New `run-priest-smite-blue-v1.mjs --plan` is read-only.
+Its supervised `priest smite talents-rotation` command owns11browser/native controls and
+the1905talent/two-hand-layout/34policy narrowing. Original shared Priest deadline remains
+2026-10-22T12:44:51.403Z. Active identity is
+`ca7a5988f391a91b5e9acc9f6e93b906ea692112b93f697f1d6fa3300adff13e`;
+observe exec34601/child6431 before resuming. Source files are frozen after dispatch.
+The immutable prepared-control document has a historical shared-Priest schema label;
+the Smite loader binds exact Smite source/control/wire identity rather than relabelling it.
+
+After actual successful completion, independently replay its packed/native origins with
+`priest-smite-selected-v1.test.mjs`, then run `priest-smite-gear-v1.test.mjs` and
+`run-priest-smite-gear-v1.mjs <completed.json> --plan`. Only then dispatch the SAME budget
+supervisor's `priest smite gear` phase. It reuses the already-tested Priest legality/bank
+utility for all17slots, hand/jewelry pairs, sets and enchants; no quality/ilvl/EP pruning.
+Six actual derived native/WASM controls precede new gear scalars. Selected-gear feedback,
+independent qualification, selected parity and main-page presets/guidance remain required.
+
 ## October21 — Shadow independent confirmation prepared after authentic closed feedback
 
 Feedback owner39410/study1053c38b097b5d4e76c34dfdd243f7ebc694630ffb7ba71c39650cdc50d5c39e
@@ -4207,6 +4856,40 @@ fresh independent validation or permit reusing old inspected holdouts for a new 
    Publish only after native/browser parity and the current preset/export gates pass. Describe
    bounded incremental results as best-known within their tested policy, not guaranteed global
    BiS. A top-five-only search cannot establish that guarantee.
+
+### Read-only fixed-context gear-delta planning pilot (October 22)
+
+Private `optimization/review-tools/fixed-context-gear-delta-plan-v1.mjs` exports
+`createFixedContextGearDeltaPlan({ api, before, after })`. Each side supplies its complete
+already-admitted gear bank, incumbent scalar input, exact native backend and search-policy
+SHA. This optional maintainer API is not called by the owned updater and adds no required
+setup command. It validates bank geometry; callers must still authenticate the source/admission
+receipts and completeness of the generated banks.
+
+The planner uses the existing frozen native-input equivalence guard without editing it.
+Unchanged full bank context is eligible only for historical-evidence lookup, never automatic
+measurement reuse. Backend/compiled-catalog, equipped incumbent, policy or group-coverage
+changes require broader affected-profile review. Changed combat input, RNG or precision and
+unknown native options fail equivalence. Native-only equivalence is not WASM compatibility or
+proof of a cross-catalog dependency closure.
+
+Every complete gear proposal is retained. Per-group membership changes and globally new/
+retained/removed request candidates are reported separately, so a proposal already present
+in another group is not called globally new. Ordered hand/ring/trinket partners, set proposals
+and enchants are supplied by the existing full enumerator, not a top-five filter. No weak
+candidate becomes permanently excluded and no historical holdout becomes fresh again.
+
+Five tests pass against the actual17,458-proposal Enhancement bank, including a clearly
+labelled controlled availability subset that restores every real legal ordered ring partner.
+Actual manifest variants beast_mastery and ds_ruin are accepted as identifier metadata;
+changed specs still require broader review and never authorize measurement reuse.
+The subset is a test scenario, not a claimed historical catalog. Model/policy/order changes,
+RNG/precision drift, duplicate/corrupt candidates and malformed geometry are covered. No DPS,
+native/browser jobs, cache writes, qualification or publication are produced. In particular,
+`measurementReuseAuthorized`, `crossCatalogReuseAllowed`, `freshHoldoutReuseAllowed` and
+`publicationAllowed` remain false. Actual evidence lookup/reuse, delta dispatch, compatibility
+proofs, feedback/fresh confirmation, full-vs-incremental comparison and owned multi-class
+integration are still required before claiming an incremental updater or a runtime saving.
 
 ### Historical accessory evidence-index pilot
 

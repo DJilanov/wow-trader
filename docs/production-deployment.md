@@ -1,6 +1,6 @@
 # KFC Helper production deployment runbook
 
-Last verified against `89.167.46.193`: 2026-10-18.
+Last verified against `89.167.46.193`: 2026-10-21.
 
 The TBC and WoW Forever product is published at `https://kfcguild.online/tools`. The legacy
 `helper.kfcguild.online` host retains authenticated `/v1/` ingestion and permanently redirects public
@@ -10,10 +10,22 @@ uploads are enabled.
 
 ## October 21 — compressed static delivery and leveling navigation
 
-Implementation is staged and tested, not activated on the public host yet. Application
-delivery must still follow the requested commit → push → verified build → activation flow.
-Do not ship unrelated worktree edits. The current workspace also contains concurrent
-leveling-player-experience changes owned by another workflow.
+Live committed source is `faf65ebdc83d3c57b15a75d723c91591eee7561d`, web release
+`kfc-helper-leveling-player-experience-20261021-faf65eb`, build `ZqIm34-hbMMe_P4lT4fyA`.
+Matching static delivery `kfc-helper-leveling-player-experience-20261021-faf65eb-r1`
+activated at 16:32:03 UTC. Only Helper web was restarted; guild and ingestion stayed on
+their previous processes. Continue using commit → push → verified build → activation;
+never include unrelated dirty worktree edits. Older rollout notes below are historical.
+
+Fresh public browser recheck at 17:30 UTC passed: Warrior 2.716 seconds first visit /
+2.084 seconds cached, actual 25-fight simulations 1.503 / 1.078 seconds, class switching
+2.669 seconds, and leveling chapter navigation 1.669 seconds desktop / 1.616 seconds
+mobile. Evidence: `artifacts/performance/production-20261021-recheck-1730/report.json`.
+These are observations, not a latency guarantee. No additional restart was necessary.
+When checking selected simulator models, use the configured web `FOREVER_SIMULATOR_ROOT`:
+currently `/home/wow-trader-system/shared/simulator-releases/hunter-raid-20261020-c8265bc`.
+The older `shared/forever-simulator` directory has obsolete selections and is not the
+active root; do not change live presets to satisfy checks against that directory.
 
 `scripts/prepare-static-delivery.mjs` builds a separate public delivery tree from validated
 simulator manifests and production Next static directories. Frozen models and simulation
@@ -28,6 +40,15 @@ Normal source deployment now invokes `scripts/stage-static-delivery.sh`, using t
 `FOREVER_SIMULATOR_ROOT`, the new Helper static build, and the guild static build when present.
 The guild path can be supplied explicitly with `WOW_TRADER_GUILD_STATIC_ROOT`. Preparation
 defaults to a read-only inventory unless `--prepare` is supplied. Manual inspection commands:
+
+Run these scripts from the explicit physical release directory, not the `current` symlink:
+their direct-entry module checks compare real paths. Nginx must be able to traverse the
+deployment/shared parents to read the separately prepared public mirror. This host uses
+`u:www-data:--x` ACLs on `/home/wow-trader-system` and its `shared` directory, preserving
+their private read permissions. Do not recursively chmod the deployment tree or grant
+Nginx access to environment files. Original ACLs are saved in
+`shared/static-delivery/parent-acl-before-20261021.txt`. Verify as the worker user with
+`runuser -u www-data -- test -r <public-asset>` and confirm it cannot read `shared/env/web.env`.
 
 ```sh
 pnpm static-delivery:prepare --simulator-root <artifact-root> --output <new-directory>
@@ -52,12 +73,12 @@ are not advertised as Brotli delivery; gzip is the initial production path. No c
 rebuild is required. Shared content-addressed engine URLs and cross-request validated-model
 caching remain later optimizations, not claims made by this delivery layer.
 
-An isolated server Nginx on loopback port 19876 verified 7,045 actual public assets
+Before deployment, an isolated server Nginx on loopback port 19876 verified 7,045 actual public assets
 and 466 encoded variants. The real 36,807,360-byte engine arrived as 6,072,078 bytes with
 matching decompressed SHA-256, correct MIME, identity fallback, 304 caching and private-proof
 404s. Syntax and HTTP checks passed without MIME warnings. Generated Helper/simulator
 locations preserve the existing search-crawler limits. The isolated process exited cleanly;
-production Nginx was not reloaded. Its final staging tree is
+production Nginx was not reloaded during that isolated test. Its final staging tree is
 `/tmp/kfc-static-delivery-20261021-r1/final-delivery`, not a live deployment receipt.
 
 The leveling wizard previously wrote `/forever/leveling` into browser history without the
@@ -65,15 +86,19 @@ The leveling wizard previously wrote `/forever/leveling` into browser history wi
 now preserves the mount and character/party query, gives immediate pending feedback, blocks
 duplicate submissions, and has a chapter-path loading boundary. Nginx redirects old wizard
 URLs with their original query intact. Heavy workspace startup does not prefetch unrelated
-header destinations or the setup preview route. Actual desktop/mobile checks pass for
-history, refresh persistence, pending feedback and the premade chapter transition. These
-are local functional checks, not proof that public minute-long stalls are already fixed.
-The latest local production-mode run reached the premade chapter path in 2.150 seconds
-at desktop width and 1.227 seconds at mobile width, with no artificial response delay and
-zero page errors. All 920 web tests, 21 transport/activation/migration tests, TypeScript,
-scoped lint, shell syntax and the production build passed before handoff.
+header destinations or the setup preview route. Predeployment desktop/mobile checks covered
+history, refresh persistence, pending feedback and the premade chapter transition.
+The deployed public browser review reached the premade chapter path in 2.071 seconds
+desktop / 1.785 seconds mobile, preserving history, refresh, party and class choices.
+Warrior initialized in 2.968 seconds with a fresh browser and 2.226 seconds on revisit;
+both actual 25-fight simulations completed. Mage→Warlock completed in 3.190 seconds.
+An earlier fresh request during activation was 9.227 seconds; these are measured samples,
+not a universal latency guarantee. Evidence is at `artifacts/performance/production-20261021/`.
+Latest focused transport/activation/migration suite: 23 passed. Linux lint/typecheck/build
+passed; four parallel-suite test timeouts passed in an unchanged-timeout isolated rerun.
+Full formatting still flags seven untouched baseline files; scoped formatting passes.
 
-## Current production state
+## October 18 rollout reference (historical)
 
 - The existing `kfc-website` application remains in its original PM2 process (runtime ID 30 at the
   time of verification) and serves `kfcguild.online` from `/home/kfc-website-system`.
