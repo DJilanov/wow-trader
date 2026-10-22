@@ -1,0 +1,198 @@
+{
+  "schema": "scoped-source-release.v1",
+  "baseCommit": "e69cc256838ab9e9565c8cd5fd25b2f0ffaed971",
+  "overlayCommit": "4babc6794d207a2c13ff261c540d5d09f16ae27d",
+  "description": "Approved October 22 ecosystem growth package. Export the base, then overlay only these files from the pinned source commit.",
+  "toolUsageEnabled": false,
+  "reviewedSimulatorPointersChanged": false,
+  "files": [
+    {
+      "path": "apps/web/src/app/api/v1/tool-usage/route.ts",
+      "sha256": "3d801bfd3bbedbd064fd13ef41a52294d0b572b39add3aa65dc6635d6beb8217"
+    },
+    {
+      "path": "apps/web/src/app/forever/encyclopedia/instances/[mapId]/page.tsx",
+      "sha256": "ae5f1e6910bff311af2dd5f8c31652210bf7eb04cf413a1ae0177b6ac6ba7657"
+    },
+    {
+      "path": "apps/web/src/app/forever/encyclopedia/quests/[questId]/page.tsx",
+      "sha256": "bd8fc2ec231e89218cf3c105d434f490c2bfc8a0cf0cde8383923b0af5ebba8e"
+    },
+    {
+      "path": "apps/web/src/app/forever/encyclopedia/quests/page.tsx",
+      "sha256": "7809eb247a85a60ed058819f9b6524dc86651510ef757bef6c4186ce075a1c7a"
+    },
+    {
+      "path": "apps/web/src/app/forever/encyclopedia/quests/page/[pageNumber]/page.tsx",
+      "sha256": "f8dd156b0029512cfe157698e4b8b487ae3048152df9fdc8cdf4ad1bf76d6def"
+    },
+    {
+      "path": "apps/web/src/app/forever/updates.xml/route.ts",
+      "sha256": "272b9d3217e6d3e1b7955166c14f111d43133fbf4fbcd42d0073827c7e51cfcd"
+    },
+    {
+      "path": "apps/web/src/app/globals.css",
+      "sha256": "b595a05f1e86e0f91873ac706d06af7535c807291529c806c810e6a7c4c56e9a"
+    },
+    {
+      "path": "apps/web/src/app/layout.tsx",
+      "sha256": "98b18c2a80c63873dde30a8711c2fbeb87660bc108184b6c06c700d75c95cc3d"
+    },
+    {
+      "path": "apps/web/src/components/forever-quest-directory.test.tsx",
+      "sha256": "0e65bebfae0941628d82f642067fc6570a01a7af809899b8e970d3e3fd3810ce"
+    },
+    {
+      "path": "apps/web/src/components/forever-quest-directory.tsx",
+      "sha256": "f53d67e666074fd501becdb8561f91a9c78bfb3984d1a38704e352cc73cd3295"
+    },
+    {
+      "path": "apps/web/src/components/forever-simulator-frame.tsx",
+      "sha256": "6c1cfc67bbe087475707c70b00a6050c1ea0510b10f375e6fbafbe0e53d0f837"
+    },
+    {
+      "path": "apps/web/src/components/forever-talent-calculator.tsx",
+      "sha256": "5e8587638956b909170c1d1421a45c897ee6dd623f2a0076c0263e16e010c92c"
+    },
+    {
+      "path": "apps/web/src/components/leveling-dashboard.tsx",
+      "sha256": "e0864c0c9e6bcb8bf4166d784b845f1c53511df76613d29e6b563b0d169921e5"
+    },
+    {
+      "path": "apps/web/src/components/leveling-provider.tsx",
+      "sha256": "f773a4711a273cc49a97497c4bb58b7b4cf57c0fa183b9ddd5da1f8a8f4e5c01"
+    },
+    {
+      "path": "apps/web/src/components/market-item-browser.tsx",
+      "sha256": "2d4baae6d3e82d832bbb011ce18f2583b3392ec2e05bd954c9d5342ee17189ea"
+    },
+    {
+      "path": "apps/web/src/components/market-watchlist.tsx",
+      "sha256": "66660166e93b22c267912c7a503f1a8ff39fa46f7d5993640c7b9b62877d085c"
+    },
+    {
+      "path": "apps/web/src/components/opportunity-calculation-details.tsx",
+      "sha256": "0ba5830a14c7b8e8ee782f3bc697b547f6fbc6ce21bee661206d4c0ff0e0ef07"
+    },
+    {
+      "path": "apps/web/src/components/tool-group-actions.test.tsx",
+      "sha256": "9aa8e5e0f269c527306006de8fe0ae37597c06a22e11c6b20213e81aa5f98100"
+    },
+    {
+      "path": "apps/web/src/components/tool-group-actions.tsx",
+      "sha256": "f426cb7bd5376e25a0c051e973ef320badcd809493baabe726c5b4cd6be12225"
+    },
+    {
+      "path": "apps/web/src/components/trader-workspace-page.tsx",
+      "sha256": "79cdeb921fac4c242593192d2261ca5c05ed044239b9ba05fe6f8137425c417f"
+    },
+    {
+      "path": "apps/web/src/lib/catalog-reference.test.ts",
+      "sha256": "19701fed3af514d83c31706936efc1beaa8cf54d71f27a24c1eb77ffd8487724"
+    },
+    {
+      "path": "apps/web/src/lib/catalog-reference.ts",
+      "sha256": "29ec7924070e0a16286ded3028e4bb5be947c3a9b4563b7aad344c6249464882"
+    },
+    {
+      "path": "apps/web/src/lib/forever-quest-directory.test.ts",
+      "sha256": "4d3cd160b527296926880737c0078dae5443ede3462265928894a257ba1c0e9d"
+    },
+    {
+      "path": "apps/web/src/lib/forever-quest-directory.ts",
+      "sha256": "3bb532d9bf8e204123fcf29416285fa171786d7b0399990f058378523d2f55d4"
+    },
+    {
+      "path": "apps/web/src/lib/forever-world.ts",
+      "sha256": "935a114e43454cbd7621dbcebb992c4d7048b7bf745ed47b567607ca7a8fb268"
+    },
+    {
+      "path": "apps/web/src/lib/market-watchlist.test.ts",
+      "sha256": "200fa1acc9e505c57e74e1a8705b13e8cae9ea2fb4168728a321b308c2469229"
+    },
+    {
+      "path": "apps/web/src/lib/market-watchlist.ts",
+      "sha256": "d1aaa821b2285acd927736b73c39ab9b8779c3239f2da5e3cac073c740174bf8"
+    },
+    {
+      "path": "apps/web/src/lib/seo.ts",
+      "sha256": "45780bb73a7947bb142d45d34a13eac37bf250d2e5140e36b80cdcf753f53972"
+    },
+    {
+      "path": "apps/web/src/lib/talent-update-feed.test.ts",
+      "sha256": "a34d6b25d79b3695d8370ed95243cc5fdb0dcb8202e7d30300f9a7737b7861e4"
+    },
+    {
+      "path": "apps/web/src/lib/talent-update-feed.ts",
+      "sha256": "232a5086d4ab2d59476f5fe08d33dc8fd179b7bbec25e4f78e19c321ab6ce2cf"
+    },
+    {
+      "path": "apps/web/src/lib/tool-group-draft.test.ts",
+      "sha256": "b16d08f7d684ea21ca1cc790b1478737a752fe50ca05703ae788b5089e4b67a3"
+    },
+    {
+      "path": "apps/web/src/lib/tool-group-draft.ts",
+      "sha256": "3a107f654dcb25771cf9866dfc9bde5e1094ef28a2747d8005b0ed0490e64e35"
+    },
+    {
+      "path": "apps/web/src/lib/tool-usage-contract.mjs",
+      "sha256": "e1796d56bdb3ac5a14c5de09f70f6255a10df4ab73a6d82f00219e2dd4a36ed3"
+    },
+    {
+      "path": "apps/web/src/lib/tool-usage-route.test.ts",
+      "sha256": "e44d72afd7e62ecda27ae35928374d8ff15439756f57f44601761958d4553801"
+    },
+    {
+      "path": "apps/web/src/lib/tool-usage-store.test.ts",
+      "sha256": "32714f09b68e62e17d91e676bf66645da239eff79a1ec256ec7e061a3d3384cf"
+    },
+    {
+      "path": "apps/web/src/lib/tool-usage-store.ts",
+      "sha256": "9249b119e76992f16f8cd477400ce2180211cd6e93be9e16215560180b3941ec"
+    },
+    {
+      "path": "apps/web/src/lib/tool-usage.test.ts",
+      "sha256": "54ff6a924f27b7d538a355f5fbfda272907101b63f30de5578bb084bfa20358c"
+    },
+    {
+      "path": "apps/web/src/lib/tool-usage.ts",
+      "sha256": "ac7be92acc25207ae65d1d6fa4589c72295264475e4abad97d182815c5e7d0d6"
+    },
+    {
+      "path": "infra/pm2/web.env.example",
+      "sha256": "250acd37bec1155e42861b763e1c0d4ba1821f74683425272565a98e91cfb213"
+    },
+    {
+      "path": "infra/simulator/workspace.ts",
+      "sha256": "3ecefebcabae266d3c617c8235399b390eea1c141053960c830de56a7664c78c"
+    },
+    {
+      "path": "scripts/activate-production.sh",
+      "sha256": "9d726334be49add8dccc1477e11898ec4d22afb535f1154711ee209b74f7ac50"
+    },
+    {
+      "path": "scripts/deploy-production.sh",
+      "sha256": "9421f40e3b7315ab4560659b25252c2988e0b05e769ca0ca050252730898dc6c"
+    },
+    {
+      "path": "scripts/seo-site-migration.test.mjs",
+      "sha256": "a794b59c135a09653db0ec0215e0eda9c6bb9a70570ec307d7cfc520ad3d6d4c"
+    },
+    {
+      "path": "scripts/simulator-workspace.test.mjs",
+      "sha256": "75ad577aac980a0455a57e9c89b68ee34ab9b45cdd2b955b8f63757a726eec73"
+    },
+    {
+      "path": "scripts/tool-usage-report.mjs",
+      "sha256": "f97c51ff556c21c4118b0e8c9be387654c4152c407adc92d16b4aaf55e8d0e2d"
+    },
+    {
+      "path": "scripts/tool-usage-report.test.mjs",
+      "sha256": "91ec470089fa837d09dbb504ffbbb13e41bf88e8ec5be6faa3d7fbb9b7ebde92"
+    },
+    {
+      "path": "docs/tool-usage-measurement-2026-10-22.md",
+      "sha256": "3c30adcd4b5a5a1c97ed9fb01244cf370a637af61ca18c6b99b15e34ef06d3d8"
+    }
+  ]
+}
