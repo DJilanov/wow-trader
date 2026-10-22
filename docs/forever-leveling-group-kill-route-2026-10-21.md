@@ -1,7 +1,9 @@
 # Premade leveling: party handoff and kill-first Wetlands merge
 
-Status: implementation verified locally; commit, push and deployment authorized on October 22.
-Release preparation is in progress; the local receipts below are not deployment receipts.
+Status: committed as `193078b`, pushed and deployed on October 22 after explicit authorization.
+Candidate and public-site verification passed; see the
+[production receipt](forever-leveling-task-first-deployment-2026-10-22.md).
+The local receipts below remain historical checks, not deployment receipts.
 This follows the October 21 player-experience release. It does not replace that release's
 historical deployment receipt or claim the earlier checks covered the missed rendezvous case.
 
@@ -117,7 +119,8 @@ combat references were not published or relabeled by this work.
 Publication of the currently private combat dataset remains separate. Travel time, server
 quest-item sharing, respawn competition and measured five-player completion times still
 need playtesting before claiming the globally fastest route. No completion time or drop
-probability is fabricated. Commit/push/deployment require the separate release workflow.
+probability is fabricated. The separately authorized commit/push/deployment workflow is recorded
+in the production receipt linked above.
 
 ### Local verification receipt
 
@@ -146,5 +149,7 @@ closure messages during navigation. Logs were not suppressed, and their exact re
 origin was not established. The actual generated standalone entrypoint was therefore checked
 separately, rather than treating the unsupported preview launcher as packaging verification.
 
-No crawler was started, private reference data published, addon installed, or production
-service changed. Temporary local preview servers are stopped after verification.
+The local implementation checks did not start a crawler, publish private reference data, install
+an addon or change production services. The later authorized deployment restarted only Helper
+web; protected services and published reference pointers remained unchanged. Owned deployment
+previews and tunnels were stopped after verification.

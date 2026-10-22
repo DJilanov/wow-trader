@@ -1,19 +1,17 @@
 # Forever leveling: player experience redesign
 
-Status: implemented, verified and deployed on October 21 after explicit deployment authorization.
-The exact runtime commit is `faf65eb`; see the
-[production receipt](forever-leveling-player-experience-deployment-2026-10-21.md).
+Status: the task-first correction and party handoff fixes were deployed and publicly verified
+on October 22 after explicit authorization. The exact application runtime commit is `193078b`;
+see the [current production receipt](forever-leveling-task-first-deployment-2026-10-22.md).
+The earlier October 21 runtime was `faf65eb`; its
+[historical receipt](forever-leveling-player-experience-deployment-2026-10-21.md) remains available.
 This replaces the player-facing
 presentation decisions in the earlier theoretical-progress review; evidence audits remain
 authoring tools, not the main guide interface.
 
-The October 21 deployment predates the task-first corrections below. Commit, push and deployment
-were authorized separately on October 22; release preparation is in progress. Deployment is complete
-only after the candidate and public site pass verification.
-
-Post-release correction, implemented locally but not deployed:
+Included in the October 22 release:
 [party starter handoff and kill-first Wetlands merge](forever-leveling-group-kill-route-2026-10-21.md).
-The release acceptance missed the first shared party chapter; that regression is now explicit.
+The earlier release acceptance missed the first shared party chapter; that regression is now explicit.
 
 ## Product contract
 
@@ -91,8 +89,9 @@ the review evidence rather than relabeling them as passes.
 The current production configuration has no combat-reference dataset. Private local
 provider data must not be uploaded or relabeled by this UI work. Full-input and
 production-equivalent results must be reviewed separately; complete public kill-XP
-forecasts cannot be claimed while that release input is unavailable. No commit, addon
-installation or production deployment is included in this implementation pass.
+forecasts cannot be claimed while that release input is unavailable. The initial implementation
+pass did not include commit or deployment; those followed separate authorization and the release
+checks linked above. No addon installation was included.
 
 ## Implementation receipt · 21 October 2026
 
@@ -235,3 +234,14 @@ Verification for this correction:
   `Gzip` listener warning during the long sweep. No listener limit or asset/publication guard
   was changed to hide those warnings; the checks above do not certify unrelated assets or
   production performance.
+
+### Authorized deployment verification · 22 October 2026
+
+The exact committed source subsequently passed **505 leveling tests**, the full **957-test web
+suite**, strict typechecks, lint and the Linux production build. Candidate and public browser
+checks passed at 1440 px and 390 px, including the task-first copy, chapter result, existing
+bookmarks, independent starter forecasts, correction persistence and real entry requirements.
+The extended candidate flow also checked legacy saves and optional dungeon changes. Both
+simulator load-build flows and the public asset sweep passed. These supersede the local-only
+release status, not its historical check results; see the current production receipt for source
+identity, build retry, runtime limits, rollback and remaining data/playtest limitations.
