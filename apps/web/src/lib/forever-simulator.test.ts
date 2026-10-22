@@ -104,6 +104,88 @@ describe("Self-hosted Forever simulator assets", () => {
           )
         ).status,
       ).toBe(304);
+      for (const query of [
+        "completionBridge=events-v1",
+        "raidDefaults=full-v2&completionBridge=events-v1",
+      ]) {
+        const measuredUrl = "http://localhost/warrior/?" + query;
+        const measured = await serveSimulatorAsset(
+          new Request(measuredUrl),
+          f.release,
+          ["warrior"],
+          f.directory,
+        );
+        const body = await measured.text();
+        expect(body).toContain('data-kfc-completion-bridge="events-v1"');
+        expect(body.indexOf("installSimulatorMeasurement")).toBeLessThan(
+          body.indexOf('src="/entry.js"'),
+        );
+        expect(body.includes("installSimulatorRaidDefaults")).toBe(query.includes("raidDefaults="));
+        const etag = `"${createHash("sha256").update(body).digest("hex")}"`;
+        expect(measured.headers.get("etag")).toBe(etag);
+        expect(measured.headers.get("content-length")).toBe(String(Buffer.byteLength(body)));
+        const head = await serveSimulatorAsset(
+          new Request(measuredUrl, { method: "HEAD" }),
+          f.release,
+          ["warrior"],
+          f.directory,
+        );
+        expect(head.headers.get("etag")).toBe(etag);
+        expect(head.headers.get("content-length")).toBe(measured.headers.get("content-length"));
+        expect(await head.text()).toBe("");
+        expect(
+          (
+            await serveSimulatorAsset(
+              new Request(measuredUrl, { headers: { "if-none-match": etag } }),
+              f.release,
+              ["warrior"],
+              f.directory,
+            )
+          ).status,
+        ).toBe(304);
+        expect(
+          (
+            await serveSimulatorAsset(
+              new Request(measuredUrl, {
+                headers: { "if-none-match": original.headers.get("etag")! },
+              }),
+              f.release,
+              ["warrior"],
+              f.directory,
+            )
+          ).status,
+        ).toBe(200);
+      }
+      for (const query of [
+        "completionBridge=unknown",
+        "completionBridge=events-v1&completionBridge=events-v1",
+      ])
+        expect(
+          await (
+            await serveSimulatorAsset(
+              new Request("http://localhost/warrior/?" + query),
+              f.release,
+              ["warrior"],
+              f.directory,
+            )
+          ).text(),
+        ).toBe(html);
+      expect(await readFile(join(f.directory, f.release, "warrior/index.html"), "utf8")).toBe(html);
+      await writeFile(
+        join(f.directory, f.release, "warrior/index.html"),
+        html.replace("head", "HEAD"),
+      );
+      expect(
+        (
+          await serveSimulatorAsset(
+            new Request("http://localhost/warrior/?completionBridge=events-v1"),
+            f.release,
+            ["warrior"],
+            f.directory,
+          )
+        ).status,
+      ).toBe(503);
+      await writeFile(join(f.directory, f.release, "warrior/index.html"), html);
       delete manifest.files[module];
       await writeFile(path, JSON.stringify(manifest));
       expect(

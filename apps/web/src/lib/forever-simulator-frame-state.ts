@@ -44,7 +44,9 @@ export function isSimulatorFrameReady(
     const consumedBuildQuery =
       actual.searchParams.toString() === expectedQuery.toString() &&
       expected.searchParams.getAll("build").length === 1 &&
-      [...expected.searchParams.keys()].every((key) => key === "build" || key === "raidDefaults") &&
+      [...expected.searchParams.keys()].every(
+        (key) => key === "build" || key === "raidDefaults" || key === "completionBridge",
+      ) &&
       simulatorBuildQuery(expected.searchParams.get("build")) !== "";
     if (
       actual.origin !== expected.origin ||

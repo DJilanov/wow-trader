@@ -12,7 +12,11 @@ This is separate from page views, outbound link intent, real-user performance mo
 | `crafting_calculation_loaded` | A player opens calculation details and a successful, validated calculation response loads                | A collapsed row, failed request or arbitrary row click. This is not proof of a fresh market scan or a profitable trade |
 | `simulation_completed`        | The engine emits its successful-result event and the current same-origin simulator frame notifies Helper | Frame readiness, a Run click, progress, previous results, an error or a cancelled run                                  |
 
-The first, second and fifth actions currently belong to Forever only. Market/watchlist and crafting actions distinguish Forever from TBC. The simulator bridge is part of the immutable engine workspace inputs: rebuild and verify that engine release before claiming production simulation coverage. A web-only deployment cannot add the bridge to an already compiled engine.
+The first, second and fifth actions currently belong to Forever only. Market/watchlist and crafting actions distinguish Forever from TBC.
+
+The versioned `completionBridge=events-v1` HTML presentation adapter imports the existing release's checksummed `preset_utils` module before its entry module. It identifies the simulator by its public method contract, subscribes once per instance to `simResultEmitter` on the first simulation call, and preserves the original method arguments, return values, promise identities and exceptions. It never reads results or changes requests, defaults, storage or engine files. Missing/ambiguous contracts fail measurement rather than the simulation. Browser privacy preferences are checked in both the adapter and host collector. Bare immutable engine URLs remain unchanged; adapter HTML has its own ETag and full-URL cache identity, like the existing raid-default adapter.
+
+This avoids rebuilding or requalifying numerical models just to add measurement. Do not republish reviewed builds, replace the artifact root or regenerate tier snapshots for this presentation change. Verification must cover every selected release/profile, exact request bytes and fixed-seed results with/without the adapter, success/error/cancellation behavior, navigation/readiness, and unchanged artifact hashes. A newer engine that already contains the compiled workspace bridge needs a duplicate-emission review before rollout; a marker search alone does not prove runtime coverage.
 
 ## Data boundary
 
