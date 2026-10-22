@@ -131,12 +131,12 @@ describe("Simulator frame readiness", () => {
     ).toBe(false);
   });
   it("keeps the completion adapter while a named build query is consumed", () => {
-    const query = "?raidDefaults=full-v2&completionBridge=events-v1";
+    const query = "?raidDefaults=full-v2&completionBridge=events-v2";
     expect(isSimulatorFrameReady(fixture(origin + src + query), src + query, origin)).toBe(true);
     expect(
       isSimulatorFrameReady(
         fixture(origin + src + query),
-        src + "?build=Arms&raidDefaults=full-v2&completionBridge=events-v1",
+        src + "?build=Arms&raidDefaults=full-v2&completionBridge=events-v2",
         origin,
       ),
     ).toBe(true);
@@ -146,7 +146,7 @@ describe("Simulator frame readiness", () => {
     expect(
       isSimulatorFrameReady(
         fixture(origin + src + query),
-        src + "?build=Arms&raidDefaults=full-v2&completionBridge=events-v1&unexpected=1",
+        src + "?build=Arms&raidDefaults=full-v2&completionBridge=events-v2&unexpected=1",
         origin,
       ),
     ).toBe(false);

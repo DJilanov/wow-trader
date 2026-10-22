@@ -179,14 +179,14 @@ describe("Embedded simulator navigation", () => {
     disconnect();
   });
   it("strips only the supported completion adapter and still initializes the active preset", () => {
-    const query = "?raidDefaults=full-v2&completionBridge=events-v1";
+    const query = "?raidDefaults=full-v2&completionBridge=events-v2";
     expect(simulatorNavigationHref(src + query, src + query, origin)).toBe(
       "/forever/simulator/hunter",
     );
     expect(
       simulatorNavigationHref("../warrior/" + query + "&build=Arms", src + query, origin),
     ).toBe("/forever/simulator/warrior?build=Arms");
-    for (const value of ["unknown", "events-v1&completionBridge=events-v1"])
+    for (const value of ["unknown", "events-v2&completionBridge=events-v2"])
       expect(simulatorNavigationHref(src + "?completionBridge=" + value, src, origin)).toBeNull();
     const onPresetSelected = vi.fn();
     const disconnect = connectSimulatorFrameNavigation(frameWithActiveLabel("Fury"), src + query, {
