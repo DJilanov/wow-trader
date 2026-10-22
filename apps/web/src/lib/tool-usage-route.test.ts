@@ -49,6 +49,17 @@ describe("tool action ingestion", (): void => {
   it("rejects foreign origins, raw fields, stale releases, malformed and oversized reports", async (): Promise<void> => {
     const { POST } = await import("../app/api/v1/tool-usage/route");
     expect((await POST(request(input, { origin: "https://foreign.test" }))).status).toBe(403);
+    expect(
+      (
+        await POST(
+          new Request("https://foreign.test/tools/api/v1/tool-usage", {
+            method: "POST",
+            headers: { origin: "https://foreign.test", "content-type": "application/json" },
+            body: JSON.stringify(input),
+          }),
+        )
+      ).status,
+    ).toBe(403);
     expect((await POST(request(input, { "sec-fetch-site": "cross-site" }))).status).toBe(403);
     expect((await POST(request(input, { "content-type": "text/plain" }))).status).toBe(415);
     expect((await POST(request({ ...input, characterName: "Private" }))).status).toBe(400);

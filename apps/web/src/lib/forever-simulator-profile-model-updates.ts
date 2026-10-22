@@ -58,6 +58,11 @@ import {
   readFreshEnhancementShamanSimulatorBuild,
   verifiedEnhancementShamanDelivery,
 } from "./forever-simulator-fresh-enhancement-shaman";
+import {
+  retributionPaladinModelEntrySchema,
+  readFreshRetributionPaladinSimulatorBuild,
+  verifiedRetributionPaladinDelivery,
+} from "./forever-simulator-fresh-retribution-paladin";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/),
   releaseId = z.string().regex(/^[a-f0-9]{24}$/),
@@ -85,6 +90,7 @@ const selectionSchema = z
         smite_priest: z.unknown().optional(),
         elemental_shaman: z.unknown().optional(),
         enhancement_shaman: z.unknown().optional(),
+        retribution_paladin: z.unknown().optional(),
       })
       .strict(),
   })
@@ -190,6 +196,14 @@ const proofSchema = z.union([
   z
     .object({
       ...proofFields,
+      schema: z.literal("kfc-simulator-profile-model-update.paladin-retribution.v1"),
+      profile: z.literal("retribution_paladin"),
+      builds: z.tuple([retributionPaladinModelEntrySchema]),
+    })
+    .strict(),
+  z
+    .object({
+      ...proofFields,
       schema: z.literal("kfc-simulator-profile-model-update.shaman-enhancement.v1"),
       profile: z.literal("enhancement_shaman"),
       builds: z.tuple([enhancementShamanModelEntrySchema]),
@@ -280,6 +294,7 @@ const browserSchema = z
       "kfc-profile-model-browser.shaman-elemental.v1",
       "kfc-profile-model-browser.shaman-stormcaller.v1",
       "kfc-profile-model-browser.shaman-enhancement.v1",
+      "kfc-profile-model-browser.paladin-retribution.v1",
     ]),
     status: z.literal("passed"),
     capturedAt: z.iso.datetime(),
@@ -293,6 +308,7 @@ const browserSchema = z
       "smite_priest",
       "elemental_shaman",
       "enhancement_shaman",
+      "retribution_paladin",
     ]),
     sourceRelease: releaseId,
     release: releaseId,
@@ -388,6 +404,7 @@ export async function validateSimulatorProfileModelBuilds(
     profile !== "smite_priest" &&
     profile !== "elemental_shaman" &&
     profile !== "enhancement_shaman" &&
+    profile !== "retribution_paladin" &&
     profile !== "feral_druid"
   )
     return false;
@@ -407,6 +424,7 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.shaman-elemental.v1",
       "kfc-simulator-profile-model-update.shaman-stormcaller.v1",
       "kfc-simulator-profile-model-update.shaman-enhancement.v1",
+      "kfc-simulator-profile-model-update.paladin-retribution.v1",
     ].includes(z.object({ schema: z.string() }).parse(raw.value).schema)
   )
     return false;
@@ -439,6 +457,7 @@ export async function readSimulatorProfileModelUpdate(
     profile !== "smite_priest" &&
     profile !== "elemental_shaman" &&
     profile !== "enhancement_shaman" &&
+    profile !== "retribution_paladin" &&
     profile !== "feral_druid"
   )
     return null;
@@ -595,7 +614,9 @@ export async function readSimulatorProfileModelUpdate(
               path ===
                 "optimization/bounded-native-studies/dfbaa4c0c63f565fcffa5344690eaa520a1b4ca18091406fe72d4c40651546e8/result-4a25fa36b1968d97.json" ||
               path ===
-                "optimization/bounded-native-studies/0c6d7bc3698fab970542ff444f4b5b395097795caa48e6419b986826a2282b88/result-6b79141f70d57c34.json"
+                "optimization/bounded-native-studies/0c6d7bc3698fab970542ff444f4b5b395097795caa48e6419b986826a2282b88/result-6b79141f70d57c34.json" ||
+              path ===
+                "optimization/bounded-native-studies/efec359e720673076335d8c3e1c1d0bbb43df0723489bd21c4420f1d81d5120d/result-d56c115796099683.json"
               ? 16_000_000
               : limit,
           );
@@ -605,40 +626,45 @@ export async function readSimulatorProfileModelUpdate(
       },
     };
     const build =
-      entry.id === "shaman-enhancement-static"
-        ? await readFreshEnhancementShamanSimulatorBuild(entry, {
+      entry.id === "paladin-retribution-static"
+        ? await readFreshRetributionPaladinSimulatorBuild(entry, {
             ...options,
-            reviewedBuildSha256: verifiedEnhancementShamanDelivery.buildSha256,
+            reviewedBuildSha256: verifiedRetributionPaladinDelivery.buildSha256,
           })
-        : entry.id === "shaman-stormcaller-static"
-          ? await readFreshStormcallerSimulatorBuild(entry, {
+        : entry.id === "shaman-enhancement-static"
+          ? await readFreshEnhancementShamanSimulatorBuild(entry, {
               ...options,
-              reviewedBuildSha256: verifiedStormcallerDelivery.buildSha256,
+              reviewedBuildSha256: verifiedEnhancementShamanDelivery.buildSha256,
             })
-          : entry.id === "shaman-elemental-static"
-            ? await readFreshElementalShamanSimulatorBuild(entry, {
+          : entry.id === "shaman-stormcaller-static"
+            ? await readFreshStormcallerSimulatorBuild(entry, {
                 ...options,
-                reviewedBuildSha256: verifiedElementalShamanDelivery.buildSha256,
+                reviewedBuildSha256: verifiedStormcallerDelivery.buildSha256,
               })
-            : entry.id === "mage-frost-static"
-              ? await readFreshFrostSimulatorBuild(entry, options)
-              : entry.id === "mage-fire-static"
-                ? await readFreshFireSimulatorBuild(entry, options)
-                : entry.id === "mage-arcane-static"
-                  ? await readFreshArcaneSimulatorBuild(entry, options)
-                  : entry.id === "warlock-demonology-static"
-                    ? await readFreshDemonologySimulatorBuild(entry, options)
-                    : entry.id === "warlock-affliction-static"
-                      ? await readFreshAfflictionSimulatorBuild(entry, options)
-                      : entry.id === "priest-shadow-static"
-                        ? await readFreshShadowPriestSimulatorBuild(entry, options)
-                        : entry.id === "priest-smite-static"
-                          ? await readFreshSmitePriestSimulatorBuild(entry, options)
-                          : entry.id === "feral-cat-static"
-                            ? await readRaidFeralSimulatorBuild(entry, options)
-                            : entry.profile === "hunter"
-                              ? await readRaidHunterSimulatorBuild(entry, options)
-                              : await readFreshGreaterBalanceSimulatorBuild(entry, options);
+            : entry.id === "shaman-elemental-static"
+              ? await readFreshElementalShamanSimulatorBuild(entry, {
+                  ...options,
+                  reviewedBuildSha256: verifiedElementalShamanDelivery.buildSha256,
+                })
+              : entry.id === "mage-frost-static"
+                ? await readFreshFrostSimulatorBuild(entry, options)
+                : entry.id === "mage-fire-static"
+                  ? await readFreshFireSimulatorBuild(entry, options)
+                  : entry.id === "mage-arcane-static"
+                    ? await readFreshArcaneSimulatorBuild(entry, options)
+                    : entry.id === "warlock-demonology-static"
+                      ? await readFreshDemonologySimulatorBuild(entry, options)
+                      : entry.id === "warlock-affliction-static"
+                        ? await readFreshAfflictionSimulatorBuild(entry, options)
+                        : entry.id === "priest-shadow-static"
+                          ? await readFreshShadowPriestSimulatorBuild(entry, options)
+                          : entry.id === "priest-smite-static"
+                            ? await readFreshSmitePriestSimulatorBuild(entry, options)
+                            : entry.id === "feral-cat-static"
+                              ? await readRaidFeralSimulatorBuild(entry, options)
+                              : entry.profile === "hunter"
+                                ? await readRaidHunterSimulatorBuild(entry, options)
+                                : await readFreshGreaterBalanceSimulatorBuild(entry, options);
     const player = z.record(z.string(), z.unknown()).parse(build.settings.player);
     requireMatch(
       proof.presets.some(
@@ -667,31 +693,33 @@ export async function readSimulatorProfileModelUpdate(
       browser.sourceRelease === source.release &&
       browser.proofSha256 === pointer.proofSha256 &&
       browser.schema ===
-        (proof.schema === "kfc-simulator-profile-model-update.shaman-enhancement.v1"
-          ? "kfc-profile-model-browser.shaman-enhancement.v1"
-          : proof.schema === "kfc-simulator-profile-model-update.shaman-stormcaller.v1"
-            ? "kfc-profile-model-browser.shaman-stormcaller.v1"
-            : proof.schema === "kfc-simulator-profile-model-update.shaman-elemental.v1"
-              ? "kfc-profile-model-browser.shaman-elemental.v1"
-              : proof.schema === "kfc-simulator-profile-model-update.priest-smite.v1"
-                ? "kfc-profile-model-browser.priest-smite.v1"
-                : proof.schema === "kfc-simulator-profile-model-update.priest-shadow.v1"
-                  ? "kfc-profile-model-browser.priest-shadow.v1"
-                  : proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
-                    ? "kfc-profile-model-browser.hunter-raid.v1"
-                    : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
-                      ? "kfc-profile-model-browser.feral-raid.v1"
-                      : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
-                        ? "kfc-profile-model-browser.warlock.v2"
-                        : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
-                          ? "kfc-profile-model-browser.warlock.v1"
-                          : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
-                            ? "kfc-profile-model-browser.balance.v1"
-                            : proof.schema === "kfc-simulator-profile-model-update.v1"
-                              ? "kfc-profile-model-browser.v1"
-                              : proof.schema === "kfc-simulator-profile-model-update.v2"
-                                ? "kfc-profile-model-browser.v2"
-                                : "kfc-profile-model-browser.v3"),
+        (proof.schema === "kfc-simulator-profile-model-update.paladin-retribution.v1"
+          ? "kfc-profile-model-browser.paladin-retribution.v1"
+          : proof.schema === "kfc-simulator-profile-model-update.shaman-enhancement.v1"
+            ? "kfc-profile-model-browser.shaman-enhancement.v1"
+            : proof.schema === "kfc-simulator-profile-model-update.shaman-stormcaller.v1"
+              ? "kfc-profile-model-browser.shaman-stormcaller.v1"
+              : proof.schema === "kfc-simulator-profile-model-update.shaman-elemental.v1"
+                ? "kfc-profile-model-browser.shaman-elemental.v1"
+                : proof.schema === "kfc-simulator-profile-model-update.priest-smite.v1"
+                  ? "kfc-profile-model-browser.priest-smite.v1"
+                  : proof.schema === "kfc-simulator-profile-model-update.priest-shadow.v1"
+                    ? "kfc-profile-model-browser.priest-shadow.v1"
+                    : proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
+                      ? "kfc-profile-model-browser.hunter-raid.v1"
+                      : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
+                        ? "kfc-profile-model-browser.feral-raid.v1"
+                        : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
+                          ? "kfc-profile-model-browser.warlock.v2"
+                          : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
+                            ? "kfc-profile-model-browser.warlock.v1"
+                            : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
+                              ? "kfc-profile-model-browser.balance.v1"
+                              : proof.schema === "kfc-simulator-profile-model-update.v1"
+                                ? "kfc-profile-model-browser.v1"
+                                : proof.schema === "kfc-simulator-profile-model-update.v2"
+                                  ? "kfc-profile-model-browser.v2"
+                                  : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -716,6 +744,7 @@ export async function readSimulatorProfileModelUpdate(
                 "shaman-elemental-static",
                 "shaman-stormcaller-static",
                 "shaman-enhancement-static",
+                "paladin-retribution-static",
               ]),
               iterations: z.literal(25),
               nativeDps: z.number().finite().positive(),
@@ -745,6 +774,7 @@ export async function readSimulatorProfileModelUpdate(
                 "shaman-elemental-static",
                 "shaman-stormcaller-static",
                 "shaman-enhancement-static",
+                "paladin-retribution-static",
               ]),
               viewport: z.object({ width: z.number().int().positive() }).passthrough(),
               fullMeasuredSettingsPreserved: z.literal(true),
@@ -789,7 +819,7 @@ export async function readSimulatorProfileModelUpdate(
     "Profile browser approval omitted parity/desktop/mobile share import",
   );
   const expectedOtherProfiles =
-    profile === "enhancement_shaman"
+    profile === "retribution_paladin"
       ? [
           "warrior",
           "rogue",
@@ -801,8 +831,9 @@ export async function readSimulatorProfileModelUpdate(
           "shadow_priest",
           "smite_priest",
           "elemental_shaman",
+          "enhancement_shaman",
         ]
-      : profile === "elemental_shaman"
+      : profile === "enhancement_shaman"
         ? [
             "warrior",
             "rogue",
@@ -813,8 +844,9 @@ export async function readSimulatorProfileModelUpdate(
             "warlock",
             "shadow_priest",
             "smite_priest",
+            "elemental_shaman",
           ]
-        : profile === "smite_priest"
+        : profile === "elemental_shaman"
           ? [
               "warrior",
               "rogue",
@@ -824,18 +856,30 @@ export async function readSimulatorProfileModelUpdate(
               "mage",
               "warlock",
               "shadow_priest",
+              "smite_priest",
             ]
-          : profile === "shadow_priest"
-            ? ["warrior", "rogue", "hunter", "feral_druid", "balance_druid", "mage", "warlock"]
-            : profile === "hunter"
-              ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
-              : profile === "feral_druid"
-                ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
-                : profile === "warlock"
-                  ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
-                  : profile === "mage"
-                    ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
-                    : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
+          : profile === "smite_priest"
+            ? [
+                "warrior",
+                "rogue",
+                "hunter",
+                "feral_druid",
+                "balance_druid",
+                "mage",
+                "warlock",
+                "shadow_priest",
+              ]
+            : profile === "shadow_priest"
+              ? ["warrior", "rogue", "hunter", "feral_druid", "balance_druid", "mage", "warlock"]
+              : profile === "hunter"
+                ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
+                : profile === "feral_druid"
+                  ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
+                  : profile === "warlock"
+                    ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
+                    : profile === "mage"
+                      ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
+                      : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
   requireMatch(
     expectedOtherProfiles.every((profile) =>
       evidence.otherProfiles.some((row) => row.profile === profile),

@@ -52,6 +52,12 @@ const foreverClasses = [
 
 const staticEntries: MetadataRoute.Sitemap = [
   {
+    url: `${HELPER_SITE_URL}/forever/tier-list`,
+    lastModified: new Date("2026-10-22T00:00:00Z"),
+    changeFrequency: "weekly",
+    priority: 0.9,
+  },
+  {
     url: HELPER_SITE_URL,
     lastModified: new Date("2026-10-18T00:00:00Z"),
     images: [helperAbsoluteUrl("/og/helper")],

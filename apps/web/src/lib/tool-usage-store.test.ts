@@ -37,6 +37,10 @@ describe("daily tool action storage", (): void => {
 
   it("serializes concurrent actions, keeps private file permissions, and prunes only expired daily files", async (): Promise<void> => {
     await writeFile(join(root, "2026-07-01.json"), "old");
+    const oldestKept = new Date(now.getTime() - 89 * 86_400_000).toISOString().slice(0, 10);
+    const oldestRemoved = new Date(now.getTime() - 90 * 86_400_000).toISOString().slice(0, 10);
+    await writeFile(join(root, `${oldestKept}.json`), "keep at retention boundary");
+    await writeFile(join(root, `${oldestRemoved}.json`), "expired");
     await writeFile(join(root, "notes.json"), "keep");
     await mkdir(join(root, "2026-07-02.json"));
     await Promise.all(
@@ -52,6 +56,8 @@ describe("daily tool action storage", (): void => {
       expect.arrayContaining(["2026-07-02.json", "notes.json", "2026-10-22.json"]),
     );
     expect(await readdir(root)).not.toContain("2026-07-01.json");
+    expect(await readdir(root)).toContain(`${oldestKept}.json`);
+    expect(await readdir(root)).not.toContain(`${oldestRemoved}.json`);
     expect(await readdir(root)).not.toContain(".writer-lock");
   });
 
@@ -73,5 +79,20 @@ describe("daily tool action storage", (): void => {
     await mkdir(join(root, ".writer-lock"));
     await expect(storeToolUsage(input, now)).rejects.toThrow(/lock is unavailable/);
     expect(await readdir(root)).toEqual([".writer-lock"]);
+  });
+
+  it("coordinates independent writers through the directory lock", async (): Promise<void> => {
+    vi.resetModules();
+    const { storeToolUsage: independentWriter } = await import("./tool-usage-store");
+    await Promise.all(
+      Array.from({ length: 20 }, async (_, index): Promise<void> =>
+        (index % 2 ? independentWriter : storeToolUsage)(input, now),
+      ),
+    );
+    const value = toolUsageAggregateSchema.parse(
+      JSON.parse(await readFile(join(root, "2026-10-22.json"), "utf8")) as unknown,
+    );
+    expect(Object.values(value.groups)[0]?.count).toBe(20);
+    expect(await readdir(root)).not.toContain(".writer-lock");
   });
 });

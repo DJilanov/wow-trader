@@ -1,5 +1,26 @@
 # Simulation-tested pre-raid gear
 
+## October 22, 12:35 UTC — qualified Ret has a compiled isolated UI, not a finished handoff
+
+All-class TypeScript/Vite passed and produced immutable UI df773b886... with28audited
+presets and the real qualified Ret build. It remains unselected. Staged browser9702/
+PID66460is running against that release. Trusted frontend reader/fixtures/registry and
+actual main desktop/mobile/default/menu/library/guide/Simulate delivery still remain.
+All-class scope, existing23local library entries and production are unchanged. Do not
+restart completed numerical/source/export/build jobs; exact next steps are in context.md.
+
+## October 22, 12:32 UTC — Ret numerical/source/browser qualification complete; UI still pending
+
+The unchanged Ret975.0313DPS/40kresult passed full V2source recovery and actual selected
+native/WASM10kparity (identical scalar/stdev), then exported qualified build08c7fbb7....
+The exact completion-envelope bug remains documented as a strict canonical/legacy
+transport receipt; old studies, seeds, winner and original budget ledger were not
+rewritten. Audited snapshot authentication now avoids repeated long ranking replay in
+delivery.21focused cases plus3actual qualified-overlay cases pass. The real isolated UI
+build passed all-class TypeScript and is running Vite; staged/main browser, trusted
+frontend reader/fixtures and final local delivery are NOT yet complete. No new completed
+library count or deployment. Exact hashes and active build76300/PID48769: context.md.
+
 ## October 22, 11:57 UTC — Ret final metadata failure is not another numerical search
 
 Finite inspection and fresh40kqualification measurements are complete, but the final

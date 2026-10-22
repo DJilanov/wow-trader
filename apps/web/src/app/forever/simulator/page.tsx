@@ -40,6 +40,13 @@ export default async function ForeverSimulatorPage({
         </p>
       </header>
       <ForeverSimulatorClassSelector selectedClass={selectedClass?.slug ?? null} />
+      <Link className="simulator-raid-link" href="/forever/tier-list">
+        <span>
+          <strong>WoW Forever DPS tier list</strong>
+          <small>Measured pre-raid builds, shared fight settings, gear and rotation links.</small>
+        </span>
+        <span aria-hidden="true">→</span>
+      </Link>
       {process.env.NODE_ENV === "development" ? (
         <p>
           <Link href="/forever/simulator/review">Review local calculated builds →</Link>

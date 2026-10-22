@@ -2,6 +2,120 @@
 
 Last updated: 2026-10-22
 
+## October 22, 12:35 UTC — actual Ret UI build PASSED; staged real browser review LIVE
+
+Builder76300/PID48769is TERMINAL0. Both real all-class virtual TypeScript and Vite
+passed. Immutable UI release df773b886bdbd4f944addb70 contains3497files,28audited presets
+and one qualified Ret build;103repairs affect retained unoptimized starters only inside
+this isolated release. Other selected class releases and personal saves are unchanged.
+- publication plan: optimization/paladin-retribution-first-pass-v1/publication-plan-df773b886bdbd4f944addb70.json
+- numerical parent e945e98f232cc81948ee9060; model assets remain byte-identical.
+- proof byteSHA ffb229411ab3a679e42a39a102441efedd80992032353ea73d2b4b08361adc8e.
+- publication published-reviews/retribution_paladin-421574589d7430a3.json,
+  semanticSHA421574589d7430a30eb4635fcdfbf5765415b4b14e72609d75aad62db34aab33.
+- selected:false, browserReview:null. This is NOT a selected, public or deployed preset.
+
+ONE staged real browser reviewer is now LIVE: session9702/PID66460. Exact command:
+  node artifacts/forever-simulator/optimization/review-tools/review-paladin-retribution-presentation-v1.mjs --review df773b886bdbd4f944addb70
+Reviewer sourceSHAfc89f17cf0a9791018afea3fb5d3fdca2cae54e8f5eac2f9eae1ebf323ad5109.
+Qualified loader sourceSHA23062e57680672ee49c2dafff11a317e4d6ca8231827e6f8431177ebbc3870e7.
+Source authentication can be quiet for~3minutes before the actual15profile/default/menu/
+share/25fight native-browser checks. Poll SAME9702/66460; do not duplicate/restart a quiet
+live reviewer or claim browser success yet. Its source, existing qualification/export/
+snapshot/owner/parity inputs and compiled UI inputs remain FROZEN. Original cache hash
+69b4b817... unchanged. No fresh holdouts or optimization jobs are started by this review.
+
+Next meaningful parallel work: implement the trusted FRONTEND Ret reader and registry/
+schema adapter (currently NOT implemented), using actual build08c7..., confirmation890a...,
+audita973..., canonicalA+completionTransport/sourceVerification and exact source-bound
+guide. Read apps/web/AGENTS.md and installed Next boundary guide (main read both fully in
+this turn before frontend work; no frontend edit has been made yet). Follow existing
+per-profile provenance/approved-math adapters. Keep old structural anchors as structural,
+not current-engine numerical results. Then genuine delivery fixture and tests, staged
+browser profile fixture after9702actuallypasses, strict registry isolation/size/integrity/
+desktop-mobile tests and web types/lint. Only after that: prepared local selector preserving
+23existing cases/11profiles, actual main desktop/mobile/default/config/gear/library/
+exactguide/tooltip/single-scroll/reload/Simulate checks and finisher. Ret is NOT completely
+delivered locally yet, so do not start Shockadin. All remaining goal scope stays active.
+
+## October 22, 12:32 UTC — Ret source recovery, exact browser parity and qualification PASSED; real UI build LIVE
+
+Previous goal turn was PROGRESS (strict metadata recovery + handoff preparation), with a
+specific verified read-only wait. This turn made further actual delivery progress; full
+all-class/tank/update scope remains active and no new library-completion count is claimed.
+
+Read-only verifier97986/PID90830 is TERMINAL0. It genuinely passed the unchanged full
+source/native-origin/packed-stage/RNG/approved2%+separate1% replay. Its immutable audit:
+  optimization/paladin-retribution-first-pass-v1/source-verification-a9730e592145ea1c.json
+semanticSHA a9730e592145ea1c3f6d5413b8c48b5c131c79e5f5343fd2f55a4e4f3ddbd236,
+captured12:13:40.595UTC,5862750bytes,26251source-file pins. B's own24native origins are
+verified in its final replay (not a claim that only24total inputs were checked). Canonical
+Bcompletion SHA df2900f04c582a9b402ab10573be27a3e0a754914412524edd8b4c2b654acb6e.
+Never rerun the failed original70535 or completed numerical studies to repair metadata.
+
+New audited snapshot authenticates that actual code-review-pinned audit, model, raw
+journals, original clocks and exact12inspection/24holdout request identities, with no
+ranking replay or new native jobs. The actual wire-reconstruction preflight90272passed.
+It preserves old-model warm starts as structural only. Scope/transport/hash guards do
+not accept an incoming export's own claimed approval. Existing original pinned files,
+old A/B artifacts, seeds, numerical cache and original class ledger remain unchanged.
+
+Separate delivery-only owner9426/supervisor32148/child32356 is TERMINAL0 at12:22:58UTC.
+It used the SAME paladin.lock, SAME retribution-dps spec and SAME original deadline, with
+zero native search/fresh-holdout permission and exactly one inspected class4WASM control.
+Its immutable-history-compatible sidecar is
+  optimization/paladin-retribution-first-pass-v1/delivery-owner-300f0279-dc97-4daa-aa6e-d99067f0b6eb.json
+commandSHA b9253a4b8c16767a5c63dbff005868ab2faea22dc4ad73d3b9504f46745ef11d;
+original numerical ledger byteSHA7d3f7ff50a9a38603336b7ffcbea006aef7a8204fa3e04cdaa094c97ce45c978
+was unchanged before/after. No extra correction or class-clock reset. New owner checks
+reject expired/reset clocks, competing numerical owners, extra corrections and ownerless
+exports, and retain exclusive ownership until the actual child exits/cleanup completes.
+
+Actual selected77191/10k native and raw browser WASM are EXACTLY equal:
+974.8379016361838DPS,stdev38.44541752844438. Distinct request IDs remain distinct; this is
+the inspected scalar, NOT the fresh40k975.0313336343517reference. Parity report:
+  optimization/reviews/paladin-retribution-selected-parity-f26337143838faf7.json
+semanticSHA f26337143838faf7edee4eca25118be8e6b05513b30f4e4843b9ab44e8f923cf.
+
+Actual qualified export now EXISTS (do not rerun it):
+- build-08c7fbb728582e0a.json under paladin-retribution-first-pass-v1;
+  SHA08c7fbb728582e0a0eaced85344b0a2a4f072e90112babb6585efb6d4171ef42.
+- qualified-build.json SHAe32d3b1e4401058eb5950157862de7a678911ac97fd6eb0c7c4af7abbbeb00f0.
+- canonical A evidence plus explicit completion-transport-b910b2cd5f506774.json and
+  source-verification audit are retained; original Bdeclaration/evaluation are untouched.
+Actual native/heldout scores, settings and winner were not relabelled or replaced.
+
+Qualified loader now uses the strict audited snapshot + existing V2parity and pins the
+actual build/qualification hashes, canonical A and transport receipt. It is NOT the
+old broken V1confirmation reader. Three new actual-qualification overlay cases pass:
+real default/menus/APL/11/8/32/race/Windfury, separately labelled Physical Ret with its
+old APL, and rejection of a rehashed gear mutation.21earlier focused cases passed;
+these3additional actual cases and scoped lint on the3changed UI-preparation files pass.
+
+ONE actual isolated UI build is LIVE: session76300/PID48769, command
+  node artifacts/forever-simulator/optimization/review-tools/build-paladin-retribution-presentation-v1.mjs --build
+sourceSHA9e55a9d27fe8bcce5211c4aec4d26e95e4ce28677d038c443953ccf2532c7e53.
+Actual all-class virtual TypeScript already PASSED; Vite/minification is currently
+running (ps12:31UTC elapsed5:49/~238%CPU), not stalled or yet a completed release.
+One Vite CJS deprecation notice is not a failed build.26GiBdisk free before build.
+No presentation release identity/success artifact has been emitted yet at this entry.
+Poll SAME76300/48769. ALL its declared/private builder, qualified-loader, overlay/tests,
+numerical/export/owner/snapshot inputs are now FROZEN; do not format/edit them mid-build.
+
+NEXT: inspect actual builder terminal result/immutable release/publication plan. Then
+staged browser reviewer --review <actual-release> (prepared actual15-profile/menu/share/
+25fight parity checks) and full trusted frontend Ret adapter + genuine fixtures/tests.
+Frontend profile-model registry/schema has NOT yet been extended for Ret. Use actual
+sourcee945..., build08c7..., confirmation890a..., audit a973..., free-seal controlSHA
+8bb791a81d4aadeec1b2e6f501ff548d6dbf374f4f171278e1681339b308f6a1 and receipt; old
+structural anchor/gear must not be treated as current-model numerical evidence. Add a
+bounded16MBallowance ONLY for actual corrected feedback result9,721,159bytes, not a
+blanket metadata-size waiver. Numerical model assets remain byte-identical in UI.
+After strict real fixture/reader checks: local selection preserving all23existing cases,
+main desktop/mobile/default/PresetConfigurations/GearSets/library/exact-guide/tooltip/
+single-scroll/reload/Simulate handoff and actual finisher. Only THEN Shockadin. No actual
+Ret browser/UI delivery or new finished-local count yet. No commit/push/deploy/3017restart.
+
 ## October 22, 11:57 UTC — final Ret owner TERMINAL1 on exact metadata bug; read-only V2 recovery LIVE
 
 Previous goal turn was PROGRESS: actual all-profile weapon audit, real fresh live-browser

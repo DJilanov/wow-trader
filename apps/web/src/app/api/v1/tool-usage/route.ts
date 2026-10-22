@@ -12,7 +12,7 @@ export async function POST(request: Request): Promise<Response> {
   if (!config || request.headers.get("dnt") === "1" || request.headers.get("sec-gpc") === "1")
     return new Response(null, { status: 204, headers });
   const url = new URL(request.url);
-  const origins = [url.origin, HELPER_SITE_ORIGIN];
+  const origins = [HELPER_SITE_ORIGIN];
   if (
     process.env.NODE_ENV !== "production" &&
     ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)

@@ -50,6 +50,18 @@ test("rejects corrupt, misdated, linked and unbounded inputs rather than underre
     const file = join(root, "2026-10-21.json");
     await writeFile(file, "broken");
     await assert.rejects(toolUsageReport(options), /Invalid aggregate/);
+    const event = {
+      schema: "tool-usage.v1",
+      build: "test",
+      action: "talent_build_saved",
+      edition: "forever",
+      device: "desktop",
+    };
+    await writeFile(
+      file,
+      JSON.stringify(addToolUsage(null, event, new Date("2026-10-20T12:00:00Z"))),
+    );
+    await assert.rejects(toolUsageReport(options), /date mismatch/);
     const other = join(root, "other.json");
     await writeFile(other, "private");
     await rm(file);

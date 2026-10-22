@@ -1,0 +1,83 @@
+.page {
+  max-width: 1080px;
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.links a,
+.method > a {
+  color: var(--gold);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.8rem 0;
+}
+.stats > div {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+.stats span,
+.stats small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.stats strong {
+  font-size: 1.25rem;
+}
+.notice {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--gold);
+  background: rgba(212, 175, 96, 0.045);
+  line-height: 1.65;
+}
+.method {
+  margin-top: 3rem;
+  line-height: 1.75;
+  scroll-margin-top: 6rem;
+}
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 2rem;
+}
+.method h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+}
+.method details {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.method summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+@media (max-width: 750px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .stats {
+    gap: 0.65rem;
+  }
+  .stats > div {
+    padding: 0.8rem;
+  }
+  .stats strong {
+    font-size: 1.05rem;
+  }
+  .methodGrid {
+    grid-template-columns: 1fr;
+  }
+}

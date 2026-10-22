@@ -1,5 +1,32 @@
 # Paladin first-pass preparation
 
+## October 22, 12:35 UTC — real isolated UI compiled; staged browser reviewer started
+
+Actual all-class TypeScript AND Vite passed, terminal0. Immutable Ret UI releasedf773b886...
+has3497files,28audited presets and one real qualified build, but remains selected:false.
+Reviewer9702/PID66460is now live on the exact release, first authenticating its source and
+then checking actual15profile menus/defaults, full desktop/mobile shares and25fight
+delivery parity. No browser approval, local selection or new public preset is claimed.
+Frontend Ret adapter/genuine fixtures/strict registry tests and full main-page handoff
+still remain before Shockadin. Exact handles/hashes/publication plan: context.md.
+
+## October 22, 12:32 UTC — real qualification exported; actual UI build under way
+
+Read-only recovery97986and delivery-only9426both completed successfully. Original finite/
+fresh studies remain immutable; the exact runtime-envelope issue is retained in an
+explicit receipt alongside canonical A evidence. All26251source pins authenticated;
+original class ledger/deadline/correction unchanged. Actual selected10kNative/WASM scalar
+and stdev match exactly. The real fresh40k975.0313DPS11/8/32build is now exported as
+08c7fbb728582e0a... with qualificatione32d3b1e.... No further numerical qualification or
+export rerun is needed. Full refs, source audit and parity hashes: context.md.
+
+The real build passes3new overlay tests, in addition to21earlier focused cases. The
+audited snapshot preserves raw proofs and reconstructs all12/24request identities without
+reranking. Actual isolated UI builder76300/PID48769passed all-class TypeScript and is
+running Vite. It has not emitted a completed release yet. Keep its declared inputs frozen.
+Staged real browser review, trusted frontend adapter/genuine fixtures, isolated selection
+and complete main desktop/mobile handoff remain before Shockadin. Nothing deployed.
+
 ## October 22, 11:57 UTC — completed measurements preserved; metadata recovery in progress
 
 The final owner is TERMINAL1, not live: independent replay found that B's Acompletion

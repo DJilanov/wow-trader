@@ -1,5 +1,32 @@
 # WoW Trader fixes and recovery context
 
+## October 22, 12:35 UTC — Ret compiled UI is real but must not bypass browser/registry gates
+
+Isolated UI df773b886... passed actual all-class TypeScript and Vite, then a real staged
+browser reviewer9702/PID66460started. It remains selected:false with no browser approval
+yet. The frontend registry still has no Ret adapter, so do not append its profile pointer
+early: strict unknown-profile validation would invalidate unrelated class selections.
+Implement/test the actual pinned Ret reader + canonical/transport provenance and genuine
+fixtures first; then isolated selection and main browser delivery. Full recovery in
+context.md. No production/3017restart/commit/push/deploy.
+
+## October 22, 12:32 UTC — audited Ret metadata recovery now passes real qualification
+
+Actual V2full replay passed and pinned26251sources. The completion-envelope exception
+remains explicit and limited to the exact immutable A/B artifacts; no checksum was
+waived and no numerical study/winner/seed changed. The delivery-only continuation used
+the original class lock/deadline and left its numerical ledger unchanged. Real selected
+class4native/WASM10kDPS and stdev match EXACTLY;40k975.0313DPS qualified export08c7fbb7...
+and canonical-A/transport/source-audit evidence now exist. Do not rerun failed70535or
+successful export9426. Exact hashes/recovery are at the top of context.md.
+
+Review-pinned snapshot+raw evidence avoids repeating the long ranking replay for UI
+delivery. Owner/expiry/no-new-search guards pass;3real qualified-overlay regressions pass
+in addition to21earlier focused cases. Actual isolated UI build76300/PID48769has passed
+all-class TypeScript and is running Vite; it is NOT selected/deployed/browser-approved.
+Frontend Ret reader/fixtures/registry and full staged/main handoff still remain. Freeze
+the live builder inputs and preserve all other class selections and unrelated edits.
+
 ## October 22, 11:57 UTC — Ret completion-file hash must not be a runtime-envelope hash
 
 The actual final owner stopped after completed A/B measurements because B's inspection

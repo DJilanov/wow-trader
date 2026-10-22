@@ -100,6 +100,17 @@ export default function ForeverHelperPage(): React.JSX.Element {
         </div>
         <Link href="/forever/addon">Download the Collector →</Link>
       </section>
+      <section className="collector-promo" aria-labelledby="forever-tier-list-heading">
+        <div>
+          <span className="eyebrow">Choose your next spec</span>
+          <h2 id="forever-tier-list-heading">WoW Forever DPS tier list</h2>
+          <p>
+            Compare reviewed pre-raid builds under the same fight and raid support. Explore the
+            rankings, then inspect the gear, talents and rotation behind each score.
+          </p>
+          <Link href="/forever/tier-list">Explore the DPS rankings →</Link>
+        </div>
+      </section>
       <section className="detail-grid" aria-label="WoW Forever data readiness">
         <div className="panel">
           <span className="eyebrow">Preview evidence available now</span>

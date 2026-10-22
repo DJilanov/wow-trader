@@ -8,7 +8,20 @@ import {
   toolUsageDateSchema,
 } from "../apps/web/src/lib/tool-usage-contract.mjs";
 
-/** @param {{ root: string, from: string, to: string, now?: Date }} options */
+/**
+ * @typedef {{ edition: string, action: string, device: string, count: number }} UsageTotal
+ * @typedef {{ date: string, count: number }} DailyTotal
+ */
+
+/**
+ * @param {{ root: string, from: string, to: string, now?: Date }} options
+ * @returns {Promise<{
+ * schema: 'tool-usage-report.v1', generatedAt: string,
+ * range: { from: string, to: string, timezone: 'UTC', includesPartialToday: boolean },
+ * observedDays: number, missingDays: string[], totalActions: number,
+ * byDay: DailyTotal[], groups: UsageTotal[], builds: string[], interpretation: string
+ * }>}
+ */
 export async function toolUsageReport({ root, from, to, now = new Date() }) {
   toolUsageDateSchema.parse(from);
   toolUsageDateSchema.parse(to);
@@ -21,7 +34,9 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
   if (!info.isDirectory()) throw new Error("A real tool usage directory is required.");
   const missingDays = [];
   const byDay = [];
+  /** @type {Map<string, UsageTotal>} */
   const totals = new Map();
+  /** @type {Set<string>} */
   const builds = new Set();
   for (let index = 0; index < days; index++) {
     const date = new Date(Date.parse(`${from}T00:00:00.000Z`) + index * 86_400_000)
@@ -81,6 +96,7 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
   };
 }
 
+/** @returns {Promise<void>} */
 async function main() {
   if (process.argv.includes("--help")) {
     process.stdout.write(

@@ -99,6 +99,9 @@ export default async function SimulatorPage({
           <Link className="helper-back-link" href="/forever/simulator">
             ← Choose a class
           </Link>
+          <Link className="helper-back-link" href="/forever/tier-list">
+            Compare DPS rankings →
+          </Link>
           <div className="simulator-character-heading">
             {classEntry ? (
               <Image
