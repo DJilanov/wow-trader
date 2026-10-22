@@ -157,18 +157,11 @@ export function LevelingReaderWorkspace({
     return () => cancelAnimationFrame(frame);
   }, [view, currentStepAnchor, display, textSize, revealSequence]);
   useEffect(() => {
-    if (!ready || !currentStepAnchor) return;
-    let frame = 0;
-    const resize = (): void => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => scrollReaderToAnchor(currentStepAnchor));
-    };
-    window.addEventListener("resize", resize);
-    return () => {
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(frame);
-    };
-  }, [ready, currentStepAnchor]);
+    if (!ready || display !== "focus" || !currentStepAnchor || pendingScroll.current) return;
+    // Focus mode removes the preceding card; keep the card just selected in view after reflow.
+    const frame = requestAnimationFrame(() => scrollReaderToAnchor(currentStepAnchor));
+    return () => cancelAnimationFrame(frame);
+  }, [ready, currentStepAnchor, display]);
 
   function revealAnchor(anchor: string): void {
     pendingTarget.current = anchor;
@@ -326,17 +319,19 @@ export function LevelingReaderWorkspace({
         <div className={styles.workspaceReadingMode} role="group" aria-label="Reading mode">
           <button
             type="button"
-            aria-pressed={display === "focus"}
-            onClick={() => changeDisplay("focus", textSize)}
-          >
-            Current + next
-          </button>
-          <button
-            type="button"
             aria-pressed={display === "all"}
+            title="Browse the full chapter without completing any steps"
             onClick={() => changeDisplay("all", textSize)}
           >
             All steps
+          </button>
+          <button
+            type="button"
+            aria-pressed={display === "focus"}
+            title="Show only the selected step and the next one; hide the rest of the list"
+            onClick={() => changeDisplay("focus", textSize)}
+          >
+            Current + next
           </button>
         </div>
         <label className={styles.workspaceMapWidth}>

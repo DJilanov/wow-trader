@@ -1,5 +1,38 @@
 # Paladin first-pass preparation
 
+## October 22, 08:33 UTC — gear preflight passed; supervised gear phase started
+
+Independent replay passed all14894native origins/82packed stages and exact selected
+state/rankings, with zero new fights or writes. Actual all-slot gear owner is now running
+under the same original Paladin deadline;13derived native/WASM controls precede its
+bounded two-sweep search. It is initially rechecking the completed source, not already
+finished gear. Exact owner/command/hash/no-restart refs are at the top of context.md.
+All19new tests pass. Geared feedback, fresh confirmation and UI delivery still remain.
+
+## October 22, 08:32 UTC — blue study complete, independent preflight active
+
+The actual Ret blue owner finished14894new native requests/1655100fights and packed
+replay, exit0. Its provisional12/8/31physical2Htwisting input is not final gear or a
+publishable build. A separate read-only gear preflight is independently revalidating
+every saved origin/request/ranking and the selected17-slot bank before any gear fights.
+Use the exact existing session/PID/completion/hash refs at the top of context.md; do
+not restart either the completed search or a quiet live preflight. All19new tests pass.
+
+## October 22, 08:25 UTC — additional real policies accepted; bounded Ret study running
+
+All16additional rank/twist/mana policy controls passed400native/400raw-WASM fights,
+including actual Command/Righteousness/Fury Echoes and no unlearned/taunting/gated casts.
+The actual supervised first Ret study is running under the unchanged original deadline;
+initial9120structural proposals produce7248unique requests. Exact live handles/identity,
+canary/source hashes and no-restart instructions are in context.md. Not qualified BiS.
+
+All19new tests pass. The complete structural gear bank preserves all17slots, both eligible
+current PvP stat families and18350proposals across slots, ordered hands/rings/trinkets,
+sets and legal nonraid enchants; no EP/quality/ilvl pruning or raid-material items.
+Read-only selected-result replay,13derived gear-canary proposals and bounded two-sweep
+gear runner are implemented/tested. Gear numerical work has not started; it requires
+the actual finished blue result and independent preflight first. Public presets unchanged.
+
 ## October 22, 08:10 UTC — real mechanics evidence and first numerical-search preparation
 
 All29 accepted class4browser/native/raw-WASM mechanics cases have completed, with725

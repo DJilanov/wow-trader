@@ -7,7 +7,7 @@ export interface ReaderPreferences {
 }
 export const READER_PREFERENCES_KEY = "kfc-leveling:reader-preferences:v1";
 export const DEFAULT_READER_PREFERENCES: ReaderPreferences = {
-  display: "focus",
+  display: "all",
   textSize: "standard",
   mobileView: "quests",
   mapWidth: 50,
@@ -17,7 +17,7 @@ export function readReaderPreferences(raw: string | null): ReaderPreferences {
     const value: unknown = JSON.parse(raw ?? "null");
     if (!value || typeof value !== "object") return DEFAULT_READER_PREFERENCES;
     return {
-      display: "display" in value && value.display === "all" ? "all" : "focus",
+      display: "display" in value && value.display === "focus" ? "focus" : "all",
       textSize: "textSize" in value && value.textSize === "large" ? "large" : "standard",
       mobileView:
         "mobileView" in value && (value.mobileView === "map" || value.mobileView === "split")

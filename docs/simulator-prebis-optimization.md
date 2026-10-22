@@ -1,5 +1,23 @@
 # Simulation-tested pre-raid gear
 
+## October 22, 08:33 UTC — Ret blue finished and independently replayed; gear owner started
+
+The blue study finished14894native requests/1655100fights. Independent read-only replay
+passed all14894origins/82packed stages, exact rankings/state and full selected17-slot
+gear geometry. The original-budget gear owner is now active, initially authenticating
+the source before13derived native/WASM controls and bounded sweeps. All19new tests and
+strict scoped lint pass. No final Ret build/preset/finished-spec count changed; geared
+feedback, fresh2%/separate1% confirmation and actual UI handoff still precede Shockadin.
+
+## October 22, 08:25 UTC — Ret numerical study active, not yet final gear
+
+All16additional real native/WASM rank/twist/mana canaries passed. The first Ret study
+is numerically screening7248unique initial requests on the original Paladin deadline.
+All19new tests pass, including the complete18350-proposal17-slot gear bank and strict
+read-only policy/declaration/materialized gear checks. Actual selected-blue replay and
+13derived gear controls precede the bounded all-slot search; geared feedback and fresh
+independent confirmation remain. No public result or completed count changed.
+
 ## October 22 — Paladin controls accepted; Ret numerical study prepared
 
 All29 real Paladin mechanics controls completed with725native and725raw-WASM fights,

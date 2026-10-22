@@ -1,5 +1,33 @@
 # Repeatable pre-raid simulation updates
 
+## October 22, 08:33 UTC — current Ret gear owner
+
+Independent gear preflight is now terminal0:14894origins/82packed stages authenticated.
+Actual original-budget retribution-dps/gear owner is live, initially rechecking source
+before13derived native/WASM controls and at-most2gear sweeps. Use current context.md
+session9086/child7061and exact command/hash; never duplicate the quiet live process.
+Selected-reader/gear-bank/requests/parity/runner/test bytes are now frozen as well.
+Original deadline/correction policy, final feedback/qualification/UI gates are unchanged.
+
+## October 22, 08:32 UTC — Ret completed owner must not be restarted
+
+The original Ret blue owner is terminal0 with14894new requests/1655100fights. Its actual
+gear preflight is running read-only, independently replaying existing evidence. Exact
+completion/source hashes, current handle and command are at the top of context.md.
+Quiet CPU-active preflight output is not a failure or permission to duplicate combat.
+Only after it passes may the original-class retribution-dps/gear owner begin. All19new
+tests pass; public qualification, geared feedback and own-profile UI delivery remain.
+
+## October 22, 08:25 UTC — actual Ret owner and next handoff
+
+Ret blue owner is live; use exact session/PID/study refs at the top of context.md, not a
+new duplicate owner. All16additional actual policy canaries and19new tests pass. Once
+the original owner is terminal and completed.json exists, run the read-only gear preflight
+against that exact completion. It independently replays native origins/packed rankings
+and validates all17-slot geometry and13derived canary inputs. Only then dispatch the
+same-class retribution-dps/gear phase. Keep all now-frozen blue sources/helper bytes;
+preserve original Paladin deadline, correction allowance and previous public builds.
+
 ## October 22 — Paladin first numerical-search ownership
 
 Ret's real29-case model controls are complete and independently authenticated. New
