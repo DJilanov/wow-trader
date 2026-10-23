@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ForeverSimulatorClassSelector } from "../../../components/forever-simulator-class-selector";
+import { ForeverDpsRankingLinks } from "../../../components/forever-dps-ranking-links";
 import { getSimulatorClass } from "../../../lib/forever-simulator-directory";
 import { readSimulatorManifest } from "../../../lib/forever-simulator";
 import { createHelperMetadata } from "../../../lib/seo";
@@ -40,13 +41,7 @@ export default async function ForeverSimulatorPage({
         </p>
       </header>
       <ForeverSimulatorClassSelector selectedClass={selectedClass?.slug ?? null} />
-      <Link className="simulator-raid-link" href="/forever/tier-list">
-        <span>
-          <strong>WoW Forever DPS tier list</strong>
-          <small>Measured pre-raid builds, shared fight settings, gear and rotation links.</small>
-        </span>
-        <span aria-hidden="true">→</span>
-      </Link>
+      <ForeverDpsRankingLinks />
       {process.env.NODE_ENV === "development" ? (
         <p>
           <Link href="/forever/simulator/review">Review local calculated builds →</Link>

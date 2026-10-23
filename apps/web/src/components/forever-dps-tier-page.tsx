@@ -192,6 +192,12 @@ export async function ForeverDpsTierPage({
           gear can change the order.
         </p>
         <Link href="/forever/simulator/data">Inspect engine and item coverage →</Link>
+        <p>
+          Learn how to choose a support setup and compare builds fairly in the{" "}
+          <a href="https://www.wowforeverdiscord.online/guides/wow-forever-dps-tier-list">
+            Solo vs Raid DPS comparison guide
+          </a>.
+        </p>
       </section>
       <section className={styles.method} aria-labelledby="tier-faq">
         <h2 id="tier-faq">Choosing a WoW Forever DPS spec</h2>

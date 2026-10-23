@@ -96,12 +96,17 @@ export default async function SimulatorPage({
     >
       <header className="simulator-workspace-header">
         <div>
-          <Link className="helper-back-link" href="/forever/simulator">
-            ← Choose a class
-          </Link>
-          <Link className="helper-back-link" href="/forever/tier-list">
-            Compare DPS rankings →
-          </Link>
+          <div className="simulator-workspace-links">
+            <Link className="helper-back-link" href="/forever/simulator">
+              ← Choose a class
+            </Link>
+            <Link className="helper-back-link" href="/forever/tier-list/solo" prefetch={false}>
+              Solo DPS rankings →
+            </Link>
+            <Link className="helper-back-link" href="/forever/tier-list" prefetch={false}>
+              Raid DPS rankings →
+            </Link>
+          </div>
           <div className="simulator-character-heading">
             {classEntry ? (
               <Image

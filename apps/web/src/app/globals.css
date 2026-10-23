@@ -8956,6 +8956,15 @@ a.helper-choice-card:focus-visible {
   flex-wrap: wrap;
   padding: 24px 0;
 }
+.simulator-workspace-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 28px;
+}
+.simulator-workspace-links .helper-back-link {
+  margin-bottom: 0;
+}
 .simulator-character-heading {
   margin-top: 20px;
 }
