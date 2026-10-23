@@ -1,7 +1,7 @@
 # WoW Forever tank tier lists
 
-Status: implemented and locally verified on October 23, 2026; production publication
-pending the committed Linux build and candidate checks.
+Status: committed, pushed, deployed and verified on both public ranking pages on
+October 23, 2026.
 
 ## Player experience
 
@@ -96,7 +96,10 @@ node --test infra/simulator/tank-tier-policy.test.mjs infra/simulator/tier-bench
 pnpm --filter @wow-trader/web exec vitest run src/lib/forever-tank-tier-list.test.ts src/lib/forever-tank-tier-list-data.test.ts src/components/forever-tank-tier-page.test.tsx
 ```
 
-Use `--artifact-root=/absolute/path` for a different installed artifact root. The
+Use `--artifact-root=/absolute/path` for a prepared research root containing the
+matching installation and the pinned protobuf codec used by the DPS benchmark.
+The deployed runtime intentionally omits that research codec; a SHA-verified copy
+is preserved in the private deployment receipt. The
 read-only `--verify-cache` path never launches Chromium or creates new measurements.
 Evidence is kept under
 `artifacts/forever-simulator/optimization/tank-tier-list/<release>/`; compact public
@@ -104,8 +107,12 @@ snapshots are in `apps/web/src/lib/data/forever-tank-tier-list.{solo,raid}.json`
 The full request/response files are runtime research artifacts and are not Git source.
 Preserve them with release receipts before publication.
 
-The server verifies that the measured manifest is still the selected tank
-presentation and that its numerical/starter hashes and support policy match.
+The server pins the exact approved active/global selection heads and verifies the
+selected manifest, numerical/starter hashes and support policy. A tank-specific
+model override invalidates the comparison; unrelated class overrides do not.
+Full model proof and installation verification run during build and deployment.
+Metadata and the page share their compact verification within one request;
+results are not cached across requests that could select a newer model.
 Missing, stale or incompatible data hides the scores, shows a refresh state and
 disables indexing. A newer model needs new measurements; old scores are not relabeled.
 Reading the ranking never launches the numerical engine or changes stored characters.
@@ -116,3 +123,50 @@ matching simulator delivery and the retained evidence, followed by public visual
 asset, native-import and SEO checks. Existing numerical publications and the DPS
 snapshots are unchanged. This feature does not require a replacement numerical
 engine or numerical publication pointer.
+
+## Verified production release
+
+- Application commit: `117fa2554a11d5ed7f478df2727f8f156d11f9ad`.
+- Source/static delivery: `kfc-helper-tank-rankings-20261023-117fa25`.
+- Build ID: `O3wsG0FMfzDSJyR3rbLr3`.
+- [Solo / dungeon tanks](https://kfcguild.online/tools/forever/tier-list/tanks/solo).
+- [Raid tanks](https://kfcguild.online/tools/forever/tier-list/tanks).
+- Server receipt: `/home/wow-trader-system/shared/backups/tank-rankings-20261023-117fa25`.
+- Guarded rollback: run `node control.mjs --rollback` from that receipt directory.
+  It checks the current release before restoring the previous `e7a7680` Helper,
+  static delivery and build labels.
+
+The exact pushed source passed its Linux production build, strict typecheck, lint,
+37 focused web tests, 31 model-registry tests and 37 policy/deployment tests.
+All 1,531 tracked source blobs and 49,265 frozen installation files were verified
+around activation. Static delivery verified 48,787 files.
+
+Both candidate and public checks passed six tank browser cases (both modes at
+1440, 390 and 320 pixels), six DPS browser cases and six DPS text-layout cases.
+The deployed tank boards were visually inspected at desktop and mobile widths.
+Tank checks include both metric directions, full evidence tables, keyboard selection,
+native imports, images, canonical/structured data, navigation and no overflow.
+The public main asset sweep covered 23 existing pages / 475 assets; the separate
+tank-page sweep covered two pages / 18 assets, with overlap between the sweeps.
+All 32 portrait/badge JPEG hashes were verified over HTTP. Both tank sitemap entries
+and all four ranking pages' indexable metadata passed.
+
+The original four tank measurements and native import replays passed, with matching
+displayed DPS/TPS/DTPS. Full binary requests/responses were independently checked
+against the committed means and deviations after transfer to the private receipt.
+Simulator delivery passed all 11 profiles and 23 library entries. Warrior, Smite
+Priest and Warlock preset switching plus real WASM passed nine candidate cases
+(three widths), then three public desktop cases, with matching metrics.
+
+The public tank-page warm-fetch medians were 121 ms for Solo / dungeon and 155 ms
+for Raid in the acceptance run. These samples are operational checks, not a traffic
+or ranking guarantee. The first implementation's full-proof work on every page read
+was replaced by approved-selection pins before publication.
+
+The frozen numerical root remains `results-20261022-2489a71`; all four publication
+pointer hashes are unchanged. Protected sibling services retain their PIDs,
+restart counts and memory limits. The community site was not republished or
+restarted. Anonymous usage collection and the 768 MB runtime heap are preserved.
+The owned candidate process, local preview and SSH tunnel are closed. `final.json`
+records the completed gates and preservation checks. Documentation-only follow-up
+commits do not change the deployed application identity above.
