@@ -1,5 +1,201 @@
 # Simulation-tested pre-raid gear
 
+## October 23, 01:39 UTC — Destruction delivered;27/30local cases
+
+Destruction's gear/state/consume feedback closed, then two independent20k ranges
+confirmed732.4696469421692DPS/40k with0.790011%conservative retainedgap. Both2%and1%
+margin tests pass; strict dominance remains false and is disclosed. Actualselected
+10k native/WASM matched exactly. The full raw chain was independently replayed before
+export; all17slots, hands, jewelry, sets and non-raid enchants remain evidenced.
+
+Its four-build Warlock presentation1b0b140137f4b0b8a6e8177b is selected locally and
+passed15stagedmenus,8shared/reload cases,4native/browser controls, privacy handling,
+and8actual desktop/mobile main-page cases. Marker SHAa8e44bcd36a87e44... records final
+delivery. Exact guide:0/23/28,activeSuccubus,Spellstone,272683/22329casterweapons.
+Old Demo/Aff retain original provenance; their compatibility is not reoptimization.
+
+402web regressions pass with2workers; unrestricted parallel run failed under load,
+so retain the failure caveat and bounded command. Typecheck/scopedlint pass. Three
+tanks and remaining approved full-raid refreshes/campaign tooling are not complete.
+No Git/prod changes. Current handles, evidence,clock and next case audit:context.md.
+
+Fresh final weapon auditbea40cd69092a795 confirms15profiles/27local reviewed builds/
+29presets withZERO localflags. Only old LIVE DS/Ruin22383 remains flagged; local
+casterpair272683/22329 is correct. This audit performed0combat/prodwrite operations.
+
+## October 22, 23:16 UTC — live weapons reconfirmed; actual Destruction all-slot result
+
+Fresh15profileaudit5ca70c4d5a03156a finds no local weapon flags across26reviewed
+librarybuilds/29presets. Real desktop/mobile firstvisit+reload checks15e3aa7134d0697e
+pass both Priests with94SPcasterdagger272683; user-saved characters stay untouched.
+Only live unfinishedDS/Ruin22383 remains flagged; current local testedreplacement
+hascaster272683/22329. No production deployment accompanied this audit.
+
+Destructionblue131,112requests/13,190,500fights passed independent replay. Its actual
+all17slotgear phase then finished0 with21,955newrequests/2,878,380fights and11zero-
+difference native/WASMcontrols, including explicit caster/oldstarter comparisons.
+Provisional722.4031DPS/10k/0-23-28/activeSuccubus uses272683/22329. Two sweeps are
+NOT closure (secondstill+8.35%); full actualgeared feedback remainsrequired. Read-only
+94831 is independently replaying this gear before feedback.71combinedtestsPASS,
+64newDestruction+7weapon.26localcases; no new publicpreset/finalqualification claim.
+
+## October 22, 21:56 UTC — current weapon audit clean locally; DS/Ruin handed off
+
+All15 simulator profiles,26 reviewed library builds and29 local preset records were
+audited (`weapon-audit-e5ba884cfa140e8f`): ZERO local caster/hand-geometry/restriction/
+item-skill flags. Both live Priest defaults already use94SP caster dagger272683.
+Only live older DS starter22383 remains flagged; new local tested DS uses272683/22329.
+Personal saved characters remain intact and require selecting Load build to update.
+This is an audit, not proof of global optimality or a new numerical ranking.
+
+DS/Ruin712.37549486789DPS/40k is fully delivered locally in dc54f9cc4cb45bfb366cb572,
+with genuine main-page6-check desktop/mobile report26128c762bb12e02 and final marker
+SHA8d7ed516cc7fccc5d087b2b92ccedd0dcac3c6d3c2c06e7d10c56ba5d6d3d360. Old Demo/Aff remain
+historical scores with authenticated current-engine compatibility. Local total26/30;
+Destruction,3 tanks and separately approved full-raid refreshes are still pending.
+No production change. Full current evidence, tests and next-window constraints:context.md.
+
+## October 22, 20:17 UTC — DS/Ruin feedback closed and authenticated; final preflight live
+
+Correction0eafaee6...completed52,942newrequests/5,501,500fights. Independent replay passed
+allneworigins/281stages/45rawcontrols. Inspected712.8682DPS uses Nightfin+Kreeg's, same
+22/11/18/Imp/Spellstone/casterSpellblade gear; gear/state unchanged and finalconsume
+applicability genuinely aligned. No fresh qualification or public preset claim yet.
+13new final-inspection/readiness/selected-WASM/metadata tests pass. Full final runner
+implements<=64canonical10k inputs including all finalgearconsume coordinates,<=12frozen
+arms/twofresh20kranges/2%and separate1%assessments, independentreplays and selectedWASM.
+Read-only4081/47148preflightlive; actual normal confirmation command awaitsPASS. Class
+correction used, original shareddeadline unchanged. Exact commands/recovery/source-
+awarefrontend issue in context.md.25localcases unchanged; whole campaign still active.
+
+## October 22, 19:44 UTC — actual DS/Ruin state completion and bounded corrective closure
+
+State562047ad...completed41,729newrequests/3,840,940fights. Independent canonical replay
+passed all41,729neworigins/90stages/13rawnative-WASMcontrols with0newfights. Provisional
+698.8475DPS22/11/18incumbent remains;702.4767leader is0.5193%ahead, not a materialchange.
+Actual gear applicability is still pending from the earlier9.6708%last-sweep gain.
+New bounded nonraidconsume/all17gear/statefeedback has8passing focusedtests/scopedchecks.
+Owner47467/25867is live under SAMEdeadline, explicitly consuming ONEclass correction;
+45controls await actual execution after source replay. New400kcompleted-feedback reader
+has4passing origin/boundarytests but no invented positive completion. Full identities,
+next fresh2%/separate1% steps and source-aware multi-spec frontend requirement:context.md.
+25localcases remain delivered; full campaign stays active, no deployment.
+
+## October 22, 19:08 UTC — live weapon audit and real DS/Ruin geared feedback
+
+Update19:16UTC:4real live Priest first-visit/reload desktop/mobile checks also PASS
+(reportpriest-live-weapons-7c7acef84df23ac3); both94SPdagger. All13actual gearedDS
+native/rawWASMcontrols match. State562047ad...is MEASURING24,894initialrequests under
+same94663/94339owner. Independent state reader implemented;2boundarytests pass, actual
+positive replay still pending completion. No extra qualified/published build claimed.
+
+All15live profiles re-audited:bothPriests use94SPSpellblade272683,onlyUNFINISHED
+DS/RuinSageblade remains flagged. Report2e863a8a77192aedchecks29localpresetrows and25
+reviewed links;7weaponregressions pass. No deployment or new DPS qualification by audit.
+Actual all17gear9919b908...completed21,972newrequests/2,885,200newfights. Independent
+full-chain replay passedall154gearstages/21,972neworigins/11rawgearcontrols with0fights.
+Provisional698.8475DPSselects casterSpellblade+Scepter,notSageblade;bothsweepsmaterial.
+Five new actual-data state/equivalence/refusaltests and scopedlint/format/diff pass.
+Owner94663/94339nowreplays source then13gearedcontrols before actual talent/APLfeedback.
+Shared deadline and allremaining campaign scope unchanged;25localcases,no new handoff.
+Current commands/identities/remainingclosure steps:context.md and Warlock update doc.
+
+## October 22, 18:42 UTC — DS/Ruin fixed-blue result verified; all17slot gear running
+
+Actual6d5abdff...completed75,869newrequests/6,979,540fights under the separately approved
+Warlock window. Independent canonical replay passed all75,869origins/180stages with
+zero new fights. Provisional pure-sacrifice502.9911DPS/10k is NOT a final BiS result;
+the549.9550active-pet comparator remains explicitly separate. Selected-context gear
+preflight covers10,451proposals/all17pools, wholehands, orderedjewelry,sets,enchants
+and explicitSageblade/R14caster weapons.18newfocused tests/lint/format/diff checks pass.
+Actualgear99521/68781started18:40:42UTC; preserve same class deadline and frozen sources.
+See current context and Warlock update doc for actual provenance and next steps.
+25localcases unchanged; full all-class campaign remains active and uncompleted.
+
+## October 22, 17:35 UTC — Ret and Shockadin delivered locally; current weapons verified
+
+Cumulative135c3be07ddf4be41de2e554 is selected locally after actual4main-page checks
+at1440/390, both configurations/GearSets/own guides/reload/Simulate and completion
+privacy checks. New cumulative delivered-local marker exists; all23other cases remain.
+Local total25cases (23standardDPS+2opt-ins); not full30case campaign completion.
+37cumulativeprofiletests/typecheck/scopedlint/7deliveryguards/7weaponregressions pass.
+Broader shared suite77583finished0:369tests/18files PASS. Fresh live audit734982b96f6e2c23checks15profiles,
+29localpresets/25librarylinks: both livePriests have94SPSpellblade; ONLY unfinished
+DS/RuinSageblade flagged, no qualified-library weapon flags. No public deployment.
+Remaining Warlock/tanks/six authorizedraidupdates/catalog/incremental scope unchanged.
+
+## October 22, 17:30 UTC — actual qualified cumulative presentation passed staged review
+
+Shockadin24/0/27fresh40kDPS762.3069passes2%and1%; real exportb5992348/qualification8ee85d91.
+Actual cumulative UI135c3be07ddf4be41de2e554 built with all-class TS/Vite passing.
+Staged approval9ff15f5ffd4e981d passed all15profiles, both own builds at1440/390,
+actual25fight parity and current events-v2 completion/error/cancel/late/privacy checks.
+Strict genuine Shockadin frontend38tests, combined oldRet/newShock95tests and full
+web typecheck pass. Selector --plan passed49refs; root --select/main delivery pending.
+New cumulative37test suite reruns after correcting test-only cloned-record mutation.
+localhost3017is unavailable; no restart/deployment. Immutable delivery test and4root
+rollback tests pass; no new numerical search. Full hashes/commands/status in context.md.
+
+## October 22, 16:38 UTC — Shockadin calculations accepted, delivery not finished
+
+Independent replay and selected10krawWASM both passed exactly; final ownerTERMINAL0.
+Fresh40kDPS762.3069/actual24/0/27passes2%and1%. Real immutableexport97765/4340is running
+with zero new fights. Cumulative UI tooling/tests ready, but actual new release and
+trusted frontend/default/menus/library/guide/main-page handoff still remain. Original
+scope and approved remaining class updates stay active. Current hashes: context.md.
+
+## October 22, 16:35 UTC — fresh Shockadin numerical assessment passed; delivery remains
+
+Actual two20kholdouts report762.3069selectedDPS/40k,0.8798%largest conservative gap;
+both2%and1%pass. Owner63720still independently replays full source, then selectedWASM.
+Cumulative Ret+Shockadin builder/reviewer and virtual-only old-notifier retirement are
+implemented.9focused guards/actual iframe cases and57current-host tests pass. Existing
+Ret default/other24localcases preserved; no new Shockadin qualification/UI/publication
+claim. Full remaining Warlock/tank/sixapproved-class-update/catalog/incremental scope
+stays active. Actual next commands and original deadline are in context.md.
+
+## October 22, 16:10 UTC — final Shockadin confirmation started; refreshed live weapon audit
+
+Actual independent final preflight passed34968origins/227stages plus blue/gear proof;
+12finite genuine contenders admitted. Supervised final63720/65725now live under same
+original deadline.28focused tests pass. No fresh-qualified Shockadin/UI yet. New actual
+live weapon audit663fa48e8d2c3393checks15profiles/28local+28livepresets/24librarylinks:
+bothPriests use94SP/1%critSpellblade272683; only unfinished DS/RuinSageblade remains
+flagged. No production writes or browsercombat. Current owner/hash/next delivery details
+and the mandatory current-host HTMLmeasurementv2 compatibility gate are in context.md.
+
+## October 22, 16:01 UTC — Shockadin feedback closed, final independent checks remain
+
+Same frozen recovered0f814...study completed TERMINAL0 with closed feedback/no pending
+gear applicability.94014accumulated origins and10247540fights include all pre-reboot work;
+no fights were repeated in the recovery invocation. Actual final preflight93303replays
+the whole source chain before permitting finite contenders/fresh holdouts. Export guards
+and reboot-safe accounting pass3real-data tests. Not another qualified/delivered spec;
+cumulative Ret+Shockadin UI and actual browser handoff still required. See context.md.
+
+## October 22, 15:42 UTC — reboot-safe Shockadin resume and final confirmation preparation
+
+Actual Mac reboot interrupted internal replay after all34968newfeedback measurements
+were saved. Recovery proved94014accumulated origins/481cachepacks, zero missing scalars,
+and preserved every score/source/deadline. Only proven-dead owner leases were archived;
+old budget run now correctlyinterrupted. Same frozen study resumed96555/28763.
+Final context/writer/confirmed reader/selected browser adapter now compile and pass
+4RNG/wire+2canonical-completion regressions;4recovery tests also pass. Real independent
+feedback/final preflights and qualification/UI still pending. Current commands/proof/
+reboot-safe native counting/exporter adaptations are in context.md. Full scope unchanged.
+
+## October 22, 15:02 UTC — Shockadin feedback now measuring; real passive-damage proof preserved
+
+All23actual native/WASM controls matched. A reporting-only assertion wrongly required
+active casts for passive Vigil damage; native hits/crits/damage/refunds and repeated
+HolyShock casts prove the mechanics. Checker repaired after terminal owner and all23
+saved controls revalidated read-only: zero repeated fights/model changes. Same frozen
+command resumed under original deadline as18070/child11811, real study0f8141ac...;
+scalar work began14:57:25. Separate source replay, final-context and exact-APL guide
+primitives now have14direct new/updated passing tests. Actual final qualification/UI
+still pending; only genuinely closed feedback can proceed. Full remaining scope stays
+active. See context.md for exact identities, updated frozen hashes and next-stage work.
+
 ## October 22, 14:41 UTC — Shockadin gear proof complete; remaining weapon flag isolated
 
 Shockadin gear completed37874newrequests/4361620fights. Independent read-only replay

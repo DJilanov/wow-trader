@@ -1,5 +1,337 @@
 # WoW Trader fixes and recovery context
 
+## October 23 — passive Brand and complete full-raid Blood Pact verification
+
+The new Demonology run completed all24actual current-engine native/browser control
+pairs, then its obsolete verifier failed because passive Demonic Brand has hits and
+damage but zero casts. Full raid buffs also expose two legitimate Blood Pact aura
+providers with the same spell ID. Neither observation permits changing combat
+results, dropping aura rows or erasing the failed owner record.
+
+Versioned full-metrics metadata verification authenticates every raw response and
+source/backend pin, preserves both complete Blood Pact rows, requires positive
+passive Brand damage/hits with zero casts, and rejects arbitrary duplicate auras
+and matched-but-missing damage. Five real-data/tamper tests pass. Immutable report
+`warlock-demonology-full-raid-v1/prepared-v2.json`, semantic SHA
+`de21590460554c3f6f67ee3aadae5e9f755ad363777be7ff4457207afa98b8ba`.
+No new fights, approval correction, input/model changes or score relabeling.
+
+The new full-raid search is now running under the unused ordinary talents-rotation
+phase and original class deadline. Its driver/test and declared sources are frozen.
+New gear metrics use the same provider-preserving comparison. Do not edit old
+frozen verifiers or feed the new data through historical source readers.
+Exact live job, tested next-stage modules and remaining work are in context.md.
+
+Fresh all15profile weapon audit and four actual live Priest desktop/mobile/reload
+checks confirm both Priest defaults have the94SPcasterdagger272683. No local flags;
+only the older live DS/Ruin weapon remains for next authorized deployment. This does
+not certify a new global optimum or mean local corrections were deployed. Weapon
+regressions7/7pass. No Git or production writes in this work.
+
+## October 23 — preserve the public Destruction options export and reuse authenticated delivery evidence
+
+The real all-class compile stopped the new four-build UI: the overlay renamed
+`DestructionOptions`, but the raid preset in `ui/warlock/sim.ts` still imports it.
+The corrected overlay keeps that public name with the actual tested options and
+uses it for the individual configuration too. A real consumer/export regression,
+all14overlay/UIguard tests, and the subsequent all-class TypeScript/Vite build pass.
+No numerical module, native/WASM asset, measured score or class budget was changed.
+
+Destruction's actual40k confirmation and exact selected10k native/WASM parity passed.
+The independent exporter fully replayed the raw chain once and produced build
+91eee58450aea012fe9269fb5734d84b407ad1e5437e43e6b11d2eb11047f049. Its strict
+frontend reader binds that exact export, reconstructs request/confirmation math,
+separates2%/1%/strict-dominance flags, and requires the real Destruction receipt.
+Later UI checks authenticate this export and replay saved raw parity, rather than
+repeating the entire search reconstruction at every step.69 focused web regressions,
+full web typecheck, scoped lint and2actualfinalresult tests pass.
+
+Cumulative presentation1b0b140137f4b0b8a6e8177b preserves allfour configurations,
+historical Demo/Aff provenance and all numerical assets. Staged browser84572,
+atomicselection78668, all8 main-page cases51987 and finalverifier70731 passed.
+Marker semantic SHAa8e44bcd36a87e449827275432f418b5a636419d05ecc144a2453917c0b8d791
+records27/30localcases, not campaign completion or production deployment.
+
+Broader regression verification: the22-file unrestricted run failed64tests and had
+one worker error. All SAME402cases pass with `--maxWorkers=2 --minWorkers=1`, without
+raising timeouts or changing assertions. Save JSON reports from the start and use
+bounded workers for large filesystem-backed evidence fixtures; do not assert that
+the original failure's exact cause was proven. The passing report's path/SHA and all
+current delivery/remaining-scope evidence are incontext.md.
+
+## October 22 — Destruction final qualification must preserve active pets and final-gear consumes
+
+Do not reuse DS-only pure-sacrifice or pre-gear-consume readiness assumptions for
+Destruction. Separate final modules retain actual deep-tree active/nopet/sacrifice
+states, inspect every consume coordinate on finalgear and require the ordinary
+feedback's separate finalConsumes closure. A cap or changed/missing final comparison
+refuses qualification. Selected incumbent stays fixed before independent holdouts.
+Original1%margin acceptance is NOT strict dominance; actual saved DSassessment
+regressions verify separate flags without borrowing its DPS.17new actual-input/
+source-refusal tests PASS; final numerical qualification/UI still pending. Gear
+controls11/11nativeWASM matched, allslotmeasurements running. Seecontext.md.
+
+## October 22 — close consumes on final gear; retain non-Incinerate competitors
+
+New Destruction ordinary feedback checks consumes again AFTER final gear/state.
+A changed/missing/capped final comparison cannot become closure and requires another
+complete applicability cycle. No second class correction is used. State generation
+retains legal non-Incinerate talents even when its incumbent uses Incinerate; only
+unlearned spell policies are rejected.13 real-context/strict-closure tests PASS.
+Canonical-source refusals3PASS; exact rotation guide/strict tagged-aura renderer5PASS.
+Existing frozen helpers are unchanged, and no unfinished result is published.
+Current six-worker blue study67703/48301 is measuring rotation policies; seecontext.md.
+
+## October 22 — preserve frozen controls while fixing an omitted talent family before search
+
+Destruction preflight/actual-source request test correctly refused a missing legal
+Siphon-Life family. No numerical search had started. Do not weaken that guard or
+edit the completed13-control source/proof. New talent-bank extension adds37 legal
+neighbors to the unchanged743 reference bank; all780 remain actual51-point deep
+Destruction. Two extension tests and all9 real request/ranking tests pass.
+Positive preflight44,860inputs/17controls; actual approved talent owner67703/48301
+is now measuring d7e6bb205910333a92877f05f29f806a56aca483caec2fa6f8ce7f4c83f3f3bd. All17
+native/rawWASM family controls passed0difference. SAME class clock/correction policy.
+No synthetic scalar fixture, abandoned canary, source substitution or public preset.
+
+## October 22, 21:56 UTC — verified Warlock handoff and protocol-default reporting guard
+
+Real main-page6-check report26128c762bb12e02 and final delivered marker8d7ed516...
+confirm local dc54f9cc4cb45bfb366cb572 passes all3 Warlock configurations/GearSets,
+exact measured settings, guides, desktop/mobile reload, tooltips, scrolling and actual
+Simulate. New DS712.3755DPS/40k uses caster272683/22329; old Demo/Aff provenance stays
+historical. Local26/30 cases, not campaign completion, no public deployment.
+
+Final verifier correctly refused original main report09f01f...: raw saved JSON omits
+zero-valued NoSummon and its boolean reporter incorrectly said false. Preserve that
+report/source. New v2 decodes real protocol options and explicitly asserts active0/
+sacrificedImp1;3 regressions cover omission equivalence and real active/missing-Imp
+differences. Both actual desktop/mobile DS rows nowtrue; no model/score alteration.
+
+Fresh current weapon audit15 profiles/26 library builds/29 local presets has ZERO
+local flags, only live oldDS22383 pending deployment. Priest live already94SP dagger.
+68 frontend tests,23 private/weapon tests plus3 enum regressions, webtypecheck,
+scopedlint/format/diff pass. Same approved class deadline and used correction.
+
+## October 22, 21:48 UTC — actual sacrifice fix passed; caster weapon audit clean locally
+
+Corrected dc54f9cc4cb45bfb366cb572 passed real three-spec staged browser review,
+including pure DS Imp preservation, native/browser controls and privacy/cancellation.
+All10 v3 reader regressions pass. Local atomic selection completed after69-file
+preflight and20-page preservation; four rollback/concurrent-write tests pass.
+Main3018 reviewer56339 is running; no main delivery/production claim yet.
+
+Renewed15-profile weapon audit e5ba884cfa140e8f verifies26 reviewed library builds
+and29 local presets with NO local weapon flags. Only live unoptimized DS22383 is
+flagged; locally replaced by genuine qualified caster272683/22329. Both live Priests
+already use94SP caster daggers; old personal saves deliberately remain unchanged.
+Seven weapon regressions and three complete-settings normalizer tests pass.
+
+## October 22 — preset sacrifice overwritten by a hidden picker
+
+Real staged b40e... browser review failed correctly: after Demo→Affliction→DS,
+the DS config's explicit sacrifice:Imp became NoSacrifice. The hidden enum picker
+cached zero on hide and restored it over the newly loaded preset. Do not select
+that release or relax the exact-options assertion. Numerical899a... export unaffected.
+
+UI-only virtual adapter `warlock-sacrifice-picker-v1.mjs` adds an opt-in
+preserveValueWhenHidden to the enum picker and enables it only on SacrificeInput.
+All other pickers keep their behavior. Three real visibility-code regressions pass;
+no frozen upstream/numerical source changes. Builder87781/7892 is rebuilding a new
+immutable presentation with identical numerical assets. Actual browser confirmation
+of this fix is still pending. Warlock v3 source-aware parser/typecheck/89 related
+regressions pass; no selection, commit or deployment.
+
+## October 22, 21:03 UTC — preserve old Warlock model identity; guard the actual DS export envelope
+
+Two actual current-engine10kWASM controls reproduce unchanged oldDemonology/Affliction
+exactly (DPSANDstdev), report525e4051ad546cd2.... Preserve originaloldmodel40kscores;
+compatibility is NOT reoptimization or cross-backend scalarcache permission. New
+strict frontend preservation reader has7passing genuine-data tests; allrelated
+Warlockreader/profile tests82PASS. Source-control positive evidence regressionalso
+passes. Rootv3selection/presetdeliveryisnotyetintegrated; existingpointersunchanged.
+
+FirstDSexport failed safely beforecreatingbuild/qualifiedpointer:actual feedback
+cyclefield is`recheck`,not`state`. CorrectednewNONNUMERICALexport nowvalidates actual
+closure beforeanywrites, withactualcompleted-feedback regression (4exporttestsPASS).
+Allnumericalmeasurements/holdouts/nativeWASM remainvalid andfrozen. Correctedaudited
+1%receiptisimmutable/preserved. Pureexport6741/78765isreplayingactualsource, nofights.
+NewDSfrontendreader andgenuinefixtureexport/tests areimplemented/typechecked but
+positiveDS tests await thatrealexport; never createinvented fixture data. Seecontext.
+
+## October 22 — distinguish the 1% retained-gap assessment from strict dominance
+
+Real DS/Ruin fresh40k confirmationa252ba57...passes2%AND1%at712.3755DPS, conservative
+gap0.70678%; selected real10knative/WASM parity6048f4a5...passes exactly. The frozen
+root's private v1 receipt uses originalAssessment.strictRetainedDominancePassed for
+its originalOnePercentPassed label. That is not the1%test:it means no statistically
+better challenger at all. Preserve frozen code/originalreceipt; new derived audited
+export links it, reads originalAssessment.accepted for1%, and discloses strict
+dominance separately. No rerun/reselection/correction budget is needed.3regressions
+pass, including2%pass/1%failure and1%pass/strict-dominancefailure. Full export pending.
+New exact-APL guide rejects changed ranks/thresholds/unknown nodes (4testsPASS).
+Source-aware oldWarlock preservation preparation/refusal tests3PASS; actual two10k
+current-WASM comparisons running, not yet claimed passed. No new publicpreset.
+
+## October 22, 20:17 UTC — final-gear consume/readiness and selected-weapon parity safeguards
+
+ActualDS corrective0eafaee6...closed at712.8682DPS/10k after Nightfin+Kreeg's; gear/state
+unchanged. Independent69969replay passed52,942neworigins/281stages/45rawcontrols. Still
+no freshqualified/publicpreset. New final readiness requires consumecomparison on the
+EXACTfinalgear/state, not a stale pre-gear stability flag. Every declared consume axis
+is reinspected on finalgear before freezing<=12challengers and two fresh20kranges.
+Native/browser selected parity now validates actual Warlock equipment, rejecting missing
+mainhands that the generic editor materializer legitimately allows. Stale-consume test
+clones detach shared nested settings before mutation; source fixtures use real completed
+feedback.13newfocused tests/scopedchecks pass. Read-only4081/47148preflightlive; actual
+normal confirmation phase awaitsPASS. ONEclass correction used; no newclock/extraalias.
+Exact nextcommand/frozen-source rules/source-awarefrontend preservation:context.md.
+
+## October 22, 19:44 UTC — material gear-cap closure and400korigin replay boundary
+
+RealDSstate562047ad...completed41,729newrequests; independent72191replay passed allnew
+origins/90stages/rawcontrols at19:32:50UTC.698.8475DPSincumbent retained below1%material
+state threshold; no final qualification. New bounded consume→all17gear→actualstate
+feedback explicitly rejects cap-as-closure and has8passing focused tests.45prepared
+controls preserve all gear/family/consume coverage after exact deduplication; no fake
+measurements. Actual47467/25867correction started19:39UTC under SAME24hwindow, consuming
+ONEclass corrective allowance. Do not edit frozen sources or launch another correction.
+Independent completed-feedback reader now honors400korigins (oldfrozenhelper was200k),
+retains every inherited journal and rejects partial/checksum/foreign/orphan evidence.
+Its4real-response fixture/boundary tests pass; positive verification awaits completion.
+Budget/cache remain unchanged; source-aware frontend preservation still required for
+oldDemo/Aff while adding current-modelDS. Exact recovery command/nextsteps:context.md.
+
+## October 22, 19:08 UTC — authenticate geared origins; retest caster weapons on actual gear
+
+Update19:16UTC:real live first-visit/reload browser checks for bothPriests at1440/390
+PASS with94SPdagger, reportpriest-live-weapons-7c7acef84df23ac3. Exact canonical engine
+URL guard accepts nginx's removed trailing slash, retaining origin/release/profile
+checks; initial assertion was checker-only, not a livegear failure.13gearedDScontrols
+pass complete native/rawWASMmetrics; actual562047ad...scalarfeedbacknowrunning.
+Independent new state reader has2passing canonicalboundarytests; positive pending.
+
+Fresh15profile live weapon audit2e863a8a77192aedconfirms bothPriests use94SPcasterdagger;
+onlyUNFINISHEDDS/RuinSageblade starter remains flagged.7weaponregressions pass.
+Actualgear9919b908...completed21,972newrequests and selects casterSpellblade272683+
+Scepter22329. New independent geared reader replays all154stages/rawgearcontrols and
+requires every NEWjournalorigin to be consumed by expected requests (no orphan evidence).
+Positive replay53724finished0 at19:07:10UTC with21,972neworigins and no new fights.
+New actual-geared state helper has5passing structural/equivalence/refusal tests; exact
+captured raid frames stay separate from explicit gear overrides. Active pets remain
+comparators, never relabelled pure sacrifice. Owner94663/94339is live under SAMEclass
+deadline; source dependencies frozen. No finalDSbuild or deployment claimed.
+Actual identities/next closure/continuation commands:context.md.
+
+## October 22, 18:42 UTC — explicit DS/Ruin archetype, derived controls and canonical source handoff
+
+New DS/Ruin request factory preserves exact captured raid state while independently
+changing declared options/talents/APL.1199legal talents include372SoulLink neighbors;
+SoulLink is not prepulled after sacrificing the only pet. Active-pet results are kept
+as opportunity cost, never labelled pure sacrifice.14derived native/WASM controls
+passed exactly. Actual75,869request blue search completed; canonical independent
+replay passed75,869origins/180stages. No returned invocation envelope is used as the
+canonical completion.18newfocused tests and scoped checks pass; no frozen cache edit.
+New all17gear owner99521/68781is live under the original approved Warlock update
+deadline, with explicitSageblade/R14caster controls. Do not restart quiet source replay.
+No qualified/published DS build yet; actual identities/commands/remaining scope:context.md.
+
+## October 22, 17:35 UTC — qualified two-build local handoff and variant-aware weapon guard
+
+Ret+Shockadin cumulative release135c3be07ddf4be41de2e554 selected locally after37strict
+profiletests and actual4desktop/mobile main-page checks. Both full configurations,
+GearSets,guides,reload,Simulate and completion privacy checks pass. Main report
+paladin-dps-main-page-5b04f8d1e0fd8fcc; cumulative finisher wrote separate delivered-local
+marker without replacing old Ret evidence. No numerical inputs changed/repeated.
+New Shockadin Holy-school weapon regression preserves physicalRet and non-filtering
+audit semantics.7weapontests pass; fresh all15profile live audit734982b96f6e2c23finds
+bothPriests correctly use94SPSpellblade and only unfinished DS/RuinSageblade flagged.
+Actual25local library cases preserved; no production deployment. Shared suite77583
+finished0:369tests/18files PASS. Isolated3018devserver only;3017was not restarted. Details:context.md.
+
+## October 22, 17:30 UTC — actual qualified cumulative presentation passed staged review
+
+Shockadin24/0/27fresh40kDPS762.3069passes2%and1%; real exportb5992348/qualification8ee85d91.
+Actual cumulative UI135c3be07ddf4be41de2e554 built with all-class TS/Vite passing.
+Staged approval9ff15f5ffd4e981d passed all15profiles, both own builds at1440/390,
+actual25fight parity and current events-v2 completion/error/cancel/late/privacy checks.
+Strict genuine Shockadin frontend38tests, combined oldRet/newShock95tests and full
+web typecheck pass. Selector --plan passed49refs; root --select/main delivery pending.
+New cumulative37test suite reruns after correcting test-only cloned-record mutation.
+localhost3017is unavailable; no restart/deployment. Immutable delivery test and4root
+rollback tests pass; no new numerical search. Full hashes/commands/status in context.md.
+
+## October 22, 16:38 UTC — canonical final pipeline completed without Ret's envelope failure
+
+Shockadin63720TERMINAL0: fresh confirmation independently replayed, actual selected
+native/WASM10kmetrics exactly equal, receipt9232fb01.... Both final boundaries use stored
+canonical completions, not invocation envelopes/counters. Actual winner24/0/27mustnotbe
+confused with earlierblue25/0/26. --export97765/4340nowreplaysandwritesimmutableevidence;
+no export success/public preset/UI claim yet.9delivery/actual iframe regressions and
+57current-host tests pass; no frozen numerical edits or production changes.
+
+## October 22, 16:35 UTC — current host completion guard cannot be bypassed by a new compiled UI
+
+Prepared cumulative Paladin UI removes only old unconditional completion notification
+from a virtual workspace source; source/immutable model files stay untouched. The actual
+current production HTML adapter was exercised in an isolated real Ret iframe: one success
+message, preserved validation error, no cancellation/explicitly injected late-event or
+DNT/GPC notifications. Latest9combined tests and57host tests pass. The new cumulative
+release must repeat this gate before selection; existing Ret fixture is not its approval.
+Shockadin fresh40k numerical assessment passes both margins at762.3069DPS/0.8798%gap;
+final owner63720still replays evidence before selectedWASM/qualification/export/UI.
+Exact finite/fresh identities, prepared files and next commands are in context.md.
+
+## October 22, 16:10 UTC — original-deadline final confirmation and current live weapon proof
+
+Recovered feedback0f814...independently passed full source replay/34968origins/227stages.
+The real finite12candidate preflight succeeded; final owner63720/65516/65725now runs
+confirmation-delivery at original Paladin deadline.28focused tests pass; old and new
+numerical inputs frozen. No fresh final approval/preset/UI/deploy claim yet.
+Fresh live audit663fa48e8d2c3393confirms bothPriest caster Spellblades272683(+94SP,+1%crit)
+and only unfinished DS/RuinSageblade flag across15profiles/28presets/24librarylinks.
+Before next newly compiled model delivery, coordinate/retire old compiled measurement
+v1 emitter and test current KFC host's HTML events-v2 success/error/cancel/privacy guard.
+Concurrent measurement deployment did not import local Paladin research. See context.md.
+
+## October 22, 16:01 UTC — recovery completed without repeated fights or lost counts
+
+Exact frozen0f814...resume finished TERMINAL0; canonical completion/result now exist.
+All34968feedback requests survived the reboot; the final invocation's newJobs0 must NOT
+erase them from reporting. Exporter uses unique accumulated admitted origins/fights,
+with3passing actual-artifact regressions including rejection of Ret and unqualified
+Shockadin inputs. Feedback closure is real but fresh qualification is not yet complete.
+Final preflight93303includes whole independent replay. No public selection/deployment.
+
+## October 22, 15:42 UTC — canonical completion regression and recoverable reboot resume
+
+Shared read-canonical-bounded-completion-v1 now binds execution references to actual
+stored completion/result bytes. Real Ret7f92vs2453historical transport regression passes;
+both Shockadin final boundaries use the helper. Four actual RNG/wire and two canonical
+tests pass; full runner import graph/lint pass. No live numeric source changed.
+
+Mac reboot15:26:55stopped0f814...internal replay, not its already-saved34968measurements.
+New recovery helper/4tests prove exactdeadowners, unchanged originalclassclock/history,
+all94014admittedorigins/481packs and0orphans. --recover preserved prior budget/state and
+archived ONLY stale class/numerical leases into.reboot-resume-9ZBroc; everything is
+recoverable and0measurementsdeleted. Same frozen command resumed96555/28763under original
+deadline. Do not claim final/native0invocation means no prior work: use authenticated
+accumulated origin totals. Actual final confirmation/qualification/UI remain pending.
+
+## October 22, 15:02 UTC — passive Vigil damage is not an active cast
+
+All23new native/WASM cases matched, but the mechanics checker stopped the phase before
+scalar search because it expected passive Vigil trigger spell casts>0. Real passive
+records intentionally have casts0, with positive hits/crits/damage. Saved runs also
+prove refunds and >30HolyShockcasts per300s. Corrected the checker to require actual
+hits AND damage, keep undeclared-rank rejection, and added real-response regressions.
+The original23case receipt is unchanged; all controls revalidated read-only with zero
+fights repeated. No model/settings/APL/seed/old-result changes or correction-clock reset.
+New frozen checker/test hashes, receiptSHA, actual resumed18070/11811 study0f8141ac...,
+and exact next-stage commands are in context.md.14direct new/updated tests pass for
+controls/source guards/final contexts/exact rotation guidance. Actual feedback is live,
+not qualified or published. Preserve all earlier evidence and cumulative Ret delivery.
+
 ## October 22, 14:41 UTC — real Priest weapon fix now live; Shockadin gear proof and missing Vigil policies
 
 Repeat live auditbe23c184e0e69957supersedes earlier production-staleness notes. Both

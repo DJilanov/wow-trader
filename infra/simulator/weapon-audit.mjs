@@ -30,11 +30,13 @@ export function auditWeaponLoadout({ profile, variant, playerClass, gear, items 
   assert.equal(catalog.size, items.length, "Duplicate catalog item identity");
   const mageSchool = { arcane: 6, fire: 7, frost: 8 };
   const schools =
-    profile === "mage" && Object.hasOwn(mageSchool, variant ?? "")
-      ? [mageSchool[variant]]
-      : Object.hasOwn(casterSchools, profile)
-        ? casterSchools[profile]
-        : null;
+    profile === "retribution_paladin" && variant === "shockadin"
+      ? [9]
+      : profile === "mage" && Object.hasOwn(mageSchool, variant ?? "")
+        ? [mageSchool[variant]]
+        : Object.hasOwn(casterSchools, profile)
+          ? casterSchools[profile]
+          : null;
   const findings = [];
   const weapons = [14, 15, 16].map((slot) => {
     const equipped = gear.items[slot];

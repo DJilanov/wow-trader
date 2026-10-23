@@ -1,5 +1,124 @@
 # Paladin first-pass preparation
 
+## October 22, 17:35 UTC — both qualified builds locally delivered
+
+Local cumulative release135c3be07ddf4be41de2e554 now selected;25localcases/23standardDPS.
+Actual main-page4checks passed at1440/390 on isolated127.0.0.1:3018, with first-visit
+Ret default, both own configs/GearSets/settings/guides, tooltips/reload/single-scroll
+and realSimulate. Report paladin-dps-main-page-5b04f8d1e0fd8fcc.json; all4screenshots
+visually inspected. Actual finisher wrote paladin-dps-first-pass-v1/delivered-local.json,
+preserving old Ret marker.40kreferenceDPSRet975.0313/Shock762.3069, both margins pass.
+37newprofiletests, web typecheck, scoped lint and7transaction/import tests pass.
+Broader shared suite77583finished0:369tests/18files PASS. Scoped Prettier also PASS. Current
+live weapon audit734982b96f6e2c23and7regressions pass except explicit unfinished
+DS/Ruinreviewflag. No production change/3017restart. Exact provenance in context.md.
+
+## October 22, 17:30 UTC — actual qualified cumulative presentation passed staged review
+
+Shockadin24/0/27fresh40kDPS762.3069passes2%and1%; real exportb5992348/qualification8ee85d91.
+Actual cumulative UI135c3be07ddf4be41de2e554 built with all-class TS/Vite passing.
+Staged approval9ff15f5ffd4e981d passed all15profiles, both own builds at1440/390,
+actual25fight parity and current events-v2 completion/error/cancel/late/privacy checks.
+Strict genuine Shockadin frontend38tests, combined oldRet/newShock95tests and full
+web typecheck pass. Selector --plan passed49refs; root --select/main delivery pending.
+New cumulative37test suite reruns after correcting test-only cloned-record mutation.
+localhost3017is unavailable; no restart/deployment. Immutable delivery test and4root
+rollback tests pass; no new numerical search. Full hashes/commands/status in context.md.
+
+## October 22, 16:38 UTC — independent source and selected WASM accepted; export underway
+
+Final63720TERMINAL0. Full independent source replay passed; actual10kselectedWASM matches
+nativeDPS762.4644857284278/stdev29.92198948693534exactly, errors[]. Receipt9232fb01....
+Fresh40kDPS762.3069stillpassesbothmargins. Actual final talents24/0/27, not earlierblue
+25/0/26. Immutable --export97765/PID4340isCPU-active under same original deadline; no
+new fights or export success claimed yet. Poll it, then consume actual qualifiedhash.
+Prepared cumulative builder/reviewer and9actual/guard regressions pass;57host tests
+pass. New cumulative release/frontend selection/main-page delivery still pending.
+No source mutation, clock reset, commit/push/deploy/3017restart. See context.md.
+
+## October 22, 16:35 UTC — fresh40k Shockadin assessment passed; actual cumulative delivery tooling prepared
+
+Finite8ffe0f...finished9new10krequests/3exactreuses. Freshf3be916e...finished24new20k
+requests/480kfights: selected762.3068917171573DPS/40k, largest conservative gap0.8798%,
+both approved2% and original1% pass. Actual final owner63720/65725is still independently
+replaying evidence before selected rawWASM; no qualification/export/UI yet.
+New cumulative builder/reviewer preserve Ret defaults and separate both own qualified
+wire/gear/APL/guide evidence, audit29gear rows and keep numerical assets immutable.
+Virtual-only legacy notifier retirement prevents bypassing current HTML events-v2.
+Actual current-adapter iframe regression on existing qualified Ret UI passes success,
+validation error, cancel/injected late delivery and real DNT/GPC runs. Latest combined
+9tests and57host tests pass; scoped lint/format pass. New cumulative UI still needs its
+own actual build/browser/main-page proof. Exact commands/files/gotchas are in context.md.
+No frozen numerical changes, commit/push/deploy or3017restart.
+
+## October 22, 16:10 UTC — actual final preflight passed; supervised final confirmation started
+
+Independent final preflight93303TERMINAL0 replayed34968feedbackorigins/227stages plus
+authenticated blue/gear parents, admitted12genuine finite contenders and preserved
+actual77291state/77191gear identities. Canonical completion9354bb04.../result91c5cfef....
+Supervised confirmation-delivery63720/supervisor65516/child65725started16:08:57under
+the SAME original deadline and correction count. Initial full source replay stays quiet
+for~11min. Poll same owner; final helpers/old numerical inputs are frozen. Exact hashes,
+command,28passing regressions and new cumulative preset/qualified-loader preparation
+are in context.md. Actual final approval/export/UI is still pending, not claimed.
+
+Concurrent production measurement update is separate. Before ANY new cumulative UI
+promotion, retire/coordinate compiled v1 measurement emission and verify current host
+HTML events-v2 success/error/cancel/late-result/privacy. No production change here.
+
+## October 22, 16:01 UTC — actual feedback finished; final preflight replay underway
+
+Recovered96555finishedTERMINAL0 at15:57:10. Real0f814...completion/result91c5cfef... now
+records closed feedback, no pending gear applicability and one state/consume/gear cycle.
+All34968feedback measurements were reused after reboot, not lost or repeated; accumulated
+blue+gear+feedback totals remain94014origins/10247540fights. Not yet fresh qualification.
+Actual final --plan93303 includes full independent source replay, then real finite-arm
+preflight. Focused final tests16303are running. Exporter3real-artifact/counting tests pass;
+it requires genuine fresh40kapproval and saved selectedWASM, and rejects cross-spec or
+unqualified inputs. No export/UI/deploy yet. Exact next command and scope: context.md.
+
+Update16:05: all19final-pipeline regressions pass, plus6weapon guards and3real-artifact
+rejection tests for the new cumulative Shockadin preset overlay. It preserves all Ret
+defaults and keeps own tested gear/APL/options/consumes, but is not yet integrated or
+positively tested against a qualified Shockadin export. No such export exists yet.
+
+## October 22, 15:42 UTC — complete saved measurements survived reboot; final machinery prepared
+
+Feedback0f814...had measured34968newrequests/3747140fights and was internally replaying
+when Mac rebooted15:26:55UTC. Old owner11599/11811was confirmed dead; no final completion
+existed. Exact recovery audited94014accumulated origins/481packs with0orphans, preserved
+old budget/state and archived ONLY the two stale owner leases in.reboot-resume-9ZBroc.
+Audit384082e0...;4recovery regressions pass. Original24hdeadline/correction allowance
+unchanged, no scores/model/inputs deleted or changed. SAME frozen command/identity resumed
+as96555/supervisor28554/child28763at15:39:37; ps15:40:56confirmedlive. Poll same owner.
+
+Separate actual-closed-feedback final context, finite inspection/two20kholdout writer,
+independent confirmed reader and selected rawWASM adapter are implemented.4RNG/wire+
+2canonical-completion tests pass; full runner import graph and scoped lint pass. Both
+completion boundaries read canonical ON-DISK data, never returned invocation counters.
+Actual end-to-end preflight awaits completed feedback. No final approval/preset claim.
+After reboot, native totals must include saved origins, not only final invocation's
+newJobs0. Exact next commands, exporter adaptations and cumulative Ret handoff remain
+in context.md. Full remaining goal scope stays active; no deployment.
+
+## October 22, 15:02 UTC — all23controls verified; actual feedback running after reporting-only repair
+
+Initial66865owner stopped BEFORE scalar work: native/WASM23cases matched, but checker
+mistook passive Vigil damage's0activecasts for missing damage. Saved responses prove
+positive hits/crits/damage/refunds and >30HolyShockcasts per300s. Corrected to validate
+passive hits+damage and reject undeclared ranks. No model/APL/settings/seed changes;
+all23saved controls revalidated READ-ONLY, zero repeated fights.4actual-control tests
+pass, including missing-damage/wrong-rank regressions. Receipt1a425f15544bf0c0has actual
+SHAeaa45ed8257d025296e09cfb98d33d22ad3d2903a3386af37a82b4ae18c15dab.
+
+Same frozen runner command resumed: actual owner18070/11599/11811, study0f8141ac270124d687d565912bdb4fcf374efed2b7ae9d8ea7b57e227a342a88.
+Actual scalar jobs started14:57:25; original deadline/correction limit retained. New
+checker/test hashes and current progress are in context.md. Separate feedback reader
+code-pins that real identity;3declaration/coverage guards pass.3final-context tests and
+4exact-guide tests pass, preserving31Holy/20Protection and all original/Vigil policy
+conditions. Whole feedback replay, real final-contender inspection/holdouts/selected
+WASM/export/cumulative Ret+Shockadin UI remain; no finished build or deployment claim.
+
 ## October 22, 14:41 UTC — gear independently replayed; explicit Vigil feedback started
 
 Gear owner6209 TERMINAL0:37874newrequests/4361620fights,2sweeps. Independent read-only

@@ -63,6 +63,30 @@ test("a Fire-only weapon does not silently pass the Frost weapon review", () => 
   assert.deepEqual(auditWeaponLoadout(input).findings, []);
 });
 
+test("reviews Shockadin's Holy weapon power without treating physical Retribution as a caster", () => {
+  const input = {
+    ...fixture(),
+    profile: "retribution_paladin",
+    variant: "retribution",
+    playerClass: 4,
+  };
+  input.items[0].stats[17] = 60;
+  assert.deepEqual(auditWeaponLoadout(input).findings, []);
+  input.variant = "shockadin";
+  assert.equal(
+    auditWeaponLoadout(input).findings[0].code,
+    "caster-main-hand-needs-explicit-comparison",
+  );
+  input.items[0].stats[10] = 40;
+  assert.equal(auditWeaponLoadout(input).findings.length, 1);
+  input.items[0].stats[9] = 24;
+  assert.deepEqual(auditWeaponLoadout(input).findings, []);
+  assert.equal(auditWeaponLoadout(input).weapons[0].stats.relevantSchoolPower, 24);
+  input.items[0].stats[9] = 0;
+  input.items[0].stats[5] = 24;
+  assert.deepEqual(auditWeaponLoadout(input).findings, []);
+});
+
 test("checks paired-hand geometry and explicit wearer restrictions", () => {
   const input = fixture({ handType: 4, classAllowlist: [9] });
   input.gear.items[15] = { id: 2 };

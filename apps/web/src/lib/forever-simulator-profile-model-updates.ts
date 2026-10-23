@@ -63,6 +63,26 @@ import {
   readFreshRetributionPaladinSimulatorBuild,
   verifiedRetributionPaladinDelivery,
 } from "./forever-simulator-fresh-retribution-paladin";
+import {
+  shockadinModelEntrySchema,
+  readFreshShockadinSimulatorBuild,
+  verifiedShockadinDelivery,
+} from "./forever-simulator-fresh-shockadin";
+import {
+  dsRuinModelEntrySchema,
+  readFreshDsRuinSimulatorBuild,
+  verifiedDsRuinNumericalDelivery,
+} from "./forever-simulator-fresh-ds-ruin";
+import {
+  destructionModelEntrySchema,
+  readFreshDestructionSimulatorBuild,
+  verifiedDestructionNumericalDelivery,
+} from "./forever-simulator-fresh-destruction";
+import {
+  readPreservedWarlockCompatibility,
+  verifiedPreservedWarlockCompatibility,
+  type PreservedWarlockModel,
+} from "./forever-simulator-warlock-compatibility";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/),
   releaseId = z.string().regex(/^[a-f0-9]{24}$/),
@@ -162,6 +182,24 @@ const balanceProofSchema = z
     builds: z.tuple([greaterBalanceModelEntrySchema]),
   })
   .strict();
+const cumulativeWarlockFields = {
+  preservedSource: z
+    .object({
+      sourceRelease: z.literal(verifiedPreservedWarlockCompatibility.sourceRelease),
+      sourceManifestSha256: digest,
+      compatibility: frostModelEvidenceReferenceSchema,
+    })
+    .strict(),
+  measurementBridge: z
+    .object({
+      compiledEmitter: z.literal(false),
+      htmlAdapter: z.literal("events-v2"),
+      sourceSha256: digest,
+      virtualSha256: digest,
+      currentHostBrowserReviewRequired: z.literal(true),
+    })
+    .strict(),
+};
 const warlockProofSchema = z.union([
   z
     .object({
@@ -179,6 +217,33 @@ const warlockProofSchema = z.union([
       builds: z.tuple([demonologyModelEntrySchema, afflictionModelEntrySchema]),
     })
     .strict(),
+  z
+    .object({
+      ...proofFields,
+      ...cumulativeWarlockFields,
+      schema: z.literal("kfc-simulator-profile-model-update.warlock.v3"),
+      profile: z.literal("warlock"),
+      builds: z.tuple([
+        demonologyModelEntrySchema,
+        afflictionModelEntrySchema,
+        dsRuinModelEntrySchema,
+      ]),
+    })
+    .strict(),
+  z
+    .object({
+      ...proofFields,
+      ...cumulativeWarlockFields,
+      schema: z.literal("kfc-simulator-profile-model-update.warlock.v4"),
+      profile: z.literal("warlock"),
+      builds: z.tuple([
+        demonologyModelEntrySchema,
+        afflictionModelEntrySchema,
+        dsRuinModelEntrySchema,
+        destructionModelEntrySchema,
+      ]),
+    })
+    .strict(),
 ]);
 const raidFeralProofSchema = z
   .object({
@@ -193,6 +258,34 @@ const proofSchema = z.union([
   balanceProofSchema,
   warlockProofSchema,
   raidFeralProofSchema,
+  z
+    .object({
+      ...proofFields,
+      schema: z.literal("kfc-simulator-profile-model-update.paladin-dps.v1"),
+      profile: z.literal("retribution_paladin"),
+      builds: z.tuple([retributionPaladinModelEntrySchema, shockadinModelEntrySchema]),
+      presets: z
+        .array(
+          z
+            .object({
+              profile: z.string().regex(/^[a-z_]+$/),
+              variant: z.string().regex(/^[a-z0-9_-]+$/),
+              gearSha256: digest,
+            })
+            .strict(),
+        )
+        .length(29),
+      measurementBridge: z
+        .object({
+          compiledEmitter: z.literal(false),
+          htmlAdapter: z.literal("events-v2"),
+          sourceSha256: digest,
+          virtualSha256: digest,
+          currentHostBrowserReviewRequired: z.literal(true),
+        })
+        .strict(),
+    })
+    .strict(),
   z
     .object({
       ...proofFields,
@@ -278,7 +371,7 @@ export const simulatorProfileModelBrowserChecks = Object.freeze({
   configAndGearSets: true,
   rotationGuide: true,
 });
-const browserSchema = z
+const legacyBrowserSchema = z
   .object({
     schema: z.enum([
       "kfc-profile-model-browser.v1",
@@ -334,6 +427,39 @@ const browserSchema = z
     errors: z.array(z.string()).length(0),
   })
   .strict();
+const browserSchema = z.union([
+  legacyBrowserSchema,
+  legacyBrowserSchema
+    .extend({
+      schema: z.literal("kfc-profile-model-browser.paladin-dps.v1"),
+      profile: z.literal("retribution_paladin"),
+      checked: legacyBrowserSchema.shape.checked
+        .extend({
+          cumulativePaladinBuilds: z.literal(true),
+          currentHostCompletionBridge: z.literal(true),
+          noCompiledMeasurementEmitter: z.literal(true),
+        })
+        .strict(),
+    })
+    .strict(),
+  legacyBrowserSchema
+    .extend({
+      schema: z.enum([
+        "kfc-profile-model-browser.warlock.v3",
+        "kfc-profile-model-browser.warlock.v4",
+      ]),
+      profile: z.literal("warlock"),
+      checked: legacyBrowserSchema.shape.checked
+        .extend({
+          cumulativeWarlockBuilds: z.literal(true),
+          preservedModelCompatibility: z.literal(true),
+          currentHostCompletionBridge: z.literal(true),
+          noCompiledMeasurementEmitter: z.literal(true),
+        })
+        .strict(),
+    })
+    .strict(),
+]);
 function hash(value: unknown): string {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
@@ -417,6 +543,8 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.balance.v1",
       "kfc-simulator-profile-model-update.warlock.v1",
       "kfc-simulator-profile-model-update.warlock.v2",
+      "kfc-simulator-profile-model-update.warlock.v3",
+      "kfc-simulator-profile-model-update.warlock.v4",
       "kfc-simulator-profile-model-update.feral-raid.v1",
       "kfc-simulator-profile-model-update.hunter-raid.v1",
       "kfc-simulator-profile-model-update.priest-shadow.v1",
@@ -425,6 +553,7 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.shaman-stormcaller.v1",
       "kfc-simulator-profile-model-update.shaman-enhancement.v1",
       "kfc-simulator-profile-model-update.paladin-retribution.v1",
+      "kfc-simulator-profile-model-update.paladin-dps.v1",
     ].includes(z.object({ schema: z.string() }).parse(raw.value).schema)
   )
     return false;
@@ -548,9 +677,31 @@ export async function readSimulatorProfileModelUpdate(
     .passthrough()
     .parse(policy.value);
   requireMatch(
-    new Set(proof.presets.map((row) => row.profile + "/" + row.variant)).size === 28,
+    new Set(proof.presets.map((row) => row.profile + "/" + row.variant)).size ===
+      (proof.schema === "kfc-simulator-profile-model-update.paladin-dps.v1" ? 29 : 28),
     "Profile starter audit missing/duplicate",
   );
+  const legacySource =
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
+      ? await readSimulatorManifest(directory, proof.preservedSource.sourceRelease)
+      : null;
+  if (
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
+  ) {
+    requireMatch(legacySource, "Missing preserved Warlock source model");
+    const legacyDocument = await document(
+      directory,
+      legacySource.release + "/manifest.json",
+      8_000_000,
+    );
+    requireMatch(
+      hash(legacyDocument.value) === proof.preservedSource.sourceManifestSha256,
+      "Preserved Warlock source manifest changed",
+    );
+  }
+  let preservedWarlockModels: ReadonlyMap<string, PreservedWarlockModel> | undefined;
   for (const entry of proof.builds) {
     const options = {
       sourceRelease: source.release,
@@ -630,46 +781,93 @@ export async function readSimulatorProfileModelUpdate(
         return value.value;
       },
     };
+    let buildOptions = options;
+    if (
+      (proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
+        proof.schema === "kfc-simulator-profile-model-update.warlock.v4") &&
+      ["warlock-demonology-static", "warlock-affliction-static"].includes(entry.id)
+    ) {
+      requireMatch(legacySource, "Missing historical Warlock model metadata");
+      preservedWarlockModels ??= await readPreservedWarlockCompatibility(
+        proof.preservedSource.compatibility,
+        {
+          sourceRelease: source.release,
+          databaseSha256: proof.databaseSha256,
+          nativeBinarySha256: proof.nativeBinarySha256,
+          reference: options.reference,
+        },
+      );
+      const preserved = preservedWarlockModels.get(entry.id);
+      requireMatch(
+        preserved &&
+          preserved.sourceRelease === legacySource.release &&
+          preserved.settingsSha256 === entry.settingsSha256 &&
+          preserved.historicalReferenceDps === entry.referenceDps &&
+          preserved.historicalValidationIterations === entry.validationIterations,
+        "Preserved Warlock historical settings or reference score changed",
+      );
+      buildOptions = {
+        ...options,
+        sourceRelease: legacySource.release,
+        revision: legacySource.revision,
+        databaseSha256: preserved.databaseSha256,
+      };
+    }
     const build =
-      entry.id === "paladin-retribution-static"
-        ? await readFreshRetributionPaladinSimulatorBuild(entry, {
+      entry.id === "warlock-destruction-static"
+        ? await readFreshDestructionSimulatorBuild(entry, {
             ...options,
-            reviewedBuildSha256: verifiedRetributionPaladinDelivery.buildSha256,
+            reviewedBuildSha256: verifiedDestructionNumericalDelivery.buildSha256,
           })
-        : entry.id === "shaman-enhancement-static"
-          ? await readFreshEnhancementShamanSimulatorBuild(entry, {
+        : entry.id === "warlock-ds-ruin-static"
+          ? await readFreshDsRuinSimulatorBuild(entry, {
               ...options,
-              reviewedBuildSha256: verifiedEnhancementShamanDelivery.buildSha256,
+              reviewedBuildSha256: verifiedDsRuinNumericalDelivery.buildSha256,
             })
-          : entry.id === "shaman-stormcaller-static"
-            ? await readFreshStormcallerSimulatorBuild(entry, {
+          : entry.id === "paladin-shockadin-static"
+            ? await readFreshShockadinSimulatorBuild(entry, {
                 ...options,
-                reviewedBuildSha256: verifiedStormcallerDelivery.buildSha256,
+                reviewedBuildSha256: verifiedShockadinDelivery.buildSha256,
               })
-            : entry.id === "shaman-elemental-static"
-              ? await readFreshElementalShamanSimulatorBuild(entry, {
+            : entry.id === "paladin-retribution-static"
+              ? await readFreshRetributionPaladinSimulatorBuild(entry, {
                   ...options,
-                  reviewedBuildSha256: verifiedElementalShamanDelivery.buildSha256,
+                  reviewedBuildSha256: verifiedRetributionPaladinDelivery.buildSha256,
                 })
-              : entry.id === "mage-frost-static"
-                ? await readFreshFrostSimulatorBuild(entry, options)
-                : entry.id === "mage-fire-static"
-                  ? await readFreshFireSimulatorBuild(entry, options)
-                  : entry.id === "mage-arcane-static"
-                    ? await readFreshArcaneSimulatorBuild(entry, options)
-                    : entry.id === "warlock-demonology-static"
-                      ? await readFreshDemonologySimulatorBuild(entry, options)
-                      : entry.id === "warlock-affliction-static"
-                        ? await readFreshAfflictionSimulatorBuild(entry, options)
-                        : entry.id === "priest-shadow-static"
-                          ? await readFreshShadowPriestSimulatorBuild(entry, options)
-                          : entry.id === "priest-smite-static"
-                            ? await readFreshSmitePriestSimulatorBuild(entry, options)
-                            : entry.id === "feral-cat-static"
-                              ? await readRaidFeralSimulatorBuild(entry, options)
-                              : entry.profile === "hunter"
-                                ? await readRaidHunterSimulatorBuild(entry, options)
-                                : await readFreshGreaterBalanceSimulatorBuild(entry, options);
+              : entry.id === "shaman-enhancement-static"
+                ? await readFreshEnhancementShamanSimulatorBuild(entry, {
+                    ...options,
+                    reviewedBuildSha256: verifiedEnhancementShamanDelivery.buildSha256,
+                  })
+                : entry.id === "shaman-stormcaller-static"
+                  ? await readFreshStormcallerSimulatorBuild(entry, {
+                      ...options,
+                      reviewedBuildSha256: verifiedStormcallerDelivery.buildSha256,
+                    })
+                  : entry.id === "shaman-elemental-static"
+                    ? await readFreshElementalShamanSimulatorBuild(entry, {
+                        ...options,
+                        reviewedBuildSha256: verifiedElementalShamanDelivery.buildSha256,
+                      })
+                    : entry.id === "mage-frost-static"
+                      ? await readFreshFrostSimulatorBuild(entry, options)
+                      : entry.id === "mage-fire-static"
+                        ? await readFreshFireSimulatorBuild(entry, options)
+                        : entry.id === "mage-arcane-static"
+                          ? await readFreshArcaneSimulatorBuild(entry, options)
+                          : entry.id === "warlock-demonology-static"
+                            ? await readFreshDemonologySimulatorBuild(entry, buildOptions)
+                            : entry.id === "warlock-affliction-static"
+                              ? await readFreshAfflictionSimulatorBuild(entry, buildOptions)
+                              : entry.id === "priest-shadow-static"
+                                ? await readFreshShadowPriestSimulatorBuild(entry, options)
+                                : entry.id === "priest-smite-static"
+                                  ? await readFreshSmitePriestSimulatorBuild(entry, options)
+                                  : entry.id === "feral-cat-static"
+                                    ? await readRaidFeralSimulatorBuild(entry, options)
+                                    : entry.profile === "hunter"
+                                      ? await readRaidHunterSimulatorBuild(entry, options)
+                                      : await readFreshGreaterBalanceSimulatorBuild(entry, options);
     const player = z.record(z.string(), z.unknown()).parse(build.settings.player);
     requireMatch(
       proof.presets.some(
@@ -698,33 +896,39 @@ export async function readSimulatorProfileModelUpdate(
       browser.sourceRelease === source.release &&
       browser.proofSha256 === pointer.proofSha256 &&
       browser.schema ===
-        (proof.schema === "kfc-simulator-profile-model-update.paladin-retribution.v1"
-          ? "kfc-profile-model-browser.paladin-retribution.v1"
-          : proof.schema === "kfc-simulator-profile-model-update.shaman-enhancement.v1"
-            ? "kfc-profile-model-browser.shaman-enhancement.v1"
-            : proof.schema === "kfc-simulator-profile-model-update.shaman-stormcaller.v1"
-              ? "kfc-profile-model-browser.shaman-stormcaller.v1"
-              : proof.schema === "kfc-simulator-profile-model-update.shaman-elemental.v1"
-                ? "kfc-profile-model-browser.shaman-elemental.v1"
-                : proof.schema === "kfc-simulator-profile-model-update.priest-smite.v1"
-                  ? "kfc-profile-model-browser.priest-smite.v1"
-                  : proof.schema === "kfc-simulator-profile-model-update.priest-shadow.v1"
-                    ? "kfc-profile-model-browser.priest-shadow.v1"
-                    : proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
-                      ? "kfc-profile-model-browser.hunter-raid.v1"
-                      : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
-                        ? "kfc-profile-model-browser.feral-raid.v1"
-                        : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
-                          ? "kfc-profile-model-browser.warlock.v2"
-                          : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
-                            ? "kfc-profile-model-browser.warlock.v1"
-                            : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
-                              ? "kfc-profile-model-browser.balance.v1"
-                              : proof.schema === "kfc-simulator-profile-model-update.v1"
-                                ? "kfc-profile-model-browser.v1"
-                                : proof.schema === "kfc-simulator-profile-model-update.v2"
-                                  ? "kfc-profile-model-browser.v2"
-                                  : "kfc-profile-model-browser.v3"),
+        (proof.schema === "kfc-simulator-profile-model-update.paladin-dps.v1"
+          ? "kfc-profile-model-browser.paladin-dps.v1"
+          : proof.schema === "kfc-simulator-profile-model-update.paladin-retribution.v1"
+            ? "kfc-profile-model-browser.paladin-retribution.v1"
+            : proof.schema === "kfc-simulator-profile-model-update.shaman-enhancement.v1"
+              ? "kfc-profile-model-browser.shaman-enhancement.v1"
+              : proof.schema === "kfc-simulator-profile-model-update.shaman-stormcaller.v1"
+                ? "kfc-profile-model-browser.shaman-stormcaller.v1"
+                : proof.schema === "kfc-simulator-profile-model-update.shaman-elemental.v1"
+                  ? "kfc-profile-model-browser.shaman-elemental.v1"
+                  : proof.schema === "kfc-simulator-profile-model-update.priest-smite.v1"
+                    ? "kfc-profile-model-browser.priest-smite.v1"
+                    : proof.schema === "kfc-simulator-profile-model-update.priest-shadow.v1"
+                      ? "kfc-profile-model-browser.priest-shadow.v1"
+                      : proof.schema === "kfc-simulator-profile-model-update.hunter-raid.v1"
+                        ? "kfc-profile-model-browser.hunter-raid.v1"
+                        : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
+                          ? "kfc-profile-model-browser.feral-raid.v1"
+                          : proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
+                            ? "kfc-profile-model-browser.warlock.v4"
+                            : proof.schema === "kfc-simulator-profile-model-update.warlock.v3"
+                              ? "kfc-profile-model-browser.warlock.v3"
+                              : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
+                                ? "kfc-profile-model-browser.warlock.v2"
+                                : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
+                                  ? "kfc-profile-model-browser.warlock.v1"
+                                  : proof.schema === "kfc-simulator-profile-model-update.balance.v1"
+                                    ? "kfc-profile-model-browser.balance.v1"
+                                    : proof.schema === "kfc-simulator-profile-model-update.v1"
+                                      ? "kfc-profile-model-browser.v1"
+                                      : proof.schema === "kfc-simulator-profile-model-update.v2"
+                                        ? "kfc-profile-model-browser.v2"
+                                        : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -740,6 +944,8 @@ export async function readSimulatorProfileModelUpdate(
                 "balance-static",
                 "warlock-demonology-static",
                 "warlock-affliction-static",
+                "warlock-ds-ruin-static",
+                "warlock-destruction-static",
                 "feral-cat-static",
                 "hunter-beast-mastery-static",
                 "hunter-marksmanship-static",
@@ -750,6 +956,7 @@ export async function readSimulatorProfileModelUpdate(
                 "shaman-stormcaller-static",
                 "shaman-enhancement-static",
                 "paladin-retribution-static",
+                "paladin-shockadin-static",
               ]),
               iterations: z.literal(25),
               nativeDps: z.number().finite().positive(),
@@ -758,7 +965,7 @@ export async function readSimulatorProfileModelUpdate(
             .passthrough(),
         )
         .min(1)
-        .max(3),
+        .max(4),
       shares: z
         .array(
           z
@@ -770,6 +977,8 @@ export async function readSimulatorProfileModelUpdate(
                 "balance-static",
                 "warlock-demonology-static",
                 "warlock-affliction-static",
+                "warlock-ds-ruin-static",
+                "warlock-destruction-static",
                 "feral-cat-static",
                 "hunter-beast-mastery-static",
                 "hunter-marksmanship-static",
@@ -780,6 +989,7 @@ export async function readSimulatorProfileModelUpdate(
                 "shaman-stormcaller-static",
                 "shaman-enhancement-static",
                 "paladin-retribution-static",
+                "paladin-shockadin-static",
               ]),
               viewport: z.object({ width: z.number().int().positive() }).passthrough(),
               fullMeasuredSettingsPreserved: z.literal(true),
@@ -804,6 +1014,72 @@ export async function readSimulatorProfileModelUpdate(
     })
     .passthrough()
     .parse(browser.evidence);
+  if (
+    proof.schema === "kfc-simulator-profile-model-update.paladin-dps.v1" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
+  ) {
+    const bridge = z
+      .object({
+        schema: z.enum([
+          "kfc-paladin-current-host-completion-review.v1",
+          "kfc-warlock-current-host-completion-review.v1",
+        ]),
+        release: releaseId,
+        adapterVersion: z.literal("events-v2"),
+        successfulNotifications: z.literal(1),
+        successExactlyOnce: z.literal(true),
+        engineValidationErrorPreserved: z.literal(true),
+        cancellationAndLateResultSuppressed: z.literal(true),
+        privacyChecks: z.tuple([z.literal("doNotTrack"), z.literal("globalPrivacyControl")]),
+        sourceFiles: z
+          .array(
+            z
+              .object({
+                path: z
+                  .string()
+                  .min(1)
+                  .max(500)
+                  .refine(
+                    (path: string): boolean =>
+                      !isAbsolute(path) &&
+                      !path.includes("\\") &&
+                      !path.includes("\0") &&
+                      !path.split("/").includes(".."),
+                  ),
+                byteSha256: digest,
+              })
+              .strict(),
+          )
+          .min(1)
+          .max(256),
+        completedBrowserRuns: z.literal(3),
+        iterationsPerCompletedRun: z.literal(25),
+        controlledErrorInjections: z.literal(1),
+        controlledLateEventInjections: z.literal(1),
+        cancelledRequestedIterations: z.literal(100000),
+        numericalQualificationEvidence: z.literal(false),
+        publicationAllowed: z.literal(false),
+      })
+      .strict()
+      .parse(evidence.completionBridgeReview);
+    requireMatch(
+      bridge.schema ===
+        (proof.profile === "warlock"
+          ? "kfc-warlock-current-host-completion-review.v1"
+          : "kfc-paladin-current-host-completion-review.v1") &&
+        bridge.release === candidate.release &&
+        bridge.sourceFiles.some(
+          (row): boolean => row.path === "apps/web/src/lib/forever-simulator-measurement.ts",
+        ) &&
+        proof.virtualSourceFiles.some(
+          (row): boolean =>
+            row.path === "ui/core/kfc_workspace.ts" &&
+            row.sha256 === proof.measurementBridge.virtualSha256,
+        ),
+      "Profile current-host completion/privacy evidence does not match its virtual UI",
+    );
+  }
   requireMatch(
     evidence.parityChecks.length === proof.builds.length &&
       new Set(evidence.parityChecks.map((row): string => row.id)).size === proof.builds.length &&
@@ -824,21 +1100,10 @@ export async function readSimulatorProfileModelUpdate(
     "Profile browser approval omitted parity/desktop/mobile share import",
   );
   const expectedOtherProfiles =
-    profile === "retribution_paladin"
-      ? [
-          "warrior",
-          "rogue",
-          "hunter",
-          "feral_druid",
-          "balance_druid",
-          "mage",
-          "warlock",
-          "shadow_priest",
-          "smite_priest",
-          "elemental_shaman",
-          "enhancement_shaman",
-        ]
-      : profile === "enhancement_shaman"
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
+      ? source.pages.filter((page): boolean => page !== "raid" && page !== "warlock")
+      : profile === "retribution_paladin"
         ? [
             "warrior",
             "rogue",
@@ -850,8 +1115,9 @@ export async function readSimulatorProfileModelUpdate(
             "shadow_priest",
             "smite_priest",
             "elemental_shaman",
+            "enhancement_shaman",
           ]
-        : profile === "elemental_shaman"
+        : profile === "enhancement_shaman"
           ? [
               "warrior",
               "rogue",
@@ -862,8 +1128,9 @@ export async function readSimulatorProfileModelUpdate(
               "warlock",
               "shadow_priest",
               "smite_priest",
+              "elemental_shaman",
             ]
-          : profile === "smite_priest"
+          : profile === "elemental_shaman"
             ? [
                 "warrior",
                 "rogue",
@@ -873,18 +1140,30 @@ export async function readSimulatorProfileModelUpdate(
                 "mage",
                 "warlock",
                 "shadow_priest",
+                "smite_priest",
               ]
-            : profile === "shadow_priest"
-              ? ["warrior", "rogue", "hunter", "feral_druid", "balance_druid", "mage", "warlock"]
-              : profile === "hunter"
-                ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
-                : profile === "feral_druid"
-                  ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
-                  : profile === "warlock"
-                    ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
-                    : profile === "mage"
-                      ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
-                      : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
+            : profile === "smite_priest"
+              ? [
+                  "warrior",
+                  "rogue",
+                  "hunter",
+                  "feral_druid",
+                  "balance_druid",
+                  "mage",
+                  "warlock",
+                  "shadow_priest",
+                ]
+              : profile === "shadow_priest"
+                ? ["warrior", "rogue", "hunter", "feral_druid", "balance_druid", "mage", "warlock"]
+                : profile === "hunter"
+                  ? ["warrior", "rogue", "feral_druid", "balance_druid", "mage", "warlock"]
+                  : profile === "feral_druid"
+                    ? ["warrior", "rogue", "hunter", "balance_druid", "mage", "warlock"]
+                    : profile === "warlock"
+                      ? ["warrior", "rogue", "hunter", "feral_druid", "mage", "balance_druid"]
+                      : profile === "mage"
+                        ? ["warrior", "rogue", "hunter", "balance_druid", "feral_druid"]
+                        : ["warrior", "rogue", "hunter", "feral_druid", "mage"];
   requireMatch(
     expectedOtherProfiles.every((profile) =>
       evidence.otherProfiles.some((row) => row.profile === profile),
