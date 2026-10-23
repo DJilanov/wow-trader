@@ -1,6 +1,6 @@
 # Separate Solo and Raid DPS benchmarks
 
-Status: both scenarios implemented and measured; final checks and publication in progress.
+Status: both scenarios measured, committed, pushed, deployed and publicly verified.
 This is separate from the committed `a719aa6` dungeon-order release.
 
 ## Problem verified
@@ -87,6 +87,60 @@ links. Rankings load no numerical engine. Offline evidence verification reuses t
 42 measured responses and starts zero new fights.
 
 The user authorized committing, pushing and deploying both repositories after
-checks. No Solo/Raid deployment is claimed until candidate and public checks pass.
-Server capacity must be restored first; live releases, rollback sources, unrelated
-workers, frozen numerical assets and enabled usage collection must be preserved.
+checks. The verified application commits are Helper
+`e1b02de4eaa46717b8136b2e26e30e29c27fe9cf` and community
+`c8ad9cab901f6a761ad7917b675f56410d2c0684`. Documentation follow-ups do not change
+these deployed application identities.
+
+## Verified production rollout
+
+- Raid: https://kfcguild.online/tools/forever/tier-list
+- Solo: https://kfcguild.online/tools/forever/tier-list/solo
+- Community article: https://www.wowforeverdiscord.online/guides/wow-forever-dps-tier-list
+  with `?scenario=raid|solo`.
+
+Both exact pushed archives were built on Linux. The full local Helper suite passed
+1,484 tests; the committed Linux candidate passed 19 focused web tests, 34 policy
+and deployment tests, typecheck, lint and its production build. The rebased community
+suite passed 393 tests, typecheck and scoped lint; its Linux build passed source,
+compiled-output and static-asset guards.
+
+Candidate and public browser checks each passed 12 site/mode/width combinations,
+with filters, mode reload/history, icons, exact imports and no horizontal overflow.
+Both sites expose all 21 rows in server HTML. Canonicals, indexability, Helper
+JSON-LD and the Solo sitemap entry passed. The public sweep covered 13 pages and
+127 assets, including both homepages, both simulators and the previously reported
+recipe icons. Warrior/Priest preset switching and real WASM smoke runs passed at
+all three widths; candidate/public outputs match. All non-read QA requests were
+blocked, including any sampled legacy RUM attempt.
+
+The community update changed only the recognized tier article. Its other 26 guides
+remain byte-identical; category, author, cover, visibility and publication date were
+preserved. The first rollout safely restored the previous website when an
+unprivileged publication command could not traverse the private audit directory.
+The retry ran the guarded publication CLI as the deployment operator, kept the
+backup private (0600) and retained the unprivileged website runtime. No directory
+permissions were relaxed and no article change occurred during the failed attempt.
+
+The frozen numerical root remains `results-20261022-2489a71`. All 49,265 artifact
+files passed checksums before and after Helper activation; numerical selections
+remain unchanged after both releases. The 768 MB Helper runtime heap, enabled usage
+collection and unrelated services were preserved. Owned previews, tunnel and local
+test database were stopped.
+
+With the user's separate cleanup approval, six unused old community snapshots were
+removed in full after active-process and retained-symlink checks. Shared application
+data, the live release and rollback releases were retained. Cleanup restored about
+8 GB before builds; approximately 6 GB remained after the new candidates.
+
+Private server receipts and guarded rollback commands:
+
+- Helper: `/home/wow-trader-system/shared/backups/tier-solo-raid-20261023-e1b02de/`;
+  `node control.mjs --rollback` from that directory.
+- Community: `/home/wow-forever-discord-release-audit/tier-solo-raid-20261023-c8ad9ca/`;
+  `node control.mjs --rollback` restores the article backup and prior website while
+  refusing a later deployment or editorial change.
+
+Local screenshots and verification reports are retained under
+`artifacts/deployments/tier-solo-raid-20261023` (ignored). No newer research model or
+the four omitted research builds were published by this rollout.
