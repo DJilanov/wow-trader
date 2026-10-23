@@ -4,6 +4,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 import { z } from "zod";
 import type { SimulatorManifest } from "@wow-trader/forever-data/simulator";
 import { readSimulatorManifest, simulatorDirectory } from "./forever-simulator";
+import { readTankSimulatorModelUpdate } from "./forever-simulator-tank-model-updates";
 import {
   readSimulatorModelFirstPassBuild,
   simulatorModelFirstPassEntrySchema,
@@ -240,6 +241,8 @@ export async function readSimulatorModelUpdate(
   profile: string,
   directory: string = simulatorDirectory(),
 ): Promise<SimulatorModelUpdate | null> {
+  const tankUpdate = await readTankSimulatorModelUpdate(profile, directory);
+  if (tankUpdate) return { manifest: tankUpdate.manifest, sourceRelease: tankUpdate.sourceRelease };
   const profileUpdate = await readSimulatorProfileModelUpdate(profile, directory);
   if (profileUpdate) return profileUpdate;
   let raw: Awaited<ReturnType<typeof document>>;

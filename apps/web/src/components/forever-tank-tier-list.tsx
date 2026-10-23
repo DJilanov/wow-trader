@@ -10,6 +10,7 @@ import {
 } from "../lib/forever-tank-tier-list";
 import { withHelperBasePath } from "../lib/site-path";
 import { ForeverTierBoard } from "./forever-tier-board";
+import { ForeverTankGearDetails } from "./forever-tank-gear-details";
 import { ForeverTankThreatDetails } from "./forever-tank-threat-details";
 import board from "./forever-dps-tier-list.module.css";
 import styles from "./forever-tank-tier-list.module.css";
@@ -23,13 +24,20 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
   const id = useId();
   const entries = rankTankTierEntries(snapshot, metric);
   const selected = entries.find((entry): boolean => entry.id === selectedId) ?? entries[0];
+  const optimized = snapshot.schema === "kfc-forever-tank-tier-list.v3";
   const unit = metric === "threat" ? "TPS" : "DTPS";
   const label = snapshot.policy.scenario === "raid" ? "Raid" : "Solo / dungeon";
   return (
-    <section className={board.board} aria-labelledby="tank-rankings">
+    <section
+      className={board.board}
+      aria-labelledby="tank-rankings"
+      data-tank-snapshot={snapshot.schema}
+    >
       <header className={board.heading}>
         <div>
-          <span className="eyebrow">Level 60 · Blue PvP starters</span>
+          <span className="eyebrow">
+            Level 60 · {optimized ? "Pre-raid item search" : "Blue PvP starters"}
+          </span>
           <h2 id="tank-rankings">{label} tank rankings</h2>
         </div>
         <span>{entries.length} measured builds</span>
@@ -54,7 +62,8 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
         {metric === "threat"
           ? "More threat per second is better. Dungeon TPS totals all three enemies."
           : "Less physical damage taken per second is better. This compares mitigation in this fight, not overall survivability."}{" "}
-        Select a tank to inspect its setup.
+        {optimized ? "Each view uses gear optimized for that objective. " : ""}Select a tank to
+        inspect its setup.
       </p>
       <ForeverTierBoard
         id={id}
@@ -69,6 +78,7 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
           className={board.preview}
           id={`${id}-build-preview`}
           data-selected-build={selected.id}
+          data-selected-objective={"objective" in selected ? selected.objective : undefined}
           style={{ "--class-color": selected.color } as CSSProperties}
         >
           <div className={board.previewTop}>
@@ -87,6 +97,9 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
                 <small>
                   #{selected.rank} · {selected.race.replace(/^Race/, "")} ·{" "}
                   {selected.capturedAt.slice(0, 10)} UTC
+                  {"objective" in selected
+                    ? ` · ${selected.objective === "threat" ? "Threat" : "Physical mitigation"} gear`
+                    : ""}
                 </small>
               </div>
             </div>
@@ -113,13 +126,26 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
               <dt>Damage / second</dt>
               <dd>{selected.metrics.dps.avg.toFixed(1)} DPS</dd>
             </div>
+            {"health" in selected ? (
+              <>
+                <div>
+                  <dt>Health</dt>
+                  <dd>{Math.round(selected.health).toLocaleString("en-US")}</dd>
+                </div>
+                <div>
+                  <dt>Armor</dt>
+                  <dd>{Math.round(selected.armor).toLocaleString("en-US")}</dd>
+                </div>
+              </>
+            ) : null}
           </dl>
+          {"gear" in selected ? <ForeverTankGearDetails entry={selected} /> : null}
           <ForeverTankThreatDetails entry={selected} />
           <details className={board.evidence}>
             <summary>Build details and measurement</summary>
             <p>
-              5,000 measured fights. Approximate 95% sampling margin: ±
-              {selected.uncertainty95.toFixed(2)} {unit}.
+              {selected.iterations.toLocaleString("en-US")} measured fights. Approximate 95%
+              sampling margin: ±{selected.uncertainty95.toFixed(2)} {unit}.
               {selected.closeToNext
                 ? " The next tank is within sampling uncertainty; treat the order as a near tie."
                 : ""}
@@ -134,8 +160,12 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
                 <dd>{selected.release}</dd>
               </div>
               <div>
-                <dt>Sampling seed</dt>
-                <dd>{snapshot.policy.seed}</dd>
+                <dt>Sampling {optimized ? "seeds" : "seed"}</dt>
+                <dd>
+                  {snapshot.schema === "kfc-forever-tank-tier-list.v3"
+                    ? snapshot.policy.seeds.join(", ")
+                    : snapshot.policy.seed}
+                </dd>
               </div>
             </dl>
             <Link href={selected.simulatorHref} prefetch={false}>
@@ -144,7 +174,10 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
           </details>
           <p className={board.caption}>
             Save your current character before loading. The exact import includes gear, talents,
-            rotation, support, incoming attacks, healing and all 5,000 iterations.
+            rotation, support, incoming attacks and healing.{" "}
+            {optimized
+              ? "The import runs 5,000 fights; reference scores pool 40,000 independent validation fights across two seeds."
+              : "The import runs all 5,000 reference iterations."}
           </p>
         </div>
       ) : null}
@@ -194,7 +227,9 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
       <p className={board.caption}>
         Tiers compare the selected metric with the best measured result: S ≥95%, A ≥85%, B ≥70%, C
         ≥55%, D &lt;55%. For damage taken, the ratio is lowest DTPS ÷ tank DTPS. A tier reflects
-        these starter builds and this encounter.
+        {optimized
+          ? "the selected optimized gear and this encounter. Health is shown separately; the search does not impose a minimum-health requirement."
+          : "these starter builds and this encounter."}
       </p>
     </section>
   );

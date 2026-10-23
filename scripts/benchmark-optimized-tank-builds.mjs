@@ -94,7 +94,10 @@ try {
     assert(result.converged && result.accepted);
     const imported = imports.builds.find((build) => build.objective === result.objective);
     assert(imported);
-    assert.deepEqual(imported.settings.player.equipment, result.gear);
+    assert.deepEqual(
+      api.EquipmentSpec.toBinary(api.EquipmentSpec.fromJson(imported.settings.player.equipment)),
+      api.EquipmentSpec.toBinary(api.EquipmentSpec.fromJson(result.gear)),
+    );
     const samples = await cache.run(
       result.validation.map((row) => ({
         requestBase64: requestDocument.requestBase64,

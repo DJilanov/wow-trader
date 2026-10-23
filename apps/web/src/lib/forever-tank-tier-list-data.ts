@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import console from "node:console";
-import { readFile } from "node:fs/promises";
+import { lstat, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { cache } from "react";
 import { z } from "zod";
@@ -10,6 +10,8 @@ import raidData from "./data/forever-tank-tier-list.raid.json";
 import raidSupport from "../../../../infra/simulator/raid-buff-defaults.v2.json";
 import { raidBenchmarkDebuffs } from "../../../../infra/simulator/tier-scenarios.mjs";
 import { tankTierPolicy } from "../../../../infra/simulator/tank-tier-policy.mjs";
+import { readTankSimulatorModelUpdate } from "./forever-simulator-tank-model-updates";
+import { createOptimizedTankTierSnapshot } from "./forever-optimized-tank-tier-list";
 import { simulatorDirectory } from "./forever-simulator";
 import {
   tankTierSnapshotSchema,
@@ -48,8 +50,29 @@ const readVerifiedTankSnapshot = cache(async function readVerifiedTankSnapshot(
   source: unknown,
 ): Promise<TankTierSnapshot | null> {
   try {
+    const optimizedSelection = await lstat(join(directory, "tank-model-updates.json")).catch(
+      (error: unknown) => {
+        if (error instanceof Error && "code" in error && error.code === "ENOENT") return null;
+        throw error;
+      },
+    );
+    if (optimizedSelection) {
+      const models = await Promise.all(
+        ["tank_warrior", "feral_tank_druid", "protection_paladin"].map(
+          (profile): ReturnType<typeof readTankSimulatorModelUpdate> =>
+            readTankSimulatorModelUpdate(profile, directory),
+        ),
+      );
+      if (models.some((model): boolean => !model))
+        throw new Error("An optimized tank profile is unavailable");
+      return createOptimizedTankTierSnapshot(
+        scenario,
+        models.filter((model): model is NonNullable<typeof model> => model !== null),
+      );
+    }
     const snapshot = tankTierSnapshotSchema.parse(source);
     if (
+      snapshot.schema !== "kfc-forever-tank-tier-list.v2" ||
       snapshot.policy.scenario !== scenario ||
       hash(tankTierPolicy(scenario)) !== snapshot.policySha256 ||
       hash({ support: raidSupport, debuffs: raidBenchmarkDebuffs }) !== snapshot.supportSha256 ||

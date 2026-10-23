@@ -37,6 +37,11 @@ describe("measured tank ranking", () => {
   it("includes all three tank starters in separate dungeon and raid encounters", () => {
     const dungeon = tankTierSnapshotSchema.parse(solo);
     const boss = tankTierSnapshotSchema.parse(raid);
+    if (
+      dungeon.schema !== "kfc-forever-tank-tier-list.v2" ||
+      boss.schema !== "kfc-forever-tank-tier-list.v2"
+    )
+      throw new Error("Expected legacy fixtures");
     expect(dungeon.policy.targetCount).toBe(3);
     expect(boss.policy.targetCount).toBe(1);
     expect(dungeon.entries.map((entry): string => entry.profile)).toContain("protection_paladin");

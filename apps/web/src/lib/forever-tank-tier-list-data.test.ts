@@ -6,8 +6,22 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { SIMULATOR_SPECS, simulatorManifestSchema } from "@wow-trader/forever-data/simulator";
 import solo from "./data/forever-tank-tier-list.solo.json";
 import raid from "./data/forever-tank-tier-list.raid.json";
+import { optimizedTankRankingFixture } from "./fixtures/optimized-tank-ranking";
+import { readTankSimulatorModelUpdate } from "./forever-simulator-tank-model-updates";
+import type * as TankSimulatorModels from "./forever-simulator-tank-model-updates";
 import { readTankTierSnapshot } from "./forever-tank-tier-list-data";
 import { tankTierSnapshotSchema, type TankTierScenario } from "./forever-tank-tier-list";
+
+vi.mock(
+  "./forever-simulator-tank-model-updates",
+  async (importOriginal): Promise<typeof TankSimulatorModels> => {
+    const actual = await importOriginal<typeof TankSimulatorModels>();
+    return {
+      ...actual,
+      readTankSimulatorModelUpdate: vi.fn<typeof actual.readTankSimulatorModelUpdate>(),
+    };
+  },
+);
 
 const paths: string[] = [];
 afterEach(async (): Promise<void> => {
@@ -22,7 +36,10 @@ async function fixture(
   const directory = await mkdtemp(join(tmpdir(), "kfc-tank-tiers-"));
   paths.push(directory);
   const source = structuredClone(scenario === "solo" ? solo : raid);
-  const entry = tankTierSnapshotSchema.parse(source).entries[0]!;
+  const snapshot = tankTierSnapshotSchema.parse(source);
+  if (snapshot.schema !== "kfc-forever-tank-tier-list.v2")
+    throw new Error("Expected legacy fixture");
+  const entry = snapshot.entries[0]!;
   const manifest = simulatorManifestSchema.parse({
     schema: "kfc-forever-simulator.v1",
     release: entry.release,
@@ -108,6 +125,26 @@ describe("tank ranking admission", () => {
       }),
     );
     expect(await readTankTierSnapshot("solo", changed.directory, changed.source)).toBeNull();
+  });
+  it("uses optimized measurements when selected and never falls back to starter scores on invalid approval", async (): Promise<void> => {
+    vi.spyOn(console, "warn").mockImplementation((): void => {});
+    const { directory, source } = await fixture("raid");
+    await writeFile(join(directory, "tank-model-updates.json"), "{}");
+    vi.mocked(readTankSimulatorModelUpdate).mockResolvedValue(null);
+    expect(await readTankTierSnapshot("raid", directory, source)).toBeNull();
+    const models = await optimizedTankRankingFixture();
+    vi.mocked(readTankSimulatorModelUpdate).mockImplementation(
+      async (profile) => models.find((model): boolean => model.proof.profile === profile) ?? null,
+    );
+    const optimized = await readTankTierSnapshot("raid", directory, source);
+    expect(optimized?.schema).toBe("kfc-forever-tank-tier-list.v3");
+    expect(optimized?.entries).toHaveLength(6);
+    vi.mocked(readTankSimulatorModelUpdate).mockImplementation(async (profile) =>
+      profile === "protection_paladin"
+        ? null
+        : (models.find((model): boolean => model.proof.profile === profile) ?? null),
+    );
+    expect(await readTankTierSnapshot("raid", directory, source)).toBeNull();
   });
   it("rejects scenario relabeling, policy changes and altered action totals", async (): Promise<void> => {
     vi.spyOn(console, "warn").mockImplementation((): void => {});

@@ -10,9 +10,11 @@ import styles from "../app/forever/tier-list/page.module.css";
 
 export async function tankTierMetadata(scenario: TankTierScenario): Promise<Metadata> {
   const label = scenario === "solo" ? "Solo & Dungeon" : "Raid";
+  const snapshot = await readTankTierSnapshot(scenario);
+  const optimized = snapshot?.schema === "kfc-forever-tank-tier-list.v3";
   return createHelperMetadata({
     title: `WoW Forever ${label} Tank Tier List — Threat & Damage Taken`,
-    description: `Compare WoW Forever ${label.toLowerCase()} tanks with 5,000 simulations per starter build. Explore threat, physical damage taken and exact reproducible setups.`,
+    description: `Compare WoW Forever ${label.toLowerCase()} tanks with ${optimized ? "40,000 validation fights per optimized setup" : "5,000 simulations per starter build"}. Explore threat, physical damage taken and exact reproducible setups.`,
     path: scenario === "solo" ? "/forever/tier-list/tanks/solo" : "/forever/tier-list/tanks",
     keywords: [
       "WoW Forever tank tier list",
@@ -22,7 +24,7 @@ export async function tankTierMetadata(scenario: TankTierScenario): Promise<Meta
       "WoW Forever Protection Paladin",
       "WoW Forever dungeon tanks",
     ],
-    noIndex: !(await readTankTierSnapshot(scenario)),
+    noIndex: !snapshot,
   });
 }
 interface ForeverTankTierPageProps {
@@ -32,11 +34,12 @@ export async function ForeverTankTierPage({
   scenario,
 }: ForeverTankTierPageProps): Promise<React.JSX.Element> {
   const snapshot = await readTankTierSnapshot(scenario);
+  const optimized = snapshot?.schema === "kfc-forever-tank-tier-list.v3";
   const entries = snapshot ? rankTankTierEntries(snapshot) : [];
   const top = entries[0];
   const label = scenario === "solo" ? "Solo / dungeon" : "Raid";
   const path = scenario === "solo" ? "/forever/tier-list/tanks/solo" : "/forever/tier-list/tanks";
-  const measuredAt = entries.reduce(
+  const measuredAt = (snapshot?.entries ?? []).reduce(
     (latest, entry): string => (entry.capturedAt > latest ? entry.capturedAt : latest),
     "",
   );
@@ -56,8 +59,9 @@ export async function ForeverTankTierPage({
             name: `WoW Forever ${label} Tank Tier List`,
             url: helperAbsoluteUrl(path),
             dateModified: measuredAt,
-            description:
-              "Measured blue-PvP-starter comparison by threat and physical damage taken under an explicit encounter policy.",
+            description: optimized
+              ? "Item-by-item pre-raid gear optimization with separate threat and physical mitigation builds, independently validated over 40,000 fights each."
+              : "Measured blue-PvP-starter comparison by threat and physical damage taken under an explicit encounter policy.",
             mainEntity: {
               "@type": "ItemList",
               numberOfItems: entries.length,
@@ -102,9 +106,9 @@ export async function ForeverTankTierPage({
               <small>{top.metrics.threat.avg.toFixed(1)} TPS</small>
             </div>
             <div>
-              <span>Measured starters</span>
-              <strong>{entries.length}</strong>
-              <small>Warrior · Druid · Paladin</small>
+              <span>{optimized ? "Optimized setups" : "Measured starters"}</span>
+              <strong>{snapshot.entries.length}</strong>
+              <small>Warrior · Druid · Paladin{optimized ? " · 2 objectives" : ""}</small>
             </div>
             <div>
               <span>Encounter</span>
@@ -114,17 +118,21 @@ export async function ForeverTankTierPage({
             <div>
               <span>Last measured</span>
               <strong>{measuredAt.slice(0, 10)}</strong>
-              <small>5,000 fights per build · UTC</small>
+              <small>
+                {snapshot.policy.iterations.toLocaleString("en-US")} fights per setup · UTC
+              </small>
             </div>
           </div>
           <p className={styles.notice}>
             {scenario === "solo"
               ? "Solo / dungeon uses your own buffs against three enemies, without outside raid support. A fixed healer keeps incoming attacks comparable; this is not a test of clearing a dungeon alone."
               : "Raid uses shared buffs and boss debuffs against one physical attacker. World buffs, Salvation and external mana or damage cooldowns are excluded."}{" "}
-            Choose threat generation or damage taken below. These are comparisons of starter builds,
-            not an overall class verdict. Threat coefficients include inherited model assumptions;
-            inspect each build’s threat breakdown before treating its tier as a class
-            recommendation.
+            Choose threat generation or damage taken below.{" "}
+            {optimized
+              ? "Each view loads gear optimized for that measure. Health and armor show the trade-offs; no minimum-health requirement was imposed."
+              : "These scores compare starter builds."}{" "}
+            Threat coefficients include inherited model assumptions; inspect each build’s threat
+            breakdown before treating its tier as a class recommendation.
           </p>
           <ForeverTankTierList snapshot={snapshot} />
         </>
@@ -132,8 +140,8 @@ export async function ForeverTankTierPage({
         <section className="panel" role="status">
           <h2>Tank rankings are being refreshed</h2>
           <p>
-            The selected tank engine or starter has changed. Updated measurements are required
-            before scores can be shown.
+            The selected tank engine or build evidence has changed. Updated measurements are
+            required before scores can be shown.
           </p>
           <Link href="/forever/simulator">Explore the tank workspaces →</Link>
         </section>
@@ -162,12 +170,11 @@ export async function ForeverTankTierPage({
             </p>
           </div>
           <div>
-            <h3>Same starter foundation</h3>
+            <h3>{optimized ? "Every admitted item is compared" : "Same starter foundation"}</h3>
             <p>
-              Each class keeps its published blue PvP starter, enchants, race, talents and rotation
-              across both modes. Raid Windfury replaces Warrior and Paladin weapon coatings. These
-              loadouts have not undergone the DPS builds’ full gear and talent optimization; no
-              best-in-slot claim is made.
+              {optimized
+                ? "Each class has separate threat and physical mitigation setups for raid and dungeon. The search evaluates every admitted item, legal ring/trinket and weapon pair, set combinations and reviewed enchants over repeated passes. Race, professions, talents and rotation stay fixed. Rankings use conservative enchants; optional proc models require consent in the simulator. This is a converged search within the documented pool, not a universal best-in-slot claim."
+                : "Each class keeps its published blue PvP starter, enchants, race, talents and rotation across both modes. Raid Windfury replaces Warrior and Paladin weapon coatings. These starter loadouts have not undergone full gear and talent optimization."}
             </p>
           </div>
           <div>
@@ -183,9 +190,11 @@ export async function ForeverTankTierPage({
           </div>
         </div>
         <p>
-          Each build runs 5,000 fights with seed 61723001 in the published tank engine. Exact
-          imports include the complete benchmark configuration. Sampling margins describe run-to-run
-          variation; they do not measure the uncertainty in beta mechanics.
+          {optimized
+            ? "Final scores pool 40,000 validation fights per setup: 20,000 at each of seeds 81491001 and 82491001, independent of the search seed. Exact imports load the measured configuration with 5,000 fights for convenient reruns; small sampling differences are expected."
+            : "Each starter runs 5,000 fights with seed 61723001. Exact imports include the complete benchmark configuration."}{" "}
+          Sampling margins describe run-to-run variation; they do not measure uncertainty in beta
+          mechanics or item availability.
         </p>
         <p>
           Incoming rage, scripted effects and some beta tank mechanics remain provisional. Magic
@@ -220,7 +229,7 @@ export async function ForeverTankTierPage({
           <p>
             Paladin is included under the same model-estimate policy as Warrior and Bear. Righteous
             Fury multiplies Holy threat by 1.9; physical weapon attacks do not receive that
-            multiplier. The measured starter uses Seal of Righteousness. Seal of Fury is also
+            multiplier. The measured build uses Seal of Righteousness. Seal of Fury is also
             implemented in the engine, with provisional shield assumptions; no optimized seal choice
             is claimed by this comparison.
           </p>

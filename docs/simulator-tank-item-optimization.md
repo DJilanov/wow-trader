@@ -1,8 +1,10 @@
 # Tank item optimization
 
-Status: implementation and measurement in progress, October 23, 2026. The live
-tank lists still compare starter gear. They must not be described as optimized
-gear rankings until the work below is qualified and published.
+V3 replaces starter loadouts with separately measured threat and physical-mitigation
+setups for Warrior, Bear and Paladin. Full native presets and ranking scores come
+from the same approved model selection. Installations without that selection retain
+the older V2 starter comparison. Deployment status is recorded by the operational
+release receipt described below.
 
 ## What this delivers
 
@@ -27,22 +29,26 @@ Warrior to starter-only other classes while calling it an optimized class tier l
 
 ## Current state
 
-| Work                                                | Status                                                                                                                         |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Reconcile published native and browser engines      | Implemented: all three tank controls match exactly for DPS, TPS and DTPS at 100 iterations                                     |
-| Correct Paladin exclusion                           | Implemented locally: actual Righteous Fury controls, six measured starter entries, tests and action breakdown UI; not deployed |
-| Explain Bear threat                                 | Implemented locally: form/ability coefficients, reconciled action totals, explicit inherited-coefficient limitations           |
-| Item, pair, set and enchant candidate generation    | Implemented and covered by regression tests                                                                                    |
-| Resume, numerical cache, source/data checksums      | Implemented; search measurements remain isolated from active releases                                                          |
-| Independent request/report replay                   | Implemented: both Warrior raid reports passed full reconstruction from raw cache; remaining cases replay as they finish        |
-| Current Valor thresholds and missing combat effects | Client evidence audited; isolated model and Go regression test implemented                                                     |
-| Warrior raid item optimization                      | Both enchant branches converged, passed two independent 20,000-fight comparisons and full evidence replay                      |
-| Full Valor versus optimized mix comparison          | Main and sensitivity full-set controls measured; raid objective mixes qualified; dungeon mixes still running                   |
-| Warrior dungeon; Bear and Paladin searches          | Two six-case sequential campaigns active; Warrior dungeon currently running, followed by Bear and Paladin                      |
-| Browser engine and polearm picker                   | Implemented in isolated release; all six desktop/mobile real-combat and reload checks passed                                   |
-| Exact selected-build imports                        | Both Warrior raid branches passed eight objective/viewport checks; other cases qualify automatically after evidence replay     |
-| Winning-build action counters                       | Both Warrior raid branches reconcile with their 40,000-fight references; other cases process after import qualification        |
-| Optimized native imports and public rankings        | Pending model qualification, checks, commit/push and guarded deployment                                                        |
+| Work                                                | Status                                                                                                                                |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Reconcile published native and browser engines      | Implemented: all three tank controls match exactly for DPS, TPS and DTPS at 100 iterations                                            |
+| Correct Paladin exclusion                           | Implemented and qualified: Righteous Fury, all four optimized setups, optional proc variants and measured action counters             |
+| Explain Bear threat                                 | Implemented: form/ability coefficients, measured action totals and explicit inherited-coefficient limitations                         |
+| Item, pair, set and enchant candidate generation    | Implemented and covered by regression tests                                                                                           |
+| Resume, numerical cache, source/data checksums      | Implemented; search measurements remain isolated from active releases                                                                 |
+| Independent request/report replay                   | All twelve cases passed reconstruction from their raw numerical cache and frozen source inputs                                        |
+| Current Valor thresholds and missing combat effects | Client evidence audited; isolated model and Go regression test implemented                                                            |
+| Warrior raid item optimization                      | Both enchant branches converged, passed two independent 20,000-fight comparisons and full evidence replay                             |
+| Full Valor versus optimized mix comparison          | Main and sensitivity full-set controls measured; both raid and dungeon objective mixes independently confirmed                        |
+| Warrior dungeon and Bear searches                   | All four Warrior and four Bear cases converged, passed held-out validation, replay, import and counter qualification                  |
+| Paladin searches                                    | All four raid/dungeon cases converged and passed held-out validation, replay, imports and action counters                             |
+| Browser engine and polearm picker                   | Implemented in isolated release; all six desktop/mobile real-combat and reload checks passed                                          |
+| Exact selected-build imports                        | All twelve cases passed their four desktop/mobile import checks: 48 checks total                                                      |
+| Winning-build action counters                       | All twelve cases reconcile with their pooled 40,000-fight reference metrics                                                           |
+| Native full presets and defaults                    | All three classes have four conservative setups and two optional proc variants; 42 full-preset desktop/mobile checks pass             |
+| Production model reader                             | Strict model/build/measurement/asset/browser gates; nine publication regressions and all three actual packages pass                   |
+| Isolated runtime assembly                           | All three packages assembled; four filesystem/selection tests and four actual runtime checks pass; other selections preserved         |
+| Optimized public rankings and deployment            | V3 passes 42 public browser checks and 67 focused web/runtime tests; operational release status is recorded in the deployment receipt |
 
 ## Valor and Heroism evidence
 
@@ -84,6 +90,15 @@ The similarly named SoD sets are not silently mixed into set 189.
 
 ```sh
 node scripts/prepare-tank-item-optimization.mjs
+```
+
+Initialize once. During a campaign, reuse its frozen `engine.json`; do not prepare
+a different engine between queued cases. Changed source/data creates a new model
+identity and requires its own qualification and measurements.
+
+Run and review that frozen model:
+
+```sh
 node scripts/optimize-simulator-tanks.mjs --profile=tank_warrior --scenario=raid
 node scripts/optimize-simulator-tanks.mjs --profile=tank_warrior --scenario=solo
 node scripts/compare-warrior-tank-sets.mjs
@@ -94,6 +109,8 @@ node scripts/stage-tank-browser-engine.mjs
 node scripts/check-tank-browser-engine.mjs --release=REPLACE_WITH_STAGED_RELEASE
 node scripts/qualify-tank-item-builds.mjs --report=artifacts/forever-simulator/optimization/tank-item-search-v1/runs/REPLACE_WITH_RUN_CHECKSUM/report.json --release=REPLACE_WITH_STAGED_RELEASE
 node scripts/benchmark-optimized-tank-builds.mjs --report=artifacts/forever-simulator/optimization/tank-item-search-v1/runs/REPLACE_WITH_RUN_CHECKSUM/report.json --release=REPLACE_WITH_STAGED_RELEASE
+node scripts/stage-optimized-tank-profile.mjs --profile=tank_warrior --browser-release=REPLACE_WITH_STAGED_RELEASE
+node scripts/check-optimized-tank-profile.mjs --release=REPLACE_WITH_DELIVERY_RELEASE
 node --test infra/simulator/tank-optimization.test.mjs
 ```
 
@@ -247,6 +264,26 @@ The simulation button's enabled and hovered states also meet text contrast check
 No active, profile or publication pointer was changed. Exact selected imports are
 qualified separately; this starter receipt alone does not approve optimized defaults.
 
+The additional completed conservative results, each pooled across the same two
+20,000-fight confirmation ranges, are:
+
+| Class / mode / objective       | TPS     | Physical DTPS | HP    | Armor  |
+| ------------------------------ | ------- | ------------- | ----- | ------ |
+| Warrior / dungeon / threat     | 1,069.6 | 704.0         | 5,409 | 4,320  |
+| Warrior / dungeon / mitigation | 751.4   | 340.7         | 5,719 | 7,421  |
+| Bear / raid / threat           | 1,788.1 | 577.0         | 8,514 | 7,505  |
+| Bear / raid / mitigation       | 1,239.7 | 370.5         | 8,676 | 10,855 |
+| Bear / dungeon / threat        | 1,688.8 | 747.3         | 6,345 | 7,081  |
+| Bear / dungeon / mitigation    | 1,170.8 | 484.5         | 6,902 | 10,434 |
+| Paladin / raid / threat        | 884.9   | 537.9         | 7,005 | 7,289  |
+| Paladin / raid / mitigation    | 603.1   | 274.4         | 7,154 | 8,350  |
+| Paladin / dungeon / threat     | 1,104.8 | 677.7         | 4,778 | 6,827  |
+| Paladin / dungeon / mitigation | 731.1   | 355.2         | 5,391 | 7,830  |
+
+HP and armor are rounded here for readability. These remain fixed-race,
+fixed-rotation model comparisons. A threat-optimal setup can take more damage
+and have less health; the implemented ranking UI displays that trade-off.
+
 The import qualification compares all combat fields after narrowly normalizing
 empty UI raid slots and the engine's equivalent omitted/explicit level-60 value.
 Additional players, nonempty padded buffs, changed character levels and other
@@ -259,13 +296,13 @@ reload persistence and proc consent are checked at both desktop and mobile width
 Both Warrior raid enchant branches passed all eight selected-build import checks.
 The optional Crusader variant requires explicit consent, and consent returns to OFF
 after reload. The research imports currently use 100 fights for qualification;
-production preset packaging and its final import/settings checks remain pending.
+Full production preset packages for all three classes are qualified below.
 
 `benchmark-optimized-tank-builds.mjs` obtains the full action counters for the two
 20,000-fight confirmation ranges. Every DPS/TPS/DTPS mean and standard deviation,
 HP and armor must match the original confirmation; weighted action totals must
 match the pooled 40,000-fight reference. It retains the full unit evidence in a
-separate content-addressed cache. Both Warrior raid enchant branches passed.
+separate content-addressed cache. All ten completed cases passed, including both Paladin raid branches.
 This gives the new tier lists the exact winning-build breakdown instead of
 reusing starter counters or mixing sampling ranges.
 
@@ -275,23 +312,199 @@ under the research directory. Twelve cases cover three classes, two modes and
 both enchant policies. Missing, capped, rejected or mismatched evidence stops
 the relevant review; the presence of a search checkpoint is not publication approval.
 
-## Remaining delivery work
+## Native preset delivery and publication
 
-1. Finish the other ten search cases and their replay, exact-import and action-counter
-   qualification. Retain separate scores and gear for threat and physical mitigation.
-2. Package four conservative full builds per tank: raid threat, raid physical
-   mitigation, dungeon threat and dungeon physical mitigation. Keep the provisional
-   enchant variants separate with the existing explicit consent requirement.
-3. Replace native starter defaults and preset labels together in a tank-only model
-   release. Keep saved characters and unrelated class/raid workspaces intact.
-   Check a fresh visit, every preset switch, full imports and reload at both widths.
-4. Publish objective-specific tier data: changing the ranking measure selects the
-   corresponding optimized gear. Show HP and armor alongside TPS/DTPS and the
-   selected item/enchant list; preserve acquisition and model limitations.
-5. Verify model/data/asset identities, public readers, Node/Go/web regressions,
-   typecheck, lint, build and desktop/mobile behavior. Commit and push the owned
-   changes, then deploy through the guarded release workflow and verify the live
-   tank pages without replacing other approved numerical models.
+`stage-optimized-tank-profile.mjs` requires all four completed mode/enchant-policy
+cases for one class. It prepares four conservative full setups and adds only the
+selected variants that actually require provisional enchant consent. A first visit
+loads raid physical mitigation. Saved characters remain intact; changing the
+setup loads the complete measured character and encounter immediately. HP, armor,
+TPS and physical DTPS references remain visible together.
+
+The overlay uses the pinned native UI's complete-settings API through a guarded
+entry adapter. It replaces the old starter controls and text while retaining user
+gear saves. Same-document share changes re-enter the native importer. Code and
+asset checksums form the new release identity; source numerical assets remain
+immutable. Other profiles navigate to their already-approved website workspaces.
+
+The approved packages are Warrior `92dc3e4210e6cb7776f16fb9`, Bear
+`6b775ba64f7a75331f1b3000` and Paladin `76d3a520f95fdb16a89c9282`.
+Each passed 14 full-preset checks at desktop/mobile widths: all six presets
+simulate the measured combat setup, complete share links import correctly, custom
+gear survives reload, the fresh save-name matches the selected setup, and proc
+consent stays off until explicitly enabled. Native approvals do not select a
+production model.
+
+The entry adapter uses the verified profile-player declaration and simulator-module
+import instead of assuming an unmangled constructor export. Druid's pinned bundle
+exports its UI under a short alias; regression tests cover that form.
+
+The production reader is
+`apps/web/src/lib/forever-simulator-tank-model-updates.ts`. A separate
+`tank-model-updates.json` selection binds all three tank profiles to their approved
+releases. It verifies numerical/catalog identity, native preset payload, four source
+measurement files, every published build's settings/gear/counters and the exact
+desktop/mobile browser evidence. The shared presentation and preset-safety readers
+use this result without changing other class model selections. Verification is
+shared within a render, never cached across requests.
+
+The counter reporter originally compared JSON equipment literally. Bear's empty
+off-hand exposed `{id: 0}` versus `{}`. The reporter and staging adapter now compare
+the pinned protobuf equipment encoding, preserving every actual item/enchant field.
+Previously qualified Warrior evidence is retained with its source version, not
+relabeled as a new measurement. The five relevant review/entry/library sources are
+preserved in snapshot
+`e7ce09a7084f096ea319c03937c1c236c364782e55e1c7c21df8b3585af2098b`.
+
+The public ranking update is implemented as snapshot V3 in
+`apps/web/src/lib/forever-optimized-tank-tier-list.ts`. It derives all six entries
+per scenario directly from the three validated runtime model proofs. There is no
+second manually maintained score dataset. Each conservative threat/mitigation
+entry retains the recorded 40,000-fight metrics, action totals and source hashes.
+The projection rechecks incoming attacks, support, healing and encounter geometry
+against the comparison policy, including protobuf default/enum normalization.
+
+The ranking UI selects the corresponding threat or mitigation setup while
+retaining the selected class. It shows HP and armor with TPS/DTPS/DPS, exposes every
+item and enchant with historical-source labels, and links to that exact full setup.
+Methodology, metadata and structured data describe the independent validation and
+fixed race/professions/talents/rotation scope. Imports run 5,000 iterations for
+convenient reruns; reference results pool two independent 20,000-fight seeds.
+
+The existing starter format remains readable only before an optimized selection
+is installed. Once `tank-model-updates.json` exists, any missing or invalid approved
+profile makes the rankings unavailable; there is no stale starter-score fallback.
+The targeted web/runtime suite passes **67 tests**, including nine model-publication
+regressions and four checks against the actual three-class runtime. Typecheck, lint
+and the isolated production build pass. All ranking fixtures now contain recorded
+Warrior, Bear and Paladin data; no synthetic class identity is used. The combined
+fixture has 28 documents and is reproducible from the real reviewed runtime:
+
+```sh
+node scripts/record-optimized-tank-fixture.mjs \
+  --runtime-root=artifacts/deployments/tank-optimized-20261023/review-root-v1 \
+  --output=apps/web/src/lib/fixtures/optimized-tank-models.json.gz
+```
+
+The fixture SHA-256 is
+`3bb69df2b63642e789ace6a5c2b54b80862a791e3b459daa176e9e91366daef2`.
+Tests mutate copies in temporary directories for negative cases. Omitted protobuf
+repeated fields normalize to empty defaults; additional target inputs remain
+rejected. The actual runtime gate also checks real module and payload bytes,
+rather than relying on fixture metadata alone.
+
+Static asset staging now recognizes the separate optimized-tank selection. It
+includes all three selected class releases alongside the existing DPS sources and
+rejects partial or malformed tank pointers. Both direct asset serving and static
+staging keep optimized proofs, research proofs and raw measurements private while
+serving the native build payload and module. The **25 static/deployment Node tests**
+and four assembly tests pass, alongside 32 tank logic tests. The 12 simulator
+asset web tests are included in the 67-test targeted suite. Another **116 publication/DPS regression tests** pass,
+including current and historical Warlock selection paths.
+
+`scripts/check-optimized-tank-rankings.mjs` passed its complete real-browser gate:
+24 class/objective/scenario/viewport board checks, 12 public exact imports and six
+fresh public workspace checks. It binds the real three-profile approval, verifies
+scores/HP/armor/equipment/links, class preservation on metric changes and default
+presets, then writes a separate receipt without selecting a model. The successful
+local receipt is
+`artifacts/deployments/tank-optimized-20261023/optimized-browser-review-v3.json`; it
+binds selection `56f928379bc42e90f5dda9d24f187586b4adf16f2a9ba479ac17d22bbc796f0e`
+and records 24 hashed preview screenshots. Desktop/mobile previews were visually
+reviewed. The verifier accepts default indexing when no robots meta is emitted,
+rejects indexing exclusions in headers/metadata, and initializes test storage only
+on HTTP documents.
+
+```sh
+node scripts/check-optimized-tank-rankings.mjs \
+  --base-url=http://127.0.0.1:PORT/tools \
+  --artifact-root=/absolute/path/to/isolated-approved-runtime-root \
+  --output=artifacts/deployments/tank-optimized/browser-review.json
+```
+
+The isolated-root assembly command is
+`scripts/stage-optimized-tank-selection.mjs`. It requires all three real approved
+profile identities, one engine and the current global presentation as the source.
+It verifies incoming asset hashes, preserves the four existing selection files
+byte-for-byte, and never overwrites an output root or changes the live selection.
+Its four tests cover partial/cross-profile approval, source drift, input/output
+aliasing, symlink escape, changed assets, consent gates and existing-output
+preservation. Real Warrior/Bear preflight passes; an intentionally cross-profile
+Paladin reference is rejected before any output is created.
+
+The local base runtime's four selection hashes match the live server's current
+selection hashes as checked on October 23. Recheck them before deployment; another
+release must not silently replace changes made while this campaign runs.
+
+```sh
+node scripts/stage-optimized-tank-selection.mjs \
+  --source-root=/absolute/path/to/current-runtime \
+  --output=/absolute/path/to/new-review-runtime \
+  --warrior=92dc3e4210e6cb7776f16fb9 \
+  --bear=6b775ba64f7a75331f1b3000 \
+  --paladin=76d3a520f95fdb16a89c9282
+
+FOREVER_TANK_REVIEW_ROOT=/absolute/path/to/new-review-runtime \
+  pnpm --filter @wow-trader/web exec vitest run \
+  src/lib/forever-optimized-tank-runtime.integration.test.ts \
+  --maxWorkers=1 --minWorkers=1
+```
+
+The runtime gate must report **four passed tests**, using the three actual class
+packages. It covers production model/presentation/preset-safety readers, both V3
+ranking projections, exact public payload/module hashes, private-evidence denial
+and unchanged source selections. It deliberately skips in ordinary unit runs
+without `FOREVER_TANK_REVIEW_ROOT`; those skips are not publication evidence.
+The actual run passed all four tests against `review-root-v1`, followed by the 42
+public browser checks above. The immutable staging receipt retains its original
+`staged-awaiting-runtime-reader-and-public-browser-review` status; subsequent test
+and browser receipts are separate evidence.
+
+The current production build also passed the existing-model HTTP deployment
+verifier against the unchanged base runtime: all 11 published DPS profiles retain
+their full approved libraries and matching item databases. Receipt:
+`artifacts/deployments/tank-optimized-20261023/baseline-compatibility.json`.
+Four actual desktop/mobile V2 tank-page browser checks passed metric switching,
+class preservation, layout and browser-error checks; their screenshots were
+visually reviewed. This is compatibility evidence, not approval of the optimized
+V3 models. The final V3 browser gate now records hashed screenshots of every
+selected class/objective/scenario/viewport preview in a unique review directory.
+
+The Paladin raid reports are
+`1ac6c49b074f8c0dd9109612e9a959ba44262a1d19e911961c54f4a91261a645`
+(proc policy) and
+`9465c9051dec2f02535956bdadf6ca079b532709ef1c563040050597473462ff`
+(conservative). Both converged, passed held-out confirmation, canonical replay,
+all eight selected-import checks and full action-counter reconciliation. Their
+40,000-fight raid references are now listed above. The optional proc threat setup
+measures 896.1 TPS / 524.1 physical DTPS / 6,548 HP / 7,721 armor; conservative
+mitigation is unchanged by the proc branch. Paladin dungeon reports
+`bc14e2e81f5a43cb0e5c5c3147dc2b69169d820a49b5a2451c52041bb401733a`
+(conservative) and
+`a1cb744a04b06005abb98ec6ef2a097da13bf4931c669fbdbaeba5c46ef2ea85`
+(proc policy) passed the same complete qualification. The optional dungeon threat
+setup measures 1,147.5 TPS / 704.0 physical DTPS / 4,726 HP / 6,375 armor; its
+mitigation result matches the conservative branch.
+
+## Release procedure
+
+1. Recheck the source runtime's four selection hashes and the live application
+   release. Assemble the three approved model packages in a separate root using
+   the command above; retain all existing non-tank models and selections.
+2. Require four actual runtime tests, all 42 native preset checks and the 42 public
+   browser checks. Check metric switches, HP/armor, gear, exact imports, saved
+   characters and explicit proc consent. No missing profile may use a substitute.
+3. Commit and push the scoped source changes after checks pass. Build an isolated
+   server release from that exact pushed commit and verify its source manifest.
+4. Stage immutable assets, run canary checks and activate through the guarded
+   release workflow. Keep rollback pointers, memory limits and unrelated websites
+   intact. Verify both tank lists, all three native workspaces and existing DPS
+   workspaces against the public endpoint.
+5. Record the released commit, selected model identities, source/asset hashes and
+   actual live readback in
+   `artifacts/deployments/tank-optimized-20261023/deployment/final-receipt.json`.
+   This operational receipt is the authority for deployment status; local model
+   qualification alone is not a claim that a release is live.
 
 ## Verification and publication gate
 
@@ -318,10 +531,11 @@ Outstanding model limitations include the inherited Bear ability threat
 coefficients, provisional incoming-rage behavior, and other unverified item procs.
 Sampling precision does not resolve those mechanics uncertainties.
 
-Latest focused checks: 26 Node tests across tank policy, candidate search, raw
-evidence, polearm picker, build imports and action totals passed; the three web
-tank suites passed 16 tests. New scripts passed scoped ESLint and Prettier checks,
+Latest focused checks: all 32 focused Node tests, including six native-entry/library
+regressions passed. The combined web run passed 41 tests, including seven new model
+reader gates and the existing model/tank suites. Web typecheck and isolated strict
+native-library typecheck passed. New scripts passed scoped ESLint/Prettier checks,
 and `git diff --check` passed. The frozen engine's 14 native/WASM controls, six
-starter browser checks and eight selected Warrior raid import checks are separate
-integration evidence. A production build and deployment have not yet been run for
-this item-optimization release.
+starter browser checks, selected-build imports and full-preset browser checks are
+separate integration evidence. A production build and deployment have not yet been
+run for this item-optimization release.

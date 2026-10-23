@@ -10,7 +10,7 @@ const pinnedSource =
 export const TANK_MODEL_NOTES: Readonly<Record<TankTierMeasurement["profile"], TankModelNote>> = {
   tank_warrior: {
     explanation:
-      "This starter's Defensive Stance and Defiance give a ×1.495 baseline threat modifier. Revenge, Shield Slam, Sunder Armor and other actions have their own threat rules, including threat without damage.",
+      "This build's Defensive Stance and Defiance give a ×1.495 baseline threat modifier. Revenge, Shield Slam, Sunder Armor and other actions have their own threat rules, including threat without damage.",
     limitation:
       "Incoming rage and some fixed threat amounts remain model assumptions. Gear, rotation and incoming attacks affect how often abilities can be used.",
     source: `${pinnedSource}/warrior/stances.go`,
@@ -24,9 +24,9 @@ export const TANK_MODEL_NOTES: Readonly<Record<TankTierMeasurement["profile"], T
   },
   protection_paladin: {
     explanation:
-      "Righteous Fury is enabled and multiplies Holy threat by ×1.9. Physical weapon damage does not receive that multiplier. Holy Shield and some other spells have additional modifiers. This published starter uses Seal of Righteousness; its exact import preserves that choice.",
+      "Righteous Fury is enabled and multiplies Holy threat by ×1.9. Physical weapon damage does not receive that multiplier. Holy Shield and some other spells have additional modifiers. This build uses Seal of Righteousness; its exact import preserves that choice.",
     limitation:
-      "The engine also registers Seal of Fury, but registration alone does not validate all shield, mana and timing assumptions. The current starter is compared as configured, without claiming an optimized seal or talent build.",
+      "The engine also registers Seal of Fury, but registration alone does not validate all shield, mana and timing assumptions. The current build is compared as configured, without claiming an optimized seal or talent build.",
     source: `${pinnedSource}/paladin/righteous_fury.go`,
   },
 };

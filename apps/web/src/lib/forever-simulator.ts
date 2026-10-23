@@ -119,7 +119,10 @@ export async function serveSimulatorAsset(
       (part) => !part || part === "." || part === ".." || !/^[a-z0-9_.-]+$/i.test(part),
     ) ||
     segments.includes("kfc-reviewed-presets.json") ||
-    segments.includes("kfc-preset-safety.json")
+    segments.includes("kfc-preset-safety.json") ||
+    segments.includes("kfc-optimized-tank-profile.json") ||
+    segments.includes("kfc-tank-browser-research.json") ||
+    segments.includes("tank-measurements")
   )
     return new Response(null, { status: 404 });
   const manifest = await readSimulatorManifest(directory, release);

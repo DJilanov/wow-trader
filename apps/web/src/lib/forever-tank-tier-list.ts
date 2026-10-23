@@ -42,7 +42,7 @@ const entrySchema = z
   })
   .strict();
 
-export const tankTierSnapshotSchema = z
+const legacyTankTierSnapshotSchema = z
   .object({
     schema: z.literal("kfc-forever-tank-tier-list.v2"),
     policySha256: digest,
@@ -116,9 +116,105 @@ export const tankTierSnapshotSchema = z
     )
       context.addIssue({ code: "custom", message: "Tank scenario and encounter disagree" });
   });
+const optimizedEntrySchema = entrySchema
+  .omit({ starterSha256: true, requestSha256: true, responseSha256: true })
+  .extend({
+    iterations: z.literal(40000),
+    benchmarkHref: z.string().max(200000),
+    objective: z.enum(["threat", "mitigation"]),
+    health: z.number().finite().positive(),
+    armor: z.number().finite().positive(),
+    proofSha256: digest,
+    sourceFingerprint: digest,
+    sourceMeasurementsSha256: digest,
+    settingsSha256: digest,
+    gear: z
+      .array(
+        z
+          .object({
+            slot: z.number().int().min(0).max(16),
+            id: z.number().int().nonnegative(),
+            name: z.string().min(1).max(300),
+            enchant: z.string().min(1).max(300).nullable(),
+            provisionalSource: z.boolean(),
+          })
+          .strict(),
+      )
+      .length(17),
+    warnings: z.array(z.string().min(1).max(4000)).max(20),
+  })
+  .strict();
+const optimizedTankTierSnapshotSchema = z
+  .object({
+    schema: z.literal("kfc-forever-tank-tier-list.v3"),
+    policySha256: digest,
+    supportSha256: digest,
+    approvedSelection: z.object({ selectionSha256: digest, engine: digest }).strict(),
+    policy: legacyTankTierSnapshotSchema.shape.policy
+      .omit({ seed: true })
+      .extend({
+        version: z.literal("optimized-pre-raid-tank-comparison-v1"),
+        iterations: z.literal(40000),
+        seeds: z.tuple([z.literal(81491001), z.literal(82491001)]),
+      })
+      .strict(),
+    entries: z.array(optimizedEntrySchema).length(6),
+  })
+  .strict()
+  .superRefine((snapshot, context): void => {
+    if (
+      new Set(snapshot.entries.map((entry): string => `${entry.profile}:${entry.objective}`))
+        .size !== 6
+    )
+      context.addIssue({ code: "custom", message: "Duplicate optimized tank objective" });
+    for (const entry of snapshot.entries) {
+      if (new Set(entry.gear.map((item): number => item.slot)).size !== 17)
+        context.addIssue({ code: "custom", message: "Duplicate optimized gear slot" });
+      if (
+        entry.id !== entry.profile.replaceAll("_", "-") ||
+        !entry.benchmarkHref.startsWith(
+          `/forever-sim/${entry.release}/${entry.profile}/?i=gtrcmxeu#`,
+        ) ||
+        !/^#[A-Za-z0-9+/]+=*$/.test(entry.benchmarkHref.slice(entry.benchmarkHref.indexOf("#")))
+      )
+        context.addIssue({ code: "custom", message: "Invalid optimized tank simulator import" });
+      if (
+        new Set(entry.threatBreakdown.map((row): string => row.key)).size !==
+        entry.threatBreakdown.length
+      )
+        context.addIssue({ code: "custom", message: "Duplicate optimized threat action" });
+      for (const [field, metricName] of [
+        ["damagePerSecond", "dps"],
+        ["threatPerSecond", "threat"],
+      ] as const)
+        if (
+          Math.abs(
+            entry.threatBreakdown.reduce((sum, row): number => sum + row[field], 0) -
+              entry.metrics[metricName].avg,
+          ) > 0.000001
+        )
+          context.addIssue({
+            code: "custom",
+            message: "Optimized actions do not reconcile with measured totals",
+          });
+    }
+    const raid = snapshot.policy.scenario === "raid";
+    if (
+      snapshot.policy.durationSeconds !== (raid ? 300 : 60) ||
+      snapshot.policy.targetCount !== (raid ? 1 : 3) ||
+      snapshot.policy.targetLevel !== (raid ? 63 : 62) ||
+      snapshot.policy.minBaseDamage !== (raid ? 3000 : 1200)
+    )
+      context.addIssue({ code: "custom", message: "Optimized scenario and encounter disagree" });
+  });
+export const tankTierSnapshotSchema = z.discriminatedUnion("schema", [
+  legacyTankTierSnapshotSchema,
+  optimizedTankTierSnapshotSchema,
+]);
 export type TankTierSnapshot = z.infer<typeof tankTierSnapshotSchema>;
+export type OptimizedTankTierSnapshot = z.infer<typeof optimizedTankTierSnapshotSchema>;
 export type TankTierMeasurement = TankTierSnapshot["entries"][number];
-export interface TankTierEntry extends TankTierMeasurement {
+export type TankTierEntry = TankTierMeasurement & {
   readonly title: string;
   readonly className: string;
   readonly classSlug: string;
@@ -131,18 +227,21 @@ export interface TankTierEntry extends TankTierMeasurement {
   readonly share: number;
   readonly uncertainty95: number;
   readonly closeToNext: boolean;
-}
+};
 
 export function rankTankTierEntries(
   snapshot: TankTierSnapshot,
   selectedMetric: TankTierMetric = "threat",
 ): readonly TankTierEntry[] {
   const direction = selectedMetric === "dtps" ? 1 : -1;
-  const sorted = [...snapshot.entries].sort(
-    (left, right): number =>
-      direction * (left.metrics[selectedMetric].avg - right.metrics[selectedMetric].avg) ||
-      left.id.localeCompare(right.id),
-  );
+  const objective = selectedMetric === "threat" ? "threat" : "mitigation";
+  const sorted = snapshot.entries
+    .filter((entry): boolean => !("objective" in entry) || entry.objective === objective)
+    .sort(
+      (left, right): number =>
+        direction * (left.metrics[selectedMetric].avg - right.metrics[selectedMetric].avg) ||
+        left.id.localeCompare(right.id),
+    );
   const leader = sorted[0]?.metrics[selectedMetric].avg ?? 1;
   return sorted.map((entry, index): TankTierEntry => {
     const identity = {

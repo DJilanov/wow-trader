@@ -40,6 +40,9 @@ async function fixture() {
     "warrior/index.html": Buffer.from("private adapted HTML"),
     "kfc-reviewed-presets.json": Buffer.from("private proof"),
     "kfc-preset-safety.json": Buffer.from("private proof2"),
+    "kfc-optimized-tank-profile.json": Buffer.from("private tank proof"),
+    "kfc-tank-browser-research.json": Buffer.from("private research proof"),
+    ["tank-measurements/" + "a".repeat(64) + ".json"]: Buffer.from("private measurements"),
   };
   for (const [name, data] of Object.entries(contents)) {
     await mkdir(join(folder, name, ".."), { recursive: true });
@@ -76,6 +79,9 @@ test("public inventory refuses internal proofs, HTML, maps, hidden files, traver
     "kfc-reviewed-presets.json",
     "kfc-preset-safety.json",
     "manifest.json",
+    "kfc-optimized-tank-profile.json",
+    "kfc-tank-browser-research.json",
+    "tank-measurements/example.json",
     "bundle/source.js.map",
     "lib.wasm.gz",
     "lib.wasm.br",
@@ -87,6 +93,8 @@ test("public inventory refuses internal proofs, HTML, maps, hidden files, traver
     "assets/database/db.bin",
     "bundle/index-test.chunk.js",
     "kfc-workspace.css",
+    "kfc-tank-native-builds.json",
+    "kfc-tank-native-library.js",
     "vendor/fonts/inter.woff2",
   ])
     assert.equal(isPublicDeliveryAsset(name), true, name);
@@ -147,6 +155,56 @@ test("automatic staging follows selected models and ignores incomplete, unselect
   }
 });
 
+test("automatic staging includes all optimized tank models and refuses partial selections", async () => {
+  const f = await fixture();
+  try {
+    const release = "c".repeat(24);
+    await mkdir(join(f.source, release));
+    await writeFile(
+      join(f.source, release, "manifest.json"),
+      JSON.stringify({ ...f.manifest, release, files: {} }),
+    );
+    await writeFile(
+      join(f.source, "model-update.json"),
+      JSON.stringify({
+        schema: "kfc-simulator-model-update-selection.v1",
+        release: f.release,
+        sourceRelease: f.release,
+      }),
+    );
+    const selected = {
+      release,
+      proofSha256: "d".repeat(64),
+      browserReview: { path: `tank-browser-reviews/${release}.json`, sha256: "e".repeat(64) },
+    };
+    const pointer = {
+      schema: "kfc-optimized-tank-selection.v1",
+      sourceRelease: f.release,
+      engine: "f".repeat(64),
+      profiles: {
+        tank_warrior: selected,
+        feral_tank_druid: selected,
+        protection_paladin: selected,
+      },
+    };
+    await writeFile(join(f.source, "tank-model-updates.json"), JSON.stringify(pointer));
+    const options = { simulatorRoot: f.source, output: f.output };
+    assert.deepEqual(
+      (await prepareStaticDelivery(options)).manifestPins.map((row) => row.release),
+      [f.release, release],
+    );
+    delete pointer.profiles.protection_paladin;
+    await writeFile(join(f.source, "tank-model-updates.json"), JSON.stringify(pointer));
+    await assert.rejects(prepareStaticDelivery(options), /Incomplete selected tank profiles/);
+    pointer.profiles.protection_paladin = { ...selected, release: "../private" };
+    await writeFile(join(f.source, "tank-model-updates.json"), JSON.stringify(pointer));
+    await assert.rejects(prepareStaticDelivery(options), /Invalid selected tank release/);
+    await assert.rejects(lstat(f.output), { code: "ENOENT" });
+  } finally {
+    await rm(f.root, { recursive: true, force: true });
+  }
+});
+
 test("production and isolated Nginx includes cannot load the standalone smoke configuration inside a server block", async () => {
   const apex = await readFile(
       new URL("../infra/nginx/kfcguild.online.conf", import.meta.url),
@@ -186,6 +244,9 @@ test("dry-run writes nothing; prepared variants decompress to the original hash 
       "manifest.json",
       "kfc-reviewed-presets.json",
       "kfc-preset-safety.json",
+      "kfc-optimized-tank-profile.json",
+      "kfc-tank-browser-research.json",
+      "tank-measurements/" + "a".repeat(64) + ".json",
       "image.jpg.gz",
       "image.jpg.br",
     ])

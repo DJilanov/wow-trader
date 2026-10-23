@@ -5,6 +5,8 @@ import { readFile } from "node:fs/promises";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import solo from "../lib/data/forever-tank-tier-list.solo.json";
 import raid from "../lib/data/forever-tank-tier-list.raid.json";
+import { optimizedTankRankingFixture } from "../lib/fixtures/optimized-tank-ranking";
+import { createOptimizedTankTierSnapshot } from "../lib/forever-optimized-tank-tier-list";
 import { tankTierSnapshotSchema } from "../lib/forever-tank-tier-list";
 import { readTankTierSnapshot } from "../lib/forever-tank-tier-list-data";
 import { ForeverTankTierPage, tankTierMetadata } from "./forever-tank-tier-page";
@@ -52,6 +54,20 @@ describe("tank ranking pages", () => {
       expect(html).toContain('"numberOfItems":3');
     },
   );
+  it("describes optimized setups and independent validation consistently in HTML and metadata", async (): Promise<void> => {
+    const snapshot = createOptimizedTankTierSnapshot("raid", await optimizedTankRankingFixture());
+    vi.mocked(readTankTierSnapshot).mockResolvedValue(snapshot);
+    const html = renderToStaticMarkup(await ForeverTankTierPage({ scenario: "raid" }));
+    expect(html).toContain("Optimized setups");
+    expect(html).toContain("40,000 fights per setup");
+    expect(html).toContain("Every admitted item is compared");
+    expect(html).toContain("no minimum-health requirement");
+    expect(html).not.toContain("Same starter foundation");
+    expect(html).toContain('"numberOfItems":3');
+    expect((await tankTierMetadata("raid")).description).toContain(
+      "40,000 validation fights per optimized setup",
+    );
+  });
   it("hides stale scores and disables indexing if the tank engine or measurements are unavailable", async (): Promise<void> => {
     vi.mocked(readTankTierSnapshot).mockResolvedValue(null);
     const html = renderToStaticMarkup(await ForeverTankTierPage({ scenario: "raid" }));

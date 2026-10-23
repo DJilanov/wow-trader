@@ -47,6 +47,9 @@ const privateNames = new Set([
   "manifest.json",
   "kfc-reviewed-presets.json",
   "kfc-preset-safety.json",
+  "kfc-optimized-tank-profile.json",
+  "kfc-tank-browser-research.json",
+  "tank-measurements",
 ]);
 const extension = (name) => name.split(".").at(-1)?.toLowerCase();
 
@@ -91,6 +94,53 @@ async function selectedReleases(root) {
         );
         selected.add(release);
       }
+  }
+  let tankBytes;
+  try {
+    tankBytes = await readFile(join(root, "tank-model-updates.json"));
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  if (tankBytes) {
+    assert(tankBytes.length <= 32_000, "Tank selection exceeds its size budget");
+    const pointer = JSON.parse(tankBytes);
+    assert.equal(pointer.schema, "kfc-optimized-tank-selection.v1");
+    assert(
+      typeof pointer.engine === "string" && /^[a-f0-9]{64}$/.test(pointer.engine),
+      "Invalid selected tank engine",
+    );
+    assert(
+      typeof pointer.sourceRelease === "string" && /^[a-f0-9]{24}$/.test(pointer.sourceRelease),
+      "Invalid selected tank source",
+    );
+    const profiles = ["feral_tank_druid", "protection_paladin", "tank_warrior"];
+    assert.deepEqual(
+      Object.keys(pointer.profiles).sort(),
+      profiles,
+      "Incomplete selected tank profiles",
+    );
+    selected.add(pointer.sourceRelease);
+    for (const entry of Object.values(pointer.profiles)) {
+      assert(
+        typeof entry.release === "string" && /^[a-f0-9]{24}$/.test(entry.release),
+        "Invalid selected tank release",
+      );
+      assert(
+        typeof entry.proofSha256 === "string" && /^[a-f0-9]{64}$/.test(entry.proofSha256),
+        "Invalid selected tank proof",
+      );
+      assert.equal(
+        entry.browserReview?.path,
+        `tank-browser-reviews/${entry.release}.json`,
+        "Invalid tank browser review path",
+      );
+      assert(
+        typeof entry.browserReview?.sha256 === "string" &&
+          /^[a-f0-9]{64}$/.test(entry.browserReview.sha256),
+        "Invalid tank browser review checksum",
+      );
+      selected.add(entry.release);
+    }
   }
   return selected.size
     ? [...selected]

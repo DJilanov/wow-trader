@@ -195,7 +195,13 @@ describe("Self-hosted Forever simulator assets", () => {
       await rm(f.directory, { recursive: true, force: true });
     }
   });
-  it("keeps internal preset provenance private even when checksummed in a release manifest", async () => {
+  it.each([
+    "kfc-reviewed-presets.json",
+    "kfc-preset-safety.json",
+    "kfc-optimized-tank-profile.json",
+    "kfc-tank-browser-research.json",
+    "tank-measurements/" + "a".repeat(64) + ".json",
+  ])("keeps %s private even when checksummed in a release manifest", async (name) => {
     const f = await fixture();
     try {
       const path = join(f.directory, f.release, "manifest.json");
@@ -203,26 +209,51 @@ describe("Self-hosted Forever simulator assets", () => {
         files: Record<string, { bytes: number; sha256: string }>;
       };
       const bytes = Buffer.from("synthetic internal provenance fixture");
-      manifest.files["kfc-reviewed-presets.json"] = {
+      manifest.files[name] = {
         bytes: bytes.length,
         sha256: createHash("sha256").update(bytes).digest("hex"),
       };
       await writeFile(path, JSON.stringify(manifest));
-      await writeFile(join(f.directory, f.release, "kfc-reviewed-presets.json"), bytes);
-      expect(
-        (await readSimulatorManifest(f.directory, f.release))?.files["kfc-reviewed-presets.json"],
-      ).toBeDefined();
+      await mkdir(join(f.directory, f.release, name, ".."), { recursive: true });
+      await writeFile(join(f.directory, f.release, name), bytes);
+      expect((await readSimulatorManifest(f.directory, f.release))?.files[name]).toBeDefined();
       for (const method of ["GET", "HEAD"])
         expect(
           (
             await serveSimulatorAsset(
               new Request("http://localhost/internal", { method }),
               f.release,
-              ["kfc-reviewed-presets.json"],
+              name.split("/"),
               f.directory,
             )
           ).status,
         ).toBe(404);
+    } finally {
+      await rm(f.directory, { recursive: true, force: true });
+    }
+  });
+  it("serves the public native build payload while retaining private tank evidence", async () => {
+    const f = await fixture();
+    try {
+      const path = join(f.directory, f.release, "manifest.json");
+      const manifest = JSON.parse(await readFile(path, "utf8")) as {
+        files: Record<string, { bytes: number; sha256: string }>;
+      };
+      const bytes = Buffer.from(JSON.stringify({ schema: "public native payload fixture" }));
+      manifest.files["kfc-tank-native-builds.json"] = {
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      };
+      await writeFile(path, JSON.stringify(manifest));
+      await writeFile(join(f.directory, f.release, "kfc-tank-native-builds.json"), bytes);
+      const response = await serveSimulatorAsset(
+        new Request("http://localhost/native-builds"),
+        f.release,
+        ["kfc-tank-native-builds.json"],
+        f.directory,
+      );
+      expect(response.status).toBe(200);
+      expect(await response.text()).toBe(bytes.toString("utf8"));
     } finally {
       await rm(f.directory, { recursive: true, force: true });
     }

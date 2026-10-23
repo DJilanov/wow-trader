@@ -14,3 +14,45 @@
   outline: 2px solid #f5d39b;
   outline-offset: 3px;
 }
+
+.kfc-workspace .kfc-tank-build-library {
+  display: grid;
+  gap: 12px;
+  margin-block: 16px 24px;
+}
+
+.kfc-workspace .kfc-tank-build-library :is(p, dl) {
+  margin: 0;
+}
+
+.kfc-workspace .kfc-tank-build-help,
+.kfc-workspace .kfc-tank-build-status {
+  color: var(--kfc-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.kfc-workspace .kfc-tank-build-reference {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 0;
+  border-block: 1px solid var(--kfc-line);
+}
+
+.kfc-workspace .kfc-tank-build-reference dt {
+  color: var(--kfc-muted);
+  font-size: 11px;
+}
+
+.kfc-workspace .kfc-tank-build-reference dd {
+  margin: 6px 0 0;
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kfc-workspace .kfc-tank-build-library [hidden],
+.kfc-workspace .gear-tab-right .saved-data-presets[hidden],
+.kfc-workspace .gear-tab-right .preset-configuration-picker-root[hidden] {
+  display: none;
+}
