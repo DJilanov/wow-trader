@@ -126,7 +126,7 @@ status in the selected-gear description. Use `--provisional-enchants=exclude` fo
 the separately fingerprinted deterministic-enchant search. Historical raid-only
 enchant acquisition remains excluded in either case.
 
-Both enchant branches are being measured for all three tanks in both modes.
+Both enchant branches have been measured for all three tanks in both modes.
 Conservative results supply the immediately usable defaults. Provisional results
 remain separate and require the existing explicit proc opt-in; loading a build
 must not turn that opt-in on. The two branches share compatible numerical cache
@@ -189,13 +189,14 @@ are not admitted by this fallback. Future Druid searches include polearms;
 previous search receipts retain their original candidate scope. The simulator's
 weapon-picker allowlist is aligned in the isolated browser package. All six
 desktop/mobile checks passed, including selecting a different polearm and retaining
-it after reload. Final optimized-default delivery remains a separate gate.
+it after reload. Native preset delivery is qualified separately below.
 
 ## Completed Warrior raid searches
 
 Both main-model raid searches have converged. Each selected objective passed two
-fresh 20,000-fight seed ranges. The following values pool those ranges; they are
-research results, not yet published defaults or a server-validated BiS claim.
+fresh 20,000-fight seed ranges. The following values pool those ranges. They are
+the approved model references, not a server-validated BiS claim; live release
+status is recorded in the deployment receipt.
 
 | Gear / objective          | TPS     | Physical DTPS | HP    | Armor   |
 | ------------------------- | ------- | ------------- | ----- | ------- |
@@ -302,7 +303,7 @@ Full production preset packages for all three classes are qualified below.
 20,000-fight confirmation ranges. Every DPS/TPS/DTPS mean and standard deviation,
 HP and armor must match the original confirmation; weighted action totals must
 match the pooled 40,000-fight reference. It retains the full unit evidence in a
-separate content-addressed cache. All ten completed cases passed, including both Paladin raid branches.
+separate content-addressed cache. All twelve cases passed, including both Paladin dungeon branches.
 This gives the new tier lists the exact winning-build breakdown instead of
 reusing starter counters or mixing sampling ranges.
 
@@ -531,11 +532,10 @@ Outstanding model limitations include the inherited Bear ability threat
 coefficients, provisional incoming-rage behavior, and other unverified item procs.
 Sampling precision does not resolve those mechanics uncertainties.
 
-Latest focused checks: all 32 focused Node tests, including six native-entry/library
-regressions passed. The combined web run passed 41 tests, including seven new model
-reader gates and the existing model/tank suites. Web typecheck and isolated strict
-native-library typecheck passed. New scripts passed scoped ESLint/Prettier checks,
-and `git diff --check` passed. The frozen engine's 14 native/WASM controls, six
-starter browser checks, selected-build imports and full-preset browser checks are
-separate integration evidence. A production build and deployment have not yet been
-run for this item-optimization release.
+Final source qualification passed 67 focused web/runtime tests, 116 publication/DPS
+regressions and 61 Node tests, plus typecheck, lint, scoped formatting and
+`git diff --check`. The isolated Linux production build passed the same checks.
+The frozen engine's native/WASM controls, selected-build imports, all 42 native
+full-preset checks and the 42 public ranking/workspace browser checks are separate
+integration evidence. The operational receipt records the canary, activation and
+public readback results; a successful build alone does not establish deployment.
