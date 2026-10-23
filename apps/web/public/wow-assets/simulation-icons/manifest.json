@@ -1,0 +1,132 @@
+{
+  "sourceRepository": "discord-website",
+  "sourceCommit": "2b7b781",
+  "sourceManifestSha256": "de5f8779bd7e9efd2c6b3aea03aeaaadcfc760d5711cca99f9b36a0026d69dec",
+  "license": {
+    "id": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Data adapted from talentsforever.com"
+  },
+  "assets": [
+    {
+      "key": "ability_druid_ferociousbite",
+      "sha256": "71c959b74526048094d94253365ad25b459022b76acc10cc2b7527e0f19e07ff"
+    },
+    {
+      "key": "ability_hunter_pet_cat",
+      "sha256": "65da381b50dbc8ddfc83a2c8a8e657b44c2418f3f228a60e4a46f5e41fb17714"
+    },
+    {
+      "key": "ability_hunter_pet_tallstrider",
+      "sha256": "15e6f059601bc23f0fa5bfc8b49f63623b943a557144304dbe51fad169b2d7e7"
+    },
+    {
+      "key": "ability_rogue_deadlybrew",
+      "sha256": "d5b9ce466bd1f9e88e6d52d88925babf6991166543040e8aa8f34c1d21045666"
+    },
+    {
+      "key": "ability_shaman_stormstrike",
+      "sha256": "185a4ae79ce79e35643eb5e237c15f0f8a4a4bdd31076f2d07c5d26a062095cd"
+    },
+    {
+      "key": "ability_trueshot",
+      "sha256": "53e3ec347e36f39c936bba81069397434dd95454492b652a59571fd6ac2c30cb"
+    },
+    {
+      "key": "ability_warrior_punishingblow",
+      "sha256": "a83939c72ec871b84038d2e69f5828945b84903e88e285a5990f0d83b955be13"
+    },
+    {
+      "key": "ability_warrior_savageblow",
+      "sha256": "acd1260800366349f03ae8ed85a5398a69e81562499c07ebff2bd1beb64d3566"
+    },
+    {
+      "key": "ability_whirlwind",
+      "sha256": "b818645d62c44c3c00be87ef87f7377dd5b29a85a8edf3a6d3bf720a016b634a"
+    },
+    {
+      "key": "class_druid",
+      "sha256": "099a3b11064264e5fce584ae7c25b96c547e981cb2016ac1f5fcd46f6a878b0a"
+    },
+    {
+      "key": "class_hunter",
+      "sha256": "99112e699d0eaadc204af0eb9c8eb9a3763133b6d37bf1791cd6a5aae226aea1"
+    },
+    {
+      "key": "class_mage",
+      "sha256": "80c85211b9c51da1a2cd03aed3c9d6b6f96ea997ac884a53e664e732a061e616"
+    },
+    {
+      "key": "class_paladin",
+      "sha256": "5da635661b742eae284880568a9a4c97016421867f3f58ad3a78e845a57ad1af"
+    },
+    {
+      "key": "class_priest",
+      "sha256": "a193b7ed3186a542a22ae9289a831e3aa15a35e4942f9d132cc3ca839986c82f"
+    },
+    {
+      "key": "class_rogue",
+      "sha256": "bdd1863037f624941335cc6744df0a5560e38a10e6fdac60709fa038619f59b0"
+    },
+    {
+      "key": "class_shaman",
+      "sha256": "35c2da5c3aea5ca55768949ceb2b7625c2fc801144b0cd506bdd8fa53503a9cb"
+    },
+    {
+      "key": "class_warlock",
+      "sha256": "bea10e689e839d12e0837ba5628dad2b5b70b683500d48310e883b9ebf389d8c"
+    },
+    {
+      "key": "class_warrior",
+      "sha256": "41acafd00653871afbedf83131e134538f0ce81a3f040d396d0aa937c1815e43"
+    },
+    {
+      "key": "spell_arcane_blast",
+      "sha256": "4b22231269ae42914e1e51690dd0538625dd55dfc8084f9564b8ed7b774728a3"
+    },
+    {
+      "key": "spell_fire_firebolt",
+      "sha256": "b36b30c3585fd6bf133920729faaae543233adf98ef6dd0a8aa0170b05216050"
+    },
+    {
+      "key": "spell_frost_frostbolt02",
+      "sha256": "7ddcb57f116a5c443c2c28e2e0348f23df1b4e5ec246ff284314753607cc8b27"
+    },
+    {
+      "key": "spell_holy_searinglightpriest",
+      "sha256": "9101b456b445222dedf139c860bb8dc8c8e19c04535298d4b6c52e56ba584f30"
+    },
+    {
+      "key": "spell_nature_bloodlust",
+      "sha256": "10405011eeb1eb4489e58564a924df5766c9bc85cbb7b76faf88394c36d8a363"
+    },
+    {
+      "key": "spell_nature_forceofnature",
+      "sha256": "aed07da825021cd5f47413f911bc0fabf8d585720b076ffab13f48a29d54b83b"
+    },
+    {
+      "key": "spell_nature_lightningoverload",
+      "sha256": "fd84e32cc97cb0e0c615af21b7e78e44fc02d5fa0b3e51052de46bc7490265eb"
+    },
+    {
+      "key": "spell_shadow_metamorphosis",
+      "sha256": "2fc85b00cb420b198742d7196b34edeb678b91c17819bbb96562c0044e623772"
+    },
+    {
+      "key": "spell_shadow_possession",
+      "sha256": "c0b25325fb2053c662477a4566a558464e2f14e9e8307c263a8e414630d95af3"
+    },
+    {
+      "key": "spell_shadow_shadowform",
+      "sha256": "3f51128aaf5e207962169f5592db29b8403913d57a4a1ea4c52c7430b2565d0b"
+    },
+    {
+      "key": "spell_shadow_unstableaffliction_2",
+      "sha256": "99d779a29263fa6008ca8f8897a619a9810d986608a22208b868b6d32197290f"
+    },
+    {
+      "key": "spell_shaman_lavaburst",
+      "sha256": "ff1070dbcd8d7c192c85c051212fd4e9942d0bdd25979beecbacb8bd1408f19c"
+    }
+  ]
+}

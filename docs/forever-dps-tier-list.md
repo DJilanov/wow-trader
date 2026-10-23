@@ -5,9 +5,10 @@
 Raid route: `/tools/forever/tier-list`; Solo route: `/tools/forever/tier-list/solo`.
 Each has its own canonical, metadata and independently ranked SSR content.
 The page is a server-rendered, searchable
-comparison of published pre-raid builds, with class filters, explicit tier boundaries,
-sampling margins, expandable build details, original gear/rotation links and reproducible
-benchmark imports. The Forever hub, simulator directory and individual simulators link to
+comparison of published pre-raid builds, with a colored S–D icon board, per-tile DPS,
+class filters, selected-build details and an expandable full ranking table. Sampling
+margins, original gear/rotation links and reproducible benchmark imports remain available.
+The Forever hub, simulator directory and individual simulators link to
 it. Canonical/Open Graph metadata, breadcrumbs, an ordered structured-data list and a
 sitemap entry make the actual content discoverable without loading a simulation engine.
 
@@ -62,8 +63,13 @@ model uncertainty or establish an optimal rotation.
 - `forever-dps-tier-list-data.ts`: binds the snapshot to the installed published-build
   identities. Missing evidence or changed publications hide the ranking and mark the
   page noindex until the new build set has been measured. No old score is relabeled.
-- `components/forever-dps-tier-list.*`: accessible comparison board; all rows and links
-  render before hydration. Filtering retains the original absolute ranks.
+- `components/forever-dps-tier-list.*`: accessible icon board and full ranking table;
+  all 21 builds, scores and exact links render before hydration. Native buttons
+  support keyboard selection; filtering retains the original absolute ranks.
+- `forever-dps-tier-artwork.ts` and `public/wow-assets/simulation-icons/`: the local
+  spec portraits and class badges reused from the community board. The manifest
+  retains asset hashes, provenance and source attribution. The complete set of 30
+  JPEGs is about 68 KB; the ranking page downloads no numerical engine.
 
 Retribution, Shockadin and Destruction are not automatically ranked merely because an
 engine supports them. They require a published reviewed build and a measurement under
