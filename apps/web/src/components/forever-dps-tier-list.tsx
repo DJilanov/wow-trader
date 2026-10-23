@@ -7,8 +7,8 @@ import {
   filterDpsTierEntries,
   type DpsTierEntry,
   type DpsTierScenario,
-  type DpsTier,
 } from "../lib/forever-dps-tier-list";
+import { ForeverTierBoard } from "./forever-tier-board";
 import { dpsTierArtwork } from "../lib/forever-dps-tier-artwork";
 import { withHelperBasePath } from "../lib/site-path";
 import styles from "./forever-dps-tier-list.module.css";
@@ -17,7 +17,6 @@ interface ForeverDpsTierListProps {
   readonly entries: readonly DpsTierEntry[];
   readonly scenario?: DpsTierScenario;
 }
-const tiers: readonly DpsTier[] = ["S", "A", "B", "C", "D"];
 
 export function ForeverDpsTierList({
   entries,
@@ -77,78 +76,19 @@ export function ForeverDpsTierList({
       <p className={styles.caption} role="status">
         {visible.length} of {entries.length} builds · Select a spec to inspect its exact setup.
       </p>
-      <div className={styles.tierBoard} role="group" aria-label="DPS tier board">
-        {tiers.map((tier) => {
-          const builds = visible.filter((entry) => entry.tier === tier);
-          return (
-            <section
-              key={tier}
-              className={styles.tierRow}
-              data-tier={tier}
-              aria-labelledby={`${id}-tier-${tier}`}
-            >
-              <div className={styles.tierLabel}>
-                <strong id={`${id}-tier-${tier}`}>
-                  <span className="sr-only">Tier </span>
-                  {tier}
-                </strong>
-                <small>{builds.length}</small>
-              </div>
-              <ul className={styles.tiles} aria-label={`${tier} tier builds`}>
-                {builds.map((entry) => {
-                  const artwork = dpsTierArtwork(entry);
-                  return (
-                    <li key={entry.id} className={styles.entry}>
-                      <button
-                        type="button"
-                        className={styles.tile}
-                        data-tier-build={entry.id}
-                        style={{ "--class-color": entry.color } as CSSProperties}
-                        aria-label={`${entry.title} ${entry.className}: ${entry.dps.toFixed(1)} DPS, tier ${tier}`}
-                        aria-pressed={selected?.id === entry.id}
-                        aria-controls={`${id}-build-preview`}
-                        title={`${entry.title} · ${entry.className}\n${entry.dps.toFixed(1)} DPS · #${entry.rank}`}
-                        onClick={(): void => setSelectedId(entry.id)}
-                      >
-                        <span className={styles.art}>
-                          <Image
-                            src={withHelperBasePath(artwork.specIcon)}
-                            width={80}
-                            height={80}
-                            alt=""
-                            unoptimized
-                          />
-                          <Image
-                            src={withHelperBasePath(artwork.classIcon)}
-                            width={22}
-                            height={22}
-                            alt=""
-                            className={styles.classBadge}
-                            unoptimized
-                          />
-                          <span className={styles.tileDps}>
-                            <strong>{entry.dps.toFixed(1)}</strong>
-                            <small>DPS</small>
-                          </span>
-                        </span>
-                        <span className={styles.tileName}>{entry.title}</span>
-                        {artwork.variant ? (
-                          <small className={styles.variant}>{artwork.variant}</small>
-                        ) : null}
-                      </button>
-                    </li>
-                  );
-                })}
-                {!builds.length ? (
-                  <li className={styles.tierEmpty}>
-                    {query || classSlug ? "No matching builds" : "No measured builds"}
-                  </li>
-                ) : null}
-              </ul>
-            </section>
-          );
-        })}
-      </div>
+      <ForeverTierBoard
+        id={id}
+        label="DPS tier board"
+        entries={visible.map((entry) => ({
+          ...entry,
+          ...dpsTierArtwork(entry),
+          value: entry.dps,
+          unit: "DPS",
+        }))}
+        selectedId={selected?.id}
+        filtered={Boolean(query || classSlug)}
+        onSelect={setSelectedId}
+      />
       {selected && selectedArtwork ? (
         <div
           className={styles.preview}

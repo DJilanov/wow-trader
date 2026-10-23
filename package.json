@@ -42,6 +42,8 @@
     "static-delivery:prepare": "node scripts/prepare-static-delivery.mjs",
     "static-delivery:verify": "node scripts/verify-static-delivery.mjs",
     "static-delivery:test": "node --test scripts/prepare-static-delivery.test.mjs scripts/activate-static-delivery.test.mjs",
+    "simulator:tanks:benchmark": "node scripts/benchmark-simulator-tanks.mjs",
+    "simulator:tanks:test": "node --test infra/simulator/tank-tier-policy.test.mjs",
     "db:migrate": "pnpm --filter @wow-trader/db db:migrate",
     "dev": "node scripts/dev.mjs",
     "dev:setup": "node scripts/dev.mjs --bootstrap-only",

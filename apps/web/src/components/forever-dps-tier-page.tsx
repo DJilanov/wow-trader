@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "./json-ld";
 import { ForeverDpsTierList } from "./forever-dps-tier-list";
+import { ForeverRankingNavigation } from "./forever-ranking-navigation";
 import { readDpsTierScenarioSnapshot } from "../lib/forever-dps-tier-list-data";
 import { rankDpsTierEntries, type DpsTierScenario } from "../lib/forever-dps-tier-list";
 import { createBreadcrumbJsonLd, createHelperMetadata, helperAbsoluteUrl } from "../lib/seo";
@@ -83,17 +84,10 @@ export async function ForeverDpsTierPage({
           <Link href="/forever/simulator">Open the simulator →</Link>
         </div>
       </header>
-      <nav className={styles.links} aria-label="DPS benchmark scenario">
-        <Link href="/forever/tier-list" aria-current={scenario === "raid" ? "page" : undefined}>
-          Raid DPS
-        </Link>
-        <Link
-          href="/forever/tier-list/solo"
-          aria-current={scenario === "solo" ? "page" : undefined}
-        >
-          Solo DPS
-        </Link>
-      </nav>
+      <ForeverRankingNavigation
+        active={scenario === "solo" ? "solo-dps" : "raid-dps"}
+        label="DPS benchmark scenario"
+      />
       {top ? (
         <>
           <div className={styles.stats}>
@@ -196,7 +190,8 @@ export async function ForeverDpsTierPage({
           Learn how to choose a support setup and compare builds fairly in the{" "}
           <a href="https://www.wowforeverdiscord.online/guides/wow-forever-dps-tier-list">
             Solo vs Raid DPS comparison guide
-          </a>.
+          </a>
+          .
         </p>
       </section>
       <section className={styles.method} aria-labelledby="tier-faq">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HelperSelection } from "../../components/helper-selection";
 import { JsonLd } from "../../components/json-ld";
 import { ForeverDpsRankingLinks } from "../../components/forever-dps-ranking-links";
+import { ForeverTankRankingLinks } from "../../components/forever-tank-ranking-links";
 import { createHelperMetadata, HELPER_SITE_URL } from "../../lib/seo";
 
 export const metadata: Metadata = createHelperMetadata({
@@ -110,6 +111,7 @@ export default function ForeverHelperPage(): React.JSX.Element {
             full raid package, then inspect the gear, talents and rotation behind each score.
           </p>
           <ForeverDpsRankingLinks />
+          <ForeverTankRankingLinks />
         </div>
       </section>
       <section className="detail-grid" aria-label="WoW Forever data readiness">

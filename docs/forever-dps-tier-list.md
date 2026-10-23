@@ -63,9 +63,11 @@ model uncertainty or establish an optimal rotation.
 - `forever-dps-tier-list-data.ts`: binds the snapshot to the installed published-build
   identities. Missing evidence or changed publications hide the ranking and mark the
   page noindex until the new build set has been measured. No old score is relabeled.
-- `components/forever-dps-tier-list.*`: accessible icon board and full ranking table;
+- `components/forever-dps-tier-list.*`: DPS controls, preview and full ranking table;
   all 21 builds, scores and exact links render before hydration. Native buttons
   support keyboard selection; filtering retains the original absolute ranks.
+- `components/forever-tier-board.tsx` and `forever-tier-ranking.ts`: shared visual
+  board and unchanged S–D boundaries for DPS and the separate tank comparisons.
 - `forever-dps-tier-artwork.ts` and `public/wow-assets/simulation-icons/`: the local
   spec portraits and class badges reused from the community board. The manifest
   retains asset hashes, provenance and source attribution. The complete set of 30

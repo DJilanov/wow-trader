@@ -1,0 +1,50 @@
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.controls button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: normal;
+  cursor: pointer;
+}
+.controls button[aria-pressed="true"] {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.controls button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 0;
+  border-block: 1px solid var(--line);
+}
+.metrics dt {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.metrics dd {
+  margin: 7px 0 0;
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 600px) {
+  .metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -74,6 +74,15 @@
 .tierRow + .tierRow {
   border-top: 2px solid #101113;
 }
+.tierRow[data-empty="true"] {
+  min-height: 54px;
+}
+.tierRow[data-empty="true"] .tierLabel strong {
+  font-size: 22px;
+}
+.tierRow[data-empty="true"] .tierEmpty {
+  padding: 0;
+}
 .tierLabel {
   display: flex;
   flex-direction: column;

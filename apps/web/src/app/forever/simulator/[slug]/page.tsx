@@ -100,11 +100,21 @@ export default async function SimulatorPage({
             <Link className="helper-back-link" href="/forever/simulator">
               ← Choose a class
             </Link>
-            <Link className="helper-back-link" href="/forever/tier-list/solo" prefetch={false}>
-              Solo DPS rankings →
+            <Link
+              className="helper-back-link"
+              href={
+                spec.role === "tank" ? "/forever/tier-list/tanks/solo" : "/forever/tier-list/solo"
+              }
+              prefetch={false}
+            >
+              {spec.role === "tank" ? "Solo / dungeon tank rankings →" : "Solo DPS rankings →"}
             </Link>
-            <Link className="helper-back-link" href="/forever/tier-list" prefetch={false}>
-              Raid DPS rankings →
+            <Link
+              className="helper-back-link"
+              href={spec.role === "tank" ? "/forever/tier-list/tanks" : "/forever/tier-list"}
+              prefetch={false}
+            >
+              {spec.role === "tank" ? "Raid tank rankings →" : "Raid DPS rankings →"}
             </Link>
           </div>
           <div className="simulator-character-heading">

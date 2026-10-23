@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ForeverSimulatorClassSelector } from "../../../components/forever-simulator-class-selector";
 import { ForeverDpsRankingLinks } from "../../../components/forever-dps-ranking-links";
+import { ForeverTankRankingLinks } from "../../../components/forever-tank-ranking-links";
 import { getSimulatorClass } from "../../../lib/forever-simulator-directory";
 import { readSimulatorManifest } from "../../../lib/forever-simulator";
 import { createHelperMetadata } from "../../../lib/seo";
@@ -42,6 +43,7 @@ export default async function ForeverSimulatorPage({
       </header>
       <ForeverSimulatorClassSelector selectedClass={selectedClass?.slug ?? null} />
       <ForeverDpsRankingLinks />
+      <ForeverTankRankingLinks />
       {process.env.NODE_ENV === "development" ? (
         <p>
           <Link href="/forever/simulator/review">Review local calculated builds →</Link>

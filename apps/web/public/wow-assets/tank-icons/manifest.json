@@ -1,0 +1,17 @@
+{
+  "attribution": "World of Warcraft artwork by Blizzard Entertainment; reused from the community site raid icons.",
+  "assets": [
+    {
+      "name": "protection-warrior",
+      "key": "ability_warrior_defensivestance",
+      "sha256": "4f68d5dc8edaed51c9d1498c107b188b6d05b81910161e3fd91d8e42cf53d3c3",
+      "sourcePath": "discord-website/public/images/raids/icons/ability_warrior_defensivestance.jpg"
+    },
+    {
+      "name": "feral-bear",
+      "key": "ability_racial_bearform",
+      "sha256": "1021a85689bddb50cd690567030c2b9cc3644ee32f9d64c2f636036c33417261",
+      "sourcePath": "discord-website/public/images/raids/icons/ability_racial_bearform.jpg"
+    }
+  ]
+}

@@ -51,6 +51,12 @@ const foreverClasses = [
 ] as const;
 
 const staticEntries: MetadataRoute.Sitemap = [
+  ...["/forever/tier-list/tanks", "/forever/tier-list/tanks/solo"].map((path) => ({
+    url: `${HELPER_SITE_URL}${path}`,
+    lastModified: new Date("2026-10-23T00:00:00Z"),
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  })),
   {
     url: `${HELPER_SITE_URL}/forever/tier-list`,
     lastModified: new Date("2026-10-23T00:00:00Z"),

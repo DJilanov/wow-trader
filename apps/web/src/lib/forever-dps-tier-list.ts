@@ -1,6 +1,7 @@
 import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 import { z } from "zod";
 import { FOREVER_CLASS_APPEARANCES } from "./forever-classes";
+import { relativeTier, type TierBand } from "./forever-tier-ranking";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const release = z.string().regex(/^[a-f0-9]{24}$/);
@@ -99,7 +100,7 @@ export const dpsTierSnapshotSchema = z
   });
 export type DpsTierSnapshot = z.infer<typeof dpsTierSnapshotSchema>;
 export type DpsTierScenario = "solo" | "raid";
-export type DpsTier = "S" | "A" | "B" | "C" | "D";
+export type DpsTier = TierBand;
 export interface DpsTierEntry extends z.infer<typeof entrySchema> {
   readonly title: string;
   readonly className: string;
@@ -137,11 +138,7 @@ const names: Readonly<Record<string, string>> = {
   "shaman-enhancement-static": "Enhancement",
 };
 export function dpsTier(share: number): DpsTier {
-  if (share >= 95) return "S";
-  if (share >= 85) return "A";
-  if (share >= 70) return "B";
-  if (share >= 55) return "C";
-  return "D";
+  return relativeTier(share);
 }
 export function rankDpsTierEntries(snapshot: DpsTierSnapshot): readonly DpsTierEntry[] {
   const entries = [...snapshot.entries].sort(

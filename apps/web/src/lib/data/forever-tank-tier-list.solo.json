@@ -1,0 +1,100 @@
+{
+  "schema": "kfc-forever-tank-tier-list.v1",
+  "policy": {
+    "version": "blue-pvp-tank-comparison-v1",
+    "scenario": "solo",
+    "iterations": 5000,
+    "seed": 61723001,
+    "durationSeconds": 60,
+    "targetCount": 3,
+    "targetLevel": 62,
+    "minBaseDamage": 1200,
+    "swingSpeed": 2,
+    "damageSpread": 0.3333,
+    "armor": 3731,
+    "healing": {
+      "hps": 2000,
+      "cadenceSeconds": 2,
+      "burstWindow": 6
+    },
+    "equipment": "published blue PvP starter, enchants, talents and rotation; existing consumes with the main-hand coating removed for raid Windfury",
+    "incomingDamage": "synthetic physical melee only; no boss spells, movement or taunt swaps",
+    "support": "own maintained buffs only; no outside raid support"
+  },
+  "policySha256": "02ba7405e3403b2e569bd02abd3d99e7ab0b2d03720051c68361ac596812fc54",
+  "supportSha256": "c95a9b57f244ef5d0fc8f031463cdb2d0920bc4cf7ef64381f5d95a529d79c56",
+  "approvedSelection": {
+    "activeManifestSha256": "5e626e26a40117b3a28819f6e67451dc55e83a56841a23ac58efcea5b7be94cd",
+    "modelSelectionSha256": "2aa01dd727c3a24e20498a2648beffd0115846e1a9c33bfb74dd58582c333447"
+  },
+  "entries": [
+    {
+      "id": "tank-warrior",
+      "profile": "tank_warrior",
+      "release": "3c62628f43a96aa1d77e702b",
+      "metrics": {
+        "threat": {
+          "avg": 894.955185394422,
+          "stdev": 64.19618954591424
+        },
+        "dtps": {
+          "avg": 586.5480189894565,
+          "stdev": 42.09560699576818
+        },
+        "dps": {
+          "avg": 340.65007174997015,
+          "stdev": 23.95008949138413
+        }
+      },
+      "iterations": 5000,
+      "talents": "35-05-251333120330021351",
+      "race": "RaceHuman",
+      "manifestSha256": "45fb49180f77091b8759e54d6764a20ab33d16b6b73e49a17ca489a0f6845176",
+      "wasmSha256": "bd388e926ee6b63a8d953e03fb4dd1fcd718bd9e019393fb3f8d4dab950d72dd",
+      "databaseSha256": "47e86ebe48e7402bcc81065c4560a0524c9e6d7dd77f3f427d72261c57883a0d",
+      "starterSha256": "409121c211ea3cbe7d6534d36ca73d8705ecbcab4315e5e4bcbfba046413fcf5",
+      "requestSha256": "99f5b7edb4fbfff95537705500c456898988acf7b8b5a78bfd55fe0e99af4cda",
+      "responseSha256": "51c74592ddedc27704006cd19be09105419c48a47b0797a89925b290f25563cb",
+      "benchmarkHref": "/forever-sim/3c62628f43a96aa1d77e702b/tank_warrior/?i=gtrcmxeu#eJztV11oFFcUnjN3dvbuMU2v1yHe3DSwBBvDFMvszo4kttTRPhQDrfGnUBYLRgmYqklIfLF9USSlzyJFJWBbApW2tiXQVkOlQYkYULp5aKuCNbGg2EIbBB8UojIzd2K6m2z7UrKWnIe5Z+45557v++6dnR37OfrBSmaK+598V+9DGlr1ji4HNhsONMN2QG29tkZnwDX55zI02/a07+/oZSSdsg8AJtlEgYmbS9Bg758KbqfHmTi9DE02sEtMVmOS3Sgw8VvgnB9n4nrg/Fpg4kQSDfbFLwyTbDJaIMmuF5i4UY0Gm/4Q0GCDlxga7JtCcJ0eeBZN9v3b4pCFJvsrLz5OImF/7MjWU2C6gCZwYLvRg0cBToLxNcBpgBGANQ8NnNC1RftPjR9dlHgeGyEv/65r67VW4XqrHG9V1su4rpvJOq7rONmM62Xa9LfIDu2dkSpB+Eb5Or7K12GdXUsN/swwINeZgQYdGwVpooG624fMrqYm11u1aKZ5ZqZXzWScYAxqeL2sQ24zSji5BppMYgKJ6z0vE0jobXPusBOFv+rgL8kWdPiLJet7KG1BCa8ahlQIkNB+S8X6wuJ+i7syg028MSwmT4pdL+yYmNXRUx0fWXybzOMmvhFr7eUUeNW5cP0gdjkfpCBErY24tQrFQtTYFk2E0vw9Hg0zfEqWOJufT91cxOdsmeLBfJxaXOxFxYN5vkI2hJzInJxifD+CvAR4DvgPoJYiN0GLklz8DOSngKKhBq1r+tJS8m/yLeV0Wy1zIfZEGe2MUu0wZ2fV5ttD+koKnN4lSrPaIb3mycTlvFRevxWLdgbkt4Cfgzy5AMg921XIXxjSmyjw1F0SPBgXR6EcdJVSmdjvDf8j9nvDwO+AvAV4FfjPgI18RXiaErNOU6b4mc46lcb06kdlmVI0g5T03Fzh6eJ6ofyJDLheGA241snaYja5+Oej5yIcABhTr2Lqjyuvxb+iw311k/MPkshj/nGwUqHrn/CXqveVnzaH9JRM+g9AQLPecCsVpWhv+NkBwkXbrv19nTvb96T3tXftTu/s3tvT3tvZ190lXkmb9v/0n1bjKX+hIcSWCa8jh/2Wzu6p/rGtP61dpyKL21MBtrg9pfZ0bM/mWR+KhgJM/ePHAhtbuzBwp1TfDQpPyzxCbphX4PesL1+bfHffDP6Izxl1P1E0ThWNcf2Rf82/uF+xzXwoNlXMmagUyztzz5duSmyPAZGulH0=",
+      "capturedAt": "2026-10-23T09:14:17.518Z"
+    },
+    {
+      "id": "feral-tank-druid",
+      "profile": "feral_tank_druid",
+      "release": "3c62628f43a96aa1d77e702b",
+      "metrics": {
+        "threat": {
+          "avg": 1281.6414595558963,
+          "stdev": 109.98902528898934
+        },
+        "dtps": {
+          "avg": 783.2486645340082,
+          "stdev": 49.76042940987612
+        },
+        "dps": {
+          "avg": 372.2977442382728,
+          "stdev": 29.673038028490947
+        }
+      },
+      "iterations": 5000,
+      "talents": "-50032332120132012551-055",
+      "race": "RaceTauren",
+      "manifestSha256": "45fb49180f77091b8759e54d6764a20ab33d16b6b73e49a17ca489a0f6845176",
+      "wasmSha256": "bd388e926ee6b63a8d953e03fb4dd1fcd718bd9e019393fb3f8d4dab950d72dd",
+      "databaseSha256": "47e86ebe48e7402bcc81065c4560a0524c9e6d7dd77f3f427d72261c57883a0d",
+      "starterSha256": "409121c211ea3cbe7d6534d36ca73d8705ecbcab4315e5e4bcbfba046413fcf5",
+      "requestSha256": "a289be2d695191d726740a2bf7c319b50d3bdcf528e919d44df9f8ab80bb9456",
+      "responseSha256": "a7cc09814c6e41757d0e560080c3193b39294c9c4791f89c96cf1cbce452b23f",
+      "benchmarkHref": "/forever-sim/3c62628f43a96aa1d77e702b/feral_tank_druid/?i=gtrcmxeu#eJztVk1IVFEUfue963t3TqW3m8Sbm9YQZTKgvXkzL9RCXxKExoRIq1ZNIqiZDk4bq0VCReuIUBkIgjAiQ9TwZzW0CF1U40KTILIfXLRyFxJGzLw3QzgNtAkt5ltczjv3fPd855zL4/rL6J0jTNXXH06V2+CDZrm9x4BWYkANXAAsojAG0CjVyQy4JAYQ1ZbuSH97H1N94L+OGnubZPqXHUjY7VFAjS0mmT69B1UW79C/pRzLSaZ/LkaNvVxg+vuUsbrA9A/FSNibJEONLTkHaOx10vVv3AckLPGKIWHPk6l1I16CGvv+qERfKkUJCXuaZOY+CkzWoRIMiOIgwGMgYwDTAAmAuh8EV2SpgL8KPlhocR4klBNfZalRavZWWYYRNINBM2AagaBpBEzLClQZltVCLkpdK7Ku8P2iDLmfUYUr70ASGhahEjQOCxUJnR0HjoKm7fg4cCLkOokfF7Vo8GoUfp0SvnMWPFxmRajQJ+FUJMqhGDJ/MVW53Cw5HismnID85AmXHMwhhxzyRDirZWbuDA+Io1jBD7nByieQUlEIZobe59IDVpo+GeanRCPWiGPp3Arf9QIwnZvQqRGvQ7ZQ9++lhNMu1XVTVJGEqq1YOvHkiJcfEOWbU5iW8KBGh8I+qNSyKidHvNE5uAEw795Uai+4Vq29LMO6+xGyBxTHYvYwlHrSpv3A3u2O0/ap40CEjNLBVY+zK521zbjC9ZaO/lhnW6TbdyXSc8nX1ns5GunrjPX26PU+1f+f/oMqRu2tlpBBIL0m7tq1nb1rt+bPLTacdHcK49kGKIwnF//GeFp/fUJlBNvDQynMN2yJWmnNzdvk6qnP08imvA2+Vvrs9MerN7P6nXpm8tSzluN3+Pf+uP7N+Tafn31CVW+bO7FdcN74vT8zlNzh/AR2EtXF",
+      "capturedAt": "2026-10-23T09:14:46.474Z"
+    }
+  ],
+  "unranked": [
+    {
+      "profile": "protection_paladin",
+      "name": "Protection Paladin",
+      "reason": "The published tank engine predates Forever's Seal of Fury changes. Threat, absorbs and mana recovery need validation before this build can receive a tier.",
+      "source": "https://worldofwarcraft.blizzard.com/en-gb/news/24302099/world-of-warcraft-forever-class-deep-dives-paladin"
+    }
+  ]
+}
