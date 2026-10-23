@@ -14,10 +14,22 @@ describe("server-rendered tier-list board", () => {
     expect(html).toContain("All classes");
     expect(html.match(/<details>/g)).toHaveLength(21);
     expect(html).toContain("Approximate 95% sampling margin");
-    expect(html).toContain("View gear &amp; rotation");
+    expect(html).toContain("Original reviewed build");
+    expect(html).toContain("Simulate Raid setup");
     expect(html).toContain("/tools/forever-sim/");
     expect(html).not.toContain("helper.kfcguild.online");
     for (const entry of entries)
       expect(html).toContain(entry.simulatorHref.replaceAll("&", "&amp;"));
+  });
+  it("makes the selected scenario's exact import the primary action", () => {
+    const entries = rankDpsTierEntries(dpsTierSnapshotSchema.parse(snapshotData));
+    const html = renderToStaticMarkup(
+      createElement(ForeverDpsTierList, { entries, scenario: "solo" }),
+    );
+    expect(html).toContain("Simulate Solo setup");
+    expect(html.indexOf("Simulate Solo setup")).toBeLessThan(
+      html.indexOf("Original reviewed build"),
+    );
+    expect(html).toContain("Save your current simulator character");
   });
 });

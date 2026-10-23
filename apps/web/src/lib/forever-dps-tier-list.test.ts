@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import snapshotData from "./data/forever-dps-tier-list.json";
+import soloData from "./data/forever-dps-tier-list.solo.json";
+import raidData from "./data/forever-dps-tier-list.raid.json";
 import {
   dpsTier,
   dpsTierSnapshotSchema,
@@ -8,6 +10,48 @@ import {
 } from "./forever-dps-tier-list";
 
 describe("measured Forever DPS rankings", () => {
+  it("ranks the same 21 published builds independently in Solo and Raid", () => {
+    const solo = rankDpsTierEntries(dpsTierSnapshotSchema.parse(soloData));
+    const raid = rankDpsTierEntries(dpsTierSnapshotSchema.parse(raidData));
+    expect(solo.map((entry) => entry.id).sort()).toEqual(raid.map((entry) => entry.id).sort());
+    expect(solo).toHaveLength(21);
+    expect(solo[0]?.id).toBe("warlock-demonology-static");
+    expect(raid[0]?.id).toBe("hunter-marksmanship-static");
+    expect(solo[0]?.share).toBe(100);
+    expect(raid[0]?.share).toBe(100);
+    expect(solo.find((entry) => entry.id === "fury-horde")?.dps).toBeLessThan(500);
+    expect(raid.find((entry) => entry.id === "fury-horde")?.dps).toBeGreaterThan(800);
+    expect(solo.every((entry) => entry.scenario === "solo")).toBe(true);
+    expect(raid.every((entry) => entry.scenario === "raid")).toBe(true);
+  });
+  it("rejects swapped, untagged and relabeled scenario measurements", () => {
+    expect(
+      dpsTierSnapshotSchema.safeParse({ ...soloData, entries: raidData.entries }).success,
+    ).toBe(false);
+    const missingTags = structuredClone(soloData);
+    for (const entry of missingTags.entries) Reflect.deleteProperty(entry, "scenario");
+    expect(dpsTierSnapshotSchema.safeParse(missingTags).success).toBe(false);
+    expect(
+      dpsTierSnapshotSchema.safeParse({
+        ...raidData,
+        policy: { ...raidData.policy, scenario: "solo" },
+      }).success,
+    ).toBe(false);
+  });
+  it("imports every category, including the recorded iteration count and seed", () => {
+    for (const data of [soloData, raidData]) {
+      for (const entry of data.entries) {
+        const url = new URL(entry.benchmarkHref, "https://kfcguild.online");
+        expect(url.search).toBe("?i=gtrcmxeu");
+      }
+      const incomplete = structuredClone(data);
+      incomplete.entries[0]!.benchmarkHref = incomplete.entries[0]!.benchmarkHref.replace(
+        "?i=gtrcmxeu",
+        "",
+      );
+      expect(dpsTierSnapshotSchema.safeParse(incomplete).success).toBe(false);
+    }
+  });
   it("validates the actual measurement snapshot and retains every standard build once", () => {
     const snapshot = dpsTierSnapshotSchema.parse(snapshotData);
     const entries = rankDpsTierEntries(snapshot);

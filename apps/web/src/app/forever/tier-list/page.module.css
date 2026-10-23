@@ -11,6 +11,16 @@
 .method > a {
   color: var(--gold);
 }
+nav.links a {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+nav.links a[aria-current="page"] {
+  border-color: var(--gold);
+  background: rgba(212, 175, 96, 0.08);
+  font-weight: 700;
+}
 .stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

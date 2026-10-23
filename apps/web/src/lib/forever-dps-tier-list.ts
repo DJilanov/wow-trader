@@ -24,8 +24,10 @@ const entrySchema = z
     originalHrefSha256: digest,
     requestSha256: digest,
     responseSha256: digest,
-    benchmarkHref: z.string().regex(/^\/forever-sim\/[a-f0-9]{24}\/[a-z_]+\/#/),
+    benchmarkHref: z.string().regex(/^\/forever-sim\/[a-f0-9]{24}\/[a-z_]+\/(?:\?i=gtrcmxeu)?#/),
     capturedAt: z.string().datetime(),
+    scenario: z.enum(["solo", "raid"]).optional(),
+    policySha256: digest.optional(),
   })
   .strict();
 export const dpsTierSnapshotSchema = z
@@ -34,13 +36,18 @@ export const dpsTierSnapshotSchema = z
     policySha256: digest,
     policy: z
       .object({
-        version: z.literal("pre-raid-full-support-no-external-debuffs-v1"),
+        version: z.enum([
+          "pre-raid-full-support-no-external-debuffs-v1",
+          "pre-raid-solo-support-v1",
+          "pre-raid-raid-support-v1",
+        ]),
+        scenario: z.enum(["solo", "raid"]).optional(),
         iterations: z.literal(5000),
         seed: z.literal(58723001),
         durationSeconds: z.literal(300),
         support: z
           .object({
-            version: z.literal("full-v2"),
+            version: z.enum(["full-v2", "solo-v1"]),
             raid: z.record(z.string(), z.unknown()),
             party: z.record(z.string(), z.unknown()),
             individual: z.record(z.string(), z.unknown()),
@@ -49,26 +56,49 @@ export const dpsTierSnapshotSchema = z
         encounter: z.record(z.string(), z.unknown()),
         externalDebuffs: z.string(),
         playerEquipmentTalentsRaceConsumes: z.string(),
+        selfSupport: z.record(z.string(), z.unknown()).optional(),
+        debuffs: z.record(z.string(), z.unknown()).optional(),
+        maintenance: z.string().optional(),
       })
       .strict(),
     entries: z.array(entrySchema).min(1).max(50),
   })
   .strict()
   .superRefine((value, context): void => {
+    const scenario = value.policy.scenario;
+    const expectedVersion =
+      scenario === "solo"
+        ? "pre-raid-solo-support-v1"
+        : scenario === "raid"
+          ? "pre-raid-raid-support-v1"
+          : "pre-raid-full-support-no-external-debuffs-v1";
+    if (
+      value.policy.version !== expectedVersion ||
+      value.policy.support.version !== (scenario === "solo" ? "solo-v1" : "full-v2")
+    )
+      context.addIssue({ code: "custom", message: "Scenario and numerical policy disagree" });
     if (new Set(value.entries.map((entry): string => entry.id)).size !== value.entries.length)
       context.addIssue({ code: "custom", message: "Duplicate ranked build" });
     for (const entry of value.entries) {
+      if (entry.scenario !== scenario || (scenario && entry.policySha256 !== value.policySha256))
+        context.addIssue({
+          code: "custom",
+          message: "Build measurement belongs to another scenario",
+        });
       const spec = SIMULATOR_SPECS.find((spec): boolean => spec.page === entry.profile);
       if (
         !spec ||
         spec.role !== "damage" ||
         !entry.spec.startsWith(entry.profile + "/") ||
-        !entry.benchmarkHref.startsWith(`/forever-sim/${entry.release}/${entry.profile}/#`)
+        !entry.benchmarkHref.startsWith(
+          `/forever-sim/${entry.release}/${entry.profile}/${scenario ? "?i=gtrcmxeu" : ""}#`,
+        )
       )
         context.addIssue({ code: "custom", message: "Invalid ranked simulator profile" });
     }
   });
 export type DpsTierSnapshot = z.infer<typeof dpsTierSnapshotSchema>;
+export type DpsTierScenario = "solo" | "raid";
 export type DpsTier = "S" | "A" | "B" | "C" | "D";
 export interface DpsTierEntry extends z.infer<typeof entrySchema> {
   readonly title: string;

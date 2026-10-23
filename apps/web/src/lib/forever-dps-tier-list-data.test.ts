@@ -4,8 +4,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import snapshotData from "./data/forever-dps-tier-list.json";
+import soloData from "./data/forever-dps-tier-list.solo.json";
+import raidData from "./data/forever-dps-tier-list.raid.json";
 import { dpsTierSnapshotSchema, type DpsTierSnapshot } from "./forever-dps-tier-list";
-import { readDpsTierSnapshot } from "./forever-dps-tier-list-data";
+import { readDpsTierSnapshot, readDpsTierScenarioSnapshot } from "./forever-dps-tier-list-data";
 
 const paths: string[] = [];
 afterEach(async (): Promise<void> => {
@@ -23,11 +25,15 @@ interface Fixture {
   readonly snapshot: DpsTierSnapshot;
   readonly pointer: { schema: string; profiles: Record<string, { path: string; sha256: string }> };
 }
-async function fixture(): Promise<Fixture> {
+function assertSnapshot(value: unknown): asserts value is DpsTierSnapshot {
+  dpsTierSnapshotSchema.parse(value);
+}
+async function fixture(source: unknown = snapshotData): Promise<Fixture> {
   const directory = await mkdtemp(join(tmpdir(), "kfc-tier-list-"));
   paths.push(directory);
   await mkdir(join(directory, "published-reviews"));
-  const snapshot = dpsTierSnapshotSchema.parse(snapshotData);
+  const snapshot: unknown = structuredClone(source);
+  assertSnapshot(snapshot);
   const pointer: Fixture["pointer"] = {
     schema: "kfc-published-simulator-reviews.v1",
     profiles: {},
@@ -59,6 +65,35 @@ async function fixture(): Promise<Fixture> {
 }
 
 describe("tier list publication binding", () => {
+  it.each(["solo", "raid"] as const)(
+    "authenticates the current %s policy and its published build set",
+    async (scenario) => {
+      const value = await fixture(scenario === "solo" ? soloData : raidData);
+      await expect(
+        readDpsTierScenarioSnapshot(scenario, value.directory, value.snapshot),
+      ).resolves.toEqual(value.snapshot);
+      await expect(
+        readDpsTierScenarioSnapshot(
+          scenario === "solo" ? "raid" : "solo",
+          value.directory,
+          value.snapshot,
+        ),
+      ).resolves.toBeNull();
+    },
+  );
+  it("rejects a re-sealed change to the registered support or boss policy", async () => {
+    vi.spyOn(console, "warn").mockImplementation((): void => {});
+    for (const scenario of ["solo", "raid"] as const) {
+      const value = await fixture(scenario === "solo" ? soloData : raidData);
+      value.snapshot.policy.encounter.duration = 30;
+      value.snapshot.policySha256 = hash(value.snapshot.policy);
+      for (const entry of value.snapshot.entries) entry.policySha256 = value.snapshot.policySha256;
+      await expect(readDpsTierSnapshot(value.directory, value.snapshot)).resolves.not.toBeNull();
+      await expect(
+        readDpsTierScenarioSnapshot(scenario, value.directory, value.snapshot),
+      ).resolves.toBeNull();
+    }
+  });
   it("accepts a matching published build set without running simulations on page requests", async () => {
     const value = await fixture();
     await expect(readDpsTierSnapshot(value.directory, value.snapshot)).resolves.toEqual(

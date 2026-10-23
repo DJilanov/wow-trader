@@ -4,10 +4,41 @@ import { join } from "node:path";
 import console from "node:console";
 import { z } from "zod";
 import snapshotData from "./data/forever-dps-tier-list.json";
-import { dpsTierSnapshotSchema, type DpsTierSnapshot } from "./forever-dps-tier-list";
+import soloSnapshotData from "./data/forever-dps-tier-list.solo.json";
+import raidSnapshotData from "./data/forever-dps-tier-list.raid.json";
+import raidSupport from "../../../../infra/simulator/raid-buff-defaults.v2.json";
+import { tierScenarioPolicy } from "../../../../infra/simulator/tier-scenarios.mjs";
+import {
+  dpsTierSnapshotSchema,
+  type DpsTierScenario,
+  type DpsTierSnapshot,
+} from "./forever-dps-tier-list";
 import { simulatorDirectory } from "./forever-simulator";
 
 const hash = (value: string): string => createHash("sha256").update(value).digest("hex");
+const scenarioSources = { solo: soloSnapshotData, raid: raidSnapshotData };
+
+export async function readDpsTierScenarioSnapshot(
+  scenario: DpsTierScenario,
+  directory: string = simulatorDirectory(),
+  source: unknown = scenarioSources[scenario],
+): Promise<DpsTierSnapshot | null> {
+  const snapshot = await readDpsTierSnapshot(directory, source);
+  if (!snapshot) return null;
+  const expectedPolicy = {
+    ...tierScenarioPolicy(scenario, raidSupport),
+    encounter: snapshotData.policy.encounter,
+    playerEquipmentTalentsRaceConsumes: "retained from each published reviewed build",
+  };
+  if (
+    snapshot.policy.scenario !== scenario ||
+    hash(JSON.stringify(expectedPolicy)) !== snapshot.policySha256
+  ) {
+    console.warn("[simulator] DPS scenario policy is unavailable", scenario);
+    return null;
+  }
+  return snapshot;
+}
 const pointerSchema = z
   .object({
     schema: z.literal("kfc-published-simulator-reviews.v1"),
@@ -35,7 +66,9 @@ export async function readDpsTierSnapshot(
 ): Promise<DpsTierSnapshot | null> {
   try {
     const snapshot = dpsTierSnapshotSchema.parse(source);
-    if (hash(JSON.stringify(snapshot.policy)) !== snapshot.policySha256)
+    // Schema parsing can reorder object keys; authenticate the producer's policy bytes.
+    const rawPolicy = z.object({ policy: z.unknown() }).parse(source).policy;
+    if (hash(JSON.stringify(rawPolicy)) !== snapshot.policySha256)
       throw new Error("Tier benchmark policy changed");
     const pointer = pointerSchema.parse(
       JSON.parse(await readFile(join(directory, "published-reviews.json"), "utf8")),

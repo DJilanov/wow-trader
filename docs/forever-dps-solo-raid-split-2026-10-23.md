@@ -1,6 +1,6 @@
 # Separate Solo and Raid DPS benchmarks
 
-Status: requested and scenario confirmed; implementation and fresh measurements pending.
+Status: both scenarios implemented and measured; final checks and publication in progress.
 This is separate from the committed `a719aa6` dungeon-order release.
 
 ## Problem verified
@@ -61,5 +61,32 @@ new scenario imports. A ranking must not claim its setup is available publicly
 when that immutable engine or catalog has not been installed. Numerical publication
 is a separate verification step, not an incidental side effect of this UI change.
 
-No new Solo/Raid score, dataset, source change, commit or deployment is claimed by
-this planning document.
+The user selected the 21 currently published standard builds first. Both datasets
+contain fresh 5,000-fight measurements per build: 210,000 fights in total, with seed
+58723001. Solo policy SHA-256 is
+`3e61ec9d40c4842f0ec9174e72c5d4daf07832845bdb6fbb64e73a8198f678dc`;
+Raid is `d45eb0dc4cc4511131e0fda84f3ae90ebdfac8c95fbe5ed0b867bf7f7fce4e84`.
+Fury measures 416.6808 Solo and 839.8683 Raid DPS. The leaders differ: Demonology
+Solo and Marksmanship Raid. These are independent results, not scaled old scores.
+
+The Helper renders Raid at `/tools/forever/tier-list` and Solo at `/solo` below
+that route. The community article selects its SSR mode with `?scenario=solo|raid`.
+Both consume the same authenticated snapshots. The original hybrid snapshot and
+newer class-guide research remain historical references, not these rankings.
+
+Exact imports use the frozen simulator's supported `?i=gtrcmxeu` category selector
+to load gear, talents, rotation, consumes, miscellaneous, external support, encounter
+and UI sampling settings. Without the last category, the simulator retains the
+reader's iteration count and seed. Imports must not receive raid-default migration.
+Public Fury imports reproduced both recorded scores at 5,000 iterations, with
+matching support/character/encounter inputs and no production event writes.
+
+Local browser checks passed both sites and both modes at 1440, 390 and 320 pixels,
+including filtering, mode persistence, back navigation, images and exact import
+links. Rankings load no numerical engine. Offline evidence verification reuses the
+42 measured responses and starts zero new fights.
+
+The user authorized committing, pushing and deploying both repositories after
+checks. No Solo/Raid deployment is claimed until candidate and public checks pass.
+Server capacity must be restored first; live releases, rollback sources, unrelated
+workers, frozen numerical assets and enabled usage collection must be preserved.

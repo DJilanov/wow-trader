@@ -3,14 +3,22 @@
 import { useId, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { filterDpsTierEntries, type DpsTierEntry } from "../lib/forever-dps-tier-list";
+import {
+  filterDpsTierEntries,
+  type DpsTierEntry,
+  type DpsTierScenario,
+} from "../lib/forever-dps-tier-list";
 import { withHelperBasePath } from "../lib/site-path";
 import styles from "./forever-dps-tier-list.module.css";
 
 interface ForeverDpsTierListProps {
   readonly entries: readonly DpsTierEntry[];
+  readonly scenario?: DpsTierScenario;
 }
-export function ForeverDpsTierList({ entries }: ForeverDpsTierListProps): React.JSX.Element {
+export function ForeverDpsTierList({
+  entries,
+  scenario = "raid",
+}: ForeverDpsTierListProps): React.JSX.Element {
   const [query, setQuery] = useState("");
   const [classSlug, setClassSlug] = useState("");
   const filterId = useId();
@@ -66,6 +74,7 @@ export function ForeverDpsTierList({ entries }: ForeverDpsTierListProps): React.
           {visible.map((entry) => (
             <li
               key={entry.id}
+              data-tier-build={entry.id}
               value={entry.rank}
               className={styles.row}
               style={
@@ -141,13 +150,17 @@ export function ForeverDpsTierList({ entries }: ForeverDpsTierListProps): React.
                     </div>
                   </dl>
                   <div className={styles.actions}>
-                    <Link href={entry.simulatorHref}>View gear &amp; rotation →</Link>
-                    <a href={withHelperBasePath(entry.benchmarkHref)}>Open benchmark setup →</a>
+                    <a href={withHelperBasePath(entry.benchmarkHref)}>
+                      Simulate {scenario === "solo" ? "Solo" : "Raid"} setup →
+                    </a>
+                    <Link href={entry.simulatorHref} prefetch={false}>Original reviewed build →</Link>
                   </div>
                   <small>
-                    The benchmark keeps the reviewed gear, talents, race and consumables. To repeat
-                    its sampling, use 5,000 iterations and seed 58723001. It is a comparison of
-                    these builds, not proof of each spec’s maximum.
+                    Save your current simulator character before loading. This benchmark keeps the
+                    reviewed gear, talents, race and consumables but changes support; the original
+                    build page has its own reference score. The exact import also loads 5,000
+                    iterations and seed 58723001. It is a comparison of these builds, not proof of
+                    each spec’s maximum.
                   </small>
                 </div>
               </details>

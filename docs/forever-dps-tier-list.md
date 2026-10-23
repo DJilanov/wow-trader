@@ -2,7 +2,9 @@
 
 ## Product
 
-Canonical route: `/tools/forever/tier-list`. The page is a server-rendered, searchable
+Raid route: `/tools/forever/tier-list`; Solo route: `/tools/forever/tier-list/solo`.
+Each has its own canonical, metadata and independently ranked SSR content.
+The page is a server-rendered, searchable
 comparison of published pre-raid builds, with class filters, explicit tier boundaries,
 sampling margins, expandable build details, original gear/rotation links and reproducible
 benchmark imports. The Forever hub, simulator directory and individual simulators link to
@@ -14,19 +16,30 @@ that the highest single-target damage is the best raid composition.
 
 ## Numerical contract
 
-`infra/simulator/tier-benchmark.mjs` owns the common comparison policy:
+`infra/simulator/tier-scenarios.mjs` owns the two versioned comparison policies.
+`tier-benchmark.mjs` retains the original hybrid policy for historical reproduction.
+Both current policies use:
 
 - Level 60, one stationary level-63 Dragonkin, 300 seconds, no duration variation or
   health-based early ending.
-- Full-v2 raid, party and individual support. No world buffs, externally supplied
-  Power Infusion or Innervate. No external boss debuffs; effects supplied by the player
-  or pet remain modeled.
+- Solo: configured maintained self-support only, no outside buffs, boss debuffs or
+  mana grants. Talent, form, pet and rotation effects still follow the pinned engine.
+  A Shaman receives one air totem rather than two incompatible buffs.
+- Raid: full-v2 raid, party and individual support plus the policy's documented boss
+  debuffs. Stacking and caps follow each engine. No world buffs, external Power
+  Infusion or Innervate.
 - Each published standard build retains its reviewed gear, enchants, talents, race,
   professions, consumables, positioning and explicit rotation.
 - 5,000 genuine WASM fights per build, fixed seed `58723001`. Each profile uses its
   selected immutable engine and database. Provisional proc-enchant variants are excluded.
 
-These are **new common-scenario measurements**, not replacements for the original
+The same character configuration and rotation is retained across both scenarios;
+Solo does not imply separately optimized solo play, farming speed or boss survival.
+The first split covers 21 published standard builds across eight classes, totaling
+210,000 new fights. Retribution, Shockadin, DS/Ruin and Destruction await compatible
+numerical publication before being added.
+
+These are **new scenario measurements**, not replacements for the original
 40,000-fight validation scores, new gear optimization studies, actual raid logs or
 live-server mechanic confirmation. The class-specific engines retain their own reviewed
 model corrections. Acquisition restrictions and beta assumptions still apply.
@@ -41,8 +54,9 @@ model uncertainty or establish an optimal rotation.
 - `scripts/benchmark-simulator-tier-list.mjs`: authenticates publication, database and
   WASM hashes; admits rotations through the real engine; runs browser worker jobs;
   retains complete binary requests and responses in immutable local evidence files.
-- `apps/web/src/lib/data/forever-dps-tier-list.json`: generated, committed public
-  measurement snapshot. Raw input/output evidence stays in the ignored artifact tree.
+- `apps/web/src/lib/data/forever-dps-tier-list.{solo,raid}.json`: generated, committed
+  public snapshots. The unsuffixed JSON remains historical. Raw input/output evidence
+  stays in the ignored artifact tree, keyed by the full binary request and policy.
 - `forever-dps-tier-list.ts`: validated public contract, ranking, tier assignment and
   filtering. It does not run simulations.
 - `forever-dps-tier-list-data.ts`: binds the snapshot to the installed published-build
@@ -57,13 +71,15 @@ this same policy. Tank and healing rankings require different metrics.
 
 ## Reproduction
 
-Use the prepared research workspace with its immutable simulator artifacts, pinned
-protobuf codec and installed Chromium. Start the normal loopback web preview, then run:
+Use the prepared research workspace with the exact installed publication root, pinned
+protobuf codec and Chromium. Measure with an explicit scenario and artifact root.
+To verify existing evidence and regenerate links without running any new fights:
 
 ```sh
-SIMULATOR_TEST_URL=http://127.0.0.1:3334/tools node scripts/benchmark-simulator-tier-list.mjs
-node --test infra/simulator/tier-benchmark.test.mjs
-pnpm --filter @wow-trader/web exec vitest run src/lib/forever-dps-tier-list.test.ts src/lib/forever-dps-tier-list-data.test.ts src/components/forever-dps-tier-list.test.tsx
+node scripts/benchmark-simulator-tier-list.mjs --scenario=solo --artifact-root=/absolute/frozen-root --verify-cache --write-snapshot
+node scripts/benchmark-simulator-tier-list.mjs --scenario=raid --artifact-root=/absolute/frozen-root --verify-cache --write-snapshot
+node --test infra/simulator/tier-benchmark.test.mjs infra/simulator/tier-scenarios.test.mjs
+pnpm --filter @wow-trader/web exec vitest run src/lib/forever-dps-tier-list.test.ts src/lib/forever-dps-tier-list-data.test.ts src/components/forever-dps-tier-list.test.tsx src/components/forever-dps-tier-page.test.tsx
 ```
 
 The browser benchmark runs locally, not as page-request work on production. Saved evidence
@@ -71,9 +87,16 @@ is identified by the complete binary request, including equipped item/enchant da
 than by a class name or a rounded DPS number. Do not manually edit scores, substitute
 an older engine, weaken admission checks or enable provisional proc variants to fill gaps.
 
-The “Open benchmark setup” link imports the common encounter and support with that build;
-set 5,000 iterations and seed 58723001 to repeat the sampling. Save an existing personal
-character before importing any build.
+The “Simulate Solo/Raid setup” link imports the exact encounter, support and character,
+plus 5,000 iterations and seed 58723001 through the native `?i=gtrcmxeu` categories.
+It bypasses ordinary raid-default migration. Save a personal character before import;
+this action also changes sampling preferences. The original reviewed-build link is
+separate because that experiment can have different support.
+
+The community importer verifies both snapshots against complete saved binary evidence
+before writing its bundle and downloads. Its one-article publication script compares
+the existing editorial fingerprint, writes a private backup and refuses concurrent or
+unrecognized edits. No other guide or publishing state is changed.
 
 ## Deployment acceptance
 
