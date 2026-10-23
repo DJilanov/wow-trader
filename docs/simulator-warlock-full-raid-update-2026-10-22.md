@@ -1,5 +1,120 @@
 # Warlock full-raid update
 
+## October 23, 07:49 UTC — fresh Affliction model controls verified
+
+Actual19current browser captures and19exact native/rawWASM comparisons completed
+under the original Warlock deadline, with25fights each and full pet/resource/channel/
+proc checks. Genuine prepared SHA75a7f80b1d0b28cf... is stored in the separate
+warlock-affliction-current-full-raid-v1 folder. Four PvP-blue hand/stone frames and
+2287legal talent candidates are ready; no historical damage is reused as ranking.
+Control/request tests4+3passed. New ordinary talent/rotation runner tests are now
+running; require pass/preflight before admission, then full gear/feedback/fresh40k/
+browser handoff. Historical Affliction remains displayed until that is completed.
+
+## October 23, 07:33 UTC — current Demonology local delivery complete
+
+Finisher81143 completed0 with receipt61c70c583cf035ce5d17b8236a70fc3eac4989c7faa67f3c5cfaf640ab906ffe
+at optimization/warlock-demonology-full-raid-v1/delivered-local.json. Selected local
+presentation6e686ef9f69fc7d3c2ba7b78 exposes the actual855.2753026692233DPS/40k
+2/31/18 setup. Full staged and eight main-page desktop/mobile cases passed, as did
+reader/compatibility/regression tests, typecheck, lint and formatting. Other20profiles
+and all other Warlock builds stay unchanged. No Git or production writes occurred.
+
+Next: fresh Affliction on the same current engine, same original Warlock deadline
+17:56:57.713UTC and used correction. Do not reuse historical scores as optimization
+evidence. Broader goal scope and remaining five class refreshes/three tanks remain.
+
+## October 23, 07:31 UTC — real v5 main-page desktop/mobile review passed
+
+All8cases passed on3018 after recovering the local review server's verified
+EPIPE logging loop with persistent file logging. Genuine main report5c5e4f34f3c5876b...
+binds all4source builds. Fresh Demonology855.28DPS/40k and2/31/18 guide display
+correctly; real Simulate, config/gear, tooltips, single scroll, reload and privacy
+checks pass at1440/390px. Actual25fight results match staged native/browser values.
+Screenshots were viewed. Quiet v5/v4 tests26passed; earlier timeout regressions
+were closed without changing assertions/timeouts. Web typecheck, strict scoped
+lint/format and diff checks pass. Canonical finisher81143 is now running on the
+actual report; require the delivered-local receipt before proceeding to Affliction.
+No commit/push/deploy or production changes here. Exact recovery state:context.md.
+
+## October 23, 07:07 UTC — qualified export and new v5 delivery pipeline
+
+07:18UTC follow-up: immutable6e686ef9f69fc7d3c2ba7b78 built successfully with
+3497assets. Staged browser review passed all15menus,8desktop/mobile shares/reloads,
+4native/browser comparisons and real cancellation/error/privacy checks. Genuine
+review7013e9c96e42e103... is stored; profile selection has not changed. Genuine
+v5 fixture exported; v5/v4 tests53540 are running quietly before local selection.
+
+07:22UTC: quiet v5/v4 tests passed26/26, and the separately focused historical
+reservation regression passed. Local selection completed with20other profiles
+unchanged and zero production writes. The final main-page8case review is running
+on3018; UI delivery remains pending its genuine result and finisher.
+
+The canonical export is complete and authenticated: current-Demonology build
+777581de5b4e258e9693ab97792cf076d4b172faac9a3713613897256247d48b.
+New strict reader uses the genuine compact closure alongside actual40k confirmation,
+selected raw parity and numerical receipt; no large research trace is read on normal
+pages. Its20tests and the compact reader's7passed. Four overlay tests and7new
+handoff/browser-guard tests passed; full web typecheck/scoped lint passed.
+
+The actual new delivery loader passed without combat. Schema warlock.v5 replaces
+only Demonology; Affliction alone remains historical, DS/Ruin/Destruction unchanged.
+First-visit party defaults now come from the tested setup. Actual all-class virtual
+TypeScript passed; Vite build17638 is active. Staged browser, local selection,
+main-page desktop/mobile Simulate and final delivery are still required. Old-v4
+regressions encountered5-second timeouts during concurrent compilation; original
+reports remain and checks need a quiet rerun. No Git or production changes here.
+
+## October 23, 05:36 UTC — Demonology actual numerical qualification complete; export live
+
+Final owner47274 completed0. Finite626candidate inspection passed (614reused,
+12new10k). Fresh12arm two20k confirmation accepted855.2753026692233DPS/40k;
+0.7727628%conservative gap passes2%and separate1%, strict dominanceFALSE.
+Selected native/browser10k855.6721770564122DPS and stdev matched exactly, with
+raw observed12target-aura rows and uncapped33player rows. Genuine numerical receipt
+dbbef4a44f09ef61... and parityce07d21785f1a134... are archived. Not yet UI/public.
+
+Canonical --export started05:34UTC, no new fights. Its old handle48592 is missing,
+but actualPID6153/PPID1 was confirmed live at05:35UTC; do not restart it. Monitor
+that process and real qualified-build outputs. Exact identities/command:context.md.
+New strict compact reader7testsPASS, combined related25PASS, fullwebtsc/scopedlint/
+format/diffcheckPASS. Upcoming current-Demo reader/v5 presentation/real browser/
+local selection still required. All original clock/scope remain; no Git/prod writes.
+
+## October 23, 05:13 UTC — actual final preflight passed; approved final phase live
+
+Preflight46420 passed05:12:12UTC: genuine closed feedback,76,127new origins replayed,
+626finite actual candidates, all final-gear consume coordinates. Normal final owner
+47274/child81127 started05:12:25UTC under the existing deadline, no new correction.
+It must still authenticate source, inspect canonical candidates, freeze/run fresh
+two20k, then selected10k/raw-target browser parity before any qualification.
+
+Final numerical sources are now frozen. Compact export evidence is outside the
+107input numerical importgraph (verified); six actual-data/refusal tests pass.
+After real final receipt, require genuine export, strict new compact-evidence reader
+and actual four-spec browser/local selection. Do not use old historical-Demo paths
+or load the72MBtrace on normal pages. Exact owner/identities/recovery:context.md.
+No Git/prod writes; all original campaign scope remains required.
+
+## October 23, 05:06 UTC — ordinary feedback genuinely closed; final preflight running
+
+Feedback23775 completed0 with full saved-result replay: source2e5a2f2240e06346...,
+completion7513c7e08370ac94..., result479cafd568bb22b0....ONEclosed cycle, no outstanding
+gear/state/final-consume applicability.76,127new requests/14,113,280new fights;
+222,822total unique origins/41,635,120total scalarfights. Provisional855.672177DPS/
+10k, same2/31/18 Succubus+Imp sacrifice/Spellstone/caster gear, Nightfin Soup.
+
+Actual final preflight46420/PID59066 is live since05:00:10UTC. After actualPASS,
+start the unused ordinary final owner on this exact completion under the same
+deadline; actual finite inspection/40k/raw-selectedWASM still pending.
+
+New exporter compact-closure regression authenticates the genuine71,622,000byte
+research result and produces2,125bytes without granting qualification.6/6tests and
+scoped lint/format/diffcheck pass. Emit only after real final receipt; keep full
+research archived and bind it by exact references. Future frontend must use this
+reviewed compact record, not increase generic page-read limits to96MB. All exact
+identities/commands/freeze rules and unchanged whole campaign scope:context.md.
+
 ## October 23, 04:39 UTC — combined32tests passed; real feedback refining
 
 The bounded32test run64300 passed32/32, no skips, unchanged assertions/timeouts;

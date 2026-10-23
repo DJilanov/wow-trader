@@ -1,5 +1,59 @@
 # WoW Trader fixes and recovery context
 
+## October 23 — detached local Next review process can loop on a broken logging pipe
+
+Final main-page review timed out before receiving HTML from the existing3018
+Next process. A read-only process sample showed repeated uncaught-error handling;
+its actual Next development log confirmed `Error: write EPIPE`. This was a local
+review-server problem: staged engine/menu/share/parity checks had already passed.
+
+Recovered only the verified3018 process tree, retaining its existing build cache
+and all simulation data. Relaunched with `subprocess.Popen`, stdinDEVNULL, stdout
+opened as a persistent append-only review log, stderrSTDOUT and start_new_session.
+Explicit `PORT=3018` and `WOW_TRADER_BUILD_DIR=.next-paladin-dps-review-20261022` preserve
+the local proxy/cache configuration. Do not leave a long-lived QA server writing
+to an abandoned interactive tool pipe. No source error handler was weakened and
+no production or3017process was changed. Keep the original timeout/sample/log as
+evidence; rerun the genuine main-page checks before recording delivery. The first
+post-recovery probe returned HTTP200 in8.68s (5s cold compile,3.6s application).
+
+## October 23 — current Demonology presets need their own proof version and party defaults
+
+The current model's independently qualified855.2753026692233DPS/40k setup cannot
+use the old four-spec metadata's historical-Demonology path. Added strict schema
+warlock.v5 and a current-Demo reader bound to its actual qualified export; only
+Affliction remains historical. Existing schemas and the other three builds remain
+supported. The new virtual overlay also supplies tested party buffs on first visit;
+the old upstream default was an empty PartyBuffs object. Personal saves are kept.
+
+The genuine compressed frontend fixture and compact evidence preserve full archive
+references without loading the72MB feedback or13MB inspection result at page time.
+27reader tests,4overlay tests,7handoff tests, web typecheck/scoped lint pass. Actual
+all-class virtual TS/Vite passed. Local delivery completed with15menu checks,
+8desktop/mobile shares,4native/browser comparisons and8real main-page cases.
+Canonical receipt61c70c583cf035ce... is recorded; current local presentation is
+6e686ef9f69fc7d3c2ba7b78. V5/v4 compatibility26tests and the targeted historical
+reservation regression passed unchanged after the earlier concurrent timeouts.
+
+## October 23 — keep large research traces out of normal preset page reads
+
+The genuine closed Demonology feedback result is71,622,000bytes. Increasing a
+generic web-loader limit would make an otherwise small preset depend on parsing
+that trace at request time. The new full-raid exporter instead derives a compact
+closure record only after independent raw-chain verification and actual numerical
+qualification/parity/receipt. It binds canonical full completion/result references,
+backend/model/settings/state/gear hashes and unchanged final-cycle closure flags.
+The summary explicitly does NOT grant numerical qualification or carry a10k score.
+
+The actual-data regression produces2,125bytes, preserves original full archive
+references and rejects stale closure or mismatched sources. All6export tests plus
+lint/format/diffcheck pass; a missing explicit Buffer import in the test was caught
+by lint and corrected before the final passing rerun. No engine, frozen numerical
+source or measured result changed. The future strict current-Demo frontend reader
+must consume this compact reviewed evidence alongside the actual40k/parity/receipt;
+the summary by itself is never permission to display an unqualified new preset.
+Actual final preflight and all pending delivery work:context.md,05:06UTC entry.
+
 ## October 23 — retain raw target evidence; do not confuse player buffs with boss debuffs
 
 The frozen scalar browser worker retained a result hash but not the raw combat

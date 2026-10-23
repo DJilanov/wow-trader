@@ -2,7 +2,331 @@
 
 Last updated: 2026-10-23
 
+## October 23, 07:33 UTC — Current Demonology fully delivered locally; Affliction next
+
+08:03UTC: actual ordinary Affliction blue owner62115/supervisor64017/child64273
+is LIVE, six native workers. Study8f0fa5a5d6aa93b1507ce3d72a97a037d9c1925d697612ab2d66e7e8a9c8f439.
+Original deadline17:56:57.713UTC, no correction/reset. Frozen8source modules passed
+strict lint/format, controls/request/blue tests4+3+3, and actual --plan passed:
+2287talents/84allocations/54policies/77664initial proposals. At08:02:12UTC actual
+progress19,954new requests/1,596,320fights, first80fight round/control4; no old-model
+scores reused. Poll SAME62115; persistent log reviews/warlock-affliction-current-blue-owner-20261023-0754.log.
+Do NOT edit any dependency pinned by the admitted blue declaration.
+
+Actual19raw-control target audit2a5cc3e019ee0a44... passed: maximum11activated
+target rows, no observed excess; player buffs uncapped. It explicitly does not
+prove global engine16-slot enforcement. No new combat was needed for that audit.
+New independent current-blue consumer and3refusal/bundle tests pass; positive full
+six-stage/native-origin replay still requires the genuine completed study. Consumer:
+review-tools/warlock-affliction-current-full-raid-selected-v1.mjs.
+New current gear request/parity/runner modules are complete, outside the frozen
+blue graph. Actual unranked-control gear preparation tests are now running; log
+reviews/warlock-affliction-current-gear-preparation-tests-20261023-0804.tap.
+They do not invent a winning talent or DPS or qualify gear parity. After genuine
+blue completion, require full independent replay, actual gear preflight,8real gear
+native/WASM canaries and ordinary gear owner through the same supervisor.
+
+07:49UTC: fresh Affliction model controls completed0 through the SAME approved
+Warlock supervisor (47861/child53234). Actual19browser captures+19native/rawWASM
+pairs,25fights each, all exact full player/pet/resource/mechanics parity passed.
+Prepared current control SHA75a7f80b1d0b28cf5f30f5f51c7412f4c6f141a3e5776be0f9b9da3413058ef3,
+path optimization/warlock-affliction-current-full-raid-v1/prepared.json. Four actual
+PvP-blue hand/stone frames and2287legal talent proposals. This is model validation,
+not a new Affliction40k score or delivered replacement; historical747.6164 stays.
+New controls preflight4tests and actual-request3tests pass; an initial new-test
+enum expectation was corrected from a string to the actual numeric2 contract.
+
+Frozen controls context/test/runner SHAs respectively d84babd22f3158b1554c9b3947d7bd8f9df53530cd06116b7986bf7fcfe885f9,
+2c5e280ae546ed50b95e7cbcb4c530fd252af65ae4a75aa66df4e8bbace0196a,
+42ae7c3ca99e25cdecbbdb3fd7ca05d91410158e26fa7e4360b221af33bf134d.
+Do not edit these or older numerical inputs. New blue context/current request
+factory use the actual improved support and canonical channel JSON, preserving
+protobuf bytes. New ordinary talents-rotation runner/test are now being checked;
+blue tests log reviews/warlock-affliction-current-blue-tests-20261023-0750.tap.
+Next after PASS: preflight new runner --plan, then dispatch its exported
+currentAfflictionFullRaidBlueOwner through runApprovedFullRaidUpdateProcess.
+Do not use old Affliction correction/normal-totem validators or historical scores.
+No new clock/correction; all later17-slot/feedback/fresh40k/browser delivery remain.
+
+Canonical finisher81143 finished0. Genuine delivered-local receipt:
+optimization/warlock-demonology-full-raid-v1/delivered-local.json,
+SHA61c70c583cf035ce5d17b8236a70fc3eac4989c7faa67f3c5cfaf640ab906ffe.
+Presentation6e686ef9f69fc7d3c2ba7b78 is selected on the local3018 Helper. Fresh
+Demonology855.2753026692233DPS/40k,2/31/18, all actual preset/gear/APL/guide/desktop/
+mobile/reload/Simulate checks completed. Other20selected profiles and three Warlock
+builds are unchanged. This refresh adds no new initial case:27initial cases remain
+delivered,3tanks still pending. Warlock full-raid refresh has Demo+DS/Ruin+Destruction
+done; Affliction alone remains explicitly historical and is next, under the same
+17:56:57.713UTC deadline and already-used sole correction. No new numerical owner
+is active yet. Five other approved full-raid classes, incremental catalogue and
+broader16boss-debuff audits remain; no global-completion or production claim.
+
+Actual verification:27new reader tests,26v5/v4 compatibility tests,1focused historical
+timeout regression,4overlay tests,7new private handoff/guard tests; full web typecheck,
+scoped lint/format and diff checks pass. Staged15menus/8shares/4parities and main8cases
+pass. Original timeout failures are retained and quiet reruns passed unchanged.
+Recovered only own3018 QA server's verified EPIPE loop with persistent file logging;
+detached parent38355, log reviews/next-3018-persistent-20261023-0727.log. No3017restart,
+Git commit/push or prod writes. Preserve concurrent Solo/Raid navigation edits.
+
+## October 23, 06:47 UTC — Current Demonology export authenticated; v5 handoff in progress
+
+07:18UTC: builder17638 finished0. Immutable presentation6e686ef9f69fc7d3c2ba7b78,
+sourcee945e98f232cc81948ee9060,3497assets, actual all-class TS/Vite passed.
+Staged browser63132 also finished0:15class menus,8desktop/mobile shares/reloads,
+4actual25fight native/browser comparisons and real completion/error/cancellation/
+privacy checks all passed. Genuine review7013e9c96e42e103... and staged pointer are
+under warlock-demonology-full-raid-v1/browser-selection-6e686ef9f69fc7d3c2ba7b78.json.
+Genuine v5 fixture537392bytes exported (ecd41080845fa9aa...). Quiet sequential
+v5/v4 tests53540 finished0:26/26passed, original timeouts/assertions unchanged.
+07:22UTC: local selector9969 finished0 and selected6e686ef9f69fc7d3c2ba7b78;
+all20other selected profiles were verified unchanged, productionWrites=0,
+globalModelChanged=false. Old-Demonology reservation regression56760 finished0:
+1targeted pass,20intentionally skipped. All previously observed timeout cases now
+passed on quiet/focused runs without assertion/timeout changes. Main-page reviewer
+is now running on3018; log reviews/warlock-current-demonology-main-page-20261023-0722.log.
+Require its8real cases and finisher before claiming UI delivery. New versioned tool names replace
+four-spec with current-demonology; do not run old historical-Demo tools for v5.
+
+07:26UTC: main review96167 failed on the initial90sHTML navigation timeout.
+Read-only process sample and actual Next dev log identified a repeated uncaught
+`write EPIPE` loop in the old3018server, not a numerical/fixture failure. Original
+timeout log and process sample are archived in optimization/reviews. Only verified
+3018PIDs67171/67153/66944 were stopped. New detached parent38355 uses the same
+review cache and explicit PORT3018, with persistent file logging instead of orphaned
+interactive pipes: reviews/next-3018-persistent-20261023-0727.log. No3017orprodchange.
+Probe readiness, then rerun the same actual main reviewer with a new retry log;
+no final delivery marker yet. Existing local selection remains6e686e... intact.
+
+07:28UTC: recovery probe passed HTTP200/8.678618s; persistent Next log reports
+5s cold compile+3.6s application, no EPIPE. Main reviewer retry is now running;
+log reviews/warlock-current-demonology-main-page-20261023-0728-retry.log.
+
+07:31UTC: retry4167 finished0, all8real desktop/mobile main-page cases passed.
+Actual report reviews/warlock-current-demonology-main-page-5c5e4f34f3c5876b.json.
+Desktop/mobile screenshots in screenshots/warlock-four-main-Djlji7 were also viewed.
+First-visit855.28DPS/40k display,2/31/18 guide and KFC branding are visible. Real
+25fight UI results matched staged native/browser canaries for all4builds; tooltip,
+single page scroll, config/gear, full settings, reload and privacy checks passed.
+Full web typecheck after v5 tests,7file formatting and9private-file strict lint/
+format checks passed. Cache69b4... and original Warlock ledger68677... unchanged.
+Canonical finisher is now running on the actual5c5e... report; log
+reviews/warlock-current-demonology-delivery-20261023-0731.log. Await its genuine
+delivered-local marker before moving to Affliction. No production/Git changes.
+
+The canonical export finished by 05:48 UTC. PID6153 is no longer running; its
+interactive exit status was unavailable. The actual qualified index and all output
+hashes were authenticated, rather than treating process disappearance as success.
+Build777581de5b4e258e9693ab97792cf076d4b172faac9a3713613897256247d48b
+contains the qualified855.2753026692233DPS/40k setup (2/31/18). Compact closure
+281b835d12ae25a5d6a972a9efcae19a07b98f71428a63652f7aa7a4b0d0d52a
+keeps the72MB feedback and13MB inspection archives out of normal web requests.
+
+New strict current-Demo reader and genuine compressed fixture:20tests passed;
+compact evidence reader:7passed. New full-raid overlay:4passed, including actual
+composition with all three existing Warlock overlays and first-visit party defaults.
+Full web typecheck and scoped lint passed before coordinator wiring. Broad78-test
+checks hit existing5-second timeouts during concurrent full-suite activity (first
+76/78 passed, sequential retry71/78); no assertion failure was reported. Keep the
+failure reports and rerun relevant checks without weakening their assertions.
+
+Current work: new versioned four-spec loader and presentation pipeline, plus
+strict coordinator schema warlock.v5. Only Demonology is replaced; DS/Ruin and
+Destruction stay unchanged, Affliction alone stays explicitly historical. The first
+loader check returned no completion output; its exit0 alone is not validation.
+The instrumented read-only check83658 finished0 with an explicit passing result:
+current855.2753026692233DPS Demonology, unchanged other3scores/builds, only Affliction
+historical, zero new combat jobs. No numerical optimizer is running.
+
+07:07UTC: new34checks passed (27reader tests+7private handoff/browser guards),
+web typecheck and scoped5file lint passed after coordinator wiring. Builder17638
+is active and its actual all-class virtual TypeScript has passed; Vite is building.
+Log:optimization/reviews/warlock-current-demonology-build-20261023-0654.log.
+The isolated old-v4 test run still had2timeouts/12tests with assertions unchanged;
+its report is preserved. Rerun without concurrent compilation before sign-off.
+
+Next: actual all-class virtual TS/Vite, staged real browser checks, atomic local
+selection, desktop/mobile main-page Simulate/share/reload checks, genuine delivery
+receipt. Then Affliction within the same Warlock deadline17:56:57.713UTC today.
+Five other approved full-raid classes,3tanks, incremental catalogue and broader
+16boss-debuff audits remain. No commit, push, production deployment or3017restart
+has been performed or newly authorized here. Preserve unrelated tier-list work.
+
+## October 23, 05:36 UTC — Demonology numerically qualified; canonical export actively replaying
+
+Previous goal turn was PROGRESS: actual final qualification, strict compact-reader
+implementation/tests and canonical export launch. Current work preserves the full
+goal;27initiallocalcases are unchanged until the new preset handoff is complete.
+
+Final owner47274/child81127 completed0 by05:33:26UTC. Genuine finite inspection:
+84fcb4a13e42a6716f83e8c0d8fe48842a40bb59be660e7bf4d60ce4cfe1c5f4,
+completion SHA4b0cdd51499e2cf4ffb5ebb468191cc386c2249a67f55f3095084cf9b4757cfd,
+result0a299ed09247a9a397d3bf9310f1843dc16c7f3051e2dfb50469c4878b791242.
+626candidates,614exact current-result reuses and12new10k requests/120,000fights.
+Finite result13,408,339bytes; do not indiscriminately enlarge web read limits.
+
+Genuine fresh confirmation:
+3e25b816f168a6d498f594d159490f8fefe6aaee504741030e3e7fce31f32183,
+completion SHA633e8d399e844ad932b5033e17d3ef7ecc1af249d1e40ab13e4e9ca2e57c9a88,
+result50f1176de37a03ca126e8470916d50013ede4e00b88e08a6eaaef9445176740f.
+24fresh20k requests/480,000fights across12pre-frozen arms; no selected-input change.
+Selected855.2753026692233DPS/40k. Conservative retained-gap0.007727627859366068
+(0.7727628%): approved2%PASS, separate original1%PASS, strict dominanceFALSE.
+Do not relabel this a global optimum or strict no-better-challenger proof.
+Entire chain222,858unique scalar origins/42,235,120fights, detailed controls excluded.
+
+Actual selected native/browser10k also passed EXACTLY:855.6721770564122DPS,
+stdev35.4621492587102;0DPS/0stdevdifference. Parity proof:
+optimization/reviews/full-raid-demonology-selected-parity-ce07d21785f1a134.json,
+semantic SHAce07d21785f1a134d1e2a7970921e19bc5923a784492ad414be4928a402b2cd4.
+Raw-target audit:12activated target rows,33player aura rows, playerBuffLimit=null,
+observedConservativeBoundPassed=true, globalSixteenSlotEnforcementProven=false.
+Real numerical receipt:
+optimization/warlock-demonology-full-raid-v1/numerical-qualified-dbbef4a44f09ef61.json,
+semantic SHAdbbef4a44f09ef61d2cedab92d425258197bfcac15cdcda2c3db0ea46e9ce082.
+Receipt frontendDeliveryCompleted/publicationAllowed remainFALSE.
+
+Canonical no-new-fights export started05:34:01UTC:
+
+node artifacts/forever-simulator/optimization/review-tools/export-warlock-demonology-full-raid-first-pass-build-v1.mjs artifacts/forever-simulator/optimization/bounded-native-studies/3e25b816f168a6d498f594d159490f8fefe6aaee504741030e3e7fce31f32183/completed.json --export
+
+Original interactive handle48592 is now UNKNOWN, but read-only process inspection
+at05:35:23UTC confirmed the SAME command actively running asPID6153/PPID1,109%CPU.
+This is a VERIFIED WAIT, not a stopped export. Do NOT restart from the lost handle.
+Monitor actualPID6153 and genuine qualified-build.json/build-*.json/feedback-evidence
+outputs. No build/qualified marker was present at that observation. Its final output
+exit status may not be recoverable from the old tool session; do not invent exit0.
+Freeze exporter/test/guide dependencies while it runs. Original cache69b4... and
+original Warlock ledger68677... were reconfirmed byte-identical05:34UTC.
+
+New intentional public compact-reader API is ready, not a UI approval:
+apps/web/src/lib/forever-simulator-demonology-feedback-evidence.ts,
+its7test file and fixtures/demonology-closed-feedback-evidence.json. Fixture was
+generated from the genuine closed72MBresult with its full SHA checked, not from
+invented qualification. Parser binds2,125byte closure, model/backend/gear/state/
+settings and canonical archive refs; requires qualification flagsFALSE and rejects
+stale contexts, unknown fields, traversal, reflected-checksum model changes and
+relabeling. It must be consumed by the upcoming strict fresh current-Demo reader.
+Actual tests:7/7new; combined with14Destruction+4approved-confirmation =25/25PASS;
+full web `tsc --noEmit --incremental false`PASS; scoped2file ESLintPASS; format/
+diffcheckPASS. Relevant local Next data-security and Vitest guides were read fully.
+
+NEXT after genuine export artifacts: authenticate their exact hashes and compact
+evidence, generate real frontend fixture, implement hash-pinned new current-Demo
+reader/presentation v5 (old formats stay, only Aff remains historical; DS/Destr
+unchanged), compile all classes, stagedreal desktop/mobile/share/reload/Simulate,
+atomic local profile selection preserving20otherprofiles, main-page checks and
+final delivery marker. Do not pass currentDemo through oldv4 historical metadata or
+load72MBresearch on normal page requests. No new search, score replacement or
+reoptimization from holdouts. Then continue Affliction under same original deadline.
+All other approved full-raid classes,3tanks,catalogue/incremental/16debuff scope
+still required. No agents,3017restart, commit/push or prod write authorized here.
+Preserve unrelated Solo/Raid tier-list/leveling work currently dirty in the worktree.
+
+## October 23, 05:13 UTC — final preflight passed; ordinary final owner launched
+
+Current goal turn is PROGRESS: genuine feedback closure, successful independent
+final preflight, compact actual-data export evidence, and admission of the unused
+ordinary final phase. Preflight46420 finished0 at05:12:12UTC:76,127new feedback
+origins independently replayed, sourceClosed=true, no gear applicability outstanding,
+626finite final candidates with every declared consume coordinate on final gear.
+Expected inspection identity84fcb4a13e42a6716f83e8c0d8fe48842a40bb59be660e7bf4d60ce4cfe1c5f4;
+selected settings SHAe5c5443378f039b80dea78e961362274a127ea8930de1ea3a757e90849b6a870.
+No new jobs or writes in this preflight. Two20k holdout seeds remain unfrozen until
+the genuine canonical final inspection completes; the selected settings cannot be
+changed from holdout outcomes.
+
+Actual normal final owner47274/child81127 started05:12:25UTC through
+runApprovedFullRaidUpdateProcess with demonologyFullRaidConfirmationOwner on
+2e5a2f2240e06346...completed.json. It shares original17:56:57.713Zdeadline and uses
+confirmation-delivery, NOT a correction/new clock. Poll SAME47274. It first replays
+and authenticates source, then finite inspection, fresh2x20k, independent result
+review and the selected10k browser/raw-target parity. No final qualification or
+new UI delivery is claimed yet. All final numerical sources/tests/raw-evidence
+worker/audit dependencies are now FROZEN. Do not edit them while this owner runs.
+
+The latest compact export-only changes are outside the admitted final numerical
+entrypoint graph: actual esbuild107inputs PASS with exporterIncluded=false. That
+new helper/test6cases passed on real72MBfeedback;2,125byte closure record preserves
+exact archived references and remains explicitly non-qualifying. No generic web
+file-size limit was raised. Actual fresh frontend reader, generated fixture, new
+current-Demo presentation branch and cumulativefour-spec desktop/mobile/share/
+reload/Simulate selection still remain after the real final receipt/export.
+
+After successful final owner: inspect emitted actual confirmation/receipt paths;
+run the new exporter on the genuine confirmation with --export, require actual
+full-chain replay and existing raw parity reuse (no extra fights), then implement
+the strict hash-pinned compact-evidence frontend reader and browser handoff. Do not
+read72MBresearch at page request time or feed currentDemo through oldv4 historical
+metadata. Same27initiallocalcases; all broader full-raid/tank/catalog/incremental/
+16debuff scope remains. No agents, main3017restart, Git or production mutations.
+
+## October 23, 05:06 UTC — real feedback closed; final preflight live; compact closure tested
+
+Current continuation is PROGRESS: ordinary feedback23775/child73473 completed0 at
+04:59:39UTC, including internal exact saved-result replay. Actual completion:
+optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55/completed.json,
+semantic SHA7513c7e08370ac9464a1bc387a40410eab3e4328ebcdfc40bfb18e4db9215e10.
+Actual result479cafd568bb22b0... semantic SHA
+479cafd568bb22b0aea072581d82f78759c6efc354a207cd5ce2306d50ef478f.
+It is genuinely closed afterONEcycle: consumes/gear small-gain stop, no material
+state change, final-consume unchanged and gearApplicabilityRequired=false.597final
+retained states. New76,127requests/14,113,280fights; cumulative222,822unique origins/
+41,635,120scalarfights.2,885exact current-backend reuses; no old-model score reuse.
+Provisional selected855.6721770564122DPS/10k,2/31/18,
+011-0005003231120311351-0550005003, Succubus+Imp sacrifice/Spellstone,
+shadowbolt-both-doom-brand-no-execute-tap15. Same17gear including272683+22329;
+Nightfin Soup, Cerebral Cortex Compound, Supreme Power, Black Label alcohol.
+This is NOT40k qualification, delivered UI or production deployment.
+
+Actual final read-only preflight46420/PID59066 started05:00:10UTC:
+
+node artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-full-raid-confirmation-v1.mjs --plan artifacts/forever-simulator/optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55/completed.json
+
+It is LIVE at05:05:54UTC, actualPID98%CPU. Poll SAME46420; do not restart on silence.
+After genuinePASS, start demonologyFullRaidConfirmationOwner(FEEDBACK_COMPLETION)
+from the current final runner through runApprovedFullRaidUpdateProcess. This is
+the unused ordinary confirmation-delivery phase, same17:56:57.713Zdeadline, no new
+correction/clock. Freeze final sources on admission. Selected raw-target capture is
+already integrated/tested, but actual final inspection/40k/WASM still must execute.
+
+Performance finding: feedback result is71,622,000bytes. Do NOT add a blanket96MB
+web document limit or load this research trace on normal page reads. The UNUSED
+new full-raid exporter now includes demonologyFullRaidClosedFeedbackSummary:
+exact canonical completion/result binding, source/backend/settings/state/gear hashes,
+actual final-cycle closure flags, and explicit independentFinalValidation=false /
+numericalQualification=false. It emits immutable feedback-evidence-<sha16>.json
+ONLY during --export after real current confirmation/parity/numerical receipt.
+Full original research remains archived and referenced. Actual closed72MB-data
+regression produces a2,125byte compact record, rejects stale/mismatched sources and
+never carries a provisional DPS or grants40k qualification. Export tests6/6PASS,
+scoped2-file lint0issues, Prettier/diffcheckPASS. The initial lint caught an explicit
+Buffer import missing from the new test; fixed, all6tests and lint reran44903 PASS.
+No frozen numerical source was edited for this export-only change.
+
+Future strict current-Demo frontend reader MUST use the compact reviewed closure
+record plus actual confirmation/parity/receipt, rather than read72MB at request time.
+Keep exact verified build/confirmation pins, original full-reference binding and
+old-format readers. A new current-Demo presentation branch must preserve historical
+Aff only and unchanged DS/Ruin/Destruction. Actual new frontend/fixture/browser/local
+handoff still pending; the compact summary alone does not approve a preset.
+
+All27initiallocalcases, other five approved full-raid refreshes,3tanks, catalogue/
+incremental/16boss-debuff audit scope remain unchanged. No new agents,3017restart,
+commit/push or prod mutation authorized/performed here. Preserve other-session
+tier-scenarios/benchmark and leveling-deployment changes; they are unrelated work.
+
 ## October 23, 04:46 UTC — verified wait on the same real high-precision job
+
+Follow-up continuation04:54UTC remains a VERIFIED WAIT on23775/PID73473. Actual
+progress at04:53:09UTC:76,029NEWrequests/13,133,280NEWfights, cycle1/inspect10000/
+control18. No final result or new phase. Full scope is unchanged. Frontend handoff
+inspection reconfirmed: v3/v4 force historical Demo AND Aff through preserved-model
+metadata and the old pinned Demonology reader. New delivery must retain old formats,
+use a new current-Demo reader/variant while preserving only Aff as historical, and
+keep DS/Ruin/Destruction unchanged. Inspect actual new evidence sizes before adding
+narrow exact-path/hash document allowances; the current generic limit is8MB.
+These are recovery notes, not an implemented or approved new preset/publication.
 
 Follow-up continuation04:49UTC is also a VERIFIED WAIT, not a blocker: the SAME
 session23775 remains live and produced75,855NEWrequests/11,393,280NEWfights by

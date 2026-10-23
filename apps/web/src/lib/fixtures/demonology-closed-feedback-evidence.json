@@ -1,0 +1,67 @@
+{
+  "schema": "kfc-demonology-closed-feedback-reader-fixture.v1",
+  "evidence": {
+    "schema": "kfc-full-raid-demonology-closed-feedback-summary.v1",
+    "sourceCompletion": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55/completed.json",
+      "sha256": "7513c7e08370ac9464a1bc387a40410eab3e4328ebcdfc40bfb18e4db9215e10"
+    },
+    "sourceResult": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55/result-479cafd568bb22b0.json",
+      "sha256": "479cafd568bb22b0aea072581d82f78759c6efc354a207cd5ce2306d50ef478f"
+    },
+    "sourceRelease": "e945e98f232cc81948ee9060",
+    "backend": {
+      "kind": "admitted-native.v1",
+      "binarySha256": "de9f74ba61f5aca05066033b4b0e5e996d634eabb755d51a2174600b274f3a79",
+      "compiledDatabaseSha256": "cf9262e1e29cae2aff9655f5bbfa662eb11d339a119d6f406472b4ad0935dcfe",
+      "runnerSourceSha256": "dea8543ac6d12cdd4f9316256be490bb752e42ab893dfe866c897f3b2907be49",
+      "codecSha256": "ddda496cbcf31cf2e7f18300d60bdf12f9035b742b485bff20dbb66bbaad628a"
+    },
+    "closed": true,
+    "gearApplicabilityRequired": false,
+    "settingsSha256": "e5c5443378f039b80dea78e961362274a127ea8930de1ea3a757e90849b6a870",
+    "stateSha256": "b8dfb39fe69b5c59bd70a248196bc9565dd870adab93bc885ab8e23d89156e58",
+    "gearSha256": "b79f8d9ad85725ba7cdf3aa346b059e544f8d8ebbd782d4ccaf8ce8228d987ce",
+    "cycles": 1,
+    "finalCycle": {
+      "consumesStoppedForSmallGain": true,
+      "gearStoppedForSmallGain": true,
+      "stateChanged": false,
+      "stateMaterialChange": false,
+      "finalConsumesStoppedForSmallGain": true,
+      "finalConsumesChanged": false,
+      "recheckSettingsSha256": "e5c5443378f039b80dea78e961362274a127ea8930de1ea3a757e90849b6a870",
+      "finalConsumeSettingsSha256": "e5c5443378f039b80dea78e961362274a127ea8930de1ea3a757e90849b6a870"
+    },
+    "previousModelNumericalReuse": false,
+    "independentFinalValidation": false,
+    "numericalQualification": false,
+    "scope": "Closure metadata produced from the independently replayed full research result. This compact record does not replace fresh40k confirmation, selected native/browser parity, the numerical receipt or the separately reviewed hash-pinned build. The original full completion and result remain archived at their exact references."
+  },
+  "options": {
+    "summaryReference": {
+      "path": "artifacts/forever-simulator/optimization/warlock-demonology-full-raid-v1/feedback-evidence-281b835d12ae25a5.json",
+      "sha256": "281b835d12ae25a5d6a972a9efcae19a07b98f71428a63652f7aa7a4b0d0d52a"
+    },
+    "sourceCompletion": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55/completed.json",
+      "sha256": "7513c7e08370ac9464a1bc387a40410eab3e4328ebcdfc40bfb18e4db9215e10"
+    },
+    "sourceResult": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55/result-479cafd568bb22b0.json",
+      "sha256": "479cafd568bb22b0aea072581d82f78759c6efc354a207cd5ce2306d50ef478f"
+    },
+    "sourceRelease": "e945e98f232cc81948ee9060",
+    "backend": {
+      "kind": "admitted-native.v1",
+      "binarySha256": "de9f74ba61f5aca05066033b4b0e5e996d634eabb755d51a2174600b274f3a79",
+      "compiledDatabaseSha256": "cf9262e1e29cae2aff9655f5bbfa662eb11d339a119d6f406472b4ad0935dcfe",
+      "runnerSourceSha256": "dea8543ac6d12cdd4f9316256be490bb752e42ab893dfe866c897f3b2907be49",
+      "codecSha256": "ddda496cbcf31cf2e7f18300d60bdf12f9035b742b485bff20dbb66bbaad628a"
+    },
+    "settingsSha256": "e5c5443378f039b80dea78e961362274a127ea8930de1ea3a757e90849b6a870",
+    "stateSha256": "b8dfb39fe69b5c59bd70a248196bc9565dd870adab93bc885ab8e23d89156e58",
+    "gearSha256": "b79f8d9ad85725ba7cdf3aa346b059e544f8d8ebbd782d4ccaf8ce8228d987ce"
+  }
+}
