@@ -1,5 +1,22 @@
 # WoW Trader fixes and recovery context
 
+## October 23 — retain raw target evidence; do not confuse player buffs with boss debuffs
+
+The frozen scalar browser worker retained a result hash but not the raw combat
+bytes, so its saved scalar alone could not establish the selected target's aura
+budget. A separate final-only evidence worker now preserves those bytes without
+altering any request or engine call. Exact source-equivalence regression verifies
+only its export name and returned raw bytes differ from the frozen helper.
+
+The target audit authenticates raw bytes against SHA/scalar/input metadata and uses
+the codec's JSON conversion for protobuf oneof IDs. Its first duplicate-provider
+assertion exposed this representation mismatch; no row is removed to repair it.
+Five tests pass on all15real controls plus missing/tampered-byte/scalar failures,
+an explicit17row negative mutation, and exact worker preservation. Player buffs are
+uncapped; provider rows remain distinct. The max12observed rows in those controls
+is not a global debuff-slot or unseen-proc proof. Final selected10k evidence and
+the broader all-profile audit still have to run. Recovery/freeze rules:context.md.
+
 ## October 23 — distinguish gear-phase verification from inherited origins
 
 A new gear regression incorrectly required the gear phase's21,964verified IDs to

@@ -1,5 +1,43 @@
 # Warlock full-raid update
 
+## October 23, 04:39 UTC — combined32tests passed; real feedback refining
+
+The bounded32test run64300 passed32/32, no skips, unchanged assertions/timeouts;
+full saved TAP SHA36e529febfa47011... and path are incontext.md. Export metadata now
+also preserves the observed target bound versus unproven global slot enforcement;
+its5tests reran and passed. Formatting, scoped lint and diffcheck pass.
+
+Actual owner23775/73473 reached74,878new requests/6,904,780new fights at04:38:21UTC,
+cycle1/geared-refine500. No final result, closure or preset promotion yet. Continue
+the same owner; after actual closure require the existing final preflight/ordinary
+owner, fresh40k, selected raw10k/nativeWASM, export and real four-spec delivery.
+Same clock, correction and full remaining campaign; no public/Git actions here.
+
+## October 23, 04:35 UTC — final-only raw target-aura evidence added; feedback advancing
+
+Actual feedback23775/73473 reached58,567new requests/5,364,280new fights at04:34:29,
+still first-cycle actual-geared policy comparisons. No final qualification yet.
+The active declaration was checked before editing: the unused final modules are
+not frozen numerical inputs. A versioned evidence worker now retains the actual raw
+result alongside unchanged scalar/admission behavior. Final selected-WASM review
+authenticates the raw response and requires an observed conservative<=16target-row
+bound; it never caps player buffs or merges providers. Audit tests5/5PASS and final
+regressions7/7PASS.111module two-entrypoint import check/lint/diffcheckPASS. Combined
+32case verification64300 is live; full saved TAP and exact next steps:context.md.
+This is observed evidence only, not a completed global16debuff audit or a new selected
+10k result. Same deadline/used correction/full campaign scope; no public/Git writes.
+
+## October 23, 04:22 UTC — actual15control parity passed; feedback numerical work active
+
+All15actual detailed native/WASM state/proc/consume controls passed, zeroDPSdiff,
+complete metrics and cleanup. Proof8a6f4623687682d9 has semantic SHAa4c7dd9c51bd07c3...
+Owner23775/73473 is measuring actual ordinary feedback study2e5a2f2240e06346...;
+1,099new requests/402,440new fights by04:22:07UTC, first all17gear sweep underway.
+Combined27focused regressions PASS, new exporter110-module importgraph PASS, scoped
+lint/format/diffcheck PASS. Cache and original budget hashes unchanged. No closure,
+40k qualification, fresh preset delivery or production deployment claimed yet.
+Exact next owner, actual source paths and unchanged full remaining scope:context.md.
+
 ## October 23, 04:17 UTC — actual ordinary feedback owner started
 
 Corrected feedback preflight14727 passed. Normal state-recheck owner23775/child73473

@@ -2,6 +2,140 @@
 
 Last updated: 2026-10-23
 
+## October 23, 04:46 UTC — verified wait on the same real high-precision job
+
+Follow-up continuation04:49UTC is also a VERIFIED WAIT, not a blocker: the SAME
+session23775 remains live and produced75,855NEWrequests/11,393,280NEWfights by
+04:48:24UTC, cycle1/geared-inspect10000/control11. No restart, new phase, model
+change or preset promotion. The job is still performing actual calculations;
+unchanged external completion state is expected. All remaining scope is preserved.
+
+Previous continuation was PROGRESS (raw target evidence/final-stage integration).
+This continuation is a VERIFIED WAIT: session23775 and actualPID73473 were checked
+live; study2e5a2f2240e06346... reached75,728NEWrequests/10,123,280NEWfights at04:45:39,
+cycle1/geared-inspect10000/control6. No completed.json or terminal result exists.
+Continue polling SAMEhandle; do not restart, infer a stop from silence, qualify the
+provisional score or start another Warlock phase while this owner is running.
+The next real action after closure is still the actual final preflight/ordinary
+confirmation owner described below. All full goal scope, deadline, correction and
+delivery requirements remain unchanged. No numerical/source/UI/Git/prod changes.
+The new untracked Solo/Raid split plan belongs to other work and was read only;
+it does not replace this frozen approved full-v2 optimization or authorize deployment.
+
+## October 23, 04:39 UTC — higher-precision feedback active; all32final-readiness tests passed
+
+This continuation is PROGRESS (versioned raw-result target-budget evidence and final
+integration), with a verified same-owner wait on actual feedback23775/PID73473.
+At04:38:21UTC, study2e5a2f2240e06346... measured74,878NEWrequests/6,904,780NEWfights,
+cycle1/geared-refine500/control19. No completion, closed result, qualified score,
+updated public preset or deployment exists yet. Poll SAME23775 and never restart
+from an observation timeout. Deadline17:56:57.713Z/used correction unchanged.
+
+Combined32test run64300 finished0:32PASS/0FAIL/0SKIP in61.7seconds, two workers,
+unchanged assertions/timeouts. Full TAP:
+optimization/reviews/demonology-final-readiness-20261023-0435.tap,
+byte SHA36e529febfa47011ab560adf028985b379b7ee791345835fa0a5a4d3f29e1d10.
+New final-only six-file lint0issues, formatter check and diffcheckPASS. The exporter
+now also explicitly records the selected observed bound, observation iterations and
+the still-false global game-slot-enforcement claim, with an explanatory warning.
+Its five actual assessment/refusal tests reran34286 and allpassed after this metadata
+addition. Positive real final-selected/export checks are still required.
+
+All final source changes remain outside the active feedback declaration, checked
+before editing. Do not edit frozen blue, gear, feedback, original cache/ledger or
+old scalar worker. New raw-evidence worker is numerically identical to the frozen
+worker except returning the original result bytes, verified by exact source test.
+The recorded15controls validate only their own observed maximum12target rows; the
+new actual selected10k capture, broad16debuff audit and every other campaign scope
+remain incomplete. Final context/export warnings must preserve that distinction.
+
+NEXT once feedback has a genuine terminal result: inspect closed and applicability;
+if true run the current confirmation runner --plan on the actual completion, then
+its unused ordinary confirmation-delivery owner under the existing supervisor.
+Require finite canonical inspection, fresh2x20k, selected10k raw/native/WASM proof,
+genuine export, strict current frontend reader and cumulativefour-spec browser/local
+delivery before moving to Affliction.27/30initiallocalcases unchanged; other five
+approved full-raid classes, three tanks, catalogue/incremental work still required.
+No agents, main3017restart, commit/push or production write authorized/performed here.
+
+## October 23, 04:35 UTC — feedback live; unused final stage now retains raw target evidence
+
+Previous goal turn was PROGRESS (new tested rotation/export modules and actual
+feedback admission). This continuation has both a VERIFIED WAIT on the same actual
+owner23775/child73473 and PROGRESS implementing the requested final target-budget
+evidence. At04:34:29UTC the actual study2e5a2f2240e06346... reached58,567NEWrequests/
+5,364,280NEWfights in cycle1/geared-policy comparisons. No closure/qualification or
+new preset yet. Do not restart the owner. Deadline17:56:57.713Z/used correction and
+all remaining campaign requirements are unchanged.
+
+Before editing, the actual active declaration was checked: its sourcePins do NOT
+include the unused selected-WASM, selected-parity or confirmation-context modules.
+The frozen scalar worker remains unchanged. New final-only sources:
+
+- inspected-class-evidence-worker-v1.mjs is byte-equivalent to the frozen scalar
+  worker except its export name and retaining actual resultResponseBytes. Existing
+  requests, admission, engine calls, cancellation and metrics remain identical.
+- target-aura-budget-evidence-v1.mjs/test authenticates full raw response SHA and
+  decoding against the exact input/scalars, then conservatively counts activated
+  target aura ROWS, preserving provider duplicates. Player buffs remain unlimited.
+  Five actual15control/tamper/17row-negative/exact-worker-preservation tests PASS.
+  Initial test failed because raw protobuf IDs use oneof representation; reporting
+  now uses the codec's JSON conversion from the same verified bytes. It does not
+  discard or merge aura rows. Missing raw data refuses evidence.
+- UNUSED final selected-parity now uses the new evidence worker. Its selected-WASM
+  review requires a recorded <=16row conservative bound and includes the audit in
+  the actual parity proof. The final declaration explicitly pins these new sources
+  and tests. No new fights or held-out selections are introduced by this capture.
+
+All15 genuine25fight controls have max12activated target rows and >16player aura
+rows. This is explicitly OBSERVED ONLY: no claim of global game-slot classification,
+all-profile enforcement, unseen-proc coverage or selected10k proof before it runs.
+The broader16boss-debuff requirement remains; do not infer it complete from controls.
+
+Changed final-source regressions7/7PASS; new audit5/5PASS; scoped6file ESLint0issues,
+confirmation+export111input/two-entrypoint esbuild PASS, diffcheckPASS. Combined8file
+32case run64300 is LIVE with2workers, full TAP saved to
+optimization/reviews/demonology-final-readiness-20261023-0435.tap. Poll SAME64300 for
+terminal outcome. Freeze all final sources after the ordinary final owner is admitted.
+Actual positive final preflight/40k/selected10k/export/frontend/browser delivery remain.
+No new agents, main3017restart, commit/push or production write.27localinitialcases
+unchanged; prior whole-class/tank/catalog/incremental scope remains required.
+
+## October 23, 04:22 UTC — all15actual controls passed; numerical feedback measuring
+
+Current continuation is PROGRESS, not blocked or complete. Owner23775/child73473
+finished actual source replay and all15native/WASM geared/proc/consume controls,
+every DPSdifference0; complete player/pet/resource verification and cleanup passed.
+Immutable proof: warlock-demonology-full-raid-v1/state-parity-8a6f4623687682d9.json,
+semantic SHAa4c7dd9c51bd07c3357d8d2a6030df339bf0951107cab4af4f55089c5a4428fd.
+Its genuine current scalar study is:
+`optimization/bounded-native-studies/2e5a2f2240e06346f0bfd3e0f3979a15d38deadaa5d8e0e94bce7deefe5d7b55`.
+At04:22:07UTC:1,099NEWrequests/402,440NEWfights, cycle1/gear/sweep1/group12. Runtime
+sourceReused106 means exact within-current-chain reuse, not old-engine numerics.
+146,695initial current-model ancestors remain separately accounted. Poll SAME23775;
+neither an observation timeout nor slow stage preparation authorizes a restart.
+
+Combined7-file focused regression finished57257:27/27PASS with2workers, unchanged
+assertions/timeouts. Scoped4new-file ESLint0issues, Prettiercheck and diffcheckPASS;
+new exporter importgraph110inputs PASS. Original cache69b4b817... and original
+Warlock ledger68677c8e... remain byte-identical. Source/projection/new guidance tests
+are not fresh40k qualification or positive actual-export verification.
+
+Additional narrow read-only observation: all15actual current control browser target
+results have at most12activated target-aura ROWS (including duplicate provider rows),
+while player aura rows reach33 and are intentionally not capped16. This only bounds
+these recorded controls; it is NOT an exact all-profile/all-rotation16debuff audit
+or an assertion that every target aura consumes a game slot. Broader audit remains.
+
+NEXT: await genuine terminal0 and inspect actual feedback.closed/applicability before
+the current confirmation runner --plan FEEDBACK_COMPLETION_PATH. Only real closure
+can start its ordinary confirmation-delivery owner. Require genuine fresh40k,
+selected10kWASM receipt, new full-raid export, strict fresh frontend reader and real
+cumulative4spec desktop/mobile/share/reload/Simulate handoff. New export/guide source
+is not part of the active numerical graph and remains unused until real evidence.
+27localinitialcases unchanged; all previous full-raid refreshes,3tanks, catalogue,
+incremental reruns and16boss-debuff scope remain. No production/Git/3017restart.
+
 ## October 23, 04:17 UTC — ordinary Demonology feedback running; delivery modules tested
 
 This goal continuation is PROGRESS: actual completed gear replay passed, the actual
