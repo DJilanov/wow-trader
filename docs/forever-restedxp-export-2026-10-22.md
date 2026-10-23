@@ -1,5 +1,11 @@
 # Current-route RestedXP export
 
+October 23 follow-up: the dungeon-order correction advances the compiler to
+`campaign-addon-20261023-v23`. The v22 review.6 package below remains an immutable
+historical review, not a package of the newly reordered route. See the
+[dungeon-order audit](forever-leveling-dungeon-order-audit-2026-10-23.md).
+No replacement ZIP is installed or published by that code change.
+
 Status: local implementation and software verification complete; awaiting owner client-build
 confirmation and in-game acceptance. This is not an installed or published guide release.
 Owner target: RestedXP **v4.11.27**. Client build **70450** remains the last confirmed

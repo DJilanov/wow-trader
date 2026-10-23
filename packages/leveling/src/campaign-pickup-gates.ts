@@ -259,7 +259,7 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
   if (ids.size !== actions.length) throw new Error("Duplicate campaign pickup gate identity.");
   const compiled: CampaignPlan = {
     ...plan,
-    executionRevision: "workflow-20261022-v10",
+    executionRevision: "workflow-20261023-v11",
     actions,
     legs: plan.legs.flatMap((leg) => {
       const owned = actions.filter((action) => action.legId === leg.id);

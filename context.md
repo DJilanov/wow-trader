@@ -2,6 +2,257 @@
 
 Last updated: 2026-10-23
 
+## October 23, 04:17 UTC — ordinary Demonology feedback running; delivery modules tested
+
+This goal continuation is PROGRESS: actual completed gear replay passed, the actual
+feedback preflight14727 finished0, ordinary state-recheck owner23775/child73473 was
+started, and new exact rotation/export modules are implemented and tested. Current
+owner's exact command uses demonologyFullRaidFeedbackOwner on bd8f72ff...completed
+through runApprovedFullRaidUpdateProcess. Source replay is still running at04:17UTC
+(actualPID73473 checked live,96%CPU); no detailed-control or new scalar result yet.
+Poll SAME23775session, never restart on silence. Original17:56:57.713Zdeadline and
+used correction remain. The feedback driver and its declared import graph are now
+FROZEN. The consumer accounting strengthened before this admission is also frozen.
+
+New UNUSED delivery files under optimization/review-tools (not running inputs):
+
+- warlock-demonology-full-raid-rotation-guidance-v1.mjs/test: exact canonical and
+  extended actual APL bindings, full-v2 support, legal active/Pact setup, passive
+  Decimation below35%, Nightfall, tagged Shadow-and-Flame fire aura, threat and shard
+  caveats.3/3tests PASS. The original broad “all240” test failed on30policies without
+  an enabling anchor in the actual legal bank; corrected tests cover all210currently
+  applicable variants and explicitly require the other30to be refused by the actual
+  policy applicability checker. This is not a claim that every global talent was
+  searched. Actual provisional gear's guide binds all actions and makes no DPS claim.
+- export-warlock-demonology-full-raid-first-pass-build-v1.mjs/test: independently
+  replayed current-model chain, actual final consume/gear/state closure, preserved
+  2%/original1%/strict-dominance assessment, existing selected native/WASM proof,
+  genuine numerical receipt, full pre-raid acquisition/enchant/weapon audit, unique
+  request totals, exact guide and immutable no-promotion export.5/5negative/current
+  genuine-assessment tests PASS. Positive actual closed/export check remains pending
+  the real feedback and confirmation, not replaced by fabricated completed fixtures.
+
+All4new files scoped ESLint0issues; formatting and diffcheck pass. No engine/model/
+frozen producer edits, numerical reuse across models, public UI change, Git write,
+production deployment or3017restart.27localinitialcases unchanged; all remaining
+class/tank/catalog/incremental/16boss-debuff scope is still required. After genuine
+feedback completion: current confirmation runner --plan then ordinary final owner;
+after actual40k/selectedWASM receipt: new exporter COMPLETION_PATH --export, strict
+fresh frontend reader and cumulative4spec browser/local handoff. No new score yet.
+
+## October 23, 04:11 UTC — gear completed; strengthened independent replay passed
+
+The preceding status turn was a VERIFIED WAIT: actual validation sessions58548 and
+14727 and their process IDs were checked live, not inferred from saved lock files.
+This continuation has completed the genuine gear regression and is preparing the
+next ordinary phase; the overall goal remains active and the full scope is unchanged.
+
+Gear owner79058/child35648 finished0 at03:55:04UTC. Genuine completion:
+`optimization/bounded-native-studies/bd8f72ff394a8fdd2d5b11a71163ccdd265b68caa4c59b3cf9b783f2c2571209/completed.json`,
+semantic SHA54fff12a682ee824f14d5bfc3488249179f49279004051a4268590fd374563aa.
+Result300025809133e36c... measured21,960NEWrequests/2,879,620NEWfights and inherited
+124,735same-backend blue origins; accumulated146,695. Its provisional843.424484DPS/
+10k uses2/31/18, Succubus+Imp sacrifice/Spellstone and272683+22329 caster weapons.
+Sweep gains21.9051% and8.5433%; stoppedForSmallGain=false, so this is NOT closure,
+qualification, a delivered preset or production deployment.
+
+Original read-only gear test60725 failed after successful source reconstruction:
+its new assertion incorrectly compared phase-specific21,964verified request IDs
+with the larger124,735blue ancestry. That failure remains historical evidence.
+The unfrozen consumer now additionally tracks EVERY newly admitted gear origin,
+deletes each only when actually replayed, and refuses any unreplayed origin. No
+frozen producer, raw result, input, model, score or source pin was changed. Corrected
+actual test58548 passed1/1 after364.9seconds, proving21,960new origins,146,695total
+origins, all17slots/pairs/sets/enchants and exact unchanged evaluation/stage replay.
+Scoped ESLint on the three changed consumer/test/unused-runner files:0issues;
+git diff --check passed. The original gear producer does not pin this consumer.
+
+Original actual feedback preflight54846 passed. Corrected accounting preflight14727
+remains LIVE (PID62780, checked04:10UTC); poll SAMEsession rather than restart.
+Require its actual terminal0, then start demonologyFullRaidFeedbackOwner using the
+bd8f72ff...completion under runApprovedFullRaidUpdateProcess. That unused ordinary
+state-recheck phase must execute15actual detailed native/WASM controls and complete
+consume/all17gear/state/final-consume applicability before finite inspection/fresh
+40k confirmation/export/browser delivery. Same17:56:57.713Zdeadline; no correction,
+new clock, new agents, Git/prod write or3017restart.27/30localinitialcases unchanged.
+Other-session leveling and next-env changes are unrelated and must be preserved.
+
+## October 23, 03:50 UTC — all8gear native/WASM controls passed; scalar gear live
+
+Owner79058/child35648 remains LIVE. It finished source replay and all8actual gear
+native/WASMcontrols,200fights each engine, every scalar difference0 and complete
+full-raid player/pet/resource comparisons passed before scalar dispatch. Immutable
+proof `optimization/warlock-demonology-full-raid-v1/gear-parity-f97e04d81d5b8d0d.json`,
+semantic SHA `0f9f18d8d35f58165c742419ee84ff9d879f91778240e4bad15ff882079251ca`.
+Actual all17gear study is now:
+`optimization/bounded-native-studies/bd8f72ff394a8fdd2d5b11a71163ccdd265b68caa4c59b3cf9b783f2c2571209`.
+At03:49:36UTC:8,112NEWrequests/897,900NEWfights, sweep1/group15 screening. The
+124,735same-backend blue origins are separately inherited; never count them as new
+gear fights or old-model reuse. Freeze every gear declaration input and keep same
+owner/session. No new qualified/published build or final gear score yet.
+
+NEXT after genuine terminal0/gear completion: run
+
+  node artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-full-raid-feedback-v1.mjs --plan artifacts/forever-simulator/optimization/bounded-native-studies/bd8f72ff394a8fdd2d5b11a71163ccdd265b68caa4c59b3cf9b783f2c2571209/completed.json
+
+That command independently reconstructs actual blue+gear via the NEW current-schema
+reader, then validates all-slot and15geared/proc/consume projections without new
+fights. Require actualPASS, then start `runApprovedFullRaidUpdateProcess` with
+`demonologyFullRaidFeedbackOwner(GEAR_COMPLETION_PATH)` exported from that new runner.
+No new clock/correction. Actual final-arms/confirmation/selected-WASM pipeline is
+implemented/tested in preceding entry, but first needs genuine closed feedback.
+Actual future finalcommand is new runner `--plan FEEDBACK_COMPLETION_PATH`, then
+`demonologyFullRaidConfirmationOwner(FEEDBACK_COMPLETION_PATH)` under supervisor.
+Never substitute frozen historical schemas or fabricate positive completed fixtures.
+
+Goal active,27localcases unchanged, all remaining campaign scope preserved. New
+frontend fresh-Demo reader/export/cumulative4specbrowser handoff remains after real
+numerical qualification. No Git/prod/3017restart/newagents by this session.
+
+## October 23, 03:44 UTC — blue completed and independently verified; ordinary gear owner live
+
+Current goal turn is PROGRESS. Blue owner62873/child56323 finished TERMINAL0 at
+03:33:02UTC (observed03:34:40), with124,735newrequests/24,642,220fights. Internal
+full saved-result replay passed; no old-model numerical ancestry. Genuine completion:
+`optimization/bounded-native-studies/2f7f88cdef46a3e31726c8d66499d62583d887535d569dadded0440b44251df0/completed.json`,
+semantic SHA `a36a619302c15a73282f6931a57c8ebc14acea692b2e500133f0b206212d1df8`.
+Result `result-a77f2c05c3909b06.json`, semantic SHA
+`a77f2c05c3909b06c6b8e58c3d7ff716b18caccd97fb86ba5dad8ca91aaf12e8`.
+Provisional fixed-blue selected637.4135690545443DPS/10k,2/31/18,
+`011-0005003231120311351-0550005003`,Succubus+Imp sacrifice/Spellstone,
+shadowbolt/both/Doom/Brand/no-Soul-Fire/tap15; main13964/off22253.
+This is NOT a new qualified/published BiS score. Final blue retains1,191states in
+1,184mechanics families, so final finite-inspection safety cap is now2,048 rather
+than512; no retained state is silently dropped. At most12 pre-frozen holdout arms
+remain the declared practical policy. This does not add a deeper adaptive search.
+
+Independent gear preflight **30845** finished0 at03:40:40, reconstructing all306stages
+and124,735genuine origins. All17pools,10,451distinct gear proposals,3,013whole hand
+pairs,3,794ordered ring pairs,1,789trinket pairs,1,060set layouts and compatible
+enchants passed actual source/legality validation. Eight derived actual gear controls
+await execution. Real ordinary gear owner **79058 / child35648** started03:40:53UTC:
+
+  runApprovedFullRaidUpdateProcess({classSlug:"warlock",spec:"demonology",phase:"gear",script:"artifacts/forever-simulator/optimization/review-tools/run-warlock-demonology-full-raid-gear-v1.mjs",args:["artifacts/forever-simulator/optimization/bounded-native-studies/2f7f88cdef46a3e31726c8d66499d62583d887535d569dadded0440b44251df0/completed.json"]})
+
+Poll SAME79058session. At03:41:53 its actualPID is live, still authenticating/replaying
+source before8actual native/WASMcontrols and scalar gear. No gear study ID logged
+yet. Freeze new gear driver, selected-blue reader/tests, gear projection helper/test
+and every source input as soon as declared; do NOT edit these for later feedback.
+Same Warlock17:56:57.713Zdeadline/usedcorrection/original68677c...ledger. Disk30GiBfree.
+
+New complete final-stage modules (not dispatched numerically) under review-tools:
+
+- `warlock-demonology-full-raid-final-arms-v1.mjs/test`: real closed consumes/gear/state
+  readiness, every final-gear consume coordinate and retained canonical contenders;
+  finite genuine10k inspection, <=12frozen holdout arms, incumbent never replaced by
+  holdout outcomes. Four current-control/scenario/foreign-source tests pass, including
+  the latest2,048safety-cap revision. No fake positive completed result.
+- `warlock-demonology-full-raid-selected-wasm-v1.mjs/test`: actualClass8>=21Demo legal
+  active/Pact states, original10k/77191 only, exact normalized native-input equivalence,
+  canonical DB/frame/gear checks and raw selected native/WASM comparison. Three tests
+  pass on real current input projections; positive actual10kparity still pending.
+- `warlock-demonology-full-raid-selected-parity-v1.mjs`: verified fresh40k prerequisite,
+  original inspected native origin, one real selected10kWASM execution, cleanup and
+  immutable source-specific proof; never another holdout or publication shortcut.
+- `warlock-demonology-full-raid-confirmation-context-v1.mjs/test`: full independent
+  source/inspection/confirmation replay, all actual control/shared-feature/core RNG
+  ranges, pre-frozen two20kplan/reservation,2%plus separate1%/strict-dominance fields.
+  Four ownership/foreign-source/real-margin-format tests pass. Current valid closed
+  feedback does not exist yet; actual positive final preflight remains required.
+- `run-warlock-demonology-full-raid-confirmation-v1.mjs`: ordinary unused
+  confirmation-delivery owner; finite inspection then fresh40k, accepted2%only,
+  selected realWASM and genuine numerical receipt. Never updates public/local UI by
+  itself. It exports `demonologyFullRaidConfirmationOwner(feedbackPath)` for supervisor.
+
+All19 focused policy/state/consume/final-context/WASM/ownership tests passed together
+with2workers. The cap-only change was followed by4/4focusedfinal tests passing.
+Scoped ESLint/Prettier, actual106-module final-runner import graph, and diffcheck pass.
+No new native/browser fights were dispatched by these tests. New final dependencies
+must stay frozen once their ordinary final owner starts. Actual export/frontend fresh
+Demo reader/current4spec cumulative presentation/browser delivery still need adaptation.
+
+Important model evidence, not a bug fix: selected preliminary blue learns2Decimation
+but skips Soul Fire. Compiled pinned `sim/warlock/talents.go:293` ALSO increases Shadow
+Bolt/Searing Pain damage3%/rank below35%, independently of the10secSoulFire proc.
+Thus these points are NOT automatically wasted. Do not remove them or invent a
+cleanup score; let actual-geared comparisons decide and explain the passive benefit
+in the final guide if this remains selected. No frozen model/source was changed.
+
+Repository HEAD is nowca6e35d (`Fixes`), committed externally while work ran. This
+agent did not commit/push/deploy. Only context.md and Warlock update doc were dirty
+when inspected03:20. Preserve that user work; no production/3017restart/newagents
+authorized.27localcases and all previously documented remaining campaign scope stay.
+
+## October 23, 03:08 UTC — blue10k inspection live; geared feedback implemented and tested
+
+Previous goal turn was PROGRESS (fresh numerical run, actual weapon browser checks,
+new source/projection tests). This turn is also PROGRESS, not a blocked/wait-only
+turn. Owner62873/child56323 is still live (session and actual PID both verified).
+At03:07:03UTC the blue study2f7f88... had123,667newrequests/13,962,220fights and was
+in `full-raid-demonology-inspect-10000:control-9`. Its earlier rounds have completed.
+Same command/source pins; no restart or final-qualified score claimed. Same shared
+17:56:57.713Zdeadline and used correction. Original ledger SHA68677c... unchanged.
+Within-study matching-request reuse now occurs; NO old-model numerical origins are
+imported. Do not misread the runtime sourceReused counter as cross-model reuse.
+
+New actual evidence: the frozen2,398talent bank contains85Shadow-and-Flame anchors,
+437Nightfall anchors and10Shadowburn anchors, but zero SF+Shadowburn or NF+Shadowburn
+combinations. It is a bounded structured bank, not all legal talents. Leave it and
+the running blue study FROZEN. New geared anchors add legal one-point transfers that
+enable these interactions, retaining every original value and >=21Demonology points.
+The maximum12k safety bound fails rather than truncating. No old damage values used.
+
+New complete modules under `optimization/review-tools/` (not dispatched numerically):
+
+- `demonology-full-raid-policies-v1.mjs/test`:30canonical policies retained exactly;
+  240total distinct coarse policies, adding learned Nightfall proc priority and
+  Shadowburn execute/on-CD/Fire-aura/never comparisons. Fire aura uses actual compiled
+  spell30288tag2; legal talents only. Three tests pass, including real wire/frame
+  preservation and expanded SF+Shadowburn anchors. This is not a deep timing search.
+- `warlock-demonology-full-raid-state-recheck-v1.mjs`: new proc-safe canonical state
+  reconstruction, expanded anchors, full current NF/SF family retention,400kcap.
+- `warlock-demonology-full-raid-consumes-v1.mjs`: bounded legal nonraid consume axes,
+  byte-restoring class8 consume-only derivation, immutable20MP5/WizardOil/scenario.
+- `warlock-demonology-full-raid-feedback-v1.mjs`: up to3consume/all17gear/state cycles,
+  separate final-gear consume check; a changed final consume forces another full
+  applicability cycle. A cycle cap is not closure or qualification.
+- `warlock-demonology-full-raid-geared-v1.mjs`: new schema/current-backend independent
+  all-slot source reader,400korigins and full-raid complete metrics. Actual new gear
+  completion does not exist yet; do NOT claim its positive replay has passed.
+- `warlock-demonology-full-raid-state-parity-v1.mjs`:15distinct proposed detailed
+  current-class8 controls: original9pet/stone/Pact/Brand/Conflag/filler plus Nightfall,
+  three Shadowburn modes and two consume changes. Full player/pet/resource equality,
+  provider-preserving Blood Pact, actual NF procs/Shadowburn casts/Fire aura uptime
+  required. Exports prepare/descriptor/verify/ensure helpers for canonical replay.
+- `run-warlock-demonology-full-raid-feedback-v1.mjs`: unused ordinary state-recheck
+  owner, full import-graph pins and400korigin cap; no extra correction/clock.
+- `warlock-demonology-full-raid-feedback-source-v1.mjs`: independently replays entire
+  new consume/gear/state chain, raw new origins, descriptor and15control records.
+  Actual positive completion is still unavailable; no invented result fixture.
+- `warlock-demonology-full-raid-state-consumes-v1.test.mjs`:5/5PASS after final parity
+  helper refactor; real anchors, all allowed consume projections, unchanged frame,
+  final-consume closure refusals,15real projections and ordinary phase owner.
+
+New modules pass scoped ESLint/Prettier, actual two-entrypoint esbuild graph96source
+files resolves with0writes/0fights; diff check passes. New15native/WASM fight pairs
+are NOT yet dispatched. No app changes, production/Git writes or new agents.
+
+IMMEDIATE NEXT: poll same62873session; after actual terminal success, independent
+new selected-blue reader and real `run-warlock-demonology-full-raid-gear-v1.mjs
+COMPLETION_PATH --plan`; then approved ordinary gear owner. New gear driver and8
+gear projections were prepared/tested in prior entry, not run against completed new
+blue yet. After genuine gear result, run new geared reader and feedback `--plan
+GEAR_COMPLETION_PATH`, then normal state-recheck owner. Keep all newly admitted
+dependencies frozen once dispatched. New current final-arms/confirmation/export/
+local4spec delivery adaptation remains; don't feed new source through old readers.
+
+User asked “what is left?”:27/30local initial cases,3tanks unoptimized; latest Warlock
+DS/Ruin+Destruction refreshes locally delivered, Demo running and Aff fresh refresh
+remaining. Other5approved class refreshes (Warrior/Rogue/Hunter/Druid/Mage) still
+not started, plus catalogue/incremental rerun and exact16boss-debuff audits. Local
+Ret/Warlock changes are not production deployed. Preserve full objective and2%
+practical tolerance, never claim all latest-buff refreshes completed from27/30count.
+
 ## October 23, 02:42 UTC — weapon browser audit passed; fresh Demonology search running
 
 Weapon request covered with fresh authenticated local/live audit:

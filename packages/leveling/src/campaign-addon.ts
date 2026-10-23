@@ -12,7 +12,7 @@ import {
   type CampaignNativeInstructions,
 } from "./campaign-addon-native.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261022-v22" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261023-v23" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;

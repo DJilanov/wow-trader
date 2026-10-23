@@ -1,5 +1,29 @@
 # WoW Trader fixes and recovery context
 
+## October 23 — distinguish gear-phase verification from inherited origins
+
+A new gear regression incorrectly required the gear phase's21,964verified IDs to
+exceed its124,735blue ancestry, although exact source reconstruction had succeeded.
+The original failure is preserved. The unfrozen completed-source consumer now
+tracks every newly admitted request separately and refuses qualification if any
+new origin was not replayed. The corrected actual test passed1/1:21,960new gear
+origins,146,695accumulated origins, unchanged full all-slot evaluation and stages.
+Do not compare phase-specific verification counters across different scopes or
+erase numerical results to repair test accounting. No frozen producer, engine,
+source pin, measured score or budget was changed. Exact handles and next owner:
+context.md,04:11UTC entry. Material gains still require actual feedback closure.
+
+## October 23 — do not mistake Decimation's passive execute bonus for unused talents
+
+The preliminary fresh Demonology blue result skips Soul Fire yet learns Decimation.
+Pinned compiled `sim/warlock/talents.go:293` applies3%damage/rank to Shadow Bolt and
+Searing Pain below35%health separately from the10second Soul Fire cast-time proc.
+This combination is therefore not automatically a dead-talent bug. Do not remove
+points or fabricate a cleanup score based only on the “no-execute” policy name.
+Actual-geared talent/APL comparisons remain the deciding evidence; explain the
+passive benefit in the final rotation guide if the combination stays selected.
+No engine or frozen model source was changed for this finding.
+
 ## October 23 — passive Brand and complete full-raid Blood Pact verification
 
 The new Demonology run completed all24actual current-engine native/browser control

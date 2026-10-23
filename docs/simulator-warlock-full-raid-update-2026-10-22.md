@@ -1,5 +1,83 @@
 # Warlock full-raid update
 
+## October 23, 04:17 UTC — actual ordinary feedback owner started
+
+Corrected feedback preflight14727 passed. Normal state-recheck owner23775/child73473
+is live, still authenticating/replaying source before15actual native/WASM controls
+and consume/all17gear/state/final-consume applicability. Same class deadline; no
+extra correction or clock. All currently admitted inputs stay frozen.
+
+New delivery modules are ready for real final evidence: exact full-raid rotation
+guidance3testsPASS (210applicable policy variants,30without enabling legal anchors
+explicitly refused), current full-raid exporter5testsPASS (no provisional/historical/
+foreign-spec qualification). Scoped lint/format/diffcheck pass. Positive real40k/
+selectedWASM/export/frontend/browser handoff still pending. No preset promotion or
+deployment; all remaining initial and full-raid campaign scopes preserved.
+
+## October 23, 04:11 UTC — full-slot gear completed; exact replay passed
+
+Gear studybd8f72ff... finished0 with21,960new requests/2,879,620new fights. Result
+300025809133e36c... has provisional843.424484DPS/10k,2/31/18, Succubus+Imp sacrifice,
+Spellstone, caster272683+22329. Both gear sweeps still gained materially, so no
+convergence or preset qualification is claimed. Exact source replay passed in the
+corrected actual regression58548, including all21,960new origins and146,695total.
+The predecessor60725 failed an incorrect phase-versus-ancestry counter assertion;
+its failure is preserved. The unfrozen consumer now explicitly refuses any new
+origin not replayed, without changing frozen producers or numerical results.
+
+Corrected read-only feedback preflight14727 is still live. After terminal0, start
+the ordinary state-recheck owner on that actual completion, then require real15
+native/WASM controls and complete gear/consume/state closure before confirmation.
+All remaining campaign scope, original deadline and used correction are unchanged.
+No new public preset, commit, push, deployment or3017restart by this session.
+
+## October 23, 03:50 UTC — all8gear controls passed; real full-slot sweep running
+
+Owner79058/35648 passed all8actual full-metrics native/WASMgear controls with0DPS
+differences,200fights each engine. Saved gear-parity proof SHA0f9f18d8d35f5816...
+Actual studybd8f72ff... is now measuring all17slots/pairs/sets/enchants;8,112new
+requests/897,900newfights at03:49:36UTC. Same-backend blue origins inherited only,
+not counted as new gear work. No new qualification or preset publication yet.
+Exact next NEW current-schema feedback command/owners and final-pipeline tests are
+in context.md. Same deadline/usedcorrection/all remaining scopes remain unchanged.
+
+## October 23, 03:44 UTC — fresh blue completed; full17gear underway
+
+Blue owner62873 finished0,124,735newrequests/24,642,220fights, result SHAa77f2c05...
+Independent30845preflight then replayed all306stages/124,735origins and authenticated
+10,451actual all-slot proposals, full hands/jewelry/sets/enchants. Normal gear owner
+79058/child35648 started03:40:53 under same original deadline, no extra correction.
+Actual gear controls/scalars still pending source replay; no new qualified preset.
+
+New complete final pipeline implements finite canonical inspection, final-gear
+consume evidence, pre-frozen fresh2x20k, independent source/origin replay, original
+selected10kWASM parity and genuine receipt.19focused tests pass together; scope/
+import/lint/format checks pass. Actual positive closure/40k/WASM/export/browser
+delivery remain. Exact new files/command/identities/recovery:context.md.
+
+The preliminary2/31/18637.4136DPSblue uses Succubus+Imp sacrifice/Spellstone. No
+Soul Fire does NOT imply Decimation is wasted: pinned engine adds3%/rank to Shadow
+Bolt/Searing Pain below35%, independent of Soul Fire's proc. Keep real comparisons.
+Final1,191retained blue states also require a2,048finite-inspection safety cap;
+<=12frozen holdout arms unchanged. No silent pruning, newclock, model or public write.
+
+## October 23, 03:08 UTC — final blue precision running; proc/consume feedback ready
+
+Owner62873/PID56323 verified live; blue study2f7f88... reached123,667requests/
+13,962,220fights at03:07:03UTC, final10k inspection. No final-qualified or new
+published preset claim. Same deadline/used correction; original ledger unchanged.
+
+Real bank audit found85SF/437NF/10Shadowburn anchors but zero SF+Shadowburn or
+NF+Shadowburn combinations. Running bank remains frozen; geared phase adds legal
+one-point enablers with all original anchors preserved. New240coarse policies
+retain30canonical originals, adding learned NF priority and Shadowburn modes.
+Policy tests3/3PASS. New consumes/all17gear/state/final-consume feedback implemented;
+five real-data/projection/closure tests PASS after final parity-helper refactor.
+Fifteen actual current-frame control projections prepared, not yet simulated.
+New geared and feedback completed-source readers/owner implemented; import graph
+and scoped checks pass, actual positive completion checks still pending real data.
+All paths, next phase commands, freeze rules and remaining campaign:context.md.
+
 ## October 23, 02:42 UTC — fresh Demonology narrowing running, weapon checks passed
 
 Owner62873/child56323 is running the new ordinary talents-rotation phase, study

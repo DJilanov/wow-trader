@@ -85,13 +85,12 @@ export const PREMADE_STAGES: readonly { readonly id: PremadeStageId; readonly la
   { id: "checkpoint", label: "Next-stop XP check" },
 ];
 
-export const PREMADE_STOPS: readonly PremadeStop[] = [
+const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
   {
     id: "thanes",
     name: "Hall of Thanes",
     visitIds: ["thanes"],
     level: 16,
-    nextLevel: 18,
     zone: "Dun Morogh",
     preparation:
       "Meet in Ironforge after your race-specific starting chapters. Finish Underground Map → Old Ironforge Incursion; collect the city quests before entry.",
@@ -113,7 +112,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Ruins of Lordaeron",
     visitIds: ["lordaeron"],
     level: 18,
-    nextLevel: 20,
     zone: "Tirisfal Glades",
     preparation:
       "Plan the northern journey as a group. Alliance quests start inside; bring free quest-log space and check each member's item-start eligibility.",
@@ -134,7 +132,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "The Deadmines",
     visitIds: ["deadmines"],
     level: 20,
-    nextLevel: 26,
     zone: "Westfall",
     preparation:
       "Prepare Defias 65 → 132 → 135 → 141 → 142 → 155 while doing overlapping shared-kill work. Collect Stormwind quests; the explosives chain is optional, not mandatory collection filler.",
@@ -143,7 +140,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Batch Sentinel Hill and Stormwind. Turn in the Letter once, then take Bazil Thredd → Stockade Riots. Do not pay the Letter again at Stockade.",
     bridge:
-      "The 20→26 gap is large. Batch Redridge/Duskwood shared-kill quests, city pickups and Wetlands' Dark Iron War; do not assume one Deadmines visit supplies six levels.",
+      "Prepare the Ironforge, Darkshore and Darnassus BFD pickups on the Kalimdor crossing. Use level-appropriate shared-kill work only for the remaining entry gap.",
     notes: [
       "Personal collections are opportunistic; retain necessary unlocks even if ahead on XP.",
       "Explosives include gills, supplies and ten dynamite per character; prepare beforehand only when worthwhile.",
@@ -156,7 +153,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "The Stockade",
     visitIds: ["stockade"],
     level: 26,
-    nextLevel: 27,
     zone: "Stormwind City",
     preparation:
       "Stage Redridge and Duskwood quest heads. Finish Dark Iron War → Fury Runs Deep in Wetlands, and the Letter → Bazil → Riots chain in Stormwind.",
@@ -175,7 +171,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Excavation Site: Wetlands",
     visitIds: ["excavation"],
     level: 27,
-    nextLevel: 28,
     zone: "Wetlands",
     preparation:
       "Batch Greenwarden 463 → 276 → 277 → 275 → Horrors, the Redridge Songblade pickup and Caitlin's selected chain. Highland Hides' personal skins are optional.",
@@ -184,7 +179,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Batch Wetlands rewards, then Ironforge's Prism delivery. The October 8 relic return supports its follow-up without farming another relic.",
     bridge:
-      "Collect the Ironforge BFD quest while here, then prepare the Darkshore/Darnassus pickups on the actual Kalimdor crossing.",
+      "Finish the relic's Ironforge follow-up on the city return, then prepare the Stormwind and Southshore Dalaran pickups.",
     notes: [
       "Level 27 is an experienced-premade proposal; the conservative band is 29.",
       "Young Crocolisk Skins is in the new Journal chain; Daily Delivery is a disputed breadcrumb, not silently marked done.",
@@ -196,8 +191,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "blackfathom",
     name: "Blackfathom Deeps",
     visitIds: ["blackfathom"],
-    level: 28,
-    nextLevel: 30,
+    level: 25,
     zone: "Ashenvale",
     preparation:
       "Combine Ironforge, Auberdine and Darnassus pickups with the crossing. Keep In Search of Thaelrid before his inside quest; class materials are personal extras.",
@@ -206,7 +200,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Use the correct Darkshore/Darnassus/Ironforge hubs. Do not count all XP as paid inside the instance.",
     bridge:
-      "Batch shared-kill work on the eastern return. Prepare Dalaran's Stormwind quests and Southshore's An Alarming Request.",
+      "Return to the Eastern Kingdoms for the Stockade preparations. Batch the Letter/Bazil chain, Redridge and Duskwood pickups, and Wetlands' Dark Iron War before entering Stockade.",
     notes: [
       "Low-level rewards may be reduced at late hand-ins; unknown reductions are not treated as full XP.",
     ],
@@ -218,7 +212,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "City of Dalaran",
     visitIds: ["dalaran"],
     level: 30,
-    nextLevel: 33,
     zone: "Alterac Mountains",
     preparation:
       "Collect A Green Sample and Power Overwhelming in Stormwind. At level 30, complete An Alarming Request in Southshore before the Modera quests. Collect Past Due for the later SM Library visit.",
@@ -227,7 +220,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Deliver the Modera objectives, then the selected Stormwind rewards. Keep the sewer-key state separate from starting or finishing a quest.",
     bridge:
-      "Use shared-kill work and actual XP to 33. Batch the Gnomer city and Kharanos preparations; preserve necessary flight and training stops.",
+      "Prepare Lonebrow's Journal and the Thalanaar Crone pickup for Razorfen Kraul. Continue when the party meets that stop's entry checks; do not grind toward the later Gnomeregan stop first.",
     notes: [
       "The conservative band is 31. The introductory quest and key-bearing quest have a recorded level-30 minimum.",
       "Each of the four quests has a collected full reward of 9,400 XP, for 37,600 before hand-in-level reductions. These final rewards are not multiplied again.",
@@ -240,7 +233,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Gnomeregan",
     visitIds: ["gnomeregan"],
     level: 33,
-    nextLevel: 35,
     zone: "Dun Morogh",
     preparation:
       "Batch Stormwind, Ironforge and Kharanos. Collect the first punch card before entry; follow its terminal upgrades in order. Green Glow requires a prior outside hand-in, not an instant second reward.",
@@ -249,7 +241,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Batch Ironforge/Kharanos and only selected remote rewards. Do not send everyone to Booty Bay solely for an unmeasured escort reward.",
     bridge:
-      "Prepare RFK while crossing to Ratchet/Thalanaar. Stage the SM Desolace chain before level 38, not later at Maraudon.",
+      "Prepare the SM Desolace chain before the northern Monastery visit, then continue through the selected STV work and optional Drowned City stop.",
     notes: [
       "Techbot is outside the portal. A keyed shortcut is a different route from the normal entrance.",
     ],
@@ -260,8 +252,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "razorfen-kraul",
     name: "Razorfen Kraul",
     visitIds: ["razorfen-kraul"],
-    level: 35,
-    nextLevel: 37,
+    level: 31,
     zone: "The Barrens",
     preparation:
       "Prepare Lonebrow's Journal → Crone at Thalanaar. Bring starting items only if selecting Blueleaf. Do not import the Horde Unholy Alliance chain into the Alliance plan.",
@@ -270,7 +261,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Deliver the selected faction and escort rewards together. Class materials remain separate personal goals.",
     bridge:
-      "Prepare the northern SM journey and the Drowned City access/reference review during the remaining XP gap.",
+      "Return the selected rewards, then batch the Ironforge and Kharanos Gnomeregan pickups. The later Scarlet Monastery chain is prepared after Gnomeregan, not as a prerequisite for this run.",
     notes: [
       "Entering later does not restore full XP to low-level tuber rewards.",
       "Mortality needs a personal pendant drop and a Darnassus hand-in; include it only with an existing drop and an already planned city visit.",
@@ -283,7 +274,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "The Drowned City",
     visitIds: [],
     level: 37,
-    nextLevel: 38,
     zone: "Stranglethorn Vale",
     preparation:
       "Plan the optional STV visit with all four faction quest slots selected. Exact pickups and access requirements are pending identification; no locations or prerequisites are invented.",
@@ -304,7 +294,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Scarlet Monastery · 3 wings",
     visitIds: ["sm-library", "sm-armory", "sm-cathedral", "sm-all-wings"],
     level: 38,
-    nextLevel: 42,
     zone: "Tirisfal Glades",
     preparation:
       "Prepare Down the Scarlet Path in Desolace before 38 and its Southshore handoff. Collect Mythology in Ironforge and the new Past Due from Magus Olvek in Dalaran.",
@@ -313,7 +302,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Batch Southshore, Dalaran and Ironforge deliveries with the continuation. Confirm all five have their books before leaving Library.",
     bridge:
-      "The gap to 42 is substantial. Favor reviewed shared-kill work and future Riverglades preparation over personal collection filler.",
+      "Prepare the Stormwind Bring the Light pickup and the Razorfen Downs journey. Use shared-kill work only if the party still needs its entry level.",
     notes: [
       "Past Due 96800 is new Alliance content missing from the old all-dungeon list.",
       "A multi-wing itinerary is not one short dungeon clear.",
@@ -326,7 +315,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Krol'dok Stronghold",
     visitIds: [],
     level: 42,
-    nextLevel: 45,
     zone: "Riverglades",
     preparation:
       "Plan the optional Riverglades visit with all four faction quest slots selected. Confirm real access separately; no attunement is inferred.",
@@ -335,7 +323,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Forecast four level-42 rewards using the Dalaran reward tier, then replace the forecast with actual party XP after playing.",
     bridge:
-      "Use actual party progress at the next gate and preserve the future RFD pickup, whether you visit or skip Krol'dok.",
+      "Prepare the Ironforge, Loch Modan and Badlands Uldaman leads next, whether you visit or skip Krol'dok.",
     notes: [
       "Four owner-confirmed quests per faction; level 42 is an editable planning input. No invented quest IDs, pickups or objectives.",
     ],
@@ -346,8 +334,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "razorfen-downs",
     name: "Razorfen Downs",
     visitIds: ["razorfen-downs"],
-    level: 45,
-    nextLevel: 47,
+    level: 39,
     zone: "The Barrens",
     preparation:
       "Collect Bring the Light in Stormwind. Reserve the inside Belnistrasz stages and check all five are ready before the escort; no Horde RFK chain is required.",
@@ -355,10 +342,9 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
       "Complete the selected boss goal and Scourge → Idol sequence. Do not trigger the escort before every participating player has the prior stage complete.",
     handIn: "Finish inside deliveries and batch the Stormwind reward with later travel.",
     bridge:
-      "Use actual shared-kill XP and Badlands/Uldaman preparation for the remaining gap. Quest rewards alone do not supply 45→47.",
+      "Return the selected rewards, then continue through the eastern shared-kill work toward optional Krol'dok and Uldaman. Do not delay this lower-level dungeon until after those stops.",
     notes: [
-      "Several historical quest levels are already overleveled at 45.",
-      "An earlier RFD schedule can be compared later; the requested stop order is preserved.",
+      "The core Bring the Light quest has a recorded level-39 minimum. Earlier access does not make that selected quest available sooner.",
     ],
     quests: choices([3636, 3523, 3525], [6626]),
     dataStatus: "historical-reference",
@@ -367,8 +353,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "uldaman",
     name: "Uldaman",
     visitIds: ["uldaman"],
-    level: 47,
-    nextLevel: 48,
+    level: 42,
     zone: "Badlands",
     preparation:
       "Batch Ironforge, Loch Modan and Badlands. Prepare selected dwarf/tablet stages and any required outside probe/city-return leg before the main clear.",
@@ -377,7 +362,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Deliver the selected artifacts at their actual hubs; do not count deferred necklace stages as first-clear XP.",
     bridge:
-      "Prepare Desolace/Maraudon on the remaining shared-kill bridge; late hand-in reductions remain unknown.",
+      "Prepare the Tanaris and Hinterlands Zul'Farrak chains on the continuation. Maraudon's higher-level first visit follows Zul'Farrak.",
     notes: ["Historical reward estimates are not current Forever observations."],
     quests: choices([1360, 2398, 2240, 1139, 2278], [17, 704, 2418, 709], [], [2198]),
     dataStatus: "historical-reference",
@@ -386,8 +371,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "maraudon",
     name: "Maraudon",
     visitIds: ["maraudon"],
-    level: 48,
-    nextLevel: 49,
+    level: 46,
     zone: "Desolace",
     preparation:
       "Batch Desolace pickups and selected remote chains. Shadowshard/Pariah farming is not routine speed work; only include it when prepared or worthwhile.",
@@ -395,7 +379,8 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
       "Use the first-time orange/purple/Celebras/Princess scope required by the selected quests. The portal-only Princess shortcut is different. Collect optional evils on the required clear only.",
     handIn:
       "Batch the main Desolace rewards. Seed of Life's remote delivery is optional unless its total journey fits the plan.",
-    bridge: "Prepare Tanaris/Dustwallow/Hinterlands ZF quests while filling the actual gap.",
+    bridge:
+      "Continue toward optional Alcaz Prison and the remaining Sunken Temple preparations. Keep the earlier Zul'Farrak chain progress; do not repeat its rewards.",
     notes: [
       "Individual quest items and both entrance paths need their real scope, not an instant all-quest total.",
     ],
@@ -406,8 +391,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "zul-farrak",
     name: "Zul'Farrak",
     visitIds: ["zul-farrak"],
-    level: 49,
-    nextLevel: 50,
+    level: 44,
     zone: "Tanaris",
     preparation:
       "Prepare remote pickups, Screecher Spirits → Mosh'aru and the Hinterlands Nekrum chain. Bring the summon item only if selecting Gahz'rilla.",
@@ -416,7 +400,7 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     handIn:
       "Batch Tanaris and the selected Hinterlands deliveries. Preserve Yeh'kinya's continuation for Sunken Temple.",
     bridge:
-      "Prepare the ST storyline during the remaining world work; no completion checkbox awards XP.",
+      "Keep Yeh'kinya's Sunken Temple continuation, then prepare Maraudon's Desolace pickups for its higher-level first visit. No completion checkbox awards XP.",
     notes: ["Gahz'rilla's current reward is unknown in this audit."],
     quests: choices([2991, 2768, 2846, 3527], [2770, 2865, 3042]),
     dataStatus: "historical-reference",
@@ -426,7 +410,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Alcaz Prison",
     visitIds: [],
     level: 50,
-    nextLevel: 53,
     zone: "Dustwallow Marsh",
     preparation:
       "Plan the optional Dustwallow visit with four faction quest slots. Access and identities are pending; Missing Diplomat is not assumed to unlock it.",
@@ -446,11 +429,10 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     id: "sunken-temple",
     name: "Sunken Temple",
     visitIds: ["sunken-temple"],
-    level: 53,
-    nextLevel: 55,
+    level: 51,
     zone: "Swamp of Sorrows",
     preparation:
-      "Prepare the Brohann/Marvon stages and ZF→Yeh'kinya→Hakkar chain during levels 46–52. Verify summon materials; class quests are separate personal additions.",
+      "Prepare the Brohann/Marvon stages and ZF→Yeh'kinya→Hakkar chain before the level-51 visit. Verify summon materials; class quests are separate personal additions.",
     clear:
       "Follow the selected temple, circle, prophet and summoned-boss objectives. Do not promise every class's quest reward to all five members.",
     handIn:
@@ -466,7 +448,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Blackrock Depths + raid preparation",
     visitIds: ["brd-prison", "brd-emperor"],
     level: 55,
-    nextLevel: 57,
     zone: "Burning Steppes",
     preparation:
       "Batch SW/IF/Burning Steppes. Separate the prison/unlock probe, outside hand-ins and main route for Windsor and the royal chain. Prepare Incendius' outside Pyron stage.",
@@ -492,7 +473,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Lower Blackrock Spire · conditional second visit",
     visitIds: ["lower-blackrock"],
     level: 57,
-    nextLevel: 59,
     zone: "Burning Steppes",
     preparation:
       "Stage Burning Steppes quests and the ST-linked Final Tablets. Assign a key holder; everyone-keyed is a different goal from one party key.",
@@ -514,7 +494,6 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     name: "Stratholme · adaptive finish to 60",
     visitIds: ["stratholme-live", "stratholme-undead"],
     level: 59,
-    nextLevel: 60,
     zone: "Eastern Plaguelands",
     preparation:
       "Prepare the selected WPL/EPL bundle and Egan's item. Love and Family is an optional prepared branch, not part of the four-quest speed core. Choose living/dead/both-side scope explicitly.",
@@ -537,6 +516,14 @@ export const PREMADE_STOPS: readonly PremadeStop[] = [
     dataStatus: "historical-reference",
   },
 ];
+
+// The compiler, reader and legacy checklist share one level-ordered circuit.
+// Derive the next checkpoint so moving a dungeon cannot retain its old successor.
+const orderedStops = [...stopDefinitions].sort((left, right) => left.level - right.level);
+export const PREMADE_STOPS: readonly PremadeStop[] = orderedStops.map((stop, index) => ({
+  ...stop,
+  nextLevel: orderedStops[index + 1]?.level ?? 60,
+}));
 
 export function getPremadeStop(id: string): PremadeStop | null {
   return PREMADE_STOPS.find((stop) => stop.id === id) ?? null;

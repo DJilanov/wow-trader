@@ -23,7 +23,7 @@ describe("reviewable premade-five circuit", () => {
   it("preserves all 21 requested stops and exposes the three evidence gaps", () => {
     expect(PREMADE_STOPS).toHaveLength(21);
     expect(PREMADE_STOPS.map((stop) => stop.level)).toEqual([
-      16, 18, 20, 26, 27, 28, 30, 33, 35, 37, 38, 42, 45, 47, 48, 49, 50, 53, 55, 57, 59,
+      16, 18, 20, 25, 26, 27, 30, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 57, 59,
     ]);
     expect(
       PREMADE_STOPS.filter((stop) => stop.dataStatus === "guaranteed-bundle").map(
