@@ -31,10 +31,11 @@ import {
 import { LevelingCampaignOutline, LevelingDungeonPreparation } from "./leveling-campaign-outline";
 import { LevelingCatchUpSuggestions } from "./leveling-catchup";
 import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
-import { campaignChapterPath } from "../lib/leveling-route-plan";
+import { campaignChapterPath, levelingPlanDashboardPath } from "../lib/leveling-route-plan";
 import styles from "./leveling-experience.module.css";
 import pathStyles from "./leveling-chapter-path.module.css";
 import { LevelingRestedXpExport } from "./leveling-restedxp-export";
+import { ToolGroupActions } from "./tool-group-actions";
 
 interface CampaignPathProps {
   readonly plan: CampaignPlan;
@@ -70,6 +71,7 @@ export function LevelingCampaignPath({
   const chapters = campaignSections(plan, progress);
   const currentChapter = campaignSectionFor(plan, current.legId, progress)!;
   const race = getLevelingRace("alliance", plan.race)!;
+  const groupSourcePath = levelingPlanDashboardPath(profile, "premade");
   useEffect(() => {
     if (!loaded || !active) return;
     if (initializeCampaignGuideAnchors(plan, progress) !== progress)
@@ -138,6 +140,15 @@ export function LevelingCampaignPath({
             Browse freely. Save or connect a five-player character in the reader to track this
             route; existing solo progress is kept.
           </p>
+        )}
+        {profile.party.size > 1 && (
+          <ToolGroupActions
+            kind="leveling"
+            label={`${race.name} premade leveling`}
+            sourcePath={`${groupSourcePath}&setup=${encodeURIComponent(JSON.stringify(profile))}`}
+            faction="Alliance"
+            capacity={profile.party.size}
+          />
         )}
         <LevelingOptionalDungeonBundles
           progress={progress}
