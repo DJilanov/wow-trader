@@ -93,11 +93,32 @@ Read-only report from the active release:
 node scripts/tool-usage-report.mjs --root=/home/wow-trader-system/shared/seo/tool-usage
 ```
 
-The default report covers the last seven complete UTC dates. Missing days mean
+The default report covers the last seven closed UTC dates. Missing days mean
 unknown collection, not verified zero demand. Explicitly including today marks
 it partial. Counts are browser-reported actions, not unique people, Discord joins,
 attendance, completed trades or verified gameplay. Native community participation
 and recruitment submissions remain separate measures with no person-level join.
+
+The October 23 read-only reporting update adds explicit activation-boundary
+annotations without changing collection, totals or website runtime. Pass
+`--collection-started-at=2026-10-22T15:58:57.334Z` from the verified activation receipt.
+Without that evidence the report marks activation unknown; with it, the rollout
+date and any open/current or missing dates remain excluded from a complete
+calendar window. Calendar/file coverage is not evidence of continuous collection.
+
+Deploy this CLI-only update separately from the running website under the
+protected operations directory. Once installed, the production command is:
+
+```sh
+node /home/wow-trader-system/shared/operations/tool-usage-report-20261023/scripts/tool-usage-report.mjs --root=/home/wow-trader-system/shared/seo/tool-usage --collection-started-at=2026-10-22T15:58:57.334Z
+```
+
+This does not switch the website release, restart PM2, edit the environment or
+replace collector/simulator files. The bundle pins the existing web dependency
+directory and records committed source hashes; retain that dependency release.
+Verify the report tests and unchanged legacy totals on a protected snapshot
+before reading live aggregates. The snapshot and receipts are private operations
+artifacts, not public usage claims or synthetic collection events.
 
 Set `TOOL_USAGE_ENABLED=false` in the protected web environment and restart only
 Helper web to stop ingestion. Preserve existing aggregates; do not seed totals,

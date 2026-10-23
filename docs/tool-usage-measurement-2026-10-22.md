@@ -52,12 +52,31 @@ If `.writer-lock` remains after a crash, stop all writers using that root, estab
 node scripts/tool-usage-report.mjs --root=/protected/tool-usage
 ```
 
-The default is the last seven complete UTC dates. An explicit range is also supported:
+The default is the last seven closed UTC dates. This does not mean collection was
+enabled for all seven dates. Supply the verified activation timestamp to identify
+the partial rollout day; the report never infers it from the first action, a file
+timestamp or a release label. UTC timestamps use seconds or three-digit
+milliseconds with `Z`. An explicit range is also supported:
 
 ```sh
-node scripts/tool-usage-report.mjs --root=/protected/tool-usage --from=2026-10-15 --to=2026-10-21
+node scripts/tool-usage-report.mjs --root=/protected/tool-usage --from=2026-10-22 --to=2026-10-23 --collection-started-at=2026-10-22T15:58:57Z
 ```
 
 The report separates action/edition/device, lists release labels, and identifies missing days. Missing files mean unknown collection, not proven zero use. Including today requires an explicit range and is marked partial. Corrupt or misdated records fail the report rather than silently lowering totals. It reads at most 90 days and does not alter counts or publish anything.
+
+The additive `coverage` section lists the first possible complete UTC date,
+closed dates with aggregates and excluded dates with reasons: unknown activation,
+before collection, partial rollout, current date or missing aggregate. Existing
+`totalActions`, `byDay`, groups and build labels remain unchanged, including
+actions on partial dates. `fullCalendarWindowObserved` requires every requested
+date to be closed, after the partial rollout date and represented by an aggregate.
+It is false when activation is unknown. Even true means only calendar/file
+coverage, not continuous uptime, unsampled collection, unique people or growth.
+Later collection outages are not inferred or hidden by the activation timestamp.
+
+For the verified October 22 activation at 15:58:57 UTC, October 23 is the first
+possible full UTC date. October 23-29 can only become a seven-date calendar window
+on October 30, with every aggregate present. This is a review date, not a promise
+that the future window will have complete collection or any activity.
 
 Compare these counts with native event signups and recruitment submissions as separate aggregates. There is no compatible person-level join key. Native repeat signups do not establish attendance, and a contact-link click is not a confirmed guild enquiry. Production observations still need a complete collection period after an approved release.

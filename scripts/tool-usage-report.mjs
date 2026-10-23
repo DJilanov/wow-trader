@@ -11,24 +11,47 @@ import {
 /**
  * @typedef {{ edition: string, action: string, device: string, count: number }} UsageTotal
  * @typedef {{ date: string, count: number }} DailyTotal
+ * @typedef {'collection_start_unknown' | 'before_collection' | 'partial_collection_date' | 'current_utc_day' | 'missing_aggregate'} CoverageExclusion
  */
 
 /**
- * @param {{ root: string, from: string, to: string, now?: Date }} options
+ * @param {{ root: string, from: string, to: string, now?: Date, collectionStartedAt?: string }} options
  * @returns {Promise<{
  * schema: 'tool-usage-report.v1', generatedAt: string,
  * range: { from: string, to: string, timezone: 'UTC', includesPartialToday: boolean },
  * observedDays: number, missingDays: string[], totalActions: number,
- * byDay: DailyTotal[], groups: UsageTotal[], builds: string[], interpretation: string
+ * byDay: DailyTotal[], groups: UsageTotal[], builds: string[], interpretation: string,
+ * coverage: {
+ * collectionStartedAt: string | null, firstCompleteUtcDate: string | null,
+ * completeCalendarDates: string[], excludedDates: { date: string, reasons: CoverageExclusion[] }[],
+ * fullCalendarWindowObserved: boolean, interpretation: string
+ * }
  * }>}
  */
-export async function toolUsageReport({ root, from, to, now = new Date() }) {
+export async function toolUsageReport({ root, from, to, now = new Date(), collectionStartedAt }) {
   toolUsageDateSchema.parse(from);
   toolUsageDateSchema.parse(to);
   if (from > to || to > now.toISOString().slice(0, 10)) throw new Error("Invalid report range.");
   const days =
     (Date.parse(`${to}T00:00:00.000Z`) - Date.parse(`${from}T00:00:00.000Z`)) / 86_400_000 + 1;
   if (days > 90) throw new Error("Choose at most 90 days.");
+  let start = null;
+  let firstCompleteUtcDate = null;
+  if (collectionStartedAt !== undefined) {
+    start = new Date(collectionStartedAt);
+    if (
+      !/^20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(collectionStartedAt) ||
+      !Number.isFinite(start.getTime()) ||
+      start.toISOString().replace(".000Z", "Z") !== collectionStartedAt.replace(".000Z", "Z")
+    )
+      throw new Error("Use a valid UTC collection timestamp with seconds or milliseconds.");
+    toolUsageDateSchema.parse(start.toISOString().slice(0, 10));
+    if (start > now) throw new Error("Collection cannot start in the future.");
+    const midnight = Date.parse(`${start.toISOString().slice(0, 10)}T00:00:00.000Z`);
+    firstCompleteUtcDate = new Date(midnight + (start.getTime() === midnight ? 0 : 86_400_000))
+      .toISOString()
+      .slice(0, 10);
+  }
   const directory = resolve(root);
   const info = await lstat(directory);
   if (!info.isDirectory()) throw new Error("A real tool usage directory is required.");
@@ -38,10 +61,21 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
   const totals = new Map();
   /** @type {Set<string>} */
   const builds = new Set();
+  /** @type {string[]} */
+  const completeCalendarDates = [];
+  /** @type {{ date: string, reasons: CoverageExclusion[] }[]} */
+  const excludedDates = [];
   for (let index = 0; index < days; index++) {
     const date = new Date(Date.parse(`${from}T00:00:00.000Z`) + index * 86_400_000)
       .toISOString()
       .slice(0, 10);
+    /** @type {CoverageExclusion[]} */
+    const reasons = [];
+    if (!start) reasons.push("collection_start_unknown");
+    else if (date < start.toISOString().slice(0, 10)) reasons.push("before_collection");
+    else if (firstCompleteUtcDate !== null && date < firstCompleteUtcDate)
+      reasons.push("partial_collection_date");
+    if (date === now.toISOString().slice(0, 10)) reasons.push("current_utc_day");
     const file = join(directory, `${date}.json`);
     let aggregate;
     try {
@@ -52,6 +86,7 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
     } catch (error) {
       if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
         missingDays.push(date);
+        excludedDates.push({ date, reasons: [...reasons, "missing_aggregate"] });
         continue;
       }
       throw new Error(`Invalid aggregate for ${date}.`, { cause: error });
@@ -71,6 +106,8 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
       count += group.count;
     }
     byDay.push({ date, count });
+    if (reasons.length) excludedDates.push({ date, reasons });
+    else completeCalendarDates.push(date);
   }
   return {
     schema: "tool-usage-report.v1",
@@ -91,6 +128,15 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
       ),
     ),
     builds: [...builds].sort(),
+    coverage: {
+      collectionStartedAt: start?.toISOString() ?? null,
+      firstCompleteUtcDate,
+      completeCalendarDates,
+      excludedDates,
+      fullCalendarWindowObserved: completeCalendarDates.length === days,
+      interpretation:
+        "Calendar boundaries and aggregate-file presence only, using the supplied activation timestamp. This does not verify continuous collection, uptime, zero activity on missing dates, unique people or a growth trend. No start time is inferred from a first event, file timestamp or release label.",
+    },
     interpretation:
       "Browser-reported successful actions, not unique people, attended events, completed trades or verified gameplay. Repeats of one action/edition within 30 seconds in one page runtime are suppressed. Missing days are unknown, not zero; collection may be disabled, blocked or unavailable. No browser-to-Discord identity matching.",
   };
@@ -100,13 +146,13 @@ export async function toolUsageReport({ root, from, to, now = new Date() }) {
 async function main() {
   if (process.argv.includes("--help")) {
     process.stdout.write(
-      "node scripts/tool-usage-report.mjs [--root=/protected/tool-usage] [--from=YYYY-MM-DD --to=YYYY-MM-DD]\nDefaults to TOOL_USAGE_ROOT and the last seven complete UTC days. Read-only; no publication or synthetic data.\n",
+      "node scripts/tool-usage-report.mjs [--root=/protected/tool-usage] [--from=YYYY-MM-DD --to=YYYY-MM-DD] [--collection-started-at=YYYY-MM-DDTHH:mm:ssZ]\nDefaults to TOOL_USAGE_ROOT and the last seven closed UTC dates. Supply the verified activation timestamp to distinguish complete calendar dates from a partial rollout day. An omitted start is unknown. Read-only; no publication or synthetic data.\n",
     );
     return;
   }
   const options = new Map();
   for (const arg of process.argv.slice(2)) {
-    const match = /^--(root|from|to)=(.+)$/.exec(arg);
+    const match = /^--(root|from|to|collection-started-at)=(.+)$/.exec(arg);
     if (!match || options.has(match[1])) throw new Error("Invalid or duplicate argument.");
     options.set(match[1], match[2]);
   }
@@ -120,6 +166,7 @@ async function main() {
       options.get("from") ?? new Date(now.getTime() - 7 * 86_400_000).toISOString().slice(0, 10),
     to: options.get("to") ?? new Date(now.getTime() - 86_400_000).toISOString().slice(0, 10),
     now,
+    collectionStartedAt: options.get("collection-started-at"),
   });
   process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
 }
