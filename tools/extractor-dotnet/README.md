@@ -81,6 +81,15 @@ zero-filled client assets cannot be decoded or replaced with invented item artwo
 catalogs too, so missing images can be repaired without republishing catalog rows. Media release
 names include the manifest SHA-256 to keep repaired image sets distinct and immutable.
 
+The separate `mechanics-snapshot` command also preserves `SpellRadius` and
+`SkillLineAbility` as raw base/effective pairs for healing-target radius and spell
+training review. Missing tables and encrypted records remain explicit in its
+manifest; skill-line membership alone does not verify trainer or spell-book access.
+For model-admission research, use an isolated `--output` directory and import with
+`node scripts/import-forever-mechanics.mjs <manifest> --destination <directory>` so
+the active simulation campaign retains its original inputs. The normal
+`pnpm extract:forever:mechanics` wrapper updates the default active selection.
+
 ## Forever world snapshot
 
 `pnpm extract:forever:world` creates a separate `world-snapshot-manifest.v1` rather than mixing

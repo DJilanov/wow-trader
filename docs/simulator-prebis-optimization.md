@@ -1,5 +1,31 @@
 # Simulation-tested pre-raid gear
 
+## October 23 — Healers added to the all-role goal
+
+The owner explicitly expanded the campaign to healers as well as tanks and DPS.
+Keep the original 30-case accounting and add at least five healer archetypes (Holy and
+Discipline Priest, Restoration Druid, Holy Paladin, Restoration Shaman), for at least
+35 total archetypes/cases. The 27 original cases delivered locally do not imply healer delivery.
+Healers need validated friendly-target/incoming-damage mechanics and scenario-based
+effective healing, mana, overhealing and actual-absorb measurements before rankings.
+The current checkout's healer UI/legacy agents are incomplete; HPS fields alone do
+not qualify a model. Full admission, bounded search and website delivery contract:
+[Healer optimization campaign](simulator-healer-optimization-plan.md).
+The remaining original work continues alongside healer model admission. New healer
+source from client build 70532 is isolated from the existing campaign's inputs;
+neither the raw capture nor a populated healer page qualifies a numerical result.
+
+## October 23 — current full-raid Warlock update delivered locally
+
+All four Warlock archetypes now use qualified current-model results: Demonology
+855.2753 DPS, Affliction 760.2873, DS/Ruin 712.3755 and Destruction 732.4696, each
+with 40,000 final-validation iterations. Preset Configurations, Gear Sets and the
+library share the tested inputs. Presentation e093bd02230f77522f27f07f passed staged
+checks and eight real desktop/mobile main-page cases, preserving other profiles.
+This refresh does not increase the original 27-case count or qualify healers/tanks.
+Remaining full-raid class updates and global debuff enforcement are separate work.
+No production deployment occurred. Evidence: context.md and the Warlock update log.
+
 ## October 23, 01:39 UTC — Destruction delivered;27/30local cases
 
 Destruction's gear/state/consume feedback closed, then two independent20k ranges

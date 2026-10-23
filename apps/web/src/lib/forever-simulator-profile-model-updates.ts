@@ -29,6 +29,11 @@ import {
   verifiedFullRaidDemonologyNumericalDelivery,
 } from "./forever-simulator-fresh-full-raid-demonology";
 import {
+  currentAfflictionModelEntrySchema,
+  readFreshCurrentAfflictionSimulatorBuild,
+  verifiedCurrentAfflictionNumericalDelivery,
+} from "./forever-simulator-fresh-current-affliction";
+import {
   afflictionModelEntrySchema,
   readFreshAfflictionSimulatorBuild,
 } from "./forever-simulator-fresh-affliction";
@@ -263,6 +268,20 @@ const warlockProofSchema = z.union([
       ]),
     })
     .strict(),
+  z
+    .object({
+      ...proofFields,
+      ...cumulativeWarlockFields,
+      schema: z.literal("kfc-simulator-profile-model-update.warlock.v6"),
+      profile: z.literal("warlock"),
+      builds: z.tuple([
+        fullRaidDemonologyModelEntrySchema,
+        currentAfflictionModelEntrySchema,
+        dsRuinModelEntrySchema,
+        destructionModelEntrySchema,
+      ]),
+    })
+    .strict(),
 ]);
 const raidFeralProofSchema = z
   .object({
@@ -467,6 +486,7 @@ const browserSchema = z.union([
         "kfc-profile-model-browser.warlock.v3",
         "kfc-profile-model-browser.warlock.v4",
         "kfc-profile-model-browser.warlock.v5",
+        "kfc-profile-model-browser.warlock.v6",
       ]),
       profile: z.literal("warlock"),
       checked: legacyBrowserSchema.shape.checked
@@ -566,6 +586,7 @@ export async function validateSimulatorProfileModelBuilds(
       "kfc-simulator-profile-model-update.warlock.v3",
       "kfc-simulator-profile-model-update.warlock.v4",
       "kfc-simulator-profile-model-update.warlock.v5",
+      "kfc-simulator-profile-model-update.warlock.v6",
       "kfc-simulator-profile-model-update.feral-raid.v1",
       "kfc-simulator-profile-model-update.hunter-raid.v1",
       "kfc-simulator-profile-model-update.priest-shadow.v1",
@@ -705,13 +726,15 @@ export async function readSimulatorProfileModelUpdate(
   const legacySource =
     proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
     proof.schema === "kfc-simulator-profile-model-update.warlock.v4" ||
-    proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v5" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
       ? await readSimulatorManifest(directory, proof.preservedSource.sourceRelease)
       : null;
   if (
     proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
     proof.schema === "kfc-simulator-profile-model-update.warlock.v4" ||
-    proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v5" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
   ) {
     requireMatch(legacySource, "Missing preserved Warlock source model");
     const legacyDocument = await document(
@@ -804,6 +827,20 @@ export async function readSimulatorProfileModelUpdate(
         return value.value;
       },
     };
+    if (
+      proof.schema === "kfc-simulator-profile-model-update.warlock.v6" &&
+      !preservedWarlockModels
+    ) {
+      preservedWarlockModels = await readPreservedWarlockCompatibility(
+        proof.preservedSource.compatibility,
+        {
+          sourceRelease: source.release,
+          databaseSha256: proof.databaseSha256,
+          nativeBinarySha256: proof.nativeBinarySha256,
+          reference: options.reference,
+        },
+      );
+    }
     let buildOptions = options;
     if (
       ((proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
@@ -881,7 +918,8 @@ export async function readSimulatorProfileModelUpdate(
                         : entry.id === "mage-arcane-static"
                           ? await readFreshArcaneSimulatorBuild(entry, options)
                           : entry.id === "warlock-demonology-static"
-                            ? proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
+                            ? proof.schema === "kfc-simulator-profile-model-update.warlock.v5" ||
+                              proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
                               ? await readFreshFullRaidDemonologySimulatorBuild(entry, {
                                   ...options,
                                   reviewedBuildSha256:
@@ -889,7 +927,13 @@ export async function readSimulatorProfileModelUpdate(
                                 })
                               : await readFreshDemonologySimulatorBuild(entry, buildOptions)
                             : entry.id === "warlock-affliction-static"
-                              ? await readFreshAfflictionSimulatorBuild(entry, buildOptions)
+                              ? proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
+                                ? await readFreshCurrentAfflictionSimulatorBuild(entry, {
+                                    ...options,
+                                    reviewedBuildSha256:
+                                      verifiedCurrentAfflictionNumericalDelivery.buildSha256,
+                                  })
+                                : await readFreshAfflictionSimulatorBuild(entry, buildOptions)
                               : entry.id === "priest-shadow-static"
                                 ? await readFreshShadowPriestSimulatorBuild(entry, options)
                                 : entry.id === "priest-smite-static"
@@ -945,24 +989,27 @@ export async function readSimulatorProfileModelUpdate(
                         ? "kfc-profile-model-browser.hunter-raid.v1"
                         : proof.schema === "kfc-simulator-profile-model-update.feral-raid.v1"
                           ? "kfc-profile-model-browser.feral-raid.v1"
-                          : proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
-                            ? "kfc-profile-model-browser.warlock.v5"
-                            : proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
-                              ? "kfc-profile-model-browser.warlock.v4"
-                              : proof.schema === "kfc-simulator-profile-model-update.warlock.v3"
-                                ? "kfc-profile-model-browser.warlock.v3"
-                                : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
-                                  ? "kfc-profile-model-browser.warlock.v2"
-                                  : proof.schema === "kfc-simulator-profile-model-update.warlock.v1"
-                                    ? "kfc-profile-model-browser.warlock.v1"
+                          : proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
+                            ? "kfc-profile-model-browser.warlock.v6"
+                            : proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
+                              ? "kfc-profile-model-browser.warlock.v5"
+                              : proof.schema === "kfc-simulator-profile-model-update.warlock.v4"
+                                ? "kfc-profile-model-browser.warlock.v4"
+                                : proof.schema === "kfc-simulator-profile-model-update.warlock.v3"
+                                  ? "kfc-profile-model-browser.warlock.v3"
+                                  : proof.schema === "kfc-simulator-profile-model-update.warlock.v2"
+                                    ? "kfc-profile-model-browser.warlock.v2"
                                     : proof.schema ===
-                                        "kfc-simulator-profile-model-update.balance.v1"
-                                      ? "kfc-profile-model-browser.balance.v1"
-                                      : proof.schema === "kfc-simulator-profile-model-update.v1"
-                                        ? "kfc-profile-model-browser.v1"
-                                        : proof.schema === "kfc-simulator-profile-model-update.v2"
-                                          ? "kfc-profile-model-browser.v2"
-                                          : "kfc-profile-model-browser.v3"),
+                                        "kfc-simulator-profile-model-update.warlock.v1"
+                                      ? "kfc-profile-model-browser.warlock.v1"
+                                      : proof.schema ===
+                                          "kfc-simulator-profile-model-update.balance.v1"
+                                        ? "kfc-profile-model-browser.balance.v1"
+                                        : proof.schema === "kfc-simulator-profile-model-update.v1"
+                                          ? "kfc-profile-model-browser.v1"
+                                          : proof.schema === "kfc-simulator-profile-model-update.v2"
+                                            ? "kfc-profile-model-browser.v2"
+                                            : "kfc-profile-model-browser.v3"),
     "Profile browser approval belongs to another build",
   );
   const evidence = z
@@ -1052,7 +1099,8 @@ export async function readSimulatorProfileModelUpdate(
     proof.schema === "kfc-simulator-profile-model-update.paladin-dps.v1" ||
     proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
     proof.schema === "kfc-simulator-profile-model-update.warlock.v4" ||
-    proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v5" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
   ) {
     const bridge = z
       .object({
@@ -1137,7 +1185,8 @@ export async function readSimulatorProfileModelUpdate(
   const expectedOtherProfiles =
     proof.schema === "kfc-simulator-profile-model-update.warlock.v3" ||
     proof.schema === "kfc-simulator-profile-model-update.warlock.v4" ||
-    proof.schema === "kfc-simulator-profile-model-update.warlock.v5"
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v5" ||
+    proof.schema === "kfc-simulator-profile-model-update.warlock.v6"
       ? source.pages.filter((page): boolean => page !== "raid" && page !== "warlock")
       : profile === "retribution_paladin"
         ? [

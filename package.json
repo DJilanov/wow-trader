@@ -44,6 +44,7 @@
     "static-delivery:test": "node --test scripts/prepare-static-delivery.test.mjs scripts/activate-static-delivery.test.mjs",
     "simulator:tanks:benchmark": "node scripts/benchmark-simulator-tanks.mjs",
     "simulator:tanks:test": "node --test infra/simulator/tank-tier-policy.test.mjs",
+    "simulator:healers:test": "node --test infra/simulator/healing-metrics-model.test.mjs infra/simulator/priest-healing-model.test.mjs infra/simulator/priest-healing-talents-model.test.mjs infra/simulator/priest-healing-active-spells-model.test.mjs infra/simulator/priest-healing-benchmark-model.test.mjs",
     "db:migrate": "pnpm --filter @wow-trader/db db:migrate",
     "dev": "node scripts/dev.mjs",
     "dev:setup": "node scripts/dev.mjs --bootstrap-only",

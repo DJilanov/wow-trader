@@ -18,7 +18,8 @@ internal static class MechanicsSnapshotCommand
     "TraitCost", "TraitNodeXTraitCost", "Curve", "CurvePoint", "ChrClasses", "ChrRaces", "GlobalStrings",
     "Spell", "SpellName", "SpellEffect", "SpellScaling", "SpellPower", "SpellMisc", "SpellClassOptions",
     "SpellAuraOptions", "SpellAuraRestrictions", "SpellCategories", "SpellCooldowns", "SpellCastTimes",
-    "SpellDuration", "SpellRange", "SpellLevels", "SpellDescriptionVariables", "SpellXDescriptionVariables",
+    "SpellDuration", "SpellRange", "SpellRadius", "SpellLevels", "SkillLineAbility",
+    "SpellDescriptionVariables", "SpellXDescriptionVariables",
     "SpellItemEnchantment", "SpellEquippedItems",
   ];
   private static readonly JsonSerializerOptions Json = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };

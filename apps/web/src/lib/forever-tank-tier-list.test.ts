@@ -29,23 +29,47 @@ describe("measured tank ranking", () => {
             (entry): boolean => Number.isFinite(entry.uncertainty95) && entry.uncertainty95 > 0,
           ),
         ).toBe(true);
-        expect(list.map((entry): number => entry.rank)).toEqual([1, 2]);
+        expect(list.map((entry): number => entry.rank)).toEqual([1, 2, 3]);
       }
       expect(snapshot).toEqual(before);
     },
   );
-  it("keeps the declared dungeon/raid encounter and unranked Paladin separate", () => {
+  it("includes all three tank starters in separate dungeon and raid encounters", () => {
     const dungeon = tankTierSnapshotSchema.parse(solo);
     const boss = tankTierSnapshotSchema.parse(raid);
     expect(dungeon.policy.targetCount).toBe(3);
     expect(boss.policy.targetCount).toBe(1);
-    expect(dungeon.unranked[0]?.profile).toBe("protection_paladin");
+    expect(dungeon.entries.map((entry): string => entry.profile)).toContain("protection_paladin");
     expect(dungeon.entries.map((entry): string => entry.requestSha256)).not.toEqual(
       boss.entries.map((entry): string => entry.requestSha256),
     );
     expect(dungeon.entries.map((entry): string => entry.talents)).toEqual(
       boss.entries.map((entry): string => entry.talents),
     );
+  });
+  it("shows Righteous Fury on Holy damage and reconciles every action with the measured totals", () => {
+    for (const source of [solo, raid]) {
+      const snapshot = tankTierSnapshotSchema.parse(source);
+      for (const entry of snapshot.entries) {
+        expect(
+          entry.threatBreakdown.reduce((sum, row): number => sum + row.threatPerSecond, 0),
+        ).toBeCloseTo(entry.metrics.threat.avg, 6);
+        expect(
+          entry.threatBreakdown.reduce((sum, row): number => sum + row.damagePerSecond, 0),
+        ).toBeCloseTo(entry.metrics.dps.avg, 6);
+      }
+      const paladin = snapshot.entries.find(
+        (entry): boolean => entry.profile === "protection_paladin",
+      )!;
+      const consecration = paladin.threatBreakdown.find(
+        (row): boolean => row.key === "spell:20924",
+      )!;
+      expect(consecration.threatPerSecond / consecration.damagePerSecond).toBeCloseTo(1.9, 6);
+      const weapon = paladin.threatBreakdown.find(
+        (row): boolean => row.key === "other:OtherActionAttack",
+      )!;
+      expect(weapon.threatPerSecond / weapon.damagePerSecond).toBeCloseTo(1, 6);
+    }
   });
   it("rejects invalid metric values, duplicate classes, conflicting scenarios and unsafe imports", () => {
     for (const mutate of [
@@ -66,6 +90,9 @@ describe("measured tank ranking", () => {
       },
       (value: typeof solo): void => {
         value.entries[0]!.benchmarkHref += '" onclick="bad';
+      },
+      (value: typeof solo): void => {
+        value.entries[0]!.threatBreakdown[0]!.threatPerSecond += 1;
       },
     ]) {
       const value = structuredClone(solo);

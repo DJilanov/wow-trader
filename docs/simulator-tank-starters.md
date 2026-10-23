@@ -127,8 +127,15 @@ old name-based Sanctuary healing bonus leaking into Bear results or stacking twi
 This is a scoped engine extension, so the WASM checksum intentionally differs from the earlier
 UI-only redesign. The ordinary combat formulas are not changed. All code/Go inputs participate
 in release hashing and the builder runs the focused set-threshold test before publication.
-Generalized BiS, phase availability, faction purchase plans, talent optimization and missing
-Paladin Seal of Fury mechanics are not represented as solved by these starters.
+Generalized BiS, phase availability, faction purchase plans and talent optimization are not
+represented as solved by these starters. Correction on October 23: the pinned source already
+registers both Righteous Fury and Seal of Fury; the previous claim that Seal of Fury was absent
+was incorrect. Registration does not independently validate every shield, mana and threat detail.
+The measured Paladin starter uses Seal of Righteousness with Righteous Fury enabled.
+
+The unlocked all-slot tank optimization work, including the Valor set-effect audit, is tracked
+in [simulator-tank-item-optimization.md](simulator-tank-item-optimization.md). The editorial
+selection method above describes the starter release, not an item-by-item optimization.
 
 ## Checks
 

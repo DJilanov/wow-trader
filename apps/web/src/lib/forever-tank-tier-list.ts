@@ -11,10 +11,23 @@ const metric = z
   .strict();
 const entrySchema = z
   .object({
-    id: z.enum(["tank-warrior", "feral-tank-druid"]),
-    profile: z.enum(["tank_warrior", "feral_tank_druid"]),
+    id: z.enum(["tank-warrior", "feral-tank-druid", "protection-paladin"]),
+    profile: z.enum(["tank_warrior", "feral_tank_druid", "protection_paladin"]),
     release,
     metrics: z.object({ threat: metric, dtps: metric, dps: metric }).strict(),
+    threatBreakdown: z
+      .array(
+        z
+          .object({
+            key: z.string().regex(/^(spell|item|other):[A-Za-z0-9]+$/),
+            name: z.string().min(1).max(300),
+            damagePerSecond: z.number().finite().nonnegative(),
+            threatPerSecond: z.number().finite(),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(200),
     iterations: z.literal(5000),
     talents: z.string().regex(/^[0-5]*-[0-5]*-[0-5]*$/),
     race: z.string().regex(/^Race[A-Za-z]+$/),
@@ -31,7 +44,7 @@ const entrySchema = z
 
 export const tankTierSnapshotSchema = z
   .object({
-    schema: z.literal("kfc-forever-tank-tier-list.v1"),
+    schema: z.literal("kfc-forever-tank-tier-list.v2"),
     policySha256: digest,
     supportSha256: digest,
     approvedSelection: z
@@ -58,27 +71,33 @@ export const tankTierSnapshotSchema = z
         support: z.string(),
       })
       .strict(),
-    entries: z.array(entrySchema).length(2),
-    unranked: z
-      .array(
-        z
-          .object({
-            profile: z.literal("protection_paladin"),
-            name: z.literal("Protection Paladin"),
-            reason: z.string().min(1),
-            source: z.literal(
-              "https://worldofwarcraft.blizzard.com/en-gb/news/24302099/world-of-warcraft-forever-class-deep-dives-paladin",
-            ),
-          })
-          .strict(),
-      )
-      .length(1),
+    entries: z.array(entrySchema).length(3),
   })
   .strict()
   .superRefine((snapshot, context): void => {
-    if (new Set(snapshot.entries.map((entry): string => entry.profile)).size !== 2)
+    if (new Set(snapshot.entries.map((entry): string => entry.profile)).size !== 3)
       context.addIssue({ code: "custom", message: "Duplicate tank profile" });
     for (const entry of snapshot.entries) {
+      if (
+        new Set(entry.threatBreakdown.map((row): string => row.key)).size !==
+        entry.threatBreakdown.length
+      )
+        context.addIssue({ code: "custom", message: "Duplicate threat action" });
+      for (const [field, metricName] of [
+        ["damagePerSecond", "dps"],
+        ["threatPerSecond", "threat"],
+      ] as const) {
+        if (
+          Math.abs(
+            entry.threatBreakdown.reduce((sum, row): number => sum + row[field], 0) -
+              entry.metrics[metricName].avg,
+          ) > 0.000001
+        )
+          context.addIssue({
+            code: "custom",
+            message: "Threat actions do not reconcile with measured totals",
+          });
+      }
       if (
         entry.id !== entry.profile.replaceAll("_", "-") ||
         !entry.benchmarkHref.startsWith(
@@ -126,9 +145,13 @@ export function rankTankTierEntries(
   );
   const leader = sorted[0]?.metrics[selectedMetric].avg ?? 1;
   return sorted.map((entry, index): TankTierEntry => {
-    const warrior = entry.profile === "tank_warrior";
+    const identity = {
+      tank_warrior: { classSlug: "warrior", title: "Protection", icon: "protection-warrior" },
+      feral_tank_druid: { classSlug: "druid", title: "Feral Bear", icon: "feral-bear" },
+      protection_paladin: { classSlug: "paladin", title: "Protection", icon: "protection-paladin" },
+    }[entry.profile];
     const appearance = FOREVER_CLASS_APPEARANCES.find(
-      (row): boolean => row.slug === (warrior ? "warrior" : "druid"),
+      (row): boolean => row.slug === identity.classSlug,
     );
     if (!appearance) throw new Error("Unknown tank class");
     const value = entry.metrics[selectedMetric];
@@ -136,13 +159,11 @@ export function rankTankTierEntries(
     const share = 100 * (selectedMetric === "dtps" ? leader / value.avg : value.avg / leader);
     return {
       ...entry,
-      title: warrior ? "Protection" : "Feral Bear",
+      title: identity.title,
       className: appearance.name,
       classSlug: appearance.slug,
       color: appearance.color,
-      specIcon: warrior
-        ? "/wow-assets/tank-icons/protection-warrior.jpg"
-        : "/wow-assets/tank-icons/feral-bear.jpg",
+      specIcon: `/wow-assets/tank-icons/${identity.icon}.jpg`,
       classIcon: `/wow-assets/simulation-icons/class_${appearance.slug}.jpg`,
       simulatorHref: `/forever/simulator/${entry.id}`,
       rank: index + 1,

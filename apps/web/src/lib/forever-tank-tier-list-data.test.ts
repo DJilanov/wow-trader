@@ -109,7 +109,7 @@ describe("tank ranking admission", () => {
     );
     expect(await readTankTierSnapshot("solo", changed.directory, changed.source)).toBeNull();
   });
-  it("rejects scenario relabeling, policy changes and altered exclusion reasons", async (): Promise<void> => {
+  it("rejects scenario relabeling, policy changes and altered action totals", async (): Promise<void> => {
     vi.spyOn(console, "warn").mockImplementation((): void => {});
     const { directory, source } = await fixture("solo");
     expect(await readTankTierSnapshot("raid", directory, source)).toBeNull();
@@ -119,7 +119,7 @@ describe("tank ranking admission", () => {
     changed.source.supportSha256 = "0".repeat(64);
     expect(await readTankTierSnapshot("raid", changed.directory, changed.source)).toBeNull();
     const altered = await fixture("raid");
-    altered.source.unranked[0]!.reason = "missing evidence is fine";
+    altered.source.entries[0]!.threatBreakdown[0]!.threatPerSecond += 1;
     expect(await readTankTierSnapshot("raid", altered.directory, altered.source)).toBeNull();
   });
 });

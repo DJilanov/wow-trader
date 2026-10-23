@@ -1,15 +1,9 @@
 import assert from "node:assert/strict";
 
-export const tankTierProfiles = Object.freeze(["tank_warrior", "feral_tank_druid"]);
-export const tankTierUnranked = Object.freeze([
-  {
-    profile: "protection_paladin",
-    name: "Protection Paladin",
-    reason:
-      "The published tank engine predates Forever's Seal of Fury changes. Threat, absorbs and mana recovery need validation before this build can receive a tier.",
-    source:
-      "https://worldofwarcraft.blizzard.com/en-gb/news/24302099/world-of-warcraft-forever-class-deep-dives-paladin",
-  },
+export const tankTierProfiles = Object.freeze([
+  "tank_warrior",
+  "feral_tank_druid",
+  "protection_paladin",
 ]);
 
 /** Solo means a dungeon comparison without outside raid buffs, not an unhealed character. */
@@ -50,6 +44,14 @@ export function createTankTierSettings(settings, scenario, profile, support, deb
   assert(settings.encounter?.targets?.[0], "Missing reference target");
   const next = globalThis.structuredClone(settings);
   const warrior = profile === "tank_warrior";
+  const bear = profile === "feral_tank_druid";
+  const paladin = profile === "protection_paladin";
+  if (paladin)
+    assert.equal(
+      next.player.protectionPaladin?.options?.righteousFury,
+      true,
+      "The Paladin starter must have Righteous Fury enabled",
+    );
   next.player.level = 60;
   next.player.inFrontOfTarget = true;
   next.player.healingModel = globalThis.structuredClone(policy.healing);
@@ -58,18 +60,25 @@ export function createTankTierSettings(settings, scenario, profile, support, deb
       ? { ...globalThis.structuredClone(support.raid), ...(warrior ? { battleShout: 0 } : {}) }
       : warrior
         ? {}
-        : { giftOfTheWild: 1, thorns: 1 };
+        : bear
+          ? { giftOfTheWild: 1, thorns: 1 }
+          : { devotionAura: 1 };
   next.partyBuffs = scenario === "raid" ? globalThis.structuredClone(support.party) : {};
-  next.player.buffs = scenario === "raid" ? globalThis.structuredClone(support.individual) : {};
+  next.player.buffs =
+    scenario === "raid"
+      ? globalThis.structuredClone(support.individual)
+      : paladin
+        ? { blessingOfWisdom: 1 }
+        : {};
   next.debuffs =
     scenario === "raid"
       ? {
           ...globalThis.structuredClone(debuffs),
-          ...(warrior ? { exposeArmor: 0 } : { faerieFire: false }),
+          ...(warrior ? { exposeArmor: 0 } : bear ? { faerieFire: false } : {}),
         }
       : {};
   // A single air totem/weapon effect is modeled. No coating is counted alongside Windfury.
-  if (scenario === "raid" && next.partyBuffs.windfuryTotem && warrior)
+  if (scenario === "raid" && next.partyBuffs.windfuryTotem && (warrior || paladin))
     delete next.player.consumes.mainHandImbue;
   const target = globalThis.structuredClone(settings.encounter.targets[0]);
   target.id = 0;

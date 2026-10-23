@@ -9,7 +9,7 @@ import soloData from "./data/forever-tank-tier-list.solo.json";
 import raidData from "./data/forever-tank-tier-list.raid.json";
 import raidSupport from "../../../../infra/simulator/raid-buff-defaults.v2.json";
 import { raidBenchmarkDebuffs } from "../../../../infra/simulator/tier-scenarios.mjs";
-import { tankTierPolicy, tankTierUnranked } from "../../../../infra/simulator/tank-tier-policy.mjs";
+import { tankTierPolicy } from "../../../../infra/simulator/tank-tier-policy.mjs";
 import { simulatorDirectory } from "./forever-simulator";
 import {
   tankTierSnapshotSchema,
@@ -53,8 +53,7 @@ const readVerifiedTankSnapshot = cache(async function readVerifiedTankSnapshot(
       snapshot.policy.scenario !== scenario ||
       hash(tankTierPolicy(scenario)) !== snapshot.policySha256 ||
       hash({ support: raidSupport, debuffs: raidBenchmarkDebuffs }) !== snapshot.supportSha256 ||
-      hash(snapshot.policy) !== snapshot.policySha256 ||
-      hash(snapshot.unranked) !== hash(tankTierUnranked)
+      hash(snapshot.policy) !== snapshot.policySha256
     )
       throw new Error("Tank comparison policy changed");
     const active: unknown = JSON.parse(await readFile(join(directory, "active.json"), "utf8"));

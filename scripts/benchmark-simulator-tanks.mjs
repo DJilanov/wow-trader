@@ -18,8 +18,8 @@ import {
   createTankTierSettings,
   tankTierPolicy,
   tankTierProfiles,
-  tankTierUnranked,
 } from "../infra/simulator/tank-tier-policy.mjs";
+import { tankThreatBreakdown } from "../infra/simulator/tank-threat-breakdown.mjs";
 import { raidBenchmarkDebuffs } from "../infra/simulator/tier-scenarios.mjs";
 
 const root = resolve(import.meta.dirname, "..");
@@ -281,11 +281,19 @@ try {
       const raw = Buffer.from(evidence.responseBase64, "base64");
       assert.equal(hash(raw), evidence.responseSha256);
       const metrics = tankMetrics(raw, policy);
+      const result = api.RaidSimResult.toJson(api.RaidSimResult.fromBinary(raw));
+      const threatBreakdown = tankThreatBreakdown(
+        result.raidMetrics.parties[0].players[0],
+        database,
+        policy.iterations,
+        policy.durationSeconds,
+      );
       entries.push({
         id: profile.replaceAll("_", "-"),
         profile,
         release,
         metrics,
+        threatBreakdown,
         iterations: 5000,
         talents: canonical.player.talentsString,
         race: canonical.player.race,
@@ -301,13 +309,12 @@ try {
       console.log(JSON.stringify({ scenario, profile, iterations: 5000, metrics }));
     }
     snapshots.push({
-      schema: "kfc-forever-tank-tier-list.v1",
+      schema: "kfc-forever-tank-tier-list.v2",
       policy,
       policySha256,
       supportSha256: hash(JSON.stringify({ support, debuffs: raidBenchmarkDebuffs })),
       approvedSelection,
       entries,
-      unranked: tankTierUnranked,
     });
   }
 } finally {

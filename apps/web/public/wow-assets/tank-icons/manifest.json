@@ -12,6 +12,12 @@
       "key": "ability_racial_bearform",
       "sha256": "1021a85689bddb50cd690567030c2b9cc3644ee32f9d64c2f636036c33417261",
       "sourcePath": "discord-website/public/images/raids/icons/ability_racial_bearform.jpg"
+    },
+    {
+      "name": "protection-paladin",
+      "key": "spell_holy_devotionaura",
+      "sha256": "d439c66886b477670deecdcfa228663131bc6c086541b3933667fa3f8fe7ba9e",
+      "sourcePath": "discord-website/public/images/raids/icons/spell_holy_devotionaura.jpg"
     }
   ]
 }

@@ -5,7 +5,6 @@ import { ForeverTankTierList } from "./forever-tank-tier-list";
 import { ForeverRankingNavigation } from "./forever-ranking-navigation";
 import { readTankTierSnapshot } from "../lib/forever-tank-tier-list-data";
 import { rankTankTierEntries, type TankTierScenario } from "../lib/forever-tank-tier-list";
-import { tankTierUnranked } from "../../../../infra/simulator/tank-tier-policy.mjs";
 import { createBreadcrumbJsonLd, createHelperMetadata, helperAbsoluteUrl } from "../lib/seo";
 import styles from "../app/forever/tier-list/page.module.css";
 
@@ -20,6 +19,7 @@ export async function tankTierMetadata(scenario: TankTierScenario): Promise<Meta
       "WoW Forever best tank",
       "WoW Forever Protection Warrior",
       "WoW Forever Feral tank",
+      "WoW Forever Protection Paladin",
       "WoW Forever dungeon tanks",
     ],
     noIndex: !(await readTankTierSnapshot(scenario)),
@@ -40,7 +40,6 @@ export async function ForeverTankTierPage({
     (latest, entry): string => (entry.capturedAt > latest ? entry.capturedAt : latest),
     "",
   );
-  const unranked = snapshot?.unranked ?? tankTierUnranked;
   return (
     <article className={`forever-reference-page ${styles.page}`} data-tank-scenario={scenario}>
       <JsonLd
@@ -105,7 +104,7 @@ export async function ForeverTankTierPage({
             <div>
               <span>Measured starters</span>
               <strong>{entries.length}</strong>
-              <small>Warrior & Druid · Paladin under review</small>
+              <small>Warrior · Druid · Paladin</small>
             </div>
             <div>
               <span>Encounter</span>
@@ -123,7 +122,9 @@ export async function ForeverTankTierPage({
               ? "Solo / dungeon uses your own buffs against three enemies, without outside raid support. A fixed healer keeps incoming attacks comparable; this is not a test of clearing a dungeon alone."
               : "Raid uses shared buffs and boss debuffs against one physical attacker. World buffs, Salvation and external mana or damage cooldowns are excluded."}{" "}
             Choose threat generation or damage taken below. These are comparisons of starter builds,
-            not an overall class verdict.
+            not an overall class verdict. Threat coefficients include inherited model assumptions;
+            inspect each build’s threat breakdown before treating its tier as a class
+            recommendation.
           </p>
           <ForeverTankTierList snapshot={snapshot} />
         </>
@@ -137,22 +138,6 @@ export async function ForeverTankTierPage({
           <Link href="/forever/simulator">Explore the tank workspaces →</Link>
         </section>
       )}
-      <section className={styles.method} aria-labelledby="unranked-tanks">
-        <h2 id="unranked-tanks">Not ranked yet</h2>
-        {unranked.map((entry) => (
-          <div key={entry.profile}>
-            <h3>{entry.name}</h3>
-            <p>{entry.reason}</p>
-            <p>
-              <Link href="/forever/simulator/protection-paladin">
-                Explore the Paladin workspace →
-              </Link>
-              {" · "}
-              <a href={entry.source}>Official Paladin changes ↗</a>
-            </p>
-          </div>
-        ))}
-      </section>
       <section id="methodology" className={styles.method}>
         <span className="eyebrow">Reproducible comparison</span>
         <h2>How the tank tier list works</h2>
@@ -180,9 +165,9 @@ export async function ForeverTankTierPage({
             <h3>Same starter foundation</h3>
             <p>
               Each class keeps its published blue PvP starter, enchants, race, talents and rotation
-              across both modes. Raid Windfury replaces the Warrior’s weapon coating. These loadouts
-              have not undergone the DPS builds’ full gear and talent optimization; no best-in-slot
-              claim is made.
+              across both modes. Raid Windfury replaces Warrior and Paladin weapon coatings. These
+              loadouts have not undergone the DPS builds’ full gear and talent optimization; no
+              best-in-slot claim is made.
             </p>
           </div>
           <div>
@@ -191,7 +176,9 @@ export async function ForeverTankTierPage({
               Both modes supply a fixed 2,000 healing per second, delivered every two seconds. Raid
               adds the shared full-v2 buff package and documented debuffs; redundant self-cast
               Shout, Sunder/Expose Armor and Faerie Fire are not stacked. Dungeon uses own
-              maintained buffs. Healer skill and encounter mechanics are outside the score.
+              maintained buffs; Paladin receives its own Devotion Aura and one blessing, Wisdom.
+              Righteous Fury is enabled in both Paladin setups. Healer skill and encounter mechanics
+              are outside the score.
             </p>
           </div>
         </div>
@@ -229,12 +216,28 @@ export async function ForeverTankTierPage({
           </p>
         </details>
         <details>
-          <summary>Why is Protection Paladin unranked?</summary>
+          <summary>How is Protection Paladin calculated?</summary>
           <p>
-            The current public tank engine does not have validated coverage of the newer Seal of
-            Fury tank mechanics. Missing threat, absorption or mana recovery could distort both
-            rankings, so the class stays outside the measured tiers until that coverage is ready.
+            Paladin is included under the same model-estimate policy as Warrior and Bear. Righteous
+            Fury multiplies Holy threat by 1.9; physical weapon attacks do not receive that
+            multiplier. The measured starter uses Seal of Righteousness. Seal of Fury is also
+            implemented in the engine, with provisional shield assumptions; no optimized seal choice
+            is claimed by this comparison.
           </p>
+        </details>
+        <details>
+          <summary>Why can Bear generate more threat per point of damage?</summary>
+          <p>
+            Feral Instinct no longer increases Bear threat in Forever. Threat comes from the form,
+            individual abilities and fixed-threat effects as well as damage. In this model, Bear
+            Form multiplies threat by 1.5, while Primal Bite, Lacerate, Maul and Swipe have
+            additional multipliers. Primal Bite’s absolute coefficient and Swipe’s inherited
+            reference remain assumptions. Select Bear and open “How this build generates threat” to
+            see the actual contribution of each action.
+          </p>
+          <a href="https://worldofwarcraft.blizzard.com/en-us/news/24301515/world-of-warcraft-forever-class-deep-dives-hunter-and-druid">
+            Official Druid changes ↗
+          </a>
         </details>
       </section>
     </article>

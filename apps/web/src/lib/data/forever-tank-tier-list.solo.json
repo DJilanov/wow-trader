@@ -1,5 +1,5 @@
 {
-  "schema": "kfc-forever-tank-tier-list.v1",
+  "schema": "kfc-forever-tank-tier-list.v2",
   "policy": {
     "version": "blue-pvp-tank-comparison-v1",
     "scenario": "solo",
@@ -46,6 +46,62 @@
           "stdev": 23.95008949138413
         }
       },
+      "threatBreakdown": [
+        {
+          "key": "spell:25288",
+          "name": "Revenge",
+          "damagePerSecond": 89.2553550010525,
+          "threatPerSecond": 300.2327003847913
+        },
+        {
+          "key": "spell:23925",
+          "name": "Shield Slam",
+          "damagePerSecond": 64.06705693808925,
+          "threatPerSecond": 169.44027552244296
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 79.50650501572288,
+          "threatPerSecond": 118.86222499850581
+        },
+        {
+          "key": "spell:20569",
+          "name": "Cleave",
+          "damagePerSecond": 50.74596432015984,
+          "threatPerSecond": 115.16428165863891
+        },
+        {
+          "key": "spell:11581",
+          "name": "Thunder Clap",
+          "damagePerSecond": 50.8537334749479,
+          "threatPerSecond": 76.02633154504863
+        },
+        {
+          "key": "other:OtherActionRageGain",
+          "name": "Rage Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 59.811749999999996
+        },
+        {
+          "key": "spell:11597",
+          "name": "Sunder Armor",
+          "damagePerSecond": 0,
+          "threatPerSecond": 39.660511150002684
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 6.221457000000063,
+          "threatPerSecond": 9.301078215000071
+        },
+        {
+          "key": "spell:11556",
+          "name": "Demoralizing Shout",
+          "damagePerSecond": 0,
+          "threatPerSecond": 6.456031919999675
+        }
+      ],
       "iterations": 5000,
       "talents": "35-05-251333120330021351",
       "race": "RaceHuman",
@@ -76,6 +132,74 @@
           "stdev": 29.673038028490947
         }
       },
+      "threatBreakdown": [
+        {
+          "key": "spell:1238073",
+          "name": "Primal Bite",
+          "damagePerSecond": 139.35475789965767,
+          "threatPerSecond": 627.0964105484597
+        },
+        {
+          "key": "spell:9908",
+          "name": "Swipe",
+          "damagePerSecond": 74.59376891305027,
+          "threatPerSecond": 223.7813067391524
+        },
+        {
+          "key": "spell:9881",
+          "name": "Maul",
+          "damagePerSecond": 59.204958782836634,
+          "threatPerSecond": 155.41301680494695
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 55.435487018264695,
+          "threatPerSecond": 83.15323052739691
+        },
+        {
+          "key": "other:OtherActionRageGain",
+          "name": "Rage Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 54.973749999999995
+        },
+        {
+          "key": "spell:414647",
+          "name": "Lacerate (bleed)",
+          "damagePerSecond": 9.367226399999776,
+          "threatPerSecond": 46.789295868000124
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 22.37507999999999,
+          "threatPerSecond": 33.562619999999995
+        },
+        {
+          "key": "spell:414644",
+          "name": "Lacerate",
+          "damagePerSecond": 4.079865874463166,
+          "threatPerSecond": 20.37893004294343
+        },
+        {
+          "key": "spell:9898",
+          "name": "Demoralizing Roar",
+          "damagePerSecond": 0,
+          "threatPerSecond": 19.263
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 7.886599350000058,
+          "threatPerSecond": 11.8298990249999
+        },
+        {
+          "key": "spell:9907",
+          "name": "Faerie Fire",
+          "damagePerSecond": 0,
+          "threatPerSecond": 5.4
+        }
+      ],
       "iterations": 5000,
       "talents": "-50032332120132012551-055",
       "race": "RaceTauren",
@@ -87,14 +211,92 @@
       "responseSha256": "a7cc09814c6e41757d0e560080c3193b39294c9c4791f89c96cf1cbce452b23f",
       "benchmarkHref": "/forever-sim/3c62628f43a96aa1d77e702b/feral_tank_druid/?i=gtrcmxeu#eJztVk1IVFEUfue963t3TqW3m8Sbm9YQZTKgvXkzL9RCXxKExoRIq1ZNIqiZDk4bq0VCReuIUBkIgjAiQ9TwZzW0CF1U40KTILIfXLRyFxJGzLw3QzgNtAkt5ltczjv3fPd855zL4/rL6J0jTNXXH06V2+CDZrm9x4BWYkANXAAsojAG0CjVyQy4JAYQ1ZbuSH97H1N94L+OGnubZPqXHUjY7VFAjS0mmT69B1UW79C/pRzLSaZ/LkaNvVxg+vuUsbrA9A/FSNibJEONLTkHaOx10vVv3AckLPGKIWHPk6l1I16CGvv+qERfKkUJCXuaZOY+CkzWoRIMiOIgwGMgYwDTAAmAuh8EV2SpgL8KPlhocR4klBNfZalRavZWWYYRNINBM2AagaBpBEzLClQZltVCLkpdK7Ku8P2iDLmfUYUr70ASGhahEjQOCxUJnR0HjoKm7fg4cCLkOokfF7Vo8GoUfp0SvnMWPFxmRajQJ+FUJMqhGDJ/MVW53Cw5HismnID85AmXHMwhhxzyRDirZWbuDA+Io1jBD7nByieQUlEIZobe59IDVpo+GeanRCPWiGPp3Arf9QIwnZvQqRGvQ7ZQ9++lhNMu1XVTVJGEqq1YOvHkiJcfEOWbU5iW8KBGh8I+qNSyKidHvNE5uAEw795Uai+4Vq29LMO6+xGyBxTHYvYwlHrSpv3A3u2O0/ap40CEjNLBVY+zK521zbjC9ZaO/lhnW6TbdyXSc8nX1ns5GunrjPX26PU+1f+f/oMqRu2tlpBBIL0m7tq1nb1rt+bPLTacdHcK49kGKIwnF//GeFp/fUJlBNvDQynMN2yJWmnNzdvk6qnP08imvA2+Vvrs9MerN7P6nXpm8tSzluN3+Pf+uP7N+Tafn31CVW+bO7FdcN74vT8zlNzh/AR2EtXF",
       "capturedAt": "2026-10-23T09:14:46.474Z"
-    }
-  ],
-  "unranked": [
+    },
     {
+      "id": "protection-paladin",
       "profile": "protection_paladin",
-      "name": "Protection Paladin",
-      "reason": "The published tank engine predates Forever's Seal of Fury changes. Threat, absorbs and mana recovery need validation before this build can receive a tier.",
-      "source": "https://worldofwarcraft.blizzard.com/en-gb/news/24302099/world-of-warcraft-forever-class-deep-dives-paladin"
+      "release": "3c62628f43a96aa1d77e702b",
+      "metrics": {
+        "threat": {
+          "avg": 820.4629224521979,
+          "stdev": 27.578291896506368
+        },
+        "dtps": {
+          "avg": 610.1846477459974,
+          "stdev": 38.64005013144535
+        },
+        "dps": {
+          "avg": 449.52252857967767,
+          "stdev": 20.211490619660477
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "spell:20924",
+          "name": "Consecration",
+          "damagePerSecond": 126.82413528000185,
+          "threatPerSecond": 240.9658570320007
+        },
+        {
+          "key": "spell:20957",
+          "name": "Holy Shield",
+          "damagePerSecond": 93.2311733499998,
+          "threatPerSecond": 212.5670752380005
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 84.7923246869586,
+          "threatPerSecond": 84.7923246869586
+        },
+        {
+          "key": "spell:20286",
+          "name": "Judgement of Righteousness",
+          "damagePerSecond": 39.06233444695632,
+          "threatPerSecond": 74.21843544921724
+        },
+        {
+          "key": "spell:25713",
+          "name": "Seal of Righteousness",
+          "damagePerSecond": 36.01564903200001,
+          "threatPerSecond": 68.42973316080005
+        },
+        {
+          "key": "other:OtherActionManaGain",
+          "name": "Mana Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 44.79536806157387
+        },
+        {
+          "key": "spell:10333",
+          "name": "Holy Strike",
+          "damagePerSecond": 18.252521483553046,
+          "threatPerSecond": 43.34973852343852
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 31.369933333333336,
+          "threatPerSecond": 31.369933333333336
+        },
+        {
+          "key": "item:18641",
+          "name": "Dense Dynamite",
+          "damagePerSecond": 19.974456966876737,
+          "threatPerSecond": 19.974456966876737
+        }
+      ],
+      "iterations": 5000,
+      "talents": "-5520513321301551-15102",
+      "race": "RaceHuman",
+      "manifestSha256": "45fb49180f77091b8759e54d6764a20ab33d16b6b73e49a17ca489a0f6845176",
+      "wasmSha256": "bd388e926ee6b63a8d953e03fb4dd1fcd718bd9e019393fb3f8d4dab950d72dd",
+      "databaseSha256": "47e86ebe48e7402bcc81065c4560a0524c9e6d7dd77f3f427d72261c57883a0d",
+      "starterSha256": "409121c211ea3cbe7d6534d36ca73d8705ecbcab4315e5e4bcbfba046413fcf5",
+      "requestSha256": "6dff6a2e2d53e5cb8f6cc54fde1280396e4515ad2aa422e77d302c9b9f296453",
+      "responseSha256": "6071cf416f0897a6c84a420ae20d76399484d04142e517fe5b41bb44e8882c0a",
+      "benchmarkHref": "/forever-sim/3c62628f43a96aa1d77e702b/protection_paladin/?i=gtrcmxeu#eJztVk9IFFEYn+/N25nZT7Lna81p1Ng0MxZWZnabUImcJCg8xCIepJOrCFmm4naxLhYE1iXokkoUtUIh9PfSIgULXepS60JRQqEU9ufkMS8ROzO7W6siHSKL/R3ee/P7ffP9ed/j8QJVylg9k9Tlm4+qLfBDG+kd0KGd6tAIXYBiAqBVaCYMuKDNe1GK9EdHeoeZ6KeBUUCZfUoz9UMJUjb+kaHMvqSZmtiCEnsQVRdKUWaLaaZeOogym00z9X2GeekwlKXSmT8+Zw1eZPmJFEPKrthjIsVQZOkSlNjrDnXMhxKb6VZvyEjZwxQL1SrAvCrsBh0ayWHSSbrIkGcc4DbQ+wAJgCRA83eK80Qo4o+Cjxe3eA0kxX1fidBKGLRVBE0zpJtGOBwywrphmkbQMA09FCGdtFs4PkVUEUtRnAahRkYPisFwDMtR0SSkSjIONV6U0RM0GswYR82h710DXqvtwIpAuSJx7zS4ZEZEsjdmG92Ki5xqpFng27Uq5AGmiFycA0Gzo4T1OsfqXITXa3VYGdimUL5pBpATRp3QjrtQLJsKV7WtWBbYrFAuXqRCVp4GgVdrlbYicdJdEOFxHFaTDTMv5+p6AtyryZoHReVdJEcn4zD0DEYBLoCzuz7ruXvyFGvWXTVZbwgsux97rLOis2LWJPi89tK6bpW57bH80hxIGlXAgppFr6MLR6zQVZGrkWMjsb6eaL//VHTghL9n8ORQdLgvNjig7vdLgf/0Vtl1x/rbKWRh2GPystXUN7h0/nnHq5YDrlJszwZAsT0r8W+0p/2nR9F8izMvuTOzfuVzWK+wNfSs3wZX962wC9t46trtXNNuPZzx3T20cHqqIG+1wN+3gnwacnEmJzJ4W1j3b8bL70P+UbRhzsRGwVF9dX6p4DDm8QNPktFe",
+      "capturedAt": "2026-10-23T12:02:28.264Z"
     }
   ]
 }

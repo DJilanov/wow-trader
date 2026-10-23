@@ -1,5 +1,100 @@
 # Warlock full-raid update
 
+## October 23, 11:30 UTC — all four current-model builds delivered locally
+
+Presentation `e093bd02230f77522f27f07f` now contains independently qualified
+Demonology (855.2753 DPS), Affliction (760.2873), DS/Ruin (712.3755) and Destruction
+(732.4696), each with 40,000 final-validation iterations. Demonology remains the
+first-visit default; Affliction now uses its fresh 30/0/21 active-Succubus result.
+Historical scores are retained only with their original evidence.
+
+Actual checks passed for 15 staged menus, eight shared/reloaded builds, four
+native/browser controls and eight real desktop/mobile main-page cases. The final
+local marker is `optimization/warlock-affliction-current-full-raid-v1/delivered-local.json`,
+SHA `835fcf3d6f1d83c44609cab26fa44a117e0b35f5cecd31ee7028fdeab9100886`.
+All 20 other profile selections and the global model were preserved. Weapon and
+acquisition checks passed. No production deployment or Git operation occurred.
+
+Affliction's conservative retained gap is 0.8401653%, passing the approved 2% and
+separate 1% assessments. Strict dominance is false; global optimality and engine-wide
+16-slot debuff enforcement remain unproven. These disclosures are separate from
+the successful numerical and local browser delivery.
+
+## October 23, 10:48 UTC — Affliction numerically qualified; export and reader generation active
+
+Final owner completed0. Selected760.2873DPS/40k passes2%and separate1%with0.8401653%
+conservative retained gap; strict dominance remains false. Selected10knative/rawWASM
+matches exactly. Actual observed12target rows stay within16; global enforcement is
+not proven and player buffs remain uncapped. Numerical receiptac35384d8f964d73...
+and genuine parity38590fe0212ec01d... are archived, with all original inputs intact.
+
+Combined canonical export/reader generation26100/PID16003 is active. Canonical
+export still replays the full raw chain; an unchanged same-process capability then
+lets codegen consume that actual verified export without another identical replay.
+Six handoff/refusal tests and scoped checks pass. Actual new readers/fixtures,
+v6schema and old-version regressions, all-class build, staged+main browser and local
+finisher remain. No website/prod update or complete-campaign claim yet.
+
+## October 23, 10:18 UTC — full source replay passed; final confirmation owner active
+
+Independent current feedback replay covered all58,263new admissions and confirmed
+closure. Actual final preflight passed with41finite final-gear/state/consume inputs;
+selected settings stay fixed before fresh confirmation. Ordinary final owner57502/
+child96241 is active under the original17:56:57.713UTC deadline. It will inspect
+the finite inputs, freeze at most12arms, run two20kranges, independently replay
+them and require selected10krawWASM/target evidence before a numerical receipt.
+No new40k score or website update is claimed yet. Exact identities:context.md.
+
+## October 23, 09:34 UTC — state controls pass; actual feedback comparisons active
+
+All13actual state/consume native+browser controls passed exactly. Ordinary feedback
+is measuring the first cycle after consumable comparison, with six workers active.
+Expanded raw target audit covers40actual control records and at most12activated
+target rows, with no added combat; it does not establish global16-slot enforcement.
+Actual feedback closure, fresh40k and website delivery still remain. Exact study,
+owner and audit identities are recorded at the top of context.md.
+
+## October 23, 09:29 UTC — independent replay passed; feedback owner live
+
+The genuine geared/blue chain passed full independent replay and feedback preflight.
+The same ordinary feedback owner is active under the original deadline, preparing
+13real native/browser state/consume controls before scalar comparisons. Seven
+admission tests pass. Fresh final/guide/export preparation20tests and browser
+pipeline guards4pass. The separate current Affliction reader/overlay/v6handoff
+pipeline is prepared, with actual output, positive reader tests and real browser
+delivery still required. No new Affliction40k score, local selection or deploy yet.
+
+## October 23, 09:13 UTC — Affliction gear complete; independent replay running
+
+Actual21,964new gear requests/2,882,460fights completed, selecting747.3271DPS/10k.
+Two-sweep cap did not establish small-gain closure, so feedback remains required.
+Independent full-chain replay/preflight is running with no additional combat.
+Final-stage preparation12tests, exact rotation guidance3tests (216policies/frames,
+19mechanics controls) and export refusal5tests passed. No fresh40k claim or public
+Affliction replacement yet; same original Warlock deadline and correction state.
+
+## October 23, 09:03 UTC — all-slot Affliction gear search remains active
+
+All8actual gear controls matched native/browser output exactly. The same admitted
+gear study is in its second sweep, with over20knew requests and2.4million fights.
+Current feedback/state/consume preparation is tested separately; actual gear
+completion, full replay, feedback closure and fresh40k qualification remain.
+No duplicate search, numerical source edits, new deadline or deployment occurred.
+
+## October 23, 08:47 UTC — fresh Affliction blue complete; gear owner launched
+
+Genuine109,513new requests/9,060,940fights completed, with1,628exact current-engine
+reuses. Full independent109,513-origin/96chunk replay and gear preflight passed.
+The10k blue555.4918DPS is only narrowing evidence, not a new public score.
+Ordinary gear owner now authenticates source, runs8real gear native/WASM comparisons,
+then tests10,451complete nonraid proposals across all17slots, paired jewelry,
+sets/enchants and both hands. Same original17:56:57.713UTC deadline/correction.
+
+Current replay/gear preparation and state/consume/feedback guards are implemented
+and tested. Consumption comparisons include final-gear applicability; a cap alone
+cannot establish closure. Actual geared result, feedback, fresh40k, selected parity
+and real four-spec preset/browser handoff are still pending. Exact refs:context.md.
+
 ## October 23, 07:49 UTC — fresh Affliction model controls verified
 
 Actual19current browser captures and19exact native/rawWASM comparisons completed

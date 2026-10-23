@@ -61,9 +61,7 @@ test("self support and raid support do not stack conflicting class effects or Wi
 
 test("rejects unsupported or incomplete characters instead of publishing a guessed tank tier", () => {
   assert.throws(() => tankTierPolicy("dps"));
-  assert.throws(() =>
-    createTankTierSettings(settings, "raid", "protection_paladin", support, debuffs),
-  );
+  assert.throws(() => createTankTierSettings(settings, "raid", "rogue", support, debuffs));
   for (const patch of [
     { level: 30 },
     { rotation: {} },
@@ -81,4 +79,27 @@ test("rejects unsupported or incomplete characters instead of publishing a guess
       ),
     );
   }
+});
+
+test("Paladin has Righteous Fury, its own aura and only one self blessing; no Druid buffs leak in", () => {
+  const paladin = {
+    ...settings,
+    player: {
+      ...settings.player,
+      protectionPaladin: { options: { righteousFury: true, primarySeal: "Righteousness" } },
+    },
+  };
+  const solo = createTankTierSettings(paladin, "solo", "protection_paladin", support, debuffs);
+  assert.deepEqual(solo.raidBuffs, { devotionAura: 1 });
+  assert.deepEqual(solo.player.buffs, { blessingOfWisdom: 1 });
+  assert.equal(solo.player.protectionPaladin.options.righteousFury, true);
+  const raid = createTankTierSettings(paladin, "raid", "protection_paladin", support, debuffs);
+  assert.equal(raid.debuffs.faerieFire, true);
+  assert.equal(raid.debuffs.exposeArmor, 2);
+  assert.equal(raid.player.consumes.mainHandImbue, undefined);
+  paladin.player.protectionPaladin.options.righteousFury = false;
+  assert.throws(
+    () => createTankTierSettings(paladin, "solo", "protection_paladin", support, debuffs),
+    /Righteous Fury/,
+  );
 });

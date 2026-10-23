@@ -1,0 +1,16 @@
+#bootstrap-overrides .kfc-workspace .dps-action {
+  background: #e4b164;
+  color: #181007;
+  border-color: #edbd72;
+}
+
+#bootstrap-overrides .kfc-workspace .dps-action:is(:hover, :focus-visible) {
+  background: #edbe78;
+  color: #181007;
+  border-color: #f5d39b;
+}
+
+#bootstrap-overrides .kfc-workspace .dps-action:focus-visible {
+  outline: 2px solid #f5d39b;
+  outline-offset: 3px;
+}

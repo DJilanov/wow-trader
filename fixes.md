@@ -1,5 +1,144 @@
 # WoW Trader fixes and recovery context
 
+## October 23 — add damage-driven healer comparisons and finish Priest cooldown controls
+
+The isolated Priest component now models all six current Holy Nova healing/damage
+pairs with friendly radius, all-rank free-Nova restoration and actual Inner Focus
+cost/crit masks. Penance keeps focused crit on its later healing bolts, then clears
+it on channel end/cancellation. Real PI and dead-caster controls pass.
+
+The new healing workload API applies actual post-absorb health damage before
+Mending triggers and runs declared casting priorities through real engine mana,
+cooldowns and health. Tank/group healing, burst recovery, mana exhaustion, Renew
+and consumed-shield tests keep effective healing, overhealing, survival and resource
+metrics separate. Initial health setup never creates healing credit.
+
+44 native/browser controls and 52 source/protocol guards pass; four broken variants
+are rejected. Final component 239e25eb..., browser proof deb03bb9..., negative proof
+22e00e08... are detailed in context.md and the healer plan. Fixed post-mitigation
+synthetic damage is not a measured encounter; caster-damage workloads still reject
+until defensive/death mechanics are admitted. Healer BiS/provider/UI delivery and
+other classes remain unfinished. No public engine or preset was replaced.
+
+## October 23 — implement actual Priest active-heal ranks and friendly targeting
+
+The isolated healer model now includes all 18 captured ranks for Binding Heal,
+healing Penance, Prayer of Healing and Prayer of Mending. Penance uses direct
+healing children so crit procs work. Binding Heal retains separate recipient
+effects. Prayer of Healing follows the target's party/radius. Mending uses its
+explicit client talent formula, real damage/direct-heal triggers and friendly
+travel, with bounded bounces and pending/reset protection. Friendly positions are
+validated benchmark inputs, independent of boss distance.
+
+27 actual native/Chromium Go-WASM controls and 42 source/protocol guards pass.
+Five broken variants are rejected by real native regressions. Final component
+3c353153..., browser prooff5c1d66b... and negative proofca4579cd... are recorded in
+context.md and the healer plan. Mending's exact count/bounce policy, Binding threat
+and the other declared assumptions still need confirmation before class
+qualification. Full healer workloads/BiS remain unfinished; no prototype was
+published or substituted for the current DPS engine.
+
+## October 23 — apply current Priest healing talent curves and proc rules
+
+The derived healer model now reads actual rank curves and spell masks for 13
+talents. Spiritual Healing is 3/7/10%, Improved Shield is 7/14/20%, and Inspiration
+is an armor proc after nonperiodic critical healing. The legacy physical damage
+reduction and noncritical Inspiration trigger are not used in this component.
+Renewed Hope's bonus stays on its intended target; shields receive credit only
+when damage consumes their pools. Litany and Aegis interpretations remain declared
+assumptions pending server evidence.
+
+Fifteen actual native/Chromium Go-WASM controls pass, including active proc reset.
+Three deliberate mutations are rejected by their real native tests. Fast command:
+`pnpm simulator:healers:test` — 29 passing. Component identity41ad660e..., browser
+proofb7ff1bf0... and negative proof24a46f1f... are recorded in context.md and the
+healer plan. Full healing spells/workloads and BiS searches remain unfinished;
+the current published engine and previous frozen components are preserved.
+
+## October 23 — rebuild Priest healing from current client records
+
+The inactive legacy Priest healing files contain incompatible values and are not
+enabled. A separate prototype now derives 39 rank candidates across six baseline
+spell families from the isolated 70532 client capture. The class collector follows
+tooltip references and aura restrictions as well as triggers, preserving Penance's
+otherwise missed healing children. Conditional Renew variants remain separate.
+
+Six actual native/Chromium Go-WASM controls pass for cast timing, coefficients,
+mana, crits, overhealing, targets, Renew, consumed shields, Weakened Soul, rank
+replacement and iteration cleanup/reset. They also caught zero-health legacy test
+targets; the overlay initializes their real stored base stats. An intentional old
+Flash Heal coefficient fails the native regression. Fast guards:
+`pnpm simulator:healers:test` (19 passing). Exact component/proof paths are in
+context.md and docs/simulator-healer-optimization-plan.md.
+
+This is a baseline spell component only. Talent coverage, group/range targeting,
+spell acquisition and healer workloads still need admission before BiS searches.
+No healer result is published and no optimization budget clock has started.
+
+## October 23 — isolate effective healing from raw healing before healer rankings
+
+The healer accounting overlay now separates raw healing, health restored,
+overhealing, actual absorption and unused shield capacity. New metrics survive
+action/unit serialization, owned-pet/party/raid aggregation and worker merging.
+Controlled native/browser Go-WASM results and the generated JavaScript decoder
+agree; restoring raw-heal HPS deliberately fails the real regression test.
+
+Fast guards: `pnpm simulator:healers:test` (eight passing). Full native core checks
+pass for parent (78) and derived (83), using an isolated copy to initialize an older
+crit fixture's missing attack table. Assertions and production source stay intact.
+Canonical component receipt SHA724f0803c807f4b7... is linked in context.md and
+docs/simulator-healer-optimization-plan.md. Class mechanics, trained ranks and healer
+optimization remain separate work; current DPS artifacts and production are unchanged.
+
+## October 23 — current Affliction delivered without historical-score fallback
+
+Warlock v6 binds fresh current-model Affliction to its actual qualified export,
+compact closed-feedback evidence and native/browser controls. Existing v1–v5
+readers retain their original contracts. Request-time verification loads 11 evidence
+documents and neither large research trace; the full replay remains an offline
+export requirement. Genuine fixture tests cover resealed score/model/frame changes.
+
+All four Warlock builds passed actual desktop/mobile selection, sharing, reload,
+Simulate, layout and privacy checks. Local presentation e093bd02230f77522f27f07f
+preserves the other 20 profiles and global model. Delivery marker SHA835fcf3d6f1d83c4
+records the completion; production is unchanged. Exact evidence and remaining
+all-role/healer work are in context.md and the healer optimization plan.
+
+## October 23 — Current Affliction canonical guidance and control audit
+
+New current Affliction guidance accepts protobuf's omitted false channel defaults
+while preserving hashes of the measured actions. Explicit true channel recasts are
+rejected. It reconstructs the exact current family/talents/options/APL and never
+instructs pure-sacrifice builds to resummon a pet. Actual216policy/frame combinations
+and19mechanics controls pass. An initial test caught a missing ephemeral variant
+label; it was fixed before export. This prepares guidance, not a new numerical
+qualification or deployment. Current gear747.3271DPS/10k still needs feedback and40k.
+
+Independent blue/gear replay and13new native/rawWASM state/consume controls passed.
+Expanded raw audit covers40real control records, at most12activated target rows,
+without extra combat. Global16-slot enforcement remains unproven and player buffs
+remain unlimited. Ordinary current feedback a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e
+is measuring geared talents/rotation under the original Warlock deadline. Exact
+owner, frozen graph and remaining delivery work are at the top of context.md.
+
+## October 23 — keep fresh Affliction separate from historical normal-totem requests
+
+The old Affliction request validator intentionally asserts normal-rank totems.
+Reusing it for the current full-raid search would reject improved support. New
+versioned controls and requests validate the full-v2 template directly; historical
+files and metrics stay unchanged. Channel candidates remove explicit false
+allowRecast before their identities are frozen; actual codec tests verify identical
+combat bytes. True channel-policy changes are rejected.
+
+Actual19current browser controls and19native/rawWASM pairs passed exact full
+player/pet/resource comparisons. Hash-authenticated raw target observations found
+at most11activated target rows; player buffs remain uncapped and this observation
+does not prove global engine16-slot enforcement. New control/request/blue tests
+4+3+3passed, with strict lint/format. The current ordinary six-worker search is
+8f0fa5a5d6aa93b1507ce3d72a97a037d9c1925d697612ab2d66e7e8a9c8f439,
+same original17:56:57.713UTC Warlock deadline. This is not new40k validation or a
+published Affliction replacement; the historical preset stays until full delivery.
+
 ## October 23 — detached local Next review process can loop on a broken logging pipe
 
 Final main-page review timed out before receiving HTML from the existing3018

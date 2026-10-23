@@ -10,6 +10,7 @@ import (
 	"github.com/wowsims/classic/sim"
 	"github.com/wowsims/classic/sim/core"
 	"github.com/wowsims/classic/sim/core/proto"
+	"github.com/wowsims/classic/sim/core/stats"
 	"google.golang.org/protobuf/encoding/protojson"
 	googleproto "google.golang.org/protobuf/proto"
 )
@@ -36,6 +37,8 @@ type result struct {
 	Iterations int32           `json:"iterations"`
 	Error      string          `json:"error,omitempty"`
 	Metrics    json.RawMessage `json:"metrics,omitempty"`
+	Health     float64         `json:"health,omitempty"`
+	Armor      float64         `json:"armor,omitempty"`
 }
 
 func run(input job) (out result) {
@@ -121,6 +124,18 @@ func run(input job) (out result) {
 	request.SimOptions.Debug = false
 	request.SimOptions.DebugFirstIteration = false
 	request.SimOptions.SaveAllValues = false
+	if input.Detail {
+		copy := googleproto.Clone(request).(*proto.RaidSimRequest)
+		computed := core.ComputeStats(&proto.ComputeStatsRequest{
+			Raid: copy.Raid, Encounter: copy.Encounter, Ruleset: copy.SimOptions.Ruleset,
+		})
+		if computed.ErrorResult != "" {
+			out.Error = computed.ErrorResult
+			return
+		}
+		final := computed.RaidStats.Parties[0].Players[0].FinalStats.Stats
+		out.Health, out.Armor = final[stats.Health], final[stats.Armor]
+	}
 	metrics := core.RunRaidSim(request)
 	if metrics.Error != nil {
 		out.Error = metrics.Error.Message

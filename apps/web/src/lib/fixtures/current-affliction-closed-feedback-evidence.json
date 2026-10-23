@@ -1,0 +1,66 @@
+{
+  "evidence": {
+    "schema": "kfc-current-full-raid-affliction-closed-feedback-summary.v1",
+    "sourceCompletion": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e/completed.json",
+      "sha256": "db9a698fd860df2d15373c2bab5ce39423f0d96c500c8eba626eb2dc58a85207"
+    },
+    "sourceResult": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e/result-fc917287137b2ec1.json",
+      "sha256": "fc917287137b2ec18014b2423ed3645d12b634f1eaf7eda0953fb9849cf04d40"
+    },
+    "sourceRelease": "e945e98f232cc81948ee9060",
+    "backend": {
+      "kind": "admitted-native.v1",
+      "binarySha256": "de9f74ba61f5aca05066033b4b0e5e996d634eabb755d51a2174600b274f3a79",
+      "compiledDatabaseSha256": "cf9262e1e29cae2aff9655f5bbfa662eb11d339a119d6f406472b4ad0935dcfe",
+      "runnerSourceSha256": "dea8543ac6d12cdd4f9316256be490bb752e42ab893dfe866c897f3b2907be49",
+      "codecSha256": "ddda496cbcf31cf2e7f18300d60bdf12f9035b742b485bff20dbb66bbaad628a"
+    },
+    "closed": true,
+    "gearApplicabilityRequired": false,
+    "settingsSha256": "dca945a57cac675a1c8c5f11484ef22b4e83abadfbfe6a33fd9408842268743a",
+    "stateSha256": "193752f58d296eccef0a7f06981bcf1765241aade2772e6261ae6de8a7ffe4cd",
+    "gearSha256": "ddfcc486be392a1481238f5eceb593b385cf10cc51ac27228c374100ff20f880",
+    "cycles": 1,
+    "finalCycle": {
+      "consumesStoppedForSmallGain": true,
+      "gearStoppedForSmallGain": true,
+      "stateChanged": false,
+      "stateMaterialChange": false,
+      "finalConsumesStoppedForSmallGain": true,
+      "finalConsumesChanged": false,
+      "recheckSettingsSha256": "dca945a57cac675a1c8c5f11484ef22b4e83abadfbfe6a33fd9408842268743a",
+      "finalConsumeSettingsSha256": "dca945a57cac675a1c8c5f11484ef22b4e83abadfbfe6a33fd9408842268743a"
+    },
+    "previousModelNumericalReuse": false,
+    "independentFinalValidation": false,
+    "numericalQualification": false,
+    "scope": "Closure metadata produced from the independently replayed full research result. This compact record does not replace fresh40k confirmation, selected native/browser parity, the numerical receipt or the separately reviewed hash-pinned build. The original full completion and result remain archived at their exact references."
+  },
+  "options": {
+    "summaryReference": {
+      "path": "artifacts/forever-simulator/optimization/warlock-affliction-current-full-raid-v1/feedback-evidence-00cd00af3fe1cdcf.json",
+      "sha256": "00cd00af3fe1cdcfe5c467725e2246f289ec79977fa9dcf601ac2439f59e4e5f"
+    },
+    "sourceCompletion": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e/completed.json",
+      "sha256": "db9a698fd860df2d15373c2bab5ce39423f0d96c500c8eba626eb2dc58a85207"
+    },
+    "sourceResult": {
+      "path": "artifacts/forever-simulator/optimization/bounded-native-studies/a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e/result-fc917287137b2ec1.json",
+      "sha256": "fc917287137b2ec18014b2423ed3645d12b634f1eaf7eda0953fb9849cf04d40"
+    },
+    "sourceRelease": "e945e98f232cc81948ee9060",
+    "backend": {
+      "kind": "admitted-native.v1",
+      "binarySha256": "de9f74ba61f5aca05066033b4b0e5e996d634eabb755d51a2174600b274f3a79",
+      "compiledDatabaseSha256": "cf9262e1e29cae2aff9655f5bbfa662eb11d339a119d6f406472b4ad0935dcfe",
+      "runnerSourceSha256": "dea8543ac6d12cdd4f9316256be490bb752e42ab893dfe866c897f3b2907be49",
+      "codecSha256": "ddda496cbcf31cf2e7f18300d60bdf12f9035b742b485bff20dbb66bbaad628a"
+    },
+    "settingsSha256": "dca945a57cac675a1c8c5f11484ef22b4e83abadfbfe6a33fd9408842268743a",
+    "stateSha256": "193752f58d296eccef0a7f06981bcf1765241aade2772e6261ae6de8a7ffe4cd",
+    "gearSha256": "ddfcc486be392a1481238f5eceb593b385cf10cc51ac27228c374100ff20f880"
+  }
+}

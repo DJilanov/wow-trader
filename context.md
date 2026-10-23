@@ -2,7 +2,705 @@
 
 Last updated: 2026-10-23
 
+## October 23 — Priest damage-driven healing benchmark verified
+
+The expanded all-role goal still includes the original 30 cases and at least five
+healer archetypes (Holy/Discipline Priest, Restoration Druid, Holy Paladin and
+Restoration Shaman). Do not complete it on a Priest component. No healer class
+search clock has started; no new commit, deployment or review-server restart.
+
+Current component: 239e25eb5171e96ddafcdfa9c0cdceed21dfdaf7babb4c07b7f2c7d07f626be8.
+Report: optimization/healer-model-admission-v1/priest-benchmark/<identity>/
+build-GQOJHq/report.json. Preserves prior 3c353... active spells and predecessors.
+The earlier benchmark prototypes are not the final verified input set.
+
+New public files: priest-healing-benchmark-model.mjs/.test.mjs,
+priest-healing-benchmark-mechanics.go, priest-healing-benchmark_test.go,
+healing-workload.go and healing-benchmark-health.go under infra/simulator/.
+All six current Holy Nova pairs preserve healing/damage payloads and friendly
+radius. Correction to earlier inspection: upstream Nova already healed, but used
+highest-rank-only old values and omitted range. Inner Focus uses distinct free/crit
+masks and retains Penance child crit until completion/cancellation. Searing Light
+restores all Nova ranks. Actual PI healing/cost/expiry and dead-caster guards pass.
+
+RunKFCHealingWorkload is a callable Go benchmark API using real engine casts,
+damage/absorption/health, mana, cooldowns and declared priorities. Synthetic tank,
+group, burst and endurance assignments record effective/raw/OH/absorbed HPS,
+survival, remaining mana, health-deficit integral, final deficit and decision-sampled
+mana-blocked time. Damage removes health once before Mending reacts. Initial
+health changes earn no fake healing/resources. Planned/delivered damage differ
+when recipients die. Caster damage is rejected pending defensive/death admission;
+damage inputs are already post-mitigation. One Priest, one enemy, complete friendly
+profiles, no pets/external healing model are the current workload boundary.
+
+44 actual native and Chromium Go/WASM controls pass with 1e-7 numerical agreement.
+Browser review: build-GQOJHq/browser-review-deb03bb93c10ed6a.json,
+SHA deb03bb93c10ed6aade6b8f2b04d9adcd6546f8a74e1322e925dd1b073252112.
+Four actual native mutants fail (channel Focus, Binding mask, Nova range, health
+damage). Negative review: build-GQOJHq/negative-review-22e00e0882e682fc.json,
+SHA 22e00e0882e682fc99cf4be29e9df07dc08af3454706d8b78222f950d65aaf47.
+pnpm simulator:healers:test passes 52 source/protocol/data guards.
+Private prepare/browser/negative tools use the priest-healing-benchmark-v1 names.
+Five focused core healing regressions also pass on this overlay. Final audit
+build-GQOJHq/final-audit-9dc7486197bd0d17.json rechecks 690 pins, including the
+unchanged cache helper and completed Warlock ledger. Semantic SHA:
+9dc7486197bd0d172aa4c8718ec58185a62bafe6954f2c405b98a47b61f71126.
+Scoped public/private lint, relevant formatting and git diff --check pass.
+
+Next: finish trained/nonraid ranks and relevant remaining mechanics/buffs;
+declare/assess assumptions; integrate an admitted healer native/browser provider;
+then bounded Holy/Discipline all-17-slot feedback searches and actual website
+presets. Other healers and all original outstanding tank/DPS deliverables remain.
+Test HPS values are fixtures, not optimized gear results; all class/numerical/
+publication gates stay false. Original completed DPS clocks and helpers stay frozen.
+
+## October 23 — Priest active healing ranks and friendly targeting verified
+
+Previous turn made real progress (13talent rules/procs,15native/browser controls).
+This turn implements all18captured active-heal rank candidates: Binding Heal6,
+healing Penance4, Prayer of Healing5 and Prayer of Mending3. With the baseline,
+there are57parent rank candidates; acquisition/training/nonraid availability is
+still not verified. The all-role goal remains active with all original and healer
+deliverables, not just this component. No healer BiS/class qualification yet.
+
+New tracked files: infra/simulator/priest-healing-active-spells-model.mjs,
+priest-healing-active-spells.go, priest-healing-active-spells_test.go and
+priest-healing-active-spells-model.test.mjs. Source tests reuse the prior authentic
+client/engine fixtures. All source comes from the matching70532Priest graphb3a0ae3e...
+and preserves the prior baseline62d8... and talent41ad... frozen components.
+Current native/browser component identity:
+3c3531531ce094bb1f08cea0d8a17291db445b64986338c3498de7179ef925bf.
+Build: optimization/healer-model-admission-v1/priest-active-spells/<identity>/
+build-tdm3uL/report.json. Use this final component, not the pre-travel490e... prototype.
+
+Penance uses four actual healing children, first bolt immediately then1s/2s
+direct-heal bolts. Cancellation stops later bolts and preserves shared cooldown.
+The direct events trigger Aegis/Inspiration/Renewed Hope. Healing mode skips the
+old damaging parent registration while DPS mode retains it. Binding Heal keeps
+both effect records (rank2target growth2.5 versus caster2.2) and excludes caster
+self-targeting via captured0x80000flag. Highest Binding rank is1240774 (56–61,
+825base/.429), not the level25rank. Prayer of Healing follows the target's party
+around the target with40yard radius, Holy Reach10/20%, separate cast range and the
+source target-aura exclusion. Friendly geometry uses an explicitly validated,
+copied, complete raid position map, independent of distance to boss.
+
+Prayer of Mending includes3ranks, highest1240827base413/.429/cost390. It respects
+the explicit multiplicative Twin*Spiritual formula from description variables.
+Only real post-absorb positive damage or nonperiodic positive raw healing triggers
+it; no timed fake procs and no HoT triggers. Shared rank cooldown, one caster aura,
+bounded charges,20yard jumps,30s expiry, source40yd/s friendly travel, replacements
+and pending/iteration reset are implemented. Current assumptions: five total
+triggers from aura stack cap (tooltip jump wording ambiguous), lowest-health% then
+unit-index bounce policy, no eligible bounce ends it, old aura removed on cast,
+party pets included as recipients, Binding threat factor.5. These interpretations
+remain explicit/unverified and must be confirmed or bounded before qualification.
+
+27actual native and Chromium Go/WASM controls pass (prior15+12new). Browser
+proof: build-tdm3uL/browser-review-f5c1d66b4837613d.json,
+SHAf5c1d66b4837613dd8c5835b15065fa96bf7f7a0d6cf1eb09e43a50a8c234c04.
+Numerical agreement tolerance1e-7. Five actual native mutants fail: missing first
+Penance bolt, wrong caster party for PoH, additive Mending formula, HoT Mending
+trigger and instant Mending application. Negative proof:
+build-tdm3uL/negative-review-ca4579cdec63fee2.json,
+SHAca4579cdec63fee2ff44442442691223ccda3b7c6a14f0d07881733fa0ad578f.
+Fast command pnpm simulator:healers:test now passes42source/protocol/data guards.
+Scoped ESLint, Prettier, Go formatting, private recommended/no-shadow lint and
+diff checks pass.648final source/generated/output references reverified. Original
+helper69b4b8... and Warlock ledger68677c... hashes remain intact.
+
+Private reusable tools under optimization/review-tools/:
+prepare-priest-healing-active-spells-v1.mjs --plan/--prepare;
+review-priest-healing-active-spells-browser-v1.mjs <build report>;
+review-priest-healing-active-spells-negative-v1.mjs <build report>.
+No healer optimization clock/admission/qualification/publication enabled. The
+healer factory is still registered only by the control-test package, not the
+normal published engine registry. No live jobs remain from this turn.
+
+Next: Holy Nova healing, remaining talents/cooldowns (including channel/cooldown
+interactions), trained/nonraid ranks, healing threat, friendly death and full-raid
+buff behavior. Build controlled incoming-damage/mana/survival workloads, enable
+the agent in a separate runnable native/browser engine and add the role-specific
+provider/result contract before actual Holy/Disc all17slot feedback and delivery.
+Other healer classes plus all original remaining DPS/tank/catalog/incremental
+requirements still apply. No commits/push/deploy/agents/3017restart. Concurrent
+tank optimizer/pool/data/UI files belong to another session and are preserved.
+
+## October 23, 13:29 UTC — Priest healing talent/proc component verified
+
+Previous goal turn was real progress (expanded class graphs and six-family Priest
+baseline, native/browser verified). This turn implements client talent curves,
+class masks and actual proc behavior. The all-role goal stays active and retains
+all original DPS/tank/catalog/incremental work plus the five healer archetypes.
+No completed healer build or BiS search is claimed.
+
+New tracked files: infra/simulator/priest-healing-talents-model.mjs,
+priest-healing-talents.go, priest-healing-talents_test.go,
+priest-healing-talents-model.test.mjs, and authentic fixture
+fixtures/priest-healing-talents-source.v1.json.gz (4531bytes,
+SHA4f9ad5824f21ea1395c4c194c96c57f941329b02ea1c93f34f54128fb9b45cbf).
+The extractor reads exact curves/masks for13talents and71healing spell records.
+Missing curves/layouts, unsupported operations and dynamic durations stop it.
+Normalized tooltip text is not substituted for actual raw rank data.
+
+Implemented/audited: Spiritual Healing3/7/10; Improved Renew; Twin Disciplines
+periodic/direct masks; Improved Healing; Divine Fury; Improved Shield7/14/20;
+Soul Warding; Holy Specialization/Penance-child crit metadata; Mental Agility;
+Renewed Hope target-only crit and Weakened Soul duration reduction; Inspiration
+8/17/25%armor on nonperiodic crits; Divine Aegis consumed shielding; Litany sequence.
+Inspiration no longer invokes the legacy physicalDR helper or noncritical proc
+path in the derived model. Percent modifiers sharing an operation add.
+Aegis raw-heal basis/accumulation/cap-refresh and Litany first-cast/family/shield
+treatment remain explicit unverified server interpretations, recorded in the data
+contract and healer plan. They must not silently qualify a final healer result.
+
+Final component identity41ad660ee32412cf887f83d7381691051fea796a9483c68392cf536ab849fc7e.
+Build report: optimization/healer-model-admission-v1/priest-talents/<identity>/
+build-LVGvTr/report.json. It derives from the preserved baseline62d8ea84...;
+none of that baseline's frozen inputs were edited.15actual native and Chromium
+Go/WASM controls pass (6baseline+9talent). Tests include active proc cleanup/reset,
+actual Aegis absorption/cap/expiry, Inspiration crit/armor, target-specific crit
+bonus restoration, mana/cast masks, Litany refunds/rank identity and Soul Warding
+on a second target after the GCD. Browser numerical agreement tolerance1e-7.
+Browser proof: build-LVGvTr/browser-review-b7ff1bf00ece8927.json,
+SHAb7ff1bf00ece89278a68a1b8cb7c0a77896a06fbd4a1b82f1cd27a65f95cb47c.
+Three actual native mutants fail the intended regressions: linear Spiritual
+Healing2/4/6, noncritical Inspiration, and leaked Renewed Hope crit bonus.
+Negative proof: build-LVGvTr/negative-review-24a46f1f5ebb9969.json,
+SHA24a46f1f5ebb99698e276d304061ff120adcf280f355cbf8d12486fe74ae57ba.
+Earlier setup failures/prototypes are archived; use this final identity. Control
+fixtures observe an already-registered aura rather than adding one after finalize.
+
+pnpm simulator:healers:test now passes29source/protocol/data guards. Scoped ESLint,
+Prettier, Go formatting, private recommended/no-shadow lint and diff checks pass.
+Final631source/generated/output references reverified. Original helper69b4b8...
+and Warlock ledger68677c... hashes remain intact. No healer optimization clock,
+class admission, numerical qualification or publication is enabled.
+Private reusable tools: prepare-priest-healing-talents-v1.mjs --plan/--prepare,
+review-priest-healing-talents-browser-v1.mjs <build report>, and
+review-priest-healing-talents-negative-v1.mjs <build report>.
+
+Next: actual healing Penance, Binding Heal, Prayer of Healing and Prayer of
+Mending; validate scaling expressions rather than using old rune constants.
+Current source confirms Penance healing children402289/1240723/1240724/1316991,
+bases126/200/268/425 and coefficient.19 each. These need direct-heal events for
+nonperiodic crit procs, with the separate parent/channel timing. Binding Heal
+401937 has two healing effects at247/.429, required25/max31; check its scaling
+expressions before enabling it at60. PoM401859 base172/.429, cost210,5charges,
+aura401877 duration30s, jump helper401880 radius20. The raw values alone do not
+prove its full trigger/jump behavior. Then remaining talents/cooldowns, trained
+nonraid ranks, threat, friendly death/buff behavior, group positions/range and
+controlled damage/mana workloads before Holy/Disc all17slot feedback and website
+handoff. Other healer classes and original remaining all-role work still required.
+No live jobs from this turn remain. No commits/push/deploy/agents/3017restart.
+Concurrent tank optimizer/pool/data/UI changes are preserved as other-session work.
+
+## October 23, 13:06 UTC — Priest baseline healing passes native/browser controls
+
+The healer expansion remains part of the active whole all-role goal: Holy and
+Discipline Priest, Restoration Druid, Holy Paladin and Restoration Shaman, with
+the same pre-raid/search/defaults/guidance delivery standards as DPS and tanks.
+This turn made real source/runtime progress. It did not finish or block the goal.
+
+New tracked collector infra/simulator/class-spell-evidence.mjs follows class ability
+and talent candidates through triggers, text references, description variables,
+teaching parents and explicit aura/cooldown/power restrictions. The prior capture
+missed Penance healing children because those bindings occur in tooltip text.
+Current Priest archive: optimization/healer-model-admission-v1/
+priest-source-b3a0ae3ea9e40a92/spell-source.json;
+semantic SHAb3a0ae3ea9e40a92991ec2477d42ed0dc41e74d7eb62aee54fff97a2834fb225.
+It contains450roots/579relatedIDs/346references/424abilityRows.54names and16
+talent-text nodes remain unresolved; no referenced radius is missing.52real
+talent layouts match18/17/17. The extra unresolved Holy Specialization layout
+node is a duplicate, not evidence that the existing DPS talent counts are wrong.
+
+New tracked Priest baseline renderer/extractor, Go implementation and Go regression
+test under infra/simulator/ derive39rank candidates across Lesser Heal, Heal,
+Greater Heal, Flash Heal, Renew and Power Word: Shield. Preserve the conditional
+Renew family separately. Raw client values/costs/timing/coefficient fields are
+used; no inactive WotLK healing implementation is enabled. Experimental amount,
+downranking and snapshot rules are declared rather than claimed server-verified.
+The healing-agent overlay initializes target dummies' real base health, which the
+inactive dummy path omitted. Current DPS source/registry/presets are not activated
+or changed by these prototype controls.
+
+Actual baseline component identity:
+62d8ea84ac705394456a29184395330a0cba9878c392eddfad75ed1221bea7a7.
+Build report: optimization/healer-model-admission-v1/priest-baseline/<identity>/
+build-glz8QS/report.json. All6real controls pass in native Go and Chromium Go/WASM,
+including direct families, cast timing, mana, coefficient scaling, crits, actual
+health restored/overheal, invalid/dead targets, OOM, Renew ticks/final tick/rank
+replacement, shield consumption/expiry/Weakened Soul, and normal iteration cleanup.
+Browser proof: build-glz8QS/browser-review-0e4af09b623ecc8e.json,
+SHA0e4af09b623ecc8e4331de0e7d3903600f0690d74b7a1b065e65f7465cc5689c.
+Native/browser numerical controls agree to absolute1e-7. Deliberately restoring
+old Flash Heal coefficient0.8057 instead of0.429 fails the actual native regression:
+build-glz8QS/negative-legacy-coefficient-Z1oG4I/review-c8b6e79ef545758a.json,
+SHAc8b6e79ef545758a8fbd6b257d8232704e6ce04728144ea795bd798ec50c5b3b.
+Setup failures are archived; interactive casting and proper Cleanup/Reset are now
+used by controls, with all original assertions preserved.
+
+Fast source/protocol/data guards: pnpm simulator:healers:test —19passed.
+Scoped ESLint, Prettier, Go formatting and private-tool recommended/no-shadow lint
+passed. Authentic checked-in fixtures: priest-client-healing-source.v1.json.gz
+(101239bytes, SHAe4ed880f99c62ca8de42ee1f20e22800541df6849d90e56b15811b4d0e3940ab)
+and priest-healing-engine-source.v1.json.gz
+(SHA76c0a5888306f8ad3c0d3860d74c1866d1dbe88ff5de3b3064e5d8416f745e03).
+Private reusable tools under optimization/review-tools/: capture-class-spell-evidence-v1,
+prepare-priest-healing-baseline-v1 --plan/--prepare, review-priest-healing-browser-v1
+and review-priest-healing-negative-v1 (last two take the actual build report).
+
+Expanded matching70532class graphs also captured without changing active client data:
+Druid druid-source-8cc55679c6a175cd (376roots/491IDs,42missing names/14unresolved texts);
+Paladin paladin-source-9ae97fdcce0290a1 (383/531,48/16,2unresolved layouts);
+Shaman shaman-source-7de6adab0555a2e2 (370/588,41/13).
+All have no missing referenced radii. These are candidates, not trained spell lists.
+
+No healer optimization clock, full class admission, qualified HPS or public healer
+preset exists yet. Next required work: full Priest healing talent/proc mechanics
+(Penance healing, Divine Aegis, Binding Heal, Prayer of Mending, Litany etc.),
+group/range targeting, trained-rank/nonraid availability, healing threat, controlled
+incoming-damage workloads and mana endurance. Then run bounded Holy/Discipline
+talent/all-slot/enchants/consume feedback and website handoff; continue the other
+healers and the remaining original DPS/tank/catalog work. No commits/push/deploy,
+agents or3017restart. The3018review server remains up. Concurrent tank optimizer,
+tier-list/data/UI/source changes belong to another session and are preserved.
+
+## October 23, 12:16 UTC — healer accounting foundation implemented and verified
+
+Previous goal turn made real progress: fresh Affliction was fully delivered locally,
+and the healer scope/source captures were preserved. This turn implemented the shared
+healer accounting prerequisite. Whole all-role scope remains active, with at least
+35 original/healer cases; no healer class is qualified yet.
+
+New tracked sources: infra/simulator/healing-metrics-model.mjs (pure isolated overlay),
+healer-metrics-regression_test.go, healing-metrics-model.test.mjs and the authentic
+23KB fixture under infra/simulator/fixtures/. package.json adds
+`pnpm simulator:healers:test`; all eight source/protocol guards pass without WoW.
+The overlay changes delivery, unit/action metrics, owned-pet/party/raid aggregation,
+parallel merging and protobuf output. Raw healing remains separate; HPS now counts
+health restored plus consumed absorption. Overhealing, unused shields and external
+health gains receive no effective-healing credit. Dead targets are not revived by
+ordinary heals. Original source, presets and completed DPS evidence stay intact.
+
+Actual compiled foundation identity:
+6a13637472caac9c1f92bbeac721b5e12aa9570ffe68fe48f9117d77911f0b19.
+Canonical verified component receipt:
+optimization/healer-model-admission-v1/metrics-foundation/6a13637472caac9c1f92bbeac721b5e12aa9570ffe68fe48f9117d77911f0b19/foundation-verified-724f0803c807f4b7.json,
+semantic SHA724f0803c807f4b76342e28998d4af28ee6af503be02dbdbdd14c18eebed3fd6.
+Build report is in that identity's build-8usHxE/report.json. It preserves generated
+sources/protocols, native engine, engine WASM, core-test WASM, JavaScript codec and
+hashes. Seven native and real Chromium Go/WASM controls agree, including decoding
+real Go protobuf output through the new generated JavaScript API. Browser proof
+SHAe1b96d15f6ddc3d4fa403909ae7e86702dde9bdd8e7f6f8cf9d9f3e5ae564899.
+Actual negative mutation restoring raw-heal HPS fails the native regression;
+proof SHAf0a0f3f7db23687da6c3accaceab9332d780f1c1ac9e127cb2ef8d4dfb478baa.
+
+Full core suites pass: 78 parent tests and 83 derived tests. Initial broad testing
+found the existing multi-school crit fixture lacks an attack table; the unchanged
+parent reproduces the same panic. A separate validation copy initializes that table,
+preserving assertions and production source. Full-suite proof
+SHA7798c2e78fb28b188f2e7eee72bc7c83dc041618b089986d9856608184e84c0d is under
+build-8usHxE/full-core-initialized-fixture/. Original failures remain archived.
+The first pet/shield regression also exposed a missing fixture ProcMask; corrected
+before the final component identity. No numerical evidence or test assertions were
+weakened. Scoped lint/format/diff checks pass; original helper69b4b8... and original
+Warlock ledger68677c... were reverified unchanged.
+
+Private reusable commands under optimization/review-tools/:
+prepare-healer-metrics-foundation-v1.mjs --plan/--prepare;
+review-healer-metrics-browser-v1.mjs --review <actual build report>;
+review-healer-metrics-negative-v1.mjs <actual build report>;
+review-healer-metrics-full-core-v1.mjs <actual build report>.
+Use the current verified receipt rather than earlier prototype identities. No live
+healer calculations remain. ClassMechanicsAdmission, healerAgentsEnabled,
+classClockStarted, numericalQualification and publicationAllowed remain FALSE.
+This is a core-accounting component derived from the existing engine, not a claim
+that the new 70532 healing spell records have been implemented or trained ranks
+verified. Next: Priest spell/rank/talent/targeting/mana/workload admission, then the
+actual bounded Holy/Discipline search and website handoff. Three original tanks,
+five other approved full-raid class refreshes, catalog/incremental tooling and the
+global boss-debuff proof also remain. No commits, push, deploy or 3017 restart.
+Concurrent tank tier-list edits in this worktree belong to another session; preserve
+them and do not attribute their data/UI changes to this healer work.
+
+## October 23, 11:33 UTC — healer scope expanded and validated; Affliction delivery complete
+
+The active all-role objective includes Holy/Discipline Priest, Restoration Druid,
+Holy Paladin and Restoration Shaman: at least 35 original and healer archetypes/cases.
+The original 27 locally delivered cases do not establish healer coverage. The full
+admission/search/delivery contract is in docs/simulator-healer-optimization-plan.md.
+No healer numerical jobs, admitted model, optimization clock or qualified HPS yet.
+
+Actual installed-client 70532 extraction completed with 120 base/effective table
+entries and no unavailable tables, including 54 SpellRadius and 7,846 SkillLineAbility
+rows. Manifest: healer-model-admission-v1/current-client-mechanics/70532/
+3bf7ea17e509bf087124d457492e49234b3bff8c7af01d9c68ee98d5a92909a7/
+mechanics-20261023T111029Z-a1f14e63e8ab4a1abb223ea681161f66/manifest.json.
+Byte SHA: 9196f29921c4ba0cb38b5f649cdcf19ff03f667f6d560e8493a69b69682d7fcc.
+Normalized separately in healer-model-admission-v1/normalized-70532;
+checksum e00c4897f5278e4dca9ac834adacfd4da07e61a2ca4382f881f2f6785faeefe7.
+Healer source client-a259efbc428cb0a5/spell-source.json, semantic SHA
+a259efbc428cb0a54df462ebdb3d80f60626c01117ba769088e908ced6de8aeb,
+contains 558 related spells, 205 talents, 339 skill-line rows and 10 referenced radii.
+The 59 unresolved talent-text records and eight encrypted skill-line rows remain.
+Training/server behavior is not verified. Three new genuine-client tests and three
+70425 compatibility tests pass. Capture lint and repeated source checks pass.
+Global 70425 active data, frozen helper 69b4b8... and original ledger 68677c... remain
+unchanged. The extractor now includes the two additional tables; setup is documented.
+
+Expanded source audit: healer-model-admission-v1/source-102795b6cad12a78/report.json,
+SHA f98166af2d670ca7a221c2504fd338b9d33f253caf9a58cdd52b6c1e07772006.
+Both actual captures reproduce 29 files: 26 match authenticated source pins. The
+API proto and two shield tests have no pins, which does not prove they changed.
+The inspected healing core aggregates full raw heals while health gained is capped
+separately. Effective healing/overhealing accounting is an admission requirement;
+existing HPS cannot be assumed to represent health restored. Captured talent roots
+include Penance, Divine Aegis, Prayer of Mending, Wild Growth, Riptide and Water Shield;
+these need their actual Forever mechanics, not copied later-expansion formulas.
+
+Affliction's canonical export/readers completed: build
+7c2fae6c943f0b8a16f8045315385206160b899025a03601554457882bd6fd16,
+760.2872927637818 DPS/40k. The actual reader fixture has 11 documents and loads neither
+research trace. New reader/closure tests (27), genuine v6 profile tests (14), private
+overlay/import/browser guard tests (10), typecheck and scoped lint pass. Older v5,
+Demo and Affliction regressions pass; v4 initially hit its five-second limit under
+concurrent builds, then all 12 passed unchanged in a quiet single-worker rerun.
+
+All-class TypeScript/Vite produced immutable v6 presentation e093bd02230f77522f27f07f
+with 3,497 assets and all four fresh Warlock builds. Staged browser checks passed:
+15 menus, eight shares/reloads, four native/browser controls and completion/privacy
+checks. Report: reviews/profile-model-browser-02c766759f961114.json. The genuine v6
+fixture SHA is 152293cd2b3ce5165b3abdd2469c6d7d419a801ca6f94a1ce8895fd1d192c7d2.
+The local selector completed, preserving all 20 other profile selections and the
+global model. No production writes occurred.
+
+All eight actual main-page desktop/mobile cases passed. Report:
+reviews/warlock-current-affliction-main-page-686dd5943f503038.json. The local finisher
+completed with weapon/acquisition checks and preserved inputs. Delivery marker:
+warlock-affliction-current-full-raid-v1/delivered-local.json, semantic SHA
+835fcf3d6f1d83c44609cab26fa44a117e0b35f5cecd31ee7028fdeab9100886.
+All four Warlock full-raid builds are delivered locally; this is a refresh, not an
+increase in original archetype coverage. Local review: http://127.0.0.1:3018/tools/forever/simulator/warlock.
+No original clock was reset; the Warlock deadline remains 17:56:57.713 UTC.
+
+Shared-profile regression run covered 100 tests: 99 passed, with one old v3 positive
+fixture timing out at 5.194 seconds while the finisher was busy. That exact test
+then passed unchanged in 3.608 seconds in an isolated rerun; nine name-filtered tests
+were skipped only in that rerun and had already passed in the full run. The earlier
+v4 timeout was likewise resolved by an unchanged quiet rerun. No assertion or timeout
+was weakened. Logs: reviews/current-affliction-shared-profile-regressions-20261023-1130.log
+and reviews/current-affliction-v3-quiet-recheck-20261023-1133.log. All new v6 and
+reader tests, final typecheck, scoped lint, formatting and diff checks pass.
+
+There are no live Affliction calculations or delivery jobs left. The whole goal
+remains active: three original tanks, the separately authorized Warrior/Rogue/Hunter/
+Druid/Mage full-raid updates, at least five healer archetypes, global 16-slot debuff
+proof and complete/incremental catalog tooling still require work. Follow the healer
+plan for separate Priest-first model admission and its effective-healing fixes;
+source captures do not qualify an engine. Do not reopen Warlock's completed searches
+or reset any original class clock. No commits, push, deployment or 3017 restart.
+
+## October 23, 10:48 UTC — Affliction numerical qualification complete; combined export/readers active
+
+Actual final owner57502/supervisor96020/child96241 completed0. Fresh selected
+760.2872927637818DPS/40k,30/0/21, original selected inputs unchanged. Conservative
+retained gap0.00840165336942174 (0.8401653%) passes2%and separate1%; strict dominance
+FALSE, disclosed separately. Finite41inspection used12new10k+29exact reuses;
+12pre-frozen arms/two20kranges used24fresh requests/480,000fights,0reuse.
+Whole scalar ancestry189,776origins/18,168,500fights (detailed/WASM excluded).
+
+Genuine inspection completion0175e54b3bb38f647a0cee2593d17992570c563ae2c8587154526810de17a89b,
+result af5c421bdfaff345c440892768ff8df718e2a50057dccff985c122911ba2fd8b.
+Confirmation study c3f7b2f7a5b6b0baf405317949b0df4031a5e3ca12082033d8f9631a5a87478a,
+completion f79122605a201c6f86a2e48bc974a487a9c99c5f6bd63a57abb8ce3a3615fc48,
+result7b22901989b9e0b5d4a782719b4e2dd6984aa19d90a8fed9482482cfd5474f3e.
+Selected actual10k native/rawWASM760.3111975131568DPS/stdev35.47793612066111 exact;
+source request94883522dce2aec39ed08c753a6acde8627743b3b0d33026134a34364462990e,
+browser92e39508868f8a1b0fe868c0c9720bbf58cea8bc25a998a9aac650e78a9b0a7f.
+Observed12targetrows/24playeraurarows; player buffs uncapped, global16enforcement
+not proven. Genuine parity38590fe0212ec01df275c2f8dcb5cfc43769af6e34f79920ac9590bc2c57d198,
+receipt ac35384d8f964d73d2479f54e0b55fdc5603b834a212a0eccc5b08717dc1efd2,
+path optimization/warlock-affliction-current-full-raid-v1/numerical-qualified-ac35384d8f964d73.json.
+This qualifies numerical evidence only, not UI delivery/deployment/whole goal.
+
+Actual combined canonical export+reader generation26100/PID16003 is LIVE:
+node artifacts/forever-simulator/optimization/review-tools/generate-warlock-current-affliction-readers-v1.mjs --export-and-generate artifacts/forever-simulator/optimization/bounded-native-studies/c3f7b2f7a5b6b0baf405317949b0df4031a5e3ca12082033d8f9631a5a87478a/completed.json
+Log reviews/warlock-affliction-current-qualified-export-and-readers-20261023-1048.log.
+It still performs full independent canonical export replay. New same-process
+WeakMap-bound unchanged export capability hands that verified result to codegen,
+avoiding a second redundant full raw replay. Standalone generator still performs
+full --plan verification. Six export/handoff refusal tests and strict scoped lint/
+format pass; genuine raw receipt/JSON copies cannot fake the capability. Actual
+positive combined execution remains pending. The two edited files were confirmed
+absent from both active final declarations' source pins before edits; no frozen
+numerical file changed. Freeze exporter/generator/export tests during this process.
+No new fights, UI selection, Git/prod writes or clock extension by this operation.
+
+Require actual exported build/index+new TS readers, then genuine reader fixture/
+tests, public profile-model-updates warlock.v6 integration and regressions, private
+current overlay/loader positive tests, all-class TS/Vite, staged browser/real fixture,
+local selection (preserve6e686...prior),8main-page cases on3018,finisher. Public
+v1-v5 schemas and all other builds stay intact. Same17:56:57.713UTC deadline.
+Do not declare Warlock/whole35minimumcase all-role campaign complete before delivery.
+
+## October 23, 10:33 UTC — Affliction finite inspection measuring; healer spell source captured
+
+SAME final owner57502/supervisor96020/child96241 completed its source authentication
+and started actual finite41candidate10kinspection, identity4af50f93f22a9402b0618e6c7a97d2df090850383732eda010aadc210e496c3e.
+Log reviews/warlock-affliction-current-final-owner-20261023-1015.log. No fresh40k
+or final receipt yet. All final numerical dependencies remain frozen. Next actual
+steps are pre-frozen <=12arms/two20kranges, independent replay and selected10krawWASM.
+Same original deadline17:56:57.713UTC. Do not duplicate the live57502/96241.
+
+Parallel read-only healer data capture completed0, without modifying any engine:
+optimization/healer-model-admission-v1/client-9c6630c40c94ae82/spell-source.json,
+semantic9c6630c40c94ae82a4fcb88dd1e29f42f2530567f549f35f4d949fcc4c562622.
+Cached client1.60.1.70425/Oct16 exact manifest/hotfix;2,224,140prettybytes.
+540roots/558relatedspells/717effects/258powercostrows/34triggeredges/205class-talents,
+all3trees of Priest/Druid/Paladin/Shaman. These include NPC/untrained/utility/DPS
+records, not558qualifiedheals. No missing names among requestedbaseline or closure.
+Explicit scope gaps SpellRadius+SkillLineAbility;59talent records have unresolved
+rank text; encrypted row counts preserved. No Classic heal values substituted.
+Capture CLI review-tools/capture-healer-client-spells-v1.mjs passes strict lint/
+format and actual-data3tests: recapture/idempotence, every raw/lookup row identical
+to its checksum-verified source, exact trigger/talent closure and no HPS/admission
+claims. Test log reviews/healer-client-spell-capture-tests-20261023-1031.tap.
+No healer numerical jobs/class clock/model admission/publication yet. Rank training,
+radius and actual healing mechanics still need implementation/evidence. Goal active.
+
+## October 23, 10:18 UTC — final Affliction preflight passed; supervised final owner active
+
+Previous goal turn progressed healer admission with a real reproducible21-file
+source audit and verified the live wait. Actual final preflight20583/PID80966 then
+completed0. Independent feedback consumer replay covered all58,263new admissions,
+with closed feedback/no pending gear applicability. Finite reinspection has41real
+canonical candidates, all food/flask/BlastedLands/alcohol coordinates on FINAL gear,
+selected settings unchanged. Inspection identity
+4af50f93f22a9402b0618e6c7a97d2df090850383732eda010aadc210e496c3e.
+Preflight added0fights/writes and did not choose holdout seeds prematurely.
+
+Actual ordinary confirmation owner57502/supervisor96020/child96241 launched10:15UTC.
+Log reviews/warlock-affliction-current-final-owner-20261023-1015.log. Same original
+Warlock deadline17:56:57.713UTC, no new clock/correction. At10:17:48 child is live,
+~100%CPU, authenticating the canonical source; no fresh40k/parity/receipt claim yet.
+Poll SAME57502/PID96241; do not restart solely because source replay is quiet.
+Frozen final graph now includes new current-confirmation runner/context/tests,
+current-final-arms/tests, selected-wasm/tests/parity and all inherited numerical
+dependencies. Do not edit/format them. Cache helper and original first-pass ledger
+hashes were reverified unchanged (69b4b8... and68677c...).
+
+Once numerical owner finishes, require actual numerical receipt and accepted2%/
+separate1%disclosure/selected10krawWASM. Then canonical --export, actual reader
+generation/fixtures/publicv6integration/tests, all-class build, staged+main8browser
+cases, local selector/finisher. Current local6e686... still shows historical Aff;
+760.3112/10k remains provisional. Whole35-case minimum all-role goal stays active.
+
+## October 23, 10:09 UTC — same final preflight active; healer source audit captured
+
+10:12UTC: SAME20583/PID80966 verified live after13m32s,~100%CPU. Its observation
+handle still returns running; empty output is not terminal or permission to restart.
+The healer capture was rerun after lint corrections and reproduced the exact same
+report hash/snapshots. CLI repeat, strict lint, formatting and diff checks pass.
+No new numerical engine/clock/qualification/selection or production write occurred.
+
+Previous goal turn made concrete progress: closed actual Affliction feedback and
+expanded/persisted healer scope. This turn revalidated20583/PID80966 live at~100%CPU;
+it is independently replaying the full chain, not stuck or terminal. No duplicate
+job has been started. Local reviewserver3018returnedHTTP200in4.90seconds;3017was
+untouched. Await the genuine final preflight before the ordinary confirmation owner.
+
+Read-only healer source capture now exists:21files copied and byte-reverified,
+20match authenticated e945snapshot pins (registry included). All4healer-agent source
+registrations are disabled. Current proto/api.proto has no source pin in that model;
+this does not prove a difference or let us attribute its schema to the compiled DPS binary. Report
+optimization/healer-model-admission-v1/source-440dd24662c1dd83/report.json,
+semanticSHA b05bc828458d21c5fa5b6d9f357b5aceadb1035d06f530c1acc3ab9adbc330cf.
+Capture CLI review-tools/capture-healer-source-audit-v1.mjs completed0, its own
+strict lint/format pass. It performs no combat, class-clock start, model admission
+or publication. Exact input snapshots are preserved; full healer implementation,
+mechanics/metric admission, numerical search and delivery remain required.
+
+## October 23, 09:58 UTC — current Affliction feedback closed; independent final preflight live
+
+Ordinary feedback31961/supervisor40407/child40615 completed0. Genuine study
+a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e closed in1cycle.
+Stored completion SHA db9a698fd860df2d15373c2bab5ce39423f0d96c500c8eba626eb2dc58a85207,
+result fc917287137b2ec18014b2423ed3645d12b634f1eaf7eda0953fb9849cf04d40.
+58,263newrequests/5,625,100fights,1,017exact current-source reuses; complete ancestry
+189,740unique origins/17,568,500fights. Provisional760.3111975131568DPS/10k, same
+30/0/21 talents2550010013520105--0550205103; not fresh40k or a new website score.
+Settings SHA dca945a57cac675a1c8c5f11484ef22b4e83abadfbfe6a33fd9408842268743a.
+
+Actual independent final preflight handle20583/PID80966 is running:
+node artifacts/forever-simulator/optimization/review-tools/run-warlock-affliction-current-confirmation-v1.mjs --plan artifacts/forever-simulator/optimization/bounded-native-studies/a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e/completed.json
+Log reviews/warlock-affliction-current-final-preflight-20261023-0958.log. Require
+actual full feedback-source replay/final candidate preflight before admission;
+it may take10+minutes reading the full chain. Do not duplicate it on silence.
+Then run the SAME original-approved Warlock confirmation-delivery owner, new
+run-warlock-affliction-current-confirmation-v1.mjs with the genuine feedback path.
+No new clock/correction; original deadline17:56:57.713UTC. Finite10kinspection,
+pre-frozen two20k ranges, selected10krawWASM, numerical receipt, canonical export,
+generated strict readers/real fixtures, publicv6integration/tests, all-class build,
+real staged/main browser, local selector+finisher remain. Do not mark goal complete.
+
+Healer expansion below is fully documented; new plan passes Prettier and diff checks.
+Healer numerical admission needs its own real healing result contract: existing
+admitted scalar provider validates DPS records, not HPS. No healer jobs or engine
+changes have started. New presentation graph check passed1test with1intentional
+name-filter skip; positive v6/public-reader/overlay tests remain pending genuine data.
+
+## October 23 — Goal expanded to healers; all-role campaign remains active
+
+The owner explicitly added healers: “Expand the goal to cover the healers too in
+the same way we cover tanks and dps.” The existing general all-class/spec goal now
+explicitly includes healer mechanics, scenario-specific feedback optimization,
+all17-slot nonraid gear/enchants/consumes/talents, actual native/browser evidence,
+presets/library and exact healing guidance. Preserve the original30-case accounting;
+add at least Holy+Discipline Priest, Restoration Druid, Holy Paladin and Restoration
+Shaman (minimum35archetypes/cases), plus supported distinct Forever healing builds.
+Scenario results are separate measurements, not invented additional finished specs.
+27original local cases remain delivered;3original tanks, remaining full-raid class
+updates, healer admission/optimization and catalog/incremental scope remain open.
+
+Read-only current-checkout audit found healer UI pages with blank gear, all4healer
+registrations commented in sim/register_all.go, disabled Priest healing spells and
+inactive legacy _restoration Druid/Shaman code (including later-expansion references).
+Existing core health/HPS protobuf fields do not establish a usable healing model.
+Exact pinned-source/model admission is required before optimization/public HPS claims.
+No frozen engine/helper changes or healer numerical jobs have been made. Finish the
+current Affliction pipeline under its original deadline; the latest entry above
+identifies its active phase/handle. The completed31961/40615 must not be restarted.
+New plan: docs/simulator-healer-optimization-plan.md. Relevant measures include
+effective/raw healing, mana endurance, overhealing, actual absorbs and tank/raid/burst
+workloads, with workload feasibility before2%/separate1%retained assessments. New
+role work gets separately recorded bounded clocks, never resets old DPS windows.
+The goal API is now active following the user's explicit control update; do not
+mark the overall goal complete on a Warlock/healer sub-milestone.
+
 ## October 23, 07:33 UTC — Current Demonology fully delivered locally; Affliction next
+
+09:34UTC: SAME feedback31961/40615 is now measuring, study
+a1babfd2a296577d8c719727d5afba2ee31362a57124435a17eb17241d694f1e.
+All13actual state/consume native+rawWASM controls passed exactly. Genuine state
+parity report warlock-affliction-current-full-raid-v1/state-parity-be9d3572df0c7a49.json.
+At09:33:39 first-cycle consumable comparison completed and all-slot gear recheck
+is atgroup9;910new requests/425,480fights,62exact reuses. Sixworkers55379..55384
+are alive. No closed feedback/40k is claimed yet; original deadline unchanged.
+
+Expanded actual raw target audit completed without combat:40records (19model,
+8gear,13state/consume), maximum12activated target rows, all observed bounds pass.
+Report optimization/warlock-affliction-current-full-raid-v1/target-observations-expanded-2d6704fdcb131e4d.json,
+semantic2d6704fdcb131e4dbfc9587019f344d5c0e5e55bed028f8fb328a6bd5f63b072.
+Player buffs remain unlimited; global16-slot engine enforcement remains unproven.
+
+All10new current-Affliction delivery preparation modules pass strict scoped lint
+and formatting. Separate cumulativev6browser-guard4tests pass. New positive overlay/
+loader tests and presentation tests are written against real future qualified files;
+do not run/claim those positive tests until the genuine export/readers exist.
+Public v6 schema/reader/test integration and all real browser delivery are pending.
+The current reader generator must be executed/reviewed against actual output and
+its generated TypeScript tested; no fake qualification or provisional pins added.
+
+09:29UTC: full actual geared/blue replay and feedback --plan11901 completed0.
+Replayed154gear-stage chunks with21,968distinct verified gear/reused requests,
+on top of independently verified109,513blue origins; every new gear admission covered.
+Feedback coverage10,508whole gear proposals,2,287anchors/29,036initial states,
+2,455talent values,13actual state/consume controls. Formatting-only new feedback
+runner update completed; focused admission tests7/7passed with strict graph lint.
+Original first-pass ledger SHA68677c... remains unchanged; the separate update-window
+ledger legitimately records successful phases. Do not mistake those two ledger files.
+
+Actual ordinary feedback handle31961/supervisor40407/child40615 launched09:17:41UTC
+(log reviews/warlock-affliction-current-feedback-owner-20261023-0918.log), same
+17:56:57.713UTC deadline, no new correction. At09:28 still authenticating/preparing
+actual state controls with active CPU; no failure/completion/13parity claim yet.
+Poll this same owner, never duplicate it. Its numerical graph is frozen now.
+
+Outside that graph, fresh final pipeline is implemented: current-final-arms,
+confirmation-context+runner, selected-wasm+selected-parity, rotation-guidance and
+export-warlock-affliction-current-first-pass-build-v1. Preparation12tests and
+guidance/export8tests pass, with genuine controls, no invented scores. Current
+feedback-source3tests pass. New generate-warlock-current-affliction-readers-v1
+will create separately hash-pinned readers ONLY after genuine qualified output;
+its positive execution remains pending and must be reviewed/tested afterward.
+New current Affliction overlay/loader, cumulativev6builder, staged/main reviewers,
+local selector/finisher and real reader/profile fixture exporters are prepared.
+Four browser-guard tests and strict lint of10delivery modules pass; actual new
+reader, overlay positive tests, build and browser delivery remain pending.
+These new private files do not qualify or publish Affliction by themselves.
+New selector preserves actual current6e686ef9f69fc7d3c2ba7b78 as its prior local
+Warlock selection; other20profiles remain preserved. Do not restart3017.
+
+Concurrent other-session changes now include tank-ranking pages/assets/data,
+shared ranking navigation, sitemap and scripts/benchmark-simulator-tanks.mjs.
+Preserve them; they are not this optimization work or proof of its three tank cases.
+
+09:13UTC: gear32460 completed0. Canonical completion0fe6ab4fb5ae01c67d437731a0ab2250e7440e0c9b1c170504ba96099630d946,
+result c76a69b2cf2791bb207f1cbc94568d88103d464334563c2564d5b88a4dedb4af.
+New21,964requests/2,882,460fights,656exact current-source reuses;131,477unique
+origins/11,943,400fights including blue ancestry. Provisional747.327081243135DPS/10k,
+two sweeps, stoppedForSmallGainFALSE: this cap is not feedback closure or final BiS.
+Actual independent geared replay+feedback --plan11901/PID25396 is running normally
+(~100%CPU), log reviews/warlock-affliction-current-feedback-preflight-20261023-0905.log.
+Do not duplicate/restart. After it exits, format ONLY the new current feedback
+runner before admission (Prettier reported that file), rerun its focused guards,
+then use ordinary state-recheck owner with the same original deadline.
+
+Current feedback-source tests3/3passed after fixing only whitespace-sensitive test
+matching; no numerical guard was weakened. New current final inspection/confirmation/
+selected-parity preparation12tests passed, including actual four-frame equivalence
+and foreign/short-evidence refusals. New rotation guide3tests passed across216actual
+policy/frame combinations and19actual controls; it preserves original canonical
+channel action hashes and forbids Pact instructions for pure sacrifice. A genuine
+test caught and fixed a missing ephemeral Affliction variant label before export.
+New export refuses unqualified/historical/foreign sources;5tests passed. Actual
+positive current feedback/40k/export still pending, and these new final files remain
+outside the active geared replay graph. No new public scores or production writes.
+
+09:03UTC continuation: gear handle32460/supervisor9416/child9624 remains active,
+study fc8b6e5e0b88f29f45c1b081b90588ed94aa66d7938cebb9f9afb0b61690580d.
+All8actual native/browser gear canaries passed with exact DPS/full-metric parity.
+Second sweep has passed20,366new requests/2,436,540fights (plus genuine inherited
+blue evidence). No gear completion or final qualification yet. Do not duplicate it.
+Outside its frozen graph, the new current feedback consumer loads genuine ancestry
+above200k, tracks every newly admitted origin separately, and rejects foreign
+spec qualification. Its first2archive integrity tests passed; the third source-guard
+test exposed only a whitespace-sensitive assertion and is being corrected to match
+the actual multiline guard. Actual positive current feedback replay remains pending.
+
+08:47UTC: actual Affliction blue62115 completed0 at08:37:13UTC. Genuine stored
+completion e9601d4a34b29b2d28cd4d3d28b1aa31dd3ca898bfc91b7895f2aa7fd031d678,
+result d2f089b34cd54fae4c7d405c248b316c8e1a43bcff9633fe5970d527028615f9.
+109,513new requests/9,060,940fights,1,628exact current-backend reuses. Provisional
+blue555.4918022774569DPS/10k,30/0/21, Succubus/Spellstone, full dots+Doom/Bolt.
+This is not new40k validation or public BiS. Actual --plan92613/PID2005 completed0:
+full independent109,513-origin/96saved-chunk replay and all-slot gear preflight
+passed, zero new fights/writes. Coverage73/43/56/83/89/29/68/64/62/73/62/62/43/43/
+153/27/29; hands3013, rings3794, trinkets1789, sets1060,10,451unique proposals.
+
+Ordinary new gear supervisor is now running, same17:56:57.713UTCdeadline:
+reviews/warlock-affliction-current-gear-owner-20261023-0847.log. It must authenticate
+the source and run8actual derived gear native/WASM controls before scalar search.
+Record its actual handle/PID from the next tool response; do not duplicate it.
+Frozen gear dependencies now include new runner, gear requests/parity/test and
+current-blue consumer; leave them unchanged. Outside that graph, current geared
+consumer3tests passed on genuine archive journals, explicit new-vs-inherited tracking.
+Current state/consume/feedback modules4tests passed; extended13/14state+consume
+canary/context/runner preparation3tests also passed on actual unranked controls.
+No invented winner/metrics or actual feedback job is claimed. Positive geared-source
+replay/actual new canaries/feedback/40k/selected parity/UI remain required.
+
+08:21UTC continuation: SAME62115/supervisor64017/child64273 is alive. Initial
+80fight pass completed all77,664new requests/6,213,120fights at08:18:54.971UTC,
+all origins verified and0sourceReused. Child is actively preparing/ranking the next
+policy pass (82%CPU, workers idle temporarily); this is not a stuck/missing handle.
+Do not duplicate or restart. No completed blue result or new phase is claimed yet.
+The new selected-consumer3tests and actual-control gear-preparation3tests passed;
+all6new outside-blue modules also passed formatting. Actual positive full source
+replay/selected-state gear preflight/8gear native-WASM jobs remain after completion.
+Concurrent sessions committed some prior frontend changes and are now editing
+Solo/Raid tier artwork/components plus next-env; preserve their work. We made no
+commit, push or production write. Main QA3018remains on persistent logging.
 
 08:03UTC: actual ordinary Affliction blue owner62115/supervisor64017/child64273
 is LIVE, six native workers. Study8f0fa5a5d6aa93b1507ce3d72a97a037d9c1925d697612ab2d66e7e8a9c8f439.
@@ -25,6 +723,17 @@ reviews/warlock-affliction-current-gear-preparation-tests-20261023-0804.tap.
 They do not invent a winning talent or DPS or qualify gear parity. After genuine
 blue completion, require full independent replay, actual gear preflight,8real gear
 native/WASM canaries and ordinary gear owner through the same supervisor.
+
+08:05UTC: independent consumer refusal/bundle tests3/3passed, and all-slot gear
+preparation tests3/3passed (actual unranked control, no invented metrics). New gear
+modules are ready for genuine blue output: run-warlock-affliction-current-gear-v1.mjs,
+warlock-affliction-current-gear-requests-v1.mjs and current-gear-parity-v1.mjs.
+Their positive winning-state preflight and actual8native/WASM gear jobs must still
+run after source completion; do not describe preparation tests as those jobs.
+Latest real blue progress08:05:27UTC:28,882new requests/2,310,560fights, first80fight
+round/control6. SAME62115/64273 remains active. No final result, gear dispatch,
+feedback, fresh40k or new Affliction publication yet. All remaining goal scope
+and original17:56:57.713UTCdeadline remain. Do not restart on a quiet handle.
 
 07:49UTC: fresh Affliction model controls completed0 through the SAME approved
 Warlock supervisor (47861/child53234). Actual19browser captures+19native/rawWASM

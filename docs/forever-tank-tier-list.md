@@ -3,6 +3,15 @@
 Status: committed, pushed, deployed and verified on both public ranking pages on
 October 23, 2026.
 
+Follow-up in progress: the deployed release described below still contains the
+original two-class starter comparison. Local changes add a measured Paladin and
+reconciled per-ability threat details. The Paladin exclusion rationale below was
+incorrect: the pinned engine registers both Righteous Fury and Seal of Fury.
+Item-by-item optimization is now explicitly required; see
+[simulator-tank-item-optimization.md](simulator-tank-item-optimization.md) for its
+scope, measured progress and publication gate. Neither the deployed starters nor
+the new local starter measurements are optimized gear rankings.
+
 ## Player experience
 
 - `/tools/forever/tier-list/tanks/solo`: **Solo / dungeon**, a three-enemy pull with
@@ -68,10 +77,15 @@ For threat, share is `tank TPS / highest TPS`. For mitigation, share is
 `1.96 × stdev / sqrt(iterations)`; near ties use the combined standard error.
 Margins do not account for uncertainty in beta mechanics.
 
-Protection Paladin is visibly **not ranked yet**. The public tank engine has not
-validated the newer Seal of Fury threat, absorb and mana mechanics described in the
+The original deployed release left Protection Paladin **not ranked yet**, citing
+the newer Seal of Fury threat, absorb and mana mechanics described in the
 [official Paladin deep dive](https://worldofwarcraft.blizzard.com/en-gb/news/24302099/world-of-warcraft-forever-class-deep-dives-paladin).
-A newer local Paladin development model does not qualify it for the public board.
+That exclusion was inconsistent with the modeling policy used for the other tanks.
+The pinned engine implements Righteous Fury (×1.9 Holy threat), and the starter
+uses Seal of Righteousness. Local controls confirm Holy and physical threat are
+treated separately. Independent validation of every server mechanic is still not
+claimed. A newer local Paladin development model is not silently used for these
+starter measurements.
 Incoming rage and other scripted tank effects retain the published engine's
 provisional status. Magic, cooldown use, utility and overall class strength are not
 implied by either metric.

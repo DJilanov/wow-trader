@@ -10,6 +10,7 @@ import {
 } from "../lib/forever-tank-tier-list";
 import { withHelperBasePath } from "../lib/site-path";
 import { ForeverTierBoard } from "./forever-tier-board";
+import { ForeverTankThreatDetails } from "./forever-tank-threat-details";
 import board from "./forever-dps-tier-list.module.css";
 import styles from "./forever-tank-tier-list.module.css";
 
@@ -113,6 +114,7 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
               <dd>{selected.metrics.dps.avg.toFixed(1)} DPS</dd>
             </div>
           </dl>
+          <ForeverTankThreatDetails entry={selected} />
           <details className={board.evidence}>
             <summary>Build details and measurement</summary>
             <p>
