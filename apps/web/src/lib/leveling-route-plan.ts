@@ -74,6 +74,7 @@ export function campaignChapterPath(
   if (actionId && !chapter.actionIds.includes(actionId) && !batchAction)
     throw new Error("Step does not belong to this route chapter.");
   const params = new URLSearchParams({ plan: "premade" });
+  if (progress?.dungeonFinish.strategy === "mixed") params.set("finish", "mixed");
   if (plan.leaderClass) params.set("class", plan.leaderClass);
   return `/forever/leveling/routes/alliance-${plan.race}/chapters/${CAMPAIGN_CHAPTER_PREFIX}${chapter.id}?${params}${actionId ? `#campaign-${actionId}` : ""}`;
 }

@@ -6,8 +6,10 @@ import type { CombatDataset } from "./combat-model.js";
 import { attachCampaignCombat } from "./campaign-combat.js";
 import { compileCampaignFunding } from "./campaign-catchup-planner.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
+import { DUNGEON_FINISH_OPTIONS } from "./dungeon-finish.js";
 
 interface CampaignRewardInventory {
+  readonly dungeonFinish?: boolean;
   readonly actions: readonly {
     readonly questChanges: readonly { readonly questId: number }[];
   }[];
@@ -32,6 +34,7 @@ export function isSupportedCatchUpBatch(
 export function campaignRewardQuestIds(plan: CampaignRewardInventory): readonly number[] {
   return [
     ...new Set([
+      ...(plan.dungeonFinish ? DUNGEON_FINISH_OPTIONS.flatMap((option) => option.questIds) : []),
       ...plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
       ...(plan.starters?.entries ?? []).flatMap((entry) =>
         entry.action.questChanges.map((change) => change.questId),

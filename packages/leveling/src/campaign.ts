@@ -88,6 +88,7 @@ export interface CampaignAction {
   readonly sourceGateConflictQuestIds?: readonly number[];
   readonly pickupQuestId?: number;
   readonly bundleId?: GuaranteedDungeonId;
+  readonly dungeonFinishOnly?: boolean;
 }
 export interface CampaignLeg {
   readonly id: string;
@@ -100,6 +101,7 @@ export interface CampaignLeg {
   readonly unresolvedQuestIds: readonly number[];
   readonly stopId: PremadeProgress["selectedStopId"] | null;
   readonly bundleId?: GuaranteedDungeonId;
+  readonly dungeonFinish?: boolean;
 }
 export interface CampaignLifecycleExclusion {
   readonly actionId: string;
@@ -128,6 +130,7 @@ export interface CampaignPlan {
   readonly library?: CampaignLibrarySelection;
   readonly combat?: CampaignCombatPlan;
   readonly starters?: CampaignStarterCatalog;
+  readonly dungeonFinish?: boolean;
 }
 
 const beforeStop: Readonly<Record<string, readonly string[]>> = {
@@ -1006,6 +1009,25 @@ export function buildCampaignPlan(
   }
   outdoor(CAMPAIGN_BRIDGES.find((block) => block.id === "final-xp-fallback")!);
   const finalId = "level-60-finish";
+  add(finalId, "dungeon-circuit", {
+    title: "Dungeon circuit: XP and gear for all five",
+    instructions: [
+      "Continue with eligible five-player dungeon clears: BRD, LBRS, Dire Maul East/West/North, Scholomance, Stratholme Living/Undead, Blackmaw Hold and Shaper's Terrace.",
+      "Recommended levels are not verified entry restrictions. An experienced group can attempt earlier clears where the game allows them; individual quest pickup levels, keys and real unlocks still apply.",
+      "Take eligible first-clear quests once, then repeat a suitable boss or full-clear route for XP and your party's gear targets. Do not count the same quest reward on another visit.",
+      "Record each player's actual before/after XP. Separate quest rewards from repeatable kill XP before estimating another clear. No fixed number of runs or unmeasured kill XP is promised.",
+      "Only leave the circuit for selected keys, prerequisites, training and worthwhile hand-ins. At level 60, continue optional gearing and attunements without mandatory leveling zones.",
+    ],
+    questChanges: [],
+    positions: [],
+    source: null,
+    kind: "instructions",
+    leaderOnly: false,
+    targetLevel: null,
+    targetStopId: null,
+    raidOnly: false,
+    dungeonFinishOnly: true,
+  });
   add(finalId, "checkpoint", {
     title: "All five have reached level 60",
     instructions: [
@@ -1026,7 +1048,7 @@ export function buildCampaignPlan(
     from: 60,
     to: 60,
     kind: "finish",
-    actionIds: [`${finalId}-checkpoint`],
+    actionIds: [`${finalId}-dungeon-circuit`, `${finalId}-checkpoint`],
     questIds: [],
     unresolvedQuestIds: [],
     stopId: null,
@@ -1038,7 +1060,8 @@ export function buildCampaignPlan(
     race,
     leaderClass,
     targetBuild: 70205,
-    executionRevision: "workflow-20261025-v5",
+    executionRevision: "workflow-20261025-v6",
+    dungeonFinish: true,
     catchUpBatches: extractCampaignQuestBatches(
       usable,
       profile,
@@ -1104,11 +1127,55 @@ export function campaignIncludedLegs(
   plan: CampaignPlan,
   progress?: PremadeProgress,
 ): readonly CampaignLeg[] {
-  return plan.legs.filter(
-    (leg) =>
-      !leg.bundleId ||
-      getDungeonBundle(leg.bundleId, "alliance", progress?.guaranteedBundles)?.included !== false,
-  );
+  const dungeonFinish =
+    plan.dungeonFinish && (progress?.dungeonFinish.strategy ?? "dungeons") === "dungeons";
+  const brd = plan.legs.findIndex((leg) => leg.stopId === "blackrock-depths");
+  return plan.legs
+    .filter(
+      (leg) =>
+        (!dungeonFinish ||
+          brd < 0 ||
+          plan.legs.indexOf(leg) <= brd ||
+          leg.id === "level-60-finish") &&
+        (!leg.bundleId ||
+          getDungeonBundle(leg.bundleId, "alliance", progress?.guaranteedBundles)?.included !==
+            false),
+    )
+    .map((leg) =>
+      dungeonFinish && leg.id === "level-60-finish"
+        ? {
+            ...leg,
+            title: "Dungeon circuit: 55–60 and pre-raid gear",
+            from: 55,
+            to: 60,
+            dungeonFinish: true,
+          }
+        : leg,
+    );
+}
+
+export function campaignActionAlias(
+  plan: CampaignPlan,
+  progress: PremadeProgress,
+  actionId: string,
+): string {
+  if (!actionId) return actionId;
+  const aliased = plan.bookmarkAliases?.[actionId] ?? actionId;
+  if (!plan.dungeonFinish || progress.dungeonFinish.strategy !== "dungeons") return aliased;
+  const included = new Set(campaignIncludedLegs(plan, progress).map((leg) => leg.id));
+  const action = plan.actions.find((entry) => entry.id === aliased);
+  const hiddenBatch =
+    !action &&
+    plan.legs.some(
+      (leg) =>
+        !included.has(leg.id) &&
+        plan.catchUpBatches?.some((batch) =>
+          batch.actions.some((entry) => `${leg.id}-${entry.id}` === aliased),
+        ),
+    );
+  if ((action && !included.has(action.legId)) || hiddenBatch)
+    return "level-60-finish-dungeon-circuit";
+  return aliased;
 }
 
 export function campaignXpTarget(
@@ -1154,6 +1221,7 @@ export function activeCampaignActions(
     .filter(
       (action) =>
         includedLegs.has(action.legId) &&
+        (!action.dungeonFinishOnly || progress.dungeonFinish.strategy === "dungeons") &&
         (!action.optionalForQuestIds ||
           action.optionalForQuestIds.some((id) => selectedOptionalIds.has(id))) &&
         (progress.raidGoals || !action.raidOnly) &&
@@ -1170,6 +1238,21 @@ export function activeCampaignActions(
               (change) => !raidQuestIds.has(change.questId),
             ),
           };
+      if (
+        plan.dungeonFinish &&
+        progress.dungeonFinish.strategy === "dungeons" &&
+        action.kind === "checkpoint" &&
+        action.targetStopId === "blackrock-depths"
+      )
+        return {
+          ...action,
+          kind: "instructions" as const,
+          title: "BRD party readiness and access",
+          targetLevel: null,
+          instructions: [
+            "Choose a BRD scope suitable for your group. Recommended levels are advisory, not a verified instance-entry requirement. Quest pickup levels and actual keys or unlocks still apply.",
+          ],
+        };
       if (action.targetStopId === null) return action;
       const target = campaignXpTarget(action, progress, plan.rewardFacts);
       return target
@@ -1230,7 +1313,9 @@ export function campaignUnmodeledExtras(
   progress: PremadeProgress,
 ): readonly number[] {
   const owned = new Set(
-    plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
+    activeCampaignActions(plan, progress).flatMap((action) =>
+      action.questChanges.map((change) => change.questId),
+    ),
   );
   return [
     ...new Set(
@@ -1251,9 +1336,8 @@ export function currentCampaignAction(
 ): CampaignAction {
   const active = activeCampaignActions(plan, progress);
   const selectedId = progress.campaigns[plan.release]?.selectedActionId;
-  const selected = active.find(
-    (action) => action.id === selectedId || action.id === plan.bookmarkAliases?.[selectedId ?? ""],
-  );
+  const aliasedId = campaignActionAlias(plan, progress, selectedId ?? "");
+  const selected = active.find((action) => action.id === selectedId || action.id === aliasedId);
   if (selected)
     return campaignActionNeeded(plan, progress, selected)
       ? selected

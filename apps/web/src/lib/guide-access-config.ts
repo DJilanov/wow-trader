@@ -92,7 +92,10 @@ export function guideReturnPath(value: unknown): string {
     return GUIDE_HOME;
   if (
     [...url.searchParams].some(
-      ([key, value]) => !["plan", "class"].includes(key) || !/^[a-z-]{1,30}$/.test(value),
+      ([key, value]) =>
+        !["plan", "class", "finish"].includes(key) ||
+        !/^[a-z-]{1,30}$/.test(value) ||
+        (key === "finish" && !["mixed", "dungeons"].includes(value)),
     )
   )
     return GUIDE_HOME;

@@ -1,0 +1,360 @@
+.finish {
+  min-width: 0;
+  padding-block: 20px;
+}
+.heading,
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.heading h2 {
+  font-size: 25px;
+  margin: 8px 0;
+}
+.heading > strong {
+  color: var(--gold);
+  font:
+    11px var(--font-mono),
+    monospace;
+}
+.finish p,
+.form p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  border-block: 1px solid var(--line);
+  padding-block: 18px;
+  margin-block: 18px;
+}
+.metrics dt,
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+.metrics dd {
+  font-size: 17px;
+  margin: 7px 0 0;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin: 22px 0 16px;
+}
+.finish button,
+.strategy button,
+.form button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 9px 12px;
+  color: var(--gold);
+  font: inherit;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.finish button:disabled,
+.form button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.tabs button {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+}
+.tabs button[aria-selected="true"] {
+  border-bottom: 2px solid var(--gold);
+  color: var(--ink);
+}
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 18px;
+}
+.option {
+  display: flex;
+  gap: 12px;
+  padding: 16px 8px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  min-width: 0;
+}
+.option > span {
+  min-width: 0;
+}
+.option strong {
+  display: block;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.option small,
+.list small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.option input {
+  flex: 0 0 16px;
+  width: 16px;
+  accent-color: var(--gold);
+  margin-top: 4px;
+}
+.selected {
+  background: var(--surface);
+  box-shadow: inset 3px 0 var(--gold);
+}
+.selectedDetail {
+  padding-block: 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+.selectedDetail h3,
+.selectedDetail p {
+  flex-basis: 100%;
+  margin: 0;
+}
+.selectedDetail a {
+  margin-right: auto;
+}
+.selectedDetail a,
+.list a {
+  color: var(--gold);
+  font-size: 13px;
+}
+.finish select,
+.form select,
+.form input:not([type="checkbox"]) {
+  width: 100%;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 10px;
+  min-height: 42px;
+  font: inherit;
+  font-size: 13px;
+}
+.finish label,
+.form label {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.selectedDetail label,
+.actions label {
+  display: grid;
+  gap: 5px;
+}
+.list {
+  list-style: none;
+  margin: 14px 0;
+  padding: 0;
+}
+.list li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.list li > div {
+  flex: 1 1 220px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.list li > label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.list input[type="checkbox"] {
+  accent-color: var(--gold);
+}
+.list li > label:has(select) {
+  display: grid;
+}
+.portrait {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.dialog {
+  max-width: 760px;
+  width: calc(100% - 32px);
+  max-height: calc(100dvh - 40px);
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  color: var(--ink);
+  overflow: auto;
+}
+.dialog::backdrop {
+  background: rgb(0 0 0 / 80%);
+}
+.dialog .close {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: block;
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  font-size: 24px;
+}
+.form {
+  display: grid;
+  gap: 16px;
+}
+.form h2 {
+  font-size: 22px;
+  padding-right: 30px;
+  margin: 0;
+}
+.form label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.formFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.playerFields {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 12px 0 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.playerFields legend {
+  padding-right: 10px;
+  color: var(--gold);
+  font-size: 12px;
+}
+.error {
+  color: var(--red, #f88);
+}
+.strategy {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block: 18px;
+}
+.strategy > span {
+  color: var(--muted);
+  font-size: 12px;
+  margin-right: 8px;
+}
+.strategy button[aria-pressed="true"] {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+@media (max-width: 700px) {
+  .pageHeading h1 {
+    font-size: 27px;
+  }
+  .options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .playerFields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .heading h2 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 380px) {
+  .metrics,
+  .formFields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dialog {
+    padding: 20px 14px;
+    width: calc(100% - 16px);
+  }
+  .tabs button {
+    padding: 9px 7px;
+    font-size: 11px;
+  }
+}
+.page {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding: 32px 0 64px;
+  min-width: 0;
+}
+.pageNav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.pageNav a {
+  color: var(--gold);
+  font-size: 13px;
+}
+.pageHeading {
+  padding-top: 28px;
+}
+.pageHeading h1 {
+  font-size: 32px;
+  line-height: 1.3;
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+.partySetup {
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.partySetup summary {
+  cursor: pointer;
+  color: var(--gold);
+}
+.partySetup li {
+  margin-block: 12px;
+}
+.pageFooter {
+  display: grid;
+  gap: 18px;
+  padding-block: 24px;
+  border-top: 1px solid var(--line);
+}
+.pageFooter > button {
+  justify-self: start;
+}

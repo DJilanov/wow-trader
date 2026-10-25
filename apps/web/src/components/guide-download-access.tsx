@@ -81,7 +81,7 @@ export function GuideDownloadAccess({ plan, progress }: GuideAccessProps): React
   if (entitled && access.downloadsEnabled && plan && progress)
     return <LevelingRestedXpExport plan={plan} progress={progress} mode="member" />;
   const returnTo = plan
-    ? `${GUIDE_HOME}/routes/alliance-${plan.race}?plan=premade&class=${plan.leaderClass || "warrior"}`
+    ? `${GUIDE_HOME}/routes/alliance-${plan.race}?plan=premade&class=${plan.leaderClass || "warrior"}${progress?.dungeonFinish.strategy === "mixed" ? "&finish=mixed" : ""}`
     : GUIDE_HOME;
   return (
     <section

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { CAMPAIGN_RACES } from "./campaign-route.js";
 import { classSlugs } from "./model.js";
 import { getLevelingRace } from "./profile.js";
+import { dungeonFinishSelectionSchema } from "./dungeon-finish-model.js";
 import {
   premadeProgressSchema,
   emptyPremadeProgress,
@@ -16,6 +17,9 @@ export const campaignExportSelectionSchema = z
     difficultyPolicy: premadeProgressSchema.shape.difficultyPolicy,
     raidGoals: premadeProgressSchema.shape.raidGoals,
     parityScenarios: premadeProgressSchema.shape.parityScenarios,
+    dungeonFinish: dungeonFinishSelectionSchema.default(() =>
+      dungeonFinishSelectionSchema.parse({}),
+    ),
   })
   .strict();
 export type CampaignExportSelection = z.infer<typeof campaignExportSelectionSchema>;
@@ -42,6 +46,7 @@ export function campaignExportSelectionFromProgress(
     difficultyPolicy: progress.difficultyPolicy,
     raidGoals: progress.raidGoals,
     parityScenarios: progress.parityScenarios,
+    dungeonFinish: { strategy: progress.dungeonFinish.strategy },
   });
 }
 

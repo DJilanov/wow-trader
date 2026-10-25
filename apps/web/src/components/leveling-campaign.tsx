@@ -61,17 +61,30 @@ import { LevelingDungeonBundle } from "./leveling-dungeon-bundle";
 import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
 import { LevelingPartyIdentity } from "./leveling-party-identity";
 import { LevelingStepProjection, LevelingCombatPlanningSettings } from "./leveling-step-projection";
+import { DungeonFinishStrategy, LevelingDungeonFinish } from "./leveling-dungeon-finish";
+import { LevelingBackupControls } from "./leveling-backup-controls";
+import finishStyles from "./leveling-dungeon-finish.module.css";
 
 interface CampaignProps {
   readonly plan: CampaignPlan;
   readonly maps: LevelingChapterMaps;
   readonly legId?: string;
+  readonly initialFinish?: "dungeons" | "mixed" | undefined;
 }
 
-export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JSX.Element {
+export function LevelingCampaign({
+  plan,
+  maps,
+  legId,
+  initialFinish,
+}: CampaignProps): React.JSX.Element {
   const router = useRouter();
   const { session, loaded, notice, saveCharacter, setDungeonPlan, storageStatus } = useLeveling();
   const fallback = useMemo(emptyPremadeProgress, []);
+  const [previewProgress, setPreviewProgress] = useState<PremadeProgress | null>(null);
+  const [viewStrategy, setViewStrategy] = useState<"dungeons" | "mixed" | null>(
+    initialFinish ?? null,
+  );
   const [previewId, setPreviewId] = useState<string | null>(null);
   const active =
     session?.profile.faction === "alliance" &&
@@ -80,7 +93,14 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
     session.profile.classSlug === plan.leaderClass
       ? session
       : null;
-  const progress = active?.dungeonPlans[DUNGEON_RELEASE]?.premade ?? fallback;
+  const savedProgress = active?.dungeonPlans[DUNGEON_RELEASE]?.premade ?? fallback;
+  const currentProgress = active ? savedProgress : (previewProgress ?? savedProgress);
+  const progress = viewStrategy
+    ? {
+        ...currentProgress,
+        dungeonFinish: { ...currentProgress.dungeonFinish, strategy: viewStrategy },
+      }
+    : currentProgress;
   const journey = progress.campaigns[plan.release] ?? emptyCampaignProgress();
   const actions = activeCampaignActions(plan, progress);
   const savedAction =
@@ -234,6 +254,7 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       ...current,
       premade: {
         ...(current.premade ?? fallback),
+        dungeonFinish: progress.dungeonFinish,
         campaigns: {
           ...(current.premade ?? fallback).campaigns,
           [plan.release]: {
@@ -245,6 +266,8 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
     }));
   }
   function update(next: PremadeProgress): void {
+    setPreviewProgress(next);
+    setViewStrategy(next.dungeonFinish.strategy);
     if (active) setDungeonPlan(active.id, (current) => ({ ...current, premade: next }));
   }
   function select(id: string): void {
@@ -510,6 +533,143 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
       </LevelingQuestCard>
     );
   }
+  if (chapter.dungeonFinish) {
+    const checkpoint = legActions.find(
+      (entry) => entry.kind === "checkpoint" && entry.targetLevel === 60,
+    );
+    const checkpointDone = checkpoint && journey.completion[checkpoint.id] === "done";
+    return (
+      <section className={finishStyles.page} data-dungeon-circuit-page="true">
+        <nav className={finishStyles.pageNav} aria-label="Dungeon circuit navigation">
+          <Link
+            href={levelingPlanDashboardPath(
+              active?.profile ?? {
+                ...createCharacterProfile("alliance", plan.race),
+                classSlug: plan.leaderClass,
+              },
+              "premade",
+            )}
+          >
+            ← Chapters
+          </Link>
+          <Link href="/forever/leveling">Characters & setup</Link>
+        </nav>
+        <header className={finishStyles.pageHeading}>
+          <span className="eyebrow">{race.name} · Premade 5 · Target level 60</span>
+          <h1>55–60 & pre-raid gear</h1>
+          <DungeonFinishStrategy
+            progress={progress}
+            onChange={(next): void => {
+              update(next);
+              router.replace(campaignChapterPath(plan, "level-60-finish", undefined, next), {
+                scroll: false,
+              });
+            }}
+          />
+          {!active && loaded ? (
+            <button className={guideStyles.button} type="button" onClick={savePlan}>
+              Start guide
+            </button>
+          ) : (
+            <LevelingGuideProgress
+              plan={plan}
+              progress={progress}
+              actionId="level-60-finish-dungeon-circuit"
+              personal={false}
+              disabled={!enabled}
+              onChange={update}
+              buttonRef={progressButton}
+            />
+          )}
+          <details className={finishStyles.partySetup}>
+            <summary>Party setup</summary>
+            <LevelingPartyIdentity
+              progress={progress}
+              disabled={!enabled}
+              leader={{ raceId: plan.race, classSlug: plan.leaderClass }}
+              onChange={update}
+            />
+          </details>
+        </header>
+        {(notice || message) && <p role="status">{notice ?? message}</p>}
+        <LevelingDungeonFinish
+          plan={plan}
+          progress={progress}
+          guide={guide}
+          disabled={!enabled}
+          onChange={update}
+        />
+        <details className={finishStyles.partySetup}>
+          <summary>Access, quest rewards & repeat clears</summary>
+          <ul>
+            {legActions
+              .filter((entry) => entry.dungeonFinishOnly)
+              .flatMap((entry) => entry.instructions)
+              .map((instruction) => (
+                <li key={instruction}>{instruction}</li>
+              ))}
+          </ul>
+        </details>
+        <footer className={finishStyles.pageFooter}>
+          {checkpoint && (
+            <button
+              className={guideStyles.button}
+              type="button"
+              disabled={
+                !enabled ||
+                (!checkpointDone &&
+                  campaignActionReasons(checkpoint, progress, plan.rewardFacts).length > 0)
+              }
+              onClick={() => {
+                try {
+                  if (checkpointDone) {
+                    const completion = { ...journey.completion };
+                    delete completion[checkpoint.id];
+                    update({
+                      ...progress,
+                      campaigns: {
+                        ...progress.campaigns,
+                        [plan.release]: { ...journey, completion },
+                      },
+                    });
+                    setMessage("Finish check undone. Actual XP and quest states are unchanged.");
+                  } else {
+                    let next = updateCampaignAction(
+                      plan,
+                      progress,
+                      "level-60-finish-dungeon-circuit",
+                      true,
+                    );
+                    next = updateCampaignAction(plan, next, checkpoint.id, true);
+                    update(next);
+                    setMessage(
+                      "Level 60 checkpoint saved. Earlier unfinished tasks and personal gear targets remain unchanged.",
+                    );
+                  }
+                } catch (cause: unknown) {
+                  setMessage(
+                    cause instanceof Error
+                      ? cause.message
+                      : "The finish checkpoint could not be saved.",
+                  );
+                }
+              }}
+            >
+              {checkpointDone ? "Undo finish checkpoint" : "Confirm all five at level 60"}
+            </button>
+          )}
+          <span className={finishStyles.muted}>
+            {storageStatus === "saved"
+              ? "Saved on this device"
+              : storageStatus === "memory"
+                ? "Memory only; export a backup"
+                : "Progress stays on this device"}
+          </span>
+          <LevelingBackupControls />
+        </footer>
+      </section>
+    );
+  }
   return (
     <LevelingReaderWorkspace
       scope={`${plan.release}-${legId ?? "full"}`}
@@ -697,6 +857,19 @@ export function LevelingCampaign({ plan, maps, legId }: CampaignProps): React.JS
                     ? "dungeon objectives and hand-ins"
                     : "quest chains and pickups"}
             </p>
+            {plan.dungeonFinish && (
+              <DungeonFinishStrategy
+                progress={progress}
+                onChange={(next): void => {
+                  update(next);
+                  const target = campaignSectionFor(plan, chapter.id, next);
+                  router.replace(
+                    campaignChapterPath(plan, target?.id ?? "level-60-finish", undefined, next),
+                    { scroll: false },
+                  );
+                }}
+              />
+            )}
             <LevelingChapterBudget guide={guide} compact />
             {!active && loaded ? (
               <button className={guideStyles.button} type="button" onClick={savePlan}>

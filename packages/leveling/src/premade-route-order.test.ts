@@ -69,6 +69,7 @@ describe("level-appropriate premade dungeon progression", () => {
         for (const extras of [false, true]) {
           const progress = {
             ...emptyPremadeProgress(),
+            dungeonFinish: { ...emptyPremadeProgress().dungeonFinish, strategy: "mixed" as const },
             difficultyPolicy,
             raidGoals,
             selectedExtras: extras

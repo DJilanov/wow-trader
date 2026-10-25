@@ -1,4 +1,9 @@
-import { activeCampaignActions, currentCampaignAction, type CampaignPlan } from "./campaign.js";
+import {
+  activeCampaignActions,
+  currentCampaignAction,
+  campaignActionAlias,
+  type CampaignPlan,
+} from "./campaign.js";
 import {
   campaignSections,
   campaignSectionTarget,
@@ -197,7 +202,7 @@ export function forecastCampaignGuide(
   const anchors: (CampaignXpAnchor & { readonly player: number })[] = migrated.members.flatMap(
     (member, index) => {
       const anchor = member.guideXpAnchor;
-      const actionId = anchor && (plan.bookmarkAliases?.[anchor.actionId] ?? anchor.actionId);
+      const actionId = anchor && campaignActionAlias(plan, progress, anchor.actionId);
       return anchor &&
         actionId &&
         anchor.release === plan.release &&

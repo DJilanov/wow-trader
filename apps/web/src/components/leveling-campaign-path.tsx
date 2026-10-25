@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   DUNGEON_RELEASE,
   LEVELING_EVIDENCE,
@@ -18,6 +18,7 @@ import {
   updatePremadeDungeonBundle,
   type CampaignPlan,
   type CharacterProfile,
+  type PremadeProgress,
 } from "@wow-trader/leveling";
 import { useLeveling } from "./leveling-provider";
 import { LevelingBackupControls } from "./leveling-backup-controls";
@@ -38,20 +39,27 @@ import { LevelingRestedXpExport } from "./leveling-restedxp-export";
 import { GuideDownloadAccess } from "./guide-download-access";
 import { LevelingDungeonQuestPackage } from "./leveling-dungeon-quest-package";
 import { ToolGroupActions } from "./tool-group-actions";
+import { DungeonFinishStrategy, LevelingDungeonFinish } from "./leveling-dungeon-finish";
 
 interface CampaignPathProps {
   readonly plan: CampaignPlan;
   readonly profile: CharacterProfile;
   readonly reviewExportEnabled?: boolean;
+  readonly initialFinish?: "dungeons" | "mixed" | undefined;
 }
 
 export function LevelingCampaignPath({
   plan,
   profile,
   reviewExportEnabled = false,
+  initialFinish,
 }: CampaignPathProps): React.JSX.Element {
   const { session, loaded, notice, storageStatus, setDungeonPlan } = useLeveling();
   const fallback = useMemo(emptyPremadeProgress, []);
+  const [preview, setPreview] = useState<PremadeProgress | null>(null);
+  const [viewStrategy, setViewStrategy] = useState<"dungeons" | "mixed" | null>(
+    initialFinish ?? null,
+  );
   const active =
     session?.profile.faction === "alliance" &&
     session.profile.raceId === plan.race &&
@@ -59,7 +67,19 @@ export function LevelingCampaignPath({
     session.profile.party.size === 5
       ? session
       : null;
-  const progress = active?.dungeonPlans[DUNGEON_RELEASE]?.premade ?? fallback;
+  const saved = active?.dungeonPlans[DUNGEON_RELEASE]?.premade ?? fallback;
+  const currentProgress = active ? saved : (preview ?? saved);
+  const progress = viewStrategy
+    ? {
+        ...currentProgress,
+        dungeonFinish: { ...currentProgress.dungeonFinish, strategy: viewStrategy },
+      }
+    : currentProgress;
+  function updateProgress(next: PremadeProgress): void {
+    setPreview(next);
+    setViewStrategy(next.dungeonFinish.strategy);
+    if (active) setDungeonPlan(active.id, (current) => ({ ...current, premade: next }));
+  }
   const journey = progress.campaigns[plan.release] ?? emptyCampaignProgress();
   const actions = activeCampaignActions(plan, progress);
   const current = currentCampaignAction(plan, progress);
@@ -122,6 +142,9 @@ export function LevelingCampaignPath({
         </p>
       )}
       {!loaded && <p role="status">Loading your saved route…</p>}
+      {plan.dungeonFinish && (
+        <DungeonFinishStrategy progress={progress} onChange={updateProgress} />
+      )}
       <section className={styles.continueCard} aria-labelledby="continue-heading">
         <span className="eyebrow">Your next chapter</span>
         <h2 id="continue-heading">
@@ -260,9 +283,21 @@ export function LevelingCampaignPath({
                       </h3>
                       <span aria-hidden="true">→</span>
                     </Link>
-                    <LevelingChapterBudget guide={guide} />
-                    <LevelingXpBudget guide={guide} />
-                    {(leg.kind === "zone" || leg.kind === "finish") && (
+                    {leg.dungeonFinish ? (
+                      <LevelingDungeonFinish
+                        plan={plan}
+                        progress={progress}
+                        guide={guide}
+                        disabled={!loaded || !active}
+                        onChange={updateProgress}
+                      />
+                    ) : (
+                      <>
+                        <LevelingChapterBudget guide={guide} />
+                        <LevelingXpBudget guide={guide} />
+                      </>
+                    )}
+                    {!leg.dungeonFinish && (leg.kind === "zone" || leg.kind === "finish") && (
                       <LevelingCampaignOutline
                         plan={plan}
                         chapter={leg}

@@ -14,12 +14,14 @@ interface RouteDashboardProps extends LevelingDashboardProps {
   readonly campaign: CampaignPlan | null;
   readonly requestedMode: string | undefined;
   readonly reviewExportEnabled?: boolean;
+  readonly initialFinish?: "dungeons" | "mixed" | undefined;
 }
 
 export function LevelingRouteDashboard({
   campaign,
   requestedMode,
   reviewExportEnabled = false,
+  initialFinish,
   ...props
 }: RouteDashboardProps): React.JSX.Element {
   const { session, loaded } = useLeveling();
@@ -76,6 +78,7 @@ export function LevelingRouteDashboard({
           plan={campaign}
           profile={profile}
           reviewExportEnabled={reviewExportEnabled}
+          initialFinish={initialFinish}
         />
       )}
     </>

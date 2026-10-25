@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { prepareCampaignPlan, type CampaignPreparationEvidence } from "./campaign-preparation.js";
+import {
+  campaignRewardQuestIds,
+  prepareCampaignPlan,
+  type CampaignPreparationEvidence,
+} from "./campaign-preparation.js";
+import { DUNGEON_FINISH_OPTIONS } from "./dungeon-finish.js";
 import type { CampaignPlan } from "./campaign.js";
 import type { CampaignQuestBatch } from "./campaign-catchup.js";
 import { compileCampaignFunding } from "./campaign-catchup-planner.js";
@@ -80,6 +85,21 @@ function fixture(): { plan: CampaignPlan; evidence: CampaignPreparationEvidence 
 }
 
 describe("shared browser and offline campaign preparation", () => {
+  it("loads optional circuit rewards even when the old linear route never used their quests", () => {
+    const { plan, evidence } = fixture();
+    const circuit = { ...plan, dungeonFinish: true };
+    const wanted = campaignRewardQuestIds(circuit);
+    for (const id of DUNGEON_FINISH_OPTIONS.flatMap((option) => option.questIds))
+      expect(wanted).toContain(id);
+    expect(new Set(wanted).size).toBe(wanted.length);
+    const extraFact = { ...evidence.rewardFacts[0]!, questId: 7441 };
+    expect(
+      prepareCampaignPlan(circuit, [], {
+        ...evidence,
+        rewardFacts: [...evidence.rewardFacts, extraFact],
+      }).rewardFacts,
+    ).toContainEqual(extraFact);
+  });
   it("uses the website's supported quest inventory and pickup/funding order without mutating inputs", () => {
     const { plan, evidence } = fixture();
     const before = structuredClone({ plan, evidence });

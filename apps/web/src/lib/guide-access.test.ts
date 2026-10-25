@@ -76,6 +76,11 @@ describe("guide access configuration and authentication", () => {
       expect(guideReturnPath(value)).toBe(GUIDE_HOME);
     const path = `${GUIDE_HOME}/routes/alliance-human?plan=premade&class=warrior`;
     expect(guideReturnPath(path)).toBe(path);
+    for (const strategy of ["mixed", "dungeons"]) {
+      const finishPath = `${path}&finish=${strategy}`;
+      expect(guideReturnPath(finishPath)).toBe(finishPath);
+    }
+    expect(guideReturnPath(`${path}&finish=https://evil.example`)).toBe(GUIDE_HOME);
     const settings = readGuideAccessSettings(environment);
     expect(
       guideSameOrigin(

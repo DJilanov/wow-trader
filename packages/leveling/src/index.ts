@@ -18,6 +18,8 @@ export * from "./dungeon-xp.js";
 export * from "./dungeon-bundle-model.js";
 export * from "./dungeon-bundles.js";
 export * from "./premade-model.js";
+export * from "./dungeon-finish-model.js";
+export * from "./dungeon-finish.js";
 export * from "./premade-identity.js";
 export * from "./premade.js";
 export * from "./campaign-model.js";

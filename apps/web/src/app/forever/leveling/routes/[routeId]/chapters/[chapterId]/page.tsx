@@ -9,6 +9,7 @@ import {
   THANES_REPLACEMENT,
   campaignRace,
   campaignSectionFor,
+  emptyPremadeProgress,
 } from "@wow-trader/leveling";
 import { LevelingCampaign } from "../../../../../../../components/leveling-campaign";
 import {
@@ -52,6 +53,7 @@ interface ChapterProps {
     readonly edition?: string;
     readonly outdoor?: string;
     readonly class?: string | string[];
+    readonly finish?: string;
   }>;
 }
 export const dynamic = "force-dynamic";
@@ -90,8 +92,17 @@ export async function generateMetadata({ params, searchParams }: ChapterProps): 
       campaignRace(profile.raceId),
       campaignLeaderClass(profile, (await searchParams).class),
     );
+    const mode = (await searchParams).finish;
+    const selection = emptyPremadeProgress();
+    if (mode === "mixed") selection.dungeonFinish.strategy = "mixed";
+    const requested = chapterId.slice(CAMPAIGN_CHAPTER_PREFIX.length);
+    const legacy = {
+      ...selection,
+      dungeonFinish: { ...selection.dungeonFinish, strategy: "mixed" as const },
+    };
     const leg = plan
-      ? campaignSectionFor(plan, chapterId.slice(CAMPAIGN_CHAPTER_PREFIX.length))
+      ? (campaignSectionFor(plan, requested, selection) ??
+        campaignSectionFor(plan, requested, legacy))
       : null;
     if (!leg) notFound();
     return createHelperMetadata({
@@ -134,7 +145,15 @@ export default async function LevelingChapterPage({
       campaignLeaderClass(profile, (await searchParams).class),
     );
     const requested = chapterId.slice(CAMPAIGN_CHAPTER_PREFIX.length);
-    const leg = plan ? campaignSectionFor(plan, requested) : null;
+    const selection = emptyPremadeProgress();
+    const query = await searchParams;
+    if (query.finish === "mixed") selection.dungeonFinish.strategy = "mixed";
+    const direct = plan ? campaignSectionFor(plan, requested, selection) : null;
+    const legacy = {
+      ...selection,
+      dungeonFinish: { ...selection.dungeonFinish, strategy: "mixed" as const },
+    };
+    const leg = direct ?? (plan ? campaignSectionFor(plan, requested, legacy) : null);
     if (!plan || !leg) notFound();
     return (
       <LevelingCampaign
@@ -142,6 +161,13 @@ export default async function LevelingChapterPage({
         plan={plan}
         maps={await getLevelingCampaignMaps(plan)}
         legId={requested}
+        initialFinish={
+          direct
+            ? query.finish === "mixed" || query.finish === "dungeons"
+              ? query.finish
+              : undefined
+            : "mixed"
+        }
       />
     );
   }

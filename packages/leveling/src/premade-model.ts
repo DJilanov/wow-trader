@@ -2,6 +2,7 @@ import { z } from "zod";
 import { classSlugs } from "./model.js";
 import { LEVELING_RACES, raceIds } from "./profile.js";
 import { campaignProgressSchema } from "./campaign-model.js";
+import { dungeonFinishStateSchema, emptyDungeonFinish } from "./dungeon-finish-model.js";
 import {
   dungeonBundleOverridesSchema,
   dungeonBundleSlotStatesSchema,
@@ -67,6 +68,7 @@ export const premadeProgressSchema = z
       .default({}),
     difficultyPolicy: z.enum(["at-level", "experienced-premade"]).default("at-level"),
     raidGoals: z.boolean().default(true),
+    dungeonFinish: dungeonFinishStateSchema.default(emptyDungeonFinish),
     combatPlanning: z
       .object({ outdoorXpMultiplier: z.number().finite().min(0).max(100) })
       .strict()

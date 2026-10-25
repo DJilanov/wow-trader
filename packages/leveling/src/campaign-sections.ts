@@ -94,6 +94,7 @@ export interface CampaignSection {
   readonly unresolvedQuestIds: readonly number[];
   readonly stopId: CampaignLeg["stopId"];
   readonly planningOnly: boolean;
+  readonly dungeonFinish?: boolean;
 }
 
 export function campaignSections(
@@ -115,13 +116,18 @@ export function campaignSections(
     const areas = sectionAreas(legs);
     sections.push({
       id,
-      title: kind === "zone" || kind === "finish" ? zoneTitle(areas) : title,
+      title: legs.some((leg) => leg.dungeonFinish)
+        ? "Dungeon circuit: 55–60 and pre-raid gear"
+        : kind === "zone" || kind === "finish"
+          ? zoneTitle(areas)
+          : title,
       kind,
       areas,
       from: legs[0]!.from,
       to,
       stopId,
       planningOnly: legs.some((leg) => leg.bundleId !== undefined),
+      ...(legs.some((leg) => leg.dungeonFinish) ? { dungeonFinish: true } : {}),
       legIds: legs.map((leg) => leg.id),
       actionIds: legs.flatMap((leg) =>
         active.filter((action) => action.legId === leg.id).map((action) => action.id),

@@ -106,6 +106,31 @@ Order lists are private operational data and must not be posted publicly.
 
 ## Dungeon XP Policy
 
+### Dungeon-first finish (local implementation, not yet deployed)
+
+The premade campaign now defaults to one dungeon/gear circuit after its sourced first BRD visit,
+instead of mandatory late outdoor chapters. The former sequence remains available as **Mixed quest
+route**. Existing quest states, actual XP, bookmarks and backup data are retained; hidden late-game
+bookmarks resolve to the circuit, while old chapter URLs can still open the mixed edition.
+
+The circuit offers BRD, LBRS, Dire Maul East/West/North, Scholomance, Stratholme Living/Undead,
+Blackmaw Hold and Shaper's Terrace. Comfortable and expert level bands are advice, not verified
+entry minimums. Real quest pickup levels, keys and unlocks still apply. UBRS is not assumed to be
+a five-player instance. The two newly announced dungeons do not have invented quest IDs or rewards.
+
+Each player records actual before/after XP and quest XP for a timed clear. Repeat-run projections
+subtract quest rewards, require matching build/party setup/scope and nearby levels, and use at most
+five recent samples. Unknown quest XP preserves the actual bars but excludes the sample from repeat
+estimates. Deleting a log entry does not rewind earned XP. All five must actually record level 60
+to finish leveling. No fixed run count, unmeasured XP or completion by ticking instructions is implied.
+
+Personal gear targets are validated against the published Forever item endpoint; dungeon assignment
+and priority remain manual, not verified drop/BiS claims. Runs and targets stay in browser saves and
+backups, not analytics or download selections. RestedXP exports contain the selected route strategy,
+explicit circuit instructions and a real level-60 checkpoint. Compiler revision is now v25 locally;
+the previous deployment receipt above remains v24. Full source-archive compilation and stock-loader
+checks do not replace in-game acceptance.
+
 The owner confirmed Gnomeregan is the highest dungeon actually completed. Higher-level dungeon
 rewards are planning estimates, not in-game measurements. Use raw table XP × 2.375, rounded in
 10-XP steps below 1,000 or 50-XP steps otherwise, with the existing overlevel-reduction model. Never

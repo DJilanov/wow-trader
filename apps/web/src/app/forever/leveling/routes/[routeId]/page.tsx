@@ -25,6 +25,7 @@ interface RouteProps {
   readonly searchParams: Promise<{
     readonly plan?: string | string[];
     readonly class?: string | string[];
+    readonly finish?: string;
   }>;
 }
 export function generateStaticParams(): { routeId: string }[] {
@@ -70,6 +71,9 @@ export default async function LevelingRoutePage({
       />
       <LevelingRouteDashboard
         reviewExportEnabled={restedXpReviewExportAvailable()}
+        initialFinish={
+          query.finish === "mixed" || query.finish === "dungeons" ? query.finish : undefined
+        }
         campaign={campaign}
         requestedMode={typeof query.plan === "string" ? query.plan : undefined}
         defaultProfile={profile}
