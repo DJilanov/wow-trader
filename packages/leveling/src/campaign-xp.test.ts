@@ -95,6 +95,50 @@ function progress(level = 14, xp = 12800): ReturnType<typeof emptyPremadeProgres
 }
 
 describe("cumulative per-player route XP", () => {
+  it("continues into later chapters after resolving an overleveled supplemental dungeon reward", () => {
+    const actions = [
+      action("power-stones", "uldaman", 2418),
+      action("after-uldaman", "later-world", 300003),
+    ];
+    const base = plan();
+    const route: CampaignPlan = {
+      ...base,
+      actions,
+      legs: [
+        { id: "uldaman", title: "Uldaman", from: 42, to: 44 },
+        { id: "later-world", title: "Later world quests", from: 44, to: 45 },
+      ].map((leg) => ({
+        ...leg,
+        kind: leg.id === "uldaman" ? "dungeon" : "preparation",
+        stopId: leg.id === "uldaman" ? "uldaman" : null,
+        actionIds: actions.filter((entry) => entry.legId === leg.id).map((entry) => entry.id),
+        questIds: [],
+        unresolvedQuestIds: [],
+      })),
+      rewardFacts: [
+        fact(2418, 3500, {
+          questLevel: 36,
+          minimumLevel: 30,
+          evidenceKind: "historical-reference",
+        }),
+        fact(300003, 700, { questLevel: 45 }),
+      ],
+    };
+    const state = progress(43, 0);
+    const before = JSON.stringify(state);
+    const forecast = forecastCampaignXp(route, state);
+    expect(forecast).toHaveLength(2);
+    for (const member of forecast[0]!.members) {
+      expect(member.endpoint).toEqual({ level: 43, currentXp: 5000 });
+      expect(member.unknownQuestIds).toEqual([]);
+      expect(member.blockedReason).toBeNull();
+    }
+    for (const member of forecast[1]!.members) {
+      expect(member.start).toEqual({ level: 43, currentXp: 5000 });
+      expect(member.endpoint).toEqual({ level: 43, currentXp: 5700 });
+    }
+    expect(JSON.stringify(state)).toBe(before);
+  });
   it("carries overflow and resolves later hand-ins at the new level without resetting at chapter boundaries", () => {
     const state = progress(),
       before = JSON.stringify(state);

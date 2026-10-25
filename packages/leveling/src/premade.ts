@@ -613,18 +613,28 @@ export function premadeEntryLevel(
     ),
   );
 }
+export interface PremadeRewardReference {
+  readonly baseXp: number | null;
+  readonly questLevel: number | null;
+  readonly source: string;
+}
+
+export function getPremadeRewardReference(questId: number): PremadeRewardReference | null {
+  const reference = baselineData.records.find((quest) => quest.id === questId);
+  return reference
+    ? {
+        baseXp: reference.baseXp,
+        questLevel: reference.questLevel,
+        source: `Historical reference: ${reference.source}`,
+      }
+    : null;
+}
+
 export function premadeReward(choice: PremadeQuestChoice, level: number): DungeonRewardEstimate {
-  const fallback = baselineData.records.find((quest) => quest.id === choice.questId);
   return estimateDungeonReward(
     choice.questId,
     level,
-    fallback
-      ? {
-          baseXp: fallback.baseXp,
-          questLevel: fallback.questLevel,
-          source: `Historical reference: ${fallback.source}`,
-        }
-      : undefined,
+    getPremadeRewardReference(choice.questId) ?? undefined,
   );
 }
 export interface PremadeMemberForecast {

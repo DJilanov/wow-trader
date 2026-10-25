@@ -70,6 +70,41 @@ describe("Forever dungeon table estimates", () => {
       resolveQuestReward(7041, 40, [{ ...fact(7041, 5250, 47, 1), minimumLevel: 41 }]).xp,
     ).toBeNull();
   });
+  it("uses the supplemental raw baseline for Power Stones at an overleveled hand-in", () => {
+    const powerStones: QuestRewardFact = {
+      questId: 2418,
+      fullXp: 3500,
+      questLevel: 36,
+      minimumLevel: 30,
+      xpByLevel: [],
+      status: "available",
+      evidenceKind: "historical-reference",
+      sourceUrl: "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua",
+      capturedAt: "2026-10-17T09:09:38.634Z",
+    };
+    const before = JSON.stringify(powerStones);
+    expect(resolveQuestReward(2418, 43, [powerStones])).toMatchObject({
+      xp: 5000,
+      basis: "base-estimate",
+      minimumLevel: 30,
+    });
+    expect(resolveQuestReward(2418, 36, [powerStones]).xp).toBe(8300);
+    expect(resolveQuestReward(2418, 46, [powerStones]).xp).toBe(830);
+    expect(resolveQuestReward(2418, 60, [powerStones]).xp).toBe(0);
+    expect(resolveQuestReward(2418, 29, [powerStones]).xp).toBeNull();
+    expect(resolveQuestReward(2418, 43, [{ ...powerStones, status: "conflict" }]).xp).toBeNull();
+    expect(resolveQuestReward(2418, 43, [{ ...powerStones, fullXp: 8300 }]).xp).toBeNull();
+    expect(
+      resolveQuestReward(2418, 43, [
+        {
+          ...powerStones,
+          evidenceKind: "observed-forever",
+          xpByLevel: [{ level: 43, xp: 5100 }],
+        },
+      ]),
+    ).toMatchObject({ xp: 5100, basis: "reported-forever" });
+    expect(JSON.stringify(powerStones)).toBe(before);
+  });
 });
 describe("ordinary dungeon quests are included", () => {
   it("includes Gnomeregan's ordinary quests and preserves explicit opt-outs and player history", () => {

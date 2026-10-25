@@ -1,4 +1,4 @@
-import { premadeReward } from "./premade.js";
+import { getPremadeRewardReference, premadeReward } from "./premade.js";
 import type { DungeonRewardEstimate } from "./dungeon-xp.js";
 import { questEligibility } from "./quest-eligibility.js";
 import {
@@ -55,7 +55,11 @@ export function resolveQuestReward(
     );
   if (fact?.status === "available") {
     const tableQuest = DUNGEON_FACTS.quests.find((entry) => entry.id === questId);
-    const knownTableBase = tableQuest?.baseXp ?? tableQuest?.referenceXp ?? null;
+    const knownTableBase =
+      tableQuest?.baseXp ??
+      tableQuest?.referenceXp ??
+      getPremadeRewardReference(questId)?.baseXp ??
+      null;
     const tableBase =
       fact.referenceBaseXp ??
       (fact.evidenceKind === "historical-reference" && fact.fullXp === knownTableBase
