@@ -1,6 +1,6 @@
 # Community reference data
 
-Last updated: 2026-10-18.
+Last updated: 2026-10-24.
 
 ## Goal and evidence policy
 
@@ -45,12 +45,12 @@ NPCs, 21,281 items, and 6,987 objects. The combined import identity was
 `a47d806664e0ae4e8383c66e640858e6666ed78850e8b287c518fbbd9a281944`. This is a compatibility
 result, not publication approval; license and content review are still mandatory.
 
-The build `70450` coverage report currently records 24,007 catalog items, 21,281 community items,
+The original build `70450` coverage report records 24,007 catalog items, 21,281 community items,
 19,291 matching item names, 164 item-name conflicts, 11,238 catalog items with acquisition
 relations, 120,643 valid NPC coordinates, 52,544 valid object coordinates, and 2,897 rejected
 malformed or out-of-bounds coordinates. QuestieDB's generated Forever exports contain no
-`teachesSpell` rows, so all 2,228 recipe learning methods remain unresolved until trainer
-observations or reviewed external evidence fill them.
+`teachesSpell` rows, so its catalog/community-only audit left all 2,228 recipe learning methods
+unresolved. The subsequent external crawl and its remaining gaps are covered below.
 
 ## Generate the QuestieDB export
 
@@ -255,7 +255,7 @@ auto-continue loop:
 PHASE=npcs LIMIT=300 "$HOME/wow-trader-reference/run-profession-crawl.sh"
 ```
 
-On the current staging the queue has **564 unique NPCs**: 282 trainer NPCs, 289 vendor NPCs and 7
+After the initial crawl the queue has **572 unique NPCs**: 282 trainer NPCs, 297 vendor NPCs and 7
 that are both. The report includes the trainer/vendor link counts and the pending/staged split.
 
 After the NPC batch, invert the staged lists into spell/item evidence without rewriting captures:
@@ -269,6 +269,106 @@ node scripts/recipe-npc-evidence.mjs \
 The NPC phase resolves trainer `teaches` lists and vendor `sells` lists. It does not replace the
 QuestieDB location join: use the resolved NPC IDs against the pinned location export and crawl only
 the IDs that are still missing coordinates.
+
+## Reconcile the completed profession crawl
+
+The offline reconciliation command validates the exact catalog artifact checksums, the original
+recipe-queue checksum, the staged record schemas/identities, and the original QuestieDB export
+checksum. It does not fetch pages, modify captures, update the database, or approve publication.
+Keep its output outside the staging, catalog, and community input directories.
+
+```bash
+pnpm --filter @wow-trader/reference-data build
+node scripts/recipe-crawl-reconcile.mjs \
+  --manifest /absolute/path/to/catalog-snapshot-manifest.v4/manifest.json \
+  --queue "$HOME/wow-trader-reference/queue/forever-profession-acquisition.json" \
+  --source-report artifacts/reference/recipes/forever-70450-acquisition.report.json \
+  --staging "$HOME/wow-trader-reference/staging" \
+  --community .cache/questiedb-professions/src/corrections/Forever/combined \
+  --output "$HOME/wow-trader-reference/queue/forever-profession-reconciliation.json"
+```
+
+The local `.cache/questiedb-professions` checkout is pinned to the original audited revision
+`e9a67d1a2753a0e64c4c96bf7864788fac7b765f`, with authored corrections excluded. Its reproduced
+export must match checksum `a47d806664e0ae4e8383c66e640858e6666ed78850e8b287c518fbbd9a281944`.
+Do not substitute the older installed addon or silently update the source revision.
+
+The command writes three files:
+
+- `forever-profession-reconciliation.json`: scoped gap classifications, item identities, NPC
+  location joins, provenance, and follow-up candidates.
+- `forever-profession-reconciliation.json.relations.json`: proposed teaching and acquisition
+  relations, explicitly marked `review_required`; this is not a publication/import manifest.
+- `forever-profession-reconciliation.json.npcs.json`: new-only NPC discovery tasks in the
+  existing crawler queue format.
+
+The 2026-10-24 run found:
+
+| Result                                                                |         Count |
+| --------------------------------------------------------------------- | ------------: |
+| Recipe spells / teaching items in the completed queue                 | 2,228 / 1,810 |
+| Spell learning / item-source gaps still present in captures           |     208 / 371 |
+| Unrelated source-less items excluded from profession totals           |             9 |
+| Proposed teaching links / currently unresolved spells affected        |       65 / 43 |
+| Previously ambiguous item identities with supported candidate matches |       44 / 55 |
+| Previously unmatched item names bridged through crafted-item IDs      |       7 / 147 |
+| Remaining ambiguous / unmatched item identities                       |      11 / 134 |
+| Client identity/profession conflicts held for review                  |             8 |
+| Pinned baseline acquisition proposals / source-less items affected    |       18 / 16 |
+| Name-matched NPC coordinate joins                                     |     545 / 572 |
+| NPCs without baseline coordinates / absent from baseline              |        21 / 6 |
+| New trainer/supplier catalog candidates                               |           104 |
+
+Identity matching distinguishes explicit teaching IDs, unique profession/name matches,
+client-description-supported duplicate names, and renamed outputs joined through the same crafted
+item ID. It recognizes profession skill aliases only through exact client `SkillupSkillLineID`
+rows; for example, First Aid's item skill line `2942` is linked to recipe profession `129`.
+Description/name matches remain candidates for review, not proof that every retained recipe is
+currently obtainable. The eight conflicts include five items absent from this client snapshot and
+three blacksmithing-listing hammer plans whose client requirement is Engineering.
+
+The 208 unresolved spells include 43 identity candidates, 21 with only listing source hints, and
+144 with no supported source classification. Raw `AcquireMethod` values are retained (177 use `0`,
+31 use `1`), without guessing their meaning. A listing's `drop` hint does not establish a world drop.
+Only explicit unused/obsolete labels are marked as such; missing evidence never proves removal.
+The item report separates 16 baseline-source candidates, two listing-hint-only rows, one explicitly
+`UNUSED` item, and 352 unknowns.
+
+NPC titles are discovery hints, not teaching/vendor assertions. The 104 candidates include unplaced
+catalog records and must be checked against their Forever pages; they are not 104 proven live
+trainers. Coordinate joins require matching NPC names and valid area/percentage coordinates.
+Missing coordinates cannot be repaired by repeatedly fetching an NPC page that has only zone IDs.
+
+### Follow-up NPC batch
+
+The queue planner accepts `--candidates PATH`, or the explicit `NPC_CANDIDATE_QUEUE` environment
+variable inherited from the existing launcher. It unions discovery candidates with known linked
+NPCs without inventing teaching/vendor relations. Its staged/pending totals count only queued NPCs.
+
+```bash
+node scripts/recipe-npc-crawl-queue.mjs \
+  --staging "$HOME/wow-trader-reference/staging" \
+  --candidates "$HOME/wow-trader-reference/queue/forever-profession-reconciliation.json.npcs.json" \
+  --queue "$HOME/wow-trader-reference/queue/forever-profession-npc-followup.json" \
+  --report "$HOME/wow-trader-reference/queue/forever-profession-npc-followup.report.json"
+```
+
+The prepared follow-up plan has 676 unique NPCs: 572 staged and 104 pending. Before a network run,
+refresh the expired profile with `refresh-wow-profile.sh`, complete the normal browser flow and
+save it, then stop the profile editor with `refresh-wow-profile.sh --stop`. After the guard confirms
+the new profile, use the existing pacing/challenge/disk safeguards:
+
+```bash
+NPC_CANDIDATE_QUEUE="$HOME/wow-trader-reference/queue/forever-profession-reconciliation.json.npcs.json" \
+  PHASE=npcs LIMIT=104 "$HOME/wow-trader-reference/run-profession-crawl.sh"
+```
+
+Do not pass `--refresh`: completed fresh captures should be skipped. Re-run offline reconciliation
+after the batch; inverse NPC teaching/vendor evidence becomes a separately attributed review
+proposal. Refreshing the same already-fetched NPCs is not a strategy for resolving the remaining
+identity and item-source gaps. Review/licensing gates still apply before any public import.
+
+### Listing diagnostics and profile lifecycle
 
 The `status-profession.sh` view prints listing record/entry/relation counts, source-label counts, and
 parser warnings. If a listing record has `no_listing_entries` or unexpected warnings, keep the detail

@@ -7,6 +7,15 @@ import {
 } from "./community-reference";
 
 describe("community reference search policy", () => {
+  it("keeps a newly imported reference-only NPC out of search until page quality is approved", () => {
+    const entity = fixture();
+    const surface = getCommunityEntitySearchSurface({
+      ...entity,
+      snapshot: { ...entity.snapshot, indexingApproved: false },
+    });
+    expect(surface.state).toBe("review_required");
+    expect(surface.reasons).toContain("required_evidence_missing");
+  });
   it("publishes directory roots only when they contain indexable entities", () => {
     expect(getIndexableCommunityDirectoryKinds(null)).toEqual([]);
     expect(getIndexableCommunityDirectoryKinds({ npcIds: [], objectIds: [] })).toEqual([]);
@@ -68,6 +77,7 @@ function fixture(): CommunityReferenceEntityDetail {
     rank: null,
     zoneId: null,
     snapshot: {
+      sourceName: "QuestieDB Forever",
       sourceVersion: "v1",
       sourceRevision: "abc",
       publishedAt: new Date("2026-10-18T00:00:00.000Z"),

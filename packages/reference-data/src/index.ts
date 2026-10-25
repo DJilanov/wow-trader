@@ -1,4 +1,5 @@
 export * from "./contracts.js";
+export { listingRecordSchema, type ListingRecord } from "./listing-contracts.js";
 export * from "./drop-statistics.js";
 export { parseWowheadPage } from "./parser.js";
 export * from "./client-validation.js";

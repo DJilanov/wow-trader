@@ -83,6 +83,81 @@ website, community website and source crawler unchanged.
 
 ## Verified production rollout
 
+### October 25, 2026 profession relationships
+
+Helper web release `kfc-helper-professions-20261025-r1` reads reviewed profession evidence from the
+existing community-reference tables. Native item/recipe tables and live-observation tables are not
+modified. This is separate from the continuously running raw-reference file publisher above.
+
+Published snapshot `1817234d-4bdd-4eba-9014-51ffc885e2e6` targets the actual published client build
+`70532`, not the crawl's older `70450` catalog. Its checksum is
+`d023a1f1f27a370a544f1da21127e27813cf459bdd2ed5cd1c36d1ea92442371`. The graph contains 8,131
+named entities and 48,598 relationships, including teaching references for 2,046 of 2,228 recipes,
+1,643 teaching items and 606 validated coordinate joins. All 65 proposed teaching links and 18
+QuestieDB acquisition relationships passed current-build review. Replication permission for the
+QuestieDB data was confirmed by the owner on October 25; the pinned revision and the original
+`includedAuthored=false` export remain unchanged.
+
+The website distinguishes source-reported relationships, name/description matches, pinned QuestieDB
+baselines and actual live trainer observations. It never labels crawled trainers as observed in-game,
+invents trainer costs, or treats a shipped recipe as guaranteed available on the realm. Related recipe
+names are copied from the exact current client into the reference graph for readable NPC links.
+Per-relation provider attribution and coordinate provenance remain separate.
+
+Publication retains the 14-day Forever freshness policy. This snapshot's oldest accepted capture
+expires at `2026-11-01T14:18:12.765Z`; readers suppress it after that bound. Re-export/review against a
+new client build instead of silently carrying the old build forward. Renew source captures when they
+expire; reviewing a record does not reset its capture date.
+
+The repeatable workflow is:
+
+1. `scripts/export-profession-client.mjs --expected-build BUILD --output FILE.json.gz`, using the
+   existing protected read-only web database environment.
+2. `scripts/review-profession-publication.mjs --client FILE.json.gz --queue QUEUE.json
+--reconciliation REPORT.json --staging DIRECTORY --questie PINNED_EXPORT --output BUNDLE.json`.
+   The Questie export checksum must match reconciliation. All original captures remain unchanged.
+3. `scripts/publish-profession-reference.mjs --mode review|publish|withdraw --bundle BUNDLE.json
+--client FILE.json.gz --expected-checksum CHECKSUM --expected-file-sha256 SHA256`, using the existing
+   protected owner database environment. The importer verifies the separate relation artifact too,
+   refuses a changed current build, and requires at least 8 GiB free disk for review/publication.
+
+The production importer is isolated at
+`/home/wow-trader-system/shared/operations/profession-publication-20261025/runtime/`; it contains the
+validated import-library revision, independently of the immutable web bundle. Publication is atomic
+and repeat imports are idempotent. Replacing this source holds its preceding published revision
+instead of combining duplicate revisions. `withdraw` returns only the checksum-matched snapshot to
+review; it does not delete evidence or modify native data.
+
+Current published coverage deliberately leaves 182 recipe-learning identities and 368 teaching-item
+acquisition sources unresolved, with 25 conflicting/unused item records held. The original crawl
+reports still describe unmodified captures, so their gap counts are not the current-build published
+coverage counts. The 11 ambiguous and 134 unmatched recipe-item identities remain review work;
+missing evidence is not interpreted as removal. Another 70 of the 676 fetched NPCs lack usable
+baseline coordinates. These gaps need specific identity/location evidence, not another blind crawl.
+
+Reference-only NPC/object pages without coordinates or corroborating live observations remain
+`noindex` and outside sitemaps. The current Forever catalog sitemap includes the 606 coordinate-backed
+NPC pages; the unplaced World Fishing Trainer stays excluded. Existing item indexing gates remain
+unchanged.
+
+Only Helper web restarted. Ingestion, raw-reference publishing, the stopped crawler and simulator
+selections stayed unchanged. Deployment receipts and rollback controls are under the same protected
+operations directory. No credentials were copied into source or public artifacts.
+
+Verification passed: 33 focused crawler/publication tests, 19 world-data tests, 14 focused web tests,
+typechecks, targeted lint and the isolated production build. Live Playwright checks passed for all
+12 desktop/mobile cases at 1440px and 390px, covering recipes, items, coordinate-backed and thin NPC
+pages, and TBC separation. Checks included HTTP status, self-canonicals, indexing directives, loaded
+images and horizontal overflow; screenshots were also reviewed. Sampled native recipe payloads
+retained their pre-publication hashes. The browser receipt and screenshots are under
+`artifacts/reference/profession-publication-20261025/browser/`.
+
+Storage recovery removed only rebuildable compiler/npm caches and one verified unused release,
+`public-navigation-20261019-r1`. Its temporary archive was compared against the original before
+removal, then deleted locally at the owner's request on October 25. No archive of that release is
+retained. Future verified unused release cleanup should delete those copies without archiving them;
+active, process/symlink-referenced and current rollback releases remain protected.
+
 ### October 18, 2026 leveling completion
 
 Release `kfc-helper-leveling-quest-completion-20261018-r1` is active, and the independently managed

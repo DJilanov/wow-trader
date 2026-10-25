@@ -6,13 +6,41 @@ import {
   gameBuilds,
   type WowTraderDatabase,
 } from "@wow-trader/db";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, ne } from "drizzle-orm";
 
-import type { QuestieForeverBundle } from "./questie-forever.js";
+import type {
+  QuestieForeverBundle,
+  QuestieForeverEntity,
+  QuestieEntityKind,
+} from "./questie-forever.js";
 
 const INSERT_CHUNK_SIZE = 1_000;
-const QUESTIE_SOURCE_SLUG = "questiedb-forever";
 const REVIEW_REQUIRED_LICENSE = "Review required";
+
+export interface CommunityReferenceImportBundle extends Omit<
+  QuestieForeverBundle,
+  "sourceKind" | "entities"
+> {
+  readonly sourceKind: string;
+  readonly entities: readonly (Omit<QuestieForeverEntity, "kind"> & {
+    readonly kind: QuestieEntityKind | "spell";
+  })[];
+  readonly validUntil?: string;
+  readonly upstreamSources?: readonly {
+    readonly name: string;
+    readonly revision: string;
+    readonly checksum: string;
+    readonly licenseRef: string;
+  }[];
+}
+
+export interface CommunityReferenceImportSource {
+  readonly slug: string;
+  readonly name: string;
+  readonly homepageUrl: string;
+  readonly dataUrl: string;
+  readonly attribution: string;
+}
 
 export interface ImportCommunityReferenceOptions {
   readonly product: string;
@@ -20,6 +48,7 @@ export interface ImportCommunityReferenceOptions {
   readonly locale: string;
   readonly publish: boolean;
   readonly licenseName?: string;
+  readonly replacePublishedSource?: boolean;
 }
 
 export interface ImportCommunityReferenceResult {
@@ -37,6 +66,25 @@ export async function importQuestieForeverBundle(
   bundle: QuestieForeverBundle,
   options: ImportCommunityReferenceOptions,
 ): Promise<ImportCommunityReferenceResult> {
+  return importCommunityReferenceBundle(database, bundle, options, {
+    slug: "questiedb-forever",
+    name: "QuestieDB Forever",
+    homepageUrl: "https://github.com/Questie/QuestieDB",
+    dataUrl: "https://github.com/Questie/QuestieDB",
+    attribution: "QuestieDB contributors",
+  });
+}
+
+export async function importCommunityReferenceBundle(
+  database: WowTraderDatabase,
+  bundle: CommunityReferenceImportBundle,
+  options: ImportCommunityReferenceOptions,
+  sourceIdentity: CommunityReferenceImportSource,
+): Promise<ImportCommunityReferenceResult> {
+  if (!/^[a-z0-9][a-z0-9-]{2,79}$/.test(sourceIdentity.slug) || !sourceIdentity.name.trim())
+    throw new Error("Community import requires a named source identity");
+  for (const url of [sourceIdentity.homepageUrl, sourceIdentity.dataUrl])
+    if (new URL(url).protocol !== "https:") throw new Error("Community source URLs require HTTPS");
   if (!options.product.trim()) throw new Error("Community import requires a client product");
   if (!Number.isSafeInteger(options.buildNumber) || options.buildNumber <= 0) {
     throw new Error("Community import requires a positive client build number");
@@ -81,13 +129,9 @@ export async function importQuestieForeverBundle(
     const [source] = await transaction
       .insert(externalDataSources)
       .values({
-        slug: QUESTIE_SOURCE_SLUG,
-        name: "QuestieDB Forever",
-        homepageUrl: "https://github.com/Questie/QuestieDB",
-        dataUrl: "https://github.com/Questie/QuestieDB",
+        ...sourceIdentity,
         license: licenseName,
         licenseUrl: bundle.licenseRef,
-        attribution: "QuestieDB contributors",
         updatedAt: now,
       })
       .onConflictDoUpdate({
@@ -100,6 +144,21 @@ export async function importQuestieForeverBundle(
       })
       .returning({ id: externalDataSources.id });
     if (!source) throw new Error("QuestieDB source registration did not return an id");
+
+    const holdPreviousSourceSnapshots = async (snapshotId: string): Promise<void> => {
+      if (!options.publish || !options.replacePublishedSource) return;
+      await transaction
+        .update(communityReferenceSnapshots)
+        .set({ status: "review_required" })
+        .where(
+          and(
+            eq(communityReferenceSnapshots.buildId, build.id),
+            eq(communityReferenceSnapshots.sourceId, source.id),
+            eq(communityReferenceSnapshots.status, "published"),
+            ne(communityReferenceSnapshots.id, snapshotId),
+          ),
+        );
+    };
 
     const [existing] = await transaction
       .select({
@@ -118,9 +177,10 @@ export async function importQuestieForeverBundle(
       .limit(1);
     if (existing) {
       if (existing.checksum !== bundle.checksum) {
-        throw new Error("The same QuestieDB revision produced a different export checksum");
+        throw new Error("The same community revision produced a different export checksum");
       }
       if (options.publish && existing.status === "review_required") {
+        await holdPreviousSourceSnapshots(existing.id);
         await transaction
           .update(communityReferenceSnapshots)
           .set({ status: "published", publishedAt: now })
@@ -152,6 +212,8 @@ export async function importQuestieForeverBundle(
         manifest: {
           formatVersion: bundle.formatVersion,
           sourceKind: bundle.sourceKind,
+          ...(bundle.validUntil ? { validUntil: bundle.validUntil } : {}),
+          ...(bundle.upstreamSources ? { upstreamSources: bundle.upstreamSources } : {}),
           sourceVersion: bundle.sourceVersion,
           sourceRevision: bundle.sourceRevision,
           includedAuthored: bundle.includedAuthored,
@@ -163,6 +225,8 @@ export async function importQuestieForeverBundle(
       })
       .returning({ id: communityReferenceSnapshots.id });
     if (!snapshot) throw new Error("Community snapshot insert did not return an id");
+
+    await holdPreviousSourceSnapshots(snapshot.id);
 
     await insertChunks(
       bundle.entities.map((entity) => ({
@@ -193,7 +257,7 @@ export async function importQuestieForeverBundle(
 function result(
   snapshotId: string,
   buildId: string,
-  bundle: QuestieForeverBundle,
+  bundle: CommunityReferenceImportBundle,
   duplicate: boolean,
   published: boolean,
 ): ImportCommunityReferenceResult {

@@ -24,7 +24,7 @@ export function ForeverCommunityEntity({
             <span aria-hidden="true">←</span> {entity.kind === "npc" ? "NPCs" : "Objects"}
           </Link>
           <span className="eyebrow">
-            Published QuestieDB snapshot · {kindLabel} {entity.id}
+            {entity.snapshot.sourceName} · {kindLabel} {entity.id}
           </span>
           <h1>{entity.name}</h1>
           <p>
@@ -205,10 +205,15 @@ export function ForeverCommunityEntity({
       ) : null}
 
       <aside className="evidence-note">
+        {entity.locationSourceName ? (
+          <p>
+            Coordinates: {entity.locationSourceName}, revision {entity.locationSourceRevision}.
+          </p>
+        ) : null}
         <strong>Provenance boundary</strong>
         <p>
-          QuestieDB {entity.snapshot.sourceVersion}, revision {entity.snapshot.sourceRevision}, was
-          published for build {entity.snapshot.buildNumber} on{" "}
+          {entity.snapshot.sourceName} {entity.snapshot.sourceVersion}, revision{" "}
+          {entity.snapshot.sourceRevision}, was published for build {entity.snapshot.buildNumber} on{" "}
           {entity.snapshot.publishedAt.toLocaleDateString()}. Community coordinates are useful
           navigation evidence, not a server-side spawn guarantee.
         </p>

@@ -2,6 +2,7 @@ import {
   communityReferenceEntities,
   communityReferenceRelations,
   communityReferenceSnapshots,
+  externalDataSources,
   gameBuilds,
   worldNpcObservations,
 } from "@wow-trader/db";
@@ -10,10 +11,11 @@ import {
   decodeQuestieSpawnLocations,
   type EvidenceNameAgreement,
 } from "@wow-trader/world-data";
-import { and, count, desc, eq, inArray, or } from "drizzle-orm";
+import { and, count, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { cache } from "react";
 
 import { getDatabase } from "./database";
+import { communitySnapshotFreshnessCondition } from "./community-publication";
 import { normalizeEntityGraphRelation, type EntityGraphRelationKind } from "./entity-graph";
 import { getForeverMapPage, getForeverWorldData } from "./forever-world";
 import { FOREVER_CLIENT_PRODUCT } from "./game-versions";
@@ -65,11 +67,15 @@ export interface CommunityReferenceEntityDetail {
   readonly id: number;
   readonly name: string;
   readonly subName: string | null;
+  readonly locationSourceName?: string | null;
+  readonly locationSourceRevision?: string | null;
   readonly minimumLevel: number | null;
   readonly maximumLevel: number | null;
   readonly rank: number | null;
   readonly zoneId: number | null;
   readonly snapshot: {
+    readonly sourceName: string;
+    readonly indexingApproved?: boolean;
     readonly sourceVersion: string;
     readonly sourceRevision: string;
     readonly publishedAt: Date;
@@ -129,6 +135,8 @@ export function getIndexableCommunityDirectoryKinds(
 
 interface PublishedSnapshot {
   readonly id: string;
+  readonly sourceName: string;
+  readonly indexingApproved: boolean;
   readonly sourceVersion: string;
   readonly sourceRevision: string;
   readonly checksum: string;
@@ -242,11 +250,15 @@ export const getCommunityReferenceEntity = cache(
       id,
       name: entity.name,
       subName: readString(entity.data, "subName"),
+      locationSourceName: readString(entity.data, "locationSourceName"),
+      locationSourceRevision: readString(entity.data, "locationSourceRevision"),
       minimumLevel: readInteger(entity.data, "minLevel"),
       maximumLevel: readInteger(entity.data, "maxLevel"),
       rank: readInteger(entity.data, "rank"),
       zoneId: readInteger(entity.data, "zoneID"),
       snapshot: {
+        sourceName: snapshot.sourceName,
+        indexingApproved: snapshot.indexingApproved,
         sourceVersion: snapshot.sourceVersion,
         sourceRevision: snapshot.sourceRevision,
         publishedAt: snapshot.publishedAt,
@@ -354,9 +366,13 @@ export async function getCommunityReferenceSitemapData(): Promise<CommunityRefer
         checksum: snapshot.checksum,
         identityAgreement,
         hasUsefulEvidence:
-          entityRelations.length > 0 ||
-          observedNames.length > 0 ||
-          hasUsefulCommunityData(row.data),
+          (snapshot.indexingApproved ||
+            (isRecord(row.data) &&
+              decodeQuestieSpawnLocations(row.data.spawns).locations.length > 0) ||
+            observedNames.length > 0) &&
+          (entityRelations.length > 0 ||
+            observedNames.length > 0 ||
+            hasUsefulCommunityData(row.data)),
         outgoingLinks,
       }),
     };
@@ -420,16 +436,20 @@ export function getCommunityEntitySearchSurface(
     publishedAt: entity.snapshot.publishedAt,
     checksum: null,
     identityAgreement: entity.identityAgreement,
-    hasUsefulEvidence: Boolean(
-      entity.locations.length ||
-      entity.relationshipCount ||
-      entity.observations.length ||
-      entity.subName ||
-      entity.minimumLevel !== null ||
-      entity.maximumLevel !== null ||
-      entity.rank !== null ||
-      entity.zoneId !== null,
-    ),
+    hasUsefulEvidence:
+      (entity.snapshot.indexingApproved !== false ||
+        entity.locations.length > 0 ||
+        entity.observations.length > 0) &&
+      Boolean(
+        entity.locations.length ||
+        entity.relationshipCount ||
+        entity.observations.length ||
+        entity.subName ||
+        entity.minimumLevel !== null ||
+        entity.maximumLevel !== null ||
+        entity.rank !== null ||
+        entity.zoneId !== null,
+      ),
     outgoingLinks: entity.relationships.flatMap((relationship) =>
       relationship.href ? [helperAbsoluteUrl(relationship.href)] : [],
     ),
@@ -442,6 +462,8 @@ async function getPublishedSnapshot(
   const [snapshot] = await database
     .select({
       id: communityReferenceSnapshots.id,
+      sourceName: externalDataSources.name,
+      indexingApproved: sql<boolean>`COALESCE(${communityReferenceSnapshots.manifest}->>'sourceKind','') NOT IN ('wowhead_profession_review','profession_reference_review')`,
       sourceVersion: communityReferenceSnapshots.sourceVersion,
       sourceRevision: communityReferenceSnapshots.sourceRevision,
       checksum: communityReferenceSnapshots.checksum,
@@ -450,12 +472,17 @@ async function getPublishedSnapshot(
       clientVersion: gameBuilds.clientVersion,
     })
     .from(communityReferenceSnapshots)
+    .innerJoin(
+      externalDataSources,
+      eq(externalDataSources.id, communityReferenceSnapshots.sourceId),
+    )
     .innerJoin(gameBuilds, eq(gameBuilds.id, communityReferenceSnapshots.buildId))
     .where(
       and(
         eq(gameBuilds.product, FOREVER_CLIENT_PRODUCT),
         eq(gameBuilds.status, "published"),
         eq(communityReferenceSnapshots.status, "published"),
+        communitySnapshotFreshnessCondition(),
       ),
     )
     .orderBy(desc(communityReferenceSnapshots.publishedAt))

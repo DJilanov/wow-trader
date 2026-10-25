@@ -363,12 +363,12 @@ export async function CatalogItemPage({
 
 function communityEvidenceLabel(source: ItemDetail["communityAcquisition"][number]): string {
   if (source.evidenceStatus === "corroborated") {
-    return `QuestieDB + ${source.observedEvidenceCount} live observation${source.observedEvidenceCount === 1 ? "" : "s"}`;
+    return `${source.referenceSourceName} + ${source.observedEvidenceCount} live observation${source.observedEvidenceCount === 1 ? "" : "s"}`;
   }
   if (source.evidenceStatus === "conflicting") {
     return `${source.conflictingObservedNameCount} identity conflict${source.conflictingObservedNameCount === 1 ? "" : "s"} · review required`;
   }
-  return "QuestieDB · pinned revision";
+  return `${source.referenceSourceName} · pinned reference`;
 }
 
 function communityTargetHref(config: CatalogPageConfig, kind: string, id: number): string | null {

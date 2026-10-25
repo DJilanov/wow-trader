@@ -4,6 +4,7 @@ import {
   communityReferenceEntities,
   communityReferenceRelations,
   communityReferenceSnapshots,
+  externalDataSources,
   gameClassVersions,
   gameBuilds,
   gameRaceVersions,
@@ -61,6 +62,8 @@ import { cache } from "react";
 
 import { formatCopper, formatPercentBasisPoints } from "./format";
 import { getDatabase } from "./database";
+import { communityEvidenceMethod, communityEvidenceSource } from "./community-evidence";
+import { communitySnapshotFreshnessCondition } from "./community-publication";
 import { TBC_CLIENT_PRODUCT } from "./game-versions";
 import {
   buildProductionChain,
@@ -147,6 +150,12 @@ export interface RecipeDetail {
     readonly name: string;
     readonly iconFileDataId: number | null;
     readonly quality: number;
+    readonly referenceLabel?: string;
+  }[];
+  readonly referenceTrainers: readonly {
+    readonly sourceId: number;
+    readonly name: string;
+    readonly referenceLabel: string;
   }[];
   readonly trainers: readonly {
     readonly sourceId: number;
@@ -257,6 +266,7 @@ export interface ItemDetail {
     readonly targetId: number;
     readonly targetName: string | null;
     readonly sourceRevision: string;
+    readonly referenceSourceName: string;
     readonly evidenceStatus: "single_source" | "corroborated" | "conflicting";
     readonly observedEvidenceCount: number;
     readonly conflictingObservedNameCount: number;
@@ -637,138 +647,192 @@ async function getRecipeDetailUncached(
     .limit(1);
   if (!recipe) return null;
 
-  const [inputs, outputs, catalogTeachingItems, communityTeachingItems, trainerRows] =
-    await Promise.all([
-      database
-        .select({
-          itemId: recipeInputs.reagentItemId,
-          name: itemVersions.name,
-          quantity: recipeInputs.quantity,
-          optional: recipeInputs.optional,
-          iconFileDataId: itemVersions.iconFileDataId,
-          quality: itemVersions.quality,
-        })
-        .from(recipeInputs)
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, recipeInputs.buildId),
-            eq(itemVersions.itemId, recipeInputs.reagentItemId),
-          ),
-        )
-        .where(
-          and(eq(recipeInputs.buildId, build.id), eq(recipeInputs.recipeSpellId, recipeSpellId)),
-        )
-        .orderBy(recipeInputs.slot),
-      database
-        .select({
-          itemId: recipeOutputs.outputItemId,
-          itemName: itemVersions.name,
-          enchantmentId: recipeOutputs.enchantmentId,
-          minimumQuantity: recipeOutputs.minimumQuantity,
-          maximumQuantity: recipeOutputs.maximumQuantity,
-          expectedNumerator: recipeOutputs.expectedQuantityNumerator,
-          expectedDenominator: recipeOutputs.expectedQuantityDenominator,
-          iconFileDataId: itemVersions.iconFileDataId,
-          quality: itemVersions.quality,
-        })
-        .from(recipeOutputs)
-        .leftJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, recipeOutputs.buildId),
-            eq(itemVersions.itemId, recipeOutputs.outputItemId),
-          ),
-        )
-        .where(
-          and(eq(recipeOutputs.buildId, build.id), eq(recipeOutputs.recipeSpellId, recipeSpellId)),
-        )
-        .orderBy(recipeOutputs.slot),
-      database
-        .select({
-          itemId: recipeTeachingItems.teachingItemId,
-          name: itemVersions.name,
-          iconFileDataId: itemVersions.iconFileDataId,
-          quality: itemVersions.quality,
-        })
-        .from(recipeTeachingItems)
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, recipeTeachingItems.buildId),
-            eq(itemVersions.itemId, recipeTeachingItems.teachingItemId),
-          ),
-        )
-        .where(
-          and(
-            eq(recipeTeachingItems.buildId, build.id),
-            eq(recipeTeachingItems.recipeSpellId, recipeSpellId),
-          ),
+  const [
+    inputs,
+    outputs,
+    catalogTeachingItems,
+    communityTeachingItems,
+    trainerRows,
+    referenceTrainerRows,
+  ] = await Promise.all([
+    database
+      .select({
+        itemId: recipeInputs.reagentItemId,
+        name: itemVersions.name,
+        quantity: recipeInputs.quantity,
+        optional: recipeInputs.optional,
+        iconFileDataId: itemVersions.iconFileDataId,
+        quality: itemVersions.quality,
+      })
+      .from(recipeInputs)
+      .innerJoin(
+        itemVersions,
+        and(
+          eq(itemVersions.buildId, recipeInputs.buildId),
+          eq(itemVersions.itemId, recipeInputs.reagentItemId),
         ),
-      database
-        .select({
-          itemId: communityReferenceRelations.sourceId,
-          name: itemVersions.name,
-          iconFileDataId: itemVersions.iconFileDataId,
-          quality: itemVersions.quality,
-        })
-        .from(communityReferenceRelations)
-        .innerJoin(
-          communityReferenceSnapshots,
-          eq(communityReferenceSnapshots.id, communityReferenceRelations.snapshotId),
-        )
-        .innerJoin(
-          itemVersions,
-          and(
-            eq(itemVersions.buildId, build.id),
-            eq(itemVersions.itemId, communityReferenceRelations.sourceId),
-          ),
-        )
-        .where(
-          and(
-            eq(communityReferenceSnapshots.buildId, build.id),
-            eq(communityReferenceSnapshots.status, "published"),
-            eq(communityReferenceRelations.sourceKind, "item"),
-            eq(communityReferenceRelations.relationKind, "teaches_spell"),
-            eq(communityReferenceRelations.targetKind, "spell"),
-            eq(communityReferenceRelations.targetId, recipeSpellId),
-          ),
-        )
-        .orderBy(itemVersions.name),
-      database
-        .select({
-          sourceId: worldTrainerObservations.sourceId,
-          sourceName: worldTrainerObservations.sourceName,
-          serviceName: worldTrainerObservations.serviceName,
-          serviceRank: worldTrainerObservations.serviceRank,
-          serviceType: worldTrainerObservations.serviceType,
-          moneyCost: worldTrainerObservations.moneyCost,
-          requiredLevel: worldTrainerObservations.requiredLevel,
-          requiredSkillLine: worldTrainerObservations.requiredSkillLine,
-          requiredSkillRank: worldTrainerObservations.requiredSkillRank,
-          allFiltersEnabled: worldTrainerObservations.allFiltersEnabled,
-          observedAt: worldTrainerObservations.capturedAt,
-        })
-        .from(worldTrainerObservations)
-        .where(
-          and(
-            eq(worldTrainerObservations.clientProduct, clientProduct),
-            eq(worldTrainerObservations.clientBuild, build.buildNumber),
-            or(
-              eq(worldTrainerObservations.spellId, recipeSpellId),
-              and(
-                isNull(worldTrainerObservations.spellId),
-                eq(worldTrainerObservations.serviceName, recipe.name),
-              ),
+      )
+      .where(and(eq(recipeInputs.buildId, build.id), eq(recipeInputs.recipeSpellId, recipeSpellId)))
+      .orderBy(recipeInputs.slot),
+    database
+      .select({
+        itemId: recipeOutputs.outputItemId,
+        itemName: itemVersions.name,
+        enchantmentId: recipeOutputs.enchantmentId,
+        minimumQuantity: recipeOutputs.minimumQuantity,
+        maximumQuantity: recipeOutputs.maximumQuantity,
+        expectedNumerator: recipeOutputs.expectedQuantityNumerator,
+        expectedDenominator: recipeOutputs.expectedQuantityDenominator,
+        iconFileDataId: itemVersions.iconFileDataId,
+        quality: itemVersions.quality,
+      })
+      .from(recipeOutputs)
+      .leftJoin(
+        itemVersions,
+        and(
+          eq(itemVersions.buildId, recipeOutputs.buildId),
+          eq(itemVersions.itemId, recipeOutputs.outputItemId),
+        ),
+      )
+      .where(
+        and(eq(recipeOutputs.buildId, build.id), eq(recipeOutputs.recipeSpellId, recipeSpellId)),
+      )
+      .orderBy(recipeOutputs.slot),
+    database
+      .select({
+        itemId: recipeTeachingItems.teachingItemId,
+        name: itemVersions.name,
+        iconFileDataId: itemVersions.iconFileDataId,
+        quality: itemVersions.quality,
+      })
+      .from(recipeTeachingItems)
+      .innerJoin(
+        itemVersions,
+        and(
+          eq(itemVersions.buildId, recipeTeachingItems.buildId),
+          eq(itemVersions.itemId, recipeTeachingItems.teachingItemId),
+        ),
+      )
+      .where(
+        and(
+          eq(recipeTeachingItems.buildId, build.id),
+          eq(recipeTeachingItems.recipeSpellId, recipeSpellId),
+        ),
+      ),
+    database
+      .select({
+        itemId: communityReferenceRelations.sourceId,
+        name: itemVersions.name,
+        iconFileDataId: itemVersions.iconFileDataId,
+        quality: itemVersions.quality,
+        evidence: communityReferenceRelations.evidence,
+        referenceSourceName: externalDataSources.name,
+      })
+      .from(communityReferenceRelations)
+      .innerJoin(
+        communityReferenceSnapshots,
+        eq(communityReferenceSnapshots.id, communityReferenceRelations.snapshotId),
+      )
+      .innerJoin(
+        externalDataSources,
+        eq(externalDataSources.id, communityReferenceSnapshots.sourceId),
+      )
+      .innerJoin(
+        itemVersions,
+        and(
+          eq(itemVersions.buildId, build.id),
+          eq(itemVersions.itemId, communityReferenceRelations.sourceId),
+        ),
+      )
+      .where(
+        and(
+          eq(communityReferenceSnapshots.buildId, build.id),
+          eq(communityReferenceSnapshots.status, "published"),
+          communitySnapshotFreshnessCondition(),
+          eq(communityReferenceRelations.sourceKind, "item"),
+          eq(communityReferenceRelations.relationKind, "teaches_spell"),
+          eq(communityReferenceRelations.targetKind, "spell"),
+          eq(communityReferenceRelations.targetId, recipeSpellId),
+        ),
+      )
+      .orderBy(itemVersions.name),
+    database
+      .select({
+        sourceId: worldTrainerObservations.sourceId,
+        sourceName: worldTrainerObservations.sourceName,
+        serviceName: worldTrainerObservations.serviceName,
+        serviceRank: worldTrainerObservations.serviceRank,
+        serviceType: worldTrainerObservations.serviceType,
+        moneyCost: worldTrainerObservations.moneyCost,
+        requiredLevel: worldTrainerObservations.requiredLevel,
+        requiredSkillLine: worldTrainerObservations.requiredSkillLine,
+        requiredSkillRank: worldTrainerObservations.requiredSkillRank,
+        allFiltersEnabled: worldTrainerObservations.allFiltersEnabled,
+        observedAt: worldTrainerObservations.capturedAt,
+      })
+      .from(worldTrainerObservations)
+      .where(
+        and(
+          eq(worldTrainerObservations.clientProduct, clientProduct),
+          eq(worldTrainerObservations.clientBuild, build.buildNumber),
+          or(
+            eq(worldTrainerObservations.spellId, recipeSpellId),
+            and(
+              isNull(worldTrainerObservations.spellId),
+              eq(worldTrainerObservations.serviceName, recipe.name),
             ),
           ),
-        )
-        .orderBy(desc(worldTrainerObservations.capturedAt))
-        .limit(500),
-    ]);
+        ),
+      )
+      .orderBy(desc(worldTrainerObservations.capturedAt))
+      .limit(500),
+    database
+      .select({
+        sourceId: communityReferenceRelations.sourceId,
+        name: communityReferenceEntities.name,
+        evidence: communityReferenceRelations.evidence,
+        referenceSourceName: externalDataSources.name,
+      })
+      .from(communityReferenceRelations)
+      .innerJoin(
+        communityReferenceSnapshots,
+        eq(communityReferenceSnapshots.id, communityReferenceRelations.snapshotId),
+      )
+      .innerJoin(
+        externalDataSources,
+        eq(externalDataSources.id, communityReferenceSnapshots.sourceId),
+      )
+      .innerJoin(
+        communityReferenceEntities,
+        and(
+          eq(communityReferenceEntities.snapshotId, communityReferenceRelations.snapshotId),
+          eq(communityReferenceEntities.entityKind, "npc"),
+          eq(communityReferenceEntities.entityId, communityReferenceRelations.sourceId),
+        ),
+      )
+      .where(
+        and(
+          eq(communityReferenceSnapshots.buildId, build.id),
+          eq(communityReferenceSnapshots.status, "published"),
+          communitySnapshotFreshnessCondition(),
+          eq(communityReferenceRelations.sourceKind, "npc"),
+          eq(communityReferenceRelations.relationKind, "teaches_spell"),
+          eq(communityReferenceRelations.targetKind, "spell"),
+          eq(communityReferenceRelations.targetId, recipeSpellId),
+        ),
+      )
+      .orderBy(communityReferenceEntities.name)
+      .limit(500),
+  ]);
   const teachingItems = [
     ...new Map(
-      [...catalogTeachingItems, ...communityTeachingItems].map((item) => [item.itemId, item]),
+      [
+        ...communityTeachingItems.map((item) => ({
+          ...item,
+          referenceLabel: `${communityEvidenceSource(item.evidence, item.referenceSourceName)} · ${communityEvidenceMethod(item.evidence)}`,
+        })),
+        ...catalogTeachingItems,
+      ].map((item) => [item.itemId, item]),
     ).values(),
   ];
   const trainers = [...new Map(trainerRows.map((trainer) => [trainer.sourceId, trainer])).values()];
@@ -793,6 +857,20 @@ async function getRecipeDetailUncached(
     inputs,
     outputs,
     teachingItems,
+    referenceTrainers: [
+      ...new Map(
+        referenceTrainerRows
+          .filter((row) => row.name)
+          .map((row) => [
+            row.sourceId,
+            {
+              sourceId: row.sourceId,
+              name: row.name!,
+              referenceLabel: `${communityEvidenceSource(row.evidence, row.referenceSourceName)} · ${communityEvidenceMethod(row.evidence)}`,
+            },
+          ]),
+      ).values(),
+    ],
     trainers,
     productionChain: buildProductionChain(inputs, productionMethods),
   };
@@ -1298,11 +1376,17 @@ export async function getItemDetail(
         targetId: communityReferenceRelations.targetId,
         targetName: communityReferenceEntities.name,
         sourceRevision: communityReferenceSnapshots.sourceRevision,
+        referenceSourceName: externalDataSources.name,
+        evidence: communityReferenceRelations.evidence,
       })
       .from(communityReferenceRelations)
       .innerJoin(
         communityReferenceSnapshots,
         eq(communityReferenceSnapshots.id, communityReferenceRelations.snapshotId),
+      )
+      .innerJoin(
+        externalDataSources,
+        eq(externalDataSources.id, communityReferenceSnapshots.sourceId),
       )
       .leftJoin(
         communityReferenceEntities,
@@ -1316,8 +1400,17 @@ export async function getItemDetail(
         and(
           eq(communityReferenceSnapshots.buildId, build.id),
           eq(communityReferenceSnapshots.status, "published"),
+          communitySnapshotFreshnessCondition(),
           eq(communityReferenceRelations.sourceKind, "item"),
           eq(communityReferenceRelations.sourceId, itemId),
+          inArray(communityReferenceRelations.relationKind, [
+            "sold_by_npc",
+            "dropped_by_npc",
+            "dropped_by_object",
+            "contained_in_item",
+            "rewarded_by_quest",
+            "related_to_quest",
+          ]),
         ),
       )
       .orderBy(communityReferenceRelations.relationKind, communityReferenceEntities.name),
@@ -1362,6 +1455,7 @@ export async function getItemDetail(
     const agreement = assessEvidenceNameAgreement(source.targetName, observedNames);
     return {
       ...source,
+      referenceSourceName: communityEvidenceSource(source.evidence, source.referenceSourceName),
       evidenceStatus: agreement.status,
       observedEvidenceCount: agreement.observedCount,
       conflictingObservedNameCount: agreement.conflictingObservedCount,

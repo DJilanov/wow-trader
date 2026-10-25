@@ -24,6 +24,25 @@ export async function buildRecipeNpcCrawlQueue(options) {
 
   const trainers = new Map();
   const vendors = new Map();
+  const catalogCandidates = new Set();
+  if (options.candidates) {
+    const rows = await readBoundedJson(resolve(options.candidates), 32_000_000, "NPC candidates");
+    if (!Array.isArray(rows) || rows.length > MAX_TASKS)
+      throw new Error("NPC candidates must be a bounded task array");
+    for (const row of rows) {
+      if (
+        !row ||
+        row.game !== "forever" ||
+        row.kind !== "npc" ||
+        !Number.isSafeInteger(row.id) ||
+        row.id <= 0 ||
+        row.id > 2_147_483_647 ||
+        Object.keys(row).some((key) => !["game", "kind", "id"].includes(key))
+      )
+        throw new Error("Invalid Forever NPC candidate task");
+      catalogCandidates.add(row.id);
+    }
+  }
   let trainerSpellLinkCount = 0;
   let vendorItemLinkCount = 0;
   let spellCount = 0;
@@ -76,9 +95,8 @@ export async function buildRecipeNpcCrawlQueue(options) {
     }
   }
 
-  const uniqueIds = [...new Set([...trainers.keys(), ...vendors.keys()])].sort(
-    (left, right) => left - right,
-  );
+  const npcIds = new Set([...trainers.keys(), ...vendors.keys(), ...catalogCandidates]);
+  const uniqueIds = [...npcIds].sort((left, right) => left - right);
   if (uniqueIds.length > MAX_TASKS) throw new Error("Recipe NPC queue exceeds the task budget");
 
   const staged = new Set();
@@ -90,6 +108,7 @@ export async function buildRecipeNpcCrawlQueue(options) {
     if (!match) continue;
     const id = Number(match[1]);
     if (!Number.isSafeInteger(id) || id <= 0) continue;
+    if (!npcIds.has(id)) continue;
     const value = await readBoundedJson(resolve(staging, name), MAX_RECORD_BYTES, name);
     if (!value || typeof value !== "object" || !Array.isArray(value.relations)) continue;
     staged.add(id);
@@ -109,6 +128,7 @@ export async function buildRecipeNpcCrawlQueue(options) {
       staging,
       spellCount,
       itemCount,
+      ...(options.candidates ? { candidates: resolve(options.candidates) } : {}),
     },
     summary: {
       trainerNpcCount: trainers.size,
@@ -123,6 +143,7 @@ export async function buildRecipeNpcCrawlQueue(options) {
       stagedWithSells,
       stagedWithNeither,
       queueTaskCount: tasks.length,
+      ...(options.candidates ? { catalogCandidateCount: catalogCandidates.size } : {}),
     },
     trainers: [...trainers.values()].sort((left, right) => left.id - right.id),
     vendors: [...vendors.values()].sort((left, right) => left.id - right.id),
@@ -179,13 +200,14 @@ function parseArguments(argv) {
   const queue = values.get("queue");
   if (!staging || !queue) {
     throw new Error(
-      "Usage: recipe-npc-crawl-queue.mjs --staging <directory> --queue <npc queue> [--report <plan report>]",
+      "Usage: recipe-npc-crawl-queue.mjs --staging <directory> --queue <npc queue> [--report <plan report>] [--candidates <catalog NPC queue>]",
     );
   }
   return {
     staging,
     queue,
     report: values.get("report") ?? `${queue}.report.json`,
+    candidates: values.get("candidates") ?? process.env.NPC_CANDIDATE_QUEUE,
   };
 }
 

@@ -204,7 +204,9 @@ export async function CatalogRecipePage({
             </div>
             <div className="panel">
               <h2>How it is learned</h2>
-              {recipe.teachingItems.length || recipe.trainers.length ? (
+              {recipe.teachingItems.length ||
+              recipe.trainers.length ||
+              recipe.referenceTrainers.length ? (
                 <>
                   {recipe.teachingItems.length ? (
                     <ul className="link-list" aria-label="Teaching items">
@@ -222,11 +224,32 @@ export async function CatalogRecipePage({
                             />
                             {item.name}
                           </Link>
-                          <span>Teaching item {item.itemId}</span>
+                          <span>
+                            {item.referenceLabel ?? `Client teaching item ${item.itemId}`}
+                          </span>
                         </li>
                       ))}
                     </ul>
                   ) : null}
+                  {recipe.referenceTrainers.length ? (
+                    <>
+                      <h3>Trainer references</h3>
+                      <ul className="link-list" aria-label="Referenced trainers">
+                        {recipe.referenceTrainers.map((trainer) => (
+                          <li key={trainer.sourceId}>
+                            <Link href={`${config.encyclopediaBasePath}/npcs/${trainer.sourceId}`}>
+                              {trainer.name}
+                            </Link>
+                            <span>{trainer.referenceLabel}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : null}
+                  <p className="inline-empty">
+                    External teaching references and name matches do not guarantee current realm
+                    availability. Live trainer observations are listed separately.
+                  </p>
                   {recipe.trainers.length ? (
                     <ul className="link-list" aria-label="Observed trainers">
                       {recipe.trainers.map((trainer) => (
