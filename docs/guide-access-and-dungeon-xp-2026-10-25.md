@@ -2,8 +2,9 @@
 
 ## Delivery State
 
-Implemented locally. This document is not a production activation, completed OAuth sign-in,
-Revolut payment acceptance or in-game addon certification receipt. No live payment has been created.
+Deployed as a single-account private production preview on October 25. General downloads and
+payments remain disabled. This is not a completed user OAuth sign-in, Revolut payment acceptance
+or in-game addon certification receipt. No live payment has been created.
 The existing public web planner and chapter reader remain free. Only the packaged addon ZIP and
 RestedXP paste-import documents are access-controlled; free web content is intentionally readable
 and this is not DRM against someone authoring their own addon from public instructions.
@@ -46,8 +47,10 @@ before running the migration tool; do not replay older cleanup migrations. The w
 needs SELECT on this table, INSERT only for `discord_id`/`environment`, and UPDATE only for
 `provider_order_id`/`checkout_url`/`state`; approval/revocation columns remain writable only through
 the protected staff database role.
-Do not put owner database credentials in the web environment. No production migration has been run
-as part of this implementation.
+Do not put owner database credentials in the web environment. Migration 0020 was applied separately
+after confirming production had completed 0019, and its hash was recorded in the existing Drizzle
+journal. The web role's allowed checkout writes, denied approval/revocation/delete permissions and
+rollback of a verification-only order were checked against production PostgreSQL. No test order remains.
 
 Keep both `LEVELING_GUIDE_DOWNLOADS_ENABLED` and `GUIDE_SUPPORT_PAYMENTS_ENABLED` off until the
 actual guide package/client acceptance is complete. The previous confirmed review target remains
@@ -150,7 +153,9 @@ facts stay unknown; coefficient arithmetic does not certify that an unplayed que
 ## Verification
 
 The complete leveling suite passed 552 tests; the focused access, payment, export, reward-adapter
-and XP-presentation checks passed 43 tests. Database/leveling/web typechecks, targeted lint and the
+and XP-presentation checks passed 38 tests on the isolated Linux production candidate. Six additional
+profession-evidence/reference checks and 28 profession-script tests also passed. Database/leveling/web
+typechecks, targeted lint and the
 isolated optimized Next build passed. A full source-archive compiler check passed all 28 supported
 leader editions and 56 same-edition/independent-starter pairings with the new defaults. This is not
 the full 784-pair matrix or an in-game playthrough.
@@ -166,7 +171,37 @@ Local preview: `http://127.0.0.1:19440/tools/forever/leveling/access`. Its sessi
 in memory, existing OAuth credentials are passed only to the loopback process, and payments are
 disabled. Register the corresponding loopback callback for a real local Discord account test.
 The preview uses the separately identified archived world snapshot, not a claim of current live
-client compatibility. The production PostgreSQL migration, real OAuth callback and sandbox/real
-card payment remain unverified; local PostgreSQL was unavailable. No deployment, commit or push
-has been performed for this change.
+client compatibility. The actual user OAuth callback and sandbox/real card payment remain unverified;
+neither anonymous browser checks nor a bot role lookup substitute for the owner's real sign-in.
 The companion KFC privacy-page regression test and targeted lint also passed.
+
+## Production Preview Receipt
+
+Helper code commits `23d1146` (already-live profession source support) and `7f973eb` (guide access and
+XP packages) were pushed. Release `kfc-helper-guide-preview-20261025-r1` is active under the existing
+PM2 web process. KFC privacy commit `37461a3` was pushed and deployed separately as
+`.next-release-guide-privacy-20261025`. Existing local PostgreSQL and PM2 are unchanged; no Docker.
+
+The private allowlist contains only the owner's account. The production bot lookup confirmed its
+identity and KFC Certified role. Both global download and payment flags remain zero. The additional
+OAuth redirect was confirmed saved by the owner before activation.
+
+Live access check: `https://kfcguild.online/tools/forever/leveling/access`
+
+Selected-route download preview:
+`https://kfcguild.online/tools/forever/leveling/routes/alliance-human?plan=premade&class=warrior`
+
+The production Playwright run passed eight checks at 1440, 390 and 320 pixels: anonymous ZIP/document
+denial, cross-origin denial, disabled checkout, noindex access page, real PKCE/state OAuth handoff,
+Gnomeregan's eight default quests, privacy disclosure and preservation of client build 70532.
+No browser errors or failed script/style/font/image requests remained. Header images are additionally
+checked for successful decoding after visual review caught and corrected a nested public-asset copy.
+When preparing standalone output, merge `apps/web/public/` into its runtime `public/` directory using
+trailing-slash rsync, rather than nesting another public directory inside an existing traced one.
+
+Static delivery verified 59,223 files and 3,180 compression variants. The frozen simulator selection
+SHA-256 remained `5e626e26a40117b3a28819f6e67451dc55e83a56841a23ac58efcea5b7be94cd`; ingest,
+reference publication and official-update workers were not restarted. Active and previous rollback
+releases remain available. Restricted activation/migration receipts are in
+`/home/wow-trader-system/shared/operations/guide-download-20261025/`; browser evidence is in
+`artifacts/guide-download-release-20261025/browser/`. Neither location is committed or public.
