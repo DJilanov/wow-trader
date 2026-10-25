@@ -106,7 +106,7 @@ Order lists are private operational data and must not be posted publicly.
 
 ## Dungeon XP Policy
 
-### Dungeon-first finish (local implementation, not yet deployed)
+### Dungeon-first finish
 
 The premade campaign now defaults to one dungeon/gear circuit after its sourced first BRD visit,
 instead of mandatory late outdoor chapters. The former sequence remains available as **Mixed quest
@@ -127,8 +127,8 @@ to finish leveling. No fixed run count, unmeasured XP or completion by ticking i
 Personal gear targets are validated against the published Forever item endpoint; dungeon assignment
 and priority remain manual, not verified drop/BiS claims. Runs and targets stay in browser saves and
 backups, not analytics or download selections. RestedXP exports contain the selected route strategy,
-explicit circuit instructions and a real level-60 checkpoint. Compiler revision is now v25 locally;
-the previous deployment receipt above remains v24. Full source-archive compilation and stock-loader
+explicit circuit instructions and a real level-60 checkpoint. Compiler revision is now v25;
+the preceding XP-baseline deployment remains v24. Full source-archive compilation and stock-loader
 checks do not replace in-game acceptance.
 
 The owner confirmed Gnomeregan is the highest dungeon actually completed. Higher-level dungeon
@@ -262,3 +262,37 @@ payments were preserved.
 Restricted deployment and calculation receipts:
 `/home/wow-trader-system/shared/operations/xp-baseline-fix-20261025/`.
 Local visual evidence: `artifacts/xp-baseline-fix-20261025/browser/`.
+
+## Dungeon-Finish Release Receipt
+
+Commit `29360a0` was pushed and deployed as `kfc-helper-dungeon-finish-20261025-r1` on October 25.
+The isolated candidate was copied from the active XP-baseline source and received only this commit's
+patch. All 27 changed runtime/test source files matched the committed SHA-256 manifest. Unrelated
+simulator work was excluded. The prior source and static delivery remain available for rollback.
+
+Linux verification passed 571 leveling tests, 188 focused web tests, leveling lint/typecheck and
+the optimized web build. Production inputs compiled both native exports: 43 dungeon-first chapters
+and 47 mixed-route chapters, with no missing forecast endpoints before the measured circuit.
+Every listed circuit quest ID has a reward-reference record; the two announced dungeons still have
+no invented quest IDs. Source/reward references remain build 70205, separately from the public item
+catalog's 70532. Neither is a new in-game acceptance receipt.
+
+Public Playwright verification passed at 1440, 390 and 320 pixels, covering separate player XP,
+quest-XP subtraction, failed/cancelled lookups, an actual published item lookup, keyboard tabs,
+saved-state persistence, mixed-route switching, the actual level-60 gate and undo without XP loss.
+Six additional checks preserved anonymous download denial, origin protection, disabled payments,
+PKCE/state handoff, access-page layout and Gnomeregan's default eight-quest package. Legacy and
+mixed chapter URLs returned 200. Screenshots were visually reviewed; no browser errors or failed
+asset requests remained. Unavailable legacy item IDs remain rejected, not replaced with invented data.
+
+Static delivery verified 59,241 files and 3,204 compression variants. The simulator selection hash
+and other managed-process PIDs remained unchanged. Global downloads and payments remain disabled;
+the single-account certified-role download preview is unchanged. No Docker, migration or worker
+restart was introduced. At least 8 GiB free storage remained after verification.
+
+Live circuit:
+`https://kfcguild.online/tools/forever/leveling/routes/alliance-human/chapters/premade-finish-leveling?plan=premade&class=warrior&finish=dungeons`
+
+Restricted deployment receipts:
+`/home/wow-trader-system/shared/operations/dungeon-finish-20261025/`.
+Local browser evidence: `artifacts/dungeon-finish-release-20261025/`.
