@@ -178,8 +178,8 @@ The companion KFC privacy-page regression test and targeted lint also passed.
 ## Production Preview Receipt
 
 Helper code commits `23d1146` (already-live profession source support) and `7f973eb` (guide access and
-XP packages) were pushed. Release `kfc-helper-guide-preview-20261025-r1` is active under the existing
-PM2 web process. KFC privacy commit `37461a3` was pushed and deployed separately as
+XP packages) were pushed. Release `kfc-helper-guide-preview-20261025-r1` was activated under the existing
+PM2 web process; the later XP correction is recorded below. KFC privacy commit `37461a3` was pushed and deployed separately as
 `.next-release-guide-privacy-20261025`. Existing local PostgreSQL and PM2 are unchanged; no Docker.
 
 The private allowlist contains only the owner's account. The production bot lookup confirmed its
@@ -205,3 +205,35 @@ reference publication and official-update workers were not restarted. Active and
 releases remain available. Restricted activation/migration receipts are in
 `/home/wow-trader-system/shared/operations/guide-download-20261025/`; browser evidence is in
 `artifacts/guide-download-release-20261025/browser/`. Neither location is committed or public.
+
+## XP Baseline Correction
+
+Commit `a6d951a` fixes the supplemental baseline lookup used by `resolveQuestReward`. Power Stones
+(2418) already had an available historical reward of 3,500 XP, but its raw baseline was absent from
+the journal-only lookup. At a level-43 hand-in, the resolver therefore missed the 2.375 coefficient
+and overlevel reduction, returned an unknown reward, and stopped forecasts for 16 later sections.
+The shared lookup now recognizes the existing supplemental baseline. It does not alter source
+captures, invent missing rewards, boost already-scaled values, bypass pickup gates, or overwrite
+observations. No new crawl or database migration was needed.
+
+Release `kfc-helper-xp-baseline-20261025-r1` is now active. Its source is the preceding production
+release with only the four files in `a6d951a` overlaid; unrelated simulator changes were not deployed.
+The previous guide-preview release and its static delivery remain available for rollback.
+One older unused release was removed without archiving after checking managed processes, running
+working directories, external symlinks and server configuration for references.
+
+The isolated Linux candidate passed 554 leveling tests, 21 presentation tests, leveling typecheck
+and the optimized production build. Current production inputs resolved all 47 Human/Warrior sections
+and all 42 dungeon-stop/difficulty configurations, including the configured planning bundles. This
+is not an in-game XP measurement or a test of every race/class/party configuration.
+
+After activation, six Playwright route/reader checks passed at 1440, 390 and 320 pixels, including
+numeric finishes in every chapter and screenshots of Uldaman and Blackrock Depths. The eight guide
+access/layout checks also passed again. There were no browser errors or failed asset requests.
+Static delivery verified 59,227 files and 3,182 compression variants. The simulator selection hash
+remained unchanged, as did other managed-process PIDs. Download preview restrictions and disabled
+payments were preserved.
+
+Restricted deployment and calculation receipts:
+`/home/wow-trader-system/shared/operations/xp-baseline-fix-20261025/`.
+Local visual evidence: `artifacts/xp-baseline-fix-20261025/browser/`.
