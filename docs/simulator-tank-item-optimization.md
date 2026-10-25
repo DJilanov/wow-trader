@@ -86,6 +86,20 @@ does not establish availability. They remain explicitly excluded pending verifie
 acquisition and current-stat admission; older Classic values are not substituted.
 The similarly named SoD sets are not silently mixed into set 189.
 
+October 23 follow-up: the [Warrior full-raid investigation](simulator-warrior-full-raid-update.md#heroism-recovery-prepared-on-october-23)
+has now established Forever database reward relations for all eight base Heroism
+pieces, corroborated by Blizzard's announced dungeon-set questline. Current
+70532 stats, correct set-511 effects and a catalog extension are prepared and
+regression-tested. They are not yet admitted or simulated. The deployed tank
+results above remain results for their original catalog, which excluded Heroism;
+they do not prove that the upgraded set loses. A new model and affected tank
+comparisons are required before making that claim.
+
+The wider [dungeon-upgrade coverage audit](simulator-dungeon-set-catalog-audit.md)
+also finds Feralheart and Soulforge absent from the optimized tank deployment
+snapshot, along with the other six classes' base upgrade sets. Their availability,
+current effects and amended-model comparisons remain separate unfinished work.
+
 ## Reproduction
 
 ```sh

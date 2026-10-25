@@ -104,6 +104,7 @@ describe("production reviewed simulator builds", () => {
         talents: "31/20/0",
         scenario: "Synthetic unit-only single-target scenario.",
         instruction: "Synthetic unit-only priority introduction.",
+        prepull: ["Synthetic unit-only pre-pull action."],
         priorities: ["Synthetic first priority.", "Synthetic second priority."],
         caveats: ["Transport fixture only, never a simulated recommendation."],
       },
@@ -125,6 +126,7 @@ describe("production reviewed simulator builds", () => {
     for (const rotationGuidance of [
       { ...guide, priorities: [] },
       { ...guide, instruction: "" },
+      { ...guide, prepull: [""] },
       { ...guide, unreviewed: true },
     ]) {
       expect(() =>

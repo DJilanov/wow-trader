@@ -5,6 +5,14 @@ import { z } from "zod";
 import type { SimulatorManifest } from "@wow-trader/forever-data/simulator";
 import { readSimulatorManifest } from "./forever-simulator";
 import {
+  readFullRaidHunterProfile,
+  validateFullRaidHunterPublication,
+} from "./forever-simulator-full-raid-hunter-profile";
+import {
+  readFullRaidRogueProfile,
+  validateFullRaidRoguePublication,
+} from "./forever-simulator-full-raid-rogue-profile";
+import {
   frostModelEntrySchema,
   frostModelEvidenceReferenceSchema,
   readFreshFrostSimulatorBuild,
@@ -116,6 +124,7 @@ const selectionSchema = z
         warlock: z.unknown().optional(),
         feral_druid: z.unknown().optional(),
         hunter: z.unknown().optional(),
+        rogue: z.unknown().optional(),
         shadow_priest: z.unknown().optional(),
         smite_priest: z.unknown().optional(),
         elemental_shaman: z.unknown().optional(),
@@ -561,6 +570,12 @@ export async function validateSimulatorProfileModelBuilds(
   }[],
   directory: string,
 ): Promise<boolean> {
+  if (profile === "rogue") return validateFullRaidRoguePublication(manifest, builds, directory);
+  if (
+    profile === "hunter" &&
+    (await validateFullRaidHunterPublication(manifest, builds, directory))
+  )
+    return true;
   if (
     profile !== "mage" &&
     profile !== "balance_druid" &&
@@ -618,6 +633,11 @@ export async function readSimulatorProfileModelUpdate(
   profile: string,
   directory: string,
 ): Promise<{ readonly manifest: SimulatorManifest; readonly sourceRelease: string } | null> {
+  if (profile === "rogue") return readFullRaidRogueProfile(directory);
+  if (profile === "hunter") {
+    const current = await readFullRaidHunterProfile(directory);
+    if (current) return current;
+  }
   // Validate only the requested pointer so another class's unavailable update stays isolated.
   if (
     profile !== "mage" &&

@@ -10,7 +10,7 @@ import console from "node:console";
 import { armsRotationCandidates, armsRotationForTalents } from "../infra/simulator/arms-policy.mjs";
 import { createNativeRunners } from "../infra/simulator/native-runner.mjs";
 import { referenceTalentSeeds } from "../infra/simulator/reference-builds.mjs";
-import { createSimulationCache, simulationHash } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache, simulationHash } from "../infra/simulator/retained-simulation-cache.mjs";
 import { summarizeTalents, talentsFromFields } from "../infra/simulator/talent-search.mjs";
 
 assert.equal(process.argv.length, 2, "The Arms control probe accepts no arguments");

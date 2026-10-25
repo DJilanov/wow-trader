@@ -7,7 +7,7 @@ import { parseArgs } from "node:util";
 import { pathToFileURL } from "node:url";
 import console from "node:console";
 import { openNativeRunners } from "../infra/simulator/native-runner.mjs";
-import { createSimulationCache } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache } from "../infra/simulator/retained-simulation-cache.mjs";
 import { tankThreatBreakdown } from "../infra/simulator/tank-threat-breakdown.mjs";
 
 const root = resolve(import.meta.dirname, ".."),

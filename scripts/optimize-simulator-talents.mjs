@@ -16,7 +16,7 @@ import {
 import { assertCompletedTalentEvidence } from "../infra/simulator/talent-evidence.mjs";
 import { prebisEnchantPolicy, describePrebisGear } from "../infra/simulator/prebis-enchants.mjs";
 import { referenceTalentSeeds } from "../infra/simulator/reference-builds.mjs";
-import { createSimulationCache } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache } from "../infra/simulator/retained-simulation-cache.mjs";
 import { statisticallyBetter } from "../infra/simulator/prebis-pool.mjs";
 import {
   independentValidationSeeds,

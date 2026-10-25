@@ -16,6 +16,10 @@ test("alerts on low space or measured growth, excluding long gaps and tiny inter
   assert.equal(storageAlert(previous, { time: 300_001, freeBytes: 38 * gib }).alert, false);
   assert.equal(storageAlert(previous, { time: 86_400_001, freeBytes: 25 * gib }).alert, false);
   assert.equal(storageAlert(null, { time: 1, freeBytes: 19 * gib }).alert, true);
+  assert.equal(
+    storageAlert(null, { time: 1, freeBytes: 50 * gib, retentionHookMissing: true }).alert,
+    true,
+  );
 });
 test("defers destructive scheduled work for producers but allows the monitor itself", () => {
   assert.equal(
@@ -24,4 +28,16 @@ test("defers destructive scheduled work for producers but allows the monitor its
   );
   assert.equal(developmentBusy("node /path/pnpm.cjs --filter web build"), true);
   assert.equal(developmentBusy("node scripts/storage-monitor.mjs\nWindowServer"), false);
+});
+
+test("preview servers do not prevent cleanup of unrelated inactive outputs", () => {
+  for (const command of [
+    "node /bin/pnpm --filter @wow-trader/web exec next start --port 3187",
+    "node /bin/pnpm exec next dev --webpack --port 3018",
+    "node /path/next/dist/bin/next dev --port 3021",
+  ])
+    assert.equal(developmentBusy(command), false);
+  assert.equal(developmentBusy("node /bin/pnpm exec next build"), true);
+  assert.equal(developmentBusy("node /bin/pnpm --filter web build"), true);
+  assert.equal(developmentBusy("node /bin/pnpm exec next dev\nnode /bin/pnpm install"), true);
 });

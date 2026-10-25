@@ -1,0 +1,242 @@
+{
+  "source": {
+    "report": {
+      "path": "artifacts/forever-simulator/optimization/healer-model-admission-v1/druid-healing-workload-v1/7d814ebb34dce69dbed2d692c5110b033ef77b64c24a7bcc00803db467f10d3d/build-CQMUKg/transport-review-4N22ke/report.json",
+      "byteSha256": "7c18ff738e811980133ea8a487f17722175ff82b5e42d0d768b4dc29ecfad136"
+    },
+    "results": {
+      "path": "artifacts/forever-simulator/optimization/healer-model-admission-v1/druid-healing-workload-v1/7d814ebb34dce69dbed2d692c5110b033ef77b64c24a7bcc00803db467f10d3d/build-CQMUKg/transport-review-4N22ke/results.json",
+      "byteSha256": "915f0fbd9247536e1edd2fe3142337722e9eb64fc64ad494efdfe5e178ad12c7"
+    }
+  },
+  "request": {
+    "schema": "kfc-druid-healing-job.v1",
+    "id": "druid-tank-control",
+    "requestBase64": "Cp4DCpkDCpYDCiBTeW50aGV0aWMgRHJ1aWQgd29ya2xvYWQgY29udHJvbBAEIAEqADrjAgrgAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIjDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEB/QAAAAAAAAAAAAAAAAAAAAADAAzy6AQIaADAEEjEJAAAAAAAAPkAyJhIiU3ludGhldGljIGluY29taW5nIGRhbWFnZSBzY2hlZHVsZRg/GgoIAhDnsQQoAVAB",
+    "workload": {
+      "schema": "kfc-druid-healing-workload.v1",
+      "name": "druid-workload-control",
+      "targets": [
+        {
+          "raidIndex": 0,
+          "maximumHealth": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "raidIndex": 1,
+          "maximumHealth": 18000,
+          "x": 2,
+          "y": 0
+        },
+        {
+          "raidIndex": 2,
+          "maximumHealth": 10000,
+          "x": 4,
+          "y": 0
+        },
+        {
+          "raidIndex": 3,
+          "maximumHealth": 10000,
+          "x": 6,
+          "y": 0
+        },
+        {
+          "raidIndex": 4,
+          "maximumHealth": 10000,
+          "x": 8,
+          "y": 0
+        }
+      ],
+      "damage": [
+        {
+          "atMs": 1000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 2000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 3000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 4000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 5000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 6000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 7000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 8000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 9000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 10000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 11000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 12000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 13000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 14000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 15000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 16000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 17000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 18000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 19000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 20000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 21000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 22000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 23000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 24000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 25000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 26000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 27000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 28000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 29000,
+          "raidIndex": 1,
+          "amount": 100
+        }
+      ],
+      "priorities": [
+        {
+          "spellId": 9889,
+          "raidIndex": 1,
+          "minimumMissingHealth": 500,
+          "keepHot": false
+        }
+      ],
+      "decisionIntervalMs": 50,
+      "healingPolicy": {
+        "WildGrowthDecay": 0.1,
+        "SwiftmendSelection": "shortest"
+      },
+      "innervateRequireHealingDemand": false,
+      "useNaturesSwiftness": false,
+      "naturesSwiftnessMinimumMissingHealth": 0
+    },
+    "detail": false
+  },
+  "reply": {
+    "schema": "kfc-druid-healing-job-result.v1",
+    "id": "druid-tank-control",
+    "status": "complete",
+    "result": {
+      "schema": "kfc-druid-healing-workload-result.v1",
+      "name": "druid-workload-control",
+      "iterations": 2,
+      "survivalRate": 1,
+      "manaRemainingMean": 10816.5,
+      "missingHealthSecondsMean": 11100,
+      "finalMissingHealthMean": 500,
+      "manaBlockedSecondsMean": 0,
+      "plannedIncomingPostMitigationDamage": 2900,
+      "deliveredIncomingDamageMean": 2900,
+      "classQualified": false,
+      "publicationAllowed": false,
+      "hps": 80,
+      "hpsStdev": 0,
+      "rawHps": 251.9517198867216,
+      "effectiveHealingHps": 80,
+      "overhealingHps": 171.9517198867216,
+      "absorbedHps": 0
+    }
+  }
+}

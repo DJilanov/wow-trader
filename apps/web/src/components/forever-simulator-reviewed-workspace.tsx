@@ -186,6 +186,21 @@ export function ForeverSimulatorReviewedWorkspace({
               {selected.rotationGuidance.instruction ? (
                 <p>{rotationGuidanceText(selected.rotationGuidance.instruction)}</p>
               ) : null}
+              {selected.rotationGuidance.prepull?.length ? (
+                <>
+                  <p>
+                    <strong>Before the pull</strong>
+                  </p>
+                  <ul>
+                    {selected.rotationGuidance.prepull.map((action) => (
+                      <li key={action}>{rotationGuidanceText(action)}</li>
+                    ))}
+                  </ul>
+                  <p>
+                    <strong>During combat</strong>
+                  </p>
+                </>
+              ) : null}
               <ol>
                 {selected.rotationGuidance.priorities.map((priority) => (
                   <li key={priority}>{rotationGuidanceText(priority)}</li>

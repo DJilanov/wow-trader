@@ -8,6 +8,7 @@ import { getSimulatorClass } from "../../../lib/forever-simulator-directory";
 import { readSimulatorManifest } from "../../../lib/forever-simulator";
 import { createHelperMetadata } from "../../../lib/seo";
 import { withHelperBasePath } from "../../../lib/site-path";
+import { isHealerSimulatorAvailable } from "../../../lib/healer-simulator";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = createHelperMetadata({
@@ -29,6 +30,10 @@ export default async function ForeverSimulatorPage({
     typeof query.class === "string" ? query.class : undefined,
   );
   const manifest = await readSimulatorManifest();
+  const [healingPriestReady, healingDruidReady] = await Promise.all([
+    isHealerSimulatorAvailable(),
+    isHealerSimulatorAvailable("healing-druid"),
+  ]);
   return (
     <article className="forever-reference-page simulator-directory">
       <header className="forever-reference-hero">
@@ -41,7 +46,11 @@ export default async function ForeverSimulatorPage({
           Your character. Your next upgrade. Find the gear, talents and rotation that work together.
         </p>
       </header>
-      <ForeverSimulatorClassSelector selectedClass={selectedClass?.slug ?? null} />
+      <ForeverSimulatorClassSelector
+        selectedClass={selectedClass?.slug ?? null}
+        healingPriestReady={healingPriestReady}
+        healingDruidReady={healingDruidReady}
+      />
       <ForeverDpsRankingLinks />
       <ForeverTankRankingLinks />
       {process.env.NODE_ENV === "development" ? (
@@ -83,6 +92,24 @@ export default async function ForeverSimulatorPage({
                 <span aria-hidden="true">→</span>
               </Link>
             ))}
+            {selectedClass.name === "Priest" && healingPriestReady ? (
+              <Link href="/forever/simulator/healing-priest">
+                <span>
+                  <strong>Healing</strong>
+                  <small>Holy, Discipline and hybrids · Healing, absorbs & mana</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
+            {selectedClass.name === "Druid" && healingDruidReady ? (
+              <Link href="/forever/simulator/healing-druid">
+                <span>
+                  <strong>Restoration</strong>
+                  <small>Wild Growth, Splendor and Nature’s Grace · Healing & mana</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
           </div>
         </section>
       ) : null}
@@ -100,8 +127,8 @@ export default async function ForeverSimulatorPage({
         <summary>Forever beta · Data and model coverage</summary>
         <p>
           Supported does not mean every beta mechanic is confirmed. Tank profiles have provisional
-          incoming-damage and resource assumptions; healing-only engines are not implemented
-          upstream.
+          incoming-damage and resource assumptions. Healing profiles use separately reviewed engines
+          and explicit healing assignments.
         </p>
         {manifest ? (
           <p>

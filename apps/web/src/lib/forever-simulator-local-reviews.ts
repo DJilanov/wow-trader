@@ -100,6 +100,7 @@ export interface LocalSimulatorBuildReview {
     readonly talents: string;
     readonly scenario: string;
     readonly instruction?: string;
+    readonly prepull?: readonly string[];
     readonly priorities: readonly string[];
     readonly caveats: readonly string[];
   };

@@ -45,6 +45,66 @@ export async function safeStoragePath(root, candidate) {
   return true;
 }
 
+/** Next rewrites its process title and loses its environment display. Inspect
+ * the still-running launcher as well; only the build-directory setting is used.
+ */
+export async function activePreviewDirectories(run = execute) {
+  const { stdout } = await run("/bin/ps", ["-axo", "pid=,ppid=,command="], {
+    timeout: 15_000,
+    maxBuffer: 8 * 1024 ** 2,
+  });
+  const processes = new Map();
+  for (const line of stdout.split("\n")) {
+    const match = /^\s*(\d+)\s+(\d+)\s+(.+)$/.exec(line);
+    if (match) processes.set(Number(match[1]), { parent: Number(match[2]), command: match[3] });
+  }
+  const directories = [];
+  for (const [server, info] of processes) {
+    if (!/^next-server\b/.test(info.command)) continue;
+    let cwd;
+    try {
+      const result = await run("/usr/sbin/lsof", ["-a", "-p", String(server), "-d", "cwd", "-Fn"], {
+        timeout: 15_000,
+      });
+      cwd = result.stdout
+        .split("\n")
+        .find((line) => line.startsWith("n/"))
+        ?.slice(1);
+    } catch (error) {
+      if (error.code === 1 && !error.stdout && !error.stderr) continue;
+      throw error;
+    }
+    if (!cwd) throw new Error(`Cannot identify the active preview directory for PID ${server}`);
+    let pid = server;
+    let configured;
+    for (let depth = 0; depth < 6; depth++) {
+      const ancestor = processes.get(pid);
+      if (
+        !ancestor ||
+        !/(?:^|[ /])(?:node|pnpm|npm|yarn|next-server)(?:\s|$)/.test(ancestor.command)
+      )
+        break;
+      try {
+        const result = await run("/bin/ps", ["eww", "-p", String(pid), "-o", "command="], {
+          timeout: 15_000,
+          maxBuffer: 1024 ** 2,
+        });
+        configured = /(?:^|\s)WOW_TRADER_BUILD_DIR=(.*?)(?=\s[A-Za-z_][A-Za-z0-9_]*=|$)/.exec(
+          result.stdout.trim(),
+        )?.[1];
+        if (configured && !/^\.next[-_.a-zA-Z0-9]*$/.test(configured)) configured = undefined;
+      } catch (error) {
+        if (error.code !== 1) throw error;
+      }
+      if (configured) break;
+      pid = ancestor.parent;
+    }
+    // Unknown configuration protects this app's whole directory conservatively.
+    directories.push(configured ? resolve(cwd, configured) : cwd);
+  }
+  return [...new Set(directories)];
+}
+
 export async function storageActivity() {
   const { stdout } = await execute("/usr/sbin/lsof", ["-nP", "-Fpn"], {
     maxBuffer: 64 * 1024 ** 2,
@@ -53,7 +113,13 @@ export async function storageActivity() {
   const paths = new Set();
   for (const line of stdout.split("\n"))
     if (line.startsWith("n/")) paths.add(line.slice(1).replace(/ \(deleted\)$/, ""));
-  return (path) => [...paths].some((open) => open === path || open.startsWith(path + "/"));
+  const previews = await activePreviewDirectories();
+  return (path) =>
+    [...paths].some((open) => open === path || open.startsWith(path + "/")) ||
+    previews.some(
+      (preview) =>
+        path === preview || path.startsWith(preview + "/") || preview.startsWith(path + "/"),
+    );
 }
 
 async function allocatedBytes(path) {
@@ -366,11 +432,9 @@ export async function maintainStorage({
           }
         }
       }
-      const simulation = join(
-        repository,
-        "artifacts/forever-simulator/optimization/simulation-cache",
-      );
-      if (await safeStoragePath(repository, simulation)) {
+      for (const suffix of ["simulation-cache", "tank-item-search-v1/cache"]) {
+        const simulation = join(repository, "artifacts/forever-simulator/optimization", suffix);
+        if (!(await safeStoragePath(repository, simulation))) continue;
         if (activePath(simulation))
           results.push({ skipped: "simulation files open", removedBytes: 0 });
         else results.push(await pruneSimulationCache(simulation, { dryRun, now, intervalMs: 0 }));

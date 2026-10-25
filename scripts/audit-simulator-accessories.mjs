@@ -15,7 +15,7 @@ import { reviewPrebisFeedback } from "../infra/simulator/prebis-feedback.mjs";
 import { prebisSources } from "../infra/simulator/prebis-pool.mjs";
 import { hasCurrentPrebisCoverage } from "../infra/simulator/prebis-search-coverage.mjs";
 import { describePrebisGear, prebisEnchantPolicy } from "../infra/simulator/prebis-enchants.mjs";
-import { createSimulationCache, simulationHash } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache, simulationHash } from "../infra/simulator/retained-simulation-cache.mjs";
 import {
   independentValidationSeeds,
   assertIndependentSeedRanges,

@@ -9,7 +9,7 @@ import { resolvedWarriorPolicies } from "../infra/simulator/warrior-policies.mjs
 import { reviewedWarriorRotation } from "../infra/simulator/fury-rotation-audit.mjs";
 import { createNativeRunners } from "../infra/simulator/native-runner.mjs";
 import { runIndependentValidation } from "../infra/simulator/validation-runner.mjs";
-import { createSimulationCache, simulationHash } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache, simulationHash } from "../infra/simulator/retained-simulation-cache.mjs";
 import { statisticallyBetter } from "../infra/simulator/prebis-pool.mjs";
 import { describePrebisGear, prebisEnchantPolicy } from "../infra/simulator/prebis-enchants.mjs";
 import { captureSimulatorRequest } from "../infra/simulator/browser-capture.mjs";

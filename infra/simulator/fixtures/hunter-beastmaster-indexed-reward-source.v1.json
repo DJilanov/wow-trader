@@ -1,0 +1,62 @@
+{
+  "schema": "kfc-hunter-beastmaster-indexed-reward-review.v1",
+  "retrievedOn": "2026-10-24",
+  "sourceKind": "indexed-primary-page-extract",
+  "sourceFlavor": "Forever",
+  "directDocumentFetchVerified": false,
+  "itemAssociationReport": {
+    "path": "artifacts/forever-simulator/optimization/catalog-audits/upgrade-rewards-78ef7ae62d2d2318.json",
+    "byteSha256": "78ef7ae62d2d23187814bdda3061e89e01d79ab9f96fe62884bce15bf81d2fb9"
+  },
+  "quests": [
+    {
+      "questId": 8906,
+      "url": "https://www.wowhead.com/forever/quest=8906/an-earnest-proposition",
+      "faction": "Alliance",
+      "rewardHeading": "You will receive:",
+      "rewardItems": [{ "itemId": 22011, "name": "Beastmaster's Bindings" }],
+      "displayedAsChoice": false
+    },
+    {
+      "questId": 8914,
+      "url": "https://www.wowhead.com/forever/quest=8914/an-earnest-proposition",
+      "faction": "Horde",
+      "rewardHeading": "You will receive:",
+      "rewardItems": [{ "itemId": 22011, "name": "Beastmaster's Bindings" }],
+      "displayedAsChoice": false
+    },
+    {
+      "questId": 8931,
+      "url": "https://www.wowhead.com/forever/quest=8931/just-compensation",
+      "faction": "Alliance",
+      "rewardHeading": "You will receive:",
+      "rewardItems": [
+        { "itemId": 22010, "name": "Beastmaster's Belt" },
+        { "itemId": 22015, "name": "Beastmaster's Gloves" }
+      ],
+      "displayedAsChoice": false
+    },
+    {
+      "questId": 8938,
+      "url": "https://www.wowhead.com/forever/quest=8938/just-compensation",
+      "faction": "Horde",
+      "rewardHeading": "You will receive:",
+      "rewardItems": [
+        { "itemId": 22010, "name": "Beastmaster's Belt" },
+        { "itemId": 22015, "name": "Beastmaster's Gloves" }
+      ],
+      "displayedAsChoice": false
+    }
+  ],
+  "limits": [
+    "Facts from cached primary-page reward sections; no full page body is preserved here.",
+    "Direct document requests still return a JavaScript challenge or cache miss.",
+    "Item identities are cross-checked against the separate baked item/quest association report.",
+    "No quantities are inferred from omitted quantity labels.",
+    "No current server reward, class/faction availability or proc behavior was observed.",
+    "The original frozen Hunter source and earlier failed fetch records remain unchanged."
+  ],
+  "catalogAdmissionAllowed": false,
+  "numericalAdmissionAllowed": false,
+  "publicationAllowed": false
+}

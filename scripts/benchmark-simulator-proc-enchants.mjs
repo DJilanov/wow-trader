@@ -4,7 +4,7 @@ import { resolve, join } from "node:path";
 import process from "node:process";
 import console from "node:console";
 import { createNativeRunners } from "../infra/simulator/native-runner.mjs";
-import { createSimulationCache, simulationHash } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache, simulationHash } from "../infra/simulator/retained-simulation-cache.mjs";
 import { defaultEnchantFits } from "../infra/simulator/default-enchants.mjs";
 import { prebisEnchantProblem } from "../infra/simulator/enchant-acquisition.mjs";
 import { statisticallyBetter } from "../infra/simulator/prebis-pool.mjs";

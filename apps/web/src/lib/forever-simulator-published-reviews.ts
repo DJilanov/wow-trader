@@ -7,6 +7,8 @@ import type { LocalSimulatorBuildReview } from "./forever-simulator-local-review
 import type { SimulatorPresentation } from "./forever-simulator-presentation";
 import { simulatorDirectory } from "./forever-simulator";
 import { validateSimulatorModelUpdateBuilds } from "./forever-simulator-model-updates";
+import { validateFullRaidRoguePublishedRows } from "./forever-simulator-full-raid-rogue-profile";
+import { validateFullRaidHunterPublishedRows } from "./forever-simulator-full-raid-hunter-profile";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const release = z.string().regex(/^[a-f0-9]{24}$/);
@@ -16,6 +18,7 @@ const rotationGuidance = z
     talents: z.string().min(1).max(100),
     scenario: z.string().min(1).max(4000),
     instruction: z.string().min(1).max(12000).optional(),
+    prepull: z.array(z.string().min(1).max(4000)).max(16).optional(),
     priorities: z.array(z.string().min(1).max(4000)).min(1).max(32),
     caveats: z.array(z.string().min(1).max(4000)).max(20),
   })
@@ -135,10 +138,11 @@ function toLocalBuildReview(entry: PublishedSimulatorBuild): LocalSimulatorBuild
   const named =
     entry.displayName === undefined ? review : { ...review, displayName: entry.displayName };
   if (entry.rotationGuidance === undefined) return named;
-  const { instruction, ...guidance } = entry.rotationGuidance;
+  const { instruction, prepull, ...guidance } = entry.rotationGuidance;
+  const withPrepull = prepull === undefined ? guidance : { ...guidance, prepull };
   return {
     ...named,
-    rotationGuidance: instruction === undefined ? guidance : { ...guidance, instruction },
+    rotationGuidance: instruction === undefined ? withPrepull : { ...withPrepull, instruction },
   };
 }
 
@@ -172,6 +176,10 @@ export async function readPublishedSimulatorReviews(
       value.builds,
       directory,
     );
+    if (profile === "rogue")
+      await validateFullRaidRoguePublishedRows(presentation.manifest, value.builds, directory);
+    if (profile === "hunter")
+      await validateFullRaidHunterPublishedRows(presentation.manifest, value.builds, directory);
     createPublishedSimulatorProfile(presentation, profile, builds);
     return builds;
   } catch (error: unknown) {

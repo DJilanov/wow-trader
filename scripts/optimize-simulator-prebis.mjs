@@ -22,7 +22,7 @@ import {
 } from "../infra/simulator/prebis-enchants.mjs";
 import { createNativeRunners } from "../infra/simulator/native-runner.mjs";
 import { runIndependentValidation } from "../infra/simulator/validation-runner.mjs";
-import { createSimulationCache } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache } from "../infra/simulator/retained-simulation-cache.mjs";
 import {
   independentValidationSeeds,
   validationSeedPolicy,

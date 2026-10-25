@@ -24,6 +24,22 @@
       "types": "./dist/simulator.d.ts",
       "import": "./dist/simulator.js"
     },
+    "./healing-simulator": {
+      "types": "./dist/healing-simulator.d.ts",
+      "import": "./dist/healing-simulator.js"
+    },
+    "./druid-healing-simulator": {
+      "types": "./dist/druid-healing-simulator.d.ts",
+      "import": "./dist/druid-healing-simulator.js"
+    },
+    "./paladin-healing-simulator": {
+      "types": "./dist/paladin-healing-simulator.d.ts",
+      "import": "./dist/paladin-healing-simulator.js"
+    },
+    "./healer-workspace": {
+      "types": "./dist/healer-workspace.d.ts",
+      "import": "./dist/healer-workspace.js"
+    },
     "./mechanics": {
       "types": "./dist/mechanics.d.ts",
       "import": "./dist/mechanics.js"
@@ -37,7 +53,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/public.ts src/server.ts src/simulator.ts src/mechanics.ts src/talent-sync.ts src/updates.ts src/updates-server.ts src/updates-cli.ts src/cli.ts --format esm --dts --sourcemap --clean",
+    "build": "tsup src/public.ts src/server.ts src/simulator.ts src/healing-simulator.ts src/druid-healing-simulator.ts src/paladin-healing-simulator.ts src/healer-workspace.ts src/mechanics.ts src/talent-sync.ts src/updates.ts src/updates-server.ts src/updates-cli.ts src/cli.ts --format esm --dts --sourcemap --clean",
     "dev": "tsx src/cli.ts",
     "lint": "eslint src",
     "test": "vitest run",

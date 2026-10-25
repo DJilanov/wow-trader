@@ -1,6 +1,5701 @@
 # WoW Trader project context
 
-Last updated: 2026-10-23
+Last updated: 2026-10-25
+
+## October 25, 06:32 UTC — Riptide and full-build gate verified; Paladin confirmation terminal
+
+The previous status turn was a VERIFIED WAIT:actual Paladin queue/child/workers
+were confirmed live. This turn is PROGRESS:two Shaman engine components and an
+independent Paladin confirmation-origin audit completed. The original all-class,
+tank,healer and dungeon-upgrade scope remains ACTIVE. No commit,push,deploy,
+3017 restart,cleanup,clock reset or budget extension. Never access the protected
+infra/simulator/simulation-cache.mjs. Successful numerical models/helpers remain
+frozen; use derived versions. Preserve the concurrent Druid/Priest session's work.
+
+PALADIN NOW TERMINAL:queue session62883 reaped exit0;PID17989 and child89008 are
+missing from ps. Workers91361/91362/91363/91367/91368/91372 are stale handles;
+do not signal or restart them. Independent repair confirmation completed13968
+new requests and2208 exact reuses. Report:
+.../paladin-scenario-repair-confirmation-v1/ff783312545ec3dd20c62a0e79fac25f4059ae12a5a49c4737e342c951eb74e1/report.json,
+SHAde3cc8de1233d293067eb6bb277162b1cbcb23c5b0a8ce89a67800456108ce01.
+195/384 repaired cases pass observed2% and strict survival;189 fail with one
+observed death per1024-fight selected plan. No class qualification/publication.
+The progress.json file retains complete:false;the completed immutable report,
+reaped session and missing actual handles are authoritative for terminal state.
+
+PALADIN ORIGIN AUDIT COMPLETE:
+.../paladin-scenario-confirmation-origin-audit-v1/audit-2dE6Ih/report.json,
+SHA2e46a0e1a20c52a9a5d1a23bd0e595f514046d3f4f6db4908e897b932bf3c2d0.
+14,403 pins and allthree whole journal hashes verified. Recomputed every paired
+comparison,checked training-only selected identities,disjoint seeds,complete
+failure-mask coverage and four corrupted-input controls.2640 unchanged passing
+cases retain original confirmation origin;384 repaired cases retain new origin.
+2835/3024 pass observed2% and survive;189 remain explicit failures. Original
+and repaired confirmation have different sample counts;do not relabel them.
+Failures:direct/group54,Vigil-mobility/group60,Vigil-mobility/tank6,
+Vigil-support/group54,Vigil-support/tank15. Every failure has at least3 surviving
+retained alternatives,which must NOT be chosen from validation. No retry or new
+selection was dispatched. Original deadline remains2026-10-25T23:58:06.787Z.
+Next Paladin action is causal failure review before deciding a bounded correction;
+longer/spread/profile effects,library/guidance/UI/transport still remain.
+
+SHAMAN RIPTIDE COMPONENT COMPLETE/FROZEN:
+.../shaman-riptide-v1/eb11e4b5b52c787bf6cf002da6ec5d7e2c4f3677cfa55d580f2265fac45f9de2/build-IHnTax/report.json,
+FINAL final-review-r681oa/report.json,
+SHAa92721054dcd82e6a0026641bc7da3d8a3c13ef6e5877bbde92777e6224d9416.
+42 native/Chromium controls,96 groups,ten owned compiled mutants and one DPS
+guard mutant;six actual unchanged Elemental/Enhancement pairs. All208 parent
+inputs/349 groups preserved.679 compiler files:674 preserved,two owned class
+integration boundaries,three additions.3ranks,shared6sec CD,5ticks,direct/periodic
+coefficients andtalentchannels once,refresh/rank/reset,casterownership,caps,
+range/death,NSexclusion andactualWaterShieldperiodiccrit scope are controlled.
+Policies snapshot/dynamic,critical/noncritical,fixed/hasted5ticks,primary/all
+Chainbonus andconsume/retain remain explicit unverified server references.
+Chain bonus samples initial own active HoT at landing. Owner-death HoTcontinues
+reference;deadrecipientsneverresurrect. External dispel events outside scope.
+Public shaman-riptide.mjs/.go/_test.go/.test.mjs and snapshothelper frozen.
+Fixture shaman-riptide-parent-source.v1.json.gz,
+SHA4aeff5d45768df09782a6f29d6c2553a960d6eab318b6fc669d85db5a08b839e.
+First two failed native attempts preserved:a copied metric counter and an
+overfilled party in tests. Final controls use fresh counters/legal five players.
+
+SHAMAN FULL-BUILD TALENT COMPONENT COMPLETE/FROZEN:
+.../shaman-full-build-v2/d7a6ab12b2df2e56e35989d4e7bb6b5919f103b36a44f2a434b2e57aafacc2e1/build-1mxUOn/report.json,
+FINAL final-review-vWyhYh/report.json,
+SHA064747861b3b70fbcf8c3e0ddead81a9e2fd32dc5efef1ab65d98c3dde6f8d2d.
+46 native/Chromium controls,102 groups,six gate mutants plus one DPSguardmutant,
+six unchanged actual DPSpairs. All221 parentinputs/376 groups preserved.
+681 compilerfiles:678preserved,one factory integration,two additions. All50
+positions,51points,lower-tier spending,fullprereqs and15healing/10scopedutility/
+25outsidefields bound to source. Three fulllegal seeds actually cast. Utility
+or51plus-point factory inputs require level60/fullgate before proto conversion.
+Partial owned component fixtures remain separate:future full workload MUST call
+exported ValidateKFCShamanHealingStudyTalents explicitly. Utility effects are
+outside stationary post-mitigation external-demand objective; inheritedoffensive
+dispatch remains unused. No fullclass/item/set/workload/numerical admission.
+V1 fc6e1bb.../build-Uocbys remains frozen. V2 preserves all681 compilerfiles byte
+for byte,and derives a JSintegration guard because the source regression found
+double application could duplicate factorychecks. Both original helper and
+builder remain unchanged. Latest helper shaman-healing-full-build.v2.mjs wraps
+the frozen shaman-healing-full-build.mjs;Go/tests remain unchanged. Publicfixture
+shaman-full-build-parent-source.v1.json.gz,
+SHA341470693aaa60dd7300d4bcd09664e19ceed6e4fe0477c72c16c16d8d234ad6.
+
+SAFE CHECKS:this turn49 focused ShamanJScontracts passed;explicit five-source
+ESLint/Prettier andfiveGo-sourcegofmt passed. Full simulator package compiles;
+each derivative reran178 Paladin/one Priest controls. No protectedhelper imports.
+Component build/browser/mutant/DPS/final sessions all terminalexit0;the old
+failed controls remain preserved. See mechanics/healerplan/fixes for details.
+
+NEXT SHAMAN:source-bound item/set/effect admission,HealingWay/Purification stacking
+sensitivity,complete external-demand workload/accounting/transport,full51point
+requestgate,feedback andreal local library/UI/guidance. Numerical clock unstarted.
+No active Shaman numericalworker. Other unfinished DPS/tank scopes remain.
+
+## October 25, 05:55 UTC — Paladin repair training complete; fresh confirmation live
+
+Queue session62883/PID17989 is live. Training child32680 and workers35440–35445
+are terminal; their successful report is
+.../paladin-scenario-repair-training-v1/1b2af4ceb593bf3beb8323ce5f37c5e6fa839e21928e7fa84f19f24527440165/report.json,
+SHA417f499bbe337420c8104b70e49bc71ad0a38af52a1235ebb0d86377b9189f8a.
+6984 new requests,1104 exact reuses;all384 cases have surviving1024-fight training
+winners and210 recommendations change. These are training results,not a pass.
+
+LIVE INDEPENDENT CONFIRMATION:child89008 ofqueue17989 confirmed via ps.
+Workers91361,91362,91363,91367,91368,91372 are confirmed live under89008.
+.../paladin-scenario-repair-confirmation-v1/ff783312545ec3dd20c62a0e79fac25f4059ae12a5a49c4737e342c951eb74e1/.
+Four fresh256-fight batches,seeds23456789/25620317/27962033/30103417,compare the
+fixed replacements with every original retained alternative. Keep this process
+and frozen sources. The original deadline remains2026-10-25T23:58:06.787Z.
+No publication,validation-time reselection,clock extension or new Shaman numerical
+window. Full goal remains ACTIVE. Shaman's new resource-component receipt and
+next Riptide/full-class work are below. Disk21GiB available; no cleanup.
+
+## October 25, 05:54 UTC — Druid statistics derivative verified; Virtuous reference prepared
+
+Previous goal turn was PROGRESS because observed Feral completion changed the
+next action. This turn is PROGRESS: a complete Druid statistics derivative and
+the isolated Virtuous payload were built and verified. The original all-class,
+tank,healer and72-piece scope remains ACTIVE. No commit,push,deploy,cleanup,
+3017 restart,clock reset,budget extension or protected-helper access.
+
+DRUID TERMINAL:session31669 reaped exit1; owner0198e4bf failed the strict finite
+metric gate after Feral completed stable. Feral studyd65d2043... has13,932 native
+jobs /2,703,620 iterations and its unchanged branch receipt. All242 Balance
+initial controls match DPS,but state control003 has Eclipse48518 uptime NaN on
+both backends. Read-only audit611438134e143947 authenticates all488 controls /
+976 captures and reproduces the exact cancellation from25 identical samples
+298.514851486:legacy variance -8.731149137020111e-11. Do not project this into a
+passing result or rerun the stopped ordinary command against changed inputs.
+
+DRUID NEW MODEL COMPLETE/UNSELECTED:
+optimization/druid-statistics-model-v1/context.json,
+release57ac00a190de1da00d51b72d,context content SHA
+3f57e1b3a981d60588b0578e099a47163b93ff54206d28054dc5677d2eba61dc.
+All2703 items,22 pages,codecs and gameplay sources are preserved. Only utils,
+concurrent merging and new stable-moments production source change.164 native
+regression outcomes pass,including both exact Eclipse cases and inherited sets.
+Independent source/asset validation:
+druid-dungeon-upgrade-v1/statistics-model-validation-baacbb07bf8bf29b.json,
+byteSHA2bff9c0d8c181d384bbf4b1f60892feec95fafff6bbd0fc1987ff4663a729a2d,
+5507 pins. Actual Chromium/WASM9 statistical cases also pass,zero page errors:
+druid-statistics-model-v1/browser-statistics-controls/verify-QikBbe/report.json,
+byteSHA69d901450bac727541a26f259f152d932335009b8649f50d6d04c3c4a4d424f9,
+5510 pins. Sessions26713,53228,36229 terminal exit0. Native binary4452a711...,
+WASM6150a369... . Strict finite gate unchanged; no combat qualification/publication.
+
+NEXT DRUID:implement/test a model-bound corrective owner plus compatible controls,
+gear/feedback/confirmation readers. Bind the actual new release,remeasure under
+the unchanged October25 23:25:34.014Z deadline,and retain all old identities.
+No corrective owner has been dispatched; the single correction remains unused.
+Never reuse numerical scores across the changed binary/model. The old gear and
+Feral results stay valid only for their original model. Matching qualified
+exports,UI,profile/library/guidance and desktop/mobile checks still remain.
+
+PRIEST VIRTUOUS PREPARATION COMPLETE/UNADMITTED:
+source4fb5b5f056a0e163;prepared2ea9752ae7c637fa preserves2680 items and proposes8
+base514 additions. Raw wear mask-1 is separate from conditional Priest acquisition.
+Current shield27779 is488 capacity,zero coefficient,30sec,2%,60sec ICD;family6 /
+mask1 and incoming-event mapping still require admission. Renderer/API require
+explicit family and event policies; no set dispatch or active catalog write.
+Current native V2:reference-controls/verify-1IGiCc/report.json,
+byteSHA603a1fd643f9dcd12bbab2fde9e4dc0f94f2cec12ccdd19ab75309c5ba4fc68e,
+22 outcomes/684 pins. Browser V2:reference-browser-controls/verify-DRleum/report.json,
+byteSHA65a2b53ea5d68b9c83f80ef8ec85997d4416d3d3423420dbb02a773247edda66,
+22 outcomes/1312 pins,zero page errors;both count93 procs/5000 isolated chances.
+620 parent compiler files unchanged plus2 additions. Sessions79827/77342 exit0.
+V1 receipts ma9lvE/YHhRPF remain frozen; V2 only formats runner lookup and binds
+fresh receipts. Initial preflight and late-aura setup failures are preserved.
+Source/review/drafts/capture/preparer plus new reference renderer/Go/tests are
+under infra/simulator and private review-tools; see the new Virtuous recovery doc.
+Full event/family/reward admission,dispatch,model and numerical comparisons remain.
+Priest's expired October24 20:33:53.864Z window was NOT reopened.
+
+Verification:12 source/renderer/statistics Node contracts plus4 asset contracts
+pass;164 Druid native,9 Druid WASM,22 Priest native/22 Priest WASM checks pass.
+All15 active JS sources pass explicit ESLint/Prettier/bundle checks; three Go
+sources passgofmt. The new graphs reject the protected helper before loading it.
+Docs/fixes/full-raid plan updated. Preserve concurrent Paladin/Shaman work below.
+
+## October 25, 05:50 UTC — Resource actives verified; Paladin targeted training live
+
+Previous goal turn was PROGRESS; this turn is PROGRESS. The full all-class/healer
+goal remains ACTIVE. No commit/push/deploy,3017 restart,cleanup or budget extension.
+Never access the protected infra/simulator/simulation-cache.mjs. All successful
+models/helpers and active numerical sources remain frozen; derive new versions.
+
+PALADIN ORIGINAL CONFIRMATION COMPLETE:session40592 reaped exit0;supervisor41412
+and workers45373–45378 are terminal. Do not signal these old PIDs. Report:
+.../paladin-scenario-confirmation-v1/92642fdccfea51851c35f331425fe147da1677eadd76f76d8e3426c8974339c6/report.json,
+SHAbb75125e91a06545d38bf1e27c5a15e7b22e86cc27add7636d8ca8050db08878.
+98320 new requests,16940 exact reuses;3024 cases,2640 pass observed2%,2652
+survive.384 failed cases retain their complete evidence. No class qualification.
+
+PALADIN REPAIR LIVE:queue session62883,PID17989;training child32680,workers
+35440–35445 confirmed live via ps. Phase:
+.../paladin-scenario-repair-training-v1/1b2af4ceb593bf3beb8323ce5f37c5e6fa839e21928e7fa84f19f24527440165/.
+All384 failed cases preflight in27 acquisition/assignment groups. At05:48UTC,
+289 cases complete,133 choices change,and all training winners survive both fresh
+512-fight batches. No final confirmation yet. The queue will launch the fixed
+four-by256 fresh confirmation only after successful training,under the same
+original2026-10-25T23:58:06.787Z deadline. Keep current source/handles; no duplicate.
+If user requests stop,signal the live queue; it forwards termination to its
+current child. Check actual current child via ps/session before any direct signal.
+
+SHAMAN RESOURCE ACTIVE COMPONENT COMPLETE/FROZEN:
+.../shaman-resource-actives-v1/a791d1fdfb16f6bac738851b1e031c1afd9be6335bb0eb303304cd4d60a532aa/build-A8Y3CM/report.json
+FINAL final-review-lM4Iz4/report.json,
+SHA42a1d8e4668978656b91df4d193497624476fdcb0af0ef0121febf880c70ea96.
+29 native/Chromium controls,69 groups,9 compiled behavioral mutants and six
+unchanged actual Elemental/Enhancement pairs.676 compiler files:670 preserved,
+3 runtime integration boundaries,one migrated ownership-guard file,2 additions.
+198 exact parent controls remain;one old now-obsolete NS-rejection input is
+replaced by an equally strict unsupported ElementalFury input. The source
+replacement is byte-verified,and327 parent measurement groups are preserved.
+Do not describe this as all199 parent input controls unchanged. All179 non-Shaman
+parent controls retain measurements/catalog/global handlers. Full class admission,
+numerical qualification and publication remain false; Shaman clock unstarted.
+
+WaterShield:three charges,3.5sec ICD,2% maximum mana capped by actual missing mana;
+full-mana crit still spends charge;recast refreshes charges without resetting ICD;
+LightningShield replacement and iteration reset pass. Mandatory policy selects
+current0/legacy15sec recovery and class-direct/all-direct/all-critical-heal
+references. Semantic periodicity is checked even when a common legacy periodic
+helper dispatches a direct callback. Caster incoming-damage/offensive proc events
+remain outside the healing-only component. Existing DPS behavior is preserved.
+
+Nature'sSwiftness:one sourced eligible basic heal becomes instant,keeps its GCD
+and ordinary cost,and consumes only a successful heal. Totems/shields/invalid
+targets do not consume it. Activation/consumption CD-start references are tested.
+The source mask admits18 basic heals and excludes Riptide;21 class heal IDs are
+retained including the future Riptide ranks,with raid-book25357 still excluded.
+All50 talent-position maxima are validated before proto bool conversion; this
+prevents invalid encoded9-point booleans. It is still partial component talent
+control,not full51-point/tier/prerequisite engine admission.
+
+First source preflight used an evidence reference as if it were the talent domain;
+corrected before model construction. Build1bcd02.../build-1qzNOI then failed the
+core's zero-duration timer registration guard. Failed Go source is archived as
+review-tools/source-archives/shaman-resource-actives-116334a9...go. The successful
+handler retains the core guard:registration uses the actual legacy15sec reference,
+and mandatory fresh policy setup assigns0 or15 BEFORE any cast is enabled. No
+global guard or legacy handler is weakened. Native current/legacy behavior passes.
+
+New public sources:shaman-healing-resource-actives.mjs/.go/.test.mjs/_test.go.
+Fixture shaman-resource-parent-source.v1.json.gz,
+SHAcfabaee0e261eaeb221a35a6641a3c29fe4154631f0c7b8b963a4846fdd33485.
+All41 focused Shaman JS tests,ESLint,Prettier andgofmt pass. Build57833,browser88242,
+DPS68411,mutants58445 andfinal45173 are reaped exit0. Successful scripts under
+review-tools/prepare-shaman-resource-actives-v1.mjs and related resource reviewers
+are frozen. Prior water/passive/basic receipts below remain immutable.
+
+NEXT SHAMAN:Riptide (direct/HoT growth,shared6sec rank cooldown,refresh,periodic
+critical/snapshot references and25% ChainHeal bonus/consumption references),then
+full51-point engine gating,stacking sensitivity,item/set effects,external-demand
+accounting,transport,feedback and local library/UI/guidance. Riptide's source
+requires full HealingWay;NS does not affect its mask. TidalFocus/Purification/
+TidalMastery must apply to the correct direct/periodic channels without duplicate
+Purification. Remaining Paladin longer/spread/profile effects/delivery and original
+unfinished DPS/tanks remain. A source inspection rejected a speculative triage
+explanation:group damage excludes the healer and uses four equal10000-health
+targets. Preserve the bounded repair,do not invent a new targeting bug.
+
+## October 25, 05:25 UTC — Water-totem component verified; Paladin repair pipeline queued
+
+Previous turn was PROGRESS; this turn is PROGRESS. The full all-class/healer goal
+remains ACTIVE. No commit/push/deploy,3017 restart,cleanup or budget extension.
+Never access infra/simulator/simulation-cache.mjs. All successful models and
+active numerical sources remain frozen; preserve unrelated worktree changes.
+
+PALADIN LIVE:session40592,supervisor41412,workers45373–45378 confirmed live.
+.../paladin-scenario-confirmation-v1/92642fdccfea51851c35f331425fe147da1677eadd76f76d8e3426c8974339c6/.
+At05:24UTC2688/3024 cases are complete;2322 pass observed2%,2328 survive. Group
+survival failures and six feasible cases outside2% remain explicit. Do not publish
+this as a qualified class. Let the same fixed matrix finish; do not restart it.
+
+AUTOMATIC FOLLOW-UP QUEUED:session62883,PID17989 confirmed live. Source:
+review-tools/queue-paladin-scenario-repair-v1.mjs. It waits for this exact original
+owner's succeeded budget record and completed report,then launches two phases:
+1.repair-paladin-scenario-bank-v1.mjs,hash342fab285d81774c692d4ef91800546fd1f8d2ee11fbfc8992ad42481f60c589;
+2.confirm-paladin-scenario-repair-v1.mjs,hashbdb51a45804ac1820e8345df1512d8c98e0d3ac5a28d48f7ce783a2e81bb3b71.
+Keep these sources unchanged. No duplicate queue/run. It forwards termination to
+the current child and respects the original2026-10-25T23:58:06.787Z deadline.
+To stop at the user's request,stop the queue and active original confirmation if
+still live; after launch,the queue forwards to its repair/confirmation child.
+
+The repair uses prior validation ONLY to identify failed cases. Every alternative
+comes from the original recovered training bank,not validation rankings. Two fresh
+512-fight training batches,seeds19848517/21474829,select feasible plans before
+missing health/mana. The fixed replacements then receive four fresh256-fight
+batches,seeds23456789/25620317/27962033/30103417. Same assignments,pressure,full
+survival and2% criteria. No repeated full-catalog search or deep timing. Passing
+unchanged cases retain their exact original confirmation origins; do not relabel
+them as new executions. A failed phase stops the pipeline; no unbounded retries.
+Both drivers and queue pass node --check; actual phases remain queued at snapshot.
+
+SHAMAN WATER COMPONENT COMPLETE/FROZEN:
+.../shaman-healing-water-v2/ff2c749760dd5ef011bc2aca99448e76a9bd89c3e0900e090aa616f536c6b82d/build-F3en9J/report.json
+FINAL final-review-HGnAPC/report.json,
+SHA1af4d35b1868c6dfedcd72f651ef9662c069f4f5ec577f991694593648c852df.
+20 native/Chromium controls,47 groups,9 compiled behavioral mutants and four
+unchanged native Elemental/Enhancement control pairs. All190 parent controls/
+305 parent groups preserved.674 compiler files:667 unchanged,3 controlled
+integration files,4 additions. All673 V1 runtime/compiler bytes are preserved;
+V2 adds only the stronger lifecycle test. Native/WASM/full sim compile passed.
+Sessions26564,68454,12915,31235,74499,10551 reaped exit0.
+
+Class-owned five HealingStream/four ManaTide ranks now have exact costs,coeffs,
+flat mana,levels,range,cadence,durations and shared5min CD. The CD is tested AFTER
+GCD and at300sec. Same-rank refresh invalidates old pulses AND old expiry. Water
+replacement,owner/recipient death,party/raid boundaries,caps and resets pass.
+TotemicFocus reduces summon costs; Restorative applies to the Stream pulse.
+Current Purification masks EXCLUDE both water pulses. The inherited DPS handlers
+retain their previous behavior through a default-false class flag; four actual
+before/after controls prove the declared isolation. The new helper calculates
+periodic healing with true periodic callbacks without editing the common legacy
+helper's callback behavior. First-pulse,party/raid scope,base-only/base-and-power
+scaling and noncritical pulses remain explicit unverified server references.
+Full51-point/active/item/set admission and numerical qualification remain false;
+Shaman's numerical clock is still unstarted.
+
+V1 successful build4e5ca166.../build-UldeZC is frozen. The first attempts8c4d80.../
+build-T3OOHK and599880.../build-Bhlcg7 failed due to test setup:late aura registration
+and including synthetic5000 mana spending in the totem cost assertion. Their
+logs/workspaces and exact test-source archivesa80d5392.../87607bb3... remain.
+V2 preserves V1 sources and adds lifecycle controls rather than editing them.
+
+New public sources:shaman-healing-water-source.mjs/.test.mjs,shaman-healing-water.go/
+_test.go,shaman-healing-water-lifecycle_test.go andshaman-healing-periodic.go.
+Actual parent integration fixture shaman-water-parent-source.v1.json.gz,
+SHA9cc5be86360ff77b9c4f0dc39fa693a878d55880da44372cdb19a251158ae27d.
+All37 focused Shaman source/talent/renderer tests,ESLint,Prettier andgofmt pass.
+
+NEXT SHAMAN:Riptide,WaterShield andNature'sSwiftness;full51-point engine gating,
+stacking sensitivity,item/set effects,external-demand accounting and transport,
+then bounded numerical feedback and website delivery. New evidence:the inherited
+WaterShield handler still imposes15sec CD,but current70532 source has0 recovery.
+Keep the DPS parent frozen; derive the healer-owned correction and explicit
+compatibility/sensitivity controls. Longer/spread Paladin assignments,30-profile
+effects,local delivery and all original unfinished DPS/tanks remain. Disk24GiB.
+
+## October 25, 04:58 UTC — Scenario confirmation live; Shaman passive component verified
+
+Previous goal turn was PROGRESS; this turn is PROGRESS. The complete original
+all-class/healer goal remains ACTIVE. No commit/push/deploy,3017 restart,cleanup,
+budget extension or protected-helper access. Preserve all successful sources.
+
+PALADIN LIVE:session40592,supervisor41412,workers45373–45378 confirmed alive via
+ps. Source review-tools/confirm-paladin-scenario-bank-v1.mjs is frozen. Run:
+.../paladin-scenario-confirmation-v1/92642fdccfea51851c35f331425fe147da1677eadd76f76d8e3426c8974339c6/.
+All3024 cases preflight.28815 retained-plan references receive four fresh64-fight
+batches,seeds10957397,12415133,13965341,15485863. No validation-time reselection.
+At04:58UTC,588 cases are complete,509 pass observed2% and survive;79 fail survival.
+These are failures,not qualified presets. The complete matrix must finish before
+targeted correction. Keep the same running handle; do not start a duplicate.
+The original deadline remains2026-10-25T23:58:06.787Z.
+
+NEXT PALADIN REPAIR AFTER COMPLETION:the shorter64-fight training missed rare
+group-load deaths. Failures currently concern direct/group Tailoring profiles.
+Example recovered plan42e4d7... uses HolyLight1042 at400 missing health; retained
+planb35e42... has the same gear/talents but1200 missing-health cutoff and survives
+the inspected fresh batches. This is diagnostic evidence,not permission to select
+b35e42 from validation. Re-train affected cases against ALL existing retained
+training plans using separately declared fresh higher-count training seeds,then
+freeze choices and obtain fresh disjoint confirmation again. Preserve failed
+records and all assignments; do not lower pressure or weaken full-survival/2%
+criteria simply to pass. No repeated full-catalog search is needed. Remaining
+longer/spread assignments,30-profile effects and website delivery stay in scope.
+
+NEW SHAMAN PASSIVE COMPONENT, COMPLETE/FROZEN:
+.../shaman-healing-passives-v1/8e3a6abf960d7bced4828bb218a463167d23a54cca8532ccca554f9a914bf8ce/build-l8OixF/report.json
+FINAL final-review-5TyeHt/report.json,
+SHA872198ffba7a9462e2746221afbe4e693a55d889a8c02c802175d09121f3b73f.
+Buildsession10461,browser2015,mutations99986,final68919 reaped exit0.
+11 native/Chromium controls,25 groups,6 compiled behavioral mutants pass.
+All185 parent native controls/290 parent groups preserved.670 compiler files,
+667 unchanged,one controlled Restoration factory integration and2 new files.
+Catalog/global handlers unchanged. Nine admitted passive fields cover cast/cost/
+crit/direct-healing/stat/regen channels;MentalQuickness applies unified power
+once,without orphan-curve bonus. HealingWay/Purification same-operation stacking
+is explicitly additive-reference,not verified server behavior. This is partial
+component talent control,not full51-point engine admission. Totem/active/item/set
+handlers remain unadmitted; Shaman numerical clock is still unstarted.
+
+New public sources:shaman-healing-passives.go/.mjs/_test.go/.test.mjs and
+shaman-healing-talents.mjs/.test.mjs. The latter has full51-point source legality,
+three legal seeds and bounded neighbors,not optimized defaults. Riptide's actual
+prerequisite is FULL HealingWay,not Nature'sSwiftness; the source-bound tests caught
+and corrected the initial test assumption.25 source tests plus8 new talent/
+renderer tests,focused ESLint,Prettier andgofmt pass. Private successful build/
+browser/mutation/final scripts are frozen under review-tools.
+
+Next Shaman work:remaining active and totem handlers,stacking sensitivity,full
+talent-domain engine gating,item/set/accounting/transport,then bounded numerical
+feedback and delivery. The inherited HealingStream/ManaTide defects below remain
+unfixed; do not use those handlers for healer optimization. Disk24GiB free.
+
+## October 25, 04:43 UTC — Complete Paladin scenario bank recovered without new simulations
+
+User asked what remains. Status given: Priest/Restoration Druid have tested local
+presets; Paladin needs fresh independent confirmation and delivery; Shaman needs
+remaining class mechanics, optimization and delivery. The original unfinished
+Warrior/Mage/DPS Druid/Warlock updates, dungeon-set tank comparisons and verified
+16-debuff overflow behavior remain. None of this healer pass is deployed. The
+complete goal remains ACTIVE. No commit/push/deploy,3017 restart,cleanup,budget
+extension or protected-helper access was performed.
+
+NEW RECOVERY RECEIPT, COMPLETE:
+.../paladin-scenario-bank-recovery-v1/recover-mIQVxG/report.json
+SHA9fb007b1c2156e30c253873db75829e5ef28b77675919c8ab7de592b3fec37ac.
+Session38629 reaped exit0. All234667 original journal records authenticate;
+all46246 refined64-fight training measurements reconstruct exact packet/frame
+identity.3024 assignment/profile/scenario cases have surviving training winners;
+268 retained whole plans. The selector keeps best8 plans plus up to5 distinct
+leading gears;588 cases have fewer than5 distinct gears,minimum3. Do not invent
+additional gear contenders or claim the entire catalog is globally optimized.
+Selection uses only the training90bcb... journal,never stopped validationba6e... .
+Same-payload scenario aliases are explicit. No numerical requests were made.
+Fresh independent seeds,then longer/spread assignments and local delivery remain.
+
+New public helper/test:infra/simulator/paladin-healing-plan-recovery.mjs and
+paladin-healing-plan-recovery.test.mjs. Four actual measured requests captured in
+fixtures/paladin-plan-recovery-source.v1.json.gz,
+SHA1b448e8c16b8c75eef5c6f924e3c5d85f09c64e743ceef98135644b570dece25.
+Capture session73230 reaped exit0.11 focused recovery/workload/scenario tests pass;
+ESLint and Prettier pass. Private successful capture/recovery scripts are frozen:
+review-tools/capture-paladin-plan-recovery-v1.mjs and
+review-tools/recover-paladin-scenario-bank-v1.mjs.
+
+Updated fixes.md,healer campaign plan and Shaman mechanics documentation. Shaman
+source/basic receipts below remain current; no new Shaman optimization window.
+Disk read24GiB available during this turn; no cleanup was performed here.
+
+## October 25, 04:29 UTC — Shaman basic engine verified; Paladin selector correction required
+
+Previous goal turn was PROGRESS; this turn is PROGRESS. Full healer/original
+all-class goal remains ACTIVE. No commit/push/deploy,3017 restart,cleanup or budget
+extension. No new website presets/route activation. Never access the protected
+infra/simulator/simulation-cache.mjs helper.
+
+PALADIN PRACTICAL TRAINING COMPLETE:session65761 reaped exit0;
+.../paladin-practical-feedback-v1/90bcb9f5e766d54d62b0cca2ac8e80855d358bfdb4a1f54f48425a92493b04e4/report.json
+SHA46a595b051db150f144cb17ca09e22e1375d7adf1776510e76b1bb67c0b149db.
+234667 new requests,52004 exact reuses,all108 contextual variants survive all28
+cases.72/108 meet the TRAINING minimax2% target;36 do not. Worst training relative
+health-deficit regret is36.06464657%,not a DPS/HPS loss percentage. Group-healing
+alternatives favor conflicting mechanics references. Do not publish this compromise
+as a universally optimized setup or round the smaller2.03% tank gaps into passes.
+
+INDEPENDENT V1 INTENTIONALLY STOPPED to correct that selection model:
+.../paladin-practical-confirmation-v1/ba6eac59f9d91cc5658703cbd3a249818b8f9967f7c7e30b0b49dc73074cb312/.
+Queue-v2 session14403 and PID34026 are terminal exit1; child3444 and its workers
+are terminal. Signal forwarding shut down the stage gracefully and the budget
+records interrupted; paladin.lock is absent.42 whole cases are preserved in
+progress.json,24 pass the observed2% comparisons,and all42 survive all28 cases.
+Partial successful jobs remain in jobs.ndjson. The worker-close error was caused
+by this intentional stop,not a runtime crash. Do not resume/restart this same
+compromise validation. The original deadline remains2026-10-25T23:58:06.787Z.
+
+NEXT PALADIN ACTION:derive scenario-specific recommendations from the completed
+training evidence,then validate those recommendations with fresh disjoint seeds.
+This preserves the same useful-healing/health-deficit objective and evaluates all
+declared mechanics cases; a chosen model should get its own optimized plan rather
+than a poor compromise across conflicting unverified formulas. Use only training
+journal90bcb... to select; do not select from validationba6e... . The V1 source
+only retains12 minimax plans and4 conditional leaders,so recover the complete
+64-fight refined bank from the journal or exact original-code replay. Do not
+repeat the complete all-slot numerical search. All original sources/artifacts
+remain frozen. Independent phase source and paired-statistics helper are frozen.
+
+SHAMAN SOURCES VERIFIED:all50 talent nodes map to fields/tiers/prerequisites,
+11 passive talents/16 effects/17 absolute curves;one orphan MentalQuickness curve
+is preserved without a bonus. Active source includes3Riptide,WaterShield,NS,
+5HealingStream and4ManaTide ranks.33 candidate actions;32 conditional pre-raid
+actions at60 with owned talents,excluding AQ HealingWaveX25357/Tablet21291.
+25 focused source tests and2 baseline-renderer tests pass,plus focused lint/format.
+The new source command is pnpm simulator:healers:shaman:source:test.
+
+Source receipts:
+.../shaman-talents-passives-source-v1/f769626af49af58c8c0c6964c2931730ae9ff08c08660e509acdd4ab77a8b7bb/report.json,
+SHA08734f74e496c6dee7b7f8052bb91c14a1fb4916830b2a590c13f2b897d584bc.
+.../shaman-active-eligibility-source-v1/e2eb7f075b61d5c9e61bde7878200de0c67129ed594c99229c56b3cb3cf2ba89/report.json,
+SHA4427287c77c8e2461ebe3719eb78ccd9fae8482796b6dfa1a53ca758ea2add21.
+Fixture shaman-healing-talents-source.v1.json.gz SHA
+f06edc8c502a76a731493c11adabfef36c6941060248092a5d94263c5a68a1b7.
+
+SHAMAN BASIC COMPONENT COMPLETE,FROZEN:
+.../shaman-basic-healing-v1/1abc8936080bfebc2f4781707cb5220bdb925891cb410dd0921f8c773e1e1b3b/build-dmswLE/report.json
+FINAL final-review-IoSCje/report.json,
+SHA4e461b484046e8b96b0f7e69dd327e85e5e6dfc00f62bb20a868ff8eeba763a4.
+6 native/Chromium controls,10 groups and4 compiled behavioral mutants pass;
+179 parent native controls/280 groups preserved. Registry integration and whole
+sim package compile. Exactly18 basic pre-raid ranks;source costs/casts/coefficients,
+range40,health caps,crit1.5,chain3distinct recipients and scaled base+power once
+are controlled. Geometry is cloned/player-only. Chain routing10/12.5/15yards,
+nearest-injured/largest-deficit are explicit unverified references. This is a
+zero-talent component; full class admission,optimization and publication remain
+false. shaman.json does not exist; its optimization clock has NOT started.
+Sessions76734,15686,48369 and20649 reaped exit0. The first prototype8990 failed
+to compile due to a nonexistent MissingHealth helper; its workspace is preserved.
+The corrected source uses MaxHealth-CurrentHealth; no successful model was edited.
+
+IMPORTANT NEXT SHAMAN MECHANICS:the inherited parent HealingStream formula is
+base*purificationHealingModifier()+restorativeTotemsModifier(),where the helpers
+return.02*rank and.1*rank. It therefore zeroes base healing at zero Purification
+and adds the Restorative value as a flat amount. Parent ManaTide arrays have only
+3 IDs and omit1325256 while shifting cost/amount/level references. These inherited
+totem handlers are outside admission and need class-scoped correction before full
+healer use. Do not change frozen live DPS/Paladin sources. Active spells,passives,
+item/set effects,full51-point gating,feedback and website delivery remain.
+
+Priest/Druid local releases remain as below; original unfinished DPS/tanks also
+remain. Disk most recently had8.1GiB free; retain evidence and keep work bounded.
+
+## October 25, 03:35 UTC — Practical Paladin feedback live; independent comparisons queued
+
+ACTIVE NUMERICAL RUN:session65761,supervisor11638,workers24073–24078.
+.../paladin-practical-feedback-v1/90bcb9f5e766d54d62b0cca2ac8e80855d358bfdb4a1f54f48425a92493b04e4/.
+All108 contextual banks passed request preflight:32829 candidate plans total,
+169–393 per variant. No repeated full-catalog gear search. At this snapshot5/108
+variants are complete and all28 scenario checks survive. The first tank training
+minimax regret is about2.03%,slightly above2%; do not round it into a qualified
+result. Independent measurements and,if needed,bounded correction remain.
+All active numerical sources,adapters and the new admitted runtime are frozen.
+
+QUEUED INDEPENDENT PASS:session14403,PID34026,
+optimization/review-tools/queue-paladin-practical-confirmation-v2.mjs.
+It waits for the exact training report AND a succeeded budget record,then launches
+confirm-paladin-practical-feedback-v1.mjs,whose SHA is
+60e4dc2688d0d84f13d8b729c4c35a0d0ff055b21af433d895335b5e009ac255.
+The queued driver prepares five distinct training-derived gear contenders for each
+selected plan,then four paired64-fight batches under all24 comparison policies,
+plus a fresh64-fight survival check under all28 policies. It does no validation-time
+reselection. Per-policy point2% and per-comparison95% MonteCarlo intervals are
+separate. The new shared paired-statistics helper passes3 focused tests and lint.
+Do not launch another copy. Queue-v1 session44294 is terminal143 after its own
+prelaunch error/cancellation handling was improved; no numerical work was restarted.
+
+The original Paladin deadline remains2026-10-25T23:58:06.787Z. Queue and stages
+enforce it; there is no extension/reset. A failed training pass prevents launch.
+If stopping at the user's request,stop the waiting queue and live numerical
+supervisor; if the queue has launched a child,it forwards termination to that child.
+
+Added actual native transport coverage for all6 legacy-reference combinations in
+packages/forever-data/src/fixtures/paladin-legacy-transport.v1.json.gz,
+SHAc98ca4099567fed74c4d44a3621121bb968f725d479bf2a1e28442fc1dbe14bb.
+All8 Paladin data tests pass with exact request/result retention and external
+ledgers. The source snapshot records6 actual native controls,not preset
+qualification. Earlier24 shared data tests,strict data/web typechecks,ESM/dts
+build,13 reference tests and formatting/lint passed. The focused root reference
+command now also includes the paired-statistics regression tests.
+
+User asked what remains:Priest/Restoration Druid have tested local3021 presets;
+Paladin independent qualification and website delivery,Restoration Shaman's model/
+optimization/delivery,and unfinished original DPS/tank updates remain. Final
+browser/delivery checks are required. Nothing from this healer pass was deployed
+to production. No commit/push/deploy,3017 restart,cleanup or budget extension.
+The full all-class goal remains ACTIVE. Never access the protected cache helper.
+
+## October 25, 03:27 UTC — Paladin item references admitted; bounded comparisons preparing
+
+The extended healer scope remains ACTIVE alongside unfinished DPS/tanks. Priest
+release82489a30494be3b4eff67cc0 and Druid releasead355f15131498695376e972
+remain local3021; no new production release or Paladin preset activation.
+
+NEW FROZEN RUNTIME:
+.../paladin-legacy-items-v1/f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1/build-FzASJU/report.json
+FINAL:final-review-SQIkYt/report.json,
+SHA440937252b6127c895032fb7f32d55b9165cc4c5f22d518b27473f10e60d5f06.
+179 native/Chromium controls,280 groups,129 worker comparisons and4 compiled
+behavioral mutants pass. All269 parent groups,all catalog/acquisition bytes,
+662 unchanged parent compiler files and the original clock are preserved.
+Six actual item-reference combinations match native/browser results. Ownership,
+invalid-policy recovery,live10000-fight stop and heartbeat/recovery controls pass.
+This is component admission,not numerical BiS qualification.
+
+Optional owned references: Briarwood12930 power15/29/30; RoyalSeal18472 retained
+healing0/22. Current9MP5 Haunted handler stays independent. Current base rows and
+server behavior remain unverified. No-policy results preserve the old model; no
+old measurements are relabelled as new executions. The earlier build attempts
+failed only because a new test changed trinkets but retained their old20512/15604
+cooldowns. Their evidence/workspaces are preserved; corrected test passes,with
+all ownership rules unchanged. Failed source versions are archived.
+
+FOCUSED CHECKS:13 scenario/extraction/rendering/transport tests;24 shared healer
+data tests;data/web strict typechecks;focused lint/format and data ESM/declaration
+build all pass. The root command
+pnpm simulator:healers:paladin:references:test runs the safe reference tests.
+Do not run older broad suites that transitively access the protected cache helper.
+
+PREPARING:session65761,supervisor11638,
+optimization/review-tools/run-paladin-practical-feedback-v1.mjs. It is preflighting
+all108 contextual candidate banks before starting numerical workers; keep this
+exact process,not a second copy. New derived loader legacy-context-v1 and stage-v5
+use the admitted runtime; original helpers remain frozen. The28 scenarios contain
+24 comparison policies and4 conditional policies. Training keeps retained whole
+plans,all joint Shock/Vigil ranks,owned utility on/off/order probes and six alcohol
+references. It ranks per-policy relative regret and retains conditional leaders
+separately. No repeated full all-slot search; independent holdout is still separate.
+Class deadline stays2026-10-25T23:58:06.787Z,never reset or extended.
+
+Remaining:finish practical feedback,independent2% confirmation,longer/spread
+assignments,Paladin local library/workspace/guidance,Shaman and unfinished original
+DPS/tanks. No commit/push/deploy,3017 restart,cleanup or window extension.
+Never read/import/execute/edit infra/simulator/simulation-cache.mjs.
+
+## October 25, 03:15 UTC — Acquisition feedback complete; legacy item sensitivity checks
+
+The full healer scope remains part of the ACTIVE original all-class goal. Priest
+and Druid local releases are retained; Paladin, Shaman and unfinished DPS/tanks
+are still required. No production update or final Paladin qualification is claimed.
+
+DOMAIN COMPLETE: session59884 reaped exit0; its supervisor/workers are terminal.
+.../paladin-domain-feedback-v1/df73fc2df56d6c87334714a681472622cc3f96604f3660fd9f454e1d0dfd1011/report.json
+records385980 new requests,53694 cache hits and108/108 feasible assignment/profile
+variants. All unavailable-slot repairs were exhaustive. The result is training;
+independent comparison and thirty-profile effect equivalence remain separate.
+
+Added paladin-healing-scenarios.mjs:21 comparison policies and3 explicitly
+conditional cases. Five focused tests pass,including actual item/set ownership,
+all24 protocol frames and independent clones. The current helper is not yet a
+qualified numerical stage; do not activate presets from these tests alone.
+
+Source review found no doubled Briarwood bonus: the compiled engine uses29 spell
+power once. Its current client equip effect is15,with30 in Marsh/Swamp; current
+base stats remain unknown. The Paladin Royal Seal18472 likewise retains historical
+22 healing while its current9MP5 effect applies in Haunted areas. New optional
+class-local references compare these assumptions,require equipment ownership,
+preserve absent-policy behavior and retain all original search artifacts. They
+do not rewrite the catalog,global handlers,existing frozen model or class clock.
+Five JavaScript extraction/rendering/transport tests pass. New native/Chromium
+admission is in progress; no new numerical search uses it yet.
+
+LIVE BUILD:session17008,preparation PID91442;
+.../paladin-legacy-items-v1/2abe0e0296909f5ecb1fb94baaa2447ebb700a391a0289dccb6f048405c78378/build-vl4ox7/.
+Runner optimization/review-tools/prepare-paladin-legacy-items-v1.mjs. Preserve all
+successful sources/receipts. Class deadline remains2026-10-25T23:58:06.787Z.
+
+No commit/push/deploy,3017 restart,cleanup or window extension. Never access
+infra/simulator/simulation-cache.mjs. Disk has about10GiB available; retain
+evidence and keep subsequent comparisons bounded.
+
+## October 25, 02:30 UTC — Higher-load feedback complete; actual acquisition comparisons live
+
+Higher-load session53955 is reaped exit0;supervisor19203/old workers are terminal.
+.../paladin-load-feedback-v1/5c0ce000c3a14006eb977b90a0e47ce4878cd5cb6877549186d4ed945930c27f/report.json
+completes411462 new requests plus5594 cache hits. All9 assignments are feasible:
+5 changed-load searches and4 unchanged plans retained by exact plan identity.
+The source/runner are now frozen. Independent confirmation is still separate.
+
+LIVE DOMAIN COMPARISONS:session59884,supervisor47071,workers48062–48067,
+.../paladin-domain-feedback-v1/df73fc2df56d6c87334714a681472622cc3f96604f3660fd9f454e1d0dfd1011/.
+At this snapshot,31/108 variants are complete;current
+vigil-support/burst/2:2,8. The first Horde/native cases
+succeed too,with actual Undead/profession packets and no model changes. Initial
+completed variants are feasible with exhaustive missing-slot repairs. Keep polling
+this exact process/session;do not restart it on an observation timeout.
+
+Before launch,the new domain runner was improved to recheck complete repaired-slot
+groups after other gear changes. For example,non-Tailor boot replacements remain
+eligible for full re-evaluation after new crafting items change the loadout. This
+is additional to all new-item partners,set crossings and enchants,while avoiding
+a repeated complete common-catalog search. The active source is now frozen.
+Class clock remains2026-10-24T23:58:06.787Z to2026-10-25T23:58:06.787Z.
+
+The Paladin public data-package export resolves from the web app;formatting and
+tracked configuration diff checks pass. Current strict schemas were also checked
+against the complete actual Go result struct,including optional set/item policies.
+All23 healer data tests,data/web typechecks,focused lint and package ESM/declaration
+build passed earlier this turn. No route,default library,preset or production switch.
+
+For independent checks,combine original and higher-load retained banks;do not
+narrow unchanged cases to the smaller pressure shortlist. Code/data review finds
+8–24 distinct gear choices in most24-option banks,but the unchanged direct-tank
+pressure bank has only3 (the original outer bank has12). Different talents still
+make distinct plans;ensure actual physical alternatives are represented before
+claiming an observed2% comparison. Source journals preserve all refinements if
+additional alternatives are needed. Per-policy relative regret and fresh holdout
+seeds remain required;no validation-time reselection.
+
+This goal turn is PROGRESS. Full Paladin qualification/local website delivery,
+Shaman and unfinished original DPS/tanks remain. No commit/push/deploy,3017 restart,
+source/cache cleanup or optimization-window extension. All earlier handles and
+receipts below are historical unless explicitly marked live here.
+
+## October 25, 02:16 UTC — Coupled Paladin pass audited; higher-load feedback live
+
+Previous goal turn was PROGRESS. This turn is PROGRESS: all9 coupled initial
+cases finished, exact replay passed, higher-pressure training finished, the
+website's typed Paladin transport was implemented/verified, and all30 actual
+profession/faction request contexts now pass. The full original all-class/healer
+goal remains ACTIVE. No final Paladin/Shaman qualification or new website preset
+release is claimed; unfinished original DPS/tanks remain required.
+
+COUPLED OUTER PASS COMPLETE,session70436 reaped exit0:
+.../paladin-outer-feedback-v1/2433151de62053cf4d08da9d54e8730c775468bced20fa86ddc34492940a32f4/report.json.
+661970 new native requests,88442 exact cache hits,all9 feasible at the original
+400/600 follow-up loads. Each assignment has two bounded outer rounds covering
+talents,direct/active ranks,resource/party controls,1320 consumes and every gear
+group. A new streamed original-algorithm replay reconstructs all750412 origins
+and661970 unique results,all9 selections and all source/workload/journal hashes:
+.../paladin-outer-feedback-v1/2433151de62053cf4d08da9d54e8730c775468bced20fa86ddc34492940a32f4/origin-review-jEE2o6/report.json,
+SHAe1ad49b2263f78c377ee7bfbc95deb60ab35ad85e3690e7e1e06fa89f29a51ae.
+Audit session7531 reaped exit0. Private replay helpers and frozen instrumented
+source copy preserve selection logic; only runner import and top-level await
+change. Trace writes stay in a new audit directory. No numerical rerun.
+
+CORRECTED PRESSURE RECHECK COMPLETE,session1860 reaped exit0:
+.../paladin-pressure-feedback-v3/7715a416da392108d68d47510d34719bc9b590ffe76d906cb10d68ce9c1a89ae/report.json.
+3216 new native requests,88 cache hits;4-fight screen seed866431,32-fight training
+seed972149. All three tank assignments now survive600 DPS; all three group
+assignments800; all burst600. These are coarse feasible loads,not maximum capacity
+or independent2% confirmation. Five loads changed. Four unchanged plans are
+retained by exact plan identity and verified feasible in the fresh training batch.
+
+The first pressure-v2 attempt included2400DPS beyond the shared constructor's
+2000limit. This was a runner input mistake,not a model failure.322 successful
+partial requests and all failure inputs are retained under
+.../paladin-pressure-feedback-v2/0c35ccb76cd1b09d6884fa954eb20e800db24df8303d6c175e6b2ddab5967a66/grid-failure-review.json.
+V3 removes the unsupported load and preflights every selected-plan/load/reference
+before native execution. No controller limit/model/source was weakened.
+
+LIVE HIGHER-LOAD FEEDBACK:session53955,supervisor19203,six workers21448–21453,
+.../paladin-load-feedback-v1/5c0ce000c3a14006eb977b90a0e47ce4878cd5cb6877549186d4ed945930c27f/.
+Runner run-paladin-load-feedback-v1.mjs,stage-v4. It searches only the5 changed
+loads,retaining4 unchanged original plans rather than replacing them with noisy
+training winners. Screen2 seed1109231,refine32 seed1887871. Current snapshot:
+4/5 changed cases complete;direct-healing-support/group,
+lastgear-slot-3. Final report must merge all9 cases.
+The unchanged class clock is2026-10-24T23:58:06.787Z through2026-10-25T23:58:06.787Z,
+with2–4h target. Never reset/extend. Re-poll this live handle;do not duplicate it.
+
+PALADIN WEBSITE DATA CONTRACT IMPLEMENTED,not yet a page/preset release:
+packages/forever-data/src/paladin-healing-simulator.ts,public package subpath
+@wow-trader/forever-data/paladin-healing-simulator. It validates five-player
+full51-point external-demand jobs,owned-policy shapes,friendly item recipients,
+rank/light/self/cast references and exact healing accounting. Display metrics use
+external restoration/consumed shields/deficits,not raw self-cost recovery.
+The actual native fixture contains2 saved32-fight requests across both references:
+packages/forever-data/src/fixtures/paladin-healing-transport.v1.json.gz,
+SHAfe0cf055955415c83c9ca7a59a489d839f03492e54d26c4a07c4444b95853da3.
+No new numerical jobs were used for capture. Six Paladin schema tests and all23
+shared Priest/Druid/Paladin data tests pass; strict data/web typechecks,focused
+ESLint,formatting and full data-package ESM/declaration build pass. Package export
+resolution is being checked separately. No route/selector/library activation yet.
+
+ALL30 CONTEXT REQUESTS NOW PREFLIGHTED:
+.../paladin-context-request-controls-v1/review-Fqa9kr/report.json,
+SHA5f7b474908098425ae88f4e1953cc75767002b5c4e6d2e62f0b6c5204bf30853.
+60 actual encoded/decoded request controls,2 exact original native-request parity
+checks; no native context simulations yet. Derived study-context-v2 encodes actual
+professions,Human3 for Alliance and Undead8 for Horde. The class/race policy comes
+from the current adapter's exact recorded class list,archived under
+review-tools/source-archives/paladin-class-race-policy-8405dfe8ca05f73d8a3d5d7e812635fd3d8a60e2429abc6101a5b69c4a38a9d3.ts.
+It is an explicit adapter reference,not server verification. V2 preserves all
+Human/Engineering/Tailoring packets exactly and rejects unrecorded contexts and
+modified ownership exceptions. Source archive is fixed; no mutable cache source
+is required. The loader and successful preflight source are now frozen.
+
+First preflight correctly found that existing top plans need Tailoring227862
+Incandescent Mooncloth Boots,and the older Soulforge legality seed is Alliance
+restricted. Context-only control packets now use actual legal common items where
+no recorded full loadout fits;they are expressly not optimized defaults. The
+failed unqualified preflight source is preserved as
+source-archives/paladin-context-request-preflight-618f03b8148148e2df0218415ac4919ea5b814fec563c4041b6d22a6e3a2534a.mjs.
+Numerical domain work must repair the boot slot/other unavailable gear and compare
+real alternatives;it must never publish those request-control outfits as BiS.
+
+NEXT PREPARED NUMERICAL RUNNER,NOT RUNNING:
+node artifacts/forever-simulator/optimization/review-tools/run-paladin-domain-feedback-v1.mjs artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-load-feedback-v1/5c0ce000c3a14006eb977b90a0e47ce4878cd5cb6877549186d4ed945930c27f/report.json
+Start only after session53955 is terminal and the complete9-case report exists.
+It uses the successful V2 context/preflight and12 maximal slot pools covering all30
+profiles;108 assignment/pool comparisons. Repairs all missing slots when bounded,
+retains legal common tested gear,then tests every new item with partners,set
+thresholds and compatible enchants,for at most2 incremental sweeps. Both references
+screen2 seed2160389 and refine32 seed2624059. It does not repeat the common full
+catalog search. It reports infeasible domains and nonexhaustive oversized repairs
+honestly rather than inventing survivors or claiming profession equivalence.
+Syntax checked only;actual execution/confirmation still remains.
+
+Remaining:finish higher-load and acquisition feedback;real source/utility bounds
+and longer/spread adaptations;per-policy relative-regret training and independent2%
+confirmation without holdout reselection;Paladin default presets/library/guidance/
+real-browser delivery;then Shaman and unfinished original DPS/tanks. Priest's
+numerical window is expired;Druid's original deadline remains04:32:49.463UTC.
+No commit/push/deploy,3017 restart,cleanup or new optimization-window permission.
+Never read/import/execute/edit infra/simulator/simulation-cache.mjs. Do not run
+old healer commands importing it. Earlier exact receipts/recovery notes follow.
+
+## October 25, 01:34 UTC — Complete initial gear replay passed
+
+Read-only audit session11853 is now reaped exit0. It reconstructs all685368
+saved results and690252 requested origins,including all22000 compatible imports,
+all1224 candidate-group steps and all9 training selections. All source/workload/
+journal hashes verify; no new simulations or independent confirmation occurred.
+Immutable receipt:
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-gear-feedback-v2/1397f14d5a618a35c3495a706f52962d988527fc5fd2f15e49120fcdb1779d43/origin-review-U5tPxE/report.json,
+SHAe451b13327e8d9c631ea24902650eddf63f08c1ca433066c1333e46663007186.
+The audit script is now frozen too. Never rerun its native training to redo this
+provenance check; streaming exact replay is sufficient for the stated audit.
+
+Outer feedback session70436/supervisor56100 remains live: 7 completed cases;
+current direct-healing-support/group. Its8 relevant active helper
+pins were rechecked unchanged. Continue observing that handle. Next prepared
+pressure-feedback-v2 must wait for the terminal outer handle and complete report.
+All52 focused tests,focused lint,formatting and tracked configuration diff checks
+pass. No commit/push/deploy,local preset switch or class-budget extension.
+The full all-class/healer goal remains ACTIVE; Shaman and unfinished DPS/tanks
+are not dropped. Earlier checkpoints below retain exact recovery instructions.
+
+## October 25, 01:32 UTC — Acquisition coverage and selected-plan reconstruction ready
+
+All52 focused tests now pass, including4 selected-plan adaptation tests,4
+incremental acquisition tests and2 actual-filesystem resume-error regressions.
+Focused lint passes. The package healer command now includes all new public test
+files; do not run its older transitive protected-helper imports during this work.
+No runtime, successful numerical source or live search was modified.
+
+The new paladin-healing-option-workload.mjs reconstructs current plan controls
+at another pressure/duration. Actual saved32-fight request parity passes for both
+references,without new simulations:
+.../paladin-outer-feedback-v1/2433151de62053cf4d08da9d54e8730c775468bced20fa86ddc34492940a32f4/option-request-review-4ZNspF/report.json,
+SHA126c1c93b37fcf3c0bb394c2941b66cab151cc5277fcef61523013e5eebb0126.
+It pins an immutable progress snapshot, exact workload files and recorded results.
+The new module/test are now frozen. Future pressure/confirmation can reuse them.
+
+All30 acquisition contexts reproduce captured source slot pools; union2249 items
+versus2151 initially (98 additional). Input:
+.../paladin-acquisition-contexts-v1/prepare-XWdvEW/report.json,
+SHA2af82a76533710dd93568e55d6e2fd28a2685e34a0b3f0869bfe89565c4f5f7d.
+The latest coverage/delta review is
+.../paladin-acquisition-contexts-v1/prepare-XWdvEW/coverage-review-z1Mmos/report.json,
+SHA4c120fd9aed692b19e9b13e6befa210e727025e9e6044f3932fc3f04a1d702ea.
+Twelve maximal slot pools cover all30, six per faction. This proves slot-pool
+containment, NOT whole-loadout/profession-effect equivalence or numerical BiS.
+Horde requests still require an explicit playable class/race policy; do not silently
+use Human stats with Horde ownership and call it a playable qualified build.
+
+New paladin-healing-domain-candidates.mjs retains all changed items/ordered
+jewelry/full hand pairs/set threshold combinations and compatible enchants. Its
+repair bank fixes both hands together if one is unavailable. No stat/quality
+pruning. Four real-catalog fixture tests pass. The first jewelry test accidentally
+removed different IDs from the two reference slots,then expected pair symmetry.
+Only that unqualified test was corrected to remove the same new ID from both.
+Its exact original source is preserved in source-archives/paladin-domain-candidates-test-3362a80609cf98d4bfc408d33869cfc232fece84753272aa3a5d33607839f2f7.mjs.
+Earlier coverage-review-Epej6E pins those archived test bytes; use z1Mmos now.
+No production/helper behavior changed for the test correction.
+
+Prepared next numerical phase: run-paladin-pressure-feedback-v2.mjs accepts the
+COMPLETE outer-v1 report. It rechecks learned full plans across400..2400 DPS with
+4-fight screens seed866431 and32-fight refinement seed972149,retaining the
+incumbent and both policy leaders. It is NOT running yet. Start only once the
+current outer session70436/supervisor56100 is terminal and its report exists.
+Uses derived stage-v4,which fixes a resume guard: a missing workload previously
+matched the broadENOENT catch and could be mistaken for an absent journal. Only
+ENOENT for the exact journal path now permits a fresh start. Two real-filesystem
+regressions pass. Current stage-v3 remains frozen and running unchanged.
+
+At01:31, six outer cases are complete and direct-healing tank is in its second
+sweep. Read-only gear replay session11853 has reproduced seven cases. Both remain
+live; use existing sessions rather than duplicate processes. No class-clock reset,
+new production release or claim that Paladin/Shaman/the all-class goal is complete.
+
+## October 25, 01:15 UTC — Paladin gear/pressure complete; outer feedback and origin audit live
+
+The all-class goal remains ACTIVE and includes all healers plus unfinished
+original DPS/tanks. Priest/Druid local releases are unchanged; no commit, push,
+deployment or 3017 restart. Paladin's original clock is unchanged:
+2026-10-24T23:58:06.787Z through 2026-10-25T23:58:06.787Z, target 2–4h.
+
+COMPLETED INITIAL GEAR:
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-gear-feedback-v2/1397f14d5a618a35c3495a706f52962d988527fc5fd2f15e49120fcdb1779d43/report.json.
+663,368 new native requests; 22,000 explicitly compatible imports; 685,368 distinct
+saved results; 26,884 cache hits across actual requested comparisons. Nine feasible
+assignments; each has 136 steps, two sweeps across all 68 groups. The 1,637,472,690
+byte journal has SHA256 65e4f0379af00f6261fe1ee672bd96650918ec376f3af0fae2a14a9e64579ef2.
+Session34631 reaped exit0 and supervisor96872/workers are terminal. This is training,
+not final BiS, convergence or independent confirmation.
+
+COMPLETED PRESSURE REVIEW:
+.../paladin-pressure-review-v1/d143906cc80b24e33af37fea4f473afd2a906c15d44488eeb4a4429b04933197/report.json.
+3,174 new requests; 400/600/800/1000/1200/1600/2000 DPS grid; 4-fight screens and
+32-fight training refinement. Follow-up pressure600 for seven cases,400 for the
+two Vigil tank cases. Starting Vigil policies can waste mana, so re-test pressure
+AFTER outer feedback. These loads do not certify maximum healing capacity.
+Session21041 reaped exit0.
+
+LIVE OUTER FEEDBACK: session70436, supervisor56100 plus six actual native workers.
+.../paladin-outer-feedback-v1/2433151de62053cf4d08da9d54e8730c775468bced20fa86ddc34492940a32f4/.
+Runner run-paladin-outer-feedback-v1.mjs; frozen stage-v3 and exact existing runtime
+55c7d8bc.../build-xrKJk9. Screen2 fights seed639731, refine32 seed874331, both
+mechanics references. Two rounds of legal talent moves, direct/active ranks,
+coarse Favor/Vigil/resource ordering/party-demand choices,1320 consumes, retained
+gear and every gear group. At01:14, two cases complete and Vigil-support burst
+is in its first gear sweep. Observe progress.json and the existing handle; never
+restart a live process on an observation timeout. No full class qualification.
+
+LIVE READ-ONLY GEAR ORIGIN AUDIT: session11853, new private
+review-paladin-gear-feedback-v2.mjs. Streams the1.6GB journal, verifies all reuse
+origins and reconstructs every exact request/candidate group/training selection
+from frozen sources. No native jobs or class-budget reset. Receipt pending.
+
+New public healing-evidence-journal.mjs streams records and SHA256, rejects
+partial tails before replay, preserves bytes and identifies corrupt lines.
+New resource-order helper compares four stable orderings without granting extra
+item actions/charges. Both are frozen inputs of the live outer run. Resource
+choice matters because Rune and Recombobulator share the2-minute category.
+The valid no-potion/no-rune consumer now has an additional actual native receipt:
+.../paladin-consume-consumer-v1/check-UIuNgW/report.json,
+SHAe899b26566f2213dc0d7d88622ff21904513b5912f3bd924c64528bd81534f89.
+Four native controls pass; all1320 supported consume frames pass transport.
+The pre-cleanup test source is preserved under review-tools/source-archives.
+
+Verification:42 focused tests pass (journal,resource order,consumes,feedback,
+study/store,assignment,gear,compatibility,raid frame). Focused ESLint and Prettier
+pass. Added seven journal/resource tests to the existing healer package command;
+the old full command has not been rerun because it imports the protected helper.
+ESLint's existing Node20 simulator scope now recognizes its built-in Buffer.
+Never read/import/run/edit infra/simulator/simulation-cache.mjs. No frozen runtime
+or successful source was changed for the lint fix. No generated evidence cleanup.
+
+Remaining: complete outer/pressure feedback, all30 acquisition contexts, longer
+assignments, source sensitivities, independent2% confirmation, Paladin local
+presets/library/guidance/browser delivery; then Shaman and unfinished DPS/tanks.
+This is PROGRESS; do not mark the full goal complete. Earlier snapshots follow.
+
+## October 25, 00:33 UTC — Paladin calculations started; dormant guardian coverage fixed
+
+Previous goal turn was PROGRESS. This turn is PROGRESS: actual Paladin numerical
+feedback started, its complete initial training pass was independently audited,
+and the all-slot search exposed and fixed an equipment-guardian admission bug.
+The complete original all-class pre-raid goal stays ACTIVE, including healers
+and unfinished DPS/tanks. No Paladin/Shaman final numerical qualification or new
+website delivery is claimed.
+
+PALADIN CLOCK IS NOW STARTED:2026-10-24T23:58:06.787Z; target2–4h, hard deadline
+2026-10-25T23:58:06.787Z. Never reset/extend it. Budget file
+artifacts/forever-simulator/optimization/healer-class-budgets/paladin.json.
+Initial phase succeeded; gear-v1 failed on a genuine item coverage bug; gear-v2
+is running within the same clock. Priest's expired window stays expired. Druid's
+original deadline remains2026-10-25T04:32:49.463Z.
+
+INITIAL TRAINING COMPLETE:
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-initial-feedback-v1/2d5fc39cf9ac67f4790669ee943c87677ebe84d694eab8edcd9f09f854c4a8ae/report.json.
+2742 distinct actual native requests,three legal talent seeds × tank/group/burst
+assignments,180s/400 incoming DPS. Screen4 fights,training refinement32 fights;
+reference and mana-stress assumptions; all nine chosen starting strategies are
+feasible. Every eligible direct rank and coarse missing-health/Shock/Vigil/mark
+maintenance policy remains in the screen. This is training,not independent2%
+confirmation or a final gear result. Actual support is about397.78tank,392.74group,
+366.30burst HPS at this declared load; many choices saturate400incoming DPS.
+Higher-demand/longer assignments must be checked later so default guidance does
+not confuse spare mana on an easy assignment with maximum healing capacity.
+
+Independent request-origin review:
+.../paladin-initial-feedback-v1/2d5fc39cf9ac67f4790669ee943c87677ebe84d694eab8edcd9f09f854c4a8ae/origin-review-RXudwS/report.json,
+SHAd2783115abdf196321748df73db6667ff2abaf1edd8af92b6d43a29500e33fe7.
+All2742 saved requests are reconstructed from the exact source/gear/talents/
+policy/seed,all summaries and training selections reproduce,and all source pins
+verify. No new simulation or selection from independent holdout results occurred.
+
+LATEST QUALIFIED PALADIN MODEL:
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-healing-player-targets-v2/55c7d8bc6f158ab963f79f24d79275779efadd2a97b1dfefc3cdd789f9565d91/build-xrKJk9/report.json.
+Final final-review-qPoY71/report.json,
+SHAfb3f4e949802feb73fe6e551c81a7e88cc17319dee31982ec005100e1f7b87b1,
+status paladin-inactive-equipment-guardian-controls-passed.
+174 native/Chromium controls (173Paladin+1Priest),269 measurement groups,
+122 worker comparisons and four compiled mutations pass. All263 parent groups
+remain exactly,including ordered repeated labels. Compiler664:658 unchanged
+parent files,four scoped integrations,two additions. Catalog/acquisition,global
+handlers,coefficients/costs and previous raw summaries remain unchanged.
+
+The all-slot hand search failed on Dragon's Call10847: merely equipping it
+registers dormant whelps. The old player-only profile guard rejected any registered
+pet. New owned player membership derives from party player agents,used in geometry,
+priority selection,survival and deficit accounting; dormant guardians receive no
+assignment profile or credit. Active guardians remain rejected after reset/steps.
+Exact player-profile coverage and friendly geometry still fail closed. Actual
+2/32-fight full-build Dragon's Call jobs pass in native/browser; guardian DPS/HPS
+stay zero. Actor controls verify active-guardian rejection and pet-geometry
+rejection. Four compiled broken variants are caught. All43 sets/134 thresholds
+and external-demand scoring remain admitted under the earlier explicit scope.
+
+Failure evidence retained:
+.../paladin-gear-feedback-v1/9f713fab061b2292eb2d80fe38c208743a2ed97abdb72514412f4a05cb68d3ad/guardian-diagnostic-RdBvpw/report.json.
+Its old jobs.ndjson contains exactly22000 successful native calculations.
+The first derived guardian attempt,
+.../paladin-healing-player-targets-v1/2e53178a5fd31ca48abaf56c4eab18bbfe8345659849ede957e0add868787dc9/build-m91AYs,
+failed one RAW TEST FIXTURE: the older regeneration fixture supplied positions
+for pets as well as players. The V2 control constructs a fresh actual simulation
+and supplies player profiles directly. A diagnostic overlay stopped inside that
+old fixture,before its cache logging; it proves NO global player-cache bug.
+No global Raid implementation was changed. Failed inputs/workspaces are retained.
+
+COMPATIBLE REUSE,WITHOUT RECOMPUTING22000 JOBS:
+Qualified parent jobs had passed its strict AllUnits=player-only guard,therefore
+had no registered pets. For that domain the changed enumerations/guard are
+identity preserving; all parent control values match and the final reviewer
+checks exact rendered integrations and unchanged compiler inventory.
+infra/simulator/paladin-no-pet-measurement-reuse.mjs rekeys only under that explicit
+qualification,retains source journal/runtime/key and marks executedOnTarget:false.
+Changed keys,runtimes,missing assignment results,unqualified proofs and chained
+reuse are rejected. Gate:
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-study-inputs-v2/prepare-3BClIo/compatibility.json,
+SHAf7ba6ef989438d8917c834008cb97189330c1b535c248161ceb362dd7f8b68f0.
+Input report there SHA478c5e6050e1458e12835e3166c1d9e98e446192cab4fe5c7ec347a833fde2ab.
+All original2151 initial-context candidates,68 groups,seed talents and enchants
+remain. The full2249-item/30-context domain is still required later.
+
+LIVE SEARCH at00:21UTC,confirmed by exec handle AND process list:
+exec session34631; supervisor PID96872 and six actual native workers.
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-gear-feedback-v2/1397f14d5a618a35c3495a706f52962d988527fc5fd2f15e49120fcdb1779d43/.
+It imports all22000 measurements with explicit compatibility origin,then runs new
+requests. Current checkpoint:first Vigil-support tank sweep,reached set-186,
+zero complete cases yet; journal about91MB and growing. No item/stat/quality pruning.
+Both reference cases are screened at2 fights; finalists refine at32,up to two
+sweeps; then talents/priority/consume/context feedback and independent checks.
+Resume only after confirming the handle/process is terminal or absent:
+node artifacts/forever-simulator/optimization/review-tools/run-paladin-gear-feedback-v2.mjs artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-study-inputs-v2/prepare-3BClIo/report.json
+Do not restart because an observation times out. The existing clock is mandatory.
+
+00:33UTC follow-up: confirmed supervisor96872 live for13minutes with six workers;
+three complete gear cases (all Vigil-support assignments). Vigil-mobility tank is
+now in its first sweep. Journal about620MB and growing; local disk still13GiB
+available. Do not infer completion from this snapshot; poll the same session34631.
+
+Outer-feedback preparation found a real request-layer bug: legal51-point talent
+neighbors without Divine Favor retained an inactive300-mana threshold and were
+rejected at transport. New paladin-healing-feedback-v2.mjs preserves all original
+geared/Favor requests,zeros the inactive threshold,adds every eligible Shock/Vigil
+downrank alternative and adapts priorities when talent ownership changes. Six
+new source/protocol tests pass. Actual full-build native consumer control:
+artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-no-favor-controls-v1/check-HFRybW/report.json,
+SHAa83773c3790c932c5dfd8612620161964fa2eb6ece06d7a8a89a54c6946286fe.
+It verifies the old transport rejection and the corrected full51-point native
+completion with395.5556 external HPS. An initial diagnostic stopped at the old
+request-construction boundary before opening a native worker; it was corrected
+without weakening validation. This is a fixed consumer control,not optimization.
+All current gear-stage seeds have Favor,so the frozen running inputs are unchanged.
+
+Prepared/syntax-checked but NOT EXECUTED:
+optimization/review-tools/run-paladin-pressure-review-v1.mjs. After gear-v2's
+actual report exists,use its report path as the sole argument. It checks retained
+gears over400/600/800/1000/1200/1600/2000 incoming DPS,selects a coarse feasible
+follow-up pressure and refines it. This is not a maximum-capacity certificate.
+It uses the already frozen feedback-stage-v1 (no unnecessary compatible-journal
+import) with the same class clock and new feedback-v2 consumer. Next build the
+outer talent/active-rank/consume/gear loop at those fixed pressures.149 focused
+Paladin/raid tests and lint/format checks now pass. Full script lists453 tests;
+that older all-healer command was not rerun. No UI/default/library release yet.
+
+New reusable helpers: healer-raid-frame-v2 (same reviewed full raid support,pure
+fingerprint dependency),paladin-healing-study-store,paladin-healing-feedback,
+paladin-healing-player-targets-v2 and paladin-no-pet-measurement-reuse; tests and
+fixtures live beside them. Private context,initial/gear feedback stages,runners,
+origin reviews and guardian prepare/review tools are under optimization/review-tools.
+Successful source,tests,tools and workspaces are frozen. Derived versions preserve
+older evidence. No protected cache helper read/import/execution/mutation this
+turn; new helpers use simulation-fingerprint directly.143 focused Paladin/raid
+tests pass; focused ESLint/Prettier checks pass. Earlier full421 suite and separate
+8 candidate/study tests passed in the previous turn. Current full script lists447
+tests but was NOT rerun because older modules import the protected helper.
+
+No UI source,commit,push,production release,3017 restart or cleanup. Local Priest
+82489a30494be3b4eff67cc0 and Druid ad355f15131498695376e972 remain unchanged on3021.
+NEXT: monitor the live gear-v2 process,complete its all-slot feedback,then feed
+winners back through talents/ranks/consumes. Cover profession/faction and longer/
+higher-demand/source sensitivities,independent2% checks,guidance and local delivery.
+Then Shaman and unfinished original DPS/tanks. Keep the entire goal ACTIVE.
+
+## October 24, 23:48 UTC — Paladin stationary assignment admission and search inputs
+
+This is PROGRESS toward the active all-class pre-raid goal. Healers remain in
+scope alongside unfinished DPS/tanks: Holy/Discipline Priest, Restoration Druid,
+Holy Paladin, Restoration Shaman and supported Forever healing variants. The
+same all-slot gear/talent/enchant/consume feedback, practical2% tolerance, full
+raid support, guidance and complete simulator/library delivery apply. No global
+completion or numerical Paladin/Shaman qualification is claimed.
+
+LATEST QUALIFIED PALADIN PARENT:
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-healing-assignment-v1/4892cafe41302bd0346b74aba24239078c3f9bced33cb3bc83a437f9ea93e173/build-fpt6Kg/report.json`,
+SHAcad1c3565fd22205bd5204068213398f98e50719590c32941d12722853a1b213.
+Final `artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-healing-assignment-v1/4892cafe41302bd0346b74aba24239078c3f9bced33cb3bc83a437f9ea93e173/build-fpt6Kg/final-review-95SBwZ/report.json`,
+SHA0f27a6487cdba9c23628924e9554ab9e681ba03fd9d5ee720c4a73ae4d55ce30,
+status `paladin-stationary-external-assignment-controls-passed`.
+171 native/Chromium controls (170 Paladin,+1 Priest),263 measurement groups,
+120 actual worker comparisons and eight compiled behavior mutations pass.
+All247 parent groups remain, including ordered duplicate labels. Compiler
+inventory662:657 unchanged parent files,two integrations,three additions.
+Catalog/acquisition and global set application/support are unchanged.
+
+All43 candidate sets/134 thresholds now have scoped class metadata. The last13
+entries keep their gear: Magister/Devout cast-mana handlers pass actual500-cast
+threshold tests; eleven movement/control/melee/reflection effects have no
+opportunity in this declared stationary player-only assignment. Source children
+and enemy/caster target enums are pinned; this is not server verification.
+Soulforge516 names include2/4/6/8 without applying its existing effects again;
+1673 stays distinct and unadmitted. Blacksmith profession gating is retained.
+
+Numerical work MUST request `assignmentScoring: "external-demand-v1"` and use
+`paladinHealingAssignmentMetrics`. It counts capped external health loss minus
+the final external deficit, plus shields actually consumed on external players.
+Useful party resource regeneration counts; overhealing,unused shields,overkill
+and restoration of self-created Rune/Circle costs earn no direct credit. Legacy
+raw summaries stay compatible. Explicit self-cost controls have positive old HPS
+and zero assignment credit; useful party regeneration has old HPS0 and new0.8.
+Four additional ordinary fully equipped51-point worker jobs use the new score.
+Stop,heartbeat,semantic/protocol rejection and recovery all pass.
+
+Receipts: browser-review-Teihri,worker-review-Evg2aX,mutation-review-b9Jiu2.
+Mutants detect missing exact-threshold names,merged set variants,ignored
+profession,credited overkill,discarded absorption,self-inflated raw HPS,
+discarded regeneration and incorrect variance. Successful component sources,
+tests,tools and workspace are frozen. Admission is conditional on its explicit
+stationary scope and references; incoming hostile caster damage/control/movement
+are outside it. No numerical class clock started.
+
+New public files include paladin-healing-set-admission.{go,mjs,test.mjs},
+paladin-healing-assignment.{go,mjs,test.mjs},paladin-healing-admission_test.go,
+paladin-assignment-{protocol,native-runner,worker}.mjs and protocol tests.
+Target subset fixture9d0d11... retains the complete reference header's hash.
+Private prepare/review tools use paladin-assignment-v1 naming under review-tools.
+
+Numerical preparation now includes reusable `paladin-healing-gear-bank.mjs` and
+`paladin-healing-study.mjs` with eight focused tests. The bank covers every
+eligible single slot,ordered jewelry,complete hand pairs,all set subsets and
+legal enchants. Study schedules match Priest/Druid tank,group and burst inputs;
+all pre-raid direct downranks are available,active heals require their talents,
+and excluded raid-book Holy Light25292 remains rejected. Feasibility requires
+survival and complete delivered external demand before comparing support/mana.
+
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-study-inputs-v1/prepare-nO6Kta/report.json`,
+SHA03ec26b28d89e8890ae9a01171376e67d69f35b8db905ee8bc3ebe929682e71a,
+freezes2151 eligible candidates for the initial Alliance Engineering/Tailoring
+context,68 search groups,three legal talent seeds and six enchanted seed slots.
+The seed uses a heuristic only to start; no item is pruned or declared optimized.
+The full parent domain remains2249 distinct candidates across30 contexts; later
+profession/faction feedback must cover those contexts,not silently substitute the
+initial one. Current training,regional bonuses,rank/Vigil/Light/proc references
+remain explicit. No comparative simulation or optimization has started yet.
+
+Validation: existing reusable healer suite421/421 passed; new gear-bank5/5 and
+study3/3 pass separately. Focused ESLint,Prettier,Go formatting and diff checks pass.
+No UI change,commit,push,production release,3017 restart or cleanup. Priest
+82489a30494be3b4eff67cc0 and Druid ad355f15131498695376e972 remain active locally
+on3021. The protected cache helper was not edited or directly read; the legacy
+full test command does import it indirectly through older modules. New component
+and preparation code use the pure fingerprint helper or no cache dependency.
+
+NEXT: prepare the exact request/study executor and checkpointed Paladin numerical
+feedback; start its single bounded class clock at the first comparative job.
+Complete all-slot,profession,talent,rank,consume and source-reference feedback,
+independent2% confirmation,guidance and local delivery; then Shaman and unfinished
+original DPS/tanks. Paladin/Shaman clocks remain unstarted; Priest's expired
+window remains expired. Druid's original deadline stays2026-10-25T04:32:49.463Z.
+The complete original goal remains ACTIVE.
+
+## October 24, 23:16 UTC — Six Paladin low-health/regeneration thresholds qualified
+
+Previous goal turn was PROGRESS; this turn is also PROGRESS. The original full
+all-class pre-raid goal, including healers and unfinished DPS/tanks, remains
+ACTIVE. Paladin/Shaman full numerical feedback and delivery are not complete.
+
+LATEST QUALIFIED PALADIN PARENT:
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-healing-self-sets-v1/582d86a200c3d69b868847bc37d40922ed06285ad48cc3bc1d02d86610f97d58/build-Zq92D3/report.json`,
+SHAc16ff1572873898b36bb37014ae47754bb3ced419e69dc1d9d9b9c2a0509372b.
+Final `final-review-Yil5C1/report.json`, SHA
+85550363da8400817d8374017b84c8db04187402f97833508a90027e7afa7774,
+status `paladin-owned-low-health-and-regeneration-controls-passed`.
+163 native/Chromium controls (162 Paladin +1 Priest),247 measurement groups,
+111 full worker comparisons and eight compiled mutations pass. All198 parent
+groups (197 Paladin,including repeated labels,+1 Priest) are preserved in order.
+659 compiler files:654 unchanged parent files,three integrations,two additions.
+Catalog,acquisition,global-class handlers and non-item protobuf bytes unchanged.
+
+Six owned thresholds: Viper162/4 restores20 base healing+20 mana each second for
+five ticks below25% health,5min internal CD; Scarlet163/6 applies480 shield for10s
+below20%,4min CD; Devout182/4 applies488 shield for30s,2% direct-hit reference,
+1min CD; Shadowcraft184/6 and Valor189/6 regenerate15 health/5s; Blessed1968/4
+regenerates20 health/5s for living party members within30yd. Resource regeneration
+uses real caps,does not scale with healing power/crit and is not spell healing.
+Viper is a real fixed-coefficient noncritical HoT plus mana,not HP5.
+
+Shared health receiver removes health exactly once,then evaluates owned procs.
+Direct/periodic callbacks are distinct. Scarlet cannot absorb its triggering hit.
+Devout ignores periodic hits but can trigger from a fully absorbed direct hit;
+its own internal cooldown prevents immediate refresh loops. Dead actors cannot
+proc or receive subsequent Viper ticks/regeneration; resets rearm timers/actions.
+Actual Rune and Circle controls prove direct versus periodic behavior and both
+self-damage references. Explicit policy: `selfSetPolicy` with optional
+thresholdTiming(after-hit reference/before-hit sensitivity),
+regenerationTickMs(2000 reference/5000 sensitivity),selfDamageTriggers(true reference/
+false sensitivity),devoutProcChance(.02 reference;forced1 only in hazard controls).
+Server self-damage eligibility and regeneration cadence are NOT verified.
+Fresh-owner,ownership,range,life,finite-value,copy/echo and transport guards pass.
+Before-first-reset configuration is allowed; after damage/casting/ticking or an
+initialized actor's death it is rejected. Old jobs/results preserve their shape.
+
+Receipts: browser-review-1wxlHB,worker-review-dJGzAf,mutation-review-IeCN8K under
+this build. Twelve32-fight synthetic workload controls include explicitly labelled
+1100-health actors to exercise real Rune hazards; these are NOT published presets.
+Twelve separate fully equipped,acquisition-legal51-point worker cases retain
+ordinary stats. All numerical fields match native; invalid semantic/protocol
+recovery,main-thread heartbeat and live10000-fight Stop/recovery pass. Mutations
+prove sensitivity to wrong Viper/regen rates,wrong Scarlet capacity,periodic
+Devout eligibility,skipped fully absorbed hits,threshold timing,party radius and
+ignored self-damage policy. No optimization or class-window start occurred.
+
+Public source: infra/simulator/paladin-healing-self-sets.{go,mjs,test.mjs},
+paladin-healing-self-sets_test.go,paladin-self-set-{protocol,native-runner,worker}.mjs,
+paladin-self-set-protocol.test.mjs. Existing full set source fixture826572... is
+reused; current parent integration text is pinned separately. Private tools under
+optimization/review-tools: prepare-paladin-self-sets-v1,
+review-paladin-self-sets-{browser,worker,mutations,final}-v1 (all.mjs).
+All successful source/tests/tools/workspaces are now frozen. Failed workspaces
+bc0875.../build-ZXKOfi,fd8879.../build-itEVVe,6b0c1c.../build-lafVtf are retained.
+The Circle raw fixture needed its APL context,the request probe now uses a clone,
+and the workload exposed the pre-reset freshness guard. Failures were corrected
+in derived attempts,without altering earlier frozen models or validation rules.
+
+413 reusable tests pass via pnpm simulator:healers:test; focused ESLint/Prettier
+and diff checks pass. No UI/TypeScript source changed,commit,push,production
+release,3017 restart or cleanup. Active local Priest82489a30494be3b4eff67cc0 and
+Druid ad355f15131498695376e972 remain unchanged on3021. No protected
+infra/simulator/simulation-cache.mjs read/import/execution/mutation occurred.
+
+NEXT: finish Paladin's remaining set scope/inspector admission from this582d model.
+The historical43-set audit had23 dynamic thresholds pending; four cast thresholds
+and these six are now qualified,leaving13 conservative scope entries. Some already
+work (Magister/Devout cast mana); several are inactive in a stationary healing
+assignment (movement/control removal/melee-only reactions). Prove that from
+source and actual opportunities rather than dropping their gear. Review hostile
+CC/reflection versus self-damage explicitly; Soulforge516 inspector metadata must
+match its existing runtime without double counting or merging variant1673.
+Before numerical admission,ensure scoring excludes healing/absorbing self-created
+Rune/Circle damage from external assignment demand. Then full bounded all-slot
+gear,talent/consume feedback,independent2% confirmation/local delivery,Shaman,
+unfinished original DPS/tanks and reusable update workflow. Paladin/Shaman clocks
+remain unstarted. Priest's expired window stays expired; Druid original deadline
+remains2026-10-25T04:32:49.463Z. Goal stays ACTIVE until the full objective is proven.
+
+## October 24, 22:48 UTC — Full Paladin set audit and four cast effects qualified
+
+This turn is PROGRESS. The complete all-class pre-raid goal stays ACTIVE,
+including Holy/Discipline Priest, Restoration Druid, Holy Paladin, Restoration
+Shaman and supported Forever variants alongside unfinished original DPS/tanks.
+Do not mark the full goal complete for these local component deliveries.
+
+LATEST QUALIFIED PALADIN PARENT:
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-healing-cast-sets-v1/e9b596cac38ebecb000d21e830b6ec61ce2dec1785f40e907136dec0e30b01bc/build-vH4KU6/report.json`,
+SHA8b631f2ea61d3aae71575402a060d2790d1e11c483f2a98541026076a5181cf4.
+Final `final-review-YZiFsH/report.json`, SHA
+1390dd321f770393f757b89b6b66d58596ac4eb50b1b5753ba72b02f66ded768,
+status `paladin-owned-healing-cast-set-controls-passed`.
+154 native/Chromium controls (153 Paladin +1 Priest),198 measurement groups,
+86 full worker comparisons and six compiled mutations pass. All186 parent groups
+are preserved in their original ordered sequence, including repeated labels.
+657 compiler files:653 unchanged parent files,two controlled integrations,two
+additions. Catalog, acquisition and every non-item protobuf byte stay unchanged.
+
+Owned fifth-piece effects: Wildheart185 restores200 mana from completed class
+healing casts (2% reference;5%/100% sensitivities, dummy metadata is not an observed
+server rate); Dreadmist183 has5% chance to heal self270–330,zero coefficient,
+noncritical reference/critical sensitivity; Elements187 and Lightforge188 grant
+65 healing+spell damage for10s (literal client100% reference,5% sensitivity).
+Only actual owned class cast roots qualify. Item, hostile, passive, triggered,
+periodic and dead-owner events are excluded. Thresholds, expiry/reset, mana
+references, fixed heal amounts, copied policies and fresh-actor guards pass.
+Optional `castSetPolicy` is validated in native/Web Worker transport and echoed
+only if supplied; old jobs/results remain compatible. Nine fully equipped,
+acquisition-legal51-point cases pass64-fight native/worker parity with observed
+procs and actual critical/noncritical Dreadmist results. Stop, heartbeat and
+semantic/protocol rejection/recovery pass. No server-rate verification is claimed.
+
+Receipts under this build: browser-review-nHUMl1,worker-review-jRfYEv,
+mutation-review-1d6aFR. Public source: paladin-healing-cast-sets.{go,mjs,test.mjs},
+paladin-healing-cast-sets_test.go, paladin-cast-set-{protocol,native-runner,worker}.mjs,
+paladin-cast-set-protocol.test.mjs (infra/simulator). Private tools under
+optimization/review-tools: prepare-paladin-cast-sets-v1,
+review-paladin-cast-sets-{browser,worker,mutations,final}-v1 (all.mjs).
+All successful source, controls, tools and workspaces are now frozen.
+
+The comprehensive source audit is separately retained:
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-healing-set-audit-v1/review-sJbEEr/report.json`,
+SHAd4951b97fc94997e7837ece5a1faa73dd1ecf748f5356cc6838e508196764f8f.
+It accounts for43 sets,136 spell links,134 distinct thresholds and30 contexts.
+Only41/65 two-piece thresholds are unreachable (one weapon each). Slot matching
+is explicitly an upper bound, never certification of complete-loadout acquisition.
+Existing supported generated flats match current rows exactly. Missing generated
+IDs41,65,81,121,122,123,516 do NOT prove their runtime is missing: common handlers
+can still apply. Two native/browser observation controls compare nine groups
+across3500 actual completed casts. Beaststalker is ALREADY attack-only, zero mana
+from heals; Magister/Devout each give4800 mana in500 fixed-seed casts. Postmaster3
+and Necropile5 ALREADY grant23 effective healing power through SpellPower.
+An initial commentary misread the shared support list as a Beaststalker bug; the
+source and real engine disproved it, and no Beaststalker handler was changed.
+
+Audit source fixture paladin-healing-sets-source.v1.json.gz SHA
+826572ea3b61f34e343361be41b3f957bb10ae066e6767bd992b5bea9c7463e2.
+Generated-parent fixture paladin-healing-sets-generated-parent.v1.txt.gz SHA
+b6054809ecd289057966ef70185ab4c1b5ff1d2bbe806bb93a0471e50413d2c8.
+Public audit adapter/test paladin-healing-set-audit.{mjs,test.mjs}; private
+capture-paladin-healing-sets-v1.py,review-paladin-healing-set-audit-v1.mjs,
+paladin-healing-set-parent-observation-v1_test.go. Captured client ProcTypeMask,
+CombatRatingFlags and SpellEffectAura enums avoid guessing flags/rating units.
+Wildheart4's aura129 is movement speed, not spell haste. Audit keeps23 dynamic
+thresholds pending rather than claiming them zero; four are now qualified by the
+new model. Remaining19 require event-scope classification and relevant runtimes.
+
+Preserve failed audit review-3xvsLu: its small-set fixture incorrectly inspected
+only HealingPower rather than SpellPower+HealingPower. The corrected observation
+passes without an engine change. Preserve final-review first log: its original
+filter counted only HEART-prefixed groups; the final reader checks all185 Paladin
+parent groups plus Priest. No frozen model was edited to hide either failure.
+408 reusable tests pass via pnpm simulator:healers:test; focused ESLint/Prettier
+and diff checks pass. No UI/TypeScript changes, commits, production release,3017
+restart or cleanup. No protected simulation-cache.mjs access.
+
+NEXT continue remaining Paladin set admission from e9b596.../build-vH4KU6.
+Prioritize relevant Viper/Scarlet low-health effects, Vitality/Blessed regeneration,
+Devout shield versus self-damage references and Soulforge inspector metadata.
+Classify incoming-control/retaliation effects by actual opportunities; avoid a
+blanket set exclusion or global support claims for other classes. Do not award
+self-created Circle/Rune healing/absorbs as external assignment demand. Then full
+bounded numerical gear/talent/consume feedback,independent2% confirmation and
+local delivery, Shaman and unfinished original DPS/tanks/reusable update workflow.
+Paladin/Shaman numerical clocks are unstarted. Priest's expired window remains
+expired; Druid original deadline2026-10-25T04:32:49.463Z is unchanged. Active local
+releases stay Priest82489a30494be3b4eff67cc0 and Druid ad355f15131498695376e972 on3021.
+
+## October 24, 22:24 UTC — Paladin catalog modifier and quest-choice review qualified
+
+The all-class/healer goal remains ACTIVE. Latest qualified Paladin parent is now
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-catalog-gaps-v1/513a4f56b763194e0b4c0ffd0d6953c4c6cbc8e9a0ffa0393d71d717e7566086/build-YkvMgA/report.json`,
+SHA98e25707791076ee3dff73670a177986b8a344b33300f290125e84d5cd7d4fa0.
+Final `final-review-x69hzX/report.json`, SHA
+eb25d64fea1b26837a9d03893e3d37cbe51e337f24a1922f8741bafd98e9d8ae,
+status `paladin-current-modifiers-regen-and-quest-catalog-controls-passed`.
+149 native/Chromium controls,186 measurement groups,76 full-worker comparisons
+and six compiled mutations pass. All161 parent groups are unchanged. Compiler
+inventory655:649 unchanged parent files,three integrations,three additions.
+
+All4305 known mapped current modifiers were compared; no explicit differences
+remain. Corrected18 differences on16 items. Eight owned health-per-five modifiers
+are real capped regeneration, not spell healing/HPS; explicit2s/5s cadence
+references remain because server cadence is unknown. Eleven other modifiers are
+classified inactive in the admitted healing assignment while retaining the items.
+The five250xxx corrected items are crafted mail with client modifiers, not PvP
+vendor observations. Defense rating is converted to Defense, not mistaken for MP5.
+
+Provisional quest rewards20504/20505 now share Paladin/Alliance quest8418 ownership
+with20512Orb. Their current item identity exists, but current base stats/effects
+and acquisition are unverified; historical metadata is labelled. Whole-loadout
+checks reject duplicate or mutually exclusive rewards. Eligible pool2249 across
+30 contexts; all unrelated fields, acquisition and protobuf data are preserved.
+Public source/fixtures: paladin-catalog-gaps.{mjs,test.mjs},
+paladin-catalog-gaps_test.go, paladin-item-health-regen.go,
+paladin-catalog-{protocol,native-runner,worker}.mjs under infra/simulator;
+fixture paladin-catalog-gaps-source.v1.json.gz SHA
+61802e43f2752ae90a6f1dc104148edbbf6d1fe64a3461dcce0fcd3580d46fa2.
+394 reusable tests pass; focused ESLint/Prettier and git diff checks pass.
+Successful sources, tools and workspace are frozen; preserve failed artifacts.
+
+NEXT is comprehensive Paladin set admission (43 candidate set IDs including516).
+Several current set definitions suppress old common proc handlers, so neither
+blanket exclusion nor claiming generic support is correct. Review actual source
+triggers and legal thresholds, implement relevant healing/mana/regeneration,
+and classify only effects with genuinely absent opportunities as inactive.
+Soulforge inspector support, complete bounded numerical feedback/independent
+confirmation, local delivery, Shaman and unfinished original DPS/tanks remain.
+Paladin/Shaman numerical clocks have not started. Priest's expired window and
+Druid's original deadline2026-10-25T04:32:49.463Z remain unchanged. Local releases
+remain Priest82489a30494be3b4eff67cc0 and Druid ad355f15131498695376e972 on3021;
+production unchanged. No protected simulation-cache.mjs access.
+
+## October 24, 21:47 UTC — Druid shared-item correction delivered locally
+
+This turn remains PROGRESS; the full all-class/healer goal stays ACTIVE. Druid
+release `ad355f15131498695376e972` is now active on isolated3021, model
+`5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d`.
+URL http://127.0.0.1:3021/tools/forever/simulator/healing-druid . Priest stays
+82489a30494be3b4eff67cc0. No production release,3017 restart or cleanup.
+
+Druid Major18637 now uses GetConjuredCD for effective category1153 rather than a
+private shared timer. Rune blocks Major for2min; Major blocks Rune for2min while
+keeping its own5min personal cooldown. Blocked controller uses consume no charge
+or personal cooldown. Ten charges, actor isolation and iteration reset pass.
+Two actual directional controls fail on the parent; the corrected model passes
+132 native/Chromium controls,195 measurement groups,20 full worker comparisons
+and three compiled mutations. All190 parent groups and catalog bytes survive.
+655 compiler files:653 unchanged parent files, one integration, one test addition.
+Existing item amounts, recipients, crit hypotheses and all protocol bytes stay
+unchanged. Current defaults have no Rune, so the fix is for custom mixed uses.
+
+Paths relative to artifacts/forever-simulator/optimization/healer-model-admission-v1/:
+`druid-recombobulator-category-v1/5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d/build-PVm20s/report.json`,
+SHA30c57197f06161212639c7c82943af2bc2a19e2bb588ca5ecfa45dea81cb3a43.
+Final `final-review-UBO2uD/report.json`, SHA
+3d81b9452af585ff5648ebbea73a41350d60349301a1f878e5306fe6d47574d7,
+status `druid-recombobulator-category-and-default-regressions-passed`.
+Receipts: browser-review-2Ls8Ne, worker-review-vm6cOw, mutation-review-YjZwyK.
+Default replay `default-replay-ks4zT8/report.json`, SHA
+79f71efb4cc0844fbb64344443824652fc265d9c3fe646b71674d6bf1fc0c872:
+528 distinct actual jobs reproduce960 labelled comparisons /240 references
+across all30 builds, with unchanged gear/consumes/policies/results and survival.
+No optimization, selection or new clock: original Druid deadline remains
+2026-10-25T04:32:49.463Z. Priest's expired window remains expired.
+
+Delivery input: `druid-recomb-category-browser-delivery-v1/candidate-i0NTw1/input.json`.
+Thirty presets,1534 items,97 enchants,8 scenarios. Exactly one tooltip and two
+assumptions explain category sharing and the replay; build data is identical.
+Actual workspace `.../browser-review-boa2I6/report.json` passes21 checks /16 native
+comparisons: three archetypes, owned use/removal, crit references, saved/share,
+gear/enchant/race/talents, Stop/navigation recovery and desktop/mobile. Screenshots
+visually reviewed. Activation used that real receipt; active.json equals the
+immutable new manifest. Fresh default visit without a release query passes full
+native parity in `build-PVm20s/default-review-ca3T6p/report.json`, SHA
+c9960b5924e25e1c910bac82b1797a6c12e01206b99857e41b5b6b3f06beb867.
+Workspace receipt SHA0bc3a3fe708eb19f7678c7130d752c039dbbc1a68928ebe944772370afc328cb;
+active manifest SHA3aff2746fd517d5d50b879225f0c4bbfbe9196e6dc3c5c1c525be7ad2abd5416.
+The same default-review folder's default-consumes-audit.json independently checks
+all30 actual protobuf requests AND metadata have defaultConjured0.
+
+New public source: infra/simulator/druid-recombobulator-category.{mjs,test.mjs},
+druid-recombobulator-category_test.go. Source-backed adapter replaces exactly
+one timer in a derived copy, retaining frozen druid-recombobulator-use.go.
+Private tools under optimization/review-tools: prepare-druid-recombobulator-category-v1,
+review-druid-recomb-category-{browser,worker,mutations,final}-v1,
+replay-druid-recomb-category-defaults-v1, export-druid-recomb-category-library-v1,
+review-druid-recomb-category-{workspace,active}-v1 (all .mjs).
+
+Builder explicitly reconciles one operational pointer in the old parent final
+receipt: its old active.json hash predates the already authorized Heart activation.
+It validates the current6cd0 pointer against that immutable manifest and the
+parent model identity, then pins the immutable manifest instead. Compiler and
+mechanics input hashes remain exact; no historical source/hash was rewritten.
+Preserve failed early build logs; they caught a wrong expected parent status and
+that legitimate pointer movement, before any runtime workspace was built.
+
+387 reusable tests pass via pnpm simulator:healers:test; focused ESLint/Prettier
+and git diff check pass. No TypeScript/UI source changed. Docs and fixes updated.
+All successful new templates, tests, tools and workspaces are frozen. No read,
+import, execution or mutation of infra/simulator/simulation-cache.mjs occurred.
+No simulation worker/search is intentionally left running;3021 stays available.
+
+NEXT return to latest qualified Paladin d242.../build-2KCu2d below. Twenty shared
+item-effect reviews are complete, but broad18-stat/19-modifier relevance/source
+review, set/catalog reach (20504/20505), Soulforge inspector admission, bounded full
+feedback/independent confirmation and local delivery remain. Then Shaman and all
+unfinished original DPS/tanks plus reusable update workflow. Paladin/Shaman
+numerical clocks remain unstarted. Do not mark the whole goal complete for these
+component/runtime deliveries or discard earlier failed artifacts.
+
+## October 24, 21:33 UTC — Final five Paladin utility effects qualified
+
+This goal turn is PROGRESS. The expanded full goal remains ACTIVE: every healer
+and all unfinished original DPS/tanks. The twenty shared Paladin item-effect
+reviews are now complete. Broader stats/set/catalog admission, Soulforge inspector
+support, full numerical feedback/independent confirmation and local delivery are
+still required before Paladin is ready. Shaman remains unqualified. Priest and
+Druid active local releases are unchanged; no production delivery occurred.
+
+**Latest qualified Paladin parent** (use this for subsequent derived work):
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-utility-model-v1/d242ebbb354bdad05880f9236e7f3cf90fb8914082f3380d9457a0681c0fde79/build-2KCu2d/report.json`,
+SHA8ee286ad922e4d8e6d7792b4f6794d0e37f3098a95cf0fa2513d05b952da8e07.
+Final `final-review-Kd5SEs/report.json`, SHA
+96c40a6486c2e22a52c1eb85886b56efcd3c42964d7fef4089e32c2a8158693c,
+status `paladin-owned-healing-utility-controls-passed`.
+140 native/Chromium controls (139 Paladin + one Priest),161 measurement groups,
+71 full worker comparisons, eight compiled behavioral mutations. All130 parent
+groups and all catalog bytes survive. Compiler652:644 parent files unchanged,
+five controlled integrations, three additions. Domain remains2247 eligible items
+and30 faction/profession contexts. Exact source/runtime is frozen after success.
+No numerical optimization or class window started; Priest's old window remains
+expired and Druid's original deadline stays2026-10-25T04:32:49.463Z.
+
+**Behavior:** belt4262 heals225–375 self (5min CD), gauntlets8346 heal300–500 friendly
+within40yd (30min CD); both have1500ms base GCD and the existing Forever haste/floor.
+Truesilver7939 uses a3% taken-landed-melee reference, healing60–100. Hammer11923
+heals living party members within40yd for1081.92–1270.08 on owner death, once per
+death transition, never resurrecting anyone. Grace and Circle have explicit client
+no-critical flags. Unknown direct-heal/Truesilver crits are false reference/true
+sensitivity. Circle11808 has a real ten-tick/ten-second mana+Fire-health channel,
+59.25–98.75 per effect/tick,5min personal CD, no shared category/GCD. Mana and
+health use independent reference rolls; channel haste has a separate unscaled
+sensitivity. Interrupt/death cancels future ticks; actual cost follows health/
+shield/mitigation paths and contributes zero encounter DPS. The engine already
+prevents channel overlap. The new workload guard stops priority attempts earlier;
+the earlier commentary overstated that as an existing overlap bug.
+
+Friendly policies extend to4262/8346 without weakening old item restrictions.
+Optional boolean `utilityHealingCanCrit`/`circleChannelScales` require an eligible
+owner and fresh actor; old130 measurements prove compatible absent fields. Worker
+checks include acquisition-legal fully equipped51-point loadouts for all five,
+owner/threshold rejection, malformed transport restart, live10000-fight Stop,
+main-thread heartbeat and recovery. Before numerical admission, ensure assignment
+scoring does not reward healing/absorbing self-created Circle/Rune damage as
+external healing demand. Actual caster incoming workload remains excluded.
+
+**Sources and tools:** public fixture
+`infra/simulator/fixtures/paladin-healing-utility-source.v1.json.gz`, SHA
+0ef5b4464252855ad087b7fe962f2174a1e8c39c94cce28c99aadf1bc641c0e6.
+Public implementation/adapter/test `paladin-healing-utilities.{go,mjs,test.mjs}`;
+current native controls `paladin-healing-utilities-v2_test.go`; transport modules
+`paladin-utility-{protocol,native-runner,worker}.mjs`. Tools under
+optimization/review-tools: capture-paladin-healing-utilities-v1.py,
+prepare-paladin-utility-model-v2.mjs, review-paladin-utility-browser-v1.mjs,
+review-paladin-utility-worker-v2.mjs, review-paladin-utility-mutations-v3.mjs,
+review-paladin-utility-final-v2.mjs. Receipts under the qualified build:
+`browser-review-DrFAKQ`, `worker-review-Ezd4I2`, `mutation-review-a4jtqe`.
+Primary references pinned in paladin-utility-reference-v1/v2 captures interpret
+flags/channels only; server behavior and current base stats remain unverified.
+
+Preserve all earlier artifacts. First failed attempts caught a nonexistent Go
+outcome API, a periodic calculator without its Dot, then raw fixtures missing APL
+context and confusing hardcast speed with SpellHaste. The first successful build
+e6d305... retains wrong belt/glove fixture slots; its worker correctly rejected
+those. Corrected v2 controls use proto slot constants and a fixture slot guard.
+Mutation v1's redundant death guard and v2's redundant workload guard could not
+independently break behavior because core guards already exist; neither failed
+mutation review is presented as qualified. V3 detects eight real behavioral faults.
+No model or shared helper was edited after qualification.
+
+384 reusable tests pass via pnpm simulator:healers:test; the command now includes
+five new utility tests. Focused ESLint/Prettier and git diff check pass. Docs:
+docs/simulator-paladin-healing-mechanics.md and healer campaign plan updated.
+No commit/push/deploy,3017 restart, cleanup or read/import/mutation of the forbidden
+infra/simulator/simulation-cache.mjs. All numerical clocks and model guards retained.
+NEXT: broader Paladin18 stat differences/19 modifier gaps, remaining set/catalog
+reach (including20504/20505) and Soulforge inspector admission. Also resolve the
+known Druid Major Recombobulator private shared-timer issue in a derived model
+before its original deadline; all30 current defaults have defaultConjured0, so
+none currently stacks Rune with it. Then complete bounded feedback/delivery for
+Paladin, Shaman, unfinished original DPS/tanks and the reusable update workflow.
+
+## October 24, 20:53 UTC — Confirmed Priest ring update active locally
+
+The progress below is now DELIVERED locally: active Priest release
+`82489a30494be3b4eff67cc0`, model
+`90fab623eac3c52fd12441f826b9362e90298832fb28f92ef657daa1a10ff189`.
+Actual review URL: http://127.0.0.1:3021/tools/forever/simulator/healing-priest .
+40 presets,993 items,97 enchants and14 cases remain;27 defaults change rings.
+All40 choices pass independent observed2% confirmation (maximum1.32243594%).
+All79422 actual optimization jobs are exactly reconstructed. Last search finishes
+at20:29:42.721UTC, within the original20:33:53.864UTC deadline. No subsequent
+optimization search or new Priest numerical window is authorized/running.
+Post-deadline work was static export, contract/browser/native delivery checks.
+
+Final input, relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`priest-mark-browser-delivery-v1/candidate-0XGLnT/input.json`.
+Workspace `priest-mark-browser-delivery-v1/browser-review-fUzUNW/report.json`,
+SHA1d20bd1a92149e28cec4dab3c70d295e066f27ead8773bd5fb172e2b1413db85:
+20 real checks,17 native/browser comparisons, no errors. Item tooltip/use/removal,
+Unique-duplicate blocking, Stop/recovery, race/talents, saved builds, desktop and
+mobile pass. Screenshots desktop/mobile were visually reviewed. Tank has no
+Group-spacing control; Rosewine13178 is Unique while Seal of Rivendare13345 is
+not. The two earlier review failures were incorrect TEST assumptions, and v3
+tests both the rejection and valid replacement. Validation was not weakened.
+
+Activation used the actual browser receipt through prepare-healer-simulator;
+active.json exactly matches the immutable manifest. Fresh default visit without
+a release query passes native parity with owned Mark and Second Wind present:
+`priest-mark-browser-delivery-v1/default-review-Fkc6Bf/report.json`, SHA
+461431abb9d5a8227b28475747c82c261ce8176b416e83f68a4e6c94fbf9d11e.
+Final exporter is export-priest-mark-library-v3.mjs; workspace reviewer v3,
+fresh-default reviewer review-priest-mark-active-v1.mjs. Successful new sources,
+fixtures, scripts and receipts are frozen; preserve failed/earlier staged artifacts.
+References and assumptions correctly say64/128 fights, ready item cooldowns and
+tested fallback rings during Mark's30-minute cooldown. No stale256-fight/unchanged35
+claims in the final library. itemEffectsVersion2 provides compatible owned use;
+versions absent/1 retain their old behavior and all prior bundles stay intact.
+
+379 reusable healer tests,26 web configuration/simulator tests and17 focused data
+schema/Druid tests pass (the corrected8-test schema file was rerun after its test
+fixture fix). Strict data and web tsc, focused ESLint/Prettier and git diff check
+pass. New docs: docs/simulator-priest-ring-model.md. Plans/fixes updated. Druid
+remains6cd0d5d39d684e20edfbca05 on3021, with no model or default changes this turn.
+All owners from this turn are terminal; do not restart searches/reviews from stale
+handles. No commit/push/deploy,3017 restart, cleanup or read/import/mutation of
+the forbidden mutable simulation-cache helper. Production unchanged.
+
+Full goal remains ACTIVE. NEXT return to latest qualified Paladin564b776... model
+and its five remaining effects4262,7939,8346,11808,11923, broader item-stat/set/
+catalog admission (20504/20505 included) and Soulforge inspector support. Then
+bounded full feedback/confirmation and local default delivery, Shaman and all
+unfinished original DPS/tanks. Keep Druid Rune+Major effective-category follow-up
+within its unchanged2026-10-25T04:32:49.463Z deadline. Paladin/Shaman numerical
+clocks are unstarted. Original reusable campaign/update workflow remains part of
+the full deliverable; do not confuse this incremental local correction with
+completion of the entire all-class objective.
+
+## October 24, 20:48 UTC — Priest ring feedback confirmed; final local delivery review running
+
+This goal turn is PROGRESS: missing Priest Mark effect is corrected and qualified;
+all40 existing presets now have independently confirmed ring choices, with27 changes.
+Full expanded goal remains ACTIVE, including other healers and original DPS/tanks.
+Numerical searches finished at20:29:42.721UTC, BEFORE the original Priest
+2026-10-24T20:33:53.864Z deadline. No new optimization window or search is running.
+Work after that deadline is delivery/replay/UI verification of these finished
+calculations. No commit/push/deploy,3017 restart, cleanup or read/import/mutation
+of infra/simulator/simulation-cache.mjs. Production unchanged.
+
+**Delivery is NOT active yet.** Old Priestff242f1bc1c4a6842cfcc229 remains the local
+default. Final staged release `82489a30494be3b4eff67cc0`, model
+`90fab623eac3c52fd12441f826b9362e90298832fb28f92ef657daa1a10ff189`, is undergoing
+actual browser review on isolated3021. Live owner session6562 (verify before
+waiting/restarting), log `/tmp/kfc-priest-mark-workspace-20261024-c.log`, tool
+optimization/review-tools/review-priest-mark-workspace-v3.mjs. It must pass before
+activation. Use input `priest-mark-browser-delivery-v1/candidate-0XGLnT/input.json`
+relative to the admission root below, with actual review receipt via
+`node scripts/prepare-healer-simulator.mjs --input <input> --activate --review <review>`.
+Then perform a fresh default visit/native parity check. Do not restart3017.
+
+Paths below relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`.
+
+**Qualified model:**
+`priest-dragon-mark-model-v1/90fab623eac3c52fd12441f826b9362e90298832fb28f92ef657daa1a10ff189/build-IFpUZu/report.json`,
+SHA6ee36e57773871f8bd9bdcf9150221a10822339f4f67ebc97f02303c5c9894b0.
+Final `final-review-MydRPh/report.json`, SHA
+3b71af91bc07781529ea09987bfa83fc4f56d12daa1a38159046b81cea0105d1,
+status `priest-owned-mark-controls-passed`.145 native/Chromium controls,9core,
+59 groups,28 full worker comparisons and four compiled mutations. All48 parent
+groups/catalog bytes survive. Compiler620:615 unchanged, two actor/cooldown
+integrations, three additions. Source-backed500selfshield/22mana every5sec while
+shield holds;30min CD/duration; cancellation/depletion/death/reset, all schools,
+caps and no unused-shield HPS. No full class/publication admission from component.
+Receipts `browser-review-tTXq0I`, `worker-review-CDBgZI`, `mutation-review-jiovHc`.
+
+**Feedback:** `priest-mark-feedback-v1/fddf3606b73bf42b4b5940f4b8f2a932e59c0f6f35430bfa05765728d14cce0f/report.json`,
+SHA7526f31d8148413acb5aeaf0e0b3d439bc31594286d14aa028864d27f216ad99.
+78554 actual jobs;124 legal baseline/Mark-partner combinations per preset, both
+ring slots, all14 rank/Heart cases. Other slots/enchants/talents/consumes/priorities
+fixed. Two Aegis group180 layouts fail initial observed2% (worst2.40077%); no
+confirmation reselection or promotion of failed choices.
+Fresh focused follow-up:
+`priest-mark-followup-v1/caec9c08320b972d59450b8302d11888dc3c1af9f6e84d4372ce44bd03a0653f/report.json`,
+SHA8f90ed02a0686a37c32d50cdecde59a42955ae7e208fd7670a8a7bef331456de.
+868 additional actual jobs; retained gears retrained with64 fresh fights/case,
+then four fresh32-fight confirmation batches. Both pass, retaining two13345
+Seal of Rivendare rings. Total79422 distinct actual optimization jobs. Combined
+40 survive and pass observed2%; maximum final observed regret1.32243594%.
+Twenty-seven defaults change rings. This is a scoped incremental correction,
+not a new global optimum. Reference sizes64/case,128 for the two follow-ups.
+
+**Exact replay**: follow-up's `origin-review-qLZkcJ/report.json`, SHA
+d6af27907efb6e9befb1d3a098529def8e15400a0f2b783bfd8efe9e166f4a0a.
+Reconstructs all79422 jobs from frozen metadata/codec, validates every fingerprint,
+deadline/complete reply, all candidate legality, training/refinement/independent
+selection and merged40 results. Full replies retained in compact NDJSON, without
+duplicating each base64 request. Replay is verification, not new native search.
+
+**Public changes:** priest-dragon-mark.{go,mjs,test.mjs},
+priest-dragon-mark_test.go, fixture priest-dragon-mark-integration-source.v1.json.gz
+(SHA245cbdb4420377ea749d27bb69510072fe7a25ecaef5daa1f20a3da0bb2d10f2).
+Reuses authenticated druid-dragon-mark-source.v1 payload with exact parent-row
+projection. Source/template/tools are frozen after qualification.
+New itemEffectsVersion2 admits owned Mark auto-use; versions absent/1 stay
+compatible. Packages library schema requires version2 ring ownership/use agreement;
+normalizer preserves Heart labels/policies. Web config adds/removes the owned use
+after Rune, matching study order. Mark tooltip, actual references and cooldown-ready
+assumptions are in the final bundle. It lists each preset's tested non-Mark fallback
+pair. Stale256-fight and unchanged35 text removed; no extra number changes.
+Source snapshots/aliases preserve old three changed TS files under
+priest-mark-source-snapshots-v1/. Old bundles/models remain untouched.
+
+379 reusable healer tests pass. Web configuration/simulator26 tests pass; data
+schema8 plus unchanged Druid9 pass. Both data/web strict tsc and focused ESLint/
+Prettier pass; git diff check passes. The first schema test used a faction-locked
+mock ring and was corrected to a neutral fixture. Browser v1 mistakenly looked
+for Group spacing while on Tank assignment; v2 mistakenly used duplicate Unique
+Rosewine Circles (13178) to remove Mark. This was a TEST mistake, not disagreeing
+validators: the calculated pair is non-Unique Seal of Rivendare13345. v3 explicitly
+checks that duplicate Rosewine blocks simulation, then replaces them with Seal.
+Failed artifacts/tools are preserved. Cbf051... is earlier staged metadata only;
+use82489a30494be3b4eff67cc0 as final. No new active release until v3 passes.
+
+Private tools: prepare/review-priest-dragon-mark-* (browser/worker/mutations/final),
+run-priest-mark-feedback-v1.mjs, run-priest-mark-followup-v1.mjs,
+review-priest-mark-feedback-v1.mjs, export-priest-mark-library-v3.mjs,
+review-priest-mark-workspace-v3.mjs. All in optimization/review-tools/.
+After local delivery, return to latest qualified Paladin564b... model's five
+remaining effect reviews, broader stats/set/catalog and Soulforge inspector
+admission before its bounded search; then Shaman and remaining DPS/tanks. Retain
+Druid Rune+Major category follow-up and its original04:32:49.463UTC deadline.
+
+## October 24, 20:14 UTC — Four Paladin effects qualified; prioritize Priest ring gap
+
+Previous goal turn was PROGRESS (owned Recombobulators). This turn is PROGRESS:
+four further item effects are qualified on a new Paladin runtime, and a real
+Priest ring-model gap changes the next priority. Full goal remains ACTIVE: every
+supported DPS/tank plus all healer classes, complete pre-raid gear/talents/enchants/
+consumes/guidance and simulator delivery at the accepted practical2% tolerance.
+No commit/push/deploy,3017 restart, cleanup or read/import/mutation of the forbidden
+simulation-cache helper. Local Priest/Druid releases and production are unchanged.
+
+**NEXT PRIORITY — Priest Mark13143:** the current library/picker includes it in
+both ring slots with no effect tooltip, but an actual equipped native actor has
+no spell17252. A newly compiled regression fails behaviorally, not at compilation.
+No current Priest default equips the ring; that does NOT establish its loss
+against a correct mana model. The40 winners need a focused ring comparison after
+a derived model fix. Existing original deadline is STILL
+2026-10-24T20:33:53.864Z (about20 minutes remained at this checkpoint); no reset or
+new numerical window is authorized. Prioritize this now; Paladin numerical clock
+is unstarted. Preserve all frozen successful sources and the current3021 release.
+
+Gap report relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`priest-dragon-mark-gap-v1/probe-twzv2e/report.json`, SHA
+c6b121f01cf98668a3799eada24df4a1c6f5e12d50d8df86f080197cb900bb5a,
+status `owned-catalog-ring-has-no-current-priest-effect`. Private tools:
+`optimization/review-tools/priest-dragon-mark-gap-v1_test.go` and
+`probe-priest-dragon-mark-gap-v1.mjs`. Source/pinned current runtime is
+`priest-energetic-rod-model-v2/c32709b9a8d61f3d8cc7f54a5170f9893eb1480c57b18cadac693d486a7bc97f/build-oGg9o1/report.json`;
+final `final-review-wlexWT/report.json`, SHA
+c17c53749ac00f42b9925d657d619aa9e3e55d617fdbfa7b5e5d351190245ac8.
+Priest compiler inventory uses `byteSha256` (617files), unlike Paladin's `sha256`.
+Actual Priest integration files are `sim/priest/healing/healing_priest.go` and
+`kfc_healing_cooldowns.go`, NOT kfc_cooldowns.go. Append the class-owned registration
+after `hpriest.registerKFCPriestItemResources()`; allow owned spell17252 alongside
+1302205. The qualified Druid/Paladin ring logic and source payloads are reusable.
+No new request fields are needed for Priest Mark, only owned cooldown admission.
+
+**Latest Paladin model**, relative to the same admission root:
+`paladin-regeneration-model-v1/564b776dc9671179ea01303128cd03b20c33b66d8704b9e09c2e6772d2fecaa8/build-4aY1TB/report.json`,
+SHA0eb61dadd51f6c758c899462b0c57556344135ee12501f362315fbf266266eea.
+Final `final-review-hnGl0K/report.json`, SHA
+f847f31a8afb510706c92ad6aa2861f64c044e6e74687b10f2391ca41798da3e,
+status `paladin-regeneration-and-linked-mana-controls-passed`.
+119 native/Chromium controls (118Paladin+onePriest),130 groups (129+one),
+57 full worker comparisons and six compiled mutations. All108 parent groups are
+unchanged. Compiler649:643 unchanged parent files, three actor/workload/cooldown
+integrations, three additions. All catalog/source/domain/binary and generic common
+item source bytes are unchanged;2247 items across30 equipment contexts remain.
+Receipts: `browser-review-HdYHN4/report.json`, `worker-review-MHxrya/report.json`,
+`mutation-review-Qs8swg/report.json`. Live Stop, heartbeat, rejection/recovery and
+two legal fully equipped51point builds pass. Full class/numerical/publication
+admission remain false. Do not edit these newly successful pinned sources/tools.
+
+Four effects covered: Benevolence6323 gives4 health/5sec only to living party
+members within30yards; Runeblade13505 now gives60selfhealth/5sec (old common hook20
+is replaced only on the Holy actor), both capped and death-safe. Royal Seal18472
+adds9MP5 only in explicit Haunted reference, none in neutral/Wasteland. Its
+historical22healing base metadata remains unchanged. Mark13143 has500selfshield,
+22mana/5sec while shield holds,30min personal/duration and no shared category/GCD.
+Depletion/manual cancellation/death stop mana; natural expiry credits one final
+due tick. No healing-power scaling or unused-shield HPS. Incoming caster damage
+is still NOT admitted to the Paladin workload; raw controls test depletion/death.
+
+Optional `itemArea` is neutral/haunted/wasteland and requires owned Seal/Orb.
+Old `orbArea` jobs remain byte-for-byte numerically compatible. Both fields must
+agree if supplied; new context configures both owned items, and omitted owned Seal
+echoes neutral. Unknown server activation/timing stays reference behavior.
+376 reusable healer tests pass; focused ESLint/Prettier and git diff check pass.
+New source fixture: `infra/simulator/fixtures/paladin-regeneration-item-source.v1.json.gz`,
+SHAe1403b32963f66e1758b8c4550aed5d62d1dfcec0197913562c135aaa93d507d.
+Public files: `paladin-regeneration-items.{go,mjs,test.mjs}`,
+`paladin-regeneration-items_test.go`, and regeneration protocol/native-runner/worker
+modules in infra/simulator. Private capture/preparer/regression/browser/worker/
+mutations/final-v2 tools are in optimization/review-tools. The failed final-v1
+field-name assertion and earlier failed build are preserved. Manual raw Reset
+retains resource totals; death controls compare gain before/after, rather than
+expecting it to clear. JSON metric is `absorbedHps`, not `absorbedHPS`.
+
+After the prioritized Priest correction: five original Paladin shared reviews
+remain4262,7939,8346,11808,11923. Broad stats/set/catalog (20504/20505 included),
+Soulforge inspector admission, full bounded feedback/independent confirmation and
+local delivery remain; then Shaman and original DPS/tanks. Keep the Druid
+Rune+Major shared-category follow-up described below, within its unchanged
+2026-10-25T04:32:49.463Z deadline. No numerical optimization is running now. All
+build/review/probe processes from this turn completed terminally; do not restart.
+
+## October 24, 19:53 UTC — Holy Paladin Recombobulators qualified
+
+This turn is PROGRESS on the expanded goal: all healer classes plus unfinished
+original DPS/tanks. Priest/Druid local releases remain active; Paladin/Shaman
+numerical clocks remain unstarted. No commit/push/deploy,3017 restart, cleanup,
+or read/import/mutation of infra/simulator/simulation-cache.mjs. The healer scope,
+2% practical target, scenario comparisons and complete delivery chain remain in
+docs/simulator-healer-optimization-plan.md. Do not mark the full goal complete.
+
+**Latest Paladin model**, relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`paladin-recombobulator-model-v1/ecc705c99ad6accb68ce1ed3d0a438f17a901de06024b07c9dd6a33cc00e4d44/build-HJ05BP/report.json`,
+SHA f43a159654399be7dfe367f89cc04ae2573abc209f01dc57df26f13914214a93.
+Final `final-review-N1mrpn/report.json`, SHA
+9d91b75d8991a2c9fe85dff3c5880e75d943799f539404828b177795dd7a3b0f,
+status `paladin-owned-coupled-recombobulator-controls-passed`.
+108 native/Chromium controls (107 Paladin+one Priest),108 measurement groups,
+45 complete worker comparisons and five compiled mutations. All86 parent groups
+remain numerically unchanged. Compiler inventory646:637 unchanged parent inputs,
+six controlled integrations, three additions. Catalog/source/domain and binary
+are byte-identical to the Orb parent;2247 candidates across30 contexts retained.
+Receipts: `browser-review-cjk6AK/report.json`,
+`worker-review-3KAjLG/report.json`, `mutation-review-YnADxo/report.json`.
+Live10,000-fight Stop, main-thread heartbeat and restart/recovery pass. Semantic
+invalid jobs recover in the same worker. The existing malformed-transport contract
+is fatal; rejection and a fresh worker's subsequent success are explicitly tested.
+No new class clock, full numerical admission or publication flag is set.
+
+**Corrected:** inherited Minor4381 DefaultConjured created an unequipped free
+150–250 mana-only spell. A narrow Forever Holy-controller marker suppresses only
+that generic path. Actual workload admission requires equipped4381+Engineering
+when selected. Both Minor4381 and Major18637 now require their trinket/Engineering;
+restore current health/mana to ONE friendly; enforce30-yard live geometry,
+no use while casting/channeling, ten charges per fully charged reference iteration,
+five-minute personal and two-minute shared1153 cooldowns. Rune uses the same timer
+in its CD field, not SharedCD; do not compare the wrong fields. Orb and offensive
+trinkets remain independent. Minor heal202.5..337.5/mana96..160; Major
+heal499.5..832.5/mana228..380. Coefficients zero. Unknown crit behavior is explicit
+false reference/true sensitivity; independent rolls and max Engineering300 remain
+assumptions. Native second-mana-player controls prove no health/mana split.
+The Paladin workload STILL rejects caster-damage events; actual self-use jobs
+restore mana after normal healing casts, while raw controls test coupled health.
+Passive item-use events count as healing hits/criticals, not completed casts.
+
+**Public sources:** `infra/simulator/paladin-recombobulators.go`, `.mjs`,
+`.test.mjs`, `_test.go`; `paladin-recombobulator-protocol.mjs`,
+`paladin-recombobulator-native-runner.mjs`, `paladin-recombobulator-worker.mjs`.
+Source fixture `infra/simulator/fixtures/paladin-recombobulator-source.v1.json.gz`,
+SHA ac178dd0f54878806946b7ecc38856c2b6fff87cfd4acee3787c99db4a6fb62d.
+Private tools in optimization/review-tools: capture-paladin-recombobulators-v1.py,
+prepare-paladin-recombobulator-model-v1.mjs,
+paladin-recombobulator-regression-v1_test.go, review-paladin-recombobulator-
+browser-v1/worker-v2/mutations-v1/final-v1.mjs. Successful source/template/tools
+are now frozen. The failed worker-v1 expectation and failed builds are preserved.
+Two old-model regressions fail behaviorally, not at compilation, and pass on the
+new model.371 reusable healer tests pass; focused ESLint/Prettier pass. No TS/UI
+edits. Runtime remains a component for continued admission, not Paladin BiS.
+
+**Next:** nine original shared reviews remain:4262,7939,8346,11808,13505,13143,
+6323,11923,18472. Raw captured records show several are substantive current
+healing/mana effects; do not classify them by their historical names. Examples:
+6323 now has Benevolence,11923 Grace of the Seven,18472 a current9-point
+Royal Seal modifier,13505 periodic60 self healing,13143 absorb500+periodic22
+mana.4262/8346 are current self/friendly heal uses,7939 an incoming-hit self-heal
+proc,11808 periodic mana plus self damage. Review full triggered payloads,
+talent/item interactions and effective categories before implementation. Broader
+stats/set/catalog admission (including20504/20505) and Soulforge inspector support
+still precede bounded full Paladin feedback, independent confirmation and local
+defaults/workspace. Then Shaman and remaining original DPS/tanks.
+
+**Druid follow-up discovered in the effective-category audit:** its frozen
+Major Recombobulator helper uses a private shared timer. Review/fix the custom
+Rune+Major interaction in a derived runtime before accepting that combination.
+All30 active default builds have defaultConjured0, so this does not demonstrate
+a shared-category error in those defaults. Three do wear Major: Splendor tank
+stacked180 and Nature's Grace burst stacked/spread180. Preserve the current
+release and successful sources; do not patch them in place. Original Druid
+deadline2026-10-25T04:32:49.463Z stays unchanged. Priest deadline remains
+2026-10-24T20:33:53.864Z; no additional Priest search is running. Local releases
+remain Priestff242f1bc1c4a6842cfcc229 and Druid6cd0d5d39d684e20edfbca05 on3021.
+Production is unchanged.
+
+## October 24, 19:18 UTC — Current Sanctified Orb and catalog addition qualified
+
+Previous turn was PROGRESS: Paladin cast/crit items were qualified and the Orb
+source was recovered. This turn is PROGRESS: its actual mana use, area references,
+resolved item cooldown, transport and one-item catalog extension are qualified.
+Full goal remains ACTIVE: all healers plus unfinished original DPS/tanks. No
+Paladin numerical search or new class clock has started. No commit/push/deploy,
+3017 restart, cleanup or changes to the mutable simulation-cache helper.
+
+**Latest Paladin model**, relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`paladin-orb-model-v1/126db42591b9bff4d59c9e8380c9aa4bea1eac85ef9221fa6b0cba4d855c9efc/build-Qmik6c/report.json`;
+SHA7a2fb34f7ebc27941365f35b77a84fdf871baa59ac6fcd04b46bb1cddd5a2e12.
+Final `final-review-54YeUW/report.json`, SHA
+a3a9da5a5451da9c5763d6cedd79ccd993d2f4089fd8e42221677f3eddde307c,
+status `paladin-current-orb-and-catalog-controls-passed`.
+99 native/Chromium controls, 86 groups, 35 complete worker comparisons and five
+compiled mutations. All 75 parent groups remain unchanged. 643 compiler inputs:
+635 unchanged, five controlled integrations, three additions. Receipts within
+that build: `browser-review-rAtuto/report.json`, `worker-review-7aJL0P/report.json`,
+`mutation-review-P3qIUZ/report.json`. Live 10,000-fight Stop, heartbeat, invalid
+job/owner rejection and recovery pass. Full numerical/publication flags false.
+
+**Cooldown correction to earlier preliminary notes:** SpellCategories says30
+with60-second recovery, but matching ItemEffect overrides spell cooldown/category
+fields. The Orb's explicit300000ms personal cooldown with category0 therefore
+uses NO shared category in the reference model. Rune, healthstones and both
+Recombobulators have item-level category1153/120000ms despite raw spell-category
+peers. Do not connect the Orb to GetConjuredCD or GetOffensiveTrinketCD. Tests use
+both orders with Rune/Recombobulator and independently ready Serenity; a compiled
+wrong-category mutant fails. This interpretation is supported by pinned open-source
+reference behavior, not a Blizzard server observation. Reference record:
+`paladin-orb-cooldown-reference-v1/capture-8lByzg/report.json`, TrinityCore commit
+868213670b7672ba486eb7a550cdad77ed45718f. Source fixture v3 includes the explicit
+item overrides; v1/v2 captures are preserved.
+
+Orb20512 now restores318.75..361.25 mana in the neutral reference, doubled in
+Haunted/Wasteland references. It has no old crit bonus, cast time or GCD. Actual
+versus capped mana, owned explicit use, living-caster guards, area freshness,
+iteration reset, controller demand and no item-to-Blue-Dragon cast proc pass.
+Optional `orbArea` input accepts neutral/haunted/wasteland; an owned omitted
+policy reports neutral. Areas remain explicit reference assumptions. Base stats
+and current acquisition remain provisional; absent readable ItemSparse metadata
+does not establish zero current stats.
+
+Catalog: `paladin-orb-model-v1/prepare-AGqVBo/` contains database.json, sources.json,
+equipment-domain.json, changes.json and codec receipt. Exactly one historical
+metadata item is appended; independent protobuf equality preserves every old item
+and all other data. The eligible domain grows2246->2247. All30 faction/profession
+contexts are reconstructed; only Alliance trinket slots gain the provisional
+Paladin class-quest reward. Quest8418 ownership is enforced without inventing a
+game Unique flag. The adapter also groups existing20504/20505 alternatives if
+present; they are NOT currently added to this catalog. Their own current
+stats/effects and acquisition review remain part of the broader catalog task.
+
+Public files: `infra/simulator/paladin-sanctified-orb.mjs`, `.go`, `.test.mjs`,
+`_test.go`, `paladin-orb-protocol.mjs`, `paladin-orb-native-runner.mjs`,
+`paladin-orb-worker.mjs`. Source fixture:
+`infra/simulator/fixtures/paladin-sanctified-orb-source.v3.json.gz`, SHA
+f1497824b2baea5fe238f5bc9d2fd559f392bf3dcdaa726aea29258abbe43466.
+New private tools: capture-paladin-orb-source-v2.py/v3.py,
+prepare-paladin-orb-model-v1.mjs, paladin-orb-catalog-encode-v1.go,
+paladin-orb-current-regression-v1_test.go, review-paladin-orb-browser-v1.mjs,
+review-paladin-orb-worker-v1.mjs, review-paladin-orb-mutations-v1.mjs and
+review-paladin-orb-final-v1.mjs in `optimization/review-tools/`. Successful
+tools/templates are pinned; do not edit them. The old runtime plus the NEW catalog
+fails the current-resource regression behaviorally, proving the old crit handler
+is wrong rather than merely testing a missing item. All new model stages pass.
+
+**Next:** 11 original shared reviews remain:4262,7939,8346,11808,13505,4381,13143,
+18637,6323,11923,18472. Prioritize the remaining mana/friendly-heal utilities,
+reusing qualified Druid source projections and checking the effective item-level
+cooldown category rather than raw spell peers. Broader stats/set/catalog review
+(including class-quest alternatives20504/20505) and Soulforge inspector admission
+still precede full Paladin gear/talent/consume feedback, independent confirmation
+and local workspace/default delivery. Preserve the accepted2% practical target;
+do not spend a new full search on unchanged models or deep timing work.
+
+Priority for the Recombobulator review: current spell18805 has270 mean friendly
+healing and128 mean mana (both variance0.5), but the inherited generic consumed
+Minor Recombobulator path uses150..250 mana and no health. It is registered from
+DefaultConjured without checking equipment in core/consumes.go. Review actual
+trinket ownership/Engineering and the effective1153 shared category before
+admitting that consumes choice to Paladin optimization. This finding is pending,
+not already fixed by the Orb correction. Major18637 has666 mean healing and304
+mean mana. Both have10 charges, five-minute personal/two-minute item category
+cooldowns. Reuse the captured payloads rather than the historical mana-only use.
+
+366 reusable healer tests and focused ESLint/Prettier pass; git diff check passes.
+No TS/UI changes or web build needed. Active3021 releases remain Priest
+ff242f1bc1c4a6842cfcc229 and Druid6cd0d5d39d684e20edfbca05. Original Priest/Druid
+deadlines unchanged; Paladin/Shaman numerical clocks unstarted. Production unchanged.
+
+## October 24, 18:50 UTC — Paladin cast/crit items qualified; Orb source corrected
+
+Previous goal turn was PROGRESS: Priest's focused correction was delivered and
+verified on3021. This turn is PROGRESS: four further Paladin effect reviews are
+qualified, including a real periodic-crit bug correction, and the missing Orb's
+current effect is recovered from raw client tables. The full goal remains ACTIVE.
+No new class search, publication, commit/push/deploy, cleanup or3017 restart.
+
+**Latest Paladin runtime**, relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`paladin-cast-crit-items-v2/dc061b60a66fa38e39caf5c1ea00830ccac4b6eab13da9004ced98d9ee022291/build-OF5tqL/report.json`;
+SHA423cd6b8abf59269f02e67bf1b7a5a9d4e30bc5b00a8adec28d8f281352aebd4.
+Final `final-review-K57rbp/report.json`, SHA
+efd15b12a408f027c88f8c3ae741f09456f4646a783867b26556e9798f9d6edb,
+status `paladin-cast-crit-and-offensive-exclusion-controls-passed`.
+92 native/Chromium controls,75 measurement groups,31 complete worker comparisons,
+5 compiled mutations; all65 parent groups/catalog bytes unchanged.640 compiler
+inputs:637 unchanged,2 integrations,1 test addition. Receipts within that build:
+`browser-review-rUkhjS/report.json`, `worker-review-bXuyUy/report.json`,
+`mutation-review-6MMtk3/report.json`. Real10000-fight Stop, heartbeat, rejection,
+unowned Analyzer rejection and recovery pass. Numerical/admission/publication
+flags remain false; Paladin's numerical clock has not started.
+
+Newly qualified: Blue Dragon19288 grants150 raw Spirit for15sec at captured2%
+eligible completed casts; real Holy Light casts, ownership, refresh, expiry and
+reset are controlled. Human stat dependencies correctly turn150 into157.5 in the
+control fixture. Analyzer272438 adds5 percentage points for20sec,90sec personal
+and20sec category1141 lock; direct healing crit consumes it, periodic crit does
+not. The legacy periodic helper uses OnHealDealt, so the old generic DidCrit-only
+predicate was wrong. A compiled regression fails behaviorally on the parent;
+the new derived handler checks DirectDamageOrHealing. No original engine files
+were edited. Explicit use is now admitted only when equipped; actual Analyzer/
+Serenity ordering is controlled. Helpful Paladin spells do not proc Emblem22268
+or owned Rod18321; the latter is verified in a legal fully equipped worker job.
+
+Public adapter/tests: `infra/simulator/paladin-cast-crit-items.mjs`, `.test.mjs`,
+and authoritative `paladin-cast-crit-items-v2_test.go`. Source fixture
+`infra/simulator/fixtures/paladin-cast-crit-items-source.v1.json.gz`, SHA
+a15079765ff011abf2c1409748f86111e91baaae87872fae6224d290d163c670.
+The original Go test source and failed v1 receipts are preserved. First attempt
+misread the job's raw JSON metrics type; its source snapshot/compile reason is in
+`paladin-cast-crit-items-v1/regression-03c1Hb/`. The first built v1 then exposed
+two test assumptions: Human Spirit dependencies and direct Cast on an unavailable
+shared cooldown. v2 uses the actual controller/CanCast gate, proving a blocked
+shared item does not consume its personal cooldown. These are resolved control
+fixture issues; do not modify the old artifacts or their pinned sources.
+
+**Important Orb finding:** do NOT import Sanctified Orb20512's old3%crit effect.
+The raw70532 ItemXItemEffect link139768 -> ItemEffect102759 -> spell24865 instead
+restores340 mean mana (variance0.125:318.75..361.25), doubled in Wasteland/Haunted
+areas. Its item cooldown is300000ms, spell category30 has60000ms recovery, and
+GCD is0. This changes the next required implementation from the old audit's
+"critical on-use" to a current mana use, with category/area checks. The full
+current ItemSparse and ItemSearchName tables have no readable20512 entry; do not
+invent current base stats. Its Item row exists. Pinned Classic metadata is
+available in `artifacts/forever-simulator/classic-reference/db.json`, SHA
+07a0691b49e618794e480bc68ca25a35011a5d6a9b5f2da0cee94740d49c55ce.
+It was omitted by the old acquisition importer because it has no dungeon/preset
+source there. Historical Paladin dungeon quest8418 offers20512/20504/20505; review
+and preserve shared quest-choice ownership when adding it. Current availability
+remains provisional, as for the other approved Classic fallback items.
+
+New source fixture: `infra/simulator/fixtures/paladin-sanctified-orb-source.v1.json.gz`,
+SHA278d37679887e48b2434ccfe648036a4323bc1f793a65564a4f438c36f9f8ade.
+Capture tool: `optimization/review-tools/capture-paladin-orb-source-v1.py`.
+It streams/authenticates all source tables, records missing readable metadata
+explicitly, includes SpellCategories/Cooldowns/range/cast-time and pins the old
+Classic item/quest alternatives. Runtime/catalog admission is still false.
+The generic registered Orb handler is still the historical crit effect and
+must be replaced in a new derived model; the item is absent from the current
+Paladin catalog, so it has not influenced these numerical results.
+
+**Next:** twelve remaining shared reviews:4262,7939,8346,11808,13505,4381,13143,
+18637,6323,11923,18472,20512. Prioritize the newly sourced mana Orb/catalog and
+category30 peers, then the other mana/friendly-heal utilities. Royal Seal18472's
+captured effect is haunted-area9MP5; current readable base metadata is absent,
+so do not zero its historical base stats merely from an absent ItemSparse row.
+Broader stat/set/catalog admission and Soulforge inspector admission still
+precede full Paladin feedback/confirmation and local delivery. Shaman and the
+unfinished original DPS/tanks remain required; the goal is not complete.
+
+361 reusable healer tests pass, plus focused ESLint/Prettier. No TS/UI changes.
+Active3021 releases remain Priestff242f1bc1c4a6842cfcc229 and
+Druid6cd0d5d39d684e20edfbca05. Original Priest/Druid deadlines are unchanged;
+Paladin/Shaman numerical clocks remain unstarted. Production unchanged.
+
+## October 24, 18:25 UTC — Priest hybrid-cast feedback delivered locally
+
+Full goal remains ACTIVE: healers receive the same complete pre-raid gear,
+talent, enchant, consume, casting-guidance and simulator delivery as DPS/tanks.
+Holy/Discipline Priest, Restoration Druid, Holy Paladin and Restoration Shaman
+are required; remaining original DPS/tank work is also required.
+
+Priest is now active on isolated3021 as `ff242f1bc1c4a6842cfcc229`, model
+`c32709b9a8d61f3d8cc7f54a5170f9893eb1480c57b18cadac693d486a7bc97f`.
+Review URL: http://127.0.0.1:3021/tools/forever/simulator/healing-priest .
+40 defaults,993 items,97 enchants and14 rank/Heart cases remain. The three Nova
+defaults have confirmed hand/trinket/rank choices. Four Holy burst defaults had
+Strength weapon enchants; they now use Intellect or Spirit. These overlap, so
+five defaults change in total. The Rod effect is modeled/tested but no winning
+default equips it. Do not infer that the effect was disabled because it lost.
+
+Paths below are relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`.
+
+- Study: `priest-rod-feedback-v1/4e591a2bf32d08e3881f7f126b649f591ab1e5b803154ce68b280449352ec892/report.json`;
+  SHA433064c50fb243126959471ae66ba2b735bceea025d761bbdf52df1d5db1977b.
+  45,640 actual jobs,5 defaults,14 cases, four independent64-fight batches.
+  All choices survive and pass observed2% confirmation; maximum regret1.69685%.
+  Hands435 candidates initially, existing Nova ranks/thresholds30, trinket pairs89,
+  then final hands feedback; spread defaults compare only15 weapon enchants.
+  Other equipment, talents and consumes remain fixed. No global-optimum claim.
+- Exact evidence replay: study's `origin-review-1NExLv/report.json`;
+  SHA427178f0d8c9ac56ce50d25acc8a5d2a41437c83c9af27bb9b4d12b286a45e33.
+  Every actual calculation, candidate, stage, selection and confirmation is
+  reconstructed; no reselection after confirmation or unexplained jobs.
+- Unchanged35: `priest-rod-compatibility-v1/review-XvkO0r/report.json`;
+  SHA873f3e4559d42bf84d1e834e9c7e35d2883dad9383e220563e3841323daecfe4.
+  All1,960 old reference jobs rerun on c327 with every result metric exactly
+  equal. Their gear searches are not repeated.
+- Input: `priest-rod-browser-delivery-v1/candidate-vjbqCY/input.json`;
+  11,375 source pins. Updated Rod/Emblem tooltips correctly explain Holy Nova's
+  harmful parent; helpful casts/passive healing do not qualify. Historical
+  item stats/server proc behavior remain assumptions.
+- Workspace: `priest-rod-browser-delivery-v1/browser-review-3u8sUg/report.json`;
+  SHAb433b79b5fc1ae2b7d779d30ea862f8fe70d1b6a40b870069981629a555b5992.
+  19 browser checks and15 real native/browser comparisons, including all four
+  burst enchant defaults, actual Rod+Nova use, tooltip, live Stop/recovery,
+  saving, talents and desktop/mobile layout. Screenshots visually reviewed.
+- Active/default: `priest-rod-browser-delivery-v1/default-review-kTe252/report.json`.
+  Fresh visit without release query loads the new gear/worker and completes
+  with native parity. No browser errors. All old bundles remain intact.
+
+Original Priest deadline remains2026-10-24T20:33:53.864Z; no reset. Druid remains
+`6cd0d5d39d684e20edfbca05`, with original2026-10-25T04:32:49.463Z deadline.
+Paladin/Shaman numerical clocks have not started. No commit/push/deploy,3017
+restart, cleanup or changes to mutable simulation-cache.mjs. Production unchanged.
+
+New reproducible review tools are in `optimization/review-tools/`:
+`priest-rod-feedback-context-v1.mjs`, `run-priest-rod-feedback-v1.mjs`,
+`review-priest-rod-feedback-v1.mjs`, `check-priest-rod-compatibility-v1.mjs`,
+`export-priest-rod-library-v1.mjs`, `review-priest-rod-workspace-v1.mjs`,
+`review-priest-rod-active-v1.mjs`. Do not edit these pinned successful tools.
+The new644MB journal and prior1.3GB journal must be streamed for replay.
+
+**Next:** return to Paladin's16 remaining shared reviews, stat/catalog admission
+and Soulforge inspector admission before its bounded feedback and local delivery.
+Use the latest frozen Paladin workspace, not mutable upstream `.cache` files:
+its common handlers already differ (Blue Dragon150Spirit and harmful-only Emblem).
+Do not mistake mutable upstream's old handlers for a new regression. Latest
+Paladin runtime/receipts and remainingIDs are in the following checkpoint.
+Shaman and unfinished original DPS/tanks remain after that work.
+
+## October 24, 17:55 UTC — Paladin shared items qualified; Priest Rod runtime ready
+
+Previous goal turn was PROGRESS (corrected Priest presets delivered). This turn
+is PROGRESS: four Paladin item effects and a missing Priest hybrid-cast effect
+are now independently qualified. Full goal stays ACTIVE: all healers plus
+unfinished original DPS/tanks. No gear search/publication occurred this turn.
+No commit/push/deploy or3017 restart.3021 still uses Priestd919bca2e06b42f29ae90638
+and Druid6cd0d5d39d684e20edfbca05. Priest's original deadline remains
+2026-10-24T20:33:53.864Z; Druid's remains2026-10-25T04:32:49.463Z. No clock reset.
+Paladin/Shaman numerical clocks have not started.
+
+Paths below are relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`.
+
+**Latest Paladin model:**
+`paladin-healing-items-model-v2/e8cd35cbccd27fbdc886c79063dc2341edd9ba90712a8f4f04e7d2dd8c283c89/build-KRE7zE/report.json`.
+Final `final-review-deT8vJ/report.json`, SHA
+429265e9b7d29ecf6336257fc0782e0b96eae037a7eb6d172b4d8cf98a206ee1,
+status `paladin-owned-heart-and-mana-item-controls-passed`.
+85 native/Chromium controls /65 groups (84Paladin+1Priest regression),27 complete
+worker comparisons,4 compiled mutations. All50 parent groups/catalog bytes remain.
+639 compiler files:631 parent unchanged,3 controlled integrations,5 additions.
+Receipts in that build: `browser-review-YwFOtl/report.json`,
+`worker-review-vh0stv/report.json`, `mutation-review-mVpGyA/report.json`.
+Live10000-fight Stop, heartbeat, rejection and recovery pass. Four effects now
+controlled: Holy-Light-only Heart249473, explicit Mindtap18371 with Divine
+Intellect penalty/clamp, shared Second Wind11819 category, owned Serenity272439.
+All9 Holy Light ranks and six proc/event policies are checked. Historical base
+stats/server behavior remain explicit assumptions. New public adapter/protocol/
+native/worker files are `paladin-healing-items.mjs` / `paladin-healing-item-*`.
+Integration fixture SHA658099f643fb90eba29c1fdf55868edda766c3bc231af414cfbe75666d790d8c.
+Authoritative resource tests: `paladin-healing-item-resources-v2_test.go`.
+v1 omitted common item registrations in its fixtures; v2 imports/verifies them,
+matching the real worker's `sim.RegisterAll()`. Preserve the failed v1 evidence.
+Full Paladin admission/numerical/publication flags remain false.
+
+**Important Priest distinction:**
+`priest-hybrid-proc-audit-v1/audit-dMLtGk/report.json` runs the actual current
+Holy/group default. Holy Nova15431 deals incidental damage and legitimately
+activates Emblem22268 (169.78s average uptime in180s). **Do not remove Emblem or
+classify it inactive in these Nova presets.** Damage is not the healing objective;
+the harmful parent belongs to an existing healing ability, not new weaving.
+This exposed a different real gap: `priest-nova-rod-gap-v1/probe-wCi4Fu/report.json`.
+Actual equipped Rod18321 +three Holy Nova casts gives0mana versus captured144;
+generic handler=false and no class-local implementation. The old model fails a
+compiled actual-cast regression behaviorally. v2 probe is authoritative; v1's
+receipt assertion merely expected a comma instead of the helper's semicolon.
+
+**New qualified Priest Rod model:**
+`priest-energetic-rod-model-v2/c32709b9a8d61f3d8cc7f54a5170f9893eb1480c57b18cadac693d486a7bc97f/build-oGg9o1/report.json`.
+Final `final-review-wlexWT/report.json`, SHA
+c17c53749ac00f42b9925d657d619aa9e3e55d617fdbfa7b5e5d351190245ac8,
+status `priest-hybrid-cast-rod-effect-controls-passed`.
+136 native/Chromium controls,9core,48groups; all45 parent groups/catalog bytes
+preserved.23 complete worker comparisons include all three affected actual
+presets with Rod, plus live Stop/recovery.4 compiled mutations caught.617 compiler
+inputs,1 controlled actor integration,3 additions. Receipts in that build:
+`browser-review-8ivlF0/report.json`, `worker-review-Gr60D8/report.json`,
+`mutation-review-spCLCJ/report.json`. Restores48mana on owned, registered,
+nonpassive harmful casts during combat, including Holy Nova. Helpful/periodic/
+passive, dead/precombat and unregistered-spell events are excluded. No new
+offensive priority or base-stat change. Three-cast regression now returns144.
+Public adapter/template: `priest-energetic-rod.mjs` / `.go`; actor fixture SHA
+07cfd76ec4dcf70534a72590fda67a4c1c0b4bdad6fab576d54882296e3bd7c2.
+Authoritative controls: `priest-energetic-rod-v2_test.go`; v1 incorrectly expected
+cumulative resource metrics to clear on manual Reset. v2 checks no new gain
+across Reset and the correct subsequent total. First worker script hardcoded
+Nova15431 although a burst build uses another rank; v2 checks the real family.
+Failed versions/receipts are preserved; neither is a remaining runtime failure.
+
+**Immediate next action, within the original Priest deadline:** bounded Rod
+hands/rotation feedback for ONLY `holy-group-stacked-180`,
+`holy-burst-stacked-180`, `holy-burst-stacked-300`. These are the ONLY three of40
+current defaults with Nova; NONE equips Rod. Use the new c327 runtime after
+checking its final receipt. Compare legal Rod off-hand/enchant combinations
+against existing selected/retained hands; include a coarse six-Nova-rank /small
+missing-health-threshold and retained-trinket feedback cycle. Keep2% tolerance,
+independent confirmation, original clock and no deep timing search. Reproduce
+the other37 defaults' references for compatibility; do not repeat their full
+gear searches. No winner or new preset is claimed yet. The Rod runtime has NOT
+been exported/activated. Update tooltips/guidance for Nova/Emblem/Rod, then export,
+actual browser review and activate on3021 only; preserve all old bundles.
+Current reference study:
+`priest-item-feedback-v1/2a0d115cc930d5eadff5b444aa5848e149c988be73c670af04e570bc89d7ed85/report.json`.
+Its1.3GB journal MUST be streamed. Current input:
+`priest-items-browser-delivery-v1/candidate-VgRaSw/input.json`.
+
+Then return to Paladin's remaining16 shared reviews:4262,7939,8346,11808,13505,
+4381,13143,18637,19288,272438,6323,11923,18472,20512,22268,18321. Several have
+existing handlers or scoped exclusions; do not call them all missing mechanics.
+Catalog reach/stat review (including missing Sanctified Orb20512), Soulforge
+inspector admission, full model admission, bounded2% feedback/confirmation and
+shared local workspace/defaults/guidance still precede Paladin delivery. Shaman
+and unfinished original DPS/tanks remain required.
+
+359 reusable healer tests, focused ESLint/Prettier pass. No TS/UI changes this
+turn; no unrelated web build/typecheck rerun. All frozen models/templates/helpers
+remain intact. No mutable simulation-cache helper was used. Build/review/control
+handles are terminal after final polling; no optimizer is running. Logs:
+`/tmp/kfc-paladin-items-*.txt`, `/tmp/kfc-priest-nova-rod-gap2.txt`,
+`/tmp/kfc-priest-rod-*.txt`. Do not restart completed handles or reset class clocks.
+
+## October 24, 17:06 UTC — corrected Priest presets delivered locally
+
+PROGRESS on the expanded all-class goal, which remains ACTIVE. Healers are
+included alongside the unfinished original DPS/tanks. Priest's original deadline
+stays 2026-10-24T20:33:53.864Z; Druid's remains 2026-10-25T04:32:49.463Z. Neither
+clock was reset. Paladin/Shaman numerical clocks have not started. No commit,
+push, production deployment or 3017 restart occurred.
+
+**Active local Priest release:** `d919bca2e06b42f29ae90638`, model
+`ab40161c3602021242ffd15ad03275dd70b6fa933166875489178221709da592`.
+URL: `http://127.0.0.1:3021/tools/forever/simulator/healing-priest`.
+40 presets, 993 items, 97 enchants, 14 rank/Heart scenarios and 560 fresh references
+of 256 fights each. Thirty presets change trinket assignments. Other slots,
+talents, priorities and consumes retain their previously tested configurations.
+The default Holy/group setup now uses Serenity Field272439 and Draconic Infused
+Emblem22268. Prior Priest releasecfd646e1e7011f004f068cfc remains intact. Druid
+release6cd0d5d39d684e20edfbca05 remains active and unchanged on3021.
+
+Paths below are relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`.
+
+- Runtime: `priest-resource-model-v2/ab40161c3602021242ffd15ad03275dd70b6fa933166875489178221709da592/build-C7Y4WX/report.json`.
+  Final review `.../final-review-NwtxG4/report.json`, SHA
+  2f1f69a5aa2f5728e074c46ada130bf6ad4552d6284fb7bec71eb579706ef881.
+  131 native/Chromium controls, 45 measurement groups, 19 complete worker
+  comparisons and four compiled behavioral mutations; all 30 original and 44
+  Heart-parent measurements survive. The previous checkpoint describes mechanics.
+- Focused study: `priest-item-feedback-v1/2a0d115cc930d5eadff5b444aa5848e149c988be73c670af04e570bc89d7ed85/report.json`,
+  SHA7feeeafc00fd1a3f22f68b3422c9c9feeab0e695a63e5da4ad526439f1f7410c.
+  Finished successfully: 65,212 distinct actual jobs, 89 ordered trinket pairs for
+  each of40 presets, 14 scenarios, screen4/refine32 and independent four64-fight
+  seed batches. Every training-selected choice survives and passes observed2%
+  retained-contender confirmation; largest relative regret is1.70098593%.
+  No reselection after confirmation. Only Penance/Holy burst-stacked180 selects
+  Dormant Heart. No global optimum or measured server proc chance is claimed.
+- Source/result replay: same study's `origin-review-QGBTNP/report.json`, SHA
+  a7bb376b0de19950681557aa631deae8a47e1193fb1ac14f3f5816b1e3f2a376.
+  Reconstructs all65,212 job keys, complete candidate/refinement/confirmation
+  choices and560 scenario cases with ZERO new combat calculations. Acquisition
+  validator is byte-identical to its pre-change source. The journal is about1.3GB:
+  **stream it**; do not convert it into a single JavaScript string. The exporter
+  streams/hashes it and retains only the selected reference rows.
+- Delivery input: `priest-items-browser-delivery-v1/candidate-VgRaSw/input.json`,
+  10,704 unique source pins. Historical schema source is preserved through the
+  explicit alias snapshot; current TS/UI contracts are pinned separately.
+  All frozen model/templates/helpers and prior bundles remain untouched.
+- Actual workspace: `priest-items-browser-delivery-v1/browser-review-7fMXIf/report.json`,
+  SHAfb1e0aed645baa8e70c685f25579a9a1222884a4991e3dc94dfb922ce5012cb4.
+  17 checks /10 native-browser comparisons pass: all four archetypes, race/gear/
+  enchant/talent edits, manual Heart selection, on/off transport, saved builds,
+  live Stop/navigation recovery, and desktop/mobile. Screenshots inspected.
+  Authoritative script: `optimization/review-tools/review-priest-items-workspace-v2.mjs`.
+  The first script used the wrong accessible-name selector for a trinket button;
+  its failure receipt remains preserved. No product patch was needed.
+- Druid shared-contract regression: `druid-heart-browser-delivery-v1/browser-review-se7EtT/report.json`,
+  SHA45c20491e2a7d9e8900dd7b8e2fad5b48298cb537708c23ad197782b28c73a5b.
+  21 checks /16 native-browser comparisons pass without Druid gear/model changes.
+- Activation succeeded with the exact passing Priest workspace receipt. Fresh
+  default-URL check `priest-items-browser-delivery-v1/default-review-2hufDE/report.json`
+  confirms new default gear, owned Serenity policy and actual native/browser
+  simulation parity without a release query. v2 is authoritative; v1's identical
+  check used an overly broad label for policy presence, now corrected in v2.
+
+Reusable healer suite:354 passes. Shared contract tests:16; web tests:25; delivery
+transport tests:5. Final shared/web typechecks, scoped ESLint and Prettier pass.
+No unrelated full application/production build was repeated. Shared contracts
+preserve old libraries through the optional capability flag and require complete
+paired references on upgraded bundles. Item tooltips/guidance expose proc-rate,
+mana penalty/shared cooldown and historical base-stat assumptions explicitly.
+
+All numerical/review/export/preparation/activation handles from this checkpoint
+are terminal. Logs: `/tmp/kfc-priest-item-feedback.txt`,
+`/tmp/kfc-priest-items-origin-review.txt`, `/tmp/kfc-priest-items-workspace2.txt`,
+`/tmp/kfc-priest-items-active-review2.txt`. Do not restart the completed study.
+3021 remains the intentional review server; no cache cleanup or other server work.
+
+**Next:** return to Paladin's20 shared effect/catalog reviews and model admission,
+then bounded2% numerical feedback, confirmation and shared workspace delivery.
+Shaman follows. Do not treat this scoped Priest correction as completion of the
+full healer campaign or the unfinished original DPS/tank work. Do not overwrite
+frozen model/helper/UI evidence; derive new versions and explicit source aliases
+for future changes. Do not mutate/execute the mutable simulation-cache helper.
+
+## October 24, 16:43 UTC — Priest item model qualified; focused feedback running
+
+PROGRESS on the expanded all-class goal. Healing Priest, Restoration Druid, Holy
+Paladin and Restoration Shaman remain in scope alongside unfinished DPS/tanks.
+No commit/push/deploy or3017 restart. Priest's original deadline remains
+2026-10-24T20:33:53.864Z; no clock reset.3021 still serves the previous Priest
+releasecfd646e1e7011f004f068cfc and corrected Druid6cd0d5d39d684e20edfbca05.
+
+New frozen Priest runtime (paths below relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`):
+`priest-resource-model-v2/ab40161c3602021242ffd15ad03275dd70b6fa933166875489178221709da592/build-C7Y4WX/report.json`.
+It derives from the new Greater-Heal-only Heart model8cba3a910a97899f6d9b12f2fc3072ac77ca6dcf44cdca1d69283ceeef3db1d6,
+itself derived from the immutable active Priest compiler inventory. The combined
+runtime has614 compiler inputs,131 native/Chromium Priest controls and9 core
+controls. All30 original measurements and44 Heart-parent measurements survive.
+New Heart proc/event policies are explicit; literal100% is client reference only.
+Mindtap now restores1250mana/10seconds, removes60rawIntellect for120seconds with
+Mental Strength dependencies, clamps current mana and grants no free mana at
+expiry. Second Wind shares category2554 for10seconds. Serenity's existing72Spirit
+use is explicitly admitted in its independent category. Ownership, duplicate-copy
+registration, death, expiry, reset and demand-gated activation are controlled.
+Historical base stats remain provisional.
+
+Receipts within that build: `browser-review-fwI9PT/report.json` (131controls,
+45groups); `worker-review-n4Dxa8/report.json` (19 full native/browser comparisons,
+real resource actions, Heart family/event policies, rejected-job recovery and
+live10000-fight Stop/heartbeat/recovery); `mutation-review-wuHiNt/report.json`
+(4 compiled behavioral mutations detected); `final-review-NwtxG4/report.json`
+(source projection, derivation, full compiler inventory and parent preservation).
+No frozen model/template/helper was overwritten. Earlier resource v1's test
+expected unscaled Intellect; v2 correctly expects Mental Strength's66Intellect
+loss/990capacity. Failed review scripts/receipts are retained; v4 worker review
+is authoritative. New public JS controls pass; reusable healer suite now354passes.
+Shared tests16, web tests25, both typechecks and focused ESLint/Prettier pass.
+
+TypeScript changes add an optional version1 capability, strict Priest item-policy
+transport, and paired7rank×2Heart scenarios/references. Existing libraries omit
+the capability and retain their original jobs. Upgraded UI jobs admit only owned
+Mindtap/Serenity, with the same thresholds/order used by the new study. Exact
+historical TS sources are preserved by
+`optimization/review-tools/priest-item-ui-source-aliases-v1.json`; old input9999
+pins currently differ only in the known shared-schema source. Do not restore it.
+
+**Running study:** `priest-item-feedback-v1/2a0d115cc930d5eadff5b444aa5848e149c988be73c670af04e570bc89d7ed85/`.
+Runner `optimization/review-tools/run-priest-item-feedback-v1.mjs`, tool session
+11775, log `/tmp/kfc-priest-item-feedback.txt`. Four native executors;89 legal
+ordered trinket pairs for each of40 existing defaults. Screen4, refine32, independent
+4×64seed batches across14 rank/Heart conditions. Rest of gear/talents/rotation/
+consumes held fixed. First13 builds pass observed2% confirmation; this is not final
+or a global-optimal claim. Every job is journaled with the exact runtime identity;
+deadline checks remain active. Do not start a duplicate runner. The eventual report
+will say confirmed or needs-review. No new result has been activated yet.
+
+Prepared but **not run**: `optimization/review-tools/export-priest-items-library-v1.mjs`
+requires all40 independent checks and reconstructs the journal/reference rows;
+`review-priest-items-workspace-v1.mjs` accepts a prepared release ID for actual3021
+browser review, including manual Heart selection and both sensitivity cases.
+After the study, handle any failed confirmation conservatively, export/prepare,
+review and activate locally only. Keep prior bundles. Paladin shared effects and
+admission/feedback/delivery, Shaman and unfinished original DPS/tanks still remain.
+
+## October 24, 16:00 UTC — Druid Heart correction delivered locally; picker click fixed
+
+Previous goal turn was PROGRESS (Paladin librams and shared-effect inventory).
+This turn is PROGRESS: a real Druid proc-scope bug is corrected, all30 default
+references are reproduced on the new runtime, and the corrected bundle is active
+on isolated3021. Full goal remains ACTIVE: every healer plus unfinished original
+DPS/tanks. No commit/push/deploy or3017 restart. No class clock was reset.
+Druid deadline remains2026-10-25T04:32:49.463Z. **Priest's original healer deadline
+is2026-10-24T20:33:53.864Z**; prioritize the newly confirmed gap below within it.
+Paladin/Shaman numerical optimization clocks have not started.
+
+**Active local Druid release:** `6cd0d5d39d684e20edfbca05`, model
+`eef4e5456846b9314e868ab42adc743d024f3f00cbb66bf7ad9458ab5cda69bd`.
+URL `http://127.0.0.1:3021/tools/forever/simulator/healing-druid`.
+Thirty builds,1534 items,97 enchants,8 scenarios; no default gear/reference changes.
+Old immutable bundles, all frozen helpers and calculation evidence remain intact.
+
+**Runtime**, paths relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`druid-heart-family-v1/eef4e5456846b9314e868ab42adc743d024f3f00cbb66bf7ad9458ab5cda69bd/build-j0IwBM/report.json`,
+SHA0d2daebdeb478a4f4c1e167e305f879d86cbe624e00547006e15747f15d82ba5.
+The new derived actor accepts only actual registered Healing Touch family spells
+during the nonnegative combat phase for Dormant Heart249473. Rejuvenation, Regrowth,
+other families and precombat events cannot trigger/refresh it. Other heals still
+benefit from the active40healing/13damage buff. Existing chance/direct-heal policies,
+15second duration and other item mechanics are unchanged; no server observation
+is claimed. The shared extractor records Greater Heal/Healing Touch/Holy Light/
+Healing Wave as the respective class families. Source fixture
+`infra/simulator/fixtures/dormant-heart-family-source.v1.json.gz`, SHA
+c4a3b1304c8b4ffcb0c98fc3898dd04f5977cb6ed633dc4b75d7b7a9325f9591.
+Public adapter `dormant-heart-family.mjs` renders a new copy rather than editing
+frozen Druid files. Exactly two obsolete trigger fixtures switch774→5185 in the
+derived test copy; original tests/templates remain intact.
+
+Three new controls fail behaviorally on the old model while its positive all-rank
+Healing Touch control passes. The corrected runtime passes128 native/Chromium
+controls and190 measurement groups; **all188 parent measurements are preserved**.
+Native/browser receipt `.../browser-review-ubkq9v/report.json`, SHA
+5a4e8fbd78c3449219916f1b117b4245fa75cd38e9ee010bc2f936075fc683ad.
+Actual worker `.../worker-review-O7oq9x/report.json`, SHA
+ee74bbf4a059f522f4c248b1c304ac7966903bf27b83442ddf541e894548136e,
+passes19 complete native/worker comparisons, including real Touch/Rejuvenation/
+Regrowth in both event policies, detailed metrics, rejection recovery and live
+10000-fight Stop/heartbeat/recovery. Three compilable mutations are caught:
+`.../mutation-review-WKnMIu/report.json`, SHA
+781ee9dc7f8962e94d00edee724d4dff0a41b8fa942e1d86a6ca7ba019bed3e8.
+Final derivation/source-projection/full-inventory/control replay:
+`.../final-review-FOm658/report.json`, SHA
+41cba6903623de981b29e7237d047011aefdeb676faf1f3ae1484b23c256f3e8.
+654 compiler files:651 parent files unchanged,2 controlled edits (item helper and
+two obsolete trigger fixtures),1 new test file. Catalog binary unchanged. Do not
+edit the frozen new adapter/tests/model; future corrections need new derivation.
+
+**Default replay:** `.../default-replay-599DUA/report.json`, SHA
+e608e1d6e2d715dcc6b3162e3bacb57a8b3e29a0b7518815ebf3275912715364.
+528 actual distinct jobs reproduce960 labelled comparisons /240 scenario references
+for all30 defaults within1e-7, comparing every numeric and policy value. Every
+selected assignment survives. No optimizer, gear selection or new class clock was
+started. No default equips Heart; these proofs do not establish a new global
+optimum or resolve its unobserved server proc rate.
+
+**Delivery/UI:** final candidate
+`druid-heart-browser-delivery-v1/candidate-5geAxU/input.json` has11515 unique pins.
+Actual workspace `.../browser-review-cupdxW/report.json`, SHA
+32e41c406c8ba6e73c1adc162d8ef9590929a34392c963a95fe3f123153018bb,
+passes21 checks and16 native/browser comparisons. It includes manual Heart
+selection/simulation and its newly informative tooltip; saved/custom/racial/
+talent/enchant edits, Stop/navigation recovery and desktop/mobile also pass.
+Activation succeeded using this exact review. Desktop/mobile screenshots inspected.
+
+The first workspace attempt caught a **real item-picker click bug**: a long preview
+changes dialog height between pointerdown and pointerup, moving the item out from
+under the pointer. Pointer events reproduced it (down on item, up on container).
+`healer-simulator-workspace.module.css` now fixes the list/preview body's height,
+allows its columns to scroll, and retains mobile sizing. The first click now selects
+correctly. Focused12 actual click cases pass for both healer pages at1440×1000,
+1366×768 and390×844: `.../picker-layout-review-83K0fk/report.json`, SHA
+837228986090ee565a51dd5f517fdff800dece44a5494a64c087580e30fd9603.
+Current CSS SHAbe5bd2b8ae2c8f6f0c5a4790ba8a642f495dfa1677ff1677f4c96905b856a027.
+The previous CSS f30c0dba... is preserved as
+`optimization/review-tools/healer-workspace-style-frozen-f30c0dba82ce4ca1d8c06d14873e797205dcc65266566518caaffbd62f81e45b.css`.
+Exporter v2 explicitly aliases historical evidence to this exact snapshot while
+pinning current CSS separately; it does not relax checksum validation. Failed v1
+workspace/candidate remains preserved. No engine math/cache helper changed.
+
+Priest shared-UI regression `priest-browser-delivery-v1/browser-review-7y9hrU/report.json`,
+SHAa95acf979c707bac69a3fbe174be2b6638ef6c5241542df8aa5062cb971e37a3,
+passes16 checks and8 comparisons. Priest release remainscfd646e1e7011f004f068cfc.
+349 reusable healer tests, focused ESLint/Prettier and diff checks pass. This turn
+does not change TypeScript contracts. Native/browser tests and actual Next dev
+rendering cover the CSS change; no unrelated full application build was repeated.
+
+**New confirmed Priest gap:**
+`priest-dormant-heart-coverage-v1/audit-FVzl7y/report.json`, SHA
+e702515fa175cc6123ca526ab0f3a5f8ba1094ce3922223c7fd15c2351fabb2e.
+Actual equipped249473 + completed Greater Heal on the exact frozen active Priest
+runtime gives0healing/0damage bonus and no generic handler, versus the captured
+literal reference40healing/13damage/15seconds. This is a missing client-reference
+effect, not a live-server proc observation. Heart is selectable in its993-item UI
+library but none of40 defaults equips it. A source-pinned private Go overlay probe
+uses the real item/cast without changing any existing file. **Prioritize a new
+derived Priest item model and focused trinket feedback/confirmation within the
+original20:33:53.864Z healer deadline**, then deliver its corrected scoped defaults
+if needed. Do not reset the clock, overwrite frozen helpers, or claim the gap is
+covered just because defaults do not currently equip it.
+
+Remaining Paladin: shared item/proc/use/set and catalog-reach/stat reviews, Soulforge
+inspector admission, model admission, bounded2% feedback/independent confirmation,
+shared local workspace/defaults/guidance. Its latest frozen runtime remains the
+all-libram model described below. Shaman follows; original unfinished DPS/tanks
+remain required. Every calculation/review handle from this turn is terminal;
+probe97475 explicitly returned exit0 and the final diff check passed.3021 remains
+intentional. No optimizer/reviewer is running. Do not restart old terminal jobs.
+
+## October 24, 15:31 UTC — all Paladin librams controlled; shared-effect gaps inventoried
+
+Previous goal turn was PROGRESS (current equipment/Soulforge). This turn is
+PROGRESS: two missing healing libram mechanics are implemented and independently
+verified; all11 librams now have explicit scope. Full goal remains ACTIVE: healers
+AND unfinished original DPS/tanks. No commit/push/deploy or3017 restart. The local
+3021 Priest/Druid releases remain unchanged. Druid deadline remains
+2026-10-25T04:32:49.463Z; Paladin/Shaman numerical optimization clocks have not
+started. No optimizer/reviewer remains running after final short checks close.
+
+**Newest frozen Paladin runtime**, paths relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`paladin-healing-librams-v1/29dad3f914e9960f154515499726583a30b7b11775696fa0a8d2922ac391631b/build-G6Iddi/report.json`,
+SHA6c4431dca46fdcc51161ba1c9f35779ffa02d5e90bd7e0bccc8e6a56f1120005.
+Native and actual Chromium `.../browser-review-Lp0Tqz/report.json` pass71 controls
+(70Paladin+1Priest),50 measurement groups at1e-7. Actual classic worker
+`.../worker-review-oKZuzO/report.json`, SHA
+4dca7478dac0641b8f436e5fa027d1badb5d6d551a7caebb744799659396aa06,
+passes16 native/browser comparisons. All three active librams run actual equipped
+legal51point workloads that cast both Holy Shock and Holy Light. Rejected requests,
+live10000-fight Stop, heartbeat and recovery pass. Four compiled mutations are
+detected by named behavioral controls: `.../mutation-review-IbU0xq/report.json`
+(omitted registration, discounted-cost refund, unconsumed Alacrity, doubled Infusion).
+Independent final `.../final-review-qTHrgb/report.json`, SHA
+3c3bf22a11c56bd1e0cdd00bd098fce40cbfb241dad6a5dfcf9eb9478c4e35bd,
+reconstructs the full compact source projection, exact bootstrap/rendered code,
+all16 worker comparisons and all42 parent measurement groups. Catalog binary is
+unchanged from the independently decoded2688-row parent.634 compiler files:
+631 unchanged parent files,1 controlled bootstrap edit,2 additions. Full class,
+numerical and publication flags remain false. Do not edit these frozen public
+templates, adapters, tests or workspaces.
+
+**Mechanics:** `paladin-healing-librams.mjs` and `.go` use exact current item/effect
+links and Holy Light family masks. Economy272436 reduces all9 registered Holy
+Light rank costs5%; Flash, Shock, Vigil and Favor stay outside its mask.
+Illumination retains the original base-cost refund. Alacrity228175 makes the next
+Holy Light200ms faster for10seconds after a completed friendly Holy Shock,
+including noncrits. One charge, refresh without stacking, expiry, iteration reset,
+downranks, in-flight cast timing and addition/consumption with Infusion are controlled.
+Additive Infusion/Alacrity interaction and the completed-friendly-Shock proc
+interpretation are client-based reference assumptions, not observed server behavior.
+Infusion279248's existing generic+6% Shock-crit registration is retained exactly
+once, with every Shock rank/Holy Power combination checked. Eight utility/offensive
+librams are inactive only in the declared healing-only controller, not globally.
+Fixture `infra/simulator/fixtures/paladin-healing-librams-source.v1.json.gz`, SHA
+36cf9c32a1c12363bc4880cd215112a210d2f25220ab6cd8d84dc1deb240698c,
+is a complete authenticated projection of the existing effects/rank captures.
+Three new reusable tests bring `pnpm simulator:healers:test` to346 passes.
+Focused ESLint, Prettier and final diff checks pass. No UI/TS changes this turn.
+
+**Shared-effect audit:** `.../shared-effects-audit-3jSZQL/report.json`, SHA
+827e54f754685feca7a37ac4b97f505de89d62710b11e23fb283ae7103beb7a5,
+runs an actual native registration probe on283 items (282captured+Sanctified Orb):
+52 generic handlers,231 without generic handlers. This is NOT231 missing mechanics:
+many effects are already represented in static stats or are class-local. Handler
+presence is NOT proof of correct proc/use/workload behavior. Twenty specific
+healing-relevant reviews remain, enumerated in the receipt. Dormant Heart249473,
+Mindtap18371, Major Recombobulator18637, shield-linked ring13143 and explicit owned
+on-use effects are priorities. Sanctified Orb20512 has a generic handler but is
+absent from the2688-row declared catalog/current effect capture: review acquisition
+and current data before deciding whether to add it. Do not silently drop the gap.
+
+The same audit found a **Druid Dormant Heart family-scope discrepancy**:
+current tooltip1249118 names Healing Touch for Druid/Holy Light for Paladin,
+while the frozen Druid implementation accepts broader nonpassive healing events.
+This needs a focused new derived-model review/correction; do not edit the frozen
+Druid helper/model. The authenticated active library has30 defaults and NONE
+equips249473, so no recommendation change is established. Manual selection still
+needs qualification. Failed preliminary audit attempts were a missing20512 capture
+assumption and treating the library's gear array as an object; logs remain in
+`/tmp/kfc-paladin-shared-effects-audit*.txt`. The final audit uses actual schema
+and reports the missing catalog item explicitly; no runtime/results were changed.
+
+**Next:** resolve shared item/proc/use/set effects with explicit uncertain policies,
+including Holy-Light-only Dormant Heart eligibility and the separate Druid scope
+review; finish current-catalog reach/stat modifier review and Soulforge inspector
+admission. Then Paladin model admission, original bounded2% feedback/independent
+confirmation and shared local workspace/defaults/guidance; Shaman follows. Original
+unfinished DPS/tanks remain required. No new optimization clock has been started
+by this component work. Completed tool handles89988,28784,9376,18082,74882 and
+94678/96813/19862 returned exit0. Failed diagnostic handles15492/67492 are terminal;
+the final audit returned exit0. No jobs should be restarted from those old handles.
+
+## October 24, 15:10 UTC — Paladin equipment domain, current stats and Soulforge verified
+
+Previous goal turn was PROGRESS (target-buff/full-talent runtime). This turn is
+also PROGRESS: concrete catalog, acquisition and equipped-cast controls now pass.
+The full goal remains ACTIVE: all healers AND unfinished original DPS/tanks.
+No commit/push/deploy or3017 restart. Local3021 Priest/Druid releases are unchanged.
+Druid's original deadline remains2026-10-25T04:32:49.463Z. No numerical class window
+was reset; Paladin/Shaman gear/talent optimization clocks have not started. No
+optimizer is running. Final test/lint handles are terminal;3021 is intentional.
+
+**Newest frozen Paladin runtime/catalog** (paths relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`):
+`paladin-current-catalog-model-v2/fafc5ce4b4a29cfc1f96716dbcfb40b3a0812f08ad60e98cd54c32fbd6c32818/build-EwrcHM/report.json`,
+SHAafa3474d5dff5ef2f28228584c031b58ee711edfb33a71a53d4ef9380eaccf97.
+Native/actual Chromium `.../browser-review-ta3e2E/report.json` pass60 controls,
+42 measurement groups at1e-7. Actual classic worker
+`.../worker-review-LXWaK7/report.json` passes13 native/worker comparisons, including
+a source-legal fully equipped51point Soulforge build with Blessing of Light,
+rejection recovery, live10000-fight Stop, heartbeat and post-Stop recovery.
+Three compiled mutants are detected by named controls:
+`.../mutation-review-PMvrdY/report.json` (omitted registration, wrong six-piece
+threshold, merging same-named variants). Two independent old-catalog behavioral
+regressions fail before the correction and pass afterward; they compile normally.
+Independent final derivation/actual binary decode/parent measurement replay:
+`.../final-review-xAYHWy/report.json`, SHA
+e63acc81306812c28926874ac0001b3c25a9b48e9ec1df4b3b6c5dc5d6d44078.
+632 compiler files:627 parent files unchanged,2 controlled edits (database binary,
+Holy passive bootstrap),3 additions. All36 parent measurement groups are retained.
+No frozen shared Go/math/cache helper was changed. All class/numerical/publication
+flags stay false: remaining item effects, actual feedback and delivery are required.
+Do not edit these frozen public templates/adapters/tests or compiled workspaces.
+
+**Equipment:** `paladin-healing-equipment.mjs` preserves shared raid/material,
+faction, class, profession, unique and quest-ownership checks while allowing all
+legal axe/mace/sword/polearm styles and shield/held off-hand pairs. Uses simulator
+class4 (game class mask2), plate maximum, librams only; no stat/quality pruning.
+Original domain `paladin-equipment-domain-v1/prepare-hWW6V2/report.json` covers
+30 faction/profession pairs,2238 distinct candidates,2140 in Alliance Engineering/
+Tailoring. The amended catalog has2688 total items and2246 candidates after8
+Alliance-only Soulforge additions. All17 slots and all11 inherited librams are
+retained. This covers the declared reviewed engine catalog, not every current
+client item. Compact legality fixture SHA
+6a0ab3d83edcc952aeb1180fcbe0ed01423ec518303607beaf7604a9c7a7109c.
+Eight focused equipment tests pass. The fixture's initial cloth-head assumption
+was corrected to use its real captured cloth robe2292; implementation unchanged.
+
+**Current stats:** reuse exactly6+27 already controlled shared corrections,
+then11 additional reviewed items (16 disagreements), preserving all existing
+vendor-observed weapon values176healing/58damage. New fixture
+`paladin-current-items-source.v2.json.gz`, SHA
+61a1deee86e9bc99af9c774bf6c05a4cef4ffabeaeacd67ad124829cc447cd8b.
+Adds omitted33/24/10/37healing on6641/6905/9522/272107 and other exact current
+metadata.44 existing item corrections plus8 additions are independently bounded
+by protobuf equality; no unrelated records/fields changed. Intellect, spirit,
+stamina, healing power, spell damage, combined spell power andMP5 have zero
+remaining explicit disagreements across the2246 candidates. Absent channels are
+never assumed zero. Three source tests pass. No numerical results were reused.
+
+Broader read-only audit `.../stat-diagnostic-jSgsxk/report.json`, SHA
+f8baca12874f65fcd098e2f185191b0a829c2bbb39c8e9ff170b4b55ee9a6df3,
+compares4305 known current modifiers and finds18 additional differences on16
+items, plus19 unsupported modifier rows. These are NOT silently reconciled or
+claimed covered. Includes strength/agility, school damage, penetration, defense
+and vendor-observed identities. Need relevance/source review before model admission;
+preserve observed-server precedence. Armor/all weapon scalars are outside that audit.
+Private script `audit-paladin-other-stat-channels-v1.mjs` reproduces it.
+
+**Soulforge:** all8 current base516 pieces are appended with explicit Paladin/
+Alliance pickup quest acquisition; alternate1673 remains separate. Four current
+Forever quest pages8908/8933/8954/9002 corroborate grouped rewards, cross-checked
+against pinned same-TOC baked links/class masks. Live acquisition remains unverified.
+Compact fixture `paladin-soulforge-source.v1.json.gz`, SHA
+711be40d0e53e5fd4e25843bc195200d4c121e65231bfb910b5e57ceb63d1e55.
+2/6/8-piece resistances8,AP/RAP40,bonus armor200 are implemented in Holy only.
+Four-piece melee-only proc cannot activate in the declared no-melee controller.
+Actual0..8 thresholds, equipped slot fidelity, repeated real casts/reset, same-name
+variant exclusion and full legal equipped fights pass. Four source tests pass.
+Generic core set-support metadata still needs scoped admission for516 before a
+future inspector/export relies on it; do not claim DPS/melee support from this helper.
+
+**Detailed parity fix:** Go emits action metrics from a map. Worker reviewsv1/v2
+failed solely on action list order (receiptsJ3Tw9q andK3mfxF preserved). New pure
+`healing-action-metrics-comparison.mjs` orders only full action IDs; every value,
+target/player/iteration position and other collection remains compared. Duplicate
+IDs fail. Three regression tests use actual native/browser output; changing a cast
+count still fails. Actual comparatorv3 passes all13 jobs. Frozen Go and runtime
+worker files are unchanged. Compact real fixture SHA
+339bfb4c8c6e208942d6183d247b6d6b39a362ab6a626052946a2d55825b4d21.
+
+Failed first current-catalog snapshot is preserved:
+`paladin-current-catalog-model-v1/2192ad6eb02ae5bb0d82cb942f03cc4578209b5951df0ea21e6477daa2fb8d44/build-EoVUZy/failure.json`.
+Fixtures needed Seedcloud's already-present5spellpower expectation and a60second
+encounter for50seconds of casts. V2 uses new template/descriptor identities.
+
+Reusable suite `pnpm simulator:healers:test`:343 passes. Focused ESLint, formatting
+and git diff --check pass. No UI/TS change or production build/deployment this turn.
+
+NEXT: qualify the remaining Paladin libram/item/set domain BEFORE optimization.
+Raw inventory `paladin-equipment-effects-v1/5a18c5f980f7199f55ac8a1126ad990dd3b4ad6c7f1b1294e7f9d0af5db0fdd9/capture-f7xxg1y8/report.json`
+contains4476 rows,1603 current item rows,42 eligible inherited sets,311 root spells
+with no missing names/misc. Source path in that report holds full effect tables.
+Libram roots:22400/27850 Purify/Cleanse-10% (outside current casts);22401/27848
+Seal duration+4s (outside);23201/28853 Judgement party healing (offensive Judgement
+currently excluded);228175/449980 Holy Alacrity HS→nextHL cast-time buff449982;
+249397/1302545 damage against Undead (outside);249442/1249005 seal mana-5% (outside);
+272434/1291083 Swift Judgement CD (outside);272435/1291086 Judgement damage+4%
+(outside);272436/1291089 Holy Light mana-5% (must implement);279247/1306433 Holy
+Shield block (outside);279248/1306429 Holy Shock crit+6 (already registered by
+parent Paladin/items.go, must regression-test without doubling). Alacrity needs
+exact trigger payload/duration and interaction with Infusion; keep any unresolved
+proc/stacking assumptions explicit. Economy must preserve original-base-cost
+Illumination refunds. Three legacy librams lack current ItemSparse rows; current
+effects and historical base stats need separate disclosure.
+
+Shared Blue Dragon150spirit/15s/2% is already generic in frozen
+`sim/common/item_effects.go:2476` with completed healing/damage cast mask, avoiding
+Priest-only type assumptions. Qualify actual Paladin/Vigil cast opportunity scope
+rather than duplicate its registration. Review other shared proc/use/set effects,
+19 modifier gaps/18 extra stat differences and current-catalog reach. Then model
+admission, original bounded2% feedback/independent confirmation and shared local
+workspace/default/gear/rotation guidance. Numerical jobs must require legal51point
+builds. Continue Shaman afterward; unfinished original DPS/tanks remain required.
+
+## October 24, 14:20 UTC — Paladin target buffs and legal full-talent runtime verified
+
+This is PROGRESS. The all-class goal remains ACTIVE, including all healers and
+unfinished original DPS/tanks. No commit/push/deploy or3017 restart. Local3021
+Priest/Druid releases are unchanged. No numerical class window reset. Druid's
+original deadline remains2026-10-25T04:32:49.463Z. Paladin/Shaman gear/talent
+optimization clocks have not started; this turn implemented controlled mechanics
+and boundaries, not a numerical optimization search. No calculation/review process
+remains live; isolated3021 Next server is intentionally still running.
+
+**Latest frozen Paladin runtime** (all model paths relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`):
+`paladin-healing-talents-v1/d41a128728d1807018b2d518859eb13d3c9966eaf878d89c7d89ef6e8bf1023b/build-4MvD4O/report.json`,
+SHA9fb99f7535730694ad480cb5458d8ffdbbf9a58216ede3d642eb32a4f0011071.
+Actual Chromium `.../browser-review-ItITaB/report.json` passes54 native/browser
+controls and36 measurement groups at1e-7. Actual worker
+`.../worker-review-0OLd0f/report.json` passes12 native/worker comparisons, including
+all3 legal51point seeds with target buffs, rejection of partial-as-full requests,
+invalid-job recovery, actual Stop during a10000-fight full-build job, heartbeat
+and post-Stop recovery. Three compiled mutants are detected:
+`.../mutation-review-Wfjd9u/report.json` (missing51point requirement, missing tier
+gate, loss of actual utility stat effects). Independent final derivation and
+parent-measurement replay `.../final-review-uCFLl7/report.json`, SHA
+8a7b6148f75e0265fd77a2ea651e3e97304ecdf77e019e9739888da5e9f1ad22.
+629 compiler files:625 unchanged parent files,2 controlled edits,2 additions.
+All33 parent measurement groups remain. All class/numerical/publication flags
+remain false: this is a controlled runtime, not a Paladin BiS or full-class delivery.
+
+**Talent domain:** compact source
+`infra/simulator/fixtures/paladin-healing-talents-source.v1.json.gz`, SHA
+624942861dc76ce3cc36e47b39181d9b3f89265cdba3eddbbb4cc2804def2d79.
+`paladin-healing-talents.mjs` matches all50 current nodes to exact names, maxima,
+prerequisites and protobuf fields. Two first-column Protection nodes are retained
+with their exact captured10-unit horizontal offset; shared extraction is untouched.
+10 fields have controlled healing mechanics;13 admitted utility fields have named
+scope constraints;27 remain outside this study. All13 admitted utilities are checked
+in actual paired fights for unchanged healing/mana in stationary player-only,
+no-caster-damage assignments. Strength/stamina/defense/hit/parry effects are retained
+and controlled, not removed from the actor. Three51point seeds are legal proposals,
+NOT optimized results: vigil-support, vigil-mobility, direct-healing-support.
+Their45/46/87 legal classified one-point neighbors are available for bounded feedback.
+New study requests MUST set `requireFullTalentBuild:true`; the Go boundary then
+checks exactly51points, caps, tiers, prerequisites and the classified field domain,
+returning `legalTalentBuild:true`. Existing partial component controls remain
+explicitly unqualified, preserving prior calculation evidence. Full class admission
+still needs equipment/effects and the bounded feedback loop.
+
+**Target-buff parent, now complete:**
+`paladin-blessing-of-light-v2/4871300feef3266c081a88f6497d2b1db5d07ecac6641f6127c045c8e41a3058/build-75DZOz/report.json`,
+SHAda7fa2af8d36b98f33a0c8a0df25bd14a2d7ce82f1984a499ee7677cb5eb737e.
+48 native/browser controls /33 measurement groups,9 actual worker comparisons,
+4 compiled mutants, independent final `.../final-review-X4EW98/report.json`, SHA
+fcdaa3d7e84e15ae8320be88dcf21af6ad7812c7a223e7e45027a3247f4d68b3.
+627 compiler files,623 unchanged,2 controlled edits,2 additions; all29 parent
+measurements preserved. Blessing of Light uses explicit external pre-pull player
+assignments, current rank values, full-tooltip/coefficient-factor downrank and
+before/after Healing Light cases. These are uncertainty cases, not server proof.
+No stacking, automatic class expansion or Shock/Vigil/item bonus. Real casts test
+all15 basic ranks and4 blessing ranks, crit, target scope, expiry, reset and input
+copying. Every party rejects undeclared external Mana Tide. JS target-buff protocol,
+native wrapper and actual worker are independently validated. Do not edit frozen
+workload, target-buff, talent source/tests or shared math/cache helpers.
+
+Reusable suite `pnpm simulator:healers:test`:325 passes. Focused ESLint, formatting
+and git diff --check pass. No UI/TypeScript change this turn, so no production build.
+Failed target-buff v1 reset fixture below is preserved; v2 uses rank bounds because
+the engine deliberately changes random seeds across iterations.
+
+NEXT: capture the complete Paladin all-slot item/acquisition domain using the frozen
+catalog/current items, allow shields/held off-hands and legal one-/two-hand styles,
+enforce plate/class/faction/profession/raid restrictions without stat pruning.
+Qualify class dungeon-set/libram/item effects, model admission, actual improved
+raid-frame scenarios and explicit sensitivity matrices, then original bounded2%
+feedback/independent confirmation and shared local workspace/default/guidance delivery.
+Use legal51point seeds/neighbors and requireFullTalentBuild on every numerical job.
+Continue Shaman afterward; unfinished original DPS/tanks remain required.
+
+## October 24, 14:02 UTC — Paladin fight/runtime controls complete; target-buff component in review
+
+Goal remains ACTIVE: healers supplement the unfinished original DPS/tank work.
+No commit/push/deploy or3017 restart; local3021 Priest/Druid releases stay unchanged.
+No numerical class window reset. Druid deadline remains2026-10-25T04:32:49.463Z.
+Paladin/Shaman gear/talent optimization clocks have not started.
+
+**Qualified Paladin workload component:** relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`,
+`paladin-workload-v3/0e441beaa1f5b9055ed9fe632fd543758f9ac2761ba7e5107fdd53a45fa69aab/build-ypjJXY/report.json`,
+SHA f514f7f179939d324ae26a85f63d04b3c2bac652934c6da1a5f9bc1618922e40.
+Actual Chromium `.../browser-review-j40b1Z/report.json` passes41 native/browser
+controls and29 measurement groups at1e-7. Eight actual compiled mutations fail
+named controls: `.../mutation-review-W9R2dD/report.json`. Actual classic Web Worker
+`.../worker-review-SYqw7y/report.json` passes5 native/worker comparisons, invalid-job
+recovery, real Stop during a live10000-fight job, page heartbeat and post-Stop recovery.
+Independent final derivation/measurement replay:
+`.../final-review-VDpIA4/report.json`, SHA
+86399cd6083053be9d7a31a15c736a86393d152ec10a1e373abb71295ff45776.
+625 compiler files:615 unchanged parent files,3 controlled edits,7 additions.
+All21 parent measurement groups survive. Public workload/protocol/worker/native
+runner are now frozen. All model/class/numerical/publication flags remain false.
+
+Workload uses actual player geometry, Vigil maintenance/marked Shock and party
+injury thresholds, owned Favor, owned mana cooldowns, explicit rank/Vigil sensitivity,
+pre-raid cast whitelist, actual health/damage/death accounting, detailed/summary
+metrics, strict protobuf/JSON boundaries and cancellation. Holy Light IX's raid book
+cannot enter priorities. Illumination metrics are memoized:100 refunds create one
+resource row. Initial failed snapshots are preserved: v1 omitted actual health
+reduction; v2's small naked-mana fixture could not meet the existing potion maximum-roll
+plus next-regen guard. V3 corrects the integration/fixture and the per-proc metrics
+allocation. These controls do not claim a full legal51point talent build or BiS.
+Reusable healer suite315 passes; focused workload lint/format and git diff --check pass.
+
+**Blessing of Light follow-up in progress:** captured four exact current ranks:
+19977=210/60,19978=300/85,19979 and25890=400/115 Holy Light/Flash bonuses.
+Compact fixture `infra/simulator/fixtures/paladin-blessing-of-light-source.v1.json.gz`,
+SHA c50e2a94a9fa4c180c25daadf948b9a1f342fdefa008c84526f4a7b766b714d8.
+Dummy aura effects do NOT establish server downrank/multiplier order. New separately
+derived component exposes explicit full-tooltip/coefficient-factor and before/after
+Healing Light cases, external pre-pull assignments only, no stacking or automatic
+same-class expansion. It also rejects undeclared external Mana Tide in every party.
+New3 source tests pass. First build preserved under
+`paladin-blessing-of-light-v1/c8dc3e0ed8178e3d2410dc6b6e56eefd2b1c5bedf618a98867fb277e3c10ac32/build-d2CXNl/failure.json`:
+reset test incorrectly expected identical random healing on different iteration seeds.
+V2 uses exact per-rank bounds and fixed bonus/coefficient/multiplier checks instead;
+47 Paladin native controls pass, remaining compilation/browser review is running.
+Active builder `prepare-paladin-blessing-of-light-v2.mjs`, tool session11635,
+log `/tmp/kfc-paladin-light-build2.txt`; do not edit its frozen sources.
+
+NEXT: finish target-buff native/WASM/browser controls and JS boundary validation;
+full legal talent-domain classification, all-slot Paladin catalog/set effects,
+model admission and bounded2% feedback/independent confirmation and local delivery.
+Then Shaman; preserve remaining original DPS/tank work. No empty Paladin/Shaman page.
+
+## October 24, 13:10 UTC — Paladin active heals, instant costs and pre-raid spell domain verified
+
+Previous goal turn was PROGRESS: local Druid delivery and Paladin basic/passive
+controls were implemented and verified. This turn is also PROGRESS: actual active
+heals/cooldowns, Benediction and acquisition filtering now have concrete controls.
+The full all-class goal remains ACTIVE, including healers and unfinished DPS/tanks.
+No commit/push/deploy or3017 restart. No optimization window was reset. Druid's
+original deadline is still2026-10-25T04:32:49.463Z. Paladin/Shaman numerical search
+clocks have not started; no Paladin gear/talent optimization has run yet. No numerical
+worker or review is currently running; final short format/lint sessions are terminal.
+
+**Newest frozen Paladin component:**
+`paladin-instant-costs-v1/6654925b1cadeb0a2cee55a42a9c167d67197ada567056fb6bfede656e8f1b62/build-wkV9t7/report.json`,
+SHA eea0beff31ac5c9523ec24b3d84dce49e1cf8a9c719d45e3c80f3b95ae1d8163.
+All model paths below are relative to
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`.
+Actual Chromium `.../browser-review-2XgbCv/report.json`, SHA
+b8e8e9ab07a3d55b6c6f54fedbf0e0548b46684ab68f4d3fc852e846a6fcda12,
+passes29 native/browser controls and21 measurement groups at1e-7. Three actual
+compilable mutants fail named controls (missing Benediction, broadened zero-mask
+scope, refunding discounted Shock cost): `.../mutation-review-d2sMoJ/report.json`,
+SHA1e29041c22d8cc4d40969f204d5bc022cbf1f3c1897f615150db742231511819.
+Independent final derivation/measurement replay passes:
+`.../final-review-UgbdCz/report.json`, SHA
+8c13bd8eec24664aaa1b124866484d7f484ce6e46a4f18c6d0d5bfc562520d1c.
+It preserves614 of616 parent compiler files, changes ONLY the Holy factory and
+passive modifier hook, adds two files, and preserves all19 parent measurement
+groups. New compiler inventory618 files. All admission/publication flags remain
+false; this is a qualified component within the stated subset, not a full BiS.
+Do not edit frozen public Go/model/test sources or any shared math/cache helpers.
+New mechanics must use a separately derived workspace and new component source.
+
+Benediction source fixture:
+`infra/simulator/fixtures/paladin-healing-instant-costs-source.v1.json.gz`, SHA
+3e5cea1a97629af194dd0feef690fe8567351fbced576f8652a4d621c5cc4216.
+It combines authenticated exact cast times and family masks with the2/4/6/8/10%
+curve. Only the four healing Shock actors match both instant casting and the
+captured family mask. Flash/Holy Light and Vigil remain unchanged; zero-mask
+Divine Favor remains at4% base mana in THIS mask-based conditional model. Do not
+infer broader server application from the description alone. Critical discounted
+Shock still refunds50% of its original base cost: rank4 at5/5 spends292.5, refunds
+162.5 and nets-130mana. Four new native controls cover all ranks/discounts, scope,
+refund and iteration reset. Three source tests cover curves/masks/rendering.
+
+**Parent active component:**
+`paladin-actives-v1/180d09309a1a5d9530116c5e332f5ff98dabf38d1a6db46f1c73037a020e2aba/build-phQ6D2/report.json`,
+SHA62e96a248b341a06bd6471f6a30c587eff4adc1b9e6ff6591a4aa3202c5ef227.
+It preserves613 of614 passive parent files, changes only Holy bootstrap, and adds
+active implementation/tests. DPS class code is byte-identical. Four healing Shock
+ranks use their actual healing payloads, shared10sec cooldown, Healing Light,
+Holy Power's additional Shock crit, base-cost Illumination and friendly range.
+Vigil uses a real1.5sec paid preparation cast, shared6sec cooldown from completion,
+30sec marks, one mark PER party, same-anchor Shock consumption and40yd player-party
+healing. Consuming a live mark removes only the newly started Shock cooldown;
+pre-existing cooldowns remain gating. Friendly use has no enemy75% mana refund.
+Vigil Illumination is explicitly configurable as none/once-per-cast/per-critical-
+recipient. These are unverified hypotheses, never a declared server fact.
+Infusion's0.5/1sec Holy Light reduction lasts15sec, refreshes without stacking,
+consumes once and resets. Favor costs4% base mana, noGCD, guarantees one eligible
+critical heal and resets. The component uses normal engine activation-start Favor
+cooldown semantics; server cooldown/interrupt timing is not independently verified.
+The declared workload scope is stationary player-only benchmark parties with the
+supported talent subset. Pet/interrupt/caster-damage and full51point build admission
+remain separate; do not broaden the scope from these controls.
+
+Active Chromium `.../browser-review-r5338w/report.json`, SHA
+b6dbcf298b855f6151964a09ac359dc38d48b5bc0b21258d2ac00962e610bf64,
+passes25 controls /19 measurement groups. Eight compilable mutants are detected
+by named assertions (wrong coefficient, instant preparation, wrong party/range,
+double single refund, retained Shock CD, missing Infusion, free Favor):
+`.../mutation-review-rCFaXx/report.json`, SHA
+6b505e2b33e5cf730e95f6b1e9324e9af1ee37678cafe7265e236e5f0587818d.
+Final `.../final-review-WPZHqD/report.json`, SHA
+8e8926bcda460991ab55eaf6556593448ebb3b34da49bf6a49e6bd3251b5f902,
+independently reconstructs the controlled source changes and preserves all11
+parent measurement groups. No rerunning completed component controls is needed.
+
+**Acquisition policy implemented and four tests pass:**
+`infra/simulator/paladin-healing-eligibility.mjs` joins the15 basic and7 active roots
+with existing current item-learning links and the scoped historical AQ reference.
+Holy Light IX25292/book21290 is excluded from the pre-raid domain. Twenty-one
+conditional candidates remain at60 with both owning talents; fourteen without
+active talents. Downranks remain. Payload IDs, Favor, wrong level/talent, cross-build
+and unresolved evidence are rejected. Retained source rows are not live training
+proof. This policy still must be enforced by the future job/study boundary.
+
+Latest reusable healer suite:305 passing tests. New focused ESLint and formatting
+checks pass; git diff --check passes. Native/Chromium controls and all11 active/
+instant-cost mutants pass their required assertions. No production build or deploy.
+Local3021 Druid/Priest releases and screenshots/receipts below are unchanged.
+
+NEXT: derive a Paladin job/workload/native/WASM runtime from the exact frozen common
+Priest controller/metrics in this newest workspace, using strict Paladin contracts,
+complete player geometry, real cast priorities and explicit Vigil hypotheses.
+The frozen files are sim/priest/healing/kfc_healing_workload.go, kfc_healing_job.go,
+kfc_healing_cooldowns.go; core benchmark health/accounting already exists. Copy
+only declared compiler inventory files. Existing renderDruidHealingWorkload shows
+how to derive common control flow with checked anchors; do not use unauthenticated
+live cache sources or alter any frozen helper. Need own-priority/mark maintenance,
+owned Favor, resource cooldowns, cancellation, detailed/summary metrics, dead-target
+handling, unknown-field rejection and actual native/browser workload parity.
+Then full legal talent-domain classification (unused utility points are not arbitrary
+51point admission), rank-scaling sensitivity, all-slot Paladin catalog/current set-
+item effects, model admission, original bounded2% feedback and independent confirmation,
+shared workspace/defaults/guidance. Continue Shaman after Paladin. Original remaining
+DPS/tank work remains required. Do not call this component proof full class completion.
+
+## October 24, 12:33 UTC — Druid item-use delivered locally; Paladin passive component qualified
+
+This checkpoint supersedes the pending browser status below. Goal remains active:
+all healers AND unfinished original DPS/tanks. No commit/push/deploy or3017 restart.
+No optimizer/reviewer remains running; only final short checks may still be closing.
+Original Druid deadline unchanged:2026-10-25T04:32:49.463Z. Paladin/Shaman numerical
+optimization clocks have NOT started; component controls do not grant class/BiS admission.
+
+**Active isolated local Druid release:** a5452c624eb6b2a2910b1e6c, model1d11a92e...
+`http://127.0.0.1:3021/tools/forever/simulator/healing-druid`.
+Preparation/activation succeeds with all10688 unique source hashes, the bounded
+20000-pin capacity and duplicate rejection. Five preparation tests pass. The actual
+review `druid-item-use-browser-delivery-v1/browser-review-BFHSQd/report.json`, SHA
+5b203a6beaa534c55fef5bf6ac2d6afa5b9272883b279c333b8cb127f28c9661,
+passes20 checks and15 actual native/WASM comparisons at1e-7. It verifies all three
+corrected assignments in both critical hypotheses, item removal/reset, Stop/recovery,
+navigation, save/reload, race/talents/enchants and desktop/mobile. Screenshots were
+visually inspected. Old immutable bundles and source evidence remain intact.
+
+A separate actual clipboard/new-page share test passes:
+`druid-item-use-browser-delivery-v1/share-review-PqWn9C/report.json`, SHA
+cfc9721f84bc66cad6dc39d4b6fde0d82332305d54ac702ad4acce5c250f82fd.
+It verifies the active default, release-pinned link, restored critical hypothesis,
+corrected coupled-use thresholds and an actual successful shared-build simulation.
+Priest shared-workspace regression passes16 checks /8 native/WASM comparisons:
+`priest-browser-delivery-v1/browser-review-z9kbJe/report.json`, SHA
+a91890f0b675117c81a604d78145e0248ef87e43f58cd9836e64e0ee8b2da60e.
+New exact-regret/reference numerical proofs are below; do not repeat them. Remaining
+Druid scope includes declared domain/passive and unresolved server effect limits,
+not a request to redo completed all-slot searches.
+
+**Holy Paladin basic and passive components now implemented, not a full healer preset.**
+`infra/simulator/paladin-healing-baseline.go` renders all15 current base ranks;
+its five native/browser controls cover cast completion, coefficients, crits,
+clamped rank growth, mana, invalid/dead targets, overhealing and reset. An unchanged
+Priest live-Renew regression also passes. Build:
+`paladin-baseline-v1/45411423b09b03c9bea251e64dcb251e25525c0392fdbbeca81dc38e9b4a5598/build-oNJjIX/report.json`,
+SHA af5c3c503117a96baf4ce566242e1824375eed5761f07b6e0dc70fed6e38e16a.
+Browser `.../browser-review-NIzk6S/report.json`, SHA
+86636db05b520f805645e660c4865a71d5d65d1b67b5c4c7a889bf18bcb07446,
+passes6 controls /7 measurement groups at1e-7. Preserve this frozen model and its
+public baseline source/model/test files. New mechanics require a derived workspace.
+
+The separately frozen passive model is
+`paladin-passives-v1/b221640c47ae03ff037921979ac72b6e9a53a3026806e629386e0def10d9356b/build-PzWATm/report.json`,
+SHA0c389059512620fc777aaa900fc98d382e1623ae8760012d4d0e3152608cb01d.
+It preserves611 of612 parent compiler files, changes only the Holy factory to
+admit the five controlled passive fields, and adds two files. Current healing
+Light4/8/12%, intellect2%/point, Holy Power1%/point with3% special-spell curve,
+Reverence10%/point and Illumination20%/point proc chance are source-backed.
+Illumination returns50% of BASE cost even when the actual cast is discounted;
+a noncritical heal cannot refund, and a full-overheal critical can. All ten Paladin
+and unchanged Priest controls pass. Actual Chromium review
+`.../browser-review-omjYAS/report.json`, SHA
+2e44d3b460e14834e7c83f69d3d17126bd4078ead2c2c5300af33d710b76f8f8,
+compares11 controls /11 measurement groups at1e-7. Four actual compilable mutations
+(omit bonus, refund paid cost, refund noncrits, remove refund controller) fail their
+specific controls; `.../mutation-review-tjuBn0/report.json`, SHA
+4d3fe13c5cd48277e48a0d163aa0b4954981d6f10b4bd13d549e6eb443da8746.
+The first mutation harness attempt used an unused local for the paid-cost mutant;
+it rejected the compile failure rather than accepting it as a detected calculation
+error. Preserve failed mutation-review-JSUZYq. Corrected reviewer v2 compiles every
+mutant and requires a named failed test. Do not edit frozen passive sources/helpers.
+Source fixture `paladin-healing-passives-source.v1.json.gz`, SHA
+f917fa0e88b9dde9bdca9469354a010b7669af18b1d550d9bf6ac244c5ebf677.
+
+**Next Holy Paladin active-healing inputs are captured AND parsed/tested.**
+`infra/simulator/paladin-healing-actives.mjs` and four tests consume
+`infra/simulator/fixtures/paladin-healing-actives-source.v1.json.gz`, SHA
+3c65be557d4f61b2160013d3211ab3ee03f0b03173f399feb5c28f4adcfb531a.
+The full current tables recover Shock roots20473/20929/20930 omitted by zero-class-
+mask rows, with original skill594/class-set10 evidence. Preserve those masks and
+separate acquisition review. Four Shock ranks have heal bases114/156/230/320,
+0.429 coefficient, costs160/225/275/325 and shared10sec category892. Healing IDs
+are1311605/25914/25913/25903, distinct from damage payloads. Three Vigil ranks
+cost730/1000/1340, cast1.5sec, shared6sec category2576,30sec friendly marks,
+party heal bases324/487/704,0.143 coefficient and40yd party radius. The75% mana
+refund belongs to the enemy description branch; do not grant it to friendly use.
+Divine Favor's captured cost is4% BASE mana,2min cooldown and noGCD; existing DPS
+registration omits that cost and only handles damage, so cannot serve as a healer.
+Infusion is0.5/1sec off next Holy Light for15sec. Vigil Illumination multiplicity
+per critical party recipient remains an explicit uncertainty to compare, not guess.
+
+Next authorized work: implement actual friendly Shock/Vigil, Favor and Infusion in
+a NEW derived Paladin component; keep DPS registration and every frozen model intact.
+Use real ownership, casting/mark timing, category cooldowns, mana, party geometry,
+crit/proc isolation, expiration/reset, and native/WASM controls + actual mutations.
+The existing passive guard intentionally rejects active fields until that derivation.
+Then add eligibility (Holy Light25292 raid-book exclusion), scoped set/item effects,
+healer job protocol/workloads, admission, bounded feedback/independent confirmation
+and the shared public workspace. Continue Restoration Shaman after Paladin. Do not
+claim the full healer goal or original DPS/tank goal complete from component tests.
+
+Latest verification: reusable healer suite297 pass; delivery suite5 preparation,
+14 shared-schema and23 workspace tests pass. Shared/web typechecks and focused
+production lint passed earlier; new Paladin source lint passes. No new production
+build/deployment. Review tools are private under optimization/review-tools; docs
+and fixtures/model source are in the repo. Storage read-only check:17GiB free;
+no cleanup was performed. Current3021 server remains isolated from3017.
+
+## October 24, 12:15 UTC — Druid correction complete; browser delivery in review
+
+This checkpoint supersedes the pending-correction status below. The all-class goal
+still includes all healers and unfinished DPS/tanks. No commit, push, deployment
+or 3017 restart. The original Druid deadline remains 2026-10-25T04:32:49.463Z.
+No numerical optimizer remains running. Do not repeat completed calculations.
+
+Relative-regret correction is terminal successful:
+`healer-model-admission-v1/druid-utility-regret-feedback-v1/d59de94cad9145984e94c074cc7572d48816e4ef9e229aa59517a1058ba815ce/report.json`,
+SHA b5e661deba591a4c88fdcb9932e67346a32a22750c1fc17b6c6e302a7956fbf4.
+It completes2756 new jobs /336 authenticated same-runtime reuses for seven paired
+setups. One physical gear/use choice is evaluated across both crit hypotheses and
+four composite policies. Four physical choices change, three in the visible common-
+pressure library. Frozen choices then face every retained physical alternative
+with four fresh64fight batches per case, without reselection. All seven pass the
+observed2% check and all84 selected-only sensitivity cases. Largest point regret
+is0.8970361%; largest per-comparison95% upper bound1.824371%. These are scoped
+retained comparisons, not global/familywise or current-server qualification.
+Exact original-algorithm replay `.../origin-review-nYZHjW/report.json`, SHA
+29411c170a6733dcd5baa045f32218ba51ae1e455787bbb8b505f51efd147fcf,
+accounts for2756 records /3092 origins. Reusable selector
+`infra/simulator/healer-relative-regret.mjs` adds four regression tests; the healer
+suite passes289 tests. Frozen math/model/cache helpers must remain unchanged.
+
+All thirty delivery references are regenerated on the existing validated coupled
+runtime1d11a92ebd190334a02b0e106c5026f80fdc93f33c18e8a8a2a6f5c7b31a289a:
+`healer-model-admission-v1/druid-item-use-delivery-reference-v1/727bb3e06ebc99413c43479227336b8cc9b68bb7d2653973d774f10f1d87d65d/report.json`,
+SHA4237fb9e0ccaa5b24c05b5d29c53868270162fa991b99b4a940f2da1d28df2c3.
+528 new jobs /432 exact reuses; no optimization or reselection. The other27 builds
+match every previous numeric result within1e-7 (432 unique old results,864 labelled
+comparisons). Three corrected builds receive fresh references. Exact replay
+`.../origin-review-uqFDi4/report.json`, SHA
+49dcb9df11d53bb5adeb811b62378b5092c999669e5a3474b6c8a42c6d6419bd,
+accounts for528 records /960 origins.
+
+The public strict Druid contract/configuration now supports ONLY actual owned
+Major Recombobulator use: same target, current coefficients0, ten stocked charges,
+real cooldowns and explicit critical hypothesis. Optimistic probe modes and
+historical coefficient1 are rejected. Remove the trinket and its job use is
+removed. The three corrected presets are Splendor tank3min and Nature's Grace
+burst3min stacked/spread. The latter two use health400/mana800 thresholds; Splendor
+uses health0/mana800. A56-job authenticated fixture covers actual wire transport.
+Shared schema14 tests, workspace23 tests, shared/web typechecks and focused lint
+pass. The final test-isolation edit still merits the focused configuration rerun.
+
+Inactive candidate input:
+`healer-model-admission-v1/druid-item-use-browser-delivery-v1/candidate-NIJZdg/input.json`.
+Prepared local immutable release **a5452c624eb6b2a2910b1e6c**,30 builds,1534 items,
+97 enchants and8 scenarios. It is NOT active yet. The old source-inventory cap10000
+rejected10688 unique evidence pins; preparation now allows a bounded20000 while
+retaining the8MB input cap and every path/hash check, plus duplicate rejection.
+All five preparation regression tests pass. Do not edit exported production
+schema/helper/component pins without exporting another candidate.
+
+Actual browser reviewer v6 is running on isolated localhost3021 (tool session69406),
+log `/tmp/kfc-druid-healing-workspace-v6.txt`. It compares new native/WASM results,
+checks each corrected assignment in both crit modes, item removal/reset, Stop,
+navigation recovery, saved state, race/talent/enchant edits and desktop/mobile.
+It explicitly reopens the candidate release after profile navigation and records
+worker release URLs, so it cannot accidentally qualify the old active bundle.
+Only activate locally with its actual passed receipt; preserve the browser gate.
+Then rerun Priest smoke after the shared UI/schema changes and finish Druid's
+remaining scoped effect/domain limits before Paladin/Shaman mechanics and feedback.
+Holy Paladin has15 captured basic ranks; no Paladin/Shaman optimization clocks
+have started. Broader DPS/tank work remains part of the goal.
+
+## October 24 — Druid domains confirmed; timed utility feedback and Paladin source
+
+The all-class goal includes Holy/Discipline Priest, Restoration Druid, Holy
+Paladin, Restoration Shaman and meaningful healing hybrids alongside the remaining
+DPS/tanks. No commit, push, deployment or 3017 restart. Preserve unrelated edits.
+Druid's original window remains 2026-10-24T04:32:49.463Z through
+2026-10-25T04:32:49.463Z; do not reset it.
+
+Domain feedback is terminal successful (session54775 / Node21387 ended):
+`healer-model-admission-v1/druid-domain-feedback-v1/6f2b2b3567a88f62aaa2d7dde389b7afc8889a9e5cf3e0a9c28a7820b0114a13/report.json`,
+SHA 813427b1b245aa07b5127acd1b9b9bb1cd02bb13f0ce4594ae276b2532c6cff5.
+It completes129754 new jobs /21609 exact reuses across54 states: six maximal
+crafting profession/faction pools × nine stress setups. All new items, ordered
+jewelry, full hand pairs, relevant set subsets, missing-slot repairs and all
+compatible enchants receive two incremental sweeps plus retained common gears.
+The exact original-algorithm replay `.../origin-review-mNXpkf/report.json`, SHA
+7081b6055a5d46752a758854d6142d88f7213a69b9c15ccc4e02cc224ff6358c,
+accounts for all129754 records /151363 request origins without new simulations.
+Do not repeat completed calculations.
+
+Fresh confirmation is terminal successful (session14619 / Node62353 ended):
+`healer-model-admission-v1/druid-domain-confirmation-v1/0c517925a7f2ecc068db1cc7bfa8218bd075acc3524c9079a8265fe7d8863118/report.json`,
+SHA 49c53fa15eb12b5aa506380202ac8c0f280dfb5f5aec79d7ec936e946126355d.
+It completes7128 new jobs /324 reuses. All54 frozen selections pass the observed
+2% comparisons against five distinct retained alternatives under four policies,
+four fresh64fight batches each, and all42 selected-only sensitivity survival
+checks. Largest worst-case and single-policy point gaps are0.0290552622%; largest
+per-comparison95% upper bound is0.2456094629%. These are scoped retained-candidate
+comparisons, not global/familywise certainty or current-server verification.
+Replay `.../origin-review-A8KzyF/report.json`, SHA
+fe41ec8f17d7d815d9ae4bb9f1bd4cdf12eefb7fad2f5f48a45c569386c912fe,
+accounts for all7128 records /7452 origins. Six-pool crafting containment does not
+establish numerical equivalence for all30 profiles or gathering passives.
+
+The utility contender study is TERMINAL successful; session36077 / Node78155 ended.
+`healer-model-admission-v1/druid-utility-contenders-v1/862b64f8b6c04a459e8bd17285077ad00616c1594c320240b9f5cf430f776b26/report.json`,
+SHA e7d8dd9941bc95b4891c51f826a08397f63175c9296ba0670a41331b9d782917,
+completes20724 new jobs /3552 reuses across84 setups. Sixteen optimistic candidates
+are material: eight Gauntlets, seven Recombobulator and one stacked Headmaster.
+These are NOT actual item-use recommendations. Original-algorithm replay passes:
+`.../origin-review-SzqEvt/report.json`, SHA
+ab1a9e97abe124560116a469dc052d17d953f0dbcdbc0c25c3c865e2b5107b9d,
+accounts for all20724 records /24276 origins. No new simulations during replay.
+Its sources are immutable evidence; do not rerun or edit that completed phase.
+
+Coefficient sensitivity is TERMINAL successful; exec13911 / Node61227 ended.
+`healer-model-admission-v1/druid-utility-coefficients-v1/0248e6bcb4d02c280cfde5d37101e907e40115e2a1cb4617e5103a75d37b1318/report.json`,
+SHA 39c37dc595c74649abfd38f1eceaa06f1d2c04e326afe016699853f93c50c2d9,
+completes16302 new jobs /8646 reuses across66 Engineering setups. Independent0/1
+historical healing and mana coefficients flag32 optimistic material possibilities;
+this does not verify current Forever coefficients or permit public defaults.
+Current client coefficients remain0. Original-algorithm replay is terminal successful (exec63200),
+`.../origin-review-bt6X6p/report.json`, SHA
+b468f7e09267f2ee2e2c379502ae42762fbb682e90f2a92dfd77c13647338035,
+accounts for all16302 records /24948 origins. Log
+/tmp/kfc-druid-coefficients-origin.txt, generic reviewer v9.
+No repeat calculations; preserve the same original Druid deadline and all sources.
+
+Timed Gauntlets feedback is TERMINAL successful; exec29658 / Node94258 ended.
+`healer-model-admission-v1/druid-gauntlets-use-feedback-v2/a528672fa81d428c4384a08d95eb5779fb24b01c694d90c6f090c5c893874268/report.json`,
+SHA 2582d8e43ae98f2a3c66fef3d3a3ba0197c6e8d7f536290a66150bfcd2fe890c,
+completes1848 new jobs /312 reuses across16 locked crit/setup variants. None is
+material under its declared comparison. Original-algorithm replay passes:
+`.../origin-review-OXzSIC/report.json`, SHA
+ce0e59328aa0b82bbdb27fad00086216e54ffa1ca85264f5e82c129659128c2e,
+accounts for all1848 records /2160 origins. Do not rerun the completed phase.
+A separate retained-policy review compares the original default against EVERY
+reviewed retained candidate in EVERY saved policy, not only the minimax winner:
+`.../retained-policy-review-PR6QMT/report.json`, SHA
+951326eee68c54536e2dc455fefd25de69ca32dbb4191d1d24fc292848f662d8.
+It finds0 material variants; largest observed policy gap1.3703272583% <2%.
+Scope is retained candidates/declared conditional model, not a global bound or
+familywise confidence guarantee. No default changes follow from Gauntlets.
+
+Coupled Recombobulator feedback is TERMINAL successful; exec15500 / Node6571 ended.
+`healer-model-admission-v1/druid-recombobulator-use-feedback-v1/21fdf68c355a785e1b4a1aba3e0fcadb3bd6ab4cf3c1f4c7045f5cf296001fc4/report.json`,
+SHA 39450af20e38c9d0ad8263788b55a080a0faf7e460878a9288e76846948ae698,
+completes2401 new jobs /1099 exact reuses across14 locked crit/setup variants.
+Original-algorithm replay (exec94294) is terminal successful:
+`.../origin-review-EP95Rh/report.json`, SHA
+33ba63fed565e3fa13a3850642ec73b2aca2660fa770cc253883afcde2a57083,
+accounts for all2401 records /3500 origins without new simulations.
+No optimizer/reviewer from these phases should remain running.
+
+IMPORTANT next correction: original minimax winner flags4 material variants, but
+an exhaustive original-default vs EVERY retained candidate/policy review flags8:
+`.../retained-policy-review-R3S1ju/report.json`, SHA
+06c4400e32ffadda25b7a04bdea8a173af354f1b0518c7dd8c23966d2b270df0.
+Largest observed relative gap4.1936710383% concerns missing-health score, NOT HPS.
+Affected: Splendor/Wild Growth tank profile13 in domain stress and common-pressure
+setups, plus Nature's Grace burst profile13 stacked/spread3min. Both crit hypotheses
+have a material retained contender in these four setups, so this cannot be dismissed
+as an unverified crit effect. The other original7-setup inputs remain available.
+Do not label all Druid utility bounds complete or publish the old defaults as a
+universal2% result. Current public/local defaults are unchanged.
+
+Next authorized work (no new class clock): bounded correction over the union of
+retained coupled-use candidates for each paired crit setup. Compare identical
+physical gear/use policy under BOTH crit hypotheses × four composite policies.
+Choose by maximum relative regret against each policy's best feasible candidate,
+not only maximum raw missing health. The latter can hide a >2% policy-specific
+improvement when policies have different scales. Prefer the existing default only
+if it remains within2% in every case. Recheck priorities/consumes and retained gear
+only if needed; do not repeat completed all-slot searches. Freeze selections before
+fresh four64fight comparisons, then selected-only42-case survival/stress checks.
+If a material use remains selected, deliver its actual coupled-mode protocol,
+ownership/configuration, engine bundle, preset and guidance through the existing
+Druid workspace and verify real browser/native parity. Historical coefficient1
+remains a separately labelled sensitivity, not a current-server default. Then
+finish remaining material/domain scope and proceed with Paladin/Shaman.
+
+The authenticated utility fixture SHA
+4bd0f8428d8f2ddfa22a3531b87f511c588455b0419085834e07164774b1c393
+captures client70532: Circle ten79mana/79health ticks, Gauntlets300–500heal with
+1.5sGCD, Major Recombobulator TEN charges, mean666heal/304mana,5minuse and2minshared
+category, Baron4health/5s party30yd, Headmaster20Int with stacking unknown.
+Current base stats are not generally verified. Four source extractor tests pass.
+Four domain selector tests also pass; reusable healer suite281 tests passes.
+
+Private utility modelv2 ab9d8f14.../build-dpuolh has116 native/Chromium controls,
+180 native/browser measurements at1e-7, preserves171 parent measurements and
+645/647 compiler files (650 child files); omission of the actual controller fails
+its behavioral test. Browser receipt cOEQVN, admission qk6rIC SHA
+d8d28799ddf4578b62ff112326ea7ab45e7c4676f9e5a8019e94826ee811647c.
+This is an optimistic contender probe: free channel/use, maximum forced-critical
+heals, independently timed Recombobulator heal/mana, optional stacked Headmaster.
+It is NOT actual item behavior or a mathematical global bound. No public default
+uses this engine. Material contenders require real-use modelling.
+
+Isolated coefficient modelv3 is terminal successful with118 native/Chromium
+controls and182 measurement comparisons at1e-7:
+`healer-model-admission-v1/druid-utility-probes-v3/d795ca44e70ca9739a5b572f51f4ab0319e9909de29ad5bf6c37c7fe31adb886/build-XxtQwD/report.json`.
+Browser ubPpXP; admission Qfqii2 SHA
+1d4cce22320ffaf61866b611d82a0ac3a0447166e012aa77f99780e2ebad034f.
+It preserves all171 parent measurements. Historical comments motivate0/1
+sensitivity, not a current Forever coefficient claim. All model sources are frozen.
+
+Timed Gauntlets modelv1 passed isolated controls but failed its first actual
+research workload: missing Druid research rank10577. Preserve the failed phase
+f7f755f3445be297713c5c8fa05764a4989a49508e86cda9ee2a023e8e009e83,
+its journal and failed budget entry. An earlier loader hash typo failed before
+math/clock and was corrected before that frozen attempt. Do not resume the same
+phase with changed sources. A separate v2 marks the item heal passive, preserving
+its actual heal while excluding Druid-only rank/proc research. New regression
+covers Omen with coefficient-factor research and was verified against the bug.
+
+Corrected timed Gauntlets model:
+`healer-model-admission-v1/druid-gauntlets-use-v2/a9898d386699848a9d249b72b536f7cdc372af300d850769db98fecd453f293f/build-f3tLEv/report.json`.
+It passes121 native/Chromium controls and185 native/browser measurements at1e-7.
+Browser jg8Sd7; admission840EWX SHA
+f9430de93b1b48bf8fee4427b613f44df6dc64686db3ac7e619da68e4898878d
+preserves171 parent measurements and645/647 compiler files (652 child files).
+Three actual Go overlays must fail: omitted controller, free GCD and item entering
+class-proc research. Captured use:300–500roll, zero coefficient, fixed1.5sGCD,
+30mincooldown,40yd, ownership. Critical behavior is a separate boolean sensitivity.
+New public Go sources use -v2 filenames; preserve old immutable failed sources.
+
+Completed runner: run-druid-gauntlets-use-feedback-v2.mjs and private
+context loader druid-gauntlets-use-context-v2.mjs. Generic reviewer v9 is current.
+Its16 variants include both crit hypotheses, thresholds and compatible enchants.
+Do not run two Druid numerical phases concurrently.
+
+The coupled Recombobulator model is built and reviewed. v1 passes124 native/
+Chromium controls, but its negative target mutation survives because the ally
+fixture has no mana bar. Preserve that failed admission folder w5Cmtw and v1.
+A new v2 keeps the implementation unchanged and uses a second real Druid actor,
+requiring the same ally to receive both resources and the caster to receive none.
+
+Current coupled model:
+`healer-model-admission-v1/druid-recombobulator-use-v2/1d11a92ebd190334a02b0e106c5026f80fdc93f33c18e8a8a2a6f5c7b31a289a/build-NrBfOb/report.json`.
+124 native/Chromium controls and188 native/browser measurements pass at1e-7.
+Browser l6IDF2; admission rxJ9GV SHA
+da5bfa2cdf61ccb6948dc8af0b13804944236978ca769b3804be132e7c17bcb6
+preserves171 parent measurements and645/647 compiler files (653 child files).
+Four actual overlays fail: omitted controller, split mana target, unlimited
+charges and item entering class-proc research. Sources/proofs are now frozen.
+Use-v2_test.go is the stronger regression; original use.go implementation is exact.
+
+Both resources go to the same friendly target, with rolls,10 charges,
+Engineering,30yd,5minCD and own2mincategory1153timer. Second Wind/Mindtap instead
+use category2554; do not link their timer to1153. Crit and0/1 historical
+coefficients remain explicit hypotheses. Scope: assignments up to5min, no other
+category1153 activation and no Polymorph events. The completed numerical phase uses
+run-druid-recombobulator-use-feedback-v1.mjs / private context loaderv1
+checked the seven original material current-client possibilities under both locked
+crit hypotheses (14 variants), with coefficients0 and both same-target policies.
+Gauntlets is terminal and its exhaustive retained-policy review finds no material
+correction; the coupled phase was launched after that check.
+Generic original-algorithm reviewer v9 supports all new feedback phases.
+
+Holy Paladin source preparation now implements/tests15 basic ranks (nine Holy
+Light/six Flash). Holy Light1042 was absent from the original graph because its
+actual skill row has ClassMask0. A direct authenticated capture recovers it via
+Holy skill594 and Paladin class-set10 without rewriting its mask or granting
+acquisition. Fixture paladin-baseline-source.v1.json.gz SHA
+2b222889cae0e61bb4bb93ef957620ce1a93be248e0514e72d759a3b26c4ff0d;
+module paladin-healing-model.mjs and four regression tests. The reusable healer
+suite now passes285 tests and focused ESLint passes. See
+docs/simulator-paladin-healing-mechanics.md. Paladin healing engine/optimization
+and Shaman have not started; their class clocks have not started. Next remains
+timed utility feedback/correction, scoped final Druid delivery, then remaining
+healer mechanics, optimization and public presets. The all-class goal stays active.
+
+## October 24 — Druid and Priest delivery reviewed locally
+
+The all-class goal remains active with Holy/Discipline Priest, Restoration Druid,
+Holy Paladin, Restoration Shaman and meaningful healer hybrids included. Remaining
+original DPS/tank work is not replaced. No new commit, push, production deployment
+or 3017 restart. Preserve unrelated storage-maintenance and DPS/tank edits.
+
+Druid’s common-pressure adaptation is terminal successful; do not restart it:
+`healer-model-admission-v1/druid-scenario-adaptation-v1/f00fda188ef25d7f08cffd6a2b80e320c93ad216fc0d3c29b3aa855fc2edd79b/report.json`,
+SHA 2f70fc3e727dffe4ed89d412e970d1d0537b549d2ae4615cfd6b62d22e438b57.
+It contains 34,497 new jobs / 7,106 exact reuses and thirty setups. Pressure is
+400 DPS; stacked geometry is 0/2/4/6/8 and spread 0/12/18/24/30 yards. Every setup
+survives and passes the independent observed 2% retained-alternative comparisons;
+all 42 selected-only stress cases survive. Largest single-policy point gap is
+0.355030%, largest worst-case point gap 0.235636%. These are not global/maximum-
+capacity rankings or server-formula verification.
+
+Exact v4 original-algorithm replay passes without new simulations:
+`.../origin-review-9rapec/report.json`, SHA
+69560ad6214128212208d51c36e58667941bd2b45fb7dc95b1ef59bb27d61b1d.
+It accounts for all 34,497 measured records / 41,603 request origins and all thirty
+selections. The v3 reviewer is preserved; v4 accepts the declared thirty variants.
+
+Actual Druid export:
+`healer-model-admission-v1/druid-browser-delivery-v1/candidate-mzBQEg/input.json`.
+It contains thirty selected setups, 1,534 items and 97 enchants in the selected
+Engineering/Tailoring faction domains. Its immutable optional local release is
+`5d00f8674ccd452b7117e492`, active under
+`artifacts/forever-simulator/healing/healing-druid/`. URL:
+`http://localhost:3021/tools/forever/simulator/healing-druid`.
+Priest stays active at its original local release cfd646e1e7011f004f068cfc.
+Both use the existing isolated 3021 server; do not restart 3017.
+
+Strict Druid schemas, authenticated actual worker/library fixtures and the common
+healer-workspace adapter are implemented. V2 configurations carry class identity;
+old Priest shares/saves migrate without losing their exact settings. The common
+UI dispatches class-specific jobs/replies, consumes, HoTs, cooldown ownership and
+asset paths. Druid assets are served under /healing-sim/classes/healing-druid,
+with a separate active pointer. Existing Priest URLs remain compatible. Druid
+base-stat uncertainty is labelled at Royal Seal/Briarwood tooltips, not hidden
+behind a generic current-item label. Casting guidance is visible in each build.
+Tree backgrounds reuse pinned existing WoWSims assets; no remote downloads.
+
+Final real browser reviews pass with no page errors:
+
+- Priest v9: `.../priest-browser-delivery-v1/browser-review-iPBBO4/report.json`,
+  SHA 14f1d66a112e582bfd1351cd439bfce74e963216265d396be73d5ae128bc1dbd:
+  sixteen checks / eight actual native-browser comparisons at 1e-7.
+- Druid v5: `.../druid-browser-delivery-v1/browser-review-oPjTqm/report.json`,
+  SHA 4ec36deaf791be771afb3b65acb009af03a8d1c2dc673d54e931702c5e4579c5:
+  fifteen checks / seven actual native-browser comparisons at 1e-7.
+
+These authoritative receipts cover defaults, exact request-template preservation,
+Stop/recovery, navigation during a live 10,000-fight job followed by explicit Stop
+and a short recovery run, gear/enchant/talent/race editing, actual archetype runs,
+spread/five-minute adaptation, saves, desktop/mobile and one document scroller.
+Druid’s active pointer is rechecked against the latest successful review. The
+initial successful Druid review CLFBSb and superseded failed reviews remain on disk.
+Later failed navigation checks waited for all 10,000 fights and timed out while
+the worker was still healthy; tracing established that. Another harness revision
+mistook Next’s page-title accessibility announcement for an application error.
+Final checks scope errors to the healer workspace and bound the long-run test.
+No math was rerun or reselected because of these delivery harness corrections.
+
+Restoration keys on profile/model/release/share identity rather than fresh library
+object identity. Cleanup is separate; a restored disposed job becomes stopped.
+The final public source pins remain unchanged throughout both successful reviews.
+No optimizer/browser process from these phases should remain running.
+
+273 reusable healer guards remain passed. The focused delivery command passes
+34 tests: three prepare guards, ten strict shared transport/library checks and
+21 web configuration/asset checks. Every Druid default reconstructs its workload
+unchanged. Package build, shared/web typechecks, Next route type generation,
+focused ESLint and diff checks pass. Delivery test command:
+`pnpm simulator:healers:delivery:test`.
+
+The Druid clock remains 2026-10-24T04:32:49.463Z through
+2026-10-25T04:32:49.463Z. Complete remaining material unsupported-use and
+profession/faction numerical bounds within that existing window, without blind
+30-profile reruns. The older six-maximal-pool coverage receipt below is not
+numerical equivalence. Holy Paladin and Restoration Shaman models/windows have
+not started. Existing conditional default delivery is not final global BiS.
+
+## October 24 — revised Druid sets confirmed and real workers verified
+
+The all-class goal remains active, including all healers and unfinished DPS/tanks.
+Priest has its reviewed local workspace on 3021. Druid now has nine confirmed
+three-minute stress setups and a real Web Worker; its website/default library,
+common-pressure duration/spread adaptations and remaining material/domain bounds
+are still required. Paladin/Shaman healer models have not started. No final global
+BiS, commit, push, deployment or 3017 restart. Preserve unrelated storage edits.
+
+Druid's unchanged clock is 2026-10-24T04:32:49.463Z through
+2026-10-25T04:32:49.463Z. All calculations below are terminal successful phases;
+do not restart them. Existing failed/interrupted entries remain historical.
+
+Current final primary selection:
+`healer-model-admission-v1/druid-practical-confirmation-v1/f6335dd99ea114822dc57e9bb1f01c2fdf09f6b7162155eb47219e217f6ade76/report.json`,
+SHA 7be884cd8e05c2dcbbc3c549ccd411cc4f85f761e4e0bc3e82030a264566fe43.
+It completes 7,776 new jobs / 1,296 exact reuses, checking each of nine defaults
+against five actual distinct request/workload alternatives under all 42 cases,
+four fresh 64-iteration batches (256 fights/case). Every default survives. Maximum
+observed worst-case gap is 0.385790%; maximum single-policy gap is 1.320576%.
+The largest paired-batch 95% per-comparison upper bound is 1.933278%. This is not
+family-wise/global certainty, a server formula verification or universal 1% proof.
+No reselection during confirmation. Preserve conditional model/scope labels.
+
+Practical feedback first completed 3,888 new jobs / 1,026 reuses:
+`.../druid-practical-feedback-v1/bf0543d3815bdef87a26600f0dcdaf115b12998448996e70f3f2f25a581f19a8/report.json`,
+SHA 9cfbbd3e7c10e2d4acf505f0086ea303923229d13a54faf862911dcd2fbdaed1.
+It checks six legacy alcohol options and useful filler without redoing gear.
+All nine select the legal utility proposal within the declared 2% per-policy
+training bound. Before fresh confirmation, three exact training-score ties switch
+to fifteen-Stamina Black Label instead of weaker Stamina drinks; the declared
+editorialTieBreaks freeze those changes before validation. Current alcohol values
+by tank/group/burst: Wild Growth 5/1/5, Splendor/WG 1/1/5, Nature's Grace 1/5/1.
+Five is Kreeg's Spirit/Intellect tradeoff; one is Black Label. Legacy alcohol stats
+remain model references, not verified current server observations.
+
+All exact-origin replays pass without new calculations:
+
+- First independent 37a730ab... `origin-review-weXIVY/report.json`, SHA
+  79f184f9c9d8b768f34f8bb31568963847869271caabc6dc44a2d5065c25182b:
+  all 7,632 records / 9,072 origins.
+- Practical bf0543d3... `origin-review-m7Kfo8/report.json`, SHA
+  bb26d663e3222da962ee0ec9fd70d333862148bea0ba9f4dfb0961ef8f7fc52d:
+  all 3,888 records / 4,914 origins.
+- Final practical f6335dd9... `origin-review-zEpkyW/report.json`, SHA
+  9d18541fbbc677f8b9c71c7fcebae310095d6197f790ccd1e6cf59cda63862f5:
+  all 7,776 records / 9,072 origins. Generic reviewer v3 records/verifies its own
+  source hash as well as the exact original entry and saved calculations.
+
+Actual final-choice Web Worker review:
+`.../druid-selected-worker-review-v2/861b18fe46568aecf3db132c3758eb09103cacb47ebfb3fbcbc95a13202a860b/report.json`,
+SHA 04605cefa28614f2685842543491e8a744d0b5ebc7311fca59bd0c724fe773e1.
+378 native/Chromium comparisons at 1e-7, all survive; 324 new native jobs/ 54 reuses.
+Stop, restart, invalid-envelope recovery and 4,393 main-thread heartbeats pass.
+Public druid-healing-worker.mjs uses the strict Druid protocol and actual Go/WASM
+callbacks. This validates the worker harness, not a finished Next.js Druid page.
+Earlier pre-tie-break worker review c4cc4b5a... also passes; do not rerun it.
+
+All 270 reusable healer tests pass, plus two direct v3 source-identity regression
+checks. Focused ESLint/Prettier and diff checks pass. The v3 feedback runner
+excludes observed live-cache versions from semantic identity while still pinning
+actual immutable execution sources. Never edit the frozen original helper or
+shared simulation-cache.mjs to resume studies; preserve source aliases and clocks.
+
+Profile coverage v2 (zero simulations):
+`.../druid-profile-coverage-v2/review-BRmC9z/report.json`, SHA
+06556f4c9e4a0df7d51d739afe2396006e09cbf117b8467505a852c50af4d2dd.
+All 30 acquisition profiles are contained in SIX maximal pools: Engineering/LW,
+Engineering/Tailoring and LW/Tailoring for each faction. The earlier four-pool
+hypothesis correctly fails because Engineering/LW can combine items from both
+professions; keep its failed coverage receipt. Selected gear is legal in the
+four Tailoring pools; the two Engineering/LW pools require boot replacement.
+Containment is not numerical profession equivalence or global qualification.
+Next comparison can target new items/pairs/sets/enchants plus legal boot repairs,
+without blindly doing 30 complete sweeps. No stat or quality pruning by item names.
+
+Read-only cross-class audit: twenty of Druid's 27 corrected generic item IDs also
+appear in the Priest candidate library, but none are equipped in its 40 reviewed
+setups. Track candidate-data reconciliation; do not reset Priest's old clock or
+claim new numerical validation from that static observation.
+
+NEXT: adapt common-pressure400 DPS scenarios for three/five minutes and stacked/
+spread, then implement Druid's actual library/defaults/guidance/workspace. Use the
+Priest geometry 0/12/18/24/30 yards for fair within-range spread comparisons; the
+existing Druid helper's generic spread positions end at 48 yards and must not be
+silently substituted. Preserve the confirmed higher-pressure stress references.
+Finish material unsupported-use and domain comparisons as required by the declared
+recommendation scope; other healers and original DPS/tank work remain in scope.
+No math workers should still be running from the above phases; verify process/
+report state before starting dependent work. Latest logs are /tmp/kfc-druid-*.
+
+## Earlier October 24 — Druid feedback and practical confirmation checkpoints
+
+Previous goal turn was progress. This turn is progress: the first full Druid gear
+calculation finished, its failed final source check was recovered from the complete
+journal, corrective gear/pressure/outer feedback and 42-case sensitivity have
+completed, independent finalist comparisons pass, and practical feedback is running.
+The all-class goal remains active with all healers and original unfinished DPS/
+tanks. No Druid qualification, public preset, commit, push, deployment or 3017
+restart. Priest's reviewed local delivery is unchanged. Preserve the Druid clock:
+2026-10-24T04:32:49.463Z through 2026-10-25T04:32:49.463Z.
+
+New druid-legacy-items.mjs/.go models declared Royal Seal/Briarwood alternatives
+without mutating global item data. The compiled historical reference stays
+44 healing / 29 spell power. Six policies separate that reference, Briarwood's
+current fifteen-point equip effect, the thirty-point Marsh/Swamp alternative,
+Royal Seal's conditional sixteen Forest/Grassland Spirit, and a hypothetical
+zero-retained-healing case. Zero healing is sensitivity, not a current-client
+observation. Missing Sparse rows do not prove zero or the historical base stats.
+The fixture SHA is 067283032e78312cc44f8d0f9cc793496f4e13a077b6f45196c08d789f2f45cb.
+
+Corrections apply only to an owning Resto actor and require a fresh configuration.
+The implementation owns its numeric policy values, respects Kings/Living Spirit,
+updates actual cast healing and reapplies once on every iteration reset. It also
+handles workload configuration before the first reset. Invalid values, nil values,
+after-cast changes and unknown wire fields are rejected. Default omission leaves
+the historical reference unchanged; the catalog and common source are untouched.
+
+Current immutable engine:
+`healer-model-admission-v1/druid-legacy-items-v1/2a770954fb68e3a887b9de3d5fc8b1b4e160015b283c2f549d99b6c93cbbd0af/build-EN8dxY/report.json`,
+SHA 0ace9c4939cec4aa20bf3ca3e0e4a71560f1fee64487086c37b68e1238d2ccd3.
+It has 647 compiler files. Relative receipts:
+
+- `browser-review-fPggBZ/report.json`, SHA 1dd63df1002471e1df36234a784cce8f236a3487ba069e8540e24869d17b35fb:
+  108 native/Chromium controls, 171 measurements at 1e-7.
+- `transport-review-ZHvvb0/report.json`, SHA 721b6ddbe09fe662217d0cb2301832ec22864ed197189fec2fe1e8c7d192adce:
+  126 actual worker requests, including six legacy policies and four invalid cases.
+- `final-review-hfYe5T/report.json`, SHA 7c6f00878e0fa9cd552cb584551b71f8f40a031a0e8f9d6176ce465c982cecef:
+  9,180 authenticated pins, 84 independent equipped protobuf/acquisition checks,
+  unchanged 163 parent measurements / 113 parent replies, and two behavioral
+  failures when the actual adjustment is deliberately omitted. Base-stat
+  uncertainty stays explicit. No numerical qualification is claimed by controls.
+
+New druid-healing-feedback.mjs provides legal one-point talent neighbors anchored
+to each archetype, all eligible direct ranks, coarse heal thresholds, support-HoT
+rank alternatives and strict rank-family/acquisition checks. Its tests preserve
+all 51 points, relevant capstones and the AQ-book exclusions. A pure
+simulation-fingerprint.mjs now separates hashing from mutable cache retention.
+New Druid gear-bank/store v2 files and feedback-stage v2 use that pure function;
+existing frozen files remain unchanged. All 263 reusable healer tests passed at that checkpoint,
+including the new sensitivity, talent/rank and fingerprint guards. Focused lint,
+Prettier, Go-format and diff checks are recorded at final verification.
+
+The original full gear phase computed every case but then failed its final check
+when another workflow restored shared simulation-cache.mjs from f07da6c5... to
+69b4b817.... Do not overwrite that shared file to resolve this. Both versions are
+archived; the used simulationHash export is byte-identical. Its original budget
+entry correctly remains failed. The class deadline was not reset or extended.
+
+Original gear phase:
+`healer-model-admission-v1/druid-gear-feedback-v1/49094e875d5d4f97bea6e535640aa45f8a759e94fa4239914598ba235595ce1e/`.
+It contains 210,057 completed calculations and 10,450 reused requests. Exact
+original-algorithm replay recovers all nine states and 900 selection steps without
+new simulations, using the original frozen helper through an explicit source
+alias. All journal records, request/workload identities and selected states are
+accounted for. The replay host uses serialized definition identity, matching the
+original declaration's JSON treatment of an empty Set and undefined array cells.
+No numeric result arrays are broadly normalized.
+
+Authoritative recovery:
+`recovery-review-atFzMW/report.json` under the original gear phase, SHA
+bd459503d17d8140be5956226b7e33b37efe568e457ae1ec745d8bc504fa254c.
+Its `source-review-NLGemr/report.json`, SHA
+72ea47c85b8de07376de76cf3d59983c5462a2e1a6b329b4eb5e25202dd41191,
+independently verifies all original source pins with the explicit alias, compiled
+replay inputs, all nine states' group coverage and exact agreement with the last
+original checkpoint. The replay is numerical evidence under the declared model,
+not a completed independent 2% or global BiS qualification. Do not rerun the old
+210,057 calculations or restart the failed phase merely to generate its old report.
+
+frozen-druid-source-loader-v1.mjs recovers old execution with a narrowly scoped
+read alias to its archived f07da6c5... helper. Sensitivity context v1 preserves that
+mapping and supports real faction/profession changes in protobuf requests after
+independent loadout/enchant legality checks. All thirty domains are recomputed.
+It merges consume overrides with the required mana potion rather than accidentally
+removing it. New loops use pure fingerprints and their own immutable workload
+journals. Context/source-loader v2 is prepared for subsequent work: the live cache
+revision is observed but does not control execution of the archived helper.
+The shared helper itself was not reverted or edited by this turn.
+
+COMPLETED corrective gear pass:
+`healer-model-admission-v1/druid-legacy-gear-feedback-v1/8d6fc5cfe9058f57a105c77b9562ca57e5c0fd321f6c888f153ce70087d0f363/report.json`,
+SHA d1437d748415305e34e7850e02312bf16b3c88a99addca37e899d509b8e99340.
+It completes 111,739 new calculations, 2,241 exact reuses and 450 selection steps
+across nine states. Every selected state survives all four declared cases. It
+seeds from recovered sets and covers one all-slot/set/pair/enchant sweep,
+screen4/refine32, with five contenders plus incumbent and 1,460 candidates.
+Other faction/profession comparisons remain required. Original session 83734
+completed successfully; do not restart it. Its log is
+`/tmp/kfc-druid-legacy-gear-feedback.txt`.
+
+Low incoming pressure can make extra healing stats irrelevant. A score tie does
+not make an inert item universal BiS. Completed pressure review:
+`healer-model-admission-v1/druid-pressure-review-v1/b56506e498a63ac5ce8435d97b77edb3f432794ad03980748742dc3ba5d0830f/report.json`,
+SHA 54b7e2c26e98a7c6c9dd047eb73feba1a99d01a345f610fd485dd58b15bc1e29.
+It completes 5,240 calculations, testing retained sets at
+400/600/800/1000/1200/1600/2000 post-mitigation incoming DPS. Confirmed fixed
+follow-up assignments are 400 tank / 600 group / 600 burst for Wild Growth and
+Nature's Grace, and 400 / 800 / 800 for Splendor/Wild Growth. These are separate
+synthetic assignments, not equal-pressure class rankings or precisely measured
+maximum healing capacities. The coarse grid is not a 2% certificate.
+
+COMPLETED outer feedback:
+`healer-model-admission-v1/druid-outer-feedback-v1/b799a16e2a6a43d1539d0ca0670084f2fcd4b903e1bd0433bbb1de1101169f1c/report.json`,
+SHA f620632fd25aca8f37287d32efc4d97e619afa3c17e0d4ef691fe1b15078fee0.
+It completes 18,167 new calculations, 2,022 exact reuses and 97 selection steps;
+all nine selected states survive four declared cases at their fixed pressures.
+At most two cycles/state with up to six legal one-point talent moves/cycle,
+all direct ranks/coarse thresholds, support downranks, declared consume choices
+and retained gear. Session 23134 completed; do not restart.
+
+COMPLETED finalist sensitivity:
+`healer-model-admission-v1/druid-finalist-sensitivity-v1/63f332f50f76716a95a5df8696bd43c5c2f16fd229eedc6162ca615b8879de4b/report.json`,
+SHA edb26751beb4c97f4784d4ceec252c189d9795236dc60dc6ec837644fc3d2c1e.
+It completes 7,848 new calculations and 1,812 exact reuses across nine states.
+All selected states survive all 42 declared cases: fourteen rank/proc research,
+six Wildheart, six Dormant Heart, six legacy-item, six HoT-decay/Swiftmend policies
+and four earlier composite cases. This is additive sensitivity, not a full
+Cartesian server/formula proof. Seven training winners change; no final gear
+claim follows from these screens alone. Session 6365 completed.
+
+Exact-algorithm origin reviews all pass without new simulations:
+
+- Corrective gear `.../druid-legacy-gear-feedback-v1/8d6fc5c.../origin-review-6S3TaW/report.json`,
+  SHA f98767fa296a128301ea1cf2ef6a34da913c0fa17db3d569acb01c906384fb62:
+  111,739 records / 113,980 origins; nine states / all 450 selection steps.
+- Pressure `.../druid-pressure-review-v1/b56506e4.../origin-review-nAmSYc/report.json`,
+  SHA 423b7d34670670cc0ed824ac4e08a6cec02238099ed51433d5e23a034a2b5251:
+  5,240 records/origins; all screens, pressure choices and confirmations.
+- Outer `.../druid-outer-feedback-v1/b799a16e.../origin-review-nzaYcJ/report.json`,
+  SHA dfc584daea85b24129fb17c9ba295335fbb5512707a1fc70c88cb77d197d34f6:
+  18,167 records / 20,189 origins; all 97 selection steps.
+- Finalist `.../druid-finalist-sensitivity-v1/63f332f5.../origin-review-Rk1yQQ/report.json`,
+  SHA b5290382d8c3e1a6e5bf407d672d12f071d3cea5b7214ad8b62c824130aecafc:
+  7,848 records / 9,660 origins; all 42 cases / selections.
+
+The generic review tool bundles only the original entry, imports dependencies
+at their original paths and substitutes only the stage callback with journal
+reads. Its first recursive-bundle attempt failed before replay with an undefined
+path; no new simulations. The successful gear review's exact reviewer source is
+archived in that review folder before later CLI support was added. No shared
+cache file was edited by this turn.
+
+New public `druid-healing-candidate.mjs` builds explicit owned cooldowns and
+parameterized assignment frames for confirmation/adaptation. Five source-backed
+tests check exact damage delivery/geometry, ownership, duplicate Mindtap selector,
+explicit rune activation and independent policy copies. All 268 reusable healer
+tests pass (`/tmp/kfc-healer-candidate-suite.txt`); focused ESLint passes. This helper
+is used by the actual independent confirmation script, not an unused public API.
+
+COMPLETED independent confirmation:
+`artifacts/forever-simulator/optimization/review-tools/confirm-druid-healing-finalists-v2.mjs`
+uses the final sensitivity report. It checks each winner against five distinct
+training alternatives under all 42 cases and four fresh 128-iteration seed batches.
+Confirmation does not reselect; point estimates and paired-batch t(3) Monte Carlo
+intervals are reported separately. Other source/encounter uncertainty remains.
+`healer-model-admission-v1/druid-independent-confirmation-v2/37a730ab040e0611ceff801fe02e875924b68f5401f94c04e2f9bc961f306323/report.json`,
+SHA 0da9f4151907246cf3334995f65a3629c6f9f02d93d92b7538d27861723ed577.
+It completes 7,632 new jobs and 1,440 exact reuses. All nine selected setups
+survive every declared case's 512 fights and pass observed 2% / separate 1%
+comparisons for the worst-case objective. Maximum observed worst-case gap is
+0.373483%; maximum single-policy point gap is 1.996476%. Largest paired-batch
+95% upper bound is 2.855447% (Nature's Grace/group). Do not convert those point
+estimates into a universal 1% or 95%-confidence 2% guarantee. Confirmation did
+not reselect. Session 50807 completed; do not restart this terminal phase.
+The full exact-origin review is session 59669, log
+`/tmp/kfc-druid-independent-origin-review.txt`, using generic reviewer v2.
+Inspect its terminal receipt before claiming the independent replay passed.
+
+The initial confirmation identity e48e8946e2d86754f5772782a30436e0b557cccfdfe381eedb763ac85e3efabd
+was deliberately interrupted early: the shortlist included the winner in its five
+entries, so it would check only four alternatives. Its original runner is archived
+there. A same-phase changed-identity attempt was correctly rejected by the budget
+guard before simulations. The corrected v2 is a separate phase under the same
+original deadline; no budget rule was weakened. It excludes the winner and backfills from the immutable
+outer training bank, asserting exactly five alternatives. Old budget status stays
+interrupted, and the original class start/deadline are unchanged. Do not resume
+that interrupted identity or reset/extend the Druid clock.
+
+RUNNING focused follow-up:
+`artifacts/forever-simulator/optimization/review-tools/run-druid-practical-feedback-v1.mjs`.
+It uses the terminal independent v2 report and compares all six existing engine
+alcohol options and an editorial filler proposal under all 42 cases with fresh
+64-iteration training jobs, preserving the existing gear. Utility is preferred
+only within 2% in every declared case; another fresh independent comparison is
+required after selection. Failed-survival inputs are explicitly skipped for
+correction. Legacy alcohol behavior remains unverified on the current server.
+Session 74002; log `/tmp/kfc-druid-practical-feedback.txt`. Read actual declaration/
+progress/report before resuming; preserve its frozen files and class deadline.
+
+New `druid-healing-talent-utility.mjs` preserves all modeled healing fields,
+51-point legality, prerequisites and archetype capstones. Only named filler fields
+move toward healer threat/utility preferences. It removes a stray Ferocity point
+without changing healing points. Two source-backed guards pass. All 270 reusable
+healer tests pass (`/tmp/kfc-healer-utility-suite.txt`), with focused ESLint passing.
+This is a proposal and must not replace defaults before the planned comparison.
+
+Found one more resumption hazard: v2's semantic declaration still hashes the
+observed mutable cache version through sourceAliases.liveObservedSha256.
+The prepared `druid-healing-feedback-stage-v3.mjs` removes only that observation
+from the identity and records full observations separately in the report. It
+continues authenticating the actual immutable execution source. Two direct private
+regression tests pass: changing live69/f07 observation preserves phase identity;
+changing source SHA, execution path or future semantic fields invalidates it.
+Practical feedback uses v3; the completed confirmation v2 is untouched. Generic review
+v2 now intercepts stage v3 too and supports practical feedback's CLI. Do not use
+a reviewer that would accidentally execute the native stage during replay.
+
+New public `druid-healing-worker.mjs` supplies the strict Druid protocol and
+Druid Go/WASM callbacks in a real Web Worker, matching the existing Priest worker.
+It passes focused ESLint and Prettier. Do not edit the frozen Priest worker to
+add this class. Actual selected-build browser validation is PREPARED, NOT RUN:
+`artifacts/forever-simulator/optimization/review-tools/review-druid-selected-worker-v1.mjs`.
+It will accept the practical report (or independent v2 as an earlier reference),
+run all nine selections / 42 cases through native and Chromium workers, compare
+at 1e-7, and check heartbeat, Stop, restart and invalid-envelope recovery. It uses
+the v3 stage and unchanged Druid deadline; no extra optimization search. It maps
+browser job IDs to the journal's canonical native reply IDs before comparison.
+Run it after practical feedback so it reviews the actual proposed defaults.
+
+NEXT: finish practical feedback and its origin review, perform a fresh independent
+comparison after that new selection, then run the prepared real browser worker
+review. Complete other faction/profession domains, remaining
+unsupported-use bounds, duration/spacing and actual Druid defaults/library/guidance/
+workspace. Current default gear requires Tailoring boots; cross-profile legality
+is not broad numerical qualification. The 78 union extras beyond Alliance
+Engineering/Tailoring are mainly Horde alternatives plus four Leatherworking-only
+physical items, but none are silently pruned by name. Keep their comparison and
+other profile coverage explicit. Paladin/Shaman and original unfinished DPS/tanks
+remain required. No cleanup, commit, push or deployment was performed by this turn.
+
+## October 24 — explicit Serenity use and bounded Druid feedback started
+
+Previous goal turn was progress. This turn is progress: actual Druid priority
+feedback completed, and the full gear feedback is running. All five healer
+archetypes, supported hybrids and original unfinished DPS/tanks remain required.
+No final Druid BiS, public Druid preset, commit, push, deployment or 3017 restart.
+Priest's local delivery and existing budgets remain unchanged.
+
+Serenity Field 272439's existing common handler supplies 72 Spirit for fifteen
+seconds, with a ninety-second personal cooldown and fifteen-second category 1141.
+The Druid workload previously rejected its item selector. New
+`druid-study-cooldowns.mjs` authenticates the current source and existing common
+handler, then admits exactly ItemID 272439 through the class cooldown allowlist.
+No new handler or common-source edit. Ownership and explicit activation are
+required; the source spell ID is not the action selector. Native controls verify
+Spirit/regen, duration, personal/shared timers, expiry, reset, omitted policy and
+no-demand behavior. The old policy fails both new controls behaviorally.
+
+Source fixture `druid-study-cooldown-source.v1.json.gz` SHA
+07b2d766209396f25c9f5de0bba01620fc3c8cc3676546990724dcad6c24accc.
+Current immutable model:
+`healer-model-admission-v1/druid-study-cooldowns-v1/eccb13e6af5a0644e6e3e1145e7dd42df0c246607f9cbcb862c3215ff23e8ea3/build-mQeJS6/report.json`,
+SHA f343df9acdc91a66d0e97cbbeac1a9ac82a370f4226d21b24b3728cc45beb465.
+It has 645 compiler files; production changes are one class-scoped selector only.
+The current catalog/domain and common handlers are unchanged. Relative receipts:
+
+- `browser-review-mHpPkG/report.json`, SHA 301b1b129227ed06cbda4d08d4afd389e5f63d0de517ab7abc283885ec03788b:
+  104 native/Chromium controls and 163 comparisons at 1e-7.
+- `transport-review-Vx4qIt/report.json`, SHA 8b6d128d6c26aa934d6fff14328b020ec8bc82bf3452589696037e77578b1254:
+  113 worker requests, including three equipped Serenity cases and four invalid
+  policies. All 106 parent replies remain unchanged.
+- `final-review-hI9gNi/report.json`, SHA af2cefe47b39ee14823120d26f69689d35e8ffe102582bc68140dab0fcf3dd34:
+  8,517 authenticated pins, 75 independently decoded equipped/acquisition-policy
+  requests, unchanged parent measurements, two old-policy behavioral failures,
+  unchanged catalog/common handlers and preserved Warlock budget.
+
+Failed child folders are retained: an initial test used the wire metrics as a
+protobuf instead of decoding their JSON; another omitted Cleanup before Reset.
+The first browser comparison also encountered unordered detailed action arrays.
+The successful review canonicalizes only actions/auras/resources by identity,
+matching the established transport comparison. No production workaround or broad
+metric normalization. Do not rerun terminal successful mechanics phases.
+
+`druid-healing-gear-bank.mjs` now enumerates every eligible individual slot,
+both jewelry orders, complete hand pairs, all multi-piece set subsets and legal
+Druid enchants. Five source-backed tests cover legality, full hand/jewelry banks,
+all 247 multi-piece Wildheart subsets, compatible enchants and seed immutability.
+Fixtures have SHAs:
+
+- `druid-healing-gear-bank-source.v1.json.gz`: 444cc59f2fc397ab10d9380c201baa59cb561ab08f7b0553f7a18730d716169f.
+- `druid-healing-enchants-source.v1.json.gz`: 9d6425e608685a4d78d70c0db0dd827a2d2fcc93f511adee659166032e2c9e2e.
+
+`druid-study-inputs-v1/prepare-2nzpqZ/report.json`, SHA
+0cc444bf5c56b3f743807cf6ec475e84beb17a66c5ae04f1a1cfeca583bff982,
+contains a legal enchanted heuristic starting set, three talent seeds, 1,460
+Alliance Engineering/Tailoring candidates, 50 search groups and explicit remaining
+model limitations. The full thirty-profile union remains 1,538; this selected
+profile is not all-faction/all-profession coverage. Six seed slots have legal
+positive-score enchants; incompatible/raid-dependent effects are not added just
+to fill every slot. Static scoring creates a seed only; no candidates are pruned.
+
+New Druid native runners and immutable workload store derive the existing Priest
+transport/accounting behavior with Druid schemas. Actual math runs use those
+workers, strict replies, runtime/request/workload hashes and a serialized durable
+journal. The class budget helper is unchanged. All 255 reusable healer tests pass,
+including the new cooldown, gear-bank and store guards; focused ESLint and format
+checks pass. Final focused Prettier, Go-format and git diff checks also pass.
+
+The Druid clock has now started at 2026-10-24T04:32:49.463Z with a hard deadline
+of 2026-10-25T04:32:49.463Z. Never reset or extend it. The class record is
+`artifacts/forever-simulator/optimization/healer-class-budgets/druid.json`.
+The first phase `druid-initial-feedback-v1` completed 1,306 new simulations:
+three seeds × tank/group/burst, direct ranks and coarse HoT/special-heal choices,
+reference and combined mana-stress cases, eight-iteration screens and five
+thirty-two-iteration finalists. All nine selected three-minute states survive
+both declared cases. This is initial casting feedback on a fixed heuristic set,
+not all-slot gear qualification or an independent 2% result.
+
+Initial report:
+`healer-model-admission-v1/druid-initial-feedback-v1/f8a26a94d52457c00037905e7b20c6db66e65e78386d7fd78a18e0e8dee72565/report.json`.
+Its `origin-review-PnyTJV/report.json`, SHA
+8cc44af9d527c8a4161516b0949714a6f3d79e06c09cbf490b6f46929288e88a,
+independently reconstructs all 1,306 request origins and records, candidate
+coverage, ranking and every selected result without new simulations.
+
+The full gear phase is RUNNING:
+`healer-model-admission-v1/druid-gear-feedback-v1/49094e875d5d4f97bea6e535640aa45f8a759e94fa4239914598ba235595ce1e/`.
+It tests all fifty groups for nine states, at most two sweeps, screen4/refine32,
+five contenders plus incumbent and the same two coherent sensitivity cases. It
+scores survival/full damage delivery first, then worst-case missing health and
+remaining mana; overhealing never helps. Unmodeled effects and additional
+sensitivities remain explicit qualifications, not silently treated as verified.
+At one live checkpoint it had 83,757 records, three completed states, and was on
+Splendor/Wild Growth tank healing. Those are intermediate counts; inspect current
+progress.json/jobs.ndjson and process state. Root tool session 5891, Node PID
+71418, workers 72285/72286 were confirmed live. Do not restart merely because a
+poll times out. If terminal, inspect report/failure and budget status first.
+
+A concurrent storage-retention change was already present in both feedback
+phase declarations: shared simulation-cache.mjs SHA
+f07da6c534c003373a55e6d788fc3f79b4b8d2ca6d7722d348f76a424ee28008.
+An older mechanics audit still expected 69b4b817... and rejected that stale pin.
+The exported simulationHash function is byte-identical to the original; these
+healer runs use their own durable journal, not createSimulationCache. Both helper
+versions are preserved as immutable review-tools snapshots. The live helper was
+not reverted or edited, and the running search consistently uses f07da6c5....
+The corrected audit verifies this compatibility and preserves the unrelated
+retention work. Do not restore 69b4b817... over an active f07da6c5... search.
+
+NEXT: let this specific gear run finish; inspect/replay its coverage and selected
+states, then bounded talent/priority/consume outer feedback. Check five-minute and
+spread assignments and all declared proc/downrank hypotheses before independent
+confirmation. Compare other faction/profession domains before broad qualification.
+Royal Seal is appearing in intermediate gear: its historical 44 healing remains
+provisional, and its current sixteen Spirit is Forest/Grassland only. Briarwood's
+current equip spell is fifteen spell power with an area bonus while the historical
+compiled base is twenty-nine. The input limitations require shortlist sensitivity
+for these and bounds for Circle of Flame, Gauntlets of the Sea, Major Recombobulator
+and Baron's Scepter before claiming the requested 2% result. Do not silently turn
+missing Sparse rows into zero, confirmed current stats or harmless effects.
+Deliver actual Druid defaults/library/guidance/workspace before moving it to done.
+Paladin/Shaman and original remaining DPS/tanks stay required. No cleanup was done
+by this turn; other storage work increased free space independently.
+
+## October 24 — reconciled current items and real raid-buffed Druid study frames
+
+This goal turn makes progress; the all-class goal remains active with Holy and
+Discipline Priest, Restoration Druid, Holy Paladin, Restoration Shaman and useful
+supported healing hybrids alongside unfinished DPS/tanks. No Druid optimization
+clock, qualified gear result, public Druid preset, commit, push, deploy or 3017
+restart. Priest's local review and original budgets are unchanged. Unrelated Rogue
+workers were left running; the protected shared simulation cache was not edited.
+
+`druid-current-items.mjs` reconciles the 27 items identified by the previous
+41-difference diagnostic. It authenticates complete current Sparse rows and three
+attached effects before invoking the existing strict normalizer. Cookie's melee
+debuff, Whitemane's resurrection speed and Oilskin's Feral skill do not add flat
+healing stats in the declared no-offense/no-resurrection/no-weapon-skill workloads.
+6695's stat 136 is damage against Undead, not additional healing; retain its five
+combined spell power without converting the twelve damage-only points. Its source
+link is retained in the review. Doom Robes' negative eleven Stamina is preserved.
+Weapon damage, armor, quality and item level are also reconciled where the current
+rows differ; all historical acquisition relations and unaffected records remain.
+Current-stat review does not turn historical acquisition into confirmed drops.
+
+Fixture `druid-current-items-source.v1.json.gz` SHA
+94cf580c6a4cfc65640da7d9ca4d6e161c76d7ded603396cc9a11233a85b4d4f
+contains the 27 exact parent/current records, raw effect graph and diagnostic.
+A new independent protobuf codec permits only the reviewed fields per item,
+preserves the remaining catalog and proves JSON/binary roundtrip equality.
+Observed vendor mace 272681 retains 176 HealingPower and 58 SpellDamage.
+The catalog remains 2,688 items, thirty recomputed Druid equipment contexts and
+1,538 union candidates. All 1,973 explicit critical-stat comparisons across 1,097
+current candidates now agree; absent rows/channels are not inferred to be zero.
+
+Two actual Go controls verify catalog values, spell-power contribution to real
+Healing Touch casts, no damage-versus-Undead healing leak, and the robe's actual
+Stamina/health penalties. Both fail behaviorally against the old catalog. The
+first child build failed a new metadata test because the legacy runtime item
+struct does not retain quality; quality stays verified at the protobuf/catalog
+boundary. The corrected test checks actual runtime item level and stats. Preserve
+that failed folder; it is not a successful build and no production code changed.
+
+Current immutable model:
+`healer-model-admission-v1/druid-current-items-model-v1/6b98b18ea84a1e61f77d4f2022e770e7affb4b46df0925b3bc958603b2106d35/build-AUZSF6/report.json`,
+SHA 8f7ab6a02c47b45c9ce83451fe4ca05962999668e78ad354a578fa3e3e7e0682.
+Its compiler inventory has 644 files: only the database and a new test differ from
+the parent workspace; all production Go source files are unchanged. Relative to
+this build:
+
+- `browser-review-2Fj3Fi/report.json`, SHA d5a570e3a98433f0a8daa9cf7dfaf670ef7fc12cb84eb49dffdec82edfc2766d:
+  102 native/Chromium controls and 156 measurement comparisons at 1e-7.
+- `transport-review-iV8fCE/report.json`, SHA 1bee89093ee3c36101273faf5ee7b08f18a76e76d676877fa40d9aff99a04605:
+  all 106 fresh native/browser worker requests agree.
+- `final-review-yIYzNL/report.json`, SHA 642b2cdf8f77c60e6e517678d136ff7b1f80e2e804d762c483a7afc0e06f72d4:
+  7,855 authenticated pins, unchanged runtime source, all thirty recalculated
+  domains, 72 independently decoded equipped requests and protected cache/Warlock
+  budget. New values change 65 worker results and forty parent measurement groups
+  legitimately; numerical reuse from the old catalog is explicitly forbidden.
+
+`druid-healing-study.mjs` now provides actual current-layout validation, three
+legal 51-point editorial seeds (Wild Growth, Splendor/Wild Growth, Nature's Grace),
+comparable tank/group/burst damage schedules, three/five-minute and stacked/spread
+layouts, talent-gated pre-raid rank priorities and survival-first scoring. These
+are inputs, not optimized talent recommendations. It reuses the exact Priest
+assignment schedules and scoring without retaining Priest-specific cooldown flags.
+Swiftmend priorities require a declared HoT source; the two AQ-book ranks stay
+excluded. Its source fixture SHA is
+0cb33bc5759f95fedac345a808fad7249b9ee1f5851cff5b9cd56da6b44e2e31.
+
+`study-frame-review-PwSImB/report.json`, SHA
+26f911406887fdef1cbde50b585bde163e9efdb6e58e7d85b802b1e294749f5e,
+records 36 actual native/Chromium controls using real legal 17-slot gear, no
+synthetic player stats, full shared improved raid buffs, configured mana consumes
+and owned Innervate. All input buffs survive protobuf encoding, and detailed native/browser
+results agree at 1e-7. Only 15/36 cases survive complete assignments: 3/12 Wild
+Growth, 6/12 Splendor/Wild Growth and 6/12 Nature's Grace. The deliberately basic
+Feralheart seed with vendor mace has no enchants; it is an admission control, not
+BiS. Two iterations per case do not qualify any archetype or prove convergence.
+Longer/spread assignments show substantial mana blocking and must not be marketed
+as finished viable builds merely because their talent strings are legal.
+
+All 245 reusable healer tests pass, including nine new recovery/study guards;
+focused ESLint, Prettier, Go format and diff checks pass. Simulator ESLint globals
+now recognize Node 20's real read-only URL built-in. Frozen successful source and
+reports were not modified. No cleanup was performed; free disk was about 6.5 GiB
+at the end of this phase (other sessions may change it).
+
+NEXT: close the equipment-effect scope against actual assignments, then prepare
+fresh immutable Druid study inputs with legal enchants, owned mana cooldowns and
+explicit proc/downrank sensitivities. Royal Seal 18470's current sixteen Spirit
+requires Forest/Grassland; do not add it as unconditional raid Spirit. Declare
+that environment or compare it separately. Missing current historical base stats
+remain provisional. Start the bounded Druid clock only for the optimization:
+all slots, set thresholds, paired hands/jewelry, legal talents, spell priorities/
+ranks, enchants and consumes; independent confirmations and honest 2%/1% evidence.
+Do not repeat completed mechanics/browser phases without a new change or concern.
+Deliver actual simulator defaults/library/guidance/workspace before counting Druid
+finished. Paladin/Shaman and original unfinished DPS/tanks remain required.
+
+## October 24 — Dragon Lord ring and quantified remaining stat reconciliation
+
+Previous goal turn was progress. This turn is progress: Mark of the Dragon Lord
+is modeled and reviewed in the Druid engine, and a broader current-stat diagnostic
+now identifies the next concrete data fixes. The all-class goal remains active,
+including all five healer archetypes, useful supported hybrids and original DPS/
+tanks. No Druid optimization clock, qualified gear result, preset, commit, push,
+deploy or 3017 restart. Priest's local delivery and existing class budgets remain
+unchanged; unrelated Rogue work is running separately and was not touched.
+
+The current client description explicitly links Mark of the Dragon Lord 13143's
+mana to its shield: spell 17252 absorbs 500 of all seven damage schools, and gives
+22 mana every five seconds while the shield holds. It lasts thirty minutes and
+has a thirty-minute item CD with no shared category. Eight raw source records are
+authenticated in `druid-dragon-mark-source.v1.json.gz`, SHA
+b1dd4a750976f5d6456aa32215c9e3611dedc8be170c64a6c0c4edcae0ebc4ed.
+Base ring stats remain historical/provisional; no catalog record was replaced.
+
+New druid-dragon-mark.mjs/.go adds Resto-only owned registration and explicit
+SpellID 17252 cooldown admission. Equipping it alone never activates it. It always
+shields self regardless of selected target, has no healing-power coefficient,
+and is independent of the mana trinket category. Actual absorbed damage counts
+as absorbed HPS; unused capacity is not raw/effective healing. The linked mana
+timer cancels on depletion, replacement, manual deactivation and reset, checks
+caster life, and respects the mana cap. Natural expiry credits the final due tick
+once even if aura-expiry and tick callbacks meet at the same boundary. This last-
+tick ordering is a declared reference, not server timing evidence. Controls verify
+360 nominal ticks over a complete thirty-minute aura, including the last one.
+
+The current derived model has 643 compiler files, 100 native/Chromium controls,
+153 measurement comparisons at 1e-7 and 106 actual worker/browser requests.
+All 136 parent measurement groups remain unchanged. All 91 parent worker replies
+are numerically equivalent after canonicalizing only unordered action/aura/resource
+metric arrays; raw detailed evidence is retained. Six new fully equipped cases
+include omitted activation, active shield, depletion, fatal damage, no-demand and
+mana/demand thresholds. Five new detailed cases verify actual activation, linked
+mana stopping at depletion, no unused-shield HPS and separately recorded 500-point
+absorption. Seventy-two fully equipped requests pass independent protobuf and
+existing reviewed acquisition-policy checks without synthetic player bonus stats.
+All 236 reusable healer tests pass, plus focused ESLint, Prettier, Go format and
+git diff checks. The public/frozen self-effects and item-resource modules remain
+unchanged; only new class-scoped code and derived child sources are used.
+
+Current model:
+`healer-model-admission-v1/druid-dragon-mark-v1/6b6a4a8bdb512ffe90414b819b2812cecb3f0d6abf2ee581247f4f08316a4922/build-ayEI5P/report.json`,
+SHA 57e6ea6ef4b1cbaba789b72fc95cdabd9c27324c5f0153a39d93aa420718ab74.
+Following paths are relative to that build:
+
+- `browser-review-E266hx/report.json`: SHA c45fe0fb26c8c817ea369459fe9bf0f23dbc7422cce9a6cad2162744f803c850.
+- `transport-review-k4tJ4A/report.json`: SHA 2fd8499f447cf55e7e538f7a45af827cc69ff5b2d7fe1670c68e4b548c61256b.
+- `negative-review-u6lCQC/report.json`: ten broken runtimes fail actual behavioral
+  controls, including amount/coefficient, ownership, CD, canceled timers, final
+  expiry tick, activation policy, target handling and false raw healing credit.
+  SHA 47bd5f459c58d064df40f450c55c7e99d29fc7642ea423ed590a377c449d7a69.
+- `final-review-YHOCfD/report.json`: authenticates 8,017 pins, exact class-scoped
+  derivation, unchanged parent sources outside baseline/cooldown admission,
+  unchanged catalog/domain, reviewed equipped inputs and protected simulation
+  cache/Warlock budget. SHA 383fd2b486ca7f6ee3cc236b86aae1de5064d596db5c905072628e7f67b095e3.
+
+Across phases, 73 broken runtimes, two invalid request orders and two old-catalog
+regressions are rejected. Successful phases are terminal; do not rerun them absent
+new implementation or unresolved concerns. There are no live Dragon Mark workers.
+Catalog remains 2,688 items / thirty Druid contexts / 1,538 union candidates.
+
+A separate explicit-stat diagnostic compared 1,973 current values across 1,097
+current candidate rows for stat types 5/6/7/41/42/43/45. It found 41 differences on
+27 items. This is evidence requiring reconciliation, not a blanket importer-defect
+claim: three items have attached effects that must be reviewed before replacing
+values (5197, 7720, 9414). Missing channels and missing Sparse rows are not assumed
+to be zero. Preserve the observed vendor mace 272681 and merged passive effects.
+Most differences concern older lower-level imports; Ironbark Staff 20069/20220
+also differs. Fixture neck 6695 has current 5 combined spell power versus engine
+zero, so a correction will legitimately change some equipped control results.
+Do not demand unchanged numerical outputs or reuse old calculation keys after
+that catalog amendment. The existing direct-healing-only audit remains valid;
+this broader review found differences in other channels, not new direct healing.
+
+Diagnostic: `healer-model-admission-v1/druid-current-stat-review-v1/review-mn4Q4I/report.json`,
+SHA 08711eefeca78ff8568d65f8c372d1d5c51edb92c215ff4db0ce82f8fda8d6d5.
+Status is `requires-reconciliation`; no catalog mutation or new optimization ran.
+The script is `review-tools/audit-druid-current-stat-values-v1.mjs`.
+
+NEXT: reconcile these 27 items against the complete relevant raw Sparse/effect
+records, preserving unrelated values and source precedence. Recover only reviewed
+changes with binary/JSON equality checks, update affected control expectations in
+new derived sources and verify fresh native/browser results. Review Royal Seal
+18470's current 16-Spirit item effect separately from its provisional base stats.
+Then bound immaterial/excluded effects against the declared workloads, verify real
+fully equipped raid/talent/buff inputs and start bounded Druid feedback under the
+2% target and original time caps. Deliver actual defaults/library/guidance/workspace
+before counting Druid finished. Holy Paladin, Restoration Shaman and remaining
+original DPS/tanks stay required. Disk was about 5.4 GiB before this phase's final
+reviews; no evidence or generated builds were deleted.
+
+## October 24 — Mindtap, Dormant Heart and living-caster resource accounting
+
+Previous goal turn was progress. This turn is progress: new class-scoped item
+behavior, actual native/browser verification and completed provenance reviews.
+The all-class goal remains active with all five healer archetypes, useful supported
+hybrids and unfinished DPS/tanks. No Druid optimization clock, final gear result,
+public preset, commit, push, deploy or 3017 restart. Priest's reviewed local
+workspace and existing budgets remain unchanged.
+
+New druid-item-resources.mjs/.go authenticates 41 current records for seven spells
+and four item links. Mindtap Talisman 18371 supplies ten one-second 125-mana ticks,
+with a seven-minute personal cooldown and ten-second item category 2554 shared
+with Second Wind. Its triggered Tapped Mind aura removes 60 Intellect for two
+minutes. Dynamic dependencies therefore change maximum mana and crit/regen;
+the declared engine clamps current mana to the reduced maximum at activation.
+Expiration restores capacity without granting free mana. The minimum admitted
+Intellect is 60; current level-60 equipped controls satisfy it. Server pool-clamp
+behavior is an explicit modeling assumption, not observed evidence.
+
+Mindtap is owned, explicitly activated through SpellID 1302205 in the workload
+cooldown policy, and never activated merely because it is equipped. Duplicate
+copies register one shared item ability. No use during death; ticks stop on death.
+An actual shared-cooldown control caught an engine ordering edge case: a rejected
+shared-CD cast could consume the personal CD first. Mindtap's early cast condition
+now checks the shared timer before that can happen. Both activation orders are
+verified. Second Wind's inherited periodic timer granted mana after death; the
+Resto-only handler now checks living-caster state while preserving its 63-per-tick
+payload and fifteen-minute CD. Global common source files remain unchanged.
+
+Dormant Heart 249473 grants one nonstacking, refreshable 15-second aura with
+40 HealingPower and 13 SpellDamage. It does not use combined SpellPower, which
+would conflate those values. Its 100% client proc field is the explicitly labeled
+literal reference, not a verified server rate. Six policies cover literal,
+disabled, 2%, 5%, 10% and direct-heal event interpretation. Zero remains zero.
+Completed-cast reference events cannot multiply by periodic ticks; harmful and
+passive child spells are excluded. Direct-heal interpretation is separately
+controlled. Policies require fresh actors, own their pointer values and echo in
+worker results whenever applicable. Real casts verify that the triggering heal
+is unchanged, the next heal gains the correct coefficient-scaled amount, and
+refresh/expiration/reset/death work. Do not claim server proc behavior verified.
+
+Energetic Rod 18321's captured trigger/mana payload is recorded but offensive
+weaving is not admitted in these healing-only workloads. Historical base stats
+for 18371, 18321 and 11819 remain provisional; current effect links do not prove
+the complete current base stat record. No catalog/stat record was replaced.
+Source fixture SHA: 6584c040ee55d1ddcc5f514e937beb9a5558518e9c2bc816e519081b87d84211.
+
+The first test attempt exposed a missing common-item import in the isolated
+Druid control package. New controls now load common registrations exactly as the
+production worker does and explicitly assert Second Wind is registered. Another
+failed attempt exposed the shared-CD ordering issue above. Failed folders are
+retained. Only the successful report below counts. All 112 earlier measurements
+and all 66 earlier native/browser replies remain unchanged after these fixes.
+
+Current successful model: 641 compiler files, 92 native/Chromium controls,
+136 measurement comparisons at 1e-7 and 91 actual worker/browser requests.
+Sixty-one fully equipped requests pass independent protobuf and existing reviewed
+acquisition-policy checks without synthetic player bonus stats. Three detailed
+cases prove omitted Mindtap policy performs no activation, explicit policy uses
+it with the penalty, and Heart has actual aura uptime. Unordered actions, auras
+and resource metric arrays are compared by stable identity; raw evidence is kept.
+Four malformed item policies and unowned Mindtap activation are rejected. Two
+fatal caster scenarios have zero ghost HPS. All 233 reusable healer tests pass.
+
+Build:
+`healer-model-admission-v1/druid-item-resources-v1/86e90eca994652df4aeb90abeea55f84cdcdc31cc59e1c9961ade9a0f80805c1/build-YXJNia/report.json`,
+SHA 7d2f5b4a1b534a10e338429fdfa0505934b887efe28ce0fcd070935f036bf510.
+Following paths are relative to that build:
+
+- `browser-review-ldqnLS/report.json`: SHA bc3bdd5b6bdce8b11548121bce6b1525d3a837e06e213b33a5e228740c6ae019.
+- `transport-review-IEbRho/report.json`: SHA a7938d031cb17e941c4967f139b57ec7bcf51c97a95c770fde1baa2d4a7c718e.
+- `negative-review-ohvILt/report.json`: fifteen actual broken runtime variants
+  are behaviorally rejected; SHA 30c401523e683f6511173dab962896858c2d1b039bb97a500e1d73c2a35e6821.
+- `final-review-D0DGyv/report.json`: 7,329 pins, all class-scoped derivations,
+  unchanged parent files outside the three declared edits, unchanged catalog and
+  candidate domain, all equipped inputs, live activation and prior result parity.
+  SHA be67addc8a32a390c5a10f49eb4f0fbc333e78ad724aaf2f1b82bbf2c16da6f9.
+
+Across phases: 63 broken runtimes, two invalid request orders and two old-catalog
+regressions are rejected. Protected simulation-cache.mjs and Warlock budget are
+unchanged. The catalog has 2,688 items; the thirty Druid contexts retain their
+1,538 candidate union. Successful phases are terminal; do not repeat them absent
+new implementation or unresolved concerns. Focused ESLint, Prettier, Go format
+and git diff checks pass. Disk had about 5.4 GiB free; no evidence was deleted.
+
+NEXT: review Mark of the Dragon Lord 13143 before the Druid search. Current spell
+17252 links a 500-point absorb with 22 mana per five seconds for thirty minutes
+and a thirty-minute on-use CD; it is not registered in the current model. Its
+resource uptime/shield-break relationship needs source validation and real engine
+controls, not an assumed permanent MP5 bonus. Confirm other material stat/effect
+gaps, including Royal Seal 18470's current 16-Spirit item effect versus provisional
+base stats, without treating missing Sparse rows as removal or double-counting
+merged effects. Bound immaterial/excluded effects against declared assignments
+rather than expanding unrelated combat mechanics indefinitely. Then verify real
+fully equipped raid/talent/buff inputs and start bounded Druid feedback with the
+2% target, independent confirmations and actual defaults/library/guidance delivery.
+Holy Paladin, Restoration Shaman and unfinished original DPS/tanks remain required.
+
+## October 24 — equipment inventory and verified legacy healing set bonuses
+
+The healer expansion remains active alongside unfinished DPS/tanks. This turn
+completed the Druid self-effects admission below, then added a broader diagnostic
+inventory and four actual set-bonus controls. No Druid gear optimization clock,
+public preset, commit, push, deploy or 3017 restart. Priest's reviewed local delivery
+and existing class clocks remain unchanged.
+
+The inventory inspects all 1,538 Druid candidates against the actual compiled
+registration APIs, current item effects and set thresholds. It finds 202 items
+with captured effects, 46 registered item handlers, and 65 captured set rows.
+The broad source predates the eight recovered Feralheart pieces: its 1,089 current
+rows plus eight separately authenticated current rows make the current 1,097.
+Its 449 absent rows therefore mean 441 historical rows plus those eight recovered
+pieces, not 449 items missing from current data. Registration is diagnostic only:
+a missing explicit handler can mean static stats already merged elsewhere, and a
+false generated capability flag can coexist with a working legacy set handler.
+Report: `healer-model-admission-v1/druid-effect-inventory-v1/review-V8H1eg/report.json`,
+SHA 4354efa16f1f496c720fa2c19a14aab8ac49aedea98fc760091b0fd5e75840e6.
+
+An initial interpretation incorrectly treated the false capability flags for
+Postmaster 81/3 and Necropile 122/5 as missing +23 damage/healing. Actual stat and
+Healing Touch controls caught double counting immediately. The attempted adapter
+was removed; the failed model folder remains as evidence. The passing descendant
+changes tests only, preserving the original production runtime and all results.
+Both bonuses already work through legacy handlers, at the correct thresholds,
+with combined SpellPower and no additional HealingPower duplicate. Reset and
+four fully equipped worker cases are controlled. Future audits must inspect
+HasForeverEquipmentSetDefinition/actual dispatch and behavior, not infer missing
+mechanics from ForeverEquipmentBonusSupported=false alone.
+
+New source fixture `druid-secondary-sets-source.v1.json.gz` authenticates both
+current set identities, thresholds and spell 14047's damage/healing components.
+SHA ff1e14ef6a5e9277b27e90a407d8e8e5d5930391e089fb364af4970d57f312ad.
+The passing model has 639 compiler files, 83 native/Chromium tests and 112 measured
+groups. All 102 parent groups and all 62 parent native/browser replies are unchanged.
+There are 66 actual transport cases and 41 independently decoded, acquisition-legal,
+fully equipped requests without synthetic player bonus stats. Production workers
+are identical to the preceding admitted self-effects model. All 229 reusable healer
+tests pass, with focused ESLint, Prettier, Go format and git diff checks.
+
+Current test-only model:
+`healer-model-admission-v1/druid-secondary-set-controls-v1/ee3366da3028100bfc7d4c7eb4df359088bfcde9a18404f039e7d9c5458e762e/build-ZmM0hv/report.json`,
+SHA ffd27ee1c8b98f4f15778b3e2e743dabb3dc3307581e3bf1c1aae5f5b072bd72.
+Following paths are relative to that build:
+
+- `browser-review-4GqRC4/report.json`: 83 controls and 112 comparisons at 1e-7;
+  SHA 83a01b6a9d0b4537a1e32d44e9069b517fb69d41150b7d81a7d5c0b52ff2605e.
+- `transport-review-ZSLTRg/report.json`: 66 actual native/browser requests;
+  SHA 7e6ede8fa2e55701ffa2d1ed36d46e90aa18d405a7d37f50d307911cd15ffde2.
+- `negative-review-8G2Jj7/report.json`: missing and doubled Necropile/Postmaster
+  bonuses each fail actual behavioral controls; SHA 5905f3e418eface5340c0e0a22f59d6fa0d103211f7a7d5f63c8cf4691209e14.
+- `final-review-n2FZrc/report.json`: 6,633 pins, 41 independent equipped protobuf
+  and legality reviews, identical production binaries, unchanged catalog/domain,
+  preserved parent measurements/replies and protected cache/Warlock budget.
+  SHA 68d24288295735af21784be254e18c4b64df648d8f73f5b1c72b08a3b91b1951.
+
+Across phases, 48 deliberately broken runtimes, two invalid request-order cases
+and two old-catalog regressions are rejected. Successful phases are terminal.
+Do not rerun them unless implementation changes or an unresolved concern requires it.
+
+NEXT: inspect resource and defensive item effects using this inventory and actual
+runtime behavior. Prioritize current Mindtap Talisman 18371, Energetic Rod 18321,
+Dormant Heart 249473 and other healing/resource triggers; lack of registration
+is a review signal, not proof of absence. Separate static effects, passive handlers,
+explicit on-use activation and scenario exclusions. Then verify realistic equipped
+raid workloads/talents/buffs and run bounded Druid feedback/confirmation/delivery.
+Holy Paladin, Restoration Shaman and remaining original DPS/tanks are still required.
+About 6.1 GiB was free after these builds. No calculation evidence was deleted.
+
+## October 24 — Druid self-effects and optional caster-damage workloads
+
+The all-class goal remains active: original DPS/tanks plus Holy/Discipline Priest,
+Restoration Druid, Holy Paladin, Restoration Shaman and useful supported hybrids.
+This is verified mechanics progress, not a finished Druid gear recommendation.
+Priest's reviewed local delivery and original class clocks are preserved. No new
+Druid optimization clock, public preset, commit, push, deploy or 3017 restart.
+
+New druid-self-effects.mjs/.go admits Resto-only Dreadmist 183/5 self-healing,
+Embrace of the Viper 162/4 low-health healing/mana, and Shadowcraft 184/6 combat
+regeneration using the captured build-70532 source. Dreadmist uses 5% per eligible
+completed magic/healing cast and a flat 270–330 heal with no healing coefficient.
+Passive child effects cannot recursively proc. Its crit behavior is an explicit
+alternative, not server-verified. Viper uses a 25% threshold, five-minute cooldown
+and five one-second 20-health/20-mana ticks; live resource caps, death and reset
+are controlled. Before-hit and after-hit threshold timing remain alternatives.
+Vitality supplies 15 health per five seconds with explicit 2s/5s cadence choices.
+Its actual capped health gain is separate from healing throughput. Aura-161
+classification has an external code reference; that does not verify Forever timing.
+
+Caster damage is opt-in and requires the workload health receiver. The receiver
+captures pre-hit health, removes damage once, records death and interrupts casts,
+then invokes low-health handling. This avoids registration-order dependence.
+Lethal hits cannot activate Viper, dead casters cannot regain mana from its ticks,
+and regeneration cannot resurrect them. Policies require a fresh actor and are
+echoed when applicable; omitted policies resolve visibly. Existing 71 measurement
+groups are unchanged. Global equipment capability claims are unchanged: these
+new handlers are Resto-specific and require that scope in future export metadata.
+
+The first successful self-effects model passes 77 native tests and builds workers:
+`healer-model-admission-v1/druid-self-effects-v1/1140c4949f3df5e8d418f8c36e49176d1d7d9327306d4678a403892d87520e5a/build-sUliiR/report.json`,
+SHA 56910dbced2393fd8f0f1a59778ec16bc7140711aa94e4f1fdd588194a7d8ad7.
+The earlier failed model folder is retained; only successful reports count.
+
+Two supplemental lifecycle regressions derive a test-only descendant with 638
+compiler files. Every production source and both production workers match the
+successful parent byte-for-byte. The current build has 79 native controls:
+`healer-model-admission-v1/druid-self-lifecycle-v1/ad69936d3c46f256e6a159ad2dcb1d0c2ba508fedc8f93bec3956cccbe32446b/build-IlaqqC/report.json`,
+SHA a305e25fc76587a3769697470a07364785e3ca3fcef4a5e9af1f12d83c615d51.
+All following paths are relative to that build directory:
+
+- `browser-review-QLYuBG/report.json`: 79 real Chromium controls, 102 measurement
+  comparisons at 1e-7; SHA 17f7f28f77a86832355e1c0bc033e4f35bcc1770181b31daad3637a3d18c62f0.
+- `transport-review-LbEzEg/report.json`: 62 actual native/browser jobs, 12 new
+  equipped controls, four self-effect policies, four invalid nested policies,
+  three default policy echoes, rejected caster damage without opt-in and a fatal
+  caster case with zero ghost healing. SHA 194bd07b49f655d4742f73e679219f7faae4c40b3e8b8a03303e3fbf6598f835.
+- `negative-review-7c7DSb/report.json`: eleven broken runtimes fail behaviorally,
+  covering omitted handling, doubled damage, lethal activation, dead-caster mana,
+  incorrect cooldown/threshold, missing opt-in, healing coefficient leakage,
+  recursive procs, ignored cadence and resurrection. SHA 4029833580e746410b3bd479536670e86639234000f4608f4fe9e38b3fff4ca3.
+- `final-review-75ai1s/report.json`: authenticates 5,957 pins, unchanged 71 parent
+  groups, unchanged catalog/domain, identical reused production binaries and 37
+  independent fully equipped protobuf/legality checks without synthetic player
+  bonus stats. Explicit caster-health control profiles are still synthetic
+  assignments, not realistic optimized raid builds. SHA b8a7a9e25f09e9a60afa2f69c833a435f0091759644985174f91187a4d12e0d1.
+
+Across derived phases, 44 broken runtime variants, two invalid request-order
+cases and two old-catalog regressions are rejected. All 227 reusable healer tests
+pass. Protected simulation-cache.mjs and the Warlock budget hashes are unchanged.
+The 2,688-item catalog, thirty equipment contexts and 1,538 candidate union remain
+unchanged. All successful review phases are terminal; do not rerun them without
+new implementation changes or unresolved concerns.
+
+NEXT: finish broader candidate stat/effect completeness and classify defensive,
+resource, utility and offensive effects against declared assignments. Do not
+silently equate skipped handlers with zero benefit. Verify realistic fully equipped
+raid inputs and legal talents/buffs, then start bounded all-slot/set/paired-hand/
+jewelry, talent, priority/rank and consume feedback with independent confirmation.
+Deliver the Druid library/defaults/guidance/workspace before calling that class
+finished. Holy Paladin, Restoration Shaman and unfinished DPS/tanks remain required.
+Disk had 6.8 GiB free before the latest checks; recheck before large campaigns.
+
+## October 24 — Wildheart mana hypotheses and repaired direct healing catalog
+
+Previous goal turn was progress. This turn also makes concrete progress toward
+the full all-class goal: Wildheart's omitted mana handler is implemented and six
+missing direct-healing item values are repaired and verified. All five healer
+archetypes, supported hybrids and unfinished original DPS/tank work remain in
+scope. Priest's local reviewed delivery is preserved. No new Druid class clock,
+gear search, final preset, commit, push, deployment or 3017 restart occurred.
+
+A new source capture follows both EffectTriggerSpell and spell references in
+localized descriptions. It authenticates 163 records for 25 spells across sets
+162/183/184/185, with no missing names/descriptions. The missing tooltip-linked
+27782/27783/27784 spells confirm 200 mana, ten rage, and four energy per second
+for five seconds. Dreadmist self-heal and Embrace low-health payloads are also
+captured for the next runtime increment. Public source fixture SHA:
+c91382654f70c5f6eae98a623df607855fed0a15019697e90ac84ab10cb821d9.
+
+New druid-wildheart-model.mjs, druid-wildheart-mana.go and
+druid-wildheart-policy.go derive exact set-185 five-piece dispatch, preserving
+flat/utility ownership. The inherited 2% mana probability remains a reference,
+not a verified server rate. Six equipment policies cover reference, disabled,
+5%, 10%, literal 100% client metadata and direct-heal event interpretation.
+Completed-cast reference events cannot multiply by targets or periodic ticks.
+Direct alternatives reject periodic/passive healing. Explicit zero cannot turn
+into the shared helper's default 100%. Mana caps, dead casters, exact set scope,
+reset, fresh-actor configuration and caller pointer ownership have real controls.
+An omitted policy resolves to the reference and is echoed when five pieces apply.
+Other agents keep the shared provisional 2% fallback; newly enabled Wildheart
+behavior in this derived backend is not qualification of any old DPS rankings.
+Existing published/local DPS engines are not replaced by these research builds.
+
+The first broader direct-healing audit found six omissions among 123 items with
+current direct-healing stats, across 1,097 current rows in the 1,538-candidate
+Druid domain: Gnomebot Operating Boots 9450 = 11; Wildheart Vest 16706 = 11,
+Boots 16715 = 11, Spaulders 16718 = 20, Kilt 16719 = 24, Cowl 16720 = 15.
+The five Wildheart corrections restore 81 healing, preserving the existing 31
+on its other three pieces and the 18-point set bonus. The complete equipped set
+therefore supplies 130 healing power, verified through actual Healing Touch casts.
+The initial cast-control expectation incorrectly omitted that existing 31; it was
+corrected before the successful build. The failed folder stays immutable and
+must not be used as a passed report.
+
+New druid-static-healing.mjs audits arbitrary reviewed candidate domains and
+repairs only these six source-bound zero omissions. Existing nonzero healing,
+combined SpellPower, unknown effects or stale metadata reject repair. Actual
+parent binary decoding, protobuf equality and round-trip checks preserve every
+other item/catalog field, including observed weapon 272681's 176 healing / 58
+damage. There remain 2,688 items and zero direct-healing disagreements against
+the applicable current rows. The 441 candidates without current rows remain
+historical/provisional; other stat/effect types are not certified by this audit.
+Static healing fixture SHA:
+84d9471696e0c7fd57cb573eb77b3eaba88cd95078c2e7e147fa7b8e23937851.
+
+Both new Go healing controls fail behaviorally against the old database, then
+pass with corrected data. The old-catalog regression log is:
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/druid-static-healing-catalog-v1/prepare-7QFMyK/old-catalog-regression.txt`.
+No result is automatically reused across this changed database.
+
+Current model: 635 authenticated compiler files. All 69 native/Chromium controls
+and 71 measurement comparisons pass at 1e-7. All fifty earlier reference groups
+remain unchanged; the stat recovery preserves 62 Wildheart-parent groups while
+correcting seven equipped results. Thirty-seven actual worker/browser requests
+cover fourteen class research cases, six equipment policies, old controls and
+four malformed equipment policies. Seventeen positive equipped payloads pass
+independent protobuf checks for exact complete slot order, compiled item types,
+class and level, with no synthetic player bonus stats or external healing.
+Seven new broken Wildheart runtimes fail behaviorally. Across phases this brings
+runtime variants rejected to 33, plus two invalid request-order cases and the
+two old-catalog regressions. No compile failure is counted as behavioral proof.
+All 223 reusable healer tests pass, with focused ESLint, Prettier and Go format
+checks. These are mechanics/catalog controls, not class or gear qualification.
+
+Tooltip-link source capture:
+`healer-model-admission-v1/druid-healing-set-effects-v1/824d7a3ff111a82b524c881de0515b995d0b1dea492b7a4e00f7db83aff19ccb/capture-y4ikn9vv/report.json`,
+SHA a965e515b1aac0fc4633b182b83716f9bf48631fb78269d374d347950ec034ee.
+
+Wildheart mechanics build:
+`healer-model-admission-v1/druid-wildheart-model-v1/f57b87271ee49d74429355f79e0cfe8c0a9050aaf1e6efc66f503183bcc3bda2/build-DoZe01/report.json`,
+SHA e1e7a28f2b2ed46b3c002359c4aa48bd9d85f7d58342626764a65c2b47641258.
+
+Wildheart browser controls:
+`healer-model-admission-v1/druid-wildheart-model-v1/f57b87271ee49d74429355f79e0cfe8c0a9050aaf1e6efc66f503183bcc3bda2/build-DoZe01/browser-review-jrqkmR/report.json`,
+SHA 3dc22e9044dc457cd720b5a5cc4b573aa9c492cbef2f0d486623510ecdc26232.
+
+Wildheart broken-runtime review:
+`healer-model-admission-v1/druid-wildheart-model-v1/f57b87271ee49d74429355f79e0cfe8c0a9050aaf1e6efc66f503183bcc3bda2/build-DoZe01/negative-review-Y236rW/report.json`,
+SHA 5c88356f535c9416ab08ca6c1dff589b2905c81e0cea4484fb6a172591aa05d6.
+
+Current corrected healing build:
+`healer-model-admission-v1/druid-static-healing-model-v1/6859b8e191636475df2f0263391cc15dcab8f9c543b9eb4263ff79e98be3aed1/build-CQNxgn/report.json`,
+SHA 2f46d8f04a2a95b37193e8b01d9fe2cddbd0f678fb4a2e8422d6a8a61f3528b6.
+
+Current browser controls:
+`healer-model-admission-v1/druid-static-healing-model-v1/6859b8e191636475df2f0263391cc15dcab8f9c543b9eb4263ff79e98be3aed1/build-CQNxgn/browser-review-l6i7cT/report.json`,
+SHA 07cefe75d2b02a029c5ce210f214972196410d803476f6a1a1c00a64e7d6b2f4.
+
+Current worker transport:
+`healer-model-admission-v1/druid-static-healing-model-v1/6859b8e191636475df2f0263391cc15dcab8f9c543b9eb4263ff79e98be3aed1/build-CQNxgn/transport-review-IFhb8L/report.json`,
+SHA c0d219c22d2806a6889142ce6c649fe2a3e09ab67d28995d1a19d8575dd6f819.
+
+Current final audit:
+`healer-model-admission-v1/druid-static-healing-model-v1/6859b8e191636475df2f0263391cc15dcab8f9c543b9eb4263ff79e98be3aed1/build-CQNxgn/final-review-FfNpys/report.json`,
+SHA 06d94767ba777f47d8b6a3fb78ef48de663a6e0b4fd7b5bf1aff3916f0d2f582.
+
+The current final audit authenticates 4,626 pins, all thirty equipment contexts,
+all seventeen equipped payloads, policy echoes/rejections, zero remaining direct
+healing differences and unchanged protected simulation-cache.mjs/Warlock budget.
+All successful listed phases are terminal; do not restart without a new change.
+There are no live workers from these review phases.
+
+NEXT: admit current Dreadmist self-heal 450585/450583, Embrace of the Viper
+1291796/1291797 low-health mana/healing and other scenario-relevant self-resource
+or health-regeneration effects. The source is already captured. Verify incoming
+aura callback order so low-health procs observe the declared hit timing once,
+without stale health checks or duplicate damage application. Current workload
+rejects damage to the healer; admit real caster-damage behavior with death,
+resource, timing and reset controls before using these effects in those scenarios.
+Finish broader item/stat/effect completeness, legal talent/raid-buff inputs and
+realistic equipped assignments. Then start bounded talent/all-slot/set/paired
+hands/jewelry/priority/rank/consume feedback, independent confirmations and Druid
+library/defaults/guidance/workspace delivery. Retain the practical 2% target and
+existing time caps. Paladin/Shaman healer mechanics and unfinished original
+DPS/tank work remain required. Mac had about 4.2 GiB free after these builds;
+recheck disk capacity before starting a large calculation campaign. No cleanup
+or numerical evidence deletion has been performed.
+
+## October 24 — Feralheart recovery, healing idols and corrected equipped controls
+
+The all-class goal remains active with Holy/Discipline Priest, Restoration Druid,
+Holy Paladin, Restoration Shaman, useful supported hybrids and unfinished original
+DPS/tank work. This turn makes mechanics/equipment progress; it does not complete
+the goal. Priest's reviewed local workspace at port 3021 is preserved. No Druid
+optimization clock, new public preset, commit, push, deployment or 3017 restart.
+
+New druid-feralheart-model.mjs/.go validates current build-70532 set 513 and adds
+all eight pieces 22106–22113 using current stats, with historical icons only.
+Protobuf decode/amend/re-encode verifies every existing record unchanged and full
+round-trip equality: 2,680 parent items plus eight additions. The fixture adds
+source-authenticated class-quest requirements; seven Forever reward relations
+and one explicitly historical Horde bracer relation remain server-unobserved.
+Base set 513 is isolated from identically named alternate 1667. Thresholds:
+2 pieces = 8 resists; 6 = 15 damage/healing plus 26 AP/RAP; 8 = 200 bonus armor.
+Four pieces give the client 2% incoming landed melee/ranged proc, with tooltip
+300 mana / 10 rage / 40 energy according to the active bar. Outgoing healing
+cannot receive implicit base-set mana. Resource selection/cadence remain unobserved.
+
+The amended Druid domain has 1,538 union candidates across thirty faction and
+profession contexts. All 255 nonempty Feralheart subsets pass complete-loadout
+legality in every context: 7,650 controls. The final reviewed domain recomputes
+slot counts; do not use the initial staged amendment's inherited count metadata.
+Coverage still describes the reviewed catalog, not all client equipment.
+
+New druid-healing-idols.mjs/.go admits four current interactions: 22398 initial
+Regrowth +5% only with own active Rejuvenation; 272429 reduces Swiftmend's timer
+one second per owned Rejuvenation/Regrowth/Wild Growth family; 279250 gives a
+12-second base Swiftmend CD; 249396 retains the existing single 5% Spirit multiplier.
+Foreign HoTs, direct/periodic separation, actual cooldown timers, reset and talent
+ownership have equipped controls. Rejuvenation is checked at heal completion;
+that timing and Tranquility-channel interaction remain explicit script assumptions.
+Source fixture SHA 7c3f710d2f09178531307eddf1fb6daf67b440fd5e0d1959d0b4e53b6e85917c.
+Feralheart fixture SHA 81090143f13b7cc77caecdad0c790bf4a6152fec21c187a225d0b39c727feda1.
+
+Full-loadout review caught wrong array positions in the early control requests.
+The core auto-equipped their items, hiding the input error from spell controls.
+New druid-healing-equipped-slots.mjs derives corrected tests without changing
+frozen ancestors. Current canonical slots are head/neck/shoulders/back/chest/
+bracers/gloves/belt/legs/boots/ring/ring/trinket/trinket/main/off/relic. The new
+controls verify item types and all seventeen actual actor IDs against the input.
+Earlier Feralheart/Idol builds are source/mechanics ancestors; their misordered
+request payloads are superseded. The current corrected build's four equipped
+requests have actual catalog gear and no synthetic player bonus stats. They are
+transport/legality controls, not suggested builds or final raid assignments.
+
+The corrected controls pass 59 native/Chromium tests, fifty matching measurement
+groups and twenty standalone requests: original job, unknown-field rejection,
+fourteen research policies and four equipped cases. Forty-six parent measurement
+groups stay unchanged; four request payloads have corrected order. Protobuf review
+decodes every equipped payload and verifies no BonusStats, all seventeen slots,
+class, level and expected idol. Twenty-six broken runtime variants and two invalid
+request-order variants fail behaviorally, without compile failures.
+All 214 reusable healer tests pass; focused ESLint/Prettier and Go formatting pass.
+The simulator's Node-20 ESLint environment now recognizes structuredClone.
+
+The corrected compiler inventory has 631 files. Only test inputs changed from
+the 630-file Idol model. All non-test compiler inputs are byte-identical, so the
+production native/WASM workers are reused with exact verified hashes; only the
+native/test-WASM controls were rebuilt. There was no new optimization search.
+
+Feralheart build:
+`healer-model-admission-v1/druid-feralheart-model-v1/fdd435c8e0e28339352b8c0fa9e0b272e73d237a0ce656852d0c5b0181f6b79f/build-hC3F8I/report.json`,
+SHA e37248aa5c55ef9d3737a1c729167009a21a0fa25d2fe357e9871eb5b3f5e886.
+
+Feralheart final review:
+`healer-model-admission-v1/druid-feralheart-model-v1/fdd435c8e0e28339352b8c0fa9e0b272e73d237a0ce656852d0c5b0181f6b79f/build-hC3F8I/final-review-m27bOK/report.json`,
+SHA 60ab44285866432cc72f9ce3958707cfa66e275ee2f74ee82b5c7fbbd54a5932.
+
+Idol production build:
+`healer-model-admission-v1/druid-healing-idols-v1/e5f765fc9fb25e3f3b4201f899f514717c4c667ae09f0ee4b990e9ec50fd1a4c/build-jgpkls/report.json`,
+SHA 0c075c2ef35b083884c5e60afe1eac8e96e330275f324a64db9312421b9b8d75.
+
+Current corrected controls:
+`healer-model-admission-v1/druid-equipped-slots-v1/ae01976781d729c082b253f5bee012a41263df2887b001da6f0b3da8e9968d9d/build-prg3NU/report.json`,
+SHA 39b254bb65b701d598e27eb495822af557379e8761c0d7acaa867164ffcce1b5.
+
+Current browser review:
+`healer-model-admission-v1/druid-equipped-slots-v1/ae01976781d729c082b253f5bee012a41263df2887b001da6f0b3da8e9968d9d/build-prg3NU/browser-review-foGFYs/report.json`,
+SHA 87df4e86bd85e9a3c348eea178a9af1222cb03804e175927a18bd92021f4c664.
+
+Current worker transport:
+`healer-model-admission-v1/druid-equipped-slots-v1/ae01976781d729c082b253f5bee012a41263df2887b001da6f0b3da8e9968d9d/build-prg3NU/transport-review-RpevjX/report.json`,
+SHA 65fca8063ed1532476ef130a83de6dacfa0415de34616b2579dd775e60080c79.
+
+Current invalid-order review:
+`healer-model-admission-v1/druid-equipped-slots-v1/ae01976781d729c082b253f5bee012a41263df2887b001da6f0b3da8e9968d9d/build-prg3NU/negative-review-FWgLLZ/report.json`,
+SHA e14aa90cecd9756f36f14547bb741263246b85abaf6cd64dd434dac822811b69.
+
+Current final audit:
+`healer-model-admission-v1/druid-equipped-slots-v1/ae01976781d729c082b253f5bee012a41263df2887b001da6f0b3da8e9968d9d/build-prg3NU/final-review-dPdh2P/report.json`,
+SHA f8d5a2096bc3ecec3909fde998df594b8c12021f5aab1691781e799f1a0a848f.
+
+The current final audit authenticates 3,292 pins and preserves protected
+simulation-cache.mjs and the completed Warlock budget. Completed builds/reviews
+are terminal: do not rerun them without a new change. A failed earlier Idol
+loadout audit led to the slot correction; do not label it passed or reuse it.
+
+NEXT: finish eligible set/item effects before starting Druid optimization.
+Wildheart set 185's five-piece mana return is skipped by the inherited generated
+dispatch. Capture tooltip-linked spells 27782/27783/27784 (the trigger-only graph
+did not include them), bind only the exact set and add declared proc sensitivity;
+the dummy's 100% metadata is not guaranteed server activation. Review Dreadmist
+450585/450583 self-healing, Embrace of the Viper 1291796/1291797 low-health mana/
+healing, and other self-resource effects for healer-damage assignments. Audit
+remaining catalog omissions, validate realistic equipped/full-raid scenarios,
+then start bounded talent/all-slot/set/priority/consume feedback and independent
+confirmations within the existing 2% target and class time cap. Deliver qualified
+Druid defaults/library/guidance/workspace after results. Paladin/Shaman mechanics
+and unfinished original DPS/tank work remain required. See the healer plan and
+Druid mechanics checklist.
+
+## October 24 — Druid research cases, equipment domain and Feralheart omission
+
+Previous turn was progress; this turn adds real sensitivity calculations,
+complete existing-catalog enumeration and evidence that changes the next action.
+The all-class goal remains active with all five healer archetypes and unfinished
+original DPS/tank work. No commit, push, deployment or 3017 restart occurred.
+No Druid gear optimization clock is started by mechanics/source controls.
+
+New druid-healing-research.mjs/.go adds fourteen declared cases for rank/level
+coefficient loss, class-proc scaling, Omen probability/event eligibility and
+Regrowth periodic crits. They are explicit hypotheses, not server measurements
+or a complete Cartesian search. Omen source fixture SHA
+f4dab8d5bc2cef5a7cd7d8b9b04e29d7d07eccc7311cc152487742821d758d96
+contains sixteen authenticated current records, including one charge, 15-second
+duration and ten-second ICD. The client 100% proc metadata is a separate case;
+the inherited 20% remains a provisional reference. Its unsupported log claim is
+corrected in the derived source; frozen ancestors remain unchanged.
+
+Direct and periodic coefficients are varied separately, with base healing and
+mana costs preserved. Swiftmend uses the scaled snapshot once. Regrowth can keep
+its direct crits while periodic crits are disabled. Omen/Grace rank-proc gates,
+cast-event alternatives, charge consumption, ICD and reset have actual controls.
+Fresh-actor-only policies are echoed by the workload protocol. Default nil hooks
+preserve the existing reference and other class agents.
+
+Latest research model:
+`healer-model-admission-v1/druid-healing-research-v1/cfa3df1c19865132a71d6988f73f6684f781c7607a3c2078a3af06252713e284/build-kZUlff/report.json`,
+SHA e7f82628a4b4e1bf3677121cfcd8ed8d29c9df2582d2a80e42d5018907ab88cf.
+It derives 626 compiler files from 624 authenticated parent files, with seven new
+or overridden inputs. Browser-review-rNcVQT/report.json SHA
+88fc81e379bfe121f8f5148710a489330df994d22b112017b3680bf71dd43dfe
+passes all 46 native/browser controls and 36 measurements at 1e-7. All thirty
+previous reference groups remain unchanged. Transport-review-fYrSRn/report.json
+SHA 236722722d5c7551a02e5716786b5bafb87006a7d23337f3b86d62c5c5704ad5
+passes sixteen actual worker/browser requests: the old request, rejection case
+and all fourteen research policies. All policy runs survive the declared control
+schedule; these are synthetic transport controls, not optimized equipped builds.
+Negative-review-GfKiSG/report.json SHA
+d85bfae362fdca5cd030b5a492cf8415fde2a52e897217713f3eb15a4f2afde3
+rejects missing periodic scaling, ignored Regrowth crit policy, missing Omen cast
+events and ignored zero chance. Fifteen broken variants are rejected cumulatively.
+
+New druid-healing-equipment.mjs retains every eligible existing catalog item for
+all seventeen slots, legal Druid hand styles and idols. It preserves shared
+acquisition/ownership restrictions without the DPS weapon-style lock. No stat or
+quality pruning is used. The proto Druid class ID is 1; its game class mask is 1024.
+Thirty contexts cover both factions and all pairs of six crafting professions.
+Union: 1,530 candidates. Engineering/Leatherworking Alliance: 1,453 candidates;
+slot counts 118/43/98/84/153/61/138/134/134/142/64/64/43/43/203/26/12.
+Source-bound 56-row public fixture SHA
+dc4719caea7b7b5288d087c67196aa538526986a5aefbc3438b1f5351450c28c.
+Its seed is a legality control, never a suggested build.
+Domain report:
+`healer-model-admission-v1/druid-equipment-domain-v1/75db02810a18d1660856c3a309d03a0be6d88429765f4585a59d7539c3013657/prepare-u6tpWK/report.json`.
+This covers the reviewed 2,680-item engine catalog, not all current client gear.
+
+Current effect capture:
+`healer-model-admission-v1/druid-equipment-effects-v1/9943581ec2dc086ff7a798a48aba1dd080949747dc08efa21cb2dc303b9f7f4c/capture-hdl0_xdu/report.json`.
+It authenticates 3,082 selected rows: 21 eligible sets, 222 root spells and 264
+expanded spells, with no missing spell names/misc rows. There are 1,089 current
+ItemSparse rows and 441 historical candidates without one; absence is not removal.
+Their provisional source status is retained. Capture does not admit effects.
+Important healing relics: 22398/27853 gives conditional initial-Regrowth +5% with
+owned Rejuvenation; 249396/1248751 is +5% Spirit (already modeled); 272429/1291075
+reduces Swiftmend remaining CD per owned HoT; 279250/1306488 reduces Swiftmend CD
+by three seconds. These require equipped controls before ranking.
+
+Coverage also confirms all eight base Feralheart pieces 22106–22113 are missing
+from the old database. Set 513 has five threshold rows, including both six-piece
+effects; alternate 1667 has different bonuses. The inherited name-based Feralheart
+handler describes the alternate behavior. Do not bind it to new base pieces or
+call the current 1,530-item domain final. See the shared dungeon-set catalog audit.
+This omission can affect original Feral/Balance/tank work as well as healers.
+
+Feralheart source-only capture:
+`healer-model-admission-v1/druid-feralheart-source-v1/39187de7134f028f1947d054ba5294146404fb54278c24b3e4ab345c00aa347e/capture-9x9xm1rw/report.json`.
+Its client-source.json.gz SHA is
+7e57f718515682da7d6c7313d92c64f73503ce53d0bc94454d58082db6574dea.
+It includes all eight current stat definitions, sparse rows, level-60 ratings,
+source-bound historical icons, both exact sets and recursive effects, plus eight
+reviewed acquisition relations. Seven reward pages are Forever; Horde bracer
+quest 8913 could not be fetched and uses an explicitly historical Classic reward
+cross-check against captured Forever quest requirements. Server rewards remain
+unobserved. Curated relations: optimization/review-tools/druid-feralheart-acquisition-v1.json.
+No Feralheart catalog additions, model amendment or numerical result is claimed.
+
+All 204 reusable healer guards pass, with focused ESLint, Prettier and Go formatting.
+Final research/domain audit:
+`healer-model-admission-v1/druid-healing-research-v1/cfa3df1c19865132a71d6988f73f6684f781c7607a3c2078a3af06252713e284/final-review-N6lmf6/report.json`,
+SHA ac193ea84bd305b33d51d3f9bf8141bf1582a47f7992b63b5f9f902f5cb1e18b,
+authenticates 4,511 pins, reference preservation, all fifteen broken runtimes,
+all thirty equipment contexts and the captured effect graph. The separate
+Feralheart source capture also verifies its own complete source pins. Protected
+simulation-cache.mjs and the completed Warlock budget retain their original hashes.
+All listed phases are terminal; do not restart them.
+
+NEXT: normalize/add all eight base Feralheart pieces with honest acquisition
+provenance, implement exact set-513 dispatch without aliasing alternate 1667,
+implement/control the healing idols, audit other eligible set/item effects and
+verify equipped scenarios in amended native/browser binaries. Re-enumerate the
+amended complete domain, then start bounded talent/all-slot/priority/consume
+feedback and independent confirmations. Deliver qualified defaults/library/guidance
+and the Druid workspace after those results. Paladin/Shaman healers and unfinished
+original DPS/tank work remain required. No new public preset is claimed.
+
+## October 24 — Druid summoned pets and full healing workload controls
+
+Previous turn was progress. This turn also makes concrete progress toward the
+same all-class goal: real pet handling, scheduled Druid healing workloads and
+standalone native/browser transport are implemented and verified. Priest's local
+workspace, existing DPS/tank work and protected calculation evidence are retained.
+No class optimization clock, commit, push, deployment or 3017 restart occurred.
+
+Real summoned Hunter-pet controls verify Wild Growth targeting the pet's owning
+party and Tranquility subgroup/range. They found missing enabled-state and
+cast-completion guards. Dismissed pets cannot be selected, and Regrowth cannot
+apply a HoT after its target disappears or dies. Target model:
+`healer-model-admission-v1/druid-friendly-target-v1/26c8d407c45e2a9b6d8d1475e7a2850b43350ab254c4a1cdd93adec199b41785/build-YieowG/report.json`,
+SHA eb9d71088dd18aba3855c72eb0c4e970726da0a74ee0560ece86514f01b1d74e.
+Its browser-review-Axhajp/report.json SHA
+c0558b599208faff5ad17635540a2e48c38e036e70fafed5a3eedc1d543576d0
+passes 31 native/browser controls and 25 measurements. Negative review K34rKN
+rejects the old missing cast-completion guard.
+
+The Druid controller derives the authenticated common healing loop and job
+boundary, replacing Priest spells and cooldowns. It adds actual scheduled health
+loss, death tracking, eligible-target/HoT selection, aggregate Tranquility demand,
+explicit owned Innervate and Nature's Swiftness policies. External mana/Power
+Infusion approximations and inherited options are rejected pending admission.
+Health tracking is installed before the first iteration; a missing receiver and
+false survival after death are both rejected by actual broken-runtime controls.
+
+Latest build:
+`healer-model-admission-v1/druid-healing-workload-v1/7d814ebb34dce69dbed2d692c5110b033ef77b64c24a7bcc00803db467f10d3d/build-CQMUKg/report.json`,
+SHA f7f3169379f8174f8de4b4cf18e2f3274baca19d293645cd67be419065ea884f.
+It derives 624 effective compiler files from 617 parent files, with eight new or
+overridden inputs. No unlisted mutable compiler source is used. Native binaries
+`druid-healing-native` and `druid-healing.wasm` are built and authenticated alongside
+the actual Go test WASM. Existing Priest worker entrypoints remain unchanged.
+Browser-review-Bo1Cof/report.json SHA
+ed6af4a8bdf8be6b9f3a3096f54a0b9fe2818880c48da2e11ef8560d2553dfff
+passes 38 native/browser controls and 30 measurement comparisons at 1e-7.
+
+Standalone native NDJSON/browser WASM transport review:
+`build-CQMUKg/transport-review-4N22ke/report.json`, SHA
+7c18ff738e811980133ea8a487f17722175ff82b5e42d0d768b4dc29ecfad136.
+It compares one actual complete request against the native control, worker and
+browser engine, plus unknown-field rejection in both transports. The initial
+v1 harness stopped at object-key-order comparison; v2 compares semantic keys.
+No engine change was needed. Earlier failed workload builds preserve their
+compiler/health-receiver diagnostics and are not qualified models.
+
+Workload negative review `build-CQMUKg/negative-review-8i5iJl/report.json`, SHA
+fdd3a187f9f9cda6f302790dc6908deae1973798fe0459c2222127d5d4caebfa,
+rejects missing damage tracking and false survival. Additional negative review
+YBVINM rejects allowing a dismissed pet. Eleven actual broken variants are now
+rejected across the derived Druid phases.
+
+Public Druid protocol reader reuses existing healing-accounting validation while
+preserving Druid schemas. Its real response fixture comes from the authenticated
+standalone transport. The controller source fixture SHA is
+c8d29944964399129a01fb8972b8d60a3c75271ef51ab709eec43b8679738dfc.
+The reusable healer suite passes 194 tests; focused ESLint and Go formatting pass.
+Final audit:
+`healer-model-admission-v1/druid-healing-workload-v1/7d814ebb34dce69dbed2d692c5110b033ef77b64c24a7bcc00803db467f10d3d/final-review-mvc4hx/report.json`,
+SHA 146bcf19fc936661e02573e790a14d3e21f0abbdec3d8a8ab17bdbf81f2697ea,
+authenticates 3,823 pins, both transports, all eleven broken-runtime controls and
+624 compiler inputs. Protected simulation-cache.mjs and Warlock budget hashes are
+unchanged. All listed phases are terminal; do not restart those finished jobs.
+
+Current workload admits one Druid and player-only target profiles. Separate spell
+controls cover real pets; do not infer pet encounter admission. Bonus stats in
+these controls are synthetic and not an equipped/pre-raid result. No Druid preset
+or optimized gear is published. The 37-rank conditional pre-raid spell policy is
+unchanged, with both AQ books excluded and actual training unverified.
+
+Next: admit explicit Omen/downrank/Regrowth-crit sensitivity; check current Druid
+item/set effects and the complete acquisition-legal equipment domain; run equipped
+scenarios; then start bounded all-slot/talent/priority/consume feedback and fresh
+confirmations. Deliver Druid defaults/library/guidance/workspace after those
+results. Holy Paladin, Restoration Shaman and unfinished original DPS/tank work
+remain required. Wild Growth decay and dual-HoT Swiftmend selection remain
+declared sensitivity cases rather than confirmed server behavior.
+
+## October 24 — Druid talents, special heals and owned Innervate controls
+
+This turn is progress. The all-class goal remains active, including all five
+healer archetypes and the original DPS/tank work. Priest's local workspace and
+selected library are preserved. No Druid optimization clock has started, and
+spell controls do not qualify Druid gear, talents or a website preset.
+
+The isolated advanced Druid model adds current healing talent scopes, Swiftmend,
+Tranquility, Wild Growth and Nature's Swiftness/Grace. Parent advanced build:
+`healer-model-admission-v1/druid-advanced-v1/8c98116116b8f6b040b6a43797f0cadc8edb8202f0a6b623a8e0680fef4a4f5f/build-0Cr3UI/report.json`,
+SHA 6f224fe3a7931e601b52a0b3e9da4f6c20d3b3ecd22cd5f5b28f28f925eebd0a.
+Its browser-review-e0Iwzy passes 22 controls/19 measurement groups. Four actual
+broken Go overlays are behaviorally rejected at negative-review-hUbkZM/report.json,
+SHA 95a2884ef3e202c8b85de7ff7074566216b9fd84573aedec729b9df03e71ae7a.
+Failed earlier advanced compiler/fixture attempts remain preserved.
+
+A final source-mask audit found that Nature's Grace's additional GCD reduction
+excludes Swiftmend, while its general casting haste still applies. The corrected
+derived model has 23 native/browser controls and 20 measurement comparisons at
+1e-7. The old broad GCD implementation fails the new actual runtime regression.
+Build:
+`healer-model-admission-v1/druid-current-healing-v1/85ed7a61d69751b8167d2c9b75aa9ca9dd5720e33ec40b2c0994c37e10692e20/build-fx1ebs/report.json`,
+SHA ef8096a5470c770513995e1390672d2a94813c4db49ddbae76089cd861b7b3d6.
+Browser browser-review-uTUUch/report.json SHA
+7cae0ff9973929558f3d0825fd6741de170984d1933ba8012b1b15d95a78e4f1.
+
+Innervate 29166 was absent from the original class subset but exists in the full
+70532 tables. Fixture druid-innervate-source.v1.json.gz SHA
+6e23d7c9671649551d99b31732d6b4f685d3d75ba8b74605f6cbbef2ca79c95e
+authenticates 13 selected records from 12 tables and their original manifest.
+New policy is explicit owned self-cast only: level 40, 5% base mana, GCD, six-minute
+cooldown, 20-second duration, +400% Spirit regeneration and full casting Spirit
+regeneration. It adds no automatic cooldown manager or external Innervate charge.
+
+Latest Druid model:
+`healer-model-admission-v1/druid-owned-innervate-v1/87e5e7bd9c20ffc4b94497ba9bf87e794c61e1f5d8ba939c3b95fc1ef16699c4/build-Y3rGCS/report.json`,
+SHA 649a8a19c3fc344ab89ed65ebc14852563dfa1cb016e5dd8972c5ffc1d266d22.
+It derives 616 effective compiler files from 615 authenticated parent files; no
+shared checkout source is used. Browser browser-review-6nWjfF/report.json SHA
+eca89087fe5f60182e2275329246dd465882d8bf14c091ba0bd1ef2538c444e9
+passes all 27 Druid native/browser controls and 23 measurement groups at 1e-7.
+New controls include actual mana ticks, expiry, dynamic Spirit, caps, invalid
+targets, no mana, overlap, GCD, cooldown and iteration reset. Negative review
+negative-review-RaxeJI/report.json SHA
+f5baa43f20be3cb10582febf85891fd5bbbef5daa3d27f22a20674998bf7e6ea
+rejects wrong mana cost and missing activation. Failed initial Innervate compiler
+and reset-fixture attempts remain immutable; the corrected fixture calls Cleanup
+before Reset, following the engine's iteration lifecycle.
+
+The complete acquisition adapter now has 39 ranked candidates: 31 original heals,
+four Tranquility ranks, Swiftmend and three Wild Growth ranks. Both historical AQ
+books remain excluded; 37 conditional pre-raid ranks are available with both
+required talents, or 33 without them. Actual training remains unverified. Policy:
+`healer-model-admission-v1/druid-current-domain-v1/1f058c748836a81a490952b7de988fabad327951f8bd6366304ec22515b00437/capture-xaDryG/report.json`,
+SHA 01e576485295862a0b0aa8197c98075efe19308ee9b46b9c2da6c762e744a967.
+
+Unverified assumptions remain explicit: Wild Growth's exact server decay curve;
+Swiftmend's source selection when both HoTs exist; Regrowth's periodic crits;
+downranking; Omen proc frequency and eligible events. Three Wild Growth decay
+cases preserve the seven-tick total. Swiftmend has shortest/largest source cases.
+The inherited Omen comment claims log support, but the captured effect audit
+labels its rate provisional and supplies no event receipts. Treat inherited 20%
+as an assumption, not verified server behavior. See the Druid mechanics document.
+
+Next: implement the equipped Druid healing workload/job boundary, explicit
+resource/proc sensitivity, real summoned-pet controls, complete legal item/set coverage, then bounded
+gear/talent/priority/consume feedback and independent confirmations. Deliver a
+qualified Druid default/library/workspace after those results. Holy Paladin and
+Restoration Shaman remain required, as does unfinished original DPS/tank work.
+The reusable healer command includes the new guards and passes 186 tests.
+Final audit:
+`healer-model-admission-v1/druid-owned-innervate-v1/87e5e7bd9c20ffc4b94497ba9bf87e794c61e1f5d8ba939c3b95fc1ef16699c4/final-review-z1I6iq/report.json`,
+SHA 128d5ebac4db51773264611a913701adec4b21d9bdb2fffaf1d3e4429044b6dc,
+authenticates 2,531 pins, all seven broken-runtime controls, the complete spell
+policy and 616 compiler files. Protected simulation-cache.mjs and the completed
+Warlock budget retain their original hashes. Focused Node ESLint passes with
+Node's URL and structuredClone globals declared; all new Go files pass formatting.
+All listed build/browser/policy phases are terminal; do not relaunch them.
+No commit, push, deployment or 3017 restart occurred.
+
+## October 24 — Restoration Druid baseline and periodic-crit verification
+
+Previous turn was progress: Priest's real website workspace, local activation and
+browser checks completed. This turn starts Druid mechanics admission and produces
+new native/browser evidence. The all-class goal, remaining DPS/tank work and other
+healers remain required. No class optimization clock is started by these controls.
+
+Current Druid source is the previously captured 70532 class graph:
+`healer-model-admission-v1/druid-source-8cc55679c6a175cd/spell-source.json`, byte SHA
+4e57d270de8f9fd1a5bef4e1fab254e6e6f233cce4c9319417196a982e5667c9.
+Public fixture `infra/simulator/fixtures/druid-client-healing-source.v1.json.gz`
+SHA e3912ed6cbd434dfd20181758ed331ea0c93f3c81c85329f77ca31e601ae3c22.
+New druid-healing-model.mjs reproduces all 31 Healing Touch, Rejuvenation and
+Regrowth ranked candidates, with separate direct and periodic coefficients,
+level growth, costs, durations and target encoding. Regrowth rank 9 is 525 mana
+in this client; do not substitute Classic's old cost. Full class mechanics,
+training and publication flags remain false.
+
+New Go baseline lives in druid-healing-baseline.go and is rendered into an isolated
+Restoration agent. It begins in Humanoid form, accepts no unverified talent build,
+and implements actual engine casts, resource spending, HoT snapshots, same-family
+replacement and different-family coexistence. The shared checkout is never used
+as a compiler input: all 609 parent compiler files come from the authenticated
+0f6847c1... frozen workspace, plus two new Druid files and a Priest crit test.
+The existing database, Priest engine implementation and completed searches stay
+unchanged. Failed earlier build-M8dpPY retains the obsolete noncrit test expectation.
+
+Build:
+`healer-model-admission-v1/druid-baseline-v1/c62abbf9b6063cf321f1b5771a81f9c2222bd25fb3966835154c3154ae08ff27/build-I4RzYw/report.json`,
+byte SHA 87755db9e9903ccfd26b5aa24542c81700f5339c81b77e3a0865af8fc861eb5e.
+Builder is `optimization/review-tools/prepare-druid-healing-baseline-v2.mjs`;
+the artifact family remains druid-baseline-v1. Do not rename or mutate the receipt.
+Browser review `build-I4RzYw/browser-review-GwUqSQ/report.json`, byte SHA
+0287a0a6b6bf10749b6258721ca90e007ec18ca83b86de980599ad420212538c,
+passes all seven native/browser controls and compares six recorded measurement
+groups at 1e-7. It executes the actual Go test WASM binaries, not a mocked worker.
+Controls cover heal/crit amount, mana, cast completion, snapshots, tick timing,
+replacement/coexistence, overhealing, friendly/dead targets, insufficient mana,
+iteration reset and Priest Renew's live periodic crit. These are synthetic spell
+controls with explicit bonus stats, not equipped/pre-raid optimization results.
+
+Important metadata correction: original Priest baseline descriptions said Renew
+does not crit. That description is stale: the actual frozen engine and all saved
+Priest numerical searches already roll periodic crits. The new forced-crit control
+proves this without changing the engine or replaying its searches. Blizzard's
+September 24 beta notes explicitly confirm crits for Renew, Rejuvenation,
+Tranquility and Wild Growth. See docs/simulator-druid-healing-mechanics.md for citations
+and the remaining Regrowth periodic-crit evidence gap. Never edit the frozen
+Priest declaration to conceal the historical wording.
+An authenticated description-only correction is saved at
+`healer-model-admission-v1/priest-periodic-crit-description-v1/correction-hcJ8sF/report.json`.
+Its derived baseline-metadata.json changes only renewalRule; every other field and
+all rank data remain identical. It pins the actual native/browser proof and leaves
+the original runtime, declarations, numerical results and local library untouched.
+
+New baseline acquisition policy authenticates the existing 27-book mapping and
+excludes Druid ranks 25297 and 25299 from the pre-raid reference domain. All 29
+remaining downranks stay conditional client candidates; training is not proved.
+Captured policy:
+`healer-model-admission-v1/druid-baseline-domain-v1/0b46e0e77c7374a27ba1b6d313e43c6751bf4d8ec770ae6646c81b5e57ad3b7c/capture-gxjBDq/report.json`.
+Item allowable-class masks are tested by membership, not equality: current books
+have masks that contain the Druid bit alongside other classes.
+
+Next: implement and verify Druid talent effects, non-consuming Swiftmend,
+Tranquility, Wild Growth's group/range/declining ticks, owned resource cooldowns
+and item/set interactions. Then start a bounded all-slot/talent/priority/consume
+feedback campaign and independent confirmations, followed by the same workspace
+delivery as Priest. Wild Growth's exact declining tick distribution is not in the
+captured numeric rows; do not invent it or copy another expansion without a
+declared sensitivity treatment. Holy Paladin and Restoration Shaman remain after
+admitted Druid mechanics. No new optimization clock, commit, push or deployment.
+Verification: the combined healer guard suite now passes 175 tests. Focused ESLint,
+Prettier, Go formatting and git diff --check pass. Seven real native/browser
+controls and six measurement comparisons pass. Protected simulation-cache.mjs and
+the completed Warlock budget keep their original hashes. No Druid worker remains
+running; the baseline build, browser review, acquisition capture and metadata
+correction are terminal. Do not relaunch those completed phases.
+
+## October 24 — Priest scenario adaptations and interactive healing workspace
+
+Healers remain part of the active all-class goal, with the remaining DPS/tank work
+preserved. Do not mark the broader goal complete. Finish the Priest delivery
+checks before starting Restoration Druid, Holy Paladin and Restoration Shaman.
+The original Priest deadline remains 2026-10-24T20:33:53.864Z.
+
+Scenario adaptation report:
+`healer-model-admission-v1/priest-scenario-adaptation-v1/734909400d60f468415986042678a914febd39519db90c478c1cc968dad01ed9/report.json`.
+It completes 19,978 new jobs and 1,170 exact reuses across 28 additional setups:
+five-minute tank/group/burst healing and spread group/burst healing at three and
+five minutes. All selected setups survive their separate 512-fight confirmations
+per rank-scaling case. Some three-minute tank builds fail unchanged at five
+minutes, and stacked Holy Nova priorities fail when spread. These adaptations
+have their own priorities and consumes; they do not claim another global gear
+search or prove the server's unverified downranking formula.
+
+Food correction report:
+`healer-model-admission-v1/priest-caster-food-confirmation-v2/4a7cdc220a5a0298c117c1ad85ea897f177e3ebe2a3a52dbc29ba05f6f1362b4/report.json`.
+Its 154 new jobs replace the two remaining damage-only food defaults: Holy/burst
+uses Grilled Squid and Aegis/burst uses Runn Tum Tuber. Fresh independent comparisons
+stay within 2%. The failed v1 worker-pool concurrency attempt is preserved. Never
+run two batches concurrently against the same native runner pool.
+
+Exporter `optimization/review-tools/export-priest-healing-library-v1.mjs` produces
+`healer-model-admission-v1/priest-browser-delivery-v1/candidate-QmHpxk/input.json`:
+40 actual selected setups, 993 eligible items and 97 enchants, using the unchanged
+0f6847c1... runtime. All original evidence/source pins are authenticated. Exporter
+and browser-request helper are now pinned: preserve them and derive a new version
+if they need to change. The public fixture is a reduced actual exported build,
+not sample product data.
+
+New KFC React workspace: `/tools/forever/simulator/healing-priest` with a separate
+optional healing bundle, not a change to the legacy required-page list. Library,
+workload, result, release and sharing contracts live in
+`packages/forever-data/src/healing-simulator.ts`. Results retain healing, consumed
+absorbs, overhealing, mana and survival separately. Native false qualification
+flags remain false; this is an explicitly labelled beta healing model, not a
+claim of universal healer BiS or verified server coefficients.
+
+`scripts/prepare-healer-simulator.mjs` verifies source pins, creates immutable
+compressed assets, and requires a real browser receipt before activation. The
+locally active release is `cfd646e1e7011f004f068cfc` under
+`artifacts/forever-simulator/healing/`. Browser review uses an isolated Next server
+on 3021 with `WOW_TRADER_BUILD_DIR=.next-healers-review`; 3017 is untouched.
+Review v1-v4 receipts preserve failed checks, including harness readiness/empty
+Next announcer assumptions and a real mobile overflow that is fixed. Review v5
+passes all 16 browser checks, with seven actual website/native result comparisons
+at 1e-7, all four archetypes, Human ownership, five-minute spread healing, real
+worker Stop/recovery, gear/enchant/talent editing, save/share and desktop/mobile
+layout. Receipt: `priest-browser-delivery-v1/browser-review-KhsrMk/report.json`.
+The preparation command activated this exact reviewed bundle locally. This is
+not a production deployment or permission to claim global class qualification.
+The adjacent `additional-interaction-checks.json` passes three more browser checks:
+actual item-stat tooltip placement, outside-click dismissal and mobile dialog
+layout/Escape. The active default and Priest directory link also pass a separate
+post-activation browser smoke check with no page errors.
+
+Actual website features include first-visit defaults, four archetypes, assignment,
+spacing/duration/race selection, all-slot gear/enchant editing, real client talent
+trees and rank text, casting priorities, consumes, worker Simulate/Stop, item
+tooltips, saved builds and release-pinned share links. Controls wait for hydration
+to prevent lost first clicks. Priest backgrounds are local existing WoWSims art;
+talent/item icons use the existing Wowhead CDN style with an explicit fallback.
+
+New delivery checks currently pass: 5 contract tests, 14 web configuration/asset
+tests and 3 preparation tests, plus the existing 167 healer guards. Web and shared
+package typechecks pass, along with focused ESLint. The delivery test command
+rebuilds the shared package and repeats its 22 preparation/contract/web checks.
+No commit, push, deployment or restart of 3017 occurred.
+Protected simulation-cache.mjs and completed Warlock budget hashes are unchanged;
+concurrent Warrior/Rogue files belong to other work and must be preserved.
+
+## October 24 — Priest talent, rank and consume feedback; corrected consumable engine
+
+Healers are required deliverables under the active all-class goal: Holy and
+Discipline Priest, Restoration Druid, Holy Paladin and Restoration Shaman, plus
+useful supported hybrids. They receive the same complete pre-raid gear, enchants,
+talents, guidance, defaults and verification as DPS/tanks. The remaining original
+DPS/tank work is preserved. Practical2%tolerance and the separate1%assessment stay
+in force; a model/control pass is not a qualified healer preset.
+
+Current research consume runtime is f382d1bddd721302992612ec07788fe778ada65cdf3122bb41825ea02fb48aab,
+under healer-model-admission-v1/priest-healer-consumes-model-v1/<identity>/build-w3PPO0/report.json.
+Client70532source exposes four stale Forever cases: Supreme Power gives150damage
+and no healing; Lesser Mana Oil gives10MP5+20healing; Sagefish gives7damage;
+Tender Wolf Steak gives15Agility. Classic fallbacks remain intact. Wizard Oil's
+24damage+24healing and Nightfin's22damage were already correct. Distilled Wisdom
+still gives2000mana. The former6920gear-pass results remain frozen historical
+measurements and seed gear only, because they used the old Lesser Mana Oil.
+Do not reuse their scalar values under this new backend or claim convergence.
+
+Consume fixture SHA bc6b8140b87c349182e3e0b2f8da9ce91920bf08353c3e2284e6077b9d057396.
+Native/Chromium controls113, focused core9, standalone parity44 at1e-7, real worker
+stop/restart and13main-thread heartbeats pass. Six actual broken Go runtimes are
+rejected. Final receipt build-w3PPO0/final-review-101df7efc9a763c7.json has semantic
+SHA101df7efc9a763c746e30084c8642b90fdd2ccc4afdaa42afcfd8c485818a459,
+byte SHA0ba1086c1bfd0b449482769d886a2dad9e1e5101575140754e7562e572cffb3f.
+The audit verifies1624pins, source rows, exact consume-only derivation, preserved
+2680item database and all608frozen compiler inputs. The separate Arms job owns
+the shared checkout; this engine builds in its own authenticated workspace.
+Supplemental embedded inputs come from pinned upstream9a27c3d6af91d1ca0dbcf94a124b8869ad522108;
+enchant rules agree with the pinned inspection. No shared lock or worker changed.
+
+Talent feedback priest-talents-feedback-v1/25c1c7c14360eb19d6ecd37bee2969926867b30565e9e5eef1d32c7b4abe316a/report.json
+records781new native jobs and42exact reuses. Legal bounded one-point searches
+retain Holy20/31, Discipline31/20, Penance/Holy21/30 and Aegis/Guidance28/23. These
+are assignment-specific research builds. Mitigation/death utility is not valued
+by post-mitigation synthetic damage, so utility review remains necessary.
+
+Priority/rank/consume phase priest-priority-feedback-v1/bb0b8f99e84ca58e4ad54e3cd45a9c3f4b9617dcab53cd4c7d03d965fc30cc99/report.json
+completes four archetypes across tank, steady group and burst healing. Every
+selected state survives the32iteration refinements for all seven declared scaling
+hypotheses. The numeric server downrank/proc formula is still unverified. These
+are coarse cast/rank and consume comparisons, not deep timing optimization.
+
+Gear feedback priest-gear-feedback-v1/c314ee6a4be5a2d96c947dd6796b6b3d796570cf0237bcdbf946ad2651d0ab5d/report.json
+completes258792new jobs and8074exact reuses. Byte SHA
+20fb363f76f3040cb1a92dba5620c3892a9b7ebebc27f984049aa5c099b57562.
+All12states complete two full40group sweeps (960selection steps) and survive every
+refinement case. Every selected state improves its initial gear in this benchmark.
+Only Discipline/burst and Aegis/Guidance/burst have zero changes in sweep2; bounded
+completion is not global convergence. All eligible slots, ordered jewelry pairs,
+complete hand layouts, set subsets and enchants remain covered without EP/stat/
+quality/ilvl pruning. Four-iteration screens refine five contenders plus incumbent
+at32iterations across seven cases. Requests use real character stats/full-v2 support
+and corrected consumes, no synthetic player bonuses or invented healing/mana.
+Origin audit origin-review-fhRnuC/report.json replays all266866request origins,
+258792unique records and960selection steps; every raw record is accounted for.
+Semantic SHA6b19c306e6c0ab61462775dd3498c26e455362f7fab675c22db30eaba4cfb179;
+byte SHAd71e9e4a08a756495ccf4e73c5c5baf67d52204c0cf759a7ec2fda765f7762b5.
+Raw evidence is append-only and exact runtime/request/workload identities govern
+reuse. This phase and its origin audit are terminal; do not launch them again.
+
+The explicit owned Troll Berserking extension is now verified. Current70532rows
+show10%casting/attack speed for10seconds and a3minute cooldown. The old driver
+never activates it. New policy allows only owned Troll20554, zero mana threshold,
+explicit caller selection, optional demand gating and real cooldown-manager/cast
+boundaries; it grants no implicit racial or new external buff. Native/Chromium117,
+core9 and46standalone parity cases at1e-7 pass, including actual equipped51point
+states with activation and true worker stop/restart/main-thread responsiveness.
+Four actual broken runtimes are rejected: missing admission, invalid mana guard,
+missing activation and implicit activation. The reusable healer suite passes167
+checks, targeted ESLint and formatting pass. Earlier failed lifecycle-fixture and
+reviewer attempts are preserved; the final proof uses detailed geared metrics
+and counts actual compared cases. The test-page harness disposes Go-owned JS
+timeouts after exit; production worker/core sources are unchanged by that cleanup.
+
+Racial runtime0f6847c152a14fd74377ee9ec16337db7f463f3f82aafbc41f445a84829bb380,
+priest-healing-racial-model-v1/<identity>/build-zh9Dam/report.json.
+Fixture healing-racial-source.v1.json.gz SHA
+6b4298e33c78c98eb5cf4e2a85b697de26f758f3e053a5d1c55e2a5be35b54e4.
+Browser receipt semantic SHAe4253a6183e67452b00f679e8f9a90cc45a067b70052682153c5c1d63b640b06;
+executor v3 semantic SHAd8b0e838f4a55dc44a3dff3277289ff21a6c337b421152ce6b05d132c6553046.
+Final review final-review-922ed5d6548cfd0e.json verifies2260pins, exact source rows,
+consumes-parent derivation, compiler inventory and unchanged catalog. Semantic SHA
+922ed5d6548cfd0e11ff3fb151e94d3ece6a02ed744374273a007c59769cddcb;
+byte SHA671d8369ea1c127424bac97440e3167b93dc767a73e197f1f6e7cf3180c22d6d.
+
+The derived v2context's bounded outer feedback now completes22928new jobs and
+2363exact reuses, with owned Berserking enabled on the verified runtime:
+priest-outer-feedback-v1/092c54f981eb93dc180a187b7797673763d53aa2822b390008aaf9212be3c521/report.json,
+byte SHA3eef37ee171d57e1622f980e803203214131c525ff2e161148402c4ec031e016.
+At most two coarse cycles recheck legal talent neighbours, direct/support ranks,
+40consume combinations and retained gear. The2%improvement stopping threshold
+avoids deep timing searches; it does not assert mathematical optimality. No
+old-backend numerical cache is reused. All12training-selected states survive.
+
+Independent confirmation completes1848new jobs and196exact reuses:
+priest-independent-confirmation-v1/1daf353e66874574223350bd4570aa63b2d425c5bc84f276edbc013fb3bcd7bf/report.json,
+byte SHA5433a153c84ce2eb43a07aefd7e1142b2303e4ef10596b7022c331ae195d8167.
+Each selected state is compared with five retained alternatives and its initial
+state, using four fresh seeds with128iterations each per hypothesis. All12selected
+states survive512/512iterations per case; all satisfy the observed2%and separate
+1%checks against these retained alternatives. The largest observed worst-case gap
+is0.663%. No winner is reselected after confirmation. Paired-batch95%intervals are
+saved separately; the largest per-policy upper bound is2.206%, so do not claim a
+universal1%or95%-confidence2%guarantee. These are stationary synthetic benchmark
+comparisons under unverified rank formulas, not proof of global healer BiS.
+
+Selected-state native/browser parity now passes122cases at1e-7, including all
+12states across all seven hypotheses (84selected cases). These use the actual
+selected51point talents, gear, enchants, consumes and explicit owned cooldowns.
+All selected browser cases survive and receive all scheduled damage. Worker
+stop/restart/recovery and11main-thread heartbeats pass. Receipt under the final
+racial build: executor-review-0f858851d6732a09.json, semantic SHA
+0f858851d6732a09767e5c6741617b96d3bd5a426d7e0dd796b3bc0c161f8ec0.
+All earlier standalone controls and actual raw detailed metrics remain compared.
+
+Outer origin review origin-review-eixYlt/report.json replays25291request origins
+against all22928real native records and reproduces every selected output. Semantic
+SHAdc3b3850ac5a066f89eb559e4f5f56cd704067cd4dd907ec159db153b5709b49;
+byte SHAcd938243f2baf4141a5845d0d7dc693d8434a92a834076f617283f4f50cc600e.
+Independent origin review origin-review-2XrxOy/report.json replays2044origins and
+all1848real records, reproducing the full comparison output. Semantic SHA
+b583e75ff88ddf8edf7cb49c9e34e78a0dab3b262bd36ef31bc8e3244999c28a;
+byte SHA570bfa4890a2f5e0c93e6d6c02f802fed87ae54cce516502781fcfb34e5675df.
+These are exact frozen-algorithm replays of actual cached measurements, not new
+simulations or independent optimizers. The separate gear audit reconstructs its
+960steps independently. All numerical and replay phases above are now terminal.
+
+Next: utility/spread/sustain assessment and actual KFC UI/defaults/library/guidance,
+then scoped Priest delivery before the next healer's numerical campaign. UI
+inspection finds no existing healer profile. SIMULATOR_SPECS is also the required
+release-page list; simply adding healer entries would invalidate old manifests
+and break existing simulator pages. Introduce a separately validated optional
+healing capability/bundle or coordinate its full immutable release atomically,
+while keeping all old required-page checks. Use a separate healing review/metrics
+contract; LocalSimulatorBuildReview and reviewed workspace currently label values
+as referenceDps. Reuse KFC visuals/item/talent components, expose the declared
+assignment and scaling assumptions, and keep healing/absorbs/mana/deaths separate
+from DPS. Actual preset/default/gear sets and guides must ship together. Read the
+app AGENTS and installed Next documentation before writing UI code.
+
+No healer preset, browser UI, commit, push or deployment changed. The Priest
+healer deadline remains2026-10-24T20:33:53.864Z; no class clock is reset. Original
+remaining DPS/tank work, unrelated warrior files and protected cache/completed
+budget are preserved. Do not rerun terminal searches or reviews; use their exact
+saved artifacts when deriving delivery checks.
+
+## October 23 — first Priest healer all-slot gear pass and independent checks completed
+
+The previous goal turn was progress: rank-sensitivity sources, real native/browser
+controls and saved evidence were completed. This turn adds actual51-point Holy
+20/31/0 and Discipline31/20/0 seed requests, current enchant inspection, actual
+calibration and the bounded all-slot gear loop. These remain research states,
+not qualified/published healer BiS presets. Other healers and original remaining
+DPS/tank work stay required.
+
+New priest-healing-study.mjs/.test.mjs checks the52resolved current client talent
+locations, rank limits and prerequisites against the UI encoding; validates the
+51-point seeds; builds explicit stationary post-mitigation tank/group/burst
+assignments; and keeps deaths/lost scheduled damage infeasible. No fabricated
+player BonusStats, external healing, tier bonuses or item swaps enter these new
+requests. Gear, talents, raid support and consumes are real engine inputs. Assigned
+dummy health/damage schedules are synthetic, not measured boss behavior. The
+current frozen Go model accepts Greater Mageblood's numeric20MP5enum; the older
+TS codec preserves that value in protobuf. Neither new player stats nor an old
+raid-reputation Mageblood source is invented. Initial resource use is explicitly
+Major Mana Potion, with equipped Second Wind enabled by the gear loop; broader
+consume/racial/rotation feedback still remains.
+
+Prepared input snapshot:
+healer-model-admission-v1/priest-study-inputs-v1/prepare-OU4FNy/report.json,
+byte SHA8ede0a1a1f1573549fe6aaf0c7f3bbe953763688f7e10e460b85d0021c82cc21.
+It retains the exact2680-item runtime database, merged acquisition sources and
+current70532inspection. All182enchant stat vectors match the frozen engine.
+Horde Engineering/Tailoring domain:940distinct eligible items;17slot counts
+[73,43,56,83,89,29,68,64,62,73,62,62,43,43,140,26,29]. This profession/faction
+frame is explicit; it is not proof of all profession/race/faction configurations.
+Public minimal talent fixture priest-healing-study-source.v1.json.gz SHA
+649d67d273eb68d308282e34b146d25c26a9db5b491fd0e05718dd0b2d1ff2ea.
+Final review caught an inherited provenance bug: buildInspectionData hardcodes its
+old70425source label even when preparation reads the eight70532tables. Preserve
+the frozen prepared inspection and numerical evidence. The corrected derived copy
+is priest-inspection-provenance-v1/correction-DfYrko/inspection.json, byte SHA
+ef6d7b24dc9d049886e5bb4503e732008c1d5e038530f281a0f7f70960affe4a.
+Its report.json byte SHA
+4fd7f887b42274ab6e70a3320b43c81b54aba05d127a95b709a4a06d837e29e0
+verifies the actual source table pins and changes only the three provenance
+fields; all non-source data and182enchant vectors are unchanged. Future feedback
+input/presentation should derive a new context using this copy rather than
+mutating the frozen v1loader, inputs or completed numerical proofs.
+
+Reference calibration36actual jobs (4iterations each) has25feasible results:
+priest-reference-calibration-v1/run-GRVlIu/report.json byte SHA
+df83a76f9b630bdc7b4fba19fca6bacfc0bc31944535ab0b5ad1123d02c54048.
+Both mixed policies survive the400DPS tank frame in this small batch while direct
+policies fail. A later32-iteration seed probe exposes occasional deaths: do not
+relabel the four-iteration seed as consistently safe or lower the assignment to
+hide failure. The all-slot search may explore failed incumbents while searching
+for a feasible state, and never qualifies them as recommendations.
+Eight actual geared native/browser cases pass at1e-7, preserving6feasible and
+2failed cases. Proof at run-GRVlIu/geared-browser-YAFgCA/report.json byte SHA
+c7a641bd0500058f05e3318ba336c2218f15ce30803f6db106290d3376c74ca5;
+semantic SHA ff7b9b559fd4b3d29908b9535f4166aff4eae0dfbb76a978612500f60af695ed.
+
+Separate healer clock is now active in healer-class-budgets/priest.json:
+start2026-10-23T20:33:53.864Z; hard deadline2026-10-24T20:33:53.864Z.
+Both healer specs share it. Original DPS/tank ledgers remain untouched. Two short
+failed startup phases are retained: v1assumed the32-iteration seed was feasible;
+v2hit a concurrent same-workload write before recording any new scalar jobs. v3
+reuses the exact saved v1probe and fixes atomic shared-workload publication.
+New healer-class-budget.mjs and healing-study-store.mjs have focused tests for
+unchanged deadlines, exact interrupted-phase resume, ownership, concurrent writes,
+immutable inputs and rejecting tampered evidence. Shared workload files are
+content-addressed and published with an atomic hard link; raw scalar requests and
+results are append-only, with the exact runtime/request/workload identity.
+
+Completed gear phase v3 identity:
+990af048c17180dfe1a12ee371fe294af8b2eb9193057fd815399eb9b01d7169,
+under priest-gear-pass-v3/<identity>/, script review-tools/run-priest-healing-gear-v3.mjs.
+Initial coverage10140legal proposals per full seed bank: all17slots,3794ordered
+ring pairs,1789trinket pairs,2662complete hand layouts, set subsets and compatible
+nonraid enchants. No EP/stat/quality/ilvl pruning. At most2complete sequential
+sweeps/spec; each group updates the incumbent before the next group. Four-iteration
+screens refine five contenders plus the incumbent with32iterations; failed states
+stay unqualified. Objective: feasibility, then lower mean missing health, with
+remaining mana as a tie-break; raw/overhealing is not a score. The known raid-only
+enchant recipes remain excluded. Progress and per-job evidence are checkpointed.
+Exec session6831 completed successfully; there are no remaining owned workers from
+this phase. report.json byte SHA
+1f64e7972ef82b4b75cd4e7c2f5f3ce29f8a1fdb2c710885a6ce20df93f39704.
+It records40127new scalar jobs and517exact reuses, two complete sweeps/spec
+(80group steps per spec).
+Both selected sets are feasible in their32-iteration refinement batch. Holy's mean
+missing health falls5292.7349 ->1727.2183; Discipline3929.2122 ->894.7120. These are
+health-deficit measurements, not HPS gains. Holy changes4groups in sweep2 and is
+not converged; Discipline changes0. Neither establishes geared talent/rank/consume
+feedback convergence, strict2%/1% assessment or class/BiS admission.
+
+Full audit review-tools/review-priest-healing-gear-pass-v1.mjs completes successfully.
+Proof at priest-gear-pass-v3/<identity>/review-Iob0KZ/report.json byte SHA
+1a6ec4b95ef2a877cf65f358116ef4fc9671000b78eeca9b7f37ce4e1cda8b84;
+semantic SHA23f3ac0ca737ead99a98c8a1e2afeac94a06e828c0a853eb25d47e5a59032cf6.
+It replays all160selection steps and40644request origins against40128unique exact
+runtime/request/workload records, including the imported seed probe. Every legal
+bank proposal and refinement contender has actual source-bound evidence; no raw
+record is unaccounted for. Fresh native replay of each selected state matches.
+Independent seeds971831/1945823 use128iterations per initial/selected state, with
+no winner reselection. Each selected set survives256/256benchmark runs. Holy's
+initial set survives232/256; Discipline's initial set survives256/256 but has much
+larger health deficits. The benchmark is synthetic and stationary; this does not
+prove live encounter safety or a universal best-healer ranking. Eight independent
+diagnostic jobs plus two selected replays are recorded separately from optimization.
+
+New reusable suite now passes157tests. Targeted ESLint/Prettier/diff checks pass.
+No compiled engine, item catalog, public preset, commit, push or deployment changed.
+The healer clock remains open with the original2026-10-24T20:33:53.864Zdeadline;
+both completed gear/review phases retain it. Next do geared talent neighbors and
+spell-rank/priority/consume feedback across the saved uncertainty cases and tank,
+group and burst assignments, then recheck gear, independent contenders, selected
+browser parity and actual preset/guide delivery. Consider a bounded Penance/Holy
+hybrid counterexample rather than assuming capstone-only seeds cover every good
+healer build. Remaining healer classes and original DPS/tank work stay in scope.
+
+## October 23 — explicit Priest rank-scaling sensitivity verified
+
+Current private runtime6920ae7e7d3c2a22356993fd05889e57de855eeec78f65a57ba065fcaf59e293:
+healer-model-admission-v1/priest-rank-sensitivity-model-v1/<identity>/build-w94qOx/report.json.
+New priest-healing-rank-sensitivity.mjs/.go and tests derive isolated sources from
+the priorb164ec3e validation bundle. Catalog/common effects/shared buffs and all
+completed DPS/tank models remain unchanged. Optional workload rankScaling echoes
+an independent policy copy in results; omission keeps previous behavior.
+
+All63parent ranks and10Penance/Nova child effects are mapped. Base healing, mana,
+cast times and passive talent stats stay intact; only bonus coefficients change.
+Shield application and replacement use the same factor. Renew snapshots, Binding's
+two recipients, Penance/Nova children and the selected Mending rank are covered.
+The shared Mending action resolves its current parent dynamically, with no double
+penalty. Invalid/nonfinite policies, duplicate configuration and changes after a
+cast starts fail; actor state stays isolated and survives iteration resets.
+
+Official notes establish downrank penalties but no numeric formula. DoubleZug's
+primary Forever Shaman sheet marks low level downranking!F77 speculative. Its
+gap17/loss0.05 formula remains an unverified level60 extrapolation. Saved cases:
+unscaled reference plus gaps12/17/22, with unchanged class procs or coefficient-
+factor activation. Gaps12/22 are declared stress cases, not measured bounds. No old
+Classic below20 multiplier is added. Aegis, Inspiration, Renewed Hope duration and
+Litany refunds are the explicit healing talent-proc sensitivity; passive stats,
+mandatory payloads and item procs are not suppressed. Failed Litany refunds still
+advance the real spell-family sequence. Acquisition policy still excludes3AQ-book
+ranks independently of compilation coverage. Sources and exact assumptions are
+linked in docs/simulator-healer-optimization-plan.md.
+
+109actual native/Chromium Go-WASM controls,9focused core controls,28standalone
+native/browser parity cases (1e-7), and142reusable Node guards pass. Actual worker
+stop/restart/recovery and responsive main thread pass. All7minimal-gear policy
+stress cases fail survival; they validate mechanics/provenance, not feasible gear
+or optimal healing. Separate talented-cast controls test zero/full/intermediate
+proc factors and item independence. Six actual broken runtimes fail behavior
+tests: ignored inline scaling, scaled base healing, unscaled shield comparison,
+double child scaling, wrong Mending parent and unsuppressed class procs.
+
+Source fixture priest-rank-sensitivity-source.v2.json.gz SHA
+4a5e8313c90c7b1b365fab90aa28ade1d0972c527d9adc314a0b265493c7b513;
+capture priest-rank-sensitivity-source-v2/capture-ijQcHe/report.json byte SHA
+dfbd997394967272f3621b9bd527840d610ea04985496b83b14de149000906ba.
+Earlier v1 capture is preserved; v2 includes the shield-comparison source.
+Browser review8b4026fa7c6db6dd semantic SHA
+8b4026fa7c6db6dd4ebd3060d66b9fdf35fd587af7a721128dde25e20704d2d5;
+executor383007ae3006c42a semantic SHA
+383007ae3006c42a6a1bd07eaefcbd2a23cd129afbba4b2d5730618882533e2c.
+Final final-review-42535bf532de1895.json checks925pins; semantic SHA
+42535bf532de189587b2f9c4b488f735760e359eaceb5da3f4b3502ae39da84e;
+byte SHA18c1004f78dd11d6e33af56a4129b0105596f0fe6d7909b7a785a86524afb7b5.
+Protected simulation-cache/completed Warlock budget remain unchanged. Targeted
+ESLint passes. No healer search clock/class/BiS admission/public preset/deployment.
+Next use declared scenarios in bounded Holy/Discipline all-slot feedback; do not
+claim a verified server formula or global downrank optimum. Remaining defensive
+utility, other healers and original DPS/tank work remain in scope.
+
+## October 23 — current dungeon-set healing and full-raid support verified
+
+Current validation bundle:
+b164ec3ebf70a76c3be54225087e079bc30348349dfce530021cfc635e29c9af,
+healer-model-admission-v1/priest-dungeon-set-raid-review-v1/<identity>/build-PIiMby/report.json.
+The native/WASM runtime is byte-identical to the 2b217faa Emblem model below. This
+bundle adds source validation, input construction and actual tests; no runtime
+set handler, shared buff rule, item database or completed DPS/tank model changed.
+
+New healer-raid-frame.mjs/.test.mjs applies exact shared full-v2 support to healer
+settings without changing gear/talents/consumes/encounters. Missing Kings/Moonkin,
+weaker totem selections and injected external grants fail the policy identity.
+Support semantic SHA e73056b7d7385b98f13bbd8c1ca77444bec743e38d22d627a680eb0415837f7d;
+raid-buff-defaults.v2.json byte SHA
+b2b637816adfb5ff62a4d1978e6fa1a784fcbbf186b548eca9ef6bbfb78b2b45.
+It is a shared support-input helper, not admission of the other healer agents.
+
+Native controls confirm actual Kings10% Intellect/Spirit, Moonkin+3% healing crit,
+active Trueshot/Windfury, and actual mana behavior. Current full-rank totem payloads
+are53Strength and89Agility, scaled by Kings, with no additional old15% Enhancing
+Totems multiplier. There are659 current TraitDefinitions and none for16259/16295;
+the old spell/SLA records still exist but are not current talent definitions. The
+engine intentionally ignores that legacy multiplier in Forever. Keep improved
+selections in the shared frame; do not fabricate another talent bonus. Retained
+Restorative Totems supports improved Mana Spring; it does not stack with Wisdom in
+this engine. No extra Innervate/ManaTide/PI grants or raid-inactive world buffs are
+credited. Four captured aura effects validate their actual effect types: Kings is
+effect6; Moonkin/stat totem auras are effect65. Do not normalize all to effect6.
+
+priest-dungeon-set-model.mjs/.test.mjs validates current sets181/182 (Magister/Devout)
+and2/3/4/5/6 thresholds. Flat healing at3pieces is18, mana at5pieces is5%/200 per
+eligible completed magic parent cast, MP5at6pieces is8. Actual full-rank Flash Heal
+controls cast500times/set, observing15 mana procs in each fixed-seed run, with exact
+200 payload. Penance bolts, Binding/Prayer recipients, Mending bounces and periodic
+Renew ticks receive no extra opportunities; reset preserves one trigger. Defensive
+four-piece effects remain unsupported. Devout's27778 ->27779 is actually an absorb,
+not a generic CC break; do not rely on the old broad source-header description.
+The declared post-mitigation assignment does not rank that defensive utility.
+
+Source fixtures:
+priest-dungeon-sets-source.v1.json.gz SHA
+6a85eaa8ade71db5571fb720cd6eb87c70baf9dcd36231599768a2568baae862;
+healer-raid-buffs-source.v1.json.gz SHA
+a1844250b366244deaaff6baf6b7c03da4c58d458e0c66d98884fff6138f4a3d.
+Capture receipts priest-dungeon-set-source-v1/capture-aVm0WE/report.json byte SHA
+6ab0029a4d8c639b8e731f497df3bb2a985e863de5406d3c1630b92ac22b44e7 and
+healer-raid-buff-source-v1/capture-HpQ3pK/report.json byte SHA
+58389f64b4d40197f9f958e8e025b18befdfbd1798beba039d842f25b9d0e950.
+
+96 actual native/Chromium Go-WASM controls and9 focused core controls pass. Browser
+review e82a9668cc3759d4 semantic SHA
+e82a9668cc3759d47b6f8924ea11d8f4f96d714732b5d9944d9a2879c78a7817.
+21 standalone parity cases pass within1e-7, including full/own support and Devout
+4/5-piece workloads, with stop/recreation/responsive-main-thread controls. Executor
+review3e11997f7bd7beb3 semantic SHA
+3e11997f7bd7beb39fa1ba98f088cc3d036d9de2232ffd1d1f68411c5c4830e5.
+Six actual broken runtimes fail expected tests: no healing mana procs,300mana,
+four-piece mana, missingKings, missingWindfury, reintroduced oldEnhancing multiplier.
+Final review30eb2b13522f7ff6 checks907 pins, fixture rows against original raw tables,
+compiler inventory/effective overlays, identical native/WASM bytes and protected
+cache helper/completed Warlock ledger. Semantic SHA
+30eb2b13522f7ff6b6d5883d7b71f9b8d842cec1a9f173d0423971eb8d1874b1;
+byte SHA4256c7be88bb0f86925abbbdcb77d23aeb498e63e70f3a275508e70ef1936823.
+The reusable healer test command passes136 guards; targeted lint/format checks pass.
+Initial test fixture guessed BindingHeal instead of existing KFCBindingHeal[6];
+corrected after compilation. The first totem assertion assumed old15% and was
+replaced with current source-backed values, not an engine buff rewrite. A brief
+shared lease collision ended before retry; no lock/job was removed. Unrelated
+frozen-model-workspace files and warrior-valor-dps_test.go belong to another
+session and were preserved, not implemented or claimed here.
+
+NEXT: numeric rank-scaling uncertainty and any remaining relevant item/utility
+boundaries, then bounded Holy/Disc all17slot/talent feedback. Rank assumptions must
+be versioned and compared explicitly; do not silently use unpenalized low ranks or
+call extrapolated level60 values server-verified. Controlled full-rank references
+do not prove a global optimum across all ranks. All5healers and original remaining
+tank/DPS work remain active. No healer optimization clocks, class/BiS admission,
+public presets, commit, push or deployment were added.
+
+## October 23 — current passive Draconic Infused Emblem verified
+
+CURRENT private Priest component:
+2b217faa1c103a7b596f3ae069132716f298b8006208baa2d0f6fc88e4a18e69,
+healer-model-admission-v1/priest-draconic-emblem-model-v1/<identity>/build-7RZQk9/report.json.
+It inherits the 25267f88 resource driver and exact 2680-item/stat catalog. The only
+runtime change is the Emblem block in an isolated common item-effect source.
+New draconic-emblem-model.mjs/.test.mjs validates authentic 70532 item/spell/proc/
+duration rows; draconic-emblem_test.go exercises real spells and equipped behavior.
+Fixture draconic-emblem-source.v1.json.gz SHA
+21a5890aac06538b01bff54d81c2c6c98bb532591061ccc8ba014f052db97dd6.
+
+Item22268 now uses ItemEffect237973 -> passive1318931 -> buff1318930, ten seconds.
+Client procChance100/mask65536 supports completed harmful magic casts; not ordinary
+heals, HoT ticks or damage ticks. The implementation retains this as a client-backed
+event interpretation, not independent live-server proof. Buff grants35 shared SP
+(35damage/35healing), plus35 damage-only against Dragonkin through enemy attack
+tables. Raw aura180 mask2 and the actual tooltip identify the creature restriction.
+No item use spell/MCD remains. Resource-driver rejection stays correct for a passive.
+Refresh is nonstacking; expiry/reset remove both bonuses. Actual Flash Heal delta
+is15.015 for both tested enemy types, even with a Dragonkin friendly recipient;
+damage bonus is35 against Undead and70 against Dragonkin. Healing-only workload
+with Emblem matches the unequipped reference, without the obsolete190-healing use.
+
+88 actual native/Chromium Go-WASM controls and9 focused core controls pass. Browser
+review57a4fc32a929399f semantic SHA
+57a4fc32a929399f2bbf38d7c46cc8e6427c1dd73678049bab2ff39afd4e35d0.
+Seventeen standalone native/browser cases agree within1e-7; stop/recreation and
+main-thread responsiveness pass. Executor review366a1348f0f3ebdd semantic SHA
+366a1348f0f3ebdd4729da76aa1d53358de196be4acbacad9a6bf810bf6f4d71.
+Six actual broken runtimes fail expected tests: old on-use, healing triggers,
+periodic instead of cast trigger, old duration, old amount, missing creature bonus.
+Final reviewf0e57e060ca36c56 checks880 source/output/binary/browser pins, unchanged
+other item code, protected cache helper and completed Warlock ledger. Semantic SHA
+f0e57e060ca36c56305d074d4d332188d04352ecb4da01b21bb826bceb93ee29;
+byte SHA57eeddafbcbe24aeb032f11e26844180ced23961f81893ca8f55d9d82647c7d5.
+The reusable healer test command now passes126 guards. Targeted ESLint and source
+format checks pass. The initial168f7f09 build is superseded by stronger immediate
+post-heal exclusion assertions; engine code is identical. One initial final-review
+anchor expected the old BlueDragon comment; corrected to the actual inherited
+current block before any negative-control result was accepted.
+
+Next: verify the remaining current dungeon-set callbacks/payloads, rank interpretation
+and full improved raid frame before bounded Holy/Disc all-slot searches. Published
+first-person rank-scaling reports remain inconsistent; no new verified numeric
+level60 penalty was found. Do not substitute an unpenalized low-rank optimum or a
+community estimate for a verified rule. Controlled same-level and explicit
+uncertainty scenarios remain separate from observed live encounters.
+No healer optimization clocks started, class/BiS qualification, public presets,
+commit, push or deployment. Original all-role work plus all five healer archetypes
+remains active. See docs/simulator-healer-optimization-plan.md for the full scope.
+
+## October 23 — explicit healer resource cooldowns and remaining admission work
+
+The active all-role goal includes Holy/Discipline Priest, Restoration Druid, Holy
+Paladin and Restoration Shaman, with the same all-slot pre-raid optimization,
+presets, enchants/consumes, guidance and delivery expectations as tanks/DPS.
+Rank healing by assignment survival, effective healing/absorption, deficits and
+mana sustain, not raw HPS alone. Preserve the original 30 cases and the practical
+2% tolerance; minimum combined scope is now 35 archetype/case deliverables.
+
+Resource-driver predecessor:
+25267f8807d46a25fe2d5c763ef4b1df53692569401d2231e9c0425ef287ea92,
+healer-model-admission-v1/priest-resource-cooldowns-model-v1/<identity>/build-3a4Aas/report.json.
+It inherits the exact 2680-item/stat catalog from 5e0eb149 below. New public files
+healing-cooldown-workload.mjs/.test.mjs and healing-cooldowns.go/_test.go derive an
+optional explicit resource policy, leaving the old frozen workload source intact.
+Only six reviewed mana-item implementations and equipped Second Wind 15604 are
+allowed. Validate configured/equipped ownership, unique IDs and finite thresholds;
+use actual engine MCD conditions/timers in declared order at free cast boundaries.
+No blanket autoactivation; owned IF/PI retain their prior separate flags.
+Demand gates need an actual eligible health deficit but do not require mana to
+heal. Rune self-damage and death are real; stop all further activations after death.
+Second Wind reference threshold is 630 missing mana, normal terrain only. No deep
+timing search or class/BiS qualification was added.
+
+82 actual native and Chromium Go/WASM controls pass (75 prior + 7 new); nine
+focused core controls pass. Browser review d1b21c1a61676607 semantic SHA
+d1b21c1a61676607c547eeaf52c7d5a309af8f0e8d362a7d5b086970c9dadf04.
+Fifteen standalone native/browser cases agree within 1e-7, with real stop/restart
+and responsive-main-thread checks. Executor review 98791c7865318adc semantic SHA
+98791c7865318adc897fc5adb8264e9e73d0fdf3722438e7054a4a3390a2274d.
+Detailed action metrics are emitted from a Go map; compare by full ActionID only,
+preserving every raw record/value and all other array order. Changed resource gain
+and a missing action still fail. Earlier executor v1/v2 positional comparisons
+failed on map order; their diagnostic is preserved, not an engine parity failure.
+Actual disabled-driver runtime fails the workload integration test.
+
+Final review final-review-a8126890b5c092cc.json verifies 845 source/output/binary/
+browser-asset pins, including protected cache helper and completed Warlock ledger.
+Semantic SHA a8126890b5c092cc959450f780dfec914899cd669814162140bc2fea8af7cb27;
+byte SHA 4f0683660126ef8d38603a1ea388b4a36f66082ac0ad084d7945629ec97354b1.
+Reusable command simulator:healers:test passes 123 guards. Targeted ESLint and
+Prettier checks pass after explicit node:url import; final build supersedes the
+initial 0be698b9 component, with identical engine code and corrected test import.
+Early failed fixtures incorrectly treated post-mitigation/capped friendly damage
+as raw 600–1000 enemy DPS. Fixed the controls; no production damage rules changed.
+
+New authentic source review resource-source-review-v1/capture-HOBhH4/report.json,
+byte SHA 7360b440cec187f6b3206da8fca86757c11880f0c0903347b8ac07b0a7eb6fe6,
+binds the current mana/Second Wind rows and discovered Emblem mismatch. Item22268
+now links ItemEffect237973 triggerType1 -> spell1318931 ->1318930 passive trigger;
+the inherited on-use +190 healing effect is stale and is NOT corrected yet. It is
+rejected by this resource driver and needs actual proc admission before gear search.
+Current tooltip records21011/21685 explicitly describe lower-rank bonus/proc
+penalties. Raw full coefficients do NOT establish no downranking. Numeric level60
+penalty/proc formula remains unresolved; preserve ranks and evaluate uncertainty
+instead of silently treating a community extrapolation as verified behavior.
+
+NEXT: remaining current item/set payloads and healing callbacks, rank interpretation,
+full improved raid frame and scenario utility, then bounded Holy/Disc all-slot
+feedback. Other healers and original outstanding tank/DPS work remain active.
+No healer optimization clocks started, no public presets, commit, push or deployment.
+
+## October 23 — current healer item payloads, PvP catalog and stat audit
+
+Previous turn completed rank eligibility and initial all17slot pool. This turn
+captures authentic70532 item/set/proc rows and extends the private healer catalog
+from2671to2680 by BlueDragon19288 plus eight current Priest blues272562..272569.
+Current BlueDragon is +150Spirit/15sec at2% eligible cast chance, NOT the inherited
+full-Spirit-regeneration override. Exact ItemEffect101733 ->23688 ->23684; aura29,
+Spirit index4, base150, duration15000, proc mask81920. Raw payload BonusCoefficient1
+is retained as metadata; fixed stat amount is not modeled as healing-power scaling.
+Current public module healer-items-model.mjs/.test.mjs derives a separate common
+item-effect source and exact set549 (2pc23SpellPower,6pc20Stamina). Glove MindFlay
+pushback and4pc PsychicScream utility are outside the declared healing workload.
+Acquisition stays historical/conditional; prior inferred Horde access remains.
+
+Authentic fixtures/healer-items-client-source.v1.json.gz SHA
+07c051f4f00b50ae9f546475ea2fa77782df1194288c098219254dbe8d2487ec.
+Source capture healer-items-source-v1/capture-sK5kGW/report.json byte SHA
+fef2bd32b5ff22d7e9ac418b5fad36d60152768a4c2312006bbbacf917de9f2d.
+New Go controls healer-items_test.go and additional healer-items-proc_test.go.
+
+Item model3dc64077af37e8744e5e7c9047510dd454811685d211a39149cf5d24eb42d6c1,
+priest-healer-items-v1/<identity>/build-bIbRjB/report.json, has actual native and
+browser standalone binaries, DB protobuf round trip,71base controls and9core tests.
+Supplementary controls add the refresh-aware proc test:72native/browser pass.
+Controls item-controls-pEvw1E/report-6764dc49e3945bcc.json semantic SHA
+6764dc49e3945bccaa42e6fb2c985600a6384949e77bb339ba905f167b9a8a55.
+Six actual broken variants rejected: missingSpirit,obsoletefullregen,wrongduration,
+zero/default chance,everycastchance,missing setbonus. The case label disabled-proc
+actually uses0, which core interprets as default100%; do not claim it tests no proc.
+Browser review browser-review-f915177eda67d258.json semantic SHA
+f915177eda67d258d3ce9fdf5ad46a86c0ab96fcdc0606da1ea84d60473f8580.
+Executor review executor-review-49093afd4b43e8af.json semantic SHA
+49093afd4b43e8afb4c053eb79dfa6832a4d2b627c3a3308bcde897df8693699:
+9actual native/browser cases agree, including equipped-item mana effect; real stop,
+recreate and responsive main-thread controls pass. Actual Human proc delta157.5
+Spirit,39.375HealingPower and9.84375casting-mana/sec under the controlled talents.
+The original500-cast check counted14new activations; the extra counter includes
+refreshes and rejects100% procs which could otherwise remain one active aura.
+
+Private tools capture-healer-items-source-v1,prepare-priest-healer-items-model-v1,
+review-priest-healer-items-controls-v1,browser-v1,executor-v1 under review-tools/.
+Keep this model, all prior helpers and completed DPS budgets immutable. One failed
+test setup lacked APL rotation and is preserved under81ab2fcc...; fixed before
+admission. The initial negative-review anchor hit multiple legacy set bonuses;
+narrowed to exact current set549 before the successful receipt.
+
+Initial stat reconciliation before healer gear optimization. Audit
+priest-current-healing-stats-v1/audit-fWwjlv/report.json byte SHA
+86ed88ad88c6f40d2d5708d555ac627172cae1a2c875c8dfee211c6440e473e3:
+935Alliance/940Horde eligible items,993union,664 current rows,329missing-current,
+0unresolved-current,26direct HealingPower disagreements. These split into25
+positive current values missing in the catalog (e.g.DevoutRobe16690:+20;Death
+SpeakerScepter2816:+68) and ONE vendor/raw disagreement272681. Do NOT erase the
+Mace's observed176healing/58damage or64-119weapon range to match raw0/96-178.
+Its actual vendor build69913 export wep_vendor.txt SHA
+81af4753abb7389b775fd7edf3cdf0a16f5bfaf8db07cd3c789c12ddc6839d76 records these
+stats/tooltip. The raw70532 view also matches the old70425 view, so this is not
+evidence of a new nerf. Existing docs/simulator-catalog-coverage.md explains the
+observation priority and prior44776d1fe9813199 weapon-parity receipt. Initial audit
+is a field disagreement audit, not permission to overwrite observed evidence.
+The25 direct-healing fixes are now compiled and verified below, preservingMace.
+Full improved raid frame and spell-policy input assumptions remain before searches.
+No healer optimization clock, class/BiS qualification or public healer deployment.
+Original all-role goal plus all5healer archetypes remain active.
+
+Item/stat predecessor5e0eb1494670a364acff1683f96a3ccb1ee7d8b846e9296b7892345d941618db,
+priest-static-healing-model-v1/<identity>/build-AZojwb/report.json. It inherits3dc's
+exact item runtime and corrects25 direct item HealingPower values, touching no other
+stats/metadata/effects/acquisition. New healer-static-healing.mjs/.test.mjs/_test.go
+and authentic fixtures/healer-static-healing-source.v1.json.gz SHA
+cfd539faefaea4025153cf0f6ceb43e95be6505bc45f8812dba580ab38c04451.
+Original stage-J4Icyj/report.json byte702d9aa1... remains an immutable intermediate
+(its nativeVerificationComplete=false is historical, superseded by this build).
+
+75actual native/browser top-level controls pass, including25 equipped stat/heal
+subcases and observedMace priority. Browser review6089f6d7b68521be semantic SHA
+6089f6d7b68521be92b6253c502ab659e16aacd323accaa661b7ae62e572e39d.
+Eleven standalone native/browser cases agree1e-7, includingDevout/Scepter; real
+stop/recreate/responsive-main-thread checks pass. Executor review51d808eea6c74088
+semantic SHA51d808eea6c740887b5a0029643ef66f8fcfd0857d8139b5fa2c046da8c0bd9c.
+Full core parent87/derived87 pass with the documented validation-only legacy
+crit-fixture initialization, no assertion/production-source changes. Review8f5a0c8c
+semantic SHA8f5a0c8c887e61aff31966c6e6e0e8779ccd9a5ca910cfaf1563423109ff4d59.
+The reusable healer command now passes120guards. Six parent item-runtime mutants
+remain valid via exact unchanged common/set bindings; no numerical gear references
+were inherited. Final review9f4b2ea04718a006 verifies841pins, including frozen cache
+helper and completedWarlock ledger. Semantic SHA
+9f4b2ea04718a00678c2642568a8f5bf0579ea467675958905859cf1e2575a6d;
+byte SHAa83398d25b772c7cf6067a4677709b28c0a2558e7daf6d8af13490b19213e49b.
+
+Post-recovery audit-priest-current-healing-after-recovery-v1.mjs confirms only the
+intentional observedMace/raw mismatch remains: report audit-ps1NTg/report.json byte
+a5968866e11df2c0367b0a7f0535757f39fda4854c7249b705c1918c28d2c304.
+935Alliance/940Horde/993union candidates;664readable-current,329historical/prior,
+0unresolved-current;1intentional directHealingPower disagreement. All25 positive
+omissions fixed. No quality/ilvl/stat pruning introduced; low-level2816 retains68HP.
+
+NEXT: verify currentD1set healing/proc payloads and actual consumable/on-use support,
+rank/downranking interpretation, full improved raid frame and utility boundaries
+before boundedHoly/Disc all-slot feedback. Current healing-workload.go only drives
+ownedIF/PI in its decision loop, no general major-cooldown activation. Its explicitly
+post-mitigation incoming events do not value Inspiration's armor mitigation; avoid
+claiming best full tank-healer utility from HPS-only fixtures. dungeon_set_1.go
+already includes healing masks for shared mana procs; verify payload/cadence rather
+than claiming that hook is absent. Baseline rank amount has no explicit low-rank
+penalty; verify Forever's rule before assuming Classic or pruning downranks.
+All5healer archetypes and unfinished originalscope remain active. Zero healer
+search clocks started, class/BiS admission false, no commit/push/deploy/3017restart.
+
+## October 23 — healer spell acquisition reference and Priest eligibility
+
+Previous turn verified Priest current-rules v2. This turn adds reusable extraction
+of all 27 installed Classic AQ20 class-book references into seven effective 70532
+client tables. All 27 learning links use generic reader402265 + separate item
+effect TriggerType6 with the learned ID. Reader Effect36 has trigger0, so ordinary
+trigger closure misses them. Only26 targets have resolved spell metadata: old
+Multi-Shot25294/book21304 lacks a name. Preserve that gap, not a usable-spell claim.
+Historical AtlasLoot raid sourcing does not establish current Forever acquisition.
+
+New public healer-spell-eligibility.mjs/.test.mjs, authentic gzip fixture and
+scripts/audit-healer-spell-eligibility.mjs. Priest union63 parent ranks includes
+Holy Nova. Conservative study domain excludes GH5(25314/book21284), Renew10
+(25315/book21285), PoH5(25316/book21287). All3 still have AcquireMethod0/ClassMask16;
+neither field proves trainer access. GH10965 is rank4; Renew10929 is rank9.
+Sixty conditional candidates retain all downranks and require explicit reference
+acceptance, level and talent gates. This is a union across builds, not one legal
+build or verified live training. Default verified candidate count remains0.
+Priority boundary rejects all3 books, unknown, under-level or untalented IDs.
+Exact build/hotfix/manifest/definitions identities must agree before policy creation.
+
+Report healer-model-admission-v1/spell-eligibility-70532-verified/report.json byte SHA
+3740d7115ab78bb0d07d2db3fbaaaa69ea65ea10f89f2d47b2e1d856a03481a2.
+Fixture infra/simulator/fixtures/healer-spell-eligibility-source.v1.json.gz SHA
+f8ddd54bfe89b584669c3670b545e5caf7643d266506067ab783febc775ff5db.
+Reusable command pnpm simulator:healers:eligibility takes --manifest, --atlasloot,
+--priest-evidence and a NEW --output directory; evidence must match the manifest.
+The ten added regressions use authentic source subsets without requiring WoW.
+
+No combat jobs, healer clock starts, class admission, preset promotion or deploy.
+Full original all-role plus healer goal remains active; do not reset expired DPS
+windows. This reference policy does not silently restrict the requested full
+improved raid buffs or change running tank/DPS inputs. Next: finish explicit buff
+and scenario input assumptions, reconcile healer catalog gaps, then bounded
+Holy/Disc feedback search and public presets. Other3 healer classes remain required.
+Preserve concurrent tank work and all immutable prior component receipts.
+
+Priest item adapter now covers all17slots without inheriting the DPS APL weapon
+style lock. It keeps shared source/craft/ownership/faction/profession/race rules,
+allows legal staff or one-hand/held-offhand combinations and rejects staff+offhand,
+dual wield, shields and two-handed maces. No EP/stat/quality/ilvl pruning. Candidate
+hands still require complete item-loadout validation; enchants/effects separate.
+Inherited2671-item catalog inventory under Eng/Tailoring:934Alliance/931Horde
+distinct candidates,43staves,97onehand,26offhand,29wands and2662hand candidates.
+Counts are an initial eligibility inventory, not a rank, all-profession coverage
+or a new70532 item model. BlueDragon19288 is absent: reconcile healer items/current
+Priest sets/procs before claiming candidate completeness or starting searches.
+Real Bloodvine Vest is excluded by actual raid-material craft evidence.
+Public priest-healing-equipment.mjs/.test.mjs plus authentic selected-record fixture
+SHAa503d972cdcaadcdc3f38ab6a6208062c161b3fe3c3dde632cad2478705c615d.
+Capture priest-equipment-pool-v1/capture-RZLmaD/report.json byte SHA
+d159fb0e033b31fd05570bb536d5d8a7be50bc9f95ba803a0249edc83debd8dd;
+private replay tool capture-priest-healing-equipment-pool-v1.mjs. Ten item-domain
+regressions bring the reusable healer command to100checks. Zero new combat jobs.
+
+Combined final review input-domain-reviews-v1/review-nN6Pey/report.json byte SHA
+c183fe1f1d8aba305a690778e8fd3146b20c2aa3646b0cca6f36be4b51e2a902 verifies35pins,
+retains exact copies of mutable source/craft metadata and records100passed/0failed/
+0skipped source/protocol/transport/domain checks. Frozen cache helper and completed
+Warlock ledger hashes match. Both actual client-capture commands succeeded. Scoped
+public ESLint/Prettier and diff whitespace checks pass. No Go/app changes this
+turn, so no new engine/browser numerical tests or production deployment claimed.
+
+## October 23 — current Priest crit/shield/resource rules verified (v2)
+
+Previous turn completed the actual healing executors. This turn audits current
+Priest rules and fixes shield replacement, healing crit semantics and variance.
+Full original plus healer goal remains active. No healer search clock, numerical
+class qualification, optimized healer preset or public healer promotion yet.
+
+IMPORTANT correction: shared Forever OutcomeTick already let Renew crit. Earlier
+baseline metadata/initial commentary incorrectly described it as noncritical.
+Its actual flaw was damage-spell crit handling and missing healing crit probability.
+Current v2 uses live HealingCritChance at each tick, periodic counters/semantics,
+and excludes damage-only target crit bonuses. The application-crit-snapshot v1
+prototype a55b17a0... is preserved but SUPERSEDED; never promote it. Current v2
+strips that outcome while reusing its shield rules. Ordinary healing amounts still
+snapshot independently. Primary: official Blizzard development-notes thread631316.
+
+Power Word: Shield refuses weaker replacement across casters, safely replaces its
+whole family, preserves Aegis and credits only consumed shielding. Comparing fresh
+effective capacity to remaining capacity is an explicit interpretation. Direct-only
+Aegis/Inspiration/Mending/Inner Focus exclusions and live crit changes pass controls.
+Resource controls confirm Mental Strength, Meditation (real mana ticks) and dynamic
+Spiritual Guidance including effective racial/stat multipliers.
+
+Constant critical-heal runs exposed negative floating-point population variance.
+The derived statistics helper only corrects rounding-sized negative values; real
+spread remains and corrupt moments still return invalid evidence. All previous
+frozen models, ledger and cache helper remain unchanged.
+
+CURRENT component a175ff187682ee743cced68c5f49e2fafd7094894a6e3dba4d70f4801fb0bd45.
+Build optimization/healer-model-admission-v1/priest-current-rules-v2/<identity>/
+build-x1Mm3o/report.json. Public current-rules.mjs/.go/_test.go/.test.mjs plus
+preserved patch-rules v1 shielding helpers, healing-shield-family.go and
+healing-statistics-precision.mjs/_test.go/.test.mjs under infra/simulator/.
+Statistics source fixture SHA8c2e150dec29552cb223e39c46d6f2ef5657b05c31a9254812250a6cd77d4eb9.
+
+63 actual native and browser Go/WASM controls pass, 1e-7 agreement. Browser proof
+b05c7c3175edf03c30aa1bf24e90989d3fde23cf33ed15193d7405d9fa972824.
+Seven standalone native/browser cases and real stop/recovery pass; executor proof
+224908bb34687db377b7c7861ee76a08e45cc7c5264d3117e9ac941e7c003df6.
+Six real mutants rejected (crit off, damage crit, weaker overwrite, cross-caster
+stacking, negative variance, masked corrupt moments); negative proof
+2185107373602c862195ffae55b85e3a72459f96c7c6840cdbf7a2c5fa1a8b53.
+Nine focused core controls pass; full core 84parent/87derived pass with the earlier
+documented validation-only legacy crit-fixture initialization. Proof
+aa0bfee9e33310d760fe75ebe67b92ccbc7acf9a8ac74946380145a55ea857f5.
+All reports under build-x1Mm3o; pnpm simulator:healers:test now passes80guards.
+Private prepare/browser/executor/negative/full-core tools use current-rules-v2 names.
+Final audit build-x1Mm3o/final-audit-5e21fbb439732a50.json verifies 794 pins,
+including prior frozen helpers/Warlock ledger. Semantic SHA:
+5e21fbb439732a506d475f2d4dc55714f777e83d1173e6c63a32277a96bbaf1a.
+Scoped ESLint/private recommended-no-shadow lint, targeted Prettier, Go formatting
+and git diff --check pass. No whole-context formatting changes were made.
+
+NEXT: scenario/rank eligibility and pre-raid/full-raid buff input audit/sensitivity,
+then actual bounded Holy/Disc all17slots feedback and website presets. Shared buffs
+still use Wisdom OR Mana Spring and IncludeAQ=true. Client rows show distinct mana
+pulses, not stacking or trainer/source proof. No silent stacking/buff changes were
+made. Resolve/bound these before gear ranking. Workloads still reject caster damage;
+other healer classes and original unfinished DPS/tank scope/deadlines remain.
+This session made no commit/deploy/3017 restart. Preserve concurrent tank work.
+
+## October 23 — actual native/browser healing executors verified
+
+Previous goal turn completed the Priest benchmark. This turn adds the real
+healing-job transport, standalone native executable, persistent native pool and
+dedicated Go/WASM Web Worker. DPS workers and running tank searches were untouched.
+The full original all-role plus healer goal remains active; no healer search clock,
+class qualification, optimized preset or public healer deployment yet.
+
+New public files under infra/simulator/: healing-job.go/_test.go, healing-native.go,
+healing-wasm.go, healing-protocol.mjs/.test.mjs, healing-native-runner.mjs,
+healing-worker.mjs, healing-accounting-precision.mjs/.test.mjs and
+healing-accounting-precision_test.go. Actual standalone reply fixture:
+fixtures/healing-job-response.v1.json, SHA
+2d7b37cccc258377a2b2d09c7bdf3310c9c2a1c47d1e315f82271b7e95605326.
+The protocol carries full protobuf requests/workload inputs; no hidden stat/gear
+override. It rejects unknown JSON/protobuf fields, malformed/trailing data and
+debug stdout. Results preserve zero HPS, failed survival, raw/effective/OH/absorb
+accounting, variation, mana/deficits and compact versus detailed protobuf JSON.
+Client readers reject invalid correlation, scalar/accounting errors, DPS records
+and invented class/publication qualification. Native timeout/mismatch/stop are
+terminal; rejected workloads recover on the same worker. Browser worker exposes
+ready/started/result/fatal events and can be stopped/recreated off the main thread.
+
+Real new bug found/fixed: health subtraction could credit slightly more than raw
+healing and produce negative OH (-9.09e-14 HPS in a five-second control). A derived
+core overlay bounds effective healing to [0, raw]; all previous frozen inputs stay
+unchanged. Its direct/periodic fractional-heal test fails on the unbounded version.
+
+Final executor component:
+d3bb0d23bd8d8d5c68031183d2bea453a94f3cc8125574795a180ad6dbfbb7a9.
+Report: optimization/healer-model-admission-v1/healing-executor/<identity>/
+build-jYNvUl/report.json. 50 native Priest/protocol controls and six core tests pass.
+Actual standalone native/browser parity passes five cases within 1e-7: detailed,
+compact, zero, fatal and error recovery. Both real stop controls pass; fresh browser
+worker recovers, main-thread timer remains responsive. Proof:
+executor-review-10f01707ea1f93ee.json, semantic SHA
+10f01707ea1f93eebbf370d35db00d06afa217d22a54f3a73c63d8f29ced0478.
+Real negative proof: precision-negative-33c8faff33b30cd1.json, semantic SHA
+33c8faff33b30cd1134e5af984703e5326ab37ada326b0949246dd30ed4f5a45.
+pnpm simulator:healers:test now passes 75 guards. Private prepare/review/negative
+tools use healing-executor-v1 / healing-precision-negative-v1 names.
+Final audit build-jYNvUl/final-audit-f0e17d6a0cf62692.json verifies 731 pins,
+including the unchanged cache helper/completed Warlock ledger and actual public
+fixtures against standalone results. Semantic SHA:
+f0e17d6a0cf62692275180334bf8affdb063f3b1e777b5aeafe1094f81d5fd67.
+Scoped ESLint, private recommended/no-shadow lint, Go formatting, targeted
+Prettier and git diff --check pass. Do not reformat legacy context wholesale.
+
+NEXT: scenario-relevant Priest training/nonraid ranks, remaining buffs/talents and
+uncertainty/sensitivity; then actual bounded Holy/Disc all-slot feedback and public
+presets. Eight inspected highest-rank baseline/active IDs have class mask16,
+AcquireMethod0 and SpellLevel<=60; source rows are not trainer/source proof.
+Synthetic post-mitigation assignments still reject caster damage. No other healer
+is model-qualified. Keep original unfinished DPS/tank scope and deadlines intact.
+Concurrent work committed shared changes during this turn; this session made no
+Git commit, deployment or 3017 restart. Preserve other sessions' tank/native work.
 
 ## October 23 — Priest damage-driven healing benchmark verified
 

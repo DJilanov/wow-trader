@@ -17,16 +17,35 @@ import {
   safeStoragePath,
   pruneGuardianReleases,
   pruneAudits,
+  activePreviewDirectories,
 } from "./storage-retention.mjs";
 import {
   acquireStorageLock,
   pruneSimulationCache,
   withSimulationCacheAccess,
 } from "../infra/simulator/cache-retention.mjs";
-import { createSimulationCache } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache } from "../infra/simulator/retained-simulation-cache.mjs";
 
 const day = 86_400_000;
 const now = Date.now();
+
+test("protects the actual preview output through the launcher after Next rewrites its title", async () => {
+  const paths = await activePreviewDirectories(async (command, args) => {
+    if (args[0] === "-axo")
+      return {
+        stdout:
+          "22 11 next-server (v16)\n11 1 node /bin/pnpm exec next start\n33 1 next-server (v16)\n",
+      };
+    if (command.endsWith("lsof"))
+      return { stdout: `p${args[2]}\nn/project/${args[2] === "22" ? "web" : "unknown"}\n` };
+    if (args[2] === "11")
+      return {
+        stdout: "node pnpm exec next start WOW_TRADER_BUILD_DIR=.next-review TOKEN=not-retained\n",
+      };
+    return { stdout: "next-server (v16)\n" };
+  });
+  assert.deepEqual(paths, ["/project/web/.next-review", "/project/unknown"]);
+});
 async function fixture(t) {
   const root = await mkdtemp(join(tmpdir(), "storage-retention-test-"));
   t.after(() => rm(root, { recursive: true, force: true }));

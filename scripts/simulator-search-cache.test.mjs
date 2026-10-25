@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { mkdtemp, rm, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createSimulationCache, simulationHash } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache, simulationHash } from "../infra/simulator/retained-simulation-cache.mjs";
 import { runIndependentValidation } from "../infra/simulator/validation-runner.mjs";
 import { nativeSimulationTimeout } from "../infra/simulator/native-runner.mjs";
 import { setTimeout } from "node:timers/promises";

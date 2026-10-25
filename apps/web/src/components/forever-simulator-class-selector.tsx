@@ -5,10 +5,14 @@ import { withHelperBasePath } from "../lib/site-path";
 
 interface ForeverSimulatorClassSelectorProps {
   readonly selectedClass: string | null;
+  readonly healingPriestReady?: boolean;
+  readonly healingDruidReady?: boolean;
 }
 
 export function ForeverSimulatorClassSelector({
   selectedClass,
+  healingPriestReady = false,
+  healingDruidReady = false,
 }: ForeverSimulatorClassSelectorProps): React.JSX.Element {
   return (
     <section
@@ -39,11 +43,16 @@ export function ForeverSimulatorClassSelector({
             />
             <span>
               <strong>{entry.name}</strong>
-              <small>{entry.description}</small>
+              <small>
+                {(entry.name === "Priest" && healingPriestReady) ||
+                (entry.name === "Druid" && healingDruidReady)
+                  ? entry.description + " · Healing"
+                  : entry.description}
+              </small>
               <span>
                 {entry.profiles.length === 1
                   ? "Open simulator"
-                  : `${entry.profiles.length} profiles · Choose your playstyle`}
+                  : `${entry.profiles.length + ((entry.name === "Priest" && healingPriestReady) || (entry.name === "Druid" && healingDruidReady) ? 1 : 0)} profiles · Choose your playstyle`}
               </span>
             </span>
             <b aria-hidden="true">→</b>

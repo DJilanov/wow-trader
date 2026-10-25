@@ -1,0 +1,29 @@
+{
+  "source": "Existing pinned WoWSims Forever visual assets",
+  "files": {
+    "201.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/201.jpg",
+      "sha256": "ab518508e10901d1b7c06eb67b5e076a7e04f01907bdd96d18181aa93360e3a7"
+    },
+    "202.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/202.jpg",
+      "sha256": "fa749f2fb89977a8324feaf9496f74268f6920511aae66ceb527ab048ea9b49b"
+    },
+    "203.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/203.jpg",
+      "sha256": "26556871c193b7592ca0bfb4881accc33457b55f784a3897b4c8e8079920e523"
+    },
+    "283.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/283.jpg",
+      "sha256": "a714f862c67b12ae0526e2c7c66c9b8a9d17dcbe05f4648d3abaf8cb21872e02"
+    },
+    "281.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/281.jpg",
+      "sha256": "53d0bc5e36e841e33e13100d265ca224fa04f164aea204f7f3ebcd5875086f2e"
+    },
+    "282.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/282.jpg",
+      "sha256": "bbec47097cc224dd4347f9bed0b8e087ad94bca0e28b0c9807e0f393413ae63f"
+    }
+  }
+}

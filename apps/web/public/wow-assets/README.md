@@ -9,6 +9,9 @@ These files are presentation assets only; catalog IDs and game facts never depen
   `cdn2.steamgriddb.com/logo/d3edd466842655ec6dc7ac0590baf52d.png`.
 - `classes/*.jpg`, `professions/*.jpg`, and `tools/*.jpg` are 56 px in-game icons served by
   Wowhead's `wow.zamimg.com/images/wow/icons/large/` CDN.
+- `healer-talent-backgrounds/*.jpg` reuse the Priest and Druid tree backgrounds from the
+  existing pinned WoWSims Forever bundle. Their source paths and SHA-256 checksums
+  are recorded in the adjacent `manifest.json`.
 
 The local copies avoid runtime dependencies on third-party image hosts. Replace the TBC mirror with
 an organization-provided Blizzard press-kit file if one becomes available; the component path is

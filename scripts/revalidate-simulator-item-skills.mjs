@@ -26,7 +26,7 @@ import { captureSimulatorRequest } from "../infra/simulator/browser-capture.mjs"
 import {
   createSimulationCache,
   simulationHash as hash,
-} from "../infra/simulator/simulation-cache.mjs";
+} from "../infra/simulator/retained-simulation-cache.mjs";
 import { openNativeRunners } from "../infra/simulator/native-runner.mjs";
 import { prebisSources } from "../infra/simulator/prebis-pool.mjs";
 import { loadReviewedPresetInputs } from "./simulator-reviewed-preset-inputs.mjs";

@@ -7,7 +7,7 @@ import { parseArgs } from "node:util";
 import { pathToFileURL } from "node:url";
 import console from "node:console";
 import { openNativeRunners } from "../infra/simulator/native-runner.mjs";
-import { createSimulationCache } from "../infra/simulator/simulation-cache.mjs";
+import { createSimulationCache } from "../infra/simulator/retained-simulation-cache.mjs";
 import { legalPrebisGear, prebisContext, prebisSources } from "../infra/simulator/prebis-pool.mjs";
 import { prebisEnchantPolicy, describePrebisGear } from "../infra/simulator/prebis-enchants.mjs";
 import {

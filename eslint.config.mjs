@@ -17,6 +17,13 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    files: ["infra/simulator/**/*.mjs"],
+    languageOptions: {
+      // Simulator scripts run on Node 20, which supplies these built-ins.
+      globals: { Buffer: "readonly", structuredClone: "readonly", URL: "readonly" },
+    },
+  },
+  {
     files: ["**/*.cjs"],
     languageOptions: {
       globals: { require: "readonly", module: "readonly", __dirname: "readonly" },

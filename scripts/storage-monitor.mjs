@@ -6,6 +6,7 @@ import { homedir } from "node:os";
 import { pathToFileURL } from "node:url";
 import process from "node:process";
 import { maintainStorage } from "./storage-retention.mjs";
+import * as simulationCache from "../infra/simulator/retained-simulation-cache.mjs";
 import { acquireStorageLock, processExists } from "../infra/simulator/cache-retention.mjs";
 
 const execute = promisify(execFile);
@@ -45,7 +46,8 @@ export function storageAlert(previous, current) {
       ? ((previous.freeBytes - current.freeBytes) * 3_600_000) / elapsed
       : 0;
   return {
-    alert: current.freeBytes < 20 * gib || lossPerHour > gib,
+    alert:
+      current.freeBytes < 20 * gib || lossPerHour > gib || current.retentionHookMissing === true,
     lossPerHour: Math.max(0, lossPerHour),
     freeGiB: Number((current.freeBytes / gib).toFixed(1)),
   };
@@ -70,10 +72,12 @@ async function atomicJson(path, value) {
 export function developmentBusy(commands) {
   return commands
     .split("\n")
-    .some((command) =>
-      /(?:pnpm|npm|yarn)(?:\.c?js)?\s+(?:install|add|update|rebuild|build|test|exec|--filter)|(?:^|\/)(?:turbo|tsc|vitest|dotnet)(?:\s|$)|scripts\/(?:optimize-simulator|update-simulator|capture-simulator|audit-leveling|prepare-leveling|install-catalog-guardian|run-simulator|leveling-.*queue|recipe-.*queue)|catalog-guardian\.mjs/.test(
-        command,
-      ),
+    .some(
+      (command) =>
+        !/(?:^|[ /])next\s+(?:dev|start)(?:\s|$)/.test(command) &&
+        /(?:pnpm|npm|yarn)(?:\.c?js)?\s+(?:install|add|update|rebuild|build|test|exec|--filter)|(?:^|\/)(?:turbo|tsc|vitest|dotnet)(?:\s|$)|scripts\/(?:optimize-simulator|update-simulator|capture-simulator|audit-leveling|prepare-leveling|install-catalog-guardian|run-simulator|leveling-.*queue|recipe-.*queue)|catalog-guardian\.mjs/.test(
+          command,
+        ),
     );
 }
 
@@ -114,6 +118,8 @@ async function folderTotals(repository, home) {
   const folders = {
     projects: join(home, "work"),
     wowArtifacts: join(repository, "artifacts"),
+    wowPreviews: join(repository, "apps/web"),
+    wowSimulations: join(repository, "artifacts/forever-simulator"),
     guardian: join(home, "Library/Application Support/WowTraderCatalogGuardian"),
     pnpm: join(home, "Library/pnpm/store"),
     docker: join(home, "Library/Containers/com.docker.docker/Data/vms"),
@@ -122,10 +128,12 @@ async function folderTotals(repository, home) {
   const totals = {};
   for (const [name, path] of Object.entries(folders)) {
     try {
-      const { stdout } = await execute("/usr/bin/du", ["-skx", path], { timeout: 300_000 });
+      const { stdout } = await execute("/usr/bin/du", ["-skx", path], { timeout: 900_000 });
       totals[name] = Number(stdout.split(/\s/, 1)[0]) * 1024;
     } catch (error) {
-      totals[name] = { unavailable: error.code ?? "scan failed" };
+      totals[name] = {
+        unavailable: error.killed ? "scan timed out" : (error.code ?? "scan failed"),
+      };
     }
   }
   return totals;
@@ -148,7 +156,13 @@ export async function runStorageMonitor({
     const state = await jsonOr(statePath, {});
     const errors = [];
     const filesystem = await statfs(home);
-    const sample = { time: now, freeBytes: filesystem.bavail * filesystem.bsize };
+    const sample = {
+      time: now,
+      freeBytes: filesystem.bavail * filesystem.bsize,
+      retentionHookMissing: simulationCache.simulationCacheRetentionEnabled !== true,
+    };
+    if (sample.retentionHookMissing)
+      errors.push("Simulator cache retention hook is missing; restore the storage integration");
     try {
       const result = await execute("/usr/sbin/lsof", ["-nP", "+L1", "-FpfDis"], {
         timeout: 60_000,
@@ -161,7 +175,7 @@ export async function runStorageMonitor({
     }
     const alert = storageAlert(state.previous, sample);
     if (alert.alert && (!state.alertAt || now - state.alertAt > 6 * 3_600_000)) {
-      const message = `Free space: ${alert.freeGiB} GiB. Recent loss: ${(alert.lossPerHour / gib).toFixed(1)} GiB/hour.`;
+      const message = `Free space: ${alert.freeGiB} GiB. Recent loss: ${(alert.lossPerHour / gib).toFixed(1)} GiB/hour.${sample.retentionHookMissing ? " Simulator cache cleanup is missing." : ""}`;
       try {
         await execute(
           "/usr/bin/osascript",
@@ -220,6 +234,9 @@ export async function runStorageMonitor({
     }
     if (!state.measuredAt || now - state.measuredAt >= day) {
       sample.folders = await folderTotals(repository, home);
+      for (const [name, value] of Object.entries(sample.folders))
+        if (typeof value !== "number")
+          errors.push(`Folder measurement ${name}: ${value.unavailable}`);
       state.measuredAt = now;
     }
     sample.busy = busy;

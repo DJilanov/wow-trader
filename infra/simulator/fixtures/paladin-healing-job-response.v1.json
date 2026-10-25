@@ -1,0 +1,264 @@
+{
+  "schema": "kfc-paladin-healing-job-fixture.v1",
+  "source": {
+    "build": {
+      "path": "artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-workload-v3/0e441beaa1f5b9055ed9fe632fd543758f9ac2761ba7e5107fdd53a45fa69aab/build-ypjJXY/report.json",
+      "byteSha256": "f514f7f179939d324ae26a85f63d04b3c2bac652934c6da1a5f9bc1618922e40"
+    },
+    "nativeLog": {
+      "path": "artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-workload-v3/0e441beaa1f5b9055ed9fe632fd543758f9ac2761ba7e5107fdd53a45fa69aab/build-ypjJXY/native-test.txt",
+      "byteSha256": "5ca009a30aef90c8e7c27df2cea3ebb53004790f06f47c0c9782e3a3f7ad98c6"
+    },
+    "binary": {
+      "path": "artifacts/forever-simulator/optimization/healer-model-admission-v1/paladin-workload-v3/0e441beaa1f5b9055ed9fe632fd543758f9ac2761ba7e5107fdd53a45fa69aab/build-ypjJXY/paladin-healing-native",
+      "byteSha256": "86616ac0860277ef9ada34cb4b99f52d694887f7a774a57e22bd676917b25713"
+    }
+  },
+  "request": {
+    "schema": "kfc-paladin-healing-job.v1",
+    "id": "paladin-tank-control",
+    "requestBase64": "CqADCpsDCpgDCiJTeW50aGV0aWMgUGFsYWRpbiB3b3JrbG9hZCBjb250cm9sEAMgBCoAOuMCCuACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiMNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQH9AAAAAAAAAAAAAAAAAAAAAAMADPOIBAhoAMAQSOAkAAAAAAAA+QDItEilTeW50aGV0aWMgZGVjbGFyZWQgcG9zdC1taXRpZ2F0aW9uIGRhbWFnZRg/GgoIAhDnsQQoAVAB",
+    "workload": {
+      "rankScaling": {
+        "schema": "kfc-paladin-rank-sensitivity.v1",
+        "id": "captured-client",
+        "kind": "unscaled-reference",
+        "fullScalingGap": 0,
+        "coefficientLossPerLevel": 0,
+        "classProcMode": "unchanged"
+      },
+      "schema": "kfc-paladin-healing-workload.v1",
+      "name": "paladin-workload-control",
+      "targets": [
+        {
+          "raidIndex": 0,
+          "maximumHealth": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "raidIndex": 1,
+          "maximumHealth": 18000,
+          "x": 2,
+          "y": 0
+        },
+        {
+          "raidIndex": 2,
+          "maximumHealth": 10000,
+          "x": 4,
+          "y": 0
+        },
+        {
+          "raidIndex": 3,
+          "maximumHealth": 10000,
+          "x": 6,
+          "y": 0
+        },
+        {
+          "raidIndex": 4,
+          "maximumHealth": 10000,
+          "x": 8,
+          "y": 0
+        }
+      ],
+      "damage": [
+        {
+          "atMs": 1000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 2000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 3000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 4000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 5000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 6000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 7000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 8000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 9000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 10000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 11000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 12000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 13000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 14000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 15000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 16000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 17000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 18000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 19000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 20000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 21000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 22000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 23000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 24000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 25000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 26000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 27000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 28000,
+          "raidIndex": 1,
+          "amount": 100
+        },
+        {
+          "atMs": 29000,
+          "raidIndex": 1,
+          "amount": 100
+        }
+      ],
+      "priorities": [
+        {
+          "spellId": 10329,
+          "raidIndex": 1,
+          "minimumMissingHealth": 500,
+          "maintainVigil": false,
+          "requireVigil": false,
+          "minimumPartyTargets": 0,
+          "minimumPartyMissingHealth": 0
+        }
+      ],
+      "decisionIntervalMs": 50,
+      "allowConditionalSpellCandidates": true,
+      "vigilRefundMode": "once-per-cast",
+      "useDivineFavor": false,
+      "divineFavorMinimumBaseCost": 0
+    },
+    "detail": false
+  },
+  "reply": {
+    "schema": "kfc-paladin-healing-job-result.v1",
+    "id": "paladin-tank-control",
+    "status": "complete",
+    "result": {
+      "vigilRefundMode": "once-per-cast",
+      "rankScaling": {
+        "schema": "kfc-paladin-rank-sensitivity.v1",
+        "id": "captured-client",
+        "kind": "unscaled-reference",
+        "fullScalingGap": 0,
+        "coefficientLossPerLevel": 0,
+        "classProcMode": "unchanged"
+      },
+      "schema": "kfc-paladin-healing-workload-result.v1",
+      "name": "paladin-workload-control",
+      "iterations": 2,
+      "survivalRate": 1,
+      "manaRemainingMean": 10058.5625,
+      "missingHealthSecondsMean": 9900,
+      "finalMissingHealthMean": 100,
+      "manaBlockedSecondsMean": 0,
+      "plannedIncomingPostMitigationDamage": 2900,
+      "deliveredIncomingDamageMean": 2900,
+      "classQualified": false,
+      "publicationAllowed": false,
+      "hps": 93.33333333333333,
+      "hpsStdev": 0,
+      "rawHps": 215.21366174213753,
+      "effectiveHealingHps": 93.33333333333333,
+      "overhealingHps": 121.88032840880419,
+      "absorbedHps": 0
+    }
+  }
+}
