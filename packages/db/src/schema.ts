@@ -2526,3 +2526,45 @@ export const levelingFeedback = pgTable(
     check("leveling_feedback_message_check", sql`length(${table.message}) BETWEEN 10 AND 1500`),
   ],
 );
+
+export const guideSupportOrders = pgTable(
+  "guide_support_order",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    discordId: text("discord_id").notNull(),
+    providerOrderId: text("provider_order_id").unique(),
+    checkoutUrl: text("checkout_url"),
+    environment: text("environment").notNull(),
+    amount: integer("amount").notNull().default(999),
+    currency: text("currency").notNull().default("USD"),
+    state: text("state").notNull().default("creating"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+    checkedAt: timestamp("checked_at", { withTimezone: true, mode: "date" }),
+    approvedAt: timestamp("approved_at", { withTimezone: true, mode: "date" }),
+    approvedBy: text("approved_by"),
+    approvalReason: text("approval_reason"),
+    revokedAt: timestamp("revoked_at", { withTimezone: true, mode: "date" }),
+    revokedBy: text("revoked_by"),
+    revocationReason: text("revocation_reason"),
+  },
+  (table) => [
+    index("guide_support_order_discord_created_idx").on(table.discordId, table.createdAt),
+    check("guide_support_order_discord_check", sql`${table.discordId} ~ '^[0-9]{17,20}$'`),
+    check(
+      "guide_support_order_price_check",
+      sql`${table.amount} = 999 AND ${table.currency} = 'USD'`,
+    ),
+    check(
+      "guide_support_order_environment_check",
+      sql`${table.environment} IN ('sandbox', 'production')`,
+    ),
+    check(
+      "guide_support_order_state_check",
+      sql`${table.state} IN ('creating', 'pending', 'paid', 'approved', 'failed', 'revoked')`,
+    ),
+    check(
+      "guide_support_order_approval_check",
+      sql`${table.state} != 'approved' OR (${table.approvedAt} IS NOT NULL AND ${table.approvedBy} IS NOT NULL AND ${table.providerOrderId} IS NOT NULL AND ${table.revokedAt} IS NULL)`,
+    ),
+  ],
+);

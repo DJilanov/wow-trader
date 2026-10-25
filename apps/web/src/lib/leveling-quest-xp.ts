@@ -4,7 +4,7 @@ import {
   readPublishedQuestXp,
   type QuestXpImportSet,
 } from "@wow-trader/reference-data";
-import type { QuestRewardFact } from "@wow-trader/leveling";
+import { isDungeonTableQuest, type QuestRewardFact } from "@wow-trader/leveling";
 import { getForeverWorldData } from "./forever-world";
 import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";
@@ -113,6 +113,8 @@ export async function getLevelingRewardSnapshot(
             capturedAt: record.capturedAt,
             status: record.status,
             evidenceKind: "published-forever",
+            referenceBaseXp: record.referenceBaseXp,
+            pageMultiplier: record.pageMultiplier,
           };
         }),
       );
@@ -158,6 +160,9 @@ export async function getLevelingRewardSnapshot(
       ? `${JSON.stringify(index)}:${world.build.product}:${world.build.buildNumber}:${world.build.locale}:${imported.exportSha256}:${imported.revision}`
       : `${JSON.stringify(index)}:${world.build.product}:${world.build.buildNumber}:${world.build.locale}:${importUnavailable ? "historical-import-unavailable" : "no-historical-import"}`;
     const notices = [
+      facts.some((fact) => isDungeonTableQuest(fact.questId))
+        ? "Unscaled dungeon tables and unplayed dungeons beyond Gnomeregan use a 2.375× planning coefficient, not a measured reward. Earlier already-scaled rewards and in-game observations are not multiplied again; kills and unselected quests are separate."
+        : null,
       held ? `${held} reward records are held for current-client identity checks.` : null,
       importUnavailable
         ? "The historical XP fallback could not be validated; published Forever rewards remain available."

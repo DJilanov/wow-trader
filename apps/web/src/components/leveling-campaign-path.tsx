@@ -35,6 +35,8 @@ import { campaignChapterPath, levelingPlanDashboardPath } from "../lib/leveling-
 import styles from "./leveling-experience.module.css";
 import pathStyles from "./leveling-chapter-path.module.css";
 import { LevelingRestedXpExport } from "./leveling-restedxp-export";
+import { GuideDownloadAccess } from "./guide-download-access";
+import { LevelingDungeonQuestPackage } from "./leveling-dungeon-quest-package";
 import { ToolGroupActions } from "./tool-group-actions";
 
 interface CampaignPathProps {
@@ -150,6 +152,18 @@ export function LevelingCampaignPath({
             capacity={profile.party.size}
           />
         )}
+        <LevelingDungeonQuestPackage
+          progress={progress}
+          rewardFacts={plan.rewardFacts ?? []}
+          disabled={!loaded || !active}
+          onChange={(next): void => {
+            if (active)
+              setDungeonPlan(active.id, (saved) => ({
+                ...saved,
+                premade: { ...(saved.premade ?? fallback), selectedExtras: next.selectedExtras },
+              }));
+          }}
+        />
         <LevelingOptionalDungeonBundles
           progress={progress}
           disabled={!loaded || !active}
@@ -163,7 +177,11 @@ export function LevelingCampaignPath({
           }}
         />
       </section>
-      {reviewExportEnabled && <LevelingRestedXpExport plan={plan} progress={progress} />}
+      {reviewExportEnabled ? (
+        <LevelingRestedXpExport plan={plan} progress={progress} />
+      ) : (
+        <GuideDownloadAccess plan={plan} progress={progress} />
+      )}
       <section className={pathStyles.path} aria-labelledby="chapters-heading">
         <header className={pathStyles.heading}>
           <div>

@@ -1,6 +1,13 @@
 import { premadeReward } from "./premade.js";
 import type { DungeonRewardEstimate } from "./dungeon-xp.js";
 import { questEligibility } from "./quest-eligibility.js";
+import {
+  estimateDungeonTableXp,
+  isDungeonTableQuest,
+  isUnplayedDungeonQuest,
+  ORDINARY_DUNGEON_XP_MULTIPLIER,
+} from "./dungeon-xp.js";
+import { DUNGEON_FACTS } from "./dungeon-catalog.js";
 
 export interface QuestRewardFact {
   readonly questId: number;
@@ -12,6 +19,8 @@ export interface QuestRewardFact {
   readonly capturedAt: string;
   readonly status: "available" | "unknown" | "conflict";
   readonly evidenceKind?: "published-forever" | "historical-reference" | "observed-forever";
+  readonly referenceBaseXp?: number | null;
+  readonly pageMultiplier?: number | null;
 }
 
 export interface QuestRewardResolution extends DungeonRewardEstimate {
@@ -45,6 +54,32 @@ export function resolveQuestReward(
       `Pickup requires level ${minimumLevel}; this is an ineligible hand-in context, not a missing reward.`,
     );
   if (fact?.status === "available") {
+    const tableQuest = DUNGEON_FACTS.quests.find((entry) => entry.id === questId);
+    const knownTableBase = tableQuest?.baseXp ?? tableQuest?.referenceXp ?? null;
+    const tableBase =
+      fact.referenceBaseXp ??
+      (fact.evidenceKind === "historical-reference" && fact.fullXp === knownTableBase
+        ? fact.fullXp
+        : null);
+    const unscaledTable =
+      fact.evidenceKind !== "observed-forever" &&
+      isDungeonTableQuest(questId) &&
+      (isUnplayedDungeonQuest(questId) ||
+        fact.pageMultiplier === 1 ||
+        fact.evidenceKind === "historical-reference");
+    if (
+      unscaledTable &&
+      tableBase !== null &&
+      tableBase !== undefined &&
+      fact.questLevel !== null
+    ) {
+      return {
+        xp: estimateDungeonTableXp(tableBase, fact.questLevel, level),
+        basis: "base-estimate",
+        minimumLevel,
+        source: `Dungeon table ${tableBase} XP × ${ORDINARY_DUNGEON_XP_MULTIPLIER} planning coefficient, rounded with overlevel reduction; not an observed reward. ${fact.sourceUrl}`,
+      };
+    }
     const basis =
       fact.evidenceKind === "historical-reference"
         ? ("base-estimate" as const)

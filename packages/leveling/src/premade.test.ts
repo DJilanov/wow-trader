@@ -56,11 +56,11 @@ describe("reviewable premade-five circuit", () => {
     expect(estimateDungeonReward(2922, 33).xp).toBeNull();
     expect(estimateDungeonReward(96800, NaN).xp).toBeNull();
   });
-  it("excludes collection/deferred quests and keeps raid goals separate", () => {
+  it("includes ordinary collections by default but keeps separate preparations, deferred quests and raid goals separate", () => {
     const progress = emptyPremadeProgress();
     expect(
       selectedPremadeQuests(getPremadeStop("stratholme")!, progress).map((q) => q.questId),
-    ).toEqual([5214, 5251, 5282, 5243]);
+    ).toEqual([5214, 5251, 5282, 5243, 5212, 5122, 5125]);
     expect(
       selectedPremadeQuests(getPremadeStop("stratholme")!, {
         ...progress,

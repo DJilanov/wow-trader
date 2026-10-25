@@ -31,7 +31,7 @@ export function LevelingChapterBudget({
           <dd>{guideGroupBarLabel(members.map((member) => member.start))}</dd>
         </div>
         <div>
-          <dt>Expected finish</dt>
+          <dt>{guide.missingCombat ? "Known quest / kill subtotal" : "Expected finish"}</dt>
           <dd>{guideGroupBarLabel(members.map((member) => member.endpoint))}</dd>
         </div>
         {!compact && (
@@ -42,6 +42,9 @@ export function LevelingChapterBudget({
         )}
       </dl>
       {!compact && <p>{guideChapterMessage(guide)}</p>}
+      {guide.missingCombat && (
+        <p>Partial XP estimate: unmeasured kills and unselected quests are not counted.</p>
+      )}
     </section>
   );
 }

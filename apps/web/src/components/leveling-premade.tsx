@@ -17,6 +17,7 @@ import {
   resolveQuestReward,
   premadeCheckpointReasons,
   selectedPremadeQuests,
+  premadeQuestSelected,
   getDungeonBundle,
   dungeonBundleKey,
   forecastDungeonBundle,
@@ -36,6 +37,7 @@ import { LevelingEntityLinks } from "./leveling-entity-links";
 import { LevelingBackupControls } from "./leveling-backup-controls";
 import { LevelingDungeonBundle } from "./leveling-dungeon-bundle";
 import { LevelingPartyIdentity } from "./leveling-party-identity";
+import { LevelingDungeonQuestPackage } from "./leveling-dungeon-quest-package";
 import type { LevelingChapterMaps } from "../lib/leveling-map-data";
 import styles from "./leveling-premade.module.css";
 
@@ -234,7 +236,7 @@ export function LevelingPremade({
     const paid = progress.members.filter(
       (member) => member.questStates[String(quest.id)] === "rewarded",
     ).length;
-    const selectedExtra = Boolean(progress.selectedExtras[String(quest.id)]);
+    const selectedExtra = premadeQuestSelected(choice, progress);
     const isOptional = choice.role === "opportunistic";
     const confirm = confirmations(quest.gate).filter((entry) => !entry.id.startsWith("lifecycle-"));
     return (
@@ -488,6 +490,13 @@ export function LevelingPremade({
           <span>Include MC / Onyxia preparation / key goals</span>
         </label>
       </div>
+      <LevelingDungeonQuestPackage
+        stopId={stop.id}
+        progress={progress}
+        rewardFacts={rewardFacts}
+        disabled={!editable}
+        onChange={update}
+      />
       <details className={styles.path}>
         <summary>Your full dungeon path · quests, XP and time</summary>
         <ol>
@@ -712,10 +721,11 @@ export function LevelingPremade({
             </div>
           )}
           <details className={styles.extras}>
-            <summary>Opportunistic collections & later returns · never forced filler</summary>
+            <summary>Included quests & separate preparations · adjust your clear</summary>
             <p>
-              Included collection quests are forecasts, not a reason to wait for drops or force
-              another clear. Deferred rewards are excluded from this visit.
+              Ordinary collection quests are included by default. Explicit exclusions stay saved.
+              Prior hand-ins, cross-dungeon chains and outside farming remain separate; no repeat
+              clear or guaranteed personal drop is assumed.
             </p>
             {stop.quests
               .filter((q) => q.role === "opportunistic" || q.role === "deferred")

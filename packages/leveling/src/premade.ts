@@ -548,13 +548,35 @@ export function selectedPremadeQuests(
   stop: PremadeStop,
   progress: PremadeProgress,
 ): readonly PremadeQuestChoice[] {
-  return stop.quests.filter(
-    (quest) =>
-      quest.role === "core" ||
-      (quest.role === "raid" && progress.raidGoals) ||
-      (quest.role === "opportunistic" && progress.selectedExtras[String(quest.questId)]),
+  return stop.quests.filter((quest) => premadeQuestSelected(quest, progress));
+}
+
+const separatePreparationQuests = new Set([92753, 2962, 4143, 4201, 5848]);
+
+export function premadeQuestSelected(
+  choice: PremadeQuestChoice,
+  progress: PremadeProgress,
+): boolean {
+  if (choice.role === "core") return true;
+  if (choice.role === "raid") return progress.raidGoals;
+  if (choice.role !== "opportunistic") return false;
+  return (
+    progress.selectedExtras[String(choice.questId)] ??
+    !separatePreparationQuests.has(choice.questId)
   );
 }
+
+export function setPremadeQuestPackage(
+  stop: PremadeStop,
+  progress: PremadeProgress,
+  includeOptional: boolean,
+): PremadeProgress {
+  const selectedExtras = { ...progress.selectedExtras };
+  for (const choice of stop.quests)
+    if (choice.role === "opportunistic") selectedExtras[String(choice.questId)] = includeOptional;
+  return premadeProgressSchema.parse({ ...progress, selectedExtras });
+}
+
 export function premadePreparationQuests(
   stop: PremadeStop,
   progress: PremadeProgress,

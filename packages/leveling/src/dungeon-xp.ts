@@ -1,4 +1,4 @@
-import { DUNGEON_FACTS } from "./dungeon-catalog.js";
+import { DUNGEON_FACTS, DUNGEON_REFERENCE, DUNGEON_VISITS } from "./dungeon-catalog.js";
 
 export interface DungeonRewardEstimate {
   readonly xp: number | null;
@@ -7,6 +7,56 @@ export interface DungeonRewardEstimate {
 }
 
 export const ORDINARY_DUNGEON_XP_MULTIPLIER = 2.375;
+const earlierQuestIds = new Set(
+  DUNGEON_VISITS.filter((visit) => visit.levels && visit.levels.atLevel <= 33).flatMap(
+    (visit) => visit.questIds,
+  ),
+);
+const laterQuestIds = new Set(
+  DUNGEON_VISITS.filter((visit) => visit.levels && visit.levels.atLevel > 33)
+    .flatMap((visit) => visit.questIds)
+    .filter((id) => !earlierQuestIds.has(id)),
+);
+
+export function isUnplayedDungeonQuest(questId: number): boolean {
+  return laterQuestIds.has(questId);
+}
+
+export function isDungeonTableQuest(questId: number): boolean {
+  return (
+    DUNGEON_FACTS.associations.some((entry) => entry.questId === questId) ||
+    DUNGEON_REFERENCE.associations.some((entry) => entry.questId === questId)
+  );
+}
+
+export function estimateDungeonTableXp(
+  baseXp: number,
+  questLevel: number,
+  handInLevel: number,
+  coefficient = ORDINARY_DUNGEON_XP_MULTIPLIER,
+): number | null {
+  if (
+    !Number.isSafeInteger(baseXp) ||
+    baseXp < 0 ||
+    baseXp > 1_000_000 ||
+    !Number.isInteger(questLevel) ||
+    questLevel < 1 ||
+    questLevel > 60 ||
+    !Number.isInteger(handInLevel) ||
+    handInLevel < 1 ||
+    handInLevel > 60 ||
+    !Number.isFinite(coefficient) ||
+    coefficient <= 0 ||
+    coefficient > 20
+  )
+    return null;
+  if (handInLevel === 60) return 0;
+  const difference = handInLevel - questLevel;
+  const reduction = difference >= 10 ? 0.1 : difference >= 6 ? 1 - (difference - 5) * 0.2 : 1;
+  const amount = Math.round(baseXp * coefficient) * reduction;
+  const step = amount < 1000 ? 10 : 50;
+  return Math.round(amount / step) * step;
+}
 const reported: Readonly<Record<number, number>> = {
   214: 2950,
   378: 5750,

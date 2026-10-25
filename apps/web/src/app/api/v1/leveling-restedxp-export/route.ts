@@ -4,10 +4,16 @@ import {
   campaignReviewAddonZip,
   restedXpReviewExportAvailable,
 } from "../../../../lib/leveling-restedxp-export";
+import { guideSameOrigin, readGuideAccessSettings } from "../../../../lib/guide-access-config";
+import { getGuideDownloadAccess } from "../../../../lib/guide-access-service";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-const headers = { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" };
+const headers = {
+  "Cache-Control": "private, no-store",
+  "X-Content-Type-Options": "nosniff",
+  Vary: "Cookie",
+};
 let busy = false;
 
 function failure(error: string, status: number): Response {
@@ -15,15 +21,19 @@ function failure(error: string, status: number): Response {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  if (!restedXpReviewExportAvailable()) return failure("export_disabled", 404);
   const url = new URL(request.url);
   const loopbackHosts = ["localhost", "127.0.0.1", "[::1]"];
-  if (!loopbackHosts.includes(url.hostname)) return failure("export_disabled", 404);
+  const review = restedXpReviewExportAvailable() && loopbackHosts.includes(url.hostname);
+  const settings = readGuideAccessSettings();
+  if (!review && !settings.downloadsEnabled && !settings.previewIds?.length)
+    return failure("export_disabled", 404);
   const origins = loopbackHosts.map(
     (host) => `${url.protocol}//${host}${url.port ? `:${url.port}` : ""}`,
   );
   if (
-    !origins.includes(request.headers.get("origin") ?? "") ||
+    !(review
+      ? origins.includes(request.headers.get("origin") ?? "")
+      : guideSameOrigin(request, settings)) ||
     request.headers.get("sec-fetch-site") === "cross-site"
   )
     return failure("invalid_origin", 403);
@@ -55,6 +65,14 @@ export async function POST(request: Request): Promise<Response> {
   }
   const input = restedXpExportRequestSchema.safeParse(body);
   if (!input.success) return failure("invalid_export", 400);
+  if (!review) {
+    const access = await getGuideDownloadAccess();
+    if (access.state === "signed_out") return failure("sign_in_required", 401);
+    if (access.state === "unavailable") return failure("access_unavailable", 503);
+    if (!["certified", "supporter"].includes(access.state))
+      return failure("guide_access_required", 403);
+    if (!access.downloadsEnabled) return failure("export_disabled", 404);
+  }
   if (busy)
     return Response.json(
       { error: "export_busy" },

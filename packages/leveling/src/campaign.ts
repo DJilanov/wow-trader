@@ -10,6 +10,7 @@ import {
   premadeEntryLevel,
   selectedPremadeQuests,
   getPremadeQuest,
+  setPremadeQuestPackage,
 } from "./premade.js";
 import {
   emptyPremadeProgress,
@@ -75,6 +76,7 @@ export interface CampaignAction {
   readonly targetCurrentXp?: number;
   readonly targetStopId: PremadeProgress["selectedStopId"] | null;
   readonly raidOnly: boolean;
+  readonly optionalForQuestIds?: readonly number[];
   readonly requiredQuestIds?: readonly number[];
   readonly xpOptional?: boolean;
   readonly xpTargetLevel?: number;
@@ -164,15 +166,24 @@ const changes = new Map<string, CampaignQuestChange["state"]>([
 ]);
 const brdQuestIds = [
   4241, 4242, 4264, 4282, 4322, 4341, 4342, 4361, 4362, 3801, 3802, 7848, 4126, 4263, 4136, 4123,
+  4286, 4022, 4024, 4201,
 ];
 const raidQuestIds = new Set([
   4182, 4183, 4184, 4185, 4186, 4223, 4224, 4241, 4242, 4264, 4282, 4322, 4341, 4342, 4361, 4362,
   3801, 3802, 7848,
 ]);
+const dungeonModelProgress = PREMADE_STOPS.reduce(
+  (progress, stop) => setPremadeQuestPackage(stop, progress, true),
+  emptyPremadeProgress(),
+);
+const coreOnlyProgress = PREMADE_STOPS.reduce(
+  (progress, stop) => setPremadeQuestPackage(stop, progress, false),
+  emptyPremadeProgress(),
+);
 const retainedDungeonQuestIds = new Set(
   PREMADE_STOPS.flatMap((stop) => [
-    ...selectedPremadeQuests(stop, emptyPremadeProgress()).map((choice) => choice.questId),
-    ...premadePreparationQuests(stop, emptyPremadeProgress()).map((quest) => quest.id),
+    ...selectedPremadeQuests(stop, dungeonModelProgress).map((choice) => choice.questId),
+    ...premadePreparationQuests(stop, dungeonModelProgress).map((quest) => quest.id),
   ]),
 );
 const historicalLonebrow = {
@@ -382,7 +393,7 @@ export function buildCampaignPlan(
   ];
   const dungeonOwnership = new Set(
     PREMADE_STOPS.flatMap((stop) =>
-      selectedPremadeQuests(stop, emptyPremadeProgress()).map((quest) => quest.questId),
+      selectedPremadeQuests(stop, dungeonModelProgress).map((quest) => quest.questId),
     ),
   );
   const deduplicated = new Set<string>();
@@ -839,6 +850,26 @@ export function buildCampaignPlan(
         },
         false,
       );
+      const optionalTargets = new Map([
+        [4286, 4286],
+        [4022, 4024],
+        [4024, 4024],
+        [4201, 4201],
+      ]);
+      for (let index = start; index < actions.length; index++) {
+        const action = actions[index]!;
+        if (
+          action.questChanges.length &&
+          action.questChanges.every((change) => optionalTargets.has(change.questId))
+        ) {
+          actions[index] = {
+            ...action,
+            optionalForQuestIds: [
+              ...new Set(action.questChanges.map((change) => optionalTargets.get(change.questId)!)),
+            ],
+          };
+        }
+      }
       instructions(
         legId,
         "BRD visit scope and final deliveries",
@@ -850,11 +881,28 @@ export function buildCampaignPlan(
         "deliveries",
       );
     } else {
-      const core = selectedPremadeQuests(stop, emptyPremadeProgress()).filter(
+      const core = selectedPremadeQuests(stop, dungeonModelProgress).filter(
         (choice) => choice.questId !== 5848,
       );
+      const mandatoryParents = new Set(
+        premadePreparationQuests(stop, coreOnlyProgress).map((quest) => quest.id),
+      );
+      const optionalParents = new Map<number, number[]>();
+      for (const choice of stop.quests.filter((choice) => choice.role === "opportunistic")) {
+        const oneExtra = {
+          ...coreOnlyProgress,
+          selectedExtras: { ...coreOnlyProgress.selectedExtras, [choice.questId]: true },
+        };
+        for (const parent of premadePreparationQuests(stop, oneExtra)) {
+          if (!mandatoryParents.has(parent.id))
+            optionalParents.set(parent.id, [
+              ...(optionalParents.get(parent.id) ?? []),
+              choice.questId,
+            ]);
+        }
+      }
       const selected = [
-        ...premadePreparationQuests(stop, emptyPremadeProgress())
+        ...premadePreparationQuests(stop, dungeonModelProgress)
           .filter(
             (quest) =>
               !actions
@@ -920,6 +968,11 @@ export function buildCampaignPlan(
             targetLevel: null,
             targetStopId: null,
             raidOnly: choice.role === "raid",
+            ...(choice.role === "opportunistic"
+              ? { optionalForQuestIds: [quest.id] }
+              : optionalParents.has(quest.id)
+                ? { optionalForQuestIds: optionalParents.get(quest.id)! }
+                : {}),
           });
         }
       }
@@ -985,7 +1038,7 @@ export function buildCampaignPlan(
     race,
     leaderClass,
     targetBuild: 70205,
-    executionRevision: "workflow-20261023-v4",
+    executionRevision: "workflow-20261025-v5",
     catchUpBatches: extractCampaignQuestBatches(
       usable,
       profile,
@@ -1090,10 +1143,19 @@ export function activeCampaignActions(
   progress: PremadeProgress,
 ): readonly CampaignAction[] {
   const includedLegs = new Set(campaignIncludedLegs(plan, progress).map((leg) => leg.id));
+  const selectedOptionalIds = new Set(
+    PREMADE_STOPS.flatMap((stop) =>
+      selectedPremadeQuests(stop, progress)
+        .filter((choice) => choice.role === "opportunistic")
+        .map((choice) => choice.questId),
+    ),
+  );
   const base = plan.actions
     .filter(
       (action) =>
         includedLegs.has(action.legId) &&
+        (!action.optionalForQuestIds ||
+          action.optionalForQuestIds.some((id) => selectedOptionalIds.has(id))) &&
         (progress.raidGoals || !action.raidOnly) &&
         (!action.targetStopId ||
           getDungeonBundle(action.targetStopId, "alliance", progress.guaranteedBundles)
@@ -1172,7 +1234,9 @@ export function campaignUnmodeledExtras(
   );
   return [
     ...new Set(
-      PREMADE_STOPS.flatMap((stop) =>
+      PREMADE_STOPS.filter((stop) =>
+        stop.quests.some((choice) => owned.has(choice.questId)),
+      ).flatMap((stop) =>
         selectedPremadeQuests(stop, progress)
           .filter((choice) => choice.role === "opportunistic" && !owned.has(choice.questId))
           .map((choice) => choice.questId),

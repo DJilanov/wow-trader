@@ -23,3 +23,26 @@
 .panel p {
   overflow-wrap: anywhere;
 }
+.panel h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.panel button,
+.panel a,
+.accessForm button {
+  letter-spacing: 0;
+}
+.accessForm {
+  margin-bottom: 24px;
+}
+.accessHeader {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+.accessHeader h1 {
+  font-size: 36px;
+  line-height: 1.15;
+  letter-spacing: 0;
+  margin: 12px 0 16px;
+}

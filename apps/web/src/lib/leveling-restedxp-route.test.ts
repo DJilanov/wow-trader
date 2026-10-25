@@ -1,5 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { restedXpTestFixture } from "./leveling-restedxp.test-fixture";
+import type * as GuideConfiguration from "./guide-access-config";
+vi.mock("./guide-access-service", () => ({ getGuideDownloadAccess: vi.fn() }));
+vi.mock("./guide-access-config", async (original) => ({
+  ...(await original<typeof GuideConfiguration>()),
+  readGuideAccessSettings: vi.fn(),
+}));
+import { getGuideDownloadAccess } from "./guide-access-service";
+import { readGuideAccessSettings } from "./guide-access-config";
 vi.mock("./leveling-restedxp-export", () => ({
   buildCampaignReviewExport: vi.fn(),
   campaignReviewAddonZip: vi.fn(),
@@ -25,6 +33,16 @@ function request(
 beforeEach(() => {
   vi.resetAllMocks();
   vi.mocked(restedXpReviewExportAvailable).mockReturnValue(true);
+  vi.mocked(readGuideAccessSettings).mockReturnValue({
+    origin: "https://kfcguild.online",
+    downloadsEnabled: false,
+    paymentsEnabled: false,
+    ready: false,
+    clientId: "",
+    clientSecret: "",
+    sessionSecret: "",
+    botToken: "",
+  });
   const fixture = restedXpTestFixture();
   vi.mocked(buildCampaignReviewExport).mockResolvedValue({
     artifact: fixture.artifact,
@@ -86,7 +104,7 @@ describe("review export request boundary", () => {
   it("returns non-cached review documents or a named binary ZIP", async () => {
     const response = await POST(request());
     expect(response.status).toBe(200);
-    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(response.headers.get("cache-control")).toBe("private, no-store");
     expect(await response.json()).toEqual(restedXpTestFixture().documents);
     const zip = await POST(request({ ...restedXpTestFixture().input, format: "addon" }));
     expect(zip.headers.get("content-type")).toBe("application/zip");
@@ -127,5 +145,72 @@ describe("review export request boundary", () => {
     expect(buildCampaignReviewExport).toHaveBeenCalledTimes(1);
     release({ artifact: fixture.artifact, documents: fixture.documents, identity: "a".repeat(64) });
     expect((await first).status).toBe(200);
+  });
+});
+
+describe("member/supporter export boundary", () => {
+  it("does not expose a private preview to another certified account", async () => {
+    vi.mocked(readGuideAccessSettings).mockReturnValue({
+      origin: "https://kfcguild.online",
+      downloadsEnabled: false,
+      paymentsEnabled: false,
+      previewIds: ["407839813769756693"],
+      ready: true,
+      clientId: "",
+      clientSecret: "",
+      sessionSecret: "",
+      botToken: "",
+    });
+    vi.mocked(getGuideDownloadAccess).mockResolvedValue({
+      state: "certified",
+      downloadsEnabled: false,
+      paymentsEnabled: false,
+      payment: "none",
+    });
+    expect((await POST(publicRequest())).status).toBe(404);
+    expect(buildCampaignReviewExport).not.toHaveBeenCalled();
+  });
+  const publicRequest = (): Request =>
+    new Request("https://kfcguild.online/tools/api/v1/leveling-restedxp-export", {
+      method: "POST",
+      headers: { origin: "https://kfcguild.online", "content-type": "application/json" },
+      body: JSON.stringify(restedXpTestFixture().input),
+    });
+  it("checks current access before building either downloadable format", async () => {
+    vi.mocked(readGuideAccessSettings).mockReturnValue({
+      origin: "https://kfcguild.online",
+      downloadsEnabled: true,
+      paymentsEnabled: false,
+      ready: true,
+      clientId: "",
+      clientSecret: "",
+      sessionSecret: "",
+      botToken: "",
+    });
+    for (const [state, status] of [
+      ["signed_out", 401],
+      ["restricted", 403],
+      ["unavailable", 503],
+    ] as const) {
+      vi.mocked(getGuideDownloadAccess).mockResolvedValue({
+        state,
+        downloadsEnabled: true,
+        paymentsEnabled: false,
+        payment: "none",
+      });
+      expect((await POST(publicRequest())).status).toBe(status);
+    }
+    expect(buildCampaignReviewExport).not.toHaveBeenCalled();
+    for (const state of ["certified", "supporter"] as const) {
+      vi.mocked(getGuideDownloadAccess).mockResolvedValue({
+        state,
+        downloadsEnabled: true,
+        paymentsEnabled: false,
+        payment: "none",
+      });
+      const response = await POST(publicRequest());
+      expect(response.status).toBe(200);
+      expect(response.headers.get("vary")).toBe("Cookie");
+    }
   });
 });

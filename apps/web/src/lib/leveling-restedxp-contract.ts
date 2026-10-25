@@ -32,7 +32,12 @@ export const restedXpExportRequestSchema = z
 export type RestedXpExportRequest = z.infer<typeof restedXpExportRequestSchema>;
 
 export const restedXpExportMessages: Readonly<Record<string, string>> = {
-  export_disabled: "Review exports are not enabled here. Public downloads are not released yet.",
+  export_disabled: "The downloadable guide is not released here yet. The web guide remains free.",
+  sign_in_required: "Sign in with Discord before downloading the guide.",
+  guide_access_required:
+    "Downloads require the KFC Certified role or approved supporter access. The web guide remains free.",
+  access_unavailable:
+    "We could not verify your guide access. No download was started. Try again shortly.",
   invalid_origin: "Open this guide on its own website and try again.",
   invalid_export: "These route settings cannot be exported. Reload the guide and try again.",
   export_too_large: "There are too many route settings to export.",

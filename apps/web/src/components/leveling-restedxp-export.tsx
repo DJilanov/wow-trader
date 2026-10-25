@@ -29,6 +29,7 @@ import { withHelperBasePath } from "../lib/site-path";
 interface ExportProps {
   readonly plan: CampaignPlan;
   readonly progress: PremadeProgress;
+  readonly mode?: "review" | "member";
 }
 
 function download(bytes: Blob, name: string): void {
@@ -43,7 +44,11 @@ function download(bytes: Blob, name: string): void {
   setTimeout((): void => URL.revokeObjectURL(url), 60_000);
 }
 
-export function LevelingRestedXpExport({ plan, progress }: ExportProps): React.JSX.Element {
+export function LevelingRestedXpExport({
+  plan,
+  progress,
+  mode = "review",
+}: ExportProps): React.JSX.Element {
   const id = useId();
   const accountInput = useRef<HTMLInputElement>(null);
   const output = useRef<HTMLTextAreaElement>(null);
@@ -193,7 +198,11 @@ export function LevelingRestedXpExport({ plan, progress }: ExportProps): React.J
       className={`${styles.continueCard} ${exportStyles.panel}`}
       aria-labelledby={`${id}-heading`}
     >
-      <span className="eyebrow">Local review · not released</span>
+      <span className="eyebrow">
+        {mode === "review"
+          ? "Local review · not released"
+          : "KFC member / supporter edition · beta"}
+      </span>
       <h2 id={`${id}-heading`}>Take this route into RestedXP</h2>
       <p>
         Your {plan.race.replaceAll("-", " ")} {plan.leaderClass} route and selected dungeon options.

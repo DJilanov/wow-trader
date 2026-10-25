@@ -44,6 +44,21 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
+  it("includes ordinary collection lifecycles by default and removes all three phases on explicit opt-out", () => {
+    const route = plan();
+    const initial = emptyPremadeProgress();
+    const phases = (questId: number, progress = initial): readonly string[] =>
+      activeCampaignActions(route, progress)
+        .flatMap((action) => action.questChanges)
+        .filter((change) => change.questId === questId)
+        .map((change) => change.state);
+    expect(phases(2924)).toEqual(["accepted", "objectives-complete", "rewarded"]);
+    expect(phases(2928)).toEqual(["accepted", "objectives-complete", "rewarded"]);
+    expect(phases(2924, { ...initial, selectedExtras: { 2924: false } })).toEqual([]);
+    expect(phases(2928, { ...initial, selectedExtras: { 2924: false } })).toHaveLength(3);
+    expect(phases(2962)).toEqual([]);
+    expect(phases(2962, { ...initial, selectedExtras: { 2962: true } })).toHaveLength(3);
+  });
   it.each(["warrior", "hunter"] as const)(
     "merges both Ormer kill stages into the existing Wetlands visit for %s",
     (classSlug) => {
