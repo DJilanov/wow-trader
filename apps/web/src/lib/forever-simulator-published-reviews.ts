@@ -1,3 +1,4 @@
+import { validateFullRaidDruidPublishedRows } from "./forever-simulator-full-raid-druid-registration";
 import { createHash } from "node:crypto";
 import console from "node:console";
 import { readFile, realpath, stat } from "node:fs/promises";
@@ -180,6 +181,13 @@ export async function readPublishedSimulatorReviews(
       await validateFullRaidRoguePublishedRows(presentation.manifest, value.builds, directory);
     if (profile === "hunter")
       await validateFullRaidHunterPublishedRows(presentation.manifest, value.builds, directory);
+    if (profile === "feral_druid" || profile === "balance_druid")
+      await validateFullRaidDruidPublishedRows(
+        profile,
+        presentation.manifest,
+        value.builds,
+        directory,
+      );
     createPublishedSimulatorProfile(presentation, profile, builds);
     return builds;
   } catch (error: unknown) {

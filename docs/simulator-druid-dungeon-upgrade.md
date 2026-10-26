@@ -1,5 +1,178 @@
 # Druid dungeon-upgrade recovery
 
+## October 26, 08:51 UTC — Delivery checks complete locally
+
+**Feral and Balance delivery validation passed locally.** The supervised
+continuation exited0 at **08:46:34.743UTC**, within the unchanged08:53:46.812UTC
+deadline (52min47.931s from the first actual check). Both profiles select the
+reviewed ce2375 presentation/source57ac. No numerical optimization, Git operation
+or deployment occurred. Every earlier failed report/window remains unchanged.
+
+| Gate | Result |
+| --- | --- |
+| Independent numerical-source, strict presentation types and3,502package files | Passed |
+| Presets, saved characters, fresh workspace, controls and both hosts | Passed; retained positives independently reconstructed |
+| Raw browser evidence and actual web build reader | Passed |
+| AppV2 registration, publications and two-profile selection | Passed locally |
+| Original20other-profile API results and six selector documents | Preserved; only the two Druid entries differ |
+| Fresh full Next pages | Four Druid desktop/mobile cases and two Warrior desktop/mobile cases passed; zero browser errors |
+| Corrected execution contracts | 77Node/189web tests, full web types, scoped lint and formatting passed |
+| Final screenshots and source integrity | Four full-page captures inspected;363execution pins and original numerical/failure bytes rehashed |
+
+The real class directory groups profiles by class. The final browser probe now
+clicks directory → Druid → profile and tests first load, repeated Load build,
+reload and return navigation. Its noncombat browser contract uses the actual
+class-directory data. A Next-only continuation reused genuine passed raw/web/
+application reports and rechecked the selected application, avoiding a second
+numerical replay. Existing approval reconstruction retains its actual original
+preparation; the new checker has separate provenance. No verified numerical
+context was imported or hydrated.
+
+Final references, relative to this correction directory:
+
+- Delivery: `delivery-validation-v2/attempts/df7590a1-03f7-40b5-b7e1-f6440579e5bb/report-4c7c64fdc95e2e59.json`, SHA `4c7c64fdc95e2e5961f49516d79fd43a081c41b7b8b15de8ab2b043965d81f38`.
+- Supervisor: same attempt's `supervisor-result.json`, SHA `43e4d56a5a4ba8b7d9a83706eb07b8a7350889593219aed3092f3122cee41fff`.
+- Full Next: `source-compatible-resume-v1/next-site/run-83ca20a9-2a7c-4157-817f-14aad4ee2afe/report.json`, SHA `b8155fa5308726e59d686b0d4dac7e99d86c7bfb276ff8506d2228687f3223d1`.
+- Actual application: `source-compatible-resume-v1/application-delivery-c96d1c032d687164.json`, SHA `c96d1c032d687164b834d6018e275eb23ec6268894d5e92afb636becf48e04bf`.
+- Final independent observation: `delivery-validation-v2/observations/final-778334e0c3caf35d.json`, SHA `778334e0c3caf35ddbf1fea61eb27ae0e5bf7ba01534d0bc482428230d9aa26d`.
+
+All owned validation/Next processes exited and the owner file is absent. No
+existing3017server or other owner was restarted. Full-page desktop/mobile PNGs
+are in `delivery-validation-v2/visual-site-review/`; titles, build controls,
+published DPS/sample counts and icons render in the inspected views.
+
+**Remaining limitation:** observed Feral cancellation acknowledgement109.8s,
+Balance2.258s. Delivery checks prove the aborted outcome and accounting; they
+do not qualify fast cancellation or exact cancelled iterations. This latency
+requires separate engine work. The broader all-class/catalog/healer/tank work
+remains incomplete. Deployment remains outside this validation authorization.
+
+## October 26, 07:54 UTC — Final 60-minute validation authorized and running
+
+The user answered **finish checks and lets go** to the separate60minute request.
+The new immutable authority is `delivery-validation-v2/authorization.json`,
+SHA `7f992a99f867f4f2e0c388aad778adede7aafc474065d3113ac5750ae9d0db5b`.
+It explicitly retains the previous approval/window references. Both prior
+windows, original study, numerical results and failed reports remain unchanged.
+No optimization search or deployment is included.
+
+Preparation `delivery-validation-v2/preparations/prepared-beedf87daa97b1b5.json`
+passed74Node/189web/fulltypes/lint/format,345graph/416pins. The actual entry uses
+the corrected retained-status preflight before source replay and the narrow
+published-route alias reader. Public profileV6 verifies the new60minute authority;
+old readers remain intact. All successful new sources are frozen.
+
+The first actual check started at **2026-10-26T07:53:46.812Z**, with immutable
+deadline **2026-10-26T08:53:46.812Z**. Owned session55862 / supervisor30902 /
+child31111 / attempt12e4bcfa-6339-4452-8d63-c10209dc95e7 runs independent source
+replay, fresh workspace capture, raw/web admission, AppV2 preservation/integration
+and fresh full Next checks. Log:
+`artifacts/forever-simulator/optimization/druid-final-delivery-20261026T0754Z.log`.
+Final delivery is still pending; the measured cancellation latency remains open.
+
+## October 26, 07:32 UTC — Delivery incomplete; corrected component checked
+
+**The separate delivery validation is not complete.** The last owned attempt
+stopped on a loader assertion: the controls report's genuine success status is
+`actual-selected-controls-passed-host-storage-and-application-pending`, while
+the host report uses `passed`. The generic assertion was wrong. The failed
+attempt and all prior failures remain immutable. No application activation,
+new Druid selector or deployment occurred; all owned validation processes exited.
+
+| Work | Evidence | Status |
+| --- | --- | --- |
+| Completed numerical results, source replay, strict types and package files | Source57ac / presentationce2375; repeated actual independent replay | Verified; numerical bytes unchanged |
+| Presets and saved characters | Four actual cases each, retained and reconstructed | Verified positives |
+| Workspace component | Four fresh desktop/mobile cases, including requested iframe src | Verified positives |
+| Engine controls and current host | Four controls; six completed runs and two cancelled requests | Verified positives |
+| Corrective metadata/import component | 69 Node / 182 web tests, full web types, lint and format | Component checked; execution entry not activated |
+| Complete raw/web admission | Full independent reconstruction must finish | Pending |
+| AppV2 integration and original20profile preservation | Neither registration nor selectors changed | Pending |
+| Fresh full Next desktop/mobile routes | Four Druid and two Warrior cases | Pending |
+
+The failure is retained in
+`delivery-validation-v1/browser-replay/f03e0566-7c46-4f1a-9f08-6665f8923501/failed-report.json`
+(SHA1c4469bc) and terminal supervisor result
+`delivery-validation-v1/attempts/bcebce2a-3ef6-4351-9959-3e4e2daa6a4e/supervisor-result.json`
+(SHAc22ed7cf). Both report failure; passing child cases do not change that status.
+
+New `check-druid-retained-stage-metadata-v1.mjs` checks each exact role-specific
+status, success flag, identity, request accounting and error list before another
+expensive replay. `run-druid-delivery-browser-evidence-v2.mjs` uses it and still
+requires independent raw reconstruction. The real-capture regression additionally
+caught the known published `/forever-sim/` to actual `/tools/forever-sim/` route
+alias. New import-source helperV2 admits only that alias, matching origin/profile/
+query/published fragment and the consumed frame URL. Arbitrary prefixes fail.
+All eight actual loaded/reloaded snapshots now pass this component check.
+
+Immutable component receipt:
+`delivery-validation-v1/preflight-component-preparations/prepared-9b510349d991828c.json`,
+semantic SHA `9b510349d991828c54a1210b28b3d51ab49da30bb235cded56ac0ed33d4d6fef`,
+byte SHA `ee5f5c5126eb284d2a1dfd9dfde3fa15f7d5b8bfccce400967babdf7fe22953a`.
+All69Node/182web/fulltypes/lint/format pass,344graph/399pins. The eight new
+component sources are FROZEN. The component's schema/status explicitly grants
+no execution qualification; do not feed it to an execution supervisor or restart
+the frozen V4 entry, which still contains the bad assertion.
+
+Four actual component screenshots were inspected at1440x1000 and390x844. In the
+captured equipment views, icons render and cards fit their viewport. These are
+scrolled component views, not evidence of complete Next routing or initial-page UX.
+Images are under `delivery-validation-v1/visual-observation-v1/`.
+
+The measured Feral109.8s and Balance2.258s abort acknowledgement delays remain a
+real responsiveness limitation. No fast-cancellation or exact cancelled-iteration
+claim is made. Original numerical export/build bytes and the original deadline
+failure were rehashed unchanged. Both Druid selectors retain their previous
+18c6325f/85411393 releases; the new registration file is absent.
+
+Status observation:
+`delivery-validation-v1/observations/status-e1f905268319cbe9.json`, semantic SHA
+`e1f905268319cbe936ad2d2744cc8b5f0838a3335e812e81396703c1f2ff3b69`.
+It was recorded before the approved07:37:34.643UTC deadline; the window was
+not reset or falsely marked expired. The remaining full replay/application
+checks cannot fit before that cap. A separate60minute delivery-only window was
+requested; **no answer has been received**. Do not treat display of the question
+as approval. After authorization, record a new immutable authority/window and
+prepare the corrected execution entry/readers; preserve both previous windows,
+original study, numerical inputs and all failed reports. No optimization or
+deployment is included. The broad all-class goal remains incomplete.
+
+## October 26, 06:53 UTC — Host passed; consumed-fragment verifier corrected
+
+Both actual host profiles passed: six completed runs and two cancelled requests.
+Raw captures, runtime states, error/late-result handling and both privacy modes
+are retained in `host-reviews/run-cf9cbbc3-accb-4f0e-a229-85629c03ad22/report.json`,
+semantic SHA `1b3b17992d164173098df8383f2e438a9dc0f0f74a483b858cddf266745868f7`.
+
+The new timing observer exposes a remaining responsiveness limitation. Feral's
+abort was forwarded 18ms after dispatch but acknowledged 109,798.3ms later;
+Balance's corresponding values were15.4ms and2,257.7ms. Both captures have zero
+observer errors, drops or late attachments. These are observed acknowledgement
+delays for this run, not exact cancelled iteration counts or a complete causal
+diagnosis. **Fast cancellation is not qualified.** No numerical engine was changed.
+The exact timelines are `delivery-validation-v1/attempts/c76032f7-ea0a-4ed8-9392-ced2969e02bb/timeline-05a0f1f1578617ad.json`
+and `timeline-9b45c66af4132fa5.json` in that directory.
+
+Subsequent raw workspace review failed because it expected a URL fragment after
+the engine had consumed and deliberately cleared it (`individual_sim_ui.ts`).
+All live workspace settings had matched. The failed parent e8651364 remains
+failed. New capture retains the requested iframe source; the successor reader
+requires its exact published fragment, origin, profile and query, the cleared
+initialized frame URL, and complete normalized imported settings. Six regression
+tests reject missing/wrong imports and mismatched origin/profile/query. An actual
+Node20 hook test authenticates the14explicit virtual sources and still refuses
+execution without live authority. No missing evidence is backfilled into old files.
+
+Preparation857707ed (55Node/182web/fulltypes/lint/format passed,342graph/391pins)
+and all successful sources are frozen. Owned session16399 / supervisor11130 /
+child11353 / attemptbcebce2a began at06:52:49UTC. It independently replays the
+entire completed source and recaptures all4workspace cases, then reconstructs the
+genuine retained controls/host wires through RawV7. It imports no verified context;
+old failed parents stay failed. WebV7, AppV2 and fresh full Next remain required.
+Log: `artifacts/forever-simulator/optimization/druid-separate-delivery-validation-v4-20261026T0653Z.log`.
+The original **07:37:34.643 UTC** delivery deadline remains; no optimization,
+Git write, deployment or other owner's changes.
+
 ## October 26, 06:16 UTC — Actual asynchronous acknowledgement handled
 
 Attempt 58574f9e passed independent source/type/package replay and all four fresh

@@ -1,5 +1,37 @@
 # Restoration Shaman equipment preparation
 
+Latest study: [initial measured feedback and full-roster correction](simulator-shaman-study-preflight.md),
+October26,12:58UTC.275native/Chromium controls/2288groups agree; all2278parent
+groups retain values.61comparison groups retain17814legal proposals around the
+main seed.270initial legal enchanted gears span90profiles. First1458actual
+requests/11664fights are complete; these are measured starts, not optimized BiS.
+Twenty-seven high-pressure tank/per-fiveMP5cases need correction. The original
+Shaman numerical clock now ends2026-10-27T12:50:22.097Z. Continue bounded feedback,
+independent qualification and real product delivery without resetting that clock.
+
+Latest runtime: [actual recipient mana assignments](simulator-shaman-mana-recipients.md),
+October 26, 11:10 UTC. All272native/Chromium controls/2278groups agree; all2262
+parent groups retain values. Explicit pools, scheduled costs and actual Tide
+utility remain separate from HPS. Controller-time first-pulse ordering and real
+temporary mana expiry versus iteration cleanup are covered. Scenario selection,
+hand/imbue access and bounded numerical/application delivery remain. Earlier
+checkpoints below preserve their historical scopes. Full deployment follows
+completed all-class validation; latest changes remain local.
+
+Latest runtime: [passive-damage set references](simulator-shaman-passive-damage.md),
+October 26, 09:57 UTC. Necropile and Postmaster now have explicit owned references
+and actual controls; all259native/Chromium controls/2262groups agree. The2,025-item
+domain stays intact. Mana/scenario assumptions and current hand/imbue grants,
+then numerical feedback and matching application delivery remain required.
+
+Latest runtime: [supplemental consume qualification](simulator-shaman-consumes.md),
+October 26, 09:17 UTC. All246native/Chromium controls/2243groups agree while all2025
+equipment candidates remain intact. Current200/400health and15damage consume
+effects, source-bound choices and duration limits are connected; existing shared
+production is unchanged. Passive-damage proc scopes, mana assignments, hand/imbue
+access and numerical optimization remain. Earlier sections below retain their
+original source/component scope and do not imply a completed BiS release.
+
 The acquisition adapter prepares all17 slots for both factions and all15 pairs
 of the declared six professions: Alchemy, Blacksmithing, Enchanting, Engineering,
 Leatherworking and Tailoring. Its original 2,017-candidate, 30-profile baseline is
@@ -28,6 +60,123 @@ SHA-256 `2ef83c95905ee4b9c1e19fc680a26d5493c6912affa74becb5b5ba3c2251fafb`.
 Its source-bound compact test fixture contains51 actual catalog/source records.
 The full domain, actual six-test log and every input hash are retained in that
 directory. Preparation executes no combat jobs and starts no numerical clock.
+
+## Protective item-use component — October 26, 08:46 UTC
+
+All nine identified protective uses now execute under explicit owned references.
+The implementation includes restricted shields, real shared timers, party
+Stamina/health changes, Fire Resistance, scoped self-reflection and depletion-only
+Adaptive damage. A recipient-specific ledger prevents temporary health from
+padding external HPS. Native/Chromium agreement covers 239 controls/2,207 groups;
+the real protective job passes repeated standalone/Worker requests. Ten compiled
+faults, 27 portable tests, lint/format and full compilation are checked. Full
+equipment/class admission, supplemental consumes, numerical optimization and
+application delivery remain. The [active-item checkpoint](simulator-shaman-active-items.md)
+contains exact receipts, assumptions and recovery details.
+
+## Active-item scope and school-specific shield component — October 26, 07:42 UTC
+
+The sixty remaining current-client uses are now reviewed: forty-seven have no
+relevant benefit in the declared assignment, four require another actor or server
+encounter script, and nine protective/health/resistance/reflection effects need
+integration. All equipment remains eligible. The new shared shield primitive
+preserves existing all-school behavior while filtering restricted pools by the
+incoming school and correctly converting client masks to the engine's distinct
+flags. Native/Chromium agreement covers 232 controls and 2,410 groups; all 2,117
+Shaman numerical groups remain equal. Twenty portable tests, eleven faulty
+classifiers and nine actual compiled faulty shields are covered.
+
+This closes the source triage and the shared shield prerequisite, not the nine
+item controllers or the numerical search. The [active-item checkpoint](simulator-shaman-active-items.md)
+records the actual source values, immutable build/browser/fault/final receipts,
+the two retained recovery attempts and the precise next integration work.
+
+## Equipped fight and worker component qualified — October 26, 07:02 UTC
+
+`shaman-equipped-workload.go` implements the separate
+`RunKFCShamanEquippedHealingWorkload` entry point. Its renderer derives the shared
+runner while preserving the original spell-only API and strict equipment guard.
+The new JSON protocol is `kfc-shaman-equipped-job.v1`; both standalone drivers
+call `RunKFCShamanEquippedHealingJob`. The browser engine exposes
+`kfcShamanEquippedSimulate` and signals `kfcShamanEquippedWasmReady` inside a Worker.
+This is a research component; no website preset or production release is selected.
+
+Complete requests require the exact compiled loadout domain and runtime identity,
+full source-legal talents, full-v2 raid support, explicit MP5 reference and the
+captured nonraid consume axes. Bonus stats, custom catalogs, forced tiers, item
+swaps, foreign rotations and unadmitted class imbues are rejected. The caster's
+health comes from actual equipment and buffs. All owned relic/set/regeneration/
+Heart/utility/legacy references must match the equipped items. Policies initialize
+after the first reset and health setup, before prepull; later resets retain the
+references while resetting their state.
+
+Cooldown rows declare item, recipient, earliest time, missing-health/mana and
+own-health thresholds, maximum uses and order. The controller executes real
+source spells with their GCD/channel restrictions, personal/shared timers,
+charges, caps and death behavior. It currently admits twelve equipped uses plus
+Major Mana Potion and Demonic Rune. Results include mean use counts and a complete
+request identity, including every numerical input and policy. Self resource
+damage, healing and shields cannot inflate external support. Inactive guardian
+equipment stays eligible; active extra actors fail the declared player-only scope.
+
+All 222 native/Chromium controls and 2,117 measurement groups pass. All 200 parent
+controls/647 groups remain equal. The 22 new controls cover 90 complete profile
+seeds, 34 complete maximum-set/reward witnesses, all 1,320 consume contexts and
+all three full talent seeds. They also exercise actual item/resource use,
+250-second use limits, policy/override/partial-build rejection, recipients,
+reset-versus-fresh equivalence and complete request identity. Thirteen compiled
+faults are detected. Six portable renderer contracts, scoped lint/format and full
+simulator compilation pass. These are qualification controls, not an optimization
+study, confirmation result or global BiS claim.
+
+The standalone native executable and actual browser Worker return equal complete
+metrics for two repeated requests; two malformed jobs reject. The final review
+replays the source set witnesses, all consume inputs, actual transport, inherited
+measurements, runtime identity recipe and compiler inventory. It verifies 13,104
+source pins. The 728-input derivative preserves 716 parent files, changes only
+the two owned Restoration workload files and adds ten files. All existing inputs
+outside Restoration retain the earlier model's bytes, preserving the prior
+sixteen DPS comparisons without relabeling them as newly executed.
+
+Current artifact prefix under
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+`shaman-equipped-workload-v4/35e2794adab5a0ad23e7f7ca24579e206d7b91ad39eb28855de844495d7d081f/build-NcLZ9X/`.
+Final receipt: `final-review-QdahRQ/report.json`, SHA
+`8062dff58ddc8f0584e3123bae6be48781be3400d0728aca5b0b0fd2424102a5`.
+Runtime input identity:
+`1ad8e7ac83db3537a09d1b8b01837df5b832649006bce258ca1500e94d6b02f0`.
+Native and browser executables, exact job/reply controls and logs are retained in
+that directory. Public implementations/fixtures and successful private readers
+are frozen; derive successors rather than editing qualified sources.
+
+The first retained attempt had a fixture error: passive Recombobulator uses are
+recorded as healing events, not casts. The next exposed a genuine standalone
+startup error: the copied Paladin driver registered Restoration a second time
+after `RegisterAll`. The corrected driver relies on the shared registration once.
+Both failed attempts and their original compiled source bytes are retained.
+
+Run the portable integration contracts with:
+
+```sh
+node --test infra/simulator/shaman-equipped-workload.test.mjs
+```
+
+Before numerical optimization, finish the remaining source scopes. An audit of
+the complete 2,025-item domain finds 72 current on-use items: twelve are admitted
+by this controller, while sixty still need effect/event review. Some may be
+inactive in this assignment; protective effects may interact with Rune/Circle
+self damage. Do not discard their gear or treat missing use choices as fully
+qualified. The source-only audit is
+`shaman-equipped-active-scope-v1/inspection-n2dF16/report.json`, SHA
+`94c35aff6dbd24970b2b5718048b00481123ac7e610dfdb73850ad3673def051`.
+Its `source.json` preserves every actual item/link/effect and remaining ID.
+
+Also qualify supplemental useful consumes beyond the six captured axes, resolve
+current Dual Wield/Earthliving acquisition/product gating, and preserve unknown
+mechanics as named sensitivities. Then run bounded equipment/talent/priority/
+consume feedback, fresh 2% and separate 1% confirmations, and deliver the real
+defaults/Configurations/Gear Sets/library/guidance with actual host/cancel/UI
+checks. Full class qualification, search clock and publication remain false.
 
 ## Whole-loadout gate qualified — October 26, 05:59 UTC
 

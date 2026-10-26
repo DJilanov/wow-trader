@@ -1,5 +1,258 @@
 # WoW Trader fixes and recovery context
 
+## October 26 — Full synthetic healing rosters and Shaman measurements
+
+Independent follow-up reconstructed all1458original packets without rerunning
+fights, verified324workloads and all486case mappings, and preserved88failed
+training origins with setup identities that exclude only iterations/seed.
+Audit independent-review-WjBzjl/report.json SHA
+4208dd0149af110007d326f85a4188c5ffbbd9ebffe3188974cd05edaede256d.
+Original Shaman deadline remains2026-10-27T12:50:22.097Z. Low-rank scaling remains
+a declared premise to review before downranks decide published recommendations.
+
+Actual study preflight found undersized party declarations and the inherited
+24-dummy engine cap. The opt-in healer constructor now builds the complete
+declared roster before initialization, validates capacity/scope, and rebuilds
+unit/player/pet caches and indices. Ordinary shared core constructors stay
+unchanged. Both health-only and actual-mana 40-player assignments execute.
+
+All275native/Chromium controls/2288groups agree;2278parentgroups retain values.
+Four valid/four invalid Worker jobs, five compiled faults,21portabletests,
+lint/format/fullcompile and2308pin final review pass. Finalreceipt
+healer-model-admission-v1/shaman-large-roster-v1/build-Gw6D72/
+final-review-MGUbGu/report.json SHA
+e4c3a7e99c127fa250bf7172800ee81dfdbf5cce3fae4a2cf2df8a5be2a31a6d.
+
+Source-bound study/gearbank helpers retain all2025items/90profiles and enumerate
+61comparison groups/17814legal proposals for the recorded main seed. Actual
+90-profile encoding and11native controls pass. A false repeat comparison caused
+by Go action-map ordering is fixed in a successor reader that preserves every
+complete action ID/value and reuses ten genuine successful controls.
+
+Initial numerical feedback completed1458actualrequests/11664fights/486cases;
+1370options survive/full-delivery.27high-pressure tank/per-fiveMP5cases have no
+surviving initialgear and remain for correction. No pressure reduction, survival
+waiver, BiS qualification or deployment. Original Shaman class clock is now fixed:
+2026-10-26T12:50:22.097Z through2026-10-27T12:50:22.097Z. All workers closed.
+Detailed current sources, exact receipts and next steps:
+docs/simulator-shaman-study-preflight.md. Full commit/push/deploy remains pending
+the complete all-class validation and actual product delivery.
+
+## October 26 — Actual recipient mana, first-pulse order and expiry accounting
+
+Equipped Shaman assignments now create actual auxiliary mana bars before stat
+finalization, declare starting mana and scheduled whole costs, and report paid,
+unpaid and remaining mana separately from HPS. No passive regeneration, automatic
+retry, external resource cooldown or other class rotation is inferred.
+
+Fixed an actual same-timestamp ordering bug: an after-pulse cost could precede the
+controller's immediate first Tide pulse. Retained failing V2 evidence pays176
+instead of88; current ordering passes both references. Temporary Headmaster
+Intellect expiry now clamps real mana capacity during fights while iteration
+cleanup cannot generate artificial spending/time-to-empty changes.
+
+All272native/Chromium controls/2278groups agree;2262parentgroups unchanged within
+1e-7. Actual one/two-iteration native and Worker jobs match complete replies;
+four valid/four invalid Worker jobs,12compiledfaults,17portabletests and scoped
+lint/format/fullcompilepass. Final1582pins/sourcegeneration/requestidentity/
+inheritance review passes. Seven prior genuine fault artifacts were verified and
+reused; an ineffective dead-store mutation is preserved and excluded.
+
+Final receipt: healer-model-admission-v1/shaman-mana-recipients-v3/build-PNa6Lx/
+final-review-ObS3x6/report.json, SHA
+cd87e8ce62415402938e9b2a8584f0f9f99f7b53a61682abb5db131794862178.
+Full recovery/semantics/current runtime sources:
+docs/simulator-shaman-mana-recipients.md. This remains local component validation,
+not completed BiS or deployment. Owner's complete commit/push/deploy request is
+retained for after remaining all-class validation and live smoke tests.
+
+## October 26 — Shaman proc exclusions corrected after passive damage
+
+Two old exclusions were insufficient after Adaptive/Rune/Circle admission.
+Necropile3now has explicit cast-only versus Adaptive0/1chance references, actual
+28life drain, recovery, damage-to-health equality and capped/dead-safe self support.
+Postmaster4has source threshold/buff/cooldown under explicit self-ineligible
+reflection; self damage remains unchanged. No server chance/chaining/reflection
+claim and no foreign-caster reflection. All104set rows accounted;22other inactive
+rows remain scoped and every item stays in the candidate domain.
+
+All259native/Chromium controls/2262groups agree, including13new/19groups.
+Parent comparison permits only exact zero-uptime sourceaura metadata and the
+ownership guard count7to8; all other2242groups/complete requests remain checked.
+Real Worker/native complete replies agree;4malformed jobs reject. Ten compiled
+faults,14portabletests/scopedlint/format/fullcompilepass. Final1577pins and4188raw
+client rows replayed. Receipt under the optimization mechanics root:
+shaman-passive-damage-sets-v2/build-brKAVI/final-review-VZ4Ypw/report.json,
+SHA696db8d37208beb49294b35ce6c11fd0adbda726d23c106170d423f2cc349225.
+No shared production edit, numerical optimization or deployment. Failures and
+exact next steps: docs/simulator-shaman-passive-damage.md. The real protective
+cast guard caught a missing policy in the adversarial fixture; correct setup
+supplies the owned policy before events. Independent guards verify literal
+piece thresholds and legal set coexistence instead of following internal flags.
+
+## October 26 — Shaman current consumables and duration boundaries
+
+Restoration now admits23additional source-reviewed consume choices while keeping
+all6original axes. The current Fortitude ranks grant200/400health; old120health
+retains its own item mapping. The missing Lesser Arcane effect grants15damage,
+without direct healing power. Current21546isHoly40, so the staleFire40mapping
+rejects. Kings/Intellect/mana/MentalQuickness dependencies, negative drink stats,
+one-choice families and actual numeric protobuf transport are checked. Existing
+shared production is unchanged. No invented mid-fight refresh: Raptor300seconds,
+Juju600 and alcohol900 bound compatible assignments.
+
+All246native/Chromium controls/2243groups agree;2207parent numericalgroups remain
+within1e-7. Real Worker/native complete replies agree,3malformed jobs reject,
+8compiled faults caught,22portabletests/scopedlint/format/fullcompilepass.
+Final receipt: healer-model-admission-v1/shaman-supplemental-consumes-v1/
+build-mYlerq/final-review-UDH28c/report.json under the optimization root;
+SHA86acc30a02b68ff8189c74420441c807cc8b2a260806dbf6d573c858a5f3e5cb.
+Source/stacking/access limits, exact receipts and numerical/presentation follow-up:
+docs/simulator-shaman-consumes.md. This is local component qualification, not BiS
+selection/deployment. The owner requested full deployment after completing all.
+
+## October 26 — Druid delivery checks completed locally
+
+The corrected validation pipeline passed end to end: source/types/package,
+retained preset/saved/control/host evidence, fresh workspace, raw/web admission,
+actual AppV2 selection and original20profile preservation, then four Druid and
+two Warrior full Next desktop/mobile cases. Final77Node/189web/fulltypes/lint/
+format pass. Four full-page screenshots inspected;363execution pins, numerical
+exports/builds and original failure bytes independently rehashed unchanged.
+
+The full-page navigation probe now follows the real directory>Druid>profile flow.
+A tested Next-only continuation retains genuine successful browser/app reports
+and original approval provenance; it imports no verified numerical context.
+All prior failed reports remain failed. Final4c7c64fd/supervisor43e4d56a/fullNext
+b8155fa5 finished08:46:34.743UTC within the original08:53:46.812UTC new-window cap.
+All owned test processes exited; no3017restart, other-owner changes, optimization,
+Git or deployment. Both Druid selections are local only.
+
+Observed cancellation acknowledgement is still slow: Feral109.8s, Balance2.258s.
+Fast cancellation and exact cancelled iterations remain unqualified. The broad
+all-class/catalog/healer/tank goal is not complete. Exact reports and limits:
+docs/simulator-druid-dungeon-upgrade.md.
+
+## October 26 — Shaman protective actions and temporary-health HPS accounting
+
+All9current protective uses now execute under explicit source/reference policies,
+including restricted shields, actual shared mana/stat timers, Admiral party health,
+Fire Resistance, scoped self-reflection and depletion-only Adaptive damage.
+The signed temporary-health deficit changes are tracked per recipient; credits
+are capped by each recipient's actual demand. Healing extra capacity on one player
+can no longer earn credit for another player's damage. Expiry is nonlethal for
+living units and cannot resurrect a dead recipient. Synthetic recipient conversion
+is explicit and leaves the global dummy source unchanged.
+
+All239native/browser controls and2207groups agree, preserving2117parent numerical
+groups within1e-7. Real Worker repeats match standalone replies;3malformed jobs
+reject. Ten compiled faults,27portable tests, lint/format and full compilation
+pass. Final receipt under the optimization root:
+healer-model-admission-v1/shaman-protective-items-v2/build-Of2qUO/final-review-9RBHVA/report.json
+SHA c73ccf71c8f67442bf9d8e63ca498c39cf7f2a6c11cc36b627479354d805eedf.
+
+Retained failures caught a missing second fixture party, a wrong belt slot,
+independent existing mana timers, missing synthetic Stamina conversion, a guard
+import and the incorrect expectation that Rune alone always depletes Adaptive.
+The final real wire uses legal Rune+Circle damage. Reader successors correct the
+native log name and ensure faulty variants compile before claiming rejection.
+All original sources/evidence stay intact. Full assumptions and exact recovery
+references: docs/simulator-shaman-active-items.md.
+
+This qualifies the item-use component, not numerical BiS/class admission or a
+deployment. Supplemental consumes, mana-support/proc-scope checks, hand/imbue
+access and full optimization/delivery remain. No search clock/Git/deployment.
+
+## October 26 — Current Shaman use scope and damage-school shield filtering
+
+Reviewed every one of the60previously unhandled current-client on-use roots
+without dropping gear. Forty-seven have no relevant benefit in the declared
+stationary assignment, four require an additional actor/encounter script and
+nine protective/health/resistance/self-reflection effects need integration.
+The complete2025-item join and75-spell closure replay against70532source;
+all items remain candidates. Eleven faulty scope classifiers are caught.
+
+Implemented a shared finite-shield successor with explicit school masks.
+Incompatible shields no longer consume damage or block later eligible pools;
+zero retains the existing all-school behavior. Expiry/replacement, actual
+depletion, callback-induced pool changes, reset and effective metrics are tested.
+DB2 masks differ from internal engine flags: an explicit converter qualifies
+all128valid client masks and rejects invalid values. Never cast raw client
+mask integers into engine flags. Item bindings also need a valid nonzero mask.
+
+All232native/Chromium controls and2410groups agree; all2117Shaman numerical
+groups remain equal, with intentionally changed authenticated runtime/request
+identities. Nine compiled faulty shields are detected. Twenty portable tests,
+lint/format and full compilation pass. Final receipt:
+healer-model-admission-v1/school-specific-shields-v1/build-J64I2V/build-recovery-v1/
+review-FMe2iP/final-review-B3iMPC/report.json SHA
+e817889afde3ed8f589654455aed440a6ceb5590efd548486129eb3f690f63ce.
+
+The first native attempt exposed the client/engine-bit mistake. Its compiled
+sources and original public bytes remain. The corrected build's comparison
+reader then rejected action-map ordering; a successor sorts complete action
+identities and recovers the actual original results without discarding metrics
+or rerunning tests. Do not reuse the failed original preparation entry.
+Full references/recovery details: docs/simulator-shaman-active-items.md.
+
+This qualifies source triage and the shield primitive. Nine item controllers,
+supplemental consumes, full class/gear optimization and delivery remain.
+No preset selection, optimization clock, Git operation or deployment occurred.
+Standalone Worker transport/prior16unflagged resource checks were not re-run
+for this derivative. Successful sources/readers stay frozen.
+
+## October 26 — Druid delivery component corrections; final application checks incomplete
+
+The separately approved two-hour validation preserved numerical results and
+failed reports. Actual source/type/package replay and workspace/control/host
+cases passed, but my validation-tool errors prevented final admission and app
+checks. Versioned successors handle the actual preparation reference, payload-free
+WASM acknowledgement, consumed import fragment, canonical engine-route alias and
+role-specific retained-report status. No original source/report was overwritten.
+
+The final corrective component verifies69Node/182web tests, fullwebtypes, lint
+and formatting, including actual retained reports and all8real imported-link
+snapshots. Metadata failures now occur before costly replay. Receipt9b510349
+is component-only; it does not qualify the still-unexecuted corrected entry.
+All successful component sources are frozen. Four real equipment screenshots
+were inspected; full Next routing remains unchecked. No registration/selector,
+numerical optimizer, Git operation or deployment changed.
+
+Timing captures reveal a real remaining issue: prompt abort sends were followed
+by Feral109.8s and Balance2.258s acknowledgements. Fast cancellation is not
+qualified. Current owned validation processes are stopped, original07:37:34.643UTC
+cap retained, and a separate60minute delivery-only window is awaiting the user.
+Keep earlier studies/windows/results/failures intact. Full status, immutable
+references and remaining gates: docs/simulator-druid-dungeon-upgrade.md.
+
+## October 26 — Equipped Shaman fights and real worker transport verified
+
+Implemented a separate equipped workload using the validated full loadouts,
+full talents, full-v2 raid support and explicit effect references. Owned policies
+initialize after reset/health setup; subsequent iterations reset their actual
+state. Explicit resource/item decisions preserve source ownership, recipients,
+range, GCD/channel restrictions, shared/personal timers, charges and use limits.
+Complete request/model identities and mean use counts are returned. Self resource
+damage, healing and absorption remain outside the external-support score.
+
+All 222 native/browser controls and 2,117 groups pass, preserving all 200 parent
+controls/647 groups. This includes 90 full profiles, 34 set witnesses, 1,320
+consume contexts and real native/browser Worker parity. Thirteen compiled faulty
+controllers are detected. Six portable contracts, lint/format and full build pass.
+
+The first attempt's Recombobulator fixture mistook passive healing events for
+casts. The second found a real standalone startup error: RegisterAll already
+registers Restoration, so the copied driver's second registration panicked.
+The corrected driver registers once. All old attempts/source bytes are retained.
+
+Final receipt under the simulator optimization root:
+`healer-model-admission-v1/shaman-equipped-workload-v4/35e2794adab5a0ad23e7f7ca24579e206d7b91ad39eb28855de844495d7d081f/build-NcLZ9X/final-review-QdahRQ/report.json`,
+SHA `8062dff58ddc8f0584e3123bae6be48781be3400d0728aca5b0b0fd2424102a5`.
+Remaining on-use scopes and supplemental consumes still precede numerical BiS
+optimization. The source audit identifies 60 remaining on-use items without
+discarding their gear or asserting that every effect is relevant. No new search
+clock, preset selection, commit or deployment occurred.
+
 ## October 26 — Shaman whole-loadout input gate verified
 
 Added a separate source-bound equipment validator for the 90 acquisition

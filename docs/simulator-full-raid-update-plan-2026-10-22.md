@@ -1,5 +1,41 @@
 # Bounded full-raid preset updates
 
+## Druid delivery complete locally — October 26, 08:51 UTC
+
+The final continuation passed with exit0 at08:46:34.743UTC, before the fixed
+08:53:46.812UTC deadline. All source/type/package and raw/web gates passed.
+AppV2 registered and selected both reviewed Druid profiles locally;20other API
+results and six selector documents are preserved except those two Druid entries.
+Fresh full Next4Druid+2Warrior desktop/mobile checks passed without browser
+errors; four actual full-page screenshots inspected. Final77Node/189web/types/
+lint/format passed. Delivery4c7c64fd, supervisor43e4d56a, fullNextb8155fa5 and
+final observation778334e0 are documented in the Druid recovery document.
+
+Numerical results, prior windows and failed reports are unchanged. Observed
+cancellation acknowledgement remains slow (Feral109.8s, Balance2.258s); fast
+cancellation is not qualified. No Git operation, optimization or deployment.
+All owned test processes exited. Remaining broader class/catalog/healer/tank
+and release work is unaffected by completing this Druid validation scope.
+
+## Druid delivery result — October 26, 07:32 UTC
+
+Delivery remains incomplete. Source/type/package replay, four preset and four
+saved-character cases, four workspace cases, four engine controls and both host
+profiles have genuine passing evidence. The last parent still failed on a
+retained-loader status assertion, before final raw/web admission or AppV2/fresh
+Next checks. No new Druid selection, Git or deployment occurred.
+
+The corrective component now passes69Node/182web/fulltypes/lint/format, including
+actual role-specific statuses and all8real imported-source snapshots. A new
+source helper handles only the known /forever-sim to /tools/forever-sim alias;
+the frozen bad execution entry is not activated. Component receipt9b510349 grants
+no execution qualification. Real cancellation acknowledgement remains slow in
+the captured runs: Feral109.8s, Balance2.258s. Numerical data and original failed
+reports are unchanged. The approved07:37:34.643UTC cap is retained. A separate
+60minute delivery-only window was requested and is unanswered; do not resume
+from the UI question alone. Exact positives/failures/remaining gates are in the
+Druid recovery document. Full all-class requirements and other owners persist.
+
 ## Druid separate delivery validation — October 26, 05:38 UTC
 
 The user approved `call_c56720c6f9134c43a3cbd1a31454a65a/0`. A separate two-hour

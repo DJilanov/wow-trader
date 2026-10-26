@@ -16,17 +16,21 @@ builds when their actual talent/spell mechanics support a different playstyle.
 Do not count a blank healer page, a legal talent string or a DPS reference as a
 qualified healing build.
 
-## Current delivery coverage — October 26, 05:59 UTC
+## Current delivery coverage — October 26, 12:58 UTC
 
 | Class | Healing builds | Current state |
 | --- | --- | --- |
 | Priest | Holy, Discipline, Penance/Holy, Aegis/Guidance | 40 local presets with independently confirmed ring choices on the corrected item model |
 | Druid | Wild Growth, Splendor/Wild Growth, Nature's Grace | 30 local presets with corrected Heart family scope and shared item cooldowns |
 | Paladin | Vigil support, Vigil mobility, direct healing | Local page/workspace implemented for 504 source-measured three-minute configurations. Gear, talents, Paladin casting/resource controls and versioned save/share pass 67 focused unit tests and 16 real browser interaction checks. Actual browser combat qualification and release activation remain. Five-minute training ended at the original deadline with four incomplete cases; it is not running or qualified. |
-| Shaman | Restoration and supported healing variants | Whole-loadout validation now passes 200 native/Chromium controls across 647 groups, preserving every parent control. All 90 acquisition profiles, 2,025 items and 127 enchant recipes remain; the earlier 1,320 consume-axis contexts are unchanged. Source legality, ownership, paired hands, conditional reward access and exact domain identity are checked. Actual equipped fights, cooldown/policy integration and browser job transport still precede bounded optimization and delivery. Dual Wield/Earthliving access, absent current bases and Eye's script remain unverified. |
+| Shaman | Restoration and supported healing variants | Complete synthetic rosters and actual mana utility qualify with275native/Chromium controls/2288groups. The source-bound gear bank retains2025items/90profiles. First numerical feedback completed1458requests/11664fights across486cases;1370measured options survive/full-delivery, while27high-pressure tank/per-fiveMP5cases need correction. These are initial measured seeds. Gear/talent/priority/consume/sensitivity feedback, independent confirmation and application delivery remain. See the [study checkpoint](simulator-shaman-study-preflight.md). |
 
-The latest changes remain local. Shaman's numerical search has not started;
-the separately authorized Druid delivery-only continuation is tracked in its
+The latest changes remain local. Shaman's numerical class window started
+October26at12:50:22.097UTC; its fixed24-hour deadline is October27at12:50:22.097UTC.
+The first phase succeeded and its workers are closed; no BiS qualification is claimed.
+The owner requested a complete commit/push/deploy after all remaining validation,
+followed by live smoke tests. No partial release or all-class completion is claimed.
+The separately authorized Druid delivery-only continuation is tracked in its
 recovery document and current context. Paladin's real protobuf codec preserves all 504 original
 request identities under Node; this is not actual browser/WASM combat admission.
 Further Paladin numerical execution requires a separate authorization because

@@ -1,3 +1,7 @@
+import {
+  readFullRaidDruidProfile,
+  validateFullRaidDruidPublication,
+} from "./forever-simulator-full-raid-druid-registration";
 import { createHash } from "node:crypto";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
@@ -570,6 +574,11 @@ export async function validateSimulatorProfileModelBuilds(
   }[],
   directory: string,
 ): Promise<boolean> {
+  if (
+    (profile === "feral_druid" || profile === "balance_druid") &&
+    (await validateFullRaidDruidPublication(profile, manifest, builds, directory))
+  )
+    return true;
   if (profile === "rogue") return validateFullRaidRoguePublication(manifest, builds, directory);
   if (
     profile === "hunter" &&
@@ -633,6 +642,10 @@ export async function readSimulatorProfileModelUpdate(
   profile: string,
   directory: string,
 ): Promise<{ readonly manifest: SimulatorManifest; readonly sourceRelease: string } | null> {
+  if (profile === "feral_druid" || profile === "balance_druid") {
+    const current = await readFullRaidDruidProfile(profile, directory);
+    if (current) return current;
+  }
   if (profile === "rogue") return readFullRaidRogueProfile(directory);
   if (profile === "hunter") {
     const current = await readFullRaidHunterProfile(directory);
