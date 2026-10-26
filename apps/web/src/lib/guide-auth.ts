@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthConfig, type NextAuthResult } from "next-auth";
+import NextAuth, { AuthError, type NextAuthConfig, type NextAuthResult } from "next-auth";
 import Discord from "next-auth/providers/discord";
 import { NextRequest } from "next/server";
 import {
@@ -87,7 +87,7 @@ export function guideAuthOptions(settings: GuideAccessSettings): NextAuthConfig 
     },
     logger: {
       error(error): void {
-        console.error("Guide authentication failed", error.name);
+        console.error("Guide authentication failed", error instanceof AuthError ? error.type : error.name);
       },
     },
   };
@@ -112,7 +112,11 @@ export async function guideAuthRequest(request: NextRequest): Promise<Response> 
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
   const incoming = new URL(request.url);
-  const canonical = new URL(incoming.pathname + incoming.search, settings.origin);
+  // Next strips the app's /tools base path before invoking route handlers.
+  const pathname = incoming.pathname.startsWith("/api/guide-auth/")
+    ? `/tools${incoming.pathname}`
+    : incoming.pathname;
+  const canonical = new URL(pathname + incoming.search, settings.origin);
   const headers = new Headers(request.headers);
   headers.set("host", canonical.host);
   headers.set("x-forwarded-host", canonical.host);

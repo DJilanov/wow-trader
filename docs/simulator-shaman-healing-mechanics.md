@@ -4,10 +4,95 @@
 
 This includes verified source preparation for client build70532 and qualified
 basic healing,passive,water-totem,resource-active,Riptide and full-build talent
-components. It does not qualify the full Shaman combat engine,
+components, five equipped healing relic effects, the Elements power proc, a verified complete-fight
+controller and native/browser job boundary. The base Five Thunders519 set and all eight current stat rows now have
+their own verified component; see the linked recovery document below. It does not qualify the full Shaman combat engine,
 optimized gear, spell acquisition or a website preset.
-Shaman's numerical class window has not started. Paladin feedback continues on
-its own frozen runtime; this preparation changes none of its inputs.
+Four cast-resource set components now pass105 native/Chromium controls and315
+groups, with shared production registration, positive Dreadmist power evidence,
+16 detected faults and14 unchanged DPS cases. These component results do not
+admit the remaining shared equipment or consumes; see the equipment document.
+All33 represented sets now have independently proved maxima across30 profiles:
+990 complete legal loadout witnesses,3,120 threshold checks and66,825 independently
+enumerated leaf assignments. Only Spider's Kiss2piece and Spiritcaller2/3/4/5
+are unreachable everywhere in this declared domain. Remaining effects still
+require runtime admission; all2,017 candidates remain available.
+Shadowcraft six-piece health regeneration now passes114 native/Chromium controls
+and336groups,with12health faults/3DPSguard faults caught and16unchanged DPS pairs.
+Its15health/5sec uses explicit tick references and resource accounting,so it never
+feeds spell healing,critical/power modifiers or Water Shield. Full equipment and
+consume qualification remain pending; see the equipment document.
+Shaman's numerical class window has not started. This preparation preserves the
+other classes' frozen runtimes and study inputs.
+
+October26 update: the twenty previously unmapped item modifiers are now
+classified. Eight current flat health-regeneration sources have an owned
+Restoration component, verified against current client unit strings and explicit
+tick references. All124 native/Chromium controls and364groups pass;114parent
+controls/336groups and16actual DPS pairs stay unchanged. Nine healing faults and
+three DPS faults are caught. The separate late-time guard has an additional
+native control. This component does not admit the remaining effects, consumes or
+equipped workload and starts no numerical clock. Details are in the equipment
+document. Paladin optimization has reached its original deadline; its separate
+delivery-validation request remains unanswered and none of its inputs changed.
+
+October26 03:07UTC: shared healing items now pass independent review, including
+the owned Healing Wave-only Heart trigger, Mindtap's mana/intellect trade, Second
+Wind's real production registration and shared category, and Serenity's separate
+spirit category. All141native/Chromium controls/387groups pass, preserving the
+prior124/364. The successor adds Viper recovery and Scarlet/Devout shields through
+an ordered, single-deduction damage receiver:151native/Chromium controls and422
+groups, plus two separately bound native death/cooldown guards. Eleven reactive
+faults and three DPS guard faults are caught;16actual DPS pairs stay unchanged.
+Normal spirit regeneration is not credited as item mana. Server threshold timing,
+self-damage eligibility and Heart proc rates remain explicit references. Full
+equipment/workload/consume admission and Shaman optimization/delivery remain.
+Immutable receipts and exact scope are in simulator-shaman-equipment.md.
+
+October26 03:31UTC: actual Shaman Blue Dragon/Analyzer controls now pass with the
+existing common handlers. All161native/Chromium controls/436groups match; all151
+parent controls/422groups remain equal and8compiled faults are caught. Every705
+parent compiler input is preserved; two test files bring the total to707. Prior
+sixteen DPS comparisons are inherited by exact production-byte preservation,
+not re-executed. The two reactive guard controls are now included in this binary.
+The new set-source classifier accounts for104records across33captured sets:
+66flat,9owned components,24inactive in the existing stationary workload and5
+unreachable thresholds. This is source-scope closure for the2017-candidate pool,
+not full equipped-workload admission. Five Thunders519 reward/access profiles,
+remaining utility/legacy effects, enchants/consumes and optimization/delivery
+remain; see the equipment document for source certificates and immutable reports.
+
+The [Five Thunders recovery](simulator-shaman-five-thunders-recovery.md) now
+captures all eight missing base519 pieces,distinct alternate1679 mechanics and
+four reference reward milestones. Ten source/stat checks pass,with current
+ratings and historical icons kept separate. A subsequent exact-ID native/browser
+component qualifies base519 mechanics and a derived catalog; acquisition and full
+equipment/numerical admission remain false. The inherited name-based set handler
+is bypassed only for the owned base519 effect dispatch.
+
+The [equipment inventory](simulator-shaman-equipment.md) now prepares2,017
+candidates across30 faction/profession profiles and all17 slots. Six legality
+contracts pass. The six explicit current-stat discrepancies are now corrected in
+a verified derived model:68 native/browser controls/138 groups pass, with all245
+parent controls/416 groups unchanged. The post-repair audit reports zero mapped
+differences across3,822 comparisons. Twenty modifier records are now classified;
+33 represented sets and the remaining shared effects still need complete scope
+review. All ten
+totems have source/family review; the five healing/resource effects now pass
+80 native/browser controls across 188 groups. Their independent review preserves
+247 parent controls/418 groups, catches 13 compiled faults and verifies eight
+unchanged DPS cases. Both cost-stacking formulas remain explicit references.
+The broader raw join retains 251 linked items: 149 current-base and 102 historical-
+base items, with 104 set thresholds and 341 captured trigger-closure spells. A
+reviewed tooltip-reference extension adds 17 supporting spells for 358 total.
+This graph does not establish full runtime support. Complete the remaining
+reviews before numerical optimization. These preparation steps start no class
+clock and publish no preset. The subsequent Elements component passes 92
+native/browser controls across 232 groups, preserving its shared flat thresholds
+and explicitly declaring proc-rate/routing assumptions. A separate complete-gear
+proof retains all four Spiritcaller crafts but limits them to one equipped item
+in every profile. Its higher set thresholds are unreachable in this declared
+domain; forced simulation-only tier bonuses remain outside that proof.
 
 The captured class graph has370 ability roots,588 referenced spell IDs and50
 talents. All50 talent nodes match the captured engine fields,tiers,maximum ranks
@@ -37,6 +122,61 @@ Riptide with Ghost Wolf utility,and Mental Quickness/Healing Wave starting point
 Every neighbor preserves the full budget,tiers,prerequisites and declared scope.
 They are preparation for feedback,not optimized presets. In particular,Riptide's
 actual captured prerequisite is full Healing Way.
+
+## Complete-fight controller verified — October 25
+
+The controller executes actual owned Healing Wave, Lesser Healing Wave, Chain
+Heal, Riptide, Healing Stream, Mana Tide, Water Shield and Nature's Swiftness.
+Every request requires a source-legal 51-point level60 build and a complete player
+roster. Positions, bounce routing, periodic policies and resource policies are
+explicit inputs. Each decision respects cast/channel completion, global cooldown,
+real spell cooldowns, mana, target range, death and owned abilities.
+
+Priorities can maintain the caster's shield, preserve an active water slot,
+maintain each target's own Riptide, require that HoT for Chain Heal, or require
+enough injured recipients on the actual declared bounce path. The controller
+never refreshes Stream over an active Tide merely to maintain Stream. A declared
+Nature's Swiftness threshold activates only for an affordable eligible basic
+heal. Caster-directed external damage, unscheduled enemy attacks and external
+resource cooldowns remain outside this stationary assignment.
+
+The external-demand ledger caps each health loss at available health, excludes
+overkill and overheal, integrates missing health over time, and retains final
+deficit and survival. It measures useful own/other Mana Tide restoration
+separately. Mana restoration has no invented HPS conversion. The current
+single-caster/dummy controls have no other mana-consuming players, so their
+other-player Mana Tide total is zero. Death prevents further healing and damage
+delivery to that player. Independent iterations reset health, owned effects and
+resources while retaining their actual seed identities.
+
+All58 native controls match actual Chromium/WASM across114 measurement groups.
+All225 parent controls and382 parent measurement groups remain unchanged.
+Nine deliberately broken controller variants fail their targeted behavioral
+controls. Six actual DPS control pairs remain unchanged, with one additional
+compiled DPS guard mutation caught. The685-file workspace preserves680 parent
+files, changes one owned Restoration initialization boundary and adds four files.
+The full simulator package compiles;178 Paladin controls and the Priest periodic
+critical-heal control also pass in the derived workspace.
+
+Runtime sources are `shaman-healing-workload.go` and
+`shaman-healing-workload-run.go` under `infra/simulator/`. The renderer in
+`shaman-healing-workload.mjs` binds the shared strict JSON/protobuf protocol to
+the owned controller; its two focused JavaScript contracts pass, as do focused
+ESLint/Prettier and Go formatting checks. The protocol rejects unknown nested
+protobuf fields, unknown JSON fields, trailing data, bad encoding and cancelled
+requests, and returns detailed real metrics when requested.
+
+Immutable final receipt, under
+`artifacts/forever-simulator/optimization/healer-model-admission-v1/`:
+
+`shaman-workload-v1/e4ace7f6225a294e5c66835da02b43a968c8d178413f709a938304d33a9a3ed3/build-sWck6L/final-review-F7x8l1/report.json`
+
+SHA-256: `1c84349e9607fc560dfcc15321f639fe825f02ee5eb4618d7852d4ad58b3c620`.
+The source and private preparer/reviewers are frozen with this receipt. The
+original complete item/set/consume qualification, numerical feedback, independent
+confirmation and website delivery remain required. Equipment and consumables are
+explicitly rejected by this component until that admission is implemented. This
+does not start Shaman's numerical class window or publish a preset.
 
 ## Verified passive component
 

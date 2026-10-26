@@ -41,6 +41,24 @@ Register this additional Discord OAuth redirect without removing existing redire
 The browser account page is `/tools/forever/leveling/access`. Local tests need their own matching
 loopback `GUIDE_SITE_ORIGIN` and OAuth redirect; production only accepts HTTPS.
 
+Next.js removes the `/tools` application prefix from incoming route-handler URLs. The guide-auth
+boundary restores that prefix before forwarding to Auth.js, while leaving already-prefixed URLs
+unchanged and pinning the host to `GUIDE_SITE_ORIGIN`. Without this normalization, session,
+provider and Discord callback requests return `400 Bad request` before OAuth validation.
+The HTTP integration tests exercise the real Auth.js handler with synthetic Discord responses,
+including PKCE/state round trips, missing cookies, forged state, incorrect issuer and CSRF failure.
+They do not authorize a real account. Authentication logs include the stable Auth.js error type,
+never callback codes, state values, cookies or provider error details.
+
+The routing hotfix was deployed as `kfc-helper-guide-login-20261025-r1` over the active
+dungeon-finish release. Only the auth handler, its HTTP integration tests and the Vitest Auth.js
+resolution setting differ from that release. All 204 focused web tests, typecheck, targeted lint
+and production builds passed. Live session/provider endpoints return 200, and a browser-driven
+declined authorization returns to the access page instead of `Bad request`. The real-account
+success path still requires a fresh owner sign-in. Certified-role requirements, the single-account
+preview, disabled general downloads/payments, simulator selections and other PM2 services remain
+unchanged. The preceding dungeon-finish release remains available for rollback.
+
 Review and apply migration `0020_unique_chronomancer.sql`, which only creates the dedicated
 `guide_support_order` table and its constraints/index. Audit existing production migration history
 before running the migration tool; do not replay older cleanup migrations. The web database role

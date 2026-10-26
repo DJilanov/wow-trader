@@ -24,6 +24,18 @@
     "282.jpg": {
       "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/282.jpg",
       "sha256": "bbec47097cc224dd4347f9bed0b8e087ad94bca0e28b0c9807e0f393413ae63f"
+    },
+    "382.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/382.jpg",
+      "sha256": "a7d32f46518b311ae18cd7f464c28e7ec472891f7d621635d58150adc3af8b8b"
+    },
+    "383.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/383.jpg",
+      "sha256": "92a48f8a8f8652170d5187135ddd0b016e8048cc30f291c11a363eed16c5faa2"
+    },
+    "381.jpg": {
+      "source": "artifacts/forever-simulator/47249ed45374259f39bf44ed/assets/img/wowhead/talents/backgrounds/classic/381.jpg",
+      "sha256": "c423930806438b296db47501b60354109448a1466ab1e0190774f75f58268928"
     }
   }
 }

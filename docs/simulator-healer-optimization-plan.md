@@ -16,16 +16,68 @@ builds when their actual talent/spell mechanics support a different playstyle.
 Do not count a blank healer page, a legal talent string or a DPS reference as a
 qualified healing build.
 
-## Current delivery coverage — October 25
+## Current delivery coverage — October 26, 05:59 UTC
 
 | Class | Healing builds | Current state |
 | --- | --- | --- |
 | Priest | Holy, Discipline, Penance/Holy, Aegis/Guidance | 40 local presets with independently confirmed ring choices on the corrected item model |
 | Druid | Wild Growth, Splendor/Wild Growth, Nature's Grace | 30 local presets with corrected Heart family scope and shared item cooldowns |
-| Paladin | Vigil support, Vigil mobility, direct healing | Completed confirmation origin audit:2835/3024 cases pass observed2% and survival;189 retained failures prevent full qualification and publication |
-| Shaman | Restoration and supported healing variants | Basic/Chain Heal,passives,totems,resources,Riptide and full51-point source gate verified in native/browser; item/set/accounting/workload integration,feedback and delivery remain |
+| Paladin | Vigil support, Vigil mobility, direct healing | Local page/workspace implemented for 504 source-measured three-minute configurations. Gear, talents, Paladin casting/resource controls and versioned save/share pass 67 focused unit tests and 16 real browser interaction checks. Actual browser combat qualification and release activation remain. Five-minute training ended at the original deadline with four incomplete cases; it is not running or qualified. |
+| Shaman | Restoration and supported healing variants | Whole-loadout validation now passes 200 native/Chromium controls across 647 groups, preserving every parent control. All 90 acquisition profiles, 2,025 items and 127 enchant recipes remain; the earlier 1,320 consume-axis contexts are unchanged. Source legality, ownership, paired hands, conditional reward access and exact domain identity are checked. Actual equipped fights, cooldown/policy integration and browser job transport still precede bounded optimization and delivery. Dual Wield/Earthliving access, absent current bases and Eye's script remain unverified. |
 
-Latest Paladin correction is terminal:13968 new requests and2208 exact reuses.
+The latest changes remain local. Shaman's numerical search has not started;
+the separately authorized Druid delivery-only continuation is tracked in its
+recovery document and current context. Paladin's real protobuf codec preserves all 504 original
+request identities under Node; this is not actual browser/WASM combat admission.
+Further Paladin numerical execution requires a separate authorization because
+the original window expired. Non-numerical UI delivery can continue meanwhile.
+The [Paladin workspace handoff](simulator-paladin-healer-workspace.md) describes
+the isolated review release and exact validation scope. A separate 30-minute
+actual browser/native delivery-validation window was requested after the preview
+became reviewable; no answer has been received and no numerical clock started.
+The interaction tests use controlled Worker transport and execute no combat.
+Priest/Druid local presets do not establish production deployment or completion
+of the original DPS/tank scope.
+
+The subsequent full four-confirmation history review authenticates132004saved
+requests and checks all3024current selections against5702failed origins. It finds
+three earlier Vigil-support/tank failures masked by later green batches. These
+remain unqualified;the latest60reserve selections are clear within this history.
+All four source request replays are complete. Causal diagnosis is bounded to
+the exact historical failure;no replacement is chosen from validation.
+
+Latest reserve-window confirmation is terminal:6948actual requests,all60cases
+survive/pass observed2% and separate1%. Full request replay reproduces it. A14455-
+pin/four-journal merge preserves3024passing origins:2640original/195first-repair/
+129previous-policy/60latest,each with original seeds/counts. Latest60selections
+have no contradiction in the preceding189-case confirmation's failure index.
+This is not a universal historical-survival proof or complete Paladin admission.
+Read-only original/repair request replays and longer/spread/profile/delivery work
+remain;earlier checkpoints below are historical. No class-window reset occurred.
+
+Current Paladin survival-policy training completed17,796actual requests/3,336exact
+reuses. The fixed fresh independent confirmation is terminal:12,768new requests/
+2,328exact reuses;129/189cases report survival and2%passes (also1%). Sixty later
+Vigil-mobility/group cases reproduce one failed fight per2,048fights; all
+share one plan and satisfy the objective-only2%comparison. No reselection,retry,
+pressure reduction or survival waiver. Keep old passing origins separate until an
+independent merged-origin audit. Original deadline unchanged; full qualification
+and publication remain false.
+
+The subsequent isolated-fight trace identifies long mana gaps and delayed first/
+second potion eligibility. Two fixed resource-window/fast-rescue proposals now pass
+three native/browser pairs and nine source/wire contracts. A finite60-case policy
+correction retains all contenders and earlier training-leading gears.
+All60corrective training selections now survive across3474actual requests;
+separate fresh holdouts are running under the original class deadline. An actual
+history audit preserves the60known failed selected setups from the previous
+confirmation,so a green later batch cannot erase them. It binds complete setup
+identity and never reuses numerical scores across seeds. Merged-origin review,
+holdout success and full delivery remain required; known-seed diagnostic survival
+is not BiS qualification. See the causal
+correction document and current context for exact owner handles and receipts.
+
+Previous Paladin repair confirmation is terminal:13968 new requests and2208 exact reuses.
 195/384 repaired cases pass;189 fail with one observed death per1024-fight
 selected plan. An independent14,403-pin origin audit keeps2640 unchanged passing
 cases on their original64-fight-batch confirmation and384 repaired cases on
@@ -44,8 +96,55 @@ all681 compiler files byte for byte from V1 while rejecting duplicate source
 integration. Detailed immutable receipts and remaining scope are in
 `simulator-shaman-healing-mechanics.md` and the current context checkpoint.
 
-Earlier training and component checkpoints follow; their then-live handles do
-not supersede the current terminal Paladin outcome above.
+Earlier training and component checkpoints follow; their historical handles do
+not supersede the current causal correction described below.
+
+The [causal Paladin correction](simulator-paladin-survival-correction.md) has now
+reproduced two failures as isolated fights and verified diagnostic full-metric
+parity. A fixed six-group/two-tank policy domain has eight actual native/Chromium
+controls. Fresh2,048-fight training on the189 remaining cases is active,with a
+reserve preference inside a1% objective band and separate2% confirmation queued.
+The original engine,pressure,survival requirement and class deadline remain.
+There is no validation-time selection or automatic retry beyond that fixed matrix.
+
+The latest Shaman workload derivative passes58 actual native/Chromium controls
+and114 groups. All225 parent controls/382 groups remain unchanged. Ten compiled
+behavioral mutants are caught, including the separate DPS guard; six actual DPS
+pairs remain identical. The controller executes legal full builds, real mana/GCD/
+cooldown/range/death behavior, Riptide/Chain demand, shield/totem maintenance and
+Nature's Swiftness. Its external-demand ledger excludes overheal/overkill and
+reports useful Mana Tide mana separately from HPS. Equipment/consumes remain
+explicitly outside this component. The numerical window remains unstarted; the
+remaining item/set qualification, optimization and delivery are still required.
+
+Shaman's [Five Thunders source/stat preparation](simulator-shaman-five-thunders-recovery.md)
+also covers all eight missing base519 items,alternate1679 and four reference
+reward milestones. The subsequent base519 component passes66 native/browser
+controls/136 groups, preserves237 parent controls/394 groups, and detects nine
+compiled faults including the separate DPS guard. A2699-item derived catalog
+adds only the eight current records, without approving acquisition. Complete item/set/consume
+admission and numerical optimization remain pending; the numerical clock is
+still unstarted.
+
+The [Shaman equipment preparation](simulator-shaman-equipment.md) retains2,017
+candidates across30 faction/profession profiles and all17 slots, with six legality
+contracts. A verified six-cell current-stat repair passes68 native/browser controls
+and138 groups, preserving all245 parent controls/416 groups and every profile pool.
+The post-repair3,822-modifier audit has zero mapped discrepancies. Twenty unmapped
+records,557 current-missing items,33 represented sets and149 current effect-linked
+items remain explicit. Ten totems have exact client source/family review; five
+healing/resource effects now pass80 native/browser controls/188 groups, retaining
+247 parent controls/418 groups and eight actual DPS pairs. Thirteen compiled
+faults are detected. The broader raw source graph retains251 linked items,
+including102 whose base records remain historical, plus33 sets/104 thresholds.
+These are component/source reviews, not numerical BiS or full equipment admission.
+
+The Elements derivative now passes 92 native/browser controls across 232 groups,
+retaining all 259 parent controls/468 groups and ten actual DPS cases. Its proc
+rate and routing remain explicit references. The Spiritcaller ownership proof
+retains all four crafts across all 30 profiles while proving that their shared
+one-item category prevents reaching two-piece and higher thresholds. This reduces
+unreachable mechanics work without removing candidates or bypassing restrictions.
 
 The latest Paladin training evaluated108 acquisition/assignment variants under28
 mechanics scenarios. Every selected compromise survived, but36 variants missed

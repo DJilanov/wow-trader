@@ -6,7 +6,39 @@ catalogs; they cannot establish whether these omitted pieces or sets would win.
 This is a source-completeness issue to resolve before claiming complete pre-raid
 coverage.
 
-## Current selected-catalog status — October 25, after Hunter delivery
+## Current selected-catalog status — October 26, 00:02 UTC
+
+The unchanged auditor was rerun against the actual current source selection and
+the existing older tank deployment assembly. Both pointer and asset consistency
+checks pass. The scope remains 15 profiles in each space and 25 catalog instances.
+The current source-root union still contains 16 of the 72 base IDs: eight
+Darkmantle and eight Beastmaster pieces. The remaining 56 are absent from every
+source-root selected catalog. The older assembly still has 0/72; this is not a
+fresh production check.
+
+New immutable report:
+`artifacts/forever-simulator/optimization/catalog-audits/dungeon-upgrades-03522f97d258d60f.json`,
+byte SHA `03522f97d258d60f65f7c1f2773eee94c3e8f8782e54c89d3ceebc5b14e86e87`.
+The actual 146-source frontend graph was checked before execution and does not
+request or include the protected cache module. The audit runs zero native or
+browser jobs and performs zero production writes.
+
+The separate selected healer-library audit was also rerun successfully. Its
+unchanged immutable report remains `healer-ui-dungeon-upgrades-e2bc3a230a01cd73.json`:
+Priest has 0/8 Virtuous pieces across its 993-item, 40-build library; Restoration
+Druid has all eight Feralheart IDs across its 1,534-item, 30-build library. The
+Druid library does not report structured set membership. These are identity
+observations, not stats, effects, acquisition or optimization qualification.
+Keep healer-library scope separate from the DPS/tank catalogs above.
+
+A combined scope observation is retained at
+`artifacts/forever-simulator/optimization/druid-statistics-correction-v1/source-compatible-resume-v1/remaining-scope-observation-d8e60c6139938af9.json`,
+semantic SHA `d8e60c6139938af900f4ca2e2984f8b5c584c828b19e783f295a380689c4636e`,
+byte SHA `7717dae307a7ad720f285f57ecbdae1387244d9bddf86a34671d724532d8a155`.
+It preserves and supersedes the initial combined summary's uninterpreted healer
+rows. No model, candidate, numerical study, selection or deployment was changed.
+
+## Previous selected-catalog status — October 25, after Hunter delivery
 
 The post-selection audit checks the same **15 profiles in each of two spaces**,
 with **25 catalog instances**. The source root now contains **16 of the 72 base
