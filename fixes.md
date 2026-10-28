@@ -1,5 +1,40 @@
 # WoW Trader fixes and recovery context
 
+## October 28, 11:43 UTC — current DPS/tank rankings and new healer board live
+
+Pushed application commit `00587e8` is deployed. All five boards are available at
+https://kfcguild.online/tools/forever/tier-list, including
+https://kfcguild.online/tools/forever/tier-list/healers. Current results cover
+25 solo/raid DPS builds, all three tank classes in dungeon/raid comparisons and
+all four healers (13 archetypes × three assignments). Snapshots authenticate 44
+current source bindings; stale results are hidden instead of silently relabeled.
+
+Healer comparison policy v2 excludes self-damaging mana runes from standardized
+assignments and verifies damage/healing/final-health conservation. This fixes
+self-cost healing contaminating comparable HPS; original simulator presets and
+consume settings are preserved. Overheal is not scored, and survival gates rank.
+Healer build links restore the reviewed source setup, not the normalized workload.
+
+Public checks pass: 15 responsive tier-list cases, four restored healer builds
+with actual WASM simulations, 15 DPS/tank profiles/45 builds, and 117 assets on
+ten pages. Strict types, scoped lint, production build, 43 final focused web tests
+and five policy tests pass. The preceding full web suite passed 2,185 tests with
+four integration tests skipped. Unchanged comparisons reuse authenticated receipts
+through `pnpm simulator:tier-list:refresh`; `verify` never starts engines.
+
+Deployment preserved the prior simulator runtime, guild login and leveling fixes.
+Only Helper restarted; all unrelated PM2 processes were preserved. Build ID:
+`uPzbMx6guRnUfdz5lPnP1`. Temporary review servers are stopped; rollback is retained.
+Receipts: `/home/wow-trader-system/shared/operations/class-tiers-20261028-00587e8`.
+
+Packaging lesson: Next standalone tracing may create a **partial** `public/`
+directory. Always merge the complete source `public/` and `.next/static/` into
+the standalone tree, even when those directories already exist. Checking only
+directory existence skipped logos/portraits and broke optimized image requests
+in the first private candidate. The complete merge fixed it before activation;
+candidate and live asset checks now pass. The corrected build script is retained
+with the operational receipts. Details: `docs/forever-healer-tier-list.md`.
+
 ## October 28, 09:38 UTC — all practical class updates live
 
 Pushed code `c2e8660` is deployed at

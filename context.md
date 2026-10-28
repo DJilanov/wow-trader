@@ -2,56 +2,65 @@
 
 Last updated: 2026-10-28 (Europe/Sofia)
 
-## October 28 — current tier-list refresh and healer rankings underway
+## October 28, 11:43 UTC — all current tier lists deployed, including healers
 
-The owner asked whether tier lists use the completed class results and requested
-healers alongside solo/raid DPS and tanks. **The old DPS boards were stale, tank
-boards did not consume the latest qualified model selectors, and there was no
-healer board. Implementation and measurements are verified locally; this tier
-update is not deployed yet.** The previous all-class simulator release remains live.
+**The current solo/raid DPS and dungeon/raid tank comparisons, plus the new healer
+rankings, are live and publicly verified.** The old DPS results were stale and
+the tank boards did not select the newest qualified models; both now use the
+current admitted builds. Public entry: https://kfcguild.online/tools/forever/tier-list.
+Healers: https://kfcguild.online/tools/forever/tier-list/healers.
 
-- Current inputs are selected through the existing admitted presentation/build
-  loaders. There are 25 conservative DPS builds across all nine classes, plus
-  12 tank setups (three classes × two encounters × two objectives). Every DPS
-  build has fresh 5,000-fight solo and raid measurements. Each tank setup has
-  fresh 5,000-fight comparison results; original 40,000-fight gear-search evidence
-  stays separate. Raid tank imports consistently remove the weapon coating for
-  Windfury under the comparison policy.
-- All four healer models have fresh comparable tank/group/burst measurements:
-  13 archetypes × three assignments × 512 fights (two 256-fight seeds). Shared
-  duration 180s, four injured 18k-health recipients and stacked positions. Tank
-  demand 800/s; group 200/s per recipient; burst2,500 each every 15s. Useful HPS
-  excludes overhealing and includes consumed absorbs. Survival must reach 99%
-  to pass; failed builds remain visible in D. These are synthetic assignment
-  comparisons, not a 40-player raid prediction or another optimization search.
-- New `/forever/tier-list/healers` page, shared navigation, discovery links and
-  class-workspace links are implemented. All current snapshots bind 44 runtime
-  selection/manifest/publication files; changed selections hide stale results. Old snapshots
-  and original optimization evidence remain preserved.
+- Coverage: 25 conservative DPS builds across all nine classes in solo and raid
+  modes; three tank classes with separate threat/mitigation gear in dungeon and
+  raid modes; all four healer classes, with 13 archetypes and tank/group/burst
+  assignments. DPS and tank comparisons each use 5,000 fights per setup. Healer
+  comparisons use 512 fights per assignment, split across two independent seeds.
+  The current cohort contains 329,968 fights. Original gear-search confirmations
+  and deadlines remain separate; no new optimization search was started.
+- Healer policy v2 compares useful healing and consumed absorbs, excludes overheal
+  from score, and requires 99% assignment survival. These are standardized
+  five-person assignments with raid buffs, not a full 40-player healing raid.
+  Self-damaging mana runes are disabled only in the comparison to prevent their
+  self-cost healing contaminating the accounting. All 78 admitted batches pass
+  exact damage/HPS/final-health conservation. Original presets, consumes and
+  personal simulator workloads are unchanged; v1 diagnostic trials are retained.
+- Five public pages share navigation, discovery links and simulator links. Their
+  snapshots bind 44 runtime selection/manifest/publication files. Changed bindings
+  hide stale scores and disable indexing. Page requests never start engines.
+- Pushed application commit `00587e8a2eb127815576e04868b68eb484774c3c` includes
+  feature commit `dffa8db` and the accounting correction. Activated at 11:34:19 UTC;
+  build `uPzbMx6guRnUfdz5lPnP1`. Source release:
+  `/home/wow-trader-system/releases/kfc-helper-class-tiers-20261028-00587e8`.
+  Static release: `/home/wow-trader-system/shared/static-delivery/releases/kfc-helper-class-tiers-20261028-00587e8`.
+  Numerical runtime remains
+  `/home/wow-trader-system/shared/simulator-releases/full-class-core-20261028-c2e8660`.
+- Deployment overlaid 41 exact pushed files onto the previous live source,
+  preserving guild login and leveling fixes. Linux build passes; every source
+  checksum was verified afterward. Only `kfc-helper-web` restarted (PID 685134);
+  guild PID 417516 and unrelated PM2 processes stayed unchanged. Discord login
+  remains available. Prior source/static releases and all evidence remain available
+  for rollback. No schema or dependency change was needed.
+- Public review: all five boards pass at 1440, 390 and 320 pixels (15 cases), with
+  working filters/assignment selection, loaded images and no horizontal overflow.
+  All four healer source links restored their builds and completed real WASM
+  simulations. Independent verification passes 15 DPS/tank profiles and 45 builds,
+  with private proofs inaccessible. Ten pages/117 assets pass the asset smoke.
+  Strict web types, scoped lint/formatting and production build pass. The full web
+  suite passed 2,185 tests with four integration tests skipped; after the final
+  accounting correction, all 43 focused web and five policy tests passed.
 - Repeatable commands: `pnpm simulator:tier-list:refresh` and
   `pnpm simulator:tier-list:verify`, with `--artifact-root` and optional
-  `--evidence-dir`. Content-addressed requests reuse unchanged measurements;
-  verification never starts engines. Local evidence and logs:
-  `artifacts/forever-simulator/optimization/current-tier-refresh-20261028/`.
-  `inputs.json` selects the previously deployed `combined-runtime-D4dQjP/runtime`.
-  `evidence/` contains 140 real request/response receipts (~139MiB) and five snapshots.
-- Checks so far: strict web TypeScript, 53 focused web tests, four policy tests,
-  full web suite 2,184 passed/four skipped. All scoped tooling and web lint pass.
-  Actual desktop/mobile review passed 15 cases against an owned private 3029 preview;
-  initial browser harness needed to await hydration/state updates. No product
-  failure was established by that immediate assertion. Source scripts preserve
-  all protected numerical helpers and original optimization deadlines.
-- Next: finish browser/visual review, docs and format/lint, commit/push, build
-  a scoped successor of the current production source, preview and deploy only
-  Helper with the same existing simulator runtime. Preserve guild login/leveling
-  fixes, PM2 siblings, rollback and all numerical evidence. Stop owned preview.
-
-- Accounting correction before deployment: initial v1 healer runs exposed self-cost
-  healing from mana runes. They are retained as diagnostic trials. Policy v2 disables
-  self-damaging runes only in the comparison and verifies exact damage/HPS/final-
-  health conservation for every fully surviving batch. All 78 v2 batches pass; original
-  simulator presets are unchanged. Feature commit `dffa8db` is pushed but not deployed;
-  this correction must be committed/pushed before the production build.
+  `--evidence-dir`. Verification only authenticates receipts. The default evidence
+  store `artifacts/forever-simulator/optimization/tier-comparison` now holds 218
+  immutable receipts, including historical diagnostic trials, so unchanged
+  comparisons can be reused. Only the matching 140 current measurements enter
+  public snapshots; old trials are not counted as additional independent samples.
+- Local receipts: `artifacts/forever-simulator/optimization/current-tier-refresh-20261028/`.
+  Server receipts: `/home/wow-trader-system/shared/operations/class-tiers-20261028-00587e8`.
+  Temporary local 3029/3038 and remote 19238/19239 previews are stopped; owner
+  ports were preserved. Server has approximately 3.67 GiB available. No tier-list
+  implementation or deployment work remains. See `docs/forever-healer-tier-list.md`
+  for measurement policy, update commands and deployment details.
 
 ## October 28, 09:38 UTC — complete practical simulator release deployed and verified
 
