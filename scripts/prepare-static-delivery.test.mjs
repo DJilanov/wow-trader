@@ -42,6 +42,10 @@ async function fixture() {
     "kfc-preset-safety.json": Buffer.from("private proof2"),
     "kfc-optimized-tank-profile.json": Buffer.from("private tank proof"),
     "kfc-tank-browser-research.json": Buffer.from("private research proof"),
+    "kfc-qualified-tank-model.json": Buffer.from("private derived tank proof"),
+    "kfc-tank-update-qualification.json": Buffer.from("private numerical qualification"),
+    "kfc-qualified-combat-model.json": Buffer.from("private combat delivery proof"),
+    "kfc-combat-update-qualification.json": Buffer.from("private combat qualification"),
     ["tank-measurements/" + "a".repeat(64) + ".json"]: Buffer.from("private measurements"),
   };
   for (const [name, data] of Object.entries(contents)) {
@@ -81,6 +85,10 @@ test("public inventory refuses internal proofs, HTML, maps, hidden files, traver
     "manifest.json",
     "kfc-optimized-tank-profile.json",
     "kfc-tank-browser-research.json",
+    "kfc-qualified-tank-model.json",
+    "kfc-tank-update-qualification.json",
+    "kfc-qualified-combat-model.json",
+    "kfc-combat-update-qualification.json",
     "tank-measurements/example.json",
     "bundle/source.js.map",
     "lib.wasm.gz",
@@ -154,6 +162,138 @@ test("automatic staging follows selected models and ignores incomplete, unselect
     await rm(f.root, { recursive: true, force: true });
   }
 });
+
+for (const [profile, selectionName] of [
+  ["feral_tank_druid", "qualified-tank-model.json"],
+  ["tank_warrior", "qualified-warrior-tank-model.json"],
+  ["protection_paladin", "qualified-paladin-tank-model.json"],
+]) {
+  test(`automatic staging includes the qualified ${profile} successor and keeps its evidence private`, async () => {
+    const f = await fixture();
+    try {
+      const release = "b".repeat(24),
+        folder = join(f.source, release);
+      await mkdir(folder);
+      await writeFile(join(folder, "manifest.json"), JSON.stringify({ ...f.manifest, release }));
+      for (const name of Object.keys(f.manifest.files)) {
+        await mkdir(join(folder, name, ".."), { recursive: true });
+        await writeFile(join(folder, name), await readFile(join(f.folder, name)));
+      }
+      const proof = Buffer.from(
+        JSON.stringify({
+          schema: "kfc-qualified-tank-model.v1",
+          profile,
+          release,
+          sourceRelease: f.release,
+        }),
+      );
+      await writeFile(join(folder, "kfc-qualified-tank-model.json"), proof);
+      const pointer = {
+        schema: "kfc-qualified-tank-selection.v1",
+        profile,
+        release,
+        proofSha256: checksum(proof),
+        browserReviewSha256: "c".repeat(64),
+      };
+      await writeFile(join(f.source, selectionName), JSON.stringify(pointer));
+      const result = await prepareStaticDelivery({ simulatorRoot: f.source, output: f.output });
+      assert.deepEqual(result.manifestPins.map((row) => row.release).sort(), [f.release, release]);
+      await assert.rejects(
+        lstat(join(f.output, "forever-sim", release, "kfc-qualified-tank-model.json")),
+        { code: "ENOENT" },
+      );
+      await writeFile(
+        join(f.source, selectionName),
+        JSON.stringify({ ...pointer, proofSha256: "d".repeat(64) }),
+      );
+      await assert.rejects(
+        prepareStaticDelivery({ simulatorRoot: f.source, output: f.output + "-invalid" }),
+        /proof checksum/,
+      );
+    } finally {
+      await rm(f.root, { recursive: true, force: true });
+    }
+  });
+}
+
+for (const contract of [
+  {
+    profile: "warrior",
+    name: "qualified-combat-models.json",
+    schema: "kfc-qualified-combat-selection.v1",
+    proofSchema: "kfc-qualified-combat-model.v1",
+  },
+  {
+    profile: "mage",
+    name: "qualified-dps-models.json",
+    schema: "kfc-qualified-dps-selection.v1",
+    proofSchema: "kfc-qualified-combat-model.v2",
+  },
+  {
+    profile: "retribution_paladin",
+    name: "qualified-dps-models.json",
+    schema: "kfc-qualified-dps-selection.v1",
+    proofSchema: "kfc-qualified-combat-model.v2",
+  },
+]) {
+  test(`automatic staging includes qualified ${contract.profile} combat presets and keeps their evidence private`, async () => {
+    const f = await fixture();
+    try {
+      const release = "b".repeat(24),
+        folder = join(f.source, release);
+      await mkdir(folder);
+      await writeFile(join(folder, "manifest.json"), JSON.stringify({ ...f.manifest, release }));
+      for (const name of Object.keys(f.manifest.files)) {
+        await mkdir(join(folder, name, ".."), { recursive: true });
+        await writeFile(join(folder, name), await readFile(join(f.folder, name)));
+      }
+      const proof = Buffer.from(
+        JSON.stringify({
+          schema: contract.proofSchema,
+          profile: contract.profile,
+          release,
+          sourceRelease: f.release,
+        }),
+      );
+      await writeFile(join(folder, "kfc-qualified-combat-model.json"), proof);
+      const pointer = {
+        schema: contract.schema,
+        profiles: {
+          [contract.profile]: {
+            release,
+            proofSha256: checksum(proof),
+            browserReviewSha256: "c".repeat(64),
+          },
+        },
+      };
+      await writeFile(join(f.source, contract.name), JSON.stringify(pointer));
+      const result = await prepareStaticDelivery({ simulatorRoot: f.source, output: f.output });
+      assert.deepEqual(result.manifestPins.map((row) => row.release).sort(), [f.release, release]);
+      await assert.rejects(
+        lstat(join(f.output, "forever-sim", release, "kfc-qualified-combat-model.json")),
+        { code: "ENOENT" },
+      );
+      await writeFile(
+        join(f.source, contract.name),
+        JSON.stringify({
+          ...pointer,
+          profiles: {
+            [contract.profile]: {
+              ...pointer.profiles[contract.profile],
+              proofSha256: "d".repeat(64),
+            },
+          },
+        }),
+      );
+      await assert.rejects(
+        prepareStaticDelivery({ simulatorRoot: f.source, output: f.output + "-invalid" }),
+        /proof checksum/,
+      );
+    } finally {
+      await rm(f.root, { recursive: true, force: true });
+    }
+  });
+}
 
 test("automatic staging includes all optimized tank models and refuses partial selections", async () => {
   const f = await fixture();

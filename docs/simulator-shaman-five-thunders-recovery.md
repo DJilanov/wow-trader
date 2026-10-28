@@ -1,5 +1,116 @@
 # Shaman Five Thunders recovery
 
+## October 27, 06:53 UTC — current DPS candidate preparation verified
+
+Elemental, Stormcaller and Enhancement now have all-slot banks on the expanded
+2,743-item statistics model `bfb98b8c556b4a10d4cce45eca5db4a9872e25f57c0df545651b222ad039ecb9`.
+The current compiled items equal the captured Five Thunders source. Every
+two-to-eight-piece subset is present, including mandatory full-set witnesses.
+All 17 slots, legal one/two-hand and shield/held-offhand combinations, totems,
+ordered jewelry, other eligible sets and compatible enchants are audited.
+
+| Style       | Generated proposals | Retained group entries | Unique gear vectors |
+| ----------- | ------------------: | ---------------------: | ------------------: |
+| Elemental   |              17,753 |                 17,744 |              17,476 |
+| Stormcaller |              17,753 |                 17,744 |              17,476 |
+| Enhancement |              17,827 |                 17,818 |              17,552 |
+
+Each bank has 24 retained groups. Nine omitted singleton groups explain the
+generated/retained difference. These are proposal counts, not unique fights.
+The existing feedback adapters preserve the actual melee-weaving/Shadow Oil
+context. Their structural Wizard Oil projection is used only for eligibility;
+an exact profile hash and restoration check prove it never enters combat or
+stat requests. Source talents, APL, consumes, faction and professions remain.
+
+All three recorded profiles are Horde and explicitly assume completion through
+quest milestone four. The existing acquisition resolver is reused unchanged.
+The independent audit reconstructs its original unadmitted sources, verifies
+milestone counts 1/3/6/8, checks that stage zero excludes all eight rewards and
+rejects other-class and Alliance access. Raw unrestricted wear is not changed
+into a fabricated item class restriction. No Alliance quest route or verified
+live character progress is claimed. Nonraid restrictions remain intact.
+
+Six complete native/Chromium stat API pairs pass with the exact prepared raid
+context, using the shared stat-context guard. An independent replay checks the
+actual saved wires/results and every retained vector/pool. Improved totems,
+Windfury, raid auras and Kings remain active. The base proc still uses the
+explicit completed-owner-magic-casts reference; server routing is unverified.
+
+Paths below are relative to `artifacts/forever-simulator/optimization/`:
+
+- Initial bank input: `current-shaman-candidates-v1/prepare-qRzpdl/input.json`,
+  SHA-256 `e6c32afac425f4def80281f1ac3c34c170259a928c5c834d8de7d57bbca2716c`.
+- Authoritative exact-stat successor:
+  `.../prepare-qRzpdl/exact-stats-gyyJtu/input.json`, SHA-256
+  `915f61bd511e4f8fdb2f9e4cf58bbc6cb34805fea406c2306dd1af6f11c4a7a3`.
+- Stat report: `.../exact-stats-gyyJtu/report.json`, SHA-256
+  `4d58526c301cabb2c72fb556d1e600514a475a7e58e6ab73e11063d81ab471d2`.
+- Independent audit: `.../exact-stats-gyyJtu/preparation-review-xQPF44/report.json`,
+  SHA-256 `a6567d471c09813bee67ddaeaf60209a9e103cbb5dbd0dcc424bfd1ef8b00539`.
+
+Private producers are `prepare-current-shaman-candidates-v1.mjs`,
+`qualify-exact-caster-stats-v2.mjs` and
+`review-exact-caster-preparation-v3.mjs`. The seven derived bank/support helpers
+change only hash/dependency imports or extract existing consume constants
+unchanged. Original sources are pinned and preserved; guarded bundling rejects
+the protected cache before loading it.
+
+No ranking job, selected preset, numerical clock or deployment changed. The
+original DPS ledger expired October 22 at 20:34:15.394 UTC. The still-open
+Restoration ledger belongs to healing, whose 198 configurations already include
+their declared conditional access and remain complete. It cannot authorize
+new DPS work. The remaining DPS work is actual Forever combat qualification,
+bounded all-slot and geared talent/rotation feedback, fresh confirmation,
+matching presets/library/guidance and actual browser delivery.
+
+## DPS reference qualified — October 27
+
+The separate `shaman-five-thunders-combat` component adds exact base519 dispatch
+to the DPS/tank engine. It preserves the completed Restoration model, controller,
+library and all198configurations. Its renderer refuses owned healer dispatch;
+this reference cannot silently replace that implementation.
+
+Thresholds are2resistance8,4proc65power/10seconds,6power23 and8bonusarmor200.
+Alternate1679andClassic retain parent behavior. No alternate three-piece MP5 or
+five-piece Electrocute enters the base set. Unified SpellPower supplies damage
+and healing once; the existing bonus-armor dependency remains.
+
+The required `completed-owner-magic-casts-reference` attempts once per completed
+nonpassive class damage/healing cast, including misses. It excludes melee,
+periodic ticks, other owners and item-proc masks before RNG. The captured4%chance
+and10second duration are checked; server routing remains unverified. Raw wear
+stays unrestricted. Acquisition is unadmitted in this component; the separately
+reviewed Horde quest milestones below remain distinct.
+
+Immutable paths relative to `artifacts/forever-simulator/optimization/`:
+
+- `shaman-five-thunders-combat-model-v1/build-QiGK4e/report.json`, SHA-256
+  `0252f37fe73f11555ce4a5672e4400a81751438fecef6167f1eace6b8173d74e`.
+  Model`7c8b7d959c4889b4a65a4f8f3cf659a49b2f509e409ad90796fa469f19dd3435`.
+  Copies491parent compiler inputs; only dispatcher/embedded DB change,3files
+  added. All2,719parentitems/nonitemfields remain;8added,total2,727.
+  Native44Shaman and68Paladin/Warlock outcomes pass.
+- `.../build-QiGK4e/browser-review-v5Cy4F/report.json`, SHA-256
+  `e0b57b4c1b1ab6b13745bc01607f9769c1e1c104d38128b2047a562ca93b1d73`.
+  All112outcomes match actualChromium/WASM;1,021pins,zero pageerrors.
+  Seeded4%reference produces195/5,000procs in both runtimes.
+- `.../build-QiGK4e/stats-api-review-zQua1B/report.json`, SHA-256
+  `d84470091d0826af2138afbea6f7a4f3b6785363293a32dc77b06e4881e22b6e`.
+  Twelve complete-runtime ComputeStats comparisons pass: inherited Warlock and
+  five gear thresholds for each of Elemental and Enhancement.
+
+Parent fixture`infra/simulator/fixtures/shaman-five-thunders-combat-parent.v1.json.gz`,
+SHA-256`55077709a95bb64220e5611d6f023e9d22b6d480a5b332d323565e3f9f2e9899`.
+Original source fixture, healing model and historical results are unchanged.
+Failed`build-RhL7IH`retains duplicate test-registration failure;`build-BRR8TQ`
+retains all44passingnative outcomes and the producer's incorrect expected45count.
+Controls were isolated from existing initialization; V3 checks exact44/all6roots.
+Both harness corrections left runtime code unchanged. All sources are retained.
+
+Fifty-two combined source/catalog/planner tests, scoped ESLint/Prettier and Go
+formatting pass. This is no new DPS score, RaidSim parity, optimization clock,
+selected build or deployment. Full damage comparisons and delivery remain.
+
 The parent Shaman healing catalog contains the eight Elements pieces but omitted
 all eight base Five Thunders pieces,22095–22102. An isolated current-source
 component now adds those records and verifies their base519 effects independently
@@ -112,12 +223,12 @@ associations. Historical item data supplies icon identities; it cannot replace
 current stats. All eight pieces normalize successfully and have no individual
 item-effect links. Their raw wear mask is unrestricted,-1.
 
-| Base519 pieces | Spell | Current payload |
-| --- | --- | --- |
-|2|18679|8 nonphysical resistances|
-|4|27774 →27775|4% client proc reference,+65 magical damage/healing for10seconds;raw proc mask81920|
-|6|14047|23 magical damage/healing|
-|8|14803|200 bonus armor|
+| Base519 pieces | Spell        | Current payload                                                                     |
+| -------------- | ------------ | ----------------------------------------------------------------------------------- |
+| 2              | 18679        | 8 nonphysical resistances                                                           |
+| 4              | 27774 →27775 | 4% client proc reference,+65 magical damage/healing for10seconds;raw proc mask81920 |
+| 6              | 14047        | 23 magical damage/healing                                                           |
+| 8              | 14803        | 200 bonus armor                                                                     |
 
 Alternate1679 instead has8 MP5 at three pieces,a different four-piece proc parent
 450626 with100% raw client chance and mask81924,and five-piece Electrocute.

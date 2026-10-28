@@ -1,5 +1,287 @@
 # Paladin first-pass preparation
 
+## October 28, 03:29 UTC — confirmed Holy assembly and native origins verified
+
+The confirmed-bank adapter reconstructs all 56 currently confirmed extension
+cases without reselection, preserving 25 adaptive policies and the complete
+profile/encounter/reference dimensions. Nine authentic regressions pass.
+Read-only native admission reconstructs all 224 selected requests and verifies
+2,120 comparison references from 1,548 actual native origins, including every
+request/workload/reply identity, declared round and recomputed summary.
+
+The old library/SDK/workspace contracts support only three-minute stacked
+assignments and the default two profession profiles. They require versioned
+admission for the complete new domain and adaptive policy metadata. The bank
+and native-origin snapshots are private intermediates and do not constitute
+class or website publication. Exact report paths/hashes are in `context.md`.
+
+Holy's six-worker V3 study remains live with its original deadline and full
+scope. Two frames/56 extension cases are confirmed; 7,000 remain, followed by
+baseline merge/final failure review, 18 acquisition-context transfers and the
+complete library/runtime/browser delivery. No new native pool, restart, class
+ledger mutation, public pointer change or deployment occurred this turn.
+
+## October 28, 02:47 UTC — current combat presets and website delivery qualified
+
+Retribution, Shockadin and all six Protection setups now pass current actual
+desktop/mobile menu and full Next host checks, including Simulate, Stop,
+recovery, full settings, matching guidance and one page scrollbar. Protection
+also verifies displayed threat and damage taken. Both local selectors and
+authentic fixtures are active; original40kresults, talents and rotations stay
+unchanged. The combat-only handoff is sealed and explicitly excludes Holy and
+the combined production build.
+
+Fresh browser requests exactly match the archived32-fight native controls in
+the same admitted model. Reuse checks whole request bytes, original source
+checksums and native job IDs; no new pool was needed while Holy was running.
+The separate Paladin replay protocol is constrained to those known controls;
+standard browser approvals retain their original seed requirements. Five reuse
+regressions,108focused website tests,33packaging/deployment tests, strict
+TypeScript and scoped lint pass. The complete local deployment check covers
+15DPS/tank profiles/45builds with correct databases and private proof blocking.
+
+Holy remains unfinished with its full scope and original deadline. At02:46UTC
+two extension frames/56cases are independently qualified and the third is
+running. Exact paths/hashes and the current private Next host are at the top of
+`../context.md`. No final production build, commit, push or deployment occurred.
+
+## October 28, 02:17 UTC — exact-model final delivery checks prepared
+
+Paladin DPS and Protection delivery now have separate final reviewers using the admitted
+Soulforge runtime and every compiled manifest asset. Do not use the generic
+BFB-bound reviewer. Both `--verify-inputs` reviews pass; actual14-check
+desktop/mobile menu/native execution is still queued behind Holy's sole pool.
+The pure full-character/request contract passes seven authentic regressions.
+Real safety checks verify workspace exclusion and rejection of both pending
+preflights without changing the class ledger, saved lock, selections or fixtures.
+
+After the sole pool is free, run the two exact commands in
+`simulator-update-runbook.md`, then use their actual passing report paths/hashes
+with `deliver-current-paladin-website-v1.mjs`. Create and test the positive
+fixtures before local activation, then refresh and review the full Next host.
+Neither publisher success branch has run yet. Protection's complete six-setup
+candidate and28-check preflight retain their original qualified measurements.
+Current report paths, hashes and Holy progress are at the top of `context.md`.
+
+## October 28, 01:25 UTC — current combat evidence and modern DPS menus prepared
+
+All eight existing DPS/tank selections pass fresh64-fight WASM replays against
+their exact prior native inputs/full metrics and complete stat requests.
+Every observed target is within the conservative16-aura union; valid dungeon
+targets with zero activated debuffs are accepted from their full raw responses.
+The earlier diagnostic rejection did not prove an overflow and changes no
+selected build. Four authentic-source regressions cover this distinction.
+
+Ret and Shockadin retain their974.77/790.02DPS40kreferences. Their original
+51-point allocations and every priority/prepull instruction remain bound to
+the current semantic APL. A new qualified payload and compiled modern candidate
+include both configurations and Gear Sets. Twelve actual desktop/mobile menu,
+default, saved-character, share-import and engine-readiness checks pass;
+screenshots were viewed. Standard actual menu/native simulation and full host
+approval remain pending; the candidate is not selected publicly.
+
+Holy's sole six-worker pool continues the complete extension scope. Its clock
+still ends October28,23:17:09.827UTC. No additional native pool, optimization
+restart, deadline extension or deployment was introduced for these browser
+and source checks. Current exact paths/hashes/next gates are in `../context.md`.
+
+## October 28, 00:57 UTC — current approved continuation and exact reuse
+
+The remaining-class approval supersedes the earlier unanswered continuation
+requests. The current immutable Paladin window is October27,23:17:09.827UTC
+through October28,23:17:09.827UTC; preserve the older clocks below as history.
+
+The V3 Holy search is live with six workers and the preserved586,514training
+records. The first extension frame passed complete practical feedback and all
+28independent comparisons, using four fresh128-fight batches per contender
+without reselection. The full7,056extension cases,18other acquisition contexts,
+final failure audit and browser/library delivery remain required.
+
+All eight existing Soulforge DPS/tank selections also passed a new exact-origin
+replay of their complete64-fight native/browser metrics, real32-fight compiled
+menu requests and full computed-stat pairs. It reconstructs actual native gear
+and sampling overlays before comparing the archived browser wire. Seven
+authentic-source regressions pass. No new combat optimization was needed and
+the40k references remain unchanged. Modern preset/guidance/current-host delivery
+and the final project deployment are still open. Live handles, hashes and
+artifact paths are documented at the top of `context.md`.
+
+## October 27, 03:16 UTC — approved Soulforge comparison and compiled UI verified
+
+The owner approved a separate, fixed two-hour DPS/tank update, from
+01:20:33.147 to 03:20:33.147 UTC. The numerical work completed within that
+window. Original expired windows and the pending Holy Paladin browser-only
+request are unchanged. This approval does not cover another class.
+
+All eight recovered items were compared individually and in all 247 multi-piece
+subsets, alongside the incumbent, in eight scenarios. The six tank scenarios
+then completed whole-gear feedback, including ordered weapon/jewelry pairs,
+enchants and sets. Shockadin's changed gear required four passes: the first
+three-pass result correctly remained unqualified after its last pass changed
+gear; a successor reused exact-model/input calculations and completed a closing
+pass without changes. No timing search or new optimization window was started.
+
+Selected fresh 40,000-fight results in this pinned reference model:
+
+| Build                                | Objective     |   Result |
+| ------------------------------------ | ------------- | -------: |
+| Retribution                          | DPS           |   974.77 |
+| Shockadin                            | DPS           |   790.02 |
+| Raid mitigation                      | Physical DTPS |   274.70 |
+| Raid threat                          | TPS           |   883.79 |
+| Dungeon mitigation                   | Physical DTPS |   355.16 |
+| Dungeon threat                       | TPS           | 1,089.48 |
+| Raid threat, provisional enchants    | TPS           |   895.35 |
+| Dungeon threat, provisional enchants | TPS           | 1,130.75 |
+
+Lower DTPS is preferable. These are different objectives and encounters, so
+the table is not a cross-build DPS ranking. All scenarios passed the declared
+2% policy. The separate new geared update does not qualify an original 1%
+target or prove global optimality. Retribution's gear and settings were unchanged;
+its existing full-gear search was not repeated beyond the added-item comparison.
+Tank gear remained unchanged, but seasonal Greater Firepower and raid-dependent
+Brilliant Wizard Oil were removed from the old tank consume configurations and
+the corrected scenarios were measured again. Shockadin's gear and enchants changed.
+This added-item update preserves the previously selected talents and rotation;
+it does not claim a new exhaustive talent or timing search.
+
+Final selected builds also passed **eight complete native/Chromium unit-metric
+comparisons**, using independent seed 97127001 and 64 fights per engine. Actual
+Forever requests, gear hashes and all unit metric fields were checked; duplicated
+Consecration aura records remain separate. These runtime checks do not replace
+compiled preset menu, full Next.js host or production checks.
+
+Evidence relative to `artifacts/forever-simulator/optimization/`:
+
+- `paladin-soulforge-update-v1/prepare-BU0alb/numerical-qualification-PHZuIG/report.json`,
+  SHA-256 `90a4842874ffdb1f863189613a2a04e3572777d45b90f12ed5e7c5d9f0c51b13`:
+  eight qualified numerical comparisons, current whole-gear/source/enchant admission,
+  result references and source pins; publication remains disabled.
+- `.../final-controls-SRBVym/report.json`, SHA-256
+  `6359d69c7eca0a5975f0329a23859f5a90e11d1b902c5b69dcd1964da444a6cf`:
+  all eight selected native/browser controls pass with complete metrics.
+- `.../geared-feedback-v1/result-22ad4c6414eaba9a104a26d1ed1ee372a785105808f6a118f0956c536d8873f2.json`,
+  SHA-256 `d38bd5f83b158c1e211b25c6adfbf35f69f4021390b1406cef678826aab5ad17`:
+  all six tank cases converge with zero unresolved bounds.
+- `.../shockadin-geared-feedback-v2/result-4438c40ae53aca75268ef669428fddd4e12c27af3db5a8922db44f14a1272aa7.json`:
+  four-pass closure, 34,481 observed loadouts, zero unresolved bounds and two fresh
+  20k confirmation seeds. The failed convergence result in V1 remains unchanged.
+
+The Soulforge four-piece cadence remains an explicit **one-PPM reference**;
+server cadence and live acquisition are unverified. Comparison qualification
+is conditional on this model. It is not evidence that the server uses that rate.
+The successor compiled UI candidate is `bdd3248eeda51050cc2b83ef`, under
+`paladin-soulforge-update-v1/prepare-BU0alb/ui-candidate-D0ZC1f/`. Its source
+passed the actual all-class virtual TypeScript check. All **12 compiled-UI
+browser checks pass**: default and menu checks for DPS/tank at 1440/390 pixels,
+then eight real 32-fight UI/worker runs whose captured Forever requests preserve
+the tested gear, talents, consumes, race and raid support and whose displayed DPS
+matches the actual native request. Provisional enchants remain explicit opt-ins.
+The browser report is `.../ui-review-ntMP5g/report.json`, SHA-256
+`19ce2b130bba3adf46e534f75648b90b2d28a7f1f9fede20ff4ded731ffbacb0`.
+
+An earlier candidate correctly failed because the admitted combat runner does
+not emit health and armor. The corrected payload obtains those fields from the
+actual stat API, with eight complete native/Chromium result comparisons:
+`paladin-soulforge-combat-model-v1/build-CJB6JO/selected-stats-api-review-CPSQvV/report.json`,
+SHA-256 `245ced6e18fbf5fff967313265188369736d3e43bbbe4470c66cfc68eb72b24e`.
+No old stat values were copied. The new inspection payload also supports effect
+records without captured names/triggers and displays an explicit unknown-description
+fallback. The failed candidates and raw evidence remain intact. A first UI combat
+reader failure compared omitted protobuf defaults (`{}` versus `{id:0}`); the
+successor canonicalizes the input through the same verified codec and retains
+all nondefault values, rather than relaxing equipment checks.
+
+No selected model pointer, production preset, Git commit, push or deployment
+has changed. The verified candidate still needs the website's authenticated
+release reader/public-proof integration and actual current Next.js host checks.
+The separate Holy Paladin browser approval remains pending. Twelve comparison/
+canonicalization regression tests pass; `git diff --check` also passes.
+
+## October 27, 00:43 UTC — complete Soulforge combat reference prepared
+
+The eight omitted base Soulforge items, IDs 22086–22093 in set 516, now have a separate
+melee-capable model for Retribution and Protection. This does not change either
+selected DPS build, any tank ranking, the Holy Paladin model or an expired class
+window. It is model/candidate preparation, not a fresh DPS/TPS result.
+
+The captured build 70532 / hotfix 3bf7ea17 source supplies the correct thresholds:
+two pieces grant 8 nonphysical resistance; four pieces use spell 27498 → 27499
+to grant 65 spell power for 10 seconds on the captured white-melee proc; six
+pieces grant 40 AP/RAP; eight pieces grant 200 bonus armor. The
+constructor's existing bonus-armor dependency is retained. Unified SpellPower
+provides damage and healing once; the model does not add a second healing bonus.
+Same-name alternate1673 cannot contribute to base thresholds. Classic and other
+class dispatch remain separate. The owned healer dispatcher is explicitly refused
+by this renderer until separately reconciled, preserving its healing-only scope.
+
+Cadence is **one-PPM-reference**, deliberately required as an explicit input.
+The captured proc chance is 100%, with no listed PPM record or ICD. That does not
+establish actual server cadence. The one-PPM choice is a disclosed modeling
+assumption, not extracted server behavior or a measured rate. The
+[CMaNGOS proc handler](https://github.com/cmangos/mangos-classic/blob/master/src/game/Spells/UnitAuraProcHandler.cpp)
+illustrates separate server-side chance/PPM overrides; it is not Forever evidence.
+Cadence sensitivity and actual full-raid comparisons remain required before
+qualifying a new build. Source acquisition is the captured four Alliance class
+quest phases; no uncaptured Horde route or live reward observation is invented.
+
+New public sources under `infra/simulator/`:
+
+- `paladin-soulforge-combat.mjs`: strict proc/duration/hotfix reference, exact-ID
+  dispatch renderer and reuse of the existing current-stat/acquisition adapter.
+- `paladin-soulforge-combat.go`: real base2/4/6/8 dispatch and owner white-melee
+  proc; specials, spells, pets and friendly targets do not consume its RNG.
+- `.test.mjs` / `_test.go`: source/renderer and real Ret/Protection controls.
+- `fixtures/paladin-soulforge-combat-parent.v1.json.gz`, SHA-256
+  `d14231055a8785da34b73f2a2497f3d0b1e2b643e4bf76997f70a1264d5d8fe1`.
+
+The model derives from the frozen Deathmist parent. Of 488 existing compiler
+inputs, only `core/item_sets.go` and `assets/database/db.bin` change; three inputs
+are added. All 2,711 old items and non-item fields are preserved, with an actual
+protobuf round trip to 2,719 items. Native and WASM assets use the same source inventory.
+New model identity:
+`56698b4729ee198f469d77fb8545538b52451924f283ed0f3f042449a815983e`.
+
+Actual evidence relative to `artifacts/forever-simulator/optimization/`:
+
+- `paladin-soulforge-combat-model-v1/build-CJB6JO/report.json`, byte SHA-256
+  `775d8973ef9042553e1526d2706a0ac851719ac650d99fadfb99ea61404398e4`:
+  46 native controls cover every 0–8-piece threshold for Ret/Protection with/without
+  Kings, identity/Classic boundaries, AP/armor, both power channels, refresh/reset,
+  eligibility and declared cadence. All 22 inherited Warlock controls also pass.
+- `.../build-CJB6JO/browser-review-JC3LuV/report.json`, SHA-256
+  `85bf344196fa47c37a12fe63db857898d58ff4fd4ea0f71d21a8426b3e0a2da1`:
+  all 68 outcomes also pass in actual Chromium/WASM; 1,011 pins checked. Native/browser
+  seeded counts match: 195/5,000 with 2.4-second weapon 12777, and 325/5,000 with
+  3.8-second weapon 12784.
+- `.../build-CJB6JO/stats-api-review-XyUU10/report.json`, SHA-256
+  `bbd90f52524873d1efead39e4436842a8fc37099ee91c34517335d2ff3814297`:
+  12 complete native/browser stat API comparisons pass: two inherited Warlock
+  requests and five gear thresholds for each Paladin actor. No raid-simulation
+  API, DPS/TPS search or optimization clock is started by this stat check.
+- `paladin-soulforge-combat-catalog-v1/prepare-oB9fyr/report.json`, SHA-256
+  `9cc1dce48acb3e10089458a7b455de305a6ce60ac32337c67fd50248883f70e6`:
+  catalog equals the built model, parent inspection records remain unchanged,
+  all eight acquisition records/ownership rows and set-effect labels are prepared.
+  All 247 multi-piece subsets, including the full set, pass Alliance prebis legality; all
+  eight uncaptured Horde and wrong-class cases are rejected.
+
+The first failed `build-ed5Na0` is preserved. Its fixture passed IndividualBuffs
+to the Debuffs argument of `SinglePlayerRaidProto`; correcting the fixture to
+`player.Buffs` changed no runtime implementation. Input sources and failed logs
+remain in that workspace. Earlier catalog preparation`prepare-7Q2fa6`and producer
+V1 remain intact; V2 only fixes spacing in a displayed set label.
+
+Private producers are `build-paladin-soulforge-combat-v1.mjs`,
+`verify-paladin-soulforge-combat-browser-v1.mjs`,
+`verify-paladin-soulforge-stats-api-v1.mjs`and
+`prepare-paladin-soulforge-combat-catalog-v2.mjs`under`optimization/review-tools/`.
+All successful source/artifact bytes are retained. No protected cache helper was
+read/imported/executed/edited. No source selector, numerical score, class window,
+Git state or production deployment was changed. New numerical comparisons still
+need their own authorized bounded scope; the pending Holy browser-only question
+does not authorize a new Paladin DPS/tank search.
+
 ## October 22, 17:35 UTC — both qualified builds locally delivered
 
 Local cumulative release135c3be07ddf4be41de2e554 now selected;25localcases/23standardDPS.

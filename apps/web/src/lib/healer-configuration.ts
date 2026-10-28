@@ -17,6 +17,7 @@ import {
   type HealerWorkspaceLibrary,
   type WorkspaceHealingWorkload,
 } from "@wow-trader/forever-data/healer-workspace";
+import { updatePriestHealingCooldowns } from "../../../../infra/simulator/priest-healing-cooldowns.mjs";
 
 interface ConsumeChoice {
   readonly id: number;
@@ -198,11 +199,25 @@ export function healerWorkloadForConfiguration(
         minimumMissingMana: 1500,
         requireHealingDemand: true,
       });
-    if (library.itemEffectsVersion === 2 && owns(13143))
-      result.cooldowns.push({
-        spellId: 17252,
-        minimumMissingMana: 22,
-        requireHealingDemand: true,
+    if (library.itemEffectsVersion === 2)
+      result.cooldowns = updatePriestHealingCooldowns({
+        baseline: build.workload.cooldowns.map((use) => {
+          if (use.requireHealingDemand !== true)
+            throw new Error(
+              "This healing setup has unsupported cooldowns. Choose a current preset.",
+            );
+          return {
+            ...(use.spellId !== undefined ? { spellId: use.spellId } : {}),
+            ...(use.itemId !== undefined ? { itemId: use.itemId } : {}),
+            ...(use.minimumMissingMana !== undefined
+              ? { minimumMissingMana: use.minimumMissingMana }
+              : {}),
+            requireHealingDemand: true,
+          };
+        }),
+        gear: config.gear,
+        defaultConjured: config.consumes.defaultConjured,
+        troll: library.races.find((race) => race.id === config.race)?.name === "Troll",
       });
     return healingWorkloadSchema.parse(result);
   }

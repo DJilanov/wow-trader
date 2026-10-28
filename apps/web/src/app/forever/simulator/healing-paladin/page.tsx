@@ -12,6 +12,13 @@ import type {
   PaladinHealerRelease,
 } from "@wow-trader/forever-data/paladin-healer-release";
 import { PaladinHealerWorkspace } from "../../../../components/paladin-healer-workspace";
+import { PaladinHealerFrameWorkspace } from "../../../../components/paladin-healer-frame-workspace";
+import type { PaladinHealerFrameRelease } from "@wow-trader/forever-data/paladin-healer-frame-release";
+import {
+  readPaladinHealerFrameRelease,
+  readPaladinHealerFrameLibrary,
+  type PaladinHealerFrameLibraryData,
+} from "../../../../lib/paladin-healer-frame-simulator";
 import {
   readPaladinHealerGroup,
   readPaladinHealerIndex,
@@ -53,9 +60,13 @@ export default async function PaladinPage({
   let index: PaladinHealerLibraryIndex | null = null;
   let presentation: PaladinHealerPresentation | null = null;
   let initialGroup: PaladinHealerGroupPayload | null = null;
+  let frameManifest: PaladinHealerFrameRelease | null = null;
+  let frameData: PaladinHealerFrameLibraryData | null = null;
   try {
-    manifest = await readPaladinHealerRelease(undefined, release);
-    if (manifest) {
+    frameManifest = await readPaladinHealerFrameRelease(undefined, release);
+    if (frameManifest) frameData = await readPaladinHealerFrameLibrary(frameManifest);
+    else manifest = await readPaladinHealerRelease(undefined, release);
+    if (!frameManifest && manifest) {
       index = await readPaladinHealerIndex(manifest);
       presentation = await readPaladinHealerPresentation(manifest, index);
       initialGroup = await readPaladinHealerGroup(
@@ -70,7 +81,7 @@ export default async function PaladinPage({
       error instanceof Error ? error.message : "Unknown error",
     );
   }
-  if (release && !manifest) notFound();
+  if (release && !manifest && !frameManifest) notFound();
   return (
     <article
       className="forever-simulator-workspace"
@@ -107,7 +118,17 @@ export default async function PaladinPage({
           </Link>
         </nav>
       </header>
-      {manifest && index && presentation && initialGroup ? (
+      {frameManifest && frameData ? (
+        <PaladinHealerFrameWorkspace
+          key={frameManifest.release}
+          index={frameData.index}
+          catalog={frameData.catalog}
+          presentation={frameData.presentation}
+          initialFrame={frameData.initialFrame}
+          release={frameManifest.release}
+          {...(shared ? { initialSharedBuild: shared } : {})}
+        />
+      ) : manifest && index && presentation && initialGroup ? (
         <PaladinHealerWorkspace
           key={manifest.release}
           index={index}

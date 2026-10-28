@@ -6,6 +6,28 @@ catalogs; they cannot establish whether these omitted pieces or sets would win.
 This is a source-completeness issue to resolve before claiming complete pre-raid
 coverage.
 
+## Current selected-catalog status — October 26, 23:28 UTC
+
+The unchanged auditor now checks 11 source-root catalogs and 13 catalogs in the
+older tank deployment assembly, covering 15 profiles per space. Pointer,
+manifest, item-count and database-asset checks pass. The current frontend import
+graph was separately checked with a resolver guard rejecting the protected cache
+module before loading; all 157 graph inputs are clear of that module.
+
+The source-root union now contains **32/72 base IDs**: all eight pieces of
+Darkmantle, Beastmaster, Feralheart and Sorcerer's Regalia. The remaining **40**
+base IDs are absent from every selected source-root catalog. This is a union
+across selected catalogs: it does **not** establish complete coverage, mechanics
+or optimization for each class. Prepared Priest/Warlock models and separate
+healer catalogs are not counted as selected DPS/tank delivery. The old tank
+assembly still contains 0/72 and is not a fresh live-server observation.
+
+Immutable report:
+`artifacts/forever-simulator/optimization/catalog-audits/dungeon-upgrades-824ce5f3b487caa4.json`,
+byte SHA-256 `824ce5f3b487caa459e20a87c1930302e7a5fe4fdd20bee3744b40c110769ad6`.
+Zero native/browser jobs, optimization, selection changes or production writes
+occurred. The observations below remain historical records.
+
 ## Current selected-catalog status — October 26, 00:02 UTC
 
 The unchanged auditor was rerun against the actual current source selection and

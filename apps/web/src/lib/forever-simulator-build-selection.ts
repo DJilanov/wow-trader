@@ -22,7 +22,14 @@ export function simulatorBuildLabel(build: LocalSimulatorBuildReview): string {
 export function simulatorBuildForPreset(
   builds: readonly LocalSimulatorBuildReview[],
   preset: string,
+  explicitBuildId?: string,
 ): LocalSimulatorBuildReview | null {
+  if (explicitBuildId !== undefined)
+    return (
+      builds.find(
+        (build) => build.id === explicitBuildId && preset === simulatorBuildLabel(build),
+      ) ?? null
+    );
   return (
     builds.find((build) => {
       if (build.requiresProvisionalEnchantOptIn) return false;

@@ -1,30 +1,56 @@
 # Mage dungeon-upgrade recovery
 
+## October 27 — expanded catalog and statistics preparation
+
+Follow-up: exact-context successor
+`current-mage-candidates-v1/prepare-aAkLGH/exact-stats-IIvGT5/input.json`
+now has six complete native/browser stat pairs and independent raw request,
+result and all-vector replay. The earlier stat checks omitted active-party
+count and retained older recorded support; their reports remain historical.
+Use the new receipts in [the expanded statistics record](simulator-current-statistics-model.md).
+The three banks and compiled gameplay model are unchanged; no ranking ran.
+
+A separate derivative now combines the existing stable-statistics correction
+with the qualified expanded 2,743-item catalog and all 72 base dungeon-set
+pieces. The initial 303 native and Chromium/WASM component outcomes pass,
+including 37 Mage controls. Another 116 existing Hunter, Rogue/Valor and Feral
+DPS outcomes pass in both backends on the same frozen model, for 419 total.
+Six complete stat API pairs
+pass for recorded Frost/Fire/Arcane incumbent and full-set settings.
+
+Three newly bound all-slot search banks and their independent audits pass with
+full-v2 raid buffs, all 247 Sorcerer subsets and mandatory full-set retention.
+These are preparation artifacts, with no new DPS scores, ranking jobs, numerical
+reuse, class clock, selection or publication. The pending additional Mage
+window is unchanged. Exact model, bank, audit and source receipts are in
+[the expanded statistics model record](simulator-current-statistics-model.md).
+Earlier sections below retain the older-model history.
+
 The original catalog audit found all eight base **Sorcerer's Regalia, set 517**
 pieces missing. The same-name alternate **1671** has different item IDs and
 bonuses. The existing name-based Mage handler grants the alternate's three-piece
 MP5 and four-piece mana proc. Adding the base items without correcting dispatch
 would therefore produce incorrect comparisons.
 
-| Work | Evidence | Status |
-| --- | --- | --- |
-| Recover exact base and alternate identities | Current build 1.60.1.70532, authenticated tables and separate memberships | Implemented |
-| Review current stat and effect payloads | Eight base pieces, complete eight-spell trigger closure and strict payload checks | Implemented |
-| Recover class/faction quest associations | Same-TOC QuestieDB 1.0.4, eight quests and sixteen item associations | Implemented; live delivery unobserved |
-| Normalize all eight item drafts | Current armor, spell power and rating conversion; historical data supplies icons only | Implemented in an unselected candidate model |
-| Corroborate quest reward sections | Eight primary Forever page/index sections; four quests also have exact linked base IDs reviewed | Reference review implemented |
-| Implement base-ID runtime dispatch | Exact base thresholds, Forever armor dependency, incoming freeze, explicit immunity/range/DR policy; 31 native and 31 Chromium WASM test outcomes pass | Implemented within the declared scope |
-| Compile a complete Mage model | All 2,695 items, semantic parent/new database checks, embedded/UI database conformance and compiled regressions | Implemented; full-fight qualification pending |
-| Prepare Frost, Fire and Arcane candidate domains | Actual published setups with full-v2 buffs, every slot/pair/set and legal enchant; all 247 base subsets and full eight-piece comparison | Implemented; four integration tests pass |
-| Prepare current gear requests | Exact Forever source templates, explicit published overrides, preserved options/consumes and current database; four tests | Implemented; full-fight execution pending |
-| Execute supervised UI/native/WASM controls | Thirty actual captures and native/WASM pairs; corrected full-row/raw-wire replay and six unchanged-parent controls | Corrective owner completed successfully |
-| Admit completed control evidence | Exact corrected owner, preserved failure/window, all raw captures and result/stat bytes; ten correction contracts pass | Actual independent completed-source admission passed |
-| Search and replay all-style gear | Compatible v2 producer/reader, all three full domains, 497 typed controls and three additional contracts | Preflight passed; numerical owner pending Hunter feedback priority |
-| Prepare geared talent/APL/mana and consume feedback | Actual-context requests, authenticated historical proposals without scores, all-style coverage and four-pass closure; fifteen tests | Callback pipeline and completed-gear input gate implemented; actual execution pending |
-| Supervise and independently replay all-style feedback | Compatible v3 command and reader, corrected control/gear admission, exact category/selected raw-unit parity; nineteen compatibility contracts | Implemented; actual completed gear required |
-| Prepare current geared finalists for confirmation | All three typed selector frames, every retained finalist/source alias, genuine inspected-seed alignment and full historical RNG exclusions | Implemented with coverage v2; 46 combined contracts pass; actual source pending |
-| Execute and independently replay fresh confirmation | Compatible v2 command and reader, original immutable RNG/exclusion policy, exact completed-owner and whole-report replay; twenty compatibility contracts | Implemented; actual completed feedback required |
-| Optimize all Mage styles and publish matching presets | Complete candidate/set domains, bounded feedback, fresh confirmation and actual UI checks | Pending |
+| Work                                                  | Evidence                                                                                                                                                 | Status                                                                                |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Recover exact base and alternate identities           | Current build 1.60.1.70532, authenticated tables and separate memberships                                                                                | Implemented                                                                           |
+| Review current stat and effect payloads               | Eight base pieces, complete eight-spell trigger closure and strict payload checks                                                                        | Implemented                                                                           |
+| Recover class/faction quest associations              | Same-TOC QuestieDB 1.0.4, eight quests and sixteen item associations                                                                                     | Implemented; live delivery unobserved                                                 |
+| Normalize all eight item drafts                       | Current armor, spell power and rating conversion; historical data supplies icons only                                                                    | Implemented in an unselected candidate model                                          |
+| Corroborate quest reward sections                     | Eight primary Forever page/index sections; four quests also have exact linked base IDs reviewed                                                          | Reference review implemented                                                          |
+| Implement base-ID runtime dispatch                    | Exact base thresholds, Forever armor dependency, incoming freeze, explicit immunity/range/DR policy; 31 native and 31 Chromium WASM test outcomes pass   | Implemented within the declared scope                                                 |
+| Compile a complete Mage model                         | All 2,695 items, semantic parent/new database checks, embedded/UI database conformance and compiled regressions                                          | Implemented; full-fight qualification pending                                         |
+| Prepare Frost, Fire and Arcane candidate domains      | Actual published setups with full-v2 buffs, every slot/pair/set and legal enchant; all 247 base subsets and full eight-piece comparison                  | Implemented; four integration tests pass                                              |
+| Prepare current gear requests                         | Exact Forever source templates, explicit published overrides, preserved options/consumes and current database; four tests                                | Implemented; full-fight execution pending                                             |
+| Execute supervised UI/native/WASM controls            | Thirty actual captures and native/WASM pairs; corrected full-row/raw-wire replay and six unchanged-parent controls                                       | Corrective owner completed successfully                                               |
+| Admit completed control evidence                      | Exact corrected owner, preserved failure/window, all raw captures and result/stat bytes; ten correction contracts pass                                   | Actual independent completed-source admission passed                                  |
+| Search and replay all-style gear                      | Compatible v2 producer/reader, all three full domains, 497 typed controls and three additional contracts                                                 | Preflight passed; numerical owner pending Hunter feedback priority                    |
+| Prepare geared talent/APL/mana and consume feedback   | Actual-context requests, authenticated historical proposals without scores, all-style coverage and four-pass closure; fifteen tests                      | Callback pipeline and completed-gear input gate implemented; actual execution pending |
+| Supervise and independently replay all-style feedback | Compatible v3 command and reader, corrected control/gear admission, exact category/selected raw-unit parity; nineteen compatibility contracts            | Implemented; actual completed gear required                                           |
+| Prepare current geared finalists for confirmation     | All three typed selector frames, every retained finalist/source alias, genuine inspected-seed alignment and full historical RNG exclusions               | Implemented with coverage v2; 46 combined contracts pass; actual source pending       |
+| Execute and independently replay fresh confirmation   | Compatible v2 command and reader, original immutable RNG/exclusion policy, exact completed-owner and whole-report replay; twenty compatibility contracts | Implemented; actual completed feedback required                                       |
+| Optimize all Mage styles and publish matching presets | Complete candidate/set domains, bounded feedback, fresh confirmation and actual UI checks                                                                | Pending                                                                               |
 
 The selected catalog, engine, presets and ranking are unchanged. The actual Mage
 update window began October 24 at 17:53:53.844 UTC and ends October 25 at the same
@@ -146,11 +172,11 @@ The following counts describe the original **v1 preparation**. The numerical
 producer now uses v2's exact-subset rebasing and reconstructs its banks from the
 qualified actual captures before reporting its current counts.
 
-| Style | Candidates | Groups | Base subsets | Mandatory maximum-set comparisons |
-| --- | ---: | ---: | ---: | ---: |
-| Frost | 10,661 | 25 | 247 | 8 |
-| Fire | 10,566 | 25 | 247 | 8 |
-| Arcane | 10,782 | 25 | 247 | 8 |
+| Style  | Candidates | Groups | Base subsets | Mandatory maximum-set comparisons |
+| ------ | ---------: | -----: | -----------: | --------------------------------: |
+| Frost  |     10,661 |     25 |          247 |                                 8 |
+| Fire   |     10,566 |     25 |          247 |                                 8 |
+| Arcane |     10,782 |     25 |          247 |                                 8 |
 
 The new bank supports all three styles directly. It covers single slots,
 one-hand/held-offhand and two-hand/empty-offhand layouts, ordered jewelry pairs,
@@ -824,12 +850,12 @@ queued Rogue confirmation's frozen inputs.
 
 Base items are **22062–22069**; alternate items are **226937–226944**.
 
-| Pieces | Base spell | Client definition |
-| --- | --- | --- |
-| 2 | 18679 | +8 nonphysical resistances |
-| 4 | 27867 → 27868 | Incoming-hit freeze proc: 2% chance, 60-second internal cooldown, three-second root, combat-range child |
-| 6 | 14047 | +23 magical spell damage and healing |
-| 8 | 14803 | +200 bonus armor |
+| Pieces | Base spell    | Client definition                                                                                       |
+| ------ | ------------- | ------------------------------------------------------------------------------------------------------- |
+| 2      | 18679         | +8 nonphysical resistances                                                                              |
+| 4      | 27867 → 27868 | Incoming-hit freeze proc: 2% chance, 60-second internal cooldown, three-second root, combat-range child |
+| 6      | 14047         | +23 magical spell damage and healing                                                                    |
+| 8      | 14803         | +200 bonus armor                                                                                        |
 
 The alternate grants +8 MP5 at three pieces and a 5%/200-mana spellcast proc at
 four pieces, with freeze at five pieces. Those effects must remain separate from
@@ -853,12 +879,12 @@ The separate saved review is
 SHA-256 `c5e2deeca94271276762f15f8922aae46ee3a0daf95e3f34d8c175110ef32b04`.
 It preserves all URLs, reward names, mapping evidence and unresolved flags.
 
-| Milestone | Alliance | Horde | Reward names |
-| --- | --- | --- | --- |
-| 1 | [8907](https://www.wowhead.com/forever/quest=8907/an-earnest-proposition) | [8915](https://www.wowhead.com/forever/quest=8915/an-earnest-proposition) | Bindings |
-| 2 | [8932](https://www.wowhead.com/forever/quest=8932/just-compensation) | [8939](https://www.wowhead.com/forever/quest=8939/just-compensation) | Belt, Gloves |
-| 3 | [8953](https://www.wowhead.com/forever/quest=8953/anthions-parting-words) | [9018](https://www.wowhead.com/forever/quest=9018/anthions-parting-words) | Boots, Leggings, Mantle |
-| 4 | [9001](https://www.wowhead.com/forever/quest=9001/saving-the-best-for-last) | [9014](https://www.wowhead.com/forever/quest=9014/saving-the-best-for-last) | Crown, Robes |
+| Milestone | Alliance                                                                    | Horde                                                                       | Reward names            |
+| --------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------- |
+| 1         | [8907](https://www.wowhead.com/forever/quest=8907/an-earnest-proposition)   | [8915](https://www.wowhead.com/forever/quest=8915/an-earnest-proposition)   | Bindings                |
+| 2         | [8932](https://www.wowhead.com/forever/quest=8932/just-compensation)        | [8939](https://www.wowhead.com/forever/quest=8939/just-compensation)        | Belt, Gloves            |
+| 3         | [8953](https://www.wowhead.com/forever/quest=8953/anthions-parting-words)   | [9018](https://www.wowhead.com/forever/quest=9018/anthions-parting-words)   | Boots, Leggings, Mantle |
+| 4         | [9001](https://www.wowhead.com/forever/quest=9001/saving-the-best-for-last) | [9014](https://www.wowhead.com/forever/quest=9014/saving-the-best-for-last) | Crown, Robes            |
 
 The reward links for 8907, 8915, 8932 and 8953 were followed and resolve to exact
 base IDs. The other four sections corroborate reward names; their mapping to

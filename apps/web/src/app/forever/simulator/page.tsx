@@ -9,6 +9,8 @@ import { readSimulatorManifest } from "../../../lib/forever-simulator";
 import { createHelperMetadata } from "../../../lib/seo";
 import { withHelperBasePath } from "../../../lib/site-path";
 import { isHealerSimulatorAvailable } from "../../../lib/healer-simulator";
+import { isPaladinHealerAvailable } from "../../../lib/paladin-healer-simulator";
+import { isShamanHealerAvailable } from "../../../lib/shaman-healer-simulator";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = createHelperMetadata({
@@ -30,10 +32,13 @@ export default async function ForeverSimulatorPage({
     typeof query.class === "string" ? query.class : undefined,
   );
   const manifest = await readSimulatorManifest();
-  const [healingPriestReady, healingDruidReady] = await Promise.all([
-    isHealerSimulatorAvailable(),
-    isHealerSimulatorAvailable("healing-druid"),
-  ]);
+  const [healingPriestReady, healingDruidReady, healingPaladinReady, healingShamanReady] =
+    await Promise.all([
+      isHealerSimulatorAvailable(),
+      isHealerSimulatorAvailable("healing-druid"),
+      isPaladinHealerAvailable(),
+      isShamanHealerAvailable(),
+    ]);
   return (
     <article className="forever-reference-page simulator-directory">
       <header className="forever-reference-hero">
@@ -106,6 +111,24 @@ export default async function ForeverSimulatorPage({
                 <span>
                   <strong>Restoration</strong>
                   <small>Wild Growth, Splendor and Nature’s Grace · Healing & mana</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
+            {selectedClass.name === "Paladin" && healingPaladinReady ? (
+              <Link href="/forever/simulator/healing-paladin">
+                <span>
+                  <strong>Holy</strong>
+                  <small>Direct healing, Light&apos;s Vigil & mana</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
+            {selectedClass.name === "Shaman" && healingShamanReady ? (
+              <Link href="/forever/simulator/healing-shaman">
+                <span>
+                  <strong>Restoration</strong>
+                  <small>Riptide, Chain Heal & Mana Tide</small>
                 </span>
                 <span aria-hidden="true">→</span>
               </Link>

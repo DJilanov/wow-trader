@@ -122,6 +122,10 @@ export async function serveSimulatorAsset(
     segments.includes("kfc-preset-safety.json") ||
     segments.includes("kfc-optimized-tank-profile.json") ||
     segments.includes("kfc-tank-browser-research.json") ||
+    segments.includes("kfc-qualified-tank-model.json") ||
+    segments.includes("kfc-tank-update-qualification.json") ||
+    segments.includes("kfc-qualified-combat-model.json") ||
+    segments.includes("kfc-combat-update-qualification.json") ||
     segments.includes("tank-measurements")
   )
     return new Response(null, { status: 404 });

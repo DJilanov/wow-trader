@@ -1,26 +1,143 @@
 # Warlock dungeon-upgrade recovery
 
+## October 27 — current all-slot banks and exact stat evidence prepared
+
+All four recorded styles now have independently audited banks against the
+expanded 2,743-item statistics model: Demonology, Affliction, DS/Ruin and
+Destruction. Each has 25 groups covering all 17 slots, ordered jewelry and
+weapon pairs, every eligible set assignment and compatible enchants. All 247
+multi-piece Deathmist subsets are present; maximum-piece set witnesses are
+mandatory. Raid-dependent sources remain excluded and PvP remains eligible.
+The actual request wire has improved totems, Windfury, raid auras and Kings.
+Recorded talents, pets, consumes, faction and professions otherwise remain.
+
+| Style       | Generated proposals | Retained group entries | Unique gear vectors |
+| ----------- | ------------------: | ---------------------: | ------------------: |
+| Demonology  |              10,930 |                 10,921 |              10,763 |
+| Affliction  |              10,930 |                 10,921 |              10,763 |
+| DS/Ruin     |              10,930 |                 10,921 |              10,763 |
+| Destruction |              10,929 |                 10,920 |              10,762 |
+
+Nine omitted singleton groups per style explain generated/retained differences;
+these are not unique simulations. Legal dagger/sword/staff layouts and held
+off-hands are checked; Priest-only mace layouts are rejected. Class/faction,
+profession, source, ownership and enchant restrictions are unchanged. Current
+Deathmist stats equal the captured source and compiled catalog. Its class-quest
+acquisition and fear-immune raid-boss reference remain explicitly unverified
+server assumptions; this does not qualify fearable encounters or live rewards.
+
+Eight complete native/Chromium stat pairs pass for the exact prepared raid
+contexts, with incumbent and full-set gear. The independent audit also replays
+all saved requests/results. It caught and rejected the first partial-raid stat
+requests, which omitted active-party count; those reports stay preserved.
+Corrected successor input and audit receipts are in
+[the expanded statistics record](simulator-current-statistics-model.md).
+
+This is preparation, not new DPS ranking, fresh random-seed confirmation or
+permission to reopen the expired Warlock window. Actual combat controls,
+bounded optimization and matching preset/library/browser delivery remain.
+No selected release, clock, Git commit, push or deployment changed. Earlier
+sections below retain the older-model recovery history.
+
 The catalog audit found all eight base **Deathmist Raiment, set 518** pieces
 missing. Same-name alternate **1681** has different items and thresholds. The
 inherited name-based engine handler grants the alternate's three-piece MP5 and
 four-piece healing proc; it leaves fear empty. Adding base items to that handler
 would compare the wrong effects.
 
-| Work | Evidence | Status |
-| --- | --- | --- |
-| Recover base and alternate identities | Authenticated build 1.60.1.70532 tables, separate memberships and complete eight-spell closure | Implemented |
-| Prepare current item stats | Eight base pieces, armor, spell power and universal rating conversion; historical icons only | Implemented; catalog admission pending |
-| Recover reward associations | Baked Forever QuestieDB 1.0.4, eight quests and sixteen item associations | Implemented; live delivery unobserved |
-| Corroborate primary reward references | Six parsed sections, one indexed section and eight distinct followed base-item targets | Implemented for seven quests; quest 8943 pending |
-| Isolate sourced passive calculations | Exact set-ID resistance, spell power/healing and bonus armor; fourteen matching native/Chromium-WASM outcomes | Implemented and verified as an unregistered component; complete set remains unqualified |
-| Implement and qualify base-ID dispatch | Stat thresholds, fear, armor dependency, alternate/Classic separation and lifecycle tests | Pending |
-| Compile a complete current native/WASM model | Preserve qualified parent effects and exact embedded/UI database equality | Pending |
-| Execute full-raid controls and optimization | All slots, hands/pairs/sets/enchants and geared talent/APL/pet/consume feedback | Pending |
-| Confirm and deliver matching builds | Fresh 2% and separate original 1%, defaults, presets, library, guidance and desktop/mobile checks | Pending |
+| Work                                          | Evidence                                                                                                      | Status                                                                                                                 |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Recover base and alternate identities         | Authenticated build 1.60.1.70532 tables, separate memberships and complete eight-spell closure                | Implemented                                                                                                            |
+| Prepare current item stats                    | Eight base pieces, armor, spell power and universal rating conversion; historical icons only                  | Implemented; catalog admission pending                                                                                 |
+| Recover reward associations                   | Baked Forever QuestieDB 1.0.4, eight quests and sixteen item associations                                     | Implemented; live delivery unobserved                                                                                  |
+| Corroborate primary reward references         | Six parsed sections, one indexed section and eight distinct followed base-item targets                        | Implemented for seven quests; quest 8943 pending                                                                       |
+| Isolate sourced passive calculations          | Exact set-ID resistance, spell power/healing and bonus armor; fourteen matching native/Chromium-WASM outcomes | Implemented and verified as an unregistered component; complete set remains unqualified                                |
+| Implement and qualify base-ID dispatch        | Stat thresholds, incoming fear proc, armor dependency, alternate/Classic separation and lifecycle tests       | Implemented within an explicit fear-immune raid-boss reference; fearable encounters remain unsupported                 |
+| Compile a current native/WASM reference model | Preserve parent catalog and exact embedded/UI database equality                                               | Implemented; 22 native/Chromium outcomes and 13 actual-runtime stat/recovery checks pass; combat qualification pending |
+| Execute full-raid controls and optimization   | All slots, hands/pairs/sets/enchants and geared talent/APL/pet/consume feedback                               | Pending                                                                                                                |
+| Confirm and deliver matching builds           | Fresh 2% and separate original 1%, defaults, presets, library, guidance and desktop/mobile checks             | Pending                                                                                                                |
 
 This preparation changes no selected catalog, engine, preset or ranking and
 starts no class clock or numerical job. The full original campaign remains in
 scope; these drafts do not complete Warlock optimization.
+
+## October 26, 23:27 UTC: integrated raid-boss reference
+
+The new `warlock-deathmist-model.mjs` renderer and Go implementation install base
+518 through the central set dispatcher. The generic name handler skips that base
+ID; alternate 1681 and the existing Classic dispatcher retain their prior
+behavior. The sourced 2/4/6/8 thresholds apply once. The three-piece MP5 and
+four-piece alternate healing proc cannot leak into the base set. The existing
+Warlock bonus-armor dependency applies the eight-piece armor exactly once.
+
+This model deliberately selects `raid-boss-fear-immune-reference`. It supports
+enemy targets at player level plus three, rejecting other encounters when the
+four-piece effect is equipped. **Level is a scope guard, not evidence of fear
+immunity.** The captured client does not prove server immunity, targeting/range,
+damage break or diminishing returns. Fearable targets remain unsupported; the
+model neither substitutes a stun nor claims to simulate fleeing.
+
+The four-piece effect is registered rather than omitted. Landed direct enemy
+attacks can roll the sourced 2% chance and one-minute cooldown; the child cast
+targets the incoming attacker under the disclosed reference. An immune cast adds
+no damage, hit/miss, threat, movement or boss aura. Rejected self/friendly,
+missed, periodic and unclassified events consume neither RNG nor cooldown.
+Tests cover the actual dispatcher, all thresholds, mixed membership, localized
+names, Classic behavior, seeded cadence, cooldown reopening, iteration cleanup
+and armor with/without Demon Armor. The seeded result is 100 procs in 5,000
+eligible attempts in both native and actual Chromium/WASM controls.
+
+The frozen parent is the existing Druid model `546fce4ba3d23c2b6d7f3b43`; all 32
+Warlock source files match the existing selected Warlock model's recorded
+sources. This is source preservation, not a claim that old DPS results apply to
+the derived model. Of the 485 parent compiler inputs, only `core/item_sets.go`
+and the embedded database change. Three new compiler inputs implement and test
+the model and encode its database. The actual protobuf catalog preserves all
+2,703 parent items and non-item fields, appends exactly eight current-stat
+Warlock rewards, and round-trips to 2,711 items.
+
+New model identity:
+`9be84801a2653042fbf34f2479bef351d0f6db32036a18dc71d21c07fec2d248`.
+Evidence under `artifacts/forever-simulator/optimization/`:
+
+- Native model and matching native/WASM assets:
+  `warlock-deathmist-model-v1/build-w0imNA/report.json`, byte SHA-256
+  `7acd3d3a4637d5c1b2b41a1164c29e8886e7f21a74cb3c35cb13b299fff77fc1`.
+- Actual Chromium execution of the same 22 outcomes:
+  `warlock-deathmist-model-v1/build-w0imNA/browser-review-V8ZUXQ/report.json`,
+  byte SHA-256 `a1b660c017323a5544bb5260dc9e96c71c3789b808f05f3f254707eba56b5aaf`;
+  1,012 source/evidence pins verified before and after execution.
+- Actual complete-runtime API checks:
+  `warlock-deathmist-model-v1/build-w0imNA/runtime-review-hyXpEt/report.json`,
+  byte SHA-256 `fdba2ee67007e5b5369e56f392193862f9f0ae4be68f3453d3adcdd8887eebe1`.
+  All 13 checks pass: two preserved build stat requests, zero through eight set
+  pieces, rejection of the unsupported encounter and successful reuse after
+  rejection. Native and browser stats agree; this is **not combat DPS parity**.
+  The check authenticates 1,015 source/evidence pins.
+
+The public Go database encoder, catalog/ownership adapters and model/renderer
+regression suite accompany the implementation. Fifteen Node source/renderer/
+catalog regressions, scoped ESLint/Prettier, Go formatting and diff checks pass.
+The dispatch-parent fixture has SHA-256
+`b583a46fd1baf8a6ec9c6b9fa7979ab32d76ce858235ba59a79a21835cdc032a`.
+The private build/browser/runtime review producers are versioned under
+`optimization/review-tools/`; none imports or executes the protected cache helper.
+
+No new numerical search ran. The original Warlock deadline remains expired, and
+the selected four-build library, presets and source pointers remain unchanged.
+A separate up-to-two-hour update for Warrior, Mage and Warlock was requested;
+authorization remains pending. Passing model controls do not approve publication
+or establish a new BiS result.
+
+The separate `warlock-deathmist-catalog.mjs` adapter prepares the actual search
+acquisition and ownership metadata. Both faction routes are alternatives; shared
+milestone rewards are not turned into exclusive choices. All eight individual
+pieces and all 247 two-to-eight-piece subsets pass the existing prebis filters
+for both factions, including the full set. The adapter-produced catalog equals
+the model's actual UI catalog. This checks the eight changed slots, not a
+completed all-slot search or a new DPS result. The immutable preparation is
+`warlock-deathmist-catalog-v1/prepare-aIOfze/report.json`, byte SHA-256
+`6978287fdc264613c97931050620cbbc4b7389c5accdec8f5c08e8c7e8c6b6c9`.
 
 ## Current source and stat preparation
 
@@ -30,12 +147,12 @@ ratings, historical icon identities, baked reward evidence and parent engine
 sources. All eight base pieces have no individual item-effect links; set effects
 remain separate from item stats.
 
-| Pieces | Base spell | Current client payload |
-| --- | --- | --- |
-| 2 | 18679 | +8 nonphysical resistances |
-| 4 | 27780 → 21330 | Incoming-hit fear: 2% chance, 60-second internal cooldown, two-second child and 25% movement-speed reduction |
-| 6 | 14047 | +23 magical damage and healing |
-| 8 | 14803 | +200 bonus armor |
+| Pieces | Base spell    | Current client payload                                                                                       |
+| ------ | ------------- | ------------------------------------------------------------------------------------------------------------ |
+| 2      | 18679         | +8 nonphysical resistances                                                                                   |
+| 4      | 27780 → 21330 | Incoming-hit fear: 2% chance, 60-second internal cooldown, two-second child and 25% movement-speed reduction |
+| 6      | 14047         | +23 magical damage and healing                                                                               |
+| 8      | 14803         | +200 bonus armor                                                                                             |
 
 Alternate 1681 has +8 MP5 at three pieces and a five-percent spellcast healing
 proc at four; fear moves to five pieces. The healing child's raw base points are
@@ -117,12 +234,12 @@ files and clock bytes stay unchanged.
 
 ## Reward reference review
 
-| Phase | Alliance | Horde | Expected base rewards |
-| --- | --- | --- | --- |
-| 1 | [8911](https://www.wowhead.com/forever/quest=8911/an-earnest-proposition) | [8919](https://www.wowhead.com/forever/quest=8919/an-earnest-proposition) | Bracers |
-| 2 | [8936](https://www.wowhead.com/forever/quest=8936/just-compensation) | [8943](https://www.wowhead.com/forever/quest=8943/just-compensation), unavailable | Belt, Wraps |
-| 3 | [8958](https://www.wowhead.com/forever/quest=8958/anthions-parting-words) | [9021](https://www.wowhead.com/forever/quest=9021/anthions-parting-words) | Sandals, Leggings, Mantle |
-| 4 | [9005](https://www.wowhead.com/forever/quest=9005/saving-the-best-for-last), indexed section | [9012](https://www.wowhead.com/forever/quest=9012/saving-the-best-for-last) | Mask, Robe |
+| Phase | Alliance                                                                                     | Horde                                                                             | Expected base rewards     |
+| ----- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------- |
+| 1     | [8911](https://www.wowhead.com/forever/quest=8911/an-earnest-proposition)                    | [8919](https://www.wowhead.com/forever/quest=8919/an-earnest-proposition)         | Bracers                   |
+| 2     | [8936](https://www.wowhead.com/forever/quest=8936/just-compensation)                         | [8943](https://www.wowhead.com/forever/quest=8943/just-compensation), unavailable | Belt, Wraps               |
+| 3     | [8958](https://www.wowhead.com/forever/quest=8958/anthions-parting-words)                    | [9021](https://www.wowhead.com/forever/quest=9021/anthions-parting-words)         | Sandals, Leggings, Mantle |
+| 4     | [9005](https://www.wowhead.com/forever/quest=9005/saving-the-best-for-last), indexed section | [9012](https://www.wowhead.com/forever/quest=9012/saving-the-best-for-last)       | Mask, Robe                |
 
 Six primary pages expose parsed reward sections. Quest 9005's indexed primary
 section corroborates reward names; its direct page requests JavaScript
@@ -172,3 +289,79 @@ Preparation requires the saved passing log and exact source bytes. It writes
 immutable local evidence with runtime, catalog, numerical and publication
 admission false. New evidence needs its own reviewed version; overwriting the
 fixture cannot update an existing qualification.
+
+## October 27 current-model update in progress
+
+The separate remaining-class allowance is now approved; original expired clocks
+and source evidence above remain historical and unchanged. The new Warlock
+clock runs from October 27 17:07:38.680 UTC through October 28 17:07:38.680 UTC.
+
+All eight actual current UI/native/full-WASM/stat pairs passed:
+`remaining-class-updates-20261027-v1/warlock-controls-d0h9f2/report.json`, SHA
+042b3a97637893ac79a4a567019698d030efda69c3c88e15f56d7a15d0aab71d.
+Current model identity is
+bfb98b8c556b4a10d4cce45eca5db4a9872e25f57c0df545651b222ad039ecb9.
+
+The current four-style input is
+`remaining-class-updates-20261027-v1/warlock-search-v1/prepare-xgpDuB/input.json`,
+SHA 6c540ae4a75d9cb98d4aad99d5944cc65a5b9873b316cd7571610e4e7e995aae.
+Each style has 25 complete gear/set/enchant groups and approximately 10,930
+structural candidates. Full Deathmist and maximum eligible set witnesses stay
+mandatory. Both stones and legal demon/sacrifice combinations are explicit; the
+primary DS/Ruin build remains pure sacrifice. Raid dependencies, class/weapon
+restrictions and ignored weapon-skill bonuses retain their existing guards.
+
+One six-worker feedback loop is running, one style at a time, with the accepted
+2% practical margin and no deep timing search. It compares all slots, ordered
+jewelry/hand layouts, sets, nonraid enchants/consumes, geared talent/APL/pet states
+and joint leaders. Selected settings are frozen before two independent 20k
+confirmations. These are ongoing calculations, not newly published BiS winners.
+
+Preparation V1 stopped before any numerical dispatch because the DS/Ruin
+extension helper accepts a base bank object instead of talent references. Its
+original files and failure receipt remain. The V2 state bank calls the actual
+reference-based talent-bank contract, and its eight authentic focused tests
+pass. All four full-bank preparations completed with V2 before dispatch.
+
+Current live process, immutable deadline and follow-up delivery commands are
+recorded in `context.md`. No new Warlock preset has been deployed.
+
+## October 27, 18:44 UTC — current update complete locally
+
+All four numerical styles and the complete native/website delivery now pass.
+Each selected setup was frozen before two independent 20k confirmations, then
+captured through the actual UI and compared with native/full-WASM statistics
+and combat results. The practical 2% target is met with no unresolved contexts;
+this remains a bounded comparison rather than a global-optimality claim.
+
+| Style                   | Independent DPS | Confirmation fights |
+| ----------------------- | --------------: | ------------------: |
+| Demonology, default     |        860.7315 |              40,000 |
+| Affliction              |        760.1893 |              40,000 |
+| Destruction             |        741.4499 |              40,000 |
+| DS/Ruin, pure sacrifice |        712.5943 |              40,000 |
+
+Local release: `d2d98c8539081334ba3fdbaf`. Handoff under the remaining-update
+artifact directory: `warlock-handoff-v1/finished-piy1hc/report.json`, SHA
+e79f577fd593d9496b9ab679e720c17163138899d69a615d3babdc9a0632beb0.
+Twenty-six native-menu and ten complete Next desktop/mobile checks pass,
+including both preset menus, saved custom characters, full imports, all four
+real simulations, native parity, Stop followed by a fresh simulation and one
+page scroller. The source checks pass 128 website and 58 infrastructure tests,
+strict TypeScript and lint. Both actual screenshots were visually inspected.
+
+The V4 native adapter fixes recorded field loss when a preset transition clears
+the sacrificed demon. Its regression fixture contains the actual failed native
+observation and selected payloads; the earlier V3 source/candidate remain frozen.
+The website reader also accepts a legitimate empty first talent tree, while
+retaining malformed-allocation, source/hash, model and browser-evidence checks.
+Cold-build and initial React-selection timing failures remain recorded; the
+final harness waits for actual selected state and preserves all parity checks.
+
+The mathematical V1 duplicate-write failure and 59,398 valid measurements are
+preserved. V2 coalesces identical concurrent numerical inputs and reused those
+records without resetting the original clock. No extra timing search ran and
+the live-mechanic/acquisition uncertainty above remains explicit. The owned
+Next review server was stopped and user port 3017 was untouched. No new Git or
+production release occurred; three other classes remain before the owner's
+complete commit, push and deployment.

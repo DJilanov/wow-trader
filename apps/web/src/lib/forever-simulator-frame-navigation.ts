@@ -58,6 +58,7 @@ export type SimulatorPresetSelectionSource = "initial" | "user";
 export type SimulatorPresetSelectionHandler = (
   name: string,
   source: SimulatorPresetSelectionSource,
+  explicitBuildId?: string,
 ) => boolean | void;
 
 interface SimulatorFrameNavigationOptions {
@@ -150,7 +151,12 @@ export function connectSimulatorFrameNavigation(
     if (!chip || ("disabled" in chip && chip.disabled) || event.button !== 0) return;
     const label = chip.querySelector<HTMLElement>(".saved-data-set-name");
     if (!label) return;
-    if (options.onPresetSelected?.(label.textContent?.trim() ?? "", "user") === true) {
+    const name = label.textContent?.trim() ?? "",
+      explicitBuildId = chip.getAttribute("data-kfc-combat-build");
+    const handled = explicitBuildId
+      ? options.onPresetSelected?.(name, "user", explicitBuildId)
+      : options.onPresetSelected?.(name, "user");
+    if (handled === true) {
       // A reviewed preset is a complete scenario, not a gear-only edit of the previous character.
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -164,6 +170,18 @@ export function connectSimulatorFrameNavigation(
     }
   };
   document.addEventListener("click", click, true);
+  const changeTankBuild = (event: Event): void => {
+    const target = event.target;
+    if (!target || !("closest" in target) || typeof target.closest !== "function") return;
+    const select = target.closest("#kfc-tank-build-choice") as HTMLSelectElement | null;
+    const name = select?.selectedOptions[0]?.textContent?.trim();
+    if (!select?.value || select.disabled || !name) return;
+    if (options.onPresetSelected?.(name, "user", select.value) === true) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  };
+  document.addEventListener("change", changeTankBuild, true);
   const keepClickMenuOpen = (event: Event): void => {
     const target = event.target;
     if (
@@ -192,11 +210,15 @@ export function connectSimulatorFrameNavigation(
         ".preset-configuration-picker-root .active .saved-data-set-name",
       ),
     ].find((label) => label.getClientRects().length > 0);
-    const name = active?.textContent?.trim();
+    const tankSelect = document.querySelectorAll<HTMLSelectElement>("#kfc-tank-build-choice")[0];
+    const name =
+      active?.textContent?.trim() ||
+      (tankSelect?.value ? tankSelect.selectedOptions[0]?.textContent?.trim() : undefined);
     if (name) options.onPresetSelected?.(name, "initial");
   }
   return () => {
     document.removeEventListener("click", click, true);
+    document.removeEventListener("change", changeTankBuild, true);
     document.removeEventListener("mouseleave", keepClickMenuOpen, true);
     frame.ownerDocument.removeEventListener("pointerdown", dismissMenus, true);
     style.remove();

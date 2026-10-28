@@ -19,6 +19,12 @@ import {
 } from "@wow-trader/forever-data/paladin-healer-library-payloads";
 import { simulatorDirectory } from "./forever-simulator";
 import { selectHealerEncoding } from "./healer-simulator";
+import {
+  readPaladinHealerFrameRelease,
+  readPaladinHealerFrameLibrary,
+  verifyPaladinHealerFrameEngine,
+  servePaladinHealerFrameAsset,
+} from "./paladin-healer-frame-simulator";
 
 interface AssetIdentity {
   readonly bytes: number;
@@ -175,6 +181,13 @@ export async function isPaladinHealerAvailable(
   directory = paladinHealerDirectory(),
 ): Promise<boolean> {
   try {
+    const frameManifest = await readPaladinHealerFrameRelease(directory);
+    if (frameManifest) {
+      await readPaladinHealerFrameLibrary(frameManifest, directory);
+      await verifyPaladinHealerFrameEngine(frameManifest, directory);
+      reportedAvailabilityError = undefined;
+      return true;
+    }
     const manifest = await readPaladinHealerRelease(directory);
     if (!manifest) return false;
     const index = await readPaladinHealerIndex(manifest, directory);
@@ -207,6 +220,8 @@ export async function servePaladinHealerAsset(
 ): Promise<Response> {
   if (!releasePattern.test(release) || !filenamePattern.test(name) || name.includes(".."))
     return new Response(null, { status: 404 });
+  const frameManifest = await readPaladinHealerFrameRelease(directory, release);
+  if (frameManifest) return servePaladinHealerFrameAsset(request, frameManifest, name, directory);
   const manifest = await readPaladinHealerRelease(directory, release),
     identity = manifest?.files[name];
   if (!manifest || !identity) return new Response(null, { status: 404 });

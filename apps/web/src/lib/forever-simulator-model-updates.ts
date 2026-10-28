@@ -5,6 +5,10 @@ import { z } from "zod";
 import type { SimulatorManifest } from "@wow-trader/forever-data/simulator";
 import { readSimulatorManifest, simulatorDirectory } from "./forever-simulator";
 import { readTankSimulatorModelUpdate } from "./forever-simulator-tank-model-updates";
+import { readQualifiedTankSimulatorModelUpdate } from "./forever-simulator-qualified-tank-model";
+import { readQualifiedCombatSimulatorModelUpdate } from "./forever-simulator-qualified-combat-model";
+import { readQualifiedDpsSimulatorModelUpdate } from "./forever-simulator-qualified-dps-model";
+import { readQualifiedWarriorTankSimulatorModelUpdate } from "./forever-simulator-qualified-warrior-tank-model";
 import {
   readSimulatorModelFirstPassBuild,
   simulatorModelFirstPassEntrySchema,
@@ -241,6 +245,17 @@ export async function readSimulatorModelUpdate(
   profile: string,
   directory: string = simulatorDirectory(),
 ): Promise<SimulatorModelUpdate | null> {
+  const qualifiedDps = await readQualifiedDpsSimulatorModelUpdate(profile, directory);
+  if (qualifiedDps) return qualifiedDps;
+  const qualifiedCombat = await readQualifiedCombatSimulatorModelUpdate(profile, directory);
+  if (qualifiedCombat) return qualifiedCombat;
+  const qualifiedWarriorTank = await readQualifiedWarriorTankSimulatorModelUpdate(
+    profile,
+    directory,
+  );
+  if (qualifiedWarriorTank) return qualifiedWarriorTank;
+  const qualifiedTank = await readQualifiedTankSimulatorModelUpdate(profile, directory);
+  if (qualifiedTank) return qualifiedTank;
   const tankUpdate = await readTankSimulatorModelUpdate(profile, directory);
   if (tankUpdate) return { manifest: tankUpdate.manifest, sourceRelease: tankUpdate.sourceRelease };
   const profileUpdate = await readSimulatorProfileModelUpdate(profile, directory);

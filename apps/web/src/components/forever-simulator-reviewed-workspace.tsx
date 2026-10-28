@@ -93,12 +93,12 @@ export function ForeverSimulatorReviewedWorkspace({
     [storageKey],
   );
   const selectEnginePreset = useCallback(
-    (name: string, source: SimulatorPresetSelectionSource): boolean => {
+    (name: string, source: SimulatorPresetSelectionSource, explicitBuildId?: string): boolean => {
       if (source === "initial" && explicitSelection.current) return false;
-      const build = simulatorBuildForPreset(builds, name);
+      const build = simulatorBuildForPreset(builds, name, explicitBuildId);
       if (source === "user" && build) return applyReviewedBuild(build);
       if (source === "user") explicitSelection.current = true;
-      const id = simulatorBuildForPreset(builds, name)?.id ?? "";
+      const id = build?.id ?? "";
       if (source === "user") saveBuildChoice(storageKey, id);
       setSelectedId(id);
       setEnginePreset(name);

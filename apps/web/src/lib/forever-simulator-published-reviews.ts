@@ -1,4 +1,8 @@
 import { validateFullRaidDruidPublishedRows } from "./forever-simulator-full-raid-druid-registration";
+import { readQualifiedTankSimulatorModelUpdate } from "./forever-simulator-qualified-tank-model";
+import { readQualifiedCombatSimulatorModelUpdate } from "./forever-simulator-qualified-combat-model";
+import { readQualifiedDpsSimulatorModelUpdate } from "./forever-simulator-qualified-dps-model";
+import { readQualifiedWarriorTankSimulatorModelUpdate } from "./forever-simulator-qualified-warrior-tank-model";
 import { createHash } from "node:crypto";
 import console from "node:console";
 import { readFile, realpath, stat } from "node:fs/promises";
@@ -154,6 +158,35 @@ export async function readPublishedSimulatorReviews(
 ): Promise<readonly LocalSimulatorBuildReview[]> {
   if (presentation.kind !== "reviewed-presets") return [];
   try {
+    const qualifiedDps = await readQualifiedDpsSimulatorModelUpdate(profile, directory);
+    if (qualifiedDps) {
+      if (
+        qualifiedDps.manifest.release !== presentation.manifest.release ||
+        qualifiedDps.sourceRelease !== presentation.sourceRelease
+      )
+        throw new Error("Qualified DPS library presentation is stale");
+      return qualifiedDps.builds;
+    }
+    const qualifiedCombat = await readQualifiedCombatSimulatorModelUpdate(profile, directory);
+    if (qualifiedCombat) {
+      if (
+        qualifiedCombat.manifest.release !== presentation.manifest.release ||
+        qualifiedCombat.sourceRelease !== presentation.sourceRelease
+      )
+        throw new Error("Qualified combat library presentation is stale");
+      return qualifiedCombat.builds;
+    }
+    const qualifiedTank =
+      (await readQualifiedWarriorTankSimulatorModelUpdate(profile, directory)) ??
+      (await readQualifiedTankSimulatorModelUpdate(profile, directory));
+    if (qualifiedTank) {
+      if (
+        qualifiedTank.manifest.release !== presentation.manifest.release ||
+        qualifiedTank.sourceRelease !== presentation.sourceRelease
+      )
+        throw new Error("Qualified tank library presentation is stale");
+      return qualifiedTank.builds;
+    }
     const selected = pointer.parse(await document(directory, "published-reviews.json", 32_000));
     const reference = Object.entries(selected.profiles).find(([key]) => key === profile)?.[1];
     if (!reference) return [];

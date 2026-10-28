@@ -35,6 +35,49 @@ function frameWithActiveLabel(text: string | undefined): HTMLIFrameElement {
 }
 
 describe("Embedded simulator navigation", () => {
+  it("synchronizes the native tank choice with the full reviewed setup and host library", () => {
+    const frame = frameWithActiveLabel(undefined),
+      handlers = new Map<string, EventListener>();
+    vi.spyOn(frame.contentDocument!, "addEventListener").mockImplementation(
+      (name, handler): void => {
+        handlers.set(name, handler as EventListener);
+      },
+    );
+    const onPresetSelected = vi.fn((): boolean => true),
+      disconnect = connectSimulatorFrameNavigation(frame, src, {
+        onNavigate: vi.fn(),
+        onPresetSelected,
+      });
+    const select = {
+        value: "tank-warrior-solo-threat",
+        disabled: false,
+        selectedOptions: [{ textContent: "Dungeon · threat" }],
+      },
+      preventDefault = vi.fn(),
+      stopImmediatePropagation = vi.fn();
+    handlers.get("change")!({
+      target: { closest: (): typeof select => select },
+      preventDefault,
+      stopImmediatePropagation,
+    } as unknown as Event);
+    expect(onPresetSelected).toHaveBeenCalledExactlyOnceWith(
+      "Dungeon · threat",
+      "user",
+      "tank-warrior-solo-threat",
+    );
+    expect(stopImmediatePropagation).toHaveBeenCalledOnce();
+    select.value = "";
+    handlers.get("change")!({
+      target: { closest: (): typeof select => select },
+    } as unknown as Event);
+    expect(onPresetSelected).toHaveBeenCalledOnce();
+    disconnect();
+    expect(frame.contentDocument!.removeEventListener).toHaveBeenCalledWith(
+      "change",
+      expect.any(Function),
+      true,
+    );
+  });
   it.each(["configuration", "gear"] as const)(
     "loads the complete reviewed scenario before a %s chip can apply partial state",
     (kind) => {
@@ -47,6 +90,7 @@ describe("Embedded simulator navigation", () => {
       const label = { textContent: "Smite · pre-raid tested" };
       const chip = {
         disabled: false,
+        getAttribute: (): null => null,
         querySelector: (): typeof label => label,
         closest: (): object => ({
           querySelector: (): { textContent: string } => ({ textContent: "Gear Sets" }),

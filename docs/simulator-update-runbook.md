@@ -1,5 +1,505 @@
 # Repeatable pre-raid simulation updates
 
+## Deliver the practical Holy core independently of encounter refinement
+
+The V2 release declares `core-three-minute-matrix` or `full-encounter-matrix`.
+A core release must contain every profession, archetype and assignment combination:
+270 frames and7,560 configurations for the current30 acquisition profiles. The full
+encounter matrix additionally covers fight lengths/positions and still requires900
+frames. Never change the index's full-coverage flag to promote core coverage.
+
+A published release requires a private `qualification.json` whose byte hash matches
+`qualification.sourceReviewSha256` in the sealed manifest. The runtime checks its
+scope, release, model, native engine, catalog, index, counts and completed admission.
+The source review, actual browser/native checks, host review and final failure audit
+remain linked in that certificate. Its filename is excluded from public asset delivery.
+Candidates cannot become active. All indexed core IDs are checked independently of
+the manifest's asset count, so substituting a longer encounter cannot fill a core gap.
+
+The current core release is `2647d16d94136cb1f5087e0c`. Its admission is recorded at
+`paladin-core-release-admission-jyBU5k/report.json` in the October27 remaining-class
+artifact directory. All270 reference controls match native results exactly; all30
+profession pairs are selectable. Personal changes update only equipment-owned model
+policies and resource ownership, retaining saved casting/scenario assumptions.
+
+The optional extension search is preserved in
+`paladin-core-expansion-checkpoint-78vCn6/report.json`: three completed frames and
+2,701,572 indexed native measurements, with a checked/closed SQLite store. It is stopped,
+not complete. Keep the original Oct28 23:17:09.827 UTC deadline intact. Any later deep
+refinement is a separate owner-requested update, never an implicit deadline reset.
+
+## Reconcile personal Holy equipment without changing the saved scenario
+
+Initialize `createPaladinHealingEquipmentPolicies` from the source-captured domain
+with the release model identity and indexed catalog SHA256. Use the successor
+`createPaladinHealingEquipmentBrowserJob` from browser-request-v3, supplying that
+initializer plus `modelIdentity`/`catalogSha256` on the codec API and the selected
+`scenarioId` on each frame input. The wrapper preserves all unchanged source
+inputs and derives only item-owned job policies when equipped IDs change.
+Keep the saved V4 workload and strict source-scenario guard intact. Gear-edit
+activation choices are separate: preserve deliberate disables and remove uses
+whose owner is no longer equipped.
+
+`capture-current-paladin-equipment-policy-v1.mjs` captures 28 actual source rules
+and 896 original-constructor inputs using 32 source-legal loadouts. It performs
+no numerical optimization. `review-current-paladin-equipment-transport-v1.mjs`
+checks all 3,080 unchanged inputs and all 896 reconstructed personal inputs.
+`review-current-paladin-equipment-browser-v1.mjs <transport-report> <sha256>`
+then compares all 165 selected native references and completes 43 additional
+personal-gear probes in Chromium/Go-WASM. Personal completion is not a new BiS
+or quantitative performance qualification.
+
+The current 18 Node regressions run with `node --test
+infra/simulator/paladin-healing-equipment-policy.test.mjs
+infra/simulator/paladin-healing-browser-request-v2.test.mjs
+infra/simulator/paladin-healing-browser-request-v3.test.mjs`.
+`export-current-paladin-frame-library-v2.mjs <browser-report> <sha256>` packages
+the new codec with all prepared frame data and verified Brotli/gzip variants.
+Current receipts and package are recorded in context.md; the original V1 export
+is historical and contains the old codec. Keep these private until full coverage,
+failure/transfer admission, actual host UI checks and final release checks pass.
+Derive public release IDs from the complete asset contents, including the codec.
+
+## Prepare the full Holy frame index without publishing partial coverage
+
+Use the new `paladin-healer-frame-library` entry with the admitted full catalog
+and presentation. It supports the source-derived 30-profile / 900-frame domain
+and rejects missing or duplicate frame/asset/proof bindings. Call
+`parsePaladinHealerIndexedFrame` with the requested frame ID after verifying the
+downloaded asset's exact bytes/hash. Its full-coverage check is separate from
+numerical, failure-history, transfer and release admission; no flags can turn a
+partial candidate into a qualified release.
+
+`export-current-paladin-frame-library-v1.mjs` currently packages the genuine
+110 prepared frames and reviewed F0 engine. It checks the existing source and
+browser receipts, compiles the current SDK with protected imports rejected before
+load, and produces all 117 assets with Brotli/gzip round-trip verification. The
+output remains private and has no active manifest. Current receipt, hashes and
+compression sizes are in context.md. The focused Paladin SDK suite now has 87
+tests in 11 files; package dist and actual V2 host UI remain to be integrated.
+
+Before personal gear is considered ready, reconcile item-owned policies from
+the admitted source scenario and current gear. The frozen feedback/scenario
+constructors condition item, cast-set, self-set, regeneration and area/utility
+policies on ownership. Preserve unchanged source bytes and fixed scenario
+assumptions; removing unsupported cooldowns alone is insufficient. Test legal
+personal changes against those constructors and actual browser execution, while
+preserving intentionally disabled activations and the sole native-worker pool.
+
+## Collect resumed Holy results and import all original baseline profiles
+
+For the current V4 producer, use `collect-current-paladin-confirmed-bank-v2.mjs
+--snapshot-confirmed <full-attempt-path>` and
+`review-current-paladin-bank-native-origins-v3.mjs <collection-report> <sha256>`.
+The shared lineage validator binds the immutable V3 parent, unchanged policy/
+clock and both preserved results. Specify the attempt explicitly; never select
+a newer attempt automatically or rewrite inherited native origin identities.
+Six lineage and nine confirmed-bank regressions exercise the genuine recovery.
+The older collector/auditor versions remain historical V3-only tools.
+
+`prepare-current-paladin-full-baseline-source-v1.mjs` gathers all3,024original
+cases in108groups across the12representative profession profiles. It uses the
+checksum-verified frozen helper, group shards and a streaming gzip-NDJSON native
+archive. `review-current-paladin-full-baseline-source-v1.mjs <input> <sha256>`
+replays every archive record from its real journal, reconstructs all selected
+jobs, recomputes12,096summaries and performs a current indexed failure probe.
+`export-current-paladin-baseline-frames-v2.mjs <review> <sha256>` then emits the
+108V2 payloads and checks all configurations against full catalog/presentation
+and browser inputs. Never replace original sample sizes with extension counts.
+
+The authentic all-profile fixture adds three regressions: full baseline/sample
+coverage, all108reference-build boundaries and unchanged previous504defaults.
+Run `pnpm exec vitest run src/paladin-healer*.test.ts --maxWorkers=1
+--fileParallelism=false` from packages/forever-data for the current81-test suite.
+
+The current combined data reviewer is `review-current-paladin-full-data-v3.mjs`;
+its count is derived from the actual3,080controls. Preserve the V2 candidate with
+its obsolete560-count manifest as failed consumer-admission evidence.
+`review-current-paladin-frame-browser-v3.mjs <review> <sha256>` executes all108
+baseline references, all56confirmed coupled cases and any missing original
+sample plan. The data and browser receipts still require complete extension/
+transfer coverage, final failure audit and actual host-UI/release admission.
+
+## Validate full Holy presentation and current browser inputs
+
+Use `paladin-healer-presentation` with the admitted full catalog and its exact
+decoded-byte SHA256. It checks the full30-profile item display against original
+native stats and profession slot pools. Pass both parsed records to
+`paladinHealerFullConfigurationProblem` before creating a browser input; candidate
+slot membership alone does not establish whole-loadout legality.
+
+`review-current-paladin-full-data-v1.mjs` currently verifies all560 existing
+baseline/coupled configurations and saves their exact source inputs plus a
+personal removed-trinket regression. Its current receipt is recorded in context.md.
+`review-current-paladin-frame-browser-v2.mjs` takes that report path and SHA256,
+verifies its source pins before use, and runs all coupled controls, every baseline
+reference frame and any missing original sampling plan in Chromium/Go-WASM.
+Keep the original seed and per-batch count; do not normalize old64/256/512 batches
+to128. Compare every native result field and preserve requested versus numerical
+profession identities. The personal replacement check requires actual engine
+completion and unavailable-use removal, with no performance qualification claim.
+
+Both reviewers create private receipts and perform no native optimization or
+publication. They do not replace complete numerical coverage, the final failure
+audit, transfer admission or host-UI checks. Personal gear edits still need client
+handling for newly equipped activations and gear-dependent item/set policies;
+removing an unsupported activation alone does not finish that integration.
+
+## Recover a stopped progress-writer race without losing measurements
+
+The V3 producer failed because concurrent callbacks renamed the same temporary
+progress file. Use `createSimulatorProgressWriter` from`simulator-progress.mjs`;
+it serializes atomic updates, uses unique temporary names and freezes submitted
+values. Its four real filesystem tests are required by the V4 producer.
+
+`prepare-current-paladin-frame-resume-v2.mjs` requires the stopped V3 failure
+receipt, checks the unchanged class deadline, verifies both frozen confirmed
+frames, confirms no holdout was started for the partial third frame, checks the
+closed SQLite store and writes a byte-identical immutable snapshot. Stream large
+database hashes. Never freeze a mutable class ledger in sourcePins. SQLite rows
+have null prototypes; normalize them before deep-comparing plain records.
+
+The V4 producer takes that resume report and SHA in place of the older training
+seed. It asserts the numerical policy unchanged, preserves completed results and
+their frozen holdouts, and resumes remaining frames using the existing exact
+training evidence. The partial frame's feedback is reconstructed, because V3
+did not save a full optimizer-state checkpoint. Do not report a jump directly
+to its last group, or rerun/reselect confirmed frames. Inspect the actual session
+and six child processes; a silent observation is not evidence of termination.
+The current snapshot/producer hashes and handles are in`context.md`.
+
+## Preserve baseline sample plans and the full profession catalog
+
+`paladin-healer-catalog` validates the source-derived30-profile catalog and slot
+links while preserving complete raw item/source records. Its slot helper is a
+candidate lookup; whole-loadout uniqueness, quest choices and ownership remain
+separate mandatory checks.
+
+`export-current-paladin-baseline-frames-v1.mjs` adapts the504genuine old defaults
+into V2 frames using the recorded native-origin pack. It checks all2,016result
+references, original requests/workloads, planned IDs and recomputed summaries.
+Retain the actual four-batch sample counts:64,256or512per batch. These are not
+four128-fight extension confirmations. Baseline admission requires its original
+source evidence/review and cannot bypass the coupled branch's128-fight rule.
+The remaining3,024-case baseline domain must still be merged in full. Source
+changes require a successor current-SDK admission; old engine controls remain
+valid only for their exact unchanged job bytes and runtime.
+
+## Collect confirmed Holy results while the numerical pool runs
+
+`collect-current-paladin-confirmed-bank-v1.mjs --snapshot-confirmed` collects
+only complete producer-qualified frames from the current frozen V3 study.
+It preserves the full profile, encounter variant, chosen option, adaptive-rank
+policy and four reference batches, and replays each confirmation assessment.
+It uses a short read-only SQLite snapshot for selected failure probes, writes
+fresh immutable outputs and leaves the producer, class ledger and public
+selection untouched. The changing producer log is copied before being pinned.
+
+Run `current-paladin-confirmed-frame-bank-v1.test.mjs` with Node's test runner
+for the nine authentic-data regressions. Full extension completion requires
+all 7,056 planned case identities; a partial snapshot cannot satisfy that gate.
+The preserved 3,024-case baseline and final transfer/runtime admission remain
+separate requirements.
+
+`review-current-paladin-bank-native-origins-v2.mjs` takes the collection report
+path and SHA. It reconstructs selected requests through the frozen model's
+actual templates and legal profession aliases, then checks all referenced
+native confirmation replies through read-only indexed queries. The current
+56-case snapshot verifies 224 selected requests and 2,120 confirmation references
+from 1,548 distinct native origins. Exact receipts are in `context.md`.
+
+`export-current-paladin-frame-payloads-v1.mjs` takes the native-origin review
+path and SHA and emits one V2 payload per genuinely confirmed frame, including
+complete selected requests, workloads, adaptive policies and four reference
+batches. `review-current-paladin-frame-sdk-v1.mjs` validates the current exports
+against the new forever-data `paladin-healer-frame` entry and reconstructs their
+exact requested identities. It separately checks all360planned descriptors;
+planned descriptors are not numerical qualification. The authentic fixture and
+31focused SDK tests retained the two real exported frames without new calculations.
+The later frame-workspace integration extends coverage to48SDK tests and6Node
+adapter tests; use one Vitest worker and a60-second test timeout for the complete
+archived-packet suite under load. The V1 SDK receipt is historical after the
+stacked-name correction. `review-current-paladin-frame-sdk-v2.mjs` passes416exact
+planned/confirmed request and workload round-trips. The immutable receipt and
+current compiled private SDK checksum are recorded in `context.md`. The360
+planned requests remain unqualified planning evidence.
+
+`paladin-healer-workspace.ts` now also exports version-four frame configurations,
+source-binding validation and browser input construction. Use the separate
+`paladin-healing-browser-request-v2.mjs` builder for those inputs. It checks the
+actual source actor's race/professions and preserves encounter duration, raid
+support and source resource timings. Original stacked workload names have no
+layout suffix; spread names end in`-spread`. Validate actual target positions
+as well as labels. Preserve original source cooldown declarations for unchanged
+builds, and remove unsupported uses after personal gear/consume changes.
+
+`review-current-paladin-frame-browser-v1.mjs` compares the56confirmed source
+jobs through a real Chromium codec/Go-WASM worker against the complete saved
+native results. It uses128fights at the original recorded seed, preserves each
+requested profession context and checks its authenticated numerical alias.
+This opens no native pool and performs no build reselection. Its terminal
+report must pass before engine delivery can be claimed. It does not approve
+the website UI or unfinished full-class scope.
+
+The current 56-control reviewer passed with zero numerical difference; the
+immutable receipt is in `context.md`. Do not reuse that receipt for new frames
+or changed source modules. Their actual requests still need their own controls.
+
+`export-current-paladin-full-catalog-v1.mjs` prepares the full 30-profile,
+2,249-item V2 catalog directly from the frozen model's source/domain. It checks
+all original 2,243 records unchanged and all 12 representative pools identical,
+retaining the six Blacksmithing/Leatherworking candidates absent from the old
+Engineering/Tailoring presentation. The new JSON is below 8 MB and gzip is
+round-trip verified. This is an unpublished data candidate; finish typed catalog,
+index and presentation admission before client use. Whole-loadout ownership,
+quest-choice, unique-item and profession legality must still be checked.
+
+These outputs remain private numerical intermediates. The original library
+index/catalog and client workspace still support only the older three-minute
+stacked/two-profile layout. Complete versioned library and workspace admission;
+the new frame parser alone does not publish or install any result. Preserve
+source build identities, profession aliases and full encoded requests. Never
+trim the new results to fit the old schema. Existing compiled SDK files and
+public pointers must stay intact until an approved complete delivery is ready.
+Finish remaining cases, baseline merge, final failure review, 18 acquisition
+context transfers and selected runtime/browser delivery before publication.
+
+## Exact native reuse for unchanged Paladin requests
+
+The current Ret/ Shockadin and Protection candidates have completed both native
+menu and full Next host checks. They use the archived32-fight native controls
+at seed98127001, verified by identical current browser request bytes, exact
+model, original source checksum and reconstructed native job ID. Never infer
+reuse from matching gear alone. `paladin-native-menu-reuse-v1.test.mjs` rejects
+changed request, response, gear or model; five authentic regressions pass.
+
+Current completed reviewers are `review-current-paladin-dps-delivery-v2.mjs`
+and `review-current-paladin-tank-delivery-v3.mjs`. Full-host delivery uses V1
+for DPS and V2 for Protection. The sealed combat handoff, exact receipts and
+current3029snapshot are documented in `context.md`; do not rerun completed
+controls without a changed input or unresolved failure.
+
+`deliver-current-paladin-website-v2.mjs` understands the distinct DPS native
+replay certificate. It binds embedded control documents to the original origin
+review checksums. The website reader and deployment verifier independently
+require those known checksums, exact request hashes/native DPS and the same
+profile/model. Standard V2 controls continue to require155270001. A pending
+preflight or an edited source cannot become valid by updating a pointer hash.
+Authentic positive fixtures must pass the reader tests before local activation.
+
+Holy and the complete project release remain open. The existing sole native
+pool and deadline are unchanged. Current combined local verification covers
+15DPS/tank profiles and45builds; final production and healer completion remain
+separate requirements.
+
+## Fresh native controls when the request or model changes
+
+For changed inputs, prepare a versioned successor; reuse must fail if any
+complete request/model dependency differs. The original Paladin V1 reviewers
+show the fresh-native implementation, including the workspace lease, exact
+model and every compiled asset. Their read-only `--verify-inputs` modes pass.
+They refuse to open a competing pool while Holy owns the lease. Wait for
+authoritative pool termination and lease release before opening a native
+worker, and retain the approved class deadline. Current candidates already
+have passing exact-native controls and do not require those runs again.
+
+Require each actual14-check browser report to pass. A read-only input receipt
+or menu preflight cannot replace that approval. The new shared request contract
+checks the full qualified character, raid/party buffs, encounter, iterations
+and seed; all eight authentic Paladin settings and six negative substitutions
+pass its seven source tests. Regressions run with
+`node --test artifacts/forever-simulator/optimization/review-tools/paladin-menu-request-contract-v1.test.mjs`.
+
+`deliver-current-paladin-website-v2.mjs` takes an operation (`--fixture` or
+`--activate-local`), the candidate report path and SHA, and the actual passing
+browser report path and SHA. Generate the authentic positive fixture, run the
+website reader tests, then activate locally. The publisher retains the complete
+parent release and other DPS selections; Protection uses its own pointer and
+preserves Bear. Both operations and the subsequent full Next desktop/mobile
+checks have completed for the current combat candidates. For a changed
+candidate, refresh the snapshot and repeat the affected delivery checks.
+Holy and the all-class source/build/deployment checks remain unfinished.
+
+## Paladin burst and partial-set feedback
+
+Use `paladinHealingBurstPriorityCandidates` for the actual burst assignment.
+It retains the supplied complete build, compares all admitted direct and owned
+active ranks, and rejects tank/group reserve policies. Run its isolated source
+regressions with
+`node --test infra/simulator/paladin-healing-burst-candidates.test.mjs`.
+
+When a current build wears an entire set, enumerating additional set pieces
+over that build cannot recover smaller subsets. The current Paladin preparation
+records legal off-set bases by profession/faction and set. Its coupled successor
+must use those bases while preserving unrelated current gear, then apply the
+normal ownership/quest/enchant checks to every resulting whole configuration.
+The frozen prepared helper versions and actual full-Soulforge regression are
+recorded in `context.md`. Preparation does not replace actual runtime controls,
+coupled calculations or independent confirmation.
+
+## Qualified class release verification
+
+After assembling the complete simulator artifact root, run
+`pnpm simulator:deployment:verify --base-url=https://kfcguild.online/tools --artifact-root=<managed-simulator-root>`.
+The verifier follows the qualified DPS, Warrior combat and tank selectors,
+checks their recorded approval hashes and requires the corresponding public
+release and preset IDs. It rejects a selector changing during the check. This
+verifies deployment consistency; numerical qualification and real browser
+Simulate/Stop checks remain separate required evidence.
+
+Keep `kfc-qualified-combat-model.json`,
+`kfc-combat-update-qualification.json` and the existing tank proof files private
+in both static delivery and the fallback asset route. A cache miss must not
+expose the internal proof files. Public native build payloads remain available
+to the actual simulator.
+
+## October 27: Priest healing request delivery
+
+Use the owner's practical margin when deciding whether another complete
+coupled pass is necessary. `healer-practical-closure.mjs` checks two feasible
+complete-pass endpoints against at most 2% observed improvement; exact proposal
+identity is not required. The actual Priest regression kept changing through
+four complete passes with final improvement below 1%. Preserve all already
+confirmed setups, resume only training state, and keep fresh independent
+confirmation mandatory. This stopping rule is not a confidence interval or
+proof of a global optimum.
+
+Keep selected activation order intact when exporting or editing a Priest
+workload. Item-effects V2 uses `priest-healing-cooldowns.mjs` both in the public
+configuration builder and `healing-browser-request-v2.mjs`. Changing gear,
+race or Demonic Rune updates ownership without sorting the remaining actions.
+The current selected Holy group regression proves why replacing the array
+with a generic fixed order changes the tested setup. Legacy models retain their
+existing paths.
+
+Retain all fourteen existing sensitivity cases: seven rank-scaling hypotheses
+plus their seven Dormant Heart-disabled counterparts. Match request bytes,
+workload, model/binary, seeds and iterations before reusing training records;
+earlier holdouts cannot become confirmation of a new selection. Preserve the
+two-faction editor union when adding the eight Virtuous pieces.
+
+The current delivery tools independently verify every selected confirmation
+record before export, then require actual codec/native/Chromium and Next
+desktop/mobile checks before activation. Their authoritative arguments and
+checkpoint are in `context.md`; syntax checks and an HTTP warm-up do not qualify
+a release. Numerical and public-browser source versions stay frozen per run.
+
+## October 27: qualified Bear delivery
+
+The Bear Feralheart update has a separate derived-model selection:
+`qualified-tank-model.json`. It does not replace `tank-model-updates.json` or
+mix its scores into the older common-model tank tier board. The model,
+presentation, preset-safety and published-library readers share its verified
+six-build package. Exact full-settings imports retain `?i=gtrcmxeu` for tank
+profiles; other query parameters are rejected.
+
+When assembling the complete deployment, copy the final release, its full
+source release, the selection file and
+`tank-browser-reviews/<release>.json` into the managed simulator root. Preserve
+all other class selectors. The final source manifest and browser proof hashes
+must match the sealed Bear handoff described in
+[the Bear update record](simulator-bear-feralheart-update.md). Re-run the actual
+web readers against the assembled root before activation.
+
+`prepare-static-delivery.mjs` automatically includes this selection and its
+source when discovering releases. It verifies the selection/proof identity.
+Both the asset API and public compression inventory exclude
+`kfc-qualified-tank-model.json` and `kfc-tank-update-qualification.json`; the
+server-side evidence stays in managed storage. The native preset library,
+inspection catalog and versioned runtime remain public assets.
+
+Local production checks must start the generated standalone server with Next
+static assets and public files installed before startup. They also need the
+same `/forever-sim/` to `/tools/forever-sim/` proxy alias as live Nginx. Direct
+`next start` without that alias is not an equivalent test. Deployment remains
+the owner's requested commit, push, exact-source build, gated activation and
+public smoke check after the complete class scope is ready.
+
+## October 27: public catalog-impact planning command
+
+Use `pnpm simulator:prebis:plan-update --input=<source-bound-input.json>` to
+prepare an immutable update plan. This command starts no simulator, consumes no
+class optimization window and changes no selected build or release. It complements
+the existing update workflow; actual incremental search, origin authentication,
+geared feedback and fresh confirmation remain separate required work.
+
+The input schema is `kfc-simulator-catalog-update-input.v1`. It contains `profile`
+and `before`/`after` snapshots. Each snapshot supplies:
+
+- `catalog` and `inspection`: repository-relative JSON `path` and exact byte
+  `sha256`, taken from the actual model/catalog preparation.
+- `mechanicsSha256`: the complete declared mechanics/model identity.
+- `requestContextSha256`: the exact scenario identity, including race, talents,
+  APL, raid buffs/debuffs, consumes, duration, healing/tank workload and objective.
+- `eligibilitySha256`: acquisition, profession, faction, phase, PvP and source-rule
+  identity. Changed eligibility cannot silently retain an old candidate domain.
+- `backend`: the recorded `binarySha256`, `compiledDatabaseSha256`, `codecSha256`
+  and `runnerSourceSha256`. Preserve the originating runner's digest convention;
+  do not substitute a JSON digest for a binary digest or vice versa.
+- `incumbent.items`: exactly 17 actual `{id, enchant}` slot records, using zero
+  for an empty slot. The planner carries no DPS/HPS or past optimality claim.
+
+The command checks source checksums, regular files, bounded JSON and repository
+containment. It validates record identities, finite 44-stat vectors, slot geometry
+and incumbent membership. These checks are not proof of acquisition eligibility,
+runtime admission or a verified old numerical origin. Both admission and reuse
+flags remain false. The protected cache helper is neither imported nor read;
+the actual guarded six-source executable graph was verified.
+
+Plans cover complete affected groups:
+
+- Rings, trinkets and hands retain both ordered positions. Ranged/relic changes
+  use the ranged slot. Changed items also reopen their compatible enchant groups.
+- Set-effect and item-effect inspection changes are considered independently of
+  flat item stats. A non-set upgrade also reopens old sets whose thresholds it
+  could break; full-set proposals stay mandatory.
+- Changed mechanics, backend, request, eligibility, equipped records or unknown
+  global metadata require a full profile review. Missing effect geometry does
+  not qualify a narrow update. Identical snapshots schedule no groups.
+- Winning gear invalidates all dependent groups and requires geared talent/APL/
+  consume feedback and independent confirmation. A historic top five can be a
+  prior; it is not permission to exclude the rest or blacklist an item forever.
+
+Output is content-addressed under
+`artifacts/forever-simulator/optimization/catalog-update-plans/`. A flushed
+same-directory temporary file is published with a non-replacing hard link, so
+concurrent callers see one complete immutable plan. Existing different bytes,
+source/output symlinks and outside-repository sources are rejected. No existing
+result, cache, model, selector or original class clock is overwritten.
+
+### Actual Warlock preparation and checks
+
+The actual selected Warlock model/catalog was compared with the prepared
+Deathmist derivative using:
+
+```sh
+pnpm simulator:prebis:plan-update --input=artifacts/forever-simulator/optimization/catalog-update-plans/inputs/warlock-JLJRcO/selected-to-reference.json
+```
+
+It finds 40 added shared-catalog item records and five changed set records. The
+underlying model/runtime and acquisition identity differ, so the plan correctly
+requires a full profile review rather than reusing old scores. Its 94 structural
+groups describe the complete catalog before class/acquisition filtering; they
+are not 94 simulations or a verified Warlock candidate bank.
+
+Current immutable output:
+`catalog-update-plans/a21627ed2b8d892590eef209b7cf08173167b19251fa24cacddf6817daa7aa84.json`,
+byte SHA-256 `585ec71266011a7edb3053c22b6c6e4010b854fd7d560d732b4dfba6e996ff3e`.
+Paths in this paragraph are relative to `artifacts/forever-simulator/optimization/`.
+The same command against the actual unchanged reference snapshot produces
+`catalog-update-plans/5dbe4f38fd4c67dff011ad854b9d0390f2dd2431dfd5dffc9f52bd9723e436fd.json`,
+SHA-256 `d95b25d051e6e712d5aa1482b17b0674d98fee02e6b0329228eba5c9379db6e6`,
+with zero groups. Both execute zero native/browser jobs. Input generation is
+preserved as `review-tools/prepare-warlock-catalog-update-input-v1.mjs`.
+
+Nineteen focused planner/CLI tests pass, including ordered pairs, old set
+thresholds, effect-only updates, all-slot invalidation, corrupt inputs,
+immutable collisions, five concurrent callers and source/output path guards.
+Scoped lint/format and actual package-command/help checks pass. The successful
+pre-atomic sources are preserved under
+`catalog-update-plans/source-revisions/pre-atomic-V01F3C/`; earlier outputs remain
+historical, not replacements for these final receipts.
+
 ## October 22, 08:33 UTC — current Ret gear owner
 
 Independent gear preflight is now terminal0:14894origins/82packed stages authenticated.

@@ -1,0 +1,235 @@
+import assert from "node:assert/strict";
+import { Buffer } from "node:buffer";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+import { gunzipSync } from "node:zlib";
+import ts from "typescript";
+
+async function compile(name) {
+  const result = ts.transpileModule(await readFile(new URL(name, import.meta.url), "utf8"), {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+    reportDiagnostics: true,
+  });
+  assert.deepEqual(result.diagnostics, []);
+  return result.outputText;
+}
+const tank = Buffer.from(await compile("./tank-native-library.ts")).toString("base64"),
+  profiles = Buffer.from(
+    await readFile(new URL("./combat-native-profiles.mjs", import.meta.url), "utf8"),
+  ).toString("base64"),
+  combat = (await compile("./combat-native-library-v4.ts"))
+    .replace(
+      'from "./combat-native-profiles.mjs"',
+      `from "data:text/javascript;base64,${profiles}"`,
+    )
+    .replace('from "./tank-native-library"', `from "data:text/javascript;base64,${tank}"`),
+  { parseCombatNativePayload, combatBuildIdentity, applyCombatProto } = await import(
+    `data:text/javascript;base64,${Buffer.from(combat).toString("base64")}`
+  ),
+  source = JSON.parse(
+    gunzipSync(
+      await readFile(
+        new URL("./fixtures/current-combat-native-library.v1.json.gz", import.meta.url),
+      ),
+    ),
+  );
+function fixture() {
+  return structuredClone(source.payload);
+}
+
+test("loads the actual selected current-model Fury snapshots with conservative first default", () => {
+  assert.equal(
+    source.source.byteSha256,
+    "f5b99f41c12f3b9d95cceca3fc2e942af292c66c33180921f13e7513ac8b124f",
+  );
+  const result = parseCombatNativePayload(fixture());
+  assert.equal(result.defaultBuildId, "fury-standard");
+  assert.equal(result.builds.length, 2);
+  assert.equal(result.builds[0].reference.iterations, 40000);
+  assert.equal(result.builds[0].reference.dps.avg, 861.6174844955759);
+  assert.equal(result.builds[1].requiresProvisionalEnchantOptIn, true);
+  for (const build of result.builds) {
+    assert.equal(build.proto.raidBuffs.trueshotAura, true);
+    assert.equal(build.proto.raidBuffs.strengthOfEarthTotem, 2);
+    assert.equal(build.proto.raidBuffs.graceOfAirTotem, 2);
+    assert.equal(build.proto.partyBuffs.windfuryTotem, true);
+    assert.equal(build.proto.player.buffs.blessingOfKings, true);
+  }
+});
+test("wrong character factory, ruleset, level and hidden Tier 1 or item swaps are rejected", () => {
+  for (const change of [
+    (row) => (row.proto.player.class = 5),
+    (row) => (row.proto.player.level = 59),
+    (row) => (row.proto.player.spec.oneofKind = "tankWarrior"),
+    (row) => (row.proto.player.foreverTier1Bonuses = true),
+    (row) => (row.proto.player.enableItemSwap = true),
+    (row) => (row.proto.settings.ruleset = 0),
+    (row) => (row.proto.settings.fixedRngSeed = "0"),
+    (row) => delete row.proto.player.consumes,
+  ]) {
+    const data = fixture();
+    change(data.builds[0]);
+    assert.throws(() => parseCombatNativePayload(data));
+  }
+});
+test("incomplete gear and unsupported measurements fail before changing the character", () => {
+  for (const change of [
+    (row) => row.proto.player.equipment.items.pop(),
+    (row) => (row.proto.player.equipment.items[0].id = -1),
+    (row) => (row.proto.player.equipment.items[0].enchant = -1),
+    (row) => (row.reference.iterations = 39999),
+    (row) => (row.reference.dps.avg = 0),
+    (row) => (row.reference.dps.stdev = -1),
+    (row) => (row.reference.dps.avg = Number.NaN),
+  ]) {
+    const data = fixture();
+    change(data.builds[0]);
+    assert.throws(() => parseCombatNativePayload(data));
+  }
+});
+test("duplicate builds, missing defaults and provisional defaults cannot become first visit", () => {
+  const duplicate = fixture();
+  duplicate.builds[1].id = duplicate.builds[0].id;
+  assert.throws(() => parseCombatNativePayload(duplicate));
+  for (const id of ["missing", "fury-procs"]) {
+    const data = fixture();
+    data.defaultBuildId = id;
+    assert.throws(() => parseCombatNativePayload(data));
+  }
+});
+test("parsed loadouts own their data and cannot mutate the source snapshot", () => {
+  const data = fixture(),
+    before = structuredClone(data),
+    parsed = parseCombatNativePayload(data);
+  assert.deepEqual(data, before);
+  parsed.builds[0].proto.player.equipment.items[0].id = 1;
+  parsed.builds[0].proto.settings.fixedRngSeed = "1";
+  parsed.builds[0].warnings.push("Changed view");
+  assert.deepEqual(data, before);
+});
+
+test("references ignore display and sampling changes but follow the ruleset and combat context", () => {
+  const original = fixture().builds[0].proto,
+    cosmetic = structuredClone(original);
+  cosmetic.player.name = "My saved character";
+  cosmetic.player.database = { items: [], enchants: [] };
+  cosmetic.settings.iterations = 32;
+  cosmetic.settings.fixedRngSeed = "1";
+  assert.equal(combatBuildIdentity(original), combatBuildIdentity(cosmetic));
+  for (const change of [
+    (row) => (row.settings.ruleset = 0),
+    (row) => (row.raidBuffs.trueshotAura = false),
+    (row) => (row.player.consumes.flask = 0),
+    (row) => (row.encounter.duration = 60),
+    (row) => (row.player.equipment.items[0].id = 1),
+  ]) {
+    const changed = structuredClone(original);
+    change(changed);
+    assert.notEqual(combatBuildIdentity(original), combatBuildIdentity(changed));
+  }
+});
+
+const mage = JSON.parse(
+  gunzipSync(
+    await readFile(new URL("./fixtures/current-mage-default-identity.v1.json.gz", import.meta.url)),
+  ),
+);
+test("the actual Mage first-visit default matches after the engine expands empty manual-stat arrays", () => {
+  assert.equal(combatBuildIdentity(mage.actual), combatBuildIdentity(mage.expected));
+  const before = structuredClone(mage);
+  combatBuildIdentity(mage.actual);
+  combatBuildIdentity(mage.expected);
+  assert.deepEqual(mage, before);
+});
+test("nonzero manual stats remain part of the combat reference and trailing zeros do not change them", () => {
+  const edited = structuredClone(mage.actual);
+  edited.player.bonusStats.stats[0] = 1;
+  assert.notEqual(combatBuildIdentity(edited), combatBuildIdentity(mage.expected));
+  const compact = structuredClone(edited);
+  compact.player.bonusStats.stats = [1];
+  assert.equal(combatBuildIdentity(edited), combatBuildIdentity(compact));
+  compact.player.bonusStats.stats = [Number.NaN];
+  assert.throws(() => combatBuildIdentity(compact), /bonus stat/);
+});
+
+const warlock = JSON.parse(
+  gunzipSync(
+    await readFile(
+      new URL("./fixtures/current-warlock-native-options.v1.json.gz", import.meta.url),
+    ),
+  ),
+);
+test("the actual failed DS/Ruin transition lost its sacrificed Imp, not its numerical setup", () => {
+  const payload = parseCombatNativePayload(warlock.payload);
+  assert.equal(payload.profile, "warlock");
+  assert.equal(payload.builds.length, 4);
+  const { actual, expected } = warlock.observation;
+  assert.equal(actual.player.spec.warlock.options.sacrifice, 0);
+  assert.equal(expected.player.spec.warlock.options.sacrifice, 1);
+  assert.notEqual(combatBuildIdentity(actual), combatBuildIdentity(expected));
+  const repaired = structuredClone(actual);
+  repaired.player.spec.warlock.options.sacrifice = 1;
+  assert.equal(combatBuildIdentity(repaired), combatBuildIdentity(expected));
+});
+
+function optionsControl() {
+  let state;
+  const calls = [];
+  return {
+    calls,
+    read: () => structuredClone(state),
+    fromProto(_event, proto) {
+      calls.push("load");
+      state = structuredClone(proto);
+      if (state.player.spec.oneofKind === "warlock") {
+        // Reproduce the recorded native picker transition after the batched load.
+        state.player.spec.warlock.options.sacrifice = 0;
+      }
+      state.player.consumes = {};
+    },
+    player: {
+      setSpecOptions(_event, options) {
+        calls.push("options");
+        assert.equal(state.player.spec.oneofKind, "warlock");
+        state.player.spec.warlock.options = structuredClone(options);
+      },
+      setConsumes(_event, consumes) {
+        calls.push("consumes");
+        state.player.consumes = structuredClone(consumes);
+      },
+    },
+  };
+}
+test("restoring the captured pure-sacrifice setup repairs the event-driven field loss", () => {
+  const control = optionsControl(),
+    proto = structuredClone(warlock.observation.expected),
+    before = structuredClone(proto);
+  let event = 0;
+  applyCombatProto(control, proto, () => ++event);
+  assert.equal(control.read().player.spec.warlock.options.summon, 0);
+  assert.equal(control.read().player.spec.warlock.options.sacrifice, 1);
+  assert.equal(combatBuildIdentity(control.read()), combatBuildIdentity(proto));
+  assert.deepEqual(control.calls, ["load", "options", "consumes"]);
+  assert.deepEqual(proto, before);
+});
+test("switching through all four authentic Warlock builds preserves their own pet and sacrifice", () => {
+  const control = optionsControl();
+  let event = 0;
+  for (const build of warlock.payload.builds) {
+    const before = structuredClone(build.proto);
+    applyCombatProto(control, build.proto, () => ++event);
+    assert.deepEqual(
+      control.read().player.spec.warlock.options,
+      build.proto.player.spec.warlock.options,
+    );
+    assert.equal(combatBuildIdentity(control.read()), combatBuildIdentity(build.proto));
+    assert.deepEqual(build.proto, before);
+  }
+});
+test("other classes keep their existing restore path and exact consumables", () => {
+  const control = optionsControl();
+  let event = 0;
+  applyCombatProto(control, mage.expected, () => ++event);
+  assert.equal(combatBuildIdentity(control.read()), combatBuildIdentity(mage.expected));
+  assert.deepEqual(control.calls, ["load", "consumes"]);
+});

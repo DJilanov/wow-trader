@@ -189,18 +189,7 @@ export function HealerSimulatorWorkspace({
     setMessage("Loaded " + selected.title + " with its reviewed gear and casting plan.");
   }
   function updateFields(fields: Record<string, number>): void {
-    const priorities = config.priorities.filter((priority) => {
-      const spell = library.spells.find((spell) => spell.id === priority.spellId);
-      return spell && (!spell.requiredTalentField || fields[spell.requiredTalentField]);
-    });
-    if (!priorities.length)
-      priorities.push({
-        spellId: library.defaultDirectSpellId,
-        raidIndex: build.assignment === "tank" ? 1 : -1,
-        minimumMissingHealth: 400,
-        keepHot: false,
-      });
-    change({ ...config, fields, priorities });
+    change({ ...config, fields });
   }
   function chooseItem(itemId: number): void {
     if (editingSlot === null) return;
@@ -711,10 +700,12 @@ export function HealerSimulatorWorkspace({
                       {spell?.name ?? "Unknown spell"} <small>Rank {spell?.rank}</small>
                     </strong>
                     <span>
-                      {priority.minimumMissingHealth
-                        ? Math.round(priority.minimumMissingHealth).toLocaleString() +
-                          "+ health missing"
-                        : "When available"}
+                      {spell?.requiredTalentField && !config.fields[spell.requiredTalentField]
+                        ? "Requires talent · learn it or remove this priority"
+                        : priority.minimumMissingHealth
+                          ? Math.round(priority.minimumMissingHealth).toLocaleString() +
+                            "+ health missing"
+                          : "When available"}
                       {priority.keepHot ? " · keep HoT active" : ""}
                     </span>
                   </li>
@@ -755,11 +746,23 @@ export function HealerSimulatorWorkspace({
                       {library.spells
                         .filter(
                           (spell) =>
-                            !spell.requiredTalentField || config.fields[spell.requiredTalentField],
+                            spell.id === priority.spellId ||
+                            !spell.requiredTalentField ||
+                            config.fields[spell.requiredTalentField],
                         )
                         .map((spell) => (
-                          <option value={spell.id} key={spell.id}>
+                          <option
+                            value={spell.id}
+                            key={spell.id}
+                            disabled={Boolean(
+                              spell.requiredTalentField &&
+                              !config.fields[spell.requiredTalentField],
+                            )}
+                          >
                             {spell.name} · Rank {spell.rank}
+                            {spell.requiredTalentField && !config.fields[spell.requiredTalentField]
+                              ? " · requires talent"
+                              : ""}
                           </option>
                         ))}
                     </select>

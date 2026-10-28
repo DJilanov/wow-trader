@@ -200,6 +200,10 @@ describe("Self-hosted Forever simulator assets", () => {
     "kfc-preset-safety.json",
     "kfc-optimized-tank-profile.json",
     "kfc-tank-browser-research.json",
+    "kfc-qualified-tank-model.json",
+    "kfc-tank-update-qualification.json",
+    "kfc-qualified-combat-model.json",
+    "kfc-combat-update-qualification.json",
     "tank-measurements/" + "a".repeat(64) + ".json",
   ])("keeps %s private even when checksummed in a release manifest", async (name) => {
     const f = await fixture();

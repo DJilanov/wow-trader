@@ -190,4 +190,44 @@ describe("Pre-raid preset safety selection", () => {
     ])
       expect(() => remapSimulatorPresetHref(href, "rogue", parent, release)).toThrow();
   });
+  it("preserves reviewed full-settings imports for supported damage and tank profiles", (): void => {
+    for (const profile of [
+      "warrior",
+      "mage",
+      "warlock",
+      "shadow_priest",
+      "smite_priest",
+      "elemental_shaman",
+      "enhancement_shaman",
+      "retribution_paladin",
+      "tank_warrior",
+      "feral_tank_druid",
+      "protection_paladin",
+    ]) {
+      expect(
+        remapSimulatorPresetHref(
+          `/forever-sim/${parent}/${profile}/?i=gtrcmxeu#abc`,
+          profile,
+          parent,
+          release,
+        ),
+      ).toBe(`/forever-sim/${release}/${profile}/?i=gtrcmxeu#abc`);
+      expect(() =>
+        remapSimulatorPresetHref(
+          `/forever-sim/${parent}/${profile}/?i=gtrcmxeu&run=1#abc`,
+          profile,
+          parent,
+          release,
+        ),
+      ).toThrow();
+    }
+    expect(() =>
+      remapSimulatorPresetHref(
+        `/forever-sim/${parent}/rogue/?i=gtrcmxeu#abc`,
+        "rogue",
+        parent,
+        release,
+      ),
+    ).toThrow();
+  });
 });

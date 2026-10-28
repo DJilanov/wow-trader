@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
 import { z } from "zod";
+import { combatNativeProfiles } from "../../../../infra/simulator/combat-native-profiles.mjs";
 import { readSimulatorManifest, simulatorDirectory } from "./forever-simulator";
 import type { SimulatorPresentation } from "./forever-simulator-presentation";
 import { readSimulatorModelUpdate } from "./forever-simulator-model-updates";
@@ -158,15 +159,19 @@ export function remapSimulatorPresetHref(
   )
     throw new Error("Invalid preset safety route");
   const url = new URL(href, "https://helper.invalid");
+  const fullCombatImport =
+    (Object.hasOwn(combatNativeProfiles, profile) ||
+      ["tank_warrior", "feral_tank_druid", "protection_paladin"].includes(profile)) &&
+    url.search === "?i=gtrcmxeu";
   if (
     !href.startsWith("/") ||
     href.startsWith("//") ||
     url.origin !== "https://helper.invalid" ||
-    url.search ||
+    (Boolean(url.search) && !fullCombatImport) ||
     ![`/forever-sim/${parent}/${profile}`, `/forever-sim/${parent}/${profile}/`].includes(
       url.pathname,
     )
   )
     throw new Error("Unexpected reviewed preset route");
-  return `/forever-sim/${release}/${profile}/${url.hash}`;
+  return `/forever-sim/${release}/${profile}/${url.search}${url.hash}`;
 }

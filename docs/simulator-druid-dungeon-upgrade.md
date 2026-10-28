@@ -1,5 +1,31 @@
 # Druid dungeon-upgrade recovery
 
+## October 27: website Stop fallback checked independently
+
+`node scripts/check-simulator-stop-recovery.mjs --verify` now checks the actual
+website frame-control module in Chromium with real, deliberately blocked
+dedicated Workers. This is a transport test: no WoW engine or combat job is loaded.
+Five cases pass: repeated desktop recovery, mobile/root-prefix recovery,
+responsive cancellation without restart, refused unapproved recovery URL and
+cleanup preventing stale recovery. Saved edits survive clearing the imported
+build fragment and reloading. Host restart requests occur at1200.6–1202.3ms;
+Chromium closes these blocked Workers at3244–3245ms. Do not report the grace
+timer as the time until a noncooperative worker actually ends.
+
+Receipt under `artifacts/forever-simulator/optimization/`:
+`stop-recovery-browser-v1/review-5sS7Y8/report.json`, byte SHA-256
+`5e03f67b62f36539e4dd6144218903743b00fe941400980f8280cee4fceb8e8c`.
+All48existing frame controls/readiness/navigation tests and scoped checker
+lint/format pass. No product code or frozen runtime was modified. The first
+successful checker source is archived with its earlier report `review-blTkCn`.
+An initial class-route hypothesis was disproved: newer DPS engines still use the
+existing route format. Do not broaden the recovery allowlist based on it.
+
+The raw Druid engine cancellation latency documented below remains unqualified
+for fast cancellation, including standalone-engine behavior. This transport
+check does not replace the Druid engine, actual-combat, Next-page or deployment
+requirements and starts no new class validation window.
+
 ## October 26, 08:51 UTC — Delivery checks complete locally
 
 **Feral and Balance delivery validation passed locally.** The supervised
@@ -8,16 +34,16 @@ deadline (52min47.931s from the first actual check). Both profiles select the
 reviewed ce2375 presentation/source57ac. No numerical optimization, Git operation
 or deployment occurred. Every earlier failed report/window remains unchanged.
 
-| Gate | Result |
-| --- | --- |
-| Independent numerical-source, strict presentation types and3,502package files | Passed |
-| Presets, saved characters, fresh workspace, controls and both hosts | Passed; retained positives independently reconstructed |
-| Raw browser evidence and actual web build reader | Passed |
-| AppV2 registration, publications and two-profile selection | Passed locally |
-| Original20other-profile API results and six selector documents | Preserved; only the two Druid entries differ |
-| Fresh full Next pages | Four Druid desktop/mobile cases and two Warrior desktop/mobile cases passed; zero browser errors |
-| Corrected execution contracts | 77Node/189web tests, full web types, scoped lint and formatting passed |
-| Final screenshots and source integrity | Four full-page captures inspected;363execution pins and original numerical/failure bytes rehashed |
+| Gate                                                                          | Result                                                                                            |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Independent numerical-source, strict presentation types and3,502package files | Passed                                                                                            |
+| Presets, saved characters, fresh workspace, controls and both hosts           | Passed; retained positives independently reconstructed                                            |
+| Raw browser evidence and actual web build reader                              | Passed                                                                                            |
+| AppV2 registration, publications and two-profile selection                    | Passed locally                                                                                    |
+| Original20other-profile API results and six selector documents                | Preserved; only the two Druid entries differ                                                      |
+| Fresh full Next pages                                                         | Four Druid desktop/mobile cases and two Warrior desktop/mobile cases passed; zero browser errors  |
+| Corrected execution contracts                                                 | 77Node/189web tests, full web types, scoped lint and formatting passed                            |
+| Final screenshots and source integrity                                        | Four full-page captures inspected;363execution pins and original numerical/failure bytes rehashed |
 
 The real class directory groups profiles by class. The final browser probe now
 clicks directory → Druid → profile and tests first load, repeated Load build,
@@ -79,16 +105,16 @@ the host report uses `passed`. The generic assertion was wrong. The failed
 attempt and all prior failures remain immutable. No application activation,
 new Druid selector or deployment occurred; all owned validation processes exited.
 
-| Work | Evidence | Status |
-| --- | --- | --- |
-| Completed numerical results, source replay, strict types and package files | Source57ac / presentationce2375; repeated actual independent replay | Verified; numerical bytes unchanged |
-| Presets and saved characters | Four actual cases each, retained and reconstructed | Verified positives |
-| Workspace component | Four fresh desktop/mobile cases, including requested iframe src | Verified positives |
-| Engine controls and current host | Four controls; six completed runs and two cancelled requests | Verified positives |
-| Corrective metadata/import component | 69 Node / 182 web tests, full web types, lint and format | Component checked; execution entry not activated |
-| Complete raw/web admission | Full independent reconstruction must finish | Pending |
-| AppV2 integration and original20profile preservation | Neither registration nor selectors changed | Pending |
-| Fresh full Next desktop/mobile routes | Four Druid and two Warrior cases | Pending |
+| Work                                                                       | Evidence                                                            | Status                                           |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------ |
+| Completed numerical results, source replay, strict types and package files | Source57ac / presentationce2375; repeated actual independent replay | Verified; numerical bytes unchanged              |
+| Presets and saved characters                                               | Four actual cases each, retained and reconstructed                  | Verified positives                               |
+| Workspace component                                                        | Four fresh desktop/mobile cases, including requested iframe src     | Verified positives                               |
+| Engine controls and current host                                           | Four controls; six completed runs and two cancelled requests        | Verified positives                               |
+| Corrective metadata/import component                                       | 69 Node / 182 web tests, full web types, lint and format            | Component checked; execution entry not activated |
+| Complete raw/web admission                                                 | Full independent reconstruction must finish                         | Pending                                          |
+| AppV2 integration and original20profile preservation                       | Neither registration nor selectors changed                          | Pending                                          |
+| Fresh full Next desktop/mobile routes                                      | Four Druid and two Warrior cases                                    | Pending                                          |
 
 The failure is retained in
 `delivery-validation-v1/browser-replay/f03e0566-7c46-4f1a-9f08-6665f8923501/failed-report.json`
@@ -823,10 +849,10 @@ Failure observation `ui-representation-failures-observed-v1.json` has byte SHA
 
 Current actual reviews:
 
-| Check | Handle | Log under optimization/ |
-| --- | --- | --- |
-| UI runnerV4 | session75977/PID19027 | druid-statistics-compatible-ui-controls-v4-20261025T1949Z.log |
-| Saved-character runnerV4 | session93223/PID2437 | druid-statistics-compatible-saved-v4-20261025T1939Z.log |
+| Check                    | Handle                | Log under optimization/                                       |
+| ------------------------ | --------------------- | ------------------------------------------------------------- |
+| UI runnerV4              | session75977/PID19027 | druid-statistics-compatible-ui-controls-v4-20261025T1949Z.log |
+| Saved-character runnerV4 | session93223/PID2437  | druid-statistics-compatible-saved-v4-20261025T1939Z.log       |
 
 Use presets runnerV4,host runnerV5/executorV3,workspace runnerV4 and raw-evidence
 verifierV4 for subsequent actual work. SavedV4,web-reader toolV4,metadataV2,
@@ -887,10 +913,10 @@ byte-identical. No rebuild or new numerical correction occurred.
 
 Replacement reviews started18:59UTC against the SAME D9 package:
 
-| Check | Current handle | Current log under optimization/ |
-| --- | --- | --- |
+| Check                | Current handle        | Current log under optimization/                               |
+| -------------------- | --------------------- | ------------------------------------------------------------- |
 | UI controls runnerV3 | session42385/PID48315 | druid-statistics-compatible-ui-controls-v3-20261025T1859Z.log |
-| Presets runnerV3 | session46845/PID48316 | druid-statistics-compatible-presets-v3-20261025T1859Z.log |
+| Presets runnerV3     | session46845/PID48316 | druid-statistics-compatible-presets-v3-20261025T1859Z.log     |
 
 Poll these handles, not the old terminal processes. Actual final browser passes
 remain unproven. Original October25,23:25:34.014UTC deadline is unchanged.
@@ -945,10 +971,10 @@ Presentation proof byte SHA:
 Two actual processes started18:14UTC and are still in their independent completed-
 source/presentation admission. Do not duplicate either process:
 
-| Check | Actual handle | Log under optimization/ |
-| --- | --- | --- |
-| Four desktop/mobile selected controls | session7389/PID6521 | druid-statistics-compatible-ui-controls-20261025T1816Z.log |
-| Four noncombat preset/share cases | session79945/PID6522 | druid-statistics-compatible-presets-20261025T1816Z.log |
+| Check                                 | Actual handle        | Log under optimization/                                    |
+| ------------------------------------- | -------------------- | ---------------------------------------------------------- |
+| Four desktop/mobile selected controls | session7389/PID6521  | druid-statistics-compatible-ui-controls-20261025T1816Z.log |
+| Four noncombat preset/share cases     | session79945/PID6522 | druid-statistics-compatible-presets-20261025T1816Z.log     |
 
 Actual final browser passes are not yet claimed. After controls pass, use its
 actual report path/semanticSHA with host runnerV3. Continue with saved-character
@@ -1011,9 +1037,9 @@ This reconstructs controls,gear,feedback,alignment and fresh confirmation under
 the actual compatible owner; producer acceptance alone was not used.
 
 | Recorded raid scenario | Reviewed DPS | Validation fights | Conservative retained gap | Separate1% audit |
-| --- | ---: | ---: | ---: | --- |
-| Feral Cat,9/32/10 | 761.89 | 320,000 | 0.3903% | Accepted |
-| Balance,39/0/12 | 589.68 | 360,000 | 0.3184% | Accepted |
+| ---------------------- | -----------: | ----------------: | ------------------------: | ---------------- |
+| Feral Cat,9/32/10      |       761.89 |           320,000 |                   0.3903% | Accepted         |
+| Balance,39/0/12        |       589.68 |           360,000 |                   0.3184% | Accepted         |
 
 Both also pass the approved2% criterion. Every retained state,gear and consume
 finalist is included:84effective arms/91origins for Feral and92/99 for Balance.

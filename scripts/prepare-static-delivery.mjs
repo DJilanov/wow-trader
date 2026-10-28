@@ -49,6 +49,10 @@ const privateNames = new Set([
   "kfc-preset-safety.json",
   "kfc-optimized-tank-profile.json",
   "kfc-tank-browser-research.json",
+  "kfc-qualified-tank-model.json",
+  "kfc-tank-update-qualification.json",
+  "kfc-qualified-combat-model.json",
+  "kfc-combat-update-qualification.json",
   "tank-measurements",
 ]);
 const extension = (name) => name.split(".").at(-1)?.toLowerCase();
@@ -140,6 +144,124 @@ async function selectedReleases(root) {
         "Invalid tank browser review checksum",
       );
       selected.add(entry.release);
+    }
+  }
+  for (const [selectionName, profile] of [
+    ["qualified-tank-model.json", "feral_tank_druid"],
+    ["qualified-warrior-tank-model.json", "tank_warrior"],
+    ["qualified-paladin-tank-model.json", "protection_paladin"],
+  ]) {
+    let qualifiedTankBytes;
+    try {
+      qualifiedTankBytes = await readFile(join(root, selectionName));
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+    if (qualifiedTankBytes) {
+      assert(
+        qualifiedTankBytes.length <= 32_000,
+        "Qualified tank selection exceeds its size budget",
+      );
+      const pointer = JSON.parse(qualifiedTankBytes);
+      assert.equal(pointer.schema, "kfc-qualified-tank-selection.v1");
+      assert.equal(pointer.profile, profile);
+      assert(
+        typeof pointer.release === "string" && /^[a-f0-9]{24}$/.test(pointer.release),
+        "Invalid qualified tank release",
+      );
+      for (const name of ["proofSha256", "browserReviewSha256"])
+        assert(
+          typeof pointer[name] === "string" && /^[a-f0-9]{64}$/.test(pointer[name]),
+          "Invalid qualified tank approval",
+        );
+      const proofBytes = await readFile(
+        join(root, pointer.release, "kfc-qualified-tank-model.json"),
+      );
+      assert(
+        proofBytes.length <= 8_000_000 && sha(proofBytes) === pointer.proofSha256,
+        "Qualified tank proof checksum changed",
+      );
+      const proof = JSON.parse(proofBytes);
+      assert.equal(proof.schema, "kfc-qualified-tank-model.v1");
+      assert.equal(proof.release, pointer.release);
+      assert.equal(proof.profile, pointer.profile);
+      assert(
+        typeof proof.sourceRelease === "string" && /^[a-f0-9]{24}$/.test(proof.sourceRelease),
+        "Invalid qualified tank source",
+      );
+      selected.add(pointer.release);
+      selected.add(proof.sourceRelease);
+    }
+  }
+  for (const contract of [
+    {
+      name: "qualified-combat-models.json",
+      schema: "kfc-qualified-combat-selection.v1",
+      proofSchema: "kfc-qualified-combat-model.v1",
+      profiles: ["warrior"],
+    },
+    {
+      name: "qualified-dps-models.json",
+      schema: "kfc-qualified-dps-selection.v1",
+      proofSchema: "kfc-qualified-combat-model.v2",
+      profiles: [
+        "mage",
+        "warlock",
+        "shadow_priest",
+        "smite_priest",
+        "elemental_shaman",
+        "enhancement_shaman",
+        "retribution_paladin",
+      ],
+    },
+  ]) {
+    let combatBytes;
+    try {
+      combatBytes = await readFile(join(root, contract.name));
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+    if (combatBytes) {
+      assert(combatBytes.length <= 32_000, "Qualified combat selection exceeds its size budget");
+      const pointer = JSON.parse(combatBytes);
+      assert.equal(pointer.schema, contract.schema);
+      assert(
+        pointer.profiles &&
+          !Array.isArray(pointer.profiles) &&
+          typeof pointer.profiles === "object",
+      );
+      assert(
+        Object.keys(pointer.profiles).every((profile) => contract.profiles.includes(profile)),
+        "Unknown qualified combat profile",
+      );
+      for (const [profile, entry] of Object.entries(pointer.profiles)) {
+        assert(
+          entry && typeof entry.release === "string" && /^[a-f0-9]{24}$/.test(entry.release),
+          "Invalid qualified combat release",
+        );
+        for (const name of ["proofSha256", "browserReviewSha256"])
+          assert(
+            typeof entry[name] === "string" && /^[a-f0-9]{64}$/.test(entry[name]),
+            "Invalid qualified combat approval",
+          );
+        const proofBytes = await readFile(
+          join(root, entry.release, "kfc-qualified-combat-model.json"),
+        );
+        assert(
+          proofBytes.length <= 8_000_000 && sha(proofBytes) === entry.proofSha256,
+          "Qualified combat proof checksum changed",
+        );
+        const proof = JSON.parse(proofBytes);
+        assert.equal(proof.schema, contract.proofSchema);
+        assert.equal(proof.release, entry.release);
+        assert.equal(proof.profile, profile);
+        assert(
+          typeof proof.sourceRelease === "string" && /^[a-f0-9]{24}$/.test(proof.sourceRelease),
+          "Invalid qualified combat source",
+        );
+        selected.add(entry.release);
+        selected.add(proof.sourceRelease);
+      }
     }
   }
   return selected.size

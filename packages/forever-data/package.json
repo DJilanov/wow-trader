@@ -36,6 +36,22 @@
       "types": "./dist/paladin-healing-simulator.d.ts",
       "import": "./dist/paladin-healing-simulator.js"
     },
+    "./shaman-healing-simulator": {
+      "types": "./dist/shaman-healing-simulator.d.ts",
+      "import": "./dist/shaman-healing-simulator.js"
+    },
+    "./shaman-healer-library": {
+      "types": "./dist/shaman-healer-library.d.ts",
+      "import": "./dist/shaman-healer-library.js"
+    },
+    "./shaman-healer-release": {
+      "types": "./dist/shaman-healer-release.d.ts",
+      "import": "./dist/shaman-healer-release.js"
+    },
+    "./shaman-healer-workspace": {
+      "types": "./dist/shaman-healer-workspace.d.ts",
+      "import": "./dist/shaman-healer-workspace.js"
+    },
     "./paladin-healer-library": {
       "types": "./dist/paladin-healer-library.d.ts",
       "import": "./dist/paladin-healer-library.js"
@@ -43,6 +59,26 @@
     "./paladin-healer-library-payloads": {
       "types": "./dist/paladin-healer-library-payloads.d.ts",
       "import": "./dist/paladin-healer-library-payloads.js"
+    },
+    "./paladin-healer-frame": {
+      "types": "./dist/paladin-healer-frame.d.ts",
+      "import": "./dist/paladin-healer-frame.js"
+    },
+    "./paladin-healer-frame-library": {
+      "types": "./dist/paladin-healer-frame-library.d.ts",
+      "import": "./dist/paladin-healer-frame-library.js"
+    },
+    "./paladin-healer-frame-release": {
+      "types": "./dist/paladin-healer-frame-release.d.ts",
+      "import": "./dist/paladin-healer-frame-release.js"
+    },
+    "./paladin-healer-catalog": {
+      "types": "./dist/paladin-healer-catalog.d.ts",
+      "import": "./dist/paladin-healer-catalog.js"
+    },
+    "./paladin-healer-presentation": {
+      "types": "./dist/paladin-healer-presentation.d.ts",
+      "import": "./dist/paladin-healer-presentation.js"
     },
     "./paladin-healer-workspace": {
       "types": "./dist/paladin-healer-workspace.d.ts",
@@ -69,7 +105,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/public.ts src/server.ts src/simulator.ts src/healing-simulator.ts src/druid-healing-simulator.ts src/paladin-healing-simulator.ts src/paladin-healer-library.ts src/paladin-healer-library-payloads.ts src/paladin-healer-workspace.ts src/paladin-healer-release.ts src/healer-workspace.ts src/mechanics.ts src/talent-sync.ts src/updates.ts src/updates-server.ts src/updates-cli.ts src/cli.ts --format esm --dts --sourcemap --clean",
+    "build": "tsup src/public.ts src/server.ts src/simulator.ts src/healing-simulator.ts src/druid-healing-simulator.ts src/paladin-healing-simulator.ts src/shaman-healing-simulator.ts src/shaman-healer-library.ts src/shaman-healer-release.ts src/shaman-healer-workspace.ts src/paladin-healer-library.ts src/paladin-healer-library-payloads.ts src/paladin-healer-frame.ts src/paladin-healer-frame-library.ts src/paladin-healer-frame-release.ts src/paladin-healer-catalog.ts src/paladin-healer-presentation.ts src/paladin-healer-workspace.ts src/paladin-healer-release.ts src/healer-workspace.ts src/mechanics.ts src/talent-sync.ts src/updates.ts src/updates-server.ts src/updates-cli.ts src/cli.ts --format esm --dts --sourcemap --clean",
     "dev": "tsx src/cli.ts",
     "lint": "eslint src",
     "test": "vitest run",

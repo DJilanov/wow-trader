@@ -1,5 +1,49 @@
 # Tank item optimization
 
+## October 28 — closed Bear release assembled for the shared deployment
+
+The closed Feralheart handoff, all six40kbuilds, its full parent and6,997manifest
+assets are now assembled under the shared artifact root. The actual qualified
+model, presentation and published-review readers select
+`b0922983c0a2b43d2ec6ea64`;33related web tests pass. Existing other-class pointers
+are unchanged. This repeats no optimization and extends no expired Bear clock.
+Final compression, shared full-Next verification and production deployment remain.
+Paladin's six tank origins were also replayed against the actual gear overlays,
+native/browser metrics and full stat pairs; modern menu/host integration remains.
+Exact evidence and current remaining-class status are in `../context.md`.
+
+## October 27 follow-up: Paladin compared; Bear component and domains ready
+
+The [Soulforge update](simulator-paladin-preparation-2026-10-22.md) now has eight
+qualified numerical reference comparisons, including all six tank contexts,
+and twelve compiled-UI browser checks. It is not selected or deployed; current
+Next host/release-reader integration remains pending.
+
+The [Bear Feralheart preparation](simulator-bear-feralheart-update.md) qualifies
+the existing shared handler in the real tank factory: 31 native/Chromium
+outcomes and twelve complete stat API comparisons pass without changing runtime
+source. Six scenarios, 1,536 Feralheart vectors and all-slot domains are ready.
+No fresh Bear ranking, optimization clock or selected preset is claimed.
+
+The [current Heroism model](simulator-warrior-heroism-current-model.md) is also
+now built with all eight Warrior pieces. All 184 native/browser component
+outcomes and twelve complete tank stat API comparisons pass. Six tank domains
+are prepared; fresh Warrior comparisons and delivery remain unfinished.
+
+## October 27: Soulforge combat model prepared; selected tank results unchanged
+
+A separate exact-ID Soulforge516 model now includes all eight current items,
+correct2/4/6/8bonuses and the melee spell-power proc for Protection and Ret.
+All68native/68Chromium controls and12complete-runtime stat comparisons pass.
+All247Alliance multi-piece/full-set proposals pass the actual prebis filters;
+uncaptured Horde access is rejected. Its one-PPM cadence is explicitly
+unverified, not inferred from the client's100%flag. Existing Holy/model/defaults
+and all selected tank packages remain unchanged. See the
+[Paladin source and runtime handoff](simulator-paladin-preparation-2026-10-22.md).
+These are model/candidate controls, not a new tank optimization or evidence that
+the previously omitted set wins or loses. Fresh threat/mitigation comparisons,
+full-raid controls, confirmation and matching UI delivery remain required.
+
 V3 replaces starter loadouts with separately measured threat and physical-mitigation
 setups for Warrior, Bear and Paladin. Full native presets and ranking scores come
 from the same approved model selection. Installations without that selection retain

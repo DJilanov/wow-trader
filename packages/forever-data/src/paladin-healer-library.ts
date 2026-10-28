@@ -135,6 +135,10 @@ const reference = z
   .strict();
 
 const savedJob = paladinHealingJobSchema.omit({ workload: true });
+export const paladinHealerLibraryOptionSchema = option;
+export const paladinHealerLibraryReferenceSchema = reference;
+export const paladinHealerLibrarySourceEvidenceSchema = sourceEvidence;
+
 const configuration = z
   .object({
     id: checksum,

@@ -1,5 +1,6 @@
 import { healerSimulatorDirectory, serveHealerAsset } from "../../../../../../lib/healer-simulator";
 import { servePaladinHealerAsset } from "../../../../../../lib/paladin-healer-simulator";
+import { serveShamanHealerAsset } from "../../../../../../lib/shaman-healer-simulator";
 
 interface HealerClassAssetContext {
   readonly params: Promise<{
@@ -11,6 +12,7 @@ interface HealerClassAssetContext {
 export async function GET(request: Request, context: HealerClassAssetContext): Promise<Response> {
   const { profile, release, name } = await context.params;
   if (profile === "healing-paladin") return servePaladinHealerAsset(request, release, name);
+  if (profile === "healing-shaman") return serveShamanHealerAsset(request, release, name);
   if (profile !== "healing-druid") return new Response(null, { status: 404 });
   return serveHealerAsset(request, release, name, healerSimulatorDirectory(profile), profile);
 }

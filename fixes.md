@@ -1,5 +1,106 @@
 # WoW Trader fixes and recovery context
 
+## October 28, 08:44 UTC — completed practical Holy core and release admission
+
+Holy now has270 core presets/7,560 configurations across every reviewed profession,
+archetype, assignment and mechanics scenario at180 seconds. All270 selected reference
+controls match browser/native results exactly; actual desktop/mobile/save/share/resource
+and retry controls pass. Final history review excludes every known failed selected setup.
+Published manifests require a matching private qualification certificate; merely resealing
+flags or substituting a different encounter at the same asset count cannot activate a
+missing core preset. Personal item changes use the reviewed equipment-owned effects.
+The optional900-frame extension is stopped with checkpoints and remains a separate
+refinement phase. All nine classes are locally ready; combined production deployment
+is still pending. Current receipts, checks and deployment boundary are in context.md.
+
+## October 28, 08:16 UTC — Holy core build delivery and equipment-aware personal simulations
+
+The website now consumes real V2 frame catalogs and V4 saved/shared builds, verifies
+frame downloads, keeps equipment-owned activations in sync and uses the reviewed
+item/set-policy codec. Initial builds, profession/race/scenario changes, failed
+loads, mobile tooltips/dialogs and Stop/retry pass actual Chromium checks; a real
+personal simulation completed through Next. A private270-frame core package covers
+all30 profession combinations and preserves all7,560 original/transferred cases.
+Core admission and full900-frame refinement have separate scope checks; neither
+partial coverage nor four-fight transfer diagnostics are promoted to new performance
+measurements. No production activation yet. Current receipts and next actions are
+at the top of context.md.
+
+## October 28, 07:25 UTC — personal Holy gear changes update the actual owned effects
+
+The new equipment-policy resolver removes and reconstructs item/set effects when
+equipment changes, instead of retaining the original loadout's policy fields.
+It uses rules captured from the frozen constructor and actual catalog, with
+strict model/catalog/scenario bindings. It preserves casting controls, fixed
+scenario assumptions and deliberate item-use disable choices. Saved V4 builds
+and their source guard are unchanged; derivation happens in the V3 transport.
+
+All 896 legal gear/scenario inputs match the original constructor byte-for-byte,
+and all 3,080 existing preset requests/workloads remain exact. Eighteen Node
+regressions and scoped lint/formatting pass. In Chromium, all 165 native-result
+comparisons remain exact and 43 personal gear cases complete successfully.
+The latter establish legal engine completion, not newly qualified performance.
+The current compressed package is `paladin-frame-library-Y4ooRD`; its 117 assets
+include the equipment-aware request codec. Full receipts/hashes are in context.md.
+Actual V2 website wiring, remaining calculations and final deployment are open.
+
+## October 28, 06:40 UTC — index full Holy frames and compress every prepared asset
+
+The new typed frame-library entry replaces the old index's fixed two-profession,
+three-minute navigation contract for the pending V2 integration. It binds all
+30 profession/faction profiles to the full catalog/presentation and validates
+each requested frame, asset and native-origin proof. The current candidate
+records 110/900 prepared frames, and rejects false complete/publication claims.
+All 87 focused SDK tests, strict SDK types, scoped lint and formatting pass.
+
+The private package contains 117 real data/engine assets with verified Brotli
+and gzip round-trips. Holy's actual WASM compresses from 40 MB to 4.64 MB Brotli.
+Receipt and hashes are in context.md. There is no active manifest, new host UI
+or production deployment. Personal gear-dependent item/set policies still need
+reconciliation before the V2 personal-equipment flow is ready; current cooldown
+pruning alone does not cover those source-constructor rules.
+
+## October 28, 06:15 UTC — import every preserved Holy baseline and retain recovery origins
+
+The baseline adapter previously covered only504default-profile configurations.
+It now imports all3,024preserved cases across108groups/12representative profiles,
+verifies12,096native references against10,572original journal records and retains
+their genuine sample counts. Current indexed probes find no selected baseline
+in the known-failure store. All3,080existing baseline/coupled configurations pass
+full configuration and exact browser-input checks. The previous504defaults are
+unchanged; the new authentic fixture and three regressions preserve that fact.
+All81SDK tests and15collection/recovery tests pass, with types/lint/format checks.
+
+The collector/native auditor now understand the V3→V4 recovery. Old confirmed
+results retain their original paths, checksums and native study identities;
+new results must belong to the explicitly selected recovery attempt. They
+reject duplicate/reselected frames and changed policies/clocks. Queries use
+read-only indexed transactions; large archives use streams, never whole-DB reads.
+An obsolete560-count manifest on a3,080-control candidate was rejected by the
+browser reviewer. Its successor derives the count from actual controls. All165
+wider Chromium/Go-WASM controls match their native results exactly; the personal
+replacement also completes. Receipts are recorded in context.md. Holy's
+remaining calculations, transfers, new client/release admission and final
+combined production deployment are still open.
+
+## October 28, 05:49 UTC — complete Holy display data and removed-trinket activations
+
+The new `paladin-healer-presentation` boundary covers all2,249 catalog items and
+30 profession/faction profiles, including the six profession-restricted items
+missing from the old display data. Whole-configuration validation checks genuine
+profile slot pools, loadout rules, talents, enchants, consumes and casting resources.
+All560 existing baseline/coupled configurations pass without changing their
+encoded requests or workloads.
+
+Replacing Weakness Analyzer could leave its activation in the casting plan.
+The V2 browser builder now removes that use and the other supported equipped-item
+uses when their item is removed. A real Chromium/Go-WASM replacement completes;
+it is a legality/completion check, not a new performance-qualified build.
+All75 selected native comparisons match every result field exactly. Current
+receipts/hashes are in context.md. All78 focused SDK tests, seven Node adapter
+regressions and SDK TypeScript pass. Full Holy calculations, library/client
+integration, host-UI admission and the combined production deployment remain open.
+
 ## October 28 — dungeon quest XP defaults and coefficient precedence
 
 Deployed as `0760377`: fresh four-quest bundles use maximum announced quest levels 40/45/53,
@@ -17,6 +118,1162 @@ Candidate/public browsers each passed 18 checks; nine public pages/87 assets and
 profiles passed. Only Helper web restarted. The static permission failure rolled back safely;
 only the generated public tree was corrected, with hashes and private-environment isolation intact.
 Receipt: `docs/forever-leveling-dungeon-xp-deployment-2026-10-28.md`. Preview/tunnel stopped.
+
+## October 28, 05:04 UTC — serialize progress writes and preserve the Holy checkpoint
+
+The V3 numerical run stopped on an infrastructure race: concurrent workers used
+the same temporary progress filename. The second rename failed after the first
+succeeded. `simulator-progress.mjs` now queues atomic writes in submission order
+with unique temporary names; four filesystem regressions pass, including200
+concurrent writers/readers, immutable snapshots and real write-failure recovery.
+
+The9.22GB stopped database passes integrity/metadata checks and is copied to an
+immutable snapshot with1,884,074measurements. V4 runs with six workers under the
+same deadline and the identical numerical policy. It skips the two confirmed
+frames and their holdouts, and reuses cached measurements when reconstructing
+the unfinished third frame. V3 had no full optimizer-state checkpoint, so this
+rebuilds training feedback rather than jumping directly to the old group index.
+Do not restart either run from the older586ktraining seed or discard its1548
+confirmation records. Exact report paths/hashes and live handles are in context.md.
+
+The first checkpoint inspector failed on SQLite row prototypes after its actual
+quick-check returned`ok`; V2 normalizes those rows. It does not weaken integrity
+checks or change model data. Mutable class-ledger observations must not be source
+pins, because recording a legitimate resumed run changes that ledger.
+
+The full30-profile/2,249-item catalog now has a typed SDK boundary and genuine
+fixture. Baseline frame admission also retains original64/256/512-per-batch
+counts, while coupled confirmations still require four128-fight batches.
+All504old default baselines preserve2,016native references and every original
+request/workload/summary. The new63-test SDK suite, types, scoped lint and format
+checks pass. Remaining full-scope merging/UI admission and release stay open.
+
+## October 28, 04:24 UTC — Holy saved builds retain encounter and profession bindings
+
+The frame-aware V4 workspace API preserves all56genuine configurations and
+binds saved builds to release, model, frame, source request/scenario and
+race/faction/professions. It retains exact source workloads while allowing
+personal casting controls. The V2browser request builder supports180/300s and
+actual spread/stacked positions, preserving raid support and encoded resource
+timings. Unchanged builds retain source cooldown declarations; personal gear and
+consume changes remove unsupported uses. Legacy contracts/builders stay intact.
+
+Original stacked workloads never had a `-stacked` suffix. The new frame identity
+check accepts their genuine names and validates actual target positions;
+all18authentic old groups are regression-covered. The V1SDK receipt is now
+historical because parser sources changed. Its V2successor passed all416request/
+workload round-trips. Receipt `paladin-frame-sdk-review-a7OB5n/report.json`, SHA
+08bd3f15f142ed2d022b53909a16b53c86a87fa5615218fbd665d5d4eed516b6.
+Of those416controls,56are confirmed results and360are planned source templates;
+the planned templates do not become numerically qualified through this check.
+The actual 56-case Chromium/Go-WASM reviewer also passed: all complete source
+requests/workloads and 128-fight native results match, with zero numerical
+difference and no page errors. Receipt `paladin-frame-browser-review-jE3E6I/report.json`,
+SHA43a8fe1bbaeac317d53a8880d9716fb1e53f823c8dfcafff61cda7ab79a455b2.
+This verifies engine delivery for the completed frames, not full-class/UI admission.
+
+The old two-profession presentation missed six legal profession-restricted
+items. A new private catalog candidate now preserves all 2,249 items across
+30 profession/faction slot pools, verifies the 2,243 original records unchanged,
+and matches all 12 representative search pools. Receipt
+`paladin-full-catalog-nLgpOM/report.json`, SHA
+2063c0e5f11bfcc379ed525648ad160d64e1ef5589e9abaaa893158273181cdc.
+Typed V2 catalog/index/presentation and client wiring remain pending. Never
+interpret slot membership as whole-loadout legality or partial engine controls
+as completion of the remaining calculations.
+
+The focused SDK suite passes48tests serially with a60-second timeout; the
+parallel default5-second timeout was insufficient under machine load. SixNode
+adapter tests, SDK TypeScript and scoped ESLint pass. No new native pool or
+publication occurred. New APIs are not wired into the live website yet;
+full Holy calculations and final library/browser admission remain open.
+
+## October 28, 04:07 UTC — versioned Holy frame payloads now validate
+
+The new forever-data `paladin-healer-frame` entry handles the new180/300-second,
+stacked/spread and profession-specific frame metadata without changing the old
+three-minute library contract. It retains adaptive rank policies and exact
+workload member order, and distinguishes requested profession identities from
+their numerically equivalent aliases. All56real exported configurations match
+their original requested job identities, including25adaptive policies. The
+private SDK review also accepts all360planned frame descriptors/12profiles;
+these planned descriptors do not constitute completed simulations.
+
+The authentic fixture and exact exporter/review receipts are recorded in the
+latest `context.md` entry. Eleven new regressions plus the two existing library
+test files pass31tests; forever-data TypeScript and scoped ESLint pass. No new
+math, live cache write, compiled-dist replacement or public pointer change occurs.
+The full index/catalog/workspace and browser admission remain unfinished, along
+with7,000extension cases, baseline/failure review and profession transfers.
+OnlyHoly remains locally; commit/push/final production build/deploy are still open.
+
+## October 28, 03:29 UTC — preserve Holy encounter variants and adaptive policies
+
+The old Holy library contracts only admit three-minute stacked assignments,
+two profession profiles and options with a presentation `state.id`. Current
+coupled results include five-minute/spread variants and separate adaptive-rank
+policies. They require versioned library/SDK/workspace admission; changing a
+duration label or stripping the new fields would misrepresent the simulation.
+
+The confirmed-bank adapter now preserves all 56 confirmed cases, including 25
+adaptive policies. It replays the four independent batches against the frozen
+training choices and rejects changed gear, talent metadata, summaries, missing
+cases, reselection, later indexed failures and incomplete extension coverage.
+Nine authentic-source regressions pass. A read-only snapshot found no indexed
+failure among the 54 selected gameplay identities. No live cache write occurs.
+
+The native-origin audit reconstructs all 224 selected requests to their exact
+stored identities and verifies 2,120 comparator references against 1,548 genuine
+native origins. It checks request/workload/reply hashes, confirmation roles,
+rounds and every recomputed summary. The source snapshot remains unpublished;
+the complete 7,056-case extension scope, baseline merge, final failure review,
+profession transfers and Holy browser delivery are still required. Exact paths
+and hashes are in the latest `context.md` entry.
+
+The first audit omitted the required `job.schema` when reconstructing a stored
+protocol envelope. The V2 auditor uses `kfc-paladin-healing-job.v1`; the V1
+failure receipt is preserved. This changed the audit reconstruction and did
+not require a model change, native rerun or interruption of the live pool.
+The live database is about 8 GB: query it read-only, and stream checksums only
+when a proper stopped-state snapshot is available.
+
+## October 28, 02:47 UTC — exact native controls finish Paladin combat delivery
+
+Ret, Shockadin and six Protection setups now pass current desktop/mobile menu
+and complete Next host simulation checks. Both local selectors are active and
+their authentic fixtures pass. All numerical references and builds are retained.
+The combined local verifier passes15DPS/tank profiles/45builds. Exact receipts,
+hashes, current private Next3029snapshot and combat handoff are in `context.md`.
+
+Reuse requires the identical actual request bytes, admitted model, archived
+native source checksum and reconstructed original job ID. Five source tests
+reject changed requests, responses, gear and models. The new Paladin DPS replay
+certificate additionally embeds both archived controls; the web reader and
+deployment verifier require their original known checksums and matching request
+hashes/native DPS. Standard V2 approvals still require their original seed.
+The new guard cannot accept an edited response just by reapproving its pointer.
+Three focused web files pass108tests; packaging/deployment passes33tests;
+strict TypeScript and scoped lint pass.
+
+Wait for an enchant modal to finish closing before starting another simulation.
+The first replay driver raced that transition; its successor passes without a
+product change. Tank host reviews must use their real setup dropdown, rather
+than the DPS-only configuration buttons. The incorrect driver attempt is
+preserved and does not count as approval. Current tank panels match native
+DPS, threat and damage-taken results, including the full Next host.
+
+Holy still uses the original sole six-worker pool; two extension frames/56cases
+are independently confirmed and the third is running. Its full scope and
+October28,23:17:09.827UTC deadline remain. No competing native pool, completed
+optimization rerun, commit or deployment occurred. Holy and the complete
+production release remain unfinished.
+
+## October 28, 02:17 UTC — final Paladin checks use the correct runtime
+
+The generic DPS menu reviewer is pinned to the common BFB model and must not
+be used unchanged for Soulforge Paladins. The Paladin-specific DPS and tank
+reviewers now verify the exact model, native binary, full2719-item compiled
+database and every release asset. Both input reviews pass without simulations.
+The actual14-check menu/native reviews remain pending behind Holy's live pool.
+
+The shared pure request guard passes seven authentic-source tests, covering
+all eight complete Paladin settings and rejecting weapon, buff, manual-stat,
+class, encounter and seed substitutions. Four real safety checks confirm
+that neither reviewer can start another pool while Holy owns it, and neither
+preflight can publish an authentic fixture. The class ledger, live lock and
+existing selections stay unchanged. Report paths and hashes are in `context.md`.
+
+The prepared publisher retains full parent releases, preserves other DPS
+profiles and uses a separate Protection pointer. Its successful fixture and
+activation branches still require the actual browser/native approval and
+have not run. No deployment or public preset activation occurred.
+
+## October 28, 02:02 UTC — Protection qualification and deployment guard coverage
+
+Protection uses its own qualified pointer, preserving Bear's active selection.
+The shared tank reader validates class/spec, qualification and actual browser
+approval; an authentic pending Paladin preflight is rejected. Source-bound
+guidance validates the exact talents, APL, seal and Righteous Fury. All15focused
+reader/guidance tests pass. Desktop/mobile preflight passes28checks and both
+screenshots were inspected; final native/menu and full-host approval remain.
+
+Health and armor come from authenticated computed-stat snapshots, while
+DPS/TPS/damage-taken references come from the original40k-fight results. Do
+not require nonexistent health/armor fields in combat replies. The failed
+initial qualification attempt is preserved; the successful successor binds
+both sources explicitly. Exact report hashes are at the top of `context.md`.
+
+Static packaging and deployment verification now recognize the separate
+Protection pointer and Retribution DPS profile. Three genuine regressions
+failed before the fix; all32tests pass afterward. No selector was activated
+using pending evidence and no deployment occurred. Eight classes are complete
+locally; Paladin is the only unfinished class, with Holy still calculating.
+
+## October 28, 01:25 UTC — valid zero-aura evidence and exact Paladin preset integration
+
+A diagnostic guard required a positive activated-aura count for every target.
+The actual dungeon threat setup has three fully recorded targets with zero
+activated debuffs; rejecting it does not establish an overflow. The successor
+uses the existing raw-result-bound aura inspector. Four authentic regressions
+distinguish valid zero activations from missing/edited data. All eight fresh
+browser combat/stat replays pass; observed target unions range from0to9 and
+player buffs remain unlimited. No preset or numerical result was changed.
+
+Paladin's exported rotation has different JSON property order from the original
+instruction source. Authenticate the original priority hashes on that source
+and require semantic/current-protobuf equality; do not compare unrelated byte
+orders or invent new rotation text. Both DPS payloads now have source-bound
+instructions and original40kreferences in a compiled modern candidate.
+
+Twelve real desktop/mobile menu, default, saved-character, share-import and
+readiness checks pass. Screenshot animations are disabled to inspect settled
+selection colors. The candidate is not selected publicly: the standard actual
+menu/native gate and full host review remain. Exact reports, hashes, model and
+the unchanged live Holy pool/deadline are recorded at the top of `context.md`.
+
+## October 28, 00:57 UTC — Holy resumes; preserve exact combat overlays and full release parents
+
+The V3 Holy runner yields regularly to native I/O and captures exact failed jobs
+and nested errors. It passed the old stopping point, recorded new calculations,
+and independently confirmed the first28extension scenarios at the practical2%
+target. The old failure remains preserved; its lost nested cause is not guessed.
+Current process/deadline/result references are in `context.md`.
+
+Paladin's existing native combat input carries a template plus separate actual
+gear, seed, iteration and encounter overlays. Reconstruct those before checking
+the browser wire; comparing the template alone falsely suggests old gear was
+simulated. The new origin replay authenticates all eight selected DPS/tank
+builds, complete combat metrics and computed stats without new fights. Seven
+authentic-source regressions cover changed gear, raid buffs, metrics, stats and
+unknown embedded IDs. Current preset/host integration remains unfinished.
+
+The closed Bear release is now selected in the shared local artifact root.
+Copy its complete original parent from the original tank-item delivery: the
+isolated browser review root contains only a parent manifest stub. All6,997
+manifest assets and other class pointers were checked, all six40kbuilds pass the
+real shared-root readers, and33related web tests pass. No production deployment
+is claimed; final compression and shared-host checks remain required.
+
+## October 28, 00:41 UTC — preserve Paladin training and report actual execution state
+
+The stopped V1 search's 386,893 new training results were sealed with the prior
+199,621. Large SQLite snapshots now require streamed hashes because they exceed
+Node's single-buffer read limit. Source evidence and the failed first snapshot
+attempt remain preserved; the current checkpoint contains 586,514 training
+measurements and no confirmation observations.
+
+The V2 coordinate-set preparation passed fifteen tests, but its actual native
+batch failed before new measurements or extension qualification. It is stopped;
+the nested native error still needs diagnosis. Do not describe preparation or
+reused rows as a completed or currently running search. `context.md` records the
+exact immutable failure/checkpoint paths and unchanged deadline. Eight classes
+are complete locally; Paladin and the final full-release delivery remain open.
+
+## October 27, 23:54 UTC — exact Paladin replay and practical closure
+
+Compact old journal rows omit the native job schema. A new, tested origin adapter
+restores the exact protocol envelope and validates its numerical key/workload;
+the failed first import stays preserved. The successful import retains 199,621
+training results, excludes 344 control/other-round results, and records 131,581
+failed observations separately. Twenty-four real historical replays match their
+original replies. The sealed study database must be copied before new feedback.
+
+The practical feedback loop now recomputes the earlier eligible best score when
+a newly discovered failure excludes a former best candidate. This prevents a
+false regression assertion while preserving the exclusion and independent
+confirmation requirement. The recorded-source regression fails on V2 and passes
+on V3, including the bundled V4 helper. Current evidence, immutable hashes and
+execution status are in `context.md`. Paladin still needs its extension feedback
+and final delivery; this does not claim a completed class or deployment.
+
+## October 27, 22:48 UTC — Priest healing delivery verified and active locally
+
+The original talent-edit failure is fixed and its exact browser regression now
+passes: removing and restoring Prayer of Mending preserves the original request
+and workload. The complete successor review passes 56 checks/61 actual native
+comparisons, including all forty presets and desktop/mobile Stop, editing,
+save/reload and scrolling. Both screenshots were inspected. This follows the
+forty independent fourteen-policy confirmations and 560 selected runtime pairs.
+
+Current local release: c3bce93be8ee3c231a469e91. The ordinary page selects it
+without a release query, and the served library matches its checksum. The
+complete Priest handoff and retained failed evidence are in `context.md`.
+Priest optimization is closed; Shaman and Paladin remain before final deployment.
+
+## October 27, 22:38 UTC — talent edits preserve the healing casting plan
+
+Actual browser review reproduced a missing Prayer of Mending priority after
+removing and restoring its talent point. The shared healer workspace now
+preserves spell priorities across talent edits, marks unlearned selected spells
+and retains strict simulation validation until the spell is learned again or
+its priority is removed/replaced. It also keeps the unavailable selected option
+visible in the spell selector. The measured presets and engine are unchanged.
+
+Twenty-eight related web tests, strict TypeScript and lint pass. The original
+failed actual browser evidence is preserved; the successor is rerunning the
+same complete desktop/mobile checks. All forty Priest scenarios and560selected
+native/browser comparisons already pass. Current handles and artifacts are in
+`context.md`; this entry does not claim the still-running final review passed.
+
+## October 27, 22:29 UTC — preserve Paladin burst scope and full-set alternatives
+
+The older coupled Paladin generator accepted only tank/group assignments.
+The successor uses a dedicated burst-priority bank with the actual burst
+workload, owned healing ranks and original acquisition/resource restrictions.
+Eight authentic-source regressions pass. Twenty-four exact old/new comparisons
+preserve the tank/group candidate lists, while 672 burst sensitivity requests
+and 104 changed-priority requests reconstruct correctly.
+
+The old set bank also lost partial-set alternatives once all eight pieces were
+equipped. The new helper restores legal off-set bases and retains all 256
+Soulforge masks without replacing unrelated gear. The real-data regression
+passes 8,832 legal proposals. This is prepared search behavior, not a new
+Paladin BiS result or finished healing qualification. Required source versions,
+evidence and remaining controls are in `context.md`.
+
+## October 27, 22:02 UTC — verify the selected class releases before deployment
+
+`verify-simulator-deployment.mjs` now follows qualified DPS, Warrior combat and
+tank selections. It checks the proof/browser hashes and actual selected preset
+IDs, including qualified profiles absent from the older publication registry.
+It rejects a selector changing during verification. A regression reproduced
+its earlier expectation of an outdated release before the fix.
+
+The fallback simulator asset route also excludes
+`kfc-qualified-combat-model.json` and `kfc-combat-update-qualification.json`,
+matching static delivery. Two regression cases returned HTTP 200 before the
+fix; GET and HEAD now return 404 while public build payloads remain available.
+
+Sixteen deployment tests, 95 related web tests, eighteen static-delivery tests,
+strict TypeScript and scoped lint/format pass. The actual private Next host
+passes selection/serving checks for thirteen current pages. This is local
+release verification; remaining optimization/healer work and the final
+commit/push/deployment are still open. Current evidence and handles are in
+`context.md`.
+
+## October 27, 21:18 UTC — Shaman frame and gear update preparation
+
+The prepared Shaman adapter covers Elemental, Stormcaller and Enhancement with
+their actual class 7 oneofs, talent families, APLs, ranges and class imbues.
+Changing a range, class imbue or consumable now reaches the complete protobuf
+instead of remaining only in the visible settings. Ordinary weapon consumes
+remain separate, as in the admitted Forever model; this work changes no engine.
+
+Two search-domain guards are tested before dispatch: changing weapon types
+retains the new weapon with compatible declared oils/stones, and an eight-piece
+Five Thunders incumbent retains all 247 subsets without overwriting unrelated
+improved gear. Eighteen real-input regression checks pass; exact JUnit, source
+pins and future control/search commands are at the top of `context.md`.
+Shaman's 31 actual browser/native control pairs and numerical optimization have
+not run, and its new clock has not started. Priest remains the sole live pool,
+with twenty of forty scenarios confirmed at this checkpoint.
+
+## October 27, 20:43 UTC — stop at practical closure, not exact state identity
+
+The complete fourteen-policy Priest run stopped after four passes while its
+Penance/Holy group build was still changing by only 0.712% in the last pass.
+The owner accepts a practical 2% target. V3 preserves that failed origin and
+all seven confirmed scenarios, resumes the last actual training state, and
+uses the new tested `healer-practical-closure.mjs` after complete coupled passes.
+Both endpoints must be feasible; worsening objectives and relaxed margins are
+rejected. Independent 2% confirmation is still mandatory. This is observed
+bounded closure, not a global optimality claim.
+
+The resumed setup passed fresh confirmation across all fourteen policies,
+bringing the count to eight of forty. No failed result was promoted or earlier
+holdout used to select a new winner. Same model and original deadline, one
+six-worker pool. Four actual-pass/guard tests, strict JavaScript TypeScript
+checking, lint and formatting pass. Current V3 execution, preserved V2 failure
+and successor export arguments are at the top of `context.md`.
+
+## October 27, 20:35 UTC — preserve the measured Priest activation order
+
+The selected Holy group preset exposed a real delivery mismatch: the website
+put Serenity Field before Mark of the Dragon Lord while the measured workload
+used the opposite order. An authentic selected-build regression failed before
+the fix. Item-effects V2 now shares the frozen ownership/order helper with its
+browser request builder, retaining the selected order while updating gear,
+race and Rune ownership. Legacy and Druid behavior remain unchanged. Seventeen
+focused web tests, strict TypeScript, scoped lint, formatting and diff checks
+pass. The fixture contains two actual selected builds and their independent
+references; it is not a complete publication library.
+
+The prepared editor has 1,001 items, all eight Virtuous pieces, 97 enchants and
+all fourteen sensitivity policies. All forty compiled baseline requests match.
+The complete search and final candidate controls remain pending; current
+handles, prepared assets and unexecuted delivery tools are in `context.md`.
+The isolated Next review copy also uses a relative tsconfig extends path because
+Turbopack rejected the older absolute path. Original app config and user port
+3017 were untouched. Its warm-up is HTTP 200, not a final browser qualification.
+
+## October 27, 20:18 UTC — preserve all fourteen Priest healer hypotheses
+
+The initial current healer search covered seven spell-scaling models but
+omitted the existing library's seven Dormant Heart-disabled variants. It was
+deliberately stopped with all records preserved. Its partial confirmations do
+not qualify the complete fourteen-policy scope. The replacement retains the
+same engine and original Priest deadline, validates and reuses only identical
+training records, excludes all earlier independent confirmations, and uses
+fresh holdout seeds. No passing Priest DPS work is reopened.
+
+The corrected request context passes eleven checks, including exact equality
+of all 280 original literal-policy training requests. Ninety-two actual full
+native/Chromium controls pass, including owned Heart literal/disabled pairs.
+A preserved failed control attempt used a shield/support-only positive proc
+witness; the successor uses an eligible trained direct heal without changing
+the engine or weakening assertions. Current execution handle and exact reports
+are at the top of `context.md`. Three classes still remain: Priest, Shaman and
+Paladin; the final package has not been deployed.
+
+## October 27 — Priest DPS closed; healer ownership and set-search controls
+
+Shadow and Smite are locally delivered with 40k references of 771.2995 and
+528.1123 DPS. Both default/menu/host setups match the measured builds, with
+working desktop/mobile Simulate, Stop/recovery and one page scroller. Current
+checks pass: 150 website tests, 73 infrastructure tests, TypeScript and lint.
+Exact releases and handoffs are at the top of `context.md`. Production has not
+been updated; Priest healing, Shaman and Paladin still need completion.
+
+The separate healer run now uses ownership-aware cooldown rules shared with
+`healing-browser-request-v2.mjs`. Equipping/removing Second Wind, Mindtap, Mark
+of the Dragon Lord or the admitted active trinket updates their actions;
+changing race or Demonic Rune also updates availability. Conditions and order
+remain identical for all 40 authentic existing presets. Old V1 stays frozen.
+The new browser helper still needs wiring into the qualified healer release
+after all numerical results pass. Fifteen focused regressions, strict checking
+of the shared rules, lint, browser bundling and formatting pass.
+
+A set-bank regression is fixed before healer dispatch: an eight-piece Virtuous
+incumbent retains all 247 mixed alternatives, and only its set slots are
+overlaid so unrelated gear improvements survive. The real runner uses this
+tested helper. All 44 original baseline/full-set native/Chromium controls pass.
+The partial seven-policy scenario results are superseded by the full fourteen-
+policy run described above. Do not confuse preparation or partial results with
+completion of the whole Priest class.
+
+## October 27 — Warlock delivery closed and valid empty talent trees
+
+Warlock is locally complete on release d2d98c8539081334ba3fdbaf: four 40k
+references, 26 native desktop/mobile menu checks, ten full Next host checks,
+128 website tests, 58 infrastructure tests, strict TypeScript and lint pass.
+Stop followed by a fresh simulation and one page scroller pass on both widths.
+The actual screenshots were inspected; KFC branding and logo load correctly.
+The handoff and exact receipts are at the top of `context.md`.
+
+The generic DPS evidence reader previously required points in the first talent
+tree, rejecting the valid Destruction build. It now accepts empty first-tree
+encoding while rejecting empty, zero-only and malformed allocations. Tests use
+both authentic Mage/Warlock proof fixtures and explicit malformed encodings.
+The original failing reader test output and host-review failures are preserved.
+
+The final host harness waits for the actual initial selected build before
+counting its options. An earlier review raced React's transient Custom entry;
+another timed out on the cold development build. A warmed, unchanged source
+snapshot then passed the complete review. No engine settings, parity assertions,
+source checks or class deadlines were relaxed. The isolated review server was
+stopped and user port 3017 was untouched. No production release occurred yet.
+
+## October 27 — preserve Warlock's sacrificed demon when loading presets
+
+The actual native-menu review caught DS/Ruin losing its sacrificed Imp while
+loading the complete tested setup. A response-only browser diagnostic isolated
+the sole identity difference: `spec.warlock.options.sacrifice` changed from 1 to
+0 during native UI load events. Calculated gear, talents, APL and results remain
+unchanged; the earlier candidate and failed review are preserved.
+
+The V4 native library restores exact Warlock options after the batched load,
+before its existing consumable restoration. Other classes keep their prior
+path. Twelve tests include the actual recorded mismatch and all four authentic
+Warlock payloads; strict TypeScript and scoped ESLint pass. The new candidate
+must still pass real desktop/mobile menus and the complete website host review.
+Current process, candidate and exact reports are at the top of `context.md`.
+
+## October 27 — coalesce equivalent optimization measurements
+
+Warlock's joint rotation search exposed two different proposals with an identical
+numerical request. Concurrent workers both calculated it and raced to create the
+same immutable gzip file, stopping V1 with EEXIST. The V2 successor shares one
+in-flight acquisition per exact numerical identity. Waiters receive the same
+record or failure, failed requests can retry, and distinct identities still run
+independently. Three focused concurrency/retry tests pass.
+
+All 59,398 valid existing records were preserved and linked into the successor
+store; its reader still checks the complete actual input and model before score
+reuse. No corrupt records were excluded and no class deadline was reset. The
+V1 failure, source and measurement files remain unchanged. Current process,
+inheritance checksum and immutable deadline are at the top of `context.md`.
+
+## October 27 — Mage delivery complete and generic class safeguards
+
+Warrior and Mage have completed their current local delivery checks. Mage's
+three styles pass 20 native-menu and eight full Next desktop/mobile checks,
+including Stop followed by a successful fresh simulation. Another 109 website
+and 35 infrastructure tests, strict TypeScript and scoped lint pass. Handoff:
+`remaining-class-updates-20261027-v1/mage-handoff-v1/finished-1h9QWI/report.json`.
+Neither class's new package has been deployed; four other classes remain.
+
+The native UI adds trailing zero arrays for manual stats. The generic V3
+adapter removes that padding when comparing identities, preserving every
+nonzero edit. Without this, an unchanged Mage default appeared customized.
+The shared full-build link guard now accepts the verified SDK class factories;
+it previously rejected non-Warrior full-build links and caused route failures.
+Qualified DPS selection checks only the requested profile, so an unrelated
+malformed profile entry cannot prevent Mage from opening. Regression tests use
+actual entries, default settings, share links and qualified proof fixtures.
+Earlier frozen source and failed reviews remain available for reproduction.
+
+## October 27 — current Warrior delivery safeguards
+
+The sparse empty off-hand in recorded two-hand gear is now accepted by the
+website evidence reader while complete typed presets still require all 17 slots.
+Both DPS native menus preserve exact consumes when switching weapon layouts.
+Warrior tank delivery derives a ruleset-aware reference identity without editing
+the already qualified Bear library source. Changing Classic/Forever invalidates
+the reference; changing sampling alone does not. The native tank selector now
+notifies the host build library and guidance. Regression checks cover these
+behaviors; authentic new Warrior browser approval is still pending.
+
+Recovered dependencies and ARM Chromium are installed from existing lockfiles.
+Current focused checks: 75 website tests, 12 deployment packaging tests, eight
+DPS adapter tests and three tank identity tests passed; website TypeScript and
+scoped lint passed. No production deployment has been performed for this update.
+
+## October 27 — resume after the Mac migration
+
+The restored workspace predates the final delivery checks. Saved numerical
+qualifications and the off-hand consumable fix remain; missing browser approvals
+and local selections must be rebuilt. Dead process locks were recovered with
+original receipts and deadlines retained. The preserved Intel Go compiler matches
+the frozen model and runs through Rosetta; only the project-local toolchain link
+was restored, with the ARM link and global ARM installation preserved. SDK test
+dependencies were restored from their existing lockfile. Current processes,
+recovery receipts and remaining checks are at the top of context.md.
+
+## October 27 — Warrior checkpoints, disk guard and complete preset delivery
+
+All five Warrior DPS comparisons and selected runtime/stat controls now pass.
+The tank comparison resumed with its exact input after the disk-reserve guard
+stopped it safely. Saved measurements are reused; old deadlines are retained.
+Completed DPS stores were losslessly archived with original gzip checksums and
+selected holdouts preserved. The active tank store remains loose for reuse.
+
+The new native preset adapter loads complete configurations through both
+Preset Configurations and Gear Sets, with one conservative first-visit default.
+Its focused tests, strict TypeScript and scoped lint pass. Actual menu and host
+browser approval is still pending; the single-class budget lock correctly
+prevented a concurrent delivery phase. Exact reports and commands are at the
+top of context.md. No new preset has been selected for production yet.
+
+## October 27 — current Warrior controls and bounded feedback
+
+The owner approved a separate remaining-class allowance; old pending-window
+notes are historical. All 23 replacement actual Forever UI/native/raw-WASM
+controls pass. The actual UI uses eight party rows, five active parties and five
+slots per row, with one real player; guards now verify that layout rather than
+assuming a one-party export. Original failed captures and controls are retained.
+
+Ironfoe's inherited sharpening stone was incompatible with its mace type.
+Matched dense stones are checked and adapted for both hands during item swaps;
+two corrected actual controls pass. Two further actual controls verify execute
+Recklessness. The old search disabled it solely to match an older benchmark;
+the current comparison uses the implemented cooldown without a timing search.
+
+Both Fury all-slot gear passes and bounded talent/APL/consume feedback now close
+within the accepted 2% target. The updated consume state is undergoing its final
+gear recheck. These results are local evidence, not deployed presets. The
+separate 1% outcome is reported without reopening the deferred exhaustive search.
+
+Tank preparation also removes old Elemental Stones from the nonraid comparison.
+Its exact scenario guard preserves five-minute, one-level-63-target raids and
+one-minute, three-level-62-target dungeon fights. Three actual-input regression
+tests reject mismatched durations, targets, levels and support. Source encounter
+parameters are preserved; new tank numerical comparisons have not started.
+
+Completed Fury measurement records are packed losslessly to save disk space.
+Every original gzip byte stream is reconstructed and checksum-verified before
+duplicate loose files are removed. Original event files and reports remain.
+Archive locations, restore commands, active process and fixed class deadline are
+recorded at the top of context.md. No protected cache helper was accessed.
+
+## October 27 — Warrior captures must retain explicit Forever mode
+
+The original controls loader replaced global settings with a faction-only
+object. All15actual browser requests used Classic. The new pure browser-capture
+guard checks both exported UI mode and the unmodified request; patching a wire
+after capture cannot qualify its provenance. Seven actual-capture regressions,
+scopedESLint andPrettier pass. Old sources, captures and numbers remain intact.
+
+Prepared15corrected controls plus8representativeHeroismgearcomparisons against
+the2743-item model. All23complete native/Chromium stat API pairs and independent
+raw-request/result/settings/gear/enchant replay pass. The original support,
+disabled-action andValor differences are preserved. These are prepared controls,
+not new UI combat captures, DPS rankings or all-slot searches. No new clock,
+preset, commit/push or deployment. Receipts and retained first source-overlay
+failure are in docs/simulator-warrior-full-raid-update.md. Protectedcache remains
+unread/unimported/unexecuted/unedited.
+
+## October 27 — stat checks must match the complete simulation context
+
+Independent raw-wire replay caught an omitted active-party count in the current
+caster stat checks. Their native/browser agreement was real but applied to a
+different request; the older Mage checks also retained older support. Preserved
+those reports and regenerated stat requests directly from the actual prepared
+raid requests and selected equipment. All18complete native/Chromium pairs and
+independent request/result/all-vector audits pass across9casterstyles. No new
+DPS ranking, optimization clock, selected preset or deployment occurred.
+
+Shared `infra/simulator/simulation-stats-context.mjs` builds and checks normalized
+one-player Forever stat contexts. Ten regressions use18actual captures and reject
+all18former mismatches, lost raid support, changed encounter/gear/enchants and
+implicit Classic. The6962bytecapturedfixture is source-bound. Current Warlock
+banks cover all17slots,25groups/style,all247Deathmistmultisubsets and mandatory
+full-set witnesses, with legal weapon layouts and unchanged nonraid/access rules.
+Exact successor inputs, audits and retained failed attempts are documented in
+docs/simulator-current-statistics-model.md and the class recovery documents.
+Protected simulation-cache remains unread/unimported/unexecuted/unedited.
+
+## October 27 — stable statistics extended to the expanded combat catalog
+
+The previous Mage variance correction is now compiled against the qualified
+2,743-item catalog, retaining all 72 base dungeon-set pieces and identical
+database bytes. Only the two statistics source files and the existing moments
+helper change production code. The old models, measurements and finite-value
+validator remain intact. Initial303 native/WASM controls plus116 broader
+Hunter, Rogue/Valor and Feral DPS controls pass:419 outcomes in both backends.
+Six full Frost/Fire/Arcane stat API comparisons also pass.
+
+Three current Mage search banks and their independent all-vector legality,
+slot/pair/set/enchant, wire-buff and negative-case audits pass. They include
+improved totems, Windfury, auras and Kings, with all247Sorcerer multi-piece
+subsets and mandatory full-set witnesses. Proposal counts are reconciled with
+omitted singleton groups and duplicate incumbents; they are not unique fights.
+No ranking job, new class clock, old-score reuse, selection or deployment ran.
+See docs/simulator-current-statistics-model.md for exact immutable receipts.
+
+## October 27 — Bear full-catalog update and tank share regression
+
+Final follow-up:112webtests and10static-packagingtests pass. The compression
+selector now includes the qualified Bear release and its source; both public
+delivery paths hide the two new internal proof documents. Final standalone
+desktop/mobile checks verify those404s, logo200 and real combat. The fresh full
+production build passes. Final handoff83176a090f6b77872e16b56c supersedes the
+first seal, with unchanged clocks and no new numerical search.
+
+The separately authorized Bear update is complete locally. Six full-gear
+contexts passed the practical2% target with fresh independent40k confirmations;
+winning gear stayed unchanged. The Feralheart-capable2727-item model now has a
+verified six-preset package, exact import links and guidance for the measured APL.
+Six selected combat pairs, six full stat pairs,14compileddesktop/mobile controls,
+two full Next dev checks and two real standalone production checks pass.
+98focusedwebtests, scopedESLint, TypeScript and the production build pass.
+
+Library integration exposed an HTTP500:the preset URL remapper rejected the
+reviewed full-settings tank category query. It now preserves exact?i=gtrcmxeu
+for tank profiles and continues rejecting unrelated queries. Regression included.
+The new derived-model evidence reader verifies actual numerical/preset/browser
+artifacts and leaves the older common-model tank rankings untouched.
+
+See docs/simulator-bear-feralheart-update.md and context.md for final release
+b0922983c0a2b43d2ec6ea64 and its sealed handoff. No production activation or
+Git write occurred. Complete source deployment still waits for remaining classes.
+
+## October 27 — Heroism added to the current combat engine
+
+An isolated successor now adds all eight current Heroism items to the shared
+engine, preserving its 2,727 items and non-item data through a verified protobuf
+round trip to 2,735 items. Its 184 native and 184 Chromium component outcomes
+pass, covering Heroism in real Warrior DPS/tank factories and the inherited
+Bear, Shaman, Paladin and Warlock controls. The four-piece self-heal retains an
+explicit, unverified one-PPM reference; no live proc-rate claim is made.
+
+Six Warrior tank domains and 1,536 Heroism vectors are prepared. Twelve complete
+native/browser stat API comparisons pass for their incumbent/full-set loadouts.
+No new ranking, class clock, selected model or deployment is claimed. The older
+fifteen Warrior Classic-wire captures still need explicit-Forever recapture;
+component checks do not repair that evidence. See
+`docs/simulator-warrior-heroism-current-model.md` for immutable model, browser,
+stat API and candidate receipts. Protected helper and parent sources remain intact.
+
+## October 27 — Bear Feralheart component qualified; ranking update prepared
+
+The current shared engine already contains the eight recovered Feralheart items
+and exact base-set 513 handler. The older published Bear package does not.
+New real-tank Go controls now pass 31 native and 31 Chromium/WASM outcomes,
+including all thresholds with/without Kings, ten-rage incoming procs, rejected
+event RNG, reset and Classic/alternate-set isolation. The eight-piece bonus
+adds 200 bonus armor without treating it as ordinary armor multiplied by Bear
+Form. Runtime source and current item stats remain unchanged.
+
+Twelve complete stat API pairs also pass for the six existing Bear configurations,
+each with incumbent and full-set gear. Six future ranking contexts, 1,536 legal
+added-item loadouts and all-slot domains are prepared. No new DPS/TPS ranking,
+optimization clock, selected preset or deployment was produced.
+
+The actual test is `infra/simulator/druid-feralheart-tank_test.go`; the evidence
+and bounded execution plans are documented in
+`docs/simulator-bear-feralheart-update.md`. Both execution tools pass syntax,
+scoped ESLint and their zero-job plan modes. Fresh ranking requires its own
+input-bound approval and fixed clock; the original Druid window remains expired.
+The new Bear request allows up to two hours of calculations and one hour of
+website delivery, preserves the 2% target and excludes deep timing searches.
+It is pending and does not authorize work by itself. Paladin's separate
+delivery-only extension also remains pending. Protected helper and all original
+models, failed workspaces and numerical evidence are preserved.
+
+## October 27 — Soulforge comparison and preset candidate verified locally
+
+The separately approved Paladin DPS/tank update completed its numerical work
+inside the fixed 01:20:33.147–03:20:33.147 UTC window. Eight added-item contexts
+passed the declared 2% policy, including full gear feedback for all six tanks
+and four-pass closure for changed Shockadin gear. Fresh 40k results are about
+975 Retribution DPS and 790 Shockadin DPS. The original failed three-pass
+Shockadin result remains unqualified; its successor reuses exact-model/input
+records and finishes a real unchanged closing pass. No search clock was reset.
+
+Candidate `bdd3248eeda51050cc2b83ef` also passes actual all-class virtual
+TypeScript, eight full-unit native/browser combat controls, eight full stat-API
+comparisons and twelve compiled-UI checks (desktop/mobile defaults and menus,
+plus real UI/worker combat for all eight builds). The two provisional tank
+enchant builds still require explicit consent. The captured Soulforge four-piece
+uses an explicit one-PPM reference; actual server cadence and live acquisition
+remain unverified.
+
+The browser review caught an incomplete tank payload: the admitted combat
+runner supplies no health/armor fields. The corrected payload gets those values
+from the real stat API and checks complete native/browser results, rather than
+copying previous character stats. Recovered effect rows missing names/triggers
+also receive an explicit description fallback in the candidate tooltip adapter.
+An omitted-default equipment reader mismatch was corrected by canonicalizing
+the supplied settings through the verified protobuf codec; nondefault equipment
+checks were preserved. All failed candidates and original evidence remain.
+
+The immutable handoff is under `paladin-soulforge-update-v1/prepare-BU0alb/`:
+`verified-candidate-c2a5acd9f20de05791382950.json`, SHA-256
+`1275516d0967b4630351ab9d82019d4caa33d494ca40dd5cd7152f94f8f022b2`.
+The compiled browser report is `ui-review-ntMP5g/report.json`, SHA-256
+`19ce2b130bba3adf46e534f75648b90b2d28a7f1f9fede20ff4ded731ffbacb0`.
+Twelve policy/canonicalization regression tests and `git diff --check` pass.
+This is **not selected or deployed**: the authenticated website release reader,
+matching published library metadata and actual current Next host checks remain.
+No protected cache helper or prior model/result was edited. Full deployment is
+still conditional on completing the all-class work requested by the owner.
+
+## October 27 — Five Thunders combat reference and Paladin authorization
+
+The damage-engine reference separates base Five Thunders519 from alternate1679
+by exact ID, adds all eight current items/correct2/4/6/8bonuses, and preserves all
+2,719parentitems. All112native/112actualChromium controls and12full stat API
+comparisons pass;52combinedNode tests, lint, format and Go formatting pass.
+Completed Restoration work and its198configurations are unchanged. Cast routing
+remains unverified; no new DPS ranking or deployment. See the newest section in
+docs/simulator-shaman-five-thunders-recovery.md for immutable receipts.
+
+The user approved the separate up-to-two-hour Paladin DPS/tank Soulforge update
+(call_64fe7043dc5c4067ab600c462d0f686e/0), retaining2%/no deep timing. Its clock
+starts with the first supervised comparison. Holy Paladin realbrowser delivery
+and other class approvals remain separate. No commit/push/deploy yet.
+
+## October 27 — Soulforge combat reference and website Stop transport evidence
+
+Prepared all eight missing Soulforge items and exact base516 bonuses for the
+Ret/Protection runtime, including the melee-triggered65SP/10sec buff. Its1PPM
+cadence remains a disclosed unverified reference. All68native/68Chromium outcomes
+and12complete stat API comparisons pass. The2,719-item catalog preserves2,711old
+items;247Alliance multi-piece/full-set legality cases pass and uncaptured Horde
+access is rejected. Existing selected builds and Holy healing remain unchanged;
+this is model preparation, not a new BiS result. Full evidence is in the newest
+section of docs/simulator-paladin-preparation-2026-10-22.md.
+
+The separate real-browser Stop transport checker passes5cases against the actual
+frame connector. Restart is requested at~~1.2s and Chromium closes the deliberately
+blocked worker at~~3.25s; saved edits survive.48related web tests pass. No WoW
+engine or combat is used; the raw Druid cancellation limitation remains. The
+initial route hypothesis was disproved and no product allowlist change was made.
+No numerical window, Git operation or deployment accompanied this work.
+
+## October 27 — source-bound catalog update planning command
+
+Added `pnpm simulator:prebis:plan-update --input=<manifest.json>` and a shared
+planner for changed item/set/enchant effects, all slot geometry, ordered jewelry/
+hands and old set thresholds broken by new gear. Changed runtime, mechanics,
+scenario, eligibility or equipped facts require a broader review. No permanent
+blacklists/top-five-only pruning or unverified old-score reuse is authorized.
+Nineteen tests pass, including immutable concurrent writes and path/hash guards.
+Actual selected-Warlock→Deathmist preparation detects the changed model and
+requires a full review; an unchanged snapshot returns zero groups. Both execute
+zero simulation jobs. Writes are atomic/non-replacing and old source bytes and
+reports remain archived. Runbook: docs/simulator-update-runbook.md, October27.
+Actual incremental execution/reuse/qualification remains open. Class-window
+questions are still pending; no clock reset, source-cache change, commit, push
+or deployment occurred.
+
+## October 26 — Warlock base Deathmist dispatch and catalog reference
+
+Recovered eight base-set items now have an isolated exact-ID model instead of
+inheriting the alternate set's MP5/healing bonuses. The actual catalog preserves
+2,703olditems and appends8currentitems. All22native/22Chromium controls and13actual
+runtime stat/recovery checks pass; the2%incoming proc,60secondICD,reset,armor and
+Classic/alternate boundaries are checked. The disclosed raid-boss reference treats
+its bosses as fear-immune; fearable encounters are rejected, not simulated as
+stuns. This is unverified server behavior and is not a new optimized DPS result.
+The acquisition/ownership adapter preserves both faction alternatives and all247
+multi-piece/full-set proposals under the existing filters. Fifteen Node tests and
+scoped checks pass. Source/receipts: docs/simulator-warlock-dungeon-upgrade.md.
+Existing selected builds, clocks and production are unchanged; a separate bounded
+Warrior/Mage/Warlock update was requested and remains pending alongside the prior
+Priest and Paladin questions. No commit, push or deployment occurred.
+
+## October 26, 23:00 UTC — Priest Virtuous reference integrated and runtime qualified
+
+The isolated Priest model now embeds all eight omitted Virtuous pieces and applies
+all four set thresholds by exact base ID. Its shield follows the sourced Priest
+family curve (7/14/20%) without gaining a spell-power coefficient or changing its
+item cooldown. Both shields coexist using the disclosed native application-order
+reference. All2,680prioritems/nonitemfields are preserved; actual catalog has2,688.
+Full regression:247native/247actualChromium outcomes, including200parent outcomes
+(145root tests), plus14source/renderer Node tests and lint/format checks.
+Matching native/WASM/catalog assets are built under priest-virtuous-model-v1/
+build-GC0NAV/runtime-review-JI5ue0; receiptSHA454a6b9aa38d078fe9cbc0e4a50fe25f056560fd05ecaf5ad9a97e6e13297811.
+No selected pointers, optimization clock, Git or production changes. Original
+expired Priest deadline is retained; a separate up-to2hour/2%update was requested
+and remains unanswered. See the latest context and Priest recovery document.
+
+## October 26, 22:16 UTC — Shaman workspace passes real production-build delivery checks
+
+The complete KFC-style Shaman workspace now runs actual browser simulations with
+source-bound defaults, gear/enchants/talents/casting/consumes controls, bounded
+save/share, native reply checks, hard worker cancellation and actionable recovery.
+All 198 measured configurations validate for the packaged release. Both dev and
+production standalone Chromium reviews pass 13 checks, including four real
+64-fight jobs that match the frozen native engine, mobile layout and download
+failure recovery. Package34 / infrastructure248 / related web45 tests, TypeScript,
+scoped lint/format, SDK build and full Next production build pass. Three missing
+talent backgrounds and crowded card descriptions are fixed. Isolated release:
+53e4d50c2689af5e980b6cfb. Production-build receipt SHA:
+8e48d7e09e92688aae865dda80a323a4acf372274798c01779862232ac917277.
+See docs/simulator-shaman-healer-workspace.md and the latest context checkpoint.
+No live service or other development instance was changed. Full all-class release
+work remains; no commit, push or deployment occurred.
+
+## October 26, 21:30 UTC — Five-race Shaman reference library prepared
+
+All198current Shaman configurations across5races/45groups pass the accepted2%
+target;194also pass1%. New4race confirmation independently reconstructs1152actual
+requests; all72newselections survive1024fights and pass both tolerances. Existing
+Troll126passingcases remain frozen. No deep search on the4strict-only1%misses.
+Current library: `shaman-healer-library-v2/prepare-AEZNyw/report.json`, SHA
+`cc7912198af8f55cc922e19e503fd83bf3b2157c93361a6bbc6990cc06b853cb`.
+Presentation: `shaman-healer-presentation-v1/prepare-KBfMGH/report.json`, SHA
+`5f59456233b2ed53b021e6fe0e8cd2e3279d6d2324ac1535d63fed366658db13`.
+Browser-safe equipped policy construction matches126confirmed jobs,40distinct
+combinations from86714actualjobs and a separate0combat Go codec control for the
+12thfamily. Lazy index/group/catalog contracts,2kitemdata,105enchants,33spells and
+complete resolved talent descriptions are implemented.Final combined50healer tests, scoped lint/format,
+fullpackage typecheck/build anddiff--check pass. Actual web workspace,
+saved/share controls and browser simulation delivery remain next. All28numerical
+phases are terminal/succeeded; original deadline unchanged. No Git write, push or
+deployment occurred. Complete receipts, source handles and exact next steps are in
+the21:30context.mdcheckpoint; full all-class goal remains active.
+
+## October 26, 20:22 UTC — Shaman reference confirmation and SDK pass
+
+All126fixed corrected-model Shaman reference selections survive1024fresh fights
+and pass the accepted2%paired comparison;122also pass1%. Independent reader
+reconstructs all2016actual requests. Receipt:
+`healer-model-admission-v1/shaman-fixed-confirmation-review-Ld4svW/report.json`,
+SHA `82257c76004ce35acfe29d07a7013af6d63a8d890633c35e232ceae28836c4d2`.
+Do not rerun these passing studies or chase the4strict-only1%misses. Scope is the
+currentHorde Engineering/Tailoring180s800DPS pool, not complete class admission.
+The exported Shaman TypeScript SDK validates all2016actual equipped replies.
+126selected native packets are retained in its new pinned regression fixture.
+32shared healer tests, TypeScript, scoped lint/format and package build pass.
+Focused profile/race/scenario compatibility and Shaman UI/default delivery remain;
+full all-class commit/push/deploy/production smoke is still pending. No new commit,
+push or deployment occurred. Complete handles, receipts, disk-cache recovery and
+specific Tailoring/Horde-only item constraints are in the20:22context.mdcheckpoint.
+
+## October 26, 20:12 UTC — Corrected gear refinement and Shaman transport checks complete
+
+Full goal remains active; no commit, push or deployment. Main stays acbf757.
+Shaman SDK source is now complete for this transport layer. Final checks pass:
+31 Priest/Druid/Paladin/Shaman Vitest tests (10 Shaman), package TypeScript,
+scoped ESLint/Prettier, final ESM/declaration build and git diff --check. The actual
+web-package subexport resolves and validates all27 successful native fixture
+cases. Five tested-gear-prior Node tests also pass. No web UI code has been edited;
+this is not Shaman workspace or all-class completion. Next's installed
+01-app/01-getting-started/05-server-and-client-components.md has now been read for
+subsequent UI work. No protected simulation-cache.mjs access occurred.
+
+Corrected gear refinement succeeded:11,531new64-fight jobs /737,984fights,126/126
+cases retain a viable candidate. Receipt
+`shaman-prior-gear-refinement-v1/4617e6d5209158c3eebf4b37bef55ee2c1ce52a6895ae250125f3e588f9ca434/report.json`,
+SHA `c1041d5cce1b0d9a23168c6e729b73b45298b3f3c8746bf1d0b7c128456ddb7d`.
+Exec67482/PID99387/caffeinate99595 are terminal exit0; do not restart.
+
+Private `run-shaman-fixed-confirmation-v1.mjs` predeclares four independent256-
+fight seeds191053001/191053113/191053227/191053339,504fixed setups perbatch,
+126locked training selections plus3training alternatives each. All decisions are
+frozen BEFORE these holdouts; no validation reselection. Original deadline stays
+2026-10-27T12:50:22.097Z. These cover the currentHorde/Engineering/Tailoring,
+180s/800DPS references across7rank stress cases and2MP5 models; they do NOT qualify
+other professions/factions/durations/geometries or the whole class.
+
+First three batches completed, each504new jobs /129,024fights, all126fixed
+selections survive and deliver their schedule in each batch (early read only;
+final four-batch paired review still required):
+
+1. `shaman-fixed-confirmation-1-v1/db4ad8c6548d85816aae1a8fdf9af4e637c57998b104aef36442a235283eb1bc/report.json`,
+   SHA `61e6dbc8c710757af543af6271f08abf3de4890094cdb641a9787dd98ecba7d2`.
+2. `shaman-fixed-confirmation-2-v1/7ef3581013d20f2a281ed2ef361e274592865b2a8e7b25fec5873878a1b15571/report.json`,
+   SHA `1854850ce55cd7b174d3d283d6b94d857475aa2a898c22786c33ece96e8f7952`.
+3. `shaman-fixed-confirmation-3-v1/0815dd9429f6e256700c03cb1dccbe0761fdf63c07b27c924cd906da6ec15b18/report.json`,
+   SHA `38ccb12716dc3fb3e60fe285fefe1539b32b845b68a4393aa36660f916f9463b`.
+
+Exec51199/PID43061/caffeinate43269 stopped with exit1 BEFORE starting batch4:
+the unchanged18GiB start reserve rejected16.83GiB available. No fourth combat
+or budget phase was started then. Source/journal evidence and first3reports are
+preserved. Audited only generated Go archives with a wowsims/classic project
+marker and modification age>=6h, no active Go compiler, no sources or executable
+engines. Reclaimed4.0036GiB/1055old compiled-cache files (the newest eligible was
+7.73hold), all outside pinned engine/source paths. Receipt:
+`review-tools/shaman-go-cache-reclaimed-20261026.json`; inventoryV2 retained.
+No other owner's build,3017process, frozen runtime or numerical evidence was removed.
+Available space returned22.53GiB (the concurrent unrelated build also released
+space). The18/12GiB guards were never reduced.
+
+Resumeexec92003 reuses all3completedreports WITHOUTnewfights. Onlybatch4 is LIVE:
+`shaman-fixed-confirmation-4-v1/08cdb25790fb203b023408c0f9cd179367f41419bc27563e36c88407cd28bb4f/`;
+workers90242..90247,codec90241. Lastobserved500/504. Verify process/budget/report
+before recovery; don't assume a yielded observation is failure.
+
+Prepared no-fight independent reader `review-shaman-fixed-confirmation-v1.mjs`
+(syntax check passes; NOT yet executed). It reconstructs all2016actual requests
+through the real canonical Go encoder, checks source/frame/journal/result hashes,
+locked selections and seed/iteration evidence, then compares four paired batches
+for practical2% and separate1%. It cannot run until all4reports exist. No final
+qualification or default recommendation is claimed before its actual output.
+
+## October 26, 19:57 UTC — Bounded corrected gear feedback complete; Shaman SDK implemented
+
+The FULL all-class DPS/tank/healer/UI/catalog/incremental/release goal remains active.
+Owner's latest instruction is conditional: commit, push, deploy and quit WHEN ALL
+ready. No commit, push, production activation or unrelated process restart occurred.
+Main/origin remain acbf757. Original Shaman deadline stays 2026-10-27T12:50:22.097Z.
+
+New public `infra/simulator/shaman-tested-gear-prior.mjs` and its five passing tests
+retain five distinct measured leading group signatures as CANDIDATE priors only.
+Every slot/pair/hand/set/enchant group is visited. New/changed item facts are
+retested; missing prior groups fall back to their complete legal candidate group.
+No prior scores are reused or permanent item blacklist introduced. Frozen old and
+current item/effect/enchant facts are fingerprinted separately, so a future same-ID
+item update cannot be misclassified as already tested. This is bounded selection,
+not a global-optimality proof. The helper is frozen after successful use.
+
+Prepared prior V2: `shaman-tested-gear-priors-v2/prepare-WEROPd/report.json`, SHA
+`5f264d0f67e7b71f114228e087c8389592e0eef60fbb239ce38b7a6b20653437`;
+`priors.json` SHA `d9cb09b83644281dd07a4b0e9f2b684ea683c90280e0ba4c84dfc73138fce78d`.
+Private producer `prepare-shaman-tested-gear-priors-v2.mjs`. V1 is retained but must
+not be used for future changed catalogs because it used current facts for old priors.
+
+Actual corrected-model gear feedback succeeded, 126/126 cases retain an eligible
+candidate. All use the current rank/racial model 7431142d..., explicit owned Troll
+racial, original 800 DPS and all seven rank stress cases. Fresh measurements only:
+
+- `shaman-prior-gear-per-five-v1/673baac070ac836947c65335bf7996dc19f1988eafff60cd89e13da081d9d8cc/report.json`,
+  SHA `7d54c9be642c69a6a79f1d06f5b4beb026fac98510bf2eb5d174c0971a658b06`.
+  18,054 new four-fight jobs, 72,216 fights, 63 cases.
+- `shaman-prior-gear-per-second-v1/8f3db6f4dc7bf384feecbd0d0d45912d6adba3c851e74c1c0847d67b9df77566/report.json`,
+  SHA `e81280a3ce4ed8f4d4a8f9dd9126734ddb343f1f5fbc8628aa0a71ca50a1091e`.
+  17,066 new four-fight jobs, 68,264 fights, 63 cases.
+
+Producer `run-shaman-prior-gear-feedback-v1.mjs`, exec39133/PID23027 and
+caffeinate23928 completed exit0. Do not restart. Numerical budget has 17 succeeded
+phases before the new refinement. New LIVE producer:
+`run-shaman-prior-gear-refinement-v1.mjs`, exec67482, source declaration
+`shaman-prior-gear-refinement-v1/4617e6d5209158c3eebf4b37bef55ee2c1ce52a6895ae250125f3e588f9ca434/declaration.json`.
+11,531 fresh 64-fight tasks, 126 cases; top8, top2 each selected legal group and all
+incumbents, complete gear/consume/use choices, all failures retained. Workers
+2306/2307/2308/2309/2310/2315, codec2294 at start. Caffeinate prevents idle sleep.
+Revalidate actual process/session/budget before recovery; observing a yield is NOT failure.
+
+New actual browser-safe TypeScript SDK implemented in
+`packages/forever-data/src/shaman-healing-simulator.ts` and
+`shaman-healing-effects.ts`, exported as `@wow-trader/forever-data/shaman-healing-simulator`.
+Strict full equipped job/result, 40-player targets, rank/racial references, 12 effect
+families, cooldown ownership, recipient mana, loadout/faction/conditional access,
+raw diagnostics, stale reply/build/policy checks and external-only display ledgers.
+Duration is an explicit encoded-encounter value, never guessed from a preset label.
+Admiral's added health capacity is excluded from useful support by the native cap;
+the display validator permits that documented cap, without inflating HPS with mana.
+
+Fixture `packages/forever-data/src/fixtures/shaman-healing-transport.v1.json.gz`, SHA
+`b4a6d9da76c394218ead010eb1eb907b30ed7081cd758665dcb4c36753649c3e`, preserves
+29 actual jobs/results: 27 success, 2 native errors, 22 pinned source files, all5
+races, 5/10/40 targets, 14/180/300 seconds. No new simulations for fixture creation.
+Private builder `prepare-shaman-sdk-transport-v1.mjs`. One error is structurally
+valid JSON with an unowned racial encoded in protobuf; native ownership validation
+correctly rejects it. Do not pretend the Zod syntax parser decodes protobuf ownership.
+
+Checks: 10 SDK tests pass, package ESM/declaration build passes. Prior 29 combined
+Priest/Druid/Paladin/Shaman tests passed before the final two extra Shaman regression
+tests. Package typecheck/ESLint passed before the final stale-reply helper; rerun
+those checks for the final source. No web code edited yet. Read relevant installed
+Next docs before web edits per apps/web/AGENTS.md. Shaman workspace/library/default
+presets, expanded scenario/profile confirmation, independent 2% and separate1%
+assessment, all remaining other-class gates and full release still remain.
+
+## October 26, 19:05 UTC — Corrected Shaman feedback and fresh refinement complete
+
+All236Shaman Node tests pass. New codecV5/contextV4/batchV3 target the admitted
+rank/racial successor; old versions stay frozen. All90profiles encode,22real
+preflight jobs pass, and an independent reader checks21complete PB/receipt/policy
+controls without new fights. Source profile coverage is15Alliance/75Horde; only
+the captured Horde FiveThunders route is admitted, so do not invent Dwarf unlocks.
+
+The corrected-model screen completed71,610requests/286,440fights; fresh refinement
+completed7,127requests/456,128fights. All252case/state/rank comparisons retain an
+eligible survivor. Four stricter MentalQuickness tank cases nowhaveonly2options;
+they need independent checks. These are training on two prior measured gear
+starts, not final BiS or independent confirmation. Exact receipts/frozen sources/
+retained preparation failures/next scope are in context.md. All numerical
+processes are closed;15budgetphases succeeded,0running. Deadline unchanged.
+No new commit, push or deployment. Full delivery remains unfinished.
+
+## October 26, 18:31 UTC — Shaman closing training complete and racial correction admitted
+
+Both complete gear parts and the fresh64fight refinement succeeded; all18cases
+retain eligible survivors. Those are old-model training, not final BiS.
+New source-bound rank/racial successor passes291native/actualChromium controls /
+2307groups, retains2297parentgroups, completes six Worker jobs/rejects two and
+catches six compiled faults. It fixes the source2%friendly critical-healing bonus
+and supports explicit owned TrollBerserking/OrcBloodFury. Shared core stays intact.
+Legal Shaman races are enforced for the new opt-in policy. Exact receipts, frozen
+sources, retained development failures and pending test handle are in context.md.
+
+Prepare a new codec/context for this successor before final sensitivity/confirmation
+and Shaman UI delivery. Current study codec/context still use the old runtime.
+No final BiS, all-class completion, commit, push or deployment is claimed.
+
+## October 26, 18:09 UTC — First closing pass succeeded; racial correction remains
+
+The first full-bank closing part completed295,333tasks/all9cases with a survivor.
+It reused166,478exact saved rows and calculated128,855new requests. The wrapper
+started its second MP5 part automatically: actual Node32516/inhibitor32724/
+exec96567 live at18:08:51UTC,83,000/231,346tasks. Original deadline unchanged.
+Do not recover or rerun the succeeded first part. Its stale progresscomplete:false
+is superseded by the succeeded budget record/final report. Check actual process
+state before recovery. Exact phase/receipt details are in `context.md`.
+
+Actual native controls prove missing Dwarf/Tauren friendly critical healing:
+all3races currently have1.5criticalmultiplier. Source70532has their2%aura50.
+A checksummed racial capture also includes legal Shaman races, TrollBerserking
+and OrcBloodFury. The latter boosts healing too. No racial fix or new controller
+has yet been applied; frozen shared/core sources remain untouched. Implement
+and test a successor before publishing Shaman. Full release remains unfinished.
+
+## October 26, 18:02 UTC — Source-bound Shaman rank sensitivity verified
+
+New isolated model passes282native/Chromium controls and2297measurement groups,
+including all2288parentgroups. Five actual Worker jobs complete and two invalid
+rank policies reject. Four compiled faults are caught. Seven focused Node tests,
+ESLint and Prettier pass. Exact receipts, model IDs and frozen files are in
+`context.md`. Formula and proc penalties are explicit unverified stress cases;
+no final BiS or publication qualification follows. Prepare a new codec/context
+before using this model for optimization; the running study still uses the old
+runtime and is untouched.
+
+Race export confirms Dwarf as the only Alliance Shaman. The installed build info
+now contains only Anniversary, so a fresh Beta extraction is unavailable; frozen
+70532data remains. Friendly critical-racial behavior and actual owned racial
+activation still need checks. The full release remains unfinished and undeployed.
+
+## October 26, 17:47 UTC — Idle sleep interrupted the Shaman worker
+
+The earlier17:28liveness claim was based on stale progress. Actual checks found
+PID18594/exec66807 had failed at17:23:01UTC with a request timeout. macOS logs
+show idle sleep17:14:36UTC and wake17:23:02UTC. The failed run remains failed.
+Proof and the pre-resume budget are saved in
+`healer-model-admission-v1/shaman-closing-recovery-v1/sleep-20261026T1723/`.
+
+The frozen producer resumed with `caffeinate -i`: actual Node32516/inhibitor32724
+were live at17:46:53UTC, owned exec96567. The unchanged first-part journal has
+166,478complete saved rows. At the observed checkpoint104,000/295,333tasks were
+revalidated exact reuses, zero new jobs. The class deadline remains unchanged.
+Check actual process/session state rather than inferring liveness from progress.
+The second MP5 part starts automatically. No release or all-class completion is
+claimed; model sensitivities and application delivery remain.
+
+## October 26, 17:28 UTC — Shaman checkpoint recovery and verified priority/resources
+
+Group priority screen/refinement and consume/owned-use feedback completed, with
+all original case/state coverage retained. Independent audit verifies329,297
+actual gear/talent requests, complete inputs, ledgers and failure exclusions;
+it reruns no fights. The current JavaScript codec exactly reproduces1,458original
+Go-canonical requests after JS binary/JSON round trips. All225Shaman tests pass.
+Exact receipts and retained preparation failures are in `context.md`.
+
+The closing pass is split sequentially by MP5 reference to keep each batch within
+the size guard. The Mac rebooted at16:53:13UTC; old owner14878/allworkers and
+exec42395were confirmed absent. Snapshots/proof are in
+`healer-model-admission-v1/shaman-closing-recovery-v1/reboot-Yr8XXW/`.
+Only the verified old lock/run were recovered; the original October27at12:50:22.097
+UTC deadline is unchanged. The then-owned continuation was PID18594/exec66807,
+encoder19385/workers19386..19391; its17:28liveness claim is corrected above.
+Its stale progress recorded166000/295333first-part tasks complete,
+86963new/79037exact durable journal reuses. The second part starts automatically.
+Check live process state before any recovery. Do not rerun the recovery script.
+
+Publication is still pending. Newly explicit gaps: full downrank coefficient/proc
+sensitivities, legal Alliance Shaman race (old generic reference was Human), and
+actual happy-path racial activation. Keep current unscaled sources frozen and
+derive successors; do not relabel these results as verified live-server BiS.
+No new commit, push, deployment, cleanup or protected-cache access occurred.
+
+## October 26 — Complete Shaman gear screen and compound feedback
+
+The full legal gear-bank screen completed 320,220 requests / 1,280,880 fights,
+followed by 1,749 fresh 64-fight refinements / 111,936 fights. All 18 canonical
+talent/assignment/MP5 cases have an eligible survivor. A further 7,328 requests /
+468,992 fights measure combined gear and all legal one-point talent neighbors
+with archetype/resource anchors. Every one of the 1,374 resulting legal talent
+controls has an eligible gear option. These are training results; independent
+confirmation and actual Shaman application delivery remain.
+
+All six Shaman budget phases succeeded under the unchanged October 27,
+12:50:22.097 UTC deadline. All owned processes are closed. Do not rerun succeeded
+phases or change their frozen helpers/declarations. The compound receipt is
+`healer-model-admission-v1/shaman-compound-talent-feedback-v1/dd572b91eaf45f03d5c458be24bd076a706e9d16bf2cb4ae074840c82dadefcf/report.json`,
+SHA-256 `d801e45d1e76e0e0eab2e1553a799f86fc213be49126f45a119f01fa889567b1`.
+
+Use `pnpm simulator:shaman:test`: all 221 tests pass and its import graph avoids
+the frozen cache helper. An earlier broad healer run passed 692 tests but
+indirectly imported that helper through legacy suites. The helper was not edited;
+the broad-command extension was removed and the separate Shaman command added.
+Do not repeat the broad command while the import boundary applies. Full current
+receipts, remaining scope and production observations are in `context.md`.
+No new commit, push or deployment occurred; the full release is not ready.
+
+## October 26 — Shaman high-pressure priority correction
+
+The high-rank screen completed 11,898 native requests and the fresh 64-fight
+refinement completed another 756. All 54 refinement cases now have a surviving
+candidate at the original 800 incoming DPS. The original 88 failed starting
+setups remain in history, and their exact matches cannot win a later selection.
+The original October 27, 12:50:22.097 UTC deadline is unchanged. These are training
+results, not published BiS or independent confirmation.
+
+The public finite priority builder preserves all 11 eligible direct-heal ranks
+requiring level 20 or above, the original priority packet, owned utility gates
+and explicit early emergency heals. Lower-level roots remain in the source
+domain for a separate scaling review. Five focused tests, ESLint and formatting
+checks pass. The helper and completed producers are frozen.
+
+Refinement receipt under `healer-model-admission-v1/`:
+`shaman-high-rank-priority-refinement-v1/0add25e528398536742fd17dc0ca659ae4434cd03d53a747388860403d6246f9/report.json`,
+SHA-256 `95603f95221e35f29980a52782a39a4bb15c55899d48f9c62acaddb511941db5`.
+The full gear-bank screen is preparing under owned PID 62018 / session 6082;
+check real process state before recovery. The release remains pending. Prior
+source is committed/pushed as `acbf757`; this continuation has not deployed.
 
 ## October 26 — Full synthetic healing rosters and Shaman measurements
 
@@ -1462,7 +2719,6 @@ Exact receipts,limitations and nextactions are in docs/simulator-shaman-equipmen
 andcontext.md. Paladin's same sixworkers remainactive;74/189newtraining cases at
 lastcheckpoint. All original unfinished class/tank/healer/delivery scope remains.
 
-
 ## 2026-10-25 — Prepare corrected Druid exports and presentation without changing live inputs
 
 The same corrective owner now passes all twenty control/parent comparisons,
@@ -1512,7 +2768,6 @@ Strict full protobuf validation is unchanged. Sources/models are frozen; no
 commit,push,deploy or cleanup. See docs/simulator-shaman-equipment.md, the Five
 Thunders recovery document and context.md for exact receipts and next actions.
 
-
 ## 2026-10-25 — Qualify the corrective reader and start the original Druid correction
 
 The independent reader reconstructs every corrective stage from its declaration
@@ -1549,7 +2804,6 @@ These sources are frozen. Equipment/set/consume admission, numerical optimizatio
 and website delivery remain; no Shaman numerical clock or release was started.
 The Paladin correction continues in its original queue with six live workers.
 No commit, push, deploy or cleanup. See the Shaman mechanics document and context.
-
 
 ## 2026-10-25 — Connect the corrected Druid workflow without admitting old scores
 
@@ -1958,7 +3212,6 @@ reference values.21 workspace checks and a fresh default/native comparison pass.
 Local release: ad355f15131498695376e972 on3021. Production is unchanged. The full
 reusable suite passes387 tests; immutable receipts are recorded in context.md.
 
-
 ## 2026-10-24 — Paladin owned healing utilities
 
 Qualified the last five shared item effects: belt/gauntlet heals, Truesilver's
@@ -1970,7 +3223,6 @@ criticals and channel haste remain explicit references. The derived model passes
 The reusable suite passes 384 tests. No numerical Paladin qualification or live
 release is claimed. Exact receipts, retained failed reviews and remaining work
 are recorded in context.md and docs/simulator-paladin-healing-mechanics.md.
-
 
 ## October 24 — Priest Mark runtime, ring feedback and local delivery
 

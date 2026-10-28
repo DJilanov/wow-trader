@@ -6,6 +6,99 @@ This is the separately authorized DPS update from the
 broader DPS, tank and [healer campaign](simulator-healer-optimization-plan.md)
 remains active.
 
+## October 27, 08:55 UTC — approved update and current comparisons running
+
+The owner approved the [consolidated remaining updates](simulator-remaining-update-plan-2026-10-27.md).
+Older pending-approval statements below describe their original historical state.
+Warrior's new immutable clock began at 07:39:25.898 UTC on October 27 and ends
+at that time on October 28; the target remains two to four hours including delivery.
+
+All 23 replacement **actual Forever UI/native/raw-WASM combat controls now pass**
+on the 2,743-item current statistics model. The complete unit metrics agree,
+and each equipped item/enchant projection matches the compiled database.
+Report: `remaining-class-updates-20261027-v1/warrior-controls-GjBe9T/report.json`,
+SHA-256 `d29944e8c4205f43608138498c27285e4aa2d9c26462cbbc8b772ea490776a45`.
+Two additional Ironfoe controls correct its dense stone, and two actual Fury
+captures enable execute-phase Recklessness instead of retaining the historical
+disabled-cooldown benchmark. Their reports are `warrior-controls-YCL6m9` and
+`warrior-controls-6h6h7t` under the same update directory. Old evidence is preserved.
+
+Standard and optional proc-enchant Fury now have an active all-slot gear search:
+complete weapon/jewelry pairs, compatible enchants and all 247 eligible Heroism
+subsets, with full-set witnesses retained through selection. Adaptive comparisons
+use the accepted 2% target, fixed-precision acceptance and fresh confirmation.
+Bounded geared talent/APL/consume feedback is prepared; exhaustive timing work
+remains deferred. These are running comparisons, not qualified new presets or
+final DPS claims. Current defaults and production selection remain unchanged.
+
+## October 27, 07:19 UTC — corrected control plan and mode guard prepared
+
+The original loader replaced global settings with `{ faction }`, dropping the
+explicit Forever mode. The new `infra/simulator/forever-capture-context.mjs`
+guard checks both the exported UI settings and the unmodified captured request.
+It rejects missing/Classic/unknown modes on either side. Rebuilding a captured
+wire as Forever cannot repair its original UI provenance. Capture authenticity
+and complete player/raid comparison remain separate requirements.
+
+Seven regression tests use all fifteen actual failed-mode captures. Their
+source-bound fixture is `infra/simulator/fixtures/forever-capture-context.v1.json.gz`,
+SHA-256 `1abf44d5b5f57c48daf8846f72ee5439d7a4064f30ed336fc1d8791f52d4cb81`.
+Scoped ESLint and Prettier pass. The original loader, captures, numerical
+studies, failed reports and expired clock remain unchanged.
+
+A separate plan prepares all fifteen replacements from the actual captured
+settings, changing explicit mode and removing embedded old databases when
+present. It adds eight representative Heroism comparisons (one through eight
+pieces on the full Arms context). These are not all 247 multi-piece subsets
+or an all-slot Warrior search. Nonraid acquisition, class/faction/profession,
+ownership and compatible enchant checks pass. Proc enchants remain opt-ins;
+Heroism cadence remains the unverified one-PPM reference.
+
+All **23 complete native/Chromium stat API comparisons** pass on the expanded
+2,743-item statistics model. Independent replay verifies the actual stat wires,
+results, settings changes, gear and enchant legality, and all fifteen rejected
+Classic captures. The original support-removal, disabled-action and Valor
+controls retain their deliberate differences. No DPS fight, UI combat capture,
+ranked search or new window ran. All rows explicitly remain
+`actualBrowserCapture:false`; fresh actual UI captures are still required.
+
+Paths are relative to `artifacts/forever-simulator/optimization/`:
+
+- Original replacement plan:
+  `current-warrior-controls-v1/prepare-uZKFXx/input.json`, SHA-256
+  `feed2b2c60b0c6265438e390312958feed5df445ff1546dbbd569e4f6e4639b8`.
+- Authoritative stat-qualified successor:
+  `.../prepare-uZKFXx/exact-stats-ZB4poo/input.json`, SHA-256
+  `d751d0d9f7678debdaa0f1222c82c2a5675c4c5432e569a118de4bf6d73ba3dd`.
+- Stat report: `.../exact-stats-ZB4poo/report.json`, SHA-256
+  `993323403da2c96fc5fae931f25f9dbcf183bcb85a79e1f2855c2d03028184d7`.
+- Independent audit:
+  `.../exact-stats-ZB4poo/control-plan-review-7xOCR1/report.json`, SHA-256
+  `ff5a6ebed87299ee56bc1ca250ab885c9ed6c8fa76ee39186a23d1c060184815`.
+
+Private producers are `prepare-current-warrior-controls-v2.mjs`,
+`qualify-exact-warrior-control-stats-v1.mjs` and
+`review-current-warrior-control-plan-v1.mjs`. The first preparer incorrectly
+used the eight-item Heroism source overlay as the entire source catalog; its
+legality failure is preserved. V2 composes the existing base acquisition and
+craft audit before adding that overlay. No eligibility rule was weakened.
+Protected cache access is rejected before loading. New rankings, current-model
+all-slot/talent/rotation feedback, confirmation, presets and delivery remain
+dependent on the pending bounded Warrior update approval.
+
+## October 27: Heroism built into the current combat lineage
+
+The [current Heroism model](simulator-warrior-heroism-current-model.md) now
+contains all eight recovered items, preserves all 2,727 parent items and passes
+184 native/Chromium component outcomes, including real Warrior DPS and tank
+factories. Twelve complete native/browser tank stat API comparisons also pass.
+Six tank domains, 1,536 added-item vectors and all-slot candidates are prepared.
+
+This is component and candidate preparation. It does not repair the fifteen
+Classic-wire UI captures, select new DPS/tank gear, reuse scores on a new model,
+start another class window or change production. The previously requested
+bounded Warrior update remains pending approval.
+
 ## Current evidence
 
 | Work                                               | Evidence                                                                                                                 | Status             |

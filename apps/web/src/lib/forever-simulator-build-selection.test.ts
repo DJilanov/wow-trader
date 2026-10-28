@@ -65,6 +65,17 @@ describe("Reviewed build selection", () => {
     expect(simulatorBuildForPreset(builds, "Fury (Adaptive AoE) · pre-raid starter")).toBeNull();
     expect(simulatorBuildForPreset(builds, "Arms · Provisional proc enchants")).toBeNull();
   });
+  it("recognizes an explicitly selected reviewed proc build by its own ID and label", () => {
+    const proc = builds[0];
+    if (!proc) throw new Error("Missing proc control");
+    expect(simulatorBuildForPreset(builds, "Arms · Provisional proc enchants", proc.id)).toBe(proc);
+    expect(simulatorBuildForPreset(builds, "Arms · pre-raid tested", proc.id)).toBeNull();
+    expect(
+      simulatorBuildForPreset(builds, "Arms · Provisional proc enchants", "unknown"),
+    ).toBeNull();
+    expect(proc.requiresProvisionalEnchantOptIn).toBe(true);
+    expect(simulatorBuildForLink(builds, proc.id)).toBeNull();
+  });
   it("retains the existing labels for builds without an explicit display name", () => {
     expect(simulatorBuildLabel(build("fury-static"))).toBe("Fury · Standard enchants");
   });

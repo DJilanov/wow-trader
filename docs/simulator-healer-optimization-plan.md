@@ -1,5 +1,42 @@
 # Healer optimization campaign
 
+## October 26, 21:30 UTC — Five-race Shaman reference library prepared
+
+All198current Shaman configurations across5races/45groups pass the accepted2%
+target;194also pass1%. New4race confirmation independently reconstructs1152actual
+requests; all72newselections survive1024fights and pass both tolerances. Existing
+Troll126passingcases remain frozen. No deep search on the4strict-only1%misses.
+Current library: `shaman-healer-library-v2/prepare-AEZNyw/report.json`, SHA
+`cc7912198af8f55cc922e19e503fd83bf3b2157c93361a6bbc6990cc06b853cb`.
+Presentation: `shaman-healer-presentation-v1/prepare-KBfMGH/report.json`, SHA
+`5f59456233b2ed53b021e6fe0e8cd2e3279d6d2324ac1535d63fed366658db13`.
+Browser-safe equipped policy construction matches126confirmed jobs,40distinct
+combinations from86714actualjobs and a separate0combat Go codec control for the
+12thfamily. Lazy index/group/catalog contracts,2kitemdata,105enchants,33spells and
+complete resolved talent descriptions are implemented.Final combined50healer tests, scoped lint/format,
+fullpackage typecheck/build anddiff--check pass. Actual web workspace,
+saved/share controls and browser simulation delivery remain next. All28numerical
+phases are terminal/succeeded; original deadline unchanged. No Git write, push or
+deployment occurred. Complete receipts, source handles and exact next steps are in
+the21:30context.mdcheckpoint; full all-class goal remains active.
+
+## October 26, 20:22 UTC — Shaman reference confirmation and SDK pass
+
+All126fixed corrected-model Shaman reference selections survive1024fresh fights
+and pass the accepted2%paired comparison;122also pass1%. Independent reader
+reconstructs all2016actual requests. Receipt:
+`healer-model-admission-v1/shaman-fixed-confirmation-review-Ld4svW/report.json`,
+SHA `82257c76004ce35acfe29d07a7013af6d63a8d890633c35e232ceae28836c4d2`.
+Do not rerun these passing studies or chase the4strict-only1%misses. Scope is the
+currentHorde Engineering/Tailoring180s800DPS pool, not complete class admission.
+The exported Shaman TypeScript SDK validates all2016actual equipped replies.
+126selected native packets are retained in its new pinned regression fixture.
+32shared healer tests, TypeScript, scoped lint/format and package build pass.
+Focused profile/race/scenario compatibility and Shaman UI/default delivery remain;
+full all-class commit/push/deploy/production smoke is still pending. No new commit,
+push or deployment occurred. Complete handles, receipts, disk-cache recovery and
+specific Tailoring/Horde-only item constraints are in the20:22context.mdcheckpoint.
+
 ## Scope and authorization
 
 On October 23, 2026, the owner expanded the existing all-class pre-raid optimization
@@ -16,18 +53,21 @@ builds when their actual talent/spell mechanics support a different playstyle.
 Do not count a blank healer page, a legal talent string or a DPS reference as a
 qualified healing build.
 
-## Current delivery coverage — October 26, 12:58 UTC
+## Current delivery coverage — October 26, 23:00 UTC
 
-| Class | Healing builds | Current state |
-| --- | --- | --- |
-| Priest | Holy, Discipline, Penance/Holy, Aegis/Guidance | 40 local presets with independently confirmed ring choices on the corrected item model |
-| Druid | Wild Growth, Splendor/Wild Growth, Nature's Grace | 30 local presets with corrected Heart family scope and shared item cooldowns |
-| Paladin | Vigil support, Vigil mobility, direct healing | Local page/workspace implemented for 504 source-measured three-minute configurations. Gear, talents, Paladin casting/resource controls and versioned save/share pass 67 focused unit tests and 16 real browser interaction checks. Actual browser combat qualification and release activation remain. Five-minute training ended at the original deadline with four incomplete cases; it is not running or qualified. |
-| Shaman | Restoration and supported healing variants | Complete synthetic rosters and actual mana utility qualify with275native/Chromium controls/2288groups. The source-bound gear bank retains2025items/90profiles. First numerical feedback completed1458requests/11664fights across486cases;1370measured options survive/full-delivery, while27high-pressure tank/per-fiveMP5cases need correction. These are initial measured seeds. Gear/talent/priority/consume/sensitivity feedback, independent confirmation and application delivery remain. See the [study checkpoint](simulator-shaman-study-preflight.md). |
+| Class   | Healing builds                                      | Current state                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Priest  | Holy, Discipline, Penance/Holy, Aegis/Guidance      | 40 existing local presets remain preserved. New isolated Virtuous model integrates8missingpieces and all set thresholds;247native/247actualChromium controls preserve200parent outcomes and matching runtimes/catalog are built. No new BiS claim: separate up-to2hour numerical-update approval remains pending. See [recovery handoff](simulator-priest-virtuous-recovery.md).                                                                                                                                                                               |
+| Druid   | Wild Growth, Splendor/Wild Growth, Nature's Grace   | 30 local presets with corrected Heart family scope and shared item cooldowns                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Paladin | Vigil support, Vigil mobility, direct healing       | Local page/workspace implemented for 504 source-measured three-minute configurations. Gear, talents, Paladin casting/resource controls and versioned save/share pass 67 focused unit tests and 16 real browser interaction checks. Actual browser combat qualification and release activation remain. Five-minute training ended at the original deadline with four incomplete cases; it is not running or qualified.                                                                                                                                          |
+| Shaman  | Riptide support, Riptide mobility, Mental Quickness | 198 configurations / 45 groups / five races pass the accepted 2% comparison target (194 also pass 1%). Complete local workspace and immutable assets are implemented. Both dev and production standalone builds pass 13 real browser checks, including four browser/native-matched 64-fight jobs, save/share, cancellation and mobile layout. Package34, infrastructure248 and related web45 tests pass; full Next build passes. Release53e4d50c2689af5e980b6cfb is isolated, not deployed. See the [workspace handoff](simulator-shaman-healer-workspace.md). |
 
 The latest changes remain local. Shaman's numerical class window started
 October26at12:50:22.097UTC; its fixed24-hour deadline is October27at12:50:22.097UTC.
-The first phase succeeded and its workers are closed; no BiS qualification is claimed.
+All 28 numerical phases succeeded under that same deadline; no optimizer remains
+live. Shaman's passing references must not be rerun just to chase the strict 1%
+misses. Browser delivery checks do not expand those reference scopes into global
+optimality or live-server proof. Full current handles are in `context.md`.
 The owner requested a complete commit/push/deploy after all remaining validation,
 followed by live smoke tests. No partial release or all-class completion is claimed.
 The separately authorized Druid delivery-only continuation is tracked in its
@@ -670,12 +710,12 @@ See simulator-paladin-healing-mechanics.md. Restoration Shaman remains required.
 
 Current delivery status:
 
-| Healer | Current state | Remaining work |
-| --- | --- | --- |
-| Holy / Discipline Priest | Four selected archetypes; reviewed local workspace; missing Heart effect confirmed by an actual cast | Correct item model and run focused trinket feedback within the original healer deadline, then update delivery if needed |
-| Restoration Druid | Three archetypes;54 crafting-domain stress confirmations; coupled-use and Heart family corrections delivered locally | Retain explicit effect/domain limits; future deployment |
-| Holy Paladin | Legal full-talent runtime, target buffs, all-slot catalog, Soulforge and all11 libram controls | Shared item/use/set and catalog-reach admission, bounded feedback and workspace |
-| Restoration Shaman | Class source captured | Engine/talent controls, bounded full feedback and workspace |
+| Healer                   | Current state                                                                                                        | Remaining work                                                                                                          |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Holy / Discipline Priest | Four selected archetypes; reviewed local workspace; missing Heart effect confirmed by an actual cast                 | Correct item model and run focused trinket feedback within the original healer deadline, then update delivery if needed |
+| Restoration Druid        | Three archetypes;54 crafting-domain stress confirmations; coupled-use and Heart family corrections delivered locally | Retain explicit effect/domain limits; future deployment                                                                 |
+| Holy Paladin             | Legal full-talent runtime, target buffs, all-slot catalog, Soulforge and all11 libram controls                       | Shared item/use/set and catalog-reach admission, bounded feedback and workspace                                         |
+| Restoration Shaman       | Class source captured                                                                                                | Engine/talent controls, bounded full feedback and workspace                                                             |
 
 ## Latest delivery checkpoint — October 24
 

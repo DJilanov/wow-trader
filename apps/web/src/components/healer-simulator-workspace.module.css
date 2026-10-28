@@ -116,6 +116,18 @@
   background: linear-gradient(115deg, #3c2c17, #241d16);
   box-shadow: inset 0 2px #d7913a;
 }
+.archetypes button strong,
+.archetypes button small {
+  display: block;
+}
+.archetypes button small {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
+}
 .selectors {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
