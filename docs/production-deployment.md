@@ -38,6 +38,11 @@ Old Next chunks can be inherited from the preceding delivery tree to keep existi
 
 Normal source deployment now invokes `scripts/stage-static-delivery.sh`, using the configured
 `FOREVER_SIMULATOR_ROOT`, the new Helper static build, and the guild static build when present.
+Run public staging in a subshell with `umask 022`, even when the surrounding private operation
+uses `umask 077`. Before activation, verify that `www-data` can read a staged raw asset and its
+gzip variant while remaining unable to read `shared/env/web.env`. The
+[October 28 receipt](forever-leveling-dungeon-xp-deployment-2026-10-28.md) records a successful
+rollback when private staging permissions blocked Nginx; never bypass that public transport check.
 The guild path can be supplied explicitly with `WOW_TRADER_GUILD_STATIC_ROOT`. Preparation
 defaults to a read-only inventory unless `--prepare` is supplied. Manual inspection commands:
 

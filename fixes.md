@@ -1,5 +1,23 @@
 # WoW Trader fixes and recovery context
 
+## October 28 — dungeon quest XP defaults and coefficient precedence
+
+Deployed as `0760377`: fresh four-quest bundles use maximum announced quest levels 40/45/53,
+not entry levels 37/42/50. Alcaz estimates 18,750 per quest / 75,000 for four. Saved overrides,
+selections and actual XP are preserved. Later dungeons now retain captured page coefficients;
+1050, 704 and 709 no longer have their 2.5/1.75/1.95 coefficients replaced by 2.375.
+Into the Depths' 10,600 reference is WotLK; the captured Forever/Classic raw base is 4,900.
+
+The full known catalog audit covers 244 IDs, 14,640 per-level checks and 122 captured-base checks;
+the live public planner's runtime facts independently confirm the source inventory. All arithmetic
+checks pass, but 117 values are historical estimates and ten historical references disagree.
+Those ten IDs have a prepared local review queue; three new dungeon bundles still lack real IDs.
+The Linux release passed 574 leveling, 202 focused web and four audit regressions, types/build/lint.
+Candidate/public browsers each passed 18 checks; nine public pages/87 assets and 11 simulator
+profiles passed. Only Helper web restarted. The static permission failure rolled back safely;
+only the generated public tree was corrected, with hashes and private-environment isolation intact.
+Receipt: `docs/forever-leveling-dungeon-xp-deployment-2026-10-28.md`. Preview/tunnel stopped.
+
 ## October 26 — Full synthetic healing rosters and Shaman measurements
 
 Independent follow-up reconstructed all1458original packets without rerunning

@@ -1,6 +1,7 @@
 # Dungeon quest XP audit — October 28, 2026
 
-Status: audited and corrected locally; not committed or deployed. This supersedes the earlier
+Status: committed as `0760377`, deployed and publicly verified. See the
+[deployment receipt](forever-leveling-dungeon-xp-deployment-2026-10-28.md). This supersedes the earlier
 planning-level defaults and the rule that replaced every later dungeon's page coefficient.
 It does not turn estimates into measured Forever rewards.
 
@@ -81,8 +82,8 @@ The public production dungeon planner was also fetched directly. Its 299 runtime
 were extracted from the Next data stream without executing embedded JavaScript, schema-validated,
 and audited with the corrected local resolver. All 244 catalog IDs are present, with exactly the
 same 127/117 evidence split, no arithmetic mismatches and the same ten historical disagreements.
-This confirms the local inventory against the live site's inputs; the corrected resolver and bundle
-defaults are still local. Evidence is retained as `public-dungeon-page.html`,
+This confirmed the local inventory against the live site's inputs before deployment; the corrected
+resolver and bundle defaults are now live. Evidence is retained as `public-dungeon-page.html`,
 `public-dungeon-reward-facts.json` and `dungeon-quest-xp-live-source-audit.json` in the audit directory.
 The public HTML SHA-256 is
 `e2a23de54760ef071e64fe6e900f09994d7401dbd6f0dad8186577f64cec039c`.
@@ -131,6 +132,7 @@ capture run. This is a prepared local queue; no running crawler or existing queu
 - Audit regression tests: **4 passed**, including deliberately inconsistent captured XP.
 - Leveling build/typecheck, full web TypeScript, scoped ESLint and formatting passed.
 - All **14,640** per-level reward/gate/cap checks and **122** captured-base/coefficient checks passed.
-- No new production build, full-page browser session or deployment was performed. An accidentally
+- The subsequent deployment passed a Linux production build, 202 focused web tests, and 18 candidate
+  plus 18 public browser checks; see the linked deployment receipt. An accidentally
   expanded web test invocation was stopped after unrelated simulator timeout/temporary-directory
   failures; it is not claimed as a passing full web suite. The focused leveling checks above passed.

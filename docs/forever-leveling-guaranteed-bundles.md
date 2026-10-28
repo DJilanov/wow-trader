@@ -1,7 +1,8 @@
 # Forever guaranteed dungeon quest bundles
 
 The [October 28 XP audit](forever-leveling-dungeon-xp-audit-2026-10-28.md) corrects the defaults
-locally to quest levels 40/45/53 and totals 44,600/55,600/75,000. Those changes are not deployed yet.
+to quest levels 40/45/53 and totals 44,600/55,600/75,000. Those changes are
+[deployed and verified](forever-leveling-dungeon-xp-deployment-2026-10-28.md).
 The October 19 defaults and verification receipts below describe that earlier release.
 
 Status: implemented, committed and deployed for

@@ -1,6 +1,30 @@
 # WoW Trader project context
 
-Last updated: 2026-10-26
+Last updated: 2026-10-28 (Europe/Sofia)
+
+## October 28 — dungeon quest XP audit deployed as 0760377
+
+Audited all 244 known dungeon quest IDs across 32 entries using 127 published captures plus
+117 explicitly historical Questie estimates. New report:
+`artifacts/leveling/audits/2026-10-28/dungeon-quest-xp-final-audit.json`.
+The live public planner's 299 runtime facts confirm that evidence split for all 244 catalog IDs;
+the separate live-source audit also passes 14,640 per-level and 122 captured-base checks.
+The 10 historical source disagreements and three unidentified four-quest bundles remain unverified.
+Details/checks: `docs/forever-leveling-dungeon-xp-audit-2026-10-28.md`.
+
+Deployed corrections preserve later scaled page coefficients (1050, 704, 709) and use maximum
+announced quest planning levels 40/45/53 for fresh Drowned City/Krol'dok/Alcaz bundles.
+Alcaz now estimates 18,750 per slot / 75,000 for four; saved overrides and earned XP are preserved.
+Into the Depths' 10,600 reference is WotLK; the captured Forever/Classic base is 4,900.
+The isolated Linux candidate passed 574 leveling tests, 202 focused web tests, four audit regressions,
+strict types/lint and the production build. Candidate/public browsers each passed 18 checks at
+1440/390/320; public assets passed nine pages/87 assets and all 11 simulator profiles remained valid.
+Only Helper web restarted; other process PIDs and the frozen simulator selection remained unchanged.
+The initial static activation rolled back on private generated-directory permissions; the narrow
+public-tree correction passed checksums and worker readability before a successful retry.
+Release `kfc-helper-dungeon-xp-20261028-0760377`, build `Vvqv4yH5Z2GJeFE_bQopY`, is live.
+Receipt: `docs/forever-leveling-dungeon-xp-deployment-2026-10-28.md`. Owned preview/tunnel stopped.
+No crawler run, live queue change or simulator change occurred; unrelated pending work was preserved.
 
 ## October 26, 13:17 UTC — Initial Shaman request and failure-origin audit passed
 
