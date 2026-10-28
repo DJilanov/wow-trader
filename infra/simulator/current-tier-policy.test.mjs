@@ -7,6 +7,7 @@ import {
   currentTankTierPolicy,
   healerTierDemand,
   poolHealingMeasurements,
+  currentHealerTierWorkload,
 } from "./current-tier-policy.mjs";
 
 const support = JSON.parse(
@@ -108,4 +109,31 @@ test("tank comparisons declare their actual new sample count independently from 
     assert.deepEqual(policy.seeds, [61723001]);
     assert.equal(policy.durationSeconds, scenario === "solo" ? 60 : 300);
   }
+});
+test("healer comparisons remove self-damaging runes without changing source presets or other resources", () => {
+  const source = {
+    schema: "test",
+    targets: [],
+    damage: [],
+    cooldowns: [{ itemId: 12662 }, { itemId: 20520 }, { itemId: 13444 }, { itemId: 272439 }],
+  };
+  const direct = currentHealerTierWorkload(source, "group");
+  assert.deepEqual(
+    direct.cooldowns.map((row) => row.itemId),
+    [13444, 272439],
+  );
+  assert.equal(source.cooldowns.length, 4);
+  const wrapped = currentHealerTierWorkload(
+    { workload: source, cooldowns: source.cooldowns },
+    "tank",
+  );
+  assert.deepEqual(
+    wrapped.cooldowns.map((row) => row.itemId),
+    [13444, 272439],
+  );
+  assert.deepEqual(
+    wrapped.workload.cooldowns.map((row) => row.itemId),
+    [13444, 272439],
+  );
+  assert.deepEqual(wrapped.workload.damage, healerTierDemand("tank").damage);
 });

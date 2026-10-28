@@ -113,7 +113,8 @@ export default async function HealerTierPage(): Promise<React.JSX.Element> {
               Every supported archetype uses its current published pre-raid gear, talents, race,
               consumables and spell priorities. Each assignment supplies identical damage events,
               four 18,000-health recipients, stacked positions and a three-minute fight. Raid buffs
-              are retained; builds are not reoptimized for this comparison.
+              are retained; builds are not reoptimized for this comparison. Self-damaging mana runes
+              are excluded from every class in this shared test.
             </p>
           </div>
           <div>

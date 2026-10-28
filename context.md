@@ -46,6 +46,13 @@ update is not deployed yet.** The previous all-class simulator release remains l
   Helper with the same existing simulator runtime. Preserve guild login/leveling
   fixes, PM2 siblings, rollback and all numerical evidence. Stop owned preview.
 
+- Accounting correction before deployment: initial v1 healer runs exposed self-cost
+  healing from mana runes. They are retained as diagnostic trials. Policy v2 disables
+  self-damaging runes only in the comparison and verifies exact damage/HPS/final-
+  health conservation for every fully surviving batch. All 78 v2 batches pass; original
+  simulator presets are unchanged. Feature commit `dffa8db` is pushed but not deployed;
+  this correction must be committed/pushed before the production build.
+
 ## October 28, 09:38 UTC — complete practical simulator release deployed and verified
 
 **All nine classes, including the supported DPS, tank and four healer profiles,

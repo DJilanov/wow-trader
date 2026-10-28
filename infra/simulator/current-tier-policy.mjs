@@ -106,7 +106,7 @@ export function currentDpsTierSettings(
 }
 
 export const healerTierPolicy = Object.freeze({
-  version: "shared-three-minute-healing-v1",
+  version: "shared-three-minute-healing-v2",
   durationSeconds: 180,
   iterationsPerSeed: 256,
   seeds: [58723001, 58723003],
@@ -118,9 +118,28 @@ export const healerTierPolicy = Object.freeze({
   burstDamagePerRecipient: 2500,
   burstIntervalSeconds: 15,
   support:
-    "reviewed full raid support; source gear, talents, consumes and spell priorities retained",
+    "reviewed full raid support; source gear, talents and spell priorities retained; self-damaging runes excluded",
   ranking: "survival gate at 99%, then useful healing plus consumed absorbs; overhealing excluded",
+  selfDamageResources: "excluded",
 });
+
+export function currentHealerTierWorkload(source, assignment) {
+  const next = globalThis.structuredClone(source);
+  const workload = next.workload && Array.isArray(next.workload.damage) ? next.workload : next;
+  const demand = healerTierDemand(assignment);
+  Object.assign(workload, {
+    name: `shared-tier-${assignment}-180s`,
+    targets: demand.targets,
+    damage: demand.damage,
+  });
+  for (const container of new Set([next, workload])) {
+    if (Array.isArray(container.cooldowns))
+      container.cooldowns = container.cooldowns.filter(
+        (use) => ![12662, 20520].includes(use.itemId),
+      );
+  }
+  return next;
+}
 
 export function healerTierDemand(assignment) {
   assert(["tank", "group", "burst"].includes(assignment));

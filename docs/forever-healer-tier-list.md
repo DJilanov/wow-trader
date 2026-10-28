@@ -10,7 +10,7 @@ their own page at `/forever/tier-list/healers`.
 
 All 13 supported healer archetypes are measured under each of three shared
 assignments. Gear, talents, race, consumes and spell priorities come from the
-current reviewed presets. No new gear or rotation optimization is performed.
+current reviewed presets. Self-damaging mana runes are disabled only in the shared comparison; original presets remain unchanged. No new gear or rotation optimization is performed.
 
 | Input            | Shared comparison                                                   |
 | ---------------- | ------------------------------------------------------------------- |
@@ -29,7 +29,8 @@ stress test. Source spell/proc/scaling assumptions remain visible as beta model
 limits; workload normalization does not validate new server mechanics.
 
 Useful HPS equals effective healing plus absorbs actually consumed by incoming
-damage. Overhealing never adds score. Builds passing 99% assignment survival rank
+damage. The v2 policy excludes self-damaging mana runes and checks that surviving
+assignments reconcile exactly with delivered damage and final missing health. Overhealing never adds score. Builds passing 99% assignment survival rank
 first. Failed builds remain in D, ordered by survival before useful throughput.
 Passing builds use the existing relative tier boundaries: S ≥95%, A ≥85%, B ≥70%,
 C ≥55%. The page also displays survival, overhealing, remaining mana and average
@@ -101,3 +102,8 @@ The October 28 evidence is under
 `artifacts/forever-simulator/optimization/current-tier-refresh-20261028/`.
 It records 50 DPS measurements, 12 tank measurements and 78 healer batches:
 329,968 new fights total. Cache replays are not counted again as new fights.
+
+The initial v1 healer trial is retained as diagnostic evidence and was not deployed.
+Its self-damaging resources could contaminate assignment accounting across models.
+The admitted v2 comparison uses a separate policy fingerprint and fresh batches;
+old trials are not pooled as additional independent samples.

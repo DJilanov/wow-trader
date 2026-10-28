@@ -17,6 +17,7 @@ import {
   poolHealingMeasurements,
   assertCurrentTankComparison,
   currentTankTierPolicy,
+  currentHealerTierWorkload,
 } from "../infra/simulator/current-tier-policy.mjs";
 import { createTankTierSettings } from "../infra/simulator/tank-tier-policy.mjs";
 import { tankThreatBreakdown } from "../infra/simulator/tank-threat-breakdown.mjs";
@@ -383,19 +384,14 @@ try {
             request.simOptions.randomSeed = BigInt(seed);
             request.encounter.duration = 180;
             request.encounter.durationVariation = 0;
+            request.raid.parties[0].players[0].consumes.defaultConjured = 0;
             const job = globalThis.structuredClone(originalJob);
             job.id = "tier-" + hash({ profile: group.profile, id: build.id, seed }).slice(0, 32);
             job.requestBase64 = Buffer.from(api.RaidSimRequest.toBinary(request)).toString(
               "base64",
             );
             job.detail = false;
-            const workload =
-              group.profile === "healing-shaman" ? job.workload.workload : job.workload;
-            Object.assign(workload, {
-              name: `shared-tier-${build.assignment}-180s`,
-              targets: demand.targets,
-              damage: demand.damage,
-            });
+            job.workload = currentHealerTierWorkload(job.workload, build.assignment);
             const identity = {
               profile: group.profile,
               release: group.manifest.release,
@@ -426,6 +422,15 @@ try {
             assert(Math.abs(result.hps - result.effectiveHealingHps - result.absorbedHps) < 1e-6);
             const planned = demand.damage.reduce((sum, event) => sum + event.amount, 0);
             assert.equal(result.plannedIncomingPostMitigationDamage, planned);
+            if (result.survivalRate === 1)
+              assert(
+                Math.abs(
+                  result.hps * 180 -
+                    result.deliveredIncomingDamageMean +
+                    result.finalMissingHealthMean,
+                ) < 1e-5,
+                "Healing score includes effects outside the assigned damage",
+              );
             results.push(result);
             proofs.push({
               requestSha256: evidence.requestSha256,

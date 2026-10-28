@@ -53,7 +53,7 @@ export const healerTierSnapshotSchema = z
     sourceBindings: tierSourceBindingsSchema,
     policy: z
       .object({
-        version: z.literal("shared-three-minute-healing-v1"),
+        version: z.literal("shared-three-minute-healing-v2"),
         durationSeconds: z.literal(180),
         iterationsPerSeed: z.literal(256),
         seeds: z.tuple([z.literal(58723001), z.literal(58723003)]),
@@ -66,6 +66,7 @@ export const healerTierSnapshotSchema = z
         burstIntervalSeconds: z.literal(15),
         support: z.string(),
         ranking: z.string(),
+        selfDamageResources: z.literal("excluded"),
       })
       .strict(),
     policySha256: digest,
@@ -102,6 +103,18 @@ export const healerTierSnapshotSchema = z
         context.addIssue({
           code: "custom",
           message: "Healer accounting differs from its measurements",
+        });
+      if (
+        metrics.survivalRate === 1 &&
+        Math.abs(
+          metrics.hps * snapshot.policy.durationSeconds -
+            metrics.deliveredIncomingDamageMean +
+            metrics.finalMissingHealthMean,
+        ) > 1e-5
+      )
+        context.addIssue({
+          code: "custom",
+          message: "Healer score includes damage outside the shared assignment",
         });
     }
   });

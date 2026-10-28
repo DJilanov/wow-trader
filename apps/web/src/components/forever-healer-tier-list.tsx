@@ -160,6 +160,8 @@ export function ForeverHealerTierList({
           <p className={styles.caption}>
             This opens the measured gear and casting build. The shared comparison uses the incoming
             damage described above; personal simulator scenarios retain their own original workload.
+            Self-damaging mana runes are disabled in this comparison so their self-healing cannot
+            inflate the assignment score. Original presets keep their consumables.
           </p>
           <details className={styles.evidence}>
             <summary>Measurement and model</summary>
