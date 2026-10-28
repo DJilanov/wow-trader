@@ -98,9 +98,9 @@ describe("reviewable premade-five circuit", () => {
   });
   it("forecasts all four guaranteed slots without inventing quests or earned XP", () => {
     for (const [id, level, xp] of [
-      ["drowned-city", 37, 40400],
-      ["kroldok", 42, 49000],
-      ["alcaz", 50, 67400],
+      ["drowned-city", 37, 44600],
+      ["kroldok", 42, 55600],
+      ["alcaz", 50, 75000],
     ] as const) {
       const progress = recordPremadeXp(emptyPremadeProgress(), 0, level, 0);
       const forecast = forecastPremadeMember(getPremadeStop(id)!, progress, progress.members[0]!);

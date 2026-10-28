@@ -10,7 +10,6 @@ import {
   setPremadeQuestPackage,
   resolveQuestReward,
   premadeQuestSelected,
-  isUnplayedDungeonQuest,
   type PremadeProgress,
   type QuestRewardFact,
 } from "@wow-trader/leveling";
@@ -109,7 +108,7 @@ export function LevelingDungeonQuestPackage({
           const base = fact?.referenceBaseXp ?? quest?.baseXp ?? quest?.referenceXp;
           const observed = fact?.evidenceKind === "observed-forever";
           const coefficient =
-            isUnplayedDungeonQuest(choice.questId) || reward.basis === "base-estimate"
+            reward.basis === "base-estimate"
               ? ORDINARY_DUNGEON_XP_MULTIPLIER
               : fact?.pageMultiplier && fact.pageMultiplier > 1
                 ? fact.pageMultiplier

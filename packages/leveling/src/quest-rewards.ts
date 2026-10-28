@@ -4,7 +4,6 @@ import { questEligibility } from "./quest-eligibility.js";
 import {
   estimateDungeonTableXp,
   isDungeonTableQuest,
-  isUnplayedDungeonQuest,
   ORDINARY_DUNGEON_XP_MULTIPLIER,
 } from "./dungeon-xp.js";
 import { DUNGEON_FACTS } from "./dungeon-catalog.js";
@@ -68,9 +67,7 @@ export function resolveQuestReward(
     const unscaledTable =
       fact.evidenceKind !== "observed-forever" &&
       isDungeonTableQuest(questId) &&
-      (isUnplayedDungeonQuest(questId) ||
-        fact.pageMultiplier === 1 ||
-        fact.evidenceKind === "historical-reference");
+      (fact.pageMultiplier === 1 || fact.evidenceKind === "historical-reference");
     if (
       unscaledTable &&
       tableBase !== null &&

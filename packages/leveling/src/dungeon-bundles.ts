@@ -11,6 +11,7 @@ import {
 } from "./dungeon-bundle-model.js";
 import {
   estimateDungeonReward,
+  estimateDungeonTableXp,
   ORDINARY_DUNGEON_XP_MULTIPLIER,
   type DungeonRewardEstimate,
 } from "./dungeon-xp.js";
@@ -28,12 +29,12 @@ const reference = z
   .strict()
   .parse(rawXp);
 
-export const DUNGEON_BUNDLE_REVISION = "guaranteed-four-20261019-v1";
+export const DUNGEON_BUNDLE_REVISION = "guaranteed-four-20261028-v2";
 export const DUNGEON_BUNDLE_XP_SOURCE = reference;
 export const DEFAULT_DUNGEON_BUNDLE_LEVELS: Readonly<Record<GuaranteedDungeonId, number>> = {
-  "drowned-city": 37,
-  kroldok: 42,
-  alcaz: 50,
+  "drowned-city": 40,
+  kroldok: 45,
+  alcaz: 53,
 };
 
 export function getDungeonBundle(
@@ -89,13 +90,8 @@ export function estimateDungeonBundleReward(
   if (handInLevel === 60)
     return { xp: 0, basis: "base-estimate", source: "Level 60 awards no leveling XP." };
   const base = reference.baseXpByLevel[questLevel]!;
-  const difference = handInLevel - questLevel;
-  const reduction = difference >= 10 ? 0.1 : difference >= 6 ? 1 - (difference - 5) * 0.2 : 1;
-  // Match the reviewed reference renderer: integer scaling, reduction, then reward rounding.
-  const amount = Math.round(base * ORDINARY_DUNGEON_XP_MULTIPLIER) * reduction;
-  const step = amount < 1000 ? 10 : 50;
   return {
-    xp: Math.round(amount / step) * step,
+    xp: estimateDungeonTableXp(base, questLevel, handInLevel),
     basis: "base-estimate",
     source: `Owner-confirmed quest slot; level ${questLevel} QuestXP tier 7 base ${base} × ${ORDINARY_DUNGEON_XP_MULTIPLIER}. Estimated reward, not collected quest data.`,
   };

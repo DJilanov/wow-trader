@@ -16,7 +16,7 @@ describe("guaranteed dungeon bundle controls", () => {
     expect(markup.match(/type="checkbox"/g)).toHaveLength(5);
     expect(markup.match(/checked=""/g)).toHaveLength(5);
     expect(markup.match(/ID pending/g)).toHaveLength(4);
-    expect(markup).toContain("40,400 planning quest XP / player");
+    expect(markup).toContain("44,600 planning quest XP / player");
     expect(markup).not.toContain("quest=");
     expect(markup).toContain("Planning quest level");
   });
@@ -33,7 +33,7 @@ describe("guaranteed dungeon bundle controls", () => {
       />,
     );
     expect(markup).toContain("3/4 selected");
-    expect(markup).toContain("50,550 planning quest XP / player");
+    expect(markup).toContain("56,250 planning quest XP / player");
     const skipped = renderToStaticMarkup(
       <LevelingDungeonBundle
         bundle={{ ...bundle, included: false }}

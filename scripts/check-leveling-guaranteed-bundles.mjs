@@ -56,7 +56,7 @@ try {
   await expect(bundle).toBeVisible();
   await expect(bundle.getByRole("checkbox")).toHaveCount(5);
   await expect(
-    bundle.getByText("40,400 planning quest XP / player", { exact: false }),
+    bundle.getByText("44,600 planning quest XP / player", { exact: false }),
   ).toBeVisible();
   await bundle.getByLabel("The Drowned City planning quest level").fill("33");
   await bundle.getByRole("button", { name: "Update planning level" }).click();

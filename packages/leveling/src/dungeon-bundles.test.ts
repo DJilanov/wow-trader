@@ -39,7 +39,7 @@ describe("owner-confirmed four-quest dungeon bundles", () => {
   });
 
   it("scales each dungeon's reward from its own configured quest level", () => {
-    const totals = [40400, 49000, 67400];
+    const totals = [44600, 55600, 75000];
     for (const [index, id] of GUARANTEED_DUNGEON_IDS.entries()) {
       const bundle = getDungeonBundle(id, "horde")!;
       const forecast = forecastDungeonBundle(bundle, {
@@ -49,6 +49,24 @@ describe("owner-confirmed four-quest dungeon bundles", () => {
       expect(forecast.estimatedXp).toBe(totals[index]);
       expect(forecast.rows.every((row) => row.questId === null)).toBe(true);
       expect(forecast.unknownSlotKeys).toEqual([]);
+    }
+  });
+
+  it("uses maximum announced dungeon levels for new bundles without overwriting saved levels", () => {
+    for (const [id, questLevel, xp] of [
+      ["drowned-city", 40, 11150],
+      ["kroldok", 45, 13900],
+      ["alcaz", 53, 18750],
+    ] as const) {
+      for (const faction of ["alliance", "horde"] as const) {
+        const bundle = getDungeonBundle(id, faction)!;
+        expect(bundle.planningQuestLevel).toBe(questLevel);
+        expect(estimateDungeonBundleReward(questLevel, questLevel).xp).toBe(xp);
+        const saved = { ...bundle, planningQuestLevel: 33 };
+        expect(getDungeonBundle(id, faction, { [dungeonBundleKey(id, faction)]: saved })).toEqual(
+          saved,
+        );
+      }
     }
   });
 

@@ -122,7 +122,7 @@ describe("guaranteed bundles in the continuous campaign ledger", () => {
     const before = JSON.stringify(current);
     const forecast = forecastCampaignXp(fixture(), current);
     for (const member of forecast[0]!.members) {
-      expect(member.estimatedQuestXp).toBe(40400);
+      expect(member.estimatedQuestXp).toBe(44600);
       expect(member.referenceQuestXp).toBe(0);
       expect(member.bundleRewards).toHaveLength(4);
       expect(member.bundleRewards.every((row) => row.questId === null)).toBe(true);
@@ -140,7 +140,7 @@ describe("guaranteed bundles in the continuous campaign ledger", () => {
 
   it("does not grant the same guaranteed slots a second time on a repeated visit", () => {
     const member = forecastCampaignXp(fixture(true), progress())[0]!.members[0]!;
-    expect(member.estimatedQuestXp).toBe(40400);
+    expect(member.estimatedQuestXp).toBe(44600);
     expect(
       member.bundleRewards.slice(4).every((row) => row.state === "rewarded" && row.xp === 0),
     ).toBe(true);
@@ -155,7 +155,7 @@ describe("guaranteed bundles in the continuous campaign ledger", () => {
     const current = { ...progress(), guaranteedBundles: { "drowned-city:alliance": bundle } };
     current.members[0]!.questStates["92456"] = "rewarded";
     const first = forecastCampaignXp(fixture(), current)[0]!.members[0]!;
-    expect(first.estimatedQuestXp).toBe(20200);
+    expect(first.estimatedQuestXp).toBe(22300);
     expect(first.bundleRewards.map((row) => row.state)).toEqual([
       "rewarded",
       "skipped",

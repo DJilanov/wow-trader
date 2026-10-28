@@ -16,6 +16,7 @@ import { dungeonBundleKey, type DungeonBundle } from "./dungeon-bundle-model.js"
 import {
   forecastDungeonBundle,
   getDungeonBundle,
+  DEFAULT_DUNGEON_BUNDLE_LEVELS,
   type DungeonBundleRewardRow,
 } from "./dungeon-bundles.js";
 import {
@@ -279,12 +280,11 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
       "Plan the optional STV visit with all four faction quest slots selected. Exact pickups and access requirements are pending identification; no locations or prerequisites are invented.",
     clear:
       "Four quests are guaranteed by the owner. Their IDs and objectives remain pending; review the planning slots, or skip this dungeon without reporting completion.",
-    handIn:
-      "Forecast four level-37 rewards using the Dalaran reward tier. Record actual XP after any real hand-ins; estimates never update your character.",
+    handIn: `Forecast four level-${DEFAULT_DUNGEON_BUNDLE_LEVELS["drowned-city"]} rewards using the Dalaran reward tier. Record actual XP after any real hand-ins; estimates never update your character.`,
     bridge:
       "Carry the planned rewards into the next checkpoint. If you skip the dungeon, use your actual XP and the outdoor continuation instead.",
     notes: [
-      "Four owner-confirmed quests per faction; level 37 is an editable planning input, not a proven pickup gate. IDs, objectives and access instructions remain pending.",
+      `Four owner-confirmed quests per faction; quest level ${DEFAULT_DUNGEON_BUNDLE_LEVELS["drowned-city"]} is an editable planning input, not a proven pickup gate. IDs, objectives and access instructions remain pending.`,
     ],
     quests: [],
     dataStatus: "guaranteed-bundle",
@@ -320,12 +320,11 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
       "Plan the optional Riverglades visit with all four faction quest slots selected. Confirm real access separately; no attunement is inferred.",
     clear:
       "Four guaranteed quest slots are included in planning; quest IDs and objectives are pending. Skip the dungeon if desired without recording a completed run.",
-    handIn:
-      "Forecast four level-42 rewards using the Dalaran reward tier, then replace the forecast with actual party XP after playing.",
+    handIn: `Forecast four level-${DEFAULT_DUNGEON_BUNDLE_LEVELS.kroldok} rewards using the Dalaran reward tier, then replace the forecast with actual party XP after playing.`,
     bridge:
       "Prepare the Ironforge, Loch Modan and Badlands Uldaman leads next, whether you visit or skip Krol'dok.",
     notes: [
-      "Four owner-confirmed quests per faction; level 42 is an editable planning input. No invented quest IDs, pickups or objectives.",
+      `Four owner-confirmed quests per faction; quest level ${DEFAULT_DUNGEON_BUNDLE_LEVELS.kroldok} is an editable planning input. No invented quest IDs, pickups or objectives.`,
     ],
     quests: [],
     dataStatus: "guaranteed-bundle",
@@ -415,12 +414,11 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
       "Plan the optional Dustwallow visit with four faction quest slots. Access and identities are pending; Missing Diplomat is not assumed to unlock it.",
     clear:
       "All four guaranteed quest slots are selected for planning. Exact objectives remain pending; you may skip the dungeon without reporting quest completion.",
-    handIn:
-      "Forecast four level-50 rewards from the Dalaran reward tier. These estimates are not earned XP; save actual bars after real hand-ins.",
+    handIn: `Forecast four level-${DEFAULT_DUNGEON_BUNDLE_LEVELS.alcaz} rewards from the Dalaran reward tier. These estimates are not earned XP; save actual bars after real hand-ins.`,
     bridge:
       "Retain the ZF→ST world chain and use actual XP for the Temple gate, including when you skip Alcaz.",
     notes: [
-      "Four owner-confirmed quests per faction; level 50 is an editable planning input. Exact pickup, objective and hand-in details are pending.",
+      `Four owner-confirmed quests per faction; quest level ${DEFAULT_DUNGEON_BUNDLE_LEVELS.alcaz} is an editable planning input. Exact pickup, objective and hand-in details are pending.`,
     ],
     quests: [],
     dataStatus: "guaranteed-bundle",
