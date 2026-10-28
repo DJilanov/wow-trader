@@ -1,0 +1,976 @@
+{
+  "schema": "kfc-forever-dps-tier-list.v1",
+  "sourceBindings": [
+    {
+      "path": "0c3e01d229e825198e24a6fa/kfc-qualified-combat-model.json",
+      "sha256": "57eea03216d190f3ea76b541376870e1f1aaceabc09f8d9466d2a08ce175bf87"
+    },
+    {
+      "path": "0c3e01d229e825198e24a6fa/manifest.json",
+      "sha256": "3306d557e14051c6c738e0404ebdd6a7eb76cb88f010aaef6468309a72c0b7ef"
+    },
+    {
+      "path": "29d2a2c67bc4922af0cef622/manifest.json",
+      "sha256": "fa4e1e6c8a6369182c4b923d11fe844258cbc0169778f45399086934acd9d8d5"
+    },
+    {
+      "path": "39da5dec7f9ce144ae8560ab/kfc-qualified-combat-model.json",
+      "sha256": "e223885b2c7829972bf91dcc2a4386429ccca925ccfb28d02e6d3ba415721955"
+    },
+    {
+      "path": "39da5dec7f9ce144ae8560ab/manifest.json",
+      "sha256": "0e9c1182546df1c83c92a9de7364d2ef0f6ae211dbac7e5ae9243d42b275dad5"
+    },
+    {
+      "path": "3af0f3b699865a9396efdad9/manifest.json",
+      "sha256": "3d0de4c96221fd66b926ce8673ed7903c43e665e22985174657b2bc0e2436472"
+    },
+    {
+      "path": "59e65f26f7cdd11263201f4f/kfc-qualified-combat-model.json",
+      "sha256": "49fedf9bb291f0b87da52630eaca8ffba27ea50d381f75b16eba57cc68631acf"
+    },
+    {
+      "path": "59e65f26f7cdd11263201f4f/manifest.json",
+      "sha256": "df62b762e0934271392b67cabcaa4defba291259f5ccd2ecb4dd1f2428f4ab07"
+    },
+    {
+      "path": "5a6afc249c8e5dc8796dcae3/kfc-qualified-combat-model.json",
+      "sha256": "b9a8e89b746cc3e23f0dfb99bea4ec469ca35343b99619c38d995956ae74ad94"
+    },
+    {
+      "path": "5a6afc249c8e5dc8796dcae3/manifest.json",
+      "sha256": "751c61efc9b0e9d91b051513b6ccda4b58df3932b5f478be30f4459a23300b96"
+    },
+    {
+      "path": "8cc775ad60b492c2508b392d/kfc-qualified-tank-model.json",
+      "sha256": "3b681a85554225254dd72eba8868bb6a8a7227adc0046188d72fe11fc1573a07"
+    },
+    {
+      "path": "8cc775ad60b492c2508b392d/manifest.json",
+      "sha256": "c881276edf2927a5be55625f7816ca0812fbbe0a1b64b8f9f17b3ed9a5125ee0"
+    },
+    {
+      "path": "a84f41352d7f9aa60ba40dc0/kfc-qualified-combat-model.json",
+      "sha256": "8ca17aa02bcceb09ca6d121f9ce6273272c90d39a72d8f7785809c004b626af0"
+    },
+    {
+      "path": "a84f41352d7f9aa60ba40dc0/manifest.json",
+      "sha256": "39d6f1d78e2558c5537e7a651ae9bee5f7b069955f8d16aa75d44169a14bc960"
+    },
+    {
+      "path": "active.json",
+      "sha256": "5e626e26a40117b3a28819f6e67451dc55e83a56841a23ac58efcea5b7be94cd"
+    },
+    {
+      "path": "b0922983c0a2b43d2ec6ea64/kfc-qualified-tank-model.json",
+      "sha256": "3635385f08918a266911e1b4de3fd6d1c40e522c7ab606983810623f8721290e"
+    },
+    {
+      "path": "b0922983c0a2b43d2ec6ea64/manifest.json",
+      "sha256": "807c803774e595cf140cd9755dc0c57cde3b7f5cd133906a74e4b7b451f282b1"
+    },
+    {
+      "path": "b245938481ca2c015266d4d9/kfc-qualified-combat-model.json",
+      "sha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49"
+    },
+    {
+      "path": "b245938481ca2c015266d4d9/manifest.json",
+      "sha256": "ab68aceb7d935a27a6cea04abe8f21b7b74b86034f44ea2d688ac8d2ddf87fcd"
+    },
+    {
+      "path": "b5f09af61cfe043e04bcc604/kfc-qualified-combat-model.json",
+      "sha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8"
+    },
+    {
+      "path": "b5f09af61cfe043e04bcc604/manifest.json",
+      "sha256": "fd9977643b61c9f22ad2cc1d483b8c76756c919e726f8d0991f9db5f8368aa16"
+    },
+    {
+      "path": "ce2375bbbbc13f564a8717f3/manifest.json",
+      "sha256": "4ffb60449e30f85b14bf763d2f19ce496c45c71434112a5172659731a83e3358"
+    },
+    {
+      "path": "d2d98c8539081334ba3fdbaf/kfc-qualified-combat-model.json",
+      "sha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c"
+    },
+    {
+      "path": "d2d98c8539081334ba3fdbaf/manifest.json",
+      "sha256": "dc50d16b3f6774286c971fa6031ac7c9dec65572356e3f2b22a1001c33b63cf6"
+    },
+    {
+      "path": "e2559d14e42a751d09bbc85c/kfc-qualified-tank-model.json",
+      "sha256": "2194e2805b42ed5853f3e1f0e0a3a8e80465d222557a93a2d3d4b6f9487bceef"
+    },
+    {
+      "path": "e2559d14e42a751d09bbc85c/manifest.json",
+      "sha256": "66ba29bc87a2ea06c7376a0d147eefd70dc3387d6f3e8ed7acf2aa3225af2447"
+    },
+    {
+      "path": "healing/active.json",
+      "sha256": "dab708924355827ec8bac424ba273f52abe308028cc6d73f4b958a58bbee7e75"
+    },
+    {
+      "path": "healing/healing-druid/active.json",
+      "sha256": "3aff2746fd517d5d50b879225f0c4bbfbe9196e6dc3c5c1c525be7ad2abd5416"
+    },
+    {
+      "path": "healing/healing-paladin/active.json",
+      "sha256": "a0b5e1f200e9b4c6a66cbc322444e25dc29c98f012b5da9e569def5400b67186"
+    },
+    {
+      "path": "healing/healing-shaman/active.json",
+      "sha256": "713939639a804dede2f2116b89d4d47bea2f8ec19385e07222b9c670e8266b85"
+    },
+    {
+      "path": "model-update.json",
+      "sha256": "158bba6172691d76082b68a84ecad6ea8ad61d5e3533e566bf47d578e9530029"
+    },
+    {
+      "path": "presentation.json",
+      "sha256": "81cfae68b5d8045adbfb21258349cdeff88a62694da2b019b0b4baae3d90f894"
+    },
+    {
+      "path": "preset-safety.json",
+      "sha256": "8b9151101066d072a44955086389f4b6c39223d8d58d48c65607e295ff08c3ee"
+    },
+    {
+      "path": "profile-model-updates.json",
+      "sha256": "c85404675a3f654bc45d81c7b58e73ec6e98d71e957ac60d142235fb0f8c5238"
+    },
+    {
+      "path": "published-reviews.json",
+      "sha256": "3e5a252beaab1d31dc9ce6f6bb64811545001d3ba04dc57e95996151b041f9ba"
+    },
+    {
+      "path": "published-reviews/balance_druid-6ea23b01e3a7ee5e.json",
+      "sha256": "e460c1bf17b2ff58612de135679c80b9a1a41834f1f082d61133ddeeaaa9bf72"
+    },
+    {
+      "path": "published-reviews/feral_druid-ec9f6e65b45edc7d.json",
+      "sha256": "18650b044e3094d59d8fd57d62e63e8031ba72a65a6f9a441407eb212483fbfd"
+    },
+    {
+      "path": "published-reviews/hunter-a68e48a70b02dec3.json",
+      "sha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3"
+    },
+    {
+      "path": "published-reviews/rogue-5dfd4a254069f058.json",
+      "sha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79"
+    },
+    {
+      "path": "qualified-combat-models.json",
+      "sha256": "9dc2f47b3e343847f2655c9eb4fed533627224f058e5906bed0289801b17054e"
+    },
+    {
+      "path": "qualified-dps-models.json",
+      "sha256": "f6d81bc98f69b4a0d952f050c32da47771ade3520ac70179c3c9028dc45c965f"
+    },
+    {
+      "path": "qualified-paladin-tank-model.json",
+      "sha256": "f723ccdecbd401fa7e1c76a97f327ee579ee83da66a17a066433de0c2365b19a"
+    },
+    {
+      "path": "qualified-tank-model.json",
+      "sha256": "5984f27e3ac4e8409eaa7e5b39be6e27eccc3d3fc7a8d934e507c793e3c422dc"
+    },
+    {
+      "path": "qualified-warrior-tank-model.json",
+      "sha256": "ec93c59476756ce3a5a13f6a494f4b09c161c094442e2afa9a55382d61e552ee"
+    }
+  ],
+  "sourcePublications": {
+    "balance_druid": {
+      "path": "published-reviews/balance_druid-6ea23b01e3a7ee5e.json",
+      "sha256": "e460c1bf17b2ff58612de135679c80b9a1a41834f1f082d61133ddeeaaa9bf72"
+    },
+    "feral_druid": {
+      "path": "published-reviews/feral_druid-ec9f6e65b45edc7d.json",
+      "sha256": "18650b044e3094d59d8fd57d62e63e8031ba72a65a6f9a441407eb212483fbfd"
+    },
+    "hunter": {
+      "path": "published-reviews/hunter-a68e48a70b02dec3.json",
+      "sha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3"
+    },
+    "mage": {
+      "path": "b5f09af61cfe043e04bcc604/kfc-qualified-combat-model.json",
+      "sha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8"
+    },
+    "retribution_paladin": {
+      "path": "0c3e01d229e825198e24a6fa/kfc-qualified-combat-model.json",
+      "sha256": "57eea03216d190f3ea76b541376870e1f1aaceabc09f8d9466d2a08ce175bf87"
+    },
+    "shadow_priest": {
+      "path": "5a6afc249c8e5dc8796dcae3/kfc-qualified-combat-model.json",
+      "sha256": "b9a8e89b746cc3e23f0dfb99bea4ec469ca35343b99619c38d995956ae74ad94"
+    },
+    "smite_priest": {
+      "path": "39da5dec7f9ce144ae8560ab/kfc-qualified-combat-model.json",
+      "sha256": "e223885b2c7829972bf91dcc2a4386429ccca925ccfb28d02e6d3ba415721955"
+    },
+    "rogue": {
+      "path": "published-reviews/rogue-5dfd4a254069f058.json",
+      "sha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79"
+    },
+    "elemental_shaman": {
+      "path": "a84f41352d7f9aa60ba40dc0/kfc-qualified-combat-model.json",
+      "sha256": "8ca17aa02bcceb09ca6d121f9ce6273272c90d39a72d8f7785809c004b626af0"
+    },
+    "enhancement_shaman": {
+      "path": "59e65f26f7cdd11263201f4f/kfc-qualified-combat-model.json",
+      "sha256": "49fedf9bb291f0b87da52630eaca8ffba27ea50d381f75b16eba57cc68631acf"
+    },
+    "warlock": {
+      "path": "d2d98c8539081334ba3fdbaf/kfc-qualified-combat-model.json",
+      "sha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c"
+    },
+    "warrior": {
+      "path": "b245938481ca2c015266d4d9/kfc-qualified-combat-model.json",
+      "sha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49"
+    }
+  },
+  "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+  "policy": {
+    "version": "pre-raid-solo-support-v1",
+    "iterations": 5000,
+    "seed": 58723001,
+    "durationSeconds": 300,
+    "scenario": "solo",
+    "support": {
+      "version": "solo-v1",
+      "raid": {},
+      "party": {},
+      "individual": {}
+    },
+    "selfSupport": {
+      "warrior": {
+        "raid": {
+          "battleShout": 1
+        },
+        "party": {},
+        "individual": {}
+      },
+      "rogue": {
+        "raid": {},
+        "party": {},
+        "individual": {}
+      },
+      "hunter": {
+        "raid": {},
+        "party": {},
+        "individual": {}
+      },
+      "mage": {
+        "raid": {
+          "arcaneBrilliance": true
+        },
+        "party": {},
+        "individual": {}
+      },
+      "warlock": {
+        "raid": {},
+        "party": {},
+        "individual": {}
+      },
+      "balance_druid": {
+        "raid": {
+          "giftOfTheWild": 1,
+          "thorns": 1
+        },
+        "party": {},
+        "individual": {}
+      },
+      "feral_druid": {
+        "raid": {
+          "giftOfTheWild": 1,
+          "thorns": 1
+        },
+        "party": {},
+        "individual": {}
+      },
+      "shadow_priest": {
+        "raid": {
+          "powerWordFortitude": 1,
+          "divineSpirit": true,
+          "shadowProtection": true
+        },
+        "party": {},
+        "individual": {}
+      },
+      "smite_priest": {
+        "raid": {
+          "powerWordFortitude": 1,
+          "divineSpirit": true,
+          "shadowProtection": true
+        },
+        "party": {},
+        "individual": {}
+      },
+      "elemental_shaman": {
+        "raid": {
+          "strengthOfEarthTotem": 1,
+          "manaSpringTotem": 1
+        },
+        "party": {
+          "windfuryTotem": true
+        },
+        "individual": {}
+      },
+      "enhancement_shaman": {
+        "raid": {
+          "strengthOfEarthTotem": 1,
+          "manaSpringTotem": 1
+        },
+        "party": {
+          "windfuryTotem": true
+        },
+        "individual": {}
+      },
+      "retribution_paladin": {
+        "raid": {
+          "retributionAura": 1
+        },
+        "party": {},
+        "individual": {
+          "blessingOfMight": 1
+        }
+      },
+      "shockadin": {
+        "raid": {
+          "retributionAura": 1
+        },
+        "party": {},
+        "individual": {
+          "blessingOfWisdom": 1
+        }
+      }
+    },
+    "debuffs": {},
+    "externalDebuffs": "none; only the character's own modeled actions apply effects",
+    "maintenance": "configured self and raid support is assumed maintained; rotations are not reoptimized",
+    "encounter": {
+      "duration": 300,
+      "executeProportion20": 0.2,
+      "executeProportion25": 0.25,
+      "executeProportion35": 0.35,
+      "targets": [
+        {
+          "id": 213336,
+          "name": "Level 60",
+          "level": 63,
+          "mobType": "MobTypeDragonkin",
+          "stats": [
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 805, 0, 0, 0, 0, 0, 0, 0, 0, 3731, 0,
+            0, 0, 0, 0, 0, 0, 127393, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          ],
+          "minBaseDamage": 3000,
+          "damageSpread": 0.3333,
+          "swingSpeed": 2,
+          "parryHaste": true
+        }
+      ]
+    },
+    "playerEquipmentTalentsRaceConsumes": "retained from each published reviewed build"
+  },
+  "entries": [
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "balance-static",
+      "profile": "balance_druid",
+      "spec": "balance_druid/balance",
+      "name": "Balance · Raid",
+      "faction": "Alliance",
+      "dps": 526.6180508574926,
+      "stdev": 22.2600277637205,
+      "iterations": 5000,
+      "talents": "5332220115501351--505002",
+      "race": "RaceNightElf",
+      "release": "ce2375bbbbc13f564a8717f3",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "7ddf2dde51a7d0d1e904f69255c444c5855a79a69951032d283c626aa2a22a3f",
+      "wasmSha256": "6150a36982f5190c27006be196bb5b9a6c7aaf9fb9b6980042755df7db0fab16",
+      "publicationSha256": "e460c1bf17b2ff58612de135679c80b9a1a41834f1f082d61133ddeeaaa9bf72",
+      "originalHrefSha256": "c8b1e6c003832f094fff7005a23afa4b4ac44188e3fd5588d0e4cd7e69b7a21d",
+      "requestSha256": "714fb31c7e694463df1c7c7c35b3bb0459f6f3fb97ab390f927364b89a506695",
+      "responseSha256": "f77d5fea0687598d7d176292c866eb8428e917a34a4c413f68098d1109d888b3",
+      "benchmarkHref": "/forever-sim/ce2375bbbbc13f564a8717f3/balance_druid/?i=gtrcmxeu#eJzNUk1IFGEY/t6Zb2dmX3P5GpeYhrBxDxmDxsxsI65UM3kJFgOTDtLJgg0KqcUw+oEwQdEuliCUN9tDQbh1iNi9aRa0t00wl4LY8FRe9hSIUDE/BIELRR72Obzf+73P8z6834+uSlPtTFCKc2MHXEhzmSsGDFADumEIMCLBC4BeIhM1x6PQP3z+ZmaEUQ30Oyiy7UVQai1I2dpLQIF9GlUKLSiy/Awo1RgK7OOoshFDkS3fB2UyjiIr3gMlJyJln783o8i2lmNev8hmZ0BZ8OoreUDKFp578VWZIc/GMyiyZ6tMmYojZUWfz5eZtVfiGa9x3dxQPBu5wT0FoYcs8ce+caSXpBU7mbQsyzBN2zbMpG12dtqGbRhWPx1sukAuz4HCy1Tleoh8RO3AhKzhngSiZAlIpQcrgEyPSYLMpYkqIEWu65oaMnKHqmObfBCbElEUrQjy0mbfDvKAkBOqhvv0uCTI0dfgWUxucx6HYPqOq29BjqqiLy+czr6DaSA+TrglLsgk932YpdwKB1vh5qh7lw8y5s4DeQxU5ZAkinzULy6NuPvnH3koOalAV3baLvr44FizvFQZb5alvsz1zLDWZSiOxuvV0LpBcHja3RWfQ4v/5cPUn7szByHE9GP2iZu6dLU2UTq75pwMGXcQBn5QrP8Et+P5U19uvXH+rNac9Vz2OK5vOPX6BgqtE5tnKjvzY+3h0Vrd4LN8revTWKj+45y133r5YWP98gbCOSNYa399ub8AV9GNKQ==",
+      "capturedAt": "2026-10-28T09:55:46.880Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "feral-cat-static",
+      "profile": "feral_druid",
+      "spec": "feral_druid/feral",
+      "name": "Feral Cat · Raid",
+      "faction": "Alliance",
+      "dps": 452.97697373269,
+      "stdev": 10.138586603701807,
+      "iterations": 5000,
+      "talents": "050022-45010032021030212051-055",
+      "race": "RaceNightElf",
+      "release": "ce2375bbbbc13f564a8717f3",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "7ddf2dde51a7d0d1e904f69255c444c5855a79a69951032d283c626aa2a22a3f",
+      "wasmSha256": "6150a36982f5190c27006be196bb5b9a6c7aaf9fb9b6980042755df7db0fab16",
+      "publicationSha256": "18650b044e3094d59d8fd57d62e63e8031ba72a65a6f9a441407eb212483fbfd",
+      "originalHrefSha256": "7e0710456e236f6f3e84a3dd4a24013181789ba4955fd8f4e55989e23b0821f4",
+      "requestSha256": "1bdbd9184ce9803bedef78c7767f86c262d3330db9f52d17ceaa6354ff3e5209",
+      "responseSha256": "55b2130accf9558d28685edb00359c4c987d95beb07daf214191cb369abd0147",
+      "benchmarkHref": "/forever-sim/ce2375bbbbc13f564a8717f3/feral_druid/?i=gtrcmxeu#eJzNUl1IFFEYvd/M7M74idttNJhuYpuE6YZwd9YxV7SZfDHEQKUHCR8s2iiR2hSi7MWEhXwSgmqT8GUfFCHzoWA1CIsgfRD0wZ8gyTICk2ApIgr6YWfWLdggMYnOw51vvnPON+fOvT6mXN1H3drY9e58C+qE0FkOTRKHCmgFdCkwClBDVMLGJXQ3tB+/FOqgkhd8l1Gmc5Ht2utslGgsCijT1WmqxXPRTW+f1j4lG0/ubdNWPCjTp32gLSWLlWmqxWSU6NKHHJTpl0ce7VU2ynTyLmgvPCjR8SigRL/eABTpYAtK9P4MRZk+m6XafB4SlOjDBzn6LkWgggZeoRg4tOaGXReFKMAQuJYBKsmEWPVWIDWkbjc3ONf10jKD+zkP6Fz38wDX/To3/KXcMBqkZuUEaRsQNFGVmFBJVJ1xLFL3IvV5FEkV6ghzo4RCWafdcatiDxDmQhEhkGSU4fegHmAG7ldLMhQG7vDlKm5VbnOhqAwdcUYZnWnjQVaFAdX/G2N2YRbKumNL0eksFZ3MIdL+n+rRDHXQSS7+Op45UjWfsfWNdqXk5dxO9+55g5rFZFv4pj48Cb1AbORZU4JTKdZsqgpaiwJ8Tr2UWVdEp6JWP5BhkJhATxaOiVl2c6LD2tl/K4kpM+joZsw9p2zMm/o1UVnsyVGV+tCFULu3nGumV/Qtp0b/JyjutbZkTtGdv5pD2fetyUEI8dtreNAKnjmXiEwdnTMPpRirGZq+SbgsBGyI1vlqXIiFxfSnI2uN8YLIitkUL4isNS6am41w+GVX3kjt6gb9CXMhFq7Gm5XWSG3SWJXxK9Z5O1Z8YNO5/g0Sphr9v275VqObZxxRSUvf449Dvj/e4mPceSY2fIg/AA0Iryk=",
+      "capturedAt": "2026-10-28T09:56:21.290Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "hunter-beast-mastery-static",
+      "profile": "hunter",
+      "spec": "hunter/beast_mastery",
+      "name": "Beast Mastery · Raid",
+      "faction": "Alliance",
+      "dps": 502.60598645765435,
+      "stdev": 11.882795589546998,
+      "iterations": 5000,
+      "talents": "5320001505101251-00522510005",
+      "race": "RaceDwarf",
+      "release": "29d2a2c67bc4922af0cef622",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "0c952cdc3f6b279893da2074eda8981b5a2338f7af7fa06266e4d0b476541c7a",
+      "wasmSha256": "918d135678846921ddc3fed1265e9d26ae932f5fd96cac33094ebba1cbb63c23",
+      "publicationSha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3",
+      "originalHrefSha256": "a0f8164e39d81b968a7d7847f36d60ac3ff9df15098e9b1cdfedeb6fbc1f8df6",
+      "requestSha256": "afdd4a50d9ed00dbbeb8d9391fdd93832c92a534b93e72410854437b7c83dd0e",
+      "responseSha256": "70af8d74f4d3ff443b4f54c26bc326a7b2d9a097474349e724604ae24280eb07",
+      "benchmarkHref": "/forever-sim/29d2a2c67bc4922af0cef622/hunter/?i=gtrcmxeu#eJztU01oE0EUnrez2Z28tulkGmQcK6SBalgozK7d0hQha/EkIj146LEW4h+VhgqiN5UW7EEsghKrd39oPCmkB6FqC+YgbRVrwIOCXupBiheJ4g+bLHjyZAUP/Q7z3vu+N+/NPGacVnZpt5y/dr5TwwggGSSCqE8MraGxI+cKExzShjMJaPNHD9vlhxY0+eL9MFx/zmWlAy1+67j8EhJPH7TL9wm0+M1j8k0CbV6+AvJtAk1eK4f6t8eJcL/Ny3MRvzgDaPLv1wEpv3wKTX53Jkyce8HlZAptvrYaOetTSTmz30szg4OEtJEFDf3GCC3GzholgDsQqwAsAAz8MPGdQbbwTyFKWyP+Axbo3o8GGSQHOv09ntba9bXvatfz3R6tfc/zXa21P2QOs1FysgKSYgqZstBkK0uQYWih2ePq08JUxgARO9UOTDrtLCaMUaJsjCHt192N9HoJRJ/qRUdlkTsJRgX9bBIVQ4rgYcoRzBT0q0lU/J4R5r+uH1KRFVJtw9YMIvNCZnkJVGRFXNlhCfYyJTqVavS2fvd2/e6GujxefAbT0LxxNqhGr4EFq5GXC2oG1KOgN7hAmx4PZoE8gQ6RZC3ckm1dTXoj3w+ZeRpvDnAi2D57I0Q1n2vqK/muow2s5b2rlNUutgl2sHCmMJbu0zKfps5/9uOz08Gm1NlV/qs6XP3cnHMQQtzGWrwd5E6Mb0xVD7/K74uUYBh+AeJ5gY8=",
+      "capturedAt": "2026-10-28T09:56:50.526Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "hunter-marksmanship-static",
+      "profile": "hunter",
+      "spec": "hunter/marksmanship",
+      "name": "Marksmanship · Raid",
+      "faction": "Alliance",
+      "dps": 497.5040802394566,
+      "stdev": 13.356516185296112,
+      "iterations": 5000,
+      "talents": "502-0053552301523051-4",
+      "race": "RaceDwarf",
+      "release": "29d2a2c67bc4922af0cef622",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "0c952cdc3f6b279893da2074eda8981b5a2338f7af7fa06266e4d0b476541c7a",
+      "wasmSha256": "918d135678846921ddc3fed1265e9d26ae932f5fd96cac33094ebba1cbb63c23",
+      "publicationSha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3",
+      "originalHrefSha256": "5cf3f696f1ee1fd0021c934e03b57d1bb5da7f30a74220eaf44ebc4fe00ddf90",
+      "requestSha256": "6d32de972bdb25052971a5876e095fb17f7447e6929ac2038785cc9affa43e03",
+      "responseSha256": "98111a116739530bbf61e17870f081fc9036b0fd53d978e423279372c0ce2b32",
+      "benchmarkHref": "/forever-sim/29d2a2c67bc4922af0cef622/hunter/?i=gtrcmxeu#eJzNUk1IVFEUvue+N29exxrvPCWuN4vRsGRg6M2MEyrJe0lQSAuTFtLKhOkPzUEhyjZWDuQiRqLCLNq4SCFdFYyLwEzBgUQtMqNFSm6yzayKiH54P/ZHQqVQ3+K+853vO+fc++4NCvXidqbw4asdhSbU0PhJHepkHcqhAZBUE42ICQmV2qbDZ+KtDAI0eAHQy+7fy+WLOSizsSGLLk0yns5Dhd08xt9ZiYd3c/krHyrsxlH+wodeNpgC/tKHMnuesvQPD3xWvcJSzU56rBtQZh+vAUrsUjPKbKDb8t15zHhnPnrZ7IwbvE76efeeSEClDDgEaCnoUE4bpITnNO0B6AdPGmAEoJKMSLuWKKkmNRtjeiSk67FoLBaJ6mFriYVDZbVyvdpITvQAlzAfVaGgrE6PQ7GKCsqhsN6myYJWEm2HCOFWrQjXFyOqEcs1NQ7oD+aqikZriPCiB6VwpE24kobCadbfB9pmsWnZ2uhao3qJLY921GqFQvwsh2MlwoOSOtWSmIAuIDZKzQx1ItWccaMKc47Ce5eUmeckJ2JmL5BRyNP8ag5TOBQ56axRDsXD0jqbjLSaBb3XLWSMCkefNoqO2Jg1Ipclde78Bk3dHz8Vbwrs1LkRkILz7qT/BKVd5pr02Ta4qj5MfF6bfRBCwvaauG1WHG/JJjMHnxq7XcWsh7pPMs7TqI0nxtn8ob0L7YvGcqnDr3zl6S3JNwfSt1xfp/GLad/VfdOdRzFgrKT/iKxRZw9Cc/KRBf8qf0V2xX3+Geb/uo/WQxfarTMTswqf9SWq3hr77ETBmt3yv8Jqz3NId76/f0lfAHt1tx0=",
+      "capturedAt": "2026-10-28T09:57:14.941Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "hunter-survival-static",
+      "profile": "hunter",
+      "spec": "hunter/survival",
+      "name": "Survival · Raid",
+      "faction": "Alliance",
+      "dps": 437.81719911726543,
+      "stdev": 15.341826727343603,
+      "iterations": 5000,
+      "talents": "53200005001-004-503200230050222131",
+      "race": "RaceDwarf",
+      "release": "29d2a2c67bc4922af0cef622",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "0c952cdc3f6b279893da2074eda8981b5a2338f7af7fa06266e4d0b476541c7a",
+      "wasmSha256": "918d135678846921ddc3fed1265e9d26ae932f5fd96cac33094ebba1cbb63c23",
+      "publicationSha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3",
+      "originalHrefSha256": "1a31eb6c1c76275db58cd17f5ed8a83233eb510f6fca448be2d5dbd27bf2f870",
+      "requestSha256": "2cd63f4afeaf50850cd8f320b39928f6b67e0ad72b4976b6ccbe2e3cf24db77a",
+      "responseSha256": "fc11c55f4d5e7f81fd85bdd3feae05c1e8042ece9d519e96e3f871a7c2966946",
+      "benchmarkHref": "/forever-sim/29d2a2c67bc4922af0cef622/hunter/?i=gtrcmxeu#eJzNUltIFFEYnn8uO7O/tJ0dNxgPEuuCKQsbZ2d3QyWZSYJCokx6kJ5M2LCwdnEhzF66KORDKHbBZOulB+shXyxYJcguUEKCUqbQg4o+1cu+mEh0YS6ZQUKlUN/DnP/7vvm//5w5E6bK5TLi0Yavny82oZZPnmZQLzKogEZAroZTOXpLRE9dy7GzyVYCQT58CVAmU51+bbEABTLUhjJ5lwUtV4gekm3Wli372YOt2oIPZfKiGxxlYZxosz4UyXjWop+e+Kx+mbzJgqM/7wEUyecbgAK5cgpF8nCCoEwmJonWEUAPGWyyVplc7QatZ68eUgQCGgT5cmBQwTcKzUJaauP7AO6ClAMYBajiRoXd73muhqsNJWI6Y4wlGItGGItHEswS9Jgl6boejUXrxAaliTs5C5qAhahQD4rK8sChkIwSCpF4Brch9oLNEBKurGcwgDKVUFCWUiEvyihFojsTGbWMlmJxmCqi6huBApUnEkrKUioIVi7yiYzboxZQL5VRUkZSQUEVKV/FqUid6dMrB1UvddIfp1blrqE6tZhS9Ie3Kh6Vr+WovZeo7mTOp9a6Ta4bZ6W2+yiVfgldwNkImGO8UynmpFtVmjM8rLgkbl4QnIqY/cA9hULVryjEo0GJI+eNCggNC16bjLaaRf03LYwZlY4/YZQct/HW0HsFZebiFlU5kDyTbAnuYpoRFMJz7qT/BOVd5qbk7Li/oRxCv27OPjiOi9rP9IBZeSKV7xw7MmXscR2zAeq/iDjHx2y8Ns4FBvfNty8a31sdfm2V57Z3fjicu+2+12H8Ytqavh++81PcM9bzf0beqLcHoTn+yoJ/g58iv+4+/wxzf52j9vHz7daZObMap++kqz8a+22haNNu+V9ho+c5ypz19y/pG10BxRk=",
+      "capturedAt": "2026-10-28T09:57:46.627Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "mage-arcane-static",
+      "profile": "mage",
+      "spec": "mage/arcane",
+      "name": "Arcane · pre-raid tested",
+      "faction": "Horde",
+      "dps": 543.6291994642012,
+      "stdev": 54.9532599138458,
+      "iterations": 5000,
+      "talents": "0502205003100301531--055500032",
+      "race": "RaceOrc",
+      "release": "b5f09af61cfe043e04bcc604",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8",
+      "originalHrefSha256": "91bfc01600a47007a79cbefc2ecba2f0b7c93e8efdecc25ffce83d26d7566fbd",
+      "requestSha256": "bf916f6c7edc8dd08108e1c4be7d6461a28e200a8f3d74e1c82694d3e65a4bd7",
+      "responseSha256": "ce0d2e2264711254b0a4e6f9ea06588d9b96fa304c00ec8fa6b5192c3f647f2f",
+      "benchmarkHref": "/forever-sim/b5f09af61cfe043e04bcc604/mage/?i=gtrcmxeu#eJzNUk1IVFEUvj9v3rtzRLtdJ3ndRKZAHUeE+974ypHivVyFBIq0EJFQYYJCbDCIWgRlGLoqirDchYuC0MhFaLQwI9BWGpRiYLOoTRFIphRBxXszFv3YJgO/xb2H7zvnO/fnxCXrK+e6OX71bLGH60mqS5EmTeEa3IaBKFyHBJIrFPTGzvbTqW4eitL4GTD452FsLhWCxs/fwWDwzHK+OVYIBr8/gs1MAeh8qst8XQAGf3gJmxcioPPJLnPIAI0vruaDwV/cDeoNPjeMzRs+PzDDQeOPRjBQ3pMCjd+b4WDw20+52RcBjY8HyvtOexujnEZJDTlAGnFbJB06RW5hvRZN0L1vCKpD9SXKUbatHKUSllIJZTkJq6pKOY6jlErYjVpzXgc6tohNKipkOZTEi5kuCkZJHiOCLmhIkhYkGeigWbZSMgSUr3YITZJaJBLSgpgog63xLYwK0oGkASGglioNqJAg9TnKdk74pezKYVEkIxAexTpo7MMC8WX2qiFmiIgUwEaxn/WxXfry8jssknIPVIlKKIpHGBXhSZwTfDfA1Wt91lrbqvR7aZ4MB+6PG2KQnsL9GAWo9qZJNmLebC5KevMEfyJrCedoNuLeIEZPsCYJI7vGaTggJ7q97YPXfUy7yWzejLvzSIDnrn2ZsvmefMEOpk6mOqO7lelGaTyTs94kiPV7G+JTNvxPPlx+3ZhzIISsYE3f9JJHjy/1Th965u7PKV4zbvqiwfpf0HpxciXW+tL9mV1y/77/jorA6IE7N5TeBwO21zRW0vt2ttLLjsaODbvq/0Vm3fv9GT/eQ1zbXFO+idCisvv6w/MrvgE6xp8I",
+      "capturedAt": "2026-10-28T09:58:00.355Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "mage-fire-static",
+      "profile": "mage",
+      "spec": "mage/fire",
+      "name": "Fire · pre-raid tested",
+      "faction": "Horde",
+      "dps": 506.4403820159441,
+      "stdev": 34.89948754232198,
+      "iterations": 5000,
+      "talents": "00502251000003-23052020130135031-002",
+      "race": "RaceOrc",
+      "release": "b5f09af61cfe043e04bcc604",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8",
+      "originalHrefSha256": "e9453a4a331327b2400aca1434324ff54df09b2c0af96e0c452a135155060abe",
+      "requestSha256": "4eaf72ee71c8a0d3e36fcd02bb9169077830d9cd0460b703fb440d07708d876b",
+      "responseSha256": "89667ce74615f14a9719d56be9367a8e64c699b0126b2ab3a98d32d6fac6dc27",
+      "benchmarkHref": "/forever-sim/b5f09af61cfe043e04bcc604/mage/?i=gtrcmxeu#eJzNkk9IFFEcx+f92ZnnT7TX2y2ml8hapuuE9Ga2DRVrJukQEiTSQUTCpA0KsUUhCjrYhpUnwQhL6BAdisKEDqHRQbaL20mDUgpyoUNQFykSJKiYWS0q7ZKBn8O83/v+ft/fmzfzsyS7Usl1c/xab4mHGnGyS+FmqlANakeAFWrQhCaHKehNncfOJbt5KEqs82DwLyPInA8D5RdHERg896nIHAuDzt+1mrli0Plkl/m2GAx+P43MSxHQeabLHDgAlL9ZKAKDj6YDu8HvpZF5ywDKh6Y4UP70AQLC00mg/NEU9/3PuXk5ApSPB5mPnU6YEU6iuAYfxO2RVOgsvov0Om2C1L/HWoPWWK5UQjlOwlY+8WonrhKOcpQdV3Y8oeJ2tVJOE20p7NBO9WKTiCpZCaVWCdNF8UNcyLAgr6gmcasmGehAbUcpGQLCFzoElbhOE3FpQ0xUwEZrAyMCd2jSgBAQR+0IpJDAjctSose3sqtHRbncBputCNNFQQbpQNnN19jPAYr757DFQRRjYrssC6rIClUGhNjM4Zgh9sl6sOUu2GSFGREsg/wjssfzdYnATwV7vCzrQAEnegL/nO8vlAU/NqlJ1I+0gN1eFucj5k0vRbXeLEaLeLngAslH3BtG2jNEJWZ42zgpCMSJbm/L8A2frFubr5tyy04EvHSdQcJm00WCHUqeSXZG9yjTjRIrt9R6nRDr99akT8XIP/Xh8tvavIemaXbwTN3xak+enu/LHnnh7l/KeC2o+SuF1X9B20Dmc6xtzv1VnXf/vv5JVdDoiTtzO7UXhhyveay078P0Ti8/GlvX7Kr/l9yq91uZn99DXF9fU76OaFX5dfXh+Z3v7DmgwQ==",
+      "capturedAt": "2026-10-28T09:58:15.526Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "mage-frost-static",
+      "profile": "mage",
+      "spec": "mage/frost",
+      "name": "Frost · pre-raid tested",
+      "faction": "Horde",
+      "dps": 443.9501139589305,
+      "stdev": 23.469749959499325,
+      "iterations": 5000,
+      "talents": "05500050000001--055500033100033025",
+      "race": "RaceOrc",
+      "release": "b5f09af61cfe043e04bcc604",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8",
+      "originalHrefSha256": "51cb5efb6e6907e64de56dd184122b8cc429d5c042f35cefb7d2ba63dc2012f7",
+      "requestSha256": "37607b6ac4bb6a2f3207f7f1b7e39652d760c5e304558a4715c01f1faf8de055",
+      "responseSha256": "67bfa79e61518aeb1f24976bdcb5e01b08564b6aa92c9d2b2b4be680b84db11a",
+      "benchmarkHref": "/forever-sim/b5f09af61cfe043e04bcc604/mage/?i=gtrcmxeu#eJzNkl9IU1Ecx8+fu3uPP5uezhzcTiJLSudCONtaOCnuzaeQoCE9iEjYYEEx1jCIeghqYSQ9FEVYvoUPBaGSD6FRsIxAfVKhkoIa9FYEo8iIIOPeDaI/9tKCfeCc3+98z/n9zr9fSLILrVw3Z66dabRxN0llFOnRFO7AAxiIwl1IILlAQU+kD51KDXJPgIZOg8G/jmOz6AONn5vEYPDCR6857QOD35/AZqEOdD6XMd/UgcEfXcbm+QbQ+WzGHDNA469WvWDwyZwbb/CH+XrzpqOPLHLQ+OMJDJTnUqDxe4scDH5nmZsXnY1m3JkP6YifUU4DpIPsJQk80JD1nCS3sd6J8nTXW4K6UHezisWUUk5TSoXb21XMFaLRsNurSCyh9dYm0dFJbFLRJluhKdTIdFE3RWoZEfSFhiTpQ5KBDlo4opT0AOWrSaFJ0olEVIYhKFpgY6ieUUGSSBrgARpW21zJI0h3WYrEjjuh7OpB4Zc+qJnCOmhs7SWRjv38HouAbAJ/yMd0wWaxs3Qs6UQAjrmBd/eLDRKcg7CVJzhYm53Dwxi5bLXnSclj9lLZi9srBH8pD3bYZ2nJ4/YoRgtYk4SR5hla44r5QXvT6A2HeSteWrdobTns8syKXKFsJecVbF/qRCod2KlMK0BDhXLqKiE4bFckT8v4P+Xhcq0y50AIhd0+e8uOHzlWHJo/8NTaU56xe3HPNw3W/4L+S7Ofgv2vrZ/VovV3+zttbqIH1vOx7G4Yidg9001D75a226XS2Fyxq/5fCuve78/8eA9xvbqqvIroUyW7fvH8ynd1VZeG",
+      "capturedAt": "2026-10-28T09:58:28.895Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "paladin-retribution-static",
+      "profile": "retribution_paladin",
+      "spec": "retribution_paladin/retribution",
+      "name": "Retribution · pre-raid tested",
+      "faction": "Alliance",
+      "dps": 386.47661650060036,
+      "stdev": 17.11293292373828,
+      "iterations": 5000,
+      "talents": "53003-233-05225331001330301",
+      "race": "RaceHuman",
+      "release": "0c3e01d229e825198e24a6fa",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a51fe477d828c58b6614e69883ff6452e056e7eed6201afb13a0bfa3795914f2",
+      "wasmSha256": "d0154ad394baea1c089dd9ff2293fd7274e360f532dcf24bcab857dd4ff246fc",
+      "publicationSha256": "57eea03216d190f3ea76b541376870e1f1aaceabc09f8d9466d2a08ce175bf87",
+      "originalHrefSha256": "57d209dd434dd576011712d6fe400eb324e78d0bfa5ec2cffe22122b77ed43b0",
+      "requestSha256": "c7860c0fd752c43625e83aae443a257e5fa381d4f10774a21be74516c830fd6a",
+      "responseSha256": "708c971fd79a964a035045bcc37d96f9126dc4efebfef2d866756ce10d8f6ad1",
+      "benchmarkHref": "/forever-sim/0c3e01d229e825198e24a6fa/retribution_paladin/?i=gtrcmxeu#eJzNUk1IVFEUfufeO2+uxxyvT6Xn9ScTymlIeTMvQ0V5LzeFtJikhYgLMyYqpEShrDYZSdpGCAoTMUjCWqSgBQYFkgkaSBppIohW0KI2ImS0KGPejOaiotLAb3HvOfd+33fO/fFJ3pwtVP3R9YtpNpSS0CkDypgB+VAFSEcAShRNkZMM1WDNkXOhOkEzme8sqmK+Wn8bi1T0N6BbzHSAPpCIqug4rn8GdItnD+L1dx5URXNIn/WgW8yNCf2WG5l43hHef38nPix3i4kO0Oc8yMTXG4BMDPWEx4fjAqnorkRVLB3Vp5JQQSYaeyGQzakgOmQSLxiQT2w4AFXJta4G0gZwG1QO4fW7wAqVQVr0gSglRIfS1DzTMMycgGnmGHmBQJ5p+g3Db5qGafiDrJxWKyf7iU5xK6LkqPKBLvC6smLQja4cf25evbZLZmOGL42rmqePxHKi0RmmSFKhhOnI/AHDkC6kYqlaY5IUKlqqTME4GYsxfaAi48Od8MNY2ybTMcEXz5lGrzJFqsiQ+OvXEIpkIeZqu1fUA12AcVmrZtNXgih8Hq5qpDqqNnY46uFO8HItVsZIN7r4bNDLtWSZuMYmzOa9neAcKNWXEvaoUGRCH/FwqpHSlWYMx+6x08wWGbmUsRfghdWs9wl4ae0ItIDiIMkeJZGI2xPRqMCeJvAlmuyxG2kkEnY7KC+BScJJ1iMa4ywO1tkp7TfDGLUKIrxxa/sxB1NW4Brl05fiNH4wdCZUk7nX0K1M6puPWm8SeFvsDfHZeX9dPkIub0wfiqL4nbG22y44cXqhafTwpLUvumOXQ9k3hvOkGF931RYzO6ln/5vzSYvWitR0MLSaX3AIr6yfVPktIp/inhWpM2NFfC7/wmfBqmx9+slbuWw5U+viX9f7P5j/5z60NlI2kNH08VD6hr3qZsF6z1VhROaFP77c77VWu2U=",
+      "capturedAt": "2026-10-28T09:58:49.244Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "paladin-shockadin-static",
+      "profile": "retribution_paladin",
+      "spec": "retribution_paladin/shockadin",
+      "name": "Shockadin · pre-raid tested",
+      "faction": "Alliance",
+      "dps": 392.1490616231813,
+      "stdev": 15.892614224613379,
+      "iterations": 5000,
+      "talents": "550030132001112--152250310013301",
+      "race": "RaceHuman",
+      "release": "0c3e01d229e825198e24a6fa",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a51fe477d828c58b6614e69883ff6452e056e7eed6201afb13a0bfa3795914f2",
+      "wasmSha256": "d0154ad394baea1c089dd9ff2293fd7274e360f532dcf24bcab857dd4ff246fc",
+      "publicationSha256": "57eea03216d190f3ea76b541376870e1f1aaceabc09f8d9466d2a08ce175bf87",
+      "originalHrefSha256": "6944268dd394efad6fc5cac40f59e17680d2615d030bb7a64e779492f1b03cdc",
+      "requestSha256": "f7f30bf1e97128ca5de558ecd96fb12cba4ee36262f67ba6b9ac6dbecd315623",
+      "responseSha256": "4176b62a7bcabe49db69d4d28e9e61a2e7745a6fadd68e092a133676e2982429",
+      "benchmarkHref": "/forever-sim/0c3e01d229e825198e24a6fa/retribution_paladin/?i=gtrcmxeu#eJzNkl1IVEEUx++Zmb07Hssdr0q3wY9VKLcFY+5uGyrJvflSSA8mPYj4YAsbFFKiEGUvJQkZhBAU5kMPifRBrWAFGgWiPWgQmPQhhrXVU/WQCRU9lLF3tyKoqDTw/zBzzsyZ33++gpIfKxW6OXzqcL4DNSS2V0EdU1AOTYB0HKBaMzR5gqFe27zzYKxVUD8LtqMuElHzTQ4ycTsO6BUv7wpzKAe94kYczA/JkdvXfOaLLPSKJ/0+czYZ3LkMZp8XmUj0+9Ar3sYhSfCKx/0+82kWMvHpNCATY/Fke31SIBUdMdTFpSlhlqCGTFydFKEAp4Ka4CcBUFBOHNgKTXktngOkB+AcMA4KLgAbAU+lNkI3vSJaNRFQ449ElAorKxxSyrKsUFmZFQmFIipsKWWFw8qqZfU0qu15DibFVYiSo86H+iDgKclAL3rKrPWRNmOdLMXCYD7XjaxBksmJQWeYJkmDlixHZoWUkh6k4n3UYJJUakaRLMDsoI8zgx5nmtSRIbHavsONFTJlddPNMmWG9KKHz9YGuJEnczBjEHRkydrkWj5wFoxCmY8imMV1g0TTRLXGZYz2QYAZxbIIc4LZXDc8o4Rw+oPpwC0I0JZx6ALNVa4zQVIRd+6lowpnmsDHdLLBOUJTkXB6QZsCJgknJcM0wx0caXVW955JasKuSNVN2sW7XD20Qycpn+5YafBtsf2xZv9GZdp+Gkyk0ctEgS5nSThrryyKI+TC0uxD0zTLbVvOOxW79811Tux4YG9Ozzj1UPeZYYJU4aO+lirm5Ma3PGvPnbe/Lg27GvuWH3IL7ts/cfmtUp/iop3ymbFTnKO/4MzZjd2j7wKNC7bbdc//td//UeKf92H0kLqhws7X2wuW7FWXixZ7rgaV6uf++HK/ABgOsQM=",
+      "capturedAt": "2026-10-28T09:59:10.853Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "priest-shadow-static",
+      "profile": "shadow_priest",
+      "spec": "shadow_priest/shadow",
+      "name": "Shadow · pre-raid tested",
+      "faction": "Horde",
+      "dps": 627.381555124222,
+      "stdev": 21.17268442759795,
+      "iterations": 5000,
+      "talents": "30503400102--50452001201302251",
+      "race": "RaceTroll",
+      "release": "5a6afc249c8e5dc8796dcae3",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "b9a8e89b746cc3e23f0dfb99bea4ec469ca35343b99619c38d995956ae74ad94",
+      "originalHrefSha256": "3415796f17fe1a5a98e5fbeaf39c1f84bdb16811636de6f9de19c7c404b4b13f",
+      "requestSha256": "3b63ab7fcf2f633affe7ce4060ff7a030d4976348125f34389967ee4b76dbb74",
+      "responseSha256": "c0f77f5476e84456deea3e73f9c928b3748597804ba49d3045f774c115be94ff",
+      "benchmarkHref": "/forever-sim/5a6afc249c8e5dc8796dcae3/shadow_priest/?i=gtrcmxeu#eJzNUkFIVEEYnpk3+97bf911HJd6DSLbIvlasOY93VileC8vgQSJJIh0MGmjQmxxIawITDL0UiAk5SXEQ0GoEBF6E5XIm0mWdIiN6NLJkpQKMvbtbnUJsoT8DjP//N/3f/w/88eE3l/JVGPqVk+ZixtIslOSJipxArdh0BhO4B6M6xFHYoiC2thx8mKyi2kRX+wKaOzrGDZWSoGypUdZcWY1aEyWgsbe9ZUYmRCobLLTeBsCja1OFxvXw6CymU5jVAPKXq8FQWNPxr16jU0MYmMkmx+ZwEDZ7DgGhfUmgbLHCww09mCRGf1hoGzKY56fsUt1hSkRkiAubgunfN3kPlbr0LRy8D1B9aihvFrGZXWNlJa0q6risiZuS2nZ0qqWth23GmlLoB2d28CGAmHQhA8U/UN31A8a+KqsffE03ysqoTxWpqs89JAEdMKVVxQJ0oqEDipQy5YyW8XW2jkVpA5xW0io4FEIRYsAbB1UfWEImyqwWEhXOWlAQgUKJJEWPzhuif1eTTAaAL+tgU+/0WzqUBIrzpdo4APFkmlR4HiRAM9gbv2YSXmFiAIM4yw722z67cIsd9PgF4UsD4hfHgWD9UFsqqmnuPvUAEYeatx5kot091k+qnWXCf5MCoKrSi5i7jBGHzEVhOHolOL3ktNd7q7hO1nMO7U53YKz+7SHF449qOjLvUGuH01eSHZEDkjDiSixTN56m8AccLfEZ8/YP/kwsbE1fSCELO9M3XNrz55f6Zs/vuQczjNuC276RuH3X3A5PH7kzaU5J3dfc3LZFWdzDfzUw8vR1CHY4a6ZJ27OfNrp5lbjyyb9/hcyfz03v729tnwboVXm7j9fqu9L3qDB",
+      "capturedAt": "2026-10-28T09:59:23.103Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "priest-smite-static",
+      "profile": "smite_priest",
+      "spec": "smite_priest/smite",
+      "name": "Smite · pre-raid tested",
+      "faction": "Horde",
+      "dps": 381.16229443682397,
+      "stdev": 9.29803616272855,
+      "iterations": 5000,
+      "talents": "50403003103-305151000320005-50002",
+      "race": "RaceTroll",
+      "release": "39da5dec7f9ce144ae8560ab",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "e223885b2c7829972bf91dcc2a4386429ccca925ccfb28d02e6d3ba415721955",
+      "originalHrefSha256": "4a8fa964a04e6602585f6421fd6547432ed5689b00b57da03f596f60f3de3440",
+      "requestSha256": "46f8ca6eb142133f0ead5095f8e73363e378623ebb7cf8208b0712dc9c252e5a",
+      "responseSha256": "bab28ac8d63f90a6bbddf2a87fb123ee5bcc5557db6885d8fec7a7d7d108bff9",
+      "benchmarkHref": "/forever-sim/39da5dec7f9ce144ae8560ab/smite_priest/?i=gtrcmxeu#eJzNUl1IVEEUnr+9dzzbruN1keskslrotmDN3nVDpbg3CQIJMimQfTJpy0JqSSitFxMMLagIohIiooeCMMgH0YfCwKCFCBMyKYitHoJ6kQKlHip278oGURL5sN/DzMec73znzMwJSz5UKzRz8nJ/hYNbSOKIIm1M4QbcgUEXuAH3Y9yMDCTPMdBau/f1JY4JPegJ94EmnnWZC6XAxLsrGW36i8+cKAVNfIibaT9o4mmX+d4Punh0EZtnAqCJxwfNC9uBiTeLPtDF6/s4k66LB1PF5k0dqEglgIqZLqBiIAFMjM8I0MXdWWEOBYCJ0VkBVHzutko4FTRIGkhHIOnpJXew1oSm6JaPBDWjlqqYqldRpaIRFa2LqlgkFlFKRS2lVKwuppSyWlm7txMdXsImNTbIWqgMV3DN8I8RLycGfcWQJHEkOWjAIpZS0gNULHYaTJImZCi5EdYZVSDCfq4ZpAVJDRiQ+h7wVXuhyNLBw6+fCHG5TIyI3ATrjepf4uf3hjiUhItzBjp4gEZUj1yOGWskZOrz6aVdIWaYsswKgJ7pg9/ogaKsbjyjC8kaWBsuz/jEkSwZI35O8z1ZKq/0SjdtjoVo8gnu3T+MURb1Toq4jDvPc6zRmSf4K1kWnKYuE84IRmcpk4Tj6klalD2cOuaUj1zLIGU3uroZu+pAFnO2dYny+QGfwXcmjie6g5uVaQdpOJ2zLhCEhp1V8akZ/S8fIX+sTh8IoUh2Td52Gg8dXRhM7Xlhb8tFnHbc9p3Bn7/gVODejrcnp+2JysFPuyce2u7pgv33gr/H3aGYtOHlreRWKMtdTTruaHxbwa9QkP7HPvPvYFwtrCkvIMSVu680VHn8BIBcnWk=",
+      "capturedAt": "2026-10-28T09:59:34.214Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "rogue-combat-static",
+      "profile": "rogue",
+      "spec": "rogue/combat",
+      "name": "Combat · Backstab · Raid",
+      "faction": "Alliance",
+      "dps": 370.13813636726866,
+      "stdev": 11.920065467354735,
+      "iterations": 5000,
+      "talents": "00530310301-31530300001515231-002",
+      "race": "RaceHuman",
+      "release": "3af0f3b699865a9396efdad9",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "9da36b4c8b5f15b255ee9b0be8d5132cb023b729c1c1bb486e0659951d3c0105",
+      "wasmSha256": "3ac092a8144f3abf9246f1da4ab3311545f775f00a206cbc5b3ec3e080b5e343",
+      "publicationSha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79",
+      "originalHrefSha256": "b31a67812ceaf20f4705de9bb14e2473a93808e117cd4492bbeeb44ad07dd053",
+      "requestSha256": "3eab3218aca13ff336bbee57b6a7dec0eb41ee07b46aefb4bd5e6ec96a3ae444",
+      "responseSha256": "bc622e7176bd20a216b015e1f2c3998b24a063ed338aba7436abe38d057cfb87",
+      "benchmarkHref": "/forever-sim/3af0f3b699865a9396efdad9/rogue/?i=gtrcmxeu#eJztlE1IFVEUx++ZmTdzPenrdn3FeLV6StjjgXBn5j1JK97kIkKCklpItDDBsJISH0a1MknIXRSFSZtokfDIhWBoKxcFuVMwdRMZ7doUVpb0yXxYD56uMmjhWZw5Z865v/nfM3cmWUyv7zbHb/dUSGgBJA2EEzG2CfWjHacut3UxNa4newAN9ikH5rtS1NjTYS/9kgNzrBR1dq/d/OzdWM6B+SaKBvuYA/NlFHU2120+MFBjizlAnc12e8sN9iEH5qsoauz7HfBoNzx/3/ejUwwNNjPNzGsx1Nlwq3fV2Nw0s8upysCEBEjYo7RsbVcvqQMAQxBZAKj/oeGCQjbsnxof2BjxGjah7nurkAbSWCll2pGOJR1p1TiWF0sppZW20rZj1UhpH9WaaSs5e0szVeRoiAiqdLSjysAIqjVWlpeLMmTJKNW4coUIHTVULOl1sW97eUbsxxS3/Qadq71AvAqChcVViHQEPNpSKqwrjSGgNiuCAj8mmvAQP1gASOct3paMUY3TJ2EeIOzs2tBVJKd8yfTxOc5EFHEEDIzQpVRCqSf8pDiBTfxIvuSvJSEgf0vh81aQtTJP45bk5lCLPzhLBmImonli/rAcv9jXzJMigTv59oLtp7BoEHTU6NAi+L2vz/MKIQr7RNjEbSGxmu9a5U2Ek1gZk5P9vSYudmCM8wJ5AXXmGXQ+h34ITlTMnQy/NupOh1GdO6/Acpik3KtqEDF3EEivonONAlOqxtWi4Ex2uWWDdz2bzNQFnVOZytO+zWbsmyqd7y3h9HDbxbaOeK00M3E1+Z/9RBP97rpwqh/9FYeJn+ujgxBi+b7zoVt35sL7vsnjLzIHworbDL8AeBSlng==",
+      "capturedAt": "2026-10-28T10:00:05.822Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "rogue-mutilate-static",
+      "profile": "rogue",
+      "spec": "rogue/mutilate",
+      "name": "Assassination · Mutilate · Raid",
+      "faction": "Alliance",
+      "dps": 370.4370158181996,
+      "stdev": 12.77127650320121,
+      "iterations": 5000,
+      "talents": "0053031034140105-302303202015",
+      "race": "RaceHuman",
+      "release": "3af0f3b699865a9396efdad9",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "9da36b4c8b5f15b255ee9b0be8d5132cb023b729c1c1bb486e0659951d3c0105",
+      "wasmSha256": "3ac092a8144f3abf9246f1da4ab3311545f775f00a206cbc5b3ec3e080b5e343",
+      "publicationSha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79",
+      "originalHrefSha256": "754891fb78fddec37bd3772cfaa85fe056a454e38396efa811f98b1ddb30f99b",
+      "requestSha256": "7a135eac511288ca5c21d406c9391abf24ca26803c75a7a9045db532a6b9ad9d",
+      "responseSha256": "031ee6ef50df47b283fffef54bbc7fa5552320161fdabef1a91a1cf51e247b05",
+      "benchmarkHref": "/forever-sim/3af0f3b699865a9396efdad9/rogue/?i=gtrcmxeu#eJztVE9IFFEYf9+82Znnp26v1xbjU2uTsGUheDOzK2nFTh4iLEipg0QHEwwLKVEM61JKQt4iKEy6RIeEpQ5GkJ08dMibQqmXyLJTJ7GypL/szFgLm6cMOvg7fPMe3+/7ve/7zZtJlrCrO62xG5crFLQAknoiiOwrRqOx4+SFti5O40byEpr8Yxast8VI+cNeNPnnLFiPN6HBb7dbnwBNvpwFaz6KJv+QBetlFA0+02PdNVHni1lAg0/35KpN/j4L1qso6vzbTUCdP72Wi3f8+GiSo8mfT3HrSgwN/qA199T5zBR3yhnlYEECFOzWWja30146BDACkTmAuu86zmlkHf8UYmjd4lUwTve+00g9aahUKu0q11Zuyk4pW6V3ucpxlesoR9npRr2ZtZIzb6hFRbksQ56MMl1oF4k0UEfNVjKClH/dIzJyH6aE4xMMQfuB5DIINpZUIbJRiCBlS6kwrzWEAjXdMkiIo7IJD4oDBQLpvOItyRjTBXsS7gMJp3t1US6jiKNgYoQtpRJaHREn5HFsEkfyu/pSGo6V33UouTJojcprY2NyQ3iciRGktgrOG4/mWfRby/WTA80iKRO4TVQWTOhi0TAYqLORRfC5r8+KCikLeTIkCUcqrBY7/mB2+H5WnHC7f9XE5VaMCVHQnu8iW5g/1PkMBiG4HDFvIvxwmDcVrmq9WQ2Ww03K66PBinvDQPo1Q+gMuFY1RouC69XllQ3fymEiUxswJzPbT/mYzjjXKZvtLxXscNv5to54jbIycZr8z/6HiUFvTXSq7/+VDpc/1qYPQojtx857Xu3pcwsDE8deZPaHGa8ZfgJ3y58u",
+      "capturedAt": "2026-10-28T10:00:34.752Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "rogue-subtlety-static",
+      "profile": "rogue",
+      "spec": "rogue/subtlety",
+      "name": "Subtlety · Hemorrhage · Raid",
+      "faction": "Alliance",
+      "dps": 365.10978172698424,
+      "stdev": 11.887460317016867,
+      "iterations": 5000,
+      "talents": "0053031034150005--5020203310013001",
+      "race": "RaceHuman",
+      "release": "3af0f3b699865a9396efdad9",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "9da36b4c8b5f15b255ee9b0be8d5132cb023b729c1c1bb486e0659951d3c0105",
+      "wasmSha256": "3ac092a8144f3abf9246f1da4ab3311545f775f00a206cbc5b3ec3e080b5e343",
+      "publicationSha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79",
+      "originalHrefSha256": "e7c005af950b6e87e7a0987079de9ff787edac4dcf7f52e2b3190a4d13327a6a",
+      "requestSha256": "cec3cbafddf9e41250fa8413e3e8107dc209d1f113cd9c845ed79ca4c69f490a",
+      "responseSha256": "7e1daff780c64975b8b4021d1aec84209e7b05d984ea0dfdd385a8891ba9213b",
+      "benchmarkHref": "/forever-sim/3af0f3b699865a9396efdad9/rogue/?i=gtrcmxeu#eJztVE1IFVEUnjMzb2Y8+p7Xq8V4NbJHmAwId2bek7TiTUI/SJBSi0e0MMGwEBXFqFYmCUmbCAqTNtEi4ZELIdBWLiJyEWiUubGMgqhNkf0g/RjzYz1579EigxaexZ175jvnO3/3XqNAu7BNn7jSV86hGVCoF6jAnhWg0th+7ExrN5EqFKMPUCWfUqC/K0aZ3Bt11TcPiT5ejAq53qZ/cX8spUB/GUGVfEyBPh9BhTzt1W+qKJP5xTAqZLZXf5WPKllMgf48gjL5fhVctkvuesNb70wTVMnjGaKfL0GFjLa4X5k8miFWmSYR0KEKOGwXmze0SaelIYARCC0A1P2QcUEU1uWfCh1ab3EOmZR2vhWFeqEhynnc5rbJ7ZgZ55zHq6vj3OIWt22Tc9Pm3GyUk1qLcHI8pEu0jJUiMSKaTMWzAlNQRtHkLIQS+baDJtgujFHLM1Co1A+CiyCYWBBF1MYghJL2ORbgYkNAUNPDfIAeYk24n+7NIIinOW80SjSZancD3aewenKTykysE+hRdgSb6MH0TL6Gg1LSMw1oVoqr4Wmhi4zCIISKIZRM7seYjKS15TeX5YGvO7KCtgcOJL2S99E9WBQtxPAYIBVJCGVtuQ8yfGKYH81D1XI9LyazZaP4njkHYf+RwUeowapwM92UZRB5w+BGGfkAnu2LDlrOWKYdC4yoxThW0q1ZzkRwjFYGZvf88sndsPudqwhXdydjdCv96HoAg+Cf+xJnKngTNGcm2NU6cyIsBUrMOSf5O+IMg9AvKlTWgIjRCSnPvzndTunwNVemErW+5XRiy3FPZhPWZUmb6w9T7UDrqdb2ihquJyok4z976qsGnTXhqbz9VzyELa9NHoIgmN7adcupPdH5fmDq8JPE7gBxkvATzPi4Hw==",
+      "capturedAt": "2026-10-28T10:01:08.575Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "shaman-elemental-static",
+      "profile": "elemental_shaman",
+      "spec": "elemental_shaman/elemental",
+      "name": "Elemental · pre-raid tested",
+      "faction": "Horde",
+      "dps": 389.887758449968,
+      "stdev": 14.985208835268303,
+      "iterations": 5000,
+      "talents": "550133102001131-0550300310021022-01",
+      "race": "RaceTroll",
+      "release": "a84f41352d7f9aa60ba40dc0",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "8ca17aa02bcceb09ca6d121f9ce6273272c90d39a72d8f7785809c004b626af0",
+      "originalHrefSha256": "b55cbe1b522c5d31cb56d93df3deb1da7e665278ac69335216a6937ceec1f35f",
+      "requestSha256": "1f896f7ec5062849a741120210e21929218218568dda48ef4a766f397b9d93ac",
+      "responseSha256": "f0ed3eb099efb8551a9207151577aea155c810fe764336dda21bcb70fa7d8d70",
+      "benchmarkHref": "/forever-sim/a84f41352d7f9aa60ba40dc0/elemental_shaman/?i=gtrcmxeu#eJzNUk1IFVEUnnPvnZnrsZ7X65OmW8hLS6dX0p15vVAp3tQmkRYaLcSVCS8ooh4K0d+iXtnfJogKk6CooDYaRIQGhRFEQgsFS6mFuhCiWrgqIuhn3nsUWIuoIL/FzPnOOd93zr0zccVP1QjLGbxwZGkATSS9R5OtTEMdtAOyGGRgkyFpD4B6xtBq3r39QLpT2DE7fhht8akPnNkyZOLYbUBbPBwTzkAZ2uJ+PzijFtqiNwvOTARtcSULzoko2uJqFpwrNjIxczaUPLlbEjrYYqoPnMkIMnFxRCATj/sBqcimkYl7IwJt8WpUOKeiaISJyyX+ak4FdSBGXNBQRwJohGZoL8+Y+0kPwDWwOISVW2ANgdlgDNH1b4ixyWiqSia1l0h42tfa8xJerU4mdULrhKe172nfr9VeM2ulHcauXuJQuVLVYEV8Kbdk5A4p5kTSl8xQpM1QHC1knq+1MpGK9x2SKdJgyAZVh7VyFS6qLMeyeCk3pXmGEk6VhQyJ7kIRj3BLkiYjn0l2KRtN/qTFtaSn1uByWYkLK4uxyA/TIy2uiaXxkoLCRhOpp/OSsCZR8dCHj50EuUJV4SL567HhuvzSe8c15QKFOTb5odll0lXVuCS+OBzQZqjSOyTC6Y/tfJ0b9Xqfi7JYFeXIDebSzFM4DUYO0WCY5CMejBai+mCCwMcCWRscpflIBL1gnCFMEQ2Vg7QolxzqDBb3XgoxnKrP942klu3I4UXKP0f5RHah5FvS+9K7Y+u0k4rR+FTBep7APR38E5/qvr/yEerLv9nDMAwv98zcDOp37p3tHt72PLWxUAlaYetnhlPkULR/8/TB46m50nctAxXdbx/Nyc9+5/mPPfiTbm5f3v98agOOX888cIPG6YPR/s0VwTe2Acc/zOn7eY//jT/b68f5Zc/8+svnEdp0/j3725f7FfDzsbQ=",
+      "capturedAt": "2026-10-28T10:01:23.293Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "shaman-stormcaller-static",
+      "profile": "elemental_shaman",
+      "spec": "elemental_shaman/stormcaller",
+      "name": "Stormcaller · pre-raid tested",
+      "faction": "Horde",
+      "dps": 400.10751734390624,
+      "stdev": 14.106240437264354,
+      "iterations": 5000,
+      "talents": "553233100000033-0550300110041021",
+      "race": "RaceTroll",
+      "release": "a84f41352d7f9aa60ba40dc0",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "8ca17aa02bcceb09ca6d121f9ce6273272c90d39a72d8f7785809c004b626af0",
+      "originalHrefSha256": "19b9939538e91710dc17af2fc0e3328959d8372cb512b68fb1d2c5f1d835394a",
+      "requestSha256": "ad5d86f230f280d793360ff6ad0e544322c2e981af565ef72b70f8192ab7f3b1",
+      "responseSha256": "f0c11010b9dfd64c1cf9e1d5bb40fd4c8815fadfb707ee938a81feaa950bf87a",
+      "benchmarkHref": "/forever-sim/a84f41352d7f9aa60ba40dc0/elemental_shaman/?i=gtrcmxeu#eJzNUk1IVFEUfufeO/OeR9TrdaTnTWSS0teEdN+MEyrJvNwo0kKlhbgyYYJCalCQshY1ZambICpMAqOCgnAEidCgMALJ3QiWUhtdCFEtXCUR9PNmpoRxEyXkt7j3nO985+Pcn4A0Biu515y+cb7UgWYSPalIG1NQA52AzA8xaNAEHQGQEwy9Ld1Hz0R7uO7XA+dQ51/HwVwrQsYvTgDq/PkCN6eKUOdPE2Cuu8xoHMzVfNT5WBzMyz7U+Z04mGM6Mr561RXMPi5wHXS+PA7mowZk/GUCkPGbSY6Ux6PI+JMkR52/m+fmoA81l7hdEKw0KKcm+IkFCmqIA03QAp3FMc9pMgJwF5gBCh6Ct06boQc/EK1Ba/aHw6FgKGSrFEKhKhUOq5BStq1Uta2Cdgtrp13aiQFiUrFXVmJZoNTwivxJkmsQQd8yTZIOTRroRWYHlZIepPxzl2CS1GmiTtZgldiHO8qLsShQaHiEZ5gSg0ovMiSqF3kg3/AK0qylmXCv1NFjzLZaXmHL/bhblGNeeS7mBF062Wp5sDBQkOnQ0YPUVukWtyZQGq6PsXAFRJks/aXtymir1Z6UNtFq6cKSFbgzUOLWOzRZOEnyDboxSFCllO/7LBS5MieV3GcWjb2CIdBS8DlzJB0ZznwmqnWWCHzJJNXOBZqOuDMK2jBhkigon6Y5KXKmxykZveViLlKb1iUju46l8CYSvEaNpXieMA5H+6Ld/gPKjPhpYDljvU1gDTlb4lMx/k8+XH7fmjk0TbNTa+yBU3v81NrA3JHXkUOZitMObd8YLpOzvkTjSv+lSHbrp9apsoGPL7L4td95+rGnN/Vl69L+1yP1uHgv9sxymlb6fYnGMudnVo+L61m6zXP8b/zdXBvnFyPb65dvI3So9L72x5f7A2eeq/w=",
+      "capturedAt": "2026-10-28T10:01:37.214Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "shaman-enhancement-static",
+      "profile": "enhancement_shaman",
+      "spec": "enhancement_shaman/enhancement",
+      "name": "Enhancement · pre-raid tested",
+      "faction": "Horde",
+      "dps": 390.5301580686583,
+      "stdev": 16.677477211846366,
+      "iterations": 5000,
+      "talents": "550103101-053030031005102251-04",
+      "race": "RaceOrc",
+      "release": "59e65f26f7cdd11263201f4f",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "49fedf9bb291f0b87da52630eaca8ffba27ea50d381f75b16eba57cc68631acf",
+      "originalHrefSha256": "39cb7a915c92839f5e0dad8b99c8060c569c43d38ed0a8e4f6ea79d2132b7d13",
+      "requestSha256": "5db0610483f771e9876edb9c4709751fdda5c7b049cb75053dbdd4a3ec5bc597",
+      "responseSha256": "e344f099ccea9429b89bf8514bd7a851b1458859e3788794f5e0d754f2340adc",
+      "benchmarkHref": "/forever-sim/59e65f26f7cdd11263201f4f/enhancement_shaman/?i=gtrcmxeu#eJzNUk1IVUEUvmfm/own1HG0ug1iz1fW64U09+kLleTe3BTiwictQlqUYFBYPQzFalORlEEUYaIuimpRFP3QD+kiEIlIKLDoR4LCqEVYkAUVLfq77z5dWEGki77FzDnfmfOdM2cmKtmBxdy0+4/tzvegmjRuVaROV1AG6wH1ECShShO0G0De0NGsbdqwo7GZGyEr2ooWv3k9236Xi5RfbUOLj3WC3ZeLFh84AvZnQIvfupZtv8xCi4+059jPstDkT1rsExZS3tWMJn/c4mebvLvZPl+FOv/aBajzk5f89fowR8oPbUGTn3vA7TBqqPPLwzxWxCgHG0IkAgrKiAerYf3spNFGugFOgc5AwVnQK7QBumKMaFVa9fx4XDmqxFFOsYqXqBLl2yruqFgs7hSr0lp9LW3QNncRm4olcjEWRPOZKbKukFmMCPpU1ySp1yRDE3UnppQ0kPJPDUKXpEITFbIMi8VSnBuejbnRHGYI4yAljEoTdSRqO/JoFjMFqdYCJr5dWmiw24mIKRy5DBeKMGaGZ2FGzKeHExEDc6LZ6QwLDaSOClL8mCiU839bxm+P9XyyI4ZAyXyWPdwPYoEsxDnRPGaKjEHwyf7Ptt8/Qjyl+bo1gqJA5k/UbEjXLFVFqfjFRMRK3oEO0FLI84ZIYDHvftoq90YIfEk7pd4eGljc6wXtKNElKYNwP81IkQPN3rzeHh9Dbnlwbtgt3JjCYzd2lLKRvZmC1TS2NjaFlivbDdHoaFr6P0Gkw5sRnUUXpqXD5feZ6UPTNCe1Js945Zu2jbcPrXnkrkxHvLVQ903HUVLXV9D+JkG8twnfeO9OpO7Ku7jqxc7OST94yg+T/pJ1hwc/Rl652hSk5PqeT9HZ5wb8cRefnE5W4vdf8gKMu5WpAwu84DMVz9gopofRP/T7K6bOSXSTe3d/oib0n1xl5hA81dx/vle9Cvbxvx7uDzPUv80=",
+      "capturedAt": "2026-10-28T10:02:00.003Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "warlock-demonology-static",
+      "profile": "warlock",
+      "spec": "warlock/demonology",
+      "name": "Demonology · pre-raid tested",
+      "faction": "Horde",
+      "dps": 763.1777991160293,
+      "stdev": 31.01260664222063,
+      "iterations": 5000,
+      "talents": "011-0005003231120311351-0550005003",
+      "race": "RaceOrc",
+      "release": "d2d98c8539081334ba3fdbaf",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c",
+      "originalHrefSha256": "18e4b590af167ac70a6eda838e215fc85dd87a77a60a99b0cfc4243fa20ce3d8",
+      "requestSha256": "f38bb0420af4567b0bc2af2e6c0d55e08e155a03741103082bdda65ea93f7070",
+      "responseSha256": "c0908730d262d3503c07053861db488af7316cc1b96feb4705fa51cd07e8d02d",
+      "benchmarkHref": "/forever-sim/d2d98c8539081334ba3fdbaf/warlock/?i=gtrcmxeu#eJzNUl1IFFEUnnvn7szdI+r1ug/j9W9dKNetrZm1FRVlJl8KiVDpQdwXE1ZIxEwh7OfBNFOhIMzKfEsfKkIFH0Lf1npJSLDoj4KwB1/KBzEQQqiY2bVMIcIM/B7mnnu+c77vzJwJCNqXzxRt+mZnloUqcbRFxzVER8WoHoFUIXFJjLhAqWo+eS7axlxeGrgIKlsbQ9pyOhDWPYFAZQtfkrWpdFDZYk+a9lwBhc22aIspoLKZ60i74gGFPW7RRlUg7MNqMihspdFuV9nEANLu2unb8wwIezKOgLBH8wxk1hUFlT18wbQ+DxA2PY5AZivNIY3KTPbiYmyho6je0+rqwPeREkOoVIrJZZ+wVCFV+nTDCOq6Htb1wlChYYT0QsMoDBtBPRxOpKtIbVKD1HRD1mRIByoUIPTlIPKp4AI5aLTzApEPOYEsqvCUSZxEMZffEUngOklQUIAYIV0XLpDZagMnApdKPEdkQVoglRKOGyTh6BjhPXZAH0T8Cs8WmZDmS4XkSQQcMxcQGuutcoxjvVU8V2RvpjvXjttmtPsq8is8KPaBj3shyecGNeQCmb4njqHCcWXCsMhoF3GGl4lSOMiDG8pnIn/sNYranWFn7GFNUQ4hrkNmIIMS7m6yiaGIXxEwjNfjLQKhuIDN8QNiP+Tx3A2OgxFggZREgwIEcHG8fjDiV3mScDuXaxG/u/Up6riF+pHk4JD1Fa9Hl+R4xKxhJI1g4JQiJmtIR75p2e1QsTYrY/iOjVmzJF49b+Y1OnhthgZk+rYrmdNj0bPRZm+RrpleObCQMNgl8PdbO6Kzd+yfdJj4vjNzSJJkOM/We1bJqdPLPbMnXpmHE4xVi2q+Edi6ggue8SMfz182z5TDm9HWOfN3dvnnPb7saXNz/zrmntlYMpeqp3J6Ps+YjuxggWUfnvFcq8ZOV+du+1XX59xu///Fr+/Eh3bXX76LUKfHz+W/XuIP7DS+og==",
+      "capturedAt": "2026-10-28T10:02:23.991Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "warlock-affliction-static",
+      "profile": "warlock",
+      "spec": "warlock/affliction",
+      "name": "Affliction · pre-raid tested",
+      "faction": "Horde",
+      "dps": 677.6394345947879,
+      "stdev": 31.92904923124101,
+      "iterations": 5000,
+      "talents": "2550010013520105--0550205103",
+      "race": "RaceOrc",
+      "release": "d2d98c8539081334ba3fdbaf",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c",
+      "originalHrefSha256": "a4f23359dab28e57d0c1cd78ad19c8e062ba326440021375f205cb3e7dc061e8",
+      "requestSha256": "eae90cfb2dcef9954ad868cc477a31e8b2934499a95fb88d24235021e3da9d8b",
+      "responseSha256": "d17a027101c5112282b5d295f95c411511c60189456d5d9fb3b8e609f13dbf86",
+      "benchmarkHref": "/forever-sim/d2d98c8539081334ba3fdbaf/warlock/?i=gtrcmxeu#eJzNUl1IFUEU3pmdO7v3mDqOl9gm0+uN6nbLnN1aUVN2i6CQHlR6EO9LCVcoxCwh7OehIjOhP0r78bEeKkIDH0rfvPWSkGBBPxSEBb6UDxeDIIKKvT+W+VJm4Pewc85+833nzJyJCP3MGkaN4d7jBS6qwbFWieuJROVoNwJlq8IVcZ4CrW3Zczh2kPmCeuQYaOxrPzIS+UDY+6sINDbxKdsYygeNTXbmGU8pUDbaakzmgMbiF5FxOgCUPWw1LmwDwt5+zgbKpps9ucbuXULGdwSEXR1nQNijAS++P85AZSdjoLG7z5jRFQDChgcQqGy6xTJ0lalBXI5dtAPtDrT5OvBtREeQr1IZUas+YGWrUlNg2baUppTmRtuSprRLSqRtS0vaptxYSxqympR9XcRQ+VqxBgojBTrlOYM4S8dcfU0UgRsVoQMFYlpSCh+o7HMTJwJXKrxQFEBeJFcnHDcpQgMfqKa9ygv0O9Ew5SvEcsgL5UL2IAKOmQ+IPtJVK2hq5UtFAPyDyEt7z6Kk7Fw07OclYh2EeBCyQn7QLB+o+huSrEM5rknXKTPbRYrhm0UFlPKS2dt/JvHo71qzrD3ZQ+I84lWi8u/FXqdx74COqAaLS1geWaYT7t/nEdeiYSqgD2fiOQZWysDjuClKYSUvhiUhAN3ymopfRnMUdrs3AY8KE75BrIdiXvRLkz1RYJGctIICAVyeKtETDWs8KAqBR5g3pJrMJDekHR9cRmHKs4R/5vLbHqOOK6gbKUlscr/gTHRCTUXM7UPKDaxzqiOmGig0rPqTxMhBd1nfdQ+jTkVq77hT3JzEC8e6pOqvTmZzfWfsUKwlWCYNJ6hGJtL2iwThbndBfFb3/5MPE98Xpg9FUczkt+2WW7F3f6JzdNdzZ0uacRtQ/TcCc0dwNDCw/d2RU86Banh5s23Mmc0mZvLUsIed3/UZjD3xMOVM1Q0Vdn6MO0nbnrWutwQGitx673dd0byPmulzvvr/i5/3xK8trle+iNAoU2vij4f4A+uczCQ=",
+      "capturedAt": "2026-10-28T10:02:37.172Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "warlock-destruction-static",
+      "profile": "warlock",
+      "spec": "warlock/destruction",
+      "name": "Destruction · pre-raid tested",
+      "faction": "Horde",
+      "dps": 665.9182721501668,
+      "stdev": 20.645828179279448,
+      "iterations": 5000,
+      "talents": "-03050032200203001-005025510310035",
+      "race": "RaceOrc",
+      "release": "d2d98c8539081334ba3fdbaf",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c",
+      "originalHrefSha256": "4d8b10ec22265db4a0cf6e0faa8c5cd164b24496f9cd82e3beddd53e4a52a058",
+      "requestSha256": "a4e4e93dea56f2620d094e34375201ebfdeada71162c50c47f32914c71fb6bd2",
+      "responseSha256": "12e54d42e57c3e76dd26f673c332d17f61a2c565a7dacf9248f26b8993fbd503",
+      "benchmarkHref": "/forever-sim/d2d98c8539081334ba3fdbaf/warlock/?i=gtrcmxeu#eJzNUk1IVFEUfve+O+89zzTj9TbR8/o3DZTjlHXnTSMmynu5KSTCpIU4GxNGSMSsIOxnUf6UQVCUlbnMRUk4gYvSRTDWJqHAgn4oSFu0KRdDSRBCxXszZiVEmIHf4p3z7nfOd84954a41ltMFX3s8sl8C9XgeJvAdUSgctSIQKqWmMSnXKDUtu47Gj9EXX4tdAJUOjeM9NRqILTrNgKVTn/y6KOrQaWJ80h/ooBCJ9r0d15Q6fgFpJ/2gULvt+mDKhD65rMHFPqx2U5X6b1ktj7lBUKvTlIg9EECAaF3JinItDMOKr31lOq9PiB0LIFAph9bDV2TqezH5dhCO1Gjr93VgW8iJYlQhZSUK99jqVqqCZSKiIgKETEMIQwRESJcKkRUGNFoWETCQkSitaTe3SS1PJV1mZXwYigM5WsK845gt4aZ/IpIHDdIXAMFSNgQgrtApp+bGOG4QmKFPB9yQtkaYbhJ4iq4QA5H19uONhQLKqyA50FOIBs8IwgYpi4gWvJMLVfSlhXxgt/pk3O77WJa1zkUVFgp3wgB5gd3IAtUwwWy9po4BRWGazIFy8KHeZphlbwCtrDSn8LHY3/MDZcddpodt5s1eRUYTEBeKFcjLKvFJvpjQYXDAJ73FwkYaQGbY5v5JljHin6q2BcDGvJmEhQggMvT8X2xoMpy+Vpws4VY5+Kzl1BmcNkBD7hHkH04OYP82KHvOvRavgayRpA9x6FZ7hDd51AQs1UcFsbX/hB1XEFnkeRgq/UFz3un5LRHrQEkXccaUzREZR0FxuQsh0gesnIHrtmYMLelYyfNdc0OnpvGRVl72elh2q74kXirv0zopl8OTWfkVwiCZ61l0dkw/E86lH9bnj4kSQo73/Yb1rb9B1I9E3ufmdszjFWP6r4SWLyC477EjrfHus2DVfBisP2x+Sub+vGfXvaY+Xv+PB4/sjFjzuwZLez5MG46sn0llm18iSKrzj7eU7Tkq873udT8/4uFObH+lfXKVxAaRNqm/nqJ3wEjZ8nU",
+      "capturedAt": "2026-10-28T10:02:50.788Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "warlock-ds-ruin-static",
+      "profile": "warlock",
+      "spec": "warlock/ds_ruin",
+      "name": "DS / Ruin · pre-raid tested",
+      "faction": "Horde",
+      "dps": 647.4043310179626,
+      "stdev": 34.659575430673094,
+      "iterations": 5000,
+      "talents": "255000001351-0025003001-0550005003",
+      "race": "RaceOrc",
+      "release": "d2d98c8539081334ba3fdbaf",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c",
+      "originalHrefSha256": "ef070399a3cda106bc3c799e5288b3feee6f17049df25c0236ca8cc2d54316fc",
+      "requestSha256": "887c819f9cf70792c97c563a7aa99bccdf7470e1d230f2cdff370555cb69e098",
+      "responseSha256": "60c9d19014db7ac21e0c117a091124d9e90c9b3c2b5cfaa90469c49472086a15",
+      "benchmarkHref": "/forever-sim/d2d98c8539081334ba3fdbaf/warlock/?i=gtrcmxeu#eJzNUk1IVFEUfve+3znD6PU6xPNqOg6U49TUm7ERNeW9JCikhUoLcTYmTJSITQphRVCSpdCvaJk7a1ERKs0inN1MbRISJPojISxoUy4GAiGCiveeY/5AhBX4Le45557zfefcHz9T+kqIpCaGzhYYqA5HOzTcKGioArUg4Go5yrGkCFJ9+6GT0U4iehT/GZDJtzGkpnNBIB9uIpDJ3BeXOpkLMvnYm6POZYFEpjrU6zLIJHUNqRfcIJHHHerVvSCQdwsukMnsQ4svk4kBpI7KIJAn4wgEMjphro9mCPCkJwoyefCcqH1uEEhiHAFPXhwJqQpPeA+uwAbaj1rcMbEb30NSEolVXJKv/oS5Wq7OGwqHNRPBsnAwoGmhsKaVaVowoFn7ZlQvNDlbubY4r/K0lJVAob9AkWhWHDsVTPm3AsdwM8cUkEAIhjSNicCThVYqMFzF0UJWADn+bEWguJVjMojAB8NbTEe5H/FJdDPLhxxvNrjiCCgmIghK8mI9k2xLNzE3OOLIDIcuIYt2OeJz0N2sEnbSADi9DpBDIvDKrLAsSEWsphLFdZmm5V2WaPoKogG2DbzUs5K8qr482MXsDK1mVat6pSK/5Zq9zElT5gF1VgMhqkG+P08RqKPNTAxHfBKDEZzx1wiEbAEzR3ew7VBMi5Z1HIwA8WctEiQQAFfY9YMRn0ydzLF0T7GnqPsG6kechV3GV5zxzvG2R4wRxN3GCpUUpCINeRO8w0okO428kVsmpvRKu3ZGLz5s4ZUeGuCVNz0uqhyInoi2e8o1Vffw/rlF+Q0CX7/xT3S2jv2VDmE//s0cHMcFrTV216g8eizdO3Xwpb5nMWM0ocbvAqx9gtPu8X3vT53Xj9fA6zuxaX1lNr0U24+d0FfzM5h+ZmJen2+YLOz9nNIt2cFSwzTu8SKj0dxuKFr3UTNzrpf/f/HrnujwxvrlGwjNmm3Tf/yIPwFYV8J/",
+      "capturedAt": "2026-10-28T10:03:00.734Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "fury-standard",
+      "profile": "warrior",
+      "spec": "warrior/fury",
+      "name": "Fury · pre-raid tested",
+      "faction": "Horde",
+      "dps": 438.682959019891,
+      "stdev": 19.253621991151903,
+      "iterations": 5000,
+      "talents": "30305213002-25053005102210501",
+      "race": "RaceOrc",
+      "release": "b245938481ca2c015266d4d9",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49",
+      "originalHrefSha256": "60ed6c6c57d24e28a7c87d873227a5745c0d065309d1b117dca8ce9d5b907eee",
+      "requestSha256": "df0c7bcc1611af2414dc8613266c0d13ed0ef498717ed73bcee7ddd816c8db8b",
+      "responseSha256": "e4df64e62bf8c5aa14e537b20e565e58b1f3b3d7c533a512fe763d9b0efa5fdc",
+      "benchmarkHref": "/forever-sim/b245938481ca2c015266d4d9/warrior/?i=gtrcmxeu#eJztVF1IVEEUvmfu9f4c222YXeQ6aG77kLIhzN5txRVjr/YQSIRJD2I+mLBhYbX4EBQE/WAoFElQqORDWBiFEhKmPVlaZBBkkPoSbvQWQgZFFFhx7y4pQQ+5G/Tg9zDnu3Pu+c7MN8OETL2rlKrmxNUzRXUkcUyQBkVAJbQAEhtqJSbxewaq9e0HTyY6aF7ACJ1GlaZazQ8+VOiFYUCNfhoAc9yHKr3eZn5xJqbvbzbfeVGlXQnzjRc1uviCmoMaKnRpwMl/HAGnXqPLA2AuelGhK9cAFTrdAyjTS0dRpkPNqNKbB8zzflTpSKsTFfpqllolukyJCWUgoMXXJif1XoDboIwDTAKkAKq+K5gi0gb+KVjvhsV/wKRc/Z5ItVJdcURERNQKR4Swyq2oiEaEiIaFZYVFVITrlUbSKh25SEyZUe7FvOeE6MDzUNYfeJjCSZXEdvEarGQVaIyCioo+fGsv0pBXVxjpkLiKChIrikZQyxTjpiCiPgppDVeqz8cKuB/zgwZqljMx1sTTgRlcc+mjJmbyAvQE89f0cTP9PlbE+e8tw8KJ+lQPMOS6y8durPK5h/BLusfDyvl2LGHFroi6KhIRa9bNdVT1p08gAMln0A1pG/32TOaK6fZshsXsBQJfMx877LNymlG7H6Q7xOCa/Q1MqJSDE7KRPosOu7C/z8FMPJb++WV86yEXc3HriqwvnPMwfU/iRKI9UCHMeEAO/WePR1m3nROdbcNZ6VD+IzfrkCQp7I7JITt2+Phy58z+1/GaTMZuhAb3/faP7H57yq/YU5/Lmi8/XonnqvX6sBxf2je+pfNute1epsJYzqzIDql1+8J6yfxgcifOl2YsZv/JlrJHtvtpEn9b8RN9qKjQ",
+      "capturedAt": "2026-10-28T10:03:26.412Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "arms-standard",
+      "profile": "warrior",
+      "spec": "warrior/arms",
+      "name": "Arms · pre-raid tested",
+      "faction": "Alliance",
+      "dps": 388.65324466202287,
+      "stdev": 19.13168207921349,
+      "iterations": 5000,
+      "talents": "30325213132515201-0505-2",
+      "race": "RaceHuman",
+      "release": "b245938481ca2c015266d4d9",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49",
+      "originalHrefSha256": "30c8b29cf5abca19ea3ab6c2e050c23cd09465682a579d8ce4be3063381a8520",
+      "requestSha256": "1e4a1d14c03459cbb5b2f158d4a8697f17af87814665c7987daee5f7b9be5266",
+      "responseSha256": "19dc004c4d4e5ab859fe81d44c276213dfd6f09eac1e9d48a6b0453562f75352",
+      "benchmarkHref": "/forever-sim/b245938481ca2c015266d4d9/warrior/?i=gtrcmxeu#eJztVE1IVFEUfue+5/s54nS5DnHnajW5yGFCePOmCUeM93ITSJBJCxlcmDRiITW4EGqVgZAEFZExSptwoRgJQZnuNCsyEFTwZ1E4/awiyE1EP2a8mUkobJEzgQu/xb3nnvudc+/5OJwg1y+XU5WP9VwsrSXxsybUKyZUQhMgcaBGYpLoMVCtazt5Pt5OZb8R7ECVppr5m0JU6JNhQJWuneKjxajS2638M6BGJx/s4G89qNKlVv7Kgxpdnqa8X0OFvrvp3n+b8PCPbsCVZr7sQYWu3gKU6VALynSgERX6cIaiRl/OUr7gRQkVOjdLrRJKOATAhCY5oScBBkEZBRgHSAFU/VAwRaRt/Few5LbEf8G4XP2eSDVSLQ+bYStihcKhsBUJRSwzVGFGzEiFVac0kGbpTCfhMqPCgwUvCNFBFKCsPypiiiBVEjOElnb0Fq+bEzG2U3ixsMxAzXIdIzGR2RgKXaio6CN3YN2+PwisRPiQBj26yki75HqRhCLpoPnYet7rRaxUiA14bpar34+xCrEf97BdfzKiJhpl2q/f66jqz56CH1hQBDaih3+juw9PRxPPoRsysnmdqWxL6c5s1oo6SwS+ZA8HnE45Y1GnD6QhYgjN+QocKqFsTDYy2rc7vr5eF1N2NEOesfe2pLFgWzdkfelSEdOPxjvibf6DJrf9cnCLDYtAt5OXPPvu5ZSHirX8/EOSpFB6TQw40dPnVrqmTszbh7M3TgPUp+e1d/jI6wtexZn8FGi89njVztfTm8OK/eH46O6uu9VOupl80bxJkRtSm9aFJclif+IQLpZnJWZbpKTckWs9MfNfI34Ci+qivg==",
+      "capturedAt": "2026-10-28T10:03:44.784Z"
+    },
+    {
+      "scenario": "solo",
+      "policySha256": "86cfdf31fc4fd0a8676b22171ae99e7348750651f2c07146c70027093d982858",
+      "id": "two-hand-fury",
+      "profile": "warrior",
+      "spec": "warrior/two_hand_fury",
+      "name": "Two-handed Fury · pre-raid tested",
+      "faction": "Horde",
+      "dps": 368.45805953478947,
+      "stdev": 16.28415260054049,
+      "iterations": 5000,
+      "talents": "20305203122-25053000152110501",
+      "race": "RaceOrc",
+      "release": "b245938481ca2c015266d4d9",
+      "revision": "9a27c3d6af91d1ca0dbcf94a124b8869ad522108",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "publicationSha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49",
+      "originalHrefSha256": "ae7f81dac11ab6d1eb485c98627443c62a7957378a4fdb3a909fd8fcbd1af2db",
+      "requestSha256": "0f44616d86c3e1e1d7d5bf7c78eb0b6d9228bbf77999883ed8f7c3c9483ceacd",
+      "responseSha256": "3cd53de26f2443e04e7a03414b27f880639f43053c0dbf5333b809c70cc5a28d",
+      "benchmarkHref": "/forever-sim/b245938481ca2c015266d4d9/warrior/?i=gtrcmxeu#eJztVU9IFGEUnzczzp9nu318u8j4pbXtIbcVaXbWld3F2NEIQaJMOoh4MGGjwmrxINWpAkEPpRSFSh5Kwij0YGHaqT8WWQh1SL2EG91EyKCIIit2drPF7JC7gQd/h5k3837v9/3em29mvJrSXkQkbezymYJqPnpc52tFHYLQCMibUMlRjr1AlGqaD56KtpAcl+ptRYnEm7T3DhTInZMok499oI06UCJXD2ufAWUyfnej9s6OEmmPam/sKJPZSaL1yyiS+b5E/sMQJMplstAH2qwdRTLeBSiSxSuAAhloQIGcP4YSmesCzY0ciuRSJxibCK+BB3RoFGJKN8BNEEcBHgDEAcLfRYzz3Dr+K2j3+oj/ggdC+RzPVXLVhYbu1wOG7vcZRokR0AN+Xdd9AcPn0wO6r0as45u4o8OCJlDC7JjznOcVYDkoKPdsVGR8mKNhFsQdtARt7lxUh0FCURm8sRcL3Aw1moeqW06VoXrdyl74ts9S6HXQXawCg7QsvY547YpI+RaOSSgibwTSFTa4EZVhSK5vifQ4qMpkK3xYT5EpiTJl5BosxVP3YYnSZaN5zIm5bhVlI3FjpJ4lT7SK7cZyGl7Zr+VK+u3KF1jus1T/ZaeYbccttDBd6I9qltKlJazYIi9jlKZ3zRSUlKdPwAXUyzwr0f16Oj3hYzIUewYdkHzYTnMi9SIo5qtUFDJnePiSuig1zwrJiJi9wN3iVSabX0GDoOAeE9Tkjmkx83t7EpiIhJLkl5GthyxMRYyLgjJzzkaVPdHWaLOrTNciLsG7xj5xng4zKzrbBjPSIexHdnxwHOezjrEBM3TkxELbxIHXkYpUxqyDWusv4xyqenvaKZqPP3kaOh8tRrK19OqwEJnfP7q57Xa5aW2m/FDWRpEZ4queC+3mp/tjO3G6KDViukZayhyZ9lOv/2vFT4yeuy0=",
+      "capturedAt": "2026-10-28T10:04:08.133Z"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { HelperSelection } from "../../components/helper-selection";
 import { JsonLd } from "../../components/json-ld";
 import { ForeverDpsRankingLinks } from "../../components/forever-dps-ranking-links";
 import { ForeverTankRankingLinks } from "../../components/forever-tank-ranking-links";
+import { ForeverHealerRankingLinks } from "../../components/forever-healer-ranking-links";
 import { createHelperMetadata, HELPER_SITE_URL } from "../../lib/seo";
 
 export const metadata: Metadata = createHelperMetadata({
@@ -105,13 +106,14 @@ export default function ForeverHelperPage(): React.JSX.Element {
       <section className="collector-promo" aria-labelledby="forever-tier-list-heading">
         <div>
           <span className="eyebrow">Choose your next spec</span>
-          <h2 id="forever-tier-list-heading">WoW Forever Solo and Raid DPS tier lists</h2>
+          <h2 id="forever-tier-list-heading">WoW Forever DPS, tank and healer tier lists</h2>
           <p>
             Compare level-60 pre-raid builds against the same boss. Choose your own support or a
             full raid package, then inspect the gear, talents and rotation behind each score.
           </p>
           <ForeverDpsRankingLinks />
           <ForeverTankRankingLinks />
+          <ForeverHealerRankingLinks />
         </div>
       </section>
       <section className="detail-grid" aria-label="WoW Forever data readiness">

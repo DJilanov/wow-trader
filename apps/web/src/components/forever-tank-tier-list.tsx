@@ -24,7 +24,7 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
   const id = useId();
   const entries = rankTankTierEntries(snapshot, metric);
   const selected = entries.find((entry): boolean => entry.id === selectedId) ?? entries[0];
-  const optimized = snapshot.schema === "kfc-forever-tank-tier-list.v3";
+  const optimized = snapshot.schema !== "kfc-forever-tank-tier-list.v2";
   const unit = metric === "threat" ? "TPS" : "DTPS";
   const label = snapshot.policy.scenario === "raid" ? "Raid" : "Solo / dungeon";
   return (
@@ -162,7 +162,7 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
               <div>
                 <dt>Sampling {optimized ? "seeds" : "seed"}</dt>
                 <dd>
-                  {snapshot.schema === "kfc-forever-tank-tier-list.v3"
+                  {"seeds" in snapshot.policy
                     ? snapshot.policy.seeds.join(", ")
                     : snapshot.policy.seed}
                 </dd>
@@ -175,9 +175,11 @@ export function ForeverTankTierList({ snapshot }: ForeverTankTierListProps): Rea
           <p className={board.caption}>
             Save your current character before loading. The exact import includes gear, talents,
             rotation, support, incoming attacks and healing.{" "}
-            {optimized
-              ? "The import runs 5,000 fights; reference scores pool 40,000 independent validation fights across two seeds."
-              : "The import runs all 5,000 reference iterations."}
+            {snapshot.schema === "kfc-forever-tank-tier-list.v4"
+              ? "The reference and import each use 5,000 fresh comparison fights with the recorded support. The source gear-search evidence is retained separately."
+              : optimized
+                ? "The import runs 5,000 fights; reference scores pool 40,000 independent validation fights across two seeds."
+                : "The import runs all 5,000 reference iterations."}
           </p>
         </div>
       ) : null}

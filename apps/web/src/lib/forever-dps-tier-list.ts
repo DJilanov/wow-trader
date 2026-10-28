@@ -2,6 +2,7 @@ import { SIMULATOR_SPECS } from "@wow-trader/forever-data/simulator";
 import { z } from "zod";
 import { FOREVER_CLASS_APPEARANCES } from "./forever-classes";
 import { relativeTier, type TierBand } from "./forever-tier-ranking";
+import { tierSourceBindingsSchema } from "./forever-tier-source-contract";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const release = z.string().regex(/^[a-f0-9]{24}$/);
@@ -34,6 +35,10 @@ const entrySchema = z
 export const dpsTierSnapshotSchema = z
   .object({
     schema: z.literal("kfc-forever-dps-tier-list.v1"),
+    sourceBindings: tierSourceBindingsSchema.optional(),
+    sourcePublications: z
+      .record(z.string(), z.object({ path: z.string().min(1).max(240), sha256: digest }).strict())
+      .optional(),
     policySha256: digest,
     policy: z
       .object({
@@ -67,6 +72,11 @@ export const dpsTierSnapshotSchema = z
   .strict()
   .superRefine((value, context): void => {
     const scenario = value.policy.scenario;
+    if (Boolean(value.sourceBindings) !== Boolean(value.sourcePublications))
+      context.addIssue({
+        code: "custom",
+        message: "Current comparisons require their source publications",
+      });
     const expectedVersion =
       scenario === "solo"
         ? "pre-raid-solo-support-v1"
@@ -115,6 +125,13 @@ export interface DpsTierEntry extends z.infer<typeof entrySchema> {
   readonly closeToNext: boolean;
 }
 const names: Readonly<Record<string, string>> = {
+  "two-hand-fury": "Two-handed Fury",
+  "fury-standard": "Fury",
+  "arms-standard": "Arms",
+  "warlock-ds-ruin-static": "DS / Ruin",
+  "warlock-destruction-static": "Destruction",
+  "paladin-retribution-static": "Retribution",
+  "paladin-shockadin-static": "Shockadin",
   "fury-horde": "Fury",
   "arms-alliance": "Arms",
   "two-hand-fury-static": "Two-handed Fury",

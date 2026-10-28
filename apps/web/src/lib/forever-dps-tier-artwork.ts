@@ -5,6 +5,13 @@ interface BuildArtwork {
   readonly variant?: string;
 }
 const builds: Readonly<Record<string, BuildArtwork>> = {
+  "two-hand-fury": { icon: "ability_whirlwind" },
+  "fury-standard": { icon: "spell_nature_bloodlust" },
+  "arms-standard": { icon: "ability_warrior_savageblow" },
+  "warlock-ds-ruin-static": { icon: "class_warlock" },
+  "warlock-destruction-static": { icon: "spell_fire_firebolt" },
+  "paladin-retribution-static": { icon: "class_paladin" },
+  "paladin-shockadin-static": { icon: "spell_holy_searinglightpriest" },
   "fury-horde": { icon: "spell_nature_bloodlust" },
   "arms-alliance": { icon: "ability_warrior_savageblow" },
   "two-hand-fury-static": { icon: "ability_whirlwind" },

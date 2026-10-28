@@ -106,7 +106,7 @@
     "simulator:prepare": "node scripts/prepare-forever-simulator.mjs",
     "simulator:deployment:verify": "node scripts/verify-simulator-deployment.mjs",
     "simulator:tier-list:measure": "node scripts/benchmark-simulator-tier-list.mjs",
-    "simulator:tier-list:test": "node --test infra/simulator/tier-benchmark.test.mjs && pnpm --filter @wow-trader/web exec vitest run src/lib/forever-dps-tier-list.test.ts src/lib/forever-dps-tier-list-data.test.ts src/components/forever-dps-tier-list.test.tsx",
+    "simulator:tier-list:test": "node --test infra/simulator/tier-benchmark.test.mjs infra/simulator/current-tier-policy.test.mjs && pnpm --filter @wow-trader/web exec vitest run src/lib/forever-dps-tier-list.test.ts src/lib/forever-dps-tier-list-data.test.ts src/components/forever-dps-tier-list.test.tsx",
     "simulator:deployment:test": "node --test scripts/verify-simulator-deployment.test.mjs",
     "simulator:presets:plan": "node scripts/update-simulator-presets.mjs --plan",
     "simulator:presets:update": "node scripts/update-simulator-presets.mjs --build",
@@ -151,7 +151,10 @@
     "extract:forever:world": "tools/extractor-dotnet/run-forever-world-extraction.sh",
     "forever:addon-seeds": "node scripts/generate-forever-addon-seeds.mjs",
     "world:audit": "pnpm --filter @wow-trader/world-data dev audit",
-    "world:import": "pnpm --filter @wow-trader/world-data dev import"
+    "world:import": "pnpm --filter @wow-trader/world-data dev import",
+    "simulator:tier-list:refresh": "node scripts/refresh-simulator-tier-lists.mjs",
+    "simulator:tier-list:verify": "node scripts/refresh-simulator-tier-lists.mjs --verify-cache",
+    "simulator:tier-list:smoke": "node scripts/smoke-simulator-tier-lists.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

@@ -1,5 +1,18 @@
 # WoW Forever DPS tier list
 
+## October 28 current-build update
+
+The new current snapshots cover 25 conservative DPS builds across all nine
+classes, including Retribution, Shockadin and all four Warlock builds. Each build
+has fresh 5,000-fight solo and raid comparisons using its current admitted engine.
+Source bindings prevent an engine/preset update from retaining a stale score.
+Healer and tank comparisons share the ranking navigation. See
+[current ranking workflow](forever-healer-tier-list.md) for the repeatable refresh,
+cache verification and publication process. The older 21-build release below is
+retained as historical methodology and deployment evidence.
+
+## Historical release evidence
+
 ## Product
 
 Raid route: `/tools/forever/tier-list`; Solo route: `/tools/forever/tier-list/solo`.

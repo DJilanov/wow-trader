@@ -58,6 +58,9 @@ export default async function HealerPage({
           <Link className="helper-back-link" href="/forever/simulator?class=priest">
             ← Choose a class
           </Link>
+          <Link className="helper-back-link" href="/forever/tier-list/healers" prefetch={false}>
+            Healer rankings →
+          </Link>
           <div className="simulator-character-heading">
             <Image
               className="forever-icon"

@@ -1,0 +1,1606 @@
+{
+  "schema": "kfc-forever-tank-tier-list.v4",
+  "sourceBindings": [
+    {
+      "path": "0c3e01d229e825198e24a6fa/kfc-qualified-combat-model.json",
+      "sha256": "57eea03216d190f3ea76b541376870e1f1aaceabc09f8d9466d2a08ce175bf87"
+    },
+    {
+      "path": "0c3e01d229e825198e24a6fa/manifest.json",
+      "sha256": "3306d557e14051c6c738e0404ebdd6a7eb76cb88f010aaef6468309a72c0b7ef"
+    },
+    {
+      "path": "29d2a2c67bc4922af0cef622/manifest.json",
+      "sha256": "fa4e1e6c8a6369182c4b923d11fe844258cbc0169778f45399086934acd9d8d5"
+    },
+    {
+      "path": "39da5dec7f9ce144ae8560ab/kfc-qualified-combat-model.json",
+      "sha256": "e223885b2c7829972bf91dcc2a4386429ccca925ccfb28d02e6d3ba415721955"
+    },
+    {
+      "path": "39da5dec7f9ce144ae8560ab/manifest.json",
+      "sha256": "0e9c1182546df1c83c92a9de7364d2ef0f6ae211dbac7e5ae9243d42b275dad5"
+    },
+    {
+      "path": "3af0f3b699865a9396efdad9/manifest.json",
+      "sha256": "3d0de4c96221fd66b926ce8673ed7903c43e665e22985174657b2bc0e2436472"
+    },
+    {
+      "path": "59e65f26f7cdd11263201f4f/kfc-qualified-combat-model.json",
+      "sha256": "49fedf9bb291f0b87da52630eaca8ffba27ea50d381f75b16eba57cc68631acf"
+    },
+    {
+      "path": "59e65f26f7cdd11263201f4f/manifest.json",
+      "sha256": "df62b762e0934271392b67cabcaa4defba291259f5ccd2ecb4dd1f2428f4ab07"
+    },
+    {
+      "path": "5a6afc249c8e5dc8796dcae3/kfc-qualified-combat-model.json",
+      "sha256": "b9a8e89b746cc3e23f0dfb99bea4ec469ca35343b99619c38d995956ae74ad94"
+    },
+    {
+      "path": "5a6afc249c8e5dc8796dcae3/manifest.json",
+      "sha256": "751c61efc9b0e9d91b051513b6ccda4b58df3932b5f478be30f4459a23300b96"
+    },
+    {
+      "path": "8cc775ad60b492c2508b392d/kfc-qualified-tank-model.json",
+      "sha256": "3b681a85554225254dd72eba8868bb6a8a7227adc0046188d72fe11fc1573a07"
+    },
+    {
+      "path": "8cc775ad60b492c2508b392d/manifest.json",
+      "sha256": "c881276edf2927a5be55625f7816ca0812fbbe0a1b64b8f9f17b3ed9a5125ee0"
+    },
+    {
+      "path": "a84f41352d7f9aa60ba40dc0/kfc-qualified-combat-model.json",
+      "sha256": "8ca17aa02bcceb09ca6d121f9ce6273272c90d39a72d8f7785809c004b626af0"
+    },
+    {
+      "path": "a84f41352d7f9aa60ba40dc0/manifest.json",
+      "sha256": "39d6f1d78e2558c5537e7a651ae9bee5f7b069955f8d16aa75d44169a14bc960"
+    },
+    {
+      "path": "active.json",
+      "sha256": "5e626e26a40117b3a28819f6e67451dc55e83a56841a23ac58efcea5b7be94cd"
+    },
+    {
+      "path": "b0922983c0a2b43d2ec6ea64/kfc-qualified-tank-model.json",
+      "sha256": "3635385f08918a266911e1b4de3fd6d1c40e522c7ab606983810623f8721290e"
+    },
+    {
+      "path": "b0922983c0a2b43d2ec6ea64/manifest.json",
+      "sha256": "807c803774e595cf140cd9755dc0c57cde3b7f5cd133906a74e4b7b451f282b1"
+    },
+    {
+      "path": "b245938481ca2c015266d4d9/kfc-qualified-combat-model.json",
+      "sha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49"
+    },
+    {
+      "path": "b245938481ca2c015266d4d9/manifest.json",
+      "sha256": "ab68aceb7d935a27a6cea04abe8f21b7b74b86034f44ea2d688ac8d2ddf87fcd"
+    },
+    {
+      "path": "b5f09af61cfe043e04bcc604/kfc-qualified-combat-model.json",
+      "sha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8"
+    },
+    {
+      "path": "b5f09af61cfe043e04bcc604/manifest.json",
+      "sha256": "fd9977643b61c9f22ad2cc1d483b8c76756c919e726f8d0991f9db5f8368aa16"
+    },
+    {
+      "path": "ce2375bbbbc13f564a8717f3/manifest.json",
+      "sha256": "4ffb60449e30f85b14bf763d2f19ce496c45c71434112a5172659731a83e3358"
+    },
+    {
+      "path": "d2d98c8539081334ba3fdbaf/kfc-qualified-combat-model.json",
+      "sha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c"
+    },
+    {
+      "path": "d2d98c8539081334ba3fdbaf/manifest.json",
+      "sha256": "dc50d16b3f6774286c971fa6031ac7c9dec65572356e3f2b22a1001c33b63cf6"
+    },
+    {
+      "path": "e2559d14e42a751d09bbc85c/kfc-qualified-tank-model.json",
+      "sha256": "2194e2805b42ed5853f3e1f0e0a3a8e80465d222557a93a2d3d4b6f9487bceef"
+    },
+    {
+      "path": "e2559d14e42a751d09bbc85c/manifest.json",
+      "sha256": "66ba29bc87a2ea06c7376a0d147eefd70dc3387d6f3e8ed7acf2aa3225af2447"
+    },
+    {
+      "path": "healing/active.json",
+      "sha256": "dab708924355827ec8bac424ba273f52abe308028cc6d73f4b958a58bbee7e75"
+    },
+    {
+      "path": "healing/healing-druid/active.json",
+      "sha256": "3aff2746fd517d5d50b879225f0c4bbfbe9196e6dc3c5c1c525be7ad2abd5416"
+    },
+    {
+      "path": "healing/healing-paladin/active.json",
+      "sha256": "a0b5e1f200e9b4c6a66cbc322444e25dc29c98f012b5da9e569def5400b67186"
+    },
+    {
+      "path": "healing/healing-shaman/active.json",
+      "sha256": "713939639a804dede2f2116b89d4d47bea2f8ec19385e07222b9c670e8266b85"
+    },
+    {
+      "path": "model-update.json",
+      "sha256": "158bba6172691d76082b68a84ecad6ea8ad61d5e3533e566bf47d578e9530029"
+    },
+    {
+      "path": "presentation.json",
+      "sha256": "81cfae68b5d8045adbfb21258349cdeff88a62694da2b019b0b4baae3d90f894"
+    },
+    {
+      "path": "preset-safety.json",
+      "sha256": "8b9151101066d072a44955086389f4b6c39223d8d58d48c65607e295ff08c3ee"
+    },
+    {
+      "path": "profile-model-updates.json",
+      "sha256": "c85404675a3f654bc45d81c7b58e73ec6e98d71e957ac60d142235fb0f8c5238"
+    },
+    {
+      "path": "published-reviews.json",
+      "sha256": "3e5a252beaab1d31dc9ce6f6bb64811545001d3ba04dc57e95996151b041f9ba"
+    },
+    {
+      "path": "published-reviews/balance_druid-6ea23b01e3a7ee5e.json",
+      "sha256": "e460c1bf17b2ff58612de135679c80b9a1a41834f1f082d61133ddeeaaa9bf72"
+    },
+    {
+      "path": "published-reviews/feral_druid-ec9f6e65b45edc7d.json",
+      "sha256": "18650b044e3094d59d8fd57d62e63e8031ba72a65a6f9a441407eb212483fbfd"
+    },
+    {
+      "path": "published-reviews/hunter-a68e48a70b02dec3.json",
+      "sha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3"
+    },
+    {
+      "path": "published-reviews/rogue-5dfd4a254069f058.json",
+      "sha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79"
+    },
+    {
+      "path": "qualified-combat-models.json",
+      "sha256": "9dc2f47b3e343847f2655c9eb4fed533627224f058e5906bed0289801b17054e"
+    },
+    {
+      "path": "qualified-dps-models.json",
+      "sha256": "f6d81bc98f69b4a0d952f050c32da47771ade3520ac70179c3c9028dc45c965f"
+    },
+    {
+      "path": "qualified-paladin-tank-model.json",
+      "sha256": "f723ccdecbd401fa7e1c76a97f327ee579ee83da66a17a066433de0c2365b19a"
+    },
+    {
+      "path": "qualified-tank-model.json",
+      "sha256": "5984f27e3ac4e8409eaa7e5b39be6e27eccc3d3fc7a8d934e507c793e3c422dc"
+    },
+    {
+      "path": "qualified-warrior-tank-model.json",
+      "sha256": "ec93c59476756ce3a5a13f6a494f4b09c161c094442e2afa9a55382d61e552ee"
+    }
+  ],
+  "policy": {
+    "version": "current-pre-raid-tank-comparison-v1",
+    "scenario": "raid",
+    "iterations": 5000,
+    "durationSeconds": 300,
+    "targetCount": 1,
+    "targetLevel": 63,
+    "minBaseDamage": 3000,
+    "swingSpeed": 2,
+    "damageSpread": 0.3333,
+    "armor": 3731,
+    "healing": {
+      "hps": 2000,
+      "cadenceSeconds": 2,
+      "burstWindow": 6
+    },
+    "equipment": "current qualified pre-raid builds; separate threat and physical mitigation objectives; main-hand coating removed for raid Windfury",
+    "incomingDamage": "synthetic physical melee only; no boss spells, movement or taunt swaps",
+    "support": "full-v2; no Salvation, world buffs or external resource grants",
+    "seeds": [61723001]
+  },
+  "policySha256": "241f9af6ae90b2733c23732aee5c35c5b763d3df1634aba6bb29d3f24f04f255",
+  "supportSha256": "c95a9b57f244ef5d0fc8f031463cdb2d0920bc4cf7ef64381f5d95a529d79c56",
+  "entries": [
+    {
+      "id": "feral-tank-druid",
+      "profile": "feral_tank_druid",
+      "release": "b0922983c0a2b43d2ec6ea64",
+      "objective": "threat",
+      "iterations": 5000,
+      "metrics": {
+        "dps": {
+          "avg": 539.0345911838263,
+          "stdev": 24.52221787854947
+        },
+        "threat": {
+          "avg": 1786.2628632287062,
+          "stdev": 76.35895137849135
+        },
+        "dtps": {
+          "avg": 577.9162007619213,
+          "stdev": 32.55245173483979
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "spell:9881",
+          "name": "Maul",
+          "damagePerSecond": 202.2559806425637,
+          "threatPerSecond": 530.9219491867309
+        },
+        {
+          "key": "spell:1238073",
+          "name": "Primal Bite",
+          "damagePerSecond": 105.98147127472394,
+          "threatPerSecond": 476.9166207362561
+        },
+        {
+          "key": "spell:414644",
+          "name": "Lacerate",
+          "damagePerSecond": 85.2966910352826,
+          "threatPerSecond": 426.0569717212378
+        },
+        {
+          "key": "spell:414647",
+          "name": "Lacerate (bleed)",
+          "damagePerSecond": 31.39489584,
+          "threatPerSecond": 156.81750472079977
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 88.17801410075504,
+          "threatPerSecond": 132.2670211511326
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 12.24336613500006,
+          "threatPerSecond": 18.365049202500103
+        },
+        {
+          "key": "spell:10301",
+          "name": "Retribution Aura",
+          "damagePerSecond": 11.665938899999984,
+          "threatPerSecond": 17.49890835000003
+        },
+        {
+          "key": "other:OtherActionRageGain",
+          "name": "Rage Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 12.57584317680267
+        },
+        {
+          "key": "spell:9898",
+          "name": "Demoralizing Roar",
+          "damagePerSecond": 0,
+          "threatPerSecond": 5.5341
+        },
+        {
+          "key": "spell:9907",
+          "name": "Faerie Fire",
+          "damagePerSecond": 0,
+          "threatPerSecond": 4.32
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 2.0182332555000055,
+          "threatPerSecond": 3.027349883249993
+        },
+        {
+          "key": "other:OtherActionManaGain",
+          "name": "Mana Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 1.9615451000000301
+        }
+      ],
+      "health": 8514.45,
+      "armor": 7505,
+      "talents": "-50032332120132012551-055",
+      "race": "RaceTauren",
+      "manifestSha256": "807c803774e595cf140cd9755dc0c57cde3b7f5cd133906a74e4b7b451f282b1",
+      "wasmSha256": "ce8a34780147041c69ca84c6acf4d98f82f13522b379280fef6d2087f012e4af",
+      "databaseSha256": "f364b76f53857dc1a19bdfeb464af1954ce6375bc8065e3bd205e24cc89da432",
+      "proofSha256": "3635385f08918a266911e1b4de3fd6d1c40e522c7ab606983810623f8721290e",
+      "settingsSha256": "f4fd2f06b6f7a890bd9886995425257cbe199d2f5cd5931b1cbb11563de7ac6d",
+      "benchmarkHref": "/forever-sim/b0922983c0a2b43d2ec6ea64/feral_tank_druid/?i=gtrcmxeu#eJztVU1IFVEUnu/ONG88ld1uEuNkNUSZPNDmzXMiLXKSoDQEkRYSLXyJoGb6eK+gn41BhcsWEU/Rgha9CApRI3P1CBe6q0V/0o9Zq1buwkUR86OE9qBNGNFZzJz57vnmfOfcw73REq1vN1f1hTuPt7owUc/aui3WpFjYhxaQpTHOdJisjHmIy46iBe1Isl6gD8gAvQzDYONgObApsFpTwxSYiTL4BAwD40Aja0Y7MmBHUc04hJwBjKtEamNX4kJbiqsmoudJ5W/b9bm1pPBrD0ARPjcEfXwTRfjnQehfPWRybIP+qZBUfrdNf+e9X53TPxSSwt8PgVT+8pxHj/CZIQTw5HWQwr/dBMk8e5IU/ugZpwh/85zrL4tIIoXfegR7iwavSk9ykjLAPSiB7BxQ/V2hWSb9tz9qIvO/xXksJx/4wqRa1Z9RVl9c7lhW3I7H7ZhtxeK2FbMdJ1ZuOU6j0iyfkjpnmS6LbUYJiSjXZCHPQDIitIbkuLXLUEnRJkYgyNB8f3AEQjFYtST2G1VkiQoyorqmiHUTKBCMryFZu9/gRRKrTBOPFmqqYPVSgDhpIwjITx4NyfEV5MqAPNqwpOXJ1DERM/ZQqdgZBstzkLwogr1IT4X0mOPTxxrEYaOW9hl7/dyyWP8U5OdWtMfZ4oDskB7drClC61RDWCOVlMoKJ+0nHssWi+3G1uUpbMcooIjW32CiLLKkcixbnJxCLzAdTqzmPg+9Kvc1w0L4UelelgOPuwMoKvBd97a7MdxW11RHoBiMpB335GA1l3LtQVnoje0X0h2tiS7zbKL7tNnacyaZSHWke7r1GlON/qNnUekDd7UlLFrMfyazblVHz/zV6eMvag6FK27Tz5fBomB3oN+z6ZpVUSvNh3nrQj0H8zSyLm+DLxU9PPLx4pUl/UE9T/LUM78CD/g3frv+5fmW/3/pMqj4a2bib7ET1q/xxU1ZuTk/AMAiuJw=",
+      "capturedAt": "2026-10-28T10:02:24.663Z",
+      "warnings": [
+        "Simulated pre-raid item search with fixed race, professions, talents and rotation. Health, threat and physical damage taken describe separate trade-offs; magic damage and a universal BiS claim are outside this benchmark.",
+        "Historical Classic stats, acquisition and inherited proc models remain provisional where listed. Current-client stats and vendor/reputation access are separate evidence.",
+        "Bear ability threat coefficients and incoming rage include inherited, unverified model assumptions.",
+        "Blackmist Armguards: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Tarnished Elven Ring: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Hand of Justice: Classic +20 AP; existing Forever engine model: 1% landed melee proc, 2-second ICD. Proc cadence requires in-game verification.",
+        "Idol of Brutality: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "All-slot Feralheart update: six scenario-specific comparisons passed the practical 2% target, with independent 40,000-fight confirmations. Incoming set-proc routing and live acquisition remain unverified; this is not a proof of global BiS."
+      ],
+      "gear": [
+        {
+          "slot": 0,
+          "id": 13404,
+          "name": "Mask of the Unforgiven",
+          "enchant": "Lesser Arcanum of Voracity",
+          "provisionalSource": false
+        },
+        {
+          "slot": 1,
+          "id": 22150,
+          "name": "Beads of Ogre Might",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 2,
+          "id": 20194,
+          "name": "Defiler's Leather Shoulders",
+          "enchant": "Chromatic Mantle of the Dawn",
+          "provisionalSource": false
+        },
+        {
+          "slot": 3,
+          "id": 20068,
+          "name": "Deathguard's Cloak",
+          "enchant": "Enchant Cloak - Minor Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 4,
+          "id": 252484,
+          "name": "Timbermaw Tunic",
+          "enchant": "Enchant Chest - Greater Stats",
+          "provisionalSource": false
+        },
+        {
+          "slot": 5,
+          "id": 12966,
+          "name": "Blackmist Armguards",
+          "enchant": "Enchant Bracer - Superior Strength",
+          "provisionalSource": false
+        },
+        {
+          "slot": 6,
+          "id": 15063,
+          "name": "Devilsaur Gauntlets",
+          "enchant": "Enchant Gloves - Greater Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 7,
+          "id": 20190,
+          "name": "Defiler's Leather Girdle",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 8,
+          "id": 15062,
+          "name": "Devilsaur Leggings",
+          "enchant": "Lesser Arcanum of Voracity",
+          "provisionalSource": false
+        },
+        {
+          "slot": 9,
+          "id": 20186,
+          "name": "Defiler's Leather Boots",
+          "enchant": "Enchant Gloves - Greater Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 10,
+          "id": 18500,
+          "name": "Tarnished Elven Ring",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 11,
+          "id": 19325,
+          "name": "Don Julio's Band",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 12,
+          "id": 11815,
+          "name": "Hand of Justice",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 13,
+          "id": 272437,
+          "name": "Adaptive Combat Assistant",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 14,
+          "id": 272601,
+          "name": "Premier High Warlord's Pulverizer",
+          "enchant": "Enchant 2H Weapon - Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 15,
+          "id": 0,
+          "name": "Empty",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 16,
+          "id": 23198,
+          "name": "Idol of Brutality",
+          "enchant": null,
+          "provisionalSource": false
+        }
+      ]
+    },
+    {
+      "id": "feral-tank-druid",
+      "profile": "feral_tank_druid",
+      "release": "b0922983c0a2b43d2ec6ea64",
+      "objective": "mitigation",
+      "iterations": 5000,
+      "metrics": {
+        "dps": {
+          "avg": 370.4376150396763,
+          "stdev": 20.322228274482644
+        },
+        "threat": {
+          "avg": 1241.1621070460099,
+          "stdev": 63.53686356824735
+        },
+        "dtps": {
+          "avg": 371.08523921322956,
+          "stdev": 27.64326076386874
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "spell:1238073",
+          "name": "Primal Bite",
+          "damagePerSecond": 74.58727893901353,
+          "threatPerSecond": 335.6427552255617
+        },
+        {
+          "key": "spell:9881",
+          "name": "Maul",
+          "damagePerSecond": 114.98880392940785,
+          "threatPerSecond": 301.84561031469633
+        },
+        {
+          "key": "spell:414644",
+          "name": "Lacerate",
+          "damagePerSecond": 56.13001805743128,
+          "threatPerSecond": 280.36944019686996
+        },
+        {
+          "key": "spell:414647",
+          "name": "Lacerate (bleed)",
+          "damagePerSecond": 31.521199079999892,
+          "threatPerSecond": 157.44838940459965
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 73.3237819058246,
+          "threatPerSecond": 109.98567285873696
+        },
+        {
+          "key": "other:OtherActionRageGain",
+          "name": "Rage Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 14.153735953547063
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 8.926422119999993,
+          "threatPerSecond": 13.389633179999977
+        },
+        {
+          "key": "spell:10301",
+          "name": "Retribution Aura",
+          "damagePerSecond": 8.499252300000016,
+          "threatPerSecond": 12.748878449999992
+        },
+        {
+          "key": "spell:9898",
+          "name": "Demoralizing Roar",
+          "damagePerSecond": 0,
+          "threatPerSecond": 5.5269
+        },
+        {
+          "key": "spell:9907",
+          "name": "Faerie Fire",
+          "damagePerSecond": 0,
+          "threatPerSecond": 4.32
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 1.6109750580000097,
+          "threatPerSecond": 2.416462586999983
+        },
+        {
+          "key": "other:OtherActionManaGain",
+          "name": "Mana Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 2.0398033999999594
+        },
+        {
+          "key": "item:11669",
+          "name": "Naglering",
+          "damagePerSecond": 0.8498836499999995,
+          "threatPerSecond": 1.2748254749999852
+        }
+      ],
+      "health": 8676.15,
+      "armor": 10854.8,
+      "talents": "-50032332120132012551-055",
+      "race": "RaceTauren",
+      "manifestSha256": "807c803774e595cf140cd9755dc0c57cde3b7f5cd133906a74e4b7b451f282b1",
+      "wasmSha256": "ce8a34780147041c69ca84c6acf4d98f82f13522b379280fef6d2087f012e4af",
+      "databaseSha256": "f364b76f53857dc1a19bdfeb464af1954ce6375bc8065e3bd205e24cc89da432",
+      "proofSha256": "3635385f08918a266911e1b4de3fd6d1c40e522c7ab606983810623f8721290e",
+      "settingsSha256": "f48af8fa85c8c7dbadd328485751dc050e3b4ddf5f8272e46884c6302ad8189f",
+      "benchmarkHref": "/forever-sim/b0922983c0a2b43d2ec6ea64/feral_tank_druid/?i=gtrcmxeu#eJztVU9IFGEUn/fNODM++vP5KTE7aQ1RJgva7OxOqEVOIqSGsEgHqYurSGqmy24X7WKR6M2IgtWEoMtKVJguuHpaKmI9CAYZ0cnqVCeDLl4i5s9KaAtdQgnfYXjz+95v3u/9YT5/qTx2korKxuP5Mgs0aCZd/TppFXSohnZAXSaUKKCRCmIjFmmEduiGKBkGGANIAAwTmAGSBpIBkgVSr8mQBaJBBTgEmAFIA4RJG3RDAkgj1BIKjE8AqKOIYrgvMtgVo6IG/iGU6OpIkfK9GAW6PA4o0a/LVEkXo0hHO5QfIkr0VeqgMt6AEn1zG5SHEkr0yzK1EZ6+vooSffcCbL5Ep+6BCz+4ggKdWKEo0JfjgAJNr1CbdheU9yXIoUCfrlDjsAx2nbboKCYApkFwhWcAan8KuEa4PfunxhJ7Lc5jGf7sN8LVi86OkmZfpanrQSMYNAKGHggaesAwzUClbpphoY3v4HrXiMKzI2opMj+VecZ/BE6VsAD5oH5CFVGQF2eBoSo7/tQsMEEltRw7o9agzqpQ9SuywPYtQiEjtAB5+UmLHYkkFEfqPyCLjDRzLmLGVTcgP3nOIwe3kUMuea5lU8tC9iILqKewnB33gvnPwNlRCEaOHvPoAdOhp1pYg1qP1eppJzfP9r8EdHIL8nzS55JNVPyHZIHJvaIHyyiiEKoy407iVNLHjqplW1MYplqIkjzRokGFtKkylfRFszAMsORtrGy99bwa6wOBDe8lZN3iXY9ak1BS6LjWI6vIG6ulibMgqAS5Y9O8e5qJWcYUz5Rw92C8pzPSp92I9F/TOgeuRyOxnvhAv1Knif7/9F9U/szaaQk5CzjPaNKq6RlYH1m6tFp33juxWn+/DHKCrckJ25bqdkQtt+7lbfL0nMvTyKa8Db5Z8vzCp6E7m/rdehby1LO+DXf59/+6/q35tn5/8zKo2jU7sVvssv5nPDeU7cP5BT4wuEs=",
+      "capturedAt": "2026-10-28T10:02:44.449Z",
+      "warnings": [
+        "Simulated pre-raid item search with fixed race, professions, talents and rotation. Health, threat and physical damage taken describe separate trade-offs; magic damage and a universal BiS claim are outside this benchmark.",
+        "Historical Classic stats, acquisition and inherited proc models remain provisional where listed. Current-client stats and vendor/reputation access are separate evidence.",
+        "Bear ability threat coefficients and incoming rage include inherited, unverified model assumptions.",
+        "Evil Eye Pendant: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Stoneshield Cloak: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Shadowcraft Bracers: Current-client stats and wearer metadata. Historical non-raid acquisition remains provisional; Forever drops/vendor availability are not confirmed. Set utility and health regeneration may be unmodeled in stationary damage scenarios. The five-piece proc is not modeled; the conservative engine excludes its contribution.",
+        "Cloudrunner Girdle: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Ash Covered Boots: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Naglering: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Vigilance Charm: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Unyielding Maul: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "All-slot Feralheart update: six scenario-specific comparisons passed the practical 2% target, with independent 40,000-fight confirmations. Incoming set-proc routing and live acquisition remain unverified; this is not a proof of global BiS."
+      ],
+      "gear": [
+        {
+          "slot": 0,
+          "id": 279253,
+          "name": "Outlaw's Collar",
+          "enchant": "Arcanum of Protection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 1,
+          "id": 18381,
+          "name": "Evil Eye Pendant",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 2,
+          "id": 272105,
+          "name": "Darkspear Pauldrons",
+          "enchant": "Chromatic Mantle of the Dawn",
+          "provisionalSource": false
+        },
+        {
+          "slot": 3,
+          "id": 12551,
+          "name": "Stoneshield Cloak",
+          "enchant": "Enchant Cloak - Greater Defense",
+          "provisionalSource": false
+        },
+        {
+          "slot": 4,
+          "id": 252483,
+          "name": "Dawn Armor",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 5,
+          "id": 16710,
+          "name": "Shadowcraft Bracers",
+          "enchant": "Enchant Bracer - Deflection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 6,
+          "id": 272099,
+          "name": "Raider Gloves",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 7,
+          "id": 13252,
+          "name": "Cloudrunner Girdle",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 8,
+          "id": 22740,
+          "name": "Outrider's Leather Pants",
+          "enchant": "Arcanum of Protection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 9,
+          "id": 18716,
+          "name": "Ash Covered Boots",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 10,
+          "id": 11669,
+          "name": "Naglering",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 11,
+          "id": 272409,
+          "name": "Ring of Awareness",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 12,
+          "id": 18370,
+          "name": "Vigilance Charm",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 13,
+          "id": 272440,
+          "name": "Defender's Grip Stabilizer",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 14,
+          "id": 18531,
+          "name": "Unyielding Maul",
+          "enchant": "Enchant 2H Weapon - Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 15,
+          "id": 0,
+          "name": "Empty",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 16,
+          "id": 272428,
+          "name": "Enraged Idol",
+          "enchant": null,
+          "provisionalSource": false
+        }
+      ]
+    },
+    {
+      "id": "protection-paladin",
+      "profile": "protection_paladin",
+      "release": "8cc775ad60b492c2508b392d",
+      "objective": "threat",
+      "iterations": 5000,
+      "metrics": {
+        "dps": {
+          "avg": 538.5891765786728,
+          "stdev": 24.58516881207561
+        },
+        "threat": {
+          "avg": 884.0454202150179,
+          "stdev": 36.49861463406165
+        },
+        "dtps": {
+          "avg": 537.9115588941513,
+          "stdev": 29.036918657024547
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 199.95054921483936,
+          "threatPerSecond": 199.95054921483936
+        },
+        {
+          "key": "spell:20957",
+          "name": "Holy Shield",
+          "damagePerSecond": 59.430004370000105,
+          "threatPerSecond": 135.5004099636
+        },
+        {
+          "key": "spell:25713",
+          "name": "Seal of Righteousness",
+          "damagePerSecond": 71.17778882969363,
+          "threatPerSecond": 135.2377987764174
+        },
+        {
+          "key": "spell:20286",
+          "name": "Judgement of Righteousness",
+          "damagePerSecond": 66.73388323267554,
+          "threatPerSecond": 126.7943781420837
+        },
+        {
+          "key": "spell:20924",
+          "name": "Consecration",
+          "damagePerSecond": 56.853091477600046,
+          "threatPerSecond": 108.02087380744037
+        },
+        {
+          "key": "spell:10333",
+          "name": "Holy Strike",
+          "damagePerSecond": 38.18245956933706,
+          "threatPerSecond": 90.68334147717559
+        },
+        {
+          "key": "other:OtherActionManaGain",
+          "name": "Mana Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 31.295283348935445
+        },
+        {
+          "key": "spell:10301",
+          "name": "Retribution Aura",
+          "damagePerSecond": 11.445984,
+          "threatPerSecond": 21.74736959999998
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 15.4638,
+          "threatPerSecond": 15.4638
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 12.017890500000032,
+          "threatPerSecond": 12.017890500000032
+        },
+        {
+          "key": "item:18641",
+          "name": "Dense Dynamite",
+          "damagePerSecond": 7.333725384526618,
+          "threatPerSecond": 7.333725384526618
+        }
+      ],
+      "health": 7005.4800000000005,
+      "armor": 7288.6,
+      "talents": "-5520513321301551-15102",
+      "race": "RaceHuman",
+      "manifestSha256": "c881276edf2927a5be55625f7816ca0812fbbe0a1b64b8f9f17b3ed9a5125ee0",
+      "wasmSha256": "d0154ad394baea1c089dd9ff2293fd7274e360f532dcf24bcab857dd4ff246fc",
+      "databaseSha256": "a51fe477d828c58b6614e69883ff6452e056e7eed6201afb13a0bfa3795914f2",
+      "proofSha256": "3b681a85554225254dd72eba8868bb6a8a7227adc0046188d72fe11fc1573a07",
+      "settingsSha256": "a7e8ea740c48f971f5a0bbeff07f1ab43b9c97c33836521af43212acde8319fd",
+      "benchmarkHref": "/forever-sim/8cc775ad60b492c2508b392d/protection_paladin/?i=gtrcmxeu#eJztVEtoE0EYzjc72d0MmEzHqOPaSoxPAim7iStaha5eLJ6CeCh6aZRC66MNjRf1UiuKevEaRRRNg1KwFUQsohDxUm96ELRqrQ8QPOWmXkQ2u0k0WsSDKOJ32Pnn+/75H7M/k2jVT67mqvx0+Vabgxi2kd4BE9upifXoATN1wolEjKwhLuOQLvSgDzkyDJwECsAwwXWQSZAyyBTIlriOKbhHsAbVI7gOTAIZ0o0+FEC60EE4hFIAjLchpmb2Zw/1DnElRhMjYBp/V4rIynxG+bEJdztdisjJ+Uzj42cgP7jM61JEvgkzjc+UIvJElGn8eSkiX4YZ5bOlCNP4h3thN4LGn9X4++NglF+aAFP4SC+j/OZDzlQ+uksec8/PHG+RNzYyym885KllOnhIetWTLnSTXLAAXAX1+igDHZ8pmyWB//itEIX/VzwHysqm9ySwRdXBiSTbFiVtO2XaVjqdstKmZdtW0rItM5Uh3XR3YO8okQoLM2UMgbjGgkxJpvNsAdMNlVG9XEQ8xDQWTFrtdl4ww6MnLkAsN5axRYkFuipCY/BJV2RkXb7qdKWoCGqQjoBYarQykeC6IpRpBIxqlrS50vMayYjVxkq2JLFYp2LebTBBOPVSe+FS+VopQhoLWUsiolOhnKaBmjyGgGgzllQVVZDdTRnuFPEj2bIbcr2vuxAhQzOCTNFfZOp0uYjcFIaBU/BuOOo88KdPdx751gbnCcEnf7PWOap4FnfOIRqqms5Fp8X/RU5MnYZqUB0O4lcVTy8POanzipCZvkP5/j3Z/bGD2YF9sT2DB3LZof784IDsjKmJf/RlWXXN+dMl1GBVv7krzob+wcrxBzsed272FWf7V0/7bKe3VvyVO9/ydfyssTn0Wtx2X49+55eu4r7vt2JOv5/hSHR866vDo011y6Z4H5vqaa/nOXfWxdPmvn8xX+MeGk/7XzMTfwt2mj/mK03D2MAXD/W2OA==",
+      "capturedAt": "2026-10-28T10:03:09.341Z",
+      "warnings": [
+        "Simulated pre-raid item search with fixed race, professions, talents and rotation. Health, threat and physical damage taken describe separate trade-offs; magic damage and a universal BiS claim are outside this benchmark.",
+        "Historical Classic stats, acquisition and inherited proc models remain provisional where listed. Current-client stats and vendor/reputation access are separate evidence.",
+        "Nacreous Shell Necklace: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Amplifying Cloak: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Rune Band of Wizardry: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Don Mauricio's Band of Domination: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Briarwood Reed: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Ironfoe: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "All-slot Soulforge update: six physical mitigation/threat comparisons passed the practical 2% target with two independent 20k-fight batches each. Health and armor are exact selected stat snapshots. The four-piece proc cadence and live acquisition remain unverified; no global BiS claim."
+      ],
+      "gear": [
+        {
+          "slot": 0,
+          "id": 250599,
+          "name": "Stalwart Helm",
+          "enchant": "Arcanum of Focus",
+          "provisionalSource": false
+        },
+        {
+          "slot": 1,
+          "id": 22403,
+          "name": "Nacreous Shell Necklace",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 2,
+          "id": 250586,
+          "name": "Blessed Plate Pauldrons",
+          "enchant": "Chromatic Mantle of the Dawn",
+          "provisionalSource": false
+        },
+        {
+          "slot": 3,
+          "id": 18350,
+          "name": "Amplifying Cloak",
+          "enchant": "Enchant Cloak - Minor Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 4,
+          "id": 250594,
+          "name": "Blessed Plate Chest",
+          "enchant": "Enchant Chest - Greater Stats",
+          "provisionalSource": false
+        },
+        {
+          "slot": 5,
+          "id": 250590,
+          "name": "Blessed Plate Bracers",
+          "enchant": "Enchant Bracer - Healing Power",
+          "provisionalSource": false
+        },
+        {
+          "slot": 6,
+          "id": 250588,
+          "name": "Blessed Plate Gauntlet",
+          "enchant": "Enchant Gloves - Greater Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 7,
+          "id": 250592,
+          "name": "Blessed Plate Belt",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 8,
+          "id": 237815,
+          "name": "Sentinel's Silk Leggings",
+          "enchant": "Arcanum of Focus",
+          "provisionalSource": false
+        },
+        {
+          "slot": 9,
+          "id": 250587,
+          "name": "Blessed Plate Boots",
+          "enchant": "Enchant Gloves - Greater Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 10,
+          "id": 22339,
+          "name": "Rune Band of Wizardry",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 11,
+          "id": 22433,
+          "name": "Don Mauricio's Band of Domination",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 12,
+          "id": 12930,
+          "name": "Briarwood Reed",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 13,
+          "id": 272437,
+          "name": "Adaptive Combat Assistant",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 14,
+          "id": 11684,
+          "name": "Ironfoe",
+          "enchant": "Enchant Weapon - Strength",
+          "provisionalSource": false
+        },
+        {
+          "slot": 15,
+          "id": 279262,
+          "name": "Evergreen Shield",
+          "enchant": "Enchant Shield - Law of Nature",
+          "provisionalSource": false
+        },
+        {
+          "slot": 16,
+          "id": 272435,
+          "name": "Libram of Law",
+          "enchant": null,
+          "provisionalSource": false
+        }
+      ]
+    },
+    {
+      "id": "protection-paladin",
+      "profile": "protection_paladin",
+      "release": "8cc775ad60b492c2508b392d",
+      "objective": "mitigation",
+      "iterations": 5000,
+      "metrics": {
+        "dps": {
+          "avg": 350.66671025406174,
+          "stdev": 13.907770477866668
+        },
+        "threat": {
+          "avg": 601.4541946959182,
+          "stdev": 22.511420326780943
+        },
+        "dtps": {
+          "avg": 274.1146605146403,
+          "stdev": 24.276359119659386
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "spell:20957",
+          "name": "Holy Shield",
+          "damagePerSecond": 55.4280019626669,
+          "threatPerSecond": 126.37584447487994
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 125.28906202801971,
+          "threatPerSecond": 125.28906202801971
+        },
+        {
+          "key": "spell:20924",
+          "name": "Consecration",
+          "damagePerSecond": 42.18695393660009,
+          "threatPerSecond": 80.15521247953994
+        },
+        {
+          "key": "spell:20286",
+          "name": "Judgement of Righteousness",
+          "damagePerSecond": 41.11982324986562,
+          "threatPerSecond": 78.1276641747446
+        },
+        {
+          "key": "spell:25713",
+          "name": "Seal of Righteousness",
+          "damagePerSecond": 37.33418139319002,
+          "threatPerSecond": 70.93494464706089
+        },
+        {
+          "key": "spell:10333",
+          "name": "Holy Strike",
+          "damagePerSecond": 24.067514110316218,
+          "threatPerSecond": 57.16034601200106
+        },
+        {
+          "key": "other:OtherActionManaGain",
+          "name": "Mana Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 32.04182750626815
+        },
+        {
+          "key": "spell:10301",
+          "name": "Retribution Aura",
+          "damagePerSecond": 6.809022,
+          "threatPerSecond": 12.937141799999985
+        },
+        {
+          "key": "item:18641",
+          "name": "Dense Dynamite",
+          "damagePerSecond": 7.222599373402879,
+          "threatPerSecond": 7.222599373402879
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 7.154347200000033,
+          "threatPerSecond": 7.154347200000033
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 4.055205,
+          "threatPerSecond": 4.055205
+        }
+      ],
+      "health": 7154.200000000001,
+      "armor": 8349.8,
+      "talents": "-5520513321301551-15102",
+      "race": "RaceHuman",
+      "manifestSha256": "c881276edf2927a5be55625f7816ca0812fbbe0a1b64b8f9f17b3ed9a5125ee0",
+      "wasmSha256": "d0154ad394baea1c089dd9ff2293fd7274e360f532dcf24bcab857dd4ff246fc",
+      "databaseSha256": "a51fe477d828c58b6614e69883ff6452e056e7eed6201afb13a0bfa3795914f2",
+      "proofSha256": "3b681a85554225254dd72eba8868bb6a8a7227adc0046188d72fe11fc1573a07",
+      "settingsSha256": "568b80602deaf43921d1f0451455870511bbf0cf38d33aa0d4219da31962890d",
+      "benchmarkHref": "/forever-sim/8cc775ad60b492c2508b392d/protection_paladin/?i=gtrcmxeu#eJztVE9IFFEc3u/Nc2b2Qfp8rjmNGqtlyoKys9tGSuAkQeJpkQ4SBa4iaPln2e1iQdgfQeugdGk1qUhDESo7JVKwVAc9hHUoSgj12slueYnYndm1NkU6RBJ+h/fefN/v/f68+fHzFKkD5VzW1h88KzbhRgNp6/aikXpxFM1gXpVwosFNKkiCMUk9mtGOMOkDBoAY0EcwAzILEgeZB6krVTGPxBVUIHkFM8AsECRNaEcMpB41hENIMUBfdjI52BnqbYtwyU09l5nCB4egfc1jlL8ZApP5tS5tNo8pfHEY2mo2k/n9iDZ0gin8w8Mc7Y7CFL7Sn5tgJD4WYTK/fTZxW+Y3zyRIyl8Pg1E+8pYzyl8OwV4V/vQWtOsuJvO5Fm1ZZpQv9uf6SlRwp2YlTurRRMJZMWAK1CohDtR8p2yFOHbxVyFiu0+8BeLSsS/EUSer4EQjDQWVgYDPGzD8fp/h9xqBgFFpBAyvL0iaaIvj3ATRJJbNpGk4ShWWxaRKf5TlM1WXGVXj4yh1MoVlVRpVgahgukU/uQtxQC9hBZ58VRbOadhkQmTkSDRpNDkuCaqTGofYrxcx4eGqJKQlOPRkFL+3zLK6GhTlehkr9OxTqdgzByYIp1Zoy50vmkpFaPpeluvJUamQblBHSp6GQxTrhUlFFqQlI8LzcWwmG4ENOV3XCwinruhZTFI/B9N0fBzhefQBg7Be2GUu2N2nmu/sU7X5kWDd/jhsXpGsEzdH4XImj+Y9M9f+RaZbXoKsUxUmSqckS49HTN+YJLRge2+0ozXU6b4Q6j7vbu3pCociHdGebq3WLXv+08ly6JH5r1NIwUiu4UmzuqNnrX/h1Pva47ZiNv402ldqrX3N3rn5K5/GdoVtoaf8Vtm66zc7fxKvbLuDW9pth0uuxydXL05k5K1l+PuWkU9VOs7oSAKfMuv+w3gb77Ax2ndMT+wUnPZuzq9lNOMGfgAGfLJJ",
+      "capturedAt": "2026-10-28T10:03:34.626Z",
+      "warnings": [
+        "Simulated pre-raid item search with fixed race, professions, talents and rotation. Health, threat and physical damage taken describe separate trade-offs; magic damage and a universal BiS claim are outside this benchmark.",
+        "Historical Classic stats, acquisition and inherited proc models remain provisional where listed. Current-client stats and vendor/reputation access are separate evidence.",
+        "Helm of Awareness: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Evil Eye Pendant: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Stoneform Shoulders: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Legplates of the Eternal Guardian: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Shalehusk Boots: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Tarnished Elven Ring: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Vigilance Charm: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "Bone Slicing Hatchet: Historical Classic stats and acquisition; Forever availability, values, procs and set effects unverified.",
+        "All-slot Soulforge update: six physical mitigation/threat comparisons passed the practical 2% target with two independent 20k-fight batches each. Health and armor are exact selected stat snapshots. The four-piece proc cadence and live acquisition remain unverified; no global BiS claim."
+      ],
+      "gear": [
+        {
+          "slot": 0,
+          "id": 18313,
+          "name": "Helm of Awareness",
+          "enchant": "Arcanum of Protection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 1,
+          "id": 18381,
+          "name": "Evil Eye Pendant",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 2,
+          "id": 13955,
+          "name": "Stoneform Shoulders",
+          "enchant": "Chromatic Mantle of the Dawn",
+          "provisionalSource": false
+        },
+        {
+          "slot": 3,
+          "id": 18511,
+          "name": "Shifting Cloak",
+          "enchant": "Enchant Cloak - Superior Defense",
+          "provisionalSource": false
+        },
+        {
+          "slot": 4,
+          "id": 14624,
+          "name": "Deathbone Chestplate",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 5,
+          "id": 250582,
+          "name": "Sentinel's Wristguards",
+          "enchant": "Enchant Bracer - Deflection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 6,
+          "id": 279264,
+          "name": "Heavy Thorium Gauntlets",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 7,
+          "id": 14620,
+          "name": "Deathbone Girdle",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 8,
+          "id": 11927,
+          "name": "Legplates of the Eternal Guardian",
+          "enchant": "Arcanum of Protection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 9,
+          "id": 11787,
+          "name": "Shalehusk Boots",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 10,
+          "id": 18500,
+          "name": "Tarnished Elven Ring",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 11,
+          "id": 272409,
+          "name": "Ring of Awareness",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 12,
+          "id": 18370,
+          "name": "Vigilance Charm",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 13,
+          "id": 18370,
+          "name": "Vigilance Charm",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 14,
+          "id": 18737,
+          "name": "Bone Slicing Hatchet",
+          "enchant": "Enchant Gloves - Superior Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 15,
+          "id": 12602,
+          "name": "Draconian Deflector",
+          "enchant": "Enchant Shield - Lesser Block",
+          "provisionalSource": false
+        },
+        {
+          "slot": 16,
+          "id": 279247,
+          "name": "Steadfast Libram",
+          "enchant": null,
+          "provisionalSource": false
+        }
+      ]
+    },
+    {
+      "id": "tank-warrior",
+      "profile": "tank_warrior",
+      "release": "e2559d14e42a751d09bbc85c",
+      "objective": "threat",
+      "iterations": 5000,
+      "metrics": {
+        "dps": {
+          "avg": 521.9869772968508,
+          "stdev": 21.588571149202778
+        },
+        "threat": {
+          "avg": 1260.7674309735867,
+          "stdev": 56.109252595584955
+        },
+        "dtps": {
+          "avg": 373.86470490851895,
+          "stdev": 23.17828018768748
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "spell:25288",
+          "name": "Revenge",
+          "damagePerSecond": 170.6785853849647,
+          "threatPerSecond": 574.1200915886739
+        },
+        {
+          "key": "spell:23925",
+          "name": "Shield Slam",
+          "damagePerSecond": 100.15591884519975,
+          "threatPerSecond": 241.71281819357398
+        },
+        {
+          "key": "spell:25286",
+          "name": "Heroic Strike",
+          "damagePerSecond": 106.44753569746753,
+          "threatPerSecond": 214.15642033771402
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 117.04735195641885,
+          "threatPerSecond": 174.98579117484573
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 9.069731055000021,
+          "threatPerSecond": 13.559247927225083
+        },
+        {
+          "key": "spell:10301",
+          "name": "Retribution Aura",
+          "damagePerSecond": 8.639951759999734,
+          "threatPerSecond": 12.916727881199998
+        },
+        {
+          "key": "other:OtherActionRageGain",
+          "name": "Rage Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 11.887797692307522
+        },
+        {
+          "key": "spell:11581",
+          "name": "Thunder Clap",
+          "damagePerSecond": 7.192939507801116,
+          "threatPerSecond": 10.753444564162761
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 2.754963089999993,
+          "threatPerSecond": 4.118669819549997
+        },
+        {
+          "key": "spell:11556",
+          "name": "Demoralizing Shout",
+          "damagePerSecond": 0,
+          "threatPerSecond": 1.6240292639999576
+        },
+        {
+          "key": "spell:11597",
+          "name": "Sunder Armor",
+          "damagePerSecond": 0,
+          "threatPerSecond": 0.9323925303333754
+        }
+      ],
+      "health": 6822,
+      "armor": 6683.8,
+      "talents": "35-05-251333120330021351",
+      "race": "RaceHuman",
+      "manifestSha256": "66ba29bc87a2ea06c7376a0d147eefd70dc3387d6f3e8ed7acf2aa3225af2447",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "proofSha256": "2194e2805b42ed5853f3e1f0e0a3a8e80465d222557a93a2d3d4b6f9487bceef",
+      "settingsSha256": "e1d869e362befbe5431e7a4ea6c08c71b2cbb79c410127be219c8ee9071f82d5",
+      "benchmarkHref": "/forever-sim/e2559d14e42a751d09bbc85c/tank_warrior/?i=gtrcmxeu#eJztVl1oHFUU3u/e2dnZY2xvb5c4ubGwhJouIy2zO7uStEKm8cE2II1VoSw+NCmRRGuybPpg9cGIBPqmaJG1BCpSaGgxllRtGiguxZQEDOqDYgpirH/Up1goUsEf5mfTuElWXyRReh7mnjm/33fmzsy17jWObRO6eevtC1tcJNHBevpt7NdstOAgaIfBBDORZCnmWfbgIHpRYEPAMaAEDDGcA5sAK4NNg7UnDUzDS0AKXoKLc8AEcAC9KIHtwU4mIHkJUAubSe883HW0pyh4Mm69SLqY7zav3UVcnH+OYmJuBObEZoqJ6yMwfwHFxEfvbTS/3UAx8f2rML/ylK9nhXkyRpr47rgX8PMYvAK6KBXNs+3ExZmnSBO/vQHSxPufCk8f2Ui6GOs2X054BV+DeX4XaeL1V5BpNOBR9XAXqASMQguwl4Gdv2s0zyJ35F8VWboz4lWkzB/8iUXadX+Psg7TyW23c9szubTjOOmM7Ti2nUk7uXQnO8C7I0+X60wu96lH6CG5mxqtBkOTd0+CJBMaacbMFJROGjFnkIS1wdAl64gElpZFSzG0pG1v9XLkFtVI0hIGl/wqIipGUeJO7j4VJW78qK/stgP3uz1yl2olW+5YVj9HyjINLusmEfcBcmM4EfoG/eThhHRUmlKy2U/mt5OdnN8xuqRjLuz4R0I+qfL0qNxHDdY9BmTdZb++55vNeyGEoLVWaR26KoOotxJG1B/NX/3BsshnWYlL+dWmmw34XKqRfCpfCa1OzgXJp/Jyq2ryOfEVOVXwfQL1Megy5IcIS/FriARBDp2BOg0ym+opcZVtWk7+CflYrbk9oLI+9miN2WnLZ0dZKxM+fGucbTMgjRs8nFnDOKu/bZjNq1AbTlSGdhHqA9BZqNE1QJ6znBD5/eMsZUDGb3DvxZieQi3oYcj6xH5z8m+x35yEvA71A2gO8gtQs9zq76bokt2Urn6nM/Z6Yzr3Vk2mBuleSHJlrvhvcb1Se0d6XK9MeVwbVUM1m2zl81GYxhAwE/6QDfezUGt1v2S4Fd5k3Zd4oAn3BBJxX3VPupvCv5ab1MdZXMXcX2GihTWN8iCkXHQzI1yanb1HB/sOdR1OHunqfyZ5aODZQlexb3Cg32xL6tb/9LzV/I671hAqkvavhdNua9/AwvDM45+37Q497v4lB14tBGy4J970ZKZtbeAuhH33hnhaVxnk3lUH/EJi7OFvnj+yiD/gczG8n69aF6rWSv7xf8y/ul+1LB54U+tmT6wXydsr25c/lIr8CXYLeDQ=",
+      "capturedAt": "2026-10-28T10:04:10.002Z",
+      "warnings": [
+        "Separate physical mitigation and threat objectives with fixed 8/5/38 talents and 40,000-fight confirmations. Raid and dungeon scenarios retain their recorded support.",
+        "The practical 2% result is not a global-optimality claim. Some effects and live acquisition remain unverified."
+      ],
+      "gear": [
+        {
+          "slot": 0,
+          "id": 12640,
+          "name": "Lionheart Helm",
+          "enchant": "Lesser Arcanum of Voracity",
+          "provisionalSource": false
+        },
+        {
+          "slot": 1,
+          "id": 15411,
+          "name": "Mark of Fordring",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 2,
+          "id": 20057,
+          "name": "Highlander's Plate Spaulders",
+          "enchant": "Chromatic Mantle of the Dawn",
+          "provisionalSource": false
+        },
+        {
+          "slot": 3,
+          "id": 20073,
+          "name": "Cloak of the Honor Guard",
+          "enchant": "Enchant Cloak - Minor Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 4,
+          "id": 252484,
+          "name": "Timbermaw Tunic",
+          "enchant": "Enchant Chest - Greater Stats",
+          "provisionalSource": false
+        },
+        {
+          "slot": 5,
+          "id": 18533,
+          "name": "Gordok Bracers of Power",
+          "enchant": "Enchant Bracer - Superior Strength",
+          "provisionalSource": false
+        },
+        {
+          "slot": 6,
+          "id": 272095,
+          "name": "Raider Gauntlets",
+          "enchant": "Enchant Bracer - Greater Strength",
+          "provisionalSource": false
+        },
+        {
+          "slot": 7,
+          "id": 19044,
+          "name": "Might of the Timbermaw",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 8,
+          "id": 22385,
+          "name": "Titanic Leggings",
+          "enchant": "Lesser Arcanum of Voracity",
+          "provisionalSource": false
+        },
+        {
+          "slot": 9,
+          "id": 14616,
+          "name": "Bloodmail Boots",
+          "enchant": "Forceful Rugged Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 10,
+          "id": 13098,
+          "name": "Painweaver Band",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 11,
+          "id": 19325,
+          "name": "Don Julio's Band",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 12,
+          "id": 272437,
+          "name": "Adaptive Combat Assistant",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 13,
+          "id": 249469,
+          "name": "Frozen Heart of the Mountain",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 14,
+          "id": 12590,
+          "name": "Felstriker",
+          "enchant": "Enchant Weapon - Strength",
+          "provisionalSource": false
+        },
+        {
+          "slot": 15,
+          "id": 18756,
+          "name": "Dreadguard's Protector",
+          "enchant": "Enchant Shield - Law of Nature",
+          "provisionalSource": false
+        },
+        {
+          "slot": 16,
+          "id": 18323,
+          "name": "Satyr's Bow",
+          "enchant": null,
+          "provisionalSource": false
+        }
+      ]
+    },
+    {
+      "id": "tank-warrior",
+      "profile": "tank_warrior",
+      "release": "e2559d14e42a751d09bbc85c",
+      "objective": "mitigation",
+      "iterations": 5000,
+      "metrics": {
+        "dps": {
+          "avg": 337.09571947529236,
+          "stdev": 16.948381824727747
+        },
+        "threat": {
+          "avg": 831.0074638529211,
+          "stdev": 43.919032375991904
+        },
+        "dtps": {
+          "avg": 221.17570776140468,
+          "stdev": 22.319344996496262
+        }
+      },
+      "threatBreakdown": [
+        {
+          "key": "spell:25288",
+          "name": "Revenge",
+          "damagePerSecond": 104.94807663816152,
+          "threatPerSecond": 353.0190927916157
+        },
+        {
+          "key": "spell:23925",
+          "name": "Shield Slam",
+          "damagePerSecond": 76.23240328009564,
+          "threatPerSecond": 190.41063605040975
+        },
+        {
+          "key": "spell:25286",
+          "name": "Heroic Strike",
+          "damagePerSecond": 60.98317780635563,
+          "threatPerSecond": 131.86227475716828
+        },
+        {
+          "key": "other:OtherActionAttack",
+          "name": "Weapon attacks",
+          "damagePerSecond": 76.91199200394419,
+          "threatPerSecond": 114.98342804589649
+        },
+        {
+          "key": "other:OtherActionRageGain",
+          "name": "Rage Gain",
+          "damagePerSecond": 0,
+          "threatPerSecond": 11.832819871794795
+        },
+        {
+          "key": "spell:11581",
+          "name": "Thunder Clap",
+          "damagePerSecond": 5.596713006985858,
+          "threatPerSecond": 8.367085945443467
+        },
+        {
+          "key": "spell:9910",
+          "name": "Thorns",
+          "damagePerSecond": 5.526179505000012,
+          "threatPerSecond": 8.261638359975166
+        },
+        {
+          "key": "spell:10301",
+          "name": "Retribution Aura",
+          "damagePerSecond": 5.256123840000018,
+          "threatPerSecond": 7.85790514079986
+        },
+        {
+          "key": "spell:15851",
+          "name": "Dragonbreath Chili",
+          "damagePerSecond": 1.6410533947499795,
+          "threatPerSecond": 2.4533748251512395
+        },
+        {
+          "key": "spell:11556",
+          "name": "Demoralizing Shout",
+          "damagePerSecond": 0,
+          "threatPerSecond": 1.5904025279999638
+        },
+        {
+          "key": "spell:11597",
+          "name": "Sunder Armor",
+          "damagePerSecond": 0,
+          "threatPerSecond": 0.36880553666667265
+        }
+      ],
+      "health": 7196,
+      "armor": 8136.6,
+      "talents": "35-05-251333120330021351",
+      "race": "RaceHuman",
+      "manifestSha256": "66ba29bc87a2ea06c7376a0d147eefd70dc3387d6f3e8ed7acf2aa3225af2447",
+      "wasmSha256": "30bf127fa50fa0cd81166f4ac71dce85c775937b9f743b2627e22d0767f68adf",
+      "databaseSha256": "a0da2aed8ca47b249e0c93ac893889b41dbef4169aa395eeb496d956d013f4cd",
+      "proofSha256": "2194e2805b42ed5853f3e1f0e0a3a8e80465d222557a93a2d3d4b6f9487bceef",
+      "settingsSha256": "f7797738356ce15850f096074c6f946f50373613d3af14e390700c71aedd1e36",
+      "benchmarkHref": "/forever-sim/e2559d14e42a751d09bbc85c/tank_warrior/?i=gtrcmxeu#eJztVl1oHFUY3XPv7OzsR4w3N0ucTCwsoabLSMvszq4kVci0CrYBaawKZanQWAKJtsmy6UsVJKILFR9SRHBbCxapNChqDaJpoBiCKQkYah/8aV+a+qDoi7HQh/qgMjN307ibrL5IovR7mHvn+7nfOWfuzFz7XuPYFqGbt975bJOHJHpY/5CDvZqDThwAbTOYYCaSLMV8zy4cwAAKbBQ4BpSBUYZzYJNg02BzYDuTBubgFyAFv8DDOWAS2IcBlMF2YTsTkLwMWL80k957qO9of1HwZNx+kWLi1TGYvzaTJhbGQLp4+bA52Uwxcek4zOuNpIvTRXPsEYqJb9+923wrRjGxWGoyrzUSF6eKpIs3n/ardfHaft+piS+OgzRx4itBmpgZg7rGxMevw3wl4S98WZjXdOLiE5FpM+Az9WEXqAyMQwuhTwPbf9dokUXu2L9qsnxH4jVsmj/0M4vs1IM9ynpMN7fVyW3N5NKu66Yzjus6Tibt5tK9bB9/JvLsdIPJ5R7rMXpY7qA2u9XQ5F1TIMmERpoxPwtLJ42YO0LCbjR0yXoioadz2VNUnrTjj36N3GS1kbSFwSW/iogVoyhxN3efFSVu/KivHnbC8Ef98kGrixy5rWb9HFm2aXDZMIV4AJAbpYSKjQTFpYR0rTSlZEdQzG8Xu7mgY3RFx5zq+EdC7rfy9LjcQ632PQZkw0ywvh9byPsphLC1VmmtQhUhWuyEEQ2k+Ws8HJb51CxxIb+WutmQz4U6xWfyldTq4lxYfCYvN1vtASe+KqcKvkuwvgTNQH4OtRT/HpEwyaX3YJ0Fme0tlLjKmmrJPyWfqKfbA1Y2wB6to51Wqx1l7Yx6+PYE22JAGje40qx1grXcdizkLTUrJSqinYf1Keh9WOPrgDxnuwr5/RMsZUDGb3D/xZibRT3oKmVjYr859bfYb05B/gTrB9AVyG9AHXJzsJuiK3ZTuvqdzjgbjemV03WZGqT7KcnVueK/xfVi/R3pc70463Nts1qr2WQrn4/CHEaBefVDNrzLatblfcdwS91kvZd4OBPeSSTiwdR722tSfy0vqU+wuBXzfoOJTtY+zsOU6aKXOcWl2TtwdGTwYN+h5JG+oeeSB4cPF/qKgyPDQ2Z3Urf/p+etjg+89YZQsXRwLZz1ugaHl0rzT37dvUNFvL0rDryaAmx4J0/4Nt+9PnCXVN/dCk/XGkLuXlPgFxIfPnr9+SPL+EM+59X9YtW4VDVW6t/4x/yr+1Xb8oE3tWH2xEaxvLO6v/ahVOxPF211ag==",
+      "capturedAt": "2026-10-28T10:04:44.037Z",
+      "warnings": [
+        "Separate physical mitigation and threat objectives with fixed 8/5/38 talents and 40,000-fight confirmations. Raid and dungeon scenarios retain their recorded support.",
+        "The practical 2% result is not a global-optimality claim. Some effects and live acquisition remain unverified."
+      ],
+      "gear": [
+        {
+          "slot": 0,
+          "id": 18313,
+          "name": "Helm of Awareness",
+          "enchant": "Arcanum of Protection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 1,
+          "id": 18381,
+          "name": "Evil Eye Pendant",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 2,
+          "id": 13955,
+          "name": "Stoneform Shoulders",
+          "enchant": "Chromatic Mantle of the Dawn",
+          "provisionalSource": false
+        },
+        {
+          "slot": 3,
+          "id": 18511,
+          "name": "Shifting Cloak",
+          "enchant": "Enchant Cloak - Superior Defense",
+          "provisionalSource": false
+        },
+        {
+          "slot": 4,
+          "id": 14624,
+          "name": "Deathbone Chestplate",
+          "enchant": "Wild Leather Armor Kit",
+          "provisionalSource": false
+        },
+        {
+          "slot": 5,
+          "id": 250583,
+          "name": "Warder's Wristguards",
+          "enchant": "Enchant Bracer - Deflection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 6,
+          "id": 279264,
+          "name": "Heavy Thorium Gauntlets",
+          "enchant": "Enchant Gloves - Greater Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 7,
+          "id": 14620,
+          "name": "Deathbone Girdle",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 8,
+          "id": 11927,
+          "name": "Legplates of the Eternal Guardian",
+          "enchant": "Arcanum of Protection",
+          "provisionalSource": false
+        },
+        {
+          "slot": 9,
+          "id": 11787,
+          "name": "Shalehusk Boots",
+          "enchant": "Enchant Gloves - Greater Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 10,
+          "id": 18500,
+          "name": "Tarnished Elven Ring",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 11,
+          "id": 272409,
+          "name": "Ring of Awareness",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 12,
+          "id": 18370,
+          "name": "Vigilance Charm",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 13,
+          "id": 18370,
+          "name": "Vigilance Charm",
+          "enchant": null,
+          "provisionalSource": false
+        },
+        {
+          "slot": 14,
+          "id": 18737,
+          "name": "Bone Slicing Hatchet",
+          "enchant": "Enchant Gloves - Superior Agility",
+          "provisionalSource": false
+        },
+        {
+          "slot": 15,
+          "id": 272591,
+          "name": "Premier High Warlord's Shield Wall",
+          "enchant": "Enchant Shield - Lesser Block",
+          "provisionalSource": false
+        },
+        {
+          "slot": 16,
+          "id": 2100,
+          "name": "Precisely Calibrated Boomstick",
+          "enchant": null,
+          "provisionalSource": false
+        }
+      ]
+    }
+  ]
+}

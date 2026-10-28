@@ -5,21 +5,23 @@ import { join } from "node:path";
 import { cache } from "react";
 import { z } from "zod";
 import { simulatorManifestSchema } from "@wow-trader/forever-data/simulator";
-import soloData from "./data/forever-tank-tier-list.solo.json";
-import raidData from "./data/forever-tank-tier-list.raid.json";
+import currentSoloData from "./data/forever-tank-tier-list.current.solo.json";
+import currentRaidData from "./data/forever-tank-tier-list.current.raid.json";
 import raidSupport from "../../../../infra/simulator/raid-buff-defaults.v2.json";
 import { raidBenchmarkDebuffs } from "../../../../infra/simulator/tier-scenarios.mjs";
 import { tankTierPolicy } from "../../../../infra/simulator/tank-tier-policy.mjs";
 import { readTankSimulatorModelUpdate } from "./forever-simulator-tank-model-updates";
 import { createOptimizedTankTierSnapshot } from "./forever-optimized-tank-tier-list";
 import { simulatorDirectory } from "./forever-simulator";
+import { verifyTierSourceBindings } from "./forever-tier-source-bindings";
+import { currentTankTierPolicy } from "../../../../infra/simulator/current-tier-policy.mjs";
 import {
   tankTierSnapshotSchema,
   type TankTierScenario,
   type TankTierSnapshot,
 } from "./forever-tank-tier-list";
 
-const sources = { solo: soloData, raid: raidData };
+const sources = { solo: currentSoloData, raid: currentRaidData };
 const hash = (value: unknown): string =>
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
 const selectionSchema = z
@@ -50,6 +52,34 @@ const readVerifiedTankSnapshot = cache(async function readVerifiedTankSnapshot(
   source: unknown,
 ): Promise<TankTierSnapshot | null> {
   try {
+    if (
+      source &&
+      typeof source === "object" &&
+      "schema" in source &&
+      source.schema === "kfc-forever-tank-tier-list.v4"
+    ) {
+      const snapshot = tankTierSnapshotSchema.parse(source);
+      if (
+        snapshot.schema !== "kfc-forever-tank-tier-list.v4" ||
+        snapshot.policy.scenario !== scenario ||
+        hash(currentTankTierPolicy(scenario)) !== snapshot.policySha256 ||
+        hash(snapshot.policy) !== snapshot.policySha256 ||
+        hash({ support: raidSupport, debuffs: raidBenchmarkDebuffs }) !== snapshot.supportSha256
+      )
+        throw new Error("Current tank comparison policy changed");
+      await verifyTierSourceBindings(directory, snapshot.sourceBindings);
+      for (const entry of snapshot.entries) {
+        const manifest = snapshot.sourceBindings.find(
+          (binding) => binding.path === entry.release + "/manifest.json",
+        );
+        const proof = snapshot.sourceBindings.find(
+          (binding) => binding.path === entry.release + "/kfc-qualified-tank-model.json",
+        );
+        if (manifest?.sha256 !== entry.manifestSha256 || proof?.sha256 !== entry.proofSha256)
+          throw new Error("Current tank result differs from its admitted model");
+      }
+      return snapshot;
+    }
     const optimizedSelection = await lstat(join(directory, "tank-model-updates.json")).catch(
       (error: unknown) => {
         if (error instanceof Error && "code" in error && error.code === "ENOENT") return null;

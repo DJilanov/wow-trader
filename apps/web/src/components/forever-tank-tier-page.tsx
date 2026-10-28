@@ -11,10 +11,10 @@ import styles from "../app/forever/tier-list/page.module.css";
 export async function tankTierMetadata(scenario: TankTierScenario): Promise<Metadata> {
   const label = scenario === "solo" ? "Solo & Dungeon" : "Raid";
   const snapshot = await readTankTierSnapshot(scenario);
-  const optimized = snapshot?.schema === "kfc-forever-tank-tier-list.v3";
+  const optimized = Boolean(snapshot && snapshot.schema !== "kfc-forever-tank-tier-list.v2");
   return createHelperMetadata({
     title: `WoW Forever ${label} Tank Tier List — Threat & Damage Taken`,
-    description: `Compare WoW Forever ${label.toLowerCase()} tanks with ${optimized ? "40,000 validation fights per optimized setup" : "5,000 simulations per starter build"}. Explore threat, physical damage taken and exact reproducible setups.`,
+    description: `Compare WoW Forever ${label.toLowerCase()} tanks with ${snapshot?.policy.iterations.toLocaleString("en-US") ?? "5,000"} ${snapshot?.schema === "kfc-forever-tank-tier-list.v3" ? "validation" : "measured"} fights per ${optimized ? "optimized setup" : "starter build"}. Explore threat, physical damage taken and exact reproducible setups.`,
     path: scenario === "solo" ? "/forever/tier-list/tanks/solo" : "/forever/tier-list/tanks",
     keywords: [
       "WoW Forever tank tier list",
@@ -34,7 +34,7 @@ export async function ForeverTankTierPage({
   scenario,
 }: ForeverTankTierPageProps): Promise<React.JSX.Element> {
   const snapshot = await readTankTierSnapshot(scenario);
-  const optimized = snapshot?.schema === "kfc-forever-tank-tier-list.v3";
+  const optimized = Boolean(snapshot && snapshot.schema !== "kfc-forever-tank-tier-list.v2");
   const entries = snapshot ? rankTankTierEntries(snapshot) : [];
   const top = entries[0];
   const label = scenario === "solo" ? "Solo / dungeon" : "Raid";
@@ -60,7 +60,7 @@ export async function ForeverTankTierPage({
             url: helperAbsoluteUrl(path),
             dateModified: measuredAt,
             description: optimized
-              ? "Item-by-item pre-raid gear optimization with separate threat and physical mitigation builds, independently validated over 40,000 fights each."
+              ? `Current pre-raid gear with separate threat and physical mitigation builds, measured over ${snapshot.policy.iterations.toLocaleString("en-US")} comparison fights each.`
               : "Measured blue-PvP-starter comparison by threat and physical damage taken under an explicit encounter policy.",
             mainEntity: {
               "@type": "ItemList",
@@ -190,9 +190,11 @@ export async function ForeverTankTierPage({
           </div>
         </div>
         <p>
-          {optimized
-            ? "Final scores pool 40,000 validation fights per setup: 20,000 at each of seeds 81491001 and 82491001, independent of the search seed. Exact imports load the measured configuration with 5,000 fights for convenient reruns; small sampling differences are expected."
-            : "Each starter runs 5,000 fights with seed 61723001. Exact imports include the complete benchmark configuration."}{" "}
+          {snapshot?.schema === "kfc-forever-tank-tier-list.v4"
+            ? "Each comparison uses 5,000 fresh fights at seed 61723001 with the current class engine, shared encounter and support policy. Source optimization evidence remains separate; the comparison does not rerun the gear search."
+            : optimized
+              ? "Final scores pool 40,000 validation fights per setup: 20,000 at each of seeds 81491001 and 82491001, independent of the search seed. Exact imports load the measured configuration with 5,000 fights for convenient reruns; small sampling differences are expected."
+              : "Each starter runs 5,000 fights with seed 61723001. Exact imports include the complete benchmark configuration."}{" "}
           Sampling margins describe run-to-run variation; they do not measure uncertainty in beta
           mechanics or item availability.
         </p>

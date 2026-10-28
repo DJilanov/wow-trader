@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { FOREVER_CLASS_APPEARANCES } from "./forever-classes";
 import { relativeTier, type TierBand } from "./forever-tier-ranking";
+import { tierSourceBindingsSchema } from "./forever-tier-source-contract";
 
 export type TankTierScenario = "solo" | "raid";
 export type TankTierMetric = "threat" | "dtps";
@@ -207,9 +208,59 @@ const optimizedTankTierSnapshotSchema = z
     )
       context.addIssue({ code: "custom", message: "Optimized scenario and encounter disagree" });
   });
+const currentTankTierSnapshotSchema = z
+  .object({
+    schema: z.literal("kfc-forever-tank-tier-list.v4"),
+    sourceBindings: tierSourceBindingsSchema,
+    policySha256: digest,
+    supportSha256: digest,
+    policy: legacyTankTierSnapshotSchema.shape.policy
+      .omit({ seed: true })
+      .extend({
+        version: z.literal("current-pre-raid-tank-comparison-v1"),
+        seeds: z.tuple([z.literal(61723001)]),
+      })
+      .strict(),
+    entries: z
+      .array(
+        optimizedEntrySchema
+          .omit({ sourceFingerprint: true, sourceMeasurementsSha256: true })
+          .extend({ iterations: z.literal(5000) }),
+      )
+      .length(6),
+  })
+  .strict()
+  .superRefine((snapshot, context): void => {
+    if (new Set(snapshot.entries.map((entry) => `${entry.profile}:${entry.objective}`)).size !== 6)
+      context.addIssue({ code: "custom", message: "Duplicate current tank objective" });
+    for (const entry of snapshot.entries) {
+      if (
+        entry.id !== entry.profile.replaceAll("_", "-") ||
+        !entry.benchmarkHref.startsWith(
+          `/forever-sim/${entry.release}/${entry.profile}/?i=gtrcmxeu#`,
+        ) ||
+        !/^#[A-Za-z0-9+/]+=*$/.test(entry.benchmarkHref.slice(entry.benchmarkHref.indexOf("#")))
+      )
+        context.addIssue({ code: "custom", message: "Invalid current tank import" });
+      if (new Set(entry.gear.map((item) => item.slot)).size !== 17)
+        context.addIssue({ code: "custom", message: "Duplicate current tank gear slot" });
+      for (const [field, metricName] of [
+        ["damagePerSecond", "dps"],
+        ["threatPerSecond", "threat"],
+      ] as const)
+        if (
+          Math.abs(
+            entry.threatBreakdown.reduce((sum, row) => sum + row[field], 0) -
+              entry.metrics[metricName].avg,
+          ) > 1e-6
+        )
+          context.addIssue({ code: "custom", message: "Current tank actions do not reconcile" });
+    }
+  });
 export const tankTierSnapshotSchema = z.discriminatedUnion("schema", [
   legacyTankTierSnapshotSchema,
   optimizedTankTierSnapshotSchema,
+  currentTankTierSnapshotSchema,
 ]);
 export type TankTierSnapshot = z.infer<typeof tankTierSnapshotSchema>;
 export type OptimizedTankTierSnapshot = z.infer<typeof optimizedTankTierSnapshotSchema>;
@@ -264,7 +315,7 @@ export function rankTankTierEntries(
       color: appearance.color,
       specIcon: `/wow-assets/tank-icons/${identity.icon}.jpg`,
       classIcon: `/wow-assets/simulation-icons/class_${appearance.slug}.jpg`,
-      simulatorHref: `/forever/simulator/${entry.id}`,
+      simulatorHref: `/forever/simulator/${entry.id}${"objective" in entry ? `?build=${entry.id}-${snapshot.policy.scenario}-${entry.objective}` : ""}`,
       rank: index + 1,
       tier: relativeTier(share),
       share,

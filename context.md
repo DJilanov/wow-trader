@@ -2,6 +2,50 @@
 
 Last updated: 2026-10-28 (Europe/Sofia)
 
+## October 28 — current tier-list refresh and healer rankings underway
+
+The owner asked whether tier lists use the completed class results and requested
+healers alongside solo/raid DPS and tanks. **The old DPS boards were stale, tank
+boards did not consume the latest qualified model selectors, and there was no
+healer board. Implementation and measurements are verified locally; this tier
+update is not deployed yet.** The previous all-class simulator release remains live.
+
+- Current inputs are selected through the existing admitted presentation/build
+  loaders. There are 25 conservative DPS builds across all nine classes, plus
+  12 tank setups (three classes × two encounters × two objectives). Every DPS
+  build has fresh 5,000-fight solo and raid measurements. Each tank setup has
+  fresh 5,000-fight comparison results; original 40,000-fight gear-search evidence
+  stays separate. Raid tank imports consistently remove the weapon coating for
+  Windfury under the comparison policy.
+- All four healer models have fresh comparable tank/group/burst measurements:
+  13 archetypes × three assignments × 512 fights (two 256-fight seeds). Shared
+  duration 180s, four injured 18k-health recipients and stacked positions. Tank
+  demand 800/s; group 200/s per recipient; burst2,500 each every 15s. Useful HPS
+  excludes overhealing and includes consumed absorbs. Survival must reach 99%
+  to pass; failed builds remain visible in D. These are synthetic assignment
+  comparisons, not a 40-player raid prediction or another optimization search.
+- New `/forever/tier-list/healers` page, shared navigation, discovery links and
+  class-workspace links are implemented. All current snapshots bind 44 runtime
+  selection/manifest/publication files; changed selections hide stale results. Old snapshots
+  and original optimization evidence remain preserved.
+- Repeatable commands: `pnpm simulator:tier-list:refresh` and
+  `pnpm simulator:tier-list:verify`, with `--artifact-root` and optional
+  `--evidence-dir`. Content-addressed requests reuse unchanged measurements;
+  verification never starts engines. Local evidence and logs:
+  `artifacts/forever-simulator/optimization/current-tier-refresh-20261028/`.
+  `inputs.json` selects the previously deployed `combined-runtime-D4dQjP/runtime`.
+  `evidence/` contains 140 real request/response receipts (~139MiB) and five snapshots.
+- Checks so far: strict web TypeScript, 53 focused web tests, four policy tests,
+  full web suite 2,184 passed/four skipped. All scoped tooling and web lint pass.
+  Actual desktop/mobile review passed 15 cases against an owned private 3029 preview;
+  initial browser harness needed to await hydration/state updates. No product
+  failure was established by that immediate assertion. Source scripts preserve
+  all protected numerical helpers and original optimization deadlines.
+- Next: finish browser/visual review, docs and format/lint, commit/push, build
+  a scoped successor of the current production source, preview and deploy only
+  Helper with the same existing simulator runtime. Preserve guild login/leveling
+  fixes, PM2 siblings, rollback and all numerical evidence. Stop owned preview.
+
 ## October 28, 09:38 UTC — complete practical simulator release deployed and verified
 
 **All nine classes, including the supported DPS, tank and four healer profiles,

@@ -1,5 +1,17 @@
 # WoW Forever tank tier lists
 
+## October 28 current-build update
+
+The new v4 snapshots use the current qualified Warrior, Bear and Paladin builds
+for both raid and dungeon encounters. Threat and mitigation retain separate gear.
+Each of the 12 setups has 5,000 new comparison fights, with normalized support and
+weapon coating/Windfury handling. These are distinct from the retained 40,000-fight
+gear-search confirmations. See the
+[current ranking workflow](forever-healer-tier-list.md). The older release below
+is retained as historical methodology and deployment evidence.
+
+## Historical release evidence
+
 Status: committed, pushed, deployed and verified on both public ranking pages on
 October 23, 2026.
 

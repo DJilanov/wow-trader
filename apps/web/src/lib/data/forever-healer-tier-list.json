@@ -1,0 +1,1799 @@
+{
+  "schema": "kfc-forever-healer-tier-list.v1",
+  "sourceBindings": [
+    {
+      "path": "0c3e01d229e825198e24a6fa/kfc-qualified-combat-model.json",
+      "sha256": "57eea03216d190f3ea76b541376870e1f1aaceabc09f8d9466d2a08ce175bf87"
+    },
+    {
+      "path": "0c3e01d229e825198e24a6fa/manifest.json",
+      "sha256": "3306d557e14051c6c738e0404ebdd6a7eb76cb88f010aaef6468309a72c0b7ef"
+    },
+    {
+      "path": "29d2a2c67bc4922af0cef622/manifest.json",
+      "sha256": "fa4e1e6c8a6369182c4b923d11fe844258cbc0169778f45399086934acd9d8d5"
+    },
+    {
+      "path": "39da5dec7f9ce144ae8560ab/kfc-qualified-combat-model.json",
+      "sha256": "e223885b2c7829972bf91dcc2a4386429ccca925ccfb28d02e6d3ba415721955"
+    },
+    {
+      "path": "39da5dec7f9ce144ae8560ab/manifest.json",
+      "sha256": "0e9c1182546df1c83c92a9de7364d2ef0f6ae211dbac7e5ae9243d42b275dad5"
+    },
+    {
+      "path": "3af0f3b699865a9396efdad9/manifest.json",
+      "sha256": "3d0de4c96221fd66b926ce8673ed7903c43e665e22985174657b2bc0e2436472"
+    },
+    {
+      "path": "59e65f26f7cdd11263201f4f/kfc-qualified-combat-model.json",
+      "sha256": "49fedf9bb291f0b87da52630eaca8ffba27ea50d381f75b16eba57cc68631acf"
+    },
+    {
+      "path": "59e65f26f7cdd11263201f4f/manifest.json",
+      "sha256": "df62b762e0934271392b67cabcaa4defba291259f5ccd2ecb4dd1f2428f4ab07"
+    },
+    {
+      "path": "5a6afc249c8e5dc8796dcae3/kfc-qualified-combat-model.json",
+      "sha256": "b9a8e89b746cc3e23f0dfb99bea4ec469ca35343b99619c38d995956ae74ad94"
+    },
+    {
+      "path": "5a6afc249c8e5dc8796dcae3/manifest.json",
+      "sha256": "751c61efc9b0e9d91b051513b6ccda4b58df3932b5f478be30f4459a23300b96"
+    },
+    {
+      "path": "8cc775ad60b492c2508b392d/kfc-qualified-tank-model.json",
+      "sha256": "3b681a85554225254dd72eba8868bb6a8a7227adc0046188d72fe11fc1573a07"
+    },
+    {
+      "path": "8cc775ad60b492c2508b392d/manifest.json",
+      "sha256": "c881276edf2927a5be55625f7816ca0812fbbe0a1b64b8f9f17b3ed9a5125ee0"
+    },
+    {
+      "path": "a84f41352d7f9aa60ba40dc0/kfc-qualified-combat-model.json",
+      "sha256": "8ca17aa02bcceb09ca6d121f9ce6273272c90d39a72d8f7785809c004b626af0"
+    },
+    {
+      "path": "a84f41352d7f9aa60ba40dc0/manifest.json",
+      "sha256": "39d6f1d78e2558c5537e7a651ae9bee5f7b069955f8d16aa75d44169a14bc960"
+    },
+    {
+      "path": "active.json",
+      "sha256": "5e626e26a40117b3a28819f6e67451dc55e83a56841a23ac58efcea5b7be94cd"
+    },
+    {
+      "path": "b0922983c0a2b43d2ec6ea64/kfc-qualified-tank-model.json",
+      "sha256": "3635385f08918a266911e1b4de3fd6d1c40e522c7ab606983810623f8721290e"
+    },
+    {
+      "path": "b0922983c0a2b43d2ec6ea64/manifest.json",
+      "sha256": "807c803774e595cf140cd9755dc0c57cde3b7f5cd133906a74e4b7b451f282b1"
+    },
+    {
+      "path": "b245938481ca2c015266d4d9/kfc-qualified-combat-model.json",
+      "sha256": "0dd2618195116e14a6e99609ec4266873b6c8caaf21fb9923c9008957ecb7d49"
+    },
+    {
+      "path": "b245938481ca2c015266d4d9/manifest.json",
+      "sha256": "ab68aceb7d935a27a6cea04abe8f21b7b74b86034f44ea2d688ac8d2ddf87fcd"
+    },
+    {
+      "path": "b5f09af61cfe043e04bcc604/kfc-qualified-combat-model.json",
+      "sha256": "fd0b320a62e6a187c6ed1ec5e1ea78d2fe64e6f80001ed1c54f174ebed59b1a8"
+    },
+    {
+      "path": "b5f09af61cfe043e04bcc604/manifest.json",
+      "sha256": "fd9977643b61c9f22ad2cc1d483b8c76756c919e726f8d0991f9db5f8368aa16"
+    },
+    {
+      "path": "ce2375bbbbc13f564a8717f3/manifest.json",
+      "sha256": "4ffb60449e30f85b14bf763d2f19ce496c45c71434112a5172659731a83e3358"
+    },
+    {
+      "path": "d2d98c8539081334ba3fdbaf/kfc-qualified-combat-model.json",
+      "sha256": "7300d4a5265bfa333f4a1b6f7ccab97bdf289d6207e6d917f61f47c3151ac05c"
+    },
+    {
+      "path": "d2d98c8539081334ba3fdbaf/manifest.json",
+      "sha256": "dc50d16b3f6774286c971fa6031ac7c9dec65572356e3f2b22a1001c33b63cf6"
+    },
+    {
+      "path": "e2559d14e42a751d09bbc85c/kfc-qualified-tank-model.json",
+      "sha256": "2194e2805b42ed5853f3e1f0e0a3a8e80465d222557a93a2d3d4b6f9487bceef"
+    },
+    {
+      "path": "e2559d14e42a751d09bbc85c/manifest.json",
+      "sha256": "66ba29bc87a2ea06c7376a0d147eefd70dc3387d6f3e8ed7acf2aa3225af2447"
+    },
+    {
+      "path": "healing/active.json",
+      "sha256": "dab708924355827ec8bac424ba273f52abe308028cc6d73f4b958a58bbee7e75"
+    },
+    {
+      "path": "healing/healing-druid/active.json",
+      "sha256": "3aff2746fd517d5d50b879225f0c4bbfbe9196e6dc3c5c1c525be7ad2abd5416"
+    },
+    {
+      "path": "healing/healing-paladin/active.json",
+      "sha256": "a0b5e1f200e9b4c6a66cbc322444e25dc29c98f012b5da9e569def5400b67186"
+    },
+    {
+      "path": "healing/healing-shaman/active.json",
+      "sha256": "713939639a804dede2f2116b89d4d47bea2f8ec19385e07222b9c670e8266b85"
+    },
+    {
+      "path": "model-update.json",
+      "sha256": "158bba6172691d76082b68a84ecad6ea8ad61d5e3533e566bf47d578e9530029"
+    },
+    {
+      "path": "presentation.json",
+      "sha256": "81cfae68b5d8045adbfb21258349cdeff88a62694da2b019b0b4baae3d90f894"
+    },
+    {
+      "path": "preset-safety.json",
+      "sha256": "8b9151101066d072a44955086389f4b6c39223d8d58d48c65607e295ff08c3ee"
+    },
+    {
+      "path": "profile-model-updates.json",
+      "sha256": "c85404675a3f654bc45d81c7b58e73ec6e98d71e957ac60d142235fb0f8c5238"
+    },
+    {
+      "path": "published-reviews.json",
+      "sha256": "3e5a252beaab1d31dc9ce6f6bb64811545001d3ba04dc57e95996151b041f9ba"
+    },
+    {
+      "path": "published-reviews/balance_druid-6ea23b01e3a7ee5e.json",
+      "sha256": "e460c1bf17b2ff58612de135679c80b9a1a41834f1f082d61133ddeeaaa9bf72"
+    },
+    {
+      "path": "published-reviews/feral_druid-ec9f6e65b45edc7d.json",
+      "sha256": "18650b044e3094d59d8fd57d62e63e8031ba72a65a6f9a441407eb212483fbfd"
+    },
+    {
+      "path": "published-reviews/hunter-a68e48a70b02dec3.json",
+      "sha256": "317968b60c6bdd044a7399a7a01efbfa479756c79c06ff7301bfa062952849b3"
+    },
+    {
+      "path": "published-reviews/rogue-5dfd4a254069f058.json",
+      "sha256": "f83d8ae7f95938ce92941439e983dc82edb784870c49ab0b44581317dd905e79"
+    },
+    {
+      "path": "qualified-combat-models.json",
+      "sha256": "9dc2f47b3e343847f2655c9eb4fed533627224f058e5906bed0289801b17054e"
+    },
+    {
+      "path": "qualified-dps-models.json",
+      "sha256": "f6d81bc98f69b4a0d952f050c32da47771ade3520ac70179c3c9028dc45c965f"
+    },
+    {
+      "path": "qualified-paladin-tank-model.json",
+      "sha256": "f723ccdecbd401fa7e1c76a97f327ee579ee83da66a17a066433de0c2365b19a"
+    },
+    {
+      "path": "qualified-tank-model.json",
+      "sha256": "5984f27e3ac4e8409eaa7e5b39be6e27eccc3d3fc7a8d934e507c793e3c422dc"
+    },
+    {
+      "path": "qualified-warrior-tank-model.json",
+      "sha256": "ec93c59476756ce3a5a13f6a494f4b09c161c094442e2afa9a55382d61e552ee"
+    }
+  ],
+  "policy": {
+    "version": "shared-three-minute-healing-v1",
+    "durationSeconds": 180,
+    "iterationsPerSeed": 256,
+    "seeds": [58723001, 58723003],
+    "layout": "stacked",
+    "recipients": 4,
+    "recipientMaximumHealth": 18000,
+    "tankDamagePerSecond": 800,
+    "groupDamagePerRecipientPerSecond": 200,
+    "burstDamagePerRecipient": 2500,
+    "burstIntervalSeconds": 15,
+    "support": "reviewed full raid support; source gear, talents, consumes and spell priorities retained",
+    "ranking": "survival gate at 99%, then useful healing plus consumed absorbs; overhealing excluded"
+  },
+  "policySha256": "48a6064202c21d845a454a12fe19fdf18edff189865ed3a0da89127119413a89",
+  "capturedAt": "2026-10-28T09:58:22.395Z",
+  "entries": [
+    {
+      "id": "healing-priest-92954b622f2815b7",
+      "profile": "healing-priest",
+      "buildId": "holy-tank-stacked-180",
+      "title": "Holy · Prayer of Mending",
+      "archetype": "holy",
+      "assignment": "tank",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "bdcfd15a0aa02efce26fae8911367aff94b49b67a4b1cda99ba636c10fa146df",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJob2x5LXRhbmstc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MTQxNDAsImVuY2hhbnQiOjE0ODN9LHsiaWQiOjIyMzI3fSx7ImlkIjoxNjY5NSwiZW5jaGFudCI6MjQ4OH0seyJpZCI6MTg1MTAsImVuY2hhbnQiOjE4ODh9LHsiaWQiOjE2NjkwLCJlbmNoYW50IjoxODkzfSx7ImlkIjoxNjY5NywiZW5jaGFudCI6MjU2Nn0seyJpZCI6MTY2OTJ9LHsiaWQiOjE2Njk2fSx7ImlkIjoxNjY5NCwiZW5jaGFudCI6MTQ4M30seyJpZCI6MjI3ODYyLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjEzMTQzfSx7ImlkIjoxNjA1OH0seyJpZCI6MjcyNDM5fSx7ImlkIjoxODQ2OX0seyJpZCI6MjcyNjgxLCJlbmNoYW50IjoyNTY4fSx7ImlkIjoyNzI2ODZ9LHsiaWQiOjI3OTI0Nn1dLCJmaWVsZHMiOnsicG93ZXJJbkxpZ2h0IjowLCJ3YW5kU3BlY2lhbGl6YXRpb24iOjAsInR3aW5EaXNjaXBsaW5lcyI6NSwic2lsZW50UmVzb2x2ZSI6MCwiaG9seVByZWNpc2lvbiI6MCwibWVudGFsU3RyZW5ndGgiOjUsIm1hcnR5cmRvbSI6MCwibWVudGFsQWdpbGl0eSI6MywiaW5uZXJGb2N1cyI6MCwiaW1wcm92ZWRQb3dlcldvcmRTaGllbGQiOjMsIm1lZGl0YXRpb24iOjMsImltcHJvdmVkSW5uZXJGaXJlIjowLCJpbXByb3ZlZE1hbmFCdXJuIjowLCJzb3VsV2FyZGluZyI6MSwicGVuYW5jZSI6MCwicmVuZXdlZEhvcGUiOjAsImRpdmluZUFlZ2lzIjowLCJwb3dlckluZnVzaW9uIjowLCJ0d2lsaWdodEZvY3VzIjowLCJpbXByb3ZlZFJlbmV3IjoxLCJob2x5U3BlY2lhbGl6YXRpb24iOjUsInNwZWxsV2FyZGluZyI6MCwiZGl2aW5lRnVyeSI6NSwiaG9seU5vdmEiOjEsImJsZXNzZWRSZWNvdmVyeSI6MCwiaW5zcGlyYXRpb24iOjMsImhvbHlSZWFjaCI6MSwiaW1wcm92ZWRIZWFsaW5nIjozLCJzZWFyaW5nTGlnaHQiOjAsImJpbmRpbmdIZWFsIjoxLCJsaXRhbnlPZkxpZ2h0IjoyLCJzcGlyaXRPZlJlZGVtcHRpb24iOjEsInNwaXJpdHVhbEd1aWRhbmNlIjo0LCJzcGlyaXR1YWxIZWFsaW5nIjozLCJwcmF5ZXJPZk1lbmRpbmciOjEsInNoYWRvd0ZvY3VzIjowLCJibGFja291dCI6MCwic3Bpcml0VGFwIjowLCJpbXByb3ZlZE1pbmRCbGFzdCI6MCwiaW1wcm92ZWRTaGFkb3dXb3JkUGFpbiI6MCwic2hhZG93UmVhY2giOjAsImltcHJvdmVkUHN5Y2hpY1NjcmVhbSI6MCwibWluZEZsYXkiOjAsImltcHJvdmVkTWluZEZsYXkiOjAsImRhcmtJbnNwaXJhdGlvbiI6MCwidmFtcGlyaWNFbWJyYWNlIjowLCJzaGFkb3dXZWF2aW5nIjowLCJzaWxlbmNlIjowLCJkZXZvdXJpbmdDb250YWdpb24iOjAsImVhcmx5RGVtaXNlIjowLCJkYXJrbmVzcyI6MCwic2hhZG93Zm9ybSI6MH0sInJhY2UiOjcsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo0LCJtYWluSGFuZEltYnVlIjoyMCwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjowfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTI0MDgyNywicmFpZEluZGV4IjoxLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MSwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6MTA5MDEsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjEyNDA3NzMsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjQwMCwia2VlcEhvdCI6ZmFsc2V9XSwicG9saWN5SWQiOiJ1bnNjYWxlZC1yZWZlcmVuY2UiLCJpdGVyYXRpb25zIjo1MTJ9",
+      "metrics": {
+        "iterations": 512,
+        "hps": 442.45951865242546,
+        "hpsStdev": 21.76666712635612,
+        "effectiveHealingHps": 393.47732474617584,
+        "absorbedHps": 48.98219390624989,
+        "overhealingHps": 365.10226396287044,
+        "survivalRate": 0,
+        "manaRemainingMean": 4335.457690104519,
+        "missingHealthSecondsMean": 1398957.2718081367,
+        "finalMissingHealthMean": 18000,
+        "manaBlockedSecondsMean": 22.839843750045652,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 98032.8125
+      },
+      "proofs": [
+        {
+          "requestSha256": "1ae93f12d6e76ae222b3a3b9b142d3978c2003f94c7e6892071d66ce51620243",
+          "responseSha256": "463c401b7569e2fca0db4d8a0040aa353be67de83f81f64f5a5fc9d8abca6e21",
+          "capturedAt": "2026-10-28T09:55:46.714Z"
+        },
+        {
+          "requestSha256": "201a46fec1133184fbf2f345148146c04b0f36ac7756a891da88642e2005f13e",
+          "responseSha256": "d415cd18e35ef6fadb8823da34b600e83a854c43455f9bc8e05069b94502bc93",
+          "capturedAt": "2026-10-28T09:55:48.171Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-1ee4436b4665abc6",
+      "profile": "healing-priest",
+      "buildId": "holy-group-stacked-180",
+      "title": "Holy · Prayer of Mending",
+      "archetype": "holy",
+      "assignment": "group",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "f433a86e4f1c35bbc46b3ea9a0461aeb053820d6a1af9ee97ded82e5c653d7b2",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJob2x5LWdyb3VwLXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjE2NjkzLCJlbmNoYW50IjoxNTA5fSx7ImlkIjoyMjMyN30seyJpZCI6MTY2OTUsImVuY2hhbnQiOjI0ODh9LHsiaWQiOjE4NTEwLCJlbmNoYW50IjoxODg4fSx7ImlkIjoxNjY5MCwiZW5jaGFudCI6OTEzfSx7ImlkIjoyMzEyOSwiZW5jaGFudCI6MjU2Nn0seyJpZCI6MTY2OTIsImVuY2hhbnQiOjkzMX0seyJpZCI6MTY2OTZ9LHsiaWQiOjE2Njk0LCJlbmNoYW50IjoxNDgzfSx7ImlkIjoyMjc4NjIsImVuY2hhbnQiOjg1MX0seyJpZCI6MTMxNDN9LHsiaWQiOjIyMzM0fSx7ImlkIjoxMTgxOX0seyJpZCI6MjcyNDM5fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njh9LHsiaWQiOjI3MjY4Nn0seyJpZCI6Mjc5MjQ2fV0sImZpZWxkcyI6eyJwb3dlckluTGlnaHQiOjAsIndhbmRTcGVjaWFsaXphdGlvbiI6MCwidHdpbkRpc2NpcGxpbmVzIjo1LCJzaWxlbnRSZXNvbHZlIjowLCJob2x5UHJlY2lzaW9uIjowLCJtZW50YWxTdHJlbmd0aCI6NSwibWFydHlyZG9tIjowLCJtZW50YWxBZ2lsaXR5IjozLCJpbm5lckZvY3VzIjowLCJpbXByb3ZlZFBvd2VyV29yZFNoaWVsZCI6MywibWVkaXRhdGlvbiI6MywiaW1wcm92ZWRJbm5lckZpcmUiOjAsImltcHJvdmVkTWFuYUJ1cm4iOjAsInNvdWxXYXJkaW5nIjowLCJwZW5hbmNlIjowLCJyZW5ld2VkSG9wZSI6MCwiZGl2aW5lQWVnaXMiOjAsInBvd2VySW5mdXNpb24iOjAsInR3aWxpZ2h0Rm9jdXMiOjAsImltcHJvdmVkUmVuZXciOjMsImhvbHlTcGVjaWFsaXphdGlvbiI6NCwic3BlbGxXYXJkaW5nIjowLCJkaXZpbmVGdXJ5Ijo1LCJob2x5Tm92YSI6MSwiYmxlc3NlZFJlY292ZXJ5IjowLCJpbnNwaXJhdGlvbiI6MywiaG9seVJlYWNoIjowLCJpbXByb3ZlZEhlYWxpbmciOjMsInNlYXJpbmdMaWdodCI6MCwiYmluZGluZ0hlYWwiOjEsImxpdGFueU9mTGlnaHQiOjIsInNwaXJpdE9mUmVkZW1wdGlvbiI6MSwic3Bpcml0dWFsR3VpZGFuY2UiOjUsInNwaXJpdHVhbEhlYWxpbmciOjMsInByYXllck9mTWVuZGluZyI6MSwic2hhZG93Rm9jdXMiOjAsImJsYWNrb3V0IjowLCJzcGlyaXRUYXAiOjAsImltcHJvdmVkTWluZEJsYXN0IjowLCJpbXByb3ZlZFNoYWRvd1dvcmRQYWluIjowLCJzaGFkb3dSZWFjaCI6MCwiaW1wcm92ZWRQc3ljaGljU2NyZWFtIjowLCJtaW5kRmxheSI6MCwiaW1wcm92ZWRNaW5kRmxheSI6MCwiZGFya0luc3BpcmF0aW9uIjowLCJ2YW1waXJpY0VtYnJhY2UiOjAsInNoYWRvd1dlYXZpbmciOjAsInNpbGVuY2UiOjAsImRldm91cmluZ0NvbnRhZ2lvbiI6MCwiZWFybHlEZW1pc2UiOjAsImRhcmtuZXNzIjowLCJzaGFkb3dmb3JtIjowfSwicmFjZSI6NywiY29uc3VtZXMiOnsiZmxhc2siOjIsImZvb2QiOjQsIm1haW5IYW5kSW1idWUiOjE2LCJkZWZhdWx0Q29uanVyZWQiOjAsImFsY29ob2wiOjB9LCJwcmlvcml0aWVzIjpbeyJzcGVsbElkIjo0MDE4NTksInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjoxLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDkyOCwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjoyNzc5OSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjQwMCwia2VlcEhvdCI6ZmFsc2V9XSwicG9saWN5SWQiOiJ1bnNjYWxlZC1yZWZlcmVuY2UiLCJpdGVyYXRpb25zIjo1MTJ9",
+      "metrics": {
+        "iterations": 512,
+        "hps": 662.3452552635588,
+        "hpsStdev": 11.13299280590196,
+        "effectiveHealingHps": 662.3452552635588,
+        "absorbedHps": 0,
+        "overhealingHps": 133.42094886198123,
+        "survivalRate": 1,
+        "manaRemainingMean": 257.2782394129689,
+        "missingHealthSecondsMean": 1514138.0577931576,
+        "finalMissingHealthMean": 23977.85405255931,
+        "manaBlockedSecondsMean": 60.25740488138874,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "a496ac5c32cc6b0fc7584146f635e5af9e8148372fe558ded3cd36e967b21567",
+          "responseSha256": "e5e0409afce7be5ec79b961b9389b2cffacccecb0eb0816f83870f9aa623c2d7",
+          "capturedAt": "2026-10-28T09:55:50.313Z"
+        },
+        {
+          "requestSha256": "d3a64bff44d46ea1f398e03addf7188153779ab0aa93204f7e22dd0ff25ff95c",
+          "responseSha256": "13a412f132f16eeb9bb63dd8733c0686a717ece55a3f34a1fc356f9f9193b153",
+          "capturedAt": "2026-10-28T09:55:52.459Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-668723a926756cdf",
+      "profile": "healing-priest",
+      "buildId": "holy-burst-stacked-180",
+      "title": "Holy · Prayer of Mending",
+      "archetype": "holy",
+      "assignment": "burst",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "26d7ea647d5dd7404121d736658c6f7f7789af27f6a57183afb6426699ca5f96",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJob2x5LWJ1cnN0LXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjIyMjY3LCJlbmNoYW50IjoxNDgzfSx7ImlkIjoyMjMyN30seyJpZCI6MTY2OTV9LHsiaWQiOjE4NzQzLCJlbmNoYW50IjoxODg4fSx7ImlkIjoxMzM4OCwiZW5jaGFudCI6ODY2fSx7ImlkIjoyNTQxMjMsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjI3MjA5NywiZW5jaGFudCI6OTMxfSx7ImlkIjoxNjY5Nn0seyJpZCI6MTY2OTQsImVuY2hhbnQiOjE0ODN9LHsiaWQiOjE2NjkxLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjE4Mzk1fSx7ImlkIjoxMzM5Mn0seyJpZCI6MjcyNDM5fSx7ImlkIjoxODQ2OX0seyJpZCI6MjcyNjgxLCJlbmNoYW50IjoyNTY4fSx7ImlkIjoyMjMxOX0seyJpZCI6MjIyNTR9XSwiZmllbGRzIjp7InBvd2VySW5MaWdodCI6MCwid2FuZFNwZWNpYWxpemF0aW9uIjowLCJ0d2luRGlzY2lwbGluZXMiOjUsInNpbGVudFJlc29sdmUiOjAsImhvbHlQcmVjaXNpb24iOjAsIm1lbnRhbFN0cmVuZ3RoIjo1LCJtYXJ0eXJkb20iOjAsIm1lbnRhbEFnaWxpdHkiOjMsImlubmVyRm9jdXMiOjAsImltcHJvdmVkUG93ZXJXb3JkU2hpZWxkIjozLCJtZWRpdGF0aW9uIjozLCJpbXByb3ZlZElubmVyRmlyZSI6MCwiaW1wcm92ZWRNYW5hQnVybiI6MCwic291bFdhcmRpbmciOjEsInBlbmFuY2UiOjAsInJlbmV3ZWRIb3BlIjowLCJkaXZpbmVBZWdpcyI6MCwicG93ZXJJbmZ1c2lvbiI6MCwidHdpbGlnaHRGb2N1cyI6MCwiaW1wcm92ZWRSZW5ldyI6MiwiaG9seVNwZWNpYWxpemF0aW9uIjo1LCJzcGVsbFdhcmRpbmciOjAsImRpdmluZUZ1cnkiOjUsImhvbHlOb3ZhIjoxLCJibGVzc2VkUmVjb3ZlcnkiOjAsImluc3BpcmF0aW9uIjozLCJob2x5UmVhY2giOjAsImltcHJvdmVkSGVhbGluZyI6Mywic2VhcmluZ0xpZ2h0IjowLCJiaW5kaW5nSGVhbCI6MSwibGl0YW55T2ZMaWdodCI6Miwic3Bpcml0T2ZSZWRlbXB0aW9uIjoxLCJzcGlyaXR1YWxHdWlkYW5jZSI6NCwic3Bpcml0dWFsSGVhbGluZyI6MywicHJheWVyT2ZNZW5kaW5nIjoxLCJzaGFkb3dGb2N1cyI6MCwiYmxhY2tvdXQiOjAsInNwaXJpdFRhcCI6MCwiaW1wcm92ZWRNaW5kQmxhc3QiOjAsImltcHJvdmVkU2hhZG93V29yZFBhaW4iOjAsInNoYWRvd1JlYWNoIjowLCJpbXByb3ZlZFBzeWNoaWNTY3JlYW0iOjAsIm1pbmRGbGF5IjowLCJpbXByb3ZlZE1pbmRGbGF5IjowLCJkYXJrSW5zcGlyYXRpb24iOjAsInZhbXBpcmljRW1icmFjZSI6MCwic2hhZG93V2VhdmluZyI6MCwic2lsZW5jZSI6MCwiZGV2b3VyaW5nQ29udGFnaW9uIjowLCJlYXJseURlbWlzZSI6MCwiZGFya25lc3MiOjAsInNoYWRvd2Zvcm0iOjB9LCJyYWNlIjo3LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6MSwibWFpbkhhbmRJbWJ1ZSI6MTYsImRlZmF1bHRDb25qdXJlZCI6MiwiYWxjb2hvbCI6MH0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEyNDA4MjcsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjoxLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoyNzgwMCwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6ZmFsc2V9XSwicG9saWN5SWQiOiJ1bnNjYWxlZC1yZWZlcmVuY2UiLCJpdGVyYXRpb25zIjo1MTJ9",
+      "metrics": {
+        "iterations": 512,
+        "hps": 510.0296540561204,
+        "hpsStdev": 17.381259964569278,
+        "effectiveHealingHps": 510.0296540561204,
+        "absorbedHps": 0,
+        "overhealingHps": 122.37919881184659,
+        "survivalRate": 1,
+        "manaRemainingMean": 329.9324071943429,
+        "missingHealthSecondsMean": 1396011.2310564131,
+        "finalMissingHealthMean": 19530.061956577378,
+        "manaBlockedSecondsMean": 60.5928415984738,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "e7ad3501c9fc681dcf1965504dfd4b405fec83c8224534868f102e416c751e63",
+          "responseSha256": "c330fed57f1dea730890e29794fe1787ae3591cbc56310849e1ee3baff4658ff",
+          "capturedAt": "2026-10-28T09:55:53.632Z"
+        },
+        {
+          "requestSha256": "228fd023ef17225cd3839befb5ff4781862ed3ea53412ff4676f90d063a0c33e",
+          "responseSha256": "eac74d6fe7f1e589e7459276cf34e77caecc51155339d28d489bfcf6985288e7",
+          "capturedAt": "2026-10-28T09:55:54.814Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-805017a6c6fa3482",
+      "profile": "healing-priest",
+      "buildId": "discipline-tank-stacked-180",
+      "title": "Discipline · Power Infusion",
+      "archetype": "discipline",
+      "assignment": "tank",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "ea7a926f7e0696459fef28812619f555f7718ec7cf172eadef1987a0e3d8e2c1",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJkaXNjaXBsaW5lLXRhbmstc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MTY2OTMsImVuY2hhbnQiOjE0ODN9LHsiaWQiOjE4NzIzfSx7ImlkIjoxNjY5NSwiZW5jaGFudCI6MjQ4OH0seyJpZCI6MTg1MTAsImVuY2hhbnQiOjE4ODh9LHsiaWQiOjE2NjkwLCJlbmNoYW50IjoxODkzfSx7ImlkIjoxNjY5NywiZW5jaGFudCI6MjU2Nn0seyJpZCI6MjcyMDk3fSx7ImlkIjoxNjY5Nn0seyJpZCI6MTgzODYsImVuY2hhbnQiOjE0ODN9LHsiaWQiOjIyNzg2MiwiZW5jaGFudCI6ODUxfSx7ImlkIjoxNjA1OH0seyJpZCI6MTMxNDN9LHsiaWQiOjI3MjQzOX0seyJpZCI6MTgzNzF9LHsiaWQiOjI3MjY4MSwiZW5jaGFudCI6MjU2OH0seyJpZCI6MjcyNjg2fSx7ImlkIjoyNzkyNDZ9XSwiZmllbGRzIjp7InBvd2VySW5MaWdodCI6MCwid2FuZFNwZWNpYWxpemF0aW9uIjowLCJ0d2luRGlzY2lwbGluZXMiOjUsInNpbGVudFJlc29sdmUiOjAsImhvbHlQcmVjaXNpb24iOjEsIm1lbnRhbFN0cmVuZ3RoIjo1LCJtYXJ0eXJkb20iOjAsIm1lbnRhbEFnaWxpdHkiOjMsImlubmVyRm9jdXMiOjEsImltcHJvdmVkUG93ZXJXb3JkU2hpZWxkIjozLCJtZWRpdGF0aW9uIjozLCJpbXByb3ZlZElubmVyRmlyZSI6MCwiaW1wcm92ZWRNYW5hQnVybiI6MCwic291bFdhcmRpbmciOjEsInBlbmFuY2UiOjEsInJlbmV3ZWRIb3BlIjo0LCJkaXZpbmVBZWdpcyI6MywicG93ZXJJbmZ1c2lvbiI6MSwidHdpbGlnaHRGb2N1cyI6MCwiaW1wcm92ZWRSZW5ldyI6MywiaG9seVNwZWNpYWxpemF0aW9uIjozLCJzcGVsbFdhcmRpbmciOjIsImRpdmluZUZ1cnkiOjUsImhvbHlOb3ZhIjowLCJibGVzc2VkUmVjb3ZlcnkiOjAsImluc3BpcmF0aW9uIjozLCJob2x5UmVhY2giOjAsImltcHJvdmVkSGVhbGluZyI6Mywic2VhcmluZ0xpZ2h0IjowLCJiaW5kaW5nSGVhbCI6MSwibGl0YW55T2ZMaWdodCI6MCwic3Bpcml0T2ZSZWRlbXB0aW9uIjowLCJzcGlyaXR1YWxHdWlkYW5jZSI6MCwic3Bpcml0dWFsSGVhbGluZyI6MCwicHJheWVyT2ZNZW5kaW5nIjowLCJzaGFkb3dGb2N1cyI6MCwiYmxhY2tvdXQiOjAsInNwaXJpdFRhcCI6MCwiaW1wcm92ZWRNaW5kQmxhc3QiOjAsImltcHJvdmVkU2hhZG93V29yZFBhaW4iOjAsInNoYWRvd1JlYWNoIjowLCJpbXByb3ZlZFBzeWNoaWNTY3JlYW0iOjAsIm1pbmRGbGF5IjowLCJpbXByb3ZlZE1pbmRGbGF5IjowLCJkYXJrSW5zcGlyYXRpb24iOjAsInZhbXBpcmljRW1icmFjZSI6MCwic2hhZG93V2VhdmluZyI6MCwic2lsZW5jZSI6MCwiZGV2b3VyaW5nQ29udGFnaW9uIjowLCJlYXJseURlbWlzZSI6MCwiZGFya25lc3MiOjAsInNoYWRvd2Zvcm0iOjB9LCJyYWNlIjo3LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6NCwibWFpbkhhbmRJbWJ1ZSI6MTYsImRlZmF1bHRDb25qdXJlZCI6MiwiYWxjb2hvbCI6MH0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEwOTAxLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMjQwNzIxLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjoxMDAwLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMjQwNzczLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 423.2257318415242,
+        "hpsStdev": 17.838959761062046,
+        "effectiveHealingHps": 297.26519005504633,
+        "absorbedHps": 125.96054178647796,
+        "overhealingHps": 225.85931934710976,
+        "survivalRate": 0,
+        "manaRemainingMean": 4333.798530862509,
+        "missingHealthSecondsMean": 1703465.2203335734,
+        "finalMissingHealthMean": 18000,
+        "manaBlockedSecondsMean": 13.66308593751323,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 93940.625
+      },
+      "proofs": [
+        {
+          "requestSha256": "fe67bb92db1f79919f8f58211b5ac6970535f9ba983e1ac948667151a2720cd3",
+          "responseSha256": "ec5c763d362d678658cf24f5df75906e49501c588ec6cd124b0625f3942de7f1",
+          "capturedAt": "2026-10-28T09:55:56.506Z"
+        },
+        {
+          "requestSha256": "c57cfa1f111e5d02f9c8312766c9823c65957c0c37aa91b2c9bc1400a6e241e2",
+          "responseSha256": "ba51000c68538d2504ed6b024a13e875010f4afb67692eee1a2664359f2ee5e4",
+          "capturedAt": "2026-10-28T09:55:58.201Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-a8aaa01b85bf9cff",
+      "profile": "healing-priest",
+      "buildId": "discipline-group-stacked-180",
+      "title": "Discipline · Power Infusion",
+      "archetype": "discipline",
+      "assignment": "group",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "1edad899f0257bc8e631420d34a3a322cbe4034aa82b48c4434582381e413a98",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJkaXNjaXBsaW5lLWdyb3VwLXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjE2NjkzLCJlbmNoYW50IjoxNDgzfSx7ImlkIjoxODcyM30seyJpZCI6MTY2OTUsImVuY2hhbnQiOjI0ODh9LHsiaWQiOjE4NTEwLCJlbmNoYW50IjoxODg4fSx7ImlkIjoxNjY5MCwiZW5jaGFudCI6MTg5M30seyJpZCI6MTY2OTcsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjI3MjA5NywiZW5jaGFudCI6ODQ5MX0seyJpZCI6MTY2OTZ9LHsiaWQiOjE4Mzg2LCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoyMjA4NCwiZW5jaGFudCI6ODUxfSx7ImlkIjoxMzE0M30seyJpZCI6MTYwNTh9LHsiaWQiOjE4MzcxfSx7ImlkIjoxMTgxOX0seyJpZCI6MjcyNjgxLCJlbmNoYW50IjoyNTY4fSx7ImlkIjoyNzI2ODZ9LHsiaWQiOjI3OTI0Nn1dLCJmaWVsZHMiOnsicG93ZXJJbkxpZ2h0IjowLCJ3YW5kU3BlY2lhbGl6YXRpb24iOjAsInR3aW5EaXNjaXBsaW5lcyI6NSwic2lsZW50UmVzb2x2ZSI6MCwiaG9seVByZWNpc2lvbiI6MCwibWVudGFsU3RyZW5ndGgiOjUsIm1hcnR5cmRvbSI6MCwibWVudGFsQWdpbGl0eSI6MywiaW5uZXJGb2N1cyI6MSwiaW1wcm92ZWRQb3dlcldvcmRTaGllbGQiOjMsIm1lZGl0YXRpb24iOjMsImltcHJvdmVkSW5uZXJGaXJlIjowLCJpbXByb3ZlZE1hbmFCdXJuIjowLCJzb3VsV2FyZGluZyI6MSwicGVuYW5jZSI6MSwicmVuZXdlZEhvcGUiOjUsImRpdmluZUFlZ2lzIjozLCJwb3dlckluZnVzaW9uIjoxLCJ0d2lsaWdodEZvY3VzIjowLCJpbXByb3ZlZFJlbmV3IjozLCJob2x5U3BlY2lhbGl6YXRpb24iOjQsInNwZWxsV2FyZGluZyI6MCwiZGl2aW5lRnVyeSI6NCwiaG9seU5vdmEiOjAsImJsZXNzZWRSZWNvdmVyeSI6MSwiaW5zcGlyYXRpb24iOjMsImhvbHlSZWFjaCI6MSwiaW1wcm92ZWRIZWFsaW5nIjozLCJzZWFyaW5nTGlnaHQiOjAsImJpbmRpbmdIZWFsIjoxLCJsaXRhbnlPZkxpZ2h0IjowLCJzcGlyaXRPZlJlZGVtcHRpb24iOjAsInNwaXJpdHVhbEd1aWRhbmNlIjowLCJzcGlyaXR1YWxIZWFsaW5nIjowLCJwcmF5ZXJPZk1lbmRpbmciOjAsInNoYWRvd0ZvY3VzIjowLCJibGFja291dCI6MCwic3Bpcml0VGFwIjowLCJpbXByb3ZlZE1pbmRCbGFzdCI6MCwiaW1wcm92ZWRTaGFkb3dXb3JkUGFpbiI6MCwic2hhZG93UmVhY2giOjAsImltcHJvdmVkUHN5Y2hpY1NjcmVhbSI6MCwibWluZEZsYXkiOjAsImltcHJvdmVkTWluZEZsYXkiOjAsImRhcmtJbnNwaXJhdGlvbiI6MCwidmFtcGlyaWNFbWJyYWNlIjowLCJzaGFkb3dXZWF2aW5nIjowLCJzaWxlbmNlIjowLCJkZXZvdXJpbmdDb250YWdpb24iOjAsImVhcmx5RGVtaXNlIjowLCJkYXJrbmVzcyI6MCwic2hhZG93Zm9ybSI6MH0sInJhY2UiOjcsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo0LCJtYWluSGFuZEltYnVlIjoxNiwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjowfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTA5MDEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDkyNywicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjoxMjQwNzIwLCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MTAwMCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6MTI0MDc3MywicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEyMDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 553.7502790620554,
+        "hpsStdev": 12.903565036756588,
+        "effectiveHealingHps": 360.09618383585666,
+        "absorbedHps": 193.6540952261986,
+        "overhealingHps": 104.80730065690804,
+        "survivalRate": 1,
+        "manaRemainingMean": 250.55658902233915,
+        "missingHealthSecondsMean": 2719286.7451711334,
+        "finalMissingHealthMean": 43524.949768829945,
+        "manaBlockedSecondsMean": 41.844406963153475,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "5daf80a9137dd1e7b98ac12ecd8af07f5bd816df19a6b5531d9557a57d7d61c9",
+          "responseSha256": "8f626055ae641e2dd11e914d5da49678dad591a3b85b6ad332ac85df7b48bce8",
+          "capturedAt": "2026-10-28T09:56:00.290Z"
+        },
+        {
+          "requestSha256": "23961dcbadc47f97100bd964173b4be579ad56122df0ef3ab189fc34c1dbb736",
+          "responseSha256": "e50ee586a10bf8860b85891405a6895331fc9a12484cf4cb82a20d83aa440c8a",
+          "capturedAt": "2026-10-28T09:56:02.457Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-6cf8645c69ffe6e2",
+      "profile": "healing-priest",
+      "buildId": "discipline-burst-stacked-180",
+      "title": "Discipline · Power Infusion",
+      "archetype": "discipline",
+      "assignment": "burst",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "821aaa334895669ce719a066d6b035c4fe3ec1e2c569b1ffa67df5fe47cb98d9",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJkaXNjaXBsaW5lLWJ1cnN0LXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjE2NjkzLCJlbmNoYW50IjoxNDgzfSx7ImlkIjoxMzE0MX0seyJpZCI6MTY2OTUsImVuY2hhbnQiOjI0ODh9LHsiaWQiOjEyOTY4LCJlbmNoYW50IjoxODg4fSx7ImlkIjoxNjY5MCwiZW5jaGFudCI6MTg5MX0seyJpZCI6MTY2OTcsImVuY2hhbnQiOjE4ODR9LHsiaWQiOjI3MjA5NywiZW5jaGFudCI6OTMxfSx7ImlkIjoxNjY5Nn0seyJpZCI6MTY2OTQsImVuY2hhbnQiOjE1MDl9LHsiaWQiOjE2NjkxLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjEzMTQzfSx7ImlkIjoxODM5NX0seyJpZCI6MTI5MzB9LHsiaWQiOjEzOTY4fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njd9LHsiaWQiOjI3MjY4Nn0seyJpZCI6MjIyNTR9XSwiZmllbGRzIjp7InBvd2VySW5MaWdodCI6MCwid2FuZFNwZWNpYWxpemF0aW9uIjowLCJ0d2luRGlzY2lwbGluZXMiOjUsInNpbGVudFJlc29sdmUiOjAsImhvbHlQcmVjaXNpb24iOjAsIm1lbnRhbFN0cmVuZ3RoIjo1LCJtYXJ0eXJkb20iOjAsIm1lbnRhbEFnaWxpdHkiOjMsImlubmVyRm9jdXMiOjEsImltcHJvdmVkUG93ZXJXb3JkU2hpZWxkIjozLCJtZWRpdGF0aW9uIjozLCJpbXByb3ZlZElubmVyRmlyZSI6MCwiaW1wcm92ZWRNYW5hQnVybiI6MCwic291bFdhcmRpbmciOjEsInBlbmFuY2UiOjEsInJlbmV3ZWRIb3BlIjo1LCJkaXZpbmVBZWdpcyI6MywicG93ZXJJbmZ1c2lvbiI6MSwidHdpbGlnaHRGb2N1cyI6MCwiaW1wcm92ZWRSZW5ldyI6MywiaG9seVNwZWNpYWxpemF0aW9uIjo1LCJzcGVsbFdhcmRpbmciOjAsImRpdmluZUZ1cnkiOjUsImhvbHlOb3ZhIjowLCJibGVzc2VkUmVjb3ZlcnkiOjAsImluc3BpcmF0aW9uIjozLCJob2x5UmVhY2giOjAsImltcHJvdmVkSGVhbGluZyI6Mywic2VhcmluZ0xpZ2h0IjowLCJiaW5kaW5nSGVhbCI6MSwibGl0YW55T2ZMaWdodCI6MCwic3Bpcml0T2ZSZWRlbXB0aW9uIjowLCJzcGlyaXR1YWxHdWlkYW5jZSI6MCwic3Bpcml0dWFsSGVhbGluZyI6MCwicHJheWVyT2ZNZW5kaW5nIjowLCJzaGFkb3dGb2N1cyI6MCwiYmxhY2tvdXQiOjAsInNwaXJpdFRhcCI6MCwiaW1wcm92ZWRNaW5kQmxhc3QiOjAsImltcHJvdmVkU2hhZG93V29yZFBhaW4iOjAsInNoYWRvd1JlYWNoIjowLCJpbXByb3ZlZFBzeWNoaWNTY3JlYW0iOjAsIm1pbmRGbGF5IjowLCJpbXByb3ZlZE1pbmRGbGF5IjowLCJkYXJrSW5zcGlyYXRpb24iOjAsInZhbXBpcmljRW1icmFjZSI6MCwic2hhZG93V2VhdmluZyI6MCwic2lsZW5jZSI6MCwiZGV2b3VyaW5nQ29udGFnaW9uIjowLCJlYXJseURlbWlzZSI6MCwiZGFya25lc3MiOjAsInNoYWRvd2Zvcm0iOjB9LCJyYWNlIjo3LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6MSwibWFpbkhhbmRJbWJ1ZSI6MTYsImRlZmF1bHRDb25qdXJlZCI6MCwiYWxjb2hvbCI6MH0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEwOTAxLCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6MTMxNjk5NSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEwMDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjEwOTE1LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6NDAwLCJrZWVwSG90IjpmYWxzZX1dLCJwb2xpY3lJZCI6InVuc2NhbGVkLXJlZmVyZW5jZSIsIml0ZXJhdGlvbnMiOjUxMn0",
+      "metrics": {
+        "iterations": 512,
+        "hps": 417.51254578895487,
+        "hpsStdev": 13.94899220186185,
+        "effectiveHealingHps": 268.56723854888867,
+        "absorbedHps": 148.94530724006628,
+        "overhealingHps": 2.809301553589453,
+        "survivalRate": 1,
+        "manaRemainingMean": 227.08444058483724,
+        "missingHealthSecondsMean": 2616801.4105070396,
+        "finalMissingHealthMean": 34847.74175798807,
+        "manaBlockedSecondsMean": 51.70538177661096,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "7de92b4de20c22e91d2241d5b2c69a430b061cbebb484f99938c05be56f8fff2",
+          "responseSha256": "936b6b033ed8885fa90b5760ce4b5ef84ecba514d5504a1dd9124449ced903c4",
+          "capturedAt": "2026-10-28T09:56:03.471Z"
+        },
+        {
+          "requestSha256": "6f679f81ea5b23b956df92f2e59887a3ff9d50237558369219c1e034a6d0f9a9",
+          "responseSha256": "4f5b4e66d025430f2931023b70ef7b41730b5d719612e25f61e0f2578ef55f6a",
+          "capturedAt": "2026-10-28T09:56:04.482Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-e3049bed934dbd43",
+      "profile": "healing-priest",
+      "buildId": "penance-holy-tank-stacked-180",
+      "title": "Penance / Holy",
+      "archetype": "penance-holy",
+      "assignment": "tank",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "141bd1eaf029bd3161133b7f03522e5e31e717f5eebc402436b859d0ab1e65a7",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJwZW5hbmNlLWhvbHktdGFuay1zdGFja2VkLTE4MCIsImdlYXIiOlt7ImlkIjoxNDE0MCwiZW5jaGFudCI6MTQ4M30seyJpZCI6MTg3MjN9LHsiaWQiOjE2Njk1LCJlbmNoYW50IjoyNDg4fSx7ImlkIjoxODUxMCwiZW5jaGFudCI6MTg4OH0seyJpZCI6MTY2OTAsImVuY2hhbnQiOjE4OTN9LHsiaWQiOjIzMTI5LCJlbmNoYW50IjoyNTY2fSx7ImlkIjoxMjU1NH0seyJpZCI6MTkwNDd9LHsiaWQiOjE2Njk0LCJlbmNoYW50IjoxNTEwfSx7ImlkIjoyMjc4NjIsImVuY2hhbnQiOjg1MX0seyJpZCI6MTMxNDN9LHsiaWQiOjE2MDU4fSx7ImlkIjoxODQ2OX0seyJpZCI6MjcyNDM5fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njh9LHsiaWQiOjI3MjY4Nn0seyJpZCI6MjIyNTR9XSwiZmllbGRzIjp7InBvd2VySW5MaWdodCI6MCwid2FuZFNwZWNpYWxpemF0aW9uIjowLCJ0d2luRGlzY2lwbGluZXMiOjUsInNpbGVudFJlc29sdmUiOjAsImhvbHlQcmVjaXNpb24iOjAsIm1lbnRhbFN0cmVuZ3RoIjo1LCJtYXJ0eXJkb20iOjAsIm1lbnRhbEFnaWxpdHkiOjMsImlubmVyRm9jdXMiOjAsImltcHJvdmVkUG93ZXJXb3JkU2hpZWxkIjozLCJtZWRpdGF0aW9uIjozLCJpbXByb3ZlZElubmVyRmlyZSI6MCwiaW1wcm92ZWRNYW5hQnVybiI6MCwic291bFdhcmRpbmciOjEsInBlbmFuY2UiOjEsInJlbmV3ZWRIb3BlIjowLCJkaXZpbmVBZWdpcyI6MCwicG93ZXJJbmZ1c2lvbiI6MCwidHdpbGlnaHRGb2N1cyI6MCwiaW1wcm92ZWRSZW5ldyI6MywiaG9seVNwZWNpYWxpemF0aW9uIjo1LCJzcGVsbFdhcmRpbmciOjAsImRpdmluZUZ1cnkiOjQsImhvbHlOb3ZhIjoxLCJibGVzc2VkUmVjb3ZlcnkiOjAsImluc3BpcmF0aW9uIjozLCJob2x5UmVhY2giOjAsImltcHJvdmVkSGVhbGluZyI6Mywic2VhcmluZ0xpZ2h0IjowLCJiaW5kaW5nSGVhbCI6MSwibGl0YW55T2ZMaWdodCI6Miwic3Bpcml0T2ZSZWRlbXB0aW9uIjowLCJzcGlyaXR1YWxHdWlkYW5jZSI6NSwic3Bpcml0dWFsSGVhbGluZyI6MywicHJheWVyT2ZNZW5kaW5nIjowLCJzaGFkb3dGb2N1cyI6MCwiYmxhY2tvdXQiOjAsInNwaXJpdFRhcCI6MCwiaW1wcm92ZWRNaW5kQmxhc3QiOjAsImltcHJvdmVkU2hhZG93V29yZFBhaW4iOjAsInNoYWRvd1JlYWNoIjowLCJpbXByb3ZlZFBzeWNoaWNTY3JlYW0iOjAsIm1pbmRGbGF5IjowLCJpbXByb3ZlZE1pbmRGbGF5IjowLCJkYXJrSW5zcGlyYXRpb24iOjAsInZhbXBpcmljRW1icmFjZSI6MCwic2hhZG93V2VhdmluZyI6MCwic2lsZW5jZSI6MCwiZGV2b3VyaW5nQ29udGFnaW9uIjowLCJlYXJseURlbWlzZSI6MCwiZGFya25lc3MiOjAsInNoYWRvd2Zvcm0iOjB9LCJyYWNlIjo3LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6NCwibWFpbkhhbmRJbWJ1ZSI6MTYsImRlZmF1bHRDb25qdXJlZCI6MCwiYWxjb2hvbCI6MH0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEwOTAwLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDkyOSwicmFpZEluZGV4IjoxLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MzAwLCJrZWVwSG90Ijp0cnVlfSx7InNwZWxsSWQiOjEzMTY5OTUsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEwMDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjEwOTE2LCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 418.6328060223046,
+        "hpsStdev": 13.496180378828866,
+        "effectiveHealingHps": 374.34740367855443,
+        "absorbedHps": 44.28540234374987,
+        "overhealingHps": 5.820985230517133,
+        "survivalRate": 0,
+        "manaRemainingMean": 4720.001244792027,
+        "missingHealthSecondsMean": 1519280.4356313902,
+        "finalMissingHealthMean": 18000,
+        "manaBlockedSecondsMean": 24.00488281254894,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 93739.0625
+      },
+      "proofs": [
+        {
+          "requestSha256": "e760171a76e250e1ba289b73d518286cbb5059a28de44cf42fc39976e6c251bc",
+          "responseSha256": "f77799e9c7654cd098b788275487b2ee20666a8ba44e8c88f8ca1a06fa91102b",
+          "capturedAt": "2026-10-28T09:56:05.983Z"
+        },
+        {
+          "requestSha256": "873e5ef418a9f615283ae8901451a3ad32d0d1eef316b84c531f7f986eb99e0c",
+          "responseSha256": "f548a84884b7a5142ca49b13439e675474bc8a35ff5b4c4d52aec5f4c66fd52f",
+          "capturedAt": "2026-10-28T09:56:07.489Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-d746b7b5f9630c3c",
+      "profile": "healing-priest",
+      "buildId": "penance-holy-group-stacked-180",
+      "title": "Penance / Holy",
+      "archetype": "penance-holy",
+      "assignment": "group",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "a3f6bce9def466f42c0a4fe421717686ba63038a540c8b2e6df88828c09792de",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJwZW5hbmNlLWhvbHktZ3JvdXAtc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MTY2OTMsImVuY2hhbnQiOjE1MDl9LHsiaWQiOjE5NDI2fSx7ImlkIjoxNjY5NSwiZW5jaGFudCI6MjQ4OH0seyJpZCI6MTg1MTAsImVuY2hhbnQiOjgwNH0seyJpZCI6MTY2OTAsImVuY2hhbnQiOjE4OTN9LHsiaWQiOjIzMTI5LCJlbmNoYW50IjoyNTY2fSx7ImlkIjoyNzIwOTcsImVuY2hhbnQiOjg3MTl9LHsiaWQiOjE2Njk2fSx7ImlkIjoxNjY5NCwiZW5jaGFudCI6MTQ4M30seyJpZCI6MTY2OTEsImVuY2hhbnQiOjg1MX0seyJpZCI6MTgzOTV9LHsiaWQiOjEzMTQzfSx7ImlkIjoxODQ2OX0seyJpZCI6MjcyNDM5fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njh9LHsiaWQiOjI3MjY4Nn0seyJpZCI6Mjc5MjQ2fV0sImZpZWxkcyI6eyJwb3dlckluTGlnaHQiOjAsIndhbmRTcGVjaWFsaXphdGlvbiI6MCwidHdpbkRpc2NpcGxpbmVzIjo1LCJzaWxlbnRSZXNvbHZlIjowLCJob2x5UHJlY2lzaW9uIjowLCJtZW50YWxTdHJlbmd0aCI6NSwibWFydHlyZG9tIjowLCJtZW50YWxBZ2lsaXR5IjozLCJpbm5lckZvY3VzIjoxLCJpbXByb3ZlZFBvd2VyV29yZFNoaWVsZCI6MywibWVkaXRhdGlvbiI6MywiaW1wcm92ZWRJbm5lckZpcmUiOjAsImltcHJvdmVkTWFuYUJ1cm4iOjAsInNvdWxXYXJkaW5nIjoxLCJwZW5hbmNlIjoxLCJyZW5ld2VkSG9wZSI6MCwiZGl2aW5lQWVnaXMiOjAsInBvd2VySW5mdXNpb24iOjAsInR3aWxpZ2h0Rm9jdXMiOjAsImltcHJvdmVkUmVuZXciOjMsImhvbHlTcGVjaWFsaXphdGlvbiI6NSwic3BlbGxXYXJkaW5nIjozLCJkaXZpbmVGdXJ5Ijo0LCJob2x5Tm92YSI6MCwiYmxlc3NlZFJlY292ZXJ5IjowLCJpbnNwaXJhdGlvbiI6MywiaG9seVJlYWNoIjowLCJpbXByb3ZlZEhlYWxpbmciOjIsInNlYXJpbmdMaWdodCI6MCwiYmluZGluZ0hlYWwiOjAsImxpdGFueU9mTGlnaHQiOjEsInNwaXJpdE9mUmVkZW1wdGlvbiI6MCwic3Bpcml0dWFsR3VpZGFuY2UiOjUsInNwaXJpdHVhbEhlYWxpbmciOjMsInByYXllck9mTWVuZGluZyI6MCwic2hhZG93Rm9jdXMiOjAsImJsYWNrb3V0IjowLCJzcGlyaXRUYXAiOjAsImltcHJvdmVkTWluZEJsYXN0IjowLCJpbXByb3ZlZFNoYWRvd1dvcmRQYWluIjowLCJzaGFkb3dSZWFjaCI6MCwiaW1wcm92ZWRQc3ljaGljU2NyZWFtIjowLCJtaW5kRmxheSI6MCwiaW1wcm92ZWRNaW5kRmxheSI6MCwiZGFya0luc3BpcmF0aW9uIjowLCJ2YW1waXJpY0VtYnJhY2UiOjAsInNoYWRvd1dlYXZpbmciOjAsInNpbGVuY2UiOjAsImRldm91cmluZ0NvbnRhZ2lvbiI6MCwiZWFybHlEZW1pc2UiOjAsImRhcmtuZXNzIjowLCJzaGFkb3dmb3JtIjowfSwicmFjZSI6NywiY29uc3VtZXMiOnsiZmxhc2siOjIsImZvb2QiOjQsIm1haW5IYW5kSW1idWUiOjE2LCJkZWZhdWx0Q29uanVyZWQiOjIsImFsY29ob2wiOjB9LCJwcmlvcml0aWVzIjpbeyJzcGVsbElkIjoxMDkwMSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjEwOTI4LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MzAwLCJrZWVwSG90Ijp0cnVlfSx7InNwZWxsSWQiOjEyNDA3MjEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjoxMDAwLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDk2NSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEyMDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 616.8410540173061,
+        "hpsStdev": 15.571012003175957,
+        "effectiveHealingHps": 437.0121069067243,
+        "absorbedHps": 179.82894711058108,
+        "overhealingHps": 82.9706591724535,
+        "survivalRate": 1,
+        "manaRemainingMean": 254.35540524121365,
+        "missingHealthSecondsMean": 2102221.369129421,
+        "finalMissingHealthMean": 33355.74352675701,
+        "manaBlockedSecondsMean": 45.70496271629307,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "63b3c3f40c14acc10d0c49064119dd14ae4e4142190a061a1d2796ea1e756e79",
+          "responseSha256": "1c1b92feeb4b42f4633c0c192a6fac158b280a5ac7371e7d2d114d8ad72a185f",
+          "capturedAt": "2026-10-28T09:56:09.527Z"
+        },
+        {
+          "requestSha256": "dab5f555ffc097d664a00b99ccd373d5482c9936d22c8dfef2bc3309f5660d4b",
+          "responseSha256": "2824c6157ef0ed72de4ece77e7900856b89edbd2603122060d64f7077d5c2b41",
+          "capturedAt": "2026-10-28T09:56:11.597Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-55db0ee86252b69a",
+      "profile": "healing-priest",
+      "buildId": "penance-holy-burst-stacked-180",
+      "title": "Penance / Holy",
+      "archetype": "penance-holy",
+      "assignment": "burst",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "4db780395e5130ece55fc2297bdf31f8cf32f85a0fc9ab40bab6b7f12942f5ce",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJwZW5hbmNlLWhvbHktYnVyc3Qtc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MjIwODAsImVuY2hhbnQiOjE0ODN9LHsiaWQiOjEzMTQxfSx7ImlkIjoxNjY5NSwiZW5jaGFudCI6MjQ4OH0seyJpZCI6MTI5NjgsImVuY2hhbnQiOjE4ODh9LHsiaWQiOjE0MTU0LCJlbmNoYW50IjoxODkzfSx7ImlkIjoxNjY5NywiZW5jaGFudCI6MjU2Nn0seyJpZCI6MjcyMDk3LCJlbmNoYW50Ijo4NDkxfSx7ImlkIjoxNjY5Nn0seyJpZCI6MTY2OTQsImVuY2hhbnQiOjE1MTB9LHsiaWQiOjIyMDg0LCJlbmNoYW50Ijo4NTF9LHsiaWQiOjE4Mzk1fSx7ImlkIjoxODMxNH0seyJpZCI6MjcyNDM4fSx7ImlkIjoxODM3MX0seyJpZCI6MjcyNjgxLCJlbmNoYW50IjoyNTY4fSx7ImlkIjoyNzI2ODZ9LHsiaWQiOjI3OTI0Nn1dLCJmaWVsZHMiOnsicG93ZXJJbkxpZ2h0IjowLCJ3YW5kU3BlY2lhbGl6YXRpb24iOjAsInR3aW5EaXNjaXBsaW5lcyI6NSwic2lsZW50UmVzb2x2ZSI6MCwiaG9seVByZWNpc2lvbiI6MCwibWVudGFsU3RyZW5ndGgiOjUsIm1hcnR5cmRvbSI6MCwibWVudGFsQWdpbGl0eSI6MywiaW5uZXJGb2N1cyI6MCwiaW1wcm92ZWRQb3dlcldvcmRTaGllbGQiOjMsIm1lZGl0YXRpb24iOjMsImltcHJvdmVkSW5uZXJGaXJlIjowLCJpbXByb3ZlZE1hbmFCdXJuIjowLCJzb3VsV2FyZGluZyI6MSwicGVuYW5jZSI6MSwicmVuZXdlZEhvcGUiOjAsImRpdmluZUFlZ2lzIjowLCJwb3dlckluZnVzaW9uIjowLCJ0d2lsaWdodEZvY3VzIjowLCJpbXByb3ZlZFJlbmV3IjoyLCJob2x5U3BlY2lhbGl6YXRpb24iOjUsInNwZWxsV2FyZGluZyI6MCwiZGl2aW5lRnVyeSI6NSwiaG9seU5vdmEiOjEsImJsZXNzZWRSZWNvdmVyeSI6MCwiaW5zcGlyYXRpb24iOjMsImhvbHlSZWFjaCI6MCwiaW1wcm92ZWRIZWFsaW5nIjozLCJzZWFyaW5nTGlnaHQiOjAsImJpbmRpbmdIZWFsIjoxLCJsaXRhbnlPZkxpZ2h0IjoyLCJzcGlyaXRPZlJlZGVtcHRpb24iOjAsInNwaXJpdHVhbEd1aWRhbmNlIjo1LCJzcGlyaXR1YWxIZWFsaW5nIjozLCJwcmF5ZXJPZk1lbmRpbmciOjAsInNoYWRvd0ZvY3VzIjowLCJibGFja291dCI6MCwic3Bpcml0VGFwIjowLCJpbXByb3ZlZE1pbmRCbGFzdCI6MCwiaW1wcm92ZWRTaGFkb3dXb3JkUGFpbiI6MCwic2hhZG93UmVhY2giOjAsImltcHJvdmVkUHN5Y2hpY1NjcmVhbSI6MCwibWluZEZsYXkiOjAsImltcHJvdmVkTWluZEZsYXkiOjAsImRhcmtJbnNwaXJhdGlvbiI6MCwidmFtcGlyaWNFbWJyYWNlIjowLCJzaGFkb3dXZWF2aW5nIjowLCJzaWxlbmNlIjowLCJkZXZvdXJpbmdDb250YWdpb24iOjAsImVhcmx5RGVtaXNlIjowLCJkYXJrbmVzcyI6MCwic2hhZG93Zm9ybSI6MH0sInJhY2UiOjcsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo0LCJtYWluSGFuZEltYnVlIjoxNiwiZGVmYXVsdENvbmp1cmVkIjoyLCJhbGNvaG9sIjowfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTA5MDEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDkyOSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjoxMzE2OTk1LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MTAwMCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6MjA2MCwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEyMDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 554.2068827944745,
+        "hpsStdev": 13.352588905930093,
+        "effectiveHealingHps": 388.797609552132,
+        "absorbedHps": 165.40927324234235,
+        "overhealingHps": 59.37893437708854,
+        "survivalRate": 1,
+        "manaRemainingMean": 256.4114625121391,
+        "missingHealthSecondsMean": 946157.5279916254,
+        "finalMissingHealthMean": 11488.046151542647,
+        "manaBlockedSecondsMean": 23.407350855734276,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "e2401cfad8b344b3d639f7199abffe6696c9f1047304bd9cc9352730cd6fe608",
+          "responseSha256": "1d9934e24ae8e8b37374b4dd52e745cb69b3d57f9228d7581234775162394e55",
+          "capturedAt": "2026-10-28T09:56:12.357Z"
+        },
+        {
+          "requestSha256": "431f75895e9d93849f6eee6c2447d95ab845206b79f145439bb16a5712160d4d",
+          "responseSha256": "976d16c01721d570610eafc9ded95e6644ad63f07d0acd1b5c8d66e62a2fcec3",
+          "capturedAt": "2026-10-28T09:56:13.100Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-73561438d999f388",
+      "profile": "healing-priest",
+      "buildId": "aegis-guidance-tank-stacked-180",
+      "title": "Divine Aegis / Spiritual Guidance",
+      "archetype": "aegis-guidance",
+      "assignment": "tank",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "1a1d774d0eaf52ad63940dee7df139579ca883fa234dbce65f0796d4dd2c15bd",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJhZWdpcy1ndWlkYW5jZS10YW5rLXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjE2NjkzLCJlbmNoYW50IjoxNTA5fSx7ImlkIjoxODcyM30seyJpZCI6MTY2OTUsImVuY2hhbnQiOjI0ODh9LHsiaWQiOjE4NTEwLCJlbmNoYW50IjoxODg4fSx7ImlkIjoxNjY5MCwiZW5jaGFudCI6MTg5M30seyJpZCI6MTg0OTcsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjI3MjA5N30seyJpZCI6MTY2OTZ9LHsiaWQiOjE2Njk0LCJlbmNoYW50IjoxNDgzfSx7ImlkIjoxNjY5MSwiZW5jaGFudCI6ODUxfSx7ImlkIjoxMzE0M30seyJpZCI6MTMwMDF9LHsiaWQiOjE4NDY5fSx7ImlkIjoyNzI0Mzl9LHsiaWQiOjI3MjY4MSwiZW5jaGFudCI6MjU2OH0seyJpZCI6MjcyNjg2fSx7ImlkIjoyNzkyNDZ9XSwiZmllbGRzIjp7InBvd2VySW5MaWdodCI6MCwid2FuZFNwZWNpYWxpemF0aW9uIjowLCJ0d2luRGlzY2lwbGluZXMiOjUsInNpbGVudFJlc29sdmUiOjAsImhvbHlQcmVjaXNpb24iOjAsIm1lbnRhbFN0cmVuZ3RoIjo1LCJtYXJ0eXJkb20iOjAsIm1lbnRhbEFnaWxpdHkiOjMsImlubmVyRm9jdXMiOjAsImltcHJvdmVkUG93ZXJXb3JkU2hpZWxkIjozLCJtZWRpdGF0aW9uIjozLCJpbXByb3ZlZElubmVyRmlyZSI6MCwiaW1wcm92ZWRNYW5hQnVybiI6MCwic291bFdhcmRpbmciOjEsInBlbmFuY2UiOjEsInJlbmV3ZWRIb3BlIjo0LCJkaXZpbmVBZWdpcyI6MywicG93ZXJJbmZ1c2lvbiI6MCwidHdpbGlnaHRGb2N1cyI6MCwiaW1wcm92ZWRSZW5ldyI6MywiaG9seVNwZWNpYWxpemF0aW9uIjo1LCJzcGVsbFdhcmRpbmciOjAsImRpdmluZUZ1cnkiOjQsImhvbHlOb3ZhIjowLCJibGVzc2VkUmVjb3ZlcnkiOjEsImluc3BpcmF0aW9uIjozLCJob2x5UmVhY2giOjAsImltcHJvdmVkSGVhbGluZyI6Mywic2VhcmluZ0xpZ2h0IjowLCJiaW5kaW5nSGVhbCI6MSwibGl0YW55T2ZMaWdodCI6MCwic3Bpcml0T2ZSZWRlbXB0aW9uIjowLCJzcGlyaXR1YWxHdWlkYW5jZSI6Mywic3Bpcml0dWFsSGVhbGluZyI6MCwicHJheWVyT2ZNZW5kaW5nIjowLCJzaGFkb3dGb2N1cyI6MCwiYmxhY2tvdXQiOjAsInNwaXJpdFRhcCI6MCwiaW1wcm92ZWRNaW5kQmxhc3QiOjAsImltcHJvdmVkU2hhZG93V29yZFBhaW4iOjAsInNoYWRvd1JlYWNoIjowLCJpbXByb3ZlZFBzeWNoaWNTY3JlYW0iOjAsIm1pbmRGbGF5IjowLCJpbXByb3ZlZE1pbmRGbGF5IjowLCJkYXJrSW5zcGlyYXRpb24iOjAsInZhbXBpcmljRW1icmFjZSI6MCwic2hhZG93V2VhdmluZyI6MCwic2lsZW5jZSI6MCwiZGV2b3VyaW5nQ29udGFnaW9uIjowLCJlYXJseURlbWlzZSI6MCwiZGFya25lc3MiOjAsInNoYWRvd2Zvcm0iOjB9LCJyYWNlIjo3LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6NCwibWFpbkhhbmRJbWJ1ZSI6MTYsImRlZmF1bHRDb25qdXJlZCI6MCwiYWxjb2hvbCI6MH0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEwOTAwLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDkyOSwicmFpZEluZGV4IjoxLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MzAwLCJrZWVwSG90Ijp0cnVlfSx7InNwZWxsSWQiOjEzMTY5OTUsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEwMDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjEwOTE2LCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 393.29700774729554,
+        "hpsStdev": 19.07987571829116,
+        "effectiveHealingHps": 294.3946794706129,
+        "absorbedHps": 98.90232827668257,
+        "overhealingHps": 1.3618578450509067,
+        "survivalRate": 0,
+        "manaRemainingMean": 5151.710912760784,
+        "missingHealthSecondsMean": 1651873.4649639297,
+        "finalMissingHealthMean": 18000,
+        "manaBlockedSecondsMean": 20.817968750038496,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 89143.75
+      },
+      "proofs": [
+        {
+          "requestSha256": "cad9ad5b943bd9e12ae49f65ce08639515961d5d4e0dec56873de2a7db8058bb",
+          "responseSha256": "3cbcf9366dae5e3c0ca0c355ded2001e9fe27546326e383fc3d97fdafa85ab23",
+          "capturedAt": "2026-10-28T09:56:14.624Z"
+        },
+        {
+          "requestSha256": "20ce27201bfac36cc24549011d5990c90c0438843c0eccb960599657a4dd3ae1",
+          "responseSha256": "b2835218221ab3d43fbc7794639045d9e029c56efbca295922d5cf117cfacd37",
+          "capturedAt": "2026-10-28T09:56:16.160Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-589301107625652d",
+      "profile": "healing-priest",
+      "buildId": "aegis-guidance-group-stacked-180",
+      "title": "Divine Aegis / Spiritual Guidance",
+      "archetype": "aegis-guidance",
+      "assignment": "group",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "30cf7eee6ffe944b66364cfa9daf3a16d8174f8d0a7c06c50308a9f8d390cdca",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJhZWdpcy1ndWlkYW5jZS1ncm91cC1zdGFja2VkLTE4MCIsImdlYXIiOlt7ImlkIjoxNjY5MywiZW5jaGFudCI6MTUwOX0seyJpZCI6MTMxNDF9LHsiaWQiOjE2Njk1LCJlbmNoYW50IjoyNDg4fSx7ImlkIjoxMjk2OCwiZW5jaGFudCI6MjU2fSx7ImlkIjoxNjY5MCwiZW5jaGFudCI6MTg5M30seyJpZCI6MjMxMjksImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjI3MjA5N30seyJpZCI6MTY2OTZ9LHsiaWQiOjE2Njk0LCJlbmNoYW50IjoxNDgzfSx7ImlkIjoxNjY5MSwiZW5jaGFudCI6ODUxfSx7ImlkIjoxMzE0M30seyJpZCI6MjIzMjZ9LHsiaWQiOjE4NDY5fSx7ImlkIjoyNzI0Mzl9LHsiaWQiOjI3MjY4MSwiZW5jaGFudCI6MjU2OH0seyJpZCI6MjcyNjg2fSx7ImlkIjoyMjI1NH1dLCJmaWVsZHMiOnsicG93ZXJJbkxpZ2h0IjowLCJ3YW5kU3BlY2lhbGl6YXRpb24iOjAsInR3aW5EaXNjaXBsaW5lcyI6NSwic2lsZW50UmVzb2x2ZSI6MCwiaG9seVByZWNpc2lvbiI6MCwibWVudGFsU3RyZW5ndGgiOjUsIm1hcnR5cmRvbSI6MCwibWVudGFsQWdpbGl0eSI6MywiaW5uZXJGb2N1cyI6MSwiaW1wcm92ZWRQb3dlcldvcmRTaGllbGQiOjMsIm1lZGl0YXRpb24iOjMsImltcHJvdmVkSW5uZXJGaXJlIjowLCJpbXByb3ZlZE1hbmFCdXJuIjowLCJzb3VsV2FyZGluZyI6MSwicGVuYW5jZSI6MSwicmVuZXdlZEhvcGUiOjMsImRpdmluZUFlZ2lzIjozLCJwb3dlckluZnVzaW9uIjowLCJ0d2lsaWdodEZvY3VzIjowLCJpbXByb3ZlZFJlbmV3IjozLCJob2x5U3BlY2lhbGl6YXRpb24iOjUsInNwZWxsV2FyZGluZyI6MCwiZGl2aW5lRnVyeSI6NSwiaG9seU5vdmEiOjAsImJsZXNzZWRSZWNvdmVyeSI6MCwiaW5zcGlyYXRpb24iOjMsImhvbHlSZWFjaCI6MCwiaW1wcm92ZWRIZWFsaW5nIjoyLCJzZWFyaW5nTGlnaHQiOjEsImJpbmRpbmdIZWFsIjoxLCJsaXRhbnlPZkxpZ2h0IjowLCJzcGlyaXRPZlJlZGVtcHRpb24iOjAsInNwaXJpdHVhbEd1aWRhbmNlIjozLCJzcGlyaXR1YWxIZWFsaW5nIjowLCJwcmF5ZXJPZk1lbmRpbmciOjAsInNoYWRvd0ZvY3VzIjowLCJibGFja291dCI6MCwic3Bpcml0VGFwIjowLCJpbXByb3ZlZE1pbmRCbGFzdCI6MCwiaW1wcm92ZWRTaGFkb3dXb3JkUGFpbiI6MCwic2hhZG93UmVhY2giOjAsImltcHJvdmVkUHN5Y2hpY1NjcmVhbSI6MCwibWluZEZsYXkiOjAsImltcHJvdmVkTWluZEZsYXkiOjAsImRhcmtJbnNwaXJhdGlvbiI6MCwidmFtcGlyaWNFbWJyYWNlIjowLCJzaGFkb3dXZWF2aW5nIjowLCJzaWxlbmNlIjowLCJkZXZvdXJpbmdDb250YWdpb24iOjAsImVhcmx5RGVtaXNlIjowLCJkYXJrbmVzcyI6MCwic2hhZG93Zm9ybSI6MH0sInJhY2UiOjcsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo0LCJtYWluSGFuZEltYnVlIjoxNiwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjowfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTA5MDEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMDkyOCwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjoxMzE2OTk1LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MTAwMCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6MTI0MDc3MywicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEyMDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 511.22543088985833,
+        "hpsStdev": 14.428719558770771,
+        "effectiveHealingHps": 321.97778323349155,
+        "absorbedHps": 189.24764765636655,
+        "overhealingHps": 97.03375569854502,
+        "survivalRate": 1,
+        "manaRemainingMean": 257.24904019422115,
+        "missingHealthSecondsMean": 3156552.2257679626,
+        "finalMissingHealthMean": 51179.422439825576,
+        "manaBlockedSecondsMean": 63.16692116821815,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "6c6dd46ee00e74ab2678467c91c60e07f1cd48463635242449de87d0315de41c",
+          "responseSha256": "37a84eca8e2ee494e7c096609a041062c5a958426a517dd69decbd0e4f4944c0",
+          "capturedAt": "2026-10-28T09:56:18.512Z"
+        },
+        {
+          "requestSha256": "28bc3c65c4e258bfac096c250007f93a96fd0019949f73660afd07ac275dcdf2",
+          "responseSha256": "4ec0952901cc7939462a5b3127c68698fd1f8aa93aba51b03ca3623d50c9eac0",
+          "capturedAt": "2026-10-28T09:56:20.953Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-priest-9c37c49982016676",
+      "profile": "healing-priest",
+      "buildId": "aegis-guidance-burst-stacked-180",
+      "title": "Divine Aegis / Spiritual Guidance",
+      "archetype": "aegis-guidance",
+      "assignment": "burst",
+      "release": "c3bce93be8ee3c231a469e91",
+      "modelIdentity": "bd2f585dceb0ce8246e7c605a74a19e4e6b1898fcf762bdd7c638e4527309cba",
+      "wasmSha256": "b4abbff3b2bc358f2db297ce07b19ac8900a84407bc77edde8509715d6ca4d4c",
+      "sourceWorkloadSha256": "43e2af383016bdf263bfd8844e11fd0755a0859586dc6221b1a4b5262d90d59e",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-priest?release=c3bce93be8ee3c231a469e91&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1wcmllc3QiLCJtb2RlbElkZW50aXR5IjoiYmQyZjU4NWRjZWIwY2U4MjQ2ZTdjNjA1YTc0YTE5ZTRlNmIxODk4ZmNmNzYyYmRkN2M2MzhlNDUyNzMwOWNiYSIsImJ1aWxkSWQiOiJhZWdpcy1ndWlkYW5jZS1idXJzdC1zdGFja2VkLTE4MCIsImdlYXIiOlt7ImlkIjoxNjY5MywiZW5jaGFudCI6MTQ4M30seyJpZCI6MTMxNDF9LHsiaWQiOjE2Njk1LCJlbmNoYW50IjoyNDg4fSx7ImlkIjoxMjk2OCwiZW5jaGFudCI6MTg4OH0seyJpZCI6MTY2OTAsImVuY2hhbnQiOjE4OTF9LHsiaWQiOjE2NjgzLCJlbmNoYW50IjoyNTY2fSx7ImlkIjoxNDE0NiwiZW5jaGFudCI6OTMxfSx7ImlkIjoxNjY5Nn0seyJpZCI6MTY2OTQsImVuY2hhbnQiOjE0ODN9LHsiaWQiOjE2NjkxLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjEzMTQzfSx7ImlkIjoyMjMyNn0seyJpZCI6MTgzNzF9LHsiaWQiOjE4MzcxfSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njh9LHsiaWQiOjIyMzE5fSx7ImlkIjoyMjI1NH1dLCJmaWVsZHMiOnsicG93ZXJJbkxpZ2h0IjowLCJ3YW5kU3BlY2lhbGl6YXRpb24iOjAsInR3aW5EaXNjaXBsaW5lcyI6NSwic2lsZW50UmVzb2x2ZSI6MCwiaG9seVByZWNpc2lvbiI6MCwibWVudGFsU3RyZW5ndGgiOjUsIm1hcnR5cmRvbSI6MCwibWVudGFsQWdpbGl0eSI6MiwiaW5uZXJGb2N1cyI6MSwiaW1wcm92ZWRQb3dlcldvcmRTaGllbGQiOjMsIm1lZGl0YXRpb24iOjMsImltcHJvdmVkSW5uZXJGaXJlIjowLCJpbXByb3ZlZE1hbmFCdXJuIjowLCJzb3VsV2FyZGluZyI6MSwicGVuYW5jZSI6MSwicmVuZXdlZEhvcGUiOjQsImRpdmluZUFlZ2lzIjozLCJwb3dlckluZnVzaW9uIjowLCJ0d2lsaWdodEZvY3VzIjowLCJpbXByb3ZlZFJlbmV3IjozLCJob2x5U3BlY2lhbGl6YXRpb24iOjUsInNwZWxsV2FyZGluZyI6MCwiZGl2aW5lRnVyeSI6NSwiaG9seU5vdmEiOjAsImJsZXNzZWRSZWNvdmVyeSI6MCwiaW5zcGlyYXRpb24iOjMsImhvbHlSZWFjaCI6MCwiaW1wcm92ZWRIZWFsaW5nIjozLCJzZWFyaW5nTGlnaHQiOjAsImJpbmRpbmdIZWFsIjoxLCJsaXRhbnlPZkxpZ2h0IjowLCJzcGlyaXRPZlJlZGVtcHRpb24iOjAsInNwaXJpdHVhbEd1aWRhbmNlIjozLCJzcGlyaXR1YWxIZWFsaW5nIjowLCJwcmF5ZXJPZk1lbmRpbmciOjAsInNoYWRvd0ZvY3VzIjowLCJibGFja291dCI6MCwic3Bpcml0VGFwIjowLCJpbXByb3ZlZE1pbmRCbGFzdCI6MCwiaW1wcm92ZWRTaGFkb3dXb3JkUGFpbiI6MCwic2hhZG93UmVhY2giOjAsImltcHJvdmVkUHN5Y2hpY1NjcmVhbSI6MCwibWluZEZsYXkiOjAsImltcHJvdmVkTWluZEZsYXkiOjAsImRhcmtJbnNwaXJhdGlvbiI6MCwidmFtcGlyaWNFbWJyYWNlIjowLCJzaGFkb3dXZWF2aW5nIjowLCJzaWxlbmNlIjowLCJkZXZvdXJpbmdDb250YWdpb24iOjAsImVhcmx5RGVtaXNlIjowLCJkYXJrbmVzcyI6MCwic2hhZG93Zm9ybSI6MH0sInJhY2UiOjcsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo0LCJtYWluSGFuZEltYnVlIjoxNiwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjowfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTA5MDEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjoxMzE2OTk1LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MTAwMCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6MTA5MTUsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoidW5zY2FsZWQtcmVmZXJlbmNlIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 422.41252629302613,
+        "hpsStdev": 13.79904129790284,
+        "effectiveHealingHps": 283.29795229959433,
+        "absorbedHps": 139.11457399343197,
+        "overhealingHps": 2.8401172283394165,
+        "survivalRate": 1,
+        "manaRemainingMean": 557.1911300379687,
+        "missingHealthSecondsMean": 2319197.5474593444,
+        "finalMissingHealthMean": 33965.74526725523,
+        "manaBlockedSecondsMean": 46.05792660388582,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "2f24c34048b7cb78cb4fdb7b39a2fc6008faac03fd0bb49911475f18cd5c0fae",
+          "responseSha256": "4f86b1cded2ec5f41bf8588a0bde1cab82ee53a8fa9e74049adee76981df8a17",
+          "capturedAt": "2026-10-28T09:56:21.922Z"
+        },
+        {
+          "requestSha256": "b48c379ada7ca2e94b53460cc4269726cdbcec9884f670201ce59faac1a65942",
+          "responseSha256": "7f3e53dda2767645207a5654684d5ea67b58648f756dc022297fddcc61cfef3d",
+          "capturedAt": "2026-10-28T09:56:22.921Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-6494b1c85ecd1533",
+      "profile": "healing-druid",
+      "buildId": "wild-growth-tank-stacked-180",
+      "title": "Wild Growth",
+      "archetype": "wild-growth",
+      "assignment": "tank",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "95771cfad52bc377d94d74646871c7284ff19ec46ca709c98c9764b092a32a3b",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6IndpbGQtZ3Jvd3RoLXRhbmstc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MjUyNTYxLCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoxODcyM30seyJpZCI6MTQxMzl9LHsiaWQiOjE4NTEwfSx7ImlkIjoxMzM0NiwiZW5jaGFudCI6MTg5M30seyJpZCI6MTg1MjUsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjE4MzA5LCJlbmNoYW50Ijo4NDkxfSx7ImlkIjoxODM5MX0seyJpZCI6MjUyNDg2LCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoyMjc4NjIsImVuY2hhbnQiOjg1MX0seyJpZCI6MTYwNTh9LHsiaWQiOjIyMzM0fSx7ImlkIjoxODM3MX0seyJpZCI6MjcyNDM5fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njh9LHsiaWQiOjI3MjY4Nn0seyJpZCI6MjQ5Mzk2fV0sImZpZWxkcyI6eyJpbXByb3ZlZFdyYXRoIjowLCJnZW5lc2lzIjo1LCJtb29uZ2xvdyI6MCwiaW1wcm92ZWRNb29uZmlyZSI6MCwibmF0dXJlc01hamVzdHkiOjIsIm5hdHVyZXNSZWFjaCI6MCwiaW1wcm92ZWRFbnRhbmdsaW5nUm9vdHMiOjAsIm5hdHVyZXNTcGxlbmRvciI6MCwiaW5zZWN0U3dhcm0iOjAsInZlbmdlYW5jZSI6MCwiaW1wcm92ZWRTdGFyZmlyZSI6MCwib3Zlcmdyb3d0aCI6MCwibmF0dXJlc0dyYWNlIjowLCJlY2xpcHNlIjowLCJtb29uZnVyeSI6MCwibW9vbmtpbkZvcm0iOjAsImZlcm9jaXR5IjowLCJoZWFydE9mVGhlV2lsZCI6NSwiZmVyYWxTd2lmdG5lc3MiOjAsImZlcmFsSW5zdGluY3QiOjAsImJydXRhbEltcGFjdCI6MCwidGhpY2tIaWRlIjowLCJzaHJlZGRpbmdBdHRhY2tzIjowLCJzYXZhZ2VGdXJ5IjowLCJmZXJhbENoYXJnZSI6MCwic2hhcnBlbmVkQ2xhd3MiOjAsInNoaWZ0aW5nUG93ZXIiOjAsIm1hbmdsZSI6MCwicHJlZGF0b3J5U3RyaWtlcyI6MCwicHJpbWFsRnVyeSI6MCwiaW1wcm92ZWRTaGlmdGluZ1Bvd2VyIjowLCJsZWFkZXJPZlRoZVBhY2siOjAsInByZWRhdG9yeUluc3RpbmN0cyI6MCwibmF0dXJhbFJlYWN0aW9uIjowLCJyZW5kQW5kVGVhciI6MCwiYmVyc2VyayI6MCwibmF0dXJlc0ZvY3VzIjo1LCJmdXJvciI6MCwibmF0dXJhbGlzdCI6NSwic3VidGxldHkiOjIsIm5hdHVyYWxTaGFwZXNoaWZ0ZXIiOjAsInJlZmxlY3Rpb24iOjMsImdpZnRPZk5hdHVyZSI6NSwiZ2lmdE9mVGhlRWFydGhtb3RoZXIiOjEsInRyYW5xdWlsU3Bpcml0IjozLCJpbXByb3ZlZFJlanV2ZW5hdGlvbiI6Mywic3dpZnRtZW5kIjoxLCJuYXR1cmVzU3dpZnRuZXNzIjoxLCJsaXZpbmdTcGlyaXQiOjMsImltcHJvdmVkVHJhbnF1aWxpdHkiOjEsImltcHJvdmVkUmVncm93dGgiOjUsIndpbGRHcm93dGgiOjF9LCJyYWNlIjo0LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6MSwibWFpbkhhbmRJbWJ1ZSI6MjAsImRlZmF1bHRDb25qdXJlZCI6MCwiYWxjb2hvbCI6NX0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjE4NTYyLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjoxNTAwLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjo5ODU2LCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoiY3VycmVudC1lcXVpcCIsIml0ZXJhdGlvbnMiOjUxMn0",
+      "metrics": {
+        "iterations": 512,
+        "hps": 506.14237452116237,
+        "hpsStdev": 22.414962438675555,
+        "effectiveHealingHps": 506.14237452116237,
+        "absorbedHps": 0,
+        "overhealingHps": 0.1293577334459698,
+        "survivalRate": 0,
+        "manaRemainingMean": 3141.5121625166294,
+        "missingHealthSecondsMean": 1753875.6750708944,
+        "finalMissingHealthMean": 18000,
+        "manaBlockedSecondsMean": 8.457031249996525,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 109446.875
+      },
+      "proofs": [
+        {
+          "requestSha256": "3500d58a7429cfb077823fbe3a407a46cd53fb28a719446d8ca4648ac7b5ff33",
+          "responseSha256": "86390e23dfe9e01ad68e3eb300765f887973c72a22f75dedc6c1f09574da04eb",
+          "capturedAt": "2026-10-28T09:56:24.709Z"
+        },
+        {
+          "requestSha256": "2dc8d08077af5e23cea25cb2d708424775af8cfd85500fc1247056e8284af78a",
+          "responseSha256": "246e70fdb8a7d6564806ead7bbf690a226311f6b8bffdc01c86ae8a02c56d526",
+          "capturedAt": "2026-10-28T09:56:26.030Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-30f396521ab80d0d",
+      "profile": "healing-druid",
+      "buildId": "wild-growth-group-stacked-180",
+      "title": "Wild Growth",
+      "archetype": "wild-growth",
+      "assignment": "group",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "a48d6ca94e4205ba7997dffb6aba21453bc5835524ce59ef88ee68a0cb183535",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6IndpbGQtZ3Jvd3RoLWdyb3VwLXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjI1MjU2MSwiZW5jaGFudCI6MjU0NH0seyJpZCI6MTg3MjN9LHsiaWQiOjE0MTM5fSx7ImlkIjoxODUxMH0seyJpZCI6MTMzNDYsImVuY2hhbnQiOjE4OTN9LHsiaWQiOjE4NTI1LCJlbmNoYW50IjoyNTY2fSx7ImlkIjoxODMwOSwiZW5jaGFudCI6MTV9LHsiaWQiOjE4MzkxfSx7ImlkIjoxODY4MiwiZW5jaGFudCI6MjU0NH0seyJpZCI6MjI3ODYyLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjE2MDU4fSx7ImlkIjoyMjMzNH0seyJpZCI6MTgzNzF9LHsiaWQiOjE4MzcxfSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njd9LHsiaWQiOjI3MjY4Nn0seyJpZCI6MjQ5Mzk2fV0sImZpZWxkcyI6eyJpbXByb3ZlZFdyYXRoIjoxLCJnZW5lc2lzIjo0LCJtb29uZ2xvdyI6MSwiaW1wcm92ZWRNb29uZmlyZSI6MCwibmF0dXJlc01hamVzdHkiOjIsIm5hdHVyZXNSZWFjaCI6MiwiaW1wcm92ZWRFbnRhbmdsaW5nUm9vdHMiOjAsIm5hdHVyZXNTcGxlbmRvciI6MSwiaW5zZWN0U3dhcm0iOjAsInZlbmdlYW5jZSI6MCwiaW1wcm92ZWRTdGFyZmlyZSI6MCwib3Zlcmdyb3d0aCI6MCwibmF0dXJlc0dyYWNlIjowLCJlY2xpcHNlIjowLCJtb29uZnVyeSI6MCwibW9vbmtpbkZvcm0iOjAsImZlcm9jaXR5IjowLCJoZWFydE9mVGhlV2lsZCI6NSwiZmVyYWxTd2lmdG5lc3MiOjAsImZlcmFsSW5zdGluY3QiOjAsImJydXRhbEltcGFjdCI6MCwidGhpY2tIaWRlIjowLCJzaHJlZGRpbmdBdHRhY2tzIjowLCJzYXZhZ2VGdXJ5IjowLCJmZXJhbENoYXJnZSI6MCwic2hhcnBlbmVkQ2xhd3MiOjAsInNoaWZ0aW5nUG93ZXIiOjAsIm1hbmdsZSI6MCwicHJlZGF0b3J5U3RyaWtlcyI6MCwicHJpbWFsRnVyeSI6MCwiaW1wcm92ZWRTaGlmdGluZ1Bvd2VyIjowLCJsZWFkZXJPZlRoZVBhY2siOjAsInByZWRhdG9yeUluc3RpbmN0cyI6MCwibmF0dXJhbFJlYWN0aW9uIjowLCJyZW5kQW5kVGVhciI6MCwiYmVyc2VyayI6MCwibmF0dXJlc0ZvY3VzIjo1LCJmdXJvciI6MCwibmF0dXJhbGlzdCI6NSwic3VidGxldHkiOjAsIm5hdHVyYWxTaGFwZXNoaWZ0ZXIiOjAsInJlZmxlY3Rpb24iOjMsImdpZnRPZk5hdHVyZSI6NCwiZ2lmdE9mVGhlRWFydGhtb3RoZXIiOjAsInRyYW5xdWlsU3Bpcml0IjozLCJpbXByb3ZlZFJlanV2ZW5hdGlvbiI6Mywic3dpZnRtZW5kIjoxLCJuYXR1cmVzU3dpZnRuZXNzIjoxLCJsaXZpbmdTcGlyaXQiOjMsImltcHJvdmVkVHJhbnF1aWxpdHkiOjIsImltcHJvdmVkUmVncm93dGgiOjQsIndpbGRHcm93dGgiOjF9LCJyYWNlIjo0LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6NCwibWFpbkhhbmRJbWJ1ZSI6MTYsImRlZmF1bHRDb25qdXJlZCI6MCwiYWxjb2hvbCI6NX0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEyMzgyMTUsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo3MDAsImtlZXBIb3QiOnRydWV9LHsic3BlbGxJZCI6MTg1NjIsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjoxNTAwLCJrZWVwSG90IjpmYWxzZX0seyJzcGVsbElkIjo5ODQxLCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MzAwLCJrZWVwSG90Ijp0cnVlfSx7InNwZWxsSWQiOjk4NTcsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoiY3VycmVudC1lcXVpcCIsIml0ZXJhdGlvbnMiOjUxMn0",
+      "metrics": {
+        "iterations": 512,
+        "hps": 675.4100737553192,
+        "hpsStdev": 19.83435200501615,
+        "effectiveHealingHps": 675.4100737553192,
+        "absorbedHps": 0,
+        "overhealingHps": 243.07721274508387,
+        "survivalRate": 1,
+        "manaRemainingMean": 271.22273867998626,
+        "missingHealthSecondsMean": 841975.5971110453,
+        "finalMissingHealthMean": 21626.186724042578,
+        "manaBlockedSecondsMean": 50.854492187307805,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "016e02b34a9a02abb566eac09c972bd2e48c65511e21390d740f85695ddbccd2",
+          "responseSha256": "8c5e8d2bfae44ea94435bbb1350b71223dffe525011585c6c13d7db93a27b341",
+          "capturedAt": "2026-10-28T09:56:30.689Z"
+        },
+        {
+          "requestSha256": "7a0b66ad0c7c5262ef8d37273772c07446a831bd3e0de910d70ea1be4fd6ee32",
+          "responseSha256": "9755f41f278413bec7f161317e8768cc0cab2543ffa0af183af154b65372e45a",
+          "capturedAt": "2026-10-28T09:56:35.131Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-74b005f7d36f81c5",
+      "profile": "healing-druid",
+      "buildId": "wild-growth-burst-stacked-180",
+      "title": "Wild Growth",
+      "archetype": "wild-growth",
+      "assignment": "burst",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "8c6cad86f3599549321e949a4d4b7c616db4159e8ea4fdc49c7a08ff639c7def",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6IndpbGQtZ3Jvd3RoLWJ1cnN0LXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjI1MjU2MSwiZW5jaGFudCI6MjU0NH0seyJpZCI6MTg3MjN9LHsiaWQiOjE0MTM5fSx7ImlkIjoxODUxMH0seyJpZCI6MTMzNDYsImVuY2hhbnQiOjE4OTF9LHsiaWQiOjE4NTI1LCJlbmNoYW50IjoyNTY2fSx7ImlkIjoxODMwOSwiZW5jaGFudCI6OTA0fSx7ImlkIjoxODM5MX0seyJpZCI6MTg2ODIsImVuY2hhbnQiOjI1NDR9LHsiaWQiOjIyNzg2MiwiZW5jaGFudCI6ODUxfSx7ImlkIjoxMzE0M30seyJpZCI6MTYwNTh9LHsiaWQiOjI3MjQzOX0seyJpZCI6MTE4MTl9LHsiaWQiOjI3MjY4MSwiZW5jaGFudCI6MjU2OH0seyJpZCI6MTg1MjN9LHsiaWQiOjI0OTM5Nn1dLCJmaWVsZHMiOnsiaW1wcm92ZWRXcmF0aCI6MCwiZ2VuZXNpcyI6NSwibW9vbmdsb3ciOjAsImltcHJvdmVkTW9vbmZpcmUiOjAsIm5hdHVyZXNNYWplc3R5IjoyLCJuYXR1cmVzUmVhY2giOjAsImltcHJvdmVkRW50YW5nbGluZ1Jvb3RzIjowLCJuYXR1cmVzU3BsZW5kb3IiOjAsImluc2VjdFN3YXJtIjowLCJ2ZW5nZWFuY2UiOjAsImltcHJvdmVkU3RhcmZpcmUiOjAsIm92ZXJncm93dGgiOjAsIm5hdHVyZXNHcmFjZSI6MCwiZWNsaXBzZSI6MCwibW9vbmZ1cnkiOjAsIm1vb25raW5Gb3JtIjowLCJmZXJvY2l0eSI6MCwiaGVhcnRPZlRoZVdpbGQiOjUsImZlcmFsU3dpZnRuZXNzIjowLCJmZXJhbEluc3RpbmN0IjowLCJicnV0YWxJbXBhY3QiOjAsInRoaWNrSGlkZSI6MCwic2hyZWRkaW5nQXR0YWNrcyI6MCwic2F2YWdlRnVyeSI6MCwiZmVyYWxDaGFyZ2UiOjAsInNoYXJwZW5lZENsYXdzIjowLCJzaGlmdGluZ1Bvd2VyIjowLCJtYW5nbGUiOjAsInByZWRhdG9yeVN0cmlrZXMiOjAsInByaW1hbEZ1cnkiOjAsImltcHJvdmVkU2hpZnRpbmdQb3dlciI6MCwibGVhZGVyT2ZUaGVQYWNrIjowLCJwcmVkYXRvcnlJbnN0aW5jdHMiOjAsIm5hdHVyYWxSZWFjdGlvbiI6MCwicmVuZEFuZFRlYXIiOjAsImJlcnNlcmsiOjAsIm5hdHVyZXNGb2N1cyI6NSwiZnVyb3IiOjAsIm5hdHVyYWxpc3QiOjUsInN1YnRsZXR5IjoxLCJuYXR1cmFsU2hhcGVzaGlmdGVyIjowLCJyZWZsZWN0aW9uIjozLCJnaWZ0T2ZOYXR1cmUiOjUsImdpZnRPZlRoZUVhcnRobW90aGVyIjoxLCJ0cmFucXVpbFNwaXJpdCI6MywiaW1wcm92ZWRSZWp1dmVuYXRpb24iOjMsInN3aWZ0bWVuZCI6MSwibmF0dXJlc1N3aWZ0bmVzcyI6MSwibGl2aW5nU3Bpcml0IjozLCJpbXByb3ZlZFRyYW5xdWlsaXR5IjoyLCJpbXByb3ZlZFJlZ3Jvd3RoIjo1LCJ3aWxkR3Jvd3RoIjoxfSwicmFjZSI6NCwiY29uc3VtZXMiOnsiZmxhc2siOjIsImZvb2QiOjEsIm1haW5IYW5kSW1idWUiOjIwLCJkZWZhdWx0Q29uanVyZWQiOjAsImFsY29ob2wiOjV9LCJwcmlvcml0aWVzIjpbeyJzcGVsbElkIjoxODU2MiwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjE1MDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjk4NTgsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo0MDAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoiY3VycmVudC1lcXVpcCIsIml0ZXJhdGlvbnMiOjUxMn0",
+      "metrics": {
+        "iterations": 512,
+        "hps": 610.2359102350267,
+        "hpsStdev": 3.222241418929846,
+        "effectiveHealingHps": 610.2359102350267,
+        "absorbedHps": 0,
+        "overhealingHps": 221.96334003925807,
+        "survivalRate": 1,
+        "manaRemainingMean": 1524.0595619306873,
+        "missingHealthSecondsMean": 455736.586397348,
+        "finalMissingHealthMean": 157.53615769532314,
+        "manaBlockedSecondsMean": 2.0878906250002407,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "f945ae465da01573ef91bd9217bc4fc269f703fa4aba9e2a81404854d1e87988",
+          "responseSha256": "6fdf359c3ec221dd2899aeab698561c603ba7b7a7a5aca0112b83722ca374859",
+          "capturedAt": "2026-10-28T09:56:36.959Z"
+        },
+        {
+          "requestSha256": "9b57d9236362508c769658767ed395f3844b85e78f1da2f1317257f31e570fca",
+          "responseSha256": "d3438745e0e5e3d8d4197a4339f8567258b5e9a843d384788e4134d85e550a1e",
+          "capturedAt": "2026-10-28T09:56:38.772Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-a6ffe1b8c655cf9c",
+      "profile": "healing-druid",
+      "buildId": "splendor-wild-growth-tank-stacked-180",
+      "title": "Splendor / Wild Growth",
+      "archetype": "splendor-wild-growth",
+      "assignment": "tank",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "189101489a0f3e17216efd5a3d8d93ce8892cebb31b179d78c836e1b13b36516",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6InNwbGVuZG9yLXdpbGQtZ3Jvd3RoLXRhbmstc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MjUyNTYxLCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoxODcyM30seyJpZCI6MTQxMzl9LHsiaWQiOjE4NTEwfSx7ImlkIjoxMzM0NiwiZW5jaGFudCI6MTg5M30seyJpZCI6MTg1MjUsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjE4MzA5LCJlbmNoYW50Ijo4NTZ9LHsiaWQiOjE4MzkxfSx7ImlkIjoxODM4NiwiZW5jaGFudCI6MjU0NH0seyJpZCI6MjI3ODYyLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjE2MDU4fSx7ImlkIjoyMjMzNH0seyJpZCI6MTg2Mzd9LHsiaWQiOjE4MzcxfSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njd9LHsiaWQiOjE4NTIzfSx7ImlkIjoyNDkzOTZ9XSwiZmllbGRzIjp7ImltcHJvdmVkV3JhdGgiOjAsImdlbmVzaXMiOjUsIm1vb25nbG93IjoxLCJpbXByb3ZlZE1vb25maXJlIjowLCJuYXR1cmVzTWFqZXN0eSI6MiwibmF0dXJlc1JlYWNoIjoyLCJpbXByb3ZlZEVudGFuZ2xpbmdSb290cyI6MCwibmF0dXJlc1NwbGVuZG9yIjoxLCJpbnNlY3RTd2FybSI6MCwidmVuZ2VhbmNlIjowLCJpbXByb3ZlZFN0YXJmaXJlIjowLCJvdmVyZ3Jvd3RoIjowLCJuYXR1cmVzR3JhY2UiOjAsImVjbGlwc2UiOjAsIm1vb25mdXJ5IjowLCJtb29ua2luRm9ybSI6MCwiZmVyb2NpdHkiOjAsImhlYXJ0T2ZUaGVXaWxkIjo1LCJmZXJhbFN3aWZ0bmVzcyI6MCwiZmVyYWxJbnN0aW5jdCI6MCwiYnJ1dGFsSW1wYWN0IjowLCJ0aGlja0hpZGUiOjAsInNocmVkZGluZ0F0dGFja3MiOjAsInNhdmFnZUZ1cnkiOjAsImZlcmFsQ2hhcmdlIjowLCJzaGFycGVuZWRDbGF3cyI6MCwic2hpZnRpbmdQb3dlciI6MCwibWFuZ2xlIjowLCJwcmVkYXRvcnlTdHJpa2VzIjowLCJwcmltYWxGdXJ5IjowLCJpbXByb3ZlZFNoaWZ0aW5nUG93ZXIiOjAsImxlYWRlck9mVGhlUGFjayI6MCwicHJlZGF0b3J5SW5zdGluY3RzIjowLCJuYXR1cmFsUmVhY3Rpb24iOjAsInJlbmRBbmRUZWFyIjowLCJiZXJzZXJrIjowLCJuYXR1cmVzRm9jdXMiOjUsImZ1cm9yIjowLCJuYXR1cmFsaXN0Ijo1LCJzdWJ0bGV0eSI6MCwibmF0dXJhbFNoYXBlc2hpZnRlciI6MCwicmVmbGVjdGlvbiI6MywiZ2lmdE9mTmF0dXJlIjo1LCJnaWZ0T2ZUaGVFYXJ0aG1vdGhlciI6MSwidHJhbnF1aWxTcGlyaXQiOjAsImltcHJvdmVkUmVqdXZlbmF0aW9uIjozLCJzd2lmdG1lbmQiOjEsIm5hdHVyZXNTd2lmdG5lc3MiOjEsImxpdmluZ1NwaXJpdCI6MywiaW1wcm92ZWRUcmFucXVpbGl0eSI6MiwiaW1wcm92ZWRSZWdyb3d0aCI6NSwid2lsZEdyb3d0aCI6MX0sInJhY2UiOjQsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo2LCJtYWluSGFuZEltYnVlIjoxNiwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjoxfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTg1NjIsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjE1MDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjk4NDAsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjo5NzUwLCJyYWlkSW5kZXgiOjEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjowLCJrZWVwSG90IjpmYWxzZX1dLCJwb2xpY3lJZCI6ImN1cnJlbnQtZXF1aXAiLCJpdGVyYXRpb25zIjo1MTJ9",
+      "metrics": {
+        "iterations": 512,
+        "hps": 581.6449616693487,
+        "hpsStdev": 35.38012289760531,
+        "effectiveHealingHps": 581.6449616693487,
+        "absorbedHps": 0,
+        "overhealingHps": 2.1379314644732954,
+        "survivalRate": 0,
+        "manaRemainingMean": 2057.1864584150626,
+        "missingHealthSecondsMean": 1491247.9901931814,
+        "finalMissingHealthMean": 18000,
+        "manaBlockedSecondsMean": 10.34375000000339,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 123023.4375
+      },
+      "proofs": [
+        {
+          "requestSha256": "b92cc479c62e752069da90249294bb3c67e06f0126fa908bd4ad7047af2552c0",
+          "responseSha256": "9052a172462cb2417729add5ebd88fd84e5d59440aeaeb3ec33e1133f3d384af",
+          "capturedAt": "2026-10-28T09:56:40.071Z"
+        },
+        {
+          "requestSha256": "64e8d8d4a5f11da22be0a3506a1d471f27ff048eca613b3cf4dc6b3745771bff",
+          "responseSha256": "245b97fa660b68b2cf6814aa96527cd96dab7950afede7187d8d8c561c754c70",
+          "capturedAt": "2026-10-28T09:56:41.398Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-89424b5cfccab7bb",
+      "profile": "healing-druid",
+      "buildId": "splendor-wild-growth-group-stacked-180",
+      "title": "Splendor / Wild Growth",
+      "archetype": "splendor-wild-growth",
+      "assignment": "group",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "fa5dd7c3c3988c365babd80397591a7671491173ab0f3761eb82011133e6e69d",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6InNwbGVuZG9yLXdpbGQtZ3Jvd3RoLWdyb3VwLXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjI1MjU2MSwiZW5jaGFudCI6MjU0NH0seyJpZCI6MTg3MjN9LHsiaWQiOjIyMjM0fSx7ImlkIjoxODUxMH0seyJpZCI6MTMzNDYsImVuY2hhbnQiOjg1N30seyJpZCI6MTg1MjUsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjEyNTU0fSx7ImlkIjoxOTA0N30seyJpZCI6MTgzODYsImVuY2hhbnQiOjI1NDR9LHsiaWQiOjIyNzg2MiwiZW5jaGFudCI6ODQ4OH0seyJpZCI6MjIzMzR9LHsiaWQiOjE2MDU4fSx7ImlkIjoxMTgxOX0seyJpZCI6MjcyNDM5fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njd9LHsiaWQiOjI3MjY4Nn0seyJpZCI6MjIzOTd9XSwiZmllbGRzIjp7ImltcHJvdmVkV3JhdGgiOjAsImdlbmVzaXMiOjUsIm1vb25nbG93IjoxLCJpbXByb3ZlZE1vb25maXJlIjowLCJuYXR1cmVzTWFqZXN0eSI6MiwibmF0dXJlc1JlYWNoIjoyLCJpbXByb3ZlZEVudGFuZ2xpbmdSb290cyI6MCwibmF0dXJlc1NwbGVuZG9yIjoxLCJpbnNlY3RTd2FybSI6MCwidmVuZ2VhbmNlIjowLCJpbXByb3ZlZFN0YXJmaXJlIjowLCJvdmVyZ3Jvd3RoIjowLCJuYXR1cmVzR3JhY2UiOjAsImVjbGlwc2UiOjAsIm1vb25mdXJ5IjowLCJtb29ua2luRm9ybSI6MCwiZmVyb2NpdHkiOjAsImhlYXJ0T2ZUaGVXaWxkIjo1LCJmZXJhbFN3aWZ0bmVzcyI6MCwiZmVyYWxJbnN0aW5jdCI6MCwiYnJ1dGFsSW1wYWN0IjowLCJ0aGlja0hpZGUiOjAsInNocmVkZGluZ0F0dGFja3MiOjAsInNhdmFnZUZ1cnkiOjAsImZlcmFsQ2hhcmdlIjowLCJzaGFycGVuZWRDbGF3cyI6MCwic2hpZnRpbmdQb3dlciI6MCwibWFuZ2xlIjowLCJwcmVkYXRvcnlTdHJpa2VzIjowLCJwcmltYWxGdXJ5IjowLCJpbXByb3ZlZFNoaWZ0aW5nUG93ZXIiOjAsImxlYWRlck9mVGhlUGFjayI6MCwicHJlZGF0b3J5SW5zdGluY3RzIjowLCJuYXR1cmFsUmVhY3Rpb24iOjAsInJlbmRBbmRUZWFyIjowLCJiZXJzZXJrIjowLCJuYXR1cmVzRm9jdXMiOjUsImZ1cm9yIjowLCJuYXR1cmFsaXN0Ijo1LCJzdWJ0bGV0eSI6MSwibmF0dXJhbFNoYXBlc2hpZnRlciI6MCwicmVmbGVjdGlvbiI6MywiZ2lmdE9mTmF0dXJlIjo1LCJnaWZ0T2ZUaGVFYXJ0aG1vdGhlciI6MSwidHJhbnF1aWxTcGlyaXQiOjAsImltcHJvdmVkUmVqdXZlbmF0aW9uIjozLCJzd2lmdG1lbmQiOjEsIm5hdHVyZXNTd2lmdG5lc3MiOjEsImxpdmluZ1NwaXJpdCI6MywiaW1wcm92ZWRUcmFucXVpbGl0eSI6MiwiaW1wcm92ZWRSZWdyb3d0aCI6NCwid2lsZEdyb3d0aCI6MX0sInJhY2UiOjQsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjoxLCJtYWluSGFuZEltYnVlIjoxNiwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjo1fSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6MTIzODIxNCwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjcwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjoxODU2MiwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjE1MDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjk4NDEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjozMDAsImtlZXBIb3QiOnRydWV9LHsic3BlbGxJZCI6OTg1NywicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjQwMCwia2VlcEhvdCI6ZmFsc2V9XSwicG9saWN5SWQiOiJjdXJyZW50LWVxdWlwIiwiaXRlcmF0aW9ucyI6NTEyfQ",
+      "metrics": {
+        "iterations": 512,
+        "hps": 693.4080655295484,
+        "hpsStdev": 22.576169070528863,
+        "effectiveHealingHps": 693.4080655295484,
+        "absorbedHps": 0,
+        "overhealingHps": 263.0580036950612,
+        "survivalRate": 1,
+        "manaRemainingMean": 438.41102568744697,
+        "missingHealthSecondsMean": 850153.7624632171,
+        "finalMissingHealthMean": 18386.54820468104,
+        "manaBlockedSecondsMean": 60.90722656216152,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "89e81519bf0381c3af257b81cce92e6387f2c0c52e26a20db6606f4be00c056f",
+          "responseSha256": "b8140db60906d2afea38523e4337a616dce0f90fdc171ab02bdabf673b38968d",
+          "capturedAt": "2026-10-28T09:56:47.188Z"
+        },
+        {
+          "requestSha256": "ec67ee4db1877e09b93929a1987c3a5151111137d89ab56867b537dc50bee5db",
+          "responseSha256": "e3b1363ebfa8a5f33808c34b0a8dbe90ad0f34f02a247225ab904afd5432c4aa",
+          "capturedAt": "2026-10-28T09:56:53.203Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-eb938eb43be3d483",
+      "profile": "healing-druid",
+      "buildId": "splendor-wild-growth-burst-stacked-180",
+      "title": "Splendor / Wild Growth",
+      "archetype": "splendor-wild-growth",
+      "assignment": "burst",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "3c39c8712c834a95014feba2977383c3866225e61048e624ad04ca98692e1025",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6InNwbGVuZG9yLXdpbGQtZ3Jvd3RoLWJ1cnN0LXN0YWNrZWQtMTgwIiwiZ2VhciI6W3siaWQiOjI1MjU2MSwiZW5jaGFudCI6MjU0NH0seyJpZCI6MTg3MjN9LHsiaWQiOjE0MTM5fSx7ImlkIjoxODUxMH0seyJpZCI6MTMzNDYsImVuY2hhbnQiOjE4OTF9LHsiaWQiOjE4NTI1LCJlbmNoYW50IjoyNTY2fSx7ImlkIjoxMjU1NH0seyJpZCI6MTkwNDd9LHsiaWQiOjE4Mzg2LCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoyMjc4NjIsImVuY2hhbnQiOjg1MX0seyJpZCI6MjIzMzR9LHsiaWQiOjE2MDU4fSx7ImlkIjoyNzI0Mzl9LHsiaWQiOjExODE5fSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njd9LHsiaWQiOjI3MjY4Nn0seyJpZCI6MjQ5Mzk2fV0sImZpZWxkcyI6eyJpbXByb3ZlZFdyYXRoIjowLCJnZW5lc2lzIjo1LCJtb29uZ2xvdyI6MSwiaW1wcm92ZWRNb29uZmlyZSI6MCwibmF0dXJlc01hamVzdHkiOjIsIm5hdHVyZXNSZWFjaCI6MiwiaW1wcm92ZWRFbnRhbmdsaW5nUm9vdHMiOjAsIm5hdHVyZXNTcGxlbmRvciI6MSwiaW5zZWN0U3dhcm0iOjAsInZlbmdlYW5jZSI6MCwiaW1wcm92ZWRTdGFyZmlyZSI6MCwib3Zlcmdyb3d0aCI6MCwibmF0dXJlc0dyYWNlIjowLCJlY2xpcHNlIjowLCJtb29uZnVyeSI6MCwibW9vbmtpbkZvcm0iOjAsImZlcm9jaXR5IjowLCJoZWFydE9mVGhlV2lsZCI6NSwiZmVyYWxTd2lmdG5lc3MiOjAsImZlcmFsSW5zdGluY3QiOjAsImJydXRhbEltcGFjdCI6MCwidGhpY2tIaWRlIjowLCJzaHJlZGRpbmdBdHRhY2tzIjowLCJzYXZhZ2VGdXJ5IjowLCJmZXJhbENoYXJnZSI6MCwic2hhcnBlbmVkQ2xhd3MiOjAsInNoaWZ0aW5nUG93ZXIiOjAsIm1hbmdsZSI6MCwicHJlZGF0b3J5U3RyaWtlcyI6MCwicHJpbWFsRnVyeSI6MCwiaW1wcm92ZWRTaGlmdGluZ1Bvd2VyIjowLCJsZWFkZXJPZlRoZVBhY2siOjAsInByZWRhdG9yeUluc3RpbmN0cyI6MCwibmF0dXJhbFJlYWN0aW9uIjowLCJyZW5kQW5kVGVhciI6MCwiYmVyc2VyayI6MCwibmF0dXJlc0ZvY3VzIjo1LCJmdXJvciI6MCwibmF0dXJhbGlzdCI6NSwic3VidGxldHkiOjEsIm5hdHVyYWxTaGFwZXNoaWZ0ZXIiOjAsInJlZmxlY3Rpb24iOjMsImdpZnRPZk5hdHVyZSI6NSwiZ2lmdE9mVGhlRWFydGhtb3RoZXIiOjAsInRyYW5xdWlsU3Bpcml0IjowLCJpbXByb3ZlZFJlanV2ZW5hdGlvbiI6Mywic3dpZnRtZW5kIjoxLCJuYXR1cmVzU3dpZnRuZXNzIjoxLCJsaXZpbmdTcGlyaXQiOjMsImltcHJvdmVkVHJhbnF1aWxpdHkiOjIsImltcHJvdmVkUmVncm93dGgiOjUsIndpbGRHcm93dGgiOjF9LCJyYWNlIjo0LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6MSwibWFpbkhhbmRJbWJ1ZSI6MjAsImRlZmF1bHRDb25qdXJlZCI6MCwiYWxjb2hvbCI6NX0sInByaW9yaXRpZXMiOlt7InNwZWxsSWQiOjEyMzgyMTUsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjo3MDAsImtlZXBIb3QiOnRydWV9LHsic3BlbGxJZCI6OTg2MywicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjEwMDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjE4NTYyLCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MTUwMCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6OTg0MSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjo5ODU4LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6NDAwLCJrZWVwSG90IjpmYWxzZX1dLCJwb2xpY3lJZCI6ImN1cnJlbnQtZXF1aXAiLCJpdGVyYXRpb25zIjo1MTJ9",
+      "metrics": {
+        "iterations": 512,
+        "hps": 592.7577367241748,
+        "hpsStdev": 19.07069312100902,
+        "effectiveHealingHps": 592.7577367241748,
+        "absorbedHps": 0,
+        "overhealingHps": 407.1241023234214,
+        "survivalRate": 1,
+        "manaRemainingMean": 298.871954925222,
+        "missingHealthSecondsMean": 631372.7387209027,
+        "finalMissingHealthMean": 3303.6073896484386,
+        "manaBlockedSecondsMean": 25.324218750057888,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "33e9494598ecc2faf019b22bff01b5ae2295c7b4f95148598d2bf9fa7c49eff7",
+          "responseSha256": "14ce064a2abde35324cb0976d980dd962859d8b1b931856573bca841acf3cccb",
+          "capturedAt": "2026-10-28T09:56:57.555Z"
+        },
+        {
+          "requestSha256": "dc6a1e7f04bfbecdb147924697dcc0de7205887092fdd18807fde72983600a85",
+          "responseSha256": "514851d12b2a966faf26a1bad16dbdaefac0cd568ad53cb852192cdbe3ef4c5a",
+          "capturedAt": "2026-10-28T09:57:01.709Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-d88ae15bd2d8073a",
+      "profile": "healing-druid",
+      "buildId": "natures-grace-tank-stacked-180",
+      "title": "Nature’s Grace",
+      "archetype": "natures-grace",
+      "assignment": "tank",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "addb105cd3294314ca6b8796c7f11385e695c5a146d2a72886c118d9b651c38c",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6Im5hdHVyZXMtZ3JhY2UtdGFuay1zdGFja2VkLTE4MCIsImdlYXIiOlt7ImlkIjoyNTI1NjEsImVuY2hhbnQiOjI1NDR9LHsiaWQiOjE4NzIzfSx7ImlkIjoxNDEzOX0seyJpZCI6MTg1MTAsImVuY2hhbnQiOjc4M30seyJpZCI6MTMzNDYsImVuY2hhbnQiOjE4OTN9LHsiaWQiOjI1NDEzMSwiZW5jaGFudCI6MjU2Nn0seyJpZCI6MTgzMDl9LHsiaWQiOjE4MzkxfSx7ImlkIjoxODM4NiwiZW5jaGFudCI6MjU0NH0seyJpZCI6MjI3ODYyLCJlbmNoYW50Ijo4NTF9LHsiaWQiOjE2MDU4fSx7ImlkIjoyMjMzNH0seyJpZCI6MTE4MTl9LHsiaWQiOjI3MjQzOX0seyJpZCI6MjcyNjgxLCJlbmNoYW50IjoyNTY4fSx7ImlkIjoxODUyM30seyJpZCI6MjQ5Mzk2fV0sImZpZWxkcyI6eyJpbXByb3ZlZFdyYXRoIjo0LCJnZW5lc2lzIjo1LCJtb29uZ2xvdyI6MywiaW1wcm92ZWRNb29uZmlyZSI6MCwibmF0dXJlc01hamVzdHkiOjIsIm5hdHVyZXNSZWFjaCI6MiwiaW1wcm92ZWRFbnRhbmdsaW5nUm9vdHMiOjMsIm5hdHVyZXNTcGxlbmRvciI6MSwiaW5zZWN0U3dhcm0iOjAsInZlbmdlYW5jZSI6MCwiaW1wcm92ZWRTdGFyZmlyZSI6MCwib3Zlcmdyb3d0aCI6MCwibmF0dXJlc0dyYWNlIjoxLCJlY2xpcHNlIjowLCJtb29uZnVyeSI6MCwibW9vbmtpbkZvcm0iOjAsImZlcm9jaXR5IjowLCJoZWFydE9mVGhlV2lsZCI6NSwiZmVyYWxTd2lmdG5lc3MiOjAsImZlcmFsSW5zdGluY3QiOjAsImJydXRhbEltcGFjdCI6MCwidGhpY2tIaWRlIjowLCJzaHJlZGRpbmdBdHRhY2tzIjowLCJzYXZhZ2VGdXJ5IjowLCJmZXJhbENoYXJnZSI6MCwic2hhcnBlbmVkQ2xhd3MiOjAsInNoaWZ0aW5nUG93ZXIiOjAsIm1hbmdsZSI6MCwicHJlZGF0b3J5U3RyaWtlcyI6MCwicHJpbWFsRnVyeSI6MCwiaW1wcm92ZWRTaGlmdGluZ1Bvd2VyIjowLCJsZWFkZXJPZlRoZVBhY2siOjAsInByZWRhdG9yeUluc3RpbmN0cyI6MCwibmF0dXJhbFJlYWN0aW9uIjowLCJyZW5kQW5kVGVhciI6MCwiYmVyc2VyayI6MCwibmF0dXJlc0ZvY3VzIjo1LCJmdXJvciI6MCwibmF0dXJhbGlzdCI6NSwic3VidGxldHkiOjAsIm5hdHVyYWxTaGFwZXNoaWZ0ZXIiOjAsInJlZmxlY3Rpb24iOjMsImdpZnRPZk5hdHVyZSI6NSwiZ2lmdE9mVGhlRWFydGhtb3RoZXIiOjEsInRyYW5xdWlsU3Bpcml0IjoxLCJpbXByb3ZlZFJlanV2ZW5hdGlvbiI6Mywic3dpZnRtZW5kIjoxLCJuYXR1cmVzU3dpZnRuZXNzIjoxLCJsaXZpbmdTcGlyaXQiOjAsImltcHJvdmVkVHJhbnF1aWxpdHkiOjAsImltcHJvdmVkUmVncm93dGgiOjAsIndpbGRHcm93dGgiOjB9LCJyYWNlIjo0LCJjb25zdW1lcyI6eyJmbGFzayI6MiwiZm9vZCI6MTAsIm1haW5IYW5kSW1idWUiOjIwLCJkZWZhdWx0Q29uanVyZWQiOjAsImFsY29ob2wiOjV9LCJwcmlvcml0aWVzIjpbeyJzcGVsbElkIjoxODU2MiwicmFpZEluZGV4IjoxLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MTUwMCwia2VlcEhvdCI6ZmFsc2V9LHsic3BlbGxJZCI6OTg0MSwicmFpZEluZGV4IjoxLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6MzAwLCJrZWVwSG90Ijp0cnVlfSx7InNwZWxsSWQiOjg5MDMsInJhaWRJbmRleCI6MSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoiY3VycmVudC1lcXVpcCIsIml0ZXJhdGlvbnMiOjUxMn0",
+      "metrics": {
+        "iterations": 512,
+        "hps": 706.8464784345233,
+        "hpsStdev": 27.24426320629724,
+        "effectiveHealingHps": 706.8464784345233,
+        "absorbedHps": 0,
+        "overhealingHps": 38.593008173678,
+        "survivalRate": 0.6953125,
+        "manaRemainingMean": 344.8470797529457,
+        "missingHealthSecondsMean": 481512.6412106392,
+        "finalMissingHealthMean": 14798.248736014513,
+        "manaBlockedSecondsMean": 23.756445313863786,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 142131.25
+      },
+      "proofs": [
+        {
+          "requestSha256": "d3aebf6ea7273da95dca8f08c812e0b56fb5ac4ba57a81b9c45cbf5a05929539",
+          "responseSha256": "31ee1d21b4ac99f3f0bc8187dd7b312d983829f86cb30010ec079c287119ceac",
+          "capturedAt": "2026-10-28T09:57:03.023Z"
+        },
+        {
+          "requestSha256": "8a6c20ceecab007ba513305d6c9d9e10290b98a6d33d4209aecb48875b3d1269",
+          "responseSha256": "7d0e684e15baed05668221d3854dd72fe00c160ee311b86e19136d41178f8984",
+          "capturedAt": "2026-10-28T09:57:04.340Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-d9ba37250aafe843",
+      "profile": "healing-druid",
+      "buildId": "natures-grace-group-stacked-180",
+      "title": "Nature’s Grace",
+      "archetype": "natures-grace",
+      "assignment": "group",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "064ec912b46c0a5da42f3d8a7562109a6296fa411fd5577c674d123e754af19a",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6Im5hdHVyZXMtZ3JhY2UtZ3JvdXAtc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MjUyNTYxLCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoxODcyM30seyJpZCI6MTQxMzl9LHsiaWQiOjE4NTEwfSx7ImlkIjoxMzM0NiwiZW5jaGFudCI6MTg5M30seyJpZCI6MjMxMjksImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjEyNTU0fSx7ImlkIjoxODM5MX0seyJpZCI6MTgzODYsImVuY2hhbnQiOjI1NDR9LHsiaWQiOjIyNzg2MiwiZW5jaGFudCI6ODUxfSx7ImlkIjoxNjA1OH0seyJpZCI6MjcyNDA3fSx7ImlkIjoyNzI0Mzl9LHsiaWQiOjE4MzcxfSx7ImlkIjoyNzI2ODEsImVuY2hhbnQiOjI1Njd9LHsiaWQiOjIyMzE5fSx7ImlkIjoyNDkzOTZ9XSwiZmllbGRzIjp7ImltcHJvdmVkV3JhdGgiOjQsImdlbmVzaXMiOjUsIm1vb25nbG93IjozLCJpbXByb3ZlZE1vb25maXJlIjowLCJuYXR1cmVzTWFqZXN0eSI6MiwibmF0dXJlc1JlYWNoIjoyLCJpbXByb3ZlZEVudGFuZ2xpbmdSb290cyI6MywibmF0dXJlc1NwbGVuZG9yIjoxLCJpbnNlY3RTd2FybSI6MCwidmVuZ2VhbmNlIjowLCJpbXByb3ZlZFN0YXJmaXJlIjowLCJvdmVyZ3Jvd3RoIjowLCJuYXR1cmVzR3JhY2UiOjEsImVjbGlwc2UiOjAsIm1vb25mdXJ5IjowLCJtb29ua2luRm9ybSI6MCwiZmVyb2NpdHkiOjAsImhlYXJ0T2ZUaGVXaWxkIjo0LCJmZXJhbFN3aWZ0bmVzcyI6MCwiZmVyYWxJbnN0aW5jdCI6MCwiYnJ1dGFsSW1wYWN0IjowLCJ0aGlja0hpZGUiOjAsInNocmVkZGluZ0F0dGFja3MiOjAsInNhdmFnZUZ1cnkiOjAsImZlcmFsQ2hhcmdlIjowLCJzaGFycGVuZWRDbGF3cyI6MCwic2hpZnRpbmdQb3dlciI6MCwibWFuZ2xlIjowLCJwcmVkYXRvcnlTdHJpa2VzIjowLCJwcmltYWxGdXJ5IjowLCJpbXByb3ZlZFNoaWZ0aW5nUG93ZXIiOjAsImxlYWRlck9mVGhlUGFjayI6MCwicHJlZGF0b3J5SW5zdGluY3RzIjowLCJuYXR1cmFsUmVhY3Rpb24iOjAsInJlbmRBbmRUZWFyIjowLCJiZXJzZXJrIjowLCJuYXR1cmVzRm9jdXMiOjUsImZ1cm9yIjowLCJuYXR1cmFsaXN0Ijo1LCJzdWJ0bGV0eSI6MCwibmF0dXJhbFNoYXBlc2hpZnRlciI6MCwicmVmbGVjdGlvbiI6MywiZ2lmdE9mTmF0dXJlIjo1LCJnaWZ0T2ZUaGVFYXJ0aG1vdGhlciI6MSwidHJhbnF1aWxTcGlyaXQiOjAsImltcHJvdmVkUmVqdXZlbmF0aW9uIjozLCJzd2lmdG1lbmQiOjAsIm5hdHVyZXNTd2lmdG5lc3MiOjAsImxpdmluZ1NwaXJpdCI6MywiaW1wcm92ZWRUcmFucXVpbGl0eSI6MCwiaW1wcm92ZWRSZWdyb3d0aCI6MSwid2lsZEdyb3d0aCI6MH0sInJhY2UiOjQsImNvbnN1bWVzIjp7ImZsYXNrIjoyLCJmb29kIjo0LCJtYWluSGFuZEltYnVlIjoyMCwiZGVmYXVsdENvbmp1cmVkIjowLCJhbGNvaG9sIjoxfSwicHJpb3JpdGllcyI6W3sic3BlbGxJZCI6OTg0MSwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjMwMCwia2VlcEhvdCI6dHJ1ZX0seyJzcGVsbElkIjo5ODU3LCJyYWlkSW5kZXgiOi0xLCJtaW5pbXVtTWlzc2luZ0hlYWx0aCI6NDAwLCJrZWVwSG90IjpmYWxzZX1dLCJwb2xpY3lJZCI6ImN1cnJlbnQtZXF1aXAiLCJpdGVyYXRpb25zIjo1MTJ9",
+      "metrics": {
+        "iterations": 512,
+        "hps": 641.7946669924339,
+        "hpsStdev": 24.907670202098302,
+        "effectiveHealingHps": 641.7946669924339,
+        "absorbedHps": 0,
+        "overhealingHps": 186.4015357526667,
+        "survivalRate": 1,
+        "manaRemainingMean": 417.27805835397936,
+        "missingHealthSecondsMean": 1080126.5973161543,
+        "finalMissingHealthMean": 27676.959941361783,
+        "manaBlockedSecondsMean": 62.2221413363997,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "c119bd8becfb1536cc2d69f74b02611f5b02986d86aa1361bc24978ee39a50d1",
+          "responseSha256": "3d680ba839f99d45a75869b056affe52538aa4cd3fe1f690778aecb5992a1070",
+          "capturedAt": "2026-10-28T09:57:08.392Z"
+        },
+        {
+          "requestSha256": "09e2193b1ed33f44f02e65d65c7e6d15f3c8a51e19b79d63e8e4382279dfd53a",
+          "responseSha256": "4196cce44a9a83283a0206e3b56aed49378a61a882adaa122beb902e53709e43",
+          "capturedAt": "2026-10-28T09:57:12.417Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-druid-33dd21f310df6695",
+      "profile": "healing-druid",
+      "buildId": "natures-grace-burst-stacked-180",
+      "title": "Nature’s Grace",
+      "archetype": "natures-grace",
+      "assignment": "burst",
+      "release": "ad355f15131498695376e972",
+      "modelIdentity": "5c663ff21c9de72bad95318ca2edb57fed04a36d38cd03a8b5d2b95835eadb1d",
+      "wasmSha256": "e2cc7411ce4534b017e420964c2ff168078ad4a5f0569c1dfdf3c7bc7bf03d2b",
+      "sourceWorkloadSha256": "4287fd4ae978fde9c76383bedc29f3b82d33c7a5003654d5fa818bcec629875a",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-druid?release=ad355f15131498695376e972&build=eyJ2ZXJzaW9uIjoyLCJwcm9maWxlIjoiaGVhbGluZy1kcnVpZCIsIm1vZGVsSWRlbnRpdHkiOiI1YzY2M2ZmMjFjOWRlNzJiYWQ5NTMxOGNhMmVkYjU3ZmVkMDRhMzZkMzhjZDAzYThiNWQyYjk1ODM1ZWFkYjFkIiwiYnVpbGRJZCI6Im5hdHVyZXMtZ3JhY2UtYnVyc3Qtc3RhY2tlZC0xODAiLCJnZWFyIjpbeyJpZCI6MjUyNTYxLCJlbmNoYW50IjoyNTQ0fSx7ImlkIjoxODcyM30seyJpZCI6MTQxMzl9LHsiaWQiOjE4NTEwfSx7ImlkIjoxMzM0NiwiZW5jaGFudCI6MTg5M30seyJpZCI6MTg1MjUsImVuY2hhbnQiOjI1NjZ9LHsiaWQiOjE4MzA5LCJlbmNoYW50Ijo4NzE5fSx7ImlkIjoxODMyN30seyJpZCI6MTgzODYsImVuY2hhbnQiOjI1NDR9LHsiaWQiOjIyNzg2MiwiZW5jaGFudCI6ODUxfSx7ImlkIjoxNjA1OH0seyJpZCI6MjIzMzR9LHsiaWQiOjE4NjM3fSx7ImlkIjoxMTgxOX0seyJpZCI6MjcyNjgxLCJlbmNoYW50IjoyNTY3fSx7ImlkIjoyNzI2ODZ9LHsiaWQiOjI3OTI1MH1dLCJmaWVsZHMiOnsiaW1wcm92ZWRXcmF0aCI6NCwiZ2VuZXNpcyI6NSwibW9vbmdsb3ciOjMsImltcHJvdmVkTW9vbmZpcmUiOjAsIm5hdHVyZXNNYWplc3R5IjoyLCJuYXR1cmVzUmVhY2giOjIsImltcHJvdmVkRW50YW5nbGluZ1Jvb3RzIjozLCJuYXR1cmVzU3BsZW5kb3IiOjEsImluc2VjdFN3YXJtIjowLCJ2ZW5nZWFuY2UiOjAsImltcHJvdmVkU3RhcmZpcmUiOjAsIm92ZXJncm93dGgiOjAsIm5hdHVyZXNHcmFjZSI6MSwiZWNsaXBzZSI6MCwibW9vbmZ1cnkiOjAsIm1vb25raW5Gb3JtIjowLCJmZXJvY2l0eSI6MCwiaGVhcnRPZlRoZVdpbGQiOjQsImZlcmFsU3dpZnRuZXNzIjowLCJmZXJhbEluc3RpbmN0IjowLCJicnV0YWxJbXBhY3QiOjAsInRoaWNrSGlkZSI6MCwic2hyZWRkaW5nQXR0YWNrcyI6MCwic2F2YWdlRnVyeSI6MCwiZmVyYWxDaGFyZ2UiOjAsInNoYXJwZW5lZENsYXdzIjowLCJzaGlmdGluZ1Bvd2VyIjowLCJtYW5nbGUiOjAsInByZWRhdG9yeVN0cmlrZXMiOjAsInByaW1hbEZ1cnkiOjAsImltcHJvdmVkU2hpZnRpbmdQb3dlciI6MCwibGVhZGVyT2ZUaGVQYWNrIjowLCJwcmVkYXRvcnlJbnN0aW5jdHMiOjAsIm5hdHVyYWxSZWFjdGlvbiI6MCwicmVuZEFuZFRlYXIiOjAsImJlcnNlcmsiOjAsIm5hdHVyZXNGb2N1cyI6NSwiZnVyb3IiOjAsIm5hdHVyYWxpc3QiOjUsInN1YnRsZXR5IjowLCJuYXR1cmFsU2hhcGVzaGlmdGVyIjowLCJyZWZsZWN0aW9uIjozLCJnaWZ0T2ZOYXR1cmUiOjUsImdpZnRPZlRoZUVhcnRobW90aGVyIjowLCJ0cmFucXVpbFNwaXJpdCI6MCwiaW1wcm92ZWRSZWp1dmVuYXRpb24iOjMsInN3aWZ0bWVuZCI6MSwibmF0dXJlc1N3aWZ0bmVzcyI6MSwibGl2aW5nU3Bpcml0IjozLCJpbXByb3ZlZFRyYW5xdWlsaXR5IjowLCJpbXByb3ZlZFJlZ3Jvd3RoIjowLCJ3aWxkR3Jvd3RoIjowfSwicmFjZSI6NCwiY29uc3VtZXMiOnsiZmxhc2siOjIsImZvb2QiOjQsIm1haW5IYW5kSW1idWUiOjE2LCJkZWZhdWx0Q29uanVyZWQiOjAsImFsY29ob2wiOjV9LCJwcmlvcml0aWVzIjpbeyJzcGVsbElkIjoxODU2MiwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjE1MDAsImtlZXBIb3QiOmZhbHNlfSx7InNwZWxsSWQiOjk4NDEsInJhaWRJbmRleCI6LTEsIm1pbmltdW1NaXNzaW5nSGVhbHRoIjozMDAsImtlZXBIb3QiOnRydWV9LHsic3BlbGxJZCI6OTg1OCwicmFpZEluZGV4IjotMSwibWluaW11bU1pc3NpbmdIZWFsdGgiOjAsImtlZXBIb3QiOmZhbHNlfV0sInBvbGljeUlkIjoiY3VycmVudC1lcXVpcCIsIml0ZXJhdGlvbnMiOjUxMn0",
+      "metrics": {
+        "iterations": 512,
+        "hps": 573.4156562185533,
+        "hpsStdev": 12.328912414245824,
+        "effectiveHealingHps": 573.4156562185533,
+        "absorbedHps": 0,
+        "overhealingHps": 297.59568615946125,
+        "survivalRate": 1,
+        "manaRemainingMean": 267.6626778975031,
+        "missingHealthSecondsMean": 653595.2131178398,
+        "finalMissingHealthMean": 6785.181880660295,
+        "manaBlockedSecondsMean": 32.77064098167297,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "7788fd66aed80f0097cbafed9f4d0d0a6f03fc562fa927e96e377e89f00f8586",
+          "responseSha256": "2d6d937fef1402083d2b03e1df2f4f2334aef2c3d6cd88ba3467bd5f54098f46",
+          "capturedAt": "2026-10-28T09:57:15.088Z"
+        },
+        {
+          "requestSha256": "b5230cfd6e4a766c6ac004b304b83935fe4921a4726b0684539c80510b145d24",
+          "responseSha256": "2be3ffd1b7b24e9b61e978577d674a22c1b70d9c8f1069dfffe864a8263c0678",
+          "capturedAt": "2026-10-28T09:57:17.802Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-06af503a0c00e5b7",
+      "profile": "healing-shaman",
+      "buildId": "riptide-support|tank|1|1-4-11",
+      "title": "Riptide support · Tank healing",
+      "archetype": "riptide-support",
+      "assignment": "tank",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "96317476d76c7267fd09b4f07194667219b22e72c23977fa66d6a0e545e4e3c0",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1ZZNjyM1EIb_S58TyXa7v3IEwU6EAitm0B4Qh0q7nJjp2I3tngw7k_9OuTubjxkWWKEF7aUll13lp8pv2f2UPaAPxtlswWdZ7502HWaLbIvQGbuZhy3swGazzGOHENJUkaNUBWtFWTegC2xqti5bvaZFO6ewWyq00cTfaWklc86lUKCFrDkNatZykRf0ESVTOYBal0WLTBcaGDR5XqhClzVTNYqKSQq58W7ol4qCedNHo3Aehr53Pj5HsPfP_JnP5ZxzWhnc4Fv82lltNoOHSEmNftjqUgkkEJCSF0qj0PRlTV23XK05tJIMwCRKrspaCIGAVV4161ZoofIEgeCzxc9PmaGAohBFScVC227BxmSQ8jCbJnldifw0kDxvzjMFZ6dBnsvyIkQtz055UzZX0cvyIoaozoO84ReD-jLgJZMQVV2Ky92Ks1_Jivq8kLBOA9nI6kQlKiHPudCorK9LUJ6iJMizXy4YO_wyy7TBToVs8ZTF7WAVelLXbfTmHslYzDKwLYboofvOun2HakNSI7PZkSYfUN1MenwHD5OdlADdt64dyFuS8IxVeugsBhrns8xCJAl0bzy0tJ5yjy7izrRHDwqwh4j-dpuoRumPAVcQyErKpQWecFyS0QPeJefJjZoB7kiFo2l0PHbKOyC3DztjuN0bHSec1FeDN9q0oyan4JOWafIwy1pnw7BLdXjKdAfhfiTWzhFZyg2MvQGrlrv1kDzomBVqGLr41p0CHi2k_l9p-1T4ifVH3KD9pjOPhgRMtvdg38NXg9bZoqKid63bum7KzISW3E8kHnrK_-1AR5wtoh_wQKi9N86baNISaofQY0f9TpgsqZvyAqOWdLqP2WJOedOxmN2wW5kQqETpDCMFo3XXEysCHc33iP2NIz1p6AKmM_htMB4vTUfP5ZTnHfgNRoI5x3yTLoyXOyY5nmB5Prbwv6MVBfvvgJksSVpfRnFF3tBVcUX7Udgy1fDvcJP2PhdtzVjqxn-AStfY_1BZujhb5zrl9nbqOEPXzqRhKelueCEJeqY66s24ugp9rVv2OpHX2vlhby-N8JiMP4XU9mJ6xD5wiDI9LZ_Owcf--QSOo8PHUaYn6i9ZOCX_eXnowIaA3796BCYRv3wcVn-6XT5CUlrTT0x6eLg4_AE",
+      "metrics": {
+        "iterations": 512,
+        "hps": 799.3832920052416,
+        "hpsStdev": 3.5648090039183224,
+        "effectiveHealingHps": 799.3832920052416,
+        "absorbedHps": 0,
+        "overhealingHps": 145.05058270773543,
+        "survivalRate": 1,
+        "manaRemainingMean": 2167.480221288047,
+        "missingHealthSecondsMean": 244041.64361574565,
+        "finalMissingHealthMean": 640.6269073747279,
+        "manaBlockedSecondsMean": 0.06640625000000042,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "6b50dd586c9634756f64d24a6227d65dd2cccac643c4454ecf3577dfb554da5a",
+          "responseSha256": "f1ebb39290927da49b9e0a12b81a6ccd5eca4ff4c6d50182e4f64ecf28483e2c",
+          "capturedAt": "2026-10-28T09:57:20.818Z"
+        },
+        {
+          "requestSha256": "5314cf8229dcf3c6d8fa5cbb2e87939b2e19946ca44468645e31509fff163166",
+          "responseSha256": "d5dfa83c9ff29b17afdf4bc7d6d7ec2fafe337547410e6ddf662d3fd5e4ea1a5",
+          "capturedAt": "2026-10-28T09:57:21.848Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-7faade2ad9815c85",
+      "profile": "healing-shaman",
+      "buildId": "riptide-mobility|tank|1|1-4-11",
+      "title": "Riptide mobility · Tank healing",
+      "archetype": "riptide-mobility",
+      "assignment": "tank",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "f01f4fadfcc79e3d7b0f90bd3ec0426dd16858d6a90e51534c21a83c817f3c62",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1ZZbbys1EMe_yz4nkm_r3c0jCNoIBY5oUR8QD449m5g6drC9TTltvjvjbJtLuZxzOIDESySPPePfjP8zm6fqAWKywVczOqm2MfTWQTWr1qCc9atpWquN8tWkiuBApbJVcxCmJprJtlN9DV1LllL3Szy0CQbc3IDPNv-KRxvBKRXMqJ6JluKiJZoyXuMPk8RwpcxS1hpIX_eKqI7z2tS9bIlpgTVEYMhVDMN2bjBYtNtsDUw3YWkdxn_Oyt8_02c6FVNK8WgKQ9TwZfC9XQ1RZczq4Nhx00rOhFqqrqvxDsSQUjQGM-jlstWgNRFgFDXEkI5T02jairqmXSeYJoUCVKxmPz5VFgOymtUSqwVer5XPxSDEfjJu0rZh_HXBWNOS9rRVU3JccC7kWQzadkc3yjvZXcSX8iwIa46LjojTouXtecRzqgIi2dkmopxuo82JUZL6uGCiE80pmYYJ3p2tZHtZBHme6XkRuKj3P02q3oIzqZo9VXk9eAMRBXaTo70HNNaTSnkNKUflvvFh58CsUG1othuU5QOYq3VI-S64HkOerNejUO_Uw3gaJaLc10EPGFOgIq03_eA8JFzzSeVVRmm4q6g0nkf-HDJsrD557FSGeLMurOOBEnChElpR0nhDRMhQ5PUAt8V5hMcuUbcoz4Pp4PjSQncK3V5vhnSzs30ecUrDDdH2Vh-0OgYfRY6b-0mlg0_DplTnqeqdSveHzPsQkKzkpqy_Vt7MN8uheODjG-jV4PK7cAz4YsGu-BmvL88xsn4PK_BfOftoUdhoe6_8e_XF0GN1MY5yOqyDGzOzSaP7kSSqLeb_bsCHr2Y5DrBH1G20IdpsyxFsk7QFh4MAMUkRPealrJnjmz9Wsynmjc9iN8NmYVPCEpU3zBgMz11uLBD0YL4H2F4HVFmvXILyBr8MNsK56cVzPuZ5q-IKMsKcYl6VSfL2xiLSIyzlh9b-PFpWk_8OmAiJ0vp_FJfxDgfIBe2fwspSww_hFu39W7QtIaUbPwKVfQzqP15ZHKc6BGfCzo8dZ3HsjGWWZdC_kQR-vhz2Zl5chL7APcj2Q9L5budfjXR0UI_F_kMqjc_Gr9srCRcCp9Snk2BFPw3lrznG79bfAflsCnylIcG3v5v8o3LffhEWf3gXP1QDkxn_0ZSvDWX73wA",
+      "metrics": {
+        "iterations": 512,
+        "hps": 798.9606613475202,
+        "hpsStdev": 3.3045281388309617,
+        "effectiveHealingHps": 798.9606613475202,
+        "absorbedHps": 0,
+        "overhealingHps": 142.8328044730371,
+        "survivalRate": 1,
+        "manaRemainingMean": 2477.603812417399,
+        "missingHealthSecondsMean": 249735.35730325172,
+        "finalMissingHealthMean": 716.7004257647347,
+        "manaBlockedSecondsMean": 0.007812500000000003,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "f5474b8aec8e1f7eb0aa47c7ae79ee2165cda79a01be2f4870fc22be9ec4374f",
+          "responseSha256": "78e769512aca1b35e59efed2f7f926a4987e39b6535ecd51038139de81e9c5fc",
+          "capturedAt": "2026-10-28T09:57:22.908Z"
+        },
+        {
+          "requestSha256": "1620e42a53e8319dfe4584587cf4b03619b6a400f0dca7f0ea8fe9c9bbd13ca2",
+          "responseSha256": "b43ce090ccf5a260be6b56df2d6b5a98c4c8e562be9b7f4cc35182e5751b98d1",
+          "capturedAt": "2026-10-28T09:57:24.072Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-f43f37224dc70a34",
+      "profile": "healing-shaman",
+      "buildId": "mental-quickness-wave|tank|1|1-4-11",
+      "title": "Mental Quickness · Tank healing",
+      "archetype": "mental-quickness-wave",
+      "assignment": "tank",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "a997daf2983e084dcda6bd17ecd0897bffe2d70b12b582331d38e7807c0da1a8",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=xVVLj9s2EP4vPNsAHxIl-dhX1ijcpt0tcih6GItDm7VEuSK13mZ3_3uHktePbFsgCZBcBHCe38x8M3pk99gH13m2EDO27zvrGmQLtkVonN_MwxZa8GzGemwQQlLlCjOT81rqsgKbY1Xyta7tmozazmCzNOiji3-TaZEpITJpwMqsFPQoeS2kyukjNTcKwKx1XiO3uQUOlVK5ya0uuSlRFjyjkJu-G_ZLQ8FaCgvN_K_B1TuPIcwPcI9PEfzuSTyJeTYXguxDN_Q1ftt56zZDD5FKG711VuWyUEqhtlqBRTTa8qIU2mRrtS6lyYzkUspS52Vp61yt9ZpLYUrgwqBNUBB6tvj9kTkKKHOZa2oZ-noLPiZBlj3PJqUoC6lOj0yo6qzJBT89lMr0RYhKnJ1Upaur6FpfxJDF-aEqcfEoLwNeYpKyKLW8UBKSs46QnIJonpcnTVZlxQmVLGR2roVeurxugT45JpBnPyU5f_5jxqzDxgS2eGTUy7gNb3oIe9LPWNwO3mBPnLuNvdshGeUzBr7GEHtofvTdoUGzIQKSeDNAbxz4uy5iS5bkP7HjO3yIFCSRTyXv6Gq3H0kwCiajX14YNDq6llh_j-ZmYvw7ItWYIzoDzQ9dPUxIWueNHZrJjULFlNrVRwPqwgEo8-02FTi-R_8VBJISmixtUIhdYuQ9vuAmM9ouuHNmEo2S4-q9g6kID3Eg19uDs3HKnhZ16J119bEyGh2rOx-GNrXtkdkGwm4sznYdoaHkLTh_A94s2_VA9Uk-Y0RqGJr4tpuCUI1HCS3Pn5QyzW3C9ytu0H_fuAdH_CfZe_Dv4ZvBWrYgtrUu1ORyyt7Dnup8OxAr2CL2Az4TvH3vOpqLSya0QWGPDR0KgsbTQlBzwJklEeCBLeapK867dmhXLgRqRRpNpGBkd61YEbhRvEPc33REQQtNwNRrOhM9XoqOnsuptjvoNxgJzDnmm3RpPsyYGHwCK9S49Z-HVnD-xQCXnNNYL9D-J1jaz6_QXLoIddc1pjv4iReOlmDstNTpVn3QZ7oZDTEorq5CX3c3f13I64H8fPAvwqMDPCT5byHxU04H-gWKyrK0vR8NRY2D_ggo_49jur2fAuSzUdCYhoA_vTpEablfH6jVv-aaukHFTP_kdFSFfP4H",
+      "metrics": {
+        "iterations": 512,
+        "hps": 790.5996843748777,
+        "hpsStdev": 5.0980448943956596,
+        "effectiveHealingHps": 790.5996843748777,
+        "absorbedHps": 0,
+        "overhealingHps": 41.08996753187628,
+        "survivalRate": 1,
+        "manaRemainingMean": 1568.118754688133,
+        "missingHealthSecondsMean": 352608.6398143519,
+        "finalMissingHealthMean": 2221.6762808404774,
+        "manaBlockedSecondsMean": 0.21289062499999625,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "980c3101512c4c835f10af7e76e3798b80b770c88219bffd878662a7c6320393",
+          "responseSha256": "7d58c7ad1ac982b6569106034ab7c68d00738c517bc36ec1d32f62c9e48414cf",
+          "capturedAt": "2026-10-28T09:57:25.003Z"
+        },
+        {
+          "requestSha256": "f9b203d8f323a71f75ca93acff04f06c3ed8254749b7cc208e03d55f2887f7fb",
+          "responseSha256": "af3a02cffecd7a75d97c5b33f07c37998781fba68b8501fc933c014750d3fd26",
+          "capturedAt": "2026-10-28T09:57:25.906Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-7bd0c0e1209176fc",
+      "profile": "healing-shaman",
+      "buildId": "riptide-support|group|1|1-4-11",
+      "title": "Riptide support · Group healing",
+      "archetype": "riptide-support",
+      "assignment": "group",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "e136623bbf0ff9cfdf7617aec63f71acbec474320e03662e00a85578c2497da1",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1Vbbjts2EP0XPdsALxIl-bFFmzUKt0F3izwUfRiJQ5tdmXQpar3Nrv-9Q8vrSxZpdhMkQF4EcDiXw8MzQz1kdxh6610245NsE7yxHWazbIXQWbec9itYg8smWcAOoU9bhcRcF6wVqqrBFFhXrFGtachp7TV2c40u2vgvuZa55DwXGozIK06LirVcyII-QjEtAXSjihaZKQwwqKUsdGFUxXSFomQ5pVwGP2zmmpIFu4lW47QfNhsf4uN-55E_8mk-5Zxcez-EFn_0ztjlECDSqfaBpiyRK4ZNqyUvRANY5ZqqARhW16wolWwEVW2YYargTWMEAqtzrpqqqYp0sCVCyGZ_PmSWEopCFIrYQteuwMVkyPPdZNzkVSnk00IIIc92Cs6OCylzdZaCV_Uxista1RfplTpLIsrTQl4sqvOM56CEKCslzjYJyqkaL6vjQrHitBC1PAIWpchlfbZS1SUF6hhHh-YnT2Kg2P01yYzFTvfZ7CGLq8FpDCSv6xjsLZKxmGTgWuxjgO4X57cd6iVpjcx2TaK8Q301CvId3I12kgJ0P_t2GKPX1mkzdA57WstJ5iCSBLo3AVryJ6TRR1zb9hSxhYjhepVQjQ4p4QJ6spJ0ySEQHJ9kdIc3KfhQCBzckAz3pn3goVXeAYU9Vcb-emtNHOGkxhqCNbbda3JMPoqZNneTrPWuH9aJh4fMdNDfEm1EmPeELE8lrbsCp-frZkgRdMsaDQxdfOuPCQ8WUv_fVD4RP2L9HZfofursvSUBky2hjasnA-F9D-49_DAYk80oMXStX_nuwGnfUr4jtAAbIuTtQHeezWIYcEfYN8H6YKNNLtQf_QY7mgCEmyW500HB6jld9302mxIRdE92PawXtu-Js3SpkZKR3-XGgpDvzbeImytPAjPQ9Zgu5Z_BBjw3HSLn48FvICwxEphTzjdpUHxYMenzCJbLfU9_GVpRsG8HmOWK7u77IFfImmbHC9GqROKn8CbxfT1qlXgpWPkSsK8ml6r_D1oi6AJvxRjNiBfBFV8F7qfIpdnfet9pv3XjjLA0Oceuy_Pn0Oml7WiaxMVF6stOY88P8lztv23duRHuk_GPPg0qMT5rTziESo_j63Hwfce_Asch4ONQxlf2c7B8MSF0TUOPvz57vcZe-_BVW3ysHygzHWb8-0ovJhe7_wA",
+      "metrics": {
+        "iterations": 512,
+        "hps": 796.0080704539371,
+        "hpsStdev": 3.417133667821719,
+        "effectiveHealingHps": 796.0080704539371,
+        "absorbedHps": 0,
+        "overhealingHps": 223.27120007793235,
+        "survivalRate": 1,
+        "manaRemainingMean": 1757.92788031602,
+        "missingHealthSecondsMean": 339833.00655955914,
+        "finalMissingHealthMean": 1282.5205981636495,
+        "manaBlockedSecondsMean": 0.02539062499999994,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "c056e185662849d437f6b60eb8102fff1d2eac4e594ffd017ae4ce13418d80fa",
+          "responseSha256": "a979246ca24554bb1888fbf5e72531a9ef8e494170311b5a124e124409146b2e",
+          "capturedAt": "2026-10-28T09:57:28.302Z"
+        },
+        {
+          "requestSha256": "211dc9aa0e0ec7468f8d7332da5fe2ce3bd66eb31a0e1a553eb272ce7e4714c4",
+          "responseSha256": "659201b80743f1f70567948e076f4618a32082f61e7457abb06bfd673ac82db9",
+          "capturedAt": "2026-10-28T09:57:30.624Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-dd3dcc562dc845c8",
+      "profile": "healing-shaman",
+      "buildId": "riptide-support|burst|1|1-4-11",
+      "title": "Riptide support · Burst recovery",
+      "archetype": "riptide-support",
+      "assignment": "burst",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "2ad22888f92a5c439511e36c5f542013a7a6b6d357be8a44d4b27dfde68cb45b",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1VZNb-M2EP0vOtsAPyRK8rFFuzEKt4smxR6KHmhxaLORSZWk4nQT__cOLUdWku426ba72IsBzsfTm-Gboe-yG_DBOJst6CzrvNOmhWyRbUG2xm7mYSt30mazzEMLMiRXwSFXBWmYqGqpC6grshaNXmPQzilolwpsNPFPDC1zTmnOlNQsrygeKtJQxgv8YYIoLqVai6IBogstiaw5L1ShRUVUBawkOUJuvOu7pUIwb7poFMxD33XOx_t170O8p_d0ns8pxdDget_At85qs-m9jFjVMRFq2nBRAuFQCq1oTVgp2ZrnDSfA6kbnZS14U9WlVLWs8vW6ZlBUFcZqoNWRBUifLX69ywwCsoIVArsFttlKG7FzBakPs8FJq5LxhwNjjOeTQOxCdQ4sKBkPnOdiiljVIwjltainIIUQExBWTnw1p2cXr8cD42VFi0cgeX5mWVaCTZzIbPSVLCfliClIcS6AVnQsO8Xx6UlU0w4h5zHv6BwrYJwRcvhtlmkDrQrZ4i6L294q8Ci_y-jNNaARqUvbQIhetj9Yt29BbVCLaDY7FO0NqItBsO_kzWBHqcj2e9f0mI1XsDNW6b61EPDMZ5mVESXSvvGywXikGl2EnWlOGQhwmoCTASP2MoK_3CaaQ0b6wkoGtKLWMcMjP5d0dwNXCW3AwfGRV6jbo-mYeEJ-JzHtgQqEy73RceCXJrH3RpvmKOIBfFA_Og-zrHE29LvUmLtMtzJcYx-xg84hs1SsNPZCWrXcrXvMYGSWKdCyb-NbNwKeLDguv-Pn000MXH-GDdjvWnNrUPFoS2zj9sGA6O-lfS-_6bXOFihZ2TZu69qhVBMaxBupedlhQ972qIJsEX0PB-TeeeO8iSaF4ECFDlpcGYhM0kBgodKoJd7_bbaYYyPw4syu361MCNizdMsRwTDusWOFzI_ma4DuwqHktGwDpEv5ozcepqZT5nIo_Er6DUQkc8Z8k3bO0y8mwY5kKT8ugU9jywry-QiTXKDWvo7mMl7jNnkhW5Ga-E98k_j-v9YK9lKy_CVkX93c8-f-ji0u8OdaeKl0cTl_ATXgc9A41yq3t8OWMLg7h7nLc1xBT6jj49ziPomrR9CPZ408L-S53n_a26lR3ibjLyGtKja81Q88mEgv5ut54F-F1_E4JXyESnqG_w2V_5zJ8B_go1QoXsOHBfVp14Oi6QP8-Ow1HWb_6Su7-tB8IjIWNPx9TC84ZYe_AA",
+      "metrics": {
+        "iterations": 512,
+        "hps": 618.4724783870955,
+        "hpsStdev": 1.4230297902618025,
+        "effectiveHealingHps": 618.4724783870955,
+        "absorbedHps": 0,
+        "overhealingHps": 196.5157256563784,
+        "survivalRate": 1,
+        "manaRemainingMean": 3441.01407901068,
+        "missingHealthSecondsMean": 557432.95493731,
+        "finalMissingHealthMean": 13.65568121439378,
+        "manaBlockedSecondsMean": 0,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "5dd1e9447bcaadfecc3a70c134b2cf7d3ea4a07c09fcb0be729d2a0e3b6c8163",
+          "responseSha256": "9722e4a80b98902b9bfa321e6683cdfb1cc871746811e8ad3d88619d832fa72f",
+          "capturedAt": "2026-10-28T09:57:32.686Z"
+        },
+        {
+          "requestSha256": "edcfaa0370682241d8d457cbefb0ea8c45aab2da3b1b83aa8c65e05bddf7cb03",
+          "responseSha256": "9ce4c9f663ecc670c76c8ccece0c1c30aef7f5e0e7fcb1e20c67a1c1d0ddf73c",
+          "capturedAt": "2026-10-28T09:57:34.787Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-3ed34237e85e2064",
+      "profile": "healing-shaman",
+      "buildId": "riptide-mobility|group|1|1-4-11",
+      "title": "Riptide mobility · Group healing",
+      "archetype": "riptide-mobility",
+      "assignment": "group",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "2ff16298e571bd9c3e9b228bb5d20ce71a2b49f96a94be1779dabbe1e8976661",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1VbRcus0EP0XPyczlmTLch5hoM0wgTu0TB8YHmRrnYjKUpDlptw2_87KThOnpdBCYea-eGZXu0dHq7MrPyR34DvtbLIgs2TrXaMNJItkA9Jou553G9lKm8wSDwZkF5dyBpnK05pyUcomh1KkFa-bCoNap8AsFdigw-8YWmSMkIwq2dBMEDREWhPKcvxQniompap4XkPa5I1MZclYrvKGi1QJoEWaIeTau367VAjm9TZoBfPWVdog_uOw9EgeyTybE4Kxnet9DV872-h172XAYw2ZXAhZKJkxAJVWQoiqzoCQQlQslSLLSBppFEUKZc6zpimqsqBFVQODopBCRBogfbL4-SHRCEhzmnMsF9h6I22Ijizbz8ZFIgrKngxKKZus5CQ9GoxlfAJBRHnMIqzk5Rk85xMQWpwMdmaIKeKUFKWF4HSyiFROu2EljgZP85MhODvC04JmrJxYXJyXgJ9CKSOnSEbTdP_LLGk0GNUli4ckbHqrwKO-roLXt4DOfJZIW0MXvDTfWbczoNYoNnTrFlV5B-pi47pw40yDkCfv5ajTG3k3RqNCpPnW1f2I2Wqrmt5Y6NBms8TKgMIwF17WGI_8gwvQ6vqQgRE7GcBfbSLXMSACrmSHXlQ0Qnok6aK47uA6Jh82klZeozoH15B46KAbiWlPO0N3tdNNGOnEfuu9bnQ9KHUEHzWOi_tZUjvb9W2szkPSGNndDidvnENmWdxS20tp1bKt-piBd6-gkb0Jn9wR8ODBnvgVt4_XMXL9EdZgvzH6XqOs0RfZhs2TA9E_S_tZftU3WG4ElqZ2G2cONe1qxDtS83KLBfnUoxKSRfA97JH71mvnddAxBLum24LBwYDIaWwCPKjUaokiuE8WcywE3pNu-3aluw5rFi81IBjGnS-skPngvgXYXjqUXSNNB_FSfuu1h6nrkLkcD34t_RoCkjlhXsTx8XzHqNojWcKGTv93bGme_n-E04yj1r6M4lJW4kR5I1sei_h3fKP4_rvScvpWsuwtZN9d3NN2f8aWxCk7JZxnxUfW9sO1gC9C7ZxRbmfHGaFxco5dl2U4gJ5Rx_fX4DQJqzPo805LXx7kpdp_2NmpU95H509dHFR0eLOeaFAeX8z30yBDw7-DxiHhdSbxGf4nTF6lMWX4V_UY_1YONMYfgA_l8VYWqJW-g-9fPKFjwz9_WlevNSUi42HGH8P4bBO6_wM",
+      "metrics": {
+        "iterations": 512,
+        "hps": 790.17841110985,
+        "hpsStdev": 3.7120538033223967,
+        "effectiveHealingHps": 790.17841110985,
+        "absorbedHps": 0,
+        "overhealingHps": 205.93517251542846,
+        "survivalRate": 1,
+        "manaRemainingMean": 913.7905759154037,
+        "missingHealthSecondsMean": 346982.271549509,
+        "finalMissingHealthMean": 1628.7123160113576,
+        "manaBlockedSecondsMean": 0.07617187500000056,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "110aa6cc2e7d732fa72d58e34da91e946b91d0f60fa7010a80b1d23006ca1d50",
+          "responseSha256": "2f36bec2488cce55515dbd4a2c9748e208ce16329723231e7398c304dd14bec5",
+          "capturedAt": "2026-10-28T09:57:37.602Z"
+        },
+        {
+          "requestSha256": "eb9d69a056edae01288c8ff2ef928524899981ca4b2d480570fd8a35f39ddf93",
+          "responseSha256": "8a4ca1406ef3c35f4aced7fe52d07840a30b0adefcd64b567d1ead9345964150",
+          "capturedAt": "2026-10-28T09:57:40.388Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-330c13eda57e7603",
+      "profile": "healing-shaman",
+      "buildId": "riptide-mobility|burst|1|1-4-11",
+      "title": "Riptide mobility · Burst recovery",
+      "archetype": "riptide-mobility",
+      "assignment": "burst",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "ae4c15249d2a6ea8e45dc2475bf6f36b50310273bc1c26d90f9479da4f8845b9",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1VZNb-M2EP0vOjsAPyRZ8rFFmwRF2kWTIoeih7FI2Wwo0qWoJN0k_72PVmzLaXeTYNEtejHA4fDNm9GbGT9ktzr0xrtswWfZJvjWWJ0tsrUma9zqpF9TRy6bZUFbTX26KqTOVcEaUVY1tYWuK7Ysm3YJp84rbc-VdtHEP-E6zyXnuVDUirziOFSs4UIW-BElU5JILcui0awtWmJUS1mooi0rpiot5iwH5Cr4YXOuABbMJhqlTzq_NBb4j8sh9PGRP_KT_IRz-PZ-CI3-1rvWrIZAEWltX855CtXOl4DnkhGruKjLelnUpcpLLjVjxEXV8KViecPzUlOBrPKKqKZmXicamkK2-PUhMwAUhShKlEu7Zk0uonQFq59m4yWv5kLuDkIImU8cUYbq4Fhwtj9ImZdTxKreg3AJslOQoiwnIGI-uaslP1zJenqopviiyPMDyXlViimI2Gcj5iJn8z1KyYoDf17xIz85PZXVtECgvH-3vdwnIKRg7Om3WdYabVWfLR6yuB6c0gHyu4zB3GgYi1lGrtF9DGR_cP7OarWCFmFeDRSUIXflo-7giaimg45vtTpd-z5ee9siysF6Nir7mm4BgG8DTZH93jfDGKYzTrWDdbrHWc4yRxFSsqeBGvgDPaZApnl-AY87ijpcrhP90SEBXlAPK3oAkAG8fZLjrd6xTIHI0RX0vDVtHz733DXh2S6y7i_vTBtHOqlDh2Ba02y1PYKPXYHLp1nWeNcPXSrYQ9Za6m-2mbfegxlS7ci4M3LqvFsO6QUEoXRLg40f_B7w2YIu-h3h0xcauf6sV9p9Z829QSPA9pHcR_pmaFFd4JBt_Nrb5xL2DZ7vmQTaIP8PA8SQLWIY9BOoboLxwUSTXNBW_UZbTA7QZKktkBcZdQ4Z3GeLE-SNz2K6obswfY8SpW8YAQa_44sLEN2ab7TenHkoryXb6_QN_hhM0FPT88vzMc8rCisdQeaAeZpGz8uISbd7slxuR8GXsRUF-3qEWV5CWv-P4gpZY6i8kW2Zivga3yS-f6-0pXgrWfkWsu8u7iHcP7HFHD8mXDGW5sdb-GJE_wdiwFJovLfK37lxSBhMylEZZdpXL6hjQ1uMk3hxBH1Ed9tpr6n9pzu3M2KvJzvdJ_svfZpVYlzZOyYyzzFY388EFX0flVd4pF38NSryeRrjv4DP8uBI_NNi-jImEMzQ6x__tjfHtn-5Ty8-1ZpARkLj_8e0q7l4-gs",
+      "metrics": {
+        "iterations": 512,
+        "hps": 618.45841568029,
+        "hpsStdev": 1.448100416190101,
+        "effectiveHealingHps": 618.45841568029,
+        "absorbedHps": 0,
+        "overhealingHps": 288.3552357991691,
+        "survivalRate": 1,
+        "manaRemainingMean": 3665.5687005361424,
+        "missingHealthSecondsMean": 572600.6897138606,
+        "finalMissingHealthMean": 16.18696843939982,
+        "manaBlockedSecondsMean": 0,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "b4c543cd3c0e196c67918da1ed70e885c34eefd7c9979ea897f28bf6a614bf42",
+          "responseSha256": "3da1114a12cc9118cc96fcf6dfc9ece1f55276aa21020ff0a267ff1de1ddfc81",
+          "capturedAt": "2026-10-28T09:57:42.113Z"
+        },
+        {
+          "requestSha256": "840757330255fea2360521d6d7b3bd35ce7c92e47cc2f8ab2dce6eb30dde1d5c",
+          "responseSha256": "184d85f80702b8ca8afc4ee352c361cb0be3fc89b707bb02b6e5f302962af5e4",
+          "capturedAt": "2026-10-28T09:57:43.804Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-b5be26f5afa659e8",
+      "profile": "healing-shaman",
+      "buildId": "mental-quickness-wave|group|1|1-4-11",
+      "title": "Mental Quickness · Group healing",
+      "archetype": "mental-quickness-wave",
+      "assignment": "group",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "d0a9bb6c4dc922d5b7b15444f3334d8382a752e6f8c668992a190eb43853d9af",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1Vbbcts2EP0XPEszuJAgpcfeYk9HbVq7k4dOH1bEQkJNgioBWm5s_3sXpC50kjaJ00kmL5rBYvfs2eXZhe7ZLXbBtZ4txYztuta6GtmSbRFq5zfzsIUGPJuxDmuEkK5yhZnJeSV1uQCb46Lka13ZNTk1rcH60qCPLv5NrkWmhMikASuzUtCh5JWQKqcfqblRAGat8wq5zS1wWCiVm9zqkpsSZcEzgtx0bb-7NATWECzU8796V914DGG-h1t8GO4fxIOYZ3MhKCC0fVfht623btN3EKm2IRyl1ZQkt0auhSpRo1DZoqzWyBcGC6FVIXiJxlJta6MVrEFpKIxQHEVW2MQFoWPL3--ZI0CZy1xTz9BXW_AxGbLscTZeirKQ6niQUqrJTS746aBUpicQolycooRa6MUTeK0nILI4H9RCTA7lFHFKSsqi1HJySVTO2URRng6a56eDLGSmFqcrUYrTga50-bQF-hwn1cRTSc4f_5gx67A2gS3vGfUybsOLDsKO7mcsbntvsCPRXcXO3SA55TMGvsIQO6h_9O2-RrMhBZJ500NnHPjrNmJDnhQ_yuM7vIsEktSnUnR0ldsNIhgMo9MvRwkNga4h2d-iuRgl_4pUNeSIzkD9Q1v1I5PGeWP7egwjqJhSu-rgQF3YA2W-2qYCh_MQv4JAVmJDCB1V0iZF3uKRN7nReMG1M6NpsBxm7xVQGPHzEHsKvdo7G8fsaVL7zllXHSqjT8yq1oe-SW27Z7aGcDME27YlNllK4_wFeHPZrHuqT_IZM2ihr-PLdgQhhgcLDc-flDJ9t5Hfr7hB_33t7hzpn2yJYdweDYT-Gvxr-Ka3li1JfY0LFWGc6HSwo8Jf9iQTtoxdj4_Ed9e5lj6USy40UmGHNa0OQuNpQqhb4MwlKeKOLeepTc67pm9WLgTqTfpWkcDI7-nFitgO5hvE3UVLmrRQB0zNp8XR4dR0iLwci72GboORyJwxX6Td8mbGJOkTWaGGNfBpbGXOPx9hnmkS79fRXK7lh3JVqYX_O9tzunex1bTSpnxL_sG6pdAv0Fzav1Xb1qbd-3HoHK2codNSp4fhDeq0oWsaz7h6Av0O6b5PPj_v_dEoxgC4S_bfQhp-OT6HRyoqy2ihPIMK_0gq7-GRHrrn8PjYjvw3jfH1fQ6PT2ZBaukD_vTW65MW-Nuv0urfxpKQqZjxj1h6SYV8_Ac",
+      "metrics": {
+        "iterations": 512,
+        "hps": 792.0897405520348,
+        "hpsStdev": 3.7412003211098557,
+        "effectiveHealingHps": 792.0897405520348,
+        "absorbedHps": 0,
+        "overhealingHps": 189.83531417977332,
+        "survivalRate": 1,
+        "manaRemainingMean": 1859.4452367688823,
+        "missingHealthSecondsMean": 330002.78151843406,
+        "finalMissingHealthMean": 1431.56112848962,
+        "manaBlockedSecondsMean": 0.023437499999999948,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "bf4a8516b8b3c57e80712d836bb1681ba4c7d5e64fea9ecd49ccfc3e4e7a8290",
+          "responseSha256": "3bd34412f0c6aadc56a906f03848d15e1494ef515ff818af5c4a9b98aa6df0c8",
+          "capturedAt": "2026-10-28T09:57:46.114Z"
+        },
+        {
+          "requestSha256": "eca51b3f505196bbae2b8577649798c6b0df50440c49508057afdc036a6a3f74",
+          "responseSha256": "efb702f67670f38bdd5c5f0da10d2019e6f80392087a82665819012ebb260791",
+          "capturedAt": "2026-10-28T09:57:48.525Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-shaman-820c8a4f97b386eb",
+      "profile": "healing-shaman",
+      "buildId": "mental-quickness-wave|burst|1|1-4-11",
+      "title": "Mental Quickness · Burst recovery",
+      "archetype": "mental-quickness-wave",
+      "assignment": "burst",
+      "release": "53e4d50c2689af5e980b6cfb",
+      "modelIdentity": "7431142daf248143180c1235c12260d3aadb65ce0f5fa0a9335d5f680d8e2704",
+      "wasmSha256": "e1f9c4cd3d18f0da0425b21a055ecb68365f0cd55c4419731a55dbeed7258f79",
+      "sourceWorkloadSha256": "30518c2aab41440d2a399e4731514c74f24dee9068486d674d8a2eb0f7019787",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-shaman?release=53e4d50c2689af5e980b6cfb&build=1VbbbuM2EP0XPdsA76b82NvGKNxbUuxD0QdaJG02EumSVJxukn_vUHJiadOiu2i7wL4Y4HAu5wzPjPxQ3ZmYXPDVGi-qYwzWtaZaVwejWuf3y3RQnfLVooqmNSqVK04N0xw1RMhaWW5qiXaisTtw6oI27UYbn13-A1xXjGLMiFaWMInhIFGDCeXwQwTSVCm9E7wxyHKrkKop5ZpbIZGWhqwQg5T7GPrjRkOyDtKqdvl775pbb1JantSdedz1MeVH_IiXbIkxBKTQx8Z8Gbx1-z6qDNyGcMIU5yuyo4bgBnHMJbZWSyvqGlvMGbK1IaymliDDd1ZJQrBFgtUYYYQkL1iMitX6l4fKQULCCRfQM-Obg_K5GBh7WpwvCSWry4FQNnVkUj7fYckxmtxJ9JIDU8rE5ArLml7ualHPagsxSXmpjSWt8eQgpxnniFdSkCkSfomjeHVBLBC_HEhN0UuKFWG0npyEnPdHTGmTFzKl67V8-nVRWWdanar1QwWdzof0Jqp0BIdFlQ-91yaCJK9zdLcGnPiiUr4xKUfVfuvDqTV6D_oE875XUTvlb0I2HXhC_Cier8x9hiRFm7REZ9e44yCRwTA6_fgssCHQdTAUd0ZfjQPxFjQ31MhOq_ab0PQjks55bft2DINUuZR2zdkB2nBSUPn6UAgO5yF-qxJYAQ3IIwKTUPR6Z55xgxsMn7pxejQNlvNkvlUjCa9yD6HXJ2fzWL3McR-ddc2ZGbxx1QSf-q607aGyrUq3AzkbAqApzJXzV8rrTbfrgR8GlWhjVd_mH8KYBDieLTBav0HJ8nAjvp_M3vivW3fvYDrA9k75d-qL3tpqDaKEpeIC9NyV4jA76Wha2BEAC4aqaD8qpzfwuPfVelkYO--6vtu6lIBmaXs-VGvwm19sofBgvjXmeBVAX1a1yZQ-woaIZmo6R25G3Dcq7k0GMJecb8qSeb9ikecLWEyHef93aGGPfDrAiAl42M-juUiQD8VKSwv_c7SXcn-FljA0BywRgnn4ILzkf8H7T92FXdqE0Opw8uPUOVgfo44ZK8tmDh22bQvzmbez1DO4wOPVzWv9fH_yU6O6L8afUxl9Mqz7ZxhElI_Nx8PA_CNhnAPmSKA9fTLfvVqdOfbQ8_dX6vbvhAiJgdD4H6N8BjB5-hM",
+      "metrics": {
+        "iterations": 512,
+        "hps": 616.4387840713545,
+        "hpsStdev": 2.3626302857082426,
+        "effectiveHealingHps": 616.4387840713545,
+        "absorbedHps": 0,
+        "overhealingHps": 214.13551296081016,
+        "survivalRate": 1,
+        "manaRemainingMean": 3038.4922315284566,
+        "missingHealthSecondsMean": 687818.0543811423,
+        "finalMissingHealthMean": 275.22655574770755,
+        "manaBlockedSecondsMean": 0,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "9b4dccc5c240b255c317aa5136969dd6fccac4de7ec2490d38d581d126b74be0",
+          "responseSha256": "cffa2fa75ea5d4434d1568cbe67f8c8171c3802287042b087055337022984789",
+          "capturedAt": "2026-10-28T09:57:49.711Z"
+        },
+        {
+          "requestSha256": "2c6fea7f7f71f54f88c0a8d421689fce58c5d9029a945b799ae127b282833931",
+          "responseSha256": "1f4db051945f047a8adcf4b8deb6dc6e9789a924dbcfc0c2bd886c43bb0e6eaf",
+          "capturedAt": "2026-10-28T09:57:50.798Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-0aea1d86e0091ace",
+      "profile": "healing-paladin",
+      "buildId": "direct-healing-support|burst|1:4,11|stacked|180",
+      "title": "direct healing support",
+      "archetype": "direct-healing-support",
+      "assignment": "burst",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "5a6ad32b50cd04efb7fd94e6c701bec0189ac1ba201b4484bb90d92561490d63",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lVjbUuO6Ev2XvG5yync7VJ0HORcwQ4AEGAZO7QfFkh0RxzK-EC7Dv58lJ4QwxlNhqqaC3atbS91qdbdfO488L4RMO4fWQSfLZSQS3jnszDlNRBp3M5pQJtLOQSfnCaeFkhmO5TLdYT1LN51wpke25rlcCwFaSsaTgPG0FOUzoJEWRYan9zyd28x2nYibYeTpjq65-ozZMwcGQs9koeM63OzZVujZNHKjyKN6xGY6TEY5XfKAwRgTOQ_L7ju1osoymZe_Z1VelL918Nf130VJwwVnv3VPg24R8pTmQtbqOY94ztOQK4Gs8pD3ZRqJuMppCQfUGNPglu45hmPqzNBN0_C0mWnrOmcmpVbkGZFGXWvGtZ7ODWaYlHs9k_bMcGaH3HJ6W9Pn2dYmnc0sz3UtTfMcL9I9K3Itx2GOSbXIsHTNdj1O7RlnvYj3bBZps4hqjmfonmFYPdvd2pzyh4oXpY8oOBYM9x9u-_3K8_tV6PeFf8VvbI0e_dTozTi--zXS6S9_dXczia-PRsXtzTSbCf-FHf9c8CkZBGTywGN5PDw50gdP96vhSg6HP84vyUQOhmcj0Y_DyUtG_KPT1XU_vp3IZXxrT6wf_rw_nU3F0YhA9-yfCZmKiymBbuAo3ePhuUg29mB7pg2m91d-DJunWa8fTyaPD5avfh9OSP1b9shErfXAgslREGOtySQvA7ybTLTgejqOVwGZk2FATuLRMRlxckrIy1Pfj2N_SIJbspBsfHX9Mr4nT-PB-Hl8f43f4ersUtPr5xeyGg-Ccjz4OfFH8SmNofNP4JO5JMP4_JZMhs6YxP3a1iXp_yDBilzF_oScBOSG-JSMVkQSn9zGPrnD_1vSJzM85_i7wG-B33syHN6PT0j9r0_uFuT5hx8srs2kYkfzhB0l98Gx_xiak3J2kyA-bI53j4jHPDTPsjvDLu8Qu6OBRwcTbPbs1yIl15JcE_-aDP-LAxDKtORPZefwtZMl9Jnn_YQWRZ2zEQ3VUesc6uv85YVKZ8j-pxLiXyQuDev8Md8OOjGnOSSvHYEXhm3YDrSQE3OawrhhW9bbwVqoe64Bjc2D4Rj2h8TWtV0tx9C2MtO0nB2ZjvT4kPWc3qfVHGfHpuHuyDxX7-0w0Yz3B8PWHO3T6jucDcNF7u6asfWtFUezvQ8geH7Yt9wP-65hmdul8eR4nz3kfBhRwu0ODLdnWN4b_B0JnjD4_xUX1qNI-WWJWycu53WE1q8CRDNJcJl1Du2D97v2VMRzvDCR7pnIRVnRZCTDCpawpSp9VmYBG1GxsZVz3N31haaUsioX0TMAF3LFEWQoiTSq1GE4jza21bskqZYira-8evU1oxF9lFCC1blMni_nMlxsnzYGgS1lFc9TnLD6KcN1LNa1A-vHFc2ZoGmxMYW14DIRimyzltoYDXPOBpWqDZDPeMqZ2BxfnK9OSROUjgIewz5ww-m2aWi6ZhoGjhxuyq6Nv01N04yuZq_ToqiWvHZ2hIwAZ5iNpERAkBpLKtJjmrJgOavgJAPnhvGIVkl5IT_2v36DWnBfgVxtYUlTOuUxT4eJeBKbzSShhDc6hzjsnZXMF4mkQL-iyMz5koLtIgrf6-W2SL0D__OoalmKUgZg8ZyWcw7fdOva1UWxKro41iwrACppHvNSJfArclewIGX8CcsqWk9iWS2PYVsdAbxZv4c36wzcQSN0f6B1uG2tgc18oVFvu0UDvvxCAwFt1cAl8IVGHZMWDW-jgQxidEljOAoOoOUYntDtGvV5f3QpqzoncSeoddqgKnZ7QrGjfaHYytdQdTz35NqEtnJtQlu5NqGtXK39_dqEtnJtQlu5NqGtXJEf-3JtQlu5NqGtXJvQVq7u_n5tQlu5NqGtXJvQVq69_f3ahLZybUJbuTahrVxRAva_CJrY9pugiW2_CprYdr7G_s79AtvOt4lt59vEtvM1v-HfJradbxPbzreJbeeroN8pDN-pDN8pDfvydb7h3ya2nW8T2863if2TL0pwhqkZPahQvRXKcJGhX1VDhKH1zM_KXdVqiFQV9bHA7JHG77W9btRzDK2Y23-KWKB3imhScMVla1Dv9Sxw3cvgujnYNJ2qh84faaL2ZGMhzEMiTpfoHy9DUK_7R4xMPE9p0mXo0FLWrZuwDaNRlSRXdb_pVyIBkzKvuGrzErlCM8iweQnVS0W0D2XBaKm8sYblNF1chnWP19oDKky34GkBU4_4HrLuAdWwgHa-gDJn3d2PEguRtsoisN2sd0SzuusLJY8i9NfYwaksiguen2IgUA0qZGo8vMhlOMYHmdqmGmBitLdoXh9VLKY8qlK2EUss0s143g1pUWK1quCD3bFgveedSWG8jo_6FNGXUFFNB_r5RA2fabydN1oc847ryqibKGQ3k4kINw5Su1-HT226W0qZlCL75I0lGnaRJYLn5zlTswlGiUjmfNt211YB_DgUX_XTu4fQrYe-z4n5VzmS8a_yeo77ixxJ94f8X8QmxG6ZXNXzOwbLki9ruWlZqnf-lBVjDCnrbm97plWiQDKoT_s6bPV8-m7GcNR4_JUZdYvta2Y9I_8VjTxNeEzD5wA6xUUd3dbjsEZ2lflPB6HOlN2w5_IZCYnlNku-T7rGGzwH9fWHPHUf6Mbb_wE",
+      "metrics": {
+        "iterations": 512,
+        "hps": 592.1866253367205,
+        "hpsStdev": 15.965590460149027,
+        "effectiveHealingHps": 592.1866253367205,
+        "absorbedHps": 0,
+        "overhealingHps": 61.194770120609846,
+        "survivalRate": 1,
+        "manaRemainingMean": 641.1031923427039,
+        "missingHealthSecondsMean": 1203607.5698477814,
+        "finalMissingHealthMean": 4770.3807192628265,
+        "manaBlockedSecondsMean": 1.767578125000268,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "3e68eeaec1d1e34eded77b5527e4f8fbb2010be7f823f886f7b63985dda062eb",
+          "responseSha256": "4e3a9658809534f1c3e3b20d6e9ab4c7c13d55eb54a3558085e820f29107c56d",
+          "capturedAt": "2026-10-28T09:57:51.855Z"
+        },
+        {
+          "requestSha256": "8cc747a888fcd923449d65cb5641a567a327a06b1535fd773f2a0dbcc5af07f9",
+          "responseSha256": "1c783b1a4a2991a2c6942f2077baa73f20567c576383579f42be8f21f99f09be",
+          "capturedAt": "2026-10-28T09:57:52.543Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-59e918ea14c608a8",
+      "profile": "healing-paladin",
+      "buildId": "direct-healing-support|group|1:4,11|stacked|180",
+      "title": "direct healing support",
+      "archetype": "direct-healing-support",
+      "assignment": "group",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "3ec5fa8435e6f35b79b5732d9a899b70aa44234a36584c4d573648e4b85336a7",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lZ3bcttGFkX_Ra9jzqBxh6vyAFKUTNu0TCmOIk_lASQuggUBDEjqYsf_PhskLVMpO7OQKldE4KCxceleJNBnny9Hd1m7Kpv66KX74mjZNnlZZUcvj66zpCrrYrBMqiQt66MXR21WZcmqW2f7bpAaP41c4_iLuck9Kwwya6Gg2ybNqkma1ety_ajQ3MpzOzRRaDIv9QI_z5xFHhrfWIGZp97cVwOL0EkXfuBnTuS5i9BL8iDPw8Tk6dyoybxNbrNJqsbSss0W68E3aavNctm067-Kttks_zLSb8xfq3WyuMnSv0xoadvVIquTtmy2m7dZnrVZvci6Fc2mXWSjps7LYtMma52AbUwWRE7gh_PISh3bM37m2omTue7csh0_DwMvyiTed1zHWxizmPvz3HGyJEmz1F1kVv7U9NnyqU3FJaEJHTu1Ez-wPR2onRkn9dPctTzbCue2HRk3N1au8xTkvh2lThYkTtLFe8FTm-fZn5tstR7qKviuGh6trdHoz6vRaOmORuXw1-zSs5LT36zkclp8_P3EJL8P7z9ezooPpyerq8vz5bwcfk5f_XaTncfHk3j2Zz5rXo1fn5rjh0_34_tmPH5zdhF3y87u3o2Hpatlr8ZTfxaflzfDojkdv3ndnJ59OBsVV7ObS-vq-nr2ZvhwnN_E46vmfvFmOByd3RTjblmznIVX4XCqv0eXUWxdWfdX3fp_tVofP4x87ft4PHldjYrZbB3Fs1GxmP2ZTmank-JDt8z24mH3f2vy4Xxa3E_i63g4iV8XJ6_ikyx-G8efH0bDohiO48lVfNOk0-MPn6ef4ofpr9PH6acPD9Pj8f27C8tMj_X5c3w_PZ6sp8e_zYYnxdurT5M3J_fa__uP5fg6_vbfZrb_wz0dxqPrRadznJxPvi2O39_s_5gOy9lpMzqN35fxbJJI2fFtPB6efYo7nVo-LuKyGE3jsRt_iEcX8UkRXxbDRfwmjnWE-nelf3FcnN7HszduPNPxzN5q-eR-OJx8Hu33WJx-jKdlcfH65J03r8-bj7-fL68eh_dz55319tIs09OqvtKyue0WV7-_-5xcppv55W-bdFj857RwJ0U8m5Uf62Z8UQxn8cksnv3yi26mRVOvs4f10csvR8sqeczaUZWsVtv-nyeL7rY9eml2Y0G26oYGrftv17n-0CCQLLZ90fn64qjIklZrvhyVWmB7urG1lfrXdVKrcdtz3a8vditNGNjaYh8Z2Or9h5FuGH6P9Ix1sC60vjfiOK5_sMqE0VObxon86NnOff-gSftwd5FjDnRZ9pMuz_Ktw30fHoFtB6FvHwrznlqxbSl7atK3vO9HY0eOdXDcrhMdfPLD5-fLPzwLh-cr0hn6qpOfl1mV6mJ80Uh4V9bZRNexqjQkHr30Xnwbsd-WxbUWOBo0lmVbrjdJddIsNtpM8jf1Y9eGwk6Scn29vc53TanhKv-13ewXtJmQsB0nu1aWm7bMH7XF--Y-0_VWK2Wdb7r74izf76xbVlWb27LejqRbOTuJJ8ldo43U6nVTPV5cN4ubp0_7BhW7bjbFda2bbftpqVG-3CFJ-y82SZuWSb3aN6V96XyVi3K531d3pMmizdLjTYccrZ9ndZaW-zvZ0526TioRaXWxbnUcGjgtz7EtYxxbQ7xlLG_gWY7tWJZlDyxv10NWm9tse6pzdQ5pVrN503TXRpBLyvpVUqeT2_lGJ8nWTZNmebKp1u-b78e_WyLEfNpI3LaF26ROzrMiq8dV-VDuD6ZaNDobRy91oxzdN-1N1SSK_iJ2XWe3idTe5ItvGH5i37fAf991iKxFSAWuHuv1daZzM9gicSAGrgahZaXLlYLWSVtk664vf1E3LtNJnWYP2m0n66G83dy-UtvdLaAlu-U6m9u79yB6e_TPoo1O224LHcwPttge9k-20Ijzgy10QX-6hQaAH2yhdn66RbjfQv0nTW6TQidKJyBZT3UmjMK6Me3w8JLbZrPtj9Z2L_tAfXoW2F24HwbqLnoWqIP5caD7t0Adww8DNVgyjTbV2N3pSKNNNTpUo7od0-hQjQ7V6FKNLtXoUo0u1ajRiGnUt0am0aMaPapRX92ZRp9q9KlGn2oMqMaAagyoxoBqDKnGkGoMqcaQaoyoxohq1PchpjGiGjuAw0HcwqO4hYdxC-vksOG04bjBvDEYOAYTx2DkGMwcg6Gj73mY3lgn5o7B4DGYPAajx2D2GAwfg-ljMH4M5k_37AjqxATSAx2qEzPIYAgZTCGDMWQwhwwGkcEk0sMuqhOzyGAYGUwjg3FkMI_0w5J-Ycc8sjGPbMwjG_PIxjyyMY9s_vunxw8grJP_BMI8sjGPbMwjPViiOjGPbMwjG_NID7bwT0qsE_NIjx6pTswjPfujOjGPbMwjG_NIr2KoTswjPZqkOjGPbMwjvS2iOjGPbMwjG_NIr2yoTsyj7nEx1Il55GAeOZhHDuaRg3nkYB45mEcO5pGDeeRgHunxMtWJeeTwZ3L8oVyPp3JYJ-aRg3nkYB7p9Sx-fIh1Yh45mEcO5pGDeeRgHjmYRw7mkYN55GAeOZhHDuaRg3nkYB45mEcO5pGDeeRgHjmYRw7mkYN55GIeuZhHLuaRi3nkYh65mEeaL0N1Yh65mEcu5pGLeeRiHrmYRy7mkYt55PL3RPxFEX9T1ONVEdaJeeRiHrmYRy7mkYt55GIeuZhHLuaRi3nkYh65mEcu5pGLeeRiHrmYRy7mkYt55GIeuZhHLuaRh3nkYR5pOgl97Yp55GEeeZhHHuaRh3nkYR55mEeaDUV1Yh55mEfdZCH6th3rxDzyMI88zCMP80hT4KhOPnmBz17g0xcwjzRLkerEPPIwjzzMIw_zyMM88jCPPMwjD_PIwzzyMI88zCMP88jDPPIwjzzMIx_zyMc88jGPfMwjH_PIxzzyMY98zCMf88jHPPIxj3zMIx_zyMc88jGPlNFAdWIe-ZhHPuaRj3nkYx75mEc-5pHP59PxCXV8Rh2fUod55GMeKceF6sQ88jGPNKue6sQ88jGPfMwjH_PIxzzyMY98zKMA80i5FHQ2JeZRgHkUYB4FmEcB5lGAedRlv9DJqVgn5pFyUKhOzKMA8yjAPAowjwLMowDzKMA8CjCPAsyjAPMowDwKMI8CzKMA8yjAPAr4HG8-yZvP8ubTvDGPAsyjAPMowDwKMI8CzCPlo1GdmEcB5lGIeRRiHoWYR8pHxPP7sU7MoxDzKMQ8CjGPQsyjEPMoxDwKMY-UaY0zJrBOzKMQ8yjEPAoxj0LMoy7RFurEPAoxj0LMoxDzSAm6VCfmUYh5FGIeKRma6sQ8CnneEU884plHPPUI8yjEPAoxj5QxTnViHkWYRxHmUYR5FGEeRZhHEeZRhHkkfwuqE_MowjyKMI-Uak91Yh5FmEcR5lGEeSSTFqoT8yjCPIowjyLMowjzKMI8kvMM1Yl5FGEeRZhHEeZRhHkUYR5FmEcR5pEsb6hOzKMI8yjiubA8GZZnw_J02B75sD0SYntkxPZIieU5sTLhwFp5VqzF02Itnhdr8cRYi2fGylcKa-W5sRZPjpXzCc-K5lp5fqzFE2QtniFr8RRZi-fIWjxJtnP2olp5mqzF82Qtnihr8UxZi6fKWjxXVm5wWCvPlrV4uqzF82UtnjBr8YxZi6fMWjxn1uJJsxbPmrV42qzFudXDyKGHk0MPK4deXg5caw83hx52DpxbPQwdejg69LB06OHp0MPUoYerQw9bhx6-Dj2MHXo4O_Swdujh7dDD3KGHu0MPe4ce_g49DB56ODz0sHjo4fHQw-Shh8tDD5uHHj4PPYweejg99LB66OH10MPsoYfbQw-7B-73oOG9h4scd8zh3OKeD0IB18q5xW0fFMq19jEi4lp7WBFxbnHzB4X2cE3iWjm3uAGEQrlWzi3uAWG4CYRCuVbOLe4DYbgRhEK5Vs4t7gVhuBmEQrlWzi3uB2G4IYRCuVbOLe4JIb9frpVzi9tCKJT7p3FucWcIhXILNc4tbg6hUK6Vc4v7Q-h3SQ9jOq6Vc4t7ROiHEdfax0WPa-Xc4kYRCuVaObe4V4ThZhEK5Vo5t7hfhEo4cK2cW9wyQqFcK-cWd41QKNfKucWNIxTKtXJuce8I2edzrZxb3D5CodxPk3OLO0golFtqcm5xEwmFcq2cW9xHQs-ouFbOLW4loVCulXOLu0kolGvt4f_awwC2hwNsHwtYrpVzi7tKKJRr5dzixhIK5Vo5t7i3hOHmEgrlWjm3uL-E4QYTCuVaObe4x4ThJhMK5Vo5t7jPhOFGEwrFWrnVhEJ7eEFzrZxb3G5CoVwr5xZ3nFAo18q5xU0nFMq1cm5x3wm9seFaObe49YRCudYe5uU93Mt72JdzbnEDCoVyrZxb3IPCcBMKhXKtnFvch8JwIwqFcq2cW9yLwnAzCoVyrZxb3I9CBc2wVu5IoVCslXtS6NUx18q5xW0pFMq1cm5xZwqFcq2cW9ycQqFcK-cW96fQ23uulXOLW1QolGvl3OIuFQrlWnvU3ehReKNH5Y0epTc4t7hZhUK5Vs4t7ldhuGGFQrlWzi3uWWG4aYVCuVbOLe5bYbhxhUKxVm5dodAetWK4Vs4tbl-hUK6Vc4s7WCiUa-Xc4iYWCuVaObe4j4VmcnGtnFvcykKhXCvnFnezUCjXyrnFDS0UyrVybnFPC8NNLRTKtfYoG8W5xY0tFMq1cm5xbwvDzS0UyrVybv1ffwuVp12qUL0KNpdd3WGVqF0tVdy5q7Xdpb0823Qg8aq13NW7nZaq0F0X38reaifbQrf7AsoTFYhu75Kqk-Bp9yrzXRb1rWohXyy0q20tZFUCz9o6qQapqg3X6WBbULhVpXkV2z_ZVNWv29rJw01ZScq63WRqpqqaexU2TiW20aYXndKRNi7TZN2p34W1SX1zsdjWK_5pPeMuZrDK6pWauivXj7t6xl3Za9WqXmnjLB0c1u2_Keufrsuldr-_02S5rWC8aLI8V61oHcHbZrV6n7VvVdy6K7asdV3V8_dts5g2aVc9ebOtxF2oVLMKMd-VRVmdZ_mmTverG-1ksMzawSJZrbW3zSo7PixxvTvmg6rX090V6qr1jxpt0r04fHE0r7qa6nXxVDv7JyfmW9ygyQdVFzlYNlW52J-g7uh3l6876MG6aap1uXx2Nm5VfLpcVmXWnrVpV2dbZbHzps2eSkhvW1Xg95viR7Whv9-FURRsq5c_70T_uF637T-uV3f5x_XqI39b_4euzUJHmzb327L0KpG-zm636zU9Q_HP-8VUBbe3_avre7t7uusqWnO8vdt3l63b61Mztn68_LgZDSG4mV2x93-MVj-tsiJZPE60zer99ur-9HbYRQ665p_dCNuecnjZ522ZtPeqVL7tlPsS68b7qvOmjdttzfSdR_TX_wE",
+      "metrics": {
+        "iterations": 512,
+        "hps": 697.6319896230108,
+        "hpsStdev": 25.26785128849195,
+        "effectiveHealingHps": 697.6319896230108,
+        "absorbedHps": 0,
+        "overhealingHps": 23.77137710005373,
+        "survivalRate": 1,
+        "manaRemainingMean": 1036.6170441677755,
+        "missingHealthSecondsMean": 1886684.8902944284,
+        "finalMissingHealthMean": 18921.540824845368,
+        "manaBlockedSecondsMean": 5.968282024934357,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "32e35b5bdf8574aea4c50d9be5ac691c2df05691b41cf8b790bd35874df382df",
+          "responseSha256": "2696c50343937b3e4342b2a7b101dcf5f3d3cec3c0129e1cf546f2636ec85ce8",
+          "capturedAt": "2026-10-28T09:57:54.490Z"
+        },
+        {
+          "requestSha256": "9e52ce825611b88dfba3ebf2400072e1198320e95dcb0e0855b526a6bf99c75c",
+          "responseSha256": "9548e73e24e1fd8c82441b5ee4a7a73957b84a7d31427929d7f359155f587a4d",
+          "capturedAt": "2026-10-28T09:57:56.494Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-36bcb0292130ab4a",
+      "profile": "healing-paladin",
+      "buildId": "direct-healing-support|tank|1:4,11|stacked|180",
+      "title": "direct healing support",
+      "archetype": "direct-healing-support",
+      "assignment": "tank",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "6931c9b70c6234c9cf7bc408cc3f9cc6e885d1021cecced514b85ddb6ab855a2",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lVprU9u6Fv0v-XqaO5bfZuZ-kPOAtKQ0PErhzvkg27Ij4tiuHwRK-9_vkhNCOFN6Np3pBFtrb0l7aVv20n4a3Mu6UWUxOLI_DKq6TFUuB0eDpRS5KrJhJXKRqGLwYVDLXIpGt5mu7SXMTQKbWW4csdQxfE8aMUDrMpH5LJFFq9pHQFMjTU2fBT6TTuJ4biqtOPWZywyPRYkTuXAQ-1YSu54rrcCxY98RqZemvmBpEjG4TGuxlrMEzhJVy7gdPg-t6aqqrNufrShWPxmGz9jPphXxSiY_mW_AtIllIWpV9ta1TGUti1jqhrKrYzkqi1RlXS1azL_HRLFvSj81hCmkGcVCCJP5IrBSIaKUJW4QxzKKAicxrAjDi03P9wwjMtPAMeJI-nvXZ9XepyUCV5qe7bkidmyZWk5qmzJCAPw0sQLfTIVl-65MHfgTkRHZJpyxBP6kZzv23ue5_N7Jpg1BgmvD8ej7zWjU-eGoi8ORCi_ltWOI46-GuJ5nt9-mTHwLN7fXi-zqeNrcXJ9XkQp_JCdfV_Kcj2d88V1m5cnk4zEbP9xtJptyMvl0dsEX5XjyeapGWbz4UfHw-HRzNcpuFuU6u3EW9qdwOTqPztXxlMP2818Lfq7uFhlsZ662PZmcqXznD74jY3x-dxnq9lO3632fVsEoWyzagC_07_ePPNR9fU9mi-NZhr4WC9PR9xaL7JMfzrPNjC95OOMfs-kJn0p-yvmPh1GYZeGEz274qkzm46sf8zv-ML-cP87vrh7m48nm84XB5mNc_-Cb-XjWzsdfF-E0OxUZbP6ahXxZ8kl2dsMXE3fOs1Hv64KPPvHZhl9m4YJ_nPFrHgo-3fCSh_wmC_kt_t_wEY9wXePvBr8Nfu_4ZHI3_8j7fyN-u-KPn8LZ6srKu-R4mSfH-d3sJLyPrUUbXefgJ1ni3j34WMbW5-rWdNpbcHc89sV4seSTz99WBb8q-RUPr_jkv1gAcVm08qEdHD0Nqlw8ynqUi6bpUzYVsV5qgyO2TV_Z6GxG2_90QvyNvBVxnz7Wrw-DTIoaLU8DhRumYzourJATS1HAuenY9q8P20bmeyYsdhemazovLQ4zDq1c09i3WZbtHrQxP3hxYgVu8Ko31z3waXoHbb7tv9ghxcznC6SGa7zq_WDMJtLRNQ_dOOylDUPbu3QNx9-3eKZtBS-92d5Lb57p-q8j5O7t9Jj3gzRN2zB-IdqpknmC6D_haXWvCjkDcXmOx9bgyPnw_FQ9VdkSNyxkdqVq1XYin5ZxBzOMvisetQ_ApkK1y57Y-1LhmZJe1t3uRi3x2O4fZtpL1dUqfYTFl3IjQTC8qCLt9EI4S3ed6Xt53q1V0T_u-uFshzgV9yWM4HVZ5o8XyzJe7a92DoFtyy5bFlhd_VWFJ7HabhvoP-tEnShRNDtX6AvhUrGqdn3pmYq4lsm409sC2iNZyETtli7W1qAVOXaN5qKtMQ883QzHMg3GLNPEcmOGM3QMy7QMwzCHhrNNiaZbyz7UKbIBY4bbtCw1NdiIhCpORJHM1lGHIJlYM4lMRZe3X8qX-W_vYB-46zC43sNaFOJcZrKY5OpB7SaTxyWiMTjCQh9synqVlwLoJ2wwS7kWGO0qjZ-3yv3-9Az8z73exgrsYgA2j0W7lIjNUG9bQ-xTzRArOqkaYFpRZ7LVufuEtFXJrEjkA3rVo3pQ6259Atd6BeDO9j6C2SffAbqf_Cs0OtE5gzbM5TcW_azfsMAT5jcW4PNNC-T_byzg500Lf2eB9EnEWmSIEwIg2jkiwXrQ6-mJddnpbETcdC9boEkF6jVEAiKjaUCHCsQFDYiXChpwG0MCMKACdcCJSDI3jEwOI7PDyPQwMj_YF6hIMkO7ZU5BkjnS4SQi6flD5qh_CtOQZI6wr1ORZI5MMkcmmSOTzJEOEhFJ5gg7IhVJ5sgic2SRObLIHFlkjiwyRxaZIz11IpLMkU3myKbvRGSObDJHNpkjm8yRTebIJnOkJ0REkjlyyBw5ZI4c-usCmSOHzJFD5sghc-SQOdLDJCLJHOGrkookc-SSOXLp73RkjlwyRy6ZI5fMke6ciCRz5JE58sgceWSOPDJHHv3Fm8yRR-bII3OkXRKRZI58Mkc-mSOfzJFP5sgnc6QlVyKSzJFP5kgDiUgyRwGZo4DMUUDmCNo1FUnmKCBzFNA_Yd_3DUuF0r9iDfpnrEH_jjXoH7IG_UtWy6RUKP1b1qB_zBp0tt4jOdDZeofo8A7V4R2ywzt0h3cID-9QHt4hPdC1hz6sVOg7FCI6W3T9gdEFCEZXIHAaQofS2aKLEIyuQvQrmwqls0UXInAiRIfS2aJrETiipkPpbNHlCJx7kaF0QYLRFQlGlyQYXZNgdFGC0VUJRpclGF2XYHRhgtGVif75ToXS2aKLE4yuTjC6PMHo-gSjCxSMrlAwukTB6BpFv8VSoXS26DIFo-sUjC5UMLpSwehSBaNrFYwuVjC6WtG_5VChdLboggWjKxaMLlkwumbB6KIFo6sWjC5bsH_VLXBeW6G6CgUMSp_D48y2qVDsoItNWBDYOCR-bYvaA30APFcoUSmy_Vl2f-67KyeYoVyivhd5rz-ic1S5qKxYozLgIkZHfWUACmFkXYh8mODsvUiG_fF6jeIolIdNuzy_7CsJwk7lGEhbdxJu8rzc4Jg_wVBLmF7ocY5grBLR6rFvYTWO5C_i_vT-zdN9jRk2smjg6h5FbtvTfV0DgsqNBsYyGR6Wmq1U8WZbitHu-jsWVX-gH5cyTVE5gRmclk3zRdanKPXQpQdo00U_X-oynqPKrvepy1IyFC6gLOFeZSo_l2lXJLvmEp0MK1kPY9G06K1r5Piw4GM754MakPmWH11gNiphovuMcl1QVGT7OpI3wvKMG5bpMNfIYVXmKt6FR899S56e8rAty7xV1atYrFGIoapcyfqsTnTNCUpE0rKW-3KK3iuAL0vid4UShyvQ66t6Xq_BP7ajEOKP7X3Bzh_aUeTwj_a_wUyM2Sblpq_JQrVQK9d9u2XbuijiVU7MUXyyr1DYrmidJmgZ92t9S5rude_GdHXJ0-_c6PcTqpttEdQf0cjSXGYifpzBpvnSs_vmctgih9r9q4XQ58kh7XX5iHREd7sunyuYzF-IHMy3xZn96Y756_8",
+      "metrics": {
+        "iterations": 512,
+        "hps": 474.1875099553317,
+        "hpsStdev": 54.570746918249306,
+        "effectiveHealingHps": 474.1875099553317,
+        "absorbedHps": 0,
+        "overhealingHps": 3.2513032533387083,
+        "survivalRate": 0,
+        "manaRemainingMean": 5609.22449313348,
+        "missingHealthSecondsMean": 2152448.8940228173,
+        "finalMissingHealthMean": 18704.85875372489,
+        "manaBlockedSecondsMean": 0,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 103626.5625
+      },
+      "proofs": [
+        {
+          "requestSha256": "0a2721b5a51db738f7fc2846c149def48bd12944772ac2d63d8d3739886db79b",
+          "responseSha256": "ad24be2c56e548cf49b6a8d6ab1a140e93d7528efddf6ea1180a5ccd6307e6ab",
+          "capturedAt": "2026-10-28T09:57:59.033Z"
+        },
+        {
+          "requestSha256": "4a9b49bfb3d0cd136bd0133916c2eb27f298849500b91d02c1fc08e536b1a217",
+          "responseSha256": "0fab3238a4bb5007e973f2a94bfb5be1e9876703ed829f9a9daabb763f352cd3",
+          "capturedAt": "2026-10-28T09:58:01.577Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-8bb17fc028001d74",
+      "profile": "healing-paladin",
+      "buildId": "vigil-mobility|burst|1:4,11|stacked|180",
+      "title": "vigil mobility",
+      "archetype": "vigil-mobility",
+      "assignment": "burst",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "cb2317a4688b7d90a413a2983d435fc1012b63deec22fb8f6552833286865687",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lVjbUuO6Ev2XvO7JKd_jUHUe5FzADAESYBg4tR9kS3ZEHCv4ksAw_PtZcq6M8VSginKsXt1a3VJL3X5rLXmWC5m2TqxvrUUmI5Hw1klrymki0ri9oAllIm19a2U84TRXMsOxOkx3WNfSTScM9MjW3A7XQoDmkvHEZzwtRPEKaKRFkeHqXVfnNrM7TsTNMHJ1R9c6esDswIGB0DVZ6HQcbnZtK3RtGnWiyKV6xAIdJqOMzrnPYGwpYpG05zIQCaz_DsosL37r4K3rv_OChjPOfuuuBp085CnNhKzUMh7xjKchVwJZZiHvyTQScZnRAo5XmMB2NOZ0oo5hmBZzu7rOAzcwLde1dZPaoR0Ytt7hXScKbCPkGLR0XaMhBeswYHvTV4udTWbTgGqh03WYZXVtLbS0btS1As4YpuGRoRtc45qrIZABDyzDigyAqOWGZmDRYGdzwp9Lnhceou9YMNx7nvV6S9_rldLrCe-W39saPf2h0ftR_PhzqNOf3urxfhzfnQ7zh_vJIhDeL3b2Y8YnpO-T8TOP5dng_FTvvzytBis5GHy_uiFj2R9cDkUvDse_FsQ7vVjd9eKHsZzHD_bY-u5Ne5NgIk6HBLqX_4zJRFxPCHR9R-meDa5EsrEH24HWnzzdejFsXiy6vXg8Xj5bnno-n5PqWXTJWM31zPzxqR9jrvE4K3yMjceafzcZxSufTMnAJ-fx8IwMObkg5NdLz4tjb0D8BzKT8ah_92v0RFaj29Hr6OnuZdQfrC5vB8XlLcaEpuP3atTH7_752BvGFzSG3j--R6aSDOKrBzIeOCMS9yp7N6T3nfgrcht7Y3Luk3viUTJcEUk88hB75BH_D6RHArxn-J3jmeP5RAaDp9E5qf565HFGXr97_uzOTEp2Ok3YafLkn3nL0BwXwX2CNWJTjC2xJtPQvFw8GnbxiPU77bu0P4bDlz9nKbmT5I54d2TwX2yCUKYFfylaJ2-tRUJfedZLaJ5X-RrRUG231om-zl2eq1SG7H8qKf5F0tKwyh3z_Vsr5jSD5K0lMGDYhu1AC3kxpSmMG7ZlvX9bC3W3Y0Bj82I4hr2X2Lp2qOUY2k5mmpZzINPd7t6I2XW6H2ZznAObRudA5nb07gETzdi-GLbmaB9mP-BsGB3XMQ7N2PrOiqPZ7h4Innv7Vmdvv2NY5m5qvDnuxwg5eyNKuPPA6HQNy31HvCPBE4b4v7WYWIqU-1i6JOEh1O1v20P1QsRTDJjI74XIRFHSZCjDEmrgv5QCp0h0m5XFtFrXjOOEro4vpbEoMxG9wsi1XHEsJzREGpVq2a-ijWE1liTlXKTVAVdNvaYzpEsJJVidyuT1ZirD2e5tYxDYRJnJf6jTtpIWsoynKfZWJY1LmjFB03xjDLMxHikft3MFPOVM7N_FHHtzydl5yWI-x92w3q84vktRXEXnZV7AZ1jCJi1oAkB-U2TwEWedZpuGpummgfNX0zVbb9uaZrRtvKk_Y50feTnnVdQjpAZcAqdISqwMcmRORXpGU-bPg1JNgg0EvrRMimu5D896BBfDU5lxtaRKMaUTHvN0kIgXsfaUJqFEsFon2PWtlcxmiaRAv-HGmfI5BeFZFG4vzfb2Et0C_7NUF1qK-wzA_DUtphyet6uLrI2bK29jf7NFDlBBs5gXKpPfkMSC-SnjL5hW0XoR83J-Bttqh2BkPY7rtkrFAzSi_Ae6ilqlAWc-0ajcbtBALD_RwJ5s1MBp8IlGtSYNGu5GA6nE6JzGCBQCQIsRIqFj5YH66B-dy7JKThwOap4mqFq7I6Hw6FgoXPkcaq49OoZrHdrItQ5t5FqHNnK1jo9rHdrItQ5t5FqHNnJFfhzLtQ5t5FqHNnKtQxu5do6Pax3ayLUObeRahzZy7R4f1zq0kWsd2si1Dm3kilvg-IOgjm0-CerY5qOgjm3miwvsaL51bDPfOraZbx3bzNf8Qnzr2Ga-dWwz3zq2ma-CfuVi-MrN8JWr4Vi-zhfiW8c2861jm_nWsX_yxRW8QAuN-lSo2grXcL5ALau6CUPrmh-V26rUEKm61EcCTUgab-_2qmLP0MGKjG9KyogmOVdcdgb1btcC16MMrosDHgpV86r6OlvSRPlkYyI0RiJOVY15E4J6VUKid-JZSpM2Q4WWsnZVhG0YDcskua1KTq8UCZgUWclVmZfIFYpBBuclVG8U0R6UBaOFisYaltF0dhNWNV5jDagw7ZynOUwt8dliXQOqrqFVpjmUOWsffqGYibRRFoHtZr5TuqiqvlDyKBKhgAcXMs-veXaBfkEVqJCpPvE6k-EIX2Uqm6qTiVHeonitPqZMeFSmbCOWmKS94Fk7pHmB2cqc9w-7hrXPB43EaL0-6rtET0JFFR2o_hPVhabxrh1pCMwW15ZRu-o42guZiHATIOX9evmU0-1CyqQQiw_RmKNgF4tE8OwqY6p1QeMRyYzvyu7KKoD7TfFZPX24CTtV9_cxMf8qRzL-VV71eH-RI-n-kP-LtQnhLZOrqpFHh1nweSU3LUvVzh-yYoQmZV3t7fa0ShRI-tVuXy9b1ahuzRiO6pM_M6NOsWPNrJvlv6KRpwmPafjqQye_rla3cTuskW1l_sNGqDLlcNkz-YqExHSbKbeNsPGOyEF9_VVPnQe68f5_",
+      "metrics": {
+        "iterations": 512,
+        "hps": 592.1827957709417,
+        "hpsStdev": 15.968945178235392,
+        "effectiveHealingHps": 592.1827957709417,
+        "absorbedHps": 0,
+        "overhealingHps": 61.19859968638863,
+        "survivalRate": 1,
+        "manaRemainingMean": 641.1031923427039,
+        "missingHealthSecondsMean": 1203843.1519257324,
+        "finalMissingHealthMean": 4771.070041103009,
+        "manaBlockedSecondsMean": 1.767578125000268,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "ab60c135bf3ad91094a76cd8e71ddc2fce645f5578847a947f7699b0b7882892",
+          "responseSha256": "0683e6055519e1c18c4f91a51799c2fbadf07478d83f7ec866b6a18da267bd6b",
+          "capturedAt": "2026-10-28T09:58:02.265Z"
+        },
+        {
+          "requestSha256": "8c58b2513cbc8032dec031efbfe45c16bb5d04d6e4b3802e50be20945fe07497",
+          "responseSha256": "90ec0d83d86236ceef8d1f56370ccb0a2997c3f659c317cd63b3ddc108a0966d",
+          "capturedAt": "2026-10-28T09:58:02.940Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-3181f5be1e840996",
+      "profile": "healing-paladin",
+      "buildId": "vigil-mobility|group|1:4,11|stacked|180",
+      "title": "vigil mobility",
+      "archetype": "vigil-mobility",
+      "assignment": "group",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "9a13b3366123568d2ac6188171f42a811d4f4e37b271c4563daeeacb237af0da",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lZ1dc9PItob_S24PPketb1G1L2THCQZMcIAJ4dS-UPQVEcXyyHZMYPjv-5UcgjMFsx9NFTWJtLr1tqTWE8u93vXt6C5v11WzPHruPjtatU1R1fnR86PrPKmrZTlaJXWSVcujZ0dtXufJuttn-26QGT-LXOP46ZUpPCsMcitV0G2T5fUsy5ebanOv0MIqCjs0UWhyL_MCv8idtAiNb6zAXGXela8O0tDJUj_wcyfy3DT0kiIoijAxRXZl1GXRJrf5LFNnd1VZ1aPb5qqq1ftfZdtsV38Z6Tbmr_UmSW_y7C8TWmqzTvNl0lZN36zNi7zNl2ne7Wi2bZpPmmVRlds22WjgfYxnWYmfB64JnKvQ8p0kjfLUijKvKBzft4PCtYrALay8yJI0KEzmRs5VqhPgZkZnoXjs-mz12GduksgOPNdy0tC_chITXkW-46WWUa95rt2ZnTuJ6yU6VKIzlRa5lYdFEGSpFwY_-zzP_9zm681YZ9931fFkG08mf97o33Qyqcbv8wvPSk7_sJKLefnp44lJPo53ny4W5YfTk_Xlxfnqqhp_zV78cZOfx8ezePFnsWheTF-emuMvn3fTXTOdvjp7F3fbzu7eTMeVq20vpnN_EZ9XN-OyOZ2-etmcnn04m5SXi5sL6_L6evFq_OW4uImnl80ufTUeT85uymm3rVktwstwPNfPk4soti6t3WW3_39a7Y-_THwd-3g6e1lPysViE8WLSZku_sxmi9NZ-aHbZnvxuPu_NftwPi93s_g6Hs_il-XJi_gkj1_H8dcvk3FZjqfx7DK-acr58Yev88_xbv5-fj___OHL_Hi6e_N-unnzXtsqy-jn3fxYPx-_XIxPyteXn2evTnbS8PZTNb2Of_y3XTz84J6O48l12mmdJuezH5vjtzcPP8zH1eK0mZzGb6t4MUuk7vg2no7PPsedVm2flnFVTubx1I0_xJN38UkZX5TjNH4Vxxql_l3qXxyXp7t48cqNFxrT4rW2z3bj8ezr5OGI5emneF6V716evPGulufNp4_nq8v78e7KeWO9vjCr7LReXmrble2Wlx_ffE0usu3VxR_bbFz-32npzsp4sfh6Ofl4el-OF_HJIl7861-6odJmucm_bI6efzta1cl93k7qZL3u536RpN2te_Tc7J8D-bp7LGjf_3cT7N96ACRpPw-d78-OyjxptefbUaUNtmd7vlppjl0nS3Vue677_dl-pwkDWy0eIgNbM_8w0g3Dn5GesQ72hdbPThzH9Q92mTB67NM4kR89ObjvH3RpHx4ucsyBLst-1OVZvnV47MMR2HYQ-vahMO-xF9uWsscufcv7ORo7cqyDcbtOdPCbHz49X_7hWTg8X5HO0Hed_KLK60wX49tRVt1Vy3ym61jXearW3rMfT-vXVXmtDY4eHKuqrTbbpD5p0q2aSf5dU-nxVLxvt5vr_iK3uR79_XOxa7HatlVxr07eNrtc11YtqmWx7e6Bs-Kh425bXW9vq2X_5OwPvZdzktw1aqRer5v6_t11k948_vbQoWLrrpv1H91jvN-7abbl9VI3Wr-33CZtViXL9UNnOlqWF90YfxzrKl_mWfXz9-pWN-pdnr3cZmV-K-jsb95tu95Wm7Pi5Xa90ZjVk-7YTVIrYP1u02qMeohanmNblnFsW3edsTwzEgPskaffuv_s_WRZb2_z_qwXmicakjQVTdNdJrEuqZYvkmU2u73adgfR_SO9ybbevG1-np79FhHn87bNu0vaNVwm53mZL6d19aXajzSp00Yn6-i57pmjXdPe1E2i6G9C2XV-m0jwTZH-oPHoB51_BP7vXUfKpUCpwPX9cnOda-SjnpAjIXE9Ci0rW60VtEnaMt900_qbZnSVzZZZ_kWH7WR9qW63ty_Ud3eHaMt-uzje38gH0f3on0T3Z61vocH8okU_7N-00MPnFy10T_62hZ4Fv2ihfn7bInxooamUJbdJqROlE5Bs5joTRmHd4-1weMlts-2nptUf5SFQvz0J7C7cLwOdvwVqML8OdP8WqDH8MlDPTabRphptqtGmGh2qsZt5SKNDNTpUo0s1ulSjSzW6VGP3CEIaParRoxr11yrTqL_gmUafavSpRp9qDKjGgGoMqMaAagypxpBqDKnGkGqMqMaIatSfRkxjRDV2DIcPcQs_xS38GLewTg4bThuOG8wbg4FjMHEMRo7BzDEYOvpTD9Mb68Tc0VsCqhOTx2D0GMweg-FjMH0Mxo_B_OleIUGdmEAGI8hgBhkMIYMppJdUVCfmkMEgMphEBqPIYBYZDCODaWQwjgzmkY15ZGMe2ZhHNuaRjXlkYx7ZmEc2__wz4AMQ1sk_AmEe2ZhHNuaR3jFRnZhHNuaRjXmkd1z4IyXWiXmkt5BUJ-aRXgNSnZhHNuaRjXmkb2SoTswjvaWkOjGPbMwjfWlEdWIe2ZhHNuaRjXlkYx51b46hTswjB_PIwTxyMI8czCMH88jBPHIwjxzMIwfzSG-YqU7MI4e_k-Mv5Qa8lcM6MY8czCMH88jBPHIwjxzMIwfzyME8cjCPHMwjB_PIwTxyMI8czCMH88jBPHIwjxzMIwfzyME8cjCPHMwjB_PIwTxyMI9czCMX80grLeireMwjF_PIxTzSghGqE_PIxTxyMY9czCMX88jFPHIxj1zMI5d_T8S_KOLfFA34qgjrxDxyMY9czCMX88jFPHIxj1zMIxfzyMU8cjGPXMwjF_PIxTxyMY9czCMX88jFPHIxj7T2jurEPPIwjzzMIw_zyMM88jCPPMwjD_PIwzzyMI88zCMtjKI6MY88zKN-vRD8th3rxDzyMI88zCMP80ir4ahOvniBr17gyxcwj7RgkerEPPIwjzzMIw_zyMM88jCPPMwjD_PIwzzyMI88zCMP88jDPPIwjzzMIx_zyMc88jGPfMwjH_PIxzzyMY98zCMf88jHPPIxj3zMIx_zyMc88jGPfMwjH_PIxzzyMY98zCMf88jHPPIxj3y-no4vqOMr6viSOswjH_PIxzzyMY98zCMtsKc6MY98zCMf88jHPPIxj3zMIx_zKMA8UloFXU2JeRRgHgWYRwHmUYB5FGAedYkwdHEq1ol5pHQUqhPzKMA8CjCPAswjpe5RnZhHAeZRgHkUYB4FmEcB5lGXjQh1Yh4FmEcB5lHA13jzRd58lTdf5o15FGAeBZhHAeZRgHkUYB4pNY3qxDwKMI9CzKMQ8yjEPFJqIl7fj3ViHoWYRyHmUYh5FGIehZhHIeZRiHkUYh6FmEch5lGIeRRiHoWYRyHmUZdzC3ViHoWYRyHmUYh5pFxdqhPzKMQ8CjGPlBdNdWIehTzviCce8cwjnnqEeRRiHoWYR0oepzoxjyLMowjzKMI8ijCPIsyjCPMowjyKMI8izKMI8yjCPFLWPdWJeRRhHkWYRxHmkaxKqE7MowjzKMI8ijCPIsyjCPNIBjRUJ-ZRhHkkdxiqE_MowjyKMI8izKMI80gOQVQn5lGEeRTxXFieDMuzYXk67IB82AEJsQMyYgekxPKcWIsnxVo8K1bmHlgrz4u1eGKsxTNjLZ4aa_HcWIsnx1o8O9bi6bEWz4-1eIKsxTNkLZ4ia_EcWbnFYK08S1aONFgrz5O1eKKsxTNlZZGGtfJcWZnCYa08W9bi6bIWz5e1eMKsxTNmLZ4ya_GcWYsnzVo8a9biabMW59YAI4cBTg4DrBwGeTlwrQPcHAbYOXBuDTB0GODoMMDSYYCnwwBThwGuDgNsHQb4Ogwwdhjg7DDA2mGAt8MAc4cB7g4D7B0G-DsMMHgY4PAwwOJhgMfDAJOHAS4PA2weBvg8DDB6GOD0MMDqYYDXwwCzhwFuDwPsHrjfgx7vA1zkuGMO5xb3fBAKuFbOLW77oFCudYgREdc6wIqIc4ubPyh0gGsS18q5xQ0gFMq1cm5xDwjDTSAUyrVybnEfCMONIBTKtXJucS8Iw80gFMq1cm5xPwjDDSEUyrVybnFPCFn_cq2cW9wWQqHcP41ziztDKJRbqHFucXMIhXKtnFvcH0KfSwYY03GtnFvcI0IfjLjWIS56XCvnFjeKUCjXyrnFvSIMN4tQKNfKucX9IlTJgWvl3OKWEQrlWjm3uGuEQrlWzi1uHKFQrpVzi3tHyEmfa-Xc4vYRCuV-mpxb3EFCodxSk3OLm0golGvl3OI-EnpHxbVybnErCYVyrZxb3E1CoVzrAP_XAQawAxxgh1jAcq2cW9xVQqFcK-cWN5ZQKNfKucW9JQw3l1Ao18q5xf0lDDeYUCjXyrnFPSYMN5lQKNfKucV9Jgw3mlAo1sqtJhQ6wAuaa-Xc4nYTCuVaObe444RCuVbOLW46oVCulXOL-07oGxuulXOLW08olGsdYF4-wL18gH055xY3oFAo18q5xT0oDDehUCjXyrnFfSgMN6JQKNfKucW9KAw3o1Ao18q5xf0oVNsMa-WOFArFWrknhb465lo5t7gthUK5Vs4t7kyhUK6Vc4ubUyiUa-Xc4v4U-vaea-Xc4hYVCuVaObe4S4VCudYBdTcGFN4YUHljQOkNzi1uVqFQrpVzi_tVGG5YoVCulXOLe1YYblqhUK6Vc4v7VhhuXKFQrJVbVyh0QK0YrpVzi9tXKJRr5dziDhYK5Vo5t7iJhUK5Vs4t7mOhlVxcK-cWt7JQKNfKucXdLBTKtXJucUMLhXKtnFvc08JwUwuFcq0DykZxbnFjC4VyrZxb3NvCcHMLhXKtnFv_1d9C5WlXqluv2s1VV3dYJWrXK9V57spud2kvT5qOJF6lmLt6t_NKxbqX5WPp3r7MbZ5WXfXmmSpFt3dJ3QnwdHDV-67KZVct-V2qA_XFkFUSPG-XST3KVGt4mY36csKtys5XbX6yrev3ffHk8baqJWTTbnN1U9fNTmWNM0lt1PRdp3OixlWWbDrt-7A2Wd68S_tqxb-tZtzFjNb5cq2u7lTZf1_NuKt_fbRdrtU4z0aHRfxvquVv9xVS-3C802TV1y9Om7woqrTSCF436_XbvH2tytddqWXt68qfv22bdN5kXe3kbV-Su1ShZpVhvusKVZ_nxXaZPexudJDRKm9HabLe6GjbdX58WP96P-aDktjz_fXpSvdPGjXpjnlVd6XVl-VjWe3fnJYfcaOmGPWVs0erpq7Sh9PTjX1_8bohjzZNU2-q1ZNzcavC09WqrvL2rM26EtwqoF00bf5YPrrvVYE_b4lf1YX-eQdGUdAXMX86gf5xv27Zf9yvqfKP-zU__rb_37oyqUabNbu-Or0qpW_y236_lmYo_umcmKvYdj-3unm3v6O7aaI9x_29vr9o3VEfu7H1weXX3ejxgbvZ13z_x2jN0jovk_R-pjbrt_3V_e3tsI8cdd0_uRH6eXJ42a_aKml3qlLeT8mH6uvG-67zpsZtX7p97w_9_T8",
+      "metrics": {
+        "iterations": 512,
+        "hps": 698.1131818564581,
+        "hpsStdev": 25.341197921676685,
+        "effectiveHealingHps": 698.1131818564581,
+        "absorbedHps": 0,
+        "overhealingHps": 32.75747952714827,
+        "survivalRate": 1,
+        "manaRemainingMean": 925.9602753983345,
+        "missingHealthSecondsMean": 1912210.0053956932,
+        "finalMissingHealthMean": 18834.926222824706,
+        "manaBlockedSecondsMean": 6.036149253199929,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "24b6adee3021ae8f9c7b841cb8146ed34b82d7f5e1d1ab52dd289f88bfd4001d",
+          "responseSha256": "9b0ecb4127ca0865618ac6114cbfe05a080b11d0581702227bd7d231fa0b37cd",
+          "capturedAt": "2026-10-28T09:58:04.892Z"
+        },
+        {
+          "requestSha256": "4086614705b8483d7577f8d828fd4e1a8f56dcb5e7bf119926bb6520f6738d08",
+          "responseSha256": "3d79942cee32af000d98b64d96d96b7ea0efe9bf72ae2a7dc862f0c5fdf671d3",
+          "capturedAt": "2026-10-28T09:58:06.893Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-f46a2dd5da8317af",
+      "profile": "healing-paladin",
+      "buildId": "vigil-mobility|tank|1:4,11|stacked|180",
+      "title": "vigil mobility",
+      "archetype": "vigil-mobility",
+      "assignment": "tank",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "fe326b156bcf75bcab4d9eee5f9851c46210acaa77873a3095fb2201d90d78bf",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lVrZVuMwEv2XvA6Zsby73-xsBAjgsDU9Zx5kW3YEjp32Qli6_32unBDCnKanwjk0HetWlaSrsqKreus9iaqWZdH7Zh71VlWZylz0vvUWgueyyPornvNEFr2jXiVywWvVptumkzA78Uxm2HHEUktzHaHFAC3LROTTRBSNbF4ATbU01V3muUxYieXYqTDi1GU20xwWJVZkw0HsGklsO7YwPMuMXYunTpq6nKVJxOAyrfhSTBM4e5KZzPvLMpI5vP9qePH4i6HbjP2qGx4_iuQXczWY1LEoeCXLzqoSqahEEQvVULZVLAZlkcqsrXiDcXcY3dVSrutCWKmuRVzzIuHGtu06lieiRLdsEbua69q6mVqWY6DLjh2lruZw09Es1965vljtfBqGp6Wu6yQaS53EShNmaJodW7BzTI3FLEqFa9sssiPmRKlpum7KbNOFVZLYlr7zORc_W1E3ASbfNuF48LMcDJ5mwaCtg4EMrsWdpfHJrcbvZtmP72PGvwfrH3dhdjMZ1_d381Ukg9fk-PZRzP3h1A9_iqw8Hp1M2PD5YT1al6PR6cWVH5bD0flYDrI4fF35weRsfTPI7sNymd1boXkaLAbzaC4nYx-25_8I_bl8CDPYTm1lezy6kPnWH3xH2nD-cB2o9jO77XyfrbxBFoaN54fq788TP1CxfibTcDLNECsMdUs9C8Ps1A1m2XrqL_xg6p9k42N_LPwz3399HgRZFoz86b3_WC5mw5vX2YO_nl3PXmYPN8-z4Wh9fj1qzq_x7EH9DfEM_x_6Lzf-_H6gl4OJfyn9cMrhebj0R8HFg6_i4Pko82U2mPkj07_xB1f-OPPvsiD2T30fPcTvPX59P5us_fDU9EP0JzzD8-k6CKavg9DvfrLJD38ms6uT8bkVFfPyx_f56v4lWEfGuXZ2x1bJJC_u8SzSzez--_krv0va6O62TYLsX5NMm4bB8NY6WY9P_bHv3_oBFkFcFo14bnrf3nqrnL-IapDzuu7SNeWxWm69b2yTuqJWmYy2f6uk-A9ylsdd6hi_j3qZ4BVa3noSD3QLixpWyIsFL-Bct0zz99GmkbmODovtB93WrY8Wi2n7Vrau7doMw7T32pjrfTgxPNv7FM2293zqzl6ba7ofdq6j6e8fdEuztU_R9_qs6w7Sc9-NxT7a0LWdSxsJu2txdNPwPqKZzkc0R7fdzzNk7-xUn3ed1HVT035jtlMp8gSz_9ZL5JMsxBTE5bmIYWwdvb9Rz2S2wAMD2b2SlWxano_LuIUZev9USrxD0uuqbRYdq5XA67l7eSmLVVvJ9AVOLsu1AJmwkEXaKtIv0q1j9SzP26UsutdbF3rTnTF_KmEEr4syf7lalPHj7tPWIbC5clPfqldt19qUbbYosLK61qzlVSJ5UW-dIRomR8ZytY0Gi0SkatDvwSNRiERuP2PRyiWW6pNITtokE0vsFJvl21Z1K5uL9KSt4Q_jBRO9hucA1FdNhUHj1adZhq5pzNB1rEOmWaxvaZqOf02mqR_10kS-1O1SdDykSBUMEr1My1Lxhh2Ky-KYF8l0GbUqChYUOszbvLksPyZs8wQbxUNbCcWxMiz4XGSiGOXyWW7Hnsclpq_3DVnQW5fVY15yoN-wAy3EkqPHj2n8vof23_fUd-A_n9T-VmB7A7B-KZqFwND7al_rYyOr-1juyaoGpuFVJhqV2G_IaZlMi0Q8I6rq1bNctstjuFZLBk82z7H5dpm5h-4G_wmNICqh0Iax_MGiG_UXFmDyDxZYpF9a4OXwBwv4-dLC3VogtxK-5BnmCRPAmxlmQhGuXnD7w-PLslXrCfOmomyAWDA0ILZnGhDpTgNicdKA-EADOlTgZg4JQI8K7DKMhiRzw8jkqC9PRCSZHkbmB5sGFUlmaLvMKUgyR2o6iUh6_pA50skcqR2TiCRzpJM50skc4VxARZI5UpNERJI5UrsiEUnmyCBzZJA5MsgcGWSODDJHOJAd8IYnIskcmWSOTPpORObIJHNkkjnC2ZeKJHNkkjlSAyIiyRxZZI4sMkcW_esCmSOLzJFF5sgic2SROVLdJCLJHOHISUWSObLJHNn073RkjmwyRzaZI5vMkQpORJI5csgcOWSOIJpRkWSOHPoXbzJHDpkjh8yRcklEkjlyyRy5ZI5cMkcumSOXzBHEIiqSzBHk2AMOUkQkmSOPzJFH5sgjc-SROfLIHHlkjjz6EfawMywVSj_FavRjrEY_x2r0g6xGP8kqDZUKpZ9lNfphVqOzdYjkQGfrANHhANXhANnhAN3hAOHhAOXhAOmBrj1000qFHqAQ0dmi6w-MLkAwugKBqxI6lM4WXYRgdBWiW9lUKJ0tuhCB6yI6lM4WXYvA3TUdSmeLLkfgUowMpQsSjK5IMLokweiaBKOLEoyuSjC6LMHougSjCxOMrkx073cqlM4WXZxgdHWC0eUJRtcnGF2gYHSFgtElCkbXKLotlgqls0WXKRhdp0B9CB16wO0GnS26VsHoYgWjqxXdtxwqlM4WXbBgdMWC0SULRtcsGF20YHTVgtFlC_Z_dQvc165QfoXqBqnu4XFnW69QCaEqUZjnmbgk_myLYgV1ATyTqF8pst1ddnfvK2Kp6humqKWonnje6Y8IjhIYmRWqfOAqRqCuOgBVMqIqeN5PcPdeJP3uer1C9ZSsxLjN8-uumiBoZY6ONFUr4CbPyzWu-RN0tYTplernAMYy4Y3q-wZW4Ur-Ku5u77-83VeYfi2KGq6eUJ-2ud1XBSK9tqhhLJL-fi3aoyy-bEvR2228CV91F_pxKdIUhRYYwVlZ15eiOkNtiCo9QJuqCLqsyniG8rvOp6pZyVC4gLKErmpuLtK2SLbNJYL0V6Lqx7xuEK2txXC_QmQz5r2ikdmGH1WBNihhor6PHPWiXNUbFdmu9OSLiXnH9cu031WX9FdlLuPtBKnRb-hTg-43ZZk3cvVpNpYoxZCrXIrqokpUmQpqStKyEruCis4rgB-L4k-lEvtr0OmKfj6vwr-2oxTir-1dPc9f2lHm8D_t_wE3MUablOuuZAvFRI1Ydu2GaaqyiE9ZMUP5ya5GYbOmVaKgZdit9g1tKuq7m01xExWNw4uqn_pTUPV95q9ukKe5yHj8MoWz-rJj98vlsEH2VdxPC6HLlH3aq_IFCYlw25DvRU_6b8wczDf1m939jv77vw",
+      "metrics": {
+        "iterations": 512,
+        "hps": 474.1875099553317,
+        "hpsStdev": 54.570746918249306,
+        "effectiveHealingHps": 474.1875099553317,
+        "absorbedHps": 0,
+        "overhealingHps": 3.2513032533387083,
+        "survivalRate": 0,
+        "manaRemainingMean": 5609.22449313348,
+        "missingHealthSecondsMean": 2152448.8940228173,
+        "finalMissingHealthMean": 18704.85875372489,
+        "manaBlockedSecondsMean": 0,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 103626.5625
+      },
+      "proofs": [
+        {
+          "requestSha256": "1f32bd6782ad05ce706bdfd61ba8bfb34e4eaed9fd4d48179eaaefed85b290dd",
+          "responseSha256": "a781f636d2c8f0d5aff5c6dfcd0bee62c0bc701bd9e47e282e35b55d86e54a1d",
+          "capturedAt": "2026-10-28T09:58:09.479Z"
+        },
+        {
+          "requestSha256": "80927f7a3101c3a1be248fc1d6801432ef362156269ecebe7e555556d5bdd1f4",
+          "responseSha256": "049c1982641b876cce5b0fb1a59824df53fe2761bf23f13c197c35f0e31acc25",
+          "capturedAt": "2026-10-28T09:58:11.979Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-3efb9e17acca8a92",
+      "profile": "healing-paladin",
+      "buildId": "vigil-support|burst|1:4,11|stacked|180",
+      "title": "vigil support",
+      "archetype": "vigil-support",
+      "assignment": "burst",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "cb2317a4688b7d90a413a2983d435fc1012b63deec22fb8f6552833286865687",
+      "demandSha256": "0b8a3f5f1414875d630cc1788405aec939f5635831b145c6357b17cd86c4a9f8",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lVjbUuO6Ev2XvO7JKd9jU3Ue5NwwQ4AEGAZO7QfFkh0Rxwq-JDAM_36WnAthjKcCVZRj9erW6pZa6vZra8WzXMi0dWJ9ay0zGYmEt05aM04TkcbtJU0oE2nrWyvjCae5khmO1WG6wzxLN51wqke25na4FgK0kIwnAeNpIYoXQCMtigxX91yd28zuOBE3w8jVHV3r6FNmTx0YCF2ThU7H4aZnW6Fr06gTRS7VIzbVYTLK6IIHDMZWIhZJOy-XS5kVv6dllhe_ddDW9d95QcM5Z791V4NKHvKUZkJWWhmPeMbTkCuBLLOQd2UaibjMaAG_KwztaKauO5FnUNMwbWY4tmsznem2p5mR5oGjHppRGFHd7Oiaa0YWC0PdcByNelqnmrMyfbnc22Q2nVItdDyHWZZna6GleZFnTTljHcPgkaEbXOOaqyGOUz61DCsyAKKWG5pTi073Nif8qeR54SP4jgXD3ad5t7sK_G4p_a7wb_idrdHhD43ejeKHnwOd_vTXD3fj-HY4yO_vJsup8H-x0x9zPiG9gIyfeCxP-2dDvff8uO6vZb___fKajGWvfzEQ3Tgc_1oSf3i-vu3G92O5iO_tsfXdn3Un04kYDgh0L_4Zk4m4mhDoBo7SPe1fimRrD7anWm_yeOPHsHm-9LrxeLx6snz1fDoj1bPwyFjN9cSC8TCIMdd4nBUBxsZjLbidjOJ1QGakH5CzeHBKBpycE_LruevHsd8nwT2Zy3jUu_01eiTr0c3oZfR4-zzq9dcXN_3i4gZjQtPxez3q4XfvbOwP4nMaQ--fwCczSfrx5T0Z950RibuVvWvS_U6CNbmJ_TE5C8gd8SkZrIkkPrmPffKA_3vSJVO8Z_id45nj-Uj6_cfRGan-uuRhTl6--8H81kxKNpwlbJg8Bqf-KjTHxfQuwRqxGcZWWJNZaF4sHwy7eMD6DXsu7Y3h8MXPeUpuJbkl_i3p_xebIJRpwZ-L1slra5nQF551E5rnVbpGNFTbrXWib1KX5yqTIfufSop_kbM0rFLHfPvWijnNIHltCQwYtmE70EJezGgK44ZtWW_fNkLd7RjQ2L4YjmG_S2xdO9RyDG0vM03LOZDprvduxPQc78NsjnNg0-gcyNyO7h0w0Yzdi2FrjvZh9gPOhtFxHePQjK3vrTia7b4DwfPdvtV5t98xLHM_Nd4c92OEnHcjSrj3wOh4huW-Id6R4AlD_F9bTKxEygMsXZLwEOr2t92Zei7iGQZM5PdSZKIoaTKQYQk18F9JgVMkusnKYlata8ZxQFfHl9JYlpmIXmDkSq45lhMaIo1KteyX0dawGkuSciHS6oCrpt7QGdCVhBKszmTycj2T4Xz_tjUIbKLM5D_UYVtJC1nGsxR7q5LGJc2YoGm-NYbZGI-Uj7u5pjzlTLy_iwX25oqzs5LFfIGrYbNfcXyXoriMzsq8gM-whE1a0ASA_LrI4CPOOs02DU3TTcPAxtM1W2_bmma0bbypP2OTH3m54FXUI6QGXAKnSEqsDHJkQUV6SlMWLKalmgQbCHxpmRRX8j08mxFcDI9lxtWSKsWUTnjM034insXGU5qEEsFqnWDXt9YymyeSAv2KG2fGFxSE51G4uzPbuzt0B_zPSt1nKa4zAPOXtJhxeN6uLrI2bq68jf3NljlABc1iXqhMfkUSCxakjD9jWkXrWSzKxSlsqx2Ckc04btsqFQ_QiPIf6CpqlQac-USjcrtBA7H8RAN7slEDp8EnGtWaNGi4Ww2kEqMLGiNQCAAtRoiEjpUH6qN_dCHLKjlxOKh5mqBq7Y6EwqNjoXDlc6i58egYrnVoI9c6tJFrHdrI1To-rnVoI9c6tJFrHdrIFflxLNc6tJFrHdrItQ5t5No5Pq51aCPXOrSRax3ayNU7Pq51aCPXOrSRax3ayBW3wPEHQR3bfBLUsc1HQR3bzBcX2NF869hmvnVsM986tpmv-YX41rHNfOvYZr51bDNfBf3KxfCVm-ErV8OxfJ0vxLeObeZbxzbzrWP_5IsreIkWGvWpULUVruF8iVpWdROG5pkflduq1BCputRHAk1IGu_u9qpiz9DBioxvS8qIJjlXXPYGdc-zwPUog5vigIdC1byqvs5WNFE-2ZgIjZGIU1VjXoegXpWQ6J14ltKkzVChpaxdFWFbRoMySW6qktMvRQImRVZyVeYlco1ikMF5CdVrRbQLZcFooaKxgWU0nV-HVY3XWAMqTDvnaQ5TK3wT2dSAqmtolWkOZc7ah18o5iJtlEVgu51vSJdV1RdKHkUiFPDgXOb5Fc_O0S-oAhUy1SdeZTIc4aNMZVN1MjHKWxSv1beUCY_KlG3FEpO0lzxrhzQvMFuZ895h17Dx-aCRGG3WR32X6EqoqKID1X-iutA03rcjDYHZ4doyalcdR3spExFuA6S83yyfcrpdSJkUYvkhGgsU7GKZCJ5dZky1Lmg8IpnxfdldWQXwfVN8Vk8fbsJO1f19TMy_ypGMf5VXPd5f5Ei6P-T_Ym1CeMvkumrk0WEWfFHJTctStfOHrBihSdlUe_s9rRIFkl612zfLVjWqOzP4aKXK_E_MqFPsWDObZvmvaORpwmMavgTQya-q1W3cDhtkW5n_sBGqTDlc9ky-ICEx3XbKXSNsvCFyUN981VPngW68_R8",
+      "metrics": {
+        "iterations": 512,
+        "hps": 592.1827957709417,
+        "hpsStdev": 15.968945178235392,
+        "effectiveHealingHps": 592.1827957709417,
+        "absorbedHps": 0,
+        "overhealingHps": 61.19859968638863,
+        "survivalRate": 1,
+        "manaRemainingMean": 641.1031923427039,
+        "missingHealthSecondsMean": 1203843.1519257324,
+        "finalMissingHealthMean": 4771.070041103009,
+        "manaBlockedSecondsMean": 1.767578125000268,
+        "plannedIncomingPostMitigationDamage": 110000,
+        "deliveredIncomingDamageMean": 110000
+      },
+      "proofs": [
+        {
+          "requestSha256": "f27cdc26fa201ac3870a8786b6914a124ab4f83074c4ad03da50911b27c60a3c",
+          "responseSha256": "34a45102fcaf053fa787be8f1bd3952dd6a6dce4714021afaa7e165950600fb1",
+          "capturedAt": "2026-10-28T09:58:12.643Z"
+        },
+        {
+          "requestSha256": "6f7698f03a13db3974f256cd6e29af4ba864a7ae92fba2f5a700972dd49aaebe",
+          "responseSha256": "43d644f0ecc0db48cca094dd4f9f3c445d0baf82653554fce90f906ced80d277",
+          "capturedAt": "2026-10-28T09:58:13.341Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-6c778ece58716665",
+      "profile": "healing-paladin",
+      "buildId": "vigil-support|group|1:4,11|stacked|180",
+      "title": "vigil support",
+      "archetype": "vigil-support",
+      "assignment": "group",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "743e9b43d63bc9f3b81725ed43b0d8fe6c9a2ba99e6ee0da0e51c6f860c62122",
+      "demandSha256": "7e3bb064814617a6d6e5f352fd64f8372496cc1c976110e1aef68511ccdd295a",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lZ1bc5vYtoX_i19PdIrFnVSdByTLjrqjduzEnbhP7QfEzcRIKEjyJen89z1AtiPvSnp_dJWrYzHXYrBg8Vmw5pjfjm7zdlM1q6PX7qujddsUVZ0fvT66zpO6WpWjdVInWbU6enXU5nWebLpttu8GmfGzyDWOny5M4VlhkFupgpZNltezLF9tq-2DQgurKOzQRKHJvcwL_CJ30iI0vrECs8i8ha8O0tDJUj_wcyfy3DT0kiIoijAxRbYw6rJok2U-y9TZbVVW9WizW6-bdvt32Ta79d9Gso35e7NN0ps8-9uElpps0nyVtFXTt2rzIm_zVZp3G5pdm-aTZlVU5a5NtjruPiYP0zRIE9fzTJAuLCvM_KTwIistPD_MvGIR-FHhWI5lPDtdOIkiMx14ai8SY7nmR9dn6-c-U8tJPSuwcz8N_aBwwzAzzmLhuaGlQ7aiKLM1Bl5uJWEQZUVgF4soDyzLWqRhEjrBc58X-ZddvtmONfi-q44nW3cy-ZJOJutwMqnGH_KPnpWc_mklH-flX59OTPJpfPfXx_Py8vRkc_XxYr2oxl-zN3_e5Bfx8Sw-_1KcN2-mv52a4_vPd9O7Zjr9_ex93H12dvvHdFy5-uzNdO6fxxfVzbhsTqe__9acnl2eTcqr85uP1tX19fnv4_vj4iaeXjV36e_j8eTsppx2nzXr8_AqHM_178nHKLaurLurbvv_tNoe30987ft4OvutnpTn59soPp-U6fmXbHZ-Oisvu89sLx53_7dmlxfz8m4WX8fjWfxbefImPsnjt3H89X4yLsvxNJ5dxTdNPj--_Dr_HN_NP8wf5p8v7-fH07s_Pky3f3yI9fn8bn4cP7z9EJvL-OJqYs8eJtepdBzbV9ez8_jxv7c3j_84G5fncfNpUs7Pr09v3k-fAo69p3_EVzfjL_F1eeyW08lpGb-PvXIcf2juJrH6uy6lddbEn-PxWXwSxzfl-Co-aeJP8aSMNbL6WeqnjGfjTTyd7PRzp58H_czj8_fzu0chs_Hy_HjWTKuLF-c2PY2-ZhOzTT5drP-yT_RZtJudnnxN7Xq1WJp6sTq_enffnE1m8XQ6W_7lj6dNfBmPL-Pp_-liSpvVNr_fHr3-drSuk4e8ndTJZtNP-yJJu8v26LXZ3wLyTXdH0Lb_7ybXvzT3k7Sfgs73V0dlnrTa8u2o0ge2Z3u-Wml-XScrdW57rvv91X6jCQNbLR4jA1uT_jBSM-JHpGesg22h9aMTx3H9g00mjJ77NE7kRy927vsHXdqHu4scc6DLsp91eZZvHe778AhsOwh9-1CY99yLbUvZc5e-5f04GjtyrIPjdp3o4Dc_fDle_uEoHI5XpBH6rsEvqrzOdDK-HWXVbbXKZzqPdZ2nau29erpRv63Ka33g6Kaxrtpqu0vqkybdqZnk3zaVbk3Fh3a3ve5Pcpvrrt_fE7sW611bFQ_q5F1zl-vcqkW1KnbdNXBWPHbcfVbXu2W16u-a_a73ck6S20aN1Ot1Uz-8v27Sm-ffHjtUbN11s_mzu4P3W7fNrrxe6ULrt67bPK32FJKecpe0WZWsNo9da98aqyqt1o_77o4ySds8O951lNH2Rb7Ks-rxKvZ0lW6TWhDavN-2Oi7dNC3PsS3LOLatK81Ynhl5lmM7ut3aI8vbT4_Nbpn341xoZugg1G_RNN2JEdiSavUmWWWz5WKnUbN1xWR5kezq7bvmx4DsPxFfPu-kru9hmaySi7zMV9O6uq8ej6ZOGw3P0WtdJUd3TXtTN4mivwlc1_kykdybIn1C7-gJxU-B_3vbYXElKipw87DaXucanFHPw5EAuBmFlpWtNwraJm2Zb7uJ_E1zuMpmqyy_1247WffVcrd8o767a0Kf7D_XcPaX7kF0f_Qvoo2Gbd9CB_OTFv1h_6KFbjc_aaEz-ssWmv0_aaF-ftkifGyhyZMly6TUQGkAku1cI2EU1t3QDg8vWTa7fjJa_V4eA_Xbi8DuxP00UFfRi0AdzM8D3f8I1DH8NFB3SqbRphq7Kx1ptKlGh2rs5h3S6FCNDtXoUo0u1ehSjS7VqNsR0-hRjR7V6FGN-nOdafSpRp9q9KnGgGoMqMaAagyoxpBqDKnGkGoMqcaIaoyoRv0xxDRGVGNHcHgTt_BdXN_u4G3cwjo5bDhtOG4wbwwGjsHEMRg5BjPHYOjoDz1Mb6wTc8dg8BhMHoPRYzB7DIaPnntQnRg_BvOne14EdWICGYwggxlkMIQMppDBGDKYQwaDyGASGYwig1lkMIwMppHBODKYRzbmkY15ZGMe2ZhHNuaRjXlkYx7Z_PvPgC9AWCf_CoR5ZGMe2ZhHeqpEdWIe2ZhHNuaRnmrhr5RYJ-aRnjtSnZhHevBHdWIe2ZhHNuaRXr9QnZhHei5JdWIe2ZhHekNEdWIe2ZhHNuaRjXlkYx51z4qhTswjvaeiD2cwj7q3X_DxDOaRg3nkYB45mEcO5pGDeaTny1Qn5pHDn8nxh3IDnsphnZhHDuaRg3nkYB45mEcO5pGDeeRgHjmYRw7mkYN55GAeOZhHDuaRg3nkYB45mEcO5pGDeeRgHjmYRw7mkYN55GAeOZhHLuaRi3nkYh65mEcu5pGLeaQ1MlQn5pGLeeRiHrmYRy7mkYt55GIeuZhHLn9PxF8U8TdFA14VYZ2YRy7mkYt55GIeuZhHLuaRi3nkYh65mEcu5pGLeeRiHrmYRy7mkYt55GIeuZhHLuaRi3nkYh55mEce5pGWk9DXrphHHuaRh3nkYR55mEce5pGHeaSlUFQn5pGHedSvFoJv27FOzCMP88jDPPIwj7T-jerkixf46gW-fAHzSEsUqU7MIw_zyMM88jCPPMwjD_PIwzzyMI88zCMP88jDPPIwjzzMIw_zyMM88jGPfMwjH_PIxzzyMY98zCMf88jHPPIxj3zMIx_zyMc88jGPfMwjH_PIxzzyMY98zCMf88jHPPIxj3zMIx_zyOfr6fiCOr6iji-pwzzyMY98zCMf88jHPNKSeqoT88jHPPIxj3zMIx_zyMc88jGPAswjJVLQ1ZSYRwHmUYB5FGAeBZhHAeZRl_pCF6dinZhHSkChOjGPAsyjAPMowDwKMI8CzKMA8yjAPAowjwLMowDzKMA8CjCPAsyjAPMo4Gu8-SJvvsqbL_PGPAowjwLMowDzKMA8CjCPlIxGdWIeBZhHIeZRiHkUYh4pGRGv78c6MY9CzKMQ8yjEPAoxj0LMoxDzKMQ8CjGPQsyjEPMoxDwKMY9CzKMQ86jLsoU6MY9CzKMQ8yjEPFJ2LtWJeRRiHoWYR8qEpjoxj0Ked8QTj3jmEU89wjwKMY9CzCOli1OdmEcR5lGEeRRhHkWYRxHmUYR5FGEeRZhHEeZRhHkUYR4pz57qxDyKMI8izKMI80jGLFQn5lGEeRRhHkWYRxHmUYR5JLcZqhPzKMI8ijCPIsyjCPMowjyKMI8izCPZAVGdmEcR5lHEc2F5MizPhuXpsAPyYQckxA7IiB2QEstzYi2eFGvxrFhZe2CtPC_W4omxFs-MtXhqrMVzYy2eHCvnE54VzbXy_Fh5ZmGtPEPW4imyFs-RlVcM1sqzZOVHg7XyPFmLJ8paPFPW4qmyFs-VlQMc1sqzZS2eLmvxfFmLJ8xaPGPW4imzFs-ZtXjSrMWzZi2eNmtxbg0wchjg5DDAymGQlwPXOsDNYYCdA-fWAEOHAY4OAywdBng6DDB1GODqMMDWYYCvwwBjhwHODgOsHQZ4Owwwdxjg7jDA3mGAv8MAg4cBDg8DLB4GeDwMMHkY4PIwwOZhgM_DAKOHAU4PA6weBng9DDB7GOD2MMDugfs96PY-wEWOO-ZwbnHPB6GAa-Xc4rYPCuVahxgRca0DrIg4t7j5g0IHuCZxrZxb3ABCoVwr5xb3gDDcBEKhXCvnFveBMNwIQqFcK-cW94Iw3AxCoVwr5xb3gzDcEEKhXCvnFveEkNkv18q5xW0hFMr90zi3uDOEQrmFGucWN4dQKNfKucX9IfS9ZIAxHdfKucU9IvTFiGsd4qLHtXJucaMIhXKtnFvcK8JwswiFcq2cW9wvQmUbuFbOLW4ZoVCulXOLu0YolGvl3OLGEQrlWjm3uHeEvPO5Vs4tbh-hUO6nybnFHSQUyi01Obe4iYRCuVbOLe4joWdUXCvnFreSUCjXyrnF3SQUyrUO8H8dYAA7wAF2iAUs18q5xV0lFMq1cm5xYwmFcq2cW9xbwnBzCYVyrZxb3F_CcIMJhXKtnFvcY8JwkwmFcq2cW9xnwnCjCYVirdxqQqEDvKC5Vs4tbjehUK6Vc4s7TiiUa-Xc4qYTCuVaObe474Te2HCtnFvcekKhXOsA8_IB7uUD7Ms5t7gBhUK5Vs4t7kFhuAmFQrlWzi3uQ2G4EYVCuVbOLe5FYbgZhUK5Vs4t7kehamZYK3ekUCjWyj0p9OqYa-Xc4rYUCuVaObe4M4VCuVbOLW5OoVCulXOL-1Po7T3XyrnFLSoUyrVybnGXCoVyrQPqbgwovDGg8saA0hucW9ysQqFcK-cW96sw3LBCoVwr5xb3rDDctEKhXCvnFvetMNy4QqFYK7euUOiAWjFcK-cWt69QKNfKucUdLBTKtXJucRMLhXKtnFvcx0IrubhWzi1uZaFQrpVzi7tZKJRr5dzihhYK5Vo5t7inheGmFgrlWgeUjeLc4sYWCuVaObe4t4Xh5hYK5Vo5t_6rv4XK065VpV7Vmquu7rBK1G7WquzcFdru0l5eNB1JvIovd_Vu55XKc6_Kp7K32klf6PaxgvJM1aHb26TuJHjavWp8V-VqqWLI71Ptqi-GrDLgebtK6lGmasOrbNQXFG5VZr5q85NdXX_oiyePd1UtKdt2l6ubulaV82aVSWyjpu87pRM1rrJk26nfh7XJ6uZ92tcr_mU94y5mtMlXG3V1W20f9vWMu5rXR7vVRo3zbHRYtP-mWv1yWyG1j_s7TdZ9BeO0yYtCxaJ1BG-bzeZd3r5Vteuu2LK2dSXP37VNOm-yrnryri_DXapUswox33bFqS_yYrfKHjc32slonbejNNlstbfdJj8-rHm9P-aDMtjz_RnqSvVPGjXpXhy-OlrUXUH1VflcTPsXA_MUN2qKUV8ve7Ru6ip9HKDu6Penrzvo0bZp6m21fjEaSxWfrtZ1lbdnbdYV3lZd7KJp8-cS0n2vCvxxUfysNvSPqzCKgr50-ctJ9I_bddn-43ZNl3_crjnyH9v_pXOT6miz5q6vSa_66Nt82W_X8gzFv5wXcxXc7udXN_f213Q3VbTluL_a96et2-tTN_sS7TRaa-66kvA_26luOP-8U83TOi-T9GGmzjbv-rP7y8thHznq9vviQuhnyuFpX7RV0t6pUnk_KR9rrhvvu8ZNjdu-aPreI_r7vwE",
+      "metrics": {
+        "iterations": 512,
+        "hps": 697.6319896230108,
+        "hpsStdev": 25.26785128849195,
+        "effectiveHealingHps": 697.6319896230108,
+        "absorbedHps": 0,
+        "overhealingHps": 23.77137710005373,
+        "survivalRate": 1,
+        "manaRemainingMean": 1036.6170441677755,
+        "missingHealthSecondsMean": 1886684.8902944284,
+        "finalMissingHealthMean": 18921.540824845368,
+        "manaBlockedSecondsMean": 5.968282024934357,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 143200
+      },
+      "proofs": [
+        {
+          "requestSha256": "e1b62a65118096383c222f985127374ae8544e36647dee0c4d00aceecc2c555b",
+          "responseSha256": "5407c9fe500d4e6b56f81c558092599f9b91d40b103a6ea47187c8ce03871c17",
+          "capturedAt": "2026-10-28T09:58:15.312Z"
+        },
+        {
+          "requestSha256": "77f879fc65d917becadcf24aecaa6502dcce05b2aa3c10e504d2d4b84e3601ac",
+          "responseSha256": "ddd3b44fc39297ad193b4dfab569b908fd9700868d8a12f62e89d180a9155f1e",
+          "capturedAt": "2026-10-28T09:58:17.255Z"
+        }
+      ]
+    },
+    {
+      "id": "healing-paladin-ecee88b95a9bd98b",
+      "profile": "healing-paladin",
+      "buildId": "vigil-support|tank|1:4,11|stacked|180",
+      "title": "vigil support",
+      "archetype": "vigil-support",
+      "assignment": "tank",
+      "release": "2647d16d94136cb1f5087e0c",
+      "modelIdentity": "f0ff281981e5d576fe3cf8161071bd5b636cc83dc676e3954c85af7ff8a1fdb1",
+      "wasmSha256": "80e983c15cb50de608c5ea04d3799850c84ec0156d017904d8b6336316b8c6f9",
+      "sourceWorkloadSha256": "fe326b156bcf75bcab4d9eee5f9851c46210acaa77873a3095fb2201d90d78bf",
+      "demandSha256": "ce57fee85b4432d78a929cf7583e4333b2b8ed6c6347793d7bd681d161367503",
+      "simulatorHref": "/forever/simulator/healing-paladin?release=2647d16d94136cb1f5087e0c&build=lVrZVuMwEv2XvA6Zsbyn3-xsBAjgsDU9Zx4US3YEjp32Qli6_32unBDCnKan0ucAbetWlaSrxbqqt86TLCtV5J1v9lFnVRaJymTnW2cheabytLviGRcq7xx1SplJXuky07U9wVzRs5nlxnOWOIbvSSMGaFkImU2EzGtVvwCaGEli-qznM-kIx3MTacWJz1xmeGwunLkLB7Fvidj1XGn1HDv2HZ54SeJzlog5g8uk5Es5EXD2pFKVdatmtSrK-lfN88dfDLVm7FdV8_hRil_MN2BRxTLnpSpao1ImspR5LHVB0ZSx7Bd5otKm5DWa3WJMz-axK-ZuLB3LlIlrMlsK_E5sgQYwKaVIYi4caZqO41uuI3s9CxA8srmvG75xfbHa-bSsnpH4vicMlnjCSQSzDMONnXnie7bBYjZPpO-6bO7OmTdPbNv3E-baPqyEcB1z53MmfzayqkP0vWvDcf9n0e8_TcN-U4V9FV7LO8fg41uD303TH99HjH8P1z_uovRmPKru72aruQpfxfHto5wFg0kQ_ZRpcTw8GbPB88N6uC6Gw9OLqyAqBsPzkeqncfS6CsLx2fqmn95HxTK9dyL7NFz0Z_OZGo8C2J7_Iwpm6iFKYTtxte3x8EJlW3_wPTcGs4frUJefuU3r-2zV66dRVPeCSP_9eRKEOtZPMYnGkxSxosh09LsoSk_9cJquJ8EiCCfBSTo6DkYyOAuC1-d-mKbhMJjcB4_FYjq4eZ0-BOvp9fRl-nDzPB0M1-fXw_r8Gu8e9N8I7_D_QfByE8zu-2bRHweXKogmHJ4Hy2AYXjwEOg7eD9NApf1pMLSDm6B_FYzS4C4N4-A0CFBD_NzjJwjS8TqITu0gQn2iM7yfrMNw8tqPgvZfOv4RTFV6dTI6d-b5rPjxfba6fwnXc-vcOLtjKzHO8nu8m5t2ev_9_JXfiWZ-d9uIMP3XODUmUTi4dU7Wo9NgFAS3QYhBEBd5LZ_rzre3zirjL7LsZ7yq2tma8FgPt843tpm5stITGWX_1pPiP5iyPG5njvX7qJNKXqLkraPwwnRMx4UV5sWC53BuOrb9-2hTyHzPhMX2wXRN56PEYca-lWsauzLLst29Mub3PpxYPbf3KZrr7vk0vb0y3_Y_7HzPMN8fTMdwjU_R9-psmp7vmvtuHPZRhqrtXLqG4-9KPNO2eh_RbO8jmme6_ucecnd2us67SpqmbRi_0duJkplA7791hHpSuZyAuCyTMYydo_cF9UylC7ywMLtXqlR1w7NRETcwQ-2fCoU1JLkum3rRslpKrM7t4qUtVk2pkhc4uSzWEmTCQuVJo0m_SLaO9bssa5Yqb5e3NvSmOiP-VMAIXhdF9nK1KOLH3dPWIbCZdlPd6pW2La2LJl3kGFltadrwUiieV1tniIbOUbFabaPBQshEN_o9-FzmUqjtMwatWmKoPklx0ohULrFRbIZvU1aNqi-Sk6aCP7QXTHRqngFQXdUlGo2lz8DqbBjM0suuwQyHdR3DMPHbZob-pxdNzJeqWcqWhwRTBY1ELZOi0Lxhg-IqP-a5mCznjY6CAYUK8yarL4uPDtu8wUbx0JRSc6wNcz6TqcyHmXpW27ZncYHu63zDLOisi_IxKzjQb9iBFnLJUePHJH7fQrvvW-o78J9PenvLsbsBWL3k9UKi6V29r3WxkVVdDHexqoCpeZnKWk_sN8xpJSa5kM-Iqmv1rJbN8hiu9ZDBm8177L3tzNxDt43_hEYQPaFQhrb8waJt9RcWYPIPFhikX1pgcfiDBfx8aeFvLTC3BF_yFP2EDuD1FD2hCdcL3H7z-LJo9HhCv-koGyAGDA2I7ZkGxHSnATE4aUA80IAeFbjpQwKwRwW2M4yGJHPDyOTojycikkwPI_ODTYOKJDO0HeYUJJkj3Z1EJH3-kDkyyRzpHZOIJHNkkjkyyRyZZI5MMke6k4hIMkd6VyQiyRxZZI4sMkcWmSOLzJFF5ggHsgNWeCKSzJFN5sim70RkjmwyRzaZI5vMkU3myCZzpBtERJI5csgcOWSOHPrnApkjh8yRQ-bIIXPkkDnS1SQiyRzhyElFkjlyyRy59G86MkcumSOXzJFL5kgHJyLJHHlkjjwyRxDNqEgyRx79w5vMkUfmyCNzpF0SkWSOfDJHPpkjn8yRT-bIJ3MEsYiKJHMEOfaAgxQRSeaoR-aoR-aoR-aoR-aoR-aoR-aoRz_CHnaGpULpp1iDfow16OdYg36QNegnWa2hUqH0s6xBP8wadLYOkRzobB0gOhygOhwgOxygOxwgPBygPBwgPdC1h7ZbqdADFCI6W3T9gdEFCEZXIHBVQofS2aKLEIyuQrQjmwqls0UXInBdRIfS2aJrEbi6pkPpbNHlCFyKkaF0QYLRFQlGlyQYXZNgdFGC0VUJRpclGF2XYHRhgtGViXZ9p0LpbNHFCUZXJxhdnmB0fYLRBQpGVygYXaJgdI2i3WKpUDpbdJmC0XUK5IfQoQfcbtDZomsVjC5WMLpa0X7lUKF0tuiCBaMrFowuWTC6ZsHoogWjqxaMLluw_6tb4L52hfQrZDcofQ-PO9tqhUwInYnCej0bl8SfbZGsoC-Apwr5K3m6u8tu731lrHR-wwS5FOUTz1r9EcGRAqPSXKcPXMUI1GYHIEtGljnPugJ377nottfrJbKnVClHTZZdt9kEYaMyVKQuGwk3WVascc0vUNUCple6nn0YK8FrXfcNrMSV_FXc3t5_ebuvMd1K5hVcPSH5bXO7rxNEOk1ewViK7n4u2qPKvyxLUNttvDFftRf6cSGTBIkWaMFZUVWXsjxDbohOPUCZzgi6LIt4iuy71qfOWUmRuIC0hDZpbiaTJhfb4gJBuitZdmNe1YjWVHKwnyGyafNe0sh0w4_OQOsXMNHfI0edeabzjfJ0l3ryRce847pF0m2zS7qrIlPxtoN06zf06UZ366LIarX61BtLpGKoVaZkeVEKnaaCnJKkKOUuoaL1CuDHoPhTqsT-GPTapJ_Po_Cv5UiF-Gt5m8_zl3KkOfxP-X_ATYzWimLdpmwhmaiWy7bcsm2dFvFpVkyRfrLLUdiMaT1RUDJoR_uGNh313c0muYmKxuFF50_9Kaj-nvmrG8zTTKY8fpnAWXXZsvvlcNgguzrup4HQzpR92sviBRMS4bYh35OezN_oOZhv8jfb-x3z938B",
+      "metrics": {
+        "iterations": 512,
+        "hps": 474.1875099553317,
+        "hpsStdev": 54.570746918249306,
+        "effectiveHealingHps": 474.1875099553317,
+        "absorbedHps": 0,
+        "overhealingHps": 3.2513032533387083,
+        "survivalRate": 0,
+        "manaRemainingMean": 5609.22449313348,
+        "missingHealthSecondsMean": 2152448.8940228173,
+        "finalMissingHealthMean": 18704.85875372489,
+        "manaBlockedSecondsMean": 0,
+        "plannedIncomingPostMitigationDamage": 143200,
+        "deliveredIncomingDamageMean": 103626.5625
+      },
+      "proofs": [
+        {
+          "requestSha256": "0d64029702ef3136bbcb17a4eb89433c736f820a9ad4758298f77b26e2cd4d2f",
+          "responseSha256": "a302d17fe5dc070c2c00c36754af3e440a16dfc1640b42118c8abec6d006101e",
+          "capturedAt": "2026-10-28T09:58:19.793Z"
+        },
+        {
+          "requestSha256": "8e1a2826a9a1f2d4b04dce251c43a0c61f4cfcd9748c12142a966fa0cb2a9c2f",
+          "responseSha256": "93ae07d0f53730ca924a0f788d38f26dcbf420804ed76b5d36b438f832a0a021",
+          "capturedAt": "2026-10-28T09:58:22.395Z"
+        }
+      ]
+    }
+  ]
+}

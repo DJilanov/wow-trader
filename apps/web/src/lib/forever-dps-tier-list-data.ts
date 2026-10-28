@@ -2,10 +2,11 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import console from "node:console";
+import { cache } from "react";
 import { z } from "zod";
 import snapshotData from "./data/forever-dps-tier-list.json";
-import soloSnapshotData from "./data/forever-dps-tier-list.solo.json";
-import raidSnapshotData from "./data/forever-dps-tier-list.raid.json";
+import currentSoloData from "./data/forever-dps-tier-list.current.solo.json";
+import currentRaidData from "./data/forever-dps-tier-list.current.raid.json";
 import raidSupport from "../../../../infra/simulator/raid-buff-defaults.v2.json";
 import { tierScenarioPolicy } from "../../../../infra/simulator/tier-scenarios.mjs";
 import {
@@ -14,11 +15,13 @@ import {
   type DpsTierSnapshot,
 } from "./forever-dps-tier-list";
 import { simulatorDirectory } from "./forever-simulator";
+import { verifyTierSourceBindings } from "./forever-tier-source-bindings";
+import { currentDpsTierPolicy } from "../../../../infra/simulator/current-tier-policy.mjs";
 
 const hash = (value: string): string => createHash("sha256").update(value).digest("hex");
-const scenarioSources = { solo: soloSnapshotData, raid: raidSnapshotData };
+const scenarioSources = { solo: currentSoloData, raid: currentRaidData };
 
-export async function readDpsTierScenarioSnapshot(
+export const readDpsTierScenarioSnapshot = cache(async function readDpsTierScenarioSnapshot(
   scenario: DpsTierScenario,
   directory: string = simulatorDirectory(),
   source: unknown = scenarioSources[scenario],
@@ -26,9 +29,13 @@ export async function readDpsTierScenarioSnapshot(
   const snapshot = await readDpsTierSnapshot(directory, source);
   if (!snapshot) return null;
   const expectedPolicy = {
-    ...tierScenarioPolicy(scenario, raidSupport),
-    encounter: snapshotData.policy.encounter,
-    playerEquipmentTalentsRaceConsumes: "retained from each published reviewed build",
+    ...(snapshot.sourceBindings
+      ? currentDpsTierPolicy(scenario, raidSupport, snapshotData.policy.encounter)
+      : {
+          ...tierScenarioPolicy(scenario, raidSupport),
+          encounter: snapshotData.policy.encounter,
+          playerEquipmentTalentsRaceConsumes: "retained from each published reviewed build",
+        }),
   };
   if (
     snapshot.policy.scenario !== scenario ||
@@ -38,7 +45,7 @@ export async function readDpsTierScenarioSnapshot(
     return null;
   }
   return snapshot;
-}
+});
 const pointerSchema = z
   .object({
     schema: z.literal("kfc-published-simulator-reviews.v1"),
@@ -70,6 +77,60 @@ export async function readDpsTierSnapshot(
     const rawPolicy = z.object({ policy: z.unknown() }).parse(source).policy;
     if (hash(JSON.stringify(rawPolicy)) !== snapshot.policySha256)
       throw new Error("Tier benchmark policy changed");
+    if (snapshot.sourceBindings) {
+      await verifyTierSourceBindings(directory, snapshot.sourceBindings);
+      if (
+        snapshot.entries.length !== 25 ||
+        new Set(snapshot.entries.map((entry) => entry.profile)).size !== 12
+      )
+        throw new Error("Current DPS tier coverage is incomplete");
+      const publications = snapshot.sourcePublications;
+      if (!publications || Object.keys(publications).length !== 12)
+        throw new Error("Current DPS publications are incomplete");
+      for (const [profile, reference] of Object.entries(publications)) {
+        const bound = snapshot.sourceBindings.find((entry) => entry.path === reference.path);
+        if (!bound || bound.sha256 !== reference.sha256)
+          throw new Error("Current DPS publication is not bound");
+        const bytes = await readFile(join(directory, reference.path));
+        if (hash(bytes.toString("utf8")) !== reference.sha256)
+          throw new Error("Current DPS publication changed");
+        const publication = z
+          .object({
+            profile: z.string(),
+            release: z.string().optional(),
+            presentationRelease: z.string().optional(),
+            builds: z.array(
+              z
+                .object({
+                  id: z.string(),
+                  href: z.string(),
+                  requiresProvisionalEnchantOptIn: z.boolean(),
+                })
+                .passthrough(),
+            ),
+          })
+          .passthrough()
+          .parse(JSON.parse(bytes.toString("utf8")));
+        const entries = snapshot.entries.filter((entry) => entry.profile === profile),
+          builds = publication.builds.filter((build) => !build.requiresProvisionalEnchantOptIn);
+        if (publication.profile !== profile || entries.length !== builds.length)
+          throw new Error("Current DPS build coverage changed");
+        for (const entry of entries) {
+          const build = builds.find((build) => build.id === entry.id);
+          if (
+            !build ||
+            entry.publicationSha256 !== reference.sha256 ||
+            (publication.release ?? publication.presentationRelease) !== entry.release ||
+            hash(build.href) !== entry.originalHrefSha256 ||
+            !snapshot.sourceBindings.some(
+              (binding) => binding.path === entry.release + "/manifest.json",
+            )
+          )
+            throw new Error("Current DPS result differs from its admitted build");
+        }
+      }
+      return snapshot;
+    }
     const pointer = pointerSchema.parse(
       JSON.parse(await readFile(join(directory, "published-reviews.json"), "utf8")),
     );
