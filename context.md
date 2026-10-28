@@ -2,6 +2,49 @@
 
 Last updated: 2026-10-28 (Europe/Sofia)
 
+## October 28, 09:38 UTC — complete practical simulator release deployed and verified
+
+**All nine classes, including the supported DPS, tank and four healer profiles,
+are now live.** Code commit `c2e86606db119abe1a4f9793f12b8cae6df8b05a`
+was pushed before deployment. Public entry:
+https://kfcguild.online/tools/forever/simulator.
+
+- Activated at 09:32:19 UTC. Source release
+  `/home/wow-trader-system/releases/kfc-helper-simulator-core-20261028-c2e8660`;
+  Next build `c0FfHHOlrGwz4Y2mJUTIZ`. Runtime root:
+  `/home/wow-trader-system/shared/simulator-releases/full-class-core-20261028-c2e8660`.
+  Only `kfc-helper-web` restarted; guild and all unrelated PM2 process IDs stayed unchanged.
+  Existing server-side guild login and leveling changes were preserved by a scoped,
+  checksum-verified overlay of 1,453 pushed source files onto the prior live source.
+- Fresh public Chromium review: 23/23 checks pass, with actual simulations for 15
+  DPS/tank profiles and all four healers, plus four mobile layouts. No browser or
+  asset errors. Independent public verifier passes 15 profiles / 45 builds, checks
+  their published item databases and confirms private proofs remain inaccessible.
+  Nine public pages/105 assets pass the site asset smoke. Discord login provider
+  remains available; Helper and guild are online.
+- Local evidence base:
+  `artifacts/forever-simulator/optimization/remaining-class-updates-20261027-v1/`.
+  Public browser receipt: `public-release-browser-Qr4m8Q/report.json`.
+  Public deployment/asset receipts: `committed-cumulative-deployment-Tsyvxl/`.
+  Server receipts: `/home/wow-trader-system/shared/operations/simulator-core-20261028-c2e8660`.
+- Linux dependency builds and Next production build pass; every overlaid source
+  checksum was rechecked afterward. The build needed a 3 GiB heap; runtime remains
+  capped at 768 MiB. Runtime packaging verifies 120,276 files across 34 release
+  directories, deduplicated to 7,139 contents. Static delivery uses readable,
+  precompressed immutable assets. No raw optimization database was uploaded.
+- Holy core is the admitted 270-frame / 7,560-configuration library at 180 seconds,
+  across all 30 acquisition profiles. The full 900-frame encounter refinement is
+  **not complete** and remains a separate future call. Its three completed extension
+  frames and all checkpoints are preserved; no optimization workers remain running.
+  Original evidence, sampling limits and class deadlines were not reset.
+- Temporary review servers 3029–3035, SSH tunnel 3038 and remote preview 19238/19239
+  were stopped after public verification. Owner development ports were untouched.
+  Only the new owned Next build cache (~432 MiB) was removed; rollback releases and
+  numerical evidence remain. Server has about 4.43 GiB available.
+- Deployment scope, validation and rollback are recorded in
+  `docs/simulator-core-deployment-2026-10-28.md`. The earlier entries below are
+  historical checkpoints, not outstanding tasks. No core release work remains.
+
 ## October 28, 08:44 UTC — all core classes ready locally; commit/deployment preparation
 
 **All nine classes now have their practical core builds locally delivered, including

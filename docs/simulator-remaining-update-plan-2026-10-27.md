@@ -1,5 +1,12 @@
 # Remaining simulator updates
 
+**Completed and deployed October 28, 2026.** All nine classes and all four healer
+profiles are live at https://kfcguild.online/tools/forever/simulator. Pushed code
+`c2e8660` passed 23 public browser checks, 15 DPS/tank profiles / 45 published builds
+and nine public pages/105 assets. See
+[deployment receipt and scope](simulator-core-deployment-2026-10-28.md).
+The entries below retain the original authorization and historical checkpoints.
+
 Status: approved by the owner on October 27, 2026, under question
 `call_eb8d4d7b6bf246ceb202343785e9080c/0`. The separate allowance covers the six
 classes below and replaces their unanswered window requests. The original class
@@ -14,32 +21,32 @@ optimality. Deliver the same qualified settings to the first-visit default,
 Preset Configurations, Gear Sets, library and rotation/healing instructions.
 Preserve completed Rogue, Hunter, Druid, Bear and Shaman healer work.
 
-| Class   | Remaining work                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Warrior | Locally complete: five DPS and six tank setups qualified, with matching presets and actual desktop/mobile delivery. Awaiting the complete-project release.                                                                                                                                                                                                                                                                                                      |
-| Mage    | Locally complete: Frost, Fire and Arcane qualified, with matching defaults, presets and actual desktop/mobile delivery. Awaiting the complete-project release.                                                                                                                                                                                                                                                                                                  |
-| Warlock | Locally complete: Demonology, Affliction, DS/Ruin and Destruction qualified, with matching defaults, presets and actual desktop/mobile delivery. Awaiting the complete-project release.                                                                                                                                                                                                                                                                         |
-| Priest  | Locally complete: Shadow, Smite and forty fourteen-policy healer scenarios. All selected runtime and desktop/mobile checks pass, the current healer default is active locally, and the complete-class handoff is sealed. Awaiting the complete-project release.                                                                                                                                                                                                 |
-| Shaman  | Locally complete: Elemental, Stormcaller and Enhancement pass the 2% target and independent 40k confirmation, with qualified presets/guidance and actual desktop/mobile delivery. The unchanged 198 healer configurations are assembled in the main package and pass current-default browser/native checks. Awaiting the complete-project release.                                                                                                              |
-| Paladin | Locally complete for the practical release: Ret, Shockadin, six Protection setups, and the full 270-frame Holy core library across all30 profession/faction combinations. Holy preserves 7,560 measured/equivalent configurations, passes 270 exact browser/native reference comparisons, current failure review and actual desktop/mobile delivery. Five-minute/spread optimization remains a separate refinement phase. Awaiting combined production release. |
+| Class   | Delivery                                                                                                                                                                                                                 |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Warrior | Deployed: five DPS and six tank setups, matching defaults, presets and guidance. Desktop/mobile and live engine checks pass.                                                                                             |
+| Mage    | Deployed: Frost, Fire and Arcane, with matching defaults, presets and guidance. Desktop/mobile and live engine checks pass.                                                                                              |
+| Warlock | Deployed: Demonology, Affliction, DS/Ruin and Destruction, with matching defaults, presets and guidance. Desktop/mobile and live engine checks pass.                                                                     |
+| Priest  | Deployed: Shadow, Smite and forty fourteen-policy healer scenarios. Current defaults and actual live engine checks pass.                                                                                                 |
+| Shaman  | Deployed: Elemental, Stormcaller, Enhancement and the 198-configuration healer library. Current defaults and actual live engine checks pass.                                                                             |
+| Paladin | Deployed: Ret, Shockadin, six Protection setups and the 270-frame Holy core across all 30 acquisition profiles. Holy preserves 7,560 measured/equivalent configurations. Five-minute/spread refinement remains separate. |
 
 ## Practical release boundary
 
 The owner requested a practical first pass within 2%, followed by a separate deep
 refinement call. All nine classes now have their supported core DPS, tank and healer
-builds delivered locally. The Holy core covers three archetypes, three assignments,
-30 acquisition profiles and all28 declared mechanics assumptions at180 seconds.
+builds deployed and publicly verified. The Holy core covers three archetypes, three assignments,
+30 acquisition profiles and all 28 declared mechanics assumptions at 180 seconds.
 Equivalent professions retain original four-batch evidence and the reviewed detailed
 native/browser equivalence controls; their four-fight diagnostics are not new
-performance qualifications. All270 reference builds also match current browser/WASM
+performance qualifications. All 270 reference builds also match current browser/WASM
 execution exactly. No selected setup has an indexed historical failure.
 
-The full900-frame encounter matrix is explicitly **not** qualified or published.
+The full 900-frame encounter matrix is explicitly **not** qualified or published.
 Its optional search is stopped with checkpoints, including three qualified extension
 frames, and belongs to the separate refinement phase. The existing class deadlines
-remain unchanged. Core publication requires all270 named presets, source-bound private
+remain unchanged. Core publication requires all 270 named presets, source-bound private
 admission, current failure/transfer/browser controls and actual host checks. Full-matrix
-publication still requires all900 frames. Final combined Git/deployment checks remain.
+publication still requires all 900 frames. Combined Git, deployment and public checks pass.
 
 ## Delivery progress
 

@@ -1,5 +1,21 @@
 # WoW Trader fixes and recovery context
 
+## October 28, 09:38 UTC — all practical class updates live
+
+Pushed code `c2e8660` is deployed at
+https://kfcguild.online/tools/forever/simulator, covering all nine classes and all
+four healers. The public site passes 23 real browser checks, 15 DPS/tank profiles
+with 45 published builds, and nine pages/105 assets. All 19 supported profile
+engines completed an actual live browser simulation; mobile checks found no
+horizontal overflow. Private qualification files remain inaccessible.
+
+The Linux release preserves existing guild login and leveling fixes. Only Helper
+restarted. The build uses a 3 GiB heap, while runtime retains its 768 MiB cap.
+Task-owned previews are stopped; checkpoints and rollback releases are retained.
+Holy's 270-frame core is admitted; the 900-frame encounter expansion remains a
+separate refinement phase. No further core calculation or deployment is pending.
+See `docs/simulator-core-deployment-2026-10-28.md` for paths, receipts and rollback.
+
 ## October 28, 08:44 UTC — completed practical Holy core and release admission
 
 Holy now has270 core presets/7,560 configurations across every reviewed profession,
