@@ -1546,6 +1546,8 @@ export const marketItemObservations = pgTable(
       .references(() => marketScans.scanId, { onDelete: "cascade" }),
     itemId: integer("item_id").notNull(),
     marketKey: text("market_key").notNull(),
+    itemName: text("item_name"),
+    itemClassId: integer("item_class_id"),
     minimumPriceCopper: bigint("minimum_price_copper", { mode: "bigint" }).notNull(),
     tenthPercentilePriceCopper: bigint("tenth_percentile_price_copper", {
       mode: "bigint",
@@ -1566,6 +1568,40 @@ export const marketItemObservations = pgTable(
     check("market_item_observation_quantity_check", sql`${table.availableQuantity} > 0`),
     check("market_item_observation_listing_check", sql`${table.listingCount} > 0`),
     index("market_item_observation_item_idx").on(table.itemId, table.scanId),
+  ],
+);
+
+export const marketHistoryLinks = pgTable(
+  "market_history_link",
+  {
+    clientProduct: text("client_product").notNull(),
+    region: text("region").notNull(),
+    realmId: text("realm_id").notNull(),
+    auctionHouseType: auctionHouseTypeEnum("auction_house_type").notNull(),
+    fromBuild: integer("from_build").notNull(),
+    toBuild: integer("to_build").notNull(),
+    notBefore: timestamp("not_before", { withTimezone: true, mode: "date" }).notNull(),
+    reason: text("reason").notNull(),
+    reviewedAt: timestamp("reviewed_at", { withTimezone: true, mode: "date" })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    primaryKey({
+      columns: [
+        table.clientProduct,
+        table.region,
+        table.realmId,
+        table.auctionHouseType,
+        table.fromBuild,
+        table.toBuild,
+      ],
+    }),
+    check(
+      "market_history_link_build_check",
+      sql`${table.fromBuild} > 0 AND ${table.toBuild} > ${table.fromBuild}`,
+    ),
+    check("market_history_link_reason_check", sql`length(trim(${table.reason})) >= 12`),
   ],
 );
 

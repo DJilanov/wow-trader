@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { auctionItemSnapshotSchema } from "@wow-trader/contracts";
 import type {
   AuctionScanUpload,
   MarketIntelligencePack,
@@ -17,9 +19,11 @@ import {
   characterProfessionSpecializations,
   gameBuilds,
   itemVersions,
+  loadMarketHistory,
   marketScans,
   marketItemObservations,
   marketItemSignals,
+  marketHistoryLinks,
   rawUploads,
   recipeVersions,
   worldEncounterActorObservations,
@@ -36,7 +40,7 @@ import {
   type WowTraderDatabase,
 } from "@wow-trader/db";
 import { analyzePriceHistory, summarizeOrderBook } from "@wow-trader/market";
-import { and, count, desc, eq, gte, lte, inArray, sql } from "drizzle-orm";
+import { and, count, desc, eq, asc, gt, inArray, sql } from "drizzle-orm";
 import type { PgInsertValue, PgTable } from "drizzle-orm/pg-core";
 
 import { PayloadConflictError } from "./errors.js";
@@ -54,6 +58,14 @@ interface MarketSignalScope {
   readonly auctionHouseType: AuctionScanUpload["auctionHouseType"];
   readonly completedAt: string;
   readonly scanId: string;
+}
+
+function readMarketItemName(
+  snapshot: AuctionScanUpload["data"]["itemSnapshots"][number],
+): string | null {
+  const value = snapshot.itemName ?? snapshot.itemLink?.match(/\|h\[([^\]]{1,512})\]\|h/)?.[1];
+  const result = auctionItemSnapshotSchema.shape.itemName.safeParse(value);
+  return result.success ? (result.data ?? null) : null;
 }
 
 export class PostgresUploadRepository implements UploadRepository {
@@ -151,6 +163,8 @@ export class PostgresUploadRepository implements UploadRepository {
           itemId: snapshot.itemId,
           marketKey: snapshot.marketKey,
           minimumPriceCopper: summary.minimumPriceCopper,
+          itemName: readMarketItemName(snapshot),
+          itemClassId: snapshot.itemClassId ?? null,
           tenthPercentilePriceCopper: summary.weightedTenthPercentilePriceCopper,
           medianPriceCopper: summary.weightedMedianPriceCopper,
           ninetiethPercentilePriceCopper: summary.weightedNinetiethPercentilePriceCopper,
@@ -175,7 +189,7 @@ export class PostgresUploadRepository implements UploadRepository {
             eq(rawUploads.clientProduct, upload.clientProduct),
           ),
         )
-        .orderBy(desc(marketScans.completedAt))
+        .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
         .limit(1);
       const qualityReason = auctionScanQualityReason(
         upload,
@@ -844,7 +858,7 @@ export class PostgresUploadRepository implements UploadRepository {
       })
       .from(marketScans)
       .where(eq(marketScans.qualityAccepted, true))
-      .orderBy(desc(marketScans.completedAt))
+      .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
       .limit(1);
 
     let itemCount = 0;
@@ -901,64 +915,10 @@ export class PostgresUploadRepository implements UploadRepository {
       )
       .orderBy(desc(gameBuilds.publishedAt))
       .limit(1);
-    if (!build) return null;
 
-    const rows = await this.#database
-      .select({
-        itemId: marketItemSignals.itemId,
-        name: itemVersions.name,
-        signal: marketItemSignals.signal,
-        observationCount: marketItemSignals.observationCount,
-        minimumObservationCount: marketItemSignals.minimumObservationCount,
-        currentPriceCopper: marketItemSignals.currentPriceCopper,
-        normalPriceCopper: marketItemSignals.normalPriceCopper,
-        lowerPriceCopper: marketItemSignals.lowerPriceCopper,
-        upperPriceCopper: marketItemSignals.upperPriceCopper,
-        differenceBasisPoints: marketItemSignals.differenceBasisPoints,
-        currentQuantity: marketItemSignals.currentQuantity,
-        normalQuantity: marketItemSignals.normalQuantity,
-        supplyRatioBasisPoints: marketItemSignals.supplyRatioBasisPoints,
-        currentListingCount: marketItemSignals.currentListingCount,
-        confidenceBasisPoints: marketItemSignals.confidenceBasisPoints,
-        direction: marketItemSignals.direction,
-        generatedAt: marketItemSignals.generatedAt,
-        asOfScanId: marketItemSignals.asOfScanId,
-      })
-      .from(marketItemSignals)
-      .leftJoin(
-        itemVersions,
-        and(eq(itemVersions.buildId, build.id), eq(itemVersions.itemId, marketItemSignals.itemId)),
-      )
-      .where(
-        and(
-          eq(marketItemSignals.clientProduct, query.clientProduct),
-          eq(marketItemSignals.clientBuild, query.clientBuild),
-          eq(marketItemSignals.region, query.region),
-          eq(marketItemSignals.realmId, query.realmId),
-          eq(marketItemSignals.auctionHouseType, query.auctionHouseType),
-        ),
-      )
-      .orderBy(marketItemSignals.itemId);
-    const first = rows[0];
-    if (!first) return null;
     const [scan] = await this.#database
-      .select({ completedAt: marketScans.completedAt })
+      .select({ scanId: marketScans.scanId, completedAt: marketScans.completedAt })
       .from(marketScans)
-      .where(eq(marketScans.scanId, first.asOfScanId))
-      .limit(1);
-    if (!scan) return null;
-
-    const historyRows = await this.#database
-      .select({
-        itemId: marketItemObservations.itemId,
-        startedAt: sql<string | null>`MIN(${marketScans.completedAt})::text`,
-        buckets:
-          sql<number>`COUNT(DISTINCT FLOOR(EXTRACT(EPOCH FROM ${marketScans.completedAt}) / 1800))`.mapWith(
-            Number,
-          ),
-      })
-      .from(marketItemObservations)
-      .innerJoin(marketScans, eq(marketScans.scanId, marketItemObservations.scanId))
       .innerJoin(rawUploads, eq(rawUploads.payloadId, marketScans.payloadId))
       .where(
         and(
@@ -968,43 +928,118 @@ export class PostgresUploadRepository implements UploadRepository {
           eq(marketScans.realmId, query.realmId),
           eq(marketScans.auctionHouseType, query.auctionHouseType),
           eq(marketScans.qualityAccepted, true),
-          eq(marketItemObservations.marketKey, sql`CAST(${marketItemObservations.itemId} AS text)`),
-          gte(marketScans.completedAt, new Date(scan.completedAt.getTime() - 7 * 86400000)),
-          lte(marketScans.completedAt, scan.completedAt),
+          query.asOfScanId ? eq(marketScans.scanId, query.asOfScanId) : undefined,
         ),
       )
-      .groupBy(marketItemObservations.itemId);
-    const history = new Map(historyRows.map((row) => [row.itemId, row]));
-
+      .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
+      .limit(1);
+    if (!scan) return null;
+    const pageSize = query.pageSize ?? 250_000;
+    const rows = await this.#database
+      .select({
+        itemId: marketItemObservations.itemId,
+        name: sql<
+          string | null
+        >`coalesce(${itemVersions.name}, ${marketItemObservations.itemName})`,
+      })
+      .from(marketItemObservations)
+      .leftJoin(
+        itemVersions,
+        build
+          ? and(
+              eq(itemVersions.buildId, build.id),
+              eq(itemVersions.itemId, marketItemObservations.itemId),
+            )
+          : sql`false`,
+      )
+      .where(
+        and(
+          eq(marketItemObservations.scanId, scan.scanId),
+          query.afterItemId ? gt(marketItemObservations.itemId, query.afterItemId) : undefined,
+          eq(marketItemObservations.marketKey, sql`CAST(${marketItemObservations.itemId} AS text)`),
+        ),
+      )
+      .orderBy(asc(marketItemObservations.itemId))
+      .limit(pageSize + 1);
+    if (rows.length === 0) return null;
+    const pageRows = rows.slice(0, pageSize);
+    const ids = pageRows.map((row) => row.itemId);
+    const history = await loadMarketHistory(
+      this.#database,
+      query,
+      scan.completedAt,
+      scan.scanId,
+      ids,
+    );
+    const depth = await this.#database
+      .select({
+        itemId: auctionPriceLevels.itemId,
+        unitPriceCopper: auctionPriceLevels.unitPriceCopper,
+        quantity: auctionPriceLevels.quantity,
+        listingCount: auctionPriceLevels.listingCount,
+      })
+      .from(auctionPriceLevels)
+      .where(
+        and(
+          eq(auctionPriceLevels.scanId, scan.scanId),
+          inArray(auctionPriceLevels.itemId, ids),
+          sql`${auctionPriceLevels.marketKey} = ${auctionPriceLevels.itemId}::text`,
+        ),
+      );
+    const levelsByItem = new Map<number, typeof depth>();
+    for (const level of depth) {
+      const levels = levelsByItem.get(level.itemId) ?? [];
+      levels.push(level);
+      levelsByItem.set(level.itemId, levels);
+    }
     return {
       schemaVersion: "market-intelligence.v1",
       modelVersion: "robust-market-signal-v1",
       ...query,
-      generatedAt: first.generatedAt.toISOString(),
+      generatedAt: new Date().toISOString(),
       sourceScanAt: scan.completedAt.toISOString(),
-      sourceScanId: first.asOfScanId,
-      items: rows.map((row) => ({
-        itemId: row.itemId,
-        name: row.name,
-        signal: parseStoredSignal(row.signal),
-        observationCount: row.observationCount,
-        minimumObservationCount: row.minimumObservationCount,
-        currentPriceCopper: row.currentPriceCopper === null ? null : String(row.currentPriceCopper),
-        normalPriceCopper: row.normalPriceCopper === null ? null : String(row.normalPriceCopper),
-        lowerPriceCopper: row.lowerPriceCopper === null ? null : String(row.lowerPriceCopper),
-        upperPriceCopper: row.upperPriceCopper === null ? null : String(row.upperPriceCopper),
-        differenceBasisPoints: row.differenceBasisPoints,
-        currentQuantity: row.currentQuantity,
-        normalQuantity: row.normalQuantity,
-        supplyRatioBasisPoints: row.supplyRatioBasisPoints,
-        currentListingCount: row.currentListingCount,
-        confidenceBasisPoints: row.confidenceBasisPoints,
-        direction: parseStoredDirection(row.direction),
-        historyStartedAt: history.get(row.itemId)?.startedAt
-          ? new Date(history.get(row.itemId)!.startedAt!).toISOString()
-          : null,
-        recentObservationCount: history.get(row.itemId)?.buckets ?? 0,
-      })),
+      sourceScanId: scan.scanId,
+      historyPolicy: "robust-market-history-v1",
+      historyBuilds: [...history.builds],
+      historyRevision: createHash("sha256")
+        .update(JSON.stringify({ catalog: build?.id ?? null, history: history.revision }))
+        .digest("hex"),
+      nextAfterItemId: rows.length > pageSize ? pageRows.at(-1)!.itemId : null,
+      items: pageRows.map((row) => {
+        const observations = history.byItem.get(row.itemId) ?? [];
+        const result = analyzePriceHistory(observations);
+        const available = result.status === "available" ? result : null;
+        return {
+          itemId: row.itemId,
+          name: row.name,
+          signal: available?.signal ?? "collecting",
+          observationCount: result.observationCount,
+          minimumObservationCount: 6,
+          currentPriceCopper: available ? String(available.currentPriceCopper) : null,
+          normalPriceCopper: available ? String(available.normalPriceCopper) : null,
+          lowerPriceCopper: available ? String(available.lowerPriceCopper) : null,
+          upperPriceCopper: available ? String(available.upperPriceCopper) : null,
+          differenceBasisPoints: available?.differenceBasisPoints ?? null,
+          currentQuantity: available?.currentQuantity ?? null,
+          normalQuantity: available?.normalQuantity ?? null,
+          supplyRatioBasisPoints: available?.supplyRatioBasisPoints ?? null,
+          currentListingCount: available?.currentListingCount ?? null,
+          confidenceBasisPoints: available?.confidenceBasisPoints ?? null,
+          direction: available?.direction ?? null,
+          historyStartedAt: observations[0]?.observedAt.toISOString() ?? null,
+          recentObservationCount: observations.length,
+          levels: (levelsByItem.get(row.itemId) ?? []).map((level) => ({
+            unitPriceCopper: String(level.unitPriceCopper),
+            quantity: level.quantity,
+            listingCount: level.listingCount,
+          })),
+          history: observations.map((observation) => ({
+            ...observation,
+            observedAt: observation.observedAt.toISOString(),
+            priceCopper: String(observation.priceCopper),
+          })),
+        };
+      }),
     };
   }
 }
@@ -1023,7 +1058,7 @@ export async function rebuildLatestMarketSignals(database: WowTraderDatabase): P
     .from(marketScans)
     .innerJoin(rawUploads, eq(rawUploads.payloadId, marketScans.payloadId))
     .where(eq(marketScans.qualityAccepted, true))
-    .orderBy(desc(marketScans.completedAt));
+    .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId));
   const latestByMarket = new Map<string, (typeof acceptedScans)[number]>();
   for (const scan of acceptedScans) {
     const key = [
@@ -1058,108 +1093,66 @@ export async function rebuildLatestMarketSignals(database: WowTraderDatabase): P
   return latestByMarket.size;
 }
 
-function parseStoredSignal(value: string): MarketIntelligencePack["items"][number]["signal"] {
-  if (
-    value === "collecting" ||
-    value === "bargain" ||
-    value === "normal" ||
-    value === "rising" ||
-    value === "spike_risk" ||
-    value === "oversupplied" ||
-    value === "falling" ||
-    value === "too_thin"
-  ) {
-    return value;
-  }
-  throw new Error(`Unsupported stored market signal: ${value}`);
-}
-
-function parseStoredDirection(
-  value: string | null,
-): MarketIntelligencePack["items"][number]["direction"] {
-  if (value === null || value === "up" || value === "flat" || value === "down") return value;
-  throw new Error(`Unsupported stored market direction: ${value}`);
-}
-
 async function refreshMarketItemSignals(
   transaction: UploadTransaction,
-  scope: MarketSignalScope,
-  latestObservations: readonly {
-    readonly itemId: number;
-    readonly marketKey: string;
-  }[],
+  incomingScope: MarketSignalScope,
+  latestObservations: readonly { readonly itemId: number; readonly marketKey: string }[],
+  propagate = true,
 ): Promise<void> {
-  const recentScans = await transaction
-    .select({
-      scanId: marketScans.scanId,
-      completedAt: marketScans.completedAt,
-      completeness: marketScans.completeness,
-    })
+  // One writer per economy prevents late uploads from replacing its current quote.
+  const lockKey = JSON.stringify([
+    incomingScope.clientProduct,
+    incomingScope.region,
+    incomingScope.realmId,
+    incomingScope.auctionHouseType,
+  ]);
+  await transaction.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
+  const [latest] = await transaction
+    .select({ scanId: marketScans.scanId, completedAt: marketScans.completedAt })
     .from(marketScans)
     .innerJoin(rawUploads, eq(rawUploads.payloadId, marketScans.payloadId))
     .where(
       and(
-        eq(marketScans.region, scope.region),
-        eq(marketScans.realmId, scope.realmId),
-        eq(marketScans.auctionHouseType, scope.auctionHouseType),
-        eq(marketScans.clientBuild, scope.clientBuild),
+        eq(rawUploads.clientProduct, incomingScope.clientProduct),
+        eq(marketScans.clientBuild, incomingScope.clientBuild),
+        eq(marketScans.region, incomingScope.region),
+        eq(marketScans.realmId, incomingScope.realmId),
+        eq(marketScans.auctionHouseType, incomingScope.auctionHouseType),
         eq(marketScans.qualityAccepted, true),
-        eq(rawUploads.clientProduct, scope.clientProduct),
       ),
     )
-    .orderBy(desc(marketScans.completedAt))
-    .limit(400);
-  if (recentScans.length === 0) return;
-
-  const observations = await transaction
-    .select({
-      scanId: marketItemObservations.scanId,
-      itemId: marketItemObservations.itemId,
-      marketKey: marketItemObservations.marketKey,
-      priceCopper: marketItemObservations.tenthPercentilePriceCopper,
-      availableQuantity: marketItemObservations.availableQuantity,
-      listingCount: marketItemObservations.listingCount,
-    })
-    .from(marketItemObservations)
-    .where(
-      inArray(
-        marketItemObservations.scanId,
-        recentScans.map((scan) => scan.scanId),
-      ),
-    );
-  const scansById = new Map(recentScans.map((scan) => [scan.scanId, scan]));
-  const currentItemIds = new Set(
-    latestObservations
-      .filter((observation) => observation.marketKey === String(observation.itemId))
-      .map((observation) => observation.itemId),
+    .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
+    .limit(1);
+  if (!latest) return;
+  const scope: MarketSignalScope = {
+    ...incomingScope,
+    scanId: latest.scanId,
+    completedAt: latest.completedAt.toISOString(),
+  };
+  const observations =
+    latest.scanId === incomingScope.scanId
+      ? latestObservations
+      : await transaction
+          .select({
+            itemId: marketItemObservations.itemId,
+            marketKey: marketItemObservations.marketKey,
+          })
+          .from(marketItemObservations)
+          .where(eq(marketItemObservations.scanId, latest.scanId));
+  const currentItemIds = observations
+    .filter((row) => row.marketKey === String(row.itemId))
+    .map((row) => row.itemId);
+  const history = await loadMarketHistory(
+    transaction,
+    scope,
+    new Date(scope.completedAt),
+    scope.scanId,
+    currentItemIds,
   );
-  const byItem = new Map<number, typeof observations>();
-  for (const observation of observations) {
-    if (!currentItemIds.has(observation.itemId)) continue;
-    if (observation.marketKey !== String(observation.itemId)) continue;
-    const existing = byItem.get(observation.itemId);
-    if (existing) existing.push(observation);
-    else byItem.set(observation.itemId, [observation]);
-  }
-
+  const byItem = history.byItem;
   const generatedAt = new Date(scope.completedAt);
   const signals = [...byItem].map(([itemId, itemObservations]) => {
-    const intelligence = analyzePriceHistory(
-      itemObservations.flatMap((observation) => {
-        const scan = scansById.get(observation.scanId);
-        return scan
-          ? [
-              {
-                observedAt: scan.completedAt,
-                priceCopper: observation.priceCopper,
-                availableQuantity: observation.availableQuantity,
-                listingCount: observation.listingCount,
-                completeness: scan.completeness,
-              },
-            ]
-          : [];
-      }),
-    );
+    const intelligence = analyzePriceHistory(itemObservations);
     const market = {
       clientProduct: scope.clientProduct,
       clientBuild: scope.clientBuild,
@@ -1212,6 +1205,34 @@ async function refreshMarketItemSignals(
   for (let index = 0; index < signals.length; index += INSERT_CHUNK_SIZE) {
     const chunk = signals.slice(index, index + INSERT_CHUNK_SIZE);
     if (chunk.length > 0) await transaction.insert(marketItemSignals).values(chunk);
+  }
+  if (propagate) {
+    const links = await transaction
+      .select()
+      .from(marketHistoryLinks)
+      .where(
+        and(
+          eq(marketHistoryLinks.clientProduct, scope.clientProduct),
+          eq(marketHistoryLinks.region, scope.region),
+          eq(marketHistoryLinks.realmId, scope.realmId),
+          eq(marketHistoryLinks.auctionHouseType, scope.auctionHouseType),
+        ),
+      );
+    const builds = new Set([scope.clientBuild]);
+    const pending = [scope.clientBuild];
+    while (pending.length) {
+      const build = pending.pop()!;
+      for (const link of links)
+        if (link.fromBuild === build && !builds.has(link.toBuild)) {
+          builds.add(link.toBuild);
+          pending.push(link.toBuild);
+          if (builds.size > 100) throw new Error("Market history exceeds 100 linked builds");
+        }
+    }
+    for (const clientBuild of [...builds].sort((a, b) => a - b)) {
+      if (clientBuild !== scope.clientBuild)
+        await refreshMarketItemSignals(transaction, { ...scope, clientBuild }, [], false);
+    }
   }
 }
 

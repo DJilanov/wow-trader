@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsup src/server.ts src/rebuild-market-signals.ts --format esm --sourcemap --clean",
+    "build": "tsup src/server.ts src/rebuild-market-signals.ts src/link-market-history.ts --format esm --sourcemap --clean",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src",
     "market:rebuild": "tsx src/rebuild-market-signals.ts",
+    "market:history:link": "tsx src/link-market-history.ts",
     "start": "node dist/server.js",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"

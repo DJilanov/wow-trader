@@ -148,6 +148,20 @@
       "when": 1792904839562,
       "tag": "0020_unique_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1793451667291,
+      "tag": "0021_market_history_continuity",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1793454656968,
+      "tag": "0022_market_scan_item_identity",
+      "breakpoints": true
     }
   ]
 }

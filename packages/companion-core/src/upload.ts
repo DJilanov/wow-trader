@@ -46,6 +46,10 @@ export function createAuctionScanUpload(
       itemId: snapshot.itemId,
       marketKey: snapshot.marketKey,
       itemLink: snapshot.itemLink ?? null,
+      ...(snapshot.itemName ? { itemName: snapshot.itemName } : {}),
+      ...(snapshot.itemClassId !== undefined && snapshot.itemClassId !== null
+        ? { itemClassId: snapshot.itemClassId }
+        : {}),
       priceLevels: snapshot.priceLevels.map((level) => ({
         unitPriceCopper: String(level.unitPriceCopper),
         quantity: level.quantity,

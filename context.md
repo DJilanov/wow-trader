@@ -1,6 +1,36 @@
 # WoW Trader project context
 
-Last updated: 2026-10-28 (Europe/Sofia)
+Last updated: 2026-10-31 (Europe/Sofia)
+
+## October 31 — finish Trader buying guidance (active)
+
+The owner approved covering the pricing audit: material buying plans, consistent
+history between web/addon, immediate local signal updates, reviewed patch continuity
+and installation in the current Forever client. Work is in progress; not deployed.
+
+- Implemented shared conservative depth/fee/budget/quantity calculations and a
+  seven-day/336-bucket history policy. Added scoped reviewed history links with
+  migration 0021 and an operator preview/apply command. Item records must match
+  before linked history can be reused. No beta-to-launch history is seeded.
+- API and website now consume one shared history reader. The buying UI exposes
+  material/buy filters, budget, quantity, ceiling, resale target, fees and profit.
+- Collector 0.13.0 recomputes live labels and plans, supports local-only history,
+  excludes wrong-scope/delisted items and adds pagination/budget/watchlist filters.
+  Companion update is 0.3.6; manifests and packaging are being verified.
+- Verified: 22 market, 10 contract, 24 Companion, 10 desktop, 12 API and 17 focused
+  web tests; 120 exact JS/Lua cases and real-addon integration controls; strict
+  web/API/desktop types and scoped lint. Fourteen real PostgreSQL checks pass,
+  including out-of-order uploads, linked backfills and unpublished-build price mode.
+  Collector 0.13.0 is installed in `_forever_`. Desktop packaging, browser review
+  and production deployment remain in progress.
+- Production audit found latest accepted Forever beta scan on October 23,
+  build 70532: 1,116 items, all Collecting 1/6. Current `_forever_/Interface/AddOns`
+  was empty. Genuine current market data still requires a player scan and reload;
+  old observations must not be promoted as current quotes.
+- Evidence: `artifacts/trader-buy-20261031/`; policy/workflow:
+  `docs/trader-buy-opportunities.md`. Unrelated storage edits were present at
+  start and must be preserved and excluded from this change. Protected numerical
+  simulator helpers and runtime releases remain untouched.
 
 ## October 28, 11:43 UTC — all current tier lists deployed, including healers
 

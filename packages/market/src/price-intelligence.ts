@@ -40,9 +40,16 @@ export interface PriceIntelligenceOptions {
   readonly bucketMilliseconds?: number;
 }
 
-const DEFAULT_MINIMUM_OBSERVATIONS = 6;
-const DEFAULT_MAXIMUM_OBSERVATIONS = 336;
-const DEFAULT_BUCKET_MILLISECONDS = 30 * 60_000;
+export const MARKET_HISTORY_POLICY = {
+  minimumCompleteness: 0.98,
+  minimumObservationCount: 6,
+  maximumObservationCount: 336,
+  bucketMilliseconds: 30 * 60_000,
+  maximumAgeMilliseconds: 7 * 24 * 60 * 60_000,
+} as const;
+const DEFAULT_MINIMUM_OBSERVATIONS = MARKET_HISTORY_POLICY.minimumObservationCount;
+const DEFAULT_MAXIMUM_OBSERVATIONS = MARKET_HISTORY_POLICY.maximumObservationCount;
+const DEFAULT_BUCKET_MILLISECONDS = MARKET_HISTORY_POLICY.bucketMilliseconds;
 
 export function analyzePriceHistory(
   observations: readonly PriceHistoryObservation[],
@@ -53,9 +60,12 @@ export function analyzePriceHistory(
   const bucketMilliseconds = options.bucketMilliseconds ?? DEFAULT_BUCKET_MILLISECONDS;
   validateOptions(minimumObservationCount, maximumObservationCount, bucketMilliseconds);
 
-  const window = bucketObservations(observations, bucketMilliseconds).slice(
-    -maximumObservationCount,
-  );
+  const bucketed = bucketObservations(observations, bucketMilliseconds);
+  const cutoff =
+    (bucketed.at(-1)?.observedAt.getTime() ?? 0) - MARKET_HISTORY_POLICY.maximumAgeMilliseconds;
+  const window = bucketed
+    .filter((observation) => observation.observedAt.getTime() >= cutoff)
+    .slice(-maximumObservationCount);
   if (window.length < minimumObservationCount) {
     return {
       status: "collecting",
@@ -134,13 +144,14 @@ export function bucketObservations(
   const buckets = new Map<number, PriceHistoryObservation>();
   for (const source of observations) {
     const observation = validateObservation(source);
+    if (observation.completeness < MARKET_HISTORY_POLICY.minimumCompleteness) continue;
     const bucket = Math.floor(observation.observedAt.getTime() / bucketMilliseconds);
     const existing = buckets.get(bucket);
     if (
       !existing ||
-      observation.completeness > existing.completeness ||
-      (observation.completeness === existing.completeness &&
-        observation.observedAt.getTime() > existing.observedAt.getTime())
+      observation.observedAt.getTime() > existing.observedAt.getTime() ||
+      (observation.observedAt.getTime() === existing.observedAt.getTime() &&
+        observation.completeness > existing.completeness)
     ) {
       buckets.set(bucket, observation);
     }

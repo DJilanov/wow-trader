@@ -1,6 +1,7 @@
 import {
   auctionPriceLevels,
   gameBuilds,
+  loadMarketHistory,
   itemVersions,
   marketScans,
   marketItemObservations,
@@ -59,6 +60,7 @@ export type WorkspaceRouteFilter = "best" | RealizationRoute;
 export type WorkspaceSort = "total-profit" | "profit" | "roi" | "specialization-uplift";
 
 export interface MarketWorkspaceFilters {
+  readonly marketOnly?: boolean;
   readonly clientProduct?: string;
   readonly market?: string;
   readonly faction?: MarketFaction;
@@ -275,7 +277,7 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
         ),
       ),
     )
-    .orderBy(desc(marketScans.completedAt))
+    .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
     .limit(250);
   const markets = uniqueMarkets(recentScans);
   const selected = selectMarketScan(recentScans, filters.market, filters.faction);
@@ -297,10 +299,12 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
     )
     .orderBy(desc(gameBuilds.publishedAt))
     .limit(1);
-  if (!build) {
+  if (!build || filters.marketOnly) {
     return emptyWorkspace(
       markets,
-      `No published catalog matches Auction House build ${selected.clientBuild}.`,
+      filters.marketOnly
+        ? "Buying guidance uses accepted market scans and per-item price history. Item stats and crafting need a published catalog."
+        : `No published catalog matches Auction House build ${selected.clientBuild}.`,
       {
         market: marketValue(selected),
         region: selected.region,
@@ -311,8 +315,8 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
         completeness: selected.completeness,
         itemCount: selected.itemCount,
         clientBuild: selected.clientBuild,
-        clientVersion: null,
-        catalogAvailable: false,
+        clientVersion: build?.clientVersion ?? null,
+        catalogAvailable: Boolean(build),
         historyScanCount: recentScans.filter(
           (scan) =>
             scan.region === selected.region &&
@@ -670,7 +674,7 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
   const pageSize = normalizePageSize(filters.pageSize);
   const pageCount = Math.max(1, Math.ceil(sorted.length / pageSize));
   const page = Math.min(normalizePage(filters.page), pageCount);
-  const historyScanCount = scanCountRows[0]?.value ?? 0;
+  let historyScanCount = scanCountRows[0]?.value ?? 0;
   const freshness = getMarketScanFreshness(selected.completedAt);
   const pageEntries = sorted.slice((page - 1) * pageSize, page * pageSize);
   const historyItemIds = [
@@ -712,17 +716,9 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
             ),
           ),
         )
-        .orderBy(desc(marketScans.completedAt))
+        .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
         .limit(1_440)
-    : recentScans
-        .filter(
-          (scan) =>
-            scan.region === selected.region &&
-            scan.realmId === selected.realmId &&
-            scan.auctionHouseType === selected.auctionHouseType &&
-            scan.clientBuild === selected.clientBuild,
-        )
-        .slice(0, 48);
+    : [];
   const historicalLevels =
     historyItemIds.length > 0 && historyScans.length > 0
       ? await database
@@ -750,6 +746,41 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
     historyScans,
     historicalLevels,
   );
+  const sharedHistory = await loadMarketHistory(
+    database,
+    {
+      clientProduct,
+      clientBuild: selected.clientBuild,
+      region: selected.region,
+      realmId: selected.realmId,
+      auctionHouseType: selected.auctionHouseType,
+    },
+    selected.completedAt,
+    selected.scanId,
+    historyItemIds,
+  );
+  if (historyItemIds.length > 0) historyScanCount = 0;
+  for (const id of historyItemIds) {
+    const signal = createMarketPriceSignal(
+      (sharedHistory.byItem.get(id) ?? []).map((observation) => ({
+        observedAt: observation.observedAt,
+        completeness: observation.completeness,
+        levels: [
+          {
+            unitPriceCopper: observation.priceCopper,
+            quantity: observation.availableQuantity,
+            listingCount: observation.listingCount,
+          },
+        ],
+      })),
+    );
+    historyScanCount = Math.max(historyScanCount, signal.observationCount);
+    const chartHistory = filters.recipeSpellId ? priceSignalsByItem.get(id)?.history : undefined;
+    priceSignalsByItem.set(
+      id,
+      chartHistory?.length ? { ...signal, history: chartHistory } : signal,
+    );
+  }
   const opportunities = pageEntries.map((opportunity) =>
     formatOpportunity(
       opportunity,

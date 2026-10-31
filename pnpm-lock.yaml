@@ -350,6 +350,9 @@ importers:
 
   packages/db:
     dependencies:
+      "@wow-trader/market":
+        specifier: workspace:*
+        version: link:../market
       drizzle-orm:
         specifier: 0.45.2
         version: 0.45.2(postgres@3.4.9)

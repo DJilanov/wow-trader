@@ -1,4 +1,6 @@
 import {
+  auctionPriceLevels,
+  loadMarketHistory,
   gameBuilds,
   itemVersions,
   marketItemObservations,
@@ -6,6 +8,13 @@ import {
   marketScans,
   rawUploads,
 } from "@wow-trader/db";
+import {
+  BUY_POLICY,
+  analyzePriceHistory,
+  quoteBuyOpportunity,
+  auctionHouseFeeBasisPoints,
+  type BuyOpportunity,
+} from "@wow-trader/market";
 import { and, asc, count, desc, eq, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 
 import { getDatabase } from "./database";
@@ -25,7 +34,8 @@ export interface MarketItemDealVerdict {
     | "falling"
     | "spike_risk"
     | "too_thin"
-    | "collecting";
+    | "collecting"
+    | "stale";
   readonly tone: "positive" | "neutral" | "warning" | "negative" | "collecting";
   readonly label: string;
   readonly guidance: string;
@@ -36,6 +46,7 @@ export interface MarketItemBrowserRow {
   readonly name: string;
   readonly iconFileDataId: number | null;
   readonly quality: number;
+  readonly catalogVerified?: boolean;
   readonly minimumAsk: string;
   readonly representativeAsk: string;
   readonly medianAsk: string;
@@ -52,6 +63,20 @@ export interface MarketItemBrowserRow {
   readonly confidence: string | null;
   readonly signal: MarketPriceSignal;
   readonly verdict: MarketItemDealVerdict;
+  readonly buy: FormattedBuyOpportunity;
+}
+
+export interface FormattedBuyOpportunity {
+  readonly state: BuyOpportunity["state"];
+  readonly reason: string;
+  readonly quantity: number;
+  readonly maximumBuyPrice: string | null;
+  readonly targetResalePrice: string | null;
+  readonly buyCost: string;
+  readonly auctionFee: string;
+  readonly profit: string;
+  readonly returnPercent: string;
+  readonly feePercent: string | null;
 }
 
 export interface MarketItemBrowserData {
@@ -61,6 +86,12 @@ export interface MarketItemBrowserData {
   readonly page: number;
   readonly pageSize: number;
   readonly sort: MarketItemSort;
+  readonly filter?: "all" | "buy";
+  readonly materialsOnly?: boolean;
+  readonly budget?: string;
+  readonly quantityLimit?: number;
+  readonly scannedAt?: string;
+  readonly budgetError?: string;
 }
 
 export interface MarketItemBrowserFilters {
@@ -70,11 +101,16 @@ export interface MarketItemBrowserFilters {
   readonly sort?: MarketItemSort;
   readonly page?: number;
   readonly pageSize?: number;
+  readonly filter?: "all" | "buy";
+  readonly materialsOnly?: boolean;
+  readonly budget?: string;
+  readonly quantityLimit?: number;
 }
 
 const MAX_QUERY_LENGTH = 120;
 const DEFAULT_PAGE_SIZE = 30;
 const MAX_PAGE_SIZE = 100;
+const GOLD_BUDGET_PATTERN = /^\d{1,9}(?:\.\d{1,4})?$/;
 
 export async function getMarketItemBrowser(
   filters: MarketItemBrowserFilters,
@@ -106,7 +142,7 @@ export async function getMarketItemBrowser(
         eq(marketScans.auctionHouseType, selector.auctionHouseType),
       ),
     )
-    .orderBy(desc(marketScans.completedAt))
+    .orderBy(desc(marketScans.completedAt), desc(marketScans.scanId))
     .limit(1);
   if (!scan) return emptyBrowser(sort, requestedPage, pageSize);
 
@@ -122,15 +158,15 @@ export async function getMarketItemBrowser(
     )
     .orderBy(desc(gameBuilds.publishedAt))
     .limit(1);
-  if (!build) return emptyBrowser(sort, requestedPage, pageSize);
+  const catalogJoin = build
+    ? and(
+        eq(itemVersions.buildId, build.id),
+        eq(itemVersions.itemId, marketItemObservations.itemId),
+      )
+    : sql`false`;
 
   const canonicalMarket = sql`${marketItemObservations.marketKey} = ${marketItemObservations.itemId}::text`;
   const searchCondition = marketItemSearchCondition(query);
-  const itemCondition = and(
-    eq(marketItemObservations.scanId, scan.scanId),
-    canonicalMarket,
-    searchCondition,
-  );
   const signalJoin = and(
     eq(marketItemSignals.clientProduct, filters.clientProduct),
     eq(marketItemSignals.clientBuild, scan.clientBuild),
@@ -138,32 +174,42 @@ export async function getMarketItemBrowser(
     eq(marketItemSignals.realmId, scan.realmId),
     eq(marketItemSignals.auctionHouseType, scan.auctionHouseType),
     eq(marketItemSignals.itemId, marketItemObservations.itemId),
+    eq(marketItemSignals.asOfScanId, scan.scanId),
+  );
+  const now = new Date();
+  const eligible = eligibleBuyCondition(
+    scan.auctionHouseType,
+    scan.completedAt,
+    now,
+    parseBuyBudget(filters.budget),
+  );
+  const itemCondition = and(
+    eq(marketItemObservations.scanId, scan.scanId),
+    canonicalMarket,
+    searchCondition,
+    filters.filter === "buy" ? eligible : undefined,
+    filters.materialsOnly
+      ? inArray(
+          sql<number>`coalesce(${itemVersions.classId}, ${marketItemObservations.itemClassId})`,
+          [3, 5, 7],
+        )
+      : undefined,
   );
 
   const [countRows, suggestionRows] = await Promise.all([
     database
       .select({ value: count() })
       .from(marketItemObservations)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, build.id),
-          eq(itemVersions.itemId, marketItemObservations.itemId),
-        ),
-      )
+      .leftJoin(itemVersions, catalogJoin)
+      .leftJoin(marketItemSignals, signalJoin)
       .where(itemCondition),
     database
-      .select({ name: itemVersions.name })
+      .select({ name: marketItemName() })
       .from(marketItemObservations)
-      .innerJoin(
-        itemVersions,
-        and(
-          eq(itemVersions.buildId, build.id),
-          eq(itemVersions.itemId, marketItemObservations.itemId),
-        ),
-      )
+      .leftJoin(itemVersions, catalogJoin)
+      .leftJoin(marketItemSignals, signalJoin)
       .where(itemCondition)
-      .orderBy(asc(itemVersions.name))
+      .orderBy(asc(marketItemName()))
       .limit(query ? 80 : 200),
   ]);
   const totalCount = countRows[0]?.value ?? 0;
@@ -173,10 +219,11 @@ export async function getMarketItemBrowser(
   const rows = await database
     .select({
       itemId: marketItemObservations.itemId,
-      name: itemVersions.name,
+      name: marketItemName(),
       iconFileDataId: itemVersions.iconFileDataId,
-      quality: itemVersions.quality,
-      sellPriceCopper: itemVersions.sellPriceCopper,
+      quality: sql<number>`coalesce(${itemVersions.quality}, 1)`.mapWith(Number),
+      catalogVerified: sql<boolean>`${itemVersions.itemId} IS NOT NULL`,
+      sellPriceCopper: sql<bigint>`coalesce(${itemVersions.sellPriceCopper}, 0)`.mapWith(BigInt),
       minimumPriceCopper: marketItemObservations.minimumPriceCopper,
       representativePriceCopper: marketItemObservations.tenthPercentilePriceCopper,
       medianPriceCopper: marketItemObservations.medianPriceCopper,
@@ -187,74 +234,101 @@ export async function getMarketItemBrowser(
       quantityWithinTenPercent: marketItemObservations.quantityWithinTenPercent,
     })
     .from(marketItemObservations)
-    .innerJoin(
-      itemVersions,
-      and(
-        eq(itemVersions.buildId, build.id),
-        eq(itemVersions.itemId, marketItemObservations.itemId),
-      ),
-    )
+    .leftJoin(itemVersions, catalogJoin)
     .leftJoin(marketItemSignals, signalJoin)
     .where(itemCondition)
-    .orderBy(...marketItemOrder(sort))
+    .orderBy(...marketItemOrder(sort, eligible, scan.auctionHouseType))
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
   const itemIds = rows.map((row) => row.itemId);
-  const historyScans =
+  const [history, depth] = await Promise.all([
+    loadMarketHistory(
+      database,
+      { clientProduct: filters.clientProduct, ...scan },
+      scan.completedAt,
+      scan.scanId,
+      itemIds,
+    ),
     itemIds.length === 0
       ? []
-      : await database
+      : database
           .select({
-            scanId: marketScans.scanId,
-            completedAt: marketScans.completedAt,
-            completeness: marketScans.completeness,
+            itemId: auctionPriceLevels.itemId,
+            unitPriceCopper: auctionPriceLevels.unitPriceCopper,
+            quantity: auctionPriceLevels.quantity,
+            listingCount: auctionPriceLevels.listingCount,
           })
-          .from(marketScans)
-          .innerJoin(rawUploads, eq(rawUploads.payloadId, marketScans.payloadId))
+          .from(auctionPriceLevels)
           .where(
             and(
-              eq(rawUploads.clientProduct, filters.clientProduct),
-              eq(marketScans.qualityAccepted, true),
-              eq(marketScans.clientBuild, scan.clientBuild),
-              eq(marketScans.region, scan.region),
-              eq(marketScans.realmId, scan.realmId),
-              eq(marketScans.auctionHouseType, scan.auctionHouseType),
+              eq(auctionPriceLevels.scanId, scan.scanId),
+              inArray(auctionPriceLevels.itemId, itemIds),
+              sql`${auctionPriceLevels.marketKey} = ${auctionPriceLevels.itemId}::text`,
             ),
-          )
-          .orderBy(desc(marketScans.completedAt))
-          .limit(1_440);
-  const historicalObservations =
-    itemIds.length === 0 || historyScans.length === 0
-      ? []
-      : await database
-          .select({
-            scanId: marketItemObservations.scanId,
-            itemId: marketItemObservations.itemId,
-            priceCopper: marketItemObservations.tenthPercentilePriceCopper,
-            availableQuantity: marketItemObservations.availableQuantity,
-            listingCount: marketItemObservations.listingCount,
-          })
-          .from(marketItemObservations)
-          .where(
-            and(
-              inArray(
-                marketItemObservations.scanId,
-                historyScans.map((historyScan) => historyScan.scanId),
-              ),
-              inArray(marketItemObservations.itemId, itemIds),
-              sql`${marketItemObservations.marketKey} = ${marketItemObservations.itemId}::text`,
-            ),
-          );
-  const signals = createSignals(itemIds, historyScans, historicalObservations);
+          ),
+  ]);
+  const signals = new Map(
+    itemIds.map((id) => [
+      id,
+      createMarketPriceSignal(
+        (history.byItem.get(id) ?? []).map((observation) => ({
+          observedAt: observation.observedAt,
+          completeness: observation.completeness,
+          levels: [
+            {
+              unitPriceCopper: observation.priceCopper,
+              quantity: observation.availableQuantity,
+              listingCount: observation.listingCount,
+            },
+          ],
+        })),
+      ),
+    ]),
+  );
+  const byItem = new Map<number, typeof depth>();
+  for (const level of depth) {
+    const levels = byItem.get(level.itemId) ?? [];
+    levels.push(level);
+    byItem.set(level.itemId, levels);
+  }
+  const buys = new Map(
+    itemIds.map((id) => [
+      id,
+      quoteBuyOpportunity({
+        intelligence: analyzePriceHistory(history.byItem.get(id) ?? []),
+        levels: byItem.get(id) ?? [],
+        observedAt: scan.completedAt,
+        now,
+        auctionHouseType: scan.auctionHouseType,
+        ...(parseBuyBudget(filters.budget) !== undefined
+          ? { maximumSpendCopper: parseBuyBudget(filters.budget)! }
+          : {}),
+        maximumQuantity: filters.quantityLimit ?? BUY_POLICY.maximumQuantity,
+      }),
+    ]),
+  );
 
   return {
-    rows: rows.map((row) => formatRow(row, signals.get(row.itemId) ?? createMarketPriceSignal([]))),
+    rows: rows.map((row) =>
+      formatRow(row, signals.get(row.itemId) ?? createMarketPriceSignal([]), buys.get(row.itemId)!),
+    ),
     suggestions: suggestionRows.map((row) => row.name),
     totalCount,
     page,
     pageSize,
     sort,
+    filter: filters.filter ?? "all",
+    materialsOnly: filters.materialsOnly ?? false,
+    budget: filters.budget ?? "",
+    quantityLimit: filters.quantityLimit ?? BUY_POLICY.maximumQuantity,
+    scannedAt: scan.completedAt.toISOString(),
+    ...(filters.budget?.trim() && !GOLD_BUDGET_PATTERN.test(filters.budget)
+      ? {
+          budgetError:
+            "Enter a nonnegative gold amount with at most four decimal places. Buying is locked until the budget is valid.",
+        }
+      : {}),
   };
 }
 
@@ -338,6 +412,7 @@ function formatRow(
     readonly name: string;
     readonly iconFileDataId: number | null;
     readonly quality: number;
+    readonly catalogVerified: boolean;
     readonly sellPriceCopper: bigint;
     readonly minimumPriceCopper: bigint;
     readonly representativePriceCopper: bigint;
@@ -349,6 +424,7 @@ function formatRow(
     readonly quantityWithinTenPercent: number;
   },
   signal: MarketPriceSignal,
+  buy: BuyOpportunity,
 ): MarketItemBrowserRow {
   const vendorProfitCopper = row.sellPriceCopper - row.minimumPriceCopper;
   return {
@@ -356,6 +432,7 @@ function formatRow(
     name: row.name,
     iconFileDataId: row.iconFileDataId,
     quality: row.quality,
+    catalogVerified: row.catalogVerified,
     minimumAsk: formatCopper(row.minimumPriceCopper),
     representativeAsk: formatCopper(row.representativePriceCopper),
     medianAsk: formatCopper(row.medianPriceCopper),
@@ -371,82 +448,86 @@ function formatRow(
     differenceFromNormal: signal.status === "available" ? signal.differenceFromNormal : null,
     confidence: signal.status === "available" ? signal.confidence : null,
     signal,
-    verdict: classifyMarketItemDeal({
-      minimumAskCopper: row.minimumPriceCopper,
-      vendorSellPriceCopper: row.sellPriceCopper,
-      signal,
-    }),
+    buy: formatBuyOpportunity(buy),
+    verdict:
+      buy.state === "stale"
+        ? { kind: "stale", tone: "warning", label: "Stale scan", guidance: buy.reason }
+        : classifyMarketItemDeal({
+            minimumAskCopper: row.minimumPriceCopper,
+            vendorSellPriceCopper: row.sellPriceCopper,
+            signal,
+          }),
   };
 }
 
-function createSignals(
-  itemIds: readonly number[],
-  scans: readonly {
-    readonly scanId: string;
-    readonly completedAt: Date;
-    readonly completeness: number;
-  }[],
-  observations: readonly {
-    readonly scanId: string;
-    readonly itemId: number;
-    readonly priceCopper: bigint;
-    readonly availableQuantity: number;
-    readonly listingCount: number;
-  }[],
-): Map<number, MarketPriceSignal> {
-  const observationsByItem = new Map<number, Array<(typeof observations)[number]>>();
-  for (const observation of observations) {
-    const group = observationsByItem.get(observation.itemId);
-    if (group) group.push(observation);
-    else observationsByItem.set(observation.itemId, [observation]);
-  }
-  const scansById = new Map(scans.map((scan) => [scan.scanId, scan]));
-  return new Map(
-    itemIds.map((itemId) => [
-      itemId,
-      createMarketPriceSignal(
-        (observationsByItem.get(itemId) ?? []).flatMap((observation) => {
-          const scan = scansById.get(observation.scanId);
-          return scan
-            ? [
-                {
-                  observedAt: scan.completedAt,
-                  completeness: scan.completeness,
-                  levels: [
-                    {
-                      unitPriceCopper: observation.priceCopper,
-                      quantity: observation.availableQuantity,
-                      listingCount: observation.listingCount,
-                    },
-                  ],
-                },
-              ]
-            : [];
-        }),
-      ),
-    ]),
-  );
+export function parseBuyBudget(value: string | undefined): bigint | undefined {
+  if (!value?.trim()) return undefined;
+  if (!GOLD_BUDGET_PATTERN.test(value)) return 0n;
+  const [gold = "0", fraction = ""] = value.split(".");
+  return BigInt(gold) * 10_000n + BigInt(fraction.padEnd(4, "0"));
 }
 
-function marketItemOrder(sort: MarketItemSort): readonly SQL[] {
+export function formatBuyOpportunity(buy: BuyOpportunity): FormattedBuyOpportunity {
+  return {
+    state: buy.state,
+    reason: buy.reason,
+    quantity: buy.quantity,
+    maximumBuyPrice:
+      buy.maximumBuyPriceCopper === null ? null : formatCopper(buy.maximumBuyPriceCopper),
+    targetResalePrice:
+      buy.targetResalePriceCopper === null ? null : formatCopper(buy.targetResalePriceCopper),
+    buyCost: formatCopper(buy.buyCostCopper),
+    auctionFee: formatCopper(buy.auctionFeeCopper),
+    profit: formatCopper(buy.profitCopper),
+    returnPercent: `${(buy.returnBasisPoints / 100).toFixed(1)}%`,
+    feePercent: buy.auctionFeeBasisPoints === null ? null : `${buy.auctionFeeBasisPoints / 100}%`,
+  };
+}
+
+function eligibleBuyCondition(
+  auctionHouseType: string,
+  observedAt: Date,
+  now: Date,
+  budget: bigint | undefined,
+): SQL {
+  const fee = auctionHouseFeeBasisPoints(auctionHouseType);
+  const age = now.getTime() - observedAt.getTime();
+  if (fee === null || age > BUY_POLICY.maximumScanAgeMilliseconds || age < -300_000)
+    return sql`false`;
+  const net = sql`(${marketItemSignals.lowerPriceCopper} - ceil(${marketItemSignals.lowerPriceCopper}::numeric * ${fee} / 10000))`;
+  return sql`${marketItemSignals.signal} IN ('normal', 'bargain') AND ${marketItemSignals.observationCount} >= 6
+    AND ${marketItemSignals.currentListingCount} >= 3 AND ${marketItemSignals.normalPriceCopper} > 0
+    AND ${marketItemObservations.minimumPriceCopper} <= LEAST(floor(${net} * 10000 / ${10000 + BUY_POLICY.minimumReturnBasisPoints}), floor(${marketItemSignals.normalPriceCopper}::numeric * ${10000 - BUY_POLICY.minimumDiscountBasisPoints} / 10000))
+    ${budget === undefined ? sql`` : sql`AND ${marketItemObservations.minimumPriceCopper} <= ${String(budget)}::bigint`}`;
+}
+
+function marketItemOrder(
+  sort: MarketItemSort,
+  eligible: SQL,
+  auctionHouseType: string,
+): readonly SQL[] {
   if (sort === "discount") {
     return [
       asc(sql`coalesce(${marketItemSignals.differenceBasisPoints}, 9223372036854775807)`),
       desc(marketItemObservations.availableQuantity),
-      asc(itemVersions.name),
+      asc(marketItemName()),
     ];
   }
   if (sort === "price-low") {
-    return [asc(marketItemObservations.tenthPercentilePriceCopper), asc(itemVersions.name)];
+    return [asc(marketItemObservations.tenthPercentilePriceCopper), asc(marketItemName())];
   }
   if (sort === "price-high") {
-    return [desc(marketItemObservations.tenthPercentilePriceCopper), asc(itemVersions.name)];
+    return [desc(marketItemObservations.tenthPercentilePriceCopper), asc(marketItemName())];
   }
   if (sort === "supply") {
-    return [desc(marketItemObservations.availableQuantity), asc(itemVersions.name)];
+    return [desc(marketItemObservations.availableQuantity), asc(marketItemName())];
   }
-  if (sort === "name") return [asc(itemVersions.name)];
+  if (sort === "name") return [asc(marketItemName())];
   return [
+    desc(sql`CASE WHEN ${eligible} THEN 1 ELSE 0 END`),
+    desc(
+      sql`CASE WHEN ${eligible} THEN (${marketItemSignals.lowerPriceCopper}::numeric * ${auctionHouseType === "neutral" ? 8500 : 9500} / 10000 - ${marketItemObservations.minimumPriceCopper}) / GREATEST(1, ${marketItemObservations.minimumPriceCopper}) ELSE 0 END`,
+    ),
     desc(
       sql`case when ${itemVersions.sellPriceCopper} > ${marketItemObservations.minimumPriceCopper} then ${itemVersions.sellPriceCopper} - ${marketItemObservations.minimumPriceCopper} else 0 end`,
     ),
@@ -461,14 +542,18 @@ function marketItemOrder(sort: MarketItemSort): readonly SQL[] {
       else 7 end`),
     asc(sql`coalesce(${marketItemSignals.differenceBasisPoints}, 9223372036854775807)`),
     desc(marketItemObservations.availableQuantity),
-    asc(itemVersions.name),
+    asc(marketItemName()),
   ];
+}
+
+function marketItemName(): SQL<string> {
+  return sql<string>`coalesce(${itemVersions.name}, ${marketItemObservations.itemName}, 'Item ' || ${marketItemObservations.itemId}::text)`;
 }
 
 function marketItemSearchCondition(query: string): SQL | undefined {
   if (!query) return undefined;
   const numericItemId = Number(query);
-  const nameCondition = ilike(itemVersions.name, `%${escapeLike(query)}%`);
+  const nameCondition = ilike(marketItemName(), `%${escapeLike(query)}%`);
   return Number.isSafeInteger(numericItemId) && numericItemId > 0
     ? or(eq(marketItemObservations.itemId, numericItemId), nameCondition)
     : nameCondition;

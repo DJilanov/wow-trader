@@ -11,14 +11,15 @@ import {
 
 import type { DesktopProductStatus } from "../shared/contracts.js";
 
-const COLLECTOR_VERSION = "0.12.0";
+const COLLECTOR_VERSION = "0.13.0";
 const ADDON_FILES: Readonly<Record<string, string>> = {
-  "Collector.lua": "b2a9737ec85ff467c57f3869c8f89d1ec65002eca1971436ed973dab471adb66",
+  "Collector.lua": "489756a1a44d23257a37e8d48565b243d8b951f424372b42cb84fa8d0f1e06c3",
+  "MarketPolicy.lua": "6dd3c3894a50025660da4e3af6c0d0106d62e1b4edb684cc3d537e47d4471ab9",
   "Professions.lua": "24ce92e0f6f78dcd2ab2fe6b7257e0ecaa7b0105b44c7774a630160d6cf6fc24",
   "WorldEvidence.lua": "a5e8ebe31c345ebb21e5892d75691f8e259b3fc46ea8ed16df15b449d135f006",
-  "UI.lua": "28b7fa4b9f440468a82defd8c8f60c62102160a4afda4ca41e19a28ab43925aa",
+  "UI.lua": "acb1f93e10054372e60a06e4c46140bcd680512fa5f78d4cb059cad860dbb89e",
   "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
-  "WowTraderCollector.toc": "42ceb1d510342ef4b7e3d67cd954cd0ed4c655ad8f204099c508e79a89415e6d",
+  "WowTraderCollector.toc": "c4d8c2d7fb9b916293d995272827d4438d5df5766c27862501079e725494ea9b",
 };
 const GENERATED_MARKET_DATA_FILE = "MarketData.lua";
 

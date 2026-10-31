@@ -132,11 +132,6 @@ local function FormatCopper(value)
   return string.format("%dc", copper)
 end
 
-local function FormatSignedBasisPoints(value)
-  value = tonumber(value)
-  if not value then return "—" end
-  return string.format("%+.1f%%", value / 100)
-end
 
 local function SignalPresentation(signal)
   if signal == "bargain" then return "BARGAIN", COLORS.green end
@@ -223,7 +218,7 @@ end
 
 local function CreateScannerPanel()
   local frame = CreateFrame("Frame", "WoWTraderScannerFrame", UIParent)
-  frame:SetSize(860, 620)
+  frame:SetSize(860, 710)
   frame:SetPoint("CENTER", 0, 18)
   frame:SetFrameStrata("DIALOG")
   frame:SetToplevel(true)
@@ -469,7 +464,7 @@ end
 local function CreateMarketRow(parent, index)
   local row = CreateFrame("Frame", nil, parent)
   row:SetSize(790, 34)
-  row:SetPoint("TOPLEFT", 18, -151 - ((index - 1) * 35))
+  row:SetPoint("TOPLEFT", 18, -196 - ((index - 1) * 35))
   row:EnableMouse(true)
   if index % 2 == 0 then
     local background = CreateSolidTexture(row, "BACKGROUND", { 0.12, 0.105, 0.085, 0.36 })
@@ -513,7 +508,21 @@ end
 local function UpdateMarketPanel()
   if not marketPanel or not marketPanel:IsShown() then return end
   local widgets = marketPanel.widgets
-  local snapshot = Addon.GetMarketIntelligenceSnapshot(widgets.search:GetText())
+  local budgetText = widgets.budget:GetText()
+  local budget = nil
+  if budgetText ~= "" then
+    local gold, fraction = string.match(budgetText, "^(%d+)%.?(%d*)$")
+    if gold and #gold <= 9 and #fraction <= 4 then budget = tonumber(gold) * 10000 + tonumber(fraction .. string.rep("0", 4 - #fraction))
+    else budget = 0 end
+  end
+  local snapshot = Addon.GetMarketIntelligenceSnapshot(widgets.search:GetText(), {
+    onlyBuys = widgets.onlyBuys:GetChecked(), onlyWatched = widgets.onlyWatched:GetChecked(),
+    budgetCopper = budget, maximumQuantity = tonumber(widgets.maximumQuantity:GetText()) or 100,
+  })
+  local pageCount = math.max(1, math.ceil(#snapshot.items / 12))
+  widgets.page = math.min(widgets.page or 1, pageCount)
+  widgets.pageLabel:SetText(string.format("Page %d / %d", widgets.page, pageCount))
+  widgets.previous:SetEnabled(widgets.page > 1); widgets.next:SetEnabled(widgets.page < pageCount)
   if not snapshot.available then
     widgets.status:SetText(snapshot.reason or "Market history is unavailable.")
     widgets.status:SetTextColor(COLORS.gold[1], COLORS.gold[2], COLORS.gold[3], COLORS.gold[4])
@@ -533,34 +542,45 @@ local function UpdateMarketPanel()
     widgets.empty:SetShown(#snapshot.items == 0)
   end
   for index, row in ipairs(widgets.rows) do
-    local item = snapshot.items[index]
+    local item = snapshot.items[(widgets.page - 1) * 12 + index]
     row.frame:SetShown(item ~= nil)
     if item then
       local watchedItemId = item.itemId
       local signalText, signalColor = SignalPresentation(item.signal)
+      if item.buy.state == "opportunity" then signalText = "BUY"; signalColor = COLORS.green end
+      if item.buy.state == "stale" then signalText = "STALE SCAN"; signalColor = COLORS.gold end
       row.name:SetText((item.watched and "|cffffd45c★|r " or "") .. item.name ..
         "  |cff777777#" .. item.itemId .. "|r")
       row.signal:SetText(signalText)
       row.signal:SetTextColor(signalColor[1], signalColor[2], signalColor[3], signalColor[4])
       row.current:SetText(item.current and FormatCopper(item.current) or "—")
-      row.normal:SetText(item.normal and FormatCopper(item.normal) or "—")
-      row.change:SetText(FormatSignedBasisPoints(item.differenceBP))
+      row.normal:SetText(item.buy.maximumBuy and FormatCopper(item.buy.maximumBuy) or "—")
+      row.change:SetText(item.buy.state == "opportunity" and FormatCopper(item.buy.profit) or "—")
       local changeColor = (tonumber(item.differenceBP) or 0) < 0 and COLORS.green or COLORS.gold
       row.change:SetTextColor(changeColor[1], changeColor[2], changeColor[3], changeColor[4])
       if item.signal == "collecting" then
         row.evidence:SetText(string.format("%d / %d scans", item.observations, item.minimum))
       else
         row.evidence:SetText(string.format(
-          "%d qty · %.0f%% conf",
-          tonumber(item.quantity) or 0,
-          (tonumber(item.confidenceBP) or 0) / 100
+          "%d units · %.0f%% ROI",
+          item.buy.quantity or 0,
+          (item.buy.returnBP or 0) / 100
         ))
       end
       row.frame:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:AddLine(item.name, COLORS.gold[1], COLORS.gold[2], COLORS.gold[3])
         GameTooltip:AddLine(signalText, signalColor[1], signalColor[2], signalColor[3])
-        GameTooltip:AddLine("Current and normal values are asking-price evidence, not confirmed sales.", 1, 1, 1, true)
+        GameTooltip:AddLine(item.buy.reason, 1, 1, 1, true)
+        if item.normal then GameTooltip:AddDoubleLine("Normal ask", FormatCopper(item.normal), 0.8, 0.8, 0.8, 1, 1, 1) end
+        if item.buy.targetResale then GameTooltip:AddDoubleLine("Target resale / unit", FormatCopper(item.buy.targetResale), 0.8, 0.8, 0.8, 1, 1, 1) end
+        if item.buy.maximumBuy then GameTooltip:AddDoubleLine("Maximum buy / unit", FormatCopper(item.buy.maximumBuy), 0.8, 0.8, 0.8, 1, 1, 1) end
+        if item.buy.state == "opportunity" then
+          GameTooltip:AddDoubleLine("Purchase cost", FormatCopper(item.buy.buyCost), 0.8, 0.8, 0.8, 1, 1, 1)
+          GameTooltip:AddDoubleLine("AH cut", FormatCopper(item.buy.auctionFee), 0.8, 0.8, 0.8, 1, 1, 1)
+          GameTooltip:AddDoubleLine("Profit before deposits", FormatCopper(item.buy.profit), 0.8, 0.8, 0.8, 0.6, 1, 0.6)
+        end
+        GameTooltip:AddLine("Asking prices do not prove demand or completed sales. Verify whole auction stacks.", 1, 1, 1, true)
         GameTooltip:AddLine(string.format("%d independent half-hour observation(s)", item.observations), COLORS.muted[1], COLORS.muted[2], COLORS.muted[3])
         GameTooltip:AddLine("Click to add or remove this item from your watchlist.", COLORS.parchment[1], COLORS.parchment[2], COLORS.parchment[3], true)
         GameTooltip:Show()
@@ -600,7 +620,7 @@ local function CreateMarketPanel()
   headerBackground:SetAllPoints()
   local title = CreateText(header, "GameFontNormalLarge", "Market intelligence", COLORS.gold)
   title:SetPoint("LEFT", 18, 7)
-  local subtitle = CreateText(header, "GameFontHighlightSmall", "PRICE HISTORY · SUPPLY · CONFIDENCE", COLORS.muted)
+  local subtitle = CreateText(header, "GameFontHighlightSmall", "BUY LIMITS · PRICE HISTORY · PROFIT AFTER AH CUT", COLORS.muted)
   subtitle:SetPoint("LEFT", 18, -11)
   local closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
   closeButton:SetPoint("TOPRIGHT", -5, -5)
@@ -613,7 +633,7 @@ local function CreateMarketPanel()
   search:SetPoint("TOPLEFT", 20, -92)
   search:SetAutoFocus(false)
   search:SetMaxLetters(96)
-  search:SetScript("OnTextChanged", function() UpdateMarketPanel() end)
+  search:SetScript("OnTextChanged", function() if frame.widgets then frame.widgets.page = 1 end; UpdateMarketPanel() end)
   search:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
   local backButton = CreateActionButton(
     frame,
@@ -633,18 +653,43 @@ local function CreateMarketPanel()
   scope:SetPoint("TOPLEFT", 398, -100)
   scope:SetWidth(300)
 
+  local function RefreshFilters()
+    if frame.widgets then frame.widgets.page = 1 end
+    UpdateMarketPanel()
+  end
+  local onlyBuys = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+  onlyBuys:SetPoint("TOPLEFT", 15, -126); onlyBuys:SetSize(26, 26)
+  local buyLabel = CreateText(frame, "GameFontHighlightSmall", "Buy opportunities", COLORS.parchment)
+  buyLabel:SetPoint("LEFT", onlyBuys, "RIGHT", 2, 0)
+  onlyBuys:SetScript("OnClick", RefreshFilters)
+  local onlyWatched = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+  onlyWatched:SetPoint("TOPLEFT", 182, -126); onlyWatched:SetSize(26, 26)
+  local watchLabel = CreateText(frame, "GameFontHighlightSmall", "Watchlist only", COLORS.parchment)
+  watchLabel:SetPoint("LEFT", onlyWatched, "RIGHT", 2, 0)
+  onlyWatched:SetScript("OnClick", RefreshFilters)
+  local budgetLabel = CreateText(frame, "GameFontHighlightSmall", "Budget / item (g)", COLORS.muted)
+  budgetLabel:SetPoint("TOPLEFT", 352, -134)
+  local budget = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+  budget:SetSize(94, 25); budget:SetPoint("TOPLEFT", 458, -126); budget:SetAutoFocus(false); budget:SetMaxLetters(14)
+  budget:SetScript("OnTextChanged", RefreshFilters); budget:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+  local quantityLabel = CreateText(frame, "GameFontHighlightSmall", "Max units", COLORS.muted)
+  quantityLabel:SetPoint("TOPLEFT", 574, -134)
+  local maximumQuantity = CreateFrame("EditBox", nil, frame, "InputBoxTemplate")
+  maximumQuantity:SetSize(54, 25); maximumQuantity:SetPoint("TOPLEFT", 642, -126); maximumQuantity:SetAutoFocus(false)
+  maximumQuantity:SetNumeric(true); maximumQuantity:SetMaxLetters(3); maximumQuantity:SetText("100")
+  maximumQuantity:SetScript("OnTextChanged", RefreshFilters); maximumQuantity:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
   local headers = {
     { text = "ITEM", x = 24 }, { text = "SIGNAL", x = 254 },
-    { text = "CURRENT", x = 399 }, { text = "NORMAL", x = 515 },
-    { text = "CHANGE", x = 624 }, { text = "EVIDENCE", x = 712 },
+    { text = "CURRENT", x = 399 }, { text = "MAX BUY", x = 515 },
+    { text = "PROFIT", x = 607 }, { text = "QUANTITY / RETURN", x = 700 },
   }
   for _, headerInfo in ipairs(headers) do
     local text = CreateText(frame, "GameFontNormalSmall", headerInfo.text, COLORS.muted)
-    text:SetPoint("TOPLEFT", headerInfo.x, -134)
+    text:SetPoint("TOPLEFT", headerInfo.x, -179)
   end
   local divider = CreateSolidTexture(frame, "ARTWORK", COLORS.border)
-  divider:SetPoint("TOPLEFT", 20, -147)
-  divider:SetPoint("TOPRIGHT", -20, -147)
+  divider:SetPoint("TOPLEFT", 20, -192)
+  divider:SetPoint("TOPRIGHT", -20, -192)
   divider:SetHeight(1)
   local rows = {}
   for index = 1, 12 do rows[index] = CreateMarketRow(frame, index) end
@@ -655,11 +700,26 @@ local function CreateMarketPanel()
   local disclaimer = CreateText(
     frame,
     "GameFontHighlightSmall",
-    "Signals use accepted half-hour snapshots. Asking prices do not prove demand or completed sales.",
+    "20% minimum return · 15% discount · 10% supply cap · Before deposits · Resale is not guaranteed.",
     COLORS.muted
   )
   disclaimer:SetPoint("BOTTOMLEFT", 20, 18)
-  frame.widgets = { search = search, status = status, scope = scope, rows = rows, empty = empty }
+  local previous = CreateActionButton(frame, "Previous", 100, "Previous results", "View the previous twelve items.")
+  previous:SetPoint("BOTTOMLEFT", 20, 45)
+  local nextButton = CreateActionButton(frame, "Next", 100, "Next results", "View the next twelve items.")
+  nextButton:SetPoint("BOTTOMRIGHT", -20, 45)
+  local pageLabel = CreateText(frame, "GameFontHighlightSmall", "", COLORS.muted)
+  pageLabel:SetPoint("BOTTOM", 0, 55)
+  frame.widgets = { search = search, status = status, scope = scope, rows = rows, empty = empty,
+    onlyBuys = onlyBuys, onlyWatched = onlyWatched, budget = budget, maximumQuantity = maximumQuantity,
+    previous = previous, next = nextButton, pageLabel = pageLabel, page = 1 }
+  previous:SetScript("OnClick", function() frame.widgets.page = math.max(1, frame.widgets.page - 1); UpdateMarketPanel() end)
+  nextButton:SetScript("OnClick", function() frame.widgets.page = frame.widgets.page + 1; UpdateMarketPanel() end)
+  local marketElapsed = 0
+  frame:SetScript("OnUpdate", function(_, elapsed)
+    marketElapsed = marketElapsed + elapsed
+    if marketElapsed >= 2 then marketElapsed = 0; UpdateMarketPanel() end
+  end)
   frame:SetScript("OnShow", function()
     FitPanelToScreen(frame)
     UpdateMarketPanel()
@@ -1000,6 +1060,11 @@ local function AddMarketTooltip(tooltip, tooltipData)
   end
   if item.normal then
     tooltip:AddDoubleLine("Normal ask", FormatCopper(item.normal), 0.8, 0.8, 0.8, 1, 1, 1)
+  end
+  if item.buy then
+    tooltip:AddLine(item.buy.reason, 0.8, 0.8, 0.8, true)
+    if item.buy.maximumBuy then tooltip:AddDoubleLine("Buy ceiling", FormatCopper(item.buy.maximumBuy), 0.8, 0.8, 0.8, 1, 1, 1) end
+    if item.buy.state == "opportunity" then tooltip:AddDoubleLine("Profit before deposits", FormatCopper(item.buy.profit), 0.8, 0.8, 0.8, 0.6, 1, 0.6) end
   end
   tooltip:AddDoubleLine(
     "History evidence",

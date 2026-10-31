@@ -1,6 +1,6 @@
 local ADDON_NAME, Addon = ...
 
-local ADDON_VERSION = "0.12.0"
+local ADDON_VERSION = "0.13.0"
 local SAVED_SCHEMA_VERSION = 1
 local MARKET_KEY_VERSION = 1
 local MAX_QUEUED_SCANS = 8
@@ -222,10 +222,23 @@ local function NormalizeMarkets(markets)
       return left.unitPriceCopper < right.unitPriceCopper
     end)
 
+    local itemName = SafeCallOne((C_Item and C_Item.GetItemInfo) or GetItemInfo, market.itemId)
+    if type(itemName) ~= "string" and type(market.itemLink) == "string" then itemName = string.match(market.itemLink, "%[(.-)%]") end
+    local itemClassId = nil
+    local instantInfo = (C_Item and C_Item.GetItemInfoInstant) or GetItemInfoInstant
+    if type(instantInfo) == "function" then
+      local ok, _, _, _, _, _, classId = pcall(instantInfo, market.itemId)
+      if ok then
+        local readable = ReadableNonnegativeInteger(classId)
+        if readable and readable <= 31 then itemClassId = readable end
+      end
+    end
     table.insert(snapshots, {
       itemId = market.itemId,
       marketKey = market.marketKey,
       itemLink = market.itemLink,
+      itemName = itemName,
+      itemClassId = itemClassId,
       priceLevels = priceLevels,
     })
   end
@@ -935,31 +948,80 @@ local MARKET_SIGNAL_PRIORITY = {
   collecting = 8,
 }
 
-local function LatestObservedPrice(itemId)
-  local scan = GetLastSavedScan()
-  if type(scan) ~= "table" or type(scan.itemSnapshots) ~= "table" then return nil end
-  for _, snapshot in ipairs(scan.itemSnapshots) do
-    if snapshot.itemId == itemId and snapshot.marketKey == tostring(itemId) and
-       type(snapshot.priceLevels) == "table" then
-      local total = 0
-      for _, level in ipairs(snapshot.priceLevels) do total = total + (tonumber(level.quantity) or 0) end
-      local target = math.max(1, math.ceil(total * 0.1))
-      local observed = 0
-      table.sort(snapshot.priceLevels, function(left, right)
-        return (tonumber(left.unitPriceCopper) or 0) < (tonumber(right.unitPriceCopper) or 0)
-      end)
-      for _, level in ipairs(snapshot.priceLevels) do
-        observed = observed + (tonumber(level.quantity) or 0)
-        if observed >= target then return tonumber(level.unitPriceCopper) end
+local marketCache = nil
+local localMarketData = nil
+
+local function SameMarket(scan, data)
+  return type(scan) == "table" and scan.clientProduct == data.clientProduct and
+    tonumber(scan.clientBuild) == tonumber(data.clientBuild) and scan.region == data.region and
+    scan.realmId == data.realmId and scan.auctionHouseType == data.auctionHouseType and
+    (tonumber(scan.completeness) or 0) >= 0.98 and scan.auctionHouseStayedOpen ~= false
+end
+
+local function BuildMarketCache(data)
+  local latest = nil
+  local localHistory = {}
+  local current = {}
+  local policy = Addon.MarketPolicy
+  for _, scan in ipairs(WOW_TRADER_SAVED.scans) do
+    if SameMarket(scan, data) and type(scan.itemSnapshots) == "table" then
+      local isLatest = not latest or (tonumber(scan.completedAt) or 0) >= (tonumber(latest.completedAt) or 0)
+      if isLatest then latest = scan; current = {} end
+      for _, item in ipairs(scan.itemSnapshots) do
+        if item.marketKey == tostring(item.itemId) then
+          local book = policy.Summarize(item.priceLevels)
+          if book then
+            local history = localHistory[item.itemId] or {}
+            table.insert(history, { scan.completedAt, book.current, book.quantity, book.listings, scan.completeness })
+            localHistory[item.itemId] = history
+            if isLatest then current[item.itemId] = { book = book, itemLink = item.itemLink } end
+          end
+        end
       end
     end
   end
-  return nil
+  local useLocal = latest and (tonumber(latest.completedAt) or 0) >= (tonumber(data.sourceScanEpoch) or 0)
+  if not useLocal then
+    current = {}
+    for id, item in pairs(data.items) do
+      local book = policy.Summarize(item.levels)
+      if book then current[id] = { book = book } end
+    end
+  end
+  local ids = useLocal and current or data.items
+  local items = {}
+  for itemId in pairs(ids) do
+    local item = data.items[itemId] or {}
+    local observations = {}
+    for _, row in ipairs(item.history or {}) do table.insert(observations, row) end
+    for _, row in ipairs(localHistory[itemId] or {}) do table.insert(observations, row) end
+    local analysis = policy.Analyze(observations)
+    local observed = current[itemId]
+    local name = item.name
+    if type(name) ~= "string" and observed and type(observed.itemLink) == "string" then name = string.match(observed.itemLink, "%[(.-)%]") end
+    if type(name) ~= "string" then name = SafeCallOne(GetItemInfo, itemId) or ("Item " .. tostring(itemId)) end
+    table.insert(items, {
+      itemId = itemId, name = name, signal = analysis.signal or "collecting",
+      observations = analysis.observations, minimum = 6,
+      current = observed and observed.book.current or analysis.current,
+      normal = analysis.normal, differenceBP = analysis.differenceBP,
+      quantity = observed and observed.book.quantity or analysis.quantity,
+      listings = observed and observed.book.listings or analysis.listings,
+      confidenceBP = analysis.confidenceBP, analysis = analysis,
+      levels = observed and observed.book.levels or {},
+    })
+  end
+  return { data = data, latest = latest, items = items,
+    observedAt = useLocal and latest.completedAt or data.sourceScanEpoch,
+    sourceScanAt = useLocal and date("%Y-%m-%d %H:%M", latest.completedAt) or data.sourceScanAt }
 end
 
 local function MarketDataCompatibility(data)
-  if type(data) ~= "table" or data.schemaVersion ~= 1 or type(data.items) ~= "table" then
-    return false, "No synchronized market history is installed yet."
+  if type(data) ~= "table" or data.schemaVersion ~= 2 or type(data.items) ~= "table" then
+    return false, "Update the companion and synchronize market history, then /reload."
+  end
+  if data.modelVersion ~= "robust-market-signal-v1" then
+    return false, "The synchronized history needs a newer pricing policy. Update the collector."
   end
   local _, build = GetBuildInfo()
   if tonumber(data.clientBuild) ~= tonumber(build) or data.clientProduct ~= GetClientProduct() then
@@ -976,62 +1038,63 @@ local function MarketDataCompatibility(data)
   return true, nil
 end
 
-function Addon.GetMarketIntelligenceSnapshot(searchText)
+function Addon.GetMarketIntelligenceSnapshot(searchText, options)
   InitializeSavedVariables()
   local data = WOW_TRADER_MARKET_DATA
   local compatible, reason = MarketDataCompatibility(data)
   if not compatible then
-    return { available = false, reason = reason, items = {} }
+    local _, build = GetBuildInfo()
+    local scope = { schemaVersion = 2, modelVersion = "robust-market-signal-v1",
+      clientProduct = GetClientProduct(), clientBuild = tonumber(build),
+      region = REGION_NAMES[SafeCallOne(GetCurrentRegion) or 0] or "UNKNOWN",
+      realmId = SafeCallOne(GetNormalizedRealmName) or SafeCallOne(GetRealmName),
+      auctionHouseType = GetAuctionHouseType(), sourceScanAt = "local scans", items = {} }
+    if not localMarketData or not SameMarket({ clientProduct = localMarketData.clientProduct,
+      clientBuild = localMarketData.clientBuild, region = localMarketData.region, realmId = localMarketData.realmId,
+      auctionHouseType = localMarketData.auctionHouseType, completeness = 1 }, scope) then localMarketData = scope end
+    for _, scan in ipairs(WOW_TRADER_SAVED.scans) do
+      if SameMarket(scan, scope) then data = localMarketData; compatible = true; break end
+    end
   end
+  if not compatible or not Addon.MarketPolicy then
+    return { available = false, reason = reason or "The pricing policy is missing. Reinstall the collector.", items = {} }
+  end
+  options = options or {}
+  local newest = WOW_TRADER_SAVED.scans[#WOW_TRADER_SAVED.scans]
+  if not marketCache or marketCache.data ~= data or marketCache.newest ~= newest then
+    marketCache = BuildMarketCache(data); marketCache.newest = newest
+  end
+  local now = SafeCallOne(GetServerTime) or time()
   local query = string.lower(string.match(searchText or "", "^%s*(.-)%s*$"))
   local items = {}
-  for itemId, item in pairs(data.items) do
-    local name = type(item.name) == "string" and item.name or ("Item " .. tostring(itemId))
-    if query == "" or string.find(string.lower(name), query, 1, true) or
-       string.find(tostring(itemId), query, 1, true) then
-      local current = LatestObservedPrice(itemId) or tonumber(item.current)
-      local normal = tonumber(item.normal)
-      local differenceBP = item.differenceBP
-      if current and normal and normal > 0 then
-        differenceBP = math.floor(((current - normal) * 10000) / normal)
+  for _, cached in ipairs(marketCache.items) do
+    local watched = WOW_TRADER_SAVED.marketWatchlist[tostring(cached.itemId)] == true
+    if (not options.onlyWatched or watched) and (query == "" or string.find(string.lower(cached.name), query, 1, true) or
+       string.find(tostring(cached.itemId), query, 1, true)) then
+      local buy = Addon.MarketPolicy.Quote(cached.analysis, cached.levels, marketCache.observedAt, now,
+        data.auctionHouseType, options.budgetCopper, options.maximumQuantity)
+      if not options.onlyBuys or buy.state == "opportunity" then
+        local item = {}
+        for key, value in pairs(cached) do item[key] = value end
+        item.buy = buy; item.watched = watched
+        if item.current and item.normal and item.normal > 0 then item.differenceBP = math.modf((item.current - item.normal) * 10000 / item.normal) end
+        table.insert(items, item)
       end
-      table.insert(items, {
-        itemId = itemId,
-        name = name,
-        signal = item.signal or "collecting",
-        observations = item.observations or 0,
-        minimum = item.minimum or 6,
-        current = current,
-        normal = normal,
-        differenceBP = differenceBP,
-        quantity = item.quantity,
-        listings = item.listings,
-        confidenceBP = item.confidenceBP,
-        watched = WOW_TRADER_SAVED.marketWatchlist[tostring(itemId)] == true,
-      })
     end
   end
   table.sort(items, function(left, right)
     if left.watched ~= right.watched then return left.watched end
+    local leftBuy, rightBuy = left.buy.state == "opportunity", right.buy.state == "opportunity"
+    if leftBuy ~= rightBuy then return leftBuy end
+    if leftBuy and left.buy.returnBP ~= right.buy.returnBP then return left.buy.returnBP > right.buy.returnBP end
     local leftPriority = MARKET_SIGNAL_PRIORITY[left.signal] or 99
     local rightPriority = MARKET_SIGNAL_PRIORITY[right.signal] or 99
     if leftPriority ~= rightPriority then return leftPriority < rightPriority end
-    local leftDifference = math.abs(tonumber(left.differenceBP) or 0)
-    local rightDifference = math.abs(tonumber(right.differenceBP) or 0)
-    if leftDifference ~= rightDifference then return leftDifference > rightDifference end
     return left.name < right.name
   end)
-  return {
-    available = true,
-    reason = nil,
-    generatedAt = data.generatedAt,
-    sourceScanAt = data.sourceScanAt,
-    realmId = data.realmId,
-    auctionHouseType = data.auctionHouseType,
-    modelVersion = data.modelVersion,
-    totalItems = #items,
-    items = items,
-  }
+  return { available = true, generatedAt = data.generatedAt, sourceScanAt = marketCache.sourceScanAt,
+    realmId = data.realmId, auctionHouseType = data.auctionHouseType, modelVersion = data.modelVersion,
+    totalItems = #items, items = items }
 end
 
 function Addon.ToggleMarketWatch(itemId)
@@ -1052,9 +1115,9 @@ function Addon.PrintMarketAlerts()
   if not snapshot.available then return end
   local alerts = {}
   for _, item in ipairs(snapshot.items) do
-    if item.watched and (item.signal == "bargain" or item.signal == "spike_risk" or
+    if item.watched and item.buy.state ~= "stale" and (item.buy.state == "opportunity" or item.signal == "spike_risk" or
        item.signal == "falling" or item.signal == "oversupplied") then
-      table.insert(alerts, item.name .. " (" .. item.signal .. ")")
+      table.insert(alerts, item.name .. " (" .. (item.buy.state == "opportunity" and "buy opportunity" or item.signal) .. ")")
       if #alerts >= 3 then break end
     end
   end

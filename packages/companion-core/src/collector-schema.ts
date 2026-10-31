@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { auctionItemSnapshotSchema } from "@wow-trader/contracts";
 
 const collectorPriceLevelSchema = z.object({
   unitPriceCopper: z.number().int().positive().safe(),
@@ -10,6 +11,8 @@ const collectorItemSnapshotSchema = z.object({
   itemId: z.number().int().positive().safe(),
   marketKey: z.string().min(1).max(512),
   itemLink: z.string().min(1).max(2_048).nullish(),
+  itemName: auctionItemSnapshotSchema.shape.itemName,
+  itemClassId: auctionItemSnapshotSchema.shape.itemClassId,
   priceLevels: z.array(collectorPriceLevelSchema).min(1).max(10_000),
 });
 

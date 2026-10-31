@@ -36,6 +36,20 @@ export const auctionItemSnapshotSchema = z.object({
   itemId: wowIdSchema,
   marketKey: z.string().min(1).max(512),
   itemLink: z.string().min(1).max(2_048).nullable(),
+  itemName: z
+    .string()
+    .trim()
+    .min(1)
+    .max(512)
+    .refine(
+      (value) =>
+        [...value].every(
+          (character) => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127,
+        ),
+      "Item names cannot contain control characters",
+    )
+    .nullish(),
+  itemClassId: z.number().int().min(0).max(31).nullish(),
   priceLevels: z.array(auctionPriceLevelSchema).min(1).max(10_000),
 });
 

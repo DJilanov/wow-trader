@@ -47,6 +47,10 @@ export interface TraderWorkspacePageProps {
     readonly tailoringSpecialization?: SearchParamValue;
     readonly page?: SearchParamValue;
     readonly itemSort?: SearchParamValue;
+    readonly itemFilter?: SearchParamValue;
+    readonly itemKind?: SearchParamValue;
+    readonly buyBudget?: SearchParamValue;
+    readonly buyQuantity?: SearchParamValue;
   }>;
 }
 
@@ -76,6 +80,10 @@ interface WorkspaceParameters {
   readonly useAltCrafting: boolean;
   readonly page: number;
   readonly itemSort: MarketItemSort;
+  readonly itemFilter: "all" | "buy";
+  readonly itemKind: "all" | "materials";
+  readonly buyBudget: string;
+  readonly buyQuantity: number;
 }
 
 const specializationParameterNames: Readonly<
@@ -114,11 +122,16 @@ export async function TraderWorkspacePage({
     useAltCrafting: getParam(raw.network) === "1",
     page: parsePage(getParam(raw.page)),
     itemSort: parseItemSort(getParam(raw.itemSort)),
+    itemFilter: getParam(raw.itemFilter) === "buy" ? "buy" : "all",
+    itemKind: getParam(raw.itemKind) === "materials" ? "materials" : "all",
+    buyBudget: (getParam(raw.buyBudget) ?? "").slice(0, 20),
+    buyQuantity: Math.min(100, parsePage(getParam(raw.buyQuantity) ?? "100")),
   };
 
   try {
     const workspace = await getMarketWorkspace({
       clientProduct: config.clientProduct,
+      marketOnly: parameters.mode === "items",
       market: parameters.market,
       ...(parameters.faction ? { faction: parameters.faction } : {}),
       profession: parameters.profession,
@@ -135,12 +148,16 @@ export async function TraderWorkspacePage({
       parameters.faction ?? parseMarketFaction(workspace.scan?.auctionHouseType);
     const current = { ...parameters, market: selectedMarket, faction: selectedFaction };
     const itemBrowser =
-      parameters.mode === "items" && workspace.scan?.catalogAvailable
+      parameters.mode === "items" && workspace.scan
         ? await getMarketItemBrowser({
             clientProduct: config.clientProduct,
             market: selectedMarket,
             query: parameters.q,
             sort: parameters.itemSort,
+            filter: parameters.itemFilter,
+            materialsOnly: parameters.itemKind === "materials",
+            budget: parameters.buyBudget,
+            quantityLimit: parameters.buyQuantity,
             page: parameters.page,
           })
         : null;
@@ -302,9 +319,11 @@ export async function TraderWorkspacePage({
               <div>
                 <span>History</span>
                 <strong>
-                  {workspace.scan.historyScanCount >= 6
-                    ? `${workspace.scan.historyScanCount} scans`
-                    : `Collecting ${workspace.scan.historyScanCount}/6`}
+                  {parameters.mode === "items"
+                    ? "Per-item evidence below"
+                    : workspace.scan.historyScanCount >= 6
+                      ? `${workspace.scan.historyScanCount} scans`
+                      : `Collecting ${workspace.scan.historyScanCount}/6`}
                 </strong>
               </div>
               <div>
@@ -541,8 +560,15 @@ export async function TraderWorkspacePage({
                       <p>
                         {workspace.scan.catalogAvailable
                           ? "Try another profession, route, search, or a newer Auction House scan."
-                          : "The uploaded market is available from the scan badge. Profit rankings activate only after its exact item and recipe catalog is published."}
+                          : "Your Auction House prices and buying guidance are available. Crafting rankings activate after this build's item and recipe catalog is published."}
                       </p>
+                      {!workspace.scan.catalogAvailable ? (
+                        <Link
+                          href={workspaceHref(config.basePath, current, { mode: "items", page: 1 })}
+                        >
+                          View auction prices and buying guidance →
+                        </Link>
+                      ) : null}
                     </div>
                   ) : (
                     <div className="opportunity-list">
@@ -772,6 +798,10 @@ function workspaceHref(
   if (merged.route !== "best") search.set("route", merged.route);
   if (merged.sort !== "total-profit") search.set("sort", merged.sort);
   if (merged.itemSort !== "deal") search.set("itemSort", merged.itemSort);
+  if (merged.itemFilter === "buy") search.set("itemFilter", "buy");
+  if (merged.itemKind === "materials") search.set("itemKind", "materials");
+  if (merged.buyBudget) search.set("buyBudget", merged.buyBudget);
+  if (merged.buyQuantity !== 100) search.set("buyQuantity", String(merged.buyQuantity));
   if (merged.page > 1) search.set("page", String(merged.page));
   for (const [professionSlug, parameterName] of Object.entries(
     specializationParameterNames,

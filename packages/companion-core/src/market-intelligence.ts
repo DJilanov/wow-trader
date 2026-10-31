@@ -1,3 +1,4 @@
+import { setTimeout as delay } from "node:timers/promises";
 import { mkdir, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -17,27 +18,91 @@ export async function downloadMarketIntelligence(
   scan: CollectorScan,
   options: RequestOptions = {},
 ): Promise<MarketIntelligencePack | null> {
-  const url = new URL("/v1/market-intelligence", endpoint);
-  url.search = new URLSearchParams({
-    clientProduct: scan.clientProduct,
-    clientBuild: String(scan.clientBuild),
-    region: scan.region,
-    realmId: scan.realmId,
-    auctionHouseType: scan.auctionHouseType,
-  }).toString();
-  const response = await fetch(url, {
-    headers: { authorization: `Bearer ${apiKey}` },
-    signal: options.signal
-      ? AbortSignal.any([options.signal, AbortSignal.timeout(60_000)])
-      : AbortSignal.timeout(60_000),
-  });
-  const body: unknown = await response.json().catch(() => null);
-  if (response.status === 404 && readErrorCode(body) === "not_found") return null;
-  if (!response.ok) {
-    const message = readErrorMessage(body) ?? `HTTP ${response.status}`;
-    throw new Error(`Market intelligence download failed: ${message}`);
+  const signal = AbortSignal.any([
+    AbortSignal.timeout(5 * 60_000),
+    ...(options.signal ? [options.signal] : []),
+  ]);
+  let first: MarketIntelligencePack | null = null;
+  const items: MarketIntelligencePack["items"] = [];
+  const seen = new Set<number>();
+  let afterItemId: number | null = null;
+  for (;;) {
+    const url = new URL("/v1/market-intelligence", endpoint);
+    url.search = new URLSearchParams({
+      clientProduct: scan.clientProduct,
+      clientBuild: String(scan.clientBuild),
+      region: scan.region,
+      realmId: scan.realmId,
+      auctionHouseType: scan.auctionHouseType,
+      pageSize: "500",
+      ...(afterItemId !== null
+        ? { afterItemId: String(afterItemId), asOfScanId: first!.sourceScanId! }
+        : {}),
+    }).toString();
+    const request = (): Promise<Response> =>
+      fetch(url, {
+        headers: { authorization: `Bearer ${apiKey}` },
+        signal: AbortSignal.any([signal, AbortSignal.timeout(60_000)]),
+      });
+    let response = await request();
+    if (response.status === 429) {
+      const seconds = Number(response.headers.get("retry-after") ?? "1");
+      await response.body?.cancel();
+      await delay(
+        Number.isFinite(seconds) ? Math.min(60_000, Math.max(0, seconds * 1000)) : 1000,
+        undefined,
+        { signal },
+      );
+      response = await request();
+    }
+    const body: unknown = await response.json().catch(() => null);
+    if (response.status === 404 && readErrorCode(body) === "not_found" && first === null)
+      return null;
+    if (!response.ok)
+      throw new Error(
+        `Market intelligence download failed: ${readErrorMessage(body) ?? `HTTP ${response.status}`}`,
+      );
+    const pack = marketIntelligencePackSchema.parse(body);
+    for (const field of [
+      "clientProduct",
+      "clientBuild",
+      "region",
+      "realmId",
+      "auctionHouseType",
+    ] as const) {
+      if (pack[field] !== scan[field])
+        throw new Error("Market history scope does not match the requested scan.");
+    }
+    if (first) {
+      for (const field of [
+        "sourceScanId",
+        "sourceScanAt",
+        "modelVersion",
+        "historyRevision",
+      ] as const) {
+        if (pack[field] !== first[field])
+          throw new Error("Market history changed during synchronization. Check for scans again.");
+      }
+    } else first = pack;
+    for (const item of pack.items) {
+      if (seen.has(item.itemId) || (afterItemId !== null && item.itemId <= afterItemId))
+        throw new Error("Market history contains duplicate or out-of-order pages.");
+      seen.add(item.itemId);
+      items.push(item);
+    }
+    if (items.length > 250_000) throw new Error("Market history exceeds the supported item limit.");
+    const next = pack.nextAfterItemId;
+    if (next === undefined || next === null) return { ...first, items, nextAfterItemId: null };
+    if (
+      !pack.sourceScanId ||
+      !pack.historyRevision ||
+      next !== pack.items.at(-1)?.itemId ||
+      next <= (afterItemId ?? 0)
+    ) {
+      throw new Error("Market history returned an invalid page cursor.");
+    }
+    afterItemId = next;
   }
-  return marketIntelligencePackSchema.parse(body);
 }
 
 export async function installMarketIntelligence(
@@ -71,12 +136,15 @@ export function serializeMarketIntelligence(pack: MarketIntelligencePack): strin
     current = ${luaString(item.currentPriceCopper)}, normal = ${luaString(item.normalPriceCopper)}, low = ${luaString(item.lowerPriceCopper)}, high = ${luaString(item.upperPriceCopper)},
     differenceBP = ${luaNumber(item.differenceBasisPoints)}, quantity = ${luaNumber(item.currentQuantity)}, normalQuantity = ${luaNumber(item.normalQuantity)}, supplyBP = ${luaNumber(item.supplyRatioBasisPoints)},
     listings = ${luaNumber(item.currentListingCount)}, confidenceBP = ${luaNumber(item.confidenceBasisPoints)}, direction = ${luaString(item.direction)},
+    history = { ${(item.history ?? []).map((row) => `{${Date.parse(row.observedAt) / 1000},${luaString(row.priceCopper)},${row.availableQuantity},${row.listingCount},${row.completeness}}`).join(",")} },
+    levels = { ${(item.levels ?? []).map((row) => `{unitPriceCopper=${luaString(row.unitPriceCopper)},quantity=${row.quantity},listingCount=${row.listingCount}}`).join(",")} },
   },`,
     )
     .join("\n");
   return `-- Generated by WoW Trader Companion. Do not edit.
 WOW_TRADER_MARKET_DATA = {
-  schemaVersion = 1,
+  schemaVersion = 2,
+  historyPolicy = ${luaString(validated.historyPolicy ?? null)},
   modelVersion = ${luaString(validated.modelVersion)},
   clientProduct = ${luaString(validated.clientProduct)},
   clientBuild = ${validated.clientBuild},
@@ -85,6 +153,7 @@ WOW_TRADER_MARKET_DATA = {
   auctionHouseType = ${luaString(validated.auctionHouseType)},
   generatedAt = ${luaString(validated.generatedAt)},
   sourceScanAt = ${luaString(validated.sourceScanAt)},
+  sourceScanEpoch = ${Date.parse(validated.sourceScanAt) / 1000},
   items = {
 ${items}
   },

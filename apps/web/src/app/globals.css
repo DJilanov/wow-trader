@@ -4144,6 +4144,60 @@ td small {
 .market-item-boundary strong {
   color: #a9d7a1;
 }
+.market-item-toolbar {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+.market-item-toolbar .market-buy-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+.market-buy-filters label {
+  display: grid;
+  align-content: end;
+  gap: 6px;
+  min-width: 0;
+}
+.market-buy-filters input,
+.market-buy-filters select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--surface);
+}
+.market-buy-filters button {
+  align-self: end;
+  min-height: 37px;
+  border: 1px solid var(--gold-low);
+  border-radius: 6px;
+}
+@media (max-width: 580px) {
+  .market-item-toolbar .market-buy-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.market-buy-plan {
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(111, 154, 98, 0.05);
+}
+.market-buy-plan.opportunity {
+  border-color: rgba(111, 154, 98, 0.5);
+}
+.market-buy-plan > p,
+.market-buy-plan > small {
+  color: var(--muted);
+  line-height: 1.6;
+}
 .market-item-results {
   margin-top: 38px;
 }

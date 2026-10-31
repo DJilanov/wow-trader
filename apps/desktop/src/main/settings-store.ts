@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import type { ProductConfiguration } from "@wow-trader/companion-core";
@@ -13,9 +13,34 @@ export async function readDesktopSettings(
 ): Promise<DesktopSettings> {
   const filePath = settingsPath(userDataPath);
   try {
-    return withEndpointOverride(
-      desktopSettingsSchema.parse(JSON.parse(await readFile(filePath, "utf8"))),
+    const settings = desktopSettingsSchema.parse(JSON.parse(await readFile(filePath, "utf8")));
+    const products = await Promise.all(
+      settings.products.map(async (product): Promise<ProductConfiguration> => {
+        const replacement = detectedProducts.find(
+          (candidate) =>
+            candidate.kind === "forever" &&
+            path.basename(candidate.rootPath) === "_forever_" &&
+            path.dirname(candidate.rootPath) === path.dirname(product.rootPath),
+        );
+        if (
+          product.kind !== "forever" ||
+          path.basename(product.rootPath) !== "_classic_beta_" ||
+          !replacement
+        )
+          return product;
+        try {
+          await stat(product.rootPath);
+          return product;
+        } catch (error: unknown) {
+          if (!isMissingFileError(error)) throw error;
+        }
+        return { ...product, rootPath: replacement.rootPath };
+      }),
     );
+    for (const product of detectedProducts) {
+      if (!products.some((existing) => existing.kind === product.kind)) products.push(product);
+    }
+    return withEndpointOverride({ ...settings, products });
   } catch (error: unknown) {
     if (!isMissingFileError(error)) throw error;
     return withEndpointOverride(

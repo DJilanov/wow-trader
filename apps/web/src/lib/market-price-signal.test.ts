@@ -3,6 +3,16 @@ import { describe, expect, it } from "vitest";
 import { createMarketPriceSignal } from "./market-price-signal";
 
 describe("createMarketPriceSignal", () => {
+  it("uses the same 336-bucket history as synchronized addon prices", () => {
+    const signal = createMarketPriceSignal(
+      Array.from({ length: 350 }, (_, index) => observation(index, index < 300 ? 100n : 200n)),
+    );
+    expect(signal).toMatchObject({
+      status: "available",
+      observationCount: 336,
+      normalPriceCopper: "100",
+    });
+  });
   it("keeps price guidance gated until six observations exist", () => {
     expect(createMarketPriceSignal([observation(0, 100n)])).toMatchObject({
       status: "collecting",

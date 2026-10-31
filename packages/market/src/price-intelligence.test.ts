@@ -3,6 +3,18 @@ import { describe, expect, it } from "vitest";
 import { analyzePriceHistory, bucketObservations } from "./price-intelligence.js";
 
 describe("price intelligence", () => {
+  it("uses the latest accepted quote without counting sub-98% coverage", () => {
+    const first = observation("2026-10-31T10:01:00Z", 100, 100, 5, 1);
+    const latest = observation("2026-10-31T10:20:00Z", 80, 100, 5, 0.99);
+    const rejected = observation("2026-10-31T10:25:00Z", 1, 100, 5, 0.97);
+    expect(bucketObservations([first, latest, rejected])).toEqual([latest]);
+  });
+  it("does not qualify a new market using observations older than seven days", () => {
+    const old = series([100, 100, 100, 100, 100]);
+    expect(
+      analyzePriceHistory([...old, observation("2026-10-10T00:00:00Z", 80, 10, 5, 1)]),
+    ).toMatchObject({ status: "collecting", observationCount: 1 });
+  });
   it("deduplicates one market observation per half-hour bucket by quality", () => {
     const observations = [
       observation("2026-09-27T10:01:00Z", 100, 10, 5, 0.9),

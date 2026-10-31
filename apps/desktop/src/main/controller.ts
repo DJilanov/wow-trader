@@ -52,6 +52,7 @@ export class DesktopController {
   public async initialize(): Promise<DesktopSnapshot> {
     const detectedProducts = await discoverDefaultProducts();
     this.#settings = await readDesktopSettings(this.#userDataPath, detectedProducts);
+    await writeDesktopSettings(this.#userDataPath, this.#settings);
     this.#credential = await readCredential(this.#userDataPath);
     this.#utility.subscribe((snapshot) => {
       this.#companion = snapshot;

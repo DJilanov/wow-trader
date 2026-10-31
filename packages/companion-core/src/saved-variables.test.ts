@@ -141,6 +141,8 @@ describe("collector SavedVariables", () => {
             [1] = {
               ["itemId"] = 12808,
               ["marketKey"] = "12808",
+              ["itemName"] = "Essence of Undeath",
+              ["itemClassId"] = 7,
               ["priceLevels"] = {
                 [1] = { ["unitPriceCopper"] = 12500, ["quantity"] = 2, ["listingCount"] = 2 },
               },
@@ -158,7 +160,7 @@ describe("collector SavedVariables", () => {
       noBuyoutRowCount: 1,
       scanDurationMs: 712,
       auctionHouseStayedOpen: true,
-      data: { itemSnapshots: [{ itemLink: null }] },
+      data: { itemSnapshots: [{ itemLink: null, itemName: "Essence of Undeath", itemClassId: 7 }] },
     });
 
     const incompleteNativeScan = structuredClone(savedVariables.scans[0]!);

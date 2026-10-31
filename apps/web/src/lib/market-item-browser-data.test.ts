@@ -1,9 +1,16 @@
 import { describe, expect, it } from "vitest";
 
 import { createMarketPriceSignal } from "./market-price-signal";
-import { classifyMarketItemDeal } from "./market-item-browser-data";
+import { classifyMarketItemDeal, parseBuyBudget } from "./market-item-browser-data";
 
 describe("classifyMarketItemDeal", () => {
+  it("parses copper-exact per-item gold budgets and locks invalid values", () => {
+    expect(parseBuyBudget("")).toBeUndefined();
+    expect(parseBuyBudget("12.0031")).toBe(120031n);
+    expect(parseBuyBudget("0")).toBe(0n);
+    for (const value of ["-1", "1e9", "0.00001", "NaN", "invalid"])
+      expect(parseBuyBudget(value)).toBe(0n);
+  });
   it("prioritizes deterministic vendor arbitrage", () => {
     expect(
       classifyMarketItemDeal({

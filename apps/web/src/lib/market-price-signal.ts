@@ -85,7 +85,7 @@ export function createMarketPriceSignal(
     availableQuantity: observation.availableQuantity,
     listingCount: observation.listingCount,
   }));
-  const intelligence = analyzePriceHistory(historyObservations, { maximumObservationCount: 48 });
+  const intelligence = analyzePriceHistory(historyObservations);
   if (intelligence.status === "collecting") {
     return {
       status: "collecting",

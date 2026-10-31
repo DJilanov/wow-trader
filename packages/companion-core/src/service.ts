@@ -373,6 +373,10 @@ export class DefaultCompanionService implements CompanionService {
           }
           const latestMarketScan = savedVariables.scans.at(-1);
           if (latestMarketScan) {
+            this.#publish("checking", "Synchronizing price history and buying guidance…", {
+              activeScanId: null,
+              pendingScanCount,
+            });
             const marketIntelligence = await downloadMarketIntelligence(
               this.#endpoint,
               this.#apiKey,

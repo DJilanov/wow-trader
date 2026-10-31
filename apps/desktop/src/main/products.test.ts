@@ -52,7 +52,7 @@ describe("collector addon installation", () => {
     expect(uiSource).toContain('"Save & Reload"');
     expect(uiSource).toContain('"Recent saved scans"');
     expect(tocSource).toContain(
-      "MarketData.lua\nCollector.lua\nProfessions.lua\nWorldEvidence.lua\nUI.lua",
+      "MarketData.lua\nMarketPolicy.lua\nCollector.lua\nProfessions.lua\nWorldEvidence.lua\nUI.lua",
     );
 
     await installCollector(product, sourceDirectory);
@@ -61,13 +61,14 @@ describe("collector addon installation", () => {
       rootPath,
       "Interface/AddOns/WowTraderCollector/WowTraderCollector.toc",
     );
-    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.12.0");
+    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.13.0");
     const installedFiles = await readdir(
       path.join(rootPath, "Interface/AddOns/WowTraderCollector"),
     );
     expect(installedFiles.sort()).toEqual([
       "Collector.lua",
       "MarketData.lua",
+      "MarketPolicy.lua",
       "Professions.lua",
       "UI.lua",
       "WorldEvidence.lua",
@@ -86,7 +87,7 @@ describe("collector addon installation", () => {
     await expect(readFile(installedMarketData, "utf8")).resolves.toContain("schemaVersion = 1");
     await expect(inspectProduct(product)).resolves.toMatchObject({
       collectorHealth: "ready",
-      collectorVersion: "0.12.0",
+      collectorVersion: "0.13.0",
       collectorFileCount: 0,
       scannerProvider: "native",
       scannerReady: true,

@@ -1,6 +1,6 @@
 # WoW Trader Collector
 
-Collector `0.12.0` captures market snapshots plus private character crafting state. Its market
+Collector `0.13.0` captures market snapshots plus private character crafting state. Its market
 scanner has two product-specific providers:
 
 - WoW Forever uses Blizzard's native `C_AuctionHouse.ReplicateItems` API. It does not require
@@ -35,12 +35,26 @@ console from anywhere. Left-click opens or closes it, dragging repositions it, a
 it. Run `/wowtrader minimap` to restore a hidden icon. A small `WoW Trader` launcher is also shown
 beside the Auction House while it is open.
 
-The `Market intel` view combines the latest in-game scan with the build-, region-, realm-, and
+The `Market intel` view combines current price depth with the build-, region-, realm-, and
 Auction-House-specific history pack installed by the desktop companion. Search by item name or ID,
-star items for the local watchlist, or use `/wowtrader market [item]` and
-`/wowtrader watch <itemId>`. Item tooltips show the synchronized signal when the running client
-supports the safe tooltip-data hook. Signals remain in `Collecting` until six independent
-half-hour observations exist; asking prices are never presented as confirmed sales.
+filter buying opportunities or watched items, set a per-item gold budget and quantity limit, and
+page through all results. Use `/wowtrader market [item]` or `/wowtrader watch <itemId>`.
+Item tooltips show the same guidance when the client supports the safe tooltip-data hook.
+
+Local scans immediately recalculate the price, supply, signal and buying plan. Queued scans also
+work without a downloaded history pack. A newer shared scan takes precedence over an older local
+book; a newer local scan takes precedence over the shared book. Missing items in the selected latest
+scan, other realms/builds and stale scans cannot produce a buying recommendation.
+
+The website and addon use one seven-day, 336-observation policy. Six independent half-hour buckets
+are required. Buying plans use the lower normal-price band as the target, subtract the 5% faction
+or 15% neutral AH cut, require a 15% discount and 20% return, and cap quantity at 10% of normal listed
+supply and 100 units. Plans show buy ceilings, quantities, cost, fees and conditional profit before
+deposits. Falling, inflated, oversupplied and thin markets are excluded. These are asking-price
+observations; they do not prove demand, completed sales or a future price recovery.
+
+See [`docs/trader-buy-opportunities.md`](../../docs/trader-buy-opportunities.md) for the full policy,
+patch-history review command and JavaScript/Lua checks.
 
 Forever requests one native full snapshot, reads it in bounded per-frame chunks, retries uncached
 rows for up to 60 seconds, and saves only after the complete result has been classified. Closing the

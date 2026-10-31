@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   auctionScanUploadSchema,
+  auctionItemSnapshotSchema,
   canonicalJson,
   catalogRecipeOutputSchema,
   professionSnapshotUploadSchema,
@@ -42,6 +43,21 @@ describe("catalogRecipeOutputSchema", () => {
 });
 
 describe("auctionScanUploadSchema", () => {
+  it("validates optional client-reported names and item categories", () => {
+    const item = {
+      itemId: 2770,
+      marketKey: "2770",
+      itemLink: null,
+      itemName: "Copper Ore",
+      itemClassId: 7,
+      priceLevels: [{ unitPriceCopper: "7000", quantity: 20, listingCount: 1 }],
+    };
+    expect(auctionItemSnapshotSchema.safeParse(item).success).toBe(true);
+    expect(
+      auctionItemSnapshotSchema.safeParse({ ...item, itemName: "bad\u0000name" }).success,
+    ).toBe(false);
+    expect(auctionItemSnapshotSchema.safeParse({ ...item, itemClassId: 32 }).success).toBe(false);
+  });
   it("accepts private source-character provenance", () => {
     const result = auctionScanUploadSchema.safeParse({
       ...validAuctionScanUpload(),

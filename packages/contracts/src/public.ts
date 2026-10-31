@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { isoDateTimeSchema } from "./primitives.js";
+import { isoDateTimeSchema, positiveCopperSchema } from "./primitives.js";
 
 export const publicDataStatusSchema = z.object({
   service: z.literal("wow-trader"),
@@ -40,6 +40,14 @@ export const marketSignalKindSchema = z.enum([
 
 const copperStringSchema = z.string().regex(/^\d+$/);
 
+export const marketHistoryObservationSchema = z.object({
+  observedAt: isoDateTimeSchema,
+  priceCopper: positiveCopperSchema,
+  availableQuantity: z.number().int().nonnegative(),
+  listingCount: z.number().int().nonnegative(),
+  completeness: z.number().min(0).max(1),
+});
+
 export const marketIntelligenceItemSchema = z.object({
   itemId: z.number().int().positive(),
   name: z.string().min(1).max(512).nullable(),
@@ -59,6 +67,17 @@ export const marketIntelligenceItemSchema = z.object({
   direction: z.enum(["up", "flat", "down"]).nullable(),
   historyStartedAt: isoDateTimeSchema.nullable().optional(),
   recentObservationCount: z.number().int().nonnegative().optional(),
+  history: z.array(marketHistoryObservationSchema).max(336).optional(),
+  levels: z
+    .array(
+      z.object({
+        unitPriceCopper: positiveCopperSchema,
+        quantity: z.number().int().positive(),
+        listingCount: z.number().int().positive(),
+      }),
+    )
+    .max(25_000)
+    .optional(),
 });
 
 export const marketIntelligencePackSchema = z.object({
@@ -72,6 +91,13 @@ export const marketIntelligencePackSchema = z.object({
   generatedAt: isoDateTimeSchema,
   sourceScanAt: isoDateTimeSchema,
   sourceScanId: z.string().uuid().optional(),
+  historyPolicy: z.literal("robust-market-history-v1").optional(),
+  historyBuilds: z.array(z.number().int().positive()).max(100).optional(),
+  historyRevision: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/)
+    .optional(),
+  nextAfterItemId: z.number().int().positive().nullable().optional(),
   items: z.array(marketIntelligenceItemSchema).max(250_000),
 });
 
@@ -81,6 +107,9 @@ export const marketIntelligenceQuerySchema = z.object({
   region: z.string().min(2).max(8),
   realmId: z.string().min(1).max(128),
   auctionHouseType: z.enum(["alliance", "horde", "neutral", "region", "unknown"]),
+  afterItemId: z.coerce.number().int().positive().optional(),
+  pageSize: z.coerce.number().int().min(1).max(1_000).optional(),
+  asOfScanId: z.string().uuid().optional(),
 });
 
 export type MarketIntelligenceItem = z.infer<typeof marketIntelligenceItemSchema>;
