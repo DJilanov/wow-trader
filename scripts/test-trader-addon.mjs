@@ -51,6 +51,8 @@ for (let index = 0; index < 120; index++) {
   const observedAt = new Date(now.getTime() - (index % 13 === 0 ? 3601000 : 0));
   const auctionHouseType = index % 3 === 0 ? "neutral" : "alliance";
   const budget = index % 7 === 0 ? BigInt(price * 2) : undefined;
+  const maximumQuantity = index % 4 === 0 ? 1 + random(100) : undefined;
+  const maximumBuyPriceCopper = index % 5 === 0 ? BigInt(Math.max(1, price - 2)) : undefined;
   const quote = quoteBuyOpportunity({
     intelligence,
     levels,
@@ -58,6 +60,8 @@ for (let index = 0; index < 120; index++) {
     now,
     auctionHouseType,
     ...(budget !== undefined ? { maximumSpendCopper: budget } : {}),
+    ...(maximumQuantity !== undefined ? { maximumQuantity } : {}),
+    ...(maximumBuyPriceCopper !== undefined ? { maximumBuyPriceCopper } : {}),
   });
   const analysisExpected =
     intelligence.status === "available"
@@ -105,6 +109,8 @@ for (let index = 0; index < 120; index++) {
     now: now.getTime() / 1000,
     auctionHouseType,
     budget,
+    maximumQuantity,
+    maximumBuyPriceCopper,
     analysisExpected,
     quoteExpected,
   });
@@ -126,7 +132,7 @@ for index, case in ipairs(cases) do
  for key, expected in pairs(case.analysisExpected) do
   assert(analysis[key] == expected, "Analysis case " .. index .. " " .. key .. ": " .. tostring(analysis[key]) .. " ~= " .. tostring(expected))
  end
- local quote = Addon.MarketPolicy.Quote(analysis, case.levels, case.observedAt, case.now, case.auctionHouseType, case.budget)
+ local quote = Addon.MarketPolicy.Quote(analysis, case.levels, case.observedAt, case.now, case.auctionHouseType, case.budget, case.maximumQuantity, case.maximumBuyPriceCopper)
  for key, expected in pairs(case.quoteExpected) do
   assert(quote[key] == expected, "Quote case " .. index .. " " .. key .. ": " .. tostring(quote[key]) .. " ~= " .. tostring(expected))
  end

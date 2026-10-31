@@ -71,3 +71,20 @@ assert(item.buy.state == "opportunity", "A fresh shared depth pack works without
 table.insert(WOW_TRADER_SAVED.scans, scan("older-local", 20000))
 assert(Addon.GetItemMarketIntelligence(1).current == 6000, "Older local scans cannot replace a newer shared book")
 print("Addon scan refresh, budgets, watchlist, stale, scope, delisting and local-history controls passed")
+
+WOW_TRADER_SAVED.watchChanges = {}
+WOW_TRADER_ACCOUNT_DATA = { connected=true, watches={ { product="wow_classic_beta",market="EU|TestRealm|alliance",itemId=1,maximumUnits=5,maximumBuyCopper="5000",minimumProfitCopper="0",cooldownMinutes=60 } },acknowledgedChanges={} }
+assert(Addon.GetItemMarketIntelligence(1).watched == true)
+assert(Addon.GetItemMarketIntelligence(1).buy.state ~= "opportunity", "Synced personal buy ceilings must apply")
+WOW_TRADER_ACCOUNT_DATA.watches[1].maximumBuyCopper = "7000"
+assert(Addon.GetItemMarketIntelligence(1).buy.quantity == 5, "Synced quantity caps must apply")
+WOW_TRADER_ACCOUNT_DATA.watches[1].minimumProfitCopper = "99999999"
+assert(Addon.GetItemMarketIntelligence(1).buy.state == "wait", "Synced minimum profit must apply")
+WOW_TRADER_ACCOUNT_DATA.watches[1].minimumProfitCopper = "0"
+local notices = 0
+DEFAULT_CHAT_FRAME.AddMessage = function() notices = notices + 1 end
+Addon.PrintMarketAlerts();Addon.PrintMarketAlerts()
+assert(notices == 1, "Alert cooldowns must survive repeated polling")
+WOW_TRADER_ACCOUNT_DATA.watches[1].market = "EU|OtherRealm|alliance"
+assert(Addon.GetItemMarketIntelligence(1).watched == false, "Watches must remain scoped to the exact realm and AH")
+print("Synced watch scope, buy ceiling, quantity, profit and alert cooldown controls passed")

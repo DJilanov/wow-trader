@@ -90,7 +90,7 @@ export async function loadTraderAccount(ownerId: string): Promise<{
   ]);
   const unique = new Map<string, (typeof candidates)[number]["snapshot"]>();
   for (const { snapshot } of candidates) {
-    const key = `${snapshot.clientProduct}:${snapshot.realmId}:${snapshot.characterFaction}:${snapshot.characterGuid || snapshot.characterName.toLowerCase()}`;
+    const key = `${snapshot.clientProduct}:${snapshot.region}:${snapshot.realmId}:${snapshot.characterFaction}:${snapshot.characterGuid || snapshot.characterName.toLowerCase()}`;
     if (!unique.has(key)) unique.set(key, snapshot);
   }
   const snapshots = [...unique.values()].slice(0, 50),
