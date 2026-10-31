@@ -10,10 +10,25 @@ interface CampaignReferenceQuest {
   readonly objectiveIndices: readonly number[];
 }
 
-// Historical quest lifecycles absent from the applicable Alliance source chapters.
-// QuestieDB authored export e9a67d1a2753a0e64c4c96bf7864788fac7b765f supplies
-// the IDs, chain, NPCs and objective structure; no drop rates or travel times are inferred.
+// Historical lifecycles absent from an applicable Alliance source branch.
+// The Stone Circle is reviewed against authorized chapters 33, 40 and 41;
+// the other records use authored QuestieDB export e9a67d1a2753a0e64c4c96bf7864788fac7b765f.
+// These execution instructions supply neither drop-rate nor XP evidence.
 const references: readonly CampaignReferenceQuest[] = [
+  {
+    id: 3444,
+    title: "The Stone Circle",
+    pickupStage: "before",
+    pickup:
+      "Accept The Stone Circle from Marvon Rivetseeker in Tanaris after returning The Sunken Temple.",
+    objective:
+      "Collect the Stone Circle from Marvon's Chest in Ratchet, The Barrens, and keep it for Marvon.",
+    turnin:
+      "Return the Stone Circle to Marvon Rivetseeker in Tanaris. Take Into the Depths and Secret of the Circle on the same visit.",
+    position: null,
+    prerequisiteIds: [3445],
+    objectiveIndices: [1],
+  },
   {
     id: 1100,
     title: "Lonebrow's Journal",
@@ -99,4 +114,21 @@ const references: readonly CampaignReferenceQuest[] = [
 
 export function getCampaignReferenceQuest(id: number): CampaignReferenceQuest | null {
   return references.find((quest) => quest.id === id) ?? null;
+}
+
+// Reviewed links cover omitted earlier chains and optional source breadcrumbs.
+export function campaignReferencePrerequisites(id: number): readonly number[] | null {
+  const reviewed: Readonly<Record<number, readonly number[]>> = {
+    1275: [],
+    1452: [1451],
+    1469: [1452],
+    1475: [1469],
+    3444: [3445],
+    3446: [3444],
+    3447: [3444],
+    3527: [3520],
+    3528: [4787],
+  };
+  if (reviewed[id]) return reviewed[id];
+  return getCampaignReferenceQuest(id)?.prerequisiteIds ?? null;
 }

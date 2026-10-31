@@ -6,6 +6,7 @@ import type {
 } from "./campaign-library.js";
 import { CAMPAIGN_BRIDGES } from "./campaign-route.js";
 import { getPremadeQuest } from "./premade.js";
+import { campaignActionZones, campaignLegZones, campaignZoneId } from "./campaign-geography.js";
 
 // These chapters are solo collection-heavy. Party filler must pass the kill-first closure;
 // the separate mandatory-unlock pass below can still retain a necessary collection.
@@ -117,6 +118,36 @@ export function integrateCampaignQuestLibrary(
     quest: CampaignLibraryQuest,
   ): { readonly legId: string; readonly anchor: number } =>
     locationFor(quest.sourceId, quest.referenceLevel, quest.zone);
+  const visitZones = new Map(plan.legs.map((leg) => [leg.id, campaignLegZones(leg, plan.actions)]));
+  const questZones = (quest: CampaignLibraryQuest): readonly string[] => {
+    const positions = [...new Set(quest.actions.flatMap(campaignActionZones))];
+    const label = campaignZoneId(quest.zone);
+    return positions.length ? positions : label ? [label] : [];
+  };
+  const fitsVisit = (quest: CampaignLibraryQuest, legId: string): boolean => {
+    const zones = questZones(quest);
+    return zones.length > 0 && zones.every((zone) => visitZones.get(legId)?.includes(zone));
+  };
+  const optionalLocation = (
+    quest: CampaignLibraryQuest,
+  ): { readonly legId: string; readonly anchor: number } | null => {
+    const matches = plan.legs
+      .map((leg, index) => ({ leg, index }))
+      .filter(
+        ({ leg }) =>
+          ["preparation", "xp-bridge"].includes(leg.kind) &&
+          quest.referenceLevel >= leg.from - 3 &&
+          quest.referenceLevel <= leg.to + 1 &&
+          fitsVisit(quest, leg.id),
+      )
+      .sort(
+        (left, right) =>
+          Math.abs(left.leg.from - quest.referenceLevel) -
+            Math.abs(right.leg.from - quest.referenceLevel) || left.index - right.index,
+      );
+    const match = matches[0];
+    return match ? { legId: match.leg.id, anchor: match.index } : null;
+  };
   const locationForGate = (
     gate: CampaignSourceLevelGate,
   ): { readonly legId: string; readonly anchor: number } => {
@@ -156,7 +187,8 @@ export function integrateCampaignQuestLibrary(
       ...existing.map((action) => plan.legs.findIndex((leg) => leg.id === action.legId)),
     );
     if (existingAnchor < 0) throw new Error(`Owned quest ${questId} has no campaign leg.`);
-    const sourceTarget = location(quest);
+    const sourceTarget = mandatoryQuestIds.has(questId) ? location(quest) : optionalLocation(quest);
+    if (!sourceTarget) return [];
     const anchor = Math.max(existingAnchor, sourceTarget.anchor);
     const legId =
       sourceTarget.anchor >= existingAnchor ? sourceTarget.legId : plan.legs[anchor]!.id;
@@ -254,10 +286,24 @@ export function integrateCampaignQuestLibrary(
       );
       continue;
     }
-    const target = location(quest);
+    const target = optionalLocation(quest);
+    if (!target) {
+      held.set(
+        quest.questId,
+        "This quest needs a zone visit outside the selected itinerary at this level.",
+      );
+      continue;
+    }
     const branch = closure(quest.questId, target.anchor, false, true);
     if (branch.reason) {
       held.set(quest.questId, branch.reason);
+      continue;
+    }
+    if (branch.quests.some((entry) => !fitsVisit(entry, target.legId))) {
+      held.set(
+        quest.questId,
+        "Its prerequisite chain needs a separate zone visit outside this quest batch.",
+      );
       continue;
     }
     roots.add(quest.questId);
@@ -330,10 +376,24 @@ export function integrateCampaignQuestLibrary(
       );
       continue;
     }
-    const target = location(quest);
+    const target = optionalLocation(quest);
+    if (!target) {
+      held.set(
+        quest.questId,
+        "This quest needs a zone visit outside the selected itinerary at this level.",
+      );
+      continue;
+    }
     const branch = closure(quest.questId, target.anchor, false);
     if (branch.reason) {
       held.set(quest.questId, branch.reason);
+      continue;
+    }
+    if (branch.quests.some((entry) => !fitsVisit(entry, target.legId))) {
+      held.set(
+        quest.questId,
+        "Its prerequisite chain needs a separate zone visit outside this quest batch.",
+      );
       continue;
     }
     const late = branch.quests
@@ -446,12 +506,13 @@ export function integrateCampaignQuestLibrary(
     const target = locationForGate(gate);
     const entries = additions.get(target.legId) ?? [];
     const routedSourceActions = gate.action.source
-      ? plan.actions.filter(
+      ? [...plan.actions, ...(additions.get(target.legId) ?? [])].filter(
           (action) =>
             action.legId === target.legId &&
             action.source?.chapterId === gate.action.source!.chapterId,
         )
       : [];
+    if (!routedSourceActions.some((action) => action.questChanges.length > 0)) continue;
     entries.push({
       ...gate.action,
       legId: target.legId,

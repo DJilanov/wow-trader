@@ -14,6 +14,9 @@ import { attachCampaignCombat } from "./campaign-combat.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
 import { applyCampaignPartyQuestPolicy } from "./campaign-party-policy.js";
 import { attachCampaignFlightPaths } from "./campaign-travel.js";
+import { attachCampaignLocations } from "./campaign-flow-locations.js";
+import { attachCampaignMovements, campaignTravelActions } from "./campaign-flow.js";
+import { attachCampaignSourceHints } from "./campaign-source-hints.js";
 
 export interface CampaignStarterRoute {
   readonly race: CampaignRace;
@@ -146,12 +149,18 @@ export function enrichCampaignStarters(
             combat.revision,
           )
         : plan;
-      return compileCampaignPickupGates(
+      const ready = compileCampaignPickupGates(
         attachCampaignFlightPaths(
           applyCampaignPartyQuestPolicy(enriched, sources, combat?.data),
           sources,
         ),
       );
+      const routed = attachCampaignSourceHints(
+        attachCampaignMovements(attachCampaignLocations(ready, sources), sources),
+        sources,
+      );
+      const actions = campaignTravelActions(routed, routed.actions);
+      return { ...routed, actions };
     }),
   );
 }

@@ -118,6 +118,8 @@ for (const quest of DUNGEON_FACTS.quests) {
 }
 gates.set(92819, { kind: "quest", questId: 92753, state: "rewarded" });
 gates.set(1200, { kind: "quest", questId: 1198, state: "rewarded" });
+// Dungeon Quest Atlas v2.14 (Forever, 2026-10-20) explicitly corrects 3765 to an optional breadcrumb.
+gates.set(1275, { kind: "all", gates: [] });
 gates.set(5724, { kind: "quest", questId: 5722, state: "rewarded" });
 gates.set(2930, {
   kind: "confirmation",

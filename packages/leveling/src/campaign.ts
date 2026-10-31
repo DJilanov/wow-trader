@@ -9,9 +9,9 @@ import {
   PREMADE_STOPS,
   premadeEntryLevel,
   selectedPremadeQuests,
-  getPremadeQuest,
   setPremadeQuestPackage,
 } from "./premade.js";
+import { campaignDungeonQuest as getPremadeQuest } from "./campaign-dungeon-reference.js";
 import {
   emptyPremadeProgress,
   premadeProgressSchema,
@@ -41,6 +41,12 @@ import type { CampaignPartyPolicy } from "./campaign-party-policy.js";
 import type { CampaignFlightPath } from "./campaign-travel.js";
 import { getCampaignReferenceQuest } from "./campaign-reference-quests.js";
 import { DUNGEON_FIRST_CLEAR_CIRCUIT } from "./dungeon-finish.js";
+import type {
+  CampaignActionLocation,
+  CampaignMovement,
+  CampaignUtilityTag,
+} from "./campaign-flow-model.js";
+import { campaignTravelActions } from "./campaign-flow.js";
 import {
   CAMPAIGN_BRIDGES,
   campaignStarterSourceIds,
@@ -93,6 +99,10 @@ export interface CampaignAction {
   readonly pickupQuestId?: number;
   readonly bundleId?: GuaranteedDungeonId;
   readonly dungeonFinishOnly?: boolean;
+  readonly location?: CampaignActionLocation;
+  readonly movement?: CampaignMovement;
+  readonly nativeUtilityTags?: readonly CampaignUtilityTag[];
+  readonly travelInstructions?: readonly string[];
 }
 export interface CampaignLeg {
   readonly id: string;
@@ -139,6 +149,7 @@ export interface CampaignPlan {
   readonly dungeonFinish?: boolean;
   readonly partyPolicy?: CampaignPartyPolicy;
   readonly flightPaths?: readonly CampaignFlightPath[];
+  readonly flowRevision?: "player-route-20261031-v1";
 }
 
 const beforeStop: Readonly<Record<string, readonly string[]>> = {
@@ -782,7 +793,7 @@ export function buildCampaignPlan(
       sourceIds: [id],
       quests: "starter-source",
       instructions: [
-        "Follow your race's early source instructions. These checks record Player 1 only; other races use their own branch before the level-16 Ironforge rendezvous.",
+        "Follow your race's starting tasks, then meet the party in Auberdine for the shared Darkshore circuit. From Stormwind, take Forever's direct ship to Darkshore.",
         "Keep required class training and combat/pet unlocks. Early source quests can contain short collections; do not add unrelated material/profession farming or assume their XP is verified.",
       ],
     });
@@ -813,9 +824,9 @@ export function buildCampaignPlan(
       start = actions.length;
     instructions(legId, `${stop.name}: prepare before entering`, [stop.preparation, ...stop.notes]);
     add(legId, "entry", {
-      title: `Actual entry check: ${stop.name}`,
+      title: `Party readiness: ${stop.name}`,
       instructions: [
-        "Save the actual level/XP of all five players. Next previews later instructions; only Done checks a ready departure.",
+        "Check that everyone meets the dungeon's level requirement and has finished the prerequisites listed here. Collect the outside quests below before entering together.",
       ],
       questChanges: [],
       positions: [],
@@ -1333,7 +1344,13 @@ export function activeCampaignActions(
     }
     result.push(action);
   }
-  return result;
+  return plan.flowRevision
+    ? campaignTravelActions(
+        plan,
+        result,
+        (action) => !campaignOptionalXpReady(plan, progress, action),
+      )
+    : result;
 }
 
 export function campaignUnmodeledExtras(
@@ -1551,7 +1568,9 @@ export function campaignActionReasons(
       for (const change of action.questChanges) {
         if (!questChangeNeeded(change, staged)) continue;
         if (change.state === "accepted") {
-          const { minimumLevel, gate } = questEligibility(change.questId, facts);
+          const eligibility = questEligibility(change.questId, facts);
+          const { minimumLevel } = eligibility;
+          const gate = getPremadeQuest(change.questId)?.gate ?? eligibility.gate;
           if (minimumLevel !== null && !campaignPickupLevelMet(staged, minimumLevel, facts))
             return [
               `Player ${player + 1} needs level ${minimumLevel} to accept ${change.title}. If they are already high enough, update their level.`,

@@ -122,7 +122,7 @@ export function applyCampaignPartyQuestPolicy(
       }
   }
   for (const block of CAMPAIGN_BRIDGES)
-    if (block.purpose === "preparation" && block.quests !== "starter-source")
+    if (block.quests !== "starter-source")
       for (const id of block.quests) if (present.has(id)) protectedRoots.add(id);
   // These selected chains unlock reusable dungeon shortcuts rather than optional XP farms.
   for (const id of [7046, 3802]) if (present.has(id)) protectedRoots.add(id);
@@ -130,18 +130,27 @@ export function applyCampaignPartyQuestPolicy(
     if ((references.get(id)?.requiredClasses ?? 0) > 0) protectedRoots.add(id);
   if (plan.leaderClass) {
     const classCondition = new RegExp(`(?:^|[\\s(/])${plan.leaderClass}(?=[\\s)/]|$)`, "i");
+    const pickupConditions = new Map<number, boolean[]>();
     for (const source of sources)
       for (const step of source.guide.steps)
-        for (const directive of step.directives)
+        for (const directive of step.directives) {
           if (
-            directive.questId !== null &&
-            present.has(directive.questId) &&
-            references.get(directive.questId)?.requiredClasses === undefined &&
+            directive.questId === null ||
+            !present.has(directive.questId) ||
+            directive.tag !== ".accept" ||
+            references.get(directive.questId)?.requiredClasses !== undefined
+          )
+            continue;
+          const conditions = pickupConditions.get(directive.questId) ?? [];
+          conditions.push(
             [step.condition, directive.condition].some((condition) =>
               classCondition.test(condition),
-            )
-          )
-            protectedRoots.add(directive.questId);
+            ),
+          );
+          pickupConditions.set(directive.questId, conditions);
+        }
+    for (const [id, conditions] of pickupConditions)
+      if (conditions.length && conditions.every(Boolean)) protectedRoots.add(id);
   }
   const requiredFor = new Map<number, Set<number>>();
   const protectionParents = (id: number): readonly number[] => [
@@ -236,14 +245,25 @@ export function applyCampaignPartyQuestPolicy(
                 : "Objective or party acquisition needs review; it is not default XP work."),
     });
   }
+  for (const id of present) {
+    if (decisions.has(id) || !protectionParents(id).length) continue;
+    decisions.set(id, {
+      questId: id,
+      objective: "unclassified",
+      included: true,
+      requiredFor: [...(requiredFor.get(id) ?? [])],
+      lootCost: null,
+      reason: "Dungeon prerequisites are checked against the selected party route.",
+    });
+  }
   let changed = true;
   while (changed) {
     changed = false;
     for (const decision of decisions.values()) {
       if (!decision.included || decision.requiredFor.length) continue;
-      const blockedParent = byId
-        .get(decision.questId)
-        ?.prerequisiteIds.find((id) => !present.has(id) || decisions.get(id)?.included === false);
+      const blockedParent = protectionParents(decision.questId).find(
+        (id) => !present.has(id) || decisions.get(id)?.included === false,
+      );
       const unsupportedCourier =
         (decision.objective === "delivery" || decision.objective === "interaction") &&
         !nearby.has(decision.questId) &&

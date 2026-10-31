@@ -59,6 +59,35 @@ function fixture(): { plan: CampaignPlan; sources: readonly CampaignSource[] } {
 }
 
 describe("fresh-server flight-path investment", () => {
+  it("does not add a far-away flight master merely because a coastal task shares its zone", () => {
+    const { plan, sources } = fixture();
+    const coastal = {
+      ...plan,
+      actions: plan.actions.map((action) => ({
+        ...action,
+        positions: [
+          {
+            sourceLine: 1,
+            position: { zone: "1436", floor: null, space: "map-percent" as const, x: 10, y: 10 },
+          },
+        ],
+      })),
+    };
+    expect(attachCampaignFlightPaths(coastal, sources).flightPaths).toEqual([]);
+  });
+
+  it("does not turn an XP-only source reminder into a real zone or flight-master visit", () => {
+    const { plan, sources } = fixture();
+    const reminders = {
+      ...plan,
+      actions: plan.actions.map((action) => ({
+        ...action,
+        kind: "xp-check" as const,
+        questChanges: [],
+      })),
+    };
+    expect(attachCampaignFlightPaths(reminders, sources).flightPaths).toEqual([]);
+  });
   it("adds the source flight-master visit before the on-route quest without inventing XP or a remote unlock", () => {
     const { plan, sources } = fixture();
     const selected = attachCampaignFlightPaths(plan, sources);

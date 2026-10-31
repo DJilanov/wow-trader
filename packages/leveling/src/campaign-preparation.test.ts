@@ -144,8 +144,8 @@ describe("shared browser and offline campaign preparation", () => {
     expect(prepared.actions.map((action) => action.id)).toEqual(["route-level-5-10", "pickup"]);
     expect(prepared.rewardBuild).toBe(70450);
     expect({ plan, evidence }).toEqual(before);
-    expect(prepared).toEqual(
-      compileCampaignFunding(
+    expect(prepared).toEqual({
+      ...compileCampaignFunding(
         compileCampaignPickupGates({
           ...plan,
           starters: evidence.starters,
@@ -156,7 +156,9 @@ describe("shared browser and offline campaign preparation", () => {
           rewardNotice: evidence.rewardNotice,
         }),
       ),
-    );
+      flowRevision: "player-route-20261031-v1",
+      flightPaths: [],
+    });
   });
 
   it("does not confuse reviewed runtime identity with the older route source build", () => {

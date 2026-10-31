@@ -16,6 +16,7 @@ export interface CampaignOutdoorBlock {
   readonly deferHandIns?: readonly number[];
   readonly handInOnly?: readonly number[];
   readonly extraPickupIds?: readonly number[];
+  readonly firstQuestIds?: readonly number[];
   readonly instructions: readonly string[];
 }
 
@@ -37,6 +38,11 @@ export function campaignStarterSourceIds(
 }
 
 export const CAMPAIGN_DEFERRED_PARTY_QUESTS: Readonly<Record<number, string>> = {
+  338: "Green Hills pages are personal random drops, not shared kill credit. Hold this collection from the five-player route.",
+  339: "Requires personal Green Hills pages; not part of the five-player kill route.",
+  340: "Requires personal Green Hills pages; not part of the five-player kill route.",
+  341: "Requires personal Green Hills pages; not part of the five-player kill route.",
+  342: "Requires personal Green Hills pages; not part of the five-player kill route.",
   1139: "Requires an earlier Uldaman visit and the Amulet of Secrets → Ironforge → Badlands continuation; held from the single-visit dungeon circuit.",
   4788: "Requires the Eastern Plaguelands tablets and another Tanaris hand-in before LBRS; held rather than adding that collection detour to this circuit.",
 };
@@ -51,7 +57,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     sourceIds: [126],
     quests: [984, 985, 2118, 2138, 953],
     instructions: [
-      "After your personal starting route, meet in Auberdine for the shared bear and furbolg quests. Travel together through Menethil and take the boat if coming from the Eastern Kingdoms.",
+      "After your personal starting route, meet in Auberdine for the shared bear and furbolg quests. From Stormwind, use Forever's direct ship to Darkshore. Menethil's boat is an alternative when you are already in Wetlands.",
       "Learn the flight paths along this crossing, including Auberdine. These first visits build the network used by later dungeon trips; they are not wasted travel.",
       "Scout the furbolg camp and complete Plagued Lands before accepting their follow-up kill quests. Read the Ameth'Aran tablets on the same circuit. Skip the Buzzbox body-part collections.",
       "After the hand-ins, return to Dun Morogh for the Hall of Thanes prerequisites. Murkdeep is a later stop, not part of this early circuit.",
@@ -91,7 +97,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     sourceIds: [116, 119, 125, 126],
     quests: [96392, 96390, 96391],
     instructions: [
-      "Finish your own starting route, then travel to Dun Morogh and meet your party near Ironforge.",
+      "After the shared Darkshore hand-ins, travel together to Dun Morogh for the Hall of Thanes unlocks and Ironforge pickups.",
       "Train your class skills, finish any required pet quests, buy supplies and learn flight paths on the way.",
       "Complete Farsen's Watch and Nip 'Em in the Bud. Loot a Dark Iron Map from the spies and use it to start Underground Map. Everyone needs to finish the map quest before Hall of Thanes.",
     ],
@@ -206,7 +212,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     instructions: [
       "After Deadmines, collect the Ironforge BFD pickup, then batch the Darkshore/Darnassus pickups on the crossing to Ashenvale. Excavation is a later dungeon, not a prerequisite for BFD.",
       "Finish the selected BFD rewards at their actual Kalimdor and Ironforge hubs before continuing the Stockade preparations in the Eastern Kingdoms.",
-      "Use the selected Astranaar shared-kill work for any XP still missing. Do not detour to Wailing Caverns; this is the owner's chosen circuit.",
+      "Approach BFD along the coast to Zoram Strand. Visit Astranaar only if you choose its separate quest work; it is not required to enter BFD.",
     ],
   },
   {
@@ -312,7 +318,8 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 42,
     purpose: "xp-bridge",
     sourceIds: [20, 21, 28],
-    quests: [1396, 684, 685, 523, 537, 512, 600],
+    quests: [1448, 1449, 1450, 1451, 1452, 1396, 684, 685, 523, 537, 512, 600],
+    deferHandIns: [1452],
     instructions: [
       "Finish the selected Scarlet Monastery and Razorfen Downs deliveries before selecting more XP work. Use the sourced Arathi/Alterac named and shared-kill sequence below, then continue toward the next stop.",
       "Review Krol'dok's optional four-quest planning stop before Uldaman. Exact quest/access instructions remain pending; planning rewards are not earned XP.",
@@ -323,9 +330,10 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     title: "Tanaris kill batches toward Zul'Farrak",
     from: 42,
     to: 44,
-    purpose: "xp-bridge",
+    purpose: "preparation",
     sourceIds: [29, 30, 31, 33],
-    quests: [1690, 1691, 8366, 2982, 2970],
+    quests: [3520, 3527, 1452, 1690, 1691, 8366, 2982, 2970],
+    deferHandIns: [1452],
     instructions: [
       "After Uldaman, use Wastewander kill stages and the selected Feralas ogre objectives on the Zul'Farrak crossing, not water-pouch, pirate-hat or beast-hide farms.",
       "These level-40-and-up quests prepare Zul'Farrak; they must not delay the earlier Razorfen Downs run.",
@@ -352,7 +360,8 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 46,
     purpose: "preparation",
     sourceIds: [18, 25, 31],
-    quests: [4787, 1437, 1465, 1438, 1439, 1440, 1384],
+    quests: [4787, 3528, 1437, 1465, 1438, 1439, 1440, 1384],
+    firstQuestIds: [4787, 3528],
     instructions: [
       "Finish the selected Zul'Farrak rewards and retain Yeh'kinya's continuation, then take Maraudon's chosen Desolace pickups. The planned first visit covers the entrances needed by the chosen objectives, not only the Princess shortcut.",
       "Finish The Ancient Egg in Jintha'Alor and return it to Yeh'kinya before leaving for Maraudon. Keep the egg supplied for The God Hakkar in Sunken Temple.",
@@ -366,7 +375,9 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 44,
     purpose: "preparation",
     sourceIds: [29, 32, 33],
-    quests: [3520, 2988, 2989, 2990],
+    quests: [1452, 1469, 2988, 2989, 2990, 2991],
+    handInOnly: [1452],
+    deferHandIns: [1469],
     instructions: [
       "After Uldaman, batch the selected Tanaris/Hinterlands work. Prepare The Prophecy of Mosh'aru for ZF before entry; its later stages support the selected Sunken Temple objective.",
       "The spirits/temple unlock work stays required for the selected chain. Scarab shells and Troll Temper are opportunistic and do not justify waiting for five personal sets.",
@@ -403,8 +414,9 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     from: 50,
     to: 51,
     purpose: "preparation",
-    sourceIds: [31, 33, 35, 37, 40, 41, 44],
-    quests: [3445, 3444, 1475],
+    sourceIds: [31, 33, 34, 35, 37, 40, 41, 44],
+    quests: [3445, 3444, 1469, 1475],
+    handInOnly: [1469],
     instructions: [
       "Batch Thorium Point's selected golem/spider/dinosaur/Dark Iron kill objectives. Leave spyglass/tuyere and unrelated material farms out of the core path.",
       "Prepare the selected Temple chain before the level-51 visit, including its earlier ZF dependencies. These unlocks cannot be skipped merely because dungeon XP brought someone ahead.",

@@ -138,3 +138,16 @@ export function campaignLegacyXpPath(
     return null;
   return campaignChapterPath(plan, action.legId, action.id, progress);
 }
+
+/** Dungeon pickups can move to an earlier city visit while retaining their saved step IDs. */
+export function campaignMovedActionPath(
+  plan: CampaignPlan,
+  progress: PremadeProgress,
+  requestedChapterId: string,
+  actionId: string,
+): string | null {
+  const action = activeCampaignActions(plan, progress).find((entry) => entry.id === actionId);
+  if (!action || campaignSectionFor(plan, action.legId, progress)?.id === requestedChapterId)
+    return null;
+  return campaignChapterPath(plan, action.legId, action.id, progress);
+}

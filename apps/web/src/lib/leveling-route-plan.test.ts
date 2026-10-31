@@ -13,6 +13,7 @@ import {
   campaignLeaderClass,
   campaignLegacyStarterPath,
   campaignLegacyXpPath,
+  campaignMovedActionPath,
   levelingPlanDashboardPath,
   levelingRouteMode,
 } from "./leveling-route-plan";
@@ -50,6 +51,14 @@ const plan: CampaignPlan = {
 };
 
 describe("integrated quest route editions", () => {
+  it("resolves an unchanged pickup bookmark after its task moved to a city preparation chapter", () => {
+    const progress = emptyPremadeProgress();
+    expect(campaignMovedActionPath(plan, progress, "first", "second-brief")).toBe(
+      campaignChapterPath(plan, "second", "second-brief", progress),
+    );
+    expect(campaignMovedActionPath(plan, progress, "second", "second-brief")).toBeNull();
+    expect(campaignMovedActionPath(plan, progress, "first", "unknown")).toBeNull();
+  });
   it("resumes removed XP reminders at the next task even across a chapter boundary", () => {
     const edition: CampaignPlan = {
       ...plan,

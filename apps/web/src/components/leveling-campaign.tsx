@@ -46,6 +46,7 @@ import {
   campaignChapterPath,
   campaignLegacyStarterPath,
   campaignLegacyXpPath,
+  campaignMovedActionPath,
   levelingPlanDashboardPath,
 } from "../lib/leveling-route-plan";
 import styles from "./leveling-campaign.module.css";
@@ -169,7 +170,8 @@ export function LevelingCampaign({
       const legacyPath =
         legId &&
         (campaignLegacyStarterPath(plan, progress, routeId ?? "", id) ??
-          campaignLegacyXpPath(plan, progress, routeId ?? "", rawId));
+          campaignLegacyXpPath(plan, progress, routeId ?? "", rawId) ??
+          campaignMovedActionPath(plan, progress, routeId ?? "", id));
       if (legacyPath) {
         router.replace(legacyPath, { scroll: false });
         return;
@@ -438,6 +440,24 @@ export function LevelingCampaign({
         }
       >
         <div data-campaign-action={entry.id} className={styles.instructions}>
+          {entry.travelInstructions && entry.travelInstructions.length > 0 && (
+            <aside className={styles.travel} aria-label="Getting there">
+              <strong>Getting there</strong>
+              {entry.travelInstructions
+                .slice(0, entry.travelInstructions.length > 4 ? 1 : undefined)
+                .map((line, lineIndex) => (
+                  <p key={lineIndex}>{line}</p>
+                ))}
+              {entry.travelInstructions.length > 4 && (
+                <details>
+                  <summary>Walking and public transport directions</summary>
+                  {entry.travelInstructions.slice(1).map((line, lineIndex) => (
+                    <p key={lineIndex}>{line}</p>
+                  ))}
+                </details>
+              )}
+            </aside>
+          )}
           {entry.instructions.map((line, lineIndex) => (
             <p key={lineIndex}>{line}</p>
           ))}
@@ -734,8 +754,8 @@ export function LevelingCampaign({
             ))}
           </div>
           <p>
-            Mixed-race parties use separate starting branches, then meet at 16. Existing chapters
-            and the earlier dungeon reference are not reset.
+            Mixed-race parties finish their own starting tasks, then meet in Auberdine for the
+            shared Darkshore circuit before preparing Hall of Thanes together.
           </p>
           <form
             action={

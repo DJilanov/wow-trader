@@ -12,7 +12,7 @@ import {
   type CampaignNativeInstructions,
 } from "./campaign-addon-native.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261031-v26" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261031-v27" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;
@@ -149,6 +149,8 @@ function actionLines(
   const native = nativeInstructions?.(action);
   const condition = native?.condition ? ` << ${oneLine(native.condition, "Step condition")}` : "";
   const lines = [`step${condition}`, `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`];
+  for (const instruction of action.travelInstructions ?? [])
+    lines.push(`    >> ${oneLine(instruction, "Travel instruction")}`);
   if (action.bundleId) {
     if (action.questChanges.length || action.positions.length)
       throw new Error("Planning-only bundles cannot emit quest or location directives.");

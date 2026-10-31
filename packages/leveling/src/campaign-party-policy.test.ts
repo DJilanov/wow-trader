@@ -172,6 +172,31 @@ describe("global five-player route policy", () => {
       selected.actions.flatMap((action) => action.questChanges).map((change) => change.questId),
     ).not.toContain(13);
   });
+  it("holds a dungeon extra whose catalog prerequisite was omitted, even without an archived objective", () => {
+    const { plan, sources } = fixture();
+    const extra = {
+      ...plan.actions[0]!,
+      id: "highland-hides",
+      source: null,
+      questChanges: [
+        {
+          questId: 98815,
+          state: "accepted" as const,
+          title: "Highland Hides",
+          objectiveIndex: null,
+        },
+      ],
+      optionalForQuestIds: [98815],
+    };
+    const selected = applyCampaignPartyQuestPolicy(
+      { ...plan, actions: [...plan.actions, extra] },
+      sources,
+    );
+    expect(selected.actions.some((action) => action.id === extra.id)).toBe(false);
+    expect(
+      selected.partyPolicy?.decisions.find((decision) => decision.questId === 98815)?.reason,
+    ).toContain("484");
+  });
   it("retains a required dungeon unlock's complete prerequisite chain", () => {
     const { plan, sources, data } = fixture();
     const linked = {

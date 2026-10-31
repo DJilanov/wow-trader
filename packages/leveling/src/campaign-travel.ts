@@ -3,6 +3,7 @@ import { getGuideStepView } from "./guide-archive.js";
 import { createCampaignSourceProfile } from "./campaign-source-profile.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { PREMADE_STOPS } from "./premade.js";
+import { campaignZoneId } from "./campaign-geography.js";
 
 export interface CampaignFlightPath {
   readonly key: string;
@@ -30,7 +31,10 @@ export function attachCampaignFlightPaths(
   }[] = [];
   for (const source of sources) {
     const visits = plan.actions.flatMap((action, index) =>
-      action.source?.chapterId === source.guide.chapterId ? [{ action, index }] : [],
+      action.source?.chapterId === source.guide.chapterId &&
+      !["xp-check", "checkpoint"].includes(action.kind)
+        ? [{ action, index }]
+        : [],
     );
     if (!visits.length) continue;
     const ordinals = new Map(source.guide.steps.map((step) => [step.id, step.ordinal]));
@@ -62,6 +66,29 @@ export function attachCampaignFlightPaths(
           visitedZones.size &&
           positions.length &&
           !positions.some((position) => visitedZones.has(position.zone))
+        )
+          continue;
+        const comparable = positions.flatMap((position) =>
+          routed.flatMap(({ action }) =>
+            action.positions.flatMap(({ position: visit }) =>
+              campaignZoneId(position.zone) === campaignZoneId(visit.zone) &&
+              position.space === visit.space &&
+              position.floor === visit.floor
+                ? [{ position, visit }]
+                : [],
+            ),
+          ),
+        );
+        if (
+          comparable.length &&
+          !positions.some((position) =>
+            ["1453", "1455", "1457"].includes(campaignZoneId(position.zone) ?? ""),
+          ) &&
+          !comparable.some(
+            ({ position, visit }) =>
+              Math.hypot(position.x - visit.x, position.y - visit.y) <=
+              (position.space === "map-percent" ? 12 : 600),
+          )
         )
           continue;
         const target = routed.find(({ action }) => action.source?.stepId === step.id);
@@ -99,6 +126,7 @@ export function attachCampaignFlightPaths(
           targetLevel: null,
           targetStopId: null,
           raidOnly: anchor.action.raidOnly,
+          nativeUtilityTags: [".fp"],
         };
         candidates.push({
           index: anchor.index,

@@ -131,6 +131,12 @@
 .instructions p {
   margin: 0.5rem 0;
 }
+.travel {
+  margin: 0.75rem 0;
+  padding: 0.65rem 0.9rem;
+  border-left: 3px solid var(--gold);
+  background: var(--surface-raised);
+}
 .links {
   display: flex;
   flex-direction: column;

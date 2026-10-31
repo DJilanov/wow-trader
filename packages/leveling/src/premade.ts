@@ -94,7 +94,7 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     level: 16,
     zone: "Dun Morogh",
     preparation:
-      "Meet in Ironforge after your race-specific starting chapters. Finish Underground Map → Old Ironforge Incursion; collect the city quests before entry.",
+      "After the personal starting tasks and shared Darkshore circuit, meet in Ironforge. Finish Underground Map → Old Ironforge Incursion and collect the city quests before entry.",
     clear:
       "Complete the shared spirit kills and boss goals. Pick up Ancient Grudge inside; search the final vault for the Treaty. Collect the ground heirlooms along the required path.",
     handIn:
@@ -102,7 +102,7 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     bridge:
       "Use short shared-kill work while preparing the northern Ruins journey; leave only when everyone meets its actual gate.",
     notes: [
-      "Starting chapters 1–16 remain on your race route; this circuit does not replace them.",
+      "Use your race's personal starting tasks before meeting in Auberdine; the Darkshore and Dun Morogh preparation is shared party work.",
       "Ground heirlooms are not a low-drop corpse farm, but all five still need their own items.",
     ],
     quests: choices([96403, 96394, 96393, 96395, 98423]),

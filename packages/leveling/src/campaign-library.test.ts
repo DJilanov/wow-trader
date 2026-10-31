@@ -82,6 +82,22 @@ const kills =
   "step\n.accept 400001 >> Accept Gnoll Patrol\nstep\n>>Kill gnolls\n.complete 400001,1\n.mob Redridge Gnoll\nstep\n.turnin 400001 >> Turn in Gnoll Patrol";
 
 describe("full source kill-first quest backbone", () => {
+  it("does not turn the optional Corruption Abroad introduction into a server pickup requirement", () => {
+    const quests = library("step\n.turnin 3765\n.accept 1275");
+    expect(quests.find((quest) => quest.questId === 1275)?.prerequisiteIds).toEqual([]);
+  });
+  it("holds level-compatible quests when their actual locations are outside this visit", () => {
+    const quests = library(
+      kills
+        .replace("step\n.accept", "step\n.goto Westfall,50,50\n.accept")
+        .replace("step\n>>Kill", "step\n.goto Westfall,51,51\n>>Kill")
+        .replace("step\n.turnin", "step\n.goto Westfall,50,50\n.turnin"),
+    );
+    const plan = integrateCampaignQuestLibrary(base(), quests, new Set());
+    expect(plan.library?.choices[0]?.role).toBe("held");
+    expect(plan.actions).toEqual(base().actions);
+    expect(plan.legs.map((leg) => leg.id)).toEqual(["redridge-kill-batch"]);
+  });
   it("recognizes a kill counter even when the same camp also drops items for another quest", () => {
     const quests = library(
       "step\n.accept 9 >> Accept The Killing Fields\nstep\n>>Kill Harvest Watchers and loot their Okra\n.complete 9,1 >> Havest Watcher slain (20)\n.mob Harvest Watcher\n.collect 729,3,38\nstep\n.turnin 9 >> Turn in The Killing Fields",
@@ -592,7 +608,12 @@ describe("full source kill-first quest backbone", () => {
       targetCurrentXp: 1000,
       xpOptional: true,
     });
-    const plan = integrateCampaignQuestLibrary(base(), [], new Set(), gates);
+    expect(
+      integrateCampaignQuestLibrary(base(), [], new Set(), gates).actions.some(
+        (action) => action.kind === "xp-check",
+      ),
+    ).toBe(false);
+    const plan = integrateCampaignQuestLibrary(base(), library(kills), new Set(), gates);
     const gate = plan.actions.find((action) => action.kind === "xp-check")!;
     const state = emptyPremadeProgress();
     state.members = state.members.map((member) => ({

@@ -57,6 +57,36 @@ function fixture(text: string): {
 }
 
 describe("canonical campaign native instructions", () => {
+  it("preserves training while replacing an obsolete final transfer and its old hearth binding", () => {
+    const { plan, sources, action } = fixture(
+      "step\n.fly Westfall\n.home Sentinel Hill\n.train 355\n.trainer",
+    );
+    const transfer = {
+      ...action,
+      movement: { kind: "flight" as const, destination: "1436", terminal: true },
+    };
+    expect(
+      campaignNativeInstructions(
+        plan,
+        sources,
+      )(transfer)?.directives.map((directive) => directive.tag),
+    ).toEqual([".train", ".trainer"]);
+  });
+  it("does not restore an unselected collection farm when every actual quest directive was retained", () => {
+    const { plan, sources, action } = fixture(
+      "step\n.complete 9,1 >> Harvest Watchers slain\n.collect 729,3,38 >> Collect Okra\n.use 729\n.zoneskip Westfall",
+    );
+    const selected = {
+      ...action,
+      questChanges: action.questChanges.filter((change) => change.questId === 9),
+    };
+    expect(
+      campaignNativeInstructions(
+        plan,
+        sources,
+      )(selected)?.directives.map((directive) => directive.tag),
+    ).toEqual([".complete"]);
+  });
   it("combines step and quest eligibility without leaking a chapter's route-selection guard into shared work", () => {
     const { plan, sources, action } = fixture("step << Warrior/Rogue\n .accept 7 << Human/Dwarf");
     const scoped = [

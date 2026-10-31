@@ -8,6 +8,7 @@ import type { CharacterProfile } from "./profile.js";
 import type { CampaignAction, CampaignSource } from "./campaign.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import type { CombatQuestReference } from "./combat-model.js";
+import { campaignReferencePrerequisites } from "./campaign-reference-quests.js";
 
 export type LibraryObjective =
   "shared-kills" | "named-trophy" | "delivery" | "interaction" | "collection" | "unclassified";
@@ -441,7 +442,7 @@ export function buildCampaignQuestLibrary(
               ...(alternative === undefined ? [] : [alternative]),
             ]),
           ]
-        : sourceParents;
+        : (campaignReferencePrerequisites(questId) ?? sourceParents);
       return {
         questId,
         title,

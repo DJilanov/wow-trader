@@ -36,6 +36,8 @@ const replacedControls = new Set([
   ".xp",
   ".maxlevel",
   ".disablecheckbox",
+  ".zoneskip",
+  ".subzoneskip",
 ]);
 const questStates = new Map<string, CampaignAction["questChanges"][number]["state"]>([
   [".accept", "accepted"],
@@ -211,6 +213,15 @@ export function campaignNativeInstructions(
     const source = steps.get(key);
     if (!source) throw new Error(`Native source step is unavailable or ineligible: ${action.id}.`);
     const { directives } = source;
+    if (action.movement) {
+      const utility = directives.filter(
+        (directive) =>
+          [".fp", ".train", ".trainer", ".vendor"].includes(directive.tag) ||
+          (directive.tag === ".home" && !action.movement?.terminal),
+      );
+      for (const directive of utility) validateDirective(directive);
+      return utility.length ? { condition: source.condition, directives: utility } : null;
+    }
     for (const directive of directives) {
       if (replacedControls.has(directive.tag)) continue;
       if (!commands.has(directive.tag))
@@ -265,25 +276,43 @@ export function campaignNativeInstructions(
         return index !== null && relevantQuests.has(args[index] ?? 0) ? [args[0]!] : [];
       }),
     );
+    const boundItems = new Set(
+      directives.flatMap((directive) => {
+        const args = directive.arguments.split(",").map(Number);
+        const index =
+          directive.tag === ".collect" ? 2 : directive.tag === ".addquestitem" ? 1 : null;
+        return index !== null && (args[index] ?? 0) > 0 ? [args[0]!] : [];
+      }),
+    );
     let previousQuest: ImportedDirective | undefined;
     const retained = directives.filter((directive) => {
       if (replacedControls.has(directive.tag)) return false;
+      if (
+        [".fp", ".fly", ".hs", ".home", ".zone", ".trainer", ".vendor"].includes(directive.tag) &&
+        action.nativeUtilityTags &&
+        !action.nativeUtilityTags.some((tag) => tag === directive.tag)
+      )
+        return false;
       if (questStates.has(directive.tag)) {
         previousQuest = directive;
         return matchesQuest(action, directive);
       }
       if (positionTags.has(directive.tag)) return matchesPosition(action, directive);
+      if ([".collect", ".addquestitem"].includes(directive.tag)) {
+        const index = directive.tag === ".collect" ? 2 : 1;
+        const questId = Number(directive.arguments.split(",")[index]);
+        return Number.isSafeInteger(questId) && questId > 0
+          ? relevantQuests.has(questId)
+          : completeStep;
+      }
+      if (directive.tag === ".use" && boundItems.has(Number(directive.arguments.split(",")[0])))
+        return relevantItems.has(Number(directive.arguments.split(",")[0]));
       if (completeStep) return true;
       if (displayTags.has(directive.tag))
         return previousQuest !== undefined && matchesQuest(action, previousQuest);
       if (questChecks.has(directive.tag)) {
         const ids = directive.arguments.split(",").map(Number);
         return ids.length > 0 && ids.every((id) => relevantQuests.has(id));
-      }
-      if ([".collect", ".addquestitem"].includes(directive.tag)) {
-        const index = directive.tag === ".collect" ? 2 : 1;
-        const questId = Number(directive.arguments.split(",")[index]);
-        return relevantQuests.has(questId);
       }
       if (directive.tag === ".use")
         return relevantItems.has(Number(directive.arguments.split(",")[0]));

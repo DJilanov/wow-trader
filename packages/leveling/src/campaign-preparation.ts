@@ -9,6 +9,12 @@ import { attachCampaignCombat } from "./campaign-combat.js";
 import { compileCampaignFunding } from "./campaign-catchup-planner.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
 import { DUNGEON_FINISH_OPTIONS } from "./dungeon-finish.js";
+import { attachCampaignLocations } from "./campaign-flow-locations.js";
+import { attachCampaignMovements } from "./campaign-flow.js";
+import { batchCampaignDungeonFlow } from "./campaign-dungeon-flow.js";
+import { attachCampaignSourceHints } from "./campaign-source-hints.js";
+import { batchCampaignVisits } from "./campaign-visit-flow.js";
+import { attachCampaignDungeonSources } from "./campaign-dungeon-sources.js";
 
 interface CampaignRewardInventory {
   readonly dungeonFinish?: boolean;
@@ -81,15 +87,23 @@ export function prepareCampaignPlan(
           questReferences: data.quests,
         })
       : plan;
+  const described = sources.length ? attachCampaignDungeonSources(candidate, sources) : candidate;
   const enriched =
-    combat && data ? attachCampaignCombat(candidate, sources, data, combat.revision) : candidate;
+    combat && data ? attachCampaignCombat(described, sources, data, combat.revision) : described;
   const selected = sources.length
-    ? attachCampaignFlightPaths(applyCampaignPartyQuestPolicy(enriched, sources, data), sources)
+    ? applyCampaignPartyQuestPolicy(enriched, sources, data)
     : enriched;
-  const wanted = new Set(campaignRewardQuestIds({ ...selected, starters: evidence.starters }));
-  return compileCampaignFunding(
+  const visits = batchCampaignVisits(
+    batchCampaignDungeonFlow(attachCampaignLocations(selected, sources)),
+    sources,
+  );
+  const routed = batchCampaignDungeonFlow(
+    attachCampaignLocations(attachCampaignFlightPaths(visits, sources), sources),
+  );
+  const wanted = new Set(campaignRewardQuestIds({ ...routed, starters: evidence.starters }));
+  const funded = compileCampaignFunding(
     compileCampaignPickupGates({
-      ...selected,
+      ...routed,
       starters: evidence.starters,
       catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
       rewardFacts: evidence.rewardFacts.filter((fact) => wanted.has(fact.questId)),
@@ -103,5 +117,9 @@ export function prepareCampaignPlan(
           }
         : {}),
     }),
+  );
+  return attachCampaignSourceHints(
+    attachCampaignMovements(attachCampaignLocations(funded, sources), sources),
+    sources,
   );
 }

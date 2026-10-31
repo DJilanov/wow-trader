@@ -117,6 +117,8 @@ separate at `?edition=kfc`, and old planner saves can still be imported explicit
 See [`docs/forever-leveling-experience-plan.md`](docs/forever-leveling-experience-plan.md) for the
 UX and [`docs/forever-leveling-archive.md`](docs/forever-leveling-archive.md) for extraction, authorization,
 coverage gaps and archive deployment. This navigation/full-reader revision is local until deployed.
+The [October 31 route flow review](docs/forever-leveling-route-flow-2026-10-31.md) documents
+the party itinerary, transport rules, dungeon handoffs and repeatable archive checks.
 
 The account-network calculation, safety boundaries, and Forever migration steps are documented in
 [`docs/account-crafting-network.md`](docs/account-crafting-network.md).
