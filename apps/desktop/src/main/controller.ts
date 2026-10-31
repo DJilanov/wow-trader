@@ -9,6 +9,8 @@ import {
   checkCompanionRelease,
   startCompanionPairing,
   pollCompanionPairing,
+  disconnectTraderAccount,
+  TraderAccountRetryError,
   type CompanionUpdate,
   companionSnapshotSchema,
   readCompanionState,
@@ -155,11 +157,24 @@ export class DesktopController {
         this.#credential = command.credential.trim();
         this.#utility.send({ type: "set_credential", credential: this.#credential });
         break;
-      case "remove_credential":
+      case "remove_credential": {
+        this.#pairingAbort?.abort();
+        this.#pairing = null;
+        const previous = this.#credential;
         await removeCredential(this.#userDataPath);
         this.#credential = null;
         this.#utility.send({ type: "set_credential", credential: null });
+        if (previous?.startsWith("wtc_")) {
+          try {
+            await disconnectTraderAccount(new URL(settings.endpoint), previous);
+          } catch {
+            throw new Error(
+              "Disconnected locally. Online revocation could not be confirmed; revoke this installation from your Trader account page.",
+            );
+          }
+        }
         break;
+      }
       case "disable_legacy_service":
         await disableLegacyService();
         break;
@@ -212,7 +227,14 @@ export class DesktopController {
       try {
         while (!abort.signal.aborted && Date.now() < Date.parse(pairing.expiresAt)) {
           await delay(5_000, undefined, { signal: abort.signal });
-          const result = await pollCompanionPairing(endpoint, pairing.deviceCode, abort.signal);
+          let result: Awaited<ReturnType<typeof pollCompanionPairing>>;
+          try {
+            result = await pollCompanionPairing(endpoint, pairing.deviceCode, abort.signal);
+          } catch (error: unknown) {
+            if (!(error instanceof TraderAccountRetryError)) throw error;
+            await delay(error.retryAfterMilliseconds, undefined, { signal: abort.signal });
+            continue;
+          }
           if (result.status === "expired")
             throw new Error("This pairing code expired. Start a new connection.");
           if (result.status === "connected") {

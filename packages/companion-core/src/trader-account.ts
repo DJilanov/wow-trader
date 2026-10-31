@@ -10,6 +10,8 @@ import {
 } from "@wow-trader/contracts";
 
 export function traderAccountBase(endpoint: URL): URL {
+  if (endpoint.username || endpoint.password)
+    throw new Error("Account endpoints cannot contain credentials");
   if (
     ["helper.kfcguild.online", "kfcguild.online", "www.kfcguild.online"].includes(endpoint.hostname)
   )
@@ -20,6 +22,12 @@ export function traderAccountBase(endpoint: URL): URL {
   )
     throw new Error("Unsupported Trader account endpoint");
   return new URL("/tools/api/trader/", endpoint);
+}
+export class TraderAccountRetryError extends Error {
+  public constructor(public readonly retryAfterMilliseconds: number) {
+    super("The account service is busy. Companion will retry shortly.");
+    this.name = "TraderAccountRetryError";
+  }
 }
 async function request(
   endpoint: URL,
@@ -38,8 +46,12 @@ async function request(
     signal: AbortSignal.any([AbortSignal.timeout(20_000), ...(signal ? [signal] : [])]),
     redirect: "error",
   });
-  if (response.status === 429)
-    throw new Error("Account synchronization is rate limited. Retry after a short wait.");
+  if (response.status === 429 || [502, 503, 504].includes(response.status)) {
+    const retry = Number(response.headers.get("retry-after") ?? 5);
+    throw new TraderAccountRetryError(
+      Number.isFinite(retry) ? Math.min(30_000, Math.max(5_000, retry * 1_000)) : 5_000,
+    );
+  }
   if (!response.ok)
     throw new Error(
       response.status === 401
@@ -84,6 +96,23 @@ export async function syncTraderAccount(
   return traderSyncResponseSchema.parse(
     await request(endpoint, "sync", traderSyncSchema.parse(value), signal, credential),
   );
+}
+
+export async function disconnectTraderAccount(endpoint: URL, credential: string): Promise<void> {
+  await request(endpoint, "disconnect", {}, undefined, credential);
+}
+
+export async function clearTraderPreferences(root: string): Promise<void> {
+  const file = path.join(root, "Interface", "AddOns", "WowTraderCollector", "AccountData.lua");
+  try {
+    await writeFile(
+      file,
+      "-- Disconnected by Companion. Contains no credentials.\nWOW_TRADER_ACCOUNT_DATA = { schemaVersion=1, connected=false, watches={}, acknowledgedTrades={}, acknowledgedChanges={} }\n",
+      { mode: 0o600 },
+    );
+  } catch (error: unknown) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
 }
 
 export async function installTraderPreferences(

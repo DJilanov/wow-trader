@@ -1,5 +1,9 @@
 import type { TraderSync } from "@wow-trader/contracts";
-import { installTraderPreferences, syncTraderAccount } from "./trader-account.js";
+import {
+  clearTraderPreferences,
+  installTraderPreferences,
+  syncTraderAccount,
+} from "./trader-account.js";
 import {
   appendCompanionActivity,
   readCompanionState,
@@ -147,9 +151,16 @@ export class DefaultCompanionService implements CompanionService {
   }
 
   public async setCredential(apiKey: string | null): Promise<void> {
-    this.#apiKey = normalizeApiKey(apiKey);
+    const next = normalizeApiKey(apiKey),
+      changed = this.#apiKey !== next;
+    this.#apiKey = next;
     this.#accountErrors.clear();
     this.#accountSyncAt.clear();
+    if (changed) {
+      await this.#activeReconciliation;
+      if (this.#apiKey !== next) return;
+      await Promise.all(this.#products.map((product) => clearTraderPreferences(product.rootPath)));
+    }
     if (!this.#apiKey) this.#publish("setup_required", "Pair this installation to upload scans.");
     else if (this.#automaticUploads && this.#running) await this.#enqueueReconciliation(true);
   }
@@ -197,8 +208,14 @@ export class DefaultCompanionService implements CompanionService {
     rootPath: string,
     payload: TraderSync,
     force: boolean,
+    expectedCredential: string,
   ): Promise<void> {
-    if (!this.#apiKey?.startsWith("wtc_") || !this.#state) return;
+    if (
+      this.#apiKey !== expectedCredential ||
+      !expectedCredential.startsWith("wtc_") ||
+      !this.#state
+    )
+      return;
     const now = this.#now().getTime();
     if (!force && now - (this.#accountSyncAt.get(filePath) ?? 0) < 60_000) return;
     this.#accountSyncAt.set(filePath, now);
@@ -211,10 +228,11 @@ export class DefaultCompanionService implements CompanionService {
     try {
       const result = await syncTraderAccount(
         this.#endpoint,
-        this.#apiKey,
+        expectedCredential,
         pending,
         this.#abortController?.signal,
       );
+      if (this.#apiKey !== expectedCredential) return;
       for (const event of pending.trades) trades.add(event.eventId);
       for (const id of result.watchChangesAccepted) changes.add(id);
       this.#state = {
@@ -258,12 +276,13 @@ export class DefaultCompanionService implements CompanionService {
   }
 
   async #runReconciliation(manual: boolean): Promise<CompanionSnapshot> {
+    const apiKey = this.#apiKey;
     if (!this.#state) this.#state = await readCompanionState(this.#statePath);
     const enabledProducts = this.#products.filter((product) => product.enabled);
     if (enabledProducts.length === 0) {
       return this.#publish("setup_required", "Add and enable a World of Warcraft installation.");
     }
-    if (!this.#apiKey) {
+    if (!apiKey) {
       return this.#publish("setup_required", "Pair this installation to upload scans.");
     }
     if (!manual && !this.#automaticUploads) {
@@ -298,7 +317,8 @@ export class DefaultCompanionService implements CompanionService {
         const signatureKey = signatureKeyFor(signature);
         if (this.#processedSignatures.get(filePath) === signatureKey) {
           const account = this.#accountPayloads.get(filePath);
-          if (account) await this.#synchronizeAccount(filePath, product.rootPath, account, manual);
+          if (account)
+            await this.#synchronizeAccount(filePath, product.rootPath, account, manual, apiKey);
           continue;
         }
         const retryKey = `${filePath}:${signatureKey}`;
@@ -324,7 +344,10 @@ export class DefaultCompanionService implements CompanionService {
             trades: savedVariables.tradeEvents,
             watchChanges: savedVariables.watchChanges,
           };
-          this.#accountPayloads.set(filePath, accountPayload);
+          if (savedVariables.privateSyncError) {
+            this.#accountPayloads.delete(filePath);
+            this.#accountErrors.set(filePath, savedVariables.privateSyncError);
+          } else this.#accountPayloads.set(filePath, accountPayload);
           const uploadedIds = new Set(this.#state.uploadedScanIds);
           const pending = savedVariables.scans.filter((scan) => !uploadedIds.has(scan.scanId));
           pendingScanCount += pending.length;
@@ -343,7 +366,7 @@ export class DefaultCompanionService implements CompanionService {
               activeCharacterLabel: characterLabel,
               pendingScanCount,
             });
-            const receipt = await uploadAuctionScan(this.#endpoint, this.#apiKey, upload, {
+            const receipt = await uploadAuctionScan(this.#endpoint, apiKey, upload, {
               signal: this.#abortController?.signal,
             });
             if (receipt.status === "accepted") {
@@ -352,7 +375,7 @@ export class DefaultCompanionService implements CompanionService {
                 activeCharacterLabel: characterLabel,
                 pendingScanCount,
               });
-              await waitForAuctionScanProcessed(this.#endpoint, this.#apiKey, receipt.payloadId, {
+              await waitForAuctionScanProcessed(this.#endpoint, apiKey, receipt.payloadId, {
                 signal: this.#abortController?.signal,
               });
             }
@@ -404,7 +427,7 @@ export class DefaultCompanionService implements CompanionService {
               pendingScanCount,
             });
             const upload = createProfessionSnapshotUpload(savedVariables, professionSnapshot);
-            const receipt = await uploadProfessionSnapshot(this.#endpoint, this.#apiKey, upload, {
+            const receipt = await uploadProfessionSnapshot(this.#endpoint, apiKey, upload, {
               signal: this.#abortController?.signal,
             });
             if (receipt.status === "accepted") {
@@ -413,12 +436,9 @@ export class DefaultCompanionService implements CompanionService {
                 activeCharacterLabel: characterLabel,
                 pendingScanCount,
               });
-              await waitForProfessionSnapshotProcessed(
-                this.#endpoint,
-                this.#apiKey,
-                receipt.payloadId,
-                { signal: this.#abortController?.signal },
-              );
+              await waitForProfessionSnapshotProcessed(this.#endpoint, apiKey, receipt.payloadId, {
+                signal: this.#abortController?.signal,
+              });
             }
             uploadedProfessionSnapshotIds.add(professionSnapshot.snapshotID);
             this.#state = {
@@ -442,7 +462,7 @@ export class DefaultCompanionService implements CompanionService {
             });
             const marketIntelligence = await downloadMarketIntelligence(
               this.#endpoint,
-              this.#apiKey,
+              apiKey,
               latestMarketScan,
               { signal: this.#abortController?.signal },
             );
@@ -475,7 +495,7 @@ export class DefaultCompanionService implements CompanionService {
             });
             const receipt = await uploadWorldDiagnostics(
               this.#endpoint,
-              this.#apiKey,
+              apiKey,
               diagnosticsUpload,
               { signal: this.#abortController?.signal },
             );
@@ -485,12 +505,9 @@ export class DefaultCompanionService implements CompanionService {
                 activeCharacterLabel: null,
                 pendingScanCount,
               });
-              await waitForWorldDiagnosticsProcessed(
-                this.#endpoint,
-                this.#apiKey,
-                receipt.payloadId,
-                { signal: this.#abortController?.signal },
-              );
+              await waitForWorldDiagnosticsProcessed(this.#endpoint, apiKey, receipt.payloadId, {
+                signal: this.#abortController?.signal,
+              });
             }
             this.#state = {
               ...this.#state,
@@ -508,7 +525,14 @@ export class DefaultCompanionService implements CompanionService {
               lastProcessedAt: this.#now().toISOString(),
             });
           }
-          await this.#synchronizeAccount(filePath, product.rootPath, accountPayload, true);
+          if (!savedVariables.privateSyncError)
+            await this.#synchronizeAccount(
+              filePath,
+              product.rootPath,
+              accountPayload,
+              true,
+              apiKey,
+            );
           this.#processedSignatures.set(filePath, signatureKey);
           this.#retries.delete(retryKey);
           this.#retryFailures.delete(retryKey);

@@ -289,6 +289,23 @@ export async function synchronizeTraderAccount(
     await transaction.execute(
       sql`SELECT pg_advisory_xact_lock(hashtext(${"trader-owner:" + principal.ownerId}))`,
     );
+    const [installation] = await transaction
+      .select({ id: traderInstallations.id })
+      .from(traderInstallations)
+      .where(
+        and(
+          eq(traderInstallations.id, principal.installationId),
+          eq(traderInstallations.ownerId, principal.ownerId),
+          isNull(traderInstallations.revokedAt),
+        ),
+      )
+      .for("update");
+    if (!installation)
+      throw new TraderAccountError(
+        "invalid_installation",
+        401,
+        "Reconnect this installation in Companion.",
+      );
     for (const event of input.trades) {
       const parsed = traderTradeSchema.parse(event);
       const rows = await transaction
@@ -368,4 +385,46 @@ export async function recordManualTraderEvent(
     .insert(traderTrades)
     .values({ ownerId, eventId: event.eventId, sourceKey: "manual:" + event.eventId, data: event })
     .onConflictDoNothing();
+}
+
+export async function importTraderWatches(
+  database: WowTraderDatabase,
+  ownerId: string,
+  incoming: readonly TraderWatch[],
+): Promise<TraderWatch[]> {
+  await database.transaction(async (transaction) => {
+    await transaction.execute(
+      sql`SELECT pg_advisory_xact_lock(hashtext(${"trader-owner:" + ownerId}))`,
+    );
+    const current = await listTraderWatches(transaction, ownerId),
+      merged = new Map(current.map((item) => [traderWatchKey(item), item]));
+    for (const item of incoming)
+      if (!merged.has(traderWatchKey(item))) merged.set(traderWatchKey(item), item);
+    if (merged.size > 50)
+      throw new TraderAccountError(
+        "watch_limit",
+        409,
+        "The merged watchlist exceeds 50 items. Remove some watches before importing.",
+      );
+    const additions = [...merged].filter(
+      ([key]) => !current.some((item) => traderWatchKey(item) === key),
+    );
+    if (additions.length)
+      await transaction
+        .insert(traderWatches)
+        .values(additions.map(([key, data]) => ({ ownerId, key, data })));
+  });
+  return listTraderWatches(database, ownerId);
+}
+
+export async function clearTraderWatches(
+  database: WowTraderDatabase,
+  ownerId: string,
+): Promise<void> {
+  await database.transaction(async (transaction) => {
+    await transaction.execute(
+      sql`SELECT pg_advisory_xact_lock(hashtext(${"trader-owner:" + ownerId}))`,
+    );
+    await transaction.delete(traderWatches).where(eq(traderWatches.ownerId, ownerId));
+  });
 }

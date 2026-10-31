@@ -1,3 +1,4 @@
+import { withHelperBasePath } from "../lib/site-path";
 import Link from "next/link";
 
 import { CraftingPlanPanel } from "./crafting-plan";
@@ -219,6 +220,12 @@ export async function TraderWorkspacePage({
           ) : null}
         </header>
 
+        <nav className="market-watch-control" aria-label="Personal Trader tools">
+          <Link href={`${config.basePath}/plan`}>My gold plan →</Link>
+          <Link href={withHelperBasePath("/forever/trader/account")}>
+            Characters, watches &amp; trade ledger →
+          </Link>
+        </nav>
         <MarketWatchlist />
         <nav className="workspace-mode-tabs" aria-label="Trader tool">
           <Link
@@ -675,6 +682,12 @@ export async function TraderWorkspacePage({
     return (
       <>
         <DataUnavailable title="The market workspace is unavailable" />
+        <nav className="market-watch-control" aria-label="Personal Trader tools">
+          <Link href={`${config.basePath}/plan`}>My gold plan →</Link>
+          <Link href={withHelperBasePath("/forever/trader/account")}>
+            Characters, watches &amp; trade ledger →
+          </Link>
+        </nav>
         <MarketWatchlist />
       </>
     );

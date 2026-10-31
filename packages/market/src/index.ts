@@ -6,3 +6,4 @@ export * from "./forecast.js";
 export * from "./order-book-summary.js";
 export * from "./price-intelligence.js";
 export * from "./trade-ledger.js";
+export * from "./gold-plan.js";

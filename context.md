@@ -15,10 +15,23 @@ pairing/update onboarding. Implementation and delivery are in progress.
   sizes for old snapshots. Purchases/sales require supported client evidence;
   disappeared listings do not establish completed sales.
 - No Developer ID signing identity is available locally. Signing configuration
-  and verification will be implemented; existing certificate availability has
-  been asked asynchronously. No secrets should be sent through chat.
+  and verification use the installed Command Line Tools (`codesign`, `notarytool`,
+  `stapler`); full Xcode is unnecessary. Public publisher signing awaits an Apple
+  Developer ID Application certificate. Do not request or expose private keys.
 - Evidence: `artifacts/trader-ecosystem-20261031/`. Preserve concurrent leveling
   and storage changes; do not touch protected numerical simulator helpers.
+
+- The account dashboard, paired installation flow, synced watch settings, optional
+  supported auction-mail receipts and shared-budget plan are implemented. Whole
+  auction stacks, shared stock, input opportunity cost, AH cuts and daily-cooldown
+  exclusions are enforced. Watch mutations serialize; bulk removal is atomic.
+- Collector 0.14.0 / Companion 0.3.7 are being validated and packaged; they are not
+  yet the installed/public release. Main includes the account schema migration
+  0023, already applied by the concurrent leveling/Trader deployment. Current
+  production source is `kfc-helper-leveling-trader-20261031-9de6157`; preserve it.
+- Focused market, ledger, shared-budget, contract, account-route, watch-sync and
+  Companion recovery tests pass. Browser/real-PostgreSQL checks and final release
+  deployment remain in progress. No production data or scan history was fabricated.
 
 ## October 31 — Trader buying guidance deployed and installed
 

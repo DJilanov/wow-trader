@@ -1,9 +1,14 @@
+import { createRequire } from "node:module";
+import { verifyCompanionPublisher } from "./companion-release-signing.mjs";
 import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
+const require = createRequire(import.meta.url);
+const { readSigningConfiguration } = require("../apps/desktop/signing.cjs");
+const signing = readSigningConfiguration();
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
 const packageJsonPath = path.join(repositoryRoot, "apps/desktop/package.json");
 const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
@@ -101,6 +106,7 @@ for (const definition of artifactDefinitions) {
   const file = await stat(destinationPath);
   assets.push({
     ...definition.asset,
+    signed: await verifyCompanionPublisher(definition.platform, definition.sourcePath, signing),
     id: `${definition.asset.id}-v${version.replaceAll(".", "-")}`,
     byteSize: file.size,
     sha256: await sha256(destinationPath),
@@ -112,24 +118,24 @@ const manifest = {
   version,
   channel: "maintainer-alpha",
   publishedAt: new Date().toISOString(),
-  collectorVersion: "0.13.0",
+  collectorVersion: "0.14.0",
   supportedProducts: ["wow_anniversary", "wow_classic_beta"],
   minimumMacOs: "12",
   minimumWindows: "10",
   minimumLinux: "Ubuntu 22.04 or equivalent with Secret Service",
   notes: [
     "Installs and updates WowTraderCollector for WoW Forever and TBC Anniversary.",
-    "Uploads validated native Forever scans after /reload or logout.",
-    "Uploads private character profession, known-recipe, cooldown, inventory, and capital snapshots.",
-    "Treats missing exact-market intelligence as optional availability, not an upload failure.",
-    "Can collect bounded NPC, quest, vendor, trainer, and loot evidence when explicitly enabled in game.",
-    "Keeps upload failures visible during automatic retry cooldowns, including multi-installation setups.",
-    "Shows an explicit checking state while manual scan reconciliation is running.",
-    "Synchronizes scoped seven-day history and actual auction depth into the addon's buying panel.",
-    "Shows fresh buy ceilings, quantity caps, budget limits and conditional resale profit after the AH cut.",
-    "Finds the released Forever folder when a previously configured beta folder is missing.",
-    "Opens the correct Forever or TBC Trader directly from the Companion.",
+    "Connects through Discord browser approval with revocable, encrypted installation credentials.",
+    "Uploads validated native Auction House scans after /reload or logout.",
+    "Captures exact whole-auction stacks for budget-aware buying and crafting plans.",
+    "Keeps character professions, known recipes, inventory and capital private to the connected account.",
+    "Synchronizes watched items, buy limits, profit targets and in-game alert cooldowns.",
+    "Uploads supported completed auction-mail receipts when explicitly enabled in the addon.",
+    "Keeps market uploads working when optional private synchronization needs attention.",
+    "Synchronizes scoped seven-day history and auction depth into the addon's buying panel.",
+    "Checks available updates without silently replacing the installed application.",
     "Windows and Linux alpha builds are portable ZIP archives; extract them before launching.",
+    "Publisher-signing status and SHA-256 are verified separately for each release asset.",
   ],
   assets,
 };

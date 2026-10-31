@@ -1,6 +1,6 @@
 local ADDON_NAME, Addon = ...
 
-local ADDON_VERSION = "0.13.0"
+local ADDON_VERSION = "0.14.0"
 local SAVED_SCHEMA_VERSION = 1
 local MARKET_KEY_VERSION = 1
 local MAX_QUEUED_SCANS = 8

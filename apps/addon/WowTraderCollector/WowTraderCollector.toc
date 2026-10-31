@@ -2,7 +2,7 @@
 ## Title: WoW Trader Collector
 ## Notes: Captures market, profession, recipe, inventory, capital, and opt-in world evidence for WoW Trader.
 ## Author: WoW Trader
-## Version: 0.13.0
+## Version: 0.14.0
 ## OptionalDeps: Auctionator
 ## SavedVariables: WOW_TRADER_SAVED
 ## X-WowTrader-Product: wow_anniversary

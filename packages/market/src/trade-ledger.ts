@@ -1,6 +1,7 @@
 export interface LedgerTrade {
   readonly eventId: string;
   readonly product: string;
+  readonly clientBuild: number;
   readonly market: string;
   readonly characterName: string;
   readonly itemId: number;
@@ -61,7 +62,7 @@ export function summarizeTradeLedger(events: readonly LedgerTrade[]): TradeLedge
     if (amount < 0n) throw new RangeError("Negative ledger amount");
     if (event.evidence === "manual") manualEvents++;
     else confirmedMailEvents++;
-    const key = `${event.product}:${event.market}:${event.characterName.toLowerCase()}:${event.itemId}`;
+    const key = `${event.product}:${event.clientBuild}:${event.market}:${event.characterName.toLowerCase()}:${event.itemId}`;
     const lots = stock.get(key) ?? [];
     if (event.kind === "purchase") {
       purchaseCostCopper += amount;

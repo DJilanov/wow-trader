@@ -1,4 +1,4 @@
-import { createHmac } from "node:crypto";
+import { createHash, createHmac } from "node:crypto";
 import { and, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 import {
@@ -6,6 +6,8 @@ import {
   authenticateTraderInstallation,
   consumeTraderRate,
   listTraderWatches,
+  importTraderWatches,
+  clearTraderWatches,
   pollTraderPairing,
   recordManualTraderEvent,
   startTraderPairing,
@@ -26,6 +28,7 @@ import {
 import { getDatabase } from "./database";
 import { guideDiscordId } from "./guide-auth";
 import { guideSameOrigin, readGuideAccessSettings } from "./guide-access-config";
+import { createTraderGoldPlan, goldPlanRequestSchema } from "./trader-gold-plan";
 import { loadTraderAccount } from "./trader-account-data";
 
 const headers = { "Cache-Control": "no-store", Vary: "Cookie, Authorization" };
@@ -106,7 +109,7 @@ export async function handleTraderAccountRequest(request: Request): Promise<Resp
         .update(`trader:${action}:${address}`)
         .digest("hex");
       await consumeTraderRate(database, "public-pairing-global", 600);
-      await consumeTraderRate(database, hash, action.endsWith("start") ? 8 : 24);
+      await consumeTraderRate(database, hash, action.endsWith("start") ? 8 : 120);
       const value = await body(request, 1_024);
       if (action.endsWith("start"))
         return reply(
@@ -138,6 +141,44 @@ export async function handleTraderAccountRequest(request: Request): Promise<Resp
         ),
       );
     }
+    if (action === "disconnect" && request.method === "POST") {
+      if (!principal)
+        throw new TraderAccountError(
+          "invalid_installation",
+          401,
+          "This installation is already disconnected.",
+        );
+      await database
+        .update(traderInstallations)
+        .set({ revokedAt: new Date() })
+        .where(
+          and(
+            eq(traderInstallations.id, principal.installationId),
+            eq(traderInstallations.ownerId, principal.ownerId),
+            isNull(traderInstallations.revokedAt),
+          ),
+        );
+      return reply({ status: "revoked" });
+    }
+    if (action === "gold-plan" && request.method === "POST") {
+      if (!guideSameOrigin(request, settings))
+        throw new TraderAccountError(
+          "invalid_origin",
+          403,
+          "Use the planning page on the same website.",
+        );
+      const value = goldPlanRequestSchema.parse(await body(request, 4_096));
+      const identity = await guideDiscordId();
+      const address = request.headers.get("x-real-ip")?.slice(0, 128) || "local";
+      const rateKey = createHmac(
+        "sha256",
+        settings.sessionSecret || process.env.DATABASE_URL || "local",
+      )
+        .update("gold-plan:" + (identity || address))
+        .digest("hex");
+      await consumeTraderRate(database, rateKey, 10);
+      return reply(await createTraderGoldPlan(value, identity));
+    }
     const ownerId = await guideDiscordId();
     if (!ownerId)
       throw new TraderAccountError(
@@ -146,8 +187,17 @@ export async function handleTraderAccountRequest(request: Request): Promise<Resp
         "Sign in with Discord to access your private Trader account.",
       );
     await consumeTraderRate(database, "owner:" + ownerId, 120);
+    const accountFingerprint = createHash("sha256")
+      .update("trader-account:" + ownerId)
+      .digest("hex");
     if (action === "account" && request.method === "GET")
-      return reply(await loadTraderAccount(ownerId));
+      return reply({ ...(await loadTraderAccount(ownerId)), accountFingerprint });
+    if (request.method !== "GET" && request.headers.get("x-trader-account") !== accountFingerprint)
+      throw new TraderAccountError(
+        "account_changed",
+        409,
+        "Your sign-in changed. Reload this page before editing account data.",
+      );
     if (action === "pairing/preview" && request.method === "GET") {
       const { code } = codeSchema.parse({ code: new URL(request.url).searchParams.get("code") });
       const preview = await traderPairingPreview(database, code);
@@ -176,13 +226,29 @@ export async function handleTraderAccountRequest(request: Request): Promise<Resp
         rows.length ? 200 : 404,
       );
     }
+    if (action === "watches/clear" && request.method === "POST") {
+      await body(request, 1_024);
+      await clearTraderWatches(database, ownerId);
+      return reply({ items: [], accountFingerprint });
+    }
+    if (action === "watches/import" && request.method === "POST") {
+      const items = z
+        .array(traderWatchSchema)
+        .max(50)
+        .parse(await body(request, 40_000));
+      return reply({
+        items: await importTraderWatches(database, ownerId, items),
+        accountFingerprint,
+      });
+    }
     if (action === "watches") {
       if (request.method === "GET")
-        return reply({ items: await listTraderWatches(database, ownerId) });
+        return reply({ items: await listTraderWatches(database, ownerId), accountFingerprint });
       if (["POST", "DELETE"].includes(request.method)) {
         const item = traderWatchSchema.parse(await body(request, 4_096));
         return reply({
           items: await updateTraderWatch(database, ownerId, item, request.method === "DELETE"),
+          accountFingerprint,
         });
       }
       return reply({ error: "method_not_allowed" }, 405);

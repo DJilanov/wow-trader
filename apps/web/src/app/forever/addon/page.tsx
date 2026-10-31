@@ -93,8 +93,9 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
             <div className="download-warning" role="note">
               <strong>Early-access build</strong>
               <span>
-                This release requires a private collector token and may be unsigned. Only approved
-                testers should install it while public pairing and code signing are completed.
+                Connect with Discord from Companion and approve the matching code in your browser.
+                These alpha packages may lack a publisher signature; check the status and SHA-256
+                below.
               </span>
             </div>
           ) : null}
@@ -148,7 +149,7 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
             <strong>Install the Companion</strong>
             <span>
               Open the macOS DMG, or extract the Windows/Linux ZIP, then launch WoW Trader
-              Companion.
+              Companion. Choose Connect account, sign in with Discord and approve its matching code.
             </span>
           </li>
           <li>
@@ -172,7 +173,9 @@ export default async function ForeverAddonPage(): Promise<React.JSX.Element> {
           <h2>Auction market evidence</h2>
           <p>
             Product/build, realm, faction, scan timestamps, item market keys, price levels,
-            quantities, listing counts, and scan-quality diagnostics.
+            quantities, exact auction stacks, listing counts, and scan-quality diagnostics.
+            Character professions and inventory are private to your connected account. Completed
+            auction-mail receipts are collected only when Trade receipts is enabled in the addon.
           </p>
         </div>
         <div className="panel">

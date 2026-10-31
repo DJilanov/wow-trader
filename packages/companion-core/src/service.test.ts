@@ -111,6 +111,44 @@ afterEach(async () => {
 });
 
 describe("companion service", () => {
+  it("uploads valid market data while invalid private receipts remain visible", async () => {
+    const rootPath = await temporaryProductRoot();
+    const file = path.join(rootPath, "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua");
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(
+      file,
+      SAVED_VARIABLES.replace(
+        '["scans"] = {',
+        '["tradeEvents"] = { { bad = true } }, ["scans"] = {',
+      ),
+    );
+    const statePath = path.join(rootPath, "state.json");
+    const fetchMock = vi.fn<typeof fetch>().mockImplementation(async (input, init) => {
+      if (new URL(String(input)).pathname === "/v1/market-intelligence")
+        return Response.json(marketPack());
+      const payload = JSON.parse(String(init?.body)) as { payloadId: string };
+      return Response.json(
+        { payloadId: payload.payloadId, status: "processed", duplicate: false },
+        { status: 202 },
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const service = new DefaultCompanionService({
+      endpoint: new URL("https://helper.example.test"),
+      statePath,
+      products: [{ id: "tbc", kind: "tbc", label: "TBC", rootPath, enabled: true }],
+      apiKey: "private-test-maintainer-key",
+      automaticUploads: false,
+    });
+    await service.start();
+    expect((await service.checkNow()).phase).toBe("error");
+    expect((await readCompanionState(statePath)).uploadedScanIds).toContain(SCAN_ID);
+    expect(service.getSnapshot().message).toContain("Market uploads are retained");
+    expect((await service.checkNow()).phase).toBe("error");
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+    await service.stop();
+  });
+
   it("uploads one stable scan, persists it, and does not replay it", async () => {
     const rootPath = await temporaryProductRoot();
     const savedVariablesPath = path.join(

@@ -68,6 +68,12 @@ export const traderTradeSchema = z
         code: "custom",
         message: "Purchases and sales require a positive actual amount",
       });
+    if (
+      event.kind === "sale" &&
+      event.auctionFeeCopper !== null &&
+      BigInt(event.auctionFeeCopper) > BigInt(event.amountCopper)
+    )
+      context.addIssue({ code: "custom", message: "A sale fee cannot exceed its gross price" });
   });
 export type TraderTrade = z.infer<typeof traderTradeSchema>;
 export const traderSyncSchema = z.object({

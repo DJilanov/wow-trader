@@ -1,6 +1,6 @@
 local _, Addon = ...
 local frame = CreateFrame("Frame")
-local inbox, pending = {}, nil
+local inbox, pending, ambiguous = {}, nil, false
 local function Read(value)
   if type(issecretvalue) == "function" and issecretvalue(value) then return nil end
   if type(canaccessvalue) == "function" and not canaccessvalue(value) then return nil end
@@ -89,13 +89,20 @@ local function RefreshInbox()
 end
 local function ObserveCollection(index, method)
   local saved = Saved()
-  if not saved or not saved.tradeLedgerEnabled or pending then return end
+  if not saved or not saved.tradeLedgerEnabled or ambiguous then return end
   index = Number(index, 1)
+  if pending then
+    if pending.index ~= index then
+      pending = nil;ambiguous = true
+      saved.tradeUnsupported = (saved.tradeUnsupported or 0) + 1
+    end
+    return
+  end
   local entry = index and inbox[index] or nil
   if not entry or (method == "money" and entry.kind ~= "sale") or (method == "item" and entry.kind ~= "purchase") then return end
   local context = Addon.GetCollectorContext and Addon.GetCollectorContext()
   if not context then return end
-  pending = { entry = entry, context = context, startedAt = time(), id = Addon.NewObservationId() }
+  pending = { entry = entry, context = context, startedAt = time(), id = Addon.NewObservationId(), index = index }
 end
 local function ConfirmCollection(itemId)
   local saved = Saved()
@@ -132,7 +139,8 @@ frame:RegisterEvent("MAIL_SUCCESS")
 frame:RegisterEvent("MAIL_FAILED")
 frame:RegisterEvent("MAIL_CLOSED")
 frame:SetScript("OnEvent", function(_, event, itemId)
-  if event == "MAIL_SHOW" or event == "MAIL_INBOX_UPDATE" then RefreshInbox()
+  if event == "MAIL_SHOW" then ambiguous = false;RefreshInbox()
+  elseif event == "MAIL_INBOX_UPDATE" then RefreshInbox()
   elseif event == "MAIL_SUCCESS" then ConfirmCollection(itemId)
   elseif event == "MAIL_FAILED" or event == "MAIL_CLOSED" then pending = nil end
 end)

@@ -11,17 +11,17 @@ import {
 
 import type { DesktopProductStatus } from "../shared/contracts.js";
 
-const COLLECTOR_VERSION = "0.13.0";
+const COLLECTOR_VERSION = "0.14.0";
 const ADDON_FILES: Readonly<Record<string, string>> = {
-  "Collector.lua": "7be8d7a6dd18bd12565e46dd5e2a314ed09084e793bab7e152fd57284b04f990",
   "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
   "AccountData.lua": "790f46d97fab43b8683ed628489d792cc242b12b208e88a97fd4bee09f2e05d8",
   "MarketPolicy.lua": "ff97212c868d5190a195168dac283a015a97044cb80d7b6cb3cc367690cf926f",
+  "Collector.lua": "96c16b3aceeaad839e3076739f11175d0fe2124c075fd318d868b8be91085b9c",
   "Professions.lua": "24ce92e0f6f78dcd2ab2fe6b7257e0ecaa7b0105b44c7774a630160d6cf6fc24",
-  "Trades.lua": "e945caa81433e28a8a10e205954a3e8639888cb9917f0f84334bd33a0f7d2301",
+  "Trades.lua": "a85f077ceaa9201f17f49e10f50c013f9d494b0e8dc18b41a884114bcad9128d",
   "WorldEvidence.lua": "a5e8ebe31c345ebb21e5892d75691f8e259b3fc46ea8ed16df15b449d135f006",
   "UI.lua": "dc93f6abdf9a1814c88f77849794d8ad546c0b10a037848c75985589d2a06570",
-  "WowTraderCollector.toc": "805e65eaeed01ff0c0e8bba249f017f2b069fb3509d30600d40d585320b0d2e5",
+  "WowTraderCollector.toc": "92f5dd9b1db7897aec7cf28124c2e197a2d77dbf4131bd199338b97f71c24695",
 };
 const GENERATED_DATA_FILES = ["MarketData.lua", "AccountData.lua"] as const;
 
@@ -150,7 +150,12 @@ export function createProductConfiguration(
 
 async function validateCollectorDirectory(directory: string): Promise<void> {
   for (const [fileName, expectedChecksum] of Object.entries(ADDON_FILES)) {
-    const contents = await readFile(path.join(directory, fileName));
+    let contents: Buffer;
+    try {
+      contents = await readFile(path.join(directory, fileName));
+    } catch (cause: unknown) {
+      throw new Error(`Collector file failed verification: ${fileName}`, { cause });
+    }
     const checksum = createHash("sha256").update(contents).digest("hex");
     if (checksum !== expectedChecksum)
       throw new Error(`Collector file failed verification: ${fileName}`);

@@ -74,6 +74,17 @@ describe("guide access configuration and authentication", () => {
       undefined,
     ])
       expect(guideReturnPath(value)).toBe(GUIDE_HOME);
+    for (const safe of [
+      "/tools/forever/trader/account",
+      "/tools/forever/trader/account?code=ABCD-2345",
+    ])
+      expect(guideReturnPath(safe)).toBe(safe);
+    for (const unsafe of [
+      "/tools/forever/trader/account?redirect=https://evil.test",
+      "/tools/forever/trader/account/../admin",
+      "/tools/forever/trader/account?code=ABCD-2345&token=x",
+    ])
+      expect(guideReturnPath(unsafe)).toBe(GUIDE_HOME);
     const path = `${GUIDE_HOME}/routes/alliance-human?plan=premade&class=warrior`;
     expect(guideReturnPath(path)).toBe(path);
     for (const strategy of ["mixed", "dungeons"]) {

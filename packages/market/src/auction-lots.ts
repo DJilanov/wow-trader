@@ -44,10 +44,26 @@ export function selectAuctionLots(input: {
   readonly maximumSpendCopper?: bigint;
   readonly targetResalePriceCopper: bigint;
   readonly feeBasisPoints: number;
+  readonly minimumQuantity?: number;
 }): AuctionLotSelection {
   const cap = input.maximumQuantity;
-  if (!Number.isInteger(cap) || cap < 1 || cap > 100)
+  if (
+    !Number.isInteger(cap) ||
+    cap < 1 ||
+    cap > (input.minimumQuantity === undefined ? 100 : 2_000)
+  )
     throw new RangeError("Invalid auction lot cap");
+  if (
+    (input.minimumQuantity !== undefined &&
+      (!Number.isInteger(input.minimumQuantity) ||
+        input.minimumQuantity < 1 ||
+        input.minimumQuantity > cap)) ||
+    (input.maximumSpendCopper !== undefined && input.maximumSpendCopper < 0n) ||
+    !Number.isInteger(input.feeBasisPoints) ||
+    input.feeBasisPoints < 0 ||
+    input.feeBasisPoints > 10_000
+  )
+    throw new RangeError("Invalid auction lot limits");
   const options: (AuctionLotSelection | undefined)[] = Array.from({ length: cap + 1 });
   options[0] = { quantity: 0, costCopper: 0n, lots: [] };
   for (const level of input.levels) {
@@ -80,6 +96,14 @@ export function selectAuctionLots(input: {
   let bestProfit = 0n;
   for (const option of options) {
     if (!option || option.quantity === 0) continue;
+    if (input.minimumQuantity !== undefined) {
+      if (
+        option.quantity >= input.minimumQuantity &&
+        (best.quantity === 0 || option.costCopper < best.costCopper)
+      )
+        best = option;
+      continue;
+    }
     const gross = input.targetResalePriceCopper * BigInt(option.quantity);
     const profit =
       gross - (gross * BigInt(input.feeBasisPoints) + 9_999n) / 10_000n - option.costCopper;
@@ -97,4 +121,26 @@ export function selectAuctionLots(input: {
     });
   }
   return { ...best, lots: [...groups.values()] };
+}
+
+export function costWholeAuctionStacks(
+  levels: readonly MarketPriceLevel[],
+  quantity: number,
+  budget: bigint,
+): AuctionLotSelection | null {
+  if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > 1_000 || budget < 0n)
+    return null;
+  const sizes = levels.flatMap((level) => level.lots?.map((lot) => lot.stackSize) ?? []);
+  if (sizes.length === 0) return null;
+  const largest = sizes.reduce((maximum, size) => Math.max(maximum, size), 1);
+  const selected = selectAuctionLots({
+    levels,
+    maximumQuantity: Math.min(2_000, quantity + largest - 1),
+    maximumUnitPriceCopper: 9_223_372_036_854_775_807n,
+    maximumSpendCopper: budget,
+    minimumQuantity: quantity,
+    targetResalePriceCopper: 0n,
+    feeBasisPoints: 0,
+  });
+  return selected.quantity >= quantity ? selected : null;
 }

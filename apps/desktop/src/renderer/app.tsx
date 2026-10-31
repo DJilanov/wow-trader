@@ -206,6 +206,14 @@ export function App(): ReactNode {
           >
             Manage devices and trade ledger
           </button>
+          <button
+            className="button secondary"
+            type="button"
+            disabled={busy || snapshot.pairing?.status === "waiting"}
+            onClick={() => void perform("pair", window.wowTrader.beginPairing)}
+          >
+            Reconnect account
+          </button>
         </section>
       ) : null}
       <section className="panel">
@@ -422,7 +430,7 @@ export function App(): ReactNode {
             type="button"
             onClick={() => void perform("disconnect", window.wowTrader.removeCredential)}
           >
-            Disconnect token
+            Disconnect installation
           </button>
         )}
         <span>Closing this window keeps the tray companion running.</span>

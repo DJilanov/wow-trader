@@ -5,14 +5,18 @@ import { parse, type Expression, type TableConstructorExpression } from "luapars
 import { collectorSavedVariablesSchema, type CollectorSavedVariables } from "./collector-schema.js";
 
 const ROOT_VARIABLE = "WOW_TRADER_SAVED";
+const privateSchema = collectorSavedVariablesSchema.pick({ tradeEvents: true, watchChanges: true });
+export type ReadCollectorSavedVariables = CollectorSavedVariables & {
+  readonly privateSyncError?: string;
+};
 
 export async function readCollectorSavedVariables(
   filePath: string,
-): Promise<CollectorSavedVariables> {
+): Promise<ReadCollectorSavedVariables> {
   return parseCollectorSavedVariables(await readFile(filePath, "utf8"));
 }
 
-export function parseCollectorSavedVariables(source: string): CollectorSavedVariables {
+export function parseCollectorSavedVariables(source: string): ReadCollectorSavedVariables {
   const chunk = parse(source, {
     comments: false,
     encodingMode: "x-user-defined",
@@ -27,7 +31,19 @@ export function parseCollectorSavedVariables(source: string): CollectorSavedVari
     if (variableIndex === -1) continue;
     const expression = statement.init[variableIndex];
     if (!expression) throw new Error(`${ROOT_VARIABLE} has no assigned value`);
-    return collectorSavedVariablesSchema.parse(decodeLiteral(expression));
+    const raw = decodeLiteral(expression);
+    if (
+      raw &&
+      typeof raw === "object" &&
+      !Array.isArray(raw) &&
+      !privateSchema.safeParse(raw).success
+    )
+      return {
+        ...collectorSavedVariablesSchema.parse({ ...raw, tradeEvents: [], watchChanges: [] }),
+        privateSyncError:
+          "Private trade receipts or watch changes are invalid. Market uploads are retained; update the addon and retry after /reload.",
+      };
+    return collectorSavedVariablesSchema.parse(raw);
   }
   throw new Error(`${ROOT_VARIABLE} was not found in the SavedVariables file`);
 }

@@ -3,6 +3,8 @@ const { execFile } = require("node:child_process");
 const { promisify } = require("node:util");
 
 const exec = promisify(execFile);
+const { readSigningConfiguration } = require("./signing.cjs");
+const signing = readSigningConfiguration();
 
 const { FusesPlugin } = require("@electron-forge/plugin-fuses");
 const { FuseV1Options, FuseVersion } = require("@electron/fuses");
@@ -10,6 +12,8 @@ const { FuseV1Options, FuseVersion } = require("@electron/fuses");
 module.exports = {
   packagerConfig: {
     asar: true,
+    ...(signing.mac ?? {}),
+    ...(signing.windows ? { windowsSign: signing.windows } : {}),
     appBundleId: "online.kfcguild.wow-trader-companion",
     appCategoryType: "public.app-category.utilities",
     executableName: "wow-trader-companion",
@@ -31,7 +35,11 @@ module.exports = {
       // Ad-hoc signing provides local integrity; it is not Developer ID notarization.
       for (const outputPath of outputPaths) {
         const bundle = path.join(outputPath, "WoW Trader Companion.app");
-        await exec("codesign", ["--force", "--deep", "--sign", "-", bundle]);
+        if (!signing.mac) await exec("codesign", ["--force", "--deep", "--sign", "-", bundle]);
+        if (signing.mac) {
+          await exec("xcrun", ["stapler", "validate", bundle]);
+          await exec("spctl", ["--assess", "--type", "execute", bundle]);
+        }
         await exec("codesign", ["--verify", "--deep", "--strict", bundle]);
       }
     },
