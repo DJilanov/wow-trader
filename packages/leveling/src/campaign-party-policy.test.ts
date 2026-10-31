@@ -91,6 +91,30 @@ function fixture(): {
 }
 
 describe("global five-player route policy", () => {
+  it("keeps per-step prerequisites when a reference dataset is unavailable", () => {
+    const { plan, sources } = fixture();
+    const selected = applyCampaignPartyQuestPolicy(
+      {
+        ...plan,
+        legs: plan.legs.map((leg) => ({ ...leg, kind: "starter", from: 1, to: 6 })),
+        actions: plan.actions.map((action) => ({
+          ...action,
+          leaderOnly: true,
+          requiredQuestIds: [],
+        })),
+      },
+      sources.map((source) => ({
+        ...source,
+        reference: { ...source.reference, title: "1-6 Northshire" },
+      })),
+    );
+    const pickup = selected.actions.find((action) =>
+      action.questChanges.some((change) => change.questId === 13 && change.state === "accepted"),
+    );
+    expect(pickup).toBeDefined();
+    expect(pickup?.requiredQuestIds).toEqual([]);
+  });
+
   it("holds a known repeat-visit dungeon chain even without an applicable archived lifecycle", () => {
     const { plan, sources } = fixture();
     const manual = {

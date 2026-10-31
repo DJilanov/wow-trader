@@ -276,11 +276,11 @@ export function applyCampaignPartyQuestPolicy(
           ...new Set(
             accepted.flatMap((change) => {
               const acceptance = questChanges.indexOf(change);
-              return (
-                byId.get(change.questId)?.prerequisiteIds ??
-                action.requiredQuestIds ??
-                []
-              ).filter(
+              // Repeated source pickups can be alternatives, not cumulative prerequisites.
+              const prerequisites = references.get(change.questId)?.prerequisites
+                ? (byId.get(change.questId)?.prerequisiteIds ?? [])
+                : (action.requiredQuestIds ?? []);
+              return prerequisites.filter(
                 (id) =>
                   !questChanges
                     .slice(0, acceptance)
