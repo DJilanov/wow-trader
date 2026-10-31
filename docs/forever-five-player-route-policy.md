@@ -1,6 +1,8 @@
 # Five-player route: shared objectives and a fresh flight network
 
-Updated October 31, 2026. Local implementation; no deployment or new playable release is claimed by this document.
+Updated October 31, 2026. Website/API source deployed as `9de6157` at 16:22 UTC.
+See the [deployment receipt](forever-leveling-deployment-2026-10-31.md) for checks, data boundaries
+and rollback. The private addon preview remains separate.
 
 ## Route goal
 
@@ -141,4 +143,4 @@ forecast that assumes no extra grinding. Neither result is a live-server certifi
 
 The preview string and its receipt are under
 `artifacts/leveling/tbc-flow-test-kill-first-20261031-v26/`. It is a private flow preview;
-no addon was installed and no website was deployed.
+no addon was installed. The subsequent website rollout is recorded in the deployment receipt above.

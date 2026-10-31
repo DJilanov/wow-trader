@@ -2,12 +2,14 @@
 
 ## October 31: five-player route policy
 
-Local work now prioritizes shared kill credit across the source library, protects selected
+The website release `9de6157` now prioritizes shared kill credit across the source library, protects selected
 dungeon/class unlocks, defers the early Westfall detour and adds the early Darkshore circuit.
 Useful first-visit flight paths are retained for later dungeon travel. See the
 [current implementation and release checks](forever-five-player-route-policy.md) for source
 coverage, verification and remaining evidence limits. The older audit receipts below describe
-their own revisions and do not certify this new route.
+their own revisions and do not certify this new route. The
+[October 31 deployment receipt](forever-leveling-deployment-2026-10-31.md) records production checks
+and the separate status of private reference data and addon downloads.
 
 ## Current scope correction: planning before comprehensive recordings (October 21, 2026)
 
