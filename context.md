@@ -2,36 +2,61 @@
 
 Last updated: 2026-10-31 (Europe/Sofia)
 
-## October 31 — Trader ecosystem expansion (active)
+## October 31 — Trader ecosystem expansion delivered
 
-Owner approved all six follow-up improvements: explicit data-readiness states,
-whole-auction-stack buying, private transaction accounting, one shared-budget
-personal gold plan, cross-device watchlists/alerts and browser-based Companion
-pairing/update onboarding. Implementation and delivery are in progress.
+All six approved improvements are implemented, committed, pushed and deployed:
+explicit market readiness, exact whole-auction-stack buying, private receipts,
+one shared-budget gold plan, synced watches/alerts and Companion account pairing.
 
-- Public market prices remain separate from account-owned private character,
-  ledger and watch data. Existing anonymous maintainer uploads stay compatible.
-- Whole-stack plans must preserve exact auction totals and cannot invent lot
-  sizes for old snapshots. Purchases/sales require supported client evidence;
-  disappeared listings do not establish completed sales.
-- No Developer ID signing identity is available locally. Signing configuration
-  and verification use the installed Command Line Tools (`codesign`, `notarytool`,
-  `stapler`); full Xcode is unnecessary. Public publisher signing awaits an Apple
-  Developer ID Application certificate. Do not request or expose private keys.
-- Evidence: `artifacts/trader-ecosystem-20261031/`. Preserve concurrent leveling
-  and storage changes; do not touch protected numerical simulator helpers.
-
-- The account dashboard, paired installation flow, synced watch settings, optional
-  supported auction-mail receipts and shared-budget plan are implemented. Whole
-  auction stacks, shared stock, input opportunity cost, AH cuts and daily-cooldown
-  exclusions are enforced. Watch mutations serialize; bulk removal is atomic.
-- Collector 0.14.0 / Companion 0.3.7 are being validated and packaged; they are not
-  yet the installed/public release. Main includes the account schema migration
-  0023, already applied by the concurrent leveling/Trader deployment. Current
-  production source is `kfc-helper-leveling-trader-20261031-9de6157`; preserve it.
-- Focused market, ledger, shared-budget, contract, account-route, watch-sync and
-  Companion recovery tests pass. Browser/real-PostgreSQL checks and final release
-  deployment remain in progress. No production data or scan history was fabricated.
+- Source commits: `f8fab7b`, `a5e41d7`, `22b81e3`, `1398d02`, `91051e4`.
+  Web activated at 18:06:10 UTC on October 31, build `riFf1Ym70nj7jllJzBk-M`:
+  `/home/wow-trader-system/releases/kfc-helper-trader-plan-20261031-91051e4`.
+  Immutable static delivery uses the matching release label. API remains on
+  `kfc-helper-trader-ecosystem-20261031-f8fab7b`, verified source `1398d02`.
+  Other PM2 processes, guild auth and all 44 frozen simulator bindings are preserved.
+- Collector 0.14.0 and native ARM Companion 0.3.7 are installed on this Mac.
+  Owner approved the actual macOS Keychain prompt. The existing encrypted token
+  survives upgrade and normal restart; manual scan checks pass; debugging is closed.
+  Four public downloads (Mac Intel/ARM, Windows x64 and Linux x64) match release
+  checksums and nine-file addon manifests. Mac ad-hoc integrity checks pass.
+- Public entry: https://kfcguild.online/tools/forever/trader?mode=items.
+  Private account: `/tools/forever/trader/account`; budget plan: `/tools/forever/trader/plan`.
+  Connect through Companion's Discord approval to associate future character
+  snapshots. This Mac currently retains its maintainer token and is not yet paired
+  to a private Discord account. Open professions and save with `/reload` afterward.
+- Additive migration 0023 is applied. Web has CRUD on the six Trader tables;
+  ingest can read installations and update persistent request buckets. Paired
+  uploads share 120 requests/256 MiB per hour; raw storage preserves 512 MiB free.
+  Quota/storage failures keep saved scans queued instead of losing them.
+- Verification: 140 focused tests; real PostgreSQL/HTTP owner, pairing, receipt,
+  quota, inventory and two-alt crafting controls; 15 candidate browser checks;
+  five expiry/recalculation/craft-order regressions; 11 public browser checks;
+  all four public download HEAD/range/hash checks. The isolated production
+  Next/TypeScript build passes. Local full-worktree typechecking sees unrelated
+  unfinished leveling changes, which were excluded and preserved.
+- Plans expire after one hour while open; changing inputs or failed recalculation
+  clears old advice. Instructions name the intermediate alt before the final
+  crafter. Both catalog and observed daily-cooldown recipes remain excluded.
+- Real latest production market remains October 23, build 70532, with one history
+  observation per item. No production prices/history were fabricated. New buying
+  advice requires a scan under one hour old, exact lots and six independent
+  half-hour observations. A scan alone does not establish sufficient history.
+- Command Line Tools (`codesign`, `notarytool`, `stapler`) are installed; full Xcode
+  is unnecessary. Optional Keychain-based publisher signing is implemented. No
+  Developer ID identity is available, so public downloads accurately remain alpha.
+  Windows/Linux native execution and real in-game mailbox collections were not
+  exercised; archive/path controls and guarded Lua fixtures passed.
+- Build-only font caching reuses original verified WOFF2 assets when Google returns
+  extensionless font URLs. Cached CSS must use `src: url(...)`; reject emitted CSS
+  containing a private `/font-cache/` URL. No production font source was rewritten.
+- Evidence: `artifacts/trader-ecosystem-20261031/`; remote operations are under
+  `/home/wow-trader-system/shared/operations/trader-ecosystem-20261031-f8fab7b`
+  and `trader-plan-expiry-20261031-91051e4`. Owned previews, SSH tunnel and isolated
+  test DB were removed after verification. Current/rollback releases and numerical
+  evidence remain. Old 0.3.4 downloads were backed up locally and hash-verified
+  before retirement; 0.3.6 rollback and current 0.3.7 remain. Production DB backup
+  is protected locally. Origin storage is still tight (about 1.3 GiB free); do not
+  remove active/rollback releases or weaken build/upload reserve guards.
 
 ## October 31 — Trader buying guidance deployed and installed
 

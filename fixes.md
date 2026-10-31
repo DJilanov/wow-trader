@@ -1,5 +1,48 @@
 # WoW Trader fixes and recovery context
 
+## October 31 — account ecosystem, exact stacks and expiring personal plans
+
+Committed/pushed `f8fab7b`, `a5e41d7`, `22b81e3`, `1398d02`, `91051e4`.
+Web activated 18:06:10 UTC, build `riFf1Ym70nj7jllJzBk-M`, at
+`/home/wow-trader-system/releases/kfc-helper-trader-plan-20261031-91051e4`.
+API retains verified `1398d02` in the `kfc-helper-trader-ecosystem-20261031-f8fab7b`
+release. Static delivery matches the new web label; other PM2 processes and frozen
+simulator runtimes were preserved.
+
+- Exact whole-auction lots now survive collector → upload → history → plans.
+  Older scans cannot invent stack sizes. JavaScript/Lua budget controls agree.
+- Private Discord-owned character snapshots, receipts and watch limits use explicit
+  installation approval, hashed revocable credentials, CSRF/account guards and
+  owner isolation. Existing maintainer-token uploads remain compatible.
+- The shared-budget planner conserves auction stock, purchased surplus and fresh
+  inventory across alts; charges owned input opportunity cost; excludes catalog
+  and observed daily cooldowns; and never funds purchases with predicted sales.
+  Intermediate crafting instructions precede the final recipe and name each alt.
+- Open plans expire after one hour. Input changes and recalculation clear previous
+  actions/profit, including on failed requests. Watch acknowledgements survive
+  restart; unchanged SavedVariables still receive preference sync.
+- Migration 0023 and role grants are applied. Ingest needs SELECT/INSERT/UPDATE on
+  `trader_request_bucket`. Paired uploads share 120 requests/256 MiB per hour;
+  raw storage preserves 512 MiB free. Rejections keep scans queued for retry.
+- Collector 0.14.0 / Companion 0.3.7 installed locally. Keychain approval retained
+  the encrypted token across a normal restart. Four public platform releases
+  pass archive/addon/hash/HEAD/range checks. Mac ad-hoc integrity is verified;
+  publisher signing remains optional pending actual certificates. CLT suffices.
+- If Google Fonts returns extensionless URLs, reuse original verified WOFF2 files
+  through the build-only response cache. CSS must contain `src: url(...)` so Next
+  emits public URLs. Reject any emitted `/font-cache/` path.
+- Passed 140 focused tests, real PostgreSQL/HTTP controls, 15 candidate browser
+  checks, five expiry/craft-order regressions, 11 public browser checks and the
+  isolated production Next/TypeScript build. Windows/Linux native execution and
+  real in-game mailbox receipt collection remain unexercised.
+- Synthetic data stayed isolated. Test DB, preview processes and tunnel were
+  removed. Preserve the active/rollback releases and numerical evidence. Old
+  0.3.4 archives were hash-backed-up locally before retirement. Latest real scan
+  is still October 23; fresh history is required, not fabricated recommendations.
+
+Evidence: `artifacts/trader-ecosystem-20261031/`. Operational details and signing:
+`docs/trader-account-and-gold-plan.md`. Preserve unrelated concurrent leveling work.
+
 ## October 31 — fresh material-buying guidance, safe uploads and packaged clients
 
 Deployed source `c496dcb` with packaging fixes `95a5d35`/`3dc8d86` at

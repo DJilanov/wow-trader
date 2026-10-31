@@ -62,6 +62,11 @@ It is a feasible suggestion, not a proof of a globally optimal portfolio. Output
 liquidity caps are shared across recipes. Resale, proc yields and unobserved deposits
 remain conditional; confirm auctions and character stock before acting.
 
+An open plan expires one hour after its scan observation and hides purchase actions
+and conditional profit. Changing inputs or starting recalculation clears the old
+result, including when the next request fails. Production instructions list the
+intermediate recipe and actual alt before the final recipe and exit.
+
 ## Watches and alerts
 
 Guests keep their existing browser watchlist. Signed-in users have up to 50 private
@@ -133,5 +138,32 @@ stack budgets, FIFO cost conservation, unknown fees, shared-stock conservation,
 output caps, account ownership/CSRF, watch ordering, sync acknowledgement/restart,
 failed private data isolation, pairing URL trust and optional signing configuration.
 
-Delivery remains in progress until the isolated PostgreSQL and browser checks,
-four-platform packaging, local installation and public deployment are verified.
+Delivered October 31, 2026. Web source `91051e4`, build `riFf1Ym70nj7jllJzBk-M`,
+activated at 18:06:10 UTC; API source `1398d02`. Companion 0.3.7 and Collector 0.14.0
+are installed locally, and all four platform downloads are public. The Mac's
+existing encrypted token survived the approved Keychain prompt and normal restart.
+The account, plan and download pages are available at:
+
+- https://kfcguild.online/tools/forever/trader/account
+- https://kfcguild.online/tools/forever/trader/plan
+- https://kfcguild.online/tools/forever/addon
+
+Passed: 140 focused tests, real PostgreSQL/HTTP account and quota controls,
+15 candidate browser checks, five plan expiry/recalculation/craft-order regressions,
+11 public browser checks at desktop/390/320px widths, full isolated production
+Next/TypeScript build, and all four release archive/hash/download controls. Exact
+stack policy also passed 120 JavaScript/Lua comparisons. Synthetic fixtures stayed
+in the isolated test database, removed with the preview processes and SSH tunnel
+after verification. No production market history was fabricated.
+
+The latest real production market is still October 23, build 70532, with one
+observation per item. Fresh uploads and sufficient independent history are needed
+before buying recommendations appear. Pair Companion explicitly to associate new
+private character snapshots; existing anonymous uploads are not silently claimed.
+
+Current downloads remain accurately labelled alpha because no Apple Developer ID
+or Windows publisher certificate is available. Full Xcode is not required. Windows
+and Linux archives/path handling were checked, but those native OS runtimes were
+not executed. Mail receipt collection passed guarded Lua controls; actual in-game
+mail collection remains an opt-in alpha path. Concurrent unfinished leveling code
+was preserved and excluded from the isolated production build.
