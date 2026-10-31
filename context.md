@@ -2,6 +2,25 @@
 
 Last updated: 2026-10-31 (Europe/Sofia)
 
+## October 31 — Five-player route continuity deployed
+
+- Current web source is `e428ccc`, activated at 18:46:03 UTC as
+  `kfc-helper-route-flow-20261031-e428ccc`, Next build `kJR4NCeiJpGj9u7QNKcCG`.
+  This supersedes the web pointer in the earlier Trader delivery below and retains
+  that delivery's functionality. Ingestion remains on `f8fab7b`; other services
+  were not restarted and the reference crawler remains stopped.
+- The reported Human starter handoff now uses the owner-confirmed bidirectional
+  Stormwind–Auberdine ship. Outdoor visits and dungeon continuations/returns are
+  dependency-ordered; relocated bookmarks and browser/native instructions agree.
+- Verification passed: 631 leveling tests, 132 archive route variants, all 42
+  Human/Warrior chapter links, desktop/mobile handoff and dungeon browser checks,
+  and 9 public pages with 115 assets. Production build and source hashes passed.
+- Application/static rollback label: `kfc-helper-trader-plan-20261031-91051e4`.
+  Full evidence and operational receipt paths are documented in
+  `docs/forever-leveling-route-flow-2026-10-31.md`.
+- No new review ZIP was published. Any subsequent package must use
+  `campaign-addon-20261031-v27`; in-game validation remains outstanding.
+
 ## October 31 — Trader ecosystem expansion delivered
 
 All six approved improvements are implemented, committed, pushed and deployed:

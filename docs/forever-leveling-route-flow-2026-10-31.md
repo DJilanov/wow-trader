@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation and review are complete; commit, push and deployment are authorized. The production activation receipt will be recorded below after the candidate passes its production checks. No new in-game review ZIP is included. This review covers route continuity and execution instructions, not a measured fastest-time claim.
+Deployed to production on **October 31, 2026 at 18:46 UTC**, from committed and pushed application source **`e428ccc7561e97f2cffbc4996dd90769cbd7d63a`**. Public desktop/mobile and asset checks pass. No new in-game review ZIP is included. This review covers route continuity and execution instructions, not a measured fastest-time claim.
 
 The original report was correct: the Human Loch Modan starter retained its solo “Fly to Westfall” ending while the next selected chapter began in Darkshore. Earlier release checks did not catch this disconnected travel. The correction now follows the selected party itinerary in both the browser and the native RestedXP compiler.
 
@@ -56,6 +56,14 @@ node scripts/review-leveling-route-flow.mjs \
 
 This command performs local parsing and compilation only. It does not crawl, upload, install an AddOn, or change saved player progress. The report records source identity, every edition/scenario, chapter endpoints and failures. It exits unsuccessfully when any edition fails.
 
-## Delivery follow-up
+## Production delivery
 
-Review the local change as one coherent route update. A release must use a frozen committed snapshot and repeat the production candidate checks with its exact published rewards and client data. Keep unrelated concurrent Trader changes outside this route review. A new review ZIP requires the new compiler revision, `campaign-addon-20261031-v27`; existing ZIPs are not silently refreshed by this code change.
+- Application and static delivery label: `kfc-helper-route-flow-20261031-e428ccc`; Next build ID: `kJR4NCeiJpGj9u7QNKcCG`. The application is `/home/wow-trader-system/releases/kfc-helper-route-flow-20261031-e428ccc`; static assets are under `/home/wow-trader-system/shared/static-delivery/releases/` with the same label.
+- The Linux candidate used the frozen committed snapshot. All 2,885 source-file hashes were checked before and after the successful production build. Its 631 leveling tests and 132 archive variants passed. Private candidate browser checks covered all 42 Human/Warrior chapters, the reported handoff at desktop/mobile widths, the three dungeon sequences and the relocated bookmark.
+- Public checks passed for 9 pages and 115 assets, including the KFC homepage, tools hub, guide, Trader, both checked simulator pages and the Discord homepage. Fresh browser checks confirmed the Stormwind–Auberdine instruction at 1,440 px and 390 px, the dungeon sequences and the bookmark redirect, with no client exceptions or horizontal overflow.
+- Only `kfc-helper-web` restarted. Other PM2 process IDs were preserved, including the existing ingestion release `kfc-helper-trader-ecosystem-20261031-f8fab7b`. The reference crawler remains stopped. Existing published data paths, reward import, simulator models and private combat publication gate were preserved. No database migration or installer update was required.
+- Server activation and validation receipts are under `/home/wow-trader-system/shared/operations/deploy-route-flow-20261031-e428ccc/`. Local deployment receipts are under `.cache/deploy-route-flow-20261031/`. `activation.json` records the previous application/static pointers and the two previous public build-label values for rollback.
+- Rollback application and static label: `kfc-helper-trader-plan-20261031-91051e4`. Restore both recorded pointers and the previous `SEO_RUM_BUILD` / `TOOL_USAGE_BUILD` values, then restart only the web process using the restored environment and verify public pages/assets. The rollback release is preserved.
+- Deployment staging reclaimed 1.85 GiB by removing generated `.next` output from 14 unused older helper releases. Live, ingestion and recent rollback builds, all source/data, and static delivery were preserved; none of those removed build paths were referenced by Nginx.
+
+A new in-game review ZIP still requires compiler revision `campaign-addon-20261031-v27`; existing ZIPs are not silently refreshed by this code deployment. Live gameplay and measured travel-time validation remain follow-up work.
