@@ -133,6 +133,7 @@ export async function createTraderGoldPlan(
       if (option) profile = { ...profile, [profession.professionSlug]: option.slug };
     }
     for (const recipe of character.recipes) {
+      if (recipe.isDayCooldown) continue;
       const profession = character.professions.find(
         (row) => row.professionSkillLineId === recipe.professionSkillLineId,
       );

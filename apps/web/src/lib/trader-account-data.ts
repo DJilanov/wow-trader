@@ -28,6 +28,7 @@ export interface TraderCharacter {
   readonly recipes: readonly {
     readonly recipeSpellId: number;
     readonly professionSkillLineId: number;
+    readonly isDayCooldown: boolean | null;
   }[];
   readonly professions: readonly {
     readonly professionSkillLineId: number;
@@ -141,6 +142,7 @@ export async function loadTraderAccount(ownerId: string): Promise<{
         .map((recipe) => ({
           recipeSpellId: recipe.recipeSpellId,
           professionSkillLineId: recipe.professionSkillLineId,
+          isDayCooldown: recipe.isDayCooldown,
         })),
       professions: professions
         .filter((profession) => profession.snapshotId === row.snapshotId)
