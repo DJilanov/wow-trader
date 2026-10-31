@@ -101,6 +101,7 @@ for (const definition of artifactDefinitions) {
   const file = await stat(destinationPath);
   assets.push({
     ...definition.asset,
+    id: `${definition.asset.id}-v${version.replaceAll(".", "-")}`,
     byteSize: file.size,
     sha256: await sha256(destinationPath),
   });
