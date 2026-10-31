@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { BUY_POLICY } from "@wow-trader/market";
 import Link from "next/link";
 import type { GoldPlanView } from "../lib/trader-gold-plan";
 import { withHelperBasePath } from "../lib/site-path";
@@ -18,12 +19,37 @@ export function TraderGoldPlan({
 }): React.JSX.Element {
   const [result, setResult] = useState<GoldPlanView | null>(null),
     [busy, setBusy] = useState(false),
+    [expired, setExpired] = useState(false),
     [error, setError] = useState("");
+  useEffect(() => {
+    setExpired(false);
+    if (result?.status !== "ready" || !result.observedAt) return;
+    const deadline = Date.parse(result.observedAt) + BUY_POLICY.maximumScanAgeMilliseconds + 1;
+    const remaining = deadline - Date.now();
+    if (!Number.isFinite(remaining) || remaining <= 0) {
+      setExpired(true);
+      return;
+    }
+    const expire = (): void => setExpired(true);
+    const check = (): void => {
+      if (Date.now() >= deadline) expire();
+    };
+    const timer = window.setTimeout(expire, remaining);
+    window.addEventListener("focus", check);
+    document.addEventListener("visibilitychange", check);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("focus", check);
+      document.removeEventListener("visibilitychange", check);
+    };
+  }, [result]);
   async function submit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
+    if (busy) return;
     const form = new FormData(event.currentTarget);
     setBusy(true);
     setError("");
+    setResult(null);
     try {
       const response = await fetch(withHelperBasePath("/api/trader/gold-plan"), {
         method: "POST",
@@ -59,7 +85,15 @@ export function TraderGoldPlan({
           the same gold, auction stock and available materials.
         </p>
       </header>
-      <form className={styles.form} onSubmit={(event) => void submit(event)} aria-busy={busy}>
+      <form
+        className={styles.form}
+        onSubmit={(event) => void submit(event)}
+        onChange={() => {
+          setResult(null);
+          setError("");
+        }}
+        aria-busy={busy}
+      >
         <label>
           Starting budget (gold)
           <input
@@ -112,72 +146,93 @@ export function TraderGoldPlan({
       ) : null}
       {result ? (
         <div aria-live="polite">
-          <p className="workspace-limitation">{result.message}</p>
-          <dl className={styles.facts}>
-            <div>
-              <dt>Budget</dt>
-              <dd>{result.budget}</dd>
-            </div>
-            <div>
-              <dt>Purchase spending</dt>
-              <dd>{result.spent}</dd>
-            </div>
-            <div>
-              <dt>Gold left</dt>
-              <dd>{result.remaining}</dd>
-            </div>
-            <div>
-              <dt>Owned materials valued</dt>
-              <dd>{result.ownedValue}</dd>
-            </div>
-            <div>
-              <dt>Conditional profit before deposits</dt>
-              <dd>{result.expectedProfit}</dd>
-            </div>
-            <div>
-              <dt>Matching characters</dt>
-              <dd>{result.charactersUsed}</dd>
-            </div>
-          </dl>
-          <ol className={styles.list}>
-            {result.actions.map((action, index) => (
-              <li key={`${index}:${action.name}`}>
-                <article className={styles.panel}>
-                  <span className="eyebrow">
-                    {action.kind === "buy" ? "Buy for resale" : action.kind.replaceAll("_", " ")}
-                  </span>
-                  <h2>{action.name}</h2>
-                  <p>{action.detail}</p>
-                  {action.purchases.length ? (
-                    <ul>
-                      {action.purchases.map((purchase, i) => (
-                        <li key={`${i}:${purchase.itemId}`}>
-                          {purchase.stacks} {purchase.stacks === 1 ? "stack" : "stacks"} of{" "}
-                          {purchase.stackSize} {purchase.name} · {purchase.price} per auction
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No additional auction purchase is needed for this step.</p>
-                  )}
-                  {action.ownedInputs.length ? (
-                    <p>
-                      From existing stock:{" "}
-                      {action.ownedInputs.map((row) => `${row.quantity} ${row.name}`).join(", ")}
-                    </p>
-                  ) : null}
-                  <p>
-                    Spend {action.spent} · owned material value {action.ownedValue} · conditional
-                    profit {action.profit}
-                  </p>
-                </article>
-              </li>
-            ))}
-          </ol>
-          <p className="muted">
-            This is a bounded suggested plan using observed listings. Recheck auction availability
-            and character stock before acting. Sell-through and unobserved deposits remain unknown.
+          <p className="workspace-limitation" role="status">
+            {expired
+              ? "This plan expired. Upload a fresh scan and build a new plan before buying."
+              : result.message}
           </p>
+          {result.observedAt ? (
+            <p className="muted">
+              Prices observed{" "}
+              <time dateTime={result.observedAt}>
+                {result.observedAt.slice(0, 16).replace("T", " ")} UTC
+              </time>
+            </p>
+          ) : null}
+          {result.status === "ready" && !expired ? (
+            <>
+              <dl className={styles.facts}>
+                <div>
+                  <dt>Budget</dt>
+                  <dd>{result.budget}</dd>
+                </div>
+                <div>
+                  <dt>Purchase spending</dt>
+                  <dd>{result.spent}</dd>
+                </div>
+                <div>
+                  <dt>Gold left</dt>
+                  <dd>{result.remaining}</dd>
+                </div>
+                <div>
+                  <dt>Owned materials valued</dt>
+                  <dd>{result.ownedValue}</dd>
+                </div>
+                <div>
+                  <dt>Conditional profit before deposits</dt>
+                  <dd>{result.expectedProfit}</dd>
+                </div>
+                <div>
+                  <dt>Matching characters</dt>
+                  <dd>{result.charactersUsed}</dd>
+                </div>
+              </dl>
+              <ol className={styles.list}>
+                {result.actions.map((action, index) => (
+                  <li key={`${index}:${action.name}`}>
+                    <article className={styles.panel}>
+                      <span className="eyebrow">
+                        {action.kind === "buy"
+                          ? "Buy for resale"
+                          : action.kind.replaceAll("_", " ")}
+                      </span>
+                      <h2>{action.name}</h2>
+                      <p>{action.detail}</p>
+                      {action.purchases.length ? (
+                        <ul>
+                          {action.purchases.map((purchase, i) => (
+                            <li key={`${i}:${purchase.itemId}`}>
+                              {purchase.stacks} {purchase.stacks === 1 ? "stack" : "stacks"} of{" "}
+                              {purchase.stackSize} {purchase.name} · {purchase.price} per auction
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>No additional auction purchase is needed for this step.</p>
+                      )}
+                      {action.ownedInputs.length ? (
+                        <p>
+                          From existing stock:{" "}
+                          {action.ownedInputs
+                            .map((row) => `${row.quantity} ${row.name}`)
+                            .join(", ")}
+                        </p>
+                      ) : null}
+                      <p>
+                        Spend {action.spent} · owned material value {action.ownedValue} ·
+                        conditional profit {action.profit}
+                      </p>
+                    </article>
+                  </li>
+                ))}
+              </ol>
+              <p className="muted">
+                This is a bounded suggested plan using observed listings. Recheck auction
+                availability and character stock before acting. Sell-through and unobserved deposits
+                remain unknown.
+              </p>
+            </>
+          ) : null}
         </div>
       ) : null}
     </section>

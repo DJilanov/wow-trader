@@ -292,10 +292,12 @@ export async function createTraderGoldPlan(
       maximumExecutions: Math.min(20, Math.max(1, recipe.executableCrafts)),
       inputs: recipe.inputs.map((row) => ({ itemId: row.itemId, quantity: row.quantity })),
       detail: [
-        known.get(recipe.recipeSpellId)?.character.name,
-        recipe.professionName,
+        ...recipe.craftSteps.map(
+          (step) =>
+            `${step.recipeName} (${step.professionName} · ${known.get(step.recipeSpellId)?.character.name ?? "eligible alt"})`,
+        ),
+        `${recipe.recipeName} (${recipe.professionName} · ${known.get(recipe.recipeSpellId)?.character.name ?? "eligible alt"})`,
         recipe.routeLabel,
-        ...recipe.craftSteps.map((step) => `${step.recipeName} (${step.professionName})`),
       ]
         .filter(Boolean)
         .join(" → "),
