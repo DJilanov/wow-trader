@@ -15,6 +15,7 @@ import {
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "./app.js";
+import { UploadRateLimitError, UploadStorageUnavailableError } from "./errors.js";
 import type { RawPayloadStore } from "./raw-payload-store.js";
 import type { UploadRepository } from "./repositories.js";
 
@@ -27,6 +28,51 @@ afterEach(async () => {
 });
 
 describe("ingestion API", () => {
+  it("rejects paired upload limits before storing data", async () => {
+    const repository = new InMemoryRepository(),
+      rawStore = new InMemoryRawPayloadStore();
+    let measured = 0;
+    const app = await buildApp({
+      repository,
+      rawPayloadStore: rawStore,
+      apiKeys: [API_KEY],
+      webOrigin: "https://test.invalid",
+      authenticateInstallation: async (_token, bytes) => {
+        measured = bytes ?? 0;
+        throw new UploadRateLimitError();
+      },
+    });
+    apps.push(app);
+    const response = await app.inject({
+      method: "POST",
+      url: "/v1/uploads/auction-scan",
+      headers: { authorization: "Bearer paired-test-token" },
+      payload: createPayload(),
+    });
+    expect(response.statusCode).toBe(429);
+    expect(response.headers["retry-after"]).toBe("60");
+    expect(measured).toBeGreaterThan(0);
+    expect(rawStore.entries).toHaveLength(0);
+    expect(repository.accepted).toHaveLength(0);
+  });
+  it("keeps scans queued with an explicit storage-unavailable response", async () => {
+    const repository = new InMemoryRepository();
+    const app = await buildTestApp(repository, {
+      put: async () => {
+        throw new UploadStorageUnavailableError();
+      },
+    });
+    const response = await app.inject({
+      method: "POST",
+      url: "/v1/uploads/auction-scan",
+      headers: { authorization: `Bearer ${API_KEY}` },
+      payload: createPayload(),
+    });
+    expect(response.statusCode).toBe(503);
+    expect(response.json()).toMatchObject({ error: "upload_storage_unavailable" });
+    expect(repository.accepted).toHaveLength(0);
+  });
+
   it("accepts a valid, authenticated, checksummed scan", async () => {
     const repository = new InMemoryRepository();
     const rawStore = new InMemoryRawPayloadStore();

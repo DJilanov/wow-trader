@@ -25,7 +25,10 @@ and an account fingerprint, preventing a queued edit from reaching another login
 Migration `0023_trader_account_and_auction_lots` is additive and retains existing
 maintainer-token ingestion. It adds exact lot evidence and private account tables.
 The web database role needs CRUD on the six new Trader tables; ingest needs
-SELECT on `trader_installation` for authentication and the existing upload grants.
+SELECT on `trader_installation`, SELECT/INSERT/UPDATE on `trader_request_bucket`,
+and the existing upload grants. Paired accounts share a limit of 120 uploads and
+256 MiB per hour across installations. Raw upload storage preserves a 512 MiB
+filesystem reserve. Allowance/storage failures keep saved scans queued for retry.
 
 ## Market readiness and executable purchases
 
@@ -49,7 +52,8 @@ across all actions. Future resale proceeds never fund later steps. Partial purch
 stacks remain available to later actions, while each whole auction is charged once.
 Owned materials carry their after-fee resale opportunity value rather than being
 counted as free. Inventory older than one hour or from another build/market is excluded.
-Daily-cooldown recipes are excluded, including intermediate production steps.
+Daily-cooldown recipes are excluded, including intermediate production steps and
+recipes explicitly observed as daily cooldowns even when the catalog omits that flag.
 
 Crafting still requires the exact published catalog and observed profession/recipe
 eligibility. The current bounded planner considers up to 100 qualified buys and 100

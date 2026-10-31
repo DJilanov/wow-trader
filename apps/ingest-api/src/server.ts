@@ -1,11 +1,17 @@
 import "dotenv/config";
 
-import { authenticateTraderInstallation, createDatabase } from "@wow-trader/db";
+import {
+  authenticateTraderInstallation,
+  consumeTraderRate,
+  createDatabase,
+  TraderAccountError,
+} from "@wow-trader/db";
 
 import { buildApp } from "./app.js";
 import { loadConfig } from "./config.js";
 import { PostgresUploadRepository } from "./postgres-upload-repository.js";
 import { FileRawPayloadStore } from "./raw-payload-store.js";
+import { UploadRateLimitError } from "./errors.js";
 
 const config = loadConfig();
 const database = createDatabase(config.databaseUrl);
@@ -16,7 +22,26 @@ const app = await buildApp({
   marketReadApiKeys: config.marketReadApiKeys,
   webOrigin: config.webOrigin,
   logger: true,
-  authenticateInstallation: (token) => authenticateTraderInstallation(database.db, token),
+  authenticateInstallation: async (token, uploadBytes) => {
+    const principal = await authenticateTraderInstallation(database.db, token);
+    if (principal && uploadBytes !== undefined) {
+      try {
+        await consumeTraderRate(database.db, "upload-count:" + principal.ownerId, 120, 3600);
+        await consumeTraderRate(
+          database.db,
+          "upload-bytes:" + principal.ownerId,
+          256 * 1024 * 1024,
+          3600,
+          uploadBytes,
+        );
+      } catch (error: unknown) {
+        if (error instanceof TraderAccountError && error.status === 429)
+          throw new UploadRateLimitError();
+        throw error;
+      }
+    }
+    return principal;
+  },
 });
 
 async function shutdown(signal: string): Promise<void> {

@@ -25,7 +25,12 @@ import {
 } from "fastify-type-provider-zod";
 import { z } from "zod";
 
-import { PayloadChecksumError, PayloadConflictError } from "./errors.js";
+import {
+  PayloadChecksumError,
+  PayloadConflictError,
+  UploadRateLimitError,
+  UploadStorageUnavailableError,
+} from "./errors.js";
 import type { RawPayloadStore } from "./raw-payload-store.js";
 import type { UploadRepository } from "./repositories.js";
 
@@ -38,6 +43,7 @@ export interface BuildAppOptions {
   readonly logger?: boolean;
   readonly authenticateInstallation?: (
     token: string,
+    uploadBytes?: number,
   ) => Promise<{ installationId: string; ownerId: string } | null>;
 }
 
@@ -327,6 +333,19 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   );
 
   app.setErrorHandler((error, request, reply) => {
+    if (error instanceof UploadRateLimitError || error instanceof UploadStorageUnavailableError) {
+      return reply
+        .code(error instanceof UploadRateLimitError ? 429 : 503)
+        .header("Retry-After", "60")
+        .send({
+          error:
+            error instanceof UploadRateLimitError
+              ? "upload_allowance"
+              : "upload_storage_unavailable",
+          message: error.message,
+          requestId: request.id,
+        });
+    }
     if (error instanceof PayloadChecksumError) {
       return reply.code(422).send({
         error: "checksum_mismatch",
@@ -373,7 +392,12 @@ function createApiKeyAuthenticator(
 
     if (token && token.length <= 512 && apiKeys.some((key) => safeStringEqual(key, token))) return;
     if (token && authenticateInstallation) {
-      const principal = await authenticateInstallation(token);
+      const principal = await authenticateInstallation(
+        token,
+        request.method === "POST"
+          ? Buffer.byteLength(JSON.stringify(request.body), "utf8")
+          : undefined,
+      );
       if (principal) {
         principals.set(request, principal);
         return;

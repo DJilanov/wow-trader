@@ -42,16 +42,26 @@ export async function consumeTraderRate(
   key: string,
   maximum: number,
   seconds = 60,
+  amount = 1,
 ): Promise<void> {
+  if (
+    !Number.isSafeInteger(amount) ||
+    amount < 1 ||
+    amount > 32 * 1024 * 1024 ||
+    !Number.isInteger(maximum) ||
+    maximum < 1 ||
+    maximum >= 2_000_000_000
+  )
+    throw new RangeError("Invalid Trader rate allowance");
   const now = new Date(),
     expires = new Date(now.getTime() + seconds * 1000);
   const [row] = await database
     .insert(traderRequestBuckets)
-    .values({ key, count: 1, expiresAt: expires })
+    .values({ key, count: amount, expiresAt: expires })
     .onConflictDoUpdate({
       target: traderRequestBuckets.key,
       set: {
-        count: sql`CASE WHEN ${traderRequestBuckets.expiresAt} <= ${now.toISOString()}::timestamptz THEN 1 ELSE ${traderRequestBuckets.count} + 1 END`,
+        count: sql`CASE WHEN ${traderRequestBuckets.expiresAt} <= ${now.toISOString()}::timestamptz THEN ${amount} ELSE LEAST(${maximum + 1}, ${traderRequestBuckets.count} + ${amount}) END`,
         expiresAt: sql`CASE WHEN ${traderRequestBuckets.expiresAt} <= ${now.toISOString()}::timestamptz THEN ${expires.toISOString()}::timestamptz ELSE ${traderRequestBuckets.expiresAt} END`,
       },
     })
