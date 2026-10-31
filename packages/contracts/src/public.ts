@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { isoDateTimeSchema, positiveCopperSchema } from "./primitives.js";
+import { auctionPriceLevelSchema } from "./uploads.js";
 
 export const publicDataStatusSchema = z.object({
   service: z.literal("wow-trader"),
@@ -68,16 +69,7 @@ export const marketIntelligenceItemSchema = z.object({
   historyStartedAt: isoDateTimeSchema.nullable().optional(),
   recentObservationCount: z.number().int().nonnegative().optional(),
   history: z.array(marketHistoryObservationSchema).max(336).optional(),
-  levels: z
-    .array(
-      z.object({
-        unitPriceCopper: positiveCopperSchema,
-        quantity: z.number().int().positive(),
-        listingCount: z.number().int().positive(),
-      }),
-    )
-    .max(25_000)
-    .optional(),
+  levels: z.array(auctionPriceLevelSchema).max(25_000).optional(),
 });
 
 export const marketIntelligencePackSchema = z.object({

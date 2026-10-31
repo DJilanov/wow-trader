@@ -21,7 +21,14 @@ function input(overrides: Partial<BuyOpportunityInput> = {}): BuyOpportunityInpu
     observedAt: now,
     now,
     auctionHouseType: "alliance",
-    levels: [{ unitPriceCopper: 7_000n, quantity: 100, listingCount: 5 }],
+    levels: [
+      {
+        unitPriceCopper: 7_000n,
+        quantity: 100,
+        listingCount: 20,
+        lots: [{ stackSize: 5, buyoutCopper: 35_000n, listingCount: 20 }],
+      },
+    ],
     ...overrides,
   };
 }
@@ -43,8 +50,18 @@ describe("buy opportunities", () => {
   });
   it("stops before expensive depth and respects the budget", () => {
     const levels = [
-      { unitPriceCopper: 7_000n, quantity: 3, listingCount: 1 },
-      { unitPriceCopper: 7_500n, quantity: 4, listingCount: 2 },
+      {
+        unitPriceCopper: 7_000n,
+        quantity: 3,
+        listingCount: 1,
+        lots: [{ stackSize: 3, buyoutCopper: 21_000n, listingCount: 1 }],
+      },
+      {
+        unitPriceCopper: 7_500n,
+        quantity: 4,
+        listingCount: 2,
+        lots: [{ stackSize: 2, buyoutCopper: 15_000n, listingCount: 2 }],
+      },
       { unitPriceCopper: 8_000n, quantity: 93, listingCount: 5 },
     ];
     expect(quoteBuyOpportunity(input({ levels }))).toMatchObject({
@@ -53,7 +70,7 @@ describe("buy opportunities", () => {
     });
     expect(quoteBuyOpportunity(input({ levels, maximumSpendCopper: 30_000n }))).toMatchObject({
       quantity: 4,
-      buyCostCopper: 28_500n,
+      buyCostCopper: 30_000n,
     });
     expect(quoteBuyOpportunity(input({ maximumSpendCopper: 0n }))).toMatchObject({
       state: "wait",
@@ -70,7 +87,14 @@ describe("buy opportunities", () => {
       quoteBuyOpportunity(
         input({
           auctionHouseType: "neutral",
-          levels: [{ unitPriceCopper: 6000n, quantity: 100, listingCount: 5 }],
+          levels: [
+            {
+              unitPriceCopper: 6000n,
+              quantity: 100,
+              listingCount: 20,
+              lots: [{ stackSize: 5, buyoutCopper: 30_000n, listingCount: 20 }],
+            },
+          ],
         }),
       ),
     ).toMatchObject({ state: "opportunity", auctionFeeCopper: 14_250n, profitCopper: 20_750n });
@@ -116,12 +140,66 @@ describe("buy opportunities", () => {
   });
   it("validates sizing and never mutates price levels", () => {
     const levels = Object.freeze([
-      Object.freeze({ unitPriceCopper: 7000n, quantity: 100, listingCount: 5 }),
+      Object.freeze({
+        unitPriceCopper: 7000n,
+        quantity: 100,
+        listingCount: 100,
+        lots: [{ stackSize: 1, buyoutCopper: 7000n, listingCount: 100 }],
+      }),
     ]);
     expect(quoteBuyOpportunity(input({ levels, maximumQuantity: 2 }))).toMatchObject({
       quantity: 2,
     });
     expect(() => quoteBuyOpportunity(input({ maximumQuantity: 101 }))).toThrow(RangeError);
     expect(() => quoteBuyOpportunity(input({ maximumSpendCopper: -1n }))).toThrow(RangeError);
+  });
+  it("refuses partial stacks, missing evidence and unaffordable whole auctions", () => {
+    expect(quoteBuyOpportunity(input({ maximumQuantity: 2 }))).toMatchObject({
+      state: "wait",
+      quantity: 0,
+    });
+    expect(quoteBuyOpportunity(input({ maximumSpendCopper: 34_999n }))).toMatchObject({
+      state: "wait",
+      quantity: 0,
+    });
+    expect(
+      quoteBuyOpportunity(
+        input({ levels: [{ unitPriceCopper: 7000n, quantity: 100, listingCount: 20 }] }),
+      ),
+    ).toMatchObject({ state: "unavailable", quantity: 0 });
+    expect(quoteBuyOpportunity(input()).lots).toEqual([
+      { stackSize: 5, buyoutCopper: 35_000n, listingCount: 2 },
+    ]);
+  });
+  it("uses exact stack totals when the unit price rounds up", () => {
+    const quote = quoteBuyOpportunity(
+      input({
+        levels: [
+          {
+            unitPriceCopper: 7000n,
+            quantity: 100,
+            listingCount: 20,
+            lots: [{ stackSize: 5, buyoutCopper: 34_997n, listingCount: 20 }],
+          },
+        ],
+      }),
+    );
+    expect(quote).toMatchObject({ quantity: 10, buyCostCopper: 69_994n, profitCopper: 20_256n });
+  });
+  it("rejects mismatched stack quantities and prices", () => {
+    expect(() =>
+      quoteBuyOpportunity(
+        input({
+          levels: [
+            {
+              unitPriceCopper: 7000n,
+              quantity: 100,
+              listingCount: 20,
+              lots: [{ stackSize: 5, buyoutCopper: 1n, listingCount: 19 }],
+            },
+          ],
+        }),
+      ),
+    ).toThrow(RangeError);
   });
 });

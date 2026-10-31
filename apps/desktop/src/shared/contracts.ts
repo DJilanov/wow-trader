@@ -64,6 +64,26 @@ export const desktopSnapshotSchema = z.object({
   companion: companionSnapshotSchema,
   settings: desktopSettingsSchema,
   credentialConfigured: z.boolean(),
+  accountLinked: z.boolean().default(false),
+  pairing: z
+    .object({
+      code: z.string(),
+      expiresAt: z.string().datetime(),
+      status: z.enum(["waiting", "error"]),
+      message: z.string(),
+    })
+    .nullable()
+    .default(null),
+  update: z
+    .object({
+      version: z.string(),
+      available: z.boolean(),
+      downloadUrl: z.string().url().nullable(),
+      sha256: z.string().nullable(),
+      signed: z.boolean(),
+    })
+    .nullable()
+    .default(null),
   legacyServiceDetected: z.boolean(),
   products: z.array(desktopProductStatusSchema),
   recentActivity: z.array(
@@ -113,6 +133,11 @@ export const utilityEventSchema = z.discriminatedUnion("type", [
 export type UtilityEvent = z.infer<typeof utilityEventSchema>;
 
 export const rendererCommandSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("begin_pairing") }),
+  z.object({ type: z.literal("cancel_pairing") }),
+  z.object({ type: z.literal("open_account") }),
+  z.object({ type: z.literal("check_update") }),
+  z.object({ type: z.literal("download_update") }),
   z.object({ type: z.literal("get_snapshot") }),
   z.object({ type: z.literal("check_now") }),
   z.object({ type: z.literal("retry") }),

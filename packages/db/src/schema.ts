@@ -1,3 +1,4 @@
+import type { TraderTrade, TraderWatch } from "@wow-trader/contracts";
 import { sql } from "drizzle-orm";
 import {
   bigint,
@@ -873,6 +874,9 @@ export const rawUploads = pgTable(
     sourceCharacterRealmId: text("source_character_realm_id"),
     sourceCharacterFaction: text("source_character_faction"),
     sourceCharacterGuid: text("source_character_guid"),
+    collectorInstallationId: uuid("collector_installation_id").references(
+      () => traderInstallations.id,
+    ),
     anonymousInstallationId: text("anonymous_installation_id").notNull(),
     capturedAt: timestamp("captured_at", { withTimezone: true, mode: "date" }).notNull(),
     completedAt: timestamp("completed_at", { withTimezone: true, mode: "date" }).notNull(),
@@ -1527,6 +1531,9 @@ export const auctionPriceLevels = pgTable(
     unitPriceCopper: bigint("unit_price_copper", { mode: "bigint" }).notNull(),
     quantity: integer("quantity").notNull(),
     listingCount: integer("listing_count").notNull(),
+    lots: jsonb("lots").$type<
+      readonly { stackSize: number; buyoutCopper: string; listingCount: number }[]
+    >(),
   },
   (table) => [
     primaryKey({ columns: [table.scanId, table.marketKey, table.unitPriceCopper] }),
@@ -1548,6 +1555,7 @@ export const marketItemObservations = pgTable(
     marketKey: text("market_key").notNull(),
     itemName: text("item_name"),
     itemClassId: integer("item_class_id"),
+    hasLotEvidence: boolean("has_lot_evidence").notNull().default(false),
     minimumPriceCopper: bigint("minimum_price_copper", { mode: "bigint" }).notNull(),
     tenthPercentilePriceCopper: bigint("tenth_percentile_price_copper", {
       mode: "bigint",
@@ -2604,3 +2612,80 @@ export const guideSupportOrders = pgTable(
     ),
   ],
 );
+
+export const traderInstallations = pgTable(
+  "trader_installation",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    ownerId: text("owner_id").notNull(),
+    tokenHash: text("token_hash").notNull().unique(),
+    label: text("label").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true, mode: "date" }),
+    revokedAt: timestamp("revoked_at", { withTimezone: true, mode: "date" }),
+  },
+  (table) => [index("trader_installation_owner_idx").on(table.ownerId)],
+);
+
+export const traderPairings = pgTable(
+  "trader_pairing",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    deviceHash: text("device_hash").notNull().unique(),
+    userHash: text("user_hash").notNull().unique(),
+    label: text("label").notNull(),
+    ownerId: text("owner_id"),
+    expiresAt: timestamp("expires_at", { withTimezone: true, mode: "date" }).notNull(),
+    consumedAt: timestamp("consumed_at", { withTimezone: true, mode: "date" }),
+    lastPollAt: timestamp("last_poll_at", { withTimezone: true, mode: "date" }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => [index("trader_pairing_expiry_idx").on(table.expiresAt)],
+);
+
+export const traderWatches = pgTable(
+  "trader_watch",
+  {
+    ownerId: text("owner_id").notNull(),
+    key: text("key").notNull(),
+    data: jsonb("data").$type<TraderWatch>().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.ownerId, table.key] })],
+);
+
+export const traderSyncChanges = pgTable(
+  "trader_sync_change",
+  {
+    installationId: uuid("installation_id")
+      .notNull()
+      .references(() => traderInstallations.id),
+    changeId: uuid("change_id").notNull(),
+    appliedAt: timestamp("applied_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.installationId, table.changeId] })],
+);
+
+export const traderTrades = pgTable(
+  "trader_trade",
+  {
+    ownerId: text("owner_id").notNull(),
+    eventId: uuid("event_id").notNull(),
+    installationId: uuid("installation_id").references(() => traderInstallations.id),
+    sourceKey: text("source_key").notNull(),
+    data: jsonb("data").$type<TraderTrade>().notNull(),
+    recordedAt: timestamp("recorded_at", { withTimezone: true, mode: "date" })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.ownerId, table.eventId] }),
+    uniqueIndex("trader_trade_source_uidx").on(table.ownerId, table.sourceKey),
+  ],
+);
+
+export const traderRequestBuckets = pgTable("trader_request_bucket", {
+  key: text("key").primaryKey(),
+  count: integer("count").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true, mode: "date" }).notNull(),
+});

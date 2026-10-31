@@ -2,6 +2,13 @@ export interface MarketPriceLevel {
   readonly unitPriceCopper: bigint;
   readonly quantity: number;
   readonly listingCount: number;
+  readonly lots?: readonly AuctionLot[];
+}
+
+export interface AuctionLot {
+  readonly stackSize: number;
+  readonly buyoutCopper: bigint;
+  readonly listingCount: number;
 }
 
 export interface OrderBookSummary {

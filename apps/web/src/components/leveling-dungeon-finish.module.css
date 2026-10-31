@@ -25,6 +25,35 @@
   font-size: 13px;
   line-height: 1.7;
 }
+.firstClear {
+  margin-block: 20px;
+}
+.firstClear h3 {
+  font-size: 18px;
+}
+.circuit {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 28px;
+  padding-left: 22px;
+}
+.circuit li {
+  min-width: 0;
+}
+.circuit button {
+  width: 100%;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.circuit button[aria-pressed="true"] {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.estimates summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+}
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -281,7 +310,8 @@
   .pageHeading h1 {
     font-size: 27px;
   }
-  .options {
+  .options,
+  .circuit {
     grid-template-columns: minmax(0, 1fr);
   }
   .metrics {

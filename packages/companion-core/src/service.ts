@@ -1,3 +1,5 @@
+import type { TraderSync } from "@wow-trader/contracts";
+import { installTraderPreferences, syncTraderAccount } from "./trader-account.js";
 import {
   appendCompanionActivity,
   readCompanionState,
@@ -63,6 +65,9 @@ export class DefaultCompanionService implements CompanionService {
   readonly #pollIntervalMilliseconds: number;
   readonly #now: () => Date;
   readonly #listeners = new Set<(snapshot: CompanionSnapshot) => void>();
+  readonly #accountPayloads = new Map<string, TraderSync>();
+  readonly #accountSyncAt = new Map<string, number>();
+  readonly #accountErrors = new Map<string, string>();
   readonly #observedSignatures = new Map<string, FileSignature>();
   readonly #processedSignatures = new Map<string, string>();
   readonly #retries = new Map<string, WatchRetry>();
@@ -143,6 +148,8 @@ export class DefaultCompanionService implements CompanionService {
 
   public async setCredential(apiKey: string | null): Promise<void> {
     this.#apiKey = normalizeApiKey(apiKey);
+    this.#accountErrors.clear();
+    this.#accountSyncAt.clear();
     if (!this.#apiKey) this.#publish("setup_required", "Pair this installation to upload scans.");
     else if (this.#automaticUploads && this.#running) await this.#enqueueReconciliation(true);
   }
@@ -183,6 +190,53 @@ export class DefaultCompanionService implements CompanionService {
     this.#listeners.add(listener);
     listener(this.#snapshot);
     return () => this.#listeners.delete(listener);
+  }
+
+  async #synchronizeAccount(
+    filePath: string,
+    rootPath: string,
+    payload: TraderSync,
+    force: boolean,
+  ): Promise<void> {
+    if (!this.#apiKey?.startsWith("wtc_") || !this.#state) return;
+    const now = this.#now().getTime();
+    if (!force && now - (this.#accountSyncAt.get(filePath) ?? 0) < 60_000) return;
+    this.#accountSyncAt.set(filePath, now);
+    const trades = new Set(this.#state.uploadedTradeEventIds ?? []),
+      changes = new Set(this.#state.uploadedWatchChangeIds ?? []);
+    const pending = {
+      trades: payload.trades.filter((event) => !trades.has(event.eventId)),
+      watchChanges: payload.watchChanges.filter((change) => !changes.has(change.changeId)),
+    };
+    try {
+      const result = await syncTraderAccount(
+        this.#endpoint,
+        this.#apiKey,
+        pending,
+        this.#abortController?.signal,
+      );
+      for (const event of pending.trades) trades.add(event.eventId);
+      for (const id of result.watchChangesAccepted) changes.add(id);
+      this.#state = {
+        ...this.#state,
+        uploadedTradeEventIds: [...trades].slice(-10_000),
+        uploadedWatchChangeIds: [...changes].slice(-10_000),
+      };
+      await writeCompanionState(this.#statePath, this.#state);
+      await installTraderPreferences(
+        rootPath,
+        result.watches,
+        payload.trades.filter((event) => trades.has(event.eventId)).map((event) => event.eventId),
+        payload.watchChanges
+          .filter((change) => changes.has(change.changeId))
+          .map((change) => change.changeId),
+      );
+      this.#accountErrors.delete(filePath);
+    } catch (error: unknown) {
+      if (this.#abortController?.signal.aborted) throw error;
+      const message = error instanceof Error ? error.message : "Account synchronization failed.";
+      this.#accountErrors.set(filePath, "Market uploads are retained. " + message);
+    }
   }
 
   async #enqueueReconciliation(manual: boolean): Promise<CompanionSnapshot> {
@@ -242,7 +296,11 @@ export class DefaultCompanionService implements CompanionService {
         const signature = await this.#readStableSignature(filePath, manual);
         if (!signature) continue;
         const signatureKey = signatureKeyFor(signature);
-        if (this.#processedSignatures.get(filePath) === signatureKey) continue;
+        if (this.#processedSignatures.get(filePath) === signatureKey) {
+          const account = this.#accountPayloads.get(filePath);
+          if (account) await this.#synchronizeAccount(filePath, product.rootPath, account, manual);
+          continue;
+        }
         const retryKey = `${filePath}:${signatureKey}`;
         this.#removeStaleRetries(filePath, retryKey);
         const retry = this.#retries.get(retryKey);
@@ -262,6 +320,11 @@ export class DefaultCompanionService implements CompanionService {
 
         try {
           const savedVariables = await readCollectorSavedVariables(filePath);
+          const accountPayload: TraderSync = {
+            trades: savedVariables.tradeEvents,
+            watchChanges: savedVariables.watchChanges,
+          };
+          this.#accountPayloads.set(filePath, accountPayload);
           const uploadedIds = new Set(this.#state.uploadedScanIds);
           const pending = savedVariables.scans.filter((scan) => !uploadedIds.has(scan.scanId));
           pendingScanCount += pending.length;
@@ -445,6 +508,7 @@ export class DefaultCompanionService implements CompanionService {
               lastProcessedAt: this.#now().toISOString(),
             });
           }
+          await this.#synchronizeAccount(filePath, product.rootPath, accountPayload, true);
           this.#processedSignatures.set(filePath, signatureKey);
           this.#retries.delete(retryKey);
           this.#retryFailures.delete(retryKey);
@@ -463,6 +527,12 @@ export class DefaultCompanionService implements CompanionService {
       }
     }
 
+    if (this.#accountErrors.size > 0)
+      return this.#publish("error", [...this.#accountErrors.values()][0]!, {
+        errorCode: "account_sync_failed",
+        activeScanId: null,
+        pendingScanCount,
+      });
     if (marketIntelligenceUnavailable) {
       return this.#publish(
         "up_to_date",
@@ -493,6 +563,12 @@ export class DefaultCompanionService implements CompanionService {
   }
 
   #removeMissingPaths(currentPaths: ReadonlySet<string>): void {
+    for (const file of this.#accountPayloads.keys())
+      if (!currentPaths.has(file)) {
+        this.#accountPayloads.delete(file);
+        this.#accountSyncAt.delete(file);
+        this.#accountErrors.delete(file);
+      }
     for (const knownPath of this.#observedSignatures.keys()) {
       if (!currentPaths.has(knownPath)) {
         this.#observedSignatures.delete(knownPath);

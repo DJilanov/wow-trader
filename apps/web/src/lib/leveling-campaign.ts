@@ -107,7 +107,7 @@ async function withEvidence(
   starters: CampaignStarterCatalog,
   enrichedStarters: Map<string, CampaignStarterCatalog>,
 ): Promise<CampaignPlan> {
-  const ids = campaignRewardQuestIds({ ...plan, starters });
+  const ids = campaignRewardQuestIds({ ...plan, starters }, { includeHeldLibrary: true });
   const [snapshot, combat] = await Promise.all([
     getLevelingRewardSnapshot(ids),
     getLevelingCombatSnapshot(),

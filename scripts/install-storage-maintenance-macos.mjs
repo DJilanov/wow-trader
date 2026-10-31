@@ -32,7 +32,7 @@ await writeFile(
 <key>ProgramArguments</key><array><string>${escape(process.execPath)}</string><string>${escape(join(root, "scripts/storage-monitor.mjs"))}</string></array>
 <key>WorkingDirectory</key><string>${escape(root)}</string>
 <key>EnvironmentVariables</key><dict>
-<key>PATH</key><string>${escape(dirname(process.execPath))}:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+<key>PATH</key><string>${escape(dirname(process.execPath))}:${escape(join(homedir(), ".local/bin"))}:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
 <key>DEVELOPER_DIR</key><string>/Library/Developer/CommandLineTools</string>
 </dict>
 <key>StartInterval</key><integer>3600</integer>

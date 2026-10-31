@@ -52,7 +52,7 @@ describe("collector addon installation", () => {
     expect(uiSource).toContain('"Save & Reload"');
     expect(uiSource).toContain('"Recent saved scans"');
     expect(tocSource).toContain(
-      "MarketData.lua\nMarketPolicy.lua\nCollector.lua\nProfessions.lua\nWorldEvidence.lua\nUI.lua",
+      "MarketData.lua\nMarketPolicy.lua\nCollector.lua\nProfessions.lua\nTrades.lua\nWorldEvidence.lua\nUI.lua",
     );
 
     await installCollector(product, sourceDirectory);
@@ -70,6 +70,7 @@ describe("collector addon installation", () => {
       "MarketData.lua",
       "MarketPolicy.lua",
       "Professions.lua",
+      "Trades.lua",
       "UI.lua",
       "WorldEvidence.lua",
       "WowTraderCollector.toc",

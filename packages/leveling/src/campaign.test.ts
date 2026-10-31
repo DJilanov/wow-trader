@@ -10,10 +10,12 @@ import {
   activeCampaignActions,
   skipCampaignXpBlock,
   currentCampaignAction,
+  campaignUnmodeledExtras,
   type CampaignSource,
 } from "./campaign.js";
 import { emptyPremadeProgress } from "./premade-model.js";
 import { recordPremadeXp } from "./premade.js";
+import { forecastCampaignXp } from "./campaign-xp.js";
 
 function source(id: number, body: string): CampaignSource {
   const reference = CHAPTER_REFERENCES.find((entry) => entry.sourceId === id)!;
@@ -44,6 +46,94 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
+  it("keeps required finishing XP as an explicit task instead of awarding level 60 automatically", () => {
+    const base = plan();
+    const finish = {
+      ...base,
+      legs: base.legs.filter((leg) => leg.kind === "finish"),
+      actions: base.actions.filter((action) => action.legId === "level-60-finish"),
+    };
+    const current = emptyPremadeProgress();
+    const progress = {
+      ...current,
+      members: current.members.map((member) => ({
+        ...member,
+        level: 56,
+        currentXp: 0,
+        xpNeedsUpdate: false,
+      })),
+    };
+    expect(forecastCampaignXp(finish, progress).at(-1)?.members[0]?.knownEndpoint?.level).toBe(60);
+    expect(
+      forecastCampaignXp(finish, progress, { noAssumedGrinding: true }).at(-1)?.members[0]
+        ?.knownEndpoint?.level,
+    ).toBe(56);
+    expect(progress.members[0]?.level).toBe(56);
+  });
+  it("defers the Defias lead-in until the Deadmines visit instead of forcing an early Westfall level gate", () => {
+    const route = plan();
+    expect(route.legs.some((leg) => leg.id === "start-125")).toBe(false);
+    expect(
+      route.actions.find((action) =>
+        action.questChanges.some((change) => change.questId === 65 && change.state === "accepted"),
+      )?.legId,
+    ).toBe("defias-unlock");
+    expect(route.legs.findIndex((leg) => leg.id === "early-darkshore-kills")).toBeLessThan(
+      route.legs.findIndex((leg) => leg.id === "dungeon-thanes"),
+    );
+  });
+  it("includes the real Nekrum and Hakkar prerequisite lifecycles before their dungeon pickups", () => {
+    const actions = plan().actions;
+    const phase = (questId: number, state: "accepted" | "rewarded"): number =>
+      actions.findIndex((action) =>
+        action.questChanges.some((change) => change.questId === questId && change.state === state),
+      );
+    for (const [parent, child] of [
+      [2988, 2989],
+      [2989, 2990],
+      [2990, 2991],
+      [3527, 4787],
+      [4787, 3528],
+    ]) {
+      expect(phase(parent!, "rewarded")).toBeGreaterThanOrEqual(0);
+      expect(phase(parent!, "rewarded")).toBeLessThan(phase(child!, "accepted"));
+    }
+    expect(
+      actions
+        .flatMap((action) => action.questChanges)
+        .filter((change) => change.questId === 2988 && change.state === "objectives-complete")
+        .map((change) => change.objectiveIndex),
+    ).toEqual([1, 2, 3]);
+  });
+  it("does not revive a policy-excluded farm through default extras, while preserving explicit opt-in review", () => {
+    const base = plan();
+    const route = {
+      ...base,
+      actions: base.actions.filter(
+        (action) => !action.questChanges.some((change) => change.questId === 2924),
+      ),
+      partyPolicy: {
+        revision: "five-player-kill-first-20261031-v1" as const,
+        partySize: 5 as const,
+        unresolvedPrerequisiteIds: [],
+        decisions: [
+          {
+            questId: 2924,
+            objective: "collection" as const,
+            included: false,
+            requiredFor: [],
+            lootCost: null,
+            reason: "Long party farm",
+          },
+        ],
+      },
+    };
+    const initial = emptyPremadeProgress();
+    expect(campaignUnmodeledExtras(route, initial)).not.toContain(2924);
+    expect(
+      campaignUnmodeledExtras(route, { ...initial, selectedExtras: { 2924: true } }),
+    ).toContain(2924);
+  });
   it("includes ordinary collection lifecycles by default and removes all three phases on explicit opt-out", () => {
     const route = plan();
     const initial = emptyPremadeProgress();

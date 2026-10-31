@@ -1,5 +1,14 @@
 # WoW Forever leveling: browser guide, RestedXP edition and implementation plan
 
+## October 31: five-player route policy
+
+Local work now prioritizes shared kill credit across the source library, protects selected
+dungeon/class unlocks, defers the early Westfall detour and adds the early Darkshore circuit.
+Useful first-visit flight paths are retained for later dungeon travel. See the
+[current implementation and release checks](forever-five-player-route-policy.md) for source
+coverage, verification and remaining evidence limits. The older audit receipts below describe
+their own revisions and do not certify this new route.
+
 ## Current scope correction: planning before comprehensive recordings (October 21, 2026)
 
 The owner approved finishing the theoretical guide with sourced estimates, rather than waiting

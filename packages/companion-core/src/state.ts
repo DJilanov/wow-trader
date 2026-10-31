@@ -39,12 +39,16 @@ const stateV4Schema = z.object({
   uploadedDiagnosticPayloadIds: z.array(z.string().uuid()).max(1_000),
   uploadedProfessionSnapshotIds: z.array(z.string().uuid()).max(1_000),
   activities: z.array(activitySchema).max(100),
+  uploadedTradeEventIds: z.array(z.string().uuid()).max(10_000).optional(),
+  uploadedWatchChangeIds: z.array(z.string().uuid()).max(10_000).optional(),
 });
 
 export type CompanionActivity = z.infer<typeof activitySchema>;
 
 export interface CompanionState {
   readonly schemaVersion: 4;
+  readonly uploadedTradeEventIds?: readonly string[];
+  readonly uploadedWatchChangeIds?: readonly string[];
   readonly uploadedScanIds: readonly string[];
   readonly uploadedDiagnosticPayloadIds: readonly string[];
   readonly uploadedProfessionSnapshotIds: readonly string[];

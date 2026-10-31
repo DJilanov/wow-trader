@@ -309,9 +309,13 @@ local function CreateScannerPanel()
     COLORS.parchment
   )
   helpText:SetPoint("TOPLEFT", 10, -29)
-  helpText:SetPoint("BOTTOMRIGHT", -8, 8)
+  helpText:SetPoint("BOTTOMRIGHT", -8, 36)
   helpText:SetJustifyH("LEFT")
   helpText:SetJustifyV("TOP")
+  local ledgerButton = CreateActionButton(helpPanel, "Trade receipts", 150, "Private trade ledger", "Enable confirmed mailbox receipts and inspect the local queue.")
+  ledgerButton:SetPoint("BOTTOM", 0, 8)
+  ledgerButton:SetScript("OnClick", function() Addon.ShowTradeLedger() end)
+
 
   local hero = CreatePanel(frame, nil, COLORS.panelRaised, COLORS.borderBright)
   hero:SetSize(626, 120)
@@ -1035,6 +1039,44 @@ local function ShowAuctionHouseLauncher()
     button:SetPoint("TOP", UIParent, "TOP", 0, -80)
   end
   button:Show()
+end
+
+
+local tradePanel = nil
+function Addon.ShowTradeLedger()
+  if tradePanel then tradePanel:Show();tradePanel.refresh();return end
+  local frame = CreatePanel(UIParent, "WoWTraderTradeLedgerFrame", COLORS.background, COLORS.borderBright)
+  frame:SetSize(520, 390);frame:SetPoint("CENTER");frame:SetFrameStrata("DIALOG");frame:EnableMouse(true)
+  local title = CreateText(frame, "GameFontNormalLarge", "Private trade receipts", COLORS.gold)
+  title:SetPoint("TOPLEFT", 20, -20)
+  local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton");close:SetPoint("TOPRIGHT", -4, -4)
+  local enabled = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+  enabled:SetPoint("TOPLEFT", 18, -56)
+  local label = CreateText(frame, "GameFontHighlight", "Record collected Auction House receipts", COLORS.parchment)
+  label:SetPoint("LEFT", enabled, "RIGHT", 4, 0)
+  local scope = CreateText(frame, "GameFontHighlightSmall", "", COLORS.muted);scope:SetPoint("TOPLEFT", 20, -100)
+  local markets = { "unknown", "alliance", "horde", "neutral" }
+  for index, market in ipairs(markets) do
+    local button = CreateActionButton(frame, market, 108, "Receipt market", "Select only when you know which Auction House produced these receipts.")
+    button:SetPoint("TOPLEFT", 20 + (index - 1) * 120, -126)
+    button:SetScript("OnClick", function() Addon.SetTradeLedgerMarket(market);frame.refresh() end)
+  end
+  local text = CreateText(frame, "GameFontHighlight", "", COLORS.parchment)
+  text:SetPoint("TOPLEFT", 20, -174);text:SetWidth(480);text:SetJustifyH("LEFT");text:SetJustifyV("TOP")
+  local help = CreateText(frame, "GameFontHighlightSmall", "Confirmed purchase and sale receipts are recorded when you collect Auction House mail. Missing item IDs, quantities or fees stay unverified. Other players' names and mail text are not uploaded. Connect Companion to your account to sync; then Save & Reload.", COLORS.muted)
+  help:SetPoint("TOPLEFT", 20, -224);help:SetWidth(480);help:SetJustifyH("LEFT")
+  local save = CreateActionButton(frame, "Save & Reload", 138, "Save private receipts", "Writes the local receipt queue for Companion synchronization.")
+  save:SetPoint("BOTTOMRIGHT", -20, 18);save:SetScript("OnClick", function() Addon.SaveAndReload() end)
+  frame.refresh = function()
+    local status = Addon.GetTradeLedgerStatus();enabled:SetChecked(status.enabled)
+    scope:SetText("Receipt Auction House: " .. status.market .. " (unknown is kept separate)")
+    text:SetText(string.format("%d captured receipts waiting in the local queue\n%d visible invoices lack enough evidence", status.events, status.unsupported))
+  end
+  enabled:SetScript("OnClick", function() Addon.SetTradeLedgerEnabled(enabled:GetChecked());frame.refresh() end)
+  frame:SetScript("OnShow", frame.refresh)
+  tradePanel = frame
+  if type(UISpecialFrames) == "table" then table.insert(UISpecialFrames, frame:GetName()) end
+  frame.refresh();frame:Show()
 end
 
 local function AddMarketTooltip(tooltip, tooltipData)

@@ -122,41 +122,131 @@ export function App(): ReactNode {
         </div>
       )}
 
-      {!snapshot.credentialConfigured && (
+      {!snapshot.accountLinked && (
         <section className="panel setup-panel">
           <div className="step-number">1</div>
           <div className="panel-copy">
-            <span className="eyebrow">Connect this installation</span>
-            <h2>Add your private collector token</h2>
+            <span className="eyebrow">Connect your Trader account</span>
+            <h2>Approve this installation in your browser</h2>
             <p>
-              Maintainer alpha only. The token is encrypted by your operating system and is never
-              stored in settings or logs.
+              Sign in with Discord and confirm the matching code. Companion stores its revocable
+              credential using your operating system's encrypted storage.
             </p>
-            <form className="credential-form" onSubmit={submitCredential}>
-              <label htmlFor="credential">Collector token</label>
-              <div>
-                <input
-                  id="credential"
-                  type="password"
-                  autoComplete="off"
-                  minLength={16}
-                  required
-                  value={credential}
-                  onChange={(event) => setCredential(event.currentTarget.value)}
-                  placeholder="Paste the token once"
-                />
-                <button
-                  className="button primary"
-                  type="submit"
-                  disabled={credential.trim().length < 16 || busy}
-                >
-                  {action.key === "credential" ? "Saving…" : "Connect"}
-                </button>
-              </div>
-            </form>
+            <button
+              className="button primary"
+              type="button"
+              disabled={busy || snapshot.pairing?.status === "waiting"}
+              onClick={() => void perform("pair", window.wowTrader.beginPairing)}
+            >
+              {action.key === "pair" ? "Opening browser…" : "Connect account"}
+            </button>
+            {snapshot.credentialConfigured ? (
+              <p className="muted">
+                Your maintainer uploads still work. Connect an account to enable private characters,
+                trade receipts and synced watches.
+              </p>
+            ) : null}
+            <details>
+              <summary>Advanced maintainer token</summary>
+              <form className="credential-form" onSubmit={submitCredential}>
+                <label htmlFor="credential">Collector token</label>
+                <div>
+                  <input
+                    id="credential"
+                    type="password"
+                    autoComplete="off"
+                    minLength={16}
+                    required
+                    value={credential}
+                    onChange={(event) => setCredential(event.currentTarget.value)}
+                    placeholder="Private maintainer token"
+                  />
+                  <button
+                    className="button secondary"
+                    type="submit"
+                    disabled={credential.trim().length < 16 || busy}
+                  >
+                    Save token
+                  </button>
+                </div>
+              </form>
+            </details>
           </div>
         </section>
       )}
+      {snapshot.pairing ? (
+        <section className="panel" aria-live="polite">
+          <h2>
+            {snapshot.pairing.status === "waiting"
+              ? "Confirm this code"
+              : "Connection needs attention"}
+          </h2>
+          <p className="pairing-code">{snapshot.pairing.code}</p>
+          <p>{snapshot.pairing.message}</p>
+          <button
+            className="button secondary"
+            type="button"
+            onClick={() => void perform("cancel-pair", window.wowTrader.cancelPairing)}
+          >
+            Cancel connection
+          </button>
+        </section>
+      ) : null}
+      {snapshot.accountLinked ? (
+        <section className="panel">
+          <h2>Trader account connected</h2>
+          <p>
+            Character snapshots, watched items and enabled trade receipts synchronize privately
+            after WoW saves them.
+          </p>
+          <button
+            className="button secondary"
+            type="button"
+            onClick={() => void perform("account", window.wowTrader.openAccount)}
+          >
+            Manage devices and trade ledger
+          </button>
+        </section>
+      ) : null}
+      <section className="panel">
+        <h2>Companion updates</h2>
+        <button
+          className="button secondary"
+          type="button"
+          disabled={busy}
+          onClick={() => void perform("update", window.wowTrader.checkUpdate)}
+        >
+          {action.key === "update" ? "Checking…" : "Check for updates"}
+        </button>
+        {snapshot.update ? (
+          <div aria-live="polite">
+            <p>
+              {snapshot.update.available
+                ? `Companion ${snapshot.update.version} is available.`
+                : `This installation is current. Latest published version: ${snapshot.update.version}.`}
+            </p>
+            {snapshot.update.available && snapshot.update.downloadUrl ? (
+              <>
+                <p>
+                  {snapshot.update.signed ? "Publisher-signed package" : "Unsigned alpha package"} ·
+                  SHA-256 {snapshot.update.sha256}
+                </p>
+                <button
+                  className="button primary"
+                  type="button"
+                  onClick={() => void perform("download", window.wowTrader.downloadUpdate)}
+                >
+                  Download update
+                </button>
+                <small>
+                  Install the downloaded package, then restart Companion. Unsigned packages are
+                  never installed automatically.
+                </small>
+              </>
+            ) : null}
+          </div>
+        ) : null}
+      </section>
 
       {snapshot.legacyServiceDetected && (
         <div className="notice warning-notice">

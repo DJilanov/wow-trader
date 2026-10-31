@@ -60,6 +60,8 @@ export type WorkspaceRouteFilter = "best" | RealizationRoute;
 export type WorkspaceSort = "total-profit" | "profit" | "roi" | "specialization-uplift";
 
 export interface MarketWorkspaceFilters {
+  readonly knownRecipeSpellIds?: readonly number[];
+  readonly recipeSpecializations?: Readonly<Record<string, CraftingSpecializationProfile>>;
   readonly marketOnly?: boolean;
   readonly clientProduct?: string;
   readonly market?: string;
@@ -115,6 +117,7 @@ export interface MarketWorkspaceOpportunity {
     readonly guidance: string;
   };
   readonly netValue: string;
+  readonly netValueCopper: string;
   readonly auctionHouseCut: string;
   readonly quotedProfit: string;
   readonly baseProfit: string;
@@ -149,6 +152,7 @@ export interface MarketWorkspaceOpportunity {
     readonly iconFileDataId: number | null;
     readonly quality: number;
     readonly cost: string;
+    readonly costCopper: string;
     readonly highestUnitPrice: string;
     readonly priceSignalLabel: string | null;
     readonly priceSignalKind: string | null;
@@ -550,6 +554,8 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
     useAltCrafting ? undefined : filters.profession || undefined,
   );
   const candidates = recipeRows.flatMap((recipe) => {
+    if (filters.knownRecipeSpellIds && !filters.knownRecipeSpellIds.includes(recipe.recipeSpellId))
+      return [];
     if (isTimeGatedCraft(recipe.cooldownMs, recipe.categoryCooldownMs)) return [];
     const candidate = makeCandidate(
       recipe,
@@ -586,15 +592,18 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
           inputs: transformationInputsById.get(transformation.transformationId) ?? [],
           outputs: transformationOutputsById.get(transformation.transformationId) ?? [],
         })),
+        filters.recipeSpecializations,
       )
     : null;
 
   for (const candidate of candidates) {
+    const recipeSpecializations =
+      filters.recipeSpecializations?.[String(candidate.recipeSpellId)] ?? selectedSpecializations;
     if (
       !isRecipeAvailableWithSpecialization(
         build.product,
         build.buildNumber,
-        selectedSpecializations,
+        recipeSpecializations,
         candidate,
       )
     ) {
@@ -603,7 +612,7 @@ async function loadMarketWorkspace(filters: MarketWorkspaceFilters): Promise<Mar
     const specialization = resolveSpecialization(
       build.product,
       build.buildNumber,
-      selectedSpecializations,
+      recipeSpecializations,
       candidate,
     );
     const materialPlan = productionPlanner
@@ -855,6 +864,8 @@ function workspaceCacheKey(filters: MarketWorkspaceFilters): string {
     specializations: filters.specializations ?? {},
     useAltCrafting: filters.useAltCrafting ?? false,
     recipeSpellId: filters.recipeSpellId ?? null,
+    knownRecipeSpellIds: filters.knownRecipeSpellIds ?? null,
+    recipeSpecializations: filters.recipeSpecializations ?? null,
     page: normalizePage(filters.page),
     pageSize: normalizePageSize(filters.pageSize),
   });
@@ -891,15 +902,17 @@ function createWorkspaceProductionPlanner(
   buildNumber: number,
   specializations: CraftingSpecializationProfile,
   transformations: readonly WorkspaceTransformation[],
+  recipeProfiles?: Readonly<Record<string, CraftingSpecializationProfile>>,
 ): ProductionPlanner {
   const recipes: ProductionRecipe[] = [];
   for (const candidate of candidates) {
-    if (!isRecipeAvailableWithSpecialization(product, buildNumber, specializations, candidate)) {
+    const profile = recipeProfiles?.[String(candidate.recipeSpellId)] ?? specializations;
+    if (!isRecipeAvailableWithSpecialization(product, buildNumber, profile, candidate)) {
       continue;
     }
     const adjusted = applySpecialization(
       candidate,
-      resolveSpecialization(product, buildNumber, specializations, candidate),
+      resolveSpecialization(product, buildNumber, profile, candidate),
     );
     const [output] = adjusted.outputs;
     if (
@@ -1321,6 +1334,7 @@ function formatOpportunity(
     })),
     crossProfessionTransferCount: evaluation.crossProfessionTransferCount,
     netValue: formatCopper(result.expectedNetRevenueCopper),
+    netValueCopper: result.expectedNetRevenueCopper.toString(),
     auctionHouseCut: formatCopper(result.expectedAuctionHouseCutCopper),
     quotedProfit: formatCopper(result.expectedProfitCopper),
     baseProfit: formatCopper(baseProfitCopper),
@@ -1364,6 +1378,7 @@ function formatOpportunity(
         iconFileDataId: input.iconFileDataId,
         quality: input.quality,
         cost: formatCopper(input.costCopper),
+        costCopper: input.costCopper.toString(),
         highestUnitPrice: formatCopper(input.highestUnitPriceCopper),
         priceSignalLabel: inputSignal?.label ?? null,
         priceSignalKind: inputSignal?.status === "available" ? inputSignal.kind : null,

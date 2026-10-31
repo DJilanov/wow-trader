@@ -82,6 +82,35 @@ const kills =
   "step\n.accept 400001 >> Accept Gnoll Patrol\nstep\n>>Kill gnolls\n.complete 400001,1\n.mob Redridge Gnoll\nstep\n.turnin 400001 >> Turn in Gnoll Patrol";
 
 describe("full source kill-first quest backbone", () => {
+  it("recognizes a kill counter even when the same camp also drops items for another quest", () => {
+    const quests = library(
+      "step\n.accept 9 >> Accept The Killing Fields\nstep\n>>Kill Harvest Watchers and loot their Okra\n.complete 9,1 >> Havest Watcher slain (20)\n.mob Harvest Watcher\n.collect 729,3,38\nstep\n.turnin 9 >> Turn in The Killing Fields",
+    );
+    expect(quests[0]?.objective).toBe("shared-kills");
+  });
+  it("uses the static prerequisite record instead of an adjacent unrelated turn-in", () => {
+    const chapter = CHAPTER_REFERENCES.find((entry) => entry.sourceId === 128)!;
+    const source = {
+      reference: chapter,
+      guide: parseGuideChapter(
+        "step\n.turnin 400010 >> Turn in Old Work\n.accept 400001 >> Accept Gnoll Patrol\nstep\n.complete 400001,1 >> Gnoll slain (10)\nstep\n.turnin 400001 >> Turn in Gnoll Patrol",
+        chapter.id,
+        "a".repeat(64),
+        70205,
+      ),
+    };
+    const quests = buildCampaignQuestLibrary([source], profile, [], new Set(), [
+      {
+        questId: 400001,
+        creatureIds: [],
+        itemCreatureIds: [],
+        objectiveText: [],
+        onlyCreatureObjectives: true,
+        prerequisites: { allOf: [], anyOf: [] },
+      },
+    ]);
+    expect(quests.find((quest) => quest.questId === 400001)?.prerequisiteIds).toEqual([]);
+  });
   it("inserts complete kill quests even while numeric reward collection is pending", () => {
     const original = base();
     const plan = integrateCampaignQuestLibrary(original, library(kills), new Set());
@@ -388,6 +417,41 @@ describe("full source kill-first quest backbone", () => {
       ),
     };
     expect(nearbyLibraryQuest(longSpan, [camp])).toBe(false);
+    const world = quests[0]!.actions.map((action, index) => ({
+      ...action,
+      positions: [
+        {
+          sourceLine: 1,
+          position: {
+            space: "world" as const,
+            zone: "1429",
+            floor: 0,
+            x: -9000 + index * 100,
+            y: -300,
+          },
+        },
+      ],
+    }));
+    expect(
+      nearbyLibraryQuest({ ...quests[0]!, actions: world }, [
+        { ...camp, positions: world[0]!.positions },
+      ]),
+    ).toBe(true);
+    expect(
+      nearbyLibraryQuest(
+        {
+          ...quests[0]!,
+          actions: world.map((action, index) => ({
+            ...action,
+            positions: action.positions.map((entry) => ({
+              ...entry,
+              position: { ...entry.position, x: -9000 + index * 2000 },
+            })),
+          })),
+        },
+        [{ ...camp, positions: world[0]!.positions }],
+      ),
+    ).toBe(false);
   });
   it("hides lead-ins used exclusively by optional raid goals when those goals are off", () => {
     const quests = library(

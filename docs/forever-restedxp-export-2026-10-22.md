@@ -1,5 +1,109 @@
 # Current-route RestedXP export
 
+## October 31: updated kill-first flow preview (v26)
+
+The current private preview is
+`artifacts/leveling/tbc-flow-test-kill-first-20261031-v26/kfc-party-tbc-flow-test.txt`.
+Use the three **KFC Party TBC v26** groups: 01–20 (10 chapters), 20–40 (26), and 40–60 (20).
+The earlier October 31 preview is preserved and contains the older route.
+
+The new preview includes the shared-objective policy, early Darkshore circuit, fresh-server
+flight-path steps and the owner's eight first-clear dungeon finish from around 55 to 60.
+The installed v4.11.29 loader parsed all 56 chapters for Human/Warrior and NightElf/Druid,
+with exact decoded bytes, all 55 next-chapter links and both level-group transitions.
+Command execution is mocked in that loader check; it does not validate live quest behavior.
+This remains an account-bound TBC flow preview, not a TBC leveling route or a newly installed addon.
+
+## October 31: importing while only TBC is available
+
+Reported error: **Error parsing guide**, after loading 154,939 characters and
+66 guides. The installed addon is **v4.11.29**, not the original v4.11.27 test
+target. Its loader decodes our Forever documents but filters them in TBC mode:
+both `#forever` and `<< Alliance Forever …` restrict their game eligibility.
+The stock importer then reports the generic parsing error when no guides register.
+This failure was reproduced with the installed loader without changing its files
+or reading/writing the player's SavedVariables.
+
+The pinned v4.11.27 loader did not include `forever` in its game-tag detection;
+a minimal Forever-tagged document could consequently register in TBC. Testing
+only that version and a simulated Forever player missed the newer TBC failure.
+The checker now distinguishes pinned-source verification from installed-addon
+diagnostics and tests the version-specific TBC outcome explicitly.
+
+For an import/UI preview before Forever opens, add **`--preview-game=tbc`** to
+the existing CLI export command:
+
+```sh
+node scripts/export-restedxp-import.mjs \
+  --documents=/absolute/path/to/your/guides.json \
+  --account-file=/absolute/private/battletag.txt \
+  --output=/absolute/private/kfc-tbc-preview.txt \
+  --role=leader \
+  --preview-game=tbc
+```
+
+Use `--role=party` for the member edition. Import the contents of the new text
+file into RestedXP. The preview uses a separate **KFC TBC Import Preview** group,
+changes the game tag and standalone game eligibility condition, and preserves
+race/class restrictions, quest IDs, quest instructions and next-chapter names.
+The source documents are unchanged. Omitting the flag still exports the normal
+Forever guide. Receipts identify `importGame`, `previewOnly` and the original
+source/compiler identity; no account is included in logs.
+
+This is an import preview, not a TBC leveling conversion. Forever-only quests,
+maps and XP rules cannot be gameplay-validated on TBC. It also does not rebuild
+an older route revision: use the document set belonging to the export you intend
+to test. The original 66-guide payload was not supplied for byte-for-byte inspection.
+
+Verification completed:
+
+- All **12** CLI export/review regression tests passed, plus focused ESLint and
+  formatting checks.
+- The existing **146-document v22 review** (73 leader + 73 member chapters)
+  passed **26 installed-loader cases** across normal Forever operation, the TBC
+  rejection and TBC previews, including wrong-account rejection. This is an
+  explicit parser regression fixture, not a newly published route.
+- Installed-addon files and original document bytes were unchanged. The private
+  receipt is `.cache/restedxp/tbc-import-debug/verified.json`.
+- The fixture still mocks game command constructors. Real arrows, quest tracking
+  and gameplay need in-game testing; no addon, export or website was deployed.
+
+To reproduce the installed-loader diagnosis with synthetic accounts only:
+
+```sh
+node scripts/check-restedxp-import.mjs \
+  --installed-addon-root="/Applications/World of Warcraft/_anniversary_/Interface/AddOns/RXPGuides"
+```
+
+Use `--game=TBC` when checking documents explicitly generated for a TBC preview.
+Without `--installed-addon-root`, the existing pinned upstream revision and clean
+source checks remain required. The installed mode supports the inspected
+v4.11.27/v4.11.29 loaders and reports the actual loader hash.
+
+### Smaller level-group menus
+
+Add `--level-groups` to the CLI export command to divide each character's guide
+into **01–20**, **20–40** and **40–60** groups. Chapters are assigned by their
+starting level; a chapter spanning a boundary stays intact. Quest instructions
+and chapter order are preserved. Links crossing a boundary use RestedXP's native
+`Group\Chapter` form so completing a group continues to the next one.
+
+The account-bound flow-test replacement is
+`artifacts/leveling/tbc-flow-test-20261031/kfc-human-route-tbc-flow-test-grouped.txt`.
+It contains the same saved 73-chapter review route in three compact groups:
+`KFC TBC · 01-20` (10 chapters), `KFC TBC · 20-40` (29) and
+`KFC TBC · 40-60` (34). Select the new **KFC TBC · 01-20** group after importing;
+RestedXP may retain the earlier unsplit imported group separately.
+
+All 17 focused export/grouping/review tests passed, along with ESLint and
+formatting checks. Installed v4.11.29 loader checks passed for Human Warrior and
+Night Elf Druid, with all 72 next-chapter links and both group transitions
+resolved by the actual addon function. Quest-command constructors remain mocked;
+this verifies import structure and navigation, not a TBC playthrough. The private
+receipt is alongside the replacement string as `grouped-receipt.json`.
+
+## Previous review baseline
+
 October 23 follow-up: the dungeon-order correction advances the compiler to
 `campaign-addon-20261023-v23`. The v22 review.6 package below remains an immutable
 historical review, not a package of the newly reordered route. See the

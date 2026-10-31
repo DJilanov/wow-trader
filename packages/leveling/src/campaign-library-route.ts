@@ -495,7 +495,7 @@ export function integrateCampaignQuestLibrary(
         ];
       });
     const extra = [...(additions.get(leg.id) ?? [])].sort(sourceActionOrder);
-    const entries = orderLibraryActions(mergeSourceActions(original, extra));
+    const entries = orderCampaignQuestStages(mergeSourceActions(original, extra));
     actions.push(...entries);
     stages.push({
       ...leg,
@@ -581,11 +581,10 @@ export function nearbyLibraryQuest(
   if (!points.length || quest.actions.some((action) => !action.positions.length)) return false;
   const origin = points[0]!;
   const close = (left: (typeof points)[number], right: (typeof points)[number]): boolean =>
-    left.space === "map-percent" &&
     right.space === left.space &&
     left.zone === right.zone &&
     left.floor === right.floor &&
-    Math.hypot(left.x - right.x, left.y - right.y) <= 12;
+    Math.hypot(left.x - right.x, left.y - right.y) <= (left.space === "map-percent" ? 12 : 600);
   return (
     points.every((point) => close(point, origin)) &&
     points.some((point) => campPoints.some((candidate) => close(point, candidate)))
@@ -625,8 +624,11 @@ function mergeSourceActions(
   return result;
 }
 
-function orderLibraryActions(entries: readonly CampaignAction[]): readonly CampaignAction[] {
-  if (!entries.some((action) => action.libraryQuestId)) return entries;
+export function orderCampaignQuestStages(
+  entries: readonly CampaignAction[],
+  includeManual = false,
+): readonly CampaignAction[] {
+  if (!includeManual && !entries.some((action) => action.libraryQuestId)) return entries;
   const phase = { accepted: 0, "objectives-complete": 1, rewarded: 2 };
   const pending = [...entries];
   const result: CampaignAction[] = [];

@@ -142,7 +142,14 @@ try {
         itemName:
           itemId === 1 ? "Scanned Copper Ore" : itemId === 2 ? "Scanned Reagent" : "Scanned Armor",
         itemClassId: itemId === 3 ? 4 : 7,
-        priceLevels: [{ unitPriceCopper: String(price), quantity: 100, listingCount: 5 }],
+        priceLevels: [
+          {
+            unitPriceCopper: String(price),
+            quantity: 100,
+            listingCount: 20,
+            lots: [{ stackSize: 5, buyoutCopper: String(price * 5), listingCount: 20 }],
+          },
+        ],
       })),
     };
     return {
@@ -209,7 +216,14 @@ try {
   const copper = current.items.find((item) => item.itemId === 1);
   assert.equal(copper.observationCount, 11);
   assert.equal(copper.signal, "bargain");
-  assert.deepEqual(copper.levels, [{ unitPriceCopper: "6000", quantity: 100, listingCount: 5 }]);
+  assert.deepEqual(copper.levels, [
+    {
+      unitPriceCopper: "6000",
+      quantity: 100,
+      listingCount: 20,
+      lots: [{ stackSize: 5, buyoutCopper: "30000", listingCount: 20 }],
+    },
+  ]);
   assert.equal(current.items.find((item) => item.itemId === 2).observationCount, 3);
   assert.equal(current.historyPolicy, "robust-market-history-v1");
   assert.deepEqual(current.historyBuilds, [69800, 69801]);
@@ -224,7 +238,14 @@ try {
   const intelligence = analyzePriceHistory(history.byItem.get(1));
   const quote = quoteBuyOpportunity({
     intelligence,
-    levels: [{ unitPriceCopper: 6000n, quantity: 100, listingCount: 5 }],
+    levels: [
+      {
+        unitPriceCopper: 6000n,
+        quantity: 100,
+        listingCount: 20,
+        lots: [{ stackSize: 5, buyoutCopper: 30000n, listingCount: 20 }],
+      },
+    ],
     observedAt: new Date(last.completedAt),
     now: new Date(),
     auctionHouseType: "alliance",

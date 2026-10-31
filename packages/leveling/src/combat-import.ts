@@ -224,9 +224,15 @@ export function importQuestieCombatData(input: {
     });
     quests.push({
       questId,
+      requiredClasses: nullableInteger(row.get(7), 0, 0xffffffff) ?? 0,
+      prerequisites: { allOf: numericIds(row.get(12)), anyOf: numericIds(row.get(13)) },
       creatureIds: [...new Set(creatureIds)],
       itemCreatureIds: [...new Set(itemCreatureIds)],
       itemObjectives,
+      onlyInteractionObjectives:
+        itemObjectives.length === 0 &&
+        creatureIds.length === 0 &&
+        (table(row.get(9)).size > 0 || table(objectives.get(2)).size > 0),
       objectiveText: [...table(row.get(8)).values()].filter(
         (text): text is string => typeof text === "string",
       ),

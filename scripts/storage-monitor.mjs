@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { mkdir, readFile, writeFile, rename, statfs } from "node:fs/promises";
+import { lstat, mkdir, readFile, writeFile, rename, statfs } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { homedir } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -81,6 +81,16 @@ export function developmentBusy(commands) {
     );
 }
 
+/** @param {{code?: string | number, stderr?: string}} error @returns {boolean} */
+export function isDockerUnavailable(error) {
+  return (
+    error.code === "ENOENT" ||
+    /Cannot connect|Is the docker daemon running|connect: no such file|connect: connection refused/.test(
+      error.stderr ?? "",
+    )
+  );
+}
+
 async function pruneAbandonedCrawls(docker, now) {
   const { stdout } = await execute(
     docker,
@@ -114,7 +124,12 @@ async function pruneAbandonedCrawls(docker, now) {
   return removed;
 }
 
-async function folderTotals(repository, home) {
+/**
+ * @param {string} repository
+ * @param {string} home
+ * @returns {Promise<Record<string, number | {unavailable: string | number}>>}
+ */
+export async function folderTotals(repository, home) {
   const folders = {
     projects: join(home, "work"),
     wowArtifacts: join(repository, "artifacts"),
@@ -128,12 +143,14 @@ async function folderTotals(repository, home) {
   const totals = {};
   for (const [name, path] of Object.entries(folders)) {
     try {
+      await lstat(path);
       const { stdout } = await execute("/usr/bin/du", ["-skx", path], { timeout: 900_000 });
       totals[name] = Number(stdout.split(/\s/, 1)[0]) * 1024;
     } catch (error) {
-      totals[name] = {
-        unavailable: error.killed ? "scan timed out" : (error.code ?? "scan failed"),
-      };
+      totals[name] =
+        error.code === "ENOENT"
+          ? 0
+          : { unavailable: error.killed ? "scan timed out" : (error.code ?? "scan failed") };
     }
   }
   return totals;
@@ -142,8 +159,8 @@ async function folderTotals(repository, home) {
 export async function runStorageMonitor({
   repository = resolve(import.meta.dirname, ".."),
   home = homedir(),
-  docker = "/usr/local/bin/docker",
-  pnpm = join(process.execPath, "../pnpm"),
+  docker = "docker",
+  pnpm = "pnpm",
   cleanup = true,
 } = {}) {
   const stateDirectory = join(home, "Library/Logs/DeveloperStorageMaintenance");
@@ -202,12 +219,8 @@ export async function runStorageMonitor({
         sample.orphanCrawlsRemoved = await pruneAbandonedCrawls(docker, now);
       } catch (error) {
         sample.dockerMaintenance = "unavailable";
-        // A stopped Docker daemon is normal; no daemon is started by maintenance.
-        if (
-          !/Cannot connect|Is the docker daemon running|connect: no such file|connect: connection refused/.test(
-            error.stderr ?? "",
-          )
-        )
+        // Missing or stopped Docker is normal; maintenance never starts it.
+        if (!isDockerUnavailable(error))
           errors.push(`Docker cleanup: ${error.code ?? error.message}`);
       }
       if (!busy && (!state.cleanedAt || now - state.cleanedAt >= day)) {

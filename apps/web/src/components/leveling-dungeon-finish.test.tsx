@@ -7,6 +7,24 @@ import { guideTestPlan } from "./leveling-guide.test-fixture";
 
 const noop = (): void => {};
 describe("dungeon finish presentation", () => {
+  it("leads with the eight first-clear route and keeps measurements optional", () => {
+    const html = renderToStaticMarkup(
+      <LevelingDungeonFinish
+        plan={guideTestPlan()}
+        progress={emptyPremadeProgress()}
+        disabled={false}
+        onChange={noop}
+      />,
+    );
+    expect(html.match(/data-first-clear=/g)).toHaveLength(8);
+    expect(html).toContain("8 first clears · 55 → 60");
+    expect(html).toContain("BRD run from the previous chapter counts");
+    expect(html.indexOf("55–60 first-clear circuit")).toBeLessThan(
+      html.indexOf("Optional XP and repeat-run estimates"),
+    );
+    expect(html).toMatch(/<details[^>]*><summary>Optional XP and repeat-run estimates/);
+    expect(html).not.toMatch(/<details[^>]*\bopen\b/);
+  });
   it("offers ten run options without presenting unrecorded bars as a measured forecast", () => {
     const html = renderToStaticMarkup(
       <LevelingDungeonFinish

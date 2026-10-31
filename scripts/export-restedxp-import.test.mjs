@@ -70,6 +70,8 @@ test("CLI exports exact selected documents with private permissions and no accou
     assert.equal(receipt.role, "leader");
     assert.equal(receipt.inGameValidated, false);
     assert.equal(receipt.accountContextLogged, false);
+    assert.equal(receipt.importGame, "FOREVER");
+    assert.equal(receipt.previewOnly, false);
     const encoded = await readFile(output, "utf8");
     assert(!encoded.includes(account));
     assert.deepEqual((await decodeRestedXpImport(encoded, account, compression)).guides, [
@@ -79,6 +81,105 @@ test("CLI exports exact selected documents with private permissions and no accou
     const duplicate = invoke(["--role=leader"]);
     assert.notEqual(duplicate.status, 0);
     assert.equal(await readFile(output, "utf8"), encoded);
+  });
+});
+
+test("TBC preview updates game eligibility and group, preserving quest steps and next-chapter links", async () => {
+  await withFixture(async ({ documents, output, set, invoke }) => {
+    const first = set.documents[0];
+    first.content = first.content
+      .replace("#forever\n", "#forever\n<< Alliance Forever Human Warrior\n")
+      .replace("step\n", "#next 02 Next\nstep\n")
+      .replace(
+        "    >> Follow the road — test only.",
+        "    .accept 783 >> Accept the quest\nstep\n    .complete 783,1\nstep\n    .turnin 783",
+      );
+    set.documents.push({
+      ...first,
+      name: "02 Next",
+      content: first.content
+        .replace("#name 01 Test", "#name 02 Next")
+        .replace("#next 02 Next\n", ""),
+      actionIds: ["leader-next"],
+    });
+    await writeFile(documents, JSON.stringify(set));
+    const result = invoke(["--role=leader", "--preview-game=tbc"]);
+    assert.equal(result.status, 0, result.stderr);
+    assert(!result.stdout.includes(account));
+    assert(!result.stderr.includes(account));
+    const receipt = JSON.parse(result.stdout);
+    assert.equal(receipt.importGame, "TBC");
+    assert.equal(receipt.previewOnly, true);
+    assert.equal(receipt.inGameValidated, false);
+    const decoded = await decodeRestedXpImport(
+      await readFile(output, "utf8"),
+      account,
+      compression,
+    );
+    assert.deepEqual(
+      decoded.guides,
+      set.documents
+        .filter((document) => document.role === "leader")
+        .map((document) =>
+          document.content
+            .replace("#forever\n", "#tbc\n")
+            .replace("<< Alliance Forever Human Warrior", "<< Alliance TBC Human Warrior")
+            .replace(
+              "#group " + document.group,
+              "#group KFC TBC Import Preview · " + document.group,
+            ),
+        ),
+    );
+    assert.equal(await readFile(documents, "utf8"), JSON.stringify(set));
+  });
+});
+
+test("CLI rejects unsupported preview games and non-Forever source documents before writing an export", async () => {
+  await withFixture(async ({ documents, output, set, invoke }) => {
+    for (const game of ["retail", "forever", "TBC", ""]) {
+      const result = invoke(["--preview-game=" + game]);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /Only --preview-game=tbc is supported/);
+      await assert.rejects(stat(output), { code: "ENOENT" });
+    }
+    set.documents[0].content = set.documents[0].content.replace("#forever", "#tbc");
+    await writeFile(documents, JSON.stringify(set));
+    const result = invoke(["--role=leader", "--preview-game=tbc"]);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /TBC preview requires Forever guide documents/);
+    await assert.rejects(stat(output), { code: "ENOENT" });
+  });
+});
+
+test("CLI exports three level groups with working cross-group chapter links", async () => {
+  await withFixture(async ({ documents, output, set, invoke }) => {
+    const names = ["01 · 1-6 · Starter", "02 · 20-23 · Middle", "03 · 40-42 · Later"];
+    set.documents = names.map((name, index) => ({
+      role: "leader",
+      group: "KFC CLI leader",
+      name,
+      content: `#forever\n#name ${name}\n#group KFC CLI leader\n${names[index + 1] ? "#next " + names[index + 1] + "\n" : ""}step\n    .accept 783\n`,
+      actionIds: ["action-" + index],
+    }));
+    await writeFile(documents, JSON.stringify(set));
+    const result = invoke(["--role=leader", "--preview-game=tbc", "--level-groups"]);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(JSON.parse(result.stdout).levelGroups, true);
+    const decoded = await decodeRestedXpImport(
+      await readFile(output, "utf8"),
+      account,
+      compression,
+    );
+    assert.equal(decoded.guides.length, 3);
+    assert.match(decoded.guides[0], /#group KFC TBC Import Preview · KFC CLI leader · 01-20/);
+    assert.match(
+      decoded.guides[0],
+      /#next KFC TBC Import Preview · KFC CLI leader · 20-40\\02 · 20-23 · Middle/,
+    );
+    assert.match(
+      decoded.guides[1],
+      /#next KFC TBC Import Preview · KFC CLI leader · 40-60\\03 · 40-42 · Later/,
+    );
   });
 });
 

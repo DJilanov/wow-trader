@@ -7,3 +7,5 @@ export * from "./saved-variables.js";
 export * from "./service.js";
 export * from "./state.js";
 export * from "./upload.js";
+export * from "./trader-account.js";
+export * from "./desktop-release.js";

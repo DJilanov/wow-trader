@@ -1,3 +1,4 @@
+import { setTimeout as delay } from "node:timers/promises";
 import { execFile } from "node:child_process";
 import { appendFile, mkdir, rename, rm, stat } from "node:fs/promises";
 import { homedir } from "node:os";
@@ -5,6 +6,10 @@ import path from "node:path";
 import { promisify } from "node:util";
 
 import {
+  checkCompanionRelease,
+  startCompanionPairing,
+  pollCompanionPairing,
+  type CompanionUpdate,
   companionSnapshotSchema,
   readCompanionState,
   type CompanionSnapshot,
@@ -42,6 +47,10 @@ export class DesktopController {
   #snapshot: DesktopSnapshot | null = null;
   #lastNotifiedPhase: string | null = null;
   #lastLogKey: string | null = null;
+  #pairing: DesktopSnapshot["pairing"] = null;
+  #pairingAbort: AbortController | null = null;
+  #pairingTask: Promise<void> | null = null;
+  #update: CompanionUpdate | null = null;
   #activeRefresh: Promise<DesktopSnapshot> | null = null;
   #refreshRequested = false;
 
@@ -83,6 +92,29 @@ export class DesktopController {
   public async invoke(command: RendererCommand): Promise<DesktopSnapshot> {
     const settings = this.#requireSettings();
     switch (command.type) {
+      case "begin_pairing":
+        await this.#beginPairing();
+        break;
+      case "cancel_pairing":
+        this.#pairingAbort?.abort();
+        this.#pairing = null;
+        break;
+      case "open_account":
+        await shell.openExternal("https://kfcguild.online/tools/forever/trader/account");
+        break;
+      case "check_update":
+        this.#update = await checkCompanionRelease(
+          new URL(settings.endpoint),
+          app.getVersion(),
+          process.platform,
+          process.arch,
+        );
+        break;
+      case "download_update":
+        if (!this.#update?.available || !this.#update.downloadUrl)
+          throw new Error("Check for an available update first.");
+        await shell.openExternal(this.#update.downloadUrl);
+        break;
       case "get_snapshot":
         return this.getSnapshot();
       case "check_now":
@@ -154,7 +186,59 @@ export class DesktopController {
   }
 
   public async stop(): Promise<void> {
+    this.#pairingAbort?.abort();
+    await this.#pairingTask;
     await this.#utility.stop();
+  }
+
+  async #beginPairing(): Promise<void> {
+    this.#pairingAbort?.abort();
+    const abort = new AbortController();
+    this.#pairingAbort = abort;
+    const endpoint = new URL(this.#requireSettings().endpoint);
+    const pairing = await startCompanionPairing(
+      endpoint,
+      `WoW Trader on ${process.platform} ${process.arch}`,
+      abort.signal,
+    );
+    this.#pairing = {
+      code: pairing.userCode,
+      expiresAt: pairing.expiresAt,
+      status: "waiting",
+      message: "Approve this code in your browser. Your credential stays inside Companion.",
+    };
+    await shell.openExternal(pairing.verificationUri);
+    this.#pairingTask = (async (): Promise<void> => {
+      try {
+        while (!abort.signal.aborted && Date.now() < Date.parse(pairing.expiresAt)) {
+          await delay(5_000, undefined, { signal: abort.signal });
+          const result = await pollCompanionPairing(endpoint, pairing.deviceCode, abort.signal);
+          if (result.status === "expired")
+            throw new Error("This pairing code expired. Start a new connection.");
+          if (result.status === "connected") {
+            if (abort.signal.aborted) return;
+            await writeCredential(this.#userDataPath, result.credential);
+            this.#credential = result.credential;
+            this.#pairing = null;
+            this.#utility.send({ type: "set_credential", credential: this.#credential });
+            this.#requestRefresh();
+            return;
+          }
+        }
+        if (!abort.signal.aborted)
+          throw new Error("The connection timed out. Start a new code when you are ready.");
+      } catch (error: unknown) {
+        if (!abort.signal.aborted) {
+          this.#pairing = {
+            code: pairing.userCode,
+            expiresAt: pairing.expiresAt,
+            status: "error",
+            message: error instanceof Error ? error.message : "Pairing failed. Please retry.",
+          };
+          this.#requestRefresh();
+        }
+      }
+    })();
   }
 
   async #chooseProductRoot(kind: ProductKind): Promise<void> {
@@ -210,6 +294,9 @@ export class DesktopController {
       companion: this.#companion,
       settings,
       credentialConfigured: this.#credential !== null,
+      accountLinked: this.#credential?.startsWith("wtc_") ?? false,
+      pairing: this.#pairing,
+      update: this.#update,
       legacyServiceDetected: await legacyServiceExists(),
       products: await inspectProducts(settings.products),
       recentActivity: state.activities.slice(0, 12),

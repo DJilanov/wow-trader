@@ -36,6 +36,9 @@ export interface BuildAppOptions {
   readonly marketReadApiKeys?: readonly string[];
   readonly webOrigin: string;
   readonly logger?: boolean;
+  readonly authenticateInstallation?: (
+    token: string,
+  ) => Promise<{ installationId: string; ownerId: string } | null>;
 }
 
 const errorResponseSchema = z.object({
@@ -57,6 +60,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     requestIdHeader: "x-request-id",
   }).withTypeProvider<ZodTypeProvider>();
 
+  const principals = new WeakMap<FastifyRequest, { installationId: string; ownerId: string }>();
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
@@ -114,7 +118,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
           timeWindow: "1 minute",
         },
       },
-      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      preHandler: createApiKeyAuthenticator(
+        options.apiKeys,
+        options.authenticateInstallation,
+        principals,
+      ),
       schema: {
         body: auctionScanUploadSchema,
         response: {
@@ -144,6 +152,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
         request.body,
         rawPayloadUri,
         envelopeHash,
+        principals.get(request)?.installationId,
       );
 
       return reply.code(202).send(receipt);
@@ -159,7 +168,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
           timeWindow: "1 minute",
         },
       },
-      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      preHandler: createApiKeyAuthenticator(
+        options.apiKeys,
+        options.authenticateInstallation,
+        principals,
+      ),
       schema: {
         body: professionSnapshotUploadSchema,
         response: {
@@ -188,6 +201,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
         request.body,
         rawPayloadUri,
         envelopeHash,
+        principals.get(request)?.installationId,
       );
       return reply.code(202).send(receipt);
     },
@@ -202,7 +216,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
           timeWindow: "1 minute",
         },
       },
-      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      preHandler: createApiKeyAuthenticator(
+        options.apiKeys,
+        options.authenticateInstallation,
+        principals,
+      ),
       schema: {
         body: worldDiagnosticsUploadSchema,
         response: {
@@ -231,6 +249,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
         request.body,
         rawPayloadUri,
         envelopeHash,
+        principals.get(request)?.installationId,
       );
       return reply.code(202).send(receipt);
     },
@@ -239,7 +258,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   app.get(
     "/v1/uploads/:payloadId",
     {
-      preHandler: createApiKeyAuthenticator(options.apiKeys),
+      preHandler: createApiKeyAuthenticator(
+        options.apiKeys,
+        options.authenticateInstallation,
+        principals,
+      ),
       schema: {
         params: z.object({ payloadId: z.string().uuid() }),
         response: {
@@ -250,7 +273,10 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       },
     },
     async (request, reply) => {
-      const upload = await options.repository.findUpload(request.params.payloadId);
+      const upload = await options.repository.findUpload(
+        request.params.payloadId,
+        principals.get(request)?.installationId,
+      );
       if (!upload) {
         return reply.code(404).send({
           error: "not_found",
@@ -272,10 +298,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
           timeWindow: "1 minute",
         },
       },
-      preHandler: createApiKeyAuthenticator([
-        ...options.apiKeys,
-        ...(options.marketReadApiKeys ?? []),
-      ]),
+      preHandler: createApiKeyAuthenticator(
+        [...options.apiKeys, ...(options.marketReadApiKeys ?? [])],
+        options.authenticateInstallation,
+        principals,
+      ),
       schema: {
         querystring: marketIntelligenceQuerySchema,
         response: {
@@ -335,12 +362,24 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   return app;
 }
 
-function createApiKeyAuthenticator(apiKeys: readonly string[]) {
+function createApiKeyAuthenticator(
+  apiKeys: readonly string[],
+  authenticateInstallation: BuildAppOptions["authenticateInstallation"],
+  principals: WeakMap<FastifyRequest, { installationId: string; ownerId: string }>,
+) {
   return async function authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const authorization = request.headers.authorization;
     const token = authorization?.startsWith("Bearer ") ? authorization.slice(7) : null;
 
-    if (!token || !apiKeys.some((key) => safeStringEqual(key, token))) {
+    if (token && token.length <= 512 && apiKeys.some((key) => safeStringEqual(key, token))) return;
+    if (token && authenticateInstallation) {
+      const principal = await authenticateInstallation(token);
+      if (principal) {
+        principals.set(request, principal);
+        return;
+      }
+    }
+    {
       await reply.code(401).send({
         error: "unauthorized",
         message: "A valid ingestion API key is required",

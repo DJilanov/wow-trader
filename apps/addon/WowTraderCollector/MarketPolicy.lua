@@ -92,7 +92,7 @@ function Policy.Summarize(levels)
     local units = Integer(level.quantity, 1, 1000000000)
     local count = Integer(level.listingCount, 1, 1000000000)
     if not price or not units or not count then return nil end
-    table.insert(sorted, { unitPriceCopper = price, quantity = units, listingCount = count })
+    table.insert(sorted, { unitPriceCopper = price, quantity = units, listingCount = count, lots = level.lots })
     quantity = quantity + units; listings = listings + count
   end
   if quantity == 0 or quantity > 1000000000 or listings > 1000000000 then return nil end
@@ -105,11 +105,11 @@ function Policy.Summarize(levels)
   return nil
 end
 
-function Policy.Quote(intelligence, levels, observedAt, now, auctionHouseType, budget, maximumQuantity)
+function Policy.Quote(intelligence, levels, observedAt, now, auctionHouseType, budget, maximumQuantity, maximumBuyPrice)
   local fee = auctionHouseType == "neutral" and 1500 or
     ((auctionHouseType == "alliance" or auctionHouseType == "horde" or auctionHouseType == "region") and 500 or nil)
   local result = { state = "unavailable", reason = "A known Auction House fee and usable prices are required.",
-    quantity = 0, buyCost = 0, grossResale = 0, auctionFee = 0, netResale = 0, profit = 0, returnBP = 0, feeBP = fee }
+    quantity = 0, buyCost = 0, grossResale = 0, auctionFee = 0, netResale = 0, profit = 0, returnBP = 0, feeBP = fee, lots = {}, auctionCount = 0 }
   local age = now - (tonumber(observedAt) or 0)
   if age < -300 or age > 3600 then
     result.state = "stale"; result.reason = "Scan again: buy suggestions require prices less than one hour old."; return result
@@ -126,6 +126,11 @@ function Policy.Quote(intelligence, levels, observedAt, now, auctionHouseType, b
   if not Integer(target, 1, MAX_PRICE) or not Integer(intelligence.normal, 1, MAX_PRICE) then return result end
   local netUnit = target - math.ceil(target * fee / 10000)
   local ceiling = math.min(math.floor(netUnit * 10000 / 12000), math.floor(intelligence.normal * 8500 / 10000))
+  if maximumBuyPrice ~= nil then
+    maximumBuyPrice = tonumber(maximumBuyPrice)
+    if not maximumBuyPrice or maximumBuyPrice < 0 then return result end
+    ceiling = math.min(ceiling, maximumBuyPrice)
+  end
   result.targetResale = target; result.maximumBuy = ceiling
   if intelligence.signal ~= "normal" and intelligence.signal ~= "bargain" then
     result.state = "wait"; result.reason = "Wait: falling, inflated, oversupplied or thin markets do not qualify for a buy suggestion."; return result
@@ -134,15 +139,72 @@ function Policy.Quote(intelligence, levels, observedAt, now, auctionHouseType, b
   local maximum = Integer(maximumQuantity or 100, 1, 100)
   if not maximum or (budget ~= nil and not Integer(budget, 0, 9007199254740991)) then return result end
   local cap = math.min(maximum, math.max(1, math.floor(intelligence.normalQuantity * 1000 / 10000)))
+  local options, hasLots = { [0] = { cost = 0, lots = {} } }, false
   for _, level in ipairs(book.levels) do
-    if level.unitPriceCopper > ceiling or result.quantity >= cap then break end
-    local units = math.min(level.quantity, cap - result.quantity)
-    if budget ~= nil then units = math.min(units, math.floor((budget - result.buyCost) / level.unitPriceCopper)) end
-    result.quantity = result.quantity + units; result.buyCost = result.buyCost + units * level.unitPriceCopper
-    if units < level.quantity and budget ~= nil then break end
+    if type(level.lots) == "table" and #level.lots > 0 then
+      hasLots = true
+      local totalUnits, totalListings = 0, 0
+      for _, lot in ipairs(level.lots) do
+        local size = Integer(lot.stackSize, 1, 1000000)
+        local price = Integer(lot.buyoutCopper, 1, 9007199254740991)
+        local count = Integer(lot.listingCount, 1, 1000000000)
+        if not size or not price or not count then return result end
+        local unit = math.floor(price / size)
+        if unit * size > price then unit = unit - 1 end
+        if unit * size < price then unit = unit + 1 end
+        if unit ~= level.unitPriceCopper then return result end
+        totalUnits = totalUnits + size * count; totalListings = totalListings + count
+        if level.unitPriceCopper <= ceiling then
+          local remaining, chunk = math.min(count, math.floor(cap / size)), 1
+          while remaining > 0 do
+            local take = math.min(chunk, remaining)
+            remaining = remaining - take; chunk = chunk * 2
+            local units, cost = size * take, price * take
+            for quantity = cap, units, -1 do
+              local previous = options[quantity - units]
+              if previous then
+                local nextCost = previous.cost + cost
+                if (not budget or nextCost <= budget) and (not options[quantity] or nextCost < options[quantity].cost) then
+                  local lots = {}
+                  for _, entry in ipairs(previous.lots) do table.insert(lots, entry) end
+                  table.insert(lots, { stackSize = size, buyoutCopper = price, listingCount = take })
+                  options[quantity] = { cost = nextCost, lots = lots }
+                end
+              end
+            end
+          end
+        end
+      end
+      if totalUnits ~= level.quantity or totalListings ~= level.listingCount then return result end
+    end
   end
+  if not hasLots then
+    result.reason = "Exact auction stacks are missing. Update the Collector and upload a fresh full scan."; return result
+  end
+  local bestProfit = 0
+  for quantity = 1, cap do
+    local option = options[quantity]
+    if option then
+      local gross = target * quantity
+      local profit = gross - math.ceil(gross * fee / 10000) - option.cost
+      if profit > bestProfit or (profit == bestProfit and option.cost < result.buyCost) then
+        bestProfit = profit; result.quantity = quantity; result.buyCost = option.cost; result.lots = option.lots
+      end
+    end
+  end
+  local combined, ordered = {}, {}
+  for _, lot in ipairs(result.lots) do
+    local key = tostring(lot.stackSize) .. ":" .. tostring(lot.buyoutCopper)
+    if not combined[key] then
+      combined[key] = { stackSize = lot.stackSize, buyoutCopper = lot.buyoutCopper, listingCount = 0 }
+      table.insert(ordered, combined[key])
+    end
+    combined[key].listingCount = combined[key].listingCount + lot.listingCount
+    result.auctionCount = result.auctionCount + lot.listingCount
+  end
+  result.lots = ordered
   if result.quantity == 0 then
-    result.state = "wait"; result.reason = "No listed units fit the buy ceiling, quantity cap and budget."; return result
+    result.state = "wait"; result.reason = "No whole auction stack fits the buy ceiling, quantity cap and budget."; return result
   end
   result.grossResale = target * result.quantity
   result.auctionFee = math.ceil(result.grossResale * fee / 10000)
@@ -150,6 +212,6 @@ function Policy.Quote(intelligence, levels, observedAt, now, auctionHouseType, b
   result.profit = result.netResale - result.buyCost
   result.returnBP = math.floor(result.profit * 10000 / result.buyCost)
   result.state = "opportunity"
-  result.reason = "Below the buy ceiling, with a conservative resale target. Verify the actual auction stacks before buying."
+  result.reason = "Whole auction stacks fit your limits. Recheck their availability in game before buying."
   return result
 end

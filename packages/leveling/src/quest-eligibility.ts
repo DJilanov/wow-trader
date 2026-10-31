@@ -4,7 +4,14 @@ import type { PremadeMember } from "./premade-model.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
 
 const quests = new Map(DUNGEON_QUESTS.map((quest) => [quest.id, quest]));
-const reviewedMinimums: Readonly<Record<number, number>> = { 261: 34, 1053: 34, 1100: 29 };
+// 2990/4787: authored Forever quest export e9a67d1, field 4; XP-only imports omit this field.
+const reviewedMinimums: Readonly<Record<number, number>> = {
+  261: 34,
+  1053: 34,
+  1100: 29,
+  2990: 40,
+  4787: 40,
+};
 
 export interface QuestEligibility {
   readonly minimumLevel: number | null;

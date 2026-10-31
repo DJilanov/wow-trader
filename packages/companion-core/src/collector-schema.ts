@@ -1,10 +1,25 @@
 import { z } from "zod";
-import { auctionItemSnapshotSchema } from "@wow-trader/contracts";
+import {
+  auctionItemSnapshotSchema,
+  traderTradeSchema,
+  traderWatchChangeSchema,
+} from "@wow-trader/contracts";
 
 const collectorPriceLevelSchema = z.object({
   unitPriceCopper: z.number().int().positive().safe(),
   quantity: z.number().int().positive().safe(),
   listingCount: z.number().int().positive().safe(),
+  lots: z
+    .array(
+      z.object({
+        stackSize: z.number().int().positive().safe().max(1_000_000),
+        buyoutCopper: z.number().int().positive().safe(),
+        listingCount: z.number().int().positive().safe(),
+      }),
+    )
+    .min(1)
+    .max(1_000)
+    .optional(),
 });
 
 const collectorItemSnapshotSchema = z.object({
@@ -459,6 +474,31 @@ export const collectorSavedVariablesSchema = z.object({
   scans: z.array(collectorScanSchema).max(8),
   professionSnapshots: z.array(collectorProfessionSnapshotSchema).max(16).default([]),
   worldDiagnostics: collectorWorldDiagnosticsSchema.optional(),
+  tradeEvents: z
+    .array(
+      z.preprocess((value) => {
+        if (
+          !value ||
+          typeof value !== "object" ||
+          !("occurredAtEpoch" in value) ||
+          typeof value.occurredAtEpoch !== "number" ||
+          !Number.isSafeInteger(value.occurredAtEpoch) ||
+          value.occurredAtEpoch <= 0 ||
+          value.occurredAtEpoch > 8_640_000_000_000
+        )
+          return value;
+        const { occurredAtEpoch, ...event } = value;
+        return {
+          ...event,
+          occurredAt: new Date(occurredAtEpoch * 1000).toISOString(),
+          auctionFeeCopper: "auctionFeeCopper" in event ? event.auctionFeeCopper : null,
+          depositCopper: "depositCopper" in event ? event.depositCopper : null,
+        };
+      }, traderTradeSchema),
+    )
+    .max(500)
+    .default([]),
+  watchChanges: z.array(traderWatchChangeSchema).max(100).default([]),
 });
 
 export type CollectorScan = z.infer<typeof collectorScanSchema>;

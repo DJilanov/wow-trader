@@ -85,6 +85,41 @@ function fixture(): { plan: CampaignPlan; evidence: CampaignPreparationEvidence 
 }
 
 describe("shared browser and offline campaign preparation", () => {
+  it("keeps the restored lead-in's real pickup gate when an XP-only historical import omits its minimum", () => {
+    const { plan, evidence } = fixture();
+    const source = {
+      ...plan,
+      actions: plan.actions.map((action) => ({
+        ...action,
+        questChanges: action.questChanges.map((change) => ({ ...change, questId: 2990 })),
+      })),
+    };
+    const prepared = prepareCampaignPlan(source, [], {
+      ...evidence,
+      rewardFacts: [
+        {
+          ...evidence.rewardFacts[0]!,
+          questId: 2990,
+          minimumLevel: null,
+          questLevel: 47,
+          fullXp: 2100,
+          evidenceKind: "historical-reference",
+        },
+      ],
+    });
+    expect(prepared.actions.find((action) => action.pickupQuestId === 2990)?.targetLevel).toBe(40);
+    expect(prepared.rewardFacts?.find((fact) => fact.questId === 2990)?.evidenceKind).toBe(
+      "historical-reference",
+    );
+  });
+  it("can load candidate reward evidence without adding held quests to the active inventory", () => {
+    const inventory = {
+      actions: [],
+      library: { choices: [{ questId: 9, role: "held" as const }] },
+    };
+    expect(campaignRewardQuestIds(inventory)).toEqual([]);
+    expect(campaignRewardQuestIds(inventory, { includeHeldLibrary: true })).toEqual([9]);
+  });
   it("loads optional circuit rewards even when the old linear route never used their quests", () => {
     const { plan, evidence } = fixture();
     const circuit = { ...plan, dungeonFinish: true };

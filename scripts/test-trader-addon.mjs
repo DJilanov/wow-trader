@@ -32,8 +32,21 @@ for (let index = 0; index < 120; index++) {
   if (index % 11 === 0) observations.push({ ...observations.at(-1), completeness: 0.98 });
   const intelligence = analyzePriceHistory(observations);
   const levels = [
-    { unitPriceCopper: BigInt(Math.max(1, price - 3)), quantity: 3, listingCount: 1 },
-    { unitPriceCopper: BigInt(price), quantity, listingCount: 5 },
+    {
+      unitPriceCopper: BigInt(Math.max(1, price - 3)),
+      quantity: 3,
+      listingCount: 1,
+      lots: [{ stackSize: 3, buyoutCopper: BigInt(Math.max(1, price - 3) * 3), listingCount: 1 }],
+    },
+    {
+      unitPriceCopper: BigInt(price),
+      quantity,
+      listingCount: 5,
+      lots: [
+        { stackSize: 1, buyoutCopper: BigInt(price), listingCount: 4 },
+        { stackSize: quantity - 4, buyoutCopper: BigInt(price * (quantity - 4)), listingCount: 1 },
+      ],
+    },
   ];
   const observedAt = new Date(now.getTime() - (index % 13 === 0 ? 3601000 : 0));
   const auctionHouseType = index % 3 === 0 ? "neutral" : "alliance";
@@ -67,6 +80,7 @@ for (let index = 0; index < 120; index++) {
       : { status: "collecting", observations: intelligence.observationCount };
   const quoteExpected = {
     state: quote.state,
+    auctionCount: quote.auctionCount,
     quantity: quote.quantity,
     maximumBuy: quote.maximumBuyPriceCopper,
     targetResale: quote.targetResalePriceCopper,

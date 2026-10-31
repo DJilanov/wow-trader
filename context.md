@@ -2,6 +2,24 @@
 
 Last updated: 2026-10-31 (Europe/Sofia)
 
+## October 31 — Trader ecosystem expansion (active)
+
+Owner approved all six follow-up improvements: explicit data-readiness states,
+whole-auction-stack buying, private transaction accounting, one shared-budget
+personal gold plan, cross-device watchlists/alerts and browser-based Companion
+pairing/update onboarding. Implementation and delivery are in progress.
+
+- Public market prices remain separate from account-owned private character,
+  ledger and watch data. Existing anonymous maintainer uploads stay compatible.
+- Whole-stack plans must preserve exact auction totals and cannot invent lot
+  sizes for old snapshots. Purchases/sales require supported client evidence;
+  disappeared listings do not establish completed sales.
+- No Developer ID signing identity is available locally. Signing configuration
+  and verification will be implemented; existing certificate availability has
+  been asked asynchronously. No secrets should be sent through chat.
+- Evidence: `artifacts/trader-ecosystem-20261031/`. Preserve concurrent leveling
+  and storage changes; do not touch protected numerical simulator helpers.
+
 ## October 31 — Trader buying guidance deployed and installed
 
 The material-buying update is complete. Public entry:

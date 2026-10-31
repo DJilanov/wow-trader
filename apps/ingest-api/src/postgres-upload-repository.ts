@@ -79,6 +79,7 @@ export class PostgresUploadRepository implements UploadRepository {
     upload: AuctionScanUpload,
     rawPayloadUri: string,
     envelopeHash: string,
+    collectorInstallationId?: string,
   ): Promise<UploadReceipt> {
     return this.#database.transaction(async (transaction) => {
       const [existingUpload] = await transaction
@@ -86,12 +87,18 @@ export class PostgresUploadRepository implements UploadRepository {
           checksum: rawUploads.checksum,
           envelopeHash: rawUploads.envelopeHash,
           status: rawUploads.status,
+          collectorInstallationId: rawUploads.collectorInstallationId,
         })
         .from(rawUploads)
         .where(eq(rawUploads.payloadId, upload.payloadId))
         .limit(1);
 
       if (existingUpload) {
+        if (
+          collectorInstallationId &&
+          existingUpload.collectorInstallationId !== collectorInstallationId
+        )
+          throw new PayloadConflictError("This payload belongs to a different installation");
         if (
           existingUpload.checksum !== upload.checksum ||
           existingUpload.envelopeHash !== envelopeHash
@@ -134,6 +141,7 @@ export class PostgresUploadRepository implements UploadRepository {
         sourceCharacterFaction: upload.sourceCharacter?.faction ?? null,
         sourceCharacterGuid: upload.sourceCharacter?.guid ?? null,
         anonymousInstallationId: upload.anonymousInstallationId,
+        collectorInstallationId: collectorInstallationId ?? null,
         capturedAt: new Date(upload.capturedAt),
         completedAt: new Date(upload.completedAt),
         completeness: upload.completeness,
@@ -148,6 +156,7 @@ export class PostgresUploadRepository implements UploadRepository {
           unitPriceCopper: BigInt(level.unitPriceCopper),
           quantity: level.quantity,
           listingCount: level.listingCount,
+          lots: level.lots ?? null,
         })),
       );
       const normalizedObservations = upload.data.itemSnapshots.map((snapshot) => {
@@ -156,6 +165,14 @@ export class PostgresUploadRepository implements UploadRepository {
             unitPriceCopper: BigInt(level.unitPriceCopper),
             quantity: level.quantity,
             listingCount: level.listingCount,
+            ...(level.lots
+              ? {
+                  lots: level.lots.map((lot) => ({
+                    ...lot,
+                    buyoutCopper: BigInt(lot.buyoutCopper),
+                  })),
+                }
+              : {}),
           })),
         );
         return {
@@ -165,6 +182,7 @@ export class PostgresUploadRepository implements UploadRepository {
           minimumPriceCopper: summary.minimumPriceCopper,
           itemName: readMarketItemName(snapshot),
           itemClassId: snapshot.itemClassId ?? null,
+          hasLotEvidence: snapshot.priceLevels.some((level) => Boolean(level.lots?.length)),
           tenthPercentilePriceCopper: summary.weightedTenthPercentilePriceCopper,
           medianPriceCopper: summary.weightedMedianPriceCopper,
           ninetiethPercentilePriceCopper: summary.weightedNinetiethPercentilePriceCopper,
@@ -270,6 +288,7 @@ export class PostgresUploadRepository implements UploadRepository {
     upload: WorldDiagnosticsUpload,
     rawPayloadUri: string,
     envelopeHash: string,
+    collectorInstallationId?: string,
   ): Promise<UploadReceipt> {
     return this.#database.transaction(async (transaction) => {
       const [existingUpload] = await transaction
@@ -277,12 +296,18 @@ export class PostgresUploadRepository implements UploadRepository {
           checksum: rawUploads.checksum,
           envelopeHash: rawUploads.envelopeHash,
           status: rawUploads.status,
+          collectorInstallationId: rawUploads.collectorInstallationId,
         })
         .from(rawUploads)
         .where(eq(rawUploads.payloadId, upload.payloadId))
         .limit(1);
 
       if (existingUpload) {
+        if (
+          collectorInstallationId &&
+          existingUpload.collectorInstallationId !== collectorInstallationId
+        )
+          throw new PayloadConflictError("This payload belongs to a different installation");
         if (
           existingUpload.checksum !== upload.checksum ||
           existingUpload.envelopeHash !== envelopeHash
@@ -310,6 +335,7 @@ export class PostgresUploadRepository implements UploadRepository {
         realmId: "unknown",
         auctionHouseType: "unknown",
         anonymousInstallationId: upload.anonymousInstallationId,
+        collectorInstallationId: collectorInstallationId ?? null,
         capturedAt: new Date(upload.capturedAt),
         completedAt: new Date(upload.completedAt),
         completeness: 1,
@@ -666,6 +692,7 @@ export class PostgresUploadRepository implements UploadRepository {
     upload: ProfessionSnapshotUpload,
     rawPayloadUri: string,
     envelopeHash: string,
+    collectorInstallationId?: string,
   ): Promise<UploadReceipt> {
     return this.#database.transaction(async (transaction) => {
       const [existingUpload] = await transaction
@@ -673,12 +700,18 @@ export class PostgresUploadRepository implements UploadRepository {
           checksum: rawUploads.checksum,
           envelopeHash: rawUploads.envelopeHash,
           status: rawUploads.status,
+          collectorInstallationId: rawUploads.collectorInstallationId,
         })
         .from(rawUploads)
         .where(eq(rawUploads.payloadId, upload.payloadId))
         .limit(1);
 
       if (existingUpload) {
+        if (
+          collectorInstallationId &&
+          existingUpload.collectorInstallationId !== collectorInstallationId
+        )
+          throw new PayloadConflictError("This payload belongs to a different installation");
         if (
           existingUpload.checksum !== upload.checksum ||
           existingUpload.envelopeHash !== envelopeHash
@@ -710,6 +743,7 @@ export class PostgresUploadRepository implements UploadRepository {
         sourceCharacterFaction: upload.sourceCharacter.faction,
         sourceCharacterGuid: upload.sourceCharacter.guid,
         anonymousInstallationId: upload.anonymousInstallationId,
+        collectorInstallationId: collectorInstallationId ?? null,
         capturedAt: new Date(upload.capturedAt),
         completedAt: new Date(upload.completedAt),
         completeness:
@@ -806,7 +840,10 @@ export class PostgresUploadRepository implements UploadRepository {
     });
   }
 
-  public async findUpload(payloadId: string): Promise<UploadStatus | null> {
+  public async findUpload(
+    payloadId: string,
+    collectorInstallationId?: string,
+  ): Promise<UploadStatus | null> {
     const [upload] = await this.#database
       .select({
         payloadId: rawUploads.payloadId,
@@ -817,7 +854,14 @@ export class PostgresUploadRepository implements UploadRepository {
         errorCode: rawUploads.errorCode,
       })
       .from(rawUploads)
-      .where(eq(rawUploads.payloadId, payloadId))
+      .where(
+        and(
+          eq(rawUploads.payloadId, payloadId),
+          collectorInstallationId
+            ? eq(rawUploads.collectorInstallationId, collectorInstallationId)
+            : undefined,
+        ),
+      )
       .limit(1);
 
     if (!upload) return null;
@@ -977,6 +1021,7 @@ export class PostgresUploadRepository implements UploadRepository {
         unitPriceCopper: auctionPriceLevels.unitPriceCopper,
         quantity: auctionPriceLevels.quantity,
         listingCount: auctionPriceLevels.listingCount,
+        lots: auctionPriceLevels.lots,
       })
       .from(auctionPriceLevels)
       .where(
@@ -1032,6 +1077,7 @@ export class PostgresUploadRepository implements UploadRepository {
             unitPriceCopper: String(level.unitPriceCopper),
             quantity: level.quantity,
             listingCount: level.listingCount,
+            ...(level.lots ? { lots: [...level.lots] } : {}),
           })),
           history: observations.map((observation) => ({
             ...observation,

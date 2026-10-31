@@ -162,6 +162,13 @@
       "when": 1793454656968,
       "tag": "0022_market_scan_item_identity",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1793461707654,
+      "tag": "0023_trader_account_and_auction_lots",
+      "breakpoints": true
     }
   ]
 }

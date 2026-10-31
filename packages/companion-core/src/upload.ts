@@ -54,6 +54,9 @@ export function createAuctionScanUpload(
         unitPriceCopper: String(level.unitPriceCopper),
         quantity: level.quantity,
         listingCount: level.listingCount,
+        ...(level.lots
+          ? { lots: level.lots.map((lot) => ({ ...lot, buyoutCopper: String(lot.buyoutCopper) })) }
+          : {}),
       })),
     })),
   };

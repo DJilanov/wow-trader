@@ -7,6 +7,7 @@ import { getGuideStepView, type ImportedDirective } from "./guide-archive.js";
 import type { CharacterProfile } from "./profile.js";
 import type { CampaignAction, CampaignSource } from "./campaign.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
+import type { CombatQuestReference } from "./combat-model.js";
 
 export type LibraryObjective =
   "shared-kills" | "named-trophy" | "delivery" | "interaction" | "collection" | "unclassified";
@@ -152,6 +153,9 @@ export function classifyLibraryObjective(
   text: string,
   directives: readonly ImportedDirective[],
 ): LibraryObjective {
+  const objectiveText = directives.find((directive) => directive.tag === ".complete")?.text ?? "";
+  if (/\b(?:slain|killed|defeated|destroyed)\s*\(\d+\)\s*$/i.test(objectiveText))
+    return "shared-kills";
   if (
     directives.some((directive) =>
       [".use", ".cast", ".gossip", ".interact"].includes(directive.tag),
@@ -217,7 +221,9 @@ export function buildCampaignQuestLibrary(
   profile: CharacterProfile,
   dungeonTags: readonly string[],
   backboneSourceIds: ReadonlySet<number> = new Set(),
+  questReferences: readonly CombatQuestReference[] = [],
 ): readonly CampaignLibraryQuest[] {
+  const references = new Map(questReferences.map((quest) => [quest.questId, quest]));
   const stages = new Map<number, Map<string, LibraryStage>>();
   const titles = new Map<number, string>();
   const parents = new Map<number, Set<number>>();
@@ -388,9 +394,7 @@ export function buildCampaignQuestLibrary(
       const entries = [...byPhase.values()];
       const objectives = entries.filter((entry) => entry.objective !== null);
       const anchor = objectives[0] ?? byPhase.get("accepted-0") ?? entries[0]!;
-      const objective: LibraryObjective = objectives.some(
-        (entry) => entry.objective === "collection",
-      )
+      let objective: LibraryObjective = objectives.some((entry) => entry.objective === "collection")
         ? "collection"
         : objectives.some((entry) => entry.objective === "unclassified")
           ? "unclassified"
@@ -404,7 +408,40 @@ export function buildCampaignQuestLibrary(
                   ? "collection"
                   : "delivery";
       const title = titles.get(questId) ?? `Quest ${questId}`;
-      const prerequisiteIds = [...(parents.get(questId) ?? [])];
+      const reference = references.get(questId);
+      if (reference?.onlyCreatureObjectives)
+        objective = objective === "unclassified" ? "interaction" : "shared-kills";
+      else if (reference?.onlyInteractionObjectives) objective = "interaction";
+      else if (reference?.itemObjectives?.length)
+        objective = reference.itemObjectives.every((item) => item.provided)
+          ? "interaction"
+          : "collection";
+      const sourceParents = [...(parents.get(questId) ?? [])];
+      const alternatives = reference?.prerequisites?.anyOf ?? [];
+      const alternative =
+        sourceParents.find(
+          (parent) =>
+            alternatives.includes(parent) &&
+            stages.get(parent)?.has("accepted-0") &&
+            stages.get(parent)?.has("rewarded-0") &&
+            ![...stages.get(parent)!.values()].some((stage) => stage.held),
+        ) ??
+        alternatives.find(
+          (parent) =>
+            stages.get(parent)?.has("accepted-0") &&
+            stages.get(parent)?.has("rewarded-0") &&
+            ![...stages.get(parent)!.values()].some((stage) => stage.held),
+        ) ??
+        sourceParents.find((parent) => alternatives.includes(parent)) ??
+        alternatives[0];
+      const prerequisiteIds = reference?.prerequisites
+        ? [
+            ...new Set([
+              ...reference.prerequisites.allOf,
+              ...(alternative === undefined ? [] : [alternative]),
+            ]),
+          ]
+        : sourceParents;
       return {
         questId,
         title,

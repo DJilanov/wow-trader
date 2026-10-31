@@ -3,6 +3,11 @@ import type { ProductKind } from "@wow-trader/companion-core";
 import type { DesktopSnapshot } from "./contracts.js";
 
 export interface WowTraderDesktopApi {
+  beginPairing(): Promise<DesktopSnapshot>;
+  cancelPairing(): Promise<DesktopSnapshot>;
+  openAccount(): Promise<DesktopSnapshot>;
+  checkUpdate(): Promise<DesktopSnapshot>;
+  downloadUpdate(): Promise<DesktopSnapshot>;
   getSnapshot(): Promise<DesktopSnapshot>;
   checkNow(): Promise<DesktopSnapshot>;
   retry(): Promise<DesktopSnapshot>;

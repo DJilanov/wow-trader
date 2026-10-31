@@ -22,7 +22,7 @@ local function scan(id, price, itemId, build)
     region = "EU", realmId = "TestRealm", auctionHouseType = "alliance", completeness = 1,
     completedAt = clock, auctionHouseStayedOpen = true,
     itemSnapshots = {{ itemId = itemId or 1, marketKey = tostring(itemId or 1),
-      priceLevels = {{ unitPriceCopper = price, quantity = 100, listingCount = 5 }} }} }
+      priceLevels = {{ unitPriceCopper = price, quantity = 100, listingCount = 20, lots = { { stackSize = 5, buyoutCopper = price * 5, listingCount = 20 } } }} }} }
 end
 assert(Addon.GetMarketIntelligenceSnapshot("").available == false)
 local history = {}
@@ -39,7 +39,7 @@ local item = Addon.GetItemMarketIntelligence(1)
 assert(item.signal == "bargain" and item.buy.state == "opportunity" and item.buy.quantity == 10)
 assert(Addon.ToggleMarketWatch(1))
 assert(#Addon.GetMarketIntelligenceSnapshot("", { onlyWatched = true, onlyBuys = true }).items == 1)
-assert(Addon.GetMarketIntelligenceSnapshot("", { budgetCopper = 6000 }).items[1].buy.quantity == 1)
+assert(Addon.GetMarketIntelligenceSnapshot("", { budgetCopper = 6000 }).items[1].buy.quantity == 0, "Never split a stack to fit the budget")
 clock = clock + 1800; table.insert(WOW_TRADER_SAVED.scans, scan("e", 20000))
 item = Addon.GetItemMarketIntelligence(1)
 assert(item.current == 20000 and item.signal ~= "bargain" and item.buy.state ~= "opportunity")
@@ -63,7 +63,7 @@ WOW_TRADER_MARKET_DATA = { schemaVersion = 2, modelVersion = "robust-market-sign
   clientProduct = "wow_classic_beta", clientBuild = 70532, region = "EU", realmId = "TestRealm",
   auctionHouseType = "alliance", sourceScanEpoch = clock + 1,
   items = { [1] = { name = "Shared Copper", history = sharedHistory,
-    levels = {{ unitPriceCopper = 6000, quantity = 100, listingCount = 5 }} } } }
+    levels = {{ unitPriceCopper = 6000, quantity = 100, listingCount = 20, lots = { { stackSize = 5, buyoutCopper = 30000, listingCount = 20 } } }} } } }
 WOW_TRADER_SAVED.scans = {}
 item = Addon.GetItemMarketIntelligence(1)
 assert(item.buy.state == "opportunity", "A fresh shared depth pack works without a local scan")

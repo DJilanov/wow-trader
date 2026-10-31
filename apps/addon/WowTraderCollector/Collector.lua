@@ -149,6 +149,16 @@ local function GetSourceCharacter()
   }
 end
 
+Addon.NewObservationId = NewUuid
+function Addon.GetCollectorContext()
+  local character = GetSourceCharacter()
+  local _, build = GetBuildInfo()
+  if not character or not tonumber(build) then return nil end
+  return { clientProduct = GetClientProduct(), clientBuild = tonumber(build),
+    region = REGION_NAMES[SafeCallOne(GetCurrentRegion) or 0] or "UNKNOWN",
+    realmId = character.realmId, characterName = character.name, auctionHouseType = GetAuctionHouseType() }
+end
+
 local function InitializeSavedVariables()
   if type(WOW_TRADER_SAVED) ~= "table" or WOW_TRADER_SAVED.schemaVersion ~= SAVED_SCHEMA_VERSION then
     WOW_TRADER_SAVED = {
@@ -167,6 +177,7 @@ local function InitializeSavedVariables()
   if type(WOW_TRADER_SAVED.nativeScanner) ~= "table" then
     WOW_TRADER_SAVED.nativeScanner = {}
   end
+  if type(WOW_TRADER_SAVED.watchChanges) ~= "table" then WOW_TRADER_SAVED.watchChanges = {} end
   if type(WOW_TRADER_SAVED.marketWatchlist) ~= "table" then
     WOW_TRADER_SAVED.marketWatchlist = {}
   end
@@ -203,11 +214,17 @@ local function AddListing(markets, marketKey, itemId, itemLink, stackSize, buyou
       unitPriceCopper = unitPrice,
       quantity = stackSize,
       listingCount = 1,
+      lots = {},
     }
   else
     level.quantity = level.quantity + stackSize
     level.listingCount = level.listingCount + 1
   end
+  level = market.levels[unitPrice]
+  local lotKey = tostring(stackSize) .. ":" .. tostring(buyoutPrice)
+  local lot = level.lots[lotKey]
+  if lot then lot.listingCount = lot.listingCount + 1
+  else level.lots[lotKey] = { stackSize = stackSize, buyoutCopper = buyoutPrice, listingCount = 1 } end
   return true
 end
 
@@ -216,7 +233,14 @@ local function NormalizeMarkets(markets)
   for _, market in pairs(markets) do
     local priceLevels = {}
     for _, level in pairs(market.levels) do
-      table.insert(priceLevels, level)
+      local lots = {}
+      for _, lot in pairs(level.lots or {}) do table.insert(lots, lot) end
+      table.sort(lots, function(a, b)
+        if a.stackSize ~= b.stackSize then return a.stackSize < b.stackSize end
+        return a.buyoutCopper < b.buyoutCopper
+      end)
+      table.insert(priceLevels, { unitPriceCopper = level.unitPriceCopper, quantity = level.quantity,
+        listingCount = level.listingCount, lots = #lots <= 1000 and lots or nil })
     end
     table.sort(priceLevels, function(left, right)
       return left.unitPriceCopper < right.unitPriceCopper
@@ -1038,6 +1062,29 @@ local function MarketDataCompatibility(data)
   return true, nil
 end
 
+local function GetWatchPreference(itemId)
+  local context = Addon.GetCollectorContext()
+  if not context then return nil end
+  local market = context.region .. "|" .. context.realmId .. "|" .. context.auctionHouseType
+  local data = type(WOW_TRADER_ACCOUNT_DATA) == "table" and WOW_TRADER_ACCOUNT_DATA or {}
+  local preference = nil
+  for _, watch in ipairs(data.watches or {}) do
+    if watch.product == context.clientProduct and watch.market == market and watch.itemId == itemId then preference = watch end
+  end
+  local acknowledged = {}
+  for _, id in ipairs(data.acknowledgedChanges or {}) do acknowledged[id] = true end
+  for _, change in ipairs(WOW_TRADER_SAVED.watchChanges or {}) do
+    local watch = change.item
+    if not acknowledged[change.changeId] and watch and watch.product == context.clientProduct and watch.market == market and watch.itemId == itemId then
+      preference = change.action == "watch" and watch or nil
+    end
+  end
+  if not data.connected and preference == nil and WOW_TRADER_SAVED.marketWatchlist[tostring(itemId)] then
+    preference = { maximumUnits = 100, minimumProfitCopper = "0", cooldownMinutes = 60 }
+  end
+  return preference
+end
+
 function Addon.GetMarketIntelligenceSnapshot(searchText, options)
   InitializeSavedVariables()
   local data = WOW_TRADER_MARKET_DATA
@@ -1068,11 +1115,15 @@ function Addon.GetMarketIntelligenceSnapshot(searchText, options)
   local query = string.lower(string.match(searchText or "", "^%s*(.-)%s*$"))
   local items = {}
   for _, cached in ipairs(marketCache.items) do
-    local watched = WOW_TRADER_SAVED.marketWatchlist[tostring(cached.itemId)] == true
+    local preference = GetWatchPreference(cached.itemId)
+    local watched = preference ~= nil
     if (not options.onlyWatched or watched) and (query == "" or string.find(string.lower(cached.name), query, 1, true) or
        string.find(tostring(cached.itemId), query, 1, true)) then
       local buy = Addon.MarketPolicy.Quote(cached.analysis, cached.levels, marketCache.observedAt, now,
-        data.auctionHouseType, options.budgetCopper, options.maximumQuantity)
+        data.auctionHouseType, options.budgetCopper, math.min(options.maximumQuantity or 100, preference and preference.maximumUnits or 100), preference and preference.maximumBuyCopper)
+      if preference and buy.state == "opportunity" and buy.profit < (tonumber(preference.minimumProfitCopper) or 0) then
+        buy.state = "wait"; buy.reason = "Below your watched item's minimum profit."
+      end
       if not options.onlyBuys or buy.state == "opportunity" then
         local item = {}
         for key, value in pairs(cached) do item[key] = value end
@@ -1101,13 +1152,19 @@ function Addon.ToggleMarketWatch(itemId)
   InitializeSavedVariables()
   itemId = tonumber(itemId)
   if not itemId or itemId <= 0 then return false end
-  local key = tostring(math.floor(itemId))
-  if WOW_TRADER_SAVED.marketWatchlist[key] then
-    WOW_TRADER_SAVED.marketWatchlist[key] = nil
-    return false
-  end
-  WOW_TRADER_SAVED.marketWatchlist[key] = true
-  return true
+  itemId = math.floor(itemId)
+  local context = Addon.GetCollectorContext()
+  if not context then return false end
+  local watched = GetWatchPreference(itemId) ~= nil
+  local key = tostring(itemId)
+  WOW_TRADER_SAVED.marketWatchlist[key] = not watched or nil
+  local itemName = SafeCallOne((C_Item and C_Item.GetItemInfo) or GetItemInfo, itemId) or ("Item " .. key)
+  local change = { changeId = NewUuid(), action = watched and "unwatch" or "watch",
+    item = { product = context.clientProduct, market = context.region .. "|" .. context.realmId .. "|" .. context.auctionHouseType,
+      itemId = itemId, name = itemName, minimumProfitCopper = "0", maximumUnits = 100, cooldownMinutes = 60 } }
+  table.insert(WOW_TRADER_SAVED.watchChanges, change)
+  while #WOW_TRADER_SAVED.watchChanges > 100 do table.remove(WOW_TRADER_SAVED.watchChanges, 1) end
+  return not watched
 end
 
 function Addon.PrintMarketAlerts()
@@ -1117,8 +1174,15 @@ function Addon.PrintMarketAlerts()
   for _, item in ipairs(snapshot.items) do
     if item.watched and item.buy.state ~= "stale" and (item.buy.state == "opportunity" or item.signal == "spike_risk" or
        item.signal == "falling" or item.signal == "oversupplied") then
+      if type(WOW_TRADER_SAVED.marketAlertTimes) ~= "table" then WOW_TRADER_SAVED.marketAlertTimes = {} end
+      local preference = GetWatchPreference(item.itemId)
+      local key = snapshot.realmId .. ":" .. snapshot.auctionHouseType .. ":" .. item.itemId .. ":" .. item.signal
+      local last = WOW_TRADER_SAVED.marketAlertTimes[key] or 0
+      if time() - last >= (preference and preference.cooldownMinutes or 60) * 60 then
+      WOW_TRADER_SAVED.marketAlertTimes[key] = time()
       table.insert(alerts, item.name .. " (" .. (item.buy.state == "opportunity" and "buy opportunity" or item.signal) .. ")")
       if #alerts >= 3 then break end
+      end
     end
   end
   if #alerts > 0 then Print("watchlist alerts: " .. table.concat(alerts, ", ") .. ".") end

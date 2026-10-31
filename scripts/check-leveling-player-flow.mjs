@@ -95,7 +95,9 @@ try {
       const rendezvous = page.locator('[data-route-chapter="prepare-thanes"]');
       assert.equal(await rendezvous.getByRole("heading").first().innerText(), "Dun Morogh");
       const personalFinish = await page
-        .locator('[data-route-chapter="start-125"] dl > div')
+        .locator('[data-route-chapter^="start-"]')
+        .last()
+        .locator("dl > div")
         .nth(1)
         .locator("dd")
         .innerText();

@@ -1,5 +1,5 @@
 -- Test-only WoW API facade. Transport, compression, guide parsing and caching use pinned upstream code.
-local addonRoot, importPath, documentsPath, accountPath, expectedResult, commandsPath, playerRace, playerClass = unpack(arg)
+local addonRoot, importPath, documentsPath, accountPath, expectedResult, commandsPath, playerRace, playerClass, playerGame = unpack(arg)
 local function read(path)
     local file = assert(io.open(path, "rb"))
     local value = file:read("*a")
@@ -59,7 +59,7 @@ local libdeflate = assert(loadfile(addonRoot .. "/libs/LibDeflate/LibDeflate.lua
 LibStub = function(name) assert(name == "LibDeflate"); return libdeflate end
 local addon = {
     player = { class = playerClass or "WARRIOR", race = playerRace or "Human", faction = "Alliance", season = 0 },
-    game = "FOREVER",
+    game = playerGame or "FOREVER",
     version = 40000,
     settings = { profile = {}, ReplaceColors = function(value) return value end },
     locale = { Get = function(value, ...) if select("#", ...) > 0 then return string.format(value, ...) end; return value end },
@@ -95,7 +95,12 @@ RXPGuides = {
         expected[document] = expected[document] - 1
         captured = captured + 1
         local guide = addon.ImportGuide(document)
-        assert(guide and guide.name and #guide.steps > 0, "Stock parser rejected a guide")
+        assert(guide and guide.name, "Stock parser rejected a guide")
+        if expectedResult == "filtered" then
+            assert(not guide.imported and #guide.steps == 0, "Incompatible guide was not filtered")
+        else
+            assert(guide.imported and #guide.steps > 0, "Stock parser rejected guide " .. guide.name)
+        end
         parsedSteps = parsedSteps + #guide.steps
         return guide
     end,
@@ -103,7 +108,11 @@ RXPGuides = {
 addon.RXPGuides = RXPGuides
 assert(loadfile(addonRoot .. "/libs/plc/base64.lua"))("RXPGuides", addon)
 assert(loadfile(addonRoot .. "/GuideLoader.lua"))("RXPGuides", addon)
-addon.guideImporter.UpdateImportStatusHistory = function() end
+local lastImportStatus, firstImportError
+addon.guideImporter.UpdateImportStatusHistory = function(_, message, isError, ...)
+    lastImportStatus = { message = string.format(message, ...), isError = isError }
+    if isError and not firstImportError then firstImportError = lastImportStatus.message end
+end
 addon.guideImporter.UpdateImportUI = function() end
 local accepted = addon.guideImporter:ImportString(read(importPath), true)
 if expectedResult == "invalid" then
@@ -117,12 +126,31 @@ assert(addon.guideImporter.importBufferSize == expectedCount, "Stock decoded cou
 for index = 1, expectedCount + 1 do
     addon.guideImporter.ProcessInputBuffer(addon.workerFrame)
 end
-assert(captured == expectedCount, "Not all decoded documents reached the parser")
+assert(captured == expectedCount, "Not all decoded documents reached the parser: " .. tostring(firstImportError or (lastImportStatus and lastImportStatus.message)))
 for _, count in pairs(expected) do assert(count == 0, "Decoded document missing") end
-local registered = 0
+-- Exercise the addon's real next-chapter resolver, including group-qualified links.
+local functionsSource = read(addonRoot .. "/functions.lua")
+local nextStart = assert(functionsSource:find("function addon.functions.next(", 1, true))
+local nextEnd = assert(functionsSource:find("function addon.functions.train(", nextStart, true))
+assert(loadstring("local addon = ...\n" .. functionsSource:sub(nextStart, nextEnd - 1)))(addon)
+addon.GetGuideTable = function(group, name) return addon.guides[group .. "||" .. name] end
+addon.IsGuideActive = function() return true end
+addon.stepLogic = { AldorScryerCheck = function() return true end, SeasonCheck = function() return true end }
+local registered, nextLinks, groupTransitions = 0, 0, 0
 for _, guide in pairs(addon.guides) do
     registered = registered + 1
-    if guide.next then assert(addon.guides[guide.group .. "||" .. guide.next], "Broken next chapter") end
+    if guide.next then
+        local group, name = addon.functions.next(false, guide)
+        assert(group and name and addon.guides[group .. "||" .. name], "Broken next chapter")
+        nextLinks = nextLinks + 1
+        if group ~= guide.group then groupTransitions = groupTransitions + 1 end
+    end
+end
+if expectedResult == "filtered" then
+    assert(registered == 0, "Incompatible game guides must not register")
+    assert(lastImportStatus and lastImportStatus.isError and lastImportStatus.message == "Error parsing guide", "Expected the stock empty-import error")
+    io.write(string.format('{"status":"passed","decodedDocuments":%d,"registeredDocuments":0,"gameFiltered":true,"importError":"Error parsing guide"}\n', captured))
+    return
 end
 assert(registered == expectedCount, "Duplicate or missing registered guide identity")
-io.write(string.format('{"status":"passed","documents":%d,"steps":%d,"exactDecodedBytes":true,"stockCache":true,"commandRuntimeMocked":true}\n', registered, parsedSteps))
+io.write(string.format('{"status":"passed","documents":%d,"steps":%d,"nextChapterLinks":%d,"groupTransitions":%d,"exactDecodedBytes":true,"stockCache":true,"commandRuntimeMocked":true}\n', registered, parsedSteps, nextLinks, groupTransitions))

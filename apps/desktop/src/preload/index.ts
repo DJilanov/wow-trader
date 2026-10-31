@@ -19,6 +19,11 @@ async function invoke(command: RendererCommand): Promise<DesktopSnapshot> {
 }
 
 const api: WowTraderDesktopApi = {
+  beginPairing: () => invoke({ type: "begin_pairing" }),
+  cancelPairing: () => invoke({ type: "cancel_pairing" }),
+  openAccount: () => invoke({ type: "open_account" }),
+  checkUpdate: () => invoke({ type: "check_update" }),
+  downloadUpdate: () => invoke({ type: "download_update" }),
   getSnapshot: () => invoke({ type: "get_snapshot" }),
   checkNow: () => invoke({ type: "check_now" }),
   retry: () => invoke({ type: "retry" }),

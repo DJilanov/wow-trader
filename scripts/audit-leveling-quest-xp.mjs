@@ -9,6 +9,9 @@ import {
   CAMPAIGN_RACES,
   getLevelingRace,
   buildCampaignPlan,
+  buildCampaignStarters,
+  enrichCampaignStarters,
+  prepareCampaignPlan,
   guideArchiveManifestSchema,
   importedChapterSchema,
   forecastCampaignXp,
@@ -24,11 +27,8 @@ import {
   campaignOptionalXpReady,
   GROUP_COMBAT_RULE,
   COMBAT_XP_RULE,
-  attachCampaignCombat,
   combatDatasetSchema,
   combatManifestSchema,
-  compileCampaignFunding,
-  compileCampaignPickupGates,
   CAMPAIGN_EVIDENCE_CATALOG,
   campaignEvidenceIssueKey,
   campaignGrindEvidenceSchema,
@@ -227,23 +227,26 @@ if (value("progress"))
     JSON.parse(await readFile(resolve(value("progress")), "utf8")),
   );
 const projections = [];
+const combat = combatSnapshot
+  ? { data: combatSnapshot.dataset, revision: combatSnapshot.manifest.sha256 }
+  : null;
+const starters = enrichCampaignStarters(
+  buildCampaignStarters(manifest.sourceSha256, sources),
+  sources,
+  facts,
+  combat,
+);
 for (const race of CAMPAIGN_RACES)
   for (const leaderClass of [null, ...getLevelingRace("alliance", race).classes]) {
     const basePlan = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
-    const evidencedPlan = combatSnapshot
-      ? attachCampaignCombat(
-          basePlan,
-          sources,
-          combatSnapshot.dataset,
-          combatSnapshot.manifest.sha256,
-        )
-      : basePlan;
-    const plan = compileCampaignFunding(
-      compileCampaignPickupGates({
-        ...evidencedPlan,
-        rewardFacts: facts,
-      }),
-    );
+    const plan = prepareCampaignPlan(basePlan, sources, {
+      starters,
+      rewardFacts: facts,
+      rewardRevision: rewardIndexSha256,
+      rewardBuild: null,
+      rewardNotice: null,
+      combat,
+    });
     const progress = {
       ...base,
       members: base.members.map((member, index) =>

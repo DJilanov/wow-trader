@@ -2,6 +2,7 @@ import { getGuideStepView } from "./guide-archive.js";
 import { getChapterLabel, evaluateChapterCondition } from "./chapter-catalog.js";
 import type { CharacterProfile } from "./profile.js";
 import type { CampaignAction, CampaignSource } from "./campaign.js";
+import { classifyLibraryObjective } from "./campaign-library.js";
 
 export interface CampaignQuestBatch {
   readonly id: string;
@@ -100,14 +101,18 @@ export function extractCampaignQuestBatches(
               ? view.directives.filter((entry) => entry.tag === "text").map((entry) => entry.text)
               : []),
           ].join(" ");
-          batch.collection ||=
-            /\b(loot|collect|gather|skin|drop|bring)\b/i.test(context) ||
-            view.directives.some((entry) => entry.tag === ".collect");
-          const killObjective =
-            /\b(kill|slay|defeat|destroy)\b/i.test(context) &&
-            !view.directives.some((entry) =>
-              [".use", ".gossip", ".cast", ".interact"].includes(entry.tag),
-            );
+          const offset = view.directives.indexOf(directive);
+          const nextObjective = view.directives.findIndex(
+            (entry, index) => index > offset && entry.tag === ".complete",
+          );
+          const objective = classifyLibraryObjective(context, [
+            ...view.directives.slice(offset, nextObjective < 0 ? undefined : nextObjective),
+            ...view.directives.filter((entry) =>
+              [".use", ".cast", ".gossip", ".interact"].includes(entry.tag),
+            ),
+          ]);
+          batch.collection ||= objective === "collection" || objective === "named-trophy";
+          const killObjective = objective === "shared-kills";
           batch.kill ||= killObjective;
           batch.nonKillObjective ||= !killObjective;
         }

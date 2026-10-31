@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 
-export const dungeonFinishIds = [
+export const DUNGEON_FIRST_CLEAR_CIRCUIT_IDS = [
   "blackrock-depths",
   "lower-blackrock",
   "dire-maul-east",
@@ -10,6 +10,9 @@ export const dungeonFinishIds = [
   "scholomance",
   "stratholme-live",
   "stratholme-undead",
+] as const;
+export const dungeonFinishIds = [
+  ...DUNGEON_FIRST_CLEAR_CIRCUIT_IDS,
   "blackmaw-hold",
   "shapers-terrace",
 ] as const;

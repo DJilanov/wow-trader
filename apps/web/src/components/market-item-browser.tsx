@@ -61,6 +61,11 @@ export function MarketItemBrowser({
   const pageCount = Math.max(1, Math.ceil(data.totalCount / data.pageSize));
   const firstResult = data.totalCount === 0 ? 0 : (data.page - 1) * data.pageSize + 1;
   const lastResult = Math.min(data.page * data.pageSize, data.totalCount);
+  const allItemsHref = itemHref(basePath, market, query, data.sort, 1, preservedParameters, {
+    ...data,
+    filter: "all",
+  });
+  const empty = marketEmptyState(data, expired);
   return (
     <>
       <section className="workspace-toolbar market-item-toolbar" aria-label="Item market filters">
@@ -138,6 +143,32 @@ export function MarketItemBrowser({
         {data.budgetError ? <p role="alert">{data.budgetError}</p> : null}
       </section>
 
+      {data.readiness ? (
+        <aside className="market-buy-plan" aria-label="Market data readiness">
+          <strong>
+            {expired || !data.readiness.fresh
+              ? "A fresh scan is needed"
+              : data.readiness.historyReadyItems === 0
+                ? "Building your price history"
+                : "Market data readiness"}
+          </strong>
+          <p>
+            Latest scan: {data.scannedAt?.slice(0, 16).replace("T", " ")} UTC ·{" "}
+            {data.readiness.matchingItems.toLocaleString()} matching items.
+          </p>
+          <p>
+            {data.readiness.historyReadyItems.toLocaleString()} items have enough history · best
+            item: {Math.min(6, data.readiness.maximumObservationCount)}/6 independent half-hour
+            observations · {data.readiness.stackVerifiedItems.toLocaleString()} items include exact
+            stacks.
+          </p>
+          <small>
+            A current scan and six observations per item are required. Run a full scan in game, save
+            with /reload, and let Companion upload it.
+          </small>
+        </aside>
+      ) : null}
+
       <aside className="workspace-limitation market-item-boundary">
         <strong>How to read the verdict</strong>
         <p>
@@ -164,12 +195,9 @@ export function MarketItemBrowser({
 
         {data.rows.length === 0 ? (
           <div className="workspace-empty">
-            <strong>No listed item matches this search</strong>
-            <p>
-              {data.filter === "buy"
-                ? "No purchase currently meets the history, freshness, discount and return requirements. Try all items to inspect the evidence, or upload a fresh scan."
-                : "Try part of the item name, its numeric item ID, or another scanned market."}
-            </p>
+            <strong>{empty.title}</strong>
+            <p>{empty.detail}</p>
+            {data.filter === "buy" ? <Link href={allItemsHref}>View all item prices</Link> : null}
           </div>
         ) : (
           <div className="market-item-list">
@@ -191,6 +219,8 @@ export function MarketItemBrowser({
                       profit: "0c",
                       buyCost: "0c",
                       auctionFee: "0c",
+                      auctionCount: 0,
+                      lots: [],
                       reason: "Scan again: buy suggestions require prices less than one hour old.",
                     },
                     verdict: {
@@ -300,6 +330,16 @@ export function MarketItemBrowser({
                             : "Buying guidance"}
                       </strong>
                       <p>{item.buy.reason}</p>
+                      {item.buy.lots.length > 0 ? (
+                        <ul aria-label="Whole auction stacks to buy">
+                          {item.buy.lots.map((lot) => (
+                            <li key={`${lot.stackSize}:${lot.buyout}`}>
+                              {lot.listingCount} {lot.listingCount === 1 ? "stack" : "stacks"} of{" "}
+                              {lot.stackSize} · {lot.buyout} per stack
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                       <dl className="market-item-facts">
                         <div>
                           <dt>Maximum buy / unit</dt>
@@ -331,8 +371,8 @@ export function MarketItemBrowser({
                         </div>
                       </dl>
                       <small>
-                        Quotes are per unit. Verify whole auction stacks in game. Listed supply is
-                        not sales volume.
+                        Stack prices are exact scan observations. Recheck availability in game.
+                        Listed supply is not sales volume.
                       </small>
                     </section>
                     <dl className="market-item-facts">
@@ -431,6 +471,39 @@ export function MarketItemBrowser({
       </section>
     </>
   );
+}
+
+export function marketEmptyState(
+  data: MarketItemBrowserData,
+  expired = false,
+): { readonly title: string; readonly detail: string } {
+  if (data.filter !== "buy" || data.readiness?.matchingItems === 0)
+    return {
+      title: "No listed item matches this search",
+      detail: "Try part of the item name, its numeric item ID, or another scanned market.",
+    };
+  if (expired || data.readiness?.fresh === false)
+    return {
+      title: "Prices need a fresh scan",
+      detail:
+        "Items are available, but buying plans require a scan under one hour old. Scan the Auction House, save with /reload and let Companion synchronize.",
+    };
+  if (data.readiness?.historyReadyItems === 0)
+    return {
+      title: "Building your price history",
+      detail: `The best-covered matching item has ${Math.min(6, data.readiness.maximumObservationCount)} of 6 observations. Each item needs six distinct half-hour observations before its normal price can guide a purchase.`,
+    };
+  if (data.readiness?.stackVerifiedItems === 0)
+    return {
+      title: "Exact auction stacks are needed",
+      detail:
+        "Update the Collector and upload a fresh full scan to calculate purchases using whole stacks and exact auction prices.",
+    };
+  return {
+    title: "No purchase meets your current limits",
+    detail:
+      "No whole auction stack currently fits the freshness, history, discount, return, quantity and budget requirements. View all prices to inspect each item.",
+  };
 }
 
 function itemHref(

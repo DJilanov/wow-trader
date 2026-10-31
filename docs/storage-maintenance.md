@@ -18,6 +18,8 @@ Build wrappers clean previews after completion, Guardian installation prunes rel
 
 Install with `pnpm storage:install:macos`. The agent runs the scripts from this checkout using the current Node binary; reinstall after moving the checkout or removing that Node version. Records live in `~/Library/Logs/DeveloperStorageMaintenance/`, with at most 720 hourly samples. Each sample records free space and the logical size of unique deleted-but-open files visible to the current user. Daily folder totals include preview builds and simulator artifacts; failed scans appear in the sample's errors. Notifications trigger below 20 GiB free, above 1 GiB/hour of measured loss, or when a code change removes the simulator retention integration, with a six-hour cooldown. Deleted-file logical sizes are diagnostic estimates, not promises of physical space recovery.
 
+The agent resolves Docker and pnpm from its PATH, including `~/.local/bin` and both Apple Silicon and Intel Homebrew locations. An uninstalled Docker CLI is treated like a stopped daemon, so file cleanup continues normally on Macs without Docker.
+
 To disable: `launchctl bootout gui/$(id -u)/online.kfcguild.storage-maintenance`, then remove `~/Library/LaunchAgents/online.kfcguild.storage-maintenance.plist`. This leaves the bounded monitoring records and project-level cleanup hooks intact.
 
 Verification: `pnpm storage:test`, plus the reference-data crawler tests and typecheck. A 24-hour monitoring window is needed to establish whether background growth has stopped.

@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import { deflateSync, inflateSync } from "node:zlib";
 import process from "node:process";
 import { parseArgs } from "node:util";
+import { groupRestedXpDocumentsByLevel } from "./restedxp-level-groups.mjs";
 import {
   encodeRestedXpImport,
   decodeRestedXpImport,
@@ -35,6 +36,20 @@ async function accountInput(path) {
   return Buffer.concat(chunks).toString("utf8").trim();
 }
 
+function tbcPreviewDocument(document) {
+  assert(
+    /^#forever\r?$/m.test(document.content) &&
+      !/^#(?:tbc|classic|wotlk)\r?$/m.test(document.content),
+    "TBC preview requires Forever guide documents.",
+  );
+  const group = "KFC TBC Import Preview · " + document.group;
+  assert(group.length <= 300, "TBC preview group name exceeds its size limit.");
+  return document.content
+    .replace(/^#forever\r?$/m, "#tbc")
+    .replace(/^<<[^\r\n]+/gm, (line) => line.replace(/\bForever\b/g, "TBC"))
+    .replace(/^#group [^\r\n]+\r?$/m, () => "#group " + group);
+}
+
 async function main() {
   const { values } = parseArgs({
     args: process.argv.slice(process.argv[2] === "--" ? 3 : 2),
@@ -43,13 +58,20 @@ async function main() {
       "account-file": { type: "string" },
       output: { type: "string" },
       role: { type: "string", default: "all" },
+      "preview-game": { type: "string" },
+      "level-groups": { type: "boolean", default: false },
     },
   });
   assert(
     values.documents && values.output,
-    "Use --documents=<review guides.json> --output=<new import.txt> [--account-file=<private file>] [--role=all|leader|party].",
+    "Use --documents=<review guides.json> --output=<new import.txt> [--account-file=<private file>] [--role=all|leader|party] [--preview-game=tbc] [--level-groups].",
   );
   assert(["all", "leader", "party"].includes(values.role), "Unknown guide role.");
+  assert(
+    values["preview-game"] === undefined || values["preview-game"] === "tbc",
+    "Only --preview-game=tbc is supported; omit it for the Forever guide.",
+  );
+  const preview = values["preview-game"] === "tbc";
   const raw = await bounded(resolve(values.documents), 12000000);
   const set = restedXpDocumentSetSchema.parse(JSON.parse(raw));
   assert.equal(
@@ -69,7 +91,10 @@ async function main() {
     throw new Error(
       "Mixed-race/class document sets require --role=leader or --role=party. Import only your character's group.",
     );
-  const texts = documents.map((document) => document.content);
+  const rendered = documents.map((document) =>
+    preview ? tbcPreviewDocument(document) : document.content,
+  );
+  const texts = values["level-groups"] ? groupRestedXpDocumentsByLevel(rendered) : rendered;
   const account = await accountInput(values["account-file"]);
   const compression = {
     compressZlib: async (bytes) => deflateSync(bytes, { level: 9 }),
@@ -99,6 +124,9 @@ async function main() {
       restedXpVersion: set.restedXpVersion,
       accountContextLogged: false,
       inGameValidated: false,
+      importGame: preview ? "TBC" : "FOREVER",
+      previewOnly: preview,
+      levelGroups: values["level-groups"],
     }) + "\n",
   );
 }

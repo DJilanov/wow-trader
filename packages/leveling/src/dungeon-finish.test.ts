@@ -5,6 +5,7 @@ import { dungeonFinishRunSchema, type DungeonFinishRun } from "./dungeon-finish-
 import { recordPremadeXp } from "./premade.js";
 import {
   DUNGEON_FINISH_OPTIONS,
+  DUNGEON_FIRST_CLEAR_CIRCUIT,
   dungeonFinishPartyKey,
   dungeonFinishTotalXp,
   recordDungeonFinishRun,
@@ -104,6 +105,22 @@ function route(): CampaignPlan {
   };
 }
 describe("premade dungeon finish", () => {
+  it("defines the owner's eight-wing first-clear finish separately from optional new dungeons", () => {
+    expect(DUNGEON_FIRST_CLEAR_CIRCUIT.map((option) => option.id)).toEqual([
+      "blackrock-depths",
+      "lower-blackrock",
+      "dire-maul-east",
+      "dire-maul-west",
+      "dire-maul-north",
+      "scholomance",
+      "stratholme-live",
+      "stratholme-undead",
+    ]);
+    expect(DUNGEON_FIRST_CLEAR_CIRCUIT.every((option) => option.availability === "reference")).toBe(
+      true,
+    );
+    expect(new Set(DUNGEON_FIRST_CLEAR_CIRCUIT.map((option) => option.id)).size).toBe(8);
+  });
   it("lists ten five-player run options without inventing new-dungeon quests", () => {
     expect(DUNGEON_FINISH_OPTIONS).toHaveLength(10);
     expect(new Set(DUNGEON_FINISH_OPTIONS.map((option) => option.id)).size).toBe(10);

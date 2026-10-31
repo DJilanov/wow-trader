@@ -19,32 +19,53 @@ const { values } = parseArgs({
   options: {
     documents: { type: "string" },
     "addon-root": { type: "string" },
+    "installed-addon-root": { type: "string" },
+    game: { type: "string", default: "FOREVER" },
     lua: { type: "string" },
   },
 });
 const root = resolve(import.meta.dirname, "..");
-const addon = resolve(values["addon-root"] ?? join(root, ".cache/restedxp/v4.11.27"));
-const lua = resolve(values.lua ?? join(root, ".cache/restedxp/lua-5.1.5/src/lua"));
-const revision = execFileSync("git", ["-C", addon, "rev-parse", "HEAD"], {
-  encoding: "utf8",
-}).trim();
-assert.equal(revision, "ce1e51daf5e0f5cf727903d82e7269947ac27d73");
-execFileSync(
-  "git",
-  [
-    "-C",
-    addon,
-    "diff",
-    "--exit-code",
-    "HEAD",
-    "--",
-    "GuideLoader.lua",
-    "functions.lua",
-    "libs/LibDeflate/LibDeflate.lua",
-    "libs/plc/base64.lua",
-  ],
-  { stdio: "ignore" },
+assert(["FOREVER", "TBC"].includes(values.game), "Unknown diagnostic game.");
+assert(
+  !(values["addon-root"] && values["installed-addon-root"]),
+  "Choose the pinned source or an installed addon, not both.",
 );
+const installed = Boolean(values["installed-addon-root"]);
+const addon = resolve(
+  values["installed-addon-root"] ?? values["addon-root"] ?? join(root, ".cache/restedxp/v4.11.27"),
+);
+const lua = resolve(values.lua ?? join(root, ".cache/restedxp/lua-5.1.5/src/lua"));
+let revision = null;
+let restedXpVersion = "v4.11.27";
+if (installed) {
+  const metadata = await readFile(join(addon, "RXPGuides.toc"), "utf8");
+  restedXpVersion = /^## Version:\s*(v\d+\.\d+\.\d+)\s*$/m.exec(metadata)?.[1];
+  assert(
+    ["v4.11.27", "v4.11.29"].includes(restedXpVersion),
+    "Installed-addon diagnostics support v4.11.27 and v4.11.29; inspect a new loader before extending them.",
+  );
+} else {
+  revision = execFileSync("git", ["-C", addon, "rev-parse", "HEAD"], {
+    encoding: "utf8",
+  }).trim();
+  assert.equal(revision, "ce1e51daf5e0f5cf727903d82e7269947ac27d73");
+  execFileSync(
+    "git",
+    [
+      "-C",
+      addon,
+      "diff",
+      "--exit-code",
+      "HEAD",
+      "--",
+      "GuideLoader.lua",
+      "functions.lua",
+      "libs/LibDeflate/LibDeflate.lua",
+      "libs/plc/base64.lua",
+    ],
+    { stdio: "ignore" },
+  );
+}
 async function readDocuments(path) {
   const file = resolve(path);
   const info = await stat(file);
@@ -125,7 +146,7 @@ try {
       );
       await writeFile(join(directory, "import.txt"), encoded, { mode: 0o600 });
       await writeFile(join(directory, "account.txt"), account, { mode: 0o600 });
-      const run = (expected) =>
+      const run = (expected, game = values.game) =>
         JSON.parse(
           execFileSync(
             lua,
@@ -139,11 +160,24 @@ try {
               join(directory, "commands.txt"),
               races[player.race],
               player.classSlug.toUpperCase(),
+              game,
             ],
             { encoding: "utf8", timeout: 120000, maxBuffer: 1000000 },
           ),
         );
       checks.push({ context, case: index, ...run("valid") });
+      if (
+        index === 0 &&
+        values.game === "FOREVER" &&
+        documents.every(
+          (document) => /^#forever\r?$/m.test(document) && !/^#tbc\r?$/m.test(document),
+        )
+      )
+        checks.push({
+          context,
+          game: "TBC",
+          ...run(restedXpVersion === "v4.11.29" ? "filtered" : "valid", "TBC"),
+        });
       await writeFile(join(directory, "account.txt"), "DifferentFixture#9876", { mode: 0o600 });
       checks.push({ context, case: index, wrongAccount: true, ...run("invalid") });
     }
@@ -151,7 +185,9 @@ try {
   process.stdout.write(
     JSON.stringify({
       status: "passed",
-      restedXpVersion: "v4.11.27",
+      restedXpVersion,
+      source: installed ? "installed-addon-diagnostic" : "pinned-upstream",
+      game: values.game,
       revision,
       loaderSha256: createHash("sha256")
         .update(await readFile(join(addon, "GuideLoader.lua")))

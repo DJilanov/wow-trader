@@ -1,8 +1,9 @@
 import { summarizeOrderBook, type MarketPriceLevel } from "./order-book-summary.js";
+import { selectAuctionLots, validateAuctionLots, type SelectedAuctionLot } from "./auction-lots.js";
 import type { PriceIntelligence } from "./price-intelligence.js";
 
 export const BUY_POLICY = {
-  version: "conservative-buy-v1",
+  version: "conservative-whole-stack-buy-v2",
   maximumScanAgeMilliseconds: 60 * 60_000,
   minimumDiscountBasisPoints: 1_500,
   minimumReturnBasisPoints: 2_000,
@@ -25,6 +26,8 @@ export interface BuyOpportunity {
   readonly profitCopper: bigint;
   readonly returnBasisPoints: number;
   readonly auctionFeeBasisPoints: number | null;
+  readonly lots: readonly SelectedAuctionLot[];
+  readonly auctionCount: number;
 }
 
 export interface BuyOpportunityInput {
@@ -35,6 +38,7 @@ export interface BuyOpportunityInput {
   readonly auctionHouseType: string;
   readonly maximumSpendCopper?: bigint;
   readonly maximumQuantity?: number;
+  readonly maximumBuyPriceCopper?: bigint;
 }
 
 export function auctionHouseFeeBasisPoints(auctionHouseType: string): number | null {
@@ -58,6 +62,8 @@ export function quoteBuyOpportunity(input: BuyOpportunityInput): BuyOpportunity 
     profitCopper: 0n,
     returnBasisPoints: 0,
     auctionFeeBasisPoints: fee,
+    lots: [],
+    auctionCount: 0,
   };
   const age = input.now.getTime() - input.observedAt.getTime();
   if (!Number.isFinite(age) || age < -5 * 60_000 || age > BUY_POLICY.maximumScanAgeMilliseconds) {
@@ -100,7 +106,12 @@ export function quoteBuyOpportunity(input: BuyOpportunityInput): BuyOpportunity 
   const discountLimit =
     (intelligence.normalPriceCopper * BigInt(10_000 - BUY_POLICY.minimumDiscountBasisPoints)) /
     10_000n;
-  const ceiling = roiLimit < discountLimit ? roiLimit : discountLimit;
+  let ceiling = roiLimit < discountLimit ? roiLimit : discountLimit;
+  if (input.maximumBuyPriceCopper !== undefined) {
+    if (input.maximumBuyPriceCopper < 0n)
+      throw new RangeError("Maximum buy price must not be negative");
+    if (input.maximumBuyPriceCopper < ceiling) ceiling = input.maximumBuyPriceCopper;
+  }
   const quoted = { ...empty, targetResalePriceCopper: target, maximumBuyPriceCopper: ceiling };
   if (!["normal", "bargain"].includes(intelligence.signal)) {
     return {
@@ -118,36 +129,29 @@ export function quoteBuyOpportunity(input: BuyOpportunityInput): BuyOpportunity 
       Math.floor((intelligence.normalQuantity * BUY_POLICY.maximumSupplyShareBasisPoints) / 10_000),
     ),
   );
-  let quantity = 0;
-  let cost = 0n;
-  const sorted = [...input.levels].sort((a, b) =>
-    a.unitPriceCopper < b.unitPriceCopper ? -1 : a.unitPriceCopper > b.unitPriceCopper ? 1 : 0,
-  );
-  for (const level of sorted) {
-    if (
-      level.unitPriceCopper <= 0n ||
-      !Number.isSafeInteger(level.quantity) ||
-      level.quantity < 1 ||
-      !Number.isSafeInteger(level.listingCount) ||
-      level.listingCount < 1
-    ) {
-      throw new RangeError("Buy depth contains an invalid price level");
-    }
-    if (level.unitPriceCopper > ceiling || quantity >= cap) break;
-    let units = Math.min(level.quantity, cap - quantity);
-    if (input.maximumSpendCopper !== undefined) {
-      const affordable = (input.maximumSpendCopper - cost) / level.unitPriceCopper;
-      if (affordable < BigInt(units)) units = Number(affordable);
-    }
-    quantity += units;
-    cost += level.unitPriceCopper * BigInt(units);
-    if (units < level.quantity && input.maximumSpendCopper !== undefined) break;
-  }
+  if (!input.levels.some(validateAuctionLots))
+    return {
+      ...quoted,
+      reason:
+        "Exact auction stacks are missing. Update the Collector and upload a fresh full scan.",
+    };
+  const selected = selectAuctionLots({
+    levels: input.levels,
+    maximumUnitPriceCopper: ceiling,
+    maximumQuantity: cap,
+    targetResalePriceCopper: target,
+    feeBasisPoints: fee,
+    ...(input.maximumSpendCopper !== undefined
+      ? { maximumSpendCopper: input.maximumSpendCopper }
+      : {}),
+  });
+  const quantity = selected.quantity;
+  const cost = selected.costCopper;
   if (quantity === 0) {
     return {
       ...quoted,
       state: "wait",
-      reason: "No listed units fit the buy ceiling, quantity cap and budget.",
+      reason: "No whole auction stack fits the buy ceiling, quantity cap and budget.",
     };
   }
   const gross = target * BigInt(quantity);
@@ -165,7 +169,7 @@ export function quoteBuyOpportunity(input: BuyOpportunityInput): BuyOpportunity 
     ...quoted,
     state: "opportunity",
     reason:
-      "Below the buy ceiling, with a conservative resale target. Verify the actual auction stacks before buying.",
+      "Whole auction stacks fit your limits. Recheck their availability in game before buying.",
     quantity,
     buyCostCopper: cost,
     grossResaleCopper: gross,
@@ -173,6 +177,8 @@ export function quoteBuyOpportunity(input: BuyOpportunityInput): BuyOpportunity 
     netResaleCopper: net,
     profitCopper: profit,
     returnBasisPoints: Number(returnBasisPoints),
+    lots: selected.lots,
+    auctionCount: selected.lots.reduce((sum, lot) => sum + lot.listingCount, 0),
   };
 }
 

@@ -35,6 +35,12 @@ export const combatQuestSchema = z
     itemCreatureIds: z.array(id).max(1000),
     objectiveText: z.array(z.string().max(12000)).max(100),
     onlyCreatureObjectives: z.boolean().default(false),
+    onlyInteractionObjectives: z.boolean().optional(),
+    requiredClasses: z.number().int().min(0).max(0xffffffff).optional(),
+    prerequisites: z
+      .object({ allOf: z.array(id).max(100), anyOf: z.array(id).max(100) })
+      .strict()
+      .optional(),
     itemObjectives: z.array(questItemObjectiveSchema).max(100).optional(),
   })
   .strict();

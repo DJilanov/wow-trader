@@ -1,6 +1,38 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { deletedOpenTotals, storageAlert, developmentBusy } from "./storage-monitor.mjs";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import {
+  deletedOpenTotals,
+  storageAlert,
+  developmentBusy,
+  isDockerUnavailable,
+  folderTotals,
+} from "./storage-monitor.mjs";
+
+test("missing or stopped Docker is optional, while other Docker failures remain visible", () => {
+  assert.equal(isDockerUnavailable({ code: "ENOENT" }), true);
+  assert.equal(isDockerUnavailable({ code: 1, stderr: "Cannot connect to Docker" }), true);
+  assert.equal(isDockerUnavailable({ code: 1, stderr: "connect: connection refused" }), true);
+  assert.equal(isDockerUnavailable({ code: "EACCES" }), false);
+  assert.equal(isDockerUnavailable({ code: "ETIMEDOUT" }), false);
+  assert.equal(isDockerUnavailable({ code: 1, stderr: "invalid container identifier" }), false);
+});
+
+test("missing optional storage folders measure as zero while existing data is measured", async (t) => {
+  const home = await mkdtemp(join(tmpdir(), "storage-monitor-"));
+  t.after(() => rm(home, { recursive: true, force: true }));
+  const repository = join(home, "work", "project");
+  await mkdir(join(repository, "artifacts"), { recursive: true });
+  await writeFile(join(repository, "artifacts", "sample.json"), "{}\n");
+  const totals = await folderTotals(repository, home);
+  assert(totals.projects > 0);
+  assert(totals.wowArtifacts > 0);
+  assert.equal(totals.docker, 0);
+  assert.equal(totals.guardian, 0);
+  assert.equal(totals.pnpm, 0);
+});
 
 test("counts a deleted inode once across many descriptors and processes", () => {
   const result = deletedOpenTotals(

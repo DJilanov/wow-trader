@@ -77,6 +77,21 @@ export interface FormattedBuyOpportunity {
   readonly profit: string;
   readonly returnPercent: string;
   readonly feePercent: string | null;
+  readonly auctionCount: number;
+  readonly lots: readonly {
+    readonly stackSize: number;
+    readonly listingCount: number;
+    readonly buyout: string;
+  }[];
+}
+
+export interface MarketReadiness {
+  readonly matchingItems: number;
+  readonly qualifiedItems: number;
+  readonly historyReadyItems: number;
+  readonly maximumObservationCount: number;
+  readonly stackVerifiedItems: number;
+  readonly fresh: boolean;
 }
 
 export interface MarketItemBrowserData {
@@ -92,6 +107,7 @@ export interface MarketItemBrowserData {
   readonly quantityLimit?: number;
   readonly scannedAt?: string;
   readonly budgetError?: string;
+  readonly readiness?: MarketReadiness;
 }
 
 export interface MarketItemBrowserFilters {
@@ -182,12 +198,12 @@ export async function getMarketItemBrowser(
     scan.completedAt,
     now,
     parseBuyBudget(filters.budget),
+    filters.quantityLimit ?? BUY_POLICY.maximumQuantity,
   );
-  const itemCondition = and(
+  const baseCondition = and(
     eq(marketItemObservations.scanId, scan.scanId),
     canonicalMarket,
     searchCondition,
-    filters.filter === "buy" ? eligible : undefined,
     filters.materialsOnly
       ? inArray(
           sql<number>`coalesce(${itemVersions.classId}, ${marketItemObservations.itemClassId})`,
@@ -195,14 +211,28 @@ export async function getMarketItemBrowser(
         )
       : undefined,
   );
+  const itemCondition = and(baseCondition, filters.filter === "buy" ? eligible : undefined);
 
   const [countRows, suggestionRows] = await Promise.all([
     database
-      .select({ value: count() })
+      .select({
+        value: count(),
+        qualified: sql<number>`count(*) FILTER (WHERE ${eligible})`.mapWith(Number),
+        historyReady:
+          sql<number>`count(*) FILTER (WHERE ${marketItemSignals.observationCount} >= 6)`.mapWith(
+            Number,
+          ),
+        maximumObservations:
+          sql<number>`coalesce(max(${marketItemSignals.observationCount}), 0)`.mapWith(Number),
+        stackVerified:
+          sql<number>`count(*) FILTER (WHERE ${marketItemObservations.hasLotEvidence})`.mapWith(
+            Number,
+          ),
+      })
       .from(marketItemObservations)
       .leftJoin(itemVersions, catalogJoin)
       .leftJoin(marketItemSignals, signalJoin)
-      .where(itemCondition),
+      .where(baseCondition),
     database
       .select({ name: marketItemName() })
       .from(marketItemObservations)
@@ -212,7 +242,8 @@ export async function getMarketItemBrowser(
       .orderBy(asc(marketItemName()))
       .limit(query ? 80 : 200),
   ]);
-  const totalCount = countRows[0]?.value ?? 0;
+  const counts = countRows[0];
+  const totalCount = filters.filter === "buy" ? (counts?.qualified ?? 0) : (counts?.value ?? 0);
   const pageCount = Math.max(1, Math.ceil(totalCount / pageSize));
   const page = Math.min(requestedPage, pageCount);
 
@@ -258,6 +289,7 @@ export async function getMarketItemBrowser(
             unitPriceCopper: auctionPriceLevels.unitPriceCopper,
             quantity: auctionPriceLevels.quantity,
             listingCount: auctionPriceLevels.listingCount,
+            lots: auctionPriceLevels.lots,
           })
           .from(auctionPriceLevels)
           .where(
@@ -297,7 +329,12 @@ export async function getMarketItemBrowser(
       id,
       quoteBuyOpportunity({
         intelligence: analyzePriceHistory(history.byItem.get(id) ?? []),
-        levels: byItem.get(id) ?? [],
+        levels: (byItem.get(id) ?? []).map(({ lots, ...level }) => ({
+          ...level,
+          ...(lots
+            ? { lots: lots.map((lot) => ({ ...lot, buyoutCopper: BigInt(lot.buyoutCopper) })) }
+            : {}),
+        })),
         observedAt: scan.completedAt,
         now,
         auctionHouseType: scan.auctionHouseType,
@@ -323,6 +360,16 @@ export async function getMarketItemBrowser(
     budget: filters.budget ?? "",
     quantityLimit: filters.quantityLimit ?? BUY_POLICY.maximumQuantity,
     scannedAt: scan.completedAt.toISOString(),
+    readiness: {
+      matchingItems: counts?.value ?? 0,
+      qualifiedItems: counts?.qualified ?? 0,
+      historyReadyItems: counts?.historyReady ?? 0,
+      maximumObservationCount: counts?.maximumObservations ?? 0,
+      stackVerifiedItems: counts?.stackVerified ?? 0,
+      fresh:
+        now.getTime() - scan.completedAt.getTime() <= BUY_POLICY.maximumScanAgeMilliseconds &&
+        now.getTime() >= scan.completedAt.getTime() - 300_000,
+    },
     ...(filters.budget?.trim() && !GOLD_BUDGET_PATTERN.test(filters.budget)
       ? {
           budgetError:
@@ -481,6 +528,12 @@ export function formatBuyOpportunity(buy: BuyOpportunity): FormattedBuyOpportuni
     profit: formatCopper(buy.profitCopper),
     returnPercent: `${(buy.returnBasisPoints / 100).toFixed(1)}%`,
     feePercent: buy.auctionFeeBasisPoints === null ? null : `${buy.auctionFeeBasisPoints / 100}%`,
+    auctionCount: buy.auctionCount,
+    lots: buy.lots.map((lot) => ({
+      stackSize: lot.stackSize,
+      listingCount: lot.listingCount,
+      buyout: formatCopper(lot.buyoutCopper),
+    })),
   };
 }
 
@@ -489,6 +542,7 @@ function eligibleBuyCondition(
   observedAt: Date,
   now: Date,
   budget: bigint | undefined,
+  maximumQuantity: number,
 ): SQL {
   const fee = auctionHouseFeeBasisPoints(auctionHouseType);
   const age = now.getTime() - observedAt.getTime();
@@ -497,6 +551,13 @@ function eligibleBuyCondition(
   const net = sql`(${marketItemSignals.lowerPriceCopper} - ceil(${marketItemSignals.lowerPriceCopper}::numeric * ${fee} / 10000))`;
   return sql`${marketItemSignals.signal} IN ('normal', 'bargain') AND ${marketItemSignals.observationCount} >= 6
     AND ${marketItemSignals.currentListingCount} >= 3 AND ${marketItemSignals.normalPriceCopper} > 0
+    AND ${marketItemObservations.availableQuantity} >= GREATEST(3, floor(${marketItemSignals.normalQuantity} * 0.25))
+    AND ${marketItemObservations.hasLotEvidence}
+    AND EXISTS (SELECT 1 FROM auction_price_level p, jsonb_array_elements(coalesce(p.lots, '[]'::jsonb)) lot
+      WHERE p.scan_id = ${marketItemObservations.scanId} AND p.market_key = ${marketItemObservations.marketKey}
+        AND (lot->>'stackSize')::int <= LEAST(${maximumQuantity}, GREATEST(1, floor(${marketItemSignals.normalQuantity} * 0.1)))
+        AND p.unit_price_copper <= LEAST(floor(${net} * 10000 / ${10000 + BUY_POLICY.minimumReturnBasisPoints}), floor(${marketItemSignals.normalPriceCopper}::numeric * ${10000 - BUY_POLICY.minimumDiscountBasisPoints} / 10000))
+        ${budget === undefined ? sql`` : sql`AND (lot->>'buyoutCopper')::numeric <= ${String(budget)}::numeric`})
     AND ${marketItemObservations.minimumPriceCopper} <= LEAST(floor(${net} * 10000 / ${10000 + BUY_POLICY.minimumReturnBasisPoints}), floor(${marketItemSignals.normalPriceCopper}::numeric * ${10000 - BUY_POLICY.minimumDiscountBasisPoints} / 10000))
     ${budget === undefined ? sql`` : sql`AND ${marketItemObservations.minimumPriceCopper} <= ${String(budget)}::bigint`}`;
 }

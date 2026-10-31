@@ -8,8 +8,10 @@
 ## X-WowTrader-Product: wow_anniversary
 
 MarketData.lua
+AccountData.lua
 MarketPolicy.lua
 Collector.lua
 Professions.lua
+Trades.lua
 WorldEvidence.lua
 UI.lua

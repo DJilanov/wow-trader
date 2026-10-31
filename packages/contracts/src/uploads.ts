@@ -26,11 +26,47 @@ export const sourceCharacterSchema = z.object({
   guid: z.string().min(1).max(128).nullable(),
 });
 
-export const auctionPriceLevelSchema = z.object({
-  unitPriceCopper: positiveCopperSchema,
-  quantity: z.number().int().positive(),
-  listingCount: z.number().int().positive(),
+export const auctionLotSchema = z.object({
+  stackSize: z.number().int().positive().safe().max(1_000_000),
+  buyoutCopper: positiveCopperSchema,
+  listingCount: z.number().int().positive().safe(),
 });
+
+export const auctionPriceLevelSchema = z
+  .object({
+    unitPriceCopper: positiveCopperSchema,
+    quantity: z.number().int().positive().safe(),
+    listingCount: z.number().int().positive().safe(),
+    lots: z.array(auctionLotSchema).min(1).max(1_000).optional(),
+  })
+  .superRefine((level, context) => {
+    if (!level.lots) return;
+    let quantity = 0,
+      count = 0;
+    for (const lot of level.lots) {
+      quantity += lot.stackSize * lot.listingCount;
+      count += lot.listingCount;
+      if (
+        (BigInt(lot.buyoutCopper) + BigInt(lot.stackSize) - 1n) / BigInt(lot.stackSize) !==
+        BigInt(level.unitPriceCopper)
+      )
+        context.addIssue({
+          code: "custom",
+          message: "Auction stack price does not match its unit-price level",
+          path: ["lots"],
+        });
+    }
+    if (
+      !Number.isSafeInteger(quantity) ||
+      quantity !== level.quantity ||
+      count !== level.listingCount
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Auction stack totals do not match the price level",
+        path: ["lots"],
+      });
+  });
 
 export const auctionItemSnapshotSchema = z.object({
   itemId: wowIdSchema,

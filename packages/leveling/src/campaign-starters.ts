@@ -12,6 +12,8 @@ import type { CampaignCombatPlan, CombatActivity, CombatDataset } from "./combat
 import type { QuestRewardFact } from "./quest-rewards.js";
 import { attachCampaignCombat } from "./campaign-combat.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
+import { applyCampaignPartyQuestPolicy } from "./campaign-party-policy.js";
+import { attachCampaignFlightPaths } from "./campaign-travel.js";
 
 export interface CampaignStarterRoute {
   readonly race: CampaignRace;
@@ -136,15 +138,19 @@ export function enrichCampaignStarters(
       const chapters = new Set(
         plan.actions.flatMap((action) => (action.source ? [action.source.chapterId] : [])),
       );
+      const enriched = combat
+        ? attachCampaignCombat(
+            plan,
+            sources.filter((source) => chapters.has(source.guide.chapterId)),
+            combat.data,
+            combat.revision,
+          )
+        : plan;
       return compileCampaignPickupGates(
-        combat
-          ? attachCampaignCombat(
-              plan,
-              sources.filter((source) => chapters.has(source.guide.chapterId)),
-              combat.data,
-              combat.revision,
-            )
-          : plan,
+        attachCampaignFlightPaths(
+          applyCampaignPartyQuestPolicy(enriched, sources, combat?.data),
+          sources,
+        ),
       );
     }),
   );

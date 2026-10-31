@@ -1,4 +1,6 @@
-import type { CampaignPlan, CampaignSource } from "./campaign.js";
+import { buildCampaignPlan, type CampaignPlan, type CampaignSource } from "./campaign.js";
+import { applyCampaignPartyQuestPolicy } from "./campaign-party-policy.js";
+import { attachCampaignFlightPaths } from "./campaign-travel.js";
 import type { CampaignQuestBatch } from "./campaign-catchup.js";
 import type { CampaignLibraryChoice } from "./campaign-library-route.js";
 import type { CampaignStarterCatalog } from "./campaign-starters.js";
@@ -31,7 +33,10 @@ export function isSupportedCatchUpBatch(
   return batch.objectiveType === "shared-kills" && !batch.conditional;
 }
 
-export function campaignRewardQuestIds(plan: CampaignRewardInventory): readonly number[] {
+export function campaignRewardQuestIds(
+  plan: CampaignRewardInventory,
+  options: { readonly includeHeldLibrary?: boolean } = {},
+): readonly number[] {
   return [
     ...new Set([
       ...(plan.dungeonFinish ? DUNGEON_FINISH_OPTIONS.flatMap((option) => option.questIds) : []),
@@ -41,7 +46,7 @@ export function campaignRewardQuestIds(plan: CampaignRewardInventory): readonly 
       ),
       ...(plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch).map((batch) => batch.questId),
       ...(plan.library?.choices ?? [])
-        .filter((choice) => choice.role !== "held")
+        .filter((choice) => options.includeHeldLibrary || choice.role !== "held")
         .map((choice) => choice.questId),
     ]),
   ];
@@ -68,14 +73,23 @@ export function prepareCampaignPlan(
   evidence: CampaignPreparationEvidence,
 ): CampaignPlan {
   const combat = evidence.combat;
-  const enriched =
-    combat?.data.targetBuild === plan.targetBuild
-      ? attachCampaignCombat(plan, sources, combat.data, combat.revision)
+  const data = combat?.data.targetBuild === plan.targetBuild ? combat.data : undefined;
+  const candidate =
+    data && plan.sourceArchiveSha256 && data.quests.some((quest) => quest.prerequisites)
+      ? buildCampaignPlan(plan.race, plan.sourceArchiveSha256, sources, plan.leaderClass, {
+          includeLibrary: plan.sourceLibraryEnabled !== false,
+          questReferences: data.quests,
+        })
       : plan;
-  const wanted = new Set(campaignRewardQuestIds({ ...plan, starters: evidence.starters }));
+  const enriched =
+    combat && data ? attachCampaignCombat(candidate, sources, data, combat.revision) : candidate;
+  const selected = sources.length
+    ? attachCampaignFlightPaths(applyCampaignPartyQuestPolicy(enriched, sources, data), sources)
+    : enriched;
+  const wanted = new Set(campaignRewardQuestIds({ ...selected, starters: evidence.starters }));
   return compileCampaignFunding(
     compileCampaignPickupGates({
-      ...enriched,
+      ...selected,
       starters: evidence.starters,
       catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
       rewardFacts: evidence.rewardFacts.filter((fact) => wanted.has(fact.questId)),

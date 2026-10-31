@@ -10,6 +10,7 @@ import {
 import {
   dungeonFinishRunSchema,
   dungeonFinishBarSchema,
+  DUNGEON_FIRST_CLEAR_CIRCUIT_IDS,
   type DungeonFinishId,
   type DungeonFinishRun,
 } from "./dungeon-finish-model.js";
@@ -137,6 +138,13 @@ export const DUNGEON_FINISH_OPTIONS: readonly DungeonFinishOption[] = options.ma
     ? "announced"
     : "reference",
 }));
+
+export const DUNGEON_FIRST_CLEAR_CIRCUIT: readonly DungeonFinishOption[] =
+  DUNGEON_FIRST_CLEAR_CIRCUIT_IDS.map((id) => {
+    const option = DUNGEON_FINISH_OPTIONS.find((entry) => entry.id === id);
+    if (!option) throw new Error(`First-clear dungeon is not configured: ${id}.`);
+    return option;
+  });
 
 export function dungeonFinishTotalXp(bar: {
   readonly level: number;

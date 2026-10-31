@@ -82,6 +82,12 @@ export function readGuideAccessSettings(
 
 export function guideReturnPath(value: unknown): string {
   if (
+    typeof value === "string" &&
+    /^\/tools\/forever\/trader\/account(?:\?code=[A-Z2-9]{4}-[A-Z2-9]{4})?$/.test(value)
+  )
+    return value;
+
+  if (
     typeof value !== "string" ||
     value.length > 500 ||
     !value.startsWith("/tools/forever/leveling")

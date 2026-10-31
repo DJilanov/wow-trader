@@ -3,6 +3,7 @@
 import { useId, useRef, useState } from "react";
 import {
   DUNGEON_FINISH_OPTIONS,
+  DUNGEON_FIRST_CLEAR_CIRCUIT,
   rankedDungeonFinishOptions,
   estimateDungeonFinish,
   dungeonFinishQuestRewards,
@@ -13,6 +14,7 @@ import {
   type CampaignGuideSection,
 } from "@wow-trader/leveling";
 import { DungeonClearForm, DungeonGearForm } from "./leveling-dungeon-finish-forms";
+import { DungeonFirstClearPlan } from "./leveling-dungeon-first-clear-plan";
 import { withHelperBasePath } from "../lib/site-path";
 import styles from "./leveling-dungeon-finish.module.css";
 
@@ -116,44 +118,69 @@ export function LevelingDungeonFinish({
             {ready ? "Your pre-raid gear circuit" : "Dungeon finish & gear circuit"}
           </h2>
         </div>
-        <strong>{DUNGEON_FINISH_OPTIONS.length} run options</strong>
+        <strong>
+          {ready
+            ? `${DUNGEON_FINISH_OPTIONS.length} gear options`
+            : `${DUNGEON_FIRST_CLEAR_CIRCUIT.length} first clears · ${DUNGEON_FINISH_OPTIONS.length - DUNGEON_FIRST_CLEAR_CIRCUIT.length} optional`}
+        </strong>
       </header>
-      <dl className={styles.metrics}>
-        <div>
-          <dt>Largest remaining XP gap</dt>
-          <dd>
-            {known
-              ? `${format(Math.max(...(estimate.remainingXp as number[])))} XP`
-              : "Party XP not recorded"}
-          </dd>
-        </div>
-        <div>
-          <dt>{option.name} clears remaining</dt>
-          <dd>
-            {estimate.clears === null
-              ? "No calibrated estimate"
-              : estimate.clears === 0
-                ? "Leveling complete"
-                : `≈ ${estimate.clears}`}
-          </dd>
-        </div>
-        <div>
-          <dt>
-            {estimate.samples} matching clear{estimate.samples === 1 ? "" : "s"}
-          </dt>
-          <dd>
-            {estimate.minutes === null
-              ? "Timing not measured"
-              : estimate.minutes === 0
-                ? "Gear targets remain optional"
-                : `≈ ${format(estimate.minutes)} min`}
-          </dd>
-        </div>
-      </dl>
+      {!ready && (
+        <DungeonFirstClearPlan
+          selected={option.id}
+          disabled={disabled}
+          onSelect={(id) => {
+            update({
+              ...progress,
+              dungeonFinish: { ...progress.dungeonFinish, selectedDungeonId: id },
+            });
+            setTab("quests");
+          }}
+        />
+      )}
+      <details className={styles.estimates}>
+        <summary>Optional XP and repeat-run estimates</summary>
+        <dl className={styles.metrics}>
+          <div>
+            <dt>Largest remaining XP gap</dt>
+            <dd>
+              {known
+                ? `${format(Math.max(...(estimate.remainingXp as number[])))} XP`
+                : "Party XP not recorded"}
+            </dd>
+          </div>
+          <div>
+            <dt>{option.name} clears remaining</dt>
+            <dd>
+              {estimate.clears === null
+                ? "No calibrated estimate"
+                : estimate.clears === 0
+                  ? "Leveling complete"
+                  : `≈ ${estimate.clears}`}
+            </dd>
+          </div>
+          <div>
+            <dt>
+              {estimate.samples} matching clear{estimate.samples === 1 ? "" : "s"}
+            </dt>
+            <dd>
+              {estimate.minutes === null
+                ? "Timing not measured"
+                : estimate.minutes === 0
+                  ? "Gear targets remain optional"
+                  : `≈ ${format(estimate.minutes)} min`}
+            </dd>
+          </div>
+        </dl>
+        <p className={styles.muted}>
+          Estimates use up to five recent matching manual clears, the same catalog build, party
+          setup, route scope and nearby levels. Quest rewards are removed from repeatable XP.
+          Unmeasured clear XP and item drops are not assumed.
+        </p>
+      </details>
       <p>
         {ready
           ? "All five recorded level 60. Continue for gear, keys or attunements; there are no mandatory leveling zones after this point."
-          : "Repeat suitable dungeon routes for XP and your party's gear targets. Recommended levels are advisory; actual entry restrictions, quest pickup levels and keys still apply."}
+          : "Prepare the selected dungeon's keys and quest pickups below. After the eight-run circuit, continue only for unfinished gear goals or attunements."}
       </p>
       {!known && guide?.forecast.members[0]?.start && (
         <p className={styles.muted}>
@@ -205,51 +232,57 @@ export function LevelingDungeonFinish({
       <div id={`${tabs}-panel`} role="tabpanel" aria-labelledby={`${tabs}-${tab}`}>
         {tab === "dungeons" && (
           <>
-            <div className={styles.options} role="radiogroup" aria-label="Next dungeon">
-              {options.map((entry) => {
-                const targets = progress.dungeonFinish.targets.filter(
-                  (target) => target.dungeonId === entry.id && !target.obtained,
-                );
-                return (
-                  <label
-                    key={entry.id}
-                    className={`${styles.option} ${option.id === entry.id ? styles.selected : ""}`}
-                  >
-                    <input
-                      type="radio"
-                      name={`${tabs}-dungeon`}
-                      value={entry.id}
-                      checked={option.id === entry.id}
-                      onChange={() =>
-                        update({
-                          ...progress,
-                          dungeonFinish: { ...progress.dungeonFinish, selectedDungeonId: entry.id },
-                        })
-                      }
-                    />
-                    <span>
-                      <strong>{entry.name}</strong>
-                      <small>
-                        {entry.area} ·{" "}
-                        {entry.availability === "announced"
-                          ? "Announced range"
-                          : "Reference recommendation"}{" "}
-                        {entry.recommendedLevel}
-                        {entry.recommendedLevel < 60 ? "–60" : ""}
-                      </small>
-                      <small>
-                        {targets.length
-                          ? `${targets.length} outstanding gear target${targets.length === 1 ? "" : "s"}`
-                          : "No assigned gear targets"}
-                        {entry.expertLevel < entry.recommendedLevel
-                          ? ` · expert reference ${entry.expertLevel}+`
-                          : ""}
-                      </small>
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
+            <details className={styles.estimates}>
+              <summary>Additional run and gear options</summary>
+              <div className={styles.options} role="radiogroup" aria-label="Next dungeon">
+                {options.map((entry) => {
+                  const targets = progress.dungeonFinish.targets.filter(
+                    (target) => target.dungeonId === entry.id && !target.obtained,
+                  );
+                  return (
+                    <label
+                      key={entry.id}
+                      className={`${styles.option} ${option.id === entry.id ? styles.selected : ""}`}
+                    >
+                      <input
+                        type="radio"
+                        name={`${tabs}-dungeon`}
+                        value={entry.id}
+                        checked={option.id === entry.id}
+                        onChange={() =>
+                          update({
+                            ...progress,
+                            dungeonFinish: {
+                              ...progress.dungeonFinish,
+                              selectedDungeonId: entry.id,
+                            },
+                          })
+                        }
+                      />
+                      <span>
+                        <strong>{entry.name}</strong>
+                        <small>
+                          {entry.area} ·{" "}
+                          {entry.availability === "announced"
+                            ? "Announced range"
+                            : "Reference recommendation"}{" "}
+                          {entry.recommendedLevel}
+                          {entry.recommendedLevel < 60 ? "–60" : ""}
+                        </small>
+                        <small>
+                          {targets.length
+                            ? `${targets.length} outstanding gear target${targets.length === 1 ? "" : "s"}`
+                            : "No assigned gear targets"}
+                          {entry.expertLevel < entry.recommendedLevel
+                            ? ` · expert reference ${entry.expertLevel}+`
+                            : ""}
+                        </small>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </details>
             <div className={styles.selectedDetail}>
               <h3>{option.name}</h3>
               <p>{option.preparation}</p>
@@ -282,11 +315,6 @@ export function LevelingDungeonFinish({
                 Record a clear
               </button>
             </div>
-            <p className={styles.muted}>
-              Estimates use up to five recent matching manual clears, the same catalog build, party
-              setup, route scope and nearby levels. Quest rewards are removed from repeatable XP.
-              Unmeasured clear XP and item drops are not assumed.
-            </p>
           </>
         )}
         {tab === "quests" && (
@@ -305,6 +333,7 @@ export function LevelingDungeonFinish({
                 </select>
               </label>
             </div>
+            <p>{option.preparation}</p>
             {!rewards.length ? (
               <p>
                 Quest identities and reward details for this dungeon are not confirmed in the route

@@ -23,7 +23,7 @@ import type { QuestRewardFact } from "./quest-rewards.js";
 import type { QuestValidationCoverage } from "./quest-validation-certificates.js";
 import { getDungeonBundle } from "./dungeon-bundles.js";
 import type { GuaranteedDungeonId } from "./dungeon-bundle-model.js";
-import type { CampaignCombatPlan } from "./combat-model.js";
+import type { CampaignCombatPlan, CombatQuestReference } from "./combat-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
 import { campaignPickupLevelMet } from "./campaign-pickup-budget.js";
 import { extractCampaignQuestBatches, type CampaignQuestBatch } from "./campaign-catchup.js";
@@ -37,6 +37,10 @@ import {
   type CampaignLibrarySelection,
 } from "./campaign-library-route.js";
 import type { CampaignStarterCatalog } from "./campaign-starters.js";
+import type { CampaignPartyPolicy } from "./campaign-party-policy.js";
+import type { CampaignFlightPath } from "./campaign-travel.js";
+import { getCampaignReferenceQuest } from "./campaign-reference-quests.js";
+import { DUNGEON_FIRST_CLEAR_CIRCUIT } from "./dungeon-finish.js";
 import {
   CAMPAIGN_BRIDGES,
   campaignStarterSourceIds,
@@ -114,6 +118,8 @@ export interface CampaignPlan {
   readonly race: CampaignRace;
   readonly leaderClass: ClassSlug | null;
   readonly targetBuild: number;
+  readonly sourceArchiveSha256?: string;
+  readonly sourceLibraryEnabled?: boolean;
   readonly legs: readonly CampaignLeg[];
   readonly actions: readonly CampaignAction[];
   readonly bookmarkAliases?: Readonly<Record<string, string>>;
@@ -131,10 +137,12 @@ export interface CampaignPlan {
   readonly combat?: CampaignCombatPlan;
   readonly starters?: CampaignStarterCatalog;
   readonly dungeonFinish?: boolean;
+  readonly partyPolicy?: CampaignPartyPolicy;
+  readonly flightPaths?: readonly CampaignFlightPath[];
 }
 
 const beforeStop: Readonly<Record<string, readonly string[]>> = {
-  thanes: ["ironforge-rendezvous", "early-party-kills"],
+  thanes: ["early-darkshore-kills", "ironforge-rendezvous", "early-party-kills"],
   lordaeron: ["northern-approach"],
   deadmines: ["defias-unlock"],
   stockade: [
@@ -189,19 +197,6 @@ const retainedDungeonQuestIds = new Set(
     ...premadePreparationQuests(stop, dungeonModelProgress).map((quest) => quest.id),
   ]),
 );
-const historicalLonebrow = {
-  id: 1100,
-  title: "Lonebrow's Journal",
-  pickupStage: "before" as const,
-  pickup:
-    "Historical Classic pickup: take Henrig Lonebrow's Journal beside the Great Lift in Thousand Needles; check the current Forever object and all five players' eligibility.",
-  objective:
-    "Read the journal and carry your own copy to Falfindel Waywarder in Thalanaar. Confirm all five have the required item before leaving.",
-  turnin:
-    "Historical Classic hand-in: Falfindel Waywarder, Thalanaar. Deliver the journal before accepting The Crone of the Kraul.",
-  position: null,
-};
-
 function campaignBackboneSources(leaderClass: ClassSlug | null): ReadonlySet<number> {
   return new Set([
     127,
@@ -370,7 +365,11 @@ export function buildCampaignPlan(
   archiveHash: string,
   sources: readonly CampaignSource[],
   leaderClass: ClassSlug | null = null,
-  options: { readonly includeLibrary?: boolean; readonly starterOnly?: boolean } = {},
+  options: {
+    readonly includeLibrary?: boolean;
+    readonly starterOnly?: boolean;
+    readonly questReferences?: readonly CombatQuestReference[];
+  } = {},
 ): CampaignPlan {
   if (!/^[a-f0-9]{64}$/.test(archiveHash))
     throw new Error("Campaign requires a validated archive hash.");
@@ -629,7 +628,8 @@ export function buildCampaignPlan(
         false,
       );
     for (const id of requestedIds) {
-      const quest = getPremadeQuest(id) ?? (id === 1100 ? historicalLonebrow : null);
+      const referenceQuest = getCampaignReferenceQuest(id);
+      const quest = getPremadeQuest(id) ?? referenceQuest;
       if (!quest || quest.pickupStage === "unknown") continue;
       const position = quest.position
         ? [
@@ -650,44 +650,52 @@ export function buildCampaignPlan(
         ["objective", "objectives-complete"],
         ["hand-in", "rewarded"],
       ] as const) {
-        if (dungeonOwnership.has(id) && state !== "accepted") continue;
-        if (state === "rewarded" && block.deferHandIns?.includes(id)) continue;
-        if (state !== "rewarded" && block.handInOnly?.includes(id)) continue;
-        const dedupKey = `party-${state === "accepted" ? ".accept" : state === "rewarded" ? ".turnin" : ".complete"}-${id}-${state === "objectives-complete" ? 1 : 0}`;
-        if (deduplicated.has(dedupKey)) continue;
-        if (
-          state === "objectives-complete" &&
-          [...deduplicated].some((value) => value.startsWith(`party-.complete-${id}-`))
-        )
-          continue;
-        deduplicated.add(dedupKey);
-        add(block.id, `${key}-${id}`, {
-          title: `${key === "accept" ? "Accept" : key === "hand-in" ? "Hand in" : "Complete"} ${quest.title}`,
-          instructions: [
-            state === "accepted"
-              ? (quest.pickup ??
-                quest.objective ??
-                "Check the referenced quest's actual pickup eligibility in game.")
-              : state === "rewarded"
-                ? (quest.turnin ?? quest.objective ?? "Report the actual in-game hand-in.")
-                : (quest.objective ?? "Check the quest's current objective in game."),
-          ],
-          questChanges: [
-            {
-              questId: id,
-              state,
-              title: quest.title,
-              objectiveIndex: state === "objectives-complete" ? 1 : null,
-            },
-          ],
-          positions: state === "accepted" ? position : [],
-          source: null,
-          kind: "quests",
-          leaderOnly: false,
-          targetLevel: null,
-          targetStopId: null,
-          raidOnly: false,
-        });
+        const indices =
+          state === "objectives-complete" ? (referenceQuest?.objectiveIndices ?? [1]) : [0];
+        for (const objectiveIndex of indices) {
+          if (dungeonOwnership.has(id) && state !== "accepted") continue;
+          if (state === "rewarded" && block.deferHandIns?.includes(id)) continue;
+          if (state !== "rewarded" && block.handInOnly?.includes(id)) continue;
+          const dedupKey = `party-${state === "accepted" ? ".accept" : state === "rewarded" ? ".turnin" : ".complete"}-${id}-${objectiveIndex}`;
+          if (deduplicated.has(dedupKey)) continue;
+          if (
+            state === "objectives-complete" &&
+            !referenceQuest &&
+            [...deduplicated].some((value) => value.startsWith(`party-.complete-${id}-`))
+          )
+            continue;
+          deduplicated.add(dedupKey);
+          add(block.id, `${key}-${id}${objectiveIndex > 1 ? `-${objectiveIndex}` : ""}`, {
+            title: `${key === "accept" ? "Accept" : key === "hand-in" ? "Hand in" : "Complete"} ${quest.title}`,
+            instructions: [
+              state === "accepted"
+                ? (quest.pickup ??
+                  quest.objective ??
+                  "Check the referenced quest's actual pickup eligibility in game.")
+                : state === "rewarded"
+                  ? (quest.turnin ?? quest.objective ?? "Report the actual in-game hand-in.")
+                  : (quest.objective ?? "Check the quest's current objective in game."),
+            ],
+            questChanges: [
+              {
+                questId: id,
+                state,
+                title: quest.title,
+                objectiveIndex: state === "objectives-complete" ? objectiveIndex : null,
+              },
+            ],
+            positions: state === "accepted" ? position : [],
+            source: null,
+            kind: "quests",
+            leaderOnly: false,
+            targetLevel: null,
+            targetStopId: null,
+            raidOnly: false,
+            ...(state === "accepted" && referenceQuest
+              ? { requiredQuestIds: referenceQuest.prerequisiteIds }
+              : {}),
+          });
+        }
       }
     }
     if (block.purpose !== "starter") orderLegActions(start);
@@ -705,7 +713,9 @@ export function buildCampaignPlan(
             .flatMap((action) => action.questChanges.map((change) => change.questId)),
         ),
       ],
-      unresolvedQuestIds: unresolved.filter((id) => id !== 1100 && !getPremadeQuest(id)),
+      unresolvedQuestIds: unresolved.filter(
+        (id) => !getCampaignReferenceQuest(id) && !getPremadeQuest(id),
+      ),
       stopId: null,
     });
   }
@@ -722,9 +732,14 @@ export function buildCampaignPlan(
       for (const change of action.questChanges) {
         const parents =
           change.state === "accepted"
-            ? gateQuestIds(
-                getPremadeQuest(change.questId)?.gate ?? { kind: "all", gates: [] },
-              ).flatMap((id) => phaseIndices(id, "rewarded"))
+            ? [
+                ...new Set([
+                  ...gateQuestIds(
+                    getPremadeQuest(change.questId)?.gate ?? { kind: "all", gates: [] },
+                  ),
+                  ...(action.requiredQuestIds ?? []),
+                ]),
+              ].flatMap((id) => phaseIndices(id, "rewarded"))
             : [
                 ...phaseIndices(change.questId, "accepted"),
                 ...(change.state === "rewarded"
@@ -779,6 +794,8 @@ export function buildCampaignPlan(
         race,
         leaderClass,
         targetBuild: 70205,
+        sourceArchiveSha256: archiveHash,
+        sourceLibraryEnabled: false,
         actions,
         legs,
       }),
@@ -1010,20 +1027,23 @@ export function buildCampaignPlan(
   outdoor(CAMPAIGN_BRIDGES.find((block) => block.id === "final-xp-fallback")!);
   const finalId = "level-60-finish";
   add(finalId, "dungeon-circuit", {
-    title: "Dungeon circuit: XP and gear for all five",
+    title: "Finish leveling together to 60",
     instructions: [
-      "Continue with eligible five-player dungeon clears: BRD, LBRS, Dire Maul East/West/North, Scholomance, Stratholme Living/Undead, Blackmaw Hold and Shaper's Terrace.",
-      "Recommended levels are not verified entry restrictions. An experienced group can attempt earlier clears where the game allows them; individual quest pickup levels, keys and real unlocks still apply.",
-      "Take eligible first-clear quests once, then repeat a suitable boss or full-clear route for XP and your party's gear targets. Do not count the same quest reward on another visit.",
-      "Record each player's actual before/after XP. Separate quest rewards from repeatable kill XP before estimating another clear. No fixed number of runs or unmeasured kill XP is promised.",
-      "Only leave the circuit for selected keys, prerequisites, training and worthwhile hand-ins. At level 60, continue optional gearing and attunements without mandatory leveling zones.",
+      "At around level 55, switch to one full quest clear of each of the eight dungeons below. This is the party's planned 55–60 finish; no further outdoor questing or repeat runs are required by the default itinerary.",
+      ...DUNGEON_FIRST_CLEAR_CIRCUIT.map(
+        (option, index) =>
+          `${index + 1}. ${option.name}: complete the eligible first-clear quests during the full clear.`,
+      ),
+      "The BRD clear from the preceding chapter counts as the first run. Do not repeat it or award its quest rewards twice.",
+      "Prepare the actual keys and quest prerequisites before each visit. Blackmaw Hold and Shaper's Terrace remain optional alternatives.",
+      "At level 60, continue for gear or attunements if you want. Clear logs and repeat-run estimates are optional.",
     ],
     questChanges: [],
     positions: [],
     source: null,
-    kind: "instructions",
+    kind: "xp-check",
     leaderOnly: false,
-    targetLevel: null,
+    targetLevel: 60,
     targetStopId: null,
     raidOnly: false,
     dungeonFinishOnly: true,
@@ -1060,6 +1080,8 @@ export function buildCampaignPlan(
     race,
     leaderClass,
     targetBuild: 70205,
+    sourceArchiveSha256: archiveHash,
+    sourceLibraryEnabled: options.includeLibrary !== false,
     executionRevision: "workflow-20261025-v6",
     dungeonFinish: true,
     catchUpBatches: extractCampaignQuestBatches(
@@ -1116,7 +1138,13 @@ export function buildCampaignPlan(
       ? safeBase
       : integrateCampaignQuestLibrary(
           safeBase,
-          buildCampaignQuestLibrary(usable, profile, dungeonTags, backboneSources),
+          buildCampaignQuestLibrary(
+            usable,
+            profile,
+            dungeonTags,
+            backboneSources,
+            options.questReferences,
+          ),
           retainedDungeonQuestIds,
           buildCampaignSourceLevelGates(usable, profile, dungeonTags, levelGateSources),
         );
@@ -1317,13 +1345,24 @@ export function campaignUnmodeledExtras(
       action.questChanges.map((change) => change.questId),
     ),
   );
+  const policyExcluded = new Set(
+    plan.partyPolicy?.decisions
+      .filter((decision) => !decision.included)
+      .map((decision) => decision.questId),
+  );
   return [
     ...new Set(
       PREMADE_STOPS.filter((stop) =>
         stop.quests.some((choice) => owned.has(choice.questId)),
       ).flatMap((stop) =>
         selectedPremadeQuests(stop, progress)
-          .filter((choice) => choice.role === "opportunistic" && !owned.has(choice.questId))
+          .filter(
+            (choice) =>
+              choice.role === "opportunistic" &&
+              !owned.has(choice.questId) &&
+              (!policyExcluded.has(choice.questId) ||
+                progress.selectedExtras[String(choice.questId)] === true),
+          )
           .map((choice) => choice.questId),
       ),
     ),

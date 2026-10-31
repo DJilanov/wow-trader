@@ -137,7 +137,7 @@ export function serializeMarketIntelligence(pack: MarketIntelligencePack): strin
     differenceBP = ${luaNumber(item.differenceBasisPoints)}, quantity = ${luaNumber(item.currentQuantity)}, normalQuantity = ${luaNumber(item.normalQuantity)}, supplyBP = ${luaNumber(item.supplyRatioBasisPoints)},
     listings = ${luaNumber(item.currentListingCount)}, confidenceBP = ${luaNumber(item.confidenceBasisPoints)}, direction = ${luaString(item.direction)},
     history = { ${(item.history ?? []).map((row) => `{${Date.parse(row.observedAt) / 1000},${luaString(row.priceCopper)},${row.availableQuantity},${row.listingCount},${row.completeness}}`).join(",")} },
-    levels = { ${(item.levels ?? []).map((row) => `{unitPriceCopper=${luaString(row.unitPriceCopper)},quantity=${row.quantity},listingCount=${row.listingCount}}`).join(",")} },
+    levels = { ${(item.levels ?? []).map((row) => `{unitPriceCopper=${luaString(row.unitPriceCopper)},quantity=${row.quantity},listingCount=${row.listingCount}${row.lots ? `,lots={${row.lots.map((lot) => `{stackSize=${lot.stackSize},buyoutCopper=${luaString(lot.buyoutCopper)},listingCount=${lot.listingCount}}`).join(",")}}` : ""}}`).join(",")} },
   },`,
     )
     .join("\n");

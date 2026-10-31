@@ -328,6 +328,48 @@ describe("literal-only provider import", () => {
     expect(imported.npcs[0]).toMatchObject({ minimumLevel: null, maximumLevel: null });
     expect(imported.quests[0]).toMatchObject({ creatureIds: [1], itemCreatureIds: [1] });
   });
+  it("retains factual all-of/any-of prerequisites and class restrictions", () => {
+    const exported = (kind: string, row: string): string =>
+      `-- Base -> authored corrections.\nlocal ${kind} = {}\n${kind}[1]=${row}\nreturn ${kind}\n`;
+    const imported = importQuestieCombatData({
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "",
+      provider: data.provider,
+      npcExport: exported("npc", '{"Target",nil,nil,10,10,0}'),
+      itemExport: exported("item", '{"Item"}'),
+      questExport: exported(
+        "quest",
+        '{"Quest",nil,nil,1,5,nil,1,nil,nil,{{{1}}},nil,{8,9},{10,11}}',
+      ),
+    });
+    expect(imported.quests[0]).toMatchObject({
+      requiredClasses: 1,
+      prerequisites: { allOf: [8, 9], anyOf: [10, 11] },
+    });
+  });
+  it("distinguishes scouting and object interactions from creature-kill and item-drop objectives", () => {
+    const exported = (kind: string, body: string): string =>
+      `-- Base -> authored corrections.\nlocal ${kind} = {}\n${body}\nreturn ${kind}\n`;
+    const imported = importQuestieCombatData({
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "",
+      provider: data.provider,
+      npcExport: exported("npc", 'npc[1]={"Target",nil,nil,10,10,0}'),
+      itemExport: exported("item", 'item[1]={"Item",{1}}'),
+      questExport: exported(
+        "quest",
+        'quest[1]={"Scout",nil,nil,1,5,nil,nil,nil,{"Scout the camp"}}\nquest[2]={"Read",nil,nil,1,5,nil,nil,nil,nil,{nil,{{1}}}}\nquest[3]={"Kill",nil,nil,1,5,nil,nil,nil,nil,{{{1}}}}\nquest[4]={"Loot",nil,nil,1,5,nil,nil,nil,nil,{nil,nil,{{1}}}}',
+      ),
+    });
+    expect(imported.quests.map((quest) => quest.onlyInteractionObjectives)).toEqual([
+      true,
+      true,
+      false,
+      false,
+    ]);
+  });
   it("retains item identities without treating display labels as quantities and holds mixed ordering", () => {
     const exported = (kind: string, body: string): string =>
       `-- Base -> authored corrections.\nlocal ${kind} = {}\n${body}\nreturn ${kind}\n`;

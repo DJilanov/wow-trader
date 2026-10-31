@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { createDatabase } from "@wow-trader/db";
+import { authenticateTraderInstallation, createDatabase } from "@wow-trader/db";
 
 import { buildApp } from "./app.js";
 import { loadConfig } from "./config.js";
@@ -16,6 +16,7 @@ const app = await buildApp({
   marketReadApiKeys: config.marketReadApiKeys,
   webOrigin: config.webOrigin,
   logger: true,
+  authenticateInstallation: (token) => authenticateTraderInstallation(database.db, token),
 });
 
 async function shutdown(signal: string): Promise<void> {

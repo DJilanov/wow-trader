@@ -654,3 +654,14 @@ footer .danger-link {
     transition: none !important;
   }
 }
+
+.pairing-code {
+  font:
+    700 30px ui-monospace,
+    monospace;
+  letter-spacing: 0.12em;
+  color: var(--gold-bright);
+}
+.panel p {
+  overflow-wrap: anywhere;
+}

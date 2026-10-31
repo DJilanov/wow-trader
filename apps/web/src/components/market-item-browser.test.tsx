@@ -21,7 +21,14 @@ const buy = quoteBuyOpportunity({
   now,
   observedAt: now,
   auctionHouseType: "alliance",
-  levels: [{ unitPriceCopper: 7000n, quantity: 100, listingCount: 5 }],
+  levels: [
+    {
+      unitPriceCopper: 7000n,
+      quantity: 100,
+      listingCount: 20,
+      lots: [{ stackSize: 5, buyoutCopper: 35000n, listingCount: 20 }],
+    },
+  ],
 });
 const data: MarketItemBrowserData = {
   rows: [
@@ -124,9 +131,7 @@ describe("market buying guidance", () => {
   });
   it("explains why an empty buying result does not imply the market is broken", () => {
     const html = render({ ...data, rows: [], totalCount: 0 });
-    expect(html).toContain(
-      "No purchase currently meets the history, freshness, discount and return requirements",
-    );
+    expect(html).toContain("No purchase meets your current limits");
     expect(html).not.toContain("Buying plan for Copper Ore");
   });
 });

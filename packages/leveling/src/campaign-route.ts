@@ -1,7 +1,7 @@
 import type { RaceId } from "./profile.js";
 import type { ClassSlug } from "./model.js";
 
-export const CAMPAIGN_VERSION = "campaign-20261018-v2";
+export const CAMPAIGN_VERSION = "campaign-20261031-v3";
 export const CAMPAIGN_RACES = ["human", "dwarf", "gnome", "night-elf", "skyborne"] as const;
 export type CampaignRace = (typeof CAMPAIGN_RACES)[number];
 
@@ -20,11 +20,11 @@ export interface CampaignOutdoorBlock {
 }
 
 export const CAMPAIGN_STARTS: Readonly<Record<CampaignRace, readonly number[]>> = {
-  human: [115, 116, 117, 125],
-  dwarf: [118, 119, 122, 125],
-  gnome: [118, 119, 122, 125],
+  human: [115, 116, 117],
+  dwarf: [118, 119, 122],
+  gnome: [118, 119, 122],
   "night-elf": [113, 114, 126],
-  skyborne: [157, 125],
+  skyborne: [157],
 };
 
 export function campaignStarterSourceIds(
@@ -36,7 +36,27 @@ export function campaignStarterSourceIds(
   return CAMPAIGN_STARTS[race];
 }
 
+export const CAMPAIGN_DEFERRED_PARTY_QUESTS: Readonly<Record<number, string>> = {
+  1139: "Requires an earlier Uldaman visit and the Amulet of Secrets → Ironforge → Badlands continuation; held from the single-visit dungeon circuit.",
+  4788: "Requires the Eastern Plaguelands tablets and another Tanaris hand-in before LBRS; held rather than adding that collection detour to this circuit.",
+};
+
 export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
+  {
+    id: "early-darkshore-kills",
+    title: "Darkshore: shared bear and furbolg objectives",
+    from: 10,
+    to: 14,
+    purpose: "xp-bridge",
+    sourceIds: [126],
+    quests: [984, 985, 2118, 2138, 953],
+    instructions: [
+      "After your personal starting route, meet in Auberdine for the shared bear and furbolg quests. Travel together through Menethil and take the boat if coming from the Eastern Kingdoms.",
+      "Learn the flight paths along this crossing, including Auberdine. These first visits build the network used by later dungeon trips; they are not wasted travel.",
+      "Scout the furbolg camp and complete Plagued Lands before accepting their follow-up kill quests. Read the Ameth'Aran tablets on the same circuit. Skip the Buzzbox body-part collections.",
+      "After the hand-ins, return to Dun Morogh for the Hall of Thanes prerequisites. Murkdeep is a later stop, not part of this early circuit.",
+    ],
+  },
   {
     id: "stockade-letter-unlock",
     title: "The Letter → Bazil Thredd: keep the Stockade unlock",
@@ -83,9 +103,9 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 18,
     purpose: "xp-bridge",
     sourceIds: [126, 127],
-    quests: [984, 985, 2118, 2138, 4762, 4740],
+    quests: [4762, 4740],
     instructions: [
-      "After Thanes, deliver the Ironforge rewards first. Use this short Darkshore batch only for the remaining XP; do not complete the whole solo Darkshore chapter again.",
+      "After Thanes, deliver the Ironforge rewards first. Return through the flight network learned on the early Darkshore trip; do not repeat the bear and furbolg quests or the whole solo chapter.",
       "Keep the party together for infected wildlife, furbolg and named-target work. Do not add Buzzbox body-part farms or Gyromast collections.",
       "The Alliance trip to Ruins is still real travel. Use your learned transport and flight network, regroup before entering hostile northern territory, and include that journey in your timing.",
     ],
@@ -332,9 +352,10 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 46,
     purpose: "preparation",
     sourceIds: [18, 25, 31],
-    quests: [1437, 1465, 1438, 1439, 1440, 1384],
+    quests: [4787, 1437, 1465, 1438, 1439, 1440, 1384],
     instructions: [
       "Finish the selected Zul'Farrak rewards and retain Yeh'kinya's continuation, then take Maraudon's chosen Desolace pickups. The planned first visit covers the entrances needed by the chosen objectives, not only the Princess shortcut.",
+      "Finish The Ancient Egg in Jintha'Alor and return it to Yeh'kinya before leaving for Maraudon. Keep the egg supplied for The God Hakkar in Sunken Temple.",
       "Use the selected Desolace rescue/kill work only for the actual gap. Do not repeat already rewarded early quests or collect Shadowshards for everyone as mandatory filler.",
     ],
   },
@@ -345,7 +366,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 44,
     purpose: "preparation",
     sourceIds: [29, 32, 33],
-    quests: [3520, 2988, 2989],
+    quests: [3520, 2988, 2989, 2990],
     instructions: [
       "After Uldaman, batch the selected Tanaris/Hinterlands work. Prepare The Prophecy of Mosh'aru for ZF before entry; its later stages support the selected Sunken Temple objective.",
       "The spirits/temple unlock work stays required for the selected chain. Scarab shells and Troll Temper are opportunistic and do not justify waiting for five personal sets.",

@@ -62,7 +62,7 @@ describe("independent party starter catalog", () => {
       result.routes
         .find((route) => route.race === "dwarf" && route.classSlug === "priest")!
         .legs.map((leg) => leg.id),
-    ).toEqual(["start-118", "start-119", "start-122", "start-125"]);
+    ).toEqual(["start-118", "start-119", "start-122"]);
     expect(JSON.stringify(input)).toBe(before);
   });
 
