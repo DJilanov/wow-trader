@@ -1,5 +1,61 @@
 # WoW Trader fixes and recovery context
 
+## October 31 — fresh material-buying guidance, safe uploads and packaged clients
+
+Deployed source `c496dcb` with packaging fixes `95a5d35`/`3dc8d86` at
+15:08:43 UTC. Helper and ingest use
+`/home/wow-trader-system/releases/kfc-helper-trader-buy-20261031-c496dcb`;
+Next build `wD_nkEKuwvzf8aL7DNRA3`. Public buying view:
+https://kfcguild.online/tools/forever/trader?mode=items.
+
+- Replaced mismatched history windows with six minimum independent half-hour
+  observations, seven days/336 buckets maximum and at least 98% completeness.
+  Newest accepted scans win within a bucket. Addon labels and buying plans
+  update immediately after a local scan rather than retaining a cached label.
+- Added depth-aware buy ceilings, per-item budgets, quantity caps, conservative
+  resale targets and conditional profit after faction/neutral AH fees. Quotes
+  expire after one hour, including on an already-open web page. No purchase
+  automation, sale-volume claim or promise of price recovery is made.
+- History links require an explicit same-economy review, exact market scope,
+  cutoffs and unchanged item records. No beta-to-launch link is seeded. Delayed
+  uploads preserve the latest book and refresh reviewed dependent histories.
+  Companion downloads pages pinned to one scan/policy revision and installs only
+  a complete pack. Validated scanned names/categories permit new-build price
+  browsing while unverified stats/vendor values and crafting remain gated.
+- Collector 0.13.0 and Companion 0.3.6 are installed locally. New policy file is
+  included in all verified manifests. Missing beta folders reconcile to an
+  existing sibling `_forever_` folder without replacing valid custom paths.
+- Mac packaging modified Electron's bundle without replacing its old signature,
+  preventing secure credential storage. A post-package ad-hoc signing/verification
+  hook repairs integrity before DMG creation. Both mounted DMGs verify; the real
+  installed app encrypts and reads its token across restart. This is not Developer
+  ID signing/notarization; alpha download labelling remains accurate.
+- Download IDs now include the version. Previously, mutable asset IDs were served
+  with a one-year immutable cache policy, allowing older packages to persist.
+  All four 0.3.6 downloads pass public manifest, size, ETag and byte-range checks.
+
+Deployment lessons: `pm2 startOrReload` retained the ingest process's old cwd and
+executable. Recreate only that process using the candidate's ingest ecosystem
+configuration, then verify its actual cwd/script. The web's filtered dependency
+install omits API packages: merge missing API `.pnpm` entries with hard links,
+without overwriting existing modules, and probe **all compiled API runtime imports**
+before switching. Two guarded attempts rolled back cleanly; the third passed
+compiled private API, live API and both actual-release checks. Do not remove the
+separate old API release while it is needed for rollback.
+
+Migrations 0021 and 0022 were applied transactionally after a private local-only
+PostgreSQL dump. New table ownership/grants match existing service roles. Twelve
+market scopes were rebuilt from real observations. No test prices entered prod.
+95 focused tests, 120 JS/Lua cases, 14 PostgreSQL checks, 15 responsive browser
+checks and 80 live assets pass. Unrelated PM2 services, guild login and the frozen
+simulator runtime are preserved. Temporary services/test databases are removed;
+older desktop packages are backed up locally, with 0.3.4 retained as rollback.
+See `artifacts/trader-buy-20261031/` and matching server operations receipts.
+
+Latest genuine market data is still October 23/build 70532, one observation per
+item. Fresh in-game scans plus saved variables are required; buying guidance
+correctly stays locked until history/freshness requirements are met.
+
 ## October 28, 11:43 UTC — current DPS/tank rankings and new healer board live
 
 Pushed application commit `00587e8` is deployed. All five boards are available at

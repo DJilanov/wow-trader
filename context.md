@@ -2,35 +2,58 @@
 
 Last updated: 2026-10-31 (Europe/Sofia)
 
-## October 31 — finish Trader buying guidance (active)
+## October 31 — Trader buying guidance deployed and installed
 
-The owner approved covering the pricing audit: material buying plans, consistent
-history between web/addon, immediate local signal updates, reviewed patch continuity
-and installation in the current Forever client. Work is in progress; not deployed.
+The material-buying update is complete. Public entry:
+https://kfcguild.online/tools/forever/trader?mode=items.
 
-- Implemented shared conservative depth/fee/budget/quantity calculations and a
-  seven-day/336-bucket history policy. Added scoped reviewed history links with
-  migration 0021 and an operator preview/apply command. Item records must match
-  before linked history can be reused. No beta-to-launch history is seeded.
-- API and website now consume one shared history reader. The buying UI exposes
-  material/buy filters, budget, quantity, ceiling, resale target, fees and profit.
-- Collector 0.13.0 recomputes live labels and plans, supports local-only history,
-  excludes wrong-scope/delisted items and adds pagination/budget/watchlist filters.
-  Companion update is 0.3.6; manifests and packaging are being verified.
-- Verified: 22 market, 10 contract, 24 Companion, 10 desktop, 12 API and 17 focused
-  web tests; 120 exact JS/Lua cases and real-addon integration controls; strict
-  web/API/desktop types and scoped lint. Fourteen real PostgreSQL checks pass,
-  including out-of-order uploads, linked backfills and unpublished-build price mode.
-  Collector 0.13.0 is installed in `_forever_`. Desktop packaging, browser review
-  and production deployment remain in progress.
-- Production audit found latest accepted Forever beta scan on October 23,
-  build 70532: 1,116 items, all Collecting 1/6. Current `_forever_/Interface/AddOns`
-  was empty. Genuine current market data still requires a player scan and reload;
-  old observations must not be promoted as current quotes.
-- Evidence: `artifacts/trader-buy-20261031/`; policy/workflow:
-  `docs/trader-buy-opportunities.md`. Unrelated storage edits were present at
-  start and must be preserved and excluded from this change. Protected numerical
-  simulator helpers and runtime releases remain untouched.
+- A shared seven-day/336-bucket policy powers web, upload API and addon. Six
+  independent half-hour observations are required. Accepted scans must be at
+  least 98% complete; the newest accepted observation wins within each bucket.
+- Buying plans use actual price depth, a conservative normal-price target, the
+  AH cut, quantity caps and per-item budgets. They exclude stale, falling,
+  inflated and thin markets. Profit is conditional and excludes deposits.
+  Reversion, completed sales and whole-stack availability are not guaranteed.
+- Reviewed patch continuity requires explicit scoped links and unchanged item
+  records. Migrations 0021/0022 are applied; no history links were seeded.
+  Newly scanned names/categories support price-only browsing before catalog
+  publication. Stats, vendor values and crafting retain their catalog gates.
+- Application commit `c496dcb`, Mac packaging repair `95a5d35` and versioned
+  download fix `3dc8d86` are pushed. Activated October 31 at 15:08:43 UTC:
+  `/home/wow-trader-system/releases/kfc-helper-trader-buy-20261031-c496dcb`.
+  Static release has the same label; build ID `wD_nkEKuwvzf8aL7DNRA3`.
+  Both Helper and the separately managed ingest process now use this release.
+  Existing guild login, live fixes, simulator runtime and unrelated services
+  are preserved. Prior web/static/API releases remain available for rollback.
+- Collector 0.13.0 is installed in
+  `/Applications/World of Warcraft/_forever_/Interface/AddOns/WowTraderCollector`.
+  Companion 0.3.6 is installed in `/Applications/WoW Trader Companion.app`,
+  with a securely encrypted token, automatic uploads and the detected Forever
+  folder. Its real UI/manual check and encrypted credential across restart pass.
+  Debugging is closed; the normal app is running. New addons require a game
+  restart if WoW was already open. External history packs need `/reload`.
+- Public downloads cover macOS Intel/Apple Silicon, Windows x64 and Linux x64.
+  All four archives and public downloads are verified. Mac app bundles have
+  valid ad-hoc integrity signatures; they are not Developer ID signed or
+  notarized. Asset URLs include their release version
+  so an immutable browser cache cannot serve an older package under a new name.
+- Verification: 95 focused tests; 120 exact JS/Lua comparisons and real-addon
+  integration controls; 14 real PostgreSQL checks; strict types, scoped lint,
+  SDK/API/production web builds; 10 isolated browser checks and five public
+  checks at 1440/390/320px; 80 assets across five live pages; authenticated public
+  API pagination/privacy; four distributed package checks. All pass.
+- Latest real accepted Forever market remains October 23, build 70532,
+  1,116 items and one independent observation. Current game is build 70707.
+  No genuine new scan or market history was fabricated. A player must scan in
+  game and `/reload` to save; recommendations require enough fresh observations.
+- Owned preview services, review tunnel and both isolated test databases are
+  removed. Obsolete desktop releases were hash-verified against local backups
+  before retirement; current 0.3.6 and rollback 0.3.4 remain. Approximately
+  1.96 GiB is available on the server. Raw scans and simulation evidence remain.
+- Evidence: `artifacts/trader-buy-20261031/` and server operations directory
+  `/home/wow-trader-system/shared/operations/trader-buy-20261031`.
+  Policy and deployment lessons: `docs/trader-buy-opportunities.md`, `fixes.md`.
+  Unrelated concurrent storage and leveling edits were excluded and preserved.
 
 ## October 28, 11:43 UTC — all current tier lists deployed, including healers
 
