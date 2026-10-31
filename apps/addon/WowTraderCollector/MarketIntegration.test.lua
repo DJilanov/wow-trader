@@ -4,6 +4,7 @@ function GetServerTime() return clock end
 function GetBuildInfo() return "1.60.0", "70532" end
 function GetCurrentRegion() return 3 end
 function GetNormalizedRealmName() return realm end
+function UnitName() return "TestPlayer" end
 function UnitFactionGroup() return "Alliance" end
 function GetItemInfo(id) return "Item " .. id end
 function GetAddOnMetadata(_, key) if key == "X-WowTrader-Product" then return "wow_anniversary" end end

@@ -14,15 +14,16 @@ import type { DesktopProductStatus } from "../shared/contracts.js";
 const COLLECTOR_VERSION = "0.13.0";
 const ADDON_FILES: Readonly<Record<string, string>> = {
   "Collector.lua": "7be8d7a6dd18bd12565e46dd5e2a314ed09084e793bab7e152fd57284b04f990",
+  "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
+  "AccountData.lua": "790f46d97fab43b8683ed628489d792cc242b12b208e88a97fd4bee09f2e05d8",
   "MarketPolicy.lua": "ff97212c868d5190a195168dac283a015a97044cb80d7b6cb3cc367690cf926f",
   "Professions.lua": "24ce92e0f6f78dcd2ab2fe6b7257e0ecaa7b0105b44c7774a630160d6cf6fc24",
   "Trades.lua": "e945caa81433e28a8a10e205954a3e8639888cb9917f0f84334bd33a0f7d2301",
   "WorldEvidence.lua": "a5e8ebe31c345ebb21e5892d75691f8e259b3fc46ea8ed16df15b449d135f006",
   "UI.lua": "dc93f6abdf9a1814c88f77849794d8ad546c0b10a037848c75985589d2a06570",
-  "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
   "WowTraderCollector.toc": "805e65eaeed01ff0c0e8bba249f017f2b069fb3509d30600d40d585320b0d2e5",
 };
-const GENERATED_MARKET_DATA_FILE = "MarketData.lua";
+const GENERATED_DATA_FILES = ["MarketData.lua", "AccountData.lua"] as const;
 
 export async function discoverDefaultProducts(): Promise<readonly ProductConfiguration[]> {
   const candidates = defaultProductCandidates();
@@ -116,10 +117,11 @@ export async function installCollector(
     }
     await validateCollectorDirectory(staging);
     const hadExisting = await pathExists(destination);
-    const existingMarketData = path.join(destination, GENERATED_MARKET_DATA_FILE);
-    if (hadExisting && (await pathExists(existingMarketData))) {
-      await copyFile(existingMarketData, path.join(staging, GENERATED_MARKET_DATA_FILE));
-    }
+    if (hadExisting)
+      for (const fileName of GENERATED_DATA_FILES) {
+        const existing = path.join(destination, fileName);
+        if (await pathExists(existing)) await copyFile(existing, path.join(staging, fileName));
+      }
     if (hadExisting) await rename(destination, backup);
     try {
       await rename(staging, destination);

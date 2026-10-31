@@ -47,8 +47,8 @@ export type CompanionActivity = z.infer<typeof activitySchema>;
 
 export interface CompanionState {
   readonly schemaVersion: 4;
-  readonly uploadedTradeEventIds?: readonly string[];
-  readonly uploadedWatchChangeIds?: readonly string[];
+  readonly uploadedTradeEventIds?: readonly string[] | undefined;
+  readonly uploadedWatchChangeIds?: readonly string[] | undefined;
   readonly uploadedScanIds: readonly string[];
   readonly uploadedDiagnosticPayloadIds: readonly string[];
   readonly uploadedProfessionSnapshotIds: readonly string[];

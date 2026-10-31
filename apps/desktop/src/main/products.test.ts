@@ -52,7 +52,7 @@ describe("collector addon installation", () => {
     expect(uiSource).toContain('"Save & Reload"');
     expect(uiSource).toContain('"Recent saved scans"');
     expect(tocSource).toContain(
-      "MarketData.lua\nMarketPolicy.lua\nCollector.lua\nProfessions.lua\nTrades.lua\nWorldEvidence.lua\nUI.lua",
+      "MarketData.lua\nAccountData.lua\nMarketPolicy.lua\nCollector.lua\nProfessions.lua\nTrades.lua\nWorldEvidence.lua\nUI.lua",
     );
 
     await installCollector(product, sourceDirectory);
@@ -66,6 +66,7 @@ describe("collector addon installation", () => {
       path.join(rootPath, "Interface/AddOns/WowTraderCollector"),
     );
     expect(installedFiles.sort()).toEqual([
+      "AccountData.lua",
       "Collector.lua",
       "MarketData.lua",
       "MarketPolicy.lua",
@@ -84,8 +85,12 @@ describe("collector addon installation", () => {
       "WOW_TRADER_MARKET_DATA = { schemaVersion = 1 }\n",
       "utf8",
     );
+    const installedAccountData = path.join(path.dirname(installedMarketData), "AccountData.lua");
+    const accountPreferences = "WOW_TRADER_ACCOUNT_DATA = { schemaVersion = 1, watches = {} }\n";
+    await writeFile(installedAccountData, accountPreferences, "utf8");
     await installCollector(product, sourceDirectory);
     await expect(readFile(installedMarketData, "utf8")).resolves.toContain("schemaVersion = 1");
+    await expect(readFile(installedAccountData, "utf8")).resolves.toBe(accountPreferences);
     await expect(inspectProduct(product)).resolves.toMatchObject({
       collectorHealth: "ready",
       collectorVersion: "0.13.0",
