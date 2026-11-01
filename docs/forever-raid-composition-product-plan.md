@@ -24,7 +24,7 @@ survival, actual character/alt import and applying a proposal to a private raid
 remain later phases. The UI does not claim a current total raid DPS figure or
 current-patch optimality. Current Druid crit stacking remains visibly assumed.
 See [the implementation and verification notes](forever-raid-composition-implementation.md)
-and [the live release receipt](forever-raid-composition-release-2026-11-01.md).
+and [the live release receipt](forever-raid-trash-roles-release-2026-11-01.md).
 
 ## Product decision
 

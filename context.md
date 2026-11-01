@@ -19,7 +19,7 @@ Last updated: 2026-11-01 (Europe/Sofia)
   Existing Forever URLs stay in use; TBC has its separate TBC Tools entry.
 - Local checks: 85 tests, strict TypeScript, scoped lint/formatting and 16 new
   Chrome checks passed. No native optimization or database migration is needed.
-  Commit/push/build/deployment is proceeding within the approved planner release.
+  The approved commit/push/Linux build/deployment completed successfully.
   Evidence: `artifacts/raid-trash-plan-20261101/`. Unrelated leveling work remains.
 
 - Additional owner-reported correction: the former headline showed the highest
@@ -31,6 +31,15 @@ Last updated: 2026-11-01 (Europe/Sofia)
   the selected tank, old selections are normalized, and trash-only Protection
   does not qualify as a boss tank. No new native search was needed.
 - Expanded checks passed 88 tests, TypeScript, lint, and 18 targeted Chrome cases.
+
+- Live source is `8a6d6ff`, build `U6Umudal7CEZq84qPCfTq`, activated
+  `2026-11-01T08:45:38.711Z`. Final candidate and public Chrome checks passed
+  42 cases each, with no browser/asset errors. Only Helper restarted; the guild,
+  ingestion, community site and raid worker retained their PIDs and stayed online.
+- Release/rollback receipt: `docs/forever-raid-trash-roles-release-2026-11-01.md`;
+  server receipts: `shared/operations/raid-trash-roles-20261101/` under
+  wow-trader-system. The source overlay was 13 checksum-verified files. No DB
+  migration or new native optimization was needed; private previews were stopped.
 
 ## November 1 — 10/20/40 composition planner deployed
 

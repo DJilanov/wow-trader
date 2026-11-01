@@ -9,7 +9,8 @@ the class card/duty sheet make the plan visible without counting a second player
 A one-time saved-plan upgrade respects locked builds and later opt-outs. Boss
 reference DPS/TPS/HPS, kill time and theoretical survival are unchanged by the
 trash checkbox. Navigation drops the Forever prefix, with TBC under TBC Tools.
-Local verification passed 85 tests and 16 browser checks; deployment is in progress.
+Deployed as Helper `8a6d6ff`: 88 tests, a full Linux build, and 42 candidate/public
+browser checks passed. No new native optimization or database migration was needed.
 
 The Main tank headline also incorrectly used the maximum TPS of all roster
 tanks. It now uses the chosen tank's calculated pre-raid mitigation DPS/TPS,

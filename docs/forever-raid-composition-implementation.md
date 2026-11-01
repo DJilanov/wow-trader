@@ -4,7 +4,7 @@ Implemented and deployed November 1, 2026.
 Live: <https://kfcguild.online/tools/forever/raid-composition>.
 The owner approved commit, push and deployment after local review. Exact source,
 verification and rollback details are in
-[the release receipt](forever-raid-composition-release-2026-11-01.md).
+[the release receipt](forever-raid-trash-roles-release-2026-11-01.md).
 
 ## Available behavior
 
