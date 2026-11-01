@@ -10,6 +10,11 @@ verification and rollback details are in
 
 - Complete 10/20/40-player starting compositions, nine class cards with spec and
   role counts, and two/four/eight parties of five.
+- One Retribution Paladin per default composition is marked Protection for trash
+  and Retribution for bosses. It remains one roster slot; the editor shows both
+  phase role totals, a duty sheet entry, and an editable per-seat checkbox.
+- Primary navigation uses Trader, Leveling and Encyclopedia without a Forever
+  prefix; TBC remains behind the separate TBC Tools destination.
 - Editable tank/healer targets and optional support requirements. Every suggestion
   must contain a Warrior. Prefer a Warrior tank for Sunder and Battle Shout;
   steady-state Sunder upkeep is described separately from initial stacking.
@@ -196,3 +201,27 @@ and commit the regenerated metrics with the matching tier measurements. The
 extractor fails rather than inventing missing counters. The final expanded local
 checks passed 72 Helper tests plus 35 Discord tests; after the input-width
 correction, both the final candidate and live product passed 24 Chrome checks.
+
+## Trash / boss assignment persistence
+
+Boss builds remain in `seats[].profileId`. The optional
+`trashProfileId: "tank-paladin"` is allowed only on
+`paladin-retribution-static`. Boss damage/threat/healing references, role
+requirements and the survival/kill-time models use the boss build, so marking
+Protection for trash adds no second player or tank damage to boss estimates.
+The trash role tally substitutes Protection for that seat.
+
+Suggestions preserve explicitly assigned flex seats even when the boss-core
+checkbox is disabled. Party-mana arrangement preserves their position alongside
+locked seats and boss tanks. Manual seat swaps carry the assignment with the
+build; replacing the Ret boss build clears its incompatible trash annotation.
+Locks prevent assignment edits.
+
+`trashPlanVersion: 1` records the one-time default initialization. Older local
+drafts/shared links gain one eligible unlocked Ret assignment if present; all
+boss builds and locked choices are preserved. Once initialized, saved opt-outs
+remain opted out. No eligible unlocked Ret means no invented player or assignment.
+The UI offers an assignment action or an unlock/choose-Ret instruction. Users
+can explicitly mark additional Ret Paladins if their trash strategy needs them.
+These are planned builds and gear switches, not automatic in-game actions or an
+AoE clear-speed simulation.

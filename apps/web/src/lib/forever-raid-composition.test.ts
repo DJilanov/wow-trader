@@ -26,6 +26,7 @@ import {
   moveCompositionSeat,
   partyManaCoverage,
   replaceCompositionSeat,
+  setCompositionTrashTank,
   suggestComposition,
   validateCompositionDraft,
   type CompositionCatalog,
@@ -365,6 +366,147 @@ describe("composition damage, threat and boss estimates", () => {
     expect(() =>
       validateCompositionDraft({ ...draft, tankHealingPercent: 101 }, catalog),
     ).toThrow();
+  });
+});
+
+describe("Protection trash / Retribution boss assignments", () => {
+  it.each([10, 20, 40] as const)(
+    "assigns one flex Paladin in the %i-player default without adding a roster slot",
+    (size) => {
+      const draft = createComposition(size, catalog),
+        analysis = analyzeComposition(draft, catalog);
+      expect(draft.seats).toHaveLength(size);
+      expect(analysis.trashSwitches).toHaveLength(1);
+      const assignment = analysis.trashSwitches[0]!;
+      expect(draft.seats[assignment.seat]?.profileId).toBe("paladin-retribution-static");
+      expect(assignment.trashProfileId).toBe("tank-paladin");
+      expect(analysis.trashRoles).toEqual({
+        ...analysis.roles,
+        tank: analysis.roles.tank + 1,
+        damage: analysis.roles.damage - 1,
+      });
+      expect(
+        analysis.assignments.some(
+          (duty) => duty.seat === assignment.seat && duty.duty.includes("switch to Retribution"),
+        ),
+      ).toBe(true);
+      expect(analysis.ready).toBe(true);
+    },
+  );
+  it("never changes boss damage, threat, HPS, kill time or survival when a trash assignment is changed", () => {
+    const draft = createComposition(20, catalog),
+      index = analyzeComposition(draft, catalog).trashSwitches[0]!.seat;
+    const without = setCompositionTrashTank(draft, index, false, catalog);
+    expect(compositionForecast(without, catalog)).toEqual(compositionForecast(draft, catalog));
+    expect(estimateCompositionSurvival(without, catalog)).toEqual(
+      estimateCompositionSurvival(draft, catalog),
+    );
+    expect(analyzeComposition(without, catalog).roles).toEqual(
+      analyzeComposition(draft, catalog).roles,
+    );
+    expect(analyzeComposition(without, catalog).trashSwitches).toHaveLength(0);
+    expect(
+      analyzeComposition(setCompositionTrashTank(without, index, true, catalog), catalog)
+        .trashSwitches,
+    ).toHaveLength(1);
+  });
+  it.each([true, false])(
+    "preserves the assigned flex seat in suggestions with keepCore=%s",
+    (keepCore) => {
+      const draft = createComposition(20, catalog),
+        index = analyzeComposition(draft, catalog).trashSwitches[0]!.seat;
+      expect(draft.seats[index]?.locked).toBe(false);
+      const result = suggestComposition(draft, catalog, keepCore);
+      expect(result.error).toBeNull();
+      expect(result.draft.seats[index]).toEqual(draft.seats[index]);
+      expect(analyzeComposition(result.draft, catalog).trashSwitches).toHaveLength(1);
+    },
+  );
+  it("keeps the assignment with the same seat's build through manual swaps, and preserves it during party arrangement", () => {
+    const draft = createComposition(20, catalog),
+      index = analyzeComposition(draft, catalog).trashSwitches[0]!.seat;
+    const target = draft.seats.findIndex(
+      (seat, position) =>
+        position !== index && compositionProfiles(catalog).get(seat.profileId)?.role === "damage",
+    );
+    const moved = moveCompositionSeat(draft, index, target);
+    expect(moved.seats[target]).toEqual(draft.seats[index]);
+    expect(analyzeComposition(moved, catalog).trashSwitches[0]?.seat).toBe(target);
+    expect(arrangeCompositionParties(moved, catalog).seats[target]).toEqual(moved.seats[target]);
+  });
+  it("saves and shares opt-outs without silently assigning the Paladin again", () => {
+    const draft = createComposition(10, catalog),
+      index = analyzeComposition(draft, catalog).trashSwitches[0]!.seat;
+    expect(decodeComposition(encodeComposition(draft), catalog)).toEqual(draft);
+    const disabled = setCompositionTrashTank(draft, index, false, catalog);
+    const loaded = decodeComposition(encodeComposition(disabled), catalog);
+    expect(loaded).toEqual(disabled);
+    expect(analyzeComposition(loaded, catalog).trashSwitches).toHaveLength(0);
+  });
+  it("upgrades older saved drafts once, using an unlocked Ret without changing any boss build", () => {
+    const draft = createComposition(20, catalog),
+      legacy = {
+        ...draft,
+        seats: draft.seats.map((seat) => {
+          const copy = { ...seat };
+          delete copy.trashProfileId;
+          return copy;
+        }),
+      };
+    delete legacy.trashPlanVersion;
+    const firstRet = legacy.seats.findIndex(
+      (seat) => seat.profileId === "paladin-retribution-static",
+    );
+    legacy.seats[firstRet] = { ...legacy.seats[firstRet]!, locked: true };
+    const upgraded = validateCompositionDraft(legacy, catalog);
+    expect(upgraded.trashPlanVersion).toBe(1);
+    expect(upgraded.seats[firstRet]).toEqual(legacy.seats[firstRet]);
+    expect(upgraded.seats.map((seat) => seat.profileId)).toEqual(
+      legacy.seats.map((seat) => seat.profileId),
+    );
+    expect(analyzeComposition(upgraded, catalog).trashSwitches).toHaveLength(1);
+    expect(validateCompositionDraft(upgraded, catalog)).toEqual(upgraded);
+  });
+  it("does not create a phantom or modify locked Paladins when a legacy draft has no available Ret", () => {
+    const draft = createComposition(20, catalog),
+      legacy = {
+        ...draft,
+        seats: draft.seats.map((seat) => {
+          const copy = { ...seat, locked: true };
+          delete copy.trashProfileId;
+          return copy;
+        }),
+      };
+    delete legacy.trashPlanVersion;
+    const loaded = validateCompositionDraft(legacy, catalog);
+    expect(loaded.seats).toEqual(legacy.seats);
+    expect(analyzeComposition(loaded, catalog).trashSwitches).toHaveLength(0);
+  });
+  it("rejects invalid or locked assignments and clears the annotation when its Ret boss build is replaced", () => {
+    const draft = createComposition(10, catalog),
+      index = analyzeComposition(draft, catalog).trashSwitches[0]!.seat;
+    expect(() => setCompositionTrashTank(draft, 0, true, catalog)).toThrow(/Retribution/);
+    const locked = {
+      ...draft,
+      seats: draft.seats.map((seat, position) =>
+        position === index ? { ...seat, locked: true } : seat,
+      ),
+    };
+    expect(() => setCompositionTrashTank(locked, index, false, catalog)).toThrow(/Unlock/);
+    const replaced = replaceCompositionSeat(draft, index, "fury-standard", catalog);
+    expect(replaced.seats[index]?.trashProfileId).toBeUndefined();
+    expect(replaced.trashPlanVersion).toBe(1);
+    expect(() =>
+      validateCompositionDraft(
+        {
+          ...draft,
+          seats: draft.seats.map((seat, position) =>
+            position === 0 ? { ...seat, trashProfileId: "tank-paladin" } : seat,
+          ),
+        },
+        catalog,
+      ),
+    ).toThrow(/Retribution/);
   });
 });
 

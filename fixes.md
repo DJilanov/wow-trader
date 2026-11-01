@@ -1,5 +1,16 @@
 # WoW Trader fixes and recovery context
 
+## November 1 — trash specialists remain one boss roster slot
+
+The raid planner now distinguishes one Ret Paladin's Protection trash assignment
+from their Retribution boss build. The selector retains that capability, movements
+carry it with the seat's build, and locks apply to its checkbox. Phase totals and
+the class card/duty sheet make the plan visible without counting a second player.
+A one-time saved-plan upgrade respects locked builds and later opt-outs. Boss
+reference DPS/TPS/HPS, kill time and theoretical survival are unchanged by the
+trash checkbox. Navigation drops the Forever prefix, with TBC under TBC Tools.
+Local verification passed 85 tests and 16 browser checks; deployment is in progress.
+
 ## November 1 — Forever composition support scope
 
 The new local 10/20/40 planner and sibling raid manager now share the

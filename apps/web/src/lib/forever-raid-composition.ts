@@ -126,8 +126,16 @@ const seatSchema = z
   .object({
     profileId: z.string().regex(/^[a-z0-9-]{1,100}$/),
     locked: z.boolean(),
+    trashProfileId: z.literal("tank-paladin").optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((seat, context): void => {
+    if (seat.trashProfileId && seat.profileId !== "paladin-retribution-static")
+      context.addIssue({
+        code: "custom",
+        message: "Protection on trash requires a Retribution Paladin boss build.",
+      });
+  });
 export const compositionDraftSchema = z
   .object({
     version: z.literal(1),
@@ -140,6 +148,7 @@ export const compositionDraftSchema = z
     mainTankSeat: z.number().int().min(0).max(39).optional(),
     tankHealingPercent: z.number().min(0).max(100).optional(),
     healingIntervalSeconds: z.number().min(0.5).max(10).optional(),
+    trashPlanVersion: z.literal(1).optional(),
     required: z.array(z.enum(coverageIds)).max(COVERAGE_REQUIREMENTS.length),
     seats: z.array(seatSchema).min(10).max(40),
   })
@@ -171,6 +180,12 @@ export interface CompositionAnalysis {
   }[];
   readonly issues: readonly string[];
   readonly roles: Readonly<Record<CompositionRole, number>>;
+  readonly trashRoles: Readonly<Record<CompositionRole, number>>;
+  readonly trashSwitches: readonly {
+    readonly seat: number;
+    readonly bossProfileId: string;
+    readonly trashProfileId: string;
+  }[];
   readonly ready: boolean;
 }
 export interface CompositionSuggestion {
@@ -296,7 +311,50 @@ export function validateCompositionDraft(
   const profiles = compositionProfiles(catalog);
   if (draft.seats.some((seat) => !profiles.has(seat.profileId)))
     throw new Error("A selected build is no longer available. Choose a current composition.");
-  return draft;
+  const initialized = initializeTrashPlan(draft);
+  if (initialized.seats.some((seat) => seat.trashProfileId && !profiles.has(seat.trashProfileId)))
+    throw new Error("A selected trash build is no longer available. Choose a current composition.");
+  return initialized;
+}
+
+function initializeTrashPlan(draft: CompositionDraft): CompositionDraft {
+  // Mark the one-time default migration so a saved opt-out is never reassigned.
+  if (draft.trashPlanVersion === 1) return draft;
+  const existing = draft.seats.some((seat) => seat.trashProfileId);
+  const index = existing
+    ? -1
+    : draft.seats.findIndex(
+        (seat) => seat.profileId === "paladin-retribution-static" && !seat.locked,
+      );
+  return {
+    ...draft,
+    trashPlanVersion: 1,
+    seats: draft.seats.map((seat, position) =>
+      position === index ? { ...seat, trashProfileId: "tank-paladin" as const } : seat,
+    ),
+  };
+}
+
+export function setCompositionTrashTank(
+  draft: CompositionDraft,
+  index: number,
+  enabled: boolean,
+  catalog: CompositionCatalog,
+): CompositionDraft {
+  const seat = draft.seats[index];
+  if (!seat || seat.profileId !== "paladin-retribution-static")
+    throw new Error("Choose a Retribution Paladin for the Protection trash assignment.");
+  if (seat.locked) throw new Error("Unlock this seat before changing its trash assignment.");
+  if (enabled && !compositionProfiles(catalog).has("tank-paladin"))
+    throw new Error("The Protection Paladin build is unavailable.");
+  const seats = draft.seats.map((member, position) => {
+    if (position !== index) return member;
+    if (enabled) return { ...member, trashProfileId: "tank-paladin" as const };
+    const updated = { ...member };
+    delete updated.trashProfileId;
+    return updated;
+  });
+  return { ...draft, trashPlanVersion: 1, seats };
 }
 export function analyzeComposition(
   draft: CompositionDraft,
@@ -411,6 +469,19 @@ export function analyzeComposition(
     });
   const roles: Record<CompositionRole, number> = { tank: 0, healer: 0, damage: 0 };
   for (const profile of members) if (profile) roles[profile.role] += 1;
+  const trashRoles: Record<CompositionRole, number> = { tank: 0, healer: 0, damage: 0 };
+  const trashSwitches = draft.seats.flatMap((seat, index) => {
+    const profile = profiles.get(seat.trashProfileId ?? seat.profileId);
+    if (profile) trashRoles[profile.role] += 1;
+    return seat.trashProfileId
+      ? [{ seat: index, bossProfileId: seat.profileId, trashProfileId: seat.trashProfileId }]
+      : [];
+  });
+  for (const assignment of trashSwitches)
+    assignments.push({
+      seat: assignment.seat,
+      duty: "Protection with tank gear for trash packs; switch to Retribution for bosses. This is one player's two planned builds.",
+    });
   const issues: string[] = [];
   if (members.some((profile) => !profile)) issues.push("A selected profile is unavailable.");
   if (!warriors.length) issues.push("Every raid must contain at least one Warrior.");
@@ -430,7 +501,16 @@ export function analyzeComposition(
       (seat) => Math.floor(seat / 5) === index,
     ),
   }));
-  return { coverage, assignments, parties, issues, roles, ready: issues.length === 0 };
+  return {
+    coverage,
+    assignments,
+    parties,
+    issues,
+    roles,
+    trashRoles,
+    trashSwitches,
+    ready: issues.length === 0,
+  };
 }
 
 export function partyManaCoverage(draft: CompositionDraft, catalog: CompositionCatalog): number {
@@ -462,12 +542,17 @@ export function arrangeCompositionParties(
     let bestScore = partyManaCoverage(best, catalog),
       improved: CompositionDraft | null = null;
     for (let from = 0; from < draft.size; from += 1) {
-      if (best.seats[from]!.locked || profiles.get(best.seats[from]!.profileId)?.role === "tank")
+      if (
+        best.seats[from]!.locked ||
+        best.seats[from]!.trashProfileId ||
+        profiles.get(best.seats[from]!.profileId)?.role === "tank"
+      )
         continue;
       for (let to = from + 1; to < draft.size; to += 1) {
         if (
           Math.floor(from / 5) === Math.floor(to / 5) ||
           best.seats[to]!.locked ||
+          best.seats[to]!.trashProfileId ||
           profiles.get(best.seats[to]!.profileId)?.role === "tank"
         )
           continue;
@@ -570,17 +655,20 @@ export function createComposition(size: RaidSize, catalog: CompositionCatalog): 
     return { profileId: id, locked: false };
   });
   return arrangeCompositionParties(
-    {
-      version: 1,
-      revision: COMPOSITION_REVISION,
-      size,
-      tanks: size === 40 ? 3 : 2,
-      healers: size === 40 ? 8 : size === 20 ? 4 : 2,
-      bossHealth: DEFAULT_BOSS_HEALTH[size],
-      bossDps: DEFAULT_BOSS_DPS[size],
-      required: [...DEFAULT_COVERAGE],
-      seats,
-    },
+    validateCompositionDraft(
+      {
+        version: 1,
+        revision: COMPOSITION_REVISION,
+        size,
+        tanks: size === 40 ? 3 : 2,
+        healers: size === 40 ? 8 : size === 20 ? 4 : 2,
+        bossHealth: DEFAULT_BOSS_HEALTH[size],
+        bossDps: DEFAULT_BOSS_DPS[size],
+        required: [...DEFAULT_COVERAGE],
+        seats,
+      },
+      catalog,
+    ),
     catalog,
   );
 }
@@ -618,7 +706,10 @@ export function suggestComposition(
     );
   const fixed = draft.seats
     .map((seat, index) => ({ seat, index, profile: profiles.get(seat.profileId) }))
-    .filter(({ seat, profile }) => seat.locked || (keepCore && profile?.role !== "damage"));
+    .filter(
+      ({ seat, profile }) =>
+        seat.locked || Boolean(seat.trashProfileId) || (keepCore && profile?.role !== "damage"),
+    );
   const count = (role: CompositionRole): number =>
     fixed.filter(({ profile }) => profile?.role === role).length;
   const needs: Record<CompositionRole, number> = {
@@ -628,7 +719,7 @@ export function suggestComposition(
   };
   if (Object.values(needs).some((value) => value < 0))
     return failure(
-      "Locked seats or the retained core exceed your role allocation. Unlock a seat or change the allocation.",
+      "Locked seats, trash assignments or the retained core exceed your role allocation. Unlock a seat, remove a trash assignment or change the allocation.",
     );
   const add = (
     state: SearchState,
@@ -698,7 +789,7 @@ export function suggestComposition(
   if (!best)
     return {
       ...failure(
-        "No lineup satisfies your locked seats, role counts and selected support. Unlock a seat or relax optional coverage.",
+        "No lineup satisfies your locked seats, trash assignments, role counts and selected support. Unlock a seat, remove a trash assignment or relax optional coverage.",
       ),
       evaluatedStates,
     };
@@ -735,9 +826,12 @@ export function replaceCompositionSeat(
   if (!profiles.has(profileId) || !draft.seats[index])
     throw new Error("Choose an available build and seat.");
   if (draft.seats[index]!.locked) throw new Error("Unlock this seat before replacing its build.");
-  const seats = draft.seats.map((seat, position) =>
-    position === index ? { ...seat, profileId } : seat,
-  );
+  const seats = draft.seats.map((seat, position) => {
+    if (position !== index) return seat;
+    const updated = { ...seat, profileId };
+    if (profileId !== "paladin-retribution-static") delete updated.trashProfileId;
+    return updated;
+  });
   if (!seats.some((seat) => profiles.get(seat.profileId)?.classSlug === "warrior"))
     throw new Error(
       "The last Warrior cannot be removed; a tank or damage Warrior must maintain Sunder.",

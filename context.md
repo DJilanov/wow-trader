@@ -2,6 +2,26 @@
 
 Last updated: 2026-11-01 (Europe/Sofia)
 
+## November 1 — Protection trash / Retribution boss roles and short navigation
+
+- Owner notes that trash clearing should use one Ret Paladin as Protection, then
+  return that same player to Retribution on bosses. All 10/20/40 defaults now
+  include one such planned switch; role totals show both phases without adding a
+  roster slot or changing boss DPS/TPS/HPS, kill-time or survival calculations.
+- `trashProfileId: "tank-paladin"` is optional on Ret boss seats only. Suggestions
+  retain assigned flex seats; manual moves carry the annotation; party-mana
+  arrangement retains their position; locks prevent edits. Replacing the boss
+  Ret build clears the incompatible annotation. Each Ret has an editable checkbox.
+- One-time `trashPlanVersion: 1` initialization upgrades old anonymous local/shared
+  plans using an eligible unlocked Ret. No available Ret means no invented slot;
+  saved opt-outs stay opted out. Boss builds and locked choices are preserved.
+- Header desktop/mobile labels are Trader, Leveling, Encyclopedia and Simulator.
+  Existing Forever URLs stay in use; TBC has its separate TBC Tools entry.
+- Local checks: 85 tests, strict TypeScript, scoped lint/formatting and 16 new
+  Chrome checks passed. No native optimization or database migration is needed.
+  Commit/push/build/deployment is proceeding within the approved planner release.
+  Evidence: `artifacts/raid-trash-plan-20261101/`. Unrelated leveling work remains.
+
 ## November 1 — 10/20/40 composition planner deployed
 
 - Owner authorized implementation with “now do the compositions”. Live planner:

@@ -9,9 +9,9 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navigation = [
-  ["Forever Trader", "/forever/trader"],
-  ["Forever Leveling", "/forever/leveling"],
-  ["Forever Encyclopedia", "/forever/encyclopedia"],
+  ["Trader", "/forever/trader"],
+  ["Leveling", "/forever/leveling"],
+  ["Encyclopedia", "/forever/encyclopedia"],
   ["Simulator", "/forever/simulator"],
   ["Raid planner", "/forever/raid-composition"],
   ["Get Collector", "/forever/addon"],

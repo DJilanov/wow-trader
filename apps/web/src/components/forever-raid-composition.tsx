@@ -18,6 +18,7 @@ import {
   moveCompositionSeat,
   RAID_SIZES,
   replaceCompositionSeat,
+  setCompositionTrashTank,
   suggestComposition,
   validateCompositionDraft,
   type CompositionCatalog,
@@ -70,6 +71,9 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
   const survival = useMemo(() => estimateCompositionSurvival(draft, catalog), [draft, catalog]);
   const groups = Array.from({ length: draft.size / 5 }, (_, index) => index);
   const selected = draft.seats.map((seat) => profiles.get(seat.profileId)!);
+  const availableTrashPaladin = draft.seats.findIndex(
+    (seat) => seat.profileId === "paladin-retribution-static" && !seat.locked,
+  );
   const roleCounts = ["tank", "healer", "damage"] as const;
 
   useEffect(() => {
@@ -305,7 +309,7 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
       <section className={styles.summary} aria-label="Composition totals">
         {roleCounts.map((role) => (
           <div key={role}>
-            <span>{ROLE_LABELS[role]}</span>
+            <span>{ROLE_LABELS[role]} · bosses</span>
             <strong>{analysis.roles[role]}</strong>
             <small>
               {role === "tank"
@@ -313,6 +317,12 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
                 : role === "healer"
                   ? `Target ${draft.healers}`
                   : `${selected.filter((profile) => profile.role === "damage" && profile.damageType === "melee").length} melee · ${selected.filter((profile) => profile.role === "damage" && profile.damageType !== "melee").length} ranged / caster`}
+            </small>
+            <small>
+              Trash: {analysis.trashRoles[role]}{" "}
+              {role === "damage"
+                ? "DPS"
+                : `${ROLE_LABELS[role].toLowerCase()}${analysis.trashRoles[role] === 1 ? "" : "s"}`}
             </small>
           </div>
         ))}
@@ -332,10 +342,56 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
           </small>
         </div>
       </section>
+      <section className={styles.trashPlan} aria-label="Trash and boss assignments">
+        <div>
+          <span className="eyebrow">One roster · two assignments</span>
+          <h2>Protection for trash. Retribution for bosses.</h2>
+          <p>
+            <strong>
+              {analysis.trashRoles.tank} tanks on trash · {analysis.roles.tank} on bosses
+            </strong>
+          </p>
+          <p>
+            Bring a Protection build and tank gear for packs, then switch back to Retribution for
+            the boss. Boss DPS, threat and survival estimates use the boss builds below.
+          </p>
+        </div>
+        {analysis.trashSwitches.length ? (
+          <ul>
+            {analysis.trashSwitches.map((assignment) => (
+              <li key={assignment.seat}>
+                <strong>
+                  G{Math.floor(assignment.seat / 5) + 1} · seat {(assignment.seat % 5) + 1}
+                </strong>
+                <span>Paladin · Protection → Retribution</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>
+            <p>No Retribution Paladin is assigned to tank trash.</p>
+            {availableTrashPaladin < 0 ? (
+              <p>Choose or unlock a Retribution Paladin in the party list.</p>
+            ) : null}
+            <button
+              type="button"
+              disabled={availableTrashPaladin < 0}
+              onClick={() =>
+                change(
+                  () => setCompositionTrashTank(draft, availableTrashPaladin, true, catalog),
+                  "Protection trash assignment added; the boss build remains Retribution.",
+                )
+              }
+            >
+              Assign a Retribution Paladin
+            </button>
+          </div>
+        )}
+      </section>
       <section className={styles.performance} aria-label="Raid throughput and boss estimate">
         <div className={styles.sectionHeading}>
           <div>
-            <span className="eyebrow">Full-support reference estimate</span>
+            <span className="eyebrow">Bosses · full-support reference estimate</span>
             <h2>Damage, threat & kill time</h2>
           </div>
           <label className={styles.bossHealth}>
@@ -621,6 +677,13 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
                     );
                   })}
                 </ul>
+                {appearance.slug === "paladin" && analysis.trashSwitches.length > 0 ? (
+                  <p className={styles.classSwitchNote}>
+                    {analysis.trashSwitches.length} Retribution{" "}
+                    {analysis.trashSwitches.length === 1 ? "Paladin tanks" : "Paladins tank"} trash
+                    as Protection. Counts above are boss builds.
+                  </p>
+                ) : null}
               </section>
             );
           })}
@@ -691,7 +754,8 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
           </div>
           <p>
             Maximize retained reference damage while satisfying your chosen roles, support and
-            locked seats. This is not a new combat simulation.
+            locked seats. Trash Protection assignments are retained too. This is not a new combat
+            simulation.
           </p>
         </div>
         <div className={styles.inputs}>
@@ -1000,6 +1064,33 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
                         </optgroup>
                       ))}
                     </select>
+                    {seat.profileId === "paladin-retribution-static" ? (
+                      <label className={styles.trashSwitch}>
+                        <input
+                          type="checkbox"
+                          checked={Boolean(seat.trashProfileId)}
+                          disabled={seat.locked}
+                          aria-label={`Protection on trash for group ${group + 1} seat ${offset + 1}`}
+                          onChange={(event) =>
+                            change(
+                              () =>
+                                setCompositionTrashTank(
+                                  draft,
+                                  index,
+                                  event.currentTarget.checked,
+                                  catalog,
+                                ),
+                              event.currentTarget.checked
+                                ? "Protection on trash; Retribution on bosses. Boss estimates are unchanged."
+                                : "This Paladin remains Retribution for trash and bosses.",
+                            )
+                          }
+                        />
+                        <span>
+                          Protection on trash<small>Retribution on bosses · one player</small>
+                        </span>
+                      </label>
+                    ) : null}
                     <div className={styles.seatTools}>
                       <select
                         aria-label={`Move group ${group + 1} seat ${offset + 1}`}

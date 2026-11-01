@@ -283,6 +283,79 @@
 .notice details {
   margin-top: 0.5rem;
 }
+.trashPlan {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.65fr);
+  gap: 1.2rem;
+  padding: 1.25rem;
+  border: 1px solid #715340;
+  border-left: 3px solid #f58cba;
+  background: linear-gradient(125deg, #241c1d, #161511);
+}
+.trashPlan h2 {
+  margin: 0.4rem 0 0.7rem;
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+}
+.trashPlan p,
+.classSwitchNote {
+  color: #bcb1a4;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 0.45rem 0;
+}
+.trashPlan p strong {
+  color: #e8b9cb;
+}
+.trashPlan ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-self: center;
+  display: grid;
+  gap: 0.5rem;
+}
+.trashPlan li {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.8rem;
+  border: 1px solid #624950;
+  background: #21191a;
+  font-size: 0.82rem;
+  color: #f1c4d7;
+}
+.trashPlan li span {
+  color: #c7b8ac;
+}
+.classSwitchNote {
+  padding-top: 0.55rem;
+  border-top: 1px solid #5b414d;
+  font-size: 0.72rem;
+  color: #deb0c2;
+}
+.trashSwitch {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid #674654;
+  background: #2a1b22;
+  padding: 0.6rem;
+  margin: 0.55rem 0;
+  color: #efbad1;
+  font-size: 0.8rem;
+}
+.trashSwitch span {
+  display: grid;
+  gap: 0.2rem;
+}
+.trashSwitch small {
+  color: #bdabae;
+  font-size: 0.72rem;
+}
+@media (max-width: 720px) {
+  .trashPlan {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .feedback {
   font-size: 0.85rem;
   color: #b8cbaa;
