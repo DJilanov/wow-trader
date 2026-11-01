@@ -2,21 +2,24 @@
 
 ## November 1 — simulation rates beside composition builds
 
-- Owner requested each build's numerical simulation result before DPS, with TPS
-  for tanks and HPS for healers. Class/spec rows, every roster seat and build
-  dropdown now show one-player values from the existing validated catalog.
-- Tanks use the selected pre-raid mitigation build's measured TPS, not its DPS
-  or alternate threat build. Healers use useful HPS. Missing measurements show
-  Unmeasured; no values, new optimization searches or raid totals are invented.
-- Verification: 61 focused tests, scoped strict TypeScript, lint/formatting and
-  13 Chrome checks passed. Browser checks cover all 32 rows/options, every seat
-  at 10/20/40 players, role changes, and widths 320–1440px. Full local TypeScript
-  also found two unrelated in-progress leveling package export mismatches;
-  production is built from committed source with unrelated leveling work excluded.
-- Scoped commit/push/deployment is being prepared. Evidence:
-  `artifacts/raid-throughput-labels-20261101/`.
-
-Last updated: 2026-11-01 (Europe/Sofia)
+- Class/spec rows, every roster seat and build dropdown show one-player saved
+  simulation values: DPS for damage, active pre-raid mitigation TPS for tanks,
+  and useful HPS for healers. Missing measurements show Unmeasured; seat counts
+  remain separate. No new native optimization or numerical snapshot was needed.
+- Committed/pushed/deployed runtime: `e077cad`, build `AFYJvK25nOyVtVai8QzDn`,
+  activated `2026-11-01T09:02:28.220Z`. Live:
+  `https://kfcguild.online/tools/forever/raid-composition`.
+- 61 focused tests, scoped strict TypeScript, lint/formatting, a full Linux build,
+  and 31 candidate/public Chrome checks each passed. All 32 rows/options, all
+  three raid sizes, role changes and widths 320–1440px were verified. Full local
+  TypeScript found two unrelated unfinished leveling export mismatches; that
+  work was preserved and excluded from the committed release overlay.
+- 8 source hashes verified; only Helper restarted. Guild/community web,
+  ingestion and raid worker kept their PIDs. An unrelated ai-cv-api PID change
+  was recorded without intervention. No DB/Discord/roster writes occurred.
+  Private preview/tunnel stopped; 9.21 GiB free. Release/rollback:
+  `docs/forever-raid-throughput-labels-release-2026-11-01.md`. Evidence:
+  `artifacts/raid-throughput-labels-20261101/deployment/`.
 
 ## November 1 — Protection trash / Retribution boss roles and short navigation
 

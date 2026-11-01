@@ -2,15 +2,15 @@
 
 ## November 1 — individual DPS, TPS and HPS visible during composition editing
 
-Class/spec cards, roster seats and build options now include the retained
-one-player simulation value. Damage builds show DPS, tanks show active pre-raid
-mitigation TPS, and healers show useful HPS. Seat counts remain separate.
-Absent measurements explicitly show Unmeasured. A shared presentation helper
-keeps all three surfaces consistent and updates when a seat build changes.
-61 focused tests, strict scoped TypeScript, lint, formatting and 13 Chrome checks
-passed, including all 32 profiles, each raid size and mobile containment.
-Deployment is being prepared; evidence is under
-`artifacts/raid-throughput-labels-20261101/`.
+Class/spec cards, roster seats and build options include each build's saved
+one-player simulation value: damage DPS, active pre-raid mitigation tank TPS,
+and useful healer HPS. Missing measurements say Unmeasured, and seat counts stay
+separate. A shared formatter updates the value and unit when a build changes.
+Deployed `e077cad`, build `AFYJvK25nOyVtVai8QzDn`. Verification passed 61 focused
+tests, strict scoped TypeScript, lint/formatting, a full Linux build and 31
+candidate/public Chrome checks each. All 32 builds and mobile widths were checked.
+Release/rollback: `docs/forever-raid-throughput-labels-release-2026-11-01.md`;
+receipts: `artifacts/raid-throughput-labels-20261101/deployment/`.
 
 ## November 1 — trash specialists remain one boss roster slot
 
