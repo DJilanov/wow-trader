@@ -61,6 +61,16 @@ export default function ForeverHelperPage(): React.JSX.Element {
             href: "/forever/simulator",
           },
           {
+            title: "Raid composition",
+            eyebrow: "10, 20 or 40 players",
+            description:
+              "Plan your classes, shared buffs and five-player parties. Assign Sunder, compare retained build references and share your lineup.",
+            status: "Composition planner · planned support",
+            image: { src: "/wow-assets/classes/warrior.jpg", kind: "icon" },
+            tone: "encyclopedia",
+            href: "/forever/raid-composition",
+          },
+          {
             title: "Leveling",
             eyebrow: "Your path through Azeroth",
             description:

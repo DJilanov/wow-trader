@@ -1,0 +1,234 @@
+{
+  "schema": "kfc-forever-composition-metrics.v1",
+  "scenario": "raid",
+  "policySha256": "d45eb0dc4cc4511131e0fda84f3ae90ebdfac8c95fbe5ed0b867bf7f7fce4e84",
+  "durationSeconds": 300,
+  "codecSha256": "ddda496cbcf31cf2e7f18300d60bdf12f9035b742b485bff20dbb66bbaad628a",
+  "entries": [
+    {
+      "id": "balance-static",
+      "dps": 649.0770427615072,
+      "threatPerSecond": 668.0636894393372,
+      "petThreatPerSecond": 0,
+      "requestSha256": "e202dd310f644f90d376b56715551371413bb0ea47143e5e33cd1859149ca6e5",
+      "responseSha256": "a543b9b7343519a3185d7f1244cd1cba90921faa18bd8bc3551c11fcd02ac0f6",
+      "capturedAt": "2026-10-28T10:00:46.605Z"
+    },
+    {
+      "id": "feral-cat-static",
+      "dps": 795.2935595414639,
+      "threatPerSecond": 585.1895210584568,
+      "petThreatPerSecond": 0,
+      "requestSha256": "13c6c5801d527bf7b9a393323a67d3b8ec271c377a9bdbd0a50f528d7a7a5d13",
+      "responseSha256": "b5bf419dee33ac7fe93e7e9324f874fd6dddc0ab8900f0a60959e0ce16c46f0c",
+      "capturedAt": "2026-10-28T10:01:24.466Z"
+    },
+    {
+      "id": "hunter-beast-mastery-static",
+      "dps": 954.6892240551367,
+      "threatPerSecond": 668.5341880178478,
+      "petThreatPerSecond": 310.3344720133795,
+      "requestSha256": "a0039b3407813cef0853fb6a1279dabb66a72b5fac83d41f6abbc99c7fc07d37",
+      "responseSha256": "bfd452f06f838f139d4aa47aa2ad9b8ebcfaa1e29179609d5dd1c968c859b081",
+      "capturedAt": "2026-10-28T10:01:53.349Z"
+    },
+    {
+      "id": "hunter-marksmanship-static",
+      "dps": 961.7878285861129,
+      "threatPerSecond": 829.5884309415609,
+      "petThreatPerSecond": 157.96204976251033,
+      "requestSha256": "368ca6b62361137f0fc1e77132713ff847ad63e4f955f2e02bbaad78654f8b5b",
+      "responseSha256": "dc71c51f6f2b9a11aabdd5d8edffb20f00c2d802e688efcfb36dff7ea47623a6",
+      "capturedAt": "2026-10-28T10:02:23.869Z"
+    },
+    {
+      "id": "hunter-survival-static",
+      "dps": 557.2014576509083,
+      "threatPerSecond": 294.309856889083,
+      "petThreatPerSecond": 181.02438922432802,
+      "requestSha256": "02ca5ba3e8b732f807a0d4132f3f209c57a125c373cbffad12b684ecc5c1b141",
+      "responseSha256": "f9fe07fad010c3eb47b8a3b0351f2f1d2908a11949aeef131d687a8f084b90c5",
+      "capturedAt": "2026-10-28T10:02:42.049Z"
+    },
+    {
+      "id": "mage-arcane-static",
+      "dps": 749.9480624329265,
+      "threatPerSecond": 570.2915193606455,
+      "petThreatPerSecond": 0,
+      "requestSha256": "40867993ba30caf06820e2d395fd380552ffcffe23c27bb5956e6383cdddcbab",
+      "responseSha256": "46ea544ed0a3e1ae053324c02ac5d729eddb8938b83bfeea7bc08aaa3f063a48",
+      "capturedAt": "2026-10-28T10:02:53.561Z"
+    },
+    {
+      "id": "mage-fire-static",
+      "dps": 737.4117994044308,
+      "threatPerSecond": 617.7560161136606,
+      "petThreatPerSecond": 0,
+      "requestSha256": "4ab741f08f10f0fc994422242047a376ddcb3a76321424d2d1c89b8047fe70a6",
+      "responseSha256": "5dce00e9fd925d671fceacb78892b87d36a008c4d50d4792dd2e66d2fc5ff71f",
+      "capturedAt": "2026-10-28T10:03:04.815Z"
+    },
+    {
+      "id": "mage-frost-static",
+      "dps": 650.5487980747985,
+      "threatPerSecond": 417.03920727462344,
+      "petThreatPerSecond": 0,
+      "requestSha256": "1cc0dfb0462b0dc54eb1cfc995900a083218f4bd6e9920f611058360686d0064",
+      "responseSha256": "9dda7b5435ea2b178c4f6052f9c850bea63fdaa2fde63f25357b1bb9655012ec",
+      "capturedAt": "2026-10-28T10:03:14.748Z"
+    },
+    {
+      "id": "paladin-retribution-static",
+      "dps": 974.629684398438,
+      "threatPerSecond": 1005.4383411163661,
+      "petThreatPerSecond": 0,
+      "requestSha256": "32f14d3dc1da5e5e424f3c1273f88f5b2d78e5368cb6d81a67095adae8e8c1f6",
+      "responseSha256": "294b2f887d611dad2d10bea21b57337ccd40fb9d0069560c199e7b74eb6bdffd",
+      "capturedAt": "2026-10-28T10:03:28.805Z"
+    },
+    {
+      "id": "paladin-shockadin-static",
+      "dps": 789.9807813748121,
+      "threatPerSecond": 813.8632775910136,
+      "petThreatPerSecond": 0,
+      "requestSha256": "57cb201e71d84ee72f27801302889ea3c3a6536bb85247b7b306d85637302485",
+      "responseSha256": "3208dba258a2283fd6d686ed9d5973415e1eb64a66475642739ca0e0d5f82eac",
+      "capturedAt": "2026-10-28T10:03:47.479Z"
+    },
+    {
+      "id": "priest-shadow-static",
+      "dps": 771.228907703672,
+      "threatPerSecond": 789.269657719679,
+      "petThreatPerSecond": 0,
+      "requestSha256": "228cf5e2f52f648daa5a846c74900aa257e5a9c49d82b1888d2c75aa43205122",
+      "responseSha256": "f64297cd636b3aeb3d9a5bd61560a29bd46dc217b42d77a5ec56e3c662f7de87",
+      "capturedAt": "2026-10-28T10:03:57.593Z"
+    },
+    {
+      "id": "priest-smite-static",
+      "dps": 528.1521904495792,
+      "threatPerSecond": 550.0872095348698,
+      "petThreatPerSecond": 0,
+      "requestSha256": "38a43f72270afca1c91d19809f77e982a408fa08501808c75e7e9c1b595133ac",
+      "responseSha256": "97cf5ed2f8972f61c87d6fe19c4212cf27545fc40a7ae8bcca41a9df3d4f5972",
+      "capturedAt": "2026-10-28T10:04:07.421Z"
+    },
+    {
+      "id": "rogue-combat-static",
+      "dps": 707.1379067169499,
+      "threatPerSecond": 502.06791376903726,
+      "petThreatPerSecond": 0,
+      "requestSha256": "7f015bf8837a45d6fe12aaa427a2ca5faabc2b83fcdbb7cb52e730fe30917fc0",
+      "responseSha256": "9f40c1d5ae414ff8096e171e1d75b235e4b2b46f9b2a5ff5362f1f3091e4e80a",
+      "capturedAt": "2026-10-28T10:04:36.721Z"
+    },
+    {
+      "id": "rogue-mutilate-static",
+      "dps": 693.354631330222,
+      "threatPerSecond": 492.2817882444568,
+      "petThreatPerSecond": 0,
+      "requestSha256": "378ab661f886fa057d06fee4fdc93e835e7da26669490f85dd87ae71ff961ff1",
+      "responseSha256": "4d85433aae1d47579b2d42dcc000d71773c4356ca6f67bac9f5988e7c2f08234",
+      "capturedAt": "2026-10-28T10:05:04.069Z"
+    },
+    {
+      "id": "rogue-subtlety-static",
+      "dps": 664.644846975802,
+      "threatPerSecond": 471.8978413528199,
+      "petThreatPerSecond": 0,
+      "requestSha256": "11362d347f5a3139a6fbd565f70f4cd58417762f93806ceaad5b8b84fe79a5b6",
+      "responseSha256": "d338d45978e06fe63a7df0692f3cd4692c6bd66eaae3cb2b9c7322fdeeaf7230",
+      "capturedAt": "2026-10-28T10:05:32.436Z"
+    },
+    {
+      "id": "shaman-elemental-static",
+      "dps": 578.4240443045649,
+      "threatPerSecond": 615.7035057077563,
+      "petThreatPerSecond": 0,
+      "requestSha256": "ebd7d3213b782c7e78be7a5f97f50602d1329cd99136817bdc38f4429d55a10b",
+      "responseSha256": "140c67f2217c9f17e07dc9a508e5424ab537d90cd4ca26daa1452e6babb2f4d9",
+      "capturedAt": "2026-10-28T10:05:43.516Z"
+    },
+    {
+      "id": "shaman-stormcaller-static",
+      "dps": 565.3680054285708,
+      "threatPerSecond": 629.9933994632188,
+      "petThreatPerSecond": 0,
+      "requestSha256": "511153990f0132a173ae1a3d0b8cbdeb1e8a5889989d914c07bde4c403e523a4",
+      "responseSha256": "d0644a961460b47a991dc7b68b94514ffe6782105558e8f3199b3fb597a3f0d1",
+      "capturedAt": "2026-10-28T10:05:54.263Z"
+    },
+    {
+      "id": "shaman-enhancement-static",
+      "dps": 744.5247819919053,
+      "threatPerSecond": 943.4713494182786,
+      "petThreatPerSecond": 0,
+      "requestSha256": "245f42c9dac2d33ee5268fae4379894e4c999e0ee926137f3f8f9fa12dea4f7f",
+      "responseSha256": "89df0a45b47319c1b34fffd3cd28fe42d6a728f674d8ebacea51e4241fe7873a",
+      "capturedAt": "2026-10-28T10:06:10.475Z"
+    },
+    {
+      "id": "warlock-demonology-static",
+      "dps": 869.3202356442652,
+      "threatPerSecond": 690.0347184353435,
+      "petThreatPerSecond": 337.7344263507494,
+      "requestSha256": "9394b1adc5e7e115165d1766ad42cc7ae5e3a04e923a21f0a4acde976080b93e",
+      "responseSha256": "4a18f0f2daaff4c1bad0e9ff2f594a9d7da24eec606343b21a591aba518d22ee",
+      "capturedAt": "2026-10-28T10:06:22.850Z"
+    },
+    {
+      "id": "warlock-affliction-static",
+      "dps": 767.3793841157167,
+      "threatPerSecond": 569.16113485279,
+      "petThreatPerSecond": 83.05062291119883,
+      "requestSha256": "30c1c32a936305acea959d16538fc95db377874d9ab3021c6c8170ab9b0a5867",
+      "responseSha256": "687bdaa6f22ad427ae8a74309edfed39cecb0d33e8e35a88d1bda7fe77c11eea",
+      "capturedAt": "2026-10-28T10:06:35.003Z"
+    },
+    {
+      "id": "warlock-destruction-static",
+      "dps": 749.0775590092537,
+      "threatPerSecond": 609.4979650391364,
+      "petThreatPerSecond": 326.09883913784574,
+      "requestSha256": "583889f1b38bdafffb9837a7d3e8bb266f633a12acc7ce9569055a3df910abbe",
+      "responseSha256": "d7b46112bd84be8a925487b15dbc5d111021d7880f57c16821d460d1233b75b1",
+      "capturedAt": "2026-10-28T10:06:47.891Z"
+    },
+    {
+      "id": "warlock-ds-ruin-static",
+      "dps": 715.8506900945463,
+      "threatPerSecond": 590.4973401907645,
+      "petThreatPerSecond": 0,
+      "requestSha256": "f7e43d3bac10a7860c644709eab3a2fe6a7939e3bb1a2449caa8eefb2f15d218",
+      "responseSha256": "12ad3b7bdc52712afa2146f83f8290c06d5e6c052672199fc0948f2a6677954c",
+      "capturedAt": "2026-10-28T10:06:57.232Z"
+    },
+    {
+      "id": "fury-standard",
+      "dps": 862.6712290136707,
+      "threatPerSecond": 750.899037277297,
+      "petThreatPerSecond": 0,
+      "requestSha256": "fbd5c93637a372d6e462e9fd3fcd721e45bbe22225489b06bf8b7c64ba1c75d9",
+      "responseSha256": "2461acce2741ad12cd19bc53a54fc59509a4abb0d1b380bdbafd460b61935823",
+      "capturedAt": "2026-10-28T10:07:21.622Z"
+    },
+    {
+      "id": "arms-standard",
+      "dps": 824.5954189641103,
+      "threatPerSecond": 678.1971385337647,
+      "petThreatPerSecond": 0,
+      "requestSha256": "f8f4f0c82e03e46292642e532eef5aaf2267d70645b476c2634fa1e602306dc1",
+      "responseSha256": "9a42333fd801fee6f32924a24a27a8d193454d77b3551a83773d91fda38dcd69",
+      "capturedAt": "2026-10-28T10:07:37.437Z"
+    },
+    {
+      "id": "two-hand-fury",
+      "dps": 781.2976071285035,
+      "threatPerSecond": 674.2367162391167,
+      "petThreatPerSecond": 0,
+      "requestSha256": "94805fbef0ce185f69d8fcecb0f30e373f1d1f30626a808037faa8fdcc9789f3",
+      "responseSha256": "b6b6f7de468c6bfec5dc2511154c557ba07ab5ad66e5e2237cb12f1a41f2d992",
+      "capturedAt": "2026-10-28T10:07:57.687Z"
+    }
+  ]
+}

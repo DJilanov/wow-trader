@@ -1,0 +1,137 @@
+{
+  "schema": "kfc-forever-composition-incoming.v1",
+  "scenario": "raid",
+  "policySha256": "241f9af6ae90b2733c23732aee5c35c5b763d3df1634aba6bb29d3f24f04f255",
+  "entries": [
+    {
+      "id": "feral-tank-druid",
+      "release": "b0922983c0a2b43d2ec6ea64",
+      "objective": "mitigation",
+      "capturedAt": "2026-10-28T10:02:44.449Z",
+      "manifestSha256": "807c803774e595cf140cd9755dc0c57cde3b7f5cd133906a74e4b7b451f282b1",
+      "proofSha256": "3635385f08918a266911e1b4de3fd6d1c40e522c7ab606983810623f8721290e",
+      "settingsSha256": "f48af8fa85c8c7dbadd328485751dc050e3b4ddf5f8272e46884c6302ad8189f",
+      "requestSha256": "4295edfcfc8d0753eefb816d8413b28707210777e7a84fa4bb6599028a2b7443",
+      "responseSha256": "da7bfac435470f52ab958bf61791d227d733fd9f7b26d864b78618e97a4d617c",
+      "dps": 370.4376150396763,
+      "tps": 1241.1621070460099,
+      "dtps": 371.08523921322956,
+      "health": 8676.15,
+      "armor": 10854.8,
+      "rawDps": 1749.975,
+      "swingSeconds": 1.9867549668874172,
+      "outcomes": [
+        {
+          "kind": "avoided",
+          "probability": 0.4197377483443709,
+          "damage": 0
+        },
+        {
+          "kind": "critical",
+          "probability": 0.03156556291390728,
+          "damage": 2166.2007313054023
+        },
+        {
+          "kind": "crushing",
+          "probability": 0.1510251655629139,
+          "damage": 1618.3212129775688
+        },
+        {
+          "kind": "normal",
+          "probability": 0.39767152317880794,
+          "damage": 1067.3906548811326
+        }
+      ]
+    },
+    {
+      "id": "protection-paladin",
+      "release": "8cc775ad60b492c2508b392d",
+      "objective": "mitigation",
+      "capturedAt": "2026-10-28T10:03:34.626Z",
+      "manifestSha256": "c881276edf2927a5be55625f7816ca0812fbbe0a1b64b8f9f17b3ed9a5125ee0",
+      "proofSha256": "3b681a85554225254dd72eba8868bb6a8a7227adc0046188d72fe11fc1573a07",
+      "settingsSha256": "568b80602deaf43921d1f0451455870511bbf0cf38d33aa0d4219da31962890d",
+      "requestSha256": "8479614fca98de938cd9fdd0a850075603909e9481089e66495fed0fedc91398",
+      "responseSha256": "fd33b6be461af6c14390d6d0b19d41bf6a062c430b8a79e4f94be69b2864ad88",
+      "dps": 350.66671025406174,
+      "tps": 601.4541946959182,
+      "dtps": 274.1146605146403,
+      "health": 7154.200000000001,
+      "armor": 8349.8,
+      "rawDps": 1749.975,
+      "swingSeconds": 1.9867549668874172,
+      "outcomes": [
+        {
+          "kind": "avoided",
+          "probability": 0.5233602649006622,
+          "damage": 0
+        },
+        {
+          "kind": "critical",
+          "probability": 0.0010754966887417219,
+          "damage": 2331.400967301341
+        },
+        {
+          "kind": "crushing",
+          "probability": 0.041512582781456954,
+          "damage": 1743.3317578133037
+        },
+        {
+          "kind": "blocked",
+          "probability": 0.4301576158940397,
+          "damage": 1081.9874119977235
+        },
+        {
+          "kind": "normal",
+          "probability": 0.003894039735099338,
+          "damage": 1103.2038864082017
+        }
+      ]
+    },
+    {
+      "id": "tank-warrior",
+      "release": "e2559d14e42a751d09bbc85c",
+      "objective": "mitigation",
+      "capturedAt": "2026-10-28T10:04:44.037Z",
+      "manifestSha256": "66ba29bc87a2ea06c7376a0d147eefd70dc3387d6f3e8ed7acf2aa3225af2447",
+      "proofSha256": "2194e2805b42ed5853f3e1f0e0a3a8e80465d222557a93a2d3d4b6f9487bceef",
+      "settingsSha256": "f7797738356ce15850f096074c6f946f50373613d3af14e390700c71aedd1e36",
+      "requestSha256": "52c7d4a1025fd0cadaee9ed622573a82ca4c437b10d928aaf5e88632d70ca0e8",
+      "responseSha256": "3a61a4f5189906e837f3fb136c837be9a69ba27b5d5a14e5e55d74a9889cf109",
+      "dps": 337.09571947529236,
+      "tps": 831.0074638529211,
+      "dtps": 221.17570776140468,
+      "health": 7196,
+      "armor": 8136.6,
+      "rawDps": 1749.975,
+      "swingSeconds": 2.370679436726566,
+      "outcomes": [
+        {
+          "kind": "avoided",
+          "probability": 0.545785722187979,
+          "damage": 0
+        },
+        {
+          "kind": "critical",
+          "probability": 0.0011395065825865692,
+          "damage": 2406.639156800771
+        },
+        {
+          "kind": "crushing",
+          "probability": 0.01416559986092014,
+          "damage": 1800.6335551817788
+        },
+        {
+          "kind": "blocked",
+          "probability": 0.426001612062017,
+          "damage": 1128.5462497499736
+        },
+        {
+          "kind": "normal",
+          "probability": 0.012907559306497242,
+          "damage": 1187.268998696351
+        }
+      ]
+    }
+  ]
+}

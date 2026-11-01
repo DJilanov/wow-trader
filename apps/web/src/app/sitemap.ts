@@ -52,6 +52,12 @@ const foreverClasses = [
 
 const staticEntries: MetadataRoute.Sitemap = [
   {
+    url: `${HELPER_SITE_URL}/forever/raid-composition`,
+    lastModified: new Date("2026-11-01T00:00:00Z"),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
     url: `${HELPER_SITE_URL}/forever/tier-list/healers`,
     lastModified: new Date("2026-10-28T00:00:00Z"),
     changeFrequency: "weekly",

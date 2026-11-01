@@ -1,6 +1,103 @@
 # WoW Trader project context
 
-Last updated: 2026-10-31 (Europe/Sofia)
+Last updated: 2026-11-01 (Europe/Sofia)
+
+## November 1 — 10/20/40 composition planner implemented locally
+
+- Owner authorized implementation with “now do the compositions”. Local review:
+  `http://localhost:3025/tools/forever/raid-composition`. After reviewing it, the
+  owner explicitly requested commit, push and deploy; release work is in progress.
+- Implemented class/spec cards, full five-player groups, editable role/support
+  targets, mandatory Warrior/Sunder duty, distinct blessing/curse providers,
+  shared assumed Druid crit, locked seats, drag/keyboard swaps, undo/reset,
+  party-mana arrangement, validated anonymous share links and browser saving.
+- Suggestions use an exact constrained historical-reference selector with explicit
+  preview/apply and preserved tank/healer core by default. All 32 retained build
+  references load through the existing validated readers. They are October 28
+  measurements; no new-hotfix raid DPS total or simulated survival is claimed.
+  Missing data disables suggestions while leaving the editor usable.
+- Shared rules: `apps/web/src/lib/data/forever-raid-support.v1.json`, revision
+  `forever-2026-10-30.v1`. Generate/check the Discord projection with
+  `node scripts/sync-raid-composition-rules.mjs --discord-root=/absolute/path/to/discord-website [--check]`.
+  The sibling manager now respects raid-wide versus party-only scope and links
+  relevant raid capacities to the anonymous planner. Independent TBC rules remain.
+- The planner does not import/apply private players/alts or send Discord messages.
+  Current-hotfix mechanics qualification, coupled whole-raid/selected-player parse
+  simulations and private roster application remain explicit later phases.
+  Existing numerical results, simulation windows and frozen helper remain untouched.
+- Implementation/verification: `docs/forever-raid-composition-implementation.md`;
+  product plan: `docs/forever-raid-composition-product-plan.md`; receipts/logs:
+  `artifacts/raid-composition-research-20261101/`. Main code is under the
+  `forever-raid-composition` lib/component/routes. Local-only changes also exist in
+  `../discord-website/lib/raids/composition.ts`, generated rules,
+  `components/raids/event-roster.tsx` and `tests/raid-composition.test.ts`.
+  Preserve unrelated dirty leveling work in both source and context.
+- Verification passed: 48 Helper + 35 Discord tests; strict/scoped TypeScript,
+  scoped lint, formatting and shared-registry checks; full production build;
+  18 Chrome production-build checks and the real public catalog API (32/32).
+  Browser checks include native drag/drop, stale proposal cancellation, share
+  restoration and 1440/390/320px layouts with no browser/asset errors. No new
+  numerical simulation jobs or live roster changes were needed.
+
+- Owner expanded the release to include per-group/raid DPS, player and separate
+  pet TPS, maximum selected/alternate tank TPS, useful HPS and kill-time estimates.
+  Defaults: health 1.1M/2.2M/4M and raw pre-mitigation physical boss DPS
+  500/1,000/2,000 for 10/20/40 players. Editable and preserved in shared drafts.
+- New compact metrics were extracted from authenticated existing measurement
+  bytes, without new combat optimization. Tank survival is a separate bounded
+  illustrative model using observed incoming attack categories and tank health,
+  dedicated single-target healing capacity, editable allocation/cadence and
+  deterministic sampling with a 95% sampling interval. It is not a live-server
+  death guarantee. Expanded checks: 72 Helper + 35 Discord tests, 23 Chrome checks.
+- The sibling raid manager contains concurrent unrelated signup editing. Its
+  composition changes are captured as the checksum-pinned exact-live-baseline
+  overlay under `infra/raid-composition/` for a scoped source release.
+
+## November 1 — initial 10/20/40 raid composition research
+
+- Owner requests reference-style class/spec cards and composition recommendations
+  for 10, 20 and 40 players, maximizing damage through complementary buffs and
+  existing simulation results. Research/plan:
+  `docs/forever-raid-composition-product-plan.md`.
+- Owner accepted the plan and specified a hard minimum of one Warrior in every
+  raid size. Assign Sunder and Battle Shout to a suitable Warrior tank or damage
+  Warrior. Preserve that requirement through swaps/alt selection; no extra Rogue
+  seat or speculative Sunder-saving credit for Expose in the default policy.
+  Include the assigned Warrior's actual application/refresh costs in its rotation.
+  Owner clarified steady-state upkeep: 15 rage per 30 seconds is about 0.5 rage/s
+  after initial stacking. Do not model five fresh applications every refresh or
+  use this small maintenance duty as an unmeasured argument for a Rogue slot.
+  If the Warrior tank maintains it in both rosters, no damage Warrior inherits
+  that duty. The saved 155.53-DPS gap is 18.03% of Fury, or 22.0% of Combat.
+- Existing Discord party helper uses `forever-preview-2026.09.15`, party-local
+  heuristic weights, and no numerical DPS contribution. Reuse its party/roster UI
+  with a shared versioned capability resolver; preserve independent TBC rules.
+- Actual current saved shared-raid DPS snapshot has 25 builds measured October 28.
+  Fury 862.67 vs Combat Rogue 707.14 DPS: +155.53, about 22.0% over Combat in that
+  exact scenario. This is not a qualified October 30 hotfix ranking or proof of
+  universal class superiority. Do not relabel or alter those historical outputs.
+- Fetched the primary Talents Forever export directly, generated October 30.
+  Both Druid talents now describe all-crit, raid-wide. Crit is not damage.
+  Proposed shared 3% crit category; stacking/exclusivity after this hotfix still
+  needs direct qualification before promising one provider is definitively enough.
+- Current exported Expose and five Sunders both reach 2,250 armor; Improved Expose
+  changes resource cost/CP refund rather than the old Classic armor bonus.
+  Trueshot is ranged AP; several former raid damage debuffs are caster-personal;
+  bless/curse provider limits remain. Full-v2 flags are not a legal roster proof.
+- Plan: current-patch model/source checks → legal provider/recipient resolver →
+  10-player marginal whole-raid comparisons → 20/40 → class cards and existing
+  authorized draft-roster handoff. Max raid damage and selected-player parse modes
+  are distinct; healer/tank/mechanic constraints are encounter-based. Beyond the
+  required Warrior, no automatic class quotas, all-buffs-for-free roster scores,
+  HPS-to-raid-size extrapolation,
+  duplicate aura credit, or automatic DM publication.
+- Reuse fixed qualified builds and complete-input caches; do not restart the
+  all-slot search. New shared effects invalidate all affected beneficiary requests,
+  not just the provider class. Existing engine cap audit and mixed-engine limits
+  need review before claiming a coupled 40-player simulation or a global optimum.
+- Research receipt/capture: `artifacts/raid-composition-research-20261101/`.
+  That initial research changed documentation only: no simulations, frozen helper access,
+  source code, production mutation, commit or deployment. Existing windows remain.
 
 ## October 31 — Five-player route continuity deployed
 

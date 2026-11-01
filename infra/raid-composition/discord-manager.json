@@ -1,0 +1,29 @@
+{
+  "schema": "kfc-raid-composition-overlay.v1",
+  "revision": "forever-2026-10-30.v1",
+  "baseline": "/home/wow-forever-discord-source-releases/kfc-calendar-20261101",
+  "patchSha256": "02b8a4c00649420094a0f4dd3cc58da5d49cdd23ce7bc1aa8fef59e0e927a582",
+  "files": [
+    {
+      "path": "lib/raids/composition.ts",
+      "beforeSha256": "c1baa3e26edff3a63c251c090c6de28d2e762f66e1504f9e9ac0754f0f4dbd50",
+      "afterSha256": "79d3e2786bb6fe8635c2740b97789d520ef92c6b83150297906eb5845c20c783"
+    },
+    {
+      "path": "components/raids/event-roster.tsx",
+      "beforeSha256": "4a3383387bb2843eea2df11ecadd676564cda6187fd79afc0c6ef3e615fb32a4",
+      "afterSha256": "964eeebbb04ff505adb5a8a4b07093f1d2ffc1a2f3de2fd0ccd5d08c8066090e"
+    },
+    {
+      "path": "tests/raid-composition.test.ts",
+      "beforeSha256": "da2e0599bf7cc4b4b866f2140fa6cc8301d5363cd6f2290423375914c8357b9c",
+      "afterSha256": "9552ffc8c98320536e5566c11eed68af3f1a3d59bcf4fdf8be33edb3e6eceeff"
+    },
+    {
+      "path": "lib/raids/forever-composition-rules.ts",
+      "beforeSha256": null,
+      "afterSha256": "344a698aa305eaa29d3e16f7dbab108d4c3145b72e18f237c0003bd905deb61f"
+    }
+  ],
+  "reason": "The live raid-manager baseline is not committed in its sibling checkout. This exact-baseline overlay records only the reviewed composition changes, preserving unrelated local work and deployed functionality."
+}

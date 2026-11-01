@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "../app/forever/tier-list/page.module.css";
 
-type RankingPage = "raid-dps" | "solo-dps" | "raid-tank" | "solo-tank" | "healers";
+type RankingPage = "raid-dps" | "solo-dps" | "raid-tank" | "solo-tank" | "healers" | "composition";
 interface ForeverRankingNavigationProps {
   readonly active: RankingPage;
   readonly label: string;
@@ -13,6 +13,7 @@ const links: readonly { readonly id: RankingPage; readonly path: string; readonl
     { id: "raid-tank", path: "/forever/tier-list/tanks", name: "Raid tanks" },
     { id: "solo-tank", path: "/forever/tier-list/tanks/solo", name: "Solo / dungeon tanks" },
     { id: "healers", path: "/forever/tier-list/healers", name: "Healers" },
+    { id: "composition", path: "/forever/raid-composition", name: "Raid composition" },
   ];
 export function ForeverRankingNavigation({
   active,

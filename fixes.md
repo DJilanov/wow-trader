@@ -1,5 +1,22 @@
 # WoW Trader fixes and recovery context
 
+## November 1 — Forever composition support scope
+
+The new local 10/20/40 planner and sibling raid manager now share the
+`forever-2026-10-30.v1` support registry. Forever offensive raid effects reach
+eligible members in other parties, while water totems remain party-only.
+Duplicate providers of the assumed shared Druid crit category no longer lower
+coverage scores. Trueshot is ranged-only, and missing Warrior/Sunder coverage is
+explicit. TBC retains its independent rules. Blessing/curse assignments require
+enough distinct casters; no unsupported combined raid DPS is published.
+
+Anonymous planner drafts are revision-validated before storage/share restoration.
+Edits invalidate a pending comparison so stale proposals cannot overwrite a new
+raid size or support requirement. Mobile grid/fieldset/control sizing prevents
+horizontal overflow down to 320px. See
+`docs/forever-raid-composition-implementation.md` for scope and verification.
+This feature has not been deployed.
+
 ## October 31 — account ecosystem, exact stacks and expiring personal plans
 
 Committed/pushed `f8fab7b`, `a5e41d7`, `22b81e3`, `1398d02`, `91051e4`.

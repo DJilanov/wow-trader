@@ -135,6 +135,15 @@ export default async function ForeverEncyclopediaPage(): Promise<React.JSX.Eleme
 
           <section className="forever-library-grid" aria-label="Forever encyclopedia collections">
             <LibraryCard
+              href="/forever/raid-composition"
+              count={3}
+              eyebrow="10 · 20 · 40 players"
+              title="Raid composition"
+            >
+              Plan class and spec counts, assign shared support and Sunder, arrange five-player
+              parties, and compare your retained build references.
+            </LibraryCard>
+            <LibraryCard
               href="/forever/leveling"
               count={1}
               eyebrow="Free route preview & XP planner"

@@ -1,0 +1,173 @@
+{
+  "schema": "kfc-forever-raid-support.v1",
+  "revision": "forever-2026-10-30.v1",
+  "source": {
+    "url": "https://talentsforever.com/data.json",
+    "generated": "2026-10-30",
+    "sha256": "75785b4bbead85c428a2cdab85a93fc7af7591590738d5b01dcf311b6e2b6bb5",
+    "critStacking": "shared-category-assumption"
+  },
+  "effects": [
+    {
+      "id": "battle-shout",
+      "name": "Battle Shout",
+      "icon": "/images/raids/icons/ability_warrior_innerrage.jpg",
+      "description": "Melee attack-power support for eligible raid members in range.",
+      "className": "Warrior",
+      "audience": "melee",
+      "priority": 2,
+      "state": "available",
+      "requirement": "A Warrior maintaining Battle Shout",
+      "scope": "raid"
+    },
+    {
+      "id": "paladin-aura",
+      "name": "Paladin aura",
+      "icon": "/images/raids/icons/spell_holy_devotionaura.jpg",
+      "description": "A party aura choice such as Devotion or Concentration Aura. Only the planned aura should be counted as active.",
+      "className": "Paladin",
+      "audience": "all",
+      "priority": 2,
+      "state": "available",
+      "requirement": "A Paladin assigned an appropriate aura"
+    },
+    {
+      "id": "forever-trueshot-aura",
+      "name": "Trueshot Aura",
+      "icon": "/images/raids/icons/ability_marksmanship.jpg",
+      "description": "Increases the ranged attack power of raid members in range; does not grant melee attack power.",
+      "scope": "raid",
+      "className": "Hunter",
+      "specializations": ["Marksmanship"],
+      "audience": "ranged",
+      "priority": 3,
+      "state": "conditional",
+      "requirement": "Marksmanship build with Trueshot Aura"
+    },
+    {
+      "id": "forever-vampiric-embrace",
+      "name": "Vampiric Embrace",
+      "icon": "/images/raids/icons/spell_shadow_shadowwordpain.jpg",
+      "description": "Converts the Shadow Priest's damage into party healing.",
+      "className": "Priest",
+      "specializations": ["Shadow"],
+      "audience": "all",
+      "priority": 2,
+      "state": "conditional",
+      "requirement": "Shadow build with Vampiric Embrace"
+    },
+    {
+      "id": "forever-mana-spring",
+      "name": "Mana Spring Totem",
+      "icon": "/images/raids/icons/spell_nature_magicimmunity.jpg",
+      "description": "Restores mana to group members within range.",
+      "className": "Shaman",
+      "audience": "mana",
+      "priority": 3,
+      "state": "available",
+      "requirement": "A Shaman using the Mana Spring water-totem slot"
+    },
+    {
+      "id": "forever-mana-tide",
+      "name": "Mana Tide Totem",
+      "icon": "/images/raids/icons/spell_nature_healingtouch.jpg",
+      "description": "A Restoration talent that restores mana to the group.",
+      "className": "Shaman",
+      "specializations": ["Restoration"],
+      "audience": "mana",
+      "priority": 4,
+      "state": "conditional",
+      "requirement": "Restoration build with Mana Tide Totem"
+    },
+    {
+      "id": "forever-moonkin-aura",
+      "name": "Moonkin Aura",
+      "icon": "/images/raids/icons/spell_nature_starfall.jpg",
+      "description": "Planned 3% all-crit for raid members in range. Shared-category stacking after the October 30 hotfix remains an assumption.",
+      "className": "Druid",
+      "specializations": ["Balance"],
+      "audience": "all",
+      "priority": 4,
+      "state": "provisional",
+      "requirement": "Balance build using Moonkin Form",
+      "stackingGroup": "forever-raid-crit",
+      "scope": "raid"
+    },
+    {
+      "id": "forever-leader-of-the-pack",
+      "name": "Leader of the Pack",
+      "icon": "/images/raids/icons/ability_racial_bearform.jpg",
+      "description": "Planned 3% all-crit for raid members in range while shapeshifted. Shared-category stacking after the October 30 hotfix remains an assumption.",
+      "className": "Druid",
+      "specializations": ["Feral"],
+      "audience": "all",
+      "priority": 4,
+      "state": "provisional",
+      "requirement": "Feral build with Leader of the Pack while shapeshifted",
+      "stackingGroup": "forever-raid-crit",
+      "scope": "raid"
+    },
+    {
+      "id": "forever-windfury",
+      "name": "Windfury Totem",
+      "icon": "/images/raids/icons/spell_nature_lightningshield.jpg",
+      "description": "Raid-wide main-hand weapon support in range, subject to actual totem setup and compatible weapon imbues.",
+      "className": "Shaman",
+      "audience": "melee",
+      "priority": 4,
+      "state": "conditional",
+      "requirement": "A Shaman assigned Windfury Totem; verify range, improvement talents and weapon compatibility",
+      "scope": "raid"
+    }
+  ],
+  "providers": [
+    {
+      "classSlug": "warrior",
+      "capabilities": ["warrior", "sunder", "battle-shout"]
+    },
+    {
+      "classSlug": "paladin",
+      "capabilities": ["kings"]
+    },
+    {
+      "classSlug": "priest",
+      "capabilities": ["fortitude"]
+    },
+    {
+      "classSlug": "shaman",
+      "capabilities": ["totems", "mana-spring"]
+    },
+    {
+      "classSlug": "mage",
+      "capabilities": ["intellect"]
+    },
+    {
+      "classSlug": "warlock",
+      "capabilities": ["magic-curse"]
+    },
+    {
+      "classSlug": "druid",
+      "capabilities": ["mark", "faerie-fire"]
+    },
+    {
+      "classSlug": "druid",
+      "profiles": ["tank-druid", "balance-static", "feral-cat-static"],
+      "capabilities": ["crit"]
+    },
+    {
+      "classSlug": "hunter",
+      "profiles": ["hunter-marksmanship-static"],
+      "capabilities": ["trueshot"]
+    },
+    {
+      "classSlug": "shaman",
+      "profiles": ["heal-shaman"],
+      "capabilities": ["mana-tide"]
+    },
+    {
+      "classSlug": "priest",
+      "profiles": ["priest-shadow-static"],
+      "capabilities": ["party-healing", "party-spirit"]
+    }
+  ]
+}

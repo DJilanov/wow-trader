@@ -1,0 +1,453 @@
+diff --git a/lib/raids/composition.ts b/lib/raids/composition.ts
+--- a/lib/raids/composition.ts
++++ b/lib/raids/composition.ts
+@@ -1,0 +2,4 @@
++import {
++  foreverCompositionRules,
++  foreverCompositionRevision,
++} from "./forever-composition-rules";
+@@ -9 +13,2 @@
+-type Audience = "all" | "melee" | "physical" | "caster" | "mana" | "tank";
++type Audience =
++  "all" | "melee" | "physical" | "ranged" | "caster" | "mana" | "tank";
+@@ -22,0 +28 @@
++  scope?: "raid" | "party";
+@@ -62 +68 @@
+-  forever: "forever-preview-2026.09.15",
++  forever: foreverCompositionRevision,
+@@ -94,90 +100 @@
+-const foreverRules: CompositionEffectRule[] = [
+-  ...sharedRules,
+-  {
+-    id: "forever-trueshot-aura",
+-    name: "Trueshot Aura",
+-    icon: icon("ability_marksmanship"),
+-    description: "Increases the ranged attack power of party members.",
+-    className: "Hunter",
+-    specializations: ["Marksmanship"],
+-    audience: "physical",
+-    priority: 3,
+-    state: "conditional",
+-    requirement: "Marksmanship build with Trueshot Aura",
+-  },
+-  {
+-    id: "forever-vampiric-embrace",
+-    name: "Vampiric Embrace",
+-    icon: icon("spell_shadow_shadowwordpain"),
+-    description: "Converts the Shadow Priest's damage into party healing.",
+-    className: "Priest",
+-    specializations: ["Shadow"],
+-    audience: "all",
+-    priority: 2,
+-    state: "conditional",
+-    requirement: "Shadow build with Vampiric Embrace",
+-  },
+-  {
+-    id: "forever-mana-spring",
+-    name: "Mana Spring Totem",
+-    icon: icon("spell_nature_magicimmunity"),
+-    description: "Restores mana to group members within range.",
+-    className: "Shaman",
+-    audience: "mana",
+-    priority: 3,
+-    state: "available",
+-    requirement: "A Shaman using the Mana Spring water-totem slot",
+-  },
+-  {
+-    id: "forever-mana-tide",
+-    name: "Mana Tide Totem",
+-    icon: icon("spell_nature_healingtouch"),
+-    description: "A Restoration talent that restores mana to the group.",
+-    className: "Shaman",
+-    specializations: ["Restoration"],
+-    audience: "mana",
+-    priority: 4,
+-    state: "conditional",
+-    requirement: "Restoration build with Mana Tide Totem",
+-  },
+-  {
+-    id: "forever-moonkin-aura",
+-    name: "Moonkin Aura",
+-    icon: icon("spell_nature_starfall"),
+-    description:
+-      "Provides party critical chance and is exclusive with Leader of the Pack in the preview rules.",
+-    className: "Druid",
+-    specializations: ["Balance"],
+-    audience: "all",
+-    priority: 4,
+-    state: "conditional",
+-    requirement: "Balance build using Moonkin Form",
+-    stackingGroup: "forever-druid-party-crit",
+-  },
+-  {
+-    id: "forever-leader-of-the-pack",
+-    name: "Leader of the Pack",
+-    icon: icon("ability_racial_bearform"),
+-    description:
+-      "Provides party critical chance and is exclusive with Moonkin Aura in the preview rules.",
+-    className: "Druid",
+-    specializations: ["Feral"],
+-    audience: "all",
+-    priority: 4,
+-    state: "conditional",
+-    requirement: "Feral build with Leader of the Pack while shapeshifted",
+-    stackingGroup: "forever-druid-party-crit",
+-  },
+-  {
+-    id: "forever-windfury",
+-    name: "Windfury Totem",
+-    icon: icon("spell_nature_lightningshield"),
+-    description:
+-      "Potential melee weapon support. The current Forever record is a Classic fallback and still needs live-build confirmation.",
+-    className: "Shaman",
+-    audience: "melee",
+-    priority: 4,
+-    state: "provisional",
+-    requirement: "A Shaman using Windfury Totem, if unchanged in Forever",
+-  },
+-];
++const foreverRules: readonly CompositionEffectRule[] = foreverCompositionRules;
+@@ -346,0 +264,2 @@
++  if (audience === "ranged")
++    return signup.role === "damage" && signup.character.className === "Hunter";
+@@ -366,0 +286 @@
++  roster: readonly SignupView[],
+@@ -370,2 +290,2 @@
+-      const providers = party.signups.filter((signup) =>
+-        provides(rule, signup),
++      const providers = (rule.scope === "raid" ? roster : party.signups).filter(
++        (signup) => provides(rule, signup),
+@@ -394,0 +315 @@
++      effect.rule.scope !== "raid" &&
+@@ -397,0 +319 @@
++  const scoredCategories = new Set<string>();
+@@ -398,0 +321,4 @@
++    if (effect.rule.scope === "raid" && effect.rule.stackingGroup) {
++      if (scoredCategories.has(effect.rule.stackingGroup)) return total;
++      scoredCategories.add(effect.rule.stackingGroup);
++    }
+@@ -406 +332,4 @@
+-    const duplicatePenalty = effect.duplicate ? effect.rule.priority * 2 : 0;
++    const duplicatePenalty =
++      effect.duplicate && effect.rule.scope !== "raid"
++        ? effect.rule.priority * 2
++        : 0;
+@@ -415 +344,7 @@
+-    (total, party) => total + reportForParty(game, party).score,
++    (total, party) =>
++      total +
++      reportForParty(
++        game,
++        party,
++        parties.flatMap((entry) => entry.signups),
++      ).score,
+@@ -510,0 +446 @@
++  const roster = parties.flatMap((entry) => entry.signups);
+@@ -513 +449 @@
+-    const before = reportForParty(game, party);
++    const before = reportForParty(game, party, roster);
+@@ -515 +451 @@
+-    const after = reportForParty(game, afterParty);
++    const after = reportForParty(game, afterParty, [...roster, signup]);
+@@ -525 +461,7 @@
+-    const score = roleValue + (after.score - before.score);
++    const warriorPriority =
++      game === "forever" &&
++      candidate.className === "Warrior" &&
++      !roster.some((entry) => entry.character.className === "Warrior")
++        ? 1000
++        : 0;
++    const score = roleValue + warriorPriority + (after.score - before.score);
+@@ -526,0 +469,3 @@
++      ...(warriorPriority
++        ? ["Required Warrior: assign Sunder Armor and Battle Shout"]
++        : []),
+@@ -658 +603,7 @@
+-    parties: parties.map((party) => reportForParty(game, party)),
++    parties: parties.map((party) =>
++      reportForParty(
++        game,
++        party,
++        parties.flatMap((entry) => entry.signups),
++      ),
++    ),
+diff --git a/components/raids/event-roster.tsx b/components/raids/event-roster.tsx
+--- a/components/raids/event-roster.tsx
++++ b/components/raids/event-roster.tsx
+@@ -22,0 +23 @@
++  compositionRevisions,
+@@ -262 +263 @@
+-          : effect.duplicate
++          : effect.duplicate && effect.rule.scope !== "raid"
+@@ -272 +273 @@
+-            className={`raid-effect ${effect.rule.state}${effect.conflict || effect.duplicate ? " warning" : ""}`}
++            className={`raid-effect ${effect.rule.state}${effect.conflict || (effect.duplicate && effect.rule.scope !== "raid") ? " warning" : ""}`}
+@@ -284,0 +286 @@
++                {effect.rule.scope === "raid" ? "Raid-wide · " : "Party · "}
+@@ -714 +716 @@
+-            Five players per party · party effects do not apply raid-wide
++            Five players per party · support labels distinguish party and raid scope
+@@ -811,0 +814,22 @@
++      {event.game === "forever" && [10, 20, 40].includes(event.capacity) && (
++        <section
++          className="raid-composition-advice"
++          aria-label="Full raid composition planner"
++        >
++          <h3>Plan the whole raid</h3>
++          <p>
++            Compare 10-, 20- and 40-player lineups, shared buffs, spec counts
++            and Sunder assignments. This opens an anonymous planning draft; it
++            does not change this roster or send invitations.
++          </p>
++          <a
++            className="button"
++            href={`https://kfcguild.online/tools/forever/raid-composition?size=${event.capacity}`}
++            target="_blank"
++            rel="noopener noreferrer"
++          >
++            Open {event.capacity}-player composition planner
++          </a>
++        </section>
++      )}
++
+@@ -822 +846,4 @@
+-              <p>Role gaps first, then the strongest new party coverage.</p>
++              <p>
++                Role gaps first, then planned raid-wide and party support. These
++                are coverage hints, not DPS rankings.
++              </p>
+@@ -859 +886 @@
+-            data. Rules: {event.compositionRevision ?? "legacy"}.
++            data. Rules: {compositionRevisions[event.game ?? "forever"]}.
+diff --git a/tests/raid-composition.test.ts b/tests/raid-composition.test.ts
+--- a/tests/raid-composition.test.ts
++++ b/tests/raid-composition.test.ts
+@@ -37 +37 @@
+-test("Forever analysis labels talent conflicts and provisional effects honestly", () => {
++test("Forever analysis counts the assumed shared crit category without a conflict penalty", () => {
+@@ -53 +53 @@
+-    true,
++    false,
+@@ -58 +58 @@
+-    true,
++    false,
+@@ -62 +62 @@
+-    "provisional",
++    "conditional",
+@@ -125,0 +126,83 @@
++
++test("Forever raid-wide providers reach other parties while mana effects stay in their party", () => {
++  const signups = [
++    signup("feral", "Druid", "Feral", "tank", "accepted", 0),
++    {
++      ...signup("shaman", "Shaman", "Restoration", "healer"),
++      partyIndex: 0,
++      slotIndex: 1,
++    },
++    { ...signup("warrior", "Warrior", "Fury"), partyIndex: 0, slotIndex: 2 },
++    signup("mage", "Mage", "Fire", "damage", "accepted", 1),
++  ];
++  const result = analyzeRosterComposition(
++    "forever",
++    buildRosterParties(signups, 10),
++    { tank: 1, healer: 1, damage: 8 },
++    signups,
++  );
++  const second = result.parties[1]!.effects;
++  assert(
++    second.some(
++      (effect) =>
++        effect.rule.id === "forever-leader-of-the-pack" &&
++        effect.rule.scope === "raid",
++    ),
++  );
++  assert(second.some((effect) => effect.rule.id === "forever-windfury"));
++  assert(second.some((effect) => effect.rule.id === "battle-shout"));
++  assert(!second.some((effect) => effect.rule.id === "forever-mana-spring"));
++  assert(!second.some((effect) => effect.rule.id === "forever-mana-tide"));
++});
++
++test("duplicated raid-wide crit does not reduce coverage score or demand party redistribution", () => {
++  const onlyFeral = [signup("feral", "Druid", "Feral")];
++  const one = analyzeRosterComposition(
++    "forever",
++    buildRosterParties(onlyFeral, 5),
++    { tank: 0, healer: 0, damage: 5 },
++    onlyFeral,
++  );
++  const both = [...onlyFeral, signup("balance", "Druid", "Balance")];
++  const two = analyzeRosterComposition(
++    "forever",
++    buildRosterParties(both, 5),
++    { tank: 0, healer: 0, damage: 5 },
++    both,
++  );
++  assert.equal(two.parties[0]!.score, one.parties[0]!.score * 2);
++  const moved = [
++    signup("feral", "Druid", "Feral", "damage", "accepted", 0),
++    signup("balance", "Druid", "Balance", "damage", "accepted", 1),
++  ];
++  const result = analyzeRosterComposition(
++    "forever",
++    buildRosterParties(moved, 10),
++    { tank: 0, healer: 0, damage: 10 },
++    moved,
++  );
++  assert.equal(result.arrangementImproves, false);
++});
++
++test("Trueshot counts Hunters rather than granting melee attack power, and the missing Warrior is a recruitment priority", () => {
++  const signups = [
++    signup("hunter", "Hunter", "Marksmanship"),
++    signup("rogue", "Rogue", "Combat"),
++  ];
++  const result = analyzeRosterComposition(
++    "forever",
++    buildRosterParties(signups, 10),
++    { tank: 0, healer: 0, damage: 10 },
++    signups,
++  );
++  assert.equal(
++    result.parties[0]!.effects.find(
++      (effect) => effect.rule.id === "forever-trueshot-aura",
++    )?.beneficiaryCount,
++    1,
++  );
++  assert.equal(result.recruitment[0]?.className, "Warrior");
++  assert(
++    result.recruitment[0]?.reasons.some((reason) => reason.includes("Sunder")),
++  );
++});
+diff --git a/lib/raids/forever-composition-rules.ts b/lib/raids/forever-composition-rules.ts
+new file mode 100644
+--- /dev/null
++++ b/lib/raids/forever-composition-rules.ts
+@@ -0,0 +1,128 @@
++// Generated by wow-trader/scripts/sync-raid-composition-rules.mjs. Edit the shared JSON source.
++import type { CompositionEffectRule } from "./composition";
++
++export const foreverCompositionRevision = "forever-2026-10-30.v1";
++export const foreverCompositionSourceSha256 = "b091f7039f3d1ac63f14661732b58eb128edeb756964957029cfb5ffe28d52cc";
++export const foreverCompositionRules = [
++  {
++    "id": "battle-shout",
++    "name": "Battle Shout",
++    "icon": "/images/raids/icons/ability_warrior_innerrage.jpg",
++    "description": "Melee attack-power support for eligible raid members in range.",
++    "className": "Warrior",
++    "audience": "melee",
++    "priority": 2,
++    "state": "available",
++    "requirement": "A Warrior maintaining Battle Shout",
++    "scope": "raid"
++  },
++  {
++    "id": "paladin-aura",
++    "name": "Paladin aura",
++    "icon": "/images/raids/icons/spell_holy_devotionaura.jpg",
++    "description": "A party aura choice such as Devotion or Concentration Aura. Only the planned aura should be counted as active.",
++    "className": "Paladin",
++    "audience": "all",
++    "priority": 2,
++    "state": "available",
++    "requirement": "A Paladin assigned an appropriate aura"
++  },
++  {
++    "id": "forever-trueshot-aura",
++    "name": "Trueshot Aura",
++    "icon": "/images/raids/icons/ability_marksmanship.jpg",
++    "description": "Increases the ranged attack power of raid members in range; does not grant melee attack power.",
++    "scope": "raid",
++    "className": "Hunter",
++    "specializations": [
++      "Marksmanship"
++    ],
++    "audience": "ranged",
++    "priority": 3,
++    "state": "conditional",
++    "requirement": "Marksmanship build with Trueshot Aura"
++  },
++  {
++    "id": "forever-vampiric-embrace",
++    "name": "Vampiric Embrace",
++    "icon": "/images/raids/icons/spell_shadow_shadowwordpain.jpg",
++    "description": "Converts the Shadow Priest's damage into party healing.",
++    "className": "Priest",
++    "specializations": [
++      "Shadow"
++    ],
++    "audience": "all",
++    "priority": 2,
++    "state": "conditional",
++    "requirement": "Shadow build with Vampiric Embrace"
++  },
++  {
++    "id": "forever-mana-spring",
++    "name": "Mana Spring Totem",
++    "icon": "/images/raids/icons/spell_nature_magicimmunity.jpg",
++    "description": "Restores mana to group members within range.",
++    "className": "Shaman",
++    "audience": "mana",
++    "priority": 3,
++    "state": "available",
++    "requirement": "A Shaman using the Mana Spring water-totem slot"
++  },
++  {
++    "id": "forever-mana-tide",
++    "name": "Mana Tide Totem",
++    "icon": "/images/raids/icons/spell_nature_healingtouch.jpg",
++    "description": "A Restoration talent that restores mana to the group.",
++    "className": "Shaman",
++    "specializations": [
++      "Restoration"
++    ],
++    "audience": "mana",
++    "priority": 4,
++    "state": "conditional",
++    "requirement": "Restoration build with Mana Tide Totem"
++  },
++  {
++    "id": "forever-moonkin-aura",
++    "name": "Moonkin Aura",
++    "icon": "/images/raids/icons/spell_nature_starfall.jpg",
++    "description": "Planned 3% all-crit for raid members in range. Shared-category stacking after the October 30 hotfix remains an assumption.",
++    "className": "Druid",
++    "specializations": [
++      "Balance"
++    ],
++    "audience": "all",
++    "priority": 4,
++    "state": "provisional",
++    "requirement": "Balance build using Moonkin Form",
++    "stackingGroup": "forever-raid-crit",
++    "scope": "raid"
++  },
++  {
++    "id": "forever-leader-of-the-pack",
++    "name": "Leader of the Pack",
++    "icon": "/images/raids/icons/ability_racial_bearform.jpg",
++    "description": "Planned 3% all-crit for raid members in range while shapeshifted. Shared-category stacking after the October 30 hotfix remains an assumption.",
++    "className": "Druid",
++    "specializations": [
++      "Feral"
++    ],
++    "audience": "all",
++    "priority": 4,
++    "state": "provisional",
++    "requirement": "Feral build with Leader of the Pack while shapeshifted",
++    "stackingGroup": "forever-raid-crit",
++    "scope": "raid"
++  },
++  {
++    "id": "forever-windfury",
++    "name": "Windfury Totem",
++    "icon": "/images/raids/icons/spell_nature_lightningshield.jpg",
++    "description": "Raid-wide main-hand weapon support in range, subject to actual totem setup and compatible weapon imbues.",
++    "className": "Shaman",
++    "audience": "melee",
++    "priority": 4,
++    "state": "conditional",
++    "requirement": "A Shaman assigned Windfury Totem; verify range, improvement talents and weapon compatibility",
++    "scope": "raid"
++  }
++] as const satisfies readonly CompositionEffectRule[];

@@ -13,6 +13,7 @@ const navigation = [
   ["Forever Leveling", "/forever/leveling"],
   ["Forever Encyclopedia", "/forever/encyclopedia"],
   ["Simulator", "/forever/simulator"],
+  ["Raid planner", "/forever/raid-composition"],
   ["Get Collector", "/forever/addon"],
   ["TBC Tools", "/tbc"],
   ["Data status", "/data-status"],
