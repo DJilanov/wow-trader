@@ -42,7 +42,7 @@ Last updated: 2026-11-01 (Europe/Sofia)
 - Owner expanded the release to include per-group/raid DPS, player and separate
   pet TPS, maximum selected/alternate tank TPS, useful HPS and kill-time estimates.
   Defaults: health 1.1M/2.2M/4M and raw pre-mitigation physical boss DPS
-  500/1,000/2,000 for 10/20/40 players. Editable and preserved in shared drafts.
+  1,500/3,000/6,000 for 10/20/40 players (owner increased the initial values). Editable and preserved in shared drafts.
 - New compact metrics were extracted from authenticated existing measurement
   bytes, without new combat optimization. Tank survival is a separate bounded
   illustrative model using observed incoming attack categories and tank health,
