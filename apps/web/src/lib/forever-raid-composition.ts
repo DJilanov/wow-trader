@@ -65,6 +65,10 @@ export interface CompositionCatalog {
   readonly measuredAt: string | null;
   readonly evidence: "historical-reference" | "unavailable";
 }
+export interface CompositionMainTank {
+  readonly seat: number;
+  readonly profile: CompositionProfile;
+}
 export const COVERAGE_REQUIREMENTS = [
   {
     id: "crit",
@@ -303,6 +307,21 @@ export function compositionProfiles(
 ): ReadonlyMap<string, CompositionProfile> {
   return new Map(catalog.profiles.map((profile) => [profile.id, profile]));
 }
+export function compositionMainTank(
+  draft: CompositionDraft,
+  catalog: CompositionCatalog,
+): CompositionMainTank | null {
+  const profiles = compositionProfiles(catalog);
+  const selected =
+    draft.mainTankSeat === undefined
+      ? undefined
+      : profiles.get(draft.seats[draft.mainTankSeat]?.profileId ?? "");
+  if (selected?.role === "tank" && draft.mainTankSeat !== undefined)
+    return { seat: draft.mainTankSeat, profile: selected };
+  const seat = draft.seats.findIndex((member) => profiles.get(member.profileId)?.role === "tank");
+  const profile = seat < 0 ? undefined : profiles.get(draft.seats[seat]!.profileId);
+  return profile ? { seat, profile } : null;
+}
 export function validateCompositionDraft(
   input: unknown,
   catalog: CompositionCatalog,
@@ -314,7 +333,10 @@ export function validateCompositionDraft(
   const initialized = initializeTrashPlan(draft);
   if (initialized.seats.some((seat) => seat.trashProfileId && !profiles.has(seat.trashProfileId)))
     throw new Error("A selected trash build is no longer available. Choose a current composition.");
-  return initialized;
+  const tank = compositionMainTank(initialized, catalog);
+  return tank && initialized.mainTankSeat !== tank.seat
+    ? { ...initialized, mainTankSeat: tank.seat }
+    : initialized;
 }
 
 function initializeTrashPlan(draft: CompositionDraft): CompositionDraft {
@@ -849,7 +871,9 @@ export function moveCompositionSeat(
     throw new Error("Unlock both seats before moving them.");
   const seats = [...draft.seats];
   [seats[from], seats[to]] = [seats[to]!, seats[from]!];
-  return { ...draft, seats };
+  const mainTankSeat =
+    draft.mainTankSeat === from ? to : draft.mainTankSeat === to ? from : draft.mainTankSeat;
+  return { ...draft, seats, ...(mainTankSeat !== undefined ? { mainTankSeat } : {}) };
 }
 export function encodeComposition(draft: CompositionDraft): string {
   return encodeURIComponent(JSON.stringify(compositionDraftSchema.parse(draft)));

@@ -19,6 +19,7 @@ import {
   analyzeComposition,
   arrangeCompositionParties,
   compositionProfiles,
+  compositionMainTank,
   compositionForecast,
   createComposition,
   decodeComposition,
@@ -366,6 +367,68 @@ describe("composition damage, threat and boss estimates", () => {
     expect(() =>
       validateCompositionDraft({ ...draft, tankHealingPercent: 101 }, catalog),
     ).toThrow();
+  });
+});
+
+describe("selected calculated pre-raid main tank", () => {
+  it("binds each chosen class to its own pre-raid DPS, TPS, incoming stats and build link", () => {
+    const draft = createComposition(20, catalog);
+    const warrior = draft.seats.findIndex((seat) => seat.profileId === "tank-warrior");
+    const bear = draft.seats.findIndex((seat) => seat.profileId === "tank-druid");
+    const warriorDraft = { ...draft, mainTankSeat: warrior },
+      bearDraft = { ...draft, mainTankSeat: bear };
+    const warriorTank = compositionMainTank(warriorDraft, catalog)!,
+      bearTank = compositionMainTank(bearDraft, catalog)!;
+    expect(warriorTank.profile.reference?.value).toBeCloseTo(337.09571947529236, 8);
+    expect(warriorTank.profile.reference?.threatPerSecond).toBeCloseTo(831.0074638529211, 8);
+    expect(bearTank.profile.reference?.value).toBeCloseTo(370.4376150396763, 8);
+    expect(bearTank.profile.reference?.threatPerSecond).toBeCloseTo(1241.1621070460099, 8);
+    expect(warriorTank.profile.maximumThreat?.threatPerSecond).toBeCloseTo(1260.7674309735867, 8);
+    expect(bearTank.profile.maximumThreat?.threatPerSecond).toBeCloseTo(1786.2628632287062, 8);
+    expect(warriorTank.profile.reference?.href).toBe(
+      "/forever/simulator/tank-warrior?build=tank-warrior-raid-mitigation",
+    );
+    expect(bearTank.profile.reference?.href).toBe(
+      "/forever/simulator/feral-tank-druid?build=feral-tank-druid-raid-mitigation",
+    );
+    expect(estimateCompositionSurvival(warriorDraft, catalog).health).not.toBe(
+      estimateCompositionSurvival(bearDraft, catalog).health,
+    );
+    expect(estimateCompositionSurvival(warriorDraft, catalog).incomingDps).not.toBe(
+      estimateCompositionSurvival(bearDraft, catalog).incomingDps,
+    );
+    expect(compositionForecast(warriorDraft, catalog)).toEqual(
+      compositionForecast(bearDraft, catalog),
+    );
+  });
+  it("keeps the chosen main tank attached to its calculated build when its seat moves", () => {
+    const draft = createComposition(20, catalog),
+      chosen = compositionMainTank(draft, catalog)!;
+    const moved = moveCompositionSeat(draft, chosen.seat, 19);
+    expect(moved.mainTankSeat).toBe(19);
+    expect(compositionMainTank(moved, catalog)?.profile).toEqual(chosen.profile);
+    expect(estimateCompositionSurvival(moved, catalog).health).toBe(
+      chosen.profile.incoming?.health,
+    );
+  });
+  it("ignores a trash-only Protection assignment for boss main-tank selection and repairs an old invalid selection", () => {
+    const draft = createComposition(10, catalog),
+      flex = analyzeComposition(draft, catalog).trashSwitches[0]!.seat;
+    const input = { ...draft, mainTankSeat: flex },
+      selected = compositionMainTank(input, catalog)!;
+    expect(selected.profile.role).toBe("tank");
+    expect(selected.seat).not.toBe(flex);
+    expect(validateCompositionDraft(input, catalog).mainTankSeat).toBe(selected.seat);
+    const noTanks = {
+      ...draft,
+      seats: draft.seats.map((seat) =>
+        compositionProfiles(catalog).get(seat.profileId)?.role === "tank"
+          ? { profileId: "fury-standard", locked: false }
+          : seat,
+      ),
+    };
+    expect(compositionMainTank(noTanks, catalog)).toBeNull();
+    expect(estimateCompositionSurvival(noTanks, catalog).samples).toBeNull();
   });
 });
 

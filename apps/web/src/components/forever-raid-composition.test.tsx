@@ -77,6 +77,8 @@ describe("composition screen before hydration", () => {
     expect(html.match(/Protection on trash for group/g)).toHaveLength(2);
     expect(html).toContain("3 tanks on trash");
     expect(html).toContain("2 on bosses");
+    expect(html).toContain("Main tank TPS");
+    expect(html).not.toContain("Highest selected tank TPS");
     expect(html).toContain("simulation references unavailable");
     expect(html).toContain("does not send Discord messages");
     expect(html).not.toContain("raid DPS:");

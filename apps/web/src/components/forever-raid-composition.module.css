@@ -171,6 +171,11 @@
   color: #a49f91;
   line-height: 1.6;
 }
+.tankBuildLink {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #d7bd8d;
+}
 .performanceNote {
   margin: 1rem 0 0;
 }

@@ -22,6 +22,16 @@ Last updated: 2026-11-01 (Europe/Sofia)
   Commit/push/build/deployment is proceeding within the approved planner release.
   Evidence: `artifacts/raid-trash-plan-20261101/`. Unrelated leveling work remains.
 
+- Additional owner-reported correction: the former headline showed the highest
+  TPS across all roster tanks, so the Main tank picker did not affect that tile.
+  Headline DPS/TPS, the alternative threat reference and survival now use one
+  shared selected-main-tank resolver and the calculated pre-raid mitigation build.
+  Warrior: 337.1 DPS / 831.0 TPS; Bear: 370.4 DPS / 1,241.2 TPS in retained data.
+  The separate threat alternative follows the same class. Manual swaps preserve
+  the selected tank, old selections are normalized, and trash-only Protection
+  does not qualify as a boss tank. No new native search was needed.
+- Expanded checks passed 88 tests, TypeScript, lint, and 18 targeted Chrome cases.
+
 ## November 1 — 10/20/40 composition planner deployed
 
 - Owner authorized implementation with “now do the compositions”. Live planner:

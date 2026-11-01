@@ -10,6 +10,7 @@ import {
   analyzeComposition,
   arrangeCompositionParties,
   compositionProfiles,
+  compositionMainTank,
   compositionForecast,
   COVERAGE_REQUIREMENTS,
   createComposition,
@@ -69,6 +70,10 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
   const analysis = useMemo(() => analyzeComposition(draft, catalog), [draft, catalog]);
   const forecast = useMemo(() => compositionForecast(draft, catalog), [draft, catalog]);
   const survival = useMemo(() => estimateCompositionSurvival(draft, catalog), [draft, catalog]);
+  const mainTank = useMemo(() => compositionMainTank(draft, catalog)?.profile, [draft, catalog]);
+  const mainTankClass = FOREVER_CLASS_APPEARANCES.find(
+    (appearance) => appearance.slug === mainTank?.classSlug,
+  )?.name;
   const groups = Array.from({ length: draft.size / 5 }, (_, index) => index);
   const selected = draft.seats.map((seat) => profiles.get(seat.profileId)!);
   const availableTrashPaladin = draft.seats.findIndex(
@@ -424,12 +429,29 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
             </small>
           </div>
           <div>
-            <span>Highest selected tank TPS</span>
-            <strong>{rate(forecast.raid.maxTankTps)}</strong>
+            <span>Main tank TPS</span>
+            <strong data-testid="main-tank-tps">
+              {rate(mainTank?.reference?.threatPerSecond ?? null)}
+            </strong>
             <small>
-              Max tested threat build: {rate(forecast.raid.maxTestedTankTps)} TPS · different gear /
-              rotation
+              {mainTankClass
+                ? `${mainTankClass} · ${mainTank?.name} · calculated pre-raid mitigation`
+                : "Choose a boss tank"}
             </small>
+            <small>
+              <span data-testid="main-tank-dps">
+                {rate(mainTank?.reference?.unit === "DPS" ? mainTank.reference.value : null)}
+              </span>{" "}
+              DPS · selected build
+            </small>
+            {mainTank?.reference ? (
+              <a
+                className={styles.tankBuildLink}
+                href={withHelperBasePath(mainTank.reference.href)}
+              >
+                Inspect selected pre-raid build ↗
+              </a>
+            ) : null}
           </div>
           <div>
             <span>Useful raid HPS</span>
@@ -540,6 +562,19 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
               />
             </label>
           </div>
+          {mainTank?.maximumThreat ? (
+            <p className={styles.performanceNote}>
+              <a href={withHelperBasePath(mainTank.maximumThreat.href)}>
+                Alternative {mainTankClass} pre-raid threat build:{" "}
+                <span data-testid="main-tank-alternative-tps">
+                  {rate(mainTank.maximumThreat.threatPerSecond)}
+                </span>{" "}
+                TPS · {rate(mainTank.maximumThreat.damagePerSecond)} DPS ↗
+              </a>
+              . This is different gear and rotation; the current tank's figures use the selected
+              mitigation build.
+            </p>
+          ) : null}
           <div className={styles.survivalGrid}>
             <div>
               <span>Tank health / armor</span>

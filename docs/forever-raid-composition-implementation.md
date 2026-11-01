@@ -225,3 +225,18 @@ The UI offers an assignment action or an unlock/choose-Ret instruction. Users
 can explicitly mark additional Ret Paladins if their trash strategy needs them.
 These are planned builds and gear switches, not automatic in-game actions or an
 AoE clear-speed simulation.
+
+## Selected main-tank references
+
+The headline Main tank TPS and personal DPS use the selected main tank's existing
+calculated pre-raid mitigation reference, exactly like health, armor and incoming
+damage. They no longer display the roster-wide maximum tank TPS. The separate
+threat-build link follows that same class and labels its different gear/rotation.
+For the retained snapshots this is Warrior 337.1 DPS / 831.0 TPS and Bear 370.4 DPS
+/ 1,241.2 TPS. These are the admitted all-slot pre-raid results, not generic blue
+PvP starter estimates. No replacement measurements or new gear search were run.
+
+A shared main-tank resolver is used by both the headline and survival model. Old
+drafts get a valid explicit tank selection, trash-only Protection annotations
+cannot become a boss main tank, and moving the main tank's seat preserves the
+selection. Both roster tanks still contribute to the raid reference totals.

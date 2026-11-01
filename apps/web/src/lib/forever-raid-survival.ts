@@ -1,6 +1,7 @@
 import {
   compositionForecast,
   compositionProfiles,
+  compositionMainTank,
   DEFAULT_BOSS_DPS,
   type CompositionCatalog,
   type CompositionDraft,
@@ -125,14 +126,9 @@ export function estimateCompositionSurvival(
 ): TankSurvivalEstimate {
   const profiles = compositionProfiles(catalog),
     selected = draft.seats.map((seat) => profiles.get(seat.profileId));
-  const firstTank = selected.findIndex((profile) => profile?.role === "tank");
-  const tankSeat =
-    draft.mainTankSeat !== undefined && selected[draft.mainTankSeat]?.role === "tank"
-      ? draft.mainTankSeat
-      : firstTank >= 0
-        ? firstTank
-        : null;
-  const tank = tankSeat === null ? undefined : selected[tankSeat];
+  const mainTank = compositionMainTank(draft, catalog);
+  const tankSeat = mainTank?.seat ?? null;
+  const tank = mainTank?.profile;
   const model = tank?.incoming;
   const bossDps = draft.bossDps ?? DEFAULT_BOSS_DPS[draft.size];
   const healingPercent = draft.tankHealingPercent ?? 50,

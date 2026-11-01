@@ -11,6 +11,12 @@ reference DPS/TPS/HPS, kill time and theoretical survival are unchanged by the
 trash checkbox. Navigation drops the Forever prefix, with TBC under TBC Tools.
 Local verification passed 85 tests and 16 browser checks; deployment is in progress.
 
+The Main tank headline also incorrectly used the maximum TPS of all roster
+tanks. It now uses the chosen tank's calculated pre-raid mitigation DPS/TPS,
+matching health/armor and survival. Its alternative threat-build reference follows
+the same class. Seat swaps preserve the selection; trash-only Protection cannot
+become a boss tank. Expanded verification passed 88 tests and 18 browser checks.
+
 ## November 1 — Forever composition support scope
 
 The new local 10/20/40 planner and sibling raid manager now share the
