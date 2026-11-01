@@ -24,6 +24,7 @@ import {
   validateCompositionDraft,
   type CompositionCatalog,
   type CompositionDraft,
+  type CompositionProfile,
   type CompositionRole,
   type CompositionSuggestion,
   type CoverageId,
@@ -40,6 +41,14 @@ const ROLE_LABELS: Readonly<Record<CompositionRole, string>> = {
 const rateFormatter = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 1 });
 function rate(value: number | null): string {
   return value === null ? "Unmeasured" : rateFormatter.format(value);
+}
+function profileThroughput(profile: CompositionProfile): string {
+  const reference = profile.reference;
+  if (profile.role === "tank")
+    return `${rate(reference?.unit === "DPS" ? (reference.threatPerSecond ?? null) : null)} TPS`;
+  if (profile.role === "healer")
+    return `${rate(reference?.unit === "useful HPS" ? reference.value : null)} HPS`;
+  return `${rate(reference?.unit === "DPS" ? reference.value : null)} DPS`;
 }
 function killTime(seconds: number | null): string {
   if (seconds === null) return "Awaiting DPS";
@@ -651,7 +660,10 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
             <span className="eyebrow">Your composition</span>
             <h2 id="composition-class-heading">Every class, every seat.</h2>
           </div>
-          <p>Click a class to highlight its seats. Counts include tanks and healers.</p>
+          <p>
+            Click a class to highlight its seats. Simulated DPS, tank TPS and useful healer HPS
+            describe one player; counts show planned seats.
+          </p>
         </div>
         <div className={styles.classGrid}>
           {FOREVER_CLASS_APPEARANCES.map((appearance) => {
@@ -706,7 +718,9 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
                           unoptimized
                         />
                         <span>{profile.name}</span>
-                        <small>{ROLE_LABELS[profile.role]}</small>
+                        <small title={`${ROLE_LABELS[profile.role]} · saved simulation reference`}>
+                          {profileThroughput(profile)}
+                        </small>
                         <strong>{count}</strong>
                       </li>
                     );
@@ -1046,7 +1060,9 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
                       />
                       <span>
                         {appearance.name}
-                        <small>{ROLE_LABELS[profile.role]}</small>
+                        <small title={`${ROLE_LABELS[profile.role]} · saved simulation reference`}>
+                          {profileThroughput(profile)}
+                        </small>
                       </span>
                       <label className={styles.lock}>
                         <input
@@ -1093,7 +1109,7 @@ export function ForeverRaidComposition({ catalog, initialSize }: Props): React.J
                             .filter((item) => item.role === role)
                             .map((item) => (
                               <option key={item.id} value={item.id}>
-                                {item.name} · {item.classSlug}
+                                {item.name} · {item.classSlug} · {profileThroughput(item)}
                               </option>
                             ))}
                         </optgroup>

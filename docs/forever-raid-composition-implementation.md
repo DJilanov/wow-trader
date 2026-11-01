@@ -10,6 +10,10 @@ verification and rollback details are in
 
 - Complete 10/20/40-player starting compositions, nine class cards with spec and
   role counts, and two/four/eight parties of five.
+- Each class/spec row, roster seat and build option shows its retained simulation
+  output: DPS for damage builds, active mitigation-build TPS for tanks, and useful
+  HPS for healers. Values describe one player, independently of the seat count.
+  Missing measurements display Unmeasured rather than a substitute or zero.
 - One Retribution Paladin per default composition is marked Protection for trash
   and Retribution for bosses. It remains one roster slot; the editor shows both
   phase role totals, a duty sheet entry, and an editable per-seat checkbox.

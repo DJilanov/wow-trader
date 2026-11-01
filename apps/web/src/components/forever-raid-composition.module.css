@@ -475,6 +475,10 @@
   padding: 0.25rem 0;
   font-size: 0.79rem;
   color: #8c8b7f;
+  align-items: center;
+}
+.classCard li > span {
+  overflow-wrap: anywhere;
 }
 .classCard li[data-selected="true"] {
   color: #ddd5c5;
@@ -482,6 +486,9 @@
 .classCard li small {
   font-size: 0.65rem;
   color: #a5a08e;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .classCard li strong {
   text-align: right;
@@ -686,11 +693,15 @@
   flex: 1;
   font-weight: 650;
   font-size: 0.82rem;
+  min-width: 0;
+  flex-wrap: wrap;
 }
 .seatTop small {
   color: #b8b29d;
   font-size: 0.65rem;
   font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .page .handle {
   background: transparent;

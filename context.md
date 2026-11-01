@@ -1,5 +1,21 @@
 # WoW Trader project context
 
+## November 1 — simulation rates beside composition builds
+
+- Owner requested each build's numerical simulation result before DPS, with TPS
+  for tanks and HPS for healers. Class/spec rows, every roster seat and build
+  dropdown now show one-player values from the existing validated catalog.
+- Tanks use the selected pre-raid mitigation build's measured TPS, not its DPS
+  or alternate threat build. Healers use useful HPS. Missing measurements show
+  Unmeasured; no values, new optimization searches or raid totals are invented.
+- Verification: 61 focused tests, scoped strict TypeScript, lint/formatting and
+  13 Chrome checks passed. Browser checks cover all 32 rows/options, every seat
+  at 10/20/40 players, role changes, and widths 320–1440px. Full local TypeScript
+  also found two unrelated in-progress leveling package export mismatches;
+  production is built from committed source with unrelated leveling work excluded.
+- Scoped commit/push/deployment is being prepared. Evidence:
+  `artifacts/raid-throughput-labels-20261101/`.
+
 Last updated: 2026-11-01 (Europe/Sofia)
 
 ## November 1 — Protection trash / Retribution boss roles and short navigation

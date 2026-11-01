@@ -1,5 +1,17 @@
 # WoW Trader fixes and recovery context
 
+## November 1 — individual DPS, TPS and HPS visible during composition editing
+
+Class/spec cards, roster seats and build options now include the retained
+one-player simulation value. Damage builds show DPS, tanks show active pre-raid
+mitigation TPS, and healers show useful HPS. Seat counts remain separate.
+Absent measurements explicitly show Unmeasured. A shared presentation helper
+keeps all three surfaces consistent and updates when a seat build changes.
+61 focused tests, strict scoped TypeScript, lint, formatting and 13 Chrome checks
+passed, including all 32 profiles, each raid size and mobile containment.
+Deployment is being prepared; evidence is under
+`artifacts/raid-throughput-labels-20261101/`.
+
 ## November 1 — trash specialists remain one boss roster slot
 
 The raid planner now distinguishes one Ret Paladin's Protection trash assignment
