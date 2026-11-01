@@ -15,7 +15,19 @@ Edits invalidate a pending comparison so stale proposals cannot overwrite a new
 raid size or support requirement. Mobile grid/fieldset/control sizing prevents
 horizontal overflow down to 320px. See
 `docs/forever-raid-composition-implementation.md` for scope and verification.
-This feature has not been deployed.
+Deployed November 1: Helper `bc5b735`, community integration `ef4cc40`.
+The reference panel includes separate player/pet TPS, HPS and theoretical physical
+survival; it does not claim a new-hotfix coupled raid simulation. Boss health
+defaults are 1.1M/2.2M/4M and raw physical DPS defaults 2,500/5,000/10,000.
+
+The generic 85px number-input rule clipped long health values. Explicit 190px
+health and 140px survival controls fix this; the final Chrome regression checks
+rendered widths and mobile containment. Both Linux builds, 107 tests and 24 final
+public browser checks passed. See the November 1 composition release notes for
+exact source/build IDs, checks and rollback. The community build must retain its
+nested bridge-worker dependencies and use webpack with the existing external
+dependency symlink. Reuse the matching generated Prisma client; avoid generating
+into shared dependency storage during a scoped release.
 
 ## October 31 — account ecosystem, exact stacks and expiring personal plans
 

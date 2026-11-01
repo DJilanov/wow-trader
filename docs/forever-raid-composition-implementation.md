@@ -1,9 +1,10 @@
 # Forever raid composition implementation
 
-Implemented November 1, 2026. Local review:
-`http://localhost:3025/tools/forever/raid-composition`.
-The owner approved commit, push and deployment after local review. Final live
-release details are recorded separately once activation and public checks pass.
+Implemented and deployed November 1, 2026.
+Live: <https://kfcguild.online/tools/forever/raid-composition>.
+The owner approved commit, push and deployment after local review. Exact source,
+verification and rollback details are in
+[the release receipt](forever-raid-composition-release-2026-11-01.md).
 
 ## Available behavior
 
@@ -134,7 +135,9 @@ Completed checks on November 1:
 The native drag test uses an initial short pointer movement before scrolling to
 its target; a single automation jump did not start Chrome's native drag gesture.
 Both the actual native drop and accessible Move controls were then verified.
-There was no production deployment, live raid mutation or new combat simulation.
+Those initial checks preceded deployment. The approved live release is recorded
+in the release receipt above; it created no live raid mutation or new native
+combat optimization search.
 
 ## Throughput and theoretical survival model
 
@@ -191,4 +194,5 @@ node scripts/extract-raid-composition-metrics.mjs --codec=/absolute/path/to/admi
 If the codec changes, explicitly provide its reviewed `--codec-sha256`. Validate
 and commit the regenerated metrics with the matching tier measurements. The
 extractor fails rather than inventing missing counters. The final expanded local
-checks passed 72 Helper tests plus 35 Discord tests and 23 Chrome checks.
+checks passed 72 Helper tests plus 35 Discord tests; after the input-width
+correction, both the final candidate and live product passed 24 Chrome checks.

@@ -8,7 +8,8 @@ to the existing raid manager and simulator.
 
 ## Implementation status — November 1
 
-The reference-led planner is implemented locally at `/forever/raid-composition`.
+The reference-led planner is deployed at
+<https://kfcguild.online/tools/forever/raid-composition>.
 It includes all three raid sizes, class/spec cards, five-player groups, editable
 roles and support, mandatory Warrior/Sunder duty, legal blessing/curse allocation,
 locked seats, drag and keyboard movement, party mana arrangement, local saving,
@@ -22,7 +23,8 @@ optimizer. Whole-raid simulations, selected-player parse modeling, encounter
 survival, actual character/alt import and applying a proposal to a private raid
 remain later phases. The UI does not claim a current total raid DPS figure or
 current-patch optimality. Current Druid crit stacking remains visibly assumed.
-See [the implementation and verification notes](forever-raid-composition-implementation.md).
+See [the implementation and verification notes](forever-raid-composition-implementation.md)
+and [the live release receipt](forever-raid-composition-release-2026-11-01.md).
 
 ## Product decision
 
@@ -52,15 +54,15 @@ unchanged provenance. They are not automatically feasible 10-player compositions
 
 ## Baseline inspected before implementation
 
-| Area | Actual state | Consequence |
-| --- | --- | --- |
-| Discord raid manager | `../discord-website/lib/raids/composition.ts`, revision `forever-preview-2026.09.15` | Scores party effects with priorities and confidence multipliers; does not calculate DPS or choose a complete optimal raid |
-| Party layout | `../discord-website/lib/raids/roster-layout.ts` | Existing five-player groups and assignments already support 2/4/8 groups |
-| Current DPS references | `apps/web/src/lib/data/forever-dps-tier-list.current.raid.json` | 25 builds, 5,000 iterations each, captured October 28; five-minute stationary level-63 target, pre-raid retained loadouts |
-| Support policy | `infra/simulator/raid-buff-defaults.v2.json`, `tier-scenarios.mjs` | Full support is configured independently of actual providers; includes both Druid flags and several legacy debuff flags |
-| Tanks | Current raid/dungeon snapshots | Separate threat/mitigation comparisons; synthetic physical damage, not encounter survival proofs |
-| Healers | `forever-healer-tier-list.json` | Three assignments on four injured recipients; useful for archetype evaluation, not evidence for how many healers a 40-player raid needs |
-| Client mechanics archive inspected | `artifacts/forever-mechanics/70425/` | The available structured mechanics archive predates the supplied October 30 hotfix |
+| Area                               | Actual state                                                                         | Consequence                                                                                                                             |
+| ---------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Discord raid manager               | `../discord-website/lib/raids/composition.ts`, revision `forever-preview-2026.09.15` | Scores party effects with priorities and confidence multipliers; does not calculate DPS or choose a complete optimal raid               |
+| Party layout                       | `../discord-website/lib/raids/roster-layout.ts`                                      | Existing five-player groups and assignments already support 2/4/8 groups                                                                |
+| Current DPS references             | `apps/web/src/lib/data/forever-dps-tier-list.current.raid.json`                      | 25 builds, 5,000 iterations each, captured October 28; five-minute stationary level-63 target, pre-raid retained loadouts               |
+| Support policy                     | `infra/simulator/raid-buff-defaults.v2.json`, `tier-scenarios.mjs`                   | Full support is configured independently of actual providers; includes both Druid flags and several legacy debuff flags                 |
+| Tanks                              | Current raid/dungeon snapshots                                                       | Separate threat/mitigation comparisons; synthetic physical damage, not encounter survival proofs                                        |
+| Healers                            | `forever-healer-tier-list.json`                                                      | Three assignments on four injured recipients; useful for archetype evaluation, not evidence for how many healers a 40-player raid needs |
+| Client mechanics archive inspected | `artifacts/forever-mechanics/70425/`                                                 | The available structured mechanics archive predates the supplied October 30 hotfix                                                      |
 
 The existing party helper incorrectly treats several now raid-wide effects as
 party-local for this new purpose. Its duplicate penalties must not be carried
@@ -80,15 +82,15 @@ the Pack now provide 3% general critical-strike chance. This is crit chance, not
 still describe the previous separate spell/physical auras. Version both records;
 do not let the older official text overwrite a newer hotfix observation.
 
-| Effect | Evidence relevant to the planner | Implementation rule |
-| --- | --- | --- |
-| Druid crit | October 30 export: both auras grant all-crit, raid-wide, subject to form/range | Proposed default: one shared crit category. Stacking/exclusivity of the new hotfix still needs current client/server evidence; until then label the assumption and do not award 6% for bringing both |
-| Expose Armor | Export: five-point rank 5 removes 2,250 armor; five rank-5 Sunders also remove 2,250. Improved Expose reduces resource cost/refunds combo points | Default armor coverage comes from the required Warrior's assigned Sunder duty. No extra Rogue utility credit for replacing equivalent armor coverage; verify overwrite rules and actual maintenance costs |
-| Trueshot Aura | Export describes ranged attack power | Benefit actual ranged AP attacks; do not give Warriors a melee AP bonus. Resolve the learned rank separately from the talent's first-rank tooltip |
-| Shadow Weaving / Improved Scorch / Improved Shadow Bolt / Stormstrike | Current exported descriptions specify the caster's own damage | Never award those effects to other players merely because a legacy global debuff flag exists |
-| Curse of the Elements | Current spellbook describes all-magic vulnerability | Audit the old separate Curse of Shadow setting. Do not grant two overlapping magic multipliers by default |
-| Blessings and curses | Spellbook limits one Blessing per Paladin per recipient and one Curse per Warlock per target | Assign actual casters to recipients/targets; unlimited player buff slots do not remove these restrictions |
-| Totems | Official notes make specified offensive totems raid-wide; distinguish unchanged group effects | Keep Strength/Grace/Windfury as the requested offensive package, using verified legal placement, improvement sources and range. Respect Windfury/Flametongue exclusivity and other active totem conflicts |
+| Effect                                                                | Evidence relevant to the planner                                                                                                                 | Implementation rule                                                                                                                                                                                       |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Druid crit                                                            | October 30 export: both auras grant all-crit, raid-wide, subject to form/range                                                                   | Proposed default: one shared crit category. Stacking/exclusivity of the new hotfix still needs current client/server evidence; until then label the assumption and do not award 6% for bringing both      |
+| Expose Armor                                                          | Export: five-point rank 5 removes 2,250 armor; five rank-5 Sunders also remove 2,250. Improved Expose reduces resource cost/refunds combo points | Default armor coverage comes from the required Warrior's assigned Sunder duty. No extra Rogue utility credit for replacing equivalent armor coverage; verify overwrite rules and actual maintenance costs |
+| Trueshot Aura                                                         | Export describes ranged attack power                                                                                                             | Benefit actual ranged AP attacks; do not give Warriors a melee AP bonus. Resolve the learned rank separately from the talent's first-rank tooltip                                                         |
+| Shadow Weaving / Improved Scorch / Improved Shadow Bolt / Stormstrike | Current exported descriptions specify the caster's own damage                                                                                    | Never award those effects to other players merely because a legacy global debuff flag exists                                                                                                              |
+| Curse of the Elements                                                 | Current spellbook describes all-magic vulnerability                                                                                              | Audit the old separate Curse of Shadow setting. Do not grant two overlapping magic multipliers by default                                                                                                 |
+| Blessings and curses                                                  | Spellbook limits one Blessing per Paladin per recipient and one Curse per Warlock per target                                                     | Assign actual casters to recipients/targets; unlimited player buff slots do not remove these restrictions                                                                                                 |
+| Totems                                                                | Official notes make specified offensive totems raid-wide; distinguish unchanged group effects                                                    | Keep Strength/Grace/Windfury as the requested offensive package, using verified legal placement, improvement sources and range. Respect Windfury/Flametongue exclusivity and other active totem conflicts |
 
 This is a list of model inputs requiring audit, not a claim that every configured
 legacy flag currently produces an incorrect numerical multiplier. Inspect and
@@ -100,10 +102,10 @@ stacking rule or server behavior.
 
 The retained October 28 shared raid comparison measures:
 
-| Build | DPS |
-| --- | ---: |
-| Fury | 862.67 |
-| Combat Rogue | 707.14 |
+| Build          |    DPS |
+| -------------- | -----: |
+| Fury           | 862.67 |
+| Combat Rogue   | 707.14 |
 | Mutilate Rogue | 693.35 |
 
 Fury exceeds Combat by 155.53 DPS, approximately 22.0% relative to Combat. Under
@@ -193,10 +195,10 @@ Do not claim the configured cap independently establishes the live game's rule.
 ## Sizes and healer/tank requirements
 
 | Size | Groups | Editable initial planning allocation |
-| --- | ---: | --- |
-| 10 | 2 × 5 | 2 tanks, 2 healers, 6 damage |
-| 20 | 4 × 5 | 2 tanks, 4 healers, 14 damage |
-| 40 | 8 × 5 | 3 tanks, 8 healers, 29 damage |
+| ---- | -----: | ------------------------------------ |
+| 10   |  2 × 5 | 2 tanks, 2 healers, 6 damage         |
+| 20   |  4 × 5 | 2 tanks, 4 healers, 14 damage        |
+| 40   |  8 × 5 | 3 tanks, 8 healers, 29 damage        |
 
 These allocations are UI starting settings, not measured optimal compositions or
 boss requirements. Encounter profiles/leader choices replace them. An encounter

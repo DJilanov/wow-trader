@@ -2,11 +2,11 @@
 
 Last updated: 2026-11-01 (Europe/Sofia)
 
-## November 1 — 10/20/40 composition planner implemented locally
+## November 1 — 10/20/40 composition planner deployed
 
-- Owner authorized implementation with “now do the compositions”. Local review:
-  `http://localhost:3025/tools/forever/raid-composition`. After reviewing it, the
-  owner explicitly requested commit, push and deploy; release work is in progress.
+- Owner authorized implementation with “now do the compositions”. Live planner:
+  `https://kfcguild.online/tools/forever/raid-composition`. The owner reviewed the
+  local build, then explicitly authorized the completed commit/push/deploy flow.
 - Implemented class/spec cards, full five-player groups, editable role/support
   targets, mandatory Warrior/Sunder duty, distinct blessing/curse providers,
   shared assumed Druid crit, locked seats, drag/keyboard swaps, undo/reset,
@@ -14,7 +14,8 @@ Last updated: 2026-11-01 (Europe/Sofia)
 - Suggestions use an exact constrained historical-reference selector with explicit
   preview/apply and preserved tank/healer core by default. All 32 retained build
   references load through the existing validated readers. They are October 28
-  measurements; no new-hotfix raid DPS total or simulated survival is claimed.
+  measurements; no new-hotfix coupled raid DPS or real-encounter survival proof
+  is claimed.
   Missing data disables suggestions while leaving the editor usable.
 - Shared rules: `apps/web/src/lib/data/forever-raid-support.v1.json`, revision
   `forever-2026-10-30.v1`. Generate/check the Discord projection with
@@ -32,12 +33,13 @@ Last updated: 2026-11-01 (Europe/Sofia)
   `../discord-website/lib/raids/composition.ts`, generated rules,
   `components/raids/event-roster.tsx` and `tests/raid-composition.test.ts`.
   Preserve unrelated dirty leveling work in both source and context.
-- Verification passed: 48 Helper + 35 Discord tests; strict/scoped TypeScript,
+- Verification passed: 72 Helper + 35 Discord tests; strict/scoped TypeScript,
   scoped lint, formatting and shared-registry checks; full production build;
-  18 Chrome production-build checks and the real public catalog API (32/32).
+  24 Chrome checks on final candidate and public builds and the real public
+  catalog API (32/32).
   Browser checks include native drag/drop, stale proposal cancellation, share
   restoration and 1440/390/320px layouts with no browser/asset errors. No new
-  numerical simulation jobs or live roster changes were needed.
+  native optimization jobs or live roster changes were needed.
 
 - Owner expanded the release to include per-group/raid DPS, player and separate
   pet TPS, maximum selected/alternate tank TPS, useful HPS and kill-time estimates.
@@ -48,10 +50,29 @@ Last updated: 2026-11-01 (Europe/Sofia)
   illustrative model using observed incoming attack categories and tank health,
   dedicated single-target healing capacity, editable allocation/cadence and
   deterministic sampling with a 95% sampling interval. It is not a live-server
-  death guarantee. Expanded checks: 72 Helper + 35 Discord tests, 23 Chrome checks.
+  death guarantee. Expanded checks: 72 Helper + 35 Discord tests, 24 Chrome
+  checks after the numeric input-width correction.
 - The sibling raid manager contains concurrent unrelated signup editing. Its
   composition changes are captured as the checksum-pinned exact-live-baseline
   overlay under `infra/raid-composition/` for a scoped source release.
+
+- Production runtime is `bc5b7359ac23ce022fad78ce1270bfc6815937dd`, Helper build
+  `WicyTmClgRTnaAY05NIJa`, release
+  `/home/wow-trader-system/releases/kfc-helper-raid-composition-20261101-bc5b735`.
+  Discord integration uses `ef4cc40`, build `build-TfctsWXpff2fKS`, source
+  `/home/wow-forever-discord-source-releases/raid-composition-20261101-ef4cc40`.
+  Both are active and health-checked; full Linux builds and source hashes passed.
+- Completed release/rollback notes: `docs/forever-raid-composition-release-2026-11-01.md`.
+  Server receipts: `shared/operations/raid-composition-20261101/` and
+  `shared/operations/raid-composition-inputs-20261101/` under wow-trader-system.
+  Final source verification covered 29 files. All 32 catalog references loaded,
+  including 28 TPS counters, three incoming tank models and four single-target
+  healing references. Numeric inputs now show long values without clipping.
+- No database migration or Discord notification/signup was produced. Ingestion,
+  native raid worker and guild app retained their process IDs. Temporary candidate
+  servers/tunnels were stopped; about 10.84 GiB remained free. The unrelated CV API
+  rolled over at 08:00 UTC while this work ran and stayed online; it was not
+  restarted by this deployment. Unrelated dirty leveling work remains preserved.
 
 ## November 1 — initial 10/20/40 raid composition research
 
