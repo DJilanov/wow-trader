@@ -500,6 +500,12 @@
   color: #eee2ce;
   padding: 0.55rem;
 }
+.page .bossHealth input[type="number"] {
+  width: 190px;
+}
+.page .survival input[type="number"] {
+  width: 140px;
+}
 .page input[type="checkbox"] {
   accent-color: #d0a25c;
   width: 17px;
