@@ -9,9 +9,9 @@ export const DEFAULT_BOSS_HEALTH: Readonly<Record<RaidSize, number>> = {
   40: 4_000_000,
 };
 export const DEFAULT_BOSS_DPS: Readonly<Record<RaidSize, number>> = {
-  10: 1_500,
-  20: 3_000,
-  40: 6_000,
+  10: 2_500,
+  20: 5_000,
+  40: 10_000,
 };
 export interface TankIncomingModel {
   readonly health: number;

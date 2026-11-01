@@ -31,7 +31,7 @@ release details are recorded separately once activation and public checks pass.
   Invalid/stale drafts are rejected and preserved in storage until a deliberate edit.
 - Per-party and raid damage/threat/healing reference totals, separate pet threat,
   maximum individual/tank TPS, and editable boss health. Defaults: 1.1M / 2.2M /
-  4M health and 1,500 / 3,000 / 6,000 raw physical DPS for 10 / 20 / 40 players.
+  4M health and 2,500 / 5,000 / 10,000 raw physical DPS for 10 / 20 / 40 players.
 - Theoretical tank survival with main-tank selection, 50% default tank-healing
   allocation, editable healing cadence and sampled death probability with a
   95% sampling interval. Health, armor, mitigated damage and unhealed buffer are

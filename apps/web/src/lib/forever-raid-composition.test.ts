@@ -314,9 +314,9 @@ describe("composition damage, threat and boss estimates", () => {
     ).toBeGreaterThan(0);
   });
   it.each([
-    [10, 1_500],
-    [20, 3_000],
-    [40, 6_000],
+    [10, 2_500],
+    [20, 5_000],
+    [40, 10_000],
   ] as const)(
     "uses raw boss DPS for %i players and bound tank/healer evidence",
     (size, bossDps) => {
