@@ -7,10 +7,44 @@ import {
   ORDINARY_DUNGEON_XP_MULTIPLIER,
 } from "./dungeon-xp.js";
 import { DUNGEON_FACTS } from "./dungeon-catalog.js";
+import { z } from "zod";
+
+const evidenceLevel = z.number().int().min(1).max(60);
+const evidenceXp = z.number().int().min(0).max(1_000_000);
+export const questRewardFactSchema = z
+  .object({
+    questId: z.number().int().positive().max(10_000_000),
+    fullXp: evidenceXp.nullable(),
+    rewardBasis: z.enum(["unscaled-reference", "final-reward"]).optional(),
+    questLevel: evidenceLevel.nullable(),
+    minimumLevel: evidenceLevel.nullable(),
+    xpByLevel: z.array(z.object({ level: evidenceLevel, xp: evidenceXp }).strict()).max(60),
+    sourceUrl: z.string().min(1).max(4000),
+    capturedAt: z.iso.datetime(),
+    status: z.enum(["available", "unknown", "conflict"]),
+    evidenceKind: z
+      .enum(["published-forever", "historical-reference", "observed-forever"])
+      .optional(),
+    referenceBaseXp: evidenceXp.nullable().optional(),
+    pageMultiplier: z.number().positive().max(100).nullable().optional(),
+  })
+  .strict()
+  .refine(
+    (fact) => new Set(fact.xpByLevel.map((entry) => entry.level)).size === fact.xpByLevel.length,
+    "Duplicate hand-in level in reward evidence.",
+  )
+  .refine(
+    (fact) =>
+      fact.status !== "available" ||
+      fact.rewardBasis !== "unscaled-reference" ||
+      fact.fullXp !== null,
+    "Unscaled reference requires a full reward.",
+  );
 
 export interface QuestRewardFact {
   readonly questId: number;
   readonly fullXp: number | null;
+  readonly rewardBasis?: "unscaled-reference" | "final-reward";
   readonly questLevel: number | null;
   readonly minimumLevel: number | null;
   readonly xpByLevel: readonly { readonly level: number; readonly xp: number }[];
@@ -61,11 +95,13 @@ export function resolveQuestReward(
       null;
     const tableBase =
       fact.referenceBaseXp ??
-      (fact.evidenceKind === "historical-reference" && fact.fullXp === knownTableBase
+      (fact.evidenceKind === "historical-reference" &&
+      (fact.rewardBasis === "unscaled-reference" || fact.fullXp === knownTableBase)
         ? fact.fullXp
         : null);
     const unscaledTable =
       fact.evidenceKind !== "observed-forever" &&
+      fact.rewardBasis !== "final-reward" &&
       isDungeonTableQuest(questId) &&
       (fact.pageMultiplier === 1 || fact.evidenceKind === "historical-reference");
     if (

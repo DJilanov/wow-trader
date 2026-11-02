@@ -176,9 +176,20 @@ export function auditCampaignSections(
         confirmations: {},
       })),
     };
-    const forecast = forecastCampaignXp({ ...plan, actions: entries }, progress, options).find(
-      (entry) => entry.sectionId === section.id,
-    )!;
+    const ids = new Set(entries.map((action) => action.id));
+    const scopedOptions: CampaignXpForecastOptions = options.personalActionPlayers
+      ? {
+          ...options,
+          personalActionPlayers: Object.fromEntries(
+            Object.entries(options.personalActionPlayers).filter(([id]) => ids.has(id)),
+          ),
+        }
+      : options;
+    const forecast = forecastCampaignXp(
+      { ...plan, actions: entries },
+      progress,
+      scopedOptions,
+    ).find((entry) => entry.sectionId === section.id)!;
     const handIns = [
       ...new Set(
         entries.flatMap((action) =>
@@ -217,7 +228,8 @@ export function auditCampaignSections(
           : "reference-covered";
     for (const action of entries)
       prior.forEach((states, player) => {
-        if (action.leaderOnly && player !== 0) return;
+        const owner = (options.personalActionPlayers?.[action.id] ?? 1) - 1;
+        if (action.leaderOnly && player !== owner) return;
         for (const change of action.questChanges) states[String(change.questId)] = change.state;
       });
     // Each section is an independent proof obligation. Outdoor sections advance to their departure

@@ -15,6 +15,18 @@ import { batchCampaignDungeonFlow } from "./campaign-dungeon-flow.js";
 import { attachCampaignSourceHints } from "./campaign-source-hints.js";
 import { batchCampaignVisits } from "./campaign-visit-flow.js";
 import { attachCampaignDungeonSources } from "./campaign-dungeon-sources.js";
+import { questCatalogRewardFacts, type QuestCatalog } from "./quest-catalog.js";
+import { fundCampaignQuestGaps } from "./campaign-quest-funding.js";
+import { alignCampaignPickupChecks, deferUnfundedStarterPickups } from "./campaign-pickup-order.js";
+import { compileCampaignFinish } from "./campaign-finish.js";
+import { refreshCampaignFundingReview } from "./campaign-funding-review.js";
+import { batchCampaignLocalDeliveries } from "./campaign-local-deliveries.js";
+import { batchCampaignChainVisits } from "./campaign-chain-visits.js";
+import { batchFundedCampaignVisits } from "./campaign-funded-visits.js";
+import { attachCampaignSourceBookmarkAliases } from "./campaign-source-bookmarks.js";
+import { expandCampaignDungeonObjectives } from "./campaign-dungeon-objectives.js";
+import { deferCampaignStarterVisits } from "./campaign-starter-visits.js";
+import { offerCampaignGroundVisits } from "./campaign-ground-visits.js";
 
 interface CampaignRewardInventory {
   readonly dungeonFinish?: boolean;
@@ -65,6 +77,7 @@ export interface CampaignPreparationEvidence {
   readonly rewardBuild: number | null;
   readonly rewardNotice: string | null;
   readonly combat: { readonly data: CombatDataset; readonly revision: string } | null;
+  readonly questCatalog?: QuestCatalog | null;
   readonly questValidation?: {
     readonly data: NonNullable<CampaignPlan["questValidationCoverage"]>;
     readonly runtimeBuild: number;
@@ -78,6 +91,14 @@ export function prepareCampaignPlan(
   sources: readonly CampaignSource[],
   evidence: CampaignPreparationEvidence,
 ): CampaignPlan {
+  if (evidence.questCatalog && evidence.questCatalog.targetBuild !== plan.targetBuild)
+    throw new Error("Quest funding catalog belongs to a different route build.");
+  if (
+    evidence.questCatalog &&
+    plan.sourceArchiveSha256 &&
+    evidence.questCatalog.sourceArchiveSha256 !== plan.sourceArchiveSha256
+  )
+    throw new Error("Quest funding catalog belongs to a different source archive.");
   const combat = evidence.combat;
   const data = combat?.data.targetBuild === plan.targetBuild ? combat.data : undefined;
   const candidate =
@@ -88,8 +109,9 @@ export function prepareCampaignPlan(
         })
       : plan;
   const described = sources.length ? attachCampaignDungeonSources(candidate, sources) : candidate;
+  const objectives = data ? expandCampaignDungeonObjectives(described, data) : described;
   const enriched =
-    combat && data ? attachCampaignCombat(described, sources, data, combat.revision) : described;
+    combat && data ? attachCampaignCombat(objectives, sources, data, combat.revision) : objectives;
   const selected = sources.length
     ? applyCampaignPartyQuestPolicy(enriched, sources, data)
     : enriched;
@@ -100,13 +122,19 @@ export function prepareCampaignPlan(
   const routed = batchCampaignDungeonFlow(
     attachCampaignLocations(attachCampaignFlightPaths(visits, sources), sources),
   );
-  const wanted = new Set(campaignRewardQuestIds({ ...routed, starters: evidence.starters }));
+  const wanted = new Set([
+    ...campaignRewardQuestIds({ ...routed, starters: evidence.starters }),
+    ...(evidence.questCatalog?.quests.map((quest) => quest.questId) ?? []),
+  ]);
   const funded = compileCampaignFunding(
     compileCampaignPickupGates({
       ...routed,
       starters: evidence.starters,
       catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
-      rewardFacts: evidence.rewardFacts.filter((fact) => wanted.has(fact.questId)),
+      rewardFacts: questCatalogRewardFacts(
+        evidence.rewardFacts.filter((fact) => wanted.has(fact.questId)),
+        evidence.questCatalog ?? null,
+      ),
       rewardRevision: evidence.rewardRevision,
       rewardBuild: evidence.rewardBuild,
       rewardNotice: evidence.rewardNotice,
@@ -118,8 +146,64 @@ export function prepareCampaignPlan(
         : {}),
     }),
   );
-  return attachCampaignSourceHints(
-    attachCampaignMovements(attachCampaignLocations(funded, sources), sources),
+  const orderedPickups = deferUnfundedStarterPickups(funded);
+  const questFunded =
+    evidence.questCatalog && data
+      ? fundCampaignQuestGaps(orderedPickups, sources, data, evidence.questCatalog)
+      : orderedPickups;
+  const localDeliveries =
+    evidence.questCatalog && data
+      ? batchCampaignLocalDeliveries(questFunded, data, evidence.questCatalog)
+      : questFunded;
+  const chainVisits =
+    evidence.questCatalog && data
+      ? batchCampaignChainVisits(localDeliveries, data, evidence.questCatalog)
+      : localDeliveries;
+  const fundedVisits =
+    evidence.questCatalog && data
+      ? batchFundedCampaignVisits(chainVisits, sources, data, evidence.questCatalog)
+      : chainVisits;
+  const starterVisits = evidence.questCatalog
+    ? deferCampaignStarterVisits(fundedVisits, sources, evidence.questCatalog)
+    : fundedVisits;
+  const renewedFunding =
+    starterVisits !== fundedVisits && evidence.questCatalog && data
+      ? batchFundedCampaignVisits(
+          fundCampaignQuestGaps(starterVisits, sources, data, evidence.questCatalog),
+          sources,
+          data,
+          evidence.questCatalog,
+        )
+      : starterVisits;
+  const groundVisits =
+    evidence.questCatalog && data
+      ? offerCampaignGroundVisits(renewedFunding, sources, data, evidence.questCatalog)
+      : renewedFunding;
+  const settledFunding =
+    groundVisits !== renewedFunding && evidence.questCatalog && data
+      ? batchFundedCampaignVisits(
+          fundCampaignQuestGaps(groundVisits, sources, data, evidence.questCatalog),
+          sources,
+          data,
+          evidence.questCatalog,
+        )
+      : groundVisits;
+  const finish = evidence.questCatalog
+    ? compileCampaignFinish(settledFunding, evidence.questCatalog)
+    : settledFunding;
+  const finishedObjectives = data ? expandCampaignDungeonObjectives(finish, data) : finish;
+  const completed =
+    combat && data && finishedObjectives !== questFunded
+      ? attachCampaignCombat(finishedObjectives, sources, data, combat.revision)
+      : finishedObjectives;
+  const orderedChecks = alignCampaignPickupChecks(completed);
+  const reviewed =
+    orderedChecks !== questFunded ? refreshCampaignFundingReview(orderedChecks) : orderedChecks;
+  return attachCampaignSourceBookmarkAliases(
+    attachCampaignSourceHints(
+      attachCampaignMovements(attachCampaignLocations(reviewed, sources), sources),
+      sources,
+    ),
     sources,
   );
 }

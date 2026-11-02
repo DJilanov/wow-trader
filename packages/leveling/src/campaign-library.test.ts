@@ -85,6 +85,34 @@ describe("full source kill-first quest backbone", () => {
   it("does not turn the optional Corruption Abroad introduction into a server pickup requirement", () => {
     const quests = library("step\n.turnin 3765\n.accept 1275");
     expect(quests.find((quest) => quest.questId === 1275)?.prerequisiteIds).toEqual([]);
+    const reference = CHAPTER_REFERENCES.find((entry) => entry.sourceId === 128)!;
+    const explicit = buildCampaignQuestLibrary(
+      [
+        {
+          reference,
+          guide: parseGuideChapter(
+            "step\n.turnin 3765\n.accept 1275",
+            reference.id,
+            "a".repeat(64),
+            70205,
+          ),
+        },
+      ],
+      profile,
+      [],
+      new Set(),
+      [
+        {
+          questId: 1275,
+          creatureIds: [],
+          itemCreatureIds: [],
+          objectiveText: [],
+          onlyCreatureObjectives: false,
+          prerequisites: { allOf: [3765], anyOf: [] },
+        },
+      ],
+    );
+    expect(explicit.find((quest) => quest.questId === 1275)?.prerequisiteIds).toEqual([]);
   });
   it("holds level-compatible quests when their actual locations are outside this visit", () => {
     const quests = library(
@@ -624,8 +652,11 @@ describe("full source kill-first quest backbone", () => {
     }));
     expect(campaignOptionalXpReady(plan, state, gate)).toBe(false);
     const forecast = forecastCampaignXp(plan, state)[0]!.members[0]!;
-    expect(forecast.estimatedCombatXp).toBe(1000);
-    expect(forecast.knownEndpoint).toEqual({ level: 20, currentXp: 1000 });
+    expect(forecast.estimatedCombatXp).toBe(0);
+    expect(forecast.knownEndpoint).toEqual({ level: 20, currentXp: 0 });
+    expect(forecast.checkpoints).toContainEqual(
+      expect.objectContaining({ actionId: gate.id, missingXp: 1000, ready: false }),
+    );
     expect(forecast.status).toBe("incomplete");
     state.members = state.members.map((member) => ({ ...member, currentXp: 1000 }));
     expect(campaignOptionalXpReady(plan, state, gate)).toBe(true);

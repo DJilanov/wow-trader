@@ -8,6 +8,9 @@ import {
   importQuestieCombatData,
   dungeonCombatProfileSchema,
   killXpEvidenceSchema,
+  combatManifestSchema,
+  combatDatasetSchema,
+  reuseCombatLootReferences,
 } from "../packages/leveling/dist/index.js";
 
 const { values } = parseArgs({
@@ -19,6 +22,7 @@ const { values } = parseArgs({
     "authorization-note": { type: "string" },
     "dungeon-profiles": { type: "string" },
     "kill-xp-evidence": { type: "string" },
+    "reuse-loot": { type: "string" },
   },
 });
 if (!values["provider-root"] || !values.revision || !/^[a-f0-9]{40}$/.test(values.revision))
@@ -53,7 +57,7 @@ const killXpEvidence = values["kill-xp-evidence"]
       .max(10000)
       .parse(JSON.parse(await bounded(resolve(values["kill-xp-evidence"]), 4_000_000)))
   : [];
-const dataset = importQuestieCombatData({
+let dataset = importQuestieCombatData({
   npcExport,
   questExport,
   itemExport,
@@ -73,9 +77,23 @@ const dataset = importQuestieCombatData({
       "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
       "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
       "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+      "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
     ],
   },
 });
+if (values["reuse-loot"]) {
+  const previousRoot = resolve(values["reuse-loot"]);
+  const previousManifest = combatManifestSchema.parse(
+    JSON.parse(await bounded(join(previousRoot, "manifest.json"), 4000)),
+  );
+  const raw = await bounded(join(previousRoot, previousManifest.file), 16_000_000);
+  if (hash(raw) !== previousManifest.sha256)
+    throw new Error("Previous loot reference checksum mismatch.");
+  const previous = combatDatasetSchema.parse(JSON.parse(raw));
+  if (previous.targetBuild !== previousManifest.targetBuild)
+    throw new Error("Previous loot reference build mismatch.");
+  dataset = reuseCombatLootReferences(dataset, previous, previousManifest.sha256);
+}
 const root = resolve(values.destination ?? "artifacts/leveling/combat");
 await mkdir(root, { recursive: true });
 const raw = `${JSON.stringify(dataset)}\n`,

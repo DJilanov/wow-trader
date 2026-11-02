@@ -47,6 +47,12 @@ describe("reported variable-stack collection distributions", () => {
       reason: expect.stringContaining("sharing"),
     });
   });
+  it("gives the same variable stack to every shared-roll collector", () => {
+    for (const partySize of [2, 3, 4, 5])
+      expect(
+        estimateLootKills({ ...input, probability: 0.5, partySize, sharing: "shared-roll" }),
+      ).toEqual(estimateLootKills({ ...input, probability: 0.5 }));
+  });
   it("includes failed drops in its expectation and quantiles", () => {
     expect(estimateLootKills({ ...input, probability: 0.5 })).toEqual({
       status: "estimated",

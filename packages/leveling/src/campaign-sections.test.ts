@@ -178,7 +178,7 @@ describe("public campaign chapters and conditional progress", () => {
     let progress = emptyPremadeProgress();
     for (let index = 0; index < 5; index++) progress = recordPremadeXp(progress, index, 16, 0);
     expect(campaignSectionXpGap(section, progress)?.remainingXp).toBe(0);
-    progress = recordPremadeXp(progress, 2, 15, 100);
+    progress = recordPremadeXp(progress, 2, 13, 100);
     const gap = campaignSectionXpGap(section, progress)!;
     expect(gap.remainingXp).toBe(gap.members[2]?.remainingXp);
     expect(gap.remainingXp).toBeGreaterThan(0);

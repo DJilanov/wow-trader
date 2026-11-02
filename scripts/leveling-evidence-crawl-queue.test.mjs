@@ -79,6 +79,7 @@ test("builds a deduplicated quest-page queue without claiming in-game evidence",
         "personal-eligibility-unverified": 1,
         "reward-unresolved": 0,
         "reward-historical-estimate": 1,
+        "combat-quota-conflict": 0,
       },
     });
     assert.equal(plan.quests.find((quest) => quest.id === 1053).evidenceCodes.length, 2);
@@ -87,6 +88,48 @@ test("builds a deduplicated quest-page queue without claiming in-game evidence",
       false,
     );
     assert.equal(output.addedToBaseQueue, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("queues conflicting death counters once and preserves each objective's evidence key", async () => {
+  const root = await mkdtemp(join(tmpdir(), "leveling-kill-conflict-queue-"));
+  try {
+    const backlog = join(root, "backlog.json");
+    const queue = join(root, "queue.json");
+    const report = join(root, "report.json");
+    await writeFile(
+      backlog,
+      JSON.stringify({
+        schema: "campaign-evidence-backlog.v1",
+        tasks: [1, 2].map((index) => ({
+          key: `combat-quota-conflict:1057:${index}`,
+          code: "combat-quota-conflict",
+          questId: 1057,
+        })),
+      }),
+    );
+    await exec(process.execPath, [
+      script,
+      `--backlog=${backlog}`,
+      `--queue=${queue}`,
+      `--report=${report}`,
+    ]);
+    assert.deepEqual(JSON.parse(await readFile(queue, "utf8")), [
+      { game: "forever", kind: "quest", id: 1057 },
+    ]);
+    const plan = JSON.parse(await readFile(report, "utf8"));
+    assert.equal(plan.summary.byEvidenceCode["combat-quota-conflict"], 2);
+    assert.deepEqual(plan.quests[0].evidenceFields, [
+      "creature-identities",
+      "objectives",
+      "required-kill-counts",
+    ]);
+    assert.deepEqual(plan.quests[0].issueKeys, [
+      "combat-quota-conflict:1057:1",
+      "combat-quota-conflict:1057:2",
+    ]);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

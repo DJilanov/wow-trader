@@ -11,6 +11,7 @@ const QUEST_PAGE_EVIDENCE = new Map([
   ["personal-eligibility-unverified", ["faction", "race", "class", "prerequisites"]],
   ["reward-unresolved", ["reward-xp", "rewards"]],
   ["reward-historical-estimate", ["reward-xp", "rewards"]],
+  ["combat-quota-conflict", ["objectives", "creature-identities", "required-kill-counts"]],
 ]);
 
 const rawArgs = process.argv.slice(2);

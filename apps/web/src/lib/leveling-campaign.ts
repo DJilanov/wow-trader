@@ -4,6 +4,7 @@ import {
   prepareCampaignPlan,
   buildCampaignStarters,
   enrichCampaignStarters,
+  questCatalogRewardFacts,
   type CampaignStarterCatalog,
   type CampaignPlan,
   type CampaignRace,
@@ -18,6 +19,7 @@ import { getLevelingRewardSnapshot } from "./leveling-quest-xp";
 import { getLevelingCombatSnapshot } from "./leveling-combat";
 import { getLevelingQuestValidationCoverage } from "./leveling-quest-validation";
 import { campaignRewardQuestIds } from "./leveling-reward-inventory";
+import { getLevelingQuestCatalog } from "./leveling-quest-catalog";
 import { createHash } from "node:crypto";
 
 let cache:
@@ -27,6 +29,7 @@ let cache:
       readonly plans: Map<string, Promise<CampaignPlan>>;
       readonly starters: Promise<CampaignStarterCatalog>;
       readonly enrichedStarters: Map<string, CampaignStarterCatalog>;
+      readonly preparedPlans: Map<string, CampaignPlan>;
     }
   | undefined;
 
@@ -73,6 +76,7 @@ export async function getLevelingCampaign(
       plans: new Map(),
       starters: sources.then((value) => buildCampaignStarters(manifest.sourceSha256, value)),
       enrichedStarters: new Map(),
+      preparedPlans: new Map(),
     };
   }
   const current = cache;
@@ -94,7 +98,13 @@ export async function getLevelingCampaign(
       current.sources,
       current.starters,
     ]);
-    return await withEvidence(plan, sources, starters, current.enrichedStarters);
+    return await withEvidence(
+      plan,
+      sources,
+      starters,
+      current.enrichedStarters,
+      current.preparedPlans,
+    );
   } catch (error: unknown) {
     if (cache === current) cache = undefined;
     throw error;
@@ -106,31 +116,48 @@ async function withEvidence(
   sources: readonly CampaignSource[],
   starters: CampaignStarterCatalog,
   enrichedStarters: Map<string, CampaignStarterCatalog>,
+  preparedPlans: Map<string, CampaignPlan>,
 ): Promise<CampaignPlan> {
-  const ids = campaignRewardQuestIds({ ...plan, starters }, { includeHeldLibrary: true });
-  const [snapshot, combat] = await Promise.all([
-    getLevelingRewardSnapshot(ids),
+  const [combat, questCatalog] = await Promise.all([
     getLevelingCombatSnapshot(),
+    getLevelingQuestCatalog(),
   ]);
+  const ids = [
+    ...new Set([
+      ...campaignRewardQuestIds({ ...plan, starters }, { includeHeldLibrary: true }),
+      ...(questCatalog.data?.targetBuild === plan.targetBuild
+        ? questCatalog.data.quests.map((quest) => quest.questId)
+        : []),
+    ]),
+  ];
+  const snapshot = await getLevelingRewardSnapshot(ids);
+  const rewardFacts = questCatalogRewardFacts(
+    snapshot.facts,
+    questCatalog.data?.targetBuild === plan.targetBuild ? questCatalog.data : null,
+  );
   const validation = await getLevelingQuestValidationCoverage(snapshot.clientBuild);
-  const factsHash = createHash("sha256").update(JSON.stringify(snapshot.facts)).digest("hex");
-  const key = `${snapshot.revision}:${factsHash}:${combat.revision}`;
+  const factsHash = createHash("sha256").update(JSON.stringify(rewardFacts)).digest("hex");
+  const key = `${snapshot.revision}:${factsHash}:${combat.revision}:${questCatalog.revision}`;
+  const preparedKey = `${plan.race}:${plan.leaderClass}:${key}:${validation.revision}`;
+  const existing = preparedPlans.get(preparedKey);
+  if (existing) return existing;
   let partyStarters = enrichedStarters.get(key);
   if (!partyStarters) {
     partyStarters = enrichCampaignStarters(
       starters,
       sources,
-      snapshot.facts,
+      rewardFacts,
       combat.data?.targetBuild === plan.targetBuild
         ? { data: combat.data, revision: combat.revision }
         : null,
+      questCatalog.data?.targetBuild === plan.targetBuild ? questCatalog.data : null,
     );
     if (enrichedStarters.size >= 2) enrichedStarters.delete(enrichedStarters.keys().next().value!);
     enrichedStarters.set(key, partyStarters);
   }
-  return prepareCampaignPlan(plan, sources, {
+  const prepared = prepareCampaignPlan(plan, sources, {
     starters: partyStarters,
-    rewardFacts: snapshot.facts,
+    rewardFacts,
     rewardRevision: `${snapshot.revision}:${validation.revision}`,
     rewardBuild: snapshot.clientBuild,
     ...(validation.data
@@ -142,10 +169,12 @@ async function withEvidence(
         }
       : {}),
     combat: combat.data ? { data: combat.data, revision: combat.revision } : null,
+    questCatalog: questCatalog.data?.targetBuild === plan.targetBuild ? questCatalog.data : null,
     rewardNotice:
       [
         snapshot.notice,
         combat.notice,
+        questCatalog.notice,
         validation.notice,
         combat.data && combat.data.targetBuild !== plan.targetBuild
           ? "Combat references belong to a different client build and are excluded."
@@ -154,6 +183,9 @@ async function withEvidence(
         .filter(Boolean)
         .join(" ") || null,
   });
+  if (preparedPlans.size >= 6) preparedPlans.delete(preparedPlans.keys().next().value!);
+  preparedPlans.set(preparedKey, prepared);
+  return prepared;
 }
 
 export async function getLevelingCampaignMaps(plan: CampaignPlan): Promise<LevelingChapterMaps> {

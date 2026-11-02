@@ -107,7 +107,7 @@ export function prepareCampaignLootReferences(
     const namedObjectives = capturedItemObjectives(
       capture?.objectives ?? [],
       items.flatMap((item) => {
-        const name = byKey.get(`item:${item.itemId}`)?.name;
+        const name = byKey.get(`item:${item.itemId}`)?.name ?? item.itemName;
         return name ? [{ itemId: item.itemId, name }] : [];
       }),
     );
@@ -191,7 +191,7 @@ export function prepareCampaignLootReferences(
             questId: quest.questId,
             itemId: item.itemId,
             reason:
-              "Confirm independent rolls versus pooled quest loot before using this in a party.",
+              "Establish independent rolls, a shared roll for every eligible member, or pooled quest loot before using this in a party.",
           });
         let quantified = 0;
         for (const relation of related) {
@@ -277,12 +277,19 @@ export function prepareCampaignLootReferences(
             itemId: item.itemId,
             reason: "Choose an on-route dropping creature; a uniform creature mix is not assumed.",
           });
-        const { rewardEvidence: priorRewardEvidence, ...unrewardedItem } = item;
+        const {
+          rewardEvidence: priorRewardEvidence,
+          sharingReference: priorSharingReference,
+          ...unrewardedItem
+        } = item;
         return {
           ...unrewardedItem,
           quantity,
           npcIds: candidates,
           sharing,
+          ...(sharing === item.sharing && priorSharingReference
+            ? { sharingReference: priorSharingReference }
+            : {}),
           ...(vendorIds.length && record
             ? {
                 vendorEvidence: {

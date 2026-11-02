@@ -49,6 +49,53 @@ function method(
 }
 
 describe("local acquisition evidence", () => {
+  it("recognizes corroborated friendly healing credit without treating a creature objective as a death", () => {
+    const friendly = { ...npc, id: 12427, name: "Mountaineer Dolf" };
+    const quest = {
+      questId: 5625,
+      creatureIds: [12427],
+      itemCreatureIds: [],
+      onlyCreatureObjectives: true,
+      objectiveText: [
+        "Find Mountaineer Dolf and heal his wounds using Lesser Heal (Rank 2). Afterwards grant Power Word: Fortitude and return to Maxan Anvol.",
+      ],
+    };
+    const text =
+      "Cast [Lesser Heal] (Rank 2) and then [Power Word: Fortitude] on Mountaineer Dolf outside";
+    const result = resolveCombatObjectives(
+      source(
+        `* ${text}\n.complete 5625,1 >>Heal and fortify Mountaineer Dolf\n.target Mountaineer Dolf`,
+      ),
+      indexCombatReferences({ npcs: [friendly], quests: [quest] }),
+      "friendly-source",
+    );
+    expect(result).toMatchObject([{ credit: "non-combat", npcIds: [], requiredKills: null }]);
+    expect(quest.onlyCreatureObjectives).toBe(true);
+    for (const unsafe of [
+      text + ". Attack him afterwards",
+      "Cast [Smite] on Mountaineer Dolf",
+      text.replace("Mountaineer Dolf", "Mountaineer Dolfson"),
+      "Do not heal Mountaineer Dolf with Lesser Heal or Power Word: Fortitude",
+    ]) {
+      const held = resolveCombatObjectives(
+        source(`* ${unsafe}\n.complete 5625,1`),
+        indexCombatReferences({ npcs: [friendly], quests: [quest] }),
+        "unsafe-source",
+      );
+      expect(held[0]!.credit).toBe("unknown");
+    }
+    const contradicted = resolveCombatObjectives(
+      source(`* ${text}\n.complete 5625,1`),
+      indexCombatReferences({
+        npcs: [friendly],
+        quests: [
+          { ...quest, objectiveText: [quest.objectiveText[0]! + " Kill 1 Mountaineer Dolf."] },
+        ],
+      }),
+      "contradictory-source",
+    );
+    expect(contradicted[0]!.credit).not.toBe("non-combat");
+  });
   it("validates item and corroborating quest provenance without duplicate reward identities", () => {
     expect(questRewardItemEvidenceSchema.parse(rewardEvidence)).toEqual(rewardEvidence);
     for (const invalid of [

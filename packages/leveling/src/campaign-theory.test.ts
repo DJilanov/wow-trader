@@ -290,8 +290,8 @@ describe("chronological theoretical progress", () => {
         },
         1,
         "expected",
-      ).kills,
-    ).toBe(3);
+      ),
+    ).toMatchObject({ kills: null, reason: expect.stringContaining("quest eligibility") });
   });
   it("carries reported single-success loot scenarios into chronological XP with unknown stacks", () => {
     const raw = route(true);
@@ -388,7 +388,7 @@ describe("chronological theoretical progress", () => {
       currentXp: 0,
       xpNeedsUpdate: false,
     }));
-    expect(forecastCampaignXp(plan, state)[0]!.members[0]!.estimatedCombatXp).toBe(20);
+    expect(forecastCampaignXp(plan, state)[0]!.members[0]!.estimatedCombatXp).toBe(0);
     const projected = forecastCampaignSteps(plan, state)[0]!;
     expect(projected.steps.at(-1)).toMatchObject({
       questId: 96627,

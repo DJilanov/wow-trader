@@ -25,6 +25,9 @@ import {
   advancePremadeStage,
   recordPremadeXp,
   updatePremadeQuestState,
+  canOccupyQuestLogSlot,
+  questLogUsage,
+  QUEST_LOG_CAPACITY,
   type PremadeProgress,
   type PremadeMember,
   type PremadeQuestChoice,
@@ -321,31 +324,51 @@ export function LevelingPremade({
           <details>
             <summary>Party quest status · {paid}/5 handed in</summary>
             <div className={styles.partyChecks}>
-              {progress.members.map((member, index) => (
-                <label key={index}>
-                  Player {index + 1}
-                  <select
-                    aria-label={`Player ${index + 1} quest ${quest.id} status`}
-                    disabled={!editable}
-                    value={member.questStates[String(quest.id)] ?? "not-started"}
-                    onChange={(event) => {
-                      const state = event.target.value;
-                      if (
-                        state === "not-started" ||
-                        state === "accepted" ||
-                        state === "objectives-complete" ||
-                        state === "rewarded"
-                      )
+              {progress.members.map((member, index) => {
+                const hasRoom = canOccupyQuestLogSlot(member.questStates, quest.id);
+                const logUsed = hasRoom ? null : questLogUsage(member.questStates).used;
+                return (
+                  <label key={index}>
+                    Player {index + 1}
+                    <select
+                      aria-label={`Player ${index + 1} quest ${quest.id} status${hasRoom ? "" : " — quest log full"}`}
+                      title={
+                        hasRoom
+                          ? undefined
+                          : `Quest log full (${logUsed}/${QUEST_LOG_CAPACITY}). Hand in a quest to free a slot.`
+                      }
+                      disabled={!editable}
+                      value={member.questStates[String(quest.id)] ?? "not-started"}
+                      onChange={(event) => {
+                        const state = event.target.value;
+                        if (
+                          state !== "not-started" &&
+                          state !== "accepted" &&
+                          state !== "objectives-complete" &&
+                          state !== "rewarded"
+                        )
+                          return;
+                        if (!hasRoom && state !== "not-started" && state !== "rewarded") return;
                         update(updatePremadeQuestState(progress, index, quest.id, state));
-                    }}
-                  >
-                    <option value="not-started">Not started</option>
-                    <option value="accepted">Accepted</option>
-                    <option value="objectives-complete">Objectives done</option>
-                    <option value="rewarded">Handed in</option>
-                  </select>
-                </label>
-              ))}
+                      }}
+                    >
+                      <option value="not-started">Not started</option>
+                      <option value="accepted" disabled={!hasRoom}>
+                        Accepted
+                      </option>
+                      <option value="objectives-complete" disabled={!hasRoom}>
+                        Objectives done
+                      </option>
+                      <option value="rewarded">Handed in</option>
+                    </select>
+                    {!hasRoom && (
+                      <small>
+                        Quest log full ({logUsed}/{QUEST_LOG_CAPACITY}).
+                      </small>
+                    )}
+                  </label>
+                );
+              })}
             </div>
             <button
               type="button"

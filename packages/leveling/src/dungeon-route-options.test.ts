@@ -46,7 +46,12 @@ describe("strict At-level schedules", () => {
     }
   });
   it("raises the selected pickup floor, but does not invent unknown schedules", () => {
-    expect(scheduleDungeonVisit(visit("thanes"), human, [getDungeonQuest(98423)!]).level).toBe(16);
+    expect(scheduleDungeonVisit(visit("thanes"), human, [getDungeonQuest(98423)!]).level).toBe(14);
+    expect(
+      scheduleDungeonVisit(visit("thanes"), human, [
+        { ...getDungeonQuest(98423)!, minimumLevel: 17 },
+      ]).level,
+    ).toBe(17);
     expect(scheduleDungeonVisit(visit("dalaran"), human).level).toBeNull();
     expect(scheduleDungeonVisit(visit("dalaran"), human).state).toBe("reference-only");
     expect(scheduleDungeonVisit(visit("deadmines"), { ...human, level: null }).state).toBe(
@@ -128,8 +133,8 @@ describe("full chapter dungeon coverage", () => {
     expect(option.knownXp).toBeNull();
     expect(option.schedule.state).toBe("reference-only");
     const thanes = dungeonRouteOption(visit("thanes"), { ...human, level: 15 }, emptyDungeonPlan());
-    expect(thanes.insideCount).toBe(1);
-    expect(thanes.questIds).not.toContain(98423);
+    expect(thanes.insideCount).toBe(2);
+    expect(thanes.questIds).toContain(98423);
     expect(thanes.questIds).not.toContain(1654);
   });
 });

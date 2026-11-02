@@ -100,6 +100,58 @@ describe("authorized full guide extraction", () => {
       getGuideStepView(chapter.steps[2]!, profile, { dungeons: [] }).runtimeChecks[0]?.tag,
     ).toBe(".isOnQuest");
   });
+  it("retains unconditional work when an unknown class can only enable an already-satisfied gate", () => {
+    const chapter = parseGuideChapter(
+      "step\n#season 0 << !Warrior !Rogue\n.complete 4762,1\n.use 12350\n.accept 123 << Mage",
+      "chapter-126-14-16-darkshore",
+      "a".repeat(64),
+      70205,
+    );
+    const view = getGuideStepView(chapter.steps[0]!, createCharacterProfile(), { dungeons: [] });
+    expect(view.condition).toBe("match");
+    expect(
+      view.directives
+        .filter((directive) => directive.questId !== null)
+        .map((directive) => directive.questId),
+    ).toEqual([4762]);
+    expect(
+      view.directives.some(
+        (directive) => directive.tag === ".use" && directive.arguments === "12350",
+      ),
+    ).toBe(true);
+    expect(view.conditionalDirectives.map((directive) => directive.questId)).toEqual([123]);
+  });
+  it("keeps a potentially excluding class-conditioned gate unresolved until class is known", () => {
+    const chapter = parseGuideChapter(
+      "step\n#season 2 << Mage\n.accept 123",
+      "chapter-126-14-16-darkshore",
+      "a".repeat(64),
+      70205,
+    );
+    const base = createCharacterProfile();
+    expect(getGuideStepView(chapter.steps[0]!, base, { dungeons: [] }).condition).toBe("unknown");
+    expect(
+      getGuideStepView(chapter.steps[0]!, { ...base, classSlug: "mage" }, { dungeons: [] })
+        .condition,
+    ).toBe("exclude");
+    expect(
+      getGuideStepView(chapter.steps[0]!, { ...base, classSlug: "warrior" }, { dungeons: [] })
+        .condition,
+    ).toBe("match");
+  });
+  it("does not resolve an unknown conditional XP gate until its numerical requirement is known", () => {
+    const chapter = parseGuideChapter(
+      "step\n#xprate <1.5 << Mage\n.accept 123",
+      "chapter-126-14-16-darkshore",
+      "a".repeat(64),
+      70205,
+    );
+    const base = createCharacterProfile();
+    expect(getGuideStepView(chapter.steps[0]!, base, { dungeons: [] }).condition).toBe("unknown");
+    expect(
+      getGuideStepView(chapter.steps[0]!, { ...base, xpRate: 1 }, { dungeons: [] }).condition,
+    ).toBe("match");
+  });
   it("removes game markup while leaving literal text, not executable HTML", () => {
     expect(cleanGuideText("|T132333:0|t[Battle Shout] |cRXP_WARN_Test|r")).toBe(
       "[Battle Shout] Test",

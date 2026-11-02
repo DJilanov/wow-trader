@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { referenceTaskSchema } from "./contracts.js";
 
-export const QUEST_XP_PARSER_VERSION = "wowhead-quest-xp-20261017-v4";
+export const QUEST_XP_PARSER_VERSION = "wowhead-quest-xp-20261101-v5";
 const level = z.number().int().min(1).max(60);
 const xp = z.number().int().min(0).max(1_000_000);
 export const questXpRecordSchema = referenceTaskSchema
@@ -12,6 +12,7 @@ export const questXpRecordSchema = referenceTaskSchema
       "wowhead-quest-xp-20261014-v1",
       "wowhead-quest-xp-20261015-v2",
       "wowhead-quest-xp-20261016-v3",
+      "wowhead-quest-xp-20261017-v4",
       QUEST_XP_PARSER_VERSION,
     ]),
     name: z.string().min(1).max(300),
@@ -29,6 +30,7 @@ export const questXpRecordSchema = referenceTaskSchema
         "quest-5f36c4ad-core-97211824",
         "quest-5f36c4ad-core-25318d8a",
         "quest-5f36c4ad-core-154e707b",
+        "quest-5f36c4ad-core-c9c7803e",
       ])
       .nullable(),
     xpByLevel: z.array(z.object({ level, xp }).strict()).max(60),

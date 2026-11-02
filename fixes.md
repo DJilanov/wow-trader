@@ -1,5 +1,101 @@
 # WoW Trader fixes and recovery context
 
+## November 2 — leveling links pointed at Forever; finalized roster was not public
+
+Promoted DJ's existing KFC mirror to primary and retained the old Forever post as
+a mirror. Corrected invitation guild/channel/links and terms for the five verified
+KFC members while all replies were unanswered. Existing buttons and selected
+players were preserved. All five private messages now point at KFC, verified by
+actual Discord readback. Psy's group and calendar bindings are unchanged.
+
+Roster publication now closes new signup/import paths through publication state,
+not a rewritten deadline. Web/native/public pages and the original signup card
+agree. Leaders can still manage existing players before the configured deadline;
+selected players can reply. A separate public channel message tracks Waiting /
+Confirmed / Declined and updates in place without exposing private reasons.
+DJ's message: `1566707902109057187` in KFC channel `1548747530790248610`.
+
+Migration 029 treats signup-deadline edits as policy changes and clears public
+approval. An initial operational close exposed this; the owner-authorized repair
+restored approval and refreshed unanswered invitations with audited provenance.
+Future closes use publication state, preserving policy and approvals. Never
+disable the revision trigger or claim an unanswered invitation is confirmed.
+
+Private announcement state belongs under the raid worker's
+`.data/roster-announcements/`. Preserve it during worker moves. Atomic receipts,
+exclusive locks, message identity checks and nonces support safe edits/recovery.
+Ambiguous sends reconcile existing bot-marked messages; missing/ambiguous receipts
+are held rather than blindly posting duplicates.
+
+Live source `roster-announcements-20261102`, build
+`.next-release-roster-announcements-20261102-r2`, activated 07:02:58 UTC. Passed
+50 unit + 36 isolated DB checks, strict compiler/lint, Linux build, preview/live
+HTTP checks and actual Discord/DM checks. At 07:03 there were four waiting and one
+real confirmation. Selected five and Psy's event are unchanged. Private backups,
+scripts and rollback: `.data/leveling-kfc-primary-20261102/` and
+`.data/roster-announcements-20261102/`. No migration or new commit/push requested.
+
+## November 2 — roster publication blocked by prior rules review; generic raid previews
+
+The shared publication selector rejected selected players with missing/stale
+acknowledgements before they could receive an invitation. Removed only that
+prerequisite from preview/publication; inactive accounts still receive their own
+clear error. Invitations carry current terms and actual attendance confirmation
+records the review. Existing consent, selected players and revisions are intact.
+
+Signup/soft-reserve routes previously inherited generic layout metadata. They
+now provide event titles, dates with regional offsets, activity/size, separate
+signup/loot descriptions, artwork and Open Graph/Twitter tags. Anonymous queries
+require an approved community publication and select no personal signup/loot
+data. Private/unpublished events get generic metadata; auth/noindex remain.
+
+Deployed 06:36:27 UTC to community website release `roster-publication-rules-20261102`
+and patched/restarted the existing raid worker. Preserved the earlier class/spec
+card labels. Passed 45 unit + 36 isolated DB checks, compiler/lint/formatting,
+full Linux build, seven preview/live HTTP/image cases, anonymous API 401 and
+read-only previews of both actual leveling groups. DJ/Psy event versions 16/4,
+all signup rows and protected application PIDs were verified unchanged.
+
+Rollback/evidence: `.data/roster-publication-rules-20261102/` on the Discord host.
+The build needs webpack and the existing bridge dependency symlink. When current
+Google Fonts URLs broke Next's extension parser, reused the previous build's real
+WOFF2 files with recorded hashes; see `archive-fonts.mjs` and the release doc.
+No DB migration, production test message, new Git commit or push was requested.
+
+## November 2 — Hunter confused with Rogues on the compact Discord roster
+
+Vargos's stored signup, profile and emitted emoji were already Hunter /
+Marksmanship. The small-group card combined all damage applicants under DPS
+and relied on spec icons. Compact combat cards now show each player's class and
+specialization in text; Vargos visibly reads `Hunter · Marksmanship` while the
+other Rogues read `Rogue · Combat`. Large raid formatting is unchanged.
+
+Thirty focused tests, strict scoped TypeScript and lint passed. Patched/restarted
+only the active raid worker and verified all three live posts. Full signup rows,
+event versions, selected five and other process IDs are unchanged. Private source
+backup/rollback: `.data/leveling-vargos-class-20261102/` on the Discord host.
+The canonical local renderer/test changes remain uncommitted; future releases
+must include them. No frontend build or database migration was required.
+
+## November 2 — missing DJ and Psy leveling Events in Discord
+
+DJ's old KFC native Event was deleted; synchronization deliberately did not
+recreate it. Psy's new signup had no native calendar entry or binding. The owner
+authorized restoring them: DJ native ID `1566688030972969075`, Psy native ID
+`1566688035708473495`. Both November 5, 08:30–20:30 CET, with separate signup links.
+Replaced the retired KFC binding, retained the existing Forever projection and
+added Psy's binding. A regression fix now recognizes an approved primary KFC
+signup without demanding a redundant mirror. Private/unapproved/undelivered
+posts stay excluded; other-guild sources still need their sent KFC mirror.
+
+Fifteen tests, strict scoped TypeScript and lint passed. Restarted only the
+calendar worker; actual Discord readback and worker state/logs verified both
+entries. Eight existing KFC raids, the Forever native Event and all website
+settings/signups are unchanged. No website build or migration was necessary.
+Receipts/rollback: `.data/leveling-calendar-20261102/` on the Discord host and
+`discord-website/docs/native-scheduled-event-projections.md`. Local source changes
+remain uncommitted because no commit/push was requested for this repair.
+
 ## November 1 — individual DPS, TPS and HPS visible during composition editing
 
 Class/spec cards, roster seats and build options include each build's saved
@@ -58,6 +154,61 @@ exact source/build IDs, checks and rollback. The community build must retain its
 nested bridge-worker dependencies and use webpack with the existing external
 dependency symlink. Reuse the matching generated Prisma client; avoid generating
 into shared dependency storage during a scoped release.
+
+## November 1 — native roster attendance and KFC calendar delivery
+
+Roster publication now queues recipient-bound Discord confirmations and
+preparation. Private reasons, blocked-DM/My signup recovery, deadlines, reminders,
+preferences and locked-roster amendments use additive migration 039. Existing
+selected signups are not fabricated attendance replies. Source/import startup
+order matters: a scoped deployed worker patch initialized Prisma before dotenv;
+post-release logs caught it and `./env` was restored as the first import. The
+running worker recovered, and a startup-order regression prevents recurrence.
+
+The KFC homepage formerly loaded only Raid-Helper. It now merges the existing
+calendar with the manager's read-only KFC feed. Stable `fr-` IDs, exact Discord
+message and event links, real capacities, CET/CEST dates, minute/focus refresh,
+cancellation removal and bounded visibly stale backups are implemented. The
+feed reuses existing confirmed community/KFC source/mirror/binding eligibility;
+private players, reasons and notification receipts are never published. An
+already-open removed event stops offering signup. The shared modal is above the
+navbar/music controls and traps/restores keyboard focus.
+
+Live sources: community web `kfc-calendar-20261101` (05:42:45 UTC), worker
+`raid-roster-confirmations-20261101`, KFC web `raid-calendar-20261101`
+(05:46:34 UTC, build `dKKS5ZSlrI4MSbXzQI2Vn`). Paths are recorded in context.md.
+Production calendar currently includes ten managed events plus Raid-Helper.
+Relevant tests, TypeScript/lint/builds, 34 PostgreSQL checks and actual public
+browser calendar checks passed. No live DM pilot is claimed. Private synthetic
+preview DB/role/credentials were removed; source changes remain uncommitted.
+
+
+## November 1 — KFC newcomers rejected by the wrong Discord membership check
+
+`discord-website/lib/raids/native-worker.ts` used the configured default guild
+(WoW Forever) for every native signup. A KFC-only member therefore saw
+“Join this raid's Discord server” even while using a KFC raid post. Actual Discord
+API readback confirmed 200 for KFC and 404 for the incorrectly checked guild.
+
+Pass the validated interaction's guild into the membership transport and require
+it to be an approved raid guild. The check now follows the event's actual server,
+including on stored-response retries. Keep source/actor/audience/replay checks;
+do not replace server membership with an unconditional success or require both
+memberships. New users are provisioned from the signed Discord interaction and
+never need website OAuth to register a character and confirm signup.
+
+Worker-only deployment: `wow-forever-raids`, `/home/wow-forever-discord`,
+2026-11-01 03:42:08 UTC; source SHA-256
+`bc73e8523ced076eaa90703ee03bc772ba9aeaa5c14b27515376dc8d310f97b0`.
+No database migration/web build; unrelated services preserved. The real rejected
+member passes the updated live transport. Verified 24 unit tests, 31 isolated
+PostgreSQL checks, strict focused TypeScript and ESLint. The new two-server,
+first-time-user regression fails with the original worker and passes with the fix.
+All temporary databases/roles/proxy were removed; production signups unchanged.
+
+Reopen the original raid's **Sign up** button after this error. Saving the
+character is separate from **Confirm signup**; class specialization is required.
+Evidence/source backups are in discord-website `.data/raid-native-audit-20261101/`.
 
 ## October 31 — account ecosystem, exact stacks and expiring personal plans
 

@@ -18,12 +18,13 @@ import {
 } from "./premade-model.js";
 import { estimateDungeonReward } from "./dungeon-xp.js";
 import { getDungeonBundle, updateDungeonBundleSlot } from "./dungeon-bundles.js";
+import { questEligibility } from "./quest-eligibility.js";
 
 describe("reviewable premade-five circuit", () => {
   it("preserves all 21 requested stops and exposes the three evidence gaps", () => {
     expect(PREMADE_STOPS).toHaveLength(21);
     expect(PREMADE_STOPS.map((stop) => stop.level)).toEqual([
-      16, 18, 20, 25, 26, 27, 30, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 57, 59,
+      14, 18, 20, 25, 26, 27, 30, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 57, 59,
     ]);
     expect(
       PREMADE_STOPS.filter((stop) => stop.dataStatus === "guaranteed-bundle").map(
@@ -43,6 +44,38 @@ describe("reviewable premade-five circuit", () => {
       }),
     ).toBe(18);
     expect(premadeEntryLevel(getPremadeStop("lower-blackrock")!, progress)).toBe(60);
+  });
+  it("uses the reviewed Thanes pickup floors without lowering its dungeon recommendation", () => {
+    const progress = emptyPremadeProgress();
+    const stop = getPremadeStop("thanes")!;
+    for (const [questId, minimumLevel] of [
+      [96403, 10],
+      [96394, 10],
+      [96393, 9],
+      [96395, 10],
+      [98423, 9],
+    ] as const) {
+      expect(questEligibility(questId)).toMatchObject({ minimumLevel, minimumConflict: false });
+    }
+    for (const difficultyPolicy of ["at-level", "experienced-premade"] as const) {
+      const state = { ...progress, difficultyPolicy };
+      expect(premadeEntryLevel(stop, state)).toBe(14);
+      expect(
+        premadeEntryLevel(stop, state, [
+          {
+            questId: 98423,
+            minimumLevel: 17,
+            questLevel: 17,
+            fullXp: 100,
+            xpByLevel: [],
+            sourceUrl: "https://example.test/higher-minimum",
+            capturedAt: "2026-11-01T00:00:00.000Z",
+            status: "available",
+            evidenceKind: "observed-forever",
+          },
+        ]),
+      ).toBe(17);
+    }
   });
   it("does not apply a bonus twice to reported Forever rewards", () => {
     expect(estimateDungeonReward(378, 26).xp).toBe(5750);

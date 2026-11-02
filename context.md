@@ -1,5 +1,186 @@
 # WoW Trader project context
 
+## November 2 — KFC leveling destination and public attendance tracker live
+
+- DJ's November 5 group `cmuz20aal0000fu4s0vf3f2wx` now uses the existing KFC
+  signup post as primary: guild `1411533815356194968`, channel
+  `1548747530790248610`, message `1557777146854777023`. The old Forever post is
+  retained as a mirror. Verified all five selected members belong to KFC; kept
+  the selected five, event ID, characters, schedule and reply button IDs.
+  Psy's group was already KFC-primary and is unchanged.
+- All five existing private invitations now open the KFC post and use KFC for
+  membership/source validation. Edited the four originally delivered DMs and
+  retried the previously failed first delivery after the destination correction;
+  all five DMs were read back successfully. No attendance response was fabricated.
+- Public roster tracker created in the KFC signup channel, message
+  `1566707902109057187`: Waiting / Confirmed / Declined, class/spec, start and
+  reply deadline. The worker edits this same message when responses change.
+  Verified actual first confirmation: four waiting, one confirmed, zero declined
+  at 07:03 UTC. Private explanations are never included. Existing signup cards
+  also show explicit reply labels and closed signup status.
+- Future publication closes new signup/import paths by checking the persisted
+  roster publication. `EventView.rosterPublished` drives web/native/public UI.
+  It does not change the scheduled deadline, policy checksum or publication
+  approval. Leaders retain existing-player management before the real deadline;
+  selected members retain confirmation/decline, rule review and SR access.
+- Important lesson: changing `signupClosesAt` triggers policyRevision and clears
+  approval in migration 029. The initial operational close of DJ's existing group
+  hit that trigger; restored approval on the owner's explicit request and refreshed
+  only the five still-unanswered invitations, preserving versions/buttons and
+  append-only history. Recorded provenance; later real confirmation was retained.
+  Do not close future publication by rewriting this deadline or weakening triggers.
+- Worker feature: `discord-website/lib/raids/roster-announcements.ts`, invoked
+  by the existing raid worker. Private atomic receipts/locks in the worker's
+  `.data/roster-announcements/` must survive future worker releases. Nonces,
+  bot/marker checks and reconciliation prevent blind reposting after uncertain
+  sends. New cards are restricted to approved public events and their primary
+  channel; deleted/uncertain cards are held for review instead of duplicated.
+- Website activated 07:02:58 UTC, source
+  `/home/wow-forever-discord-source-releases/roster-announcements-20261102`,
+  build `.next-release-roster-announcements-20261102-r2`. Raid worker retains
+  `/home/wow-forever-discord-source-releases/raid-roster-confirmations-20261101`
+  with a reviewed seven-file overlay. Only these two apps restarted; Helper,
+  KFC website and calendar stayed online with preserved PIDs.
+- Passed 50 focused unit tests, 36 isolated PostgreSQL checks, strict TypeScript,
+  ESLint, the full Linux build, preview/live metadata/images/public closure/API
+  authentication checks, and actual Discord card/DM/membership checks. No schema
+  migration, extra test signup, Git commit or push was requested/needed.
+- Private receipts/rollback: host `.data/leveling-kfc-primary-20261102/` and
+  `.data/roster-announcements-20261102/`; matching local artifact directories.
+  Canonical source and release docs remain uncommitted alongside prior work.
+
+## November 2 — roster publication unblocked and raid link metadata deployed
+
+- Removed the requirement for every selected player to visit My signup before
+  publishing invitations. Preview/publication accept missing or stale prior
+  reviews. Current terms travel with invitations; a real player confirmation
+  records acknowledgement. Active-account, organizer, deadline/version and
+  loot-locking checks remain separate. Publishing does not invent acceptance.
+- Added `discord-website/lib/raids/share-metadata.ts` and metadata exports on
+  `/raids/[id]` and `/raids/[id]/reserves`. Approved public Forever/TBC events
+  expose their own title, regional start, size, activity and existing artwork.
+  Private/unapproved/missing events keep generic sign-in previews. No member,
+  character or personal reserve data is selected; interactive pages stay noindex.
+- Live website release at 06:36:27 UTC:
+  `/home/wow-forever-discord-source-releases/roster-publication-rules-20261102`,
+  build `.next-release-roster-publication-rules-20261102`. Patched only the shared
+  publication service in the existing raid-worker release, SHA256
+  `523aa66cf287449204b611bea1a84308311804f45a3117dd8c6bf0643fe52113`.
+  Community web and raid worker restarted; Helper, calendar and guild preserved.
+  Both sources retain the compact class/spec labels from the preceding fix.
+- Passed 45 unit tests, 36 PostgreSQL checks in an isolated temporary cluster,
+  strict scoped TypeScript, lint/formatting and a full Linux production build.
+  Old-guard regression failures were reproduced first. Seven real preview/live
+  Discordbot HTML/image cases and anonymous API 401 were verified. Read-only
+  previews accepted DJ's five selected players (four stale reviews) and Psy
+  (one stale review). Full signup rows and event revisions 16/4 are unchanged.
+- The Mac's local test PostgreSQL was stopped, so integration checks ran against
+  an isolated temporary server cluster, removed afterward. Build recovery used
+  webpack plus the pre-existing bridge dependency link and nine hash-verified
+  WOFF2 assets from the previous build; no fake fonts or source/dependency changes.
+- Release/rollback: sibling `docs/raid-roster-confirmations-release-2026-11-01.md`.
+  Private receipts/backups: host `.data/roster-publication-rules-20261102/`;
+  local `artifacts/roster-publication-rules-20261102/`. No migration, production
+  test signup, new attendance DM or Git commit/push was needed/requested.
+
+## November 2 — explicit class/spec labels on five-player Discord cards
+
+- Owner reported Vargos appeared as Rogue after his transfer. Live database,
+  linked character profile and posted application emoji all confirmed Hunter /
+  Marksmanship. The five-player DPS column grouped him with three Combat Rogues
+  and only printed names/icons, making the class difficult to distinguish.
+- `discord-website/lib/raids/discord-panel.ts` now prints class and specialization
+  beside every player in compact combat-role cards (capacity <= 5). Larger raids
+  retain their compact layout. Existing field/total limits and overflow links hold.
+- Deployed only the renderer to the active raid worker at
+  `/home/wow-forever-discord-source-releases/raid-roster-confirmations-20261101/lib/raids/discord-panel.ts`,
+  SHA256 `2a78695c51fa00996101a22c7acb14eb6ed1390c8aef9df6357c8bfc0ab0a7da`,
+  activated 06:07:30 UTC. Restarted only `wow-forever-raids`; other apps/calendar
+  retained their PIDs. Include the canonical local renderer change in future
+  source releases; the main website build and base renderer copy were not rebuilt.
+- Thirty tests, scoped strict TypeScript and ESLint passed. Actual Discord API
+  readback verified `Vargos Inc · Hunter · Marksmanship`, the source primary and
+  mirror labels, and unchanged signup rows/event versions/selected five. Only
+  transport refresh times changed; no participant was reclassified or confirmed.
+- Private backup/rollback and deployment verification:
+  `/home/wow-forever-discord/.data/leveling-vargos-class-20261102/`;
+  local source/tests/evidence: `artifacts/leveling-vargos-class-20261102/`.
+  No migration, frontend build, attendance DM or Git commit was requested/needed.
+
+## November 2 — Vargos Inc moved from DJ to Psy leveling
+
+- Owner explicitly requested transferring the extra signup while preserving DJ's
+  finished five-player roster. Moved `Vargos Inc`, Hunter/Marksmanship/DPS, from
+  `cmuz20aal0000fu4s0vf3f2wx` to `cmvy07lb500000m4sbok6tgqq`.
+- Preserved registered status, member/character, preferences, original signup time
+  and prior acknowledgement provenance. The new event's rules still need review.
+  Retained the source signup as withdrawn and wrote transfer audits to both events;
+  incremented each revision to enqueue Discord delivery. No attendance DM was sent.
+- Source signup `cmvwaqyw2000vci4smkmnv1ux`; destination signup
+  `cmvyum88000008e4s8tarcto6`. DJ's selected five and all other signups in both
+  groups are unchanged. No schedule, calendar binding, profile or event settings changed.
+- Live verification passed: source revision 16, Psy revision 4, both original
+  Discord posts omit Vargos and Psy's post includes him. No code deployment,
+  migration or commit was needed/requested. Private backup/audits/receipts:
+  `/home/wow-forever-discord/.data/leveling-vargos-transfer-20261102/`;
+  local scripts/evidence: `artifacts/leveling-vargos-transfer-20261102/`.
+
+## November 2 — DJ and Psy leveling restored to Discord calendar
+
+- Owner reported both missing from KFC Events. DJ's old native Event
+  `1550723826864889886` had been deleted and was held by the no-recreation guard;
+  Psy's signup had never received a calendar projection. The owner explicitly
+  authorized the repair. Created exactly two KFC Events with correct signup links:
+  DJ `1566688030972969075`; Psy `1566688035708473495`. Both November 5,
+  08:30–20:30 CET. The existing DJ Forever Event `1560892325117435904` is unchanged.
+- Static bindings in `discord-website/content/kfc-community.ts` now use DJ's new
+  KFC ID and include Psy's canonical event. Fixed calendar publication eligibility
+  to accept an approved primary KFC post without requiring a redundant mirror.
+  Non-KFC sources still need a sent KFC mirror; approval/consent/delivery guards
+  and explicit binding/no-auto-recreation rules remain.
+- Three source files installed only into `/home/wow-forever-discord`; restarted
+  only `kfc-community-calendar` at 05:42:24 UTC. Fifteen focused tests, strict
+  scoped TypeScript and lint passed. Actual Discord readback and multiple running
+  cycles verified both bindings, zero holds/errors and preserved other app PIDs.
+  All eight existing KFC raid Events, the Forever Event, both canonical website
+  events and their complete signup records remained unchanged. No DB migration,
+  website rebuild, signup, attendance DM, commit or push was needed/requested.
+- Live links: `https://discord.com/events/1411533815356194968/1566688030972969075`
+  and `https://discord.com/events/1411533815356194968/1566688035708473495`.
+  Repair/rollback: `discord-website/docs/native-scheduled-event-projections.md`.
+  Private receipts/backups: `/home/wow-forever-discord/.data/leveling-calendar-20261102/`;
+  local evidence: `artifacts/leveling-calendar-20261102/`. All unrelated work kept.
+
+## November 1 — Psyrogue November 5 leveling group posted
+
+- Owner created `#forever-leveling-5ft-psy` and authorized a second event, Psyrogue
+  as Druid tank, and transfer of Group 1's sole Rogue. Completed operationally;
+  no application code change, migration, deployment or unsolicited DM was needed.
+- New event: `https://www.wowforeverdiscord.online/raids/cmvy07lb500000m4sbok6tgqq`.
+  Public preview: `/events/cmvy07lb500000m4sbok6tgqq`; website-approved after
+  delivered Discord identity/version and owner's current KFC admin were verified.
+- Signup post: `https://discord.com/channels/1411533815356194968/1566476867568140428/1566478926795243681`.
+  November 5, 08:30–20:30 CET; five seats, 1 tank / 1 healer / 3 DPS, open signup.
+  Psyrogue owns the event. The initial Druid/Feral tank assignment was corrected
+  at the owner's next request to selected Rogue/Combat/DPS, including his isolated
+  Forever character profile. His existing TBC Rogue profile remains unchanged.
+  The group now needs a tank.
+- `deadgroovy` (Combat Rogue) moved from `cmuz20aal0000fu4s0vf3f2wx` to the new
+  event, retaining registered status, character, preferences and original consent
+  provenance. The source row is withdrawn, retaining history. Group 1's five
+  selected players and registered Hunter are unchanged; its two Discord posts
+  were read back without the Rogue. Both source and destination delivery synced.
+- Discord lookup confirmed the transferred Rogue's username `deadgroovyxd`,
+  display name `DEADgroovyxd`, user ID `1561067156576280691` (no server nickname).
+- The Rogue is in WoW Forever Discord but not KFC. He needs to join KFC to view
+  the new channel; the website still supports members of either eligible server.
+  Both new-event signups require their own rules review; no participant attendance
+  response was fabricated and no attendance DM was queued.
+- Private backup, preview, idempotent setup and verification receipts:
+  `/home/wow-forever-discord/.data/leveling-psy-group-20261101/`. Local operational
+  scripts/receipt: `artifacts/leveling-psy-group-20261101/`. Live Discord readback,
+  unchanged-source comparisons and public preview HTTP 200 checks passed.
+
 ## November 1 — simulation rates beside composition builds
 
 - Class/spec rows, every roster seat and build dropdown show one-player saved
@@ -177,6 +358,91 @@
 - Research receipt/capture: `artifacts/raid-composition-research-20261101/`.
   That initial research changed documentation only: no simulations, frozen helper access,
   source code, production mutation, commit or deployment. Existing windows remain.
+
+## November 1 — roster confirmations and KFC website calendar deployed
+
+- Active delivery completed in `discord-website` and `KFC`. Leader publication,
+  private DM RSVP/preparation, decline reasons, channel-only preference/My signup,
+  reminders, manual verification and immutable locked-roster amendments are live.
+- Additive migration 039 applied after a protected backup. Selected signups are
+  distinct from attendance replies. Publication is an explicit leader action;
+  deployment created no invitations or synthetic signups in production.
+- Worker: `wow-forever-raids`, source
+  `/home/wow-forever-discord-source-releases/raid-roster-confirmations-20261101`.
+  A deployed overlay put a DB-using import before dotenv; the post-release check
+  caught it. Environment-first import order was restored and regression-covered;
+  the actual worker recovered and has no subsequent configuration errors.
+- Community website: `wow-forever-discord`, source
+  `/home/wow-forever-discord-source-releases/kfc-calendar-20261101`, build
+  `.next-release-kfc-calendar-20261101`, activated 05:42:45 UTC.
+- KFC website: `kfc-website`, source
+  `/home/kfc-website-source-releases/raid-calendar-20261101`, build
+  `.next-release-raid-calendar-20261101`, build ID `dKKS5ZSlrI4MSbXzQI2Vn`,
+  activated 05:46:34 UTC. Existing Raid-Helper entries remain alongside ten
+  currently eligible managed events at https://kfcguild.online/#raid-calendar.
+- Read-only `/api/calendar/kfc` uses existing confirmed community/KFC source,
+  mirror and explicit-binding eligibility. No private rosters, recipients or
+  decline reasons are exported. Ordinary private/unapproved posts remain hidden;
+  already-bound native Events retain schedule maintenance during reapproval.
+- The KFC calendar retains canonical event IDs/Discord signup URLs, uses real
+  capacities and CET/CEST date grouping, refreshes each minute/on focus, removes
+  cancellations and labels bounded outage backups. Mobile modal stacking and
+  keyboard focus were repaired. No duplicate event/roster or signup account.
+- Verification: 81 focused roster/native unit tests, 34 isolated PostgreSQL checks,
+  35 calendar/source/startup tests, 12 KFC calendar tests, full production builds,
+  strict TypeScript/lint, 13 roster browser checks and 12 calendar browser checks
+  (both candidate and public production). Actual Discord member DM/mobile pilot
+  is still unmeasured; no unsolicited test messages were sent.
+- Evidence: discord-website `.data/raid-roster-delivery-20261101/`, KFC
+  `.data/raid-calendar-20261101/`; operational receipts in server
+  `/home/wow-forever-discord/.data/`. Synthetic DB/role/credentials and private
+  previews are cleaned up. No new commit/push requested; unrelated edits retained.
+- Docs: `discord-website/docs/raid-roster-confirmations-release-2026-11-01.md`
+  and `KFC/docs/raid-calendar-integration-2026-11-01.md`. No simulator work.
+
+## November 1 — roster invitation and preparation follow-up planned
+
+- Owner requests leader-triggered Discord DMs when the roster is ready, recipient
+  Confirm/Decline with a private explanation, and role-aware raid preparation.
+- Reviewed the actual event/attendance/native queue/DM sender/locking code and
+  current primary Discord docs. Plan is in discord-website
+  `docs/raid-roster-confirmations-plan-2026-11-01.md`.
+- Recommended trigger: Publish roster & request confirmations; keep draft party
+  movement quiet and collect player replies before final immutable loot locking.
+  Separate leader selection, attendance reply and message-delivery status.
+- DM interactions need their own strict schema (`user`, without `guild_id`),
+  durable recipient-bound invitations, actual raid-guild membership, private
+  decline reasons and My signup fallback for blocked DMs. Preserve November 1's
+  two-server membership fix. Source-backed preparation, deadline/change handling,
+  outbox deduplication, reminders and versioned locked-roster amendments are planned.
+- Planning only: no feature code, migration, deployment or new messages sent.
+
+## November 1 — Discord-native signup fixed for both servers
+
+- Related project: `/Users/dimitarjilanov/work/test/discord-website`.
+  A real KFC newcomer was rejected because `native-worker.ts` checked the default
+  WoW Forever guild instead of the clicked raid post's guild. Read-only Discord
+  checks proved KFC membership returned 200 while default-guild membership was 404.
+- Native membership transport now receives `input.guild_id`, checks that guild
+  against the configured destinations, and verifies the actor in that server.
+  KFC-only and WoW-Forever-only users do not have to join the other Discord.
+  Actor, post, audience, disabled-account and replay checks remain enforced.
+- Live worker `wow-forever-raids` restarted at 2026-11-01 03:42:08 UTC, cwd
+  `/home/wow-forever-discord`. Only worker source and its regression test changed;
+  all other PM2 processes stayed unchanged. No web rebuild or DB migration needed.
+  The previously rejected member passes the actual updated membership transport.
+- Passed 24 native unit tests, 31 PostgreSQL checks, focused strict TypeScript and
+  ESLint. New real-transport regression completes both servers' signup from a user
+  with no prior website profile; it fails against the original worker. Synthetic
+  DBs/roles and the temporary port-55432 proxy were removed after each run.
+- Actual flow: native Sign up → character name, class/spec → Save character &
+  continue → Confirm signup. Website account/login/browser is not required.
+  Reopen Sign up after the old error; its completed private response cannot resume.
+- Readback verified 11 primary native raid posts. Two older mirrored summaries
+  still offer website signup first and a separate Discord signup link; those
+  summaries were audited but not edited during this membership correction.
+- Evidence and scoped source backup: discord-website `.data/raid-native-audit-20261101/`.
+  No production dummy signup or unsolicited Discord message was created.
 
 ## October 31 — Five-player route continuity deployed
 

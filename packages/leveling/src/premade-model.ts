@@ -3,6 +3,7 @@ import { classSlugs } from "./model.js";
 import { LEVELING_RACES, raceIds } from "./profile.js";
 import { campaignProgressSchema } from "./campaign-model.js";
 import { dungeonFinishStateSchema, emptyDungeonFinish } from "./dungeon-finish-model.js";
+import { campaignItemStateSignature } from "./campaign-items.js";
 import {
   dungeonBundleOverridesSchema,
   dungeonBundleSlotStatesSchema,
@@ -109,8 +110,36 @@ export const premadeProgressSchema = z
             questStates: questStatesSchema.default({}),
             bundleSlotStates: dungeonBundleSlotStatesSchema.default({}),
             guideXpAnchor: campaignXpAnchorSchema.optional(),
+            itemHoldings: z
+              .object({
+                revision: z.literal("campaign-items-v1"),
+                sourceBuild: z.number().int().positive(),
+                raceId: z.enum(raceIds).nullable(),
+                classSlug: z.enum(classSlugs).nullable(),
+                signature: z.string().max(1_000_000),
+                minimums: z.record(
+                  z.string().regex(/^[1-9]\d{0,9}$/),
+                  z.number().int().min(0).max(1_000_000),
+                ),
+              })
+              .strict()
+              .optional(),
           })
-          .strict(),
+          .strict()
+          .transform((member) => {
+            const saved = member.itemHoldings;
+            if (
+              saved &&
+              (saved.raceId !== (member.raceId ?? null) ||
+                saved.classSlug !== member.classSlug ||
+                saved.signature !== campaignItemStateSignature(member.questStates, member.confirmations))
+            ) {
+              const cleared = { ...member };
+              delete cleared.itemHoldings;
+              return cleared;
+            }
+            return member;
+          }),
       )
       .length(5),
   })

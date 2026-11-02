@@ -46,7 +46,7 @@ describe("dungeon identity and reference graph", () => {
   it("covers the supplemental audit and all current-guide quest identities without fake IDs", () => {
     expect(DUNGEON_FACTS.associations).toHaveLength(104);
     expect(new Set(DUNGEON_FACTS.associations.map((row) => row.questId)).size).toBe(100);
-    expect(DUNGEON_REFERENCE.associations).toHaveLength(228);
+    expect(DUNGEON_REFERENCE.associations).toHaveLength(238);
     expect(DUNGEON_VISITS.find((visit) => visit.id === "upper-blackrock")!.questIds).toContain(
       4768,
     );

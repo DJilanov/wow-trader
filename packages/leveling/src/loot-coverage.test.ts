@@ -95,6 +95,40 @@ describe("missing loot data crawl preparation", () => {
     expect(result.reviews.some((r) => r.reason.includes("independent rolls"))).toBe(true);
     expect(JSON.stringify(original)).toBe(before);
   });
+  it("recovers named quest counters from provider item identities without an item-page request", () => {
+    const original = dataset();
+    original.quests[0]!.itemObjectives = [
+      {
+        objectiveIndex: 1,
+        itemId: 750,
+        itemName: "Tough Wolf Meat",
+        quantity: null,
+        npcIds: [299],
+        sharing: "unknown",
+      },
+    ];
+    const captured: LootCapture = {
+      ...metadata,
+      kind: "quest",
+      id: 33,
+      objectives: ["Bring meat to Eagan. Tough Wolf Meat (8)"],
+      relations: [],
+    };
+    const before = JSON.stringify({ original, captured });
+    const result = prepareCampaignLootReferences(original, new Set([33]), [captured]);
+    expect(result.data.quests[0]!.itemObjectives?.[0]).toMatchObject({
+      quantity: 8,
+      itemName: "Tough Wolf Meat",
+      sharing: "unknown",
+    });
+    expect(result.queue).toEqual([{ game: "forever", kind: "item", id: 750 }]);
+    expect(result.data.lootDrops).toEqual([]);
+    expect(JSON.stringify({ original, captured })).toBe(before);
+    const mismatch = prepareCampaignLootReferences(original, new Set([33]), [
+      { ...captured, objectives: ["Tender Wolf Meat (8)"] },
+    ]);
+    expect(mismatch.data.quests[0]!.itemObjectives?.[0]?.quantity).toBeNull();
+  });
   it("does not loop a recrawl to resolve missing stack or sharing semantics", () => {
     const incomplete: LootCapture = {
       ...item,

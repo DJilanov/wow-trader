@@ -394,14 +394,17 @@ describe("required next-stop XP only", () => {
         ),
       ).toBe(difficultyPolicy === "experienced-premade");
       const forecast = forecastCampaignXp(plan, state);
-      expect(forecast[0]!.members[0]!.knownEndpoint?.level).toBe(required);
+      expect(forecast[0]!.members[0]!.knownEndpoint?.level).toBe(18);
       if (difficultyPolicy === "experienced-premade") {
         expect(campaignActionReasons(gate, state, plan.rewardFacts)).toEqual([]);
         expect(forecast[0]!.members[0]!.estimatedCombatXp).toBe(0);
         expect(forecast[0]!.members[0]!.knownEndpoint?.currentXp).toBe(123);
       } else {
         expect(campaignActionReasons(gate, state, plan.rewardFacts)[0]).toContain("level 19");
-        expect(forecast[0]!.members[0]!.estimatedCombatXp).toBeGreaterThan(0);
+        expect(forecast[0]!.members[0]!.estimatedCombatXp).toBe(0);
+        expect(forecast[0]!.members[0]!.checkpoints).toContainEqual(
+          expect.objectContaining({ actionId: gate.id, ready: false }),
+        );
       }
       expect(state.members[0]?.level).toBe(18);
       expect(state.members[0]?.currentXp).toBe(123);

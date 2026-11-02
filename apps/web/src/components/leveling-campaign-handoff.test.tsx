@@ -45,7 +45,8 @@ describe("plain-language chapter outcome", () => {
     ).sections[0]!;
     const html = renderToStaticMarkup(<LevelingCampaignHandoff guide={guide} next={next} />);
     expect(html).toContain("some XP data is missing");
-    expect(html).toContain("Continue to Elwynn Forest");
+    expect(html).toContain("View");
+    expect(html).toContain("entry requirements still need to be met");
     expect(html).not.toContain("Expected finish:");
     expect(html).not.toContain("Record");
   });
@@ -56,5 +57,22 @@ describe("plain-language chapter outcome", () => {
     expect(html).toContain("After this chapter");
     expect(html).toContain("Expected finish:");
     expect(html).not.toContain("href=");
+  });
+  it("shows a real XP shortfall without promising the next stop is ready", () => {
+    const plan = guideTestPlan();
+    const calculated = forecastCampaignGuide(
+      {
+        ...plan,
+        rewardFacts: plan.rewardFacts!.map((fact) => ({ ...fact, fullXp: 200 })),
+      },
+      emptyPremadeProgress(),
+    ).sections[0]!;
+    const html = renderToStaticMarkup(
+      <LevelingCampaignHandoff guide={{ ...calculated, targetLevel: 2 }} next={next} />,
+    );
+    expect(html).toContain("200 more XP");
+    expect(html).toContain("Some required kill XP is still missing");
+    expect(html).toContain("View");
+    expect(html).not.toContain("then head to");
   });
 });

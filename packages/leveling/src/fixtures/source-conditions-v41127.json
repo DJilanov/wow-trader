@@ -1,0 +1,577 @@
+{
+  "target": "RestedXP v4.11.27",
+  "sourceSha256": "c5f5b0b605d7bd0194fc10348db837af28a89ac21140eab19132f44fb3464dcb",
+  "scope": "47 synthetic per-character state/resource cases executed against the exact pinned Lua bodies; these are predicate controls, not observations of game payouts or player inventories.",
+  "cases": [
+    {
+      "tag": "isOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "not-started"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isNotOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "not-started"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "not-started"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestNotComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "not-started"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestTurnedIn",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "not-started"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestAvailable",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "not-started"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "accepted"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isNotOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "accepted"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "accepted"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestNotComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "accepted"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestTurnedIn",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "accepted"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestAvailable",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "accepted"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "objectives-complete"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isNotOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "objectives-complete"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "objectives-complete"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestNotComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "objectives-complete"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestTurnedIn",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "objectives-complete"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestAvailable",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "objectives-complete"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isNotOnQuest",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestNotComplete",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestTurnedIn",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestAvailable",
+      "args": [
+        "100"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isOnQuest",
+      "args": [
+        "100",
+        "101"
+      ],
+      "states": {
+        "101": "accepted"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isNotOnQuest",
+      "args": [
+        "100",
+        "101"
+      ],
+      "states": {
+        "101": "accepted"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestTurnedIn",
+      "args": [
+        "100",
+        "101"
+      ],
+      "states": {
+        "101": "rewarded"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestAvailable",
+      "args": [
+        "100",
+        "101"
+      ],
+      "states": {
+        "100": "rewarded"
+      },
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "isQuestAvailable",
+      "args": [
+        "100",
+        "101"
+      ],
+      "states": {
+        "100": "rewarded",
+        "101": "rewarded"
+      },
+      "expectedSkip": true,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "6"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {
+        "2886": 5
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "6"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {
+        "2886": 6
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        ">6"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {
+        "2886": 6
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        ">6"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {
+        "2886": 7
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "<6"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {
+        "2886": 5
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "<6"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {
+        "2886": 6
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "=6"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {
+        "2886": 6
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "=6"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {
+        "2886": 7
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "<=6"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {
+        "2886": 6
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        "<=6"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {
+        "2886": 7
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        ">=6"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {
+        "2886": 6
+      },
+      "money": 0
+    },
+    {
+      "tag": "itemcount",
+      "args": [
+        "2886",
+        ">=6"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {
+        "2886": 5
+      },
+      "money": 0
+    },
+    {
+      "tag": "money",
+      "args": [
+        "<0.5"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {},
+      "money": 4999
+    },
+    {
+      "tag": "money",
+      "args": [
+        "<0.5"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {},
+      "money": 5000
+    },
+    {
+      "tag": "money",
+      "args": [
+        ">0.001"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {},
+      "money": 0
+    },
+    {
+      "tag": "money",
+      "args": [
+        ">0.001"
+      ],
+      "states": {},
+      "expectedSkip": false,
+      "items": {},
+      "money": 9
+    },
+    {
+      "tag": "money",
+      "args": [
+        ">0.001"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {},
+      "money": 10
+    },
+    {
+      "tag": "money",
+      "args": [
+        ">0.001"
+      ],
+      "states": {},
+      "expectedSkip": true,
+      "items": {},
+      "money": 11
+    }
+  ]
+}

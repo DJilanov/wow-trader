@@ -11,6 +11,12 @@ import {
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { xpToCheckpoint } from "./calculator.js";
 import { questEligibility } from "./quest-eligibility.js";
+import {
+  QUEST_LOG_CAPACITY,
+  canOccupyQuestLogSlot,
+  questLogUsage,
+  usesQuestLogSlot,
+} from "./quest-log.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
 import { dungeonBundleKey, type DungeonBundle } from "./dungeon-bundle-model.js";
 import {
@@ -91,7 +97,8 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     id: "thanes",
     name: "Hall of Thanes",
     visitIds: ["thanes"],
-    level: 16,
+    // The refreshed quest minimums no longer raise the existing At-level recommendation of 14.
+    level: 14,
     zone: "Dun Morogh",
     preparation:
       "After the personal starting tasks and shared Darkshore circuit, meet in Ironforge. Finish Underground Map → Old Ironforge Incursion and collect the city quests before entry.",
@@ -810,6 +817,13 @@ export function updatePremadeQuestState(
 ): PremadeProgress {
   if (!getPremadeQuest(questId) || !progress.members[memberIndex])
     throw new Error("Invalid party member or quest identity.");
+  if (
+    usesQuestLogSlot(state) &&
+    !canOccupyQuestLogSlot(progress.members[memberIndex]!.questStates, questId)
+  )
+    throw new Error(
+      `Player ${memberIndex + 1}'s quest log is full (${questLogUsage(progress.members[memberIndex]!.questStates).used}/${QUEST_LOG_CAPACITY}). Hand in an existing quest before adding another.`,
+    );
   return premadeProgressSchema.parse({
     ...progress,
     members: progress.members.map((member, index) =>

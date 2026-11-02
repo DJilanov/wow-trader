@@ -1,8 +1,14 @@
 import { z } from "zod";
+import { groundPickupReferenceSchema } from "./quest-ground-pickup.js";
 import { estimateVariableStackKills, type LootStackWeight } from "./loot-stack-distribution.js";
+import {
+  classicLootSharingReferenceSchema,
+  classicLootStackReferenceSchema,
+  classicLootProbabilityReferenceSchema,
+} from "./loot-classic-source.js";
 
 const id = z.number().int().positive().max(10_000_000);
-export const lootSharingSchema = z.enum(["independent", "pooled", "unknown"]);
+export const lootSharingSchema = z.enum(["independent", "shared-roll", "pooled", "unknown"]);
 export type LootSharing = z.infer<typeof lootSharingSchema>;
 
 const acquisitionSourceFields = {
@@ -54,14 +60,38 @@ export const questItemObjectiveSchema = z
   .object({
     objectiveIndex: z.number().int().min(1).max(100).nullable(),
     itemId: id,
+    itemName: z.string().trim().min(1).max(300).optional(),
     quantity: z.number().int().min(1).max(10_000).nullable(),
     npcIds: z.array(id).max(1000),
     sharing: lootSharingSchema,
+    sharingReference: classicLootSharingReferenceSchema.optional(),
     provided: z.boolean().optional(),
+    groundPickup: groundPickupReferenceSchema.optional(),
     vendorEvidence: questVendorEvidenceSchema.optional(),
     rewardEvidence: questRewardItemEvidenceSchema.optional(),
   })
-  .strict();
+  .strict()
+  .refine(
+    (item) =>
+      !item.groundPickup ||
+      (item.quantity === 1 &&
+        Boolean(item.itemName?.trim()) &&
+        item.objectiveIndex === 1 &&
+        item.npcIds.length === 0 &&
+        !item.provided &&
+        !item.vendorEvidence &&
+        !item.rewardEvidence &&
+        item.groundPickup.itemId === item.itemId),
+    "Ground pickup differs from the one-item objective or has another acquisition method.",
+  )
+  .refine(
+    (item) =>
+      !item.sharingReference ||
+      (item.sharingReference.itemId === item.itemId &&
+        item.sharing ===
+          ((item.sharingReference.itemFlags & 2048) !== 0 ? "shared-roll" : "pooled")),
+    "Historical sharing reference differs from this item or sharing rule.",
+  );
 
 export const questLootDropSchema = z
   .object({
@@ -72,6 +102,8 @@ export const questLootDropSchema = z
     minimumQuantity: z.number().int().min(1).max(10_000).nullable(),
     maximumQuantity: z.number().int().min(1).max(10_000).nullable(),
     quantityDistribution: lootQuantityDistributionSchema.optional(),
+    stackReference: classicLootStackReferenceSchema.optional(),
+    probabilityReference: classicLootProbabilityReferenceSchema.optional(),
     sampleSize: z.number().int().positive().nullable(),
     targetBuild: z.number().int().positive(),
     sourceBuild: z.number().int().positive().nullable().optional(),
@@ -80,6 +112,26 @@ export const questLootDropSchema = z
     sourceSha256: z.string().regex(/^[a-f0-9]{64}$/),
   })
   .strict()
+  .refine(
+    (drop) =>
+      !drop.probabilityReference ||
+      (drop.probabilityReference.itemId === drop.itemId &&
+        drop.probabilityReference.npcId === drop.npcId &&
+        drop.minimumQuantity === 1 &&
+        drop.maximumQuantity === 1 &&
+        !drop.quantityDistribution?.some((entry) => entry.percent > 0 && entry.quantity !== 1)),
+    "Historical probability reference differs from this item, creature or fixed-one stack.",
+  )
+  .refine(
+    (drop) =>
+      !drop.stackReference ||
+      (drop.stackReference.itemId === drop.itemId &&
+        drop.stackReference.npcId === drop.npcId &&
+        drop.minimumQuantity === 1 &&
+        drop.maximumQuantity === 1 &&
+        !drop.quantityDistribution?.some((entry) => entry.percent > 0 && entry.quantity !== 1)),
+    "Historical stack reference differs from this creature, item or quantity.",
+  )
   .refine(
     (drop) =>
       drop.minimumQuantity === null ||
@@ -172,6 +224,8 @@ export function estimateLootKills(input: {
   if (partySize > 1 && sharing === "unknown")
     return unknown("Quest loot sharing is unknown for this party.");
   if (distribution?.length === 1) minimumQuantity = maximumQuantity = distribution[0]!.quantity;
+  // A shared roll supplies the same stack to every eligible member. Independent rolls
+  // instead wait for the last collector; pooled drops must supply the whole party quota.
   const requiredItems = quantity * (sharing === "pooled" ? partySize : 1);
   // Every successful drop supplies at least one item; no exact stack is inferred here.
   const oneSuccessCompletes =

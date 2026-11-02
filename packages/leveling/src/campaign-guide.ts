@@ -26,6 +26,7 @@ import {
   guidePartyScenario,
   guidePartyAnchors,
   type GuidePartyScenario,
+  type GuideStarterPartyMode,
 } from "./campaign-guide-party.js";
 
 export interface CampaignGuideSection {
@@ -140,10 +141,7 @@ function starterTarget(
         ),
     );
   const member = planned.members[0];
-  const calculated =
-    member?.endpoint && member.steps.length
-      ? Math.min(60, member.endpoint.level + (member.endpoint.currentXp > 0 ? 1 : 0))
-      : section.to;
+  const calculated = member?.endpoint && member.steps.length ? member.endpoint.level : section.to;
   return Math.max(1, calculated, ...minimums);
 }
 
@@ -151,9 +149,10 @@ function starterTarget(
 export function forecastCampaignGuide(
   plan: CampaignPlan,
   progress: PremadeProgress,
-  options: { readonly startingLevel?: number } = {},
+  options: { readonly startingLevel?: number; readonly starterMode?: GuideStarterPartyMode } = {},
 ): CampaignGuideForecast {
   const startingLevel = options.startingLevel ?? 1;
+  const starterMode = options.starterMode ?? "separate";
   if (!validBar({ level: startingLevel, currentXp: 0 }))
     throw new Error("Invalid guide starting level.");
   const sections = campaignSections(plan, progress);
@@ -174,6 +173,7 @@ export function forecastCampaignGuide(
   // Keep at most four configurations per immutable plan; discarded plans are collectable.
   const configuration = JSON.stringify({
     ...model,
+    starterMode,
     campaigns: {},
     stages: {},
     timings: {},
@@ -188,7 +188,7 @@ export function forecastCampaignGuide(
   }
   const scenario =
     currentCache.scenarios.get(configuration) ??
-    retain(currentCache.scenarios, configuration, guidePartyScenario(plan, model));
+    retain(currentCache.scenarios, configuration, guidePartyScenario(plan, model, starterMode));
   const planned =
     currentCache.plans.get(configuration) ??
     retain(
@@ -227,7 +227,8 @@ export function forecastCampaignGuide(
     recordedPlayers: anchors.map((anchor) => anchor.player),
     sections: sections.map((chapter, index): CampaignGuideSection => {
       const end = Math.max(-1, ...chapter.actionIds.map((id) => order.get(id) ?? -1));
-      const audience = chapter.kind === "starter" ? "personal" : "party";
+      const audience =
+        chapter.kind === "starter" && starterMode === "separate" ? "personal" : "party";
       const relevantAnchors = anchors.filter(
         (anchor) =>
           (audience !== "personal" || anchor.player === 1) &&

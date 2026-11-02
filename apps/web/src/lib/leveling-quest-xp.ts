@@ -149,6 +149,7 @@ export async function getLevelingRewardSnapshot(
           capturedAt: record.importedAt,
           status: "available",
           evidenceKind: "historical-reference",
+          ...(record.rewardBasis ? { rewardBasis: record.rewardBasis } : {}),
         };
         if (primary) facts[facts.indexOf(primary)] = fallback;
         else facts.push(fallback);
@@ -168,7 +169,7 @@ export async function getLevelingRewardSnapshot(
         ? "The historical XP fallback could not be validated; published Forever rewards remain available."
         : null,
       historical
-        ? `${historical} rewards use historical addon-database values because no published numeric Forever XP is available. They remain estimates until observed in game.`
+        ? `${historical} rewards use historical reference values because no published numeric Forever XP is available. They remain estimates until observed in game.`
         : null,
     ].filter((notice): notice is string => notice !== null);
     return {

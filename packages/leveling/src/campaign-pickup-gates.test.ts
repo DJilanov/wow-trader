@@ -1,9 +1,54 @@
 import { describe, expect, it } from "vitest";
-import { campaignActionReasons, type CampaignPlan } from "./campaign.js";
+import {
+  buildCampaignPlan,
+  campaignActionAlias,
+  campaignActionReasons,
+  type CampaignPlan,
+} from "./campaign.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
 import { emptyPremadeProgress } from "./premade-model.js";
+import { CHAPTER_REFERENCES } from "./chapter-data.js";
+import { parseGuideChapter } from "./guide-archive.js";
 
 describe("campaign pickup level gates", () => {
+  it("preserves bookmarks for superseded Thanes gates while enforcing the reviewed requirements", () => {
+    const sources = [115, 116, 117].map((sourceId) => {
+      const reference = CHAPTER_REFERENCES.find((chapter) => chapter.sourceId === sourceId)!;
+      return {
+        reference,
+        guide: parseGuideChapter("step\n>>Train and travel", reference.id, "a".repeat(64), 70205),
+      };
+    });
+    const plan = compileCampaignPickupGates(
+      buildCampaignPlan("human", "a".repeat(64), sources, "warrior", { includeLibrary: false }),
+    );
+    const progress = emptyPremadeProgress();
+    const before = JSON.stringify(progress);
+    const departure = plan.actions.find(
+      (action) => action.targetStopId === "thanes" && action.id.includes("-departure-level-"),
+    )!;
+    expect(departure.targetLevel).toBe(14);
+    expect(
+      campaignActionAlias(plan, progress, `${departure.legId}-departure-level-16-before-thanes`),
+    ).toBe(departure.id);
+    for (const [questId, oldLevel] of [
+      [96393, 15],
+      [96394, 15],
+      [96395, 14],
+      [96403, 14],
+      [98423, 16],
+    ] as const) {
+      const pickup = plan.actions.find((action) =>
+        action.questChanges.some(
+          (change) => change.questId === questId && change.state === "accepted",
+        ),
+      )!;
+      expect(
+        campaignActionAlias(plan, progress, `${pickup.legId}-level-${oldLevel}-${questId}`),
+      ).toBe(pickup.id);
+    }
+    expect(JSON.stringify(progress)).toBe(before);
+  });
   it("inserts one monotonic actual-XP gate before an otherwise premature pickup", () => {
     const pickup = {
       id: "route-pickup",

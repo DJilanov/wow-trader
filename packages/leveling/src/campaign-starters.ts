@@ -8,15 +8,26 @@ import {
 import { LEVELING_RACES } from "./profile.js";
 import { isCampaignRace, campaignStarterSourceIds, type CampaignRace } from "./campaign-route.js";
 import type { ClassSlug } from "./model.js";
-import type { CampaignCombatPlan, CombatActivity, CombatDataset } from "./combat-model.js";
+import type {
+  CampaignCombatPlan,
+  CombatActivity,
+  CombatDataset,
+  CampaignMaterialWork,
+} from "./combat-model.js";
 import type { QuestRewardFact } from "./quest-rewards.js";
 import { attachCampaignCombat } from "./campaign-combat.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
 import { applyCampaignPartyQuestPolicy } from "./campaign-party-policy.js";
 import { attachCampaignFlightPaths } from "./campaign-travel.js";
 import { attachCampaignLocations } from "./campaign-flow-locations.js";
+import { deferCampaignStarterVisits } from "./campaign-starter-visits.js";
 import { attachCampaignMovements, campaignTravelActions } from "./campaign-flow.js";
 import { attachCampaignSourceHints } from "./campaign-source-hints.js";
+import { alignCampaignPickupChecks, deferUnfundedStarterPickups } from "./campaign-pickup-order.js";
+import { fundCampaignQuestGaps } from "./campaign-quest-funding.js";
+import type { QuestCatalog } from "./quest-catalog.js";
+import { mergeQuestObjectiveIndexes } from "./campaign-quest-objectives.js";
+import { mergeCampaignItemRequirements, type CampaignItemRequirement } from "./campaign-items.js";
 
 export interface CampaignStarterRoute {
   readonly race: CampaignRace;
@@ -27,12 +38,15 @@ export interface CampaignStarterRoute {
 
 /** Source actions shared between race/class variants are serialized once, not once per player. */
 export interface CampaignStarterCatalog {
+  readonly sourceArchiveSha256?: string;
+  readonly itemRequirements?: readonly CampaignItemRequirement[];
   readonly entries: readonly {
     readonly action: CampaignAction;
     readonly activities: readonly CombatActivity[];
+    readonly materialWork?: readonly CampaignMaterialWork[];
   }[];
   readonly routes: readonly CampaignStarterRoute[];
-  readonly combat?: Omit<CampaignCombatPlan, "activities">;
+  readonly combat?: Omit<CampaignCombatPlan, "activities" | "materialWork">;
 }
 
 function catalog(plans: readonly CampaignPlan[]): CampaignStarterCatalog {
@@ -43,10 +57,13 @@ function catalog(plans: readonly CampaignPlan[]): CampaignStarterCatalog {
     classSlug: plan.leaderClass,
     legs: plan.legs,
     actionIndexes: plan.actions.map((action) => {
+      const materialWork =
+        plan.combat?.materialWork?.filter((work) => work.actionId === action.id) ?? [];
       const entry = {
         action,
         activities:
           plan.combat?.activities.filter((activity) => activity.actionId === action.id) ?? [],
+        ...(materialWork.length ? { materialWork } : {}),
       };
       const key = JSON.stringify(entry);
       let index = indexes.get(key);
@@ -61,14 +78,19 @@ function catalog(plans: readonly CampaignPlan[]): CampaignStarterCatalog {
   const references = plans.flatMap((plan) => (plan.combat ? [plan.combat] : []));
   const first = references[0];
   return {
+    itemRequirements: mergeCampaignItemRequirements(plans.map((plan) => plan.itemRequirements)),
     entries,
     routes,
     ...(first
       ? {
           combat: {
+            questObjectiveIndexes: mergeQuestObjectiveIndexes(
+              references.map((reference) => reference.questObjectiveIndexes),
+            ),
             revision: first.revision,
             sourceRevision: first.sourceRevision,
             targetBuild: first.targetBuild,
+            ...(first.historicalLoot ? { historicalLoot: first.historicalLoot } : {}),
             notice: first.notice,
             npcs: [
               ...new Map(
@@ -106,19 +128,22 @@ export function buildCampaignStarters(
   sources: readonly CampaignSource[],
 ): CampaignStarterCatalog {
   const available = new Set(sources.map((source) => source.reference.sourceId));
-  return catalog(
-    LEVELING_RACES.filter((race) => race.faction === "alliance").flatMap((race) => {
-      if (!isCampaignRace(race.id)) return [];
-      const id = race.id;
-      return [null, ...race.classes]
-        .filter((classSlug) =>
-          campaignStarterSourceIds(id, classSlug).every((sourceId) => available.has(sourceId)),
-        )
-        .map((classSlug) =>
-          buildCampaignPlan(id, archiveHash, sources, classSlug, { starterOnly: true }),
-        );
-    }),
-  );
+  return {
+    ...catalog(
+      LEVELING_RACES.filter((race) => race.faction === "alliance").flatMap((race) => {
+        if (!isCampaignRace(race.id)) return [];
+        const id = race.id;
+        return [null, ...race.classes]
+          .filter((classSlug) =>
+            campaignStarterSourceIds(id, classSlug).every((sourceId) => available.has(sourceId)),
+          )
+          .map((classSlug) =>
+            buildCampaignPlan(id, archiveHash, sources, classSlug, { starterOnly: true }),
+          );
+      }),
+    ),
+    sourceArchiveSha256: archiveHash,
+  };
 }
 
 export function enrichCampaignStarters(
@@ -126,17 +151,33 @@ export function enrichCampaignStarters(
   sources: readonly CampaignSource[],
   facts: readonly QuestRewardFact[],
   combat: { readonly data: CombatDataset; readonly revision: string } | null,
+  questCatalog: QuestCatalog | null = null,
 ): CampaignStarterCatalog {
-  return catalog(
-    starters.routes.map((route) => {
+  const archiveHash = starters.sourceArchiveSha256;
+  // Phase deferral needs prerequisite facts, which are not available in the raw archive pass.
+  const selected =
+    archiveHash && combat?.data.targetBuild === 70205
+      ? catalog(
+          starters.routes.map((route) =>
+            buildCampaignPlan(route.race, archiveHash, sources, route.classSlug, {
+              starterOnly: true,
+              questReferences: combat.data.quests,
+            }),
+          ),
+        )
+      : starters;
+  const result = catalog(
+    selected.routes.map((route) => {
       const plan: CampaignPlan = {
         release: "starter-projection",
         race: route.race,
         leaderClass: route.classSlug,
         targetBuild: 70205,
+        ...(archiveHash ? { sourceArchiveSha256: archiveHash } : {}),
         legs: route.legs,
-        actions: route.actionIndexes.map((index) => starters.entries[index]!.action),
+        actions: route.actionIndexes.map((index) => selected.entries[index]!.action),
         rewardFacts: facts,
+        ...(starters.itemRequirements ? { itemRequirements: starters.itemRequirements } : {}),
       };
       const chapters = new Set(
         plan.actions.flatMap((action) => (action.source ? [action.source.chapterId] : [])),
@@ -155,12 +196,25 @@ export function enrichCampaignStarters(
           sources,
         ),
       );
+      const ordered = deferUnfundedStarterPickups(ready);
+      const funded =
+        questCatalog && combat
+          ? fundCampaignQuestGaps(ordered, sources, combat.data, questCatalog)
+          : ordered;
+      const visits =
+        questCatalog && combat ? deferCampaignStarterVisits(funded, sources, questCatalog) : funded;
       const routed = attachCampaignSourceHints(
-        attachCampaignMovements(attachCampaignLocations(ready, sources), sources),
+        attachCampaignMovements(
+          attachCampaignLocations(alignCampaignPickupChecks(visits), sources),
+          sources,
+        ),
         sources,
       );
       const actions = campaignTravelActions(routed, routed.actions);
       return { ...routed, actions };
     }),
   );
+  return starters.sourceArchiveSha256
+    ? { ...result, sourceArchiveSha256: starters.sourceArchiveSha256 }
+    : result;
 }

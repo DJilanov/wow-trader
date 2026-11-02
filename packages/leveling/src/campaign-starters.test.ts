@@ -4,6 +4,7 @@ import { CHAPTER_REFERENCES } from "./chapter-data.js";
 import { parseGuideChapter } from "./guide-archive.js";
 import { LEVELING_RACES } from "./profile.js";
 import type { CampaignSource } from "./campaign.js";
+import type { CombatDataset } from "./combat-model.js";
 
 function sources(): readonly CampaignSource[] {
   return [113, 114, 115, 116, 117, 118, 119, 122, 123, 124, 125, 126, 157].map((id) => {
@@ -21,6 +22,75 @@ function sources(): readonly CampaignSource[] {
 }
 
 describe("independent party starter catalog", () => {
+  it.each([false, true])(
+    "reselects archived hand-ins with loaded prerequisites (%s)",
+    (dependent) => {
+      const input = sources().map((source) => {
+        const raw =
+          source.reference.sourceId === 119
+            ? "step\n.accept 300418\nstep\n.turnin 300418\n.isQuestComplete 300418\nstep\n.accept 300419"
+            : source.reference.sourceId === 122
+              ? "step\n.turnin 300418"
+              : "step\n+Empty companion chapter";
+        return {
+          ...source,
+          guide: parseGuideChapter(raw, source.reference.id, "a".repeat(64), 70205),
+        };
+      });
+      const raw = buildCampaignStarters("b".repeat(64), input);
+      const before = JSON.stringify(raw);
+      const combat: CombatDataset = {
+        schema: "forever-combat-reference.v1",
+        targetBuild: 70205,
+        publication: "private-reference",
+        authorizationNote: "Test-only reference",
+        provider: {
+          repository: "https://example.test/reference",
+          revision: "a".repeat(40),
+          layer: "forever-static-with-authored",
+          npcSha256: "a".repeat(64),
+          questSha256: "a".repeat(64),
+          itemSha256: "a".repeat(64),
+          limitations: ["Synthetic fixture"],
+        },
+        npcs: [],
+        dungeons: [],
+        killXpEvidence: [],
+        quests: [
+          {
+            questId: 300419,
+            creatureIds: [],
+            itemCreatureIds: [],
+            onlyCreatureObjectives: false,
+            objectiveText: [],
+            prerequisites: { allOf: dependent ? [300418] : [], anyOf: [] },
+          },
+        ],
+      };
+      const enriched = enrichCampaignStarters(raw, input, [], {
+        data: combat,
+        revision: "a".repeat(64),
+      });
+      const route = enriched.routes.find(
+        (entry) => entry.race === "dwarf" && entry.classSlug === "priest",
+      )!;
+      const handIns = route.actionIndexes
+        .map((index) => enriched.entries[index]!.action)
+        .filter((action) =>
+          action.questChanges.some(
+            (change) => change.questId === 300418 && change.state === "rewarded",
+          ),
+        );
+      expect(handIns).toHaveLength(1);
+      expect(handIns[0]!.source?.chapterId).toBe(
+        input.find((source) => source.reference.sourceId === (dependent ? 119 : 122))!.guide
+          .chapterId,
+      );
+      expect(enriched.sourceArchiveSha256).toBe("b".repeat(64));
+      expect(JSON.stringify(raw)).toBe(before);
+    },
+  );
+
   it("keeps available starters usable when another race's archive is missing", () => {
     const result = buildCampaignStarters(
       "b".repeat(64),

@@ -9,6 +9,9 @@ import type { CampaignAction, CampaignSource } from "./campaign.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import type { CombatQuestReference } from "./combat-model.js";
 import { campaignReferencePrerequisites } from "./campaign-reference-quests.js";
+import { isSingleGroundPickup } from "./campaign-ground-pickup.js";
+import { campaignActionSource } from "./campaign-source-conditions.js";
+import { createCampaignSourcePhaseSelector } from "./campaign-source-phase-selection.js";
 
 export type LibraryObjective =
   "shared-kills" | "named-trophy" | "delivery" | "interaction" | "collection" | "unclassified";
@@ -35,6 +38,7 @@ interface LibraryStage {
   readonly zone: string;
   readonly ordinal: number;
   readonly objective: LibraryObjective | null;
+  readonly groundPickup: boolean;
   readonly held: boolean;
   readonly completionGuard: boolean;
 }
@@ -132,7 +136,7 @@ export function buildCampaignSourceLevelGates(
             positions: view.directives.flatMap((entry) =>
               entry.position ? [{ sourceLine: entry.sourceLine, position: entry.position }] : [],
             ),
-            source: { chapterId: guide.chapterId, version: guide.version, stepId: step.id },
+            source: campaignActionSource(guide, step, view.directives),
             kind: "xp-check",
             leaderOnly: false,
             targetLevel: target.level,
@@ -239,6 +243,12 @@ export function buildCampaignQuestLibrary(
         left.reference.sourceId - right.reference.sourceId,
     );
   for (const { reference, guide } of sorted) {
+    const selectPhase = createCampaignSourcePhaseSelector(
+      guide,
+      profile,
+      dungeonTags,
+      questReferences,
+    );
     const label = getChapterLabel(reference, profile);
     let referenceLevel = label.minimumLevel;
     for (const step of guide.steps) {
@@ -274,6 +284,7 @@ export function buildCampaignQuestLibrary(
                 ? "rewarded"
                 : null;
         if (!state || directive.questId === null) continue;
+        if (!selectPhase(step, view, directive)) continue;
         const questId = directive.questId;
         if (state === "accepted" && directive.text)
           titles.set(questId, directive.text.replace(/^Accept\s+/i, ""));
@@ -313,14 +324,19 @@ export function buildCampaignQuestLibrary(
             ? view.directives.filter((entry) => entry.tag === "text").map((entry) => entry.text)
             : []),
         ].filter(Boolean);
+        const groundPickup =
+          state === "objectives-complete" &&
+          isSingleGroundPickup(references.get(questId), objectiveIndex!, view.directives);
         const objective =
           state === "objectives-complete"
-            ? classifyLibraryObjective(context.join("\n"), [
-                ...segment,
-                ...view.directives.filter((entry) =>
-                  [".collect", ".use", ".cast", ".gossip", ".interact"].includes(entry.tag),
-                ),
-              ])
+            ? groundPickup
+              ? "interaction"
+              : classifyLibraryObjective(context.join("\n"), [
+                  ...segment,
+                  ...view.directives.filter((entry) =>
+                    [".collect", ".use", ".cast", ".gossip", ".interact"].includes(entry.tag),
+                  ),
+                ])
             : null;
         const held =
           personalCondition.test(reference.condition) ||
@@ -358,7 +374,7 @@ export function buildCampaignQuestLibrary(
           positions: view.directives.flatMap((entry) =>
             entry.position ? [{ sourceLine: entry.sourceLine, position: entry.position }] : [],
           ),
-          source: { chapterId: guide.chapterId, version: guide.version, stepId: step.id },
+          source: campaignActionSource(guide, step, view.directives),
           kind: "quests",
           leaderOnly: false,
           targetLevel: null,
@@ -372,6 +388,7 @@ export function buildCampaignQuestLibrary(
           zone: label.zone,
           ordinal: step.ordinal,
           objective,
+          groundPickup,
           held,
           completionGuard:
             state === "rewarded" &&
@@ -414,9 +431,11 @@ export function buildCampaignQuestLibrary(
         objective = objective === "unclassified" ? "interaction" : "shared-kills";
       else if (reference?.onlyInteractionObjectives) objective = "interaction";
       else if (reference?.itemObjectives?.length)
-        objective = reference.itemObjectives.every((item) => item.provided)
-          ? "interaction"
-          : "collection";
+        objective =
+          reference.itemObjectives.every((item) => item.provided) ||
+          (objectives.length > 0 && objectives.every((entry) => entry.groundPickup))
+            ? "interaction"
+            : "collection";
       const sourceParents = [...(parents.get(questId) ?? [])];
       const alternatives = reference?.prerequisites?.anyOf ?? [];
       const alternative =
@@ -435,14 +454,16 @@ export function buildCampaignQuestLibrary(
         ) ??
         sourceParents.find((parent) => alternatives.includes(parent)) ??
         alternatives[0];
-      const prerequisiteIds = reference?.prerequisites
-        ? [
-            ...new Set([
-              ...reference.prerequisites.allOf,
-              ...(alternative === undefined ? [] : [alternative]),
-            ]),
-          ]
-        : (campaignReferencePrerequisites(questId) ?? sourceParents);
+      const prerequisiteIds =
+        campaignReferencePrerequisites(questId) ??
+        (reference?.prerequisites
+          ? [
+              ...new Set([
+                ...reference.prerequisites.allOf,
+                ...(alternative === undefined ? [] : [alternative]),
+              ]),
+            ]
+          : sourceParents);
       return {
         questId,
         title,

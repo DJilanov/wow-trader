@@ -4,6 +4,7 @@ import { createCampaignSourceProfile } from "./campaign-source-profile.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { PREMADE_STOPS } from "./premade.js";
 import { campaignZoneId } from "./campaign-geography.js";
+import { campaignActionSource } from "./campaign-source-conditions.js";
 
 export interface CampaignFlightPath {
   readonly key: string;
@@ -116,11 +117,7 @@ export function attachCampaignFlightPaths(
               ? [{ sourceLine: directive.sourceLine, position: directive.position }]
               : [],
           ),
-          source: {
-            chapterId: source.guide.chapterId,
-            version: source.guide.version,
-            stepId: step.id,
-          },
+          source: campaignActionSource(source.guide, step, view.directives),
           kind: "instructions",
           leaderOnly: anchor.action.leaderOnly,
           targetLevel: null,

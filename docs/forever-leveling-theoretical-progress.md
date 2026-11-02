@@ -1,5 +1,87 @@
 # Per-step theoretical XP and loot coverage
 
+Local v66 verification is complete: 1,493 tests, strict checks, package/web builds, all 528 arithmetic witnesses and 28 native checks pass. All 2,640 default-character and 160 mixed-character capacity bounds pass at 20/40. The continuous ledgers, independent budgets and mixed player rows match v65; complete funding remains 0/528 default and 0/32 mixed settings. A separate replay of the complete existing capture archive fills 271 null item quantities and corroborates 391 stored quantities. Six identity holds and one conflicting provided-item classification remain excluded. Source controls for quests 86, 4161 and 95213 pass on this candidate, including rejection with 40 completed-unhanded quests. A read-only comparison also identifies historical XP fallback caused by the live reader’s 14-day freshness rule; no timestamps, rewards or validation are changed. Canonical inputs remain frozen; the separate data candidate, acquisition, complete-route XP and current-server payouts are unqualified. See the [current audit](forever-leveling-no-grind-audit-2026-10-31.md).
+
+The later quantity-only review passes all 528 arithmetic cases, 28 native checks and 2,800 default/mixed character capacity bounds at 20/40 on the same frozen source. It changes 72 continuous ledgers, 128 chapter budgets and 80 mixed player rows. Complete funding remains 0/528 default and 0/32 mixed settings; the recovery is checked locally without live activation. The current audit also records the eight-quest historical quantity comparison and why moving the Warrior training chain alone does not resolve the shared starter’s XP gap.
+
+The completed v65 snapshot represents source-backed collection before acceptance, tracks each member’s minimum holdings, consumes items once and preserves inventory/partial-objective state through funding resumes. Collection uses no quest-log slot until acceptance; completed quests retain their slots until hand-in. All 1,463 tests, strict checks, package/web builds, 528 arithmetic cases and 28 native checks pass. All 2,640 default-character and 160 mixed-character capacity bounds pass at 20/40. Complete funding remains 0/528 default and 0/32 mixed settings. New acquisition/kill XP and further item flows remain unqualified; conditional quest budgets are not guaranteed lower bounds or actual-server payouts. The current audit records a caught ready-visit integration regression, its failing test and the corrected full rerun. Earlier sections below describe preserved checkpoints. See the [current audit](forever-leveling-no-grind-audit-2026-10-31.md).
+
+## Earlier v61 and v59 checkpoints
+
+The preserved v61 review completed: 1,301 tests, all 528 default-setting arithmetic/capacity cases and 28 native exports pass. All quest/combat ledgers match v60; eight misplaced-check failures are removed, while the real 518-XP shared Night Elf gap remains. Four explicit mixed parties add 32 checked settings, with a peak of 15/40 active quests and additional source/prerequisite gaps. Complete funding remains 0/528 in the default matrix and 0/32 in the mixed review. An isolated source-guard trial advances three peer paths without inventing items or XP; it is not production behavior. See the [current review](forever-leveling-no-grind-audit-2026-10-31.md) for exact scopes and next implementation. The following v59 section is the previous accepted checkpoint.
+
+The target remains the fastest practical five-player 1–60 route below 48 hours `/played` per player, with zero assumed grinding and efficient connected quest travel.
+
+Previous accepted ledger: `quest-funded-visit-windows-20261101-v59`; campaign v35, funding policy v22 and native compiler v28. The preparer batches supported quest work within reached XP boundaries after funding. Level-crossing actions, source instructions and unsupported contexts stay fixed. Each proposal recalculates all sixteen supported settings, checks rescheduled combat at the lowest participant's level, preserves passed requirements, and enforces the [40-quest limit](forever-leveling-quest-log.md). The [funded-visit contract](forever-leveling-funded-visits.md) records the rules.
+
+The fresh complete matrix passes **528 arithmetic witnesses / 21,488 chapter checks** and **2,640 complete-itinerary character quest-log bounds**, with a peak of **14/40**. **0/528 complete routes are funded.** All 528 continuous ledgers and independent chapter budgets are identical to v58. No reached requirement is lost, no first unsupported source action moves earlier, and no first deficit increases. The visit pass permits a shorter journey with less XP at the same already-unfunded requirement, but this revision needs no such trade.
+
+Canonical ordering changes in 2 of 33 editions. Planned regional visits: human/warrior 114 → 113; human/warlock 113 → 111. Regional counts are planning scores, not measured journey minutes. Projected-quest visit lists in the conservation report additionally exclude skipped work and non-XP instructions; they are not a complete walking itinerary. Human Paladin and Priest retain their previous action order; the final source-context guards reject the weaker private prototypes. Cross-leg southern Darkshore scheduling remains open.
+
+Separate Human reference frontiers are Warrior **15 + 11,560 XP**, **55,940 short of 19**; Paladin **16 + 4,855 XP**, **48,245 short of 19**; Priest **15 + 11,334 XP**, **56,166 short of 19**. No extra kills, compensation XP, inferred creature ranks or transport links were added. All 33 editions retain every action object's content/identity, source instruction order, saved-bookmark aliases and reward fact. The arithmetic kernel and source inputs are unchanged.
+
+Checks pass **1,024 leveling + 192 web-leveling + 56 script tests (1,272)**, strict package typecheck/lint, package/web builds and **28/28 native compile/inventory/Lua checks**. The frozen core tree contains 219 files. The full audit exits 2 because complete routes remain unfunded; arithmetic, capacity and native checks pass. No in-game/browser check, ZIP, installation, crawl, commit or deployment was performed. Current-server payouts and the under-48-hour target remain unverified.
+
+## Historical v39: ready hand-ins and pickup-provided deliveries
+
+The current ready-visit compiler collects verified completed source hand-ins before a blocked pickup. The authorized catalog retains 464 pickup-provided item identities with item-export provenance; no NPC, quest objective, loot row, reward, recording or dungeon-clear input was changed.
+
+It first preserves the established quest allocation, then proposes ready visits and rejects the proposal if any supported configuration reaches an earlier blocker or a larger deficit at the same task. It moves a whole active NPC visit within its existing leg/audience, checks every reachable supported configuration, preserves source IDs and class utilities, and admits a provided parcel only when its exact objective names the provided item and friendly recipient. Key-use objectives, collection work, item use, quest-state guards, training and unmodeled utility steps cannot be promoted. Information links are retained.
+
+The separate Human/Warrior reference now reaches **9 + 5,337 XP**, still **1,163 XP short of the level-10 class pickup**, compared with the previous 3,523-XP gap. The shared starter now passes its old level-7 pickup and reaches **8 + 4,506 XP**, still **894 XP short of quest 109's level-9 pickup**.
+
+These are known-input reference budgets, not measured Forever payouts or guaranteed drop outcomes. All 528 scenarios pass their arithmetic witness; **0/528 complete routes are funded**.
+
+Local checks pass **777 leveling + 188 web-leveling + 50 script tests (1,015)**, strict typecheck/lint, package/web builds and 28 native compile/inventory/Lua checks. The live references and website remain unchanged; no ZIP, installation or crawl was started.
+
+**October 31 correction:** the zero-grinding requirement supersedes the older planning
+acceptance results in this document. The former ledger filled checkpoints with assumed
+combat XP. The replacement ledger awards none, and its 528-scenario audit currently
+fails route funding. The normalized combat-reference publication is now owner-approved;
+the local replacement is not deployed. The November 1 revision consumes existing death
+counters, holds disputed objectives, and supplements eight missing rewards with labeled
+historical values. It adds no assumed grinding or invented payouts. Use the
+[current audit and release gate](forever-leveling-no-grind-audit-2026-10-31.md) for status.
+
+The next November 1 revision includes explicit historical stack/sharing provenance and
+holds unresolved joint collection inventory. Captured drop probabilities and foreign-build
+guards are unchanged. This improves the separate Human starter estimate through level 9,
+but no complete route variant is funded. The
+[historical-reference runbook](forever-leveling-classic-loot-reference.md) records the source
+and its limits; the reference is not active on production.
+
+The current courier correction moves quest 244 from the personal starter to its
+complete later Redridge party lifecycle, preserving training, mixed tasks and bookmarks.
+The v37 Human/Warrior blocker was the level-10 class pickup at level 9 + 2,977 XP after
+the reviewed joint candle/dust collection, leaving 3,523 XP unsupported. The earlier
+1,513-XP bar held that known prefix; the older 2,537-XP bar also used unqualified sample
+ratios in places. Both are superseded by this local revision. The
+[joint-collection contract](forever-leveling-joint-collections.md) describes its bounded
+CDF calculation, rounded reference kill budgets, exact source target and inventory
+limits. Book Return's unknown remaining inventory does not earn a fresh later quota.
+Four explicit historical zero rewards now supplement the source facts; seven custom
+candidate rewards remain unknown. All selected hand-in IDs have facts across the
+matrix. The latest source-matched historical tables cover 870 existing rewards; the
+current chapter checks no longer stop for unresolved hand-in XP. Prerequisites and
+unknown combat still prevent complete route funding, and other hand-in contexts remain
+subject to their own evidence checks.
+See the [zero-reward reference contract](forever-leveling-historical-zero-rewards.md).
+The [historical hand-in contract](forever-leveling-historical-hand-in-rewards.md)
+records source matching, unchanged full rewards and compiled rule-parity checks.
+The [quest-drop probability contract](forever-leveling-quest-drop-probability.md) adds
+1,007 historical contexts, preserves the captures and holds 157 unqualified sample rows.
+
+The current direct-pickup revision removes inferred visit-order holds only when a
+standalone, unconditional and unguarded source pickup agrees with the provider's empty
+prerequisite list. It preserves explicit gates and other restrictions. This admits five
+additional shared-kill candidates, including the first People's Militia quest, without
+changing reward amounts or combat inputs. Reduced low-level roots are excluded as new
+filler; useful current-level chains can still include their old prerequisites. The
+528-scenario audit remains unfunded. The authorized catalog and combat roots and exact
+hashes in the current audit supersede the earlier prepared pair.
+
+The v37 November 1 pre-departure correction prepares the Paladin locally before its hearth, preserving city/class tasks and reaching level 12 + 4,321 XP at starter exit. Exact one-item world-object instructions admit the two Auberdine pickups without mob-drop farming. The refreshed dungeon listing corrects five stale Thanes minimums and removes the old level-16 floor; the existing level-14 dungeon recommendation remains. The current preparation compiler evaluates sixteen configurations per edition and preserves required source work across them. It now detects implicit pickup-level deficits and counts return journeys in its relative scoring. At v37 shared Human starters reached level 6 + 2,671 XP before that level-7 pickup; the ready-visit correction above supersedes this frontier. This Paladin scenario reaches level 14 + 68 XP before entry and level 15 + 468 XP after the quest bundle, then remains 60,132 XP short of the next At-level stop. It does not establish a continuous funded route, travel optimality or measured dungeon combat. All 528 complete variants remain unfunded. The v37 engineering receipts covered 760 leveling, 188 web-leveling and 49 script tests, both builds and 28/28 native editions. See the current audit for source hashes, the full 39-row Human/Warrior diagnostic and remaining work.
+
 Updated October 21, 2026. A concurrent `231a8c2` commit now contains earlier extraction/model work;
 the newest audit-writer, targeted-refresh and acquisition/source-context fixes remain in the working
 tree. This task has
@@ -358,7 +440,11 @@ If raw HTML was retained, `--html-directory=<directory>` reparses canonical
 `forever-{quest|item}-{id}.html` files locally before deciding what needs fetching. Without an old
 staged record, cached HTML also needs an explicit `--permission-ref`. Original captures are not
 overwritten. `--sharing-overrides=<json>` accepts reviewed `{questId,itemId,sharing}` entries;
-`sharing` is `independent`, `pooled` or `unknown`. No sharing mode is inferred from quest shareability.
+`sharing` is `independent`, `shared-roll`, `pooled` or `unknown`. A shared roll supplies the
+same successful drop to each eligible member; independent rolls wait for the last collector.
+The importer retains item names from its checksummed provider, so named counters in captured
+quest objectives do not require another item page merely to resolve the name. No sharing mode
+is inferred from quest shareability or the Group Loot setting.
 
 ## Remaining delivery boundaries
 

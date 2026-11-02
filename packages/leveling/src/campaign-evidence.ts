@@ -3,6 +3,9 @@ export type CampaignEvidenceDomain = "reward" | "eligibility" | "combat" | "rout
 export type CampaignEvidenceResolution = "offline" | "in-game" | "offline-or-in-game";
 
 export type CampaignEvidenceCode =
+  | "item-acquisition-unqualified"
+  | "xp-range-ambiguous"
+  | "source-condition-unobserved"
   | "saved-xp-invalid"
   | "named-target-unverified"
   | "source-prerequisite-missing"
@@ -20,8 +23,10 @@ export type CampaignEvidenceCode =
   | "quest-ineligible"
   | "quest-pickup-missing"
   | "quest-objectives-incomplete"
+  | "quest-log-full"
   | "dungeon-objective-misordered"
   | "combat-profile-unverified"
+  | "combat-quota-conflict"
   | "reward-unresolved"
   | "reward-historical-estimate"
   | "dungeon-bundle-estimated"
@@ -52,6 +57,36 @@ export interface CampaignEvidenceDefinition {
 }
 
 export const CAMPAIGN_EVIDENCE_CATALOG = {
+  "xp-range-ambiguous": {
+    label: "XP range crosses a route decision",
+    requiredEvidence:
+      "Resolve the player's XP range before selecting different level-dependent source work.",
+    releaseImpact: "blocker",
+  },
+  "item-acquisition-unqualified": {
+    label: "Item acquisition unqualified",
+    requiredEvidence:
+      "Qualify the captured collection, remaining holdings, acquisition method and any required kill XP before claiming a fully funded route.",
+    releaseImpact: "blocker",
+  },
+  "source-condition-unobserved": {
+    label: "Required source condition unrecorded",
+    requiredEvidence:
+      "Record or qualify the condition before relying on this quest phase; do not infer inventory or repeat its reward.",
+    releaseImpact: "blocker",
+  },
+  "quest-log-full": {
+    label: "Quest log full",
+    requiredEvidence:
+      "Hand in an existing quest or move the pickup later; each character can hold at most 40 active quests.",
+    releaseImpact: "blocker",
+  },
+  "combat-quota-conflict": {
+    label: "Conflicting kill requirements",
+    requiredEvidence:
+      "Reconcile the quest and NPC identity and required slain count against the conflicting references.",
+    releaseImpact: "blocker",
+  },
   "saved-xp-invalid": {
     label: "Current player XP required",
     requiredEvidence: "Record a fresh level and XP bar that fits the pinned XP curve.",

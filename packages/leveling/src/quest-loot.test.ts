@@ -38,6 +38,30 @@ describe("conditional quest loot planning", () => {
       expect(independent.expectedKills).toBeLessThan(100);
     }
   });
+  it.each([2, 3, 4, 5])("models one common drop roll for %i eligible collectors", (partySize) => {
+    const result = estimateLootKills({ ...input, partySize, sharing: "shared-roll" });
+    expect(result).toEqual(estimateLootKills(input));
+    expect(result).toMatchObject({ status: "estimated", expectedKills: 20 });
+  });
+  it("does not wait for independent rolls when one shared item completes every member", () => {
+    expect(
+      estimateLootKills({
+        ...input,
+        quantity: 1,
+        probability: 0.5,
+        minimumQuantity: null,
+        maximumQuantity: null,
+        sharing: "shared-roll",
+        partySize: 5,
+      }),
+    ).toEqual({
+      status: "estimated",
+      minimumKills: 1,
+      fastKills: 1,
+      expectedKills: 2,
+      slowKills: 4,
+    });
+  });
   it("needs only the successful-drop probability for a one-item solo quota", () => {
     const single = { ...input, quantity: 1, minimumQuantity: null, maximumQuantity: null };
     const before = JSON.stringify(single);

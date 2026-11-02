@@ -3,6 +3,15 @@ import { createCampaignSourceProfile } from "./campaign-source-profile.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { PREMADE_STOPS } from "./premade.js";
 import { getGuideStepView, type ImportedDirective } from "./guide-archive.js";
+import { CAMPAIGN_QUEST_GUARDS } from "./campaign-native-guards.js";
+import { parseCampaignItemTarget } from "./campaign-items.js";
+import {
+  CAMPAIGN_SOURCE_CHECKS,
+  campaignSourceCheckMap,
+  createCampaignSourceConditions,
+  matchesCampaignSourcePhase as matchesQuest,
+} from "./campaign-source-conditions.js";
+import { displayOnlyQuestPhases } from "./campaign-source-display.js";
 
 export const CAMPAIGN_NATIVE_POLICY = "canonical-sequential-v1" as const;
 
@@ -35,7 +44,6 @@ const replacedControls = new Set([
   ".solo",
   ".xp",
   ".maxlevel",
-  ".disablecheckbox",
   ".zoneskip",
   ".subzoneskip",
 ]);
@@ -46,15 +54,9 @@ const questStates = new Map<string, CampaignAction["questChanges"][number]["stat
 ]);
 const positionTags = new Set([".goto", ".waypoint", ".line"]);
 const displayTags = new Set([".target", ".mob", ".unitscan"]);
-const questChecks = new Set([
-  ".isOnQuest",
-  ".isNotOnQuest",
-  ".isQuestTurnedIn",
-  ".isQuestComplete",
-  ".isQuestNotComplete",
-  ".isQuestAvailable",
-]);
+const questChecks = CAMPAIGN_QUEST_GUARDS;
 const commands = new Set([
+  ".disablecheckbox",
   "#level",
   ...positionTags,
   ...displayTags,
@@ -98,20 +100,6 @@ const commands = new Set([
   ".deathskip",
   "#arrowtext",
 ]);
-
-function matchesQuest(action: CampaignAction, directive: ImportedDirective): boolean {
-  const state = questStates.get(directive.tag);
-  const objective =
-    directive.tag === ".complete" ? Number(directive.arguments.split(",")[1] ?? 1) : null;
-  return action.questChanges.some(
-    (change) =>
-      change.questId === directive.questId &&
-      change.state === state &&
-      (change.state === "objectives-complete"
-        ? (change.objectiveIndex ?? 1)
-        : change.objectiveIndex) === objective,
-  );
-}
 
 function matchesPosition(action: CampaignAction, directive: ImportedDirective): boolean {
   const position = directive.position;
@@ -233,7 +221,10 @@ export function campaignNativeInstructions(
       )
         throw new Error(`Abandoning a retained campaign quest is not modeled: ${action.id}.`);
     }
-    const sourceQuests = directives.filter((directive) => questStates.has(directive.tag));
+    const displayOnly = displayOnlyQuestPhases(directives);
+    const sourceQuests = directives.filter(
+      (directive) => questStates.has(directive.tag) && !displayOnly.has(directive),
+    );
     const completeStep = sourceQuests.every((directive) => matchesQuest(action, directive));
     const missingNativePhase = action.questChanges.some(
       (change) =>
@@ -266,6 +257,7 @@ export function campaignNativeInstructions(
     }
     const relevantQuests = new Set([
       ...action.questChanges.map((change) => change.questId),
+      ...(action.itemCollections?.map((target) => target.questId) ?? []),
       ...(action.requiredQuestIds ?? []),
     ]);
     const relevantItems = new Set(
@@ -285,8 +277,26 @@ export function campaignNativeInstructions(
       }),
     );
     let previousQuest: ImportedDirective | undefined;
+    const selectedChecks = campaignSourceCheckMap(
+      action,
+      createCampaignSourceConditions(directives),
+    );
     const retained = directives.filter((directive) => {
       if (replacedControls.has(directive.tag)) return false;
+      if (displayOnly.has(directive)) return completeStep;
+      if (directive.tag === ".disablecheckbox")
+        return completeStep && displayOnly.has(directives[directives.indexOf(directive) - 1]!);
+      if (CAMPAIGN_SOURCE_CHECKS.has(directive.tag)) return selectedChecks.has(directive);
+      if (
+        directive.tag === ".mob" &&
+        (action.creatureTarget || action.referenceCreatureTargets) &&
+        !(action.creatureTarget ? [action.creatureTarget] : action.referenceCreatureTargets!).some(
+          (target) =>
+            directive.arguments.replace(/^\+/, "").trim().normalize("NFKC").toLowerCase() ===
+            target.name.normalize("NFKC").toLowerCase(),
+        )
+      )
+        return false;
       if (
         [".fp", ".fly", ".hs", ".home", ".zone", ".trainer", ".vendor"].includes(directive.tag) &&
         action.nativeUtilityTags &&
@@ -299,6 +309,19 @@ export function campaignNativeInstructions(
       }
       if (positionTags.has(directive.tag)) return matchesPosition(action, directive);
       if ([".collect", ".addquestitem"].includes(directive.tag)) {
+        if (action.itemCollections?.length && directive.tag === ".collect") {
+          const source = parseCampaignItemTarget(directive);
+          return (
+            source !== null &&
+            action.itemCollections.some(
+              (target) =>
+                target.questId === source.questId &&
+                target.itemId === source.itemId &&
+                target.quantity === source.quantity &&
+                target.objectiveBitmask === source.objectiveBitmask,
+            )
+          );
+        }
         const index = directive.tag === ".collect" ? 2 : 1;
         const questId = Number(directive.arguments.split(",")[index]);
         return Number.isSafeInteger(questId) && questId > 0
@@ -310,10 +333,6 @@ export function campaignNativeInstructions(
       if (completeStep) return true;
       if (displayTags.has(directive.tag))
         return previousQuest !== undefined && matchesQuest(action, previousQuest);
-      if (questChecks.has(directive.tag)) {
-        const ids = directive.arguments.split(",").map(Number);
-        return ids.length > 0 && ids.every((id) => relevantQuests.has(id));
-      }
       if (directive.tag === ".use")
         return relevantItems.has(Number(directive.arguments.split(",")[0]));
       // Unbound utility/item commands from a partially retained source step could
@@ -321,7 +340,7 @@ export function campaignNativeInstructions(
       return false;
     });
     const conditions = retained
-      .filter((directive) => questStates.has(directive.tag))
+      .filter((directive) => questStates.has(directive.tag) && !displayOnly.has(directive))
       .map((directive) => directive.condition);
     const questCondition = sharedQuestCondition(conditions);
     return {
@@ -331,7 +350,7 @@ export function campaignNativeInstructions(
         // its display level. Stock reverse-XP skips only this reminder, not the route.
         directive.tag === "#level"
           ? { ...directive, tag: ".xp", arguments: `<${directive.arguments},1`, text: "" }
-          : directive,
+          : (selectedChecks.get(directive) ?? directive),
       ),
     };
   };

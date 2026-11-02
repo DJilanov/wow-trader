@@ -39,6 +39,7 @@ import {
   DUNGEON_BUNDLE_REVISION,
   DUNGEON_BUNDLE_XP_SOURCE,
   DEFAULT_DUNGEON_BUNDLE_LEVELS,
+  questCatalogRewardFacts,
 } from "../packages/leveling/dist/index.js";
 import {
   questXpImportSetSchema,
@@ -46,6 +47,7 @@ import {
   readQuestXpIndex,
 } from "../packages/reference-data/dist/index.js";
 import { readAddonCombatReference } from "./leveling-addon-combat.mjs";
+import { readAddonQuestCatalog } from "./leveling-addon-quest-catalog.mjs";
 import { verifyCampaignAddonReview } from "./campaign-addon-review-check.mjs";
 
 const MAXIMUM_MANIFEST_BYTES = 4_000_000;
@@ -75,7 +77,7 @@ function parseArguments(raw) {
     const match = /^--([a-z-]+)=(.+)$/.exec(argument);
     if (!match || values.has(match[1]))
       throw new Error(
-        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--combat=dir] [--configuration=file] [--destination=dir --race=race --class=class] [--party-race=race --party-class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all [--verify-party-matrix]].",
+        "Use --archive=dir --rewards=dir --reward-import=file --runtime-build=number --restedxp-version=vX.Y.Z [--reward-evidence=file] [--combat=dir --quest-catalog=dir] [--configuration=file] [--destination=dir --race=race --class=class] [--party-race=race --party-class=class] [--interface=16001] [--version=0.2.0-review.1] [--raid-goals] [--verify-all [--verify-party-matrix]].",
       );
     values.set(match[1], match[2]);
   }
@@ -85,6 +87,7 @@ function parseArguments(raw) {
     "reward-import",
     "reward-evidence",
     "combat",
+    "quest-catalog",
     "configuration",
     "destination",
     "race",
@@ -125,12 +128,15 @@ function parseArguments(raw) {
   };
   if (values.has("party-race") !== values.has("party-class"))
     throw new Error("Provide both --party-race and --party-class.");
+  if (values.has("quest-catalog") && !values.has("combat"))
+    throw new Error("--quest-catalog requires --combat.");
   return {
     archive: resolve(values.get("archive")),
     rewards: resolve(values.get("rewards")),
     rewardImport: resolve(values.get("reward-import")),
     rewardEvidence: values.has("reward-evidence") ? resolve(values.get("reward-evidence")) : null,
     combat: values.has("combat") ? resolve(values.get("combat")) : null,
+    questCatalog: values.has("quest-catalog") ? resolve(values.get("quest-catalog")) : null,
     configuration: values.has("configuration") ? resolve(values.get("configuration")) : null,
     destination: values.has("destination") ? resolve(values.get("destination")) : null,
     race: values.get("race"),
@@ -196,6 +202,8 @@ async function loadRewardFacts(root, importPath, evidencePath, runtimeBuild) {
       capturedAt: record.capturedAt,
       status: record.status,
       evidenceKind: "published-forever",
+      referenceBaseXp: record.referenceBaseXp,
+      pageMultiplier: record.pageMultiplier,
     });
   }
   const importRaw = await bounded(importPath, MAXIMUM_IMPORT_BYTES);
@@ -373,6 +381,17 @@ async function main() {
     loadRewardFacts(input.rewards, input.rewardImport, input.rewardEvidence, input.runtimeBuild),
   ]);
   const combat = await readAddonCombatReference(input.combat, manifest.targetBuild);
+  const questCatalog = await readAddonQuestCatalog(
+    input.questCatalog,
+    manifest.targetBuild,
+    manifest.sourceSha256,
+  );
+  if (
+    combat?.data.questCatalogReference &&
+    combat.data.questCatalogReference.sha256 !== questCatalog?.revision
+  )
+    throw new Error("Pass the matching --quest-catalog for this normalized combat reference.");
+  const rewardFacts = questCatalogRewardFacts(rewards.facts, questCatalog?.data ?? null);
   const selection = campaignExportSelectionSchema.parse(
     input.configuration
       ? JSON.parse(await bounded(input.configuration, 100000))
@@ -382,14 +401,23 @@ async function main() {
   const starters = enrichCampaignStarters(
     buildCampaignStarters(manifest.sourceSha256, sources),
     sources,
-    rewards.facts,
+    rewardFacts,
     combat ? { data: combat.data, revision: combat.revision } : null,
+    questCatalog?.data ?? null,
   );
   const combatReference = combat
     ? {
         sha256: combat.revision,
         sourceBuild: combat.data.targetBuild,
         publication: combat.data.publication,
+      }
+    : null;
+  const questCatalogReference = questCatalog
+    ? {
+        sha256: questCatalog.revision,
+        sourceBuild: questCatalog.data.targetBuild,
+        publication: questCatalog.data.publication,
+        sourceArchiveSha256: questCatalog.data.sourceArchiveSha256,
       }
     : null;
   const compileArtifact = (plan, actions, partyStarter = input.partyStarter) => {
@@ -413,10 +441,11 @@ async function main() {
     const base = buildCampaignPlan(race, manifest.sourceSha256, sources, leaderClass);
     const plan = prepareCampaignPlan(base, sources, {
       starters,
-      rewardFacts: rewards.facts,
+      rewardFacts,
       rewardRevision: rewards.revision,
       rewardBuild: rewards.observedIds.length ? input.runtimeBuild : null,
       combat,
+      questCatalog: questCatalog?.data ?? null,
       rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. ${combat ? "Combat references fund hypothetical planning only; actual player XP and unverified loot remain held. " : ""}This addon package is an in-game review artifact.`,
     });
     const progress = campaignExportProgress(selection);
@@ -515,6 +544,7 @@ async function main() {
       sourceBuild: manifest.targetBuild,
       runtimeBuild: input.runtimeBuild,
       combatReference,
+      questCatalogReference,
       actionRange: {
         minimum: Math.min(...editions.map((entry) => entry.actions)),
         maximum: Math.max(...editions.map((entry) => entry.actions)),
@@ -569,6 +599,7 @@ async function main() {
     compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
     calculatorRevision: CAMPAIGN_XP_REVISION,
     combatReference,
+    questCatalogReference,
     guaranteedDungeonBundles: {
       revision: DUNGEON_BUNDLE_REVISION,
       defaultQuestLevels: DEFAULT_DUNGEON_BUNDLE_LEVELS,

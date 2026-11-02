@@ -26,6 +26,7 @@ export interface CampaignSectionArea {
 // Main questing locations, not a replacement for each action's coordinates or travel instructions.
 const outdoorAreas: Readonly<Record<string, string>> = {
   "early-darkshore-kills": "Darkshore",
+  "darkshore-shore-pickups": "Darkshore",
   "ironforge-rendezvous": "Dun Morogh",
   "early-party-kills": "Dun Morogh",
   "northern-approach": "Darkshore",

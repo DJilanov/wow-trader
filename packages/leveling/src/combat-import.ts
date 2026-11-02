@@ -197,6 +197,14 @@ export function importQuestieCombatData(input: {
   }
   const quests: CombatDataset["quests"] = [];
   for (const [questId, row] of questRows) {
+    const starters = numericIds(table(row.get(2)).get(3));
+    const startItemId = starters.length === 1 ? starters[0]! : null;
+    const startItem = startItemId === null ? undefined : itemRows.get(startItemId);
+    const startItemName = startItem?.get(1);
+    const verifiedStartItem =
+      startItem?.get(5) === questId && typeof startItemName === "string" && startItemName.trim()
+        ? { itemId: startItemId!, name: startItemName.trim() }
+        : null;
     const objectives = table(row.get(10));
     const creatureIds = [...table(objectives.get(1)).values()].flatMap((entry) => {
       const id = nullableInteger(table(entry).get(1), 1, 10000000);
@@ -208,6 +216,9 @@ export function importQuestieCombatData(input: {
     });
     const itemObjectives = [...table(objectives.get(3)).values()].flatMap((entry, offset) => {
       const itemId = nullableInteger(table(entry).get(1), 1, 10000000);
+      const flags =
+        itemId === null ? null : nullableInteger(itemRows.get(itemId)?.get(7), 0, 0xffffffff);
+      const name = itemId === null ? null : itemRows.get(itemId)?.get(1);
       return itemId === null
         ? []
         : [
@@ -215,10 +226,15 @@ export function importQuestieCombatData(input: {
               objectiveIndex:
                 creatureIds.length || table(objectives.get(2)).size ? null : offset + 1,
               itemId,
+              ...(typeof name === "string" && name.trim() ? { itemName: name.trim() } : {}),
               // Slot two is display text, not a required quantity.
               quantity: null,
               npcIds: numericIds(itemRows.get(itemId)?.get(2)),
-              sharing: "unknown" as const,
+              // QuestieDB itemMeta field 7; historical MULTI_DROP semantics, not a live observation.
+              sharing:
+                flags !== null && (flags & 2048) !== 0
+                  ? ("shared-roll" as const)
+                  : ("unknown" as const),
             },
           ];
     });
@@ -229,6 +245,7 @@ export function importQuestieCombatData(input: {
       creatureIds: [...new Set(creatureIds)],
       itemCreatureIds: [...new Set(itemCreatureIds)],
       itemObjectives,
+      ...(verifiedStartItem ? { startItem: verifiedStartItem } : {}),
       onlyInteractionObjectives:
         itemObjectives.length === 0 &&
         creatureIds.length === 0 &&

@@ -84,7 +84,12 @@ describe("Questie quest XP collection", () => {
     expect(result.importResult.set.sourceKind).toBe("addon-database");
     expect(result.importResult.set.exportSha256).toBe(result.report.source.sha256);
     expect(result.importResult.set.records).toEqual([
-      expect.objectContaining({ id: 581, fullXp: 2000, status: "available" }),
+      expect.objectContaining({
+        id: 581,
+        fullXp: 2000,
+        status: "available",
+        rewardBasis: "unscaled-reference",
+      }),
       expect.objectContaining({ id: 582, fullXp: null, status: "unknown" }),
     ]);
     expect(result.fallbackTasks.map((task) => task.id)).toEqual([582, 999]);

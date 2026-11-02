@@ -17,6 +17,8 @@ import {
 } from "./dungeon-xp.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { DUNGEON_QUESTS } from "./dungeon-catalog.js";
+import { resolveBoundedQuestReward, type CampaignXpBounds } from "./campaign-xp-bounds.js";
+import { advanceCombatPosition } from "./combat-xp.js";
 
 const reference = z
   .object({
@@ -103,6 +105,7 @@ export interface DungeonBundlePosition {
 }
 
 export interface DungeonBundleRewardRow extends DungeonRewardEstimate {
+  readonly maximumXp?: number;
   readonly slotKey: string;
   readonly questId: number | null;
   readonly handInLevel: number;
@@ -115,6 +118,7 @@ export interface DungeonBundleForecast {
   readonly estimatedXp: number;
   readonly unknownSlotKeys: readonly string[];
   readonly endpoint: DungeonBundlePosition | null;
+  readonly maximumEndpoint?: DungeonBundlePosition | null;
 }
 
 export function forecastDungeonBundle(
@@ -130,10 +134,19 @@ export function forecastDungeonBundle(
     questId: number,
     level: number,
   ) => DungeonRewardEstimate = estimateDungeonReward,
+  maximumStart?: DungeonBundlePosition,
 ): DungeonBundleForecast {
   const checked = dungeonBundleSchema.parse(bundle);
   let level = start?.level ?? checked.planningQuestLevel;
   let currentXp = start?.currentXp ?? 0;
+  let maximumPosition = maximumStart ? advanceCombatPosition(maximumStart, 0) : null;
+  if (
+    maximumStart &&
+    (!start ||
+      maximumStart.level < start.level ||
+      (maximumStart.level === start.level && maximumStart.currentXp < start.currentXp))
+  )
+    throw new Error("Reversed dungeon bundle XP bounds.");
   if (
     start &&
     (!Number.isInteger(level) ||
@@ -170,7 +183,10 @@ export function forecastDungeonBundle(
           (quest.raceIds.length > 0 &&
             (!member.raceId || !quest.raceIds.includes(member.raceId))) ||
           (quest.minimumLevel !== null && level < quest.minimumLevel));
-      const reward: DungeonRewardEstimate =
+      const reward: DungeonRewardEstimate & {
+        readonly maximumXp?: number | null;
+        readonly exitBounds?: CampaignXpBounds | null;
+      } =
         state !== "selected"
           ? {
               xp: 0,
@@ -188,9 +204,17 @@ export function forecastDungeonBundle(
                   source:
                     "Mapped quest identity or faction/class/race/pickup eligibility is not established for this member.",
                 }
-              : slot.questId === null
-                ? estimateDungeonBundleReward(checked.planningQuestLevel, level)
-                : resolveRealReward(slot.questId, level);
+              : maximumPosition
+                ? resolveBoundedQuestReward(
+                    { minimum: { level, currentXp }, maximum: maximumPosition },
+                    (handInLevel) =>
+                      slot.questId === null
+                        ? estimateDungeonBundleReward(checked.planningQuestLevel, handInLevel)
+                        : resolveRealReward(slot.questId, handInLevel),
+                  )
+                : slot.questId === null
+                  ? estimateDungeonBundleReward(checked.planningQuestLevel, level)
+                  : resolveRealReward(slot.questId, level);
       if (state === "selected") {
         if (reward.xp === null) unknownSlotKeys.push(slotKey);
         else {
@@ -199,15 +223,36 @@ export function forecastDungeonBundle(
           if (reward.basis === "base-estimate") estimatedXp += reward.xp;
           else referenceXp += reward.xp;
           currentXp += reward.xp;
+          if (maximumPosition)
+            maximumPosition =
+              reward.exitBounds?.maximum ??
+              advanceCombatPosition(maximumPosition, reward.maximumXp ?? reward.xp);
           while (level < 60 && currentXp >= FOREVER_XP_CURVE[level]!) {
             currentXp -= FOREVER_XP_CURVE[level]!;
             level++;
           }
           if (level === 60) currentXp = 0;
+          if (reward.exitBounds) {
+            level = reward.exitBounds.minimum.level;
+            currentXp = reward.exitBounds.minimum.currentXp;
+          }
         }
         if (slot.questId !== null) paidIds.add(slot.questId);
       }
-      return { ...reward, slotKey, questId: slot.questId, handInLevel, state };
+      return {
+        xp: reward.xp,
+        basis: reward.basis,
+        source: reward.source,
+        ...(reward.maximumXp !== undefined &&
+        reward.maximumXp !== null &&
+        reward.maximumXp !== reward.xp
+          ? { maximumXp: reward.maximumXp }
+          : {}),
+        slotKey,
+        questId: slot.questId,
+        handInLevel,
+        state,
+      };
     });
   return {
     rows,
@@ -215,5 +260,6 @@ export function forecastDungeonBundle(
     estimatedXp,
     unknownSlotKeys,
     endpoint: start && !unknownSlotKeys.length ? { level, currentXp } : null,
+    ...(maximumStart ? { maximumEndpoint: unknownSlotKeys.length ? null : maximumPosition } : {}),
   };
 }

@@ -398,7 +398,7 @@ describe("global five-player route policy", () => {
       [],
     );
   });
-  it("retains the personal first-zone flow before applying the shared-party policy", () => {
+  it("does not protect an unsupported farm or its follow-up merely because it is in a personal starter", () => {
     const { plan, sources, data } = fixture();
     const selected = applyCampaignPartyQuestPolicy(
       {
@@ -410,10 +410,48 @@ describe("global five-player route policy", () => {
         ...source,
         reference: { ...source.reference, title: "1-6 Northshire" },
       })),
-      data,
+      {
+        ...data,
+        quests: data.quests.map((quest) =>
+          quest.questId === 13 ? { ...quest, prerequisites: { allOf: [102], anyOf: [] } } : quest,
+        ),
+      },
     );
     expect(
-      selected.partyPolicy?.decisions.find((decision) => decision.questId === 102)?.reason,
-    ).toContain("Personal starter");
+      selected.partyPolicy?.decisions.find((decision) => decision.questId === 102)?.included,
+    ).toBe(false);
+    expect(
+      selected.partyPolicy?.decisions.find((decision) => decision.questId === 13)?.included,
+    ).toBe(false);
+    expect(
+      selected.actions.some((action) =>
+        action.questChanges.some((change) => change.questId === 12),
+      ),
+    ).toBe(true);
+  });
+  it("keeps a starter collection when a required class unlock depends on it", () => {
+    const { plan, sources, data } = fixture();
+    const selected = applyCampaignPartyQuestPolicy(
+      {
+        ...plan,
+        legs: plan.legs.map((leg) => ({ ...leg, kind: "starter" as const, from: 1, to: 6 })),
+        actions: plan.actions.map((action) => ({ ...action, leaderOnly: true })),
+      },
+      sources.map((source) => ({
+        ...source,
+        reference: { ...source.reference, title: "1-6 Northshire" },
+      })),
+      {
+        ...data,
+        quests: data.quests.map((quest) =>
+          quest.questId === 13
+            ? { ...quest, requiredClasses: 1, prerequisites: { allOf: [102], anyOf: [] } }
+            : quest,
+        ),
+      },
+    );
+    expect(
+      selected.partyPolicy?.decisions.find((decision) => decision.questId === 102),
+    ).toMatchObject({ included: true, requiredFor: [13] });
   });
 });

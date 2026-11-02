@@ -39,12 +39,19 @@ export const questXpImportRecordSchema = referenceTaskSchema
     minimumLevel: level.nullable(),
     rewardXpId: z.number().int().min(0).max(1_000_000).nullable(),
     fullXp: xp.nullable(),
+    rewardBasis: z.enum(["unscaled-reference", "final-reward"]).optional(),
     xpByLevel: z.array(z.object({ level, xp }).strict()).max(60),
     status: z.enum(["available", "unknown", "conflict"]),
     issues: z.array(issue).max(30),
   })
   .strict()
   .superRefine((record, context): void => {
+    if (
+      record.status === "available" &&
+      record.rewardBasis === "unscaled-reference" &&
+      record.fullXp === null
+    )
+      context.addIssue({ code: "custom", message: "Unscaled reference requires a full reward" });
     if (new Set(record.xpByLevel.map((entry) => entry.level)).size !== record.xpByLevel.length)
       context.addIssue({ code: "custom", message: "Duplicate imported quest XP level" });
     if (
@@ -112,6 +119,8 @@ export interface QuestXpImportOptions {
   readonly sourceKind: (typeof IMPORT_SOURCE_KINDS)[number];
   readonly sourceRef: string;
   readonly revision: string;
+  /** Explicit source semantics; omitted for legacy imports whose scale is unknown. */
+  readonly rewardBasis?: "unscaled-reference" | "final-reward";
   readonly importedAt?: string;
   /** SHA-256 of the original source when `input` is a normalized intermediate representation. */
   readonly exportSha256?: string;
@@ -366,6 +375,7 @@ export async function buildQuestXpImport(
       minimumLevel,
       rewardXpId: row.rewardXpId,
       fullXp: row.fullXp,
+      ...(options.rewardBasis ? { rewardBasis: options.rewardBasis } : {}),
       xpByLevel: [...row.xpByLevel],
       issues,
     };

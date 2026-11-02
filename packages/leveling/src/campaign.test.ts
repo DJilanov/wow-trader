@@ -46,6 +46,32 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
+  it("marks generated full dungeon objectives without changing partial source steps", () => {
+    const route = plan();
+    const objective = route.actions.find((action) =>
+      action.questChanges.some(
+        (change) => change.questId === 96394 && change.state === "objectives-complete",
+      ),
+    );
+    expect(objective?.wholeQuestObjectives).toBe(true);
+    expect(
+      route.actions.find((action) =>
+        action.questChanges.some(
+          (change) => change.questId === 96394 && change.state === "accepted",
+        ),
+      )?.wholeQuestObjectives,
+    ).toBeUndefined();
+    const partial = route.actions.find(
+      (action) =>
+        action.source &&
+        action.questChanges.some(
+          (change) => change.questId === 52 && change.state === "objectives-complete",
+        ),
+    );
+    expect(partial).toBeDefined();
+    expect(partial?.wholeQuestObjectives).toBeUndefined();
+  });
+
   it("keeps required finishing XP as an explicit task instead of awarding level 60 automatically", () => {
     const base = plan();
     const finish = {
@@ -63,7 +89,7 @@ describe("continuous 1–60 premade campaign", () => {
         xpNeedsUpdate: false,
       })),
     };
-    expect(forecastCampaignXp(finish, progress).at(-1)?.members[0]?.knownEndpoint?.level).toBe(60);
+    expect(forecastCampaignXp(finish, progress).at(-1)?.members[0]?.knownEndpoint?.level).toBe(56);
     expect(
       forecastCampaignXp(finish, progress, { noAssumedGrinding: true }).at(-1)?.members[0]
         ?.knownEndpoint?.level,
@@ -113,7 +139,7 @@ describe("continuous 1–60 premade campaign", () => {
         (action) => !action.questChanges.some((change) => change.questId === 2924),
       ),
       partyPolicy: {
-        revision: "five-player-kill-first-20261031-v1" as const,
+        revision: "five-player-kill-first-20261102-v3" as const,
         partySize: 5 as const,
         unresolvedPrerequisiteIds: [],
         decisions: [

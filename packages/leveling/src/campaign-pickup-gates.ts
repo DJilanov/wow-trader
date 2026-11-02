@@ -6,6 +6,15 @@ import { questEligibility } from "./quest-eligibility.js";
 import { createCampaignPickupBudget } from "./campaign-pickup-budget.js";
 import { forecastCampaignXp } from "./campaign-xp.js";
 
+// October 5 reference levels, superseded by the November 1 dungeon-source review.
+const legacyThanesPickupLevels: Readonly<Record<number, number>> = {
+  96393: 15,
+  96394: 15,
+  96395: 14,
+  96403: 14,
+  98423: 16,
+};
+
 function gateAction(action: CampaignAction, minimumLevel: number, questId: number): CampaignAction {
   return {
     id: `${action.legId}-level-${minimumLevel}-${questId}`,
@@ -13,7 +22,7 @@ function gateAction(action: CampaignAction, minimumLevel: number, questId: numbe
     title: `Level ${minimumLevel} required: ${action.questChanges.find((change) => change.questId === questId)?.title ?? `quest ${questId}`}`,
     instructions: [
       `${action.leaderOnly ? "You need" : "Everyone taking this quest needs"} level ${minimumLevel} to accept it. If you are already high enough, continue to the pickup.`,
-      "Otherwise, finish nearby quests or defeat enemies until you reach the required level.",
+      "Finish the listed quest preparation before this pickup. No extra grinding is included.",
     ],
     questChanges: [],
     positions: action.positions,
@@ -45,7 +54,7 @@ function departureGateAction(
       stopId
         ? `Get the party ready for ${destinationTitle}. The required level follows your dungeon difficulty setting.`
         : `Reach level ${level} together to finish the route.`,
-      "If everyone is high enough, continue. If someone is behind, finish nearby quests or defeat enemies together until they catch up.",
+      "If everyone is high enough, continue. The listed quest preparation must cover this requirement; no extra grinding is included.",
     ],
     questChanges: [],
     positions: previous.positions,
@@ -68,6 +77,7 @@ function legacyDepartureLevel(plan: CampaignPlan, stopId: string, fallback: numb
   // Only preserve bookmarks from the old all-policies maximum; it is not an execution target.
   return Math.max(
     fallback,
+    stopId === "thanes" ? 16 : 0,
     ...(["at-level", "experienced-premade"] as const).flatMap((difficultyPolicy) =>
       [true, false].map((raidGoals) =>
         premadeEntryLevel(stop, { ...base, difficultyPolicy, raidGoals }, plan.rewardFacts),
@@ -236,6 +246,14 @@ export function compileCampaignPickupGates(plan: CampaignPlan): CampaignPlan {
       }
     }
     actions.push(action);
+    for (const pickup of pickups) {
+      const legacyLevel = legacyThanesPickupLevels[pickup.questId];
+      if (
+        legacyLevel !== undefined &&
+        legacyLevel !== questEligibility(pickup.questId, plan.rewardFacts).minimumLevel
+      )
+        aliases[`${action.legId}-level-${legacyLevel}-${pickup.questId}`] = action.id;
+    }
     for (const change of action.questChanges) {
       if (change.state === "rewarded") reward(action, change.questId);
       if (change.state === "accepted" && !action.raidOnly && !action.xpOptional) {

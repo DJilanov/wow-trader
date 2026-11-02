@@ -50,6 +50,28 @@ const base = {
 } as const;
 
 describe("external quest XP import", () => {
+  it.each(["unscaled-reference", "final-reward"] as const)(
+    "retains explicit %s source semantics without changing amounts",
+    async (rewardBasis) => {
+      const result = await buildQuestXpImport({ ...base, input: CSV, format: "csv", rewardBasis });
+      expect(result.set.records.every((record) => record.rewardBasis === rewardBasis)).toBe(true);
+      expect(result.set.records.map((record) => record.fullXp)).toEqual([2450, 2520, null]);
+      const legacy = await buildQuestXpImport({ ...base, input: CSV, format: "csv" });
+      expect(legacy.set.records.every((record) => record.rewardBasis === undefined)).toBe(true);
+    },
+  );
+
+  it("rejects an explicitly unscaled available import without its full reward", async () => {
+    await expect(
+      buildQuestXpImport({
+        ...base,
+        format: "json",
+        rewardBasis: "unscaled-reference",
+        input: JSON.stringify([{ id: 581, level: 32, xp_by_level: [{ level: 32, xp: 2450 }] }]),
+      }),
+    ).rejects.toThrow("Unscaled reference requires a full reward");
+  });
+
   it("keeps zero minimum level as no-requirement and flags formula-derived rewards", async () => {
     const result = await buildQuestXpImport({ ...base, input: CSV, format: "csv" });
     expect(result.report).toMatchObject({

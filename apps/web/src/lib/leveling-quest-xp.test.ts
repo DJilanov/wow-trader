@@ -146,76 +146,87 @@ describe("quest XP adapter", () => {
     expect(result.facts).toHaveLength(1);
     expect(result.notice).toBeNull();
   });
-  it("uses an explicitly configured historical import only as labeled estimate evidence", async () => {
-    const root = await mkdtemp(join(tmpdir(), "leveling-reward-import-"));
-    try {
-      await setup();
-      vi.mocked(readPublishedQuestXp).mockResolvedValue({
-        ...record(),
-        fullXp: null,
-        referenceBaseXp: null,
-        pageMultiplier: null,
-        rendererRevision: null,
-        xpByLevel: [],
-        status: "unknown",
-        issues: ["missing_numeric_quest_xp"],
-      });
-      const input = join(root, "quest-xp-import.json");
-      await writeFile(
-        input,
-        JSON.stringify({
-          schema: "quest-xp-import-set.v1",
-          game: "forever",
-          sourceKind: "addon-database",
-          sourceRef: "Pinned QuestieDB export",
-          revision: "test-revision",
-          exportSha256: "b".repeat(64),
-          importedAt: capturedAt,
-          counts: { records: 1, available: 1, unknown: 0, conflicts: 0, unexpected: 0 },
-          records: [
-            {
-              game: "forever",
-              kind: "quest",
-              id: 9,
-              schema: "quest-xp-import.v1",
-              sourceKind: "addon-database",
-              sourceRef: "Pinned QuestieDB export",
-              revision: "test-revision",
-              exportSha256: "b".repeat(64),
-              importedAt: capturedAt,
-              questLevel: 15,
-              minimumLevel: null,
-              rewardXpId: null,
-              fullXp: 900,
-              xpByLevel: [],
-              status: "available",
-              issues: [],
-            },
-          ],
-        }),
-      );
-      vi.stubEnv("WOW_TRADER_LEVELING_QUEST_XP_IMPORT", input);
+  it.each([
+    { xp: 900, sourceKind: "addon-database", rewardBasis: undefined },
+    { xp: 0, sourceKind: "server-database", rewardBasis: undefined },
+    { xp: 900, sourceKind: "addon-database", rewardBasis: "unscaled-reference" },
+    { xp: 900, sourceKind: "server-database", rewardBasis: "final-reward" },
+  ] as const)(
+    "uses a $sourceKind import with $xp XP only as labeled estimate evidence",
+    async ({ xp, sourceKind, rewardBasis }): Promise<void> => {
+      const root = await mkdtemp(join(tmpdir(), "leveling-reward-import-"));
+      try {
+        await setup();
+        vi.mocked(readPublishedQuestXp).mockResolvedValue({
+          ...record(),
+          fullXp: null,
+          referenceBaseXp: null,
+          pageMultiplier: null,
+          rendererRevision: null,
+          xpByLevel: [],
+          status: "unknown",
+          issues: ["missing_numeric_quest_xp"],
+        });
+        const input = join(root, "quest-xp-import.json");
+        await writeFile(
+          input,
+          JSON.stringify({
+            schema: "quest-xp-import-set.v1",
+            game: "forever",
+            sourceKind,
+            sourceRef: "Pinned historical reference export",
+            revision: "test-revision",
+            exportSha256: "b".repeat(64),
+            importedAt: capturedAt,
+            counts: { records: 1, available: 1, unknown: 0, conflicts: 0, unexpected: 0 },
+            records: [
+              {
+                game: "forever",
+                kind: "quest",
+                id: 9,
+                schema: "quest-xp-import.v1",
+                sourceKind,
+                sourceRef: "Pinned historical reference export",
+                revision: "test-revision",
+                exportSha256: "b".repeat(64),
+                importedAt: capturedAt,
+                questLevel: 15,
+                minimumLevel: null,
+                rewardXpId: null,
+                fullXp: xp,
+                ...(rewardBasis ? { rewardBasis } : {}),
+                xpByLevel: [],
+                status: "available",
+                issues: [],
+              },
+            ],
+          }),
+        );
+        vi.stubEnv("WOW_TRADER_LEVELING_QUEST_XP_IMPORT", input);
 
-      const result = await getLevelingRewardSnapshot([9]);
+        const result = await getLevelingRewardSnapshot([9]);
 
-      expect(result.facts[0]).toMatchObject({
-        questId: 9,
-        fullXp: 900,
-        minimumLevel: 8,
-        evidenceKind: "historical-reference",
-      });
-      expect(result.notice).toContain("remain estimates");
+        expect(result.facts[0]).toMatchObject({
+          questId: 9,
+          fullXp: xp,
+          minimumLevel: 8,
+          evidenceKind: "historical-reference",
+          ...(rewardBasis ? { rewardBasis } : {}),
+        });
+        expect(result.notice).toContain("remain estimates");
+        expect(result.notice).toContain("historical reference values");
 
-      await setup("Different quest");
-      vi.stubEnv("WOW_TRADER_LEVELING_QUEST_XP_IMPORT", input);
-      const held = await getLevelingRewardSnapshot([9]);
+        await setup("Different quest");
+        vi.stubEnv("WOW_TRADER_LEVELING_QUEST_XP_IMPORT", input);
+        const held = await getLevelingRewardSnapshot([9]);
 
-      expect(held.facts).toEqual([]);
-      expect(held.notice).toContain("held for current-client identity checks");
-    } finally {
-      await rm(root, { recursive: true, force: true });
-    }
-  });
+        expect(held.facts).toEqual([]);
+        expect(held.notice).toContain("held for current-client identity checks");
+      } finally {
+        await rm(root, { recursive: true, force: true });
+      }
+    },
+  );
   it("keeps published Forever rewards when the optional historical import is unavailable", async () => {
     await setup();
     vi.stubEnv(

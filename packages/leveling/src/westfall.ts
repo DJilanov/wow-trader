@@ -327,7 +327,7 @@ const quests: LevelingQuest[] = [
   quest(
     96395,
     "An Ancient Grudge",
-    14,
+    10,
     "Ghostly Attendant · Hall of Thanes",
     "Put Faldrim Anvilmar's spirit to rest.",
     "Ghostly Attendant · Hall of Thanes",
@@ -335,7 +335,7 @@ const quests: LevelingQuest[] = [
   quest(
     96403,
     "Important Heirlooms",
-    14,
+    10,
     "Thom Filch · Ironforge",
     "Collect the requested heirlooms during this visit.",
     "Thom Filch · Ironforge",
@@ -343,7 +343,7 @@ const quests: LevelingQuest[] = [
   quest(
     96394,
     "The Restless Dead",
-    15,
+    10,
     "Afadra Dunwall · Ironforge",
     "Complete the requested kills and Anvilmar objective.",
     "Afadra Dunwall · Ironforge",
@@ -351,7 +351,7 @@ const quests: LevelingQuest[] = [
   quest(
     96393,
     "Old Ironforge Incursion",
-    15,
+    9,
     "Earthseer Farsen · Dun Morogh",
     "Defeat Durgen Dirgehammer and recover his head.",
     "King Magni Bronzebeard · Ironforge",
@@ -361,7 +361,7 @@ const quests: LevelingQuest[] = [
   quest(
     98423,
     "The Treaty of Understanding",
-    16,
+    9,
     "Tablet · Reliquary of Kings, Hall of Thanes",
     "Recover the tablet from the vault.",
     "King Magni Bronzebeard · Ironforge",

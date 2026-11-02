@@ -283,10 +283,12 @@ export function getGuideStepView(
   for (const directive of step.directives) {
     const condition = evaluateChapterCondition(directive.condition, profile);
     if (condition === "exclude") continue;
-    if (gateTags.has(directive.tag))
-      results.push(
-        condition === "unknown" ? "unknown" : directiveGate(directive, profile, options),
-      );
+    if (gateTags.has(directive.tag)) {
+      const gate = directiveGate(directive, profile, options);
+      // An already-satisfied restriction cannot exclude the step, even if its selector is unknown.
+      if (condition === "unknown" && gate === "match") continue;
+      results.push(condition === "unknown" ? "unknown" : gate);
+    }
     if (condition === "unknown") conditionalDirectives.push(directive);
     else directives.push(directive);
   }

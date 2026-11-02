@@ -3,10 +3,10 @@ import type { CampaignPlan } from "./campaign.js";
 import type { PremadeProgress } from "./premade-model.js";
 import type { CampaignXpEvent } from "./campaign-xp-event.js";
 
-export interface CampaignTheoryStep extends CampaignXpEvent {
+export type CampaignTheoryStep = CampaignXpEvent & {
   readonly fastLoot: CampaignXpEvent["after"];
   readonly slowLoot: CampaignXpEvent["after"];
-}
+};
 export interface CampaignTheoryPlayer {
   readonly player: number;
   readonly steps: readonly CampaignTheoryStep[];

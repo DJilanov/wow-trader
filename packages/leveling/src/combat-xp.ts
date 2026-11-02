@@ -1,7 +1,8 @@
 import type { CombatNpc, KillXpEvidence } from "./combat-model.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 
-export const COMBAT_XP_RULE = "classic-reference-individual-level-no-bonus-20261021-v3";
+export const COMBAT_XP_RULE =
+  "forever-published-solo-reference-joint-party-levels-no-bonus-20261101-v6";
 export interface CombatXpPosition {
   readonly level: number;
   readonly currentXp: number;
@@ -26,6 +27,33 @@ function grayLevel(level: number): number {
       : level <= 59
         ? level - 1 - Math.floor(level / 5)
         : level - 9;
+}
+
+function zeroDifference(level: number): number {
+  const bands = [
+    [8, 5],
+    [10, 6],
+    [12, 7],
+    [16, 8],
+    [20, 9],
+    [30, 11],
+    [40, 12],
+    [45, 13],
+    [50, 14],
+    [55, 15],
+    [60, 16],
+    [61, 17],
+  ] as const;
+  return bands.find(([until]) => level < until)![1];
+}
+
+function roundedFloat32Product(value: number, multiplier: number): number {
+  const product = Math.fround(Math.fround(value) * Math.fround(multiplier));
+  const whole = Math.floor(product);
+  const fraction = product - whole;
+  if (fraction < 0.5) return whole;
+  if (fraction > 0.5) return whole + 1;
+  return whole % 2 === 0 ? whole : whole + 1;
 }
 
 export function advanceCombatPosition(position: CombatXpPosition, xp: number): CombatXpPosition {
@@ -60,22 +88,23 @@ export function classicNormalKillXp(playerLevel: number, mobLevel: number): numb
   const baseline = 45 + 5 * playerLevel;
   if (mobLevel >= playerLevel)
     return Math.floor(baseline * (1 + Math.min(4, mobLevel - playerLevel) / 20));
-  const bands = [
-    [8, 5],
-    [10, 6],
-    [12, 7],
-    [16, 8],
-    [20, 9],
-    [30, 11],
-    [40, 12],
-    [45, 13],
-    [50, 14],
-    [55, 15],
-    [60, 16],
-    [61, 17],
-  ] as const;
-  const difference = bands.find(([until]) => playerLevel < until)![1];
+  const difference = zeroDifference(playerLevel);
   return Math.max(0, Math.floor(baseline * (1 - (playerLevel - mobLevel) / difference)));
+}
+
+/** Published Forever solo base, without rested, Well Fed, party sharing or dungeon tuning. */
+export function foreverNormalKillXp(playerLevel: number, mobLevel: number): number {
+  if (!validLevel(playerLevel) || !Number.isInteger(mobLevel) || mobLevel < 1 || mobLevel > 100)
+    throw new Error("Invalid combat level.");
+  if (playerLevel === 60 || mobLevel <= grayLevel(playerLevel)) return 0;
+  const base = 45 + 5 * Math.min(playerLevel, mobLevel);
+  const difference = zeroDifference(playerLevel);
+  const multiplier =
+    mobLevel >= playerLevel
+      ? 1 + Math.min(4, mobLevel - playerLevel) * 0.05
+      : (difference - (playerLevel - mobLevel)) / difference;
+  // The calculator's checked rounding uses float32 multiplication and ties to even.
+  return roundedFloat32Product(base, multiplier);
 }
 
 export function estimateCreatureKills(input: {
@@ -90,6 +119,8 @@ export function estimateCreatureKills(input: {
   readonly partyLevels?: readonly (number | null)[];
   readonly xpMultiplier?: number;
   readonly playerIndex?: number;
+  /** Caller guarantees equal starting bars and the same physical kill stream. */
+  readonly synchronizedParty?: boolean;
 }): CombatKillEstimate {
   const { npc, kills, position, partySize, environment } = input;
   advanceCombatPosition(position, 0);
@@ -141,6 +172,8 @@ export function estimateCreatureKills(input: {
       input.partyLevels.some((level) => level === null || !validLevel(level)))
   )
     return unknown("Party member levels are missing; shared kill XP cannot be established.");
+  if (input.synchronizedParty && input.partyLevels?.some((level) => level !== position.level))
+    throw new Error("Synchronized party levels must match the starting XP bar.");
   if (
     partySize > 1 &&
     input.partyLevels?.some((level) => level !== null && grayLevel(level) >= npc.minimumLevel!)
@@ -162,7 +195,9 @@ export function estimateCreatureKills(input: {
     for (let mobLevel = npc.minimumLevel!; mobLevel <= npc.maximumLevel!; mobLevel++) {
       const partyLevels = (
         input.partyLevels ?? Array.from({ length: partySize }, () => position.level)
-      ).map((memberLevel, index) => (index === (input.playerIndex ?? 0) ? level : memberLevel!));
+      ).map((memberLevel, index) =>
+        input.synchronizedParty || index === (input.playerIndex ?? 0) ? level : memberLevel!,
+      );
       const matching = input.evidence?.filter(
         (entry) =>
           entry.npcId === npc.id &&
@@ -190,7 +225,7 @@ export function estimateCreatureKills(input: {
       values.push(
         Math.floor(
           (Math.floor(
-            classicNormalKillXp(level, mobLevel) * rankFactor * tuning * (input.xpMultiplier ?? 1),
+            foreverNormalKillXp(level, mobLevel) * rankFactor * tuning * (input.xpMultiplier ?? 1),
           ) *
             level) /
             partyLevels.reduce((sum, value) => sum + value, 0),

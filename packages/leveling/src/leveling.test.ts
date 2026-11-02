@@ -172,13 +172,18 @@ describe("route and recommended visit levels", () => {
   const thanes = DUNGEON_LEVELS.find((entry) => entry.id === "thanes")!;
   it("uses At level independently from minimum pickup levels", () => {
     expect(planDungeonLevel(thanes, [96395, 96403], WESTFALL_ROUTE.quests)).toBe(14);
-    expect(planDungeonLevel(thanes, [96394], WESTFALL_ROUTE.quests)).toBe(15);
-    expect(planDungeonLevel(thanes, [98423], WESTFALL_ROUTE.quests)).toBe(16);
+    expect(planDungeonLevel(thanes, [96394], WESTFALL_ROUTE.quests)).toBe(14);
+    expect(planDungeonLevel(thanes, [98423], WESTFALL_ROUTE.quests)).toBe(14);
+    expect(
+      planDungeonLevel(thanes, [98423], [
+        { ...WESTFALL_ROUTE.quests.find((quest) => quest.id === 98423)!, minimumLevel: 17 },
+      ]),
+    ).toBe(17);
     expect(DUNGEON_LEVELS.find((entry) => entry.id === "deadmines")?.atLevel).toBe(19);
   });
   it("renders only selected rewards and gates the whole bundle before entry", () => {
     const branch = createThanesBranch([96403, 96394, 96393]);
-    expect(branch[0]).toMatchObject({ action: "checkpoint", level: 15 });
+    expect(branch[0]).toMatchObject({ action: "checkpoint", level: 14 });
     expect(branch.some((entry) => entry.questId === 96395)).toBe(false);
     for (const questId of [96403, 96394, 96393]) {
       expect(
@@ -193,7 +198,7 @@ describe("route and recommended visit levels", () => {
       THANES_ROUTE.steps.map((entry) => entry.id),
     );
     const treaty = createThanesBranch([98423]);
-    expect(treaty[0]?.level).toBe(16);
+    expect(treaty[0]?.level).toBe(14);
     expect(treaty.filter((entry) => entry.questId === 98423).map((entry) => entry.action)).toEqual([
       "accept",
       "complete",

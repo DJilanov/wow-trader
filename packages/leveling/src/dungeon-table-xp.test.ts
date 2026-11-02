@@ -23,6 +23,46 @@ const fact = (
   evidenceKind: "published-forever",
 });
 describe("Forever dungeon table estimates", () => {
+  it("scales explicitly unscaled historical dungeon rewards even without a duplicate journal XP row", () => {
+    const { referenceBaseXp: _base, pageMultiplier: _multiplier, ...raw } = fact(5343, 6600, 60, 1);
+    const historical: QuestRewardFact = {
+      ...raw,
+      evidenceKind: "historical-reference" as const,
+      rewardBasis: "unscaled-reference" as const,
+      xpByLevel: [{ level: 55, xp: 6600 }],
+    };
+    expect(resolveQuestReward(5343, 55, [historical])).toMatchObject({
+      xp: 15700,
+      basis: "base-estimate",
+    });
+    expect(resolveQuestReward(5343, 55, [{ ...historical, rewardBasis: "final-reward" }]).xp).toBe(
+      6600,
+    );
+    expect(
+      resolveQuestReward(7041, 47, [
+        {
+          ...fact(7041, 5250, 47, 1),
+          evidenceKind: "historical-reference",
+          rewardBasis: "final-reward",
+        },
+      ]).xp,
+    ).toBe(5250);
+    expect(
+      resolveQuestReward(5343, 55, [{ ...historical, evidenceKind: "observed-forever" }]),
+    ).toMatchObject({
+      xp: 6600,
+      basis: "reported-forever",
+    });
+    expect(resolveQuestReward(5343, 55, [{ ...historical, status: "conflict" }]).xp).toBeNull();
+    expect(resolveQuestReward(5343, 51, [{ ...historical, minimumLevel: 52 }]).xp).toBeNull();
+    expect(resolveQuestReward(5343, 60, [historical]).xp).toBe(0);
+    expect(
+      resolveQuestReward(9, 15, [
+        { ...historical, questId: 9, fullXp: 1050, questLevel: 15, xpByLevel: [] },
+      ]).xp,
+    ).toBe(1050);
+  });
+
   it("turns the Crest's 2600 table XP into 6200 without multiplying the scaled reward again", () => {
     expect(estimateDungeonTableXp(2600, 22, 22)).toBe(6200);
     expect(resolveQuestReward(95189, 22, [fact(95189, 2600, 22, 2.375)])).toMatchObject({

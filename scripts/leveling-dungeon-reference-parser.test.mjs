@@ -25,6 +25,20 @@ test("normalizes whitespace, preserves wing identity and reuses shared quest IDs
   assert.equal(result.associations[0].dungeon, "Excavation Site: Wetlands");
   assert.equal(result.associations[2].wing, "Library");
 });
+test("recognizes the reviewed Dalaran heading without inheriting the preceding dungeon", () => {
+  const result = parse(
+    `[h2]Gnomeregan Dungeon Quests[/h2]${row(4768)}[h2 type=bar toc="City of Dalaran"]Every Quest in City of Dalaran in World of Warcraft: Forever[/h2]${row(4974)}`,
+  );
+  assert.deepEqual(result.associations, [
+    { dungeon: "Gnomeregan", wing: null, questId: 4768 },
+    { dungeon: "City of Dalaran", wing: null, questId: 4974 },
+  ]);
+  assert.throws(
+    () =>
+      parse(`[h2]Every Quest in Unreviewed City in World of Warcraft: Forever[/h2]${row(4768)}`),
+    /outside a reviewed dungeon section/,
+  );
+});
 test("fails closed for source changes, missing sections, identity omissions and duplicates", () => {
   assert.throws(() => parse(`[h2]Unreviewed Dungeon Quests[/h2]${row(4768)}`), /Unreviewed/);
   assert.throws(

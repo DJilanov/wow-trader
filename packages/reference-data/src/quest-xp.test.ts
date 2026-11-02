@@ -122,15 +122,20 @@ describe("typed quest reward evidence", () => {
   it("accepts all reviewed revisions with identical rewards, but not lookalike renderer URLs", () => {
     for (const base of [0, 490, 999, 1000, 1050, 1250, 10000]) {
       const html = page(9, base, 2.375);
-      const old = parse(html),
-        current = parse(html.replace("52d4f803", "97211824"));
-      expect(current.fullXp).toEqual(old.fullXp);
-      expect(current.xpByLevel).toEqual(old.xpByLevel);
-      const newest = parse(html.replace("52d4f803", "25318d8a"));
-      expect(newest.fullXp).toEqual(old.fullXp);
-      expect(newest.xpByLevel).toEqual(old.xpByLevel);
+      const old = parse(html);
+      for (const revision of ["97211824", "25318d8a", "154e707b", "c9c7803e"]) {
+        const current = parse(html.replace("52d4f803", revision));
+        expect(current.fullXp).toEqual(old.fullXp);
+        expect(current.xpByLevel).toEqual(old.xpByLevel);
+      }
     }
-    for (const revision of ["unknown", "97211824&unverified=1", "25318d8a&unverified=1"]) {
+    for (const revision of [
+      "unknown",
+      "97211824&unverified=1",
+      "25318d8a&unverified=1",
+      "c9c7803e&unverified=1",
+      "c9c7803e-lookalike",
+    ]) {
       const result = parse(page().replace("52d4f803", revision));
       expect(result).toMatchObject({ status: "unknown", rendererRevision: null, fullXp: null });
     }
@@ -150,9 +155,41 @@ describe("typed quest reward evidence", () => {
       questXpRecordSchema.parse({ ...parse(page()), parserVersion: "wowhead-quest-xp-20261015-v2" })
         .status,
     ).toBe("available");
+    expect(
+      questXpRecordSchema.parse({ ...parse(page()), parserVersion: "wowhead-quest-xp-20261017-v4" })
+        .status,
+    ).toBe("available");
     expect(() => questXpRecordSchema.parse({ ...parse(page()), rendererRevision: null })).toThrow(
       /verified renderer/,
     );
+  });
+  it("uses the current quest's scaling data when two distinct quests share a title", async () => {
+    const html = await readFile(new URL("./fixtures/quest-91723-xp.html", import.meta.url), "utf8");
+    const record = parseWowheadPage(
+      html,
+      { game: "forever", kind: "quest", id: 91723 },
+      {
+        url: "https://www.wowhead.com/forever/quest=91723/delicate-instruments",
+        capturedAt: "2026-11-01T06:19:26.807Z",
+        permissionRef: "test",
+      },
+    );
+    const result = parseQuestXpPage(html, record);
+    expect(result).toMatchObject({
+      id: 91723,
+      name: "Delicate Instruments",
+      questLevel: 8,
+      minimumLevel: 6,
+      fullXp: 530,
+      referenceBaseXp: 530,
+      pageMultiplier: 1,
+      rendererRevision: "quest-5f36c4ad-core-c9c7803e",
+      parserVersion: QUEST_XP_PARSER_VERSION,
+      status: "available",
+      issues: [],
+    });
+    expect(result.xpByLevel.find((row) => row.level === 14)?.xp).toBe(420);
+    expect(result.xpByLevel.find((row) => row.level === 18)?.xp).toBe(50);
   });
   it("extracts hidden primary world XP and the verified renderer's overlevel table", () => {
     const reward = parse(page());

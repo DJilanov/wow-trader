@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "source": "https://www.wowhead.com/forever/guide/dungeons/every-dungeon-quest-location",
-  "reviewedAt": "2026-10-05",
+  "reviewedAt": "2026-11-01",
   "associations": [
     {
       "dungeon": "Ragefire Chasm",
@@ -121,7 +121,17 @@
     {
       "dungeon": "The Deadmines",
       "wing": null,
+      "questId": 92753
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
       "questId": 1654
+    },
+    {
+      "dungeon": "The Deadmines",
+      "wing": null,
+      "questId": 95036
     },
     {
       "dungeon": "Ruins of Lordaeron",
@@ -402,6 +412,46 @@
       "dungeon": "Gnomeregan",
       "wing": null,
       "questId": 2945
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 96986
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 96988
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 96987
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 96984
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 92489
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 92458
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 92456
+    },
+    {
+      "dungeon": "City of Dalaran",
+      "wing": null,
+      "questId": 92457
     },
     {
       "dungeon": "Razorfen Kraul",
@@ -2982,6 +3032,60 @@
       "restrictionNotes": []
     },
     {
+      "id": 92456,
+      "title": "A Green Sample",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92457,
+      "title": "Starving Arcane",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92458,
+      "title": "Heart of Disruption",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92489,
+      "title": "Power Overwhelming",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 92753,
+      "title": "Destruction in Deadmines",
+      "faction": "alliance",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 14,
+      "restrictionNotes": []
+    },
+    {
+      "id": 95036,
+      "title": "A Moon-Kissed Blade",
+      "faction": "horde",
+      "classSlug": "paladin",
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 20,
+      "restrictionNotes": []
+    },
+    {
       "id": 95195,
       "title": "Bloodied Insignia",
       "faction": "alliance",
@@ -3086,7 +3190,7 @@
       "faction": "alliance",
       "classSlug": null,
       "classRestrictionUnresolved": false,
-      "minimumLevel": 15,
+      "minimumLevel": 9,
       "restrictionNotes": []
     },
     {
@@ -3095,7 +3199,7 @@
       "faction": "alliance",
       "classSlug": null,
       "classRestrictionUnresolved": false,
-      "minimumLevel": 15,
+      "minimumLevel": 10,
       "restrictionNotes": []
     },
     {
@@ -3104,7 +3208,7 @@
       "faction": null,
       "classSlug": null,
       "classRestrictionUnresolved": false,
-      "minimumLevel": 14,
+      "minimumLevel": 10,
       "restrictionNotes": []
     },
     {
@@ -3113,7 +3217,43 @@
       "faction": "alliance",
       "classSlug": null,
       "classRestrictionUnresolved": false,
-      "minimumLevel": 14,
+      "minimumLevel": 10,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96984,
+      "title": "Heart of Disruption",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96986,
+      "title": "The Grave Knight",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96987,
+      "title": "Opportunistic Education",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
+      "restrictionNotes": []
+    },
+    {
+      "id": 96988,
+      "title": "Source of Power",
+      "faction": "horde",
+      "classSlug": null,
+      "classRestrictionUnresolved": false,
+      "minimumLevel": 24,
       "restrictionNotes": []
     },
     {
@@ -3131,7 +3271,7 @@
       "faction": "alliance",
       "classSlug": null,
       "classRestrictionUnresolved": false,
-      "minimumLevel": 16,
+      "minimumLevel": 9,
       "restrictionNotes": []
     },
     {
@@ -3162,5 +3302,5 @@
       "restrictionNotes": []
     }
   ],
-  "sourceSha256": "9a12285e507377829d1a5e92b2e42dc7f4b5f7f0bb718343354619ff5e97ed35"
+  "sourceSha256": "731c865ab9bb296fd82d975bc7c4fd5fa5f108fe2286a0d4d5d9803f2260cb19"
 }

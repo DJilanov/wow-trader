@@ -3,7 +3,12 @@ import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js
 import type { CampaignRace } from "./campaign-route.js";
 import { gateQuestIds } from "./dungeon-model.js";
 import { questEligibility } from "./quest-eligibility.js";
+import { parseCampaignItemTarget } from "./campaign-items.js";
 import { campaignPartyExport } from "./campaign-addon-party.js";
+import {
+  campaignAddonQuestActions,
+  type CampaignAddonQuestGuard,
+} from "./campaign-addon-lifecycle.js";
 import { campaignAddonReadme } from "./campaign-addon-readme.js";
 import { campaignPartyStarterSchema, type CampaignPartyStarter } from "./restedxp-documents.js";
 import {
@@ -12,7 +17,7 @@ import {
   type CampaignNativeInstructions,
 } from "./campaign-addon-native.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261031-v27" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261102-v35" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;
@@ -143,12 +148,14 @@ function xpLine(action: CampaignAction): string | null {
 function actionLines(
   action: CampaignAction,
   nativeInstructions?: CampaignNativeInstructions,
+  questGuard?: CampaignAddonQuestGuard,
 ): readonly string[] {
   if (action.kind === "unverified")
     throw new Error(`Unverified action ${action.id} cannot enter the addon package.`);
   const native = nativeInstructions?.(action);
   const condition = native?.condition ? ` << ${oneLine(native.condition, "Step condition")}` : "";
   const lines = [`step${condition}`, `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`];
+  if (questGuard) lines.push(`    ${questGuard.tag} ${questGuard.questId}`);
   for (const instruction of action.travelInstructions ?? [])
     lines.push(`    >> ${oneLine(instruction, "Travel instruction")}`);
   if (action.bundleId) {
@@ -160,7 +167,18 @@ function actionLines(
   }
   if (native) {
     for (const directive of native.directives) {
-      const args = directive.arguments ? ` ${directive.arguments}` : "";
+      const target = action.questChanges.length === 0 ? parseCampaignItemTarget(directive) : null;
+      const requiredCollection = target && action.itemCollections?.some((item) =>
+        item.questId === target.questId && item.itemId === target.itemId &&
+        item.quantity === target.quantity && item.objectiveBitmask === target.objectiveBitmask,
+      );
+      const fields = directive.arguments.split(",");
+      // RXP ignores textOnly elements for step completion. An extracted required stock
+      // task needs its own blocking counter; keep captured source and all count flags intact.
+      const nativeArguments = requiredCollection && fields.length === 5 && fields[4]!.trim() === "1"
+        ? fields.slice(0, 4).join(",")
+        : directive.arguments;
+      const args = nativeArguments ? ` ${nativeArguments}` : "";
       const description =
         directive.tag === ".macro" ? directive.text.replaceAll("\n", "\\n") : directive.text;
       const text = description ? ` >> ${oneLine(description, "Native instruction")}` : "";
@@ -204,98 +222,6 @@ function actionLines(
   return lines;
 }
 
-function normalizeRoleActions(
-  actions: readonly CampaignAction[],
-  role: "leader" | "party",
-): readonly CampaignAction[] {
-  const states = new Map<number, "accepted" | "objectives-complete" | "rewarded">();
-  const overlappingPickups = new Map<number, number>();
-  const repeatedLifecycles = new Map<number, number>();
-  const emittedPhases = new Map<number, Set<string>>();
-  const normalized: CampaignAction[] = [];
-  for (const action of actions) {
-    const retained = action.questChanges.filter((change) => {
-      const current = states.get(change.questId);
-      if (current !== undefined && change.state === "accepted") {
-        const collection = current === "rewarded" ? repeatedLifecycles : overlappingPickups;
-        collection.set(change.questId, (collection.get(change.questId) ?? 0) + 1);
-        return false;
-      }
-      const phaseKey = `${change.state}-${change.objectiveIndex ?? 0}`;
-      const phases = emittedPhases.get(change.questId) ?? new Set<string>();
-      const repeated = repeatedLifecycles.get(change.questId) ?? 0;
-      if (current === "rewarded" && repeated > 0) {
-        if (change.state === "rewarded") {
-          if (repeated === 1) repeatedLifecycles.delete(change.questId);
-          else repeatedLifecycles.set(change.questId, repeated - 1);
-        }
-        return false;
-      }
-      const overlapping = overlappingPickups.get(change.questId) ?? 0;
-      if (current === "rewarded" && overlapping > 0 && phases.has(phaseKey)) {
-        if (change.state === "rewarded") {
-          if (overlapping === 1) overlappingPickups.delete(change.questId);
-          else overlappingPickups.set(change.questId, overlapping - 1);
-        }
-        return false;
-      }
-      if (current === "rewarded")
-        throw new Error(
-          `${role} guide changes rewarded quest ${change.questId} back to ${change.state}.`,
-        );
-      if (overlapping > 0 && phases.has(phaseKey)) return false;
-      states.set(change.questId, change.state);
-      phases.add(phaseKey);
-      emittedPhases.set(change.questId, phases);
-      return true;
-    });
-    if (retained.length === action.questChanges.length) {
-      normalized.push(action);
-      continue;
-    }
-    if (retained.length === 0) {
-      if (action.questChanges.length === 0) normalized.push(action);
-      continue;
-    }
-    normalized.push({
-      ...action,
-      title: retained.map(questInstruction).join(" · "),
-      instructions: retained.map(questInstruction),
-      questChanges: retained,
-    });
-  }
-  if (repeatedLifecycles.size > 0)
-    throw new Error(
-      `${role} guide repeats quest ${[...repeatedLifecycles.keys()].sort((left, right) => left - right).join(", ")} without a matching hand-in.`,
-    );
-  return normalized;
-}
-
-function validateLifecycle(actions: readonly CampaignAction[], role: "leader" | "party"): void {
-  const states = new Map<number, "accepted" | "objectives-complete" | "rewarded">();
-  for (const action of actions)
-    for (const change of action.questChanges) {
-      const current = states.get(change.questId);
-      if (current === undefined && change.state !== "accepted")
-        throw new Error(
-          `${role} guide reaches ${change.state} for quest ${change.questId} before its pickup.`,
-        );
-      if (current !== undefined && change.state === "accepted")
-        throw new Error(`${role} guide accepts quest ${change.questId} more than once.`);
-      if (current === "rewarded")
-        throw new Error(
-          `${role} guide changes rewarded quest ${change.questId} back to ${change.state}.`,
-        );
-      states.set(change.questId, change.state);
-    }
-  const incomplete = [...states]
-    .filter(([, state]) => state !== "rewarded")
-    .map(([questId]) => questId)
-    .sort((left, right) => left - right);
-  if (incomplete.length)
-    throw new Error(`${role} guide leaves quest ${incomplete.join(", ")} without a hand-in.`);
-}
-
 function compileRole(
   plan: CampaignPlan,
   actions: readonly CampaignAction[],
@@ -311,7 +237,8 @@ function compileRole(
   const requested = actions.filter(
     (action) => role === "leader" || !action.leaderOnly || personalActionIds.has(action.id),
   );
-  const filtered = normalizeRoleActions(requested, role);
+  const lifecycle = campaignAddonQuestActions(requested, role);
+  const filtered = lifecycle.actions;
   const emitted = new Map(filtered.map((action) => [action.id, action]));
   const normalizations = requested.flatMap((action) => {
     const removedQuestChanges = action.questChanges.filter(
@@ -327,7 +254,6 @@ function compileRole(
         ]
       : [];
   });
-  validateLifecycle(filtered, role);
   const race = raceLabels[plan.race];
   const className = classLabels[plan.leaderClass!];
   const roleTitle = role === "leader" ? "Leader" : "Party";
@@ -359,7 +285,8 @@ function compileRole(
     if (role === "leader") lines.push(`#defaultfor ${race} ${className}`);
     if (names[index + 1]) lines.push(`#next ${names[index + 1]}`);
     lines.push("");
-    for (const action of entry.actions) lines.push(...actionLines(action, nativeInstructions));
+    for (const action of entry.actions)
+      lines.push(...actionLines(action, nativeInstructions, lifecycle.guards.get(action.id)));
     const content = `${lines.join("\n")}\n`;
     documents.push({
       role,

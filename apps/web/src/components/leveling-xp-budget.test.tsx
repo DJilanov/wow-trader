@@ -84,7 +84,7 @@ describe("player-facing chapter plan", () => {
     const guide = forecastCampaignGuide(plan, emptyPremadeProgress()).sections[0]!;
     const html = renderToStaticMarkup(<LevelingChapterBudget guide={guide} />);
     expect(html).toContain("Some XP is missing");
-    expect(html).toContain("before deciding to grind");
+    expect(html).toContain("before its finish can be validated");
     expect(html).not.toContain("Unknown");
     expect(html).not.toContain("Progression blocked");
   });

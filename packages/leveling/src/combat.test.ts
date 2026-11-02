@@ -15,6 +15,7 @@ import {
   indexCombatReferences,
   resolveCombatObjectives,
   attachCampaignCombat,
+  questCreatureKillCount,
 } from "./campaign-combat.js";
 import { emptyPremadeProgress } from "./premade-model.js";
 import { parseGuideChapter } from "./guide-archive.js";
@@ -32,6 +33,27 @@ const npc: CombatNpc = {
   zoneIds: [40],
   xpEligibility: "assumed",
 };
+
+describe("explicit quest kill quotas", () => {
+  it("resolves a shortened family name only when it identifies one quest target", () => {
+    const text = ["Kill 8 Blackwood Pathfinders and 5 Windtalkers."];
+    const names = ["Blackwood Pathfinder", "Blackwood Windtalker"];
+    expect(questCreatureKillCount({ name: names[0]! }, text, names)).toBe(8);
+    expect(questCreatureKillCount({ name: names[1]! }, text, names)).toBe(5);
+    expect(questCreatureKillCount({ name: names[1]! }, text)).toBeNull();
+    expect(
+      questCreatureKillCount({ name: names[1]! }, text, [...names, "Forest Windtalker"]),
+    ).toBeNull();
+  });
+  it("does not guess conflicting or absent quotas", () => {
+    expect(
+      questCreatureKillCount({ name: "Murloc" }, ["Kill 5 Murlocs, then kill 8 Murlocs."]),
+    ).toBeNull();
+    expect(
+      questCreatureKillCount({ name: "Murloc" }, ["Kill the murlocs at Crystal Lake."]),
+    ).toBeNull();
+  });
+});
 const data: CombatDataset = {
   schema: "forever-combat-reference.v1",
   publication: "private-reference",
@@ -90,6 +112,142 @@ const evidence: KillXpEvidence = {
 };
 
 describe("combat XP calculation", () => {
+  it("advances synchronized peers when a shared encounter crosses a level boundary", () => {
+    const input = {
+      npc: { ...npc, minimumLevel: 1, maximumLevel: 1 },
+      kills: 5,
+      environment: "outdoor" as const,
+      partySize: 5,
+      partyLevels: [1, 1, 1, 1, 1],
+      position: { level: 1, currentXp: 390 },
+      synchronizedParty: true,
+    };
+    // One 10-XP kill reaches level 2; the next four are 44/5 = 8 XP each.
+    expect(estimateCreatureKills(input)).toMatchObject({
+      xp: 42,
+      maximumXp: 42,
+      exit: { level: 2, currentXp: 32 },
+      basis: "reference-estimate",
+    });
+    expect(() => estimateCreatureKills({ ...input, partyLevels: [1, 2, 1, 1, 1] })).toThrow(
+      /Synchronized party levels/,
+    );
+    const evidence = [1, 2].map((level): KillXpEvidence => ({
+      npcId: npc.id,
+      build: 70205,
+      playerLevel: level,
+      mobLevel: 1,
+      partySize: 5,
+      partyLevels: Array.from({ length: 5 }, () => level),
+      environment: "outdoor",
+      unrestedXpPerPlayer: level === 1 ? 10 : 7,
+      sampleCount: 3,
+      source: `Synthetic level-${level} group observation`,
+      contextVerified: true,
+    }));
+    expect(estimateCreatureKills({ ...input, evidence, build: 70205 })).toMatchObject({
+      xp: 38,
+      basis: "observed",
+      exit: { level: 2, currentXp: 28 },
+    });
+  });
+  it("uses synchronized quest progress for every member of an equal-progress party", () => {
+    const actions: CampaignAction[] = ["delivery", "hunt"].map((id, index) => ({
+      id,
+      legId: "route",
+      title: id,
+      instructions: [],
+      positions: [],
+      source: null,
+      kind: "quests",
+      leaderOnly: false,
+      targetLevel: null,
+      targetStopId: null,
+      raidOnly: false,
+      questChanges: (index
+        ? (["accepted", "objectives-complete", "rewarded"] as const)
+        : (["accepted", "rewarded"] as const)
+      ).map((state) => ({
+        questId: 300001 + index,
+        title: id,
+        state,
+        objectiveIndex: state === "objectives-complete" ? 1 : null,
+      })),
+    }));
+    const plan: CampaignPlan = {
+      release: "synchronized-xp-test",
+      race: "human",
+      leaderClass: "warrior",
+      targetBuild: 70205,
+      actions,
+      legs: [
+        {
+          id: "route",
+          title: "Shared patrol",
+          kind: "preparation",
+          from: 1,
+          to: 2,
+          actionIds: actions.map((action) => action.id),
+          questIds: [300001, 300002],
+          unresolvedQuestIds: [],
+          stopId: null,
+        },
+      ],
+      rewardFacts: [390, 0].map((fullXp, index) => ({
+        questId: 300001 + index,
+        fullXp,
+        questLevel: 1,
+        minimumLevel: 1,
+        xpByLevel: [],
+        status: "available",
+        evidenceKind: "published-forever",
+        sourceUrl: "https://example.test/quest",
+        capturedAt: "2026-10-31T00:00:00Z",
+      })),
+      combat: {
+        revision: "test",
+        sourceRevision: "test",
+        targetBuild: 70205,
+        notice: null,
+        npcs: [{ ...npc, minimumLevel: 1, maximumLevel: 1 }],
+        activities: [
+          {
+            id: "hunt",
+            actionId: "hunt",
+            environment: "outdoor",
+            profile: null,
+            objectives: [
+              {
+                questId: 300002,
+                objectiveIndex: 1,
+                npcIds: [npc.id],
+                requiredKills: 5,
+                credit: "shared-kills",
+                source: "Synthetic counter",
+                reason: null,
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const progress = emptyPremadeProgress();
+    progress.members = progress.members.map((member) => ({
+      ...member,
+      level: 1,
+      currentXp: 0,
+      xpNeedsUpdate: false,
+      raceId: "human",
+      classSlug: "warrior",
+    }));
+    for (const member of forecastCampaignXp(plan, progress)[0]!.members)
+      expect(member).toMatchObject({
+        combatXp: 42,
+        endpoint: { level: 2, currentXp: 32 },
+        referenceQuestXp: 390,
+        estimatedCombatXp: 0,
+      });
+  });
   it("weights unequal party levels rather than paying each player the same fraction", () => {
     const common = {
       npc,
@@ -165,8 +323,8 @@ describe("combat XP calculation", () => {
         environment: "outdoor",
       }),
     ).toMatchObject({
-      xp: 94,
-      exit: { level: 2, currentXp: 93 },
+      xp: 90,
+      exit: { level: 2, currentXp: 89 },
       basis: "reference-estimate",
     });
   });
@@ -348,6 +506,29 @@ describe("literal-only provider import", () => {
       prerequisites: { allOf: [8, 9], anyOf: [10, 11] },
     });
   });
+  it.each([
+    ["{[3]={1}}", "1", true],
+    ["{[3]={1}}", "2", false],
+    ["{[3]={1,2}}", "1", false],
+    ["nil", "1", false],
+  ] as const)(
+    "requires reciprocal, unambiguous item-start data (%s, %s)",
+    (startedBy, startsQuest, accepted) => {
+      const imported = importQuestieCombatData({
+        targetBuild: 70205,
+        publication: "private-reference",
+        authorizationNote: "",
+        provider: data.provider,
+        npcExport:
+          '-- Base -> authored corrections.\nlocal npc = {}\nnpc[1]={"Target",nil,nil,10,10,0}\nreturn npc',
+        questExport: `-- Base -> authored corrections.\nlocal quest = {}\nquest[1]={"Quest",${startedBy},nil,1,5}\nreturn quest`,
+        itemExport: `-- Base -> authored corrections.\nlocal item = {}\nitem[1]={"Quest Starter",nil,nil,nil,${startsQuest}}\nreturn item`,
+      });
+      expect(imported.quests[0]!.startItem).toEqual(
+        accepted ? { itemId: 1, name: "Quest Starter" } : undefined,
+      );
+    },
+  );
   it("distinguishes scouting and object interactions from creature-kill and item-drop objectives", () => {
     const exported = (kind: string, body: string): string =>
       `-- Base -> authored corrections.\nlocal ${kind} = {}\n${body}\nreturn ${kind}\n`;
@@ -386,11 +567,46 @@ describe("literal-only provider import", () => {
       ),
     });
     expect(imported.quests[0]!.itemObjectives).toEqual([
-      { itemId: 750, quantity: null, objectiveIndex: 1, npcIds: [1], sharing: "unknown" },
+      {
+        itemId: 750,
+        itemName: "Meat",
+        quantity: null,
+        objectiveIndex: 1,
+        npcIds: [1],
+        sharing: "unknown",
+      },
     ]);
     expect(imported.quests[1]!.itemObjectives?.[0]?.objectiveIndex).toBeNull();
     // A source-item ID alone does not establish how many objective items were supplied.
     expect(imported.quests[2]!.itemObjectives?.[0]?.provided).toBeUndefined();
+  });
+  it("uses only the explicit multi-drop bit as a shared-roll reference", () => {
+    const exported = (kind: string, body: string): string =>
+      `-- Base -> authored corrections.\nlocal ${kind} = {}\n${body}\nreturn ${kind}\n`;
+    const imported = importQuestieCombatData({
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "",
+      provider: data.provider,
+      npcExport: exported("npc", 'npc[1]={"Target",nil,nil,3,3,0}'),
+      itemExport: exported(
+        "item",
+        'item[1]={"Shared",{1},nil,nil,nil,nil,2048}\nitem[2]={"Other flags",{1},nil,nil,nil,nil,256}\nitem[3]={"Missing",{1}}\nitem[4]={"Combined",{1},nil,nil,nil,nil,2147485696}',
+      ),
+      questExport: exported(
+        "quest",
+        'quest[1]={"Items",nil,nil,1,1,nil,nil,nil,nil,{nil,nil,{{1},{2},{3},{4}}}}',
+      ),
+    });
+    expect(imported.quests[0]!.itemObjectives?.map((item) => item.sharing)).toEqual([
+      "shared-roll",
+      "unknown",
+      "unknown",
+      "shared-roll",
+    ]);
+    expect(imported.quests[0]!.itemObjectives?.every((item) => item.quantity === null)).toBe(true);
+    expect(imported.publication).toBe("private-reference");
+    expect(imported.lootDrops).toBeUndefined();
   });
   it("requires explicit public authorization and rejects duplicate identities", () => {
     expect(() => combatDatasetSchema.parse({ ...data, publication: "authorized" })).toThrow(

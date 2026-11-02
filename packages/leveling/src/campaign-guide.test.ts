@@ -10,6 +10,9 @@ import { recordPremadeXp, updatePremadeDungeonBundle } from "./premade.js";
 import { getDungeonBundle } from "./dungeon-bundles.js";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
+import { auditCampaignGuideFunding } from "./campaign-funding-audit.js";
+import { guidePartyScenario, guidePartyAnchors } from "./campaign-guide-party.js";
+import { auditCampaignSections } from "./campaign-coverage.js";
 
 function route(personal = true): CampaignPlan {
   const actions = ["a", "b", "c"].map((id, index): CampaignAction => ({
@@ -63,6 +66,132 @@ function route(personal = true): CampaignPlan {
 }
 
 describe("continuous player-facing leveling plan", () => {
+  it("does not count teammates' completed starter rewards again in an independent chapter check", () => {
+    const base = route();
+    const join: CampaignAction = {
+      ...base.actions[0]!,
+      id: "join",
+      legId: "rendezvous",
+      leaderOnly: false,
+    };
+    const plan: CampaignPlan = {
+      ...base,
+      actions: [...base.actions, join],
+      legs: [
+        ...base.legs,
+        { ...base.legs[0]!, id: "rendezvous", kind: "preparation", actionIds: [join.id] },
+      ],
+    };
+    for (const mode of ["separate", "together"] as const) {
+      const scenario = guidePartyScenario(plan, emptyPremadeProgress(), mode);
+      const chapter = auditCampaignSections(
+        scenario.plan,
+        scenario.progress,
+        guidePartyAnchors(scenario, []),
+      ).at(-1)!;
+      expect(chapter.questXpByPlayer).toEqual([0, 0, 0, 0, 0]);
+      expect(chapter.forecast.members.every((member) => member.blockedReason === null)).toBe(true);
+    }
+  });
+  it("audits shared starter kills once per group while keeping each player's whole quest reward", () => {
+    const base = route();
+    const plan: CampaignPlan = {
+      ...base,
+      rewardFacts: base.rewardFacts!.map((fact) => ({ ...fact, fullXp: 100 })),
+      actions: base.actions.map((action) => ({
+        ...action,
+        questChanges: action.questChanges.map((change) => ({
+          ...change,
+          objectiveIndex: change.state === "objectives-complete" ? 1 : null,
+        })),
+      })),
+      combat: {
+        revision: "test",
+        sourceRevision: "test",
+        targetBuild: 70205,
+        notice: null,
+        npcs: [
+          {
+            id: 114,
+            name: "Forest Wolf",
+            minimumLevel: 1,
+            maximumLevel: 1,
+            rank: 0,
+            zoneIds: [12],
+            xpEligibility: "assumed",
+          },
+        ],
+        activities: [
+          {
+            id: "starter-kills",
+            actionId: "a",
+            environment: "outdoor",
+            profile: null,
+            objectives: [
+              {
+                questId: 300001,
+                objectiveIndex: 1,
+                npcIds: [114],
+                requiredKills: 5,
+                credit: "shared-kills",
+                source: "Synthetic unit-test counter",
+                reason: null,
+              },
+            ],
+          },
+        ],
+        killXpEvidence: ([1, 5] as const).map((partySize) => ({
+          npcId: 114,
+          build: 70205,
+          playerLevel: 1,
+          mobLevel: 1,
+          partySize,
+          environment: "outdoor",
+          unrestedXpPerPlayer: partySize === 1 ? 50 : 10,
+          partyLevels: Array.from({ length: partySize }, () => 1),
+          sampleCount: 3,
+          source: "Synthetic unit-test calibration",
+          contextVerified: true,
+        })),
+      },
+    };
+    const progress = emptyPremadeProgress();
+    const before = JSON.stringify({ plan, progress });
+    const separate = forecastCampaignGuide(plan, progress, { starterMode: "separate" });
+    const together = forecastCampaignGuide(plan, progress, { starterMode: "together" });
+    expect(separate.sections[0]!.audience).toBe("personal");
+    expect(separate.sections[0]!.forecast.members.every((member) => member.combatXp === 250)).toBe(
+      true,
+    );
+    expect(together.sections[0]!.audience).toBe("party");
+    expect(together.sections[0]!.forecast.members).toHaveLength(5);
+    for (const member of together.sections[0]!.forecast.members)
+      expect(member).toMatchObject({
+        referenceQuestXp: 100,
+        combatXp: 50,
+        endpoint: { level: 1, currentXp: 150 },
+        blockedReason: null,
+      });
+    expect(auditCampaignGuideFunding(plan, progress, together).witnessPassed).toBe(true);
+    expect(forecastCampaignGuide(plan, progress, { starterMode: "separate" })).toBe(separate);
+    expect(JSON.stringify({ plan, progress })).toBe(before);
+  });
+
+  it("rejects a shared starter path that would award another race or class's private quests", () => {
+    for (const member of [
+      { raceId: "dwarf" as const, classSlug: "warrior" as const },
+      { raceId: "human" as const, classSlug: "priest" as const },
+    ]) {
+      const progress = emptyPremadeProgress();
+      progress.members[1] = { ...progress.members[1]!, ...member };
+      expect(() => forecastCampaignGuide(route(), progress, { starterMode: "together" })).toThrow(
+        /same race\/class path/,
+      );
+      expect(() =>
+        forecastCampaignGuide(route(), progress, { starterMode: "separate" }),
+      ).not.toThrow();
+    }
+  });
   it("keeps a correction anchored at the next task when its old XP reminder is removed", () => {
     const base = route();
     const reminder: CampaignAction = {
@@ -252,7 +381,7 @@ describe("continuous player-facing leveling plan", () => {
     expect(forecastCampaignGuide(plan, progress)).not.toBe(first);
   });
 
-  it("rounds a partial starter exit bar into a useful suggested level without adding grinding XP", () => {
+  it("keeps a partial starter exit at the level actually funded by its tasks", () => {
     const plan = route();
     const updated = {
       ...plan,
@@ -261,7 +390,7 @@ describe("continuous player-facing leveling plan", () => {
       ),
     };
     const guide = forecastCampaignGuide(updated, emptyPremadeProgress()).sections[0]!;
-    expect(guide.targetLevel).toBe(3);
+    expect(guide.targetLevel).toBe(2);
     expect(guide.forecast.members[0]!.endpoint).toEqual({ level: 2, currentXp: 200 });
     expect(guide.forecast.members[0]!.estimatedCombatXp).toBe(0);
   });

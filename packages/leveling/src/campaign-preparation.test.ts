@@ -9,6 +9,8 @@ import type { CampaignPlan } from "./campaign.js";
 import type { CampaignQuestBatch } from "./campaign-catchup.js";
 import { compileCampaignFunding } from "./campaign-catchup-planner.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
+import type { CombatDataset } from "./combat-model.js";
+import { compileCampaignAddon } from "./campaign-addon.js";
 
 function fixture(): { plan: CampaignPlan; evidence: CampaignPreparationEvidence } {
   const action = {
@@ -85,6 +87,113 @@ function fixture(): { plan: CampaignPlan; evidence: CampaignPreparationEvidence 
 }
 
 describe("shared browser and offline campaign preparation", () => {
+  it("expands a generated whole-quest dungeon task from matched objective evidence without an archive", () => {
+    const { plan, evidence } = fixture();
+    const action = {
+      ...plan.actions[0]!,
+      id: "objective",
+      wholeQuestObjectives: true as const,
+      questChanges: [
+        {
+          questId: 96394,
+          title: "The Restless Dead",
+          state: "objectives-complete" as const,
+          objectiveIndex: 1,
+        },
+      ],
+    };
+    const pickup = {
+      ...plan.actions[0]!,
+      questChanges: [
+        { ...action.questChanges[0]!, state: "accepted" as const, objectiveIndex: null },
+      ],
+    };
+    const turnin = {
+      ...pickup,
+      id: "turnin",
+      questChanges: [{ ...pickup.questChanges[0]!, state: "rewarded" as const }],
+    };
+    const actions = [pickup, action, turnin];
+    const source: CampaignPlan = {
+      ...plan,
+      actions,
+      legs: plan.legs.map((leg) => ({
+        ...leg,
+        actionIds: actions.map((entry) => entry.id),
+        questIds: [96394],
+      })),
+    };
+    const data: CombatDataset = {
+      schema: "forever-combat-reference.v1",
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "Synthetic objective coverage fixture",
+      provider: {
+        repository: "https://example.test/provider",
+        revision: "a".repeat(40),
+        layer: "forever-static-with-authored",
+        npcSha256: "b".repeat(64),
+        questSha256: "c".repeat(64),
+        itemSha256: "d".repeat(64),
+        limitations: ["Synthetic objective coverage fixture"],
+      },
+      npcs: [],
+      quests: [
+        {
+          questId: 96394,
+          creatureIds: [263389, 263390],
+          itemCreatureIds: [],
+          objectiveText: [],
+          onlyCreatureObjectives: true,
+          killQuotas: [
+            {
+              objectiveIndex: 1,
+              npcId: 263389,
+              kills: 15,
+              source: "Synthetic captured-counter fixture",
+            },
+            {
+              objectiveIndex: 2,
+              npcId: 263390,
+              kills: 10,
+              source: "Synthetic captured-counter fixture",
+            },
+          ],
+        },
+      ],
+      dungeons: [],
+      killXpEvidence: [],
+    };
+    const before = structuredClone({ source, data });
+    const prepared = prepareCampaignPlan(source, [], {
+      ...evidence,
+      combat: { data, revision: "objective-fixture" },
+    });
+    expect(
+      prepared.actions
+        .find((entry) => entry.id === action.id)
+        ?.questChanges.map((change) => change.objectiveIndex),
+    ).toEqual([1, 2]);
+    expect({ source, data }).toEqual(before);
+    const native = compileCampaignAddon(prepared, prepared.actions, {
+      version: "0.2.0-local-check",
+      runtimeBuild: 70450,
+      interfaceVersion: 16001,
+      restedXpVersion: "v4.11.27",
+    });
+    expect(native.lua).toContain(".complete 96394,1");
+    expect(native.lua).toContain(".complete 96394,2");
+    const foreign = prepareCampaignPlan(source, [], {
+      ...evidence,
+      combat: { data: { ...data, targetBuild: 70450 }, revision: "foreign-objective-fixture" },
+    });
+    expect(
+      foreign.actions
+        .find((entry) => entry.id === action.id)
+        ?.questChanges.map((change) => change.objectiveIndex),
+    ).toEqual([1]);
+  });
+
   it("keeps the restored lead-in's real pickup gate when an XP-only historical import omits its minimum", () => {
     const { plan, evidence } = fixture();
     const source = {

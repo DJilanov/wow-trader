@@ -257,4 +257,24 @@ describe("cumulative per-player route XP", () => {
       resolveQuestReward(300001, 14, [fact(300001, 100, { evidenceKind: "historical-reference" })]),
     ).toMatchObject({ xp: 100, basis: "base-estimate" });
   });
+  it("uses a historical level table for a late courier without assuming reduced published rewards", () => {
+    const historical = fact(244, 290, {
+      questLevel: 16,
+      evidenceKind: "historical-reference",
+      xpByLevel: [
+        { level: 25, xp: 58 },
+        { level: 26, xp: 29 },
+      ],
+    });
+    expect(resolveQuestReward(244, 25, [historical])).toMatchObject({
+      xp: 58,
+      basis: "base-estimate",
+    });
+    expect(resolveQuestReward(244, 26, [historical]).xp).toBe(29);
+    expect(
+      resolveQuestReward(244, 25, [
+        { ...historical, evidenceKind: "published-forever", xpByLevel: [] },
+      ]).xp,
+    ).toBeNull();
+  });
 });

@@ -19,7 +19,10 @@ export function partyQuestLootCost(
   questId: number,
   plan: CampaignPlan,
   data?: CombatDataset,
+  partySize: number = FIVE_PLAYER_LOOT_BUDGET.partySize,
 ): PartyQuestLootCost {
+  if (!Number.isInteger(partySize) || partySize < 1 || partySize > 5)
+    throw new Error("Invalid quest collection party size.");
   const unknown = (reason: string): PartyQuestLootCost => ({
     eligible: false,
     expectedKills: null,
@@ -43,6 +46,10 @@ export function partyQuestLootCost(
     for (const objective of activity.objectives)
       if (objective.questId === questId && objective.credit === "personal-loot")
         objectives.set(`${objective.objectiveIndex}:${objective.loot?.itemId ?? 0}`, objective);
+  for (const work of plan.combat.materialWork ?? [])
+    for (const { objective } of work.targets)
+      if (objective.questId === questId && objective.credit === "personal-loot")
+        objectives.set(`${objective.objectiveIndex}:${objective.loot?.itemId ?? 0}`, objective);
   const requiredItems = reference?.itemObjectives?.filter((item) => !item.provided) ?? [];
   if (
     !objectives.size ||
@@ -55,18 +62,8 @@ export function partyQuestLootCost(
   let expectedKills = 0;
   let slowKills = 0;
   for (const objective of objectives.values()) {
-    const expected = resolveCombatQuota(
-      objective,
-      plan.combat,
-      FIVE_PLAYER_LOOT_BUDGET.partySize,
-      "expected",
-    );
-    const slow = resolveCombatQuota(
-      objective,
-      plan.combat,
-      FIVE_PLAYER_LOOT_BUDGET.partySize,
-      "slow",
-    );
+    const expected = resolveCombatQuota(objective, plan.combat, partySize, "expected");
+    const slow = resolveCombatQuota(objective, plan.combat, partySize, "slow");
     if (expected.kills === null || slow.kills === null)
       return unknown(expected.reason ?? slow.reason ?? "Drop cost is unresolved.");
     expectedKills += expected.kills;
@@ -80,7 +77,7 @@ export function partyQuestLootCost(
     expectedKills,
     slowKills,
     reason: eligible
-      ? "The complete five-player loot quota fits the collection budget."
-      : "The complete five-player loot quota exceeds the collection budget.",
+      ? `The complete ${partySize === 1 ? "personal" : `${partySize}-player`} loot quota fits the collection budget.`
+      : `The complete ${partySize === 1 ? "personal" : `${partySize}-player`} loot quota exceeds the collection budget.`,
   };
 }

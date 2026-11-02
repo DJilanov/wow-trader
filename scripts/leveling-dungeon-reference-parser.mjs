@@ -14,6 +14,7 @@ const sections = [
   "The Stockades",
   "Excavation Site: Wetlands",
   "Gnomeregan",
+  "City of Dalaran",
   "Razorfen Kraul",
   "Scarlet Monastery",
   "Razorfen Downs",
@@ -68,12 +69,16 @@ export function parseDungeonReference(markup, identities, { requireComplete = tr
       const heading = strip(token[2]);
       if (token[1] === "2") {
         const match = heading.match(/^(.+?) Dungeon Quests(?:\s*\([\d\s]+\))?$/);
-        if (!match) {
+        const name =
+          heading === "Every Quest in City of Dalaran in World of Warcraft: Forever"
+            ? "City of Dalaran"
+            : match?.[1];
+        if (!name) {
           if (/Dungeon Quests/i.test(heading))
             throw new Error(`Unrecognized dungeon heading: ${heading}`);
           dungeon = null;
         } else {
-          dungeon = match[1];
+          dungeon = name;
           if (!sections.includes(dungeon))
             throw new Error(`Unreviewed dungeon section: ${dungeon}`);
           if (headings.has(dungeon)) throw new Error(`Duplicate dungeon section: ${dungeon}`);

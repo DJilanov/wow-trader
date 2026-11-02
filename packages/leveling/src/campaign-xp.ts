@@ -23,7 +23,7 @@ import {
   type CampaignEvidenceIssue,
   type CampaignEvidenceSummary,
 } from "./campaign-evidence.js";
-import { grindMeasurementTotal, type CampaignGrindEvidence } from "./grind-evidence.js";
+import type { CampaignGrindEvidence } from "./grind-evidence.js";
 import {
   forecastDungeonBundle,
   getDungeonBundle,
@@ -35,11 +35,35 @@ import {
 } from "./quest-validation-coverage.js";
 import type { CampaignQuestValidationEvidence } from "./quest-validation-evidence.js";
 import { LEVELING_RACES } from "./profile.js";
+import { combatObjectiveKey } from "./combat-model.js";
 import { createQuestValidationCertificateResolver } from "./quest-validation-certificates.js";
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
 import type { CampaignXpEvent } from "./campaign-xp-event.js";
 import type { LootScenario } from "./quest-loot.js";
-export const CAMPAIGN_XP_REVISION = "checkpoint-ledger-20261021-v19";
+import { combatActivityPhase } from "./campaign-combat-phase.js";
+import { forecastSharedPartyCombat } from "./campaign-shared-party-combat.js";
+import { campaignMemberReferences } from "./campaign-member-references.js";
+import { campaignSourceChecks } from "./campaign-source-conditions.js";
+import {
+  evaluateCampaignSourceChecks,
+  type CampaignSourceSkip,
+  type CampaignSourceDecision,
+} from "./campaign-source-condition-state.js";
+import { QUEST_LOG_CAPACITY, QuestLogLedger, type QuestLogSlotKey } from "./quest-log.js";
+import { CampaignItemLedger, indexCampaignItems } from "./campaign-item-ledger.js";
+import {
+  campaignItemsForMember,
+  refreshCampaignItemReadiness,
+} from "./campaign-item-reports.js";
+import { campaignItemProgressEvent } from "./campaign-item-progress.js";
+import { campaignMaterialTargetNeeded, forecastCampaignMaterialCombat } from "./campaign-material-combat.js";
+import { campaignXpBoundsConserved, campaignXpBoundsTransition, resolveBoundedQuestReward, type CampaignXpBounds } from "./campaign-xp-bounds.js";
+import {
+  GUARANTEED_DUNGEON_IDS,
+  dungeonBundleSlotKey,
+  type DungeonBundle,
+} from "./dungeon-bundle-model.js";
+export const CAMPAIGN_XP_REVISION = "quest-funded-real-pickup-timing-20261102-v87";
 
 export interface XpPosition {
   readonly level: number;
@@ -51,14 +75,21 @@ export interface CampaignXpRewardRow {
   readonly title: string;
   readonly handInLevel: number | null;
   readonly xp: number | null;
+  readonly maximumXp?: number;
   readonly basis: ReturnType<typeof resolveQuestReward>["basis"];
   readonly source: string;
 }
 export interface CampaignXpMemberForecast {
+  readonly sourceSkips?: readonly CampaignSourceSkip[];
   readonly player: number;
   readonly start: XpPosition | null;
   readonly endpoint: XpPosition | null;
   readonly knownEndpoint: XpPosition | null;
+  readonly xpBounds?: {
+    readonly kind: "conservative-box";
+    readonly start: CampaignXpBounds | null;
+    readonly finish: CampaignXpBounds | null;
+  };
   readonly referenceQuestXp: number;
   readonly estimatedQuestXp: number;
   readonly combatXp: number;
@@ -78,6 +109,11 @@ export interface CampaignXpMemberForecast {
   readonly inheritedEvidence: CampaignEvidenceSummary;
   readonly evidence: CampaignEvidenceSummary;
   readonly checkpoints: readonly CampaignXpCheckpoint[];
+  readonly questLog: {
+    readonly capacity: typeof QUEST_LOG_CAPACITY;
+    readonly used: number;
+    readonly peak: number;
+  };
   readonly blockedAtActionId: string | null;
   readonly blockedReason: string | null;
   readonly targetLevel: number;
@@ -123,6 +159,8 @@ function position(total: number): XpPosition {
 }
 
 export interface CampaignXpForecastOptions {
+  /** Explicit hypothetical intervals for internal continuations; never persisted as observations. */
+  readonly initialBounds?: readonly (CampaignXpBounds | null)[];
   /** Forecast-only personal branches; actual quest reporting remains leader-only. Players are 1-based. */
   readonly personalActionPlayers?: Readonly<Record<string, number>>;
   readonly fromActionId?: string;
@@ -130,7 +168,8 @@ export interface CampaignXpForecastOptions {
   readonly combat?: readonly CampaignCombatScenario[];
   readonly groupCombat?: readonly CampaignGroupCombatScenario[];
   readonly facts?: readonly QuestRewardFact[];
-  readonly noAssumedGrinding?: boolean;
+  /** Compatibility with earlier callers; checkpoints never contribute XP. */
+  readonly noAssumedGrinding?: true;
   readonly lootScenario?: LootScenario;
   readonly outdoorXpMultiplier?: number;
   readonly anchors?: readonly (CampaignXpAnchor & { readonly player: number })[];
@@ -148,6 +187,10 @@ export function forecastCampaignXp(
   progress: PremadeProgress,
   options: CampaignXpForecastOptions = {},
 ): readonly CampaignXpSectionForecast[] {
+  if (options.initialBounds && options.initialBounds.length !== progress.members.length)
+    throw new Error("Initial XP bounds must match all party members.");
+  if (options.initialBounds && Array.from(options.initialBounds).some((bounds) => bounds === undefined))
+    throw new Error("Initial XP bounds cannot contain missing members.");
   const actions = activeCampaignActions(plan, progress);
   const personalActions = new Set(
     plan.actions.filter((action) => action.leaderOnly).map((action) => action.id),
@@ -201,14 +244,10 @@ export function forecastCampaignXp(
         CAMPAIGN_ADDON_COMPILER_REVISION,
       )
     : null;
-  const objectiveIndexes = new Map<number, Set<number>>();
-  for (const action of actions)
-    for (const change of action.questChanges) {
-      if (change.state !== "objectives-complete") continue;
-      const indexes = objectiveIndexes.get(change.questId) ?? new Set<number>();
-      indexes.add(change.objectiveIndex ?? 1);
-      objectiveIndexes.set(change.questId, indexes);
-    }
+  const memberReferences = progress.members.map((_member, player) =>
+    campaignMemberReferences(plan, player + 1, options.personalActionPlayers),
+  );
+  const itemIndex = indexCampaignItems(plan.itemRequirements ?? []);
   if (plan.combat && plan.combat.targetBuild !== plan.targetBuild)
     throw new Error("Combat data belongs to a different route build.");
   const grindMeasurements = options.grindEvidence?.measurements ?? [];
@@ -223,6 +262,7 @@ export function forecastCampaignXp(
       plan.combat?.activities.filter((activity) => activity.actionId === action.id) ?? [],
     ]),
   );
+  const materialWorkByAction = new Map(plan.combat?.materialWork?.map((work) => [work.actionId, work]) ?? []);
   const unmodeledExtras = new Set(campaignUnmodeledExtras(plan, progress));
   const from =
     options.fromActionId === undefined
@@ -269,15 +309,19 @@ export function forecastCampaignXp(
     activities.add(entry.activityId ?? entry.actionId);
   }
   const facts = options.facts ?? plan.rewardFacts ?? [];
-  const objectiveKeys = new Map<number, Set<string>>();
-  for (const action of actions)
-    for (const change of action.questChanges) {
-      if (change.state !== "objectives-complete") continue;
-      const keys = objectiveKeys.get(change.questId) ?? new Set<string>();
-      keys.add(`campaign-objective-${change.questId}-${change.objectiveIndex ?? 1}`);
-      objectiveKeys.set(change.questId, keys);
-    }
-  const ledgers = progress.members.map((member) => {
+  const memberObjectiveKeys = memberReferences.map((references) => new Map(
+    [...references.objectiveIndexes].map(([id, indices]) => [
+      id, new Set([...indices].map((index) => `campaign-objective-${id}-${index}`)),
+    ]),
+  ));
+  const ledgers = progress.members.map((member, player) => {
+    const references = memberReferences[player]!;
+    const objectiveIndexes = references.objectiveIndexes;
+    const questLog = new QuestLogLedger(member.questStates);
+    const states = { ...member.questStates },
+      confirmations = { ...member.confirmations };
+    const items = campaignItemsForMember(itemIndex, member, plan.targetBuild);
+    refreshCampaignItemReadiness(itemIndex, items, states, confirmations, objectiveIndexes);
     const invalid =
       member.level !== null &&
       member.currentXp !== null &&
@@ -296,13 +340,39 @@ export function forecastCampaignXp(
           blocksForecast: true,
         }
       : null;
+    const logIssue: CampaignEvidenceIssue | null =
+      questLog.used > QUEST_LOG_CAPACITY
+        ? {
+            code: "quest-log-full",
+            domain: "progress",
+            message: `The recorded quest log contains ${questLog.used} active quests; the limit is ${QUEST_LOG_CAPACITY}. Correct the carried quest states before continuing.`,
+            resolution: "in-game",
+            actionId: actions[from]?.id ?? null,
+            questId: null,
+            blocksForecast: true,
+          }
+        : null;
+    const initialIssues = [progressIssue, logIssue].filter(
+      (issue): issue is CampaignEvidenceIssue => issue !== null,
+    );
+    const initialTotal = invalid || member.level === null || member.currentXp === null || member.xpNeedsUpdate
+      ? null : cumulative({ level: member.level, currentXp: member.currentXp });
+    const initialBounds = options.initialBounds?.[player];
+    if (initialBounds) {
+      campaignXpBoundsConserved({ before: initialBounds, after: initialBounds, minimumXp: 0, maximumXp: 0 });
+      if (initialTotal === null || cumulative(initialBounds.minimum) !== initialTotal)
+        throw new Error("Initial XP bounds do not match the continuation's minimum bar.");
+    }
     return {
-      total:
-        invalid || member.level === null || member.currentXp === null || member.xpNeedsUpdate
-          ? null
-          : cumulative({ level: member.level, currentXp: member.currentXp }),
-      states: { ...member.questStates },
-      confirmations: { ...member.confirmations },
+      total: initialTotal,
+      maximumTotal: initialBounds ? cumulative(initialBounds.maximum) : options.initialBounds && initialBounds === null ? null : initialTotal,
+      states,
+      items,
+      freshInventoryReference: from === 0 && member.level === 1 && member.currentXp === 0 && !member.xpNeedsUpdate &&
+        !member.itemHoldings && Object.keys(member.questStates).length === 0 && Object.keys(member.confirmations).length === 0,
+      materialEncounters: new Set<number>(),
+      questLog,
+      confirmations,
       paid: new Set(
         Object.keys(member.questStates)
           .filter((id) => member.questStates[id] === "rewarded")
@@ -313,25 +383,55 @@ export function forecastCampaignXp(
           .filter(([, state]) => state === "rewarded")
           .map(([key]) => key),
       ),
-      incomplete: false,
+      bundleSkipped: new Set(
+        Object.entries(member.bundleSlotStates ?? {})
+          .filter(([, state]) => state === "skipped")
+          .map(([key]) => key),
+      ),
+      incomplete: logIssue !== null,
       unknown: new Set<number>(),
       blocked: new Set<number>(),
-      halt: null as { actionId: string; reason: string; data: boolean } | null,
-      issue: progressIssue?.message ?? null,
-      issues: new Map(
-        progressIssue ? [[campaignEvidenceIssueKey(progressIssue), progressIssue]] : [],
-      ),
-      combat: createCampaignCombatState(plan.combat, member),
+      halt: (logIssue
+        ? { actionId: logIssue.actionId, reason: logIssue.message, data: true }
+        : null) as { actionId: string | null; reason: string; data: boolean } | null,
+      issue: initialIssues[0]?.message ?? null,
+      issues: new Map(initialIssues.map((issue) => [campaignEvidenceIssueKey(issue), issue])),
+      combat: createCampaignCombatState(references.combat, member),
     };
   });
   const selected = new Set(actions.slice(from, through + 1).map((a) => a.id));
+  const bundleLogKeys = new Map<string, QuestLogSlotKey>(
+    GUARANTEED_DUNGEON_IDS.flatMap((id) => {
+      const bundle = getDungeonBundle(id, "alliance", progress.guaranteedBundles)!;
+      return bundle.slots.map((slot) => {
+        const key = dungeonBundleSlotKey(bundle, slot.index);
+        return [key, slot.questId === null ? `bundle:${key}` : `quest:${slot.questId}`] as const;
+      });
+    }),
+  );
+  const pendingBundleReservations = (bundle: DungeonBundle, player: number): QuestLogSlotKey[] => {
+    const ledger = ledgers[player]!;
+    return bundle.included
+      ? bundle.slots.flatMap((slot): QuestLogSlotKey[] => {
+          const key = dungeonBundleSlotKey(bundle, slot.index);
+          return !slot.selected ||
+            ledger.bundlePaid.has(key) ||
+            ledger.bundleSkipped.has(key) ||
+            (slot.questId !== null && ledger.paid.has(slot.questId))
+            ? []
+            : [bundleLogKeys.get(key)!];
+        })
+      : [];
+  };
   const sections = campaignSections(plan, progress);
   return sections.map((section, sectionIndex): CampaignXpSectionForecast => {
     const entries = actions.filter((a) => selected.has(a.id) && section.actionIds.includes(a.id));
     const targetLevel = campaignSectionTarget(sections, sectionIndex, progress, facts).level;
     const skippedOptionalActionIds: string[] = [];
     const summaries = ledgers.map((ledger) => ({
+      sourceSkips: [] as CampaignSourceSkip[],
       start: ledger.total === null || ledger.unknown.size > 0 ? null : position(ledger.total),
+      maximumStart: ledger.maximumTotal === null || ledger.unknown.size > 0 ? null : position(ledger.maximumTotal),
       rewards: [] as CampaignXpRewardRow[],
       steps: [] as CampaignXpEvent[],
       bundleRewards: [] as (DungeonBundleRewardRow & { readonly actionId: string })[],
@@ -354,9 +454,15 @@ export function forecastCampaignXp(
       for (const anchor of anchors.get(action.id) ?? []) {
         const player = anchor.player - 1;
         const ledger = ledgers[player]!;
+        const references = memberReferences[player]!;
+        const objectiveIndexes = references.objectiveIndexes;
+        const resetItems =
+          Object.entries(anchor.questStates).some(([id, state]) => state !== ledger.states[id]) ||
+          Object.entries(anchor.confirmations).some(([key, value]) => value !== ledger.confirmations[key]);
         const questStates = { ...ledger.states, ...anchor.questStates };
         const confirmations = { ...ledger.confirmations, ...anchor.confirmations };
         const bundleSlotStates = {
+          ...Object.fromEntries([...ledger.bundleSkipped].map((key) => [key, "skipped" as const])),
           ...Object.fromEntries([...ledger.bundlePaid].map((key) => [key, "rewarded" as const])),
           ...anchor.bundleSlotStates,
         };
@@ -368,8 +474,16 @@ export function forecastCampaignXp(
           bundleSlotStates,
         };
         ledger.total = cumulative(anchor);
+        ledger.maximumTotal = ledger.total;
+        ledger.freshInventoryReference = false;
+        ledger.materialEncounters.clear();
         ledger.states = questStates;
+        ledger.questLog.sync(questStates);
         ledger.confirmations = confirmations;
+        if (resetItems) {
+          ledger.items = new CampaignItemLedger(itemIndex, anchor.questStates);
+          refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes);
+        }
         ledger.paid = new Set(
           Object.entries(questStates)
             .filter(([, state]) => state === "rewarded")
@@ -380,17 +494,43 @@ export function forecastCampaignXp(
             .filter(([, state]) => state === "rewarded")
             .map(([key]) => key),
         );
+        ledger.bundleSkipped = new Set(
+          Object.entries(bundleSlotStates)
+            .filter(([, state]) => state === "skipped")
+            .map(([key]) => key),
+        );
+        for (const key of [...ledger.bundlePaid, ...ledger.bundleSkipped]) {
+          const reservation = bundleLogKeys.get(key);
+          if (reservation) ledger.questLog.releaseReservation(reservation);
+        }
         ledger.unknown.clear();
         ledger.blocked.clear();
         ledger.issues.clear();
         ledger.halt = null;
         ledger.issue = null;
         ledger.incomplete = false;
-        ledger.combat = createCampaignCombatState(plan.combat, member);
+        ledger.combat = createCampaignCombatState(references.combat, member);
+        if (ledger.questLog.used > QUEST_LOG_CAPACITY) {
+          const issue: CampaignEvidenceIssue = {
+            code: "quest-log-full",
+            domain: "progress",
+            message: `Player ${player + 1}'s recorded quest log contains ${ledger.questLog.used} active quests; the limit is ${QUEST_LOG_CAPACITY}. Correct the carried quest states before continuing.`,
+            resolution: "in-game",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: true,
+          };
+          ledger.halt = { actionId: action.id, reason: issue.message, data: true };
+          ledger.issue = issue.message;
+          ledger.incomplete = true;
+          ledger.issues.set(campaignEvidenceIssueKey(issue), issue);
+        }
         // This bar supersedes earlier estimates, not earlier actual quest reports. Only
         // work after its fixed step is added; moving the reader cursor cannot move it.
         Object.assign(summaries[player]!, {
+          sourceSkips: [],
           start: position(ledger.total),
+          maximumStart: position(ledger.total),
           rewards: [],
           steps: [],
           bundleRewards: [],
@@ -398,8 +538,8 @@ export function forecastCampaignXp(
           evidenceIssues: [],
           issues: [],
           validationResolutions: [],
-          inheritedIssueCount: 0,
-          inheritedEvidence: summarizeCampaignEvidence([]),
+          inheritedIssueCount: ledger.issues.size,
+          inheritedEvidence: summarizeCampaignEvidence([...ledger.issues.values()]),
           checkpoints: [],
           referenceQuestXp: 0,
           estimatedQuestXp: 0,
@@ -413,6 +553,85 @@ export function forecastCampaignXp(
       const partyLevels = ledgers.map((ledger) =>
         ledger.total === null ? null : position(ledger.total).level,
       );
+      const sourceChecks =
+        action.questChanges.length || action.itemCollections?.length ? campaignSourceChecks(action) : [];
+      const sourceDecisions = ledgers.map((ledger): CampaignSourceDecision =>
+        sourceChecks.length
+          ? evaluateCampaignSourceChecks(sourceChecks, {
+              questStates: ledger.states,
+              itemLowerBounds: ledger.items.lowerBounds,
+            })
+          : "execute",
+      );
+      const actionQuestIds = [
+        ...new Set([
+          ...action.questChanges.map((change) => change.questId),
+          ...(action.requiredQuestIds ?? []),
+        ]),
+      ];
+      const firstLedger = ledgers[0]!;
+      const partyIdentities = progress.members.map(
+        (member, index) =>
+          `${index === 0 ? plan.race : member.raceId}:${index === 0 ? (plan.leaderClass ?? member.classSlug) : member.classSlug}`,
+      );
+      const synchronizedParty =
+        !action.leaderOnly &&
+        sourceDecisions.every((decision) => decision === "execute") &&
+        firstLedger.total !== null &&
+        partyIdentities.every((identity) => identity === partyIdentities[0]) &&
+        ledgers.every(
+          (ledger) =>
+            ledger.total === firstLedger.total &&
+            ledger.halt === null &&
+            ledger.unknown.size === 0 &&
+            actionQuestIds.every(
+              (questId) => ledger.states[String(questId)] === firstLedger.states[String(questId)],
+            ) &&
+            JSON.stringify(ledger.confirmations) === JSON.stringify(firstLedger.confirmations),
+        );
+      const activities = automaticCombat.get(action.id) ?? [];
+      const objectiveKeysForAction = [
+        ...new Set(activities.flatMap((activity) => activity.objectives.map(combatObjectiveKey))),
+      ];
+      const pathKeys = activities.flatMap((activity) =>
+        activity.pathId
+          ? (activity.profile?.packs ?? []).map((pack) => `${activity.pathId}:${pack.npcId}`)
+          : [],
+      );
+      const lastObjective = action.questChanges
+        .map((change) => change.state)
+        .lastIndexOf("objectives-complete");
+      const alignedParty =
+        !action.leaderOnly &&
+        sourceDecisions.every((decision) => decision === "execute") &&
+        lastObjective >= 0 &&
+        action.questChanges
+          .slice(0, lastObjective)
+          .every((change) => change.state !== "rewarded") &&
+        ledgers.every(
+          (ledger) =>
+            ledger.total !== null &&
+            ledger.halt === null &&
+            ledger.unknown.size === 0 &&
+            actionQuestIds.every(
+              (questId) => ledger.states[String(questId)] === firstLedger.states[String(questId)],
+            ) &&
+            objectiveKeysForAction.every(
+              (key) => ledger.combat.counters.get(key) === firstLedger.combat.counters.get(key),
+            ) &&
+            pathKeys.every(
+              (key) => ledger.combat.pathKills.get(key) === firstLedger.combat.pathKills.get(key),
+            ),
+        );
+      const initialPartyBars = alignedParty
+        ? ledgers.map((ledger) => position(ledger.total!))
+        : null;
+      const partyClocks = ledgers.map((): readonly XpPosition[] | null => initialPartyBars);
+      const maximumPartyKnown = ledgers.every((ledger) => ledger.total !== null && ledger.maximumTotal !== null);
+      const initialPartyBounds = alignedParty && maximumPartyKnown
+        ? ledgers.map((ledger): CampaignXpBounds => ({ minimum: position(ledger.total!), maximum: position(ledger.maximumTotal!) }))
+        : null;
+      const partyBoundsClocks = ledgers.map((): readonly CampaignXpBounds[] | null => initialPartyBounds);
       const modeled: PremadeProgress = {
         ...progress,
         members: ledgers.map((ledger, player) => ({
@@ -431,7 +650,123 @@ export function forecastCampaignXp(
         skippedOptionalActionIds.push(action.id);
         continue;
       }
+      const maximumModeled: PremadeProgress = { ...modeled, members: modeled.members.map((member, player) => {
+        const maximum = ledgers[player]!.maximumTotal;
+        return maximum === null ? { ...member, level: null, currentXp: null, xpNeedsUpdate: true } : { ...member, ...position(maximum) };
+      }) };
+      const optionalBoundsAmbiguous = action.kind !== "xp-check" && campaignOptionalXpReady(plan,
+        action.leaderOnly ? { ...maximumModeled, members: [maximumModeled.members[personalPlayer]!] } : maximumModeled, action);
+      const dungeonCombatAllowed = (questId: number): boolean => {
+        const legKind = plan.legs.find((leg) => leg.id === action.legId)?.kind;
+        return (
+          legKind === "dungeon" ||
+          Boolean(
+            action.dungeonFinishOnly &&
+            legKind === "finish" &&
+            action.location?.insideDungeon &&
+            plan.finishCircuitReview?.wingIds.includes(action.location.insideDungeon) &&
+            plan.finishCircuitReview.plannedQuestIds.includes(questId),
+          )
+        );
+      };
+      const work = materialWorkByAction.get(action.id);
+      const materialPlayers = action.leaderOnly ? [personalPlayer] : ledgers.map((_ledger, player) => player);
+      const materialCombat = work && plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id) &&
+        !optionalBoundsAmbiguous && materialPlayers.every((player) => sourceDecisions[player] === "execute" && ledgers[player]!.total !== null && ledgers[player]!.maximumTotal !== null &&
+          !ledgers[player]!.halt && ledgers[player]!.unknown.size === 0)
+        ? forecastCampaignMaterialCombat({ action, work, combat: plan.combat, participants: materialPlayers.map((player) => {
+            const ledger = ledgers[player]!;
+            return { position: position(ledger.total!), maximumPosition: position(ledger.maximumTotal!), questStates: ledger.states, confirmations: ledger.confirmations,
+              minimumItems: ledger.items.lowerBounds, freshInventoryReference: ledger.freshInventoryReference,
+              encounteredNpcIds: ledger.materialEncounters, state: ledger.combat, combat: memberReferences[player]!.combat! };
+          }), lootScenario: options.lootScenario ?? "expected", xpMultiplier: options.outdoorXpMultiplier ?? progress.combatPlanning?.outdoorXpMultiplier ?? 1 })
+        : null;
+      if (materialCombat?.status === "planned" && !action.leaderOnly)
+        for (let player = 0; player < ledgers.length; player++) {
+          partyClocks[player] = materialCombat.forecasts.map((forecast) => forecast.exit);
+          partyBoundsClocks[player] = materialCombat.forecasts.map((forecast) => ({ minimum: forecast.exit, maximum: forecast.maximumExit ?? forecast.exit }));
+        }
+      const sharedPartyCombat =
+        materialCombat?.status !== "planned" &&
+        (!alignedParty || maximumPartyKnown) &&
+        !optionalBoundsAmbiguous &&
+        !action.leaderOnly &&
+        action.kind === "quests" &&
+        action.questChanges.length > 0 &&
+        action.questChanges.every((change) => change.state === "objectives-complete") &&
+        plan.combat &&
+        !combat.has(action.id) &&
+        !unknownCombat.has(action.id) &&
+        activities.every(
+          (activity) =>
+            activity.environment !== "dungeon" ||
+            activity.objectives.every((objective) => dungeonCombatAllowed(objective.questId)),
+        ) &&
+        ledgers.every(
+          (ledger) => ledger.total !== null && ledger.maximumTotal !== null && ledger.halt === null && ledger.unknown.size === 0,
+        )
+          ? forecastSharedPartyCombat({
+              action,
+              activities,
+              combat: plan.combat,
+              participants: ledgers.map((ledger, player) => {
+                const references = memberReferences[player]!.sharedCombatIndex();
+                return {
+                  ...(references ? { references } : {}),
+                  actionRequired: sourceDecisions[player] === "execute",
+                  position: position(ledger.total!),
+                  maximumPosition: position(ledger.maximumTotal!),
+                  questStates: ledger.states,
+                  state: ledger.combat,
+                };
+              }),
+              xpMultiplier:
+                options.outdoorXpMultiplier ?? progress.combatPlanning?.outdoorXpMultiplier ?? 1,
+            })
+          : null;
+      const checkpointStop =
+        action.kind === "checkpoint"
+          ? PREMADE_STOPS.find((entry) => entry.id === action.targetStopId)
+          : undefined;
+      const checkpointMinimum = checkpointStop
+        ? premadeEntryLevel(checkpointStop, progress, facts)
+        : action.targetLevel;
+      const checkpointBundle =
+        checkpointStop?.dataStatus === "guaranteed-bundle"
+          ? getDungeonBundle(checkpointStop.id, "alliance", progress.guaranteedBundles)
+          : null;
+      const checkpointReservations =
+        action.kind === "checkpoint"
+          ? ledgers.map((_ledger, player) =>
+              checkpointBundle ? pendingBundleReservations(checkpointBundle, player) : [],
+            )
+          : [];
+      // Snapshot all readiness before one member's halt or reservation changes local state.
+      const checkpointReady =
+        action.kind === "checkpoint"
+          ? ledgers.map(
+              (ledger, player) =>
+                ledger.total !== null &&
+                ledger.halt === null &&
+                ledger.unknown.size === 0 &&
+                checkpointMinimum !== null &&
+                ledger.total >= cumulative({ level: checkpointMinimum, currentXp: 0 }) &&
+                (action.requiredQuestIds ?? []).every((id) => ledger.states[String(id)] === "rewarded") &&
+                checkpointStop?.dataStatus !== "missing-quest-data" &&
+                ledger.questLog.canReserve(checkpointReservations[player]!),
+            )
+          : [];
+      const waitingPlayers = checkpointReady.flatMap((ready, player) => (ready ? [] : [player + 1]));
+      // Personal branches run independently. Shared work cannot continue after one
+      // participant stops; snapshot before this action changes anyone's ledger.
+      const unavailablePartyPlayers = action.leaderOnly ? [] : ledgers.flatMap((ledger, player) =>
+        ledger.total === null || ledger.halt || ledger.unknown.size
+          ? [{ player: player + 1, reason: ledger.halt?.reason ?? "Level and XP are not known." }]
+          : [],
+      );
       for (const [player, ledger] of ledgers.entries()) {
+        const { combat: memberCombat, objectiveIndexes } = memberReferences[player]!;
+        const objectiveKeys = memberObjectiveKeys[player]!;
         const summary = summaries[player]!;
         const { rewards, eligibilityIssues } = summary;
         const markIssue = (
@@ -494,6 +829,28 @@ export function forecastCampaignXp(
         };
         if (action.leaderOnly && player !== personalPlayer) continue;
         if (ledger.total === null || ledger.halt) continue;
+        const halt = (issue: CampaignEvidenceIssue, data = false): void => {
+          ledger.halt = { actionId: action.id, reason: issue.message, data };
+          markIssue(issue, data ? "evidence" : "eligibility");
+        };
+        if (optionalBoundsAmbiguous) {
+          halt({ code: "xp-range-ambiguous", domain: "progress", actionId: action.id, questId: null,
+            message: `${action.id}: possible XP outcomes disagree on whether this optional source work is still required.`,
+            resolution: "offline-or-in-game", blocksForecast: true }, true);
+          continue;
+        }
+        if (unavailablePartyPlayers.length) {
+          halt({
+            code: "checkpoint-not-ready",
+            domain: "progress",
+            message: `Wait for ${unavailablePartyPlayers.map((member) => `Player ${member.player}`).join(", ")} before continuing together. ${unavailablePartyPlayers.map((member) => `Player ${member.player}: ${member.reason}`).join(" ")}`,
+            resolution: "in-game",
+            actionId: action.id,
+            questId: null,
+            blocksForecast: true,
+          });
+          continue;
+        }
         const needed = (change: (typeof action.questChanges)[number]): boolean => {
           const state = ledger.states[String(change.questId)];
           if (ledger.paid.has(change.questId)) return false;
@@ -508,7 +865,13 @@ export function forecastCampaignXp(
             );
           return true;
         };
-        if (action.questChanges.length && !action.questChanges.some(needed)) continue;
+        if (
+          action.questChanges.length &&
+          !action.questChanges.some(needed) &&
+          !action.itemCollections?.some((target) => campaignMaterialTargetNeeded(target, ledger.states, ledger.confirmations, ledger.items.lowerBounds)) &&
+          !sharedPartyCombat?.[player]?.rows.length
+        )
+          continue;
         if (
           action.libraryObjective === "named-trophy" &&
           action.questChanges.some(
@@ -525,28 +888,72 @@ export function forecastCampaignXp(
             blocksForecast: false,
           });
         }
-        const halt = (issue: CampaignEvidenceIssue, data = false): void => {
-          ledger.halt = { actionId: action.id, reason: issue.message, data };
-          markIssue(issue, data ? "evidence" : "eligibility");
-        };
-        if (
-          action.kind !== "checkpoint" &&
-          action.questChanges.some((change) => change.state === "accepted" && needed(change)) &&
-          action.requiredQuestIds?.some((id) => ledger.states[String(id)] !== "rewarded")
-        ) {
-          halt({
-            code: "source-prerequisite-missing",
-            domain: "route",
-            message: `${action.id}: required source-chain hand-ins remain missing (${action.requiredQuestIds.join(", ")}).`,
-            resolution: "offline",
-            actionId: action.id,
-            questId: null,
-            blocksForecast: true,
-          });
-          continue;
+        const sourceDecision = sourceDecisions[player]!;
+        const sourceIssue: CampaignEvidenceIssue | null =
+          sourceDecision === "unknown" && !action.source?.conditions?.optional
+            ? {
+                code: "source-condition-unobserved",
+                domain: "route",
+                message: `${action.id}: a required source condition needs unrecorded resources; no quest completion or reward is assumed.`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: null,
+                blocksForecast: true,
+              }
+            : null;
+        if (sourceDecision !== "execute" && (action.questChanges.length || action.itemCollections?.length)) {
+          summary.sourceSkips.push({ actionId: action.id, decision: sourceDecision });
+          if (!sharedPartyCombat?.[player]?.rows.length) {
+            if (sourceIssue) halt(sourceIssue, true);
+            continue;
+          }
         }
+        let collectedItems = false;
+        const materialForecast = materialCombat?.status === "planned" ? materialCombat.forecasts[materialPlayers.indexOf(player)] : undefined;
+        if (materialForecast) {
+          const before = position(ledger.total);
+          const maximumBefore = ledger.maximumTotal === null ? null : position(ledger.maximumTotal);
+          ledger.total = cumulative(materialForecast.exit);
+          ledger.maximumTotal = materialForecast.maximumExit ? cumulative(materialForecast.maximumExit) : ledger.maximumTotal === null ? null : ledger.maximumTotal + (materialForecast.maximumXp ?? materialForecast.xp);
+          ledger.combat = materialForecast.state;
+          summary.combatXp += materialForecast.xp;
+          summary.outdoorCombatXp += materialForecast.xp;
+          summary.combatRows.push(...materialForecast.rows);
+          for (const row of materialForecast.rows) ledger.materialEncounters.add(row.npcId);
+          const xpBounds = campaignXpBoundsTransition({ before, maximumBefore, after: position(ledger.total), maximumAfter: ledger.maximumTotal === null ? null : position(ledger.maximumTotal), maximumQuestXp: 0, maximumCombatXp: materialForecast.maximumXp ?? materialForecast.xp, minimumXp: materialForecast.xp });
+          summary.steps.push({ actionId: action.id, title: action.title, before, after: position(ledger.total), ...(xpBounds ? { xpBounds } : {}),
+            questId: null, phase: "combat", objectiveIndex: null, questXp: 0, combatXp: materialForecast.xp,
+            minimumLevel: null, shortfallXp: 0, status: "projected" });
+        }
+        for (const target of sourceDecision === "execute" ? action.itemCollections ?? [] : []) {
+          if (ledger.confirmations[target.confirmationKey]) continue;
+          const before = ledger.items.lowerBounds.get(target.itemId) ?? 0;
+          if (ledger.items.collect(target, ledger.states)) {
+            collectedItems = true;
+            refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes);
+            if (before < target.quantity)
+              markIssue({
+                code: "item-acquisition-unqualified",
+                domain: "route",
+                message: materialForecast
+                  ? `${action.id}: gathering combat uses a conditional fresh-stock reference workload, including overlapping required kills once. Actual stock, drop rates and payouts remain unqualified.`
+                  : `${action.id}: the listed item target can fund its hand-in after collection, but its acquisition and combat XP are unqualified; no kills or bonus XP are assumed.${materialCombat?.status === "unknown" ? ` ${materialCombat.reason}` : ""}`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: target.questId,
+                blocksForecast: true,
+              });
+          }
+        }
+        if (collectedItems)
+          summary.steps.push(campaignItemProgressEvent(
+            action, position(ledger.total), itemIndex, ledger.items, ledger.states, ledger.confirmations,
+          ));
+        if (collectedItems && !materialForecast)
+          for (const target of work?.targets ?? [])
+            for (const npcId of target.possibleDropNpcIds) ledger.materialEncounters.add(npcId);
         if (action.kind === "checkpoint") {
-          const entryStop = PREMADE_STOPS.find((entry) => entry.id === action.targetStopId);
+          const entryStop = checkpointStop;
           const missingExtra = entryStop?.quests.find((choice) =>
             unmodeledExtras.has(choice.questId),
           );
@@ -565,9 +972,7 @@ export function forecastCampaignXp(
             );
             continue;
           }
-          const minimum = entryStop
-            ? premadeEntryLevel(entryStop, progress, facts)
-            : action.targetLevel;
+          const minimum = checkpointMinimum;
           const current = position(ledger.total);
           const missingXp =
             minimum === null
@@ -575,11 +980,11 @@ export function forecastCampaignXp(
               : Math.max(0, cumulative({ level: minimum, currentXp: 0 }) - ledger.total);
           const missingQuests =
             action.requiredQuestIds?.filter((id) => ledger.states[String(id)] !== "rewarded") ?? [];
-          const ready =
-            missingXp === 0 &&
-            missingQuests.length === 0 &&
-            entryStop?.dataStatus !== "missing-quest-data";
           const planningOnly = entryStop?.dataStatus === "guaranteed-bundle";
+          const reservationKeys = checkpointReservations[player]!;
+          const capacityReady = ledger.questLog.canReserve(reservationKeys);
+          const ready =
+            checkpointReady[player]! && (action.leaderOnly || waitingPlayers.length === 0);
           summary.checkpoints.push({
             actionId: action.id,
             targetLevel: minimum ?? targetLevel,
@@ -590,14 +995,24 @@ export function forecastCampaignXp(
           });
           if (!ready) {
             const missingAccessData = entryStop?.dataStatus === "missing-quest-data";
+            const logFull =
+              !capacityReady && missingXp === 0 && missingQuests.length === 0 && !missingAccessData;
             halt({
-              code: missingAccessData ? "dungeon-access-unverified" : "checkpoint-not-ready",
-              domain: missingAccessData ? "route" : "progress",
-              message: missingAccessData
-                ? `${entryStop.name}: the quest/access bundle is unverified.`
-                : missingQuests.length
-                  ? `${action.id}: required preparation hand-ins remain missing (${missingQuests.join(", ")}).`
-                  : `${action.id}: entry requires level ${minimum ?? "unknown"}; forecast is level ${current.level}. Future rewards cannot fund this departure.`,
+              code: logFull
+                ? "quest-log-full"
+                : missingAccessData
+                  ? "dungeon-access-unverified"
+                  : "checkpoint-not-ready",
+              domain: logFull || missingAccessData ? "route" : "progress",
+              message: logFull
+                ? `Player ${player + 1} needs room for the selected dungeon quests before entry. The quest log is limited to ${QUEST_LOG_CAPACITY}; hand in carried quests first.`
+                : missingAccessData
+                  ? `${entryStop.name}: the quest/access bundle is unverified.`
+                  : checkpointReady[player] && !action.leaderOnly
+                    ? `${entryStop?.name ?? action.title}: wait for ${waitingPlayers.map((member) => `Player ${member}`).join(", ")}. The whole party must be ready before continuing.`
+                    : missingQuests.length
+                      ? `${action.id}: required preparation hand-ins remain missing (${missingQuests.join(", ")}).`
+                      : `${action.id}: entry requires level ${minimum ?? "unknown"}; forecast is level ${current.level}. Future rewards cannot fund this departure.`,
               resolution: missingAccessData ? "offline-or-in-game" : "in-game",
               actionId: action.id,
               questId: missingQuests[0] ?? null,
@@ -605,6 +1020,7 @@ export function forecastCampaignXp(
             });
             continue;
           }
+          ledger.questLog.reserve(reservationKeys);
           if (planningOnly)
             markIssue({
               code: "dungeon-details-pending",
@@ -619,6 +1035,24 @@ export function forecastCampaignXp(
         if (action.bundleId) {
           const bundle = getDungeonBundle(action.bundleId, "alliance", progress.guaranteedBundles);
           if (!bundle) throw new Error("Unknown guaranteed dungeon bundle.");
+          if (ledger.maximumTotal === null) {
+            halt({ code: "reward-unresolved", domain: "reward", actionId: action.id, questId: null,
+              message: `${action.id}: combat left the XP range unresolved; dungeon hand-in rewards cannot yet be bounded.`,
+              resolution: "offline-or-in-game", blocksForecast: true }, true);
+            continue;
+          }
+          if (!ledger.questLog.reserve(pendingBundleReservations(bundle, player))) {
+            halt({
+              code: "quest-log-full",
+              domain: "route",
+              message: `Player ${player + 1} needs room for the selected dungeon quests. The quest log is limited to ${QUEST_LOG_CAPACITY}; hand in carried quests before taking this bundle.`,
+              resolution: "in-game",
+              actionId: action.id,
+              questId: null,
+              blocksForecast: true,
+            });
+            continue;
+          }
           const forecast = forecastDungeonBundle(
             bundle,
             position(ledger.total),
@@ -630,13 +1064,16 @@ export function forecastCampaignXp(
                   : progress.members[player]!.classSlug,
               raceId: player === 0 ? plan.race : progress.members[player]!.raceId,
               bundleSlotStates: {
-                ...progress.members[player]!.bundleSlotStates,
+                ...Object.fromEntries(
+                  [...ledger.bundleSkipped].map((key) => [key, "skipped" as const]),
+                ),
                 ...Object.fromEntries(
                   [...ledger.bundlePaid].map((key) => [key, "rewarded" as const]),
                 ),
               },
             },
             (questId, level) => resolveQuestReward(questId, level, facts),
+            ledger.maximumTotal === null ? undefined : position(ledger.maximumTotal),
           );
           summary.bundleRewards.push(
             ...forecast.rows.map((row) => ({ ...row, actionId: action.id })),
@@ -657,14 +1094,20 @@ export function forecastCampaignXp(
             continue;
           }
           ledger.total = cumulative(forecast.endpoint);
+          ledger.maximumTotal = forecast.maximumEndpoint ? cumulative(forecast.maximumEndpoint) : null;
           summary.referenceQuestXp += forecast.referenceXp;
           summary.estimatedQuestXp += forecast.estimatedXp;
           for (const row of forecast.rows) {
             if (row.state !== "selected") continue;
             ledger.bundlePaid.add(row.slotKey);
+            const reservation = bundleLogKeys.get(row.slotKey);
+            if (reservation) ledger.questLog.releaseReservation(reservation);
             if (row.questId !== null) {
+              ledger.questLog.handIn(row.questId);
               ledger.paid.add(row.questId);
               ledger.states[String(row.questId)] = "rewarded";
+              const consumed = ledger.items.consume(row.questId);
+              refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes, consumed);
             }
           }
           markIssue({
@@ -702,37 +1145,70 @@ export function forecastCampaignXp(
         }
         const xpTarget = campaignXpTarget(action, progress, facts);
         if (action.kind === "xp-check" && xpTarget !== null) {
-          const target = cumulative(xpTarget);
-          if (ledger.total < target) {
-            const required = target - ledger.total;
-            if (options.noAssumedGrinding) continue;
-            const measured = grindMeasurements.some(
-              (measurement) =>
-                measurement.checkpointId === action.id &&
-                measurement.release === plan.release &&
-                measurement.party.size === progress.members.length &&
-                grindMeasurementTotal(measurement.start) < target &&
-                grindMeasurementTotal(measurement.finish) >= target,
-            );
-            ledger.total = target;
-            summary.combatXp += required;
-            summary.estimatedCombatXp += required;
-            summary.outdoorCombatXp += required;
-            if (!measured)
-              markIssue({
-                code: "adaptive-grind-unmeasured",
-                domain: "combat",
-                message: `${action.id}: the next requirement needs ${required} additional XP at this checkpoint; the forecast advances to the target, but a reviewed five-player camp, kill mix, XP gain, and duration that reaches this checkpoint is unavailable.`,
-                resolution: "in-game",
-                actionId: action.id,
-                questId: null,
-                blocksForecast: false,
-              });
-          }
+          const missingXp = Math.max(0, cumulative(xpTarget) - ledger.total);
+          summary.checkpoints.push({
+            actionId: action.id,
+            targetLevel: xpTarget.level,
+            position: position(ledger.total),
+            missingXp,
+            ready: missingXp === 0,
+            planningOnly: false,
+          });
           continue;
         }
+        const shared = sharedPartyCombat?.[player];
+        if (shared) {
+          const before = position(ledger.total);
+          const maximumBefore = ledger.maximumTotal === null ? null : position(ledger.maximumTotal);
+          ledger.total = shared.exitBounds ? cumulative(shared.exitBounds.minimum) : ledger.total + shared.xp;
+          ledger.maximumTotal = shared.exitBounds ? cumulative(shared.exitBounds.maximum) : ledger.maximumTotal === null ? null : ledger.maximumTotal + (shared.maximumXp ?? shared.xp);
+          ledger.combat = shared.state;
+          summary.combatXp += shared.xp;
+          summary.outdoorCombatXp += shared.rows
+            .filter((row) => row.environment === "outdoor")
+            .reduce((sum, row) => sum + (row.xp ?? 0), 0);
+          summary.dungeonCombatXp += shared.rows
+            .filter((row) => row.environment === "dungeon")
+            .reduce((sum, row) => sum + (row.xp ?? 0), 0);
+          summary.combatRows.push(...shared.rows);
+          for (const row of shared.rows) if (row.kills > 0) ledger.materialEncounters.add(row.npcId);
+          for (const message of shared.issues)
+            markIssue({
+              code: "combat-profile-unverified",
+              domain: "combat",
+              message,
+              resolution: "offline-or-in-game",
+              actionId: action.id,
+              questId: null,
+              blocksForecast: false,
+            });
+          const xpBounds = campaignXpBoundsTransition({ before, maximumBefore, after: position(ledger.total), maximumAfter: ledger.maximumTotal === null ? null : position(ledger.maximumTotal), maximumQuestXp: 0, maximumCombatXp: shared.maximumXp ?? shared.xp, minimumXp: shared.xp });
+          if (shared.rows.length)
+            summary.steps.push({
+              ...(xpBounds ? { xpBounds } : {}),
+              actionId: action.id,
+              questId: null,
+              phase: "combat",
+              objectiveIndex: null,
+              title: "Required group combat",
+              before,
+              after: position(ledger.total),
+              questXp: 0,
+              combatXp: shared.xp,
+              minimumLevel: null,
+              shortfallXp: 0,
+              status: "projected",
+            });
+        }
         const kills = combat.get(action.id)?.[player] ?? 0;
+        if (combat.has(action.id) || unknownCombat.has(action.id))
+          ledger.freshInventoryReference = false;
+        if (sourceDecision !== "execute" && action.questChanges.length) {
+          if (sourceIssue) halt(sourceIssue, true);
+          continue;
+        }
         if (unknownCombat.has(action.id)) {
+          ledger.maximumTotal = null;
           markIssue({
             code: "combat-input-unknown",
             domain: "combat",
@@ -755,6 +1231,7 @@ export function forecastCampaignXp(
             blocksForecast: false,
           });
         if (ledger.total !== null) ledger.total += kills;
+        if (ledger.maximumTotal !== null) ledger.maximumTotal += kills;
         for (const change of action.questChanges) {
           if (!needed(change)) continue;
           const level =
@@ -762,6 +1239,8 @@ export function forecastCampaignXp(
           const eligibility = questEligibility(change.questId, facts);
           const minimum = eligibility.minimumLevel;
           const before = position(ledger.total);
+          const maximumBefore = ledger.maximumTotal === null ? null : position(ledger.maximumTotal);
+          const rewardsBefore = rewards.length, combatRowsBefore = summary.combatRows.length;
           const questXpBefore = summary.referenceQuestXp + summary.estimatedQuestXp;
           const combatXpBefore = summary.combatXp;
           try {
@@ -777,16 +1256,29 @@ export function forecastCampaignXp(
               });
             }
             if (change.state === "accepted") {
-              if (minimum && (level === null || level < minimum)) {
+              if (action.requiredQuestIds?.some((id) => ledger.states[String(id)] !== "rewarded")) {
                 halt({
-                  code: "checkpoint-not-ready",
-                  domain: "progress",
-                  message: `${change.questId}: pickup requires level ${minimum}; forecast is below the gate.`,
-                  resolution: "in-game",
+                  code: "source-prerequisite-missing",
+                  domain: "route",
+                  message: `${action.id}: required source-chain hand-ins remain missing (${action.requiredQuestIds.join(", ")}).`,
+                  resolution: "offline",
                   actionId: action.id,
                   questId: change.questId,
                   blocksForecast: true,
                 });
+                break;
+              }
+              if (minimum && (level === null || level < minimum)) {
+                const uncertain = ledger.maximumTotal !== null && position(ledger.maximumTotal).level >= minimum;
+                halt({
+                  code: uncertain ? "xp-range-ambiguous" : "checkpoint-not-ready",
+                  domain: "progress",
+                  message: uncertain ? `${change.questId}: possible XP outcomes cross pickup level ${minimum}; eligibility is unresolved.` : `${change.questId}: pickup requires level ${minimum}; forecast is below the gate.`,
+                  resolution: "in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: true,
+                }, uncertain);
                 ledger.blocked.add(change.questId);
                 break;
               }
@@ -870,7 +1362,20 @@ export function forecastCampaignXp(
                   blocksForecast: false,
                 });
               }
+              if (!ledger.questLog.accept(change.questId)) {
+                halt({
+                  code: "quest-log-full",
+                  domain: "route",
+                  message: `Player ${player + 1}'s quest log is full (${ledger.questLog.used}/${QUEST_LOG_CAPACITY}). Hand in an existing quest before accepting ${change.title}.`,
+                  resolution: "offline-or-in-game",
+                  actionId: action.id,
+                  questId: change.questId,
+                  blocksForecast: true,
+                });
+                break;
+              }
               ledger.states[String(change.questId)] = "accepted";
+              refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes);
               continue;
             }
             if (
@@ -889,19 +1394,27 @@ export function forecastCampaignXp(
               break;
             }
             if (change.state !== "rewarded") {
-              if (plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id))
+              if (
+                memberCombat &&
+                !sharedPartyCombat &&
+                !combat.has(action.id) &&
+                !unknownCombat.has(action.id)
+              )
                 for (const activity of automaticCombat.get(action.id) ?? []) {
-                  const objectives = activity.objectives.filter(
-                    (objective) =>
-                      objective.questId === change.questId &&
-                      (activity.questWide ||
-                        objective.objectiveIndex === (change.objectiveIndex ?? 1)),
-                  );
+                  const phase = combatActivityPhase(activity, action.questChanges, change);
+                  const objectives = phase.objectives;
                   if (!objectives.length) continue;
-                  if (
-                    activity.environment === "dungeon" &&
-                    plan.legs.find((leg) => leg.id === action.legId)?.kind !== "dungeon"
-                  ) {
+                  for (const objective of objectives.filter((objective) => objective.quotaConflict))
+                    markIssue({
+                      code: "combat-quota-conflict",
+                      domain: "combat",
+                      message: `${objective.questId}:${objective.objectiveIndex}: ${objective.reason ?? "Required kill count references conflict."}`,
+                      resolution: "offline",
+                      actionId: action.id,
+                      questId: objective.questId,
+                      blocksForecast: true,
+                    });
+                  if (activity.environment === "dungeon" && !dungeonCombatAllowed(change.questId)) {
                     halt(
                       {
                         code: "dungeon-objective-misordered",
@@ -916,19 +1429,9 @@ export function forecastCampaignXp(
                     );
                     break;
                   }
-                  const last = activity.objectives.at(-1);
                   const result = applyCampaignCombat({
-                    activity: {
-                      ...activity,
-                      id: `${activity.id}-${change.questId}-${change.objectiveIndex ?? 1}`,
-                      objectives,
-                      profile:
-                        last?.questId === change.questId &&
-                        (activity.questWide || last.objectiveIndex === (change.objectiveIndex ?? 1))
-                          ? activity.profile
-                          : null,
-                    },
-                    combat: plan.combat,
+                    activity: phase,
+                    combat: memberCombat,
                     state: ledger.combat,
                     questStates: ledger.states,
                     position: position(ledger.total),
@@ -942,8 +1445,31 @@ export function forecastCampaignXp(
                           1)
                         : 1,
                     playerIndex: action.leaderOnly ? 0 : player,
+                    synchronizedParty,
+                    partyBounds: action.leaderOnly
+                      ? ledger.maximumTotal === null ? null : [{ minimum: position(ledger.total), maximum: position(ledger.maximumTotal) }]
+                      : partyBoundsClocks[player]!,
+                    ...(!action.leaderOnly && !synchronizedParty
+                      ? { partyPositions: partyClocks[player]! }
+                      : {}),
                   });
+                  for (const objective of phase.objectives)
+                    if (objective.credit !== "non-combat")
+                      for (const npcId of objective.npcIds) ledger.materialEncounters.add(npcId);
+                  if (result.partyExit !== undefined) partyClocks[player] = result.partyExit;
+                  if (result.partyBounds !== undefined) partyBoundsClocks[player] = result.partyBounds;
                   ledger.total += result.xp;
+                  if (ledger.maximumTotal !== null) {
+                    if (result.rows.some((row) => row.maximumXp === null)) ledger.maximumTotal = null;
+                    else ledger.maximumTotal += result.rows.reduce((sum, row) => sum + row.maximumXp!, 0);
+                  }
+                  const resultBounds = result.partyBounds?.[action.leaderOnly ? 0 : player];
+                  if (resultBounds) { ledger.total = cumulative(resultBounds.minimum); ledger.maximumTotal = cumulative(resultBounds.maximum); }
+                  if (result.partyBounds === null) ledger.maximumTotal = null;
+                  if (result.partyBounds === null || result.rows.some((row) => row.maximumXp === null))
+                    markIssue({ code: "combat-input-unknown", domain: "combat", actionId: action.id, questId: change.questId,
+                      message: `${action.id}: a required physical combat stream has no supported XP enclosure.`,
+                      resolution: "offline-or-in-game", blocksForecast: true });
                   summary.combatXp += result.xp;
                   if (activity.environment === "outdoor") summary.outdoorCombatXp += result.xp;
                   else summary.dungeonCombatXp += result.xp;
@@ -963,11 +1489,13 @@ export function forecastCampaignXp(
               ledger.confirmations[
                 `campaign-objective-${change.questId}-${change.objectiveIndex ?? 1}`
               ] = true;
+              ledger.items.completeObjective(change.questId, change.objectiveIndex ?? 1);
               ledger.states[String(change.questId)] = [
                 ...(objectiveKeys.get(change.questId) ?? []),
               ].every((key) => ledger.confirmations[key])
                 ? "objectives-complete"
                 : "accepted";
+              refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes);
               continue;
             }
             if (
@@ -986,22 +1514,26 @@ export function forecastCampaignXp(
               break;
             }
             const reward =
-              level === null || ledger.blocked.has(change.questId) || (minimum && level < minimum)
+              level === null || ledger.maximumTotal === null || ledger.blocked.has(change.questId) || (minimum && level < minimum)
                 ? {
                     xp: null,
                     basis: "unknown" as const,
                     source:
                       level === null
                         ? "Record fresh actual XP before forecasting."
+                        : ledger.maximumTotal === null
+                          ? "The possible XP range is unresolved after required combat."
                         : "The quest's pickup gate is not met in this forecast.",
                   }
-                : resolveQuestReward(change.questId, level, facts);
+                : resolveBoundedQuestReward({ minimum: position(ledger.total), maximum: position(ledger.maximumTotal) },
+                    (possibleLevel) => resolveQuestReward(change.questId, possibleLevel, facts));
             rewards.push({
               actionId: action.id,
               questId: change.questId,
               title: change.title,
               handInLevel: level,
-              ...reward,
+              xp: reward.xp, basis: reward.basis, source: reward.source,
+              ...("maximumXp" in reward && reward.maximumXp !== null && reward.maximumXp !== reward.xp ? { maximumXp: reward.maximumXp } : {}),
             });
             if (reward.xp === null) {
               ledger.unknown.add(change.questId);
@@ -1031,16 +1563,28 @@ export function forecastCampaignXp(
                     blocksForecast: false,
                   });
               } else summary.referenceQuestXp += reward.xp;
-              if (ledger.total !== null) ledger.total += reward.xp;
+              if (reward.exitBounds) { ledger.total = cumulative(reward.exitBounds.minimum); ledger.maximumTotal = cumulative(reward.exitBounds.maximum); }
             }
             ledger.paid.add(change.questId);
-            if (!ledger.blocked.has(change.questId))
+            if (!ledger.blocked.has(change.questId)) {
+              ledger.questLog.handIn(change.questId);
               ledger.states[String(change.questId)] = "rewarded";
+              const consumed = ledger.items.consume(change.questId);
+              refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes, consumed);
+            }
             if (ledger.halt) break;
           } finally {
+            const questStateAfter = ledger.states[String(change.questId)];
+            const changedRows = summary.combatRows.slice(combatRowsBefore);
+            const xpBounds = campaignXpBoundsTransition({ before, maximumBefore, after: position(ledger.total), maximumAfter: ledger.maximumTotal === null ? null : position(ledger.maximumTotal),
+              minimumXp: summary.referenceQuestXp + summary.estimatedQuestXp - questXpBefore + summary.combatXp - combatXpBefore,
+              maximumQuestXp: rewards.slice(rewardsBefore).reduce((sum, row) => sum + (row.maximumXp ?? row.xp ?? 0), 0),
+              maximumCombatXp: changedRows.some((row) => row.maximumXp === null) ? null : changedRows.reduce((sum, row) => sum + row.maximumXp!, 0) });
             summary.steps.push({
+              ...(xpBounds ? { xpBounds } : {}),
               actionId: action.id,
               questId: change.questId,
+              ...(questStateAfter ? { questStateAfter } : {}),
               phase: change.state,
               objectiveIndex: change.objectiveIndex,
               title: change.title,
@@ -1055,12 +1599,17 @@ export function forecastCampaignXp(
                   : 0,
               status: ledger.unknown.size ? "unknown" : ledger.halt ? "blocked" : "projected",
             });
+            if (itemIndex.byQuest.has(change.questId) && !ledger.halt && !ledger.unknown.size)
+              summary.steps.push(campaignItemProgressEvent(
+                action, position(ledger.total), itemIndex, ledger.items, ledger.states, ledger.confirmations,
+              ));
           }
         }
       }
     }
     const members = ledgers.map((ledger, player): CampaignXpMemberForecast => {
       const {
+        sourceSkips,
         start,
         rewards,
         steps,
@@ -1089,10 +1638,16 @@ export function forecastCampaignXp(
           ? null
           : Math.max(0, cumulative({ level: targetLevel, currentXp: 0 }) - ledger.total);
       return {
+        ...(sourceSkips.length ? { sourceSkips } : {}),
         player: player + 1,
         start,
         endpoint,
         knownEndpoint: ledger.total === null ? null : position(ledger.total),
+        ...(steps.some((step) => step.xpBounds !== undefined) || ledger.maximumTotal !== ledger.total || summaries[player]!.maximumStart?.level !== start?.level || summaries[player]!.maximumStart?.currentXp !== start?.currentXp
+          ? { xpBounds: { kind: "conservative-box" as const,
+              start: start && summaries[player]!.maximumStart ? { minimum: start, maximum: summaries[player]!.maximumStart! } : null,
+              finish: ledger.total !== null && ledger.maximumTotal !== null ? { minimum: position(ledger.total), maximum: position(ledger.maximumTotal) } : null } }
+          : {}),
         referenceQuestXp,
         estimatedQuestXp,
         combatXp,
@@ -1119,6 +1674,11 @@ export function forecastCampaignXp(
         inheritedEvidence,
         evidence: summarizeCampaignEvidence([...ledger.issues.values()]),
         checkpoints,
+        questLog: {
+          capacity: QUEST_LOG_CAPACITY,
+          used: ledger.questLog.used,
+          peak: ledger.questLog.peak,
+        },
         blockedAtActionId: ledger.halt?.actionId ?? null,
         blockedReason: ledger.halt?.reason ?? null,
         targetLevel,

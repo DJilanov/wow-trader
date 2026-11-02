@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { ClassicLootSharingReference } from "./loot-classic-source.js";
+import { classicLootReferenceSchema, type ClassicLootReference } from "./loot-classic-source.js";
 import {
   questItemObjectiveSchema,
   questLootDropSchema,
@@ -35,6 +37,31 @@ export const combatQuestSchema = z
     itemCreatureIds: z.array(id).max(1000),
     objectiveText: z.array(z.string().max(12000)).max(100),
     onlyCreatureObjectives: z.boolean().default(false),
+    killQuotas: z
+      .array(
+        z
+          .object({
+            objectiveIndex: z.number().int().min(1).max(100),
+            npcId: id,
+            kills: z.number().int().min(1).max(1000),
+            source: z.string().min(1).max(2000),
+          })
+          .strict(),
+      )
+      .max(100)
+      .refine(
+        (quotas) => new Set(quotas.map((quota) => quota.objectiveIndex)).size === quotas.length,
+        "Duplicate kill quota objective",
+      )
+      .optional(),
+    killQuotaConflicts: z
+      .array(z.number().int().min(1).max(100))
+      .max(100)
+      .refine(
+        (indices) => new Set(indices).size === indices.length,
+        "Duplicate held kill objective",
+      )
+      .optional(),
     onlyInteractionObjectives: z.boolean().optional(),
     requiredClasses: z.number().int().min(0).max(0xffffffff).optional(),
     prerequisites: z
@@ -42,6 +69,10 @@ export const combatQuestSchema = z
       .strict()
       .optional(),
     itemObjectives: z.array(questItemObjectiveSchema).max(100).optional(),
+    startItem: z
+      .object({ itemId: id, name: z.string().trim().min(1).max(300) })
+      .strict()
+      .optional(),
   })
   .strict();
 export type CombatQuestReference = z.infer<typeof combatQuestSchema>;
@@ -112,6 +143,7 @@ export const combatDatasetSchema = z
         npcSha256: hash,
         questSha256: hash,
         itemSha256: hash,
+        objectSha256: hash.optional(),
         limitations: z.array(z.string().max(1000)).min(1).max(30),
       })
       .strict(),
@@ -120,9 +152,74 @@ export const combatDatasetSchema = z
     dungeons: z.array(dungeonCombatProfileSchema).max(100),
     killXpEvidence: z.array(killXpEvidenceSchema).max(10000).default([]),
     lootDrops: z.array(questLootDropSchema).max(100000).optional(),
+    historicalLoot: classicLootReferenceSchema.optional(),
+    questCatalogReference: z
+      .object({
+        sha256: hash,
+        providerRevision: z.string().regex(/^[a-f0-9]{40}$/),
+        sourceArchiveSha256: hash,
+      })
+      .strict()
+      .optional(),
   })
   .strict()
   .superRefine((data, context) => {
+    if (data.historicalLoot) {
+      const historical = data.historicalLoot;
+      const names = new Map<number, Set<string>>();
+      const pairs = new Set<string>();
+      for (const quest of data.quests)
+        for (const item of quest.itemObjectives ?? []) {
+          if (item.itemName) {
+            const values = names.get(item.itemId) ?? new Set<string>();
+            values.add(item.itemName.normalize("NFKC").toLowerCase());
+            names.set(item.itemId, values);
+          }
+          if (!item.provided && !item.groundPickup)
+            for (const npcId of item.npcIds) pairs.add(`${npcId}:${item.itemId}`);
+        }
+      const npcs = new Map(
+        data.npcs.map((npc) => [npc.id, npc.name.normalize("NFKC").toLowerCase()]),
+      );
+      if (
+        historical.targetBuild !== data.targetBuild ||
+        historical.items.some(
+          (item) =>
+            names.get(item.itemId)?.size !== 1 ||
+            !names.get(item.itemId)?.has(item.name.normalize("NFKC").toLowerCase()),
+        ) ||
+        historical.drops.some(
+          (drop) =>
+            !pairs.has(`${drop.npcId}:${drop.itemId}`) ||
+            npcs.get(drop.npcId) !== drop.npcName.normalize("NFKC").toLowerCase(),
+        )
+      )
+        context.addIssue({
+          code: "custom",
+          message:
+            "Historical loot identities or build differ from the corrected quest and creature references.",
+        });
+    }
+    for (const quest of data.quests) {
+      for (const item of quest.itemObjectives ?? []) {
+        if (
+          item.groundPickup &&
+          (!data.provider.objectSha256 ||
+            item.groundPickup.questId !== quest.questId ||
+            quest.creatureIds.length ||
+            quest.itemCreatureIds.length ||
+            quest.onlyCreatureObjectives ||
+            quest.itemObjectives?.length !== 1 ||
+            !data.questCatalogReference ||
+            item.groundPickup.sourceArchiveSha256 !==
+              data.questCatalogReference.sourceArchiveSha256)
+        )
+          context.addIssue({
+            code: "custom",
+            message: `Incompatible ground-object reference for quest ${quest.questId}.`,
+          });
+      }
+    }
     for (const [name, ids] of [
       ["NPC", data.npcs.map((npc) => npc.id)],
       ["quest", data.quests.map((quest) => quest.questId)],
@@ -201,10 +298,13 @@ export interface CombatObjective {
   readonly credit: "shared-kills" | "personal-loot" | "non-combat" | "unknown";
   readonly source: string;
   readonly reason: string | null;
+  readonly quotaConflict?: true;
   readonly loot?: {
     readonly itemId: number;
     readonly quantity: number | null;
     readonly sharing: LootSharing;
+    readonly sharingReference?: ClassicLootSharingReference;
+    readonly sourceNpcIds?: readonly number[];
   };
 }
 export interface CombatActivity {
@@ -217,6 +317,8 @@ export interface CombatActivity {
   readonly questWide?: boolean;
 }
 export interface CampaignCombatPlan {
+  readonly materialWork?: readonly CampaignMaterialWork[];
+  readonly questObjectiveIndexes?: Readonly<Record<string, readonly number[]>>;
   readonly revision: string;
   readonly sourceRevision: string;
   readonly targetBuild: number;
@@ -225,6 +327,19 @@ export interface CampaignCombatPlan {
   readonly notice: string | null;
   readonly killXpEvidence?: readonly KillXpEvidence[];
   readonly lootDrops?: readonly QuestLootDrop[];
+  readonly historicalLoot?: ClassicLootReference;
+}
+
+export interface CampaignMaterialWork {
+  readonly id: string;
+  readonly actionId: string;
+  readonly targets: readonly {
+    readonly confirmationKey: string;
+    readonly sourceOrdinal: number;
+    readonly sourceBlocksCompletion: boolean;
+    readonly possibleDropNpcIds: readonly number[];
+    readonly objective: CombatObjective;
+  }[];
 }
 
 export function combatObjectiveKey(

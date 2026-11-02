@@ -1,6 +1,11 @@
 import Link from "next/link";
 import type { CampaignGuideSection } from "@wow-trader/leveling";
-import { guideGroupBarLabel, guideMembers } from "../lib/leveling-guide-presentation";
+import {
+  guideGroupBarLabel,
+  guideMembers,
+  guideFundingGap,
+  guideChapterMessage,
+} from "../lib/leveling-guide-presentation";
 import styles from "./leveling-guide.module.css";
 
 interface ChapterHandoffProps {
@@ -11,6 +16,10 @@ interface ChapterHandoffProps {
 export function LevelingCampaignHandoff({ guide, next }: ChapterHandoffProps): React.JSX.Element {
   const members = guideMembers(guide);
   const completeEstimate = members.every((member) => member.endpoint !== null);
+  const gap = guideFundingGap(guide);
+  const ready =
+    gap === 0 &&
+    members.every((member) => member.checkpoints.every((checkpoint) => checkpoint.ready));
   return (
     <section
       className={styles.handoff}
@@ -28,10 +37,17 @@ export function LevelingCampaignHandoff({ guide, next }: ChapterHandoffProps): R
           Follow the tasks above. The finish estimate is incomplete because some XP data is missing.
         </p>
       )}
+      {gap !== null && gap > 0 && <p>{guideChapterMessage(guide)}</p>}
       {next && (
         <>
-          <p>Finish the tasks above, then head to {next.title}.</p>
-          <Link href={next.href}>Continue to {next.title} →</Link>
+          <p>
+            {ready
+              ? `Finish the tasks above, then head to ${next.title}.`
+              : `Next chapter: ${next.title}. Its entry requirements still need to be met.`}
+          </p>
+          <Link href={next.href}>
+            {ready ? "Continue to" : "View"} {next.title} →
+          </Link>
         </>
       )}
     </section>

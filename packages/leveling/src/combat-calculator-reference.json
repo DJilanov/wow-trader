@@ -1,0 +1,443 @@
+{
+  "basis": "published-solo-reference",
+  "sourceScriptUrl": "https://wow.zamimg.com/js/react/experience-calculator.6f84c88f.js",
+  "sourceScriptSha256": "6b319abab184f4b163b8c4f0362b2549231b814f5f068ada241bde3741fde8ca",
+  "capturedAt": "2026-11-01",
+  "restedXp": 0,
+  "wellFed": false,
+  "partySize": 1,
+  "maximumPlayerLevel": 59,
+  "unsupportedCapRequest": {
+    "requestedLevel": 60,
+    "renderedPlayerLevel": 10
+  },
+  "cases": [
+    {
+      "playerLevel": 10,
+      "sourceUrl": "https://www.wowhead.com/forever/experience-calculator?level=10",
+      "sourceCaptureSha256": "34a790ec2a5528a7c8399d94abb1e6fab4d99ca4140f30717630d5cdf3e3222c",
+      "rows": [
+        {
+          "mobLevel": 5,
+          "normalXp": 20,
+          "eliteXp": 40
+        },
+        {
+          "mobLevel": 6,
+          "normalXp": 32,
+          "eliteXp": 64
+        },
+        {
+          "mobLevel": 7,
+          "normalXp": 46,
+          "eliteXp": 92
+        },
+        {
+          "mobLevel": 8,
+          "normalXp": 61,
+          "eliteXp": 122
+        },
+        {
+          "mobLevel": 9,
+          "normalXp": 77,
+          "eliteXp": 154
+        },
+        {
+          "mobLevel": 10,
+          "normalXp": 95,
+          "eliteXp": 190
+        },
+        {
+          "mobLevel": 11,
+          "normalXp": 100,
+          "eliteXp": 200
+        },
+        {
+          "mobLevel": 12,
+          "normalXp": 104,
+          "eliteXp": 208
+        },
+        {
+          "mobLevel": 13,
+          "normalXp": 109,
+          "eliteXp": 218
+        },
+        {
+          "mobLevel": 14,
+          "normalXp": 114,
+          "eliteXp": 228
+        }
+      ]
+    },
+    {
+      "playerLevel": 20,
+      "sourceUrl": "https://www.wowhead.com/forever/experience-calculator?level=20",
+      "sourceCaptureSha256": "2199d08c246dfca8925bc38dbc923f3fbaec633d44ea1d233cccb5492490b5b9",
+      "rows": [
+        {
+          "mobLevel": 14,
+          "normalXp": 52,
+          "eliteXp": 104
+        },
+        {
+          "mobLevel": 15,
+          "normalXp": 65,
+          "eliteXp": 130
+        },
+        {
+          "mobLevel": 16,
+          "normalXp": 80,
+          "eliteXp": 160
+        },
+        {
+          "mobLevel": 17,
+          "normalXp": 95,
+          "eliteXp": 190
+        },
+        {
+          "mobLevel": 18,
+          "normalXp": 110,
+          "eliteXp": 220
+        },
+        {
+          "mobLevel": 19,
+          "normalXp": 127,
+          "eliteXp": 254
+        },
+        {
+          "mobLevel": 20,
+          "normalXp": 145,
+          "eliteXp": 290
+        },
+        {
+          "mobLevel": 21,
+          "normalXp": 152,
+          "eliteXp": 304
+        },
+        {
+          "mobLevel": 22,
+          "normalXp": 160,
+          "eliteXp": 320
+        },
+        {
+          "mobLevel": 23,
+          "normalXp": 167,
+          "eliteXp": 334
+        },
+        {
+          "mobLevel": 24,
+          "normalXp": 174,
+          "eliteXp": 348
+        }
+      ]
+    },
+    {
+      "playerLevel": 30,
+      "sourceUrl": "https://www.wowhead.com/forever/experience-calculator?level=30",
+      "sourceCaptureSha256": "3d88777cd06642701db0fc3921b70416cd2f68bab0063b43d011220c2201f104",
+      "rows": [
+        {
+          "mobLevel": 23,
+          "normalXp": 67,
+          "eliteXp": 134
+        },
+        {
+          "mobLevel": 24,
+          "normalXp": 82,
+          "eliteXp": 164
+        },
+        {
+          "mobLevel": 25,
+          "normalXp": 99,
+          "eliteXp": 198
+        },
+        {
+          "mobLevel": 26,
+          "normalXp": 117,
+          "eliteXp": 234
+        },
+        {
+          "mobLevel": 27,
+          "normalXp": 135,
+          "eliteXp": 270
+        },
+        {
+          "mobLevel": 28,
+          "normalXp": 154,
+          "eliteXp": 308
+        },
+        {
+          "mobLevel": 29,
+          "normalXp": 174,
+          "eliteXp": 348
+        },
+        {
+          "mobLevel": 30,
+          "normalXp": 195,
+          "eliteXp": 390
+        },
+        {
+          "mobLevel": 31,
+          "normalXp": 205,
+          "eliteXp": 410
+        },
+        {
+          "mobLevel": 32,
+          "normalXp": 214,
+          "eliteXp": 428
+        },
+        {
+          "mobLevel": 33,
+          "normalXp": 224,
+          "eliteXp": 448
+        },
+        {
+          "mobLevel": 34,
+          "normalXp": 234,
+          "eliteXp": 468
+        }
+      ]
+    },
+    {
+      "playerLevel": 40,
+      "sourceUrl": "https://www.wowhead.com/forever/experience-calculator?level=40",
+      "sourceCaptureSha256": "dbee81421b69c0cde06b2de38943f3bb5824d0762f85af382ec4d6c98cdfc71a",
+      "rows": [
+        {
+          "mobLevel": 32,
+          "normalXp": 79,
+          "eliteXp": 158
+        },
+        {
+          "mobLevel": 33,
+          "normalXp": 97,
+          "eliteXp": 194
+        },
+        {
+          "mobLevel": 34,
+          "normalXp": 116,
+          "eliteXp": 232
+        },
+        {
+          "mobLevel": 35,
+          "normalXp": 135,
+          "eliteXp": 270
+        },
+        {
+          "mobLevel": 36,
+          "normalXp": 156,
+          "eliteXp": 312
+        },
+        {
+          "mobLevel": 37,
+          "normalXp": 177,
+          "eliteXp": 354
+        },
+        {
+          "mobLevel": 38,
+          "normalXp": 199,
+          "eliteXp": 398
+        },
+        {
+          "mobLevel": 39,
+          "normalXp": 222,
+          "eliteXp": 444
+        },
+        {
+          "mobLevel": 40,
+          "normalXp": 245,
+          "eliteXp": 490
+        },
+        {
+          "mobLevel": 41,
+          "normalXp": 257,
+          "eliteXp": 514
+        },
+        {
+          "mobLevel": 42,
+          "normalXp": 270,
+          "eliteXp": 540
+        },
+        {
+          "mobLevel": 43,
+          "normalXp": 282,
+          "eliteXp": 564
+        },
+        {
+          "mobLevel": 44,
+          "normalXp": 294,
+          "eliteXp": 588
+        }
+      ]
+    },
+    {
+      "playerLevel": 50,
+      "sourceUrl": "https://www.wowhead.com/forever/experience-calculator?level=50",
+      "sourceCaptureSha256": "5144105ae9b04b27145652322bfb5b6c501a4cc4bbda3bbeecb122106e2867ab",
+      "rows": [
+        {
+          "mobLevel": 40,
+          "normalXp": 82,
+          "eliteXp": 164
+        },
+        {
+          "mobLevel": 41,
+          "normalXp": 100,
+          "eliteXp": 200
+        },
+        {
+          "mobLevel": 42,
+          "normalXp": 119,
+          "eliteXp": 238
+        },
+        {
+          "mobLevel": 43,
+          "normalXp": 139,
+          "eliteXp": 278
+        },
+        {
+          "mobLevel": 44,
+          "normalXp": 159,
+          "eliteXp": 318
+        },
+        {
+          "mobLevel": 45,
+          "normalXp": 180,
+          "eliteXp": 360
+        },
+        {
+          "mobLevel": 46,
+          "normalXp": 202,
+          "eliteXp": 404
+        },
+        {
+          "mobLevel": 47,
+          "normalXp": 224,
+          "eliteXp": 448
+        },
+        {
+          "mobLevel": 48,
+          "normalXp": 247,
+          "eliteXp": 494
+        },
+        {
+          "mobLevel": 49,
+          "normalXp": 271,
+          "eliteXp": 542
+        },
+        {
+          "mobLevel": 50,
+          "normalXp": 295,
+          "eliteXp": 590
+        },
+        {
+          "mobLevel": 51,
+          "normalXp": 310,
+          "eliteXp": 620
+        },
+        {
+          "mobLevel": 52,
+          "normalXp": 324,
+          "eliteXp": 648
+        },
+        {
+          "mobLevel": 53,
+          "normalXp": 339,
+          "eliteXp": 678
+        },
+        {
+          "mobLevel": 54,
+          "normalXp": 354,
+          "eliteXp": 708
+        }
+      ]
+    },
+    {
+      "playerLevel": 59,
+      "sourceUrl": "https://www.wowhead.com/forever/experience-calculator?level=59",
+      "sourceCaptureSha256": "62eadfb9044e50d7a8e574320d65c0815f99c97a203473349f5ecdfbc01787a8",
+      "rows": [
+        {
+          "mobLevel": 48,
+          "normalXp": 89,
+          "eliteXp": 178
+        },
+        {
+          "mobLevel": 49,
+          "normalXp": 109,
+          "eliteXp": 218
+        },
+        {
+          "mobLevel": 50,
+          "normalXp": 129,
+          "eliteXp": 258
+        },
+        {
+          "mobLevel": 51,
+          "normalXp": 150,
+          "eliteXp": 300
+        },
+        {
+          "mobLevel": 52,
+          "normalXp": 172,
+          "eliteXp": 344
+        },
+        {
+          "mobLevel": 53,
+          "normalXp": 194,
+          "eliteXp": 388
+        },
+        {
+          "mobLevel": 54,
+          "normalXp": 217,
+          "eliteXp": 434
+        },
+        {
+          "mobLevel": 55,
+          "normalXp": 240,
+          "eliteXp": 480
+        },
+        {
+          "mobLevel": 56,
+          "normalXp": 264,
+          "eliteXp": 528
+        },
+        {
+          "mobLevel": 57,
+          "normalXp": 289,
+          "eliteXp": 578
+        },
+        {
+          "mobLevel": 58,
+          "normalXp": 314,
+          "eliteXp": 628
+        },
+        {
+          "mobLevel": 59,
+          "normalXp": 340,
+          "eliteXp": 680
+        },
+        {
+          "mobLevel": 60,
+          "normalXp": 357,
+          "eliteXp": 714
+        },
+        {
+          "mobLevel": 61,
+          "normalXp": 374,
+          "eliteXp": 748
+        },
+        {
+          "mobLevel": 62,
+          "normalXp": 391,
+          "eliteXp": 782
+        },
+        {
+          "mobLevel": 63,
+          "normalXp": 408,
+          "eliteXp": 816
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import {
   guideChapterMessage,
   guideGroupBarLabel,
   guideMembers,
+  guideFundingGap,
 } from "../lib/leveling-guide-presentation";
 import styles from "./leveling-guide.module.css";
 
@@ -41,7 +42,7 @@ export function LevelingChapterBudget({
           </div>
         )}
       </dl>
-      {!compact && <p>{guideChapterMessage(guide)}</p>}
+      {(!compact || guideFundingGap(guide) !== 0) && <p>{guideChapterMessage(guide)}</p>}
       {guide.missingCombat && (
         <p>Partial XP estimate: unmeasured kills and unselected quests are not counted.</p>
       )}
@@ -105,12 +106,7 @@ export function LevelingXpBudget({
                   {(member.referenceQuestXp + member.estimatedQuestXp).toLocaleString("en-US")}{" "}
                   quest XP
                   {" + "}
-                  {Math.max(0, member.combatXp - member.estimatedCombatXp).toLocaleString(
-                    "en-US",
-                  )}{" "}
-                  required-kill XP
-                  {member.estimatedCombatXp > 0 &&
-                    ` + ${member.estimatedCombatXp.toLocaleString("en-US")} additional combat XP planned at checkpoints`}
+                  {member.combatXp.toLocaleString("en-US")} required-kill XP
                 </p>
                 {member.endpoint === null && member.knownEndpoint && (
                   <p>

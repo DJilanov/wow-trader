@@ -1,5 +1,6 @@
 import {
   FOREVER_XP_CURVE,
+  xpToCheckpoint,
   type CampaignGuideSection,
   type CampaignXpMemberForecast,
   type XpPosition,
@@ -36,13 +37,28 @@ export function guideChapterMessage(section: CampaignGuideSection): string {
   if (section.unavailableStarterPlayers.length > 0)
     return "Set your party's race and class in Settings, or update their XP at the rendezvous. Each character follows their own starter path.";
   if (members.some((member) => member.endpoint === null))
-    return "Some XP is missing from this estimate. Keep following the quests; update your level before deciding to grind.";
-  const extraXp = Math.max(0, ...members.map((member) => member.estimatedCombatXp));
-  if (extraXp > 0 && section.missingCombat)
-    return "Kill XP is not fully included. Check your level at the next requirement; this is not a request to grind.";
-  if (extraXp > 0)
-    return `The plan includes up to ${extraXp.toLocaleString("en-US")} extra combat XP at required checkpoints. Skip that work if your actual level is already high enough.`;
+    return "Some XP is missing from this estimate. This chapter needs its quest data or an earlier level gap resolved before its finish can be validated.";
+  const gap = guideFundingGap(section);
+  if (gap !== null && gap > 0)
+    return `${section.audience === "personal" ? "You need" : "The player furthest behind needs"} ${gap.toLocaleString("en-US")} more XP to reach level ${section.targetLevel}. ${section.missingCombat ? "Some required kill XP is still missing from the estimate." : "The route needs more quests here."}`;
   return section.audience === "personal"
     ? "Complete the tasks in order, then continue to the next area."
     : "Complete the tasks together, then continue to the next stop.";
+}
+
+export function guideFundingGap(section: CampaignGuideSection): number | null {
+  const members = guideMembers(section);
+  if (!members.length || members.some((member) => member.endpoint === null)) return null;
+  return Math.max(
+    0,
+    ...members.map(
+      (member) =>
+        xpToCheckpoint(
+          member.endpoint!.level,
+          member.endpoint!.currentXp,
+          section.targetLevel,
+          FOREVER_XP_CURVE,
+        ) ?? 0,
+    ),
+  );
 }

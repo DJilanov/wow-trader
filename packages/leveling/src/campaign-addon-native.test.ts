@@ -57,6 +57,66 @@ function fixture(text: string): {
 }
 
 describe("canonical campaign native instructions", () => {
+  it("keeps quest phases distinct from guards even when imported directives share a source line", () => {
+    const { plan, sources, action } = fixture("step\n.isQuestComplete 7\n.turnin 7\n.accept 8");
+    const imported = sources.map((source) => ({
+      ...source,
+      guide: {
+        ...source.guide,
+        steps: source.guide.steps.map((step) => ({
+          ...step,
+          directives: step.directives.map((directive) => ({ ...directive, sourceLine: 1 })),
+        })),
+      },
+    }));
+    const child = {
+      ...action,
+      requiredQuestIds: [7],
+      questChanges: action.questChanges.filter((change) => change.questId === 8),
+    };
+    expect(
+      campaignNativeInstructions(
+        plan,
+        imported,
+      )(child)!.directives.map((directive) => [directive.tag, directive.arguments]),
+    ).toEqual([
+      [".isQuestTurnedIn", "7"],
+      [".accept", "8"],
+    ]);
+  });
+  it("uses the completed parent hand-in for a follow-up split from the same NPC source step", () => {
+    const { plan, sources, action } = fixture("step\n.isQuestComplete 7\n.turnin 7\n.accept 8");
+    const child = {
+      ...action,
+      requiredQuestIds: [7],
+      questChanges: action.questChanges.filter((change) => change.questId === 8),
+    };
+    const before = JSON.stringify({ action, sources });
+    const directives = campaignNativeInstructions(plan, sources)(child)!.directives;
+    expect(directives.map((directive) => [directive.tag, directive.arguments])).toEqual([
+      [".isQuestTurnedIn", "7"],
+      [".accept", "8"],
+    ]);
+    expect(JSON.stringify({ action, sources })).toBe(before);
+  });
+
+  it("keeps the original compound guard and does not invent a prerequisite for an unrelated pickup", () => {
+    const { plan, sources, action } = fixture("step\n.isQuestComplete 7\n.turnin 7\n.accept 8");
+    expect(
+      campaignNativeInstructions(plan, sources)({ ...action, requiredQuestIds: [7] })!
+        .directives[0]!.tag,
+    ).toBe(".isQuestComplete");
+    const unrelated = {
+      ...action,
+      questChanges: action.questChanges.filter((change) => change.questId === 8),
+    };
+    expect(
+      campaignNativeInstructions(
+        plan,
+        sources,
+      )(unrelated)!.directives.some((directive) => directive.tag === ".isQuestTurnedIn"),
+    ).toBe(false);
+  });
   it("preserves training while replacing an obsolete final transfer and its old hearth binding", () => {
     const { plan, sources, action } = fixture(
       "step\n.fly Westfall\n.home Sentinel Hill\n.train 355\n.trainer",

@@ -140,6 +140,7 @@ export async function collectQuestieQuestXp(
     format: "json",
     game: "forever",
     sourceKind: "addon-database",
+    rewardBasis: "unscaled-reference",
     sourceRef: options.sourceRef,
     revision: options.revision,
     importedAt: generatedAt,

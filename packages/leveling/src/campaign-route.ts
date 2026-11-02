@@ -1,7 +1,7 @@
 import type { RaceId } from "./profile.js";
 import type { ClassSlug } from "./model.js";
 
-export const CAMPAIGN_VERSION = "campaign-20261031-v3";
+export const CAMPAIGN_VERSION = "campaign-20261102-v62";
 export const CAMPAIGN_RACES = ["human", "dwarf", "gnome", "night-elf", "skyborne"] as const;
 export type CampaignRace = (typeof CAMPAIGN_RACES)[number];
 
@@ -13,6 +13,7 @@ export interface CampaignOutdoorBlock {
   readonly purpose: "starter" | "preparation" | "xp-bridge";
   readonly sourceIds: readonly number[];
   readonly quests: readonly number[] | "starter-source";
+  readonly requireInteraction?: boolean;
   readonly deferHandIns?: readonly number[];
   readonly handInOnly?: readonly number[];
   readonly extraPickupIds?: readonly number[];
@@ -47,6 +48,11 @@ export const CAMPAIGN_DEFERRED_PARTY_QUESTS: Readonly<Record<number, string>> = 
   4788: "Requires the Eastern Plaguelands tablets and another Tanaris hand-in before LBRS; held rather than adding that collection detour to this circuit.",
 };
 
+// Complete these couriers with their later party follow-ups, after personal class training.
+export const CAMPAIGN_STARTER_COURIERS: Readonly<Record<number, string>> = {
+  244: "redridge-kill-batch",
+};
+
 export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   {
     id: "early-darkshore-kills",
@@ -60,7 +66,21 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
       "After your personal starting route, meet in Auberdine for the shared bear and furbolg quests. From Stormwind, use Forever's direct ship to Darkshore. Menethil's boat is an alternative when you are already in Wetlands.",
       "Learn the flight paths along this crossing, including Auberdine. These first visits build the network used by later dungeon trips; they are not wasted travel.",
       "Scout the furbolg camp and complete Plagued Lands before accepting their follow-up kill quests. Read the Ameth'Aran tablets on the same circuit. Skip the Buzzbox body-part collections.",
-      "After the hand-ins, return to Dun Morogh for the Hall of Thanes prerequisites. Murkdeep is a later stop, not part of this early circuit.",
+      "After the shared hand-ins, finish the listed shore pickups near Auberdine before leaving for Dun Morogh. Murkdeep is a later stop, not part of this early circuit.",
+    ],
+  },
+  {
+    id: "darkshore-shore-pickups",
+    title: "Auberdine: bones and turtle remains",
+    from: 11,
+    to: 14,
+    purpose: "xp-bridge",
+    sourceIds: [126],
+    quests: [3524, 4681],
+    requireInteraction: true,
+    instructions: [
+      "Back in Auberdine, collect the sea creature bones south of town, then the turtle remains in the water to the west. Every player needs their own quest item and hand-in.",
+      "Finish both returns before the journey to Dun Morogh for Hall of Thanes.",
     ],
   },
   {
@@ -85,7 +105,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     quests: [432, 433],
     instructions: [
       "If anyone still needs levels for Hall of Thanes, finish the remaining Dun Morogh trogg quests together. Otherwise, continue to the dungeon.",
-      "If those quests are already done, defeat nearby enemies until everyone is ready. There is no need to return to Westfall.",
+      "Previously completed quests do not award XP again. Use the additional quest batches listed before the dungeon; no extra grinding is included.",
     ],
   },
   {
@@ -109,9 +129,11 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 18,
     purpose: "xp-bridge",
     sourceIds: [126, 127],
-    quests: [4762, 4740],
+    // Keep the referral present when the party policy checks the water quest's prerequisites.
+    quests: [4761, 4762, 4740],
     instructions: [
       "After Thanes, deliver the Ironforge rewards first. Return through the flight network learned on the early Darkshore trip; do not repeat the bear and furbolg quests or the whole solo chapter.",
+      "Take Terenthis's Thundris Windweaver referral before collecting the Empty Sampling Tube. Fill it at the Cliffspring River on the northern circuit, then return the sample to Thundris in Auberdine.",
       "Keep the party together for infected wildlife, furbolg and named-target work. Do not add Buzzbox body-part farms or Gyromast collections.",
       "The Alliance trip to Ruins is still real travel. Use your learned transport and flight network, regroup before entering hostile northern territory, and include that journey in your timing.",
     ],

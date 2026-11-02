@@ -8,6 +8,8 @@ export interface CampaignMovement {
 export interface CampaignActionLocation {
   readonly zone: string;
   readonly insideDungeon?: string;
+  /** A reviewed replacement visit takes precedence over inherited source chapter geography. */
+  readonly visitOverride?: true;
 }
 
 export type CampaignUtilityTag =

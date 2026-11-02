@@ -93,7 +93,7 @@ describe("level-appropriate premade dungeon progression", () => {
 
   it("uses the corrected conservative levels without postponing lower-level runs", () => {
     expect(PREMADE_STOPS.map((stop) => premadeEntryLevel(stop, emptyPremadeProgress()))).toEqual([
-      16, 19, 20, 25, 26, 29, 31, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 60, 60,
+      14, 19, 20, 25, 26, 29, 31, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 60, 60,
     ]);
   });
 

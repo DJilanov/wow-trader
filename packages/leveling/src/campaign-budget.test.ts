@@ -156,7 +156,7 @@ describe("checkpoint budget regressions", () => {
     );
   });
 
-  it("distinguishes a funded adaptive level gate from missing XP data", () => {
+  it("reports the exact unfunded checkpoint without inventing combat XP", () => {
     const gate = {
       ...action("adaptive-level", "zone"),
       kind: "xp-check" as const,
@@ -166,20 +166,24 @@ describe("checkpoint budget regressions", () => {
     const member = forecastCampaignXp(route([gate], "xp-bridge", 20, 21), party(20))[0]!
       .members[0]!;
     expect(member).toMatchObject({
-      endpoint: { level: 21, currentXp: 0 },
-      status: "incomplete",
-      evidence: { combat: "adaptive", reward: "verified" },
+      endpoint: { level: 20, currentXp: 0 },
+      status: "shortfall",
+      combatXp: 0,
+      estimatedCombatXp: 0,
+      evidence: { combat: "verified", reward: "verified" },
     });
-    expect(member.issues).toContainEqual(
+    expect(member.checkpoints).toContainEqual(
       expect.objectContaining({
-        code: "adaptive-grind-unmeasured",
         actionId: "adaptive-level",
-        blocksForecast: false,
+        missingXp: 23200,
+        position: { level: 20, currentXp: 0 },
+        ready: false,
       }),
     );
+    expect(member.issues).toEqual([]);
   });
 
-  it("accepts only reviewed matching five-player grind evidence for an adaptive gate", () => {
+  it("validates historical grind evidence without using it to pay future checkpoints", () => {
     const gate = {
       ...action("adaptive-level", "zone"),
       kind: "xp-check" as const,
@@ -246,7 +250,8 @@ describe("checkpoint budget regressions", () => {
     const routePlan = route([gate], "xp-bridge", 20, 21);
     const measured = forecastCampaignXp(routePlan, party(20), { grindEvidence });
     expect(measured[0]!.members.every((member) => member.status !== "incomplete")).toBe(true);
-    expect(measured[0]!.members.every((member) => member.endpoint?.level === 21)).toBe(true);
+    expect(measured[0]!.members.every((member) => member.endpoint?.level === 20)).toBe(true);
+    expect(measured[0]!.members.every((member) => member.combatXp === 0)).toBe(true);
     expect(
       measured[0]!.members
         .flatMap((member) => member.issues)
@@ -351,7 +356,7 @@ describe("checkpoint budget regressions", () => {
     expect(forecastCampaignXp(plan, party(26))[0]!.members[0]!.referenceQuestXp).toBe(20000);
   });
 
-  it("stops only the ineligible member and never hides the lagging player in a party average", () => {
+  it("holds the shared departure while preserving each member's own XP deficit", () => {
     const entry = { ...action("entry", "zone"), kind: "checkpoint" as const, targetLevel: 26 };
     const state = party(26);
     state.members[4]!.level = 25;
@@ -359,7 +364,13 @@ describe("checkpoint budget regressions", () => {
     expect(
       members
         .slice(0, 4)
-        .every((member) => member.checkpoints[0]?.ready && member.blockedAtActionId === null),
+        .every(
+          (member) =>
+            member.checkpoints[0]?.ready === false &&
+            member.checkpoints[0]?.missingXp === 0 &&
+            member.blockedAtActionId === "entry" &&
+            member.knownEndpoint?.level === 26,
+        ),
     ).toBe(true);
     expect(members[4]).toMatchObject({
       status: "blocked",

@@ -109,15 +109,23 @@ export function campaignTravelActions(
     const destinationInside = action.location?.insideDungeon ?? null;
     if (!action.movement && destinationInside && inside !== destinationInside) {
       const dungeon = PREMADE_STOPS.find((stop) => stop.id === destinationInside);
-      travel.push(
-        `Enter ${dungeon?.name ?? destinationInside} together after collecting the outside pickups listed above.`,
-      );
+      const name =
+        (action.dungeonFinishOnly
+          ? DUNGEON_VISITS.find((visit) => visit.id === destinationInside)?.name
+          : null) ??
+        dungeon?.name ??
+        destinationInside;
+      travel.push(`Enter ${name} together after collecting the outside pickups listed above.`);
     }
     if (!action.movement && inside && target && destinationInside === null) {
       const dungeon = PREMADE_STOPS.find((stop) => stop.id === inside);
-      travel.unshift(
-        `Finish the inside hand-ins, then leave ${dungeon?.name ?? inside} for the return below.`,
-      );
+      const name =
+        (action.dungeonFinishOnly
+          ? DUNGEON_VISITS.find((visit) => visit.id === inside)?.name
+          : null) ??
+        dungeon?.name ??
+        inside;
+      travel.unshift(`Finish the inside hand-ins, then leave ${name} for the return below.`);
     }
     result.push(
       action.movement

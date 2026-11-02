@@ -54,6 +54,8 @@ export function attachCampaignLocations(
     }
   }
   const actions = plan.actions.map((action): CampaignAction => {
+    if (action.location?.visitOverride) return action;
+    if (action.dungeonFinishOnly && action.location) return action;
     if (["checkpoint", "xp-check", "unverified"].includes(action.kind)) return action;
     const direct = campaignActionZones(action);
     const candidates = new Set(direct);

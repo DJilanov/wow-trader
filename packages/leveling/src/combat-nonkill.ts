@@ -1,4 +1,4 @@
-import type { CombatNpc } from "./combat-model.js";
+import type { CombatNpc, CombatQuestReference } from "./combat-model.js";
 import type { ImportedDirective } from "./guide-archive.js";
 import type { QuestRewardItemEvidence } from "./quest-loot.js";
 import { objectiveDirectiveContext } from "./combat-objective-context.js";
@@ -18,6 +18,44 @@ function namesTarget(line: string, prefix: string, name: string): boolean {
   if (!line.startsWith(expected)) return false;
   const rest = line.slice(expected.length).trim();
   return rest === "" || /^[.!](?:\s|$)/.test(rest);
+}
+
+/** Creature credit can record a friendly healing exercise rather than a death. */
+export function isFriendlyHealingObjective(input: {
+  readonly directives: readonly ImportedDirective[];
+  readonly offset: number;
+  readonly quest: CombatQuestReference;
+  readonly npcs: ReadonlyMap<number, CombatNpc>;
+}): boolean {
+  const { quest, npcs } = input;
+  const context = objectiveDirectiveContext(input.directives, input.offset);
+  if (
+    !context ||
+    quest.creatureIds.length !== 1 ||
+    quest.itemObjectives?.length ||
+    quest.killQuotas?.length ||
+    quest.killQuotaConflicts?.length
+  )
+    return false;
+  const npc = npcs.get(quest.creatureIds[0]!);
+  if (!npc) return false;
+  const source = context.all.map((entry) => normalized(entry.text)).join(" ");
+  const objective = normalized(quest.objectiveText.join(" "));
+  const target = new RegExp(`\\b${normalized(npc.name).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+  const hostile = /\b(?:kill|slay|destroy|defeat|attack|damage|harm)\b/;
+  const negated = /\b(?:not|never|avoid)\s+(?:\w+\s+){0,2}heal/;
+  return (
+    target.test(source) &&
+    target.test(objective) &&
+    /\blesser heal\b/.test(source) &&
+    /\blesser heal\b/.test(objective) &&
+    /\bpower word:\s*fortitude\b/.test(source) &&
+    /\bpower word:\s*fortitude\b/.test(objective) &&
+    !hostile.test(source) &&
+    !hostile.test(objective) &&
+    !negated.test(source) &&
+    !negated.test(objective)
+  );
 }
 
 export function nonKillCollectionMethod(input: {

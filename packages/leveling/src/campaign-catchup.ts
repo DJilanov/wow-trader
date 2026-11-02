@@ -3,6 +3,9 @@ import { getChapterLabel, evaluateChapterCondition } from "./chapter-catalog.js"
 import type { CharacterProfile } from "./profile.js";
 import type { CampaignAction, CampaignSource } from "./campaign.js";
 import { classifyLibraryObjective } from "./campaign-library.js";
+import { campaignActionSource } from "./campaign-source-conditions.js";
+import { createCampaignSourcePhaseSelector } from "./campaign-source-phase-selection.js";
+import type { CombatQuestReference } from "./combat-model.js";
 
 export interface CampaignQuestBatch {
   readonly id: string;
@@ -21,6 +24,7 @@ export function extractCampaignQuestBatches(
   profile: CharacterProfile,
   owned: ReadonlySet<number>,
   dungeonTags: readonly string[],
+  questReferences: readonly CombatQuestReference[] = [],
 ): readonly CampaignQuestBatch[] {
   const batches = new Map<
     number,
@@ -39,6 +43,12 @@ export function extractCampaignQuestBatches(
   >();
   for (const { reference, guide } of sources) {
     if (evaluateChapterCondition(reference.condition, profile) !== "match") continue;
+    const selectPhase = createCampaignSourcePhaseSelector(
+      guide,
+      profile,
+      dungeonTags,
+      questReferences,
+    );
     for (const step of guide.steps) {
       const view = getGuideStepView(step, profile, { dungeons: dungeonTags });
       if (view.condition !== "match") continue;
@@ -52,6 +62,7 @@ export function extractCampaignQuestBatches(
                 ? "rewarded"
                 : null;
         if (!state || directive.questId === null || owned.has(directive.questId)) continue;
+        if (!selectPhase(step, view, directive)) continue;
         const id = directive.questId;
         let batch = batches.get(id);
         if (!batch) {
@@ -144,7 +155,7 @@ export function extractCampaignQuestBatches(
           positions: view.directives.flatMap((entry) =>
             entry.position ? [{ sourceLine: entry.sourceLine, position: entry.position }] : [],
           ),
-          source: { chapterId: guide.chapterId, version: guide.version, stepId: step.id },
+          source: campaignActionSource(guide, step, view.directives),
           kind: "quests",
           leaderOnly: false,
           targetLevel: null,

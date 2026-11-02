@@ -638,8 +638,8 @@ export function parseQuestXpPage(html: string, record: ReferenceRecord): QuestXp
   const scripts = $("script[src]")
     .toArray()
     .map((element) => $(element).attr("src"));
-  const coreRevision = ["52d4f803", "97211824", "25318d8a", "154e707b"].find((revision) =>
-    scripts.includes(`https://wow.zamimg.com/js/global-core.js?${revision}`),
+  const coreRevision = ["52d4f803", "97211824", "25318d8a", "154e707b", "c9c7803e"].find(
+    (revision) => scripts.includes(`https://wow.zamimg.com/js/global-core.js?${revision}`),
   );
   const rendererRevision =
     scripts.includes("https://wow.zamimg.com/js/quest.js?5f36c4ad") && coreRevision

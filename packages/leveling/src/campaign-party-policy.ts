@@ -20,7 +20,7 @@ export interface CampaignPartyQuestDecision {
 }
 
 export interface CampaignPartyPolicy {
-  readonly revision: "five-player-kill-first-20261031-v1";
+  readonly revision: "five-player-kill-first-20261102-v3";
   readonly partySize: 5;
   readonly decisions: readonly CampaignPartyQuestDecision[];
   readonly unresolvedPrerequisiteIds: readonly number[];
@@ -95,6 +95,24 @@ export function applyCampaignPartyQuestPolicy(
     ),
   );
   const personalStarterIds = new Set<number>();
+  const personalStarterCandidates = new Set<number>();
+  const starterSupport = new Map<number, boolean>();
+  const supportedStarterPath = (id: number, visiting: ReadonlySet<number>): boolean => {
+    if (!data) return true;
+    const previous = starterSupport.get(id);
+    if (previous !== undefined) return previous;
+    if (visiting.has(id)) return false;
+    const quest = byId.get(id);
+    const supported =
+      quest !== undefined &&
+      (!["collection", "named-trophy"].includes(quest.objective) ||
+        partyQuestLootCost(id, plan, data, 1).eligible) &&
+      quest.prerequisiteIds.every((parent) =>
+        supportedStarterPath(parent, new Set([...visiting, id])),
+      );
+    starterSupport.set(id, supported);
+    return supported;
+  };
   const starterLegs = new Set(
     plan.legs.filter((leg) => leg.kind === "starter" && leg.to <= 11).map((leg) => leg.id),
   );
@@ -105,8 +123,11 @@ export function applyCampaignPartyQuestPolicy(
         starterLegs.has(action.legId) &&
         (byId.get(change.questId)?.referenceLevel ?? Infinity) <= 10
       ) {
-        personalStarterIds.add(change.questId);
-        protectedRoots.add(change.questId);
+        personalStarterCandidates.add(change.questId);
+        if (supportedStarterPath(change.questId, new Set())) {
+          personalStarterIds.add(change.questId);
+          protectedRoots.add(change.questId);
+        }
       }
       if (dungeonQuestIds.has(change.questId) && !CAMPAIGN_DEFERRED_PARTY_QUESTS[change.questId]) {
         protectedRoots.add(change.questId);
@@ -123,7 +144,12 @@ export function applyCampaignPartyQuestPolicy(
   }
   for (const block of CAMPAIGN_BRIDGES)
     if (block.quests !== "starter-source")
-      for (const id of block.quests) if (present.has(id)) protectedRoots.add(id);
+      for (const id of block.quests)
+        if (
+          present.has(id) &&
+          (!block.requireInteraction || byId.get(id)?.objective === "interaction")
+        )
+          protectedRoots.add(id);
   // These selected chains unlock reusable dungeon shortcuts rather than optional XP farms.
   for (const id of [7046, 3802]) if (present.has(id)) protectedRoots.add(id);
   for (const id of present)
@@ -218,7 +244,9 @@ export function applyCampaignPartyQuestPolicy(
     const objective = quest?.objective ?? "unclassified";
     const required = [...(requiredFor.get(id) ?? [])];
     const collection = objective === "collection" || objective === "named-trophy";
-    const lootCost = collection ? partyQuestLootCost(id, plan, data) : null;
+    const lootCost = collection
+      ? partyQuestLootCost(id, plan, data, personalStarterCandidates.has(id) ? 1 : 5)
+      : null;
     const included =
       !deferred &&
       (required.length > 0 ||
@@ -288,6 +316,12 @@ export function applyCampaignPartyQuestPolicy(
       .map((decision) => decision.questId),
   );
   const selectedActions: CampaignAction[] = plan.actions.flatMap((action) => {
+    const itemCollections = action.itemCollections?.filter(
+      (target) => !excluded.has(target.questId),
+    );
+    if (action.itemCollections?.length && !itemCollections?.length && !action.questChanges.length)
+      return [];
+    if (itemCollections) action = { ...action, itemCollections };
     const questChanges = action.questChanges.filter((change) => !excluded.has(change.questId));
     if (action.questChanges.length && !questChanges.length) return [];
     const accepted = questChanges.filter((change) => change.state === "accepted");
@@ -372,7 +406,7 @@ export function applyCampaignPartyQuestPolicy(
         }
       : {}),
     partyPolicy: {
-      revision: "five-player-kill-first-20261031-v1",
+      revision: "five-player-kill-first-20261102-v3",
       partySize: 5,
       decisions: [...decisions.values()],
       unresolvedPrerequisiteIds: [

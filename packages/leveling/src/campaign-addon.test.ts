@@ -312,6 +312,57 @@ describe("full campaign RestedXP compiler", () => {
     ).toThrow("changes rewarded quest 2 back to objectives-complete");
   });
 
+  it.each([undefined, { race: "human", classSlug: "warrior" } as const])(
+    "retains guarded earlier and later generated quest opportunities for both roles (%j)",
+    (partyStarter) => {
+      const { plan, actions } = fixture();
+      const opportunities = actions.map((entry): CampaignAction =>
+        entry.questChanges.some((change) => change.questId === 2)
+          ? {
+              ...entry,
+              libraryQuestId: 2,
+              libraryObjective: "shared-kills",
+              fundingCheckpointId: "early-check",
+              xpOptional: true,
+              xpTargetLevel: 10,
+            }
+          : entry,
+      );
+      const later = opportunities
+        .filter((entry) => entry.libraryQuestId === 2)
+        .map((entry): CampaignAction => ({
+          ...entry,
+          id: `later-${entry.id}`,
+          fundingCheckpointId: "later-check",
+          xpTargetLevel: 14,
+        }));
+      const requested = [...opportunities, ...later];
+      const before = structuredClone(requested);
+      const artifact = compileCampaignAddon(plan, requested, {
+        ...options,
+        ...(partyStarter ? { partyStarter } : {}),
+      });
+      expect(requested).toEqual(before);
+      for (const guide of artifact.guides) {
+        for (const entry of [...opportunities, ...later].filter(
+          (entry) => entry.libraryQuestId === 2,
+        )) {
+          expect(guide.actionIds).toContain(entry.id);
+          expect(guide.normalizations.some((row) => row.actionId === entry.id)).toBe(false);
+          const document = artifact.documents.find(
+            (row) => row.role === guide.role && row.actionIds.includes(entry.id),
+          )!;
+          const block = document.content.split(`#label kfc-${entry.id}\n`)[1]!.split("\nstep")[0];
+          expect(block).toContain(
+            entry.questChanges[0]!.state === "accepted"
+              ? ".isQuestAvailable 2\n"
+              : ".isOnQuest 2\n",
+          );
+        }
+      }
+    },
+  );
+
   it("rejects unverified route actions and mismatched package legs", () => {
     const { plan, actions } = fixture();
     expect(() =>
