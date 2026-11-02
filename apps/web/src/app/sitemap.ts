@@ -95,6 +95,11 @@ const staticEntries: MetadataRoute.Sitemap = [
     changeFrequency: "weekly" as const,
     priority: 0.8,
   })),
+  ...["healing-priest", "healing-druid", "healing-paladin", "healing-shaman"].map((slug) => ({
+    url: `${HELPER_SITE_URL}/forever/simulator/${slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  })),
   {
     url: `${HELPER_SITE_URL}/forever/leveling`,
     lastModified: new Date(WESTFALL_ROUTE.reviewedAt),

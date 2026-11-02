@@ -1,5 +1,20 @@
 # SEO search-surface operations
 
+## November 2 account-side review
+
+The owner-authorized Chrome review accessed both verified Domain properties,
+submitted the missing 2,240-URL Forever catalog shard and obtained nine accepted
+priority crawl requests. This does not configure the OAuth importer. See the
+[dated Search Console review](search-console-review-2026-11-02.md) for actual
+performance/indexing evidence, the small community navigation release and the
+remaining Google-controlled crawl/index work. The October 18 activation details
+below remain historical receipts.
+
+The subsequent [KFC healer sitemap fix](kfc-seo-follow-up-2026-11-02.md) is live
+on `kfc-helper-seo-healers-20261102`. The tools sitemap now contains 2,581 page
+URLs and reports Success in Search Console. Today's accepted crawl requests
+total seven KFC and three community URLs. Google processing remains pending.
+
 ## Objective and current state
 
 KFC Helper publishes one canonical search surface under `https://kfcguild.online/tools`. Search

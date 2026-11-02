@@ -1,5 +1,102 @@
 # WoW Trader fixes and recovery context
 
+## November 2 — reconciling GitHub and production
+
+Owner authorized commit/push/deploy for all three products and explicitly excluded
+unfinished leveling changes. KFC's merge is now committed/pushed as `48588cb`.
+Discord reconciliation keeps both upstream guide work and newer local raid/bot
+work; its original source remains backed up before canonical checkout changes.
+Helper includes only completed SEO changes and uses committed leveling source.
+See `context.md` and the eventual release receipt for actual activation results;
+the older uncommitted-deployment descriptions below are historical.
+
+## November 2 — KFC git pull produced nine conflicts
+
+Sibling `KFC` diverged: local `c0ee323` (Fixes) independently committed older
+raid-preview files while upstream `e8a6b20` had 14 newer commits, including the
+native raid-guide redesign. Nine paths conflicted, mostly files added on both
+sides. This was source-history overlap, not an SEO deployment failure.
+
+Resolved/staged all nine after backing up the worktree, index, merge metadata
+and each conflict stage under `artifacts/kfc-merge-recovery-20261102T113630Z/`.
+Kept upstream raid UX/artwork and local calendar/recruitment work, growth-history
+follow-ups and prototype evidence. Proved no unrelated index entry changed.
+All 69 KFC tests, strict TypeScript, scoped ESLint and diff checks passed.
+
+The merge awaits its commit; HEAD/MERGE_HEAD were preserved, with no commit,
+push, reset/rebase or deployment. The separate Discord checkout remains 20
+commits behind with extensive dirty/untracked overlap and needs a separate
+reconciliation before pulling; it was not modified in this recovery.
+
+## November 2 — healer simulators missing from KFC's sitemap
+
+Added the four published Priest/Druid/Paladin/Shaman healing workspaces to
+`apps/web/src/app/sitemap.ts`, with regression coverage. Existing damage/tank
+entries remain unique; build/release/share variants stay excluded and no dates
+were invented. Sitemap comparison proves four additions and zero removals.
+
+Helper-only release `kfc-helper-seo-healers-20261102`, build
+`hVMXXEzcl6sMG4xmX8gOj`, activated 10:22:10 UTC with verified compressed delivery.
+Only Helper restarted; models/presets/datasets, guild, community, calendar,
+raid worker and ingestion were preserved. Nine focused tests, lint/format,
+full Linux build/TypeScript and actual preview/live library/engine checks passed.
+Google accepted the refreshed tools sitemap with 2,581 pages. An additional
+guild-guide crawl request was accepted: seven KFC requests today, ten across
+both properties. This is not evidence of an already changed rank/index count.
+
+All 31 guild sitemap pages have incoming links. Google's saved homepage has the
+correct Forever content, so an obsolete TBC homepage is not the current cause.
+See `docs/kfc-seo-follow-up-2026-11-02.md`; private rollback/evidence under
+`shared/operations/seo-healers-20261102/`. No DB change or Git commit/push.
+
+## November 2 — search discovery and sitemap submission
+
+Verified both Search Console Domain properties in the owner's Chrome. Submitted
+the missing Forever catalog `/tools/forever/encyclopedia/sitemap/0.xml`: Success,
+2,240 discovered URLs. Nine targeted indexing requests were accepted for six KFC
+launch/tool pages, two original community guides and the updated community home.
+This is a crawl queue, not confirmation of new index inclusion or higher ranks.
+
+The community's Alliance/Horde pages had no incoming links in the complete public
+audit. Its homepage faction labels now link to them in server HTML. Source
+`discord-website/app/(site)/page.tsx`; web-only release `seo-discovery-20261102`,
+activated 10:00:54 UTC, build `build-TfctsWXpff2fKS`. Other named product/worker
+PIDs and all privacy, rate-limit, robots/noindex and publication controls stayed
+unchanged. Preserve the separate latest raid-worker card renderer in future releases.
+
+Verified 235 distinct published URLs, full Linux build/TypeScript, lint/format,
+and actual preview/live desktop/mobile keyboard navigation. Focused search tests
+passed; an earlier mixed suite had 32 passes and three DB-dependent checks unable
+to connect to stopped isolated local PostgreSQL. No DB tests ran on production.
+
+Google reports community average position 8.0 and exact branded query 8.5 for
+October 4–31; KFC has only 57 impressions and nine indexed URLs in the older
+coverage report. Both security/manual-action reports are clear. Historical
+robots/legacy-Helper failures are not evidence of a present outage. Do not
+remove correct private-form/API exclusions, resubmit daily or promise page one.
+
+Evidence/review schedule: `docs/search-console-review-2026-11-02.md`;
+private artifacts and remote rollback in `seo-search-console-20261102/`.
+
+## November 2 — roster announcement was a wall of text
+
+The existing public message now has the signup's artwork (verified identical
+bytes), a compact event header and timing, class/spec icons, three inline reply
+columns, status-dependent accents and two clear links. Longer rosters keep honest
+overflow counts. Private decline explanations are not included.
+
+Native output embeds support optional fields/images/URLs and Discord size limits.
+Receipt recovery now recognizes the unique event-roster URL as well as the old
+footer marker, letting the internal event ID disappear from the visible footer.
+No message was duplicated; the existing receipt/message ID was retained.
+
+Worker-only deployment at 07:13:27 UTC; other app PIDs preserved. Forty-five
+focused tests, strict TypeScript, lint and formatting passed. Actual Discord
+readback verified the artwork/columns/class icons and current 3 confirmed /
+2 waiting / 0 declined. Private source backups and receipts:
+`.data/roster-card-design-20261102/` on the host. Canonical local source is updated;
+future worker releases must include both modified files. No migration or web build.
+
 ## November 2 — leveling links pointed at Forever; finalized roster was not public
 
 Promoted DJ's existing KFC mirror to primary and retained the old Forever post as

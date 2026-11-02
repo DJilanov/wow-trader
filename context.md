@@ -1,5 +1,142 @@
 # WoW Trader project context
 
+## November 2 — unified Git reconciliation and deployment in progress
+
+- Owner requested commit, push and deploy across KFC, Discord and Helper, then
+  explicitly excluded unfinished leveling files. Leave those working files
+  untouched; export Helper from its committed source, never the dirty worktree.
+- KFC merge is committed and pushed as `48588cb`; its 69 tests, strict TypeScript
+  and scoped lint passed. Local runtime/editor files are ignored and retained.
+- Discord is being reconciled in an isolated worktree against `2b7b781`, retaining
+  newer roster confirmations, illustrated announcements, calendar bindings and
+  metadata while preserving upstream guide updates. Original files and hashes
+  are backed up under `artifacts/unified-release-20261102/discord-backup/`.
+- Helper release scope is the completed healer sitemap, regression tests and SEO
+  evidence/runbooks. All uncommitted leveling implementation and documentation
+  are excluded. Release builds will use exact pushed source archives and retain
+  existing private configuration, durable receipts and rollback builds.
+
+## November 2 — KFC pull conflict resolved locally; merge awaits commit
+
+- The active conflict was in sibling `KFC`, not this repo. Local `main` had
+  `c0ee323` (Fixes) over `1de2f76`, while incoming `origin/main` / MERGE_HEAD was
+  `e8a6b20`, 14 commits ahead of the common base. The local snapshot independently
+  added older versions of raid-guide files already added and redesigned upstream.
+  This caused nine conflicts (mostly add/add), not a new SEO/runtime failure.
+- Backed up the working conflicts, all available base/ours/theirs blobs, index,
+  merge metadata and binary patches before editing:
+  `artifacts/kfc-merge-recovery-20261102T113630Z/`. Resolution retains the newer
+  upstream native raid reader, individual artwork and metadata/tests, all local
+  calendar/recruitment work, October 23 growth follow-ups and original prototype
+  evidence. Did not choose one side for the entire merge.
+- All nine paths are resolved and staged. Exact index comparison proves every
+  unrelated entry was preserved. No conflict markers remain. Full KFC unit suite:
+  69 passed, zero failures/skips; strict TypeScript, scoped ESLint and both
+  staged/working diff checks passed. HEAD and MERGE_HEAD remain unchanged.
+- The merge still needs its commit; no commit, push, rebase, reset or deployment
+  was requested/performed. KFC status remains ahead 1 / behind 14 until that merge
+  commit is completed. Do not interpret that expected status as remaining conflicts.
+- Separate `discord-website` checkout is 20 commits behind its fetched upstream
+  with 95 tracked overlaps and 843 incoming paths currently untracked locally.
+  It has no active merge and was not changed during this recovery. Reconcile its
+  local/upstream versions separately before attempting another blind pull or
+  committing an entire stale working tree. This wow-trader branch is synchronized
+  with its fetched upstream and retains unrelated in-progress leveling/SEO edits.
+
+## November 2 — KFC-specific SEO follow-up deployed
+
+- Confirmed all 31 guild sitemap pages have incoming links. Google's saved
+  homepage already contains the Forever title/H1/copy and recruitment/tools
+  links; do not blame an old TBC page for the current low crawl visibility.
+- Added the four published healer workspaces missing from the tools sitemap.
+  Exact diff: four added page URLs, zero removed, no query variants or invented
+  lastmod. Regression tests cover all four, URL uniqueness and optional-catalog
+  failure. All nine focused sitemap/SEO tests, lint/format and full Linux build /
+  TypeScript passed. Preview/live checks covered the four libraries, Warrior
+  initialization, Hunter and the unchanged 32-profile composition API.
+- Deployed Helper-only at 10:22:10 UTC to
+  `/home/wow-trader-system/releases/kfc-helper-seo-healers-20261102`, build
+  `hVMXXEzcl6sMG4xmX8gOj`, PID `1476650`, with matching verified compressed static
+  delivery. Previous release `kfc-helper-raid-composition-20261101-e077cad` is the
+  rollback. Source is that exact live base plus sitemap/test; unrelated local
+  leveling work, models, presets and datasets were excluded. Other product/worker
+  PIDs were preserved. Preview/tunnel cleaned up; no DB/robots/rate-limit change.
+- Resubmitted tools sitemap: Google Success, 2,581 pages, read November 2. Guild
+  sitemap: Success/31; catalog shard: Success/2,240. One additional accepted guild
+  preparation guide request makes seven KFC and three community crawl requests
+  today. Actual ranking/index improvements remain unverified pending Google.
+- Details: `docs/kfc-seo-follow-up-2026-11-02.md`; local evidence
+  `artifacts/seo-kfc-healers-20261102/`, private server receipts/rollback under
+  `shared/operations/seo-healers-20261102/`. No Git commit/push was requested.
+  Concurrent Chrome sessions can confuse name-based Apple Events: the saved
+  ScriptingBridge helper targets the known owner PID without touching other
+  browser instances, changing security settings or exporting authentication.
+
+## November 2 — Google Search Console inspection and discovery fixes
+
+- Opened both verified Domain properties in the owner's signed-in Chrome; no
+  cookies/tokens were exported. October 4–31 performance: KFC 3 clicks / 57
+  impressions / average position 35.6; community 195 / 6,753 / 8.0. Exact
+  `wow forever discord` averages 8.5, with 271 impressions and four clicks.
+  The older October 23 indexing report has 9 indexed KFC pages and 36 community
+  pages. Both homepages have matching Google-selected canonicals; manual-action
+  and security reports are clear. Core Web Vitals has insufficient field data.
+- Submitted missing Forever item/recipe sitemap `/tools/forever/encyclopedia/sitemap/0.xml`:
+  Google returned Success / 2,240 URLs. Existing guild/tools/community maps were
+  successful. Requested indexing once for six KFC launch/tool URLs and two new
+  community guides, plus the updated community homepage; all nine were accepted.
+  Queue acceptance does not mean indexing or a ranking increase has occurred.
+- Fixed the community's sitemap-only Alliance/Horde destinations by linking the
+  existing homepage faction labels. Only `discord-website/app/(site)/page.tsx`
+  changed in the release. Deployed at 10:00:54 UTC to
+  `/home/wow-forever-discord-source-releases/seo-discovery-20261102`, build directory
+  `.next-release-seo-discovery-20261102`, build ID `build-TfctsWXpff2fKS`, web PID
+  `1474299`. Helper/guild/calendar/ingestion/raid-worker PIDs were preserved.
+  Worker remains on its separate source with the latest illustrated-card overlay.
+- Audited 235 distinct public URLs: all 73 community sitemap pages, a 100-page
+  KFC/catalog sample and 65 KFC priority pages, deduplicated. No published-page
+  HTTP/canonical/indexability/title/description failures. This is not a complete
+  audit of the 4,848 KFC sitemap URLs. Live Google fetch passed for Warrior.
+  Full Linux build/TypeScript, lint/format and private/live desktop/mobile keyboard
+  navigation passed. Three focused search-content tests passed; an earlier mixed
+  run passed 32/35, with three DB checks unavailable because local isolated PG is
+  stopped. No production DB test, migration or loosened robots/rate limit.
+- Confirmed robots/noindex exclusions are private/API/filter URLs. KFC's host
+  report says no recent difficulty, with historical robots-fetch trouble; the
+  newest displayed legacy-Helper 5xx examples are October 9. Do not mislabel
+  spoofed Googlebot scanner traffic or historical exclusions as a current outage.
+- Full evidence, URLs and November 9/16 review plan:
+  `docs/search-console-review-2026-11-02.md`; local private receipts
+  `artifacts/seo-search-console-20261102/`, remote activation/rollback under
+  `/home/wow-forever-discord/.data/seo-search-console-20261102/`. Browser operations
+  do not activate the OAuth importer or schedule new monitoring. No commit/push.
+
+## November 2 — illustrated public roster card
+
+- Restyled the existing KFC announcement in place, message `1566707902109057187`.
+  It now uses the signup's full-width questing artwork, a concise schedule/reply
+  deadline, gold/green state accents, class/spec icons and three inline status
+  fields. Links open the KFC signup post or the full roster. Private explanations
+  stay excluded. Verified the image bytes exactly match the signup cover.
+- Extended the optional native output embed shape with URL/image/fields and
+  enforced Discord's per-field/total size limits. Long groups retain accurate
+  totals and a full-roster link. Human footer replaces the internal event ID.
+  Message identity accepts its unique event-roster URL or the legacy footer so
+  old cards migrate safely and uncertain-send reconciliation still works.
+- Patched only `lib/raids/native-contracts.ts` and `lib/raids/roster-announcements.ts`
+  in the active raid-worker release, activated 07:13:27 UTC. Web, Helper, guild
+  and calendar PIDs are preserved; no frontend build or migration was necessary.
+  Canonical local source/tests are updated; include both files in future releases.
+  The existing website build/source copy was not rebuilt for this bot-only style.
+- Passed 45 focused tests, scoped strict TypeScript, ESLint and formatting. Live
+  Discord readback verified the same message ID, matching artwork, class icons,
+  three inline fields and counts from actual replies: 3 confirmed / 2 waiting /
+  0 declined at 07:13 UTC. Discordbot image access returned 200. No new signup,
+  attendance response or extra message was created.
+- Private backup/rollback/source hashes/receipts:
+  `/home/wow-forever-discord/.data/roster-card-design-20261102/`;
+  local `artifacts/roster-card-design-20261102/`. No commit/push was requested.
+
 ## November 2 — KFC leveling destination and public attendance tracker live
 
 - DJ's November 5 group `cmuz20aal0000fu4s0vf3f2wx` now uses the existing KFC
@@ -40924,12 +41061,13 @@ Hold` identify the dungeon/area context for the same creature criterion and are 
 10. Keep world evidence opt-in and bounded. Do not convert observed loot frequency into server drop
     probability, overwrite exact-client fields, or publish conflicts automatically. Re-run coverage
     and review gates after every client build or community revision change.
-11. Submit `https://kfcguild.online/sitemap.xml`, `/tools/sitemap.xml`, and both `/tools/forever/`
-    catalog shards in the verified Google Search Console property. Keep the legacy Helper property
-    while Google processes the permanent redirects, inspect one representative old/new URL pair, and
-    monitor selected canonicals, index coverage, structured data, Core Web Vitals, and queries.
-    Account-side submission and independent editorial backlinks are the remaining external SEO work;
-    the crawlable pages, migration redirects, and evidence-backed metadata are live.
+11. Monitor the submitted guild, tools and nonempty Forever catalog sitemaps in the verified KFC
+    Domain property. The missing 2,240-URL `/tools/forever/encyclopedia/sitemap/0.xml` was submitted
+    successfully November 2; `/1.xml` is currently empty. Keep the legacy Helper property while Google
+    processes permanent redirects. Follow `docs/search-console-review-2026-11-02.md` for the nine
+    accepted crawl requests and November 9/16 review of actual inclusion, selected canonicals,
+    coverage and queries. The OAuth importer and independent editorial backlinks remain separate;
+    the crawlable pages, migration redirects and evidence-backed metadata are live.
 
 ## Working rules
 

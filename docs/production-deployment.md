@@ -1,12 +1,24 @@
 # KFC Helper production deployment runbook
 
-Last verified against `89.167.46.193`: 2026-10-21.
+Last verified against `89.167.46.193`: 2026-11-02.
 
 The TBC and WoW Forever product is published at `https://kfcguild.online/tools`. The legacy
 `helper.kfcguild.online` host retains authenticated `/v1/` ingestion and permanently redirects public
 pages to their equivalent `/tools` URLs. This document records the deployed topology, its operational
 runbook, and the storage work that must be completed before unattended 30-minute Auction House
 uploads are enabled.
+
+## November 2 — healer sitemap discovery
+
+Active Helper release is `kfc-helper-seo-healers-20261102`, build
+`hVMXXEzcl6sMG4xmX8gOj`, with matching verified compressed delivery. Only Helper
+web restarted. This is the preceding live `e077cad` source plus the healer
+sitemap change and its regression test; no unrelated local edits or model
+updates were deployed. Private rollback receipts are in
+`shared/operations/seo-healers-20261102/`. See the
+[KFC SEO follow-up](kfc-seo-follow-up-2026-11-02.md) for validation, exact source
+scope and successful Search Console submission. Earlier rollout notes below
+are historical.
 
 ## October 21 — compressed static delivery and leveling navigation
 
