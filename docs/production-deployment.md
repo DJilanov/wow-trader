@@ -8,6 +8,18 @@ pages to their equivalent `/tools` URLs. This document records the deployed topo
 runbook, and the storage work that must be completed before unattended 30-minute Auction House
 uploads are enabled.
 
+## November 2 — unified committed release
+
+The healer sitemap and Search Console work are committed/pushed as `5118466`,
+with compiled Helper build `muKDKdMpDFNsWupZJcciV`. The completion documentation
+has its own exact source release, reusing that output only after checking all
+executable inputs are identical. Resolve `/home/wow-trader-system/current` and
+its `release-source.json` for the exact current source/compiled commits; static
+delivery remains `kfc-helper-511846676a1b` because the assets are unchanged.
+KFC and Discord are also deployed from pushed commits. See the
+[unified release receipt](unified-release-2026-11-02.md) for tests, source checks,
+worker state and rollback paths. The earlier sections below are historical.
+
 ## November 2 — healer sitemap discovery
 
 Active Helper release is `kfc-helper-seo-healers-20261102`, build

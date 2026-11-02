@@ -1,5 +1,39 @@
 # WoW Trader project context
 
+## November 2 — unified release completed; leveling WIP excluded
+
+- KFC is committed/pushed/deployed at `48588cb7951879ec236d1ded5c045b90bae723e8`;
+  Discord is at `f0686674302cc93d7e579c15dcd15e0a081f16e6`. Both canonical
+  checkouts are clean and match GitHub. Discord's original dirty source is
+  retained in a named recovery stash and the hash-verified artifact backup.
+- Helper application code is built from pushed `511846676a1b0a9439350457f0085faac2100894`.
+  The completion documentation follows in a separate commit; its source release
+  reuses the verified output only after proving all executable inputs identical.
+  `release-source.json` records the exact source commit and compiled-source commit.
+  All uncommitted leveling files remain on disk and are excluded throughout.
+- All three clean Linux builds passed. KFC: 69 unit tests; Discord: 585 unit
+  tests plus 36 native PostgreSQL checks; Helper: nine sitemap/SEO tests.
+  Browser checks passed at desktop/mobile widths, healer libraries, Warrior
+  engine initialization, both groups' KFC links, raid/share metadata and denied
+  anonymous roster access. Six public pages referenced 118 verified assets.
+- Raid, calendar and listing workers now run the Discord commit. Raid receipts
+  retain the existing private state directory; no new signup, DM or synthetic
+  attendance was created. Auction's entire 12-file import graph already matches
+  the release; ingestion, bridge and unrelated services were preserved.
+- The deployment guard now validates Webpack CSS and nested App Router chunks
+  as well as Turbopack assets, retaining missing/empty/escape protection. All
+  committed source files were hash-checked against deployed source; only Next's
+  generated type configuration differs in KFC/Discord builds.
+- Full checks used clean source directories. The existing Discord checkout's
+  ignored historical source archives and missing local bridge dependencies
+  prevent a direct broad local `tsc`; isolated strict checks and the actual Linux
+  build passed. Do not treat ignored archive diagnostics as production errors.
+- Release/rollback evidence: `docs/unified-release-2026-11-02.md`, local
+  `artifacts/unified-release-20261102/`, and private remote
+  `/home/wow-forever-discord/.data/unified-release-20261102/`. Remove only the
+  temporary previews/test cluster and failed candidate created by this run;
+  retain active builds, prior rollback builds, source backups and receipts.
+
 ## November 2 — unified Git reconciliation and deployment in progress
 
 - Owner requested commit, push and deploy across KFC, Discord and Helper, then

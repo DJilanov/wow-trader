@@ -1,5 +1,25 @@
 # WoW Trader fixes and recovery context
 
+## November 2 — GitHub and production reconciled
+
+Committed/pushed/deployed KFC `48588cb` and Discord `f068667`; their canonical
+checkouts are clean. Helper code `5118466` is live, with a documentation-only
+completion source release using identical verified build inputs. Uncommitted
+leveling code/tests/docs remain untouched and excluded at the owner's request.
+
+Discord integration retained current roster confirmations, illustrated public
+cards, native membership, calendar bindings and metadata alongside upstream guide
+updates. Its recovery stash and original hash backup remain available. A stale
+calendar test now covers both actual bound events, and the destination test sets
+its own pilot configuration instead of depending on a developer environment.
+
+Fixed the production guard's Turbopack-only CSS assumption. It now checks Webpack
+CSS and nested chunks, and still rejects missing, empty and escaped assets.
+All clean Linux builds passed; 69 KFC + 585 Discord + 36 native DB + nine Helper
+tests passed. Actual browser/metadata/calendar/auth checks and 118 public assets
+passed. Raid/calendar/listing workers use the committed source and retain private
+state. Details and rollback paths: `docs/unified-release-2026-11-02.md`.
+
 ## November 2 — reconciling GitHub and production
 
 Owner authorized commit/push/deploy for all three products and explicitly excluded
