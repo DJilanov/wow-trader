@@ -7,7 +7,7 @@ namespace WowTrader.Extractor;
 
 internal sealed class ArtifactWriter
 {
-  internal const string ExtractorVersion = "0.5.0";
+  internal const string ExtractorVersion = "0.6.1";
 
   private static readonly JsonSerializerOptions CompactJson = new()
   {

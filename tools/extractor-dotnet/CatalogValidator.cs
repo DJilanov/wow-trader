@@ -137,6 +137,15 @@ internal static class CatalogValidator
     {
       issues.Add(new ValidationIssue("error", "no_recipes", "No profession recipes were discovered"));
     }
+    if (build.Product == "wow_classic_beta")
+    {
+      var bronze = catalog.RecipeOutputs.SingleOrDefault(output =>
+          output.RecipeSpellId == 2659 && output.OutputItemId == 2841);
+      if (bronze is null || bronze.MinimumQuantity != 2 || bronze.MaximumQuantity != 2 ||
+          bronze.ExpectedQuantityNumerator != 2 || bronze.ExpectedQuantityDenominator != 1)
+        issues.Add(new ValidationIssue("error", "forever_bronze_yield",
+            "Smelt Bronze must preserve its client-defined two-bar output", 2659));
+    }
     var ambiguousRecipes = catalog.Recipes.Count(recipe => recipe.ExtractionStatus == "ambiguous");
     if (ambiguousRecipes > 0)
     {

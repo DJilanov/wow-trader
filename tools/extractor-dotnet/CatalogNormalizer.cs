@@ -58,7 +58,9 @@ internal sealed class CatalogNormalizer
     var effectsBySpell = GroupByPositiveId(effectRows, "SpellID");
     var reagentsBySpell = GroupByPositiveId(reagentRows, "SpellID");
     var learnByRecipe = GroupByPositiveId(learnRows, "LearnSpellID");
-    var itemEffectsBySpell = GroupByPositiveId(itemEffectRows, "SpellID");
+    var itemEffectsBySpell = GroupByPositiveId(
+        RecipeItemEffectLinks.Expand(itemEffectRows,
+            tables.TryGetValue("ItemXItemEffect", out var itemLinks) ? itemLinks.EffectiveRows : []), "SpellID");
     var cooldownsBySpell = GroupByPositiveId(cooldownRows, "SpellID");
     var categoriesBySpell = GroupByPositiveId(categoryRows, "SpellID");
     var miscBySpell = GroupByPositiveId(spellMiscRows, "SpellID");
@@ -334,7 +336,7 @@ internal sealed class CatalogNormalizer
         continue;
       }
 
-      var resolvedOutputs = ResolveOutputs(spellId, effectsBySpell, [], 0)
+      var resolvedOutputs = ResolveSupportedOutputs(spellId, effectsBySpell)
           .Where(output => output.ItemId is int itemId && itemIds.Contains(itemId))
           .DistinctBy(output => (
               output.ItemId,
@@ -892,10 +894,22 @@ internal sealed class CatalogNormalizer
         .OrderBy(row => GetInt(row, "MinSkillLineRank"))
         .ThenBy(row => GetInt(row, "SkillLine"))
         .First();
-    var outputs = ResolveOutputs(spellId, effectsBySpell, [], 0)
+    var outputs = ResolveSupportedOutputs(spellId, effectsBySpell)
         .DistinctBy(output => (output.ItemId, output.EnchantmentId, output.MinimumQuantity, output.MaximumQuantity))
         .ToArray();
     return new RecipeCandidate(spellId, ability, abilities, outputs);
+  }
+
+  private static IReadOnlyList<ResolvedOutput> ResolveSupportedOutputs(
+      int spellId,
+      IReadOnlyDictionary<int, IReadOnlyList<IReadOnlyDictionary<string, object?>>> effectsBySpell)
+  {
+    try { return ResolveOutputs(spellId, effectsBySpell, [], 0); }
+    catch (InvalidDataException exception)
+    {
+      Console.Error.WriteLine($"Withheld crafting spell {spellId}: {exception.Message}");
+      return [];
+    }
   }
 
   private static IReadOnlyList<ResolvedOutput> ResolveOutputs(
@@ -911,7 +925,7 @@ internal sealed class CatalogNormalizer
       var itemId = GetInt(effect, "EffectItemType");
       if (itemId > 0)
       {
-        var (minimum, maximum, numerator, denominator) = ResolveQuantity(effect);
+        var (minimum, maximum, numerator, denominator) = RecipeQuantity.Resolve(effect);
         outputs.Add(new ResolvedOutput(itemId, null, minimum, maximum, numerator, denominator));
       }
 
@@ -938,19 +952,6 @@ internal sealed class CatalogNormalizer
     return outputs;
   }
 
-  private static (int Minimum, int Maximum, int Numerator, int Denominator) ResolveQuantity(
-      IReadOnlyDictionary<string, object?> effect)
-  {
-    var basePoints = GetInt(effect, "EffectBasePoints");
-    var dieSides = GetInt(effect, "EffectDieSides");
-    var minimum = Math.Max(1, basePoints + 1);
-    var maximum = Math.Max(minimum, basePoints + Math.Max(1, dieSides));
-    var numerator = minimum + maximum;
-    var denominator = 2;
-    var divisor = GreatestCommonDivisor(numerator, denominator);
-    return (minimum, maximum, numerator / divisor, denominator / divisor);
-  }
-
   private static IReadOnlyList<CatalogRecipeTeachingItem> ResolveTeachingItems(
       int recipeSpellId,
       IReadOnlyList<IReadOnlyDictionary<string, object?>> learningRows,
@@ -959,6 +960,8 @@ internal sealed class CatalogNormalizer
     var result = new List<CatalogRecipeTeachingItem>();
     foreach (var itemEffect in itemEffectsBySpell.GetValueOrDefault(recipeSpellId, []))
     {
+      // An on-use enchant scroll applies the recipe spell; only the learn trigger teaches it directly.
+      if (GetInt(itemEffect, "TriggerType") != 6) continue;
       var itemId = GetInt(itemEffect, "ParentItemID");
       if (itemId > 0) result.Add(new CatalogRecipeTeachingItem(recipeSpellId, itemId, null));
     }
@@ -1046,12 +1049,6 @@ internal sealed class CatalogNormalizer
       values.FirstOrDefault(value => !string.IsNullOrWhiteSpace(value)) ?? string.Empty;
 
   private static int FirstNonZero(params int[] values) => values.FirstOrDefault(value => value != 0);
-
-  private static int GreatestCommonDivisor(int left, int right)
-  {
-    while (right != 0) (left, right) = (right, left % right);
-    return Math.Abs(left);
-  }
 
   private static string Slugify(string value)
   {

@@ -222,6 +222,9 @@ export async function TraderWorkspacePage({
 
         <nav className="market-watch-control" aria-label="Personal Trader tools">
           <Link href={`${config.basePath}/plan`}>My gold plan →</Link>
+          {config.clientProduct === "wow_classic_beta" ? (
+            <Link href={`${config.basePath}/leveling`}>Profession leveling →</Link>
+          ) : null}
           <Link href={withHelperBasePath("/forever/trader/account")}>
             Characters, watches &amp; trade ledger →
           </Link>

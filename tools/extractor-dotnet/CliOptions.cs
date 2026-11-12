@@ -19,7 +19,7 @@ internal sealed record CliOptions(
       throw new UsageException(null);
     }
 
-    if (args[0] is not ("snapshot" or "world-snapshot" or "leveling-evidence" or "mechanics-snapshot"))
+    if (args[0] is not ("snapshot" or "world-snapshot" or "leveling-evidence" or "mechanics-snapshot" or "valuation-snapshot"))
     {
       throw new UsageException($"Unknown command '{args[0]}'");
     }
@@ -111,6 +111,12 @@ internal sealed record CliOptions(
             --product wow_classic_beta --locale enUS --region eu \
             --definitions <WoWDBDefs/definitions> \
             --definitions-revision <git-sha> --output ./artifacts/forever-mechanics
+
+          dotnet run --project tools/extractor-dotnet -- valuation-snapshot \
+            --wow-root "/Applications/World of Warcraft" \
+            --product wowf --locale enUS --region eu \
+            --definitions <WoWDBDefs/definitions> \
+            --definitions-revision <git-sha> --output ./artifacts/item-valuation
         """;
 
   private static string Require(IReadOnlyDictionary<string, string> values, string key)

@@ -1,0 +1,157 @@
+# Profession leveling and crafting tooltip costs
+
+Current local addon: **Collector 0.15.8 / Companion 0.3.17**. The new web route is
+`/tools/forever/trader/leveling`, linked from Forever Trader. The web release is
+validated separately from the local addon installation; public desktop installers
+are not promoted by this web rollout.
+
+The goal is to reduce the gold needed to level a profession using the selected
+realm/faction's AH scan, including the cost of learning recipes. A low reagent
+price alone must not make an expensive pattern look attractive.
+
+## In-game tooltip
+
+Open the character's profession window to load its learned recipe definitions.
+Hovering a matching output item then shows:
+
+- **Cost to make / item:** consumed materials valued from the synchronized AH
+  depth, or a cheaper unlimited vendor quote observed during this session.
+- **Buy missing materials / craft:** additional cash after bag inventory,
+  including purchases of whole auction stacks.
+- Recipe name and output quantity; Shift adds reagent quantities and costs.
+
+Owned materials retain their value. Acquisition cost is already sunk for learned
+recipes and is labeled accordingly. Multiple learned recipes for the same output
+are compared by material cost per item. Variable outputs and missing prices do
+not produce an exact or zero unit cost. The last opened profession's definitions
+remain available after its window closes; reopen professions after a reload.
+This is a learned-recipe view, not a claim to price every unlearned craft.
+
+## Leveling page
+
+Choose the market and profession, current/target skill, character level and
+skill-up strategy. Mark recipes actually learned and usable by this character.
+For unpriced recipes, enter the one-time learning/purchase price in gold; where
+the learning requirement is missing, also enter its required skill.
+These preferences are stored only in this browser, per market and profession.
+
+The result separates material spending from recipe purchases/training fees,
+gives an execution order and a copyable shopping list, and retains whole-stack
+leftovers. It does not deduct speculative output sales. Crafted intermediates
+can supply later steps, but future output cannot pay for earlier reagents.
+Profession rank upgrades, tools, travel and materials already in the bags are
+not included in this version. Vendor reagents use AH prices on the web page;
+the in-game tooltip can use directly observed vendor prices.
+Mining coverage is limited to smelting recipes. Gathering professions cannot be
+leveled entirely by purchasing AH materials and are not presented as complete
+crafting routes.
+
+Recipe unlocks are charged only on first use, including when a route leaves and
+later returns to the same recipe. Already learned recipes have no new unlock
+fee. A recipe on the AH consumes real recipe-item stock as well as its purchase
+price. Unknown costs never default to zero. Trainer observations match product,
+build, region, realm and faction; already-trained services are excluded. Only
+positive observed fees are auto-priced because the older collector could store
+zero when its trainer cost API was unavailable. Confirm a genuinely free unlock
+explicitly with a zero override or mark it learned.
+
+The page selects accepted scans and requires their exact published English
+catalog. It uses canonical item markets, excluding variant-specific listings.
+Published, nonexpired teaching-item relations and captured trainer requirements
+are supported. Cooldown crafts, incomplete extractions, missing skill bands and
+unsupported acquisition restrictions are excluded. Unknown learning skills are
+distinct from an actual skill-one requirement; a user override cannot lower a
+captured requirement. An incomplete route explicitly reports its reached skill.
+
+## Calculation and limits
+
+`profession-leveling-prices.ts` validates auction lots and computes a bounded
+knapsack table per item. Each quote finds the cheapest whole-stack cover within
+the observed stock, including overbuy. Tables grow on demand and are reused
+throughout the route; requests over 20,000 units per item remain unsupported.
+
+`profession-leveling.ts` searches increasing skill levels, carrying acquired
+recipes, cumulative auction demand and usable crafted inventory. It retains up
+to 24 alternatives per level and caps work at three million transitions. This
+is a bounded comparison, not proof of a global minimum over every possible
+route. The result states that limitation; partial searches are never presented
+as complete routes. Calculation runs in a dedicated browser worker with a
+30-second timeout, so it does not freeze the page.
+
+Orange mode uses one craft per captured skill-up increment. Expected mode uses
+the explicit linear planning model `(gray - skill) / (gray - yellow)` after
+yellow, accumulating expected attempts within a contiguous recipe segment and
+rounding craft purchases upward. This is **not a measured Forever probability**.
+No gray recipe advances skill. Expected routes must be checked at each skill
+checkpoint and recalculated when actual skill-ups differ. Blizzard's
+[Classic manual](https://us.media.blizzard.com/manuals/wow/wow-classic-manual-enUS.pdf)
+describes the color distinction, not that linear probability model.
+
+## Current data coverage
+
+The initial November 12 check found build **70888** published with **2,227
+recipes**, no trainer observations and no catalog teaching-item links. The
+client now stores the item/effect association in `ItemXItemEffect`; extractor
+**0.6.1** joins that table while retaining older client support. Direct learning
+links require the learn trigger (6), so 178 applied enchant-scroll effects are
+excluded from the 1,887 initial candidates.
+
+A fresh extraction recovered **1,709** teaching-item links. Its hotfix differs
+from the published catalog, so the catalog was not replaced. A compatibility
+review checked item restrictions, profession, skill bands, reagent inputs and
+output quantities against the exact published build. It qualified **1,677 links
+for 1,668 recipes** and withheld 32: four changed crafts, fourteen profession
+requirement mismatches, thirteen changed profession/skill bands and one changed
+item requirement. These counts describe all professions, not available AH stock.
+
+Published evidence snapshot: `3d7cb40e-b438-4e91-a0e5-1783c47f2580`, source
+`client-profession-links`, checksum
+`4082512807b8551683a13bc0c628331816c3cbc19d39bc8d40154c0ab69db5e1`.
+Each relation records both hotfix identities and its catalog UUID. Client facts
+remain tied to that catalog rather than using an arbitrary expiration date.
+Auction prices still come from the selected scan. Class/race/specialization-locked
+patterns are excluded from universal purchase recommendations.
+
+**Trainer learning fees remain unknown.** The user cannot collect them at present.
+Known-recipe and manual fee/skill overrides work without trainer evidence;
+unknown fees never become zero. A complete, automatic 1–300 route is not promised
+when those inputs or auction stock are missing. To collect fees later, enable
+`/wowtrader evidence on`, open the trainer with available/unavailable/used filters
+visible, then Save & Reload and let Companion upload. Check
+`/wowtrader evidence status`: unavailable client APIs may capture no records.
+
+To qualify future client relationships after building the catalog and world-data
+packages, use `scripts/prepare-client-profession-links.mjs` with `--manifest`,
+`--base` (the exact published identity export) and a new `--output` path. Review
+its rejection report. `scripts/import-client-profession-links.mjs --bundle ...`
+creates reviewed evidence; `--publish` explicitly publishes it. Import rechecks
+the checksum and live catalog identity and requires the existing owner database
+configuration. Never substitute a fresh catalog merely to add learning links.
+
+## Verification
+
+Evidence and rollback receipts live in
+`artifacts/profession-leveling-20261112/`. The browser test uses real public
+market/catalog data through a read-only database session. It checks unknown-cost
+partial output, a learned-recipe route, one-time manual learning fees, preference
+restoration, worker execution and mobile overflow.
+
+The full-range performance scenario marks every recipe learned **only for
+benchmarking**; it does not assert that a real character can know every recipe
+at skill one, nor validate a published leveling recommendation. A 438-recipe
+test completed 1–300 in about 3.3 seconds with the bounded search. Unit controls
+cover acquisition amortization, missing prices/requirements, stock sharing,
+whole-stack optimality against exhaustive small cases, crafted intermediates,
+skill-up bands and money precision. Addon regression controls cover per-item vs
+per-craft cost, tooltip reuse, missing reagent prices and variable output.
+
+Collector 0.15.8 and Companion 0.3.17 were installed locally with sixteen bundle
+checksums, fourteen static game-addon files and application signature integrity
+verified. Generated market/account packs, settings and credentials were preserved
+at installation. Companion restarted and synchronized successfully. The final
+focused web controls pass 26 tests; desktop controls pass 11, the full addon
+runner passes, and focused TypeScript/lint checks and the desktop package build
+pass. The Next development server compiled and served the actual new route;
+production candidate and live-browser checks are recorded separately in
+`artifacts/profession-leveling-release-20261112/`. That directory also contains
+the six item-effect controls, 27 extractor controls and 24 world-data tests.

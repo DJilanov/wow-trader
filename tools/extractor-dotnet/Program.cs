@@ -7,6 +7,17 @@ if (args is ["--catalog-version"])
   return;
 }
 
+if (args.FirstOrDefault() == "valuation-snapshot")
+{
+  try { ValuationSnapshotCommand.Run(CliOptions.Parse(args)); }
+  catch (Exception exception)
+  {
+    Console.Error.WriteLine($"valuation extraction: {exception.Message}");
+    Environment.ExitCode = 1;
+  }
+  return;
+}
+
 if (args.FirstOrDefault() == "mechanics-snapshot")
 {
   try { MechanicsSnapshotCommand.Run(CliOptions.Parse(args)); }
@@ -111,6 +122,7 @@ var tableNames = new[]
     "SpellLearnSpell",
     "SpellReagents",
     "ItemEffect",
+    "ItemXItemEffect",
     "ItemDisenchantLoot",
     "SpellCooldowns",
     "SpellCategories",
@@ -129,12 +141,22 @@ try
 
   try
   {
-    var hotfixPath = FindHotfixPath(options);
-    var hotfixHash = hotfixPath is null ? null : Sha256File(hotfixPath);
+    var buildInfoPath = Path.Combine(options.WowRoot, ".build.info");
+    var buildInfoHash = Sha256File(buildInfoPath);
+    var sourceHotfixPath = FindHotfixPath(options);
+    var hotfixHash = sourceHotfixPath is null ? null : Sha256File(sourceHotfixPath);
+    string? hotfixPath = null;
+    if (sourceHotfixPath is not null)
+    {
+      hotfixPath = Path.Combine(stagingDirectory, "source-hotfix.bin");
+      File.Copy(sourceHotfixPath, hotfixPath);
+      if (Sha256File(hotfixPath) != hotfixHash)
+        throw new IOException("Hotfix cache changed while copying; retry after patching finishes");
+    }
     var hotfixStatus = hotfixPath is null ? "missing" : "applied";
     Console.WriteLine(hotfixPath is null
         ? "No DBCache.bin found; the snapshot will be marked non-publishable"
-        : $"Using hotfix cache {hotfixPath} ({hotfixHash})");
+        : $"Using frozen hotfix cache from {sourceHotfixPath} ({hotfixHash})");
 
     var extractor = new CascTableExtractor(options);
     var tolerateUnavailableTables = string.Equals(
@@ -144,7 +166,7 @@ try
     var (build, db2Directory) = extractor.Extract(
         tableNames,
         stagingDirectory,
-        tolerateUnavailableTables);
+        tolerateUnavailableTables: true);
     var reader = new Db2TableReader(
         db2Directory,
         options.DefinitionsDirectory,
@@ -155,6 +177,8 @@ try
     {
       if (!File.Exists(Path.Combine(db2Directory, $"{tableName}.db2")))
       {
+        if (!tolerateUnavailableTables && tableName != "ItemXItemEffect")
+          throw new FileNotFoundException($"Required catalog table {tableName} is unavailable");
         tables.Add(tableName, new Db2TableSnapshot(tableName, [], [], 0, 0));
         continue;
       }
@@ -175,6 +199,10 @@ try
           $"Parsed {tableName}: {table.BaseRows.Count:N0} base / {table.EffectiveRows.Count:N0} effective rows");
     }
 
+    if (Sha256File(buildInfoPath) != buildInfoHash ||
+        (sourceHotfixPath is not null && Sha256File(sourceHotfixPath) != hotfixHash))
+      throw new IOException("Client or hotfix changed during extraction; retry after patching finishes");
+    if (hotfixPath is not null) File.Delete(hotfixPath);
     Directory.Delete(db2Directory, recursive: true);
     var catalog = new CatalogNormalizer(tables).Normalize();
     var requireTbcGoldenRecipe = string.Equals(
@@ -235,13 +263,14 @@ catch (Exception exception)
 
 static string? FindHotfixPath(CliOptions options)
 {
+  var clientProduct = InstalledProduct.Resolve(options.WowRoot, options.Product);
   foreach (var flavorPath in Directory.EnumerateFiles(
                options.WowRoot,
                ".flavor.info",
                SearchOption.AllDirectories))
   {
     var lines = File.ReadAllLines(flavorPath);
-    if (lines.Length < 2 || !string.Equals(lines[1], options.Product, StringComparison.Ordinal)) continue;
+    if (lines.Length < 2 || !string.Equals(lines[1], clientProduct, StringComparison.Ordinal)) continue;
     var productDirectory = Path.GetDirectoryName(flavorPath)!;
     var hotfixPath = Path.Combine(productDirectory, "Cache", "ADB", options.Locale, "DBCache.bin");
     return File.Exists(hotfixPath) ? hotfixPath : null;

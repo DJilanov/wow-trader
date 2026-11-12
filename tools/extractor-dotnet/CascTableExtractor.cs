@@ -18,9 +18,10 @@ internal sealed class CascTableExtractor
       IReadOnlyList<string>? additionalFiles = null)
   {
     TACTSharp.Settings.LogLevel = TSLogLevel.Warn;
+    var clientProduct = InstalledProduct.Resolve(options.WowRoot, options.Product);
     var build = new BuildInstance();
     build.Settings.BaseDir = options.WowRoot;
-    build.Settings.Product = options.Product;
+    build.Settings.Product = clientProduct;
     build.Settings.Region = options.Region;
     build.Settings.Locale = ParseLocale(options.Locale);
     build.Settings.CacheDir = Path.Combine(options.OutputDirectory, ".tact-cache");
@@ -31,12 +32,12 @@ internal sealed class CascTableExtractor
         build.Settings,
         build.cdn);
     var matchingBuilds = buildInfo.Entries
-        .Where(entry => string.Equals(entry.Product, options.Product, StringComparison.Ordinal))
+        .Where(entry => string.Equals(entry.Product, clientProduct, StringComparison.Ordinal))
         .ToArray();
     if (matchingBuilds.Length != 1)
     {
       throw new InvalidOperationException(
-          $"Expected one active build for product '{options.Product}', found {matchingBuilds.Length}");
+          $"Expected one active build for product '{clientProduct}', found {matchingBuilds.Length}");
     }
 
     var selected = matchingBuilds[0];

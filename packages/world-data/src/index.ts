@@ -1,4 +1,5 @@
 export * from "./community-import.js";
+export * from "./client-profession-links.js";
 export * from "./profession-reference.js";
 export * from "./community-coverage.js";
 export * from "./import.js";
