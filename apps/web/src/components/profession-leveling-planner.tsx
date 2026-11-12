@@ -124,18 +124,10 @@ export function ProfessionLevelingPlanner({
           are not priced from AH materials.
         </p>
       ) : null}
-      {!data.limitation &&
-      data.recipes.length > 0 &&
-      !data.recipes.some((recipe) => recipe.acquisition.length > 0) ? (
-        <p className={styles.warning} role="status">
-          Learning prices are not available for these recipes yet. Open “Known recipes &amp;
-          learning costs” to mark recipes you already know or enter their learning costs and
-          required skills.
-        </p>
-      ) : null}
       <form onSubmit={calculate} className={styles.controls}>
         <fieldset disabled={status === "working" || Boolean(data.limitation)}>
           <legend>Plan your {profession?.name ?? "profession"} leveling</legend>
+          <p className={styles.intro}>Start where you are. Choose the skill you want to reach.</p>
           <div className={styles.fields}>
             <label>
               Current skill
@@ -188,10 +180,17 @@ export function ProfessionLevelingPlanner({
               </select>
             </label>
           </div>
+          <p className={styles.learningHint}>
+            <strong>Already know a recipe?</strong> Mark it below to skip its learning fee. Add a
+            price where it is missing; unknown learning costs are excluded.
+          </p>
           <ProfessionRecipeCosts recipes={data.recipes} options={options} onChange={update} />
-          <button type="submit" className={styles.primary}>
-            {status === "working" ? "Comparing routes…" : "Find lowest-cost route"}
-          </button>
+          <div className={styles.actions}>
+            <button type="submit" className={styles.primary}>
+              {status === "working" ? "Comparing routes…" : "Find lowest-cost route"}
+            </button>
+            <span>Crafting order + a copyable shopping list</span>
+          </div>
         </fieldset>
       </form>
       <p className={styles.note}>
@@ -218,10 +217,13 @@ export function ProfessionLevelingPlanner({
         {plan ? (
           <ProfessionLevelingResult plan={plan} />
         ) : status === "idle" && !data.limitation ? (
-          <p>
-            Choose your skills, mark recipes you already know, then compare routes using this
-            market’s prices.
-          </p>
+          <div className={styles.emptyResult}>
+            <span aria-hidden="true">1 → 300</span>
+            <div>
+              <strong>Your crafting plan will appear here</strong>
+              <p>Set your skill goal and known recipes, then compare routes for this market.</p>
+            </div>
+          </div>
         ) : null}
       </div>
       <p>

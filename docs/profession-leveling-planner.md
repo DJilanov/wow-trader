@@ -63,6 +63,22 @@ unsupported acquisition restrictions are excluded. Unknown learning skills are
 distinct from an actual skill-one requirement; a user override cannot lower a
 captured requirement. An incomplete route explicitly reports its reached skill.
 
+## Page design and search discovery
+
+The calculator uses a compact profession header, three setup steps, a market-time
+label and an explicit reminder to mark learned recipes. The result emphasizes
+total spending before its material and learning breakdown. Recipe catalogs and
+the server-rendered questions below the tool explain supported professions,
+missing fees, AH scans, estimated skill-ups and excluded costs.
+
+The canonical search URL is `/tools/forever/trader/leveling`. Profession and
+market query parameters remain calculator settings and canonicalize to that
+page. The Forever hub and Trader link directly to it, and the tools sitemap
+includes it once. Search metadata targets profession leveling at skill 1–300;
+social previews use the dedicated `/tools/og/profession-leveling` image. JSON-LD
+describes the actual page and its visible breadcrumbs. No ratings or FAQ rich
+result promises are added. Google chooses indexing and rankings independently.
+
 ## Calculation and limits
 
 `profession-leveling-prices.ts` validates auction lots and computes a bounded

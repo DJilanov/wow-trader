@@ -1,16 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
+import { JsonLd } from "../../../../components/json-ld";
+import { ProfessionLevelingGuide } from "../../../../components/profession-leveling-guide";
 import { ProfessionLevelingPlanner } from "../../../../components/profession-leveling-planner";
 import { getProfessionLevelingData } from "../../../../lib/profession-leveling-data";
-import { createHelperMetadata } from "../../../../lib/seo";
+import {
+  PROFESSION_LEVELING_METADATA,
+  PROFESSION_LEVELING_PATH,
+  PROFESSION_LEVELING_PROFESSIONS,
+  PROFESSION_LEVELING_STRUCTURED_DATA,
+} from "../../../../lib/profession-leveling-content";
+import { createBreadcrumbJsonLd } from "../../../../lib/seo";
 import { withHelperBasePath } from "../../../../lib/site-path";
+import styles from "../../../../components/profession-leveling-page.module.css";
 
 export const dynamic = "force-dynamic";
-export const metadata = createHelperMetadata({
-  title: "WoW Forever Profession Leveling Cost Calculator",
-  description:
-    "Compare profession leveling routes using Auction House prices, whole stacks and one-time recipe costs. Get a crafting order and shopping list for your skill target.",
-  path: "/forever/trader/leveling",
-});
+export const metadata = PROFESSION_LEVELING_METADATA;
 
 interface PageProps {
   readonly searchParams: Promise<{
@@ -26,31 +31,89 @@ export default async function Page({ searchParams }: PageProps): Promise<React.J
       typeof raw.profession === "string" ? raw.profession.slice(0, 80) : "blacksmithing",
       typeof raw.market === "string" ? raw.market.slice(0, 200) : "",
     );
+    const profession = data.professions.find((entry) => entry.slug === data.profession);
+    const icon = PROFESSION_LEVELING_PROFESSIONS.find((entry) => entry.slug === data.profession);
     return (
-      <article className="detail-page">
-        <header className="detail-hero">
+      <article className={styles.page}>
+        <JsonLd data={PROFESSION_LEVELING_STRUCTURED_DATA} />
+        <JsonLd
+          data={createBreadcrumbJsonLd([
+            { name: "WoW Forever", path: "/forever" },
+            { name: "Trader", path: "/forever/trader" },
+            { name: "Profession leveling", path: PROFESSION_LEVELING_PATH },
+          ])}
+        />
+        <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+          <Link href="/forever">WoW Forever</Link>
+          <span aria-hidden="true">/</span>
+          <Link href="/forever/trader">Trader</Link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Profession leveling</span>
+        </nav>
+        <header className={styles.hero}>
           <div>
-            <span className="eyebrow">WoW Forever · professions</span>
-            <h1>Level your profession for less</h1>
+            <span className="eyebrow">Crafting calculator · skill 1–300</span>
+            <h1>
+              WoW Forever <span>profession leveling</span>
+            </h1>
             <p>
-              Compare materials and recipe costs together. Follow a crafting order with a priced
-              shopping list.
+              More skill. Less wasted gold. Compare Auction House materials and the cost to learn
+              each recipe, then follow a crafting order built around your budget.
             </p>
           </div>
-          {data.scan ? (
-            <div className="build-stamp">
-              <span>AH scan · build {data.scan.build}</span>
-              <strong>{data.scan.fresh ? "Fresh prices" : "Reference prices"}</strong>
-              <small>
-                {new Date(data.scan.at).toLocaleString("en-GB", { timeZone: "UTC" })} UTC
-              </small>
+          <div className={styles.heroCard}>
+            <div>
+              {icon ? (
+                <Image
+                  src={withHelperBasePath(`/wow-assets/professions/${icon.slug}.jpg`)}
+                  alt=""
+                  width={48}
+                  height={48}
+                />
+              ) : null}
+              <div>
+                <strong>{profession?.name ?? "Your profession"}</strong>
+                <small>Plan your next skill upgrade</small>
+              </div>
             </div>
-          ) : null}
+            <p>
+              Materials + learning costs.
+              <br />
+              One plan, one shopping list.
+            </p>
+          </div>
         </header>
+        <ol className={styles.workflow} aria-label="How to build your plan">
+          <li>
+            <span aria-hidden="true">01</span>Choose your profession &amp; market
+          </li>
+          <li>
+            <span aria-hidden="true">02</span>Set your skills &amp; known recipes
+          </li>
+          <li>
+            <span aria-hidden="true">03</span>Compare crafts &amp; copy your list
+          </li>
+        </ol>
+        <div className={styles.market}>
+          <div>
+            <h2>Start with your market</h2>
+            <p>Prices and stock come from your selected Auction House scan.</p>
+          </div>
+          {data.scan ? (
+            <p className={styles.scan}>
+              <strong>{data.scan.fresh ? "Fresh prices" : "Reference prices"}</strong>
+              <time dateTime={data.scan.at}>
+                {new Date(data.scan.at).toLocaleString("en-GB", { timeZone: "UTC" })} UTC
+              </time>
+              <br />
+              Build {data.scan.build}
+            </p>
+          ) : null}
+        </div>
         <form
-          action={withHelperBasePath("/forever/trader/leveling")}
+          action={withHelperBasePath(PROFESSION_LEVELING_PATH)}
           method="get"
-          className="workspace-toolbar"
+          className={styles.marketForm}
         >
           <label>
             Profession
@@ -82,6 +145,7 @@ export default async function Page({ searchParams }: PageProps): Promise<React.J
           </section>
         ) : null}
         <ProfessionLevelingPlanner key={`${data.market}:${data.profession}`} data={data} />
+        <ProfessionLevelingGuide />
       </article>
     );
   } catch {

@@ -130,6 +130,12 @@ const staticEntries: MetadataRoute.Sitemap = [
     priority: 0.95,
   },
   {
+    url: `${HELPER_SITE_URL}/forever/trader/leveling`,
+    lastModified: new Date("2026-11-12T00:00:00Z"),
+    changeFrequency: "weekly",
+    priority: 0.85,
+  },
+  {
     url: `${HELPER_SITE_URL}/forever/addon`,
     changeFrequency: "weekly",
     priority: 0.9,

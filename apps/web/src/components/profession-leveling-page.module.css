@@ -1,0 +1,288 @@
+.page {
+  padding: 30px 0 72px;
+}
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 30px;
+}
+.breadcrumbs a:hover {
+  color: var(--gold-bright);
+}
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 48px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.hero h1 {
+  max-width: 820px;
+  margin: 12px 0 18px;
+  font-size: clamp(30px, 4vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+.hero h1 span {
+  color: var(--gold-bright);
+}
+.hero p,
+.guide p {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.heroCard {
+  padding: 24px;
+  border: 1px solid var(--gold-low);
+  border-radius: var(--radius);
+  background: radial-gradient(ellipse at top right, #d7913a16, transparent 75%), var(--surface);
+}
+.heroCard > div {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.heroCard img {
+  border: 1px solid var(--gold-low);
+  border-radius: var(--radius);
+}
+.heroCard small,
+.heroCard strong {
+  display: block;
+}
+.heroCard small {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.heroCard p {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.workflow {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0 0 30px;
+  padding: 20px 0;
+  border-block: 1px solid var(--line);
+}
+.workflow li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.workflow span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  height: 28px;
+  border: 1px solid var(--gold-low);
+  border-radius: 50%;
+  color: var(--gold-bright);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+}
+.market {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.market h2 {
+  font-family: var(--font-body), sans-serif;
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+.market p,
+.scan {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+.scan {
+  text-align: right;
+  line-height: 1.8;
+}
+.scan strong {
+  color: var(--ink);
+  font-weight: 500;
+  margin-right: 8px;
+}
+.marketForm {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(180px, 1.5fr) auto;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+.marketForm label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.marketForm select,
+.marketForm button {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  color: var(--ink);
+  background: var(--surface);
+}
+.marketForm button {
+  cursor: pointer;
+  border-color: var(--gold-low);
+  color: var(--gold-bright);
+  font-size: 12px;
+}
+.marketForm button:hover {
+  border-color: var(--gold-bright);
+}
+.page a:focus-visible,
+.page summary:focus-visible,
+.marketForm select:focus-visible,
+.marketForm button:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+.guide {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.guide h2 {
+  font-size: clamp(23px, 2.4vw, 30px);
+  margin: 12px 0;
+}
+.guide p {
+  font-size: 14px;
+}
+.professions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+}
+.professions a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius);
+  font-size: 13px;
+}
+.professions img {
+  border-radius: var(--radius);
+}
+.professions a span:last-child {
+  margin-left: auto;
+  color: var(--gold-low);
+}
+.professions a:hover {
+  border-color: var(--gold-low);
+  color: var(--gold-bright);
+}
+.faq {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 60px;
+  padding-top: 48px;
+}
+.faq a {
+  font-size: 13px;
+  color: var(--gold-bright);
+}
+.faq details {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+.faq details:first-child {
+  padding-top: 0;
+}
+.faq summary {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.6;
+}
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .heroCard {
+    padding: 16px;
+  }
+  .heroCard p {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+  .workflow {
+    gap: 12px;
+  }
+  .workflow li {
+    align-items: start;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .market,
+  .faq {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .scan {
+    text-align: left;
+  }
+  .marketForm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .marketForm button {
+    grid-column: 1 / -1;
+  }
+  .professions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .breadcrumbs {
+    font-size: 11px;
+    gap: 7px;
+    margin-bottom: 24px;
+  }
+  .workflow li {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .workflow span {
+    flex-basis: 28px;
+    width: 28px;
+  }
+  .marketForm {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .professions a {
+    padding: 10px;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .professions a span:last-child {
+    display: none;
+  }
+}

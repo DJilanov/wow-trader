@@ -23,7 +23,9 @@ export function ProfessionRecipeCosts({
     <details className={styles.recipes}>
       <summary>
         Known recipes &amp; learning costs{" "}
-        <small>{options.knownRecipeIds.length} already learned</small>
+        <small>
+          {options.knownRecipeIds.length} learned · {recipes.length} recipes
+        </small>
       </summary>
       <p>
         Learning is charged once. Unknown prices are excluded until you enter their cost or mark the
@@ -57,7 +59,10 @@ export function ProfessionRecipeCosts({
               <span>
                 {recipe.name}
                 <small>
-                  Already learned ·{" "}
+                  {options.knownRecipeIds.includes(recipe.id)
+                    ? "Already learned"
+                    : "Mark as learned"}{" "}
+                  ·{" "}
                   {recipe.requiredSkillKnown === false
                     ? "learning skill unknown"
                     : `skill ${recipe.requiredSkill}`}

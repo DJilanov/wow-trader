@@ -32,6 +32,12 @@ describe("public tools sitemap", () => {
     vi.mocked(getSitemapCatalogData).mockResolvedValue(null);
   });
 
+  it("includes the canonical profession calculator without market filter variants", async () => {
+    const entries = (await sitemap()).filter((entry) => entry.url.includes("/trader/leveling"));
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.url).toBe(`${HELPER_SITE_URL}/forever/trader/leveling`);
+  });
+
   it("includes every published healer workspace without share or release variants", async () => {
     const entries = await sitemap();
     const healers = entries.filter((entry) => entry.url.includes("/simulator/healing-"));

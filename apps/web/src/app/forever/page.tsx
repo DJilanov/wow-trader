@@ -91,6 +91,16 @@ export default function ForeverHelperPage(): React.JSX.Element {
             href: "/forever/trader",
           },
           {
+            title: "Profession leveling",
+            eyebrow: "Craft more. Spend less.",
+            description:
+              "Compare skill 1–300 crafting routes with Auction House material prices, one-time recipe costs and a shopping list.",
+            status: "Skill goals · recipe costs · AH stock",
+            image: { src: "/wow-assets/professions/blacksmithing.jpg", kind: "icon" },
+            tone: "trader",
+            href: "/forever/trader/leveling",
+          },
+          {
             title: "Encyclopedia",
             eyebrow: "Talents and spellbooks",
             description:

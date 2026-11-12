@@ -9,6 +9,26 @@
   padding: 24px;
   border-radius: var(--radius);
 }
+.controls {
+  border-top: 2px solid var(--gold-low);
+  background: linear-gradient(135deg, #d7913a06, transparent 55%), var(--surface);
+}
+.planner .intro {
+  margin: -9px 0 22px;
+  font-size: 13px;
+}
+.planner .learningHint {
+  margin: 20px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 12px;
+  background: var(--bg-2);
+}
+.learningHint strong {
+  color: var(--ink);
+  font-weight: 500;
+}
 .controls fieldset {
   border: 0;
   padding: 0;
@@ -40,6 +60,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   color: var(--ink);
+  min-height: 44px;
 }
 .controls input:focus-visible,
 .controls select:focus-visible,
@@ -62,10 +83,46 @@
   opacity: 0.65;
 }
 .planner .primary {
-  margin-top: 22px;
   background: var(--gold);
   color: var(--bg);
   border-color: var(--gold);
+}
+.planner .primary:hover {
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 22px;
+}
+.actions span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.emptyResult {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 26px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+.emptyResult > span {
+  flex-shrink: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 20px;
+  color: var(--gold-low);
+}
+.emptyResult strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.emptyResult p {
+  font-size: 13px;
+  margin: 6px 0 0;
 }
 .recipes {
   margin-top: 24px;
@@ -130,6 +187,7 @@
 }
 .result h2 {
   margin: 10px 0 20px;
+  font-size: clamp(24px, 3vw, 34px);
 }
 .totals {
   display: grid;
@@ -147,6 +205,13 @@
   font-size: clamp(17px, 2vw, 24px);
   color: var(--gold-bright);
   overflow-wrap: anywhere;
+}
+.totals > div:first-child strong {
+  font-size: clamp(24px, 3vw, 36px);
+}
+.totals > div:not(:first-child) {
+  padding-left: 20px;
+  border-left: 1px solid var(--line);
 }
 .steps {
   padding: 0;
@@ -181,6 +246,10 @@
     grid-template-columns: 1fr;
     gap: 18px;
   }
+  .totals > div:not(:first-child) {
+    padding-left: 0;
+    border-left: 0;
+  }
   .recipeRow {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -196,5 +265,14 @@
   }
   .steps li {
     grid-template-columns: 75px 1fr;
+  }
+  .actions button {
+    width: 100%;
+  }
+  .emptyResult {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
   }
 }
