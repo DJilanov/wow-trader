@@ -149,6 +149,36 @@ try {
   const integration = root + "/apps/addon/WowTraderCollector/MarketIntegration.test.lua";
   assert(readFileSync(integration, "utf8").length > 0);
   process.stdout.write(execFileSync(lua, [integration], { cwd: root, encoding: "utf8" }));
+  process.stdout.write(
+    execFileSync(lua, [root + "/apps/addon/WowTraderCollector/NativePendingRows.test.lua"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+  );
+  process.stdout.write(
+    execFileSync(lua, [root + "/apps/addon/WowTraderCollector/NativeScanner.test.lua"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+  );
+  process.stdout.write(
+    execFileSync(lua, [root + "/apps/addon/WowTraderCollector/Valuation.test.lua"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+  );
+  process.stdout.write(
+    execFileSync(lua, [root + "/apps/addon/WowTraderCollector/ValuationUI.test.lua"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+  );
+  process.stdout.write(
+    execFileSync(lua, [root + "/apps/addon/WowTraderCollector/ClientValuationData.test.lua"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+  );
 } finally {
   rmSync(temporary, { recursive: true, force: true });
 }

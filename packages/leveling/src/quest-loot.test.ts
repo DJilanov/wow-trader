@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estimateLootKills, questLootDropSchema } from "./quest-loot.js";
+import { estimateLootKills, plannedLootKills, questLootDropSchema } from "./quest-loot.js";
 
 const input = {
   quantity: 8,
@@ -10,6 +10,18 @@ const input = {
   sharing: "unknown" as const,
 };
 describe("conditional quest loot planning", () => {
+  it("does not turn the captured two-thirds rate into an extra full-party kill through floating-point noise", () => {
+    const result = estimateLootKills({
+      ...input,
+      probability: 0.6666666666666665,
+      partySize: 5,
+      sharing: "pooled",
+    });
+    if (result.status !== "estimated") throw Error("Expected a complete distribution");
+    expect(result.expectedKills).toBeGreaterThan(60);
+    expect(result.expectedKills).toBeCloseTo(60, 12);
+    expect(plannedLootKills(result, "expected")).toBe(60);
+  });
   it("uses n/p rather than assuming every kill drops an item", () => {
     const result = estimateLootKills(input);
     expect(result).toMatchObject({ status: "estimated", minimumKills: 8, expectedKills: 20 });

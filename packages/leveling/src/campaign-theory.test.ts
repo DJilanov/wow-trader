@@ -132,6 +132,82 @@ function route(loot = false): CampaignPlan {
   };
 }
 describe("chronological theoretical progress", () => {
+  it("counts the allowance once on the individual combat path without inventing objective kills", () => {
+    const base = route();
+    const initial = emptyPremadeProgress();
+    const progress = { ...initial, members: initial.members.map((member) => ({
+      ...member, level: 1, currentXp: 0, xpNeedsUpdate: false,
+    })) };
+    const required = forecastCampaignXp(base, progress)[0]!.members[0]!;
+    const result = forecastCampaignXp({ ...base, incidentalKillXpPercent: 10 }, progress)[0]!.members[0]!;
+    const extra = Math.floor(required.combatXp / 10);
+    expect(extra).toBeGreaterThan(0);
+    expect(result.incidentalCombatXp).toBe(extra);
+    expect(result.combatXp).toBe(required.combatXp + extra);
+    expect(result.combatRows.map((row) => row.kills)).toEqual(required.combatRows.map((row) => row.kills));
+    expect(result.rewards).toEqual(required.rewards);
+  });
+  it("does not report a known quest reward as missing when earlier combat lost its XP range", () => {
+    const raw = route();
+    const plan: CampaignPlan = {
+      ...raw,
+      combat: { ...raw.combat!, npcs: [{ ...npc, minimumLevel: null, maximumLevel: null }] },
+    };
+    const progress = emptyPremadeProgress();
+    progress.members = progress.members.map((member) => ({
+      ...member,
+      level: 1,
+      currentXp: 0,
+      xpNeedsUpdate: false,
+    }));
+    const result = forecastCampaignXp(plan, progress)[0]!.members[0]!;
+    expect(result.blockedAtActionId).toBe("kill");
+    expect(result.unknownQuestIds).toEqual([]);
+    expect(result.issues.some((issue) => issue.code === "reward-unresolved")).toBe(false);
+    expect(result.issues).toContainEqual(
+      expect.objectContaining({
+        code: "combat-input-unknown",
+        domain: "combat",
+        actionId: "kill",
+        blocksForecast: true,
+      }),
+    );
+    expect(result.blockedReason).toContain("unresolved XP range");
+    expect(result.referenceQuestXp).toBe(0);
+    expect(result.rewards).toEqual([]);
+  });
+
+  it("retains genuinely missing reward evidence even when the combat range is also missing", () => {
+    const raw = route();
+    const plan: CampaignPlan = {
+      ...raw,
+      rewardFacts: raw.rewardFacts!.filter((fact) => fact.questId !== 300001),
+      combat: { ...raw.combat!, npcs: [{ ...npc, minimumLevel: null, maximumLevel: null }] },
+    };
+    const progress = emptyPremadeProgress();
+    progress.members = progress.members.map((member) => ({
+      ...member,
+      level: 1,
+      currentXp: 0,
+      xpNeedsUpdate: false,
+    }));
+    const result = forecastCampaignXp(plan, progress)[0]!.members[0]!;
+    expect(result.unknownQuestIds).toContain(300001);
+    expect(result.issues).toContainEqual(
+      expect.objectContaining({
+        code: "reward-unresolved",
+        questId: 300001,
+        blocksForecast: true,
+      }),
+    );
+    expect(result.issues).toContainEqual(
+      expect.objectContaining({
+        code: "combat-input-unknown",
+        actionId: "kill",
+        blocksForecast: true,
+      }),
+    );
+  });
   it("keeps addon pickup checkpoints aligned with the combat-funded browser plan", () => {
     const raw = route();
     const actions: readonly CampaignAction[] = [
@@ -291,7 +367,11 @@ describe("chronological theoretical progress", () => {
         1,
         "expected",
       ),
-    ).toMatchObject({ kills: null, reason: expect.stringContaining("quest eligibility") });
+    ).toMatchObject({
+      kills: 3,
+      reason: null,
+      source: expect.stringContaining("Captured drop-table estimate"),
+    });
   });
   it("carries reported single-success loot scenarios into chronological XP with unknown stacks", () => {
     const raw = route(true);

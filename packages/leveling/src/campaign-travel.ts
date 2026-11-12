@@ -1,6 +1,6 @@
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import { getGuideStepView } from "./guide-archive.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { PREMADE_STOPS } from "./premade.js";
 import { campaignZoneId } from "./campaign-geography.js";
@@ -18,7 +18,7 @@ export function attachCampaignFlightPaths(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
 ): CampaignPlan {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const profile = campaignPlanSourceProfile(plan);
   const selected = new Set(PREMADE_STOPS.flatMap((stop) => stop.visitIds));
   const dungeons = DUNGEON_VISITS.flatMap((visit) =>
     selected.has(visit.id) && visit.sourceTag ? [visit.sourceTag] : [],

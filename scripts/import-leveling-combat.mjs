@@ -11,6 +11,7 @@ import {
   combatManifestSchema,
   combatDatasetSchema,
   reuseCombatLootReferences,
+  holdConflictingCombatItemQuantities,
 } from "../packages/leveling/dist/index.js";
 
 const { values } = parseArgs({
@@ -94,6 +95,10 @@ if (values["reuse-loot"]) {
     throw new Error("Previous loot reference build mismatch.");
   dataset = reuseCombatLootReferences(dataset, previous, previousManifest.sha256);
 }
+const quantityReview = holdConflictingCombatItemQuantities(dataset);
+dataset = quantityReview.data;
+if (quantityReview.conflicts.length)
+  console.error(JSON.stringify({ itemQuantityConflicts: quantityReview.conflicts }));
 const root = resolve(values.destination ?? "artifacts/leveling/combat");
 await mkdir(root, { recursive: true });
 const raw = `${JSON.stringify(dataset)}\n`,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import {
   FOREVER_XP_CURVE,
   type CampaignGuideSection,
@@ -83,11 +83,15 @@ export function LevelingStepProjection({
 
 interface PlanningSettingsProps {
   readonly progress: PremadeProgress;
+  readonly defaultIncidentalKillXpPercent?: number;
+  readonly defaultOutdoorIncidentalKillXpPercent?: number;
   readonly disabled: boolean;
   readonly onChange: (progress: PremadeProgress) => void;
 }
 export function LevelingCombatPlanningSettings({
   progress,
+  defaultIncidentalKillXpPercent = 0,
+  defaultOutdoorIncidentalKillXpPercent = defaultIncidentalKillXpPercent,
   disabled,
   onChange,
 }: PlanningSettingsProps): React.JSX.Element {
@@ -95,15 +99,42 @@ export function LevelingCombatPlanningSettings({
   return (
     <form
       aria-label="Theoretical combat XP settings"
-      onSubmit={(event) => {
+      onSubmit={(event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const raw = new FormData(event.currentTarget).get("multiplier");
+        const data = new FormData(event.currentTarget);
+        const raw = data.get("multiplier");
         const multiplier = typeof raw === "string" && raw.trim() ? Number(raw) : Number.NaN;
         if (!Number.isFinite(multiplier) || multiplier < 0 || multiplier > 100) {
           setError("Enter a kill XP multiplier from 0 to 100.");
           return;
         }
-        onChange({ ...progress, combatPlanning: { outdoorXpMultiplier: multiplier } });
+        const rawIncidental = data.get("incidentalPercent");
+        const incidentalKillXpPercent =
+          typeof rawIncidental === "string" && rawIncidental.trim()
+            ? Number(rawIncidental)
+            : Number.NaN;
+        if (
+          !Number.isFinite(incidentalKillXpPercent) ||
+          incidentalKillXpPercent < 0 ||
+          incidentalKillXpPercent > 100
+        ) {
+          setError("Enter an extra kill XP allowance from 0 to 100 percent.");
+          return;
+        }
+        const rawOutdoor = data.get("outdoorIncidentalPercent");
+        const outdoorIncidentalKillXpPercent =
+          typeof rawOutdoor === "string" && rawOutdoor.trim() ? Number(rawOutdoor) : undefined;
+        if (outdoorIncidentalKillXpPercent !== undefined &&
+          (!Number.isFinite(outdoorIncidentalKillXpPercent) ||
+            outdoorIncidentalKillXpPercent < 0 || outdoorIncidentalKillXpPercent > 100)) {
+          setError("Enter an outdoor travel allowance from 0 to 100 percent, or leave it blank.");
+          return;
+        }
+        onChange({
+          ...progress,
+          combatPlanning: { outdoorXpMultiplier: multiplier, incidentalKillXpPercent,
+            ...(outdoorIncidentalKillXpPercent === undefined ? {} : { outdoorIncidentalKillXpPercent }) },
+        });
         setError(null);
       }}
     >
@@ -124,6 +155,45 @@ export function LevelingCombatPlanningSettings({
       <p>
         Adjust this if your server awards different outdoor kill XP. It does not change quest
         rewards or your recorded progress.
+      </p>
+      <label>
+        Extra kill XP allowance (%)
+        <input
+          key={progress.combatPlanning?.incidentalKillXpPercent ?? defaultIncidentalKillXpPercent}
+          name="incidentalPercent"
+          type="number"
+          min="0"
+          max="100"
+          step="any"
+          defaultValue={
+            progress.combatPlanning?.incidentalKillXpPercent ?? defaultIncidentalKillXpPercent
+          }
+          disabled={disabled}
+          required
+        />
+      </label>
+      <p>
+        Estimates XP from other mobs killed along the quest route. Set 0 to count only the planned
+        kills. This adds no extra loot or quest credit.
+      </p>
+      <label>
+        Outdoor travel allowance (%)
+        <input
+          key={progress.combatPlanning?.outdoorIncidentalKillXpPercent ?? defaultOutdoorIncidentalKillXpPercent}
+          name="outdoorIncidentalPercent"
+          type="number"
+          min="0"
+          max="100"
+          step="any"
+          placeholder={`Use route default (${defaultOutdoorIncidentalKillXpPercent}%)`}
+          defaultValue={progress.combatPlanning?.outdoorIncidentalKillXpPercent ?? defaultOutdoorIncidentalKillXpPercent}
+          disabled={disabled}
+        />
+      </label>
+      <p>
+        Estimates extra mobs killed while travelling. This replaces the general allowance
+        outdoors and leaves dungeon estimates unchanged. Extra fighting takes time;
+        the XP is estimated. Leave blank to use the route default ({defaultOutdoorIncidentalKillXpPercent}%).
       </p>
       {error && <p role="alert">{error}</p>}
       <button className={styles.button} type="submit" disabled={disabled}>

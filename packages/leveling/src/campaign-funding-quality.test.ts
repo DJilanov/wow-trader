@@ -67,6 +67,24 @@ function fixture(firstXp: number, lastXp: number): CampaignPlan {
 }
 
 describe("funding proposal quality", () => {
+  it.each([300, 500])("rejects moving a later blocked pickup ahead of an existing requirement (%i XP)", (firstXp) => {
+    const initial = fixture(firstXp, 100);
+    const baseline: CampaignPlan = { ...initial, rewardFacts: initial.rewardFacts!.map((fact) =>
+      fact.questId === 400002 ? { ...fact, minimumLevel: firstXp === 300 ? 2 : 3 } : fact) };
+    const actions = [baseline.actions[0]!, baseline.actions[2]!, baseline.actions[1]!, baseline.actions[3]!];
+    const proposed: CampaignPlan = { ...baseline, actions, legs: baseline.legs.map((leg) => ({
+      ...leg, actionIds: actions.map((action) => action.id),
+    })) };
+    const before = campaignFundingStates(baseline), after = campaignFundingStates(proposed);
+    expect(before[0]!.forecast[0]!.members[0]!.checkpoints
+      .find((checkpoint) => checkpoint.actionId === "first-pickup")!.ready).toBe(firstXp === 500);
+    expect(before[0]!.forecast[0]!.members[0]!.blockedAtActionId).toBe("second-reward");
+    expect(after[0]!.forecast[0]!.members[0]!.blockedAtActionId).toBe("second-reward");
+    for (const allowLargerDeficitAtSameAction of [false, true])
+      expect(regressedFundingScenarios(baseline, before, after, { allowLargerDeficitAtSameAction }))
+        .toEqual(["expected", "fast", "slow"].map((loot) => `at-level/separate/dungeons/true/${loot}`));
+  });
+
   it("compares a deferred pickup by its source phase rather than treating its new bookmark as an earlier blocker", () => {
     const source = { chapterId: "test", version: "test", stepId: "pickup-source" };
     function input(xp: number, deferred: boolean): CampaignPlan {
@@ -100,7 +118,9 @@ describe("funding proposal quality", () => {
         campaignFundingStates(baseline),
         campaignFundingStates(fixture(500, 100)),
       ),
-    ).toEqual(["at-level/separate/dungeons/true"]);
+    ).toEqual(
+      ["expected", "fast", "slow"].map((loot) => `at-level/separate/dungeons/true/${loot}`),
+    );
   });
   it("rejects an earlier unsupported source action even inside the same public chapter", () => {
     const baseline = fixture(500, 100);
@@ -110,7 +130,9 @@ describe("funding proposal quality", () => {
         campaignFundingStates(baseline),
         campaignFundingStates(fixture(300, 500)),
       ),
-    ).toEqual(["at-level/separate/dungeons/true"]);
+    ).toEqual(
+      ["expected", "fast", "slow"].map((loot) => `at-level/separate/dungeons/true/${loot}`),
+    );
   });
   it("rejects a larger deficit at the same source action", () => {
     const baseline = fixture(300, 100);
@@ -120,8 +142,47 @@ describe("funding proposal quality", () => {
         campaignFundingStates(baseline),
         campaignFundingStates(fixture(200, 100)),
       ),
-    ).toEqual(["at-level/separate/dungeons/true"]);
+    ).toEqual(
+      ["expected", "fast", "slow"].map((loot) => `at-level/separate/dungeons/true/${loot}`),
+    );
   });
+
+  it.each(["blocked", "unknown"] as const)(
+    "rejects an unresolved new task at the existing XP checkpoint (%s)",
+    (status) => {
+      const initial = fixture(500, 100);
+      const original = campaignFundingStates(initial)[0]!;
+      const action: CampaignAction = {
+        ...initial.actions.at(-1)!, id: "unresolved-new-objective", kind: "quests",
+        fundingCheckpointId: "departure", questChanges: [{
+          questId: 400003, title: "New collection", state: "objectives-complete", objectiveIndex: 1,
+        }],
+      };
+      const proposed = {
+        ...original,
+        actions: [...original.actions.slice(0, -1), action, original.actions.at(-1)!],
+        forecast: original.forecast.map((section) => ({
+          ...section,
+          members: section.members.map((member) => ({
+            ...member,
+            checkpoints: member.checkpoints.filter((checkpoint) => checkpoint.actionId !== "departure"),
+            blockedAtActionId: action.id,
+            blockedReason: "New collection XP is unresolved.",
+            steps: [...member.steps.filter((step) => step.actionId !== "departure"), {
+              actionId: action.id, questId: 400003, title: "New collection",
+              phase: "objectives-complete" as const, objectiveIndex: 1,
+              before: member.knownEndpoint!, after: null, minimumLevel: null,
+              questXp: 0, combatXp: 0, shortfallXp: 0, status,
+            }],
+          })),
+        })),
+      };
+      for (const allowLargerDeficitAtSameAction of [false, true])
+        expect(regressedFundingScenarios(initial, [original], [proposed], {
+          allowLargerDeficitAtSameAction,
+        })).toEqual(["at-level/separate/dungeons/true/expected"]);
+    },
+  );
   it("accepts a later first blocker or a smaller deficit without inventing XP", () => {
     for (const [before, after] of [
       [fixture(300, 100), fixture(500, 100)],
@@ -154,11 +215,15 @@ describe("funding proposal quality", () => {
         campaignFundingStates(fixture(300, 500)),
         options,
       ),
-    ).toEqual(["at-level/separate/dungeons/true"]);
+    ).toEqual(
+      ["expected", "fast", "slow"].map((loot) => `at-level/separate/dungeons/true/${loot}`),
+    );
     const funded = fixture(500, 1000);
     expect(
       regressedFundingScenarios(funded, campaignFundingStates(funded), previous, options),
-    ).toEqual(["at-level/separate/dungeons/true"]);
+    ).toEqual(
+      ["expected", "fast", "slow"].map((loot) => `at-level/separate/dungeons/true/${loot}`),
+    );
   });
   it("does not trade away one configuration to improve another", () => {
     const baseline = fixture(500, 100);
@@ -171,6 +236,6 @@ describe("funding proposal quality", () => {
         [original, { ...original, difficultyPolicy: "experienced-premade" }],
         [improved, { ...worse, difficultyPolicy: "experienced-premade" }],
       ),
-    ).toEqual(["experienced-premade/separate/dungeons/true"]);
+    ).toEqual(["experienced-premade/separate/dungeons/true/expected"]);
   });
 });

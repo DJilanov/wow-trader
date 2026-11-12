@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { freshQuestGuardSatisfied } from "./campaign-native-guards.js";
+import { freshQuestGuardSatisfied, normalizeQuestPickupGuard } from "./campaign-native-guards.js";
+import type { CampaignAction } from "./campaign.js";
 import { parseGuideChapter, type ImportedDirective } from "./guide-archive.js";
 
 function directive(tag: string, id = "8"): ImportedDirective {
@@ -8,6 +9,40 @@ function directive(tag: string, id = "8"): ImportedDirective {
 }
 
 describe("source quest guard semantics", () => {
+  it.each([".isOnQuest", ".isQuestComplete"])(
+    "normalizes %s only after the captured required parent hand-in",
+    (tag) => {
+      const source = parseGuideChapter(
+        `step\n.turnin 7\n.accept 8\n${tag} 7`,
+        "handoff",
+        "a".repeat(64),
+        70205,
+      ).steps[0]!.directives;
+      const action: CampaignAction = {
+        id: "child",
+        legId: "route",
+        title: "Accept child",
+        instructions: [],
+        positions: [],
+        source: null,
+        kind: "quests",
+        leaderOnly: false,
+        raidOnly: false,
+        targetLevel: null,
+        targetStopId: null,
+        requiredQuestIds: [7],
+        questChanges: [{ questId: 8, title: "Child", state: "accepted", objectiveIndex: null }],
+      };
+      const guard = source.find((row) => row.tag === tag)!;
+      expect(normalizeQuestPickupGuard(guard, action, source).tag).toBe(".isQuestTurnedIn");
+      expect(normalizeQuestPickupGuard(guard, { ...action, requiredQuestIds: [] }, source)).toBe(
+        guard,
+      );
+      expect(normalizeQuestPickupGuard(guard, action, [...source].reverse())).toBe(guard);
+      expect(guard.tag).toBe(tag);
+    },
+  );
+
   it.each([
     [".isOnQuest", [false, true, true]],
     [".isNotOnQuest", [true, false, false]],

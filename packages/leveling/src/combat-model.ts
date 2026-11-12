@@ -1,4 +1,13 @@
 import { z } from "zod";
+import { combatBossReferenceSchema, type CombatBossReference } from "./combat-boss-reference.js";
+import {
+  dungeonKillXpReferenceSchema,
+  type DungeonKillXpReference,
+} from "./combat-dungeon-reference.js";
+import {
+  combatNpcMetadataReferenceSchema,
+  type CombatNpcMetadataReference,
+} from "./combat-npc-metadata.js";
 import type { ClassicLootSharingReference } from "./loot-classic-source.js";
 import { classicLootReferenceSchema, type ClassicLootReference } from "./loot-classic-source.js";
 import {
@@ -148,9 +157,12 @@ export const combatDatasetSchema = z
       })
       .strict(),
     npcs: z.array(combatNpcSchema).max(100000),
+    npcMetadataReferences: z.array(combatNpcMetadataReferenceSchema).max(100000).optional(),
+    bossReferences: z.array(combatBossReferenceSchema).max(10000).optional(),
     quests: z.array(combatQuestSchema).max(30000),
     dungeons: z.array(dungeonCombatProfileSchema).max(100),
     killXpEvidence: z.array(killXpEvidenceSchema).max(10000).default([]),
+    dungeonKillXpReference: dungeonKillXpReferenceSchema.optional(),
     lootDrops: z.array(questLootDropSchema).max(100000).optional(),
     historicalLoot: classicLootReferenceSchema.optional(),
     questCatalogReference: z
@@ -201,6 +213,9 @@ export const combatDatasetSchema = z
         });
     }
     for (const quest of data.quests) {
+      const itemIndices = new Set(
+        quest.itemObjectives?.map((objective) => objective.objectiveIndex),
+      );
       for (const item of quest.itemObjectives ?? []) {
         if (
           item.groundPickup &&
@@ -209,7 +224,14 @@ export const combatDatasetSchema = z
             quest.creatureIds.length ||
             quest.itemCreatureIds.length ||
             quest.onlyCreatureObjectives ||
-            quest.itemObjectives?.length !== 1 ||
+            quest.killQuotas?.length ||
+            quest.killQuotaConflicts?.length ||
+            quest.itemObjectives?.some((objective) => !objective.groundPickup) ||
+            quest.itemObjectives?.some((_objective, index) => !itemIndices.has(index + 1)) ||
+            new Set(quest.itemObjectives?.map((objective) => objective.objectiveIndex)).size !==
+              quest.itemObjectives?.length ||
+            new Set(quest.itemObjectives?.map((objective) => objective.itemId)).size !==
+              quest.itemObjectives?.length ||
             !data.questCatalogReference ||
             item.groundPickup.sourceArchiveSha256 !==
               data.questCatalogReference.sourceArchiveSha256)
@@ -233,6 +255,41 @@ export const combatDatasetSchema = z
         message: "Public combat data requires authorization provenance",
       });
     const npcIds = new Set(data.npcs.map((npc) => npc.id));
+    const metadataIds = new Set<number>();
+    const byNpc = new Map(data.npcs.map((npc) => [npc.id, npc]));
+    for (const reference of data.npcMetadataReferences ?? []) {
+      const npc = byNpc.get(reference.npcId);
+      if (
+        metadataIds.has(reference.npcId) ||
+        !npc ||
+        npc.name.normalize("NFKC").trim().toLowerCase() !==
+          reference.name.normalize("NFKC").trim().toLowerCase() ||
+        npc.minimumLevel !== reference.minimumLevel ||
+        npc.maximumLevel !== reference.maximumLevel ||
+        npc.rank !== reference.rank
+      )
+        context.addIssue({
+          code: "custom",
+          message: "Creature metadata provenance differs from its unique NPC reference.",
+        });
+      metadataIds.add(reference.npcId);
+    }
+    const bossIds = new Set<number>();
+    for (const reference of data.bossReferences ?? []) {
+      const npc = byNpc.get(reference.npcId);
+      if (
+        bossIds.has(reference.npcId) ||
+        !npc ||
+        npc.name.normalize("NFKC").trim().toLowerCase() !==
+          reference.name.normalize("NFKC").trim().toLowerCase() ||
+        reference.targetBuild !== data.targetBuild
+      )
+        context.addIssue({
+          code: "custom",
+          message: "Boss identity or build differs from its unique creature reference.",
+        });
+      bossIds.add(reference.npcId);
+    }
     const dropIds = (data.lootDrops ?? []).map((drop) => `${drop.itemId}:${drop.npcId}`);
     if (
       new Set(dropIds).size !== dropIds.length ||
@@ -299,6 +356,15 @@ export interface CombatObjective {
   readonly source: string;
   readonly reason: string | null;
   readonly quotaConflict?: true;
+  /** Required encounters establish difficulty, independently of deaths or kill XP. */
+  readonly combatAccess?: {
+    readonly npcIds: readonly number[];
+    readonly itemId: number;
+    readonly quantity: number;
+  } | {
+    readonly kind: "encounter";
+    readonly npcIds: readonly number[];
+  };
   readonly loot?: {
     readonly itemId: number;
     readonly quantity: number | null;
@@ -323,9 +389,12 @@ export interface CampaignCombatPlan {
   readonly sourceRevision: string;
   readonly targetBuild: number;
   readonly npcs: readonly CombatNpc[];
+  readonly npcMetadataReferences?: readonly CombatNpcMetadataReference[];
+  readonly bossReferences?: readonly CombatBossReference[];
   readonly activities: readonly CombatActivity[];
   readonly notice: string | null;
   readonly killXpEvidence?: readonly KillXpEvidence[];
+  readonly dungeonKillXpReference?: DungeonKillXpReference;
   readonly lootDrops?: readonly QuestLootDrop[];
   readonly historicalLoot?: ClassicLootReference;
 }
@@ -333,6 +402,7 @@ export interface CampaignCombatPlan {
 export interface CampaignMaterialWork {
   readonly id: string;
   readonly actionId: string;
+  readonly environment?: "outdoor" | "dungeon";
   readonly targets: readonly {
     readonly confirmationKey: string;
     readonly sourceOrdinal: number;

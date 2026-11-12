@@ -34,12 +34,15 @@ const outdoorAreas: Readonly<Record<string, string>> = {
   "stockade-letter-unlock": "Stormwind",
   "redridge-kill-batch": "Redridge Mountains",
   "duskwood-watch": "Duskwood",
+  "stockade-fury-preparation": "Optional Dun Modr preparation",
+  "stockade-world-returns": "Duskwood",
   "wetlands-prerequisites": "Wetlands",
   "wetlands-early-kills": "Wetlands",
   "excavation-approach": "Wetlands",
   "ashenvale-crossing": "Ironforge & Kalimdor pickups",
-  "dalaran-approach": "Stormwind → Hillsbrad Foothills",
-  "hillsbrad-gnomer": "Hillsbrad & Arathi Highlands",
+  "dalaran-approach": "Stormwind → Wetlands → Hillsbrad Foothills",
+  "hillsbrad-gnomer": "Ironforge & Kharanos",
+  "hillsbrad-party-kills": "Hillsbrad & Arathi Highlands",
   "desolace-scarlet-unlock": "Desolace",
   "lonebrow-rfk-preparation": "Great Lift → Thalanaar",
   "stv-group-batch": "Stranglethorn Vale",
@@ -105,6 +108,18 @@ export function campaignSections(
 ): readonly CampaignSection[] {
   const sections: CampaignSection[] = [];
   const active = progress ? activeCampaignActions(plan, progress) : plan.actions;
+  const activeQuestIds = new Set(
+    active.flatMap((action) => [
+      ...action.questChanges.map((change) => change.questId),
+      ...(action.itemCollections?.map((item) => item.questId) ?? []),
+    ]),
+  );
+  const inactiveAlternatives = new Set(
+    plan.actions
+      .filter((action) => action.excludedByOptionalQuestId !== undefined)
+      .flatMap((action) => action.questChanges.map((change) => change.questId))
+      .filter((questId) => !activeQuestIds.has(questId)),
+  );
   const includedLegs = campaignIncludedLegs(plan, progress);
   let pending: CampaignLeg[] = [];
   function section(
@@ -134,8 +149,12 @@ export function campaignSections(
       actionIds: legs.flatMap((leg) =>
         active.filter((action) => action.legId === leg.id).map((action) => action.id),
       ),
-      questIds: [...new Set(legs.flatMap((leg) => leg.questIds))],
-      unresolvedQuestIds: [...new Set(legs.flatMap((leg) => leg.unresolvedQuestIds))],
+      questIds: [...new Set(legs.flatMap((leg) => leg.questIds))].filter(
+        (questId) => !inactiveAlternatives.has(questId),
+      ),
+      unresolvedQuestIds: [...new Set(legs.flatMap((leg) => leg.unresolvedQuestIds))].filter(
+        (questId) => !inactiveAlternatives.has(questId),
+      ),
     });
   }
   for (let index = 0; index < includedLegs.length; index++) {

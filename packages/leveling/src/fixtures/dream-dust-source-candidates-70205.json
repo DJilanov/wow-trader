@@ -1,0 +1,1076 @@
+{
+  "provenance": {
+    "description": "Captured Dream Dust quota, sharing and NPC/drop references, plus the exact archived pickup/whelp/return instructions. Source excerpts preserve their original chapter/version/step identities; these are planning references, not observed server payouts.",
+    "combatSha256": "44c6c07550fc3f17e18a276f3f24afc52bbbd8bf5925982523f4a2132dc70521",
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+  },
+  "actions": [
+    {
+      "id": "library-quest-1116-accepted-0",
+      "legId": "unassigned",
+      "title": "Accept Dream Dust in the Swamp",
+      "instructions": [
+        "Accept Dream Dust in the Swamp",
+        "Talk to Kebok and Krazek up stairs on the top floor",
+        "Target: Krazek"
+      ],
+      "questChanges": [
+        {
+          "questId": 1116,
+          "state": "accepted",
+          "title": "Dream Dust in the Swamp",
+          "objectiveIndex": null
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 790,
+          "position": {
+            "zone": "Stranglethorn Vale",
+            "floor": null,
+            "x": 27,
+            "y": 77.124,
+            "space": "map-percent"
+          }
+        },
+        {
+          "sourceLine": 793,
+          "position": {
+            "zone": "1434",
+            "floor": 0,
+            "x": 501.53,
+            "y": -14453.26,
+            "space": "world"
+          }
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-19-36-38-stranglethorn-vale-ii",
+        "version": "import-v2-3de1f5f378ab9608",
+        "stepId": "source-step-0101",
+        "conditions": {
+          "checks": [
+            {
+              "tag": ".isQuestTurnedIn",
+              "arguments": "1114",
+              "condition": "",
+              "text": "",
+              "sourceLine": 786,
+              "questId": null,
+              "position": null
+            }
+          ],
+          "phases": [
+            {
+              "tag": ".turnin",
+              "arguments": "189",
+              "condition": "",
+              "text": "Turn in Bloodscalp Ears",
+              "sourceLine": 788,
+              "questId": 189,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1116",
+              "condition": "",
+              "text": "Accept Dream Dust in the Swamp",
+              "sourceLine": 791,
+              "questId": 1116,
+              "position": null
+            }
+          ],
+          "optional": false
+        }
+      },
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "referenceLevel": 37,
+      "requiredQuestIds": [
+        1115
+      ]
+    },
+    {
+      "id": "collection-source-20-source-step-0032-1116",
+      "legId": "unassigned",
+      "title": "Complete objective 1 of Dream Dust in the Swamp",
+      "instructions": [
+        "Kill all the Adolescent Whelps and Dreaming Whelps respawns. Loot them for their Specks of Dream Dust"
+      ],
+      "questChanges": [
+        {
+          "questId": 1116,
+          "state": "objectives-complete",
+          "title": "Dream Dust in the Swamp",
+          "objectiveIndex": 1
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 231,
+          "position": {
+            "zone": "1435",
+            "floor": 0,
+            "x": -2603.68,
+            "y": -10474.11,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 232,
+          "position": {
+            "zone": "1435",
+            "floor": 0,
+            "x": -2507.34,
+            "y": -10608.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 233,
+          "position": {
+            "zone": "1435",
+            "floor": 0,
+            "x": -2603.68,
+            "y": -10596.44,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 234,
+          "position": {
+            "zone": "1435",
+            "floor": 0,
+            "x": -2548.63,
+            "y": -10519.98,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 235,
+          "position": {
+            "zone": "1435",
+            "floor": 0,
+            "x": -3640.45,
+            "y": -10455.76,
+            "space": "world"
+          }
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-20-38-39-swamp-of-sorrows",
+        "version": "import-v2-19e404b838188707",
+        "stepId": "source-step-0032",
+        "conditions": {
+          "checks": [
+            {
+              "tag": ".isQuestTurnedIn",
+              "arguments": "1115",
+              "condition": "",
+              "text": "",
+              "sourceLine": 238,
+              "questId": null,
+              "position": null
+            }
+          ],
+          "phases": [
+            {
+              "tag": ".complete",
+              "arguments": "1116,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 237,
+              "questId": 1116,
+              "position": null
+            }
+          ],
+          "optional": false
+        }
+      },
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "referenceLevel": 38
+    },
+    {
+      "id": "library-quest-1116-rewarded-0",
+      "legId": "unassigned",
+      "title": "Turn in Dream Dust in the Swamp",
+      "instructions": [
+        "Turn in Dream Dust in the Swamp",
+        "Talk to Krazek up stairs",
+        "Target: Krazek"
+      ],
+      "questChanges": [
+        {
+          "questId": 1116,
+          "state": "rewarded",
+          "title": "Dream Dust in the Swamp",
+          "objectiveIndex": null
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 185,
+          "position": {
+            "zone": "1434",
+            "floor": 0,
+            "x": 501.53,
+            "y": -14453.26,
+            "space": "world"
+          }
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+        "version": "import-v2-0671e2017ce66f25",
+        "stepId": "source-step-0025",
+        "conditions": {
+          "checks": [
+            {
+              "tag": ".isQuestComplete",
+              "arguments": "1116",
+              "condition": "",
+              "text": "",
+              "sourceLine": 183,
+              "questId": null,
+              "position": null
+            }
+          ],
+          "phases": [
+            {
+              "tag": ".turnin",
+              "arguments": "1116",
+              "condition": "",
+              "text": "Turn in Dream Dust in the Swamp",
+              "sourceLine": 186,
+              "questId": 1116,
+              "position": null
+            }
+          ],
+          "optional": false
+        }
+      },
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "referenceLevel": 41
+    }
+  ],
+  "sources": [
+    {
+      "chapterId": "chapter-19-36-38-stranglethorn-vale-ii",
+      "sha256": "10c0fefc44da5cad877a17c8e69eea1667d5168c9aa86798d696ba892ec5e32e",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-19-36-38-stranglethorn-vale-ii",
+        "version": "import-v2-3de1f5f378ab9608",
+        "targetBuild": 70205,
+        "sourceSha256": "3de1f5f378ab96081b82948079a80fc778160e8516b6b4ad45f95f8c39382b0e",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0101",
+            "ordinal": 101,
+            "sourceLine": 785,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "1114",
+                "condition": "",
+                "text": "",
+                "sourceLine": 786,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Kebok and Krazek up stairs on the top floor",
+                "sourceLine": 787,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "189",
+                "condition": "",
+                "text": "Turn in Bloodscalp Ears",
+                "sourceLine": 788,
+                "questId": 189,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "+Kebok",
+                "condition": "",
+                "text": "",
+                "sourceLine": 789,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "Stranglethorn Vale,27.000,77.124",
+                "condition": "",
+                "text": "",
+                "sourceLine": 790,
+                "questId": null,
+                "position": {
+                  "zone": "Stranglethorn Vale",
+                  "floor": null,
+                  "x": 27,
+                  "y": 77.124,
+                  "space": "map-percent"
+                }
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1116",
+                "condition": "",
+                "text": "Accept Dream Dust in the Swamp",
+                "sourceLine": 791,
+                "questId": 1116,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "+Krazek",
+                "condition": "",
+                "text": "",
+                "sourceLine": 792,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,501.53,-14453.26",
+                "condition": "",
+                "text": "",
+                "sourceLine": 793,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": 501.53,
+                  "y": -14453.26,
+                  "space": "world"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chapterId": "chapter-20-38-39-swamp-of-sorrows",
+      "sha256": "5ea1d5ff847d42ea2cd45c9d1fbdd5edcec51960ff1d111b528ccac89d836bfd",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-20-38-39-swamp-of-sorrows",
+        "version": "import-v2-19e404b838188707",
+        "targetBuild": 70205,
+        "sourceSha256": "19e404b838188707118b63d9ae9a8f9d2ea8cc1cfa8cd9bb70f9ead2ffc44e12",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0032",
+            "ordinal": 32,
+            "sourceLine": 229,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#label",
+                "arguments": "Dreamdust2",
+                "condition": "",
+                "text": "",
+                "sourceLine": 230,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-2603.68,-10474.11,70,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 231,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -2603.68,
+                  "y": -10474.11,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-2507.34,-10608.67,70,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 232,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -2507.34,
+                  "y": -10608.67,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-2603.68,-10596.44,70,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 233,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -2603.68,
+                  "y": -10596.44,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-2548.63,-10519.98",
+                "condition": "",
+                "text": "",
+                "sourceLine": 234,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -2548.63,
+                  "y": -10519.98,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-3640.45,-10455.76,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 235,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -3640.45,
+                  "y": -10455.76,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill all the Adolescent Whelps and Dreaming Whelps respawns. Loot them for their Specks of Dream Dust",
+                "sourceLine": 236,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1116,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 237,
+                "questId": 1116,
+                "position": null
+              },
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "1115",
+                "condition": "",
+                "text": "",
+                "sourceLine": 238,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Adolescent Whelp",
+                "condition": "",
+                "text": "",
+                "sourceLine": 239,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Dreaming Whelp",
+                "condition": "",
+                "text": "",
+                "sourceLine": 240,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Green Wyrmkin",
+                "condition": "",
+                "text": "",
+                "sourceLine": 241,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Green Scalebane",
+                "condition": "",
+                "text": "",
+                "sourceLine": 242,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Scalebane Captain",
+                "condition": "",
+                "text": "",
+                "sourceLine": 243,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+      "sha256": "42d2f084b3b02e458f539b26c7b3ad691e6fd5a5247680ea39ac5f6f2cca5809",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+        "version": "import-v2-0671e2017ce66f25",
+        "targetBuild": 70205,
+        "sourceSha256": "0671e2017ce66f2565d27e0109df02d30794b2716589feb110663bf14ec76be1",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0025",
+            "ordinal": 25,
+            "sourceLine": 182,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".isQuestComplete",
+                "arguments": "1116",
+                "condition": "",
+                "text": "",
+                "sourceLine": 183,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Krazek up stairs",
+                "sourceLine": 184,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,501.53,-14453.26",
+                "condition": "",
+                "text": "",
+                "sourceLine": 185,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": 501.53,
+                  "y": -14453.26,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1116",
+                "condition": "",
+                "text": "Turn in Dream Dust in the Swamp",
+                "sourceLine": 186,
+                "questId": 1116,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Krazek",
+                "condition": "",
+                "text": "",
+                "sourceLine": 187,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 740,
+        "name": "Adolescent Whelp",
+        "minimumLevel": 34,
+        "maximumLevel": 35,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 741,
+        "name": "Dreaming Whelp",
+        "minimumLevel": 35,
+        "maximumLevel": 36,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 742,
+        "name": "Green Wyrmkin",
+        "minimumLevel": 41,
+        "maximumLevel": 42,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 743,
+        "name": "Wyrmkin Dreamwalker",
+        "minimumLevel": 42,
+        "maximumLevel": 43,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 744,
+        "name": "Green Scalebane",
+        "minimumLevel": 42,
+        "maximumLevel": 43,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 745,
+        "name": "Scalebane Captain",
+        "minimumLevel": 43,
+        "maximumLevel": 44,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 746,
+        "name": "Elder Dragonkin",
+        "minimumLevel": 45,
+        "maximumLevel": 45,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 14445,
+        "name": "Lord Captain Wyrmak",
+        "minimumLevel": 45,
+        "maximumLevel": 45,
+        "rank": 2,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 1116,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          740,
+          741,
+          742,
+          743,
+          744,
+          745,
+          746,
+          14445
+        ],
+        "objectiveText": [
+          "Bring 10 Specks of Dream Dust to Krazek in Booty Bay. Dream Dust is gathered from the dragon whelps of the Swamp of Sorrows."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1115
+          ]
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 5803,
+            "itemName": "Speck of Dream Dust",
+            "quantity": 10,
+            "npcIds": [
+              740,
+              741,
+              742,
+              743,
+              744,
+              745,
+              746,
+              14445
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 5803,
+              "itemFlags": 0
+            }
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "lootDrops": [
+      {
+        "itemId": 5803,
+        "npcId": 740,
+        "probability": 0.5298373890856468,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 740,
+          "lootEntry": 740,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 740,
+          "lootEntry": 740,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 26259,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5803/speck-of-dream-dust",
+        "capturedAt": "2026-10-20T11:00:29.778Z",
+        "sourceSha256": "6f7120dd067681f30ee592d53cc014633d2fb1e1399997d25c9fd111902e9617"
+      },
+      {
+        "itemId": 5803,
+        "npcId": 741,
+        "probability": 0.5125541125541125,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 741,
+          "lootEntry": 741,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 741,
+          "lootEntry": 741,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 27720,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5803/speck-of-dream-dust",
+        "capturedAt": "2026-10-20T11:00:29.778Z",
+        "sourceSha256": "6f7120dd067681f30ee592d53cc014633d2fb1e1399997d25c9fd111902e9617"
+      },
+      {
+        "itemId": 5803,
+        "npcId": 742,
+        "probability": 0.6225665474771553,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 742,
+          "lootEntry": 742,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 742,
+          "lootEntry": 742,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 2517,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5803/speck-of-dream-dust",
+        "capturedAt": "2026-10-20T11:00:29.778Z",
+        "sourceSha256": "6f7120dd067681f30ee592d53cc014633d2fb1e1399997d25c9fd111902e9617"
+      },
+      {
+        "itemId": 5803,
+        "npcId": 744,
+        "probability": 0.6370679380214541,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 744,
+          "lootEntry": 744,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 744,
+          "lootEntry": 744,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 3356,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5803/speck-of-dream-dust",
+        "capturedAt": "2026-10-20T11:00:29.778Z",
+        "sourceSha256": "6f7120dd067681f30ee592d53cc014633d2fb1e1399997d25c9fd111902e9617"
+      },
+      {
+        "itemId": 5803,
+        "npcId": 745,
+        "probability": 0.590358841331604,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 745,
+          "lootEntry": 745,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 745,
+          "lootEntry": 745,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 4626,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5803/speck-of-dream-dust",
+        "capturedAt": "2026-10-20T11:00:29.778Z",
+        "sourceSha256": "6f7120dd067681f30ee592d53cc014633d2fb1e1399997d25c9fd111902e9617"
+      },
+      {
+        "itemId": 5803,
+        "npcId": 746,
+        "probability": 0.5434083601286174,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 746,
+          "lootEntry": 746,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5803,
+          "npcId": 746,
+          "lootEntry": 746,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 1244,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5803/speck-of-dream-dust",
+        "capturedAt": "2026-10-20T11:00:29.778Z",
+        "sourceSha256": "6f7120dd067681f30ee592d53cc014633d2fb1e1399997d25c9fd111902e9617"
+      }
+    ]
+  }
+}

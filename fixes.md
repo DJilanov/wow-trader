@@ -1,5 +1,182 @@
 # WoW Trader fixes and recovery context
 
+## November 6 — unavailable DE tooltip on Rough Bronze Leggings
+
+- Cause: Collector eligibility pack was 70755, live client 70790. Item 2865 is
+  eligible green armor at item level 21; all its expected material quotes exist.
+  Captured/validated current native rules and regenerated the exact-build pack.
+- Actual-market Lua replay reproduces the old build failure and gives 728c gross /
+  691c after the faction AH fee with the new pack. Values are Classic reference
+  yield estimates. Missing/secret/special-loot and uncertain weapon rules remain
+  protected; no fake material prices or cross-build fallback was added.
+- Independently fixed hidden tooltip reasons: provenance and the failure reason
+  now both render. Added reported-item and missing-price UI regression controls.
+  Installed checksum-verified Collector 0.15.1 / native arm64 Companion 0.3.10,
+  preserving generated market/account files, WTF, settings and encrypted token.
+  Companion resumed with current/no error; /reload loads the new game tooltip.
+- Passed 120 pricing parity cases, 51 valuation/adapter controls, UI checks,
+  all 6,476 supported reference valuations, five data-generator tests and 11
+  desktop tests, plus build/typecheck/lint/format/hash/Lua syntax/signature checks.
+  Actual in-game hover awaits user reload. No commit/push/public installer or
+  production change. Receipt/replay/ZIP: artifacts/trader-disenchant-70790-20261106/;
+  details: docs/addon-item-values-and-crafting.md.
+
+## November 6 — build 70790 crafting gate repaired and automation restored
+
+- Successful AH scans still needed the exact catalog: production was on 70532.
+  The old guardian was absent locally; launch moved to wowf/_forever_. The shared
+  installer/guardian resolver and native table/icon extractors now recognize
+  launch while retaining the existing catalog product key. Directory/build
+  ambiguity fails closed; catalog lookup skips unrelated simulation artifacts.
+- Frozen source capture and exact a936b2d4… definitions produced the current
+  hotfix 5ee4d001…. Found/fixed ignored modern output quantities (Bronze now two
+  bars). All 2,227 supported recipes were independently checked against raw
+  reagents/yields. Two fractional-output recipes are explicitly withheld rather
+  than assigned invented quantities. Daily/shared cooldown exclusions remain.
+- Published catalog ID 4bb8b8f0-11a3-48eb-b38f-90f9a4bcd8c8, 22,667 items,
+  32,109 spells, 12 professions and 2,227 recipes. Verified 106 artifacts and
+  3,107 PNG icons/one unavailable asset; used reviewed exact-manifest approval,
+  production backup/revalidation and web-only reload. Actual desktop/mobile
+  browsers render 50 craft results, images load, review notice absent, zero page
+  errors. No rescan/upload required.
+- Restored the self-contained immutable five-minute guardian and launch-client
+  watch paths. Rerun reports current without another import. Passed 25 native,
+  27 Node and 15 catalog checks plus typecheck/lint/build/format. No source
+  commit/push or unrelated deployment. Prior stat/effect/teaching-item gaps and
+  encrypted/nameless source records are not claimed fixed. Full receipt/rollback:
+  docs/catalog-70790-launch-recovery.md; artifacts/catalog-70790-20261106/.
+
+## November 6, 2026 — Companion history HTTP 429 after successful AH upload
+
+- Confirmed successful Forever build 70790 scan upload (1,996 markets); the error
+  was the subsequent history download. Edge logs showed history pages exhausting
+  the shared 10/minute upload bucket, followed by an ineffective one-second retry.
+- Split only the exact history-read endpoint into a controlled 30/minute bucket.
+  Upload allowance, authentication and API limits remain. Edge rejections return
+  JSON, Retry-After 6 and no-store; upstream errors remain unchanged.
+- Companion 0.3.9 retains its pinned cursor across up to five retries, honours
+  seconds/date retry headers with abortable bounded backoff, preserves complete
+  history and acknowledged uploads, and explicitly distinguishes retained uploads
+  from a failed download. Remaining file evidence sync still runs on failure.
+- Isolated real Nginx reproduced the old failure and passed independent read/write
+  limits, recovery, query and upstream-auth preservation. Applied Helper-only
+  production config with exact checksums/backup, nginx -t and graceful reload.
+  Installed verified macOS arm64 app without changing settings, encrypted token,
+  WoW SavedVariables or addon modules. Actual installed UI: up_to_date/no error,
+  zero pending scans, 1,996 processed markets; generated matching history has all
+  1,996 items. /reload in WoW loads that file.
+- Passed 42 core/11 desktop/13 config-migration tests, package typechecks,
+  scoped lint/format, builds and bundle checks. No commit/push or public installer
+  release. Details: docs/companion-market-history-rate-limit.md; private evidence:
+  artifacts/companion-rate-limit-20261106/.
+
+## November 4 — separate KFC Marks addon and input safety controls
+
+KFC Marks 0.1.0 is installed under the Forever AddOns directory, with a six-file
+shareable ZIP and manifest under `artifacts/kfc-marks-20261104/`. It is independent
+of Trader and supports parties/raids, native free icons, dead-hostile reuse,
+reservations, one cooperative coordinator, a settings UI and keybindings.
+Forever applications are player-triggered before combat; combat events only
+observe. Unattended combat marking is not implemented through restricted APIs.
+
+Controls caught the modern `ActionButtonUseKeyDown=1` / key-up mismatch; both
+buttons now set `useOnKeyDown=false`. The binding target is independent of the
+settings window. Native secure pre/post-click disarming and the combat-state
+driver eliminate stale prepared actions, including when combat state becomes
+unreadable. Unknown/full availability stops; native `set-unmarked` preserves
+existing marks. Broken coordination falls back to actual-leader-only marking,
+and a reported action block latches off pending an explicit out-of-combat retry.
+
+Passed 30 policy/core controls plus normal/in-combat UI loads, actual captured
+Blizzard dispatcher/action cases, Lua 5.1 syntax, XML/bindings and scoped Node
+lint/format checks. Live launch-client permission/taint validation remains
+pending. Run `/kfcmarks probe` outside combat when the game opens; retain its
+build and state output if blocked. See `docs/kfc-marks-addon.md` and the addon
+README for the full checklist. Do not add an occupied-icon fallback.
+
+## November 4 — Discord scheduled events show actual signup totals
+
+The native Interested badge tracks reminder subscribers, independently of the
+raid manager. All 11 approved KFC/Forever projections now have an automatically
+refreshed **Live signup & roster** description section showing signed-up,
+selected, awaiting-selection, pending-approval and bench counts plus a signup
+link. Organizer text is preserved exactly. Metadata is rechecked before writes
+and retries; manual section edits/overflow are held. Unchanged summaries do not
+produce repeated writes. Native Interested and subscriber lists remain intact.
+
+The calendar worker runs the scoped `calendar-signups-20261104-r1` source release.
+Its PM2 configuration is saved. Broken environment and dependency symlinks on the
+previous active web/calendar release were repaired to durable stable paths;
+website/signup workers kept their PIDs. Verified all 11 against independent
+read-only DB and Discord snapshots, with 73 local/57 Linux tests and scoped
+TypeScript/lint passing. No Git commit/push or migration was requested.
+See sibling `discord-website/docs/discord-event-signup-sync-release-2026-11-04.md`
+for evidence paths and a rollback that preserves live signup/state records.
+
+## November 4 — shared item/crafting valuation and safe local delivery
+
+Collector 0.15.0 now uses one Lua valuation layer for item hovers and the profession
+panel. It distinguishes consumed material cost from the cash needed to buy whole
+AH stacks, values owned reagents, subtracts the proper AH fee, handles output
+counts, and rejects partial material valuations. Historical mode cannot silently
+fall back to current asks. Delisted items may retain an unexpired normal reference
+but never a fabricated current listing. Direct item quotes avoid full buying-plan
+searches, preserving scan/watch policies and exact market/build scope.
+
+Regression controls caught and fixed a legacy craft-API fallback that could assign
+an item output to a direct enchant. Modern output allocations are sanitized before
+calling Blizzard; secret IDs/tables/cooldowns cannot enter protected calls or
+arithmetic. Unknown/variable outputs, unresolved currency/alternative inputs,
+daily cooldowns and missing prices cannot enter current repeatable rankings.
+
+Forever eligibility is from an actual hotfixed launch build 70755 snapshot. It is
+not a server loot-probability table. DE values explicitly use reference yields;
+known-inconsistent level 21–30 green weapon brackets are withheld. Captured flags
+exclude 1,638 gear records; 4,041 supported reference valuations are tested. Another
+98 eligible items have special loot-table flags and cannot use ordinary estimates. New
+builds require a new DE eligibility pack without blocking AH/vendor displays.
+
+Local addon/app are installed with generated market/account files preserved and
+Companion settings and its token entry preserved. Companion is 0.3.8 arm64; Collector is 0.15.0 with
+14 verified shipped files. Backups, exact install receipts, offline test logs and
+the clean addon ZIP are private under `artifacts/trader-valuations-20261104/`.
+The public source-only client archive is in `data/trader/`. Regenerate data and
+checksums with the commands in `docs/addon-item-values-and-crafting.md`.
+
+Offline checks passed: 120 JS/Lua comparisons, 51 valuation/adapter controls, UI
+and complete dataset controls, 50 JavaScript tests, strict TypeScript, scoped
+lint/format, .NET/extraction and Electron build. Actual in-game smoke verification
+is pending server opening: owner confirmed no game access for about 12 hours.
+No commit/push/public deployment was performed; preserve unrelated leveling WIP.
+
+## November 3 — newcomer verification and role-select access drift
+
+Known human permission resets at 08:48 Sofia removed the maintained overrides on
+KFC verification and role-select. @everyone lacks base View Channel, so clearing
+verification's explicit allow made its MEE6 button unreachable. Applied the
+existing guarded repair to these two channels at 06:54:47 UTC; private guild/staff
+access and existing roles remain intact. The reset origin is confirmed by audit
+records, not inferred from an online worker or an old deployment receipt.
+
+Forever also had nine class choices that assigned the right role but no class
+channel. A guarded ID-pinned operator added each matching existing chat at
+07:19:26 UTC, preserving all roles/defaults/question settings and BOT traps.
+Discord readback passed; replay reported no changes. Six tests cover routing,
+preservation, role impersonation and inaccessible destinations.
+
+Also fixed an audit false positive in sibling Discord source: valid voice/forum
+default destinations were rejected by a text-only check. Added voice connection
+validation and regression coverage without changing the five writable text quota.
+All 18 corrected live readiness checks and 51 focused tests passed; scoped strict
+TypeScript and lint passed. Checker/class-operator changes are uncommitted and were exercised via
+a private isolated operator profile, not a patch to the deployed website tree.
+
+Both guilds' onboarding references, interest-role safety, default access and forum
+posting policies were checked. MEE6's original message/hierarchy/permissions are
+present; its human challenge/dashboard remain unverified. Full report and evidence
+paths: `discord-website/docs/newcomer-channel-sync-audit-2026-11-03.md` and private
+`.data/newcomer-sync-audit-20261103/`. Do not bulk-reset custom entry overrides.
+
 ## November 2 — GitHub and production reconciled
 
 Committed/pushed/deployed KFC `48588cb` and Discord `f068667`; their canonical

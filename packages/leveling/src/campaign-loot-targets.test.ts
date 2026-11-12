@@ -144,7 +144,7 @@ function fixture(): { plan: CampaignPlan; source: CampaignSource } {
   return { plan, source: { reference, guide } };
 }
 describe("reviewed source creature targets", () => {
-  it("selects a single source-authorized creature jointly and keeps native hints and source candidates", () => {
+  it("prefers the lower-level source jointly despite a higher-level source's better drop rate", () => {
     const { plan: original, source } = fixture();
     const combat = original.combat!;
     const plan: CampaignPlan = {
@@ -177,11 +177,11 @@ describe("reviewed source creature targets", () => {
     const before = JSON.stringify(plan);
     const selected = attachCampaignReferenceFarmTargets(plan);
     expect(selected.actions[0]!.referenceCreatureTargets).toEqual([
-      { npcId: 40, name: "Kobold Miner" },
+      { npcId: 475, name: "Kobold Tunneler" },
     ]);
-    expect(selected.actions[0]!.instructions.at(-1)).toContain("focus on Kobold Miner");
+    expect(selected.actions[0]!.instructions.at(-1)).toContain("focus on Kobold Tunneler");
     const objectives = selected.combat!.activities[0]!.objectives;
-    expect(objectives.map((objective) => objective.npcIds)).toEqual([[40], [40]]);
+    expect(objectives.map((objective) => objective.npcIds)).toEqual([[475], [475]]);
     expect(objectives[0]!.loot!.sourceNpcIds).toEqual([40, 475]);
     expect(resolveJointCombatQuota(objectives, selected.combat!, 5, "expected").status).toBe(
       "estimated",
@@ -191,7 +191,7 @@ describe("reviewed source creature targets", () => {
       native?.directives
         .filter((directive) => directive.tag === ".mob")
         .map((directive) => directive.arguments),
-    ).toEqual(["Kobold Miner"]);
+    ).toEqual(["Kobold Tunneler"]);
     expect(native?.directives.filter((directive) => directive.tag === ".complete")).toHaveLength(2);
     expect(JSON.stringify(plan)).toBe(before);
     expect(attachCampaignReferenceFarmTargets(selected)).toBe(selected);

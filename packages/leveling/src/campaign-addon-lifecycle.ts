@@ -1,4 +1,6 @@
-import type { CampaignAction } from "./campaign.js";
+import type { CampaignAction, CampaignPlan } from "./campaign.js";
+import type { GroundPickupReference } from "./quest-ground-pickup.js";
+import { reviewedInstantHandIn } from "./campaign-narrative-events.js";
 
 export interface CampaignAddonQuestGuard {
   readonly tag: ".isQuestAvailable" | ".isOnQuest";
@@ -12,6 +14,16 @@ export interface CampaignAddonQuestActions {
 
 type QuestState = "accepted" | "objectives-complete" | "rewarded";
 
+function fundedGroundPickups(action: CampaignAction): readonly GroundPickupReference[] {
+  if (action.fundingGroundPickup && action.fundingGroundPickups)
+    throw new Error(`Quest action ${action.id} has conflicting ground-object proofs.`);
+  const grounds =
+    action.fundingGroundPickups ?? (action.fundingGroundPickup ? [action.fundingGroundPickup] : []);
+  if (new Set(grounds.map((ground) => ground.objectiveIndex)).size !== grounds.length)
+    throw new Error(`Quest action ${action.id} repeats a ground-object objective.`);
+  return grounds;
+}
+
 /** Only generated, complete quest opportunities may have independent optional lifecycles. */
 function opportunityKeys(actions: readonly CampaignAction[]): ReadonlyMap<string, string> {
   const quests = new Map<number, CampaignAction[]>();
@@ -23,18 +35,20 @@ function opportunityKeys(actions: readonly CampaignAction[]): ReadonlyMap<string
     }
   const keys = new Map<string, string>();
   for (const [questId, entries] of quests) {
-    const ground = entries[0]?.fundingGroundPickup;
+    const grounds = fundedGroundPickups(entries[0]!);
+    const objectiveIndices = new Set(grounds.map((ground) => ground.objectiveIndex));
     const sameGroundPickup =
-      ground?.questId === questId &&
+      grounds.length > 0 &&
+      grounds.every((ground) => ground.questId === questId) &&
       entries.every(
         (action) =>
           action.libraryObjective === "interaction" &&
           !action.itemCollections?.length &&
-          JSON.stringify(action.fundingGroundPickup) === JSON.stringify(ground) &&
+          JSON.stringify(fundedGroundPickups(action)) === JSON.stringify(grounds) &&
           action.questChanges.every(
             (change) =>
               change.state !== "objectives-complete" ||
-              change.objectiveIndex === ground.objectiveIndex,
+              objectiveIndices.has(change.objectiveIndex ?? 1),
           ),
       );
     if (
@@ -136,19 +150,44 @@ function validateLifecycle(
   actions: readonly CampaignAction[],
   role: "leader" | "party",
   opportunities: ReadonlyMap<string, string>,
+  context?: Pick<CampaignPlan, "targetBuild" | "sourceArchiveSha256">,
 ): void {
   const states = new Map<string, QuestState>();
-  const groundKeys = new Set<string>();
-  const completedGroundKeys = new Set<string>();
+  const groundObjectives = new Map<string, Set<number>>();
+  const completedGroundObjectives = new Map<string, Set<number>>();
   for (const action of actions)
     for (const change of action.questChanges) {
       const key = opportunities.get(action.id) ?? String(change.questId);
-      if (opportunities.has(action.id) && action.fundingGroundPickup) {
-        groundKeys.add(key);
-        if (change.state === "objectives-complete") completedGroundKeys.add(key);
+      const grounds = fundedGroundPickups(action);
+      const required = groundObjectives.get(key) ?? new Set<number>();
+      if (grounds.length) {
+        for (const ground of grounds) {
+          if (ground.questId !== change.questId)
+            throw new Error(`Quest action ${action.id} has another quest's ground-object proof.`);
+          required.add(ground.objectiveIndex);
+        }
+        groundObjectives.set(key, required);
+      }
+      if (required.size) {
+        const completed = completedGroundObjectives.get(key) ?? new Set<number>();
+        if (change.state === "objectives-complete") {
+          if (!required.has(change.objectiveIndex ?? 1))
+            throw new Error(`Quest action ${action.id} completes an unproven object objective.`);
+          completed.add(change.objectiveIndex ?? 1);
+        }
+        completedGroundObjectives.set(key, completed);
+        if (change.state === "rewarded" && [...required].some((index) => !completed.has(index)))
+          throw new Error(
+            `${role} guide leaves ground quest ${change.questId} without its object objective.`,
+          );
       }
       const current = states.get(key);
-      if (current === undefined && change.state !== "accepted")
+      const instantParents = context && change.state === "rewarded"
+        ? reviewedInstantHandIn(action, change.questId, context)
+        : null;
+      if (instantParents?.some((id) => states.get(String(id)) !== "rewarded"))
+        throw new Error(`${role} guide reaches instant quest ${change.questId} before its event.`);
+      if (current === undefined && change.state !== "accepted" && instantParents === null)
         throw new Error(
           `${role} guide reaches ${change.state} for quest ${change.questId} before its pickup.`,
         );
@@ -166,20 +205,16 @@ function validateLifecycle(
     .sort((left, right) => left - right);
   if (incomplete.length)
     throw new Error(`${role} guide leaves quest ${incomplete.join(", ")} without a hand-in.`);
-  for (const key of groundKeys)
-    if (!completedGroundKeys.has(key))
-      throw new Error(
-        `${role} guide leaves ground quest ${key.split(":")[0]} without its object objective.`,
-      );
 }
 
 export function campaignAddonQuestActions(
   actions: readonly CampaignAction[],
   role: "leader" | "party",
+  context?: Pick<CampaignPlan, "targetBuild" | "sourceArchiveSha256">,
 ): CampaignAddonQuestActions {
   const opportunities = opportunityKeys(actions);
   const normalized = normalizeActions(actions, role, opportunities);
-  validateLifecycle(normalized, role, opportunities);
+  validateLifecycle(normalized, role, opportunities, context);
   const guards = new Map<string, CampaignAddonQuestGuard>();
   for (const action of normalized) {
     if (!opportunities.has(action.id)) continue;

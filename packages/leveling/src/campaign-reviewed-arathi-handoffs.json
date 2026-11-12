@@ -1,0 +1,226 @@
+{
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "provider": {
+    "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c"
+  },
+  "capturedChapters": [
+    {
+      "file": "artifacts/leveling/archive/chapter-14-32-33-hillsbrad-arathi-v2-bc07e10e90aad54e.json",
+      "sha256": "4e79b84b78927ce5abbacd892196ed06dc7970fec8cab030aae04a716cc81953",
+      "chapterId": "chapter-14-32-33-hillsbrad-arathi",
+      "version": "import-v2-bc07e10e90aad54e"
+    },
+    {
+      "file": "artifacts/leveling/archive/chapter-21-39-40-alterac-arathi-v2-b8159d755149bd5e.json",
+      "sha256": "e3bc61348e172f6d18b7ec5b251316f2d646ff1e1e72ae44605da9e867f712e9",
+      "chapterId": "chapter-21-39-40-alterac-arathi",
+      "version": "import-v2-b8159d755149bd5e"
+    }
+  ],
+  "qualification": "Exact wording resolutions for two complete captured NPC handoffs. Quest 659 names Quae and Kinelory but the captured return and provider end both identify Quae. Quest 663 calls the recipient Captain O'Breen while the provider and captured return identify Shakes O'Breen. Full source, access, friendly NPC identity, positions, predicates and prerequisite checks remain mandatory. No combat, payout or timing data is supplied.",
+  "proofs": [
+    {
+      "quest": {
+        "questId": 659,
+        "title": "Hints of a New Plague?",
+        "minimumLevel": 30,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 2711,
+            "name": "Phin Odelic",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 50.35,
+                "y": 59.05
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2712,
+            "name": "Quae",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 60.18,
+                "y": 53.85
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 659,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find Quae and Kinelory near the Go'Shek Farm in the Arathi Highlands."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-14-32-33-hillsbrad-arathi",
+          "version": "import-v2-bc07e10e90aad54e",
+          "stepId": "source-step-0056"
+        },
+        "positions": [
+          {
+            "zone": "1424",
+            "floor": 0,
+            "x": -544.34,
+            "y": -859.65,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-14-32-33-hillsbrad-arathi",
+          "version": "import-v2-bc07e10e90aad54e",
+          "stepId": "source-step-0104"
+        },
+        "positions": [
+          {
+            "zone": "1417",
+            "floor": 0,
+            "x": -3033.33,
+            "y": -1425.69,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 663,
+        "title": "Land Ho!",
+        "minimumLevel": 35,
+        "questLevel": 35,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 2766,
+            "name": "Lolo the Lookout",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 31.78,
+                "y": 82.68
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2610,
+            "name": "Shakes O'Breen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 32.28,
+                "y": 81.38
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 663,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Talk to Captain O'Breen in Faldir's Cove."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-21-39-40-alterac-arathi",
+          "version": "import-v2-b8159d755149bd5e",
+          "stepId": "source-step-0138"
+        },
+        "positions": [
+          {
+            "zone": "1417",
+            "floor": 0,
+            "x": -2010.75,
+            "y": -2117.65,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-21-39-40-alterac-arathi",
+          "version": "import-v2-b8159d755149bd5e",
+          "stepId": "source-step-0139"
+        },
+        "positions": [
+          {
+            "zone": "1417",
+            "floor": 0,
+            "x": -2028.85,
+            "y": -2086.07,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    }
+  ]
+}

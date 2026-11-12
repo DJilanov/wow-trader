@@ -63,7 +63,6 @@ export function resolveCombatQuota(
   if (drop.sourceBuild != null && drop.sourceBuild !== combat.targetBuild)
     return { kills: null, reason: "The drop reference was captured for a different client build." };
   const probability = resolveLootProbability(drop);
-  if (probability.probability === null) return { kills: null, reason: probability.reason };
   const input = {
     ...drop,
     probability: probability.probability,

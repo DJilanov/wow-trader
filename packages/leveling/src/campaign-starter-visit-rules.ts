@@ -6,6 +6,7 @@ export interface CampaignStarterVisitRule {
   readonly triggerQuestId: number;
   readonly minimumLevel?: number;
   readonly afterActionId: string;
+  readonly allowEarlierFinalHandIn?: true;
   readonly arrivalZone: string;
   readonly replacementPickup?: {
     readonly questId: number;
@@ -19,6 +20,15 @@ export interface CampaignStarterVisitRule {
 
 /** Reviewed Human starter visits; quests retain their original phases and identifiers. */
 export const CAMPAIGN_STARTER_VISIT_RULES: readonly CampaignStarterVisitRule[] = [
+  {
+    classSlug: "priest",
+    questIds: [5623, 5624],
+    triggerQuestId: 5623,
+    minimumLevel: 5,
+    afterActionId: "start-116-116-source-step-0096-candles-return",
+    allowEarlierFinalHandIn: true,
+    arrivalZone: "1429",
+  },
   {
     classSlug: "priest",
     questIds: [5623, 5624],

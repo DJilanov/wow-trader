@@ -1,0 +1,1313 @@
+{
+  "provenance": {
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "inputs": {
+      "catalog": {
+        "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/catalog-fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d.json",
+        "sha256": "fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d"
+      },
+      "combat": {
+        "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/combat-377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b.json",
+        "sha256": "377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b"
+      },
+      "rewards": {
+        "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/rewards-ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced.json",
+        "sha256": "ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced"
+      },
+      "sources": [
+        {
+          "chapterId": "chapter-18-35-37-desolace",
+          "file": "artifacts/leveling/archive/chapter-18-35-37-desolace-v2-c2f2c8bed55e9b94.json",
+          "sha256": "bc4e261fb3fcdae376383d1cc396567474abe23ff1b89558bc22ac21ccf4dfb0"
+        },
+        {
+          "chapterId": "chapter-25-40-41-desolace",
+          "file": "artifacts/leveling/archive/chapter-25-40-41-desolace-v2-990e5ecb729b0190.json",
+          "sha256": "6c701cb5428ce8becacd525140eeb30a8002e67771cec7a8184e7e7dc79c636c"
+        }
+      ]
+    },
+    "rawNpcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "sourceNote": "Complete captured chapter18 Kodo program and chapter25 Ghost-o-plasm program, with provided tools. Personal capture/collection quotas are not shared quest kills. NPC records use unchanged provider values."
+  },
+  "guides": [
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-18-35-37-desolace",
+      "version": "import-v2-c2f2c8bed55e9b94",
+      "targetBuild": 70205,
+      "sourceSha256": "c2f2c8bed55e9b94cc45833f107706b92a97baad3f8e9fd33510f719571c4ed5",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0030",
+          "ordinal": 30,
+          "sourceLine": 219,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 220,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1443/1,1497.03,-1402.40",
+              "condition": "",
+              "text": "",
+              "sourceLine": 221,
+              "questId": null,
+              "position": {
+                "zone": "1443",
+                "floor": 1,
+                "x": 1497.03,
+                "y": -1402.4,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Smeed Scrabblescrew",
+              "sourceLine": 222,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "5561",
+              "condition": "",
+              "text": "Accept Kodo Roundup",
+              "sourceLine": 223,
+              "questId": 5561,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Smeed Scrabblescrew",
+              "condition": "",
+              "text": "",
+              "sourceLine": 224,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0067",
+          "ordinal": 67,
+          "sourceLine": 531,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 532,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1443/1,1910.43,-1294.02",
+              "condition": "",
+              "text": "",
+              "sourceLine": 533,
+              "questId": null,
+              "position": {
+                "zone": "1443",
+                "floor": 1,
+                "x": 1910.43,
+                "y": -1294.02,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1443/1,1497.03,-1402.40,0",
+              "condition": "",
+              "text": "",
+              "sourceLine": 534,
+              "questId": null,
+              "position": {
+                "zone": "1443",
+                "floor": 1,
+                "x": 1497.03,
+                "y": -1402.4,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".use",
+              "arguments": "13892",
+              "condition": "",
+              "text": "Use the [Kodo Kombobulator] on Ancient Kodos and Dying Kodos. Take them back to Smeed",
+              "sourceLine": 535,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "You may only take 1 Tamed Kodo back at a time",
+              "sourceLine": 536,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to the Tamed Kodo once you've taken it back to Smeed",
+              "sourceLine": 537,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".skipgossip",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 538,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "5561,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 539,
+              "questId": 5561,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Tamed Kodo",
+              "condition": "",
+              "text": "",
+              "sourceLine": 540,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Ancient Kodo",
+              "condition": "",
+              "text": "",
+              "sourceLine": 541,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Dying Kodo",
+              "condition": "",
+              "text": "",
+              "sourceLine": 542,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".maxlevel",
+              "arguments": "36",
+              "condition": "",
+              "text": "",
+              "sourceLine": 543,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0069",
+          "ordinal": 69,
+          "sourceLine": 550,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 551,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isQuestComplete",
+              "arguments": "5561",
+              "condition": "",
+              "text": "",
+              "sourceLine": 552,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1443/1,1497.03,-1402.40",
+              "condition": "",
+              "text": "",
+              "sourceLine": 553,
+              "questId": null,
+              "position": {
+                "zone": "1443",
+                "floor": 1,
+                "x": 1497.03,
+                "y": -1402.4,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Smeed Scrabblescrew",
+              "sourceLine": 554,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "5561",
+              "condition": "",
+              "text": "Turn in Kodo Roundup",
+              "sourceLine": 555,
+              "questId": 5561,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Smeed Scrabblescrew",
+              "condition": "",
+              "text": "",
+              "sourceLine": 556,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-25-40-41-desolace",
+      "version": "import-v2-990e5ecb729b0190",
+      "targetBuild": 70205,
+      "sourceSha256": "990e5ecb729b0190771925bd4a9450a150004a1015774d5426b14ce682164122",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0013",
+          "ordinal": 13,
+          "sourceLine": 107,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 108,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "Desolace,47.830,61.825",
+              "condition": "",
+              "text": "",
+              "sourceLine": 109,
+              "questId": null,
+              "position": {
+                "zone": "Desolace",
+                "floor": null,
+                "x": 47.83,
+                "y": 61.825,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Hornizz Brimbuzzle",
+              "sourceLine": 110,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "6134",
+              "condition": "",
+              "text": "Accept Ghost-o-plasm Round Up",
+              "sourceLine": 111,
+              "questId": 6134,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Hornizz Brimbuzzle",
+              "condition": "",
+              "text": "",
+              "sourceLine": 112,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0022",
+          "ordinal": 22,
+          "sourceLine": 199,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 200,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "Desolace,64.00,91.70",
+              "condition": "",
+              "text": "",
+              "sourceLine": 201,
+              "questId": null,
+              "position": {
+                "zone": "Desolace",
+                "floor": null,
+                "x": 64,
+                "y": 91.7,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Use the [Crate of Ghost Magnets] at the Valley of Bones between the two giant skeleton remains",
+              "sourceLine": 202,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Kill Magrami Spectres that spawn from it. Loot them for their Ghost-o-plasms",
+              "sourceLine": 203,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "6134,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 204,
+              "questId": 6134,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Magrami Spectre",
+              "condition": "",
+              "text": "",
+              "sourceLine": 205,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0025",
+          "ordinal": 25,
+          "sourceLine": 220,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 221,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "#softcore",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 222,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isQuestComplete",
+              "arguments": "6134",
+              "condition": "",
+              "text": "",
+              "sourceLine": 223,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "Desolace,47.830,61.825",
+              "condition": "",
+              "text": "",
+              "sourceLine": 224,
+              "questId": null,
+              "position": {
+                "zone": "Desolace",
+                "floor": null,
+                "x": 47.83,
+                "y": 61.825,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Hornizz Brimbuzzle",
+              "sourceLine": 225,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "6134",
+              "condition": "",
+              "text": "Turn in Ghost-o-plasm Round Up",
+              "sourceLine": 226,
+              "questId": 6134,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Hornizz Brimbuzzle",
+              "condition": "",
+              "text": "",
+              "sourceLine": 227,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0028",
+          "ordinal": 28,
+          "sourceLine": 242,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#era/som",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 243,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "#optional",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 244,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".abandon",
+              "arguments": "6134",
+              "condition": "",
+              "text": "Abandon Ghost-o-plasm Round Up if you did not complete it",
+              "sourceLine": 245,
+              "questId": 6134,
+              "position": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 5561,
+        "title": "Kodo Roundup",
+        "minimumLevel": 30,
+        "questLevel": 34,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 13892,
+          "name": "Kodo Kombobulator"
+        },
+        "starts": [
+          {
+            "npcId": 11596,
+            "name": "Smeed Scrabblescrew",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 60.86,
+                "y": 61.86
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 11596,
+            "name": "Smeed Scrabblescrew",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 60.86,
+                "y": 61.86
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction"
+        ]
+      },
+      {
+        "questId": 6134,
+        "title": "Ghost-o-plasm Round Up",
+        "minimumLevel": 34,
+        "questLevel": 39,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 15848,
+          "name": "Crate of Ghost Magnets"
+        },
+        "starts": [
+          {
+            "npcId": 6019,
+            "name": "Hornizz Brimbuzzle",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 47.83,
+                "y": 61.83
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 6019,
+            "name": "Hornizz Brimbuzzle",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 47.83,
+                "y": 61.83
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction"
+        ]
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 4700,
+        "name": "Aged Kodo",
+        "minimumLevel": 34,
+        "maximumLevel": 35,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 11560,
+        "name": "Magrami Spectre",
+        "minimumLevel": 38,
+        "maximumLevel": 39,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4701,
+        "name": "Dying Kodo",
+        "minimumLevel": 35,
+        "maximumLevel": 36,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4702,
+        "name": "Ancient Kodo",
+        "minimumLevel": 36,
+        "maximumLevel": 37,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 5561,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Bring five Tamed Kodos and the Kodo Kombobulator back to Smeed Scrabblescrew at Scrabblescrew's Camp."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 6134,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          11560
+        ],
+        "objectiveText": [
+          "Bring 8 Ghost-o-plasms and the Crate of Ghost Magnets to Hornizz Brimbuzzle in Desolace."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 15849,
+            "itemName": "Ghost-o-plasm",
+            "quantity": 8,
+            "npcIds": [
+              11560
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 15849,
+              "itemFlags": 0
+            }
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [
+      {
+        "itemId": 15849,
+        "npcId": 11560,
+        "probability": 1,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 15849,
+          "npcId": 11560,
+          "lootEntry": 11560,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 15849,
+          "npcId": 11560,
+          "lootEntry": 11560,
+          "probability": 0.8,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 8,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=15849/ghost-o-plasm",
+        "capturedAt": "2026-10-20T15:14:08.428Z",
+        "sourceSha256": "17ea60c48702db3279c7eb28f641ec8098f6cb0a5ac9670253bce753b881d741"
+      }
+    ],
+    "historicalLoot": {
+      "schema": "classic-loot-reference.v1",
+      "targetBuild": 70205,
+      "targetCombatSha256": "c4bbedfcd72cf8ce122ab3913abbf80afbf15127a9cecf9aeb3115fc958349cc",
+      "source": {
+        "kind": "classic-1.12-reference",
+        "repository": "https://github.com/cmangos/classic-db",
+        "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+        "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+        "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+        "sourceBuild": 5875,
+        "referencedAt": "2026-11-02T03:20:00.000Z"
+      },
+      "items": [],
+      "drops": []
+    },
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "rewards": [
+    {
+      "questId": 5561,
+      "fullXp": 2000,
+      "rewardBasis": "final-reward",
+      "questLevel": 34,
+      "minimumLevel": 30,
+      "xpByLevel": [
+        {
+          "level": 30,
+          "xp": 2000
+        },
+        {
+          "level": 31,
+          "xp": 2000
+        },
+        {
+          "level": 32,
+          "xp": 2000
+        },
+        {
+          "level": 33,
+          "xp": 2000
+        },
+        {
+          "level": 34,
+          "xp": 2000
+        },
+        {
+          "level": 35,
+          "xp": 2000
+        },
+        {
+          "level": 36,
+          "xp": 2000
+        },
+        {
+          "level": 37,
+          "xp": 2000
+        },
+        {
+          "level": 38,
+          "xp": 2000
+        },
+        {
+          "level": 39,
+          "xp": 2000
+        },
+        {
+          "level": 40,
+          "xp": 1600
+        },
+        {
+          "level": 41,
+          "xp": 1200
+        },
+        {
+          "level": 42,
+          "xp": 800
+        },
+        {
+          "level": 43,
+          "xp": 400
+        },
+        {
+          "level": 44,
+          "xp": 200
+        },
+        {
+          "level": 45,
+          "xp": 200
+        },
+        {
+          "level": 46,
+          "xp": 200
+        },
+        {
+          "level": 47,
+          "xp": 200
+        },
+        {
+          "level": 48,
+          "xp": 200
+        },
+        {
+          "level": 49,
+          "xp": 200
+        },
+        {
+          "level": 50,
+          "xp": 200
+        },
+        {
+          "level": 51,
+          "xp": 200
+        },
+        {
+          "level": 52,
+          "xp": 200
+        },
+        {
+          "level": 53,
+          "xp": 200
+        },
+        {
+          "level": 54,
+          "xp": 200
+        },
+        {
+          "level": 55,
+          "xp": 200
+        },
+        {
+          "level": 56,
+          "xp": 200
+        },
+        {
+          "level": 57,
+          "xp": 200
+        },
+        {
+          "level": 58,
+          "xp": 200
+        },
+        {
+          "level": 59,
+          "xp": 200
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 5561,
+        "questLevel": 34,
+        "minimumLevel": 30,
+        "difficulty": 4,
+        "baseXp": 2000,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2000
+    },
+    {
+      "questId": 6134,
+      "fullXp": 2250,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 39,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 2250
+        },
+        {
+          "level": 2,
+          "xp": 2250
+        },
+        {
+          "level": 3,
+          "xp": 2250
+        },
+        {
+          "level": 4,
+          "xp": 2250
+        },
+        {
+          "level": 5,
+          "xp": 2250
+        },
+        {
+          "level": 6,
+          "xp": 2250
+        },
+        {
+          "level": 7,
+          "xp": 2250
+        },
+        {
+          "level": 8,
+          "xp": 2250
+        },
+        {
+          "level": 9,
+          "xp": 2250
+        },
+        {
+          "level": 10,
+          "xp": 2250
+        },
+        {
+          "level": 11,
+          "xp": 2250
+        },
+        {
+          "level": 12,
+          "xp": 2250
+        },
+        {
+          "level": 13,
+          "xp": 2250
+        },
+        {
+          "level": 14,
+          "xp": 2250
+        },
+        {
+          "level": 15,
+          "xp": 2250
+        },
+        {
+          "level": 16,
+          "xp": 2250
+        },
+        {
+          "level": 17,
+          "xp": 2250
+        },
+        {
+          "level": 18,
+          "xp": 2250
+        },
+        {
+          "level": 19,
+          "xp": 2250
+        },
+        {
+          "level": 20,
+          "xp": 2250
+        },
+        {
+          "level": 21,
+          "xp": 2250
+        },
+        {
+          "level": 22,
+          "xp": 2250
+        },
+        {
+          "level": 23,
+          "xp": 2250
+        },
+        {
+          "level": 24,
+          "xp": 2250
+        },
+        {
+          "level": 25,
+          "xp": 2250
+        },
+        {
+          "level": 26,
+          "xp": 2250
+        },
+        {
+          "level": 27,
+          "xp": 2250
+        },
+        {
+          "level": 28,
+          "xp": 2250
+        },
+        {
+          "level": 29,
+          "xp": 2250
+        },
+        {
+          "level": 30,
+          "xp": 2250
+        },
+        {
+          "level": 31,
+          "xp": 2250
+        },
+        {
+          "level": 32,
+          "xp": 2250
+        },
+        {
+          "level": 33,
+          "xp": 2250
+        },
+        {
+          "level": 34,
+          "xp": 2250
+        },
+        {
+          "level": 35,
+          "xp": 2250
+        },
+        {
+          "level": 36,
+          "xp": 2250
+        },
+        {
+          "level": 37,
+          "xp": 2250
+        },
+        {
+          "level": 38,
+          "xp": 2250
+        },
+        {
+          "level": 39,
+          "xp": 2250
+        },
+        {
+          "level": 40,
+          "xp": 2250
+        },
+        {
+          "level": 41,
+          "xp": 2250
+        },
+        {
+          "level": 42,
+          "xp": 2250
+        },
+        {
+          "level": 43,
+          "xp": 2250
+        },
+        {
+          "level": 44,
+          "xp": 2250
+        },
+        {
+          "level": 45,
+          "xp": 1800
+        },
+        {
+          "level": 46,
+          "xp": 1350
+        },
+        {
+          "level": 47,
+          "xp": 900
+        },
+        {
+          "level": 48,
+          "xp": 450
+        },
+        {
+          "level": 49,
+          "xp": 225
+        },
+        {
+          "level": 50,
+          "xp": 225
+        },
+        {
+          "level": 51,
+          "xp": 225
+        },
+        {
+          "level": 52,
+          "xp": 225
+        },
+        {
+          "level": 53,
+          "xp": 225
+        },
+        {
+          "level": 54,
+          "xp": 225
+        },
+        {
+          "level": 55,
+          "xp": 225
+        },
+        {
+          "level": 56,
+          "xp": 225
+        },
+        {
+          "level": 57,
+          "xp": 225
+        },
+        {
+          "level": 58,
+          "xp": 225
+        },
+        {
+          "level": 59,
+          "xp": 225
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    }
+  ]
+}

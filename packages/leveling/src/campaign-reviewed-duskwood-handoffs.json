@@ -1,0 +1,1873 @@
+{
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "provider": {
+    "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c"
+  },
+  "capturedChapter": {
+    "file": "artifacts/leveling/archive/chapter-10-24-27-duskwood-redridge-v2-2ba55637b4fdff89.json",
+    "sha256": "ee3394b7c76fb78c37931da49537add972b5937cd3797d0a49bad4e6f64ee3d5",
+    "chapterId": "chapter-10-24-27-duskwood-redridge",
+    "version": "import-v2-2ba55637b4fdff89"
+  },
+  "qualification": "Exact narrative disambiguations for complete captured NPC/object handoffs. These records resolve wording only; normal source eligibility, full program, endpoint, quest access, guard, prerequisite and fresh-start checks must also pass. No rewards or combat counts are supplied.",
+  "proofs": [
+    {
+      "quest": {
+        "questId": 164,
+        "title": "Deliveries to Sven",
+        "minimumLevel": 17,
+        "questLevel": 23,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 1922,
+          "name": "Supplies for Sven"
+        },
+        "starts": [
+          {
+            "npcId": 633,
+            "name": "Elaine Carevin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 75.34,
+                "y": 48.75
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 164,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Deliver the supplies to Sven."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0086"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1200.58,
+            "y": -10593.09,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0106"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 623.27,
+            "y": -10329.75,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [
+        95
+      ],
+      "instructionReplacements": [
+        {
+          "from": "If you can't pick up this quest you need to abandon Sven's Revenge from your quest log",
+          "to": "If you already have Sven's Revenge, keep it and continue that quest. These supplies are for a fresh investigation."
+        }
+      ]
+    },
+    {
+      "quest": {
+        "questId": 95,
+        "title": "Sven's Revenge",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 59,
+            "name": "Mound of loose dirt",
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 49.85,
+                "y": 77.71
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text",
+          "unresolved-source-prerequisite"
+        ]
+      },
+      "reference": {
+        "questId": 95,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Go to Sven's Farm and find what was buried behind the old stump."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0106"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 623.27,
+            "y": -10329.75,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0202"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -512.62,
+            "y": -11115.45,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [
+        164
+      ],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 230,
+        "title": "Sven's Camp",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 59,
+            "name": "Mound of loose dirt",
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 49.85,
+                "y": 77.71
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            95
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 230,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Bring the Book from Sven's Farm to Sven."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            95
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0202"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -512.62,
+            "y": -11115.45,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0207"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 623.27,
+            "y": -10329.75,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 262,
+        "title": "The Shadowy Figure",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 265,
+            "name": "Madame Eva",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 75.79,
+                "y": 45.32
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            230
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 262,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Take the book you found at Sven's farm and show it to townsfolk in Darkshire."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            230
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0207"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 623.27,
+            "y": -10329.75,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0281"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1213.54,
+            "y": -10531.89,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 265,
+        "title": "The Shadowy Search Continues",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 265,
+            "name": "Madame Eva",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 75.79,
+                "y": 45.32
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            262
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 265,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "See if other townsfolk have clues about the shadowy figure."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            262
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0281"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1213.54,
+            "y": -10531.89,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0282"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1124.98,
+            "y": -10559.97,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 266,
+        "title": "Inquire at the Inn",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 273,
+            "name": "Tavernkeep Smitts",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.78,
+                "y": 44.49
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            265
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 266,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Search the inn for clues about the shadowy figure."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            265
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0282"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1124.98,
+            "y": -10559.97,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0285"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1158.46,
+            "y": -10517.31,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 453,
+        "title": "Finding the Shadowy Figure",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 273,
+            "name": "Tavernkeep Smitts",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.78,
+                "y": 44.49
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 288,
+            "name": "Jitters",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 18.38,
+                "y": 56.37
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            266
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 453,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find the Shadowy Figure. Your clues:",
+          "",
+          "He is not native to Darkshire.",
+          "",
+          "He is a nervous, jittery person.",
+          "",
+          "He left Darkshire and headed west."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            266
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0285"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1158.46,
+            "y": -10517.31,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0291"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 337.34,
+            "y": -10731.15,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 268,
+        "title": "Return to Sven",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2560,
+          "name": "Jitters' Completed Journal"
+        },
+        "starts": [
+          {
+            "npcId": 288,
+            "name": "Jitters",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 18.38,
+                "y": 56.37
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            453
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 268,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Return to Sven with Jitters' completed journal."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            453
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0291"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 337.34,
+            "y": -10731.15,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0294"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": 623.27,
+            "y": -10329.75,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 1241,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 5948,
+          "name": "Letter to Jorgen"
+        },
+        "starts": [
+          {
+            "npcId": 4960,
+            "name": "Bishop DeLavey",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 80.24,
+                "y": 44.07
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4959,
+            "name": "Jorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 76.29,
+                "y": 85.12
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1274
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 1241,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find Jorgen in Stormwind City."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1274
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0040"
+        },
+        "positions": [
+          {
+            "zone": "Stormwind City",
+            "floor": null,
+            "x": 78.3,
+            "y": 25.45,
+            "space": "map-percent"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0043"
+        },
+        "positions": [
+          {
+            "zone": "1453",
+            "floor": 0,
+            "x": 397.37,
+            "y": -8981.77,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 1242,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 5946,
+          "name": "Sealed Note to Elling"
+        },
+        "starts": [
+          {
+            "npcId": 4959,
+            "name": "Jorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 76.29,
+                "y": 85.12
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 482,
+            "name": "Elling Trias",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 66.03,
+                "y": 74.1
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1241
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 1242,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Delivery Jorgen's Sealed Note to Elling Trias in Stormwind City."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1241
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0043"
+        },
+        "positions": [
+          {
+            "zone": "1453",
+            "floor": 0,
+            "x": 397.37,
+            "y": -8981.77,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0044"
+        },
+        "positions": [
+          {
+            "zone": "Stormwind City",
+            "floor": null,
+            "x": 59.9,
+            "y": 64.17,
+            "space": "map-percent"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 1243,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 5960,
+          "name": "Sealed Note to Watcher Backus"
+        },
+        "starts": [
+          {
+            "npcId": 482,
+            "name": "Elling Trias",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 66.03,
+                "y": 74.1
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 840,
+            "name": "Watcher Backus",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 74.83,
+                "y": 44.22
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1242
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 1243,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Give the Sealed Note to Watcher Backus in Duskwood."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1242
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0044"
+        },
+        "positions": [
+          {
+            "zone": "Stormwind City",
+            "floor": null,
+            "x": 59.9,
+            "y": 64.17,
+            "space": "map-percent"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0062"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1125.52,
+            "y": -10320.39,
+            "space": "world"
+          },
+          {
+            "zone": "Duskwood",
+            "floor": null,
+            "x": 74.54,
+            "y": 42.9,
+            "space": "map-percent"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 67,
+        "title": "The Legend of Stalvan",
+        "minimumLevel": 22,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 3643,
+            "name": "Old Footlocker",
+            "positions": [
+              {
+                "zone": "1436",
+                "x": 41.51,
+                "y": 66.73
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            66
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 67,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Travel to the Moonbrook Schoolhouse and bring back any updated information about Stalvan to Clerk Daltry."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            66
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0083"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1124.98,
+            "y": -10559.97,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0128"
+        },
+        "positions": [
+          {
+            "zone": "1436",
+            "floor": 0,
+            "x": 1563.82,
+            "y": -10956.8,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 69,
+        "title": "The Legend of Stalvan",
+        "minimumLevel": 22,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 295,
+            "name": "Innkeeper Farley",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1429",
+                "x": 43.77,
+                "y": 65.8
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            68
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 69,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Go to The Lion's Pride Inn to see if anyone there has heard of the name Stalvan."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            68
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0173"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1124.98,
+            "y": -10559.97,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0213"
+        },
+        "positions": [
+          {
+            "zone": "1429",
+            "floor": 0,
+            "x": 16.2,
+            "y": -9462.65,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 74,
+        "title": "The Legend of Stalvan",
+        "minimumLevel": 22,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 916,
+          "name": "A Torn Journal Page"
+        },
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 1561,
+            "name": "Sealed Crate",
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 42.47,
+                "y": 72.05
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 294,
+            "name": "Marshal Haggard",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1429",
+                "x": 84.61,
+                "y": 69.38
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            72
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 74,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "The Torn Journal page you discovered provides your next clue."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            72
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-10-24-27-duskwood-redridge",
+          "version": "import-v2-2ba55637b4fdff89",
+          "stepId": "source-step-0262"
+        },
+        "positions": [
+          {
+            "zone": "1453",
+            "floor": 0,
+            "x": 985.22,
+            "y": -8830.29,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0067"
+        },
+        "positions": [
+          {
+            "zone": "Elwynn Forest",
+            "floor": null,
+            "x": 84.6,
+            "y": 69.37,
+            "space": "map-percent"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": []
+    },
+    {
+      "quest": {
+        "questId": 79,
+        "title": "The Legend of Stalvan",
+        "minimumLevel": 22,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 938,
+          "name": "Muddy Journal Pages"
+        },
+        "starts": [
+          {
+            "npcId": 273,
+            "name": "Tavernkeep Smitts",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.78,
+                "y": 44.49
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 264,
+            "name": "Commander Althea Ebonlocke",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.54,
+                "y": 46.82
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            78
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 79,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Take the muddy page to Commander Ebonlocke."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            78
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0103"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1158.46,
+            "y": -10517.31,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0105"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1153.6,
+            "y": -10560.69,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": [
+        {
+          "from": "She may be dead or busy fighting Stitches if he attacks Darkshire. If that happens consider grinding mobs near the town until she respawns or changing your layer (if possible)",
+          "to": "If Commander Althea Ebonlocke is unavailable, wait somewhere safe until you can speak to her, then regroup before continuing."
+        }
+      ]
+    },
+    {
+      "quest": {
+        "questId": 80,
+        "title": "The Legend of Stalvan",
+        "minimumLevel": 22,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 939,
+          "name": "A Bloodstained Journal Page"
+        },
+        "starts": [
+          {
+            "npcId": 264,
+            "name": "Commander Althea Ebonlocke",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.54,
+                "y": 46.82
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            79
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 80,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Show Clerk Daltry the Bloodstained Journal Page."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            79
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0105"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1153.6,
+            "y": -10560.69,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0106"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1124.98,
+            "y": -10559.97,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": [
+        {
+          "from": "She may be dead or busy fighting Stitches if he attacks Darkshire. If that happens consider grinding mobs near the town until she respawns or changing your layer (if possible)",
+          "to": "If Commander Althea Ebonlocke is unavailable, wait somewhere safe until you can speak to her, then regroup before continuing."
+        }
+      ]
+    },
+    {
+      "quest": {
+        "questId": 97,
+        "title": "The Legend of Stalvan",
+        "minimumLevel": 22,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 264,
+            "name": "Commander Althea Ebonlocke",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.54,
+                "y": 46.82
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            80
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      "reference": {
+        "questId": 97,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Report the news to Commander Ebonlocke."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            80
+          ]
+        },
+        "itemObjectives": []
+      },
+      "pickup": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0106"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1124.98,
+            "y": -10559.97,
+            "space": "world"
+          }
+        ]
+      },
+      "handIn": {
+        "source": {
+          "chapterId": "chapter-13-29-32-duskwood",
+          "version": "import-v2-b5b0bf698ef41804",
+          "stepId": "source-step-0112"
+        },
+        "positions": [
+          {
+            "zone": "1431",
+            "floor": 0,
+            "x": -1153.6,
+            "y": -10560.69,
+            "space": "world"
+          }
+        ]
+      },
+      "sourcePrerequisites": [],
+      "requiresFreshQuestIds": [],
+      "instructionReplacements": [
+        {
+          "from": "She may be dead or busy fighting Stitches if he attacks Darkshire. If that happens consider grinding mobs near the town until she respawns or changing your layer (if possible)",
+          "to": "If Commander Althea Ebonlocke is unavailable, wait somewhere safe until you can speak to her, then regroup before continuing."
+        }
+      ]
+    }
+  ],
+  "additionalCapturedChapters": [
+    {
+      "chapterId": "chapter-13-29-32-duskwood",
+      "file": "chapter-13-29-32-duskwood-v2-b5b0bf698ef41804.json",
+      "sha256": "9fe4815c5644a68722cd95fa892416485f2e9ecfed002708cdc0719e9c6c64c5"
+    }
+  ]
+}

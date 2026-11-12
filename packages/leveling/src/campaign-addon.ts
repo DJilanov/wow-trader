@@ -1,3 +1,6 @@
+import { campaignSupplyXpBaseline } from "./campaign-supply-xp.js";
+import { createCampaignCombatReadiness } from "./campaign-combat-readiness.js";
+import { CAMPAIGN_QUEST_GUARDS } from "./campaign-native-guards.js";
 import type { ClassSlug } from "./model.js";
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CampaignRace } from "./campaign-route.js";
@@ -16,8 +19,10 @@ import {
   campaignNativeInstructions,
   type CampaignNativeInstructions,
 } from "./campaign-addon-native.js";
+import { campaignTimedQuestMethodIssues, timedQuestAcceptanceInstruction } from "./campaign-quest-timing.js";
+import { campaignMoneyRequirement } from "./campaign-addon-money.js";
 
-export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261102-v35" as const;
+export const CAMPAIGN_ADDON_COMPILER_REVISION = "campaign-addon-20261105-v98" as const;
 
 export interface CampaignAddonOptions {
   readonly version: string;
@@ -149,13 +154,55 @@ function actionLines(
   action: CampaignAction,
   nativeInstructions?: CampaignNativeInstructions,
   questGuard?: CampaignAddonQuestGuard,
+  combatLevel: number | null = null,
 ): readonly string[] {
   if (action.kind === "unverified")
     throw new Error(`Unverified action ${action.id} cannot enter the addon package.`);
   const native = nativeInstructions?.(action);
   const condition = native?.condition ? ` << ${oneLine(native.condition, "Step condition")}` : "";
-  const lines = [`step${condition}`, `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`];
+  const money = campaignMoneyRequirement(action);
+  if (combatLevel !== null && combatLevel > 60)
+    throw new Error(`Combat readiness exceeds the level cap: ${action.id}.`);
+  const objectiveQuests = new Set(action.questChanges.map((change) => change.questId));
+  const readinessQuest =
+    objectiveQuests.size === 1 &&
+    action.questChanges.every((change) => change.state === "objectives-complete")
+      ? [...objectiveQuests][0]
+      : undefined;
+  const readinessLines =
+    combatLevel !== null && combatLevel > 1
+      ? [
+          `step${condition}`,
+          `    #label ${oneLine(`kfc-${action.id}-combat-ready`, "Combat readiness label")}`,
+          ...(questGuard ? [`    ${questGuard.tag} ${questGuard.questId}`] : []),
+          ...(readinessQuest
+            ? [`    .isOnQuest ${readinessQuest}`, `    .isQuestNotComplete ${readinessQuest}`]
+            : []),
+          ...(native?.directives ?? [])
+            .filter((directive) => CAMPAIGN_QUEST_GUARDS.has(directive.tag))
+            .map(
+              (directive) =>
+                `    ${directive.tag} ${directive.arguments}${directive.condition ? ` << ${oneLine(directive.condition, "Readiness condition")}` : ""}`,
+            ),
+          `    .xp ${combatLevel} >> Start this fight when everyone is at least level ${combatLevel}.`,
+        ]
+      : [];
+  const lines = [
+    ...readinessLines,
+    ...(money ? [
+      `step${condition}`,
+      `    #label ${oneLine(`kfc-${action.id}-money-ready`, "Money readiness label")}`,
+      `    .isOnQuest ${money.questId}`,
+      `    .money >${money.gold} >> ${money.description}`,
+    ] : []),
+    `step${condition}`,
+    `    #label ${oneLine(`kfc-${action.id}`, "Action label")}`,
+  ];
   if (questGuard) lines.push(`    ${questGuard.tag} ${questGuard.questId}`);
+  const timingWarnings = (action.questTimings ?? [])
+    .filter((timing) => action.questChanges.some((change) => change.questId === timing.questId && change.state === "accepted"))
+    .map(timedQuestAcceptanceInstruction);
+  for (const warning of timingWarnings) lines.push(`    >> ${oneLine(warning, "Timed quest instruction")}`);
   for (const instruction of action.travelInstructions ?? [])
     lines.push(`    >> ${oneLine(instruction, "Travel instruction")}`);
   if (action.bundleId) {
@@ -189,16 +236,25 @@ function actionLines(
     }
     if (native.canonicalQuestConditions)
       lines.push(...questLines(action, native.canonicalQuestConditions));
-  } else lines.push(...positionLines(action), ...questLines(action));
+  } else {
+    lines.push(...positionLines(action));
+    for (const target of action.itemCollections ?? [])
+      lines.push(
+        `    .collect ${target.itemId},${target.quantity},${target.questId},${target.objectiveBitmask}`,
+      );
+    lines.push(...questLines(action));
+  }
   const xp = action.kind === "xp-check" || action.kind === "checkpoint" ? xpLine(action) : null;
   if (xp) lines.push(xp);
   const questText = new Set([
+    ...timingWarnings,
     ...action.questChanges.map(questInstruction),
     ...(native?.directives ?? [])
       .filter((directive) => directive.text)
       .map((directive) => oneLine(directive.text, "Native instruction")),
   ]);
   for (const instruction of action.instructions) {
+    if (native?.excludedText?.includes(instruction)) continue;
     const text = oneLine(instruction, "Action instruction");
     if (!questText.has(text)) lines.push(`    >> ${text}`);
   }
@@ -234,11 +290,15 @@ function compileRole(
   readonly summary: CampaignAddonGuideSummary;
   readonly documents: readonly CampaignAddonGuideDocument[];
 } {
+  const supplyBaseline = campaignSupplyXpBaseline(plan);
+  const combatReadiness = createCampaignCombatReadiness(supplyBaseline.plan);
   const requested = actions.filter(
     (action) => role === "leader" || !action.leaderOnly || personalActionIds.has(action.id),
   );
-  const lifecycle = campaignAddonQuestActions(requested, role);
+  const lifecycle = campaignAddonQuestActions(requested, role, plan);
   const filtered = lifecycle.actions;
+  const timingIssues = campaignTimedQuestMethodIssues(filtered, plan.questTimings);
+  if (timingIssues.size) throw new Error([...timingIssues.values()][0]!);
   const emitted = new Map(filtered.map((action) => [action.id, action]));
   const normalizations = requested.flatMap((action) => {
     const removedQuestChanges = action.questChanges.filter(
@@ -286,7 +346,7 @@ function compileRole(
     if (names[index + 1]) lines.push(`#next ${names[index + 1]}`);
     lines.push("");
     for (const action of entry.actions)
-      lines.push(...actionLines(action, nativeInstructions, lifecycle.guards.get(action.id)));
+      lines.push(...actionLines(action, nativeInstructions, lifecycle.guards.get(action.id), combatReadiness(action).targetLevel));
     const content = `${lines.join("\n")}\n`;
     documents.push({
       role,
@@ -317,6 +377,8 @@ export function compileCampaignAddon(
   options: CampaignAddonOptions,
 ): CampaignAddonArtifact {
   if (!plan.leaderClass) throw new Error("Campaign addon requires an exact leader class.");
+  if (plan.sharedQuestsOnly && actions.some((action) => action.leaderOnly))
+    throw new Error("A shared ordinary-quest route cannot contain personal actions.");
   if (!/^\d+\.\d+\.\d+(?:[-+][a-z0-9.-]+)?$/i.test(options.version))
     throw new Error("Campaign addon version must be semantic.");
   if (!Number.isInteger(options.runtimeBuild) || options.runtimeBuild <= 0)

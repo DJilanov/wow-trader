@@ -5,6 +5,8 @@ import type { PremadeProgress } from "./premade-model.js";
 import type { XpPosition } from "./campaign-xp.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { campaignXpBoundsConserved } from "./campaign-xp-bounds.js";
+import type { CampaignCombatRow } from "./campaign-combat.js";
+import { validateIncidentalKillXpPercent } from "./campaign-incidental-combat.js";
 
 export interface CampaignFundingPlayerAudit {
   readonly player: number;
@@ -13,6 +15,8 @@ export interface CampaignFundingPlayerAudit {
   readonly lastCalculated: XpPosition | null;
   readonly questXp: number;
   readonly requiredKillXp: number;
+  readonly plannedFarmXp?: number;
+  readonly incidentalKillXp: number;
   readonly missingXp: number | null;
   readonly failedCheckpointIds: readonly string[];
   readonly missingQuestIds: readonly number[];
@@ -32,7 +36,7 @@ export interface CampaignFundingChapterAudit {
 }
 
 export interface CampaignFundingAudit {
-  readonly revision: "no-grind-funding-20261031-v1";
+  readonly revision: "explicit-funding-20261104-v3";
   readonly release: string;
   readonly chapters: readonly CampaignFundingChapterAudit[];
   readonly funded: boolean;
@@ -46,12 +50,46 @@ function total(position: XpPosition): number {
 }
 const maximumXp = total({ level: 60, currentXp: 0 });
 
+function validIncidentalRow(row: CampaignCombatRow, percent: number): boolean {
+  if (row.incidentalXp === undefined && row.maximumIncidentalXp === undefined) return true;
+  const minimum = row.incidentalXp,
+    maximum = row.maximumIncidentalXp;
+  if (
+    minimum === undefined ||
+    maximum === undefined ||
+    maximum === null ||
+    row.xp === null ||
+    row.maximumXp === null ||
+    !Number.isSafeInteger(minimum) ||
+    !Number.isSafeInteger(maximum) ||
+    minimum < 0 ||
+    maximum < minimum ||
+    minimum > row.xp ||
+    maximum > row.maximumXp ||
+    ((minimum > 0 || maximum > 0) &&
+      (row.basis !== "reference-estimate" ||
+        (row.requiredBasis !== "reference-estimate" && row.requiredBasis !== "observed")))
+  )
+    return false;
+  return (
+    minimum <= Math.floor(((row.xp - minimum) * percent) / 100) &&
+    maximum <= Math.floor(((row.maximumXp - maximum) * percent) / 100)
+  );
+}
+
 /** Verifies the XP ledger against reward rows and kill rows, never checkpoint top-ups. */
 export function auditCampaignGuideFunding(
   plan: CampaignPlan,
   progress: PremadeProgress,
   forecast: CampaignGuideForecast = forecastCampaignGuide(plan, progress),
 ): CampaignFundingAudit {
+  const incidentalPercent =
+    progress.combatPlanning?.incidentalKillXpPercent ?? plan.incidentalKillXpPercent ?? 0;
+  validateIncidentalKillXpPercent(incidentalPercent);
+  const outdoorIncidentalPercent =
+    progress.combatPlanning?.outdoorIncidentalKillXpPercent ??
+    plan.outdoorIncidentalKillXpPercent ?? incidentalPercent;
+  validateIncidentalKillXpPercent(outdoorIncidentalPercent);
   const actions = new Map(
     activeCampaignActions(plan, progress).map((action) => [action.id, action]),
   );
@@ -65,18 +103,44 @@ export function auditCampaignGuideFunding(
       const questXp =
         member.rewards.reduce((sum, reward) => sum + (reward.xp ?? 0), 0) +
         member.bundleRewards.reduce((sum, reward) => sum + (reward.xp ?? 0), 0);
-      const requiredKillXp = member.combatRows.reduce((sum, row) => sum + (row.xp ?? 0), 0);
+      const combatXp = member.combatRows.reduce((sum, row) => sum + (row.xp ?? 0), 0);
+      const placeholderSteps = member.steps.filter((step) => step.phase === "combat" &&
+        step.status === "projected" && actions.get(step.actionId)?.xpPlaceholder);
+      const plannedFarmXp = placeholderSteps.reduce((sum, step) => sum + step.combatXp, 0);
+      const plannedMaximumXp = placeholderSteps.reduce((sum, step) =>
+        sum + (step.xpBounds?.maximumCombatXp ?? step.combatXp), 0);
+      if (new Set(placeholderSteps.map((step) => step.actionId)).size !== placeholderSteps.length)
+        errors.push("A farming placeholder is counted more than once.");
+      for (const step of placeholderSteps) {
+        const action = actions.get(step.actionId)!;
+        const expected = Math.max(0, total({ level: action.xpPlaceholder!.targetLevel, currentXp: 0 }) - total(step.before));
+        if (step.combatXp !== expected || step.questXp !== 0 || step.questId !== null ||
+          action.kind !== "xp-check" || action.targetLevel !== action.xpPlaceholder!.targetLevel ||
+          action.questChanges.length || action.leaderOnly)
+          errors.push(`Step ${step.actionId} differs from its explicit farming budget.`);
+      }
+      const totalCombatXp = combatXp + plannedFarmXp;
+      const incidentalKillXp = member.combatRows.reduce(
+        (sum, row) => sum + (row.incidentalXp ?? 0),
+        0,
+      );
+      const requiredKillXp = combatXp - incidentalKillXp;
       if (questXp !== member.referenceQuestXp + member.estimatedQuestXp)
         errors.push("Quest XP has no matching reward rows.");
-      if (requiredKillXp !== member.combatXp)
+      if (totalCombatXp !== member.combatXp)
         errors.push("Combat XP has no matching required-kill rows.");
-      if (member.estimatedCombatXp !== 0) errors.push("The forecast contains extra grinding XP.");
+      if (incidentalKillXp !== (member.incidentalCombatXp ?? 0))
+        errors.push("Incidental XP has no matching allowance rows.");
+      if (!member.combatRows.every((row) => validIncidentalRow(row,
+        row.environment === "outdoor" ? outdoorIncidentalPercent : incidentalPercent)))
+        errors.push("Incidental XP exceeds its configured allowance or lacks estimated evidence.");
+      if (member.estimatedCombatXp !== plannedFarmXp) errors.push("The forecast contains extra grinding XP.");
       if (
         member.start &&
         member.knownEndpoint &&
         !member.xpBounds &&
         total(member.knownEndpoint) !==
-          Math.min(maximumXp, total(member.start) + questXp + requiredKillXp)
+          Math.min(maximumXp, total(member.start) + questXp + totalCombatXp)
       )
         errors.push("The chapter XP change differs from its listed rewards and required kills.");
       if (member.xpBounds?.start && member.xpBounds.finish) {
@@ -84,12 +148,12 @@ export function auditCampaignGuideFunding(
           [...member.rewards, ...member.bundleRewards].reduce(
             (sum, row) => sum + (row.maximumXp ?? row.xp ?? 0),
             0,
-          ) + member.combatRows.reduce((sum, row) => sum + (row.maximumXp ?? row.xp ?? 0), 0);
+          ) + member.combatRows.reduce((sum, row) => sum + (row.maximumXp ?? row.xp ?? 0), 0) + plannedMaximumXp;
         if (
           !campaignXpBoundsConserved({
             before: member.xpBounds.start,
             after: member.xpBounds.finish,
-            minimumXp: questXp + requiredKillXp,
+            minimumXp: questXp + totalCombatXp,
             maximumXp: maximumEarned,
           })
         )
@@ -106,8 +170,7 @@ export function auditCampaignGuideFunding(
         !member.xpBounds.finish &&
         member.start &&
         member.knownEndpoint &&
-        total(member.knownEndpoint) <
-          Math.min(maximumXp, total(member.start) + questXp + requiredKillXp)
+        total(member.knownEndpoint) < Math.min(maximumXp, total(member.start) + questXp + totalCombatXp)
       )
         errors.push("The known lower XP bound lost a listed contribution.");
       for (const step of member.steps) {
@@ -163,6 +226,8 @@ export function auditCampaignGuideFunding(
         lastCalculated: member.knownEndpoint,
         questXp,
         requiredKillXp,
+        ...(plannedFarmXp ? { plannedFarmXp } : {}),
+        incidentalKillXp,
         missingXp,
         failedCheckpointIds,
         missingQuestIds: member.unknownQuestIds,
@@ -172,7 +237,7 @@ export function auditCampaignGuideFunding(
           null,
         witnessErrors: errors,
         usesEstimates:
-          member.estimatedQuestXp > 0 ||
+          member.estimatedQuestXp > 0 || plannedFarmXp > 0 ||
           member.combatRows.some((row) => row.basis !== "observed" && row.basis !== "excluded") ||
           member.issues.length > 0 ||
           member.inheritedIssueCount > 0,
@@ -201,7 +266,7 @@ export function auditCampaignGuideFunding(
     };
   });
   return {
-    revision: "no-grind-funding-20261031-v1",
+    revision: "explicit-funding-20261104-v3",
     release: plan.release,
     chapters,
     funded: chapters.length > 0 && chapters.every((chapter) => chapter.funded),

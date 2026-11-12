@@ -1,0 +1,99 @@
+{
+  "schema": "forever-reviewed-dungeon-ground.v1",
+  "targetBuild": 70205,
+  "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+  "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+  "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+  "clientCounterSources": [
+    {
+      "build": 70205,
+      "source": {
+        "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+        "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+        "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json"
+      },
+      "quests": [
+        {
+          "questId": 92456,
+          "title": "A Green Sample",
+          "minimumLevel": 24,
+          "questLevel": 33,
+          "zoneAreaId": 16544,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 466649,
+              "objectId": 251983,
+              "storageIndex": 1,
+              "type": "item",
+              "typeId": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build": 70450,
+      "source": {
+        "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+        "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+        "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json"
+      },
+      "quests": [
+        {
+          "questId": 92456,
+          "title": "A Green Sample",
+          "minimumLevel": 24,
+          "questLevel": 33,
+          "zoneAreaId": 16544,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 466649,
+              "objectId": 251983,
+              "storageIndex": 1,
+              "type": "item",
+              "typeId": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "questId": 92456,
+      "objectiveIndex": 1,
+      "itemId": 251983,
+      "itemName": "Fel Infused Blossom",
+      "quantity": 1,
+      "dungeonId": "dalaran",
+      "objectiveText": [
+        "Collect a Fel Infused Blossom from the City of Dalaran for Shylamiir in Stormwind City."
+      ],
+      "accessNpcs": [
+        {
+          "id": 246003,
+          "name": "Fel Ancient"
+        }
+      ],
+      "instructions": [
+        "At Runeweaver Square, speak to Magus Fansy Goodbringer on the eastern side to lower the garden barrier.",
+        "Defeat Fel Ancient, then interact with the green plant bulbs. Every player needs one Fel Infused Blossom before leaving the garden."
+      ],
+      "sources": [
+        {
+          "url": "https://www.warcrafttavern.com/forever/guides/city-of-dalaran-quests/",
+          "author": "Val Hull",
+          "kind": "authored-field-guide"
+        },
+        {
+          "url": "https://www.icy-veins.com/wow-forever/city-of-dalaran-quests",
+          "author": "Neryssa",
+          "kind": "authored-field-guide"
+        }
+      ]
+    }
+  ],
+  "attribution": "Client objective records: Efficient Games (https://efficient.games), CC BY 4.0. Physical-method facts are attributed to the named field-guide authors; instructions are paraphrased."
+}

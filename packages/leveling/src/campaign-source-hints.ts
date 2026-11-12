@@ -1,5 +1,6 @@
 import type { CampaignPlan, CampaignSource } from "./campaign.js";
 import { campaignNativeInstructions } from "./campaign-addon-native.js";
+import { attachCampaignMeatSupplyHints } from "./campaign-meat-supplies.js";
 
 /** Share the native adapter's item filtering with the browser's quest instructions. */
 export function attachCampaignSourceHints(
@@ -11,13 +12,20 @@ export function attachCampaignSourceHints(
     plan,
     sources.filter((source) => chapters.has(source.guide.chapterId)),
   );
-  return {
+  return attachCampaignMeatSupplyHints({
     ...plan,
     actions: plan.actions.map((action) => {
       if (!action.source || action.movement) return action;
+      const source = native(action);
+      const excluded = new Set(source?.excludedText ?? []);
+      if (excluded.size)
+        action = {
+          ...action,
+          instructions: action.instructions.filter((instruction) => !excluded.has(instruction)),
+        };
       const hints =
-        native(action)
-          ?.directives.filter(
+        source?.directives
+          .filter(
             (directive) =>
               [".use", ".cast", ".collect", ".gossipoption"].includes(directive.tag) &&
               directive.text,
@@ -27,5 +35,5 @@ export function attachCampaignSourceHints(
         ? { ...action, instructions: [...new Set([...action.instructions, ...hints])] }
         : action;
     }),
-  };
+  });
 }

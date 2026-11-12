@@ -13,9 +13,11 @@ import { forecastCampaignXp } from "./campaign-xp.js";
 import { campaignNativeInstructions } from "./campaign-addon-native.js";
 import { recordPremadeXp } from "./premade.js";
 import {
+  campaignFundingProgressAfter,
   campaignFundingProgressBefore,
   type CampaignFundingState,
 } from "./campaign-funding-scenarios.js";
+import { campaignRouteHandoff } from "./campaign-route-handoff.js";
 
 const raw =
   "step\n.goto Elwynn Forest,40,80\n>>Kill boars and loot their meat\n.collect 769,4,86,1\n.mob Stonetusk Boar\nstep\n.goto Elwynn Forest,42,80\n.accept 86\nstep\n.goto Elwynn Forest,43,80\n.turnin 86";
@@ -538,6 +540,7 @@ describe("source-backed pre-accept item work", () => {
       starterMode: "separate",
       strategy: "dungeons",
       optionalStops: true,
+      lootScenario: "expected" as const,
       sourceBuild: plan.targetBuild,
       itemRequirements: plan.itemRequirements!,
       progress: saved,
@@ -552,6 +555,22 @@ describe("source-backed pre-accept item work", () => {
       .members[0]!;
     expect(remaining.rewards.map((row) => row.xp)).toEqual([100]);
     expect(remaining.combatXp).toBe(0);
+    const original = structuredClone(saved);
+    const afterPickup = campaignFundingProgressAfter(state, plan.actions[1]!.id);
+    expect(afterPickup).toEqual(resumed);
+    const handoff = campaignRouteHandoff(state, plan.actions[1]!.id);
+    expect(handoff.kind).toBe("projected-reference-xp");
+    expect(handoff.progress).toEqual(resumed);
+    expect(premadeProgressSchema.parse(JSON.parse(JSON.stringify(handoff.progress)))).toEqual(resumed);
+    const afterHandIn = campaignRouteHandoff(state, plan.actions[2]!.id);
+    expect(afterHandIn.progress.members[0]!.questStates["86"]).toBe("rewarded");
+    expect(afterHandIn.progress.members[0]!.itemHoldings?.minimums).toEqual({});
+    expect(afterHandIn.progress.members[0]!.currentXp).toBe(resumed.members[0]!.currentXp! + 100);
+    expect(afterHandIn.xpBounds[0]!.minimum.currentXp).toBe(afterHandIn.progress.members[0]!.currentXp);
+    expect(saved).toEqual(original);
+    expect(() => campaignRouteHandoff(state, "missing")).toThrow("not active");
+    const unknown = { ...state, progress: { ...saved, members: saved.members.map((member) => ({ ...member, level: null, currentXp: null })) }, forecast: [] };
+    expect(() => campaignRouteHandoff(unknown, plan.actions[1]!.id)).toThrow("known XP bounds");
   });
 
   it("does not reconstruct a partial non-item objective as whole-quest completion", () => {
@@ -596,6 +615,7 @@ describe("source-backed pre-accept item work", () => {
       starterMode: "separate",
       strategy: "dungeons",
       optionalStops: true,
+      lootScenario: "expected" as const,
       progress: saved,
       actions,
       forecast: forecastCampaignXp(tested, saved),

@@ -8,7 +8,6 @@ import {
   mkdtemp,
   open,
   readFile,
-  readdir,
   rename,
   rm,
   unlink,
@@ -20,6 +19,7 @@ import process from "node:process";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { pruneGuardianReleases, storageActivity } from "./storage-retention.mjs";
+import { readCatalogClientInstallation } from "./catalog-client.mjs";
 import {
   buildCatalogRuntime,
   verifyGuardianRelease,
@@ -51,7 +51,7 @@ async function main(arguments_) {
   const release = await prepareRelease();
   const guardianPath = join(release.directory, "scripts/catalog-guardian.mjs");
   const nodePath = join(release.directory, "bin/node");
-  const productRoot = await findProductRoot(options.wowRoot, options.product);
+  const { productRoot } = await readCatalogClientInstallation(options.wowRoot, options.product);
   const watchPaths = [
     join(options.wowRoot, ".build.info"),
     join(productRoot, "Cache/ADB", options.locale, "DBCache.bin"),
@@ -189,6 +189,7 @@ async function prepareRelease() {
     for (const script of [
       "catalog-guardian.mjs",
       "catalog-guardian-state.mjs",
+      "catalog-client.mjs",
       "catalog-review-approval.mjs",
       "catalog-runtime.mjs",
       "sync-production-media.sh",
@@ -219,7 +220,9 @@ async function prepareRelease() {
     const catalogExtractorVersionResult = await execute(catalogExtractor, ["--catalog-version"]);
     const catalogExtractorVersion = catalogExtractorVersionResult.stdout.trim();
     if (!/^\d+\.\d+\.\d+$/.test(catalogExtractorVersion))
-      throw new Error(`Invalid catalog extractor version: ${catalogExtractorVersion || "missing"}.`);
+      throw new Error(
+        `Invalid catalog extractor version: ${catalogExtractorVersion || "missing"}.`,
+      );
     const revision = await execute("git", ["rev-parse", "HEAD"], { cwd: repositoryRoot });
     await writeFile(
       join(temporaryDirectory, "installation.json"),
@@ -362,21 +365,6 @@ ${watchPathsXml}
   </dict>
 </plist>
 `;
-}
-
-async function findProductRoot(wowRoot, product) {
-  const entries = await readdir(wowRoot, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const candidate = join(wowRoot, entry.name);
-    try {
-      const flavor = await readFile(join(candidate, ".flavor.info"), "utf8");
-      if (flavor.trim().split(/\r?\n/)[1] === product) return candidate;
-    } catch (error) {
-      if (!(error instanceof Error && "code" in error && error.code === "ENOENT")) throw error;
-    }
-  }
-  throw new Error(`No installed directory declares product ${product}.`);
 }
 
 function escapeXml(value) {

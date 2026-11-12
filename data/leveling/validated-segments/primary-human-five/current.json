@@ -1,0 +1,31 @@
+{
+  "schema": "campaign-route-qualification-index.v1",
+  "campaignRevision": "campaign-20261105-v234",
+  "xpRevision": "harbor-crossing-20261105-v199",
+  "engineSha256": "8c8beed8e7aaabf7b643f782fd6921a6287a615496af803aee579a2a66184fe8",
+  "referenceSha256": "0e6e51ec71fa82e063ff5b3cdd95f18a576daf3bf0941568ce2349be1b2fb039",
+  "context": "context-v1003.json",
+  "guideReady": false,
+  "blocks": [
+    {
+      "targetLevel": 10,
+      "lock": "through-10.validation-8fb18c2f2b34f5ba971e4f0e756bde978c464d949bbdbce04c941ff0f32a7eac.lock.json",
+      "routeSha256": "3cc72204c274932a479101e9e7986fc38e5695272fb29e9a217b15c7dd392df1"
+    },
+    {
+      "targetLevel": 20,
+      "lock": "through-20.validation-135fe12bb7680ded2c69028d93fca330eac7389f6c037d0f7f81c81556be1f29.lock.json",
+      "routeSha256": "e26707d562dcd812b7a9a29fa29f4a18bd76042dfaa5c83e0481a3704cb88e21"
+    },
+    {
+      "targetLevel": 30,
+      "lock": "through-30.validation-1f8db1d85a4c449a498cc14c0d20af7fc94e2d5929cae172a6912da877bbdeb0.lock.json",
+      "routeSha256": "ce3e4384717b910ee245c1d730e9500d9914cff65c12ff63b4c3d7114a681a44"
+    }
+  ],
+  "payloadRevision": {
+    "reason": "explicit-generated-counter-combat-scope",
+    "file": "counter-scope-revision-135f9bd855dfda0ff874478d1a8ecc5ca2bffaed4f3a8c99a2063d0e1f852453.json",
+    "sha256": "135f9bd855dfda0ff874478d1a8ecc5ca2bffaed4f3a8c99a2063d0e1f852453"
+  }
+}

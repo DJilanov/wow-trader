@@ -1,15 +1,43 @@
 # Historical loot fields in the leveling XP forecast
 
+**Current local component (V207):** Baron level 17 is owner-confirmed; Data Rescue uses its captured punch-card puzzle. All 3,078 relevant tests, 48 workload forecasts and 20 native/Lua exports pass. The expected minimum still needs **2,821 XP/player for level 29**. Fresh production preparation, full 1–60 and every original other-group edition remain unfinished and undeployed. [Current results and remaining work](forever-leveling-product-plan.md#current-local-component--punch-card-and-baron-v207).
+
+**Previous component work (V161):** complete object handoffs now qualify without fake NPCs or completion counters. The actual 279→281→284→285→286 component preserves the supplied statuette, full head quota, source guards and prerequisites; all five class exports pass. The archive audit preserves 28 prior handoffs and 76 collection methods. No actual route XP was recalculated. [Implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-component--object-handoffs-without-xp-replay-v161).
+
+**Previous component work (V160):** the complete mixed Claws from the Deep method now qualifies with twelve shared Bluegill kills and one head per player. All 75 previous collection methods remain unchanged; +4/+5 boundaries, journal limits and five native exports pass. No actual route XP was recalculated. [Implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-component--complete-mixed-method-without-xp-replay-v160).
+
+**Previous binding work (V159):** the complete captured Claws from the Deep method now proves the missing head counter at 2 separately from twelve Bluegill kills at 1. Five class/component exports pass, with no actual route XP replay. [Current proof and remaining integration](forever-leveling-product-plan.md#current-local-data--mixed-item-counter-without-xp-replay-v159).
+
+**Previous data work (V158):** object recipients are now preserved separately for 73 quests / 74 locations, with reciprocal provider relations and provenance checks. Funding eligibility and saved XP calculations are unchanged. [Implementation and remaining qualification](forever-leveling-product-plan.md#current-local-data--object-recipients-without-xp-replay-v158).
+
+**Historical policy change (V157, November 3):** +4 above the lowest participating player; +5 excluded for ordinary enemies, with dungeon bosses retaining separate rules. The owner requested **no XP recalculation** for this change. The last full replay is V156; earlier +3-policy reviews below are historical. See the [current implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-policy--four-level-cap-without-xp-replay-v157).
+
 This reference supplies missing stack, sharing and probability-context assumptions for required collection
 quests. It does not establish current Forever behavior or change captured drop rates.
 The no-grinding guide remains unreleased; see the
 [full XP audit](forever-leveling-no-grind-audit-2026-10-31.md).
 
+## Previous route integration — v154
+
+Historical sharing, stacks and captured probabilities remain unchanged. The Stalvan NPC handoff and Pelturas waiting guidance add no acquisition XP or loot work. Separate historical population and item-quantity inventories are diagnostics, not active clear profiles or smaller accepted quotas. The normal/elite level ceiling remains +3; actual server behavior and continuous route funding remain unqualified. [Current verification](forever-leveling-product-plan.md#current-local-review--bounded-npc-wording-and-captured-wait-v154); receipt `.cache/leveling-no-grind-20261031/verification-npc-waits-v154.json`. Local only; nothing deployed.
+
+<a id="current-route-integration--v153"></a>
+
+## Previous route integration — v153
+
+The actual route now completes Fire Taboo after its captured prerequisite. Its nine flints per character / 45 for five retain the original captured probability and historical sharing/stack assumptions. Neither the 25 Mosshide kill counters nor twelve Fen Creeper kills replace that loot work. No loot or XP rule changes. [Current verification](forever-leveling-product-plan.md#current-local-review--outdoor-wetlands-chain-and-bookmarks-v153); full route funding and actual server behavior remain unqualified.
+
+<a id="current-route-integration--v149"></a>
+
+## Previous route integration — v149
+
+The WC/outdoor choice changes active tasks, not historical sharing, stacks or captured probability assumptions. Hides remains optional with 100 pooled hides for five players. [Current verification](forever-leveling-product-plan.md#current-local-review--optional-wc-and-outdoor-alternatives-v149); full route funding and actual payouts remain unqualified.
+
 ## Reference-only drops when a capture is missing
 
 The preparer accepts `--include-reference-only-drops` as an explicit opt-in. It adds corrected quest creature/item pairs to the SQL selection even when there is no captured drop row. The existing exact-name checks, actual loot-template joins, direct ungrouped fixed-one requirements and reference-template ambiguity holds still apply. Provided and ground-pickup items do not become creature-drop candidates.
 
-These records live in a separate `historicalLoot` reference. They do not become `lootDrops`, acquire fake capture timestamps or claim the target build as their historical source build. The dataset validator checks their target build, corrected item names, creature names and non-provided quest relations. The quota resolver consults them only when the exact captured pair is absent. An existing captured rate, unresolved captured sample, duplicate capture or foreign-build hold keeps its original precedence. The joint collection model retains the historical template identity when checking its independence assumptions.
+These records live in a separate `historicalLoot` reference. They do not become `lootDrops`, acquire fake capture timestamps or claim the target build as their historical source build. The dataset validator checks their target build, corrected item names, creature names and non-provided quest relations. The quota resolver consults them only when the exact captured pair is absent. An existing captured rate, unusable stack model, duplicate capture or foreign-build hold keeps precedence. Sampled fixed-one captured rates are labeled estimates; historical probability context does not replace their values. The joint collection model retains the historical template identity when checking its independence assumptions.
 
 The local private candidate adds **3,762 historical-only pairs** while preserving all **1,164 captured drop records, 1,726 quest records and 2,804 NPC records**, including **185 unknown ranks**, exactly. The historical source build remains **5875**; the reference target is **70205**. No current Forever rate, new-server multiplier, observed kill count or full-route completion is established by this normalization. The original input and production artifact locations remain unchanged.
 
@@ -55,10 +83,11 @@ new field reference; it does not replace a captured probability's build. The exi
 foreign-build guard remains enforced. No player recordings or dungeon-clear profiles
 are included.
 
-The probability-context extension prevents an aggregate item/death ratio from being
-silently treated as a quest-eligible rate. It uses a compatible historical quest-roll
-reference at a stated baseline multiplier of one, keeps qualified ordinary-drop samples,
-and holds unqualified samples. Explicit reported rates retain priority. See the
+Local ledger v107 labels an available fixed-one captured item/death ratio as a planning
+estimate and uses its actual value ahead of historical probability context. Unknown or
+multi-item stacks remain held. Historical quest-roll rates retain a baseline multiplier
+of one only in the separately identified missing-pair fallback; they do not establish
+current Forever tuning. Explicit reported rates retain priority. See the
 [selection rules, examples and limits](forever-leveling-quest-drop-probability.md).
 
 The linked quest catalog stays at `artifacts/leveling/authorized-guide-references`.

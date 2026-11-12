@@ -1,6 +1,6 @@
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
-import { buildCampaignQuestLibrary } from "./campaign-library.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { buildCampaignQuestLibrary, campaignLibraryOptions } from "./campaign-library.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { PREMADE_STOPS } from "./premade.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { campaignDungeonQuest } from "./campaign-dungeon-reference.js";
@@ -17,8 +17,11 @@ export function attachCampaignDungeonSources(
   const library = new Map(
     buildCampaignQuestLibrary(
       sources,
-      createCampaignSourceProfile(plan.race, plan.leaderClass),
+      campaignPlanSourceProfile(plan),
       tags,
+      new Set(),
+      [],
+      campaignLibraryOptions(plan),
     ).map((quest) => [quest.questId, quest]),
   );
   return {

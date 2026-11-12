@@ -1,5 +1,6 @@
 import { execFile } from "node:child_process";
 import { Buffer } from "node:buffer";
+import { createReadStream } from "node:fs";
 import { promisify } from "node:util";
 import { lstat, mkdir, open, readFile, readdir, realpath, rm } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
@@ -134,8 +135,53 @@ async function children(root) {
   return readdir(root, { withFileTypes: true });
 }
 
-/** Existing source/docs and runtime path configuration provide conservative retention pins. */
-export async function storageReferences(repository) {
+async function retentionReferenceNeedles(repository, snapshotRepositories) {
+  const needles = new Set();
+  async function audits(directory) {
+    for (const entry of await children(directory)) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) await audits(path);
+      else if (entry.isFile() && /^campaign-xp-audit-[a-f0-9]{16}\.json$/.test(entry.name)) {
+        needles.add(entry.name);
+        needles.add(relative(repository, path));
+      }
+    }
+  }
+  await audits(join(repository, "artifacts/leveling/audits"));
+  for (const source of snapshotRepositories) {
+    for (const entry of await children(join(source, "artifacts/local-catalog")))
+      if (entry.isDirectory() && /^[a-f0-9]{12}$/.test(entry.name)) needles.add(entry.name);
+    for (const suffix of [
+      "artifacts/local-media",
+      "artifacts/world-snapshots",
+      "artifacts/local-world/world-snapshots",
+    ]) {
+      const root = join(source, suffix);
+      for (const product of await children(root)) {
+        if (!product.isDirectory() || !/^[a-z0-9_]+$/.test(product.name)) continue;
+        for (const build of await children(join(root, product.name)))
+          if (build.isDirectory() && /^\d{5,8}$/.test(build.name))
+            needles.add(join(suffix, product.name, build.name));
+      }
+    }
+  }
+  return needles;
+}
+
+/** Scan source/docs and runtime configuration in bounded chunks, preserving all matching pins.
+ * @param {string} repository
+ * @param {{snapshotRepositories?: string[]}} options
+ * @returns {Promise<{includes: (needle: string) => boolean}>}
+ */
+export async function storageReferences(repository, { snapshotRepositories = [repository] } = {}) {
+  const needles = await retentionReferenceNeedles(repository, snapshotRepositories);
+  const pending = new Set(needles);
+  const includes = (needle) => !needles.has(needle) || !pending.has(needle);
+  if (pending.size === 0) return { includes };
+  const overlap = [...needles].reduce((longest, needle) => Math.max(longest, needle.length), 1) - 1;
+  const scan = (text) => {
+    for (const needle of pending) if (text.includes(needle)) pending.delete(needle);
+  };
   const { stdout } = await execute(
     "git",
     ["-C", repository, "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
@@ -150,22 +196,36 @@ export async function storageReferences(repository) {
   const paths = new Set(stdout.split("\0").filter(Boolean));
   for (const suffix of [".env", ".env.local", "apps/web/.env", "apps/web/.env.local"])
     paths.add(suffix);
-  let text = [...paths].join("\n") + "\n";
+  scan([...paths].join("\n"));
   for (const path of paths) {
+    if (pending.size === 0) break;
     if (!/\.(?:md|json|mjs|ts|tsx|sh|ya?ml|txt)$/.test(path) && !basename(path).startsWith(".env"))
       continue;
     if (path.startsWith("artifacts/") || path.startsWith(".cache/")) continue;
     const file = join(repository, path);
     const info = await optionalStat(file);
     if (!info?.isFile() || info.isSymbolicLink()) continue;
-    if (info.size > 8 * 1024 ** 2)
-      throw new Error(`Reference file exceeds retention scan budget: ${path}`);
-    text += await readFile(file, "utf8");
-    text += "\n";
-    if (text.length > 128 * 1024 ** 2)
-      throw new Error("Retention reference scan exceeds its budget");
+    let tail = "";
+    for await (const chunk of createReadStream(file, {
+      encoding: "utf8",
+      highWaterMark: 64 * 1024,
+    })) {
+      const text = tail + chunk;
+      scan(text);
+      tail = overlap > 0 ? text.slice(-overlap) : "";
+      if (pending.size === 0) break;
+    }
+    const current = await lstat(file);
+    if (
+      current.ino !== info.ino ||
+      current.dev !== info.dev ||
+      current.size !== info.size ||
+      current.mtimeMs !== info.mtimeMs
+    )
+      throw new Error(`Reference file changed during retention scan: ${path}`);
   }
-  return text;
+  // A candidate created after this scan remains protected until the next scan.
+  return { includes };
 }
 
 async function protectedByMarker(root, path) {
@@ -413,12 +473,14 @@ export async function maintainStorage({
     );
     results.push(await pruneGuardianReleases(home, options));
     if (full) {
-      const references = await storageReferences(repository);
       const guardian = join(home, "Library/Application Support/WowTraderCatalogGuardian");
+      const guardianWork = join(guardian, "work");
+      const references = await storageReferences(repository, {
+        snapshotRepositories: [repository, guardianWork],
+      });
       const status = await optionalJson(join(guardian, "status.json"));
       results.push(...(await pruneAudits(repository, references, options)));
       results.push(...(await pruneSnapshots(repository, references, status, options)));
-      const guardianWork = join(guardian, "work");
       if (await optionalStat(guardianWork)) {
         const releaseGuardian = await acquireStorageLock(join(guardian, "guardian.lock"));
         if (releaseGuardian) {

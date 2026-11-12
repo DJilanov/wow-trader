@@ -1,0 +1,444 @@
+{
+  "classification": "Literal archived step excerpts and exact provider/reference records for two NPC handoffs; no quest rewards or kill XP.",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "catalogMetadata": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+  },
+  "provider": {
+    "repository": "https://github.com/Questie/QuestieDB",
+    "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "layer": "forever-static-with-authored",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "limitations": [
+      "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+      "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+      "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+      "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+      "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+      "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+      "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+      "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+      "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+      "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+      "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+      "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+      "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+      "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+      "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+      "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+      "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+      "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+      "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull’s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient’s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+      "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+      "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+      "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+      "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged."
+    ]
+  },
+  "combatCatalogReference": {
+    "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+  },
+  "catalog": [
+    {
+      "questId": 659,
+      "title": "Hints of a New Plague?",
+      "minimumLevel": 30,
+      "questLevel": 33,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 2711,
+          "name": "Phin Odelic",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1424",
+              "x": 50.35,
+              "y": 59.05
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 2712,
+          "name": "Quae",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1417",
+              "x": 60.18,
+              "y": 53.85
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 663,
+      "title": "Land Ho!",
+      "minimumLevel": 35,
+      "questLevel": 35,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 2766,
+          "name": "Lolo the Lookout",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1417",
+              "x": 31.78,
+              "y": 82.68
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 2610,
+          "name": "Shakes O'Breen",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1417",
+              "x": 32.28,
+              "y": 81.38
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "unresolved-objective-text"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "questId": 659,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Find Quae and Kinelory near the Go'Shek Farm in the Arathi Highlands."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 663,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Talk to Captain O'Breen in Faldir's Cove."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": []
+    }
+  ],
+  "sources": [
+    {
+      "chapterId": "chapter-14-32-33-hillsbrad-arathi",
+      "originalFile": "artifacts/leveling/archive/chapter-14-32-33-hillsbrad-arathi-v2-bc07e10e90aad54e.json",
+      "originalSha256": "4e79b84b78927ce5abbacd892196ed06dc7970fec8cab030aae04a716cc81953",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-14-32-33-hillsbrad-arathi",
+        "version": "import-v2-bc07e10e90aad54e",
+        "targetBuild": 70205,
+        "sourceSha256": "bc07e10e90aad54e904e66bc3a316c9fa24eb41560f2f3a07652187b54194385",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0056",
+            "ordinal": 56,
+            "sourceLine": 455,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#xprate",
+                "arguments": "<1.99",
+                "condition": "!Hunter",
+                "text": "",
+                "sourceLine": 456,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1424/0,-544.34,-859.65",
+                "condition": "",
+                "text": "",
+                "sourceLine": 457,
+                "questId": null,
+                "position": {
+                  "zone": "1424",
+                  "floor": 0,
+                  "x": -544.34,
+                  "y": -859.65,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Phin Odelic",
+                "sourceLine": 458,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "659",
+                "condition": "",
+                "text": "Accept Hints of a New Plague?",
+                "sourceLine": 459,
+                "questId": 659,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Phin Odelic",
+                "condition": "",
+                "text": "",
+                "sourceLine": 460,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0104",
+            "ordinal": 104,
+            "sourceLine": 837,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#xprate",
+                "arguments": "<1.99",
+                "condition": "!Hunter",
+                "text": "",
+                "sourceLine": 838,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1417/0,-3033.33,-1425.69",
+                "condition": "",
+                "text": "",
+                "sourceLine": 839,
+                "questId": null,
+                "position": {
+                  "zone": "1417",
+                  "floor": 0,
+                  "x": -3033.33,
+                  "y": -1425.69,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Quae",
+                "sourceLine": 840,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "659",
+                "condition": "",
+                "text": "Turn in Hints of a New Plague?",
+                "sourceLine": 841,
+                "questId": 659,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "658",
+                "condition": "",
+                "text": "Accept Hints of a New Plague?",
+                "sourceLine": 842,
+                "questId": 658,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Quae",
+                "condition": "",
+                "text": "",
+                "sourceLine": 843,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "chapterId": "chapter-21-39-40-alterac-arathi",
+      "originalFile": "artifacts/leveling/archive/chapter-21-39-40-alterac-arathi-v2-b8159d755149bd5e.json",
+      "originalSha256": "e3bc61348e172f6d18b7ec5b251316f2d646ff1e1e72ae44605da9e867f712e9",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-21-39-40-alterac-arathi",
+        "version": "import-v2-b8159d755149bd5e",
+        "targetBuild": 70205,
+        "sourceSha256": "b8159d755149bd5e77027eff3367f9a5b3dd1340f0a81011856efb3bc28822a0",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0138",
+            "ordinal": 138,
+            "sourceLine": 1059,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1417/0,-2010.75,-2117.65",
+                "condition": "",
+                "text": "",
+                "sourceLine": 1060,
+                "questId": null,
+                "position": {
+                  "zone": "1417",
+                  "floor": 0,
+                  "x": -2010.75,
+                  "y": -2117.65,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".target",
+                "arguments": "Lolo the Lookout",
+                "condition": "",
+                "text": "",
+                "sourceLine": 1061,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Lolo the Lookout",
+                "sourceLine": 1062,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "663",
+                "condition": "",
+                "text": "Accept Land Ho!",
+                "sourceLine": 1063,
+                "questId": 663,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0139",
+            "ordinal": 139,
+            "sourceLine": 1064,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1417/0,-2028.85,-2086.07",
+                "condition": "",
+                "text": "",
+                "sourceLine": 1065,
+                "questId": null,
+                "position": {
+                  "zone": "1417",
+                  "floor": 0,
+                  "x": -2028.85,
+                  "y": -2086.07,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".target",
+                "arguments": "Shakes O'Breen",
+                "condition": "",
+                "text": "",
+                "sourceLine": 1066,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Shakes O'Breen",
+                "sourceLine": 1067,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "663",
+                "condition": "",
+                "text": "Turn in Land Ho!",
+                "sourceLine": 1068,
+                "questId": 663,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

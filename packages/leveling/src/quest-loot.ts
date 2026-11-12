@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { groundPickupReferenceSchema } from "./quest-ground-pickup.js";
+import { ceilLootKillMean } from "./loot-kill-rounding.js";
 import { estimateVariableStackKills, type LootStackWeight } from "./loot-stack-distribution.js";
 import {
   classicLootSharingReferenceSchema,
@@ -63,6 +64,12 @@ export const questItemObjectiveSchema = z
     itemName: z.string().trim().min(1).max(300).optional(),
     quantity: z.number().int().min(1).max(10_000).nullable(),
     npcIds: z.array(id).max(1000),
+    objectIds: z
+      .array(id)
+      .min(1)
+      .max(1000)
+      .refine((ids) => new Set(ids).size === ids.length)
+      .optional(),
     sharing: lootSharingSchema,
     sharingReference: classicLootSharingReferenceSchema.optional(),
     provided: z.boolean().optional(),
@@ -74,15 +81,16 @@ export const questItemObjectiveSchema = z
   .refine(
     (item) =>
       !item.groundPickup ||
-      (item.quantity === 1 &&
+      (item.quantity === (item.groundPickup.quantity ?? 1) &&
         Boolean(item.itemName?.trim()) &&
-        item.objectiveIndex === 1 &&
+        item.objectiveIndex === item.groundPickup.objectiveIndex &&
         item.npcIds.length === 0 &&
         !item.provided &&
         !item.vendorEvidence &&
         !item.rewardEvidence &&
+        (!item.objectIds || item.objectIds.includes(item.groundPickup.objectId)) &&
         item.groundPickup.itemId === item.itemId),
-    "Ground pickup differs from the one-item objective or has another acquisition method.",
+    "Ground pickup differs from its quantity-bound objective or has another acquisition method.",
   )
   .refine(
     (item) =>
@@ -293,5 +301,5 @@ export function plannedLootKills(
     ? estimate.fastKills
     : scenario === "slow"
       ? estimate.slowKills
-      : Math.ceil(estimate.expectedKills);
+      : ceilLootKillMean(estimate.expectedKills);
 }

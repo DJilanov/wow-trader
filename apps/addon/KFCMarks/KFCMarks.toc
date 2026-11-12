@@ -1,0 +1,11 @@
+## Interface: 16001
+## Title: KFC Marks
+## Notes: Safe party and raid target marking with live icon availability and a combat observation queue.
+## Author: KFC Guild
+## Version: 0.1.0
+## SavedVariables: KFC_MARKS_DB
+
+Policy.lua
+Core.lua
+UI.lua
+Bindings.xml

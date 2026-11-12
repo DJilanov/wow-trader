@@ -1,20 +1,56 @@
-import type { CampaignPlan } from "./campaign.js";
-import { combatObjectiveKey } from "./combat-model.js";
+import type { CampaignAction, CampaignPlan } from "./campaign.js";
+import { combatObjectiveKey, type CombatDataset } from "./combat-model.js";
+import { resolveCombatQuota } from "./combat-loot.js";
+import {
+  REVIEWED_LOOT_TARGETS,
+  type ReviewedLootTarget,
+} from "./campaign-reviewed-loot-targets.js";
 
-const reviewedTarget = {
-  chapterId: "chapter-116-6-11-elwynn-forest",
-  stepId: "source-step-0054",
-  npcId: 475,
-  name: "Kobold Tunneler",
-  keys: ["60:1", "47:1"],
-  previous:
-    "Kill Kobold Tunnelers and Kobold Miners. Loot them for their Kobold Candles and Gold Dust",
-  instruction:
-    "Kill Kobold Tunnelers in Fargodeep Mine until the listed candle and gold dust objectives are complete.",
-} as const;
+type LootProvider = Pick<CombatDataset["provider"], "revision" | "npcSha256">;
+
+function matchesQualification(
+  action: CampaignAction,
+  plan: CampaignPlan,
+  target: ReviewedLootTarget,
+  provider?: LootProvider,
+): boolean {
+  const proof = target.qualification;
+  if (!proof) return true;
+  return (
+    plan.sharedQuestsOnly === true &&
+    !action.leaderOnly &&
+    plan.targetBuild === proof.targetBuild &&
+    plan.combat?.targetBuild === proof.targetBuild &&
+    plan.sourceArchiveSha256 === proof.sourceArchiveSha256 &&
+    action.source?.version === proof.sourceVersion &&
+    provider?.revision === proof.providerRevision &&
+    provider.npcSha256 === proof.providerNpcSha256 &&
+    action.positions.length === proof.worldWaypoints.length &&
+    action.positions.every(
+      ({ position }, index) =>
+        position.zone === proof.zone &&
+        position.space === "world" &&
+        position.floor === 0 &&
+        position.x === proof.worldWaypoints[index]![0] &&
+        position.y === proof.worldWaypoints[index]![1],
+    )
+  );
+}
 
 /** An explicit player instruction and its forecast must select the same reviewed source creature. */
-export function attachCampaignLootTargets(plan: CampaignPlan): CampaignPlan {
+export function attachCampaignLootTargets(
+  plan: CampaignPlan,
+  provider?: LootProvider,
+): CampaignPlan {
+  for (const target of REVIEWED_LOOT_TARGETS) plan = attachReviewedTarget(plan, target, provider);
+  return plan;
+}
+
+function attachReviewedTarget(
+  plan: CampaignPlan,
+  reviewedTarget: ReviewedLootTarget,
+  provider?: LootProvider,
+): CampaignPlan {
   const combat = plan.combat;
   if (!combat) return plan;
   const npc = combat.npcs.find((npc) => npc.id === reviewedTarget.npcId);
@@ -23,7 +59,11 @@ export function attachCampaignLootTargets(plan: CampaignPlan): CampaignPlan {
     npc.name !== reviewedTarget.name ||
     npc.rank !== 0 ||
     npc.maximumLevel === null ||
-    npc.maximumLevel > 6
+    npc.maximumLevel > reviewedTarget.maximumEnemyLevel ||
+    (reviewedTarget.qualification &&
+      (npc.minimumLevel !== reviewedTarget.qualification.minimumEnemyLevel ||
+        npc.maximumLevel !== reviewedTarget.maximumEnemyLevel ||
+        !npc.zoneIds.includes(reviewedTarget.qualification.areaId)))
   )
     return plan;
   const actions = new Set(
@@ -32,6 +72,7 @@ export function attachCampaignLootTargets(plan: CampaignPlan): CampaignPlan {
         (action) =>
           action.source?.chapterId === reviewedTarget.chapterId &&
           action.source.stepId === reviewedTarget.stepId &&
+          matchesQualification(action, plan, reviewedTarget, provider) &&
           action.questChanges.length === reviewedTarget.keys.length &&
           (action.instructions.includes(reviewedTarget.previous) ||
             action.instructions.includes(reviewedTarget.instruction)) &&
@@ -54,7 +95,19 @@ export function attachCampaignLootTargets(plan: CampaignPlan): CampaignPlan {
                     objective.credit === "personal-loot" &&
                     objective.npcIds.includes(npc.id) &&
                     objective.loot !== undefined &&
-                    objective.loot.quantity !== null,
+                    objective.loot.quantity !== null &&
+                    (!reviewedTarget.qualification ||
+                      (objective.loot.itemId === reviewedTarget.qualification.itemId &&
+                        objective.loot.quantity === reviewedTarget.qualification.quantity &&
+                        combat.lootDrops?.some(
+                          (drop) => drop.itemId === objective.loot!.itemId && drop.npcId === npc.id,
+                        ) &&
+                        resolveCombatQuota(
+                          { ...objective, npcIds: [npc.id] },
+                          combat,
+                          5,
+                          "expected",
+                        ).kills !== null)),
                 ),
               ),
           ),
@@ -86,9 +139,9 @@ export function attachCampaignLootTargets(plan: CampaignPlan): CampaignPlan {
                   ? {
                       ...objective,
                       npcIds: [npc.id],
-                      source: objective.source.endsWith("; reviewed Fargodeep Tunneler target")
+                      source: objective.source.endsWith(reviewedTarget.sourceSuffix)
                         ? objective.source
-                        : objective.source + "; reviewed Fargodeep Tunneler target",
+                        : objective.source + reviewedTarget.sourceSuffix,
                     }
                   : objective,
               ),

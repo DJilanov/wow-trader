@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import { forecastCampaignXp } from "./campaign-xp.js";
+import { forecastCampaignGuide } from "./campaign-guide.js";
+import { auditCampaignGuideFunding } from "./campaign-funding-audit.js";
 import { forecastCampaignSteps } from "./campaign-theory.js";
 import {
   campaignFundingProgressBefore,
@@ -150,6 +152,302 @@ function progress(finished: number, xp = 300): ReturnType<typeof emptyPremadePro
 }
 
 describe("required party combat independent of individual quest history", () => {
+  it.each([false, true])(
+    "requires an acquisition enclosure before confirming an item objective (non-combat: %s)",
+    (nonCombat) => {
+      const original = control(),
+        objective = original.actions[1]!;
+      const pickup: CampaignAction = {
+        ...objective,
+        id: "collection-pickup",
+        questChanges: [
+          { questId: 300002, title: "Collection", state: "accepted", objectiveIndex: null },
+        ],
+      };
+      const collect: CampaignAction = {
+        ...pickup,
+        id: "collection-objective",
+        questChanges: [
+          { ...pickup.questChanges[0]!, state: "objectives-complete", objectiveIndex: 1 },
+        ],
+      };
+      const actions = [
+        original.actions[0]!,
+        objective,
+        pickup,
+        collect,
+        original.actions[2]!,
+        {
+          ...pickup,
+          id: "collection-hand-in",
+          questChanges: [{ ...pickup.questChanges[0]!, state: "rewarded" as const }],
+        },
+      ];
+      const acquisition: CombatObjective = {
+        questId: 300002,
+        objectiveIndex: 1,
+        npcIds: [],
+        requiredKills: null,
+        credit: nonCombat ? "non-combat" : "personal-loot",
+        source: "Synthetic acquisition control",
+        reason: nonCombat ? "Source-backed object pickup" : "Acquisition source is unresolved",
+        ...(nonCombat
+          ? {}
+          : { loot: { itemId: 9316, quantity: 1, sharing: "shared-roll" as const } }),
+      };
+      const plan: CampaignPlan = {
+        ...original,
+        actions,
+        legs: original.legs.map((leg) => ({
+          ...leg,
+          actionIds: actions.map((action) => action.id),
+          questIds: [300001, 300002],
+        })),
+        rewardFacts: [...original.rewardFacts!, { ...original.rewardFacts![0]!, questId: 300002 }],
+        itemRequirements: [{ questId: 300002, objectiveIndex: 1, itemId: 9316, quantity: 1 }],
+        combat: {
+          ...original.combat!,
+          activities: [
+            ...original.combat!.activities,
+            {
+              id: "collection-stream",
+              actionId: collect.id,
+              environment: "outdoor",
+              profile: null,
+              objectives: [acquisition],
+            },
+          ],
+        },
+      };
+      const forecast = forecastCampaignXp(plan, progress(0, 0), {
+        initialBounds: Array.from({ length: 5 }, () => ({
+          minimum: { level: 1, currentXp: 0 },
+          maximum: { level: 1, currentXp: 20 },
+        })),
+      })[0]!.members;
+      for (const member of forecast) {
+        const step = member.steps.find(
+          (step) => step.actionId === collect.id && step.phase === "objectives-complete",
+        )!;
+        const itemStep = member.steps
+          .filter((step) => step.phase === "items")
+          .find((step) => step.actionId === collect.id);
+        expect(member.combatXp).toBe(50);
+        if (nonCombat) {
+          expect(member.blockedAtActionId).toBeNull();
+          expect(step).toMatchObject({ status: "projected", questStateAfter: "objectives-complete" });
+          expect(itemStep?.itemState?.minimums["9316"]).toBe(1);
+          expect(member.referenceQuestXp).toBe(200);
+        } else {
+          expect(member.blockedAtActionId).toBe(collect.id);
+          expect(step).toMatchObject({ status: "blocked", after: null, questStateAfter: "accepted" });
+          expect(itemStep).toBeUndefined();
+          expect(member.rewards).toEqual([]);
+          expect(member.issues).toContainEqual(
+            expect.objectContaining({
+              code: "combat-input-unknown",
+              actionId: collect.id,
+              blocksForecast: true,
+            }),
+          );
+        }
+      }
+    },
+  );
+
+  it("keeps the approved incidental allowance separate from forbidden grinding in the full guide witness", () => {
+    const plan = { ...control(), incidentalKillXpPercent: 10 };
+    const input = progress(0);
+    const guide = forecastCampaignGuide(plan, input);
+    const audit = auditCampaignGuideFunding(plan, input, guide);
+    expect(audit.witnessPassed).toBe(true);
+    expect(audit.chapters[0]!.players[0]).toMatchObject({ requiredKillXp: 50, incidentalKillXp: 5 });
+    expect(guide.sections[0]!.forecast.members.every((member) => member.estimatedCombatXp === 0)).toBe(true);
+  });
+
+  it.each(["unaccounted", "excess", "observed", "explicit grind", "disabled"] as const)(
+    "rejects forged incidental accounting in the independent witness: %s",
+    (reason) => {
+      const plan = { ...control(), incidentalKillXpPercent: 10 };
+      const input = progress(0);
+      const guide = forecastCampaignGuide(plan, input);
+      const section = guide.sections[0]!, member = section.forecast.members[0]!;
+      const altered = {
+        ...member,
+        ...(reason === "unaccounted" ? { incidentalCombatXp: member.incidentalCombatXp + 1 } : {}),
+        ...(reason === "excess" ? { incidentalCombatXp: 30 } : {}),
+        ...(reason === "explicit grind" ? { estimatedCombatXp: 5 } : {}),
+        combatRows: member.combatRows.map((row) => ({
+          ...row,
+          ...(reason === "excess" ? { incidentalXp: 30, maximumIncidentalXp: 30 } : {}),
+          ...(reason === "observed" ? { basis: "observed" as const } : {}),
+        })),
+      };
+      const corrupted = {
+        ...guide,
+        sections: [
+          { ...section, forecast: { ...section.forecast,
+            members: [altered, ...section.forecast.members.slice(1)],
+          } },
+          ...guide.sections.slice(1),
+        ],
+      };
+      const auditedProgress = reason === "disabled"
+        ? { ...input, combatPlanning: { outdoorXpMultiplier: 1, incidentalKillXpPercent: 0 } }
+        : input;
+      const audit = auditCampaignGuideFunding(plan, auditedProgress, corrupted);
+      expect(audit.witnessPassed).toBe(false);
+      const errors = audit.chapters[0]!.players[0]!.witnessErrors;
+      if (reason === "explicit grind") expect(errors).toContain("The forecast contains extra grinding XP.");
+      else expect(errors.some((error) => error.startsWith("Incidental XP"))).toBe(true);
+      expect(auditCampaignGuideFunding(plan, input, guide).witnessPassed).toBe(true);
+    },
+  );
+
+  it("adds the configured incidental allowance once per player without changing the kill quota", () => {
+    const plan = { ...control(), incidentalKillXpPercent: 10 };
+    const input = progress(0);
+    const saved = JSON.stringify({ plan, input });
+    for (const member of forecastCampaignXp(plan, input)[0]!.members) {
+      expect(member.combatXp).toBe(55);
+      expect(member.incidentalCombatXp).toBe(5);
+      expect(member.referenceQuestXp).toBe(100);
+      expect(member.knownEndpoint).toEqual({ level: 2, currentXp: 55 });
+      expect(member.combatRows.map((row) => row.kills)).toEqual([5]);
+      expect(member.combatRows[0]!.incidentalXp).toBe(5);
+      expect(member.combatRows[0]!.basis).toBe("reference-estimate");
+    }
+    expect(JSON.stringify({ plan, input })).toBe(saved);
+  });
+
+  it("replaces the outdoor allowance with thirty percent rather than stacking it on ten percent", () => {
+    const plan = { ...control(), incidentalKillXpPercent: 10 }, input = progress(0);
+    input.combatPlanning = { outdoorXpMultiplier: 1, outdoorIncidentalKillXpPercent: 30 };
+    const before = structuredClone(input);
+    const guide = forecastCampaignGuide(plan, input);
+    for (const member of guide.sections[0]!.forecast.members) {
+      expect(member.combatXp).toBe(65);
+      expect(member.incidentalCombatXp).toBe(15);
+      expect(member.referenceQuestXp).toBe(100);
+      expect(member.combatRows.map((row) => row.kills)).toEqual([5]);
+      expect(member.estimatedCombatXp).toBe(0);
+      expect(member.issues.some((issue) => issue.code === "incidental-combat-estimated" &&
+        issue.message.includes("30% of required combat XP"))).toBe(true);
+    }
+    expect(auditCampaignGuideFunding(plan, input, guide).witnessPassed).toBe(true);
+    expect(auditCampaignGuideFunding(plan, progress(0), guide).witnessPassed).toBe(false);
+    expect(input).toEqual(before);
+    const zero = forecastCampaignXp(plan, input, { outdoorIncidentalKillXpPercent: 0 });
+    expect(zero[0]!.members.every((member) => member.combatXp === 50 && member.incidentalCombatXp === 0)).toBe(true);
+  });
+
+  it("uses the route's outdoor default in forecasts and the independent witness, preserving explicit overrides", () => {
+    const plan = { ...control(), incidentalKillXpPercent: 10, outdoorIncidentalKillXpPercent: 30 };
+    const input = progress(0), guide = forecastCampaignGuide(plan, input);
+    expect(guide.sections[0]!.forecast.members.every((member) =>
+      member.combatXp === 65 && member.incidentalCombatXp === 15)).toBe(true);
+    expect(auditCampaignGuideFunding(plan, input, guide).witnessPassed).toBe(true);
+    input.combatPlanning = { outdoorXpMultiplier: 1, outdoorIncidentalKillXpPercent: 0 };
+    expect(forecastCampaignXp(plan, input)[0]!.members.every((member) =>
+      member.combatXp === 50 && member.incidentalCombatXp === 0)).toBe(true);
+    expect(forecastCampaignXp(plan, input, { outdoorIncidentalKillXpPercent: 10 })[0]!.members
+      .every((member) => member.combatXp === 55 && member.incidentalCombatXp === 5)).toBe(true);
+  });
+
+  it.each([-1, 101, Number.NaN, Number.POSITIVE_INFINITY])("rejects invalid outdoor overrides: %s", (percent) => {
+    expect(() => forecastCampaignXp(control(), progress(0), {
+      outdoorIncidentalKillXpPercent: percent,
+    })).toThrow("between 0 and 100");
+  });
+
+  it("also applies the outdoor override to a personal combat branch", () => {
+    const base = control(), plan = { ...base, incidentalKillXpPercent: 10,
+      actions: base.actions.map((action) => ({ ...action, leaderOnly: true })) };
+    const plain = forecastCampaignXp(plan, progress(0), { outdoorIncidentalKillXpPercent: 0 })[0]!.members[0]!;
+    const planned = forecastCampaignXp(plan, progress(0), { outdoorIncidentalKillXpPercent: 30 })[0]!.members[0]!;
+    expect(plain.combatXp).toBeGreaterThan(0);
+    expect(planned.combatXp).toBe(plain.combatXp + Math.floor(plain.combatXp * 0.3));
+    expect(planned.referenceQuestXp).toBe(plain.referenceQuestXp);
+    expect(planned.combatRows.map((row) => row.kills)).toEqual(plain.combatRows.map((row) => row.kills));
+  });
+
+  it("uses earned incidental XP before a later pickup, with a zero-percent comparison", () => {
+    const base = control();
+    const pickup = {
+      ...base.actions[0]!, id: "next-pickup",
+      questChanges: [{ ...base.actions[0]!.questChanges[0]!, questId: 300002 }],
+    };
+    const plan = { ...base, incidentalKillXpPercent: 10, actions: [...base.actions, pickup],
+      legs: base.legs.map((leg) => ({ ...leg, actionIds: [...leg.actionIds, pickup.id], questIds: [...leg.questIds, 300002] })),
+      rewardFacts: [...base.rewardFacts!, { ...base.rewardFacts![0]!, questId: 300002, minimumLevel: 2 }],
+    };
+    for (const member of forecastCampaignXp(plan, progress(0, 245))[0]!.members) {
+      expect(member.blockedAtActionId).toBeNull();
+      expect(member.knownEndpoint).toEqual({ level: 2, currentXp: 0 });
+      expect(member.rewards.map((reward) => reward.questId)).toEqual([300001]);
+    }
+    for (const member of forecastCampaignXp(plan, progress(0, 245), { incidentalKillXpPercent: 0 })[0]!.members) {
+      expect(member.blockedAtActionId).toBe(pickup.id);
+      expect(member.knownEndpoint).toEqual({ level: 1, currentXp: 395 });
+      expect(member.incidentalCombatXp).toBe(0);
+    }
+  });
+
+  it("persists a saved zero override and leaves actual starting bars unchanged", () => {
+    const plan = { ...control(), incidentalKillXpPercent: 10 };
+    const input = progress(0);
+    input.combatPlanning = { outdoorXpMultiplier: 1, incidentalKillXpPercent: 0 };
+    expect(forecastCampaignXp(plan, input)).toEqual(forecastCampaignXp(control(), progress(0)));
+    expect(input.members.every((member) => member.currentXp === 300)).toBe(true);
+  });
+
+  it("adds no allowance when everyone already completed the fight", () => {
+    for (const member of forecastCampaignXp({ ...control(), incidentalKillXpPercent: 10 }, progress(5))[0]!.members) {
+      expect(member.combatXp).toBe(0);
+      expect(member.incidentalCombatXp).toBe(0);
+      expect(member.rewards).toEqual([]);
+    }
+  });
+
+  it("replaces past incidental estimates when actual XP is recorded at a later step", () => {
+    const plan = { ...control(), incidentalKillXpPercent: 10 };
+    const anchors = Array.from({ length: 5 }, (_, index) => ({
+      release: plan.release, player: index + 1, actionId: "hand-in", level: 3, currentXp: 50,
+      questStates: { "300001": "objectives-complete" as const },
+      confirmations: { "campaign-objective-300001-1": true }, bundleSlotStates: {},
+    }));
+    for (const member of forecastCampaignXp(plan, progress(0), { anchors })[0]!.members) {
+      expect(member.incidentalCombatXp).toBe(0);
+      expect(member.combatXp).toBe(0);
+      expect(member.knownEndpoint).toEqual({ level: 3, currentXp: 150 });
+      expect(member.referenceQuestXp).toBe(100);
+    }
+  });
+
+  it("does not use a fight's incidental XP to fund its own enemy-level requirement", () => {
+    const base = control();
+    const plan = { ...base, incidentalKillXpPercent: 10,
+      combat: { ...base.combat!, npcs: base.combat!.npcs.map((npc) => ({ ...npc, minimumLevel: 6, maximumLevel: 6 })) },
+    };
+    for (const member of forecastCampaignXp(plan, progress(0))[0]!.members) {
+      expect(member.blockedAtActionId).toBe("party-objective");
+      expect(member.incidentalCombatXp).toBe(0);
+      expect(member.knownEndpoint).toEqual({ level: 1, currentXp: 300 });
+    }
+  });
+
+  it("does not add bonus XP to unknown creatures or explicit combat scenarios", () => {
+    const base = control();
+    const plan = { ...base, incidentalKillXpPercent: 10,
+      combat: { ...base.combat!, npcs: base.combat!.npcs.map((npc) => ({ ...npc, minimumLevel: null, maximumLevel: null })) },
+    };
+    expect(forecastCampaignXp(plan, progress(0))[0]!.members.every((member) => member.incidentalCombatXp === 0)).toBe(true);
+    const explicit = forecastCampaignXp({ ...base, incidentalKillXpPercent: 10 }, progress(0), {
+      combat: [{ actionId: "party-objective", xpByPlayer: [50, 50, 50, 50, 50] }],
+    })[0]!.members;
+    expect(explicit.every((member) => member.combatXp === 50 && member.incidentalCombatXp === 0)).toBe(true);
+  });
+
   it("keeps a stale bar unknown when constructing a continuation", () => {
     const plan = control(),
       input = progress(0, 345);
@@ -159,6 +457,7 @@ describe("required party combat independent of individual quest history", () => 
       starterMode: "together" as const,
       strategy: input.dungeonFinish.strategy,
       optionalStops: input.raidGoals,
+      lootScenario: "expected" as const,
       progress: input,
       actions: plan.actions,
       forecast: forecastCampaignXp(plan, input),
@@ -306,6 +605,7 @@ describe("required party combat independent of individual quest history", () => 
       starterMode: "together" as const,
       strategy: input.dungeonFinish.strategy,
       optionalStops: input.raidGoals,
+      lootScenario: "expected" as const,
       progress: input,
       actions,
       forecast: forecastCampaignXp(tested, input),
@@ -460,6 +760,7 @@ describe("required party combat independent of individual quest history", () => 
         starterMode: "together",
         strategy: input.dungeonFinish.strategy,
         optionalStops: true,
+        lootScenario: "expected" as const,
         progress: input,
         actions: plan.actions,
         forecast,
@@ -560,6 +861,14 @@ describe("required party combat independent of individual quest history", () => 
     expect(members.every((member) => member.dungeonCombatXp === 50)).toBe(true);
     expect(members.every((member) => member.outdoorCombatXp === 0)).toBe(true);
     expect(members.every((member) => member.blockedReason === null)).toBe(true);
+    const dungeonPlan = { ...dungeon, incidentalKillXpPercent: 10,
+      outdoorIncidentalKillXpPercent: 30 }, input = progress(1);
+    input.combatPlanning = { outdoorXpMultiplier: 1, outdoorIncidentalKillXpPercent: 30 };
+    const guide = forecastCampaignGuide(dungeonPlan, input);
+    expect(guide.sections[0]!.forecast.members.every((member) =>
+      member.combatXp === 55 && member.incidentalCombatXp === 5)).toBe(true);
+    expect(auditCampaignGuideFunding(dungeonPlan, input, guide).witnessPassed).toBe(true);
+    expect(forecastCampaignXp(dungeonPlan, input)).toEqual(forecastCampaignXp(dungeonPlan, progress(1)));
   });
 });
 

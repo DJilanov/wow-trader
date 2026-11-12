@@ -82,6 +82,78 @@ const kills =
   "step\n.accept 400001 >> Accept Gnoll Patrol\nstep\n>>Kill gnolls\n.complete 400001,1\n.mob Redridge Gnoll\nstep\n.turnin 400001 >> Turn in Gnoll Patrol";
 
 describe("full source kill-first quest backbone", () => {
+  it("lets the shared main source create a missing zone visit instead of excluding its complete quests", () => {
+    const quests = backboneLibrary(kills.replaceAll("step\n", "step\n.goto Westfall,50,50\n"));
+    const selected = integrateCampaignQuestLibrary({ ...base(), sharedQuestsOnly: true }, quests, new Set());
+    const phases = selected.actions.filter((action) => action.questChanges.some((change) => change.questId === 400001));
+    expect(phases).toHaveLength(3);
+    expect(phases.map((action) => action.source)).toEqual(quests[0]!.actions.map((action) => action.source));
+    expect(phases.every((action) => action.legId !== "redridge-kill-batch")).toBe(true);
+    expect(selected.legs.some((leg) => leg.id === phases[0]!.legId)).toBe(true);
+  });
+
+  it("passes a shared source collection to the later loot policy instead of banning its entire chapter", () => {
+    const body = "step\n.goto Redridge Mountains,50,50\n.accept 400020 >>Accept Camp Supplies\nstep\n.goto Redridge Mountains,51,51\n>>Loot supplies from the camp\n.complete 400020,1\nstep\n.goto Redridge Mountains,50,50\n.turnin 400020 >>Turn in Camp Supplies";
+    const selected = integrateCampaignQuestLibrary({ ...base(), sharedQuestsOnly: true }, backboneLibrary(body), new Set());
+    expect(selected.actions.flatMap((action) => action.questChanges).filter((change) => change.questId === 400020)).toHaveLength(3);
+    expect(selected.library?.choices[0]?.role).toBe("questing-backbone");
+  });
+
+  it("keeps unrelated Arathi source work in the later bridge instead of expanding the selected bounty visit", () => {
+    const quest = { ...library(kills)[0]!, sourceId: 21, referenceLevel: 37, zone: "Arathi Highlands",
+      actions: library(kills)[0]!.actions.map((action) => ({ ...action,
+        positions: [{ sourceLine: 1, position: { zone: "1417", floor: null,
+          x: 45, y: 48, space: "map-percent" as const } }],
+      })) };
+    const ids = ["scarlet-northern-return", "post-scarlet-east"];
+    const plan: CampaignPlan = { ...base(),
+      actions: ids.map((id) => ({ ...step(`${id}-brief`), legId: id,
+        positions: [{ sourceLine: 1, position: { zone: "1417", floor: null,
+          x: 45, y: 48, space: "map-percent" as const } }] })),
+      legs: ids.map((id, index) => ({ id, title: id, from: index === 0 ? 37 : 39,
+        to: index === 0 ? 38 : 42, kind: "preparation", stopId: null,
+        actionIds: [`${id}-brief`], questIds: [], unresolvedQuestIds: [] })),
+    };
+    const selected = integrateCampaignQuestLibrary(plan, [quest], new Set([quest.questId]));
+    const actions = selected.actions.filter((action) => action.questChanges.some((change) => change.questId === quest.questId));
+    expect(actions).toHaveLength(3);
+    expect(actions.every((action) => action.legId === "post-scarlet-east")).toBe(true);
+  });
+
+  it.each([false, true])(
+    "places unrelated quests outside conditional trips unless the visit is required (%s)",
+    (requiredVisit) => {
+      const original = base();
+      const conditional = {
+        ...original.legs[0]!,
+        optionalQuestId: 378,
+        ...(requiredVisit ? { requiredVisit: true as const } : {}),
+      };
+      const mandatory = {
+        ...original.legs[0]!,
+        id: "defias-unlock",
+        from: 18,
+        to: 23,
+        actionIds: ["mandatory-brief"],
+      };
+      const plan = integrateCampaignQuestLibrary(
+        {
+          ...original,
+          legs: [conditional, mandatory],
+          actions: [...original.actions, { ...step("mandatory-brief"), legId: mandatory.id }],
+        },
+        backboneLibrary(kills.replaceAll("step\n", "step\n.goto Redridge Mountains,50,50\n")),
+        new Set(),
+      );
+      const phases = plan.actions.filter((action) =>
+        action.questChanges.some((change) => change.questId === 400001),
+      );
+      expect(phases).toHaveLength(3);
+      expect(phases.every((action) => action.legId === (requiredVisit ? conditional.id : mandatory.id)))
+        .toBe(true);
+    },
+  );
+
   it("does not turn the optional Corruption Abroad introduction into a server pickup requirement", () => {
     const quests = library("step\n.turnin 3765\n.accept 1275");
     expect(quests.find((quest) => quest.questId === 1275)?.prerequisiteIds).toEqual([]);

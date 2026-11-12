@@ -55,7 +55,13 @@ export function catalogNpcGiver(entity, areaMap) {
   };
 }
 
-export function normalizeCatalogQuest(entity, npcs, areaMap, items = new Map()) {
+export function normalizeCatalogQuest(
+  entity,
+  npcs,
+  areaMap,
+  items = new Map(),
+  objects = new Map(),
+) {
   if (!entity.name) return null;
   const data = entity.data;
   const providedItemId = positive(data.sourceItemId, 10_000_000);
@@ -127,6 +133,17 @@ export function normalizeCatalogQuest(entity, npcs, areaMap, items = new Map()) 
       const giver = catalogNpcGiver(npcs.get(id), areaMap);
       return giver ? [giver] : [];
     });
+  const objectEndpoints = (value, relation) =>
+    [...new Set(ids(slot(value, 2)))].flatMap((id) => {
+      const object = objects.get(id);
+      const positions = catalogEntityPositions(object, areaMap);
+      // Require both sides of the provider relation; a similar object name is insufficient.
+      return object?.name && ids(object.data[relation]).includes(entity.id) && positions.length
+        ? [{ objectId: id, name: object.name, positions }]
+        : [];
+    });
+  const objectStarts = objectEndpoints(data.startedBy, "questStarts");
+  const objectEnds = objectEndpoints(data.finishedBy, "questEnds");
   return questCatalogEntrySchema.parse({
     questId: entity.id,
     title: entity.name,
@@ -138,7 +155,9 @@ export function normalizeCatalogQuest(entity, npcs, areaMap, items = new Map()) 
       ? { providedItem: { itemId: providedItemId, name: providedItem.name.trim() } }
       : {}),
     starts: givers(data.startedBy),
+    ...(objectStarts.length ? { objectStarts } : {}),
     ends: givers(data.finishedBy),
+    ...(objectEnds.length ? { objectEnds } : {}),
     prerequisites: { allOf: ids(data.preQuestGroup), anyOf: ids(data.preQuestSingle) },
     exclusiveWith: ids(data.exclusiveTo),
     category:

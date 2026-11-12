@@ -31,6 +31,7 @@ export function compileCampaignFunding(plan: CampaignPlan): CampaignPlan {
         batch.actions.every((action) => !(action.requiredQuestIds?.length ?? 0)) &&
         fact?.status === "available" &&
         fact.evidenceKind !== "historical-reference" &&
+        fact.evidenceKind !== "client-table-reference" &&
         fact.minimumLevel !== null &&
         !questEligibility(batch.questId, facts).minimumConflict
       );

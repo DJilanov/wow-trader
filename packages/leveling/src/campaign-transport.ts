@@ -329,10 +329,7 @@ const links: readonly CampaignTransportLeg[] = [
   },
 ];
 
-export function campaignGroundJourney(
-  from: string,
-  to: string,
-): readonly CampaignTransportLeg[] | null {
+function shortestGroundJourney(from: string, to: string): readonly CampaignTransportLeg[] | null {
   const start = campaignZoneId(from),
     end = campaignZoneId(to);
   if (!start || !end) return null;
@@ -376,6 +373,28 @@ export function campaignGroundJourney(
     }
   }
   return null;
+}
+
+const stormwindRegion = new Set(["1453", "1429", "1436", "1433", "1431"]);
+const northernKalimdor = new Set(["1439", "1440", "1442", "1438", "1457"]);
+
+/** Prefer the confirmed direct harbor link over a long Stranglethorn shortcut. */
+export function campaignGroundJourney(
+  from: string,
+  to: string,
+): readonly CampaignTransportLeg[] | null {
+  const start = campaignZoneId(from),
+    end = campaignZoneId(to);
+  if (!start || !end) return null;
+  const eastbound = northernKalimdor.has(start) && stormwindRegion.has(end);
+  const westbound = stormwindRegion.has(start) && northernKalimdor.has(end);
+  if (!eastbound && !westbound) return shortestGroundJourney(start, end);
+  const departure = westbound ? "1453" : "1439";
+  const arrival = westbound ? "1439" : "1453";
+  const approach = shortestGroundJourney(start, departure);
+  const crossing = shortestGroundJourney(departure, arrival);
+  const onward = shortestGroundJourney(arrival, end);
+  return approach && crossing && onward ? [...approach, ...crossing, ...onward] : null;
 }
 
 export function campaignJourneyInstructions(

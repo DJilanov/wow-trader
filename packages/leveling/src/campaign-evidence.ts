@@ -3,6 +3,7 @@ export type CampaignEvidenceDomain = "reward" | "eligibility" | "combat" | "rout
 export type CampaignEvidenceResolution = "offline" | "in-game" | "offline-or-in-game";
 
 export type CampaignEvidenceCode =
+  | "acquisition-xp-excluded"
   | "item-acquisition-unqualified"
   | "xp-range-ambiguous"
   | "source-condition-unobserved"
@@ -16,6 +17,7 @@ export type CampaignEvidenceCode =
   | "adaptive-grind-unmeasured"
   | "combat-input-unknown"
   | "combat-scenario-estimated"
+  | "incidental-combat-estimated"
   | "pickup-level-conflict"
   | "source-gate-conflict"
   | "quest-lifecycle-unverified"
@@ -23,6 +25,8 @@ export type CampaignEvidenceCode =
   | "quest-ineligible"
   | "quest-pickup-missing"
   | "quest-objectives-incomplete"
+  | "quest-attempt-failed"
+  | "quest-timing-unverified"
   | "quest-log-full"
   | "dungeon-objective-misordered"
   | "combat-profile-unverified"
@@ -57,6 +61,22 @@ export interface CampaignEvidenceDefinition {
 }
 
 export const CAMPAIGN_EVIDENCE_CATALOG = {
+  "quest-attempt-failed": {
+    label: "Timed quest failed or expired",
+    requiredEvidence: "Record current XP and confirm a new in-game attempt before completing this quest or its dependent chain.",
+    releaseImpact: "blocker",
+  },
+  "quest-timing-unverified": {
+    label: "Timed quest method needs repair",
+    requiredEvidence: "Keep a complete timed attempt together, with its real deadline and no unrelated work between pickup and hand-in.",
+    releaseImpact: "blocker",
+  },
+  "acquisition-xp-excluded": {
+    label: "Extra item-farming XP excluded",
+    requiredEvidence:
+      "Physical collection remains required for every player. Qualify its drop workload before adding acquisition XP or promising one-clear completion; the forecast counts known inputs only.",
+    releaseImpact: "validation",
+  },
   "xp-range-ambiguous": {
     label: "XP range crosses a route decision",
     requiredEvidence:
@@ -139,6 +159,11 @@ export const CAMPAIGN_EVIDENCE_CATALOG = {
   "combat-scenario-estimated": {
     label: "Combat scenario is estimated",
     requiredEvidence: "Replace the estimate with matching controlled combat observations.",
+    releaseImpact: "measurement",
+  },
+  "incidental-combat-estimated": {
+    label: "Incidental kill XP allowance",
+    requiredEvidence: "Compare the configured planning allowance with actual extra combat during a group run; quest rewards and required kill counts are separate.",
     releaseImpact: "measurement",
   },
   "pickup-level-conflict": {
@@ -236,7 +261,10 @@ export function summarizeCampaignEvidence(
         : "verified",
     combat: has("combat-input-unknown")
       ? "unresolved"
-      : has("combat-scenario-estimated") || has("combat-profile-unverified")
+      : has("combat-scenario-estimated") ||
+          has("incidental-combat-estimated") ||
+          has("combat-profile-unverified") ||
+          has("acquisition-xp-excluded")
         ? "estimated"
         : has("adaptive-grind-unmeasured")
           ? "adaptive"

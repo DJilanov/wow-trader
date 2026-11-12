@@ -1,0 +1,132 @@
+[
+  {
+    "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+    "sourceSha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+    "document": {
+      "meta": {
+        "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+        "cacheFiles": 18,
+        "cachesLeftOut": 0,
+        "clientBuild": "1.60.1.70205",
+        "collectedOn": {
+          "first": "2026-10-03",
+          "last": "2026-10-05"
+        },
+        "dataset": "quests",
+        "license": "CC BY 4.0",
+        "locale": "enUS",
+        "product": "wow_classic_beta",
+        "schemaVersion": 1,
+        "sources": 2
+      },
+      "quests": {
+        "1057": {
+          "level": 27,
+          "minLevel": 20,
+          "objectives": [
+            {
+              "amount": 6,
+              "id": 380954,
+              "objectId": 4022,
+              "storageIndex": 0,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 6,
+              "id": 380955,
+              "objectId": 4025,
+              "storageIndex": 1,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 6,
+              "id": 380956,
+              "objectId": 4024,
+              "storageIndex": 2,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 6,
+              "id": 380957,
+              "objectId": 4023,
+              "storageIndex": 3,
+              "type": "monster",
+              "typeId": 0
+            }
+          ],
+          "objectivesText": "Keeper Albagorm on Stonetalon Peak wants you to slay 6 Bloodfury Harpies, 6 Bloodfury Ambushers, 6 Bloodfury Slayers and 6 Bloodfury Roguefeathers.",
+          "sources": 2,
+          "title": "Reclaiming the Charred Vale"
+        }
+      }
+    }
+  },
+  {
+    "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+    "sourceSha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+    "document": {
+      "meta": {
+        "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+        "cacheFiles": 82,
+        "cachesLeftOut": 0,
+        "clientBuild": "1.60.1.70450",
+        "collectedOn": {
+          "first": "2026-10-17",
+          "last": "2026-10-22"
+        },
+        "dataset": "quests",
+        "license": "CC BY 4.0",
+        "locale": "enUS",
+        "product": "wow_classic_beta",
+        "schemaVersion": 1,
+        "sources": 5
+      },
+      "quests": {
+        "1057": {
+          "level": 27,
+          "minLevel": 20,
+          "objectives": [
+            {
+              "amount": 6,
+              "id": 380954,
+              "objectId": 4022,
+              "storageIndex": 0,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 6,
+              "id": 380955,
+              "objectId": 4025,
+              "storageIndex": 1,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 6,
+              "id": 380956,
+              "objectId": 4024,
+              "storageIndex": 2,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 6,
+              "id": 380957,
+              "objectId": 4023,
+              "storageIndex": 3,
+              "type": "monster",
+              "typeId": 0
+            }
+          ],
+          "objectivesText": "Keeper Albagorm on Stonetalon Peak wants you to slay 6 Bloodfury Harpies, 6 Bloodfury Ambushers, 6 Bloodfury Slayers and 6 Bloodfury Roguefeathers.",
+          "sources": 2,
+          "title": "Reclaiming the Charred Vale"
+        }
+      }
+    }
+  }
+]

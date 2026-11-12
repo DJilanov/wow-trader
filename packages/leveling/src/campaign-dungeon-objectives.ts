@@ -26,6 +26,8 @@ export function expandCampaignDungeonObjectives(
   );
   let changed = false;
   const actions = plan.actions.map((action) => {
+    if (action.wholeQuestObjectives && action.combatObjectiveScope === "listed")
+      throw new Error(`A generated task cannot cover the whole quest and listed counters simultaneously: ${action.id}.`);
     if (!action.wholeQuestObjectives) return action;
     const first = action.questChanges[0];
     if (

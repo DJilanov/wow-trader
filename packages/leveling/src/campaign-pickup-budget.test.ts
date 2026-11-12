@@ -146,6 +146,7 @@ describe("conservative quest-funded level proofs", () => {
     { status: "unknown" as const },
     { status: "conflict" as const },
     { evidenceKind: "historical-reference" as const },
+    { evidenceKind: "client-table-reference" as const },
     { fullXp: null, xpByLevel: [] },
     { minimumLevel: null },
   ])("does not turn unsupported reward data into funding: %j", (override) => {

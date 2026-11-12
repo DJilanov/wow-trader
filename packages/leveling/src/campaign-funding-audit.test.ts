@@ -205,6 +205,7 @@ describe("independent no-grind XP witness", () => {
                     knownEndpoint: { level: 16, currentXp: 0 },
                     combatXp: 54200,
                     estimatedCombatXp: 54200,
+                    incidentalCombatXp: 0,
                   },
             ),
           },
@@ -304,8 +305,12 @@ describe("independent no-grind XP witness", () => {
     expect(audit.funded).toBe(false);
     expect(audit.chapters[0]!.players[0]).toMatchObject({ missingXp: null, funded: false });
     expect(audit.chapters[0]!.players[0]!.blockedReason).toContain(
-      "reward at the next hand-in is unresolved",
+      "required combat or item acquisition has an unresolved XP range",
     );
+    expect(forecast.sections[0]!.forecast.members[0]!.unknownQuestIds).toEqual([]);
+    expect(
+      forecast.sections[0]!.forecast.members[0]!.issues.some((issue) => issue.code === "reward-unresolved"),
+    ).toBe(false);
     expect(
       forecast.sections[0]!.forecast.members[0]!.issues.some((issue) =>
         issue.message.includes("Kill quota references conflict"),

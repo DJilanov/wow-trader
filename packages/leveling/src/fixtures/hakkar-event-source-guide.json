@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "chapterId": "chapter-44-56-57-burning-steppes",
+  "version": "import-v2-7886f86baa398058",
+  "targetBuild": 70205,
+  "sourceSha256": "7886f86baa3980584a832c9ff6c5709caf9d36152fc9287ebfbd8c59f481feb4",
+  "sourceName": "RestedXP Forever Guide",
+  "steps": [
+    {
+      "id": "source-step-0109",
+      "ordinal": 109,
+      "sourceLine": 841,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "ST",
+          "condition": "",
+          "text": "",
+          "sourceLine": 842,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "3528",
+          "condition": "",
+          "text": "",
+          "sourceLine": 843,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Egg of Hakkar] while next to the Dragonflayer Skeleton, then complete the event",
+          "sourceLine": 844,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Kill the minions of Hakkar until the Avatar of Hakkar joins",
+          "sourceLine": 845,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Kill the Avatar of Hakkar. Loot it for the [Essence of Hakkar]",
+          "sourceLine": 846,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Essence of Hakkar] to fill the [Egg of Hakkar]",
+          "sourceLine": 847,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".collect",
+          "arguments": "10663,1,3528,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 848,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".disablecheckbox",
+          "arguments": "",
+          "condition": "",
+          "text": "",
+          "sourceLine": 849,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".complete",
+          "arguments": "3528,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 850,
+          "questId": 3528,
+          "position": null
+        },
+        {
+          "tag": ".use",
+          "arguments": "10465",
+          "condition": "",
+          "text": "",
+          "sourceLine": 851,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".use",
+          "arguments": "10663",
+          "condition": "",
+          "text": "",
+          "sourceLine": 852,
+          "questId": null,
+          "position": null
+        }
+      ]
+    }
+  ]
+}

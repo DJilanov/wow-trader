@@ -1,10 +1,36 @@
-import type { CombatNpc } from "./combat-model.js";
+import type { CombatNpc, CombatQuestReference } from "./combat-model.js";
 import type { ImportedDirective } from "./guide-archive.js";
 import type { QuestVendorEvidence } from "./quest-loot.js";
 import { objectiveDirectiveContext } from "./combat-objective-context.js";
 
 function normalized(value: string): string {
   return value.normalize("NFKC").replace(/^\+/, "").replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+/** Authored tasks must name the exact item, quantity and a source-qualified vendor. */
+export function isGeneratedVendorPurchase(
+  item: NonNullable<CombatQuestReference["itemObjectives"]>[number],
+  instructions: readonly string[],
+  npcs: ReadonlyMap<number, CombatNpc>,
+): boolean {
+  if (
+    !item.vendorEvidence ||
+    !item.itemName ||
+    item.quantity === null ||
+    item.provided ||
+    item.groundPickup ||
+    item.objectIds?.length ||
+    item.npcIds.length
+  )
+    return false;
+  return item.vendorEvidence.npcIds.some((id) => {
+    const vendor = npcs.get(id);
+    if (!vendor) return false;
+    const product = `${item.quantity} [${item.itemName}] from ${vendor.name}.`;
+    return instructions.some((line) =>
+      ["Buy ", "Purchase "].some((verb) => normalized(line) === normalized(verb + product)),
+    );
+  });
 }
 
 /** A named purchase and its named vendor must agree; merchant availability alone is insufficient. */

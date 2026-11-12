@@ -1,3 +1,4 @@
+import type { CampaignFundingExecutor } from "./campaign-funding-scenarios.js";
 import { campaignActionReasons, type CampaignAction, type CampaignPlan } from "./campaign.js";
 import type { CombatDataset } from "./combat-model.js";
 import {
@@ -57,6 +58,7 @@ export function batchCampaignChainVisits(
   plan: CampaignPlan,
   combat: CombatDataset,
   catalog: QuestCatalog,
+  statesForPlan: CampaignFundingExecutor = campaignFundingStates,
 ): CampaignPlan {
   if (
     plan.targetBuild !== catalog.targetBuild ||
@@ -190,7 +192,7 @@ export function batchCampaignChainVisits(
     !campaignActionZones(to).includes("1433")
   )
     return plan;
-  const before = campaignFundingStates(plan);
+  const before = statesForPlan(plan);
   let reachable = false;
   for (const state of before) {
     const reachesPickup =
@@ -259,7 +261,7 @@ export function batchCampaignChainVisits(
       ],
     })),
   };
-  const after = campaignFundingStates(proposed);
+  const after = statesForPlan(proposed);
   if (
     regressedFundingScenarios(plan, before, after).length ||
     after.some((state, index): boolean => {

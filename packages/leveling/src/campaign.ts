@@ -1,5 +1,6 @@
 import { getChapterLabel, type ChapterReference } from "./chapter-catalog.js";
 import type { CampaignItemCollection, CampaignItemRequirement } from "./campaign-items.js";
+import { canConfirmCampaignMeatStock, type CampaignAuctionSupply } from "./campaign-meat-supplies.js";
 import type { GroundPickupReference } from "./quest-ground-pickup.js";
 import { indexCampaignItems } from "./campaign-item-ledger.js";
 import {
@@ -9,6 +10,7 @@ import {
 } from "./campaign-item-reports.js";
 import { getGuideStepView, type ImportedChapter, type ImportedDirective } from "./guide-archive.js";
 import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { sharedCampaignQuestSources } from "./campaign-shared-source.js";
 import type { ClassSlug } from "./model.js";
 import { gateQuestIds } from "./dungeon-model.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
@@ -17,9 +19,11 @@ import {
   PREMADE_STOPS,
   premadeEntryLevel,
   selectedPremadeQuests,
+  premadeQuestSelected,
   setPremadeQuestPackage,
 } from "./premade.js";
 import { campaignDungeonQuest as getPremadeQuest } from "./campaign-dungeon-reference.js";
+import { DUNGEON_QUEST_FOLLOWUPS } from "./dungeon-reviewed-quests.js";
 import {
   emptyPremadeProgress,
   premadeProgressSchema,
@@ -44,6 +48,7 @@ import { extractCampaignQuestBatches, type CampaignQuestBatch } from "./campaign
 import {
   buildCampaignQuestLibrary,
   buildCampaignSourceLevelGates,
+  campaignLibraryOptions,
   type LibraryObjective,
 } from "./campaign-library.js";
 import {
@@ -81,8 +86,11 @@ import {
   campaignSourceChecks,
   type CampaignSourceConditions,
 } from "./campaign-source-conditions.js";
+import type { CampaignQuestTiming } from "./campaign-quest-timing.js";
+import { failedTimedQuestForAction, timedQuestFailureKey } from "./campaign-timed-progress.js";
 import { evaluateCampaignSourceChecks } from "./campaign-source-condition-state.js";
 import { campaignQuestObjectiveIndexes } from "./campaign-quest-objectives.js";
+import type { CampaignXpPlaceholder } from "./campaign-xp-placeholder.js";
 import {
   createCampaignSourcePhaseSelector,
   type CampaignSourcePhaseSelector,
@@ -99,8 +107,17 @@ export interface CampaignQuestChange {
   readonly objectiveIndex: number | null;
 }
 export interface CampaignAction {
+  readonly xpPlaceholder?: CampaignXpPlaceholder;
+  /** A split generated task covers only these listed counters; every provider counter still gates hand-in. */
+  readonly combatObjectiveScope?: "listed";
+  /** Required cash for a hand-in; no income, AH price or observed balance is inferred. */
+  readonly minimumMoneyCopper?: number;
+  readonly questTimings?: readonly CampaignQuestTiming[];
   readonly itemCollections?: readonly CampaignItemCollection[];
+  readonly auctionSupplies?: readonly CampaignAuctionSupply[];
   readonly creatureTarget?: { readonly npcId: number; readonly name: string };
+  /** Source-qualified outdoor work retained in a dungeon's return section. */
+  readonly combatEnvironment?: "outdoor";
   readonly referenceCreatureTargets?: readonly { readonly npcId: number; readonly name: string }[];
   readonly id: string;
   readonly legId: string;
@@ -126,6 +143,9 @@ export interface CampaignAction {
   readonly targetStopId: PremadeProgress["selectedStopId"] | null;
   readonly raidOnly: boolean;
   readonly optionalForQuestIds?: readonly number[];
+  readonly routeBriefing?: true;
+  /** Outdoor alternative, inactive while this optional trip is included. */
+  readonly excludedByOptionalQuestId?: number;
   readonly requiredQuestIds?: readonly number[];
   readonly xpOptional?: boolean;
   readonly xpTargetLevel?: number;
@@ -133,6 +153,7 @@ export interface CampaignAction {
   readonly fundingCheckpointId?: string;
   /** Exact object/item provenance for generated optional ground-pickup lifecycles. */
   readonly fundingGroundPickup?: GroundPickupReference;
+  readonly fundingGroundPickups?: readonly GroundPickupReference[];
   readonly libraryQuestId?: number;
   readonly libraryBackbone?: boolean;
   readonly libraryObjective?: LibraryObjective;
@@ -156,6 +177,10 @@ export interface CampaignLeg {
   readonly questIds: readonly number[];
   readonly unresolvedQuestIds: readonly number[];
   readonly stopId: PremadeProgress["selectedStopId"] | null;
+  /** An authored optional visit can use a dungeon outside the fixed premade stop list. */
+  readonly dungeonVisitId?: string;
+  readonly optionalQuestId?: number;
+  readonly requiredVisit?: true;
   readonly bundleId?: GuaranteedDungeonId;
   readonly dungeonFinish?: boolean;
 }
@@ -166,10 +191,24 @@ export interface CampaignLifecycleExclusion {
   readonly reason: "missing-prior-pickup" | "incomplete-lifecycle";
 }
 export interface CampaignPlan {
+  readonly questTimings?: readonly CampaignQuestTiming[];
   readonly itemRequirements?: readonly CampaignItemRequirement[];
   readonly release: string;
   readonly race: CampaignRace;
   readonly leaderClass: ClassSlug | null;
+  /** All five stay together and use ordinary quests, without personal class routes. */
+  readonly sharedQuestsOnly?: true;
+  /** Count a conditional reference baseline; unpriced acquisition XP remains disclosed separately. */
+  readonly acquisitionXpPolicy?: "exclude-unpriced-extra";
+  /** Selected dungeon collections are planned on the quest run; unknown extra kill XP is omitted. */
+  readonly dungeonCollectionPolicy?: "selected-clear";
+  /** Estimated extra combat on the route, applied after required kill batches. */
+  readonly incidentalKillXpPercent?: number;
+  /** Outdoor route-clearing estimate, separate from the dungeon allowance. */
+  readonly outdoorIncidentalKillXpPercent?: number;
+  readonly sharedQuestExclusions?: readonly number[];
+  /** Catalog-confirmed ordinary identities used to reproduce source branches after route selection. */
+  readonly sharedSourceQuestIds?: readonly number[];
   readonly targetBuild: number;
   readonly sourceArchiveSha256?: string;
   readonly sourceLibraryEnabled?: boolean;
@@ -208,17 +247,16 @@ const beforeStop: Readonly<Record<string, readonly string[]>> = {
   deadmines: ["defias-unlock"],
   stockade: [
     "stockade-letter-unlock",
+    "stockade-fury-preparation",
     "redridge-kill-batch",
     "duskwood-watch",
-    "wetlands-early-kills",
-    "wetlands-prerequisites",
   ],
-  excavation: ["excavation-approach"],
+  excavation: ["stockade-world-returns", "wetlands-early-kills", "wetlands-prerequisites", "excavation-approach"],
   blackfathom: ["ashenvale-crossing"],
   dalaran: ["dalaran-approach"],
   gnomeregan: ["hillsbrad-gnomer"],
   "razorfen-kraul": ["lonebrow-rfk-preparation"],
-  "drowned-city": ["desolace-scarlet-unlock", "stv-group-batch"],
+  "drowned-city": ["hillsbrad-party-kills", "desolace-rescue", "desolace-scarlet-unlock", "stv-group-batch"],
   "scarlet-monastery": ["scarlet-northern-return"],
   kroldok: ["post-scarlet-east"],
   "razorfen-downs": ["razorfen-downs-approach"],
@@ -430,13 +468,24 @@ export function buildCampaignPlan(
     readonly includeLibrary?: boolean;
     readonly starterOnly?: boolean;
     readonly questReferences?: readonly CombatQuestReference[];
+    readonly sharedQuestsOnly?: true;
   } = {},
 ): CampaignPlan {
   if (!/^[a-f0-9]{64}$/.test(archiveHash))
     throw new Error("Campaign requires a validated archive hash.");
-  const profile = createCampaignSourceProfile(race, leaderClass);
-  const startingIds = campaignStarterSourceIds(race, leaderClass);
-  const usable = sources.filter(
+  const profile = createCampaignSourceProfile(race, options.sharedQuestsOnly ? null : leaderClass);
+  const startingIds = campaignStarterSourceIds(race, options.sharedQuestsOnly ? null : leaderClass);
+  const sharedSourceQuestIds = (options.questReferences ?? [])
+    .filter((quest) => quest.requiredClasses === 0)
+    .map((quest) => quest.questId);
+  const sourceInputs = options.sharedQuestsOnly
+    ? sharedCampaignQuestSources(
+        sources,
+        race,
+        new Set(sharedSourceQuestIds),
+      )
+    : sources;
+  const usable = sourceInputs.filter(
     (source) =>
       source.reference.family === "questing" && source.reference.factions.includes("alliance"),
   );
@@ -493,6 +542,7 @@ export function buildCampaignPlan(
       positions: [],
       source: null,
       kind: "instructions",
+      routeBriefing: true,
       leaderOnly,
       targetLevel: null,
       targetStopId: null,
@@ -510,7 +560,7 @@ export function buildCampaignPlan(
       block.sourceIds.includes(source.reference.sourceId),
     );
     for (const source of candidates) {
-      const starter = block.purpose === "starter" && leaderOnly;
+      const starter = block.purpose === "starter" && (leaderOnly || options.sharedQuestsOnly);
       const selectors = starter ? starterPhaseSelectors : phaseSelectors;
       let selectPhase = selectors.get(source.guide);
       if (!selectPhase) {
@@ -685,15 +735,20 @@ export function buildCampaignPlan(
   }
   function outdoor(block: CampaignOutdoorBlock): void {
     const start = actions.length;
-    instructions(block.id, block.title, block.instructions, block.purpose === "starter");
+    instructions(
+      block.id,
+      block.title,
+      block.instructions,
+      block.purpose === "starter" && !options.sharedQuestsOnly,
+    );
     const unresolved =
-      block.id === "ironforge-rendezvous"
+      block.id === "ironforge-rendezvous" && !options.sharedQuestsOnly
         ? [
             ...sourceActions({ ...block, quests: [96392, 96390] }, false, "-unlock"),
             ...sourceActions({ ...block, quests: [96391] }, false),
           ]
         : [
-            ...sourceActions(block, block.purpose === "starter"),
+            ...sourceActions(block, block.purpose === "starter" && !options.sharedQuestsOnly),
             ...(block.extraPickupIds
               ? sourceActions({ ...block, quests: block.extraPickupIds }, false, "-pickup")
               : []),
@@ -794,6 +849,7 @@ export function buildCampaignPlan(
       from: block.from,
       to: block.to,
       kind: block.purpose,
+      ...(block.optionalQuestId === undefined ? {} : { optionalQuestId: block.optionalQuestId }),
       actionIds: actions.slice(start).map((action) => action.id),
       questIds: [
         ...new Set(
@@ -869,10 +925,15 @@ export function buildCampaignPlan(
       purpose: "starter",
       sourceIds: [id],
       quests: "starter-source",
-      instructions: [
-        "Follow your race's starting tasks, then meet the party in Auberdine for the shared Darkshore circuit. From Stormwind, take Forever's direct ship to Darkshore.",
-        "Keep required class training and combat/pet unlocks. Early source quests can contain short collections; do not add unrelated material/profession farming or assume their XP is verified.",
-      ],
+      instructions: options.sharedQuestsOnly
+        ? [
+            "Stay together and complete the ordinary quests listed here. Every member follows the same route; no class quests or individual detours are included.",
+            "Pick up the flight paths on the route. From Stormwind, use Forever's direct ship to Auberdine when the guide sends the group to Darkshore.",
+          ]
+        : [
+            "Follow your race's starting tasks, then meet the party in Auberdine for the shared Darkshore circuit. From Stormwind, take Forever's direct ship to Darkshore.",
+            "Keep required class training and combat/pet unlocks. Early source quests can contain short collections; do not add unrelated material/profession farming or assume their XP is verified.",
+          ],
     });
   }
   if (options.starterOnly)
@@ -881,6 +942,9 @@ export function buildCampaignPlan(
         release: `${CAMPAIGN_VERSION}-${archiveHash.slice(0, 16)}-${race}-${leaderClass ?? "general"}`,
         race,
         leaderClass,
+        ...(options.sharedQuestsOnly
+          ? { sharedQuestsOnly: true as const, sharedSourceQuestIds }
+          : {}),
         targetBuild: 70205,
         sourceArchiveSha256: archiveHash,
         sourceLibraryEnabled: false,
@@ -918,7 +982,7 @@ export function buildCampaignPlan(
           {
             thanes: [96391],
             deadmines: [155],
-            stockade: [303, 389],
+            stockade: [389],
             excavation: [275],
             dalaran: [92432],
             "scarlet-monastery": [1052],
@@ -1026,6 +1090,10 @@ export function buildCampaignPlan(
           .map((quest) => ({ questId: quest.id, role: "prerequisite" as const })),
         ...core,
       ];
+      for (const followup of DUNGEON_QUEST_FOLLOWUPS)
+        if (selected.some((choice) => choice.questId === followup.parentQuestId) &&
+          !selected.some((choice) => choice.questId === followup.questId))
+          selected.push({ questId: followup.questId, role: "opportunistic" });
       for (const phase of ["accepted", "objectives-complete", "rewarded"] as const) {
         for (const choice of selected) {
           const quest = getPremadeQuest(choice.questId);
@@ -1078,7 +1146,7 @@ export function buildCampaignPlan(
             targetStopId: null,
             raidOnly: choice.role === "raid",
             ...(choice.role === "opportunistic"
-              ? { optionalForQuestIds: [quest.id] }
+              ? { optionalForQuestIds: [DUNGEON_QUEST_FOLLOWUPS.find((entry) => entry.questId === quest.id)?.parentQuestId ?? quest.id] }
               : optionalParents.has(quest.id)
                 ? { optionalForQuestIds: optionalParents.get(quest.id)! }
                 : {}),
@@ -1168,6 +1236,9 @@ export function buildCampaignPlan(
     release: `${CAMPAIGN_VERSION}-${archiveHash.slice(0, 16)}-${race}-${leaderClass ?? "general"}`,
     race,
     leaderClass,
+    ...(options.sharedQuestsOnly
+      ? { sharedQuestsOnly: true as const, sharedSourceQuestIds }
+      : {}),
     targetBuild: 70205,
     sourceArchiveSha256: archiveHash,
     sourceLibraryEnabled: options.includeLibrary !== false,
@@ -1240,6 +1311,7 @@ export function buildCampaignPlan(
             dungeonTags,
             backboneSources,
             options.questReferences,
+            campaignLibraryOptions(safeBase),
           ),
           retainedDungeonQuestIds,
           buildCampaignSourceLevelGates(usable, profile, dungeonTags, levelGateSources),
@@ -1254,9 +1326,20 @@ export function campaignIncludedLegs(
   const dungeonFinish =
     plan.dungeonFinish && (progress?.dungeonFinish.strategy ?? "dungeons") === "dungeons";
   const brd = plan.legs.findIndex((leg) => leg.stopId === "blackrock-depths");
+  const optionalSelected = (questId: number): boolean => {
+    if (!progress) return true;
+    const choice = PREMADE_STOPS.flatMap((stop) => stop.quests).find(
+      (choice) => choice.questId === questId && choice.role === "opportunistic",
+    );
+    return choice
+      ? premadeQuestSelected(choice, progress)
+      : progress.selectedExtras[String(questId)] !== false;
+  };
   return plan.legs
     .filter(
       (leg) =>
+        (leg.optionalQuestId === undefined || leg.requiredVisit === true ||
+          optionalSelected(leg.optionalQuestId)) &&
         (!dungeonFinish ||
           brd < 0 ||
           plan.legs.indexOf(leg) <= brd ||
@@ -1284,10 +1367,37 @@ export function campaignActionAlias(
   actionId: string,
 ): string {
   if (!actionId) return actionId;
-  const aliased = plan.bookmarkAliases?.[actionId] ?? actionId;
-  if (!plan.dungeonFinish || progress.dungeonFinish.strategy !== "dungeons") return aliased;
+  let aliased = actionId;
+  const visited = new Set<string>();
+  while (plan.bookmarkAliases?.[aliased]) {
+    const next = plan.bookmarkAliases[aliased]!;
+    if (next === aliased || visited.has(next)) break;
+    visited.add(aliased);
+    aliased = next;
+  }
   const included = new Set(campaignIncludedLegs(plan, progress).map((leg) => leg.id));
   const action = plan.actions.find((entry) => entry.id === aliased);
+  if (
+    action?.excludedByOptionalQuestId !== undefined &&
+    plan.legs.some(
+      (leg) =>
+        included.has(leg.id) && leg.optionalQuestId === action.excludedByOptionalQuestId,
+    )
+  ) {
+    const activeIds = new Set(activeCampaignActions(plan, progress).map((entry) => entry.id));
+    const at = plan.actions.indexOf(action);
+    const next = plan.actions.slice(at + 1).find((entry) => activeIds.has(entry.id));
+    const previous = [...plan.actions.slice(0, at)].reverse().find((entry) => activeIds.has(entry.id));
+    return next?.id ?? previous?.id ?? aliased;
+  }
+  const optionalLeg = plan.legs.find((leg) => leg.id === action?.legId);
+  if (optionalLeg?.optionalQuestId !== undefined && !included.has(optionalLeg.id)) {
+    const following = plan.actions
+      .slice(plan.actions.indexOf(action!) + 1)
+      .find((entry) => included.has(entry.legId));
+    if (following) return following.id;
+  }
+  if (!plan.dungeonFinish || progress.dungeonFinish.strategy !== "dungeons") return aliased;
   const hiddenBatch =
     !action &&
     plan.legs.some(
@@ -1333,7 +1443,11 @@ export function activeCampaignActions(
   plan: CampaignPlan,
   progress: PremadeProgress,
 ): readonly CampaignAction[] {
-  const includedLegs = new Set(campaignIncludedLegs(plan, progress).map((leg) => leg.id));
+  const included = campaignIncludedLegs(plan, progress);
+  const includedLegs = new Set(included.map((leg) => leg.id));
+  const includedOptionalQuests = new Set(
+    included.flatMap((leg) => leg.optionalQuestId ?? []),
+  );
   const selectedOptionalIds = new Set(
     PREMADE_STOPS.flatMap((stop) =>
       selectedPremadeQuests(stop, progress)
@@ -1345,6 +1459,8 @@ export function activeCampaignActions(
     .filter(
       (action) =>
         includedLegs.has(action.legId) &&
+        (action.excludedByOptionalQuestId === undefined ||
+          !includedOptionalQuests.has(action.excludedByOptionalQuestId)) &&
         (!action.dungeonFinishOnly || progress.dungeonFinish.strategy === "dungeons") &&
         (!action.optionalForQuestIds ||
           action.optionalForQuestIds.some((id) => selectedOptionalIds.has(id))) &&
@@ -1510,6 +1626,7 @@ export function currentCampaignAction(
 function questChangeNeeded(change: CampaignQuestChange, member: PremadeMember): boolean {
   const state = member.questStates[String(change.questId)];
   if (state === "rewarded") return false;
+  if (member.confirmations[timedQuestFailureKey(change.questId)]) return true;
   if (change.state === "accepted") return state === undefined || state === "not-started";
   if (state === undefined || state === "not-started") return false;
   if (change.state === "objectives-complete")
@@ -1527,7 +1644,7 @@ export function campaignQuestTargets(
   const checks = campaignSourceChecks(action);
   return progress.members.flatMap((member, index) =>
     (!action.leaderOnly || index === 0) &&
-    evaluateCampaignSourceChecks(checks, { questStates: member.questStates }) !== "skip" &&
+    (failedTimedQuestForAction(action, member) !== null || evaluateCampaignSourceChecks(checks, { questStates: member.questStates }) !== "skip") &&
     action.questChanges.some((change) => questChangeNeeded(change, member))
       ? [index]
       : [],
@@ -1557,7 +1674,7 @@ export function campaignOptionalXpReady(
   action: CampaignAction,
 ): boolean {
   const leg = plan.legs.find((entry) => entry.id === action.legId);
-  if (!leg || action.libraryBackbone || (leg.kind !== "xp-bridge" && !action.xpOptional))
+  if (!leg || leg.requiredVisit || action.libraryBackbone || (leg.kind !== "xp-bridge" && !action.xpOptional))
     return false;
   const xpTarget = campaignXpTarget(action, progress, plan.rewardFacts);
   if (action.kind === "xp-check" && xpTarget !== null) {
@@ -1675,6 +1792,12 @@ export function campaignActionReasons(
   progress: PremadeProgress,
   facts: readonly QuestRewardFact[] = [],
 ): readonly string[] {
+  for (const [player, member] of progress.members.entries()) {
+    if (action.leaderOnly && player !== 0) continue;
+    const failed = failedTimedQuestForAction(action, member);
+    if (failed !== null)
+      return [`Player ${player + 1}'s timed quest ${failed} failed or expired. Record their current XP and confirm a new in-game attempt before continuing.`];
+  }
   if (
     action.bundleId ||
     (action.kind === "checkpoint" &&
@@ -1803,11 +1926,14 @@ export function updateCampaignAction(
   progress: PremadeProgress,
   actionId: string,
   done: boolean,
+  acquisition?: "existing-stock",
 ): PremadeProgress {
   const active = activeCampaignActions(plan, progress),
     index = active.findIndex((action) => action.id === actionId),
     action = active[index];
   if (!action) throw new Error("Unknown or inactive campaign action.");
+  if (acquisition === "existing-stock" && (!done || !canConfirmCampaignMeatStock(action)))
+    throw new Error("Only a qualified meat-supply task can be confirmed as existing stock.");
   if (done && campaignActionReasons(action, progress, plan.rewardFacts).length)
     throw new Error(campaignActionReasons(action, progress, plan.rewardFacts)[0]);
   const previous = progress.campaigns[plan.release] ?? emptyCampaignProgress();
@@ -1873,7 +1999,8 @@ export function updateCampaignAction(
       ...member,
       questStates,
       confirmations,
-      xpNeedsUpdate: member.xpNeedsUpdate || changedReward || collectedWithoutXp,
+      xpNeedsUpdate: member.xpNeedsUpdate || changedReward ||
+        (collectedWithoutXp && acquisition !== "existing-stock"),
       ...(plan.itemRequirements?.length
         ? {
             itemHoldings: campaignItemReport(
@@ -1910,6 +2037,7 @@ export function skipCampaignXpBlock(
   const leg = plan.legs.find((entry) => entry.id === legId);
   if (!leg || leg.kind !== "xp-bridge")
     throw new Error("Required preparation cannot be skipped as XP filler.");
+  if (leg.requiredVisit) throw new Error("This dungeon is required by the five-player itinerary.");
   const actions = activeCampaignActions(plan, progress);
   const last = actions.reduce(
     (result, action, index) => (action.legId === legId ? index : result),
@@ -1930,6 +2058,48 @@ export function skipCampaignXpBlock(
       `Save fresh actual XP for all five at level ${minimum} or above before skipping this XP-only block.`,
     );
   const journey = progress.campaigns[plan.release] ?? emptyCampaignProgress();
+  const optionalVisit =
+    leg.optionalQuestId !== undefined &&
+    DUNGEON_VISITS.some(
+      (visit) =>
+        visit.id === leg.dungeonVisitId && leg.questIds.every((id) => visit.questIds.includes(id)),
+    );
+  if (optionalVisit) {
+    if (
+      progress.members.some((member) =>
+        leg.questIds.some((id) =>
+          ["accepted", "objectives-complete"].includes(member.questStates[String(id)] ?? ""),
+        ),
+      )
+    )
+      throw new Error(
+        "Finish the active catch-up quests or abandon them in game before skipping this trip.",
+      );
+    const skipped = {
+      ...progress,
+      selectedExtras: { ...progress.selectedExtras, [String(leg.optionalQuestId)]: false },
+    };
+    const next = activeCampaignActions(plan, skipped).find(
+      (action) => action.id === actions[last + 1]?.id,
+    );
+    return premadeProgressSchema.parse({
+      ...skipped,
+      campaigns: {
+        ...progress.campaigns,
+        [plan.release]: {
+          selectedActionId: next?.id ?? null,
+          completion: {
+            ...journey.completion,
+            ...Object.fromEntries(
+              actions
+                .filter((action) => action.legId === legId && journey.completion[action.id] !== "done")
+                .map((action) => [action.id, "skipped" as const]),
+            ),
+          },
+        },
+      },
+    });
+  }
   const ids = actions
     .filter((action) => action.legId === legId && campaignOptionalXpReady(plan, progress, action))
     .map((action) => action.id);

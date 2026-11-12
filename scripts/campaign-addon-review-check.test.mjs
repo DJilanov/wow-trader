@@ -8,6 +8,8 @@ import {
   compileCampaignAddon,
   CHAPTER_REFERENCES,
   parseGuideChapter,
+  CAMPAIGN_ADDON_COMPILER_REVISION,
+  restedXpDocumentSetSchema,
 } from "../packages/leveling/dist/index.js";
 import { verifyCampaignAddonReview } from "./campaign-addon-review-check.mjs";
 
@@ -101,6 +103,32 @@ function collectionFixture(label = "") {
   return value;
 }
 
+test("review uses the explicitly selected engine schema and still rejects a compiler mismatch", () => {
+  const { plan, actions, artifact, options } = fixture();
+  const runtime = { CAMPAIGN_ADDON_COMPILER_REVISION, restedXpDocumentSetSchema };
+  verifyCampaignAddonReview(plan, actions, artifact, options, runtime);
+  assert.throws(() => verifyCampaignAddonReview(plan, actions, artifact, options, {
+    ...runtime,
+    CAMPAIGN_ADDON_COMPILER_REVISION: "unqualified-compiler",
+  }), /compiler/i);
+});
+
+test("verifies one ordinary shared route for each class without a personal starter catalog", () => {
+  const value = fixture({ race: "human", classSlug: "warrior" });
+  const actions = value.actions.map((action) => ({ ...action, leaderOnly: false }));
+  const plan = {
+    ...value.plan,
+    sharedQuestsOnly: true,
+    actions,
+    starters: { entries: [], routes: [] },
+  };
+  for (const classSlug of ["warrior", "priest", "mage", "rogue", "warlock"]) {
+    const options = { ...value.options, partyStarter: { race: "human", classSlug } };
+    const artifact = compileCampaignAddon(plan, actions, options);
+    verifyCampaignAddonReview(plan, actions, artifact, options);
+  }
+});
+
 test("review verifier preserves raw material counts and the checkbox-only flag in both roles", () => {
   const { plan, actions, artifact, options } = collectionFixture();
   verifyCampaignAddonReview(plan, actions, artifact, options);
@@ -126,7 +154,7 @@ test("review verifier requires a blocking counter for an extracted required mate
   delete value.plan.actions[1].itemCollections;
   value.artifact = compileCampaignAddon(value.plan, value.actions, value.options);
   verifyCampaignAddonReview(value.plan, value.actions, value.artifact, value.options);
-  const broken = structuredClone(value.artifact);
+  const broken = globalThis.structuredClone(value.artifact);
   const document = broken.documents.find(
     (entry) => entry.role === "leader" && entry.content.includes("#label kfc-personal-material"),
   );
@@ -159,7 +187,7 @@ for (const replacement of [
 ])
   test(`review verifier rejects changed material work (${replacement || "removed"})`, () => {
     const { plan, actions, artifact, options } = collectionFixture();
-    const broken = structuredClone(artifact);
+    const broken = globalThis.structuredClone(artifact);
     const document = broken.documents.find(
       (entry) => entry.role === "leader" && entry.content.includes(".collect 769,4,700,1,1"),
     );
@@ -292,7 +320,7 @@ for (const objectiveKind of ["shared-kills", "interaction"]) {
     const requested = [...early, ...later];
     const artifact = compileCampaignAddon(plan, requested, options);
     verifyCampaignAddonReview(plan, requested, artifact, options);
-    const dropped = structuredClone(artifact);
+    const dropped = globalThis.structuredClone(artifact);
     const ids = new Set(later.map((action) => action.id));
     for (const guide of dropped.guides) {
       guide.actionIds = guide.actionIds.filter((id) => !ids.has(id));
@@ -311,7 +339,7 @@ for (const objectiveKind of ["shared-kills", "interaction"]) {
       /optional quest opportunity lost a required phase/,
     );
 
-    const unguarded = structuredClone(artifact);
+    const unguarded = globalThis.structuredClone(artifact);
     for (const document of unguarded.documents)
       document.content = document.content.replaceAll("    .isQuestAvailable 701\n", "");
     assert.throws(

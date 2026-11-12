@@ -49,4 +49,28 @@ export interface CampaignCombatXpEvent extends CampaignXpEventBase {
   readonly status: "projected";
 }
 
-export type CampaignXpEvent = CampaignQuestXpEvent | CampaignCombatXpEvent | CampaignItemXpEvent;
+export interface CampaignCombatBlockedXpEvent extends CampaignXpEventBase {
+  readonly questId: null;
+  readonly phase: "combat";
+  readonly objectiveIndex: null;
+  readonly questXp: 0;
+  readonly combatXp: 0;
+  readonly minimumLevel: number;
+  readonly status: "blocked";
+}
+
+export interface CampaignBundleXpEvent extends CampaignXpEventBase {
+  readonly questId: null;
+  readonly phase: "bundle";
+  readonly objectiveIndex: null;
+  readonly combatXp: 0;
+  readonly minimumLevel: null;
+  readonly shortfallXp: 0;
+  readonly status: "projected";
+  readonly bundleSlotStates: Readonly<NonNullable<PremadeMember["bundleSlotStates"]>>;
+  readonly questStates: Readonly<PremadeMember["questStates"]>;
+}
+
+export type CampaignXpEvent =
+  CampaignQuestXpEvent | CampaignCombatXpEvent | CampaignCombatBlockedXpEvent |
+  CampaignItemXpEvent | CampaignBundleXpEvent;

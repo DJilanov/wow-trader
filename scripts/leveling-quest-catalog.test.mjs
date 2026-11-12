@@ -94,6 +94,153 @@ test("normalizes exact kill quotas, faction access, pickup levels and map coordi
   assert.equal(isSharedCatalogQuest(result), true);
 });
 
+test("preserves corroborated object quest starters without inventing an NPC giver", () => {
+  const input = quest({
+    startedBy: [[], [175227]],
+    objectives: [],
+    objectivesText: [],
+    sourceItemId: 957,
+  });
+  const objects = new Map([
+    [
+      175227,
+      {
+        id: 175227,
+        name: "Beached Creature",
+        data: { questStarts: [12], spawns: { 40: [[44, 60]] } },
+      },
+    ],
+  ]);
+  const items = new Map([[957, { id: 957, name: "A Sealed Parcel", data: {} }]]);
+  const result = normalizeCatalogQuest(input, npcs, areaMap, items, objects);
+  assert.deepEqual(result.starts, []);
+  assert.deepEqual(result.objectStarts, [
+    { objectId: 175227, name: "Beached Creature", positions: [{ zone: "1436", x: 44, y: 60 }] },
+  ]);
+  assert.ok(result.unsupportedRequirements.includes("provided-item-interaction"));
+  assert.equal(normalizeCatalogQuest(input, npcs, areaMap, items).objectStarts, undefined);
+  const wrongRelation = new Map([
+    [175227, { ...objects.get(175227), data: { questStarts: [13], spawns: { 40: [[44, 60]] } } }],
+  ]);
+  assert.equal(
+    normalizeCatalogQuest(input, npcs, areaMap, items, wrongRelation).objectStarts,
+    undefined,
+  );
+  const catalog = {
+    schema: "forever-quest-funding-catalog.v1",
+    targetBuild: 70205,
+    publication: "private-reference",
+    authorizationNote: "Synthetic object regression",
+    providerRevision: "a".repeat(40),
+    questSha256: "b".repeat(64),
+    npcSha256: "c".repeat(64),
+    itemSha256: "d".repeat(64),
+    areaMapSha256: "e".repeat(64),
+    includesAuthoredCorrections: false,
+    sourceArchiveSha256: "f".repeat(64),
+    quests: [result],
+  };
+  assert.equal(questCatalogSchema.safeParse(catalog).success, false);
+  assert.equal(
+    questCatalogSchema.safeParse({ ...catalog, objectSha256: "e".repeat(64) }).success,
+    true,
+  );
+});
+
+test("preserves reciprocal object recipients without inventing NPCs or enabling quest funding", () => {
+  const input = quest({
+    finishedBy: [[], [261, 261]],
+    objectives: [],
+    objectivesText: ["Search the crates and barrels at the coastal Murloc camps."],
+  });
+  const object = {
+    id: 261,
+    name: "Damaged Crate",
+    data: { questEnds: [12], spawns: { 40: [[44, 60]] } },
+  };
+  const objects = new Map([[261, object]]);
+  const before = JSON.stringify({ input, objects: [...objects] });
+  const result = normalizeCatalogQuest(input, npcs, areaMap, new Map(), objects);
+  assert.deepEqual(result.ends, []);
+  assert.deepEqual(result.objectEnds, [
+    { objectId: 261, name: "Damaged Crate", positions: [{ zone: "1436", x: 44, y: 60 }] },
+  ]);
+  assert.ok(result.unsupportedRequirements.includes("unresolved-objective-text"));
+  assert.equal(isSharedCatalogQuest(result), false);
+  assert.equal(isSharedCatalogQuest({ ...result, unsupportedRequirements: [] }), false);
+  assert.equal(normalizeCatalogQuest(input, npcs, areaMap).objectEnds, undefined);
+  for (const data of [
+    { questStarts: [12], spawns: { 40: [[44, 60]] } },
+    { questEnds: [13], spawns: { 40: [[44, 60]] } },
+    { questEnds: [12], spawns: { 999: [[44, 60]] } },
+    { questEnds: [12], spawns: { 40: [[-1, 60]] } },
+    { questEnds: [12], spawns: {} },
+  ]) {
+    const unavailable = new Map([[261, { ...object, data }]]);
+    assert.equal(
+      normalizeCatalogQuest(input, npcs, areaMap, new Map(), unavailable).objectEnds,
+      undefined,
+    );
+  }
+  const npcAlternative = normalizeCatalogQuest(
+    { ...input, data: { ...input.data, finishedBy: [[234], [261]] } },
+    npcs,
+    areaMap,
+    new Map(),
+    objects,
+  );
+  assert.equal(npcAlternative.ends[0].npcId, 234);
+  assert.deepEqual(npcAlternative.objectEnds, result.objectEnds);
+  assert.equal(JSON.stringify({ input, objects: [...objects] }), before);
+});
+
+test("requires object-export provenance and unique valid object recipients in the catalog", () => {
+  const normalized = normalizeCatalogQuest(
+    quest({ objectives: [], objectivesText: [] }),
+    npcs,
+    areaMap,
+  );
+  const endpoint = {
+    objectId: 261,
+    name: "Damaged Crate",
+    positions: [{ zone: "1436", x: 44, y: 60 }],
+  };
+  const catalog = {
+    schema: "forever-quest-funding-catalog.v1",
+    targetBuild: 70205,
+    publication: "private-reference",
+    authorizationNote: "Synthetic object-recipient fixture",
+    providerRevision: "a".repeat(40),
+    questSha256: "b".repeat(64),
+    npcSha256: "c".repeat(64),
+    areaMapSha256: "d".repeat(64),
+    sourceArchiveSha256: "e".repeat(64),
+    includesAuthoredCorrections: false,
+    quests: [{ ...normalized, ends: [], objectEnds: [endpoint] }],
+  };
+  assert.equal(questCatalogSchema.safeParse(catalog).success, false);
+  const valid = { ...catalog, objectSha256: "f".repeat(64) };
+  assert.equal(questCatalogSchema.safeParse(valid).success, true);
+  for (const objectEnds of [
+    [endpoint, endpoint],
+    [{ ...endpoint, positions: [] }],
+    [{ ...endpoint, positions: [{ zone: "9999", x: 44, y: 60 }] }],
+    [{ ...endpoint, npcId: 261 }],
+  ])
+    assert.equal(
+      questCatalogSchema.safeParse({ ...valid, quests: [{ ...valid.quests[0], objectEnds }] })
+        .success,
+      false,
+    );
+  assert.equal(
+    questCatalogSchema.safeParse({
+      ...valid,
+      quests: [{ ...valid.quests[0], objectStarts: [endpoint, endpoint] }],
+    }).success,
+    false,
+  );
+});
+
 test("retains verified provided-item identity without lifting interaction restrictions", () => {
   const input = quest({
     sourceItemId: 957,

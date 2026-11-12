@@ -12,20 +12,38 @@ import {
 import {
   advanceCombatPosition,
   estimateCreatureKills,
-  type CombatKillEstimate,
   type CombatXpPosition,
 } from "./combat-xp.js";
+import {
+  addIncidentalCombatXp,
+  incidentalCombatRowFields,
+  incidentalCombatMessage,
+  type IncidentalCombatEstimate,
+} from "./campaign-incidental-combat.js";
 import { estimatePartyCreatureKills } from "./combat-party-xp.js";
 import { estimateBoundedPartyKills, type CampaignXpBounds } from "./campaign-xp-bounds.js";
-import { getPremadeQuest } from "./premade.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { getPremadeQuest, getPremadeStop } from "./premade.js";
+import { filterDungeonLootSources } from "./campaign-dungeon-loot.js";
+import {
+  campaignPlanSourceProfile,
+  createCampaignSourceProfile,
+} from "./campaign-source-profile.js";
+import { LEVELING_RACES } from "./profile.js";
+import { sharedCampaignQuestSources } from "./campaign-shared-source.js";
 import { getGuideStepView } from "./guide-archive.js";
 import { chapterEligibility } from "./chapter-catalog.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { resolveCombatQuota } from "./combat-loot.js";
 import type { LootScenario, LootKillEstimate } from "./quest-loot.js";
-import { isExplicitVendorPurchase } from "./combat-purchase.js";
-import { isFriendlyHealingObjective, nonKillCollectionMethod } from "./combat-nonkill.js";
+import { isExplicitVendorPurchase, isGeneratedVendorPurchase } from "./combat-purchase.js";
+import {
+  isExplorationObjective,
+  isFriendlyHealingObjective,
+  isViewingDialogueObjective,
+  isLivingCaptureObjective,
+  isItemDialogueObjective,
+  nonKillCollectionMethod,
+} from "./combat-nonkill.js";
 import { attachCampaignLootTargets } from "./campaign-loot-targets.js";
 import { resolveJointCombatQuota } from "./combat-loot-joint.js";
 import { referencedQuestObjectiveIndexes } from "./campaign-quest-objectives.js";
@@ -33,7 +51,26 @@ import { attachCampaignItemWork } from "./campaign-item-work.js";
 import { compileCampaignMaterialWork } from "./campaign-material-source.js";
 import { combineCampaignSourceWork } from "./campaign-source-work.js";
 import { attachCampaignReferenceFarmTargets } from "./campaign-reference-farm-targets.js";
+import { isExplicitGroundPickup, isGeneratedGroundPickup } from "./campaign-ground-pickup.js";
 import { displayOnlyQuestPhases } from "./campaign-source-display.js";
+import { attachDungeonStarterWork } from "./campaign-dungeon-starters.js";
+import { attachCampaignPunchCardPuzzle } from "./campaign-punch-card.js";
+import { attachCampaignHakkarEvent } from "./campaign-hakkar-event.js";
+import { felvineConversionObjectives } from "./campaign-felvine-conversion.js";
+import { applyReviewedCombatNpcLevels } from "./combat-reviewed-npc-levels.js";
+import { selectDungeonCollectionSources } from "./campaign-dungeon-collections.js";
+import { canExcludeUnpricedLootPayout, type UnpricedLootPayoutCandidate } from "./campaign-acquisition-xp.js";
+import { attachReviewedDungeonGroundMethods } from "./campaign-reviewed-dungeon-ground.js";
+import { applyNarrativeEncounterReferences, attachNarrativeEventGuidance, narrativeEventObjectives } from "./campaign-narrative-events.js";
+import { attachCampaignRingUpgrade } from "./campaign-ring-upgrade.js";
+import { isOptionalCombatUtilityUse } from "./combat-source-utility.js";
+
+import {
+  combatTargetName as targetName,
+  combatTargetNameForms as targetNameForms,
+  questCreatureKillCount,
+} from "./combat-quest-counter.js";
+export { questCreatureKillCount } from "./combat-quest-counter.js";
 
 export interface CombatReferenceIndex {
   readonly npcs: ReadonlyMap<number, CombatNpc>;
@@ -48,101 +85,78 @@ export function indexCombatReferences(
   };
 }
 
-function targetName(value: string): string {
-  return value
-    .replace(/^\+/, "")
-    .replace(/^(?:kill|slay|destroy)\s+/i, "")
-    .replace(/\s+(?:slain|killed|defeated|destroyed)$/i, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase();
-}
-
-export function questCreatureKillCount(
-  npc: Pick<CombatNpc, "name">,
-  texts: readonly string[],
-  relatedNames: readonly string[] = [],
-): number | null {
-  const name = targetName(npc.name),
-    forms = new Set([name, `${name}s`]);
-  if (/[^aeiou]y$/.test(name)) forms.add(`${name.slice(0, -1)}ies`);
-  if (/(?:s|x|z|ch|sh)$/.test(name)) forms.add(`${name}es`);
-  if (/man$/.test(name)) forms.add(`${name.slice(0, -3)}men`);
-  if (/(?:lf|rf)$/.test(name)) forms.add(`${name.slice(0, -1)}ves`);
-  if (/thief$/.test(name)) forms.add(`${name.slice(0, -1)}ves`);
-  const pattern = [...forms]
-    .sort((a, b) => b.length - a.length)
-    .map((form) => form.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-    .join("|");
-  const counts = new Set<number>();
-  for (const text of texts)
-    for (const match of text
-      .toLowerCase()
-      .matchAll(new RegExp(`\\b(\\d+)\\s+(?:${pattern})(?![a-z])`, "g"))) {
-      const count = Number(match[1]);
-      if (count > 0 && count <= 10000) counts.add(count);
-    }
-  for (const text of texts)
-    for (const match of text
-      .toLowerCase()
-      .matchAll(
-        new RegExp(
-          `\\b(?:${pattern})\\s*(?:(?:slain|killed|defeated|destroyed)\\s*)?\\(x?(\\d+)\\)`,
-          "g",
-        ),
-      )) {
-      const count = Number(match[1]);
-      if (count > 0 && count <= 10000) counts.add(count);
-    }
-  if (counts.size === 1) return [...counts][0]!;
-  if (counts.size > 1 || !relatedNames.length) return null;
-  // Quest text can omit a repeated family name: "8 Blackwood Pathfinders and 5 Windtalkers".
-  const words = name.split(" ");
-  for (let start = 1; start < words.length; start++) {
-    const suffix = words.slice(start).join(" ");
-    const matches = relatedNames.filter((related) => {
-      const normalized = targetName(related);
-      return normalized === suffix || normalized.endsWith(` ${suffix}`);
-    });
-    if (matches.length !== 1) continue;
-    const count = questCreatureKillCount({ name: suffix }, texts);
-    if (count !== null) return count;
-  }
-  return null;
-}
 
 function referenceObjectives(
   questId: number,
   index: CombatReferenceIndex,
+  instructions: readonly string[],
 ): readonly CombatObjective[] {
   const quest = index.quests.get(questId);
   if (!quest) return [];
   if (!quest.onlyCreatureObjectives) {
     const mapped = quest.itemObjectives?.filter((item) => item.objectiveIndex !== null) ?? [];
-    if (mapped.length)
-      return mapped.map((item): CombatObjective => ({
-        questId,
-        objectiveIndex: item.objectiveIndex!,
-        npcIds: item.provided || item.groundPickup ? [] : item.npcIds,
-        requiredKills: null,
-        credit: item.provided || item.groundPickup ? "non-combat" : "personal-loot",
-        source: `QuestieDB corrected quest ${questId}`,
-        reason: item.provided
-          ? "The item is provided at pickup; no additional collection kills are assumed after acceptance."
-          : item.groundPickup
-            ? "Each player loots one item from the source-backed world object; no kills or respawn time are assumed."
-            : "Loot kills require compatible drop and sharing evidence.",
-        ...(item.provided || item.groundPickup
-          ? {}
-          : {
-              loot: {
-                itemId: item.itemId,
-                quantity: item.quantity,
-                sharing: item.sharing,
-                ...(item.sharingReference ? { sharingReference: item.sharingReference } : {}),
-              },
-            }),
-      }));
+    if (mapped.length) {
+      const items = mapped.map((item): CombatObjective => {
+        const ground =
+          item.groundPickup || isGeneratedGroundPickup(quest, item.objectiveIndex!, instructions);
+        const purchase = isGeneratedVendorPurchase(item, instructions, index.npcs);
+        return {
+          questId,
+          objectiveIndex: item.objectiveIndex!,
+          npcIds: item.provided || ground || purchase ? [] : item.npcIds,
+          requiredKills: null,
+          credit: item.provided || ground || purchase ? "non-combat" : "personal-loot",
+          source: `QuestieDB corrected quest ${questId}`,
+          reason: item.provided
+            ? "The item is provided at pickup; no additional collection kills are assumed after acceptance."
+            : purchase
+              ? "Each player buys the full item quota from the named, source-qualified vendor; no acquisition kills are assumed."
+              : ground
+                ? item.quantity === 1
+                  ? "Each player loots one item from the source-backed world object; no kills or respawn time are assumed."
+                  : `Each player collects ${item.quantity} items from the source-backed world object; no kills or respawn time are assumed.`
+                : "Loot kills require compatible drop and sharing evidence.",
+          ...(item.provided || ground || purchase
+            ? {}
+            : {
+                loot: {
+                  itemId: item.itemId,
+                  quantity: item.quantity,
+                  sharing: item.sharing,
+                  ...(item.sharingReference ? { sharingReference: item.sharingReference } : {}),
+                },
+              }),
+        };
+      });
+      const quotas = quest.killQuotas ?? [];
+      const completeKills =
+        quest.creatureIds.length > 0 &&
+        quotas.length === quest.creatureIds.length &&
+        new Set(quotas.map((row) => row.npcId)).size === quest.creatureIds.length &&
+        quotas.every(
+          (row) => quest.creatureIds.includes(row.npcId) &&
+            !mapped.some((item) => item.objectiveIndex === row.objectiveIndex),
+        );
+      return [
+        ...(completeKills
+          ? quotas.map((row): CombatObjective => ({
+              questId,
+              objectiveIndex: row.objectiveIndex,
+              npcIds: [row.npcId],
+              requiredKills: quest.killQuotaConflicts?.includes(row.objectiveIndex) ? null : row.kills,
+              credit: quest.killQuotaConflicts?.includes(row.objectiveIndex) ? "unknown" : "shared-kills",
+              source: row.source,
+              reason: quest.killQuotaConflicts?.includes(row.objectiveIndex)
+                ? "Kill quota references conflict; no numeric death count is assumed."
+                : null,
+              ...(quest.killQuotaConflicts?.includes(row.objectiveIndex)
+                ? { quotaConflict: true as const }
+                : {}),
+            }))
+          : []),
+        ...items,
+      ];
+    }
     const npcIds = quest.creatureIds.length ? quest.creatureIds : quest.itemCreatureIds;
     return [
       {
@@ -203,8 +217,9 @@ export function resolveCombatObjectives(
   const { npcs, quests } = dataset;
   const displayOnly = displayOnlyQuestPhases(directives);
   return directives
-    .filter((directive) =>
-      directive.tag === ".complete" && directive.questId !== null && !displayOnly.has(directive),
+    .filter(
+      (directive) =>
+        directive.tag === ".complete" && directive.questId !== null && !displayOnly.has(directive),
     )
     .map((directive): CombatObjective => {
       const questId = directive.questId!,
@@ -246,6 +261,18 @@ export function resolveCombatObjectives(
       let matches = (quest?.creatureIds ?? []).filter(
         (id) => targetName(npcs.get(id)?.name ?? "") === label,
       );
+      if (label && !matches.length)
+        matches = (quest?.creatureIds ?? []).filter((id) => {
+          const npc = npcs.get(id);
+          return (
+            npc !== undefined &&
+            segmentMobs.includes(targetName(npc.name)) &&
+            targetNameForms(npc.name).has(label) &&
+            quest?.killQuotas?.some(
+              (quota) => quota.objectiveIndex === objectiveIndex && quota.npcId === id,
+            )
+          );
+        });
       if (!label) {
         matches = (quest?.creatureIds ?? []).filter((id) =>
           segmentMobs.includes(targetName(npcs.get(id)?.name ?? "")),
@@ -255,8 +282,13 @@ export function resolveCombatObjectives(
           matches = id === undefined ? [] : [id];
         }
       }
+      const matched = matches.length === 1 ? npcs.get(matches[0]!) : undefined;
       const interactive =
-        segment.some((entry) => [".use", ".cast", ".gossip", ".interact"].includes(entry.tag)) &&
+        segment.some((entry) =>
+          [".use", ".cast", ".gossip", ".interact"].includes(entry.tag) &&
+          !(matched && segmentMobs.includes(targetName(matched.name)) &&
+            isOptionalCombatUtilityUse(entry, quest, objectiveIndex)),
+        ) &&
         !/^(?:kill|slay|destroy)\s/i.test(directive.text);
       const killHint =
         /^(?:kill|slay|destroy)\s/i.test(directive.text) ||
@@ -264,7 +296,6 @@ export function resolveCombatObjectives(
         directives.some(
           (entry) => entry.tag === "text" && /\b(?:kill|slay|destroy)\b/i.test(entry.text),
         );
-      const matched = matches.length === 1 ? npcs.get(matches[0]!) : undefined;
       const providerCount = matched
         ? questCreatureKillCount(
             matched,
@@ -301,6 +332,81 @@ export function resolveCombatObjectives(
         .filter((entry) => entry.tag === ".mob")
         .map((entry) => targetName(entry.arguments));
       const item = quest?.itemObjectives?.find((entry) => entry.objectiveIndex === objectiveIndex);
+      if (!knownKill && !conflict && isExplicitGroundPickup(quest, objectiveIndex, directives))
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "Each player completes the source world-object pickup counter; no acquisition kill XP or respawn time is assumed.",
+        };
+      if (
+        quest &&
+        !knownKill &&
+        !conflict &&
+        isLivingCaptureObjective({ directives, offset, objectiveIndex, quest, npcs })
+      )
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "The quest and source require capturing the named living creature with an item; no death or incidental combat XP is assumed.",
+        };
+      if (
+        quest &&
+        !knownKill &&
+        !conflict &&
+        isItemDialogueObjective({ directives, offset, objectiveIndex, quest, npcs })
+      )
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "The source gossip, named speaker and item-start quest corroborate this dialogue handoff; no creature death is implied.",
+        };
+      if (
+        quest &&
+        !knownKill &&
+        !conflict &&
+        isViewingDialogueObjective({ directives, offset, objectiveIndex, quest, npcs })
+      )
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "The source gossip, named speaker and quest text corroborate this viewing dialogue; NPC credit does not imply a kill.",
+        };
+      if (
+        quest &&
+        !knownKill &&
+        !conflict &&
+        isExplorationObjective({ directives, offset, objectiveIndex, quest })
+      )
+        return {
+          questId,
+          objectiveIndex,
+          npcIds: [],
+          requiredKills: null,
+          credit: "non-combat",
+          source,
+          reason:
+            "Source and quest text identify this exploration counter separately from the captured kill objective; no additional kills are assumed.",
+        };
       if (
         quest &&
         !knownKill &&
@@ -420,22 +526,45 @@ export function resolveCombatObjectives(
 
 export function attachCampaignCombat(
   plan: CampaignPlan,
-  sources: readonly CampaignSource[],
+  inputSources: readonly CampaignSource[],
   dataset: CombatDataset,
   revision: string,
 ): CampaignPlan {
   if (dataset.targetBuild !== plan.targetBuild)
     throw new Error("Combat reference build does not match the route.");
+  dataset = applyReviewedCombatNpcLevels(dataset);
+  dataset = applyNarrativeEncounterReferences(dataset);
+  plan = attachNarrativeEventGuidance(plan, inputSources, dataset);
+  const ordinaryQuestIds = new Set(
+    plan.sharedSourceQuestIds ??
+      dataset.quests.filter((quest) => quest.requiredClasses === 0).map((quest) => quest.questId),
+  );
+  const sources = plan.sharedQuestsOnly
+    ? sharedCampaignQuestSources(inputSources, plan.race, ordinaryQuestIds)
+    : inputSources;
+  const punchCard = attachCampaignPunchCardPuzzle(plan, inputSources, dataset.quests);
+  plan = punchCard.plan;
+  const hakkarEvent = attachCampaignHakkarEvent(plan, inputSources, dataset);
+  plan = hakkarEvent.plan;
+  const reviewedGround = attachReviewedDungeonGroundMethods(plan, dataset);
+  plan = reviewedGround.plan;
+  const felvineConversions = felvineConversionObjectives(plan, dataset);
   plan = attachCampaignItemWork(plan, sources, dataset.quests);
+  const ringUpgrade = attachCampaignRingUpgrade(plan, dataset);
+  plan = ringUpgrade.plan;
   const firstMaterialWork = compileCampaignMaterialWork(plan, sources, dataset);
   const combined = combineCampaignSourceWork(plan, firstMaterialWork);
-  const materialWork =
+  const capturedMaterialWork =
     combined === plan ? firstMaterialWork : compileCampaignMaterialWork(combined, sources, dataset);
   plan = combined;
+  const starters = attachDungeonStarterWork(plan, dataset);
+  plan = starters.plan;
+  const materialWork = [...capturedMaterialWork, ...starters.work];
   const byStep = new Map<string, readonly CombatObjective[]>();
   const byObjective = new Map<string, CombatObjective[]>();
   const references = indexCombatReferences(dataset);
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const bosses = new Map(dataset.bossReferences?.map((reference) => [reference.npcId, reference]) ?? []);
+  const profile = campaignPlanSourceProfile(plan);
   const selectedSteps = new Set(
     plan.actions.flatMap((action) =>
       action.source
@@ -443,15 +572,47 @@ export function attachCampaignCombat(
         : [],
     ),
   );
+  const dedicatedQuestIds = new Set(
+    dataset.quests
+      .filter((quest) => (quest.requiredClasses ?? 0) !== 0)
+      .map((quest) => quest.questId),
+  );
+  const sharedCompletionSteps = new Set(
+    plan.sharedQuestsOnly
+      ? plan.actions.flatMap((action) =>
+          action.source &&
+          !action.leaderOnly &&
+          action.questChanges.some((change) => change.state === "objectives-complete") &&
+          action.questChanges.every(
+            (change) =>
+              ordinaryQuestIds.has(change.questId) && !dedicatedQuestIds.has(change.questId),
+          )
+            ? [`${action.source.chapterId}:${action.source.version}:${action.source.stepId}`]
+            : [],
+        )
+      : [],
+  );
+  const classProfiles = plan.sharedQuestsOnly
+    ? (LEVELING_RACES.find((race) => race.id === plan.race)?.classes ?? []).map((classSlug) =>
+        createCampaignSourceProfile(plan.race, classSlug),
+      )
+    : [];
   const dungeons = DUNGEON_VISITS.flatMap((visit) => (visit.sourceTag ? [visit.sourceTag] : []));
   for (const { guide, reference } of sources) {
+    if (guide.targetBuild !== plan.targetBuild) continue;
     const eligible = chapterEligibility(reference, profile) === "match";
-    if (!eligible && chapterEligibility({ ...reference, defaults: [] }, profile) !== "match")
-      continue;
+    const withoutDefaults = { ...reference, defaults: [] };
+    const alternate = chapterEligibility(withoutDefaults, profile) === "match";
+    const sharedRecommendation =
+      chapterEligibility({ ...withoutDefaults, condition: "" }, profile) === "match" &&
+      classProfiles.some((candidate) => chapterEligibility(withoutDefaults, candidate) === "match");
+    if (!eligible && !alternate && !sharedRecommendation) continue;
     for (const step of guide.steps) {
+      const key = `${guide.chapterId}:${guide.version}:${step.id}`;
       // Defaults choose branches; exact planned steps can reuse a source for another supported race.
-      if (!eligible && !selectedSteps.has(`${guide.chapterId}:${guide.version}:${step.id}`))
-        continue;
+      if (!eligible && !selectedSteps.has(key)) continue;
+      // A guide's class recommendation cannot discard its selected ordinary-party counters.
+      if (!eligible && !alternate && !sharedCompletionSteps.has(key)) continue;
       const source = `${guide.chapterId}:${step.id}`;
       const view = getGuideStepView(
         {
@@ -474,8 +635,13 @@ export function attachCampaignCombat(
       }
     }
   }
+  const narrativeEvents = narrativeEventObjectives(plan, sources, dataset);
   const activities: CombatActivity[] = [];
   for (const action of plan.actions) {
+    if (action.wholeQuestObjectives && action.combatObjectiveScope === "listed")
+      throw new Error(`A generated task cannot cover the whole quest and listed counters simultaneously: ${action.id}.`);
+    if (action.combatEnvironment === "outdoor" && action.location?.insideDungeon)
+      throw new Error(`Outdoor combat task has an inside-dungeon location: ${action.id}.`);
     const completions = action.questChanges.filter(
       (change) => change.state === "objectives-complete",
     );
@@ -486,9 +652,51 @@ export function attachCampaignCombat(
       : undefined;
     const referencesForAction = completions.flatMap((change): readonly CombatObjective[] => {
       const objectiveIndex = change.objectiveIndex ?? 1;
+      const reviewedObjective = ringUpgrade.objectives.get(action.id)?.find((objective) => objective.questId === change.questId && objective.objectiveIndex === objectiveIndex) ?? narrativeEvents.get(action.id) ?? punchCard.objectives.get(action.id) ?? reviewedGround.objectives.get(action.id) ?? hakkarEvent.objectives.get(action.id) ?? felvineConversions.get(action.id);
+      if (reviewedObjective && reviewedObjective.questId === change.questId && reviewedObjective.objectiveIndex === objectiveIndex)
+        return [reviewedObjective];
       if (!action.source) {
-        const reference = referenceObjectives(change.questId, references);
-        if (reference.length) return reference;
+        const allReferences = referenceObjectives(change.questId, references, action.instructions);
+        const reference = action.combatObjectiveScope === "listed"
+          ? allReferences.filter((objective) => objective.objectiveIndex === objectiveIndex)
+          : allReferences;
+        if (reference.length) {
+          if (!action.wholeQuestObjectives) return reference;
+          return reference.map((objective): CombatObjective => {
+            const item = references.quests.get(objective.questId)?.itemObjectives?.find(
+              (entry) => entry.objectiveIndex === objective.objectiveIndex &&
+                entry.itemId === objective.loot?.itemId,
+            );
+            const candidates = byObjective.get(combatObjectiveKey(objective)) ?? [];
+            if (
+              objective.credit !== "personal-loot" ||
+              objective.quotaConflict ||
+              objective.npcIds.length ||
+              !item?.objectIds?.length ||
+              item.npcIds.length ||
+              item.provided ||
+              item.vendorEvidence ||
+              item.rewardEvidence ||
+              item.quantity === null ||
+              item.quantity !== objective.loot?.quantity ||
+              !plan.itemRequirements?.some((requirement) =>
+                requirement.questId === objective.questId &&
+                requirement.objectiveIndex === objective.objectiveIndex &&
+                requirement.itemId === item.itemId &&
+                requirement.quantity === item.quantity &&
+                !requirement.conflict && !requirement.sourceProvided,
+              ) ||
+              !candidates.length ||
+              candidates.some((candidate) =>
+                candidate.credit !== "non-combat" || candidate.npcIds.length > 0 ||
+                candidate.requiredKills !== null || candidate.loot ||
+                candidate.quotaConflict || candidate.combatAccess,
+              )
+            ) return objective;
+            // A generic loot row must not discard unanimous, full-counter ground proofs.
+            return candidates[0]!;
+          });
+        }
       }
       const candidates = (
         action.source
@@ -532,21 +740,40 @@ export function attachCampaignCombat(
       ...new Map(
         referencesForAction.map((objective) => [combatObjectiveKey(objective), objective]),
       ).values(),
-    ];
+    ].map((objective): CombatObjective =>
+      starters.retainedObjectiveKeys.has(combatObjectiveKey(objective))
+        ? {
+            ...objective,
+            npcIds: [],
+            requiredKills: null,
+            credit: "non-combat",
+            reason:
+              "Carry the retained starter acquired before this quest was accepted; no second item-drop fight is required.",
+          }
+        : objective,
+    );
     for (const environment of ["outdoor", "dungeon"] as const) {
       const group = objectives.filter(
         (objective) =>
-          objective.credit !== "non-combat" &&
-          (getPremadeQuest(objective.questId)?.objectiveStage === "before"
-            ? "outdoor"
-            : ["inside", "multiple-visits"].includes(
-                  getPremadeQuest(objective.questId)?.objectiveStage ?? "",
-                ) ||
-                leg.kind === "dungeon" ||
-                action.location?.insideDungeon
-              ? "dungeon"
-              : "outdoor") === environment,
+          (objective.credit !== "non-combat" || Boolean(objective.combatAccess)) &&
+          (action.combatEnvironment ??
+            (getPremadeQuest(objective.questId)?.objectiveStage === "before"
+              ? "outdoor"
+              : ["inside", "multiple-visits"].includes(
+                    getPremadeQuest(objective.questId)?.objectiveStage ?? "",
+                  ) ||
+                  leg.kind === "dungeon" ||
+                  action.location?.insideDungeon
+                ? "dungeon"
+                : "outdoor")) === environment,
       );
+      const dungeonContext =
+        action.location?.insideDungeon ??
+        leg.dungeonVisitId ??
+        (leg.kind === "dungeon" ? leg.stopId : null);
+      const dungeonVisitIds = dungeonContext
+        ? (getPremadeStop(dungeonContext)?.visitIds ?? [dungeonContext])
+        : [];
       if (group.length)
         activities.push({
           id: `combat-${action.id}-${environment}`,
@@ -556,8 +783,18 @@ export function attachCampaignCombat(
             action.dungeonFinishOnly && action.location?.insideDungeon
               ? `${leg.id}-${action.location.insideDungeon}`
               : leg.id,
-          questWide: action.source === null,
-          objectives: group,
+          questWide: action.source === null && action.combatObjectiveScope !== "listed",
+          objectives:
+            environment === "dungeon"
+              ? filterDungeonLootSources(plan.dungeonCollectionPolicy === "selected-clear"
+                ? selectDungeonCollectionSources(group, dungeonContext, references.npcs)
+                : group, {
+                  targetBuild: plan.targetBuild,
+                  dungeonVisitIds,
+                  npcs: references.npcs,
+                  bosses,
+                })
+              : group,
           profile: null,
         });
     }
@@ -597,7 +834,7 @@ export function attachCampaignCombat(
   }
   const ids = new Set(
     activities.flatMap((activity) => [
-      ...activity.objectives.flatMap((objective) => objective.npcIds),
+      ...activity.objectives.flatMap((objective) => [...objective.npcIds, ...(objective.combatAccess?.npcIds ?? [])]),
       ...(activity.profile?.packs.map((pack) => pack.npcId) ?? []),
     ]),
   );
@@ -609,19 +846,38 @@ export function attachCampaignCombat(
     sourceRevision: dataset.provider.revision,
     targetBuild: dataset.targetBuild,
     npcs: dataset.npcs.filter((npc) => ids.has(npc.id)),
+    ...(dataset.npcMetadataReferences
+      ? {
+          npcMetadataReferences: dataset.npcMetadataReferences.filter((reference) =>
+            ids.has(reference.npcId),
+          ),
+        }
+      : {}),
+    ...(dataset.bossReferences
+      ? { bossReferences: dataset.bossReferences.filter((reference) => ids.has(reference.npcId)) }
+      : {}),
     activities,
     ...(materialWork.length ? { materialWork } : {}),
     notice: notices.length ? notices.join(" ") : null,
     killXpEvidence: dataset.killXpEvidence.filter((entry) => ids.has(entry.npcId)),
+    ...(dataset.dungeonKillXpReference
+      ? { dungeonKillXpReference: dataset.dungeonKillXpReference }
+      : {}),
     ...(dataset.lootDrops
       ? { lootDrops: dataset.lootDrops.filter((drop) => ids.has(drop.npcId)) }
       : {}),
     ...(dataset.historicalLoot ? { historicalLoot: dataset.historicalLoot } : {}),
   };
-  return attachCampaignReferenceFarmTargets(attachCampaignLootTargets({ ...plan, combat }));
+  return attachCampaignReferenceFarmTargets(
+    attachCampaignLootTargets({ ...plan, combat }, dataset.provider),
+  );
 }
 
 export interface CampaignCombatRow {
+  readonly acquisitionXpExcluded?: true;
+  readonly incidentalXp?: number;
+  readonly maximumIncidentalXp?: number | null;
+  readonly requiredBasis?: IncidentalCombatEstimate["basis"];
   readonly activityId: string;
   readonly environment: "outdoor" | "dungeon";
   readonly npcId: number;
@@ -668,10 +924,12 @@ export function applyCampaignCombat(input: {
   readonly partyLevels?: readonly (number | null)[];
   readonly lootScenario?: LootScenario;
   readonly xpMultiplier?: number;
+  readonly incidentalKillXpPercent?: number;
   readonly playerIndex?: number;
   readonly synchronizedParty?: boolean;
   readonly partyPositions?: readonly CombatXpPosition[] | null;
   readonly partyBounds?: readonly CampaignXpBounds[] | null;
+  readonly unpricedPayoutCandidates?: readonly UnpricedLootPayoutCandidate[];
 }): {
   readonly xp: number;
   readonly rows: readonly CampaignCombatRow[];
@@ -775,18 +1033,28 @@ export function applyCampaignCombat(input: {
   );
   const active = activeCandidates.filter((objective) => quota(objective).kills !== null);
   function kill(npc: CombatNpc, count: number, source: string): void {
+    const startingPartyBounds = partyBounds, startingPartyPositions = partyPositions;
     const shared = {
       npc,
       kills: count,
       environment: activity.environment,
       dungeonMultiplier: activity.profile?.dungeonMultiplier ?? null,
+      ...(combat.dungeonKillXpReference
+        ? { dungeonKillXpReference: combat.dungeonKillXpReference }
+        : {}),
       evidence: combat.killXpEvidence ?? [],
       build: combat.targetBuild,
       ...(input.xpMultiplier === undefined ? {} : { xpMultiplier: input.xpMultiplier }),
     };
-    let estimate: CombatKillEstimate;
+    const hasClearPath = activity.profile || (activity.pathId && combat.activities.some(
+      (other) => other.pathId === activity.pathId && other.profile,
+    ));
+    const incidentalPercent = hasClearPath ? 0 : (input.incidentalKillXpPercent ?? 0);
+    let estimate: IncidentalCombatEstimate;
     if (partyBounds) {
-      const party = estimateBoundedPartyKills({ ...shared, positions: partyBounds });
+      const party = estimateBoundedPartyKills({ ...shared, positions: partyBounds }).map(
+        (row) => addIncidentalCombatXp(row, incidentalPercent),
+      );
       estimate = party[input.playerIndex ?? 0]!;
       partyBounds = party.every((member) => member.xp !== null && member.maximumExit !== null)
         ? party.map((member) => ({ minimum: member.exit, maximum: member.maximumExit! }))
@@ -801,13 +1069,15 @@ export function applyCampaignCombat(input: {
           "Shared-party progress is not aligned for this combat phase; peer XP bars are not assumed to stay fixed.",
       };
     } else if (partyPositions) {
-      const party = estimatePartyCreatureKills({ ...shared, positions: partyPositions });
+      const party = estimatePartyCreatureKills({ ...shared, positions: partyPositions }).map(
+        (row) => addIncidentalCombatXp(row, incidentalPercent),
+      );
       estimate = party[input.playerIndex ?? 0]!;
       partyPositions = party.every((member) => member.xp !== null && member.xp === member.maximumXp)
         ? party.map((member) => member.exit)
         : null;
     } else
-      estimate = estimateCreatureKills({
+      estimate = addIncidentalCombatXp(estimateCreatureKills({
         ...shared,
         position,
         partySize,
@@ -822,11 +1092,50 @@ export function applyCampaignCombat(input: {
         ...(input.synchronizedParty === undefined
           ? {}
           : { synchronizedParty: input.synchronizedParty }),
-      });
-    if (estimate.basis === "reference-estimate")
+      }), incidentalPercent);
+    const pendingObjectives = allActive.filter((objective) => {
+      if (!objective.npcIds.includes(npc.id)) return false;
+      const counted = state.counters.get(combatObjectiveKey(objective)), target = quota(objective).kills;
+      return counted === null || counted === undefined || target === null || counted < target;
+    });
+    const acquisitionXpExcluded = estimate.basis === "unknown" && estimate.xp === null &&
+      !hasClearPath && Boolean(startingPartyBounds || startingPartyPositions) &&
+      canExcludeUnpricedLootPayout({ npc, objectives: pendingObjectives,
+        candidates: input.unpricedPayoutCandidates ?? [] });
+    if (acquisitionXpExcluded) {
+      // Keep the modeled workload and all item counters. This is a counted-XP baseline,
+      // not a resolution of the server's uncertain payout or an actual-XP upper bound.
+      estimate = { xp: 0, maximumXp: 0, exit: position,
+        basis: "excluded", reason: "Additional loot-acquisition XP is unpriced and excluded from the known-input forecast; full item quantities and physical work are unchanged." };
+      partyBounds = startingPartyBounds;
+      partyPositions = startingPartyPositions;
+    }
+    if ((estimate.requiredBasis ?? estimate.basis) === "reference-estimate")
       issues.push(
-        `${activity.id}:${npc.id}: combat XP uses the historical formula because this exact Forever build, level, party size and environment have not been observed.`,
+        `${activity.id}:${npc.id}: combat XP uses an unobserved reference model${activity.environment === "dungeon" && combat.dungeonKillXpReference && !activity.profile ? ` (${combat.dungeonKillXpReference.id})` : ""}; this exact Forever build, level, party size and environment have not been observed.`,
       );
+    const incidentalMessage = incidentalCombatMessage(estimate, incidentalPercent);
+    if (incidentalMessage) issues.push(`${activity.id}:${npc.id}: ${incidentalMessage}`);
+    const metadata = combat.npcMetadataReferences?.find((reference) => reference.npcId === npc.id);
+    const referenceSource = [
+      source,
+      ...(estimate.basis === "reference-estimate" &&
+      activity.environment === "dungeon" &&
+      combat.dungeonKillXpReference &&
+      !activity.profile
+        ? [combat.dungeonKillXpReference.source]
+        : []),
+      ...(metadata
+        ? [
+            "sourceUrl" in metadata.levelSource
+              ? metadata.levelSource.sourceUrl
+              : metadata.levelSource.statement,
+            ...(metadata.rankSource ? [metadata.rankSource.sourceUrl] : []),
+            metadata.attribution,
+            metadata.limitation,
+          ]
+        : []),
+    ].join("; ");
     rows.push({
       activityId: activity.id,
       environment: activity.environment,
@@ -838,8 +1147,12 @@ export function applyCampaignCombat(input: {
       xp: estimate.xp,
       maximumXp: estimate.maximumXp,
       source:
-        estimate.basis === "observed" ? (estimate.observedSources?.join("; ") ?? source) : source,
+        (estimate.requiredBasis ?? estimate.basis) === "observed"
+          ? (estimate.observedSources?.join("; ") ?? source)
+          : referenceSource,
       basis: estimate.basis,
+      ...(acquisitionXpExcluded ? { acquisitionXpExcluded: true as const } : {}),
+      ...incidentalCombatRowFields(estimate),
     });
     if (estimate.reason) issues.push(estimate.reason);
     xp += estimate.xp ?? 0;

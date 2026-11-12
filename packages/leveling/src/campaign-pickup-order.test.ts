@@ -313,6 +313,7 @@ describe("starter pickup timing", () => {
     expect(row).toMatchObject({
       endpoint: { level: 2, currentXp: 400 },
       estimatedCombatXp: 0,
+      incidentalCombatXp: 0,
       combatXp: 0,
       blockedReason: null,
     });
@@ -382,6 +383,7 @@ describe("starter pickup timing", () => {
       endpoint: { level: 2, currentXp: 400 },
       blockedReason: null,
       estimatedCombatXp: 0,
+      incidentalCombatXp: 0,
     });
   });
   it("uses an independent hand-in before a gated return in the same source visit", () => {
@@ -439,6 +441,7 @@ describe("starter pickup timing", () => {
       endpoint: { level: 2, currentXp: 400 },
       blockedReason: null,
       estimatedCombatXp: 0,
+      incidentalCombatXp: 0,
     });
   });
   it("retains an available follow-up in the independent part of a combined handoff", () => {

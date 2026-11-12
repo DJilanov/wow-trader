@@ -1,0 +1,184 @@
+[
+  {
+    "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+    "sourceSha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+    "document": {
+      "meta": {
+        "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+        "cacheFiles": 18,
+        "cachesLeftOut": 0,
+        "clientBuild": "1.60.1.70205",
+        "collectedOn": {
+          "first": "2026-10-03",
+          "last": "2026-10-05"
+        },
+        "dataset": "quests",
+        "license": "CC BY 4.0",
+        "locale": "enUS",
+        "product": "wow_classic_beta",
+        "schemaVersion": 1,
+        "sources": 2
+      },
+      "quests": {
+        "98824": {
+          "level": 31,
+          "minLevel": 24,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 478769,
+              "objectId": 287959,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Bring the Titan Relic to High Explorer Magellas in Ironforge's Hall of Explorers.",
+          "sources": 2,
+          "startItemId": 287959,
+          "title": "Prehistoric Prism"
+        },
+        "631": {
+          "level": 31,
+          "minLevel": 26,
+          "objectivesText": "Rhag Garmason wants you to locate Ol' Rustlocke.",
+          "sources": 2,
+          "title": "The Thandol Span"
+        },
+        "632": {
+          "level": 31,
+          "minLevel": 26,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 380582,
+              "objectId": 4429,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Report back to Rhag Garmason and show him the parchment you found on Rustlocke's corpse.",
+          "sources": 2,
+          "startItemId": 4429,
+          "title": "The Thandol Span"
+        },
+        "1144": {
+          "level": 30,
+          "minLevel": 22,
+          "objectivesText": "Escort Willix the Importer out of Razorfen Kraul.",
+          "sources": 2,
+          "title": "Willix the Importer"
+        },
+        "96395": {
+          "level": 15,
+          "minLevel": 10,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 473143,
+              "objectId": 261306,
+              "storageIndex": 2,
+              "type": "monster",
+              "typeId": 0
+            }
+          ],
+          "objectivesText": "Put the spirit of Faldrim Anvilmar to rest and then return to the Ghostly Attendant in the Hall of Thanes.",
+          "sources": 2,
+          "title": "An Ancient Grudge"
+        }
+      }
+    }
+  },
+  {
+    "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+    "sourceSha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+    "document": {
+      "meta": {
+        "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+        "cacheFiles": 82,
+        "cachesLeftOut": 0,
+        "clientBuild": "1.60.1.70450",
+        "collectedOn": {
+          "first": "2026-10-17",
+          "last": "2026-10-22"
+        },
+        "dataset": "quests",
+        "license": "CC BY 4.0",
+        "locale": "enUS",
+        "product": "wow_classic_beta",
+        "schemaVersion": 1,
+        "sources": 5
+      },
+      "quests": {
+        "98824": {
+          "level": 31,
+          "minLevel": 24,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 478769,
+              "objectId": 287959,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Bring the Titan Relic to High Explorer Magellas in Ironforge's Hall of Explorers.",
+          "sources": 2,
+          "startItemId": 287959,
+          "title": "Prehistoric Prism"
+        },
+        "631": {
+          "level": 31,
+          "minLevel": 26,
+          "objectivesText": "Rhag Garmason wants you to locate Ol' Rustlocke.",
+          "sources": 3,
+          "title": "The Thandol Span"
+        },
+        "632": {
+          "level": 31,
+          "minLevel": 26,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 380582,
+              "objectId": 4429,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Report back to Rhag Garmason and show him the parchment you found on Rustlocke's corpse.",
+          "sources": 1,
+          "startItemId": 4429,
+          "title": "The Thandol Span"
+        },
+        "1144": {
+          "level": 30,
+          "minLevel": 22,
+          "objectivesText": "Escort Willix the Importer out of Razorfen Kraul.",
+          "sources": 4,
+          "title": "Willix the Importer"
+        },
+        "96395": {
+          "level": 15,
+          "minLevel": 10,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 473143,
+              "objectId": 261306,
+              "storageIndex": 2,
+              "type": "monster",
+              "typeId": 0
+            }
+          ],
+          "objectivesText": "Put the spirit of Faldrim Anvilmar to rest and then return to the Ghostly Attendant in the Hall of Thanes.",
+          "sources": 4,
+          "title": "An Ancient Grudge"
+        }
+      }
+    }
+  }
+]

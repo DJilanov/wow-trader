@@ -8,6 +8,11 @@ import {
 } from "./combat-model.js";
 import { estimatePartyCreatureKills } from "./combat-party-xp.js";
 import {
+  addIncidentalCombatXp,
+  incidentalCombatRowFields,
+  incidentalCombatMessage,
+} from "./campaign-incidental-combat.js";
+import {
   estimateBoundedPartyKills,
   type BoundedCombatKillEstimate,
   type CampaignXpBounds,
@@ -44,6 +49,7 @@ export function forecastSharedPartyCombat(input: {
   readonly combat: CampaignCombatPlan;
   readonly participants: readonly SharedPartyCombatParticipant[];
   readonly xpMultiplier: number;
+  readonly incidentalKillXpPercent?: number;
   readonly references?: SharedPartyCombatIndex;
 }): readonly SharedPartyCombatForecast[] | null {
   const { action, activities, combat, participants } = input;
@@ -171,7 +177,7 @@ export function forecastSharedPartyCombat(input: {
       build: combat.targetBuild,
       xpMultiplier: activities[0]!.environment === "outdoor" ? input.xpMultiplier : 1,
     };
-    const estimates: readonly BoundedCombatKillEstimate[] = bounded
+    const requiredEstimates: readonly BoundedCombatKillEstimate[] = bounded
       ? estimateBoundedPartyKills({
           ...batch,
           positions: positions.map((minimum, player) => ({
@@ -183,6 +189,9 @@ export function forecastSharedPartyCombat(input: {
           ...estimate,
           maximumExit: estimate.exit,
         }));
+    const estimates = requiredEstimates.map((estimate) =>
+      addIncidentalCombatXp(estimate, input.incidentalKillXpPercent ?? 0),
+    );
     if (
       estimates.some(
         (estimate) =>
@@ -213,13 +222,16 @@ export function forecastSharedPartyCombat(input: {
         xp: estimate.xp,
         maximumXp: estimate.maximumXp,
         source:
-          estimate.basis === "observed" ? (estimate.observedSources?.join("; ") ?? source) : source,
+          (estimate.requiredBasis ?? estimate.basis) === "observed" ? (estimate.observedSources?.join("; ") ?? source) : source,
         basis: estimate.basis,
+        ...incidentalCombatRowFields(estimate),
       });
-      if (estimate.basis === "reference-estimate")
+      if ((estimate.requiredBasis ?? estimate.basis) === "reference-estimate")
         issues[player]!.push(
           `${activities[0]!.id}:${npcId}: combat XP is estimated from the historical formula; this exact creature, party and build have no matching observation.`,
         );
+      const incidentalMessage = incidentalCombatMessage(estimate, input.incidentalKillXpPercent ?? 0);
+      if (incidentalMessage) issues[player]!.push(incidentalMessage);
     }
     positions = estimates.map((estimate) => estimate.exit);
     maximumPositions = estimates.map((estimate) => estimate.maximumExit!);

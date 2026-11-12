@@ -1,3 +1,4 @@
+import type { CampaignFundingExecutor } from "./campaign-funding-scenarios.js";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import type { CombatDataset } from "./combat-model.js";
 import type { QuestCatalog, QuestCatalogEntry } from "./quest-catalog.js";
@@ -84,6 +85,7 @@ export function batchCampaignLocalDeliveries(
   initial: CampaignPlan,
   combat: CombatDataset,
   catalog: QuestCatalog,
+  statesForPlan: CampaignFundingExecutor = campaignFundingStates,
 ): CampaignPlan {
   if (
     initial.targetBuild !== catalog.targetBuild ||
@@ -172,7 +174,7 @@ export function batchCampaignLocalDeliveries(
       recipients.some((giver) => giver.positions.some((position) => !zones.includes(position.zone)))
     )
       continue;
-    const before = campaignFundingStates(plan);
+    const before = statesForPlan(plan);
     let reachable = false;
     let eligible = true;
     for (const state of before) {
@@ -212,7 +214,7 @@ export function batchCampaignLocalDeliveries(
         ],
       })),
     };
-    const after = campaignFundingStates(proposed);
+    const after = statesForPlan(proposed);
     const savedVisits = before.map(
       (state, index) => partyZoneVisits(state) - partyZoneVisits(after[index]!),
     );

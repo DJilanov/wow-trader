@@ -152,7 +152,7 @@ export function forecastCampaignGuide(
   options: { readonly startingLevel?: number; readonly starterMode?: GuideStarterPartyMode } = {},
 ): CampaignGuideForecast {
   const startingLevel = options.startingLevel ?? 1;
-  const starterMode = options.starterMode ?? "separate";
+  const starterMode = plan.sharedQuestsOnly ? "together" : (options.starterMode ?? "separate");
   if (!validBar({ level: startingLevel, currentXp: 0 }))
     throw new Error("Invalid guide starting level.");
   const sections = campaignSections(plan, progress);

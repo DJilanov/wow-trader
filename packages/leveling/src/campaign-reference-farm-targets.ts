@@ -2,6 +2,7 @@ import type { CampaignPlan } from "./campaign.js";
 import type { CombatActivity, CombatObjective } from "./combat-model.js";
 import { combatObjectiveKey } from "./combat-model.js";
 import { resolveJointCombatQuota } from "./combat-loot-joint.js";
+import { partyQuestLootCost } from "./party-quest-cost.js";
 
 function collectionGroups(objectives: readonly CombatObjective[]): readonly CombatObjective[][] {
   const remaining = new Set(objectives);
@@ -28,7 +29,7 @@ function collectionGroups(objectives: readonly CombatObjective[]): readonly Comb
   return groups;
 }
 
-/** A declared five-player farming choice, never an inferred creature spawn distribution. */
+/** Prefer the lowest-level qualified creature; compare kill costs only at equal levels. */
 export function attachCampaignReferenceFarmTargets(plan: CampaignPlan): CampaignPlan {
   const combat = plan.combat;
   if (!combat) return plan;
@@ -71,7 +72,13 @@ export function attachCampaignReferenceFarmTargets(plan: CampaignPlan): Campaign
     )
       continue;
     const chosen = new Map<string, CombatObjective>();
-    for (const group of collectionGroups(collections)) {
+    const groups = collectionGroups(collections).flatMap((group) => {
+      const commonSource = group[0]!.npcIds.some((id) =>
+        group.every((objective) => objective.npcIds.includes(id)));
+      // Overlapping drop tables do not require one creature to drop every item.
+      return commonSource ? [group] : group.map((objective) => [objective]);
+    });
+    for (const group of groups) {
       if (group.every((objective) => objective.npcIds.length === 1)) continue;
       const candidates = group[0]!.npcIds.filter((id) =>
         group.every((objective) => objective.npcIds.includes(id)),
@@ -103,14 +110,23 @@ export function attachCampaignReferenceFarmTargets(plan: CampaignPlan): Campaign
             (objective) => objective.credit === "shared-kills" && objective.npcIds[0] === npcId,
           );
           const quota = resolveJointCombatQuota([...narrowed, ...kills], combat, 5, "expected");
+          // Review alternatives independently: another method for the same counter
+          // must not replace this camp's item quantity or probability in the cost check.
+          const candidate: CampaignPlan = { ...plan, combat: { ...combat,
+            activities: [{ ...activity, objectives: narrowed }], materialWork: [],
+          } };
+          const eligible = plan.sharedQuestsOnly === true && !action.leaderOnly &&
+            [...new Set(narrowed.map((objective) => objective.questId))]
+              .every((questId) => partyQuestLootCost(questId, candidate).eligible);
           return quota.status === "estimated"
-            ? [{ npcId, kills: quota.kills, maximumLevel: npc.maximumLevel, objectives: narrowed }]
+            ? [{ npcId, kills: quota.kills, maximumLevel: npc.maximumLevel, objectives: narrowed, eligible }]
             : [];
         })
         .sort(
           (left, right) =>
-            left.kills - right.kills ||
+            Number(right.eligible) - Number(left.eligible) ||
             left.maximumLevel - right.maximumLevel ||
+            left.kills - right.kills ||
             left.npcId - right.npcId,
         );
       const best = ranked[0];

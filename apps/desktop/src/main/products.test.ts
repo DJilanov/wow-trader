@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -52,7 +52,7 @@ describe("collector addon installation", () => {
     expect(uiSource).toContain('"Save & Reload"');
     expect(uiSource).toContain('"Recent saved scans"');
     expect(tocSource).toContain(
-      "MarketData.lua\nAccountData.lua\nMarketPolicy.lua\nCollector.lua\nProfessions.lua\nTrades.lua\nWorldEvidence.lua\nUI.lua",
+      "MarketData.lua\nAccountData.lua\nMarketPolicy.lua\nNativeItemCache.lua\nNativePendingRows.lua\nCollector.lua\nDisenchantData.lua\nClientValuationData.lua\nValuation.lua\nProfessions.lua\nCrafting.lua\nValuationUI.lua\nTrades.lua\nWorldEvidence.lua\nUI.lua",
     );
 
     await installCollector(product, sourceDirectory);
@@ -61,18 +61,25 @@ describe("collector addon installation", () => {
       rootPath,
       "Interface/AddOns/WowTraderCollector/WowTraderCollector.toc",
     );
-    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.14.0");
+    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.15.8");
     const installedFiles = await readdir(
       path.join(rootPath, "Interface/AddOns/WowTraderCollector"),
     );
     expect(installedFiles.sort()).toEqual([
       "AccountData.lua",
+      "ClientValuationData.lua",
       "Collector.lua",
+      "Crafting.lua",
+      "DisenchantData.lua",
       "MarketData.lua",
       "MarketPolicy.lua",
+      "NativeItemCache.lua",
+      "NativePendingRows.lua",
       "Professions.lua",
       "Trades.lua",
       "UI.lua",
+      "Valuation.lua",
+      "ValuationUI.lua",
       "WorldEvidence.lua",
       "WowTraderCollector.toc",
     ]);
@@ -93,7 +100,7 @@ describe("collector addon installation", () => {
     await expect(readFile(installedAccountData, "utf8")).resolves.toBe(accountPreferences);
     await expect(inspectProduct(product)).resolves.toMatchObject({
       collectorHealth: "ready",
-      collectorVersion: "0.14.0",
+      collectorVersion: "0.15.8",
       collectorFileCount: 0,
       scannerProvider: "native",
       scannerReady: true,
@@ -110,6 +117,27 @@ describe("collector addon installation", () => {
     await expect(
       installCollector(createProductConfiguration("tbc", rootPath), sourceDirectory),
     ).rejects.toThrow("failed verification");
+  });
+
+  it("preserves the installed addon and synchronized data when a new pricing module fails verification", async () => {
+    const rootPath = await temporaryDirectory();
+    const sourceDirectory = path.resolve(import.meta.dirname, "../../../addon/WowTraderCollector");
+    const product = createProductConfiguration("forever", rootPath);
+    await installCollector(product, sourceDirectory);
+    const installed = path.join(rootPath, "Interface/AddOns/WowTraderCollector");
+    const marketData = "WOW_TRADER_MARKET_DATA = { schemaVersion = 2 }\n";
+    await writeFile(path.join(installed, "MarketData.lua"), marketData);
+    const candidate = await temporaryDirectory();
+    await cp(sourceDirectory, candidate, { recursive: true });
+    for (const fileName of ["Crafting.lua", "NativeItemCache.lua", "NativePendingRows.lua"]) {
+      await writeFile(path.join(candidate, fileName), "tampered");
+      await expect(installCollector(product, candidate)).rejects.toThrow(fileName);
+      await cp(path.join(sourceDirectory, fileName), path.join(candidate, fileName));
+    }
+    expect(await readFile(path.join(installed, "MarketData.lua"), "utf8")).toBe(marketData);
+    expect(await readFile(path.join(installed, "Crafting.lua"), "utf8")).toBe(
+      await readFile(path.join(sourceDirectory, "Crafting.lua"), "utf8"),
+    );
   });
 });
 

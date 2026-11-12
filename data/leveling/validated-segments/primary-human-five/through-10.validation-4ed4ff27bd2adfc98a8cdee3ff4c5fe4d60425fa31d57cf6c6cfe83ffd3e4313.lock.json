@@ -1,0 +1,509 @@
+{
+  "schema": "campaign-route-lock.v1",
+  "blockSize": 10,
+  "targetLevel": 10,
+  "race": "human",
+  "leaderClass": "warrior",
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "party": [
+    {
+      "raceId": "human",
+      "classSlug": "warrior",
+      "role": "tank"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "priest",
+      "role": "healer"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "mage",
+      "role": "dps"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "rogue",
+      "role": "dps"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "warlock",
+      "role": "dps"
+    }
+  ],
+  "boundaryActionId": "quest-funding-start-117-level-10-416-307-rewarded-0",
+  "actions": [
+    {
+      "id": "start-115-brief",
+      "sha256": "7623879d5dc5ac4f196aeee8cf368132befab66ae5c38eef50a354c77259898f"
+    },
+    {
+      "id": "start-115-115-source-step-0005",
+      "sha256": "9dde95c07057c306231847524b367b617b6877a0f237a14d9cda377dd55b7b25"
+    },
+    {
+      "id": "start-115-115-source-step-0007",
+      "sha256": "ee2c88acc5036d9ee33f9dccfca477f549a39003a3fea52bd83999290719edad"
+    },
+    {
+      "id": "start-115-115-source-step-0008",
+      "sha256": "d2ad001bcddba6c9d26afb29bcee824b719adf67876e474fb78190e88fbaf369"
+    },
+    {
+      "id": "start-115-115-source-step-0009",
+      "sha256": "e265562be4cb1ee36355e812ef2f57b78b02161ad9c0008a3858b4ed1e893e3a"
+    },
+    {
+      "id": "start-115-115-source-step-0011",
+      "sha256": "7c23ede37e64596bccf37b619fad80dff46d66f776c90565899bcee36af83cbe"
+    },
+    {
+      "id": "start-115-115-source-step-0017",
+      "sha256": "4ae52a9d84fc05ae495861cbad05143e420d5f42f12028da07839a24bb21c795"
+    },
+    {
+      "id": "start-115-115-source-step-0018",
+      "sha256": "d7ab03fb883c668de3c9ec16ffd6359d477c6c096b8b1014facc2817b4704267"
+    },
+    {
+      "id": "start-115-115-source-step-0023",
+      "sha256": "1e71e966d785ce5c71b50e977778dd4bf8eaf6df7af3a34e3a97fd543125a923"
+    },
+    {
+      "id": "start-115-115-source-step-0024",
+      "sha256": "66441553280dfc3d70f00161dc48ac62065348eaf94770d8fb86395f5e65da25"
+    },
+    {
+      "id": "start-115-115-source-step-0032",
+      "sha256": "26585ca015d9d054e2db1cf3890a76e39e607c3596a649927453d2007610e56a"
+    },
+    {
+      "id": "start-115-115-source-step-0036",
+      "sha256": "c5ac8616251579b37c3cf37160cb03762a074975b4b12fc995cbac81dc74f1b2"
+    },
+    {
+      "id": "start-115-115-source-step-0049",
+      "sha256": "b260207d9b5a35f0a8f41841ab9e3d186167e0dc4ab3abccd720fd54df86b671"
+    },
+    {
+      "id": "start-115-115-source-step-0051",
+      "sha256": "b0be0d13d3fbf010812412ca29b86f44889f677c32de0494c33a44ad4c94e8a1"
+    },
+    {
+      "id": "start-115-115-source-step-0060",
+      "sha256": "91e0248f04db853e6545d7d54b202bf874e979ca79f2023aad5500bfe67e423c"
+    },
+    {
+      "id": "start-115-115-source-step-0063",
+      "sha256": "6f2ef3ef9e8e9c1541be82b7811d54e12b3587ad69d1d3405303b9c39a757eb3"
+    },
+    {
+      "id": "start-115-115-source-step-0065",
+      "sha256": "1da04590be3460822f02ce63c78f7a9eeec791d4f487d446764194e483849a25"
+    },
+    {
+      "id": "start-115-115-source-step-0066",
+      "sha256": "af22d3ce119d6187ae3ed9f4e0bbb45ee7eea86ce8d4e874d1848de3fa72def2"
+    },
+    {
+      "id": "start-115-115-source-step-0069",
+      "sha256": "e48181505b7244d16423f52a6d52926183570e2f0ad4e56aa77a7a40400f112c"
+    },
+    {
+      "id": "start-115-115-source-step-0070",
+      "sha256": "6f032bad5bfb79d731aa787b5a61325bb136b58fbea4b70ff4bf2ddeb96b22a7"
+    },
+    {
+      "id": "start-115-115-source-step-0073-before-pickup",
+      "sha256": "227a3e5aca42469ad7afbcab4025262bdc289892e4c7bd8c5567360a2f0bde48"
+    },
+    {
+      "id": "start-115-115-source-step-0073",
+      "sha256": "e82e4ff83e4e15fc4f837571472bf55e63301d81ac1cdfcad7d33aa144ff6c88"
+    },
+    {
+      "id": "start-115-115-source-step-0077",
+      "sha256": "a078ab798aaeeeb1d030934096dc2fbd858455441abf11c96337552d59291dbb"
+    },
+    {
+      "id": "start-116-brief",
+      "sha256": "58ebc3d59fd6f3476ef4875b4ec3b0aee25d41f818fffcfe4f03a828fe974ca4"
+    },
+    {
+      "id": "start-116-116-source-step-0006",
+      "sha256": "e26e71949d526e0672889be3ecbf20581b165ae57262543988d3272eb80d1aa1"
+    },
+    {
+      "id": "start-116-116-source-step-0007",
+      "sha256": "13ce1d8c18db301e5ab66fa75e625d5dbe3544ee0853a59dc555824945de8cb1"
+    },
+    {
+      "id": "start-116-116-source-step-0008",
+      "sha256": "2a1791855c368fef17bb5219b3d512d8271557f1a7f6ae4ff8910968772fa694"
+    },
+    {
+      "id": "start-116-116-source-step-0021",
+      "sha256": "e42a6bafbef5971abdb384912f95d2418bae622f85babc436aa3cdeb9e3c3649"
+    },
+    {
+      "id": "start-116-116-source-step-0024",
+      "sha256": "8a2c2de45072eae0bcd6d09a4a08bd34d78a3b866a389a613bfc524ff54253e7"
+    },
+    {
+      "id": "start-116-116-source-step-0026",
+      "sha256": "ebd0062f7e738da16a7eb8b5614bc6c4a866be71624a8935642a5d135010215d"
+    },
+    {
+      "id": "start-116-116-source-step-0041",
+      "sha256": "c07ed2a7e8542dbedacc1a3270d1c1043fb480ee2b45aae3b80ee2e09074946f"
+    },
+    {
+      "id": "start-116-116-source-step-0047-collect-86-769",
+      "sha256": "12c9cce16aa8f17fb831850121e7582af2d3db80027913dc1cd2a13080749c2a"
+    },
+    {
+      "id": "start-116-116-source-step-0050",
+      "sha256": "399159e2fd62d5134af04a0d357466ec9b8d7b5b6f5ec55ad34286dee8e0ef7f"
+    },
+    {
+      "id": "start-116-116-source-step-0054",
+      "sha256": "0f8c67c3a0dd4e5d07063a3eceff9380a91a667b999d27256cf5847d4cd77d6c"
+    },
+    {
+      "id": "start-116-116-source-step-0056",
+      "sha256": "40cad0d84d703252f89b9be459421b873e23eb33698fa114635e951779506b32"
+    },
+    {
+      "id": "start-116-116-source-step-0065",
+      "sha256": "0982636b0f16e0cde705147109470fe6dd8034157fda160cd5d6273bc5eb3b84"
+    },
+    {
+      "id": "start-116-116-source-step-0050-deferred-88",
+      "sha256": "7f699652f01e623be6feecbdee382f8b32fd06e71b5fedc41587458b3f7dc5fa"
+    },
+    {
+      "id": "start-116-116-source-step-0072",
+      "sha256": "7d401f61aaa5e95145254a4a075922d890b4f2a99a56a416df0058e6b7efb068"
+    },
+    {
+      "id": "start-116-116-source-step-0073",
+      "sha256": "c4b93d96516410b0522ea2899afd3c7dd6e58aa1a87b2606c977f13e038f8232"
+    },
+    {
+      "id": "start-116-116-source-step-0074",
+      "sha256": "f22f814b8875aab69ea161e74408f03fbac5e77244f616c5cebb34f12464ffe2"
+    },
+    {
+      "id": "start-116-116-source-step-0080",
+      "sha256": "b8f38940d42d468a45886769b10889b01bbde246e59a77e3a0eb13731b9f3a4b"
+    },
+    {
+      "id": "start-116-116-source-step-0085-before-pickup",
+      "sha256": "b0b7b41063501cfb47789a16e5c6bb7d512f7e0344cf81cd5dce74ea0864b670"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99127-start-116-116-source-step-0113",
+      "sha256": "d0bc7fe5bf6d10c92213f67e65b7af3f9731ea4d9bad3fa53351a43ef3f829eb"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99127-start-116-116-source-step-0115",
+      "sha256": "ead53ffb9a3fb43b7c574b25bdd678d8e95b61cbe1d4cf544150f1dc1ec6f877"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99127-start-116-116-source-step-0116",
+      "sha256": "eb08ea5cea1593d61b47a7f47b76e31e2c0dfaa71e643447712eb0e6880e5094"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99128-start-116-116-source-step-0116",
+      "sha256": "6f43dd090cde70a8daffad58b62dda706580e57d9d7676f466f835d98b5465ac"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99128-start-116-116-source-step-0117",
+      "sha256": "da1d763f306d666ea001feac31501005d7419507addaf817cf2de9ca3a7c25dd"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99128-start-116-116-source-step-0121",
+      "sha256": "ff7ce70626fa084cd8bdb1816c8bce972a54099f953ff5403d1f93f4225107eb"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99129-accepted-0",
+      "sha256": "b313e145e843fa23e3f2a7d21246d56ed874a407da6f317725e4444da68a3c69"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99129-rewarded-0",
+      "sha256": "66d4ad9ba77272405f206dbeadbfc1619e2d1e2740f1583431ae2f5f2203c915"
+    },
+    {
+      "id": "start-116-level-7-40",
+      "sha256": "4c1aca78d7905938b3eb345083819113f4b23785b5842cd35016b29e8b9229e1"
+    },
+    {
+      "id": "start-116-116-source-step-0085",
+      "sha256": "5a99d31265bc58de3f6204272516cd45b5f5aeb351661f71836dbfcf01e9832c"
+    },
+    {
+      "id": "start-116-116-source-step-0086",
+      "sha256": "907fc4ce981738e0746e6fff526ddc42333ade60fd2fe8a740794da1bee4921a"
+    },
+    {
+      "id": "library-quest-76-accepted-0",
+      "sha256": "4ea0f492c50c865b4c91a81183f998609ace08390bf654822861dd93719910ac"
+    },
+    {
+      "id": "start-116-116-source-step-0089",
+      "sha256": "f3b619f464f746f2709f0d74f3f0c1ee56159b4a415752daefc3831cc2102650"
+    },
+    {
+      "id": "start-116-116-source-step-0096",
+      "sha256": "2dc7baca6ba973d1627e0acf6a7eaf396edb082b4d6ed7bcaaf9ff1e502446ae"
+    },
+    {
+      "id": "start-116-116-source-step-0109",
+      "sha256": "daf43d2875fe4649616541fdfbb28e307c3842703b194dad083bcacbc06b7177"
+    },
+    {
+      "id": "start-116-116-source-step-0114",
+      "sha256": "f14b41f8534a52033a3ff4a03072aa0c2aaa5926a5589bb69cff025479ef9471"
+    },
+    {
+      "id": "start-116-116-source-step-0119",
+      "sha256": "afefdf53140d81a4b9cfbe18f82f7f986e0cdf5a02d0c8bdacf1419757c1f2d1"
+    },
+    {
+      "id": "start-116-116-source-step-0120",
+      "sha256": "808579512c9b5a8235169c4531fa6bdea2e450314b1d94b159cdb2f4ebfd7846"
+    },
+    {
+      "id": "starter-jasperlode-entrance",
+      "sha256": "89dd427c2b750f5a2ec5f64555517c5c1d08b335b4dcdb44cdd05a7788fde19c"
+    },
+    {
+      "id": "library-quest-76-objectives-complete-1",
+      "sha256": "64218886fc0db60347e06c6b161437ce5773b48f95df20e8e4c6161db70317e5"
+    },
+    {
+      "id": "start-116-116-source-step-0139",
+      "sha256": "ddd17b5526f5e56c57d0167079986f98a03f687d2e7d437a99340913a9c1c2bd"
+    },
+    {
+      "id": "start-116-116-source-step-0140",
+      "sha256": "08acff5b1d196fdcba42423301286cd0b631be75d0951426ae28744c85a8fbdf"
+    },
+    {
+      "id": "start-116-116-source-step-0143",
+      "sha256": "d45405c1e43f614e09ca9571a4518e32be8d252b1d3969484c9d33dcdb46e121"
+    },
+    {
+      "id": "start-116-116-source-step-0146",
+      "sha256": "b0ff808fd1ef3a49f70cd3490349d1aeff88d3c519f3d6452a6942f165706b7a"
+    },
+    {
+      "id": "start-116-116-source-step-0147",
+      "sha256": "a0de59874dae63300cc3b4483b48b6db1cce4d6333fa56f3298f909ae70135b7"
+    },
+    {
+      "id": "start-116-116-source-step-0151",
+      "sha256": "d6916b067a0f2f63c98dff60ba9cd8c9c6df2320ff9245eb88f24a2efa3493bd"
+    },
+    {
+      "id": "start-116-116-source-step-0154",
+      "sha256": "255942ec6223f7495bdff51befec55417cd5e7a4b8493e801cc0b7172e17c397"
+    },
+    {
+      "id": "start-116-116-source-step-0159",
+      "sha256": "df5108f6c45a1fdfdd50eb76a65a9e8406fa7e9ff58163dbe57f7079d5b4a08b"
+    },
+    {
+      "id": "start-116-116-source-step-0160",
+      "sha256": "b842ba18193b1ee6442a2633449e7f429769d5584f979649f0e6f56daf8bfd54"
+    },
+    {
+      "id": "start-116-116-source-step-0164",
+      "sha256": "e9648ecba154cb8d58e04acf4e4747da1cbb7ecb743182f02e87a620f5f36e48"
+    },
+    {
+      "id": "start-116-116-source-step-0165",
+      "sha256": "0cb5d960ceea6a308d92694e9ca7d583c3fbdeb8f5bc1362f8573f6da63c39a5"
+    },
+    {
+      "id": "start-116-116-source-step-0166",
+      "sha256": "2ecc5effdb25e0fd6f77b7ed98720d91d271c62abcf8676c67d681838d192c2d"
+    },
+    {
+      "id": "start-116-116-source-step-0167",
+      "sha256": "434b64a53bf0e8ab80c37bf5e18d226d965d3f1a89a2aa44f43d3e103a62e676"
+    },
+    {
+      "id": "start-116-116-source-step-0169",
+      "sha256": "ea1045a7b4030c945afe39f1019cef0b17184f906e841c0a5dd57042472980d5"
+    },
+    {
+      "id": "start-116-116-source-step-0170",
+      "sha256": "8e5bfd5fd1ab2d86f4a942cbfe1fe88e634074b98dcc99e15004dea505d0b88e"
+    },
+    {
+      "id": "start-116-116-source-step-0172",
+      "sha256": "ac69380ade2dcd66ef4f045a6e4e56b4439100509f0b469a9332288aaa972085"
+    },
+    {
+      "id": "start-116-116-source-step-0174",
+      "sha256": "7c1b50f1b3a23a049929e0f01487db25aa0aec41c2cfa92c0d29386c11b9f4ff"
+    },
+    {
+      "id": "start-116-116-source-step-0177",
+      "sha256": "72c361022690e1d17fa8cb2d6d22531a1f784896da16216e50f5a5625e02fba5"
+    },
+    {
+      "id": "start-116-116-source-step-0186",
+      "sha256": "99a2fca0d2361f6148d34156dd48c3581a643e20a471754616796e48d342e014"
+    },
+    {
+      "id": "library-quest-76-rewarded-0",
+      "sha256": "85c137f95459b70014e045484536862254625873d7f1a08fb3d79b37f212f35f"
+    },
+    {
+      "id": "library-quest-239-accepted-0",
+      "sha256": "d1393a0a659b3ecaa5a91eb59d1e41f825688a73728090468169576fac9f72d5"
+    },
+    {
+      "id": "start-116-116-source-step-0193",
+      "sha256": "8d732cf9f81d708acf8959e15171b417b22163e209c8c0d007b6395ee9001e98"
+    },
+    {
+      "id": "start-116-116-source-step-0214",
+      "sha256": "14fb7d091cc8bbd6057a070788733b58d09f44cfd331c6f76d793db77e2ad6e7"
+    },
+    {
+      "id": "library-quest-239-rewarded-0",
+      "sha256": "eb3c7ee67f37f6eec83a7741f73488a8a09c00f54a9271356fbcf2fa0da0cb88"
+    },
+    {
+      "id": "start-116-116-source-step-0218",
+      "sha256": "598fdd4794216b984ac7c3ce75fde60dd25ac8356640c1ee49235453c6455502"
+    },
+    {
+      "id": "start-116-116-source-step-0221",
+      "sha256": "60e971bac0f0b978880f38103083bb9a74140de5f8ced4d25fb3c5bec1eede63"
+    },
+    {
+      "id": "start-116-116-source-step-0227",
+      "sha256": "f97a2f0a2ace657f2cbb00ad9a60ce7c0cbb3302cdc77257d3bb6f4403edef6a"
+    },
+    {
+      "id": "start-116-116-source-step-0242",
+      "sha256": "1625bfef768e6a0ba8e0656eadfc9b5ce0ac5aa7c1eb51aabfb5174128e79bc1"
+    },
+    {
+      "id": "start-116-116-source-step-0256",
+      "sha256": "4586d0f433221ed176e667a6251b15997984f6386049f67bd8b800c139236eea"
+    },
+    {
+      "id": "start-116-116-source-step-0264",
+      "sha256": "aa54ee47685fea4d8515eccca4b986e687cc06720557f1710d8039e2fba9f664"
+    },
+    {
+      "id": "start-116-116-source-step-0318",
+      "sha256": "96c4b583fd5a77c65b97fd5318604d40d52b16d4b786138d7a7cacc37cfd4777"
+    },
+    {
+      "id": "start-116-116-source-step-0329",
+      "sha256": "f59e4e51c0d510e615824187ee671092a4b8efe1a5bfdab62ecbdd2594ce6dfa"
+    },
+    {
+      "id": "start-116-116-source-step-0336",
+      "sha256": "2149a20b17a0ba5df0b57d71233469a87b2fd165328ae53336db5da39277c768"
+    },
+    {
+      "id": "start-116-116-source-step-0342",
+      "sha256": "cba4efa29b3ede971e546879381f8e8b7bf547e5c7530de2d7225363716cb168"
+    },
+    {
+      "id": "start-116-116-source-step-0343",
+      "sha256": "691a683900a9d5b9aa6972742209fd7b8f1b8ce85d3033136138d2e4042dced2"
+    },
+    {
+      "id": "start-116-116-source-step-0344",
+      "sha256": "1df5b4e06c91ff8d3a1ac57fceabac306a4f9952cb0a3bea16ccd446fc788ee2"
+    },
+    {
+      "id": "start-116-116-source-step-0355",
+      "sha256": "7f1b29f4035b4ae4a242c5daae252b36633d3c2700defb38e5425dc86c6e18a6"
+    },
+    {
+      "id": "start-116-116-source-step-0358",
+      "sha256": "a6433ca34b8ee8cdbe36c3038e6d041e64a679a371ff7484da27a6735e450522"
+    },
+    {
+      "id": "start-116-116-source-step-0359",
+      "sha256": "88b23d7f5a02b160c7e29dcc9811953520d8bd7b84b2c022c4370c5186bf0071"
+    },
+    {
+      "id": "start-116-thanes-unlocks-brief",
+      "sha256": "c348d33f3845bad2714dcc5d12a4da5d3de92e588112154b34595baaac35f4a8"
+    },
+    {
+      "id": "start-116-level-9-96392",
+      "sha256": "a5106c6e3d7873378dddef67ba739d919806958532827c217adef2a9088d756c"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0347",
+      "sha256": "7402b0a04256ddc61df29f0184a21b5f47bb22f81750fd0a0a2bb47a252e41c9"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0348",
+      "sha256": "7b35394723b23f53949c1ca4af8f1b84fa9ce90d94c8ae880e1a278d3ff27ed5"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0349",
+      "sha256": "ce3b4d688c1415565b3708e0db77283585f8e4bb595e8a45c4b79be171e8db58"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0364",
+      "sha256": "2275b4136cd467fff4213eeb22dd4c1c9eb636b1e13ced26f815dd4a1740aec4"
+    },
+    {
+      "id": "ironforge-rendezvous-objective-96391",
+      "sha256": "23941b4f6e51d883e932cdb2fd6d9a9ef0d31601ce657eac6975b0542c557534"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0367",
+      "sha256": "ace9988f1b80358022dfc97043f497787f10fb72527b1e8549ef10cc9bee8626"
+    },
+    {
+      "id": "start-117-brief",
+      "sha256": "2c0050b6a6c60deefcd95b426ba019e1b0f5b3a5fb04995135448de8f3868c0c"
+    },
+    {
+      "id": "start-117-117-source-step-0001",
+      "sha256": "02400ecf5cdfae56bdc504be17e3730534a7057368065f65e5f7008bc98cd8af"
+    },
+    {
+      "id": "quest-funding-start-117-level-10-416-307-accepted-0",
+      "sha256": "172a3592322c05f1ad439ed92dea86aae4ea3fe292455dbc3421ec79c558b8a7"
+    },
+    {
+      "id": "quest-funding-start-117-level-10-416-307-objectives-complete-1",
+      "sha256": "43ee7e1add9d1b6a9533a4a6a3035f73d40f514c7f93025507b9f9f2ada73092"
+    },
+    {
+      "id": "quest-funding-start-117-level-10-416-307-rewarded-0",
+      "sha256": "0bebc4dbcf07af81f673beeb22c8bee26e682fae669f893469223c2af9709874"
+    }
+  ],
+  "payload": {
+    "file": "route-5de4245b52bcc2878903cf25a43814c460b67abd47712b217086b3527ab5868e.json",
+    "sha256": "5de4245b52bcc2878903cf25a43814c460b67abd47712b217086b3527ab5868e"
+  },
+  "validation": {
+    "file": "validation-4ed4ff27bd2adfc98a8cdee3ff4c5fe4d60425fa31d57cf6c6cfe83ffd3e4313.json",
+    "sha256": "4ed4ff27bd2adfc98a8cdee3ff4c5fe4d60425fa31d57cf6c6cfe83ffd3e4313",
+    "engineSha256": "ad5292972aa56f366e7cdb1d326d1e9ea29dc67ae46d325a903f397d0d9c32f4",
+    "referenceSha256": "abf43695c34976921b9a862563a6844f57e4df07eeb7770b5de4c7f8dcc05993",
+    "forecastCases": 48,
+    "nativeCases": 40,
+    "questLogCapacity": 40,
+    "kind": "projected-reference-xp"
+  }
+}

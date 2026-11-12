@@ -1,0 +1,71 @@
+{
+  "targetBuild": 70205,
+  "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+  "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+  "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+  "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+  "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+  "questId": 5526,
+  "objectiveIndex": 1,
+  "objectiveText": [
+    "Find the Felvine in Dire Maul and acquire a shard from it. Chances are you'll only be able to procure one with the demise of Alzzin the Wildshaper. Use the Reliquary of Purity to securely seal the shard inside, and return it to Rabine Saturna in Nighthaven, Moonglade."
+  ],
+  "providedItemId": 18539,
+  "componentItemId": 18501,
+  "componentObjectId": 179559,
+  "outputItemId": 18540,
+  "outputItemName": "Sealed Reliquary of Purity",
+  "quantity": 1,
+  "physicalNpc": {
+    "id": 11492,
+    "name": "Alzzin the Wildshaper"
+  },
+  "counterReference": {
+    "source": {
+      "repository": "https://github.com/cmangos/classic-db",
+      "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+      "file": ".cache/leveling-no-grind-20261031/classic-db-reference/Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+      "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+      "sourceBuild": 5875
+    },
+    "qualification": {
+      "questId": 5526,
+      "itemId": 18540,
+      "itemName": "Sealed Reliquary of Purity",
+      "objectiveIndex": 1,
+      "currentQuantity": null,
+      "historicalQuantity": 1,
+      "sameName": true,
+      "sameItems": true,
+      "sameObjective": true,
+      "noKnownContradiction": true,
+      "missingCurrentQuantity": true,
+      "historicalCounterCompatible": true,
+      "objectIds": [],
+      "npcIds": []
+    }
+  },
+  "providerProofs": [
+    {
+      "kind": "npc",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverNpcDB.lua",
+      "sha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232"
+    },
+    {
+      "kind": "quest",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverQuestDB.lua",
+      "sha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27"
+    },
+    {
+      "kind": "item",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverItemDB.lua",
+      "sha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1"
+    },
+    {
+      "kind": "object",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverObjectDB.lua",
+      "sha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c"
+    }
+  ],
+  "classification": "Staged authored-static and matched historical-counter conversion reference; not active or observed current-server payout."
+}

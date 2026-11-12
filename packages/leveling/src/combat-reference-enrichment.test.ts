@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 import { combatDatasetSchema, type CombatDataset } from "./combat-model.js";
 import {
   reuseCombatLootReferences,
+  correctCombatNpcMetadata,
   supplementCombatItemStarts,
+  supplementCombatNpcMetadata,
 } from "./combat-reference-enrichment.js";
+import type { CombatNpcMetadataReference } from "./combat-npc-metadata.js";
 
 const revision = "a".repeat(64);
 function dataset(): CombatDataset {
@@ -41,7 +44,14 @@ function dataset(): CombatDataset {
         onlyCreatureObjectives: false,
         prerequisites: { allOf: [32], anyOf: [] },
         itemObjectives: [
-          { objectiveIndex: 1, itemId: 750, quantity: null, sharing: "unknown", npcIds: [299] },
+          {
+            objectiveIndex: 1,
+            itemId: 750,
+            itemName: "Tough Wolf Meat",
+            quantity: null,
+            sharing: "unknown",
+            npcIds: [299],
+          },
         ],
       },
     ],
@@ -64,6 +74,136 @@ function dataset(): CombatDataset {
     killXpEvidence: [],
   });
 }
+
+function metadata(): CombatNpcMetadataReference {
+  const source = {
+    build: 70450,
+    sourceUrl: "https://example.test/pinned-creatures.json",
+    sha256: revision,
+  };
+  return {
+    npcId: 299,
+    name: "Young Wolf",
+    minimumLevel: 13,
+    maximumLevel: 14,
+    rank: 1,
+    levelSource: { ...source, build: 70338 },
+    rankSource: source,
+    attribution: "Synthetic metadata fixture",
+    limitation: "Cross-build reference, not kill XP evidence",
+  };
+}
+
+describe("attributed creature metadata for named provider stubs", () => {
+  it("fills only the selected stub fields and preserves build provenance and all other facts", () => {
+    const current = dataset();
+    current.npcs[0]!.minimumLevel = null;
+    current.npcs[0]!.maximumLevel = null;
+    const input = metadata(),
+      before = JSON.stringify({ current, input });
+    const result = supplementCombatNpcMetadata(current, [input]);
+    expect(result.npcs[0]).toEqual({
+      ...current.npcs[0],
+      minimumLevel: 13,
+      maximumLevel: 14,
+      rank: 1,
+    });
+    const { npcs: _npcs, npcMetadataReferences: _references, ...unchanged } = result;
+    const { npcs: _oldNpcs, ...previous } = current;
+    expect(unchanged).toEqual(previous);
+    expect(result.npcMetadataReferences).toEqual([input]);
+    expect(result.killXpEvidence).toEqual([]);
+    expect(JSON.stringify({ current, input })).toBe(before);
+  });
+
+  it("rejects known fields, wrong identities, excluded creatures and duplicate or absent references", () => {
+    const current = dataset(),
+      input = metadata();
+    expect(() => supplementCombatNpcMetadata(current, [input])).toThrow(/level-less/);
+    current.npcs[0]!.minimumLevel = null;
+    current.npcs[0]!.maximumLevel = null;
+    expect(() => supplementCombatNpcMetadata(current, [{ ...input, name: "Other Wolf" }])).toThrow(
+      /matching/,
+    );
+    expect(() => supplementCombatNpcMetadata(current, [{ ...input, npcId: 100 }])).toThrow(
+      /absent/,
+    );
+    expect(() => supplementCombatNpcMetadata(current, [input, input])).toThrow(/Duplicate/);
+    current.npcs[0]!.rank = 1;
+    expect(() => supplementCombatNpcMetadata(current, [input])).toThrow(/level-less/);
+    current.npcs[0]!.rank = 0;
+    current.npcs[0]!.xpEligibility = "excluded";
+    expect(() => supplementCombatNpcMetadata(current, [input])).toThrow(/level-less/);
+  });
+
+  it("rejects detached metadata or a changed normalized NPC on later reads", () => {
+    const current = dataset();
+    current.npcs[0]!.minimumLevel = null;
+    current.npcs[0]!.maximumLevel = null;
+    const result = supplementCombatNpcMetadata(current, [metadata()]);
+    result.npcs[0]!.maximumLevel = 15;
+    expect(() => combatDatasetSchema.parse(result)).toThrow(/metadata provenance/);
+    result.npcs[0]!.maximumLevel = 14;
+    result.npcMetadataReferences!.push(metadata());
+    expect(() => combatDatasetSchema.parse(result)).toThrow(/metadata provenance/);
+  });
+});
+
+describe("reviewed creature metadata corrections", () => {
+  it("corrects an explicitly pinned prior record while preserving its identity and XP evidence", () => {
+    const current = dataset(),
+      input = metadata();
+    const before = JSON.stringify({ current, input });
+    const result = correctCombatNpcMetadata(current, [
+      { previous: current.npcs[0]!, reference: input },
+    ]);
+    expect(result.npcs[0]).toEqual({
+      ...current.npcs[0],
+      minimumLevel: 13,
+      maximumLevel: 14,
+      rank: 1,
+    });
+    const { npcs: _npcs, npcMetadataReferences: _references, ...unchanged } = result;
+    const { npcs: _previousNpcs, ...previous } = current;
+    expect(unchanged).toEqual(previous);
+    expect(result.npcMetadataReferences).toEqual([input]);
+    expect(JSON.stringify({ current, input })).toBe(before);
+  });
+
+  it.each(["name", "level", "rank", "zones", "identity", "excluded", "unknown", "qualified"])(
+    "rejects stale, mismatched or already qualified corrections (%s)",
+    (change) => {
+      const current = dataset(),
+        previous = structuredClone(current.npcs[0]!),
+        reference = metadata();
+      if (change === "name") reference.name = "Different Wolf";
+      if (change === "level") previous.maximumLevel = 2;
+      if (change === "rank") previous.rank = 1;
+      if (change === "zones") previous.zoneIds = [13];
+      if (change === "identity") previous.id = 300;
+      if (change === "excluded")
+        current.npcs[0]!.xpEligibility = previous.xpEligibility = "excluded";
+      if (change === "unknown") current.npcs[0]!.xpEligibility = previous.xpEligibility = "unknown";
+      if (change === "qualified") current.npcMetadataReferences = [metadata()];
+      expect(() => correctCombatNpcMetadata(current, [{ previous, reference }])).toThrow(
+        /exact unqualified prior/,
+      );
+    },
+  );
+
+  it("rejects duplicate or absent corrections and cannot replay against a changed record", () => {
+    const current = dataset(),
+      correction = { previous: current.npcs[0]!, reference: metadata() };
+    expect(() => correctCombatNpcMetadata(current, [correction, correction])).toThrow(/Duplicate/);
+    expect(() =>
+      correctCombatNpcMetadata(current, [
+        { ...correction, reference: { ...correction.reference, npcId: 300 } },
+      ]),
+    ).toThrow(/absent/);
+    const result = correctCombatNpcMetadata(current, [correction]);
+    expect(() => correctCombatNpcMetadata(result, [correction])).toThrow(/exact unqualified prior/);
+  });
+});
 
 describe("same-provider item-start supplementation", () => {
   it("adds only reciprocal start identities, preserving every old field and input", () => {
@@ -95,6 +235,27 @@ describe("same-provider item-start supplementation", () => {
 });
 
 describe("provider upgrades preserve separate captured loot facts", () => {
+  it("does not copy a historical count that contradicts the current named-item objective", () => {
+    const previous = dataset(),
+      current = dataset();
+    previous.quests[0]!.itemObjectives![0]!.quantity = 6;
+    current.quests[0]!.objectiveText = ["Obtain 4 Tough Wolf Meats for the cook."];
+    const before = JSON.stringify({ current, previous });
+    const result = reuseCombatLootReferences(current, previous, "d".repeat(64));
+    expect(result.quests[0]!.itemObjectives![0]!.quantity).toBeNull();
+    expect(result.lootDrops).toEqual(current.lootDrops);
+    expect(JSON.stringify({ current, previous })).toBe(before);
+    expect(
+      reuseCombatLootReferences(current, result, "e".repeat(64)).quests[0]!.itemObjectives![0]!
+        .quantity,
+    ).toBeNull();
+    current.quests[0]!.objectiveText = ["Obtain 6 Tough Wolf Meats for the cook."];
+    expect(
+      reuseCombatLootReferences(current, previous, "d".repeat(64)).quests[0]!.itemObjectives![0]!
+        .quantity,
+    ).toBe(6);
+  });
+
   it("retains captured quotas and acquisition evidence without reverting corrected provider data", () => {
     const previous = dataset();
     previous.quests[0]!.itemObjectives![0] = {
@@ -199,5 +360,50 @@ describe("provider upgrades preserve separate captured loot facts", () => {
     expect(() => reuseCombatLootReferences(current, previous, "unknown")).toThrow(/same build/);
     previous.targetBuild = 70450;
     expect(() => reuseCombatLootReferences(current, previous, revision)).toThrow(/same build/);
+  });
+
+  it("does not reuse a capture when item names cannot establish the upgraded identity", () => {
+    const previous = dataset();
+    for (const conflicting of [false, true]) {
+      const current = dataset();
+      current.lootDrops = [];
+      if (conflicting)
+        current.quests.push({
+          ...current.quests[0]!,
+          questId: 34,
+          itemObjectives: [{ ...current.quests[0]!.itemObjectives![0]!, itemName: "Other meat" }],
+        });
+      else delete current.quests[0]!.itemObjectives![0]!.itemName;
+      expect(reuseCombatLootReferences(current, previous, revision).lootDrops).toEqual([]);
+    }
+  });
+
+  it("does not match absent creature identities to each other", () => {
+    const previous = dataset(),
+      current = dataset();
+    previous.npcs = [];
+    current.npcs = [];
+    current.lootDrops = [];
+    expect(reuseCombatLootReferences(current, previous, revision).lootDrops).toEqual([]);
+  });
+
+  it("does not inherit collection facts for a changed item identity", () => {
+    const previous = dataset(),
+      current = dataset();
+    previous.quests[0]!.itemObjectives![0] = {
+      ...previous.quests[0]!.itemObjectives![0]!,
+      quantity: 8,
+      sharing: "pooled",
+      vendorEvidence: {
+        npcIds: [299],
+        sourceUrl: "https://example.test/item=750",
+        sourceSha256: revision,
+        capturedAt: "2026-10-31T00:00:00Z",
+      },
+    };
+    current.quests[0]!.itemObjectives![0]!.itemName = "Corrected other item";
+    const result = reuseCombatLootReferences(current, previous, revision);
+    expect(result.quests[0]!.itemObjectives).toEqual(current.quests[0]!.itemObjectives);
+    expect(result.lootDrops).toEqual(current.lootDrops);
   });
 });

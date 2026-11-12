@@ -69,6 +69,44 @@ function fixture(
 }
 
 describe("source bookmark compatibility", () => {
+  it("preserves the old Maraudon bookmark when the complete rescue NPC exchange moves to early Desolace", () => {
+    const reference = CHAPTER_REFERENCES.find((entry) => entry.sourceId === 18)!;
+    const guide = parseGuideChapter("step\n.goto 1443,56.52,17.84\n.turnin 1437\n.accept 1465",
+      reference.id, "a".repeat(64), 70205);
+    const initial = fixture(), action: CampaignAction = { ...initial.plan.actions[0]!,
+      id: "desolace-rescue-18-source-step-0001", legId: "desolace-rescue",
+      leaderOnly: false, questChanges: [phase(1437, "rewarded"), phase(1465, "accepted")],
+      source: { chapterId: guide.chapterId, version: guide.version, stepId: guide.steps[0]!.id },
+    };
+    const plan: CampaignPlan = { ...initial.plan, sharedQuestsOnly: true, sharedSourceQuestIds: [1437, 1465], actions: [action],
+      legs: [{ ...initial.plan.legs[0]!, id: action.legId, kind: "preparation",
+        actionIds: [action.id], questIds: [1437, 1465] }] };
+    const sources = [{ reference, guide }], before = structuredClone(plan);
+    const oldId = "desolace-maraudon-18-source-step-0001";
+    expect(attachCampaignSourceBookmarkAliases(plan, sources).bookmarkAliases?.[oldId]).toBe(action.id);
+    expect(plan).toEqual(before);
+    expect(attachCampaignSourceBookmarkAliases({ ...plan, sharedSourceQuestIds: [] }, sources)
+      .bookmarkAliases?.[oldId]).toBeUndefined();
+    expect(attachCampaignSourceBookmarkAliases({ ...plan, actions: [{ ...action,
+      source: { ...action.source!, version: "unselected-version" } }] }, sources)
+      .bookmarkAliases?.[oldId]).toBeUndefined();
+    const ambiguous = { ...plan, actions: [...plan.actions,
+      { ...action, id: "another-rescue", legId: "another-visit" }] };
+    expect(attachCampaignSourceBookmarkAliases(ambiguous, sources).bookmarkAliases?.[oldId]).toBeUndefined();
+  });
+
+  it("keeps old Thandol library links without choosing a phase owner across different legs", () => {
+    const { plan, sources } = fixture("step\n.accept 631", [phase(631, "accepted")]);
+    const oldId = "library-quest-631-accepted-0";
+    expect(attachCampaignSourceBookmarkAliases(plan, sources).bookmarkAliases?.[oldId])
+      .toBe(plan.actions[0]!.id);
+    const ambiguous = {
+      ...plan,
+      actions: [...plan.actions, { ...plan.actions[0]!, id: "other-owner", legId: "other-leg" }],
+    };
+    expect(attachCampaignSourceBookmarkAliases(ambiguous, sources)).toBe(ambiguous);
+  });
+
   it("redirects a deduplicated source step only when every selected phase is in one current step", () => {
     const { plan, sources } = fixture();
     const next = attachCampaignSourceBookmarkAliases(plan, sources);

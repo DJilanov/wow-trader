@@ -1,0 +1,6 @@
+<Bindings>
+  <Binding name="CLICK KFCMarksMarkButton:LeftButton" header="KFCMARKS" category="BINDING_HEADER_KFCMARKS" />
+  <Binding name="KFCMARKS_TOGGLE" header="KFCMARKS" category="BINDING_HEADER_KFCMARKS">
+    KFCMarks.Toggle()
+  </Binding>
+</Bindings>

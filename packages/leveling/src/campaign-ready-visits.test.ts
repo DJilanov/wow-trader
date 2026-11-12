@@ -210,7 +210,11 @@ describe("ready source NPC visits", () => {
     const result = promote(input);
     expect(result).not.toBeNull();
     expect(result!.actions.map((action) => action.id)).toEqual([
-      "visit-0", "visit-1", "visit-2", "gate", "visit-3",
+      "visit-0",
+      "visit-1",
+      "visit-2",
+      "gate",
+      "visit-3",
     ]);
     const player = campaignFundingStates(result!)[0]!.forecast[0]!.members[0]!;
     expect(player.endpoint).toEqual({ level: 2, currentXp: 100 });
@@ -615,7 +619,11 @@ describe("ready source NPC visits", () => {
     );
     expect(pickup).toMatchObject({ before: { level: 2, currentXp: 0 }, status: "projected" });
     expect(result!.actions.map((action) => action.id)).toEqual([
-      "visit-0", "visit-1", "visit-2", "gate", "visit-3",
+      "visit-0",
+      "visit-1",
+      "visit-2",
+      "gate",
+      "visit-3",
     ]);
   });
 

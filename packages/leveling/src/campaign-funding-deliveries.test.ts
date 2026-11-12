@@ -8,6 +8,9 @@ import { fundCampaignQuestGaps } from "./campaign-quest-funding.js";
 import { forecastCampaignGuide } from "./campaign-guide.js";
 import { emptyPremadeProgress } from "./premade-model.js";
 import { compileCampaignAddon } from "./campaign-addon.js";
+import { CHAPTER_REFERENCES } from "./chapter-data.js";
+import { parseGuideChapter } from "./guide-archive.js";
+import { campaignActionSource } from "./campaign-source-conditions.js";
 
 const position = { zone: "1429", x: 50, y: 50 };
 const origin = {
@@ -162,6 +165,319 @@ function resolve(input: ReturnType<typeof fixture>): QuestCatalog {
 }
 
 describe("provided-item courier funding", () => {
+  it.each(["Fizzle Brassbolts' Letter", "Fizzle Brassbolts’s Letter", "Fizzle Brassbolts's Letter"])(
+    "binds a short owner name to the supplied %s", (name) => {
+      const input = fixture();
+      input.catalog.quests[0]!.starts = [{ ...origin, name: "Fizzle Brassbolts" }];
+      input.catalog.quests[0]!.providedItem = { itemId: 957, name };
+      input.combat.quests[0]!.objectiveText = ["Bring Fizzle's Letter to Archivist in Goldshire."];
+      const before = structuredClone(input), result = resolve(input);
+      expect(result.quests[0]!.ends).toEqual([recipient]);
+      expect(result.quests[0]!.providedItem).toBe(input.catalog.quests[0]!.providedItem);
+      expect(result.quests[0]!.unsupportedRequirements).toEqual([]);
+      expect(input).toEqual(before);
+    },
+  );
+  it.each([
+    ["Other Brassbolts' Letter", "Bring Fizzle's Letter to Archivist."],
+    ["Fizzle Brassbolts' Key", "Bring Fizzle's Letter to Archivist."],
+    ["Fizzle Brassbolts' Letter", "Bring Fizz's Letter to Archivist."],
+    ["Fizzle Brassbolts' Letter", "Bring Fizzle' Letter to Archivist."],
+    ["Fizzle Brassbolts' Letter", "Bring Fizzle's Letter to Unknown."],
+    ["Fizzle Brassbolts' Letter", "Bring Fizzle's Letter to Archivist in Stormwind."],
+    ["Fizzle Brassbolts' Letter", "Bring Fizzle's Letter to Archivist and open a chest."],
+  ])("rejects an unbound short-owner courier: %s / %s", (name, objective) => {
+    const input = fixture();
+    input.catalog.quests[0]!.starts = [{ ...origin, name: "Fizzle Brassbolts" }];
+    input.catalog.quests[0]!.providedItem = { itemId: 957, name };
+    input.combat.quests[0]!.objectiveText = [objective];
+    expect(resolve(input)).toBe(input.catalog);
+  });
+  it("rejects a short owner name shared by two potential givers", () => {
+    const input = fixture();
+    input.catalog.quests[0]!.starts = [
+      { ...origin, name: "Fizzle Brassbolts" }, { ...origin, npcId: 237, name: "Fizzle Gearbolt" },
+    ];
+    input.catalog.quests[0]!.providedItem = { itemId: 957, name: "Fizzle Brassbolts' Letter" };
+    input.combat.quests[0]!.objectiveText = ["Bring Fizzle's Letter to Archivist."];
+    expect(resolve(input)).toBe(input.catalog);
+  });
+  it.each(["on Goldshire", "on the Shimmering Flats"])("binds an on-location recipient: %s", (place) => {
+    const input = fixture(), destination = place.includes("Shimmering")
+      ? { ...recipient, positions: [{ zone: "1441", x: 50, y: 50 }] } : recipient;
+    input.catalog.quests[0]!.ends = [destination];
+    input.combat.quests[0]!.objectiveText = [`Return the Sealed Parcel to Archivist ${place}.`];
+    expect(resolve(input).quests[0]!.ends).toEqual([destination]);
+    expect(resolve(input).quests[0]!.unsupportedRequirements).toEqual([]);
+  });
+  it.each(["on Stormwind", "on Goldshire and Northshire", "on Goldshire and use the key", "on Goldshire, then report back"])(
+    "rejects a wrong or compound on-location recipient: %s", (place) => {
+      const input = fixture();
+      input.combat.quests[0]!.objectiveText = [`Return the Sealed Parcel to Archivist ${place}.`];
+      expect(resolve(input)).toBe(input.catalog);
+    },
+  );
+
+  it.each(["Letter", "Note", "Plea", "Response"])(
+    "binds the giver's named %s to the objective's note without changing item identity",
+    (kind) => {
+      const input = fixture();
+      input.catalog.quests[0]!.providedItem = { itemId: 957, name: `Town Messenger's ${kind}` };
+      input.combat.quests[0]!.objectiveText = [
+        "Take Town Messenger's note to Archivist of Goldshire.",
+      ];
+      const result = resolve(input);
+      expect(result.quests[0]!.ends).toEqual([recipient]);
+      expect(result.quests[0]!.providedItem).toBe(input.catalog.quests[0]!.providedItem);
+      expect(result.quests[0]!.unsupportedRequirements).toEqual([]);
+    },
+  );
+
+  it.each([
+    ["Unknown's Plea", "Take Town Messenger's note to Archivist of Goldshire."],
+    ["Town Messenger's Key", "Take Town Messenger's note to Archivist of Goldshire."],
+    ["Town Messenger's Plea", "Take Unknown's note to Archivist of Goldshire."],
+    ["Town Messenger's Plea", "Take Town Messenger's note to Unknown of Goldshire."],
+    ["Town Messenger's Plea", "Take Town Messenger's note to Archivist of Stormwind."],
+    ["Town Messenger's Plea", "Take Town Messenger's note to Archivist and open the lock."],
+  ])("does not infer an unbound or compound letter handoff for %s", (name, objective) => {
+    const input = fixture();
+    input.catalog.quests[0]!.providedItem = { itemId: 957, name };
+    input.combat.quests[0]!.objectiveText = [objective];
+    expect(resolve(input)).toBe(input.catalog);
+  });
+
+  it.each([
+    "Give A Sealed Parcel to Archivist.",
+    "Give the Sealed Parcel to Archivist in Goldshire.",
+    "Give Archivist the Sealed Parcel.",
+    "Bring Archivist a Sealed Parcel.",
+    "Take the Sealed Parcel to Archivist.",
+    "Deliver a Sealed Parcel to Archivist.",
+  ])("qualifies the exact supplied item and recipient in %s", (text) => {
+    const input = fixture();
+    input.combat = {
+      ...input.combat,
+      quests: [{ ...input.combat.quests[0]!, objectiveText: [text] }],
+    };
+    const resolved = providedDeliveryFundingCatalog(input.catalog, input.combat, new Set());
+    expect(resolved.quests[0]!.ends).toEqual([recipient]);
+    expect(resolved.quests[0]!.unsupportedRequirements).toEqual([]);
+    expect(input.catalog.quests[0]!.unsupportedRequirements).toHaveLength(2);
+  });
+
+  it.each([
+    "Give Archivist the Other Parcel.",
+    "Give Unknown the Sealed Parcel.",
+    "Give Archivist the Sealed Parcel and return to Town Messenger.",
+    "Give the Sealed Parcel to Archivist after killing the guards.",
+    "Give the Sealed Parcel to Archivist in Goldshire and buy a key.",
+  ])("keeps non-exact or compound Give work unresolved: %s", (text) => {
+    const input = fixture();
+    input.combat = {
+      ...input.combat,
+      quests: [{ ...input.combat.quests[0]!, objectiveText: [text] }],
+    };
+    expect(providedDeliveryFundingCatalog(input.catalog, input.combat, new Set())).toBe(
+      input.catalog,
+    );
+  });
+
+  it("never re-adds an explicitly deferred shared-party quest through a qualified fallback", () => {
+    const input = fixture();
+    input.plan = {
+      ...input.plan,
+      sharedQuestsOnly: true,
+      rewardFacts: input.plan.rewardFacts!.map((fact) =>
+        fact.questId === 310002 ? { ...fact, questId: 92 } : fact,
+      ),
+    };
+    input.catalog = {
+      ...input.catalog,
+      quests: input.catalog.quests.map((quest) => ({ ...quest, questId: 92 })),
+    };
+    input.combat = {
+      ...input.combat,
+      quests: input.combat.quests.map((quest) => ({ ...quest, questId: 92 })),
+    };
+    expect(
+      fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog).questFunding
+        ?.addedQuestIds,
+    ).toEqual([]);
+  });
+  it("moves an eligible selected object pickup before a funding gate without replacing its source program", () => {
+    const input = fixture();
+    input.catalog = {
+      ...input.catalog,
+      objectSha256: "e".repeat(64),
+      quests: input.catalog.quests.map((quest) => ({
+        ...quest,
+        starts: [],
+        objectStarts: [{ objectId: 175227, name: "Beached Creature", positions: [position] }],
+      })),
+    };
+    input.combat = {
+      ...input.combat,
+      provider: { ...input.combat.provider, objectSha256: "e".repeat(64) },
+    };
+    const reference = CHAPTER_REFERENCES.find((entry) => entry.sourceId === 126)!;
+    const guide = parseGuideChapter(
+      "step\n.goto 1429,50,50\n>>Click the Beached Creature\n.accept 310002\nstep\n.goto 1429,52,50\n.target Archivist\n.turnin 310002",
+      reference.id,
+      "f".repeat(64),
+      70205,
+    );
+    const later = (["accepted", "rewarded"] as const).map((state, index): CampaignAction => ({
+      ...input.plan.actions[0]!,
+      id: `shore-${state}`,
+      legId: "shore",
+      libraryBackbone: true,
+      xpOptional: false,
+      source: campaignActionSource(guide, guide.steps[index]!, guide.steps[index]!.directives),
+      questChanges: [
+        { questId: 310002, title: "Deliver the town records", state, objectiveIndex: null },
+      ],
+    }));
+    input.plan = {
+      ...input.plan,
+      sharedQuestsOnly: true,
+      actions: [...input.plan.actions, ...later],
+      legs: [
+        ...input.plan.legs,
+        {
+          id: "shore",
+          title: "Later shore visit",
+          kind: "preparation",
+          from: 3,
+          to: 4,
+          stopId: null,
+          actionIds: later.map((action) => action.id),
+          questIds: [310002],
+          unresolvedQuestIds: [],
+        },
+      ],
+    };
+    const before = structuredClone(input);
+    const resolved = providedDeliveryFundingCatalog(input.catalog, input.combat, new Set([310002]));
+    expect(resolved.quests[0]!.unsupportedRequirements).toEqual([]);
+    const funded = fundCampaignQuestGaps(
+      input.plan,
+      [{ reference, guide }],
+      input.combat,
+      input.catalog,
+    );
+    expect(funded.questFunding?.addedQuestIds).toEqual([310002]);
+    const tasks = funded.actions.filter((action) =>
+      action.questChanges.some((change) => change.questId === 310002),
+    );
+    expect(tasks.map((action) => action.questChanges[0]!.state)).toEqual(["accepted", "rewarded"]);
+    expect(tasks.map((action) => action.source)).toEqual(later.map((action) => action.source));
+    expect(
+      tasks.every(
+        (action) =>
+          funded.actions.indexOf(action) < funded.actions.findIndex((entry) => entry.id === "gate"),
+      ),
+    ).toBe(true);
+    expect(later.every((action) => funded.bookmarkAliases?.[action.id] !== undefined)).toBe(true);
+    for (const member of forecastCampaignGuide(funded, emptyPremadeProgress()).sections[0]!.forecast
+      .members) {
+      expect(member.endpoint?.level).toBe(3);
+      expect(member.rewards.filter((reward) => reward.questId === 310002)).toHaveLength(1);
+      expect(member.combatXp).toBe(0);
+    }
+    for (const reason of ["minimum", "prerequisite", "source-guard"] as const) {
+      const guarded = parseGuideChapter(
+        "step\n.isOnQuest 310099\n.goto 1429,50,50\n>>Click the Beached Creature\n.accept 310002\nstep\n.goto 1429,52,50\n.target Archivist\n.turnin 310002",
+        reference.id,
+        "f".repeat(64),
+        70205,
+      );
+      const plan = {
+        ...input.plan,
+        actions: input.plan.actions.map((action) =>
+          action.id !== "shore-accepted"
+            ? action
+            : {
+                ...action,
+                ...(reason === "prerequisite" ? { requiredQuestIds: [310099] } : {}),
+                ...(reason === "source-guard"
+                  ? {
+                      source: campaignActionSource(
+                        guarded,
+                        guarded.steps[0]!,
+                        guarded.steps[0]!.directives,
+                      ),
+                    }
+                  : {}),
+              },
+        ),
+      };
+      const catalog =
+        reason === "minimum"
+          ? {
+              ...input.catalog,
+              quests: input.catalog.quests.map((quest) => ({ ...quest, minimumLevel: 10 })),
+            }
+          : input.catalog;
+      const blocked = fundCampaignQuestGaps(
+        plan,
+        [{ reference, guide: reason === "source-guard" ? guarded : guide }],
+        input.combat,
+        catalog,
+      );
+      expect(blocked.questFunding?.addedQuestIds, reason).toEqual([]);
+    }
+    expect(input).toEqual(before);
+  });
+  it("funds a quest accepted from an object with one supplied parcel and hand-in per player", () => {
+    const input = fixture();
+    input.catalog = {
+      ...input.catalog,
+      objectSha256: "e".repeat(64),
+      quests: input.catalog.quests.map((quest) => ({
+        ...quest,
+        questLevel: 19,
+        starts: [],
+        objectStarts: [{ objectId: 175227, name: "Beached Creature", positions: [position] }],
+      })),
+    };
+    input.combat = {
+      ...input.combat,
+      provider: { ...input.combat.provider, objectSha256: "e".repeat(64) },
+    };
+    input.plan = {
+      ...input.plan,
+      rewardFacts: input.plan.rewardFacts!.map((fact) =>
+        fact.questId === 310002 ? { ...fact, questLevel: 19 } : fact,
+      ),
+    };
+    const before = structuredClone(input);
+    const funded = fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog);
+    expect(funded.questFunding?.addedQuestIds).toEqual([310002]);
+    const tasks = funded.actions.filter((action) =>
+      action.questChanges.some((change) => change.questId === 310002),
+    );
+    expect(tasks.map((action) => action.questChanges[0]!.state)).toEqual(["accepted", "rewarded"]);
+    expect(tasks[0]!.instructions[0]).toMatch(/^Interact with Beached Creature/);
+    expect(tasks[0]!.instructions[1]).toContain("Every player");
+    const guide = forecastCampaignGuide(funded, emptyPremadeProgress());
+    for (const member of guide.sections[0]!.forecast.members) {
+      expect(member.rewards.filter((reward) => reward.questId === 310002)).toHaveLength(1);
+      expect(member.combatXp).toBe(0);
+      expect(member.endpoint?.level).toBe(3);
+    }
+    expect(input).toEqual(before);
+    const incompatible = {
+      ...input.combat,
+      provider: { ...input.combat.provider, objectSha256: "f".repeat(64) },
+    };
+    expect(providedDeliveryFundingCatalog(input.catalog, incompatible, new Set())).toBe(
+      input.catalog,
+    );
+    expect(() => fundCampaignQuestGaps(input.plan, [], incompatible, input.catalog)).toThrow(
+      /object export/,
+    );
+  });
   it("resolves only the proven item requirements and exact recipient without mutating the source catalog", () => {
     const input = fixture(),
       before = JSON.stringify(input);
@@ -172,6 +488,31 @@ describe("provided-item courier funding", () => {
     expect(input.catalog.quests[0]!.ends[0]!.name).toBe("Merchant");
     expect(JSON.stringify(input)).toBe(before);
   });
+
+  it.each([undefined, "f".repeat(64)])(
+    "refuses object-recipient metadata without matching export provenance (%s)",
+    (objectSha256) => {
+      const input = fixture();
+      input.catalog = {
+        ...input.catalog,
+        objectSha256,
+        quests: input.catalog.quests.map((quest) => ({
+          ...quest,
+          objectEnds: [{ objectId: 261, name: "Damaged Crate", positions: [position] }],
+        })),
+      };
+      input.combat = {
+        ...input.combat,
+        provider: { ...input.combat.provider, objectSha256: "e".repeat(64) },
+      };
+      expect(providedDeliveryFundingCatalog(input.catalog, input.combat, new Set())).toBe(
+        input.catalog,
+      );
+      expect(() => fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog)).toThrow(
+        /object export/,
+      );
+    },
+  );
 
   it("distinguishes a conjunction inside the provided item's name from a second task", () => {
     const input = fixture();
@@ -363,6 +704,24 @@ describe("provided-item courier funding", () => {
     );
   });
 
+  it("offers a proven selected parcel only by opt-in and never restarts a party member's active quest", () => {
+    const input = fixture();
+    const catalog = providedDeliveryFundingCatalog(input.catalog, input.combat, new Set([310002]), true);
+    expect(catalog.quests[0]!.unsupportedRequirements).toEqual([]);
+    const progress = emptyPremadeProgress();
+    progress.members = progress.members.map((member) => ({ ...member, level: 2, currentXp: 0, xpNeedsUpdate: false }));
+    const options = { legId: "prepare", checkpointId: "gate", targetLevel: 3,
+      previous: position, forbiddenQuestIds: new Set<number>(), maximumQuestLevel: 5,
+      leaderOnly: false, freshQuestIds: new Set([310002]) };
+    expect(campaignFundingBatch(catalog.quests[0]!, catalog, input.combat, progress, options)?.questIds).toEqual([310002]);
+    for (const state of ["accepted", "objectives-complete", "rewarded"] as const) {
+      const active = { ...progress, members: progress.members.map((member, index) => index === 0
+        ? { ...member, questStates: { ...member.questStates, "310002": state } } : member) };
+      expect(campaignFundingBatch(catalog.quests[0]!, catalog, input.combat, active, options), state).toBeNull();
+    }
+    expect(input.catalog.quests[0]!.unsupportedRequirements).toContain("provided-item-interaction");
+  });
+
   it("counts the public trip back to the original position and enforces the actual pickup minimum", () => {
     const input = fixture(),
       view = resolve(input),
@@ -404,6 +763,44 @@ describe("provided-item courier funding", () => {
     input.plan = { ...input.plan, rewardFacts: input.plan.rewardFacts!.slice(0, 1) };
     const result = fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog);
     expect(result.questFunding?.addedQuestIds).toEqual([]);
+  });
+
+  it("uses the actual pickup minimum for a proven parcel above the nominal quest-level limit", () => {
+    const input = fixture();
+    input.catalog.quests[0]!.questLevel = 30;
+    const catalog = resolve(input), quest = catalog.quests[0]!;
+    const progress = emptyPremadeProgress();
+    progress.members = progress.members.map((member) => ({
+      ...member, level: 2, currentXp: 0, xpNeedsUpdate: false,
+    }));
+    const options = {
+      legId: "prepare", checkpointId: "gate", targetLevel: 3,
+      previous: position, resumePosition: position,
+      forbiddenQuestIds: new Set<number>(), maximumQuestLevel: 5, leaderOnly: false,
+    };
+    expect(campaignFundingBatch(quest, catalog, input.combat, progress, options)).toBeNull();
+    const batch = campaignFundingBatch(quest, catalog, input.combat, progress, {
+      ...options, includeNpcDeliveries: true,
+    });
+    expect(batch?.questIds).toEqual([310002]);
+    expect(batch?.requiredKills).toBe(0);
+    expect(batch?.returnTravelCost).toBeCloseTo(0.02);
+    expect(batch?.actions.map((action) => action.questChanges[0]!.state)).toEqual([
+      "accepted", "rewarded",
+    ]);
+    expect(batch?.actions.at(-1)?.instructions).toContain(
+      "Deliver A Sealed Parcel, supplied when you accepted the quest, to Archivist.",
+    );
+    for (const reason of ["pickup-minimum", "missing-prerequisite", "extra-combat", "wrong-recipient"] as const) {
+      const blocked = structuredClone(catalog), reference = structuredClone(input.combat);
+      if (reason === "pickup-minimum") blocked.quests[0]!.minimumLevel = 3;
+      if (reason === "missing-prerequisite") blocked.quests[0]!.prerequisites.allOf = [310099];
+      if (reason === "extra-combat") reference.quests[0]!.creatureIds = [114];
+      if (reason === "wrong-recipient") reference.quests[0]!.objectiveText = ["Deliver A Sealed Parcel to Unknown."];
+      expect(campaignFundingBatch(blocked.quests[0]!, blocked, reference, progress, {
+        ...options, includeNpcDeliveries: true,
+      }), reason).toBeNull();
+    }
   });
 
   it("retains a courier prerequisite before an otherwise eligible shared-kill quest", () => {

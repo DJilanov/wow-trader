@@ -42,4 +42,47 @@ describe("expected progress after the current quest", () => {
     expect(html).toContain("does not change quest rewards");
     expect(html).toContain("Save combat planning settings");
   });
+  it("shows the route's ten-percent allowance and respects a saved zero override", () => {
+    const progress = emptyPremadeProgress();
+    const render = (): string =>
+      renderToStaticMarkup(
+        <LevelingCombatPlanningSettings
+          progress={progress}
+          defaultIncidentalKillXpPercent={10}
+          disabled={false}
+          onChange={() => {}}
+        />,
+      );
+    expect(render()).toMatch(/name="incidentalPercent"[^>]*value="10"/);
+    expect(render()).toContain("Extra kill XP allowance (%)");
+    progress.combatPlanning = { outdoorXpMultiplier: 1, incidentalKillXpPercent: 0 };
+    expect(render()).toMatch(/name="incidentalPercent"[^>]*value="0"/);
+  });
+  it("shows a saved outdoor override separately and explains its cost and dungeon scope", () => {
+    const progress = emptyPremadeProgress();
+    progress.combatPlanning = { outdoorXpMultiplier: 1, incidentalKillXpPercent: 10,
+      outdoorIncidentalKillXpPercent: 30 };
+    const render = (): string => renderToStaticMarkup(
+      <LevelingCombatPlanningSettings progress={progress} disabled={false} onChange={() => {}} />,
+    );
+    expect(render()).toMatch(/name="incidentalPercent"[^>]*value="10"/);
+    expect(render()).toMatch(/name="outdoorIncidentalPercent"[^>]*value="30"/);
+    expect(render()).toContain("leaves dungeon estimates unchanged");
+    expect(render()).toContain("Extra fighting takes time");
+    progress.combatPlanning.outdoorIncidentalKillXpPercent = 0;
+    expect(render()).toMatch(/name="outdoorIncidentalPercent"[^>]*value="0"/);
+  });
+  it("shows the route's default thirty-percent outdoor allowance without changing dungeon settings", () => {
+    const progress = emptyPremadeProgress();
+    const render = (): string => renderToStaticMarkup(
+      <LevelingCombatPlanningSettings progress={progress}
+        defaultIncidentalKillXpPercent={10} defaultOutdoorIncidentalKillXpPercent={30}
+        disabled={false} onChange={() => {}} />,
+    );
+    expect(render()).toMatch(/name="incidentalPercent"[^>]*value="10"/);
+    expect(render()).toMatch(/name="outdoorIncidentalPercent"[^>]*value="30"/);
+    expect(render()).toContain("route default (30%)");
+    progress.combatPlanning = { outdoorXpMultiplier: 1, outdoorIncidentalKillXpPercent: 0 };
+    expect(render()).toMatch(/name="outdoorIncidentalPercent"[^>]*value="0"/);
+  });
 });

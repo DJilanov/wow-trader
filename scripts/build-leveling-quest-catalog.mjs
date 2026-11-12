@@ -94,10 +94,11 @@ assert.equal(
   "",
   "Use a clean provider checkout for reproducible catalog provenance.",
 );
-const [questRaw, npcRaw, itemRaw, mapRaw] = await Promise.all([
+const [questRaw, npcRaw, itemRaw, objectRaw, mapRaw] = await Promise.all([
   bounded(path.join(exportRoot, "foreverQuestDB.lua"), 32_000_000),
   bounded(path.join(exportRoot, "foreverNpcDB.lua"), 32_000_000),
   bounded(path.join(exportRoot, "foreverItemDB.lua"), 32_000_000),
+  bounded(path.join(exportRoot, "foreverObjectDB.lua"), 32_000_000),
   bounded(path.join(provider, "support/Forever/Zones/areaIdToUiMapId.lua"), 200_000),
 ]);
 assert.ok(
@@ -115,8 +116,11 @@ const areaMap = new Map(
 assert.equal(areaMap.get(40), "1436");
 const npcs = new Map(parseQuestieForeverSource("npc", npcRaw).map((npc) => [npc.id, npc]));
 const items = new Map(parseQuestieForeverSource("item", itemRaw).map((item) => [item.id, item]));
+const objects = new Map(
+  parseQuestieForeverSource("object", objectRaw).map((object) => [object.id, object]),
+);
 let quests = parseQuestieForeverSource("quest", questRaw).flatMap((quest) => {
-  const normalized = normalizeCatalogQuest(quest, npcs, areaMap, items);
+  const normalized = normalizeCatalogQuest(quest, npcs, areaMap, items, objects);
   return normalized ? [normalized] : [];
 });
 let byId = new Map(quests.map((quest) => [quest.questId, quest]));
@@ -139,6 +143,8 @@ assert.equal(source.provider.revision, values.revision, "Combat provider revisio
 assert.equal(source.provider.questSha256, sha(questRaw), "Combat quest export differs.");
 assert.equal(source.provider.npcSha256, sha(npcRaw), "Combat NPC export differs.");
 assert.equal(source.provider.itemSha256, sha(itemRaw), "Combat item export differs.");
+if (source.provider.objectSha256)
+  assert.equal(source.provider.objectSha256, sha(objectRaw), "Combat object export differs.");
 const wanted = new Set();
 const quotaClaims = new Map();
 const heldQuotas = new Map();
@@ -262,6 +268,7 @@ const catalog = questCatalogSchema.parse({
   questSha256: sha(questRaw),
   npcSha256: sha(npcRaw),
   itemSha256: sha(itemRaw),
+  objectSha256: sha(objectRaw),
   areaMapSha256: sha(mapRaw),
   includesAuthoredCorrections: questRaw.includes(" -> authored corrections."),
   sourceArchiveSha256: archive.sourceSha256,
@@ -327,6 +334,7 @@ const combat = combatDatasetSchema.parse({
   quests: selectedQuests,
   provider: {
     ...source.provider,
+    objectSha256: sha(objectRaw),
     limitations: [
       ...source.provider.limitations,
       ...(captureInputSha256

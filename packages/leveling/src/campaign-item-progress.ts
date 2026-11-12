@@ -13,11 +13,7 @@ export function campaignItemProgressEvent(
   states: Readonly<PremadeMember["questStates"]>,
   confirmations: Readonly<Record<string, boolean>>,
 ): CampaignItemXpEvent {
-  const itemKeys = new Set(
-    [...index.byQuest].flatMap(([questId, rows]) =>
-      rows.map((row) => `campaign-objective-${questId}-${row.objectiveIndex}`),
-    ),
-  );
+  const itemKeys = index.objectiveConfirmationKeys;
   return {
     actionId: action.id,
     title: action.title,

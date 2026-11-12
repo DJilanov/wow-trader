@@ -1,0 +1,4149 @@
+{
+  "snapshots": [
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sourceSha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 18,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70205",
+          "collectedOn": {
+            "first": "2026-10-03",
+            "last": "2026-10-05"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 2
+        },
+        "quests": {
+          "18": {
+            "level": 4,
+            "minLevel": 2,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 2224
+                },
+                {
+                  "count": 1,
+                  "itemId": 5580
+                },
+                {
+                  "count": 1,
+                  "itemId": 1161
+                },
+                {
+                  "count": 1,
+                  "itemId": 5579
+                },
+                {
+                  "count": 1,
+                  "itemId": 1159
+                }
+              ],
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Brotherhood of Thieves"
+          },
+          "20": {
+            "level": 21,
+            "minLevel": 18,
+            "rewards": {
+              "money": 1300,
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Blackrock Menace"
+          },
+          "66": {
+            "level": 28,
+            "minLevel": 22,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 2
+                }
+              ],
+              "xpDifficulty": 1,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "The Legend of Stalvan"
+          },
+          "124": {
+            "level": 20,
+            "minLevel": 15,
+            "rewards": {
+              "money": 900,
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 4
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "A Baying of Gnolls"
+          },
+          "224": {
+            "level": 12,
+            "minLevel": 10,
+            "rewards": {
+              "items": [
+                {
+                  "count": 5,
+                  "itemId": 414
+                }
+              ],
+              "money": 500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "In Defense of the King's Lands"
+          },
+          "237": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "items": [
+                {
+                  "count": 3,
+                  "itemId": 858
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "In Defense of the King's Lands"
+          },
+          "263": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "items": [
+                {
+                  "count": 3,
+                  "itemId": 2863
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "In Defense of the King's Lands"
+          },
+          "267": {
+            "level": 12,
+            "minLevel": 10,
+            "rewards": {
+              "money": 500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "The Trogg Threat"
+          },
+          "307": {
+            "level": 15,
+            "minLevel": 9,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 3166
+                },
+                {
+                  "count": 1,
+                  "itemId": 3161
+                },
+                {
+                  "count": 1,
+                  "itemId": 3160
+                }
+              ],
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 6
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Filthy Paws"
+          },
+          "416": {
+            "level": 11,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 3158
+                },
+                {
+                  "count": 1,
+                  "itemId": 860
+                }
+              ],
+              "money": 400,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Rat Catching"
+          },
+          "432": {
+            "level": 9,
+            "minLevel": 5,
+            "rewards": {
+              "money": 200,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 4
+                },
+                {
+                  "factionId": 54,
+                  "tier": 4
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Those Blasted Troggs!"
+          },
+          "433": {
+            "level": 11,
+            "minLevel": 6,
+            "rewards": {
+              "money": 300,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 4
+                },
+                {
+                  "factionId": 54,
+                  "tier": 4
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "The Public Servant"
+          },
+          "472": {
+            "level": 30,
+            "minLevel": 25,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 3
+                }
+              ],
+              "xpDifficulty": 3,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Fall of Dun Modr"
+          },
+          "631": {
+            "level": 31,
+            "minLevel": 26,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "The Thandol Span"
+          },
+          "1339": {
+            "level": 15,
+            "minLevel": 9,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 3
+                }
+              ],
+              "xpDifficulty": 3,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Mountaineer Stormpike's Task"
+          },
+          "2922": {
+            "level": 26,
+            "minLevel": 20,
+            "rewards": {
+              "money": 2000,
+              "reputation": [
+                {
+                  "factionId": 54,
+                  "tier": 6
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 1.8
+            },
+            "sources": 2,
+            "title": "Save Techbot's Brain!"
+          },
+          "4581": {
+            "level": 29,
+            "minLevel": 24,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 69,
+                  "tier": 2
+                }
+              ],
+              "xpDifficulty": 2,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Kayneth Stillwind"
+          },
+          "96390": {
+            "level": 13,
+            "minLevel": 9,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                },
+                {
+                  "factionId": 54,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Nip 'Em in the Bud"
+          },
+          "96394": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 279897
+                },
+                {
+                  "count": 1,
+                  "itemId": 280095
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 2.2
+            },
+            "sources": 2,
+            "title": "The Restless Dead"
+          },
+          "96395": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 279899
+                },
+                {
+                  "count": 1,
+                  "itemId": 279900
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 2.2
+            },
+            "sources": 2,
+            "title": "An Ancient Grudge"
+          },
+          "96403": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 279898
+                },
+                {
+                  "count": 1,
+                  "itemId": 280096
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 369,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 2.2
+            },
+            "sources": 2,
+            "title": "Important Heirlooms"
+          },
+          "98423": {
+            "level": 16,
+            "minLevel": 9,
+            "rewards": {
+              "money": 1600,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                },
+                {
+                  "factionId": 54,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 2.2
+            },
+            "sources": 2,
+            "title": "The Treaty of Understanding"
+          }
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sourceSha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 82,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70450",
+          "collectedOn": {
+            "first": "2026-10-17",
+            "last": "2026-10-22"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 5
+        },
+        "quests": {
+          "18": {
+            "level": 4,
+            "minLevel": 2,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 2224
+                },
+                {
+                  "count": 1,
+                  "itemId": 5580
+                },
+                {
+                  "count": 1,
+                  "itemId": 1161
+                },
+                {
+                  "count": 1,
+                  "itemId": 5579
+                },
+                {
+                  "count": 1,
+                  "itemId": 1159
+                }
+              ],
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 1,
+            "title": "Brotherhood of Thieves"
+          },
+          "20": {
+            "level": 21,
+            "minLevel": 18,
+            "rewards": {
+              "money": 1300,
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Blackrock Menace"
+          },
+          "66": {
+            "level": 28,
+            "minLevel": 22,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 2
+                }
+              ],
+              "xpDifficulty": 1,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "The Legend of Stalvan"
+          },
+          "124": {
+            "level": 20,
+            "minLevel": 15,
+            "rewards": {
+              "money": 900,
+              "reputation": [
+                {
+                  "factionId": 72,
+                  "tier": 4
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "A Baying of Gnolls"
+          },
+          "224": {
+            "level": 12,
+            "minLevel": 10,
+            "rewards": {
+              "items": [
+                {
+                  "count": 5,
+                  "itemId": 414
+                },
+                {
+                  "count": 1,
+                  "itemId": 287061
+                }
+              ],
+              "money": 500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "In Defense of the King's Lands"
+          },
+          "237": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "items": [
+                {
+                  "count": 3,
+                  "itemId": 858
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 4,
+            "title": "In Defense of the King's Lands"
+          },
+          "263": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "items": [
+                {
+                  "count": 3,
+                  "itemId": 2863
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "In Defense of the King's Lands"
+          },
+          "267": {
+            "level": 12,
+            "minLevel": 10,
+            "rewards": {
+              "money": 500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "The Trogg Threat"
+          },
+          "307": {
+            "level": 15,
+            "minLevel": 9,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 3166
+                },
+                {
+                  "count": 1,
+                  "itemId": 3161
+                },
+                {
+                  "count": 1,
+                  "itemId": 3160
+                }
+              ],
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 6
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "Filthy Paws"
+          },
+          "416": {
+            "level": 11,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 3158
+                },
+                {
+                  "count": 1,
+                  "itemId": 860
+                }
+              ],
+              "money": 400,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Rat Catching"
+          },
+          "432": {
+            "level": 9,
+            "minLevel": 5,
+            "rewards": {
+              "money": 200,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 4
+                },
+                {
+                  "factionId": 54,
+                  "tier": 4
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Those Blasted Troggs!"
+          },
+          "433": {
+            "level": 11,
+            "minLevel": 6,
+            "rewards": {
+              "money": 300,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 4
+                },
+                {
+                  "factionId": 54,
+                  "tier": 4
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "The Public Servant"
+          },
+          "472": {
+            "level": 30,
+            "minLevel": 25,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 3
+                }
+              ],
+              "xpDifficulty": 3,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "Fall of Dun Modr"
+          },
+          "631": {
+            "level": 31,
+            "minLevel": 26,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "The Thandol Span"
+          },
+          "1339": {
+            "level": 15,
+            "minLevel": 9,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 3
+                }
+              ],
+              "xpDifficulty": 3,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "Mountaineer Stormpike's Task"
+          },
+          "2922": {
+            "level": 26,
+            "minLevel": 20,
+            "rewards": {
+              "money": 2000,
+              "reputation": [
+                {
+                  "factionId": 54,
+                  "tier": 6
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 1.8
+            },
+            "sources": 2,
+            "title": "Save Techbot's Brain!"
+          },
+          "4581": {
+            "level": 29,
+            "minLevel": 24,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 69,
+                  "tier": 2
+                }
+              ],
+              "xpDifficulty": 2,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "Kayneth Stillwind"
+          },
+          "96390": {
+            "level": 13,
+            "minLevel": 9,
+            "rewards": {
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                },
+                {
+                  "factionId": 54,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "Nip 'Em in the Bud"
+          },
+          "96394": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 279897
+                },
+                {
+                  "count": 1,
+                  "itemId": 280095
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 2.2
+            },
+            "sources": 2,
+            "title": "The Restless Dead"
+          },
+          "96395": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 279899
+                },
+                {
+                  "count": 1,
+                  "itemId": 279900
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 2.2
+            },
+            "sources": 4,
+            "title": "An Ancient Grudge"
+          },
+          "96403": {
+            "level": 15,
+            "minLevel": 10,
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 279898
+                },
+                {
+                  "count": 1,
+                  "itemId": 280096
+                }
+              ],
+              "money": 700,
+              "reputation": [
+                {
+                  "factionId": 369,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 2.2
+            },
+            "sources": 3,
+            "title": "Important Heirlooms"
+          },
+          "98423": {
+            "level": 16,
+            "minLevel": 9,
+            "rewards": {
+              "money": 1600,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                },
+                {
+                  "factionId": 54,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 2.2
+            },
+            "sources": 3,
+            "title": "The Treaty of Understanding"
+          }
+        }
+      }
+    }
+  ],
+  "tableSnapshots": [
+    {
+      "sourceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+      "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+      "document": {
+        "schemaVersion": "forever-leveling-evidence.v1",
+        "capturedAt": "2026-10-04T10:19:05.024114Z",
+        "build": {
+          "product": "wow_classic_beta",
+          "clientVersion": "1.60.1.70205",
+          "buildNumber": 70205,
+          "buildKey": "842b2e5d11f8d6fe257a5b73bd5cf6c6",
+          "cdnKey": "ce9356750f0c9edb005bb03d8bf37384"
+        },
+        "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+        "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b",
+        "questXpRows": [
+          {
+            "id": 1,
+            "Difficulty": [
+              0,
+              10,
+              20,
+              40,
+              60,
+              80,
+              100,
+              120,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 2,
+            "Difficulty": [
+              0,
+              15,
+              45,
+              85,
+              130,
+              170,
+              215,
+              255,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 3,
+            "Difficulty": [
+              0,
+              25,
+              65,
+              125,
+              190,
+              250,
+              315,
+              380,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 4,
+            "Difficulty": [
+              0,
+              35,
+              90,
+              180,
+              270,
+              355,
+              445,
+              540,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 5,
+            "Difficulty": [
+              0,
+              45,
+              110,
+              225,
+              335,
+              450,
+              560,
+              670,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 6,
+            "Difficulty": [
+              0,
+              55,
+              135,
+              270,
+              405,
+              540,
+              680,
+              810,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 7,
+            "Difficulty": [
+              0,
+              65,
+              160,
+              315,
+              475,
+              630,
+              790,
+              950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 8,
+            "Difficulty": [
+              0,
+              70,
+              175,
+              350,
+              530,
+              700,
+              880,
+              1050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 9,
+            "Difficulty": [
+              0,
+              80,
+              195,
+              390,
+              590,
+              780,
+              980,
+              1150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 10,
+            "Difficulty": [
+              0,
+              85,
+              210,
+              420,
+              630,
+              840,
+              1050,
+              1250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 11,
+            "Difficulty": [
+              0,
+              90,
+              220,
+              440,
+              660,
+              880,
+              1100,
+              1300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 12,
+            "Difficulty": [
+              0,
+              90,
+              225,
+              455,
+              680,
+              910,
+              1150,
+              1350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 13,
+            "Difficulty": [
+              0,
+              90,
+              230,
+              455,
+              680,
+              910,
+              1150,
+              1350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 14,
+            "Difficulty": [
+              0,
+              100,
+              245,
+              490,
+              740,
+              980,
+              1250,
+              1450,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 15,
+            "Difficulty": [
+              0,
+              105,
+              270,
+              540,
+              800,
+              1050,
+              1350,
+              1600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 16,
+            "Difficulty": [
+              0,
+              115,
+              290,
+              580,
+              880,
+              1150,
+              1450,
+              1750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 17,
+            "Difficulty": [
+              0,
+              125,
+              315,
+              630,
+              950,
+              1250,
+              1600,
+              1900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 18,
+            "Difficulty": [
+              0,
+              135,
+              340,
+              680,
+              1000,
+              1350,
+              1700,
+              2050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 19,
+            "Difficulty": [
+              0,
+              145,
+              365,
+              730,
+              1100,
+              1450,
+              1800,
+              2200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 20,
+            "Difficulty": [
+              0,
+              155,
+              390,
+              780,
+              1150,
+              1550,
+              1950,
+              2350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 21,
+            "Difficulty": [
+              0,
+              165,
+              415,
+              830,
+              1250,
+              1650,
+              2050,
+              2500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 22,
+            "Difficulty": [
+              0,
+              175,
+              435,
+              870,
+              1300,
+              1750,
+              2200,
+              2600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 23,
+            "Difficulty": [
+              0,
+              185,
+              460,
+              920,
+              1400,
+              1850,
+              2300,
+              2750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 24,
+            "Difficulty": [
+              0,
+              195,
+              485,
+              970,
+              1450,
+              1950,
+              2400,
+              2900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 25,
+            "Difficulty": [
+              0,
+              200,
+              510,
+              1000,
+              1500,
+              2000,
+              2550,
+              3050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 26,
+            "Difficulty": [
+              0,
+              210,
+              530,
+              1050,
+              1600,
+              2100,
+              2650,
+              3150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 27,
+            "Difficulty": [
+              0,
+              220,
+              550,
+              1100,
+              1650,
+              2200,
+              2750,
+              3300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 28,
+            "Difficulty": [
+              0,
+              230,
+              570,
+              1150,
+              1700,
+              2300,
+              2850,
+              3400,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 29,
+            "Difficulty": [
+              0,
+              235,
+              590,
+              1200,
+              1750,
+              2350,
+              2950,
+              3550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 30,
+            "Difficulty": [
+              0,
+              245,
+              610,
+              1200,
+              1850,
+              2450,
+              3050,
+              3650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 31,
+            "Difficulty": [
+              0,
+              250,
+              630,
+              1250,
+              1900,
+              2500,
+              3150,
+              3750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 32,
+            "Difficulty": [
+              0,
+              255,
+              640,
+              1300,
+              1950,
+              2550,
+              3200,
+              3850,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 33,
+            "Difficulty": [
+              0,
+              265,
+              660,
+              1300,
+              1950,
+              2650,
+              3300,
+              3950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 34,
+            "Difficulty": [
+              0,
+              270,
+              670,
+              1350,
+              2000,
+              2700,
+              3350,
+              4050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 35,
+            "Difficulty": [
+              0,
+              275,
+              690,
+              1350,
+              2050,
+              2750,
+              3450,
+              4100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 36,
+            "Difficulty": [
+              0,
+              280,
+              700,
+              1400,
+              2100,
+              2800,
+              3500,
+              4200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 37,
+            "Difficulty": [
+              0,
+              285,
+              710,
+              1400,
+              2100,
+              2850,
+              3550,
+              4250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 38,
+            "Difficulty": [
+              0,
+              285,
+              710,
+              1450,
+              2150,
+              2850,
+              3550,
+              4300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 39,
+            "Difficulty": [
+              0,
+              300,
+              750,
+              1500,
+              2250,
+              3000,
+              3750,
+              4500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 40,
+            "Difficulty": [
+              0,
+              315,
+              780,
+              1550,
+              2350,
+              3150,
+              3900,
+              4700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 41,
+            "Difficulty": [
+              0,
+              330,
+              820,
+              1650,
+              2450,
+              3300,
+              4100,
+              4900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 42,
+            "Difficulty": [
+              0,
+              345,
+              860,
+              1700,
+              2550,
+              3450,
+              4300,
+              5150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 43,
+            "Difficulty": [
+              0,
+              360,
+              890,
+              1800,
+              2700,
+              3600,
+              4450,
+              5350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 44,
+            "Difficulty": [
+              0,
+              375,
+              930,
+              1850,
+              2800,
+              3750,
+              4650,
+              5600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 45,
+            "Difficulty": [
+              0,
+              390,
+              970,
+              1950,
+              2900,
+              3900,
+              4850,
+              5850,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 46,
+            "Difficulty": [
+              0,
+              405,
+              1000,
+              2000,
+              3050,
+              4050,
+              5050,
+              6050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 47,
+            "Difficulty": [
+              0,
+              420,
+              1050,
+              2100,
+              3150,
+              4200,
+              5250,
+              6300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 48,
+            "Difficulty": [
+              0,
+              440,
+              1100,
+              2200,
+              3300,
+              4400,
+              5450,
+              6550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 49,
+            "Difficulty": [
+              0,
+              455,
+              1150,
+              2250,
+              3400,
+              4550,
+              5700,
+              6800,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 50,
+            "Difficulty": [
+              0,
+              470,
+              1200,
+              2350,
+              3550,
+              4700,
+              5900,
+              7100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 51,
+            "Difficulty": [
+              0,
+              490,
+              1200,
+              2450,
+              3650,
+              4900,
+              6100,
+              7350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 52,
+            "Difficulty": [
+              0,
+              510,
+              1250,
+              2550,
+              3800,
+              5100,
+              6350,
+              7600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 53,
+            "Difficulty": [
+              0,
+              530,
+              1300,
+              2650,
+              3950,
+              5250,
+              6550,
+              7900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 54,
+            "Difficulty": [
+              0,
+              540,
+              1350,
+              2700,
+              4100,
+              5450,
+              6800,
+              8150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 55,
+            "Difficulty": [
+              0,
+              560,
+              1400,
+              2800,
+              4200,
+              5650,
+              7050,
+              8450,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 56,
+            "Difficulty": [
+              0,
+              580,
+              1450,
+              2900,
+              4350,
+              5800,
+              7300,
+              8750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 57,
+            "Difficulty": [
+              0,
+              600,
+              1500,
+              3000,
+              4500,
+              6000,
+              7550,
+              9050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 58,
+            "Difficulty": [
+              0,
+              620,
+              1550,
+              3100,
+              4650,
+              6200,
+              7750,
+              9300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 59,
+            "Difficulty": [
+              0,
+              640,
+              1600,
+              3200,
+              4800,
+              6400,
+              8050,
+              9650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 60,
+            "Difficulty": [
+              0,
+              660,
+              1650,
+              3300,
+              4950,
+              6600,
+              8300,
+              9950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 61,
+            "Difficulty": [
+              0,
+              680,
+              1700,
+              3400,
+              5100,
+              6850,
+              8550,
+              10250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 62,
+            "Difficulty": [
+              0,
+              700,
+              1750,
+              3500,
+              5300,
+              7050,
+              8800,
+              10550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 63,
+            "Difficulty": [
+              0,
+              730,
+              1800,
+              3650,
+              5450,
+              7250,
+              9050,
+              10900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 64,
+            "Difficulty": [
+              0,
+              750,
+              1850,
+              3750,
+              5600,
+              7500,
+              9350,
+              11200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 65,
+            "Difficulty": [
+              0,
+              770,
+              1900,
+              3850,
+              5750,
+              7700,
+              9600,
+              11550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 66,
+            "Difficulty": [
+              0,
+              790,
+              2000,
+              3950,
+              5950,
+              7900,
+              9900,
+              11900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 67,
+            "Difficulty": [
+              0,
+              810,
+              2050,
+              4050,
+              6100,
+              8150,
+              10200,
+              12200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 68,
+            "Difficulty": [
+              0,
+              840,
+              2100,
+              4200,
+              6300,
+              8400,
+              10450,
+              12550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 69,
+            "Difficulty": [
+              0,
+              860,
+              2150,
+              4300,
+              6450,
+              8600,
+              10750,
+              12900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 70,
+            "Difficulty": [
+              0,
+              880,
+              2200,
+              4400,
+              6650,
+              8850,
+              11050,
+              13250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 71,
+            "Difficulty": [
+              0,
+              910,
+              2250,
+              4550,
+              6800,
+              9100,
+              11350,
+              13650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 72,
+            "Difficulty": [
+              0,
+              930,
+              2350,
+              4650,
+              7000,
+              9350,
+              11650,
+              14000,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 73,
+            "Difficulty": [
+              0,
+              960,
+              2400,
+              4800,
+              7200,
+              9600,
+              11950,
+              14350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 74,
+            "Difficulty": [
+              0,
+              980,
+              2450,
+              4900,
+              7350,
+              9850,
+              12300,
+              14750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 75,
+            "Difficulty": [
+              0,
+              1000,
+              2500,
+              5050,
+              7550,
+              10100,
+              12600,
+              15100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 76,
+            "Difficulty": [
+              0,
+              1050,
+              2600,
+              5150,
+              7750,
+              10350,
+              12900,
+              15500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 77,
+            "Difficulty": [
+              0,
+              1050,
+              2650,
+              5300,
+              7950,
+              10600,
+              13250,
+              15900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 78,
+            "Difficulty": [
+              0,
+              1100,
+              2700,
+              5450,
+              8150,
+              10850,
+              13550,
+              16300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 79,
+            "Difficulty": [
+              0,
+              1100,
+              2800,
+              5550,
+              8350,
+              11100,
+              13900,
+              16700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 80,
+            "Difficulty": [
+              0,
+              1150,
+              2850,
+              5700,
+              8550,
+              11400,
+              14250,
+              17100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 81,
+            "Difficulty": [
+              0,
+              1150,
+              2900,
+              5850,
+              8750,
+              11650,
+              14600,
+              17500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 82,
+            "Difficulty": [
+              0,
+              1200,
+              3000,
+              5950,
+              8950,
+              11950,
+              14950,
+              17900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 83,
+            "Difficulty": [
+              0,
+              1200,
+              3050,
+              6100,
+              9150,
+              12200,
+              15250,
+              18300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 84,
+            "Difficulty": [
+              0,
+              1250,
+              3150,
+              6250,
+              9400,
+              12500,
+              15650,
+              18750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 85,
+            "Difficulty": [
+              0,
+              1300,
+              3200,
+              6400,
+              9600,
+              12800,
+              16000,
+              19200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 86,
+            "Difficulty": [
+              0,
+              1300,
+              3250,
+              6550,
+              9800,
+              13050,
+              16350,
+              19600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 87,
+            "Difficulty": [
+              0,
+              1350,
+              3350,
+              6700,
+              10000,
+              13350,
+              16700,
+              20050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 88,
+            "Difficulty": [
+              0,
+              1350,
+              3400,
+              6850,
+              10250,
+              13650,
+              17050,
+              20500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 89,
+            "Difficulty": [
+              0,
+              1400,
+              3500,
+              7000,
+              10450,
+              13950,
+              17450,
+              20950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 90,
+            "Difficulty": [
+              0,
+              1450,
+              3550,
+              7150,
+              10700,
+              14250,
+              17800,
+              21400,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 91,
+            "Difficulty": [
+              0,
+              1450,
+              3650,
+              7300,
+              10900,
+              14550,
+              18200,
+              21850,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 92,
+            "Difficulty": [
+              0,
+              1500,
+              3700,
+              7450,
+              11150,
+              14850,
+              18600,
+              22300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 93,
+            "Difficulty": [
+              0,
+              1500,
+              3800,
+              7600,
+              11400,
+              15200,
+              18950,
+              22750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 94,
+            "Difficulty": [
+              0,
+              1550,
+              3850,
+              7750,
+              11600,
+              15500,
+              19350,
+              23250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 95,
+            "Difficulty": [
+              0,
+              1600,
+              3950,
+              7900,
+              11850,
+              15800,
+              19750,
+              23700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 96,
+            "Difficulty": [
+              0,
+              1600,
+              4050,
+              8050,
+              12100,
+              16150,
+              20150,
+              24200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 97,
+            "Difficulty": [
+              0,
+              1650,
+              4100,
+              8250,
+              12350,
+              16450,
+              20550,
+              24700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 98,
+            "Difficulty": [
+              0,
+              1700,
+              4200,
+              8400,
+              12600,
+              16800,
+              20950,
+              25150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 99,
+            "Difficulty": [
+              0,
+              1700,
+              4300,
+              8550,
+              12850,
+              17100,
+              21400,
+              25650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 100,
+            "Difficulty": [
+              0,
+              1750,
+              4350,
+              8700,
+              13100,
+              17450,
+              21800,
+              26150,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "sourceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+      "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+      "document": {
+        "schemaVersion": "forever-leveling-evidence.v1",
+        "capturedAt": "2026-10-18T19:03:05.796559Z",
+        "build": {
+          "product": "wow_classic_beta",
+          "clientVersion": "1.60.1.70450",
+          "buildNumber": 70450,
+          "buildKey": "84bea4233331e390fda8724c6f91ffa5",
+          "cdnKey": "f065eade5276a5ac05606e60a4c5a1f7"
+        },
+        "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+        "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2",
+        "questXpRows": [
+          {
+            "id": 1,
+            "Difficulty": [
+              0,
+              10,
+              20,
+              40,
+              60,
+              80,
+              100,
+              120,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 2,
+            "Difficulty": [
+              0,
+              15,
+              45,
+              85,
+              130,
+              170,
+              215,
+              255,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 3,
+            "Difficulty": [
+              0,
+              25,
+              65,
+              125,
+              190,
+              250,
+              315,
+              380,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 4,
+            "Difficulty": [
+              0,
+              35,
+              90,
+              180,
+              270,
+              355,
+              445,
+              540,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 5,
+            "Difficulty": [
+              0,
+              45,
+              110,
+              225,
+              335,
+              450,
+              560,
+              670,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 6,
+            "Difficulty": [
+              0,
+              55,
+              135,
+              270,
+              405,
+              540,
+              680,
+              810,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 7,
+            "Difficulty": [
+              0,
+              65,
+              160,
+              315,
+              475,
+              630,
+              790,
+              950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 8,
+            "Difficulty": [
+              0,
+              70,
+              175,
+              350,
+              530,
+              700,
+              880,
+              1050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 9,
+            "Difficulty": [
+              0,
+              80,
+              195,
+              390,
+              590,
+              780,
+              980,
+              1150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 10,
+            "Difficulty": [
+              0,
+              85,
+              210,
+              420,
+              630,
+              840,
+              1050,
+              1250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 11,
+            "Difficulty": [
+              0,
+              90,
+              220,
+              440,
+              660,
+              880,
+              1100,
+              1300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 12,
+            "Difficulty": [
+              0,
+              90,
+              225,
+              455,
+              680,
+              910,
+              1150,
+              1350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 13,
+            "Difficulty": [
+              0,
+              90,
+              230,
+              455,
+              680,
+              910,
+              1150,
+              1350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 14,
+            "Difficulty": [
+              0,
+              100,
+              245,
+              490,
+              740,
+              980,
+              1250,
+              1450,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 15,
+            "Difficulty": [
+              0,
+              105,
+              270,
+              540,
+              800,
+              1050,
+              1350,
+              1600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 16,
+            "Difficulty": [
+              0,
+              115,
+              290,
+              580,
+              880,
+              1150,
+              1450,
+              1750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 17,
+            "Difficulty": [
+              0,
+              125,
+              315,
+              630,
+              950,
+              1250,
+              1600,
+              1900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 18,
+            "Difficulty": [
+              0,
+              135,
+              340,
+              680,
+              1000,
+              1350,
+              1700,
+              2050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 19,
+            "Difficulty": [
+              0,
+              145,
+              365,
+              730,
+              1100,
+              1450,
+              1800,
+              2200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 20,
+            "Difficulty": [
+              0,
+              155,
+              390,
+              780,
+              1150,
+              1550,
+              1950,
+              2350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 21,
+            "Difficulty": [
+              0,
+              165,
+              415,
+              830,
+              1250,
+              1650,
+              2050,
+              2500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 22,
+            "Difficulty": [
+              0,
+              175,
+              435,
+              870,
+              1300,
+              1750,
+              2200,
+              2600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 23,
+            "Difficulty": [
+              0,
+              185,
+              460,
+              920,
+              1400,
+              1850,
+              2300,
+              2750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 24,
+            "Difficulty": [
+              0,
+              195,
+              485,
+              970,
+              1450,
+              1950,
+              2400,
+              2900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 25,
+            "Difficulty": [
+              0,
+              200,
+              510,
+              1000,
+              1500,
+              2000,
+              2550,
+              3050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 26,
+            "Difficulty": [
+              0,
+              210,
+              530,
+              1050,
+              1600,
+              2100,
+              2650,
+              3150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 27,
+            "Difficulty": [
+              0,
+              220,
+              550,
+              1100,
+              1650,
+              2200,
+              2750,
+              3300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 28,
+            "Difficulty": [
+              0,
+              230,
+              570,
+              1150,
+              1700,
+              2300,
+              2850,
+              3400,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 29,
+            "Difficulty": [
+              0,
+              235,
+              590,
+              1200,
+              1750,
+              2350,
+              2950,
+              3550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 30,
+            "Difficulty": [
+              0,
+              245,
+              610,
+              1200,
+              1850,
+              2450,
+              3050,
+              3650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 31,
+            "Difficulty": [
+              0,
+              250,
+              630,
+              1250,
+              1900,
+              2500,
+              3150,
+              3750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 32,
+            "Difficulty": [
+              0,
+              255,
+              640,
+              1300,
+              1950,
+              2550,
+              3200,
+              3850,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 33,
+            "Difficulty": [
+              0,
+              265,
+              660,
+              1300,
+              1950,
+              2650,
+              3300,
+              3950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 34,
+            "Difficulty": [
+              0,
+              270,
+              670,
+              1350,
+              2000,
+              2700,
+              3350,
+              4050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 35,
+            "Difficulty": [
+              0,
+              275,
+              690,
+              1350,
+              2050,
+              2750,
+              3450,
+              4100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 36,
+            "Difficulty": [
+              0,
+              280,
+              700,
+              1400,
+              2100,
+              2800,
+              3500,
+              4200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 37,
+            "Difficulty": [
+              0,
+              285,
+              710,
+              1400,
+              2100,
+              2850,
+              3550,
+              4250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 38,
+            "Difficulty": [
+              0,
+              285,
+              710,
+              1450,
+              2150,
+              2850,
+              3550,
+              4300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 39,
+            "Difficulty": [
+              0,
+              300,
+              750,
+              1500,
+              2250,
+              3000,
+              3750,
+              4500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 40,
+            "Difficulty": [
+              0,
+              315,
+              780,
+              1550,
+              2350,
+              3150,
+              3900,
+              4700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 41,
+            "Difficulty": [
+              0,
+              330,
+              820,
+              1650,
+              2450,
+              3300,
+              4100,
+              4900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 42,
+            "Difficulty": [
+              0,
+              345,
+              860,
+              1700,
+              2550,
+              3450,
+              4300,
+              5150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 43,
+            "Difficulty": [
+              0,
+              360,
+              890,
+              1800,
+              2700,
+              3600,
+              4450,
+              5350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 44,
+            "Difficulty": [
+              0,
+              375,
+              930,
+              1850,
+              2800,
+              3750,
+              4650,
+              5600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 45,
+            "Difficulty": [
+              0,
+              390,
+              970,
+              1950,
+              2900,
+              3900,
+              4850,
+              5850,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 46,
+            "Difficulty": [
+              0,
+              405,
+              1000,
+              2000,
+              3050,
+              4050,
+              5050,
+              6050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 47,
+            "Difficulty": [
+              0,
+              420,
+              1050,
+              2100,
+              3150,
+              4200,
+              5250,
+              6300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 48,
+            "Difficulty": [
+              0,
+              440,
+              1100,
+              2200,
+              3300,
+              4400,
+              5450,
+              6550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 49,
+            "Difficulty": [
+              0,
+              455,
+              1150,
+              2250,
+              3400,
+              4550,
+              5700,
+              6800,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 50,
+            "Difficulty": [
+              0,
+              470,
+              1200,
+              2350,
+              3550,
+              4700,
+              5900,
+              7100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 51,
+            "Difficulty": [
+              0,
+              490,
+              1200,
+              2450,
+              3650,
+              4900,
+              6100,
+              7350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 52,
+            "Difficulty": [
+              0,
+              510,
+              1250,
+              2550,
+              3800,
+              5100,
+              6350,
+              7600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 53,
+            "Difficulty": [
+              0,
+              530,
+              1300,
+              2650,
+              3950,
+              5250,
+              6550,
+              7900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 54,
+            "Difficulty": [
+              0,
+              540,
+              1350,
+              2700,
+              4100,
+              5450,
+              6800,
+              8150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 55,
+            "Difficulty": [
+              0,
+              560,
+              1400,
+              2800,
+              4200,
+              5650,
+              7050,
+              8450,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 56,
+            "Difficulty": [
+              0,
+              580,
+              1450,
+              2900,
+              4350,
+              5800,
+              7300,
+              8750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 57,
+            "Difficulty": [
+              0,
+              600,
+              1500,
+              3000,
+              4500,
+              6000,
+              7550,
+              9050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 58,
+            "Difficulty": [
+              0,
+              620,
+              1550,
+              3100,
+              4650,
+              6200,
+              7750,
+              9300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 59,
+            "Difficulty": [
+              0,
+              640,
+              1600,
+              3200,
+              4800,
+              6400,
+              8050,
+              9650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 60,
+            "Difficulty": [
+              0,
+              660,
+              1650,
+              3300,
+              4950,
+              6600,
+              8300,
+              9950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 61,
+            "Difficulty": [
+              0,
+              680,
+              1700,
+              3400,
+              5100,
+              6850,
+              8550,
+              10250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 62,
+            "Difficulty": [
+              0,
+              700,
+              1750,
+              3500,
+              5300,
+              7050,
+              8800,
+              10550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 63,
+            "Difficulty": [
+              0,
+              730,
+              1800,
+              3650,
+              5450,
+              7250,
+              9050,
+              10900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 64,
+            "Difficulty": [
+              0,
+              750,
+              1850,
+              3750,
+              5600,
+              7500,
+              9350,
+              11200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 65,
+            "Difficulty": [
+              0,
+              770,
+              1900,
+              3850,
+              5750,
+              7700,
+              9600,
+              11550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 66,
+            "Difficulty": [
+              0,
+              790,
+              2000,
+              3950,
+              5950,
+              7900,
+              9900,
+              11900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 67,
+            "Difficulty": [
+              0,
+              810,
+              2050,
+              4050,
+              6100,
+              8150,
+              10200,
+              12200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 68,
+            "Difficulty": [
+              0,
+              840,
+              2100,
+              4200,
+              6300,
+              8400,
+              10450,
+              12550,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 69,
+            "Difficulty": [
+              0,
+              860,
+              2150,
+              4300,
+              6450,
+              8600,
+              10750,
+              12900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 70,
+            "Difficulty": [
+              0,
+              880,
+              2200,
+              4400,
+              6650,
+              8850,
+              11050,
+              13250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 71,
+            "Difficulty": [
+              0,
+              910,
+              2250,
+              4550,
+              6800,
+              9100,
+              11350,
+              13650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 72,
+            "Difficulty": [
+              0,
+              930,
+              2350,
+              4650,
+              7000,
+              9350,
+              11650,
+              14000,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 73,
+            "Difficulty": [
+              0,
+              960,
+              2400,
+              4800,
+              7200,
+              9600,
+              11950,
+              14350,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 74,
+            "Difficulty": [
+              0,
+              980,
+              2450,
+              4900,
+              7350,
+              9850,
+              12300,
+              14750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 75,
+            "Difficulty": [
+              0,
+              1000,
+              2500,
+              5050,
+              7550,
+              10100,
+              12600,
+              15100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 76,
+            "Difficulty": [
+              0,
+              1050,
+              2600,
+              5150,
+              7750,
+              10350,
+              12900,
+              15500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 77,
+            "Difficulty": [
+              0,
+              1050,
+              2650,
+              5300,
+              7950,
+              10600,
+              13250,
+              15900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 78,
+            "Difficulty": [
+              0,
+              1100,
+              2700,
+              5450,
+              8150,
+              10850,
+              13550,
+              16300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 79,
+            "Difficulty": [
+              0,
+              1100,
+              2800,
+              5550,
+              8350,
+              11100,
+              13900,
+              16700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 80,
+            "Difficulty": [
+              0,
+              1150,
+              2850,
+              5700,
+              8550,
+              11400,
+              14250,
+              17100,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 81,
+            "Difficulty": [
+              0,
+              1150,
+              2900,
+              5850,
+              8750,
+              11650,
+              14600,
+              17500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 82,
+            "Difficulty": [
+              0,
+              1200,
+              3000,
+              5950,
+              8950,
+              11950,
+              14950,
+              17900,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 83,
+            "Difficulty": [
+              0,
+              1200,
+              3050,
+              6100,
+              9150,
+              12200,
+              15250,
+              18300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 84,
+            "Difficulty": [
+              0,
+              1250,
+              3150,
+              6250,
+              9400,
+              12500,
+              15650,
+              18750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 85,
+            "Difficulty": [
+              0,
+              1300,
+              3200,
+              6400,
+              9600,
+              12800,
+              16000,
+              19200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 86,
+            "Difficulty": [
+              0,
+              1300,
+              3250,
+              6550,
+              9800,
+              13050,
+              16350,
+              19600,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 87,
+            "Difficulty": [
+              0,
+              1350,
+              3350,
+              6700,
+              10000,
+              13350,
+              16700,
+              20050,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 88,
+            "Difficulty": [
+              0,
+              1350,
+              3400,
+              6850,
+              10250,
+              13650,
+              17050,
+              20500,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 89,
+            "Difficulty": [
+              0,
+              1400,
+              3500,
+              7000,
+              10450,
+              13950,
+              17450,
+              20950,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 90,
+            "Difficulty": [
+              0,
+              1450,
+              3550,
+              7150,
+              10700,
+              14250,
+              17800,
+              21400,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 91,
+            "Difficulty": [
+              0,
+              1450,
+              3650,
+              7300,
+              10900,
+              14550,
+              18200,
+              21850,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 92,
+            "Difficulty": [
+              0,
+              1500,
+              3700,
+              7450,
+              11150,
+              14850,
+              18600,
+              22300,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 93,
+            "Difficulty": [
+              0,
+              1500,
+              3800,
+              7600,
+              11400,
+              15200,
+              18950,
+              22750,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 94,
+            "Difficulty": [
+              0,
+              1550,
+              3850,
+              7750,
+              11600,
+              15500,
+              19350,
+              23250,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 95,
+            "Difficulty": [
+              0,
+              1600,
+              3950,
+              7900,
+              11850,
+              15800,
+              19750,
+              23700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 96,
+            "Difficulty": [
+              0,
+              1600,
+              4050,
+              8050,
+              12100,
+              16150,
+              20150,
+              24200,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 97,
+            "Difficulty": [
+              0,
+              1650,
+              4100,
+              8250,
+              12350,
+              16450,
+              20550,
+              24700,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 98,
+            "Difficulty": [
+              0,
+              1700,
+              4200,
+              8400,
+              12600,
+              16800,
+              20950,
+              25150,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 99,
+            "Difficulty": [
+              0,
+              1700,
+              4300,
+              8550,
+              12850,
+              17100,
+              21400,
+              25650,
+              0,
+              0
+            ]
+          },
+          {
+            "id": 100,
+            "Difficulty": [
+              0,
+              1750,
+              4350,
+              8700,
+              13100,
+              17450,
+              21800,
+              26150,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "observations": [
+    {
+      "questId": 224,
+      "level": 12,
+      "observedXp": 900,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 237,
+      "level": 13,
+      "observedXp": 1050,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 263,
+      "level": 13,
+      "observedXp": 1050,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 267,
+      "level": 13,
+      "observedXp": 900,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 307,
+      "level": 14,
+      "observedXp": 1350,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 416,
+      "level": 14,
+      "observedXp": 875,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 432,
+      "level": 12,
+      "observedXp": 600,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 433,
+      "level": 12,
+      "observedXp": 650,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 1339,
+      "level": 14,
+      "observedXp": 550,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 96390,
+      "level": 12,
+      "observedXp": 900,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 96394,
+      "level": 15,
+      "observedXp": 2300,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 96395,
+      "level": 15,
+      "observedXp": 2300,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 96403,
+      "level": 15,
+      "observedXp": 2950,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 98423,
+      "level": 15,
+      "observedXp": 2550,
+      "build": "1.60.1.70338"
+    },
+    {
+      "questId": 20,
+      "level": 21,
+      "observedXp": 1650,
+      "build": "1.60.1.70450"
+    },
+    {
+      "questId": 66,
+      "level": 24,
+      "observedXp": 230,
+      "build": "1.60.1.70450"
+    },
+    {
+      "questId": 124,
+      "level": 20,
+      "observedXp": 1150,
+      "build": "1.60.1.70450"
+    },
+    {
+      "questId": 4581,
+      "level": 24,
+      "observedXp": 600,
+      "build": "1.60.1.70450"
+    }
+  ],
+  "limits": [
+    "Subset of public quest records; sourceSha256 refers to the full pinned source file.",
+    "Local decoded QuestXP rows retain their evidence and binary hashes; raw full files are checked by the qualification script.",
+    "Turn-in reports omit complete buff context and are regression comparisons, not controlled current-server payouts."
+  ]
+}

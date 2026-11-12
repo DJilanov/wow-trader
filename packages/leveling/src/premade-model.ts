@@ -71,7 +71,11 @@ export const premadeProgressSchema = z
     raidGoals: z.boolean().default(true),
     dungeonFinish: dungeonFinishStateSchema.default(emptyDungeonFinish),
     combatPlanning: z
-      .object({ outdoorXpMultiplier: z.number().finite().min(0).max(100) })
+      .object({
+        outdoorXpMultiplier: z.number().finite().min(0).max(100),
+        incidentalKillXpPercent: z.number().finite().min(0).max(100).optional(),
+        outdoorIncidentalKillXpPercent: z.number().finite().min(0).max(100).optional(),
+      })
       .strict()
       .optional(),
     parityScenarios: z

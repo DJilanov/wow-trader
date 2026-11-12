@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="{{CSP}}" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>KFC · Group guide download</title>
+    {{STYLE}}
+  </head>
+  <body data-guide-revision="{{REVISION}}">
+    <main class="page">
+      <header class="brand">
+        <span class="brand-mark">KFC</span><span>WOW FOREVER COMMUNITY</span>
+      </header>
+      <section class="card" aria-labelledby="title">
+        <div class="intro">
+          <span class="eyebrow">YOUR GROUP, ONE ROUTE</span>
+          <h1 id="title">Download the <br />group leveling guide.</h1>
+          <p class="lead">The current five-player Human route, ready to import into RestedXP.</p>
+          <div class="coverage">
+            <strong>{{LEVEL_RANGE}}</strong><span>Through<br />{{THROUGH}}</span>
+          </div>
+          <div class="facts"><span>Tank + healer + 3 DPS</span><span>RestedXP 4.11.27</span></div>
+          <p class="scope">
+            {{SCOPE}}
+          </p>
+        </div>
+        <div class="download-panel">
+          <form id="download-form" aria-busy="false" novalidate>
+            <h2>Make it yours</h2>
+            <p>Each account needs its own import.</p>
+            <label for="battle-tag">BattleTag</label>
+            <input
+              id="battle-tag"
+              type="text"
+              placeholder="Name#1234"
+              maxlength="53"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              aria-describedby="tag-help"
+              required
+            />
+            <small id="tag-help">Use your BattleTag, including the # and numbers.</small>
+            <label for="game">Import into</label>
+            <select id="game">
+              <option value="forever">WoW Forever</option>
+              <option value="tbc">TBC · flow test</option>
+            </select>
+            <p id="tbc-note" class="note" hidden>
+              TBC mode is for checking the import and guide flow. Forever quests and XP differ.
+            </p>
+            <button id="download" type="submit" disabled>Download guide</button>
+            <p id="error" class="error" role="alert" hidden></p>
+            <p id="status" class="success" role="status" aria-live="polite"></p>
+            <p class="privacy">
+              Your BattleTag stays in this browser. It is never uploaded or remembered.
+            </p>
+          </form>
+        </div>
+      </section>
+      <section class="how" aria-label="How to import">
+        <div>
+          <span>01</span>
+          <p><strong>Download</strong>Enter your BattleTag and save the text file.</p>
+        </div>
+        <div>
+          <span>02</span>
+          <p><strong>Import</strong>Copy the file into RestedXP → Guide Import.</p>
+        </div>
+        <div>
+          <span>03</span>
+          <p>
+            <strong>Start together</strong>Choose
+            <span id="start-group">KFC Group Leveling · 01-20</span>. The following groups continue
+            through {{THROUGH}}.
+          </p>
+        </div>
+      </section>
+      <footer>CURRENT EDITION · Levels {{LEVEL_RANGE}} · More sections are being finished.</footer>
+      <noscript
+        ><p class="error">Enable JavaScript to create your account-specific import.</p></noscript
+      >
+    </main>
+    {{GUIDES}}
+    {{SCRIPT}}
+  </body>
+</html>

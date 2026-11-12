@@ -1,0 +1,76 @@
+{
+  "schema": "wowhead-creature-metadata-review.v1",
+  "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+  "sourceExtract": ".cache/leveling-no-grind-20261031/wowhead-npc-extract-v187.json",
+  "references": [
+    {
+      "npcId": 271346,
+      "name": "Dragonmaw Infiltrator",
+      "minimumLevel": 29,
+      "maximumLevel": 30,
+      "rank": 1,
+      "levelSource": {
+        "kind": "wowhead-forever-reference",
+        "sourceUrl": "https://www.wowhead.com/forever/item=12047/spectral-necklace",
+        "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+        "referencedAt": "2026-11-03T14:04:58.782Z",
+        "retrieval": "primary-page-search-extract"
+      },
+      "rankSource": {
+        "kind": "wowhead-forever-reference",
+        "sourceUrl": "https://www.wowhead.com/forever/item=12047/spectral-necklace",
+        "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+        "referencedAt": "2026-11-03T14:04:58.782Z",
+        "retrieval": "primary-page-search-extract"
+      },
+      "attribution": "Creature level and classification facts from Wowhead Forever; exact NPC identities matched to the existing named provider records.",
+      "limitation": "Unversioned primary-page search extract, checked 2026-11-03; page requests returned a JavaScript verification response. This is a retained reference extract, not downloaded HTML, a pinned client build, observed kill XP, spawn counts or current-server verification."
+    },
+    {
+      "npcId": 271348,
+      "name": "Dragonmaw Soulbinder",
+      "minimumLevel": 29,
+      "maximumLevel": 30,
+      "rank": 1,
+      "levelSource": {
+        "kind": "wowhead-forever-reference",
+        "sourceUrl": "https://www.wowhead.com/forever/item=12047/spectral-necklace",
+        "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+        "referencedAt": "2026-11-03T14:04:58.782Z",
+        "retrieval": "primary-page-search-extract"
+      },
+      "rankSource": {
+        "kind": "wowhead-forever-reference",
+        "sourceUrl": "https://www.wowhead.com/forever/item=12047/spectral-necklace",
+        "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+        "referencedAt": "2026-11-03T14:04:58.782Z",
+        "retrieval": "primary-page-search-extract"
+      },
+      "attribution": "Creature level and classification facts from Wowhead Forever; exact NPC identities matched to the existing named provider records.",
+      "limitation": "Unversioned primary-page search extract, checked 2026-11-03; page requests returned a JavaScript verification response. This is a retained reference extract, not downloaded HTML, a pinned client build, observed kill XP, spawn counts or current-server verification."
+    },
+    {
+      "npcId": 271351,
+      "name": "Dragonmaw Reclaimer",
+      "minimumLevel": 29,
+      "maximumLevel": 30,
+      "rank": 1,
+      "levelSource": {
+        "kind": "wowhead-forever-reference",
+        "sourceUrl": "https://www.wowhead.com/forever/item=13099/moccasins-of-the-white-hare",
+        "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+        "referencedAt": "2026-11-03T14:04:58.782Z",
+        "retrieval": "primary-page-search-extract"
+      },
+      "rankSource": {
+        "kind": "wowhead-forever-reference",
+        "sourceUrl": "https://www.wowhead.com/forever/item=13099/moccasins-of-the-white-hare",
+        "extractSha256": "864f9bc973df549e3cb72f061dfec9a90e724134d12ac2db6f7bf2c780904dff",
+        "referencedAt": "2026-11-03T14:04:58.782Z",
+        "retrieval": "primary-page-search-extract"
+      },
+      "attribution": "Creature level and classification facts from Wowhead Forever; exact NPC identities matched to the existing named provider records.",
+      "limitation": "Unversioned primary-page search extract, checked 2026-11-03; page requests returned a JavaScript verification response. This is a retained reference extract, not downloaded HTML, a pinned client build, observed kill XP, spawn counts or current-server verification."
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import {
   DUNGEON_RELEASE,
   PREMADE_STOPS,
   activeCampaignActions,
+  campaignActionAlias,
   campaignActionReasons,
   currentCampaignAction,
   createCharacterProfile,
@@ -15,6 +16,7 @@ import {
   emptyPremadeProgress,
   getLevelingRace,
   updateCampaignAction,
+  canConfirmCampaignMeatStock,
   skipCampaignXpBlock,
   premadeEntryLevel,
   forecastCampaignGuide,
@@ -53,6 +55,7 @@ import styles from "./leveling-campaign.module.css";
 import readerStyles from "./leveling-experience.module.css";
 import { LevelingXpBudget, LevelingChapterBudget } from "./leveling-xp-budget";
 import { LevelingGuideProgress } from "./leveling-guide-progress";
+import { LevelingTimedQuestStatus } from "./leveling-timed-quest-status";
 import { LevelingCampaignHandoff } from "./leveling-campaign-handoff";
 import guideStyles from "./leveling-guide.module.css";
 import { LevelingDungeonPreparation } from "./leveling-campaign-outline";
@@ -60,6 +63,7 @@ import { LevelingCatchUpSuggestions } from "./leveling-catchup";
 import { LevelingCombatTargets } from "./leveling-combat-targets";
 import { LevelingDungeonBundle } from "./leveling-dungeon-bundle";
 import { LevelingOptionalDungeonBundles } from "./leveling-optional-dungeon-bundles";
+import { LevelingDungeonCatchUps } from "./leveling-dungeon-catchups";
 import { LevelingPartyIdentity } from "./leveling-party-identity";
 import { LevelingStepProjection, LevelingCombatPlanningSettings } from "./leveling-step-projection";
 import { DungeonFinishStrategy, LevelingDungeonFinish } from "./leveling-dungeon-finish";
@@ -287,13 +291,41 @@ export function LevelingCampaign({
       router.push(campaignChapterPath(plan, target.legId, id, progress), { scroll: false });
     else globalThis.history.replaceState(globalThis.history.state, "", `#campaign-${id}`);
   }
-  function advance(done: boolean): void {
+  function changeCatchUp(questId: number, included: boolean): void {
+    const catchUp = plan.legs.find((entry) => entry.optionalQuestId === questId);
+    if (catchUp?.requiredVisit && !included) return;
+    const next = {
+      ...progress,
+      selectedExtras: { ...progress.selectedExtras, [String(questId)]: included },
+    };
+    const selectedId = included
+      ? (catchUp?.actionIds[0] ?? action.id)
+      : campaignActionAlias(plan, next, action.id);
+    const updated: PremadeProgress = {
+      ...next,
+      campaigns: {
+        ...next.campaigns,
+        [plan.release]: { ...journey, selectedActionId: selectedId },
+      },
+    };
+    update(updated);
+    setPreviewId(selectedId);
+    setConfirmed(null);
+    setMessage(null);
+    const target = activeCampaignActions(plan, updated).find((entry) => entry.id === selectedId);
+    if (legId && target)
+      router.replace(campaignChapterPath(plan, target.legId, selectedId, updated), {
+        scroll: false,
+      });
+    else globalThis.history.replaceState(globalThis.history.state, "", `#campaign-${selectedId}`);
+  }
+  function advance(done: boolean, acquisition?: "existing-stock"): void {
     if (!done) {
       select(nextCampaignAction(plan, progress, action.id).id);
       return;
     }
     try {
-      const updated = updateCampaignAction(plan, progress, action.id, done);
+      const updated = updateCampaignAction(plan, progress, action.id, done, acquisition);
       update(updated);
       const selectedId = updated.campaigns[plan.release]?.selectedActionId;
       if (selectedId) navigateAfterUpdate(selectedId);
@@ -461,6 +493,16 @@ export function LevelingCampaign({
           {entry.instructions.map((line, lineIndex) => (
             <p key={lineIndex}>{line}</p>
           ))}
+          {selected && !done && canConfirmCampaignMeatStock(entry) && (
+            <button
+              className={guideStyles.button}
+              type="button"
+              disabled={doneDisabled}
+              onClick={() => advance(true, "existing-stock")}
+            >
+              {entry.leaderOnly ? "I have these supplies" : "Everyone has these supplies"}
+            </button>
+          )}
           {selected && entry.questChanges.length > 0 && (
             <LevelingStepProjection guide={guide} actionId={entry.id} />
           )}
@@ -829,6 +871,10 @@ export function LevelingCampaign({
           <h3>XP calculation settings</h3>
           <LevelingCombatPlanningSettings
             progress={progress}
+            defaultIncidentalKillXpPercent={plan.incidentalKillXpPercent ?? 0}
+            defaultOutdoorIncidentalKillXpPercent={
+              plan.outdoorIncidentalKillXpPercent ?? plan.incidentalKillXpPercent ?? 0
+            }
             disabled={!enabled}
             onChange={update}
           />
@@ -869,7 +915,9 @@ export function LevelingCampaign({
             <h2>{chapter.title}</h2>
             <p>
               {currentArea.title} ·{" "}
-              {leg.kind === "xp-bridge"
+              {leg.requiredVisit
+                ? "scheduled dungeon quests and hand-ins"
+                : leg.kind === "xp-bridge"
                 ? "catch-up only if XP is needed"
                 : leg.kind === "starter"
                   ? "personal questing"
@@ -906,6 +954,16 @@ export function LevelingCampaign({
                 buttonRef={progressButton}
               />
             )}
+            <LevelingTimedQuestStatus
+              plan={plan}
+              progress={progress}
+              disabled={!enabled}
+              onChange={(next): void => {
+                update(next);
+                const target = next.campaigns[plan.release]?.selectedActionId;
+                if (target && target !== action.id) navigateAfterUpdate(target);
+              }}
+            />
             <LevelingXpBudget plan={plan} guide={guide} />
             <LevelingCatchUpSuggestions plan={plan} legId={leg.id} progress={progress} />
             <LevelingDungeonPreparation plan={plan} chapter={chapter} progress={progress} />
@@ -975,7 +1033,7 @@ export function LevelingCampaign({
               </ol>
             )}
           </details>
-          {leg.kind === "xp-bridge" && (
+          {leg.kind === "xp-bridge" && !leg.requiredVisit && (
             <button type="button" disabled={!enabled} onClick={skipBlock}>
               Ready for the next chapter? Skip this XP-only block
             </button>
@@ -983,6 +1041,12 @@ export function LevelingCampaign({
         </div>
       }
     >
+      <LevelingDungeonCatchUps
+        plan={plan}
+        progress={progress}
+        disabled={!enabled}
+        onChange={changeCatchUp}
+      />
       <LevelingOptionalDungeonBundles
         progress={progress}
         disabled={!enabled}
@@ -1003,7 +1067,7 @@ export function LevelingCampaign({
             const entries = legActions.filter((entry) => entry.legId === id);
             if (!entries.length) return null;
             const notNeeded =
-              phase.kind === "xp-bridge" &&
+              phase.kind === "xp-bridge" && !phase.requiredVisit &&
               entries.every((entry) => campaignOptionalXpReady(plan, progress, entry));
             const tasks = (
               <ol className={`${styles.tasks} ${readerStyles.questSteps}`}>

@@ -189,7 +189,7 @@ export function enrichCombatClassicLoot(
           ...new Set([
             ...current.provider.limitations,
             `Historical Classic 1.12 fixed-one stack and item-flag references: ${reference.source.repository}@${reference.source.revision}, ${reference.source.file}, sha256 ${reference.source.sha256}. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.`,
-            "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+            "Captured drop-table percentages take precedence as planning estimates. Historical quest-roll probabilities remain separate context and missing-pair fallback; they do not establish current Forever tuning.",
             ...(historicalLoot
               ? [
                   "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",

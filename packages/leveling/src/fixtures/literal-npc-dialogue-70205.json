@@ -1,0 +1,318 @@
+{
+  "classification": "Exact source steps from catalog-confirmed NPC predicate diagnosticV755. Source remains unchanged; preview only.",
+  "cases": [
+    {
+      "chapterId": "chapter-114-6-11-teldrassil",
+      "step": {
+        "id": "source-step-0134",
+        "ordinal": 134,
+        "sourceLine": 924,
+        "condition": "!Hunter !Rogue",
+        "directives": [
+          {
+            "tag": "#xprate",
+            "arguments": "<1.5",
+            "condition": "",
+            "text": "",
+            "sourceLine": 925,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1457/1,2568.37,10174.73",
+            "condition": "",
+            "text": "",
+            "sourceLine": 926,
+            "questId": null,
+            "position": {
+              "zone": "1457",
+              "floor": 1,
+              "x": 2568.37,
+              "y": 10174.73,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Arch Druid Fandral Staghelm atop the Tree",
+            "sourceLine": 927,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "940",
+            "condition": "",
+            "text": "Turn in Teldrassil",
+            "sourceLine": 928,
+            "questId": 940,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "940",
+            "condition": "",
+            "text": "",
+            "sourceLine": 929,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Arch Druid Fandral Staghelm",
+            "condition": "",
+            "text": "",
+            "sourceLine": 930,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      "classes": [
+        "mage",
+        "priest",
+        "warlock",
+        "warrior"
+      ],
+      "source": {
+        "chapterId": "chapter-114-6-11-teldrassil",
+        "file": "artifacts/leveling/archive/chapter-114-6-11-teldrassil-v2-7ae93a4bacb271dd.json",
+        "sha256": "2bd01f6bd5ccf1da942aa4cb264cedaa439ab0d7738749e6139b07f06ad193f8"
+      }
+    },
+    {
+      "chapterId": "chapter-41-53-54-ungoro-crater",
+      "step": {
+        "id": "source-step-0108",
+        "ordinal": 108,
+        "sourceLine": 780,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1457/1,2569.91,10173.00",
+            "condition": "",
+            "text": "",
+            "sourceLine": 781,
+            "questId": null,
+            "position": {
+              "zone": "1457",
+              "floor": 1,
+              "x": 2569.91,
+              "y": 10173,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Arch Druid Fandral Staghelm at the top floor of the tree",
+            "sourceLine": 782,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "3763",
+            "condition": "",
+            "text": "Turn in Assisting Arch Druid Staghelm",
+            "sourceLine": 783,
+            "questId": 3763,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "3764",
+            "condition": "",
+            "text": "Accept Un'Goro Soil",
+            "sourceLine": 784,
+            "questId": 3764,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "1047",
+            "condition": "",
+            "text": "Turn in The New Frontier",
+            "sourceLine": 785,
+            "questId": 1047,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "6761",
+            "condition": "",
+            "text": "Accept The New Frontier",
+            "sourceLine": 786,
+            "questId": 6761,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Arch Druid Fandral Staghelm",
+            "condition": "",
+            "text": "",
+            "sourceLine": 787,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      "classes": [
+        "mage",
+        "priest",
+        "rogue",
+        "warlock",
+        "warrior"
+      ],
+      "source": {
+        "chapterId": "chapter-41-53-54-ungoro-crater",
+        "file": "artifacts/leveling/archive/chapter-41-53-54-ungoro-crater-v2-6ef1c721e5c70666.json",
+        "sha256": "c71d45e5299d890acd9803bcaae472d54cf0cd45712cf43b96af4d42e996100a"
+      }
+    },
+    {
+      "chapterId": "chapter-41-53-54-ungoro-crater",
+      "step": {
+        "id": "source-step-0110",
+        "ordinal": 110,
+        "sourceLine": 793,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1457/1,2569.91,10173.00",
+            "condition": "",
+            "text": "",
+            "sourceLine": 794,
+            "questId": null,
+            "position": {
+              "zone": "1457",
+              "floor": 1,
+              "x": 2569.91,
+              "y": 10173,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Arch Druid Fandral Staghelm at the top floor of the tree",
+            "sourceLine": 795,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "3781",
+            "condition": "",
+            "text": "Accept Morrowgrain Research",
+            "sourceLine": 796,
+            "questId": 3781,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Arch Druid Fandral Staghelm",
+            "condition": "",
+            "text": "",
+            "sourceLine": 797,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      "classes": [
+        "mage",
+        "priest",
+        "rogue",
+        "warlock",
+        "warrior"
+      ],
+      "source": {
+        "chapterId": "chapter-41-53-54-ungoro-crater",
+        "file": "artifacts/leveling/archive/chapter-41-53-54-ungoro-crater-v2-6ef1c721e5c70666.json",
+        "sha256": "c71d45e5299d890acd9803bcaae472d54cf0cd45712cf43b96af4d42e996100a"
+      }
+    },
+    {
+      "chapterId": "chapter-47-59-60-winterspring-silithus-part-2",
+      "step": {
+        "id": "source-step-0134",
+        "ordinal": 134,
+        "sourceLine": 882,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1457/1,2569.91,10173.00",
+            "condition": "",
+            "text": "",
+            "sourceLine": 883,
+            "questId": null,
+            "position": {
+              "zone": "1457",
+              "floor": 1,
+              "x": 2569.91,
+              "y": 10173,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Arch Druid Fandral Staghelm at the top floor of the tree",
+            "sourceLine": 884,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "4902",
+            "condition": "",
+            "text": "Turn in Wildkin of Elune",
+            "sourceLine": 885,
+            "questId": 4902,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Arch Druid Fandral Staghelm",
+            "condition": "",
+            "text": "",
+            "sourceLine": 886,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "4902",
+            "condition": "",
+            "text": "",
+            "sourceLine": 887,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      "classes": [
+        "mage",
+        "priest",
+        "rogue",
+        "warlock",
+        "warrior"
+      ],
+      "source": {
+        "chapterId": "chapter-47-59-60-winterspring-silithus-part-2",
+        "file": "artifacts/leveling/archive/chapter-47-59-60-winterspring-silithus-part-2-v2-564c447fe829c087.json",
+        "sha256": "053b1e51411f82b95a797039a94a988e1d70bc4e1901f1f1e158c7741b6f084a"
+      }
+    }
+  ]
+}

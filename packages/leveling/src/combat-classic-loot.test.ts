@@ -306,7 +306,7 @@ describe("explicit historical loot field references", () => {
     ).toBeNull();
   });
 
-  it("keeps an unresolved captured sample unresolved instead of silently replacing it", () => {
+  it("uses a fixed-one captured sample ahead of the separate historical fallback", () => {
     const historical = enrichCombatClassicLoot(
       { ...fixture(), lootDrops: [] },
       reference(),
@@ -318,7 +318,7 @@ describe("explicit historical loot field references", () => {
         ...historical,
         lootDrops: [{ ...captured, minimumQuantity: 1, maximumQuantity: 1 }],
       }).kills,
-    ).toBeNull();
+    ).toBe(20);
   });
 
   it("does not treat a foreign-target capture as an absent capture", () => {
@@ -425,10 +425,11 @@ describe("explicit historical loot field references", () => {
       rateMultiplier: 1,
       sourceBuild: 5875,
     });
-    expect(quota(result.data)).toMatchObject({ kills: 13, lootEstimate: { expectedKills: 12.5 } });
+    expect(quota(result.data)).toMatchObject({ kills: 20, lootEstimate: { expectedKills: 20 } });
     expect(quota(result.data).source).toContain("Historical Classic stack assumption:");
     expect(quota(result.data).source).toContain("Historical Classic sharing assumption:");
-    expect(quota(result.data).source).toContain("Historical Classic quest-roll probability 0.8");
+    expect(quota(result.data).source).toContain("Captured drop-table estimate 0.5");
+    expect(quota(result.data).source).not.toContain("quest-roll probability");
     expect(JSON.stringify({ data, input })).toBe(before);
   });
   it("keeps explicit current sharing and drop quantities", () => {
@@ -499,15 +500,15 @@ describe("explicit historical loot field references", () => {
       "Duplicate historical drop",
     );
   });
-  it("does not treat an older stack-only reference as a quest-eligible sample", () => {
+  it("uses a captured estimate with a separate older stack-only assumption", () => {
     const legacy = reference();
     delete legacy.drops[0]!.probability;
     delete legacy.drops[0]!.questOnly;
     const result = enrichCombatClassicLoot(fixture(), legacy, checksum);
     expect(result.probabilityReferencesAdded).toBe(0);
     expect(quota(result.data)).toMatchObject({
-      kills: null,
-      reason: expect.stringContaining("quest eligibility"),
+      kills: 20,
+      source: expect.stringContaining("Captured drop-table estimate 0.5"),
     });
   });
   it("requires requalification after a provider creature or item identity changes", () => {
@@ -518,12 +519,15 @@ describe("explicit historical loot field references", () => {
       if (kind === "npc") current.npcs[0]!.name = "Different Wolf";
       else current.quests[0]!.itemObjectives![0]!.itemName = "Different Tooth";
       const result = reuseCombatLootReferences(current, previous, checksum);
-      expect(result.lootDrops![0]!.probabilityReference).toBeUndefined();
-      expect(result.lootDrops![0]!.probability).toBe(previous.lootDrops![0]!.probability);
+      expect(result.lootDrops).toEqual([]);
       expect(quota(result)).toMatchObject({
         kills: null,
-        reason: expect.stringContaining("quest eligibility"),
+        reason: "A unique compatible drop probability is missing.",
       });
+      expect(previous.lootDrops![0]!.probabilityReference).toBeDefined();
+      current.lootDrops = [{ ...fixture().lootDrops![0]!, minimumQuantity: 1, maximumQuantity: 1 }];
+      current.quests[0]!.itemObjectives![0]!.sharing = "pooled";
+      expect(quota(reuseCombatLootReferences(current, previous, checksum)).kills).toBe(20);
     }
   });
 });

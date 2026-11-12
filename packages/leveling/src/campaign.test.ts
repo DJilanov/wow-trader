@@ -46,6 +46,44 @@ function plan(): ReturnType<typeof buildCampaignPlan> {
 }
 
 describe("continuous 1–60 premade campaign", () => {
+  it("finishes the complete Desolace rescue chain before Scarlet Monastery rather than saving it for Maraudon", () => {
+    const quests = [1437, 1465, 1438, 1439, 1440];
+    const route = buildCampaignPlan("human", "b".repeat(64), [
+      source(115, "step\n>>Start together in Northshire"),
+      source(116, "step\n>>Continue through Elwynn"),
+      source(117, "step\n>>Continue to Loch Modan"),
+      source(17, "step\n.accept 261\nstep\n.complete 261,1\nstep\n.turnin 261\n.accept 1052"),
+      source(21, "step\n.turnin 1052"),
+      source(18,
+      "step\n.goto 1443,66.44,11.82\n.accept 1437 >>Accept Vahlarriel's Search\n" +
+      "step\n.goto 1443,56.52,17.84\n.turnin 1437\n.accept 1465\n" +
+      "step\n.goto 1443,66.44,11.82\n.turnin 1465\n.accept 1438\n" +
+      "step\n.goto 1443,54.86,26.13\n.turnin 1438\n.accept 1439\n" +
+      "step\n.goto 1443,52.98,28.71\n.complete 1439,1 >>Tyranis' Pendant (1)\n.mob Tyranis Malem\n" +
+      "step\n.goto 1443,54.86,26.13\n.turnin 1439\n" +
+      "step\n.goto 1443,54.86,26.13\n.accept 1440\n>>This starts the escort\n" +
+      "step\n.goto 1443,58.12,20.17\n.complete 1440,1 >>Escort Dalinda out of Thunder Axe Fortress\n" +
+      "step\n.goto 1443,66.44,11.82\n.turnin 1440",
+    )], "warrior", { includeLibrary: false, sharedQuestsOnly: true });
+    const monastery = route.actions.findIndex((action) => action.id === "dungeon-scarlet-monastery-entry");
+    const phases = route.actions.flatMap((action, index) => action.questChanges
+      .filter((change) => quests.includes(change.questId))
+      .map((change) => ({ ...change, legId: action.legId, index })));
+    for (const id of quests) {
+      const own = phases.filter((phase) => phase.questId === id);
+      expect(own.filter((phase) => phase.state === "accepted")).toHaveLength(1);
+      expect(own.filter((phase) => phase.state === "rewarded")).toHaveLength(1);
+      expect(own.every((phase) => phase.legId === "desolace-rescue" && phase.index < monastery)).toBe(true);
+    }
+    for (const [parent, child] of [[1437, 1465], [1465, 1438], [1438, 1439], [1439, 1440]])
+      expect(phases.findIndex((phase) => phase.questId === parent && phase.state === "rewarded"))
+        .toBeLessThan(phases.findIndex((phase) => phase.questId === child && phase.state === "accepted"));
+    expect(phases.filter((phase) => phase.state === "objectives-complete")
+      .map((phase) => [phase.questId, phase.objectiveIndex])).toEqual([[1439, 1], [1440, 1]]);
+    expect(phases.at(-1)!.index).toBeLessThan(route.actions.findIndex((action) =>
+      action.questChanges.some((change) => change.questId === 261 && change.state === "accepted")));
+  });
+
   it("marks generated full dungeon objectives without changing partial source steps", () => {
     const route = plan();
     const objective = route.actions.find((action) =>
@@ -139,7 +177,7 @@ describe("continuous 1–60 premade campaign", () => {
         (action) => !action.questChanges.some((change) => change.questId === 2924),
       ),
       partyPolicy: {
-        revision: "five-player-kill-first-20261102-v3" as const,
+        revision: "five-player-kill-first-20261102-v9" as const,
         partySize: 5 as const,
         unresolvedPrerequisiteIds: [],
         decisions: [

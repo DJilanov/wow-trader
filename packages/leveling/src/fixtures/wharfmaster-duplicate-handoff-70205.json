@@ -1,0 +1,3663 @@
+{
+  "classification": "Literal source excerpts for a repeated NPC handoff and its real chain. Source hashes and complete provider prerequisites retained; no reward or kill amount is supplied.",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "sources": [
+    {
+      "original": {
+        "chapterId": "chapter-15-33-34-thousand-needles",
+        "file": "artifacts/leveling/archive/chapter-15-33-34-thousand-needles-v2-2501749e2dcc6778.json",
+        "sha256": "bbf7853fee3a523fff2e23966daa7d9161595983aaa82dac90c5a309c12ab3cf"
+      },
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-15-33-34-thousand-needles",
+        "version": "import-v2-2501749e2dcc6778",
+        "targetBuild": 70205,
+        "sourceSha256": "2501749e2dcc6778582ef0b2915eae3c7be0a060ea4a91d4f682ea4c375afa82",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0052",
+            "ordinal": 52,
+            "sourceLine": 307,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3855.74,-6233.05",
+                "condition": "",
+                "text": "",
+                "sourceLine": 308,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3855.74,
+                  "y": -6233.05,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Kravel Koalbeard",
+                "sourceLine": 309,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Don't accept the other quests yet",
+                "sourceLine": 310,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1110",
+                "condition": "",
+                "text": "Accept Rocket Car Parts",
+                "sourceLine": 311,
+                "questId": 1110,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Kravel Koalbeard",
+                "condition": "",
+                "text": "",
+                "sourceLine": 312,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0057",
+            "ordinal": 57,
+            "sourceLine": 343,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#optional",
+                "arguments": "",
+                "condition": "",
+                "text": "",
+                "sourceLine": 344,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Run circles around The Shimmering Flats until all objectives are complete",
+                "sourceLine": 345,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Salt Flats Scavengers and Salt Flats Vultures. Loot them for their Bones",
+                "sourceLine": 346,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Sparkleshell Tortoises, Sparkleshell Borers and Sparkleshell Snappers. Loot them for their Shells",
+                "sourceLine": 347,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Don't go out of your way to collect all Turtle Meat",
+                "sourceLine": 348,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Scorpid Reavers and Scorpid Terrors. Loot them for their Venom",
+                "sourceLine": 349,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Saltstone Basilisks, Saltstone Crystalhides and Saltstone Gazers",
+                "sourceLine": 350,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Loot Saltstone Basilisks for their Scales",
+                "sourceLine": 351,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Open the Rocket Car Rubble. Loot it for the Rocket Car Parts",
+                "sourceLine": 352,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1176,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 353,
+                "questId": 1176,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Salt Flats Scavenger",
+                "condition": "",
+                "text": "",
+                "sourceLine": 354,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Salt Flats Vulture",
+                "condition": "",
+                "text": "",
+                "sourceLine": 355,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-4283.33,-5890.93,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 356,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -4283.33,
+                  "y": -5890.93,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1105,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 357,
+                "questId": 1105,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Sparkleshell Snapper",
+                "condition": "",
+                "text": "",
+                "sourceLine": 358,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Sparkleshell Borer",
+                "condition": "",
+                "text": "",
+                "sourceLine": 359,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Sparkleshell Tortoise",
+                "condition": "",
+                "text": "",
+                "sourceLine": 360,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-4067.73,-5574.13,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 361,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -4067.73,
+                  "y": -5574.13,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1104,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 362,
+                "questId": 1104,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Scorpid Reaver",
+                "condition": "",
+                "text": "",
+                "sourceLine": 363,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Scorpid Terror",
+                "condition": "",
+                "text": "",
+                "sourceLine": 364,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3592.53,-6119.73,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 365,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3592.53,
+                  "y": -6119.73,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1175,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 366,
+                "questId": 1175,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Saltstone Basilisk",
+                "condition": "",
+                "text": "",
+                "sourceLine": 367,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3667.33,-5723.73,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 368,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3667.33,
+                  "y": -5723.73,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1078,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 369,
+                "questId": 1078,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3667.33,-5723.73,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 370,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3667.33,
+                  "y": -5723.73,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1175,2",
+                "condition": "",
+                "text": "",
+                "sourceLine": 371,
+                "questId": 1175,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Saltstone Crystalhide",
+                "condition": "",
+                "text": "",
+                "sourceLine": 372,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3849.93,-6528.64,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 373,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3849.93,
+                  "y": -6528.64,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1175,3",
+                "condition": "",
+                "text": "",
+                "sourceLine": 374,
+                "questId": 1175,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Saltstone Gazer",
+                "condition": "",
+                "text": "",
+                "sourceLine": 375,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3849.93,-6528.64,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 376,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3849.93,
+                  "y": -6528.64,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1110,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 377,
+                "questId": 1110,
+                "position": null
+              },
+              {
+                "tag": ".isOnQuest",
+                "arguments": "1078",
+                "condition": "",
+                "text": "",
+                "sourceLine": 378,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0063",
+            "ordinal": 63,
+            "sourceLine": 431,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#label",
+                "arguments": "TurninShimmering",
+                "condition": "",
+                "text": "",
+                "sourceLine": 432,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3855.74,-6233.05",
+                "condition": "",
+                "text": "",
+                "sourceLine": 433,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3855.74,
+                  "y": -6233.05,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Kravel Koalbeard",
+                "sourceLine": 434,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1110",
+                "condition": "",
+                "text": "Turn in Rocket Car Parts",
+                "sourceLine": 435,
+                "questId": 1110,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1111",
+                "condition": "",
+                "text": "Accept Wharfmaster Dizzywig",
+                "sourceLine": 436,
+                "questId": 1111,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "5762",
+                "condition": "",
+                "text": "Accept Hemet Nesingwary",
+                "sourceLine": 437,
+                "questId": 5762,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Kravel Koalbeard",
+                "condition": "",
+                "text": "",
+                "sourceLine": 438,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0095",
+            "ordinal": 95,
+            "sourceLine": 619,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#xprate",
+                "arguments": "<1.2",
+                "condition": "",
+                "text": "",
+                "sourceLine": 620,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1413/1,-3796.75,-985.68",
+                "condition": "",
+                "text": "",
+                "sourceLine": 621,
+                "questId": null,
+                "position": {
+                  "zone": "1413",
+                  "floor": 1,
+                  "x": -3796.75,
+                  "y": -985.68,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Wharfmaster Dizzywig",
+                "sourceLine": 622,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1111",
+                "condition": "",
+                "text": "Turn in Wharfmaster Dizzywig",
+                "sourceLine": 623,
+                "questId": 1111,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1112",
+                "condition": "",
+                "text": "Accept Parts for Kravel",
+                "sourceLine": 624,
+                "questId": 1112,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1039",
+                "condition": "",
+                "text": "Turn in The Barrens Port",
+                "sourceLine": 625,
+                "questId": 1039,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1040",
+                "condition": "",
+                "text": "Accept Passage to Booty Bay",
+                "sourceLine": 626,
+                "questId": 1040,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Wharfmaster Dizzywig",
+                "condition": "",
+                "text": "",
+                "sourceLine": 627,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "1038",
+                "condition": "",
+                "text": "",
+                "sourceLine": 628,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0096",
+            "ordinal": 96,
+            "sourceLine": 629,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#label",
+                "arguments": "Wharfmaster",
+                "condition": "",
+                "text": "",
+                "sourceLine": 630,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1413/1,-3796.75,-985.68",
+                "condition": "",
+                "text": "",
+                "sourceLine": 631,
+                "questId": null,
+                "position": {
+                  "zone": "1413",
+                  "floor": 1,
+                  "x": -3796.75,
+                  "y": -985.68,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Wharfmaster Dizzywig",
+                "sourceLine": 632,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1111",
+                "condition": "",
+                "text": "Turn in Wharfmaster Dizzywig",
+                "sourceLine": 633,
+                "questId": 1111,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1112",
+                "condition": "",
+                "text": "Accept Parts for Kravel",
+                "sourceLine": 634,
+                "questId": 1112,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Wharfmaster Dizzywig",
+                "condition": "",
+                "text": "",
+                "sourceLine": 635,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "original": {
+        "chapterId": "chapter-17-35-36-desolace",
+        "file": "artifacts/leveling/archive/chapter-17-35-36-desolace-v2-516ee66a52609574.json",
+        "sha256": "0a99693ddccd325c96afa671f4d50a752b0504994fd68791844d4672261f9ed3"
+      },
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-17-35-36-desolace",
+        "version": "import-v2-516ee66a52609574",
+        "targetBuild": 70205,
+        "sourceSha256": "516ee66a52609574f9d3e6aba81a226f3ed6efc47b4482263ce493a494938d76",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0101",
+            "ordinal": 101,
+            "sourceLine": 734,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3855.74,-6233.05",
+                "condition": "",
+                "text": "",
+                "sourceLine": 735,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3855.74,
+                  "y": -6233.05,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Kravel Koalbeard",
+                "sourceLine": 736,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1114",
+                "condition": "",
+                "text": "Accept Delivery to the Gnomes",
+                "sourceLine": 737,
+                "questId": 1114,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Kravel Koalbeard",
+                "condition": "",
+                "text": "",
+                "sourceLine": 738,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0102",
+            "ordinal": 102,
+            "sourceLine": 739,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3868.15,-6229.03",
+                "condition": "",
+                "text": "",
+                "sourceLine": 740,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3868.15,
+                  "y": -6229.03,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Fizzle Brassbolts",
+                "sourceLine": 741,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1114",
+                "condition": "",
+                "text": "Turn in Delivery to the Gnomes",
+                "sourceLine": 742,
+                "questId": 1114,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Fizzle Brassbolts",
+                "condition": "",
+                "text": "",
+                "sourceLine": 743,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0103",
+            "ordinal": 103,
+            "sourceLine": 744,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1441/1,-3855.74,-6233.05",
+                "condition": "",
+                "text": "",
+                "sourceLine": 745,
+                "questId": null,
+                "position": {
+                  "zone": "1441",
+                  "floor": 1,
+                  "x": -3855.74,
+                  "y": -6233.05,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Kravel Koalbeard",
+                "sourceLine": 746,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1115",
+                "condition": "",
+                "text": "Accept The Rumormonger",
+                "sourceLine": 747,
+                "questId": 1115,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Kravel Koalbeard",
+                "condition": "",
+                "text": "",
+                "sourceLine": 748,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "original": {
+        "chapterId": "chapter-19-36-38-stranglethorn-vale-ii",
+        "file": "artifacts/leveling/archive/chapter-19-36-38-stranglethorn-vale-ii-v2-3de1f5f378ab9608.json",
+        "sha256": "10c0fefc44da5cad877a17c8e69eea1667d5168c9aa86798d696ba892ec5e32e"
+      },
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-19-36-38-stranglethorn-vale-ii",
+        "version": "import-v2-3de1f5f378ab9608",
+        "targetBuild": 70205,
+        "sourceSha256": "3de1f5f378ab96081b82948079a80fc778160e8516b6b4ad45f95f8c39382b0e",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0007",
+            "ordinal": 7,
+            "sourceLine": 57,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#xprate",
+                "arguments": "<1.99",
+                "condition": "",
+                "text": "",
+                "sourceLine": 58,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "#requires",
+                "arguments": "BankW1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 59,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Krazek upstairs on the top floor",
+                "sourceLine": 60,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1115",
+                "condition": "",
+                "text": "Turn in The Rumormonger",
+                "sourceLine": 61,
+                "questId": 1115,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,501.53,-14453.26",
+                "condition": "",
+                "text": "",
+                "sourceLine": 62,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": 501.53,
+                  "y": -14453.26,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".target",
+                "arguments": "Krazek",
+                "condition": "",
+                "text": "",
+                "sourceLine": 63,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".isOnQuest",
+                "arguments": "1115",
+                "condition": "",
+                "text": "",
+                "sourceLine": 64,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0101",
+            "ordinal": 101,
+            "sourceLine": 785,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "1114",
+                "condition": "",
+                "text": "",
+                "sourceLine": 786,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Kebok and Krazek up stairs on the top floor",
+                "sourceLine": 787,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "189",
+                "condition": "",
+                "text": "Turn in Bloodscalp Ears",
+                "sourceLine": 788,
+                "questId": 189,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "+Kebok",
+                "condition": "",
+                "text": "",
+                "sourceLine": 789,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "Stranglethorn Vale,27.000,77.124",
+                "condition": "",
+                "text": "",
+                "sourceLine": 790,
+                "questId": null,
+                "position": {
+                  "zone": "Stranglethorn Vale",
+                  "floor": null,
+                  "x": 27,
+                  "y": 77.124,
+                  "space": "map-percent"
+                }
+              },
+              {
+                "tag": ".accept",
+                "arguments": "1116",
+                "condition": "",
+                "text": "Accept Dream Dust in the Swamp",
+                "sourceLine": 791,
+                "questId": 1116,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "+Krazek",
+                "condition": "",
+                "text": "",
+                "sourceLine": 792,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,501.53,-14453.26",
+                "condition": "",
+                "text": "",
+                "sourceLine": 793,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": 501.53,
+                  "y": -14453.26,
+                  "space": "world"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "original": {
+        "chapterId": "chapter-20-38-39-swamp-of-sorrows",
+        "file": "artifacts/leveling/archive/chapter-20-38-39-swamp-of-sorrows-v2-19e404b838188707.json",
+        "sha256": "5ea1d5ff847d42ea2cd45c9d1fbdd5edcec51960ff1d111b528ccac89d836bfd"
+      },
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-20-38-39-swamp-of-sorrows",
+        "version": "import-v2-19e404b838188707",
+        "targetBuild": 70205,
+        "sourceSha256": "19e404b838188707118b63d9ae9a8f9d2ea8cc1cfa8cd9bb70f9ead2ffc44e12",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0025",
+            "ordinal": 25,
+            "sourceLine": 153,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#completewith",
+                "arguments": "next",
+                "condition": "",
+                "text": "",
+                "sourceLine": 154,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "1115",
+                "condition": "",
+                "text": "",
+                "sourceLine": 155,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-2543.12,-10563.87,100,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 156,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -2543.12,
+                  "y": -10563.87,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1435/0,-2543.12,-10563.87,0",
+                "condition": "",
+                "text": "",
+                "sourceLine": 157,
+                "questId": null,
+                "position": {
+                  "zone": "1435",
+                  "floor": 0,
+                  "x": -2543.12,
+                  "y": -10563.87,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Adolescent Whelps and Dreaming Whelps. Loot them for their Specks of Dream Dust",
+                "sourceLine": 158,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "You won't find enough Whelps to finish this quest in 1 pass, so continue with other quests",
+                "sourceLine": 159,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".complete",
+                "arguments": "1116,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 160,
+                "questId": 1116,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Adolescent Whelp",
+                "condition": "",
+                "text": "",
+                "sourceLine": 161,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "Dreaming Whelp",
+                "condition": "",
+                "text": "",
+                "sourceLine": 162,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "original": {
+        "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+        "file": "artifacts/leveling/archive/chapter-28-41-43-stv-swamp-of-sorrows-v2-0671e2017ce66f25.json",
+        "sha256": "42d2f084b3b02e458f539b26c7b3ad691e6fd5a5247680ea39ac5f6f2cca5809"
+      },
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+        "version": "import-v2-0671e2017ce66f25",
+        "targetBuild": 70205,
+        "sourceSha256": "0671e2017ce66f2565d27e0109df02d30794b2716589feb110663bf14ec76be1",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0025",
+            "ordinal": 25,
+            "sourceLine": 182,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".isQuestComplete",
+                "arguments": "1116",
+                "condition": "",
+                "text": "",
+                "sourceLine": 183,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Krazek up stairs",
+                "sourceLine": 184,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,501.53,-14453.26",
+                "condition": "",
+                "text": "",
+                "sourceLine": 185,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": 501.53,
+                  "y": -14453.26,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "1116",
+                "condition": "",
+                "text": "Turn in Dream Dust in the Swamp",
+                "sourceLine": 186,
+                "questId": 1116,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Krazek",
+                "condition": "",
+                "text": "",
+                "sourceLine": 187,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "catalogMetadata": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+  },
+  "catalog": [
+    {
+      "questId": 1022,
+      "title": "The Howling Vale",
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 3880,
+          "name": "Sentinel Melyria Frostshadow",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1440",
+              "x": 22.23,
+              "y": 52.98
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 3880,
+          "name": "Sentinel Melyria Frostshadow",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1440",
+              "x": 22.23,
+              "y": 52.98
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [],
+      "unsupportedRequirements": []
+    },
+    {
+      "questId": 1037,
+      "title": "Velinde Starsong",
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 3880,
+          "name": "Sentinel Melyria Frostshadow",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1440",
+              "x": 22.23,
+              "y": 52.98
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 8026,
+          "name": "Thyn'tel Bladeweaver",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1457",
+              "x": 61.77,
+              "y": 39.18
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1022
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 1038,
+      "title": "Velinde's Effects",
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "providedItem": {
+        "itemId": 5521,
+        "name": "Velinde's Key"
+      },
+      "starts": [
+        {
+          "npcId": 8026,
+          "name": "Thyn'tel Bladeweaver",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1457",
+              "x": 61.77,
+              "y": 39.18
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 8026,
+          "name": "Thyn'tel Bladeweaver",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1457",
+              "x": 61.77,
+              "y": 39.18
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1037
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "provided-item-interaction"
+      ]
+    },
+    {
+      "questId": 1039,
+      "title": "The Barrens Port",
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 8026,
+          "name": "Thyn'tel Bladeweaver",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1457",
+              "x": 61.77,
+              "y": 39.18
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 3453,
+          "name": "Wharfmaster Dizzywig",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1413",
+              "x": 63.35,
+              "y": 38.45
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1038
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 1040,
+      "title": "Passage to Booty Bay",
+      "minimumLevel": 25,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 3453,
+          "name": "Wharfmaster Dizzywig",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1413",
+              "x": 63.35,
+              "y": 38.45
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 3945,
+          "name": "Caravaneer Ruzzgot",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1434",
+              "x": 27.37,
+              "y": 74.08
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1039
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 1110,
+      "title": "Rocket Car Parts",
+      "minimumLevel": 28,
+      "questLevel": 31,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "groundPickup": {
+        "questId": 1110,
+        "itemId": 5798,
+        "quantity": 30,
+        "objectiveIndex": 1,
+        "objectId": 19869,
+        "objectName": "Rocket Car Rubble",
+        "positions": [
+          {
+            "zone": "1441",
+            "x": 88.42,
+            "y": 81.04
+          },
+          {
+            "zone": "1441",
+            "x": 87.27,
+            "y": 73.47
+          },
+          {
+            "zone": "1441",
+            "x": 86.89,
+            "y": 70.01
+          },
+          {
+            "zone": "1441",
+            "x": 87.86,
+            "y": 76.59
+          },
+          {
+            "zone": "1441",
+            "x": 88,
+            "y": 79.88
+          },
+          {
+            "zone": "1441",
+            "x": 83.75,
+            "y": 86.66
+          },
+          {
+            "zone": "1441",
+            "x": 88.22,
+            "y": 65.57
+          },
+          {
+            "zone": "1441",
+            "x": 78.4,
+            "y": 89.97
+          },
+          {
+            "zone": "1441",
+            "x": 76.31,
+            "y": 89.51
+          },
+          {
+            "zone": "1441",
+            "x": 75.39,
+            "y": 56.37
+          },
+          {
+            "zone": "1441",
+            "x": 71.01,
+            "y": 56.34
+          },
+          {
+            "zone": "1441",
+            "x": 69.6,
+            "y": 61.3
+          },
+          {
+            "zone": "1441",
+            "x": 69.9,
+            "y": 59
+          },
+          {
+            "zone": "1441",
+            "x": 70,
+            "y": 78.4
+          },
+          {
+            "zone": "1441",
+            "x": 70,
+            "y": 78.5
+          },
+          {
+            "zone": "1441",
+            "x": 70.1,
+            "y": 60.2
+          },
+          {
+            "zone": "1441",
+            "x": 70.1,
+            "y": 61.8
+          },
+          {
+            "zone": "1441",
+            "x": 70.1,
+            "y": 63.1
+          },
+          {
+            "zone": "1441",
+            "x": 70.1,
+            "y": 64.2
+          },
+          {
+            "zone": "1441",
+            "x": 70.2,
+            "y": 57.2
+          },
+          {
+            "zone": "1441",
+            "x": 70.2,
+            "y": 58
+          },
+          {
+            "zone": "1441",
+            "x": 70.3,
+            "y": 66.2
+          },
+          {
+            "zone": "1441",
+            "x": 70.5,
+            "y": 59.1
+          },
+          {
+            "zone": "1441",
+            "x": 70.6,
+            "y": 77.1
+          },
+          {
+            "zone": "1441",
+            "x": 70.9,
+            "y": 79.1
+          },
+          {
+            "zone": "1441",
+            "x": 71,
+            "y": 56.4
+          },
+          {
+            "zone": "1441",
+            "x": 71,
+            "y": 74.4
+          },
+          {
+            "zone": "1441",
+            "x": 71,
+            "y": 74.5
+          },
+          {
+            "zone": "1441",
+            "x": 71.1,
+            "y": 72
+          },
+          {
+            "zone": "1441",
+            "x": 71.4,
+            "y": 57
+          },
+          {
+            "zone": "1441",
+            "x": 71.4,
+            "y": 64.4
+          },
+          {
+            "zone": "1441",
+            "x": 71.4,
+            "y": 64.5
+          },
+          {
+            "zone": "1441",
+            "x": 71.6,
+            "y": 64.4
+          },
+          {
+            "zone": "1441",
+            "x": 71.6,
+            "y": 64.5
+          },
+          {
+            "zone": "1441",
+            "x": 71.6,
+            "y": 66.7
+          },
+          {
+            "zone": "1441",
+            "x": 71.6,
+            "y": 78
+          },
+          {
+            "zone": "1441",
+            "x": 71.7,
+            "y": 68.4
+          },
+          {
+            "zone": "1441",
+            "x": 71.7,
+            "y": 68.7
+          },
+          {
+            "zone": "1441",
+            "x": 71.7,
+            "y": 80.1
+          },
+          {
+            "zone": "1441",
+            "x": 72.3,
+            "y": 56.5
+          },
+          {
+            "zone": "1441",
+            "x": 72.3,
+            "y": 62.8
+          },
+          {
+            "zone": "1441",
+            "x": 72.3,
+            "y": 70.3
+          },
+          {
+            "zone": "1441",
+            "x": 72.3,
+            "y": 76.9
+          },
+          {
+            "zone": "1441",
+            "x": 72.4,
+            "y": 56.4
+          },
+          {
+            "zone": "1441",
+            "x": 72.4,
+            "y": 72.3
+          },
+          {
+            "zone": "1441",
+            "x": 72.4,
+            "y": 74.4
+          },
+          {
+            "zone": "1441",
+            "x": 72.4,
+            "y": 74.6
+          },
+          {
+            "zone": "1441",
+            "x": 72.4,
+            "y": 80.7
+          },
+          {
+            "zone": "1441",
+            "x": 72.5,
+            "y": 72.2
+          },
+          {
+            "zone": "1441",
+            "x": 72.5,
+            "y": 72.5
+          },
+          {
+            "zone": "1441",
+            "x": 72.5,
+            "y": 80.7
+          },
+          {
+            "zone": "1441",
+            "x": 73.1,
+            "y": 55.6
+          },
+          {
+            "zone": "1441",
+            "x": 73.1,
+            "y": 59.8
+          },
+          {
+            "zone": "1441",
+            "x": 73.2,
+            "y": 55.4
+          },
+          {
+            "zone": "1441",
+            "x": 73.2,
+            "y": 68.5
+          },
+          {
+            "zone": "1441",
+            "x": 73.4,
+            "y": 57.9
+          },
+          {
+            "zone": "1441",
+            "x": 73.5,
+            "y": 57.9
+          },
+          {
+            "zone": "1441",
+            "x": 74,
+            "y": 61.1
+          },
+          {
+            "zone": "1441",
+            "x": 74.2,
+            "y": 63.7
+          },
+          {
+            "zone": "1441",
+            "x": 74.4,
+            "y": 55.4
+          },
+          {
+            "zone": "1441",
+            "x": 74.5,
+            "y": 55.4
+          },
+          {
+            "zone": "1441",
+            "x": 74.6,
+            "y": 59.6
+          },
+          {
+            "zone": "1441",
+            "x": 75.3,
+            "y": 54
+          },
+          {
+            "zone": "1441",
+            "x": 75.4,
+            "y": 56.2
+          },
+          {
+            "zone": "1441",
+            "x": 75.4,
+            "y": 56.5
+          },
+          {
+            "zone": "1441",
+            "x": 75.5,
+            "y": 54
+          },
+          {
+            "zone": "1441",
+            "x": 75.5,
+            "y": 56.4
+          },
+          {
+            "zone": "1441",
+            "x": 75.9,
+            "y": 55.3
+          },
+          {
+            "zone": "1441",
+            "x": 76.2,
+            "y": 86.9
+          },
+          {
+            "zone": "1441",
+            "x": 76.3,
+            "y": 89.4
+          },
+          {
+            "zone": "1441",
+            "x": 76.3,
+            "y": 89.6
+          },
+          {
+            "zone": "1441",
+            "x": 76.8,
+            "y": 84.3
+          },
+          {
+            "zone": "1441",
+            "x": 76.8,
+            "y": 85.1
+          },
+          {
+            "zone": "1441",
+            "x": 77,
+            "y": 53.2
+          },
+          {
+            "zone": "1441",
+            "x": 77.3,
+            "y": 86.4
+          },
+          {
+            "zone": "1441",
+            "x": 77.3,
+            "y": 86.5
+          },
+          {
+            "zone": "1441",
+            "x": 77.4,
+            "y": 90.4
+          },
+          {
+            "zone": "1441",
+            "x": 77.4,
+            "y": 90.5
+          },
+          {
+            "zone": "1441",
+            "x": 77.5,
+            "y": 90.6
+          },
+          {
+            "zone": "1441",
+            "x": 77.6,
+            "y": 54.1
+          },
+          {
+            "zone": "1441",
+            "x": 77.7,
+            "y": 51.8
+          },
+          {
+            "zone": "1441",
+            "x": 77.9,
+            "y": 84.2
+          },
+          {
+            "zone": "1441",
+            "x": 77.9,
+            "y": 85.3
+          },
+          {
+            "zone": "1441",
+            "x": 78,
+            "y": 85.5
+          },
+          {
+            "zone": "1441",
+            "x": 78.3,
+            "y": 53
+          },
+          {
+            "zone": "1441",
+            "x": 78.4,
+            "y": 55.1
+          },
+          {
+            "zone": "1441",
+            "x": 78.4,
+            "y": 89.8
+          },
+          {
+            "zone": "1441",
+            "x": 78.5,
+            "y": 90
+          },
+          {
+            "zone": "1441",
+            "x": 79,
+            "y": 54.1
+          },
+          {
+            "zone": "1441",
+            "x": 79.2,
+            "y": 56.2
+          },
+          {
+            "zone": "1441",
+            "x": 79.4,
+            "y": 85.3
+          },
+          {
+            "zone": "1441",
+            "x": 79.4,
+            "y": 85.5
+          },
+          {
+            "zone": "1441",
+            "x": 79.4,
+            "y": 86.7
+          },
+          {
+            "zone": "1441",
+            "x": 79.5,
+            "y": 59
+          },
+          {
+            "zone": "1441",
+            "x": 79.5,
+            "y": 85.3
+          },
+          {
+            "zone": "1441",
+            "x": 79.8,
+            "y": 55.1
+          },
+          {
+            "zone": "1441",
+            "x": 80,
+            "y": 87.9
+          },
+          {
+            "zone": "1441",
+            "x": 80.7,
+            "y": 54.3
+          },
+          {
+            "zone": "1441",
+            "x": 80.7,
+            "y": 56.3
+          },
+          {
+            "zone": "1441",
+            "x": 80.7,
+            "y": 89
+          },
+          {
+            "zone": "1441",
+            "x": 81.4,
+            "y": 86.3
+          },
+          {
+            "zone": "1441",
+            "x": 81.5,
+            "y": 86.3
+          },
+          {
+            "zone": "1441",
+            "x": 81.9,
+            "y": 87.2
+          },
+          {
+            "zone": "1441",
+            "x": 81.9,
+            "y": 87.5
+          },
+          {
+            "zone": "1441",
+            "x": 82.2,
+            "y": 56.2
+          },
+          {
+            "zone": "1441",
+            "x": 82.2,
+            "y": 90
+          },
+          {
+            "zone": "1441",
+            "x": 82.8,
+            "y": 85.4
+          },
+          {
+            "zone": "1441",
+            "x": 82.8,
+            "y": 85.5
+          },
+          {
+            "zone": "1441",
+            "x": 82.8,
+            "y": 87.9
+          },
+          {
+            "zone": "1441",
+            "x": 82.9,
+            "y": 55.3
+          },
+          {
+            "zone": "1441",
+            "x": 82.9,
+            "y": 64.7
+          },
+          {
+            "zone": "1441",
+            "x": 83.6,
+            "y": 56.3
+          },
+          {
+            "zone": "1441",
+            "x": 83.7,
+            "y": 86.6
+          },
+          {
+            "zone": "1441",
+            "x": 85.3,
+            "y": 58.4
+          },
+          {
+            "zone": "1441",
+            "x": 85.3,
+            "y": 58.5
+          },
+          {
+            "zone": "1441",
+            "x": 85.6,
+            "y": 61.6
+          },
+          {
+            "zone": "1441",
+            "x": 85.7,
+            "y": 61.4
+          },
+          {
+            "zone": "1441",
+            "x": 85.8,
+            "y": 62.5
+          },
+          {
+            "zone": "1441",
+            "x": 85.9,
+            "y": 57.4
+          },
+          {
+            "zone": "1441",
+            "x": 86,
+            "y": 59.7
+          },
+          {
+            "zone": "1441",
+            "x": 86.2,
+            "y": 68.6
+          },
+          {
+            "zone": "1441",
+            "x": 86.2,
+            "y": 74.4
+          },
+          {
+            "zone": "1441",
+            "x": 86.2,
+            "y": 74.6
+          },
+          {
+            "zone": "1441",
+            "x": 86.6,
+            "y": 63.5
+          },
+          {
+            "zone": "1441",
+            "x": 86.6,
+            "y": 64.7
+          },
+          {
+            "zone": "1441",
+            "x": 86.7,
+            "y": 58.3
+          },
+          {
+            "zone": "1441",
+            "x": 86.7,
+            "y": 58.5
+          },
+          {
+            "zone": "1441",
+            "x": 86.7,
+            "y": 63.4
+          },
+          {
+            "zone": "1441",
+            "x": 86.8,
+            "y": 60.9
+          },
+          {
+            "zone": "1441",
+            "x": 86.8,
+            "y": 67.9
+          },
+          {
+            "zone": "1441",
+            "x": 86.9,
+            "y": 70.1
+          },
+          {
+            "zone": "1441",
+            "x": 86.9,
+            "y": 72.3
+          },
+          {
+            "zone": "1441",
+            "x": 87,
+            "y": 75.4
+          },
+          {
+            "zone": "1441",
+            "x": 87.1,
+            "y": 75.5
+          },
+          {
+            "zone": "1441",
+            "x": 87.2,
+            "y": 73.5
+          },
+          {
+            "zone": "1441",
+            "x": 87.3,
+            "y": 66.9
+          },
+          {
+            "zone": "1441",
+            "x": 87.3,
+            "y": 73.4
+          },
+          {
+            "zone": "1441",
+            "x": 87.6,
+            "y": 62.9
+          },
+          {
+            "zone": "1441",
+            "x": 87.6,
+            "y": 71.3
+          },
+          {
+            "zone": "1441",
+            "x": 87.7,
+            "y": 78
+          },
+          {
+            "zone": "1441",
+            "x": 87.8,
+            "y": 76.5
+          },
+          {
+            "zone": "1441",
+            "x": 87.9,
+            "y": 60.9
+          },
+          {
+            "zone": "1441",
+            "x": 88,
+            "y": 80
+          },
+          {
+            "zone": "1441",
+            "x": 88.1,
+            "y": 67.8
+          },
+          {
+            "zone": "1441",
+            "x": 88.2,
+            "y": 65.4
+          },
+          {
+            "zone": "1441",
+            "x": 88.2,
+            "y": 65.7
+          },
+          {
+            "zone": "1441",
+            "x": 88.2,
+            "y": 74.9
+          },
+          {
+            "zone": "1441",
+            "x": 88.4,
+            "y": 80.9
+          },
+          {
+            "zone": "1441",
+            "x": 88.6,
+            "y": 76.8
+          },
+          {
+            "zone": "1441",
+            "x": 88.8,
+            "y": 66.4
+          },
+          {
+            "zone": "1441",
+            "x": 88.8,
+            "y": 66.6
+          }
+        ],
+        "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+        "source": {
+          "chapterId": "chapter-15-33-34-thousand-needles",
+          "version": "import-v2-2501749e2dcc6778",
+          "stepId": "source-step-0058"
+        }
+      },
+      "starts": [
+        {
+          "npcId": 4452,
+          "name": "Kravel Koalbeard",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 77.79,
+              "y": 77.27
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 4452,
+          "name": "Kravel Koalbeard",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 77.79,
+              "y": 77.27
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [],
+      "unsupportedRequirements": []
+    },
+    {
+      "questId": 1111,
+      "title": "Wharfmaster Dizzywig",
+      "minimumLevel": 30,
+      "questLevel": 36,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "providedItem": {
+        "itemId": 5799,
+        "name": "Kravel's Parts Order"
+      },
+      "starts": [
+        {
+          "npcId": 4452,
+          "name": "Kravel Koalbeard",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 77.79,
+              "y": 77.27
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 3453,
+          "name": "Wharfmaster Dizzywig",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1413",
+              "x": 63.35,
+              "y": 38.45
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "provided-item-interaction",
+        "unresolved-objective-text",
+        "unresolved-source-prerequisite"
+      ]
+    },
+    {
+      "questId": 1112,
+      "title": "Parts for Kravel",
+      "minimumLevel": 30,
+      "questLevel": 36,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "providedItem": {
+        "itemId": 5800,
+        "name": "Kravel's Parts"
+      },
+      "starts": [
+        {
+          "npcId": 3453,
+          "name": "Wharfmaster Dizzywig",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1413",
+              "x": 63.35,
+              "y": 38.45
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 4452,
+          "name": "Kravel Koalbeard",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 77.79,
+              "y": 77.27
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1111
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "provided-item-interaction",
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 1114,
+      "title": "Delivery to the Gnomes",
+      "minimumLevel": 30,
+      "questLevel": 36,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "providedItem": {
+        "itemId": 5802,
+        "name": "Delicate Car Parts"
+      },
+      "starts": [
+        {
+          "npcId": 4452,
+          "name": "Kravel Koalbeard",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 77.79,
+              "y": 77.27
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 4454,
+          "name": "Fizzle Brassbolts",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 78.06,
+              "y": 77.13
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1112
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "provided-item-interaction",
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 1115,
+      "title": "The Rumormonger",
+      "minimumLevel": 30,
+      "questLevel": 36,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 4452,
+          "name": "Kravel Koalbeard",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1441",
+              "x": 77.79,
+              "y": 77.27
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 773,
+          "name": "Krazek",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1434",
+              "x": 26.95,
+              "y": 77.21
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1114
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 1116,
+      "title": "Dream Dust in the Swamp",
+      "minimumLevel": 30,
+      "questLevel": 36,
+      "requiredRaces": 0,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 773,
+          "name": "Krazek",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1434",
+              "x": 26.95,
+              "y": 77.21
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 773,
+          "name": "Krazek",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1434",
+              "x": 26.95,
+              "y": 77.21
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1115
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [],
+      "unsupportedRequirements": []
+    }
+  ],
+  "combatCatalogReference": {
+    "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+  },
+  "provider": {
+    "repository": "https://github.com/Questie/QuestieDB",
+    "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "layer": "forever-static-with-authored",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "limitations": [
+      "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+      "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+      "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+      "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+      "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+      "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+      "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+      "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+      "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+      "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+      "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+      "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+      "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+      "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+      "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+      "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+      "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+      "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+      "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull’s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient’s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+      "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+      "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+      "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+      "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged."
+    ]
+  },
+  "references": [
+    {
+      "questId": 1022,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Go to the Howling Vale and study the Tome of Mel'Thandris, then return to Sentinel Melyria Frostshadow at Forest Song."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": true,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1037,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Speak with Thyn'tel Bladeweaver at the Warrior's Terrace in Darnassus."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1022
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1038,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Search through Velinde's chest for her journal, then return it along with the key to Thyn'tel Bladeweaver in Darnassus."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1037
+        ]
+      },
+      "itemObjectives": [
+        {
+          "objectiveIndex": 1,
+          "itemId": 5520,
+          "itemName": "Velinde's Journal",
+          "quantity": 1,
+          "npcIds": [],
+          "objectIds": [
+            19877
+          ],
+          "sharing": "pooled",
+          "sharingReference": {
+            "kind": "classic-1.12-reference",
+            "repository": "https://github.com/cmangos/classic-db",
+            "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+            "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+            "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+            "sourceBuild": 5875,
+            "referencedAt": "2026-10-31T22:41:50.344Z",
+            "itemId": 5520,
+            "itemFlags": 0
+          }
+        }
+      ]
+    },
+    {
+      "questId": 1039,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Speak with Wharfmaster Dizzywig in Ratchet."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1038
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1040,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Take a boat to Booty Bay and speak with Caravaneer Ruzzgot."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1039
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1110,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Bring 30 Rocket Car Parts to Kravel Koalbeard in the Shimmering Flats."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": [
+        {
+          "objectiveIndex": 1,
+          "itemId": 5798,
+          "itemName": "Rocket Car Parts",
+          "quantity": 30,
+          "npcIds": [],
+          "objectIds": [
+            19868,
+            19869,
+            19870,
+            19871,
+            19872,
+            19873
+          ],
+          "sharing": "pooled",
+          "sharingReference": {
+            "kind": "classic-1.12-reference",
+            "repository": "https://github.com/cmangos/classic-db",
+            "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+            "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+            "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+            "sourceBuild": 5875,
+            "referencedAt": "2026-10-31T22:41:50.344Z",
+            "itemId": 5798,
+            "itemFlags": 0
+          },
+          "groundPickup": {
+            "questId": 1110,
+            "itemId": 5798,
+            "quantity": 30,
+            "objectiveIndex": 1,
+            "objectId": 19869,
+            "objectName": "Rocket Car Rubble",
+            "positions": [
+              {
+                "zone": "1441",
+                "x": 88.42,
+                "y": 81.04
+              },
+              {
+                "zone": "1441",
+                "x": 87.27,
+                "y": 73.47
+              },
+              {
+                "zone": "1441",
+                "x": 86.89,
+                "y": 70.01
+              },
+              {
+                "zone": "1441",
+                "x": 87.86,
+                "y": 76.59
+              },
+              {
+                "zone": "1441",
+                "x": 88,
+                "y": 79.88
+              },
+              {
+                "zone": "1441",
+                "x": 83.75,
+                "y": 86.66
+              },
+              {
+                "zone": "1441",
+                "x": 88.22,
+                "y": 65.57
+              },
+              {
+                "zone": "1441",
+                "x": 78.4,
+                "y": 89.97
+              },
+              {
+                "zone": "1441",
+                "x": 76.31,
+                "y": 89.51
+              },
+              {
+                "zone": "1441",
+                "x": 75.39,
+                "y": 56.37
+              },
+              {
+                "zone": "1441",
+                "x": 71.01,
+                "y": 56.34
+              },
+              {
+                "zone": "1441",
+                "x": 69.6,
+                "y": 61.3
+              },
+              {
+                "zone": "1441",
+                "x": 69.9,
+                "y": 59
+              },
+              {
+                "zone": "1441",
+                "x": 70,
+                "y": 78.4
+              },
+              {
+                "zone": "1441",
+                "x": 70,
+                "y": 78.5
+              },
+              {
+                "zone": "1441",
+                "x": 70.1,
+                "y": 60.2
+              },
+              {
+                "zone": "1441",
+                "x": 70.1,
+                "y": 61.8
+              },
+              {
+                "zone": "1441",
+                "x": 70.1,
+                "y": 63.1
+              },
+              {
+                "zone": "1441",
+                "x": 70.1,
+                "y": 64.2
+              },
+              {
+                "zone": "1441",
+                "x": 70.2,
+                "y": 57.2
+              },
+              {
+                "zone": "1441",
+                "x": 70.2,
+                "y": 58
+              },
+              {
+                "zone": "1441",
+                "x": 70.3,
+                "y": 66.2
+              },
+              {
+                "zone": "1441",
+                "x": 70.5,
+                "y": 59.1
+              },
+              {
+                "zone": "1441",
+                "x": 70.6,
+                "y": 77.1
+              },
+              {
+                "zone": "1441",
+                "x": 70.9,
+                "y": 79.1
+              },
+              {
+                "zone": "1441",
+                "x": 71,
+                "y": 56.4
+              },
+              {
+                "zone": "1441",
+                "x": 71,
+                "y": 74.4
+              },
+              {
+                "zone": "1441",
+                "x": 71,
+                "y": 74.5
+              },
+              {
+                "zone": "1441",
+                "x": 71.1,
+                "y": 72
+              },
+              {
+                "zone": "1441",
+                "x": 71.4,
+                "y": 57
+              },
+              {
+                "zone": "1441",
+                "x": 71.4,
+                "y": 64.4
+              },
+              {
+                "zone": "1441",
+                "x": 71.4,
+                "y": 64.5
+              },
+              {
+                "zone": "1441",
+                "x": 71.6,
+                "y": 64.4
+              },
+              {
+                "zone": "1441",
+                "x": 71.6,
+                "y": 64.5
+              },
+              {
+                "zone": "1441",
+                "x": 71.6,
+                "y": 66.7
+              },
+              {
+                "zone": "1441",
+                "x": 71.6,
+                "y": 78
+              },
+              {
+                "zone": "1441",
+                "x": 71.7,
+                "y": 68.4
+              },
+              {
+                "zone": "1441",
+                "x": 71.7,
+                "y": 68.7
+              },
+              {
+                "zone": "1441",
+                "x": 71.7,
+                "y": 80.1
+              },
+              {
+                "zone": "1441",
+                "x": 72.3,
+                "y": 56.5
+              },
+              {
+                "zone": "1441",
+                "x": 72.3,
+                "y": 62.8
+              },
+              {
+                "zone": "1441",
+                "x": 72.3,
+                "y": 70.3
+              },
+              {
+                "zone": "1441",
+                "x": 72.3,
+                "y": 76.9
+              },
+              {
+                "zone": "1441",
+                "x": 72.4,
+                "y": 56.4
+              },
+              {
+                "zone": "1441",
+                "x": 72.4,
+                "y": 72.3
+              },
+              {
+                "zone": "1441",
+                "x": 72.4,
+                "y": 74.4
+              },
+              {
+                "zone": "1441",
+                "x": 72.4,
+                "y": 74.6
+              },
+              {
+                "zone": "1441",
+                "x": 72.4,
+                "y": 80.7
+              },
+              {
+                "zone": "1441",
+                "x": 72.5,
+                "y": 72.2
+              },
+              {
+                "zone": "1441",
+                "x": 72.5,
+                "y": 72.5
+              },
+              {
+                "zone": "1441",
+                "x": 72.5,
+                "y": 80.7
+              },
+              {
+                "zone": "1441",
+                "x": 73.1,
+                "y": 55.6
+              },
+              {
+                "zone": "1441",
+                "x": 73.1,
+                "y": 59.8
+              },
+              {
+                "zone": "1441",
+                "x": 73.2,
+                "y": 55.4
+              },
+              {
+                "zone": "1441",
+                "x": 73.2,
+                "y": 68.5
+              },
+              {
+                "zone": "1441",
+                "x": 73.4,
+                "y": 57.9
+              },
+              {
+                "zone": "1441",
+                "x": 73.5,
+                "y": 57.9
+              },
+              {
+                "zone": "1441",
+                "x": 74,
+                "y": 61.1
+              },
+              {
+                "zone": "1441",
+                "x": 74.2,
+                "y": 63.7
+              },
+              {
+                "zone": "1441",
+                "x": 74.4,
+                "y": 55.4
+              },
+              {
+                "zone": "1441",
+                "x": 74.5,
+                "y": 55.4
+              },
+              {
+                "zone": "1441",
+                "x": 74.6,
+                "y": 59.6
+              },
+              {
+                "zone": "1441",
+                "x": 75.3,
+                "y": 54
+              },
+              {
+                "zone": "1441",
+                "x": 75.4,
+                "y": 56.2
+              },
+              {
+                "zone": "1441",
+                "x": 75.4,
+                "y": 56.5
+              },
+              {
+                "zone": "1441",
+                "x": 75.5,
+                "y": 54
+              },
+              {
+                "zone": "1441",
+                "x": 75.5,
+                "y": 56.4
+              },
+              {
+                "zone": "1441",
+                "x": 75.9,
+                "y": 55.3
+              },
+              {
+                "zone": "1441",
+                "x": 76.2,
+                "y": 86.9
+              },
+              {
+                "zone": "1441",
+                "x": 76.3,
+                "y": 89.4
+              },
+              {
+                "zone": "1441",
+                "x": 76.3,
+                "y": 89.6
+              },
+              {
+                "zone": "1441",
+                "x": 76.8,
+                "y": 84.3
+              },
+              {
+                "zone": "1441",
+                "x": 76.8,
+                "y": 85.1
+              },
+              {
+                "zone": "1441",
+                "x": 77,
+                "y": 53.2
+              },
+              {
+                "zone": "1441",
+                "x": 77.3,
+                "y": 86.4
+              },
+              {
+                "zone": "1441",
+                "x": 77.3,
+                "y": 86.5
+              },
+              {
+                "zone": "1441",
+                "x": 77.4,
+                "y": 90.4
+              },
+              {
+                "zone": "1441",
+                "x": 77.4,
+                "y": 90.5
+              },
+              {
+                "zone": "1441",
+                "x": 77.5,
+                "y": 90.6
+              },
+              {
+                "zone": "1441",
+                "x": 77.6,
+                "y": 54.1
+              },
+              {
+                "zone": "1441",
+                "x": 77.7,
+                "y": 51.8
+              },
+              {
+                "zone": "1441",
+                "x": 77.9,
+                "y": 84.2
+              },
+              {
+                "zone": "1441",
+                "x": 77.9,
+                "y": 85.3
+              },
+              {
+                "zone": "1441",
+                "x": 78,
+                "y": 85.5
+              },
+              {
+                "zone": "1441",
+                "x": 78.3,
+                "y": 53
+              },
+              {
+                "zone": "1441",
+                "x": 78.4,
+                "y": 55.1
+              },
+              {
+                "zone": "1441",
+                "x": 78.4,
+                "y": 89.8
+              },
+              {
+                "zone": "1441",
+                "x": 78.5,
+                "y": 90
+              },
+              {
+                "zone": "1441",
+                "x": 79,
+                "y": 54.1
+              },
+              {
+                "zone": "1441",
+                "x": 79.2,
+                "y": 56.2
+              },
+              {
+                "zone": "1441",
+                "x": 79.4,
+                "y": 85.3
+              },
+              {
+                "zone": "1441",
+                "x": 79.4,
+                "y": 85.5
+              },
+              {
+                "zone": "1441",
+                "x": 79.4,
+                "y": 86.7
+              },
+              {
+                "zone": "1441",
+                "x": 79.5,
+                "y": 59
+              },
+              {
+                "zone": "1441",
+                "x": 79.5,
+                "y": 85.3
+              },
+              {
+                "zone": "1441",
+                "x": 79.8,
+                "y": 55.1
+              },
+              {
+                "zone": "1441",
+                "x": 80,
+                "y": 87.9
+              },
+              {
+                "zone": "1441",
+                "x": 80.7,
+                "y": 54.3
+              },
+              {
+                "zone": "1441",
+                "x": 80.7,
+                "y": 56.3
+              },
+              {
+                "zone": "1441",
+                "x": 80.7,
+                "y": 89
+              },
+              {
+                "zone": "1441",
+                "x": 81.4,
+                "y": 86.3
+              },
+              {
+                "zone": "1441",
+                "x": 81.5,
+                "y": 86.3
+              },
+              {
+                "zone": "1441",
+                "x": 81.9,
+                "y": 87.2
+              },
+              {
+                "zone": "1441",
+                "x": 81.9,
+                "y": 87.5
+              },
+              {
+                "zone": "1441",
+                "x": 82.2,
+                "y": 56.2
+              },
+              {
+                "zone": "1441",
+                "x": 82.2,
+                "y": 90
+              },
+              {
+                "zone": "1441",
+                "x": 82.8,
+                "y": 85.4
+              },
+              {
+                "zone": "1441",
+                "x": 82.8,
+                "y": 85.5
+              },
+              {
+                "zone": "1441",
+                "x": 82.8,
+                "y": 87.9
+              },
+              {
+                "zone": "1441",
+                "x": 82.9,
+                "y": 55.3
+              },
+              {
+                "zone": "1441",
+                "x": 82.9,
+                "y": 64.7
+              },
+              {
+                "zone": "1441",
+                "x": 83.6,
+                "y": 56.3
+              },
+              {
+                "zone": "1441",
+                "x": 83.7,
+                "y": 86.6
+              },
+              {
+                "zone": "1441",
+                "x": 85.3,
+                "y": 58.4
+              },
+              {
+                "zone": "1441",
+                "x": 85.3,
+                "y": 58.5
+              },
+              {
+                "zone": "1441",
+                "x": 85.6,
+                "y": 61.6
+              },
+              {
+                "zone": "1441",
+                "x": 85.7,
+                "y": 61.4
+              },
+              {
+                "zone": "1441",
+                "x": 85.8,
+                "y": 62.5
+              },
+              {
+                "zone": "1441",
+                "x": 85.9,
+                "y": 57.4
+              },
+              {
+                "zone": "1441",
+                "x": 86,
+                "y": 59.7
+              },
+              {
+                "zone": "1441",
+                "x": 86.2,
+                "y": 68.6
+              },
+              {
+                "zone": "1441",
+                "x": 86.2,
+                "y": 74.4
+              },
+              {
+                "zone": "1441",
+                "x": 86.2,
+                "y": 74.6
+              },
+              {
+                "zone": "1441",
+                "x": 86.6,
+                "y": 63.5
+              },
+              {
+                "zone": "1441",
+                "x": 86.6,
+                "y": 64.7
+              },
+              {
+                "zone": "1441",
+                "x": 86.7,
+                "y": 58.3
+              },
+              {
+                "zone": "1441",
+                "x": 86.7,
+                "y": 58.5
+              },
+              {
+                "zone": "1441",
+                "x": 86.7,
+                "y": 63.4
+              },
+              {
+                "zone": "1441",
+                "x": 86.8,
+                "y": 60.9
+              },
+              {
+                "zone": "1441",
+                "x": 86.8,
+                "y": 67.9
+              },
+              {
+                "zone": "1441",
+                "x": 86.9,
+                "y": 70.1
+              },
+              {
+                "zone": "1441",
+                "x": 86.9,
+                "y": 72.3
+              },
+              {
+                "zone": "1441",
+                "x": 87,
+                "y": 75.4
+              },
+              {
+                "zone": "1441",
+                "x": 87.1,
+                "y": 75.5
+              },
+              {
+                "zone": "1441",
+                "x": 87.2,
+                "y": 73.5
+              },
+              {
+                "zone": "1441",
+                "x": 87.3,
+                "y": 66.9
+              },
+              {
+                "zone": "1441",
+                "x": 87.3,
+                "y": 73.4
+              },
+              {
+                "zone": "1441",
+                "x": 87.6,
+                "y": 62.9
+              },
+              {
+                "zone": "1441",
+                "x": 87.6,
+                "y": 71.3
+              },
+              {
+                "zone": "1441",
+                "x": 87.7,
+                "y": 78
+              },
+              {
+                "zone": "1441",
+                "x": 87.8,
+                "y": 76.5
+              },
+              {
+                "zone": "1441",
+                "x": 87.9,
+                "y": 60.9
+              },
+              {
+                "zone": "1441",
+                "x": 88,
+                "y": 80
+              },
+              {
+                "zone": "1441",
+                "x": 88.1,
+                "y": 67.8
+              },
+              {
+                "zone": "1441",
+                "x": 88.2,
+                "y": 65.4
+              },
+              {
+                "zone": "1441",
+                "x": 88.2,
+                "y": 65.7
+              },
+              {
+                "zone": "1441",
+                "x": 88.2,
+                "y": 74.9
+              },
+              {
+                "zone": "1441",
+                "x": 88.4,
+                "y": 80.9
+              },
+              {
+                "zone": "1441",
+                "x": 88.6,
+                "y": 76.8
+              },
+              {
+                "zone": "1441",
+                "x": 88.8,
+                "y": 66.4
+              },
+              {
+                "zone": "1441",
+                "x": 88.8,
+                "y": 66.6
+              }
+            ],
+            "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+            "source": {
+              "chapterId": "chapter-15-33-34-thousand-needles",
+              "version": "import-v2-2501749e2dcc6778",
+              "stepId": "source-step-0058"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "questId": 1111,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Bring Kravel's Parts Order to Wharfmaster Dizzywig in Ratchet."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1112,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Bring Kravel's Parts to Kravel Koalbeard in the Shimmering Flats."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1111
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1114,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Bring the Delicate Car Parts to Fizzle Brassbolts in Shimmering Flats."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1112
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1115,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Talk to Krazek in Booty Bay."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1114
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 1116,
+      "creatureIds": [],
+      "itemCreatureIds": [
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        746,
+        14445
+      ],
+      "objectiveText": [
+        "Bring 10 Specks of Dream Dust to Krazek in Booty Bay. Dream Dust is gathered from the dragon whelps of the Swamp of Sorrows."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          1115
+        ]
+      },
+      "itemObjectives": [
+        {
+          "objectiveIndex": 1,
+          "itemId": 5803,
+          "itemName": "Speck of Dream Dust",
+          "quantity": 10,
+          "npcIds": [
+            740,
+            741,
+            742,
+            743,
+            744,
+            745,
+            746,
+            14445
+          ],
+          "sharing": "pooled",
+          "sharingReference": {
+            "kind": "classic-1.12-reference",
+            "repository": "https://github.com/cmangos/classic-db",
+            "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+            "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+            "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+            "sourceBuild": 5875,
+            "referencedAt": "2026-10-31T22:41:50.344Z",
+            "itemId": 5803,
+            "itemFlags": 0
+          }
+        }
+      ]
+    }
+  ],
+  "originalSharedQuestIds": [
+    1022,
+    1037,
+    1038,
+    1039,
+    1040,
+    1110,
+    1111,
+    1112,
+    1114,
+    1115,
+    1116
+  ]
+}

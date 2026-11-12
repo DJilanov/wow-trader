@@ -1,6 +1,6 @@
-import type { CampaignAction } from "./campaign.js";
+import type { CampaignAction, CampaignSource } from "./campaign.js";
 import type { QuestCatalog, QuestCatalogEntry, QuestCatalogPosition } from "./quest-catalog.js";
-import { isSharedFundingQuest, isGroundPickupFundingQuest } from "./quest-catalog.js";
+import { isSharedFundingQuest, isGroundPickupFundingQuest, questGroundPickups } from "./quest-catalog.js";
 import type { PremadeProgress } from "./premade-model.js";
 import { campaignGroundJourney } from "./campaign-transport.js";
 import { campaignZoneName, campaignZoneId } from "./campaign-geography.js";
@@ -10,9 +10,16 @@ import {
   existingFundingPickup,
   existingFundingPrerequisite,
 } from "./campaign-funding-prerequisites.js";
-import { npcDeliveryRecipients } from "./quest-catalog-delivery.js";
+import { npcDeliveryRecipients, providedItemDeliveryRecipients } from "./quest-catalog-delivery.js";
 import type { CampaignFundingCollection } from "./campaign-funding-collections.js";
-import { FIVE_PLAYER_LOOT_BUDGET } from "./party-quest-cost.js";
+import { partyQuestCollectionBudget } from "./party-quest-cost.js";
+import { capturedFundingObjectiveLocations } from "./campaign-funding-approach.js";
+import type { CampaignSourceDelivery } from "./campaign-source-deliveries.js";
+import { groundPickupTravelHints } from "./campaign-ground-pickup.js";
+import { MAXIMUM_NON_BOSS_ENEMY_LEVEL_GAP } from "./campaign-combat-policy.js";
+
+import { projectedFundingPrerequisitesFit,
+  type FundingPrerequisiteProjection } from "./campaign-funding-prerequisite-projection.js";
 
 export interface CampaignFundingPosition extends QuestCatalogPosition {
   readonly space?: "map-percent" | "world";
@@ -25,6 +32,12 @@ export interface CampaignFundingBatch {
   readonly travelCost: number;
   readonly returnTravelCost: number;
   readonly requiredKills: number;
+}
+
+/** Journal-listed outdoor lead-ins can fund preparation; inside or unknown stages cannot. */
+export function requiresDungeonQuestVisit(questId: number): boolean {
+  const quest = getPremadeQuest(questId);
+  return quest !== null && (quest.pickupStage !== "before" || quest.objectiveStage !== "before");
 }
 
 function positionCost(
@@ -83,22 +96,36 @@ export function campaignFundingBatch(
     readonly forbiddenQuestIds: ReadonlySet<number>;
     readonly maximumQuestLevel: number;
     readonly leaderOnly: boolean;
+    readonly sharedQuestsOnly?: true;
     readonly additionalPrerequisites?: ReadonlyMap<number, readonly number[]>;
     readonly existingActions?: readonly CampaignAction[];
+    readonly allowNearbyGivers?: true;
     readonly includeGroundPickups?: boolean;
+    readonly groundPickupSources?: readonly CampaignSource[];
     readonly includeNpcDeliveries?: boolean;
     readonly includePartyElites?: boolean;
+    readonly includeCatalogApproaches?: boolean;
     readonly sourceCollections?: ReadonlyMap<number, CampaignFundingCollection>;
+    readonly sourceDeliveries?: ReadonlyMap<number, CampaignSourceDelivery>;
+    readonly freshQuestIds?: ReadonlySet<number>;
+    readonly prerequisiteProjection?: FundingPrerequisiteProjection;
   },
 ): CampaignFundingBatch | null {
   const eligible = (quest: QuestCatalogEntry): boolean =>
     isSharedFundingQuest(quest) ||
     (options.includeGroundPickups === true && isGroundPickupFundingQuest(quest)) ||
-    options.sourceCollections?.has(quest.questId) === true;
+    options.sourceCollections?.has(quest.questId) === true ||
+    options.sourceDeliveries?.has(quest.questId) === true;
   if (!eligible(root)) return null;
   const byId = new Map(catalog.quests.map((quest) => [quest.questId, quest]));
   const npcs = new Map(combat.npcs.map((npc) => [npc.id, npc]));
   const members = options.leaderOnly ? progress.members.slice(0, 1) : progress.members;
+  const stagedPrerequisites = options.prerequisiteProjection !== undefined &&
+    options.sharedQuestsOnly === true && !options.leaderOnly && members.length === 5;
+  const maximumEnemyLevel = Math.min(
+    options.maximumQuestLevel,
+    ...members.map((member) => (member.level ?? 0) + MAXIMUM_NON_BOSS_ENEMY_LEVEL_GAP),
+  );
   const rewarded = (id: number): boolean =>
     members.every((member) => member.questStates[String(id)] === "rewarded");
   const existing = new Map<number, readonly CampaignAction[]>();
@@ -120,12 +147,18 @@ export function campaignFundingBatch(
 
   function withinDifficulty(quest: QuestCatalogEntry): boolean {
     if (quest.questLevel === null) return false;
+    const delivery = options.sourceDeliveries?.get(quest.questId);
+    if (delivery) return (delivery.maximumEnemyLevel ?? 0) <= maximumEnemyLevel;
+    // An object pickup's reward level is not an enemy level; its actual minimum still gates closure.
+    if (options.includeGroundPickups === true && isGroundPickupFundingQuest(quest)) return true;
+    if (quest.objectStarts?.length && quest.category === "delivery" && isSharedFundingQuest(quest))
+      return true;
     const collection = options.sourceCollections?.get(quest.questId);
     if (collection)
       return (
         !options.leaderOnly &&
         members.length === 5 &&
-        collection.maximumEnemyLevel <= options.maximumQuestLevel
+        collection.maximumEnemyLevel <= maximumEnemyLevel
       );
     const partyElites = options.includePartyElites === true && !options.leaderOnly;
     const enemyLevelsFit = (): boolean =>
@@ -136,23 +169,20 @@ export function campaignFundingBatch(
         return (
           (npc?.rank === 0 || (partyElites && members.length === 5 && npc?.rank === 1)) &&
           npc.maximumLevel !== null &&
-          npc.maximumLevel <= options.maximumQuestLevel
+          npc.maximumLevel <= maximumEnemyLevel
         );
       });
-    if (partyElites && quest.category === "shared-kills")
-      return members.length === 5 && enemyLevelsFit();
+    // A low quest reward level must not bypass the actual creature-level ceiling.
+    if (quest.category === "shared-kills") return enemyLevelsFit();
     if (quest.questLevel <= options.maximumQuestLevel) return true;
+    const reference = combat.quests.find((entry) => entry.questId === quest.questId);
     if (
       options.includeNpcDeliveries &&
-      npcDeliveryRecipients(
-        quest,
-        combat.quests.find((reference) => reference.questId === quest.questId),
-      ).length > 0
+      (npcDeliveryRecipients(quest, reference).length > 0 ||
+        providedItemDeliveryRecipients(quest, reference).length > 0)
     )
       return true;
-    // Reward level is not combat difficulty. A full party can consider ordinary
-    // elites in the same enemy-level band; rares and bosses need their own route.
-    return enemyLevelsFit();
+    return false;
   }
 
   function closure(id: number, visiting: ReadonlySet<number>): readonly QuestCatalogEntry[] | null {
@@ -161,13 +191,21 @@ export function campaignFundingBatch(
       visiting.has(id) ||
       visiting.size > 100 ||
       options.forbiddenQuestIds.has(id) ||
-      getPremadeQuest(id)
+      requiresDungeonQuestVisit(id)
     )
       return null;
     const quest = byId.get(id);
     const source =
       options.sourceCollections?.get(id)?.actions ??
-      (quest ? existingFundingPrerequisite(quest, byId, options.existingActions ?? []) : null);
+      options.sourceDeliveries?.get(id)?.actions ??
+      (quest
+        ? existingFundingPrerequisite(
+            quest,
+            byId,
+            options.existingActions ?? [],
+            options.allowNearbyGivers === true,
+          )
+        : null);
     const capturedRoot =
       id === root.questId &&
       options.existingActions?.filter(
@@ -181,13 +219,25 @@ export function campaignFundingBatch(
       (options.sourceCollections &&
         quest.category === "unsupported" &&
         !options.sourceCollections.has(id) &&
+        !options.sourceDeliveries?.has(id) &&
         !isGroundPickupFundingQuest(quest)) ||
       (options.sourceCollections?.has(id) &&
         members.some((member) => {
           const state = member.questStates[String(id)];
           return state !== undefined && state !== "not-started";
         })) ||
-      members.some((member) => member.level === null || member.level < quest.minimumLevel!) ||
+      [
+        ...(options.freshQuestIds?.has(id) ? [id] : []),
+        ...(options.sourceDeliveries?.get(id)?.requiresFreshStart ? [id] : []),
+        ...(options.sourceDeliveries?.get(id)?.requiresFreshQuestIds ?? []),
+      ].some((freshId) =>
+        members.some((member) => {
+          const state = member.questStates[String(freshId)];
+          return state !== undefined && state !== "not-started";
+        }),
+      ) ||
+      members.some((member) => member.level === null ||
+        (!stagedPrerequisites && member.level < quest.minimumLevel!)) ||
       quest.exclusiveWith.some((exclusive) =>
         members.some(
           (member) =>
@@ -221,16 +271,33 @@ export function campaignFundingBatch(
   const collections = ordered.flatMap(
     (quest) => options.sourceCollections?.get(quest.questId) ?? [],
   );
+  const boundedCollections = collections.filter((collection) => !collection.retainedByDropRate);
+  const killBudget = partyQuestCollectionBudget(members.length, options.sharedQuestsOnly === true);
   if (
-    collections.reduce((sum, collection) => sum + collection.expectedKills, 0) >
-      FIVE_PLAYER_LOOT_BUDGET.maximumExpectedKills ||
-    collections.reduce((sum, collection) => sum + collection.slowKills, 0) >
-      FIVE_PLAYER_LOOT_BUDGET.maximumSlowKills
+    boundedCollections.reduce((sum, collection) =>
+      sum + (collection.budgetedKills?.expectedKills ?? collection.expectedKills), 0) >
+      killBudget.maximumExpectedKills ||
+    boundedCollections.reduce((sum, collection) =>
+      sum + (collection.budgetedKills?.slowKills ?? collection.slowKills), 0) >
+      killBudget.maximumSlowKills
   )
     return null;
   const selected = new Set(ordered.map((quest) => quest.questId));
   if (ordered.some((quest) => quest.exclusiveWith.some((id) => selected.has(id)))) return null;
   const actions: CampaignAction[] = [];
+  const usedIds = new Set(options.existingActions?.map((action) => action.id));
+  function fundedActionId(questId: number, suffix: string): string {
+    let result = `quest-funding-${options.checkpointId}-${questId}-${suffix}`;
+    // A combat gate can itself be generated funding. Keep its full identity in
+    // fundingCheckpointId while the opaque action key fits persisted progress.
+    if (result.length > 180) {
+      let sequence = actions.length;
+      do result = `quest-funding-compact-${questId}-${sequence++}`;
+      while (usedIds.has(result));
+    }
+    usedIds.add(result);
+    return result;
+  }
   let previous = options.previous;
   let travelCost = 0;
   for (const quest of ordered) {
@@ -246,21 +313,86 @@ export function campaignFundingBatch(
       if (source.some((action) => action.leaderOnly !== options.leaderOnly)) return null;
       const collection = options.sourceCollections?.get(quest.questId);
       for (const action of source) {
-        const positions = action.positions.flatMap(({ position }) => {
+        const approach =
+          action.positions.length === 0
+            ? options.sourceDeliveries
+                ?.get(quest.questId)
+                ?.approaches?.find((row) => row.actionId === action.id)
+            : undefined;
+        if (approach && !options.includeCatalogApproaches) return null;
+        const positions = (approach?.positions ?? action.positions).flatMap(({ position }) => {
           const zone = campaignZoneId(position.zone);
           return zone && (position.space === "map-percent" || position.space === "world")
             ? [{ ...position, zone }]
             : [];
         });
         const point = closestPosition(positions, previous, options.previousZone);
-        if (!point) return null;
-        travelCost += positionCost(point, previous, options.previousZone);
-        previous = point;
+        if (point) {
+          travelCost += positionCost(point, previous, options.previousZone);
+          previous = point;
+          if (approach)
+            actions.push({
+              id: fundedActionId(quest.questId, "approach-accepted"),
+              legId: options.legId,
+              title: `Reach ${approach.npcName}`,
+              instructions: [`Go to ${approach.npcName}, then accept the following quest together.`],
+              positions: approach.positions,
+              source: null,
+              kind: "instructions",
+              questChanges: [],
+              leaderOnly: options.leaderOnly,
+              raidOnly: false,
+              targetLevel: null,
+              targetStopId: null,
+              fundingCheckpointId: options.checkpointId,
+              libraryQuestId: quest.questId,
+              libraryBackbone: true,
+              xpOptional: false,
+            });
+        } else {
+          if (!options.includeCatalogApproaches) return null;
+          const targets = capturedFundingObjectiveLocations(action, quest, combat,
+            collection?.sharedKills, collection?.lootObjectives);
+          if (!targets || targets.some((target) => target.maximumEnemyLevel > maximumEnemyLevel)) return null;
+          const points: CampaignFundingPosition[] = [];
+          for (const target of targets) {
+            const approach = closestPosition(target.positions, previous, options.previousZone);
+            if (!approach) return null;
+            travelCost += positionCost(approach, previous, options.previousZone);
+            previous = approach;
+            points.push(approach);
+          }
+          actions.push({
+            id: fundedActionId(quest.questId, `approach-${action.questChanges.map((change) => change.objectiveIndex).join("-")}`),
+            legId: options.legId,
+            title: `Reach ${targets.map((target) => target.name).join(" and ")}`,
+            instructions: [
+              targets.some((target) => target.looting)
+                ? "Go to the marked creature and complete the following quest objective. Everyone must loot their required item."
+                : "Use the marked possible locations, then complete the following shared kill objectives together.",
+            ],
+            positions: points.map((position) => ({
+              sourceLine: 0,
+              position: { ...position, floor: null, space: "map-percent" },
+            })),
+            source: null,
+            kind: "instructions",
+            questChanges: [],
+            leaderOnly: options.leaderOnly,
+            raidOnly: false,
+            targetLevel: null,
+            targetStopId: null,
+            fundingCheckpointId: options.checkpointId,
+            libraryQuestId: quest.questId,
+            libraryBackbone: true,
+            xpOptional: false,
+          });
+        }
         actions.push({
           ...action,
-          id: collection
-            ? `quest-funding-${options.checkpointId}-${quest.questId}-${action.questChanges[0]!.state}-${action.questChanges[0]!.objectiveIndex ?? 0}`
-            : `quest-funding-${options.checkpointId}-${quest.questId}-${action.id}`,
+          id: fundedActionId(quest.questId, collection
+            ? `${action.questChanges[0]!.state}-${action.questChanges[0]!.objectiveIndex ?? 0}`
+            : action.id),
           legId: options.legId,
           fundingCheckpointId: options.checkpointId,
           ...(collection
@@ -298,21 +430,26 @@ export function campaignFundingBatch(
       (capturedPickup && capturedPickup.leaderOnly !== options.leaderOnly)
     )
       return null;
-    const start = [...quest.starts]
-      .filter((giver) => giver.friendlyToAlliance && giver.positions.length)
-      .sort(
-        (left, right) =>
-          positionCost(
-            closestPosition(left.positions, previous, options.previousZone)!,
-            previous,
-            options.previousZone,
-          ) -
-          positionCost(
-            closestPosition(right.positions, previous, options.previousZone)!,
-            previous,
-            options.previousZone,
-          ),
-      )[0];
+    const start = [
+      ...quest.starts
+        .filter((giver) => giver.friendlyToAlliance && giver.positions.length)
+        .map((giver) => ({ ...giver, kind: "npc" as const })),
+      ...(quest.category === "delivery" && quest.providedItem && !quest.objectives.length
+        ? (quest.objectStarts ?? []).map((giver) => ({ ...giver, kind: "object" as const }))
+        : []),
+    ].sort(
+      (left, right) =>
+        positionCost(
+          closestPosition(left.positions, previous, options.previousZone)!,
+          previous,
+          options.previousZone,
+        ) -
+        positionCost(
+          closestPosition(right.positions, previous, options.previousZone)!,
+          previous,
+          options.previousZone,
+        ),
+    )[0];
     const startPosition = start && closestPosition(start.positions, previous, options.previousZone);
     if (!start || !startPosition) return null;
     const stages: {
@@ -326,17 +463,31 @@ export function campaignFundingBatch(
         state: "accepted",
         index: null,
         instructions: [
-          `Talk to ${start.name} in ${campaignZoneName(startPosition.zone)}. Accept ${quest.title}.`,
+          `${start.kind === "object" ? "Interact with" : "Talk to"} ${start.name} in ${campaignZoneName(startPosition.zone)}. Accept ${quest.title}.`,
+          ...(start.kind === "object"
+            ? [
+                "Every player must accept the quest and receive their own quest item before the party moves on.",
+              ]
+            : []),
         ],
         position: startPosition,
       },
     ];
     let last = startPosition;
-    if (quest.groundPickup && options.includeGroundPickups) {
-      const ground = quest.groundPickup;
+    const grounds = options.includeGroundPickups ? questGroundPickups(quest) : [];
+    for (const ground of grounds) {
       const reference = combat.quests.find((entry) => entry.questId === quest.questId);
-      const item = reference?.itemObjectives?.[0];
-      if (!item?.groundPickup || JSON.stringify(item.groundPickup) !== JSON.stringify(ground))
+      const item = reference?.itemObjectives?.find(
+        (objective) => objective.objectiveIndex === ground.objectiveIndex,
+      );
+      if (
+        reference?.itemObjectives?.length !== grounds.length ||
+        !item?.groundPickup ||
+        item.itemId !== ground.itemId ||
+        item.objectiveIndex !== ground.objectiveIndex ||
+        item.quantity !== (ground.quantity ?? 1) ||
+        JSON.stringify(item.groundPickup) !== JSON.stringify(ground)
+      )
         return null;
       const point = closestPosition(ground.positions, last);
       if (!point) return null;
@@ -346,7 +497,10 @@ export function campaignFundingBatch(
         position: point,
         positions: [point, ...ground.positions.filter((candidate) => candidate !== point)],
         instructions: [
-          `Open ${ground.objectName}. Each player must loot one ${item.itemName ?? `item ${item.itemId}`}.`,
+          ...groundPickupTravelHints(ground, options.groundPickupSources ?? [], catalog.targetBuild),
+          (ground.quantity ?? 1) === 1
+            ? `Open ${ground.objectName}. Each player must loot one ${item.itemName ?? `item ${item.itemId}`}.`
+            : `Loot ${ground.objectName} until each player has ${ground.quantity} ${item.itemName ?? `item ${item.itemId}`}.`,
           ground.positions.length > 1
             ? "Search the marked possible locations until everyone's quest objective is complete. If one location is empty, check the others."
             : "Wait until everyone's quest objective is complete. If the object disappears, wait for it to return.",
@@ -402,7 +556,7 @@ export function campaignFundingBatch(
         previous = point;
         actions.push({
           ...capturedPickup,
-          id: `quest-funding-${options.checkpointId}-${quest.questId}-${capturedPickup.id}`,
+          id: fundedActionId(quest.questId, capturedPickup.id),
           legId: options.legId,
           requiredQuestIds: [...new Set([...(capturedPickup.requiredQuestIds ?? []), ...parents])],
           fundingCheckpointId: options.checkpointId,
@@ -414,7 +568,7 @@ export function campaignFundingBatch(
       const verb =
         stage.state === "accepted" ? "Accept" : stage.state === "rewarded" ? "Turn in" : "Complete";
       actions.push({
-        id: `quest-funding-${options.checkpointId}-${quest.questId}-${stage.state}-${stage.index ?? 0}`,
+        id: fundedActionId(quest.questId, `${stage.state}-${stage.index ?? 0}`),
         legId: options.legId,
         title: `${verb} ${quest.title}`,
         instructions: stage.instructions,
@@ -432,13 +586,16 @@ export function campaignFundingBatch(
         })),
         source: null,
         kind: "quests",
+        ...(stage.state === "objectives-complete" && stage.index !== null
+          ? { combatObjectiveScope: "listed" as const }
+          : {}),
         leaderOnly: options.leaderOnly,
         targetLevel: null,
         targetStopId: null,
         raidOnly: false,
         ...(stage.state === "accepted" && parents.length ? { requiredQuestIds: parents } : {}),
         libraryQuestId: quest.questId,
-        libraryObjective: quest.groundPickup
+        libraryObjective: grounds.length > 0
           ? "interaction"
           : quest.category === "shared-kills"
             ? "shared-kills"
@@ -446,9 +603,11 @@ export function campaignFundingBatch(
         xpOptional: true,
         xpTargetLevel: options.targetLevel,
         fundingCheckpointId: options.checkpointId,
-        ...(quest.groundPickup && options.includeGroundPickups
-          ? { fundingGroundPickup: quest.groundPickup }
-          : {}),
+        ...(grounds.length === 1
+          ? { fundingGroundPickup: grounds[0]! }
+          : grounds.length > 1
+            ? { fundingGroundPickups: grounds }
+            : {}),
       });
     }
   }
@@ -461,17 +620,24 @@ export function campaignFundingBatch(
     returnTravelCost = journey ? journey.length + 1 : Infinity;
   }
   if (!Number.isFinite(returnTravelCost)) return null;
+  const requiredKills = ordered.reduce((sum, quest) => {
+    const collection = options.sourceCollections?.get(quest.questId);
+    const sharedKills = quest.objectives.reduce((count, objective) => count + (objective.count ?? 0), 0);
+    const overlappingKills = collection ? quest.objectives.filter((objective) =>
+      (collection.lootObjectives ?? [collection]).some((loot) => loot.npcId === objective.npcId))
+      .reduce((count, objective) => count + (objective.count ?? 0), 0) : 0;
+    return sum + sharedKills + (collection ? Math.max(0, collection.expectedKills - overlappingKills) : 0);
+  }, 0);
+  if (stagedPrerequisites && ordered.some((quest) => members.some((member) =>
+    member.level! < quest.minimumLevel!)) && !projectedFundingPrerequisitesFit(
+      actions, ordered.map((quest) => quest.questId), progress, catalog, combat,
+      options.prerequisiteProjection!,
+    )) return null;
   return {
     questIds: ordered.map((quest) => quest.questId),
     actions,
     travelCost: travelCost + returnTravelCost,
     returnTravelCost,
-    requiredKills:
-      collections.reduce((sum, collection) => sum + collection.expectedKills, 0) +
-      ordered.reduce(
-        (sum, quest) =>
-          sum + quest.objectives.reduce((count, objective) => count + (objective.count ?? 0), 0),
-        0,
-      ),
+    requiredKills,
   };
 }

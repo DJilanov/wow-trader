@@ -1,5 +1,5 @@
 import { chapterEligibility } from "./chapter-catalog.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { getGuideStepView } from "./guide-archive.js";
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import { campaignActionZones, campaignZoneId, campaignZoneInText } from "./campaign-geography.js";
@@ -19,7 +19,7 @@ export function attachCampaignLocations(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
 ): CampaignPlan {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const profile = campaignPlanSourceProfile(plan);
   const selected = new Set(PREMADE_STOPS.flatMap((stop) => stop.visitIds));
   const tags = DUNGEON_VISITS.filter((visit) => selected.has(visit.id)).flatMap(
     (visit) => visit.sourceTag ?? [],
@@ -74,6 +74,9 @@ export function attachCampaignLocations(
       const reference = getCampaignReferenceQuest(change.questId);
       if (!quest && !reference) continue;
       const core = stop?.quests.some((choice) => choice.questId === change.questId) === true;
+      const associated = Boolean(stop && DUNGEON_VISITS.some((visit) =>
+        stop.visitIds.includes(visit.id) && visit.questIds.includes(change.questId),
+      ));
       const text =
         change.state === "accepted"
           ? (quest?.pickup ?? reference?.pickup)
@@ -92,7 +95,7 @@ export function attachCampaignLocations(
       inside ||=
         Boolean(stop) &&
         ((change.state === "accepted" && quest?.pickupStage === "inside") ||
-          (core && change.state === "objectives-complete" && quest?.objectiveStage === "inside") ||
+          ((core || associated) && change.state === "objectives-complete" && quest?.objectiveStage === "inside") ||
           (change.state === "rewarded" && /\binside\b/i.test(quest?.turnin ?? "")));
     }
     if (inside && stop) {

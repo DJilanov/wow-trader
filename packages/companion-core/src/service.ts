@@ -455,27 +455,37 @@ export class DefaultCompanionService implements CompanionService {
             });
           }
           const latestMarketScan = savedVariables.scans.at(-1);
+          let marketSyncError: Error | null = null;
           if (latestMarketScan) {
             this.#publish("checking", "Synchronizing price history and buying guidance…", {
               activeScanId: null,
               pendingScanCount,
             });
-            const marketIntelligence = await downloadMarketIntelligence(
-              this.#endpoint,
-              apiKey,
-              latestMarketScan,
-              { signal: this.#abortController?.signal },
-            );
-            if (marketIntelligence) {
-              await installMarketIntelligence(product.rootPath, marketIntelligence);
-              processedAny = true;
-              this.#publish(
-                "up_to_date",
-                "Market history synchronized. Reload WoW to activate updated in-game signals.",
-                { activeScanId: null, pendingScanCount },
+            try {
+              const marketIntelligence = await downloadMarketIntelligence(
+                this.#endpoint,
+                apiKey,
+                latestMarketScan,
+                { signal: this.#abortController?.signal },
               );
-            } else {
-              marketIntelligenceUnavailable = true;
+              if (marketIntelligence) {
+                await installMarketIntelligence(product.rootPath, marketIntelligence);
+                processedAny = true;
+                this.#publish(
+                  "up_to_date",
+                  "Market history synchronized. Reload WoW to activate updated in-game signals.",
+                  { activeScanId: null, pendingScanCount },
+                );
+              } else {
+                marketIntelligenceUnavailable = true;
+              }
+            } catch (error: unknown) {
+              if (this.#abortController?.signal.aborted) throw error;
+              const message =
+                error instanceof Error ? error.message : "Market history sync failed.";
+              marketSyncError = new Error("Saved uploads are retained. " + message, {
+                cause: error,
+              });
             }
           }
           const diagnosticsUpload = createWorldDiagnosticsUpload(savedVariables);
@@ -533,6 +543,7 @@ export class DefaultCompanionService implements CompanionService {
               true,
               apiKey,
             );
+          if (marketSyncError) throw marketSyncError;
           this.#processedSignatures.set(filePath, signatureKey);
           this.#retries.delete(retryKey);
           this.#retryFailures.delete(retryKey);

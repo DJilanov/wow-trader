@@ -1,3 +1,4 @@
+import type { CampaignFundingExecutor } from "./campaign-funding-scenarios.js";
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CombatDataset } from "./combat-model.js";
 import type { QuestCatalog } from "./quest-catalog.js";
@@ -14,8 +15,9 @@ import { campaignGroundJourney } from "./campaign-transport.js";
 import { guidePartyScenario } from "./campaign-guide-party.js";
 import { auditCampaignQuestLog } from "./campaign-quest-log.js";
 import { batchCampaignVisitWindows } from "./campaign-visit-windows.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { getGuideStepView } from "./guide-archive.js";
+import { attachCampaignQuestTiming, campaignTimedQuestMethodIssues } from "./campaign-quest-timing.js";
 
 const movableSourceTags = new Set([
   "text",
@@ -78,8 +80,9 @@ function fixedActions(
   sources: readonly CampaignSource[],
   states: readonly CampaignFundingState[],
   collections: ReadonlyMap<number, CampaignFundingCollection>,
+  lockedActionIds: ReadonlySet<string>,
 ): ReadonlySet<string> {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const profile = campaignPlanSourceProfile(plan);
   const steps = new Map(
     sources
       .filter((source) => source.guide.targetBuild === plan.targetBuild)
@@ -90,15 +93,13 @@ function fixedActions(
       ),
   );
   const reached = new Set<string>(),
-    barriers = new Set<string>();
+    barriers = new Set<string>(lockedActionIds);
   for (const state of states)
     for (const section of state.forecast)
       for (const member of section.members)
         for (const step of member.steps) {
           if (step.status !== "projected") continue;
           reached.add(step.actionId);
-          if (step.before && step.after && step.before.level !== step.after.level)
-            barriers.add(step.actionId);
         }
   for (const action of plan.actions) {
     if (
@@ -168,6 +169,8 @@ export function batchFundedCampaignVisits(
   sources: readonly CampaignSource[],
   combat: CombatDataset,
   catalog: QuestCatalog,
+  statesForPlan: CampaignFundingExecutor = campaignFundingStates,
+  lockedActionIds: ReadonlySet<string> = new Set(),
 ): CampaignPlan {
   if (
     !initial.combat ||
@@ -187,14 +190,15 @@ export function batchFundedCampaignVisits(
       (leg) =>
         ["preparation", "xp-bridge"].includes(leg.kind) &&
         initial.actions.some(
-          (action) => action.legId === leg.id && !action.leaderOnly && action.fundingCheckpointId,
+          (action) => action.legId === leg.id && !action.leaderOnly && action.fundingCheckpointId &&
+            !lockedActionIds.has(action.id),
         ),
     )
     .map((leg) => leg.id);
   if (!legIds.length) return initial;
   const collections = campaignFundingCollections(initial, sources, combat, catalog);
   let plan = initial,
-    states = campaignFundingStates(plan);
+    states = statesForPlan(plan);
   let accepted: boolean;
   do {
     accepted = false;
@@ -205,7 +209,7 @@ export function batchFundedCampaignVisits(
         located,
         sources,
         legId,
-        fixedActions(located, sources, states, collections),
+        fixedActions(located, sources, states, collections, lockedActionIds),
       );
       if (ordered === located.actions) continue;
       const actions = ordered.map((action) => originals.get(action.id)!);
@@ -221,12 +225,15 @@ export function batchFundedCampaignVisits(
       const before = transportHops(legJourney(plan, legId)),
         after = transportHops(legJourney(proposed, legId));
       if (after === null || before === null || after > before) continue;
+      const timed = attachCampaignQuestTiming(proposed, catalog);
+      if (campaignTimedQuestMethodIssues(timed.actions, timed.questTimings).size > 0) continue;
       const moved = new Set(
         actions
           .filter((action, index) => action !== plan.actions[index])
           .map((action) => action.id),
       );
-      const next = campaignFundingStates(proposed);
+      const next = statesForPlan(proposed);
+      // A level transition may move only after every reached configuration is replayed.
       if (
         regressedFundingScenarios(plan, states, next, { allowLargerDeficitAtSameAction: true })
           .length ||

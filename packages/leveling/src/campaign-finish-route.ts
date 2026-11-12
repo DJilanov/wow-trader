@@ -6,7 +6,7 @@ export interface FinishRouteStep {
   readonly objectives?: readonly number[];
   readonly inside?: DungeonFinishId;
   readonly zone?: string;
-  readonly text?: string;
+  readonly text?: string | readonly string[];
 }
 
 export interface FinishRouteWing {
@@ -30,7 +30,7 @@ const complete = (
   questId: number,
   objectives: readonly number[],
   inside: DungeonFinishId,
-  text: string,
+  text: string | readonly string[],
 ): FinishRouteStep => ({ questId, phase: "objectives-complete", objectives, inside, text });
 
 // Objective slots and quest text: authored Forever QuestieDB export e9a67d1.
@@ -48,7 +48,7 @@ export const FINISH_ROUTE: readonly FinishRouteWing[] = [
         5001,
         [1],
         "lower-blackrock",
-        "Find Bijou's Belongings in Lower Blackrock Spire. Every player needs their own quest credit.",
+        "Collect 1 Bijou's Belongings from its container inside Lower Blackrock Spire. Every player needs their own quest item.",
       ),
       turnIn(5001, "lower-blackrock"),
       complete(
@@ -68,7 +68,7 @@ export const FINISH_ROUTE: readonly FinishRouteWing[] = [
         4862,
         [1],
         "lower-blackrock",
-        "Collect 15 Spire Spider Eggs per player. Check all five quest trackers before leaving.",
+        "Collect 15 Spire Spider Eggs from the eggs inside Lower Blackrock Spire. Every player needs all fifteen; check all five quest trackers before leaving.",
       ),
       complete(
         4701,
@@ -164,7 +164,13 @@ export const FINISH_ROUTE: readonly FinishRouteWing[] = [
         5343,
         [1, 2, 3, 4],
         "scholomance",
-        "Collect all four Barov deeds: Caer Darrow, Brill, Tarren Mill and Southshore. Each player needs all four quest objectives.",
+        [
+          "Collect all four Barov deeds: Caer Darrow, Brill, Tarren Mill and Southshore. Each player needs all four quest objectives.",
+          "Collect 1 The Deed to Brill from its document inside Scholomance.",
+          "Collect 1 The Deed to Caer Darrow from its document inside Scholomance.",
+          "Collect 1 The Deed to Southshore from its document inside Scholomance.",
+          "Collect 1 The Deed to Tarren Mill from its document inside Scholomance.",
+        ],
       ),
       complete(
         5529,
@@ -244,7 +250,7 @@ export const FINISH_ROUTE: readonly FinishRouteWing[] = [
         5243,
         [1],
         "stratholme-undead",
-        "Search supply crates across Stratholme until every player has 5 Stratholme Holy Water. Check all five trackers before leaving.",
+        "Collect 5 Stratholme Holy Water from supply crates across Stratholme. Check all five trackers before leaving.",
       ),
       turnIn(5243),
     ],

@@ -1,0 +1,3148 @@
+{
+  "classification": "Exact source excerpt for Stones of Binding and both Arathi wanted bounties, with matching provider catalog/combat/drop records and reward references. Not a complete archive or observed payout.",
+  "sourceFile": "artifacts/leveling/archive/chapter-21-39-40-alterac-arathi-v2-b8159d755149bd5e.json",
+  "sourceFileSha256": "e3bc61348e172f6d18b7ec5b251316f2d646ff1e1e72ae44605da9e867f712e9",
+  "guide": {
+    "schemaVersion": 1,
+    "chapterId": "chapter-21-39-40-alterac-arathi",
+    "version": "import-v2-b8159d755149bd5e",
+    "targetBuild": 70205,
+    "sourceSha256": "b8159d755149bd5e77027eff3367f9a5b3dd1340f0a81011856efb3bc28822a0",
+    "sourceName": "RestedXP Forever Guide",
+    "steps": [
+      {
+        "id": "source-step-0007",
+        "ordinal": 7,
+        "sourceLine": 41,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "Arathi Highlands,62.50,33.72",
+            "condition": "",
+            "text": "",
+            "sourceLine": 42,
+            "questId": null,
+            "position": {
+              "zone": "Arathi Highlands",
+              "floor": null,
+              "x": 62.5,
+              "y": 33.72,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Click the Shards of Myzrael",
+            "sourceLine": 43,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "642",
+            "condition": "",
+            "text": "Accept The Princess Trapped",
+            "sourceLine": 44,
+            "questId": 642,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0009",
+        "ordinal": 9,
+        "sourceLine": 52,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3695.91,-1093.09,50,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 53,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3695.91,
+              "y": -1093.09,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3819.39,-1083.49,40,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 54,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3819.39,
+              "y": -1083.49,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3858.99,-985.81,40,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 55,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3858.99,
+              "y": -985.81,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-4002.63,-886.930,25,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 56,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -4002.63,
+              "y": -886.93,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "Arathi Highlands,84.30,30.95",
+            "condition": "",
+            "text": "",
+            "sourceLine": 57,
+            "questId": null,
+            "position": {
+              "zone": "Arathi Highlands",
+              "floor": null,
+              "x": 84.3,
+              "y": 30.95,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Drywhisker Kobolds, Drywhisker Diggers and Drywhisker Surveyors. Loot them for their Motes",
+            "sourceLine": 58,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "The quest turn in for this is inside the Cave. Clear your way to the back while completing it",
+            "sourceLine": 59,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "642,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 60,
+            "questId": 642,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "Drywhisker Kobold",
+            "condition": "",
+            "text": "",
+            "sourceLine": 61,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "Drywhisker Digger",
+            "condition": "",
+            "text": "",
+            "sourceLine": 62,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "Drywhisker Surveyor",
+            "condition": "",
+            "text": "",
+            "sourceLine": 63,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0011",
+        "ordinal": 11,
+        "sourceLine": 72,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "Arathi Highlands,84.30,30.95",
+            "condition": "",
+            "text": "",
+            "sourceLine": 73,
+            "questId": null,
+            "position": {
+              "zone": "Arathi Highlands",
+              "floor": null,
+              "x": 84.3,
+              "y": 30.95,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Click the Iridescent Shards at the back of the Cave",
+            "sourceLine": 74,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "642",
+            "condition": "",
+            "text": "Turn in The Princess Trapped",
+            "sourceLine": 75,
+            "questId": 642,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "651",
+            "condition": "",
+            "text": "Accept Stones of Binding",
+            "sourceLine": 76,
+            "questId": 651,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0014",
+        "ordinal": 14,
+        "sourceLine": 87,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#label",
+            "arguments": "EastBinding",
+            "condition": "",
+            "text": "",
+            "sourceLine": 88,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "Arathi Highlands,66.710,29.725",
+            "condition": "",
+            "text": "",
+            "sourceLine": 89,
+            "questId": null,
+            "position": {
+              "zone": "Arathi Highlands",
+              "floor": null,
+              "x": 66.71,
+              "y": 29.725,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Open the Stone of East Binding. Loot it for the Cresting Key",
+            "sourceLine": 90,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "651,2",
+            "condition": "",
+            "text": "",
+            "sourceLine": 91,
+            "questId": 651,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0023",
+        "ordinal": 23,
+        "sourceLine": 185,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2740.18,-1350.95",
+            "condition": "",
+            "text": "",
+            "sourceLine": 186,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2740.18,
+              "y": -1350.95,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Open the Stone of Outer Binding. Loot it for the Thundering Key",
+            "sourceLine": 187,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "651,3",
+            "condition": "",
+            "text": "",
+            "sourceLine": 188,
+            "questId": 651,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0099",
+        "ordinal": 99,
+        "sourceLine": 751,
+        "condition": "!Warrior",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1783.51,-855.970",
+            "condition": "",
+            "text": "",
+            "sourceLine": 752,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1783.51,
+              "y": -855.97,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Open the Stone of West Binding. Loot it for the Burning Key",
+            "sourceLine": 753,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Make sure the Forsaken Courier doesn't sneak past you as you do this!",
+            "sourceLine": 754,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "651,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 755,
+            "questId": 651,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "658",
+            "condition": "",
+            "text": "",
+            "sourceLine": 756,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0114",
+        "ordinal": 114,
+        "sourceLine": 863,
+        "condition": "Hunter/Druid/Rogue",
+        "directives": [
+          {
+            "tag": ".solo",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 864,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2524.18,-1279.67",
+            "condition": "",
+            "text": "",
+            "sourceLine": 865,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2524.18,
+              "y": -1279.67,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Click the Wanted Board",
+            "sourceLine": 866,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "684",
+            "condition": "",
+            "text": "Accept Wanted! Marez Cowl",
+            "sourceLine": 867,
+            "questId": 684,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0115",
+        "ordinal": 115,
+        "sourceLine": 868,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".group",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 869,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2524.18,-1279.67",
+            "condition": "",
+            "text": "",
+            "sourceLine": 870,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2524.18,
+              "y": -1279.67,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Click the Wanted Board",
+            "sourceLine": 871,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "684",
+            "condition": "",
+            "text": "Accept Wanted! Marez Cowl",
+            "sourceLine": 872,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "685",
+            "condition": "",
+            "text": "Accept Wanted! Otto and Falconcrest",
+            "sourceLine": 873,
+            "questId": 685,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0117",
+        "ordinal": 117,
+        "sourceLine": 881,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#label",
+            "arguments": "WestBinding",
+            "condition": "",
+            "text": "",
+            "sourceLine": 882,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1783.51,-855.970",
+            "condition": "",
+            "text": "",
+            "sourceLine": 883,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1783.51,
+              "y": -855.97,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Open the Stone of West Binding. Loot it for the Burning Key",
+            "sourceLine": 884,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "651,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 885,
+            "questId": 651,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0128",
+        "ordinal": 128,
+        "sourceLine": 965,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2170.91,-1510.33",
+            "condition": "",
+            "text": "",
+            "sourceLine": 966,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2170.91,
+              "y": -1510.33,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Click the Stone of Inner Binding",
+            "sourceLine": 967,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "651",
+            "condition": "",
+            "text": "Turn in Stones of Binding",
+            "sourceLine": 968,
+            "questId": 651,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "652",
+            "condition": "",
+            "text": "Accept Breaking the Keystone",
+            "sourceLine": 969,
+            "questId": 652,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0132",
+        "ordinal": 132,
+        "sourceLine": 998,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#completewith",
+            "arguments": "next",
+            "condition": "",
+            "text": "",
+            "sourceLine": 999,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".group",
+            "arguments": "2",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1000,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1932.23,-1661.70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1001,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1932.23,
+              "y": -1661.7,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Marez Cowl. Loot her for her Head",
+            "sourceLine": 1002,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Marez Cowl has 2 different spawn locations. One is on the high ground location, and the other is below behind the house. They are marked on your map",
+            "sourceLine": 1003,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "Hunter",
+            "text": "Cast [Eagle Eye] to try and find which location she is in",
+            "sourceLine": 1004,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "684,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1005,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".unitscan",
+            "arguments": "Marez Cowl",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1006,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1007,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0133",
+        "ordinal": 133,
+        "sourceLine": 1008,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".group",
+            "arguments": "4",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1009,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1803.60,-1709.08",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1010,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1803.6,
+              "y": -1709.08,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Otto and Lord Falconcrest. Loot them for their Heads",
+            "sourceLine": 1011,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "685,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1012,
+            "questId": 685,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Otto",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1013,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "685,2",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1014,
+            "questId": 685,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Lord Falconcrest",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1015,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "685",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1016,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0134",
+        "ordinal": 134,
+        "sourceLine": 1017,
+        "condition": "Hunter/Druid/Rogue",
+        "directives": [
+          {
+            "tag": ".solo",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1018,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1932.23,-1661.70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1019,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1932.23,
+              "y": -1661.7,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1927.84,-1672.91,20,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1020,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1927.84,
+              "y": -1672.91,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1933.13,-1644.73",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1021,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1933.13,
+              "y": -1644.73,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Marez Cowl. Loot her for her Head",
+            "sourceLine": 1022,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Marez Cowl has 2 different spawn locations. One is on the high ground location, and the other is below behind the house. They are marked on your map",
+            "sourceLine": 1023,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Be careful as there are [Stealthed] level 36-37 elite Syndicate Prowlers in the area surrounding both her spawns",
+            "sourceLine": 1024,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "Hunter",
+            "text": "Cast [Eagle Eye] to try and find which location she is in",
+            "sourceLine": 1025,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Skip this step if you're not confident in your ability to solo it",
+            "sourceLine": 1026,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "684,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1027,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".unitscan",
+            "arguments": "Marez Cowl",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1028,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1029,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0135",
+        "ordinal": 135,
+        "sourceLine": 1030,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#label",
+            "arguments": "MarezCowl",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1031,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".group",
+            "arguments": "2",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1032,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1932.23,-1661.70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1033,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1932.23,
+              "y": -1661.7,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1927.84,-1672.91,20,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1034,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1927.84,
+              "y": -1672.91,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-1933.13,-1644.73",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1035,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -1933.13,
+              "y": -1644.73,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Marez Cowl. Loot her for her Head",
+            "sourceLine": 1036,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Marez Cowl has 2 different spawn locations. One is on the high ground location, and the other is below behind the house. They are marked on your map",
+            "sourceLine": 1037,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Be careful as there are [Stealthed] level 36-37 elite Syndicate Prowlers in the area surrounding both her spawns",
+            "sourceLine": 1038,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "Hunter",
+            "text": "Cast [Eagle Eye] to try and find which location she is in",
+            "sourceLine": 1039,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "684,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1040,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".unitscan",
+            "arguments": "Marez Cowl",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1041,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1042,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0164",
+        "ordinal": 164,
+        "sourceLine": 1231,
+        "condition": "Hunter/Druid/Rogue",
+        "directives": [
+          {
+            "tag": "#softcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1232,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1233,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1234,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "684",
+            "condition": "",
+            "text": "Turn in Wanted! Marez Cowl",
+            "sourceLine": 1235,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1236,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1237,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0165",
+        "ordinal": 165,
+        "sourceLine": 1238,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#softcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1239,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1240,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1241,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "684",
+            "condition": "",
+            "text": "Turn in Wanted! Marez Cowl",
+            "sourceLine": 1242,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "685",
+            "condition": "",
+            "text": "Turn in Wanted! Otto and Falconcrest",
+            "sourceLine": 1243,
+            "questId": 685,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1244,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1245,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "685",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1246,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0166",
+        "ordinal": 166,
+        "sourceLine": 1247,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#softcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1248,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1249,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1250,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "684",
+            "condition": "",
+            "text": "Turn in Wanted! Marez Cowl",
+            "sourceLine": 1251,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1252,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1253,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0167",
+        "ordinal": 167,
+        "sourceLine": 1254,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#softcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1255,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1256,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1257,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "685",
+            "condition": "",
+            "text": "Turn in Wanted! Otto and Falconcrest",
+            "sourceLine": 1258,
+            "questId": 685,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1259,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "685",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1260,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0177",
+        "ordinal": 177,
+        "sourceLine": 1317,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#softcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1318,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".abandon",
+            "arguments": "684",
+            "condition": "",
+            "text": "Abandon Wanted! Marez Cowl",
+            "sourceLine": 1319,
+            "questId": 684,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0187",
+        "ordinal": 187,
+        "sourceLine": 1380,
+        "condition": "Hunter/Druid/Rogue",
+        "directives": [
+          {
+            "tag": "#hardcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1381,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1382,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1383,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "684",
+            "condition": "",
+            "text": "Turn in Wanted! Marez Cowl",
+            "sourceLine": 1384,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1385,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1386,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0188",
+        "ordinal": 188,
+        "sourceLine": 1387,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#hardcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1388,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1389,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1390,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "684",
+            "condition": "",
+            "text": "Turn in Wanted! Marez Cowl",
+            "sourceLine": 1391,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "685",
+            "condition": "",
+            "text": "Turn in Wanted! Otto and Falconcrest",
+            "sourceLine": 1392,
+            "questId": 685,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1393,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1394,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "685",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1395,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0189",
+        "ordinal": 189,
+        "sourceLine": 1396,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#hardcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1397,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1398,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1399,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "684",
+            "condition": "",
+            "text": "Turn in Wanted! Marez Cowl",
+            "sourceLine": 1400,
+            "questId": 684,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1401,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "684",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1402,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0190",
+        "ordinal": 190,
+        "sourceLine": 1403,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#hardcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1404,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2516.62,-1274.41",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1405,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2516.62,
+              "y": -1274.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Captain Nials",
+            "sourceLine": 1406,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "685",
+            "condition": "",
+            "text": "Turn in Wanted! Otto and Falconcrest",
+            "sourceLine": 1407,
+            "questId": 685,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Captain Nials",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1408,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "685",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1409,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0200",
+        "ordinal": 200,
+        "sourceLine": 1470,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#hardcore",
+            "arguments": "",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1471,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".abandon",
+            "arguments": "684",
+            "condition": "",
+            "text": "Abandon Wanted! Marez Cowl",
+            "sourceLine": 1472,
+            "questId": 684,
+            "position": null
+          }
+        ]
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 2572,
+        "name": "Drywhisker Kobold",
+        "minimumLevel": 35,
+        "maximumLevel": 36,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2573,
+        "name": "Drywhisker Surveyor",
+        "minimumLevel": 37,
+        "maximumLevel": 38,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2574,
+        "name": "Drywhisker Digger",
+        "minimumLevel": 36,
+        "maximumLevel": 37,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2597,
+        "name": "Lord Falconcrest",
+        "minimumLevel": 40,
+        "maximumLevel": 40,
+        "rank": 1,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2599,
+        "name": "Otto",
+        "minimumLevel": 38,
+        "maximumLevel": 38,
+        "rank": 1,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2783,
+        "name": "Marez Cowl",
+        "minimumLevel": 40,
+        "maximumLevel": 40,
+        "rank": 1,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "quests": [
+      {
+        "questId": 642,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          2572,
+          2573,
+          2574
+        ],
+        "objectiveText": [
+          "Gather 12 Motes of Myzrael, then bring them to the Iridescent Shards in Drywhisker Gorge."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 4435,
+            "itemName": "Mote of Myzrael",
+            "quantity": 12,
+            "npcIds": [
+              2572,
+              2573,
+              2574
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 4435,
+              "itemFlags": 0
+            }
+          }
+        ]
+      },
+      {
+        "questId": 651,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Gather the Burning Key, the Cresting Key and the Thundering Key from the Stone of West Binding, the Stone of East Binding and the Stone of Outer Binding.",
+          "",
+          "Bring them to the Stone of Inner Binding."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            642
+          ]
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 4483,
+            "itemName": "Burning Key",
+            "quantity": 1,
+            "npcIds": [],
+            "objectIds": [
+              2689
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 4483,
+              "itemFlags": 0
+            }
+          },
+          {
+            "objectiveIndex": 2,
+            "itemId": 4484,
+            "itemName": "Cresting Key",
+            "quantity": 1,
+            "npcIds": [],
+            "objectIds": [
+              2691
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 4484,
+              "itemFlags": 0
+            }
+          },
+          {
+            "objectiveIndex": 3,
+            "itemId": 4485,
+            "itemName": "Thundering Key",
+            "quantity": 1,
+            "npcIds": [],
+            "objectIds": [
+              2690
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 4485,
+              "itemFlags": 0
+            }
+          }
+        ]
+      },
+      {
+        "questId": 684,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          2783
+        ],
+        "objectiveText": [
+          "Bring Marez's head to Captain Nials at Refuge Pointe."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 4515,
+            "itemName": "Marez's Head",
+            "quantity": 1,
+            "npcIds": [
+              2783
+            ],
+            "sharing": "shared-roll"
+          }
+        ]
+      },
+      {
+        "questId": 685,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          2599,
+          2597
+        ],
+        "objectiveText": [
+          "Bring Otto's Head and Falconcrest's Head to Captain Nials at Refuge Pointe."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 4516,
+            "itemName": "Otto's Head",
+            "quantity": 1,
+            "npcIds": [
+              2599
+            ],
+            "sharing": "shared-roll"
+          },
+          {
+            "objectiveIndex": 2,
+            "itemId": 4517,
+            "itemName": "Falconcrest's Head",
+            "quantity": 1,
+            "npcIds": [
+              2597
+            ],
+            "sharing": "shared-roll"
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [
+      {
+        "itemId": 4435,
+        "npcId": 2572,
+        "probability": 0.4796322905666257,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4435,
+          "npcId": 2572,
+          "lootEntry": 2572,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4435,
+          "npcId": 2572,
+          "lootEntry": 2572,
+          "probability": 0.5,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 57763,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4435/mote-of-myzrael",
+        "capturedAt": "2026-10-20T09:40:37.877Z",
+        "sourceSha256": "ac92afb14b49f6ce49227e5047a3de0be515bbe3dd6e4daafcd8f4992d434530"
+      },
+      {
+        "itemId": 4435,
+        "npcId": 2573,
+        "probability": 0.39852373985902373,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4435,
+          "npcId": 2573,
+          "lootEntry": 2573,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4435,
+          "npcId": 2573,
+          "lootEntry": 2573,
+          "probability": 0.5,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 30076,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4435/mote-of-myzrael",
+        "capturedAt": "2026-10-20T09:40:37.877Z",
+        "sourceSha256": "ac92afb14b49f6ce49227e5047a3de0be515bbe3dd6e4daafcd8f4992d434530"
+      },
+      {
+        "itemId": 4435,
+        "npcId": 2574,
+        "probability": 0.4084523738960346,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4435,
+          "npcId": 2574,
+          "lootEntry": 2574,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4435,
+          "npcId": 2574,
+          "lootEntry": 2574,
+          "probability": 0.5,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 50613,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4435/mote-of-myzrael",
+        "capturedAt": "2026-10-20T09:40:37.877Z",
+        "sourceSha256": "ac92afb14b49f6ce49227e5047a3de0be515bbe3dd6e4daafcd8f4992d434530"
+      },
+      {
+        "itemId": 4515,
+        "npcId": 2783,
+        "probability": 0.5,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4515,
+          "npcId": 2783,
+          "lootEntry": 2783,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4515,
+          "npcId": 2783,
+          "lootEntry": 2783,
+          "probability": 1,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 2,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4515/marezs-head",
+        "capturedAt": "2026-10-20T09:46:30.345Z",
+        "sourceSha256": "dd42b3aa72af682a9031272afa3d975918321e7304000b4121de1aeee24e8026"
+      },
+      {
+        "itemId": 4516,
+        "npcId": 2599,
+        "probability": 0.8571428571428571,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4516,
+          "npcId": 2599,
+          "lootEntry": 2599,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4516,
+          "npcId": 2599,
+          "lootEntry": 2599,
+          "probability": 1,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 7,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4516/ottos-head",
+        "capturedAt": "2026-10-20T09:47:57.994Z",
+        "sourceSha256": "8bec87c58539d6069fbf3ae22323f12bf14a948460aa5cc029c98c99c436c9fc"
+      },
+      {
+        "itemId": 4517,
+        "npcId": 2597,
+        "probability": 1,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4517,
+          "npcId": 2597,
+          "lootEntry": 2597,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4517,
+          "npcId": 2597,
+          "lootEntry": 2597,
+          "probability": 1,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 6,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4517/falconcrests-head",
+        "capturedAt": "2026-10-20T09:49:21.924Z",
+        "sourceSha256": "43bd522573572234f6a4bc379127cf7718a688011932ff5eee486dc37ce89eec"
+      }
+    ],
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "rewardFacts": [
+    {
+      "questId": 642,
+      "fullXp": 2850,
+      "rewardBasis": "final-reward",
+      "questLevel": 37,
+      "minimumLevel": 30,
+      "xpByLevel": [
+        {
+          "level": 30,
+          "xp": 2850
+        },
+        {
+          "level": 31,
+          "xp": 2850
+        },
+        {
+          "level": 32,
+          "xp": 2850
+        },
+        {
+          "level": 33,
+          "xp": 2850
+        },
+        {
+          "level": 34,
+          "xp": 2850
+        },
+        {
+          "level": 35,
+          "xp": 2850
+        },
+        {
+          "level": 36,
+          "xp": 2850
+        },
+        {
+          "level": 37,
+          "xp": 2850
+        },
+        {
+          "level": 38,
+          "xp": 2850
+        },
+        {
+          "level": 39,
+          "xp": 2850
+        },
+        {
+          "level": 40,
+          "xp": 2850
+        },
+        {
+          "level": 41,
+          "xp": 2850
+        },
+        {
+          "level": 42,
+          "xp": 2850
+        },
+        {
+          "level": 43,
+          "xp": 2300
+        },
+        {
+          "level": 44,
+          "xp": 1700
+        },
+        {
+          "level": 45,
+          "xp": 1150
+        },
+        {
+          "level": 46,
+          "xp": 575
+        },
+        {
+          "level": 47,
+          "xp": 290
+        },
+        {
+          "level": 48,
+          "xp": 290
+        },
+        {
+          "level": 49,
+          "xp": 290
+        },
+        {
+          "level": 50,
+          "xp": 290
+        },
+        {
+          "level": 51,
+          "xp": 290
+        },
+        {
+          "level": 52,
+          "xp": 290
+        },
+        {
+          "level": 53,
+          "xp": 290
+        },
+        {
+          "level": 54,
+          "xp": 290
+        },
+        {
+          "level": 55,
+          "xp": 290
+        },
+        {
+          "level": 56,
+          "xp": 290
+        },
+        {
+          "level": 57,
+          "xp": 290
+        },
+        {
+          "level": 58,
+          "xp": 290
+        },
+        {
+          "level": 59,
+          "xp": 290
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 642,
+        "questLevel": 37,
+        "minimumLevel": 30,
+        "difficulty": 5,
+        "baseXp": 2850,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2850
+    },
+    {
+      "questId": 651,
+      "fullXp": 2850,
+      "questLevel": 38,
+      "minimumLevel": null,
+      "xpByLevel": [],
+      "sourceUrl": "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua \u00b7 version:1.0.4;commit:365537a340473291f5af3b7a53a5eca94e2a5f1a",
+      "capturedAt": "2026-10-17T09:09:38.634Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 684,
+      "fullXp": 3750,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 39,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 3750
+        },
+        {
+          "level": 2,
+          "xp": 3750
+        },
+        {
+          "level": 3,
+          "xp": 3750
+        },
+        {
+          "level": 4,
+          "xp": 3750
+        },
+        {
+          "level": 5,
+          "xp": 3750
+        },
+        {
+          "level": 6,
+          "xp": 3750
+        },
+        {
+          "level": 7,
+          "xp": 3750
+        },
+        {
+          "level": 8,
+          "xp": 3750
+        },
+        {
+          "level": 9,
+          "xp": 3750
+        },
+        {
+          "level": 10,
+          "xp": 3750
+        },
+        {
+          "level": 11,
+          "xp": 3750
+        },
+        {
+          "level": 12,
+          "xp": 3750
+        },
+        {
+          "level": 13,
+          "xp": 3750
+        },
+        {
+          "level": 14,
+          "xp": 3750
+        },
+        {
+          "level": 15,
+          "xp": 3750
+        },
+        {
+          "level": 16,
+          "xp": 3750
+        },
+        {
+          "level": 17,
+          "xp": 3750
+        },
+        {
+          "level": 18,
+          "xp": 3750
+        },
+        {
+          "level": 19,
+          "xp": 3750
+        },
+        {
+          "level": 20,
+          "xp": 3750
+        },
+        {
+          "level": 21,
+          "xp": 3750
+        },
+        {
+          "level": 22,
+          "xp": 3750
+        },
+        {
+          "level": 23,
+          "xp": 3750
+        },
+        {
+          "level": 24,
+          "xp": 3750
+        },
+        {
+          "level": 25,
+          "xp": 3750
+        },
+        {
+          "level": 26,
+          "xp": 3750
+        },
+        {
+          "level": 27,
+          "xp": 3750
+        },
+        {
+          "level": 28,
+          "xp": 3750
+        },
+        {
+          "level": 29,
+          "xp": 3750
+        },
+        {
+          "level": 30,
+          "xp": 3750
+        },
+        {
+          "level": 31,
+          "xp": 3750
+        },
+        {
+          "level": 32,
+          "xp": 3750
+        },
+        {
+          "level": 33,
+          "xp": 3750
+        },
+        {
+          "level": 34,
+          "xp": 3750
+        },
+        {
+          "level": 35,
+          "xp": 3750
+        },
+        {
+          "level": 36,
+          "xp": 3750
+        },
+        {
+          "level": 37,
+          "xp": 3750
+        },
+        {
+          "level": 38,
+          "xp": 3750
+        },
+        {
+          "level": 39,
+          "xp": 3750
+        },
+        {
+          "level": 40,
+          "xp": 3750
+        },
+        {
+          "level": 41,
+          "xp": 3750
+        },
+        {
+          "level": 42,
+          "xp": 3750
+        },
+        {
+          "level": 43,
+          "xp": 3750
+        },
+        {
+          "level": 44,
+          "xp": 3750
+        },
+        {
+          "level": 45,
+          "xp": 3000
+        },
+        {
+          "level": 46,
+          "xp": 2250
+        },
+        {
+          "level": 47,
+          "xp": 1500
+        },
+        {
+          "level": 48,
+          "xp": 750
+        },
+        {
+          "level": 49,
+          "xp": 375
+        },
+        {
+          "level": 50,
+          "xp": 375
+        },
+        {
+          "level": 51,
+          "xp": 375
+        },
+        {
+          "level": 52,
+          "xp": 375
+        },
+        {
+          "level": 53,
+          "xp": 375
+        },
+        {
+          "level": 54,
+          "xp": 375
+        },
+        {
+          "level": 55,
+          "xp": 375
+        },
+        {
+          "level": 56,
+          "xp": 375
+        },
+        {
+          "level": 57,
+          "xp": 375
+        },
+        {
+          "level": 58,
+          "xp": 375
+        },
+        {
+          "level": 59,
+          "xp": 375
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 685,
+      "fullXp": 3900,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 40,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 3900
+        },
+        {
+          "level": 2,
+          "xp": 3900
+        },
+        {
+          "level": 3,
+          "xp": 3900
+        },
+        {
+          "level": 4,
+          "xp": 3900
+        },
+        {
+          "level": 5,
+          "xp": 3900
+        },
+        {
+          "level": 6,
+          "xp": 3900
+        },
+        {
+          "level": 7,
+          "xp": 3900
+        },
+        {
+          "level": 8,
+          "xp": 3900
+        },
+        {
+          "level": 9,
+          "xp": 3900
+        },
+        {
+          "level": 10,
+          "xp": 3900
+        },
+        {
+          "level": 11,
+          "xp": 3900
+        },
+        {
+          "level": 12,
+          "xp": 3900
+        },
+        {
+          "level": 13,
+          "xp": 3900
+        },
+        {
+          "level": 14,
+          "xp": 3900
+        },
+        {
+          "level": 15,
+          "xp": 3900
+        },
+        {
+          "level": 16,
+          "xp": 3900
+        },
+        {
+          "level": 17,
+          "xp": 3900
+        },
+        {
+          "level": 18,
+          "xp": 3900
+        },
+        {
+          "level": 19,
+          "xp": 3900
+        },
+        {
+          "level": 20,
+          "xp": 3900
+        },
+        {
+          "level": 21,
+          "xp": 3900
+        },
+        {
+          "level": 22,
+          "xp": 3900
+        },
+        {
+          "level": 23,
+          "xp": 3900
+        },
+        {
+          "level": 24,
+          "xp": 3900
+        },
+        {
+          "level": 25,
+          "xp": 3900
+        },
+        {
+          "level": 26,
+          "xp": 3900
+        },
+        {
+          "level": 27,
+          "xp": 3900
+        },
+        {
+          "level": 28,
+          "xp": 3900
+        },
+        {
+          "level": 29,
+          "xp": 3900
+        },
+        {
+          "level": 30,
+          "xp": 3900
+        },
+        {
+          "level": 31,
+          "xp": 3900
+        },
+        {
+          "level": 32,
+          "xp": 3900
+        },
+        {
+          "level": 33,
+          "xp": 3900
+        },
+        {
+          "level": 34,
+          "xp": 3900
+        },
+        {
+          "level": 35,
+          "xp": 3900
+        },
+        {
+          "level": 36,
+          "xp": 3900
+        },
+        {
+          "level": 37,
+          "xp": 3900
+        },
+        {
+          "level": 38,
+          "xp": 3900
+        },
+        {
+          "level": 39,
+          "xp": 3900
+        },
+        {
+          "level": 40,
+          "xp": 3900
+        },
+        {
+          "level": 41,
+          "xp": 3900
+        },
+        {
+          "level": 42,
+          "xp": 3900
+        },
+        {
+          "level": 43,
+          "xp": 3900
+        },
+        {
+          "level": 44,
+          "xp": 3900
+        },
+        {
+          "level": 45,
+          "xp": 3900
+        },
+        {
+          "level": 46,
+          "xp": 3120
+        },
+        {
+          "level": 47,
+          "xp": 2340
+        },
+        {
+          "level": 48,
+          "xp": 1560
+        },
+        {
+          "level": 49,
+          "xp": 780
+        },
+        {
+          "level": 50,
+          "xp": 390
+        },
+        {
+          "level": 51,
+          "xp": 390
+        },
+        {
+          "level": 52,
+          "xp": 390
+        },
+        {
+          "level": 53,
+          "xp": 390
+        },
+        {
+          "level": 54,
+          "xp": 390
+        },
+        {
+          "level": 55,
+          "xp": 390
+        },
+        {
+          "level": 56,
+          "xp": 390
+        },
+        {
+          "level": 57,
+          "xp": 390
+        },
+        {
+          "level": 58,
+          "xp": 390
+        },
+        {
+          "level": 59,
+          "xp": 390
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    }
+  ],
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 642,
+        "title": "The Princess Trapped",
+        "minimumLevel": 30,
+        "questLevel": 37,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 138492,
+            "name": "Shards of Myzrael",
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 62.5,
+                "y": 33.73
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 2701,
+            "name": "Iridescent Shards",
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 84.31,
+                "y": 30.95
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 651,
+        "title": "Stones of Binding",
+        "minimumLevel": 30,
+        "questLevel": 38,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 2701,
+            "name": "Iridescent Shards",
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 84.31,
+                "y": 30.95
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 2702,
+            "name": "Stone of Inner Binding",
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 36.23,
+                "y": 57.38
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            642
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 684,
+        "title": "Wanted!  Marez Cowl",
+        "minimumLevel": 30,
+        "questLevel": 39,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 2713,
+            "name": "Wanted Board",
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 46.04,
+                "y": 47.76
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2700,
+            "name": "Captain Nials",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 45.83,
+                "y": 47.56
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 685,
+        "title": "Wanted!  Otto and Falconcrest",
+        "minimumLevel": 30,
+        "questLevel": 40,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 2713,
+            "name": "Wanted Board",
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 46.04,
+                "y": 47.76
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2700,
+            "name": "Captain Nials",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 45.83,
+                "y": 47.56
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      }
+    ]
+  }
+}

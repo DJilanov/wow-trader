@@ -10,7 +10,94 @@ type Lifecycle = Pick<
 // Historical execution details, never XP evidence or a claim of a current Forever observation.
 // Reviewed against the authorized guide archive: chapters 29, 38–39, 79–81;
 // Classic quest records 2240, 2278, 2398, 2418, 2991, 3523 and 3525 supplement its gaps.
+// Thanes room order and object pickups: Wowhead's Hall of Thanes overview, checked Nov 2.
 const details: Readonly<Record<number, Lifecycle>> = {
+  5001: {
+    pickup: "Bijou, inside Lower Blackrock Spire.",
+    objective: "Collect 1 Bijou's Belongings from its container inside Lower Blackrock Spire. Every player needs their own quest item.",
+    turnin: "Bijou, inside Lower Blackrock Spire.",
+    pickupStage: "inside", objectiveStage: "inside", gate: { kind: "all", gates: [] },
+  },
+  5243: {
+    pickup: "Leonid Barthalomew the Revered, Light's Hope Chapel, Eastern Plaguelands.",
+    objective: "Collect 5 Stratholme Holy Water from supply crates across Stratholme. Every player needs all five.",
+    turnin: "Leonid Barthalomew the Revered, Light's Hope Chapel, Eastern Plaguelands.",
+    pickupStage: "before", objectiveStage: "inside", gate: { kind: "all", gates: [] },
+  },
+  484: {
+    pickup: "James Halloran, Menethil Harbor, Wetlands.",
+    objective: "Collect 6 Young Crocolisk Skins per player in Wetlands, following the matching 70205/70450 client counters; the older four-skin wording is outdated.",
+    turnin: "James Halloran, Menethil Harbor, Wetlands. Accept Highland Hides on this visit when eligible.",
+    pickupStage: "before", objectiveStage: "before",
+  },
+  2924: {
+    pickup: "Klockmort Spannerspan, Ironforge.",
+    objective: "Collect 12 Essential Artificials from the Artificial Extrapolators inside Gnomeregan.",
+    turnin: "Klockmort Spannerspan, Ironforge.", pickupStage: "before", objectiveStage: "inside",
+  },
+  2945: {
+    pickup: "Use the Grime-Encrusted Ring dropped by Dark Iron Agent inside Gnomeregan.",
+    objective: "Take the Grime-Encrusted Ring to the Sparklematic 5200 in the Clean Zone inside Gnomeregan. Each player pays 3 silver to clean their own ring.",
+    turnin: "The Sparklematic 5200, inside Gnomeregan. Accept Return of the Ring before leaving.",
+    pickupStage: "inside", objectiveStage: "inside", gate: { kind: "all", gates: [] },
+  },
+  2947: {
+    pickup: "The Sparklematic 5200, inside Gnomeregan, after cleaning the ring.",
+    objective: "Carry the Brilliant Gold Ring to Talvash del Kissel in Ironforge.",
+    turnin: "Talvash del Kissel, Mystic Ward, Ironforge.",
+    pickupStage: "inside", objectiveStage: "before", gate: { kind: "quest", questId: 2945, state: "rewarded" },
+  },
+  2948: {
+    pickup: "Talvash del Kissel, Mystic Ward, Ironforge, after returning the Brilliant Gold Ring.",
+    objective: "Keep the Brilliant Gold Ring. Buy or trade for 1 Silver Bar and 1 Moss Agate per player in Ironforge, and reserve 30 silver each for Talvash. No mining, extra kills or AH price is assumed.",
+    turnin: "Talvash del Kissel, Mystic Ward, Ironforge. Each player brings the Brilliant Gold Ring, 1 Silver Bar, 1 Moss Agate and pays 30 silver. Keep the ring until the hand-in; the upgraded reward may be vendored afterward.",
+    pickupStage: "after", objectiveStage: "before", gate: { kind: "quest", questId: 2947, state: "rewarded" },
+  },
+  2951: {
+    pickup: "The Sparklematic 5200, inside Gnomeregan.",
+    objective: "Each player inserts one Grime-Encrusted Object and pays 3 silver at the Sparklematic 5200 inside Gnomeregan. This cleaning task is separate from the ring quest.",
+    turnin: "The Sparklematic 5200, inside Gnomeregan.", pickupStage: "inside", objectiveStage: "inside",
+  },
+  95772: {
+    pickup: "Dorin Songblade, Lakeshire, Redridge Mountains.",
+    objective: "Find Daewyn's body inside Excavation Site: Wetlands.",
+    turnin:
+      "Daewyn Songblade's body, inside Excavation Site: Wetlands. Each player takes Fallen in the Fen before leaving.",
+    pickupStage: "before",
+    objectiveStage: "inside",
+  },
+  95795: {
+    pickup:
+      "Daewyn Songblade's body, inside Excavation Site: Wetlands, after returning Songblade Search. Each player accepts before leaving.",
+    objective: "Return to Dorin Songblade in Lakeshire, Redridge Mountains.",
+    turnin: "Dorin Songblade, Lakeshire, Redridge Mountains. Tell him what happened to Daewyn.",
+    pickupStage: "inside",
+    objectiveStage: "before",
+    gate: { kind: "quest", questId: 95772, state: "rewarded" },
+  },
+  96395: {
+    pickup: "Ghostly Attendant, inside Hall of Thanes, after the first room.",
+    objective: "Defeat Faldrim Anvilmar in Anvilmar's Rest.",
+    turnin:
+      "Ghostly Attendant, inside Hall of Thanes. Return after finishing the vaults, before leaving the instance.",
+    pickupStage: "inside",
+    objectiveStage: "inside",
+  },
+  96403: {
+    pickup: "Thom Filch, by the bridge to Old Ironforge in Ironforge.",
+    objective: "Collect 8 Dwarven Heirlooms from the Hall of Thanes.",
+    turnin: "Thom Filch, by the bridge to Old Ironforge in Ironforge.",
+    pickupStage: "before",
+    objectiveStage: "inside",
+  },
+  98423: {
+    pickup:
+      "Stone tablet inside a vault in the Reliquary of Kings, after defeating Durgen Dirgehammer in Hall of Thanes.",
+    objective: "Deliver the Treaty of Understanding to Magni Bronzebeard in Ironforge.",
+    turnin: "King Magni Bronzebeard, Ironforge.",
+    pickupStage: "inside",
+    objectiveStage: "before",
+  },
   709: {
     pickup: "Theldurin the Lost, Badlands.",
     objective:
@@ -20,7 +107,7 @@ const details: Readonly<Record<number, Lifecycle>> = {
     objectiveStage: "before",
     gate: { kind: "all", gates: [] },
   },
-  6981: {
+  373: {
     pickup: "Use An Unsent Letter looted from Edwin VanCleef inside The Deadmines.",
     objective: "Take An Unsent Letter to Baros Alexston, Cathedral Square, Stormwind.",
     turnin: "Baros Alexston, Cathedral Square, Stormwind.",

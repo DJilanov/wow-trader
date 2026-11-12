@@ -1,0 +1,1041 @@
+{
+  "provenance": {
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "sourceBuild": 70205,
+    "questSource": "https://www.wowhead.com/forever/quest=3520/screecher-spirits",
+    "providerNpcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "encounters": [
+      {
+        "id": 5307,
+        "name": "Vale Screecher",
+        "minimumLevel": 41,
+        "maximumLevel": 43,
+        "rank": 0,
+        "zoneIds": [
+          357
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 5308,
+        "name": "Rogue Vale Screecher",
+        "minimumLevel": 44,
+        "maximumLevel": 46,
+        "rank": 0,
+        "zoneIds": [
+          357
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "note": "Three personal spirit credits, the actual supplied10699tool, corpse use and conversation, with both captured physical screecher targets retained as access guards. No sharing rule, corpse count, extra deaths or kill-XP payout is invented. This excludes unpriced acquisition kill XP under the existing route policy."
+  },
+  "guides": [
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-29-43-44-tanaris",
+      "version": "import-v2-c1d2295193e0b488",
+      "targetBuild": 70205,
+      "sourceSha256": "c1d2295193e0b48817238ae3f10e97e7f7176c4985fe4523468978c2137d895d",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0049",
+          "ordinal": 49,
+          "sourceLine": 293,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1446/1,-4840.99,-6903.28",
+              "condition": "",
+              "text": "",
+              "sourceLine": 294,
+              "questId": null,
+              "position": {
+                "zone": "1446",
+                "floor": 1,
+                "x": -4840.99,
+                "y": -6903.28,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Yeh'kinya",
+              "sourceLine": 295,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "3520",
+              "condition": "",
+              "text": "Accept Screecher Spirits",
+              "sourceLine": 296,
+              "questId": 3520,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Yeh'kinya",
+              "condition": "",
+              "text": "",
+              "sourceLine": 297,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-31-44-48-feralas",
+      "version": "import-v2-52b66cc55ce8c3bd",
+      "targetBuild": 70205,
+      "sourceSha256": "52b66cc55ce8c3bd37c8738c7b32520f4cd3941b677095c33d2ea049f7282521",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0037",
+          "ordinal": 37,
+          "sourceLine": 237,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#completewith",
+              "arguments": "spirits",
+              "condition": "",
+              "text": "",
+              "sourceLine": 238,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1444/1,1824.19,-4631.44,0",
+              "condition": "",
+              "text": "",
+              "sourceLine": 239,
+              "questId": null,
+              "position": {
+                "zone": "1444",
+                "floor": 1,
+                "x": 1824.19,
+                "y": -4631.44,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1444/1,2202.97,-4192.20,0",
+              "condition": "",
+              "text": "",
+              "sourceLine": 240,
+              "questId": null,
+              "position": {
+                "zone": "1444",
+                "floor": 1,
+                "x": 2202.97,
+                "y": -4192.2,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1444/1,1424.57,-4720.40,0",
+              "condition": "",
+              "text": "",
+              "sourceLine": 241,
+              "questId": null,
+              "position": {
+                "zone": "1444",
+                "floor": 1,
+                "x": 1424.57,
+                "y": -4720.4,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Kill Vale Screechers and Rogue Vale Screechers",
+              "sourceLine": 242,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".use",
+              "arguments": "10699",
+              "condition": "",
+              "text": "Use [Yeh'kinya's Bramble] on their corpses to summon a Screecher Spirit",
+              "sourceLine": 243,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to the Screecher Spirit",
+              "sourceLine": 244,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "3520,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 245,
+              "questId": 3520,
+              "position": null
+            },
+            {
+              "tag": ".skipgossip",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 246,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Vale Screecher",
+              "condition": "",
+              "text": "",
+              "sourceLine": 247,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Rogue Vale Screecher",
+              "condition": "",
+              "text": "",
+              "sourceLine": 248,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Screecher Spirit",
+              "condition": "",
+              "text": "",
+              "sourceLine": 249,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-33-49-50-tanaris-un-goro",
+      "version": "import-v2-2c1e82aa3d95de33",
+      "targetBuild": 70205,
+      "sourceSha256": "2c1e82aa3d95de33d85514c66904fd34c9cc47b2e9839da9a14f81ee7fed63ca",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0046",
+          "ordinal": 46,
+          "sourceLine": 456,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1446/1,-4840.99,-6903.28",
+              "condition": "",
+              "text": "",
+              "sourceLine": 457,
+              "questId": null,
+              "position": {
+                "zone": "1446",
+                "floor": 1,
+                "x": -4840.99,
+                "y": -6903.28,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Yeh'kinya",
+              "sourceLine": 458,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "3520",
+              "condition": "",
+              "text": "Turn in Screecher Spirits",
+              "sourceLine": 459,
+              "questId": 3520,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Yeh'kinya",
+              "condition": "",
+              "text": "",
+              "sourceLine": 460,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isOnQuest",
+              "arguments": "3520",
+              "condition": "",
+              "text": "",
+              "sourceLine": 461,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 3520,
+        "title": "Screecher Spirits",
+        "minimumLevel": 40,
+        "questLevel": 44,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 10699,
+          "name": "Yeh'kinya's Bramble"
+        },
+        "starts": [
+          {
+            "npcId": 8579,
+            "name": "Yeh'kinya",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1446",
+                "x": 66.99,
+                "y": 22.36
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 8579,
+            "name": "Yeh'kinya",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1446",
+                "x": 66.99,
+                "y": 22.36
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 8612,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1444",
+                "x": 43.07,
+                "y": 36.94
+              },
+              {
+                "zone": "1444",
+                "x": 42.01,
+                "y": 36.27
+              },
+              {
+                "zone": "1444",
+                "x": 43.97,
+                "y": 36.36
+              },
+              {
+                "zone": "1444",
+                "x": 44.85,
+                "y": 36.14
+              },
+              {
+                "zone": "1444",
+                "x": 55.68,
+                "y": 46.97
+              },
+              {
+                "zone": "1444",
+                "x": 53.16,
+                "y": 46.78
+              },
+              {
+                "zone": "1444",
+                "x": 47.89,
+                "y": 55.72
+              },
+              {
+                "zone": "1444",
+                "x": 47.87,
+                "y": 59.24
+              },
+              {
+                "zone": "1444",
+                "x": 52.29,
+                "y": 49.19
+              },
+              {
+                "zone": "1444",
+                "x": 49.43,
+                "y": 49.88
+              },
+              {
+                "zone": "1444",
+                "x": 56.88,
+                "y": 48.11
+              },
+              {
+                "zone": "1444",
+                "x": 58.98,
+                "y": 51.08
+              },
+              {
+                "zone": "1444",
+                "x": 60.81,
+                "y": 49.76
+              },
+              {
+                "zone": "1444",
+                "x": 46.46,
+                "y": 39.36
+              },
+              {
+                "zone": "1444",
+                "x": 46,
+                "y": 37.69
+              },
+              {
+                "zone": "1444",
+                "x": 46.55,
+                "y": 40.66
+              },
+              {
+                "zone": "1444",
+                "x": 46.55,
+                "y": 47.61
+              },
+              {
+                "zone": "1444",
+                "x": 45.86,
+                "y": 49.23
+              },
+              {
+                "zone": "1444",
+                "x": 46.82,
+                "y": 48.47
+              },
+              {
+                "zone": "1444",
+                "x": 46.13,
+                "y": 50.04
+              },
+              {
+                "zone": "1444",
+                "x": 57.65,
+                "y": 59.38
+              },
+              {
+                "zone": "1444",
+                "x": 57.06,
+                "y": 54.79
+              },
+              {
+                "zone": "1444",
+                "x": 58.19,
+                "y": 57.76
+              },
+              {
+                "zone": "1444",
+                "x": 60.22,
+                "y": 62.16
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": [
+          "provided-item-interaction"
+        ]
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull’s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient’s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 8612,
+        "name": "Screecher Spirit",
+        "minimumLevel": 1,
+        "maximumLevel": 1,
+        "rank": 0,
+        "zoneIds": [
+          357
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 3520,
+        "creatureIds": [
+          8612
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Capture the spirits of 3 screechers in Feralas, then return to Yeh'kinya in Steamwheedle Port."
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24–30 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [],
+    "historicalLoot": {
+      "schema": "classic-loot-reference.v1",
+      "targetBuild": 70205,
+      "targetCombatSha256": "c4bbedfcd72cf8ce122ab3913abbf80afbf15127a9cecf9aeb3115fc958349cc",
+      "source": {
+        "kind": "classic-1.12-reference",
+        "repository": "https://github.com/cmangos/classic-db",
+        "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+        "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+        "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+        "sourceBuild": 5875,
+        "referencedAt": "2026-11-02T03:20:00.000Z"
+      },
+      "items": [],
+      "drops": []
+    },
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "rewards": [
+    {
+      "questId": 3520,
+      "fullXp": 3750,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 44,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 3750
+        },
+        {
+          "level": 2,
+          "xp": 3750
+        },
+        {
+          "level": 3,
+          "xp": 3750
+        },
+        {
+          "level": 4,
+          "xp": 3750
+        },
+        {
+          "level": 5,
+          "xp": 3750
+        },
+        {
+          "level": 6,
+          "xp": 3750
+        },
+        {
+          "level": 7,
+          "xp": 3750
+        },
+        {
+          "level": 8,
+          "xp": 3750
+        },
+        {
+          "level": 9,
+          "xp": 3750
+        },
+        {
+          "level": 10,
+          "xp": 3750
+        },
+        {
+          "level": 11,
+          "xp": 3750
+        },
+        {
+          "level": 12,
+          "xp": 3750
+        },
+        {
+          "level": 13,
+          "xp": 3750
+        },
+        {
+          "level": 14,
+          "xp": 3750
+        },
+        {
+          "level": 15,
+          "xp": 3750
+        },
+        {
+          "level": 16,
+          "xp": 3750
+        },
+        {
+          "level": 17,
+          "xp": 3750
+        },
+        {
+          "level": 18,
+          "xp": 3750
+        },
+        {
+          "level": 19,
+          "xp": 3750
+        },
+        {
+          "level": 20,
+          "xp": 3750
+        },
+        {
+          "level": 21,
+          "xp": 3750
+        },
+        {
+          "level": 22,
+          "xp": 3750
+        },
+        {
+          "level": 23,
+          "xp": 3750
+        },
+        {
+          "level": 24,
+          "xp": 3750
+        },
+        {
+          "level": 25,
+          "xp": 3750
+        },
+        {
+          "level": 26,
+          "xp": 3750
+        },
+        {
+          "level": 27,
+          "xp": 3750
+        },
+        {
+          "level": 28,
+          "xp": 3750
+        },
+        {
+          "level": 29,
+          "xp": 3750
+        },
+        {
+          "level": 30,
+          "xp": 3750
+        },
+        {
+          "level": 31,
+          "xp": 3750
+        },
+        {
+          "level": 32,
+          "xp": 3750
+        },
+        {
+          "level": 33,
+          "xp": 3750
+        },
+        {
+          "level": 34,
+          "xp": 3750
+        },
+        {
+          "level": 35,
+          "xp": 3750
+        },
+        {
+          "level": 36,
+          "xp": 3750
+        },
+        {
+          "level": 37,
+          "xp": 3750
+        },
+        {
+          "level": 38,
+          "xp": 3750
+        },
+        {
+          "level": 39,
+          "xp": 3750
+        },
+        {
+          "level": 40,
+          "xp": 3750
+        },
+        {
+          "level": 41,
+          "xp": 3750
+        },
+        {
+          "level": 42,
+          "xp": 3750
+        },
+        {
+          "level": 43,
+          "xp": 3750
+        },
+        {
+          "level": 44,
+          "xp": 3750
+        },
+        {
+          "level": 45,
+          "xp": 3750
+        },
+        {
+          "level": 46,
+          "xp": 3750
+        },
+        {
+          "level": 47,
+          "xp": 3750
+        },
+        {
+          "level": 48,
+          "xp": 3750
+        },
+        {
+          "level": 49,
+          "xp": 3750
+        },
+        {
+          "level": 50,
+          "xp": 3000
+        },
+        {
+          "level": 51,
+          "xp": 2250
+        },
+        {
+          "level": 52,
+          "xp": 1500
+        },
+        {
+          "level": 53,
+          "xp": 750
+        },
+        {
+          "level": 54,
+          "xp": 375
+        },
+        {
+          "level": 55,
+          "xp": 375
+        },
+        {
+          "level": 56,
+          "xp": 375
+        },
+        {
+          "level": 57,
+          "xp": 375
+        },
+        {
+          "level": 58,
+          "xp": 375
+        },
+        {
+          "level": 59,
+          "xp": 375
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue · db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    }
+  ],
+  "actions": [
+    {
+      "id": "tanaris-rfd-crossing-29-source-step-0049",
+      "legId": "tanaris-rfd-crossing",
+      "title": "Accept Screecher Spirits",
+      "instructions": [
+        "Accept Screecher Spirits",
+        "Talk to Yeh'kinya"
+      ],
+      "questChanges": [
+        {
+          "questId": 3520,
+          "state": "accepted",
+          "title": "Screecher Spirits",
+          "objectiveIndex": null
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 294,
+          "position": {
+            "zone": "1446",
+            "floor": 1,
+            "x": -4840.99,
+            "y": -6903.28,
+            "space": "world"
+          }
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-29-43-44-tanaris",
+        "version": "import-v2-c1d2295193e0b488",
+        "stepId": "source-step-0049"
+      },
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "xpOptional": false,
+      "requiredQuestIds": [],
+      "location": {
+        "zone": "1446"
+      }
+    },
+    {
+      "id": "tanaris-rfd-crossing-31-source-step-0037",
+      "legId": "tanaris-rfd-crossing",
+      "title": "Defeat Vale Screecher / Rogue Vale Screecher for Screecher Spirits (objective 1).",
+      "instructions": [
+        "Defeat Vale Screecher / Rogue Vale Screecher for Screecher Spirits (objective 1).",
+        "Kill Vale Screechers and Rogue Vale Screechers",
+        "Talk to the Screecher Spirit",
+        "Use [Yeh'kinya's Bramble] on their corpses to summon a Screecher Spirit"
+      ],
+      "questChanges": [
+        {
+          "questId": 3520,
+          "state": "objectives-complete",
+          "title": "Screecher Spirits",
+          "objectiveIndex": 1
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 239,
+          "position": {
+            "zone": "1444",
+            "floor": 1,
+            "x": 1824.19,
+            "y": -4631.44,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 240,
+          "position": {
+            "zone": "1444",
+            "floor": 1,
+            "x": 2202.97,
+            "y": -4192.2,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 241,
+          "position": {
+            "zone": "1444",
+            "floor": 1,
+            "x": 1424.57,
+            "y": -4720.4,
+            "space": "world"
+          }
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-31-44-48-feralas",
+        "version": "import-v2-52b66cc55ce8c3bd",
+        "stepId": "source-step-0037"
+      },
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "xpOptional": false,
+      "location": {
+        "zone": "1444"
+      }
+    },
+    {
+      "id": "tanaris-rfd-crossing-33-source-step-0046",
+      "legId": "tanaris-rfd-crossing",
+      "title": "Turn in Screecher Spirits",
+      "instructions": [
+        "Turn in Screecher Spirits",
+        "Talk to Yeh'kinya"
+      ],
+      "questChanges": [
+        {
+          "questId": 3520,
+          "state": "rewarded",
+          "title": "Screecher Spirits",
+          "objectiveIndex": null
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 457,
+          "position": {
+            "zone": "1446",
+            "floor": 1,
+            "x": -4840.99,
+            "y": -6903.28,
+            "space": "world"
+          }
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-33-49-50-tanaris-un-goro",
+        "version": "import-v2-2c1e82aa3d95de33",
+        "stepId": "source-step-0046",
+        "conditions": {
+          "checks": [
+            {
+              "tag": ".isOnQuest",
+              "arguments": "3520",
+              "condition": "",
+              "text": "",
+              "sourceLine": 461,
+              "questId": null,
+              "position": null
+            }
+          ],
+          "phases": [
+            {
+              "tag": ".turnin",
+              "arguments": "3520",
+              "condition": "",
+              "text": "Turn in Screecher Spirits",
+              "sourceLine": 459,
+              "questId": 3520,
+              "position": null
+            }
+          ],
+          "optional": false
+        }
+      },
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "xpOptional": false,
+      "location": {
+        "zone": "1446"
+      }
+    }
+  ]
+}

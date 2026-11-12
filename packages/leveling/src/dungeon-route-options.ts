@@ -95,7 +95,8 @@ export function dungeonRouteOption(
   const reviewedCount = quests.filter(
     (q) =>
       q.pickupStage !== "unknown" &&
-      q.objectiveStage === "inside" &&
+      (q.objectiveStage === "inside" ||
+        (q.objectiveStage === "before" && q.outsideObjectiveReviewed === true)) &&
       q.pickup !== null &&
       q.turnin !== null &&
       q.objective !== null &&

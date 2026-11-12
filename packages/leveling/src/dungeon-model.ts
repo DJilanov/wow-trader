@@ -42,6 +42,7 @@ export interface DungeonQuest {
   readonly position: { readonly mapId: number; readonly x: number; readonly y: number } | null;
   readonly pickupStage: "before" | "inside" | "after" | "unknown";
   readonly objectiveStage: "before" | "inside" | "multiple-visits" | "unknown";
+  readonly outsideObjectiveReviewed?: true;
   readonly gate: DungeonGate;
   readonly referenceXp: number | null;
   readonly baseXp?: number | null;

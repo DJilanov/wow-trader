@@ -47,6 +47,43 @@ const collectorProviderSchema = z.enum([
 
 const optionalCountSchema = z.number().int().nonnegative().safe().optional();
 
+const collectorCacheDiagnosticsSchema = z.object({
+  queuedItems: z.number().int().nonnegative().max(1_000_000),
+  pendingItems: z.number().int().nonnegative().max(1_000_000),
+  requestedItems: z.number().int().nonnegative().max(1_000_000),
+  requestErrors: z.number().int().nonnegative().max(1_000_000),
+  cachedBeforeRequest: z.number().int().nonnegative().max(1_000_000),
+  requestAttempts: z.number().int().nonnegative().max(3_000_000).optional(),
+  retryRequests: z.number().int().nonnegative().max(2_000_000).optional(),
+  loadedItems: optionalCountSchema,
+  exhaustedItems: optionalCountSchema,
+  inFlightItems: z.number().int().nonnegative().max(256).optional(),
+  loadSuccessEvents: optionalCountSchema,
+  loadFailureEvents: optionalCountSchema,
+  timedOutRequests: z.number().int().nonnegative().max(3_000_000).optional(),
+  finalCheckedRows: z.number().int().min(0).max(1_000_000).optional(),
+  finalRecoveredRows: z.number().int().min(0).max(1_000_000).optional(),
+  finalUninspectedRows: z.number().int().min(0).max(1_000_000).optional(),
+  finalPassTimedOut: z.boolean().optional(),
+  readyCheckedRows: optionalCountSchema,
+  readyRecoveredRows: z.number().int().min(0).max(1_000_000).optional(),
+  initialDeferredRows: z.number().int().nonnegative().max(1_000_000),
+  unresolvedSamples: z
+    .array(
+      z.object({
+        rowIndex: z.number().int().min(0).max(999_999),
+        itemId: z.number().int().min(1).max(2_147_483_647).nullish(),
+        hasAllInfo: z.boolean().nullish(),
+        itemDataCached: z.boolean().nullish(),
+        loadAttempts: z.number().int().min(0).max(3).optional(),
+        lastLoadSucceeded: z.boolean().nullish(),
+        countReadable: z.boolean(),
+        buyoutReadable: z.boolean(),
+      }),
+    )
+    .max(20),
+});
+
 export const collectorScanSchema = z
   .object({
     scanId: z.string().uuid(),
@@ -71,6 +108,7 @@ export const collectorScanSchema = z
     unresolvedRowCount: optionalCountSchema,
     invalidRowCount: optionalCountSchema,
     secretRowCount: optionalCountSchema,
+    cacheDiagnostics: collectorCacheDiagnosticsSchema.optional(),
     scanDurationMs: optionalCountSchema,
     auctionHouseStayedOpen: z.boolean().optional(),
     itemSnapshots: z.array(collectorItemSnapshotSchema).max(250_000),
@@ -468,10 +506,49 @@ export const collectorProfessionSnapshotSchema = z.object({
   professions: z.array(collectorProfessionSchema).max(64),
 });
 
+const collectorNativeScannerSchema = z
+  .preprocess(
+    (value) => (Array.isArray(value) && value.length === 0 ? {} : value),
+    z.object({
+      lastRequestedAt: optionalCountSchema,
+      lastSuccessfulAt: optionalCountSchema,
+      lastProvider: collectorProviderSchema.optional(),
+      lastFailure: z
+        .object({
+          failedAt: z.number().int().positive().safe(),
+          code: z.enum([
+            "request_timeout",
+            "request_rejected",
+            "invalid_response",
+            "empty_response",
+            "throttled",
+            "ah_closed",
+            "logout",
+            "cancelled",
+            "unknown",
+          ]),
+          reason: z.string().min(1).max(512),
+          stage: z.enum(["awaiting_response", "reading", "resolving_cache", "finalizing"]),
+          addonVersion: z.string().min(1).max(64),
+          clientBuild: z.number().int().positive().safe(),
+          requestIssuedAt: z.number().int().positive().safe(),
+          responseTimeoutSeconds: z.number().int().positive().max(600),
+          durationMs: z.number().int().nonnegative().safe(),
+          reportedRowCount: z.number().int().min(0).max(1_000_000),
+          visitedRowCount: z.number().int().min(0).max(1_000_000),
+        })
+        .optional(),
+    }),
+  )
+  .optional()
+  // Optional local diagnostics must not block otherwise valid market uploads.
+  .catch(undefined);
+
 export const collectorSavedVariablesSchema = z.object({
   schemaVersion: z.literal(1),
   installationId: z.string().min(16).max(128),
   scans: z.array(collectorScanSchema).max(8),
+  nativeScanner: collectorNativeScannerSchema,
   professionSnapshots: z.array(collectorProfessionSnapshotSchema).max(16).default([]),
   worldDiagnostics: collectorWorldDiagnosticsSchema.optional(),
   tradeEvents: z

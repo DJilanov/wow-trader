@@ -1,0 +1,669 @@
+{
+  "classification": "Exact selected303 client fields, previous normalized conflict, and actual target NPCs. Full client byte hashes independently checked during extraction. Efficient Games CC BY4.0; not an observed server payout.",
+  "snapshots": [
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sourceSha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 18,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70205",
+          "collectedOn": {
+            "first": "2026-10-03",
+            "last": "2026-10-05"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 2
+        },
+        "quests": {
+          "303": {
+            "description": "War rages both home and abroad. While mighty Dwarven soldiers give their lives in far off territories in the name of the Alliance, our own lands fall prey to the evil deeds of the Dark Iron Dwarves.  They laid waste to the Thandol Span. Dun Modr fell soon after.$b$bWe need you to gather force and push the front back.  If you can kill 15 Dark Iron Dwarves, 5 Tunnelers, 5 Saboteurs and 5 Demolitionists, the reserve might arrive in time to finish the drive.$b$bNow make haste!",
+            "flags": 8,
+            "level": 30,
+            "minLevel": 25,
+            "objectives": [
+              {
+                "amount": 15,
+                "id": 380150,
+                "objectId": 1051,
+                "storageIndex": 0,
+                "type": "monster",
+                "typeId": 0
+              },
+              {
+                "amount": 5,
+                "id": 380151,
+                "objectId": 1053,
+                "storageIndex": 1,
+                "type": "monster",
+                "typeId": 0
+              },
+              {
+                "amount": 5,
+                "id": 380152,
+                "objectId": 1052,
+                "storageIndex": 2,
+                "type": "monster",
+                "typeId": 0
+              },
+              {
+                "amount": 5,
+                "id": 380153,
+                "objectId": 1054,
+                "storageIndex": 3,
+                "type": "monster",
+                "typeId": 0
+              }
+            ],
+            "objectivesText": "Motley Garmason at Dun Modr wants you to kill 15 Dark Iron Dwarves,  5 Dark Iron Tunnelers, 5 Dark Iron Saboteurs and 5 Dark Iron Demolitionists.",
+            "questInfoId": 1,
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "money": 2500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "title": "The Dark Iron War",
+            "zoneAreaId": 11
+          }
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sourceSha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 82,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70450",
+          "collectedOn": {
+            "first": "2026-10-17",
+            "last": "2026-10-22"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 5
+        },
+        "quests": {
+          "303": {
+            "description": "War rages both home and abroad. While mighty Dwarven soldiers give their lives in far off territories in the name of the Alliance, our own lands fall prey to the evil deeds of the Dark Iron Dwarves.  They laid waste to the Thandol Span. Dun Modr fell soon after.$b$bWe need you to gather force and push the front back.  If you can kill 15 Dark Iron Dwarves, 5 Tunnelers, 5 Saboteurs and 5 Demolitionists, the reserve might arrive in time to finish the drive.$b$bNow make haste!",
+            "flags": 8,
+            "level": 30,
+            "minLevel": 25,
+            "objectives": [
+              {
+                "amount": 15,
+                "id": 380150,
+                "objectId": 1051,
+                "storageIndex": 0,
+                "type": "monster",
+                "typeId": 0
+              },
+              {
+                "amount": 5,
+                "id": 380151,
+                "objectId": 1053,
+                "storageIndex": 1,
+                "type": "monster",
+                "typeId": 0
+              },
+              {
+                "amount": 5,
+                "id": 380152,
+                "objectId": 1052,
+                "storageIndex": 2,
+                "type": "monster",
+                "typeId": 0
+              },
+              {
+                "amount": 5,
+                "id": 380153,
+                "objectId": 1054,
+                "storageIndex": 3,
+                "type": "monster",
+                "typeId": 0
+              }
+            ],
+            "objectivesText": "Motley Garmason at Dun Modr wants you to kill 15 Dark Iron Dwarves, 5 Dark Iron Tunnelers, 5 Dark Iron Saboteurs and 5 Dark Iron Demolitionists.",
+            "questInfoId": 1,
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "money": 2500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 5
+                }
+              ],
+              "xpDifficulty": 5,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "title": "The Dark Iron War",
+            "zoneAreaId": 11
+          }
+        }
+      }
+    }
+  ],
+  "reference": {
+    "questId": 303,
+    "creatureIds": [
+      1051,
+      1053,
+      1052,
+      1054
+    ],
+    "itemCreatureIds": [],
+    "objectiveText": [
+      "Motley Garmason at Dun Modr wants you to kill 10 Dark Iron Dwarves, 5 Dark Iron Tunnelers, 5 Dark Iron Saboteurs and 5 Dark Iron Demolitionists."
+    ],
+    "onlyCreatureObjectives": true,
+    "killQuotas": [
+      {
+        "objectiveIndex": 2,
+        "npcId": 1053,
+        "kills": 5,
+        "source": "Captured death counter: https://www.wowhead.com/forever/quest=303/the-dark-iron-war; sha256 39df118e846a4938d152d37e4d492c61f0b3fbc6ef19e0f8bd36a8a8a83eb06b; 2026-10-14T15:20:22.323Z"
+      },
+      {
+        "objectiveIndex": 3,
+        "npcId": 1052,
+        "kills": 5,
+        "source": "Captured death counter: https://www.wowhead.com/forever/quest=303/the-dark-iron-war; sha256 39df118e846a4938d152d37e4d492c61f0b3fbc6ef19e0f8bd36a8a8a83eb06b; 2026-10-14T15:20:22.323Z"
+      },
+      {
+        "objectiveIndex": 4,
+        "npcId": 1054,
+        "kills": 5,
+        "source": "Captured death counter: https://www.wowhead.com/forever/quest=303/the-dark-iron-war; sha256 39df118e846a4938d152d37e4d492c61f0b3fbc6ef19e0f8bd36a8a8a83eb06b; 2026-10-14T15:20:22.323Z"
+      }
+    ],
+    "killQuotaConflicts": [
+      1
+    ],
+    "onlyInteractionObjectives": false,
+    "requiredClasses": 0,
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": []
+    },
+    "itemObjectives": []
+  },
+  "definition": {
+    "questId": 303,
+    "title": "The Dark Iron War",
+    "minimumLevel": 25,
+    "questLevel": 30,
+    "requiredRaces": 4294967373,
+    "requiredClasses": 0,
+    "starts": [
+      {
+        "npcId": 1074,
+        "name": "Motley Garmason",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1437",
+            "x": 49.67,
+            "y": 18.23
+          }
+        ]
+      }
+    ],
+    "ends": [
+      {
+        "npcId": 1074,
+        "name": "Motley Garmason",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1437",
+            "x": 49.67,
+            "y": 18.23
+          }
+        ]
+      }
+    ],
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": []
+    },
+    "exclusiveWith": [],
+    "category": "shared-kills",
+    "objectives": [
+      {
+        "index": 1,
+        "npcId": 1051,
+        "count": null,
+        "positions": [
+          {
+            "zone": "1437",
+            "x": 59.93,
+            "y": 23.02
+          },
+          {
+            "zone": "1437",
+            "x": 48.05,
+            "y": 17.3
+          },
+          {
+            "zone": "1437",
+            "x": 48.17,
+            "y": 17.67
+          },
+          {
+            "zone": "1437",
+            "x": 48.87,
+            "y": 17.44
+          },
+          {
+            "zone": "1437",
+            "x": 47.59,
+            "y": 16.97
+          },
+          {
+            "zone": "1437",
+            "x": 47.19,
+            "y": 15.69
+          },
+          {
+            "zone": "1437",
+            "x": 48.01,
+            "y": 16.61
+          },
+          {
+            "zone": "1437",
+            "x": 48.47,
+            "y": 16.19
+          },
+          {
+            "zone": "1437",
+            "x": 62.35,
+            "y": 29.56
+          },
+          {
+            "zone": "1437",
+            "x": 63.02,
+            "y": 29.57
+          },
+          {
+            "zone": "1437",
+            "x": 62.01,
+            "y": 28.66
+          },
+          {
+            "zone": "1437",
+            "x": 49.03,
+            "y": 17.11
+          },
+          {
+            "zone": "1437",
+            "x": 60.45,
+            "y": 24.86
+          },
+          {
+            "zone": "1437",
+            "x": 59.81,
+            "y": 25.32
+          },
+          {
+            "zone": "1437",
+            "x": 60.27,
+            "y": 23.61
+          },
+          {
+            "zone": "1437",
+            "x": 59.49,
+            "y": 23.77
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "npcId": 1053,
+        "count": 5,
+        "positions": [
+          {
+            "zone": "1437",
+            "x": 60.27,
+            "y": 24.3
+          },
+          {
+            "zone": "1437",
+            "x": 59.98,
+            "y": 24.14
+          },
+          {
+            "zone": "1437",
+            "x": 60.11,
+            "y": 24.64
+          },
+          {
+            "zone": "1437",
+            "x": 62.48,
+            "y": 25.83
+          },
+          {
+            "zone": "1437",
+            "x": 61.53,
+            "y": 26.17
+          },
+          {
+            "zone": "1437",
+            "x": 59.84,
+            "y": 24.62
+          },
+          {
+            "zone": "1437",
+            "x": 61.95,
+            "y": 25.44
+          },
+          {
+            "zone": "1437",
+            "x": 61.56,
+            "y": 27.25
+          },
+          {
+            "zone": "1437",
+            "x": 47.98,
+            "y": 18.85
+          },
+          {
+            "zone": "1437",
+            "x": 46.79,
+            "y": 17.89
+          },
+          {
+            "zone": "1437",
+            "x": 47.03,
+            "y": 18.45
+          },
+          {
+            "zone": "1437",
+            "x": 48.2,
+            "y": 14.97
+          },
+          {
+            "zone": "1437",
+            "x": 47.55,
+            "y": 15.46
+          },
+          {
+            "zone": "1437",
+            "x": 47.46,
+            "y": 15.13
+          },
+          {
+            "zone": "1437",
+            "x": 46.08,
+            "y": 16.6
+          },
+          {
+            "zone": "1437",
+            "x": 45.95,
+            "y": 16.85
+          },
+          {
+            "zone": "1437",
+            "x": 45.65,
+            "y": 16.85
+          },
+          {
+            "zone": "1437",
+            "x": 45.94,
+            "y": 16.29
+          },
+          {
+            "zone": "1437",
+            "x": 46.26,
+            "y": 16.59
+          },
+          {
+            "zone": "1437",
+            "x": 47.08,
+            "y": 17.48
+          },
+          {
+            "zone": "1437",
+            "x": 47.11,
+            "y": 17.92
+          },
+          {
+            "zone": "1437",
+            "x": 45.68,
+            "y": 16.19
+          },
+          {
+            "zone": "1437",
+            "x": 46.88,
+            "y": 18.1
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "npcId": 1052,
+        "count": 5,
+        "positions": [
+          {
+            "zone": "1437",
+            "x": 59.93,
+            "y": 24.46
+          },
+          {
+            "zone": "1437",
+            "x": 61.88,
+            "y": 25.98
+          },
+          {
+            "zone": "1437",
+            "x": 61.96,
+            "y": 26.58
+          },
+          {
+            "zone": "1437",
+            "x": 62.05,
+            "y": 27.57
+          },
+          {
+            "zone": "1437",
+            "x": 62.93,
+            "y": 27.43
+          },
+          {
+            "zone": "1437",
+            "x": 63.27,
+            "y": 28.78
+          },
+          {
+            "zone": "1437",
+            "x": 48.1,
+            "y": 18.09
+          },
+          {
+            "zone": "1437",
+            "x": 48.12,
+            "y": 18.62
+          },
+          {
+            "zone": "1437",
+            "x": 48.11,
+            "y": 15.66
+          },
+          {
+            "zone": "1437",
+            "x": 47.06,
+            "y": 17.1
+          },
+          {
+            "zone": "1437",
+            "x": 48.1,
+            "y": 15.17
+          },
+          {
+            "zone": "1437",
+            "x": 47.67,
+            "y": 16.13
+          },
+          {
+            "zone": "1437",
+            "x": 46.44,
+            "y": 16.18
+          },
+          {
+            "zone": "1437",
+            "x": 46.74,
+            "y": 17.21
+          },
+          {
+            "zone": "1437",
+            "x": 46.81,
+            "y": 16.44
+          },
+          {
+            "zone": "1437",
+            "x": 50.85,
+            "y": 8.24
+          },
+          {
+            "zone": "1437",
+            "x": 50.93,
+            "y": 8
+          }
+        ]
+      },
+      {
+        "index": 4,
+        "npcId": 1054,
+        "count": 5,
+        "positions": [
+          {
+            "zone": "1437",
+            "x": 60.1,
+            "y": 24.36
+          },
+          {
+            "zone": "1437",
+            "x": 62,
+            "y": 26.08
+          },
+          {
+            "zone": "1437",
+            "x": 62.11,
+            "y": 26.31
+          },
+          {
+            "zone": "1437",
+            "x": 61.83,
+            "y": 26.57
+          },
+          {
+            "zone": "1437",
+            "x": 62.51,
+            "y": 28.99
+          },
+          {
+            "zone": "1437",
+            "x": 62.18,
+            "y": 28.01
+          },
+          {
+            "zone": "1437",
+            "x": 46.69,
+            "y": 18.63
+          },
+          {
+            "zone": "1437",
+            "x": 46.57,
+            "y": 18.63
+          },
+          {
+            "zone": "1437",
+            "x": 46.5,
+            "y": 18.74
+          },
+          {
+            "zone": "1437",
+            "x": 47.39,
+            "y": 14.99
+          },
+          {
+            "zone": "1437",
+            "x": 47.57,
+            "y": 14.73
+          }
+        ]
+      }
+    ],
+    "unsupportedRequirements": [
+      "kill-quota-conflict"
+    ]
+  },
+  "npcs": [
+    {
+      "id": 1051,
+      "name": "Dark Iron Dwarf",
+      "minimumLevel": 27,
+      "maximumLevel": 28,
+      "rank": 1,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1052,
+      "name": "Dark Iron Saboteur",
+      "minimumLevel": 28,
+      "maximumLevel": 29,
+      "rank": 1,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1053,
+      "name": "Dark Iron Tunneler",
+      "minimumLevel": 29,
+      "maximumLevel": 30,
+      "rank": 1,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1054,
+      "name": "Dark Iron Demolitionist",
+      "minimumLevel": 30,
+      "maximumLevel": 31,
+      "rank": 1,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    }
+  ]
+}

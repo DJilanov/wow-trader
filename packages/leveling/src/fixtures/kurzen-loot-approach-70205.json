@@ -1,0 +1,1844 @@
+{
+  "provenance": {
+    "proofFile": ".cache/leveling-no-grind-20261031/kurzen-counter-candidate-v813/qualification.json",
+    "source": {
+      "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+      "file": "artifacts/leveling/archive/chapter-28-41-43-stv-swamp-of-sorrows-v2-0671e2017ce66f25.json",
+      "sha256": "42d2f084b3b02e458f539b26c7b3ad691e6fd5a5247680ea39ac5f6f2cca5809"
+    },
+    "candidateCombat": {
+      "file": ".cache/leveling-no-grind-20261031/kurzen-counter-candidate-v813/combat-f99c877b6b4895ec3292dcb31584e1a7bc5f724be79569dfeb4ad3f03da7fbec.json",
+      "sha256": "f99c877b6b4895ec3292dcb31584e1a7bc5f724be79569dfeb4ad3f03da7fbec"
+    },
+    "classification": "Exact202source lifecycle, missing-counter reconciliation and independently captured loot-target approach. No fabricated source waypoint or kill counter for head."
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 202,
+        "title": "Colonel Kurzen",
+        "minimumLevel": 30,
+        "questLevel": 40,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            574
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 939,
+            "count": 6,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 46.81,
+                "y": 6.52
+              },
+              {
+                "zone": "1434",
+                "x": 47.88,
+                "y": 6.4
+              },
+              {
+                "zone": "1434",
+                "x": 47.35,
+                "y": 6.58
+              },
+              {
+                "zone": "1434",
+                "x": 47.68,
+                "y": 6.87
+              },
+              {
+                "zone": "1434",
+                "x": 46.69,
+                "y": 6.21
+              },
+              {
+                "zone": "1434",
+                "x": 47.88,
+                "y": 6.86
+              },
+              {
+                "zone": "1434",
+                "x": 46.77,
+                "y": 6.57
+              },
+              {
+                "zone": "1434",
+                "x": 49.27,
+                "y": 7.51
+              },
+              {
+                "zone": "1434",
+                "x": 49.35,
+                "y": 8.37
+              },
+              {
+                "zone": "1434",
+                "x": 49.33,
+                "y": 7.86
+              },
+              {
+                "zone": "1434",
+                "x": 48.87,
+                "y": 8.56
+              },
+              {
+                "zone": "1434",
+                "x": 49.57,
+                "y": 7.73
+              },
+              {
+                "zone": "1434",
+                "x": 49.14,
+                "y": 8.03
+              },
+              {
+                "zone": "1434",
+                "x": 48.4,
+                "y": 8.65
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "npcId": 978,
+            "count": 4,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 49.66,
+                "y": 6.02
+              },
+              {
+                "zone": "1434",
+                "x": 49.28,
+                "y": 3.94
+              },
+              {
+                "zone": "1434",
+                "x": 49.3,
+                "y": 4.1
+              },
+              {
+                "zone": "1434",
+                "x": 48.8,
+                "y": 4.55
+              },
+              {
+                "zone": "1434",
+                "x": 49.65,
+                "y": 3.84
+              },
+              {
+                "zone": "1434",
+                "x": 49.56,
+                "y": 4.09
+              },
+              {
+                "zone": "1434",
+                "x": 49.91,
+                "y": 4.04
+              },
+              {
+                "zone": "1434",
+                "x": 48.95,
+                "y": 5.87
+              },
+              {
+                "zone": "1434",
+                "x": 48.71,
+                "y": 5.37
+              },
+              {
+                "zone": "1434",
+                "x": 49.13,
+                "y": 5.73
+              },
+              {
+                "zone": "1434",
+                "x": 48.72,
+                "y": 5.81
+              },
+              {
+                "zone": "1434",
+                "x": 49.17,
+                "y": 6.34
+              },
+              {
+                "zone": "1434",
+                "x": 49.43,
+                "y": 6.16
+              },
+              {
+                "zone": "1434",
+                "x": 49.35,
+                "y": 6.77
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": [],
+        "itemObjectiveLocations": [
+          {
+            "index": 3,
+            "itemId": 3615,
+            "npcId": 813,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 49.94,
+                "y": 3.95
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "questId": 203,
+        "title": "The Second Rebellion",
+        "minimumLevel": 30,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 733,
+            "name": "Sergeant Yohwa",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.02,
+                "y": 3.33
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 733,
+            "name": "Sergeant Yohwa",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.02,
+                "y": 3.33
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 937,
+            "count": 15,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 44.51,
+                "y": 10
+              },
+              {
+                "zone": "1434",
+                "x": 43.92,
+                "y": 9.71
+              },
+              {
+                "zone": "1434",
+                "x": 43.7,
+                "y": 9.55
+              },
+              {
+                "zone": "1434",
+                "x": 44.95,
+                "y": 8.29
+              },
+              {
+                "zone": "1434",
+                "x": 45.03,
+                "y": 8.36
+              },
+              {
+                "zone": "1434",
+                "x": 44.64,
+                "y": 9.98
+              },
+              {
+                "zone": "1434",
+                "x": 44.85,
+                "y": 8.61
+              },
+              {
+                "zone": "1434",
+                "x": 44.13,
+                "y": 9.66
+              },
+              {
+                "zone": "1434",
+                "x": 43.57,
+                "y": 9.73
+              },
+              {
+                "zone": "1434",
+                "x": 44.55,
+                "y": 11.49
+              },
+              {
+                "zone": "1434",
+                "x": 46.16,
+                "y": 12.6
+              },
+              {
+                "zone": "1434",
+                "x": 44.67,
+                "y": 11
+              },
+              {
+                "zone": "1434",
+                "x": 45.3,
+                "y": 11.27
+              },
+              {
+                "zone": "1434",
+                "x": 46.98,
+                "y": 10.45
+              },
+              {
+                "zone": "1434",
+                "x": 46.07,
+                "y": 11.27
+              },
+              {
+                "zone": "1434",
+                "x": 45.96,
+                "y": 12.05
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 204,
+        "title": "Bad Medicine",
+        "minimumLevel": 30,
+        "questLevel": 34,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 733,
+            "name": "Sergeant Yohwa",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.02,
+                "y": 3.33
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 733,
+            "name": "Sergeant Yohwa",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.02,
+                "y": 3.33
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 574,
+        "title": "Special Forces",
+        "minimumLevel": 30,
+        "questLevel": 38,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 733,
+            "name": "Sergeant Yohwa",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.02,
+                "y": 3.33
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [
+            203,
+            204
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 938,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 44.15,
+                "y": 7.91
+              },
+              {
+                "zone": "1434",
+                "x": 48.35,
+                "y": 7.13
+              },
+              {
+                "zone": "1434",
+                "x": 44.37,
+                "y": 7.97
+              },
+              {
+                "zone": "1434",
+                "x": 44.2,
+                "y": 8.01
+              },
+              {
+                "zone": "1434",
+                "x": 45.96,
+                "y": 8.66
+              },
+              {
+                "zone": "1434",
+                "x": 45.46,
+                "y": 8.42
+              },
+              {
+                "zone": "1434",
+                "x": 44.56,
+                "y": 8.5
+              },
+              {
+                "zone": "1434",
+                "x": 47.28,
+                "y": 7.61
+              },
+              {
+                "zone": "1434",
+                "x": 46.7,
+                "y": 7.06
+              },
+              {
+                "zone": "1434",
+                "x": 46.45,
+                "y": 6.93
+              },
+              {
+                "zone": "1434",
+                "x": 45.93,
+                "y": 7.9
+              },
+              {
+                "zone": "1434",
+                "x": 46.25,
+                "y": 7.8
+              },
+              {
+                "zone": "1434",
+                "x": 46.34,
+                "y": 7.43
+              },
+              {
+                "zone": "1434",
+                "x": 45.99,
+                "y": 8.09
+              },
+              {
+                "zone": "1434",
+                "x": 45.73,
+                "y": 8.1
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "npcId": 941,
+            "count": 6,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 48.12,
+                "y": 7.21
+              },
+              {
+                "zone": "1434",
+                "x": 48.41,
+                "y": 7.33
+              },
+              {
+                "zone": "1434",
+                "x": 47.74,
+                "y": 7.78
+              },
+              {
+                "zone": "1434",
+                "x": 48.11,
+                "y": 8.39
+              },
+              {
+                "zone": "1434",
+                "x": 46.94,
+                "y": 7.29
+              },
+              {
+                "zone": "1434",
+                "x": 46.33,
+                "y": 6.96
+              },
+              {
+                "zone": "1434",
+                "x": 46.39,
+                "y": 6.69
+              },
+              {
+                "zone": "1434",
+                "x": 46.43,
+                "y": 7.87
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 200,
+        "title": "Bookie Herod",
+        "minimumLevel": 30,
+        "questLevel": 35,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 287,
+            "name": "Bookie Herod's Records",
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 43.67,
+                "y": 9.37
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            215
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 215,
+        "title": "Jungle Secrets",
+        "minimumLevel": 30,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 738,
+            "name": "Private Thorsen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 40.34,
+                "y": 8.44
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 328,
+        "title": "The Hidden Key",
+        "minimumLevel": 30,
+        "questLevel": 37,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2719,
+          "name": "Small Brass Key"
+        },
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 287,
+            "name": "Bookie Herod's Records",
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 43.67,
+                "y": 9.37
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 288,
+            "name": "Bookie Herod's Strongbox",
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 49.62,
+                "y": 7.56
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            200
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 329,
+        "title": "The Spy Revealed!",
+        "minimumLevel": 30,
+        "questLevel": 37,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2720,
+          "name": "Muddy Note"
+        },
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 288,
+            "name": "Bookie Herod's Strongbox",
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 49.62,
+                "y": 7.56
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            328
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 330,
+        "title": "Patrol Schedules",
+        "minimumLevel": 30,
+        "questLevel": 37,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 469,
+            "name": "Lieutenant Doren",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 38.04,
+                "y": 3.01
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 1422,
+            "name": "Corporal Sethman",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 37.66,
+                "y": 3.39
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            329
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": []
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 813,
+        "name": "Colonel Kurzen",
+        "minimumLevel": 39,
+        "maximumLevel": 40,
+        "rank": 1,
+        "zoneIds": [
+          33
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 939,
+        "name": "Kurzen Elite",
+        "minimumLevel": 36,
+        "maximumLevel": 37,
+        "rank": 0,
+        "zoneIds": [
+          33
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 978,
+        "name": "Kurzen Subchief",
+        "minimumLevel": 35,
+        "maximumLevel": 36,
+        "rank": 0,
+        "zoneIds": [
+          33
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 202,
+        "creatureIds": [
+          939,
+          978
+        ],
+        "itemCreatureIds": [
+          813
+        ],
+        "objectiveText": [
+          "Kill 6 Kurzen Elite, 4 Kurzen Subchiefs, and bring Kurzen's Head to Lieutenant Doren at the Rebel Camp."
+        ],
+        "onlyCreatureObjectives": false,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 939,
+            "kills": 6,
+            "source": "Client70205/70450agree with all5capturedsourcecounterbindings; catalog6/4creaturecounts unchanged; quest202item3615ispositivecounter3. https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 978,
+            "kills": 4,
+            "source": "Client70205/70450agree with all5capturedsourcecounterbindings; catalog6/4creaturecounts unchanged; quest202item3615ispositivecounter3. https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            574
+          ]
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 3,
+            "itemId": 3615,
+            "itemName": "Kurzen's Head",
+            "quantity": 1,
+            "npcIds": [
+              813
+            ],
+            "sharing": "shared-roll"
+          }
+        ]
+      },
+      {
+        "questId": 200,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find Bookie Herod's Records."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            215
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 215,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak with Lieutenant Doren at the Rebel Camp."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 328,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Use the Small Brass Key to open Bookie Herod's Strongbox."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            200
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 329,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Take the Muddy Note to Lieutenant Doren at the Rebel Camp."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            328
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 330,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak with Corporal Sethman."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            329
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 574,
+        "creatureIds": [
+          938,
+          941
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Kill 10 Kurzen Commandoes and 6 Kurzen Headshrinkers.",
+          "",
+          "Report to Lieutenant Doren at the Rebel Camp."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 938,
+            "kills": 10,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=574/special-forces; sha256 e1900acfcd2c5c59bbce724618d3bfd999d8277599cc1ad0ef5ab7e55066f1b6; 2026-10-14T16:46:44.882Z"
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 941,
+            "kills": 6,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=574/special-forces; sha256 e1900acfcd2c5c59bbce724618d3bfd999d8277599cc1ad0ef5ab7e55066f1b6; 2026-10-14T16:46:44.882Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [
+            203,
+            204
+          ],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [
+      {
+        "itemId": 3615,
+        "npcId": 813,
+        "probability": 1,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 3615,
+          "npcId": 813,
+          "lootEntry": 813,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 3615,
+          "npcId": 813,
+          "lootEntry": 813,
+          "probability": 1,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 3,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=3615/kurzens-head",
+        "capturedAt": "2026-10-20T08:35:09.805Z",
+        "sourceSha256": "5eb31e25a24e295a6a2304d30f934667b53c26207705cf2bad5a85c14bd2636d"
+      }
+    ],
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "reward": {
+    "questId": 202,
+    "fullXp": 3150,
+    "rewardBasis": "final-reward",
+    "questLevel": 40,
+    "minimumLevel": 30,
+    "xpByLevel": [
+      {
+        "level": 30,
+        "xp": 3150
+      },
+      {
+        "level": 31,
+        "xp": 3150
+      },
+      {
+        "level": 32,
+        "xp": 3150
+      },
+      {
+        "level": 33,
+        "xp": 3150
+      },
+      {
+        "level": 34,
+        "xp": 3150
+      },
+      {
+        "level": 35,
+        "xp": 3150
+      },
+      {
+        "level": 36,
+        "xp": 3150
+      },
+      {
+        "level": 37,
+        "xp": 3150
+      },
+      {
+        "level": 38,
+        "xp": 3150
+      },
+      {
+        "level": 39,
+        "xp": 3150
+      },
+      {
+        "level": 40,
+        "xp": 3150
+      },
+      {
+        "level": 41,
+        "xp": 3150
+      },
+      {
+        "level": 42,
+        "xp": 3150
+      },
+      {
+        "level": 43,
+        "xp": 3150
+      },
+      {
+        "level": 44,
+        "xp": 3150
+      },
+      {
+        "level": 45,
+        "xp": 3150
+      },
+      {
+        "level": 46,
+        "xp": 2500
+      },
+      {
+        "level": 47,
+        "xp": 1900
+      },
+      {
+        "level": 48,
+        "xp": 1250
+      },
+      {
+        "level": 49,
+        "xp": 625
+      },
+      {
+        "level": 50,
+        "xp": 320
+      },
+      {
+        "level": 51,
+        "xp": 320
+      },
+      {
+        "level": 52,
+        "xp": 320
+      },
+      {
+        "level": 53,
+        "xp": 320
+      },
+      {
+        "level": 54,
+        "xp": 320
+      },
+      {
+        "level": 55,
+        "xp": 320
+      },
+      {
+        "level": 56,
+        "xp": 320
+      },
+      {
+        "level": 57,
+        "xp": 320
+      },
+      {
+        "level": 58,
+        "xp": 320
+      },
+      {
+        "level": 59,
+        "xp": 320
+      }
+    ],
+    "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+    "capturedAt": "2026-11-03T13:36:41.167Z",
+    "status": "available",
+    "evidenceKind": "client-table-reference",
+    "clientReference": {
+      "schema": "client-quest-reward-reference.v1",
+      "calculation": "table-multiplier-reduction-rounding.v1",
+      "targetBuild": 70205,
+      "questId": 202,
+      "questLevel": 40,
+      "minimumLevel": 30,
+      "difficulty": 5,
+      "baseXp": 3150,
+      "xpMultiplier": 1,
+      "cacheSources": [
+        {
+          "build": 70205,
+          "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+          "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+        },
+        {
+          "build": 70450,
+          "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+          "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+        }
+      ],
+      "tableSources": [
+        {
+          "build": 70205,
+          "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+          "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+          "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+          "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+        },
+        {
+          "build": 70450,
+          "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+          "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+          "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+          "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+        }
+      ]
+    },
+    "referenceBaseXp": 3150
+  },
+  "sources": [
+    {
+      "referenceId": "chapter-19-36-38-stranglethorn-vale-ii",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-19-36-38-stranglethorn-vale-ii",
+        "version": "import-v2-3de1f5f378ab9608",
+        "targetBuild": 70205,
+        "sourceSha256": "3de1f5f378ab96081b82948079a80fc778160e8516b6b4ad45f95f8c39382b0e",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0079",
+            "ordinal": 79,
+            "sourceLine": 632,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#softcore",
+                "arguments": "",
+                "condition": "",
+                "text": "",
+                "sourceLine": 633,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "215",
+                "condition": "",
+                "text": "",
+                "sourceLine": 634,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,-206.72,-11296.89",
+                "condition": "",
+                "text": "",
+                "sourceLine": 635,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": -206.72,
+                  "y": -11296.89,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Lieutenant Doren",
+                "sourceLine": 636,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "574",
+                "condition": "",
+                "text": "Turn in Special Forces",
+                "sourceLine": 637,
+                "questId": 574,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "202",
+                "condition": "",
+                "text": "Accept Colonel Kurzen",
+                "sourceLine": 638,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "329",
+                "condition": "",
+                "text": "Turn in The Spy Revealed!",
+                "sourceLine": 639,
+                "questId": 329,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "330",
+                "condition": "",
+                "text": "Accept Patrol Schedules",
+                "sourceLine": 640,
+                "questId": 330,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Lieutenant Doren",
+                "condition": "",
+                "text": "",
+                "sourceLine": 641,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0080",
+            "ordinal": 80,
+            "sourceLine": 642,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#softcore",
+                "arguments": "",
+                "condition": "",
+                "text": "",
+                "sourceLine": 643,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,-206.72,-11296.89",
+                "condition": "",
+                "text": "",
+                "sourceLine": 644,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": -206.72,
+                  "y": -11296.89,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Lieutenant Doren",
+                "sourceLine": 645,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "574",
+                "condition": "",
+                "text": "Turn in Special Forces",
+                "sourceLine": 646,
+                "questId": 574,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "202",
+                "condition": "",
+                "text": "Accept Colonel Kurzen",
+                "sourceLine": 647,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Lieutenant Doren",
+                "condition": "",
+                "text": "",
+                "sourceLine": 648,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0093",
+            "ordinal": 93,
+            "sourceLine": 736,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#hardcore",
+                "arguments": "",
+                "condition": "",
+                "text": "",
+                "sourceLine": 737,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".isQuestTurnedIn",
+                "arguments": "215",
+                "condition": "",
+                "text": "",
+                "sourceLine": 738,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,-206.72,-11296.89",
+                "condition": "",
+                "text": "",
+                "sourceLine": 739,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": -206.72,
+                  "y": -11296.89,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Lieutenant Doren",
+                "sourceLine": 740,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "574",
+                "condition": "",
+                "text": "Turn in Special Forces",
+                "sourceLine": 741,
+                "questId": 574,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "202",
+                "condition": "",
+                "text": "Accept Colonel Kurzen",
+                "sourceLine": 742,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "329",
+                "condition": "",
+                "text": "Turn in The Spy Revealed!",
+                "sourceLine": 743,
+                "questId": 329,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "330",
+                "condition": "",
+                "text": "Accept Patrol Schedules",
+                "sourceLine": 744,
+                "questId": 330,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Lieutenant Doren",
+                "condition": "",
+                "text": "",
+                "sourceLine": 745,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0094",
+            "ordinal": 94,
+            "sourceLine": 746,
+            "condition": "",
+            "directives": [
+              {
+                "tag": "#hardcore",
+                "arguments": "",
+                "condition": "",
+                "text": "",
+                "sourceLine": 747,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,-206.72,-11296.89",
+                "condition": "",
+                "text": "",
+                "sourceLine": 748,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": -206.72,
+                  "y": -11296.89,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Lieutenant Doren",
+                "sourceLine": 749,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "574",
+                "condition": "",
+                "text": "Turn in Special Forces",
+                "sourceLine": 750,
+                "questId": 574,
+                "position": null
+              },
+              {
+                "tag": ".accept",
+                "arguments": "202",
+                "condition": "",
+                "text": "Accept Colonel Kurzen",
+                "sourceLine": 751,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".target",
+                "arguments": "Lieutenant Doren",
+                "condition": "",
+                "text": "",
+                "sourceLine": 752,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "referenceId": "chapter-28-41-43-stv-swamp-of-sorrows",
+      "guide": {
+        "schemaVersion": 1,
+        "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+        "version": "import-v2-0671e2017ce66f25",
+        "targetBuild": 70205,
+        "sourceSha256": "0671e2017ce66f2565d27e0109df02d30794b2716589feb110663bf14ec76be1",
+        "sourceName": "RestedXP Forever Guide",
+        "steps": [
+          {
+            "id": "source-step-0059",
+            "ordinal": 59,
+            "sourceLine": 426,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".isOnQuest",
+                "arguments": "202",
+                "condition": "",
+                "text": "",
+                "sourceLine": 427,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Kurzen Elites and Kurzen Subchiefs",
+                "sourceLine": 428,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Kill Colonel Kurzen. Loot him for his Head",
+                "sourceLine": 429,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "If you can't kill Colonel Kurzen skip this step",
+                "sourceLine": 430,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".complete",
+                "arguments": "202,1",
+                "condition": "",
+                "text": "",
+                "sourceLine": 431,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Kurzen Elite",
+                "condition": "",
+                "text": "",
+                "sourceLine": 432,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".complete",
+                "arguments": "202,2",
+                "condition": "",
+                "text": "",
+                "sourceLine": 433,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Kurzen Subchief",
+                "condition": "",
+                "text": "",
+                "sourceLine": 434,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".complete",
+                "arguments": "202,3",
+                "condition": "",
+                "text": "",
+                "sourceLine": 435,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".mob",
+                "arguments": "+Colonel Kurzen",
+                "condition": "",
+                "text": "",
+                "sourceLine": 436,
+                "questId": null,
+                "position": null
+              }
+            ]
+          },
+          {
+            "id": "source-step-0061",
+            "ordinal": 61,
+            "sourceLine": 442,
+            "condition": "",
+            "directives": [
+              {
+                "tag": ".goto",
+                "arguments": "1434/0,-206.72,-11296.89",
+                "condition": "",
+                "text": "",
+                "sourceLine": 443,
+                "questId": null,
+                "position": {
+                  "zone": "1434",
+                  "floor": 0,
+                  "x": -206.72,
+                  "y": -11296.89,
+                  "space": "world"
+                }
+              },
+              {
+                "tag": ".target",
+                "arguments": "Lieutenant Doren",
+                "condition": "",
+                "text": "",
+                "sourceLine": 444,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": "text",
+                "arguments": "",
+                "condition": "",
+                "text": "Talk to Lieutenant Doren",
+                "sourceLine": 445,
+                "questId": null,
+                "position": null
+              },
+              {
+                "tag": ".turnin",
+                "arguments": "202",
+                "condition": "",
+                "text": "Turn in Colonel Kurzen",
+                "sourceLine": 446,
+                "questId": 202,
+                "position": null
+              },
+              {
+                "tag": ".isQuestComplete",
+                "arguments": "202",
+                "condition": "",
+                "text": "",
+                "sourceLine": 447,
+                "questId": null,
+                "position": null
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { campaignNativeInstructions } from "./campaign-addon-native.js";
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import { CHAPTER_REFERENCES } from "./chapter-data.js";
 import { parseGuideChapter } from "./guide-archive.js";
+import { attachCampaignSourceHints } from "./campaign-source-hints.js";
 
 function fixture(text: string): {
   plan: CampaignPlan;
@@ -57,6 +58,32 @@ function fixture(text: string): {
 }
 
 describe("canonical campaign native instructions", () => {
+  it("omits a discarded collection reminder and loot instructions from the common party route", () => {
+    const {
+      plan: original,
+      sources,
+      action: originalAction,
+    } = fixture(
+      "step\n.complete 7,1 >>Kill Kobold Vermin (x10)\n.mob Kobold Vermin\n.complete 8,1 >>Rare Books (8)\n.disablecheckbox\n.mob Rare Collector\n>>Loot their Rare Books",
+    );
+    const action = {
+      ...originalAction,
+      instructions: ["Kill Kobold Vermin (x10)", "Loot their Rare Books"],
+      questChanges: originalAction.questChanges.filter((change) => change.questId === 7),
+    };
+    const plan: CampaignPlan = { ...original, sharedQuestsOnly: true, actions: [action] };
+    const native = campaignNativeInstructions(plan, sources)(action)!;
+    expect(native.directives.some((directive) => directive.questId === 8)).toBe(false);
+    expect(native.directives.some((directive) => directive.tag === ".disablecheckbox")).toBe(false);
+    expect(
+      native.directives.some(
+        (directive) => directive.tag === ".mob" && directive.arguments === "Rare Collector",
+      ),
+    ).toBe(false);
+    expect(attachCampaignSourceHints(plan, sources).actions[0]!.instructions).toEqual([
+      "Kill Kobold Vermin (x10)",
+    ]);
+  });
   it("keeps quest phases distinct from guards even when imported directives share a source line", () => {
     const { plan, sources, action } = fixture("step\n.isQuestComplete 7\n.turnin 7\n.accept 8");
     const imported = sources.map((source) => ({

@@ -68,8 +68,17 @@ export function proposeCampaignStarterVisit(
   const selected = westfall?.actions ?? primary;
   const destination = plan.actions.findIndex((action) => action.id === rule.afterActionId);
   const anchor = plan.actions[destination];
+  const later = selected.filter((action) => plan.actions.indexOf(action) >= destination);
+  const earlierFinalHandIn =
+    rule.allowEarlierFinalHandIn &&
+    later.length === 1 &&
+    later[0] === selected.at(-1) &&
+    later[0]!.questChanges.length > 0 &&
+    later[0]!.questChanges.every((change) => change.state === "rewarded") &&
+    later[0]!.location?.zone === rule.arrivalZone;
   if (
     !anchor ||
+    selected.includes(anchor) ||
     !selected.length ||
     plan.legs.find((leg) => leg.id === anchor.legId)?.kind !== "starter" ||
     selected.some(
@@ -78,7 +87,7 @@ export function proposeCampaignStarterVisit(
         action.raidOnly ||
         action.dungeonFinishOnly ||
         plan.legs.find((leg) => leg.id === action.legId)?.kind !== "starter" ||
-        plan.actions.indexOf(action) >= destination,
+        (plan.actions.indexOf(action) >= destination && !earlierFinalHandIn),
     )
   )
     return null;

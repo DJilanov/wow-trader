@@ -142,7 +142,7 @@ async function fixture(run) {
 
 test("writes every chapter outcome while keeping arithmetic success separate from funding", async () => {
   await fixture(async ({ execute, report }) => {
-    const result = execute();
+    const result = execute("--workers=2");
     assert.equal(result.status, 0, result.stderr);
     const data = JSON.parse(await readFile(report, "utf8"));
     assert.equal(data.summary.scenarios, 1);
@@ -157,6 +157,14 @@ test("writes every chapter outcome while keeping arithmetic success separate fro
     assert.ok(data.summary.maximumQuestLogUpperBound <= 40);
     assert.equal(data.results[0].questLog.length, 5);
     assert.ok(data.results[0].questLog.every((member) => member.withinCapacity));
+    assert.equal(data.execution.workers, 2);
+    assert.equal(data.execution.workerThreadIds.length, 2);
+    assert(data.execution.parallelBatches > 0);
+    const serial = execute("--workers=1");
+    assert.equal(serial.status, 0, serial.stderr);
+    const serialData = JSON.parse(await readFile(report, "utf8"));
+    assert.deepEqual(serialData.results, data.results);
+    assert.equal(serialData.execution.parallelBatches, 0);
     const gated = execute("--require-funded");
     assert.equal(gated.status, 2, gated.stderr);
     assert.equal(JSON.parse(gated.stdout).funded, false);
@@ -172,6 +180,9 @@ test("writes every chapter outcome while keeping arithmetic success separate fro
     const invalid = execute("--starter-mode=unverified");
     assert.equal(invalid.status, 1);
     assert.match(invalid.stderr, /Use --starter-mode=/);
+    const invalidWorkers = execute("--workers=0");
+    assert.equal(invalidWorkers.status, 1);
+    assert.match(invalidWorkers.stderr, /Route workers/);
   });
 });
 

@@ -18,6 +18,8 @@ import { attachCampaignDungeonSources } from "./campaign-dungeon-sources.js";
 import { questCatalogRewardFacts, type QuestCatalog } from "./quest-catalog.js";
 import { fundCampaignQuestGaps } from "./campaign-quest-funding.js";
 import { alignCampaignPickupChecks, deferUnfundedStarterPickups } from "./campaign-pickup-order.js";
+import { assertCampaignRouteLock, type CampaignRouteLockContext } from "./campaign-route-lock.js";
+import { reuseCampaignRoutePrefix, type CampaignRoutePrefix } from "./campaign-route-prefix.js";
 import { compileCampaignFinish } from "./campaign-finish.js";
 import { refreshCampaignFundingReview } from "./campaign-funding-review.js";
 import { batchCampaignLocalDeliveries } from "./campaign-local-deliveries.js";
@@ -27,6 +29,32 @@ import { attachCampaignSourceBookmarkAliases } from "./campaign-source-bookmarks
 import { expandCampaignDungeonObjectives } from "./campaign-dungeon-objectives.js";
 import { deferCampaignStarterVisits } from "./campaign-starter-visits.js";
 import { offerCampaignGroundVisits } from "./campaign-ground-visits.js";
+import { selectSharedCampaignQuests } from "./campaign-shared-quests.js";
+import { sharedCampaignQuestSources } from "./campaign-shared-source.js";
+import { batchSharedStarterPickupVisit } from "./campaign-shared-pickup-visits.js";
+import { batchSharedThanesVisit } from "./campaign-shared-thanes-visit.js";
+import { retainCampaignBridgeQuests } from "./campaign-required-quests.js";
+import {
+  DEFAULT_INCIDENTAL_KILL_XP_PERCENT,
+  DEFAULT_OUTDOOR_INCIDENTAL_KILL_XP_PERCENT,
+} from "./campaign-incidental-combat.js";
+import { offerWailingCavernsCatchUp } from "./campaign-wailing-caverns.js";
+import { attachWailingCavernsAlternative } from "./campaign-wailing-caverns-alternative.js";
+import { connectEarlyCampaignPreparation } from "./campaign-early-preparation.js";
+import { connectCampaignStarterScouting } from "./campaign-starter-scouting.js";
+import { resolveCampaignFallbackSources } from "./campaign-fallback-sources.js";
+import { attachCampaignNpcWaits } from "./campaign-npc-waits.js";
+import { attachCampaignQuestTiming } from "./campaign-quest-timing.js";
+import { attachSleepingBagRoute } from "./campaign-sleeping-bag.js";
+import { attachDoomedFleetRoute } from "./campaign-doomed-fleet.js";
+import { stageEarlyScarletLibrary } from "./campaign-scarlet-library.js";
+import { stageRazorfenEntrance } from "./campaign-razorfen-entrance.js";
+import { carryCampaignBindingKeys } from "./campaign-binding-keys.js";
+import { attachRivergladesXpPlaceholder } from "./campaign-xp-placeholder.js";
+import { attachReviewedCampaignBossReferences } from "./campaign-boss-references.js";
+import { batchCampaignSourceObjectives } from "./campaign-source-objectives.js";
+import { attachDungeonPreparationCheckpoints } from "./campaign-dungeon-preparation.js";
+import { campaignFundingStates, type CampaignFundingExecutor } from "./campaign-funding-scenarios.js";
 
 interface CampaignRewardInventory {
   readonly dungeonFinish?: boolean;
@@ -88,9 +116,30 @@ export interface CampaignPreparationEvidence {
 // offline builder use this exact transformation after those checks have succeeded.
 export function prepareCampaignPlan(
   plan: CampaignPlan,
-  sources: readonly CampaignSource[],
+  inputSources: readonly CampaignSource[],
   evidence: CampaignPreparationEvidence,
+  options: {
+    readonly sharedQuestsOnly?: true;
+    readonly routeLock?: CampaignRouteLockContext;
+    readonly routePrefix?: CampaignRoutePrefix;
+    readonly fundingExecutor?: CampaignFundingExecutor;
+  } = {},
 ): CampaignPlan {
+  const statesForPlan = options.fundingExecutor ?? campaignFundingStates;
+  const lockedActionIds = new Set(options.routeLock?.lock.actions.map((action) => action.id));
+  const assertStage = (stage: string, candidate: CampaignPlan): void => {
+    if (!options.routeLock) return;
+    try {
+      assertCampaignRouteLock(candidate, options.routeLock);
+    } catch (error) {
+      throw new Error(`Route preparation failed during ${stage}: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
+    }
+  };
+  if (options.routePrefix && !options.routeLock)
+    throw new Error("Reusing a route prefix requires its current validation context.");
+  const sharedQuestsOnly = options.sharedQuestsOnly ?? plan.sharedQuestsOnly;
+  if (sharedQuestsOnly && !evidence.questCatalog)
+    throw new Error("Shared ordinary quests require a matching quest catalog.");
   if (evidence.questCatalog && evidence.questCatalog.targetBuild !== plan.targetBuild)
     throw new Error("Quest funding catalog belongs to a different route build.");
   if (
@@ -100,40 +149,97 @@ export function prepareCampaignPlan(
   )
     throw new Error("Quest funding catalog belongs to a different source archive.");
   const combat = evidence.combat;
-  const data = combat?.data.targetBuild === plan.targetBuild ? combat.data : undefined;
-  const candidate =
-    data && plan.sourceArchiveSha256 && data.quests.some((quest) => quest.prerequisites)
+  const data = combat?.data.targetBuild === plan.targetBuild
+    ? attachReviewedCampaignBossReferences(combat.data) : undefined;
+  if (options.routePrefix && !data)
+    throw new Error("A validated route prefix requires matching combat references before preparation.");
+  if (
+    sharedQuestsOnly &&
+    data &&
+    evidence.questCatalog &&
+    (evidence.questCatalog.providerRevision !== data.provider.revision ||
+      evidence.questCatalog.questSha256 !== data.provider.questSha256 ||
+      evidence.questCatalog.npcSha256 !== data.provider.npcSha256)
+  )
+    throw new Error("Shared quest catalog and combat provider references differ.");
+  const sources =
+    sharedQuestsOnly && evidence.questCatalog
+      ? sharedCampaignQuestSources(
+          inputSources,
+          plan.race,
+          new Set(
+            evidence.questCatalog.quests
+              .filter((quest) => quest.requiredClasses === 0)
+              .map((quest) => quest.questId),
+          ),
+        )
+      : inputSources;
+  const rebuilt =
+    plan.sourceArchiveSha256 &&
+    ((sharedQuestsOnly && sources.length > 0) || data?.quests.some((quest) => quest.prerequisites))
       ? buildCampaignPlan(plan.race, plan.sourceArchiveSha256, sources, plan.leaderClass, {
           includeLibrary: plan.sourceLibraryEnabled !== false,
-          questReferences: data.quests,
+          ...(data ? { questReferences: data.quests } : {}),
+          ...(sharedQuestsOnly ? { sharedQuestsOnly: true as const } : {}),
+          ...(sharedQuestsOnly && plan.legs.every((leg) => leg.kind === "starter")
+            ? { starterOnly: true }
+            : {}),
         })
       : plan;
-  const described = sources.length ? attachCampaignDungeonSources(candidate, sources) : candidate;
+  const candidate =
+    sharedQuestsOnly && evidence.questCatalog
+      ? selectSharedCampaignQuests(rebuilt, evidence.questCatalog)
+      : rebuilt;
+  const combatPlanning: CampaignPlan = {
+    ...candidate,
+    ...(sharedQuestsOnly ? {
+      incidentalKillXpPercent: plan.incidentalKillXpPercent ?? DEFAULT_INCIDENTAL_KILL_XP_PERCENT,
+    } : {}),
+    outdoorIncidentalKillXpPercent:
+      plan.outdoorIncidentalKillXpPercent ?? DEFAULT_OUTDOOR_INCIDENTAL_KILL_XP_PERCENT,
+  };
+  const described = sources.length ? attachCampaignDungeonSources(combatPlanning, sources) : combatPlanning;
   const objectives = data ? expandCampaignDungeonObjectives(described, data) : described;
   const enriched =
     combat && data ? attachCampaignCombat(objectives, sources, data, combat.revision) : objectives;
-  const selected = sources.length
-    ? applyCampaignPartyQuestPolicy(enriched, sources, data)
+  const resolved = evidence.questCatalog && data
+    ? resolveCampaignFallbackSources(enriched, sources, data, evidence.questCatalog)
+    : null;
+  const catalog = resolved?.catalog ?? evidence.questCatalog;
+  const sourced = resolved && resolved.plan !== enriched && combat && data
+    ? attachCampaignCombat(resolved.plan, sources, data, combat.revision)
     : enriched;
+  const selected = sources.length
+    ? applyCampaignPartyQuestPolicy(sourced, sources, data, catalog)
+    : sourced;
   const visits = batchCampaignVisits(
     batchCampaignDungeonFlow(attachCampaignLocations(selected, sources)),
     sources,
   );
-  const routed = batchCampaignDungeonFlow(
+  const located = batchCampaignDungeonFlow(
     attachCampaignLocations(attachCampaignFlightPaths(visits, sources), sources),
   );
+  const routed = catalog
+    ? batchSharedThanesVisit(
+        batchSharedStarterPickupVisit(located, catalog),
+        sources,
+        catalog,
+      )
+    : located;
   const wanted = new Set([
     ...campaignRewardQuestIds({ ...routed, starters: evidence.starters }),
-    ...(evidence.questCatalog?.quests.map((quest) => quest.questId) ?? []),
+    ...(catalog?.quests.map((quest) => quest.questId) ?? []),
   ]);
   const funded = compileCampaignFunding(
-    compileCampaignPickupGates({
+    retainCampaignBridgeQuests(compileCampaignPickupGates({
       ...routed,
-      starters: evidence.starters,
-      catchUpBatches: (plan.catchUpBatches ?? []).filter(isSupportedCatchUpBatch),
+      starters: sharedQuestsOnly ? { entries: [], routes: [] } : evidence.starters,
+      catchUpBatches: ((sharedQuestsOnly ? routed : plan).catchUpBatches ?? []).filter(
+        isSupportedCatchUpBatch,
+      ),
       rewardFacts: questCatalogRewardFacts(
         evidence.rewardFacts.filter((fact) => wanted.has(fact.questId)),
-        evidence.questCatalog ?? null,
+        catalog ?? null,
       ),
       rewardRevision: evidence.rewardRevision,
       rewardBuild: evidence.rewardBuild,
@@ -144,66 +250,163 @@ export function prepareCampaignPlan(
             questValidationRuntimeBuild: evidence.questValidation.runtimeBuild,
           }
         : {}),
-    }),
+    })),
   );
-  const orderedPickups = deferUnfundedStarterPickups(funded);
+  const orderedPickups = options.routePrefix && options.routeLock
+    ? reuseCampaignRoutePrefix(funded, options.routePrefix, options.routeLock)
+    : deferUnfundedStarterPickups(funded);
+  assertStage("ordered pickups", orderedPickups);
+  const outsideCheckpoints = attachDungeonPreparationCheckpoints(orderedPickups, options.routeLock?.lock.actions.length ?? 0);
+  const sourceObjectives = batchCampaignSourceObjectives(outsideCheckpoints, options.routeLock?.lock.actions.length ?? 0);
+  const retainedPrefix = combat && data && (options.routePrefix || sourceObjectives !== orderedPickups)
+    ? attachCampaignCombat(sourceObjectives, sources, data, combat.revision)
+    : sourceObjectives;
+  assertStage("retained prefix combat", retainedPrefix);
   const questFunded =
-    evidence.questCatalog && data
-      ? fundCampaignQuestGaps(orderedPickups, sources, data, evidence.questCatalog)
-      : orderedPickups;
+    catalog && data
+      ? fundCampaignQuestGaps(retainedPrefix, sources, data, catalog, { fundingExecutor: statesForPlan, minimumInsertionIndex: options.routeLock?.lock.actions.length ?? 0 })
+      : retainedPrefix;
+  assertStage("quest funded", questFunded);
+  const libraryVisit = catalog && data
+    ? stageEarlyScarletLibrary(questFunded, catalog, data)
+    : questFunded;
+  assertStage("library visit", libraryVisit);
   const localDeliveries =
-    evidence.questCatalog && data
-      ? batchCampaignLocalDeliveries(questFunded, data, evidence.questCatalog)
-      : questFunded;
+    catalog && data
+      ? batchCampaignLocalDeliveries(libraryVisit, data, catalog, statesForPlan)
+      : libraryVisit;
+  assertStage("local deliveries", localDeliveries);
   const chainVisits =
-    evidence.questCatalog && data
-      ? batchCampaignChainVisits(localDeliveries, data, evidence.questCatalog)
+    catalog && data
+      ? batchCampaignChainVisits(localDeliveries, data, catalog, statesForPlan)
       : localDeliveries;
+  assertStage("chain visits", chainVisits);
   const fundedVisits =
-    evidence.questCatalog && data
-      ? batchFundedCampaignVisits(chainVisits, sources, data, evidence.questCatalog)
+    catalog && data
+      ? batchFundedCampaignVisits(chainVisits, sources, data, catalog, statesForPlan, lockedActionIds)
       : chainVisits;
-  const starterVisits = evidence.questCatalog
-    ? deferCampaignStarterVisits(fundedVisits, sources, evidence.questCatalog)
+  assertStage("funded visits", fundedVisits);
+  const starterVisits = catalog
+    ? deferCampaignStarterVisits(fundedVisits, sources, catalog, statesForPlan)
     : fundedVisits;
+  assertStage("starter visits", starterVisits);
   const renewedFunding =
-    starterVisits !== fundedVisits && evidence.questCatalog && data
+    starterVisits !== fundedVisits && catalog && data
       ? batchFundedCampaignVisits(
-          fundCampaignQuestGaps(starterVisits, sources, data, evidence.questCatalog),
+          fundCampaignQuestGaps(starterVisits, sources, data, catalog, { fundingExecutor: statesForPlan, minimumInsertionIndex: options.routeLock?.lock.actions.length ?? 0 }),
           sources,
           data,
-          evidence.questCatalog,
+          catalog,
+          statesForPlan,
+          lockedActionIds,
         )
       : starterVisits;
+  assertStage("renewed funding", renewedFunding);
   const groundVisits =
-    evidence.questCatalog && data
-      ? offerCampaignGroundVisits(renewedFunding, sources, data, evidence.questCatalog)
+    catalog && data
+      ? offerCampaignGroundVisits(renewedFunding, sources, data, catalog, statesForPlan)
       : renewedFunding;
+  assertStage("ground visits", groundVisits);
   const settledFunding =
-    groundVisits !== renewedFunding && evidence.questCatalog && data
+    groundVisits !== renewedFunding && catalog && data
       ? batchFundedCampaignVisits(
-          fundCampaignQuestGaps(groundVisits, sources, data, evidence.questCatalog),
+          fundCampaignQuestGaps(groundVisits, sources, data, catalog, { fundingExecutor: statesForPlan, minimumInsertionIndex: options.routeLock?.lock.actions.length ?? 0 }),
           sources,
           data,
-          evidence.questCatalog,
+          catalog,
+          statesForPlan,
+          lockedActionIds,
         )
       : groundVisits;
-  const finish = evidence.questCatalog
-    ? compileCampaignFinish(settledFunding, evidence.questCatalog)
-    : settledFunding;
+  assertStage("settled funding", settledFunding);
+  const dungeonCatchUp =
+    catalog && data
+      ? offerWailingCavernsCatchUp(settledFunding, sources, data, catalog)
+      : settledFunding;
+  assertStage("dungeon catch up", dungeonCatchUp);
+  const connectedPreparation = catalog && data
+    ? connectEarlyCampaignPreparation(dungeonCatchUp, sources, data, catalog, statesForPlan)
+    : dungeonCatchUp;
+  assertStage("connected preparation", connectedPreparation);
+  const scouted = catalog && data
+    ? connectCampaignStarterScouting(connectedPreparation, sources, data, catalog)
+    : connectedPreparation;
+  assertStage("scouted", scouted);
+  const settledPreparation = sharedQuestsOnly && catalog && data
+    ? fundCampaignQuestGaps(scouted, sources, data, catalog, { includeCatalogApproaches: true, includeSourceDeliveries: true, fundingExecutor: statesForPlan, minimumInsertionIndex: options.routeLock?.lock.actions.length ?? 0 })
+    : scouted;
+  assertStage("settled preparation", settledPreparation);
+  const connectedFunding = catalog && data
+    ? connectEarlyCampaignPreparation(settledPreparation, sources, data, catalog, statesForPlan)
+    : settledPreparation;
+  assertStage("connected funding", connectedFunding);
+  const sleepingBag = catalog ? attachSleepingBagRoute(connectedFunding, catalog) : connectedFunding;
+  assertStage("sleeping bag", sleepingBag);
+  const doomedFleet = catalog && data ? attachDoomedFleetRoute(sleepingBag, catalog, data) : sleepingBag;
+  assertStage("doomed fleet", doomedFleet);
+  const entranceVisit = catalog && data ? stageRazorfenEntrance(doomedFleet, catalog, data) : doomedFleet;
+  assertStage("entrance visit", entranceVisit);
+  const outdoorVisit = entranceVisit !== doomedFleet && combat && data
+    ? attachCampaignCombat(entranceVisit, sources, data, combat.revision)
+    : entranceVisit;
+  assertStage("outdoor visit", outdoorVisit);
+  const preparedFunding = outdoorVisit !== settledPreparation && catalog && data
+    ? fundCampaignQuestGaps(outdoorVisit, sources, data, catalog, { includeCatalogApproaches: true, includeSourceDeliveries: true, fundingExecutor: statesForPlan, minimumInsertionIndex: options.routeLock?.lock.actions.length ?? 0 })
+    : outdoorVisit;
+  assertStage("prepared funding", preparedFunding);
+  const connectedBag = catalog ? attachSleepingBagRoute(preparedFunding, catalog) : preparedFunding;
+  assertStage("connected bag", connectedBag);
+  const finalVisits = sharedQuestsOnly && catalog && data
+    ? batchFundedCampaignVisits(connectedBag, sources, data, catalog, statesForPlan, lockedActionIds)
+    : connectedBag;
+  assertStage("final visits", finalVisits);
+  const carriedKeys = sharedQuestsOnly && catalog
+    ? carryCampaignBindingKeys(finalVisits, sources, catalog, statesForPlan, lockedActionIds)
+    : finalVisits;
+  assertStage("carried binding keys", carriedKeys);
+  const plannedPlaceholder = attachRivergladesXpPlaceholder(carriedKeys);
+  assertStage("planned XP placeholder", plannedPlaceholder);
+  const placeholderFunding = plannedPlaceholder !== carriedKeys && catalog && data
+    ? fundCampaignQuestGaps(plannedPlaceholder, sources, data, catalog, {
+        includeCatalogApproaches: true, includeSourceDeliveries: true,
+        fundingExecutor: statesForPlan, minimumInsertionIndex: options.routeLock?.lock.actions.length ?? 0,
+      })
+    : plannedPlaceholder;
+  assertStage("placeholder continuation funding", placeholderFunding);
+  const finish = catalog
+    ? compileCampaignFinish(placeholderFunding, catalog)
+    : placeholderFunding;
+  assertStage("finish", finish);
   const finishedObjectives = data ? expandCampaignDungeonObjectives(finish, data) : finish;
   const completed =
     combat && data && finishedObjectives !== questFunded
       ? attachCampaignCombat(finishedObjectives, sources, data, combat.revision)
       : finishedObjectives;
+  assertStage("completed", completed);
   const orderedChecks = alignCampaignPickupChecks(completed);
+  assertStage("ordered checks", orderedChecks);
+  const alternatives = catalog
+    ? attachWailingCavernsAlternative(orderedChecks, catalog)
+    : orderedChecks;
+  assertStage("alternatives", alternatives);
   const reviewed =
-    orderedChecks !== questFunded ? refreshCampaignFundingReview(orderedChecks) : orderedChecks;
-  return attachCampaignSourceBookmarkAliases(
+    alternatives !== questFunded ? refreshCampaignFundingReview(alternatives, statesForPlan) : alternatives;
+  assertStage("reviewed", reviewed);
+  const result = attachCampaignSourceBookmarkAliases(
     attachCampaignSourceHints(
       attachCampaignMovements(attachCampaignLocations(reviewed, sources), sources),
       sources,
     ),
     sources,
   );
+  assertStage("result", result);
+  const explained = catalog ? attachCampaignNpcWaits(result, sources, catalog) : result;
+  assertStage("explained", explained);
+  const shared = sharedQuestsOnly && catalog
+    ? selectSharedCampaignQuests(explained, catalog)
+    : explained;
+  assertStage("shared", shared);
+  const prepared = catalog ? attachCampaignQuestTiming(shared, catalog) : shared;
+  if (options.routeLock) assertCampaignRouteLock(prepared, options.routeLock);
+  return prepared;
 }

@@ -146,16 +146,19 @@ export function compileCampaignFinish(plan: CampaignPlan, catalog: QuestCatalog)
       location: { zone: zones[wing.id]! },
     });
     for (const [offset, step] of wing.steps.entries()) {
+      const lines = typeof step.text === "string" ? [step.text] : (step.text ?? []);
+      if (step.text !== undefined && (!lines.length || lines.some((line) => !line.trim())))
+        throw new Error(`Finish step ${wing.id}/${offset} has empty instructions.`);
       const quest = step.questId ? byId.get(step.questId) : undefined;
       if (step.questId && deferred.has(step.questId)) continue;
       if (!quest) {
-        if (step.text)
+        if (lines.length)
           tasks.push({
             ...intro,
             id: `${finalLegId}-${wing.id}-note-${offset}`,
             kind: "instructions",
-            title: step.text,
-            instructions: [step.text],
+            title: lines[0]!,
+            instructions: lines,
             targetLevel: null,
           });
         continue;
@@ -179,12 +182,14 @@ export function compileCampaignFinish(plan: CampaignPlan, catalog: QuestCatalog)
       const where = step.inside
         ? `inside ${DUNGEON_FIRST_CLEAR_CIRCUIT.find((entry) => entry.id === step.inside)!.name}`
         : `in ${campaignZoneName(zone)}`;
-      const text =
+      const instructions =
         state === "accepted"
-          ? `Talk to ${npc!.name} ${where}. Accept ${quest.title}.`
+          ? [`Talk to ${npc!.name} ${where}. Accept ${quest.title}.`]
           : state === "rewarded"
-            ? `Talk to ${npc!.name} ${where}. Turn in ${quest.title}.`
-            : step.text!;
+            ? [`Talk to ${npc!.name} ${where}. Turn in ${quest.title}.`]
+            : lines;
+      if (!instructions.length)
+        throw new Error(`Finish quest ${quest.questId} has no instructions.`);
       const objectives = state === "objectives-complete" ? (step.objectives ?? []) : [null];
       if (!objectives.length)
         throw new Error(`Finish quest ${quest.questId} has no objective slots.`);
@@ -194,7 +199,7 @@ export function compileCampaignFinish(plan: CampaignPlan, catalog: QuestCatalog)
         kind: "quests",
         title: `${state === "accepted" ? "Accept" : state === "rewarded" ? "Turn in" : "Complete"} ${quest.title}`,
         instructions: [
-          text,
+          ...instructions,
           ...(state === "accepted" && quest.providedItem
             ? [`Keep ${quest.providedItem.name} for this quest.`]
             : []),

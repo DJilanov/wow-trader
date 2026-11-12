@@ -1,7 +1,7 @@
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
-import { PREMADE_STOPS } from "./premade.js";
+import { campaignSourceDungeonTags } from "./campaign-source-dungeons.js";
 import { getGuideStepView, type ImportedDirective } from "./guide-archive.js";
 import { CAMPAIGN_QUEST_GUARDS } from "./campaign-native-guards.js";
 import { parseCampaignItemTarget } from "./campaign-items.js";
@@ -12,6 +12,9 @@ import {
   matchesCampaignSourcePhase as matchesQuest,
 } from "./campaign-source-conditions.js";
 import { displayOnlyQuestPhases } from "./campaign-source-display.js";
+import { sharedCampaignQuestSources } from "./campaign-shared-source.js";
+import { reviewedNarrativeTimer } from "./campaign-narrative-events.js";
+import { isCombatUtilityForObjective } from "./combat-source-utility.js";
 
 export const CAMPAIGN_NATIVE_POLICY = "canonical-sequential-v1" as const;
 
@@ -140,6 +143,7 @@ export interface CampaignNativeStep {
   readonly condition: string;
   readonly directives: readonly ImportedDirective[];
   readonly canonicalQuestConditions?: Readonly<Record<number, string>>;
+  readonly excludedText?: readonly string[];
 }
 
 function combinedConditions(...conditions: readonly string[]): string {
@@ -166,16 +170,36 @@ export function campaignNativeInstructions(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
 ): CampaignNativeInstructions {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
-  const selected = new Set(PREMADE_STOPS.flatMap((stop) => stop.visitIds));
-  const dungeons = DUNGEON_VISITS.flatMap((visit) =>
-    selected.has(visit.id) && visit.sourceTag ? [visit.sourceTag] : [],
+  const profile = campaignPlanSourceProfile(plan);
+  const dungeons = campaignSourceDungeonTags();
+  const visits = new Map(DUNGEON_VISITS.map((visit) => [visit.id, visit]));
+  const legTags = new Map(
+    plan.legs.map((leg) => [
+      leg.id,
+      leg.dungeonVisitId ? visits.get(leg.dungeonVisitId)?.sourceTag : undefined,
+    ]),
   );
+  const additionalTags = new Map<string, Set<string>>();
+  for (const action of plan.actions) {
+    const tag = legTags.get(action.legId);
+    if (!tag || !action.source) continue;
+    const key = `${action.source.chapterId}:${action.source.version}:${action.source.stepId}`;
+    const tags = additionalTags.get(key) ?? new Set<string>();
+    tags.add(tag);
+    additionalTags.set(key, tags);
+  }
   const steps = new Map<string, CampaignNativeStep>();
   const plannedQuests = new Set(
     plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
   );
-  for (const source of sources) {
+  const nativeSources = plan.sharedQuestsOnly
+    ? sharedCampaignQuestSources(
+        sources,
+        plan.race,
+        new Set(plan.sharedSourceQuestIds ?? plannedQuests),
+      )
+    : sources;
+  for (const source of nativeSources) {
     if (source.guide.targetBuild !== plan.targetBuild)
       throw new Error(`Native source build mismatch: ${source.guide.chapterId}.`);
     for (const step of source.guide.steps) {
@@ -189,7 +213,7 @@ export function campaignNativeInstructions(
           ),
         },
         profile,
-        { dungeons },
+        { dungeons: [...dungeons, ...(additionalTags.get(key) ?? [])] },
       );
       if (view.condition === "match")
         steps.set(key, { condition: step.condition, directives: view.directives });
@@ -201,6 +225,22 @@ export function campaignNativeInstructions(
     const source = steps.get(key);
     if (!source) throw new Error(`Native source step is unavailable or ineligible: ${action.id}.`);
     const { directives } = source;
+    const displayOnly = displayOnlyQuestPhases(directives);
+    const partialSharedSource =
+      plan.sharedQuestsOnly &&
+      directives.some(
+        (directive) =>
+          questStates.has(directive.tag) &&
+          (displayOnly.has(directive) ||
+            (directive.questId !== null && !plannedQuests.has(directive.questId))),
+      );
+    const scopeHints = partialSharedSource
+      ? {
+          excludedText: directives
+            .filter((directive) => directive.tag === "text")
+            .map((directive) => directive.text),
+        }
+      : {};
     if (action.movement) {
       const utility = directives.filter(
         (directive) =>
@@ -208,7 +248,9 @@ export function campaignNativeInstructions(
           (directive.tag === ".home" && !action.movement?.terminal),
       );
       for (const directive of utility) validateDirective(directive);
-      return utility.length ? { condition: source.condition, directives: utility } : null;
+      return utility.length
+        ? { condition: source.condition, directives: utility, ...scopeHints }
+        : null;
     }
     for (const directive of directives) {
       if (replacedControls.has(directive.tag)) continue;
@@ -221,11 +263,11 @@ export function campaignNativeInstructions(
       )
         throw new Error(`Abandoning a retained campaign quest is not modeled: ${action.id}.`);
     }
-    const displayOnly = displayOnlyQuestPhases(directives);
     const sourceQuests = directives.filter(
       (directive) => questStates.has(directive.tag) && !displayOnly.has(directive),
     );
-    const completeStep = sourceQuests.every((directive) => matchesQuest(action, directive));
+    const completeStep =
+      !partialSharedSource && sourceQuests.every((directive) => matchesQuest(action, directive));
     const missingNativePhase = action.questChanges.some(
       (change) =>
         !sourceQuests.some(
@@ -253,6 +295,7 @@ export function campaignNativeInstructions(
           (directive) => positionTags.has(directive.tag) && matchesPosition(action, directive),
         ),
         canonicalQuestConditions,
+        ...scopeHints,
       };
     }
     const relevantQuests = new Set([
@@ -283,10 +326,26 @@ export function campaignNativeInstructions(
     );
     const retained = directives.filter((directive) => {
       if (replacedControls.has(directive.tag)) return false;
-      if (displayOnly.has(directive)) return completeStep;
+      if (displayOnly.has(directive)) {
+        if (plan.sharedQuestsOnly) previousQuest = directive;
+        return !plan.sharedQuestsOnly && completeStep;
+      }
       if (directive.tag === ".disablecheckbox")
-        return completeStep && displayOnly.has(directives[directives.indexOf(directive) - 1]!);
-      if (CAMPAIGN_SOURCE_CHECKS.has(directive.tag)) return selectedChecks.has(directive);
+        return (
+          !plan.sharedQuestsOnly &&
+          completeStep &&
+          displayOnly.has(directives[directives.indexOf(directive) - 1]!)
+        );
+      if (CAMPAIGN_SOURCE_CHECKS.has(directive.tag))
+        return (
+          selectedChecks.has(directive) &&
+          (!partialSharedSource ||
+            !questChecks.has(directive.tag) ||
+            directive.arguments
+              .split(",")
+              .map(Number)
+              .every((id) => relevantQuests.has(id)))
+        );
       if (
         directive.tag === ".mob" &&
         (action.creatureTarget || action.referenceCreatureTargets) &&
@@ -330,6 +389,14 @@ export function campaignNativeInstructions(
       }
       if (directive.tag === ".use" && boundItems.has(Number(directive.arguments.split(",")[0])))
         return relevantItems.has(Number(directive.arguments.split(",")[0]));
+      if (directive.tag === ".timer" && reviewedNarrativeTimer(action, directive, plan)) return true;
+      if (directive.tag === ".use" && previousQuest?.tag === ".complete" && matchesQuest(action, previousQuest)) {
+        const phase = previousQuest;
+        if (plan.combat?.activities.some((activity) => activity.actionId === action.id &&
+          activity.objectives.some((objective) => objective.questId === phase.questId &&
+            objective.objectiveIndex === Number(phase.arguments.split(",")[1] ?? 1) &&
+            isCombatUtilityForObjective(directive, objective)))) return true;
+      }
       if (completeStep) return true;
       if (displayTags.has(directive.tag))
         return previousQuest !== undefined && matchesQuest(action, previousQuest);
@@ -345,6 +412,7 @@ export function campaignNativeInstructions(
     const questCondition = sharedQuestCondition(conditions);
     return {
       condition: combinedConditions(source.condition, questCondition),
+      ...scopeHints,
       directives: retained.map((directive) =>
         // A sticky training reminder must not hide/block the sequential route below
         // its display level. Stock reverse-XP skips only this reminder, not the route.

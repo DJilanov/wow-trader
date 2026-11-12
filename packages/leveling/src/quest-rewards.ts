@@ -8,6 +8,11 @@ import {
 } from "./dungeon-xp.js";
 import { DUNGEON_FACTS } from "./dungeon-catalog.js";
 import { z } from "zod";
+import {
+  calculateClientQuestXp,
+  clientQuestRewardReferenceSchema,
+  type ClientQuestRewardReference,
+} from "./quest-client-reward.js";
 
 const evidenceLevel = z.number().int().min(1).max(60);
 const evidenceXp = z.number().int().min(0).max(1_000_000);
@@ -23,12 +28,36 @@ export const questRewardFactSchema = z
     capturedAt: z.iso.datetime(),
     status: z.enum(["available", "unknown", "conflict"]),
     evidenceKind: z
-      .enum(["published-forever", "historical-reference", "observed-forever"])
+      .enum(["published-forever", "historical-reference", "observed-forever", "client-table-reference"])
       .optional(),
+    clientReference: clientQuestRewardReferenceSchema.optional(),
     referenceBaseXp: evidenceXp.nullable().optional(),
     pageMultiplier: z.number().positive().max(100).nullable().optional(),
   })
   .strict()
+  .superRefine((fact, context) => {
+    const reference = fact.clientReference;
+    if (fact.evidenceKind !== "client-table-reference") {
+      if (reference)
+        context.addIssue({ code: "custom", message: "Client calculation provenance requires its explicit estimate kind." });
+      return;
+    }
+    if (!reference || !clientQuestRewardReferenceSchema.safeParse(reference).success) {
+      context.addIssue({ code: "custom", message: "Client-derived reward requires valid calculation provenance." });
+      return;
+    }
+    if (
+      fact.status !== "available" || fact.rewardBasis !== "final-reward" ||
+      fact.questId !== reference.questId || fact.questLevel !== reference.questLevel ||
+      fact.minimumLevel !== reference.minimumLevel || fact.pageMultiplier !== undefined ||
+      fact.referenceBaseXp !== reference.baseXp ||
+      fact.fullXp !== calculateClientQuestXp(reference, 1) ||
+      fact.xpByLevel.length !== 60 - reference.minimumLevel ||
+      fact.xpByLevel.some((row, index) => row.level !== reference.minimumLevel + index ||
+        row.xp !== calculateClientQuestXp(reference, row.level))
+    )
+      context.addIssue({ code: "custom", message: "Client-derived reward must retain its complete, matching calculation and per-level table." });
+  })
   .refine(
     (fact) => new Set(fact.xpByLevel.map((entry) => entry.level)).size === fact.xpByLevel.length,
     "Duplicate hand-in level in reward evidence.",
@@ -51,7 +80,8 @@ export interface QuestRewardFact {
   readonly sourceUrl: string;
   readonly capturedAt: string;
   readonly status: "available" | "unknown" | "conflict";
-  readonly evidenceKind?: "published-forever" | "historical-reference" | "observed-forever";
+  readonly evidenceKind?: "published-forever" | "historical-reference" | "observed-forever" | "client-table-reference";
+  readonly clientReference?: ClientQuestRewardReference;
   readonly referenceBaseXp?: number | null;
   readonly pageMultiplier?: number | null;
 }
@@ -118,7 +148,7 @@ export function resolveQuestReward(
       };
     }
     const basis =
-      fact.evidenceKind === "historical-reference"
+      fact.evidenceKind === "historical-reference" || fact.evidenceKind === "client-table-reference"
         ? ("base-estimate" as const)
         : fact.evidenceKind === "observed-forever"
           ? ("reported-forever" as const)

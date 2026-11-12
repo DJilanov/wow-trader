@@ -1,0 +1,3316 @@
+{
+  "provenance": {
+    "file": "artifacts/leveling/archive/chapter-10-24-27-duskwood-redridge-v2-2ba55637b4fdff89.json",
+    "sha256": "ee3394b7c76fb78c37931da49537add972b5937cd3797d0a49bad4e6f64ee3d5",
+    "chapterId": "chapter-10-24-27-duskwood-redridge",
+    "version": "import-v2-2ba55637b4fdff89"
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Local source-backed pickup review. Preserve eight proofs, add further literal item/object/source matches, and remove only the separately reviewed Filthy Paws source-order heuristic. No live activation, respawn or observed payout claim.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 164,
+        "title": "Deliveries to Sven",
+        "minimumLevel": 17,
+        "questLevel": 23,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 1922,
+          "name": "Supplies for Sven"
+        },
+        "starts": [
+          {
+            "npcId": 633,
+            "name": "Elaine Carevin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 75.34,
+                "y": 48.75
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 95,
+        "title": "Sven's Revenge",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "ends": [],
+        "objectEnds": [
+          {
+            "objectId": 59,
+            "name": "Mound of loose dirt",
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 49.85,
+                "y": 77.71
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text",
+          "unresolved-source-prerequisite"
+        ]
+      },
+      {
+        "questId": 230,
+        "title": "Sven's Camp",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [],
+        "objectStarts": [
+          {
+            "objectId": 59,
+            "name": "Mound of loose dirt",
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 49.85,
+                "y": 77.71
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            95
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 262,
+        "title": "The Shadowy Figure",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 265,
+            "name": "Madame Eva",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 75.79,
+                "y": 45.32
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            230
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 265,
+        "title": "The Shadowy Search Continues",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 265,
+            "name": "Madame Eva",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 75.79,
+                "y": 45.32
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            262
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 266,
+        "title": "Inquire at the Inn",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 267,
+            "name": "Clerk Daltry",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 72.54,
+                "y": 46.87
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 273,
+            "name": "Tavernkeep Smitts",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.78,
+                "y": 44.49
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            265
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 453,
+        "title": "Finding the Shadowy Figure",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2161,
+          "name": "Book from Sven's Farm"
+        },
+        "starts": [
+          {
+            "npcId": 273,
+            "name": "Tavernkeep Smitts",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 73.78,
+                "y": 44.49
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 288,
+            "name": "Jitters",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 18.38,
+                "y": 56.37
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            266
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 268,
+        "title": "Return to Sven",
+        "minimumLevel": 20,
+        "questLevel": 25,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 2560,
+          "name": "Jitters' Completed Journal"
+        },
+        "starts": [
+          {
+            "npcId": 288,
+            "name": "Jitters",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 18.38,
+                "y": 56.37
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            453
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 323,
+        "title": "Proving Your Worth",
+        "minimumLevel": 20,
+        "questLevel": 28,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 311,
+            "name": "Sven Yorgen",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 7.78,
+                "y": 34.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            268
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 1110,
+            "count": 15,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 16.89,
+                "y": 31.34
+              },
+              {
+                "zone": "1431",
+                "x": 13.67,
+                "y": 33.39
+              },
+              {
+                "zone": "1431",
+                "x": 17.16,
+                "y": 34.94
+              },
+              {
+                "zone": "1431",
+                "x": 17.22,
+                "y": 33.56
+              },
+              {
+                "zone": "1431",
+                "x": 17.38,
+                "y": 33.36
+              },
+              {
+                "zone": "1431",
+                "x": 16.37,
+                "y": 38.55
+              },
+              {
+                "zone": "1431",
+                "x": 15.15,
+                "y": 36.85
+              },
+              {
+                "zone": "1431",
+                "x": 17.45,
+                "y": 34.22
+              },
+              {
+                "zone": "1431",
+                "x": 14.37,
+                "y": 36.21
+              },
+              {
+                "zone": "1431",
+                "x": 15.37,
+                "y": 39.2
+              },
+              {
+                "zone": "1431",
+                "x": 16.13,
+                "y": 39.47
+              },
+              {
+                "zone": "1431",
+                "x": 15.2,
+                "y": 38.31
+              },
+              {
+                "zone": "1431",
+                "x": 15.78,
+                "y": 38.02
+              },
+              {
+                "zone": "1431",
+                "x": 17.72,
+                "y": 32.66
+              },
+              {
+                "zone": "1431",
+                "x": 17.56,
+                "y": 37
+              },
+              {
+                "zone": "1431",
+                "x": 18.14,
+                "y": 39.42
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "npcId": 787,
+            "count": 3,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 17.33,
+                "y": 37.43
+              },
+              {
+                "zone": "1431",
+                "x": 16.9,
+                "y": 35
+              },
+              {
+                "zone": "1431",
+                "x": 19.84,
+                "y": 26.71
+              },
+              {
+                "zone": "1431",
+                "x": 16.84,
+                "y": 28.99
+              },
+              {
+                "zone": "1431",
+                "x": 14.9,
+                "y": 34.17
+              },
+              {
+                "zone": "1431",
+                "x": 16.28,
+                "y": 32.15
+              },
+              {
+                "zone": "1431",
+                "x": 13.96,
+                "y": 36.42
+              },
+              {
+                "zone": "1431",
+                "x": 13.51,
+                "y": 36.3
+              },
+              {
+                "zone": "1431",
+                "x": 16.66,
+                "y": 37.75
+              },
+              {
+                "zone": "1431",
+                "x": 17.01,
+                "y": 39.19
+              },
+              {
+                "zone": "1431",
+                "x": 14.95,
+                "y": 40.47
+              },
+              {
+                "zone": "1431",
+                "x": 15.87,
+                "y": 41.04
+              },
+              {
+                "zone": "1431",
+                "x": 16.86,
+                "y": 40.42
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "npcId": 785,
+            "count": 3,
+            "positions": [
+              {
+                "zone": "1431",
+                "x": 18.27,
+                "y": 35.66
+              },
+              {
+                "zone": "1431",
+                "x": 17.41,
+                "y": 35.5
+              },
+              {
+                "zone": "1431",
+                "x": 13.84,
+                "y": 34.46
+              },
+              {
+                "zone": "1431",
+                "x": 13.46,
+                "y": 33.39
+              },
+              {
+                "zone": "1431",
+                "x": 14.05,
+                "y": 32.57
+              },
+              {
+                "zone": "1431",
+                "x": 15.92,
+                "y": 38.75
+              },
+              {
+                "zone": "1431",
+                "x": 17.17,
+                "y": 28.09
+              },
+              {
+                "zone": "1431",
+                "x": 17.3,
+                "y": 37.39
+              },
+              {
+                "zone": "1431",
+                "x": 16.83,
+                "y": 28.59
+              },
+              {
+                "zone": "1431",
+                "x": 16.12,
+                "y": 31.37
+              },
+              {
+                "zone": "1431",
+                "x": 16.28,
+                "y": 32.7
+              },
+              {
+                "zone": "1431",
+                "x": 16.8,
+                "y": 30.12
+              },
+              {
+                "zone": "1431",
+                "x": 15.96,
+                "y": 34.65
+              },
+              {
+                "zone": "1431",
+                "x": 13.73,
+                "y": 36.16
+              },
+              {
+                "zone": "1431",
+                "x": 17.81,
+                "y": 35.47
+              },
+              {
+                "zone": "1431",
+                "x": 16.05,
+                "y": 37.28
+              },
+              {
+                "zone": "1431",
+                "x": 16.84,
+                "y": 37.56
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 785,
+        "name": "Skeletal Warder",
+        "minimumLevel": 28,
+        "maximumLevel": 29,
+        "rank": 0,
+        "zoneIds": [
+          10
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 787,
+        "name": "Skeletal Healer",
+        "minimumLevel": 26,
+        "maximumLevel": 27,
+        "rank": 0,
+        "zoneIds": [
+          10
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 1110,
+        "name": "Skeletal Raider",
+        "minimumLevel": 27,
+        "maximumLevel": 28,
+        "rank": 0,
+        "zoneIds": [
+          10
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 164,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Deliver the supplies to Sven."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 95,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Go to Sven's Farm and find what was buried behind the old stump."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 230,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Bring the Book from Sven's Farm to Sven."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            95
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 262,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Take the book you found at Sven's farm and show it to townsfolk in Darkshire."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            230
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 265,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "See if other townsfolk have clues about the shadowy figure."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            262
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 266,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Search the inn for clues about the shadowy figure."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            265
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 453,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find the Shadowy Figure. Your clues:",
+          "",
+          "He is not native to Darkshire.",
+          "",
+          "He is a nervous, jittery person.",
+          "",
+          "He left Darkshire and headed west."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            266
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 268,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Return to Sven with Jitters' completed journal."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            453
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 323,
+        "creatureIds": [
+          1110,
+          787,
+          785
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Kill 15 Skeletal Raiders, 3 Skeletal Healers and 3 Skeletal Warders, and then return to Sven."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 1110,
+            "kills": 15,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=323/proving-your-worth; sha256 fcf363a11033754d20b4e78c6030091252589bb2142d402fec06873601a8c520; 2026-10-15T17:24:47.797Z"
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 787,
+            "kills": 3,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=323/proving-your-worth; sha256 fcf363a11033754d20b4e78c6030091252589bb2142d402fec06873601a8c520; 2026-10-15T17:24:47.797Z"
+          },
+          {
+            "objectiveIndex": 3,
+            "npcId": 785,
+            "kills": 3,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=323/proving-your-worth; sha256 fcf363a11033754d20b4e78c6030091252589bb2142d402fec06873601a8c520; 2026-10-15T17:24:47.797Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            268
+          ]
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "questCatalogReference": {
+      "sha256": "c1516cc16f58f1c17ce173e4b81457df3ee6040c153b3f7c914cba7937456dbe",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "guide": {
+    "schemaVersion": 1,
+    "chapterId": "chapter-10-24-27-duskwood-redridge",
+    "version": "import-v2-2ba55637b4fdff89",
+    "targetBuild": 70205,
+    "sourceSha256": "2ba55637b4fdff891ea9dec6d8018ea55354354de3a502d5c40db8961cc52048",
+    "sourceName": "RestedXP Forever Guide",
+    "steps": [
+      {
+        "id": "source-step-0085",
+        "ordinal": 85,
+        "sourceLine": 662,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".abandon",
+            "arguments": "95",
+            "condition": "",
+            "text": "Abandon Sven's Revenge",
+            "sourceLine": 663,
+            "questId": 95,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0086",
+        "ordinal": 86,
+        "sourceLine": 664,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,-1200.58,-10593.09",
+            "condition": "",
+            "text": "",
+            "sourceLine": 665,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": -1200.58,
+              "y": -10593.09,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".target",
+            "arguments": "Elaine Carevin",
+            "condition": "",
+            "text": "",
+            "sourceLine": 666,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Elaine Carevin",
+            "sourceLine": 667,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "164",
+            "condition": "",
+            "text": "Accept Deliveries to Sven",
+            "sourceLine": 668,
+            "questId": 164,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "If you can't pick up this quest you need to abandon Sven's Revenge from your quest log",
+            "sourceLine": 669,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0106",
+        "ordinal": 106,
+        "sourceLine": 829,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#label",
+            "arguments": "BliztikCheck",
+            "condition": "",
+            "text": "",
+            "sourceLine": 830,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,623.27,-10329.75",
+            "condition": "",
+            "text": "",
+            "sourceLine": 831,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": 623.27,
+              "y": -10329.75,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Sven Yorgen",
+            "sourceLine": 832,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "164",
+            "condition": "",
+            "text": "Turn in Deliveries to Sven",
+            "sourceLine": 833,
+            "questId": 164,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Sven Yorgen",
+            "condition": "",
+            "text": "",
+            "sourceLine": 834,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "95",
+            "condition": "",
+            "text": "Accept Sven's Revenge",
+            "sourceLine": 835,
+            "questId": 95,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0202",
+        "ordinal": 202,
+        "sourceLine": 1543,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,-512.62,-11115.45",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1544,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": -512.62,
+              "y": -11115.45,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Click the Mound of loose dirt on the ground",
+            "sourceLine": 1545,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "95",
+            "condition": "",
+            "text": "Turn in Sven's Revenge",
+            "sourceLine": 1546,
+            "questId": 95,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "230",
+            "condition": "",
+            "text": "Accept Sven's Camp",
+            "sourceLine": 1547,
+            "questId": 230,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0207",
+        "ordinal": 207,
+        "sourceLine": 1571,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,623.27,-10329.75",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1572,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": 623.27,
+              "y": -10329.75,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Sven Yorgen",
+            "sourceLine": 1573,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "230",
+            "condition": "",
+            "text": "Turn in Sven's Camp",
+            "sourceLine": 1574,
+            "questId": 230,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Sven Yorgen",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1575,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "262",
+            "condition": "",
+            "text": "Accept The Shadowy Figure",
+            "sourceLine": 1576,
+            "questId": 262,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0281",
+        "ordinal": 281,
+        "sourceLine": 2053,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,-1213.54,-10531.89",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2054,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": -1213.54,
+              "y": -10531.89,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Madame Eva inside",
+            "sourceLine": 2055,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "262",
+            "condition": "",
+            "text": "Turn in The Shadowy Figure",
+            "sourceLine": 2056,
+            "questId": 262,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Madame Eva",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2057,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "265",
+            "condition": "",
+            "text": "Accept The Shadowy Search Continues",
+            "sourceLine": 2058,
+            "questId": 265,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0282",
+        "ordinal": 282,
+        "sourceLine": 2059,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,-1124.98,-10559.97",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2060,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": -1124.98,
+              "y": -10559.97,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Clerk Daltry in the town hall building",
+            "sourceLine": 2061,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "265",
+            "condition": "",
+            "text": "Turn in The Shadowy Search Continues",
+            "sourceLine": 2062,
+            "questId": 265,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Clerk Daltry",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2063,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "266",
+            "condition": "",
+            "text": "Accept Inquire at the Inn",
+            "sourceLine": 2064,
+            "questId": 266,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0285",
+        "ordinal": 285,
+        "sourceLine": 2073,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#label",
+            "arguments": "ShadowyRot",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2074,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,-1158.46,-10517.31",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2075,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": -1158.46,
+              "y": -10517.31,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Tavernkeep Smitts inside the inn",
+            "sourceLine": 2076,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "158",
+            "condition": "",
+            "text": "Turn in Zombie Juice",
+            "sourceLine": 2077,
+            "questId": 158,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Tavernkeep Smitts",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2078,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "156",
+            "condition": "",
+            "text": "Accept Gather Rot Blossoms",
+            "sourceLine": 2079,
+            "questId": 156,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "266",
+            "condition": "",
+            "text": "Turn in Inquire at the Inn",
+            "sourceLine": 2080,
+            "questId": 266,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "453",
+            "condition": "",
+            "text": "Accept Finding the Shadowy Figure",
+            "sourceLine": 2081,
+            "questId": 453,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0291",
+        "ordinal": 291,
+        "sourceLine": 2117,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,337.34,-10731.15",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2118,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": 337.34,
+              "y": -10731.15,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Jitters",
+            "sourceLine": 2119,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "453",
+            "condition": "",
+            "text": "Turn in Finding the Shadowy Figure",
+            "sourceLine": 2120,
+            "questId": 453,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Jitters",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2121,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "268",
+            "condition": "",
+            "text": "Accept Return to Sven",
+            "sourceLine": 2122,
+            "questId": 268,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "240",
+            "condition": "",
+            "text": "Turn in Return to Jitters",
+            "sourceLine": 2123,
+            "questId": 240,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0294",
+        "ordinal": 294,
+        "sourceLine": 2148,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "#label",
+            "arguments": "Flanks3",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2149,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,623.27,-10329.75",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2150,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": 623.27,
+              "y": -10329.75,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Sven Yorgen",
+            "sourceLine": 2151,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "268",
+            "condition": "",
+            "text": "Turn in Return to Sven",
+            "sourceLine": 2152,
+            "questId": 268,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "323",
+            "condition": "",
+            "text": "Accept Proving Your Worth",
+            "sourceLine": 2153,
+            "questId": 323,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Sven Yorgen",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2154,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0295",
+        "ordinal": 295,
+        "sourceLine": 2155,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,401.06,-10414.89",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2156,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": 401.06,
+              "y": -10414.89,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Skeletal Raiders, Skeletal Healers and Skeletal Warders",
+            "sourceLine": 2157,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Enter the Dawning Wood Catacombs for the Skeletal Warders",
+            "sourceLine": 2158,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Mor'Ladim a level 35 Elite patrols around the cemetery. Be cautious of him",
+            "sourceLine": 2159,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "323,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2160,
+            "questId": 323,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Skeletal Raider",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2161,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "323,2",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2162,
+            "questId": 323,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Skeletal Healer",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2163,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "323,3",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2164,
+            "questId": 323,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+keletal Warder",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2165,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".unitscan",
+            "arguments": "Mor'Ladim",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2166,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0297",
+        "ordinal": 297,
+        "sourceLine": 2171,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1431/0,623.27,-10329.75",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2172,
+            "questId": null,
+            "position": {
+              "zone": "1431",
+              "floor": 0,
+              "x": 623.27,
+              "y": -10329.75,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Sven Yorgen",
+            "sourceLine": 2173,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "323",
+            "condition": "",
+            "text": "Turn in Proving Your Worth",
+            "sourceLine": 2174,
+            "questId": 323,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Sven Yorgen",
+            "condition": "",
+            "text": "",
+            "sourceLine": 2175,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "269",
+            "condition": "",
+            "text": "Accept Seeking Wisdom",
+            "sourceLine": 2176,
+            "questId": 269,
+            "position": null
+          }
+        ]
+      }
+    ]
+  },
+  "rewardFacts": [
+    {
+      "questId": 95,
+      "fullXp": 1000,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 1000
+        },
+        {
+          "level": 2,
+          "xp": 1000
+        },
+        {
+          "level": 3,
+          "xp": 1000
+        },
+        {
+          "level": 4,
+          "xp": 1000
+        },
+        {
+          "level": 5,
+          "xp": 1000
+        },
+        {
+          "level": 6,
+          "xp": 1000
+        },
+        {
+          "level": 7,
+          "xp": 1000
+        },
+        {
+          "level": 8,
+          "xp": 1000
+        },
+        {
+          "level": 9,
+          "xp": 1000
+        },
+        {
+          "level": 10,
+          "xp": 1000
+        },
+        {
+          "level": 11,
+          "xp": 1000
+        },
+        {
+          "level": 12,
+          "xp": 1000
+        },
+        {
+          "level": 13,
+          "xp": 1000
+        },
+        {
+          "level": 14,
+          "xp": 1000
+        },
+        {
+          "level": 15,
+          "xp": 1000
+        },
+        {
+          "level": 16,
+          "xp": 1000
+        },
+        {
+          "level": 17,
+          "xp": 1000
+        },
+        {
+          "level": 18,
+          "xp": 1000
+        },
+        {
+          "level": 19,
+          "xp": 1000
+        },
+        {
+          "level": 20,
+          "xp": 1000
+        },
+        {
+          "level": 21,
+          "xp": 1000
+        },
+        {
+          "level": 22,
+          "xp": 1000
+        },
+        {
+          "level": 23,
+          "xp": 1000
+        },
+        {
+          "level": 24,
+          "xp": 1000
+        },
+        {
+          "level": 25,
+          "xp": 1000
+        },
+        {
+          "level": 26,
+          "xp": 1000
+        },
+        {
+          "level": 27,
+          "xp": 1000
+        },
+        {
+          "level": 28,
+          "xp": 1000
+        },
+        {
+          "level": 29,
+          "xp": 1000
+        },
+        {
+          "level": 30,
+          "xp": 1000
+        },
+        {
+          "level": 31,
+          "xp": 800
+        },
+        {
+          "level": 32,
+          "xp": 600
+        },
+        {
+          "level": 33,
+          "xp": 400
+        },
+        {
+          "level": 34,
+          "xp": 200
+        },
+        {
+          "level": 35,
+          "xp": 100
+        },
+        {
+          "level": 36,
+          "xp": 100
+        },
+        {
+          "level": 37,
+          "xp": 100
+        },
+        {
+          "level": 38,
+          "xp": 100
+        },
+        {
+          "level": 39,
+          "xp": 100
+        },
+        {
+          "level": 40,
+          "xp": 100
+        },
+        {
+          "level": 41,
+          "xp": 100
+        },
+        {
+          "level": 42,
+          "xp": 100
+        },
+        {
+          "level": 43,
+          "xp": 100
+        },
+        {
+          "level": 44,
+          "xp": 100
+        },
+        {
+          "level": 45,
+          "xp": 100
+        },
+        {
+          "level": 46,
+          "xp": 100
+        },
+        {
+          "level": 47,
+          "xp": 100
+        },
+        {
+          "level": 48,
+          "xp": 100
+        },
+        {
+          "level": 49,
+          "xp": 100
+        },
+        {
+          "level": 50,
+          "xp": 100
+        },
+        {
+          "level": 51,
+          "xp": 100
+        },
+        {
+          "level": 52,
+          "xp": 100
+        },
+        {
+          "level": 53,
+          "xp": 100
+        },
+        {
+          "level": 54,
+          "xp": 100
+        },
+        {
+          "level": 55,
+          "xp": 100
+        },
+        {
+          "level": 56,
+          "xp": 100
+        },
+        {
+          "level": 57,
+          "xp": 100
+        },
+        {
+          "level": 58,
+          "xp": 100
+        },
+        {
+          "level": 59,
+          "xp": 100
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 164,
+      "fullXp": 920,
+      "questLevel": 23,
+      "minimumLevel": 17,
+      "xpByLevel": [],
+      "sourceUrl": "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua \u00b7 version:1.0.4;commit:365537a340473291f5af3b7a53a5eca94e2a5f1a",
+      "capturedAt": "2026-10-17T09:09:38.634Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 230,
+      "fullXp": 1000,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 1000
+        },
+        {
+          "level": 2,
+          "xp": 1000
+        },
+        {
+          "level": 3,
+          "xp": 1000
+        },
+        {
+          "level": 4,
+          "xp": 1000
+        },
+        {
+          "level": 5,
+          "xp": 1000
+        },
+        {
+          "level": 6,
+          "xp": 1000
+        },
+        {
+          "level": 7,
+          "xp": 1000
+        },
+        {
+          "level": 8,
+          "xp": 1000
+        },
+        {
+          "level": 9,
+          "xp": 1000
+        },
+        {
+          "level": 10,
+          "xp": 1000
+        },
+        {
+          "level": 11,
+          "xp": 1000
+        },
+        {
+          "level": 12,
+          "xp": 1000
+        },
+        {
+          "level": 13,
+          "xp": 1000
+        },
+        {
+          "level": 14,
+          "xp": 1000
+        },
+        {
+          "level": 15,
+          "xp": 1000
+        },
+        {
+          "level": 16,
+          "xp": 1000
+        },
+        {
+          "level": 17,
+          "xp": 1000
+        },
+        {
+          "level": 18,
+          "xp": 1000
+        },
+        {
+          "level": 19,
+          "xp": 1000
+        },
+        {
+          "level": 20,
+          "xp": 1000
+        },
+        {
+          "level": 21,
+          "xp": 1000
+        },
+        {
+          "level": 22,
+          "xp": 1000
+        },
+        {
+          "level": 23,
+          "xp": 1000
+        },
+        {
+          "level": 24,
+          "xp": 1000
+        },
+        {
+          "level": 25,
+          "xp": 1000
+        },
+        {
+          "level": 26,
+          "xp": 1000
+        },
+        {
+          "level": 27,
+          "xp": 1000
+        },
+        {
+          "level": 28,
+          "xp": 1000
+        },
+        {
+          "level": 29,
+          "xp": 1000
+        },
+        {
+          "level": 30,
+          "xp": 1000
+        },
+        {
+          "level": 31,
+          "xp": 800
+        },
+        {
+          "level": 32,
+          "xp": 600
+        },
+        {
+          "level": 33,
+          "xp": 400
+        },
+        {
+          "level": 34,
+          "xp": 200
+        },
+        {
+          "level": 35,
+          "xp": 100
+        },
+        {
+          "level": 36,
+          "xp": 100
+        },
+        {
+          "level": 37,
+          "xp": 100
+        },
+        {
+          "level": 38,
+          "xp": 100
+        },
+        {
+          "level": 39,
+          "xp": 100
+        },
+        {
+          "level": 40,
+          "xp": 100
+        },
+        {
+          "level": 41,
+          "xp": 100
+        },
+        {
+          "level": 42,
+          "xp": 100
+        },
+        {
+          "level": 43,
+          "xp": 100
+        },
+        {
+          "level": 44,
+          "xp": 100
+        },
+        {
+          "level": 45,
+          "xp": 100
+        },
+        {
+          "level": 46,
+          "xp": 100
+        },
+        {
+          "level": 47,
+          "xp": 100
+        },
+        {
+          "level": 48,
+          "xp": 100
+        },
+        {
+          "level": 49,
+          "xp": 100
+        },
+        {
+          "level": 50,
+          "xp": 100
+        },
+        {
+          "level": 51,
+          "xp": 100
+        },
+        {
+          "level": 52,
+          "xp": 100
+        },
+        {
+          "level": 53,
+          "xp": 100
+        },
+        {
+          "level": 54,
+          "xp": 100
+        },
+        {
+          "level": 55,
+          "xp": 100
+        },
+        {
+          "level": 56,
+          "xp": 100
+        },
+        {
+          "level": 57,
+          "xp": 100
+        },
+        {
+          "level": 58,
+          "xp": 100
+        },
+        {
+          "level": 59,
+          "xp": 100
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 262,
+      "fullXp": 510,
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [],
+      "sourceUrl": "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua \u00b7 version:1.0.4;commit:365537a340473291f5af3b7a53a5eca94e2a5f1a",
+      "capturedAt": "2026-10-17T09:09:38.634Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 265,
+      "fullXp": 200,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 200
+        },
+        {
+          "level": 2,
+          "xp": 200
+        },
+        {
+          "level": 3,
+          "xp": 200
+        },
+        {
+          "level": 4,
+          "xp": 200
+        },
+        {
+          "level": 5,
+          "xp": 200
+        },
+        {
+          "level": 6,
+          "xp": 200
+        },
+        {
+          "level": 7,
+          "xp": 200
+        },
+        {
+          "level": 8,
+          "xp": 200
+        },
+        {
+          "level": 9,
+          "xp": 200
+        },
+        {
+          "level": 10,
+          "xp": 200
+        },
+        {
+          "level": 11,
+          "xp": 200
+        },
+        {
+          "level": 12,
+          "xp": 200
+        },
+        {
+          "level": 13,
+          "xp": 200
+        },
+        {
+          "level": 14,
+          "xp": 200
+        },
+        {
+          "level": 15,
+          "xp": 200
+        },
+        {
+          "level": 16,
+          "xp": 200
+        },
+        {
+          "level": 17,
+          "xp": 200
+        },
+        {
+          "level": 18,
+          "xp": 200
+        },
+        {
+          "level": 19,
+          "xp": 200
+        },
+        {
+          "level": 20,
+          "xp": 200
+        },
+        {
+          "level": 21,
+          "xp": 200
+        },
+        {
+          "level": 22,
+          "xp": 200
+        },
+        {
+          "level": 23,
+          "xp": 200
+        },
+        {
+          "level": 24,
+          "xp": 200
+        },
+        {
+          "level": 25,
+          "xp": 200
+        },
+        {
+          "level": 26,
+          "xp": 200
+        },
+        {
+          "level": 27,
+          "xp": 200
+        },
+        {
+          "level": 28,
+          "xp": 200
+        },
+        {
+          "level": 29,
+          "xp": 200
+        },
+        {
+          "level": 30,
+          "xp": 200
+        },
+        {
+          "level": 31,
+          "xp": 160
+        },
+        {
+          "level": 32,
+          "xp": 120
+        },
+        {
+          "level": 33,
+          "xp": 80
+        },
+        {
+          "level": 34,
+          "xp": 40
+        },
+        {
+          "level": 35,
+          "xp": 20
+        },
+        {
+          "level": 36,
+          "xp": 20
+        },
+        {
+          "level": 37,
+          "xp": 20
+        },
+        {
+          "level": 38,
+          "xp": 20
+        },
+        {
+          "level": 39,
+          "xp": 20
+        },
+        {
+          "level": 40,
+          "xp": 20
+        },
+        {
+          "level": 41,
+          "xp": 20
+        },
+        {
+          "level": 42,
+          "xp": 20
+        },
+        {
+          "level": 43,
+          "xp": 20
+        },
+        {
+          "level": 44,
+          "xp": 20
+        },
+        {
+          "level": 45,
+          "xp": 20
+        },
+        {
+          "level": 46,
+          "xp": 20
+        },
+        {
+          "level": 47,
+          "xp": 20
+        },
+        {
+          "level": 48,
+          "xp": 20
+        },
+        {
+          "level": 49,
+          "xp": 20
+        },
+        {
+          "level": 50,
+          "xp": 20
+        },
+        {
+          "level": 51,
+          "xp": 20
+        },
+        {
+          "level": 52,
+          "xp": 20
+        },
+        {
+          "level": 53,
+          "xp": 20
+        },
+        {
+          "level": 54,
+          "xp": 20
+        },
+        {
+          "level": 55,
+          "xp": 20
+        },
+        {
+          "level": 56,
+          "xp": 20
+        },
+        {
+          "level": 57,
+          "xp": 20
+        },
+        {
+          "level": 58,
+          "xp": 20
+        },
+        {
+          "level": 59,
+          "xp": 20
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 266,
+      "fullXp": 200,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 200
+        },
+        {
+          "level": 2,
+          "xp": 200
+        },
+        {
+          "level": 3,
+          "xp": 200
+        },
+        {
+          "level": 4,
+          "xp": 200
+        },
+        {
+          "level": 5,
+          "xp": 200
+        },
+        {
+          "level": 6,
+          "xp": 200
+        },
+        {
+          "level": 7,
+          "xp": 200
+        },
+        {
+          "level": 8,
+          "xp": 200
+        },
+        {
+          "level": 9,
+          "xp": 200
+        },
+        {
+          "level": 10,
+          "xp": 200
+        },
+        {
+          "level": 11,
+          "xp": 200
+        },
+        {
+          "level": 12,
+          "xp": 200
+        },
+        {
+          "level": 13,
+          "xp": 200
+        },
+        {
+          "level": 14,
+          "xp": 200
+        },
+        {
+          "level": 15,
+          "xp": 200
+        },
+        {
+          "level": 16,
+          "xp": 200
+        },
+        {
+          "level": 17,
+          "xp": 200
+        },
+        {
+          "level": 18,
+          "xp": 200
+        },
+        {
+          "level": 19,
+          "xp": 200
+        },
+        {
+          "level": 20,
+          "xp": 200
+        },
+        {
+          "level": 21,
+          "xp": 200
+        },
+        {
+          "level": 22,
+          "xp": 200
+        },
+        {
+          "level": 23,
+          "xp": 200
+        },
+        {
+          "level": 24,
+          "xp": 200
+        },
+        {
+          "level": 25,
+          "xp": 200
+        },
+        {
+          "level": 26,
+          "xp": 200
+        },
+        {
+          "level": 27,
+          "xp": 200
+        },
+        {
+          "level": 28,
+          "xp": 200
+        },
+        {
+          "level": 29,
+          "xp": 200
+        },
+        {
+          "level": 30,
+          "xp": 200
+        },
+        {
+          "level": 31,
+          "xp": 160
+        },
+        {
+          "level": 32,
+          "xp": 120
+        },
+        {
+          "level": 33,
+          "xp": 80
+        },
+        {
+          "level": 34,
+          "xp": 40
+        },
+        {
+          "level": 35,
+          "xp": 20
+        },
+        {
+          "level": 36,
+          "xp": 20
+        },
+        {
+          "level": 37,
+          "xp": 20
+        },
+        {
+          "level": 38,
+          "xp": 20
+        },
+        {
+          "level": 39,
+          "xp": 20
+        },
+        {
+          "level": 40,
+          "xp": 20
+        },
+        {
+          "level": 41,
+          "xp": 20
+        },
+        {
+          "level": 42,
+          "xp": 20
+        },
+        {
+          "level": 43,
+          "xp": 20
+        },
+        {
+          "level": 44,
+          "xp": 20
+        },
+        {
+          "level": 45,
+          "xp": 20
+        },
+        {
+          "level": 46,
+          "xp": 20
+        },
+        {
+          "level": 47,
+          "xp": 20
+        },
+        {
+          "level": 48,
+          "xp": 20
+        },
+        {
+          "level": 49,
+          "xp": 20
+        },
+        {
+          "level": 50,
+          "xp": 20
+        },
+        {
+          "level": 51,
+          "xp": 20
+        },
+        {
+          "level": 52,
+          "xp": 20
+        },
+        {
+          "level": 53,
+          "xp": 20
+        },
+        {
+          "level": 54,
+          "xp": 20
+        },
+        {
+          "level": 55,
+          "xp": 20
+        },
+        {
+          "level": 56,
+          "xp": 20
+        },
+        {
+          "level": 57,
+          "xp": 20
+        },
+        {
+          "level": 58,
+          "xp": 20
+        },
+        {
+          "level": 59,
+          "xp": 20
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 268,
+      "fullXp": 510,
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [],
+      "sourceUrl": "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua \u00b7 version:1.0.4;commit:365537a340473291f5af3b7a53a5eca94e2a5f1a",
+      "capturedAt": "2026-10-17T09:09:38.634Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 323,
+      "fullXp": 2300,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 28,
+      "minimumLevel": 20,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 2300
+        },
+        {
+          "level": 2,
+          "xp": 2300
+        },
+        {
+          "level": 3,
+          "xp": 2300
+        },
+        {
+          "level": 4,
+          "xp": 2300
+        },
+        {
+          "level": 5,
+          "xp": 2300
+        },
+        {
+          "level": 6,
+          "xp": 2300
+        },
+        {
+          "level": 7,
+          "xp": 2300
+        },
+        {
+          "level": 8,
+          "xp": 2300
+        },
+        {
+          "level": 9,
+          "xp": 2300
+        },
+        {
+          "level": 10,
+          "xp": 2300
+        },
+        {
+          "level": 11,
+          "xp": 2300
+        },
+        {
+          "level": 12,
+          "xp": 2300
+        },
+        {
+          "level": 13,
+          "xp": 2300
+        },
+        {
+          "level": 14,
+          "xp": 2300
+        },
+        {
+          "level": 15,
+          "xp": 2300
+        },
+        {
+          "level": 16,
+          "xp": 2300
+        },
+        {
+          "level": 17,
+          "xp": 2300
+        },
+        {
+          "level": 18,
+          "xp": 2300
+        },
+        {
+          "level": 19,
+          "xp": 2300
+        },
+        {
+          "level": 20,
+          "xp": 2300
+        },
+        {
+          "level": 21,
+          "xp": 2300
+        },
+        {
+          "level": 22,
+          "xp": 2300
+        },
+        {
+          "level": 23,
+          "xp": 2300
+        },
+        {
+          "level": 24,
+          "xp": 2300
+        },
+        {
+          "level": 25,
+          "xp": 2300
+        },
+        {
+          "level": 26,
+          "xp": 2300
+        },
+        {
+          "level": 27,
+          "xp": 2300
+        },
+        {
+          "level": 28,
+          "xp": 2300
+        },
+        {
+          "level": 29,
+          "xp": 2300
+        },
+        {
+          "level": 30,
+          "xp": 2300
+        },
+        {
+          "level": 31,
+          "xp": 2300
+        },
+        {
+          "level": 32,
+          "xp": 2300
+        },
+        {
+          "level": 33,
+          "xp": 2300
+        },
+        {
+          "level": 34,
+          "xp": 1840
+        },
+        {
+          "level": 35,
+          "xp": 1380
+        },
+        {
+          "level": 36,
+          "xp": 920
+        },
+        {
+          "level": 37,
+          "xp": 460
+        },
+        {
+          "level": 38,
+          "xp": 230
+        },
+        {
+          "level": 39,
+          "xp": 230
+        },
+        {
+          "level": 40,
+          "xp": 230
+        },
+        {
+          "level": 41,
+          "xp": 230
+        },
+        {
+          "level": 42,
+          "xp": 230
+        },
+        {
+          "level": 43,
+          "xp": 230
+        },
+        {
+          "level": 44,
+          "xp": 230
+        },
+        {
+          "level": 45,
+          "xp": 230
+        },
+        {
+          "level": 46,
+          "xp": 230
+        },
+        {
+          "level": 47,
+          "xp": 230
+        },
+        {
+          "level": 48,
+          "xp": 230
+        },
+        {
+          "level": 49,
+          "xp": 230
+        },
+        {
+          "level": 50,
+          "xp": 230
+        },
+        {
+          "level": 51,
+          "xp": 230
+        },
+        {
+          "level": 52,
+          "xp": 230
+        },
+        {
+          "level": 53,
+          "xp": 230
+        },
+        {
+          "level": 54,
+          "xp": 230
+        },
+        {
+          "level": 55,
+          "xp": 230
+        },
+        {
+          "level": 56,
+          "xp": 230
+        },
+        {
+          "level": 57,
+          "xp": 230
+        },
+        {
+          "level": 58,
+          "xp": 230
+        },
+        {
+          "level": 59,
+          "xp": 230
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 453,
+      "fullXp": 1000,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 25,
+      "minimumLevel": 20,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 1000
+        },
+        {
+          "level": 2,
+          "xp": 1000
+        },
+        {
+          "level": 3,
+          "xp": 1000
+        },
+        {
+          "level": 4,
+          "xp": 1000
+        },
+        {
+          "level": 5,
+          "xp": 1000
+        },
+        {
+          "level": 6,
+          "xp": 1000
+        },
+        {
+          "level": 7,
+          "xp": 1000
+        },
+        {
+          "level": 8,
+          "xp": 1000
+        },
+        {
+          "level": 9,
+          "xp": 1000
+        },
+        {
+          "level": 10,
+          "xp": 1000
+        },
+        {
+          "level": 11,
+          "xp": 1000
+        },
+        {
+          "level": 12,
+          "xp": 1000
+        },
+        {
+          "level": 13,
+          "xp": 1000
+        },
+        {
+          "level": 14,
+          "xp": 1000
+        },
+        {
+          "level": 15,
+          "xp": 1000
+        },
+        {
+          "level": 16,
+          "xp": 1000
+        },
+        {
+          "level": 17,
+          "xp": 1000
+        },
+        {
+          "level": 18,
+          "xp": 1000
+        },
+        {
+          "level": 19,
+          "xp": 1000
+        },
+        {
+          "level": 20,
+          "xp": 1000
+        },
+        {
+          "level": 21,
+          "xp": 1000
+        },
+        {
+          "level": 22,
+          "xp": 1000
+        },
+        {
+          "level": 23,
+          "xp": 1000
+        },
+        {
+          "level": 24,
+          "xp": 1000
+        },
+        {
+          "level": 25,
+          "xp": 1000
+        },
+        {
+          "level": 26,
+          "xp": 1000
+        },
+        {
+          "level": 27,
+          "xp": 1000
+        },
+        {
+          "level": 28,
+          "xp": 1000
+        },
+        {
+          "level": 29,
+          "xp": 1000
+        },
+        {
+          "level": 30,
+          "xp": 1000
+        },
+        {
+          "level": 31,
+          "xp": 800
+        },
+        {
+          "level": 32,
+          "xp": 600
+        },
+        {
+          "level": 33,
+          "xp": 400
+        },
+        {
+          "level": 34,
+          "xp": 200
+        },
+        {
+          "level": 35,
+          "xp": 100
+        },
+        {
+          "level": 36,
+          "xp": 100
+        },
+        {
+          "level": 37,
+          "xp": 100
+        },
+        {
+          "level": 38,
+          "xp": 100
+        },
+        {
+          "level": 39,
+          "xp": 100
+        },
+        {
+          "level": 40,
+          "xp": 100
+        },
+        {
+          "level": 41,
+          "xp": 100
+        },
+        {
+          "level": 42,
+          "xp": 100
+        },
+        {
+          "level": 43,
+          "xp": 100
+        },
+        {
+          "level": 44,
+          "xp": 100
+        },
+        {
+          "level": 45,
+          "xp": 100
+        },
+        {
+          "level": 46,
+          "xp": 100
+        },
+        {
+          "level": 47,
+          "xp": 100
+        },
+        {
+          "level": 48,
+          "xp": 100
+        },
+        {
+          "level": 49,
+          "xp": 100
+        },
+        {
+          "level": 50,
+          "xp": 100
+        },
+        {
+          "level": 51,
+          "xp": 100
+        },
+        {
+          "level": 52,
+          "xp": 100
+        },
+        {
+          "level": 53,
+          "xp": 100
+        },
+        {
+          "level": 54,
+          "xp": 100
+        },
+        {
+          "level": 55,
+          "xp": 100
+        },
+        {
+          "level": 56,
+          "xp": 100
+        },
+        {
+          "level": 57,
+          "xp": 100
+        },
+        {
+          "level": 58,
+          "xp": 100
+        },
+        {
+          "level": 59,
+          "xp": 100
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    }
+  ]
+}

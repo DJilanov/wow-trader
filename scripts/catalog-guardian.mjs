@@ -31,6 +31,7 @@ import {
   catalogExtractorCacheSegment,
 } from "./catalog-guardian-state.mjs";
 import { resolveCatalogPromotionApproval } from "./catalog-review-approval.mjs";
+import { readCatalogClientInstallation } from "./catalog-client.mjs";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const catalogCli = join(repositoryRoot, "packages/catalog/node_modules/.bin/tsx");
@@ -110,8 +111,8 @@ async function verifyInstalledTools() {
 }
 
 async function reconcile(options) {
-  const installed = await readInstalledBuild(options.wowRoot, options.product);
-  const productRoot = await findProductRoot(options.wowRoot, options.product);
+  const installed = await readCatalogClientInstallation(options.wowRoot, options.product);
+  const productRoot = installed.productRoot;
   const hotfixPath = join(productRoot, "Cache/ADB", options.locale, "DBCache.bin");
   let hotfixHash;
   try {
@@ -178,7 +179,7 @@ async function reconcile(options) {
     definitionsRevision.slice(0, 12),
     catalogExtractorCacheSegment(installation?.catalogExtractorVersion ?? "mutable"),
   );
-  let targetManifest = await findManifest(join(workRoot, "artifacts"), {
+  let targetManifest = await findLocalManifest({
     product: options.product,
     buildNumber: installed.buildNumber,
     locale: options.locale,
@@ -366,43 +367,6 @@ function parseOptions(arguments_) {
   };
 }
 
-async function readInstalledBuild(wowRoot, product) {
-  const contents = await readFile(join(wowRoot, ".build.info"), "utf8");
-  const rows = contents.trim().split(/\r?\n/);
-  const headers = rows[0].split("|").map((header) => header.split("!", 1)[0]);
-  const productIndex = headers.indexOf("Product");
-  const versionIndex = headers.indexOf("Version");
-  const activeIndex = headers.indexOf("Active");
-  if (productIndex < 0 || versionIndex < 0 || activeIndex < 0)
-    throw new Error("The WoW build manifest has an unsupported format.");
-  const matches = rows
-    .slice(1)
-    .map((row) => row.split("|"))
-    .filter((row) => row[productIndex] === product && row[activeIndex] === "1");
-  if (matches.length !== 1)
-    throw new Error(`Expected one active ${product} build, found ${matches.length}.`);
-  const version = matches[0][versionIndex];
-  const buildNumber = Number(version?.split(".").at(-1));
-  if (!version || !Number.isSafeInteger(buildNumber) || buildNumber <= 0)
-    throw new Error(`Invalid installed version: ${version ?? "missing"}.`);
-  return { version, buildNumber };
-}
-
-async function findProductRoot(wowRoot, product) {
-  const entries = await readdir(wowRoot, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const candidate = join(wowRoot, entry.name);
-    try {
-      const flavor = await readFile(join(candidate, ".flavor.info"), "utf8");
-      if (flavor.trim().split(/\r?\n/)[1] === product) return candidate;
-    } catch (error) {
-      if (!isMissingFileError(error)) throw error;
-    }
-  }
-  throw new Error(`No installed directory declares product ${product}.`);
-}
-
 async function resolveDefinitionsRevision(clientVersion) {
   if (!(await pathExists(join(definitionsSource, ".git")))) {
     await mkdir(dirname(definitionsSource), { recursive: true });
@@ -459,6 +423,14 @@ async function findManifest(searchRoot, expected) {
   return null;
 }
 
+async function findLocalManifest(expected) {
+  for (const directory of ["local-catalog", "catalog-snapshots", "catalog-guardian/reference"]) {
+    const manifest = await findManifest(join(workRoot, "artifacts", directory), expected);
+    if (manifest) return manifest;
+  }
+  return null;
+}
+
 async function findFiles(root, filename) {
   const matches = [];
   const pending = [root];
@@ -505,8 +477,14 @@ SQL
   );
   const line = result.stdout.trim().split(/\r?\n/).at(-1);
   if (!line) return null;
-  const [buildId, buildNumberText, clientVersion, hotfixHash, definitionsRevision, extractorVersion] =
-    line.split("|");
+  const [
+    buildId,
+    buildNumberText,
+    clientVersion,
+    hotfixHash,
+    definitionsRevision,
+    extractorVersion,
+  ] = line.split("|");
   const buildNumber = Number(buildNumberText);
   if (
     !buildId ||
@@ -529,7 +507,7 @@ SQL
 }
 
 async function ensurePublishedManifest(options, published) {
-  const existing = await findManifest(join(workRoot, "artifacts"), {
+  const existing = await findLocalManifest({
     product: options.product,
     buildNumber: published.buildNumber,
     locale: options.locale,

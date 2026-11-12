@@ -1,0 +1,2242 @@
+{
+  "schema": "doomed-fleet-reference-review.v1",
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "provider": {
+    "repository": "https://github.com/Questie/QuestieDB",
+    "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "layer": "forever-static-with-authored",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "limitations": [
+      "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+      "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+      "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+      "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+      "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+      "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+      "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+      "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+      "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+      "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+      "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+      "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+      "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+      "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+      "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+      "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+      "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+      "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed."
+    ]
+  },
+  "sourceFiles": [
+    {
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverItemDB.lua",
+      "sha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "literals": [
+        "item[2594]={'Flagon of Mead',{},nil,nil,nil,nil,nil,nil,25,0,0,0,0,{12794,2832,12785,5140,5611,277,1301,258,5570,1311,5111,1305,1328,5848,955,1697,465,1464,5112,29049,32403,32424,32426,32631,265346},{288}}"
+      ]
+    },
+    {
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverNpcDB.lua",
+      "sha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "literals": [
+        "npc[1159]={'First Mate Snellig',950,950,29,29,0,{[11]={{13.79,30.18}}},nil,11,nil,nil,21,nil,nil,0}",
+        "npc[1160]={'Captain Halyndor',1003,1003,30,30,0,{[11]={{15.45,23.61}}},nil,11,nil,nil,21,nil,nil,0}",
+        "npc[1464]={'Innkeeper Helbrek',1002,1002,30,30,0,{[11]={{10.7,60.95}}},nil,11,nil,nil,55,'A','Innkeeper',135}"
+      ]
+    },
+    {
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverObjectDB.lua",
+      "sha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "literals": [
+        "object[112948]={\"Intrepid's Locked Strongbox\",{292},{290},{[11]={{14.38,24.04}}},11}"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      "build": "1.60.1.70205",
+      "quests": {
+        "288": {
+          "description": "I was once First Mate on the Wave Mistress, ship-of-the-line in the Kul Tiras Third Fleet. The Doomed Fleet. Doomed, for on its last voyage the fleet was attacked by Red Dragons. Dragons controlled by Orcs!$B$BWe didn't stand a chance against that dragonfire...and our fleet was burned and sunk off this here coast. I'm the sole survivor of those poor vessels...$B$B...Oh, my head hammers and pounds! I'll need a fresh drink if I'm to get a handle on this hangover and continue my tale.",
+          "flags": 8,
+          "level": 27,
+          "minLevel": 22,
+          "nextQuestId": 289,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 381280,
+              "objectId": 2594,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Buy First Mate Fitzsimmons a Flagon of Mead.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "xpDifficulty": 1,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "title": "The Third Fleet",
+          "zoneAreaId": 11
+        },
+        "289": {
+          "description": "<Bolstered, Fitzsimmons continues his tale...>$B$BI am the sole survivor of the ill-fated Third Fleet of Kul Tiras, wrecked off the coast to the north. But although I'm the only member of the fleet still breathing, I'm not the only one still walking about! For on one of our ships was hidden a great, and terrible treasure, and the eerie power of it keeps the souls of my brothers trapped within the ships' rotting hulls.$B$BBut if you can free some of my brothers, then perhaps you can break their curse.",
+          "flags": 8,
+          "level": 29,
+          "minLevel": 22,
+          "nextQuestId": 290,
+          "objectives": [
+            {
+              "amount": 13,
+              "id": 379935,
+              "objectId": 1157,
+              "storageIndex": 0,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 5,
+              "id": 379936,
+              "objectId": 1158,
+              "storageIndex": 1,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 1,
+              "id": 379937,
+              "objectId": 3619,
+              "storageIndex": 2,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Kill 13 Cursed Sailors, 5 Cursed Marines and First Mate Snellig. Bring Snellig's Snuffbox to First Mate Fitzsimmons in Menethil Harbor.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "money": 1900,
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 4
+              }
+            ],
+            "xpDifficulty": 4,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "title": "The Cursed Crew",
+          "zoneAreaId": 11
+        },
+        "290": {
+          "description": "To break the curse and free all of my brethren, the...thing...stowed on my ship must be retrieved and cleansed! I don't know what it was, but I do know that it was stored securely in the ship's strongbox, which Captain Halyndor lorded over.$B$BMy old captain is still in my dreams. I know he walks my doomed ship, the Intrepid. Get the key from him, and use it to open the Intrepid's strongbox.$B$BThen, after you have the cursed thing, bring it to the priest Glorin Steelbrow in town.",
+          "flags": 8,
+          "level": 30,
+          "minLevel": 22,
+          "nextQuestId": 292,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 380011,
+              "objectId": 2629,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Get the Intrepid Strongbox Key from Captain Halyndor.$B$BUse the key to open the Intrepid's Locked Strongbox.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 3
+              }
+            ],
+            "xpDifficulty": 3,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "title": "Lifting the Curse",
+          "zoneAreaId": 11
+        },
+        "292": {
+          "description": "Opening the chest reveals a blackened orb, pulsing with an eerie light.  It is the treasure of which Fitzsimmons spoke: a Cursed Eye of Paleth.$B$BTake the Cursed Eye of Paleth to the dwarven priest Glorin Steelbrow, in Menethil Harbor. Ask him how to remove the Eye's curse.",
+          "flags": 1048576,
+          "level": 30,
+          "minLevel": 22,
+          "nextQuestId": 293,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 381250,
+              "objectId": 2944,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Bring the Cursed Eye of Paleth to Glorin Steelbrow.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 3
+              }
+            ],
+            "xpDifficulty": 3,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "startItemId": 2944,
+          "title": "The Eye of Paleth",
+          "zoneAreaId": 11
+        },
+        "293": {
+          "description": "I can't lift the curse from the Eye of Paleth. The Eyes were crafted by Human Priests, so you'll have to go to Stormwind to find someone who can help you. Speak with Archbishop Benedictus. He is head of the Cathedral of Light in Stormwind.  He can help.$B$BI hope, for your sake.",
+          "flags": 1048576,
+          "level": 30,
+          "minLevel": 22,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 380341,
+              "objectId": 2944,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Bring Archbishop Benedictus the Cursed Eye of Paleth. Benedictus is in the Cathedral of Light, in the city of Stormwind.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "items": [
+              {
+                "count": 1,
+                "itemId": 2943
+              }
+            ],
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 5
+              }
+            ],
+            "xpDifficulty": 5,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "startItemId": 2944,
+          "title": "Cleansing the Eye",
+          "zoneAreaId": 11
+        }
+      }
+    },
+    {
+      "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "build": "1.60.1.70450",
+      "quests": {
+        "288": {
+          "description": "I was once First Mate on the Wave Mistress, ship-of-the-line in the Kul Tiras Third Fleet. The Doomed Fleet. Doomed, for on its last voyage the fleet was attacked by Red Dragons. Dragons controlled by Orcs!$B$BWe didn't stand a chance against that dragonfire...and our fleet was burned and sunk off this here coast. I'm the sole survivor of those poor vessels...$B$B...Oh, my head hammers and pounds! I'll need a fresh drink if I'm to get a handle on this hangover and continue my tale.",
+          "flags": 8,
+          "level": 27,
+          "minLevel": 22,
+          "nextQuestId": 289,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 381280,
+              "objectId": 2594,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Buy First Mate Fitzsimmons a Flagon of Mead.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "xpDifficulty": 1,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "title": "The Third Fleet",
+          "zoneAreaId": 11
+        },
+        "289": {
+          "description": "<Bolstered, Fitzsimmons continues his tale...>$B$BI am the sole survivor of the ill-fated Third Fleet of Kul Tiras, wrecked off the coast to the north. But although I'm the only member of the fleet still breathing, I'm not the only one still walking about! For on one of our ships was hidden a great, and terrible treasure, and the eerie power of it keeps the souls of my brothers trapped within the ships' rotting hulls.$B$BBut if you can free some of my brothers, then perhaps you can break their curse.",
+          "flags": 8,
+          "level": 29,
+          "minLevel": 22,
+          "nextQuestId": 290,
+          "objectives": [
+            {
+              "amount": 13,
+              "id": 379935,
+              "objectId": 1157,
+              "storageIndex": 0,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 5,
+              "id": 379936,
+              "objectId": 1158,
+              "storageIndex": 1,
+              "type": "monster",
+              "typeId": 0
+            },
+            {
+              "amount": 1,
+              "id": 379937,
+              "objectId": 3619,
+              "storageIndex": 2,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Kill 13 Cursed Sailors, 5 Cursed Marines and First Mate Snellig. Bring Snellig's Snuffbox to First Mate Fitzsimmons in Menethil Harbor.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "money": 1900,
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 4
+              }
+            ],
+            "xpDifficulty": 4,
+            "xpMultiplier": 1
+          },
+          "sources": 3,
+          "title": "The Cursed Crew",
+          "zoneAreaId": 11
+        },
+        "290": {
+          "description": "To break the curse and free all of my brethren, the...thing...stowed on my ship must be retrieved and cleansed! I don't know what it was, but I do know that it was stored securely in the ship's strongbox, which Captain Halyndor lorded over.$B$BMy old captain is still in my dreams. I know he walks my doomed ship, the Intrepid. Get the key from him, and use it to open the Intrepid's strongbox.$B$BThen, after you have the cursed thing, bring it to the priest Glorin Steelbrow in town.",
+          "flags": 8,
+          "level": 30,
+          "minLevel": 22,
+          "nextQuestId": 292,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 380011,
+              "objectId": 2629,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Get the Intrepid Strongbox Key from Captain Halyndor.$B$BUse the key to open the Intrepid's Locked Strongbox.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 3
+              }
+            ],
+            "xpDifficulty": 3,
+            "xpMultiplier": 1
+          },
+          "sources": 1,
+          "title": "Lifting the Curse",
+          "zoneAreaId": 11
+        },
+        "292": {
+          "description": "Opening the chest reveals a blackened orb, pulsing with an eerie light.  It is the treasure of which Fitzsimmons spoke: a Cursed Eye of Paleth.$B$BTake the Cursed Eye of Paleth to the dwarven priest Glorin Steelbrow, in Menethil Harbor. Ask him how to remove the Eye's curse.",
+          "flags": 1048576,
+          "level": 30,
+          "minLevel": 22,
+          "nextQuestId": 293,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 381250,
+              "objectId": 2944,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Bring the Cursed Eye of Paleth to Glorin Steelbrow.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 3
+              }
+            ],
+            "xpDifficulty": 3,
+            "xpMultiplier": 1
+          },
+          "sources": 2,
+          "startItemId": 2944,
+          "title": "The Eye of Paleth",
+          "zoneAreaId": 11
+        },
+        "293": {
+          "description": "I can't lift the curse from the Eye of Paleth. The Eyes were crafted by Human Priests, so you'll have to go to Stormwind to find someone who can help you. Speak with Archbishop Benedictus. He is head of the Cathedral of Light in Stormwind.  He can help.$B$BI hope, for your sake.",
+          "flags": 1048576,
+          "level": 30,
+          "minLevel": 22,
+          "objectives": [
+            {
+              "amount": 1,
+              "id": 380341,
+              "objectId": 2944,
+              "storageIndex": 0,
+              "type": "item",
+              "typeId": 1
+            }
+          ],
+          "objectivesText": "Bring Archbishop Benedictus the Cursed Eye of Paleth. Benedictus is in the Cathedral of Light, in the city of Stormwind.",
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "items": [
+              {
+                "count": 1,
+                "itemId": 2943
+              }
+            ],
+            "reputation": [
+              {
+                "factionId": 72,
+                "tier": 5
+              }
+            ],
+            "xpDifficulty": 5,
+            "xpMultiplier": 1
+          },
+          "sources": 3,
+          "startItemId": 2944,
+          "title": "Cleansing the Eye",
+          "zoneAreaId": 11
+        }
+      }
+    }
+  ],
+  "quests": [
+    {
+      "questId": 288,
+      "title": "The Third Fleet",
+      "minimumLevel": 22,
+      "questLevel": 27,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 1239,
+          "name": "First Mate Fitzsimmons",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.9,
+              "y": 59.64
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 1239,
+          "name": "First Mate Fitzsimmons",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.9,
+              "y": 59.64
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "reviewed-doomed-fleet-route"
+      ]
+    },
+    {
+      "questId": 289,
+      "title": "The Cursed Crew",
+      "minimumLevel": 22,
+      "questLevel": 29,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 1239,
+          "name": "First Mate Fitzsimmons",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.9,
+              "y": 59.64
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 1239,
+          "name": "First Mate Fitzsimmons",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.9,
+              "y": 59.64
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          288
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [
+        {
+          "index": 1,
+          "npcId": 1157,
+          "count": 13,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 15.03,
+              "y": 23.74
+            },
+            {
+              "zone": "1437",
+              "x": 14.13,
+              "y": 30.6
+            },
+            {
+              "zone": "1437",
+              "x": 13.51,
+              "y": 30.32
+            },
+            {
+              "zone": "1437",
+              "x": 13.84,
+              "y": 30.75
+            },
+            {
+              "zone": "1437",
+              "x": 13.56,
+              "y": 30.54
+            },
+            {
+              "zone": "1437",
+              "x": 13.74,
+              "y": 29.75
+            },
+            {
+              "zone": "1437",
+              "x": 13.93,
+              "y": 30.47
+            },
+            {
+              "zone": "1437",
+              "x": 14.03,
+              "y": 28.9
+            },
+            {
+              "zone": "1437",
+              "x": 13.99,
+              "y": 30.18
+            },
+            {
+              "zone": "1437",
+              "x": 13.18,
+              "y": 30.72
+            },
+            {
+              "zone": "1437",
+              "x": 13.89,
+              "y": 29.26
+            },
+            {
+              "zone": "1437",
+              "x": 14.11,
+              "y": 29.32
+            },
+            {
+              "zone": "1437",
+              "x": 13.61,
+              "y": 29.81
+            },
+            {
+              "zone": "1437",
+              "x": 14.03,
+              "y": 30.28
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "npcId": 1158,
+          "count": 5,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 15.42,
+              "y": 23.37
+            },
+            {
+              "zone": "1437",
+              "x": 15.33,
+              "y": 23.44
+            },
+            {
+              "zone": "1437",
+              "x": 15.11,
+              "y": 23.63
+            },
+            {
+              "zone": "1437",
+              "x": 15.5,
+              "y": 24.07
+            },
+            {
+              "zone": "1437",
+              "x": 15.07,
+              "y": 23.96
+            },
+            {
+              "zone": "1437",
+              "x": 15.16,
+              "y": 23.53
+            },
+            {
+              "zone": "1437",
+              "x": 14.07,
+              "y": 24.9
+            },
+            {
+              "zone": "1437",
+              "x": 14.33,
+              "y": 24.46
+            },
+            {
+              "zone": "1437",
+              "x": 15,
+              "y": 23.45
+            },
+            {
+              "zone": "1437",
+              "x": 14.61,
+              "y": 24.36
+            },
+            {
+              "zone": "1437",
+              "x": 14.83,
+              "y": 24.27
+            },
+            {
+              "zone": "1437",
+              "x": 14.48,
+              "y": 23.81
+            },
+            {
+              "zone": "1437",
+              "x": 14.59,
+              "y": 23.68
+            },
+            {
+              "zone": "1437",
+              "x": 14.25,
+              "y": 23.96
+            },
+            {
+              "zone": "1437",
+              "x": 13.9,
+              "y": 28.66
+            },
+            {
+              "zone": "1437",
+              "x": 13.32,
+              "y": 29.63
+            },
+            {
+              "zone": "1437",
+              "x": 14.81,
+              "y": 24.64
+            },
+            {
+              "zone": "1437",
+              "x": 14.4,
+              "y": 23.31
+            },
+            {
+              "zone": "1437",
+              "x": 13.7,
+              "y": 24.11
+            },
+            {
+              "zone": "1437",
+              "x": 14.25,
+              "y": 23.98
+            },
+            {
+              "zone": "1437",
+              "x": 14.55,
+              "y": 24.11
+            },
+            {
+              "zone": "1437",
+              "x": 13.52,
+              "y": 30.95
+            },
+            {
+              "zone": "1437",
+              "x": 14.52,
+              "y": 29.04
+            },
+            {
+              "zone": "1437",
+              "x": 14.11,
+              "y": 28.99
+            },
+            {
+              "zone": "1437",
+              "x": 13.95,
+              "y": 29.96
+            }
+          ]
+        }
+      ],
+      "unsupportedRequirements": [
+        "reviewed-doomed-fleet-route"
+      ]
+    },
+    {
+      "questId": 290,
+      "title": "Lifting the Curse",
+      "minimumLevel": 22,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 1239,
+          "name": "First Mate Fitzsimmons",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.9,
+              "y": 59.64
+            }
+          ]
+        }
+      ],
+      "ends": [],
+      "objectEnds": [
+        {
+          "objectId": 112948,
+          "name": "Intrepid's Locked Strongbox",
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 14.38,
+              "y": 24.04
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          289
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "unsupported",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "reviewed-doomed-fleet-route"
+      ]
+    },
+    {
+      "questId": 292,
+      "title": "The Eye of Paleth",
+      "minimumLevel": 22,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "providedItem": {
+        "itemId": 2944,
+        "name": "Cursed Eye of Paleth"
+      },
+      "starts": [],
+      "objectStarts": [
+        {
+          "objectId": 112948,
+          "name": "Intrepid's Locked Strongbox",
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 14.38,
+              "y": 24.04
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 1217,
+          "name": "Glorin Steelbrow",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.58,
+              "y": 60.59
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          290
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "provided-item-interaction",
+        "unresolved-objective-text",
+        "reviewed-doomed-fleet-route"
+      ]
+    },
+    {
+      "questId": 293,
+      "title": "Cleansing the Eye",
+      "minimumLevel": 22,
+      "questLevel": 30,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "providedItem": {
+        "itemId": 2944,
+        "name": "Cursed Eye of Paleth"
+      },
+      "starts": [
+        {
+          "npcId": 1217,
+          "name": "Glorin Steelbrow",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1437",
+              "x": 10.58,
+              "y": 60.59
+            }
+          ]
+        }
+      ],
+      "ends": [
+        {
+          "npcId": 1284,
+          "name": "Archbishop Benedictus",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1453",
+              "x": 50.31,
+              "y": 45.47
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          292
+        ]
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "provided-item-interaction",
+        "unresolved-objective-text",
+        "reviewed-doomed-fleet-route"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "questId": 288,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Buy First Mate Fitzsimmons a Flagon of Mead."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": [
+        {
+          "objectiveIndex": 1,
+          "itemId": 2594,
+          "itemName": "Flagon of Mead",
+          "quantity": 1,
+          "npcIds": [],
+          "sharing": "pooled",
+          "sharingReference": {
+            "kind": "classic-1.12-reference",
+            "repository": "https://github.com/cmangos/classic-db",
+            "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+            "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+            "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+            "sourceBuild": 5875,
+            "referencedAt": "2026-10-31T22:41:50.344Z",
+            "itemId": 2594,
+            "itemFlags": 0
+          },
+          "vendorEvidence": {
+            "npcIds": [
+              1464
+            ],
+            "sourceUrl": "https://github.com/Questie/QuestieDB/tree/e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+            "sourceSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+            "capturedAt": "2026-11-03T14:54:41.718Z"
+          }
+        }
+      ]
+    },
+    {
+      "questId": 289,
+      "creatureIds": [
+        1157,
+        1158
+      ],
+      "itemCreatureIds": [
+        1159
+      ],
+      "objectiveText": [
+        "Kill 13 Cursed Sailors, 5 Cursed Marines and First Mate Snellig. Bring Snellig's Snuffbox to First Mate Fitzsimmons in Menethil Harbor."
+      ],
+      "onlyCreatureObjectives": false,
+      "killQuotas": [
+        {
+          "objectiveIndex": 1,
+          "npcId": 1157,
+          "kills": 13,
+          "source": "Matching70205/70450client counters and captured Cursed Crew method; thirteen shared sailors, five marines, one separate shared-roll Snellig trophy."
+        },
+        {
+          "objectiveIndex": 2,
+          "npcId": 1158,
+          "kills": 5,
+          "source": "Matching70205/70450client counters and captured Cursed Crew method; thirteen shared sailors, five marines, one separate shared-roll Snellig trophy."
+        }
+      ],
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          288
+        ]
+      },
+      "itemObjectives": [
+        {
+          "objectiveIndex": 3,
+          "itemId": 3619,
+          "itemName": "Snellig's Snuffbox",
+          "quantity": 1,
+          "npcIds": [
+            1159
+          ],
+          "sharing": "shared-roll"
+        }
+      ]
+    },
+    {
+      "questId": 290,
+      "creatureIds": [],
+      "itemCreatureIds": [
+        1160
+      ],
+      "objectiveText": [
+        "Get the Intrepid Strongbox Key from Captain Halyndor.",
+        "",
+        "Use the key to open the Intrepid's Locked Strongbox."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          289
+        ]
+      },
+      "itemObjectives": [
+        {
+          "objectiveIndex": 1,
+          "itemId": 2629,
+          "itemName": "Intrepid Strongbox Key",
+          "quantity": 1,
+          "npcIds": [
+            1160
+          ],
+          "sharing": "shared-roll"
+        }
+      ]
+    },
+    {
+      "questId": 292,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Bring the Cursed Eye of Paleth to Glorin Steelbrow."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          290
+        ]
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 293,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Bring Archbishop Benedictus the Cursed Eye of Paleth. Benedictus is in the Cathedral of Light, in the city of Stormwind."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": [
+          292
+        ]
+      },
+      "itemObjectives": []
+    }
+  ],
+  "npcs": [
+    {
+      "id": 1157,
+      "name": "Cursed Sailor",
+      "minimumLevel": 26,
+      "maximumLevel": 27,
+      "rank": 0,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1158,
+      "name": "Cursed Marine",
+      "minimumLevel": 27,
+      "maximumLevel": 28,
+      "rank": 0,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1159,
+      "name": "First Mate Snellig",
+      "minimumLevel": 29,
+      "maximumLevel": 29,
+      "rank": 0,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1160,
+      "name": "Captain Halyndor",
+      "minimumLevel": 30,
+      "maximumLevel": 30,
+      "rank": 0,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 1464,
+      "name": "Innkeeper Helbrek",
+      "minimumLevel": 30,
+      "maximumLevel": 30,
+      "rank": 0,
+      "zoneIds": [
+        11
+      ],
+      "xpEligibility": "excluded"
+    }
+  ],
+  "lootDrops": [
+    {
+      "itemId": 3619,
+      "npcId": 1159,
+      "probability": 1,
+      "probabilityBasis": "sample-ratio",
+      "minimumQuantity": 1,
+      "maximumQuantity": 1,
+      "stackReference": {
+        "kind": "classic-1.12-reference",
+        "repository": "https://github.com/cmangos/classic-db",
+        "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+        "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+        "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+        "sourceBuild": 5875,
+        "referencedAt": "2026-10-31T22:41:50.344Z",
+        "itemId": 3619,
+        "npcId": 1159,
+        "lootEntry": 1159,
+        "minimumQuantity": 1,
+        "maximumQuantity": 1
+      },
+      "probabilityReference": {
+        "kind": "classic-1.12-reference",
+        "repository": "https://github.com/cmangos/classic-db",
+        "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+        "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+        "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+        "sourceBuild": 5875,
+        "referencedAt": "2026-10-31T22:41:50.344Z",
+        "itemId": 3619,
+        "npcId": 1159,
+        "lootEntry": 1159,
+        "probability": 1,
+        "questOnly": true,
+        "rateMultiplier": 1
+      },
+      "sampleSize": 3,
+      "targetBuild": 70205,
+      "sourceBuild": null,
+      "sourceUrl": "https://www.wowhead.com/forever/item=3619/snelligs-snuffbox",
+      "capturedAt": "2026-10-20T08:37:50.434Z",
+      "sourceSha256": "59f98c5d4dc6ed8553d176b6969df2591c48a35ffd27e98108db660e5e60382b"
+    },
+    {
+      "itemId": 2629,
+      "npcId": 1160,
+      "probability": 1,
+      "probabilityBasis": "sample-ratio",
+      "minimumQuantity": 1,
+      "maximumQuantity": 1,
+      "stackReference": {
+        "kind": "classic-1.12-reference",
+        "repository": "https://github.com/cmangos/classic-db",
+        "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+        "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+        "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+        "sourceBuild": 5875,
+        "referencedAt": "2026-10-31T22:41:50.344Z",
+        "itemId": 2629,
+        "npcId": 1160,
+        "lootEntry": 1160,
+        "minimumQuantity": 1,
+        "maximumQuantity": 1
+      },
+      "probabilityReference": {
+        "kind": "classic-1.12-reference",
+        "repository": "https://github.com/cmangos/classic-db",
+        "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+        "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+        "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+        "sourceBuild": 5875,
+        "referencedAt": "2026-10-31T22:41:50.344Z",
+        "itemId": 2629,
+        "npcId": 1160,
+        "lootEntry": 1160,
+        "probability": 1,
+        "questOnly": true,
+        "rateMultiplier": 1
+      },
+      "sampleSize": 3,
+      "targetBuild": 70205,
+      "sourceBuild": null,
+      "sourceUrl": "https://www.wowhead.com/forever/item=2629/intrepid-strongbox-key",
+      "capturedAt": "2026-10-20T07:54:17.193Z",
+      "sourceSha256": "1c37fdb51499c7f2d68d9e565682fd07d0b9fa6de3c851338ade56807a6616e7"
+    }
+  ],
+  "rewardFacts": [
+    {
+      "questId": 288,
+      "fullXp": 220,
+      "rewardBasis": "final-reward",
+      "questLevel": 27,
+      "minimumLevel": 22,
+      "xpByLevel": [
+        {
+          "level": 22,
+          "xp": 220
+        },
+        {
+          "level": 23,
+          "xp": 220
+        },
+        {
+          "level": 24,
+          "xp": 220
+        },
+        {
+          "level": 25,
+          "xp": 220
+        },
+        {
+          "level": 26,
+          "xp": 220
+        },
+        {
+          "level": 27,
+          "xp": 220
+        },
+        {
+          "level": 28,
+          "xp": 220
+        },
+        {
+          "level": 29,
+          "xp": 220
+        },
+        {
+          "level": 30,
+          "xp": 220
+        },
+        {
+          "level": 31,
+          "xp": 220
+        },
+        {
+          "level": 32,
+          "xp": 220
+        },
+        {
+          "level": 33,
+          "xp": 180
+        },
+        {
+          "level": 34,
+          "xp": 130
+        },
+        {
+          "level": 35,
+          "xp": 90
+        },
+        {
+          "level": 36,
+          "xp": 45
+        },
+        {
+          "level": 37,
+          "xp": 20
+        },
+        {
+          "level": 38,
+          "xp": 20
+        },
+        {
+          "level": 39,
+          "xp": 20
+        },
+        {
+          "level": 40,
+          "xp": 20
+        },
+        {
+          "level": 41,
+          "xp": 20
+        },
+        {
+          "level": 42,
+          "xp": 20
+        },
+        {
+          "level": 43,
+          "xp": 20
+        },
+        {
+          "level": 44,
+          "xp": 20
+        },
+        {
+          "level": 45,
+          "xp": 20
+        },
+        {
+          "level": 46,
+          "xp": 20
+        },
+        {
+          "level": 47,
+          "xp": 20
+        },
+        {
+          "level": 48,
+          "xp": 20
+        },
+        {
+          "level": 49,
+          "xp": 20
+        },
+        {
+          "level": 50,
+          "xp": 20
+        },
+        {
+          "level": 51,
+          "xp": 20
+        },
+        {
+          "level": 52,
+          "xp": 20
+        },
+        {
+          "level": 53,
+          "xp": 20
+        },
+        {
+          "level": 54,
+          "xp": 20
+        },
+        {
+          "level": 55,
+          "xp": 20
+        },
+        {
+          "level": 56,
+          "xp": 20
+        },
+        {
+          "level": 57,
+          "xp": 20
+        },
+        {
+          "level": 58,
+          "xp": 20
+        },
+        {
+          "level": 59,
+          "xp": 20
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 288,
+        "questLevel": 27,
+        "minimumLevel": 22,
+        "difficulty": 1,
+        "baseXp": 220,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 220
+    },
+    {
+      "questId": 289,
+      "fullXp": 1750,
+      "rewardBasis": "final-reward",
+      "questLevel": 29,
+      "minimumLevel": 22,
+      "xpByLevel": [
+        {
+          "level": 22,
+          "xp": 1750
+        },
+        {
+          "level": 23,
+          "xp": 1750
+        },
+        {
+          "level": 24,
+          "xp": 1750
+        },
+        {
+          "level": 25,
+          "xp": 1750
+        },
+        {
+          "level": 26,
+          "xp": 1750
+        },
+        {
+          "level": 27,
+          "xp": 1750
+        },
+        {
+          "level": 28,
+          "xp": 1750
+        },
+        {
+          "level": 29,
+          "xp": 1750
+        },
+        {
+          "level": 30,
+          "xp": 1750
+        },
+        {
+          "level": 31,
+          "xp": 1750
+        },
+        {
+          "level": 32,
+          "xp": 1750
+        },
+        {
+          "level": 33,
+          "xp": 1750
+        },
+        {
+          "level": 34,
+          "xp": 1750
+        },
+        {
+          "level": 35,
+          "xp": 1400
+        },
+        {
+          "level": 36,
+          "xp": 1050
+        },
+        {
+          "level": 37,
+          "xp": 700
+        },
+        {
+          "level": 38,
+          "xp": 350
+        },
+        {
+          "level": 39,
+          "xp": 180
+        },
+        {
+          "level": 40,
+          "xp": 180
+        },
+        {
+          "level": 41,
+          "xp": 180
+        },
+        {
+          "level": 42,
+          "xp": 180
+        },
+        {
+          "level": 43,
+          "xp": 180
+        },
+        {
+          "level": 44,
+          "xp": 180
+        },
+        {
+          "level": 45,
+          "xp": 180
+        },
+        {
+          "level": 46,
+          "xp": 180
+        },
+        {
+          "level": 47,
+          "xp": 180
+        },
+        {
+          "level": 48,
+          "xp": 180
+        },
+        {
+          "level": 49,
+          "xp": 180
+        },
+        {
+          "level": 50,
+          "xp": 180
+        },
+        {
+          "level": 51,
+          "xp": 180
+        },
+        {
+          "level": 52,
+          "xp": 180
+        },
+        {
+          "level": 53,
+          "xp": 180
+        },
+        {
+          "level": 54,
+          "xp": 180
+        },
+        {
+          "level": 55,
+          "xp": 180
+        },
+        {
+          "level": 56,
+          "xp": 180
+        },
+        {
+          "level": 57,
+          "xp": 180
+        },
+        {
+          "level": 58,
+          "xp": 180
+        },
+        {
+          "level": 59,
+          "xp": 180
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 289,
+        "questLevel": 29,
+        "minimumLevel": 22,
+        "difficulty": 4,
+        "baseXp": 1750,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1750
+    },
+    {
+      "questId": 290,
+      "fullXp": 1200,
+      "rewardBasis": "final-reward",
+      "questLevel": 30,
+      "minimumLevel": 22,
+      "xpByLevel": [
+        {
+          "level": 22,
+          "xp": 1200
+        },
+        {
+          "level": 23,
+          "xp": 1200
+        },
+        {
+          "level": 24,
+          "xp": 1200
+        },
+        {
+          "level": 25,
+          "xp": 1200
+        },
+        {
+          "level": 26,
+          "xp": 1200
+        },
+        {
+          "level": 27,
+          "xp": 1200
+        },
+        {
+          "level": 28,
+          "xp": 1200
+        },
+        {
+          "level": 29,
+          "xp": 1200
+        },
+        {
+          "level": 30,
+          "xp": 1200
+        },
+        {
+          "level": 31,
+          "xp": 1200
+        },
+        {
+          "level": 32,
+          "xp": 1200
+        },
+        {
+          "level": 33,
+          "xp": 1200
+        },
+        {
+          "level": 34,
+          "xp": 1200
+        },
+        {
+          "level": 35,
+          "xp": 1200
+        },
+        {
+          "level": 36,
+          "xp": 950
+        },
+        {
+          "level": 37,
+          "xp": 725
+        },
+        {
+          "level": 38,
+          "xp": 480
+        },
+        {
+          "level": 39,
+          "xp": 240
+        },
+        {
+          "level": 40,
+          "xp": 120
+        },
+        {
+          "level": 41,
+          "xp": 120
+        },
+        {
+          "level": 42,
+          "xp": 120
+        },
+        {
+          "level": 43,
+          "xp": 120
+        },
+        {
+          "level": 44,
+          "xp": 120
+        },
+        {
+          "level": 45,
+          "xp": 120
+        },
+        {
+          "level": 46,
+          "xp": 120
+        },
+        {
+          "level": 47,
+          "xp": 120
+        },
+        {
+          "level": 48,
+          "xp": 120
+        },
+        {
+          "level": 49,
+          "xp": 120
+        },
+        {
+          "level": 50,
+          "xp": 120
+        },
+        {
+          "level": 51,
+          "xp": 120
+        },
+        {
+          "level": 52,
+          "xp": 120
+        },
+        {
+          "level": 53,
+          "xp": 120
+        },
+        {
+          "level": 54,
+          "xp": 120
+        },
+        {
+          "level": 55,
+          "xp": 120
+        },
+        {
+          "level": 56,
+          "xp": 120
+        },
+        {
+          "level": 57,
+          "xp": 120
+        },
+        {
+          "level": 58,
+          "xp": 120
+        },
+        {
+          "level": 59,
+          "xp": 120
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 290,
+        "questLevel": 30,
+        "minimumLevel": 22,
+        "difficulty": 3,
+        "baseXp": 1200,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1200
+    },
+    {
+      "questId": 292,
+      "fullXp": 1200,
+      "rewardBasis": "final-reward",
+      "questLevel": 30,
+      "minimumLevel": 22,
+      "xpByLevel": [
+        {
+          "level": 22,
+          "xp": 1200
+        },
+        {
+          "level": 23,
+          "xp": 1200
+        },
+        {
+          "level": 24,
+          "xp": 1200
+        },
+        {
+          "level": 25,
+          "xp": 1200
+        },
+        {
+          "level": 26,
+          "xp": 1200
+        },
+        {
+          "level": 27,
+          "xp": 1200
+        },
+        {
+          "level": 28,
+          "xp": 1200
+        },
+        {
+          "level": 29,
+          "xp": 1200
+        },
+        {
+          "level": 30,
+          "xp": 1200
+        },
+        {
+          "level": 31,
+          "xp": 1200
+        },
+        {
+          "level": 32,
+          "xp": 1200
+        },
+        {
+          "level": 33,
+          "xp": 1200
+        },
+        {
+          "level": 34,
+          "xp": 1200
+        },
+        {
+          "level": 35,
+          "xp": 1200
+        },
+        {
+          "level": 36,
+          "xp": 950
+        },
+        {
+          "level": 37,
+          "xp": 725
+        },
+        {
+          "level": 38,
+          "xp": 480
+        },
+        {
+          "level": 39,
+          "xp": 240
+        },
+        {
+          "level": 40,
+          "xp": 120
+        },
+        {
+          "level": 41,
+          "xp": 120
+        },
+        {
+          "level": 42,
+          "xp": 120
+        },
+        {
+          "level": 43,
+          "xp": 120
+        },
+        {
+          "level": 44,
+          "xp": 120
+        },
+        {
+          "level": 45,
+          "xp": 120
+        },
+        {
+          "level": 46,
+          "xp": 120
+        },
+        {
+          "level": 47,
+          "xp": 120
+        },
+        {
+          "level": 48,
+          "xp": 120
+        },
+        {
+          "level": 49,
+          "xp": 120
+        },
+        {
+          "level": 50,
+          "xp": 120
+        },
+        {
+          "level": 51,
+          "xp": 120
+        },
+        {
+          "level": 52,
+          "xp": 120
+        },
+        {
+          "level": 53,
+          "xp": 120
+        },
+        {
+          "level": 54,
+          "xp": 120
+        },
+        {
+          "level": 55,
+          "xp": 120
+        },
+        {
+          "level": 56,
+          "xp": 120
+        },
+        {
+          "level": 57,
+          "xp": 120
+        },
+        {
+          "level": 58,
+          "xp": 120
+        },
+        {
+          "level": 59,
+          "xp": 120
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 292,
+        "questLevel": 30,
+        "minimumLevel": 22,
+        "difficulty": 3,
+        "baseXp": 1200,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1200
+    },
+    {
+      "questId": 293,
+      "fullXp": 2450,
+      "rewardBasis": "final-reward",
+      "questLevel": 30,
+      "minimumLevel": 22,
+      "xpByLevel": [
+        {
+          "level": 22,
+          "xp": 2450
+        },
+        {
+          "level": 23,
+          "xp": 2450
+        },
+        {
+          "level": 24,
+          "xp": 2450
+        },
+        {
+          "level": 25,
+          "xp": 2450
+        },
+        {
+          "level": 26,
+          "xp": 2450
+        },
+        {
+          "level": 27,
+          "xp": 2450
+        },
+        {
+          "level": 28,
+          "xp": 2450
+        },
+        {
+          "level": 29,
+          "xp": 2450
+        },
+        {
+          "level": 30,
+          "xp": 2450
+        },
+        {
+          "level": 31,
+          "xp": 2450
+        },
+        {
+          "level": 32,
+          "xp": 2450
+        },
+        {
+          "level": 33,
+          "xp": 2450
+        },
+        {
+          "level": 34,
+          "xp": 2450
+        },
+        {
+          "level": 35,
+          "xp": 2450
+        },
+        {
+          "level": 36,
+          "xp": 1950
+        },
+        {
+          "level": 37,
+          "xp": 1450
+        },
+        {
+          "level": 38,
+          "xp": 975
+        },
+        {
+          "level": 39,
+          "xp": 490
+        },
+        {
+          "level": 40,
+          "xp": 250
+        },
+        {
+          "level": 41,
+          "xp": 250
+        },
+        {
+          "level": 42,
+          "xp": 250
+        },
+        {
+          "level": 43,
+          "xp": 250
+        },
+        {
+          "level": 44,
+          "xp": 250
+        },
+        {
+          "level": 45,
+          "xp": 250
+        },
+        {
+          "level": 46,
+          "xp": 250
+        },
+        {
+          "level": 47,
+          "xp": 250
+        },
+        {
+          "level": 48,
+          "xp": 250
+        },
+        {
+          "level": 49,
+          "xp": 250
+        },
+        {
+          "level": 50,
+          "xp": 250
+        },
+        {
+          "level": 51,
+          "xp": 250
+        },
+        {
+          "level": 52,
+          "xp": 250
+        },
+        {
+          "level": 53,
+          "xp": 250
+        },
+        {
+          "level": 54,
+          "xp": 250
+        },
+        {
+          "level": 55,
+          "xp": 250
+        },
+        {
+          "level": 56,
+          "xp": 250
+        },
+        {
+          "level": 57,
+          "xp": 250
+        },
+        {
+          "level": 58,
+          "xp": 250
+        },
+        {
+          "level": 59,
+          "xp": 250
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 293,
+        "questLevel": 30,
+        "minimumLevel": 22,
+        "difficulty": 5,
+        "baseXp": 2450,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2450
+    }
+  ],
+  "method": {
+    "source": "https://www.wowhead.com/forever/quest=288/the-third-fleet",
+    "note": "Author independently reviewed full physical chain. Original archive guards/programs unchanged. All five buy one2594each. Shared18crew kills+oneSnellig trophy, not five boss kills. Captain spell reflection caution retained. Strongbox object112948directly ends290and starts292. Carry eye to Glorin, then Benedictus on next actual Stormwind visit; no future reward borrowed."
+  }
+}

@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { forecastCampaignXp } from "./campaign-xp.js";
 import {
+  activeCampaignActions,
   campaignActionReasons,
   updateCampaignAction,
   type CampaignAction,
   type CampaignPlan,
 } from "./campaign.js";
-import { emptyPremadeProgress, type PremadeProgress } from "./premade-model.js";
+import { emptyPremadeProgress, premadeProgressSchema, type PremadeProgress } from "./premade-model.js";
 import { recordPremadeXp } from "./premade.js";
 import { getDungeonBundle, updateDungeonBundleSlot } from "./dungeon-bundles.js";
+import { campaignRouteHandoff } from "./campaign-route-handoff.js";
+import { campaignFundingProgressBefore, type CampaignFundingState } from "./campaign-funding-scenarios.js";
 
 function fixture(repeat = false): CampaignPlan {
   const shared = {
@@ -89,7 +92,90 @@ function progress(level = 37): PremadeProgress {
   return result;
 }
 
+function fundingState(
+  plan: CampaignPlan,
+  current: PremadeProgress,
+  forecast: ReturnType<typeof forecastCampaignXp>,
+): CampaignFundingState {
+  return {
+    difficultyPolicy: current.difficultyPolicy,
+    strategy: "dungeons",
+    optionalStops: true,
+    lootScenario: "expected",
+    starterMode: "together",
+    sourceBuild: plan.targetBuild,
+    progress: current,
+    actions: activeCampaignActions(plan, current),
+    forecast,
+  };
+}
+
 describe("guaranteed bundles in the continuous campaign ledger", () => {
+  it("restores a handoff immediately after a bundle with the same XP and paid slots", () => {
+    const plan = fixture(true), current = progress(), forecast = forecastCampaignXp(plan, current);
+    const state = fundingState(plan, current, forecast);
+    const before = campaignFundingProgressBefore(state, "dungeon-drowned-city-rewards");
+    expect(before.members.map((member) => ({ level: member.level, currentXp: member.currentXp })))
+      .toEqual(current.members.map((member) => ({ level: member.level, currentXp: member.currentXp })));
+    const handoff = campaignRouteHandoff(state, "dungeon-drowned-city-rewards");
+    for (const [index, member] of handoff.progress.members.entries()) {
+      expect({ level: member.level, currentXp: member.currentXp }).toEqual(
+        forecast[0]!.members[index]!.endpoint,
+      );
+      expect(member.bundleSlotStates).toEqual({
+        "drowned-city:alliance:quest-1": "rewarded",
+        "drowned-city:alliance:quest-2": "rewarded",
+        "drowned-city:alliance:quest-3": "rewarded",
+        "drowned-city:alliance:quest-4": "rewarded",
+      });
+      expect(handoff.xpBounds[index]).toEqual({
+        minimum: forecast[0]!.members[index]!.endpoint,
+        maximum: forecast[0]!.members[index]!.endpoint,
+      });
+    }
+    const saved = premadeProgressSchema.parse(JSON.parse(JSON.stringify(handoff.progress)));
+    const replay = forecastCampaignXp(plan, saved, {
+      fromActionId: "second-visit", initialBounds: handoff.xpBounds,
+    });
+    for (const member of replay[0]!.members) {
+      expect(member.estimatedQuestXp).toBe(0);
+      expect(member.bundleRewards.every((row) => row.state === "rewarded" && row.xp === 0)).toBe(true);
+      expect(member.endpoint).toEqual(forecast[0]!.members[member.player - 1]!.endpoint);
+    }
+  });
+
+  it("retains bounded XP and previously paid or skipped slots through a serialized bundle handoff", () => {
+    const plan = fixture(true), current = progress();
+    current.members = current.members.map((member) => ({ ...member, bundleSlotStates: {
+      "drowned-city:alliance:quest-1": "rewarded",
+      "drowned-city:alliance:quest-2": "skipped",
+    } }));
+    const initialBounds = current.members.map(() => ({
+      minimum: { level: 37, currentXp: 0 }, maximum: { level: 38, currentXp: 0 },
+    }));
+    const forecast = forecastCampaignXp(plan, current, { initialBounds });
+    const state = fundingState(plan, current, forecast);
+    const handoff = campaignRouteHandoff(state, "dungeon-drowned-city-rewards");
+    for (const [index, member] of handoff.progress.members.entries()) {
+      expect(handoff.xpBounds[index]).toEqual(forecast[0]!.members[index]!.xpBounds!.finish);
+      expect(member.bundleSlotStates).toEqual({
+        "drowned-city:alliance:quest-1": "rewarded",
+        "drowned-city:alliance:quest-2": "skipped",
+        "drowned-city:alliance:quest-3": "rewarded",
+        "drowned-city:alliance:quest-4": "rewarded",
+      });
+    }
+    const replay = forecastCampaignXp(plan,
+      premadeProgressSchema.parse(JSON.parse(JSON.stringify(handoff.progress))),
+      { fromActionId: "second-visit", initialBounds: handoff.xpBounds },
+    );
+    for (const [index, member] of replay[0]!.members.entries()) {
+      expect(member.estimatedQuestXp).toBe(0);
+      expect(member.endpoint).toEqual(forecast[0]!.members[index]!.endpoint);
+      expect(member.xpBounds!.finish).toEqual(forecast[0]!.members[index]!.xpBounds!.finish);
+    }
+  });
+
   it("excludes a skipped dungeon's rewards and entry gate, and can restore it without losing history", () => {
     const bundle = getDungeonBundle("drowned-city", "alliance")!;
     const current = {

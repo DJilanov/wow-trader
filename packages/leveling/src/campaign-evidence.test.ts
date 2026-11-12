@@ -18,6 +18,12 @@ const issue = (overrides: Partial<CampaignEvidenceIssue>): CampaignEvidenceIssue
 });
 
 describe("campaign evidence", () => {
+  it("labels incidental XP as a planning estimate without blocking quest eligibility", () => {
+    const result = summarizeCampaignEvidence([issue({ code: "incidental-combat-estimated" })]);
+    expect(result.combat).toBe("estimated");
+    expect(result.eligibility).toBe("verified");
+    expect(CAMPAIGN_EVIDENCE_CATALOG["incidental-combat-estimated"].releaseImpact).toBe("measurement");
+  });
   it("classifies independent evidence dimensions without treating adaptive XP as missing", () => {
     expect(
       summarizeCampaignEvidence([

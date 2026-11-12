@@ -275,7 +275,7 @@ describe("required courier during existing town visits", () => {
     expect(auditCampaignQuestLog(next, emptyPremadeProgress()).every((m) => m.withinCapacity)).toBe(
       true,
     );
-    expect(campaignFundingStates(next)).toHaveLength(16);
+    expect(campaignFundingStates(next)).toHaveLength(48);
   });
 
   it("does not pay an earlier already-rewarded courier again", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { CombatNpc } from "./combat-model.js";
+import type { CombatNpc, CombatQuestReference } from "./combat-model.js";
 import { indexCombatReferences, resolveCombatObjectives } from "./campaign-combat.js";
 import { nonKillCollectionMethod } from "./combat-nonkill.js";
 import { objectiveDirectiveContext } from "./combat-objective-context.js";
@@ -49,6 +49,333 @@ function method(
 }
 
 describe("local acquisition evidence", () => {
+  it("keeps the shard's captured Ratchet gossip separate from killing its credited NPC", () => {
+    const speaker: CombatNpc = { ...npc, id: 3442, name: "Sputtervalve" };
+    const quest: CombatQuestReference = {
+      questId: 6981,
+      creatureIds: [speaker.id],
+      itemCreatureIds: [],
+      onlyCreatureObjectives: true,
+      startItem: { itemId: 10441, name: "Glowing Shard" },
+      objectiveText: [
+        "Travel to Ratchet to find someone that can tell you more about the glowing shard.",
+        "",
+        "Then, deliver the shard as you are directed.",
+      ],
+    };
+    const body = "Talk to Sputtervalve\n.complete 6981,1\n.skipgossip 1\n.target Sputtervalve";
+    const resolve = (
+      text: string,
+      reference: CombatQuestReference = quest,
+    ): ReturnType<typeof resolveCombatObjectives> =>
+      resolveCombatObjectives(
+        source(text),
+        indexCombatReferences({ npcs: [speaker], quests: [reference] }),
+        "shard-dialogue-source",
+      );
+    const before = structuredClone({ speaker, quest });
+    expect(resolve(body)).toMatchObject([
+      { questId: 6981, objectiveIndex: 1, npcIds: [], credit: "non-combat", requiredKills: null },
+    ]);
+    expect(
+      resolve(
+        body.replace(
+          ".complete 6981,1",
+          ".complete 6981,1 >>Speak with someone in Ratchet about the Glowing Shard",
+        ),
+      ),
+    ).toMatchObject([{ credit: "non-combat" }]);
+    for (const changed of [
+      body.replace(".skipgossip 1", ".skipgossip"),
+      body.replace("Talk to Sputtervalve", "Talk to Sputtervalve."),
+    ])
+      expect(resolve(changed)[0]?.credit).toBe("non-combat");
+    for (const changed of [
+      body.replace(".target Sputtervalve", ".target Someone Else"),
+      body.replace("Talk to Sputtervalve", "Talk to Someone Else"),
+      body.replace(".skipgossip 1", ""),
+      body.replace(".skipgossip 1", ".skipgossip invalid"),
+      body.replace("6981,1", "6981,2"),
+      body.replace("6981,1", "6981,1 >>Speak with someone in Stormwind about the Glowing Shard"),
+      body.replace("6981,1", "6981,1 >>Sputtervalve slain (1)"),
+      body + "\n.mob Sputtervalve",
+      body + "\n.use 10441",
+      body + "\n>>Kill Sputtervalve",
+    ])
+      expect(resolve(changed)[0]?.credit).not.toBe("non-combat");
+    for (const reference of [
+      { ...quest, startItem: { itemId: 10441, name: "A Different Shard" } },
+      { ...quest, creatureIds: [3442, 8418] },
+      { ...quest, killQuotaConflicts: [1] },
+      {
+        ...quest,
+        killQuotas: [{ objectiveIndex: 1, npcId: speaker.id, kills: 1, source: "Death counter" }],
+      },
+      { ...quest, objectiveText: ["Kill Sputtervalve and recover the Glowing Shard."] },
+    ])
+      expect(resolve(body, reference)[0]?.credit).not.toBe("non-combat");
+    expect({ speaker, quest }).toEqual(before);
+  });
+
+  it("keeps a living-creature trap objective separate from creature deaths", () => {
+    const bear: CombatNpc = { ...npc, id: 2164, name: "Rabid Thistle Bear" };
+    const quest: CombatQuestReference = {
+      questId: 2118,
+      creatureIds: [bear.id],
+      itemCreatureIds: [],
+      onlyCreatureObjectives: true,
+      objectiveText: ["Capture a living Rabid Thistle Bear and bring it back to Tharnariun."],
+    };
+    const body =
+      "* Use [Tharnariun's Hope] on a Rabid Thistle Bear. It can be used from any range\n.complete 2118,1 >>Rabid Thistle Bear Captured (1)\n.unitscan Rabid Thistle Bear\n.use 7586";
+    const resolve = (text: string, value = quest): ReturnType<typeof resolveCombatObjectives> =>
+      resolveCombatObjectives(
+        source(text),
+        indexCombatReferences({ npcs: [bear], quests: [value] }),
+        "capture-source",
+      );
+    const before = structuredClone({ bear, quest });
+    expect(resolve(body)).toMatchObject([
+      { questId: 2118, objectiveIndex: 1, npcIds: [], requiredKills: null, credit: "non-combat" },
+    ]);
+    expect(resolve(body.replace("Bear. It", "Bear  .It"))).toMatchObject([
+      { credit: "non-combat" },
+    ]);
+    for (const changed of [
+      body.replace(".use 7586", ""),
+      body.replace(".use 7586", ".use invalid"),
+      body.replace(".use 7586", ".cast 7586"),
+      body.replace(".unitscan Rabid Thistle Bear", ".unitscan Different Bear"),
+      body.replace("on a Rabid Thistle Bear.", "on a Rabid Thistle Bear Double."),
+      body.replace("Captured (1)", "slain (1)"),
+      body.replace("Captured (1)", "Captured (2)"),
+      body.replace("2118,1", "2118,2"),
+      `${body}\n.mob Rabid Thistle Bear`,
+      `${body}\n* Kill the bear`,
+    ])
+      expect(resolve(changed)[0]?.credit).not.toBe("non-combat");
+    for (const changed of [
+      { objectiveText: ["Kill a Rabid Thistle Bear and return to Tharnariun."] },
+      {
+        objectiveText: [
+          "Capture a living Rabid Thistle Bear Double and bring it back to Tharnariun.",
+        ],
+      },
+      {
+        killQuotas: [
+          { objectiveIndex: 1, npcId: bear.id, kills: 1, source: "Captured kill counter" },
+        ],
+      },
+      { killQuotaConflicts: [1] },
+    ])
+      expect(resolve(body, { ...quest, ...changed })[0]?.credit).not.toBe("non-combat");
+    expect({ bear, quest }).toEqual(before);
+  });
+  it("recognizes the source's borrowed farsight dialogue without treating its speaker as a kill", () => {
+    const speaker: CombatNpc = { ...npc, id: 264936, name: "Earthseer Farsen" };
+    const quest: CombatQuestReference = {
+      questId: 96392,
+      creatureIds: [speaker.id],
+      itemCreatureIds: [],
+      onlyCreatureObjectives: false,
+      objectiveText: [
+        "Speak with Earthseer Farsen's and ask him to lend you his farsight to observe the Dark Iron threat.",
+      ],
+    };
+    const body =
+      "* Talk to Earthseer Farsen\n* You can cancel the Farsight once the objective completes\n.complete 96392,1 >>Use Farsen's Farsight\n.skipgossip\n.target Earthseer Farsen";
+    const resolve = (
+      text: string,
+      reference: CombatQuestReference = quest,
+    ): ReturnType<typeof resolveCombatObjectives> =>
+      resolveCombatObjectives(
+        source(text),
+        indexCombatReferences({ npcs: [speaker], quests: [reference] }),
+        "farsight-dialogue-source",
+      );
+    expect(resolve(body)).toMatchObject([
+      { questId: 96392, objectiveIndex: 1, credit: "non-combat", npcIds: [], requiredKills: null },
+    ]);
+    for (const changed of [
+      body.replace(".skipgossip\n", ""),
+      body.replace(".skipgossip", ".skipgossip invalid"),
+      body.replace(".target Earthseer Farsen", ".target Somebody Else"),
+      body.replace("Use Farsen's Farsight", "Use Somebody's Farsight"),
+      body.replace("96392,1", "96392,2"),
+      `${body}\n.use 1234`,
+      `${body}\n.mob Earthseer Farsen`,
+      `${body}\n* Kill nearby spies`,
+    ])
+      expect(resolve(changed)[0]?.credit).not.toBe("non-combat");
+    for (const changed of [
+      {
+        objectiveText: [
+          "Speak with Earthseer Farsen's double and borrow his farsight to observe the camp.",
+        ],
+      },
+      { objectiveText: ["Speak with Earthseer Farsen to kill the Dark Iron threat."] },
+      { killQuotas: [{ objectiveIndex: 1, npcId: speaker.id, kills: 1, source: "Death counter" }] },
+      { killQuotaConflicts: [1] },
+    ])
+      expect(resolve(body, { ...quest, ...changed })[0]?.credit).not.toBe("non-combat");
+  });
+  it("recognizes a source-backed viewing dialogue without inventing a kill or changing its references", () => {
+    const speaker = {
+      ...npc,
+      id: 257554,
+      name: "Halaan Hawk-Eye",
+      minimumLevel: 10,
+      maximumLevel: 10,
+    };
+    const quest: CombatQuestReference = {
+      questId: 94414,
+      creatureIds: [speaker.id],
+      itemCreatureIds: [],
+      onlyCreatureObjectives: true,
+      objectiveText: [
+        "Speak with Halaan Hawk-Eye and borrow his gift to view the anchor pylon in the distance.",
+      ],
+    };
+    const body =
+      "* Talk to Halaan Hawk-Eye.\n.complete 94414,1 >>View the Anchor Pylon\n.skipgossipid 137720,1\n.target Halaan Hawk-Eye";
+    const references = indexCombatReferences({ npcs: [speaker], quests: [quest] });
+    const original = structuredClone({ speaker, quest });
+    const resolve = (
+      text: string,
+      reference: CombatQuestReference = quest,
+    ): ReturnType<typeof resolveCombatObjectives> =>
+      resolveCombatObjectives(
+        source(text),
+        indexCombatReferences({ npcs: [speaker], quests: [reference] }),
+        "viewing-dialogue-source",
+      );
+    expect(resolve(body)).toMatchObject([
+      { questId: 94414, objectiveIndex: 1, credit: "non-combat", npcIds: [], requiredKills: null },
+    ]);
+    expect(resolveCombatObjectives(source(body), references, "viewing-dialogue-source")).toEqual(
+      resolve(body),
+    );
+    for (const changed of [
+      body.replace(".skipgossipid 137720,1\n", ""),
+      body.replace("137720,1", "137720,unknown"),
+      body.replace(".target Halaan Hawk-Eye", ".target Somebody Else"),
+      body.replace(".target Halaan Hawk-Eye", ""),
+      body.replace("Talk to Halaan Hawk-Eye.", "Talk to Halaan Hawk-Eye's double."),
+      body.replace("View the Anchor Pylon", "View the Anchor Pylon Replica"),
+      body.replace("View the Anchor Pylon", "Kill Halaan Hawk-Eye (x1)"),
+      body.replace("94414,1", "94414,2"),
+      `${body}\n.mob Halaan Hawk-Eye`,
+      `${body}\n.use 1234`,
+      `${body}\n.cast 1234`,
+      `${body}\n* Attack the nearby guard.`,
+      body.replace(".complete", ".complete 12345,1 >>Other task\n.complete"),
+    ])
+      expect(resolve(changed).find((row) => row.questId === quest.questId)?.credit).not.toBe(
+        "non-combat",
+      );
+    for (const changed of [
+      { creatureIds: [speaker.id, 1] },
+      { itemCreatureIds: [1] },
+      { objectiveText: ["Speak with Halaan Hawk-Eye's double to view the anchor pylon."] },
+      {
+        objectiveText: ["Speak with Halaan Hawk-Eye, then kill a guard and view the anchor pylon."],
+      },
+      { objectiveText: ["Speak with Halaan Hawk-Eye and view the anchor pylons."] },
+      { killQuotas: [{ objectiveIndex: 1, npcId: speaker.id, kills: 1, source: "Death counter" }] },
+      { killQuotaConflicts: [1] },
+      {
+        itemObjectives: [
+          {
+            itemId: 750,
+            itemName: "Item",
+            quantity: 1,
+            objectiveIndex: 1,
+            npcIds: [speaker.id],
+            sharing: "unknown" as const,
+          },
+        ],
+      },
+    ])
+      expect(resolve(body, { ...quest, ...changed })[0]?.credit).not.toBe("non-combat");
+    expect({ speaker, quest }).toEqual(original);
+  });
+
+  it("keeps a corroborated exploration objective separate from the same quest's captured kills", () => {
+    const creature = { ...npc, id: 1123, name: "Frostmane Headhunter" };
+    const quest: CombatQuestReference = {
+      questId: 287,
+      creatureIds: [1123],
+      itemCreatureIds: [],
+      onlyCreatureObjectives: true,
+      objectiveText: [
+        "Explore Frostmane Hold, and kill 5 Frostmane Headhunters for Senir Whitebeard.",
+      ],
+      killQuotas: [{ objectiveIndex: 1, npcId: 1123, kills: 5, source: "Captured death counter" }],
+    };
+    const references = indexCombatReferences({ npcs: [creature], quests: [quest] });
+    const before = JSON.stringify(quest);
+    const kills = resolveCombatObjectives(
+      source(".complete 287,1 >>Kill Frostmane Headhunter (x5)\n.mob Frostmane Headhunter"),
+      references,
+      "kill-source",
+    );
+    const exploration = resolveCombatObjectives(
+      source(
+        ".goto 1426/0,676.23,-5589.67\n* Drop down into the small dead-end room of the cave\n.complete 287,2 >>Fully explore Frostmane Hold",
+      ),
+      references,
+      "exploration-source",
+    );
+    expect(kills).toMatchObject([
+      { objectiveIndex: 1, credit: "shared-kills", npcIds: [1123], requiredKills: 5 },
+    ]);
+    expect(exploration).toMatchObject([
+      {
+        objectiveIndex: 2,
+        credit: "non-combat",
+        npcIds: [],
+        requiredKills: null,
+        source: "exploration-source",
+      },
+    ]);
+    expect(JSON.stringify(quest)).toBe(before);
+    for (const overrides of [
+      { objectiveText: ["Explore Frostmane Holdout and kill 5 Frostmane Headhunters."] },
+      { objectiveText: ["Kill 5 Frostmane Headhunters."] },
+      { killQuotas: [] },
+      { killQuotas: [{ objectiveIndex: 2, npcId: 1123, kills: 5, source: "Captured counter" }] },
+      { killQuotaConflicts: [2] },
+      {
+        itemObjectives: [
+          {
+            itemId: 1,
+            objectiveIndex: 2,
+            quantity: 1,
+            npcIds: [1123],
+            sharing: "unknown" as const,
+          },
+        ],
+      },
+    ]) {
+      const held = resolveCombatObjectives(
+        source(".complete 287,2 >>Fully explore Frostmane Hold"),
+        indexCombatReferences({ npcs: [creature], quests: [{ ...quest, ...overrides }] }),
+        "unsupported-source",
+      );
+      expect(held[0]!.credit).not.toBe("non-combat");
+    }
+    for (const body of [
+      ".complete 287,2 >>Fully explore Frostmane Hold\n.mob Frostmane Headhunter",
+      "* Kill the guards\n.complete 287,2 >>Fully explore Frostmane Hold",
+      ".complete 287,2 >>Fully explore Frostmane Hold\n.use 1",
+      ".complete 287,2 >>Do not explore Frostmane Hold",
+      ".complete 287,2 >>Fully explore Frostmane Hold and kill the guards",
+      ".complete 999,1 >>Fully explore Frostmane Hold\n.complete 287,2",
+    ]) {
+      const held = resolveCombatObjectives(source(body), references, "ambiguous-source");
+      expect(held.find((objective) => objective.questId === 287)!.credit).not.toBe("non-combat");
+    }
+  });
   it("recognizes corroborated friendly healing credit without treating a creature objective as a death", () => {
     const friendly = { ...npc, id: 12427, name: "Mountaineer Dolf" };
     const quest = {

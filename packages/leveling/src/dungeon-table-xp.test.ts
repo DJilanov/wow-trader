@@ -183,14 +183,14 @@ describe("ordinary dungeon quests are included", () => {
     const stop = getPremadeStop("gnomeregan")!;
     const progress = emptyPremadeProgress();
     expect(selectedPremadeQuests(stop, progress).map((choice) => choice.questId)).toEqual([
-      2922, 2930, 2929, 2926, 2928, 2924, 2904, 2948,
+      2922, 2930, 2929, 2926, 2928, 2924, 2904, 2945, 2947, 2948, 2951, 2925, 2931,
     ]);
     const excluded = { ...progress, selectedExtras: { 2924: false } };
     expect(selectedPremadeQuests(stop, excluded).map((choice) => choice.questId)).not.toContain(
       2924,
     );
     const full = setPremadeQuestPackage(stop, excluded, true);
-    expect(selectedPremadeQuests(stop, full)).toHaveLength(9);
+    expect(selectedPremadeQuests(stop, full)).toHaveLength(14);
     expect(full.members).toEqual(progress.members);
     expect(excluded.selectedExtras).toEqual({ 2924: false });
     expect(selectedPremadeQuests(stop, setPremadeQuestPackage(stop, full, false))).toHaveLength(3);

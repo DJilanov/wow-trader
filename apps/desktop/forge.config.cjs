@@ -1,4 +1,5 @@
 const path = require("node:path");
+const process = require("node:process");
 const { execFile } = require("node:child_process");
 const { promisify } = require("node:util");
 
@@ -29,6 +30,12 @@ module.exports = {
     ],
   },
   hooks: {
+    prePackage: async () => {
+      await exec(process.execPath, [
+        path.resolve(__dirname, "../../scripts/prepare-addon-manifest.mjs"),
+        "--check",
+      ]);
+    },
     postPackage: async (_config, { outputPaths, platform }) => {
       if (platform !== "darwin") return;
       // Packaging changes Electron's bundle, so replace its invalid original signature.

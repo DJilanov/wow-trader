@@ -2,6 +2,37 @@ import type { CampaignAction } from "./campaign.js";
 import type { QuestCatalogEntry } from "./quest-catalog.js";
 import { isUnrestrictedFundingQuest } from "./quest-catalog.js";
 
+function phaseInstruction(change: CampaignAction["questChanges"][number]): string {
+  const verb = change.state === "accepted" ? "Accept" : change.state === "rewarded" ? "Turn in" : "Complete";
+  return `${verb} ${change.title}`;
+}
+
+function sameGiverVisit(
+  own: QuestCatalogEntry["starts"],
+  other: QuestCatalogEntry["starts"],
+  allowNearbyGivers: boolean,
+): boolean {
+  if (own.some((giver) => other.some((entry) => entry.npcId === giver.npcId))) return true;
+  if (!allowNearbyGivers) return false;
+  const givers = [...own, ...other];
+  if (
+    !own.length ||
+    !other.length ||
+    givers.some((giver) => !giver.friendlyToAlliance || !giver.positions.length)
+  )
+    return false;
+  const positions = givers.flatMap((giver) => giver.positions);
+  // Catalog coordinates are map percentages. Every possible endpoint must fit one small camp;
+  // a nearby alternative alone cannot justify splitting a remote or ambiguous visit.
+  return positions.every((point) =>
+    positions.every(
+      (otherPoint) =>
+        point.zone === otherPoint.zone &&
+        Math.hypot(point.x - otherPoint.x, point.y - otherPoint.y) <= 0.5,
+    ),
+  );
+}
+
 /** Preserve a captured pickup split from its prerequisite's hand-in at the same giver. */
 export function existingFundingPickup(
   quest: QuestCatalogEntry,
@@ -47,6 +78,7 @@ export function existingFundingPrerequisite(
   quest: QuestCatalogEntry,
   catalog: ReadonlyMap<number, QuestCatalogEntry>,
   existing: readonly CampaignAction[],
+  allowNearbyGivers: boolean = false,
 ): readonly CampaignAction[] | null {
   if (!isUnrestrictedFundingQuest(quest)) return null;
   const actions = existing.filter((action) =>
@@ -86,8 +118,10 @@ export function existingFundingPrerequisite(
       const givers = other.state === "accepted" ? related.starts : related.ends;
       if (
         !own.every((change) =>
-          (change.state === "accepted" ? quest.starts : quest.ends).some((giver) =>
-            givers.some((entry) => entry.npcId === giver.npcId),
+          sameGiverVisit(
+            change.state === "accepted" ? quest.starts : quest.ends,
+            givers,
+            allowNearbyGivers,
           ),
         )
       )
@@ -112,8 +146,11 @@ export function existingFundingPrerequisite(
         .join(" · "),
       instructions: action.instructions.filter(
         (line) =>
-          !removed.some((change) => line.includes(change.title)) || line.includes(quest.title),
-      ),
+          !removed.some((change) => line === phaseInstruction(change)) ||
+          changes.some((change) => line === phaseInstruction(change)),
+      ).map((line) => /^She may be dead or busy fighting Stitches.*consider grinding/.test(line)
+        ? "If Stitches has killed the quest giver, wait for them to respawn before continuing."
+        : line),
     };
   });
 }

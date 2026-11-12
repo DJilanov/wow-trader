@@ -10,6 +10,7 @@ import type { CharacterProfile } from "./profile.js";
 import type { CombatQuestReference } from "./combat-model.js";
 import { CAMPAIGN_QUEST_GUARDS } from "./campaign-native-guards.js";
 import { displayOnlyQuestPhases } from "./campaign-source-display.js";
+import { isRepeatedNpcHandoff } from "./campaign-source-handoff-fallback.js";
 
 export type CampaignSourcePhaseSelector = (
   step: ImportedStep,
@@ -40,8 +41,10 @@ function questGuardKey(directives: readonly ImportedDirective[]): string | null 
 
 interface FallbackPhase {
   readonly ordinal: number;
+  readonly directives: readonly ImportedDirective[];
   readonly guards: readonly ImportedDirective[];
   readonly guardKey: string;
+  readonly phaseCount: number;
 }
 
 /** An opportunistic guarded phase must not consume its later full completion witness. */
@@ -57,7 +60,7 @@ export function createCampaignSourcePhaseSelector(
     readonly ordinal: number;
     readonly directives: readonly ImportedDirective[];
   }[] = [];
-  const parents = new Map(questReferences.map((quest) => [quest.questId, quest.prerequisites]));
+  const references = new Map(questReferences.map((quest) => [quest.questId, quest]));
   const steps: ImportedStep[] = [...guide.steps];
   let ordinalOffset = Math.max(0, ...guide.steps.map((step) => step.ordinal));
   for (const following of followingGuides) {
@@ -86,12 +89,13 @@ export function createCampaignSourcePhaseSelector(
     const guardKey = questGuardKey(directives);
     if (guardKey === null) continue;
     const guards = directives.filter((directive) => CAMPAIGN_QUEST_GUARDS.has(directive.tag));
+    const phaseCount = directives.filter((directive) => phaseKey(directive) !== null).length;
     for (const directive of directives) {
       const key = phaseKey(directive);
       if (key)
         fallbacks.set(key, [
           ...(fallbacks.get(key) ?? []),
-          { ordinal: step.ordinal, guards, guardKey },
+          { ordinal: step.ordinal, directives, guards, guardKey, phaseCount },
         ]);
     }
   }
@@ -139,23 +143,39 @@ export function createCampaignSourcePhaseSelector(
     const fallback =
       key === null
         ? undefined
-        : fallbacks
-            .get(key)
-            ?.find(
-              (candidate) =>
-                candidate.ordinal > ordinal &&
-                (candidate.guardKey === "" ||
-                  (hasResourceGuard && candidate.guardKey === currentGuards) ||
-                  (openPickup &&
-                    candidate.guards.length > 0 &&
-                    candidate.guards.every(
-                      (guard) =>
-                        guard.tag === ".isQuestAvailable" &&
-                        guard.arguments.trim() === String(directive.questId),
-                    ))),
-            );
+        : fallbacks.get(key)?.find(
+            (candidate) =>
+              candidate.ordinal > ordinal &&
+              (candidate.guardKey === "" ||
+                // A hand-in necessarily has its own quest active; keep that captured guard.
+                (directive.tag === ".turnin" &&
+                  candidate.phaseCount === 1 &&
+                  candidate.guardKey !== currentGuards &&
+                  candidate.guards.length > 0 &&
+                  candidate.guards.every(
+                    (guard) =>
+                      guard.tag === ".isOnQuest" &&
+                      guard.arguments.trim() === String(directive.questId),
+                  )) ||
+                (hasResourceGuard && candidate.guardKey === currentGuards) ||
+                (openPickup &&
+                  candidate.guards.length > 0 &&
+                  candidate.guards.every(
+                    (guard) =>
+                      guard.tag === ".isQuestAvailable" &&
+                      guard.arguments.trim() === String(directive.questId),
+                  ))),
+          );
     if (fallback === undefined) return true;
-    if (directives.some((entry) => phaseKey(entry) && entry.questId !== directive.questId))
+    if (
+      directives.some((entry) => phaseKey(entry) && entry.questId !== directive.questId) &&
+      !(
+        !hasResourceGuard &&
+        fallback.guardKey === "" &&
+        fallback.ordinal === ordinal + 1 &&
+        isRepeatedNpcHandoff(directives, fallback.directives, directive, references)
+      )
+    )
       return true;
     for (const between of eligible) {
       if (between.ordinal <= ordinal || between.ordinal >= fallback.ordinal) continue;
@@ -195,7 +215,7 @@ export function createCampaignSourcePhaseSelector(
               return true;
           }
         if (entry.tag !== ".accept" || own || entry.questId === null) continue;
-        const required = parents.get(entry.questId);
+        const required = references.get(entry.questId)?.prerequisites;
         if ([...(required?.allOf ?? []), ...(required?.anyOf ?? [])].includes(directive.questId!))
           return true;
         if (

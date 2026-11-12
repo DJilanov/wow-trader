@@ -1,0 +1,899 @@
+{
+  "classification": "Exact normalized ring reference and reward subset, not full itinerary qualification. Source item 9362 is retained through the chain; procurement of 2842/1206 is owner-authorized AH/trade work.",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification."
+      ]
+    },
+    "authorizationNote": "Exact ring quest/material subset; no economic price, income, death count or observed server payout inferred.",
+    "npcs": [
+      {
+        "id": 6212,
+        "name": "Dark Iron Agent",
+        "minimumLevel": 32,
+        "maximumLevel": 33,
+        "rank": 1,
+        "zoneIds": [
+          721
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 2945,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          6212
+        ],
+        "objectiveText": [
+          "Figure out a way to remove the grime from the Grime-Encrusted Ring."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 9326,
+            "itemName": "Grime-Encrusted Ring",
+            "quantity": 1,
+            "npcIds": [
+              6212
+            ],
+            "sharing": "shared-roll"
+          }
+        ],
+        "startItem": {
+          "itemId": 9326,
+          "name": "Grime-Encrusted Ring"
+        }
+      },
+      {
+        "questId": 2947,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "You may either keep the ring, or you may find the person responsible for the imprint and engravings on the inside of the band."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            2945
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 2948,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Bring the Brilliant Gold Ring, a Silver Bar, a Moss Agate, and 30 silver coins to Talvash del Kissel in Ironforge."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            2947
+          ]
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 2842,
+            "itemName": "Silver Bar",
+            "quantity": 1,
+            "npcIds": [],
+            "objectIds": [
+              2844,
+              2845,
+              2847,
+              2849,
+              2850,
+              3714,
+              3715,
+              106318,
+              106319,
+              111095
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 2842,
+              "itemFlags": 0
+            }
+          },
+          {
+            "objectiveIndex": 2,
+            "itemId": 1206,
+            "itemName": "Moss Agate",
+            "quantity": 1,
+            "npcIds": [],
+            "objectIds": [
+              1732,
+              1733,
+              2054,
+              2847,
+              2849,
+              2850,
+              2852,
+              2855,
+              3642,
+              3714,
+              3715,
+              3764,
+              4095,
+              4096,
+              73940,
+              74447,
+              74448,
+              75295,
+              75296,
+              75297,
+              75298,
+              75299,
+              75300,
+              103711,
+              105569,
+              105570,
+              105578,
+              105579,
+              106319,
+              111095,
+              152608,
+              152618,
+              153462,
+              179486,
+              179487,
+              179488,
+              179489,
+              181249,
+              181665
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 1206,
+              "itemFlags": 0
+            }
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": []
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Local source-backed pickup review. Preserve eight proofs, add further literal item/object/source matches, and remove only the separately reviewed Filthy Paws source-order heuristic. No live activation, respawn or observed payout claim.\nClient kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.\nClient pickup minima reconciled for quests 631,632,1144,96395; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Quest levels, reward tables and other access requirements unchanged; previous minima retained in resolution provenance.\nComplete client objective membership holds:98386and98418. Matching70205and70450records include additional targets absent from provider/catalog. Prior facts preserved in client-objectives-v184/qualification.json. No missing credit is priced as combat; native index binding and full methods remain unqualified. Efficient Games https://efficient.games, CC BY 4.0.\nExplicit client quest-level corrections accompany complete regenerated reward curves; prior facts retained in client reward resolution provenance. Access masks, pickup minima and objective-method holds unchanged. Client-table values remain estimates, not observed payouts.\nSix sleeping-bag object-route quests appended from matching70205/70450client identities and Wowhead Forever route facts; endpoints are authored coordinates, not provider NPC/object identities. Lower32race bits preserved from client masks; original full masks retained in qualification. No buff, rested, food, deaths or respawn timing assumed.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 2945,
+        "title": "Grime-Encrusted Ring",
+        "minimumLevel": 28,
+        "questLevel": 34,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 9326,
+          "name": "Grime-Encrusted Ring"
+        },
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 2947,
+        "title": "Return of the Ring",
+        "minimumLevel": 28,
+        "questLevel": 34,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 9362,
+          "name": "Brilliant Gold Ring"
+        },
+        "starts": [],
+        "ends": [
+          {
+            "npcId": 6826,
+            "name": "Talvash del Kissel",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 36.38,
+                "y": 3.61
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            2945
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 2948,
+        "title": "Gnome Improvement",
+        "minimumLevel": 28,
+        "questLevel": 35,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 9362,
+          "name": "Brilliant Gold Ring"
+        },
+        "starts": [
+          {
+            "npcId": 6826,
+            "name": "Talvash del Kissel",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 36.38,
+                "y": 3.61
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 6826,
+            "name": "Talvash del Kissel",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 36.38,
+                "y": 3.61
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            2947
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction"
+        ]
+      }
+    ]
+  },
+  "rewards": [
+    {
+      "questId": 2945,
+      "fullXp": 6400,
+      "rewardBasis": "final-reward",
+      "questLevel": 34,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 6400
+        },
+        {
+          "level": 29,
+          "xp": 6400
+        },
+        {
+          "level": 30,
+          "xp": 6400
+        },
+        {
+          "level": 31,
+          "xp": 6400
+        },
+        {
+          "level": 32,
+          "xp": 6400
+        },
+        {
+          "level": 33,
+          "xp": 6400
+        },
+        {
+          "level": 34,
+          "xp": 6400
+        },
+        {
+          "level": 35,
+          "xp": 6400
+        },
+        {
+          "level": 36,
+          "xp": 6400
+        },
+        {
+          "level": 37,
+          "xp": 6400
+        },
+        {
+          "level": 38,
+          "xp": 6400
+        },
+        {
+          "level": 39,
+          "xp": 6400
+        },
+        {
+          "level": 40,
+          "xp": 5150
+        },
+        {
+          "level": 41,
+          "xp": 3850
+        },
+        {
+          "level": 42,
+          "xp": 2550
+        },
+        {
+          "level": 43,
+          "xp": 1300
+        },
+        {
+          "level": 44,
+          "xp": 650
+        },
+        {
+          "level": 45,
+          "xp": 650
+        },
+        {
+          "level": 46,
+          "xp": 650
+        },
+        {
+          "level": 47,
+          "xp": 650
+        },
+        {
+          "level": 48,
+          "xp": 650
+        },
+        {
+          "level": 49,
+          "xp": 650
+        },
+        {
+          "level": 50,
+          "xp": 650
+        },
+        {
+          "level": 51,
+          "xp": 650
+        },
+        {
+          "level": 52,
+          "xp": 650
+        },
+        {
+          "level": 53,
+          "xp": 650
+        },
+        {
+          "level": 54,
+          "xp": 650
+        },
+        {
+          "level": 55,
+          "xp": 650
+        },
+        {
+          "level": 56,
+          "xp": 650
+        },
+        {
+          "level": 57,
+          "xp": 650
+        },
+        {
+          "level": 58,
+          "xp": 650
+        },
+        {
+          "level": 59,
+          "xp": 650
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 2945,
+        "questLevel": 34,
+        "minimumLevel": 28,
+        "difficulty": 5,
+        "baseXp": 2700,
+        "xpMultiplier": 2.375,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2700
+    },
+    {
+      "questId": 2947,
+      "fullXp": 4850,
+      "rewardBasis": "final-reward",
+      "questLevel": 34,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 4850
+        },
+        {
+          "level": 29,
+          "xp": 4850
+        },
+        {
+          "level": 30,
+          "xp": 4850
+        },
+        {
+          "level": 31,
+          "xp": 4850
+        },
+        {
+          "level": 32,
+          "xp": 4850
+        },
+        {
+          "level": 33,
+          "xp": 4850
+        },
+        {
+          "level": 34,
+          "xp": 4850
+        },
+        {
+          "level": 35,
+          "xp": 4850
+        },
+        {
+          "level": 36,
+          "xp": 4850
+        },
+        {
+          "level": 37,
+          "xp": 4850
+        },
+        {
+          "level": 38,
+          "xp": 4850
+        },
+        {
+          "level": 39,
+          "xp": 4850
+        },
+        {
+          "level": 40,
+          "xp": 3900
+        },
+        {
+          "level": 41,
+          "xp": 2900
+        },
+        {
+          "level": 42,
+          "xp": 1950
+        },
+        {
+          "level": 43,
+          "xp": 975
+        },
+        {
+          "level": 44,
+          "xp": 490
+        },
+        {
+          "level": 45,
+          "xp": 490
+        },
+        {
+          "level": 46,
+          "xp": 490
+        },
+        {
+          "level": 47,
+          "xp": 490
+        },
+        {
+          "level": 48,
+          "xp": 490
+        },
+        {
+          "level": 49,
+          "xp": 490
+        },
+        {
+          "level": 50,
+          "xp": 490
+        },
+        {
+          "level": 51,
+          "xp": 490
+        },
+        {
+          "level": 52,
+          "xp": 490
+        },
+        {
+          "level": 53,
+          "xp": 490
+        },
+        {
+          "level": 54,
+          "xp": 490
+        },
+        {
+          "level": 55,
+          "xp": 490
+        },
+        {
+          "level": 56,
+          "xp": 490
+        },
+        {
+          "level": 57,
+          "xp": 490
+        },
+        {
+          "level": 58,
+          "xp": 490
+        },
+        {
+          "level": 59,
+          "xp": 490
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 2947,
+        "questLevel": 34,
+        "minimumLevel": 28,
+        "difficulty": 5,
+        "baseXp": 2700,
+        "xpMultiplier": 1.8,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2700
+    },
+    {
+      "questId": 2948,
+      "fullXp": 2750,
+      "rewardBasis": "final-reward",
+      "questLevel": 35,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 2750
+        },
+        {
+          "level": 29,
+          "xp": 2750
+        },
+        {
+          "level": 30,
+          "xp": 2750
+        },
+        {
+          "level": 31,
+          "xp": 2750
+        },
+        {
+          "level": 32,
+          "xp": 2750
+        },
+        {
+          "level": 33,
+          "xp": 2750
+        },
+        {
+          "level": 34,
+          "xp": 2750
+        },
+        {
+          "level": 35,
+          "xp": 2750
+        },
+        {
+          "level": 36,
+          "xp": 2750
+        },
+        {
+          "level": 37,
+          "xp": 2750
+        },
+        {
+          "level": 38,
+          "xp": 2750
+        },
+        {
+          "level": 39,
+          "xp": 2750
+        },
+        {
+          "level": 40,
+          "xp": 2750
+        },
+        {
+          "level": 41,
+          "xp": 2200
+        },
+        {
+          "level": 42,
+          "xp": 1650
+        },
+        {
+          "level": 43,
+          "xp": 1100
+        },
+        {
+          "level": 44,
+          "xp": 550
+        },
+        {
+          "level": 45,
+          "xp": 280
+        },
+        {
+          "level": 46,
+          "xp": 280
+        },
+        {
+          "level": 47,
+          "xp": 280
+        },
+        {
+          "level": 48,
+          "xp": 280
+        },
+        {
+          "level": 49,
+          "xp": 280
+        },
+        {
+          "level": 50,
+          "xp": 280
+        },
+        {
+          "level": 51,
+          "xp": 280
+        },
+        {
+          "level": 52,
+          "xp": 280
+        },
+        {
+          "level": 53,
+          "xp": 280
+        },
+        {
+          "level": 54,
+          "xp": 280
+        },
+        {
+          "level": 55,
+          "xp": 280
+        },
+        {
+          "level": 56,
+          "xp": 280
+        },
+        {
+          "level": 57,
+          "xp": 280
+        },
+        {
+          "level": 58,
+          "xp": 280
+        },
+        {
+          "level": 59,
+          "xp": 280
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 2948,
+        "questLevel": 35,
+        "minimumLevel": 28,
+        "difficulty": 5,
+        "baseXp": 2750,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2750
+    }
+  ]
+}

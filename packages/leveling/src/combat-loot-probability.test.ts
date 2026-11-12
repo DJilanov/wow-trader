@@ -56,23 +56,71 @@ function quota(value: QuestLootDrop): ReturnType<typeof resolveCombatQuota> {
   };
   return resolveCombatQuota(objective, combat, 1, "expected");
 }
-describe("quest-eligible loot probability selection", () => {
-  it("uses a separate historical quest roll instead of an aggregate sample and preserves the capture", () => {
+describe("captured loot probability selection", () => {
+  it("uses the captured bandana rate for the full party instead of the historical eighty percent", () => {
+    const value = drop();
+    const bandana: QuestLootDrop = {
+      ...value,
+      itemId: 752,
+      npcId: 38,
+      probability: 9 / 19,
+      sampleSize: 19,
+      sourceUrl: "https://www.wowhead.com/forever/item=752/red-burlap-bandana",
+      capturedAt: "2026-10-20T07:02:34.980Z",
+      probabilityReference: {
+        ...value.probabilityReference!,
+        itemId: 752,
+        npcId: 38,
+        probability: 0.8,
+      },
+    };
+    const objective: CombatObjective = {
+      questId: 18,
+      objectiveIndex: 1,
+      npcIds: [38],
+      requiredKills: null,
+      credit: "personal-loot",
+      source: "Northshire bandana objective",
+      reason: null,
+      loot: { itemId: 752, quantity: 12, sharing: "pooled" },
+    };
+    const combat: CampaignCombatPlan = {
+      revision: "fixture",
+      sourceRevision: "fixture",
+      targetBuild: 70205,
+      npcs: [],
+      activities: [],
+      notice: null,
+      lootDrops: [bandana],
+    };
+    const before = structuredClone(bandana);
+    const result = resolveCombatQuota(objective, combat, 5, "expected");
+    expect(result).toMatchObject({ kills: 127 });
+    expect(result.lootEstimate!.expectedKills).toBeCloseTo(60 / (9 / 19));
+    expect(result.source).toContain("Captured drop-table estimate");
+    expect(result.source).toContain(bandana.sourceUrl);
+    expect(bandana).toEqual(before);
+  });
+
+  it("uses the captured estimate ahead of historical context and preserves both records", () => {
     const value = drop(),
       before = JSON.stringify(value);
     const result = quota(value);
-    expect(result).toMatchObject({ kills: 20, lootEstimate: { expectedKills: 20 } });
-    expect(result.source).toContain("quest-roll probability 0.5");
-    expect(result.source).toContain("not a measured Forever rate");
+    expect(result).toMatchObject({ kills: 46, lootEstimate: { expectedKills: 10 / 0.22 } });
+    expect(result.source).toContain("Captured drop-table estimate 0.22");
+    expect(result.source).toContain(value.capturedAt);
+    expect(result.source).toContain(value.sourceUrl);
+    expect(result.source).not.toContain("quest-roll probability");
     expect(JSON.stringify(value)).toBe(before);
     expect(value.probability).toBe(0.22);
   });
-  it("holds aggregate samples whose eligible attempts are unknown", () => {
+  it("labels a fixed-one captured sample as an estimate without requiring a historical rate", () => {
     const value = drop();
     delete value.probabilityReference;
     expect(quota(value)).toMatchObject({
-      kills: null,
-      reason: expect.stringContaining("quest eligibility"),
+      kills: 46,
+      reason: null,
+      source: expect.stringContaining("Captured drop-table estimate 0.22"),
     });
   });
   it("retains the sample rate when historical context establishes an ordinary drop", () => {

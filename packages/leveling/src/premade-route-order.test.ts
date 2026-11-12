@@ -13,9 +13,9 @@ const orderedIds = [
   "blackfathom",
   "stockade",
   "excavation",
-  "dalaran",
   "razorfen-kraul",
   "gnomeregan",
+  "dalaran",
   "drowned-city",
   "scarlet-monastery",
   "razorfen-downs",
@@ -43,6 +43,10 @@ function route(): ReturnType<typeof buildCampaignPlan> {
       ...[115, 116, 117, 125].map((id) => source(id, "step\n>>Train and travel")),
       source(18, "step\n.accept 261\nstep\n.complete 261,1\nstep\n.turnin 261\n.accept 1052"),
       source(21, "step\n.turnin 1052"),
+      source(
+        14,
+        "step\n.accept 681\nstep\n.complete 681,1\nstep\n.turnin 681\nstep\n.accept 564\nstep\n.complete 564,1\nstep\n.turnin 564",
+      ),
       source(29, "step\n.accept 1690\nstep\n.complete 1690,1\nstep\n.turnin 1690"),
     ],
     "warrior",
@@ -63,7 +67,7 @@ describe("level-appropriate premade dungeon progression", () => {
   });
 
   it.each(["at-level", "experienced-premade"] as const)(
-    "has no backwards dungeon targets under %s, including selected extras",
+    "keeps default targets ordered under %s and shows the actual floor with extras",
     (difficultyPolicy) => {
       for (const raidGoals of [false, true])
         for (const extras of [false, true]) {
@@ -81,7 +85,17 @@ describe("level-appropriate premade dungeon progression", () => {
               : {},
           };
           const levels = PREMADE_STOPS.map((stop) => premadeEntryLevel(stop, progress));
-          expect(levels).toEqual([...levels].sort((left, right) => left - right));
+          if (!extras) expect(levels).toEqual([...levels].sort((left, right) => left - right));
+          else {
+            expect(levels[orderedIds.indexOf("stockade")]).toBe(27);
+            expect(levels[orderedIds.indexOf("excavation")]).toBe(26);
+            const withoutOptionalPreparation = levels.filter(
+              (_, index) => orderedIds[index] !== "stockade",
+            );
+            expect(withoutOptionalPreparation).toEqual(
+              [...withoutOptionalPreparation].sort((left, right) => left - right),
+            );
+          }
           const guide = forecastCampaignGuide(route(), progress);
           const targets = guide.sections
             .filter((section) => section.chapter.kind === "dungeon")
@@ -93,7 +107,7 @@ describe("level-appropriate premade dungeon progression", () => {
 
   it("uses the corrected conservative levels without postponing lower-level runs", () => {
     expect(PREMADE_STOPS.map((stop) => premadeEntryLevel(stop, emptyPremadeProgress()))).toEqual([
-      14, 19, 20, 25, 26, 29, 31, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 60, 60,
+      14, 19, 20, 23, 24, 26, 29, 29, 31, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 60, 60,
     ]);
   });
 
@@ -103,6 +117,17 @@ describe("level-appropriate premade dungeon progression", () => {
     expect(index("ashenvale-crossing")).toBeLessThan(index("dungeon-blackfathom"));
     expect(index("dungeon-blackfathom")).toBeLessThan(index("wetlands-prerequisites"));
     expect(index("lonebrow-rfk-preparation")).toBeLessThan(index("dungeon-razorfen-kraul"));
+    expect(index("dungeon-razorfen-kraul")).toBeLessThan(index("dungeon-gnomeregan"));
+    expect(index("dungeon-gnomeregan")).toBeLessThan(index("dungeon-dalaran"));
+    expect(index("hillsbrad-party-kills")).toBeGreaterThan(index("dungeon-dalaran"));
+    expect(index("hillsbrad-party-kills")).toBeLessThan(index("desolace-scarlet-unlock"));
+    expect(
+      plan.actions
+        .filter((action) =>
+          action.questChanges.some((change) => [681, 564].includes(change.questId)),
+        )
+        .map((action) => action.legId),
+    ).toEqual(Array(6).fill("hillsbrad-party-kills"));
     expect(index("desolace-scarlet-unlock")).toBeGreaterThan(index("dungeon-gnomeregan"));
     expect(index("desolace-scarlet-unlock")).toBeLessThan(index("dungeon-scarlet-monastery"));
     expect(index("razorfen-downs-approach")).toBeLessThan(index("dungeon-razorfen-downs"));

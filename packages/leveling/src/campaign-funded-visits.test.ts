@@ -17,6 +17,7 @@ import { CHAPTER_REFERENCES } from "./chapter-data.js";
 import { parseGuideChapter } from "./guide-archive.js";
 import { attachCampaignLocations } from "./campaign-flow-locations.js";
 import { batchCampaignVisitWindows } from "./campaign-visit-windows.js";
+import { campaignTimedQuestMethodIssues } from "./campaign-quest-timing.js";
 
 const seedId = 420001,
   farId = 420002,
@@ -223,6 +224,110 @@ function sourceStep(input: ReturnType<typeof fixture>, body: string): CampaignAc
 }
 
 describe("funded visits preserve reached levels and source work", () => {
+  it("retains approved actions when an unlocked optimizer would reorder them", () => {
+    const input = fixture(), original = structuredClone(input.plan);
+    const unlocked = batch(input);
+    expect(unlocked.actions.map((action) => action.id)).not.toEqual(input.plan.actions.map((action) => action.id));
+    const result = batchFundedCampaignVisits(input.plan, input.sources, input.combat, input.catalog,
+      campaignFundingStates, new Set(["seed", "far-first"]));
+    expect(result.actions.slice(0, 2)).toEqual(input.plan.actions.slice(0, 2));
+    expect(input.plan).toEqual(original);
+  });
+
+  it("skips a wholly approved leg without replaying or rewriting it", () => {
+    const input = fixture();
+    const result = batchFundedCampaignVisits(input.plan, input.sources, input.combat, input.catalog,
+      (): never => { throw new Error("Locked legs must not be evaluated for rescheduling"); },
+      new Set(input.plan.actions.map((action) => action.id)));
+    expect(result).toBe(input.plan);
+  });
+
+  it("can move a complete timed visit without locking it to its original route position", () => {
+    const input = fixture();
+    input.catalog = {
+      ...input.catalog,
+      quests: input.catalog.quests.map((quest) =>
+        quest.questId === farId ? { ...quest, timeLimitSeconds: 900 } : quest,
+      ),
+    };
+    const result = batch(input);
+    const ids = result.actions.map((action) => action.id);
+    expect(ids.indexOf("near")).toBeLessThan(ids.indexOf("far-first"));
+    expect(
+      campaignTimedQuestMethodIssues(result.actions, [
+        { questId: farId, title: "Timed patrol", timeLimitSeconds: 900 },
+      ]).size,
+    ).toBe(0);
+  });
+
+
+  it("keeps a timed attempt together before deadline metadata is attached to actions", () => {
+    const input = fixture();
+    const pickup = {
+      ...action("timed-accept", "1453", farId),
+      questChanges: [change(farId, "accepted")],
+    };
+    const objective = {
+      ...action("timed-objective", "1436", farId),
+      questChanges: [change(farId, "objectives-complete")],
+    };
+    const handIn = {
+      ...action("timed-return", "1453", farId),
+      questChanges: [change(farId, "rewarded")],
+    };
+    const actions = [
+      input.plan.actions[0]!,
+      pickup,
+      objective,
+      handIn,
+      ...input.plan.actions.slice(2),
+    ];
+    input.catalog = {
+      ...input.catalog,
+      quests: input.catalog.quests.map((quest) =>
+        quest.questId === farId
+          ? {
+              ...quest,
+              timeLimitSeconds: 900,
+              starts: quest.starts.map((giver) => ({
+                ...giver,
+                positions: [{ zone: "1453", x: 50, y: 50 }],
+              })),
+              ends: quest.ends.map((giver) => ({
+                ...giver,
+                positions: [{ zone: "1453", x: 50, y: 50 }],
+              })),
+            }
+          : quest,
+      ),
+    };
+    input.plan = attachCampaignCombat(
+      {
+        ...input.plan,
+        actions,
+        legs: input.plan.legs.map((leg) => ({
+          ...leg,
+          actionIds: actions.filter((action) => action.legId === leg.id).map((action) => action.id),
+        })),
+      },
+      [],
+      input.combat,
+      "timed-test",
+    );
+    const timings = [{ questId: farId, title: "Timed patrol", timeLimitSeconds: 900 }];
+    expect(input.plan.questTimings).toBeUndefined();
+    expect(campaignTimedQuestMethodIssues(input.plan.actions, timings).size).toBe(0);
+    const result = batch(input);
+    expect(campaignTimedQuestMethodIssues(result.actions, timings).size).toBe(0);
+    const at = result.actions.findIndex((action) => action.id === pickup.id);
+    expect(result.actions.slice(at, at + 3).map((action) => action.id)).toEqual([
+      pickup.id,
+      objective.id,
+      handIn.id,
+    ]);
+  });
+
+
   it("batches generated tasks without relying on pre-attached locations or changing rewards and action identities", () => {
     const input = fixture(),
       frozen = JSON.stringify(input);
@@ -242,7 +347,7 @@ describe("funded visits preserve reached levels and source work", () => {
     expect(next.legs[1]!.actionIds).toEqual(["near", "far-first", "far-second", "departure"]);
     const before = campaignFundingStates(input.plan),
       after = campaignFundingStates(next);
-    expect(after).toHaveLength(16);
+    expect(after).toHaveLength(48);
     expect(
       after.map((state) => state.forecast.at(-1)!.members.map((member) => member.knownEndpoint)),
     ).toEqual(
@@ -252,7 +357,7 @@ describe("funded visits preserve reached levels and source work", () => {
     expect(JSON.stringify(input)).toBe(frozen);
   });
 
-  it("keeps a reward that crosses a level fixed", () => {
+  it("allows a level transition to move when the complete replay preserves safe progress", () => {
     const input = fixture();
     input.plan = {
       ...input.plan,
@@ -260,10 +365,25 @@ describe("funded visits preserve reached levels and source work", () => {
         fact.questId === nearId ? { ...fact, fullXp: 850 } : fact,
       ),
     };
-    expect(batch(input)).toBe(input.plan);
+    const result = batch(input);
+    expect(result.actions.map((entry) => entry.id)).toEqual([
+      "seed",
+      "near",
+      "far-first",
+      "far-second",
+      "departure",
+      "exit",
+    ]);
+    const before = campaignFundingStates(input.plan),
+      after = campaignFundingStates(result);
+    expect(
+      after.map((state) => state.forecast.at(-1)!.members.map((member) => member.knownEndpoint)),
+    ).toEqual(
+      before.map((state) => state.forecast.at(-1)!.members.map((member) => member.knownEndpoint)),
+    );
   });
 
-  it("keeps a level crossing fixed even when only the omitted-raid-goals configurations reach it", () => {
+  it("rechecks both included and omitted optional goals when moving a level transition", () => {
     const input = fixture();
     replace(input, "seed", (entry) => ({ ...entry, raidOnly: true }));
     input.plan = {
@@ -272,6 +392,45 @@ describe("funded visits preserve reached levels and source work", () => {
         fact.questId === nearId ? { ...fact, fullXp: 350 } : fact,
       ),
     };
+    const result = batch(input);
+    expect(result.actions.map((entry) => entry.id)).toEqual([
+      "seed",
+      "near",
+      "far-first",
+      "far-second",
+      "departure",
+      "exit",
+    ]);
+    const before = campaignFundingStates(input.plan),
+      after = campaignFundingStates(result);
+    expect(
+      after.map((state) => state.forecast.at(-1)!.members.map((member) => member.knownEndpoint)),
+    ).toEqual(
+      before.map((state) => state.forecast.at(-1)!.members.map((member) => member.knownEndpoint)),
+    );
+  });
+
+  it("rejects a shorter journey when an earlier reward is needed for a real pickup level", () => {
+    const input = fixture();
+    input.catalog.quests.find((quest) => quest.questId === nearId)!.minimumLevel = 3;
+    input.plan = {
+      ...input.plan,
+      rewardFacts: input.plan.rewardFacts!.map((fact) =>
+        fact.questId === farId
+          ? { ...fact, fullXp: 900 }
+          : fact.questId === nearId
+            ? { ...fact, minimumLevel: 3 }
+            : fact,
+      ),
+    };
+    const before = campaignFundingStates(input.plan);
+    expect(
+      before.every((state) =>
+        state.forecast.every((section) =>
+          section.members.every((member) => !member.blockedAtActionId),
+        ),
+      ),
+    ).toBe(true);
     expect(batch(input)).toBe(input.plan);
   });
 
@@ -358,8 +517,8 @@ describe("funded visits preserve reached levels and source work", () => {
 
   it("rechecks existing action IDs when a combat action is rescheduled", () => {
     const input = fixture();
-    input.combat.npcs[0]!.maximumLevel = 6;
     const states = campaignFundingStates(input.plan);
+    input.combat.npcs[0]!.maximumLevel = 7;
     expect(unsafePartyFundingScenarios(input.plan, states, input.catalog, input.combat)).toEqual(
       [],
     );
@@ -372,7 +531,7 @@ describe("funded visits preserve reached levels and source work", () => {
         undefined,
         new Set(["near"]),
       ),
-    ).toHaveLength(16);
+    ).toHaveLength(48);
   });
 
   it("rejects a pickup that would become the forty-first active quest", () => {

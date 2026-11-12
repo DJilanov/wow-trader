@@ -195,7 +195,7 @@ describe("first-clear finish task compilation", () => {
     input.plan = {
       ...input.plan,
       questFunding: {
-        revision: "explicit-quest-funding-20261101-v22",
+        revision: "explicit-quest-funding-20261105-v81",
         providerRevision: FINISH_PROVIDER_REVISION,
         addedQuestIds: [],
         remaining: [
@@ -208,7 +208,7 @@ describe("first-clear finish task compilation", () => {
       },
     };
     const plan = refreshCampaignFundingReview(compileCampaignFinish(input.plan, input.catalog));
-    expect(plan.questFunding?.scenarios).toHaveLength(16);
+    expect(plan.questFunding?.scenarios).toHaveLength(48);
     expect(
       plan.questFunding?.remaining.some(
         (gap) => gap.checkpointId === "level-60-finish-dungeon-circuit",

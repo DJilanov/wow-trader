@@ -6,6 +6,7 @@ import {
   type JointLootComponent,
 } from "./loot-joint-distribution.js";
 import { plannedLootKills, type LootScenario } from "./quest-loot.js";
+import { ceilLootKillMean } from "./loot-kill-rounding.js";
 
 export type JointCombatQuota =
   | {
@@ -91,7 +92,8 @@ export function resolveJointCombatQuota(
   if (estimate.status === "unknown") return estimate;
   if (
     scenario === "expected" &&
-    Math.ceil(estimate.expectedKillsLowerBound) !== Math.ceil(estimate.expectedKillsUpperBound)
+    ceilLootKillMean(estimate.expectedKillsLowerBound) !==
+      ceilLootKillMean(estimate.expectedKillsUpperBound)
   )
     return unknown("Joint mean crosses an unresolved integer kill-budget boundary.");
   return {

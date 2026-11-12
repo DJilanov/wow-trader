@@ -170,6 +170,7 @@ describe("checkpoint budget regressions", () => {
       status: "shortfall",
       combatXp: 0,
       estimatedCombatXp: 0,
+      incidentalCombatXp: 0,
       evidence: { combat: "verified", reward: "verified" },
     });
     expect(member.checkpoints).toContainEqual(
@@ -462,8 +463,8 @@ describe("checkpoint budget regressions", () => {
         {
           id: "stockade",
           title: "Stockade",
-          from: 26,
-          to: 27,
+          from: 24,
+          to: 25,
           kind: "dungeon",
           stopId: "stockade",
           actionIds: [entry.id],
@@ -473,7 +474,7 @@ describe("checkpoint budget regressions", () => {
         {
           id: "excavation",
           title: "Excavation",
-          from: 27,
+          from: 26,
           to: 28,
           kind: "dungeon",
           stopId: "excavation",
@@ -483,12 +484,26 @@ describe("checkpoint budget regressions", () => {
         },
       ],
     };
-    const member = forecastCampaignXp(plan, party(26))[0]!.members[0]!;
-    expect(member.checkpoints[0]!.targetLevel).toBe(26);
-    expect(member.targetLevel).toBe(26);
+    const member = forecastCampaignXp(plan, party(24))[0]!.members[0]!;
+    expect(member.checkpoints[0]!.targetLevel).toBe(24);
+    expect(member.targetLevel).toBe(24);
     expect(member.status).toBe("covered");
-    const chapters = auditCampaignSections(plan, party(26));
-    expect(chapters.map((chapter) => chapter.referenceEntryLevel)).toEqual([26, 29]);
+    const chapters = auditCampaignSections(plan, party(24));
+    expect(chapters.map((chapter) => chapter.referenceEntryLevel)).toEqual([24, 26]);
+  });
+
+  it("keeps an overleveled party's actual bar when a later dungeon has a lower minimum", () => {
+    const entries = (["stockade", "excavation"] as const).map((stopId): CampaignAction => ({
+      ...action(`${stopId}-entry`, "zone"), kind: "checkpoint", targetStopId: stopId,
+    }));
+    const progress = party(27, 123), before = structuredClone(progress);
+    for (const member of forecastCampaignXp(route(entries, "dungeon", 24, 26), progress)[0]!.members) {
+      expect(member.checkpoints.map((checkpoint) => checkpoint.targetLevel)).toEqual([24, 26]);
+      expect(member.checkpoints.every((checkpoint) => checkpoint.ready)).toBe(true);
+      expect(member.knownEndpoint).toEqual({ level: 27, currentXp: 123 });
+      expect(member.blockedAtActionId).toBeNull();
+    }
+    expect(progress).toEqual(before);
   });
 
   it("does not pay a hand-in before every modeled objective has completed", () => {

@@ -1,0 +1,1862 @@
+{
+  "schema": "sleeping-bag-reference-review.v1",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "targetBuild": 70205,
+  "routeSource": "https://www.wowhead.com/forever/guide/cozy-sleeping-bag-locations-rewards",
+  "sourceFiles": [
+    {
+      "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+    },
+    {
+      "file": "artifacts/leveling-evidence/leveling-20261004T101848Z/evidence.json",
+      "sha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324"
+    },
+    {
+      "file": "artifacts/leveling-evidence/leveling-20261004T101848Z/db2/QuestXP.db2",
+      "sha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1"
+    },
+    {
+      "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+    },
+    {
+      "file": "artifacts/leveling-evidence/leveling-20261018T190302Z/evidence.json",
+      "sha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f"
+    },
+    {
+      "file": "artifacts/leveling-evidence/leveling-20261018T190302Z/db2/QuestXP.db2",
+      "sha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1"
+    }
+  ],
+  "snapshots": [
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sourceSha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 18,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70205",
+          "collectedOn": {
+            "first": "2026-10-03",
+            "last": "2026-10-05"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 2
+        },
+        "quests": {
+          "79008": {
+            "description": "<The faint radiance of the embers darkening, you stumble across the remnants of a recent fire.\r\n\r\nAmidst the scattered provisions, you discover a blistered note.>\r\n\r\n\"Not all that burns is lost. Find the twin land, find the place.\"",
+            "flags": 34603520,
+            "level": 22,
+            "minLevel": 14,
+            "nextQuestId": 79192,
+            "objectivesText": "Charred remains of the note serve as your only guide.",
+            "questType": 2,
+            "raceMask": "55155555b1354c4d",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "... and that note you found",
+            "zoneAreaId": 40
+          },
+          "79192": {
+            "description": "The note begins, \"Mission said they were both making deliveries for New Plague. Looks like simple apothecary accidents to me. Find my cozy spot in the mountains between The Barrens and Desolace if you want a safe place to talk.\"",
+            "flags": 34603552,
+            "level": 24,
+            "minLevel": 14,
+            "nextQuestId": 79980,
+            "objectivesText": "You tear the note from the plank and read the scrawled writing.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Stepping Stones",
+            "zoneAreaId": 17
+          },
+          "79974": {
+            "description": "\"Always like to keep a reserve stash nearby in the off chance I've got to flee in a hurry.\r\n\r\nThe face of this mountainside is so beautiful you might say it was carved from the waterfalls of time. \r\nThat's the eagles nest, that's what you're looking for.\"",
+            "flags": 34603520,
+            "level": 32,
+            "minLevel": 14,
+            "nextQuestId": 79975,
+            "objectivesText": "Dusting off a messenger bag emerging from the soil, you find a parchment nestled among the supplies.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Wet Job",
+            "zoneAreaId": 406
+          },
+          "79975": {
+            "description": "<You find a carefully folded letter inside of the toolbox.>\r\n\r\n\"From here, with the right tools, you call the shots. Great place to launch a parachute glider.\r\n\r\nMy loyalty to the Eagle and Fist requires distance in order to serve them best. This barricade has had better days, like the Old Kingdoms it once defended, but I'll never abandon it.\"",
+            "flags": 34603552,
+            "level": 32,
+            "minLevel": 14,
+            "nextQuestId": 79976,
+            "objectivesText": "Water spray dampens the air, the view is incredible.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Eagle's Fist",
+            "zoneAreaId": 146
+          },
+          "79976": {
+            "description": "\"So, I've decided to take my work back underground. To stop it falling into the wrong hands.\"\r\n\r\n<The paper is torn just large enough to fit the message. You aren't sure if these are the last words you'll read from the author, or if they're a clue to the next hideout. An inadequately secured sleeping bag is unrolling itself onto your feet...>",
+            "flags": 34603552,
+            "level": 32,
+            "minLevel": 14,
+            "objectivesText": "Whoever was here, you just missed them.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 4,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "This Must Be The Place",
+            "zoneAreaId": 293
+          },
+          "79980": {
+            "description": "\"Not so bad, eh? Since you're reading this, it means my stash is still there. Take a hundred paces due north and don't break your ankles going down the steep cliffside. There should be enough to keep you going.\"",
+            "flags": 34603552,
+            "level": 24,
+            "minLevel": 14,
+            "nextQuestId": 79974,
+            "objectivesText": "Find what awaits you.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 1,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Scramble",
+            "zoneAreaId": 406
+          }
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sourceSha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 82,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70450",
+          "collectedOn": {
+            "first": "2026-10-17",
+            "last": "2026-10-22"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 5
+        },
+        "quests": {
+          "79008": {
+            "description": "<The faint radiance of the embers darkening, you stumble across the remnants of a recent fire.\r\n\r\nAmidst the scattered provisions, you discover a blistered note.>\r\n\r\n\"Not all that burns is lost. Find the twin land, find the place.\"",
+            "flags": 34603520,
+            "level": 22,
+            "minLevel": 14,
+            "nextQuestId": 79192,
+            "objectivesText": "Charred remains of the note serve as your only guide.",
+            "questType": 2,
+            "raceMask": "55155555b1354c4d",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 3,
+            "title": "... and that note you found",
+            "zoneAreaId": 40
+          },
+          "79192": {
+            "description": "The note begins, \"Mission said they were both making deliveries for New Plague. Looks like simple apothecary accidents to me. Find my cozy spot in the mountains between The Barrens and Desolace if you want a safe place to talk.\"",
+            "flags": 34603552,
+            "level": 24,
+            "minLevel": 14,
+            "nextQuestId": 79980,
+            "objectivesText": "You tear the note from the plank and read the scrawled writing.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Stepping Stones",
+            "zoneAreaId": 17
+          },
+          "79974": {
+            "description": "\"Always like to keep a reserve stash nearby in the off chance I've got to flee in a hurry.\r\n\r\nThe face of this mountainside is so beautiful you might say it was carved from the waterfalls of time. \r\nThat's the eagles nest, that's what you're looking for.\"",
+            "flags": 34603520,
+            "level": 32,
+            "minLevel": 14,
+            "nextQuestId": 79975,
+            "objectivesText": "Dusting off a messenger bag emerging from the soil, you find a parchment nestled among the supplies.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 3,
+            "title": "Wet Job",
+            "zoneAreaId": 406
+          },
+          "79975": {
+            "description": "<You find a carefully folded letter inside of the toolbox.>\r\n\r\n\"From here, with the right tools, you call the shots. Great place to launch a parachute glider.\r\n\r\nMy loyalty to the Eagle and Fist requires distance in order to serve them best. This barricade has had better days, like the Old Kingdoms it once defended, but I'll never abandon it.\"",
+            "flags": 34603552,
+            "level": 32,
+            "minLevel": 14,
+            "nextQuestId": 79976,
+            "objectivesText": "Water spray dampens the air, the view is incredible.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 5,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Eagle's Fist",
+            "zoneAreaId": 146
+          },
+          "79976": {
+            "description": "\"So, I've decided to take my work back underground. To stop it falling into the wrong hands.\"\r\n\r\n<The paper is torn just large enough to fit the message. You aren't sure if these are the last words you'll read from the author, or if they're a clue to the next hideout. An inadequately secured sleeping bag is unrolling itself onto your feet...>",
+            "flags": 34603552,
+            "level": 32,
+            "minLevel": 14,
+            "objectivesText": "Whoever was here, you just missed them.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 4,
+              "xpMultiplier": 1
+            },
+            "sources": 4,
+            "title": "This Must Be The Place",
+            "zoneAreaId": 293
+          },
+          "79980": {
+            "description": "\"Not so bad, eh? Since you're reading this, it means my stash is still there. Take a hundred paces due north and don't break your ankles going down the steep cliffside. There should be enough to keep you going.\"",
+            "flags": 34603552,
+            "level": 24,
+            "minLevel": 14,
+            "nextQuestId": 79974,
+            "objectivesText": "Find what awaits you.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "xpDifficulty": 1,
+              "xpMultiplier": 1
+            },
+            "sources": 2,
+            "title": "Scramble",
+            "zoneAreaId": 406
+          }
+        }
+      }
+    }
+  ],
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Local source-backed pickup review. Preserve eight proofs, add further literal item/object/source matches, and remove only the separately reviewed Filthy Paws source-order heuristic. No live activation, respawn or observed payout claim.\nClient kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.\nClient pickup minima reconciled for quests 631,632,1144,96395; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Quest levels, reward tables and other access requirements unchanged; previous minima retained in resolution provenance.\nComplete client objective membership holds:98386and98418. Matching70205and70450records include additional targets absent from provider/catalog. Prior facts preserved in client-objectives-v184/qualification.json. No missing credit is priced as combat; native index binding and full methods remain unqualified. Efficient Games https://efficient.games, CC BY 4.0.\nExplicit client quest-level corrections accompany complete regenerated reward curves; prior facts retained in client reward resolution provenance. Access masks, pickup minima and objective-method holds unchanged. Client-table values remain estimates, not observed payouts.\nSix sleeping-bag object-route quests appended from matching70205/70450client identities and Wowhead Forever route facts; endpoints are authored coordinates, not provider NPC/object identities. Lower32race bits preserved from client masks; original full masks retained in qualification. No buff, rested, food, deaths or respawn timing assumed.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 79008,
+        "title": "... and that note you found",
+        "minimumLevel": 14,
+        "questLevel": 22,
+        "requiredRaces": 2973060173,
+        "requiredClasses": 0,
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [
+          79007
+        ],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "reviewed-sleeping-bag-object-route"
+        ]
+      },
+      {
+        "questId": 79192,
+        "title": "Stepping Stones",
+        "minimumLevel": 14,
+        "questLevel": 24,
+        "requiredRaces": 4294967295,
+        "requiredClasses": 0,
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [
+            79008
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "reviewed-sleeping-bag-object-route"
+        ]
+      },
+      {
+        "questId": 79980,
+        "title": "Scramble",
+        "minimumLevel": 14,
+        "questLevel": 24,
+        "requiredRaces": 4294967295,
+        "requiredClasses": 0,
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [
+            79192
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "reviewed-sleeping-bag-object-route"
+        ]
+      },
+      {
+        "questId": 79974,
+        "title": "Wet Job",
+        "minimumLevel": 14,
+        "questLevel": 32,
+        "requiredRaces": 4294967295,
+        "requiredClasses": 0,
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [
+            79980
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "reviewed-sleeping-bag-object-route"
+        ]
+      },
+      {
+        "questId": 79975,
+        "title": "Eagle's Fist",
+        "minimumLevel": 14,
+        "questLevel": 32,
+        "requiredRaces": 4294967295,
+        "requiredClasses": 0,
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [
+            79974
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "reviewed-sleeping-bag-object-route"
+        ]
+      },
+      {
+        "questId": 79976,
+        "title": "This Must Be The Place",
+        "minimumLevel": 14,
+        "questLevel": 32,
+        "requiredRaces": 4294967295,
+        "requiredClasses": 0,
+        "starts": [],
+        "ends": [],
+        "prerequisites": {
+          "allOf": [
+            79975
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "reviewed-sleeping-bag-object-route"
+        ]
+      }
+    ]
+  },
+  "rewardFacts": [
+    {
+      "questId": 79008,
+      "fullXp": 1750,
+      "rewardBasis": "final-reward",
+      "questLevel": 22,
+      "minimumLevel": 14,
+      "xpByLevel": [
+        {
+          "level": 14,
+          "xp": 1750
+        },
+        {
+          "level": 15,
+          "xp": 1750
+        },
+        {
+          "level": 16,
+          "xp": 1750
+        },
+        {
+          "level": 17,
+          "xp": 1750
+        },
+        {
+          "level": 18,
+          "xp": 1750
+        },
+        {
+          "level": 19,
+          "xp": 1750
+        },
+        {
+          "level": 20,
+          "xp": 1750
+        },
+        {
+          "level": 21,
+          "xp": 1750
+        },
+        {
+          "level": 22,
+          "xp": 1750
+        },
+        {
+          "level": 23,
+          "xp": 1750
+        },
+        {
+          "level": 24,
+          "xp": 1750
+        },
+        {
+          "level": 25,
+          "xp": 1750
+        },
+        {
+          "level": 26,
+          "xp": 1750
+        },
+        {
+          "level": 27,
+          "xp": 1750
+        },
+        {
+          "level": 28,
+          "xp": 1400
+        },
+        {
+          "level": 29,
+          "xp": 1050
+        },
+        {
+          "level": 30,
+          "xp": 700
+        },
+        {
+          "level": 31,
+          "xp": 350
+        },
+        {
+          "level": 32,
+          "xp": 180
+        },
+        {
+          "level": 33,
+          "xp": 180
+        },
+        {
+          "level": 34,
+          "xp": 180
+        },
+        {
+          "level": 35,
+          "xp": 180
+        },
+        {
+          "level": 36,
+          "xp": 180
+        },
+        {
+          "level": 37,
+          "xp": 180
+        },
+        {
+          "level": 38,
+          "xp": 180
+        },
+        {
+          "level": 39,
+          "xp": 180
+        },
+        {
+          "level": 40,
+          "xp": 180
+        },
+        {
+          "level": 41,
+          "xp": 180
+        },
+        {
+          "level": 42,
+          "xp": 180
+        },
+        {
+          "level": 43,
+          "xp": 180
+        },
+        {
+          "level": 44,
+          "xp": 180
+        },
+        {
+          "level": 45,
+          "xp": 180
+        },
+        {
+          "level": 46,
+          "xp": 180
+        },
+        {
+          "level": 47,
+          "xp": 180
+        },
+        {
+          "level": 48,
+          "xp": 180
+        },
+        {
+          "level": 49,
+          "xp": 180
+        },
+        {
+          "level": 50,
+          "xp": 180
+        },
+        {
+          "level": 51,
+          "xp": 180
+        },
+        {
+          "level": 52,
+          "xp": 180
+        },
+        {
+          "level": 53,
+          "xp": 180
+        },
+        {
+          "level": 54,
+          "xp": 180
+        },
+        {
+          "level": 55,
+          "xp": 180
+        },
+        {
+          "level": 56,
+          "xp": 180
+        },
+        {
+          "level": 57,
+          "xp": 180
+        },
+        {
+          "level": 58,
+          "xp": 180
+        },
+        {
+          "level": 59,
+          "xp": 180
+        }
+      ],
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 79008,
+        "questLevel": 22,
+        "minimumLevel": 14,
+        "difficulty": 5,
+        "baseXp": 1750,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1750,
+      "capturedAt": "2026-11-03T14:13:45.961Z",
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified."
+    },
+    {
+      "questId": 79192,
+      "fullXp": 1950,
+      "rewardBasis": "final-reward",
+      "questLevel": 24,
+      "minimumLevel": 14,
+      "xpByLevel": [
+        {
+          "level": 14,
+          "xp": 1950
+        },
+        {
+          "level": 15,
+          "xp": 1950
+        },
+        {
+          "level": 16,
+          "xp": 1950
+        },
+        {
+          "level": 17,
+          "xp": 1950
+        },
+        {
+          "level": 18,
+          "xp": 1950
+        },
+        {
+          "level": 19,
+          "xp": 1950
+        },
+        {
+          "level": 20,
+          "xp": 1950
+        },
+        {
+          "level": 21,
+          "xp": 1950
+        },
+        {
+          "level": 22,
+          "xp": 1950
+        },
+        {
+          "level": 23,
+          "xp": 1950
+        },
+        {
+          "level": 24,
+          "xp": 1950
+        },
+        {
+          "level": 25,
+          "xp": 1950
+        },
+        {
+          "level": 26,
+          "xp": 1950
+        },
+        {
+          "level": 27,
+          "xp": 1950
+        },
+        {
+          "level": 28,
+          "xp": 1950
+        },
+        {
+          "level": 29,
+          "xp": 1950
+        },
+        {
+          "level": 30,
+          "xp": 1550
+        },
+        {
+          "level": 31,
+          "xp": 1150
+        },
+        {
+          "level": 32,
+          "xp": 775
+        },
+        {
+          "level": 33,
+          "xp": 390
+        },
+        {
+          "level": 34,
+          "xp": 200
+        },
+        {
+          "level": 35,
+          "xp": 200
+        },
+        {
+          "level": 36,
+          "xp": 200
+        },
+        {
+          "level": 37,
+          "xp": 200
+        },
+        {
+          "level": 38,
+          "xp": 200
+        },
+        {
+          "level": 39,
+          "xp": 200
+        },
+        {
+          "level": 40,
+          "xp": 200
+        },
+        {
+          "level": 41,
+          "xp": 200
+        },
+        {
+          "level": 42,
+          "xp": 200
+        },
+        {
+          "level": 43,
+          "xp": 200
+        },
+        {
+          "level": 44,
+          "xp": 200
+        },
+        {
+          "level": 45,
+          "xp": 200
+        },
+        {
+          "level": 46,
+          "xp": 200
+        },
+        {
+          "level": 47,
+          "xp": 200
+        },
+        {
+          "level": 48,
+          "xp": 200
+        },
+        {
+          "level": 49,
+          "xp": 200
+        },
+        {
+          "level": 50,
+          "xp": 200
+        },
+        {
+          "level": 51,
+          "xp": 200
+        },
+        {
+          "level": 52,
+          "xp": 200
+        },
+        {
+          "level": 53,
+          "xp": 200
+        },
+        {
+          "level": 54,
+          "xp": 200
+        },
+        {
+          "level": 55,
+          "xp": 200
+        },
+        {
+          "level": 56,
+          "xp": 200
+        },
+        {
+          "level": 57,
+          "xp": 200
+        },
+        {
+          "level": 58,
+          "xp": 200
+        },
+        {
+          "level": 59,
+          "xp": 200
+        }
+      ],
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 79192,
+        "questLevel": 24,
+        "minimumLevel": 14,
+        "difficulty": 5,
+        "baseXp": 1950,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1950,
+      "capturedAt": "2026-11-03T14:13:45.961Z",
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified."
+    },
+    {
+      "questId": 79980,
+      "fullXp": 200,
+      "rewardBasis": "final-reward",
+      "questLevel": 24,
+      "minimumLevel": 14,
+      "xpByLevel": [
+        {
+          "level": 14,
+          "xp": 200
+        },
+        {
+          "level": 15,
+          "xp": 200
+        },
+        {
+          "level": 16,
+          "xp": 200
+        },
+        {
+          "level": 17,
+          "xp": 200
+        },
+        {
+          "level": 18,
+          "xp": 200
+        },
+        {
+          "level": 19,
+          "xp": 200
+        },
+        {
+          "level": 20,
+          "xp": 200
+        },
+        {
+          "level": 21,
+          "xp": 200
+        },
+        {
+          "level": 22,
+          "xp": 200
+        },
+        {
+          "level": 23,
+          "xp": 200
+        },
+        {
+          "level": 24,
+          "xp": 200
+        },
+        {
+          "level": 25,
+          "xp": 200
+        },
+        {
+          "level": 26,
+          "xp": 200
+        },
+        {
+          "level": 27,
+          "xp": 200
+        },
+        {
+          "level": 28,
+          "xp": 200
+        },
+        {
+          "level": 29,
+          "xp": 200
+        },
+        {
+          "level": 30,
+          "xp": 160
+        },
+        {
+          "level": 31,
+          "xp": 120
+        },
+        {
+          "level": 32,
+          "xp": 80
+        },
+        {
+          "level": 33,
+          "xp": 40
+        },
+        {
+          "level": 34,
+          "xp": 20
+        },
+        {
+          "level": 35,
+          "xp": 20
+        },
+        {
+          "level": 36,
+          "xp": 20
+        },
+        {
+          "level": 37,
+          "xp": 20
+        },
+        {
+          "level": 38,
+          "xp": 20
+        },
+        {
+          "level": 39,
+          "xp": 20
+        },
+        {
+          "level": 40,
+          "xp": 20
+        },
+        {
+          "level": 41,
+          "xp": 20
+        },
+        {
+          "level": 42,
+          "xp": 20
+        },
+        {
+          "level": 43,
+          "xp": 20
+        },
+        {
+          "level": 44,
+          "xp": 20
+        },
+        {
+          "level": 45,
+          "xp": 20
+        },
+        {
+          "level": 46,
+          "xp": 20
+        },
+        {
+          "level": 47,
+          "xp": 20
+        },
+        {
+          "level": 48,
+          "xp": 20
+        },
+        {
+          "level": 49,
+          "xp": 20
+        },
+        {
+          "level": 50,
+          "xp": 20
+        },
+        {
+          "level": 51,
+          "xp": 20
+        },
+        {
+          "level": 52,
+          "xp": 20
+        },
+        {
+          "level": 53,
+          "xp": 20
+        },
+        {
+          "level": 54,
+          "xp": 20
+        },
+        {
+          "level": 55,
+          "xp": 20
+        },
+        {
+          "level": 56,
+          "xp": 20
+        },
+        {
+          "level": 57,
+          "xp": 20
+        },
+        {
+          "level": 58,
+          "xp": 20
+        },
+        {
+          "level": 59,
+          "xp": 20
+        }
+      ],
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 79980,
+        "questLevel": 24,
+        "minimumLevel": 14,
+        "difficulty": 1,
+        "baseXp": 195,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 195,
+      "capturedAt": "2026-11-03T14:13:45.961Z",
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified."
+    },
+    {
+      "questId": 79974,
+      "fullXp": 2550,
+      "rewardBasis": "final-reward",
+      "questLevel": 32,
+      "minimumLevel": 14,
+      "xpByLevel": [
+        {
+          "level": 14,
+          "xp": 2550
+        },
+        {
+          "level": 15,
+          "xp": 2550
+        },
+        {
+          "level": 16,
+          "xp": 2550
+        },
+        {
+          "level": 17,
+          "xp": 2550
+        },
+        {
+          "level": 18,
+          "xp": 2550
+        },
+        {
+          "level": 19,
+          "xp": 2550
+        },
+        {
+          "level": 20,
+          "xp": 2550
+        },
+        {
+          "level": 21,
+          "xp": 2550
+        },
+        {
+          "level": 22,
+          "xp": 2550
+        },
+        {
+          "level": 23,
+          "xp": 2550
+        },
+        {
+          "level": 24,
+          "xp": 2550
+        },
+        {
+          "level": 25,
+          "xp": 2550
+        },
+        {
+          "level": 26,
+          "xp": 2550
+        },
+        {
+          "level": 27,
+          "xp": 2550
+        },
+        {
+          "level": 28,
+          "xp": 2550
+        },
+        {
+          "level": 29,
+          "xp": 2550
+        },
+        {
+          "level": 30,
+          "xp": 2550
+        },
+        {
+          "level": 31,
+          "xp": 2550
+        },
+        {
+          "level": 32,
+          "xp": 2550
+        },
+        {
+          "level": 33,
+          "xp": 2550
+        },
+        {
+          "level": 34,
+          "xp": 2550
+        },
+        {
+          "level": 35,
+          "xp": 2550
+        },
+        {
+          "level": 36,
+          "xp": 2550
+        },
+        {
+          "level": 37,
+          "xp": 2550
+        },
+        {
+          "level": 38,
+          "xp": 2050
+        },
+        {
+          "level": 39,
+          "xp": 1550
+        },
+        {
+          "level": 40,
+          "xp": 1000
+        },
+        {
+          "level": 41,
+          "xp": 500
+        },
+        {
+          "level": 42,
+          "xp": 260
+        },
+        {
+          "level": 43,
+          "xp": 260
+        },
+        {
+          "level": 44,
+          "xp": 260
+        },
+        {
+          "level": 45,
+          "xp": 260
+        },
+        {
+          "level": 46,
+          "xp": 260
+        },
+        {
+          "level": 47,
+          "xp": 260
+        },
+        {
+          "level": 48,
+          "xp": 260
+        },
+        {
+          "level": 49,
+          "xp": 260
+        },
+        {
+          "level": 50,
+          "xp": 260
+        },
+        {
+          "level": 51,
+          "xp": 260
+        },
+        {
+          "level": 52,
+          "xp": 260
+        },
+        {
+          "level": 53,
+          "xp": 260
+        },
+        {
+          "level": 54,
+          "xp": 260
+        },
+        {
+          "level": 55,
+          "xp": 260
+        },
+        {
+          "level": 56,
+          "xp": 260
+        },
+        {
+          "level": 57,
+          "xp": 260
+        },
+        {
+          "level": 58,
+          "xp": 260
+        },
+        {
+          "level": 59,
+          "xp": 260
+        }
+      ],
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 79974,
+        "questLevel": 32,
+        "minimumLevel": 14,
+        "difficulty": 5,
+        "baseXp": 2550,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2550,
+      "capturedAt": "2026-11-03T14:13:45.961Z",
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified."
+    },
+    {
+      "questId": 79975,
+      "fullXp": 2550,
+      "rewardBasis": "final-reward",
+      "questLevel": 32,
+      "minimumLevel": 14,
+      "xpByLevel": [
+        {
+          "level": 14,
+          "xp": 2550
+        },
+        {
+          "level": 15,
+          "xp": 2550
+        },
+        {
+          "level": 16,
+          "xp": 2550
+        },
+        {
+          "level": 17,
+          "xp": 2550
+        },
+        {
+          "level": 18,
+          "xp": 2550
+        },
+        {
+          "level": 19,
+          "xp": 2550
+        },
+        {
+          "level": 20,
+          "xp": 2550
+        },
+        {
+          "level": 21,
+          "xp": 2550
+        },
+        {
+          "level": 22,
+          "xp": 2550
+        },
+        {
+          "level": 23,
+          "xp": 2550
+        },
+        {
+          "level": 24,
+          "xp": 2550
+        },
+        {
+          "level": 25,
+          "xp": 2550
+        },
+        {
+          "level": 26,
+          "xp": 2550
+        },
+        {
+          "level": 27,
+          "xp": 2550
+        },
+        {
+          "level": 28,
+          "xp": 2550
+        },
+        {
+          "level": 29,
+          "xp": 2550
+        },
+        {
+          "level": 30,
+          "xp": 2550
+        },
+        {
+          "level": 31,
+          "xp": 2550
+        },
+        {
+          "level": 32,
+          "xp": 2550
+        },
+        {
+          "level": 33,
+          "xp": 2550
+        },
+        {
+          "level": 34,
+          "xp": 2550
+        },
+        {
+          "level": 35,
+          "xp": 2550
+        },
+        {
+          "level": 36,
+          "xp": 2550
+        },
+        {
+          "level": 37,
+          "xp": 2550
+        },
+        {
+          "level": 38,
+          "xp": 2050
+        },
+        {
+          "level": 39,
+          "xp": 1550
+        },
+        {
+          "level": 40,
+          "xp": 1000
+        },
+        {
+          "level": 41,
+          "xp": 500
+        },
+        {
+          "level": 42,
+          "xp": 260
+        },
+        {
+          "level": 43,
+          "xp": 260
+        },
+        {
+          "level": 44,
+          "xp": 260
+        },
+        {
+          "level": 45,
+          "xp": 260
+        },
+        {
+          "level": 46,
+          "xp": 260
+        },
+        {
+          "level": 47,
+          "xp": 260
+        },
+        {
+          "level": 48,
+          "xp": 260
+        },
+        {
+          "level": 49,
+          "xp": 260
+        },
+        {
+          "level": 50,
+          "xp": 260
+        },
+        {
+          "level": 51,
+          "xp": 260
+        },
+        {
+          "level": 52,
+          "xp": 260
+        },
+        {
+          "level": 53,
+          "xp": 260
+        },
+        {
+          "level": 54,
+          "xp": 260
+        },
+        {
+          "level": 55,
+          "xp": 260
+        },
+        {
+          "level": 56,
+          "xp": 260
+        },
+        {
+          "level": 57,
+          "xp": 260
+        },
+        {
+          "level": 58,
+          "xp": 260
+        },
+        {
+          "level": 59,
+          "xp": 260
+        }
+      ],
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 79975,
+        "questLevel": 32,
+        "minimumLevel": 14,
+        "difficulty": 5,
+        "baseXp": 2550,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2550,
+      "capturedAt": "2026-11-03T14:13:45.961Z",
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified."
+    },
+    {
+      "questId": 79976,
+      "fullXp": 1950,
+      "rewardBasis": "final-reward",
+      "questLevel": 32,
+      "minimumLevel": 14,
+      "xpByLevel": [
+        {
+          "level": 14,
+          "xp": 1950
+        },
+        {
+          "level": 15,
+          "xp": 1950
+        },
+        {
+          "level": 16,
+          "xp": 1950
+        },
+        {
+          "level": 17,
+          "xp": 1950
+        },
+        {
+          "level": 18,
+          "xp": 1950
+        },
+        {
+          "level": 19,
+          "xp": 1950
+        },
+        {
+          "level": 20,
+          "xp": 1950
+        },
+        {
+          "level": 21,
+          "xp": 1950
+        },
+        {
+          "level": 22,
+          "xp": 1950
+        },
+        {
+          "level": 23,
+          "xp": 1950
+        },
+        {
+          "level": 24,
+          "xp": 1950
+        },
+        {
+          "level": 25,
+          "xp": 1950
+        },
+        {
+          "level": 26,
+          "xp": 1950
+        },
+        {
+          "level": 27,
+          "xp": 1950
+        },
+        {
+          "level": 28,
+          "xp": 1950
+        },
+        {
+          "level": 29,
+          "xp": 1950
+        },
+        {
+          "level": 30,
+          "xp": 1950
+        },
+        {
+          "level": 31,
+          "xp": 1950
+        },
+        {
+          "level": 32,
+          "xp": 1950
+        },
+        {
+          "level": 33,
+          "xp": 1950
+        },
+        {
+          "level": 34,
+          "xp": 1950
+        },
+        {
+          "level": 35,
+          "xp": 1950
+        },
+        {
+          "level": 36,
+          "xp": 1950
+        },
+        {
+          "level": 37,
+          "xp": 1950
+        },
+        {
+          "level": 38,
+          "xp": 1550
+        },
+        {
+          "level": 39,
+          "xp": 1150
+        },
+        {
+          "level": 40,
+          "xp": 775
+        },
+        {
+          "level": 41,
+          "xp": 390
+        },
+        {
+          "level": 42,
+          "xp": 200
+        },
+        {
+          "level": 43,
+          "xp": 200
+        },
+        {
+          "level": 44,
+          "xp": 200
+        },
+        {
+          "level": 45,
+          "xp": 200
+        },
+        {
+          "level": 46,
+          "xp": 200
+        },
+        {
+          "level": 47,
+          "xp": 200
+        },
+        {
+          "level": 48,
+          "xp": 200
+        },
+        {
+          "level": 49,
+          "xp": 200
+        },
+        {
+          "level": 50,
+          "xp": 200
+        },
+        {
+          "level": 51,
+          "xp": 200
+        },
+        {
+          "level": 52,
+          "xp": 200
+        },
+        {
+          "level": 53,
+          "xp": 200
+        },
+        {
+          "level": 54,
+          "xp": 200
+        },
+        {
+          "level": 55,
+          "xp": 200
+        },
+        {
+          "level": 56,
+          "xp": 200
+        },
+        {
+          "level": 57,
+          "xp": 200
+        },
+        {
+          "level": 58,
+          "xp": 200
+        },
+        {
+          "level": 59,
+          "xp": 200
+        }
+      ],
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 79976,
+        "questLevel": 32,
+        "minimumLevel": 14,
+        "difficulty": 4,
+        "baseXp": 1950,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1950,
+      "capturedAt": "2026-11-03T14:13:45.961Z",
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified."
+    }
+  ],
+  "limitations": [
+    "Authored object handoffs; no provider object identities invented.",
+    "Only low32racebits represented in legacy catalog; raw full masks retained. Primary integration restricted to the five-Human edition.",
+    "Client-calculated rewards are estimates; buffs, rested and Student Fodder add no forecast XP.",
+    "World travel and narrow-ledge execution remain unmeasured."
+  ]
+}

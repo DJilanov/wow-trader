@@ -5,6 +5,27 @@ and `War3Net.Drawing.Blp 6.0.2` packages to open the installed CASC/TACT product
 against a pinned WoWDBDefs revision, apply the local `DBCache.bin` hotfix overlay, and decode
 catalog-referenced BLP item icons. Website and economic logic remain in TypeScript.
 
+Catalog extractor `0.6.0` resolves Forever's launch `wowf` installation when the
+stable catalog key is `wow_classic_beta`. Catalogs, icons and existing scans keep
+that same internal key; the files, build keys and hotfixes come from `_forever_`.
+Snapshot extraction freezes the hotfix and rejects client/cache changes during
+capture. Modern `EffectBasePointsF` quantities are preserved, including multi-output
+crafts. Unsupported fractional or scaled yields are logged and withheld from
+rankings. A Bronze Bar output control prevents regressions to one-bar smelts.
+
+Run the native product, yield and normalization controls with
+`pnpm catalog:extractor:test`. Set `DOTNET_BIN` to a .NET 10 SDK executable when it
+is not on PATH. The installed guardian packages its own runtime and needs no SDK.
+See [the launch recovery runbook](../../docs/catalog-70790-launch-recovery.md).
+
+`valuation-snapshot` is the smaller in-game pricing evidence command. It supports
+the launch `wowf` product (`_forever_`), the beta and Anniversary, and reads only
+Item, ItemSparse, ItemDisenchantLoot and SpellCooldowns with a frozen current
+hotfix cache. It refuses mixed captures and writes `evidence.json` atomically.
+The JavaScript generator validates that evidence and emits build-specific addon
+eligibility/long-cooldown data. Client eligibility does not establish loot
+probabilities. See [the addon pricing runbook](../../docs/addon-item-values-and-crafting.md).
+
 ## Output
 
 Each run writes atomically to:

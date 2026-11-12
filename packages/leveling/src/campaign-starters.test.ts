@@ -5,6 +5,7 @@ import { parseGuideChapter } from "./guide-archive.js";
 import { LEVELING_RACES } from "./profile.js";
 import type { CampaignSource } from "./campaign.js";
 import type { CombatDataset } from "./combat-model.js";
+import { questCatalogSchema } from "./quest-catalog.js";
 
 function sources(): readonly CampaignSource[] {
   return [113, 114, 115, 116, 117, 118, 119, 122, 123, 124, 125, 126, 157].map((id) => {
@@ -22,6 +23,131 @@ function sources(): readonly CampaignSource[] {
 }
 
 describe("independent party starter catalog", () => {
+  it("locates captured visits before qualifying Priest timing for an embedded personal route", () => {
+    const input = sources()
+      .filter((source) => [115, 116, 117].includes(source.reference.sourceId))
+      .map((source) => {
+        const body =
+          source.reference.sourceId === 115
+            ? "step\n.goto 1429,45,45\n.accept 300001\nstep\n.turnin 300001"
+            : source.reference.sourceId === 116
+              ? [
+                  "step <<Priest\n.goto 1429,45,65\n.accept 5623\n.target Priestess Anetta",
+                  "step <<Priest\n.goto 1429,43,65\n.turnin 5623\n.accept 5624\n.target Priestess Josetta",
+                  "step <<Priest\n.goto 1429,44,65\n>>Cast Lesser Heal (Rank 2) and Power Word: Fortitude on Guard Roberts\n.complete 5624,1 >>Heal and fortify Guard Roberts\n.target Guard Roberts",
+                  "step <<Priest\n.goto 1429,43,65\n.turnin 5624\n.target Priestess Josetta",
+                  "step\n.goto 1429,43,65\n.accept 300002\nstep\n.turnin 300002",
+                  "step\n.goto 1429,43,65\n.vendor\n.target Vendor",
+                ].join("\n")
+              : "step\n+Empty companion chapter";
+        const parsed = parseGuideChapter(body, source.reference.id, "a".repeat(64), 70205);
+        return {
+          ...source,
+          guide:
+            source.reference.sourceId === 116
+              ? {
+                  ...parsed,
+                  steps: parsed.steps.map((step, index) =>
+                    index === parsed.steps.length - 1 ? { ...step, id: "source-step-0109" } : step,
+                  ),
+                }
+              : parsed,
+        };
+      });
+    const provider = {
+      repository: "https://example.test/reference",
+      revision: "a".repeat(40),
+      layer: "forever-static-with-authored" as const,
+      npcSha256: "a".repeat(64),
+      questSha256: "a".repeat(64),
+      itemSha256: "a".repeat(64),
+      limitations: ["Synthetic starter regression"],
+    };
+    const combat: CombatDataset = {
+      schema: "forever-combat-reference.v1",
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "Synthetic starter regression",
+      provider,
+      npcs: [],
+      dungeons: [],
+      killXpEvidence: [],
+      quests: [300001, 300002, 5623, 5624].map((questId) => ({
+        questId,
+        creatureIds: [],
+        itemCreatureIds: [],
+        objectiveText:
+          questId === 5624
+            ? ["Use Lesser Heal (Rank 2) and Power Word: Fortitude on Guard Roberts."]
+            : [],
+        onlyCreatureObjectives: false,
+        onlyInteractionObjectives: questId === 5624,
+        requiredClasses: questId < 300000 ? 16 : 0,
+        prerequisites: { allOf: [], anyOf: [] },
+      })),
+    };
+    const catalog = questCatalogSchema.parse({
+      schema: "forever-quest-funding-catalog.v1",
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "Synthetic starter regression",
+      providerRevision: provider.revision,
+      questSha256: provider.questSha256,
+      npcSha256: provider.npcSha256,
+      itemSha256: provider.itemSha256,
+      areaMapSha256: "a".repeat(64),
+      sourceArchiveSha256: "b".repeat(64),
+      includesAuthoredCorrections: false,
+      quests: [5623, 5624].map((questId) => ({
+        questId,
+        title: `Quest ${questId}`,
+        minimumLevel: 5,
+        questLevel: 5,
+        requiredClasses: 16,
+        requiredRaces: 1,
+        starts: [],
+        ends: [],
+        prerequisites: { allOf: [], anyOf: [] },
+        exclusiveWith: [],
+        category: "delivery",
+        objectives: [],
+        unsupportedRequirements: [],
+      })),
+    });
+    const raw = buildCampaignStarters("b".repeat(64), input);
+    const result = enrichCampaignStarters(
+      raw,
+      input,
+      [300001, 300002, 5623, 5624].map((questId) => ({
+        questId,
+        fullXp: questId === 300001 ? 3200 : questId === 300002 ? 1700 : 150,
+        questLevel: 10,
+        minimumLevel: questId < 300000 ? 5 : 1,
+        xpByLevel: [],
+        status: "available" as const,
+        evidenceKind: "published-forever" as const,
+        sourceUrl: `https://example.test/quest=${questId}`,
+        capturedAt: "2026-11-02T00:00:00Z",
+      })),
+      { data: combat, revision: "a".repeat(64) },
+      catalog,
+    );
+    const route = result.routes.find((row) => row.race === "human" && row.classSlug === "priest")!;
+    const actions = route.actionIndexes.map((index) => result.entries[index]!.action);
+    const anchor = actions.findIndex((action) => action.id === "start-116-116-source-step-0109");
+    const pickup = actions.findIndex((action) =>
+      action.questChanges.some((change) => change.questId === 5623 && change.state === "accepted"),
+    );
+    expect(anchor).toBeGreaterThanOrEqual(0);
+    expect(pickup).toBeGreaterThan(anchor);
+    expect(actions[pickup]!.source?.stepId).toBe("source-step-0001");
+    expect(actions[pickup]!.location?.zone).toBe("1429");
+    expect(
+      actions
+        .flatMap((action) => action.questChanges)
+        .filter((change) => change.questId === 5624 && change.state === "rewarded"),
+    ).toHaveLength(1);
+  });
   it.each([false, true])(
     "reselects archived hand-ins with loaded prerequisites (%s)",
     (dependent) => {

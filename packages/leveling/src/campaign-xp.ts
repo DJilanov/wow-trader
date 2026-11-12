@@ -7,7 +7,9 @@ import {
 } from "./campaign.js";
 import { campaignSections, campaignSectionTarget } from "./campaign-sections.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
+import { validateIncidentalKillXpPercent } from "./campaign-incidental-combat.js";
 import { getPremadeQuest, PREMADE_STOPS, premadeEntryLevel } from "./premade.js";
+import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { resolveQuestReward, type QuestRewardFact } from "./quest-rewards.js";
 import type { CampaignXpAnchor, PremadeProgress } from "./premade-model.js";
 import { questEligibility, questGateResult } from "./quest-eligibility.js";
@@ -36,8 +38,12 @@ import {
 import type { CampaignQuestValidationEvidence } from "./quest-validation-evidence.js";
 import { LEVELING_RACES } from "./profile.js";
 import { combatObjectiveKey } from "./combat-model.js";
+import { createCampaignCombatReadiness } from "./campaign-combat-readiness.js";
 import { createQuestValidationCertificateResolver } from "./quest-validation-certificates.js";
 import { CAMPAIGN_ADDON_COMPILER_REVISION } from "./campaign-addon.js";
+import { campaignTimedQuestMethodIssues } from "./campaign-quest-timing.js";
+import { reviewedInstantHandIn } from "./campaign-narrative-events.js";
+import { failedTimedQuestForAction } from "./campaign-timed-progress.js";
 import type { CampaignXpEvent } from "./campaign-xp-event.js";
 import type { LootScenario } from "./quest-loot.js";
 import { combatActivityPhase } from "./campaign-combat-phase.js";
@@ -56,6 +62,11 @@ import {
   refreshCampaignItemReadiness,
 } from "./campaign-item-reports.js";
 import { campaignItemProgressEvent } from "./campaign-item-progress.js";
+import { campaignSupplyKey, campaignSupplyXpBaseline } from "./campaign-supply-xp.js";
+import {
+  campaignAcquisitionXpBaseline,
+  type AcquisitionXpPolicy,
+} from "./campaign-acquisition-xp.js";
 import { campaignMaterialTargetNeeded, forecastCampaignMaterialCombat } from "./campaign-material-combat.js";
 import { campaignXpBoundsConserved, campaignXpBoundsTransition, resolveBoundedQuestReward, type CampaignXpBounds } from "./campaign-xp-bounds.js";
 import {
@@ -63,7 +74,14 @@ import {
   dungeonBundleSlotKey,
   type DungeonBundle,
 } from "./dungeon-bundle-model.js";
-export const CAMPAIGN_XP_REVISION = "quest-funded-real-pickup-timing-20261102-v87";
+import {
+  campaignCombatProjectionContext,
+  captureCampaignCombatProjection,
+  restoreCampaignCombatProjection,
+  type CampaignCombatProjection,
+  type CampaignCombatProjectionFrame,
+} from "./campaign-combat-projection.js";
+export const CAMPAIGN_XP_REVISION = "harbor-crossing-20261105-v199";
 
 export interface XpPosition {
   readonly level: number;
@@ -93,7 +111,9 @@ export interface CampaignXpMemberForecast {
   readonly referenceQuestXp: number;
   readonly estimatedQuestXp: number;
   readonly combatXp: number;
+  /** Explicit grinding XP; incidental combat has its own separate tally. */
   readonly estimatedCombatXp: number;
+  readonly incidentalCombatXp: number;
   readonly outdoorCombatXp: number;
   readonly dungeonCombatXp: number;
   readonly combatRows: readonly CampaignCombatRow[];
@@ -132,6 +152,7 @@ export interface CampaignXpSectionForecast {
   readonly sectionId: string;
   readonly members: readonly CampaignXpMemberForecast[];
   readonly skippedOptionalActionIds: readonly string[];
+  readonly combatProjections?: Readonly<Record<string, CampaignCombatProjection>>;
 }
 export interface CampaignCombatScenario {
   readonly actionId: string;
@@ -159,6 +180,10 @@ function position(total: number): XpPosition {
 }
 
 export interface CampaignXpForecastOptions {
+  /** Explicit hypothetical state, never an observed quest-counter report. */
+  readonly initialCombatProjection?: CampaignCombatProjection;
+  readonly captureCombatAfterActionIds?: readonly string[];
+  readonly acquisitionXpPolicy?: AcquisitionXpPolicy;
   /** Explicit hypothetical intervals for internal continuations; never persisted as observations. */
   readonly initialBounds?: readonly (CampaignXpBounds | null)[];
   /** Forecast-only personal branches; actual quest reporting remains leader-only. Players are 1-based. */
@@ -172,6 +197,9 @@ export interface CampaignXpForecastOptions {
   readonly noAssumedGrinding?: true;
   readonly lootScenario?: LootScenario;
   readonly outdoorXpMultiplier?: number;
+  readonly incidentalKillXpPercent?: number;
+  /** Outdoor route-clearing estimate; replaces the general allowance outdoors only. */
+  readonly outdoorIncidentalKillXpPercent?: number;
   readonly anchors?: readonly (CampaignXpAnchor & { readonly player: number })[];
   readonly grindEvidence?: CampaignGrindEvidence;
   readonly grindRuntimeBuild?: number;
@@ -187,6 +215,24 @@ export function forecastCampaignXp(
   progress: PremadeProgress,
   options: CampaignXpForecastOptions = {},
 ): readonly CampaignXpSectionForecast[] {
+  const incidentalKillXpPercent = options.incidentalKillXpPercent ??
+    progress.combatPlanning?.incidentalKillXpPercent ?? plan.incidentalKillXpPercent ?? 0;
+  validateIncidentalKillXpPercent(incidentalKillXpPercent);
+  const outdoorIncidentalKillXpPercent = options.outdoorIncidentalKillXpPercent ??
+    progress.combatPlanning?.outdoorIncidentalKillXpPercent ??
+    plan.outdoorIncidentalKillXpPercent ?? incidentalKillXpPercent;
+  validateIncidentalKillXpPercent(outdoorIncidentalKillXpPercent);
+  const supplyBaseline = campaignSupplyXpBaseline(plan);
+  const physicalCombatPlan = supplyBaseline.plan;
+  const acquisitionBaseline = campaignAcquisitionXpBaseline(
+    supplyBaseline.plan,
+    options.acquisitionXpPolicy,
+    options.lootScenario,
+  );
+  plan = acquisitionBaseline.plan;
+  const excludedCollectionItems = new Set([
+    ...supplyBaseline.excludedItems, ...acquisitionBaseline.excludedCollectionItems,
+  ]);
   if (options.initialBounds && options.initialBounds.length !== progress.members.length)
     throw new Error("Initial XP bounds must match all party members.");
   if (options.initialBounds && Array.from(options.initialBounds).some((bounds) => bounds === undefined))
@@ -262,6 +308,8 @@ export function forecastCampaignXp(
       plan.combat?.activities.filter((activity) => activity.actionId === action.id) ?? [],
     ]),
   );
+  const combatReadiness = createCampaignCombatReadiness(physicalCombatPlan);
+  const timingIssues = campaignTimedQuestMethodIssues(actions, plan.questTimings);
   const materialWorkByAction = new Map(plan.combat?.materialWork?.map((work) => [work.actionId, work]) ?? []);
   const unmodeledExtras = new Set(campaignUnmodeledExtras(plan, progress));
   const from =
@@ -309,6 +357,7 @@ export function forecastCampaignXp(
     activities.add(entry.activityId ?? entry.actionId);
   }
   const facts = options.facts ?? plan.rewardFacts ?? [];
+  const xpCap = cumulative({ level: 60, currentXp: 0 });
   const memberObjectiveKeys = memberReferences.map((references) => new Map(
     [...references.objectiveIndexes].map(([id, indices]) => [
       id, new Set([...indices].map((index) => `campaign-objective-${id}-${index}`)),
@@ -400,6 +449,38 @@ export function forecastCampaignXp(
     };
   });
   const selected = new Set(actions.slice(from, through + 1).map((a) => a.id));
+  const captureIds = new Set(options.captureCombatAfterActionIds ?? []);
+  if (captureIds.size !== (options.captureCombatAfterActionIds?.length ?? 0) ||
+    [...captureIds].some((id) => !selected.has(id)))
+    throw new Error("Combat snapshot boundaries must be unique active forecast actions.");
+  const projectionContext = captureIds.size || options.initialCombatProjection
+    ? campaignCombatProjectionContext(plan, progress, {
+        lootScenario: options.lootScenario ?? "expected",
+        outdoorXpMultiplier: options.outdoorXpMultiplier ?? progress.combatPlanning?.outdoorXpMultiplier ?? 1,
+        incidentalKillXpPercent, outdoorIncidentalKillXpPercent,
+        acquisitionXpPolicy: options.acquisitionXpPolicy ?? plan.acquisitionXpPolicy ?? null,
+        personalActionPlayers: options.personalActionPlayers ?? {},
+      }) : null;
+  const projectionFrames = (): readonly CampaignCombatProjectionFrame[] => ledgers.map((ledger, player) => {
+    if (ledger.total === null || ledger.maximumTotal === null || ledger.halt || ledger.unknown.size)
+      throw new Error("Combat snapshot requires known, unblocked party XP bounds.");
+    return { actions: plan.actions, member: { ...progress.members[player]!, ...position(ledger.total), xpNeedsUpdate: false,
+        questStates: ledger.states, confirmations: ledger.confirmations },
+      maximumPosition: position(ledger.maximumTotal), combat: memberReferences[player]!.combat,
+      state: ledger.combat, materialEncounters: ledger.materialEncounters,
+      freshInventoryReference: ledger.freshInventoryReference };
+  });
+  if (options.initialCombatProjection) {
+    const boundary = actions.findIndex((action) => action.id === options.initialCombatProjection!.afterActionId);
+    if (boundary < 0 || from !== boundary + 1)
+      throw new Error("Projected combat continuation must start after its saved action, at the next active task.");
+    const restored = restoreCampaignCombatProjection(options.initialCombatProjection, projectionContext!, projectionFrames());
+    for (const [player, state] of restored.entries()) {
+      ledgers[player]!.combat = state.state;
+      ledgers[player]!.materialEncounters = state.materialEncounters;
+      ledgers[player]!.freshInventoryReference = state.freshInventoryReference;
+    }
+  }
   const bundleLogKeys = new Map<string, QuestLogSlotKey>(
     GUARANTEED_DUNGEON_IDS.flatMap((id) => {
       const bundle = getDungeonBundle(id, "alliance", progress.guaranteedBundles)!;
@@ -428,6 +509,12 @@ export function forecastCampaignXp(
     const entries = actions.filter((a) => selected.has(a.id) && section.actionIds.includes(a.id));
     const targetLevel = campaignSectionTarget(sections, sectionIndex, progress, facts).level;
     const skippedOptionalActionIds: string[] = [];
+    const combatProjections: Record<string, CampaignCombatProjection> = {};
+    const captureProjection = (id: string): void => {
+      if (!captureIds.has(id) || ledgers.some((ledger) => ledger.total === null ||
+        ledger.maximumTotal === null || ledger.halt || ledger.unknown.size)) return;
+      combatProjections[id] = captureCampaignCombatProjection(projectionContext!, id, projectionFrames());
+    };
     const summaries = ledgers.map((ledger) => ({
       sourceSkips: [] as CampaignSourceSkip[],
       start: ledger.total === null || ledger.unknown.size > 0 ? null : position(ledger.total),
@@ -446,11 +533,15 @@ export function forecastCampaignXp(
       estimatedQuestXp: 0,
       combatXp: 0,
       estimatedCombatXp: 0,
+      incidentalCombatXp: 0,
       outdoorCombatXp: 0,
       dungeonCombatXp: 0,
       combatRows: [] as CampaignCombatRow[],
     }));
+    let previousActionId: string | null = null;
     for (const action of entries) {
+      if (previousActionId !== null) captureProjection(previousActionId);
+      previousActionId = action.id;
       for (const anchor of anchors.get(action.id) ?? []) {
         const player = anchor.player - 1;
         const ledger = ledgers[player]!;
@@ -545,6 +636,7 @@ export function forecastCampaignXp(
           estimatedQuestXp: 0,
           combatXp: 0,
           estimatedCombatXp: 0,
+          incidentalCombatXp: 0,
           outdoorCombatXp: 0,
           dungeonCombatXp: 0,
           combatRows: [],
@@ -556,7 +648,9 @@ export function forecastCampaignXp(
       const sourceChecks =
         action.questChanges.length || action.itemCollections?.length ? campaignSourceChecks(action) : [];
       const sourceDecisions = ledgers.map((ledger): CampaignSourceDecision =>
-        sourceChecks.length
+        failedTimedQuestForAction(action, { questStates: ledger.states, confirmations: ledger.confirmations }) !== null
+          ? "execute"
+          : sourceChecks.length
           ? evaluateCampaignSourceChecks(sourceChecks, {
               questStates: ledger.states,
               itemLowerBounds: ledger.items.lowerBounds,
@@ -654,12 +748,15 @@ export function forecastCampaignXp(
         const maximum = ledgers[player]!.maximumTotal;
         return maximum === null ? { ...member, level: null, currentXp: null, xpNeedsUpdate: true } : { ...member, ...position(maximum) };
       }) };
-      const optionalBoundsAmbiguous = action.kind !== "xp-check" && campaignOptionalXpReady(plan,
+      const optionalBoundsAmbiguous = !action.routeBriefing && action.kind !== "xp-check" && campaignOptionalXpReady(plan,
         action.leaderOnly ? { ...maximumModeled, members: [maximumModeled.members[personalPlayer]!] } : maximumModeled, action);
       const dungeonCombatAllowed = (questId: number): boolean => {
-        const legKind = plan.legs.find((leg) => leg.id === action.legId)?.kind;
+        const leg = plan.legs.find((leg) => leg.id === action.legId);
+        const legKind = leg?.kind;
+        const optionalVisit = leg?.dungeonVisitId && DUNGEON_VISITS.find((visit) => visit.id === leg.dungeonVisitId);
         return (
           legKind === "dungeon" ||
+          Boolean(optionalVisit && action.location?.insideDungeon === optionalVisit.id && optionalVisit.questIds.includes(questId)) ||
           Boolean(
             action.dungeonFinishOnly &&
             legKind === "finish" &&
@@ -671,10 +768,31 @@ export function forecastCampaignXp(
       };
       const work = materialWorkByAction.get(action.id);
       const materialPlayers = action.leaderOnly ? [personalPlayer] : ledgers.map((_ledger, player) => player);
-      const materialCombat = work && plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id) &&
+      const combatRequirement = combatReadiness(
+        action,
+        materialPlayers.map((player) => ({
+          execute: sourceDecisions[player] === "execute",
+          questStates: ledgers[player]!.states,
+          confirmations: ledgers[player]!.confirmations,
+          minimumItems: ledgers[player]!.items.lowerBounds,
+          combat: ledgers[player]!.combat,
+        })),
+        supplyBaseline.excludedItems,
+      );
+      const combatWaitingPlayers =
+        combatRequirement.targetLevel === null
+          ? []
+          : materialPlayers.filter((player) => {
+              const total = ledgers[player]!.total;
+              return total !== null && position(total).level < combatRequirement.targetLevel!;
+            });
+      const combatReady = combatWaitingPlayers.length === 0;
+      const materialCombat = combatReady && work && plan.combat && !combat.has(action.id) && !unknownCombat.has(action.id) &&
         !optionalBoundsAmbiguous && materialPlayers.every((player) => sourceDecisions[player] === "execute" && ledgers[player]!.total !== null && ledgers[player]!.maximumTotal !== null &&
           !ledgers[player]!.halt && ledgers[player]!.unknown.size === 0)
-        ? forecastCampaignMaterialCombat({ action, work, combat: plan.combat, participants: materialPlayers.map((player) => {
+        ? forecastCampaignMaterialCombat({ action, work, combat: plan.combat,
+          incidentalKillXpPercent: work.environment === "dungeon" ? incidentalKillXpPercent : outdoorIncidentalKillXpPercent,
+          excludedSupplyItems: excludedCollectionItems, participants: materialPlayers.map((player) => {
             const ledger = ledgers[player]!;
             return { position: position(ledger.total!), maximumPosition: position(ledger.maximumTotal!), questStates: ledger.states, confirmations: ledger.confirmations,
               minimumItems: ledger.items.lowerBounds, freshInventoryReference: ledger.freshInventoryReference,
@@ -687,6 +805,7 @@ export function forecastCampaignXp(
           partyBoundsClocks[player] = materialCombat.forecasts.map((forecast) => ({ minimum: forecast.exit, maximum: forecast.maximumExit ?? forecast.exit }));
         }
       const sharedPartyCombat =
+        combatReady &&
         materialCombat?.status !== "planned" &&
         (!alignedParty || maximumPartyKnown) &&
         !optionalBoundsAmbiguous &&
@@ -706,6 +825,8 @@ export function forecastCampaignXp(
           (ledger) => ledger.total !== null && ledger.maximumTotal !== null && ledger.halt === null && ledger.unknown.size === 0,
         )
           ? forecastSharedPartyCombat({
+              incidentalKillXpPercent: activities.every((activity) => activity.environment === "outdoor")
+                ? outdoorIncidentalKillXpPercent : incidentalKillXpPercent,
               action,
               activities,
               combat: plan.combat,
@@ -827,12 +948,46 @@ export function forecastCampaignXp(
           ledger.issues.set(campaignEvidenceIssueKey(issue), issue);
           (bucket === "evidence" ? summary.evidenceIssues : eligibilityIssues).push(issue.message);
         };
+        const recordIncidentalCombat = (rows: readonly CampaignCombatRow[]): void => {
+          const xp = rows.reduce((sum, row) => sum + (row.incidentalXp ?? 0), 0);
+          const maximumXp = rows.reduce((sum, row) => sum + (row.maximumIncidentalXp ?? row.incidentalXp ?? 0), 0);
+          summary.incidentalCombatXp += xp;
+          const percentages = new Set(rows.filter((row) => row.incidentalXp || row.maximumIncidentalXp)
+            .map((row) => row.environment === "outdoor" ? outdoorIncidentalKillXpPercent : incidentalKillXpPercent));
+          const allowance = percentages.size === 1
+            ? `${[...percentages][0]}% of required combat XP`
+            : `${outdoorIncidentalKillXpPercent}% outdoors; ${incidentalKillXpPercent}% in dungeons`;
+          if (xp || maximumXp) markIssue({
+            code: "incidental-combat-estimated", domain: "combat", actionId: action.id,
+            questId: null, blocksForecast: false, resolution: "in-game",
+            message: `${action.title}: includes ${maximumXp === xp ? xp : `${xp}–${maximumXp}`} estimated XP for incidental kills (${allowance}).`,
+          });
+        };
         if (action.leaderOnly && player !== personalPlayer) continue;
         if (ledger.total === null || ledger.halt) continue;
         const halt = (issue: CampaignEvidenceIssue, data = false): void => {
           ledger.halt = { actionId: action.id, reason: issue.message, data };
           markIssue(issue, data ? "evidence" : "eligibility");
         };
+        const timingIssue = action.questChanges.find((change) => !ledger.paid.has(change.questId) && timingIssues.has(change.questId));
+        if (timingIssue) {
+          halt({ code: "quest-timing-unverified", domain: "route", actionId: action.id,
+            questId: timingIssue.questId, message: timingIssues.get(timingIssue.questId)!,
+            resolution: "offline", blocksForecast: true }, true);
+          continue;
+        }
+        const failedAttempts = ledgers.flatMap((entry, index) => {
+          if (action.leaderOnly && index !== personalPlayer) return [];
+          const questId = failedTimedQuestForAction(action, { questStates: entry.states, confirmations: entry.confirmations });
+          return questId === null ? [] : [{ player: index + 1, questId }];
+        });
+        if (failedAttempts.length) {
+          halt({ code: "quest-attempt-failed", domain: "progress", actionId: action.id,
+            questId: failedAttempts[0]!.questId,
+            message: `${failedAttempts.map((entry) => `Player ${entry.player}: timed quest ${entry.questId}`).join("; ")} failed or expired. Confirm a new in-game attempt before continuing together.`,
+            resolution: "in-game", blocksForecast: true });
+          continue;
+        }
         if (optionalBoundsAmbiguous) {
           halt({ code: "xp-range-ambiguous", domain: "progress", actionId: action.id, questId: null,
             message: `${action.id}: possible XP outcomes disagree on whether this optional source work is still required.`,
@@ -855,7 +1010,8 @@ export function forecastCampaignXp(
           const state = ledger.states[String(change.questId)];
           if (ledger.paid.has(change.questId)) return false;
           if (change.state === "accepted") return !state || state === "not-started";
-          if (!state || state === "not-started") return false;
+          if (!state || state === "not-started")
+            return change.state === "rewarded" && reviewedInstantHandIn(action, change.questId, plan) !== null;
           if (change.state === "objectives-complete")
             return (
               state !== "objectives-complete" &&
@@ -908,6 +1064,67 @@ export function forecastCampaignXp(
             continue;
           }
         }
+        if (!combatReady) {
+          const minimum = combatRequirement.targetLevel!;
+          const before = position(ledger.total);
+          const missingXp =
+            minimum > 60
+              ? null
+              : Math.max(0, cumulative({ level: minimum, currentXp: 0 }) - ledger.total);
+          summary.checkpoints.push({
+            actionId: action.id,
+            targetLevel: minimum,
+            position: before,
+            missingXp,
+            ready: false,
+            planningOnly: false,
+          });
+          summary.steps.push({
+            actionId: action.id,
+            title: action.title,
+            before,
+            after: before,
+            questId: null,
+            phase: "combat",
+            objectiveIndex: null,
+            questXp: 0,
+            combatXp: 0,
+            minimumLevel: minimum,
+            shortfallXp: missingXp ?? 0,
+            status: "blocked",
+          });
+          halt({
+            code: "checkpoint-not-ready",
+            domain: "progress",
+            actionId: action.id,
+            questId: null,
+            message: `${action.title}: required enemies need every participant to reach level ${minimum} before combat. Wait for ${combatWaitingPlayers.map((index) => `Player ${index + 1}`).join(", ")}; this fight's XP cannot fund its own entry.`,
+            resolution: "in-game",
+            blocksForecast: true,
+          });
+          continue;
+        }
+        if (sourceDecision === "execute")
+          for (const excluded of acquisitionBaseline.exclusions.get(action.id) ?? [])
+            if (
+              action.questChanges.some(
+                (change) =>
+                  change.questId === excluded.questId &&
+                  change.state === "objectives-complete" &&
+                  needed(change),
+              ) || action.itemCollections?.some((target) => target.questId === excluded.questId && target.itemId === excluded.itemId)
+            )
+              markIssue({
+                code: "acquisition-xp-excluded",
+                domain: "combat",
+                message: excluded.planningBasis
+                  ? `${action.title}: collect ${excluded.quantityPerPlayer} ${excluded.quantityPerPlayer === 1 ? "item" : "items"} per player ${excluded.planningBasis === "selected-dungeon-prerequisite" ? "for the selected dungeon preparation" : "during this dungeon run"}. Additional acquisition kill XP is not included.`
+                  : `${action.title}: collect ${excluded.quantityPerPlayer} ${excluded.quantityPerPlayer === 1 ? "item" : "items"} per player. Extra loot-farming XP is excluded from this reference forecast; the drop workload and one-clear completion remain unverified.`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: excluded.questId,
+                blocksForecast: false,
+              });
         let collectedItems = false;
         const materialForecast = materialCombat?.status === "planned" ? materialCombat.forecasts[materialPlayers.indexOf(player)] : undefined;
         if (materialForecast) {
@@ -917,7 +1134,11 @@ export function forecastCampaignXp(
           ledger.maximumTotal = materialForecast.maximumExit ? cumulative(materialForecast.maximumExit) : ledger.maximumTotal === null ? null : ledger.maximumTotal + (materialForecast.maximumXp ?? materialForecast.xp);
           ledger.combat = materialForecast.state;
           summary.combatXp += materialForecast.xp;
-          summary.outdoorCombatXp += materialForecast.xp;
+          recordIncidentalCombat(materialForecast.rows);
+          summary.outdoorCombatXp += materialForecast.rows.filter((row) => row.environment === "outdoor")
+            .reduce((sum, row) => sum + (row.xp ?? 0), 0);
+          summary.dungeonCombatXp += materialForecast.rows.filter((row) => row.environment === "dungeon")
+            .reduce((sum, row) => sum + (row.xp ?? 0), 0);
           summary.combatRows.push(...materialForecast.rows);
           for (const row of materialForecast.rows) ledger.materialEncounters.add(row.npcId);
           const xpBounds = campaignXpBoundsTransition({ before, maximumBefore, after: position(ledger.total), maximumAfter: ledger.maximumTotal === null ? null : position(ledger.maximumTotal), maximumQuestXp: 0, maximumCombatXp: materialForecast.maximumXp ?? materialForecast.xp, minimumXp: materialForecast.xp });
@@ -931,7 +1152,7 @@ export function forecastCampaignXp(
           if (ledger.items.collect(target, ledger.states)) {
             collectedItems = true;
             refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes);
-            if (before < target.quantity)
+            if (before < target.quantity && !excludedCollectionItems.has(campaignSupplyKey(target.questId, target.itemId)))
               markIssue({
                 code: "item-acquisition-unqualified",
                 domain: "route",
@@ -1035,6 +1256,8 @@ export function forecastCampaignXp(
         if (action.bundleId) {
           const bundle = getDungeonBundle(action.bundleId, "alliance", progress.guaranteedBundles);
           if (!bundle) throw new Error("Unknown guaranteed dungeon bundle.");
+          const before = position(ledger.total);
+          const maximumBefore = ledger.maximumTotal === null ? null : position(ledger.maximumTotal);
           if (ledger.maximumTotal === null) {
             halt({ code: "reward-unresolved", domain: "reward", actionId: action.id, questId: null,
               message: `${action.id}: combat left the XP range unresolved; dungeon hand-in rewards cannot yet be bounded.`,
@@ -1110,6 +1333,39 @@ export function forecastCampaignXp(
               refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes, consumed);
             }
           }
+          const xpBounds = campaignXpBoundsTransition({
+            before, maximumBefore, after: position(ledger.total),
+            maximumAfter: ledger.maximumTotal === null ? null : position(ledger.maximumTotal),
+            minimumXp: forecast.referenceXp + forecast.estimatedXp,
+            maximumQuestXp: forecast.rows.reduce((sum, row) => sum + (row.maximumXp ?? row.xp ?? 0), 0),
+            maximumCombatXp: 0,
+          });
+          summary.steps.push({
+            ...(xpBounds ? { xpBounds } : {}),
+            actionId: action.id,
+            title: action.title,
+            before,
+            after: position(ledger.total),
+            questId: null,
+            phase: "bundle",
+            objectiveIndex: null,
+            questXp: forecast.referenceXp + forecast.estimatedXp,
+            combatXp: 0,
+            minimumLevel: null,
+            shortfallXp: 0,
+            status: "projected",
+            bundleSlotStates: {
+              ...Object.fromEntries([...ledger.bundleSkipped].map((key) => [key, "skipped" as const])),
+              ...Object.fromEntries([...ledger.bundlePaid].map((key) => [key, "rewarded" as const])),
+            },
+            questStates: Object.fromEntries(forecast.rows.flatMap((row) =>
+              row.state === "selected" && row.questId !== null ? [[String(row.questId), "rewarded" as const]] : [],
+            )),
+          });
+          if (forecast.rows.some((row) => row.state === "selected" && row.questId !== null && itemIndex.byQuest.has(row.questId)))
+            summary.steps.push(campaignItemProgressEvent(
+              action, position(ledger.total), itemIndex, ledger.items, ledger.states, ledger.confirmations,
+            ));
           markIssue({
             code: "dungeon-details-pending",
             domain: "route",
@@ -1143,6 +1399,37 @@ export function forecastCampaignXp(
           });
           continue;
         }
+        if (action.xpPlaceholder) {
+          const target = action.xpPlaceholder.targetLevel;
+          if (!Number.isSafeInteger(target) || target < 1 || target > 60 ||
+            action.questChanges.length || action.leaderOnly || action.kind !== "xp-check" ||
+            action.targetLevel !== target || action.targetStopId !== null ||
+            action.source !== null || action.bundleId || action.itemCollections?.length ||
+            activities.length || combat.has(action.id) || unknownCombat.has(action.id))
+            throw new Error("Invalid shared farming XP placeholder.");
+          const before = position(ledger.total);
+          const maximumBefore = ledger.maximumTotal === null ? null : position(ledger.maximumTotal);
+          const targetXp = Math.min(xpCap, cumulative({ level: target, currentXp: 0 }));
+          const gain = Math.max(0, targetXp - ledger.total);
+          const maximumGain = ledger.maximumTotal === null ? null : Math.max(0, targetXp - ledger.maximumTotal);
+          ledger.total += gain;
+          if (ledger.maximumTotal !== null) ledger.maximumTotal += maximumGain!;
+          summary.combatXp += gain;
+          summary.estimatedCombatXp += gain;
+          summary.outdoorCombatXp += gain;
+          const xpBounds = campaignXpBoundsTransition({ before, maximumBefore,
+            after: position(ledger.total), maximumAfter: ledger.maximumTotal === null ? null : position(ledger.maximumTotal),
+            // The lowest starting bar needs the most farming; higher bars stop sooner.
+            minimumXp: gain, maximumQuestXp: 0, maximumCombatXp: maximumGain === null ? null : gain });
+          summary.steps.push({ ...(xpBounds ? { xpBounds } : {}), actionId: action.id,
+            questId: null, phase: "combat", objectiveIndex: null, title: action.title,
+            before, after: position(ledger.total), questXp: 0, combatXp: gain,
+            minimumLevel: null, shortfallXp: 0, status: "projected" });
+          markIssue({ code: "combat-scenario-estimated", domain: "combat", actionId: action.id,
+            questId: null, message: `${action.title}: ${gain.toLocaleString("en-US")} XP is this player's planned remaining gap to level ${target}, pending ${action.xpPlaceholder.replacementQuestCount} Riverglades quests. It is not a verified quest reward, kill count or observed XP.`,
+            resolution: "offline-or-in-game", blocksForecast: false });
+          continue;
+        }
         const xpTarget = campaignXpTarget(action, progress, facts);
         if (action.kind === "xp-check" && xpTarget !== null) {
           const missingXp = Math.max(0, cumulative(xpTarget) - ledger.total);
@@ -1164,6 +1451,7 @@ export function forecastCampaignXp(
           ledger.maximumTotal = shared.exitBounds ? cumulative(shared.exitBounds.maximum) : ledger.maximumTotal === null ? null : ledger.maximumTotal + (shared.maximumXp ?? shared.xp);
           ledger.combat = shared.state;
           summary.combatXp += shared.xp;
+          recordIncidentalCombat(shared.rows);
           summary.outdoorCombatXp += shared.rows
             .filter((row) => row.environment === "outdoor")
             .reduce((sum, row) => sum + (row.xp ?? 0), 0);
@@ -1378,9 +1666,25 @@ export function forecastCampaignXp(
               refreshCampaignItemReadiness(itemIndex, ledger.items, ledger.states, ledger.confirmations, objectiveIndexes);
               continue;
             }
+            const instantParents = change.state === "rewarded"
+              ? reviewedInstantHandIn(action, change.questId, plan)
+              : null;
+            if (instantParents?.some((id) => ledger.states[String(id)] !== "rewarded")) {
+              halt({
+                code: "source-prerequisite-missing",
+                domain: "route",
+                message: `${change.questId}: complete the preceding event before this conversation.`,
+                resolution: "offline",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: true,
+              });
+              break;
+            }
             if (
-              !ledger.states[String(change.questId)] ||
-              ledger.states[String(change.questId)] === "not-started"
+              instantParents === null &&
+              (!ledger.states[String(change.questId)] ||
+                ledger.states[String(change.questId)] === "not-started")
             ) {
               halt({
                 code: "quest-pickup-missing",
@@ -1430,6 +1734,9 @@ export function forecastCampaignXp(
                     break;
                   }
                   const result = applyCampaignCombat({
+                    unpricedPayoutCandidates: acquisitionBaseline.unpricedPayoutCandidates.get(action.id) ?? [],
+                    incidentalKillXpPercent: activity.environment === "outdoor"
+                      ? outdoorIncidentalKillXpPercent : incidentalKillXpPercent,
                     activity: phase,
                     combat: memberCombat,
                     state: ledger.combat,
@@ -1466,14 +1773,16 @@ export function forecastCampaignXp(
                   const resultBounds = result.partyBounds?.[action.leaderOnly ? 0 : player];
                   if (resultBounds) { ledger.total = cumulative(resultBounds.minimum); ledger.maximumTotal = cumulative(resultBounds.maximum); }
                   if (result.partyBounds === null) ledger.maximumTotal = null;
-                  if (result.partyBounds === null || result.rows.some((row) => row.maximumXp === null))
-                    markIssue({ code: "combat-input-unknown", domain: "combat", actionId: action.id, questId: change.questId,
-                      message: `${action.id}: a required physical combat stream has no supported XP enclosure.`,
-                      resolution: "offline-or-in-game", blocksForecast: true });
                   summary.combatXp += result.xp;
+                  recordIncidentalCombat(result.rows);
                   if (activity.environment === "outdoor") summary.outdoorCombatXp += result.xp;
                   else summary.dungeonCombatXp += result.xp;
                   summary.combatRows.push(...result.rows);
+                  if (result.rows.some((row) => row.acquisitionXpExcluded))
+                    markIssue({ code: "acquisition-xp-excluded", domain: "combat", actionId: action.id,
+                      questId: change.questId,
+                      message: `${action.title}: complete the full item quota. Additional acquisition XP is unpriced and excluded from this known-input forecast.`,
+                      resolution: "offline-or-in-game", blocksForecast: false });
                   for (const message of result.issues)
                     markIssue({
                       code: "combat-profile-unverified",
@@ -1484,6 +1793,19 @@ export function forecastCampaignXp(
                       questId: change.questId,
                       blocksForecast: false,
                     });
+                  if (result.partyBounds === null || result.rows.some((row) => row.maximumXp === null)) {
+                    if (resolveQuestReward(change.questId, position(ledger.total).level, facts).xp === null) {
+                      ledger.unknown.add(change.questId);
+                      markIssue({ code: "reward-unresolved", domain: "reward", actionId: action.id,
+                        questId: change.questId,
+                        message: `${change.questId}: reward evidence is also missing; no objective completion or hand-in is assumed.`,
+                        resolution: "offline-or-in-game", blocksForecast: true });
+                    }
+                    halt({ code: "combat-input-unknown", domain: "combat", actionId: action.id, questId: change.questId,
+                      message: `${action.id}: required combat or item acquisition has an unresolved XP range.`,
+                      resolution: "offline-or-in-game", blocksForecast: true }, true);
+                    break;
+                  }
                 }
               if (ledger.halt) break;
               ledger.confirmations[
@@ -1536,19 +1858,34 @@ export function forecastCampaignXp(
               ...("maximumXp" in reward && reward.maximumXp !== null && reward.maximumXp !== reward.xp ? { maximumXp: reward.maximumXp } : {}),
             });
             if (reward.xp === null) {
-              ledger.unknown.add(change.questId);
-              halt(
-                {
-                  code: "reward-unresolved",
-                  domain: "reward",
-                  message: `${change.questId}: reward at the next hand-in is unresolved; later levels cannot be predicted.`,
-                  resolution: "offline-or-in-game",
-                  actionId: action.id,
-                  questId: change.questId,
-                  blocksForecast: true,
-                },
-                true,
-              );
+              const combatRangeMissing = level !== null && ledger.maximumTotal === null;
+              const rewardFactMissing =
+                !combatRangeMissing || resolveQuestReward(change.questId, level, facts).xp === null;
+              const rewardIssue: CampaignEvidenceIssue = {
+                code: "reward-unresolved",
+                domain: "reward",
+                message: `${change.questId}: reward at the next hand-in is unresolved; later levels cannot be predicted.`,
+                resolution: "offline-or-in-game",
+                actionId: action.id,
+                questId: change.questId,
+                blocksForecast: true,
+              };
+              if (rewardFactMissing) ledger.unknown.add(change.questId);
+              if (combatRangeMissing) {
+                if (rewardFactMissing) markIssue(rewardIssue);
+                halt(
+                  {
+                    code: "combat-input-unknown",
+                    domain: "combat",
+                    message: `${change.questId}: the XP range after earlier combat or item acquisition is unresolved, so this hand-in cannot be forecast.`,
+                    resolution: "offline-or-in-game",
+                    actionId: action.id,
+                    questId: change.questId,
+                    blocksForecast: true,
+                  },
+                  true,
+                );
+              } else halt(rewardIssue, true);
             } else {
               if (reward.basis === "base-estimate") {
                 summary.estimatedQuestXp += reward.xp;
@@ -1556,14 +1893,17 @@ export function forecastCampaignXp(
                   markIssue({
                     code: "reward-historical-estimate",
                     domain: "reward",
-                    message: `${change.questId}: the reward uses a historical estimate instead of published Forever XP evidence.`,
+                    message: `${change.questId}: the reward uses a calculated reference estimate instead of a published or observed Forever payout.`,
                     resolution: "offline-or-in-game",
                     actionId: action.id,
                     questId: change.questId,
                     blocksForecast: false,
                   });
               } else summary.referenceQuestXp += reward.xp;
-              if (reward.exitBounds) { ledger.total = cumulative(reward.exitBounds.minimum); ledger.maximumTotal = cumulative(reward.exitBounds.maximum); }
+              if (reward.exitBounds) {
+                ledger.total = cumulative(reward.exitBounds.minimum);
+                ledger.maximumTotal = cumulative(reward.exitBounds.maximum);
+              }
             }
             ledger.paid.add(change.questId);
             if (!ledger.blocked.has(change.questId)) {
@@ -1607,6 +1947,7 @@ export function forecastCampaignXp(
         }
       }
     }
+    if (previousActionId !== null) captureProjection(previousActionId);
     const members = ledgers.map((ledger, player): CampaignXpMemberForecast => {
       const {
         sourceSkips,
@@ -1625,6 +1966,7 @@ export function forecastCampaignXp(
         estimatedQuestXp,
         combatXp,
         estimatedCombatXp,
+        incidentalCombatXp,
         outdoorCombatXp,
         dungeonCombatXp,
         combatRows,
@@ -1652,6 +1994,7 @@ export function forecastCampaignXp(
         estimatedQuestXp,
         combatXp,
         estimatedCombatXp,
+        incidentalCombatXp,
         outdoorCombatXp,
         dungeonCombatXp,
         combatRows,
@@ -1696,6 +2039,7 @@ export function forecastCampaignXp(
                   : "covered",
       };
     });
-    return { sectionId: section.id, members, skippedOptionalActionIds };
+    return { sectionId: section.id, members, skippedOptionalActionIds,
+      ...(Object.keys(combatProjections).length ? { combatProjections } : {}) };
   });
 }

@@ -1,11 +1,42 @@
 # WoW Trader Collector
 
-Collector `0.13.0` captures market snapshots plus private character crafting state. Its market
+The independent [KFC Marks](KFCMarks/README.md) addon adds party/raid pre-pull
+marking, native free-icon checks, reservations and coordinator selection. It is
+installed separately and does not change Collector or Companion data. Forever
+combat marking remains locked; applications require a player click/key press.
+
+Collector `0.15.8` captures market snapshots plus private character crafting state. Its market
 scanner has two product-specific providers:
 
 - WoW Forever uses Blizzard's native `C_AuctionHouse.ReplicateItems` API. It does not require
   Auctionator.
 - TBC Anniversary keeps the previously validated Auctionator full-scan integration.
+
+Open your profession window once to load learned recipe costs into item tooltips.
+Matching output items show material value per item and cash needed for missing
+materials per craft; Shift shows the reagent breakdown. Owned materials are valued,
+whole auction stacks affect cash, and unknown prices remain unavailable.
+[Profession leveling and tooltip pricing](../../docs/profession-leveling-planner.md).
+
+Native scans wait up to 120 seconds for the initial auction list, with a visible
+elapsed timer. Each issued full-market request retains the fifteen-minute local
+cooldown even if it times out or is cancelled, including after reload. The latest
+failure is retained locally; Save & Reload can persist it without inventing a scan.
+
+Native scans group pending rows by item, consuming them as metadata becomes
+ready so later cache eviction cannot discard an already captured price. Notifications
+and ordinary reads share the same frame budget and completed positions are deduplicated.
+Explicit loads start after initial row discovery; requests remain rate-limited and bounded.
+Restart WoW once after installing the new `NativePendingRows.lua` TOC module. Cached items are skipped. Failed or unconfirmed item loads receive up to
+three attempts with backoff; completion events and actual cache state are tracked.
+Cache resolution keeps a 60-second grace period after successful load
+requests and stops after at most 180 seconds in the resolution phase. A bounded
+final pass then rereads pending rows once before marking them unresolved; this
+phase issues no additional load or full-market requests. It uses the same row and
+frame budgets, with a ten-second cap; uninspected rows remain unknown. Incomplete
+rows stay excluded; scans below 98% completeness cannot update in-game prices.
+Up to 20 unresolved-row samples stay in local SavedVariables for diagnosis.
+[Recovery behavior, verification and next-scan instructions](../../docs/ah-native-scan-recovery.md).
 
 The addon writes compact, depth-preserving price levels and the latest profession snapshot per
 character to the account-wide `WOW_TRADER_SAVED` SavedVariable. Bounded world-evidence collection
@@ -40,6 +71,19 @@ Auction-House-specific history pack installed by the desktop companion. Search b
 filter buying opportunities or watched items, set a per-item gold budget and quantity limit, and
 page through all results. Use `/wowtrader market [item]` or `/wowtrader watch <itemId>`.
 Item tooltips show the same guidance when the client supports the safe tooltip-data hook.
+
+Collector 0.15.0 adds per-item AH/current-normal/vendor values and supported average
+disenchant proceeds, plus a movable pricing panel next to the profession window.
+Use `/wowtraderprices` or its **WoW Trader prices** button. The selected recipe
+shows reagent quantities, bag inventory, material value, whole-stack cash budgets
+and profit after the AH cut for selling, disenchanting or vendoring. The recipe
+profit tab searches and ranks learned repeatable recipes by exit. Native crafting
+quantity changes update the calculator. Stale quotes, missing inputs and daily
+cooldowns cannot enter current rankings. Forever yield probabilities are visibly
+labelled reference estimates, with build-specific client eligibility and item
+flags; unsupported or inconsistent brackets remain unavailable. See
+[`docs/addon-item-values-and-crafting.md`](../../docs/addon-item-values-and-crafting.md)
+for evidence, limitations and regeneration commands.
 
 Local scans immediately recalculate the price, supply, signal and buying plan. Queued scans also
 work without a downloaded history pack. A newer shared scan takes precedence over an older local
@@ -113,3 +157,8 @@ Maintainer workflows are documented in
 [`docs/forever-leveling-reward-evidence.md`](../../docs/forever-leveling-reward-evidence.md),
 [`docs/forever-leveling-grind-evidence.md`](../../docs/forever-leveling-grind-evidence.md), and
 [`docs/forever-leveling-quest-validation.md`](../../docs/forever-leveling-quest-validation.md).
+
+Bundle generation checks the installed Forever build on macOS when available,
+and desktop packaging runs that check before producing the app. For another
+installed target use `node scripts/prepare-addon-manifest.mjs --check --wow-root /path/to/WoW`.
+Refresh the archived client valuation snapshot when the target build changes.

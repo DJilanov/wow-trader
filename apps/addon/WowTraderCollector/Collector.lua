@@ -1,13 +1,17 @@
 local ADDON_NAME, Addon = ...
+local Pending = Addon.NativePendingRows
 
-local ADDON_VERSION = "0.14.0"
+local ADDON_VERSION = "0.15.8"
 local SAVED_SCHEMA_VERSION = 1
 local MARKET_KEY_VERSION = 1
 local MAX_QUEUED_SCANS = 8
 local NATIVE_ROWS_PER_FRAME = 250
 local NATIVE_FRAME_BUDGET_MS = 8
-local NATIVE_RESPONSE_TIMEOUT_SECONDS = 30
+local NATIVE_RESPONSE_TIMEOUT_SECONDS = 120
 local NATIVE_CACHE_TIMEOUT_SECONDS = 60
+local NATIVE_CACHE_MAX_SECONDS = 180
+local NATIVE_FINAL_PASS_SECONDS = 10
+local NATIVE_DIAGNOSTIC_SAMPLE_LIMIT = 20
 local NATIVE_RETRY_DELAY_SECONDS = 0.5
 local NATIVE_LOCAL_COOLDOWN_SECONDS = 15 * 60
 local REGION_NAMES = {
@@ -177,6 +181,16 @@ local function InitializeSavedVariables()
   if type(WOW_TRADER_SAVED.nativeScanner) ~= "table" then
     WOW_TRADER_SAVED.nativeScanner = {}
   end
+  local failure = WOW_TRADER_SAVED.nativeScanner.lastFailure
+  if nativeScan.status == "idle" and type(failure) == "table" and
+     ReadablePositiveInteger(failure.failedAt) and ReadableString(failure.reason) and
+     failure.failedAt > (ReadablePositiveInteger(WOW_TRADER_SAVED.nativeScanner.lastSuccessfulAt) or 0) then
+    nativeScan = { status = "failed", failureReason = failure.reason,
+      failureCode = ReadableString(failure.code), failedAt = failure.failedAt,
+      quality = { reportedRowCount = ReadableNonnegativeInteger(failure.reportedRowCount) or 0,
+        visitedRowCount = ReadableNonnegativeInteger(failure.visitedRowCount) or 0, completeness = 0,
+        scanDurationMs = ReadableNonnegativeInteger(failure.durationMs) or 0 } }
+  end
   if type(WOW_TRADER_SAVED.watchChanges) ~= "table" then WOW_TRADER_SAVED.watchChanges = {} end
   if type(WOW_TRADER_SAVED.marketWatchlist) ~= "table" then
     WOW_TRADER_SAVED.marketWatchlist = {}
@@ -300,6 +314,7 @@ local function SaveScan(markets, capturedAt, completedAt, quality)
     unresolvedRowCount = quality.unresolvedRowCount,
     invalidRowCount = quality.invalidRowCount,
     secretRowCount = quality.secretRowCount,
+    cacheDiagnostics = quality.cacheDiagnostics,
     scanDurationMs = quality.scanDurationMs,
     auctionHouseStayedOpen = quality.auctionHouseStayedOpen,
     itemSnapshots = itemSnapshots,
@@ -330,7 +345,7 @@ end
 
 local function IsNativeScanActive()
   return nativeScan.status == "awaiting_response" or nativeScan.status == "reading" or
-    nativeScan.status == "resolving_cache"
+    nativeScan.status == "resolving_cache" or nativeScan.status == "finalizing"
 end
 
 local function NativeElapsedMilliseconds()
@@ -347,6 +362,18 @@ local function NativeCompleteness()
 end
 
 local function NativeQuality()
+  local cacheDiagnostics
+  if nativeScan.itemCache then
+    cacheDiagnostics = Addon.NativeItemCache.Snapshot(nativeScan.itemCache)
+    cacheDiagnostics.initialDeferredRows = nativeScan.initialDeferredRows or 0
+    cacheDiagnostics.unresolvedSamples = nativeScan.unresolvedSamples or {}
+    cacheDiagnostics.finalCheckedRows = nativeScan.finalCheckedRows or 0
+    cacheDiagnostics.finalRecoveredRows = nativeScan.finalRecoveredRows or 0
+    cacheDiagnostics.finalUninspectedRows = nativeScan.finalUninspectedRows or 0
+    cacheDiagnostics.finalPassTimedOut = nativeScan.finalPassTimedOut or false
+    cacheDiagnostics.readyCheckedRows = nativeScan.readyCheckedRows or 0
+    cacheDiagnostics.readyRecoveredRows = nativeScan.readyRecoveredRows or 0
+  end
   return {
     provider = "blizzard_replicate",
     apiFlavor = "c_auction_house_replicate",
@@ -360,6 +387,7 @@ local function NativeQuality()
     scanDurationMs = NativeElapsedMilliseconds(),
     auctionHouseStayedOpen = nativeScan.auctionHouseStayedOpen,
     completeness = NativeCompleteness(),
+    cacheDiagnostics = cacheDiagnostics,
   }
 end
 
@@ -380,30 +408,91 @@ local function FinishNativeScan()
   }
 end
 
-local function AbortNativeScan(reason)
+local function AbortNativeScan(reason, code)
   if not IsNativeScanActive() then return false end
   nativeScan.auctionHouseStayedOpen = auctionHouseOpen
+  local quality = NativeQuality()
+  quality.completeness = 0
+  InitializeSavedVariables()
+  local _, build = GetBuildInfo()
+  local failedAt = time()
+  WOW_TRADER_SAVED.nativeScanner.lastFailure = {
+    failedAt = failedAt, code = code or "unknown", reason = reason, stage = nativeScan.status,
+    addonVersion = ADDON_VERSION, clientBuild = tonumber(build), requestIssuedAt = nativeScan.capturedAt,
+    responseTimeoutSeconds = NATIVE_RESPONSE_TIMEOUT_SECONDS, durationMs = quality.scanDurationMs,
+    reportedRowCount = quality.reportedRowCount, visitedRowCount = quality.visitedRowCount,
+  }
   nativeScan = {
     status = "failed",
     failureReason = reason,
-    failedAt = time(),
+    failureCode = code or "unknown",
+    failedAt = failedAt,
+    quality = quality,
   }
   Print(reason .. " No market snapshot was saved.")
   return true
 end
 
-local function ReadNativeRow(index)
+local function CheckNativeResponseTimeout()
+  if nativeScan.status ~= "awaiting_response" or GetTime() < nativeScan.responseDeadline then return false end
+  return AbortNativeScan(string.format(
+    "No auction list arrived within %d seconds. The server may be busy or on cooldown. Retry after the cooldown; Save & Reload keeps diagnostics.",
+    NATIVE_RESPONSE_TIMEOUT_SECONDS), "request_timeout")
+end
+
+local function PrioritizeNativeItem(itemId, force)
+  if nativeScan.pendingRows and (nativeScan.status == "reading" or nativeScan.status == "resolving_cache") then
+    Pending.Prioritize(nativeScan.pendingRows, ReadablePositiveInteger(itemId), force)
+  end
+end
+
+local function MissingNativeRowSample(index, itemId, ready, count, buyout)
+  local cached
+  itemId = ReadablePositiveInteger(itemId)
+  if itemId and itemId > 2147483647 then itemId = nil end
+  if itemId and C_Item and type(C_Item.IsItemDataCachedByID) == "function" then
+    local success, value = pcall(C_Item.IsItemDataCachedByID, itemId)
+    if success and not IsInaccessibleValue(value) and type(value) == "boolean" then cached = value end
+  end
+  if type(ready) ~= "boolean" then ready = nil end
+  local load = Addon.NativeItemCache.Describe(nativeScan.itemCache, itemId)
+  return { rowIndex = index, itemId = itemId, hasAllInfo = ready, itemDataCached = cached,
+    loadAttempts = load.loadAttempts, lastLoadSucceeded = load.lastLoadSucceeded,
+    countReadable = ReadablePositiveInteger(count) ~= nil,
+    buyoutReadable = ReadableNonnegativeInteger(buyout) ~= nil }
+end
+
+local function ReadNativeRow(index, finalPass)
+  if Pending.IsComplete(nativeScan.pendingRows, index) then return "already_read" end
   local succeeded, _, _, count, _, _, _, _, _, _, buyoutPrice, _, _, _, _, _, _, itemId,
     hasAllInfo = pcall(C_AuctionHouse.GetReplicateItemInfo, index)
-  if not succeeded then return "invalid" end
+  if not succeeded then Pending.Complete(nativeScan.pendingRows, index); return "invalid" end
   if IsInaccessibleValue(count) or IsInaccessibleValue(buyoutPrice) or
      IsInaccessibleValue(itemId) or IsInaccessibleValue(hasAllInfo) then
+    Pending.Complete(nativeScan.pendingRows, index)
     return "secret"
   end
-  if hasAllInfo ~= true then return "deferred" end
+  if hasAllInfo ~= true then
+    if finalPass then
+      if #nativeScan.unresolvedSamples < NATIVE_DIAGNOSTIC_SAMPLE_LIMIT then
+        return "deferred", MissingNativeRowSample(index, itemId, hasAllInfo, count, buyoutPrice)
+      end
+      return "deferred"
+    end
+    local succeededLink, itemLink = pcall(C_AuctionHouse.GetReplicateItemLink, index)
+    itemLink = succeededLink and ReadableString(itemLink) or nil
+    local missingItemId = ReadablePositiveInteger(itemId)
+    if not missingItemId and itemLink then missingItemId = tonumber(string.match(itemLink, "item:(%d+)")) end
+    Pending.Track(nativeScan.pendingRows, index, missingItemId)
+    Addon.NativeItemCache.Queue(nativeScan.itemCache, missingItemId, itemLink)
+    return "deferred"
+  end
 
   count = ReadablePositiveInteger(count)
   itemId = ReadablePositiveInteger(itemId)
+  local wasPending = Pending.Complete(nativeScan.pendingRows, index)
+  Addon.NativeItemCache.MarkReady(nativeScan.itemCache, itemId)
+  PrioritizeNativeItem(itemId, wasPending)
   buyoutPrice = ReadableNonnegativeInteger(buyoutPrice)
   if count == nil or itemId == nil or buyoutPrice == nil then return "invalid" end
   if buyoutPrice == 0 then return "no_buyout" end
@@ -429,6 +518,33 @@ local function RecordNativeRowResult(result)
   end
 end
 
+local function NativeReadBudget()
+  return { startedAt = ProfileMilliseconds(), processed = 0 }
+end
+
+local function HasNativeReadBudget(budget)
+  return budget.processed < NATIVE_ROWS_PER_FRAME and ProfileMilliseconds() - budget.startedAt < NATIVE_FRAME_BUDGET_MS
+end
+
+local function ProcessNativeReadyRows(budget)
+  if nativeScan.status == "resolving_cache" and GetTime() >= nativeScan.cacheHardDeadline then return end
+  while Pending.HasReady(nativeScan.pendingRows) and HasNativeReadBudget(budget) do
+    local index, checked = Pending.TakeReady(nativeScan.pendingRows, NATIVE_ROWS_PER_FRAME - budget.processed)
+    budget.processed = budget.processed + checked
+    if index then
+      local result = ReadNativeRow(index)
+      nativeScan.readyCheckedRows = (nativeScan.readyCheckedRows or 0) + 1
+      if result ~= "deferred" then
+        RecordNativeRowResult(result)
+        if result == "priced" or result == "no_buyout" then
+          nativeScan.readyRecoveredRows = (nativeScan.readyRecoveredRows or 0) + 1
+        end
+      end
+    end
+  end
+  if nativeScan.status == "resolving_cache" and nativeScan.pendingRows.count == 0 then FinishNativeScan() end
+end
+
 local function StartNativeCachePass()
   nativeScan.status = "resolving_cache"
   nativeScan.retryQueue = nativeScan.deferredRows
@@ -436,14 +552,63 @@ local function StartNativeCachePass()
   nativeScan.retryCursor = 1
   nativeScan.retryNotBefore = GetTime()
   nativeScan.cacheDeadline = GetTime() + NATIVE_CACHE_TIMEOUT_SECONDS
+  nativeScan.cacheHardDeadline = GetTime() + NATIVE_CACHE_MAX_SECONDS
+  nativeScan.initialDeferredRows = #nativeScan.deferredRows
   nativeScan.deferredRows = nil
 end
 
-local function ProcessNativeInitialRows()
-  local frameStartedAt = ProfileMilliseconds()
-  local processedThisFrame = 0
+local function StartNativeFinalPass()
+  nativeScan.status = "finalizing"
+  nativeScan.finalDeadline = GetTime() + NATIVE_FINAL_PASS_SECONDS
+  nativeScan.finalNextCursor = 1
+  nativeScan.finalRemaining = nativeScan.pendingRows.count
+  nativeScan.finalCheckedRows = 0
+  nativeScan.finalRecoveredRows = 0
+  nativeScan.unresolvedSamples = {}
+end
+
+local function ProcessNativeFinalRows()
+  if GetTime() >= nativeScan.finalDeadline then
+    nativeScan.finalPassTimedOut = true
+    nativeScan.finalUninspectedRows = nativeScan.finalRemaining
+    nativeScan.unresolvedRowCount = nativeScan.unresolvedRowCount + nativeScan.finalRemaining
+    nativeScan.finalRemaining = 0
+    FinishNativeScan()
+    return
+  end
+  local started, processed = ProfileMilliseconds(), 0
+  while nativeScan.finalRemaining > 0 and processed < NATIVE_ROWS_PER_FRAME do
+    local index
+    if nativeScan.finalNextCursor <= #nativeScan.retryNext then
+      index = nativeScan.retryNext[nativeScan.finalNextCursor]
+      nativeScan.finalNextCursor = nativeScan.finalNextCursor + 1
+    else
+      index = nativeScan.retryQueue[nativeScan.retryCursor]
+      nativeScan.retryCursor = nativeScan.retryCursor + 1
+    end
+    -- Classify and sample the same read; ready rows must not become unresolved at timeout.
+    local result, sample = ReadNativeRow(index, true)
+    if result == "deferred" then
+      nativeScan.unresolvedRowCount = nativeScan.unresolvedRowCount + 1
+      Pending.Complete(nativeScan.pendingRows, index)
+      if sample then table.insert(nativeScan.unresolvedSamples, sample) end
+    else
+      RecordNativeRowResult(result)
+      if result == "priced" or result == "no_buyout" then
+        nativeScan.finalRecoveredRows = nativeScan.finalRecoveredRows + 1
+      end
+    end
+    nativeScan.finalRemaining = nativeScan.pendingRows.count
+    if result ~= "already_read" then nativeScan.finalCheckedRows = nativeScan.finalCheckedRows + 1 end
+    processed = processed + 1
+    if ProfileMilliseconds() - started >= NATIVE_FRAME_BUDGET_MS then break end
+  end
+  if nativeScan.finalRemaining == 0 then FinishNativeScan() end
+end
+
+local function ProcessNativeInitialRows(budget)
   while nativeScan.nextIndex < nativeScan.reportedRowCount and
-        processedThisFrame < NATIVE_ROWS_PER_FRAME do
+        HasNativeReadBudget(budget) do
     local index = nativeScan.nextIndex
     local result = ReadNativeRow(index)
     nativeScan.visitedRowCount = nativeScan.visitedRowCount + 1
@@ -453,12 +618,13 @@ local function ProcessNativeInitialRows()
       RecordNativeRowResult(result)
     end
     nativeScan.nextIndex = index + 1
-    processedThisFrame = processedThisFrame + 1
-    if ProfileMilliseconds() - frameStartedAt >= NATIVE_FRAME_BUDGET_MS then break end
+    budget.processed = budget.processed + 1
+    if Pending.HasReady(nativeScan.pendingRows) then break end
   end
 
   if nativeScan.nextIndex >= nativeScan.reportedRowCount then
-    if #nativeScan.deferredRows == 0 then
+    nativeScan.initialDeferredRows = #nativeScan.deferredRows
+    if nativeScan.pendingRows.count == 0 then
       FinishNativeScan()
     else
       StartNativeCachePass()
@@ -466,14 +632,20 @@ local function ProcessNativeInitialRows()
   end
 end
 
-local function ProcessNativeCacheRows()
+local function ProcessNativeCacheRows(budget)
   local now = GetTime()
+  if now >= nativeScan.cacheHardDeadline then StartNativeFinalPass(); return end
+  Addon.NativeItemCache.Process(nativeScan.itemCache, now)
+  -- Only real item-load requests earn additional grace; unresolved rows never become priced by waiting.
+  local lastRequest = nativeScan.itemCache.lastRequestAt
+  if lastRequest then nativeScan.cacheDeadline = math.min(nativeScan.cacheHardDeadline,
+    math.max(nativeScan.cacheDeadline, lastRequest + NATIVE_CACHE_TIMEOUT_SECONDS)) end
+  ProcessNativeReadyRows(budget)
+  if nativeScan.status ~= "resolving_cache" then return end
   if now < nativeScan.retryNotBefore then return end
-  local frameStartedAt = ProfileMilliseconds()
-  local processedThisFrame = 0
 
   while nativeScan.retryCursor <= #nativeScan.retryQueue and
-        processedThisFrame < NATIVE_ROWS_PER_FRAME do
+        HasNativeReadBudget(budget) do
     local index = nativeScan.retryQueue[nativeScan.retryCursor]
     local result = ReadNativeRow(index)
     if result == "deferred" then
@@ -482,8 +654,8 @@ local function ProcessNativeCacheRows()
       RecordNativeRowResult(result)
     end
     nativeScan.retryCursor = nativeScan.retryCursor + 1
-    processedThisFrame = processedThisFrame + 1
-    if ProfileMilliseconds() - frameStartedAt >= NATIVE_FRAME_BUDGET_MS then break end
+    budget.processed = budget.processed + 1
+    if Pending.HasReady(nativeScan.pendingRows) then break end
   end
 
   if nativeScan.retryCursor <= #nativeScan.retryQueue then return end
@@ -492,8 +664,7 @@ local function ProcessNativeCacheRows()
     return
   end
   if now >= nativeScan.cacheDeadline then
-    nativeScan.unresolvedRowCount = #nativeScan.retryNext
-    FinishNativeScan()
+    StartNativeFinalPass()
     return
   end
 
@@ -505,28 +676,32 @@ end
 
 local function BeginNativeResultRead()
   if nativeScan.status ~= "awaiting_response" then return end
+  if CheckNativeResponseTimeout() then return end
   local count = SafeCallOne(C_AuctionHouse.GetNumReplicateItems)
   count = ReadableNonnegativeInteger(count)
   if count == nil or count > 1000000 then
-    AbortNativeScan("Blizzard returned an invalid replication row count.")
+    AbortNativeScan("Blizzard returned an invalid replication row count.", "invalid_response")
     return
   end
   nativeScan.status = "reading"
   nativeScan.reportedRowCount = count
   nativeScan.nextIndex = 0
   if count == 0 then
-    AbortNativeScan("Blizzard returned an empty replicated Auction House result.")
+    AbortNativeScan("Blizzard returned an empty replicated Auction House result.", "empty_response")
   end
 end
 
 local function NativeCooldownRemaining()
   InitializeSavedVariables()
-  local lastSuccessfulAt = WOW_TRADER_SAVED.nativeScanner.lastSuccessfulAt
-  if type(lastSuccessfulAt) ~= "number" then return 0 end
-  return math.max(0, NATIVE_LOCAL_COOLDOWN_SECONDS - (time() - lastSuccessfulAt))
+  local state = WOW_TRADER_SAVED.nativeScanner
+  local lastAt = math.max(ReadablePositiveInteger(state.lastRequestedAt) or 0,
+    ReadablePositiveInteger(state.lastSuccessfulAt) or 0)
+  if lastAt == 0 then return 0 end
+  return math.max(0, NATIVE_LOCAL_COOLDOWN_SECONDS - (time() - lastAt))
 end
 
 local function StartNativeScan()
+  if not Addon.NativeItemCache or not Pending then Print("Reinstall the Collector and restart WoW to load its native scanner modules."); return end
   if not IsNativeProviderAvailable() then
     Print("the native Forever Auction House API is unavailable on this client build.")
     return
@@ -572,14 +747,23 @@ local function StartNativeScan()
     unresolvedRowCount = 0,
     invalidRowCount = 0,
     secretRowCount = 0,
+    pendingRows = Pending.New(),
+    itemCache = Addon.NativeItemCache.New(GetTime(), ProfileMilliseconds, PrioritizeNativeItem),
   }
 
+  -- Reserve the cooldown before the call: response/throttle events can be synchronous.
+  local previousRequestAt = WOW_TRADER_SAVED.nativeScanner.lastRequestedAt
+  WOW_TRADER_SAVED.nativeScanner.lastRequestedAt = nativeScan.capturedAt
   local succeeded = pcall(C_AuctionHouse.ReplicateItems)
   if not succeeded then
-    AbortNativeScan("Blizzard rejected the full-market request.")
+    WOW_TRADER_SAVED.nativeScanner.lastRequestedAt = previousRequestAt
+    AbortNativeScan("Blizzard rejected the full-market request.", "request_rejected")
     return
   end
-  Print("native Forever market scan requested; waiting for Blizzard's response.")
+  if nativeScan.status == "awaiting_response" then
+    Print(string.format("native market scan requested; waiting up to %d seconds for the auction list. Keep the AH open.",
+      NATIVE_RESPONSE_TIMEOUT_SECONDS))
+  end
 end
 
 local function NativeStatus()
@@ -587,10 +771,13 @@ local function NativeStatus()
     Print(string.format("native scan reading %d/%d rows.", nativeScan.nextIndex,
       nativeScan.reportedRowCount))
   elseif nativeScan.status == "resolving_cache" then
-    local remaining = #nativeScan.retryQueue - nativeScan.retryCursor + 1
+    local remaining = nativeScan.pendingRows.count
     Print(string.format("native scan resolving %d cached item row(s).", math.max(0, remaining)))
   elseif nativeScan.status == "awaiting_response" then
-    Print("native scan is waiting for Blizzard's response.")
+    Print(string.format("native scan is waiting for the auction list; %d seconds remaining. Keep the AH open.",
+      math.max(0, math.ceil(nativeScan.responseDeadline - GetTime()))))
+  elseif nativeScan.status == "finalizing" then
+    Print(string.format("native scan is checking %d remaining listings before saving.", nativeScan.finalRemaining))
   elseif nativeScan.status == "saved" then
     Print(string.format("last native scan saved %d market(s); /reload or log out to upload.",
       nativeScan.marketCount or 0))
@@ -812,6 +999,7 @@ local function SnapshotQuality(scan, marketCount)
     secretRowCount = scan.secretRowCount or 0,
     completeness = scan.completeness or 0,
     scanDurationMs = scan.scanDurationMs or 0,
+    cacheDiagnostics = scan.cacheDiagnostics,
   }
 end
 
@@ -820,6 +1008,8 @@ local function GetNativeSnapshotQuality()
     return SnapshotQuality(NativeQuality(), 0)
   elseif nativeScan.status == "saved" then
     return SnapshotQuality(nativeScan.quality, nativeScan.marketCount)
+  elseif nativeScan.status == "failed" then
+    return SnapshotQuality(nativeScan.quality, 0)
   end
   return SnapshotQuality(GetLastSavedScan())
 end
@@ -859,7 +1049,10 @@ function Addon.GetScannerSnapshot()
       progressValue = nativeScan.nextIndex or 0
     elseif nativeScan.status == "resolving_cache" then
       progressValue = nativeScan.reportedRowCount or 0
-      resolvingCount = math.max(0, #nativeScan.retryQueue - nativeScan.retryCursor + 1)
+      resolvingCount = nativeScan.pendingRows.count
+    elseif nativeScan.status == "finalizing" then
+      progressValue = nativeScan.reportedRowCount or 0
+      resolvingCount = nativeScan.finalRemaining
     elseif nativeScan.status == "saved" then
       progressValue = quality.reportedRowCount
     end
@@ -900,11 +1093,15 @@ function Addon.GetScannerSnapshot()
     inCombat = inCombat and true or false,
     status = status,
     failureReason = nativeProvider and nativeScan.failureReason or auctionatorScan.failureReason,
+    failureCode = nativeProvider and nativeScan.failureCode or nil,
+    responseWaitSeconds = nativeProvider and nativeScan.status == "awaiting_response" and
+      math.max(0, NATIVE_RESPONSE_TIMEOUT_SECONDS - math.ceil(nativeScan.responseDeadline - GetTime())) or 0,
+    responseTimeoutSeconds = NATIVE_RESPONSE_TIMEOUT_SECONDS,
     active = active,
     canScan = providerAvailable and auctionHouseOpen and not active and not inCombat and
       cooldownRemaining <= 0 and throttleReady ~= false,
     canCancel = nativeProvider and active,
-    canReload = #WOW_TRADER_SAVED.scans > 0 and not active and not inCombat,
+    canReload = (#WOW_TRADER_SAVED.scans > 0 or (nativeProvider and status == "failed")) and not active and not inCombat,
     progressValue = progressValue,
     progressMaximum = progressMaximum,
     resolvingCount = resolvingCount,
@@ -920,7 +1117,7 @@ function Addon.StartScan()
 end
 
 function Addon.CancelScan()
-  if not AbortNativeScan("Native market scan cancelled.") then
+  if not AbortNativeScan("Native market scan cancelled.", "cancelled") then
     Print("no native market scan is running.")
   end
 end
@@ -1013,18 +1210,20 @@ local function BuildMarketCache(data)
     end
   end
   local ids = useLocal and current or data.items
-  local items = {}
+  local items, byId = {}, {}
   for itemId in pairs(ids) do
     local item = data.items[itemId] or {}
     local observations = {}
     for _, row in ipairs(item.history or {}) do table.insert(observations, row) end
     for _, row in ipairs(localHistory[itemId] or {}) do table.insert(observations, row) end
+    local historyAt = 0
+    for _, row in ipairs(observations) do historyAt = math.max(historyAt, tonumber(row[1]) or 0) end
     local analysis = policy.Analyze(observations)
     local observed = current[itemId]
     local name = item.name
     if type(name) ~= "string" and observed and type(observed.itemLink) == "string" then name = string.match(observed.itemLink, "%[(.-)%]") end
     if type(name) ~= "string" then name = SafeCallOne(GetItemInfo, itemId) or ("Item " .. tostring(itemId)) end
-    table.insert(items, {
+    local entry = {
       itemId = itemId, name = name, signal = analysis.signal or "collecting",
       observations = analysis.observations, minimum = 6,
       current = observed and observed.book.current or analysis.current,
@@ -1033,9 +1232,13 @@ local function BuildMarketCache(data)
       listings = observed and observed.book.listings or analysis.listings,
       confidenceBP = analysis.confidenceBP, analysis = analysis,
       levels = observed and observed.book.levels or {},
-    })
+      hasCurrentBook = observed ~= nil,
+      historyAt = historyAt,
+    }
+    table.insert(items, entry)
+    byId[itemId] = entry
   end
-  return { data = data, latest = latest, items = items,
+  return { data = data, latest = latest, items = items, byId = byId, historical = {}, localHistory = localHistory,
     observedAt = useLocal and latest.completedAt or data.sourceScanEpoch,
     sourceScanAt = useLocal and date("%Y-%m-%d %H:%M", latest.completedAt) or data.sourceScanAt }
 end
@@ -1085,7 +1288,7 @@ local function GetWatchPreference(itemId)
   return preference
 end
 
-function Addon.GetMarketIntelligenceSnapshot(searchText, options)
+local function GetPriceCache()
   InitializeSavedVariables()
   local data = WOW_TRADER_MARKET_DATA
   local compatible, reason = MarketDataCompatibility(data)
@@ -1104,13 +1307,69 @@ function Addon.GetMarketIntelligenceSnapshot(searchText, options)
     end
   end
   if not compatible or not Addon.MarketPolicy then
-    return { available = false, reason = reason or "The pricing policy is missing. Reinstall the collector.", items = {} }
+    return nil, reason or "The pricing policy is missing. Reinstall the collector."
   end
-  options = options or {}
   local newest = WOW_TRADER_SAVED.scans[#WOW_TRADER_SAVED.scans]
   if not marketCache or marketCache.data ~= data or marketCache.newest ~= newest then
     marketCache = BuildMarketCache(data); marketCache.newest = newest
   end
+  return marketCache
+end
+
+function Addon.GetMarketPriceContext()
+  local cache, reason = GetPriceCache()
+  if not cache then
+    local client = Addon.GetCollectorContext() or {}
+    return { available = false, reason = reason, clientProduct = client.clientProduct,
+      clientBuild = client.clientBuild, auctionHouseType = client.auctionHouseType }
+  end
+  local now = SafeCallOne(GetServerTime) or time()
+  local age = now - (tonumber(cache.observedAt) or 0)
+  return { available = true, observedAt = cache.observedAt, sourceScanAt = cache.sourceScanAt,
+    ageSeconds = age, fresh = age >= -300 and age <= 3600,
+    clientProduct = cache.data.clientProduct, clientBuild = cache.data.clientBuild,
+    region = cache.data.region, realmId = cache.data.realmId,
+    auctionHouseType = cache.data.auctionHouseType, revision = cache }
+end
+
+function Addon.GetItemPriceQuote(itemId)
+  if (type(issecretvalue) == "function" and issecretvalue(itemId)) or
+     (type(canaccessvalue) == "function" and not canaccessvalue(itemId)) then return nil end
+  if not Addon.MarketPolicy then return nil end
+  itemId = Addon.MarketPolicy.Integer(itemId, 1, 2147483647)
+  if not itemId then return nil end
+  local cache = GetPriceCache()
+  if not cache then return nil end
+  local item = cache.byId[itemId]
+  if not item then
+    local historical = cache.historical[itemId]
+    if historical == nil then
+      local source = cache.data.items[itemId]
+      local observations = {}
+      for _, row in ipairs(source and source.history or {}) do table.insert(observations, row) end
+      for _, row in ipairs(cache.localHistory[itemId] or {}) do table.insert(observations, row) end
+      historical = Addon.MarketPolicy.Analyze(observations)
+      historical.historyAt = 0
+      for _, row in ipairs(observations) do historical.historyAt = math.max(historical.historyAt, tonumber(row[1]) or 0) end
+      cache.historical[itemId] = historical
+    end
+    if not historical or historical.status ~= "available" then return nil end
+    item = historical
+  end
+  local historyAge = (SafeCallOne(GetServerTime) or time()) - (item.historyAt or 0)
+  local normal = historyAge >= -300 and historyAge <= 604800 and item.normal or nil
+  return { itemId = itemId, current = item.hasCurrentBook and item.current or nil,
+    normal = normal, low = item.analysis and item.analysis.low or item.low,
+    high = item.analysis and item.analysis.high or item.high,
+    levels = item.levels or {}, observations = item.observations or 0,
+    observedAt = cache.observedAt, signal = item.signal, hasCurrentBook = item.hasCurrentBook == true }
+end
+
+function Addon.GetMarketIntelligenceSnapshot(searchText, options)
+  local cache, reason = GetPriceCache()
+  if not cache then return { available = false, reason = reason, items = {} } end
+  local data = cache.data
+  options = options or {}
   local now = SafeCallOne(GetServerTime) or time()
   local query = string.lower(string.match(searchText or "", "^%s*(.-)%s*$"))
   local items = {}
@@ -1284,7 +1543,7 @@ marketFrame:RegisterEvent("PLAYER_LOGIN")
 marketFrame:RegisterEvent("PLAYER_LOGOUT")
 marketFrame:RegisterEvent("AUCTION_HOUSE_SHOW")
 marketFrame:RegisterEvent("AUCTION_HOUSE_CLOSED")
-marketFrame:SetScript("OnEvent", function(_, eventName, loadedAddonName)
+marketFrame:SetScript("OnEvent", function(_, eventName, loadedAddonName, eventSuccess)
   if eventName == "ADDON_LOADED" then
     if loadedAddonName == ADDON_NAME then InitializeSavedVariables() end
     return
@@ -1293,11 +1552,19 @@ marketFrame:SetScript("OnEvent", function(_, eventName, loadedAddonName)
       marketFrame:RegisterEvent("AUCTION_HOUSE_DISABLED")
       marketFrame:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
       marketFrame:RegisterEvent("AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED")
+      marketFrame:RegisterEvent("ITEM_DATA_LOAD_RESULT")
+      marketFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
     else
       RegisterAuctionatorEvents()
       if not AuctionatorIsAvailable() then
         Print("Auctionator is required for TBC market scans.")
       end
+    end
+    return
+  elseif eventName == "ITEM_DATA_LOAD_RESULT" or eventName == "GET_ITEM_INFO_RECEIVED" then
+    if IsNativeScanActive() and nativeScan.itemCache then
+      Addon.NativeItemCache.OnLoadResult(nativeScan.itemCache, loadedAddonName, eventSuccess, GetTime())
+      if ReadableValue(eventSuccess) == true then PrioritizeNativeItem(loadedAddonName, true) end
     end
     return
   elseif eventName == "AUCTION_HOUSE_SHOW" then
@@ -1307,7 +1574,7 @@ marketFrame:SetScript("OnEvent", function(_, eventName, loadedAddonName)
     auctionHouseOpen = false
     if IsNativeScanActive() then
       nativeScan.auctionHouseStayedOpen = false
-      AbortNativeScan("The Auction House closed before the native scan completed.")
+      AbortNativeScan("The Auction House closed before the native scan completed.", "ah_closed")
     end
     return
   elseif eventName == "REPLICATE_ITEM_LIST_UPDATE" then
@@ -1315,22 +1582,26 @@ marketFrame:SetScript("OnEvent", function(_, eventName, loadedAddonName)
     return
   elseif eventName == "AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED" and
          nativeScan.status == "awaiting_response" then
-    AbortNativeScan("Blizzard throttled the full-market request.")
+    AbortNativeScan("Blizzard throttled the full-market request. Retry after the full-scan cooldown.", "throttled")
     return
   elseif eventName == "PLAYER_LOGOUT" and IsNativeScanActive() then
     nativeScan.auctionHouseStayedOpen = false
-    AbortNativeScan("Logout interrupted the native market scan.")
+    AbortNativeScan("Logout interrupted the native market scan.", "logout")
   end
 end)
 
 marketFrame:SetScript("OnUpdate", function()
   if nativeScan.status == "awaiting_response" then
-    if GetTime() >= nativeScan.responseDeadline then
-      AbortNativeScan("The native market request timed out or is still on server cooldown.")
-    end
+    CheckNativeResponseTimeout()
   elseif nativeScan.status == "reading" then
-    ProcessNativeInitialRows()
+    local budget = NativeReadBudget()
+    ProcessNativeReadyRows(budget)
+    if HasNativeReadBudget(budget) then ProcessNativeInitialRows(budget) end
   elseif nativeScan.status == "resolving_cache" then
-    ProcessNativeCacheRows()
+    local budget = NativeReadBudget()
+    ProcessNativeReadyRows(budget)
+    if nativeScan.status == "resolving_cache" and HasNativeReadBudget(budget) then ProcessNativeCacheRows(budget) end
+  elseif nativeScan.status == "finalizing" then
+    ProcessNativeFinalRows()
   end
 end)

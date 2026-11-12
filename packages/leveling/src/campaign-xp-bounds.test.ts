@@ -57,6 +57,81 @@ function enumerate(
 }
 
 describe("campaign XP interval propagation", () => {
+  it("does not infer synchronized bars from equal marginal ranges at the Coastrunner boundary", () => {
+    const creature = {
+      ...npc,
+      id: 126,
+      name: "Murloc Coastrunner",
+      minimumLevel: 12,
+      maximumLevel: 13,
+    };
+    const minimum = { level: 17, currentXp: 14860 },
+      maximum = { level: 18, currentXp: 93 };
+    const positions = Array.from({ length: 5 }, () => ({ minimum, maximum }));
+    const saved = JSON.stringify(positions);
+    const uncertain = estimateBoundedPartyKills({
+      npc: creature,
+      positions,
+      kills: 1,
+      environment: "outdoor",
+    });
+    expect(uncertain.every((row) => row.xp === null && row.maximumExit === null)).toBe(true);
+    expect(uncertain[0]!.reason).toContain("suppression");
+    for (const bar of [minimum, maximum]) {
+      const known = estimateBoundedPartyKills({
+        npc: creature,
+        positions: Array.from({ length: 5 }, () => ({ minimum: bar, maximum: bar })),
+        kills: 1,
+        environment: "outdoor",
+      });
+      expect(known.every((row) => row.xp !== null && row.maximumExit !== null)).toBe(true);
+    }
+    expect(JSON.stringify(positions)).toBe(saved);
+  });
+
+  it("keeps marginal earned XP separate from the coupled exit bound across a level boundary", () => {
+    const minimum = { level: 6, currentXp: 3320 },
+      maximum = { level: 7, currentXp: 154 };
+    const creature = { ...npc, minimumLevel: 6, maximumLevel: 7 };
+    const result = estimateBoundedPartyKills({
+      npc: creature,
+      positions: Array.from({ length: 5 }, () => ({ minimum, maximum })),
+      kills: 7,
+      environment: "outdoor",
+    })[0]!;
+    expect(result.xp).toBe(84);
+    expect(result.exit).toEqual({ level: 6, currentXp: 3411 });
+    expect(total(result.exit) - total(minimum)).toBe(91);
+
+    // Enumerate every synchronized integer starting bar and shared mob-level sequence.
+    let states = new Set(
+      Array.from(
+        { length: total(maximum) - total(minimum) + 1 },
+        (_, offset) => total(minimum) + offset,
+      ),
+    );
+    for (let kill = 0; kill < 7; kill++) {
+      const next = new Set<number>();
+      for (const accumulated of states) {
+        const position = advanceCombatPosition({ level: 1, currentXp: 0 }, accumulated);
+        for (const level of [6, 7]) {
+          const payout = estimateCreatureKills({
+            npc: { ...creature, minimumLevel: level, maximumLevel: level },
+            kills: 1,
+            position,
+            environment: "outdoor",
+            partySize: 5,
+            partyLevels: Array<number>(5).fill(position.level),
+          });
+          expect(payout.xp).not.toBeNull();
+          next.add(accumulated + payout.xp!);
+        }
+      }
+      states = next;
+    }
+    expect(total(result.exit)).toBeLessThanOrEqual(Math.min(...states));
+    expect(total(result.maximumExit!)).toBeGreaterThanOrEqual(Math.max(...states));
+  });
   it("encloses every simultaneous outcome while unequal players cross levels", () => {
     const positions = start.map((minimum) => ({ minimum, maximum: minimum }));
     const result = estimateBoundedPartyKills({ npc, positions, kills: 7, environment: "outdoor" });

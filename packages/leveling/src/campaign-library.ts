@@ -5,13 +5,27 @@ import {
 } from "./chapter-catalog.js";
 import { getGuideStepView, type ImportedDirective } from "./guide-archive.js";
 import type { CharacterProfile } from "./profile.js";
-import type { CampaignAction, CampaignSource } from "./campaign.js";
+import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import type { CombatQuestReference } from "./combat-model.js";
 import { campaignReferencePrerequisites } from "./campaign-reference-quests.js";
-import { isSingleGroundPickup } from "./campaign-ground-pickup.js";
+import {
+  isSingleGroundPickup,
+  isReferencedGroundCollection,
+  isExplicitGroundPickup,
+} from "./campaign-ground-pickup.js";
 import { campaignActionSource } from "./campaign-source-conditions.js";
 import { createCampaignSourcePhaseSelector } from "./campaign-source-phase-selection.js";
+import {
+  isCommonCampaignQuestMethod,
+  sharedCampaignQuestSources,
+} from "./campaign-shared-source.js";
+import {
+  eligibleCampaignLibrarySource,
+  type EligibleCampaignLibrarySource,
+} from "./campaign-library-source-profile.js";
+import { CAMPAIGN_RACES } from "./campaign-route.js";
+import { isOptionalCombatUtilityUse } from "./combat-source-utility.js";
 
 export type LibraryObjective =
   "shared-kills" | "named-trophy" | "delivery" | "interaction" | "collection" | "unclassified";
@@ -27,8 +41,21 @@ export interface CampaignLibraryQuest {
   readonly held: boolean;
   readonly complete: boolean;
   readonly abandoned: boolean;
+  readonly worldObjectPickup?: true;
   readonly backbone: boolean;
   readonly actions: readonly (CampaignAction & { readonly referenceLevel: number })[];
+}
+
+export interface CampaignLibraryOptions {
+  readonly ordinaryQuestIds: ReadonlySet<number>;
+}
+
+export function campaignLibraryOptions(
+  plan: Pick<CampaignPlan, "sharedQuestsOnly" | "sharedSourceQuestIds">,
+): CampaignLibraryOptions | undefined {
+  return plan.sharedQuestsOnly
+    ? { ordinaryQuestIds: new Set(plan.sharedSourceQuestIds ?? []) }
+    : undefined;
 }
 
 interface LibraryStage {
@@ -40,6 +67,7 @@ interface LibraryStage {
   readonly objective: LibraryObjective | null;
   readonly groundPickup: boolean;
   readonly held: boolean;
+  readonly recommendationRank: number;
   readonly completionGuard: boolean;
 }
 
@@ -227,22 +255,44 @@ export function buildCampaignQuestLibrary(
   dungeonTags: readonly string[],
   backboneSourceIds: ReadonlySet<number> = new Set(),
   questReferences: readonly CombatQuestReference[] = [],
+  options?: CampaignLibraryOptions,
 ): readonly CampaignLibraryQuest[] {
   const references = new Map(questReferences.map((quest) => [quest.questId, quest]));
+  const ordinaryQuestIds = new Set(
+    [...(options?.ordinaryQuestIds ?? [])].filter(
+      (id) => (references.get(id)?.requiredClasses ?? 0) === 0,
+    ),
+  );
+  const race = CAMPAIGN_RACES.find((entry) => entry === profile.raceId);
+  const librarySources =
+    options && race ? sharedCampaignQuestSources(sources, race, ordinaryQuestIds) : sources;
   const stages = new Map<number, Map<string, LibraryStage>>();
   const titles = new Map<number, string>();
   const parents = new Map<number, Set<number>>();
   const collectionIds = new Set<number>();
   const abandonedIds = new Set<number>();
-  const sorted = [...sources]
-    .filter((source) => chapterEligibility(source.reference, profile) === "match")
+  const recommendationRank = (entry: EligibleCampaignLibrarySource): number =>
+    Number(
+      entry.ordinaryOnly ||
+        (ordinaryQuestIds.size > 0 && personalCondition.test(entry.source.reference.condition)),
+    );
+  const sorted = librarySources
+    .flatMap((source) => {
+      const eligible = eligibleCampaignLibrarySource(source, profile, ordinaryQuestIds.size > 0);
+      return eligible ? [eligible] : [];
+    })
     .sort(
       (left, right) =>
-        getChapterLabel(left.reference, profile).minimumLevel -
-          getChapterLabel(right.reference, profile).minimumLevel ||
-        left.reference.sourceId - right.reference.sourceId,
+        recommendationRank(left) - recommendationRank(right) ||
+        getChapterLabel(left.source.reference, profile).minimumLevel -
+          getChapterLabel(right.source.reference, profile).minimumLevel ||
+        left.source.reference.sourceId - right.source.reference.sourceId,
     );
-  for (const { reference, guide } of sorted) {
+  for (const {
+    source: { reference, guide },
+    ordinaryOnly,
+  } of sorted) {
+    const sourceRank = recommendationRank({ source: { reference, guide }, ordinaryOnly });
     const selectPhase = createCampaignSourcePhaseSelector(
       guide,
       profile,
@@ -264,6 +314,16 @@ export function buildCampaignQuestLibrary(
         { dungeons: dungeonTags },
       );
       if (view.condition !== "match") continue;
+      const ordinaryMethod =
+        ordinaryQuestIds.size > 0 &&
+        view.conditionalDirectives.length === 0 &&
+        isCommonCampaignQuestMethod(view.directives, ordinaryQuestIds);
+      if (
+        ordinaryOnly &&
+        view.directives.some((row) => [".accept", ".complete", ".turnin"].includes(row.tag)) &&
+        !ordinaryMethod
+      )
+        continue;
       for (const directive of view.directives) {
         if (directive.tag !== ".abandon") continue;
         const questId = Number(directive.arguments.split(",")[0]);
@@ -326,7 +386,18 @@ export function buildCampaignQuestLibrary(
         ].filter(Boolean);
         const groundPickup =
           state === "objectives-complete" &&
-          isSingleGroundPickup(references.get(questId), objectiveIndex!, view.directives);
+          (isExplicitGroundPickup(references.get(questId), objectiveIndex!, view.directives) ||
+            isSingleGroundPickup(references.get(questId), objectiveIndex!, view.directives) ||
+            isReferencedGroundCollection(
+              references.get(questId),
+              objectiveIndex!,
+              view.directives,
+              {
+                chapterId: guide.chapterId,
+                version: guide.version,
+                stepId: step.id,
+              },
+            ));
         const objective =
           state === "objectives-complete"
             ? groundPickup
@@ -336,10 +407,10 @@ export function buildCampaignQuestLibrary(
                   ...view.directives.filter((entry) =>
                     [".collect", ".use", ".cast", ".gossip", ".interact"].includes(entry.tag),
                   ),
-                ])
+                ].filter((entry) => !isOptionalCombatUtilityUse(entry, references.get(questId), objectiveIndex!)))
             : null;
         const held =
-          personalCondition.test(reference.condition) ||
+          (!ordinaryMethod && personalCondition.test(reference.condition)) ||
           personalCondition.test(step.condition) ||
           personalCondition.test(directive.condition) ||
           view.runtimeChecks.some((check) => !lifecycleChecks.has(check.tag)) ||
@@ -348,12 +419,13 @@ export function buildCampaignQuestLibrary(
         if (
           old &&
           (!old.held || held) &&
-          !(
-            old.objective === "unclassified" &&
-            objective !== null &&
-            objective !== "unclassified" &&
-            !held
-          )
+          (old.recommendationRank < sourceRank ||
+            !(
+              old.objective === "unclassified" &&
+              objective !== null &&
+              objective !== "unclassified" &&
+              !held
+            ))
         )
           continue;
         const action: CampaignAction = {
@@ -390,6 +462,7 @@ export function buildCampaignQuestLibrary(
           objective,
           groundPickup,
           held,
+          recommendationRank: sourceRank,
           completionGuard:
             state === "rewarded" &&
             view.runtimeChecks.some(
@@ -478,6 +551,9 @@ export function buildCampaignQuestLibrary(
         backbone: entries.some((entry) => backboneSourceIds.has(entry.sourceId)),
         complete: byPhase.has("accepted-0") && byPhase.has("rewarded-0"),
         abandoned: abandonedIds.has(questId),
+        ...(objectives.length > 0 && objectives.every((entry) => entry.groundPickup)
+          ? { worldObjectPickup: true as const }
+          : {}),
         held:
           entries.some((entry) => entry.held) ||
           (!objectives.length && entries.some((entry) => entry.completionGuard)),

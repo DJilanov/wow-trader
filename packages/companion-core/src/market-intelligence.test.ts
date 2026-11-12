@@ -1,6 +1,7 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { MarketIntelligencePack } from "@wow-trader/contracts";
@@ -14,8 +15,11 @@ import {
 
 const temporaryDirectories: string[] = [];
 
+vi.mock("node:timers/promises", () => ({ setTimeout: vi.fn().mockResolvedValue(undefined) }));
+
 afterEach(async () => {
   vi.unstubAllGlobals();
+  vi.mocked(delay).mockReset().mockResolvedValue(undefined);
   await Promise.all(
     temporaryDirectories
       .splice(0)
@@ -106,6 +110,101 @@ describe("market intelligence addon data", () => {
       (await downloadMarketIntelligence(new URL("https://helper.example.test"), "test-key", scope))
         ?.items,
     ).toHaveLength(1);
+    expect(delay).toHaveBeenCalledWith(1000, undefined, { signal: expect.any(AbortSignal) });
+  });
+
+  it("retries repeated edge limits on the same pinned page without restarting the pack", async () => {
+    const scope = scan();
+    const first = {
+      ...pack("Copper"),
+      ...scope,
+      schemaVersion: "market-intelligence.v1",
+      sourceScanId: scope.scanId,
+      historyRevision: "f".repeat(64),
+      nextAfterItemId: 123,
+      items: pack("Copper").items,
+    };
+    const fetcher = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(Response.json(first))
+      .mockResolvedValueOnce(new Response("edge limit", { status: 429 }))
+      .mockResolvedValueOnce(new Response("edge limit", { status: 429 }))
+      .mockResolvedValueOnce(
+        Response.json({
+          ...first,
+          items: [{ ...first.items[0]!, itemId: 124 }],
+          nextAfterItemId: null,
+        }),
+      );
+    vi.stubGlobal("fetch", fetcher);
+
+    expect(
+      (
+        await downloadMarketIntelligence(new URL("https://helper.example.test"), "key", scope)
+      )?.items.map((item) => item.itemId),
+    ).toEqual([123, 124]);
+    expect(vi.mocked(delay).mock.calls.map((call) => call[0])).toEqual([6000, 12000]);
+    expect(fetcher.mock.calls.slice(1).map((call) => String(call[0]))).toEqual(
+      Array(3).fill(String(fetcher.mock.calls[1]![0])),
+    );
+    expect(new URL(String(fetcher.mock.calls[1]![0])).searchParams.get("asOfScanId")).toBe(
+      scope.scanId,
+    );
+  });
+
+  it.each([
+    { header: "90", wait: 90000 },
+    { header: "Fri, 06 Nov 2026 12:01:30 GMT", wait: 90000 },
+    { header: "invalid", wait: 6000 },
+    { header: "", wait: 6000 },
+  ])(
+    "honors Retry-After $header without shortening the server cooldown",
+    async ({ header, wait }) => {
+      vi.spyOn(Date, "now").mockReturnValue(Date.parse("2026-11-06T12:00:00Z"));
+      vi.stubGlobal(
+        "fetch",
+        vi
+          .fn<typeof fetch>()
+          .mockResolvedValueOnce(
+            new Response(null, { status: 429, headers: { "retry-after": header } }),
+          )
+          .mockResolvedValueOnce(Response.json({ error: "not_found" }, { status: 404 })),
+      );
+      try {
+        await expect(
+          downloadMarketIntelligence(new URL("https://helper.example.test"), "key", scan()),
+        ).resolves.toBeNull();
+        expect(delay).toHaveBeenCalledWith(wait, undefined, { signal: expect.any(AbortSignal) });
+      } finally {
+        vi.mocked(Date.now).mockRestore();
+      }
+    },
+  );
+
+  it("bounds persistent rate limits instead of retrying indefinitely", async () => {
+    const fetcher = vi
+      .fn<typeof fetch>()
+      .mockImplementation(async () => new Response(null, { status: 429 }));
+    vi.stubGlobal("fetch", fetcher);
+    await expect(
+      downloadMarketIntelligence(new URL("https://helper.example.test"), "key", scan()),
+    ).rejects.toThrow("Market intelligence download failed: HTTP 429");
+    expect(fetcher).toHaveBeenCalledTimes(6);
+    expect(vi.mocked(delay).mock.calls.map((call) => call[0])).toEqual([
+      6000, 12000, 24000, 48000, 60000,
+    ]);
+  });
+
+  it("stops retrying when a rate-limit wait is cancelled", async () => {
+    vi.mocked(delay).mockRejectedValueOnce(new DOMException("Cancelled", "AbortError"));
+    const fetcher = vi
+      .fn<typeof fetch>()
+      .mockImplementation(async () => new Response(null, { status: 429 }));
+    vi.stubGlobal("fetch", fetcher);
+    await expect(
+      downloadMarketIntelligence(new URL("https://helper.example.test"), "key", scan()),
+    ).rejects.toThrow("Cancelled");
+    expect(fetcher).toHaveBeenCalledTimes(1);
   });
   it("serializes complete bounded history for immediate local calculations", () => {
     const source = pack("Copper");

@@ -1,0 +1,656 @@
+{
+  "classification": "Exact selected source steps and provider entries for editorially skipped504, not a complete source archive or observed payout. Original identifiers, counters, flags and conditions are retained.",
+  "sourceFile": "artifacts/leveling/archive/chapter-21-39-40-alterac-arathi-v2-b8159d755149bd5e.json",
+  "sourceFileSha256": "e3bc61348e172f6d18b7ec5b251316f2d646ff1e1e72ae44605da9e867f712e9",
+  "guide": {
+    "schemaVersion": 1,
+    "chapterId": "chapter-21-39-40-alterac-arathi",
+    "version": "import-v2-b8159d755149bd5e",
+    "targetBuild": 70205,
+    "sourceSha256": "b8159d755149bd5e77027eff3367f9a5b3dd1340f0a81011856efb3bc28822a0",
+    "sourceName": "RestedXP Forever Guide",
+    "steps": [
+      {
+        "id": "source-step-0041",
+        "ordinal": 41,
+        "sourceLine": 308,
+        "condition": "skip",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1424/0,-516.47,-852.95",
+            "condition": "",
+            "text": "",
+            "sourceLine": 309,
+            "questId": null,
+            "position": {
+              "zone": "1424",
+              "floor": 0,
+              "x": -516.47,
+              "y": -852.95,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Marshal Redpath",
+            "sourceLine": 310,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "504",
+            "condition": "",
+            "text": "Accept Crushridge Warmongers",
+            "sourceLine": 311,
+            "questId": 504,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Marshal Redpath",
+            "condition": "",
+            "text": "",
+            "sourceLine": 312,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestTurnedIn",
+            "arguments": "500",
+            "condition": "",
+            "text": "",
+            "sourceLine": 313,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0062",
+        "ordinal": 62,
+        "sourceLine": 461,
+        "condition": "skip",
+        "directives": [
+          {
+            "tag": "#completewith",
+            "arguments": "Ruins",
+            "condition": "",
+            "text": "",
+            "sourceLine": 462,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Crushridge Warmongers",
+            "sourceLine": 463,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Crushridge Warmongers call for help at 25% HP",
+            "sourceLine": 464,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "504,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 465,
+            "questId": 504,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "Crushridge Warmonger",
+            "condition": "",
+            "text": "",
+            "sourceLine": 466,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "504",
+            "condition": "",
+            "text": "",
+            "sourceLine": 467,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0065",
+        "ordinal": 65,
+        "sourceLine": 489,
+        "condition": "skip",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "Alterac Mountains,38.40,57.80,60,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 490,
+            "questId": null,
+            "position": {
+              "zone": "Alterac Mountains",
+              "floor": null,
+              "x": 38.4,
+              "y": 57.8,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1416/0,-259.67,559.39,60,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 491,
+            "questId": null,
+            "position": {
+              "zone": "1416",
+              "floor": 0,
+              "x": -259.67,
+              "y": 559.39,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "Alterac Mountains,38.40,57.80,60,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 492,
+            "questId": null,
+            "position": {
+              "zone": "Alterac Mountains",
+              "floor": null,
+              "x": 38.4,
+              "y": 57.8,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1416/0,-248.61,506.24",
+            "condition": "",
+            "text": "",
+            "sourceLine": 493,
+            "questId": null,
+            "position": {
+              "zone": "1416",
+              "floor": 0,
+              "x": -248.61,
+              "y": 506.24,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Crushridge Warmongers",
+            "sourceLine": 494,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Crushridge Warmongers call for help at 25% HP",
+            "sourceLine": 495,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "504,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 496,
+            "questId": 504,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "Crushridge Warmonger",
+            "condition": "",
+            "text": "",
+            "sourceLine": 497,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "504",
+            "condition": "",
+            "text": "",
+            "sourceLine": 498,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0088",
+        "ordinal": 88,
+        "sourceLine": 677,
+        "condition": "skip",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1424/0,-516.47,-852.95",
+            "condition": "",
+            "text": "",
+            "sourceLine": 678,
+            "questId": null,
+            "position": {
+              "zone": "1424",
+              "floor": 0,
+              "x": -516.47,
+              "y": -852.95,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Marshal Redpath",
+            "sourceLine": 679,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "504",
+            "condition": "",
+            "text": "Turn in Crushridge Warmongers",
+            "sourceLine": 680,
+            "questId": 504,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Marshal Redpath",
+            "condition": "",
+            "text": "",
+            "sourceLine": 681,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "504",
+            "condition": "",
+            "text": "",
+            "sourceLine": 682,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0092",
+        "ordinal": 92,
+        "sourceLine": 706,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".abandon",
+            "arguments": "504",
+            "condition": "",
+            "text": "Abandon Crushridge Warmongers",
+            "sourceLine": 707,
+            "questId": 504,
+            "position": null
+          }
+        ]
+      }
+    ]
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 500,
+        "title": "Crushridge Bounty",
+        "minimumLevel": 30,
+        "questLevel": 36,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 2263,
+            "name": "Marshal Redpath",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 49.47,
+                "y": 58.73
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2263,
+            "name": "Marshal Redpath",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 49.47,
+                "y": 58.73
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 504,
+        "title": "Crushridge Warmongers",
+        "minimumLevel": 30,
+        "questLevel": 40,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 2263,
+            "name": "Marshal Redpath",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 49.47,
+                "y": 58.73
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2263,
+            "name": "Marshal Redpath",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 49.47,
+                "y": 58.73
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            500
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 2287,
+            "count": 15,
+            "positions": [
+              {
+                "zone": "1416",
+                "x": 34.94,
+                "y": 53.45
+              },
+              {
+                "zone": "1416",
+                "x": 35.56,
+                "y": 53.19
+              },
+              {
+                "zone": "1416",
+                "x": 40.53,
+                "y": 52.96
+              },
+              {
+                "zone": "1416",
+                "x": 36.25,
+                "y": 53.62
+              },
+              {
+                "zone": "1416",
+                "x": 36.37,
+                "y": 53.93
+              },
+              {
+                "zone": "1416",
+                "x": 35.69,
+                "y": 55.52
+              },
+              {
+                "zone": "1416",
+                "x": 36.3,
+                "y": 53.79
+              },
+              {
+                "zone": "1416",
+                "x": 36.37,
+                "y": 52.31
+              },
+              {
+                "zone": "1416",
+                "x": 35.91,
+                "y": 52.76
+              },
+              {
+                "zone": "1416",
+                "x": 35.57,
+                "y": 53.23
+              },
+              {
+                "zone": "1416",
+                "x": 36.16,
+                "y": 54.95
+              },
+              {
+                "zone": "1416",
+                "x": 36.32,
+                "y": 52.51
+              },
+              {
+                "zone": "1416",
+                "x": 35.07,
+                "y": 53.29
+              },
+              {
+                "zone": "1416",
+                "x": 35.88,
+                "y": 55.57
+              },
+              {
+                "zone": "1416",
+                "x": 37.04,
+                "y": 54.46
+              },
+              {
+                "zone": "1416",
+                "x": 35.77,
+                "y": 53.86
+              },
+              {
+                "zone": "1416",
+                "x": 36.26,
+                "y": 54.99
+              },
+              {
+                "zone": "1416",
+                "x": 35.83,
+                "y": 54.31
+              },
+              {
+                "zone": "1416",
+                "x": 36.83,
+                "y": 49.08
+              },
+              {
+                "zone": "1416",
+                "x": 35.71,
+                "y": 51.04
+              },
+              {
+                "zone": "1416",
+                "x": 37.03,
+                "y": 53.15
+              },
+              {
+                "zone": "1416",
+                "x": 39.16,
+                "y": 54.5
+              },
+              {
+                "zone": "1416",
+                "x": 39.24,
+                "y": 59.55
+              },
+              {
+                "zone": "1416",
+                "x": 38.36,
+                "y": 57.8
+              },
+              {
+                "zone": "1416",
+                "x": 38.08,
+                "y": 55.98
+              },
+              {
+                "zone": "1416",
+                "x": 36.75,
+                "y": 58.02
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": [
+          "source-held-pickup"
+        ]
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged."
+      ]
+    },
+    "quests": [
+      {
+        "questId": 504,
+        "creatureIds": [
+          2287
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Slay 15 Crushridge Warmongers, then return to Marshal Redpath in Southshore."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 2287,
+            "kills": 15,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=504/crushridge-warmongers; sha256 2ad61b569b9d5339646fa0edaa5ea17916f323a2ee015c500d45869ee0b13270; 2026-10-16T22:04:43.803Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            500
+          ]
+        },
+        "itemObjectives": []
+      }
+    ],
+    "npcs": [
+      {
+        "id": 2287,
+        "name": "Crushridge Warmonger",
+        "minimumLevel": 39,
+        "maximumLevel": 40,
+        "rank": 1,
+        "zoneIds": [
+          36
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": []
+  }
+}

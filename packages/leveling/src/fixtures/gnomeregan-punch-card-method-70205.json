@@ -1,0 +1,518 @@
+{
+  "schema": "reviewed-punch-card-method.v1",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "chapterId": "chapter-13-29-32-duskwood",
+  "version": "import-v2-b5b0bf698ef41804",
+  "chapterSha256": "9fe4815c5644a68722cd95fa892416485f2e9ecfed002708cdc0719e9c6c64c5",
+  "targetBuild": 70205,
+  "questId": 2930,
+  "itemId": 9316,
+  "objectId": 142696,
+  "ownerConfirmation": "The punch card is a puzzle, threat it as easy to solve i already did it before",
+  "limitation": "The source prescribes acquiring a White Punch Card before four terminal conversions. No drop rate, acquisition kill count, extra XP or completion time is established. Each player must obtain the final card before handing in.",
+  "steps": [
+    {
+      "id": "source-step-0215",
+      "ordinal": 215,
+      "sourceLine": 1485,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "Gnomer",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1486,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "#season",
+          "arguments": "0,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1487,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.40,53.41,50,0",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1488,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.4,
+            "y": 53.41,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.13,53.36,50,0",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1489,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.13,
+            "y": 53.36,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.38,52.94,50,0",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1490,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.38,
+            "y": 52.94,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.40,53.41",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1491,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.4,
+            "y": 53.41,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Kill Troggs and Gnomes. Loot them for a [White Punch Card]",
+          "sourceLine": 1492,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".collect",
+          "arguments": "9279,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1493,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "This quest is completed while OUTSIDE of the dungeon",
+          "sourceLine": 1494,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "2930",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1495,
+          "questId": null,
+          "position": null
+        }
+      ]
+    },
+    {
+      "id": "source-step-0216",
+      "ordinal": 216,
+      "sourceLine": 1496,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "Gnomer",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1497,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "#season",
+          "arguments": "0,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1498,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.364,52.892,-1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1499,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.364,
+            "y": 52.892,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.411,52.898,-1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1500,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.411,
+            "y": 52.898,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.402,52.672,-1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1501,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.402,
+            "y": 52.672,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": ".goto",
+          "arguments": "1415,43.430,52.675,-1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1502,
+          "questId": null,
+          "position": {
+            "zone": "1415",
+            "floor": null,
+            "x": 43.43,
+            "y": 52.675,
+            "space": "map-percent"
+          }
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [White Punch Card] at the Matrix Punchograph 3005-A",
+          "sourceLine": 1503,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "This quest is completed while OUTSIDE of the dungeon",
+          "sourceLine": 1504,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".collect",
+          "arguments": "9280,1,2930,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1505,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".itemcount",
+          "arguments": "9279,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1506,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".skipgossip",
+          "arguments": "",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1507,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "2930",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1508,
+          "questId": null,
+          "position": null
+        }
+      ]
+    },
+    {
+      "id": "source-step-0219",
+      "ordinal": 219,
+      "sourceLine": 1523,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "Gnomer",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1524,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "#season",
+          "arguments": "0,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1525,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Yellow Punch Card] at the Matrix Punchograph 3005-B",
+          "sourceLine": 1526,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "The console looking machine is located at the gnomish safe zone at the bottom floor, next to the big circular room where the slimes are located",
+          "sourceLine": 1527,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".collect",
+          "arguments": "9282,1,2930,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1528,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".itemcount",
+          "arguments": "9280,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1529,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".skipgossip",
+          "arguments": "",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1530,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "2930",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1531,
+          "questId": null,
+          "position": null
+        }
+      ]
+    },
+    {
+      "id": "source-step-0224",
+      "ordinal": 224,
+      "sourceLine": 1562,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "Gnomer",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1563,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "#season",
+          "arguments": "0,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1564,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Blue Punch Card] at the Matrix Punchograph 3005-C",
+          "sourceLine": 1565,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "The Punchograph is located on the suspended platform right next to the Electrocutioner 6000",
+          "sourceLine": 1566,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".collect",
+          "arguments": "9281,1,2930,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1567,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".itemcount",
+          "arguments": "9282,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1568,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".skipgossip",
+          "arguments": "",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1569,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "2930",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1570,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".unitscan",
+          "arguments": "Electrocutioner 6000",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1571,
+          "questId": null,
+          "position": null
+        }
+      ]
+    },
+    {
+      "id": "source-step-0225",
+      "ordinal": 225,
+      "sourceLine": 1572,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "Gnomer",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1573,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "#season",
+          "arguments": "0,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1574,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Red Punch Card] at the Matrix Punchograph 3005-D",
+          "sourceLine": 1575,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".complete",
+          "arguments": "2930,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1576,
+          "questId": 2930,
+          "position": null
+        },
+        {
+          "tag": ".itemcount",
+          "arguments": "9281,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1577,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".skipgossip",
+          "arguments": "",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1578,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "2930",
+          "condition": "",
+          "text": "",
+          "sourceLine": 1579,
+          "questId": null,
+          "position": null
+        }
+      ]
+    }
+  ],
+  "chapterSourceSha256": "b5b0bf698ef418041b1175be48f5528015f9dcc1afcd0c2bf15149d3ac8a2f24"
+}

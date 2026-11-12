@@ -14,6 +14,7 @@ import {
 } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import process from "node:process";
+import { CampaignFundingPool } from "../packages/leveling/dist/node.js";
 
 import {
   CAMPAIGN_ADDON_COMPILER_REVISION,
@@ -101,6 +102,7 @@ function parseArguments(raw) {
     "raid-goals",
     "verify-all",
     "verify-party-matrix",
+    "workers",
   ]);
   const unknown = [...values.keys()].find((key) => !known.has(key));
   if (unknown) throw new Error(`Unknown option --${unknown}.`);
@@ -154,6 +156,7 @@ function parseArguments(raw) {
     raidGoals: values.get("raid-goals") === "true",
     verifyAll,
     verifyPartyMatrix,
+    workers: values.has("workers") ? integer("workers") : undefined,
   };
 }
 
@@ -376,6 +379,8 @@ async function writePackage(
 
 async function main() {
   const input = parseArguments(process.argv.slice(2));
+  const pool = new CampaignFundingPool(input.workers === undefined ? {} : { workers: input.workers });
+  try {
   const [{ manifest, sources }, rewards] = await Promise.all([
     loadSources(input.archive),
     loadRewardFacts(input.rewards, input.rewardImport, input.rewardEvidence, input.runtimeBuild),
@@ -447,7 +452,7 @@ async function main() {
       combat,
       questCatalog: questCatalog?.data ?? null,
       rewardNotice: `${rewards.observedIds.length} reviewed current-build reward fact(s) are attached; ${rewards.historicalIds.length} historical fallback fact(s) remain estimates. ${combat ? "Combat references fund hypothetical planning only; actual player XP and unverified loot remain held. " : ""}This addon package is an in-game review artifact.`,
-    });
+    }, { fundingExecutor: pool.execute });
     const progress = campaignExportProgress(selection);
     const unmodeled = campaignUnmodeledExtras(plan, progress);
     if (unmodeled.length)
@@ -660,6 +665,9 @@ async function main() {
   process.stdout.write(
     `${JSON.stringify({ directory: result.directory, releaseId, reused: result.reused, semanticSha256, zip: result.manifest.zip, actionCount: actions.length, handInQuestCount: routeHandIns.size, historicalRouteIds, sourceBuild: plan.targetBuild, runtimeBuild: input.runtimeBuild, state: "review" })}\n`,
   );
+  } finally {
+    await pool.close();
+  }
 }
 
 main().catch((error) => {

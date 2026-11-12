@@ -1,0 +1,1390 @@
+{
+  "classification": "Pinned Forever quest, counter, boss and NPC subset for Library routing regressions. Creature facts, rewards and provider identities are unchanged. No observed payout or full-route qualification.",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull’s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient’s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification."
+      ]
+    },
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24–30 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "npcs": [
+      {
+        "id": 3974,
+        "name": "Houndmaster Loksey",
+        "minimumLevel": 34,
+        "maximumLevel": 34,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3975,
+        "name": "Herod",
+        "minimumLevel": 40,
+        "maximumLevel": 40,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3976,
+        "name": "Scarlet Commander Mograine",
+        "minimumLevel": 42,
+        "maximumLevel": 42,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3977,
+        "name": "High Inquisitor Whitemane",
+        "minimumLevel": 42,
+        "maximumLevel": 42,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 11561,
+        "name": "Undead Ravager",
+        "minimumLevel": 37,
+        "maximumLevel": 38,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 6487,
+        "name": "Arcanist Doan",
+        "minimumLevel": 37,
+        "maximumLevel": 37,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 261,
+        "creatureIds": [
+          11561
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Destroy 30 Undead Ravagers, then return to Brother Anton at Nijel's Point."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 11561,
+            "kills": 30,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=261/down-the-scarlet-path; sha256 944bcc771a324fc7326e9b6d912b6b0c8a25938ef512f86a2430805420906378; 2026-10-14T16:10:34.573Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1050,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Retrieve Mythology of the Titans from the Monastery and bring it to Librarian Mae Paledust in Ironforge."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 5536,
+            "itemName": "Mythology of the Titans",
+            "quantity": 1,
+            "npcIds": [],
+            "objectIds": [
+              19284
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 5536,
+              "itemFlags": 0
+            }
+          }
+        ]
+      },
+      {
+        "questId": 1052,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Take Brother Anton's Letter of Commendation to Raleigh the Devout in Southshore."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            261
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1053,
+        "creatureIds": [
+          3977,
+          3976,
+          3975,
+          3974
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Kill High Inquisitor Whitemane, Scarlet Commander Mograine, Herod, the Scarlet Champion and Houndmaster Loksey and then report back to Raleigh the Devout in Southshore."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 3977,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 3976,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          },
+          {
+            "objectiveIndex": 3,
+            "npcId": 3975,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          },
+          {
+            "objectiveIndex": 4,
+            "npcId": 3974,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1052
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 96800,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          6487
+        ],
+        "objectiveText": [
+          "Retrieve the book The Lost Magic of the Runemasters from the Scarlet Monastery."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 273169,
+            "itemName": "The Lost Magic of the Runemasters",
+            "quantity": 1,
+            "npcIds": [
+              6487
+            ],
+            "sharing": "unknown"
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "bossReferences": [
+      {
+        "npcId": 3974,
+        "name": "Houndmaster Loksey",
+        "targetBuild": 70205,
+        "instanceMapId": 189,
+        "dungeonVisitIds": [
+          "sm-graveyard",
+          "sm-library",
+          "sm-all-wings",
+          "sm-armory",
+          "sm-cathedral"
+        ],
+        "encounterIds": [
+          446
+        ],
+        "identityEvidence": "unique-exact-name",
+        "source": {
+          "build": 70205,
+          "manifestSha256": "a506f715b1403dfb7d9f425fddea0f65d209ec9cf533a11c3f61eae879df639f",
+          "encountersSha256": "4b6478cda9ccbf26c00c3398c0bd2414bc8adc6a13bea0373848063c8943c7af",
+          "bossesSha256": "e45dacfca155ee0c45a2c70a6612d78d3877ab8e589cabd5703fa5f8ce115132",
+          "mapsSha256": "97820f60c7501dc044119f6f6a843eb63d55a13d413cb52bf24dce40bf142ba1"
+        }
+      },
+      {
+        "npcId": 3977,
+        "name": "High Inquisitor Whitemane",
+        "targetBuild": 70205,
+        "instanceMapId": 189,
+        "dungeonVisitIds": [
+          "sm-graveyard",
+          "sm-library",
+          "sm-all-wings",
+          "sm-armory",
+          "sm-cathedral"
+        ],
+        "encounterIds": [
+          450
+        ],
+        "identityEvidence": "unique-exact-name",
+        "source": {
+          "build": 70205,
+          "manifestSha256": "a506f715b1403dfb7d9f425fddea0f65d209ec9cf533a11c3f61eae879df639f",
+          "encountersSha256": "4b6478cda9ccbf26c00c3398c0bd2414bc8adc6a13bea0373848063c8943c7af",
+          "bossesSha256": "e45dacfca155ee0c45a2c70a6612d78d3877ab8e589cabd5703fa5f8ce115132",
+          "mapsSha256": "97820f60c7501dc044119f6f6a843eb63d55a13d413cb52bf24dce40bf142ba1"
+        }
+      }
+    ]
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Local source-backed pickup review. Preserve eight proofs, add further literal item/object/source matches, and remove only the separately reviewed Filthy Paws source-order heuristic. No live activation, respawn or observed payout claim.\nClient kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.\nClient pickup minima reconciled for quests 631,632,1144,96395; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Quest levels, reward tables and other access requirements unchanged; previous minima retained in resolution provenance.\nComplete client objective membership holds:98386and98418. Matching70205and70450records include additional targets absent from provider/catalog. Prior facts preserved in client-objectives-v184/qualification.json. No missing credit is priced as combat; native index binding and full methods remain unqualified. Efficient Games https://efficient.games, CC BY 4.0.\nExplicit client quest-level corrections accompany complete regenerated reward curves; prior facts retained in client reward resolution provenance. Access masks, pickup minima and objective-method holds unchanged. Client-table values remain estimates, not observed payouts.\nSix sleeping-bag object-route quests appended from matching70205/70450client identities and Wowhead Forever route facts; endpoints are authored coordinates, not provider NPC/object identities. Lower32race bits preserved from client masks; original full masks retained in qualification. No buff, rested, food, deaths or respawn timing assumed.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 261,
+        "title": "Down the Scarlet Path",
+        "minimumLevel": 34,
+        "questLevel": 39,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 1182,
+            "name": "Brother Anton",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 66.52,
+                "y": 7.91
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 1182,
+            "name": "Brother Anton",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 66.52,
+                "y": 7.91
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 11561,
+            "count": 30,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 59.59,
+                "y": 88.15
+              },
+              {
+                "zone": "1443",
+                "x": 63.03,
+                "y": 90
+              },
+              {
+                "zone": "1443",
+                "x": 58.34,
+                "y": 90.19
+              },
+              {
+                "zone": "1443",
+                "x": 63.86,
+                "y": 88.83
+              },
+              {
+                "zone": "1443",
+                "x": 63.92,
+                "y": 87.23
+              },
+              {
+                "zone": "1443",
+                "x": 64.17,
+                "y": 84.57
+              },
+              {
+                "zone": "1443",
+                "x": 64.26,
+                "y": 88.07
+              },
+              {
+                "zone": "1443",
+                "x": 63.49,
+                "y": 90.82
+              },
+              {
+                "zone": "1443",
+                "x": 64.87,
+                "y": 83.48
+              },
+              {
+                "zone": "1443",
+                "x": 64.26,
+                "y": 82.88
+              },
+              {
+                "zone": "1443",
+                "x": 63.97,
+                "y": 81.5
+              },
+              {
+                "zone": "1443",
+                "x": 65.19,
+                "y": 86.53
+              },
+              {
+                "zone": "1443",
+                "x": 65.16,
+                "y": 85.77
+              },
+              {
+                "zone": "1443",
+                "x": 61.14,
+                "y": 90.85
+              },
+              {
+                "zone": "1443",
+                "x": 62.13,
+                "y": 90.65
+              },
+              {
+                "zone": "1443",
+                "x": 60.46,
+                "y": 90.28
+              },
+              {
+                "zone": "1443",
+                "x": 59.71,
+                "y": 90.01
+              },
+              {
+                "zone": "1443",
+                "x": 62.98,
+                "y": 92.13
+              },
+              {
+                "zone": "1443",
+                "x": 63.28,
+                "y": 91.02
+              },
+              {
+                "zone": "1443",
+                "x": 64.11,
+                "y": 92.11
+              },
+              {
+                "zone": "1443",
+                "x": 64.24,
+                "y": 90.37
+              },
+              {
+                "zone": "1443",
+                "x": 64.83,
+                "y": 90.07
+              },
+              {
+                "zone": "1443",
+                "x": 64.05,
+                "y": 91.31
+              },
+              {
+                "zone": "1443",
+                "x": 64.86,
+                "y": 88.87
+              },
+              {
+                "zone": "1443",
+                "x": 64.95,
+                "y": 87.76
+              },
+              {
+                "zone": "1443",
+                "x": 63.88,
+                "y": 89.03
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 1050,
+        "title": "Mythology of the Titans",
+        "minimumLevel": 28,
+        "questLevel": 38,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 3979,
+            "name": "Librarian Mae Paledust",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 74.97,
+                "y": 12.48
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 3979,
+            "name": "Librarian Mae Paledust",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 74.97,
+                "y": 12.48
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "non-outdoor-zone"
+        ]
+      },
+      {
+        "questId": 1052,
+        "title": "Down the Scarlet Path",
+        "minimumLevel": 34,
+        "questLevel": 40,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 5539,
+          "name": "Letter of Commendation"
+        },
+        "starts": [
+          {
+            "npcId": 1182,
+            "name": "Brother Anton",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 66.52,
+                "y": 7.91
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 3980,
+            "name": "Raleigh the Devout",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 51.47,
+                "y": 58.35
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            261
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1053,
+        "title": "In the Name of the Light",
+        "minimumLevel": 34,
+        "questLevel": 40,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 3980,
+            "name": "Raleigh the Devout",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 51.47,
+                "y": 58.35
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 3980,
+            "name": "Raleigh the Devout",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 51.47,
+                "y": 58.35
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1052
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 3977,
+            "count": 1,
+            "positions": []
+          },
+          {
+            "index": 2,
+            "npcId": 3976,
+            "count": 1,
+            "positions": []
+          },
+          {
+            "index": 3,
+            "npcId": 3975,
+            "count": 1,
+            "positions": []
+          },
+          {
+            "index": 4,
+            "npcId": 3974,
+            "count": 1,
+            "positions": []
+          }
+        ],
+        "unsupportedRequirements": [
+          "non-outdoor-zone"
+        ]
+      },
+      {
+        "questId": 96800,
+        "title": "Past Due",
+        "minimumLevel": 30,
+        "questLevel": 38,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 264265,
+            "name": "Magus Olvek",
+            "friendlyToAlliance": false,
+            "positions": [
+              {
+                "zone": "1416",
+                "x": 10.72,
+                "y": 64.07
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 264265,
+            "name": "Magus Olvek",
+            "friendlyToAlliance": false,
+            "positions": [
+              {
+                "zone": "1416",
+                "x": 10.72,
+                "y": 64.07
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "non-outdoor-zone"
+        ]
+      }
+    ]
+  },
+  "rewards": [
+    {
+      "questId": 1053,
+      "fullXp": 4700,
+      "questLevel": 40,
+      "minimumLevel": 34,
+      "xpByLevel": [
+        {
+          "level": 40,
+          "xp": 4700
+        },
+        {
+          "level": 41,
+          "xp": 4700
+        },
+        {
+          "level": 42,
+          "xp": 4700
+        },
+        {
+          "level": 43,
+          "xp": 4700
+        },
+        {
+          "level": 44,
+          "xp": 4700
+        },
+        {
+          "level": 45,
+          "xp": 4700
+        },
+        {
+          "level": 46,
+          "xp": 3750
+        },
+        {
+          "level": 47,
+          "xp": 2800
+        },
+        {
+          "level": 48,
+          "xp": 1900
+        },
+        {
+          "level": 49,
+          "xp": 940
+        },
+        {
+          "level": 50,
+          "xp": 470
+        },
+        {
+          "level": 51,
+          "xp": 470
+        },
+        {
+          "level": 52,
+          "xp": 470
+        },
+        {
+          "level": 53,
+          "xp": 470
+        },
+        {
+          "level": 54,
+          "xp": 470
+        },
+        {
+          "level": 55,
+          "xp": 470
+        },
+        {
+          "level": 56,
+          "xp": 470
+        },
+        {
+          "level": 57,
+          "xp": 470
+        },
+        {
+          "level": 58,
+          "xp": 470
+        },
+        {
+          "level": 59,
+          "xp": 470
+        }
+      ],
+      "sourceUrl": "https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light",
+      "capturedAt": "2026-10-19T15:40:41.885Z",
+      "status": "available",
+      "evidenceKind": "published-forever",
+      "referenceBaseXp": 4700,
+      "pageMultiplier": 1
+    },
+    {
+      "questId": 96800,
+      "fullXp": 6750,
+      "questLevel": 38,
+      "minimumLevel": 30,
+      "xpByLevel": [
+        {
+          "level": 38,
+          "xp": 6750
+        },
+        {
+          "level": 39,
+          "xp": 6750
+        },
+        {
+          "level": 40,
+          "xp": 6750
+        },
+        {
+          "level": 41,
+          "xp": 6750
+        },
+        {
+          "level": 42,
+          "xp": 6750
+        },
+        {
+          "level": 43,
+          "xp": 6750
+        },
+        {
+          "level": 44,
+          "xp": 5400
+        },
+        {
+          "level": 45,
+          "xp": 4050
+        },
+        {
+          "level": 46,
+          "xp": 2700
+        },
+        {
+          "level": 47,
+          "xp": 1350
+        },
+        {
+          "level": 48,
+          "xp": 680
+        },
+        {
+          "level": 49,
+          "xp": 680
+        },
+        {
+          "level": 50,
+          "xp": 680
+        },
+        {
+          "level": 51,
+          "xp": 680
+        },
+        {
+          "level": 52,
+          "xp": 680
+        },
+        {
+          "level": 53,
+          "xp": 680
+        },
+        {
+          "level": 54,
+          "xp": 680
+        },
+        {
+          "level": 55,
+          "xp": 680
+        },
+        {
+          "level": 56,
+          "xp": 680
+        },
+        {
+          "level": 57,
+          "xp": 680
+        },
+        {
+          "level": 58,
+          "xp": 680
+        },
+        {
+          "level": 59,
+          "xp": 680
+        }
+      ],
+      "sourceUrl": "https://www.wowhead.com/forever/quest=96800/past-due",
+      "capturedAt": "2026-10-18T13:00:26.338Z",
+      "status": "available",
+      "evidenceKind": "published-forever",
+      "referenceBaseXp": 2850,
+      "pageMultiplier": 2.375
+    },
+    {
+      "questId": 261,
+      "fullXp": 3000,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 39,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 3000
+        },
+        {
+          "level": 2,
+          "xp": 3000
+        },
+        {
+          "level": 3,
+          "xp": 3000
+        },
+        {
+          "level": 4,
+          "xp": 3000
+        },
+        {
+          "level": 5,
+          "xp": 3000
+        },
+        {
+          "level": 6,
+          "xp": 3000
+        },
+        {
+          "level": 7,
+          "xp": 3000
+        },
+        {
+          "level": 8,
+          "xp": 3000
+        },
+        {
+          "level": 9,
+          "xp": 3000
+        },
+        {
+          "level": 10,
+          "xp": 3000
+        },
+        {
+          "level": 11,
+          "xp": 3000
+        },
+        {
+          "level": 12,
+          "xp": 3000
+        },
+        {
+          "level": 13,
+          "xp": 3000
+        },
+        {
+          "level": 14,
+          "xp": 3000
+        },
+        {
+          "level": 15,
+          "xp": 3000
+        },
+        {
+          "level": 16,
+          "xp": 3000
+        },
+        {
+          "level": 17,
+          "xp": 3000
+        },
+        {
+          "level": 18,
+          "xp": 3000
+        },
+        {
+          "level": 19,
+          "xp": 3000
+        },
+        {
+          "level": 20,
+          "xp": 3000
+        },
+        {
+          "level": 21,
+          "xp": 3000
+        },
+        {
+          "level": 22,
+          "xp": 3000
+        },
+        {
+          "level": 23,
+          "xp": 3000
+        },
+        {
+          "level": 24,
+          "xp": 3000
+        },
+        {
+          "level": 25,
+          "xp": 3000
+        },
+        {
+          "level": 26,
+          "xp": 3000
+        },
+        {
+          "level": 27,
+          "xp": 3000
+        },
+        {
+          "level": 28,
+          "xp": 3000
+        },
+        {
+          "level": 29,
+          "xp": 3000
+        },
+        {
+          "level": 30,
+          "xp": 3000
+        },
+        {
+          "level": 31,
+          "xp": 3000
+        },
+        {
+          "level": 32,
+          "xp": 3000
+        },
+        {
+          "level": 33,
+          "xp": 3000
+        },
+        {
+          "level": 34,
+          "xp": 3000
+        },
+        {
+          "level": 35,
+          "xp": 3000
+        },
+        {
+          "level": 36,
+          "xp": 3000
+        },
+        {
+          "level": 37,
+          "xp": 3000
+        },
+        {
+          "level": 38,
+          "xp": 3000
+        },
+        {
+          "level": 39,
+          "xp": 3000
+        },
+        {
+          "level": 40,
+          "xp": 3000
+        },
+        {
+          "level": 41,
+          "xp": 3000
+        },
+        {
+          "level": 42,
+          "xp": 3000
+        },
+        {
+          "level": 43,
+          "xp": 3000
+        },
+        {
+          "level": 44,
+          "xp": 3000
+        },
+        {
+          "level": 45,
+          "xp": 2400
+        },
+        {
+          "level": 46,
+          "xp": 1801
+        },
+        {
+          "level": 47,
+          "xp": 1200
+        },
+        {
+          "level": 48,
+          "xp": 600
+        },
+        {
+          "level": 49,
+          "xp": 300
+        },
+        {
+          "level": 50,
+          "xp": 300
+        },
+        {
+          "level": 51,
+          "xp": 300
+        },
+        {
+          "level": 52,
+          "xp": 300
+        },
+        {
+          "level": 53,
+          "xp": 300
+        },
+        {
+          "level": 54,
+          "xp": 300
+        },
+        {
+          "level": 55,
+          "xp": 300
+        },
+        {
+          "level": 56,
+          "xp": 300
+        },
+        {
+          "level": 57,
+          "xp": 300
+        },
+        {
+          "level": 58,
+          "xp": 300
+        },
+        {
+          "level": 59,
+          "xp": 300
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue · db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 1050,
+      "fullXp": 8900,
+      "rewardBasis": "final-reward",
+      "questLevel": 38,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 8900
+        },
+        {
+          "level": 29,
+          "xp": 8900
+        },
+        {
+          "level": 30,
+          "xp": 8900
+        },
+        {
+          "level": 31,
+          "xp": 8900
+        },
+        {
+          "level": 32,
+          "xp": 8900
+        },
+        {
+          "level": 33,
+          "xp": 8900
+        },
+        {
+          "level": 34,
+          "xp": 8900
+        },
+        {
+          "level": 35,
+          "xp": 8900
+        },
+        {
+          "level": 36,
+          "xp": 8900
+        },
+        {
+          "level": 37,
+          "xp": 8900
+        },
+        {
+          "level": 38,
+          "xp": 8900
+        },
+        {
+          "level": 39,
+          "xp": 8900
+        },
+        {
+          "level": 40,
+          "xp": 8900
+        },
+        {
+          "level": 41,
+          "xp": 8900
+        },
+        {
+          "level": 42,
+          "xp": 8900
+        },
+        {
+          "level": 43,
+          "xp": 8900
+        },
+        {
+          "level": 44,
+          "xp": 7100
+        },
+        {
+          "level": 45,
+          "xp": 5350
+        },
+        {
+          "level": 46,
+          "xp": 3550
+        },
+        {
+          "level": 47,
+          "xp": 1800
+        },
+        {
+          "level": 48,
+          "xp": 875
+        },
+        {
+          "level": 49,
+          "xp": 875
+        },
+        {
+          "level": 50,
+          "xp": 875
+        },
+        {
+          "level": 51,
+          "xp": 875
+        },
+        {
+          "level": 52,
+          "xp": 875
+        },
+        {
+          "level": 53,
+          "xp": 875
+        },
+        {
+          "level": 54,
+          "xp": 875
+        },
+        {
+          "level": 55,
+          "xp": 875
+        },
+        {
+          "level": 56,
+          "xp": 875
+        },
+        {
+          "level": 57,
+          "xp": 875
+        },
+        {
+          "level": 58,
+          "xp": 875
+        },
+        {
+          "level": 59,
+          "xp": 875
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1050,
+        "questLevel": 38,
+        "minimumLevel": 28,
+        "difficulty": 6,
+        "baseXp": 3550,
+        "xpMultiplier": 2.5,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 3550
+    },
+    {
+      "questId": 1052,
+      "fullXp": 1550,
+      "questLevel": 40,
+      "minimumLevel": null,
+      "xpByLevel": [],
+      "sourceUrl": "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua · version:1.0.4;commit:365537a340473291f5af3b7a53a5eca94e2a5f1a",
+      "capturedAt": "2026-10-17T09:09:38.634Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    }
+  ]
+}

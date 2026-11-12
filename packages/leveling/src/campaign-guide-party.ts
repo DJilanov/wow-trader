@@ -23,6 +23,15 @@ export function guidePartyScenario(
   progress: PremadeProgress,
   starterMode: GuideStarterPartyMode = "separate",
 ): GuidePartyScenario {
+  if (plan.sharedQuestsOnly && plan.actions.some((action) => action.leaderOnly))
+    throw new Error("A shared ordinary-quest route cannot contain personal actions.");
+  if (
+    plan.sharedQuestsOnly &&
+    progress.members.some((member) => member.raceId && member.raceId !== plan.race)
+  )
+    throw new Error(
+      "A shared ordinary-quest route requires the same starting race for all players.",
+    );
   const starterLegs = new Set(
     plan.legs.filter((leg) => leg.kind === "starter").map((leg) => leg.id),
   );

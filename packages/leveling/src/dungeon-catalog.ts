@@ -1,6 +1,7 @@
 import rawFacts from "./dungeon-facts.json" with { type: "json" };
 import rawReference from "./dungeon-reference.json" with { type: "json" };
 import { z } from "zod";
+import { REVIEWED_DUNGEON_QUESTS } from "./dungeon-reviewed-quests.js";
 import {
   dungeonFactsSchema,
   validateDungeonGraph,
@@ -10,7 +11,7 @@ import {
 } from "./dungeon-model.js";
 
 export const LEGACY_DUNGEON_RELEASE = "dungeons-v1-build-70205-oct-01";
-export const DUNGEON_RELEASE = "dungeons-v2-build-70205-at-level";
+export const DUNGEON_RELEASE = "dungeons-v8-build-70205-selected-quests";
 export const DUNGEON_FACTS = dungeonFactsSchema.parse(rawFacts);
 const source = DUNGEON_FACTS.source;
 export const DUNGEON_REFERENCE = z
@@ -94,7 +95,7 @@ const notes: Readonly<Record<number, readonly string[]>> = {
     "An Alarming Request must be handed in first. Some spawn mixes require multiple clears; do not promise one-run completion.",
   ],
   96800: [
-    "New Alliance Library quest. Bring its book to Magus Olvek in Dalaran; verify object availability for all five players.",
+    "Loot The Lost Magic of the Runemasters from Arcanist Doan in the Library. Each player needs one book for Magus Olvek.",
   ],
   95682: ["Dragonmaw Rumors is a possible lead-in, not a verified mandatory prerequisite."],
 };
@@ -121,22 +122,13 @@ gates.set(1200, { kind: "quest", questId: 1198, state: "rewarded" });
 // Dungeon Quest Atlas v2.14 (Forever, 2026-10-20) explicitly corrects 3765 to an optional breadcrumb.
 gates.set(1275, { kind: "all", gates: [] });
 gates.set(5724, { kind: "quest", questId: 5722, state: "rewarded" });
-gates.set(2930, {
-  kind: "confirmation",
-  id: "prismatic-punch-card",
-  label: "Prismatic Punch Card obtained through the four terminals",
-});
+// The cards are this quest's objective, not prerequisites for accepting it in Ironforge.
+gates.set(2930, { kind: "all", gates: [] });
 gates.set(98815, { kind: "quest", questId: 484, state: "rewarded" });
+// The inside body hand-in offers Fallen in the Fen; it is not a separate pickup before the clear.
+gates.set(95795, { kind: "quest", questId: 95772, state: "rewarded" });
 gates.set(214, {
-  kind: "all",
-  gates: [
-    gates.get(214)!,
-    {
-      kind: "confirmation",
-      id: "red-silk-eligibility",
-      label: "Scout Riell offers Red Silk Bandanas; disputed 153 gate checked",
-    },
-  ],
+  kind: "quest", questId: 155, state: "rewarded",
 });
 gates.set(1806, { kind: "quest", questId: 1654, state: "rewarded" });
 const allianceChains = new Set([
@@ -185,22 +177,37 @@ const supplementalQuests: readonly DungeonQuest[] = DUNGEON_FACTS.quests.map(
           ? "Argent Guard Thaelrid, inside Blackfathom Deeps"
           : quest.pickup,
     turnin:
-      quest.id === 1198
-        ? "Argent Guard Thaelrid, inside Blackfathom Deeps"
-        : quest.id === 1200
-          ? "Dawnwatcher Selgorm, Darnassus"
-          : quest.turnin,
+      quest.id === 6981
+        ? "Falla Sagewind, on the mountain above Wailing Caverns in The Barrens, after speaking with Sputtervalve in Ratchet."
+        : quest.id === 1198
+          ? "Argent Guard Thaelrid, inside Blackfathom Deeps"
+          : quest.id === 1200
+            ? "Dawnwatcher Selgorm, Darnassus"
+            : quest.turnin,
     objective:
-      quest.id === 1198
-        ? "Find Argent Guard Thaelrid inside Blackfathom Deeps."
-        : quest.id === 1200
-          ? "Bring Twilight Lord Kelris's head to Dawnwatcher Selgorm."
-          : quest.objective,
-    objectiveStage: multiVisit.has(quest.id)
-      ? "multiple-visits"
-      : DUNGEON_FACTS.associations.some((entry) => entry.questId === quest.id)
-        ? "inside"
-        : "before",
+      quest.id === 6626
+        ? "Kill 8 Razorfen Battleguards, 8 Razorfen Thornweavers and 8 Death's Head Cultists outside the Razorfen Downs instance portal in The Barrens. Return to Myriam Moonsinger outside the entrance."
+        : quest.id === 2922
+        ? "Defeat Techbot outside the Gnomeregan instance portal in Dun Morogh. Collect Techbot's Memory Core for each player."
+        : quest.id === 6981
+        ? "After using the Glowing Shard, speak with Sputtervalve in Ratchet, then deliver it to Falla Sagewind in The Barrens."
+        : quest.id === 1198
+          ? "Find Argent Guard Thaelrid inside Blackfathom Deeps."
+          : quest.id === 1200
+            ? "Bring Twilight Lord Kelris's head to Dawnwatcher Selgorm."
+            : quest.objective,
+    objectiveStage:
+      quest.id === 959 || quest.id === 6981 || quest.id === 95795 || quest.id === 2922 || quest.id === 6626
+        ? "before"
+        : multiVisit.has(quest.id)
+          ? "multiple-visits"
+          : DUNGEON_FACTS.associations.some((entry) => entry.questId === quest.id)
+            ? "inside"
+            : "before",
+    // Keep reviewed entrance tasks and outside deliveries out of the instanced combat path.
+    ...(quest.id === 959 || quest.id === 6981 || quest.id === 95795 || quest.id === 2922 || quest.id === 6626
+      ? { outsideObjectiveReviewed: true as const }
+      : {}),
     // 6981's addon coordinate belongs to a later hand-in, not the item pickup.
     position: insideStarts.has(quest.id) ? null : quest.position,
     gate: gates.get(quest.id) ?? { kind: "all", gates: [] },
@@ -223,6 +230,7 @@ const supplementalQuests: readonly DungeonQuest[] = DUNGEON_FACTS.quests.map(
 );
 const supplementalIds = new Set(supplementalQuests.map((quest) => quest.id));
 export const DUNGEON_QUESTS: readonly DungeonQuest[] = [
+  ...REVIEWED_DUNGEON_QUESTS,
   ...supplementalQuests,
   ...DUNGEON_REFERENCE.quests
     .filter((quest) => !supplementalIds.has(quest.id))
@@ -329,6 +337,7 @@ function visit(
           .filter((entry) => entry.dungeon === name)
           .map((entry) => entry.questId),
         ...referenceIds,
+        ...(id === "gnomeregan" ? REVIEWED_DUNGEON_QUESTS.map((quest) => quest.id) : []),
       ]),
     ],
     notes: extraNotes,
@@ -343,13 +352,18 @@ export const DUNGEON_VISITS: readonly DungeonVisit[] = [
   visit("deadmines", "The Deadmines", [14, 17, 19, 24], "both", "DM"),
   visit("lordaeron", "Ruins of Lordaeron", [15, 17, 19, 24]),
   visit("shadowfang", "Shadowfang Keep", [18, 21, 23, 28], "both", "SFK"),
-  visit("blackfathom", "Blackfathom Deeps", [21, 23, 25, 30], "both", "BFD"),
-  visit("stockade", "The Stockade", [22, 24, 26, 30], "alliance", "Stockades"),
-  visit("excavation", "Excavation Site: Wetlands", [24, 27, 29, 31]),
-  visit("gnomeregan", "Gnomeregan", [25, 30, 33, 38], "both", "Gnomer", "beta", [
+  // Captured build 70205, zone 719: trash <=27, bosses <=28. A five-player
+  // entry at 23 respects the +4 trash / +5 boss policy; no clear XP is inferred.
+  visit("blackfathom", "Blackfathom Deeps", [23, 23, 23, 30], "both", "BFD"),
+  // Captured build 70205, zone 717: trash <=26, bosses <=29.
+  visit("stockade", "The Stockade", [24, 24, 24, 30], "alliance", "Stockades"),
+  visit("excavation", "Excavation Site: Wetlands", [26, 26, 26, 31]),
+  // Captured build 70205, zone 721: trash <=33, bosses <=34.
+  visit("gnomeregan", "Gnomeregan", [29, 29, 29, 38], "both", "Gnomer", "beta", [
     "Back-door access requires a Workshop Key or Lockpicking 150; the normal entrance remains a separate route.",
   ]),
-  visit("razorfen-kraul", "Razorfen Kraul", [25, 28, 31, 34], "both", "RFK"),
+  // Captured build 70205, area 491: trash <=32, bosses <=33.
+  visit("razorfen-kraul", "Razorfen Kraul", [28, 28, 29, 34], "both", "RFK"),
   visit("sm-graveyard", "Scarlet Monastery: Graveyard", [26, 32, 37, 45], "both", "SM"),
   visit("sm-library", "Scarlet Monastery: Library", [26, 32, 37, 45], "both", "SM"),
   visit(

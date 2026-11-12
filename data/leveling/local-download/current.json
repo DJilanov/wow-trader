@@ -1,0 +1,25 @@
+{
+  "schema": "kfc-local-guide-source.v1",
+  "plan": {
+    "file": ".cache/leveling-no-grind-20261031/tablet-route-v1363.plan.json",
+    "sha256": "ae159672f3377878362554a2eeba2473301682606a577f6b35680c80f91272eb"
+  },
+  "scope": {
+    "file": ".cache/leveling-no-grind-20261031/tablet-engine-v1364/scope.json",
+    "sha256": "251acb306e7dc46733ef9f25fccc05a2b6fa556b4d54aadcb8a73061c1993df4"
+  },
+  "qualification": {
+    "file": ".cache/leveling-no-grind-20261031/download-current-qualification-v1393.json",
+    "sha256": "dcfeb96e797c01b49c53bc44ff0f12c86c48b3f6863e311d66b90274bc8ffa96"
+  },
+  "throughActionId": "library-quest-2941-rewarded-0",
+  "coverage": "Levels 1–44 · Through the pre-Maraudon preparation quests",
+  "presentation": {
+    "levelRange": "1–44",
+    "through": "the pre-Maraudon quests",
+    "scope": "Follow one shared route through questing and dungeons. This edition continues beyond Tanaris through Krol’dok, Uldaman and Zul’Farrak, with the complete Lost Tablets of Will chain, the Jarl and Hyal courier quests and a single Southsea camp visit for pirate hats, Firebeard and cargo. It ends after The Borrower hand-in, before Maraudon. Later sections are still being finished."
+  },
+  "runtimeBuild": 70450,
+  "interfaceVersion": 16001,
+  "restedXpVersion": "v4.11.27"
+}

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { isExplicitVendorPurchase } from "./combat-purchase.js";
+import { isExplicitVendorPurchase, isGeneratedVendorPurchase } from "./combat-purchase.js";
 import { parseGuideChapter } from "./guide-archive.js";
-import type { CombatNpc } from "./combat-model.js";
+import type { CombatNpc, CombatQuestReference } from "./combat-model.js";
 import { questVendorEvidenceSchema, type QuestVendorEvidence } from "./quest-loot.js";
 
 const evidence: QuestVendorEvidence = {
@@ -26,6 +26,44 @@ function source(body: string): ReturnType<typeof parseGuideChapter>["steps"][num
 }
 
 describe("explicit vendor purchase attribution", () => {
+  it("recognizes an authored purchase only with exact item, quantity and qualified vendor", () => {
+    const item: NonNullable<CombatQuestReference["itemObjectives"]>[number] = {
+      objectiveIndex: 1,
+      itemId: 2894,
+      itemName: "Rhapsody Malt",
+      quantity: 1,
+      npcIds: [],
+      sharing: "pooled",
+      vendorEvidence: evidence,
+    };
+    expect(
+      isGeneratedVendorPurchase(item, ["Buy 1 [Rhapsody Malt] from Innkeeper Belm."], npcs),
+    ).toBe(true);
+    expect(
+      isGeneratedVendorPurchase(item, ["Purchase 1 [Rhapsody Malt] from Innkeeper Belm."], npcs),
+    ).toBe(true);
+    for (const line of [
+      "Buy 2 [Rhapsody Malt] from Innkeeper Belm.",
+      "Buy 1 [Rhapsody] from Innkeeper Belm.",
+      "Buy 1 [Rhapsody Malt] from Another Vendor.",
+      "Buy 1 [Rhapsody Malt] from Innkeeper Belm if needed.",
+      "Do not buy 1 [Rhapsody Malt] from Innkeeper Belm.",
+    ])
+      expect(isGeneratedVendorPurchase(item, [line], npcs)).toBe(false);
+    for (const changed of [
+      { ...item, vendorEvidence: undefined },
+      { ...item, quantity: null },
+      { ...item, provided: true },
+      { ...item, npcIds: [12] },
+      { ...item, objectIds: [99] },
+    ])
+      expect(
+        isGeneratedVendorPurchase(changed, ["Buy 1 [Rhapsody Malt] from Innkeeper Belm."], npcs),
+      ).toBe(false);
+    expect(
+      isGeneratedVendorPurchase(item, ["Buy 1 [Rhapsody Malt] from Innkeeper Belm."], new Map()),
+    ).toBe(false);
+  });
   it("validates vendor identities and provenance at the data boundary", () => {
     expect(questVendorEvidenceSchema.parse(evidence)).toEqual(evidence);
     for (const invalid of [

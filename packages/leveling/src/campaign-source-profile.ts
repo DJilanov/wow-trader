@@ -2,6 +2,14 @@ import { createCharacterProfile, type CharacterProfile } from "./profile.js";
 import type { CampaignRace } from "./campaign-route.js";
 import type { ClassSlug } from "./model.js";
 
+export function campaignPlanSourceProfile(plan: {
+  readonly race: CampaignRace;
+  readonly leaderClass: ClassSlug | null;
+  readonly sharedQuestsOnly?: true;
+}): CharacterProfile {
+  return createCampaignSourceProfile(plan.race, plan.sharedQuestsOnly ? null : plan.leaderClass);
+}
+
 export function createCampaignSourceProfile(
   race: CampaignRace,
   classSlug: ClassSlug | null,

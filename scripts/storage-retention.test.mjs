@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import {
   mkdtemp,
   mkdir,
@@ -9,6 +11,7 @@ import {
   symlink,
   utimes,
   readdir,
+  link,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -18,6 +21,7 @@ import {
   pruneGuardianReleases,
   pruneAudits,
   activePreviewDirectories,
+  storageReferences,
 } from "./storage-retention.mjs";
 import {
   acquireStorageLock,
@@ -28,6 +32,7 @@ import { createSimulationCache } from "../infra/simulator/retained-simulation-ca
 
 const day = 86_400_000;
 const now = Date.now();
+const execute = promisify(execFile);
 
 test("protects the actual preview output through the launcher after Next rewrites its title", async () => {
   const paths = await activePreviewDirectories(async (command, args) => {
@@ -57,6 +62,69 @@ async function file(path, age = 10 * day, text = "{}") {
   await utimes(path, new Date(now - age), new Date(now - age));
   return path;
 }
+
+test("large validation reports retain references across read boundaries", async (t) => {
+  const repository = await fixture(t);
+  await execute("git", ["-C", repository, "init", "--quiet"]);
+  const pinned = "123456abcdef";
+  const unreferenced = "987654fedcba";
+  await mkdir(join(repository, "artifacts/local-catalog", pinned), { recursive: true });
+  await mkdir(join(repository, "artifacts/local-catalog", unreferenced), { recursive: true });
+  const prefix = '{"padding":"';
+  const separator = '","catalog":"';
+  const padding = "x".repeat(9 * 1024 ** 2 - 6 - prefix.length - separator.length);
+  await file(join(repository, "validation.json"), 0, `${prefix}${padding}${separator}${pinned}"}`);
+  const references = await storageReferences(repository);
+  assert.equal(references.includes(pinned), true);
+  assert.equal(references.includes(unreferenced), false);
+  assert.equal(references.includes("a-new-unscanned-candidate"), true);
+});
+
+test("reference scanning handles a corpus larger than the old aggregate budget", async (t) => {
+  const repository = await fixture(t);
+  await execute("git", ["-C", repository, "init", "--quiet"]);
+  const pinned = "abcdef123456";
+  const unreferenced = "fedcba654321";
+  await mkdir(join(repository, "artifacts/local-catalog", pinned), { recursive: true });
+  await mkdir(join(repository, "artifacts/local-catalog", unreferenced), { recursive: true });
+  const first = await file(
+    join(repository, "validation-00.json"),
+    0,
+    JSON.stringify("x".repeat(8 * 1024 ** 2 - 2)),
+  );
+  for (let index = 1; index < 17; index++)
+    await link(first, join(repository, `validation-${String(index).padStart(2, "0")}.json`));
+  await file(join(repository, "validation-last.json"), 0, JSON.stringify({ catalog: pinned }));
+  const references = await storageReferences(repository);
+  assert.equal(references.includes(pinned), true);
+  assert.equal(references.includes(unreferenced), false);
+});
+
+test("streamed references protect audits, snapshots and separate guardian catalogs", async (t) => {
+  const repository = await fixture(t);
+  const guardian = await fixture(t);
+  await execute("git", ["-C", repository, "init", "--quiet"]);
+  await file(join(repository, ".gitignore"), 0, "artifacts/\n");
+  const audit = "campaign-xp-audit-1234567890abcdef.json";
+  const otherAudit = "campaign-xp-audit-fedcba0987654321.json";
+  await file(join(repository, "artifacts/leveling/audits/old", audit));
+  await file(join(repository, "artifacts/leveling/audits/old", otherAudit));
+  const snapshot = "artifacts/local-world/world-snapshots/wow/12345";
+  const otherSnapshot = "artifacts/local-world/world-snapshots/wow/12346";
+  for (const path of [snapshot, otherSnapshot])
+    await mkdir(join(repository, path), { recursive: true });
+  for (const name of ["abc123def456", "def456abc123"])
+    await mkdir(join(guardian, "artifacts/local-catalog", name), { recursive: true });
+  await file(join(repository, "notes.md"), 0, `Evidence: artifacts/leveling/audits/old/${audit}`);
+  await file(join(repository, ".env.local"), 0, `SNAPSHOT=${snapshot}\nCATALOG=abc123def456\n`);
+  const references = await storageReferences(repository, {
+    snapshotRepositories: [repository, guardian],
+  });
+  for (const pinned of [audit, `artifacts/leveling/audits/old/${audit}`, snapshot, "abc123def456"])
+    assert.equal(references.includes(pinned), true, pinned);
+  for (const unreferenced of [otherAudit, otherSnapshot, "def456abc123"])
+    assert.equal(references.includes(unreferenced), false, unreferenced);
+});
 
 test("retains active files, explicit pins, markers and a fresh build", async (t) => {
   const root = await fixture(t);

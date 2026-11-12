@@ -4,6 +4,7 @@ import {
   campaignFundingStates,
   campaignFundingCheckpoints,
   type CampaignFundingState,
+  type CampaignFundingExecutor,
 } from "./campaign-funding-scenarios.js";
 
 export function campaignFundingReview(
@@ -39,6 +40,7 @@ export function campaignFundingReview(
       starterMode: state.starterMode,
       strategy: state.strategy,
       optionalStops: state.optionalStops,
+      lootScenario: state.lootScenario,
       remaining: remaining(state),
       blockedReasonsByPlayer: state.progress.members.map(
         (_member, player) =>
@@ -50,13 +52,16 @@ export function campaignFundingReview(
 }
 
 /** Recalculate diagnostics after task compilation without changing quest allocation or XP. */
-export function refreshCampaignFundingReview(plan: CampaignPlan): CampaignPlan {
+export function refreshCampaignFundingReview(
+  plan: CampaignPlan,
+  statesForPlan: CampaignFundingExecutor = campaignFundingStates,
+): CampaignPlan {
   if (!plan.questFunding) return plan;
   return {
     ...plan,
     questFunding: {
       ...plan.questFunding,
-      ...campaignFundingReview(plan, campaignFundingStates(plan)),
+      ...campaignFundingReview(plan, statesForPlan(plan)),
     },
   };
 }

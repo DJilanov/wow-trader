@@ -8,11 +8,16 @@ import { emptyPremadeProgress } from "./premade-model.js";
 import { combatDatasetSchema, type CombatDataset } from "./combat-model.js";
 import { questCatalogSchema, isSharedFundingQuest, type QuestCatalog } from "./quest-catalog.js";
 
-function fixture(): { plan: CampaignPlan; catalog: QuestCatalog; combat: CombatDataset } {
+function fixture(quantity: number = 1): {
+  plan: CampaignPlan;
+  catalog: QuestCatalog;
+  combat: CombatDataset;
+} {
   const position = { zone: "1429", x: 50, y: 50 };
   const groundPickup = {
     questId: 410002,
     itemId: 1309,
+    ...(quantity === 1 ? {} : { quantity }),
     objectiveIndex: 1 as const,
     objectId: 32,
     objectName: "Sunken Chest",
@@ -146,7 +151,7 @@ function fixture(): { plan: CampaignPlan; catalog: QuestCatalog; combat: CombatD
             objectiveIndex: 1,
             itemId: 1309,
             itemName: "Toolbox",
-            quantity: 1,
+            quantity,
             npcIds: [],
             sharing: "pooled",
             groundPickup,
@@ -158,7 +163,236 @@ function fixture(): { plan: CampaignPlan; catalog: QuestCatalog; combat: CombatD
   return { plan, catalog, combat };
 }
 
+function multiFixture(): ReturnType<typeof fixture> {
+  const input = fixture();
+  const first = input.catalog.quests[0]!.groundPickup!;
+  const second = {
+    ...first,
+    objectiveIndex: 2,
+    itemId: 1310,
+    objectId: 33,
+    objectName: "Second Chest",
+    positions: [{ zone: "1429", x: 53, y: 50 }],
+    source: { ...first.source, stepId: "source-step-0002" },
+  };
+  input.catalog = questCatalogSchema.parse({
+    ...input.catalog,
+    quests: [
+      { ...input.catalog.quests[0]!, groundPickup: undefined, groundPickups: [first, second] },
+    ],
+  });
+  const item = input.combat.quests[0]!.itemObjectives![0]!;
+  input.combat = combatDatasetSchema.parse({
+    ...input.combat,
+    quests: [
+      {
+        ...input.combat.quests[0]!,
+        itemObjectives: [
+          { ...item, objectIds: [32] },
+          {
+            ...item,
+            objectiveIndex: 2,
+            itemId: 1310,
+            itemName: "Second Toolbox",
+            objectIds: [33],
+            groundPickup: second,
+          },
+        ],
+      },
+    ],
+  });
+  return input;
+}
+
+describe("multi-objective ground pickups", () => {
+  it("keeps two physical counters, no kill XP and one reward for every character", () => {
+    const input = multiFixture(),
+      before = structuredClone(input);
+    const funded = fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog);
+    const tasks = funded.actions.filter((action) => action.libraryQuestId === 410002);
+    expect(tasks.map((action) => action.questChanges[0]!.objectiveIndex)).toEqual([
+      null,
+      1,
+      2,
+      null,
+    ]);
+    expect(tasks[1]!.instructions.join(" ")).toContain("one Toolbox");
+    expect(tasks[2]!.instructions.join(" ")).toContain("one Second Toolbox");
+    const forecast = forecastCampaignGuide(funded, emptyPremadeProgress(), {
+      starterMode: "together",
+    });
+    for (const member of forecast.sections[0]!.forecast.members) {
+      expect(member.endpoint).toEqual({ level: 3, currentXp: 100 });
+      expect(member.combatRows).toEqual([]);
+      expect(member.rewards.filter((reward) => reward.questId === 410002)).toHaveLength(1);
+    }
+    const native = compileCampaignAddon(funded, funded.actions, {
+      version: "0.2.0-review.multi-ground",
+      runtimeBuild: 70450,
+      interfaceVersion: 16001,
+      restedXpVersion: "v4.11.27",
+    });
+    for (const role of ["leader", "party"] as const) {
+      const text = native.documents
+        .filter((document) => document.role === role)
+        .map((document) => document.content)
+        .join("\n");
+      expect(text).toContain(".complete 410002,1");
+      expect(text).toContain(".complete 410002,2");
+      expect(text.match(/\.turnin 410002\b/g)).toHaveLength(1);
+    }
+    expect(input).toEqual(before);
+  });
+
+  it("cannot pay or export the quest with only the first object objective", () => {
+    const input = multiFixture();
+    const funded = fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog);
+    const actions = funded.actions.filter(
+      (action) =>
+        !action.questChanges.some(
+          (change) =>
+            change.questId === 410002 &&
+            change.state === "objectives-complete" &&
+            change.objectiveIndex === 2,
+        ),
+    );
+    const partial = {
+      ...funded,
+      actions,
+      legs: funded.legs.map((leg) => ({
+        ...leg,
+        actionIds: actions.filter((action) => action.legId === leg.id).map((action) => action.id),
+      })),
+    };
+    const forecast = forecastCampaignGuide(partial, emptyPremadeProgress(), {
+      starterMode: "together",
+    });
+    for (const member of forecast.sections[0]!.forecast.members) {
+      expect(member.rewards.some((reward) => reward.questId === 410002)).toBe(false);
+      expect(member.blockedReason).toBeTruthy();
+    }
+    expect(() =>
+      compileCampaignAddon(partial, actions, {
+        version: "0.2.0-review.partial-ground",
+        runtimeBuild: 70450,
+        interfaceVersion: 16001,
+        restedXpVersion: "v4.11.27",
+      }),
+    ).toThrow("without its object objective");
+  });
+
+  it.each(["index", "index-gap", "item", "legacy-field", "quest", "archive"])(
+    "rejects conflicting catalog proof %s",
+    (reason) => {
+      const input = multiFixture(),
+        quest = input.catalog.quests[0]!,
+        proofs = quest.groundPickups!;
+      if (reason === "index") proofs[1]!.objectiveIndex = 1;
+      if (reason === "index-gap") proofs[1]!.objectiveIndex = 3;
+      if (reason === "item") proofs[1]!.itemId = proofs[0]!.itemId;
+      if (reason === "legacy-field") quest.groundPickup = proofs[0];
+      if (reason === "quest") proofs[1]!.questId = 410003;
+      if (reason === "archive") proofs[1]!.sourceArchiveSha256 = "0".repeat(64);
+      expect(questCatalogSchema.safeParse(input.catalog).success).toBe(false);
+    },
+  );
+
+  it("rejects partial ground normalization and mismatched objective identities", () => {
+    const input = multiFixture(),
+      items = input.combat.quests[0]!.itemObjectives!;
+    delete items[1]!.groundPickup;
+    expect(combatDatasetSchema.safeParse(input.combat).success).toBe(false);
+    const mismatch = multiFixture();
+    mismatch.combat.quests[0]!.itemObjectives![1]!.groundPickup!.objectiveIndex = 1;
+    expect(combatDatasetSchema.safeParse(mismatch.combat).success).toBe(false);
+  });
+
+  it("holds a catalog proof that differs from the combat reference", () => {
+    const input = multiFixture();
+    input.catalog.quests[0]!.groundPickups![1]!.quantity = 2;
+    const funded = fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog);
+    expect(funded.questFunding?.addedQuestIds).not.toContain(410002);
+  });
+});
+
 describe("source-backed ground-object preparation", () => {
+  it("uses actual pickup eligibility rather than reward level for a source-proven object task", () => {
+    const input = fixture(4);
+    const quest = { ...input.catalog.quests[0]!, questLevel: 15 };
+    const progress = emptyPremadeProgress();
+    progress.members = progress.members.map((member) => ({
+      ...member,
+      level: 2,
+      currentXp: 0,
+      xpNeedsUpdate: false,
+    }));
+    const options = {
+      legId: "prepare",
+      checkpointId: "gate",
+      targetLevel: 3,
+      previous: { zone: "1429", x: 50, y: 50 },
+      resumeZone: "1429",
+      forbiddenQuestIds: new Set<number>(),
+      maximumQuestLevel: 5,
+      leaderOnly: false,
+      includeGroundPickups: true,
+    };
+    const batch = campaignFundingBatch(
+      quest,
+      { ...input.catalog, quests: [quest] },
+      input.combat,
+      progress,
+      options,
+    );
+    expect(batch?.requiredKills).toBe(0);
+    expect(
+      batch?.actions.find((action) => action.fundingGroundPickup)?.fundingGroundPickup?.quantity,
+    ).toBe(4);
+    const unavailable = { ...quest, minimumLevel: 3 };
+    expect(
+      campaignFundingBatch(
+        unavailable,
+        { ...input.catalog, quests: [unavailable] },
+        input.combat,
+        progress,
+        options,
+      ),
+    ).toBeNull();
+  });
+  it("retains a multi-item quantity in the generated task and both native roles without inventing kills", () => {
+    const input = fixture(7);
+    const original = structuredClone(input);
+    const funded = fundCampaignQuestGaps(input.plan, [], input.combat, input.catalog);
+    const tasks = funded.actions.filter((action) => action.libraryQuestId === 410002);
+    expect(tasks).toHaveLength(3);
+    expect(tasks[1]!.fundingGroundPickup?.quantity).toBe(7);
+    expect(tasks[1]!.instructions.join(" ")).toContain("each player has 7 Toolbox");
+    const forecast = forecastCampaignGuide(funded, emptyPremadeProgress(), {
+      starterMode: "together",
+    });
+    for (const member of forecast.sections[0]!.forecast.members) {
+      expect(member.endpoint).toEqual({ level: 3, currentXp: 100 });
+      expect(member.combatRows).toEqual([]);
+      expect(member.rewards.filter((reward) => reward.questId === 410002)).toHaveLength(1);
+    }
+    const native = compileCampaignAddon(funded, funded.actions, {
+      version: "0.2.0-review.ground-quantity",
+      runtimeBuild: 70450,
+      interfaceVersion: 16001,
+      restedXpVersion: "v4.11.27",
+    });
+    for (const role of ["leader", "party"] as const) {
+      const documents = native.documents.filter((document) => document.role === role);
+      expect(
+        documents.some((document) => document.content.includes("each player has 7 Toolbox")),
+      ).toBe(true);
+      expect(documents.some((document) => document.content.includes(".complete 410002,1"))).toBe(
+        true,
+      );
+    }
+    expect(input).toEqual(original);
+  });
+
   it("retains a real collection step for every player, awards the hand-in once and generates no kills", () => {
     const input = fixture(),
       before = JSON.stringify(input);

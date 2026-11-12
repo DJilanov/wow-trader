@@ -1,3 +1,4 @@
+import type { CampaignFundingExecutor } from "./campaign-funding-scenarios.js";
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CombatDataset } from "./combat-model.js";
 import { campaignNativeInstructions } from "./campaign-addon-native.js";
@@ -22,6 +23,7 @@ export function offerCampaignGroundVisits(
   sources: readonly CampaignSource[],
   combat: CombatDataset,
   catalog: QuestCatalog,
+  statesForPlan: CampaignFundingExecutor = campaignFundingStates,
 ): CampaignPlan {
   if (
     initial.race !== "human" ||
@@ -179,8 +181,8 @@ export function offerCampaignGroundVisits(
     combat,
     initial.combat?.revision ?? "ground-visit-review",
   );
-  const before = campaignFundingStates(initial);
-  const after = campaignFundingStates(proposed);
+  const before = statesForPlan(initial);
+  const after = statesForPlan(proposed);
   if (
     regressedFundingScenarios(initial, before, after).length ||
     after.some((state) => {

@@ -1,0 +1,832 @@
+{
+  "provenance": {
+    "classification": "Pinned provider/client counters and reward tables, plus indexed published endpoint names uniquely matched to the provider NPC. Exact source inputs remain recorded in the candidate proof; no in-game payout claim.",
+    "candidate": {
+      "catalog": {
+        "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/catalog-fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d.json",
+        "sha256": "fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d"
+      },
+      "combat": {
+        "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/combat-377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b.json",
+        "sha256": "377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b"
+      },
+      "rewards": {
+        "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/rewards-ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced.json",
+        "sha256": "ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced"
+      }
+    },
+    "inputs": {
+      ".cache/leveling-kill-first-20261031/provider/foreverQuestDB.lua": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      ".cache/leveling-kill-first-20261031/provider/foreverNpcDB.lua": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      ".cache/leveling-no-grind-20261031/vahlarriel-published-endpoints-v840.json": "d21182b43e353ff53eecd818480910c49c4c561f0a8322a9ec2837e9acbd3e6f",
+      ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70205/quests.enUS.json": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      ".cache/leveling-no-grind-20261031/eg-link-v123/data/wow_classic_beta/1.60.1.70450/quests.enUS.json": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "artifacts/leveling-evidence/leveling-20261004T101848Z/evidence.json": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+      "artifacts/leveling-evidence/leveling-20261004T101848Z/db2/QuestXP.db2": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+      "artifacts/leveling-evidence/leveling-20261018T190302Z/evidence.json": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+      "artifacts/leveling-evidence/leveling-20261018T190302Z/db2/QuestXP.db2": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1"
+    }
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 97284,
+        "title": "Vahlarriel's Vengeance",
+        "minimumLevel": 30,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 5642,
+            "name": "Vahlarriel Demonslayer",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 66.44,
+                "y": 11.82
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 5642,
+            "name": "Vahlarriel Demonslayer",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 66.44,
+                "y": 11.82
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 4663,
+            "count": 4,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 52.54,
+                "y": 29.98
+              },
+              {
+                "zone": "1443",
+                "x": 56.76,
+                "y": 22.67
+              },
+              {
+                "zone": "1443",
+                "x": 55.28,
+                "y": 22.4
+              },
+              {
+                "zone": "1443",
+                "x": 54.66,
+                "y": 24.64
+              },
+              {
+                "zone": "1443",
+                "x": 56.69,
+                "y": 22.08
+              },
+              {
+                "zone": "1443",
+                "x": 52.08,
+                "y": 28.86
+              },
+              {
+                "zone": "1443",
+                "x": 56.88,
+                "y": 24.57
+              },
+              {
+                "zone": "1443",
+                "x": 56.65,
+                "y": 23.5
+              },
+              {
+                "zone": "1443",
+                "x": 56.99,
+                "y": 22.93
+              },
+              {
+                "zone": "1443",
+                "x": 54.76,
+                "y": 23.48
+              },
+              {
+                "zone": "1443",
+                "x": 56.11,
+                "y": 22.27
+              },
+              {
+                "zone": "1443",
+                "x": 57.19,
+                "y": 28
+              },
+              {
+                "zone": "1443",
+                "x": 55.95,
+                "y": 27.4
+              },
+              {
+                "zone": "1443",
+                "x": 57.4,
+                "y": 26.27
+              },
+              {
+                "zone": "1443",
+                "x": 53.26,
+                "y": 29.86
+              },
+              {
+                "zone": "1443",
+                "x": 54.23,
+                "y": 28.03
+              },
+              {
+                "zone": "1443",
+                "x": 54.04,
+                "y": 27.86
+              },
+              {
+                "zone": "1443",
+                "x": 52.9,
+                "y": 32.33
+              },
+              {
+                "zone": "1443",
+                "x": 53.09,
+                "y": 32.23
+              },
+              {
+                "zone": "1443",
+                "x": 57.28,
+                "y": 22.43
+              },
+              {
+                "zone": "1443",
+                "x": 55.28,
+                "y": 29.88
+              },
+              {
+                "zone": "1443",
+                "x": 55.18,
+                "y": 30.05
+              },
+              {
+                "zone": "1443",
+                "x": 56.77,
+                "y": 30
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "npcId": 4664,
+            "count": 4,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 52.29,
+                "y": 28.22
+              },
+              {
+                "zone": "1443",
+                "x": 56.4,
+                "y": 21.55
+              },
+              {
+                "zone": "1443",
+                "x": 56.86,
+                "y": 25.66
+              },
+              {
+                "zone": "1443",
+                "x": 57.49,
+                "y": 26
+              },
+              {
+                "zone": "1443",
+                "x": 57.7,
+                "y": 26.3
+              },
+              {
+                "zone": "1443",
+                "x": 54.03,
+                "y": 30.39
+              },
+              {
+                "zone": "1443",
+                "x": 52.36,
+                "y": 32.5
+              },
+              {
+                "zone": "1443",
+                "x": 52.67,
+                "y": 32.5
+              },
+              {
+                "zone": "1443",
+                "x": 52.76,
+                "y": 32.26
+              },
+              {
+                "zone": "1443",
+                "x": 55.98,
+                "y": 29.87
+              },
+              {
+                "zone": "1443",
+                "x": 56.09,
+                "y": 29.16
+              },
+              {
+                "zone": "1443",
+                "x": 56.3,
+                "y": 29.53
+              },
+              {
+                "zone": "1443",
+                "x": 55.14,
+                "y": 28.62
+              },
+              {
+                "zone": "1443",
+                "x": 57.61,
+                "y": 26.32
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "npcId": 4665,
+            "count": 4,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 52.26,
+                "y": 29.7
+              },
+              {
+                "zone": "1443",
+                "x": 53.57,
+                "y": 26.28
+              },
+              {
+                "zone": "1443",
+                "x": 52.91,
+                "y": 27.21
+              },
+              {
+                "zone": "1443",
+                "x": 56.46,
+                "y": 21.43
+              },
+              {
+                "zone": "1443",
+                "x": 52.8,
+                "y": 28.19
+              },
+              {
+                "zone": "1443",
+                "x": 52.48,
+                "y": 29.34
+              },
+              {
+                "zone": "1443",
+                "x": 52.34,
+                "y": 28.87
+              },
+              {
+                "zone": "1443",
+                "x": 53.17,
+                "y": 27.35
+              },
+              {
+                "zone": "1443",
+                "x": 57.49,
+                "y": 28.69
+              },
+              {
+                "zone": "1443",
+                "x": 54.65,
+                "y": 26.57
+              },
+              {
+                "zone": "1443",
+                "x": 55.46,
+                "y": 26.15
+              },
+              {
+                "zone": "1443",
+                "x": 55.24,
+                "y": 26.89
+              },
+              {
+                "zone": "1443",
+                "x": 54.99,
+                "y": 27.13
+              },
+              {
+                "zone": "1443",
+                "x": 54.99,
+                "y": 26.19
+              },
+              {
+                "zone": "1443",
+                "x": 56.05,
+                "y": 31.14
+              },
+              {
+                "zone": "1443",
+                "x": 54.47,
+                "y": 29.98
+              },
+              {
+                "zone": "1443",
+                "x": 56.14,
+                "y": 31.45
+              }
+            ]
+          },
+          {
+            "index": 4,
+            "npcId": 4666,
+            "count": 4,
+            "positions": [
+              {
+                "zone": "1443",
+                "x": 53.25,
+                "y": 28.6
+              },
+              {
+                "zone": "1443",
+                "x": 55.35,
+                "y": 21.32
+              },
+              {
+                "zone": "1443",
+                "x": 56.14,
+                "y": 25.87
+              },
+              {
+                "zone": "1443",
+                "x": 55.81,
+                "y": 25.17
+              },
+              {
+                "zone": "1443",
+                "x": 52.47,
+                "y": 28.41
+              },
+              {
+                "zone": "1443",
+                "x": 54.2,
+                "y": 26.46
+              },
+              {
+                "zone": "1443",
+                "x": 55.11,
+                "y": 25.55
+              },
+              {
+                "zone": "1443",
+                "x": 53.01,
+                "y": 29.61
+              },
+              {
+                "zone": "1443",
+                "x": 54.8,
+                "y": 27.79
+              },
+              {
+                "zone": "1443",
+                "x": 53.88,
+                "y": 29.36
+              },
+              {
+                "zone": "1443",
+                "x": 53.81,
+                "y": 29.61
+              },
+              {
+                "zone": "1443",
+                "x": 53.29,
+                "y": 28.52
+              },
+              {
+                "zone": "1443",
+                "x": 54.5,
+                "y": 27.47
+              },
+              {
+                "zone": "1443",
+                "x": 55.31,
+                "y": 27.63
+              },
+              {
+                "zone": "1443",
+                "x": 55.41,
+                "y": 27.52
+              },
+              {
+                "zone": "1443",
+                "x": 55.7,
+                "y": 26.86
+              },
+              {
+                "zone": "1443",
+                "x": 55.6,
+                "y": 24.79
+              },
+              {
+                "zone": "1443",
+                "x": 55.98,
+                "y": 28.26
+              },
+              {
+                "zone": "1443",
+                "x": 55.61,
+                "y": 28.64
+              },
+              {
+                "zone": "1443",
+                "x": 55.41,
+                "y": 30.04
+              },
+              {
+                "zone": "1443",
+                "x": 55.14,
+                "y": 30.38
+              },
+              {
+                "zone": "1443",
+                "x": 55.38,
+                "y": 30.12
+              },
+              {
+                "zone": "1443",
+                "x": 54.44,
+                "y": 33.21
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 4663,
+        "name": "Burning Blade Augur",
+        "minimumLevel": 30,
+        "maximumLevel": 31,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4666,
+        "name": "Burning Blade Felsworn",
+        "minimumLevel": 31,
+        "maximumLevel": 32,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4664,
+        "name": "Burning Blade Reaver",
+        "minimumLevel": 30,
+        "maximumLevel": 31,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4665,
+        "name": "Burning Blade Adept",
+        "minimumLevel": 31,
+        "maximumLevel": 32,
+        "rank": 0,
+        "zoneIds": [
+          405
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 97284,
+        "creatureIds": [
+          4663,
+          4664,
+          4665,
+          4666
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Slay Burning Blade orcs at Thunder Axe Fortress in the Desolace, then return to Vahlarriel Demonslayer at Nijel's Point."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 4663,
+            "kills": 4,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider97284NPCidentities and published exact common quest endpoints."
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 4664,
+            "kills": 4,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider97284NPCidentities and published exact common quest endpoints."
+          },
+          {
+            "objectiveIndex": 3,
+            "npcId": 4665,
+            "kills": 4,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider97284NPCidentities and published exact common quest endpoints."
+          },
+          {
+            "objectiveIndex": 4,
+            "npcId": 4666,
+            "kills": 4,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider97284NPCidentities and published exact common quest endpoints."
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [],
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "reward": {
+    "questId": 97284,
+    "fullXp": 2650,
+    "rewardBasis": "final-reward",
+    "questLevel": 33,
+    "minimumLevel": 30,
+    "xpByLevel": [
+      {
+        "level": 30,
+        "xp": 2650
+      },
+      {
+        "level": 31,
+        "xp": 2650
+      },
+      {
+        "level": 32,
+        "xp": 2650
+      },
+      {
+        "level": 33,
+        "xp": 2650
+      },
+      {
+        "level": 34,
+        "xp": 2650
+      },
+      {
+        "level": 35,
+        "xp": 2650
+      },
+      {
+        "level": 36,
+        "xp": 2650
+      },
+      {
+        "level": 37,
+        "xp": 2650
+      },
+      {
+        "level": 38,
+        "xp": 2650
+      },
+      {
+        "level": 39,
+        "xp": 2100
+      },
+      {
+        "level": 40,
+        "xp": 1600
+      },
+      {
+        "level": 41,
+        "xp": 1050
+      },
+      {
+        "level": 42,
+        "xp": 525
+      },
+      {
+        "level": 43,
+        "xp": 270
+      },
+      {
+        "level": 44,
+        "xp": 270
+      },
+      {
+        "level": 45,
+        "xp": 270
+      },
+      {
+        "level": 46,
+        "xp": 270
+      },
+      {
+        "level": 47,
+        "xp": 270
+      },
+      {
+        "level": 48,
+        "xp": 270
+      },
+      {
+        "level": 49,
+        "xp": 270
+      },
+      {
+        "level": 50,
+        "xp": 270
+      },
+      {
+        "level": 51,
+        "xp": 270
+      },
+      {
+        "level": 52,
+        "xp": 270
+      },
+      {
+        "level": 53,
+        "xp": 270
+      },
+      {
+        "level": 54,
+        "xp": 270
+      },
+      {
+        "level": 55,
+        "xp": 270
+      },
+      {
+        "level": 56,
+        "xp": 270
+      },
+      {
+        "level": 57,
+        "xp": 270
+      },
+      {
+        "level": 58,
+        "xp": 270
+      },
+      {
+        "level": 59,
+        "xp": 270
+      }
+    ],
+    "status": "available",
+    "evidenceKind": "client-table-reference",
+    "clientReference": {
+      "schema": "client-quest-reward-reference.v1",
+      "calculation": "table-multiplier-reduction-rounding.v1",
+      "targetBuild": 70205,
+      "questId": 97284,
+      "questLevel": 33,
+      "minimumLevel": 30,
+      "difficulty": 5,
+      "baseXp": 2650,
+      "xpMultiplier": 1,
+      "cacheSources": [
+        {
+          "build": 70205,
+          "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+          "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+        },
+        {
+          "build": 70450,
+          "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+          "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+        }
+      ],
+      "tableSources": [
+        {
+          "build": 70205,
+          "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+          "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+          "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+          "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+        },
+        {
+          "build": 70450,
+          "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+          "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+          "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+          "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+        }
+      ]
+    },
+    "referenceBaseXp": 2650,
+    "capturedAt": "2026-11-05T03:03:33.771Z",
+    "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY4.0. Includes client multiplier; no additional dungeon coefficient. Not an observed payout."
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "classification": "Extracted exact reference and original source-step fixture. This is not an original full archive chapter or a route/payout qualification.",
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "catalog": {
+    "questId": 1244,
+    "title": "The Missing Diplomat",
+    "minimumLevel": 28,
+    "questLevel": 30,
+    "requiredRaces": 4294967373,
+    "requiredClasses": 0,
+    "starts": [
+      {
+        "npcId": 840,
+        "name": "Watcher Backus",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1431",
+            "x": 74.83,
+            "y": 44.22
+          }
+        ]
+      }
+    ],
+    "ends": [
+      {
+        "npcId": 840,
+        "name": "Watcher Backus",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1431",
+            "x": 74.83,
+            "y": 44.22
+          }
+        ]
+      }
+    ],
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": [
+        1243
+      ]
+    },
+    "exclusiveWith": [],
+    "category": "unsupported",
+    "objectives": [],
+    "unsupportedRequirements": []
+  },
+  "reference": {
+    "questId": 1244,
+    "creatureIds": [],
+    "itemCreatureIds": [],
+    "objectiveText": [
+      "Find the Defias Docket and return it to Watcher Backus in Duskwood."
+    ],
+    "onlyCreatureObjectives": false,
+    "onlyInteractionObjectives": false,
+    "requiredClasses": 0,
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": [
+        1243
+      ]
+    },
+    "itemObjectives": [
+      {
+        "objectiveIndex": 1,
+        "itemId": 5947,
+        "itemName": "Defias Docket",
+        "quantity": 1,
+        "npcIds": [],
+        "objectIds": [
+          21052
+        ],
+        "sharing": "pooled",
+        "sharingReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5947,
+          "itemFlags": 0
+        }
+      }
+    ]
+  },
+  "providerRecords": [
+    {
+      "kind": "quest",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverQuestDB.lua",
+      "sha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "records": [
+        {
+          "kind": "quest",
+          "id": 1244,
+          "name": "The Missing Diplomat",
+          "data": {
+            "name": "The Missing Diplomat",
+            "startedBy": [
+              [
+                840
+              ]
+            ],
+            "finishedBy": [
+              [
+                840
+              ]
+            ],
+            "requiredLevel": 28,
+            "questLevel": 30,
+            "requiredRaces": 4294967373,
+            "objectivesText": [
+              "Find the Defias Docket and return it to Watcher Backus in Duskwood."
+            ],
+            "objectives": {
+              "3": [
+                [
+                  5947
+                ]
+              ]
+            },
+            "preQuestSingle": [
+              1243
+            ],
+            "zoneOrSort": 1519,
+            "nextQuestInChain": 1245,
+            "questFlags": 8,
+            "reputationReward": []
+          }
+        }
+      ]
+    },
+    {
+      "kind": "item",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverItemDB.lua",
+      "sha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "records": [
+        {
+          "kind": "item",
+          "id": 5947,
+          "name": "Defias Docket",
+          "data": {
+            "name": "Defias Docket",
+            "objectDrops": [
+              21052
+            ],
+            "itemLevel": 1,
+            "requiredLevel": 0,
+            "ammoType": 0,
+            "class": 12,
+            "subClass": 0
+          }
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverObjectDB.lua",
+      "sha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "records": [
+        {
+          "kind": "object",
+          "id": 21052,
+          "name": "Defias Strongbox",
+          "data": {
+            "name": "Defias Strongbox",
+            "spawns": {
+              "10": [
+                [
+                  23.92,
+                  72.07
+                ]
+              ]
+            },
+            "zoneID": 10
+          }
+        }
+      ]
+    }
+  ],
+  "source": {
+    "chapterId": "chapter-13-29-32-duskwood",
+    "version": "import-v2-b5b0bf698ef41804",
+    "archiveFileSha256": "9fe4815c5644a68722cd95fa892416485f2e9ecfed002708cdc0719e9c6c64c5",
+    "step": {
+      "id": "source-step-0077",
+      "ordinal": 77,
+      "sourceLine": 516,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".goto",
+          "arguments": "1431/0,187.33,-11014.02",
+          "condition": "",
+          "text": "",
+          "sourceLine": 517,
+          "questId": null,
+          "position": {
+            "zone": "1431",
+            "floor": 0,
+            "x": 187.33,
+            "y": -11014.02,
+            "space": "world"
+          }
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Open the Defias Strongbox. Loot it for the Defias Docket",
+          "sourceLine": 518,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".complete",
+          "arguments": "1244,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 519,
+          "questId": 1244,
+          "position": null
+        }
+      ]
+    }
+  },
+  "groundPickup": {
+    "questId": 1244,
+    "itemId": 5947,
+    "objectiveIndex": 1,
+    "objectId": 21052,
+    "objectName": "Defias Strongbox",
+    "positions": [
+      {
+        "zone": "1431",
+        "x": 23.92,
+        "y": 72.07
+      }
+    ],
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "source": {
+      "chapterId": "chapter-13-29-32-duskwood",
+      "version": "import-v2-b5b0bf698ef41804",
+      "stepId": "source-step-0077"
+    }
+  }
+}

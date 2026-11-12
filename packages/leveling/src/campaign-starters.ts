@@ -192,7 +192,7 @@ export function enrichCampaignStarters(
         : plan;
       const ready = compileCampaignPickupGates(
         attachCampaignFlightPaths(
-          applyCampaignPartyQuestPolicy(enriched, sources, combat?.data),
+          applyCampaignPartyQuestPolicy(enriched, sources, combat?.data, questCatalog),
           sources,
         ),
       );
@@ -201,8 +201,11 @@ export function enrichCampaignStarters(
         questCatalog && combat
           ? fundCampaignQuestGaps(ordered, sources, combat.data, questCatalog)
           : ordered;
+      const located = attachCampaignLocations(funded, sources);
       const visits =
-        questCatalog && combat ? deferCampaignStarterVisits(funded, sources, questCatalog) : funded;
+        questCatalog && combat
+          ? deferCampaignStarterVisits(located, sources, questCatalog)
+          : located;
       const routed = attachCampaignSourceHints(
         attachCampaignMovements(
           attachCampaignLocations(alignCampaignPickupChecks(visits), sources),

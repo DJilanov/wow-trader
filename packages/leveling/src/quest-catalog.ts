@@ -1,10 +1,15 @@
 import { z } from "zod";
 import type { QuestRewardFact } from "./quest-rewards.js";
-import { groundPickupReferenceSchema } from "./quest-ground-pickup.js";
+import { groundPickupReferenceSchema, type GroundPickupReference } from "./quest-ground-pickup.js";
 
 const id = z.number().int().positive().max(10_000_000);
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const level = z.number().int().min(1).max(60);
+const questTimingSource = z.object({
+  build: z.number().int().positive(),
+  url: z.url().max(1500),
+  sha256: hash,
+}).strict();
 
 export const questCatalogPositionSchema = z
   .object({
@@ -23,6 +28,14 @@ const giver = z
   })
   .strict();
 
+const objectEndpoint = z
+  .object({
+    objectId: id,
+    name: z.string().trim().min(1).max(300),
+    positions: z.array(questCatalogPositionSchema).min(1).max(500),
+  })
+  .strict();
+
 export const questCatalogEntrySchema = z
   .object({
     questId: id,
@@ -31,16 +44,27 @@ export const questCatalogEntrySchema = z
     questLevel: level.nullable(),
     requiredRaces: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
     requiredClasses: z.number().int().min(0).max(0xffffffff),
+    timeLimitSeconds: z.number().int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
+    timeLimitSources: z.tuple([questTimingSource, questTimingSource]).optional(),
     groundPickup: groundPickupReferenceSchema.optional(),
+    groundPickups: z.array(groundPickupReferenceSchema).min(2).max(100).optional(),
     providedItem: z
       .object({ itemId: id, name: z.string().trim().min(1).max(300) })
       .strict()
       .optional(),
     starts: z.array(giver).max(30),
+    objectStarts: z.array(objectEndpoint).max(30).optional(),
     ends: z.array(giver).max(30),
+    objectEnds: z.array(objectEndpoint).max(30).optional(),
     prerequisites: z.object({ allOf: z.array(id).max(100), anyOf: z.array(id).max(100) }).strict(),
     exclusiveWith: z.array(id).max(100),
     category: z.enum(["shared-kills", "delivery", "unsupported"]),
+    itemObjectiveLocations: z.array(z.object({
+      index: z.number().int().min(1).max(100),
+      itemId: id,
+      npcId: id,
+      positions: z.array(questCatalogPositionSchema).min(1).max(500),
+    }).strict()).min(1).max(500).optional(),
     objectives: z
       .array(
         z
@@ -89,17 +113,43 @@ export const questCatalogSchema = z
         code: "custom",
         message: "Provided items require item-export provenance.",
       });
+    if (
+      !catalog.objectSha256 &&
+      catalog.quests.some((quest) => quest.objectStarts?.length || quest.objectEnds?.length)
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Object quest endpoints require object-export provenance.",
+      });
     for (const quest of catalog.quests) {
-      const ground = quest.groundPickup;
+      const lootLocations = quest.itemObjectiveLocations ?? [];
+      if (lootLocations.length && (!catalog.itemSha256 || quest.category !== "unsupported" ||
+        new Set(lootLocations.map((row) => `${row.index}:${row.npcId}`)).size !== lootLocations.length ||
+        lootLocations.some((row) => quest.objectives.some((objective) => objective.index === row.index))))
+        context.addIssue({ code: "custom", message: `Incompatible item objective locations for quest ${quest.questId}.` });
+      for (const endpoints of [quest.objectStarts ?? [], quest.objectEnds ?? []])
+        if (new Set(endpoints.map((endpoint) => endpoint.objectId)).size !== endpoints.length)
+          context.addIssue({
+            code: "custom",
+            message: `Duplicate object endpoint for quest ${quest.questId}.`,
+          });
+      const grounds = questGroundPickups(quest);
+      const indices = new Set(grounds.map((ground) => ground.objectiveIndex));
       if (
-        ground &&
-        (!catalog.itemSha256 ||
-          !catalog.objectSha256 ||
-          ground.questId !== quest.questId ||
-          ground.sourceArchiveSha256 !== catalog.sourceArchiveSha256 ||
-          quest.category !== "unsupported" ||
-          quest.objectives.length ||
-          quest.providedItem)
+        (quest.groundPickup && quest.groundPickups) ||
+        indices.size !== grounds.length ||
+        grounds.some((_ground, index) => !indices.has(index + 1)) ||
+        new Set(grounds.map((ground) => ground.itemId)).size !== grounds.length ||
+        grounds.some(
+          (ground) =>
+            !catalog.itemSha256 ||
+            !catalog.objectSha256 ||
+            ground.questId !== quest.questId ||
+            ground.sourceArchiveSha256 !== catalog.sourceArchiveSha256 ||
+            quest.category !== "unsupported" ||
+            quest.objectives.length ||
+            quest.providedItem,
+        )
       )
         context.addIssue({
           code: "custom",
@@ -118,6 +168,13 @@ export const questCatalogSchema = z
   });
 export type QuestCatalog = z.infer<typeof questCatalogSchema>;
 
+/** Normalize the legacy single-objective representation and complete multi-objective pickups. */
+export function questGroundPickups(
+  quest: Pick<QuestCatalogEntry, "groundPickup" | "groundPickups">,
+): readonly GroundPickupReference[] {
+  return quest.groundPickups ?? (quest.groundPickup ? [quest.groundPickup] : []);
+}
+
 export const questCatalogManifestSchema = z
   .object({
     schema: z.literal("forever-quest-funding-manifest.v1"),
@@ -127,7 +184,8 @@ export const questCatalogManifestSchema = z
   })
   .strict();
 
-export function isUnrestrictedFundingQuest(quest: QuestCatalogEntry): boolean {
+/** Access checks only; source-based callers must separately prove the full pickup/return program. */
+export function hasUnrestrictedQuestAccess(quest: QuestCatalogEntry): boolean {
   const allianceRaces = 4294967373n;
   return (
     quest.requiredClasses === 0 &&
@@ -135,8 +193,18 @@ export function isUnrestrictedFundingQuest(quest: QuestCatalogEntry): boolean {
       (BigInt(quest.requiredRaces) & allianceRaces) === allianceRaces) &&
     quest.unsupportedRequirements.length === 0 &&
     quest.minimumLevel !== null &&
-    quest.questLevel !== null &&
-    quest.starts.some((giver) => giver.friendlyToAlliance && giver.positions.length > 0) &&
+    quest.questLevel !== null
+  );
+}
+
+export function isUnrestrictedFundingQuest(quest: QuestCatalogEntry): boolean {
+  return (
+    hasUnrestrictedQuestAccess(quest) &&
+    (quest.starts.some((giver) => giver.friendlyToAlliance && giver.positions.length > 0) ||
+      (quest.category === "delivery" &&
+        Boolean(quest.providedItem) &&
+        quest.objectives.length === 0 &&
+        Boolean(quest.objectStarts?.length))) &&
     quest.ends.some((giver) => giver.friendlyToAlliance && giver.positions.length > 0)
   );
 }
@@ -145,7 +213,7 @@ export function isGroundPickupFundingQuest(quest: QuestCatalogEntry): boolean {
   return (
     isUnrestrictedFundingQuest(quest) &&
     quest.category === "unsupported" &&
-    Boolean(quest.groundPickup) &&
+    questGroundPickups(quest).length > 0 &&
     !quest.providedItem &&
     quest.objectives.length === 0
   );

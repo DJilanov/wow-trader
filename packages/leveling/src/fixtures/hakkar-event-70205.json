@@ -1,0 +1,204 @@
+{
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+  "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+  "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+  "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+  "questId": 3528,
+  "objectiveIndex": 1,
+  "objectiveText": [
+    "Bring the Filled Egg of Hakkar to Yeh'kinya in Tanaris."
+  ],
+  "outputItem": {
+    "id": 10662,
+    "name": "Filled Egg of Hakkar",
+    "quantity": 1
+  },
+  "providedItem": {
+    "id": 10465,
+    "name": "Egg of Hakkar"
+  },
+  "component": {
+    "id": 10663,
+    "name": "Essence of Hakkar",
+    "rawLootEntityId": 8440,
+    "rawLootEntityName": "Shade of Hakkar"
+  },
+  "physicalNpcs": [
+    {
+      "id": 8437,
+      "name": "Hakkari Minion",
+      "minimumLevel": 45,
+      "maximumLevel": 46,
+      "rank": 0,
+      "zoneIds": [
+        1477
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 8438,
+      "name": "Hakkari Bloodkeeper",
+      "minimumLevel": 49,
+      "maximumLevel": 50,
+      "rank": 1,
+      "zoneIds": [
+        1477
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 8443,
+      "name": "Avatar of Hakkar",
+      "minimumLevel": 49,
+      "maximumLevel": 50,
+      "rank": 1,
+      "zoneIds": [
+        1477
+      ],
+      "xpEligibility": "assumed"
+    },
+    {
+      "id": 8497,
+      "name": "Nightmare Suppressor",
+      "minimumLevel": 49,
+      "maximumLevel": 50,
+      "rank": 1,
+      "zoneIds": [
+        1477
+      ],
+      "xpEligibility": "assumed"
+    }
+  ],
+  "archive": {
+    "chapterId": "chapter-44-56-57-burning-steppes",
+    "version": "import-v2-7886f86baa398058",
+    "sourceSha256": "7886f86baa3980584a832c9ff6c5709caf9d36152fc9287ebfbd8c59f481feb4",
+    "step": {
+      "id": "source-step-0109",
+      "ordinal": 109,
+      "sourceLine": 841,
+      "condition": "",
+      "directives": [
+        {
+          "tag": ".dungeon",
+          "arguments": "ST",
+          "condition": "",
+          "text": "",
+          "sourceLine": 842,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".isOnQuest",
+          "arguments": "3528",
+          "condition": "",
+          "text": "",
+          "sourceLine": 843,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Egg of Hakkar] while next to the Dragonflayer Skeleton, then complete the event",
+          "sourceLine": 844,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Kill the minions of Hakkar until the Avatar of Hakkar joins",
+          "sourceLine": 845,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Kill the Avatar of Hakkar. Loot it for the [Essence of Hakkar]",
+          "sourceLine": 846,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": "text",
+          "arguments": "",
+          "condition": "",
+          "text": "Use the [Essence of Hakkar] to fill the [Egg of Hakkar]",
+          "sourceLine": 847,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".collect",
+          "arguments": "10663,1,3528,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 848,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".disablecheckbox",
+          "arguments": "",
+          "condition": "",
+          "text": "",
+          "sourceLine": 849,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".complete",
+          "arguments": "3528,1",
+          "condition": "",
+          "text": "",
+          "sourceLine": 850,
+          "questId": 3528,
+          "position": null
+        },
+        {
+          "tag": ".use",
+          "arguments": "10465",
+          "condition": "",
+          "text": "",
+          "sourceLine": 851,
+          "questId": null,
+          "position": null
+        },
+        {
+          "tag": ".use",
+          "arguments": "10663",
+          "condition": "",
+          "text": "",
+          "sourceLine": 852,
+          "questId": null,
+          "position": null
+        }
+      ]
+    }
+  },
+  "providerProofs": [
+    {
+      "kind": "npc",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverNpcDB.lua",
+      "sha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232"
+    },
+    {
+      "kind": "quest",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverQuestDB.lua",
+      "sha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27"
+    },
+    {
+      "kind": "item",
+      "file": ".cache/leveling-kill-first-20261031/provider/foreverItemDB.lua",
+      "sha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1"
+    }
+  ],
+  "classification": "Pinned authored-static and archive reference for a staged method. Not observed current-server XP or active production code."
+}

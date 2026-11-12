@@ -11,6 +11,14 @@ import {
  * @returns {readonly import("../packages/leveling/dist/index.js").CampaignAction[]}
  */
 function personalActions(plan, actions, starter) {
+  if (plan.sharedQuestsOnly) {
+    assert.equal(starter.race, plan.race, "Shared route starting race differs.");
+    assert(
+      actions.every((action) => !action.leaderOnly),
+      "Shared route has a personal action.",
+    );
+    return [];
+  }
   if (starter.race === plan.race && starter.classSlug === plan.leaderClass) {
     const legs = new Set(plan.legs.filter((leg) => leg.kind === "starter").map((leg) => leg.id));
     return actions.filter((action) => action.leaderOnly && legs.has(action.legId));
@@ -178,13 +186,20 @@ function verifyItemCollections(actions, documents, sources) {
  * @param {readonly import("../packages/leveling/dist/index.js").CampaignAction[]} actions
  * @param {import("../packages/leveling/dist/index.js").CampaignAddonArtifact} artifact
  * @param {{runtimeBuild: number, restedXpVersion: string, selection: import("../packages/leveling/dist/index.js").CampaignExportSelection, partyStarter?: import("../packages/leveling/dist/index.js").CampaignPartyStarter, nativeSources?: readonly import("../packages/leveling/dist/index.js").CampaignSource[]}} options
+ * @param {Pick<typeof import("../packages/leveling/dist/index.js"), "CAMPAIGN_ADDON_COMPILER_REVISION" | "restedXpDocumentSetSchema">} [runtime]
  * @returns {void}
  */
-export function verifyCampaignAddonReview(plan, actions, artifact, options) {
-  const documents = restedXpDocumentSetSchema.parse({
+export function verifyCampaignAddonReview(plan, actions, artifact, options, runtime = {
+  CAMPAIGN_ADDON_COMPILER_REVISION, restedXpDocumentSetSchema,
+}) {
+  const compilerDeclarations = [...artifact.lua.matchAll(/^namespace\.compiler = (.+)$/gm)];
+  assert.equal(compilerDeclarations.length, 1, "Missing or repeated artifact compiler declaration.");
+  assert.equal(compilerDeclarations[0][1], JSON.stringify(runtime.CAMPAIGN_ADDON_COMPILER_REVISION),
+    "Artifact compiler differs from the selected verification engine.");
+  const documents = runtime.restedXpDocumentSetSchema.parse({
     schema: "kfc-restedxp-documents.v1",
     publication: "review",
-    compilerRevision: CAMPAIGN_ADDON_COMPILER_REVISION,
+    compilerRevision: runtime.CAMPAIGN_ADDON_COMPILER_REVISION,
     routeRelease: plan.release,
     sourceBuild: plan.targetBuild,
     runtimeBuild: options.runtimeBuild,

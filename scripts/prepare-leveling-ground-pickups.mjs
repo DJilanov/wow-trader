@@ -137,7 +137,7 @@ for (const member of archive.chapters) {
 }
 const items = new Map(parseQuestieForeverSource("item", itemRaw).map((i) => [i.id, i]));
 const objects = new Map(parseQuestieForeverSource("object", objectRaw).map((o) => [o.id, o]));
-const { proofs, conflicts } = deriveGroundPickupReferences(
+const { proofs, multiProofs, conflicts } = deriveGroundPickupReferences(
   catalog,
   combat,
   chapters,
@@ -150,10 +150,22 @@ function replaceGroundReference(record, proof) {
   delete original.groundPickup;
   return proof ? { ...original, groundPickup: proof } : original;
 }
+function questReferences(questId) {
+  const single = proofs.get(questId);
+  return multiProofs.get(questId) ?? (single ? [single] : []);
+}
 const preparedCatalog = questCatalogSchema.parse({
   ...catalog,
   objectSha256: hash(objectRaw),
-  quests: catalog.quests.map((q) => replaceGroundReference(q, proofs.get(q.questId))),
+  quests: catalog.quests.map((quest) => {
+    const original = { ...quest };
+    delete original.groundPickup;
+    delete original.groundPickups;
+    const entries = questReferences(quest.questId);
+    return entries.length > 1
+      ? { ...original, groundPickups: entries }
+      : replaceGroundReference(original, entries[0]);
+  }),
 });
 const catalogSha = hash(JSON.stringify(preparedCatalog) + "\n");
 const preparedCombat = combatDatasetSchema.parse({
@@ -165,7 +177,13 @@ const preparedCombat = combatDatasetSchema.parse({
       ? {
           ...q,
           itemObjectives: q.itemObjectives.map((item) =>
-            replaceGroundReference(item, proofs.get(q.questId)),
+            replaceGroundReference(
+              item,
+              questReferences(q.questId).find(
+                (proof) =>
+                  proof.itemId === item.itemId && proof.objectiveIndex === item.objectiveIndex,
+              ),
+            ),
           ),
         }
       : q,
@@ -213,7 +231,8 @@ const report = {
   },
   catalog: writtenCatalog.sha256,
   combat: writtenCombat.sha256,
-  groundPickupQuestIds: [...proofs.keys()].sort((a, b) => a - b),
+  groundPickupQuestIds: [...proofs.keys(), ...multiProofs.keys()].sort((a, b) => a - b),
+  multiObjectiveQuestIds: [...multiProofs.keys()].sort((a, b) => a - b),
   conflicts,
   sourceNotices,
 };

@@ -2,6 +2,21 @@
 
 Last verified against `89.167.46.193`: 2026-11-02.
 
+## November 5 — standalone partial leveling download
+
+The current **1–44 Human five-player import through the pre-Maraudon quests** is available at
+<https://kfcguild.online/tools/forever/leveling/download>, updated at **20:10:21 UTC**.
+Its **1,694 tasks / 73 RestedXP 4.11.27 documents per mode** continue through
+Krol’dok, Uldaman and Zul’Farrak, including the full Lost Tablets chain,
+Jarl/Hyal courier work and the consolidated Southsea visit. V1363 / frozen V1364 is pinned in
+`data/leveling/local-download/current.json`; the default local build reproduces
+the live artifact. Both public Forever/TBC flow-test downloads pass.
+The static guide uses its own qualified route prefix and atomic release pointer.
+The Helper application, listeners and Nginx configuration are unchanged. The
+route ends before the unfunded Maraudon departure; full 1–60 and actual-game
+qualification remain unfinished. See the [release receipt and update
+procedure](forever-leveling-download-deployment-2026-11-04.md).
+
 The TBC and WoW Forever product is published at `https://kfcguild.online/tools`. The legacy
 `helper.kfcguild.online` host retains authenticated `/v1/` ingestion and permanently redirects public
 pages to their equivalent `/tools` URLs. This document records the deployed topology, its operational

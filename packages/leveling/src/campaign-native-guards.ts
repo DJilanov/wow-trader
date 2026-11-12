@@ -16,7 +16,10 @@ export function normalizeQuestPickupGuard(
   action: CampaignAction,
   source: readonly ImportedDirective[],
 ): ImportedDirective {
-  if (directive.tag !== ".isQuestComplete" || !/^\d+$/.test(directive.arguments.trim()))
+  if (
+    ![".isQuestComplete", ".isOnQuest"].includes(directive.tag) ||
+    !/^\d+$/.test(directive.arguments.trim())
+  )
     return directive;
   const parent = Number(directive.arguments);
   if (
@@ -25,14 +28,15 @@ export function normalizeQuestPickupGuard(
   )
     return directive;
   const handIn = source.findIndex((entry) => entry.tag === ".turnin" && entry.questId === parent);
-  const pickup = source.findIndex(
+  const followUp = source.findIndex(
     (entry) =>
-      entry.tag === ".accept" &&
+      [".accept", ".turnin"].includes(entry.tag) &&
       action.questChanges.some(
-        (change) => change.questId === entry.questId && change.state === "accepted",
+        (change) => change.questId === entry.questId &&
+          change.state === (entry.tag === ".accept" ? "accepted" : "rewarded"),
       ),
   );
-  return handIn >= 0 && pickup > handIn ? { ...directive, tag: ".isQuestTurnedIn" } : directive;
+  return handIn >= 0 && followUp > handIn ? { ...directive, tag: ".isQuestTurnedIn" } : directive;
 }
 
 /** RXP completion guards require an active completed quest; availability means not yet turned in. */

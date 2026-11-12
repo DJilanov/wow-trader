@@ -1,0 +1,84 @@
+[
+  {
+    "expectedZoneIds": [],
+    "npcId": 260325,
+    "name": "Shadetooth",
+    "minimumLevel": 27,
+    "maximumLevel": 27,
+    "rank": null,
+    "levelSource": {
+      "kind": "owner-confirmed-creature-level",
+      "statement": "2. level 27 \u2014 answer to the named Excavation Site creature-level question.",
+      "confirmedOn": "2026-11-04"
+    },
+    "rankSource": null,
+    "attribution": "Owner confirmation for Shadetooth in WoW Forever.",
+    "limitation": "Unversioned planning reference: confirms level only. No creature rank, observed kill XP, drop rate or clear population is established; boss identity requires separate client encounter evidence."
+  },
+  {
+    "expectedZoneIds": [],
+    "npcId": 260800,
+    "name": "Thicket Lurker",
+    "minimumLevel": 27,
+    "maximumLevel": 27,
+    "rank": null,
+    "levelSource": {
+      "kind": "owner-confirmed-creature-level",
+      "statement": "2. level 27 \u2014 answer to the named Excavation Site creature-level question.",
+      "confirmedOn": "2026-11-04"
+    },
+    "rankSource": null,
+    "attribution": "Owner confirmation for Thicket Lurker in WoW Forever.",
+    "limitation": "Unversioned planning reference: confirms level only. No creature rank, observed kill XP, drop rate or clear population is established; boss identity requires separate client encounter evidence."
+  },
+  {
+    "expectedZoneIds": [],
+    "npcId": 260801,
+    "name": "Thicket Hunter",
+    "minimumLevel": 27,
+    "maximumLevel": 27,
+    "rank": null,
+    "levelSource": {
+      "kind": "owner-confirmed-creature-level",
+      "statement": "2. level 27 \u2014 answer to the named Excavation Site creature-level question.",
+      "confirmedOn": "2026-11-04"
+    },
+    "rankSource": null,
+    "attribution": "Owner confirmation for Thicket Hunter in WoW Forever.",
+    "limitation": "Unversioned planning reference: confirms level only. No creature rank, observed kill XP, drop rate or clear population is established; boss identity requires separate client encounter evidence."
+  },
+  {
+    "expectedZoneIds": [],
+    "npcId": 260802,
+    "name": "Thicket Matriarch",
+    "minimumLevel": 27,
+    "maximumLevel": 27,
+    "rank": null,
+    "levelSource": {
+      "kind": "owner-confirmed-creature-level",
+      "statement": "2. level 27 \u2014 answer to the named Excavation Site creature-level question.",
+      "confirmedOn": "2026-11-04"
+    },
+    "rankSource": null,
+    "attribution": "Owner confirmation for Thicket Matriarch in WoW Forever.",
+    "limitation": "Unversioned planning reference: confirms level only. No creature rank, observed kill XP, drop rate or clear population is established; boss identity requires separate client encounter evidence."
+  },
+  {
+    "expectedZoneIds": [
+      36
+    ],
+    "npcId": 246003,
+    "name": "Fel Ancient",
+    "minimumLevel": 29,
+    "maximumLevel": 29,
+    "rank": null,
+    "levelSource": {
+      "kind": "owner-confirmed-creature-level",
+      "statement": "3. level 29 \u2014 answer to the named Fel Ancient level question.",
+      "confirmedOn": "2026-11-04"
+    },
+    "rankSource": null,
+    "attribution": "Owner confirmation for Fel Ancient in WoW Forever.",
+    "limitation": "Unversioned planning reference: confirms level only. No creature rank, observed kill XP, drop rate or clear population is established; boss identity requires separate client encounter evidence."
+  }
+]

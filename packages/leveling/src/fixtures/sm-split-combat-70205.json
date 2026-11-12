@@ -1,0 +1,238 @@
+{
+  "provenance": {
+    "description": "Captured1053 death counters and current reviewed client boss identities; a small split-quest regression fixture, not an observed payout.",
+    "combatSha256": "44c6c07550fc3f17e18a276f3f24afc52bbbd8bf5925982523f4a2132dc70521",
+    "planSha256": "eef254963dc98d001f61c4d367e59f56ffbb48eea911083cc533c61a28db644a",
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged."
+      ]
+    },
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "npcs": [
+      {
+        "id": 3974,
+        "name": "Houndmaster Loksey",
+        "minimumLevel": 34,
+        "maximumLevel": 34,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3975,
+        "name": "Herod",
+        "minimumLevel": 40,
+        "maximumLevel": 40,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3976,
+        "name": "Scarlet Commander Mograine",
+        "minimumLevel": 42,
+        "maximumLevel": 42,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3977,
+        "name": "High Inquisitor Whitemane",
+        "minimumLevel": 42,
+        "maximumLevel": 42,
+        "rank": 1,
+        "zoneIds": [
+          796
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 1053,
+        "creatureIds": [
+          3977,
+          3976,
+          3975,
+          3974
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Kill High Inquisitor Whitemane, Scarlet Commander Mograine, Herod, the Scarlet Champion and Houndmaster Loksey and then report back to Raleigh the Devout in Southshore."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 3977,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 3976,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          },
+          {
+            "objectiveIndex": 3,
+            "npcId": 3975,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          },
+          {
+            "objectiveIndex": 4,
+            "npcId": 3974,
+            "kills": 1,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=1053/in-the-name-of-the-light; sha256 d343de425b1d3b9349b2fa8fe6fffab402af560149c741f63686df0871125151; 2026-10-14T17:06:50.385Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1052
+          ]
+        },
+        "itemObjectives": []
+      }
+    ],
+    "bossReferences": [
+      {
+        "npcId": 3974,
+        "name": "Houndmaster Loksey",
+        "targetBuild": 70205,
+        "instanceMapId": 189,
+        "dungeonVisitIds": [
+          "sm-graveyard",
+          "sm-library",
+          "sm-all-wings",
+          "sm-armory",
+          "sm-cathedral"
+        ],
+        "source": {
+          "build": 70205,
+          "manifestSha256": "a506f715b1403dfb7d9f425fddea0f65d209ec9cf533a11c3f61eae879df639f",
+          "encountersSha256": "4b6478cda9ccbf26c00c3398c0bd2414bc8adc6a13bea0373848063c8943c7af",
+          "bossesSha256": "e45dacfca155ee0c45a2c70a6612d78d3877ab8e589cabd5703fa5f8ce115132",
+          "mapsSha256": "97820f60c7501dc044119f6f6a843eb63d55a13d413cb52bf24dce40bf142ba1"
+        },
+        "encounterIds": [
+          446
+        ],
+        "identityEvidence": "unique-exact-name"
+      },
+      {
+        "npcId": 3977,
+        "name": "High Inquisitor Whitemane",
+        "targetBuild": 70205,
+        "instanceMapId": 189,
+        "dungeonVisitIds": [
+          "sm-graveyard",
+          "sm-library",
+          "sm-all-wings",
+          "sm-armory",
+          "sm-cathedral"
+        ],
+        "source": {
+          "build": 70205,
+          "manifestSha256": "a506f715b1403dfb7d9f425fddea0f65d209ec9cf533a11c3f61eae879df639f",
+          "encountersSha256": "4b6478cda9ccbf26c00c3398c0bd2414bc8adc6a13bea0373848063c8943c7af",
+          "bossesSha256": "e45dacfca155ee0c45a2c70a6612d78d3877ab8e589cabd5703fa5f8ce115132",
+          "mapsSha256": "97820f60c7501dc044119f6f6a843eb63d55a13d413cb52bf24dce40bf142ba1"
+        },
+        "encounterIds": [
+          450
+        ],
+        "identityEvidence": "unique-exact-name"
+      },
+      {
+        "npcId": 3976,
+        "name": "Scarlet Commander Mograine",
+        "targetBuild": 70205,
+        "instanceMapId": 189,
+        "dungeonVisitIds": [
+          "sm-cathedral",
+          "sm-all-wings"
+        ],
+        "source": {
+          "build": 70205,
+          "manifestSha256": "a506f715b1403dfb7d9f425fddea0f65d209ec9cf533a11c3f61eae879df639f",
+          "encountersSha256": "4b6478cda9ccbf26c00c3398c0bd2414bc8adc6a13bea0373848063c8943c7af",
+          "bossesSha256": "e45dacfca155ee0c45a2c70a6612d78d3877ab8e589cabd5703fa5f8ce115132",
+          "mapsSha256": "97820f60c7501dc044119f6f6a843eb63d55a13d413cb52bf24dce40bf142ba1"
+        },
+        "encounterIds": [],
+        "identityEvidence": "client-instance-kill-statistic",
+        "killStatistic": {
+          "criteriaIds": [
+            3264,
+            117743
+          ],
+          "completionAchievementIds": [
+            62032,
+            64017
+          ],
+          "evidenceLabel": "Scarlet Commander Mograine kills (Scarlet Monastery)",
+          "mapName": "Scarlet Monastery",
+          "bossLocationsSha256": "cd4f8536a8d16dee5caa6fcf4d80ef3cb4daf1bc590fe1467f2d5ddaf86e177d"
+        }
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": []
+  }
+}

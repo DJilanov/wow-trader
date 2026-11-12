@@ -71,7 +71,7 @@ function ready(
   quests: ReadonlyMap<number, QuestCatalogEntry>,
   combat: CombatDataset,
   includeNpcDeliveries: boolean,
-  initialBounds?: CampaignXpForecastOptions["initialBounds"],
+  options: Pick<CampaignXpForecastOptions, "initialBounds" | "lootScenario">,
 ): boolean {
   const members = visit.leaderOnly ? progress.members.slice(0, 1) : progress.members;
   for (const member of members) {
@@ -110,7 +110,7 @@ function ready(
     library: { revision: "source-backbone-20261021-v3", choices: [] },
     legs: plan.legs.filter((leg) => leg.id === visit.legId),
   };
-  const rows = forecastCampaignXp(prototype, progress, initialBounds ? { initialBounds } : {})
+  const rows = forecastCampaignXp(prototype, progress, options)
     .flatMap((section) => section.members)
     .filter((member) => !visit.leaderOnly || member.player === 1);
   return (
@@ -242,7 +242,7 @@ export function promoteReadyCampaignVisit(
         quests,
         combat,
         includeNpcDeliveries,
-        campaignFundingXpBoundsBefore(state, gate.id),
+        { initialBounds: campaignFundingXpBoundsBefore(state, gate.id), lootScenario: state.lootScenario },
       )
     )
       continue;
@@ -259,7 +259,7 @@ export function promoteReadyCampaignVisit(
         quests,
         combat,
         includeNpcDeliveries,
-        campaignFundingXpBoundsBefore(other, gate.id),
+        { initialBounds: campaignFundingXpBoundsBefore(other, gate.id), lootScenario: other.lootScenario },
       );
     });
     if (!compatible) continue;

@@ -61,7 +61,7 @@ export function describeChapterEvidence(
     details.push(
       `${plural(reviewedContexts.size, "quest condition")} matched reviewed evidence for the shown character and party contexts in this chapter.`,
     );
-  const historicalRewards = count((issue) => issue.code === "reward-historical-estimate");
+  const estimatedRewards = count((issue) => issue.code === "reward-historical-estimate");
   const bundleEstimates = count((issue) => issue.code === "dungeon-bundle-estimated");
   const unresolvedRewards = count((issue) => issue.code === "reward-unresolved");
   const adaptiveCheckpoints = count((issue) => issue.code === "adaptive-grind-unmeasured");
@@ -74,9 +74,9 @@ export function describeChapterEvidence(
 
   if (unresolvedRewards)
     details.push(`${plural(unresolvedRewards, "quest reward")} still need current-build XP data.`);
-  if (historicalRewards)
+  if (estimatedRewards)
     details.push(
-      `${plural(historicalRewards, "quest reward")} use historical estimates instead of published Forever XP.`,
+      `${plural(estimatedRewards, "quest reward")} use reference estimates instead of published or observed Forever XP.`,
     );
   if (bundleEstimates)
     details.push(
@@ -118,11 +118,11 @@ export function describeChapterEvidence(
   } else if (shortfall) {
     state = "shortfall";
     label = "Known-XP subtotal below target";
-  } else if (historicalRewards || bundleEstimates) {
+  } else if (estimatedRewards || bundleEstimates) {
     state = "estimated-reward";
     label = bundleEstimates
       ? "XP target modeled with guaranteed-bundle estimates"
-      : "XP target modeled with historical rewards";
+      : "XP target modeled with reference estimates";
   } else if (adaptiveCheckpoints && !otherCombat && !eligibility && !route && !progress) {
     state = "adaptive";
     label = "XP target modeled with adaptive grinding";

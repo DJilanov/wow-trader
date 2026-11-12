@@ -258,6 +258,66 @@ describe("companion service", () => {
     });
   });
 
+  it("retains upload receipts and existing prices when history fails, then retries only history", async () => {
+    const rootPath = await temporaryProductRoot();
+    const file = path.join(rootPath, "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua");
+    const marketFile = path.join(rootPath, "Interface/AddOns/WowTraderCollector/MarketData.lua");
+    await mkdir(path.dirname(file), { recursive: true });
+    await mkdir(path.dirname(marketFile), { recursive: true });
+    await writeFile(file, SAVED_VARIABLES);
+    await writeFile(marketFile, "existing complete prices");
+    let historyRequests = 0;
+    const uploads: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof fetch>().mockImplementation(async (input, init) => {
+        const pathname = new URL(String(input)).pathname;
+        if (pathname === "/v1/market-intelligence") {
+          historyRequests++;
+          return historyRequests === 1
+            ? Response.json({ message: "History temporarily unavailable" }, { status: 500 })
+            : Response.json(marketPack());
+        }
+        uploads.push(pathname);
+        const body = JSON.parse(String(init?.body)) as { payloadId: string };
+        return Response.json(
+          { payloadId: body.payloadId, status: "processed", duplicate: false },
+          { status: 202 },
+        );
+      }),
+    );
+    const statePath = path.join(rootPath, "state.json");
+    const service = new DefaultCompanionService({
+      endpoint: new URL("https://helper.example.test"),
+      statePath,
+      products: [{ id: "tbc", kind: "tbc", label: "TBC", rootPath, enabled: true }],
+      apiKey: "test-key-with-enough-entropy",
+      automaticUploads: false,
+    });
+    await service.start();
+    try {
+      await expect(service.checkNow()).resolves.toMatchObject({
+        phase: "error",
+        pendingScanCount: 0,
+        message:
+          "Saved uploads are retained. Market intelligence download failed: History temporarily unavailable",
+      });
+      expect(uploads).toHaveLength(3);
+      expect(await readFile(marketFile, "utf8")).toBe("existing complete prices");
+      expect(await readCompanionState(statePath)).toMatchObject({
+        uploadedScanIds: [SCAN_ID],
+        uploadedProfessionSnapshotIds: [PROFESSION_SNAPSHOT_ID],
+        uploadedDiagnosticPayloadIds: [expect.any(String)],
+      });
+      expect((await service.checkNow()).phase).toBe("up_to_date");
+      expect(historyRequests).toBe(2);
+      expect(uploads).toHaveLength(3);
+      expect(await readFile(marketFile, "utf8")).toContain("WOW_TRADER_MARKET_DATA");
+    } finally {
+      await service.stop();
+    }
+  });
+
   it("requires a credential without touching a discovered scan", async () => {
     const rootPath = await temporaryProductRoot();
     const service = new DefaultCompanionService({

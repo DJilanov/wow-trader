@@ -164,6 +164,7 @@ export function importQuestieCombatData(input: {
   readonly authorizationNote: string;
   readonly dungeons?: CombatDataset["dungeons"];
   readonly killXpEvidence?: CombatDataset["killXpEvidence"];
+  readonly dungeonKillXpReference?: CombatDataset["dungeonKillXpReference"];
 }): CombatDataset {
   const npcRows = rows(input.npcExport, "npc"),
     questRows = rows(input.questExport, "quest"),
@@ -187,7 +188,8 @@ export function importQuestieCombatData(input: {
       name,
       minimumLevel: inverted ? null : minimumLevel,
       maximumLevel: inverted ? null : maximumLevel,
-      rank: nullableInteger(row.get(6), 0, 5),
+      // QuestieDB numeric nil fields read as zero for an existing entity.
+      rank: nullableInteger(row.get(6) ?? 0, 0, 5),
       zoneIds: [...zoneIds].sort((a, b) => a - b),
       xpEligibility:
         /(?:kill.?credit|trigger|\bDNT\b|invisible|bunny|dummy)/i.test(name) || name === "Stanley"
@@ -219,6 +221,8 @@ export function importQuestieCombatData(input: {
       const flags =
         itemId === null ? null : nullableInteger(itemRows.get(itemId)?.get(7), 0, 0xffffffff);
       const name = itemId === null ? null : itemRows.get(itemId)?.get(1);
+      const objectIds =
+        itemId === null ? [] : [...new Set(numericIds(itemRows.get(itemId)?.get(3)))];
       return itemId === null
         ? []
         : [
@@ -230,6 +234,7 @@ export function importQuestieCombatData(input: {
               // Slot two is display text, not a required quantity.
               quantity: null,
               npcIds: numericIds(itemRows.get(itemId)?.get(2)),
+              ...(objectIds.length ? { objectIds } : {}),
               // QuestieDB itemMeta field 7; historical MULTI_DROP semantics, not a live observation.
               sharing:
                 flags !== null && (flags & 2048) !== 0
@@ -268,5 +273,8 @@ export function importQuestieCombatData(input: {
     quests,
     dungeons: input.dungeons ?? [],
     killXpEvidence: input.killXpEvidence ?? [],
+    ...(input.dungeonKillXpReference
+      ? { dungeonKillXpReference: input.dungeonKillXpReference }
+      : {}),
   });
 }

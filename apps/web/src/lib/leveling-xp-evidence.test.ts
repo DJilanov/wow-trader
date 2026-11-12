@@ -26,6 +26,16 @@ const member = (
 });
 
 describe("chapter XP evidence presentation", () => {
+  it("labels calculated client-table rewards as estimates rather than observed or missing XP", () => {
+    const presentation = describeChapterEvidence([member([
+      issue({ code: "reward-historical-estimate", domain: "reward", questId: 2922,
+        message: "Calculated client QuestXP table reference; not an observed payout." }),
+    ])]);
+    expect(presentation.state).toBe("estimated-reward");
+    expect(presentation.label).toBe("XP target modeled with reference estimates");
+    expect(presentation.details.join(" ")).toContain("reference estimates");
+    expect(presentation.details.join(" ")).not.toContain("historical estimates");
+  });
   it("labels guaranteed bundle estimates as planning inputs rather than missing or verified XP", () => {
     const presentation = describeChapterEvidence([
       member([

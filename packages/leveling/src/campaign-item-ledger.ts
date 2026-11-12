@@ -5,18 +5,21 @@ type QuestStates = Readonly<PremadeMember["questStates"]>;
 
 export interface CampaignItemIndex {
   readonly byQuest: ReadonlyMap<number, readonly CampaignItemRequirement[]>;
+  readonly objectiveConfirmationKeys: ReadonlySet<string>;
 }
 
 export function indexCampaignItems(
   requirements: readonly CampaignItemRequirement[],
 ): CampaignItemIndex {
   const byQuest = new Map<number, CampaignItemRequirement[]>();
+  const objectiveConfirmationKeys = new Set<string>();
   for (const row of requirements) {
     const own = byQuest.get(row.questId) ?? [];
     own.push(row);
     byQuest.set(row.questId, own);
+    objectiveConfirmationKeys.add(`campaign-objective-${row.questId}-${row.objectiveIndex}`);
   }
-  return { byQuest };
+  return { byQuest, objectiveConfirmationKeys };
 }
 
 /** Local minimum holdings. Zero means no proved minimum, never an observed empty bag. */

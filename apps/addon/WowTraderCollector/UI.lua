@@ -759,17 +759,32 @@ local function StatusPresentation(snapshot)
   if not snapshot.providerAvailable then
     return "UNAVAILABLE", "Scanner provider unavailable", "The required provider is not available on this client.", "error"
   elseif snapshot.status == "awaiting_response" then
-    return "REQUESTED", "Waiting for Blizzard", "The full-market request was sent. Keep the Auction House open.", "active"
+    return "REQUESTED", "Waiting for the auction list", string.format(
+      "Request sent %d seconds ago. Waiting up to %d seconds; keep the Auction House open.",
+      snapshot.responseWaitSeconds or 0, snapshot.responseTimeoutSeconds or 120), "active"
   elseif snapshot.status == "reading" then
     return "SCANNING", "Reading Auction House listings", "Rows are processed in small frame-safe batches.", "active"
+  elseif snapshot.status == "finalizing" then
+    return "FINISHING", "Checking the remaining listings", string.format(
+      "%s listings remain in the final check. Keep the Auction House open until the scan is saved.",
+      FormatInteger(snapshot.resolvingCount)), "active"
   elseif snapshot.status == "resolving_cache" then
     return "RESOLVING", "Resolving item information", string.format(
       "%s item rows are still waiting for client cache data.",
       FormatInteger(snapshot.resolvingCount)
     ), "warning"
   elseif snapshot.status == "saved" then
+    if snapshot.quality.completeness < 0.98 then
+      return "INCOMPLETE", "Some listings could not be loaded", string.format(
+        "%s listings still lack data. This scan is excluded from price calculations. Save & Reload to retain diagnostics; retry when the full-scan cooldown ends.",
+        FormatInteger(snapshot.quality.unresolvedRowCount + snapshot.quality.invalidRowCount + snapshot.quality.secretRowCount)
+      ), "warning"
+    end
     return "SAVED", "Scan saved locally", "Use Save & Reload so the companion can upload this snapshot.", "success"
   elseif snapshot.status == "failed" then
+    if snapshot.failureCode == "request_timeout" then
+      return "NO RESPONSE", "No auction list received", snapshot.failureReason, "error"
+    end
     return "FAILED", "Scan was not saved", snapshot.failureReason or "The scan failed without replacing the latest good snapshot.", "error"
   elseif snapshot.inCombat then
     return "IN COMBAT", "Scanner temporarily unavailable", "Leave combat before starting a scan.", "warning"
@@ -1080,44 +1095,18 @@ function Addon.ShowTradeLedger()
 end
 
 local function AddMarketTooltip(tooltip, tooltipData)
-  local itemId = type(tooltipData) == "table" and tonumber(tooltipData.id) or nil
-  if not itemId and tooltip and type(tooltip.GetItem) == "function" then
-    local _, itemLink = tooltip:GetItem()
-    itemId = type(itemLink) == "string" and tonumber(string.match(itemLink, "item:(%d+)")) or nil
-  end
-  if not itemId then return end
-  local item = Addon.GetItemMarketIntelligence(itemId)
-  if not item then return end
-  local signalText, signalColor = SignalPresentation(item.signal)
-  tooltip:AddLine(" ")
-  tooltip:AddLine("WoW Trader", COLORS.gold[1], COLORS.gold[2], COLORS.gold[3])
-  tooltip:AddDoubleLine(
-    "Market signal",
-    signalText,
-    COLORS.parchment[1], COLORS.parchment[2], COLORS.parchment[3],
-    signalColor[1], signalColor[2], signalColor[3]
-  )
-  if item.current then
-    tooltip:AddDoubleLine("Current ask", FormatCopper(item.current), 0.8, 0.8, 0.8, 1, 1, 1)
-  end
-  if item.normal then
-    tooltip:AddDoubleLine("Normal ask", FormatCopper(item.normal), 0.8, 0.8, 0.8, 1, 1, 1)
-  end
-  if item.buy then
-    tooltip:AddLine(item.buy.reason, 0.8, 0.8, 0.8, true)
-    if item.buy.maximumBuy then tooltip:AddDoubleLine("Buy ceiling", FormatCopper(item.buy.maximumBuy), 0.8, 0.8, 0.8, 1, 1, 1) end
-    if item.buy.state == "opportunity" then tooltip:AddDoubleLine("Profit before deposits", FormatCopper(item.buy.profit), 0.8, 0.8, 0.8, 0.6, 1, 0.6) end
-  end
-  tooltip:AddDoubleLine(
-    "History evidence",
-    string.format("%d / %d+ scans", item.observations, item.minimum),
-    0.8, 0.8, 0.8, 0.8, 0.8, 0.8
-  )
+  if type(Addon.AppendValuationTooltip) == "function" then Addon.AppendValuationTooltip(tooltip, tooltipData) end
 end
 
 if type(TooltipDataProcessor) == "table" and type(TooltipDataProcessor.AddTooltipPostCall) == "function" and
    type(Enum) == "table" and type(Enum.TooltipDataType) == "table" and Enum.TooltipDataType.Item then
   pcall(TooltipDataProcessor.AddTooltipPostCall, Enum.TooltipDataType.Item, AddMarketTooltip)
+else
+  for _, tooltip in pairs({ GameTooltip, ItemRefTooltip, ShoppingTooltip1, ShoppingTooltip2 }) do
+    if tooltip and type(tooltip.HookScript) == "function" then
+      pcall(tooltip.HookScript, tooltip, "OnTooltipSetItem", AddMarketTooltip)
+    end
+  end
 end
 
 local eventFrame = CreateFrame("Frame")

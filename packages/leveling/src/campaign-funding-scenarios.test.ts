@@ -5,8 +5,12 @@ import type { QuestCatalog, QuestCatalogEntry } from "./quest-catalog.js";
 import { fundCampaignQuestGaps } from "./campaign-quest-funding.js";
 import { forecastCampaignGuide } from "./campaign-guide.js";
 import { auditCampaignGuideFunding } from "./campaign-funding-audit.js";
-import { campaignFundingScenarioKey } from "./campaign-funding-scenarios.js";
-import { emptyPremadeProgress } from "./premade-model.js";
+import {
+  campaignFundingCheckpoints,
+  campaignFundingScenarioKey,
+  campaignFundingStates,
+} from "./campaign-funding-scenarios.js";
+import { emptyPremadeProgress, premadeProgressSchema } from "./premade-model.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { attachCampaignCombat } from "./campaign-combat.js";
 import { auditCampaignQuestLog } from "./campaign-quest-log.js";
@@ -226,7 +230,7 @@ function laterFundingFixture(reward = 600): {
       {
         ...initial,
         questFunding: {
-          revision: "explicit-quest-funding-20261101-v22",
+          revision: "explicit-quest-funding-20261105-v81",
           providerRevision: "a".repeat(40),
           addedQuestIds: [300002],
           remaining: [],
@@ -240,7 +244,266 @@ function laterFundingFixture(reward = 600): {
   };
 }
 
+function lootFundingFixture(): {
+  initial: CampaignPlan;
+  data: CombatDataset;
+  quests: readonly QuestCatalogEntry[];
+} {
+  const quests = [candidate(300002)];
+  const source = combat(quests, 1);
+  const data: CombatDataset = {
+    ...source,
+    npcs: [
+      ...source.npcs,
+      { ...source.npcs[0]!, id: 115, name: "Dangerous enemy", minimumLevel: 6, maximumLevel: 6 },
+    ],
+    lootDrops: [
+      {
+        itemId: 990001,
+        npcId: 114,
+        probability: 0.5,
+        probabilityBasis: "reported",
+        minimumQuantity: 1,
+        maximumQuantity: 1,
+        sampleSize: 100,
+        targetBuild: 70205,
+        sourceUrl: "https://example.test/drop",
+        sourceSha256: "f".repeat(64),
+        capturedAt: "2026-11-03T00:00:00.000Z",
+      },
+    ],
+    quests: [
+      ...source.quests.filter((quest) => quest.questId !== 300001),
+      {
+        questId: 300001,
+        creatureIds: [],
+        itemCreatureIds: [114],
+        objectiveText: ["Collect one token"],
+        onlyCreatureObjectives: false,
+        requiredClasses: 0,
+        itemObjectives: [
+          {
+            objectiveIndex: 1,
+            itemId: 990001,
+            itemName: "Test token",
+            quantity: 1,
+            npcIds: [114],
+            sharing: "pooled",
+          },
+        ],
+      },
+      {
+        questId: 300003,
+        creatureIds: [115],
+        itemCreatureIds: [],
+        objectiveText: ["Kill one dangerous enemy"],
+        onlyCreatureObjectives: true,
+        killQuotas: [
+          { objectiveIndex: 1, npcId: 115, kills: 1, source: "Synthetic complete counter" },
+        ],
+      },
+    ],
+  };
+  const actions = [work("collect", "prepare", 300001), work("dangerous", "prepare", 300003)].map(
+    (action) => ({ ...action, wholeQuestObjectives: true as const }),
+  );
+  const initial = attachCampaignCombat(
+    plan(
+      actions,
+      [leg("prepare", "preparation", 1, 8, actions)],
+      [
+        { questId: 300001, xp: 320 },
+        { questId: 300002, xp: 100 },
+        { questId: 300003, xp: 5000 },
+      ],
+    ),
+    [],
+    data,
+    "loot-frontier-test",
+  );
+  return { initial: { ...initial, sharedQuestsOnly: true }, data, quests };
+}
+
 describe("scenario-aware explicit quest funding", () => {
+  it("keeps nested combat funding IDs within the saved-progress limit without losing the checkpoint binding", () => {
+    const { initial, data, quests } = lootFundingFixture();
+    const checkpoint = `danger-${"a".repeat(173)}`;
+    const reserved: CampaignAction = {
+      ...work("quest-funding-compact-300002-0", "prepare", 300004),
+      kind: "instructions",
+      questChanges: [],
+    };
+    const actions = [
+      reserved,
+      ...initial.actions.map((action) =>
+        action.id === "dangerous" ? { ...action, id: checkpoint } : action,
+      ),
+    ];
+    const tested: CampaignPlan = {
+      ...initial,
+      actions,
+      legs: initial.legs.map((leg) => ({
+        ...leg,
+        actionIds: actions.filter((action) => action.legId === leg.id).map((action) => action.id),
+      })),
+      combat: {
+        ...initial.combat!,
+        activities: initial.combat!.activities.map((activity) =>
+          activity.actionId === "dangerous" ? { ...activity, actionId: checkpoint } : activity,
+        ),
+      },
+    };
+    const funded = fundCampaignQuestGaps(tested, [], data, catalog(quests));
+    expect(funded.questFunding!.addedQuestIds).toEqual([300002]);
+    expect(funded.actions.every((action) => /^[a-z0-9-]{1,180}$/.test(action.id))).toBe(true);
+    expect(new Set(funded.actions.map((action) => action.id)).size).toBe(funded.actions.length);
+    expect(funded.actions.find((action) => action.id === reserved.id)).toBe(reserved);
+    expect(funded.actions.some((action) => action.fundingCheckpointId === checkpoint)).toBe(true);
+    for (const action of funded.actions)
+      expect(() =>
+        premadeProgressSchema.parse({
+          ...emptyPremadeProgress(),
+          campaigns: {
+            [funded.release]: {
+              selectedActionId: action.id,
+              completion: { [action.id]: "done" },
+            },
+          },
+        }),
+      ).not.toThrow();
+    expect(funded).toEqual(fundCampaignQuestGaps(tested, [], data, catalog(quests)));
+  });
+
+  it("uses each actual loot workload when constructing funding states", () => {
+    const { initial } = lootFundingFixture();
+    const states = campaignFundingStates(initial);
+    const first = ["fast", "expected", "slow"].map((scenario) =>
+      states.find((state) => state.lootScenario === scenario)!,
+    );
+    const xp = first.map((state) =>
+      state.forecast[0]!.members[0]!.combatRows.filter((row) =>
+        row.activityId.includes("collect"),
+      ).reduce((sum, row) => sum + (row.xp ?? 0), 0),
+    );
+    expect(xp[0]).toBeLessThan(xp[1]!);
+    expect(xp[1]).toBeLessThan(xp[2]!);
+    expect(
+      campaignFundingCheckpoints(first[0]!, 0).some(
+        (checkpoint) => checkpoint.actionId === "dangerous" && checkpoint.targetLevel === 2,
+      ),
+    ).toBe(true);
+    expect(campaignFundingCheckpoints(first[1]!, 0)).toHaveLength(0);
+    expect(campaignFundingCheckpoints(first[2]!, 0)).toHaveLength(0);
+  });
+
+  it("funds the fast-loot combat gate even when expected and slow workloads already reach it", () => {
+    const { initial, data, quests } = lootFundingFixture();
+    const funded = fundCampaignQuestGaps(initial, [], data, catalog(quests));
+    expect(funded.questFunding!.addedQuestIds).toEqual([300002]);
+    expect(funded.questFunding!.scenarios).toHaveLength(24);
+    expect(
+      funded.questFunding!.scenarios.every((scenario) => scenario.remaining.length === 0),
+    ).toBe(true);
+    for (const state of campaignFundingStates(funded))
+      for (const member of state.forecast[0]!.members) {
+        expect(member.blockedAtActionId).toBeNull();
+        expect(member.rewards.filter((row) => row.questId === 300002)).toHaveLength(1);
+        expect(
+          member.steps.find(
+            (step) => step.questId === 300003 && step.phase === "objectives-complete",
+          )!.before.level,
+        ).toBeGreaterThanOrEqual(2);
+      }
+  });
+
+  it("funds a real combat entrance before the fight without borrowing its own kill or reward XP", () => {
+    const quests = [
+      candidate(300002),
+      {
+        ...candidate(300003),
+        questLevel: 7,
+        objectives: [{ index: 1, npcId: 115, count: 1, positions: [position] }],
+      },
+    ];
+    const source = combat(quests, 1);
+    const data: CombatDataset = {
+      ...source,
+      npcs: [
+        ...source.npcs,
+        { ...source.npcs[0]!, id: 115, name: "Dangerous enemy", minimumLevel: 7, maximumLevel: 7 },
+      ],
+      quests: source.quests.map((quest) =>
+        quest.questId === 300003
+          ? {
+              ...quest,
+              creatureIds: [115],
+              killQuotas: [
+                { objectiveIndex: 1, npcId: 115, kills: 1, source: "Synthetic complete counter" },
+              ],
+            }
+          : quest,
+      ),
+    };
+    const actions = [
+      work("start", "prepare", 300001),
+      { ...work("dangerous", "prepare", 300003), wholeQuestObjectives: true as const },
+    ];
+    const initial = attachCampaignCombat(
+      plan(
+        actions,
+        [leg("prepare", "preparation", 1, 8, actions)],
+        [
+          { questId: 300001, xp: 900 },
+          { questId: 300002, xp: 500 },
+          { questId: 300003, xp: 5000 },
+        ],
+      ),
+      [],
+      data,
+      "combat-entrance-test",
+    );
+    const states = campaignFundingStates(initial);
+    expect(states).toHaveLength(48);
+    expect(new Set(states.map(campaignFundingScenarioKey)).size).toBe(48);
+    expect(new Set(states.map((state) => state.lootScenario))).toEqual(
+      new Set(["fast", "expected", "slow"]),
+    );
+    for (const state of states)
+      for (let player = 0; player < 5; player++) {
+        expect(campaignFundingCheckpoints(state, player)).toContainEqual({
+          actionId: "dangerous",
+          targetLevel: 3,
+          position: { level: 2, currentXp: 500 },
+          missingXp: 400,
+          ready: false,
+          planningOnly: false,
+        });
+        expect(
+          state.forecast[0]!.members[player]!.rewards.some((row) => row.questId === 300003),
+        ).toBe(false);
+      }
+    const funded = fundCampaignQuestGaps(initial, [], data, catalog(quests));
+    expect(funded.questFunding!.addedQuestIds).toEqual([300002]);
+    const fight = funded.actions.findIndex((action) => action.id === "dangerous");
+    const preparation = funded.actions.findIndex((action) =>
+      action.questChanges.some(
+        (change) => change.questId === 300002 && change.state === "rewarded",
+      ),
+    );
+    expect(preparation).toBeLessThan(fight);
+    expect(preparation).toBeGreaterThan(0);
+    for (const state of campaignFundingStates(funded))
+      for (const member of state.forecast[0]!.members) {
+        expect(member.blockedAtActionId).toBeNull();
+        expect(member.rewards.filter((row) => row.questId === 300002)).toHaveLength(1);
+        expect(
+          member.steps.find(
+            (step) => step.questId === 300003 && step.phase === "objectives-complete",
+          )!.before.level,
+        ).toBeGreaterThanOrEqual(3);
+      }
+  });
+
   it("reuses later generated work for a shared starter while retaining the personal-starter fallback", () => {
     const { initial, quests, data } = laterFundingFixture();
     const funded = fundCampaignQuestGaps(initial, [], data, catalog(quests));
@@ -496,8 +759,8 @@ describe("scenario-aware explicit quest funding", () => {
     expect(forecast.sections.at(-1)?.forecast.members[0]?.blockedReason).toBeNull();
     expect(forecast.sections.at(-1)?.forecast.members[0]?.endpoint?.level).toBe(21);
     expect(auditCampaignGuideFunding(funded, progress, forecast).witnessPassed).toBe(true);
-    expect(funded.questFunding?.scenarios).toHaveLength(16);
-    expect(new Set(funded.questFunding?.scenarios.map(campaignFundingScenarioKey)).size).toBe(16);
+    expect(funded.questFunding?.scenarios).toHaveLength(48);
+    expect(new Set(funded.questFunding?.scenarios.map(campaignFundingScenarioKey)).size).toBe(48);
     expect(
       funded.questFunding?.scenarios.find((scenario) => scenario.difficultyPolicy === "at-level")
         ?.remaining[0]?.checkpointId,

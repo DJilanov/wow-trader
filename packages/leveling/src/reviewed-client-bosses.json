@@ -1,0 +1,37 @@
+{
+  "description": "Reviewed build70205 client dungeon-completion and named instance kill-statistic identity. No synthetic encounter ID or payout claim.",
+  "references": [
+    {
+      "npcId": 3976,
+      "name": "Scarlet Commander Mograine",
+      "targetBuild": 70205,
+      "instanceMapId": 189,
+      "dungeonVisitIds": [
+        "sm-cathedral",
+        "sm-all-wings"
+      ],
+      "source": {
+        "build": 70205,
+        "manifestSha256": "a506f715b1403dfb7d9f425fddea0f65d209ec9cf533a11c3f61eae879df639f",
+        "encountersSha256": "4b6478cda9ccbf26c00c3398c0bd2414bc8adc6a13bea0373848063c8943c7af",
+        "bossesSha256": "e45dacfca155ee0c45a2c70a6612d78d3877ab8e589cabd5703fa5f8ce115132",
+        "mapsSha256": "97820f60c7501dc044119f6f6a843eb63d55a13d413cb52bf24dce40bf142ba1"
+      },
+      "encounterIds": [],
+      "identityEvidence": "client-instance-kill-statistic",
+      "killStatistic": {
+        "criteriaIds": [
+          3264,
+          117743
+        ],
+        "completionAchievementIds": [
+          62032,
+          64017
+        ],
+        "evidenceLabel": "Scarlet Commander Mograine kills (Scarlet Monastery)",
+        "mapName": "Scarlet Monastery",
+        "bossLocationsSha256": "cd4f8536a8d16dee5caa6fcf4d80ef3cb4daf1bc590fe1467f2d5ddaf86e177d"
+      }
+    }
+  ]
+}

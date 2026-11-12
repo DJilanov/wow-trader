@@ -106,7 +106,16 @@ export function LevelingXpBudget({
                   {(member.referenceQuestXp + member.estimatedQuestXp).toLocaleString("en-US")}{" "}
                   quest XP
                   {" + "}
-                  {member.combatXp.toLocaleString("en-US")} required-kill XP
+                  {(member.combatXp - (member.incidentalCombatXp ?? 0)).toLocaleString(
+                    "en-US",
+                  )}{" "}
+                  required-kill XP
+                  {(member.incidentalCombatXp ?? 0) > 0 && (
+                    <>
+                      {" "}
+                      + {member.incidentalCombatXp.toLocaleString("en-US")} estimated extra-kill XP
+                    </>
+                  )}
                 </p>
                 {member.endpoint === null && member.knownEndpoint && (
                   <p>
@@ -154,9 +163,10 @@ export function LevelingXpBudget({
               guaranteed.
             </p>
             <p>
-              Extra dungeon trash and boss XP is excluded without a sourced clear path. Group Loot
-              does not determine whether a quest item is shared or personal. You can adjust the
-              outdoor kill-XP multiplier in Settings.
+              Extra kills use the configured XP allowance shown separately above. Required quest
+              kills and sourced dungeon clear paths count once; the allowance gives no additional
+              loot or quest credit. Group Loot does not determine whether a quest item is shared or
+              personal. You can adjust both combat settings in Settings.
             </p>
           </details>
           {plan && <LevelingRewardStatus plan={plan} />}

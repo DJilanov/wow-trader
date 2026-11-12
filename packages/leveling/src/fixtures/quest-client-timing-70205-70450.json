@@ -1,0 +1,665 @@
+{
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Selected pinned source records for timing regression tests; not a publication manifest.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 257,
+        "title": "A Hunter's Boast",
+        "minimumLevel": 11,
+        "questLevel": 16,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 1187,
+            "name": "Daryl the Youngling",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1432",
+                "x": 83.47,
+                "y": 65.46
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 1187,
+            "name": "Daryl the Youngling",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1432",
+                "x": 83.47,
+                "y": 65.46
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 1194,
+            "count": 6,
+            "positions": [
+              {
+                "zone": "1432",
+                "x": 71.08,
+                "y": 74.81
+              },
+              {
+                "zone": "1432",
+                "x": 70.56,
+                "y": 74.11
+              },
+              {
+                "zone": "1432",
+                "x": 71.08,
+                "y": 72.42
+              },
+              {
+                "zone": "1432",
+                "x": 70.86,
+                "y": 52.61
+              },
+              {
+                "zone": "1432",
+                "x": 68.38,
+                "y": 50.52
+              },
+              {
+                "zone": "1432",
+                "x": 76.77,
+                "y": 63.67
+              },
+              {
+                "zone": "1432",
+                "x": 76.27,
+                "y": 74.78
+              },
+              {
+                "zone": "1432",
+                "x": 79.2,
+                "y": 63.69
+              },
+              {
+                "zone": "1432",
+                "x": 77.09,
+                "y": 58.32
+              },
+              {
+                "zone": "1432",
+                "x": 76.86,
+                "y": 55.59
+              },
+              {
+                "zone": "1432",
+                "x": 78.52,
+                "y": 57.96
+              },
+              {
+                "zone": "1432",
+                "x": 77.18,
+                "y": 57.33
+              },
+              {
+                "zone": "1432",
+                "x": 78.87,
+                "y": 59.18
+              },
+              {
+                "zone": "1432",
+                "x": 76.97,
+                "y": 74
+              },
+              {
+                "zone": "1432",
+                "x": 75.89,
+                "y": 72.33
+              },
+              {
+                "zone": "1432",
+                "x": 75.79,
+                "y": 70.46
+              },
+              {
+                "zone": "1432",
+                "x": 74.73,
+                "y": 67.67
+              },
+              {
+                "zone": "1432",
+                "x": 74.45,
+                "y": 72.53
+              },
+              {
+                "zone": "1432",
+                "x": 79.33,
+                "y": 66.86
+              },
+              {
+                "zone": "1432",
+                "x": 78.55,
+                "y": 76.86
+              },
+              {
+                "zone": "1432",
+                "x": 78.16,
+                "y": 76.03
+              },
+              {
+                "zone": "1432",
+                "x": 77.32,
+                "y": 75.27
+              },
+              {
+                "zone": "1432",
+                "x": 68.47,
+                "y": 75.83
+              },
+              {
+                "zone": "1432",
+                "x": 78.04,
+                "y": 72.44
+              },
+              {
+                "zone": "1432",
+                "x": 74.48,
+                "y": 64.27
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 258,
+        "title": "A Hunter's Challenge",
+        "minimumLevel": 11,
+        "questLevel": 17,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 1187,
+            "name": "Daryl the Youngling",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1432",
+                "x": 83.47,
+                "y": 65.46
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 1187,
+            "name": "Daryl the Youngling",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1432",
+                "x": 83.47,
+                "y": 65.46
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            257
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 1192,
+            "count": 5,
+            "positions": [
+              {
+                "zone": "1432",
+                "x": 70.12,
+                "y": 37.77
+              },
+              {
+                "zone": "1432",
+                "x": 61.18,
+                "y": 39.62
+              },
+              {
+                "zone": "1432",
+                "x": 64.94,
+                "y": 38.83
+              },
+              {
+                "zone": "1432",
+                "x": 67.37,
+                "y": 41.3
+              },
+              {
+                "zone": "1432",
+                "x": 67.08,
+                "y": 39.42
+              },
+              {
+                "zone": "1432",
+                "x": 66.14,
+                "y": 38.31
+              },
+              {
+                "zone": "1432",
+                "x": 66.33,
+                "y": 40.12
+              },
+              {
+                "zone": "1432",
+                "x": 65.37,
+                "y": 41.94
+              },
+              {
+                "zone": "1432",
+                "x": 62.38,
+                "y": 38.38
+              },
+              {
+                "zone": "1432",
+                "x": 63.2,
+                "y": 35.1
+              },
+              {
+                "zone": "1432",
+                "x": 61.33,
+                "y": 41.4
+              },
+              {
+                "zone": "1432",
+                "x": 62.98,
+                "y": 39.95
+              },
+              {
+                "zone": "1432",
+                "x": 60,
+                "y": 37.89
+              },
+              {
+                "zone": "1432",
+                "x": 77.29,
+                "y": 47.08
+              },
+              {
+                "zone": "1432",
+                "x": 60.21,
+                "y": 33.91
+              },
+              {
+                "zone": "1432",
+                "x": 74.77,
+                "y": 42.14
+              },
+              {
+                "zone": "1432",
+                "x": 75.72,
+                "y": 46.64
+              },
+              {
+                "zone": "1432",
+                "x": 74.78,
+                "y": 50.69
+              },
+              {
+                "zone": "1432",
+                "x": 60.35,
+                "y": 36.22
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 647,
+        "title": "MacKreel's Moonshine",
+        "minimumLevel": 28,
+        "questLevel": 30,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 4441,
+          "name": "MacKreel's Moonshine"
+        },
+        "starts": [
+          {
+            "npcId": 2696,
+            "name": "Foggy MacKreel",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 43.24,
+                "y": 92.64
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2705,
+            "name": "Brewmeister Bilger",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1424",
+                "x": 52.13,
+                "y": 58.74
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      }
+    ]
+  },
+  "snapshots": [
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sourceSha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 18,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70205",
+          "collectedOn": {
+            "first": "2026-10-03",
+            "last": "2026-10-05"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 2
+        },
+        "quests": {
+          "257": {
+            "description": "Think you can match wits with Daryl the Bold, huh? I should think not! Of course, you're more than welcome to try. Here's a challenge that should prove to be above your abilities, so don't feel too bad if you can't face up to it.$b$bA flock of buzzards has nested here in Loch Modan. Why don't you try to take down some of the beasts? Tell you what, if you meet my challenge in fifteen minutes, I'll give you my bow or gun.$b$b<He looks you over dismissively.>$b$bIt seems you haven't much to lose, anyways.",
+            "flags": 8,
+            "level": 16,
+            "minLevel": 11,
+            "nextQuestId": 258,
+            "objectives": [
+              {
+                "amount": 6,
+                "id": 380260,
+                "objectId": 1194,
+                "storageIndex": 0,
+                "type": "monster",
+                "typeId": 0
+              }
+            ],
+            "objectivesText": "Kill 6 Mountain Buzzards and return to Daryl the Youngling in the Farstrider Lodge within 15 minutes.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 2903
+                },
+                {
+                  "count": 1,
+                  "itemId": 2904
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "timeLimitSeconds": 900,
+            "title": "A Hunter's Boast",
+            "zoneAreaId": 38
+          },
+          "258": {
+            "description": "$nath, is it? I can tell you're bursting with pride over completing the first test, hm? As I told you before, it's no large feat.$b$bYou should try your hand at boar hunting. Trust me, this is no Coldridge Valley boar hunt, so you'd best have a care with them. I'll give you just twelve minutes this time.$b$bDon't feel bad if you fail. I'd give you the shirt off my back if you succeeded!$b$bHave I ever related to you the story of how I received my famous scar? No? It was two years ago...",
+            "flags": 8,
+            "level": 17,
+            "minLevel": 11,
+            "objectives": [
+              {
+                "amount": 5,
+                "id": 380199,
+                "objectId": 1192,
+                "storageIndex": 0,
+                "type": "monster",
+                "typeId": 0
+              }
+            ],
+            "objectivesText": "Kill 5 Elder Mountain Boars and return to Daryl the Youngling in the Farstrider Lodge within 12 minutes.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "items": [
+                {
+                  "count": 1,
+                  "itemId": 859
+                },
+                {
+                  "count": 1,
+                  "itemId": 3572
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "timeLimitSeconds": 720,
+            "title": "A Hunter's Challenge",
+            "zoneAreaId": 38
+          },
+          "647": {
+            "description": "Had quite a bit of the ol' Moonshine last night!  Longbraid would have my head if he knew that I passed out during my watch.$b$bThe noggin hurts something fierce.  Felt as though a whole brigade of siege engines passed overhead, all that rumbling.$b$bOh my, look at the time! I promised Brewmeister Bilger in Southshore that I'd repay my debt to him by sending some Moonshine.$b$bBut there are just 15 minutes left before I'm overdue!  Take him this batch, would you please?  And hurry!",
+            "flags": 1,
+            "level": 30,
+            "minLevel": 28,
+            "objectives": [
+              {
+                "amount": 1,
+                "id": 380318,
+                "objectId": 4441,
+                "storageIndex": 0,
+                "type": "item",
+                "typeId": 1
+              }
+            ],
+            "objectivesText": "Take MacKreel's Moonshine to Brewmeister Bilger in Southshore.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "money": 5500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 6
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "startItemId": 4441,
+            "timeLimitSeconds": 900,
+            "title": "MacKreel's Moonshine",
+            "zoneAreaId": 11
+          }
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sourceSha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "document": {
+        "meta": {
+          "attribution": "Data from Efficient Games (https://efficient.games), licensed under CC BY 4.0.",
+          "cacheFiles": 82,
+          "cachesLeftOut": 0,
+          "clientBuild": "1.60.1.70450",
+          "collectedOn": {
+            "first": "2026-10-17",
+            "last": "2026-10-22"
+          },
+          "dataset": "quests",
+          "license": "CC BY 4.0",
+          "locale": "enUS",
+          "product": "wow_classic_beta",
+          "schemaVersion": 1,
+          "sources": 5
+        },
+        "quests": {
+          "257": {
+            "description": "Think you can match wits with Daryl the Bold, huh? I should think not! Of course, you're more than welcome to try. Here's a challenge that should prove to be above your abilities, so don't feel too bad if you can't face up to it.$b$bA flock of buzzards has nested here in Loch Modan. Why don't you try to take down some of the beasts? Tell you what, if you meet my challenge in fifteen minutes, I'll give you my bow or gun.$b$b<He looks you over dismissively.>$b$bIt seems you haven't much to lose, anyways.",
+            "flags": 8,
+            "level": 16,
+            "minLevel": 11,
+            "nextQuestId": 258,
+            "objectives": [
+              {
+                "amount": 6,
+                "id": 380260,
+                "objectId": 1194,
+                "storageIndex": 0,
+                "type": "monster",
+                "typeId": 0
+              }
+            ],
+            "objectivesText": "Kill 6 Mountain Buzzards and return to Daryl the Youngling in the Farstrider Lodge within 15 minutes.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "choices": [
+                {
+                  "count": 1,
+                  "itemId": 2903
+                },
+                {
+                  "count": 1,
+                  "itemId": 2904
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "timeLimitSeconds": 900,
+            "title": "A Hunter's Boast",
+            "zoneAreaId": 38
+          },
+          "258": {
+            "description": "$nath, is it? I can tell you're bursting with pride over completing the first test, hm? As I told you before, it's no large feat.$b$bYou should try your hand at boar hunting. Trust me, this is no Coldridge Valley boar hunt, so you'd best have a care with them. I'll give you just twelve minutes this time.$b$bDon't feel bad if you fail. I'd give you the shirt off my back if you succeeded!$b$bHave I ever related to you the story of how I received my famous scar? No? It was two years ago...",
+            "flags": 8,
+            "level": 17,
+            "minLevel": 11,
+            "objectives": [
+              {
+                "amount": 5,
+                "id": 380199,
+                "objectId": 1192,
+                "storageIndex": 0,
+                "type": "monster",
+                "typeId": 0
+              }
+            ],
+            "objectivesText": "Kill 5 Elder Mountain Boars and return to Daryl the Youngling in the Farstrider Lodge within 12 minutes.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "items": [
+                {
+                  "count": 1,
+                  "itemId": 859
+                },
+                {
+                  "count": 1,
+                  "itemId": 3572
+                }
+              ],
+              "xpDifficulty": 4,
+              "xpMultiplier": 1.0
+            },
+            "sources": 3,
+            "timeLimitSeconds": 720,
+            "title": "A Hunter's Challenge",
+            "zoneAreaId": 38
+          },
+          "647": {
+            "description": "Had quite a bit of the ol' Moonshine last night!  Longbraid would have my head if he knew that I passed out during my watch.$b$bThe noggin hurts something fierce.  Felt as though a whole brigade of siege engines passed overhead, all that rumbling.$b$bOh my, look at the time! I promised Brewmeister Bilger in Southshore that I'd repay my debt to him by sending some Moonshine.$b$bBut there are just 15 minutes left before I'm overdue!  Take him this batch, would you please?  And hurry!",
+            "flags": 1,
+            "level": 30,
+            "minLevel": 28,
+            "objectives": [
+              {
+                "amount": 1,
+                "id": 380318,
+                "objectId": 4441,
+                "storageIndex": 0,
+                "type": "item",
+                "typeId": 1
+              }
+            ],
+            "objectivesText": "Take MacKreel's Moonshine to Brewmeister Bilger in Southshore.",
+            "questType": 2,
+            "raceMask": "ffffffffffffffff",
+            "rewards": {
+              "money": 5500,
+              "reputation": [
+                {
+                  "factionId": 47,
+                  "tier": 6
+                }
+              ],
+              "xpDifficulty": 6,
+              "xpMultiplier": 1.0
+            },
+            "sources": 2,
+            "startItemId": 4441,
+            "timeLimitSeconds": 900,
+            "title": "MacKreel's Moonshine",
+            "zoneAreaId": 11
+          }
+        }
+      }
+    }
+  ]
+}

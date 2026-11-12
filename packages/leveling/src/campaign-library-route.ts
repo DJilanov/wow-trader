@@ -66,10 +66,17 @@ export function integrateCampaignQuestLibrary(
   const roots = new Set<number>();
   const extraLegs = new Map<string, { readonly leg: CampaignLeg; readonly before: number }>();
 
+  function allowsLibraryQuest(legId: string, questId?: number): boolean {
+    const block = CAMPAIGN_BRIDGES.find((entry) => entry.id === legId);
+    return !block?.limitLibraryToSelectedQuests || questId === undefined ||
+      (block.quests !== "starter-source" && block.quests.includes(questId));
+  }
+
   function locationFor(
     sourceId: number,
     referenceLevel: number,
     zone: string,
+    questId?: number,
   ): {
     readonly legId: string;
     readonly anchor: number;
@@ -81,8 +88,12 @@ export function integrateCampaignQuestLibrary(
           leg.kind !== "starter" &&
           leg.kind !== "dungeon" &&
           leg.kind !== "finish" &&
+          (leg.optionalQuestId === undefined || leg.requiredVisit === true) &&
           referenceLevel >= leg.from - 3 &&
           referenceLevel <= leg.to + 1 &&
+          allowsLibraryQuest(leg.id, questId) &&
+          (!plan.sharedQuestsOnly || questId === undefined ||
+            (byId.has(questId) && fitsVisit(byId.get(questId)!, leg.id))) &&
           CAMPAIGN_BRIDGES.some(
             (block) => block.id === leg.id && block.sourceIds.includes(sourceId),
           ),
@@ -117,7 +128,7 @@ export function integrateCampaignQuestLibrary(
   const location = (
     quest: CampaignLibraryQuest,
   ): { readonly legId: string; readonly anchor: number } =>
-    locationFor(quest.sourceId, quest.referenceLevel, quest.zone);
+    locationFor(quest.sourceId, quest.referenceLevel, quest.zone, quest.questId);
   const visitZones = new Map(plan.legs.map((leg) => [leg.id, campaignLegZones(leg, plan.actions)]));
   const questZones = (quest: CampaignLibraryQuest): readonly string[] => {
     const positions = [...new Set(quest.actions.flatMap(campaignActionZones))];
@@ -136,8 +147,10 @@ export function integrateCampaignQuestLibrary(
       .filter(
         ({ leg }) =>
           ["preparation", "xp-bridge"].includes(leg.kind) &&
+          (leg.optionalQuestId === undefined || leg.requiredVisit === true) &&
           quest.referenceLevel >= leg.from - 3 &&
           quest.referenceLevel <= leg.to + 1 &&
+          allowsLibraryQuest(leg.id, quest.questId) &&
           fitsVisit(quest, leg.id),
       )
       .sort(
@@ -247,7 +260,9 @@ export function integrateCampaignQuestLibrary(
     const quest = byId.get(questId);
     if (!quest || !quest.complete || quest.held)
       return { quests: [], reason: `Quest ${questId} lacks a complete shared-party source chain.` };
-    const allowSourceCollection = allowCollection && !killFirstSources.has(quest.sourceId);
+    // The shared route checks actual five-player loot costs after combat references are attached.
+    const allowSourceCollection = plan.sharedQuestsOnly === true ||
+      (allowCollection && !killFirstSources.has(quest.sourceId));
     if (
       (!allowSourceCollection && quest.objective === "unclassified") ||
       (!required && !allowSourceCollection && quest.objective === "collection")
@@ -286,7 +301,7 @@ export function integrateCampaignQuestLibrary(
       );
       continue;
     }
-    const target = optionalLocation(quest);
+    const target = optionalLocation(quest) ?? (plan.sharedQuestsOnly ? location(quest) : null);
     if (!target) {
       held.set(
         quest.questId,
@@ -299,7 +314,7 @@ export function integrateCampaignQuestLibrary(
       held.set(quest.questId, branch.reason);
       continue;
     }
-    if (branch.quests.some((entry) => !fitsVisit(entry, target.legId))) {
+    if (!plan.sharedQuestsOnly && branch.quests.some((entry) => !fitsVisit(entry, target.legId))) {
       held.set(
         quest.questId,
         "Its prerequisite chain needs a separate zone visit outside this quest batch.",
@@ -309,10 +324,12 @@ export function integrateCampaignQuestLibrary(
     roots.add(quest.questId);
     for (const entry of branch.quests) {
       if (sharedOwned.has(entry.questId) || selected.has(entry.questId)) continue;
+      const visit = plan.sharedQuestsOnly && !fitsVisit(entry, target.legId)
+        ? (optionalLocation(entry) ?? location(entry)) : target;
       selected.set(entry.questId, {
         quest: entry,
-        legId: target.legId,
-        anchor: target.anchor,
+        legId: visit.legId,
+        anchor: visit.anchor,
         required: false,
         raidOnly: false,
         backbone: true,
@@ -356,11 +373,12 @@ export function integrateCampaignQuestLibrary(
       quest.referenceLevel >= 60
     )
       continue;
-    if (!["shared-kills", "named-trophy", "delivery", "interaction"].includes(quest.objective))
+    if (!["shared-kills", "named-trophy", "delivery", "interaction",
+      ...(plan.sharedQuestsOnly ? ["collection"] : [])].includes(quest.objective))
       continue;
     const short = quest.objective === "delivery" || quest.objective === "interaction";
     if (
-      short &&
+      short && !plan.sharedQuestsOnly &&
       !nearbyLibraryQuest(
         quest,
         plan.actions.filter((action) =>
@@ -389,7 +407,7 @@ export function integrateCampaignQuestLibrary(
       held.set(quest.questId, branch.reason);
       continue;
     }
-    if (branch.quests.some((entry) => !fitsVisit(entry, target.legId))) {
+    if (!plan.sharedQuestsOnly && branch.quests.some((entry) => !fitsVisit(entry, target.legId))) {
       held.set(
         quest.questId,
         "Its prerequisite chain needs a separate zone visit outside this quest batch.",
@@ -400,22 +418,24 @@ export function integrateCampaignQuestLibrary(
       .map((entry) => selected.get(entry.questId))
       .find((entry) => entry && entry.anchor > target.anchor);
     const placement = late ?? target;
-    if (short && branch.quests.some((entry) => !nearbyLibraryQuest(entry, quest.actions))) {
+    if (short && !plan.sharedQuestsOnly && branch.quests.some((entry) => !nearbyLibraryQuest(entry, quest.actions))) {
       held.set(quest.questId, "The lead-ins leave this nearby quest cluster.");
       continue;
     }
     roots.add(quest.questId);
     for (const entry of branch.quests) {
-      if (!selected.has(entry.questId))
+      if (!selected.has(entry.questId)) {
+        const visit = plan.sharedQuestsOnly && !fitsVisit(entry, placement.legId)
+          ? (optionalLocation(entry) ?? location(entry)) : placement;
         selected.set(entry.questId, {
           quest: entry,
-          legId: placement.legId,
-          anchor: placement.anchor,
+          legId: visit.legId,
+          anchor: visit.anchor,
           required: false,
           raidOnly: false,
           backbone: false,
         });
-      else {
+      } else {
         const existing = selected.get(entry.questId)!;
         if (existing.raidOnly) selected.set(entry.questId, { ...existing, raidOnly: false });
       }

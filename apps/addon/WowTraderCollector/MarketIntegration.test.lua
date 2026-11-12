@@ -26,6 +26,9 @@ local function scan(id, price, itemId, build)
       priceLevels = {{ unitPriceCopper = price, quantity = 100, listingCount = 20, lots = { { stackSize = 5, buyoutCopper = price * 5, listingCount = 20 } } }} }} }
 end
 assert(Addon.GetMarketIntelligenceSnapshot("").available == false)
+local noMarket = Addon.GetMarketPriceContext()
+assert(not noMarket.available and noMarket.clientProduct == "wow_classic_beta" and noMarket.clientBuild == 70532 and
+  noMarket.auctionHouseType == "alliance", "Missing AH data does not erase the client's identity or known AH scope")
 local history = {}
 for i = 1, 10 do history[i] = {clock - (11 - i) * 1800, 10000, 100, 5, 1} end
 WOW_TRADER_MARKET_DATA = { schemaVersion = 2, modelVersion = "robust-market-signal-v1",
@@ -88,3 +91,28 @@ assert(notices == 1, "Alert cooldowns must survive repeated polling")
 WOW_TRADER_ACCOUNT_DATA.watches[1].market = "EU|OtherRealm|alliance"
 assert(Addon.GetItemMarketIntelligence(1).watched == false, "Watches must remain scoped to the exact realm and AH")
 print("Synced watch scope, buy ceiling, quantity, profit and alert cooldown controls passed")
+
+local oldQuote = Addon.MarketPolicy.Quote
+Addon.MarketPolicy.Quote = function() error("Price lookups must not execute buying-plan searches") end
+assert(Addon.GetItemPriceQuote(1).current == 6000)
+assert(Addon.GetMarketPriceContext().realmId == "TestRealm")
+Addon.MarketPolicy.Quote = oldQuote
+realm = "WrongRealm"
+assert(Addon.GetItemPriceQuote(1) == nil, "Tooltip pricing must reject a different realm")
+realm = "TestRealm"
+WOW_TRADER_MARKET_DATA.clientBuild = 99999
+WOW_TRADER_SAVED.scans = {}
+assert(Addon.GetItemPriceQuote(1) == nil, "Tooltip pricing must reject a different client build")
+print("Constant-time item quote and exact market/build controls passed")
+
+WOW_TRADER_MARKET_DATA.clientBuild = 70532
+WOW_TRADER_MARKET_DATA.sourceScanEpoch = clock - 1
+local recentHistory = {}
+for i = 1, 8 do recentHistory[i] = { clock - (9 - i) * 1800, 10000, 100, 5, 1 } end
+WOW_TRADER_MARKET_DATA.items[1].history = recentHistory
+table.insert(WOW_TRADER_SAVED.scans, scan("delisted-history", 6000, 2))
+local historical = Addon.GetItemPriceQuote(1)
+assert(historical.current == nil and historical.normal == 10000, "A delisted item may retain historical value without a fabricated current listing")
+clock = clock + 604801
+assert(Addon.GetItemPriceQuote(1).normal == nil, "An expired historical reference must not remain a normal price")
+print("Delisted current-price separation and historical expiry controls passed")

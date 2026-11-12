@@ -25,7 +25,8 @@ function targetXp(level: number): number {
 function rewardFloors(
   fact: QuestRewardFact | undefined,
 ): { readonly minimumLevel: number; readonly byTarget: readonly number[] } | null {
-  if (!fact || fact.status !== "available" || fact.evidenceKind === "historical-reference")
+  if (!fact || fact.status !== "available" ||
+    fact.evidenceKind === "historical-reference" || fact.evidenceKind === "client-table-reference")
     return null;
   const eligibility = questEligibility(fact.questId, [fact]);
   if (eligibility.minimumLevel === null || eligibility.minimumConflict) return null;

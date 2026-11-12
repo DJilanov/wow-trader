@@ -21,10 +21,33 @@ import { getDungeonBundle, updateDungeonBundleSlot } from "./dungeon-bundles.js"
 import { questEligibility } from "./quest-eligibility.js";
 
 describe("reviewable premade-five circuit", () => {
+  it("persists the incidental allowance independently of the server multiplier", () => {
+    for (const incidentalKillXpPercent of [0, 10, 100]) {
+      const input = { ...emptyPremadeProgress(), combatPlanning: { outdoorXpMultiplier: 1, incidentalKillXpPercent } };
+      expect(premadeProgressSchema.parse(JSON.parse(JSON.stringify(input))).combatPlanning).toEqual(input.combatPlanning);
+    }
+    expect(premadeProgressSchema.safeParse({ ...emptyPremadeProgress(),
+      combatPlanning: { outdoorXpMultiplier: 1, incidentalKillXpPercent: 101 },
+    }).success).toBe(false);
+    expect(premadeProgressSchema.parse({ ...emptyPremadeProgress(),
+      combatPlanning: { outdoorXpMultiplier: 1 },
+    }).combatPlanning).toEqual({ outdoorXpMultiplier: 1 });
+  });
+  it("persists a separate outdoor allowance, including zero, without changing dungeon settings", () => {
+    for (const outdoorIncidentalKillXpPercent of [0, 30, 100]) {
+      const combatPlanning = { outdoorXpMultiplier: 1, incidentalKillXpPercent: 10, outdoorIncidentalKillXpPercent };
+      const saved = JSON.parse(JSON.stringify({ ...emptyPremadeProgress(), combatPlanning }));
+      expect(premadeProgressSchema.parse(saved).combatPlanning).toEqual(combatPlanning);
+    }
+    for (const outdoorIncidentalKillXpPercent of [-1, 101, Number.NaN, Number.POSITIVE_INFINITY])
+      expect(premadeProgressSchema.safeParse({ ...emptyPremadeProgress(), combatPlanning: {
+        outdoorXpMultiplier: 1, outdoorIncidentalKillXpPercent,
+      } }).success).toBe(false);
+  });
   it("preserves all 21 requested stops and exposes the three evidence gaps", () => {
     expect(PREMADE_STOPS).toHaveLength(21);
     expect(PREMADE_STOPS.map((stop) => stop.level)).toEqual([
-      14, 18, 20, 25, 26, 27, 30, 31, 33, 37, 38, 39, 42, 42, 44, 46, 50, 51, 55, 57, 59,
+      14, 18, 20, 23, 24, 26, 29, 29, 30, 35, 37, 39, 42, 42, 44, 46, 50, 51, 55, 57, 59,
     ]);
     expect(
       PREMADE_STOPS.filter((stop) => stop.dataStatus === "guaranteed-bundle").map(
@@ -44,6 +67,19 @@ describe("reviewable premade-five circuit", () => {
       }),
     ).toBe(18);
     expect(premadeEntryLevel(getPremadeStop("lower-blackrock")!, progress)).toBe(60);
+  });
+  it("uses the owner-confirmed Drowned City enemies without confusing entry with quest reward level", () => {
+    const stop = getPremadeStop("drowned-city")!, progress = emptyPremadeProgress();
+    expect(stop.encounterLevels).toMatchObject({ maximumTrashLevel: 35, maximumBossLevel: 40 });
+    expect(premadeEntryLevel(stop, progress)).toBe(37);
+    expect(premadeEntryLevel(stop, { ...progress, difficultyPolicy: "experienced-premade" })).toBe(35);
+    expect(premadeEntryLevel({ ...stop, level: 34 }, { ...progress, difficultyPolicy: "experienced-premade" })).toBe(35);
+    expect(premadeEntryLevel({ ...stop, encounterLevels: { ...stop.encounterLevels!, maximumTrashLevel: 40 } },
+      { ...progress, difficultyPolicy: "experienced-premade" })).toBe(36);
+    const bundle = getDungeonBundle("drowned-city", "alliance")!;
+    expect(bundle.slots).toHaveLength(4);
+    expect(bundle.planningQuestLevel).toBe(40);
+    expect(bundle.slots.every((slot) => slot.selected)).toBe(true);
   });
   it("uses the reviewed Thanes pickup floors without lowering its dungeon recommendation", () => {
     const progress = emptyPremadeProgress();

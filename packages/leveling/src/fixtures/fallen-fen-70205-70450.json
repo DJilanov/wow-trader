@@ -1,0 +1,498 @@
+{
+  "schema": "fallen-fen-reference-review.v1",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "targetBuild": 70205,
+  "clients": [
+    {
+      "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+      "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      "build": "1.60.1.70205",
+      "quests": {
+        "95772": {
+          "description": "Me brother tried draggin' me off tae the Wetlands with some diggin' crew out o' Loch Modan. Said they were headin' into hills no dwarf's ever set boot in for some sort o' excavation.\r\n\r\nAye, I'd 'ave gone, if I wasn't already behind on this pile o' girdles I've got to refit.\r\n\r\nDaewyn normally writes after he sends off, though. Haven't heard a thing, gives me a strange feelin' this time.\r\n\r\nIf yer marchin' that way, mind checking in on me brother?",
+          "flags": 8,
+          "level": 31,
+          "minLevel": 24,
+          "objectivesText": "Look for Dorin Songblade's brother, Daewyn, in Whelgar's Excavation Site.",
+          "questInfoId": 81,
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "xpDifficulty": 6,
+            "xpMultiplier": 1.95
+          },
+          "sources": 2,
+          "title": "Songblade Search",
+          "zoneAreaId": 16732
+        },
+        "95795": {
+          "description": "<You cover the dwarf's body with his cloak.>\r\n\r\nTravel to Lakeshire and personally inform Dorin Songblade what became of his brother within the Excavation Sites.",
+          "flags": 8,
+          "level": 31,
+          "minLevel": 24,
+          "objectivesText": "Return to Dorin Songblade.",
+          "questInfoId": 81,
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "choices": [
+              {
+                "count": 1,
+                "itemId": 271769
+              },
+              {
+                "count": 1,
+                "itemId": 271768
+              }
+            ],
+            "xpDifficulty": 6,
+            "xpMultiplier": 1.95
+          },
+          "sources": 2,
+          "title": "Fallen in the Fen",
+          "zoneAreaId": 16732
+        }
+      }
+    },
+    {
+      "file": ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+      "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "build": "1.60.1.70450",
+      "quests": {
+        "95772": {
+          "description": "Me brother tried draggin' me off tae the Wetlands with some diggin' crew out o' Loch Modan. Said they were headin' into hills no dwarf's ever set boot in for some sort o' excavation.\r\n\r\nAye, I'd 'ave gone, if I wasn't already behind on this pile o' girdles I've got to refit.\r\n\r\nDaewyn normally writes after he sends off, though. Haven't heard a thing, gives me a strange feelin' this time.\r\n\r\nIf yer marchin' that way, mind checking in on me brother?",
+          "flags": 8,
+          "level": 31,
+          "minLevel": 24,
+          "objectivesText": "Look for Dorin Songblade's brother, Daewyn, in Whelgar's Excavation Site.",
+          "questInfoId": 81,
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "xpDifficulty": 6,
+            "xpMultiplier": 1.95
+          },
+          "sources": 2,
+          "title": "Songblade Search",
+          "zoneAreaId": 16732
+        },
+        "95795": {
+          "description": "<You cover the dwarf's body with his cloak.>\r\n\r\nTravel to Lakeshire and personally inform Dorin Songblade what became of his brother within the Excavation Sites.",
+          "flags": 8,
+          "level": 31,
+          "minLevel": 24,
+          "objectivesText": "Return to Dorin Songblade.",
+          "questInfoId": 81,
+          "questType": 2,
+          "raceMask": "ffffffffffffffff",
+          "rewards": {
+            "choices": [
+              {
+                "count": 1,
+                "itemId": 271769
+              },
+              {
+                "count": 1,
+                "itemId": 271768
+              }
+            ],
+            "xpDifficulty": 6,
+            "xpMultiplier": 1.95
+          },
+          "sources": 2,
+          "title": "Fallen in the Fen",
+          "zoneAreaId": 16732
+        }
+      }
+    }
+  ],
+  "quests": [
+    {
+      "questId": 95772,
+      "title": "Songblade Search",
+      "minimumLevel": 24,
+      "questLevel": 31,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [
+        {
+          "npcId": 956,
+          "name": "Dorin Songblade",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1433",
+              "x": 25.79,
+              "y": 46.44
+            }
+          ]
+        }
+      ],
+      "ends": [],
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "non-outdoor-zone",
+        "unresolved-objective-text"
+      ]
+    },
+    {
+      "questId": 95795,
+      "title": "Fallen in the Fen",
+      "minimumLevel": 24,
+      "questLevel": 31,
+      "requiredRaces": 4294967373,
+      "requiredClasses": 0,
+      "starts": [],
+      "ends": [
+        {
+          "npcId": 956,
+          "name": "Dorin Songblade",
+          "friendlyToAlliance": true,
+          "positions": [
+            {
+              "zone": "1433",
+              "x": 25.79,
+              "y": 46.44
+            }
+          ]
+        }
+      ],
+      "prerequisites": {
+        "allOf": [
+          95772
+        ],
+        "anyOf": []
+      },
+      "exclusiveWith": [],
+      "category": "delivery",
+      "objectives": [],
+      "unsupportedRequirements": [
+        "non-outdoor-zone"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "questId": 95772,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Look for Dorin Songblade's brother, Daewyn, in Whelgar's Excavation Site."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [],
+        "anyOf": []
+      },
+      "itemObjectives": []
+    },
+    {
+      "questId": 95795,
+      "creatureIds": [],
+      "itemCreatureIds": [],
+      "objectiveText": [
+        "Return to Dorin Songblade."
+      ],
+      "onlyCreatureObjectives": false,
+      "onlyInteractionObjectives": false,
+      "requiredClasses": 0,
+      "prerequisites": {
+        "allOf": [
+          95772
+        ],
+        "anyOf": []
+      },
+      "itemObjectives": []
+    }
+  ],
+  "rewardFacts": [
+    {
+      "questId": 95772,
+      "fullXp": 6150,
+      "questLevel": 31,
+      "minimumLevel": 24,
+      "xpByLevel": [
+        {
+          "level": 31,
+          "xp": 6150
+        },
+        {
+          "level": 32,
+          "xp": 6150
+        },
+        {
+          "level": 33,
+          "xp": 6150
+        },
+        {
+          "level": 34,
+          "xp": 6150
+        },
+        {
+          "level": 35,
+          "xp": 6150
+        },
+        {
+          "level": 36,
+          "xp": 6150
+        },
+        {
+          "level": 37,
+          "xp": 4900
+        },
+        {
+          "level": 38,
+          "xp": 3700
+        },
+        {
+          "level": 39,
+          "xp": 2450
+        },
+        {
+          "level": 40,
+          "xp": 1250
+        },
+        {
+          "level": 41,
+          "xp": 610
+        },
+        {
+          "level": 42,
+          "xp": 610
+        },
+        {
+          "level": 43,
+          "xp": 610
+        },
+        {
+          "level": 44,
+          "xp": 610
+        },
+        {
+          "level": 45,
+          "xp": 610
+        },
+        {
+          "level": 46,
+          "xp": 610
+        },
+        {
+          "level": 47,
+          "xp": 610
+        },
+        {
+          "level": 48,
+          "xp": 610
+        },
+        {
+          "level": 49,
+          "xp": 610
+        },
+        {
+          "level": 50,
+          "xp": 610
+        },
+        {
+          "level": 51,
+          "xp": 610
+        },
+        {
+          "level": 52,
+          "xp": 610
+        },
+        {
+          "level": 53,
+          "xp": 610
+        },
+        {
+          "level": 54,
+          "xp": 610
+        },
+        {
+          "level": 55,
+          "xp": 610
+        },
+        {
+          "level": 56,
+          "xp": 610
+        },
+        {
+          "level": 57,
+          "xp": 610
+        },
+        {
+          "level": 58,
+          "xp": 610
+        },
+        {
+          "level": 59,
+          "xp": 610
+        }
+      ],
+      "sourceUrl": "https://www.wowhead.com/forever/quest=95772/songblade-search",
+      "capturedAt": "2026-10-18T12:17:14.316Z",
+      "status": "available",
+      "evidenceKind": "published-forever",
+      "referenceBaseXp": 3150,
+      "pageMultiplier": 1.95
+    },
+    {
+      "questId": 95795,
+      "fullXp": 6150,
+      "questLevel": 31,
+      "minimumLevel": 24,
+      "xpByLevel": [
+        {
+          "level": 31,
+          "xp": 6150
+        },
+        {
+          "level": 32,
+          "xp": 6150
+        },
+        {
+          "level": 33,
+          "xp": 6150
+        },
+        {
+          "level": 34,
+          "xp": 6150
+        },
+        {
+          "level": 35,
+          "xp": 6150
+        },
+        {
+          "level": 36,
+          "xp": 6150
+        },
+        {
+          "level": 37,
+          "xp": 4900
+        },
+        {
+          "level": 38,
+          "xp": 3700
+        },
+        {
+          "level": 39,
+          "xp": 2450
+        },
+        {
+          "level": 40,
+          "xp": 1250
+        },
+        {
+          "level": 41,
+          "xp": 610
+        },
+        {
+          "level": 42,
+          "xp": 610
+        },
+        {
+          "level": 43,
+          "xp": 610
+        },
+        {
+          "level": 44,
+          "xp": 610
+        },
+        {
+          "level": 45,
+          "xp": 610
+        },
+        {
+          "level": 46,
+          "xp": 610
+        },
+        {
+          "level": 47,
+          "xp": 610
+        },
+        {
+          "level": 48,
+          "xp": 610
+        },
+        {
+          "level": 49,
+          "xp": 610
+        },
+        {
+          "level": 50,
+          "xp": 610
+        },
+        {
+          "level": 51,
+          "xp": 610
+        },
+        {
+          "level": 52,
+          "xp": 610
+        },
+        {
+          "level": 53,
+          "xp": 610
+        },
+        {
+          "level": 54,
+          "xp": 610
+        },
+        {
+          "level": 55,
+          "xp": 610
+        },
+        {
+          "level": 56,
+          "xp": 610
+        },
+        {
+          "level": 57,
+          "xp": 610
+        },
+        {
+          "level": 58,
+          "xp": 610
+        },
+        {
+          "level": 59,
+          "xp": 610
+        }
+      ],
+      "sourceUrl": "https://www.wowhead.com/forever/quest=95795/fallen-in-the-fen",
+      "capturedAt": "2026-10-18T12:18:39.091Z",
+      "status": "available",
+      "evidenceKind": "published-forever",
+      "referenceBaseXp": 3150,
+      "pageMultiplier": 1.95
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.wowhead.com/forever/quest=95795/fallen-in-the-fen",
+      "claim": "Return the news from the body to Dorin in Lakeshire."
+    },
+    {
+      "url": "https://www.wowhead.com/forever/fr/quest=95795/chute-dans-les-marais",
+      "claim": "Published6150reward,min24,qlevel31; do not add another coefficient."
+    },
+    {
+      "url": "https://www.wowhead.com/forever/zone=16732/excavation-site-wetlands",
+      "claim": "Identifies Fallen in the Fen as the inside-dungeon follow-up to Songblade Search."
+    }
+  ],
+  "limits": [
+    "Prerequisite relation is a reviewed route reference, not an observed current-server unlock.",
+    "Original raw provider/client data is retained; missing body ID/coordinates are not invented.",
+    "Both stages have zero client counters; actual accepts/returns remain, generated numbered completes are removed.",
+    "Existing published reward and full per-level table unchanged. Real Lakeshire return required before credit."
+  ]
+}

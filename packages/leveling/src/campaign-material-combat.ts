@@ -9,8 +9,10 @@ import type { LootScenario } from "./quest-loot.js";
 import { resolveCombatQuota } from "./combat-loot.js";
 import { resolveJointCombatQuota } from "./combat-loot-joint.js";
 import { estimatePartyCreatureKills } from "./combat-party-xp.js";
+import { addIncidentalCombatXp, incidentalCombatRowFields } from "./campaign-incidental-combat.js";
 import { estimateBoundedPartyKills, type BoundedCombatKillEstimate } from "./campaign-xp-bounds.js";
 import { indexSharedPartyCombat } from "./campaign-shared-combat-index.js";
+import { campaignSupplyKey } from "./campaign-supply-xp.js";
 
 export interface CampaignMaterialParticipant {
   readonly position: CombatXpPosition;
@@ -77,6 +79,8 @@ export function forecastCampaignMaterialCombat(input: {
   readonly participants: readonly CampaignMaterialParticipant[];
   readonly lootScenario: LootScenario;
   readonly xpMultiplier: number;
+  readonly incidentalKillXpPercent?: number;
+  readonly excludedSupplyItems?: ReadonlySet<string>;
 }): CampaignMaterialCombatResult {
   const { action, work, combat, participants } = input;
   const unknown = (reason: string): CampaignMaterialCombatResult => ({ status: "unknown", reason });
@@ -91,7 +95,9 @@ export function forecastCampaignMaterialCombat(input: {
     )
   )
     throw new Error("Material participant references belong to another combat input.");
-  const targets = action.itemCollections ?? [];
+  const targets = (action.itemCollections ?? []).filter(
+    (target) => !input.excludedSupplyItems?.has(campaignSupplyKey(target.questId, target.itemId)),
+  );
   const needs = participants.map((participant) =>
     targets.filter((target) =>
       campaignMaterialTargetNeeded(
@@ -283,12 +289,15 @@ export function forecastCampaignMaterialCombat(input: {
     const batch = {
       npc,
       kills: quota.kills,
-      environment: "outdoor" as const,
+      environment: work.environment ?? "outdoor",
+      ...(combat.dungeonKillXpReference
+        ? { dungeonKillXpReference: combat.dungeonKillXpReference }
+        : {}),
       evidence: combat.killXpEvidence ?? [],
       build: combat.targetBuild,
       xpMultiplier: input.xpMultiplier,
     };
-    const estimates: readonly BoundedCombatKillEstimate[] = bounded
+    const requiredEstimates: readonly BoundedCombatKillEstimate[] = bounded
       ? estimateBoundedPartyKills({
           ...batch,
           positions: positions.map((minimum, player) => ({
@@ -300,6 +309,9 @@ export function forecastCampaignMaterialCombat(input: {
           ...estimate,
           maximumExit: estimate.exit,
         }));
+    const estimates = requiredEstimates.map((estimate) =>
+      addIncidentalCombatXp(estimate, input.incidentalKillXpPercent ?? 0),
+    );
     if (estimates.some((estimate) => estimate.xp === null || estimate.maximumXp === null))
       return unknown(
         estimates.find((estimate) => estimate.reason)?.reason ??
@@ -311,7 +323,7 @@ export function forecastCampaignMaterialCombat(input: {
       maximumXp[player]! += estimate.maximumXp!;
       rows[player]!.push({
         activityId: work.id,
-        environment: "outdoor",
+        environment: work.environment ?? "outdoor",
         npcId,
         name: npc.name,
         minimumLevel: npc.minimumLevel,
@@ -321,6 +333,7 @@ export function forecastCampaignMaterialCombat(input: {
         maximumXp: estimate.maximumXp,
         basis: "reference-estimate",
         source,
+        ...incidentalCombatRowFields(estimate),
         ...("lootEstimate" in quota && quota.lootEstimate
           ? { lootEstimate: quota.lootEstimate }
           : "estimate" in quota

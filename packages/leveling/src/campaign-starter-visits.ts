@@ -1,19 +1,22 @@
+import type { CampaignFundingExecutor } from "./campaign-funding-scenarios.js";
 import type { CampaignPlan, CampaignSource } from "./campaign.js";
 import type { QuestCatalog } from "./quest-catalog.js";
 import { campaignNativeInstructions } from "./campaign-addon-native.js";
-import { campaignFundingStates } from "./campaign-funding-scenarios.js";
+import { campaignFundingStates, campaignFundingScenarioKey } from "./campaign-funding-scenarios.js";
 import { regressedFundingScenarios } from "./campaign-funding-quality.js";
 import { guidePartyScenario } from "./campaign-guide-party.js";
 import { auditCampaignQuestLog } from "./campaign-quest-log.js";
 import { CAMPAIGN_STARTER_VISIT_RULES } from "./campaign-starter-visit-rules.js";
 import { proposeCampaignStarterVisit } from "./campaign-starter-visit-proposal.js";
 import { deferUnfundedStarterPickups } from "./campaign-pickup-order.js";
+import { proposeCampaignStarterMineCircuit } from "./campaign-starter-mine-circuit.js";
 
 /** Defer unavailable starter work to its reviewed later visit without dropping its lifecycle. */
 export function deferCampaignStarterVisits(
   initial: CampaignPlan,
   sources: readonly CampaignSource[],
   catalog: QuestCatalog,
+  statesForPlan: CampaignFundingExecutor = campaignFundingStates,
 ): CampaignPlan {
   if (
     initial.race !== "human" ||
@@ -23,10 +26,10 @@ export function deferCampaignStarterVisits(
     initial.combat.sourceRevision !== catalog.providerRevision
   )
     return initial;
-  let plan = initial;
+  let plan = proposeCampaignStarterMineCircuit(initial, sources) ?? initial;
   const starterOnly = initial.legs.every((leg) => leg.kind === "starter");
-  const original = campaignFundingStates(plan);
-  let states = original;
+  const original = statesForPlan(initial);
+  let states = plan === initial ? original : statesForPlan(plan);
   const movedTriggers = new Set<number>();
   for (const rule of CAMPAIGN_STARTER_VISIT_RULES) {
     if (rule.classSlug && rule.classSlug !== plan.leaderClass) continue;
@@ -59,7 +62,7 @@ export function deferCampaignStarterVisits(
     );
     if (!proposal) continue;
     plan = deferUnfundedStarterPickups(proposal);
-    states = campaignFundingStates(plan);
+    states = statesForPlan(plan);
     movedTriggers.add(rule.triggerQuestId);
   }
   // Only the complete compound proposal is executable; an intermediate move may expose the next gate.
@@ -79,17 +82,31 @@ export function deferCampaignStarterVisits(
       state.progress.members
         .slice(0, starterOnly ? 1 : state.progress.members.length)
         .some((_member, player) =>
-          [...movedTriggers].some(
-            (questId) =>
-              !state.forecast.some((section) =>
+          [...movedTriggers].some((questId) => {
+            const before = original.find(
+              (candidate) =>
+                campaignFundingScenarioKey(candidate) === campaignFundingScenarioKey(state),
+            );
+            if (!before)
+              throw new Error("Starter visit comparison is missing a party configuration.");
+            const reaches = (forecast: typeof state.forecast): boolean =>
+              forecast.some((section) =>
                 section.members[player]!.steps.some(
-                  (step) =>
-                    step.questId === questId &&
-                    step.phase === "accepted" &&
-                    step.status === "projected",
+                  (step) => step.questId === questId && step.phase === "accepted",
                 ),
+              );
+            // An unchanged earlier blocker does not qualify this visit, but also must not veto
+            // a proved correction for configurations that reach the original pickup.
+            if (!reaches(before.forecast) && !reaches(state.forecast)) return false;
+            return !state.forecast.some((section) =>
+              section.members[player]!.steps.some(
+                (step) =>
+                  step.questId === questId &&
+                  step.phase === "accepted" &&
+                  step.status === "projected",
               ),
-          ),
+            );
+          }),
         ),
     )
   )

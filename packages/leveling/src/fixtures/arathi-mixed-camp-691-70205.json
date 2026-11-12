@@ -1,0 +1,1384 @@
+{
+  "provenance": {
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "source": {
+      "chapterId": "chapter-21-39-40-alterac-arathi",
+      "file": "artifacts/leveling/archive/chapter-21-39-40-alterac-arathi-v2-b8159d755149bd5e.json",
+      "sha256": "e3bc61348e172f6d18b7ec5b251316f2d646ff1e1e72ae44605da9e867f712e9"
+    },
+    "catalog": {
+      "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/catalog-fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d.json",
+      "sha256": "fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d"
+    },
+    "combat": {
+      "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/combat-377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b.json",
+      "sha256": "377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b"
+    },
+    "rewards": {
+      "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/rewards-ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced.json",
+      "sha256": "ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced"
+    },
+    "classification": "Exact captured691source subset and unchanged normalized quest/item/NPC/drop/reward records. Data from Questie provider plus indexed source captures and EfficientGames client snapshots; no rates or personal quantities modified."
+  },
+  "guide": {
+    "schemaVersion": 1,
+    "chapterId": "chapter-21-39-40-alterac-arathi",
+    "version": "import-v2-b8159d755149bd5e",
+    "targetBuild": 70205,
+    "sourceSha256": "b8159d755149bd5e77027eff3367f9a5b3dd1340f0a81011856efb3bc28822a0",
+    "sourceName": "RestedXP Forever Guide",
+    "steps": [
+      {
+        "id": "source-step-0004",
+        "ordinal": 4,
+        "sourceLine": 22,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2529.76,-1279.38",
+            "condition": "",
+            "text": "",
+            "sourceLine": 23,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2529.76,
+              "y": -1279.38,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Apprentice Kryten",
+            "sourceLine": 24,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "691",
+            "condition": "",
+            "text": "Accept Worth Its Weight in Gold",
+            "sourceLine": 25,
+            "questId": 691,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Apprentice Kryten",
+            "condition": "",
+            "text": "",
+            "sourceLine": 26,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".maxlevel",
+            "arguments": "40",
+            "condition": "",
+            "text": "",
+            "sourceLine": 27,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0016",
+        "ordinal": 16,
+        "sourceLine": 103,
+        "condition": "",
+        "directives": [
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill the Witherbarks. Loot them for their Witherbark Tusks",
+            "sourceLine": 104,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Witherbark Witch Doctors. Loot them for their Medicine Pouches",
+            "sourceLine": 105,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill Witherbark Shadow Hunters. Loot them for their Shadow Hunter Knife",
+            "sourceLine": 106,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Witherbark Shadow Hunters are only found inside the Cave marked on your map",
+            "sourceLine": 107,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Be careful as the Witherbark Headhunters can [Net] you for 10 seconds and have an [Execute] which they can cast when you're below 20% health",
+            "sourceLine": 108,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "691,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 109,
+            "questId": 691,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Troll",
+            "condition": "",
+            "text": "",
+            "sourceLine": 110,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Witch Doctor",
+            "condition": "",
+            "text": "",
+            "sourceLine": 111,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Shadowcaster",
+            "condition": "",
+            "text": "",
+            "sourceLine": 112,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Shadow Hunter",
+            "condition": "",
+            "text": "",
+            "sourceLine": 113,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3477.03,-1709.41,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 114,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3477.03,
+              "y": -1709.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3398.69,-1811.65,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 115,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3398.69,
+              "y": -1811.65,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3172.83,-1873.57,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 116,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3172.83,
+              "y": -1873.57,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3075.27,-1854.61,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 117,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3075.27,
+              "y": -1854.61,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3178.95,-1758.61,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 118,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3178.95,
+              "y": -1758.61,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3262.83,-1668.85",
+            "condition": "",
+            "text": "",
+            "sourceLine": 119,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3262.83,
+              "y": -1668.85,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".complete",
+            "arguments": "691,2",
+            "condition": "",
+            "text": "",
+            "sourceLine": 120,
+            "questId": 691,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Witch Doctor",
+            "condition": "",
+            "text": "",
+            "sourceLine": 121,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3477.03,-1709.41,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 122,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3477.03,
+              "y": -1709.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3398.69,-1811.65,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 123,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3398.69,
+              "y": -1811.65,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3172.83,-1873.57,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 124,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3172.83,
+              "y": -1873.57,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3075.27,-1854.61,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 125,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3075.27,
+              "y": -1854.61,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3178.95,-1758.61,70,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 126,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3178.95,
+              "y": -1758.61,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3262.83,-1668.85",
+            "condition": "",
+            "text": "",
+            "sourceLine": 127,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3262.83,
+              "y": -1668.85,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".complete",
+            "arguments": "691,3",
+            "condition": "",
+            "text": "",
+            "sourceLine": 128,
+            "questId": 691,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Shadowcaster",
+            "condition": "",
+            "text": "",
+            "sourceLine": 129,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-3328.35,-1955.41,30,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 130,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -3328.35,
+              "y": -1955.41,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "Arathi Highlands,68.20,79.47",
+            "condition": "",
+            "text": "",
+            "sourceLine": 131,
+            "questId": null,
+            "position": {
+              "zone": "Arathi Highlands",
+              "floor": null,
+              "x": 68.2,
+              "y": 79.47,
+              "space": "map-percent"
+            }
+          },
+          {
+            "tag": ".mob",
+            "arguments": "+Witherbark Shadow Hunter",
+            "condition": "",
+            "text": "",
+            "sourceLine": 132,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isOnQuest",
+            "arguments": "691",
+            "condition": "",
+            "text": "",
+            "sourceLine": 133,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0025",
+        "ordinal": 25,
+        "sourceLine": 199,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2529.76,-1279.38",
+            "condition": "",
+            "text": "",
+            "sourceLine": 200,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2529.76,
+              "y": -1279.38,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Apprentice Kryten",
+            "sourceLine": 201,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "691",
+            "condition": "",
+            "text": "Turn in Worth Its Weight in Gold",
+            "sourceLine": 202,
+            "questId": 691,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Apprentice Kryten",
+            "condition": "",
+            "text": "",
+            "sourceLine": 203,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".isQuestComplete",
+            "arguments": "691",
+            "condition": "",
+            "text": "",
+            "sourceLine": 204,
+            "questId": null,
+            "position": null
+          }
+        ]
+      }
+    ]
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 691,
+        "title": "Worth Its Weight in Gold",
+        "minimumLevel": 30,
+        "questLevel": 36,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 2788,
+            "name": "Apprentice Kryten",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 46.2,
+                "y": 47.75
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2788,
+            "name": "Apprentice Kryten",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1417",
+                "x": 46.2,
+                "y": 47.75
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 2552,
+        "name": "Witherbark Troll",
+        "minimumLevel": 30,
+        "maximumLevel": 31,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2553,
+        "name": "Witherbark Shadowcaster",
+        "minimumLevel": 31,
+        "maximumLevel": 32,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2554,
+        "name": "Witherbark Axe Thrower",
+        "minimumLevel": 32,
+        "maximumLevel": 33,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2555,
+        "name": "Witherbark Witch Doctor",
+        "minimumLevel": 33,
+        "maximumLevel": 34,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2556,
+        "name": "Witherbark Headhunter",
+        "minimumLevel": 34,
+        "maximumLevel": 35,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2557,
+        "name": "Witherbark Shadow Hunter",
+        "minimumLevel": 35,
+        "maximumLevel": 36,
+        "rank": 0,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2558,
+        "name": "Witherbark Berserker",
+        "minimumLevel": 36,
+        "maximumLevel": 37,
+        "rank": 1,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 2605,
+        "name": "Zalas Witherbark",
+        "minimumLevel": 40,
+        "maximumLevel": 40,
+        "rank": 4,
+        "zoneIds": [
+          45
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 691,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          2552,
+          2553,
+          2554,
+          2555,
+          2556,
+          2557,
+          2558,
+          2605
+        ],
+        "objectiveText": [
+          "Find 10 Witherbark Tusks, 4 Witherbark Medicine Pouches and a Shadow Hunter Knife for Apprentice Kryten at Refuge Pointe."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 4503,
+            "itemName": "Witherbark Tusk",
+            "quantity": 10,
+            "npcIds": [
+              2552,
+              2553,
+              2554,
+              2555,
+              2556,
+              2557,
+              2558,
+              2605
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 4503,
+              "itemFlags": 0
+            }
+          },
+          {
+            "objectiveIndex": 2,
+            "itemId": 4522,
+            "itemName": "Witherbark Medicine Pouch",
+            "quantity": 4,
+            "npcIds": [
+              2555
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 4522,
+              "itemFlags": 0
+            }
+          },
+          {
+            "objectiveIndex": 3,
+            "itemId": 5040,
+            "itemName": "Shadow Hunter Knife",
+            "quantity": 1,
+            "npcIds": [
+              2557
+            ],
+            "sharing": "pooled",
+            "sharingReference": {
+              "kind": "classic-1.12-reference",
+              "repository": "https://github.com/cmangos/classic-db",
+              "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+              "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+              "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+              "sourceBuild": 5875,
+              "referencedAt": "2026-10-31T22:41:50.344Z",
+              "itemId": 5040,
+              "itemFlags": 0
+            }
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [
+      {
+        "itemId": 4503,
+        "npcId": 2552,
+        "probability": 0.26284875183553597,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2552,
+          "lootEntry": 2552,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2552,
+          "lootEntry": 2552,
+          "probability": 0.37,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 3405,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4503,
+        "npcId": 2553,
+        "probability": 0.3017656500802568,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2553,
+          "lootEntry": 2553,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2553,
+          "lootEntry": 2553,
+          "probability": 0.13,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 2492,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4503,
+        "npcId": 2554,
+        "probability": 0.21203407420219667,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2554,
+          "lootEntry": 2554,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2554,
+          "lootEntry": 2554,
+          "probability": 0.37,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 46252,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4503,
+        "npcId": 2555,
+        "probability": 0.17359755982039674,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2555,
+          "lootEntry": 2555,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2555,
+          "lootEntry": 2555,
+          "probability": 0.25,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 52783,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4503,
+        "npcId": 2556,
+        "probability": 0.22009878353142398,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2556,
+          "lootEntry": 2556,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2556,
+          "lootEntry": 2556,
+          "probability": 0.28,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 57297,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4503,
+        "npcId": 2557,
+        "probability": 0.22933022571148187,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2557,
+          "lootEntry": 2557,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2557,
+          "lootEntry": 2557,
+          "probability": 0.13,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 16304,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4503,
+        "npcId": 2558,
+        "probability": 0.00875752599890531,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2558,
+          "lootEntry": 2558,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4503,
+          "npcId": 2558,
+          "lootEntry": 2558,
+          "probability": 0.13,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 1827,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4503/witherbark-tusk",
+        "capturedAt": "2026-10-20T09:45:02.140Z",
+        "sourceSha256": "9f7057d9b9ef4114eedcbd601d11a2fd59b78b4e2cfbe65d6dc0062bb6be17a7"
+      },
+      {
+        "itemId": 4522,
+        "npcId": 2555,
+        "probability": 0.5714285714285714,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4522,
+          "npcId": 2555,
+          "lootEntry": 2555,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 4522,
+          "npcId": 2555,
+          "lootEntry": 2555,
+          "probability": 0.33,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 7,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=4522/witherbark-medicine-pouch",
+        "capturedAt": "2026-10-20T09:54:56.016Z",
+        "sourceSha256": "585ffe986d32720f03fd9384580b41ba599616b8c9d6f4054996592f1fe41d6d"
+      },
+      {
+        "itemId": 5040,
+        "npcId": 2557,
+        "probability": 0.09929078014184398,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5040,
+          "npcId": 2557,
+          "lootEntry": 2557,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 5040,
+          "npcId": 2557,
+          "lootEntry": 2557,
+          "probability": 0.2,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 141,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=5040/shadow-hunter-knife",
+        "capturedAt": "2026-10-20T10:10:35.141Z",
+        "sourceSha256": "0edb5faae6c120681ea5a5fb1f17e7789f1191596dea861c326c9d786f7fcde0"
+      }
+    ],
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "rewards": [
+    {
+      "questId": 691,
+      "fullXp": 3500,
+      "rewardBasis": "final-reward",
+      "questLevel": 36,
+      "minimumLevel": 30,
+      "xpByLevel": [
+        {
+          "level": 30,
+          "xp": 3500
+        },
+        {
+          "level": 31,
+          "xp": 3500
+        },
+        {
+          "level": 32,
+          "xp": 3500
+        },
+        {
+          "level": 33,
+          "xp": 3500
+        },
+        {
+          "level": 34,
+          "xp": 3500
+        },
+        {
+          "level": 35,
+          "xp": 3500
+        },
+        {
+          "level": 36,
+          "xp": 3500
+        },
+        {
+          "level": 37,
+          "xp": 3500
+        },
+        {
+          "level": 38,
+          "xp": 3500
+        },
+        {
+          "level": 39,
+          "xp": 3500
+        },
+        {
+          "level": 40,
+          "xp": 3500
+        },
+        {
+          "level": 41,
+          "xp": 3500
+        },
+        {
+          "level": 42,
+          "xp": 2800
+        },
+        {
+          "level": 43,
+          "xp": 2100
+        },
+        {
+          "level": 44,
+          "xp": 1400
+        },
+        {
+          "level": 45,
+          "xp": 700
+        },
+        {
+          "level": 46,
+          "xp": 350
+        },
+        {
+          "level": 47,
+          "xp": 350
+        },
+        {
+          "level": 48,
+          "xp": 350
+        },
+        {
+          "level": 49,
+          "xp": 350
+        },
+        {
+          "level": 50,
+          "xp": 350
+        },
+        {
+          "level": 51,
+          "xp": 350
+        },
+        {
+          "level": 52,
+          "xp": 350
+        },
+        {
+          "level": 53,
+          "xp": 350
+        },
+        {
+          "level": 54,
+          "xp": 350
+        },
+        {
+          "level": 55,
+          "xp": 350
+        },
+        {
+          "level": 56,
+          "xp": 350
+        },
+        {
+          "level": 57,
+          "xp": 350
+        },
+        {
+          "level": 58,
+          "xp": 350
+        },
+        {
+          "level": 59,
+          "xp": 350
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 691,
+        "questLevel": 36,
+        "minimumLevel": 30,
+        "difficulty": 6,
+        "baseXp": 3500,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 3500
+    }
+  ]
+}

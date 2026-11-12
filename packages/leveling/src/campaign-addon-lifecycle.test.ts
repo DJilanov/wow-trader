@@ -45,6 +45,66 @@ function opportunity(checkpoint: string, optional = true): readonly CampaignActi
 }
 
 describe("native optional quest opportunities", () => {
+  function groundOpportunity(checkpoint: string): readonly CampaignAction[] {
+    const grounds = [ground, { ...ground, objectiveIndex: 2, itemId: 2999, objectId: 1167 }];
+    const base = opportunity(checkpoint).map((action): CampaignAction => ({
+      ...action,
+      libraryObjective: "interaction",
+      fundingGroundPickups: grounds,
+    }));
+    return [
+      ...base.slice(0, 2),
+      {
+        ...base[1]!,
+        id: `${checkpoint}-second-object`,
+        questChanges: [{ ...base[1]!.questChanges[0]!, objectiveIndex: 2 }],
+      },
+      base[2]!,
+    ];
+  }
+
+  it("retains both object counters inside each independently guarded opportunity", () => {
+    const actions = [...groundOpportunity("early"), ...groundOpportunity("later")];
+    const output = campaignAddonQuestActions(actions, "party");
+    expect(output.actions).toEqual(actions);
+    expect(output.guards.get("later-second-object")).toEqual({ tag: ".isOnQuest", questId: 12 });
+  });
+
+  it.each(["early", "later"])(
+    "does not borrow a second object counter for the %s opportunity",
+    (checkpoint) => {
+      const actions = [...groundOpportunity("early"), ...groundOpportunity("later")].filter(
+        (action) => action.id !== `${checkpoint}-second-object`,
+      );
+      expect(() => campaignAddonQuestActions(actions, "party")).toThrow(
+        "without its object objective",
+      );
+    },
+  );
+
+  it("retains declared requirements when the hand-in has no proof metadata", () => {
+    const actions = groundOpportunity("only")
+      .filter((action) => action.id !== "only-second-object")
+      .map((action): CampaignAction => {
+        const copy = { ...action };
+        if (action.questChanges[0]?.state === "rewarded") delete copy.fundingGroundPickups;
+        return copy;
+      });
+    expect(() => campaignAddonQuestActions(actions, "party")).toThrow(
+      "without its object objective",
+    );
+  });
+
+  it("rejects duplicate ground-object counter declarations", () => {
+    const actions = groundOpportunity("only").map((action) => ({
+      ...action,
+      fundingGroundPickups: [ground, ground],
+    }));
+    expect(() => campaignAddonQuestActions(actions, "party")).toThrow(
+      "repeats a ground-object objective",
+    );
+  });
+
   it("retains both verified ground-pickup opportunities with one-time quest guards", () => {
     const actions = [...opportunity("early"), ...opportunity("later")].map(
       (action): CampaignAction => ({

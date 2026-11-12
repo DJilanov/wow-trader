@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { isSingleGroundPickup } from "./campaign-ground-pickup.js";
+import { isSingleGroundPickup, groundPickupTravelHints } from "./campaign-ground-pickup.js";
+import type { GroundPickupReference } from "./quest-ground-pickup.js";
 import { CHAPTER_REFERENCES } from "./chapter-data.js";
 import { parseGuideChapter } from "./guide-archive.js";
 import type { CampaignPlan, CampaignSource } from "./campaign.js";
@@ -42,6 +43,39 @@ function source(body = pickup): CampaignSource {
 }
 
 describe("single sourced ground pickups", () => {
+  it("retains breath and inside-boat guidance for a matching captured underwater objective", () => {
+    const input = source(
+      "step\n.goto 1439,38,28\n>>==BE AWARE OF YOUR BREATH METER==\n>>If you don't want to do this, swim underwater into the bottom floor of the boat then loot the lockbox inside\n.complete 3524,1",
+    );
+    const proof: GroundPickupReference = {
+      questId: 3524,
+      objectiveIndex: 1,
+      itemId: 12242,
+      objectId: 10,
+      objectName: "Lockbox",
+      positions: [{ zone: "1439", x: 38, y: 28 }],
+      sourceArchiveSha256: "a".repeat(64),
+      source: {
+        chapterId: input.guide.chapterId,
+        version: input.guide.version,
+        stepId: input.guide.steps[0]!.id,
+      },
+    };
+    const hints = groundPickupTravelHints(proof, [input], 70205).join(" ");
+    expect(hints).toContain("bottom floor of the boat to reach Lockbox");
+    expect(hints).toContain("Watch your breath");
+    expect(hints).toContain("Regroup at the surface");
+    expect(groundPickupTravelHints(proof, [input], 70450)).toEqual([]);
+    expect(groundPickupTravelHints({ ...proof, objectiveIndex: 2 }, [input], 70205)).toEqual([]);
+    expect(
+      groundPickupTravelHints(
+        { ...proof, source: { ...proof.source, version: "other" } },
+        [input],
+        70205,
+      ),
+    ).toEqual([]);
+  });
+
   it("requires a matching one-item world-object instruction and exact objective", () => {
     const step = source().guide.steps[0]!,
       quest = reference();

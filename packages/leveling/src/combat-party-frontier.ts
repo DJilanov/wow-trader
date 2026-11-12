@@ -1,4 +1,5 @@
 import { combatNpcSchema, type CombatNpc, type KillXpEvidence } from "./combat-model.js";
+import type { DungeonKillXpReference } from "./combat-dungeon-reference.js";
 import {
   advanceCombatPosition,
   estimateCreatureKills,
@@ -36,6 +37,7 @@ export interface PartyCreatureBatch {
   readonly kills: number;
   readonly environment: "outdoor" | "dungeon";
   readonly dungeonMultiplier?: number | null;
+  readonly dungeonKillXpReference?: DungeonKillXpReference;
   readonly evidence?: readonly KillXpEvidence[];
   readonly build?: number;
   readonly xpMultiplier?: number;

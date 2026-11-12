@@ -1,8 +1,13 @@
 import type { CombatNpc, KillXpEvidence } from "./combat-model.js";
+import {
+  dungeonKillXpReferenceSchema,
+  dungeonReferencePayout,
+  type DungeonKillXpReference,
+} from "./combat-dungeon-reference.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 
 export const COMBAT_XP_RULE =
-  "forever-published-solo-reference-joint-party-levels-no-bonus-20261101-v6";
+  "forever-published-solo-five-player-dungeon-reference-20261102-v7";
 export interface CombatXpPosition {
   readonly level: number;
   readonly currentXp: number;
@@ -114,6 +119,7 @@ export function estimateCreatureKills(input: {
   readonly partySize: number;
   readonly environment: "outdoor" | "dungeon";
   readonly dungeonMultiplier?: number | null;
+  readonly dungeonKillXpReference?: DungeonKillXpReference;
   readonly evidence?: readonly KillXpEvidence[];
   readonly build?: number;
   readonly partyLevels?: readonly (number | null)[];
@@ -124,6 +130,9 @@ export function estimateCreatureKills(input: {
 }): CombatKillEstimate {
   const { npc, kills, position, partySize, environment } = input;
   advanceCombatPosition(position, 0);
+  const dungeonReference = input.dungeonKillXpReference
+    ? dungeonKillXpReferenceSchema.parse(input.dungeonKillXpReference)
+    : undefined;
   if (
     !Number.isInteger(partySize) ||
     partySize < 1 ||
@@ -220,8 +229,23 @@ export function estimateCreatureKills(input: {
       if (
         environment === "dungeon" &&
         (input.dungeonMultiplier === null || input.dungeonMultiplier === undefined)
-      )
-        return null;
+      ) {
+        if (!dungeonReference || !elite || partySize !== 5 || !input.partyLevels) return null;
+        values.push(
+          ...dungeonReferencePayout({
+            reference: dungeonReference,
+            soloXp: foreverNormalKillXp(level, mobLevel),
+            anchorSoloXp: foreverNormalKillXp(
+              dungeonReference.referenceLevel,
+              dungeonReference.referenceLevel,
+            ),
+            playerLevel: level,
+            partyLevels,
+            xpMultiplier: input.xpMultiplier ?? 1,
+          }),
+        );
+        continue;
+      }
       values.push(
         Math.floor(
           (Math.floor(

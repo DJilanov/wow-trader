@@ -11,17 +11,24 @@ import {
 
 import type { DesktopProductStatus } from "../shared/contracts.js";
 
-const COLLECTOR_VERSION = "0.14.0";
+const COLLECTOR_VERSION = "0.15.8";
 const ADDON_FILES: Readonly<Record<string, string>> = {
   "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
   "AccountData.lua": "790f46d97fab43b8683ed628489d792cc242b12b208e88a97fd4bee09f2e05d8",
   "MarketPolicy.lua": "ff97212c868d5190a195168dac283a015a97044cb80d7b6cb3cc367690cf926f",
-  "Collector.lua": "96c16b3aceeaad839e3076739f11175d0fe2124c075fd318d868b8be91085b9c",
+  "NativeItemCache.lua": "bd347018f79b0b4ce2666029a326289c389ed8468eb5d0eeb0a4fb2fc1715056",
+  "NativePendingRows.lua": "a769236cc67ce257cfe97c9aad1cc085c9094a55a7689afde6d006e43a44c7df",
+  "Collector.lua": "2375e6d96dbd1a245d45e1a2c0e0c563b68ac55b71f66a0ec8436c2f1705f57a",
+  "DisenchantData.lua": "63def1e77724018dff568067d63be224932f08d7b744be0c57e88d0de3ebbcc3",
+  "ClientValuationData.lua": "9f9d0a97df07f2dff920b70c9714580f93283f3bb6618293fa88f18e7de84c6e",
+  "Valuation.lua": "39be188684a06bb364dcc3f152fd2e775265b5f88a76b724eb209c5e63308782",
   "Professions.lua": "24ce92e0f6f78dcd2ab2fe6b7257e0ecaa7b0105b44c7774a630160d6cf6fc24",
+  "Crafting.lua": "8698f0482153d39b1468a0b533f9504bbecc637c631a0ebbdb6a55ddbcace6a4",
+  "ValuationUI.lua": "cafff3573e0c7ce00695484bfeaeb86b5f0b4a7230561abafa46a5d2fdc9967a",
   "Trades.lua": "a85f077ceaa9201f17f49e10f50c013f9d494b0e8dc18b41a884114bcad9128d",
   "WorldEvidence.lua": "a5e8ebe31c345ebb21e5892d75691f8e259b3fc46ea8ed16df15b449d135f006",
-  "UI.lua": "dc93f6abdf9a1814c88f77849794d8ad546c0b10a037848c75985589d2a06570",
-  "WowTraderCollector.toc": "92f5dd9b1db7897aec7cf28124c2e197a2d77dbf4131bd199338b97f71c24695",
+  "UI.lua": "ba7f0d9dc9a032c4904c362d06eb479207557dbe62fe6d6169b76448f7d30bf1",
+  "WowTraderCollector.toc": "10a4dc317899bd2c3f2359dd56c0a7cb1e389d1e4275e27a9452916087591924",
 };
 const GENERATED_DATA_FILES = ["MarketData.lua", "AccountData.lua"] as const;
 

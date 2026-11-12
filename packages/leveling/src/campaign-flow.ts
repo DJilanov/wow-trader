@@ -7,7 +7,7 @@ import {
   campaignZoneName,
 } from "./campaign-geography.js";
 import { campaignJourneyInstructions } from "./campaign-transport.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { getGuideStepView } from "./guide-archive.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { PREMADE_STOPS } from "./premade.js";
@@ -17,7 +17,7 @@ export function attachCampaignMovements(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
 ): CampaignPlan {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const profile = campaignPlanSourceProfile(plan);
   const selected = new Set(PREMADE_STOPS.flatMap((stop) => stop.visitIds));
   const dungeons = DUNGEON_VISITS.filter((visit) => selected.has(visit.id)).flatMap(
     (visit) => visit.sourceTag ?? [],

@@ -23,6 +23,7 @@ import { forecastCampaignXp } from "./campaign-xp.js";
 import type { CampaignAction, CampaignPlan } from "./campaign.js";
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { CHAPTER_REFERENCES } from "./chapter-data.js";
+import { OWNER_DUNGEON_KILL_XP_REFERENCE } from "./combat-dungeon-reference.js";
 
 const npc: CombatNpc = {
   id: 114,
@@ -112,6 +113,133 @@ const evidence: KillXpEvidence = {
 };
 
 describe("combat XP calculation", () => {
+  it("counts a positively referenced single dungeon boss once without requiring a number in its prose", () => {
+    const boss: CombatNpc = {
+      ...npc,
+      id: 261306,
+      name: "Faldrim Anvilmar",
+      minimumLevel: 16,
+      maximumLevel: 16,
+      rank: 1,
+    };
+    const reference: CombatDataset = {
+      ...data,
+      npcs: [boss],
+      dungeonKillXpReference: OWNER_DUNGEON_KILL_XP_REFERENCE,
+      quests: [
+        {
+          questId: 96395,
+          creatureIds: [boss.id],
+          itemCreatureIds: [],
+          onlyCreatureObjectives: true,
+          objectiveText: ["Put the spirit of Faldrim Anvilmar to rest."],
+          killQuotas: [
+            {
+              objectiveIndex: 1,
+              npcId: boss.id,
+              kills: 1,
+              source: "Synthetic server-cache counter",
+            },
+          ],
+        },
+      ],
+    };
+    const action: CampaignAction = {
+      id: "defeat-faldrim",
+      legId: "dungeon-thanes",
+      title: "An Ancient Grudge",
+      kind: "quests",
+      instructions: ["Defeat Faldrim Anvilmar."],
+      positions: [],
+      source: null,
+      leaderOnly: false,
+      targetLevel: null,
+      targetStopId: null,
+      raidOnly: false,
+      wholeQuestObjectives: true,
+      questChanges: [
+        {
+          questId: 96395,
+          objectiveIndex: 1,
+          state: "objectives-complete",
+          title: "An Ancient Grudge",
+        },
+      ],
+    };
+    const plan: CampaignPlan = {
+      release: "test",
+      race: "human",
+      leaderClass: "warrior",
+      targetBuild: data.targetBuild,
+      actions: [action],
+      legs: [
+        {
+          id: action.legId,
+          title: "Thane boss",
+          kind: "dungeon",
+          from: 14,
+          to: 16,
+          stopId: "thanes",
+          actionIds: [action.id],
+          questIds: [96395],
+          unresolvedQuestIds: [],
+        },
+      ],
+    };
+    const result = attachCampaignCombat(plan, [], reference, "test");
+    expect(result.combat!.activities).toHaveLength(1);
+    const activity = result.combat!.activities[0]!;
+    expect(activity.objectives[0]).toMatchObject({
+      npcIds: [261306],
+      requiredKills: 1,
+      credit: "shared-kills",
+    });
+    const state = createCampaignCombatState(result.combat, emptyPremadeProgress().members[0]!);
+    const input = {
+      activity,
+      combat: result.combat!,
+      state,
+      questStates: { "96395": "accepted" as const },
+      position: { level: 14, currentXp: 0 },
+      partySize: 5,
+      partyBounds: Array.from({ length: 5 }, () => ({
+        minimum: { level: 14, currentXp: 0 },
+        maximum: { level: 14, currentXp: 0 },
+      })),
+    };
+    const paid = applyCampaignCombat(input);
+    expect(paid.rows).toHaveLength(1);
+    expect(paid.rows[0]).toMatchObject({
+      npcId: 261306,
+      kills: 1,
+      xp: 20,
+      maximumXp: 26,
+      basis: "reference-estimate",
+    });
+    expect(applyCampaignCombat(input)).toMatchObject({ xp: 0, rows: [] });
+  });
+  it("preserves an explicit planning anchor through dataset validation and campaign attachment", () => {
+    const selected = combatDatasetSchema.parse({
+      ...data,
+      dungeonKillXpReference: OWNER_DUNGEON_KILL_XP_REFERENCE,
+    });
+    const plan = attachCampaignCombat(
+      {
+        release: "reference-test",
+        race: "human",
+        leaderClass: "warrior",
+        targetBuild: 70205,
+        actions: [],
+        legs: [],
+      },
+      [],
+      selected,
+      "reference-test",
+    );
+    expect(plan.combat?.dungeonKillXpReference).toEqual(OWNER_DUNGEON_KILL_XP_REFERENCE);
+    expect(selected.killXpEvidence).toEqual([]);
+    expect(selected.npcs).toEqual(data.npcs);
+  });
   it("advances synchronized peers when a shared encounter crosses a level boundary", () => {
     const input = {
       npc: { ...npc, minimumLevel: 1, maximumLevel: 1 },
@@ -246,6 +374,7 @@ describe("combat XP calculation", () => {
         endpoint: { level: 2, currentXp: 32 },
         referenceQuestXp: 390,
         estimatedCombatXp: 0,
+        incidentalCombatXp: 0,
       });
   });
   it("weights unequal party levels rather than paying each player the same fraction", () => {
@@ -486,6 +615,73 @@ describe("literal-only provider import", () => {
     expect(imported.npcs[0]).toMatchObject({ minimumLevel: null, maximumLevel: null });
     expect(imported.quests[0]).toMatchObject({ creatureIds: [1], itemCreatureIds: [1] });
   });
+  it("uses the provider's numeric rank default only for existing named NPC rows", () => {
+    const imported = importQuestieCombatData({
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "",
+      provider: data.provider,
+      npcExport: [
+        "-- Base -> authored corrections.",
+        "local npc = {}",
+        'npc[1]={"Omitted rank",nil,nil,1,1}',
+        'npc[2]={"Nil rank",nil,nil,1,1,nil}',
+        'npc[3]={"Explicit normal",nil,nil,1,1,0}',
+        'npc[4]={"Explicit rare elite",nil,nil,1,1,2}',
+        'npc[5]={"Name only"}',
+        'npc[6]={"Training Dummy",nil,nil,1,1}',
+        "npc[7]={}",
+        'npc[8]={""}',
+        "return npc",
+      ].join("\n"),
+      questExport: '-- Base -> authored corrections.\nquest[1]={"Quest"}',
+      itemExport: '-- Base -> authored corrections.\nitem[1]={"Item"}',
+    });
+    expect(imported.npcs.map(({ id, rank }) => ({ id, rank }))).toEqual([
+      { id: 1, rank: 0 },
+      { id: 2, rank: 0 },
+      { id: 3, rank: 0 },
+      { id: 4, rank: 2 },
+      { id: 5, rank: 0 },
+      { id: 6, rank: 0 },
+    ]);
+    expect(imported.npcs.find(({ id }) => id === 5)).toMatchObject({
+      minimumLevel: null,
+      maximumLevel: null,
+      xpEligibility: "assumed",
+    });
+    const dummy = imported.npcs.find(({ id }) => id === 6)!;
+    expect(dummy.xpEligibility).toBe("unknown");
+    expect(
+      estimateCreatureKills({
+        npc: dummy,
+        kills: 1,
+        position: { level: 1, currentXp: 0 },
+        partySize: 1,
+        environment: "outdoor",
+      }),
+    ).toMatchObject({ xp: null, basis: "unknown" });
+    expect(imported.npcs.find(({ id }) => id === 9)).toBeUndefined();
+  });
+  it.each(["false", '"0"', "-1", "6", "0.5", "{}"])(
+    "does not substitute a normal rank for the malformed explicit value %s",
+    (rank) => {
+      const imported = importQuestieCombatData({
+        targetBuild: 70205,
+        publication: "private-reference",
+        authorizationNote: "",
+        provider: data.provider,
+        npcExport: `-- Base -> authored corrections.\nnpc[1]={"Target",nil,nil,1,1,${rank}}`,
+        questExport: '-- Base -> authored corrections.\nquest[1]={"Quest"}',
+        itemExport: '-- Base -> authored corrections.\nitem[1]={"Item"}',
+      });
+      expect(imported.npcs[0]).toMatchObject({
+        rank: null,
+        minimumLevel: 1,
+        maximumLevel: 1,
+      });
+    },
+  );
   it("retains factual all-of/any-of prerequisites and class restrictions", () => {
     const exported = (kind: string, row: string): string =>
       `-- Base -> authored corrections.\nlocal ${kind} = {}\n${kind}[1]=${row}\nreturn ${kind}\n`;
@@ -579,6 +775,27 @@ describe("literal-only provider import", () => {
     expect(imported.quests[1]!.itemObjectives?.[0]?.objectiveIndex).toBeNull();
     // A source-item ID alone does not establish how many objective items were supplied.
     expect(imported.quests[2]!.itemObjectives?.[0]?.provided).toBeUndefined();
+  });
+  it("retains positive item-to-object relations separately from creature drops", () => {
+    const exported = (kind: string, body: string): string =>
+      `-- Base -> authored corrections.\nlocal ${kind} = {}\n${body}\nreturn ${kind}\n`;
+    const imported = importQuestieCombatData({
+      targetBuild: 70205,
+      publication: "private-reference",
+      authorizationNote: "",
+      provider: data.provider,
+      npcExport: exported("npc", 'npc[1]={"Target",nil,nil,3,3,0}'),
+      itemExport: exported("item", 'item[750]={"Supplies",{1},{123,456,123}}'),
+      questExport: exported(
+        "quest",
+        'quest[33]={"Supplies",nil,nil,1,1,nil,nil,nil,nil,{nil,nil,{{750,"Supplies"}}}}',
+      ),
+    });
+    expect(imported.quests[0]!.itemObjectives![0]).toMatchObject({
+      npcIds: [1],
+      objectIds: [123, 456],
+      quantity: null,
+    });
   });
   it("uses only the explicit multi-drop bit as a shared-roll reference", () => {
     const exported = (kind: string, body: string): string =>
@@ -1003,7 +1220,7 @@ describe("quest combat binding and overlap", () => {
     expect(result.xp).toBe(0);
     expect(result.issues.join(" ")).toMatch(/already in progress/);
   });
-  it("counts dungeon quest kills within a clear manifest once", () => {
+  it.each([0, 10])("counts dungeon quest kills within a clear manifest once with %s%% allowance", (incidentalKillXpPercent) => {
     const one = {
       ...activity("one", [objective()]),
       environment: "dungeon" as const,
@@ -1037,6 +1254,7 @@ describe("quest combat binding and overlap", () => {
     const state = createCampaignCombatState(combat, emptyPremadeProgress().members[0]!);
     const base = {
       combat,
+      incidentalKillXpPercent,
       state,
       questStates: { "300001": "accepted" as const, "300002": "accepted" as const },
       position: { level: 20, currentXp: 0 },

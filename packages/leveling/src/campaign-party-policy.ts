@@ -1,7 +1,12 @@
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CombatDataset } from "./combat-model.js";
-import { buildCampaignQuestLibrary, type LibraryObjective } from "./campaign-library.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import {
+  buildCampaignQuestLibrary,
+  campaignLibraryOptions,
+  type CampaignLibraryQuest,
+  type LibraryObjective,
+} from "./campaign-library.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { DUNGEON_VISITS } from "./dungeon-catalog.js";
 import { partyQuestLootCost, type PartyQuestLootCost } from "./party-quest-cost.js";
 import { nearbyLibraryQuest } from "./campaign-library-route.js";
@@ -9,6 +14,11 @@ import { orderCampaignPrerequisites } from "./campaign-prerequisite-order.js";
 import { CAMPAIGN_BRIDGES, CAMPAIGN_DEFERRED_PARTY_QUESTS } from "./campaign-route.js";
 import { PREMADE_STOPS, getPremadeQuest } from "./premade.js";
 import { gateQuestIds } from "./dungeon-model.js";
+import { DUNGEON_QUEST_FOLLOWUPS } from "./dungeon-reviewed-quests.js";
+import type { QuestCatalog, QuestCatalogEntry } from "./quest-catalog.js";
+import { isProvidedItemDelivery } from "./quest-catalog-delivery.js";
+import { campaignPickupSupport } from "./campaign-pickup-policy.js";
+import { campaignSourceCouriers } from "./campaign-source-couriers.js";
 
 export interface CampaignPartyQuestDecision {
   readonly questId: number;
@@ -17,10 +27,11 @@ export interface CampaignPartyQuestDecision {
   readonly reason: string;
   readonly requiredFor: readonly number[];
   readonly lootCost: PartyQuestLootCost | null;
+  readonly worldObjectPickup?: true;
 }
 
 export interface CampaignPartyPolicy {
-  readonly revision: "five-player-kill-first-20261102-v3";
+  readonly revision: "five-player-kill-first-20261102-v9";
   readonly partySize: 5;
   readonly decisions: readonly CampaignPartyQuestDecision[];
   readonly unresolvedPrerequisiteIds: readonly number[];
@@ -36,6 +47,7 @@ export function applyCampaignPartyQuestPolicy(
   plan: CampaignPlan,
   sources: readonly CampaignSource[],
   data?: CombatDataset,
+  catalog?: QuestCatalog | null,
 ): CampaignPlan {
   if (!sources.length) return plan;
   if (data && data.targetBuild !== plan.targetBuild)
@@ -44,22 +56,80 @@ export function applyCampaignPartyQuestPolicy(
   const tags = DUNGEON_VISITS.flatMap((visit) =>
     selectedVisits.has(visit.id) && visit.sourceTag ? [visit.sourceTag] : [],
   );
+  const references = new Map(data?.quests.map((quest) => [quest.questId, quest]));
+  const providedDeliveries = new Map<number, QuestCatalogEntry>();
+  const catalogEntries = new Map<number, QuestCatalogEntry>();
+  if (
+    data &&
+    catalog &&
+    catalog.targetBuild === plan.targetBuild &&
+    catalog.sourceArchiveSha256 === plan.sourceArchiveSha256 &&
+    catalog.providerRevision === data.provider.revision &&
+    catalog.questSha256 === data.provider.questSha256 &&
+    catalog.npcSha256 === data.provider.npcSha256 &&
+    catalog.itemSha256 &&
+    catalog.itemSha256 === data.provider.itemSha256
+  ) {
+    for (const quest of catalog.quests) {
+      catalogEntries.set(quest.questId, quest);
+      if (
+        quest.providedItem &&
+        (!quest.objectStarts?.length ||
+          (catalog.objectSha256 && catalog.objectSha256 === data.provider.objectSha256))
+      )
+        providedDeliveries.set(quest.questId, quest);
+    }
+  }
   const library = buildCampaignQuestLibrary(
     sources,
-    createCampaignSourceProfile(plan.race, plan.leaderClass),
+    campaignPlanSourceProfile(plan),
     tags,
     new Set(),
     data?.quests,
-  );
+    campaignLibraryOptions(plan),
+  ).map((quest): CampaignLibraryQuest => {
+    const definition = providedDeliveries.get(quest.questId);
+    const reference = references.get(quest.questId);
+    if (
+      quest.objective !== "collection" ||
+      !quest.complete ||
+      quest.abandoned ||
+      !definition ||
+      reference?.startItem ||
+      !isProvidedItemDelivery(definition, reference) ||
+      quest.actions.some((action) => {
+        if (action.questChanges.some((change) => change.state === "objectives-complete"))
+          return true;
+        const source = action.source;
+        if (!source) return true;
+        const guide = sources.find(
+          (entry) =>
+            entry.guide.targetBuild === plan.targetBuild &&
+            entry.guide.chapterId === source.chapterId &&
+            entry.guide.version === source.version,
+        )?.guide;
+        const step = guide?.steps.find((entry) => entry.id === source?.stepId);
+        return (
+          !step ||
+          step.directives.some((directive) =>
+            [".use", ".cast", ".gossip", ".interact"].includes(directive.tag),
+          )
+        );
+      })
+    )
+      return quest;
+    // A pre-pickup collect counter can name a different item from the provided parcel.
+    return { ...quest, objective: "delivery" };
+  });
   const byId = new Map<
     number,
     {
       readonly objective: LibraryObjective;
       readonly prerequisiteIds: readonly number[];
       readonly referenceLevel?: number;
+      readonly worldObjectPickup?: true;
     }
   >(library.map((quest) => [quest.questId, quest]));
-  const references = new Map(data?.quests.map((quest) => [quest.questId, quest]));
   const present = new Set(
     plan.actions.flatMap((action) => action.questChanges.map((change) => change.questId)),
   );
@@ -72,7 +142,7 @@ export function applyCampaignPartyQuestPolicy(
     byId.set(id, {
       objective: reference.onlyCreatureObjectives
         ? "shared-kills"
-        : reference.itemObjectives?.some((item) => !item.provided) ||
+        : reference.itemObjectives?.some((item) => !item.provided && !item.groundPickup) ||
             reference.itemCreatureIds.length > 0
           ? "collection"
           : reference.onlyInteractionObjectives || reference.itemObjectives?.length
@@ -94,6 +164,9 @@ export function applyCampaignPartyQuestPolicy(
       stop.quests.filter((quest) => quest.role === "core").map((quest) => quest.questId),
     ),
   );
+  const selectedDungeonExtras = new Set(PREMADE_STOPS.flatMap((stop) =>
+    stop.quests.filter((quest) => quest.sharedPartyDefault).map((quest) => quest.questId),
+  ));
   const personalStarterIds = new Set<number>();
   const personalStarterCandidates = new Set<number>();
   const starterSupport = new Map<number, boolean>();
@@ -106,7 +179,7 @@ export function applyCampaignPartyQuestPolicy(
     const supported =
       quest !== undefined &&
       (!["collection", "named-trophy"].includes(quest.objective) ||
-        partyQuestLootCost(id, plan, data, 1).eligible) &&
+        partyQuestLootCost(id, plan, data, 1, sources).eligible) &&
       quest.prerequisiteIds.every((parent) =>
         supportedStarterPath(parent, new Set([...visiting, id])),
       );
@@ -133,6 +206,10 @@ export function applyCampaignPartyQuestPolicy(
         protectedRoots.add(change.questId);
         requiredRoots.add(change.questId);
       }
+      if (selectedDungeonExtras.has(change.questId)) protectedRoots.add(change.questId);
+      if (DUNGEON_QUEST_FOLLOWUPS.some((entry) => entry.questId === change.questId &&
+        present.has(entry.parentQuestId) && selectedDungeonExtras.has(entry.parentQuestId)))
+        protectedRoots.add(change.questId);
     }
     if (action.raidOnly)
       for (const change of action.questChanges) protectedRoots.add(change.questId);
@@ -181,6 +258,7 @@ export function applyCampaignPartyQuestPolicy(
   const requiredFor = new Map<number, Set<number>>();
   const protectionParents = (id: number): readonly number[] => [
     ...(byId.get(id)?.prerequisiteIds ?? []),
+    ...(catalogEntries.get(id)?.prerequisites.allOf ?? []),
     ...gateQuestIds(getPremadeQuest(id)?.gate ?? { kind: "all", gates: [] }),
   ];
   const hasMissingPrerequisite = (id: number, visited: Set<number>): boolean => {
@@ -212,11 +290,11 @@ export function applyCampaignPartyQuestPolicy(
       roots.add(root);
       nonCombatFor.set(id, roots);
     }
-    for (const parent of quest.prerequisiteIds) visitKillPrerequisites(parent, root, visited);
+    for (const parent of protectionParents(id)) visitKillPrerequisites(parent, root, visited);
   };
   for (const id of present)
     if (byId.get(id)?.objective === "shared-kills")
-      for (const parent of byId.get(id)?.prerequisiteIds ?? [])
+      for (const parent of protectionParents(id))
         visitKillPrerequisites(parent, id, new Set());
   const killActions = plan.actions.filter((action) =>
     action.questChanges.some(
@@ -234,6 +312,22 @@ export function applyCampaignPartyQuestPolicy(
       )
       .map((quest) => quest.questId),
   );
+  const objectStarterQuestIds = new Set(
+    [...providedDeliveries.values()]
+      .filter(
+        (quest) =>
+          quest.objectStarts?.length &&
+          isProvidedItemDelivery(quest, references.get(quest.questId)),
+      )
+      .map((quest) => quest.questId),
+  );
+  const pickups = campaignPickupSupport(plan, library, references, sources, objectStarterQuestIds);
+  const commonSourceTasks = new Set(plan.sharedQuestsOnly ? library.filter((quest) =>
+    quest.complete && !quest.held && !quest.abandoned &&
+    ["delivery", "interaction"].includes(quest.objective) &&
+    (references.get(quest.questId)?.requiredClasses === 0 ||
+      catalogEntries.get(quest.questId)?.requiredClasses === 0),
+  ).map((quest) => quest.questId) : []);
   const decisions = new Map<number, CampaignPartyQuestDecision>(
     plan.partyPolicy?.decisions.map((decision) => [decision.questId, decision]),
   );
@@ -245,14 +339,17 @@ export function applyCampaignPartyQuestPolicy(
     const required = [...(requiredFor.get(id) ?? [])];
     const collection = objective === "collection" || objective === "named-trophy";
     const lootCost = collection
-      ? partyQuestLootCost(id, plan, data, personalStarterCandidates.has(id) ? 1 : 5)
+      ? partyQuestLootCost(id, plan, data, personalStarterCandidates.has(id) ? 1 : 5, sources)
       : null;
     const included =
       !deferred &&
       (required.length > 0 ||
         objective === "shared-kills" ||
         nonCombatFor.has(id) ||
+        commonSourceTasks.has(id) ||
         nearby.has(id) ||
+        pickups.questIds.has(id) ||
+        pickups.neighboringQuestIds.has(id) ||
         lootCost?.eligible === true);
     decisions.set(id, {
       questId: id,
@@ -260,6 +357,9 @@ export function applyCampaignPartyQuestPolicy(
       included,
       requiredFor: required,
       lootCost,
+      ...(quest?.worldObjectPickup || pickups.questIds.has(id)
+        ? { worldObjectPickup: true as const }
+        : {}),
       reason:
         deferred ??
         (personalStarterIds.has(id)
@@ -268,9 +368,13 @@ export function applyCampaignPartyQuestPolicy(
             ? "Retained for a selected dungeon, preparation chain or class unlock."
             : collection
               ? lootCost!.reason
-              : included
-                ? "Shared kill credit or a non-farming route task."
-                : "Objective or party acquisition needs review; it is not default XP work."),
+              : pickups.questIds.has(id)
+                ? "World-object pickup: each player completes the full source counter. Respawn measurements are not an eligibility requirement; explicit route exclusions still apply."
+                : commonSourceTasks.has(id)
+                  ? "Complete common-quest source sequence; retain its travel and interaction instructions."
+                : included
+                  ? "Shared kill credit or a non-farming route task."
+                  : "Objective or party acquisition needs review; it is not default XP work."),
     });
   }
   for (const id of present) {
@@ -284,6 +388,17 @@ export function applyCampaignPartyQuestPolicy(
       reason: "Dungeon prerequisites are checked against the selected party route.",
     });
   }
+  const couriers = campaignSourceCouriers(plan, library, decisions);
+  for (const id of couriers.keys()) {
+    const decision = decisions.get(id);
+    if (decision && !CAMPAIGN_DEFERRED_PARTY_QUESTS[id])
+      decisions.set(id, {
+        ...decision,
+        included: true,
+        reason:
+          "Pickup and hand-in share already selected source stops; no new courier destination is added.",
+      });
+  }
   let changed = true;
   while (changed) {
     changed = false;
@@ -294,7 +409,15 @@ export function applyCampaignPartyQuestPolicy(
       );
       const unsupportedCourier =
         (decision.objective === "delivery" || decision.objective === "interaction") &&
+        !commonSourceTasks.has(decision.questId) &&
         !nearby.has(decision.questId) &&
+        !pickups.questIds.has(decision.questId) &&
+        !(pickups.neighboringQuestIds.get(decision.questId) ?? []).some(
+          (root) => decisions.get(root)?.included,
+        ) &&
+        !couriers
+          .get(decision.questId)
+          ?.every((ids) => ids.some((id) => decisions.get(id)?.included)) &&
         ![...(nonCombatFor.get(decision.questId) ?? [])].some(
           (root) => decisions.get(root)?.included,
         );
@@ -331,9 +454,13 @@ export function applyCampaignPartyQuestPolicy(
             accepted.flatMap((change) => {
               const acceptance = questChanges.indexOf(change);
               // Repeated source pickups can be alternatives, not cumulative prerequisites.
-              const prerequisites = references.get(change.questId)?.prerequisites
+              const sourcePrerequisites = references.get(change.questId)?.prerequisites
                 ? (byId.get(change.questId)?.prerequisiteIds ?? [])
                 : (action.requiredQuestIds ?? []);
+              const prerequisites = [
+                ...sourcePrerequisites,
+                ...(catalogEntries.get(change.questId)?.prerequisites.allOf ?? []),
+              ];
               return prerequisites.filter(
                 (id) =>
                   !questChanges
@@ -406,7 +533,7 @@ export function applyCampaignPartyQuestPolicy(
         }
       : {}),
     partyPolicy: {
-      revision: "five-player-kill-first-20261102-v3",
+      revision: "five-player-kill-first-20261102-v9",
       partySize: 5,
       decisions: [...decisions.values()],
       unresolvedPrerequisiteIds: [

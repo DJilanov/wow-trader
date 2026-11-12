@@ -43,6 +43,96 @@ function firstSelected(raw: string, references: readonly CombatQuestReference[] 
 }
 
 describe("reliable source phase selection", () => {
+  it("uses a later active-quest hand-in instead of an unrelated optional history gate", () => {
+    expect(
+      firstSelected(
+        "step\n#optional\n.turnin 951\n.isQuestTurnedIn 731\nstep\n.turnin 951\n.isOnQuest 951",
+      ),
+    ).toBe(false);
+  });
+
+  it("preserves the first hand-in when both alternatives already have the same active-quest guard", () => {
+    expect(
+      firstSelected("step\n.turnin 951\n.isOnQuest 951\nstep\n.turnin 951\n.isOnQuest 951"),
+    ).toBe(true);
+  });
+
+  it("does not substitute a later hand-in coupled to another quest", () => {
+    expect(
+      firstSelected(
+        "step\n.turnin 951\n.isQuestTurnedIn 731\nstep\n.turnin 951\n.turnin 950\n.isOnQuest 951",
+      ),
+    ).toBe(true);
+  });
+
+  it.each([
+    ".isOnQuest 731",
+    ".isOnQuest 951,731",
+    ".isOnQuest 951\n.isQuestTurnedIn 731",
+    ".isNotOnQuest 951",
+    ".isQuestAvailable 951",
+    ".isOnQuest 951\n.money >0.001",
+  ])("keeps the history-gated hand-in when its alternative is restricted (%s)", (guard) => {
+    expect(
+      firstSelected(`step\n.turnin 951\n.isQuestTurnedIn 731\nstep\n.turnin 951\n${guard}`),
+    ).toBe(true);
+  });
+
+  it.each([".abandon 951", ".accept 951", ".accept 952\n.isQuestTurnedIn 951"])(
+    "does not move a hand-in past a lifecycle boundary or dependent pickup (%s)",
+    (barrier) => {
+      expect(
+        firstSelected(
+          `step\n.turnin 951\n.isQuestTurnedIn 731\nstep\n${barrier}\nstep\n.turnin 951\n.isOnQuest 951`,
+        ),
+      ).toBe(true);
+    },
+  );
+
+  it("keeps the later captured hand-in and its own guard in the library and native output", () => {
+    const reference = CHAPTER_REFERENCES.find((entry) => entry.sourceId === 126)!;
+    const guide = parseGuideChapter(
+      "step\n.accept 951 >>Accept Mathystra Relics\nstep\n.complete 951,1 >>Mathystra Relics (6)\nstep\n#optional\n.goto 1439,43.555,76.293\n.turnin 951 >>Turn in Mathystra Relics\n.isQuestTurnedIn 731\nstep\n.goto 1439,43.555,76.293\n.turnin 951 >>Turn in Mathystra Relics\n.isOnQuest 951",
+      reference.id,
+      "a".repeat(64),
+      70205,
+    );
+    const source = { reference, guide };
+    const sources = starterSources("night-elf", source);
+    const original = JSON.stringify(sources);
+    const plan = buildCampaignPlan("night-elf", "a".repeat(64), sources, "warrior", {
+      starterOnly: true,
+    });
+    const handIns = plan.actions.filter((action) =>
+      action.questChanges.some((change) => change.questId === 951 && change.state === "rewarded"),
+    );
+    expect(handIns).toHaveLength(1);
+    const handIn = handIns[0]!;
+    expect(handIn.source?.stepId).toBe(guide.steps[3]!.id);
+    expect(campaignSourceChecks(handIn).map((check) => [check.tag, check.arguments])).toEqual([
+      [".isOnQuest", "951"],
+    ]);
+    expect(handIn.positions[0]?.position).toMatchObject({
+      zone: "1439",
+      x: 43.555,
+      y: 76.293,
+    });
+    const library = buildCampaignQuestLibrary(
+      [source],
+      createCampaignSourceProfile("night-elf", "warrior"),
+      [],
+    );
+    expect(library.find((quest) => quest.questId === 951)?.actions.at(-1)?.source?.stepId).toBe(
+      guide.steps[3]!.id,
+    );
+    expect(
+      campaignNativeInstructions(plan, [source])(handIn)!
+        .directives.filter((row) => [".isOnQuest", ".isQuestTurnedIn"].includes(row.tag))
+        .map((row) => [row.tag, row.arguments]),
+    ).toEqual([[".isOnQuest", "951"]]);
+    expect(JSON.stringify(sources)).toBe(original);
+  });
+
   it.each([
     "step\n.abandon 418\nstep\n.turnin 418",
     "step\n.accept 418\nstep\n.turnin 418",

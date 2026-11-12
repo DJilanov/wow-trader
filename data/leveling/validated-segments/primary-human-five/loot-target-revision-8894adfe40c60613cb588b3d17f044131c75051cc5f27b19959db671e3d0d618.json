@@ -1,0 +1,95 @@
+{
+  "schema": "campaign-loot-target-revision.v1",
+  "reason": "lowest-level-qualified-loot-source",
+  "ownerInstruction": "Use the lowest-level eligible creature that drops the item.",
+  "previousCampaign": "campaign-20261104-v209",
+  "campaign": "campaign-20261104-v210",
+  "npcReferenceFile": ".cache/leveling-no-grind-20261031/client-counters-v290/candidate/combat/combat-44c6c07550fc3f17e18a276f3f24afc52bbbd8bf5925982523f4a2132dc70521.json",
+  "npcReferenceSha256": "44c6c07550fc3f17e18a276f3f24afc52bbbd8bf5925982523f4a2132dc70521",
+  "blocks": [
+    {
+      "targetLevel": 10,
+      "routeSha256": "5de4245b52bcc2878903cf25a43814c460b67abd47712b217086b3527ab5868e",
+      "previousRouteSha256": "5de4245b52bcc2878903cf25a43814c460b67abd47712b217086b3527ab5868e",
+      "changes": []
+    },
+    {
+      "targetLevel": 20,
+      "routeSha256": "ae1a058c15f31546d829555d7f33ccd268cc9aeb2f8a8bb70f78917b282b1a6b",
+      "previousRouteSha256": "59884a038dadc8ba6f9dcd66f45c0ac395509071fdf7b4f25c14ca426a3e5dfc",
+      "changes": [
+        {
+          "index": 293,
+          "id": "library-quest-986-objectives-complete-1",
+          "before": [
+            {
+              "npcId": 2071,
+              "name": "Moonstalker Matriarch"
+            }
+          ],
+          "after": [
+            {
+              "npcId": 2237,
+              "name": "Moonstalker Sire"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "targetLevel": 30,
+      "routeSha256": "c16f04924d72ad1fd435d6018624c922eb2409c697f7f86d88e5d599dfe4dbb4",
+      "previousRouteSha256": "91a7c2e9a68e8b7581b252efe2322a0287ccaed3220de31d613114e985708817",
+      "changes": [
+        {
+          "index": 293,
+          "id": "library-quest-986-objectives-complete-1",
+          "before": [
+            {
+              "npcId": 2071,
+              "name": "Moonstalker Matriarch"
+            }
+          ],
+          "after": [
+            {
+              "npcId": 2237,
+              "name": "Moonstalker Sire"
+            }
+          ]
+        },
+        {
+          "index": 460,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-277-wetlands-prerequisites-11-source-step-0048",
+          "before": [
+            {
+              "npcId": 1012,
+              "name": "Mosshide Brute"
+            }
+          ],
+          "after": [
+            {
+              "npcId": 1010,
+              "name": "Mosshide Fenrunner"
+            }
+          ]
+        },
+        {
+          "index": 751,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1032-objectives-complete-1",
+          "before": [
+            {
+              "npcId": 3759,
+              "name": "Felmusk Rogue"
+            }
+          ],
+          "after": [
+            {
+              "npcId": 3758,
+              "name": "Felmusk Satyr"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

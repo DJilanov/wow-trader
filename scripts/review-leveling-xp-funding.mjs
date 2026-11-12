@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { readFile, mkdir, writeFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { CampaignFundingPool } from "../packages/leveling/dist/node.js";
 import {
   CHAPTER_REFERENCES,
   CAMPAIGN_XP_REVISION,
@@ -45,6 +46,7 @@ const { values } = parseArgs({
     "all-editions": { type: "boolean", default: false },
     "require-funded": { type: "boolean", default: false },
     "starter-mode": { type: "string", default: "separate" },
+    workers: { type: "string" },
   },
 });
 assert.ok(
@@ -128,6 +130,8 @@ const editions = values["all-editions"]
   : starters.routes.filter((route) => route.race === "human" && route.classSlug === "warrior");
 assert.ok(editions.length > 0);
 const results = [];
+const pool = new CampaignFundingPool(values.workers === undefined ? {} : { workers: Number(values.workers) });
+try {
 for (const edition of editions) {
   const plan = prepareCampaignPlan(
     buildCampaignPlan(edition.race, manifest.sourceSha256, sources, edition.classSlug),
@@ -141,6 +145,7 @@ for (const edition of editions) {
       combat,
       questCatalog: catalog.data,
     },
+    { fundingExecutor: pool.execute },
   );
   for (const difficultyPolicy of values["all-editions"]
     ? ["at-level", "experienced-premade"]
@@ -198,6 +203,7 @@ for (const edition of editions) {
 const report = {
   schema: "forever-no-grind-xp-audit.v1",
   checkedAt: new Date().toISOString(),
+  execution: pool.statistics,
   ledgerRevision: CAMPAIGN_XP_REVISION,
   combatRule: COMBAT_XP_RULE,
   inputs: {
@@ -240,3 +246,6 @@ if (
   (values["require-funded"] && !report.summary.funded)
 )
   process.exitCode = 2;
+} finally {
+  await pool.close();
+}

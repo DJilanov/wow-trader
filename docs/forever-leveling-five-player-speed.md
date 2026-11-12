@@ -1,5 +1,17 @@
 # Five-player leveling objective and travel policy
 
+**Current local component (V207):** Baron level 17 is owner-confirmed; Data Rescue uses its captured punch-card puzzle. All 3,078 relevant tests, 48 workload forecasts and 20 native/Lua exports pass. The expected minimum still needs **2,821 XP/player for level 29**. Fresh production preparation, full 1–60 and every original other-group edition remain unfinished and undeployed. [Current results and remaining work](forever-leveling-product-plan.md#current-local-component--punch-card-and-baron-v207).
+
+**Previous component work (V161):** complete object handoffs now qualify without fake NPCs or completion counters. The actual 279→281→284→285→286 component preserves the supplied statuette, full head quota, source guards and prerequisites; all five class exports pass. The archive audit preserves 28 prior handoffs and 76 collection methods. No actual route XP was recalculated. [Implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-component--object-handoffs-without-xp-replay-v161).
+
+**Previous component work (V160):** the complete mixed Claws from the Deep method now qualifies with twelve shared Bluegill kills and one head per player. All 75 previous collection methods remain unchanged; +4/+5 boundaries, journal limits and five native exports pass. No actual route XP was recalculated. [Implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-component--complete-mixed-method-without-xp-replay-v160).
+
+**Previous binding work (V159):** the complete captured Claws from the Deep method now proves the missing head counter at 2 separately from twelve Bluegill kills at 1. Five class/component exports pass, with no actual route XP replay. [Current proof and remaining integration](forever-leveling-product-plan.md#current-local-data--mixed-item-counter-without-xp-replay-v159).
+
+**Previous data work (V158):** object recipients are now preserved separately for 73 quests / 74 locations, with reciprocal provider relations and provenance checks. Funding eligibility and saved XP calculations are unchanged. [Implementation and remaining qualification](forever-leveling-product-plan.md#current-local-data--object-recipients-without-xp-replay-v158).
+
+**Historical policy change (V157, November 3):** +4 above the lowest participating player; +5 excluded for ordinary enemies, with dungeon bosses retaining separate rules. The owner requested **no XP recalculation** for this change. The last full replay is V156; earlier +3-policy reviews below are historical. See the [current implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-policy--four-level-cap-without-xp-replay-v157).
+
 The target is the shortest practical route from level 1 with an empty XP bar until **all five players reach level 60**. The owner's comparison is a solo run taking roughly two days `/played`; the group target is below **48 hours per player**. That is a benchmark to validate, not a measured result or a release claim.
 
 ## What the route must optimize
@@ -19,6 +31,14 @@ The comparison should measure the slowest player's completion, not just the lead
 Quest reward level is not a sufficient measure of combat difficulty. The final `party-combat` funding pass considers normal enemies and ordinary elites by their recorded maximum levels, within the existing three-level preparation band above the lowest participating player. It requires all five players; it does not extend personal starter work, admit bosses or rares, or infer an unknown enemy level. Every newly proposed combat action is checked against all five projected bars in each supported configuration that reaches it. Earlier quest-funding passes keep their established allocation, and the final proposal is rejected if it makes any configuration reach an earlier unsupported task or a larger deficit at the same task.
 
 This is a conservative candidate-selection rule, not a measurement of kill speed, pull safety, class readiness or downtime. It does not award more kill XP merely because five players can kill an elite quickly. Broader enemy-level bands need a justified group-performance model; increasing them just to close an XP gap would not establish a faster route.
+
+### Level-gap policy retained, November 3
+
+**Historical decision, superseded by the later V157 owner instruction above.**
+
+The proposed exploration of normal enemies up to five levels above the party is **not active**. The owner raised miss-chance risk, and the current three-level ceiling remains unchanged for normals and ordinary elites. A constructor-only +5 inventory is retained as a rejected counterfactual, not as paid route work. Dungeon entry targets are unchanged.
+
+As a reference, CMaNGOS Classic's `GetMissChance` and `CalculateSpellMissChance` formulas give baseline offensive-spell miss chances of **17% at +3, 28% at +4 and 39% at +5**, before hit modifiers and separate resistance effects. These values support retaining the conservative ceiling; they do not verify Forever's exact implementation or guarantee that every +3 pull is safe. [Primary implementation](https://github.com/cmangos/mangos-classic/blob/master/src/game/Entities/Unit.cpp#L3556). A wider band requires a justified combat/time comparison, including the lowest-level tank and casters, rather than merely more calculated quest XP.
 
 Pickup-provided return parcels now recognize the complete objective “Return to [actual recipient]. Give him/her/them [exact provided item].” The matching recipient, item-export provenance, prerequisites and absence of extra work are still required. This qualifies Return to Verner (119), which can unlock A Baying of Gnolls (124); it does not make that follow-up eligible before its own pickup and combat conditions are met. The corrected parcel reward is 680 XP per player in the pinned reference. It is not a new collection quota or a combat reward.
 
@@ -49,6 +69,22 @@ Earlier quest XP can change later level-dependent kill XP. For this travel corre
 This correction is one travel improvement, not a proof of a globally optimal itinerary. Regional visit counts are a conservative comparison, not measured travel minutes. The [current audit](forever-leveling-no-grind-audit-2026-10-31.md) records the accepted revision and verification results.
 
 ## Evidence needed for the final time claim
+
+The V207 derived itinerary reaches an expected minimum of **level 28 + 38,579 XP**. It still needs **2,821 XP** to finish level 28 and **44,300 XP** for level 29: **47,121 XP/player short of level 30**. Its upper bound is 29 + 6,666, so the level-29 pickup remains uncertain. The fast minimum is 9,133 XP short of 29. Slow loot now reaches 29 + 37,492 through the Gnomeregan hand-ins; it remains 6,808 XP short on the minimum trajectory of Dalaran quest 92432's level-30 pickup. These are reference XP balances, not duration forecasts.
+
+The expected prefix includes **5,848 estimated incidental XP/player** under the owner's 10% setting. This represents extra mobs encountered during supported required combat. Quest rewards, raw payouts, saved actual bars and objective quotas remain separate. Known clear paths already account for their mobs; unknown payouts receive no allowance. Data Rescue adds no speculative acquisition XP, kill count or time estimate. Its known terminal puzzle and the real final-card hand-in are retained.
+
+V206's final batching reduces two regional transitions on the derived candidate, without establishing travel minutes. V207 keeps that itinerary, applies the owner's Baron level-17 confirmation and qualifies the archived punch-card sequence. The independent replay passes 48 workload forecasts and 20 native exports. Fresh full production preparation has not run after these corrections. The last fresh-preparation prefix with its own successful independent audit remains V203 at 28 + 35,255, or 50,445 XP short of 30. The failed V204 interval audit and later correction receipts remain historical. No measured extra-mob rate, route pace or time saving is inferred.
+
+The current client-reference curve requires **499,000 XP per player from level 1 + 0 XP to level 30**. The following are conditional arithmetic scenarios, not measured or predicted party speeds. Each assumed rate includes the whole session: combat, hand-ins, travel, loot, training and stops.
+
+| Assumed whole-session XP/hour per player | Conditional time to level 30 |
+| --- | --- |
+| 20,000 | 24 hours 57 minutes |
+| 30,000 | 16 hours 38 minutes |
+| 40,000 | 12 hours 29 minutes |
+
+There is no evidence yet to select one of these rates as the route's expected pace. This table also does not fill the remaining route XP gap or assume extra grinding.
 
 The first selected Defias courier can also use the existing Sentinel Hill and required Lakeshire visits. The group carries Wiley's Note to the later Westfall hand-in instead of repeating that outbound courier trip. Only the existing actions move; actual minimums, later rewards and the 40-quest limit still apply. The [courier contract](forever-leveling-defias-courier-routing.md) explains the qualification and complete-journey comparison. It does not move the messenger or escort early or claim a measured travel-time saving.
 

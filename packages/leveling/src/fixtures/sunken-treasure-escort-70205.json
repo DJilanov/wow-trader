@@ -1,0 +1,819 @@
+{
+  "schema": "captured-sunken-treasure-escort-fixture.v1",
+  "provenance": {
+    "classification": "Exact extracted665source steps, matching provider NPC metadata, existing historical reward. This is not an observed current-server payout.",
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "npcFile": ".cache/leveling-kill-first-20261031/provider/foreverNpcDB.lua",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "combat": {
+      "file": ".cache/leveling-no-grind-20261031/mixed-source-counters-v704/candidate/combat/combat-182340ddfbdaaf6abd6f1b13f25b80a1554bfe92760d061dc5db9296b5fb609f.json",
+      "sha256": "182340ddfbdaaf6abd6f1b13f25b80a1554bfe92760d061dc5db9296b5fb609f"
+    },
+    "catalog": {
+      "file": ".cache/leveling-no-grind-20261031/client-counters-v290/candidate/catalog/quest-catalog-2e966014e3ca7b06ef7732e91e4f0ced716b72c674b65fb996adbfd3fdc5256d.json",
+      "sha256": "2e966014e3ca7b06ef7732e91e4f0ced716b72c674b65fb996adbfd3fdc5256d"
+    },
+    "guideFile": {
+      "chapterId": "chapter-21-39-40-alterac-arathi",
+      "file": "artifacts/leveling/archive/chapter-21-39-40-alterac-arathi-v2-b8159d755149bd5e.json",
+      "sha256": "e3bc61348e172f6d18b7ec5b251316f2d646ff1e1e72ae44605da9e867f712e9"
+    }
+  },
+  "guide": {
+    "schemaVersion": 1,
+    "chapterId": "chapter-21-39-40-alterac-arathi",
+    "version": "import-v2-b8159d755149bd5e",
+    "targetBuild": 70205,
+    "sourceSha256": "b8159d755149bd5e77027eff3367f9a5b3dd1340f0a81011856efb3bc28822a0",
+    "sourceName": "RestedXP Forever Guide",
+    "steps": [
+      {
+        "id": "source-step-0142",
+        "ordinal": 142,
+        "sourceLine": 1079,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2085.95,-2066.51",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1080,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2085.95,
+              "y": -2066.51,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Professor Phizzlethorpe",
+            "sourceLine": 1081,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "This will start an escort. If Professor Phizzlethorpe is not there, someone may already be doing it. Wait for him to return",
+            "sourceLine": 1082,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "665",
+            "condition": "",
+            "text": "Accept Sunken Treasure",
+            "sourceLine": 1083,
+            "questId": 665,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Professor Phizzlethorpe",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1084,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0143",
+        "ordinal": 143,
+        "sourceLine": 1085,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2153.31,-2043.49,30,0",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1086,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2153.31,
+              "y": -2043.49,
+              "space": "world"
+            }
+          },
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2085.48,-2063.99",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1087,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2085.48,
+              "y": -2063.99,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Escort Professor Phizzlethorpe into the small Cave",
+            "sourceLine": 1088,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Kill the Vengeful Surges that attack once inside. Be careful as they cast [Frost Nova]",
+            "sourceLine": 1089,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Try to tag both of the Surges before they hit the Professor. This will make them not interrupt his roleplay and make the quest complete a lot faster",
+            "sourceLine": 1090,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Follow Professor Phizzlethorpe back to the camp afterwards",
+            "sourceLine": 1091,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".complete",
+            "arguments": "665,1",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1092,
+            "questId": 665,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Professor Phizzlethorpe",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1093,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".mob",
+            "arguments": "Vengeful Surge",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1094,
+            "questId": null,
+            "position": null
+          }
+        ]
+      },
+      {
+        "id": "source-step-0144",
+        "ordinal": 144,
+        "sourceLine": 1095,
+        "condition": "",
+        "directives": [
+          {
+            "tag": ".goto",
+            "arguments": "1417/0,-2085.48,-2063.99",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1096,
+            "questId": null,
+            "position": {
+              "zone": "1417",
+              "floor": 0,
+              "x": -2085.48,
+              "y": -2063.99,
+              "space": "world"
+            }
+          },
+          {
+            "tag": "text",
+            "arguments": "",
+            "condition": "",
+            "text": "Talk to Doctor Draxlegauge",
+            "sourceLine": 1097,
+            "questId": null,
+            "position": null
+          },
+          {
+            "tag": ".turnin",
+            "arguments": "665",
+            "condition": "",
+            "text": "Turn in Sunken Treasure",
+            "sourceLine": 1098,
+            "questId": 665,
+            "position": null
+          },
+          {
+            "tag": ".accept",
+            "arguments": "666",
+            "condition": "",
+            "text": "Accept Sunken Treasure",
+            "sourceLine": 1099,
+            "questId": 666,
+            "position": null
+          },
+          {
+            "tag": ".target",
+            "arguments": "Doctor Draxlegauge",
+            "condition": "",
+            "text": "",
+            "sourceLine": 1100,
+            "questId": null,
+            "position": null
+          }
+        ]
+      }
+    ]
+  },
+  "quest": {
+    "questId": 665,
+    "title": "Sunken Treasure",
+    "minimumLevel": 35,
+    "questLevel": 40,
+    "requiredRaces": 0,
+    "requiredClasses": 0,
+    "starts": [
+      {
+        "npcId": 2768,
+        "name": "Professor Phizzlethorpe",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1417",
+            "x": 33.87,
+            "y": 80.55
+          }
+        ]
+      }
+    ],
+    "ends": [
+      {
+        "npcId": 2774,
+        "name": "Doctor Draxlegauge",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1417",
+            "x": 33.86,
+            "y": 80.45
+          }
+        ]
+      }
+    ],
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": [
+        663
+      ]
+    },
+    "exclusiveWith": [],
+    "category": "unsupported",
+    "objectives": [],
+    "unsupportedRequirements": [
+      "exploration-trigger",
+      "unresolved-objective-text"
+    ]
+  },
+  "parent": {
+    "questId": 663,
+    "title": "Land Ho!",
+    "minimumLevel": 35,
+    "questLevel": 35,
+    "requiredRaces": 0,
+    "requiredClasses": 0,
+    "starts": [
+      {
+        "npcId": 2766,
+        "name": "Lolo the Lookout",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1417",
+            "x": 31.78,
+            "y": 82.68
+          }
+        ]
+      }
+    ],
+    "ends": [
+      {
+        "npcId": 2610,
+        "name": "Shakes O'Breen",
+        "friendlyToAlliance": true,
+        "positions": [
+          {
+            "zone": "1417",
+            "x": 32.28,
+            "y": 81.38
+          }
+        ]
+      }
+    ],
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": []
+    },
+    "exclusiveWith": [],
+    "category": "delivery",
+    "objectives": [],
+    "unsupportedRequirements": [
+      "unresolved-objective-text"
+    ]
+  },
+  "reference": {
+    "questId": 665,
+    "creatureIds": [],
+    "itemCreatureIds": [],
+    "objectiveText": [
+      "Escort Professor Phizzlethorpe to the cave and back."
+    ],
+    "onlyCreatureObjectives": false,
+    "onlyInteractionObjectives": true,
+    "requiredClasses": 0,
+    "prerequisites": {
+      "allOf": [],
+      "anyOf": [
+        663
+      ]
+    },
+    "itemObjectives": []
+  },
+  "reward": {
+    "questId": 665,
+    "fullXp": 3150,
+    "rewardBasis": "unscaled-reference",
+    "questLevel": 40,
+    "minimumLevel": null,
+    "xpByLevel": [
+      {
+        "level": 1,
+        "xp": 3150
+      },
+      {
+        "level": 2,
+        "xp": 3150
+      },
+      {
+        "level": 3,
+        "xp": 3150
+      },
+      {
+        "level": 4,
+        "xp": 3150
+      },
+      {
+        "level": 5,
+        "xp": 3150
+      },
+      {
+        "level": 6,
+        "xp": 3150
+      },
+      {
+        "level": 7,
+        "xp": 3150
+      },
+      {
+        "level": 8,
+        "xp": 3150
+      },
+      {
+        "level": 9,
+        "xp": 3150
+      },
+      {
+        "level": 10,
+        "xp": 3150
+      },
+      {
+        "level": 11,
+        "xp": 3150
+      },
+      {
+        "level": 12,
+        "xp": 3150
+      },
+      {
+        "level": 13,
+        "xp": 3150
+      },
+      {
+        "level": 14,
+        "xp": 3150
+      },
+      {
+        "level": 15,
+        "xp": 3150
+      },
+      {
+        "level": 16,
+        "xp": 3150
+      },
+      {
+        "level": 17,
+        "xp": 3150
+      },
+      {
+        "level": 18,
+        "xp": 3150
+      },
+      {
+        "level": 19,
+        "xp": 3150
+      },
+      {
+        "level": 20,
+        "xp": 3150
+      },
+      {
+        "level": 21,
+        "xp": 3150
+      },
+      {
+        "level": 22,
+        "xp": 3150
+      },
+      {
+        "level": 23,
+        "xp": 3150
+      },
+      {
+        "level": 24,
+        "xp": 3150
+      },
+      {
+        "level": 25,
+        "xp": 3150
+      },
+      {
+        "level": 26,
+        "xp": 3150
+      },
+      {
+        "level": 27,
+        "xp": 3150
+      },
+      {
+        "level": 28,
+        "xp": 3150
+      },
+      {
+        "level": 29,
+        "xp": 3150
+      },
+      {
+        "level": 30,
+        "xp": 3150
+      },
+      {
+        "level": 31,
+        "xp": 3150
+      },
+      {
+        "level": 32,
+        "xp": 3150
+      },
+      {
+        "level": 33,
+        "xp": 3150
+      },
+      {
+        "level": 34,
+        "xp": 3150
+      },
+      {
+        "level": 35,
+        "xp": 3150
+      },
+      {
+        "level": 36,
+        "xp": 3150
+      },
+      {
+        "level": 37,
+        "xp": 3150
+      },
+      {
+        "level": 38,
+        "xp": 3150
+      },
+      {
+        "level": 39,
+        "xp": 3150
+      },
+      {
+        "level": 40,
+        "xp": 3150
+      },
+      {
+        "level": 41,
+        "xp": 3150
+      },
+      {
+        "level": 42,
+        "xp": 3150
+      },
+      {
+        "level": 43,
+        "xp": 3150
+      },
+      {
+        "level": 44,
+        "xp": 3150
+      },
+      {
+        "level": 45,
+        "xp": 3150
+      },
+      {
+        "level": 46,
+        "xp": 2520
+      },
+      {
+        "level": 47,
+        "xp": 1890
+      },
+      {
+        "level": 48,
+        "xp": 1260
+      },
+      {
+        "level": 49,
+        "xp": 630
+      },
+      {
+        "level": 50,
+        "xp": 315
+      },
+      {
+        "level": 51,
+        "xp": 315
+      },
+      {
+        "level": 52,
+        "xp": 315
+      },
+      {
+        "level": 53,
+        "xp": 315
+      },
+      {
+        "level": 54,
+        "xp": 315
+      },
+      {
+        "level": 55,
+        "xp": 315
+      },
+      {
+        "level": 56,
+        "xp": 315
+      },
+      {
+        "level": 57,
+        "xp": 315
+      },
+      {
+        "level": 58,
+        "xp": 315
+      },
+      {
+        "level": 59,
+        "xp": 315
+      }
+    ],
+    "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+    "capturedAt": "2026-10-31T23:24:15.915Z",
+    "status": "available",
+    "evidenceKind": "historical-reference"
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [],
+    "quests": [
+      {
+        "questId": 665,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Escort Professor Phizzlethorpe to the cave and back."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": true,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            663
+          ]
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": []
+  },
+  "actions": [
+    {
+      "id": "library-quest-665-accepted-0",
+      "legId": "unassigned",
+      "title": "Accept Sunken Treasure",
+      "kind": "quests",
+      "instructions": [
+        "Accept Sunken Treasure",
+        "Talk to Professor Phizzlethorpe",
+        "This will start an escort. If Professor Phizzlethorpe is not there, someone may already be doing it. Wait for him to return",
+        "Target: Professor Phizzlethorpe"
+      ],
+      "questChanges": [
+        {
+          "questId": 665,
+          "state": "accepted",
+          "title": "Sunken Treasure",
+          "objectiveIndex": null
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-21-39-40-alterac-arathi",
+        "version": "import-v2-b8159d755149bd5e",
+        "stepId": "source-step-0142"
+      },
+      "positions": [
+        {
+          "sourceLine": 1080,
+          "position": {
+            "zone": "1417",
+            "floor": 0,
+            "x": -2085.95,
+            "y": -2066.51,
+            "space": "world"
+          }
+        }
+      ],
+      "requiredQuestIds": [
+        663
+      ],
+      "leaderOnly": false,
+      "raidOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "referenceLevel": 39
+    },
+    {
+      "id": "library-quest-665-objectives-complete-1",
+      "legId": "unassigned",
+      "title": "Complete objective 1 of Sunken Treasure",
+      "kind": "quests",
+      "instructions": [
+        "Escort Professor Phizzlethorpe into the small Cave",
+        "Kill the Vengeful Surges that attack once inside. Be careful as they cast [Frost Nova]",
+        "Try to tag both of the Surges before they hit the Professor. This will make them not interrupt his roleplay and make the quest complete a lot faster",
+        "Follow Professor Phizzlethorpe back to the camp afterwards",
+        "Target: Professor Phizzlethorpe",
+        "Target: Vengeful Surge"
+      ],
+      "questChanges": [
+        {
+          "questId": 665,
+          "state": "objectives-complete",
+          "title": "Sunken Treasure",
+          "objectiveIndex": 1
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-21-39-40-alterac-arathi",
+        "version": "import-v2-b8159d755149bd5e",
+        "stepId": "source-step-0143"
+      },
+      "positions": [
+        {
+          "sourceLine": 1086,
+          "position": {
+            "zone": "1417",
+            "floor": 0,
+            "x": -2153.31,
+            "y": -2043.49,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 1087,
+          "position": {
+            "zone": "1417",
+            "floor": 0,
+            "x": -2085.48,
+            "y": -2063.99,
+            "space": "world"
+          }
+        }
+      ],
+      "leaderOnly": false,
+      "raidOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "referenceLevel": 39
+    },
+    {
+      "id": "library-quest-665-rewarded-0",
+      "legId": "unassigned",
+      "title": "Turn in Sunken Treasure",
+      "kind": "quests",
+      "instructions": [
+        "Turn in Sunken Treasure",
+        "Talk to Doctor Draxlegauge",
+        "Target: Doctor Draxlegauge"
+      ],
+      "questChanges": [
+        {
+          "questId": 665,
+          "state": "rewarded",
+          "title": "Sunken Treasure",
+          "objectiveIndex": null
+        }
+      ],
+      "source": {
+        "chapterId": "chapter-21-39-40-alterac-arathi",
+        "version": "import-v2-b8159d755149bd5e",
+        "stepId": "source-step-0144"
+      },
+      "positions": [
+        {
+          "sourceLine": 1096,
+          "position": {
+            "zone": "1417",
+            "floor": 0,
+            "x": -2085.48,
+            "y": -2063.99,
+            "space": "world"
+          }
+        }
+      ],
+      "leaderOnly": false,
+      "raidOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "referenceLevel": 39
+    }
+  ]
+}

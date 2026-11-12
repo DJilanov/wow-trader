@@ -1,0 +1,3381 @@
+{
+  "schema": "campaign-route-lock.v1",
+  "blockSize": 10,
+  "targetLevel": 30,
+  "race": "human",
+  "leaderClass": "warrior",
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "party": [
+    {
+      "raceId": "human",
+      "classSlug": "warrior",
+      "role": "tank"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "priest",
+      "role": "healer"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "mage",
+      "role": "dps"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "rogue",
+      "role": "dps"
+    },
+    {
+      "raceId": "human",
+      "classSlug": "warlock",
+      "role": "dps"
+    }
+  ],
+  "boundaryActionId": "dungeon-gnomeregan-deliveries",
+  "actions": [
+    {
+      "id": "start-115-brief",
+      "sha256": "7623879d5dc5ac4f196aeee8cf368132befab66ae5c38eef50a354c77259898f"
+    },
+    {
+      "id": "start-115-115-source-step-0005",
+      "sha256": "9dde95c07057c306231847524b367b617b6877a0f237a14d9cda377dd55b7b25"
+    },
+    {
+      "id": "start-115-115-source-step-0007",
+      "sha256": "ee2c88acc5036d9ee33f9dccfca477f549a39003a3fea52bd83999290719edad"
+    },
+    {
+      "id": "start-115-115-source-step-0008",
+      "sha256": "d2ad001bcddba6c9d26afb29bcee824b719adf67876e474fb78190e88fbaf369"
+    },
+    {
+      "id": "start-115-115-source-step-0009",
+      "sha256": "e265562be4cb1ee36355e812ef2f57b78b02161ad9c0008a3858b4ed1e893e3a"
+    },
+    {
+      "id": "start-115-115-source-step-0011",
+      "sha256": "7c23ede37e64596bccf37b619fad80dff46d66f776c90565899bcee36af83cbe"
+    },
+    {
+      "id": "start-115-115-source-step-0017",
+      "sha256": "4ae52a9d84fc05ae495861cbad05143e420d5f42f12028da07839a24bb21c795"
+    },
+    {
+      "id": "start-115-115-source-step-0018",
+      "sha256": "d7ab03fb883c668de3c9ec16ffd6359d477c6c096b8b1014facc2817b4704267"
+    },
+    {
+      "id": "start-115-115-source-step-0023",
+      "sha256": "1e71e966d785ce5c71b50e977778dd4bf8eaf6df7af3a34e3a97fd543125a923"
+    },
+    {
+      "id": "start-115-115-source-step-0024",
+      "sha256": "66441553280dfc3d70f00161dc48ac62065348eaf94770d8fb86395f5e65da25"
+    },
+    {
+      "id": "start-115-115-source-step-0032",
+      "sha256": "26585ca015d9d054e2db1cf3890a76e39e607c3596a649927453d2007610e56a"
+    },
+    {
+      "id": "start-115-115-source-step-0036",
+      "sha256": "c5ac8616251579b37c3cf37160cb03762a074975b4b12fc995cbac81dc74f1b2"
+    },
+    {
+      "id": "start-115-115-source-step-0049",
+      "sha256": "b260207d9b5a35f0a8f41841ab9e3d186167e0dc4ab3abccd720fd54df86b671"
+    },
+    {
+      "id": "start-115-115-source-step-0051",
+      "sha256": "b0be0d13d3fbf010812412ca29b86f44889f677c32de0494c33a44ad4c94e8a1"
+    },
+    {
+      "id": "start-115-115-source-step-0060",
+      "sha256": "91e0248f04db853e6545d7d54b202bf874e979ca79f2023aad5500bfe67e423c"
+    },
+    {
+      "id": "start-115-115-source-step-0063",
+      "sha256": "6f2ef3ef9e8e9c1541be82b7811d54e12b3587ad69d1d3405303b9c39a757eb3"
+    },
+    {
+      "id": "start-115-115-source-step-0065",
+      "sha256": "1da04590be3460822f02ce63c78f7a9eeec791d4f487d446764194e483849a25"
+    },
+    {
+      "id": "start-115-115-source-step-0066",
+      "sha256": "af22d3ce119d6187ae3ed9f4e0bbb45ee7eea86ce8d4e874d1848de3fa72def2"
+    },
+    {
+      "id": "start-115-115-source-step-0069",
+      "sha256": "e48181505b7244d16423f52a6d52926183570e2f0ad4e56aa77a7a40400f112c"
+    },
+    {
+      "id": "start-115-115-source-step-0070",
+      "sha256": "6f032bad5bfb79d731aa787b5a61325bb136b58fbea4b70ff4bf2ddeb96b22a7"
+    },
+    {
+      "id": "start-115-115-source-step-0073-before-pickup",
+      "sha256": "227a3e5aca42469ad7afbcab4025262bdc289892e4c7bd8c5567360a2f0bde48"
+    },
+    {
+      "id": "start-115-115-source-step-0073",
+      "sha256": "e82e4ff83e4e15fc4f837571472bf55e63301d81ac1cdfcad7d33aa144ff6c88"
+    },
+    {
+      "id": "start-115-115-source-step-0077",
+      "sha256": "a078ab798aaeeeb1d030934096dc2fbd858455441abf11c96337552d59291dbb"
+    },
+    {
+      "id": "start-116-brief",
+      "sha256": "58ebc3d59fd6f3476ef4875b4ec3b0aee25d41f818fffcfe4f03a828fe974ca4"
+    },
+    {
+      "id": "start-116-116-source-step-0006",
+      "sha256": "e26e71949d526e0672889be3ecbf20581b165ae57262543988d3272eb80d1aa1"
+    },
+    {
+      "id": "start-116-116-source-step-0007",
+      "sha256": "13ce1d8c18db301e5ab66fa75e625d5dbe3544ee0853a59dc555824945de8cb1"
+    },
+    {
+      "id": "start-116-116-source-step-0008",
+      "sha256": "2a1791855c368fef17bb5219b3d512d8271557f1a7f6ae4ff8910968772fa694"
+    },
+    {
+      "id": "start-116-116-source-step-0021",
+      "sha256": "e42a6bafbef5971abdb384912f95d2418bae622f85babc436aa3cdeb9e3c3649"
+    },
+    {
+      "id": "start-116-116-source-step-0024",
+      "sha256": "8a2c2de45072eae0bcd6d09a4a08bd34d78a3b866a389a613bfc524ff54253e7"
+    },
+    {
+      "id": "start-116-116-source-step-0026",
+      "sha256": "ebd0062f7e738da16a7eb8b5614bc6c4a866be71624a8935642a5d135010215d"
+    },
+    {
+      "id": "start-116-116-source-step-0041",
+      "sha256": "c07ed2a7e8542dbedacc1a3270d1c1043fb480ee2b45aae3b80ee2e09074946f"
+    },
+    {
+      "id": "start-116-116-source-step-0047-collect-86-769",
+      "sha256": "12c9cce16aa8f17fb831850121e7582af2d3db80027913dc1cd2a13080749c2a"
+    },
+    {
+      "id": "start-116-116-source-step-0050",
+      "sha256": "399159e2fd62d5134af04a0d357466ec9b8d7b5b6f5ec55ad34286dee8e0ef7f"
+    },
+    {
+      "id": "start-116-116-source-step-0054",
+      "sha256": "0f8c67c3a0dd4e5d07063a3eceff9380a91a667b999d27256cf5847d4cd77d6c"
+    },
+    {
+      "id": "start-116-116-source-step-0056",
+      "sha256": "40cad0d84d703252f89b9be459421b873e23eb33698fa114635e951779506b32"
+    },
+    {
+      "id": "start-116-116-source-step-0065",
+      "sha256": "0982636b0f16e0cde705147109470fe6dd8034157fda160cd5d6273bc5eb3b84"
+    },
+    {
+      "id": "start-116-116-source-step-0050-deferred-88",
+      "sha256": "7f699652f01e623be6feecbdee382f8b32fd06e71b5fedc41587458b3f7dc5fa"
+    },
+    {
+      "id": "start-116-116-source-step-0072",
+      "sha256": "7d401f61aaa5e95145254a4a075922d890b4f2a99a56a416df0058e6b7efb068"
+    },
+    {
+      "id": "start-116-116-source-step-0073",
+      "sha256": "c4b93d96516410b0522ea2899afd3c7dd6e58aa1a87b2606c977f13e038f8232"
+    },
+    {
+      "id": "start-116-116-source-step-0074",
+      "sha256": "f22f814b8875aab69ea161e74408f03fbac5e77244f616c5cebb34f12464ffe2"
+    },
+    {
+      "id": "start-116-116-source-step-0080",
+      "sha256": "b8f38940d42d468a45886769b10889b01bbde246e59a77e3a0eb13731b9f3a4b"
+    },
+    {
+      "id": "start-116-116-source-step-0085-before-pickup",
+      "sha256": "b0b7b41063501cfb47789a16e5c6bb7d512f7e0344cf81cd5dce74ea0864b670"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99127-start-116-116-source-step-0113",
+      "sha256": "d0bc7fe5bf6d10c92213f67e65b7af3f9731ea4d9bad3fa53351a43ef3f829eb"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99127-start-116-116-source-step-0115",
+      "sha256": "ead53ffb9a3fb43b7c574b25bdd678d8e95b61cbe1d4cf544150f1dc1ec6f877"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99127-start-116-116-source-step-0116",
+      "sha256": "eb08ea5cea1593d61b47a7f47b76e31e2c0dfaa71e643447712eb0e6880e5094"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99128-start-116-116-source-step-0116",
+      "sha256": "6f43dd090cde70a8daffad58b62dda706580e57d9d7676f466f835d98b5465ac"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99128-start-116-116-source-step-0117",
+      "sha256": "da1d763f306d666ea001feac31501005d7419507addaf817cf2de9ca3a7c25dd"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99128-start-116-116-source-step-0121",
+      "sha256": "ff7ce70626fa084cd8bdb1816c8bce972a54099f953ff5403d1f93f4225107eb"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99129-accepted-0",
+      "sha256": "b313e145e843fa23e3f2a7d21246d56ed874a407da6f317725e4444da68a3c69"
+    },
+    {
+      "id": "quest-funding-start-116-level-7-40-99129-rewarded-0",
+      "sha256": "66d4ad9ba77272405f206dbeadbfc1619e2d1e2740f1583431ae2f5f2203c915"
+    },
+    {
+      "id": "start-116-level-7-40",
+      "sha256": "4c1aca78d7905938b3eb345083819113f4b23785b5842cd35016b29e8b9229e1"
+    },
+    {
+      "id": "start-116-116-source-step-0085",
+      "sha256": "5a99d31265bc58de3f6204272516cd45b5f5aeb351661f71836dbfcf01e9832c"
+    },
+    {
+      "id": "start-116-116-source-step-0086",
+      "sha256": "907fc4ce981738e0746e6fff526ddc42333ade60fd2fe8a740794da1bee4921a"
+    },
+    {
+      "id": "library-quest-76-accepted-0",
+      "sha256": "4ea0f492c50c865b4c91a81183f998609ace08390bf654822861dd93719910ac"
+    },
+    {
+      "id": "start-116-116-source-step-0089",
+      "sha256": "f3b619f464f746f2709f0d74f3f0c1ee56159b4a415752daefc3831cc2102650"
+    },
+    {
+      "id": "start-116-116-source-step-0096",
+      "sha256": "2dc7baca6ba973d1627e0acf6a7eaf396edb082b4d6ed7bcaaf9ff1e502446ae"
+    },
+    {
+      "id": "start-116-116-source-step-0109",
+      "sha256": "daf43d2875fe4649616541fdfbb28e307c3842703b194dad083bcacbc06b7177"
+    },
+    {
+      "id": "start-116-116-source-step-0114",
+      "sha256": "f14b41f8534a52033a3ff4a03072aa0c2aaa5926a5589bb69cff025479ef9471"
+    },
+    {
+      "id": "start-116-116-source-step-0119",
+      "sha256": "afefdf53140d81a4b9cfbe18f82f7f986e0cdf5a02d0c8bdacf1419757c1f2d1"
+    },
+    {
+      "id": "start-116-116-source-step-0120",
+      "sha256": "808579512c9b5a8235169c4531fa6bdea2e450314b1d94b159cdb2f4ebfd7846"
+    },
+    {
+      "id": "starter-jasperlode-entrance",
+      "sha256": "89dd427c2b750f5a2ec5f64555517c5c1d08b335b4dcdb44cdd05a7788fde19c"
+    },
+    {
+      "id": "library-quest-76-objectives-complete-1",
+      "sha256": "64218886fc0db60347e06c6b161437ce5773b48f95df20e8e4c6161db70317e5"
+    },
+    {
+      "id": "start-116-116-source-step-0139",
+      "sha256": "ddd17b5526f5e56c57d0167079986f98a03f687d2e7d437a99340913a9c1c2bd"
+    },
+    {
+      "id": "start-116-116-source-step-0140",
+      "sha256": "08acff5b1d196fdcba42423301286cd0b631be75d0951426ae28744c85a8fbdf"
+    },
+    {
+      "id": "start-116-116-source-step-0143",
+      "sha256": "d45405c1e43f614e09ca9571a4518e32be8d252b1d3969484c9d33dcdb46e121"
+    },
+    {
+      "id": "start-116-116-source-step-0146",
+      "sha256": "b0ff808fd1ef3a49f70cd3490349d1aeff88d3c519f3d6452a6942f165706b7a"
+    },
+    {
+      "id": "start-116-116-source-step-0147",
+      "sha256": "a0de59874dae63300cc3b4483b48b6db1cce4d6333fa56f3298f909ae70135b7"
+    },
+    {
+      "id": "start-116-116-source-step-0151",
+      "sha256": "d6916b067a0f2f63c98dff60ba9cd8c9c6df2320ff9245eb88f24a2efa3493bd"
+    },
+    {
+      "id": "start-116-116-source-step-0154",
+      "sha256": "255942ec6223f7495bdff51befec55417cd5e7a4b8493e801cc0b7172e17c397"
+    },
+    {
+      "id": "start-116-116-source-step-0159",
+      "sha256": "df5108f6c45a1fdfdd50eb76a65a9e8406fa7e9ff58163dbe57f7079d5b4a08b"
+    },
+    {
+      "id": "start-116-116-source-step-0160",
+      "sha256": "b842ba18193b1ee6442a2633449e7f429769d5584f979649f0e6f56daf8bfd54"
+    },
+    {
+      "id": "start-116-116-source-step-0164",
+      "sha256": "e9648ecba154cb8d58e04acf4e4747da1cbb7ecb743182f02e87a620f5f36e48"
+    },
+    {
+      "id": "start-116-116-source-step-0165",
+      "sha256": "0cb5d960ceea6a308d92694e9ca7d583c3fbdeb8f5bc1362f8573f6da63c39a5"
+    },
+    {
+      "id": "start-116-116-source-step-0166",
+      "sha256": "2ecc5effdb25e0fd6f77b7ed98720d91d271c62abcf8676c67d681838d192c2d"
+    },
+    {
+      "id": "start-116-116-source-step-0167",
+      "sha256": "434b64a53bf0e8ab80c37bf5e18d226d965d3f1a89a2aa44f43d3e103a62e676"
+    },
+    {
+      "id": "start-116-116-source-step-0169",
+      "sha256": "ea1045a7b4030c945afe39f1019cef0b17184f906e841c0a5dd57042472980d5"
+    },
+    {
+      "id": "start-116-116-source-step-0170",
+      "sha256": "8e5bfd5fd1ab2d86f4a942cbfe1fe88e634074b98dcc99e15004dea505d0b88e"
+    },
+    {
+      "id": "start-116-116-source-step-0172",
+      "sha256": "ac69380ade2dcd66ef4f045a6e4e56b4439100509f0b469a9332288aaa972085"
+    },
+    {
+      "id": "start-116-116-source-step-0174",
+      "sha256": "7c1b50f1b3a23a049929e0f01487db25aa0aec41c2cfa92c0d29386c11b9f4ff"
+    },
+    {
+      "id": "start-116-116-source-step-0177",
+      "sha256": "72c361022690e1d17fa8cb2d6d22531a1f784896da16216e50f5a5625e02fba5"
+    },
+    {
+      "id": "start-116-116-source-step-0186",
+      "sha256": "99a2fca0d2361f6148d34156dd48c3581a643e20a471754616796e48d342e014"
+    },
+    {
+      "id": "library-quest-76-rewarded-0",
+      "sha256": "85c137f95459b70014e045484536862254625873d7f1a08fb3d79b37f212f35f"
+    },
+    {
+      "id": "library-quest-239-accepted-0",
+      "sha256": "d1393a0a659b3ecaa5a91eb59d1e41f825688a73728090468169576fac9f72d5"
+    },
+    {
+      "id": "start-116-116-source-step-0193",
+      "sha256": "8d732cf9f81d708acf8959e15171b417b22163e209c8c0d007b6395ee9001e98"
+    },
+    {
+      "id": "start-116-116-source-step-0214",
+      "sha256": "14fb7d091cc8bbd6057a070788733b58d09f44cfd331c6f76d793db77e2ad6e7"
+    },
+    {
+      "id": "library-quest-239-rewarded-0",
+      "sha256": "eb3c7ee67f37f6eec83a7741f73488a8a09c00f54a9271356fbcf2fa0da0cb88"
+    },
+    {
+      "id": "start-116-116-source-step-0218",
+      "sha256": "598fdd4794216b984ac7c3ce75fde60dd25ac8356640c1ee49235453c6455502"
+    },
+    {
+      "id": "start-116-116-source-step-0221",
+      "sha256": "60e971bac0f0b978880f38103083bb9a74140de5f8ced4d25fb3c5bec1eede63"
+    },
+    {
+      "id": "start-116-116-source-step-0227",
+      "sha256": "f97a2f0a2ace657f2cbb00ad9a60ce7c0cbb3302cdc77257d3bb6f4403edef6a"
+    },
+    {
+      "id": "start-116-116-source-step-0242",
+      "sha256": "1625bfef768e6a0ba8e0656eadfc9b5ce0ac5aa7c1eb51aabfb5174128e79bc1"
+    },
+    {
+      "id": "start-116-116-source-step-0256",
+      "sha256": "4586d0f433221ed176e667a6251b15997984f6386049f67bd8b800c139236eea"
+    },
+    {
+      "id": "start-116-116-source-step-0264",
+      "sha256": "aa54ee47685fea4d8515eccca4b986e687cc06720557f1710d8039e2fba9f664"
+    },
+    {
+      "id": "start-116-116-source-step-0318",
+      "sha256": "96c4b583fd5a77c65b97fd5318604d40d52b16d4b786138d7a7cacc37cfd4777"
+    },
+    {
+      "id": "start-116-116-source-step-0329",
+      "sha256": "f59e4e51c0d510e615824187ee671092a4b8efe1a5bfdab62ecbdd2594ce6dfa"
+    },
+    {
+      "id": "start-116-116-source-step-0336",
+      "sha256": "2149a20b17a0ba5df0b57d71233469a87b2fd165328ae53336db5da39277c768"
+    },
+    {
+      "id": "start-116-116-source-step-0342",
+      "sha256": "cba4efa29b3ede971e546879381f8e8b7bf547e5c7530de2d7225363716cb168"
+    },
+    {
+      "id": "start-116-116-source-step-0343",
+      "sha256": "691a683900a9d5b9aa6972742209fd7b8f1b8ce85d3033136138d2e4042dced2"
+    },
+    {
+      "id": "start-116-116-source-step-0344",
+      "sha256": "1df5b4e06c91ff8d3a1ac57fceabac306a4f9952cb0a3bea16ccd446fc788ee2"
+    },
+    {
+      "id": "start-116-116-source-step-0355",
+      "sha256": "7f1b29f4035b4ae4a242c5daae252b36633d3c2700defb38e5425dc86c6e18a6"
+    },
+    {
+      "id": "start-116-116-source-step-0358",
+      "sha256": "a6433ca34b8ee8cdbe36c3038e6d041e64a679a371ff7484da27a6735e450522"
+    },
+    {
+      "id": "start-116-116-source-step-0359",
+      "sha256": "88b23d7f5a02b160c7e29dcc9811953520d8bd7b84b2c022c4370c5186bf0071"
+    },
+    {
+      "id": "start-116-thanes-unlocks-brief",
+      "sha256": "c348d33f3845bad2714dcc5d12a4da5d3de92e588112154b34595baaac35f4a8"
+    },
+    {
+      "id": "start-116-level-9-96392",
+      "sha256": "a5106c6e3d7873378dddef67ba739d919806958532827c217adef2a9088d756c"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0347",
+      "sha256": "7402b0a04256ddc61df29f0184a21b5f47bb22f81750fd0a0a2bb47a252e41c9"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0348",
+      "sha256": "7b35394723b23f53949c1ca4af8f1b84fa9ce90d94c8ae880e1a278d3ff27ed5"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0349",
+      "sha256": "ce3b4d688c1415565b3708e0db77283585f8e4bb595e8a45c4b79be171e8db58"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0364",
+      "sha256": "2275b4136cd467fff4213eeb22dd4c1c9eb636b1e13ced26f815dd4a1740aec4"
+    },
+    {
+      "id": "ironforge-rendezvous-objective-96391",
+      "sha256": "23941b4f6e51d883e932cdb2fd6d9a9ef0d31601ce657eac6975b0542c557534"
+    },
+    {
+      "id": "ironforge-rendezvous-116-source-step-0367",
+      "sha256": "ace9988f1b80358022dfc97043f497787f10fb72527b1e8549ef10cc9bee8626"
+    },
+    {
+      "id": "start-117-brief",
+      "sha256": "2c0050b6a6c60deefcd95b426ba019e1b0f5b3a5fb04995135448de8f3868c0c"
+    },
+    {
+      "id": "start-117-117-source-step-0001",
+      "sha256": "02400ecf5cdfae56bdc504be17e3730534a7057368065f65e5f7008bc98cd8af"
+    },
+    {
+      "id": "quest-funding-start-117-level-10-416-307-accepted-0",
+      "sha256": "172a3592322c05f1ad439ed92dea86aae4ea3fe292455dbc3421ec79c558b8a7"
+    },
+    {
+      "id": "quest-funding-start-117-level-10-416-307-objectives-complete-1",
+      "sha256": "43ee7e1add9d1b6a9533a4a6a3035f73d40f514c7f93025507b9f9f2ada73092"
+    },
+    {
+      "id": "quest-funding-start-117-level-10-416-307-rewarded-0",
+      "sha256": "0bebc4dbcf07af81f673beeb22c8bee26e682fae669f893469223c2af9709874"
+    },
+    {
+      "id": "start-117-level-10-416",
+      "sha256": "4cfd06e64076ab8e362d94fd934ab13407d66fc2303f9f1d2ffa4ed5574264b7"
+    },
+    {
+      "id": "start-117-117-source-step-0007",
+      "sha256": "d7aee21943387a26e269cc3ff119974002f10a959defb5b0ce2c32633e8d2223"
+    },
+    {
+      "id": "start-117-117-source-step-0012",
+      "sha256": "63f4f08b797519e998d897e63daf9fb5cc885dad8ded81345e0bcb5d15858982"
+    },
+    {
+      "id": "start-117-117-source-step-0015",
+      "sha256": "4e8f1d7a493c1303dbaebc8a15f76f5a8583a0a9a205725d251a17fcc6a63d28"
+    },
+    {
+      "id": "start-117-117-source-step-0017",
+      "sha256": "fa932518cf1e974815c5dbcfc114dca3639b8e852e83c27c661484887e8864d7"
+    },
+    {
+      "id": "start-117-117-source-step-0018",
+      "sha256": "54166c7cf90488f117107d4eac6625d780cf08c60c963aa69278ac1aee9dd783"
+    },
+    {
+      "id": "start-117-117-source-step-0024",
+      "sha256": "57c97d0a2742eae78b8aa22d45aa14e81fd4de0327da175a4b20b8e49300d82a"
+    },
+    {
+      "id": "start-117-117-source-step-0033",
+      "sha256": "0a0845866305a272cbac850dae9dc41d5bd41d5481a5acce1004704dcbbd8c24"
+    },
+    {
+      "id": "start-117-117-source-step-0039",
+      "sha256": "eeac9f36a925ecce5eeb4eb5a23742f6b7a1ce77358ea7f6b74eab6446af8d92"
+    },
+    {
+      "id": "start-117-117-source-step-0043",
+      "sha256": "a07e1fb2a10a10f431a30b8d6ca72f7b733b5875813737b00a0173fe36ad93d0"
+    },
+    {
+      "id": "start-117-117-source-step-0045",
+      "sha256": "4719ceccf263b3cf8aabc34cd792a0b116d08bce6a8849be6be3f9cb69157608"
+    },
+    {
+      "id": "start-117-117-source-step-0046",
+      "sha256": "d34ecb0aff600cd7ebc3ac2492d099dedbb1afa10c415f1841bbd66ab78e9e43"
+    },
+    {
+      "id": "start-117-117-source-step-0056",
+      "sha256": "0df2d44b2796e442e6d8a61f6094f282f01b11ce5cf6a4ebbd3cc60c31f6e428"
+    },
+    {
+      "id": "start-117-117-source-step-0084",
+      "sha256": "eafc5f741878335472381bc85da0929a51ee3ff98f121e8fefd874979ee71d3d"
+    },
+    {
+      "id": "early-darkshore-kills-brief",
+      "sha256": "1892aca4e09f1c21b0ee9d2e7cd9b57e0d4339d740957e401ffc4689b316631e"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0011",
+      "sha256": "ccde8734db18387857bc9360c96c55c93ec07143bff55b5563c5453cca090d42"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0012",
+      "sha256": "4d31dea5acc9e414878b8cd676acb2017d85e655f2ea26900d4ad6ca73603340"
+    },
+    {
+      "id": "flight-party-126-17",
+      "sha256": "6d13b15a418f39ff24dd42c4976017eac321ce049a1492ccdca8c6559576aa39"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0025",
+      "sha256": "8e100449dfdfb2107a32b68328da9d754aefc414061281dc0eeae409fee183f6"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0026",
+      "sha256": "81f501d24bc141af608b783c1733d61b43b8cbf2c7ff22721b70cac0471c29bd"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0041",
+      "sha256": "d3ab5167c93eeb114d2bc957df3607dec1bdfb8e5125121bdc5b7722d8cf860f"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0042",
+      "sha256": "fd0f7ceb5312aaded72f3991b57543d6563fb840a1ec65b79e51494c4100d88c"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0121",
+      "sha256": "841fb377eca1266fda3e42fd5b6b0667140276b9f67c3a1cbf93bf09c991a32e"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0130",
+      "sha256": "f1d73f2257b081f2529765dc80d2fcff240ae4437f8e306497387cff52e5caa9"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0132",
+      "sha256": "b90f7cf1db3163c0693fa02d44f349b4862ef0d0ed4489c6973704ee8a8cfbbf"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0135",
+      "sha256": "4275c3649a3af77cdbb6cfc734027da66baf9f3c41ca9a8deb5bf0de941d6119"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0139",
+      "sha256": "a02cbe0a35eb0a66741f6b0c9744c13450ecea88d9e6bc28767cc9d4fc0bb6f1"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0141",
+      "sha256": "3099b04966aebfa79f01004099c3b0c975f83eac835996bd14e553513cf848d7"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0155",
+      "sha256": "07af9a6a82c2142a7d36ebfc28925769f898804b5c9625ee5cb1154278611e01"
+    },
+    {
+      "id": "early-darkshore-kills-126-source-step-0157",
+      "sha256": "b7e20eccfa4f20f1013c1cfdf77efd5dbc7116089f886abd2d7d6f421b4ad568"
+    },
+    {
+      "id": "darkshore-shore-pickups-brief",
+      "sha256": "f0f3c4b835455ae3ff449d11d36a34d72049df5632361c8dd1c76149ba8aed99"
+    },
+    {
+      "id": "darkshore-shore-pickups-level-11-3524",
+      "sha256": "1c3c9b4a5aa3f0e5bbd1de4537888bdc8589371b4468453bcb8b555701c31ff3"
+    },
+    {
+      "id": "darkshore-shore-pickups-126-source-step-0016",
+      "sha256": "0b6b0b2c5b329751f4baa41e9c998ec41d9e17736904d042e95cf4355f08d03d"
+    },
+    {
+      "id": "darkshore-shore-pickups-126-source-step-0021",
+      "sha256": "ccae3d935f233889de669c360a61494c6a2381c8c9b6dde1b6ed7e9ff9ef2d86"
+    },
+    {
+      "id": "darkshore-shore-pickups-126-source-step-0031",
+      "sha256": "9cd0248e52f1a6f724779449f912bd189ef95b0933db63ba81b90a5cec5b688c"
+    },
+    {
+      "id": "darkshore-shore-pickups-126-source-step-0036",
+      "sha256": "7d06ddd3e15ae8339843e97246dfb126b9f1a1b560c2e87dd8ad3be600e6a67d"
+    },
+    {
+      "id": "darkshore-shore-pickups-126-source-step-0038",
+      "sha256": "673570ed24b5919331f56048cc315f8111245eb0bc47af4f86f658ea9de8ea4e"
+    },
+    {
+      "id": "dungeon-thanes-accepted-96393",
+      "sha256": "8f889fba829084aa6ca885e718730e148bb5b5818135f1662961a276a6d181b7"
+    },
+    {
+      "id": "dungeon-thanes-accepted-96403",
+      "sha256": "abc7be0828c229e2b05a17a21450ff03a1b0ab7ac1d05a317573f5fd85f21de3"
+    },
+    {
+      "id": "dungeon-thanes-accepted-96394",
+      "sha256": "de32fd2fbce9884d3da91a621ea909a022b8abed67b39327efd8e9abff4c0d50"
+    },
+    {
+      "id": "early-party-kills-brief",
+      "sha256": "a56617ea9ca23ce5f236cf4c2da6d252e47c7ba0ad875f84882d05ffa82de12e"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-accepted-0",
+      "sha256": "e270d121a44a130905330fe4bb6a328abc273306e1e21fe7b423156957eff472"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-objectives-complete-1",
+      "sha256": "ca545664eabfad11b3af6a27dbd0ea8f7d4c5a3f6938a61a72447fdbbd6108aa"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-objectives-complete-2",
+      "sha256": "24ec756d237bed6064f0bb9ed0aa26b7cc4796e40528b6e12671a21ab99ca668"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-rewarded-0",
+      "sha256": "7409bfce48a7437f4db215779cfb3bb0715949b3ca804010b694e6ad4825ca9f"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-accepted-0",
+      "sha256": "b613f84ac29b3582455b79eacf425f63a6bb5a90c14045d9456815e41986151d"
+    },
+    {
+      "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-312-accepted-0",
+      "sha256": "c3620d685dfc7706104e3ed5cc5d59ad1ddd069626555d60dfc7fa27eff7d13d"
+    },
+    {
+      "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-312-objectives-complete-1",
+      "sha256": "d2c3e77eda9facf285c65d2ec923e0fe43c413262ddc499aaf374f770f5f2ffc"
+    },
+    {
+      "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-312-rewarded-0",
+      "sha256": "e48f0817910ed1290abc0328338f8b5f2c7e8df37d33ff1e86ada8ea2b4678fc"
+    },
+    {
+      "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-399-accepted-0",
+      "sha256": "96b2412cf7df8c0a057dc6724dcb59e9f34419bbc4b3160770d2ee3fda1c6a68"
+    },
+    {
+      "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-399-objectives-complete-1",
+      "sha256": "e43518b27a20adfa5bbd95484080abb1c5d2233d21b8a74542e015669bad8ed4"
+    },
+    {
+      "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-399-rewarded-0",
+      "sha256": "edc3586344de5e9170a6543784e6b9c7edda703862f1ca59a003ccfa73352dc0"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1",
+      "sha256": "97dba617ee2bb35588cb0b43a4f40b7cf79d0b0f1db43a34041e910d9026d8af"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-2",
+      "sha256": "76bafdc32b4daf608820b62f7310cdc0409dd882d0b469cbd3b6f5aa577df8c7"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-rewarded-0",
+      "sha256": "047c48d2f7b57e807f2b152d4c19309b9b1de21a0437800067b10086e041e391"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-257-accepted-0",
+      "sha256": "b0dfee2726ac10bd411022ded6990eeea8fcd9cd4ea712d3c6e2f0633784dfcf"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-257-objectives-complete-1",
+      "sha256": "f4d6d0101ebf8bffda02ee6fedefde289029b102cea67ef3d7bc8ec43c0a7460"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-257-rewarded-0",
+      "sha256": "05182b2ff7329abbb884003280c4daa3ac72acb2a452effa3e37bbad46b29261"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-accepted-0",
+      "sha256": "e7516b234bd444138af7a6e5fc04620e3dbfec042d632996a8d046b362730a26"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-objectives-complete-1",
+      "sha256": "b8efec5e3410dc57b749832ee10d2efda0e7c32bb4b7cce90d0da1b175e85968"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-objectives-complete-2",
+      "sha256": "d6a4fd272546a4cd1d0e096c93608acf8e09a98e74fb09014ca3c04bacd518ae"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-rewarded-0",
+      "sha256": "5a5e4d5faadcd2f56d9f2938c18dcecf6505b4365432c47d598893da4dfdcc1a"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-accepted-0",
+      "sha256": "d36a5337d579a1b05b896620d34db63e5e56f3bffca573edb18dcff54ce7debc"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-objectives-complete-1",
+      "sha256": "690035a2a6d7fb0f8e8d95e26e86906ac95dbca1aeffc1e3f214c265c4476bce"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-objectives-complete-2",
+      "sha256": "4fa87a621a33abe370e164f1929f5c65e190adc38dff48622b271696f1a0e168"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-rewarded-0",
+      "sha256": "e9b8c6a7cc7f2e5a10e7d006b57aec7f75913de70e73d7c12a34c5e1b6b89bdd"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-9-accepted-0",
+      "sha256": "8db3c4d787ddc80ff012d36c871810fe484177c6fc292286e388fd9f7a9961c0"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-9-objectives-complete-1",
+      "sha256": "ae49ac26264d0ddeba49908607e317b694659c37efd8cf1b6c5a6ad7a0149ca9"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-9-rewarded-0",
+      "sha256": "be7a45c16da9882c83f790b2f68ca3feb9ad8267a26ff24d5b9cb5ea39957e88"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-accepted-0",
+      "sha256": "fdc986a81a028fc0b8c80a038bcdd3bfe81f62a324929d13335e34d88446a48b"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-objectives-complete-1",
+      "sha256": "e0b2fe03708322a10b64b246e77f03ec6953130cb1a876f92308f1c32b9f84b1"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-objectives-complete-2",
+      "sha256": "ae49dc92cfef20aaa5f978f25b49c863fbcbe38f1fdcc1b59340b05fc44f61c1"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-rewarded-0",
+      "sha256": "b5b0358198b7f662494aee0dc2d9dfa10851e4789fe3ab874bb6f0142a6525dd"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-1339-accepted-0",
+      "sha256": "8e3098eda1585c02411b6bfca2e7f6cc3b54bd4a0ecde81632bc9fc82efe8484"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-1339-rewarded-0",
+      "sha256": "a2392acad40e99f9c6c252d1ca70afcc3f0c96c66ed5b62a2048ef619ec2ca33"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-1097-accepted-0",
+      "sha256": "f3ac8dd2ca46cdfc8bd4bfbd7d3bf1b539ecc1b43f3fd5a485e81bbab12f57e6"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-1097-rewarded-0",
+      "sha256": "06d5320919a30874d9f8d787d96e41622dc25dc2ea691f501bab71918d1af95f"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-353-accepted-0",
+      "sha256": "52a2e7e3e609a20604d3b1366f553ebabacd043279b872ec6a37afe8e10901ea"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-353-rewarded-0",
+      "sha256": "abd474f4cc49db619b7a7f49c26fe28d5202155e674cdfd160cad7ccfd77b580"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-258-accepted-0",
+      "sha256": "02427f2391309d117efdf786e9aef5f2c8b7b1b35a5b05a1f71e7bf3541ad2a0"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-258-objectives-complete-1",
+      "sha256": "9d4f9c21f2261233287a87756bc4982339b69844f11dc7af994427fb458c65bc"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-258-rewarded-0",
+      "sha256": "a9cbb89dedaca6967a6441ae1a9242c04f39042ea7b7e11f8fadcf8b191089ee"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-298-accepted-0",
+      "sha256": "bb7ff6eceba54c728d4788d8773925c7565d706c4b2c44c022a44182c7cd7780"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-298-rewarded-0",
+      "sha256": "7fd6e92aa793277d2d900e2a3ce85fc52883aaa7479b2932ed313339fe9317fd"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-301-accepted-0",
+      "sha256": "cb989835d456f16823c88fa9032258a30e1983daec5cbe0676b8b8b332877d50"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-301-rewarded-0",
+      "sha256": "6b47e995c2b3901e85fe70db51a0057f23a84d0f0bc616f7ccc48a679d4e1d76"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4731-library-quest-4731-accepted-0",
+      "sha256": "a2c0a2abf72051b8fc9b7ffb8a7b1b8a32893516b6ee4df8491b175048a68329"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4731-library-quest-4731-rewarded-0",
+      "sha256": "c82d8c3f5a5e41c24bb51b08b3c3ef601b4182580d7594ff4cef2a9731089f29"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4732-library-quest-4732-accepted-0",
+      "sha256": "c30435e86a33e3c02151b0c3892f39dc267ab88596685cf5bc85862b89c43c01"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4732-library-quest-4732-rewarded-0",
+      "sha256": "ae15be8f899e9fa0ccc154704184597e12beadfb29c2d3429aa2081a64d8232a"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4733-accepted-0",
+      "sha256": "5194c6f93074abf019e82ae8f0442db9112a8897753f59f02572ca5dfa05f3db"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4733-rewarded-0",
+      "sha256": "a42e93a3f3392ba844fab06ec33ba4383e7eaa3ba798233dae4b76fed3174007"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4730-library-quest-4730-accepted-0",
+      "sha256": "81643078b55466056a30f68a2761b5ac09cccc4c1f7916f126a7630ae34fa0f3"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4730-library-quest-4730-rewarded-0",
+      "sha256": "df92beba9e4bf4c7071bc3e1b62ee5ec86546911458226f35ecd5f0bd789ec86"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4725-accepted-0",
+      "sha256": "367cc01b7d0f17012ae2bc3406ad880845c64ddba2c18d9af07216c59495a6bf"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4725-rewarded-0",
+      "sha256": "6d403169378b093f70da40bea4f4982cc285794812e33b3c5726878d6eb37348"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4727-library-quest-4727-accepted-0",
+      "sha256": "89ebd137533c5b1a67b5a7f75afac8c2fde65d94ef1cd5c3be1e7d28d89ed6f1"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4727-library-quest-4727-rewarded-0",
+      "sha256": "a2ed4d4dc2707f32c5c3d0b50feb571c525459b7bb4c4354b45b4f9ea8fae822"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4728-library-quest-4728-accepted-0",
+      "sha256": "af2e28d4e015fbc96dcb0240deed29c63080b1a5e32c37e5218d515c9cbc07e9"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4728-library-quest-4728-rewarded-0",
+      "sha256": "9737513c163ca698343ce61e6ed05a2e9df38276a35fafc1a7f94c79f1b96ab8"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4723-accepted-0",
+      "sha256": "3e410717345208be8ad9e4139ae667d99908d5a1bf3586dfaf582e4bcde5cb2c"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4723-rewarded-0",
+      "sha256": "19511fcbe0782a2a81bc61784ccc7c1dfb1fc1ab9347b00f6260826702ad0b3e"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4722-accepted-0",
+      "sha256": "70a3f4d559e4c673737f33135f16dfcf9c8768a485c6236e1f89e63d1de8986d"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-4722-rewarded-0",
+      "sha256": "c0aa0c897ccce2dc1cb45b22fbf10e88d6cdb5d8ac155436856f7c625ac66454"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-487-accepted-0",
+      "sha256": "2096eb4cbe32ea975538f1d2c557be81371bbf28d9ef5b8fb18ab2451e70ddfe"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-487-objectives-complete-1",
+      "sha256": "003911aa3b5b575d7a7af62a2577564dcf0e8a39d56d319657be938b0d99aae3"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-487-rewarded-0",
+      "sha256": "983908d7ec612e51f4262e633fd82fde8a1b879b81580e8d42d7539cf4802a66"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-accepted-0",
+      "sha256": "9b244384753ec128777320ecaea77ac3c7925e8ddd997e64b4d1026b5df97237"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-objectives-complete-1",
+      "sha256": "7c1e7e1f974046a0e7c6baee1debde59f479f39ee78ee3e99275cfe14ae8416a"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-objectives-complete-2",
+      "sha256": "0ee8e7d57272b2796da52503e8b6d094e3095a9f5dd1dedb146a12cfc3d51a61"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-rewarded-0",
+      "sha256": "12fca26c3e6a1a27a51895eaf27366c2ed4f908c8fb109d9836126d39a212a9a"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-3741-library-quest-3741-accepted-0",
+      "sha256": "026568561e4b29870272f15cc436a97048ae4a4ae614e16610741123ca17b8ba"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-3741-library-quest-3741-objectives-complete-1",
+      "sha256": "996d74677a5569f2a7d2bab698ab1dde102903c6951eb1571818915358f246fb"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-3741-library-quest-3741-rewarded-0",
+      "sha256": "6e3369d213b4843ffcea98aa9b00bf371aa9ac834abbd0c55dca81629dfce9bf"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-39-accepted-0",
+      "sha256": "b117c724cfed9596405622616c11cd9b752ff6c0e68956b2eb2c1af60f3f136d"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-39-rewarded-0",
+      "sha256": "b38edea890e0d1c85b58282ba6a8b43fb2fe975ed964276c4d94d3673dc296dd"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-59-accepted-0",
+      "sha256": "3f50959f245dad198a3f85e9fdc59a36dad2c49d6ac07d9234d24539b5b37a66"
+    },
+    {
+      "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-59-rewarded-0",
+      "sha256": "ae8e2fee5e0b3b17ab3df8c29ed230aa4076e741c6837830c045ea4200f69c4c"
+    },
+    {
+      "id": "early-party-kills-departure-level-14-before-thanes",
+      "sha256": "d29a91e857fff68b635d633f5f8a5084adf79a1940d967b093e9e9f53837afe6"
+    },
+    {
+      "id": "dungeon-thanes-brief",
+      "sha256": "bd12ba502ae0ada17148afebf056041b60d4125e67bb9d445a73b4be82aeff93"
+    },
+    {
+      "id": "dungeon-thanes-entry",
+      "sha256": "f5fe865dd5fbddd8d158e1526f4eca5681eccdadde5442f48328a6c0403a3858"
+    },
+    {
+      "id": "dungeon-thanes-accepted-96395",
+      "sha256": "1e6b4a4aea1078188ef3d63206e2e89587c235a9b6d36968451c3e35cc69d140"
+    },
+    {
+      "id": "dungeon-thanes-objectives-complete-96394",
+      "sha256": "83d212cb8627aac3c0239a56af5089faf25809917f4bbb6be25a18fdd3814d13"
+    },
+    {
+      "id": "dungeon-thanes-objectives-complete-96395",
+      "sha256": "a8f34942a2b7dfd6f858457e805d6f35156a1d2536eb45dba511a41953f02b28"
+    },
+    {
+      "id": "dungeon-thanes-objectives-complete-96393",
+      "sha256": "0385f0423f77ed24075b70a2f1e032d76460ad676e56ad798a96a3a5c35e0d47"
+    },
+    {
+      "id": "dungeon-thanes-objectives-complete-96403",
+      "sha256": "c93e4e938b06fb9d9d996127ec86a59ce21018a30810084986e1bc8f1e39c568"
+    },
+    {
+      "id": "dungeon-thanes-accepted-98423",
+      "sha256": "80609799b9527c49312b78249f47e8b5af286bc09447978188068f074da0bdf1"
+    },
+    {
+      "id": "dungeon-thanes-rewarded-96395",
+      "sha256": "4ce554df24d3c13781236fb9500f9e64c005c00606393480eb66aa00ae7e4437"
+    },
+    {
+      "id": "dungeon-thanes-objectives-complete-98423",
+      "sha256": "e368c3716f0e90c358faa7be8d91d1636e8becaaf72a5a460d5be54623be6d82"
+    },
+    {
+      "id": "dungeon-thanes-rewarded-96403",
+      "sha256": "9c99a9a9cf8c9eef0181eb05e831557e980d3fb31c3f8637ffa8c0369a8ba049"
+    },
+    {
+      "id": "dungeon-thanes-rewarded-96394",
+      "sha256": "4543b8850074c2b8f179d91589759fd3a35b2a69053a4b7345a49b480bb0caf2"
+    },
+    {
+      "id": "dungeon-thanes-rewarded-96393",
+      "sha256": "1f22b85a87583b1f6388d5a857ede889ba7c381ca981938ebe0936158863f284"
+    },
+    {
+      "id": "dungeon-thanes-rewarded-98423",
+      "sha256": "76f66ddcc8b042c07eda6d3dddd3979967b9445f15d42bd465f142e9ffbce04f"
+    },
+    {
+      "id": "dungeon-thanes-deliveries",
+      "sha256": "8ec7c89b31f1443356c9dbd9c6dc973708eeece103687d29b4bb0d885d58dc41"
+    },
+    {
+      "id": "northern-approach-brief",
+      "sha256": "8adf3486e0368c0e95a3742c6cc2707fc324cf6f80ba982c4a945f96b178eeab"
+    },
+    {
+      "id": "library-quest-983-accepted-0",
+      "sha256": "27da4c389de87c9b6ef689d2d70078c2a834c93823fa83a247bfa71c670846a9"
+    },
+    {
+      "id": "library-quest-947-accepted-0",
+      "sha256": "daa4cce7d24e1d58754317076ed8c0ef825d6c79e7ac9551337ee529dda33d65"
+    },
+    {
+      "id": "library-quest-4811-accepted-0",
+      "sha256": "c37ae03804fd1ca56d3742dcfc1f7d639d61df1d5c1eb7e1def57dc22728d774"
+    },
+    {
+      "id": "library-quest-983-objectives-complete-1",
+      "sha256": "79d5b1617470d6ba77ed6709dd2fce1170c66c36601c9a36f2478e3be8530aa9"
+    },
+    {
+      "id": "library-quest-983-rewarded-0",
+      "sha256": "59df122f17a95e164917280511bd0e6dbd0f7b8d1df05953362a2bf30ae880a9"
+    },
+    {
+      "id": "library-quest-1001-accepted-0",
+      "sha256": "051de61fb6a4f4a06b8b5863c2d469633eaa9668953cc866919d7a00adcffd8e"
+    },
+    {
+      "id": "library-quest-1001-objectives-complete-1",
+      "sha256": "e4983b740b5d48aed6f5f8e9317f22da119c5248da1f9aaa90b0c535bfaa395c"
+    },
+    {
+      "id": "northern-approach-126-source-step-0042",
+      "sha256": "3cf6b71e548401022b8b1638f45fb5f7686bceaababe4c8be7a9d436aa6a7c68"
+    },
+    {
+      "id": "northern-approach-126-source-step-0051",
+      "sha256": "babe1cbd5b4277608c782a5f329dee7c989eca4ba8c09ccbe55b5f56f0249909"
+    },
+    {
+      "id": "library-quest-954-accepted-0",
+      "sha256": "12b0b428546874d66803dc71697d379d886aeedc3b6e9a28293e6f04cde53c15"
+    },
+    {
+      "id": "library-quest-1001-rewarded-0",
+      "sha256": "e068ec8cfd02fe2f87c1558ba90b2bfb6a49f7b7ac7468965ca683996a54cbaa"
+    },
+    {
+      "id": "library-quest-954-rewarded-0",
+      "sha256": "9cfea9335c7b55f03f71920574e45a035cb13e745296c7182052d58f17e9ccd2"
+    },
+    {
+      "id": "library-quest-4811-objectives-complete-1",
+      "sha256": "3f99afff16ddc49de514d6cdd4e1092f5805e2cdfaace169d1c412ab8897f6f9"
+    },
+    {
+      "id": "library-quest-4811-rewarded-0",
+      "sha256": "07013d0adb266a6ab890fdf55f21a0a263f37abb356a68d66ec1a413bebad82d"
+    },
+    {
+      "id": "library-quest-2139-accepted-0",
+      "sha256": "2cee0a75d4b028b54462d9885502aa773ad15cf3626d8569a2b0705eddf0df7b"
+    },
+    {
+      "id": "library-quest-986-accepted-0",
+      "sha256": "41f81da7b8652c83ea1842b222ea260640c25545406675c2b7c536599443b8aa"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-965-library-quest-965-accepted-0",
+      "sha256": "fd0175b9cb885adcc37096ce90b241df7d5ac65a9f23da92febe705382e33b16"
+    },
+    {
+      "id": "northern-approach-126-source-step-0181",
+      "sha256": "882f95b260dea964549543325b0f714adcf01b9a8f427e894138ea29932d632b"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-965-library-quest-965-rewarded-0",
+      "sha256": "d471cecab479faaebc81279e788987790543a715488326e218abffe7134f2cbe"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-966-accepted-0",
+      "sha256": "cbd237d6330d021cb3cb7ed7e98aa15d7ccc934407577a1844eda4dc1039c952"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-966-objectives-complete-1",
+      "sha256": "9c268b92aefae835f1e0f1b8b44bb388a769906cc8ec64d800a77107b87fafdc"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-966-rewarded-0",
+      "sha256": "141c56888cb9448e7edd6cd21a6a90fd1c57cb9ab84c24db62658ffc161b7aab"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-967-library-quest-967-accepted-0",
+      "sha256": "a61e08a2133087d9c0c6e3223fb6fbc4d8ca9a1ee5b0ea7136ac712376fcbd52"
+    },
+    {
+      "id": "library-quest-947-objectives-complete-1",
+      "sha256": "9894b93968a9c3f7728cec7ec1d5d5f0192fadd713e3a9fab4fb3ace19172910"
+    },
+    {
+      "id": "library-quest-947-objectives-complete-2",
+      "sha256": "3c1af7eed05917af9386544ef7f61dec3edfdfd772e8aaaf89819194c905889c"
+    },
+    {
+      "id": "northern-approach-126-source-step-0206",
+      "sha256": "6febfde97fb6e96dff8c9ab87bbdaaa08feafc935720c7568e697507aa4f57b2"
+    },
+    {
+      "id": "library-quest-947-rewarded-0",
+      "sha256": "8ffc0a16283b24a2e62d9e06be36d79526b8d8005ce0d7143deba285cdc50413"
+    },
+    {
+      "id": "library-quest-948-accepted-0",
+      "sha256": "245583756471a29900943c224579b2a37bafa88c618bc5530403a59f198b7855"
+    },
+    {
+      "id": "northern-approach-level-15-4740",
+      "sha256": "f8b370346a4de6b8f8c459612738afb9c77d47c20de4c04ca0ba32de10f45e6d"
+    },
+    {
+      "id": "northern-approach-126-source-step-0217",
+      "sha256": "dd40fff7a5ea52dd67ddff76a159ee66873831999a6de3f2c0b968c25e2b057a"
+    },
+    {
+      "id": "library-quest-948-rewarded-0",
+      "sha256": "80acda925c61b889bba5a42d7d98e1d880b9b063fbbe6c4a04a869d87a4c764f"
+    },
+    {
+      "id": "library-quest-944-accepted-0",
+      "sha256": "1f6aaffc379274b1955e4a175edbfec12985b4e3aee869a0c51f9c1eabdcaa27"
+    },
+    {
+      "id": "library-quest-944-objectives-complete-1",
+      "sha256": "b5c60b9d2ccb2f9956ba380e0330290eda7d8e665fa848172af72a1849655406"
+    },
+    {
+      "id": "library-quest-944-rewarded-0",
+      "sha256": "98ebb0535d8f3d94cf95e9d46cda1b4edc11e809b4c6feaba913da1c8a10d83c"
+    },
+    {
+      "id": "library-quest-949-accepted-0",
+      "sha256": "9e203bffb83767537188629d56b462af3729227d5997ecbc9fa79d410ad6e907"
+    },
+    {
+      "id": "library-quest-949-rewarded-0",
+      "sha256": "9c5455383ce323df8a4a3fd3e28cbde1cfdbbf89bd6ab0351fa4cc89650f7694"
+    },
+    {
+      "id": "library-quest-950-accepted-0",
+      "sha256": "91423ebe207eed8ef7dffd88e45fd9dced69d019ad093e61180ffc7e63f198e9"
+    },
+    {
+      "id": "library-quest-950-rewarded-0",
+      "sha256": "74bea45392ec226933bcc849aea34ec556c51cf97646a6b162811e16773cead8"
+    },
+    {
+      "id": "northern-approach-127-source-step-0055",
+      "sha256": "6481f594a1dbdd0dba0d0ba910743cfc0fadd4d50a14423a8b8ed296858ba05a"
+    },
+    {
+      "id": "northern-approach-127-source-step-0067",
+      "sha256": "c282dba858921359f2591a247103091648a426e2407f9403e1b72ff969df6aa3"
+    },
+    {
+      "id": "library-quest-2139-objectives-complete-1",
+      "sha256": "bca5fd41fd3b445f546d7670f447369b9451a2ddc13df3eb590b367e2de9073c"
+    },
+    {
+      "id": "quest-funding-library-quest-986-objectives-complete-1-951-library-quest-951-accepted-0",
+      "sha256": "aaea3334cb12003b47b900652fc7e71a107f7d27740d2b90dd2de27eab5d1e18"
+    },
+    {
+      "id": "quest-funding-library-quest-986-objectives-complete-1-951-library-quest-951-objectives-complete-1",
+      "sha256": "c36bbf7fcce6832e181f69feb879eddddb58c3d29a5ca724e51fd06199bb17e4"
+    },
+    {
+      "id": "quest-funding-library-quest-986-objectives-complete-1-951-library-quest-951-rewarded-0",
+      "sha256": "fcf2d07d0e12cd136afdd939e00b6525b39e61dca78ea6d6c303f777373a45c5"
+    },
+    {
+      "id": "library-quest-986-objectives-complete-1",
+      "sha256": "451ed48bd66deeb86b6aa19166ac17ac4d8bc3be01eef3effd060a0c0d0fe269"
+    },
+    {
+      "id": "library-quest-2139-rewarded-0",
+      "sha256": "2fe6d6b0a83ef94abca195ad8fe2aaf94ce4d5f146b543b8624f6a17187be973"
+    },
+    {
+      "id": "library-quest-986-rewarded-0",
+      "sha256": "a48c16d07b0c74d20024ed7b967cb6095a2106bb3147a3f4659b4da61500175e"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1002-accepted-0",
+      "sha256": "05dde5beb0698b95da255d90270aa73ce122765e36a96708a0512a5b3294bf80"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1002-objectives-complete-1",
+      "sha256": "6d40b209c9c7ea342e80112e7f71e042ee3c157bb28d39dc0d9e6eaaa76e7412"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1002-rewarded-0",
+      "sha256": "0d5ed3f029b472ebb5c6d6adb892cee3b6666dc869f83af0315ff6d148296337"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1003-accepted-0",
+      "sha256": "939bf816c900ea0637581254c77380f6c5101ad8e2130a483c18c5fb04177513"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1003-objectives-complete-1",
+      "sha256": "de9ce8e43d6dd04b2adca1bb9eaa1605314649f66fca72be41564872a48a9471"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1003-rewarded-0",
+      "sha256": "1f6534cfd55f96988a0675018db58723468cfa125a2c292215b1038146832fd5"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-963-accepted-0",
+      "sha256": "83cb67af461ebd7211ec8d857212483beb946572cb7e84d442e921292099c481"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-963-objectives-complete-1",
+      "sha256": "c0a86bb4013c0467a6fa0d46c920e29ffa41aa27ac9ecbef5e2d0b384593c3c4"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-963-rewarded-0",
+      "sha256": "2bca4047e08f0993c986ea7099f252f0d80832fcb77cd089de96263493dee2f3"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-967-library-quest-967-rewarded-0",
+      "sha256": "23ea4ddfe8a1fc9697f1072b1513486262ceae5b54fd3d584d8ab7f79fbba169"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1093-accepted-0",
+      "sha256": "19ada417e6321f4d30dc299b7ba9bdb8fc123d13bd956cb0554fa0c82c3319ad"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1093-objectives-complete-1",
+      "sha256": "0bdb54317f9e8c04f6489f2c7c49884e60e73b5c574cab39ec389826ec8b0a5e"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1093-rewarded-0",
+      "sha256": "eda63d9e45727491c3da8b946a92d45c44d4692d8142e482fd4528a418e22f5f"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1094-accepted-0",
+      "sha256": "dabad3a3553a79a176ff2f0331bd779ca2d9e0a3cb9b64659d4e4a9878db39b6"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-1094-rewarded-0",
+      "sha256": "279d04cefbb11c273b6d5d2c219a9b420c114005daa50cc5c86fc5583abdc063"
+    },
+    {
+      "id": "wailing-caverns-catchup-approach",
+      "sha256": "a22a4d6a0ffb13b0b1244bd23ded706cd116318e6e6ae3dbce302596758b9a9e"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0015",
+      "sha256": "2a8ca2e8bb0cde784d0686b195d3adeb40c0c7f9dbf39b4d0d0ee3b36c6e9c43"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0016",
+      "sha256": "a3c6750e7362e94e22d12d5a7401f77318b9e4c87d7a26504f276dd4cbbd893e"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0017",
+      "sha256": "3846d87ff66d5880962fbf13cfeae58a000df6728d75d0baab434ba4b3ec52ed"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0018",
+      "sha256": "185c1b8cb29040ad8162dfdfa4dd9c65b201adb7f86048d0cdccab0d50f5ccae"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0020",
+      "sha256": "1ebe0ea5c24d7dcbc99c72e3c2b3c2025f9945426797600de470c332a057bc90"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0021",
+      "sha256": "109d2e35facd7c062d00fb84e9cfb2eb8d75d1ae2f37ee6a795a219138db2ddf"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0023",
+      "sha256": "4fc3e58c089d9be0685a816733779ddf2cd2b00ce538d23bd890cb957fea5303"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0025",
+      "sha256": "e64f071bca68a4edb025c093c58feabf58a9d03d09c0b7d2284dc16cc94e0fd9"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0027",
+      "sha256": "95844d911fb3add5bef8475a17788c88cb044f87b6a1866afc9cd22cbb576c0e"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0028",
+      "sha256": "81132e8fb7d802c2632a40f7ab145b26aa28ee152bb951b0ca4a822e0078495d"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0029",
+      "sha256": "48dc0f16ae65eacd7987c77daea962b6a75b630f124f2d09e650f8712887deb1"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0030",
+      "sha256": "318ee6996e2f0c67a009a34c27de292c9068e8ce0d04df2769d4579fdd8cdfbd"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0031",
+      "sha256": "e77488190fef83b45d8450e8cbd3ff4404f723354fe6ed765f2edbc6f29d0fea"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0032",
+      "sha256": "cc2d7aa4f08e48bc8159ab06b4be83cd59ac175a5f4c5bfb11d368885840b14c"
+    },
+    {
+      "id": "wailing-caverns-catchup-source-step-0034",
+      "sha256": "4b8d596d77a69373ee6c5913d0a387361eee64f203c661b0380033fbbdaf417f"
+    },
+    {
+      "id": "wailing-caverns-catchup-return",
+      "sha256": "cafdec1ace6600a4a03a012e5364b42cd6a91b9a76c395568633e797878f25de"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-accepted-0",
+      "sha256": "46c1d0a29bea85d8f56b22fb4072e23acd50ff5ee2efc710b0e7e39c779f1ffc"
+    },
+    {
+      "id": "defias-unlock-125-source-step-0050",
+      "sha256": "944fe690653ed67c4c0ae5a5f694c6a98c98f36ec4df70df7b9c873e1e880b13"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-accepted-0",
+      "sha256": "a3e7efb28a430d7138d6de60d6f694a5f96749393389f8787ec5f3b1ce7398fb"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-1",
+      "sha256": "13bf61b3f6c5017d13429b4f660f6d4b2d92b9f35654ef108bb3b324d95c1a06"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-2",
+      "sha256": "ad1dd9c5c8c905ad96d479d0049eb8da15c6a83b3fece714e1caf2ba7ec289ad"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-3",
+      "sha256": "ac15dd098ec9971168e79042aa6f3c15727ac49fa3ad4dd13a74a5ba87fb5489"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-4",
+      "sha256": "593ec3e25a53d16729a7f25dd202165be3e2d27dda073a05da9ea718944c0442"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-rewarded-0",
+      "sha256": "74f4886c3f32de53ab7e1b4dc31d97bc1423295df463d29065e1e37ec3a97902"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-1",
+      "sha256": "f210fe58acc147584fcc56f7a9e9d632dd899a2395a0c9383da787e47effb20e"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-2",
+      "sha256": "1c2b368c286d23a584a2dfd9e62508ea00799c649a8f5f84c478b8affb00d792"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-3",
+      "sha256": "016feff60a962d07167f7cf9624ad074f6ae38845456129d342edf4460598fe8"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-rewarded-0",
+      "sha256": "029364e262ff6b3668626b8c35cd03e69f05d454fe730bacdd2522d66acfed96"
+    },
+    {
+      "id": "sleeping-bag-westfall",
+      "sha256": "a5640f7da4997e2d435f333852286eb54592310b4e435aadfec941ba56110e81"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-118-accepted-0",
+      "sha256": "1c23afd4b22ae0fbf6c948be70a554f32c8611f04e77007e60301f002091abb1"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-118-rewarded-0",
+      "sha256": "53435e0d355d81578512276221dc1b25c3b58e07691fa7c18f8ee44a2f0ad59a"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-119-accepted-0",
+      "sha256": "df59f8f3072c0745ce210eaaa179969449eba36fd4a33fe9a6f2f72638e18d21"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-119-rewarded-0",
+      "sha256": "d790f9598e342b4b9c423587daecd68a1284d613df900d7aa5cce8c11be5b530"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-accepted-0",
+      "sha256": "7e7dd679c461411d18c2c88098fa878223fd8963ac8518ccd7d8b3651459cef3"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-objectives-complete-1",
+      "sha256": "31bb3e8990798fdaa016a1dfc8996a756617b794d19c17c1e66173b945d7bec9"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-objectives-complete-2",
+      "sha256": "065cb564ab983e906a3b2ed2b7373453cde48da9141bd016a63385afc18aafe6"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-rewarded-0",
+      "sha256": "9bdb36af89541c7a36d70efe29b38fc6cf7168faee827bd397e355a20c1e7434"
+    },
+    {
+      "id": "defias-unlock-objective-65",
+      "sha256": "2afa080988e110ebc569abb1560f63bfa833ba607fb60335fef97911faa0d772"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0389",
+      "sha256": "afa046b1b3bdefa3975e2d2f6d0ce56db3c7954ecfa7080f594b782a6e5efd69"
+    },
+    {
+      "id": "library-quest-129-accepted-0",
+      "sha256": "dfa3aeb58737d6e3f6e7ea42c59e859f8164ba781d6e6d7330e6d51448e1fba3"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-125-library-quest-125-accepted-0",
+      "sha256": "55f10081c7a0862aa9cdafeed5801eb4c071d9b88bee04b3ef7b84470523aecf"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-125-library-quest-125-objectives-complete-1",
+      "sha256": "b42b4d5877ce7d2bdd35e164fc2cb44bc6ac1e1e73bc570230fbf5457cf6042b"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-125-library-quest-125-rewarded-0",
+      "sha256": "54e3a56b731114ac6bfd6c48ade776cd6740a70f305bc2da5e6132e0fd35f347"
+    },
+    {
+      "id": "library-quest-120-accepted-0",
+      "sha256": "403c93194b00ff55afeba10aeca085ff975d4e662fb52069c6f20bcb0aba25d4"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-accepted-0",
+      "sha256": "67666d202b628431f79d50a6ff9c538c5ed3570e3a1c870462db3d5297f59106"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-1",
+      "sha256": "c7bd721fdc8aa50604a4db7df552d675feaa4475c3ee31beb255286694239567"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-2",
+      "sha256": "bfd9fe1272197580d94494c11eff924cee034f0b9dca007ecf165cd913afe0e0"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-3",
+      "sha256": "d6225787c24cec1bb62b35b740575cf285de2cab340bf74f72c8bcf43d43f1a5"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-rewarded-0",
+      "sha256": "5dbaabb5472bdaa33e0bc51b845d66d9d1cdae7cc0d46524e0e1311ecafac7e7"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-122-accepted-0",
+      "sha256": "e0bc80782c5774bd7334b8cc909e4bd00b98ca6f21442883c39a3b6a6907a6e3"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-122-objectives-complete-1",
+      "sha256": "e47edb4cbd1a4e3a2449de6f599720df1db8cd37eb9ac97f1c5ad706c0105727"
+    },
+    {
+      "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-122-rewarded-0",
+      "sha256": "d2b485db38762b016bade3f727a2315443cee0630fe4b188494569e728be088d"
+    },
+    {
+      "id": "redridge-kill-batch-128-source-step-0106",
+      "sha256": "48af2d43b2de9dc1be6e036ee0bbc35ed6198a30146b0b75ea332eb06a3514bc"
+    },
+    {
+      "id": "library-quest-129-rewarded-0",
+      "sha256": "f7381c43ffceda74e44e4c467e58aabd7479d1fe31025095883d216e79b1548f"
+    },
+    {
+      "id": "redridge-kill-batch-128-source-step-0107",
+      "sha256": "9fe382c752bf07d5f571b8cc68e8dd638a48304f8340cb660fe8bb3d3d0a7dfc"
+    },
+    {
+      "id": "redridge-kill-batch-128-source-step-0130",
+      "sha256": "62531033e2fee2f314ca1307adb19b1452b023198b0a42c93040d829a9027e74"
+    },
+    {
+      "id": "redridge-kill-batch-128-source-step-0132",
+      "sha256": "99b51a3a52a001419b92dc977f7ab67c0713585ea419687071e160406e214d43"
+    },
+    {
+      "id": "redridge-kill-batch-128-source-step-0153",
+      "sha256": "e40d7b5ce60a4154f98a9ecf25b371dc3d21ae438e5b51423ea1d8e59dbeba06"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-20-accepted-0",
+      "sha256": "77a34c7fd9d0ec85984bdad192aca47ac6cec7a28a2dfbee68242dbd575bb7ae"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-20-objectives-complete-1",
+      "sha256": "cd2bd4227aa6910614c90e97c3f72a2954d54a29f7f92159f0da8bdd1cac910e"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-20-rewarded-0",
+      "sha256": "beea4af8efe567ca48124771b7f8ea0e068a971717f091e0138b702c8a0e329a"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-245-duskwood-watch-10-source-step-0099",
+      "sha256": "5f26252ede0ed8a7f02c6889d579b300a9a3b712d3de421dc3e3e9b08d7a5062"
+    },
+    {
+      "id": "early-duskwood-spiders-camp",
+      "sha256": "0d59f786179126f9bb24b30308a6327b04341eb8cebc16d044177156c2b5e4ed"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-245-duskwood-watch-10-source-step-0102",
+      "sha256": "4db9a59d02e28a5532e9c612a206b5d531d139b2d89e16c028cc0f11ba0781b7"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-245-duskwood-watch-10-source-step-0203",
+      "sha256": "1419373456f3ed03476b8ffee78f962dbc18a36b82d413539a933d4becb3e960"
+    },
+    {
+      "id": "defias-unlock-brief",
+      "sha256": "c0a1a6d00f0c917bb7fa97b38e9df82a332517f4d804417a6fc27c13db6c3e97"
+    },
+    {
+      "id": "defias-unlock-objective-132",
+      "sha256": "882538e59ed9f69703030b2cfd6a3220e13c28493792ba76995c874a4a4f5412"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0396",
+      "sha256": "5e2e37ed7bc262450c2ff4ff8ec98de152f0cb774cc84a1533f59657a3a5cda5"
+    },
+    {
+      "id": "library-quest-120-rewarded-0",
+      "sha256": "c7f4b36e0b25d07f1d02deb76092439ed869221da37ba2e045f3d6b147138571"
+    },
+    {
+      "id": "defias-unlock-objective-135",
+      "sha256": "0818a43542263686a9a39c9f1a4fd7578b3b3024844da7cecd08c6ef271df7f7"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0414",
+      "sha256": "c33b255febfa40cdb67a957bd4caed1a29d8a4d1490fb12f076cf7c18f0a211f"
+    },
+    {
+      "id": "dungeon-deadmines-accepted-167",
+      "sha256": "c5ebb95e5d4abab30d6be8f6367975e2537eb2bf0bb14e13b206fcafc2b0fa3c"
+    },
+    {
+      "id": "dungeon-deadmines-accepted-2040",
+      "sha256": "cff6e0465918e363a804ab68ea8ccfbbe0c4950182b15c5dc8d5d69057c6e5a8"
+    },
+    {
+      "id": "defias-unlock-objective-141",
+      "sha256": "48be2fe52f6b44accdfa2d1399876cb26a00b0d926e7a55cb9dc2ad6ab52127e"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0417",
+      "sha256": "2514e6cdc5182d2f767d48c9a4653df5c6bd22f56f6a385918457f74a5ae9f12"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0420",
+      "sha256": "dae9f7f40677f9d2f566ca73548a0d185b825f8fe8155a9a987575f4b4f7ffe8"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0421",
+      "sha256": "255481810a4c5aa3f3a0349674198a67570aab2a800c8f309305d05baafc847e"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0422",
+      "sha256": "0daaf288b5503ce428c7f5afea60b49fd6794554ed420bcea612caccb3d6b86e"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0423",
+      "sha256": "59758cdd8d77bf6698b6c4892e46f04319504557af9e3a552f04a4bd8354897a"
+    },
+    {
+      "id": "defias-unlock-127-source-step-0424",
+      "sha256": "6ed9800d9170d6b195108271ea48553c96ca68a89647a777d6f50511721b84a5"
+    },
+    {
+      "id": "dungeon-deadmines-accepted-166",
+      "sha256": "9e73ed77f145110d02d82399cfff167c83ac50c8e02ba3224b3a46acdf7759b4"
+    },
+    {
+      "id": "dungeon-deadmines-accepted-214",
+      "sha256": "84cc484e056fde144d2ffda963509389dc6c5ea5eed3029de271ab00a2ecd073"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-accepted-0",
+      "sha256": "4e4b399928ad18bcb15630de9b2be99f2ca35afe79ec99c2ccf9a45fa8707b23"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-objectives-complete-1",
+      "sha256": "f2ec7f2393b06cfc602915cc7662d88ef0c1740968e9dea0f7c1b7dc98384803"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-objectives-complete-2",
+      "sha256": "535a138620d23fb9d1112a23672db2848667987361ac293cde500fd55a0ee14b"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-rewarded-0",
+      "sha256": "eaac3b320451c95d257da07abe123cf6fdcb02687f6dc95758b8377a176827b7"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-56-duskwood-watch-10-source-step-0082",
+      "sha256": "d18cd7895880cfc4315712683a8a480a0c98c0ead11df7b3d1c91912bd7e9fae"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-56-approach-1-2",
+      "sha256": "56b115ae03cfb94094e3e2ae39f78fcf332abe0463ebd3f7c56773c6525fc413"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-56-duskwood-watch-10-source-step-0094",
+      "sha256": "b81089ab0d9dcfbc3c60731d4e2141d0b4842ba23e5e8f242a2a3a10dd2cab4a"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-56-duskwood-watch-10-source-step-0172",
+      "sha256": "04431cb82780e8406f471f2e842645e2c499ac7958c4e75350c4ebdb8df2ba49"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-245-approach-1",
+      "sha256": "d32d018e15912710d346b633896a90479b68c5ca4f3cca23385d08106c01ec6e"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1070-library-quest-1070-accepted-0",
+      "sha256": "1fcf2a64b3fe1b6e8662133c789f0a05d3f1994c84ac07e9c5ae02592517c630"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1070-library-quest-1070-rewarded-0",
+      "sha256": "c45f81b911af93d0c21e706525d18fb5863d759e1f4f7efd2eae5d8ae33ad993"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1085-library-quest-1085-accepted-0",
+      "sha256": "289d01b67b80cdbc142a1d855893b1f2637e959faea7cb0b9a61e5c8bb6adfd8"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1085-library-quest-1085-rewarded-0",
+      "sha256": "b92299164cd1886b842f68ae3ae496cb3ad71c48234b31fe65a64f76eb98276c"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-accepted-0",
+      "sha256": "2f5e8b29dfee928b3cdcdd54432e36df01aecd1d0df190db07eae7a461473e7f"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-objectives-complete-1",
+      "sha256": "e3ace3d0ccccabd10bf748f46d59e5106e0625f90127e45e504588dc533ea716"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-objectives-complete-2",
+      "sha256": "1cff2d469f04ffde6b9835be92339257090d50f9a01bf2f7639119784432f1fb"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-rewarded-0",
+      "sha256": "0287138364622fb4396270642841e786cf7de9d0f3811412bdd73a3594481680"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1075-approach-accepted",
+      "sha256": "1c096288c27b3c6936d7b209d16234977ad4f89fdc76e353698ecf8f9e7f59d1"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1075-library-quest-1075-accepted-0",
+      "sha256": "6d6c1fb90c6024c0ca80444ac14ce452e0c27aa9601e2562ed322e867cf8a673"
+    },
+    {
+      "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1075-library-quest-1075-rewarded-0",
+      "sha256": "8072e749f8335adac9f375033018b0ac10a8ed2e1de48115dc6734b0ab4a4064"
+    },
+    {
+      "id": "northern-approach-departure-level-18-before-lordaeron",
+      "sha256": "e137e45ab077248666d61e2e0c560216ef044204cbfc5f2ebbaa607fb92e9ca2"
+    },
+    {
+      "id": "dungeon-lordaeron-brief",
+      "sha256": "43fb8fb87614a5c158ffdde2f93966c4de55cb25e0dcfd2d6d1bc4016608d7ea"
+    },
+    {
+      "id": "dungeon-lordaeron-entry",
+      "sha256": "e809da0ce5720b08d71c4deec4aa8872439be34aee6751c03bde8ea5fcd5e84e"
+    },
+    {
+      "id": "dungeon-lordaeron-level-16-95250",
+      "sha256": "edc602785620b8a4dd8d92f14903d648fe87657d2072be6a79ced2656662132e"
+    },
+    {
+      "id": "dungeon-lordaeron-accepted-95250",
+      "sha256": "cb56173d9e2f404a82693134dbbf455646dcfb32190a98e0805e2d1158f5f5f0"
+    },
+    {
+      "id": "dungeon-lordaeron-accepted-95189",
+      "sha256": "c5135cf16fe725f56cd15ce5c40b562317a467218228e00bee76f97c0511de91"
+    },
+    {
+      "id": "dungeon-lordaeron-accepted-92415",
+      "sha256": "ed44d17c6c3503d76e99804733d900ffc70a83850e740972d0aaf1caafcf7cf0"
+    },
+    {
+      "id": "dungeon-lordaeron-accepted-95195",
+      "sha256": "8e03f23a5e6a69ca946ff915007df786c427b99ba8b2631099a106a90e340241"
+    },
+    {
+      "id": "dungeon-lordaeron-objectives-complete-95250",
+      "sha256": "7bdaa5f34bcf080f30aaaa925a71e44c3e34ac1dd9bf7500d7c93cfe137cdd42"
+    },
+    {
+      "id": "dungeon-lordaeron-rewarded-95250",
+      "sha256": "35308735cc3761eb4153c0879c5fb78a03a99975ed1abe489cf03f78fb45fae4"
+    },
+    {
+      "id": "dungeon-lordaeron-objectives-complete-95189",
+      "sha256": "8f535fe9700cc958af454af8e2e9bdb018f3f804c6303c5878387aff9bd65e05"
+    },
+    {
+      "id": "dungeon-lordaeron-objectives-complete-92415",
+      "sha256": "46ffde02829122231cebee5b2d764abe64d6a757a886c88fbeb5eb10cd1aa4c3"
+    },
+    {
+      "id": "dungeon-lordaeron-objectives-complete-95195",
+      "sha256": "a595d61d14d5b44089917399e137389179757c01a8aeb72c43269fd8edbc8dba"
+    },
+    {
+      "id": "dungeon-lordaeron-rewarded-95189",
+      "sha256": "8faeaccdfc2049624addce850e60ae94d8045427a86dbb652cf948c78f698121"
+    },
+    {
+      "id": "dungeon-lordaeron-rewarded-92415",
+      "sha256": "dc1d72dab72350092cd37c824e0d71ed20901abb0d0aedc07cec00b3de46f52a"
+    },
+    {
+      "id": "dungeon-lordaeron-rewarded-95195",
+      "sha256": "a6d41a5f2162dc1957d8b8077f729d08633e570b4b1acbdeba80303f80c0b34d"
+    },
+    {
+      "id": "dungeon-lordaeron-deliveries",
+      "sha256": "f0adc5e49a7690f5f7e03dd2f0b0d7dd9330c88ecbab6c5a25dff60fc9c401f3"
+    },
+    {
+      "id": "dungeon-deadmines-brief",
+      "sha256": "06cd3b78857edef5efcb4823c4d30692807f7e73cb8656e7948a4f2dfed80a44"
+    },
+    {
+      "id": "defias-unlock-departure-level-20-before-deadmines",
+      "sha256": "006e8836258eaefb2eacd5525bed1fe027e915c69f974e40d86af1bf7a549e3a"
+    },
+    {
+      "id": "dungeon-deadmines-entry",
+      "sha256": "65dcd25488d07640c5edd4f5b0023a352e625e65ee34ad8a094b9be5bfe32237"
+    },
+    {
+      "id": "dungeon-deadmines-objectives-complete-167",
+      "sha256": "5e78affc3a5923b92fa08c4003846a08f1ab4e4420cf65757c8b3bdf7422a974"
+    },
+    {
+      "id": "dungeon-deadmines-objectives-complete-2040",
+      "sha256": "3f7b724c6836ad45545296099d2a611b8878af86398a942c5bbba79b8b55201e"
+    },
+    {
+      "id": "dungeon-deadmines-objectives-complete-166",
+      "sha256": "83c3b2000943af980b8685a1a7289be079db82a1ee846709f4bf6a7df3ec5f39"
+    },
+    {
+      "id": "dungeon-deadmines-objectives-complete-214",
+      "sha256": "8f4bb430cfc9be071c311c1213d950619db0ca1ac9d81705da4b2c5f3714cccd"
+    },
+    {
+      "id": "dungeon-deadmines-accepted-373",
+      "sha256": "c3c7dd4233f0f9ddf898ce8e8ec0a1c42bf4fc4df085174cdd38b656022c2730"
+    },
+    {
+      "id": "dungeon-deadmines-rewarded-166",
+      "sha256": "cb8a45899bacec5e921e3f2c71a68aa4e67d9b9ff7898cb29d389079294c3115"
+    },
+    {
+      "id": "dungeon-deadmines-rewarded-214",
+      "sha256": "1e5a0679dec0b0d0838543603c732b12617f2fbbde7aa2d7592a374d2b13d235"
+    },
+    {
+      "id": "dungeon-deadmines-objectives-complete-373",
+      "sha256": "354a63ec133ac6b9dde81411a8821e3af655e1fb49d7bea9525ffdefbd38413f"
+    },
+    {
+      "id": "dungeon-deadmines-rewarded-167",
+      "sha256": "4dcdeaee318bdcb149100ed8e6c576969a798c33b81e959d531d84e884b68094"
+    },
+    {
+      "id": "dungeon-deadmines-rewarded-2040",
+      "sha256": "13f6855a9a6adbfecb7824a1ebea077c641c1e1f76641eb098da3eb57a698ab5"
+    },
+    {
+      "id": "dungeon-deadmines-rewarded-373",
+      "sha256": "7a054f56fb76668213db2649f1a59cb581ff765e77651bb5fe3c00e0d8b74a2f"
+    },
+    {
+      "id": "dungeon-deadmines-deliveries",
+      "sha256": "a098846741941c43caf1640d61c26f83e03f840e9772c3510b0caebe6c8be909"
+    },
+    {
+      "id": "dungeon-blackfathom-accepted-971",
+      "sha256": "8e54ae49c91994378e12bf6fa3d833279ee4c9204049dbc1faf33191b78f2b46"
+    },
+    {
+      "id": "ashenvale-crossing-level-18-1198",
+      "sha256": "d385125ada15d8f932a8aded259cb465115ae1e9d36991aa67758e76e9fb0d41"
+    },
+    {
+      "id": "dungeon-blackfathom-accepted-1198",
+      "sha256": "9c69c8c1025170808dd2dfdf7c10d85ea737429102dea63846f69104b9191adb"
+    },
+    {
+      "id": "ashenvale-crossing-brief",
+      "sha256": "d5642533918f621a60fb332b8d7804d7329266dd43faf7ae7fbdbf3a1114a2e0"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-463-wetlands-prerequisites-accept-463",
+      "sha256": "cc030621ed75d0afd0567a7fe08fe0a5462d5594bb25e592c9477b25603407e7"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-463-wetlands-prerequisites-hand-in-463",
+      "sha256": "695bd530dfb54d0f5965ba3075df40c4cfa7e9f482a6b4f3134cce8b051a79ee"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-276-accepted-0",
+      "sha256": "8cb2ce45b99df3485cfbdeda008d4aac665a61eb2d1afaf02541b407df25491f"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-276-objectives-complete-1",
+      "sha256": "d00b801824064e1f9732bc7e52bd13b164859de42f2d61e8c13874c13c134908"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-276-objectives-complete-2",
+      "sha256": "9a7eaecd199f3f3907136e94d9ff52c8185e05e82c35181e6c4df16982c84fff"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-276-rewarded-0",
+      "sha256": "189cd2e02dbc4ea5fa4138672b5df94d35e9dc6ce805a86a5fd6de7cd1d58847"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-128-duskwood-watch-10-source-step-0179",
+      "sha256": "f8ee20b26a0668e88197040d0d93c0c97cc30b7e7a6cc3a7088080ad81aab362"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-128-duskwood-watch-10-source-step-0334",
+      "sha256": "5c6e9def56ed1b0590294b72d3ac6f4e58dc89a2feec4748d7204b839ad25f56"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-128-duskwood-watch-10-source-step-0346",
+      "sha256": "69c4bb0e91c44bf232c5082143f51c5232891907fc4ed9b7c40950e03df14d3e"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-277-wetlands-prerequisites-7-source-step-0048",
+      "sha256": "3e0b08d9529a1387d4b641133c40bfa2c7f4c1e19bacbf280f3937cafdad6140"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-277-wetlands-prerequisites-11-source-step-0048",
+      "sha256": "81ca462f80b1a79a9a774f5204fa9a387a0fba01c6d5ed9cf34c39c9fc4aa4b5"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-277-wetlands-prerequisites-11-source-step-0061",
+      "sha256": "b86cf3ae56e85c89c1668096f6e4a1e71da836efceb58eb2576f97e8192d1abd"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-275-wetlands-prerequisites-11-source-step-0061",
+      "sha256": "5a6e6e939ec80dfc1415a5b3b1a5b0e949f2730647069f082bdf226460e55965"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-275-approach-1",
+      "sha256": "f9f1da5eaae5efdf9239bfe03ffd32a7042e81ec9704196de28d79b69fee9197"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-275-wetlands-prerequisites-11-source-step-0086",
+      "sha256": "23a2c8739c5aba2b4ac4210c4197797cfffd0dd62d9c911578d2a326054a2276"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-275-wetlands-prerequisites-11-source-step-0098",
+      "sha256": "02eae97ffd9b80e57d89a59cb7b275c013e40cc2bf96a8d448fcd7c11ebf0e06"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-57-duskwood-watch-10-source-step-0172",
+      "sha256": "2cdb3eafefae44b6c23e1c0971c032720140d9a55ea04484d0f5dd2a5b448145"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-57-duskwood-watch-10-source-step-0293",
+      "sha256": "731554d31286f57a274316d6f4e764a562774d28b4bb286d873ff4548f0168de"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-57-duskwood-watch-10-source-step-0302",
+      "sha256": "3461027a401e2a1994b07c781803d23cf499116086cafcf6abe66a081043915b"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-164-library-quest-164-accepted-0",
+      "sha256": "750f84cc77dc4196099408f29956c84f06049ba31bcc1862242d9250d75cb8d0"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-164-library-quest-164-rewarded-0",
+      "sha256": "92bda442743bfc66dc4bdb521f718cd892f48d4bb3d2a2de41a4e19180badba4"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-95-library-quest-95-accepted-0",
+      "sha256": "6fb76cab90b243b1710a35c360541ea845b0aec9a9282577a81156d78fcb20b2"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-95-library-quest-95-rewarded-0",
+      "sha256": "2154e2d9e3ef944f3fd9fa5647f005fb4131b5f88703898dcf96496e1e2f8931"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-230-library-quest-230-accepted-0",
+      "sha256": "006848781ea2829a850a87d499f64ade86a8b4197cc0e9e60c5e19a88d9ae44d"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-230-library-quest-230-rewarded-0",
+      "sha256": "1818c27efba564214fa277a793a85ab50470dbd8589babee02322a01aaabe1aa"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-262-library-quest-262-accepted-0",
+      "sha256": "a41cd2226272bc23184bde766ce118c219db81d76f62fbadec27c3525d52a560"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-262-library-quest-262-rewarded-0",
+      "sha256": "cd2f67c8d6ae525f90b1003b1c90e4f0698ecccfdf565ee4c0b522b4c9a2e143"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-265-library-quest-265-accepted-0",
+      "sha256": "9a2251c526824aa049ca94fe8927841040ed08f8f57f4f702d75942e5d0934d1"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-265-library-quest-265-rewarded-0",
+      "sha256": "dfb7a039bd4a2a9f908249827d4dc8ebf781e47c4da06862830bb23d84cdbfb3"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-266-library-quest-266-accepted-0",
+      "sha256": "a8dedf18e7b92d0d1a742b0b8ff39ddaf363d6abcba2a7871745ab157df69d71"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-266-library-quest-266-rewarded-0",
+      "sha256": "0c2ba989f08cf055b0cf129eed24e5dc85969ae26f9983acd1126bfb219e4ffa"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-453-library-quest-453-accepted-0",
+      "sha256": "e06b12b52e5d7fa92be0f23c4be6f4a228019979b9b3f9d8451b75f1093c7589"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-453-library-quest-453-rewarded-0",
+      "sha256": "a5438b5a2794e3e728a71ab7f5548a11ad361bffbe6b00dcf1fd51208bdbf701"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-268-library-quest-268-accepted-0",
+      "sha256": "08248c964497cbe6908ebafabbc0d4d78d7cda9889052344bbab01ba8756be4e"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-268-library-quest-268-rewarded-0",
+      "sha256": "65469ad9f4074b5f39ba4f3e18054f3d00acee8e1bb5b1f129d19ba677d7f0fc"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-165-library-quest-165-accepted-0",
+      "sha256": "5c1e6286684d2e7a02f1a2bb1751e5311b93ced41bdfe3da7a4c04a411ab0909"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-165-library-quest-165-rewarded-0",
+      "sha256": "bd87a503bc6f3d4bab63f90677052c1fcc75d0de1753ef3160af96b9024488d1"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-148-library-quest-148-accepted-0",
+      "sha256": "b7cc0c4a3937b3b85ebfb2a1eef0d0fd8943f0f32a0a9fa8db56b9a12d26d98f"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-148-library-quest-148-rewarded-0",
+      "sha256": "777cfd7348c2c9227af0c513a2d81087eedcc7162e7516ddb8c068df50de0a84"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-149-library-quest-149-accepted-0",
+      "sha256": "8e6571ed2275c9d37f38d6db70b058d9679e507f07d8041e5ff866689e7d777d"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-149-library-quest-149-rewarded-0",
+      "sha256": "46f4ee13cda6ddd2c84db22b05963eaabf25a452960b3605317b7f7bce95da54"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-154-library-quest-154-accepted-0",
+      "sha256": "6e22d00b3bb8ebf79a34c6f1ea274fc37b20516e4e90ea48cc6338183c268625"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-154-library-quest-154-rewarded-0",
+      "sha256": "333d3c287b438493d2ead8cf7e6448bc6f6d473833577725a93105652239c4d9"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-157-library-quest-157-accepted-0",
+      "sha256": "99647cebf7c116faf28532a18c32f6d0064a680abe9992d52b5512755929e4b2"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-157-library-quest-157-rewarded-0",
+      "sha256": "2c0860362f2c771b5789ebd4be71b517f8cadeb7cd2e113d053b336e1926da85"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-158-accepted-0",
+      "sha256": "8bc8a61862c606b3ce52acb13de352d33f69966ea151796a27c351fbda3e24df"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-158-rewarded-0",
+      "sha256": "85e68acd7ea181cd9ac7e37e44813aa6179ea02d32874abcfd19c0ff1ba36d2d"
+    },
+    {
+      "id": "quest-funding-quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-294-wetlands-early-kills-7-source-step-0024-729-library-quest-729-accepted-0",
+      "sha256": "0c91742f1b5157c773ed59148be15bff0a9c311edb0f65deb153a91fd8c310e9"
+    },
+    {
+      "id": "quest-funding-quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-294-wetlands-early-kills-7-source-step-0024-729-library-quest-729-rewarded-0",
+      "sha256": "8abf53d28283352a70177e86aabba465a44139b370c9629bd34f840e39953202"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-294-wetlands-early-kills-7-source-step-0024",
+      "sha256": "701b9fb8f82d492f1dd931d24c1586c5cd4c877ff8a4dd79223784ca63695ca7"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-294-wetlands-early-kills-7-source-step-0029",
+      "sha256": "4a658b383ad5fcc144d2289e75abccc6b4b23f28112ec9182d3ddd6f7e1b393e"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-294-wetlands-early-kills-7-source-step-0030",
+      "sha256": "b1abd870e446ef4a70157195fdfcaef55cc4314081e3f0a47c0d06fe38a7dce0"
+    },
+    {
+      "id": "sleeping-bag-barrens",
+      "sha256": "864cfc238f867be8e62ce0828143fb894dbb41a87ad61dbe128e52e225b4be22"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-accepted-0",
+      "sha256": "b27b0fffc2996298921d6702e53f2e17b40e9da5bae47ce9d50b953563743892"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-1",
+      "sha256": "64444ac340a44ce25ba6c3cf5eb1917c918be2192c34e1b3dfb147df61279b41"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-2",
+      "sha256": "982520360bec3fac8c488e248fd676f494fd315dccf533cc5951672d181f3b35"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-3",
+      "sha256": "a123fafffb0027a5ee21ed854e10edb0f6e49ce54142d32dae1a9adac0943f16"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-4",
+      "sha256": "88fe0da6476cd45d76eb02e6859bb475f3449ced208d5331ad64a1de1005fe5c"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-rewarded-0",
+      "sha256": "22cdf621ff31d0e39c1747da26d9a798bcccdaa5d8cc402cb39dfc7ba8e61289"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1059-library-quest-1059-accepted-0",
+      "sha256": "cd698500149a8eb1ae49601ba6583a96425663742b4b0c17f9b7020d7f9b589e"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1059-library-quest-1059-rewarded-0",
+      "sha256": "c6e68ba2b037bd513a4b0f8a74c31fdf2575017eeb79ad9a9868ac545b3ec2d4"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-991-library-quest-991-accepted-0",
+      "sha256": "c3bf6de0074e7612c25011ce9dfd1c1f5948add4e221409b9e9fc29fe6379a57"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-991-library-quest-991-rewarded-0",
+      "sha256": "638ba8d4b4602eeeb5b6682e2f7dae969c15b181a78ffa22d0d38bbafbcc211f"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1072-approach-accepted",
+      "sha256": "6617c1724f5614d641711a2cdf89343d7798a966a9e9b3b6da6ed53a74c78b11"
+    },
+    {
+      "id": "sleeping-bag-camp-trail",
+      "sha256": "3045f5c57554aa5a1f63ec8960ba2c2adfdd9782ae36d1f1f947ebbee71798d1"
+    },
+    {
+      "id": "sleeping-bag-camp",
+      "sha256": "9352b11335336d100b9d16c71d400e9794163a788d3d00dd112d2e58bf1b2950"
+    },
+    {
+      "id": "sleeping-bag-dirt",
+      "sha256": "cb85c1d8457b17c47a709faa787ed51089c3fbea4e400b5a3b200552fa3cbc48"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1072-library-quest-1072-accepted-0",
+      "sha256": "b2641d68b643b07d8738cfbcf709df5da2225e720716978cf60e8872cf875f33"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1072-library-quest-1072-rewarded-0",
+      "sha256": "1fa96ec3c491a49c87c85ed25d2f5d4ac01a4c4cb8fccf8a5350ce28c6a4132a"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-66-library-quest-66-accepted-0",
+      "sha256": "8a917d0c0270e3cfe80276c20fca65becda6b04169739a21ed13ea2f93982663"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-66-library-quest-66-rewarded-0",
+      "sha256": "e147535ae12fbd705140e87ff88fb036da9ce74a6f757f105f395f0c87694c1d"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1010-accepted-0",
+      "sha256": "153db3c446754fb4a92eec9180dcddc8f4aef348eff96109d9404f497dbfb124"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1010-objectives-complete-1",
+      "sha256": "85a70d04692d02b2f7c62b44ec2780978aa82a388581592f8f7081810229d1d6"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1010-rewarded-0",
+      "sha256": "568bd3744f1c82a86fca6bef8922de90ea53f504261161f7114d10e16ccdfbfd"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1020-accepted-0",
+      "sha256": "f56dd4c864f91c86ae1fbfd97db47ae6e33dda09e6c30269093f259e0b721a94"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1020-rewarded-0",
+      "sha256": "457876e098a3d1c86a8a9904ef632b883ea59a3340cedae2fdd181030b94ac4f"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1033-accepted-0",
+      "sha256": "57a4a62d8d278d4da1fe1cf8865bda03c78d8a3bd66432d1c1f198fdeb548e13"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1033-objectives-complete-1",
+      "sha256": "5cdc9511fef35eccbdae190fa71d6bf427f5755a2e5fc21d175225275ad49558"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1033-rewarded-0",
+      "sha256": "a1e868d183ba60c73d5f4a86bc845277e49aaad4fafc0eddea4e5b3e3d798499"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1034-accepted-0",
+      "sha256": "e6f0e8043cb33dd5ec414433bc5d935cd8f4590c95bfebe8824303d8c6bf1a3f"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1034-objectives-complete-1",
+      "sha256": "b77bb2c5c357ec88a6aa03f881cda0c6ce66632143d3a2893c52bdf55561f777"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1034-rewarded-0",
+      "sha256": "999f4f4552a8f01f0a6af7f08e68599ebac9db11368d28d59af01a653785787e"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1007-accepted-0",
+      "sha256": "694d850ef390c1952e0493e2a104207ab42652fddd693a841997291b264c5d61"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1007-objectives-complete-1",
+      "sha256": "ed93d9e244996ced1d2608cd927222947034d9fc0af9669e93408750f4bc2920"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1007-rewarded-0",
+      "sha256": "5e95382dc5e13aa08d3bc97f871bf908e0c8285fc4079b24e9698f54919a50d4"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-3765-accepted-0",
+      "sha256": "13c1456832444b051db60a9566da8cb4519de6bc726d35b18cc237d48589da33"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-3765-rewarded-0",
+      "sha256": "cedc2aa204a6e5b4e51170f0839a357429a099f897d51bad2ad0949e6b3cc88c"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-2923-accepted-0",
+      "sha256": "647b87d8bc3bb5cfd73f2fb3ab3d090d1aa82e09ce2558c22bdd908351bdea78"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-2923-rewarded-0",
+      "sha256": "7fb9d68d7acae23b8a975f75687f690a3870980fabc85eb9f9e570b4ab3ff635"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-2927-accepted-0",
+      "sha256": "908f73b441b39bbcef4b7518a70d182a866ceb4ae16d789780c84ccb4e7f7e63"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-2927-rewarded-0",
+      "sha256": "93547d855e80ca20e793dad8307fbd1584e6356e437059ecb1221c74db8c21cc"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-279-accepted-0",
+      "sha256": "3cd8c52d58c311c1fef775c51b1169f752755adad0e1a332f59b7147750c405b"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-279-objectives-complete-2",
+      "sha256": "ba4fcd1019a7e47de47f793e29f966b3bbdabcc3f59adc1daa6e98b79dcf352b"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-279-objectives-complete-1",
+      "sha256": "b4d15fc084595c9eeb4866aca426a3d0a10ef44670d6bba636b7d11c8e57372d"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-279-rewarded-0",
+      "sha256": "1c4feb2d508c5436f687e14d3620f0a0386cf0e7921dc99fddca481468c0617a"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-281-library-quest-281-accepted-0",
+      "sha256": "2b1ae02d5da4f7c615f76b662f4c256e3ecf2e28d098d2eb44547b2dfa787f0c"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-281-library-quest-281-rewarded-0",
+      "sha256": "97cb696846d9d3ba745bd0936ed91385adedf553f18ad0b56b9f6c473257c8da"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-284-library-quest-284-accepted-0",
+      "sha256": "dae537299cfca7db538c70d421e0f805f3536476b989f74fbda2a41ecd407780"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-284-library-quest-284-rewarded-0",
+      "sha256": "a9a6dfc91916b0776ad4b921995d66f566cc3d6be4e3b1cc9899a3e677de5a8d"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-285-library-quest-285-accepted-0",
+      "sha256": "10871a5744abf2b8680a9624f9ea27c758cb7549b55713f31026809cefe4afb4"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-285-library-quest-285-rewarded-0",
+      "sha256": "63f2f7cb0563e0934dfa9471777ca167f2228b8dbbd90a83bc5078021666b22e"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-286-library-quest-286-accepted-0",
+      "sha256": "82e934c52c396423a07fcf365660fb50e4c232996dd06ffbb733eec7a8562eb0"
+    },
+    {
+      "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-286-library-quest-286-rewarded-0",
+      "sha256": "84e77a111b44bd85b7fd12fdff0a5b93af1a31b43c849701e1c8eeb5a45acb77"
+    },
+    {
+      "id": "ashenvale-crossing-departure-level-23-before-blackfathom",
+      "sha256": "c2c6ec571edcb452ad5291721984b7e958c42bfa805d64af61bc95d6bdaf4ee4"
+    },
+    {
+      "id": "dungeon-blackfathom-brief",
+      "sha256": "28bfb8d5a94634ecee7d8ea6e503f9d87bd09d120918bcbc5ccf3487250ee963"
+    },
+    {
+      "id": "dungeon-blackfathom-entry",
+      "sha256": "73f8e35fadbddf39684a4edf8bd2e8df116369acec18ca8da1b389a19eeefd14"
+    },
+    {
+      "id": "dungeon-blackfathom-objectives-complete-971",
+      "sha256": "45985484246c7806e11440e891768b048f3a355938985fbb6c98182922c35be2"
+    },
+    {
+      "id": "dungeon-blackfathom-objectives-complete-1198",
+      "sha256": "ce1b48e5ff02a4bc8edad751bec5394c822bf7508318c81bd90510aafe75f376"
+    },
+    {
+      "id": "dungeon-blackfathom-rewarded-1198",
+      "sha256": "d96774ec3d88852b2d5c49f8147aa968d5564df76a9435946180b0d4c7eddfe6"
+    },
+    {
+      "id": "dungeon-blackfathom-accepted-1200",
+      "sha256": "1b49a2d9cacea454acc16bdfffcb448db3b3cf8f5d4142813bb1f87d2d2e8047"
+    },
+    {
+      "id": "dungeon-blackfathom-objectives-complete-1200",
+      "sha256": "ab50fa332c70fb5053aaa6f0f0fbb706fa087072667ed160919ffce8cc9378b5"
+    },
+    {
+      "id": "dungeon-blackfathom-rewarded-1200",
+      "sha256": "dd094f3369517d5d577cb6640218753d1297f7a7c8447cc96f352d5b82efc419"
+    },
+    {
+      "id": "dungeon-blackfathom-rewarded-971",
+      "sha256": "f5c3a8997d806b513baa7ddc3adb4b4009e594ea245baf3fbbc3e08a0c41187c"
+    },
+    {
+      "id": "dungeon-blackfathom-deliveries",
+      "sha256": "469138dacf108f25aefdefaf576914b5acfc2ad1672880ef398226a9f5efd52d"
+    },
+    {
+      "id": "stockade-letter-unlock-brief",
+      "sha256": "88ff5dd0de898d1998a42c0fd46bbf8857aad006e12b57c8d2c720ee5c59bbaf"
+    },
+    {
+      "id": "stockade-letter-unlock-10-source-step-0006",
+      "sha256": "0fc0fd1636e9466b9394949e7169fac6662d1e3cc03e0daab19de30535784421"
+    },
+    {
+      "id": "stockade-letter-unlock-objective-389",
+      "sha256": "6c077529e9ee148d53f386b152ab61ff03052b135a46466163077654024c2aa2"
+    },
+    {
+      "id": "flight-party-10-87",
+      "sha256": "3f158c7c3c30a0972a1bf7e3b5c7221992bcf2dcf6a038e83b12441fd4c82277"
+    },
+    {
+      "id": "stockade-letter-unlock-10-source-step-0227",
+      "sha256": "771fafa0bc7283be7493a66fa7e88e5578260d9520f4d35af2e00889ff52e61b"
+    },
+    {
+      "id": "stockade-fury-preparation-brief",
+      "sha256": "114511614b796ff2853c56d54595e9899b426782a6e7a0b482b1dd8b5112ef8f"
+    },
+    {
+      "id": "stockade-fury-preparation-level-25-303",
+      "sha256": "d19b0d778ed781314036632475c2ebaa3cd759469f7fd60df9a85c01656563e2"
+    },
+    {
+      "id": "stockade-fury-preparation-11-source-step-0101",
+      "sha256": "5c83a69faad2ffba0efe01bebc1adea7307e89ea219461d3f66c962fb034767a"
+    },
+    {
+      "id": "stockade-fury-preparation-11-source-step-0102",
+      "sha256": "df6b297a35380b7f1d0fec9b88a5b8401faa088f7da890f1ce92cfa0dc68b6af"
+    },
+    {
+      "id": "stockade-fury-preparation-11-source-step-0105",
+      "sha256": "9c69f8cafe08f4ba8804b7c052dd262f109cd67ddeb552aea66a204e6e31814d"
+    },
+    {
+      "id": "redridge-kill-batch-brief",
+      "sha256": "debfce314e4ee48bacb4970dbc3b6facef2928fb73d674663042e66445e35444"
+    },
+    {
+      "id": "redridge-kill-batch-accept-386",
+      "sha256": "3d9a7ab7b72663ac55dd4936a90c43b4b925416a016b8d80a41e1f2c507cac39"
+    },
+    {
+      "id": "duskwood-watch-brief",
+      "sha256": "cff8cf0a73a9f89a7899808d78943fb6e0547cf94e4748af4d7e6e40e2e86df3"
+    },
+    {
+      "id": "duskwood-watch-10-source-step-0174-pickup",
+      "sha256": "33a1b54bedd934d5f15971283dd8a11fab86c56303ae1253829c8f4edfa47f5b"
+    },
+    {
+      "id": "dungeon-stockade-accepted-387",
+      "sha256": "083213e2db266058c127da2df54833fd0f498d0a0ae09bdbf288fa04fec3e2a7"
+    },
+    {
+      "id": "dungeon-stockade-accepted-391",
+      "sha256": "0921d6194c9474d5636ceae895cbdf03b63a34a338082695ad4ca7dfb46f4708"
+    },
+    {
+      "id": "dungeon-stockade-accepted-388",
+      "sha256": "da8cd90c2926d5dc1571756bb8ae67a808a905c3c2e295750d5dc136282d6cea"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-295-wetlands-early-kills-7-source-step-0030",
+      "sha256": "af7db66640bdc5fb7e5dbebe2303859c9bbe6eca023c92e3b83352cd3bab2d4d"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-295-wetlands-early-kills-7-source-step-0031",
+      "sha256": "9a8b3cdfe08e9ea40e8551f39f9e59954f46106152a09e4ddaa4565808beca8d"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-295-wetlands-early-kills-7-source-step-0032",
+      "sha256": "90e517c3d1f77602aaa3d7cad7ea6b47c187bfad965cffe09b188f480925f43f"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-970-accepted-0",
+      "sha256": "39887b1718b5cadc76d69fd9cb4032ade8fe4d9fa4c7931f5dddf00ef10aff8d"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-970-objectives-complete-1",
+      "sha256": "4f212a12f93253a24c0a607ceaee002b9169710fb2fbc9b691a5370ab3dc2c2d"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-970-rewarded-0",
+      "sha256": "2cae4f1370378c778ae50b41c62a247f9db818813ef73cf22446c0095eaae7d0"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-973-accepted-0",
+      "sha256": "42c2f5a0ff97ec009e3ba0682c55d9f8ccc66873eb8241da2798a1cbad1cfc8f"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-973-objectives-complete-1",
+      "sha256": "917d7e9bc93fe888de9b54e95a82ae9da9e6d03fd33b0c596e4afe04bae668dd"
+    },
+    {
+      "id": "quest-funding-duskwood-watch-departure-level-24-before-stockade-973-rewarded-0",
+      "sha256": "fc8b129afea7aa351d9422743dcf1a58f5825d685dd688d95320c0ea5d428397"
+    },
+    {
+      "id": "duskwood-watch-departure-level-24-before-stockade",
+      "sha256": "3180c3621a4271a90fa0a56bb5a4a10a408a8718ddc9bbe564d506beec375926"
+    },
+    {
+      "id": "dungeon-stockade-brief",
+      "sha256": "7d1b0a4312b6bbd661dc27d6e74d76a9bb43bab24b81b55bd657b6cb05655dd9"
+    },
+    {
+      "id": "dungeon-stockade-entry",
+      "sha256": "cdcd5b6ccf23607bef409e952622707afea265be25b85b200df70591dab597fe"
+    },
+    {
+      "id": "dungeon-stockade-accepted-378",
+      "sha256": "fda287293bf54afeeb146e5b8e50f7438c45e9e785a6bc926adc031ca53a60cf"
+    },
+    {
+      "id": "dungeon-stockade-objectives-complete-386",
+      "sha256": "5b72feb241124909e9b9c8607ebc4545b779ec319513ea95c262da6c26e42ead"
+    },
+    {
+      "id": "dungeon-stockade-objectives-complete-377",
+      "sha256": "193c333c295e169c2bed17b9af1a0ae565b68fabaf8c947246675cbf46e174ca"
+    },
+    {
+      "id": "dungeon-stockade-objectives-complete-387",
+      "sha256": "be07c23d055f2a29fb4a9278ac957ed77b2c0ac0ae525219e723bb3a438da456"
+    },
+    {
+      "id": "dungeon-stockade-objectives-complete-391",
+      "sha256": "a06b25ae2ad0760b5ce329be8926469df96caed9964573773f62e76c6a963be6"
+    },
+    {
+      "id": "dungeon-stockade-objectives-complete-378",
+      "sha256": "f77173f31d9652561857e0b1f08541c76f447c73109150f255835ae78364c776"
+    },
+    {
+      "id": "dungeon-stockade-objectives-complete-388",
+      "sha256": "432c15db0f71caa0fcc5f24bb1c518ccaee423d972791c4aa10a8995a4e88ab0"
+    },
+    {
+      "id": "dungeon-stockade-rewarded-387",
+      "sha256": "f5e69190f3ca08d3092bbf4e3aa37da20de0a516d1cc0bd76e1132a5ba53763f"
+    },
+    {
+      "id": "dungeon-stockade-rewarded-391",
+      "sha256": "775fb08dc3a235ad41c29e04d1c25ec363b728e3dde49278b2158927db9a6d62"
+    },
+    {
+      "id": "dungeon-stockade-rewarded-388",
+      "sha256": "da69574feb7da0a45a5750132bab1aa0715fbc15b3e76e936a9b379ab473dc4e"
+    },
+    {
+      "id": "dungeon-stockade-rewarded-378",
+      "sha256": "9394dc59d161a4e38dfd82c62467280be4a046aff169b4e7727602dbbcbee19e"
+    },
+    {
+      "id": "dungeon-stockade-rewarded-386",
+      "sha256": "cf19937f82d96bf6cde4e352fa88748aacd5fd62cd6ea07d26be91c769af0595"
+    },
+    {
+      "id": "dungeon-stockade-rewarded-377",
+      "sha256": "47c365ca4948ec25ab5811c5a935b9bb798e1e0b17213062872d00f7d779e0ae"
+    },
+    {
+      "id": "dungeon-stockade-deliveries",
+      "sha256": "e71310f5e54ddb116ce0e7b2f1425f49bd84fde9168b57d3e9c7aec90bbee838"
+    },
+    {
+      "id": "stockade-world-returns-brief",
+      "sha256": "b632b383942a6f215e211dfe810ee80cbda36e7fdb9f49e59444000b59d1b529"
+    },
+    {
+      "id": "stockade-world-returns-10-source-step-0302",
+      "sha256": "019c4394460458d2ea109cb76829a5bea802805ba5f1e903600a7051e8e49c49"
+    },
+    {
+      "id": "stockade-world-returns-13-source-step-0073",
+      "sha256": "fe57efa25e357e05d20e30435e9540eab1a474f1752cec8f97f2001ee22f78e4"
+    },
+    {
+      "id": "stockade-world-returns-13-source-step-0105",
+      "sha256": "027fc5cc8410a1011794fcc13179577d35a82f8254b51d1a95ea5e8d025f8676"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95772",
+      "sha256": "3a633e5e3d0594a8106ea4b642532ca0b7b12a7498eccf09271ffe588bea3577"
+    },
+    {
+      "id": "wetlands-early-kills-brief",
+      "sha256": "2a5a4df050c43bf7043041d37523f8df84ba8486d020566da37b3377b5be4dfa"
+    },
+    {
+      "id": "wetlands-prerequisites-brief",
+      "sha256": "a503e4556b3ff92059dbf88454ae372744589697ec8e3b3e3c8c41098ee6d87f"
+    },
+    {
+      "id": "excavation-approach-brief",
+      "sha256": "b9cc52e579c89ab7006e0d5e1f5744f732e9143e96c75f60b82b9cfb33e96c69"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1023-accepted-0",
+      "sha256": "1efaa5b126507b1b1fdf7b36e490c2436293379f1cf1755257c26b6045e7f402"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1023-objectives-complete-1",
+      "sha256": "74611f75c330ae8823d4d6c01382d236315b09c46413a95cc7a6500c454e6462"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1023-rewarded-0",
+      "sha256": "9728513267064e51a591adf576001c676ce0f938034cd890915ec39238bb9c0d"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1025-accepted-0",
+      "sha256": "d38920ef52e0a962e5b504091127b6d469208e7089149da6233c40094cfb7766"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-1",
+      "sha256": "f72f241ebdea0724a88f04810e4939fcde1aaa772b001f97938805514d3e8eab"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-2",
+      "sha256": "8c562acba82de01771800b9637e843b61616f31a63f12a71f8637c1975e9fa61"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-3",
+      "sha256": "34188b031d4394ed0efd08799ab3dacdc161539c526aac966f7610090d296b74"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-4",
+      "sha256": "63d7ec796d9861b470d294baf581be92e3d3bdd04d33db1d04965765bb145cad"
+    },
+    {
+      "id": "quest-funding-excavation-approach-11-source-step-0041-1025-rewarded-0",
+      "sha256": "f0582b7ab856ed07780b8fe62a9e9c0482d1f138c44a3eaaaf1673c0fc872d6b"
+    },
+    {
+      "id": "sleeping-bag-dam",
+      "sha256": "f41fad42d86385a8a0eff9aacc32467f098fb8162e6706dbd6bb2e7472bf5415"
+    },
+    {
+      "id": "excavation-approach-11-source-step-0041",
+      "sha256": "2af057d70873c18eff23c6d6d5876927df838628c710824450bb3d88fc749716"
+    },
+    {
+      "id": "library-quest-299-accepted-0",
+      "sha256": "7c79b048b6dc9848f0c1215e2a96ba57ce7f583a2d92eb6e7343c44632da5426"
+    },
+    {
+      "id": "library-quest-299-objectives-complete-1",
+      "sha256": "1133b0b2657f6e7ae31274179b7a1c3d0ca21b851a792422050298c6a2c21a49"
+    },
+    {
+      "id": "library-quest-299-objectives-complete-2",
+      "sha256": "b929dcdebcb0cf1d7abafe19a338022b2e3b6de805bea06135ff87f9f5cf5110"
+    },
+    {
+      "id": "library-quest-299-objectives-complete-3",
+      "sha256": "a94a118a88665d3b350a061e524a5189f68ae76d5911478110d989a65b3017d8"
+    },
+    {
+      "id": "library-quest-299-objectives-complete-4",
+      "sha256": "964c21af21d8417e6c523d13ced173653b7c1fc32cdc7f3d8912f4e8d7a9e7a2"
+    },
+    {
+      "id": "library-quest-299-rewarded-0",
+      "sha256": "70dded983f9bd2f7ce24e52aa448e58cec4958574325f5c2c9140b38a00820e6"
+    },
+    {
+      "id": "excavation-approach-11-source-step-0100-before-pickup",
+      "sha256": "631aad99e3929da9e3bed4e6d106fd6ed1510f3a5f7d78be901e5070195b7c66"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-296-accepted-0",
+      "sha256": "b6607349f24b66d3be25e68cc2a89996613226412ae28eecb5671444ec8e5afc"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-296-objectives-complete-1",
+      "sha256": "332cef8aba8953e91d03f89242fdf40e2292fe9e2f29cfc08eef5ca65507de0d"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-296-rewarded-0",
+      "sha256": "f859928920f144b40ecb3ef0588dfcba717eb91795d93bd01437b25472bd89a4"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-464-accepted-0",
+      "sha256": "049fc141287270f60703734ffaf9c4c2694425436197db1a2737011582da1b13"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-464-objectives-complete-1",
+      "sha256": "0054fdd3b575e2762390af056f6adc5be734606c35b40b70ffb27015473625c0"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-464-rewarded-0",
+      "sha256": "ec738f8528e0420db8c83c2c8481fe5158f248248c1b7f607975a58df4d3e637"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-470-accepted-0",
+      "sha256": "1cf0f46dd2bdc6e98a51c0e4a049c1e71696c44beac1af43a54076f87380e8b9"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-470-objectives-complete-1",
+      "sha256": "3f732b2e7b0d53268eda76ccac54974120409790685ab300c317eb9bcf35ff16"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-470-rewarded-0",
+      "sha256": "b0602b9b30b6e36458f2bfc3623f87863ac9aadbabd1746e754a1744fc788c03"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-323-accepted-0",
+      "sha256": "6f72294116375e856a206cbc3651d269fc0cc8812b6019d4f881f61e3abdcd8a"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-323-objectives-complete-1",
+      "sha256": "d51cd811a1a745fa6282e716d25d995f5e70236f42c608cb4d4192b95b965f66"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-323-objectives-complete-2",
+      "sha256": "0a056bfa76eaab036e982268b10707fa9b8c279450ae6ce9f70353e0d24a4eb7"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-323-objectives-complete-3",
+      "sha256": "5773d6f44f2cac540e0679b367600347f63d76edc2c99752e78cdb53fb80055d"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-323-rewarded-0",
+      "sha256": "8f608927d5019dcaf8a3464806d3eec1f64949c6a0b42885de69f88816f9c6d9"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-269-accepted-0",
+      "sha256": "f7ef8567f70bb9a16bc25f8e87a9355cab76df1c96ab57791455b64d3aca71f1"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-269-rewarded-0",
+      "sha256": "2ada3412cd7a879eeb56cf01662292f7a4e1894a8574c71295d159d7537af100"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-270-accepted-0",
+      "sha256": "7b91bd94c24cf7a6e01adce8e5a88e3df5ad48b9278d5af18ca85147ffaa895a"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-270-rewarded-0",
+      "sha256": "742cfedab60ebcc995648c110e67630df0727ce7c4a8221a5899f5bea2bf3cc3"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-173-accepted-0",
+      "sha256": "a2d6624cc48ae12800cbda6f7ab367a16740b7f80c87dd79ef2d9cb29b3286ff"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-173-objectives-complete-1",
+      "sha256": "c3bf6cb4918d55aa53372efcdb00902ea52f4c5e731095952da33afbacd2909a"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-173-rewarded-0",
+      "sha256": "98a4d9f127aeb0d39dfc82f40d7e27403fa64f7aa9dfb957bbabd7500646b0c5"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-221-accepted-0",
+      "sha256": "1fe5ef37fce1a96f4b8f1dc6e5105416934eef60457264d46fefa2aa0a042d93"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-221-objectives-complete-1",
+      "sha256": "5cba46ad848301451315dcdd258f063f4e3d04d903b457e7e947bffb407d7dae"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-221-rewarded-0",
+      "sha256": "3d5dcfce61daf45d8c1573a6c322f4ae0da9b1f47afcc385f32c5f6e389f09af"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-19-accepted-0",
+      "sha256": "3b4f8ecc837653e4f2997c60da9b7b7e4967300a835db686ba242520cac31448"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-19-objectives-complete-1",
+      "sha256": "5d34b24bc47b7f5e20203c29d5aa7937e4b407da24561e238220bb7496385594"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-19-rewarded-0",
+      "sha256": "80bc17748a8834abc882c69915d665483616cc2672b65540bd519164da68f8a3"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-169-accepted-0",
+      "sha256": "b5527ab2ac277e17953b45fe7f1f98dd319d39a0939bde92dba2816f9ef757c6"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-169-objectives-complete-1",
+      "sha256": "1fbb58e6ed956050c41082cce9dc96523c9cc1e3678edd176127036ee5478689"
+    },
+    {
+      "id": "quest-funding-excavation-approach-level-26-631-169-rewarded-0",
+      "sha256": "7313de3de6ea50e60388069d7a7bac75b5ce16de265a47d81ffb64ac7b965b61"
+    },
+    {
+      "id": "excavation-approach-level-26-631",
+      "sha256": "c28fef70a5758dcc6ca203df30f8fd92b778f33d50bddd84c060fa66dec0871f"
+    },
+    {
+      "id": "excavation-approach-11-source-step-0100",
+      "sha256": "56b5aac0e5f31be1aa0865c0e720821487d0c965109a82467f271dc61ff55568"
+    },
+    {
+      "id": "excavation-approach-11-source-step-0107",
+      "sha256": "e6b79a5ce8bdf57c8e93e44bdda16c3ce27c3eb74680e4ba0dd8414d877e438f"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95647",
+      "sha256": "4ee9ec25deba6a5ddb1effba8db284870cb74dd4949cedc45a55b2d7b89cde47"
+    },
+    {
+      "id": "dungeon-excavation-accepted-484",
+      "sha256": "8587da68ae1295e50c45cd370fd27dd306433a81d1c230692ee3b79d85151e71"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95646",
+      "sha256": "851823f74e841191a60fbfe637e4b91224d50095614e6c341b44cb5ca8b75050"
+    },
+    {
+      "id": "excavation-approach-11-source-step-0108",
+      "sha256": "71a233225a993b96fcc4c9f4f6049a4853ecbb594e688fa461ba5b3455823d5b"
+    },
+    {
+      "id": "excavation-approach-departure-level-26-before-excavation",
+      "sha256": "31eb3bfad4b0a94d8bad9d2415cac058fd645fec401926dca3db119deab52afe"
+    },
+    {
+      "id": "dungeon-excavation-brief",
+      "sha256": "3f89b7dd28966574284d56865d94487fbbd5a4597963084655d1beb029023e5e"
+    },
+    {
+      "id": "dungeon-excavation-entry",
+      "sha256": "9a4ed72a169ee8108cdd8225371bf015a8d8ca5c548f9675dd6479e4ee6d3e8c"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95810-starter",
+      "sha256": "58967f9ee8c9bdc719fd9d203568ce12ff0d80f8c2a938cccc2a799c1aeb5c85"
+    },
+    {
+      "id": "doomed-fleet-readiness",
+      "sha256": "4f0bb7fa4369ab971fbfb9a8e9143735c1287f06f885c2ffed57a2087cbcdfe1"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-484",
+      "sha256": "57f5e9a46f35668b8807877c78471e3d6844cb38ef176e4c546df3f908ea1ee6"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-484",
+      "sha256": "9f2c5cb80291549d628c60155db5290751cd7cf64ce6cfd48b73113dbde8c711"
+    },
+    {
+      "id": "dungeon-excavation-accepted-98815",
+      "sha256": "288dd0ca4824e2753bf94b150cf23ce1f041e990f2575b3b0e0da9f1c6aafe57"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-95772",
+      "sha256": "b74217fac93f53d3b04efd10ff89256ed1cd15719d576373f62227688572738e"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95795",
+      "sha256": "06586033dfa5db777f3c1070a6a510c113ced7924bad622827fc9131e4186e8d"
+    },
+    {
+      "id": "doomed-fleet-accept-288",
+      "sha256": "eba699f801af752020caedc9e54639ebe6e3a729541a75e16ab308d994ca71a2"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-95647",
+      "sha256": "0d736c831a709fe83e7c80faa0c318fc941922e8a449285affc1093661383373"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-95647",
+      "sha256": "95220dfb72dd3ba86e266b5d4a8af1551b99e531f43522b792091ffc6b688523"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95809",
+      "sha256": "ddd1e7f1ac86f0d46167ca5a9e1e65f0b14c688a286a3cd5b907f78327d3747d"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-95646",
+      "sha256": "cd5c89188b8c9f0407d6b41dfad03053684138bc2beb7270ade1b1c6b0992464"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-95809",
+      "sha256": "4fbf06c95f0d39e57a21e2b7fdd9ed6e9f1fb18ee140da0512bfb46365b46699"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-98815",
+      "sha256": "8e5b4aa33ebd6c86e010499fb75958b9108d4ff97212de479ea2079b02716eb9"
+    },
+    {
+      "id": "doomed-fleet-buy-mead",
+      "sha256": "e82e74bdc43365457dc80859d60f0d1806ffb3a370a7046f0b2f02a83b7eed94"
+    },
+    {
+      "id": "dungeon-excavation-accepted-95810",
+      "sha256": "b9dbe7ecf861303ad25c6b2dcac2531852450f5e5a9fbc27db918832378d0f27"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-95810",
+      "sha256": "1d33fd2372176aa573716bf963667c2e45c143033794e4efc60c6ac2a651ad03"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-95810",
+      "sha256": "3c9048e5e5e60b592df20ba494b7eb45785a6a6e0b5a388d1773640df066dff7"
+    },
+    {
+      "id": "dungeon-excavation-accepted-98824",
+      "sha256": "ee947f515f61c3d228b2087c28ea5ebe04dc6f03c4b4b33719d5afe182ce5ed3"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-95646",
+      "sha256": "b98ab8c1f9a513d5d9d94c3eeb0b22a7f8229d0a4187e72957529f114458be7c"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-95809",
+      "sha256": "275e6f8468460ae10f0c14570e1642dc64ea0c5aa6ceb55e20a25f7c05297f4f"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-98815",
+      "sha256": "2b3eee6256e337f76b621d9c2e4149e513572c4e552e42c98e7b4de5ba5b806b"
+    },
+    {
+      "id": "doomed-fleet-crew-pickup",
+      "sha256": "ef7d452e3264aa01d30b7331841597ef1889d1385180a259b3e2bff082fcd5e6"
+    },
+    {
+      "id": "doomed-fleet-crew",
+      "sha256": "47ad83a1face844dae2e87fbae6b70801a54f136acc3a49d715fae18c19bb6ad"
+    },
+    {
+      "id": "doomed-fleet-curse-pickup",
+      "sha256": "a4e3c013653235a94f7958cc4f10eb913f309348b625d897a9603da3f8d4b494"
+    },
+    {
+      "id": "doomed-fleet-halyndor",
+      "sha256": "711fa33490e800f16f94606619ce4c783dc6278aa365a1a8a6b5524d010a91e6"
+    },
+    {
+      "id": "doomed-fleet-strongbox",
+      "sha256": "51ef9f484d4af3a88a42b1933302feb060aed285805cc24feeff04716c96c6d7"
+    },
+    {
+      "id": "doomed-fleet-glorin",
+      "sha256": "158a1076a1d5c62f0a1495f5c20a1edf15bb2279eeacb1baba45b3fda1e2c758"
+    },
+    {
+      "id": "dungeon-excavation-objectives-complete-98824",
+      "sha256": "004555d043c8e0e33a46d374b3eb6ad33d2235f833d0b2400a2447c8a6b98b63"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-98824",
+      "sha256": "0d37a895cc62f2431fc66cb3fccf0ae5b5a4e7e3cfea7d43d233c72bed756841"
+    },
+    {
+      "id": "doomed-fleet-benedictus",
+      "sha256": "87369f7cd7c6e6d4a5c3f3cd9d0c5dd3c63548a1d0a4580a7715ef2f64fed620"
+    },
+    {
+      "id": "dungeon-excavation-rewarded-95795",
+      "sha256": "20feae5b14a6e11ee4f1bd4a205dae3cc250f826a80d5e48160ec49cfeef755c"
+    },
+    {
+      "id": "dungeon-excavation-deliveries",
+      "sha256": "596d719178f6c6d449b638fd4b1dda9c8a250c787685d8a0343c564f442e2744"
+    },
+    {
+      "id": "lonebrow-rfk-preparation-brief",
+      "sha256": "225748187ee1b687de64618cd5a6a29ef1f897cb391d0aef438732086d357417"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-accepted-0",
+      "sha256": "0f4c50618ecc9e8db5b6b320ce6df0313103646710a86d8d830dd0719f49de48"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-objectives-complete-1",
+      "sha256": "3dc6ee70d965c1d210a5a37e9cd914eed1d212796ae26fa2661b897b32495005"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-objectives-complete-2",
+      "sha256": "85ba190a066634b072dba83e353c5e823df54b6949b5b72824fb6dd0b2631817"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-objectives-complete-3",
+      "sha256": "09d4c06cba5f69baa32f4a19ecab38341f68129c52514aad1b1ebe76317aa98a"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-rewarded-0",
+      "sha256": "99623fa746398d4d68676b3d74e325dbe01fad1392f181b77940f0ebb1f21ded"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-222-accepted-0",
+      "sha256": "0ddb29927271b50c1bd764867ecb8581c5b50306b66f5f97a5742ba8dab5d4ef"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-222-objectives-complete-1",
+      "sha256": "44ec405dadee483733a13b8cba547b00e6906da0f7faf062bba542e6af144b37"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-222-objectives-complete-2",
+      "sha256": "bc56593f5f45ead5e450b40c3906ed2fb541fc86c1ca7506bd99a68253b05f3a"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-222-rewarded-0",
+      "sha256": "58114a987cf285090d08b05775ff43530d1dd8ce56b2e7508696cee744bb15a8"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-223-library-quest-223-accepted-0",
+      "sha256": "4e5d2932064eeb99f48b89a12f77f7e5078a9b862259a357447db3c21d322857"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-223-library-quest-223-rewarded-0",
+      "sha256": "1a38ccdd2b0a111624d3f654868fd191226f08984e58614009fc2e4c1627e732"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1035-accepted-0",
+      "sha256": "9809d5289f045e714d4a906f08c6fd8acd4daede7156bf701b3629c316251605"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1035-objectives-complete-1",
+      "sha256": "eb6e08a44cf5820a83f5552d3aac5ac2510bbd4704c923687d339032a17b344a"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1035-rewarded-0",
+      "sha256": "4c4df2672ed25d62bade780b822078b6ad23402cb1d956b820a683c2473eee7c"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1021-library-quest-1021-accepted-0",
+      "sha256": "955a150afd835102822883a5d8de3a0d7941a2cb5b6def6d4fdf1d9f5de4c6db"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1021-library-quest-1021-rewarded-0",
+      "sha256": "1fa9697e9b9094581758dcf2a9be2b42bced861b4026261448d49c8fc1e38796"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1054-accepted-0",
+      "sha256": "4a9d22dd591e85dbce4ed712fca335c8c39e5e621785c261c93a12c8999bf9c7"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1054-objectives-complete-1",
+      "sha256": "53f30d4bc8cbbaccc477bdcefd0a2a01b9863d56b06cfddb70ce5f2486824b32"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1054-rewarded-0",
+      "sha256": "7190e5e92875c65cf3448247bfc8ae3b45d80a276b0191c2ce7a864dc299d08c"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-471-accepted-0",
+      "sha256": "1a54ef7d0c5eb143afb35a6b293dcc05dea5a4b68f3e5f37f0a06be33436ecd4"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-471-objectives-complete-1",
+      "sha256": "59eab48b10e10df0984b8f1cd08fc7114ce9665795ae67773e1c357b7fa964e3"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-471-rewarded-0",
+      "sha256": "95a8cfb5ae711259889d508266993de5b18f46251552be63c035d832e14d4cc1"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-180-accepted-0",
+      "sha256": "eab591cdf1a3de43685b5ebe88dabb2b9f13fbbcda6dda369e9a7151b85c3b73"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-180-objectives-complete-1",
+      "sha256": "4a110abfcb76f9013a0e28d253c652f72dfa7424b45d9d94f9d4132f32cd8d65"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-180-rewarded-0",
+      "sha256": "87961fa565c4c5128b50e15a52a785186f72a9d4c13285e1a2a4169dc457189e"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-34-accepted-0",
+      "sha256": "16c6db24e1f72bc6f375c43cb38228b383119d0b0312fc9c8a5a6fd2c55f9f26"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-34-objectives-complete-1",
+      "sha256": "a86ec8c7afecca3c4a7b171365650e954c59a251eea90c6c37f8fa29d8dfcdec"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-34-rewarded-0",
+      "sha256": "79487ac3b74fb6755a1dad3b5318398c52d9b399a51153419ab63537e7f6ede6"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-392-accepted-0",
+      "sha256": "08fca5058906f2bcae4a193cc6ac319f4eb909c02acb9d1e9172078fa9a93465"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-392-rewarded-0",
+      "sha256": "a5fbb4650961a1abab402ea12cee15ef57c9759df6cb0dffe5673c330751507c"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-393-accepted-0",
+      "sha256": "fcba806bbf08083451313312fc27a0cd057cf1a376d6563d932e31f00b458d1b"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-393-rewarded-0",
+      "sha256": "4cf39448d963659b4faaa52649e90572d5bc23ad24f60e1b3aa7eba2d9c21195"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-350-accepted-0",
+      "sha256": "134280f708c74154c9f30bd991f2551321f3f2066c5645323d861c1ef92b500c"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-350-rewarded-0",
+      "sha256": "202329fc13f2c55ae63cea64838cd27af308decac35de0557532196d3487cece"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-2745-accepted-0",
+      "sha256": "397252e89c080ef77090a2443d02d87da758752bdfa89fa5c0b47d2d45e85ee4"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-2745-rewarded-0",
+      "sha256": "2183e34fbcfa7dbebbe1a58469aadb19e341246ce6dff9c46d542e984321a554"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-335-accepted-0",
+      "sha256": "ab33d199bb652b4631ea2eadd21361bb0561ceb59bac261e634715eac19e80ca"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-335-objectives-complete-1",
+      "sha256": "5fdbd69eb55c7100806f17222665fa3b1a5d85b1222604892bdc979fef8e0ca9"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-335-objectives-complete-2",
+      "sha256": "28a649d50a53d46df5a8cae5a39aa3e5a2901e6fb14f72fcf7ba966519a18f58"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-335-rewarded-0",
+      "sha256": "734ac78441cb9a380ad52c4afd4aadede9907a0ff8c57f07f33c044ed81d87d2"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1031-accepted-0",
+      "sha256": "6d41ed422d15620f27eb2cc0a37fd485297e1d80753fd69dfac35932ff5c37f5"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1031-objectives-complete-1",
+      "sha256": "86820e4276b516910de9e1c2a655d150a10eaa8027df59e3f8f553054b293d54"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1031-rewarded-0",
+      "sha256": "9c85508b4785b30035e6954babe9f2adda79883406232c0c5d573345a87f10c6"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1032-accepted-0",
+      "sha256": "a7d89215fa14fc416f76fb717577097f1839a5baa3a1b67afdb4bd159ae78465"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1032-objectives-complete-1",
+      "sha256": "5ef1d279ff5fdf6beed5d822b1215586e5993c84b720429f249222c5773def02"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1032-rewarded-0",
+      "sha256": "cf58bee39bec18405d48732faac44e172790c76cad284365ae54d3818e99b6ed"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-647-accepted-0",
+      "sha256": "d471980a049228b837a1aec39500983f51701cdde3d9289cd2241d6cd0f55749"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-647-rewarded-0",
+      "sha256": "89b08781ffa4968756fa51204949e6353926a19a76c4fd889de0a06365e1df4b"
+    },
+    {
+      "id": "sleeping-bag-wall",
+      "sha256": "77946051b5a61078e39660328b5229a6fe8ad6e5ea21da434ccdd08510571c87"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-536-dalaran-approach-14-source-step-0057",
+      "sha256": "0980a87a5c71de5e007c1778d1dc6a518c5b9d8239d0bb0e053303cae9c61a6a"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-536-dalaran-approach-14-source-step-0061",
+      "sha256": "93ea445320040de50f49ab4a5a0cf8b6684fd175850d1102a28d28f0e2dd735e"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-536-dalaran-approach-14-source-step-0062",
+      "sha256": "4e0b189bf517f49cf6b8c03a5142d4563496e3ff172888be58ed02ad7cbf5f0e"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1179-accepted-0",
+      "sha256": "44b0432b848fdecb998dd6e1712b22f55a3da3927519272217db4fc610a14a24"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1179-rewarded-0",
+      "sha256": "9972781b91998f082a4c0a7eb4c6ad60f4d347118808365e84c9a552526d8cc5"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-583-library-quest-583-accepted-0",
+      "sha256": "ee2b351d15e8e20152ec9a6c6ec3901b3b402185f421040e4480e7af94895716"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-583-library-quest-583-rewarded-0",
+      "sha256": "5d3d2cc00b5e48e4ab26e266d2055d286516674a9e063802dd55cae7629ece12"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-185-stv-group-batch-16-source-step-0054",
+      "sha256": "0f788e92025f48cfab2a88cd893ab0c10b69a3808c504193ee8a455a1524bb4a"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-185-stv-group-batch-16-source-step-0055",
+      "sha256": "cf9a08ba33cae3d624429dff42d15a00ae566325721d516e7b83a3e4314d0b85"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-185-stv-group-batch-16-source-step-0056",
+      "sha256": "8382d67a0c1de9200e3a124e5e240b2caeda083c163753591141fd0c138e3199"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-190-stv-group-batch-16-source-step-0054",
+      "sha256": "9acb6585b2495ba97f478ef3354265ce2faf1185e0c49a8e98849a025e9f36e1"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-190-stv-group-batch-16-source-step-0067",
+      "sha256": "67d416dca187f09b471cf19185b61e7636672e588b4600a7798f39f7592052dc"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-190-stv-group-batch-16-source-step-0073",
+      "sha256": "c9d796c9414944319269e15f9b1febaa4645e7ae3e252b92774fee30a6d0218a"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-91-accepted-0",
+      "sha256": "e9738fd49d16b3881b29c1e566afb41eda71ef18ed3ec1e118de6e630fbb71bc"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-91-objectives-complete-1",
+      "sha256": "40cf478fbe2f79cff6ea33d87dcbb81f44907dfafbaa6d8f850bf374e8689fa5"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-91-rewarded-0",
+      "sha256": "40db245786bcfd236221e1beb031e7a84d749678f35e8023a51575b300726488"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-4581-library-quest-4581-accepted-0",
+      "sha256": "7b19fe51dbdd943eda6a73b6a212248b3f7c779e0b01c72f81fb7285312e1d40"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-4581-library-quest-4581-rewarded-0",
+      "sha256": "13d6dacbd9a294606f41b2fdc6f4b76abaa89e19fe6c17a05c9a6edf2ac41de1"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-321-library-quest-321-accepted-0",
+      "sha256": "5d29f23527cadee6882008e68868be0e98eafd6f9bfa1f36d3bba7dc572e32f5"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-321-library-quest-321-rewarded-0",
+      "sha256": "5207f0d8de0abb0fad1842c1ff9a26d7acb38bde6742e1753553438f84dd0fe5"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1274-library-quest-1274-accepted-0",
+      "sha256": "75f9a4183d6bf7ca6681138c50e367af51a71f08871e3b9f779c3180b67cba26"
+    },
+    {
+      "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-1274-library-quest-1274-rewarded-0",
+      "sha256": "a12e686864378ba8d4cf12b18b930512841b1fc1e69f586fd0a5daf70cf76dbb"
+    },
+    {
+      "id": "lonebrow-rfk-preparation-level-29-1100",
+      "sha256": "ce2eeac66a131f1cf6238c1e01cda959b4104e2857e28d4d3093908349904eef"
+    },
+    {
+      "id": "lonebrow-rfk-preparation-accept-1100",
+      "sha256": "6417b9796c26f75a0bec83d55212a58f10db21edee391a431c59266203110aba"
+    },
+    {
+      "id": "lonebrow-rfk-preparation-objective-1100",
+      "sha256": "c56ab640cd4010da330158b371ccca0b01868bd956acef8a2bcc6370dcdd7de1"
+    },
+    {
+      "id": "lonebrow-rfk-preparation-hand-in-1100",
+      "sha256": "09999ea89a85cccabeb51c51360197b509d7b35cbbf3e539ae7d3a948c6ab25d"
+    },
+    {
+      "id": "lonebrow-rfk-preparation-departure-level-29-before-razorfen-kraul",
+      "sha256": "ce4f50ab92d90aa00abf73bcfbf2691068f4b905779d2f99c6fb657baa2499f8"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-brief",
+      "sha256": "0e578f72fd8d8411d9fb8416536715264c82c583bdf1d37cd48b4c749cebe5b8"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-entry",
+      "sha256": "f06e326e4d0c123445c659b3fdf048f2e65508435cdb7c38ef47faa192dcf604"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-accepted-1101",
+      "sha256": "050d385608cddae3437df937df2aa4e368d706ef31da017b6c6d97027409a002"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-objectives-complete-1101",
+      "sha256": "dac5cbd54854781a9cf990c9367f9a6da3dd62fe1d9da5c170b1f00aacad3e7c"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-accepted-1144",
+      "sha256": "d325848835e5f8b5bb85aaee24581e3909ddb7e4f6e5fc441054ffb858e076a5"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-objectives-complete-1144",
+      "sha256": "9cb42fb618f7d12af54ac156c49306d6a4652e9b7550c9a4c559723013d443c5"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-rewarded-1144",
+      "sha256": "8ddd064da6562ef10c892e19b6e3c424ea93b90139c3e80da057def294cc8588"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-rewarded-1101",
+      "sha256": "a1cc28316d23f0bdc9293f971e2d3477897528154975025adae989b4dffd6aef"
+    },
+    {
+      "id": "dungeon-razorfen-kraul-deliveries",
+      "sha256": "ac0e6560b535b62a3bfc27175c5489c774868f25c148765399a6ba6f7c6ea3a5"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2931",
+      "sha256": "eedc6629a39ed8d5c22512dd073c215672b7c9be6b30c56da90628b2d303417a"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2928",
+      "sha256": "a161cdee95cd97a731fa13f36a466cafc00910e4cc8a703a152e9aa200c68cb9"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2922",
+      "sha256": "40611ff7f431c3459984e49c7006962591ac353ee91f7c45fdb67ac22225fe4c"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2929",
+      "sha256": "aca8aeadb9a0dbef44902274f372fb38a04c2d454a2147b1c010bef4756a041b"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2925",
+      "sha256": "cb06c2255ea20a8276327b5eeb534017d09b7fdfac8028dafda491c8749976e6"
+    },
+    {
+      "id": "hillsbrad-gnomer-brief",
+      "sha256": "944f4f585717e1f7e9cbed0f2fc9261165c7c8eda1f0b3d42e725fb4f130ac38"
+    },
+    {
+      "id": "hillsbrad-gnomer-departure-level-29-before-gnomeregan",
+      "sha256": "d191f13dbdec9c733d9f587aae466dcf51706b493827682312e161f9c22cea39"
+    },
+    {
+      "id": "dungeon-gnomeregan-brief",
+      "sha256": "ab27e551983dd70c9c93676ea2fa9b23edf04c0de65a11ede44091718162cbcc"
+    },
+    {
+      "id": "dungeon-gnomeregan-entry",
+      "sha256": "88338f5085e39d2e6eb510bbadca43de488a921c05893ca1a69a97c5cb414a60"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2945-starter",
+      "sha256": "6b10dbe1e0794bb5e6fb4f07e9debf1c3f43b3623c9ece95b4652c387e9ba207"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2925",
+      "sha256": "c2e097836608471cc741fcb9832723eeca5c0246e947c29ccf420377ea053a19"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2931",
+      "sha256": "631771f6e0203685550117a294a3caa60f08a26f075e62b4ce6921f512a52540"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2930",
+      "sha256": "2a723cef329f1ed7f4e3d8153f79b07f5e30f3c15a463fc9bf36fea423559f1b"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2924",
+      "sha256": "2d2d332a8c6f413cbcdedfb6794916a86555ff46c7aafc5ebe7fe15f4bdb33df"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2922",
+      "sha256": "43afc4e89a2df19e877742637410fe706148b053180428c18c0e30e35b53b776"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2930",
+      "sha256": "4b4f5a0798e8000ee74e0500a3b0c7fc4feefffe351eac39677940cfcc332ea9"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2928",
+      "sha256": "d17f470d645fe4884293bf6a99c0d15f9fdf60be0d90e2269ca747352d8465f1"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2924",
+      "sha256": "9d43833da719e237dfc180a109adf0c87b8e53fd0cf45d6bb1653cbe425bdb22"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2929",
+      "sha256": "28cee67968927c5dbbdeb91f6b7b0416fee26176d47196d3c00838a2298bbfba"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2904",
+      "sha256": "95df713927a923d897405fa7d0ddba627348674cfe235be332fd441c2f9fc182"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2904",
+      "sha256": "ff06a2e33c24e82f581bb119a3fc46d7fd1ac9ed93554084049eaaf99d8e3eff"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2945",
+      "sha256": "e88e2992b41f07e73cb498f81052ef227e3c9517962f06c22393778fe9e09b2f"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2945",
+      "sha256": "5a048df704444e26eb95f85bcf142f7a4e31e31f4fa3c577cf06acfd8dea2e3f"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2947",
+      "sha256": "21b13faf4d73c32ac362921b1125c13251bce2f5de52da39c6d98020cfaa31ce"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2951",
+      "sha256": "c5946e60416f2ad8cd4ece2a6f3ba657bd8f19493128d65ea6c1a14e3df8efcb"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2951",
+      "sha256": "3e83667d66707468ee90715e0082f843ef957cfaebdcd19360fe153e71ba1aea"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2951",
+      "sha256": "a16f216fb7393f9f0e1fedb47c4202811c1a496854e321cb32b9b62bbb32bfbc"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2952",
+      "sha256": "1d46e9ed0ac5c428076e607f956e71ae537da4f95615aad98d6df02b3e70dabe"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2952",
+      "sha256": "d32c9a46c0e45b52554857933f1f14f7dd2d88622965744a41f733df70e59a42"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2922",
+      "sha256": "cff475e1dbf04da3d94cf1c3b2351259add24f730bc3cf139ea73c5a8b8add19"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2930",
+      "sha256": "555647151b220c1b5eff837d3c1c8e77420f768bb90d6161a690189dd1a337b4"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2929",
+      "sha256": "205bf87c289360302a65d44591cd1d5f3f4c5a03511f5cfd5cce0a5d7b336804"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2924",
+      "sha256": "9f7b782b2cd6da3fa810204da653fb0f494559f42e57bb2510116e851c733654"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2947",
+      "sha256": "dd425571388bd34d3d5cad0138153749f68eb72fdce678e98b213480eccb0c37"
+    },
+    {
+      "id": "dungeon-gnomeregan-accepted-2948",
+      "sha256": "56186ec08c714c1ce3d9d31c10dd17e749e0b2851eb26dbf4bdd1df0dd439310"
+    },
+    {
+      "id": "dungeon-gnomeregan-objectives-complete-2948",
+      "sha256": "9d64e84f808285566f6b594593d226ac16d80f4c9b6d29241b0696f8d2cbc16c"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2948",
+      "sha256": "177b5e35f156fe0ca2efbfcf3f34fc033d37ef8a5a984c35465bbbcad4712602"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2928",
+      "sha256": "ae808658b4657627bf6e456cef37d7406b4a99eff095799b4442aa8620260a81"
+    },
+    {
+      "id": "dungeon-gnomeregan-rewarded-2904",
+      "sha256": "10bdb1ff297d28cee1ac3055fb8bd9b684afa533d35c76165b470a6e3d71c112"
+    },
+    {
+      "id": "dungeon-gnomeregan-deliveries",
+      "sha256": "d033cedce670ecdf8e09b36f3692aff9fafc0face380fb2540be258803f36b4d"
+    }
+  ],
+  "payload": {
+    "file": "route-91a7c2e9a68e8b7581b252efe2322a0287ccaed3220de31d613114e985708817.json",
+    "sha256": "91a7c2e9a68e8b7581b252efe2322a0287ccaed3220de31d613114e985708817"
+  },
+  "validation": {
+    "file": "validation-6ede6c52a6c5e3d4133b40a9dd3a38818d6491736559fe5bd0ccad04dbe875b5.json",
+    "sha256": "6ede6c52a6c5e3d4133b40a9dd3a38818d6491736559fe5bd0ccad04dbe875b5",
+    "engineSha256": "096b64d4ee103a37855d5d1a37e9194041074e23d405aa7370938d57e93fc222",
+    "referenceSha256": "cb3a835fc2d2ee7120b7cc4cc7597d7e14fb68e68b5c6658df3d1398b82b98b8",
+    "forecastCases": 48,
+    "nativeCases": 40,
+    "questLogCapacity": 40,
+    "kind": "projected-reference-xp"
+  }
+}

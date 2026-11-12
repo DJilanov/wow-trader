@@ -1,7 +1,7 @@
 import type { CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CampaignMaterialWork, CombatDataset, CombatObjective } from "./combat-model.js";
 import { getGuideStepView } from "./guide-archive.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { parseCampaignItemTarget } from "./campaign-items.js";
 
 const normalized = (value: string): string =>
@@ -13,7 +13,7 @@ export function compileCampaignMaterialWork(
   sources: readonly CampaignSource[],
   dataset: CombatDataset,
 ): readonly CampaignMaterialWork[] {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const profile = campaignPlanSourceProfile(plan);
   const steps = new Map(
     sources.flatMap(({ guide }) =>
       guide.targetBuild !== plan.targetBuild

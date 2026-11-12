@@ -1,0 +1,651 @@
+{
+  "schema": "campaign-route-payload-revision.v1",
+  "at": "2026-11-05T02:53:19.185502+00:00",
+  "reason": "explicit-generated-counter-combat-scope",
+  "classification": "Correct XP timing only for generated funding completion counters. Keep all832task IDs, order, instructions, positions, source guards and quest changes; add combatObjectiveScope=listed to61existing generated single-counter actions. Old payloads and all prior qualification evidence preserved. No public download/install/deploy.",
+  "previous": {
+    "schema": "campaign-route-qualification-index.v1",
+    "campaignRevision": "campaign-20261105-v229",
+    "xpRevision": "harbor-crossing-20261105-v194",
+    "engineSha256": "56a7399dd67a3cd5afa1a69302666a5ac1598663dd18ba7fa32ef8ee8e9dc703",
+    "referenceSha256": "1ad8b47f57eeefa865c45d56b4a0b3dcb84ea471745706ce06d80837a6e7bf76",
+    "context": "context-v797.json",
+    "guideReady": false,
+    "blocks": [
+      {
+        "targetLevel": 10,
+        "lock": "through-10.validation-07401c3062e8c064d29620aa977d47ec44029395d1c540d0bbfac76cac966c64.lock.json",
+        "routeSha256": "5de4245b52bcc2878903cf25a43814c460b67abd47712b217086b3527ab5868e"
+      },
+      {
+        "targetLevel": 20,
+        "lock": "through-20.validation-0a15317025f7e8f39ec187ddc7cae5d776efb77115a03d38260fb8f03b119d66.lock.json",
+        "routeSha256": "ae1a058c15f31546d829555d7f33ccd268cc9aeb2f8a8bb70f78917b282b1a6b"
+      },
+      {
+        "targetLevel": 30,
+        "lock": "through-30.validation-d409dfa4d4b4a5759099751dbab3c57f1356dcd9a51e2af222e46687cef75e99.lock.json",
+        "routeSha256": "c16f04924d72ad1fd435d6018624c922eb2409c697f7f86d88e5d599dfe4dbb4"
+      }
+    ],
+    "payloadRevision": {
+      "reason": "lowest-level-qualified-loot-source",
+      "file": "loot-target-revision-8894adfe40c60613cb588b3d17f044131c75051cc5f27b19959db671e3d0d618.json",
+      "sha256": "8894adfe40c60613cb588b3d17f044131c75051cc5f27b19959db671e3d0d618"
+    }
+  },
+  "qualification": ".cache/leveling-no-grind-20261031/prefix-revalidation-v828.json",
+  "qualificationSha256": "704facfdf9e18039a4c1b1b668f3f384ba14535100d19389fe2b6ae3e51a50ba",
+  "revised": [
+    {
+      "targetLevel": 10,
+      "file": "data/leveling/validated-segments/primary-human-five/through-10.validation-04980d4000f10a87b6f7b0913dd3ca10e0a778597ce2502b3ac7bb6b690747aa.lock.json",
+      "validationSha256": "04980d4000f10a87b6f7b0913dd3ca10e0a778597ce2502b3ac7bb6b690747aa",
+      "routeSha256": "3cc72204c274932a479101e9e7986fc38e5695272fb29e9a217b15c7dd392df1",
+      "previousRouteSha256": "5de4245b52bcc2878903cf25a43814c460b67abd47712b217086b3527ab5868e",
+      "changes": [
+        {
+          "index": 112,
+          "id": "quest-funding-start-117-level-10-416-307-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        }
+      ]
+    },
+    {
+      "targetLevel": 20,
+      "file": "data/leveling/validated-segments/primary-human-five/through-20.validation-7e0e599e151a23ae268cdc0fa0358047598aa6ed77c36aba598d4bacaf819536.lock.json",
+      "validationSha256": "7e0e599e151a23ae268cdc0fa0358047598aa6ed77c36aba598d4bacaf819536",
+      "routeSha256": "e26707d562dcd812b7a9a29fa29f4a18bd76042dfaa5c83e0481a3704cb88e21",
+      "previousRouteSha256": "ae1a058c15f31546d829555d7f33ccd268cc9aeb2f8a8bb70f78917b282b1a6b",
+      "changes": [
+        {
+          "index": 112,
+          "id": "quest-funding-start-117-level-10-416-307-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 156,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 157,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 161,
+          "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-312-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 164,
+          "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-399-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 166,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 167,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 170,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-257-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 173,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 174,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 177,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 178,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 181,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-9-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 184,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 185,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 194,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-258-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 219,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-487-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 222,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 223,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 331,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 332,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 333,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 334,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-4",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 336,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 337,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 338,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 346,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 347,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 357,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 358,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 359,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 395,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 396,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 408,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 409,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        }
+      ]
+    },
+    {
+      "targetLevel": 30,
+      "file": "data/leveling/validated-segments/primary-human-five/through-30.validation-9a308d868e7ef50d3c01da6c7b8be0e939e52a8011515f5f45bb6095ea2b9ec1.lock.json",
+      "validationSha256": "9a308d868e7ef50d3c01da6c7b8be0e939e52a8011515f5f45bb6095ea2b9ec1",
+      "routeSha256": "ce3e4384717b910ee245c1d730e9500d9914cff65c12ff63b4c3d7114a681a44",
+      "previousRouteSha256": "c16f04924d72ad1fd435d6018624c922eb2409c697f7f86d88e5d599dfe4dbb4",
+      "changes": [
+        {
+          "index": 112,
+          "id": "quest-funding-start-117-level-10-416-307-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 156,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 157,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-237-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 161,
+          "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-312-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 164,
+          "id": "quest-funding-quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1-399-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 166,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 167,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-263-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 170,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-257-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 173,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 174,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-12-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 177,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 178,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-13-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 181,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-9-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 184,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 185,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-887-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 194,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-258-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 219,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-487-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 222,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 223,
+          "id": "quest-funding-early-party-kills-departure-level-14-before-thanes-982-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 331,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 332,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 333,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 334,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-152-objectives-complete-4",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 336,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 337,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 338,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-14-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 346,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 347,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-124-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 357,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 358,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 359,
+          "id": "quest-funding-northern-approach-departure-level-18-before-lordaeron-255-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 395,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 396,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-226-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 408,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 409,
+          "id": "quest-funding-defias-unlock-departure-level-20-before-deadmines-1071-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 453,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-276-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 454,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-276-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 504,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 505,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 506,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 507,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1057-objectives-complete-4",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 522,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1010-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 527,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1033-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 530,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1034-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 533,
+          "id": "quest-funding-ashenvale-crossing-departure-level-23-before-blackfathom-1007-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 619,
+          "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 620,
+          "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 621,
+          "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 622,
+          "id": "quest-funding-excavation-approach-11-source-step-0041-1025-objectives-complete-4",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 643,
+          "id": "quest-funding-excavation-approach-level-26-631-323-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 644,
+          "id": "quest-funding-excavation-approach-level-26-631-323-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 645,
+          "id": "quest-funding-excavation-approach-level-26-631-323-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 652,
+          "id": "quest-funding-excavation-approach-level-26-631-173-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 655,
+          "id": "quest-funding-excavation-approach-level-26-631-221-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 708,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 709,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 710,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-98291-objectives-complete-3",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 713,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-222-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 714,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-222-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 744,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-335-objectives-complete-1",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        },
+        {
+          "index": 745,
+          "id": "quest-funding-lonebrow-rfk-preparation-level-29-1100-335-objectives-complete-2",
+          "field": "combatObjectiveScope",
+          "after": "listed"
+        }
+      ]
+    }
+  ],
+  "guideReady": false
+}

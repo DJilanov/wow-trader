@@ -1,0 +1,1300 @@
+{
+  "classification": "Pinned Forever 70205 provider and captured death counters for the outdoor Razorfen Downs entrance quest. Historical outdoor combat is a reference, not an observed current-server payout. No dungeon population or clear XP inferred.",
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Local source-backed pickup review. Preserve eight proofs, add further literal item/object/source matches, and remove only the separately reviewed Filthy Paws source-order heuristic. No live activation, respawn or observed payout claim.\nClient kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.\nClient pickup minima reconciled for quests 631,632,1144,96395; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Quest levels, reward tables and other access requirements unchanged; previous minima retained in resolution provenance.\nComplete client objective membership holds:98386and98418. Matching70205and70450records include additional targets absent from provider/catalog. Prior facts preserved in client-objectives-v184/qualification.json. No missing credit is priced as combat; native index binding and full methods remain unqualified. Efficient Games https://efficient.games, CC BY 4.0.\nExplicit client quest-level corrections accompany complete regenerated reward curves; prior facts retained in client reward resolution provenance. Access masks, pickup minima and objective-method holds unchanged. Client-table values remain estimates, not observed payouts.\nSix sleeping-bag object-route quests appended from matching70205/70450client identities and Wowhead Forever route facts; endpoints are authored coordinates, not provider NPC/object identities. Lower32race bits preserved from client masks; original full masks retained in qualification. No buff, rested, food, deaths or respawn timing assumed.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 6626,
+        "title": "A Host of Evil",
+        "minimumLevel": 28,
+        "questLevel": 35,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 12866,
+            "name": "Myriam Moonsinger",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1413",
+                "x": 49.01,
+                "y": 94.94
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 12866,
+            "name": "Myriam Moonsinger",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1413",
+                "x": 49.01,
+                "y": 94.94
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 7873,
+            "count": 8,
+            "positions": [
+              {
+                "zone": "1413",
+                "x": 47.06,
+                "y": 88.31
+              },
+              {
+                "zone": "1413",
+                "x": 47.31,
+                "y": 88.45
+              },
+              {
+                "zone": "1413",
+                "x": 48.69,
+                "y": 89.85
+              },
+              {
+                "zone": "1413",
+                "x": 48.3,
+                "y": 89.21
+              },
+              {
+                "zone": "1413",
+                "x": 47.2,
+                "y": 88.6
+              },
+              {
+                "zone": "1413",
+                "x": 46.28,
+                "y": 87.8
+              },
+              {
+                "zone": "1413",
+                "x": 48.15,
+                "y": 90.12
+              },
+              {
+                "zone": "1413",
+                "x": 46.67,
+                "y": 88.06
+              },
+              {
+                "zone": "1413",
+                "x": 48,
+                "y": 90.43
+              },
+              {
+                "zone": "1413",
+                "x": 46.01,
+                "y": 87.51
+              },
+              {
+                "zone": "1413",
+                "x": 45.8,
+                "y": 87.84
+              },
+              {
+                "zone": "1413",
+                "x": 46.4,
+                "y": 87.83
+              },
+              {
+                "zone": "1413",
+                "x": 46.4,
+                "y": 89.76
+              },
+              {
+                "zone": "1413",
+                "x": 46.7,
+                "y": 87.61
+              },
+              {
+                "zone": "1413",
+                "x": 48.06,
+                "y": 88.88
+              },
+              {
+                "zone": "1413",
+                "x": 48.86,
+                "y": 95.59
+              },
+              {
+                "zone": "1413",
+                "x": 48.53,
+                "y": 95.46
+              },
+              {
+                "zone": "1413",
+                "x": 48.43,
+                "y": 94.14
+              },
+              {
+                "zone": "1413",
+                "x": 48.01,
+                "y": 94.55
+              },
+              {
+                "zone": "1413",
+                "x": 47.07,
+                "y": 89.91
+              },
+              {
+                "zone": "1413",
+                "x": 47.11,
+                "y": 90.05
+              },
+              {
+                "zone": "1413",
+                "x": 47.3,
+                "y": 89.89
+              },
+              {
+                "zone": "1413",
+                "x": 47.48,
+                "y": 89.12
+              },
+              {
+                "zone": "1413",
+                "x": 46.72,
+                "y": 90.1
+              },
+              {
+                "zone": "1413",
+                "x": 47.36,
+                "y": 89.12
+              },
+              {
+                "zone": "1413",
+                "x": 47.47,
+                "y": 88.88
+              },
+              {
+                "zone": "1413",
+                "x": 47.71,
+                "y": 88.68
+              },
+              {
+                "zone": "1413",
+                "x": 47.88,
+                "y": 88.52
+              },
+              {
+                "zone": "1413",
+                "x": 48.32,
+                "y": 90.85
+              },
+              {
+                "zone": "1413",
+                "x": 48.4,
+                "y": 90.64
+              },
+              {
+                "zone": "1413",
+                "x": 48.27,
+                "y": 90.36
+              },
+              {
+                "zone": "1413",
+                "x": 48.51,
+                "y": 89.91
+              },
+              {
+                "zone": "1413",
+                "x": 48.13,
+                "y": 94.86
+              },
+              {
+                "zone": "1413",
+                "x": 47.8,
+                "y": 95.16
+              },
+              {
+                "zone": "1413",
+                "x": 46.07,
+                "y": 89.82
+              },
+              {
+                "zone": "1413",
+                "x": 46.22,
+                "y": 90.41
+              },
+              {
+                "zone": "1413",
+                "x": 47.56,
+                "y": 92.84
+              },
+              {
+                "zone": "1413",
+                "x": 46.67,
+                "y": 91.57
+              },
+              {
+                "zone": "1413",
+                "x": 46.92,
+                "y": 91.75
+              },
+              {
+                "zone": "1413",
+                "x": 46.56,
+                "y": 91.32
+              },
+              {
+                "zone": "1413",
+                "x": 48.13,
+                "y": 92.99
+              },
+              {
+                "zone": "1413",
+                "x": 46.86,
+                "y": 92.13
+              },
+              {
+                "zone": "1413",
+                "x": 46.87,
+                "y": 92.65
+              },
+              {
+                "zone": "1413",
+                "x": 45.7,
+                "y": 89.92
+              },
+              {
+                "zone": "1413",
+                "x": 48.6,
+                "y": 93.4
+              },
+              {
+                "zone": "1413",
+                "x": 48.47,
+                "y": 91.66
+              },
+              {
+                "zone": "1413",
+                "x": 48.38,
+                "y": 91.66
+              },
+              {
+                "zone": "1413",
+                "x": 48.24,
+                "y": 92.05
+              },
+              {
+                "zone": "1413",
+                "x": 48.07,
+                "y": 94
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "npcId": 7874,
+            "count": 8,
+            "positions": [
+              {
+                "zone": "1413",
+                "x": 48.65,
+                "y": 89.71
+              },
+              {
+                "zone": "1413",
+                "x": 46.15,
+                "y": 87.67
+              },
+              {
+                "zone": "1413",
+                "x": 48.34,
+                "y": 89.78
+              },
+              {
+                "zone": "1413",
+                "x": 45.83,
+                "y": 87.62
+              },
+              {
+                "zone": "1413",
+                "x": 48.64,
+                "y": 95.15
+              },
+              {
+                "zone": "1413",
+                "x": 48.57,
+                "y": 95.58
+              },
+              {
+                "zone": "1413",
+                "x": 48.17,
+                "y": 90.68
+              },
+              {
+                "zone": "1413",
+                "x": 47.85,
+                "y": 90.64
+              },
+              {
+                "zone": "1413",
+                "x": 48.47,
+                "y": 94.55
+              },
+              {
+                "zone": "1413",
+                "x": 48.11,
+                "y": 94.14
+              },
+              {
+                "zone": "1413",
+                "x": 46.23,
+                "y": 90.28
+              },
+              {
+                "zone": "1413",
+                "x": 45.87,
+                "y": 90.35
+              },
+              {
+                "zone": "1413",
+                "x": 46.25,
+                "y": 90.99
+              },
+              {
+                "zone": "1413",
+                "x": 47.14,
+                "y": 92.73
+              },
+              {
+                "zone": "1413",
+                "x": 47.78,
+                "y": 92.71
+              },
+              {
+                "zone": "1413",
+                "x": 47.05,
+                "y": 91.74
+              },
+              {
+                "zone": "1413",
+                "x": 46.46,
+                "y": 90.74
+              },
+              {
+                "zone": "1413",
+                "x": 48.33,
+                "y": 92.23
+              },
+              {
+                "zone": "1413",
+                "x": 46.52,
+                "y": 92.26
+              },
+              {
+                "zone": "1413",
+                "x": 47.55,
+                "y": 92.91
+              },
+              {
+                "zone": "1413",
+                "x": 48.12,
+                "y": 92.23
+              },
+              {
+                "zone": "1413",
+                "x": 48.45,
+                "y": 92.97
+              },
+              {
+                "zone": "1413",
+                "x": 48.25,
+                "y": 92.54
+              },
+              {
+                "zone": "1413",
+                "x": 48.67,
+                "y": 91.39
+              },
+              {
+                "zone": "1441",
+                "x": 40.11,
+                "y": 29.73
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "npcId": 7872,
+            "count": 8,
+            "positions": [
+              {
+                "zone": "1413",
+                "x": 48.61,
+                "y": 89.93
+              },
+              {
+                "zone": "1413",
+                "x": 48.06,
+                "y": 90.28
+              },
+              {
+                "zone": "1413",
+                "x": 45.88,
+                "y": 87.71
+              },
+              {
+                "zone": "1413",
+                "x": 46.75,
+                "y": 87.66
+              },
+              {
+                "zone": "1413",
+                "x": 48.65,
+                "y": 95.56
+              },
+              {
+                "zone": "1413",
+                "x": 47.96,
+                "y": 94.44
+              },
+              {
+                "zone": "1413",
+                "x": 47.3,
+                "y": 89.79
+              },
+              {
+                "zone": "1413",
+                "x": 47.95,
+                "y": 88.55
+              },
+              {
+                "zone": "1413",
+                "x": 47.86,
+                "y": 90.73
+              },
+              {
+                "zone": "1413",
+                "x": 46.19,
+                "y": 90.2
+              },
+              {
+                "zone": "1413",
+                "x": 46.96,
+                "y": 91.8
+              },
+              {
+                "zone": "1413",
+                "x": 46.77,
+                "y": 92.11
+              },
+              {
+                "zone": "1413",
+                "x": 48.15,
+                "y": 92.41
+              },
+              {
+                "zone": "1413",
+                "x": 48.3,
+                "y": 92.43
+              },
+              {
+                "zone": "1441",
+                "x": 40.34,
+                "y": 29.98
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": [
+          "non-outdoor-zone"
+        ]
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 7872,
+        "name": "Death's Head Cultist",
+        "minimumLevel": 33,
+        "maximumLevel": 34,
+        "rank": 1,
+        "zoneIds": [
+          17,
+          400
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 7873,
+        "name": "Razorfen Battleguard",
+        "minimumLevel": 33,
+        "maximumLevel": 34,
+        "rank": 1,
+        "zoneIds": [
+          17
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 7874,
+        "name": "Razorfen Thornweaver",
+        "minimumLevel": 33,
+        "maximumLevel": 34,
+        "rank": 1,
+        "zoneIds": [
+          17,
+          400
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 6626,
+        "creatureIds": [
+          7873,
+          7874,
+          7872
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Kill 8 Razorfen Battleguard, 8 Razorfen Thornweavers, and 8 Death's Head Cultists and return to Myriam Moonsinger near the entrance to Razorfen Downs."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 7873,
+            "kills": 8,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=6626/a-host-of-evil; sha256 c860864aaa3e02a36e273cefd04ba4beac988f783df7b0769fbd1adf7bcf4704; 2026-10-16T07:50:26.926Z"
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 7874,
+            "kills": 8,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=6626/a-host-of-evil; sha256 c860864aaa3e02a36e273cefd04ba4beac988f783df7b0769fbd1adf7bcf4704; 2026-10-16T07:50:26.926Z"
+          },
+          {
+            "objectiveIndex": 3,
+            "npcId": 7872,
+            "kills": 8,
+            "source": "Captured death counter: https://www.wowhead.com/forever/quest=6626/a-host-of-evil; sha256 c860864aaa3e02a36e273cefd04ba4beac988f783df7b0769fbd1adf7bcf4704; 2026-10-16T07:50:26.926Z"
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": []
+  },
+  "actions": [
+    {
+      "id": "dungeon-razorfen-downs-accepted-6626",
+      "legId": "dungeon-razorfen-downs",
+      "title": "Accept A Host of Evil",
+      "instructions": [
+        "Accept A Host of Evil",
+        "Talk to Myriam Moonsinger",
+        "Target: Myriam Moonsinger"
+      ],
+      "questChanges": [
+        {
+          "questId": 6626,
+          "state": "accepted",
+          "title": "A Host of Evil",
+          "objectiveIndex": null
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 114,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2343.63,
+            "y": -4801.75,
+            "space": "world"
+          }
+        }
+      ],
+      "source": null,
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "optionalForQuestIds": [
+        6626
+      ],
+      "requiredQuestIds": [],
+      "location": {
+        "zone": "1413"
+      }
+    },
+    {
+      "id": "dungeon-razorfen-downs-objectives-complete-6626",
+      "legId": "dungeon-razorfen-downs",
+      "title": "Complete A Host of Evil",
+      "instructions": [
+        "Kill Razorfen Battleguards, Razorfen Thornweavers and Death's Head Cultists",
+        "This quest is completed outside of the Instance",
+        "Target: Razorfen Battleguard",
+        "Target: Razorfen Thornweaver",
+        "Target: Death's Head Cultist"
+      ],
+      "questChanges": [
+        {
+          "questId": 6626,
+          "state": "objectives-complete",
+          "title": "A Host of Evil",
+          "objectiveIndex": 1
+        },
+        {
+          "questId": 6626,
+          "state": "objectives-complete",
+          "title": "A Host of Evil",
+          "objectiveIndex": 2
+        },
+        {
+          "questId": 6626,
+          "state": "objectives-complete",
+          "title": "A Host of Evil",
+          "objectiveIndex": 3
+        }
+      ],
+      "wholeQuestObjectives": true,
+      "positions": [
+        {
+          "sourceLine": 122,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 123,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2256.28,
+            "y": -4506.64,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 124,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2226.9,
+            "y": -4383.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 125,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2085.03,
+            "y": -4480.96,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 126,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2133.67,
+            "y": -4616.09,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 127,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 128,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2256.28,
+            "y": -4506.64,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 129,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2226.9,
+            "y": -4383.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 130,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2085.03,
+            "y": -4480.96,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 131,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2133.67,
+            "y": -4616.09,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 132,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 122,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 123,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2256.28,
+            "y": -4506.64,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 124,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2226.9,
+            "y": -4383.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 125,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2085.03,
+            "y": -4480.96,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 126,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2133.67,
+            "y": -4616.09,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 127,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 128,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2256.28,
+            "y": -4506.64,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 129,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2226.9,
+            "y": -4383.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 130,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2085.03,
+            "y": -4480.96,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 131,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2133.67,
+            "y": -4616.09,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 132,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 122,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 123,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2256.28,
+            "y": -4506.64,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 124,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2226.9,
+            "y": -4383.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 125,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2085.03,
+            "y": -4480.96,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 126,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2133.67,
+            "y": -4616.09,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 127,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 128,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2256.28,
+            "y": -4506.64,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 129,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2226.9,
+            "y": -4383.67,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 130,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2085.03,
+            "y": -4480.96,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 131,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2133.67,
+            "y": -4616.09,
+            "space": "world"
+          }
+        },
+        {
+          "sourceLine": 132,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2264.39,
+            "y": -4624.19,
+            "space": "world"
+          }
+        }
+      ],
+      "source": null,
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "optionalForQuestIds": [
+        6626
+      ],
+      "location": {
+        "zone": "1413"
+      }
+    },
+    {
+      "id": "dungeon-razorfen-downs-rewarded-6626",
+      "legId": "dungeon-razorfen-downs",
+      "title": "Hand in A Host of Evil",
+      "instructions": [
+        "Turn in A Host of Evil",
+        "Talk to Myriam Moonsinger",
+        "Target: Myriam Moonsinger"
+      ],
+      "questChanges": [
+        {
+          "questId": 6626,
+          "state": "rewarded",
+          "title": "A Host of Evil",
+          "objectiveIndex": null
+        }
+      ],
+      "positions": [
+        {
+          "sourceLine": 142,
+          "position": {
+            "zone": "1413",
+            "floor": 1,
+            "x": -2343.63,
+            "y": -4801.75,
+            "space": "world"
+          }
+        }
+      ],
+      "source": null,
+      "kind": "quests",
+      "leaderOnly": false,
+      "targetLevel": null,
+      "targetStopId": null,
+      "raidOnly": false,
+      "optionalForQuestIds": [
+        6626
+      ],
+      "location": {
+        "zone": "1413"
+      }
+    }
+  ],
+  "rewardFacts": [
+    {
+      "questId": 6626,
+      "fullXp": 8200,
+      "rewardBasis": "final-reward",
+      "questLevel": 35,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 8200
+        },
+        {
+          "level": 29,
+          "xp": 8200
+        },
+        {
+          "level": 30,
+          "xp": 8200
+        },
+        {
+          "level": 31,
+          "xp": 8200
+        },
+        {
+          "level": 32,
+          "xp": 8200
+        },
+        {
+          "level": 33,
+          "xp": 8200
+        },
+        {
+          "level": 34,
+          "xp": 8200
+        },
+        {
+          "level": 35,
+          "xp": 8200
+        },
+        {
+          "level": 36,
+          "xp": 8200
+        },
+        {
+          "level": 37,
+          "xp": 8200
+        },
+        {
+          "level": 38,
+          "xp": 8200
+        },
+        {
+          "level": 39,
+          "xp": 8200
+        },
+        {
+          "level": 40,
+          "xp": 8200
+        },
+        {
+          "level": 41,
+          "xp": 6550
+        },
+        {
+          "level": 42,
+          "xp": 4900
+        },
+        {
+          "level": 43,
+          "xp": 3300
+        },
+        {
+          "level": 44,
+          "xp": 1650
+        },
+        {
+          "level": 45,
+          "xp": 825
+        },
+        {
+          "level": 46,
+          "xp": 825
+        },
+        {
+          "level": 47,
+          "xp": 825
+        },
+        {
+          "level": 48,
+          "xp": 825
+        },
+        {
+          "level": 49,
+          "xp": 825
+        },
+        {
+          "level": 50,
+          "xp": 825
+        },
+        {
+          "level": 51,
+          "xp": 825
+        },
+        {
+          "level": 52,
+          "xp": 825
+        },
+        {
+          "level": 53,
+          "xp": 825
+        },
+        {
+          "level": 54,
+          "xp": 825
+        },
+        {
+          "level": 55,
+          "xp": 825
+        },
+        {
+          "level": 56,
+          "xp": 825
+        },
+        {
+          "level": 57,
+          "xp": 825
+        },
+        {
+          "level": 58,
+          "xp": 825
+        },
+        {
+          "level": 59,
+          "xp": 825
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 6626,
+        "questLevel": 35,
+        "minimumLevel": 28,
+        "difficulty": 6,
+        "baseXp": 3450,
+        "xpMultiplier": 2.375,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 3450
+    }
+  ]
+}

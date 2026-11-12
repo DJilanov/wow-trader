@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
-import { campaignActionAlias, campaignActionNeeded } from "./campaign.js";
+import { campaignActionAlias, campaignActionNeeded, updateCampaignAction } from "./campaign.js";
 import { CHAPTER_REFERENCES } from "./chapter-data.js";
 import { parseGuideChapter } from "./guide-archive.js";
 import { campaignActionSource } from "./campaign-source-conditions.js";
@@ -15,7 +15,11 @@ import { emptyPremadeProgress } from "./premade-model.js";
 import { forecastCampaignXp } from "./campaign-xp.js";
 import { guidePartyScenario, guidePartyAnchors } from "./campaign-guide-party.js";
 import { campaignItemStateSignature } from "./campaign-items.js";
+import { recordPremadeXp } from "./premade.js";
 import { compileCampaignAddon } from "./campaign-addon.js";
+import { attachCampaignMeatSupplyHints } from "./campaign-meat-supplies.js";
+import { partyQuestLootCost } from "./party-quest-cost.js";
+import { OWNER_DUNGEON_KILL_XP_REFERENCE } from "./combat-dungeon-reference.js";
 
 const checksum = "a".repeat(64);
 
@@ -36,9 +40,10 @@ function fixture(
   combined = false,
   questOnly = false,
   displayOnly = false,
+  itemId = 10,
 ): { plan: CampaignPlan; source: CampaignSource; dataset: CombatDataset } {
   const reference = CHAPTER_REFERENCES.find((entry) => entry.sourceId === 116)!;
-  const raw = `${combined ? "step\n.accept 200\n" : ""}step\n.goto Elwynn Forest,40,80\n>>Kill Forest Boars. Loot them for Meat\n${combined ? ".complete 200,1 >>Kill Forest Boar (x3)\n.mob Forest Boar\n" : ""}.collect 10,2,100,1${displayOnly ? ",1" : ""}\n.mob Forest Boar\nstep\n.accept 100\nstep\n.turnin 100\n${combined ? "step\n.turnin 200" : ""}`;
+  const raw = `${combined ? "step\n.accept 200\n" : ""}step\n.goto Elwynn Forest,40,80\n>>Kill Forest Boars. Loot them for Meat\n${combined ? ".complete 200,1 >>Kill Forest Boar (x3)\n.mob Forest Boar\n" : ""}.collect ${itemId},2,100,1${displayOnly ? ",1" : ""}\n.mob Forest Boar\nstep\n.accept 100\nstep\n.turnin 100\n${combined ? "step\n.turnin 200" : ""}`;
   const guide = parseGuideChapter(raw, reference.id, checksum, 70205);
   const source = { reference, guide };
   const actions = guide.steps.flatMap((step): CampaignAction[] => {
@@ -119,8 +124,8 @@ function fixture(
         itemObjectives: [
           {
             objectiveIndex: 1,
-            itemId: 10,
-            itemName: "Meat",
+            itemId,
+            itemName: itemId === 769 ? "Chunk of Boar Meat" : "Meat",
             quantity: 2,
             npcIds: [1],
             sharing: "pooled",
@@ -140,7 +145,7 @@ function fixture(
     killXpEvidence: [],
     lootDrops: [
       {
-        itemId: 10,
+        itemId,
         npcId: 1,
         probability: 0.5,
         probabilityBasis: "reported",
@@ -160,7 +165,7 @@ function fixture(
           sha256: checksum,
           sourceBuild: 5875,
           referencedAt: "2026-11-02T00:00:00.000Z",
-          itemId: 10,
+          itemId,
           npcId: 1,
           lootEntry: 1,
           probability: 0.5,
@@ -219,6 +224,43 @@ function fixture(
 }
 
 describe("source-directed material combat", () => {
+  it.each([false, true])(
+    "excludes optional meat gathering XP while retaining required kills and full hand-ins (combined=%s)",
+    (combined) => {
+      const { plan, dataset } = fixture(combined, false, false, 769);
+      const cost = partyQuestLootCost(100, plan, dataset, 1);
+      expect(cost.auctionItems).toHaveLength(1);
+      const described = attachCampaignMeatSupplyHints({
+        ...plan,
+        partyPolicy: {
+          revision: "five-player-kill-first-20261102-v9",
+          partySize: 5,
+          unresolvedPrerequisiteIds: [],
+          decisions: [
+            {
+              questId: 100,
+              included: true,
+              objective: "collection",
+              requiredFor: [],
+              reason: "Synthetic high-drop meat",
+              lootCost: cost,
+            },
+          ],
+        },
+      });
+      const before = JSON.stringify(described);
+      const member = forecastCampaignXp(described, freshProgress())[0]!.members[0]!;
+      expect(member.referenceQuestXp).toBe(combined ? 200 : 100);
+      expect(member.combatRows.map((row) => row.kills)).toEqual(combined ? [3] : []);
+      expect(member.combatXp).toBe(combined ? 150 : 0);
+      expect(member.unknownQuestIds).toEqual([]);
+      expect(member.issues.some((issue) => issue.code === "item-acquisition-unqualified")).toBe(
+        false,
+      );
+      expect(JSON.stringify(described)).toBe(before);
+      expect(described.combat!.materialWork).toHaveLength(1);
+    },
+  );
   function workload(combined = false): {
     plan: CampaignPlan;
     input: Parameters<typeof forecastCampaignMaterialCombat>[0];
@@ -250,6 +292,113 @@ describe("source-directed material combat", () => {
       },
     };
   }
+
+  it("uses dungeon payout rules for qualified dungeon material work, never an outdoor fallback", () => {
+    const { input, participant } = workload();
+    const combat = {
+      ...input.combat,
+      npcs: input.combat.npcs.map((npc) => ({ ...npc, minimumLevel: 20, maximumLevel: 20, rank: 1 })),
+      dungeonKillXpReference: OWNER_DUNGEON_KILL_XP_REFERENCE,
+    };
+    const members = Array.from({ length: 5 }, (): CampaignMaterialParticipant => ({
+      ...participant, combat, position: { level: 20, currentXp: 0 },
+    }));
+    const result = forecastCampaignMaterialCombat({
+      ...input, combat, work: { ...input.work, environment: "dungeon" }, participants: members,
+    });
+    expect(result.status).toBe("planned");
+    if (result.status !== "planned") return;
+    for (const forecast of result.forecasts) {
+      const row = forecast.rows[0]!;
+      expect(row.environment).toBe("dungeon");
+      expect(row.kills).toBeGreaterThan(0);
+      expect(row.xp).toBe(row.kills * 24);
+      expect(row.maximumXp).toBe(row.kills * 30);
+    }
+    const missing = { ...input.combat, npcs: combat.npcs };
+    expect(missing.dungeonKillXpReference).toBeUndefined();
+    expect(forecastCampaignMaterialCombat({
+      ...input, combat: missing, work: { ...input.work, environment: "dungeon" },
+      participants: members.map((member) => ({ ...member, combat: missing })),
+    }).status).toBe("unknown");
+  });
+
+  it.each(["outdoor", "dungeon"] as const)("keeps %s material kills and loot counters separate from incidental XP", (environment) => {
+    const { input, participant } = workload(true);
+    const combat = { ...input.combat,
+      npcs: input.combat.npcs.map((npc) => ({ ...npc, minimumLevel: 20, maximumLevel: 20, rank: 1 })),
+      dungeonKillXpReference: OWNER_DUNGEON_KILL_XP_REFERENCE,
+    };
+    const batch = { ...input, combat, work: { ...input.work, environment },
+      participants: Array.from({ length: 5 }, (): CampaignMaterialParticipant => ({
+        ...participant, combat, position: { level: 20, currentXp: 0 },
+        maximumPosition: { level: 20, currentXp: 0 },
+      })),
+    };
+    const required = forecastCampaignMaterialCombat(batch);
+    const planned = forecastCampaignMaterialCombat({ ...batch, incidentalKillXpPercent: 10 });
+    expect(required.status).toBe("planned");
+    expect(planned.status).toBe("planned");
+    if (required.status !== "planned" || planned.status !== "planned") return;
+    for (const [index, forecast] of planned.forecasts.entries()) {
+      const before = required.forecasts[index]!;
+      const extra = before.rows.reduce((sum, row) => sum + Math.floor(row.xp! / 10), 0);
+      expect(extra).toBeGreaterThan(0);
+      expect(forecast.xp).toBe(before.xp + extra);
+      expect(forecast.rows.map((row) => row.kills)).toEqual(before.rows.map((row) => row.kills));
+      expect(forecast.rows.reduce((sum, row) => sum + (row.incidentalXp ?? 0), 0)).toBe(extra);
+      expect(forecast.state.counters).toEqual(before.state.counters);
+      expect(forecast.exit.currentXp).toBe(before.exit.currentXp + extra);
+    }
+  });
+
+  it.each(["outdoor", "dungeon"] as const)("keeps the outdoor override and %s material XP in their proper forecast buckets", (environment) => {
+    const { plan: base } = fixture();
+    const plan: CampaignPlan = { ...base, incidentalKillXpPercent: 10,
+      legs: base.legs.map((leg) => ({ ...leg, kind: environment === "dungeon" ? "dungeon" : leg.kind })),
+      combat: { ...base.combat!, materialWork: base.combat!.materialWork!.map((work) => ({ ...work, environment })),
+        killXpEvidence: [{ npcId: 1, build: 70205, playerLevel: 1, mobLevel: 1, partySize: 1,
+          partyLevels: [1], environment, unrestedXpPerPlayer: 50, sampleCount: 3,
+          source: "Synthetic material-scope control", contextVerified: true }],
+      },
+    };
+    const required = forecastCampaignXp(plan, freshProgress(), { incidentalKillXpPercent: 0 })[0]!.members[0]!;
+    const planned = forecastCampaignXp(plan, freshProgress(), { outdoorIncidentalKillXpPercent: 30 })[0]!.members[0]!;
+    expect(required.combatXp).toBeGreaterThan(0);
+    const percent = environment === "outdoor" ? 30 : 10;
+    const extra = required.combatRows.reduce((sum, row) => sum + Math.floor(row.xp! * percent / 100), 0);
+    expect(planned.combatXp).toBe(required.combatXp + extra);
+    expect(planned.incidentalCombatXp).toBe(extra);
+    expect(planned.combatRows.map((row) => row.kills)).toEqual(required.combatRows.map((row) => row.kills));
+    expect(planned.referenceQuestXp).toBe(required.referenceQuestXp);
+    expect(planned.outdoorCombatXp).toBe(environment === "outdoor" ? planned.combatXp : 0);
+    expect(planned.dungeonCombatXp).toBe(environment === "dungeon" ? planned.combatXp : 0);
+  });
+
+  it("keeps unrelated gathering in a mixed stock step when optional meat XP is explicitly excluded", () => {
+    const { input } = workload();
+    const action = {
+      ...input.action,
+      itemCollections: [
+        ...input.action.itemCollections!,
+        {
+          questId: 100,
+          itemId: 769,
+          quantity: 2,
+          objectiveBitmask: 2,
+          confirmationKey: "optional-meat",
+        },
+      ],
+    };
+    expect(forecastCampaignMaterialCombat({ ...input, action }).status).toBe("unknown");
+    const result = forecastCampaignMaterialCombat({
+      ...input,
+      action,
+      excludedSupplyItems: new Set(["100:769"]),
+    });
+    expect(result.status).toBe("planned");
+    if (result.status === "planned") expect(result.forecasts[0]!.rows[0]!.kills).toBe(4);
+  });
 
   it("credits ordinary pre-pickup gathering from a fresh reference start without accepting a quest early", () => {
     const { plan } = fixture();
@@ -343,6 +492,19 @@ describe("source-directed material combat", () => {
     expect(result.combatRows).toHaveLength(1);
     expect(result.combatRows[0]!.kills).toBe(3);
     expect(result.combatRows[0]!.activityId).not.toContain("material-work");
+  });
+
+  it("credits no gathering XP after the player confirms meat obtained from stock or the AH", () => {
+    const { plan } = fixture();
+    const collection = plan.actions.find((action) => action.itemCollections?.length)!;
+    const bought = updateCampaignAction(plan, freshProgress(), collection.id, true);
+    expect(bought.members[0]!.itemHoldings?.minimums).toEqual({ "10": 2 });
+    const current = recordPremadeXp(bought, 0, 1, 0);
+    const result = forecastCampaignXp(plan, current)[0]!.members[0]!;
+    expect(result.combatXp).toBe(0);
+    expect(result.combatRows).toHaveLength(0);
+    expect(result.referenceQuestXp).toBe(100);
+    expect(result.unknownQuestIds).toEqual([]);
   });
 
   it("does not forecast quest-only items before their pickup", () => {

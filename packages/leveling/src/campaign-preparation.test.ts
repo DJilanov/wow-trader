@@ -11,6 +11,7 @@ import { compileCampaignFunding } from "./campaign-catchup-planner.js";
 import { compileCampaignPickupGates } from "./campaign-pickup-gates.js";
 import type { CombatDataset } from "./combat-model.js";
 import { compileCampaignAddon } from "./campaign-addon.js";
+import type { QuestCatalog } from "./quest-catalog.js";
 
 function fixture(): { plan: CampaignPlan; evidence: CampaignPreparationEvidence } {
   const action = {
@@ -87,6 +88,32 @@ function fixture(): { plan: CampaignPlan; evidence: CampaignPreparationEvidence 
 }
 
 describe("shared browser and offline campaign preparation", () => {
+  it("also gives the browser's general campaign a 30-percent outdoor default without adding a dungeon allowance", () => {
+    const { plan, evidence } = fixture();
+    const prepared = prepareCampaignPlan(plan, [], evidence);
+    expect(prepared.outdoorIncidentalKillXpPercent).toBe(30);
+    expect(prepared.incidentalKillXpPercent).toBeUndefined();
+  });
+
+  it.each([undefined, 0, 15])("defaults shared routes to 30%% outdoors while preserving an override of %s", (outdoorPercent) => {
+    const { plan, evidence } = fixture();
+    const questCatalog: QuestCatalog = {
+      schema: "forever-quest-funding-catalog.v1", targetBuild: plan.targetBuild,
+      publication: "private-reference", authorizationNote: "Synthetic planning-default fixture",
+      providerRevision: "a".repeat(40), questSha256: "b".repeat(64), npcSha256: "c".repeat(64),
+      areaMapSha256: "d".repeat(64), sourceArchiveSha256: "e".repeat(64),
+      includesAuthoredCorrections: false, quests: [],
+    };
+    const source: CampaignPlan = { ...plan, sharedQuestsOnly: true,
+      sourceArchiveSha256: questCatalog.sourceArchiveSha256,
+      ...(outdoorPercent === undefined ? {} : { outdoorIncidentalKillXpPercent: outdoorPercent }) };
+    const before = structuredClone(source);
+    const prepared = prepareCampaignPlan(source, [], { ...evidence, questCatalog });
+    expect(prepared.outdoorIncidentalKillXpPercent).toBe(outdoorPercent ?? 30);
+    expect(prepared.incidentalKillXpPercent).toBe(10);
+    expect(source).toEqual(before);
+  });
+
   it("expands a generated whole-quest dungeon task from matched objective evidence without an archive", () => {
     const { plan, evidence } = fixture();
     const action = {
@@ -265,6 +292,7 @@ describe("shared browser and offline campaign preparation", () => {
           rewardNotice: evidence.rewardNotice,
         }),
       ),
+      outdoorIncidentalKillXpPercent: 30,
       flowRevision: "player-route-20261031-v1",
       flightPaths: [],
     });

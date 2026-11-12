@@ -70,6 +70,25 @@ function fixture(questIds: readonly number[] = [100, 200]): CampaignCombatPlan {
   };
 }
 describe("joint collection quotas in chronological combat", () => {
+  it("uses the same stable integer budget for a captured pooled collection in the joint path", () => {
+    const original = fixture([100]);
+    const combat: CampaignCombatPlan = {
+      ...original,
+      activities: original.activities.map((activity) => ({
+        ...activity,
+        objectives: activity.objectives.map((objective) => ({
+          ...objective,
+          loot: { ...objective.loot!, quantity: 8, sharing: "pooled" },
+        })),
+      })),
+      lootDrops: original.lootDrops!.map((drop) => ({ ...drop, probability: 0.6666666666666665 })),
+    };
+    const before = structuredClone(combat);
+    expect(
+      resolveJointCombatQuota(combat.activities[0]!.objectives, combat, 5, "expected"),
+    ).toMatchObject({ status: "estimated", kills: 60 });
+    expect(combat).toEqual(before);
+  });
   it("applies a required kill floor without fabricating a second quest objective", () => {
     const combat = fixture([100]);
     const result = resolveJointCombatQuota(

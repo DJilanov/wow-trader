@@ -1,7 +1,7 @@
 import type { CampaignAction, CampaignPlan, CampaignSource } from "./campaign.js";
 import type { CombatQuestReference } from "./combat-model.js";
 import { getGuideStepView, type ImportedStep, type GuideStepView } from "./guide-archive.js";
-import { createCampaignSourceProfile } from "./campaign-source-profile.js";
+import { campaignPlanSourceProfile } from "./campaign-source-profile.js";
 import { campaignActionSource, CAMPAIGN_SOURCE_CHECKS } from "./campaign-source-conditions.js";
 import { campaignItemObjectiveQuantity } from "./campaign-item-quantities.js";
 import { CAMPAIGN_QUEST_GUARDS } from "./campaign-native-guards.js";
@@ -64,7 +64,7 @@ export function attachCampaignItemWork(
   sources: readonly CampaignSource[],
   quests: readonly CombatQuestReference[],
 ): CampaignPlan {
-  const profile = createCampaignSourceProfile(plan.race, plan.leaderClass);
+  const profile = campaignPlanSourceProfile(plan);
   const chapters = new Set(
     plan.actions.flatMap((action) => (action.source ? [action.source.chapterId] : [])),
   );

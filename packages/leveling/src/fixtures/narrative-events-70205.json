@@ -1,0 +1,6143 @@
+{
+  "targetBuild": 70205,
+  "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+  "provider": {
+    "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c"
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Local source-backed pickup review. Preserve eight proofs, add further literal item/object/source matches, and remove only the separately reviewed Filthy Paws source-order heuristic. No live activation, respawn or observed payout claim.\nClient kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.\nClient pickup minima reconciled for quests 631,632,1144,96395; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Quest levels, reward tables and other access requirements unchanged; previous minima retained in resolution provenance.\nComplete client objective membership holds:98386and98418. Matching70205and70450records include additional targets absent from provider/catalog. Prior facts preserved in client-objectives-v184/qualification.json. No missing credit is priced as combat; native index binding and full methods remain unqualified. Efficient Games https://efficient.games, CC BY 4.0.\nExplicit client quest-level corrections accompany complete regenerated reward curves; prior facts retained in client reward resolution provenance. Access masks, pickup minima and objective-method holds unchanged. Client-table values remain estimates, not observed payouts.\nSix sleeping-bag object-route quests appended from matching70205/70450client identities and Wowhead Forever route facts; endpoints are authored coordinates, not provider NPC/object identities. Lower32race bits preserved from client masks; original full masks retained in qualification. No buff, rested, food, deaths or respawn timing assumed.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 1447,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 31,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4961,
+            "name": "Dashel Stonefist",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 74.26,
+                "y": 59.17
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4961,
+            "name": "Dashel Stonefist",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 74.26,
+                "y": 59.17
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1246
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 4961,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 74.26,
+                "y": 59.17
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 1247,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 31,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4961,
+            "name": "Dashel Stonefist",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 74.26,
+                "y": 59.17
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 482,
+            "name": "Elling Trias",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 66.03,
+                "y": 74.1
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1447
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1248,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 482,
+            "name": "Elling Trias",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1453",
+                "x": 66.03,
+                "y": 74.1
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4963,
+            "name": "Mikhail",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.6,
+                "y": 60.77
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1247
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1249,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4963,
+            "name": "Mikhail",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.6,
+                "y": 60.77
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4963,
+            "name": "Mikhail",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.6,
+                "y": 60.77
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1248
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 4962,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.54,
+                "y": 60.26
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 1250,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4962,
+            "name": "Tapoke \"Slim\" Jahn",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.54,
+                "y": 60.26
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4963,
+            "name": "Mikhail",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.6,
+                "y": 60.77
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1249
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1264,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 33,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4963,
+            "name": "Mikhail",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1437",
+                "x": 10.6,
+                "y": 60.77
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4964,
+            "name": "Commander Samaul",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 68.02,
+                "y": 48.71
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1250
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1265,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 35,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4964,
+            "name": "Commander Samaul",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 68.02,
+                "y": 48.71
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4967,
+            "name": "Archmage Tervosh",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 66.42,
+                "y": 49.26
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1264
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "exploration-trigger",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1266,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 36,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4967,
+            "name": "Archmage Tervosh",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 66.42,
+                "y": 49.26
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4966,
+            "name": "Private Hendel",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 45.24,
+                "y": 24.65
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1265
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1324,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 38,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4966,
+            "name": "Private Hendel",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 45.24,
+                "y": 24.65
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4967,
+            "name": "Archmage Tervosh",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 66.42,
+                "y": 49.26
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1266
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 4966,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 45.24,
+                "y": 24.65
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 1267,
+        "title": "The Missing Diplomat",
+        "minimumLevel": 28,
+        "questLevel": 38,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4968,
+            "name": "Lady Jaina Proudmoore",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 66.27,
+                "y": 49.04
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4968,
+            "name": "Lady Jaina Proudmoore",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1445",
+                "x": 66.27,
+                "y": 49.04
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1324
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 2801,
+        "title": "A Tale of Sorrow",
+        "minimumLevel": 45,
+        "questLevel": 57,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 7572,
+            "name": "Fallen Hero of the Horde",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1435",
+                "x": 34.29,
+                "y": 66.14
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 7572,
+            "name": "Fallen Hero of the Horde",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1435",
+                "x": 34.29,
+                "y": 66.14
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            2623,
+            2783
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 7572,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1435",
+                "x": 34.29,
+                "y": 66.14
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 3441,
+        "title": "Divine Retribution",
+        "minimumLevel": 40,
+        "questLevel": 48,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 8479,
+            "name": "Kalaran Windblade",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1427",
+                "x": 39.06,
+                "y": 38.99
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 8479,
+            "name": "Kalaran Windblade",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1427",
+                "x": 39.06,
+                "y": 38.99
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 8479,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1427",
+                "x": 39.06,
+                "y": 38.99
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 3453,
+        "title": "The Torch of Retribution",
+        "minimumLevel": 40,
+        "questLevel": 50,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 8479,
+            "name": "Kalaran Windblade",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1427",
+                "x": 39.06,
+                "y": 38.99
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 8479,
+            "name": "Kalaran Windblade",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1427",
+                "x": 39.06,
+                "y": 38.99
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            3452
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 8479,
+            "count": null,
+            "positions": [
+              {
+                "zone": "1427",
+                "x": 39.06,
+                "y": 38.99
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 683,
+        "title": "Sara Balloo's Plea",
+        "minimumLevel": 25,
+        "questLevel": 30,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "providedItem": {
+          "itemId": 4514,
+          "name": "Sara Balloo's Plea"
+        },
+        "starts": [
+          {
+            "npcId": 2695,
+            "name": "Sara Balloo",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 63.5,
+                "y": 67.3
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 2784,
+            "name": "King Magni Bronzebeard",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1455",
+                "x": 39.09,
+                "y": 56.2
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            637
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "provided-item-interaction",
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 1137,
+        "title": "News for Fizzle",
+        "minimumLevel": 28,
+        "questLevel": 38,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 4618,
+            "name": "Martek the Exiled",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1418",
+                "x": 42.22,
+                "y": 52.69
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 4454,
+            "name": "Fizzle Brassbolts",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1441",
+                "x": 78.06,
+                "y": 77.13
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1108
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      },
+      {
+        "questId": 4442,
+        "title": "Purified!",
+        "minimumLevel": 49,
+        "questLevel": 54,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 9116,
+            "name": "Eridan Bluewind",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1448",
+                "x": 51.35,
+                "y": 81.51
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 9116,
+            "name": "Eridan Bluewind",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1448",
+                "x": 51.35,
+                "y": 81.51
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            4441
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-objective-text"
+        ]
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active."
+      ]
+    },
+    "authorizationNote": "Exact normalized dialogue/encounter subset for regression testing; no kill payout or population is inferred.",
+    "npcs": [
+      {
+        "id": 4961,
+        "name": "Dashel Stonefist",
+        "minimumLevel": 26,
+        "maximumLevel": 26,
+        "rank": 0,
+        "zoneIds": [
+          1519
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4962,
+        "name": "Tapoke \"Slim\" Jahn",
+        "minimumLevel": 34,
+        "maximumLevel": 34,
+        "rank": 0,
+        "zoneIds": [
+          11
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4966,
+        "name": "Private Hendel",
+        "minimumLevel": 35,
+        "maximumLevel": 35,
+        "rank": 0,
+        "zoneIds": [
+          15
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4969,
+        "name": "Old Town Thug",
+        "minimumLevel": 25,
+        "maximumLevel": 26,
+        "rank": 0,
+        "zoneIds": [
+          1519
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 7572,
+        "name": "Fallen Hero of the Horde",
+        "minimumLevel": 60,
+        "maximumLevel": 60,
+        "rank": 0,
+        "zoneIds": [
+          8
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 8479,
+        "name": "Kalaran Windblade",
+        "minimumLevel": 55,
+        "maximumLevel": 55,
+        "rank": 1,
+        "zoneIds": [
+          51
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 4971,
+        "name": "Slim's Friend",
+        "minimumLevel": 34,
+        "maximumLevel": 34,
+        "rank": 0,
+        "zoneIds": [],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 5184,
+        "name": "Theramore Sentry",
+        "minimumLevel": 35,
+        "maximumLevel": 36,
+        "rank": 0,
+        "zoneIds": [
+          15
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "quests": [
+      {
+        "questId": 683,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Take Sara Balloo's note to King Magni Bronzebeard of Ironforge."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            637
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1137,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak with Fizzle Brassbolts in the Shimmering Flats."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1108
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1247,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak to Elling Trias in Stormwind."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1447
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1248,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak to Mikhail in the Wetlands."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1247
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1249,
+        "creatureIds": [
+          4962
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Subdue Tapoke Jahn before he escapes, and then return to Mikhail in Menethil."
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1248
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1250,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak to Mikhail in the Wetlands."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1249
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1264,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find Commander Samaul in Dustwallow Marsh."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1250
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1265,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Search Sentry Point for any sign of Private Hendel."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": true,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1264
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1266,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Find Private Hendel in Dustwallow Marsh."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1265
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1267,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak to Jaina Proudmore in Dustwallow Swamp."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1324
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1324,
+        "creatureIds": [
+          4966
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Defeat Private Hendel in Dustwallow Marsh."
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1266
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 1447,
+        "creatureIds": [
+          4961
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Defeat Dashel Stonefist in Stormwind."
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1246
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 2801,
+        "creatureIds": [
+          7572
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Listen to the Fallen Hero of the Horde tell his story."
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            2623,
+            2783
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 3441,
+        "creatureIds": [
+          8479
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Listen as Kalaran Windblade tells his story."
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 3453,
+        "creatureIds": [
+          8479
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Wait for Kalaran Windblade to complete the Torch of Retribution.",
+          ""
+        ],
+        "onlyCreatureObjectives": true,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            3452
+          ]
+        },
+        "itemObjectives": []
+      },
+      {
+        "questId": 4442,
+        "creatureIds": [],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Speak to Eridan again in a moment."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            4441
+          ]
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": []
+  },
+  "guides": [
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-13-29-32-duskwood",
+      "version": "import-v2-b5b0bf698ef41804",
+      "targetBuild": 70205,
+      "sourceSha256": "b5b0bf698ef418041b1175be48f5528015f9dcc1afcd0c2bf15149d3ac8a2f24",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0027",
+          "ordinal": 27,
+          "sourceLine": 177,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#xprate",
+              "arguments": "<1.99",
+              "condition": "",
+              "text": "",
+              "sourceLine": 178,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "Ironforge,63.50,67.30",
+              "condition": "",
+              "text": "",
+              "sourceLine": 179,
+              "questId": null,
+              "position": {
+                "zone": "Ironforge",
+                "floor": null,
+                "x": 63.5,
+                "y": 67.3,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Sara Balloo",
+              "sourceLine": 180,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "637",
+              "condition": "",
+              "text": "Turn in Sully Balloo's Letter",
+              "sourceLine": 181,
+              "questId": 637,
+              "position": null
+            },
+            {
+              "tag": ".timer",
+              "arguments": "17,Sully Balloo's Letter RP",
+              "condition": "",
+              "text": "",
+              "sourceLine": 182,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "683",
+              "condition": "",
+              "text": "Accept Sara Balloo's Plea",
+              "sourceLine": 183,
+              "questId": 683,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Sara Balloo",
+              "condition": "",
+              "text": "",
+              "sourceLine": 184,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0028",
+          "ordinal": 28,
+          "sourceLine": 185,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#xprate",
+              "arguments": "<1.99",
+              "condition": "",
+              "text": "",
+              "sourceLine": 186,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1455/0,-1022.65,-4865.70",
+              "condition": "",
+              "text": "",
+              "sourceLine": 187,
+              "questId": null,
+              "position": {
+                "zone": "1455",
+                "floor": 0,
+                "x": -1022.65,
+                "y": -4865.7,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to King Magni Bronzebeard",
+              "sourceLine": 188,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "683",
+              "condition": "",
+              "text": "Turn in Sara Balloo's Plea",
+              "sourceLine": 189,
+              "questId": 683,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "686",
+              "condition": "",
+              "text": "Accept A King's Tribute",
+              "sourceLine": 190,
+              "questId": 686,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "King Magni Bronzebeard",
+              "condition": "",
+              "text": "",
+              "sourceLine": 191,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0169",
+          "ordinal": 169,
+          "sourceLine": 1167,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#completewith",
+              "arguments": "next",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1168,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1453/0,432.60,-8681.20",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1169,
+              "questId": null,
+              "position": {
+                "zone": "1453",
+                "floor": 0,
+                "x": 432.6,
+                "y": -8681.2,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Dashel Stonefist",
+              "sourceLine": 1170,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Dashel Stonefist will become hostile after accepting the follow up quest. Defeat him",
+              "sourceLine": 1171,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1246",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 1172,
+              "questId": 1246,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1447,1",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 1173,
+              "questId": 1447,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Dashel Stonefist",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1174,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0170",
+          "ordinal": 170,
+          "sourceLine": 1175,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1453/0,432.60,-8681.20",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1176,
+              "questId": null,
+              "position": {
+                "zone": "1453",
+                "floor": 0,
+                "x": 432.6,
+                "y": -8681.2,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Defeat Dashel Stonefist",
+              "sourceLine": 1177,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Dashel Stonefist will also attack with 2 Old Town Thugs. Ignore them and focus on Dashel Stonefist",
+              "sourceLine": 1178,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Be careful as the Old Town Thugs will reset when you defeat Dashel but then become hostile again after returning to their original locations",
+              "sourceLine": 1179,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "1447,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1180,
+              "questId": 1447,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Dashel Stonefist",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1181,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0171",
+          "ordinal": 171,
+          "sourceLine": 1182,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1453/0,432.60,-8681.20",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1183,
+              "questId": null,
+              "position": {
+                "zone": "1453",
+                "floor": 0,
+                "x": 432.6,
+                "y": -8681.2,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Dashel Stonefist",
+              "sourceLine": 1184,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1447",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 1185,
+              "questId": 1447,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1247",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 1186,
+              "questId": 1247,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Dashel Stonefist",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1187,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0172",
+          "ordinal": 172,
+          "sourceLine": 1188,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "Stormwind City,59.90,64.17",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1189,
+              "questId": null,
+              "position": {
+                "zone": "Stormwind City",
+                "floor": null,
+                "x": 59.9,
+                "y": 64.17,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Elling Trias",
+              "sourceLine": 1190,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1247",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 1191,
+              "questId": 1247,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1248",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 1192,
+              "questId": 1248,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Elling Trias",
+              "condition": "",
+              "text": "",
+              "sourceLine": 1193,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-14-32-33-hillsbrad-arathi",
+      "version": "import-v2-bc07e10e90aad54e",
+      "targetBuild": 70205,
+      "sourceSha256": "bc07e10e90aad54e904e66bc3a316c9fa24eb41560f2f3a07652187b54194385",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0005",
+          "ordinal": 5,
+          "sourceLine": 36,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#completewith",
+              "arguments": "next",
+              "condition": "",
+              "text": "",
+              "sourceLine": 37,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1437/0,-827.90,-3822.86",
+              "condition": "",
+              "text": "",
+              "sourceLine": 38,
+              "questId": null,
+              "position": {
+                "zone": "1437",
+                "floor": 0,
+                "x": -827.9,
+                "y": -3822.86,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Mikhail",
+              "sourceLine": 39,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Accepting this quest will make Tapoke \"Slim\" Jahn by the Inn entrance [Stealth] and run away outside",
+              "sourceLine": 40,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1248",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 41,
+              "questId": 1248,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1249,1",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 42,
+              "questId": 1249,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Mikhail",
+              "condition": "",
+              "text": "",
+              "sourceLine": 43,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Tapoke \"Slim\" Jahn",
+              "condition": "",
+              "text": "",
+              "sourceLine": 44,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".zoneskip",
+              "arguments": "Hillsbrad Foothills",
+              "condition": "",
+              "text": "",
+              "sourceLine": 45,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0006",
+          "ordinal": 6,
+          "sourceLine": 46,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1437/0,-836.00,-3791.08",
+              "condition": "",
+              "text": "",
+              "sourceLine": 47,
+              "questId": null,
+              "position": {
+                "zone": "1437",
+                "floor": 0,
+                "x": -836,
+                "y": -3791.08,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Quickly run outside!",
+              "sourceLine": 48,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Defeat Tapoke \"Slim\" Jahn. Slim's Friend will run away once Tapoke \"Slim\" Jahn submits",
+              "sourceLine": 49,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Use any Crowd Control (CC) on Slim's Friend if needed",
+              "sourceLine": 50,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "1249,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 51,
+              "questId": 1249,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Tapoke \"Slim\" Jahn",
+              "condition": "",
+              "text": "",
+              "sourceLine": 52,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".zoneskip",
+              "arguments": "Hillsbrad Foothills",
+              "condition": "",
+              "text": "",
+              "sourceLine": 53,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0008",
+          "ordinal": 8,
+          "sourceLine": 63,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1437/0,-827.90,-3822.86",
+              "condition": "",
+              "text": "",
+              "sourceLine": 64,
+              "questId": null,
+              "position": {
+                "zone": "1437",
+                "floor": 0,
+                "x": -827.9,
+                "y": -3822.86,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Mikhail",
+              "sourceLine": 65,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Wait out the RP",
+              "sourceLine": 66,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1249",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 67,
+              "questId": 1249,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Mikhail",
+              "condition": "",
+              "text": "",
+              "sourceLine": 68,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".zoneskip",
+              "arguments": "Hillsbrad Foothills",
+              "condition": "",
+              "text": "",
+              "sourceLine": 69,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0009",
+          "ordinal": 9,
+          "sourceLine": 70,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1437/0,-825.66,-3808.830",
+              "condition": "",
+              "text": "",
+              "sourceLine": 71,
+              "questId": null,
+              "position": {
+                "zone": "1437",
+                "floor": 0,
+                "x": -825.66,
+                "y": -3808.83,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Tapoke \"Slim\" Jahn",
+              "sourceLine": 72,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1250",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 73,
+              "questId": 1250,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Tapoke \"Slim\" Jahn",
+              "condition": "",
+              "text": "",
+              "sourceLine": 74,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".zoneskip",
+              "arguments": "Hillsbrad Foothills",
+              "condition": "",
+              "text": "",
+              "sourceLine": 75,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0010",
+          "ordinal": 10,
+          "sourceLine": 76,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1437/0,-827.90,-3822.86",
+              "condition": "",
+              "text": "",
+              "sourceLine": 77,
+              "questId": null,
+              "position": {
+                "zone": "1437",
+                "floor": 0,
+                "x": -827.9,
+                "y": -3822.86,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Mikhail",
+              "sourceLine": 78,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1250",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 79,
+              "questId": 1250,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1264",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 80,
+              "questId": 1264,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Mikhail",
+              "condition": "",
+              "text": "",
+              "sourceLine": 81,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".zoneskip",
+              "arguments": "Hillsbrad Foothills",
+              "condition": "",
+              "text": "",
+              "sourceLine": 82,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-15-33-34-thousand-needles",
+      "version": "import-v2-2501749e2dcc6778",
+      "targetBuild": 70205,
+      "sourceSha256": "2501749e2dcc6778582ef0b2915eae3c7be0a060ea4a91d4f682ea4c375afa82",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0008",
+          "ordinal": 8,
+          "sourceLine": 40,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#label",
+              "arguments": "MDiplomat",
+              "condition": "",
+              "text": "",
+              "sourceLine": 41,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Commander Samaul",
+              "sourceLine": 42,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1264",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 43,
+              "questId": 1264,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1265",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 44,
+              "questId": 1265,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-4540.96,-3732.230",
+              "condition": "",
+              "text": "",
+              "sourceLine": 45,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -4540.96,
+                "y": -3732.23,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".target",
+              "arguments": "Commander Samaul",
+              "condition": "",
+              "text": "",
+              "sourceLine": 46,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0015",
+          "ordinal": 15,
+          "sourceLine": 78,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-4110.30,-3474.28",
+              "condition": "",
+              "text": "Travel to the Sentry Point Tower",
+              "sourceLine": 79,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -4110.3,
+                "y": -3474.28,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Archmage Tervosh",
+              "sourceLine": 80,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Stay in Archmage Tervosh's Line of Sight as he will buff you with [Proudmoore's Defense] which gives 10 Stamina and 40 Armor",
+              "sourceLine": 81,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "1265,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 82,
+              "questId": 1265,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-4106.73,-3476.84",
+              "condition": "",
+              "text": "",
+              "sourceLine": 83,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -4106.73,
+                "y": -3476.84,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1265",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 84,
+              "questId": 1265,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1266",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 85,
+              "questId": 1266,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-4106.73,-3476.84",
+              "condition": "",
+              "text": "",
+              "sourceLine": 86,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -4106.73,
+                "y": -3476.84,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".target",
+              "arguments": "Archmage Tervosh",
+              "condition": "",
+              "text": "",
+              "sourceLine": 87,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0021",
+          "ordinal": 21,
+          "sourceLine": 127,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#softcore",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 128,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-3350.10,-2896.08",
+              "condition": "",
+              "text": "",
+              "sourceLine": 129,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -3350.1,
+                "y": -2896.08,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Private Hendel",
+              "sourceLine": 130,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1266",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 131,
+              "questId": 1266,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1324,1",
+              "condition": "",
+              "text": "Accept The Missing Diplomat",
+              "sourceLine": 132,
+              "questId": 1324,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Private Hendel",
+              "condition": "",
+              "text": "",
+              "sourceLine": 133,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isQuestTurnedIn",
+              "arguments": "1264",
+              "condition": "",
+              "text": "",
+              "sourceLine": 134,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0022",
+          "ordinal": 22,
+          "sourceLine": 135,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-3350.10,-2896.08",
+              "condition": "",
+              "text": "",
+              "sourceLine": 136,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -3350.1,
+                "y": -2896.08,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Defeat Private Hendel. He will attack you along with 2 Theramore Sentries",
+              "sourceLine": 137,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "They will both reset once you subdue Private Hendel",
+              "sourceLine": 138,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "1324,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 139,
+              "questId": 1324,
+              "position": null
+            },
+            {
+              "tag": ".isOnQuest",
+              "arguments": "1324",
+              "condition": "",
+              "text": "",
+              "sourceLine": 140,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "Private Hendel",
+              "condition": "",
+              "text": "",
+              "sourceLine": 141,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0023",
+          "ordinal": 23,
+          "sourceLine": 142,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".isQuestComplete",
+              "arguments": "1324",
+              "condition": "",
+              "text": "",
+              "sourceLine": 143,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1445/1,-3347.63,-2883.55",
+              "condition": "",
+              "text": "",
+              "sourceLine": 144,
+              "questId": null,
+              "position": {
+                "zone": "1445",
+                "floor": 1,
+                "x": -3347.63,
+                "y": -2883.55,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Archmage Tervosh first and then to Lady Jaina Proudmoore",
+              "sourceLine": 145,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1324",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 146,
+              "questId": 1324,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "+Archmage Tervosh",
+              "condition": "",
+              "text": "",
+              "sourceLine": 147,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1267",
+              "condition": "",
+              "text": "Turn in The Missing Diplomat",
+              "sourceLine": 148,
+              "questId": 1267,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "+Lady Jaina Proudmoore",
+              "condition": "",
+              "text": "",
+              "sourceLine": 149,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-36-51-51-blasted-lands",
+      "version": "import-v2-9d83ab9d5db6d44a",
+      "targetBuild": 70205,
+      "sourceSha256": "9d83ab9d5db6d44a8bca326c7382e52cfb09ea6161a6ee54775b03f9b9498029",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0005",
+          "ordinal": 5,
+          "sourceLine": 37,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1435/0,-3009.37,-10632.13",
+              "condition": "",
+              "text": "",
+              "sourceLine": 38,
+              "questId": null,
+              "position": {
+                "zone": "1435",
+                "floor": 0,
+                "x": -3009.37,
+                "y": -10632.13,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to the Fallen Hero of the Horde",
+              "sourceLine": 39,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "2783",
+              "condition": "",
+              "text": "Turn in Petty Squabbles",
+              "sourceLine": 40,
+              "questId": 2783,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "2801",
+              "condition": "",
+              "text": "Accept A Tale of Sorrow",
+              "sourceLine": 41,
+              "questId": 2801,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Fallen Hero of the Horde",
+              "condition": "",
+              "text": "",
+              "sourceLine": 42,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0006",
+          "ordinal": 6,
+          "sourceLine": 43,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1435/0,-3009.37,-10632.13",
+              "condition": "",
+              "text": "",
+              "sourceLine": 44,
+              "questId": null,
+              "position": {
+                "zone": "1435",
+                "floor": 0,
+                "x": -3009.37,
+                "y": -10632.13,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to the Fallen Hero of the Horde",
+              "sourceLine": 45,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "2801,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 46,
+              "questId": 2801,
+              "position": null
+            },
+            {
+              "tag": ".skipgossip",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 47,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Fallen Hero of the Horde",
+              "condition": "",
+              "text": "",
+              "sourceLine": 48,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0007",
+          "ordinal": 7,
+          "sourceLine": 49,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1435/0,-3009.37,-10632.13",
+              "condition": "",
+              "text": "",
+              "sourceLine": 50,
+              "questId": null,
+              "position": {
+                "zone": "1435",
+                "floor": 0,
+                "x": -3009.37,
+                "y": -10632.13,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to the Fallen Hero of the Horde",
+              "sourceLine": 51,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "2801",
+              "condition": "",
+              "text": "Turn in A Tale of Sorrow",
+              "sourceLine": 52,
+              "questId": 2801,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Fallen Hero of the Horde",
+              "condition": "",
+              "text": "",
+              "sourceLine": 53,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-35-50-51-searing-gorge",
+      "version": "import-v2-69b416d45b5af882",
+      "targetBuild": 70205,
+      "sourceSha256": "69b416d45b5af882ef9aa9682a28e8771bd225e4f4e53195b5a23f6adfc02a20",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0006",
+          "ordinal": 6,
+          "sourceLine": 40,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1427/0,-1194.38,-6679.980",
+              "condition": "",
+              "text": "",
+              "sourceLine": 41,
+              "questId": null,
+              "position": {
+                "zone": "1427",
+                "floor": 0,
+                "x": -1194.38,
+                "y": -6679.98,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Velarok Windblade",
+              "sourceLine": 42,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "3441",
+              "condition": "",
+              "text": "Accept Divine Retribution",
+              "sourceLine": 43,
+              "questId": 3441,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Velarok Windblade",
+              "condition": "",
+              "text": "",
+              "sourceLine": 44,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0007",
+          "ordinal": 7,
+          "sourceLine": 45,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1427/0,-1194.38,-6679.980",
+              "condition": "",
+              "text": "",
+              "sourceLine": 46,
+              "questId": null,
+              "position": {
+                "zone": "1427",
+                "floor": 0,
+                "x": -1194.38,
+                "y": -6679.98,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Velarok Windblade",
+              "sourceLine": 47,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".skipgossip",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 48,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "3441,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 49,
+              "questId": 3441,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Velarok Windblade",
+              "condition": "",
+              "text": "",
+              "sourceLine": 50,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0008",
+          "ordinal": 8,
+          "sourceLine": 51,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1427/0,-1194.38,-6679.980",
+              "condition": "",
+              "text": "",
+              "sourceLine": 52,
+              "questId": null,
+              "position": {
+                "zone": "1427",
+                "floor": 0,
+                "x": -1194.38,
+                "y": -6679.98,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Velarok Windblade",
+              "sourceLine": 53,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "3441",
+              "condition": "",
+              "text": "Turn in Divine Retribution",
+              "sourceLine": 54,
+              "questId": 3441,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "3442",
+              "condition": "",
+              "text": "Accept The Flawless Flame",
+              "sourceLine": 55,
+              "questId": 3442,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Velarok Windblade",
+              "condition": "",
+              "text": "",
+              "sourceLine": 56,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0024",
+          "ordinal": 24,
+          "sourceLine": 217,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".isQuestComplete",
+              "arguments": "3452",
+              "condition": "",
+              "text": "",
+              "sourceLine": 218,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1427/0,-1194.38,-6679.980",
+              "condition": "",
+              "text": "",
+              "sourceLine": 219,
+              "questId": null,
+              "position": {
+                "zone": "1427",
+                "floor": 0,
+                "x": -1194.38,
+                "y": -6679.98,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Velarok Windblade",
+              "sourceLine": 220,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "3452",
+              "condition": "",
+              "text": "Turn in The Flame's Casing",
+              "sourceLine": 221,
+              "questId": 3452,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "3453",
+              "condition": "",
+              "text": "Accept The Torch of Retribution",
+              "sourceLine": 222,
+              "questId": 3453,
+              "position": null
+            },
+            {
+              "tag": ".timer",
+              "arguments": "28,The Torch of Retribution RP",
+              "condition": "",
+              "text": "",
+              "sourceLine": 223,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "3453",
+              "condition": "",
+              "text": "Turn in The Torch of Retribution",
+              "sourceLine": 224,
+              "questId": 3453,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "3454",
+              "condition": "",
+              "text": "Accept The Torch of Retribution",
+              "sourceLine": 225,
+              "questId": 3454,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Velarok Windblade",
+              "condition": "",
+              "text": "",
+              "sourceLine": 226,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-27-41-41-badlands",
+      "version": "import-v2-68ab1153bf00e6ea",
+      "targetBuild": 70205,
+      "sourceSha256": "68ab1153bf00e6ea7dc95090d18b5e84a1e4c3d2cfb744876d45da9d459c83f5",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0054",
+          "ordinal": 54,
+          "sourceLine": 420,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "Badlands,42.220,52.693",
+              "condition": "",
+              "text": "",
+              "sourceLine": 421,
+              "questId": null,
+              "position": {
+                "zone": "Badlands",
+                "floor": null,
+                "x": 42.22,
+                "y": 52.693,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Martek the Exiled",
+              "sourceLine": 422,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1108",
+              "condition": "",
+              "text": "Turn in Indurium",
+              "sourceLine": 423,
+              "questId": 1108,
+              "position": null
+            },
+            {
+              "tag": ".timer",
+              "arguments": "20,Indurium RP",
+              "condition": "",
+              "text": "",
+              "sourceLine": 424,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "1137",
+              "condition": "",
+              "text": "Accept News for Fizzle",
+              "sourceLine": 425,
+              "questId": 1137,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Martek the Exiled",
+              "condition": "",
+              "text": "",
+              "sourceLine": 426,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isOnQuest",
+              "arguments": "1108",
+              "condition": "",
+              "text": "",
+              "sourceLine": 427,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-29-43-44-tanaris",
+      "version": "import-v2-c1d2295193e0b488",
+      "targetBuild": 70205,
+      "sourceSha256": "c1d2295193e0b48817238ae3f10e97e7f7176c4985fe4523468978c2137d895d",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0028",
+          "ordinal": 28,
+          "sourceLine": 164,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1441/1,-3868.15,-6229.03",
+              "condition": "",
+              "text": "",
+              "sourceLine": 165,
+              "questId": null,
+              "position": {
+                "zone": "1441",
+                "floor": 1,
+                "x": -3868.15,
+                "y": -6229.03,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Fizzle Brassbolts",
+              "sourceLine": 166,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "1137",
+              "condition": "",
+              "text": "Turn in News for Fizzle",
+              "sourceLine": 167,
+              "questId": 1137,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Fizzle Brassbolts",
+              "condition": "",
+              "text": "",
+              "sourceLine": 168,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isOnQuest",
+              "arguments": "1137",
+              "condition": "",
+              "text": "",
+              "sourceLine": 169,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-42-54-55-felwood-winterspring",
+      "version": "import-v2-387310409489b656",
+      "targetBuild": 70205,
+      "sourceSha256": "387310409489b656770307134352d853978d24e4de8d2e6bb15336ebc7e7c537",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0014",
+          "ordinal": 14,
+          "sourceLine": 110,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#label",
+              "arguments": "CSS",
+              "condition": "",
+              "text": "",
+              "sourceLine": 111,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "Felwood,51.350,81.511",
+              "condition": "",
+              "text": "",
+              "sourceLine": 112,
+              "questId": null,
+              "position": {
+                "zone": "Felwood",
+                "floor": null,
+                "x": 51.35,
+                "y": 81.511,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Eridan Bluewind",
+              "sourceLine": 113,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "You may need to wait for the RP",
+              "sourceLine": 114,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "4442",
+              "condition": "",
+              "text": "Accept Purified!",
+              "sourceLine": 115,
+              "questId": 4442,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "4442",
+              "condition": "",
+              "text": "Turn in Purified!",
+              "sourceLine": 116,
+              "questId": 4442,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Eridan Bluewind",
+              "condition": "",
+              "text": "",
+              "sourceLine": 117,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "classification": "Exact reviewed source steps and normalized quest/NPC subsets, preserving their original IDs, ordinals, version and provenance. This is not a complete archive or a route XP qualification.",
+  "rewards": [
+    {
+      "questId": 683,
+      "fullXp": 1200,
+      "rewardBasis": "final-reward",
+      "questLevel": 30,
+      "minimumLevel": 25,
+      "xpByLevel": [
+        {
+          "level": 25,
+          "xp": 1200
+        },
+        {
+          "level": 26,
+          "xp": 1200
+        },
+        {
+          "level": 27,
+          "xp": 1200
+        },
+        {
+          "level": 28,
+          "xp": 1200
+        },
+        {
+          "level": 29,
+          "xp": 1200
+        },
+        {
+          "level": 30,
+          "xp": 1200
+        },
+        {
+          "level": 31,
+          "xp": 1200
+        },
+        {
+          "level": 32,
+          "xp": 1200
+        },
+        {
+          "level": 33,
+          "xp": 1200
+        },
+        {
+          "level": 34,
+          "xp": 1200
+        },
+        {
+          "level": 35,
+          "xp": 1200
+        },
+        {
+          "level": 36,
+          "xp": 950
+        },
+        {
+          "level": 37,
+          "xp": 725
+        },
+        {
+          "level": 38,
+          "xp": 480
+        },
+        {
+          "level": 39,
+          "xp": 240
+        },
+        {
+          "level": 40,
+          "xp": 120
+        },
+        {
+          "level": 41,
+          "xp": 120
+        },
+        {
+          "level": 42,
+          "xp": 120
+        },
+        {
+          "level": 43,
+          "xp": 120
+        },
+        {
+          "level": 44,
+          "xp": 120
+        },
+        {
+          "level": 45,
+          "xp": 120
+        },
+        {
+          "level": 46,
+          "xp": 120
+        },
+        {
+          "level": 47,
+          "xp": 120
+        },
+        {
+          "level": 48,
+          "xp": 120
+        },
+        {
+          "level": 49,
+          "xp": 120
+        },
+        {
+          "level": 50,
+          "xp": 120
+        },
+        {
+          "level": 51,
+          "xp": 120
+        },
+        {
+          "level": 52,
+          "xp": 120
+        },
+        {
+          "level": 53,
+          "xp": 120
+        },
+        {
+          "level": 54,
+          "xp": 120
+        },
+        {
+          "level": 55,
+          "xp": 120
+        },
+        {
+          "level": 56,
+          "xp": 120
+        },
+        {
+          "level": 57,
+          "xp": 120
+        },
+        {
+          "level": 58,
+          "xp": 120
+        },
+        {
+          "level": 59,
+          "xp": 120
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 683,
+        "questLevel": 30,
+        "minimumLevel": 25,
+        "difficulty": 3,
+        "baseXp": 1200,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1200
+    },
+    {
+      "questId": 1137,
+      "fullXp": 1450,
+      "rewardBasis": "final-reward",
+      "questLevel": 38,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 1450
+        },
+        {
+          "level": 29,
+          "xp": 1450
+        },
+        {
+          "level": 30,
+          "xp": 1450
+        },
+        {
+          "level": 31,
+          "xp": 1450
+        },
+        {
+          "level": 32,
+          "xp": 1450
+        },
+        {
+          "level": 33,
+          "xp": 1450
+        },
+        {
+          "level": 34,
+          "xp": 1450
+        },
+        {
+          "level": 35,
+          "xp": 1450
+        },
+        {
+          "level": 36,
+          "xp": 1450
+        },
+        {
+          "level": 37,
+          "xp": 1450
+        },
+        {
+          "level": 38,
+          "xp": 1450
+        },
+        {
+          "level": 39,
+          "xp": 1450
+        },
+        {
+          "level": 40,
+          "xp": 1450
+        },
+        {
+          "level": 41,
+          "xp": 1450
+        },
+        {
+          "level": 42,
+          "xp": 1450
+        },
+        {
+          "level": 43,
+          "xp": 1450
+        },
+        {
+          "level": 44,
+          "xp": 1150
+        },
+        {
+          "level": 45,
+          "xp": 875
+        },
+        {
+          "level": 46,
+          "xp": 575
+        },
+        {
+          "level": 47,
+          "xp": 290
+        },
+        {
+          "level": 48,
+          "xp": 150
+        },
+        {
+          "level": 49,
+          "xp": 150
+        },
+        {
+          "level": 50,
+          "xp": 150
+        },
+        {
+          "level": 51,
+          "xp": 150
+        },
+        {
+          "level": 52,
+          "xp": 150
+        },
+        {
+          "level": 53,
+          "xp": 150
+        },
+        {
+          "level": 54,
+          "xp": 150
+        },
+        {
+          "level": 55,
+          "xp": 150
+        },
+        {
+          "level": 56,
+          "xp": 150
+        },
+        {
+          "level": 57,
+          "xp": 150
+        },
+        {
+          "level": 58,
+          "xp": 150
+        },
+        {
+          "level": 59,
+          "xp": 150
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1137,
+        "questLevel": 38,
+        "minimumLevel": 28,
+        "difficulty": 3,
+        "baseXp": 1450,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1450
+    },
+    {
+      "questId": 1247,
+      "fullXp": 250,
+      "rewardBasis": "final-reward",
+      "questLevel": 31,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 250
+        },
+        {
+          "level": 29,
+          "xp": 250
+        },
+        {
+          "level": 30,
+          "xp": 250
+        },
+        {
+          "level": 31,
+          "xp": 250
+        },
+        {
+          "level": 32,
+          "xp": 250
+        },
+        {
+          "level": 33,
+          "xp": 250
+        },
+        {
+          "level": 34,
+          "xp": 250
+        },
+        {
+          "level": 35,
+          "xp": 250
+        },
+        {
+          "level": 36,
+          "xp": 250
+        },
+        {
+          "level": 37,
+          "xp": 200
+        },
+        {
+          "level": 38,
+          "xp": 150
+        },
+        {
+          "level": 39,
+          "xp": 100
+        },
+        {
+          "level": 40,
+          "xp": 50
+        },
+        {
+          "level": 41,
+          "xp": 25
+        },
+        {
+          "level": 42,
+          "xp": 25
+        },
+        {
+          "level": 43,
+          "xp": 25
+        },
+        {
+          "level": 44,
+          "xp": 25
+        },
+        {
+          "level": 45,
+          "xp": 25
+        },
+        {
+          "level": 46,
+          "xp": 25
+        },
+        {
+          "level": 47,
+          "xp": 25
+        },
+        {
+          "level": 48,
+          "xp": 25
+        },
+        {
+          "level": 49,
+          "xp": 25
+        },
+        {
+          "level": 50,
+          "xp": 25
+        },
+        {
+          "level": 51,
+          "xp": 25
+        },
+        {
+          "level": 52,
+          "xp": 25
+        },
+        {
+          "level": 53,
+          "xp": 25
+        },
+        {
+          "level": 54,
+          "xp": 25
+        },
+        {
+          "level": 55,
+          "xp": 25
+        },
+        {
+          "level": 56,
+          "xp": 25
+        },
+        {
+          "level": 57,
+          "xp": 25
+        },
+        {
+          "level": 58,
+          "xp": 25
+        },
+        {
+          "level": 59,
+          "xp": 25
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1247,
+        "questLevel": 31,
+        "minimumLevel": 28,
+        "difficulty": 1,
+        "baseXp": 250,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 250
+    },
+    {
+      "questId": 1248,
+      "fullXp": 650,
+      "rewardBasis": "final-reward",
+      "questLevel": 33,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 650
+        },
+        {
+          "level": 29,
+          "xp": 650
+        },
+        {
+          "level": 30,
+          "xp": 650
+        },
+        {
+          "level": 31,
+          "xp": 650
+        },
+        {
+          "level": 32,
+          "xp": 650
+        },
+        {
+          "level": 33,
+          "xp": 650
+        },
+        {
+          "level": 34,
+          "xp": 650
+        },
+        {
+          "level": 35,
+          "xp": 650
+        },
+        {
+          "level": 36,
+          "xp": 650
+        },
+        {
+          "level": 37,
+          "xp": 650
+        },
+        {
+          "level": 38,
+          "xp": 650
+        },
+        {
+          "level": 39,
+          "xp": 525
+        },
+        {
+          "level": 40,
+          "xp": 400
+        },
+        {
+          "level": 41,
+          "xp": 260
+        },
+        {
+          "level": 42,
+          "xp": 130
+        },
+        {
+          "level": 43,
+          "xp": 65
+        },
+        {
+          "level": 44,
+          "xp": 65
+        },
+        {
+          "level": 45,
+          "xp": 65
+        },
+        {
+          "level": 46,
+          "xp": 65
+        },
+        {
+          "level": 47,
+          "xp": 65
+        },
+        {
+          "level": 48,
+          "xp": 65
+        },
+        {
+          "level": 49,
+          "xp": 65
+        },
+        {
+          "level": 50,
+          "xp": 65
+        },
+        {
+          "level": 51,
+          "xp": 65
+        },
+        {
+          "level": 52,
+          "xp": 65
+        },
+        {
+          "level": 53,
+          "xp": 65
+        },
+        {
+          "level": 54,
+          "xp": 65
+        },
+        {
+          "level": 55,
+          "xp": 65
+        },
+        {
+          "level": 56,
+          "xp": 65
+        },
+        {
+          "level": 57,
+          "xp": 65
+        },
+        {
+          "level": 58,
+          "xp": 65
+        },
+        {
+          "level": 59,
+          "xp": 65
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1248,
+        "questLevel": 33,
+        "minimumLevel": 28,
+        "difficulty": 2,
+        "baseXp": 660,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 660
+    },
+    {
+      "questId": 1249,
+      "fullXp": 1300,
+      "rewardBasis": "final-reward",
+      "questLevel": 33,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 1300
+        },
+        {
+          "level": 29,
+          "xp": 1300
+        },
+        {
+          "level": 30,
+          "xp": 1300
+        },
+        {
+          "level": 31,
+          "xp": 1300
+        },
+        {
+          "level": 32,
+          "xp": 1300
+        },
+        {
+          "level": 33,
+          "xp": 1300
+        },
+        {
+          "level": 34,
+          "xp": 1300
+        },
+        {
+          "level": 35,
+          "xp": 1300
+        },
+        {
+          "level": 36,
+          "xp": 1300
+        },
+        {
+          "level": 37,
+          "xp": 1300
+        },
+        {
+          "level": 38,
+          "xp": 1300
+        },
+        {
+          "level": 39,
+          "xp": 1050
+        },
+        {
+          "level": 40,
+          "xp": 775
+        },
+        {
+          "level": 41,
+          "xp": 525
+        },
+        {
+          "level": 42,
+          "xp": 260
+        },
+        {
+          "level": 43,
+          "xp": 130
+        },
+        {
+          "level": 44,
+          "xp": 130
+        },
+        {
+          "level": 45,
+          "xp": 130
+        },
+        {
+          "level": 46,
+          "xp": 130
+        },
+        {
+          "level": 47,
+          "xp": 130
+        },
+        {
+          "level": 48,
+          "xp": 130
+        },
+        {
+          "level": 49,
+          "xp": 130
+        },
+        {
+          "level": 50,
+          "xp": 130
+        },
+        {
+          "level": 51,
+          "xp": 130
+        },
+        {
+          "level": 52,
+          "xp": 130
+        },
+        {
+          "level": 53,
+          "xp": 130
+        },
+        {
+          "level": 54,
+          "xp": 130
+        },
+        {
+          "level": 55,
+          "xp": 130
+        },
+        {
+          "level": 56,
+          "xp": 130
+        },
+        {
+          "level": 57,
+          "xp": 130
+        },
+        {
+          "level": 58,
+          "xp": 130
+        },
+        {
+          "level": 59,
+          "xp": 130
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1249,
+        "questLevel": 33,
+        "minimumLevel": 28,
+        "difficulty": 3,
+        "baseXp": 1300,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1300
+    },
+    {
+      "questId": 1250,
+      "fullXp": 270,
+      "rewardBasis": "final-reward",
+      "questLevel": 33,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 270
+        },
+        {
+          "level": 29,
+          "xp": 270
+        },
+        {
+          "level": 30,
+          "xp": 270
+        },
+        {
+          "level": 31,
+          "xp": 270
+        },
+        {
+          "level": 32,
+          "xp": 270
+        },
+        {
+          "level": 33,
+          "xp": 270
+        },
+        {
+          "level": 34,
+          "xp": 270
+        },
+        {
+          "level": 35,
+          "xp": 270
+        },
+        {
+          "level": 36,
+          "xp": 270
+        },
+        {
+          "level": 37,
+          "xp": 270
+        },
+        {
+          "level": 38,
+          "xp": 270
+        },
+        {
+          "level": 39,
+          "xp": 210
+        },
+        {
+          "level": 40,
+          "xp": 160
+        },
+        {
+          "level": 41,
+          "xp": 110
+        },
+        {
+          "level": 42,
+          "xp": 55
+        },
+        {
+          "level": 43,
+          "xp": 25
+        },
+        {
+          "level": 44,
+          "xp": 25
+        },
+        {
+          "level": 45,
+          "xp": 25
+        },
+        {
+          "level": 46,
+          "xp": 25
+        },
+        {
+          "level": 47,
+          "xp": 25
+        },
+        {
+          "level": 48,
+          "xp": 25
+        },
+        {
+          "level": 49,
+          "xp": 25
+        },
+        {
+          "level": 50,
+          "xp": 25
+        },
+        {
+          "level": 51,
+          "xp": 25
+        },
+        {
+          "level": 52,
+          "xp": 25
+        },
+        {
+          "level": 53,
+          "xp": 25
+        },
+        {
+          "level": 54,
+          "xp": 25
+        },
+        {
+          "level": 55,
+          "xp": 25
+        },
+        {
+          "level": 56,
+          "xp": 25
+        },
+        {
+          "level": 57,
+          "xp": 25
+        },
+        {
+          "level": 58,
+          "xp": 25
+        },
+        {
+          "level": 59,
+          "xp": 25
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1250,
+        "questLevel": 33,
+        "minimumLevel": 28,
+        "difficulty": 1,
+        "baseXp": 265,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 265
+    },
+    {
+      "questId": 1264,
+      "fullXp": 1300,
+      "rewardBasis": "final-reward",
+      "questLevel": 33,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 1300
+        },
+        {
+          "level": 29,
+          "xp": 1300
+        },
+        {
+          "level": 30,
+          "xp": 1300
+        },
+        {
+          "level": 31,
+          "xp": 1300
+        },
+        {
+          "level": 32,
+          "xp": 1300
+        },
+        {
+          "level": 33,
+          "xp": 1300
+        },
+        {
+          "level": 34,
+          "xp": 1300
+        },
+        {
+          "level": 35,
+          "xp": 1300
+        },
+        {
+          "level": 36,
+          "xp": 1300
+        },
+        {
+          "level": 37,
+          "xp": 1300
+        },
+        {
+          "level": 38,
+          "xp": 1300
+        },
+        {
+          "level": 39,
+          "xp": 1050
+        },
+        {
+          "level": 40,
+          "xp": 775
+        },
+        {
+          "level": 41,
+          "xp": 525
+        },
+        {
+          "level": 42,
+          "xp": 260
+        },
+        {
+          "level": 43,
+          "xp": 130
+        },
+        {
+          "level": 44,
+          "xp": 130
+        },
+        {
+          "level": 45,
+          "xp": 130
+        },
+        {
+          "level": 46,
+          "xp": 130
+        },
+        {
+          "level": 47,
+          "xp": 130
+        },
+        {
+          "level": 48,
+          "xp": 130
+        },
+        {
+          "level": 49,
+          "xp": 130
+        },
+        {
+          "level": 50,
+          "xp": 130
+        },
+        {
+          "level": 51,
+          "xp": 130
+        },
+        {
+          "level": 52,
+          "xp": 130
+        },
+        {
+          "level": 53,
+          "xp": 130
+        },
+        {
+          "level": 54,
+          "xp": 130
+        },
+        {
+          "level": 55,
+          "xp": 130
+        },
+        {
+          "level": 56,
+          "xp": 130
+        },
+        {
+          "level": 57,
+          "xp": 130
+        },
+        {
+          "level": 58,
+          "xp": 130
+        },
+        {
+          "level": 59,
+          "xp": 130
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1264,
+        "questLevel": 33,
+        "minimumLevel": 28,
+        "difficulty": 3,
+        "baseXp": 1300,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1300
+    },
+    {
+      "questId": 1265,
+      "fullXp": 280,
+      "rewardBasis": "final-reward",
+      "questLevel": 35,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 280
+        },
+        {
+          "level": 29,
+          "xp": 280
+        },
+        {
+          "level": 30,
+          "xp": 280
+        },
+        {
+          "level": 31,
+          "xp": 280
+        },
+        {
+          "level": 32,
+          "xp": 280
+        },
+        {
+          "level": 33,
+          "xp": 280
+        },
+        {
+          "level": 34,
+          "xp": 280
+        },
+        {
+          "level": 35,
+          "xp": 280
+        },
+        {
+          "level": 36,
+          "xp": 280
+        },
+        {
+          "level": 37,
+          "xp": 280
+        },
+        {
+          "level": 38,
+          "xp": 280
+        },
+        {
+          "level": 39,
+          "xp": 280
+        },
+        {
+          "level": 40,
+          "xp": 280
+        },
+        {
+          "level": 41,
+          "xp": 220
+        },
+        {
+          "level": 42,
+          "xp": 170
+        },
+        {
+          "level": 43,
+          "xp": 110
+        },
+        {
+          "level": 44,
+          "xp": 55
+        },
+        {
+          "level": 45,
+          "xp": 25
+        },
+        {
+          "level": 46,
+          "xp": 25
+        },
+        {
+          "level": 47,
+          "xp": 25
+        },
+        {
+          "level": 48,
+          "xp": 25
+        },
+        {
+          "level": 49,
+          "xp": 25
+        },
+        {
+          "level": 50,
+          "xp": 25
+        },
+        {
+          "level": 51,
+          "xp": 25
+        },
+        {
+          "level": 52,
+          "xp": 25
+        },
+        {
+          "level": 53,
+          "xp": 25
+        },
+        {
+          "level": 54,
+          "xp": 25
+        },
+        {
+          "level": 55,
+          "xp": 25
+        },
+        {
+          "level": 56,
+          "xp": 25
+        },
+        {
+          "level": 57,
+          "xp": 25
+        },
+        {
+          "level": 58,
+          "xp": 25
+        },
+        {
+          "level": 59,
+          "xp": 25
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1265,
+        "questLevel": 35,
+        "minimumLevel": 28,
+        "difficulty": 1,
+        "baseXp": 275,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 275
+    },
+    {
+      "questId": 1266,
+      "fullXp": 700,
+      "rewardBasis": "final-reward",
+      "questLevel": 36,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 700
+        },
+        {
+          "level": 29,
+          "xp": 700
+        },
+        {
+          "level": 30,
+          "xp": 700
+        },
+        {
+          "level": 31,
+          "xp": 700
+        },
+        {
+          "level": 32,
+          "xp": 700
+        },
+        {
+          "level": 33,
+          "xp": 700
+        },
+        {
+          "level": 34,
+          "xp": 700
+        },
+        {
+          "level": 35,
+          "xp": 700
+        },
+        {
+          "level": 36,
+          "xp": 700
+        },
+        {
+          "level": 37,
+          "xp": 700
+        },
+        {
+          "level": 38,
+          "xp": 700
+        },
+        {
+          "level": 39,
+          "xp": 700
+        },
+        {
+          "level": 40,
+          "xp": 700
+        },
+        {
+          "level": 41,
+          "xp": 700
+        },
+        {
+          "level": 42,
+          "xp": 550
+        },
+        {
+          "level": 43,
+          "xp": 420
+        },
+        {
+          "level": 44,
+          "xp": 280
+        },
+        {
+          "level": 45,
+          "xp": 140
+        },
+        {
+          "level": 46,
+          "xp": 70
+        },
+        {
+          "level": 47,
+          "xp": 70
+        },
+        {
+          "level": 48,
+          "xp": 70
+        },
+        {
+          "level": 49,
+          "xp": 70
+        },
+        {
+          "level": 50,
+          "xp": 70
+        },
+        {
+          "level": 51,
+          "xp": 70
+        },
+        {
+          "level": 52,
+          "xp": 70
+        },
+        {
+          "level": 53,
+          "xp": 70
+        },
+        {
+          "level": 54,
+          "xp": 70
+        },
+        {
+          "level": 55,
+          "xp": 70
+        },
+        {
+          "level": 56,
+          "xp": 70
+        },
+        {
+          "level": 57,
+          "xp": 70
+        },
+        {
+          "level": 58,
+          "xp": 70
+        },
+        {
+          "level": 59,
+          "xp": 70
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1266,
+        "questLevel": 36,
+        "minimumLevel": 28,
+        "difficulty": 2,
+        "baseXp": 700,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 700
+    },
+    {
+      "questId": 1267,
+      "fullXp": 4300,
+      "rewardBasis": "final-reward",
+      "questLevel": 38,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 4300
+        },
+        {
+          "level": 29,
+          "xp": 4300
+        },
+        {
+          "level": 30,
+          "xp": 4300
+        },
+        {
+          "level": 31,
+          "xp": 4300
+        },
+        {
+          "level": 32,
+          "xp": 4300
+        },
+        {
+          "level": 33,
+          "xp": 4300
+        },
+        {
+          "level": 34,
+          "xp": 4300
+        },
+        {
+          "level": 35,
+          "xp": 4300
+        },
+        {
+          "level": 36,
+          "xp": 4300
+        },
+        {
+          "level": 37,
+          "xp": 4300
+        },
+        {
+          "level": 38,
+          "xp": 4300
+        },
+        {
+          "level": 39,
+          "xp": 4300
+        },
+        {
+          "level": 40,
+          "xp": 4300
+        },
+        {
+          "level": 41,
+          "xp": 4300
+        },
+        {
+          "level": 42,
+          "xp": 4300
+        },
+        {
+          "level": 43,
+          "xp": 4300
+        },
+        {
+          "level": 44,
+          "xp": 3450
+        },
+        {
+          "level": 45,
+          "xp": 2600
+        },
+        {
+          "level": 46,
+          "xp": 1700
+        },
+        {
+          "level": 47,
+          "xp": 850
+        },
+        {
+          "level": 48,
+          "xp": 430
+        },
+        {
+          "level": 49,
+          "xp": 430
+        },
+        {
+          "level": 50,
+          "xp": 430
+        },
+        {
+          "level": 51,
+          "xp": 430
+        },
+        {
+          "level": 52,
+          "xp": 430
+        },
+        {
+          "level": 53,
+          "xp": 430
+        },
+        {
+          "level": 54,
+          "xp": 430
+        },
+        {
+          "level": 55,
+          "xp": 430
+        },
+        {
+          "level": 56,
+          "xp": 430
+        },
+        {
+          "level": 57,
+          "xp": 430
+        },
+        {
+          "level": 58,
+          "xp": 430
+        },
+        {
+          "level": 59,
+          "xp": 430
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1267,
+        "questLevel": 38,
+        "minimumLevel": 28,
+        "difficulty": 7,
+        "baseXp": 4300,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 4300
+    },
+    {
+      "questId": 1324,
+      "fullXp": 2150,
+      "rewardBasis": "final-reward",
+      "questLevel": 38,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 2150
+        },
+        {
+          "level": 29,
+          "xp": 2150
+        },
+        {
+          "level": 30,
+          "xp": 2150
+        },
+        {
+          "level": 31,
+          "xp": 2150
+        },
+        {
+          "level": 32,
+          "xp": 2150
+        },
+        {
+          "level": 33,
+          "xp": 2150
+        },
+        {
+          "level": 34,
+          "xp": 2150
+        },
+        {
+          "level": 35,
+          "xp": 2150
+        },
+        {
+          "level": 36,
+          "xp": 2150
+        },
+        {
+          "level": 37,
+          "xp": 2150
+        },
+        {
+          "level": 38,
+          "xp": 2150
+        },
+        {
+          "level": 39,
+          "xp": 2150
+        },
+        {
+          "level": 40,
+          "xp": 2150
+        },
+        {
+          "level": 41,
+          "xp": 2150
+        },
+        {
+          "level": 42,
+          "xp": 2150
+        },
+        {
+          "level": 43,
+          "xp": 2150
+        },
+        {
+          "level": 44,
+          "xp": 1700
+        },
+        {
+          "level": 45,
+          "xp": 1300
+        },
+        {
+          "level": 46,
+          "xp": 850
+        },
+        {
+          "level": 47,
+          "xp": 430
+        },
+        {
+          "level": 48,
+          "xp": 220
+        },
+        {
+          "level": 49,
+          "xp": 220
+        },
+        {
+          "level": 50,
+          "xp": 220
+        },
+        {
+          "level": 51,
+          "xp": 220
+        },
+        {
+          "level": 52,
+          "xp": 220
+        },
+        {
+          "level": 53,
+          "xp": 220
+        },
+        {
+          "level": 54,
+          "xp": 220
+        },
+        {
+          "level": 55,
+          "xp": 220
+        },
+        {
+          "level": 56,
+          "xp": 220
+        },
+        {
+          "level": 57,
+          "xp": 220
+        },
+        {
+          "level": 58,
+          "xp": 220
+        },
+        {
+          "level": 59,
+          "xp": 220
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1324,
+        "questLevel": 38,
+        "minimumLevel": 28,
+        "difficulty": 4,
+        "baseXp": 2150,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 2150
+    },
+    {
+      "questId": 1447,
+      "fullXp": 1250,
+      "rewardBasis": "final-reward",
+      "questLevel": 31,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 1250
+        },
+        {
+          "level": 29,
+          "xp": 1250
+        },
+        {
+          "level": 30,
+          "xp": 1250
+        },
+        {
+          "level": 31,
+          "xp": 1250
+        },
+        {
+          "level": 32,
+          "xp": 1250
+        },
+        {
+          "level": 33,
+          "xp": 1250
+        },
+        {
+          "level": 34,
+          "xp": 1250
+        },
+        {
+          "level": 35,
+          "xp": 1250
+        },
+        {
+          "level": 36,
+          "xp": 1250
+        },
+        {
+          "level": 37,
+          "xp": 1000
+        },
+        {
+          "level": 38,
+          "xp": 750
+        },
+        {
+          "level": 39,
+          "xp": 500
+        },
+        {
+          "level": 40,
+          "xp": 250
+        },
+        {
+          "level": 41,
+          "xp": 130
+        },
+        {
+          "level": 42,
+          "xp": 130
+        },
+        {
+          "level": 43,
+          "xp": 130
+        },
+        {
+          "level": 44,
+          "xp": 130
+        },
+        {
+          "level": 45,
+          "xp": 130
+        },
+        {
+          "level": 46,
+          "xp": 130
+        },
+        {
+          "level": 47,
+          "xp": 130
+        },
+        {
+          "level": 48,
+          "xp": 130
+        },
+        {
+          "level": 49,
+          "xp": 130
+        },
+        {
+          "level": 50,
+          "xp": 130
+        },
+        {
+          "level": 51,
+          "xp": 130
+        },
+        {
+          "level": 52,
+          "xp": 130
+        },
+        {
+          "level": 53,
+          "xp": 130
+        },
+        {
+          "level": 54,
+          "xp": 130
+        },
+        {
+          "level": 55,
+          "xp": 130
+        },
+        {
+          "level": 56,
+          "xp": 130
+        },
+        {
+          "level": 57,
+          "xp": 130
+        },
+        {
+          "level": 58,
+          "xp": 130
+        },
+        {
+          "level": 59,
+          "xp": 130
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 1447,
+        "questLevel": 31,
+        "minimumLevel": 28,
+        "difficulty": 3,
+        "baseXp": 1250,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 1250
+    },
+    {
+      "questId": 2801,
+      "fullXp": 600,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 57,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 600
+        },
+        {
+          "level": 2,
+          "xp": 600
+        },
+        {
+          "level": 3,
+          "xp": 600
+        },
+        {
+          "level": 4,
+          "xp": 600
+        },
+        {
+          "level": 5,
+          "xp": 600
+        },
+        {
+          "level": 6,
+          "xp": 600
+        },
+        {
+          "level": 7,
+          "xp": 600
+        },
+        {
+          "level": 8,
+          "xp": 600
+        },
+        {
+          "level": 9,
+          "xp": 600
+        },
+        {
+          "level": 10,
+          "xp": 600
+        },
+        {
+          "level": 11,
+          "xp": 600
+        },
+        {
+          "level": 12,
+          "xp": 600
+        },
+        {
+          "level": 13,
+          "xp": 600
+        },
+        {
+          "level": 14,
+          "xp": 600
+        },
+        {
+          "level": 15,
+          "xp": 600
+        },
+        {
+          "level": 16,
+          "xp": 600
+        },
+        {
+          "level": 17,
+          "xp": 600
+        },
+        {
+          "level": 18,
+          "xp": 600
+        },
+        {
+          "level": 19,
+          "xp": 600
+        },
+        {
+          "level": 20,
+          "xp": 600
+        },
+        {
+          "level": 21,
+          "xp": 600
+        },
+        {
+          "level": 22,
+          "xp": 600
+        },
+        {
+          "level": 23,
+          "xp": 600
+        },
+        {
+          "level": 24,
+          "xp": 600
+        },
+        {
+          "level": 25,
+          "xp": 600
+        },
+        {
+          "level": 26,
+          "xp": 600
+        },
+        {
+          "level": 27,
+          "xp": 600
+        },
+        {
+          "level": 28,
+          "xp": 600
+        },
+        {
+          "level": 29,
+          "xp": 600
+        },
+        {
+          "level": 30,
+          "xp": 600
+        },
+        {
+          "level": 31,
+          "xp": 600
+        },
+        {
+          "level": 32,
+          "xp": 600
+        },
+        {
+          "level": 33,
+          "xp": 600
+        },
+        {
+          "level": 34,
+          "xp": 600
+        },
+        {
+          "level": 35,
+          "xp": 600
+        },
+        {
+          "level": 36,
+          "xp": 600
+        },
+        {
+          "level": 37,
+          "xp": 600
+        },
+        {
+          "level": 38,
+          "xp": 600
+        },
+        {
+          "level": 39,
+          "xp": 600
+        },
+        {
+          "level": 40,
+          "xp": 600
+        },
+        {
+          "level": 41,
+          "xp": 600
+        },
+        {
+          "level": 42,
+          "xp": 600
+        },
+        {
+          "level": 43,
+          "xp": 600
+        },
+        {
+          "level": 44,
+          "xp": 600
+        },
+        {
+          "level": 45,
+          "xp": 600
+        },
+        {
+          "level": 46,
+          "xp": 600
+        },
+        {
+          "level": 47,
+          "xp": 600
+        },
+        {
+          "level": 48,
+          "xp": 600
+        },
+        {
+          "level": 49,
+          "xp": 600
+        },
+        {
+          "level": 50,
+          "xp": 600
+        },
+        {
+          "level": 51,
+          "xp": 600
+        },
+        {
+          "level": 52,
+          "xp": 600
+        },
+        {
+          "level": 53,
+          "xp": 600
+        },
+        {
+          "level": 54,
+          "xp": 600
+        },
+        {
+          "level": 55,
+          "xp": 600
+        },
+        {
+          "level": 56,
+          "xp": 600
+        },
+        {
+          "level": 57,
+          "xp": 600
+        },
+        {
+          "level": 58,
+          "xp": 600
+        },
+        {
+          "level": 59,
+          "xp": 600
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 3441,
+      "fullXp": 440,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 48,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 440
+        },
+        {
+          "level": 2,
+          "xp": 440
+        },
+        {
+          "level": 3,
+          "xp": 440
+        },
+        {
+          "level": 4,
+          "xp": 440
+        },
+        {
+          "level": 5,
+          "xp": 440
+        },
+        {
+          "level": 6,
+          "xp": 440
+        },
+        {
+          "level": 7,
+          "xp": 440
+        },
+        {
+          "level": 8,
+          "xp": 440
+        },
+        {
+          "level": 9,
+          "xp": 440
+        },
+        {
+          "level": 10,
+          "xp": 440
+        },
+        {
+          "level": 11,
+          "xp": 440
+        },
+        {
+          "level": 12,
+          "xp": 440
+        },
+        {
+          "level": 13,
+          "xp": 440
+        },
+        {
+          "level": 14,
+          "xp": 440
+        },
+        {
+          "level": 15,
+          "xp": 440
+        },
+        {
+          "level": 16,
+          "xp": 440
+        },
+        {
+          "level": 17,
+          "xp": 440
+        },
+        {
+          "level": 18,
+          "xp": 440
+        },
+        {
+          "level": 19,
+          "xp": 440
+        },
+        {
+          "level": 20,
+          "xp": 440
+        },
+        {
+          "level": 21,
+          "xp": 440
+        },
+        {
+          "level": 22,
+          "xp": 440
+        },
+        {
+          "level": 23,
+          "xp": 440
+        },
+        {
+          "level": 24,
+          "xp": 440
+        },
+        {
+          "level": 25,
+          "xp": 440
+        },
+        {
+          "level": 26,
+          "xp": 440
+        },
+        {
+          "level": 27,
+          "xp": 440
+        },
+        {
+          "level": 28,
+          "xp": 440
+        },
+        {
+          "level": 29,
+          "xp": 440
+        },
+        {
+          "level": 30,
+          "xp": 440
+        },
+        {
+          "level": 31,
+          "xp": 440
+        },
+        {
+          "level": 32,
+          "xp": 440
+        },
+        {
+          "level": 33,
+          "xp": 440
+        },
+        {
+          "level": 34,
+          "xp": 440
+        },
+        {
+          "level": 35,
+          "xp": 440
+        },
+        {
+          "level": 36,
+          "xp": 440
+        },
+        {
+          "level": 37,
+          "xp": 440
+        },
+        {
+          "level": 38,
+          "xp": 440
+        },
+        {
+          "level": 39,
+          "xp": 440
+        },
+        {
+          "level": 40,
+          "xp": 440
+        },
+        {
+          "level": 41,
+          "xp": 440
+        },
+        {
+          "level": 42,
+          "xp": 440
+        },
+        {
+          "level": 43,
+          "xp": 440
+        },
+        {
+          "level": 44,
+          "xp": 440
+        },
+        {
+          "level": 45,
+          "xp": 440
+        },
+        {
+          "level": 46,
+          "xp": 440
+        },
+        {
+          "level": 47,
+          "xp": 440
+        },
+        {
+          "level": 48,
+          "xp": 440
+        },
+        {
+          "level": 49,
+          "xp": 440
+        },
+        {
+          "level": 50,
+          "xp": 440
+        },
+        {
+          "level": 51,
+          "xp": 440
+        },
+        {
+          "level": 52,
+          "xp": 440
+        },
+        {
+          "level": 53,
+          "xp": 440
+        },
+        {
+          "level": 54,
+          "xp": 352
+        },
+        {
+          "level": 55,
+          "xp": 264
+        },
+        {
+          "level": 56,
+          "xp": 176
+        },
+        {
+          "level": 57,
+          "xp": 88
+        },
+        {
+          "level": 58,
+          "xp": 44
+        },
+        {
+          "level": 59,
+          "xp": 44
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 3453,
+      "fullXp": 470,
+      "questLevel": 50,
+      "minimumLevel": null,
+      "xpByLevel": [],
+      "sourceUrl": "addon-database: QuestieDB/support/Forever/QuestXP/xpDB-classic.lua \u00b7 version:1.0.4;commit:365537a340473291f5af3b7a53a5eca94e2a5f1a",
+      "capturedAt": "2026-10-17T09:09:38.634Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    },
+    {
+      "questId": 4442,
+      "fullXp": 5450,
+      "rewardBasis": "unscaled-reference",
+      "questLevel": 54,
+      "minimumLevel": null,
+      "xpByLevel": [
+        {
+          "level": 1,
+          "xp": 5450
+        },
+        {
+          "level": 2,
+          "xp": 5450
+        },
+        {
+          "level": 3,
+          "xp": 5450
+        },
+        {
+          "level": 4,
+          "xp": 5450
+        },
+        {
+          "level": 5,
+          "xp": 5450
+        },
+        {
+          "level": 6,
+          "xp": 5450
+        },
+        {
+          "level": 7,
+          "xp": 5450
+        },
+        {
+          "level": 8,
+          "xp": 5450
+        },
+        {
+          "level": 9,
+          "xp": 5450
+        },
+        {
+          "level": 10,
+          "xp": 5450
+        },
+        {
+          "level": 11,
+          "xp": 5450
+        },
+        {
+          "level": 12,
+          "xp": 5450
+        },
+        {
+          "level": 13,
+          "xp": 5450
+        },
+        {
+          "level": 14,
+          "xp": 5450
+        },
+        {
+          "level": 15,
+          "xp": 5450
+        },
+        {
+          "level": 16,
+          "xp": 5450
+        },
+        {
+          "level": 17,
+          "xp": 5450
+        },
+        {
+          "level": 18,
+          "xp": 5450
+        },
+        {
+          "level": 19,
+          "xp": 5450
+        },
+        {
+          "level": 20,
+          "xp": 5450
+        },
+        {
+          "level": 21,
+          "xp": 5450
+        },
+        {
+          "level": 22,
+          "xp": 5450
+        },
+        {
+          "level": 23,
+          "xp": 5450
+        },
+        {
+          "level": 24,
+          "xp": 5450
+        },
+        {
+          "level": 25,
+          "xp": 5450
+        },
+        {
+          "level": 26,
+          "xp": 5450
+        },
+        {
+          "level": 27,
+          "xp": 5450
+        },
+        {
+          "level": 28,
+          "xp": 5450
+        },
+        {
+          "level": 29,
+          "xp": 5450
+        },
+        {
+          "level": 30,
+          "xp": 5450
+        },
+        {
+          "level": 31,
+          "xp": 5450
+        },
+        {
+          "level": 32,
+          "xp": 5450
+        },
+        {
+          "level": 33,
+          "xp": 5450
+        },
+        {
+          "level": 34,
+          "xp": 5450
+        },
+        {
+          "level": 35,
+          "xp": 5450
+        },
+        {
+          "level": 36,
+          "xp": 5450
+        },
+        {
+          "level": 37,
+          "xp": 5450
+        },
+        {
+          "level": 38,
+          "xp": 5450
+        },
+        {
+          "level": 39,
+          "xp": 5450
+        },
+        {
+          "level": 40,
+          "xp": 5450
+        },
+        {
+          "level": 41,
+          "xp": 5450
+        },
+        {
+          "level": 42,
+          "xp": 5450
+        },
+        {
+          "level": 43,
+          "xp": 5450
+        },
+        {
+          "level": 44,
+          "xp": 5450
+        },
+        {
+          "level": 45,
+          "xp": 5450
+        },
+        {
+          "level": 46,
+          "xp": 5450
+        },
+        {
+          "level": 47,
+          "xp": 5450
+        },
+        {
+          "level": 48,
+          "xp": 5450
+        },
+        {
+          "level": 49,
+          "xp": 5450
+        },
+        {
+          "level": 50,
+          "xp": 5450
+        },
+        {
+          "level": 51,
+          "xp": 5450
+        },
+        {
+          "level": 52,
+          "xp": 5450
+        },
+        {
+          "level": 53,
+          "xp": 5450
+        },
+        {
+          "level": 54,
+          "xp": 5450
+        },
+        {
+          "level": 55,
+          "xp": 5450
+        },
+        {
+          "level": 56,
+          "xp": 5450
+        },
+        {
+          "level": 57,
+          "xp": 5450
+        },
+        {
+          "level": 58,
+          "xp": 5450
+        },
+        {
+          "level": 59,
+          "xp": 5450
+        }
+      ],
+      "sourceUrl": "server-database: Historical ClassicDB Full_DB/ClassicDB_1_12_1_z2815.sql.gz; matched full reward and reduced hand-in table via Quest::XPValue \u00b7 db:603ece109099ce44a5447a1b1cffd65c7272d71c;rule:5731249195520323cb5fb9aa29761d4f033272ce",
+      "capturedAt": "2026-10-31T23:24:15.915Z",
+      "status": "available",
+      "evidenceKind": "historical-reference"
+    }
+  ],
+  "rewardSnapshot": {
+    "file": ".cache/leveling-no-grind-20261031/selected-dungeon-quests-v209/candidate/reward-snapshot.json",
+    "sha256": "6a8bf35008ca6e551cc67d3abbd867e46ee7c1858c675e9a68733caed967d656"
+  }
+}

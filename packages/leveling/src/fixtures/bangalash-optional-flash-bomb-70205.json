@@ -1,0 +1,3363 @@
+{
+  "provenance": {
+    "classification": "Captured208source component only. Actual ancestors are retained as preconditions; the component starts with those earlier quests rewarded and does not claim their XP again. Full raw input pins and exact selected source witnesses remain recorded.",
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "catalog": {
+      "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/catalog-fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d.json",
+      "sha256": "fce1121122a88ef07ce36f89b9bd3b91a691eebae58b6df3e6f4d337dfa4a80d"
+    },
+    "combat": {
+      "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/combat-377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b.json",
+      "sha256": "377db34159c9e8f23fd79e23e5c77178d8fb0dc8d12991c70f7cdcc84195389b"
+    },
+    "rewardSnapshot": {
+      "file": ".cache/leveling-no-grind-20261031/vahlarriel-candidate-v840/rewards-ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced.json",
+      "sha256": "ecddfaa67b7febfe5cd0d69f0c2c93d16e48d391aa2108482614a3470f97bced"
+    },
+    "guides": [
+      {
+        "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+        "version": "import-v2-0671e2017ce66f25",
+        "file": "artifacts/leveling/archive/chapter-28-41-43-stv-swamp-of-sorrows-v2-0671e2017ce66f25.json",
+        "sha256": "42d2f084b3b02e458f539b26c7b3ad691e6fd5a5247680ea39ac5f6f2cca5809",
+        "selectedStepIds": [
+          "source-step-0107",
+          "source-step-0111",
+          "source-step-0112"
+        ]
+      }
+    ]
+  },
+  "guides": [
+    {
+      "schemaVersion": 1,
+      "chapterId": "chapter-28-41-43-stv-swamp-of-sorrows",
+      "version": "import-v2-0671e2017ce66f25",
+      "targetBuild": 70205,
+      "sourceSha256": "0671e2017ce66f2565d27e0109df02d30794b2716589feb110663bf14ec76be1",
+      "sourceName": "RestedXP Forever Guide",
+      "steps": [
+        {
+          "id": "source-step-0106",
+          "ordinal": 106,
+          "sourceLine": 799,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#completewith",
+              "arguments": "PagesTurnIn",
+              "condition": "",
+              "text": "",
+              "sourceLine": 800,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1434/0,-54.59,-11628.54,80",
+              "condition": "",
+              "text": "Travel to Nesingwary's Expedition",
+              "sourceLine": 801,
+              "questId": null,
+              "position": {
+                "zone": "1434",
+                "floor": 0,
+                "x": -54.59,
+                "y": -11628.54,
+                "space": "world"
+              }
+            }
+          ]
+        },
+        {
+          "id": "source-step-0107",
+          "ordinal": 107,
+          "sourceLine": 802,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Sir S. J. Erlgadin and Hemet Nesingwary",
+              "sourceLine": 803,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "197",
+              "condition": "",
+              "text": "Turn in Raptor Mastery",
+              "sourceLine": 804,
+              "questId": 197,
+              "position": null
+            },
+            {
+              "tag": ".accept",
+              "arguments": "208",
+              "condition": "",
+              "text": "Accept Big Game Hunter",
+              "sourceLine": 805,
+              "questId": 208,
+              "position": null
+            },
+            {
+              "tag": ".goto",
+              "arguments": "1434/0,-54.59,-11628.54",
+              "condition": "",
+              "text": "",
+              "sourceLine": 806,
+              "questId": null,
+              "position": {
+                "zone": "1434",
+                "floor": 0,
+                "x": -54.59,
+                "y": -11628.54,
+                "space": "world"
+              }
+            },
+            {
+              "tag": ".target",
+              "arguments": "Hemet Nesingwary",
+              "condition": "",
+              "text": "",
+              "sourceLine": 807,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isOnQuest",
+              "arguments": "197",
+              "condition": "",
+              "text": "",
+              "sourceLine": 808,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0110",
+          "ordinal": 110,
+          "sourceLine": 835,
+          "condition": "",
+          "directives": [
+            {
+              "tag": "#optional",
+              "arguments": "",
+              "condition": "",
+              "text": "",
+              "sourceLine": 836,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "#completewith",
+              "arguments": "next",
+              "condition": "",
+              "text": "",
+              "sourceLine": 837,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Use the [Flash Bomb] on King Bangalash when he is at 55%",
+              "sourceLine": 838,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".itemcount",
+              "arguments": "4852,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 839,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".use",
+              "arguments": "4852",
+              "condition": "",
+              "text": "",
+              "sourceLine": 840,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0111",
+          "ordinal": 111,
+          "sourceLine": 841,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "Stranglethorn Vale,38.20,35.57",
+              "condition": "",
+              "text": "",
+              "sourceLine": 842,
+              "questId": null,
+              "position": {
+                "zone": "Stranglethorn Vale",
+                "floor": null,
+                "x": 38.2,
+                "y": 35.57,
+                "space": "map-percent"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Kill King Bangalash. Loot him for the Head of Bangalash",
+              "sourceLine": 843,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "King Bangalash will spawn 2 Panthers at 50% health. Try to CC him just before 50% if possible so it prevents him from spawning any",
+              "sourceLine": 844,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "If you saved the [Flash Bomb] from the Badlands you can use it to [Fear] him. This fear DOES NOT break on damage making it very useful for bringing him below the 50% threshold while CCd",
+              "sourceLine": 845,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".complete",
+              "arguments": "208,1",
+              "condition": "",
+              "text": "",
+              "sourceLine": 846,
+              "questId": 208,
+              "position": null
+            },
+            {
+              "tag": ".mob",
+              "arguments": "King Bangalash",
+              "condition": "",
+              "text": "",
+              "sourceLine": 847,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".use",
+              "arguments": "4852",
+              "condition": "",
+              "text": "",
+              "sourceLine": 848,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isOnQuest",
+              "arguments": "208",
+              "condition": "",
+              "text": "",
+              "sourceLine": 849,
+              "questId": null,
+              "position": null
+            }
+          ]
+        },
+        {
+          "id": "source-step-0112",
+          "ordinal": 112,
+          "sourceLine": 850,
+          "condition": "",
+          "directives": [
+            {
+              "tag": ".goto",
+              "arguments": "1434/0,-54.59,-11628.54",
+              "condition": "",
+              "text": "",
+              "sourceLine": 851,
+              "questId": null,
+              "position": {
+                "zone": "1434",
+                "floor": 0,
+                "x": -54.59,
+                "y": -11628.54,
+                "space": "world"
+              }
+            },
+            {
+              "tag": "text",
+              "arguments": "",
+              "condition": "",
+              "text": "Talk to Hemet Nesingwary",
+              "sourceLine": 852,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".turnin",
+              "arguments": "208",
+              "condition": "",
+              "text": "Turn in Big Game Hunter",
+              "sourceLine": 853,
+              "questId": 208,
+              "position": null
+            },
+            {
+              "tag": ".target",
+              "arguments": "Hemet Nesingwary",
+              "condition": "",
+              "text": "",
+              "sourceLine": 854,
+              "questId": null,
+              "position": null
+            },
+            {
+              "tag": ".isQuestComplete",
+              "arguments": "208",
+              "condition": "",
+              "text": "",
+              "sourceLine": 855,
+              "questId": null,
+              "position": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 185,
+        "title": "Tiger Mastery",
+        "minimumLevel": 28,
+        "questLevel": 31,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            583
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 681,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 31.4,
+                "y": 8.4
+              },
+              {
+                "zone": "1434",
+                "x": 31.4,
+                "y": 8.6
+              },
+              {
+                "zone": "1434",
+                "x": 31.8,
+                "y": 9.8
+              },
+              {
+                "zone": "1434",
+                "x": 33,
+                "y": 9.8
+              },
+              {
+                "zone": "1434",
+                "x": 33.4,
+                "y": 10.6
+              },
+              {
+                "zone": "1434",
+                "x": 33.6,
+                "y": 11
+              },
+              {
+                "zone": "1434",
+                "x": 33.8,
+                "y": 12.4
+              },
+              {
+                "zone": "1434",
+                "x": 33.8,
+                "y": 13.2
+              },
+              {
+                "zone": "1434",
+                "x": 34.6,
+                "y": 13.6
+              },
+              {
+                "zone": "1434",
+                "x": 35.4,
+                "y": 12.4
+              },
+              {
+                "zone": "1434",
+                "x": 35.4,
+                "y": 12.6
+              },
+              {
+                "zone": "1434",
+                "x": 35.6,
+                "y": 12.4
+              },
+              {
+                "zone": "1434",
+                "x": 35.8,
+                "y": 13
+              },
+              {
+                "zone": "1434",
+                "x": 36.4,
+                "y": 13.6
+              },
+              {
+                "zone": "1434",
+                "x": 37.2,
+                "y": 11.4
+              },
+              {
+                "zone": "1434",
+                "x": 37.2,
+                "y": 14.2
+              },
+              {
+                "zone": "1434",
+                "x": 37.4,
+                "y": 11.6
+              },
+              {
+                "zone": "1434",
+                "x": 37.6,
+                "y": 13.2
+              },
+              {
+                "zone": "1434",
+                "x": 37.8,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 38.6,
+                "y": 15.2
+              },
+              {
+                "zone": "1434",
+                "x": 39.2,
+                "y": 6.4
+              },
+              {
+                "zone": "1434",
+                "x": 39.2,
+                "y": 6.6
+              },
+              {
+                "zone": "1434",
+                "x": 39.2,
+                "y": 7.8
+              },
+              {
+                "zone": "1434",
+                "x": 40.2,
+                "y": 8.4
+              },
+              {
+                "zone": "1434",
+                "x": 40.2,
+                "y": 10
+              },
+              {
+                "zone": "1434",
+                "x": 41.2,
+                "y": 8.2
+              },
+              {
+                "zone": "1434",
+                "x": 31.6,
+                "y": 10.2
+              },
+              {
+                "zone": "1434",
+                "x": 38.7,
+                "y": 15.36
+              },
+              {
+                "zone": "1434",
+                "x": 37.35,
+                "y": 14.33
+              },
+              {
+                "zone": "1434",
+                "x": 39.21,
+                "y": 14.45
+              },
+              {
+                "zone": "1434",
+                "x": 38.84,
+                "y": 13.64
+              },
+              {
+                "zone": "1434",
+                "x": 36.11,
+                "y": 15.31
+              },
+              {
+                "zone": "1434",
+                "x": 37.29,
+                "y": 11.56
+              },
+              {
+                "zone": "1434",
+                "x": 40.19,
+                "y": 9.93
+              },
+              {
+                "zone": "1434",
+                "x": 33.91,
+                "y": 12.98
+              },
+              {
+                "zone": "1434",
+                "x": 35.07,
+                "y": 12.11
+              },
+              {
+                "zone": "1434",
+                "x": 34.73,
+                "y": 17.51
+              },
+              {
+                "zone": "1434",
+                "x": 35.98,
+                "y": 12.93
+              },
+              {
+                "zone": "1434",
+                "x": 35.13,
+                "y": 16.52
+              },
+              {
+                "zone": "1434",
+                "x": 35.65,
+                "y": 12.14
+              },
+              {
+                "zone": "1434",
+                "x": 31.43,
+                "y": 8.39
+              },
+              {
+                "zone": "1434",
+                "x": 32.41,
+                "y": 9.57
+              },
+              {
+                "zone": "1434",
+                "x": 30.64,
+                "y": 7.56
+              },
+              {
+                "zone": "1434",
+                "x": 33.06,
+                "y": 9.57
+              },
+              {
+                "zone": "1434",
+                "x": 31.54,
+                "y": 9.94
+              },
+              {
+                "zone": "1434",
+                "x": 33.36,
+                "y": 9.94
+              },
+              {
+                "zone": "1434",
+                "x": 33.57,
+                "y": 11.15
+              },
+              {
+                "zone": "1434",
+                "x": 34.07,
+                "y": 11.33
+              },
+              {
+                "zone": "1434",
+                "x": 40.41,
+                "y": 8.3
+              },
+              {
+                "zone": "1434",
+                "x": 34.54,
+                "y": 14
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 186,
+        "title": "Tiger Mastery",
+        "minimumLevel": 28,
+        "questLevel": 33,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            185
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 682,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 27.8,
+                "y": 9.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 9.2
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 10.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.6,
+                "y": 10.6
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 8
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 8.8
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 10.4
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 16
+              },
+              {
+                "zone": "1434",
+                "x": 29.6,
+                "y": 11.2
+              },
+              {
+                "zone": "1434",
+                "x": 29.8,
+                "y": 7.8
+              },
+              {
+                "zone": "1434",
+                "x": 29.8,
+                "y": 15.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.2,
+                "y": 10.4
+              },
+              {
+                "zone": "1434",
+                "x": 30.2,
+                "y": 13.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.2,
+                "y": 15.4
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 9
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 12.4
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 12.2
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 15.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 9.4
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 9.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 11.2
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 31,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 34.6,
+                "y": 17.4
+              },
+              {
+                "zone": "1434",
+                "x": 34.6,
+                "y": 17.6
+              },
+              {
+                "zone": "1434",
+                "x": 35,
+                "y": 14.2
+              },
+              {
+                "zone": "1434",
+                "x": 35,
+                "y": 16.2
+              },
+              {
+                "zone": "1434",
+                "x": 35.4,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 36.2,
+                "y": 13.2
+              },
+              {
+                "zone": "1434",
+                "x": 36.4,
+                "y": 13.8
+              },
+              {
+                "zone": "1434",
+                "x": 36.6,
+                "y": 14
+              },
+              {
+                "zone": "1434",
+                "x": 37.4,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 37.6,
+                "y": 12.6
+              },
+              {
+                "zone": "1434",
+                "x": 37.8,
+                "y": 12.2
+              },
+              {
+                "zone": "1434",
+                "x": 40.2,
+                "y": 10
+              },
+              {
+                "zone": "1434",
+                "x": 42.8,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 43.4,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 43.8,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 44,
+                "y": 13.4
+              },
+              {
+                "zone": "1434",
+                "x": 44,
+                "y": 13.6
+              },
+              {
+                "zone": "1434",
+                "x": 45,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 45.4,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 45.8,
+                "y": 10
+              },
+              {
+                "zone": "1434",
+                "x": 46,
+                "y": 15.4
+              },
+              {
+                "zone": "1434",
+                "x": 46,
+                "y": 16.8
+              },
+              {
+                "zone": "1434",
+                "x": 46.4,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 46.4,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 46.4,
+                "y": 15.8
+              },
+              {
+                "zone": "1434",
+                "x": 46.4,
+                "y": 17.6
+              },
+              {
+                "zone": "1434",
+                "x": 46.6,
+                "y": 13
+              },
+              {
+                "zone": "1434",
+                "x": 46.6,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 46.6,
+                "y": 16
+              },
+              {
+                "zone": "1434",
+                "x": 46.8,
+                "y": 18.6
+              },
+              {
+                "zone": "1434",
+                "x": 47,
+                "y": 15.2
+              },
+              {
+                "zone": "1434",
+                "x": 47,
+                "y": 16.6
+              },
+              {
+                "zone": "1434",
+                "x": 47,
+                "y": 18.2
+              },
+              {
+                "zone": "1434",
+                "x": 47.4,
+                "y": 11.2
+              },
+              {
+                "zone": "1434",
+                "x": 47.6,
+                "y": 11.4
+              },
+              {
+                "zone": "1434",
+                "x": 47.6,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 48,
+                "y": 12
+              },
+              {
+                "zone": "1434",
+                "x": 48,
+                "y": 13.6
+              },
+              {
+                "zone": "1434",
+                "x": 30.2,
+                "y": 9
+              },
+              {
+                "zone": "1434",
+                "x": 47.4,
+                "y": 11.43
+              },
+              {
+                "zone": "1434",
+                "x": 46.6,
+                "y": 17.51
+              },
+              {
+                "zone": "1434",
+                "x": 47.17,
+                "y": 18.47
+              },
+              {
+                "zone": "1434",
+                "x": 30.18,
+                "y": 13.58
+              },
+              {
+                "zone": "1434",
+                "x": 29.73,
+                "y": 11.29
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 9.02
+              },
+              {
+                "zone": "1434",
+                "x": 42.88,
+                "y": 15.25
+              },
+              {
+                "zone": "1434",
+                "x": 47.13,
+                "y": 16.81
+              },
+              {
+                "zone": "1434",
+                "x": 28.96,
+                "y": 9.54
+              },
+              {
+                "zone": "1434",
+                "x": 30.34,
+                "y": 15.24
+              },
+              {
+                "zone": "1434",
+                "x": 29.36,
+                "y": 10.41
+              },
+              {
+                "zone": "1434",
+                "x": 30.75,
+                "y": 16.05
+              },
+              {
+                "zone": "1434",
+                "x": 46,
+                "y": 16.89
+              },
+              {
+                "zone": "1434",
+                "x": 46.53,
+                "y": 12.93
+              },
+              {
+                "zone": "1434",
+                "x": 48.07,
+                "y": 13.69
+              },
+              {
+                "zone": "1434",
+                "x": 46.58,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 47.59,
+                "y": 12.85
+              },
+              {
+                "zone": "1434",
+                "x": 48.19,
+                "y": 12.18
+              },
+              {
+                "zone": "1434",
+                "x": 46.08,
+                "y": 15.32
+              },
+              {
+                "zone": "1434",
+                "x": 46.57,
+                "y": 16.09
+              },
+              {
+                "zone": "1434",
+                "x": 47.13,
+                "y": 15.25
+              },
+              {
+                "zone": "1434",
+                "x": 44,
+                "y": 13.68
+              },
+              {
+                "zone": "1434",
+                "x": 45.47,
+                "y": 14.54
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 187,
+        "title": "Tiger Mastery",
+        "minimumLevel": 28,
+        "questLevel": 35,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            186
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 1085,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 33.97,
+                "y": 19.43
+              },
+              {
+                "zone": "1434",
+                "x": 36.04,
+                "y": 18.86
+              },
+              {
+                "zone": "1434",
+                "x": 35.52,
+                "y": 18.47
+              },
+              {
+                "zone": "1434",
+                "x": 35.02,
+                "y": 19.2
+              },
+              {
+                "zone": "1434",
+                "x": 35.46,
+                "y": 19.73
+              },
+              {
+                "zone": "1434",
+                "x": 32.43,
+                "y": 18.44
+              },
+              {
+                "zone": "1434",
+                "x": 31.31,
+                "y": 18.21
+              },
+              {
+                "zone": "1434",
+                "x": 33.53,
+                "y": 18.31
+              },
+              {
+                "zone": "1434",
+                "x": 34.02,
+                "y": 17.57
+              },
+              {
+                "zone": "1434",
+                "x": 32.09,
+                "y": 18.99
+              },
+              {
+                "zone": "1434",
+                "x": 32.91,
+                "y": 19.02
+              },
+              {
+                "zone": "1434",
+                "x": 31.51,
+                "y": 20.14
+              },
+              {
+                "zone": "1434",
+                "x": 31.29,
+                "y": 16.62
+              },
+              {
+                "zone": "1434",
+                "x": 31.94,
+                "y": 16.08
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 188,
+        "title": "Tiger Mastery",
+        "minimumLevel": 28,
+        "questLevel": 37,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 717,
+            "name": "Ajeck Rouack",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 10.62
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            187
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 190,
+        "title": "Panther Mastery",
+        "minimumLevel": 28,
+        "questLevel": 31,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            583
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 683,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 37.33,
+                "y": 8.25
+              },
+              {
+                "zone": "1434",
+                "x": 36.08,
+                "y": 7.24
+              },
+              {
+                "zone": "1434",
+                "x": 35.08,
+                "y": 15.12
+              },
+              {
+                "zone": "1434",
+                "x": 41.27,
+                "y": 8.08
+              },
+              {
+                "zone": "1434",
+                "x": 36.62,
+                "y": 13.76
+              },
+              {
+                "zone": "1434",
+                "x": 39.13,
+                "y": 6.59
+              },
+              {
+                "zone": "1434",
+                "x": 39.22,
+                "y": 8.06
+              },
+              {
+                "zone": "1434",
+                "x": 35.03,
+                "y": 14.16
+              },
+              {
+                "zone": "1434",
+                "x": 38.29,
+                "y": 13.45
+              },
+              {
+                "zone": "1434",
+                "x": 37.75,
+                "y": 12.77
+              },
+              {
+                "zone": "1434",
+                "x": 42.91,
+                "y": 10.5
+              },
+              {
+                "zone": "1434",
+                "x": 42.07,
+                "y": 10.14
+              },
+              {
+                "zone": "1434",
+                "x": 41.39,
+                "y": 10.46
+              },
+              {
+                "zone": "1434",
+                "x": 42.47,
+                "y": 9.56
+              },
+              {
+                "zone": "1434",
+                "x": 43.06,
+                "y": 12.31
+              },
+              {
+                "zone": "1434",
+                "x": 42.31,
+                "y": 13.2
+              },
+              {
+                "zone": "1434",
+                "x": 41.78,
+                "y": 12.75
+              },
+              {
+                "zone": "1434",
+                "x": 41.27,
+                "y": 13.44
+              },
+              {
+                "zone": "1434",
+                "x": 40.54,
+                "y": 11.4
+              },
+              {
+                "zone": "1434",
+                "x": 40.65,
+                "y": 11.19
+              },
+              {
+                "zone": "1434",
+                "x": 41.77,
+                "y": 12.98
+              },
+              {
+                "zone": "1434",
+                "x": 41.35,
+                "y": 12.82
+              },
+              {
+                "zone": "1434",
+                "x": 42.36,
+                "y": 13.22
+              },
+              {
+                "zone": "1434",
+                "x": 42.86,
+                "y": 13.63
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 191,
+        "title": "Panther Mastery",
+        "minimumLevel": 28,
+        "questLevel": 33,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            190
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 736,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 28.2,
+                "y": 12.2
+              },
+              {
+                "zone": "1434",
+                "x": 28.2,
+                "y": 13.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.2,
+                "y": 16.4
+              },
+              {
+                "zone": "1434",
+                "x": 28.2,
+                "y": 16.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 9.2
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 10.4
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 10.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 12.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.4,
+                "y": 14.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.6,
+                "y": 11.8
+              },
+              {
+                "zone": "1434",
+                "x": 28.6,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 28.6,
+                "y": 16.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.8,
+                "y": 9.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.8,
+                "y": 15.8
+              },
+              {
+                "zone": "1434",
+                "x": 29.2,
+                "y": 13.6
+              },
+              {
+                "zone": "1434",
+                "x": 29.2,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 8.8
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 10.6
+              },
+              {
+                "zone": "1434",
+                "x": 29.8,
+                "y": 7.8
+              },
+              {
+                "zone": "1434",
+                "x": 29.8,
+                "y": 11.2
+              },
+              {
+                "zone": "1434",
+                "x": 29.8,
+                "y": 15.8
+              },
+              {
+                "zone": "1434",
+                "x": 30,
+                "y": 9.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 8.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 12.4
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 12.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 13.8
+              },
+              {
+                "zone": "1434",
+                "x": 30.4,
+                "y": 15.2
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 9.2
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 9.6
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 12
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 15
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 11.2
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 14.4
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 15.8
+              },
+              {
+                "zone": "1434",
+                "x": 38.2,
+                "y": 35.4
+              },
+              {
+                "zone": "1434",
+                "x": 38.2,
+                "y": 35.6
+              },
+              {
+                "zone": "1434",
+                "x": 38.4,
+                "y": 34.4
+              },
+              {
+                "zone": "1434",
+                "x": 45.69,
+                "y": 10.32
+              },
+              {
+                "zone": "1434",
+                "x": 45.3,
+                "y": 9.8
+              },
+              {
+                "zone": "1434",
+                "x": 45.79,
+                "y": 10.3
+              },
+              {
+                "zone": "1434",
+                "x": 28.88,
+                "y": 15.94
+              },
+              {
+                "zone": "1434",
+                "x": 28.36,
+                "y": 13.43
+              },
+              {
+                "zone": "1434",
+                "x": 29.77,
+                "y": 16.11
+              },
+              {
+                "zone": "1434",
+                "x": 28.17,
+                "y": 16.55
+              },
+              {
+                "zone": "1434",
+                "x": 30.97,
+                "y": 14.59
+              },
+              {
+                "zone": "1434",
+                "x": 29.99,
+                "y": 9.78
+              },
+              {
+                "zone": "1434",
+                "x": 30.9,
+                "y": 11.29
+              },
+              {
+                "zone": "1434",
+                "x": 28.37,
+                "y": 10.55
+              },
+              {
+                "zone": "1434",
+                "x": 28.79,
+                "y": 14.6
+              },
+              {
+                "zone": "1434",
+                "x": 30.47,
+                "y": 10.67
+              },
+              {
+                "zone": "1434",
+                "x": 29.4,
+                "y": 9.07
+              },
+              {
+                "zone": "1434",
+                "x": 28.39,
+                "y": 12.3
+              },
+              {
+                "zone": "1434",
+                "x": 29.45,
+                "y": 13.59
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 192,
+        "title": "Panther Mastery",
+        "minimumLevel": 28,
+        "questLevel": 38,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            191
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 684,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 41.3,
+                "y": 34.76
+              },
+              {
+                "zone": "1434",
+                "x": 36.19,
+                "y": 35.67
+              },
+              {
+                "zone": "1434",
+                "x": 37.28,
+                "y": 45.25
+              },
+              {
+                "zone": "1434",
+                "x": 39.29,
+                "y": 45.54
+              },
+              {
+                "zone": "1434",
+                "x": 40.34,
+                "y": 40.99
+              },
+              {
+                "zone": "1434",
+                "x": 39.55,
+                "y": 44.17
+              },
+              {
+                "zone": "1434",
+                "x": 46.09,
+                "y": 26.19
+              },
+              {
+                "zone": "1434",
+                "x": 46.44,
+                "y": 26.92
+              },
+              {
+                "zone": "1434",
+                "x": 39.49,
+                "y": 41.75
+              },
+              {
+                "zone": "1434",
+                "x": 49.26,
+                "y": 23.21
+              },
+              {
+                "zone": "1434",
+                "x": 50.21,
+                "y": 23.04
+              },
+              {
+                "zone": "1434",
+                "x": 49.26,
+                "y": 20.39
+              },
+              {
+                "zone": "1434",
+                "x": 50.28,
+                "y": 21.79
+              },
+              {
+                "zone": "1434",
+                "x": 46.45,
+                "y": 22.54
+              },
+              {
+                "zone": "1434",
+                "x": 47.23,
+                "y": 23.07
+              },
+              {
+                "zone": "1434",
+                "x": 48.16,
+                "y": 21.6
+              },
+              {
+                "zone": "1434",
+                "x": 48.07,
+                "y": 23.01
+              },
+              {
+                "zone": "1434",
+                "x": 49.68,
+                "y": 24.06
+              },
+              {
+                "zone": "1434",
+                "x": 48.03,
+                "y": 27.81
+              },
+              {
+                "zone": "1434",
+                "x": 49.71,
+                "y": 25.47
+              },
+              {
+                "zone": "1434",
+                "x": 48.88,
+                "y": 23.86
+              },
+              {
+                "zone": "1434",
+                "x": 47.67,
+                "y": 22.32
+              },
+              {
+                "zone": "1434",
+                "x": 46.52,
+                "y": 28.44
+              },
+              {
+                "zone": "1434",
+                "x": 49.27,
+                "y": 24.51
+              },
+              {
+                "zone": "1434",
+                "x": 50.25,
+                "y": 24.68
+              },
+              {
+                "zone": "1434",
+                "x": 46.97,
+                "y": 29.57
+              },
+              {
+                "zone": "1434",
+                "x": 47.02,
+                "y": 27.74
+              },
+              {
+                "zone": "1434",
+                "x": 36.55,
+                "y": 39.1
+              },
+              {
+                "zone": "1434",
+                "x": 48.66,
+                "y": 20.75
+              },
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 36.22
+              },
+              {
+                "zone": "1434",
+                "x": 49.23,
+                "y": 21.6
+              },
+              {
+                "zone": "1434",
+                "x": 45.47,
+                "y": 25.29
+              },
+              {
+                "zone": "1434",
+                "x": 41.23,
+                "y": 36.34
+              },
+              {
+                "zone": "1434",
+                "x": 48.69,
+                "y": 22.22
+              },
+              {
+                "zone": "1434",
+                "x": 35.49,
+                "y": 38.01
+              },
+              {
+                "zone": "1434",
+                "x": 38.67,
+                "y": 38.61
+              },
+              {
+                "zone": "1434",
+                "x": 39.86,
+                "y": 37.6
+              },
+              {
+                "zone": "1434",
+                "x": 40.29,
+                "y": 39.62
+              },
+              {
+                "zone": "1434",
+                "x": 40.73,
+                "y": 40.21
+              },
+              {
+                "zone": "1434",
+                "x": 41.95,
+                "y": 38.89
+              },
+              {
+                "zone": "1434",
+                "x": 42.25,
+                "y": 38.15
+              },
+              {
+                "zone": "1434",
+                "x": 41.38,
+                "y": 38.22
+              },
+              {
+                "zone": "1434",
+                "x": 37.15,
+                "y": 38.86
+              },
+              {
+                "zone": "1434",
+                "x": 38.07,
+                "y": 39.32
+              },
+              {
+                "zone": "1434",
+                "x": 50.66,
+                "y": 20.61
+              },
+              {
+                "zone": "1434",
+                "x": 49.74,
+                "y": 20.77
+              },
+              {
+                "zone": "1434",
+                "x": 48.09,
+                "y": 20.2
+              },
+              {
+                "zone": "1434",
+                "x": 36.5,
+                "y": 36.11
+              },
+              {
+                "zone": "1434",
+                "x": 37.22,
+                "y": 35.55
+              },
+              {
+                "zone": "1434",
+                "x": 36.03,
+                "y": 33.95
+              },
+              {
+                "zone": "1434",
+                "x": 39.37,
+                "y": 33.31
+              },
+              {
+                "zone": "1434",
+                "x": 38.7,
+                "y": 32.86
+              },
+              {
+                "zone": "1434",
+                "x": 39.59,
+                "y": 35.55
+              },
+              {
+                "zone": "1434",
+                "x": 41.33,
+                "y": 39.76
+              },
+              {
+                "zone": "1434",
+                "x": 41.19,
+                "y": 40.88
+              },
+              {
+                "zone": "1434",
+                "x": 35.15,
+                "y": 36.96
+              },
+              {
+                "zone": "1434",
+                "x": 40.52,
+                "y": 37.73
+              },
+              {
+                "zone": "1434",
+                "x": 39.14,
+                "y": 39.9
+              },
+              {
+                "zone": "1434",
+                "x": 39.22,
+                "y": 34.84
+              },
+              {
+                "zone": "1434",
+                "x": 39.7,
+                "y": 40.72
+              },
+              {
+                "zone": "1434",
+                "x": 36.16,
+                "y": 37.17
+              },
+              {
+                "zone": "1434",
+                "x": 39.22,
+                "y": 37.91
+              },
+              {
+                "zone": "1434",
+                "x": 36.59,
+                "y": 37.8
+              },
+              {
+                "zone": "1434",
+                "x": 38.73,
+                "y": 37.12
+              },
+              {
+                "zone": "1434",
+                "x": 38.18,
+                "y": 36.91
+              },
+              {
+                "zone": "1434",
+                "x": 37.61,
+                "y": 36.4
+              },
+              {
+                "zone": "1434",
+                "x": 37.63,
+                "y": 33.03
+              },
+              {
+                "zone": "1434",
+                "x": 47.58,
+                "y": 27.41
+              },
+              {
+                "zone": "1434",
+                "x": 45.46,
+                "y": 26.77
+              },
+              {
+                "zone": "1434",
+                "x": 45.94,
+                "y": 27.72
+              },
+              {
+                "zone": "1434",
+                "x": 46.53,
+                "y": 26.89
+              },
+              {
+                "zone": "1434",
+                "x": 38.61,
+                "y": 35.69
+              },
+              {
+                "zone": "1434",
+                "x": 38.33,
+                "y": 34.67
+              },
+              {
+                "zone": "1434",
+                "x": 39.57,
+                "y": 42.56
+              },
+              {
+                "zone": "1434",
+                "x": 36.59,
+                "y": 34.82
+              },
+              {
+                "zone": "1434",
+                "x": 40.33,
+                "y": 31.7
+              },
+              {
+                "zone": "1434",
+                "x": 39.2,
+                "y": 41.03
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 193,
+        "title": "Panther Mastery",
+        "minimumLevel": 28,
+        "questLevel": 40,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 718,
+            "name": "Sir S. J. Erlgadin",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.55,
+                "y": 10.55
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            192
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 194,
+        "title": "Raptor Mastery",
+        "minimumLevel": 28,
+        "questLevel": 34,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            583
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 685,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 24.17,
+                "y": 16.16
+              },
+              {
+                "zone": "1434",
+                "x": 23.72,
+                "y": 15.41
+              },
+              {
+                "zone": "1434",
+                "x": 24.53,
+                "y": 15.69
+              },
+              {
+                "zone": "1434",
+                "x": 24.06,
+                "y": 15.67
+              },
+              {
+                "zone": "1434",
+                "x": 24.51,
+                "y": 16.19
+              },
+              {
+                "zone": "1434",
+                "x": 24.76,
+                "y": 16.07
+              },
+              {
+                "zone": "1434",
+                "x": 27.29,
+                "y": 16.65
+              },
+              {
+                "zone": "1434",
+                "x": 26.75,
+                "y": 17.61
+              },
+              {
+                "zone": "1434",
+                "x": 26.01,
+                "y": 17.09
+              },
+              {
+                "zone": "1434",
+                "x": 25.72,
+                "y": 15.81
+              },
+              {
+                "zone": "1434",
+                "x": 26.55,
+                "y": 16.03
+              },
+              {
+                "zone": "1434",
+                "x": 27.39,
+                "y": 15.45
+              },
+              {
+                "zone": "1434",
+                "x": 27.55,
+                "y": 17.67
+              },
+              {
+                "zone": "1434",
+                "x": 27.79,
+                "y": 14.32
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 195,
+        "title": "Raptor Mastery",
+        "minimumLevel": 28,
+        "questLevel": 36,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            194
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 686,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 39.34,
+                "y": 19.1
+              },
+              {
+                "zone": "1434",
+                "x": 38.55,
+                "y": 19.79
+              },
+              {
+                "zone": "1434",
+                "x": 39.07,
+                "y": 22.09
+              },
+              {
+                "zone": "1434",
+                "x": 38.87,
+                "y": 21.64
+              },
+              {
+                "zone": "1434",
+                "x": 38.24,
+                "y": 20.49
+              },
+              {
+                "zone": "1434",
+                "x": 35.95,
+                "y": 27.15
+              },
+              {
+                "zone": "1434",
+                "x": 38.28,
+                "y": 19.16
+              },
+              {
+                "zone": "1434",
+                "x": 35.62,
+                "y": 26.33
+              },
+              {
+                "zone": "1434",
+                "x": 38.88,
+                "y": 24.59
+              },
+              {
+                "zone": "1434",
+                "x": 37.57,
+                "y": 27.9
+              },
+              {
+                "zone": "1434",
+                "x": 37.82,
+                "y": 19.75
+              },
+              {
+                "zone": "1434",
+                "x": 37.73,
+                "y": 21.48
+              },
+              {
+                "zone": "1434",
+                "x": 38.44,
+                "y": 25.24
+              },
+              {
+                "zone": "1434",
+                "x": 38.77,
+                "y": 26.17
+              },
+              {
+                "zone": "1434",
+                "x": 38.1,
+                "y": 27.02
+              },
+              {
+                "zone": "1434",
+                "x": 30.6,
+                "y": 24
+              },
+              {
+                "zone": "1434",
+                "x": 30.69,
+                "y": 23.72
+              },
+              {
+                "zone": "1434",
+                "x": 30.27,
+                "y": 24.66
+              },
+              {
+                "zone": "1434",
+                "x": 30.66,
+                "y": 23.5
+              },
+              {
+                "zone": "1434",
+                "x": 30.55,
+                "y": 22.47
+              },
+              {
+                "zone": "1434",
+                "x": 30.8,
+                "y": 23.22
+              },
+              {
+                "zone": "1434",
+                "x": 32.5,
+                "y": 21.42
+              },
+              {
+                "zone": "1434",
+                "x": 31.97,
+                "y": 20.68
+              },
+              {
+                "zone": "1434",
+                "x": 32.4,
+                "y": 23.17
+              },
+              {
+                "zone": "1434",
+                "x": 32.4,
+                "y": 24.59
+              },
+              {
+                "zone": "1434",
+                "x": 32.06,
+                "y": 23.79
+              },
+              {
+                "zone": "1434",
+                "x": 32.97,
+                "y": 23.89
+              },
+              {
+                "zone": "1434",
+                "x": 33.96,
+                "y": 25.47
+              },
+              {
+                "zone": "1434",
+                "x": 33.4,
+                "y": 24.55
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 196,
+        "title": "Raptor Mastery",
+        "minimumLevel": 28,
+        "questLevel": 41,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            195
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 687,
+            "count": 10,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 23.35,
+                "y": 48.24
+              },
+              {
+                "zone": "1434",
+                "x": 28.28,
+                "y": 46.47
+              },
+              {
+                "zone": "1434",
+                "x": 27.31,
+                "y": 43.38
+              },
+              {
+                "zone": "1434",
+                "x": 32.56,
+                "y": 37.21
+              },
+              {
+                "zone": "1434",
+                "x": 34.65,
+                "y": 38.92
+              },
+              {
+                "zone": "1434",
+                "x": 34.63,
+                "y": 40.15
+              },
+              {
+                "zone": "1434",
+                "x": 32.44,
+                "y": 41.72
+              },
+              {
+                "zone": "1434",
+                "x": 32,
+                "y": 42.36
+              },
+              {
+                "zone": "1434",
+                "x": 31.21,
+                "y": 44.64
+              },
+              {
+                "zone": "1434",
+                "x": 32.11,
+                "y": 43.06
+              },
+              {
+                "zone": "1434",
+                "x": 31.35,
+                "y": 41.96
+              },
+              {
+                "zone": "1434",
+                "x": 30.64,
+                "y": 44.1
+              },
+              {
+                "zone": "1434",
+                "x": 31.88,
+                "y": 40.79
+              },
+              {
+                "zone": "1434",
+                "x": 33.43,
+                "y": 37.21
+              },
+              {
+                "zone": "1434",
+                "x": 31.55,
+                "y": 40.7
+              },
+              {
+                "zone": "1434",
+                "x": 30.45,
+                "y": 41.83
+              },
+              {
+                "zone": "1434",
+                "x": 32.95,
+                "y": 36.54
+              },
+              {
+                "zone": "1434",
+                "x": 31.48,
+                "y": 43.36
+              },
+              {
+                "zone": "1434",
+                "x": 30.14,
+                "y": 43.56
+              },
+              {
+                "zone": "1434",
+                "x": 28.91,
+                "y": 44.16
+              },
+              {
+                "zone": "1434",
+                "x": 28.88,
+                "y": 42.63
+              },
+              {
+                "zone": "1434",
+                "x": 29.95,
+                "y": 44.07
+              },
+              {
+                "zone": "1434",
+                "x": 28.83,
+                "y": 45.6
+              },
+              {
+                "zone": "1434",
+                "x": 28.33,
+                "y": 43.49
+              },
+              {
+                "zone": "1434",
+                "x": 30.92,
+                "y": 42.54
+              },
+              {
+                "zone": "1434",
+                "x": 27.45,
+                "y": 48.11
+              },
+              {
+                "zone": "1434",
+                "x": 27.95,
+                "y": 47.22
+              },
+              {
+                "zone": "1434",
+                "x": 29.33,
+                "y": 43.56
+              },
+              {
+                "zone": "1434",
+                "x": 28.22,
+                "y": 44.96
+              },
+              {
+                "zone": "1434",
+                "x": 27.3,
+                "y": 49.72
+              },
+              {
+                "zone": "1434",
+                "x": 27.8,
+                "y": 48.93
+              },
+              {
+                "zone": "1434",
+                "x": 27.6,
+                "y": 50.28
+              },
+              {
+                "zone": "1434",
+                "x": 24.9,
+                "y": 51.2
+              },
+              {
+                "zone": "1434",
+                "x": 23.68,
+                "y": 48.93
+              },
+              {
+                "zone": "1434",
+                "x": 26.14,
+                "y": 51.36
+              },
+              {
+                "zone": "1434",
+                "x": 26.92,
+                "y": 48.69
+              },
+              {
+                "zone": "1434",
+                "x": 23.43,
+                "y": 50.3
+              },
+              {
+                "zone": "1434",
+                "x": 26.05,
+                "y": 49.89
+              },
+              {
+                "zone": "1434",
+                "x": 26.63,
+                "y": 50.53
+              },
+              {
+                "zone": "1434",
+                "x": 23,
+                "y": 49.68
+              },
+              {
+                "zone": "1434",
+                "x": 24.11,
+                "y": 49.64
+              },
+              {
+                "zone": "1434",
+                "x": 23.15,
+                "y": 51.5
+              },
+              {
+                "zone": "1434",
+                "x": 32.7,
+                "y": 39.17
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 197,
+        "title": "Raptor Mastery",
+        "minimumLevel": 28,
+        "questLevel": 43,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            196
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 208,
+        "title": "Big Game Hunter",
+        "minimumLevel": 28,
+        "questLevel": 43,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [
+            188,
+            193,
+            197
+          ],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": []
+      },
+      {
+        "questId": 583,
+        "title": "Welcome to the Jungle",
+        "minimumLevel": 28,
+        "questLevel": 30,
+        "requiredRaces": 0,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 716,
+            "name": "Barnil Stonepot",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.53
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 715,
+            "name": "Hemet Nesingwary",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1434",
+                "x": 35.66,
+                "y": 10.81
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "delivery",
+        "objectives": [],
+        "unsupportedRequirements": []
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 731,
+        "name": "King Bangalash",
+        "minimumLevel": 43,
+        "maximumLevel": 43,
+        "rank": 1,
+        "zoneIds": [
+          33
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 208,
+        "creatureIds": [],
+        "itemCreatureIds": [
+          731
+        ],
+        "objectiveText": [
+          "Hemet Nesingwary wants you to bring him the head of King Bangalash, the great white tiger."
+        ],
+        "onlyCreatureObjectives": false,
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [
+            188,
+            193,
+            197
+          ],
+          "anyOf": []
+        },
+        "itemObjectives": [
+          {
+            "objectiveIndex": 1,
+            "itemId": 3880,
+            "itemName": "Head of Bangalash",
+            "quantity": 1,
+            "npcIds": [
+              731
+            ],
+            "sharing": "shared-roll"
+          }
+        ]
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [
+      {
+        "itemId": 3880,
+        "npcId": 731,
+        "probability": 0.5,
+        "probabilityBasis": "sample-ratio",
+        "minimumQuantity": 1,
+        "maximumQuantity": 1,
+        "stackReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 3880,
+          "npcId": 731,
+          "lootEntry": 731,
+          "minimumQuantity": 1,
+          "maximumQuantity": 1
+        },
+        "probabilityReference": {
+          "kind": "classic-1.12-reference",
+          "repository": "https://github.com/cmangos/classic-db",
+          "revision": "603ece109099ce44a5447a1b1cffd65c7272d71c",
+          "file": "Full_DB/ClassicDB_1_12_1_z2815.sql.gz",
+          "sha256": "4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0",
+          "sourceBuild": 5875,
+          "referencedAt": "2026-10-31T22:41:50.344Z",
+          "itemId": 3880,
+          "npcId": 731,
+          "lootEntry": 731,
+          "probability": 1,
+          "questOnly": true,
+          "rateMultiplier": 1
+        },
+        "sampleSize": 4,
+        "targetBuild": 70205,
+        "sourceBuild": null,
+        "sourceUrl": "https://www.wowhead.com/forever/item=3880/head-of-bangalash",
+        "capturedAt": "2026-10-20T09:10:10.239Z",
+        "sourceSha256": "fd6fdc45d6dd70c7e5638ce37479ea43874effa939e01f23d2f7aa4bc8b0e7dc"
+      }
+    ],
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "rewards": [
+    {
+      "questId": 208,
+      "fullXp": 5350,
+      "rewardBasis": "final-reward",
+      "questLevel": 43,
+      "minimumLevel": 28,
+      "xpByLevel": [
+        {
+          "level": 28,
+          "xp": 5350
+        },
+        {
+          "level": 29,
+          "xp": 5350
+        },
+        {
+          "level": 30,
+          "xp": 5350
+        },
+        {
+          "level": 31,
+          "xp": 5350
+        },
+        {
+          "level": 32,
+          "xp": 5350
+        },
+        {
+          "level": 33,
+          "xp": 5350
+        },
+        {
+          "level": 34,
+          "xp": 5350
+        },
+        {
+          "level": 35,
+          "xp": 5350
+        },
+        {
+          "level": 36,
+          "xp": 5350
+        },
+        {
+          "level": 37,
+          "xp": 5350
+        },
+        {
+          "level": 38,
+          "xp": 5350
+        },
+        {
+          "level": 39,
+          "xp": 5350
+        },
+        {
+          "level": 40,
+          "xp": 5350
+        },
+        {
+          "level": 41,
+          "xp": 5350
+        },
+        {
+          "level": 42,
+          "xp": 5350
+        },
+        {
+          "level": 43,
+          "xp": 5350
+        },
+        {
+          "level": 44,
+          "xp": 5350
+        },
+        {
+          "level": 45,
+          "xp": 5350
+        },
+        {
+          "level": 46,
+          "xp": 5350
+        },
+        {
+          "level": 47,
+          "xp": 5350
+        },
+        {
+          "level": 48,
+          "xp": 5350
+        },
+        {
+          "level": 49,
+          "xp": 4300
+        },
+        {
+          "level": 50,
+          "xp": 3200
+        },
+        {
+          "level": 51,
+          "xp": 2150
+        },
+        {
+          "level": 52,
+          "xp": 1050
+        },
+        {
+          "level": 53,
+          "xp": 525
+        },
+        {
+          "level": 54,
+          "xp": 525
+        },
+        {
+          "level": 55,
+          "xp": 525
+        },
+        {
+          "level": 56,
+          "xp": 525
+        },
+        {
+          "level": 57,
+          "xp": 525
+        },
+        {
+          "level": 58,
+          "xp": 525
+        },
+        {
+          "level": 59,
+          "xp": 525
+        }
+      ],
+      "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY 4.0. Includes the client multiplier; no additional dungeon coefficient. Not an observed payout; XP buffs and server rounding remain unverified.",
+      "capturedAt": "2026-11-03T13:36:41.167Z",
+      "status": "available",
+      "evidenceKind": "client-table-reference",
+      "clientReference": {
+        "schema": "client-quest-reward-reference.v1",
+        "calculation": "table-multiplier-reduction-rounding.v1",
+        "targetBuild": 70205,
+        "questId": 208,
+        "questLevel": 43,
+        "minimumLevel": 28,
+        "difficulty": 7,
+        "baseXp": 5350,
+        "xpMultiplier": 1,
+        "cacheSources": [
+          {
+            "build": 70205,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+            "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+          },
+          {
+            "build": 70450,
+            "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+            "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+          }
+        ],
+        "tableSources": [
+          {
+            "build": 70205,
+            "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+            "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+          },
+          {
+            "build": 70450,
+            "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+            "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+            "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+            "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+          }
+        ]
+      },
+      "referenceBaseXp": 5350
+    }
+  ]
+}

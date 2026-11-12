@@ -12,6 +12,7 @@ import { campaignNativeInstructions } from "./campaign-addon-native.js";
 import { campaignTravelActions, attachCampaignMovements } from "./campaign-flow.js";
 import { auditCampaignQuestLog } from "./campaign-quest-log.js";
 import { emptyPremadeProgress } from "./premade-model.js";
+import { campaignFundingStates } from "./campaign-funding-scenarios.js";
 
 function phase(
   id: string,
@@ -535,6 +536,90 @@ describe("level-ten starter tasks on later authored visits", () => {
     expect(addon.lua).toContain(".target Priestess Anetta");
     expect(addon.lua).toContain(".target Priestess Josetta");
     expect(addon.lua).toContain(".target Guard Roberts");
+    const earlyAnchor = {
+      ...phase("start-116-116-source-step-0096-candles-return", []),
+      location: { zone: "1429" },
+    };
+    const earlier = {
+      ...plan,
+      actions: [
+        actions[0]!,
+        ...classActions.slice(0, 3),
+        actions.at(-2)!,
+        earlyAnchor,
+        classActions[3]!,
+      ],
+    };
+    const earlyResult = deferCampaignStarterVisits(earlier, [{ reference, guide }], catalog);
+    expect(earlyResult.actions.map((action) => action.id)).toEqual([
+      "early",
+      "later",
+      earlyAnchor.id,
+      ...classActions.map((action) => action.id),
+    ]);
+    const lateObjective = {
+      ...earlier,
+      actions: [
+        actions[0]!,
+        ...classActions.slice(0, 2),
+        actions.at(-2)!,
+        earlyAnchor,
+        ...classActions.slice(2),
+      ],
+    };
+    expect(deferCampaignStarterVisits(lateObjective, [{ reference, guide }], catalog)).toBe(
+      lateObjective,
+    );
+
+    const scoped: CampaignPlan = {
+      ...earlier,
+      actions: [
+        work("early", 300001),
+        { ...work("optional-head-start", 300003), raidOnly: true },
+        phase("earlier-level-four-pickup", [
+          {
+            questId: 300004,
+            title: "Earlier requirement",
+            state: "accepted",
+            objectiveIndex: null,
+          },
+        ]),
+        ...classActions.slice(0, 3),
+        work("later", 300002),
+        earlyAnchor,
+        classActions[3]!,
+      ],
+      legs: [
+        ...earlier.legs,
+        { ...earlier.legs[0]!, id: "shared", kind: "preparation", actionIds: [] },
+      ],
+      rewardFacts: [
+        ...earlier.rewardFacts!.map((fact) => ({
+          ...fact,
+          fullXp: fact.questId === 300001 ? 2600 : fact.questId === 300002 ? 2000 : fact.fullXp,
+        })),
+        { ...earlier.rewardFacts![0]!, questId: 300003, fullXp: 500, minimumLevel: 1 },
+        { ...earlier.rewardFacts![0]!, questId: 300004, fullXp: 0, minimumLevel: 4 },
+      ],
+    };
+    const scopedResult = deferCampaignStarterVisits(scoped, [{ reference, guide }], catalog);
+    expect(scopedResult).not.toBe(scoped);
+    for (const state of campaignFundingStates(scopedResult)) {
+      const member = state.forecast.flatMap((section) => section.members[0]!.steps);
+      if (state.optionalStops)
+        expect(
+          member.some(
+            (step) =>
+              step.questId === 5623 && step.phase === "accepted" && step.status === "projected",
+          ),
+        ).toBe(true);
+      else {
+        expect(member.some((step) => step.questId === 300004 && step.status === "blocked")).toBe(
+          true,
+        );
+        expect(member.some((step) => step.questId === 5623)).toBe(false);
+      }
+    }
   });
 
   it("moves the complete training chain after earned levels while preserving phases, identities and input", () => {

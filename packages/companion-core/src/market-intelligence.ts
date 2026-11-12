@@ -11,6 +11,7 @@ interface RequestOptions {
 }
 
 const GENERATED_FILE_NAME = "MarketData.lua";
+const MAX_RATE_LIMIT_RETRIES = 5;
 
 export async function downloadMarketIntelligence(
   endpoint: URL,
@@ -45,14 +46,13 @@ export async function downloadMarketIntelligence(
         signal: AbortSignal.any([signal, AbortSignal.timeout(60_000)]),
       });
     let response = await request();
-    if (response.status === 429) {
-      const seconds = Number(response.headers.get("retry-after") ?? "1");
-      await response.body?.cancel();
-      await delay(
-        Number.isFinite(seconds) ? Math.min(60_000, Math.max(0, seconds * 1000)) : 1000,
-        undefined,
-        { signal },
+    for (let attempt = 0; response.status === 429 && attempt < MAX_RATE_LIMIT_RETRIES; attempt++) {
+      const waitMilliseconds = rateLimitDelayMilliseconds(
+        response.headers.get("retry-after"),
+        attempt,
       );
+      await response.body?.cancel();
+      await delay(waitMilliseconds, undefined, { signal });
       response = await request();
     }
     const body: unknown = await response.json().catch(() => null);
@@ -103,6 +103,20 @@ export async function downloadMarketIntelligence(
     }
     afterItemId = next;
   }
+}
+
+function rateLimitDelayMilliseconds(retryAfter: string | null, attempt: number): number {
+  if (retryAfter !== null && retryAfter.trim() !== "") {
+    const value = retryAfter.trim();
+    const milliseconds = /^\d+$/.test(value)
+      ? Number(value) * 1000
+      : Date.parse(value) - Date.now();
+    if (Number.isSafeInteger(milliseconds) && milliseconds >= 0) {
+      // The overall download deadline cancels long waits; never retry before the server allows.
+      return Math.min(2_147_483_647, Math.max(1000, milliseconds));
+    }
+  }
+  return Math.min(60_000, 6000 * 2 ** attempt);
 }
 
 export async function installMarketIntelligence(

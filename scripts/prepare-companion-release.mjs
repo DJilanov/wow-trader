@@ -118,7 +118,7 @@ const manifest = {
   version,
   channel: "maintainer-alpha",
   publishedAt: new Date().toISOString(),
-  collectorVersion: "0.14.0",
+  collectorVersion: "0.15.0",
   supportedProducts: ["wow_anniversary", "wow_classic_beta"],
   minimumMacOs: "12",
   minimumWindows: "10",

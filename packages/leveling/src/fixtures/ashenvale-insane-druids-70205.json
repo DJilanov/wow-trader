@@ -1,0 +1,551 @@
+{
+  "provenance": {
+    "classification": "Exact normalized1012candidate plus existing1011parent, with complete publicprovider/client/table proof; not an adopted fullroute.",
+    "qualificationFile": ".cache/leveling-no-grind-20261031/ashenvale-candidate-v789/qualification.json",
+    "inputs": {
+      ".cache/leveling-kill-first-20261031/provider/foreverQuestDB.lua": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      ".cache/leveling-kill-first-20261031/provider/foreverNpcDB.lua": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      ".cache/leveling-no-grind-20261031/public-source-check-v176/data/wow_classic_beta/1.60.1.70205/quests.enUS.json": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348",
+      ".cache/leveling-no-grind-20261031/eg-link-v123/data/wow_classic_beta/1.60.1.70450/quests.enUS.json": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7",
+      "artifacts/leveling-evidence/leveling-20261004T101848Z/evidence.json": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+      "artifacts/leveling-evidence/leveling-20261004T101848Z/db2/QuestXP.db2": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+      "artifacts/leveling-evidence/leveling-20261018T190302Z/evidence.json": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+      "artifacts/leveling-evidence/leveling-20261018T190302Z/db2/QuestXP.db2": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1"
+    },
+    "candidate": {
+      "catalog": {
+        "file": ".cache/leveling-no-grind-20261031/ashenvale-candidate-v789/catalog-c1253e422d1c9363608f3b762d8fe25cda47dfbf7882ae610bded925befec153.json",
+        "sha256": "c1253e422d1c9363608f3b762d8fe25cda47dfbf7882ae610bded925befec153"
+      },
+      "combat": {
+        "file": ".cache/leveling-no-grind-20261031/ashenvale-candidate-v789/combat-2f46bfb07ed47edc14a22b47171e72b59c323cd1724a9730de8dbf7c50757938.json",
+        "sha256": "2f46bfb07ed47edc14a22b47171e72b59c323cd1724a9730de8dbf7c50757938"
+      },
+      "rewards": {
+        "file": ".cache/leveling-no-grind-20261031/ashenvale-candidate-v789/rewards-bb3e1cc937c2766be0059cf1ec20ddd3dfc5b6cfe658bc1f4bacad70d374e987.json",
+        "sha256": "bb3e1cc937c2766be0059cf1ec20ddd3dfc5b6cfe658bc1f4bacad70d374e987"
+      }
+    }
+  },
+  "catalog": {
+    "schema": "forever-quest-funding-catalog.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "Private local candidate. All previous access, pickup, reward and method limits remain. The complete prior authorization note is preserved in .cache/leveling-no-grind-20261031/client-counters-v290/qualification.json and original catalog SHA256 6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b.\nClient kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+    "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+    "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+    "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+    "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+    "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+    "areaMapSha256": "c6f26a18a2d0d9bdf5750039eabe111f545700a751928e8f79aedb12fbb8ff09",
+    "includesAuthoredCorrections": true,
+    "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+    "quests": [
+      {
+        "questId": 1011,
+        "title": "Forsaken Diseases",
+        "minimumLevel": 24,
+        "questLevel": 29,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "groundPickup": {
+          "questId": 1011,
+          "itemId": 5440,
+          "objectiveIndex": 1,
+          "objectId": 18036,
+          "objectName": "Bottle of Disease",
+          "positions": [
+            {
+              "zone": "1440",
+              "x": 75.31,
+              "y": 71.93
+            },
+            {
+              "zone": "1440",
+              "x": 75.31,
+              "y": 71.88
+            },
+            {
+              "zone": "1440",
+              "x": 75.29,
+              "y": 72.22
+            },
+            {
+              "zone": "1440",
+              "x": 75.27,
+              "y": 71.8
+            },
+            {
+              "zone": "1440",
+              "x": 75.3,
+              "y": 72.19
+            }
+          ],
+          "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e",
+          "source": {
+            "chapterId": "chapter-12-29-30-ashenvale",
+            "version": "import-v2-c2a4952f28fcbcb8",
+            "stepId": "source-step-0042"
+          }
+        },
+        "starts": [
+          {
+            "npcId": 3848,
+            "name": "Kayneth Stillwind",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 85.24,
+                "y": 44.71
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 3848,
+            "name": "Kayneth Stillwind",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 85.24,
+                "y": 44.71
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": []
+        },
+        "exclusiveWith": [],
+        "category": "unsupported",
+        "objectives": [],
+        "unsupportedRequirements": [
+          "unresolved-source-prerequisite"
+        ]
+      },
+      {
+        "questId": 1012,
+        "title": "Insane Druids",
+        "minimumLevel": 24,
+        "questLevel": 32,
+        "requiredRaces": 4294967373,
+        "requiredClasses": 0,
+        "starts": [
+          {
+            "npcId": 3848,
+            "name": "Kayneth Stillwind",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 85.24,
+                "y": 44.71
+              }
+            ]
+          }
+        ],
+        "ends": [
+          {
+            "npcId": 3848,
+            "name": "Kayneth Stillwind",
+            "friendlyToAlliance": true,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 85.24,
+                "y": 44.71
+              }
+            ]
+          }
+        ],
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1011
+          ]
+        },
+        "exclusiveWith": [],
+        "category": "shared-kills",
+        "objectives": [
+          {
+            "index": 1,
+            "npcId": 3940,
+            "count": 1,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 77.18,
+                "y": 73.99
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "npcId": 3941,
+            "count": 1,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 77.96,
+                "y": 72.74
+              }
+            ]
+          },
+          {
+            "index": 3,
+            "npcId": 3942,
+            "count": 1,
+            "positions": [
+              {
+                "zone": "1440",
+                "x": 75.05,
+                "y": 74.2
+              }
+            ]
+          }
+        ],
+        "unsupportedRequirements": []
+      }
+    ]
+  },
+  "combat": {
+    "schema": "forever-combat-reference.v1",
+    "targetBuild": 70205,
+    "publication": "private-reference",
+    "authorizationNote": "",
+    "provider": {
+      "repository": "https://github.com/Questie/QuestieDB",
+      "revision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "layer": "forever-static-with-authored",
+      "npcSha256": "9ef0d0c232ccfc58f8caeb28094e3332e8cf01e2c035ea5b2502c55301b81232",
+      "questSha256": "5a8e542d034953ab87c2864e6b5a8d8cb62c154a71052a34c9612ca1e7cdee27",
+      "itemSha256": "cf635b18db8c97601daa4da2ff2f8767567d4196f1e5f2de5a7224cf138b39c1",
+      "objectSha256": "055fc798c1ee9b38b507617923c4a08780568853e42e4ef06b7d766c871b469c",
+      "limitations": [
+        "Includes inherited, generated, trace and authored Static corrections; excludes character-specific Dynamic corrections, derived passes and localization.",
+        "References are not live-game verification. Spawn coordinates do not establish dungeon path populations.",
+        "Creature XP eligibility and outdoor rates are historical planning assumptions; suspected credit proxies stay unresolved, and current dungeon tuning requires a sourced profile.",
+        "Item flag 2048 uses the historical MULTI_DROP shared-roll reference (https://github.com/cmangos/issues/wiki/Item_template#flags): one successful drop supplies a copy to each eligible party member. Missing flags do not imply pooled or independent loot; current Forever behavior is not observed by this import.",
+        "Captured loot objective and drop facts reused from combat reference a4cfed4ce58fdcab140d3294e1497718ea93329108bbc5095ffc4e6965e8b1ff; corrected provider identities take precedence. No recordings or dungeon profiles are inherited.",
+        "Explicit death counters from capture input 6e0e0fe9b9a77fd1f0c45c9ae2a0dd670302ee02b020a49c0ff925b212c32a96, discovered against catalog c349514cb3f9f05826cb12d7728c34f16ed4c340357fca164bcf2ec704b72334; source page checksums and timestamps remain on each quota. These are edition references, not observed current-server XP.",
+        "Historical Classic 1.12 fixed-one stack and item-flag references: https://github.com/cmangos/classic-db@603ece109099ce44a5447a1b1cffd65c7272d71c, Full_DB/ClassicDB_1_12_1_z2815.sql.gz, sha256 4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These field assumptions are not confirmed Forever behavior; existing drop probabilities, capture provenance and build guards are unchanged.",
+        "Historical ungrouped quest-roll probabilities use a baseline rate multiplier of 1 when aggregate samples do not establish quest-eligible attempts. They do not change captured probability fields or establish current Forever tuning.",
+        "Missing captured creature/item pairs may use separately identified historical fixed-one loot references. No captured probability, sample, source build or timestamp is fabricated; these are not measured Forever rates.",
+        "Known exported NPCs use the pinned QuestieDB numeric-zero default for an omitted rank field. Missing level bounds and unresolved XP eligibility are unchanged. This is provider-reference normalization, not an observed server rank or payout.",
+        "Local source-bound seven-item Fishing Trap collection for quest 99127. Each character needs seven Half-Eaten Fish; no per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Local source-bound eight-item Milly Harvest ground collection for quest 3904. Each character needs eight crates; source class recommendations are separate from catalog eligibility. No per-opening yield, simultaneous node count, respawn time, shared copies or acquisition kill XP is assumed.",
+        "Item-to-world-object relations are preserved from the pinned literal item export field3. They identify an available acquisition source, not exclusive drop methods, spawn counts, respawn timing or observed Forever behavior. Source instructions and full per-character counters still determine pickup tasks.",
+        "Additional source-bound object pickups preserve each character's complete quota. Item/object/source identities, not respawn measurements, establish the task. No opening yield, collection duration or acquisition kill XP is inferred.",
+        "Quest959item5334quantity1per character is a captured neutral-quest counter reference from the authorized build70205archive, chapters152step0229and154step0244; it is not a current-server loot or one-clear measurement.",
+        "Item quantities contradicting explicit current objective text remain unknown; neither claim is promoted to observed server evidence.",
+        "Client kill counters reconciled for quests 1057; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Client-supplied parcel identities reconciled for quests 98824; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Efficient Games https://efficient.games, CC BY 4.0. Prior item/drop projections are retained in resolution provenance. No reward, access or physical drop count changed.",
+        "Reviewed acquisition methods: Past Due96800 item273169 (one per player) is looted from Arcanist Doan6487 according to Val Hull\u2019s authored Scarlet Monastery quest guide, https://www.warcrafttavern.com/forever/guides/scarlet-monastery-quests/. Exact client item/counter identity agrees in70205 and70450. Doan37 and Fel Ancient\u2019s unknown level/rank are retained from the same pinned raw NPC export. The garden method has a separate reviewed field-guide fixture. No drop probability, world-object ID, additional kill count or XP is invented.",
+        "Eight previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Separate event-method candidate: five missing physical NPC records come directly from the same pinned authored-static provider. Hakkar Essence10663 is a distinct conversion component associated with Shade of Hakkar8440; neither its level-one proxy nor a conversion is assigned kill XP. No event population, respawn timing, drop rate or numerical payout is invented. Methods still require implementation and qualification; this candidate is not active.",
+        "Three previously missing item counts use historical Classic build 5875 quest_template references, matched against the complete current objective text, exact item IDs/names and complete required-item set. https://github.com/cmangos/classic-db/blob/603ece109099ce44a5447a1b1cffd65c7272d71c/Full_DB/ClassicDB_1_12_1_z2815.sql.gz#sha256=4f92db520868ab4e566726f68b5b2e380ae781209beaf22237b4f7f04600d0c0. These are historical counter references, not current-server observations; collection methods and physical access still need their own qualification.",
+        "Client kill counters reconciled for quests 303; 1.60.1.70205 sha256 57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; 1.60.1.70450 sha256 5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games (https://efficient.games), CC BY 4.0. Existing access, reward, drop and prerequisite facts are unchanged.",
+        "Source mixed-objective counter proof SHA256 d9ee9d46596b712d2dcf2579e93a645b6a931f6463bc06f992ab56bffbde9237: quest537item counter2 and four shared mage kills; all quantities and source guards retained."
+      ]
+    },
+    "npcs": [
+      {
+        "id": 3940,
+        "name": "Taneel Darkwood",
+        "minimumLevel": 32,
+        "maximumLevel": 32,
+        "rank": 0,
+        "zoneIds": [
+          331
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3941,
+        "name": "Uthil Mooncall",
+        "minimumLevel": 32,
+        "maximumLevel": 32,
+        "rank": 0,
+        "zoneIds": [
+          331
+        ],
+        "xpEligibility": "assumed"
+      },
+      {
+        "id": 3942,
+        "name": "Mavoris Cloudsbreak",
+        "minimumLevel": 32,
+        "maximumLevel": 32,
+        "rank": 0,
+        "zoneIds": [
+          331
+        ],
+        "xpEligibility": "assumed"
+      }
+    ],
+    "npcMetadataReferences": [],
+    "bossReferences": [],
+    "quests": [
+      {
+        "questId": 1012,
+        "creatureIds": [
+          3940,
+          3941,
+          3942
+        ],
+        "itemCreatureIds": [],
+        "objectiveText": [
+          "Kill the druids: Taneel Darkwood, Uthil Mooncall, Mavoris Cloudsbreak; then return to Kayneth Stillwind in Forest Song."
+        ],
+        "onlyCreatureObjectives": true,
+        "killQuotas": [
+          {
+            "objectiveIndex": 1,
+            "npcId": 3940,
+            "kills": 1,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider1012NPCidentities."
+          },
+          {
+            "objectiveIndex": 2,
+            "npcId": 3941,
+            "kills": 1,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider1012NPCidentities."
+          },
+          {
+            "objectiveIndex": 3,
+            "npcId": 3942,
+            "kills": 1,
+            "source": "Agreeing pinned70205and70450clientmonster counters; rawprovider1012NPCidentities."
+          }
+        ],
+        "onlyInteractionObjectives": false,
+        "requiredClasses": 0,
+        "prerequisites": {
+          "allOf": [],
+          "anyOf": [
+            1011
+          ]
+        },
+        "itemObjectives": []
+      }
+    ],
+    "dungeons": [],
+    "killXpEvidence": [],
+    "dungeonKillXpReference": {
+      "id": "owner-level20-five-player-dungeon-elite",
+      "basis": "reference-estimate",
+      "partySize": 5,
+      "referenceLevel": 20,
+      "minimumXpPerPlayer": 24,
+      "maximumXpPerPlayer": 30,
+      "source": "Owner-supplied planning range: a level-20 dungeon elite killed by five level-20 players gives 24\u201330 XP per player. Build and sample context are unverified; other levels use a solo-base and level-weighted-share extrapolation. No further division by five, party bonus or patch bonus."
+    },
+    "lootDrops": [],
+    "questCatalogReference": {
+      "sha256": "6c163ff821a391e001dff55c713d9bc6b4fd9678a97d254639085596e5a87a9b",
+      "providerRevision": "e9a67d1a2753a0e64c4c96bf7864788fac7b765f",
+      "sourceArchiveSha256": "af3fec7909e0b5a1dd8659f87e67171f8984af40a22b997e630a0052a11c871e"
+    }
+  },
+  "reward": {
+    "questId": 1012,
+    "fullXp": 3200,
+    "rewardBasis": "final-reward",
+    "questLevel": 32,
+    "minimumLevel": 24,
+    "xpByLevel": [
+      {
+        "level": 24,
+        "xp": 3200
+      },
+      {
+        "level": 25,
+        "xp": 3200
+      },
+      {
+        "level": 26,
+        "xp": 3200
+      },
+      {
+        "level": 27,
+        "xp": 3200
+      },
+      {
+        "level": 28,
+        "xp": 3200
+      },
+      {
+        "level": 29,
+        "xp": 3200
+      },
+      {
+        "level": 30,
+        "xp": 3200
+      },
+      {
+        "level": 31,
+        "xp": 3200
+      },
+      {
+        "level": 32,
+        "xp": 3200
+      },
+      {
+        "level": 33,
+        "xp": 3200
+      },
+      {
+        "level": 34,
+        "xp": 3200
+      },
+      {
+        "level": 35,
+        "xp": 3200
+      },
+      {
+        "level": 36,
+        "xp": 3200
+      },
+      {
+        "level": 37,
+        "xp": 3200
+      },
+      {
+        "level": 38,
+        "xp": 2550
+      },
+      {
+        "level": 39,
+        "xp": 1900
+      },
+      {
+        "level": 40,
+        "xp": 1300
+      },
+      {
+        "level": 41,
+        "xp": 650
+      },
+      {
+        "level": 42,
+        "xp": 320
+      },
+      {
+        "level": 43,
+        "xp": 320
+      },
+      {
+        "level": 44,
+        "xp": 320
+      },
+      {
+        "level": 45,
+        "xp": 320
+      },
+      {
+        "level": 46,
+        "xp": 320
+      },
+      {
+        "level": 47,
+        "xp": 320
+      },
+      {
+        "level": 48,
+        "xp": 320
+      },
+      {
+        "level": 49,
+        "xp": 320
+      },
+      {
+        "level": 50,
+        "xp": 320
+      },
+      {
+        "level": 51,
+        "xp": 320
+      },
+      {
+        "level": 52,
+        "xp": 320
+      },
+      {
+        "level": 53,
+        "xp": 320
+      },
+      {
+        "level": 54,
+        "xp": 320
+      },
+      {
+        "level": 55,
+        "xp": 320
+      },
+      {
+        "level": 56,
+        "xp": 320
+      },
+      {
+        "level": 57,
+        "xp": 320
+      },
+      {
+        "level": 58,
+        "xp": 320
+      },
+      {
+        "level": 59,
+        "xp": 320
+      }
+    ],
+    "status": "available",
+    "evidenceKind": "client-table-reference",
+    "clientReference": {
+      "schema": "client-quest-reward-reference.v1",
+      "calculation": "table-multiplier-reduction-rounding.v1",
+      "targetBuild": 70205,
+      "questId": 1012,
+      "questLevel": 32,
+      "minimumLevel": 24,
+      "difficulty": 6,
+      "baseXp": 3200,
+      "xpMultiplier": 1,
+      "cacheSources": [
+        {
+          "build": 70205,
+          "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json",
+          "sha256": "57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348"
+        },
+        {
+          "build": 70450,
+          "url": "https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json",
+          "sha256": "5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7"
+        }
+      ],
+      "tableSources": [
+        {
+          "build": 70205,
+          "evidenceSha256": "216cfa97a0528c8a4e720ae570ab0232b71cba1bb7817a1f3d6a16ceb3c3f324",
+          "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+          "definitionsRevision": "3e46d21a41a07ce7e63835fd79c561e0d5dce92b",
+          "hotfixSha256": "513d4ee593b2b2d9d24819288b5316383ece102cef988a64a3978f21c65fef4b"
+        },
+        {
+          "build": 70450,
+          "evidenceSha256": "d89857a9d5f801bd1de5bb3c7d7115e56a90df590455aa3df5e8dc89d139aa6f",
+          "questXpSha256": "d21523c8a47d0a236ba38860698a2334dbecb2221d18f394308c935adfd00aa1",
+          "definitionsRevision": "bfebcbc5181f47b954e7886862f92c5577dbbe4a",
+          "hotfixSha256": "a00ad2b8a99ad490c1ab54002d574c4f9fd12c33628331d5efc4b1e60a5702b2"
+        }
+      ]
+    },
+    "referenceBaseXp": 3200,
+    "capturedAt": "2026-11-05T01:57:52.348Z",
+    "sourceUrl": "Calculated client QuestXP reference; table-multiplier-reduction-rounding.v1; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70205/quests.enUS.json#sha256=57165cb9b48a0a44a64fc0957034e1f58896e27cc6c150d35b5bfb6fad43a348; https://raw.githubusercontent.com/JIVESCORP/eg-link-output-wowf/9c3f82fc7c8ce60760e933db529fd629c2f682d7/data/wow_classic_beta/1.60.1.70450/quests.enUS.json#sha256=5f8ededc65c514c79da12c7d2719d3516e0ca42fd8637857c3f285f9c6255fb7. Data from Efficient Games https://efficient.games, CC BY4.0. Includes client multiplier; no additional dungeon coefficient. Not an observed payout."
+  }
+}

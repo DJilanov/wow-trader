@@ -1,6 +1,7 @@
 import { z } from "zod";
 import baselines from "./premade-baselines.json" with { type: "json" };
 import { DUNGEON_QUESTS, DUNGEON_VISITS } from "./dungeon-catalog.js";
+import { isSelectedPartyDungeonQuest } from "./dungeon-party-selection.js";
 import { gateQuestIds, type DungeonQuest } from "./dungeon-model.js";
 import { evaluateDungeonGate, emptyDungeonPlan } from "./dungeon-model.js";
 import {
@@ -11,6 +12,10 @@ import {
 import { FOREVER_XP_CURVE } from "./westfall.js";
 import { xpToCheckpoint } from "./calculator.js";
 import { questEligibility } from "./quest-eligibility.js";
+import {
+  MAXIMUM_NON_BOSS_ENEMY_LEVEL_GAP,
+  MAXIMUM_DUNGEON_BOSS_ENEMY_LEVEL_GAP,
+} from "./campaign-combat-policy.js";
 import {
   QUEST_LOG_CAPACITY,
   canOccupyQuestLogSlot,
@@ -55,12 +60,20 @@ export type PremadeQuestRole = "core" | "opportunistic" | "raid" | "deferred" | 
 export interface PremadeQuestChoice {
   readonly questId: number;
   readonly role: PremadeQuestRole;
+  readonly preparationLevel?: number;
+  readonly sharedPartyDefault?: true;
 }
 export interface PremadeStop {
   readonly id: PremadeProgress["selectedStopId"];
   readonly name: string;
   readonly visitIds: readonly string[];
   readonly level: number;
+  readonly atLevelRecommendation?: number;
+  readonly encounterLevels?: {
+    readonly maximumTrashLevel: number;
+    readonly maximumBossLevel: number;
+    readonly source: string;
+  };
   readonly nextLevel: number;
   readonly zone: string;
   readonly preparation: string;
@@ -160,46 +173,51 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     id: "stockade",
     name: "The Stockade",
     visitIds: ["stockade"],
-    level: 26,
+    level: 24,
     zone: "Stormwind City",
     preparation:
-      "Stage Redridge and Duskwood quest heads. Finish Dark Iron War → Fury Runs Deep in Wetlands, and the Letter → Bazil → Riots chain in Stormwind.",
+      "Collect the Redridge and Duskwood quests and finish the Letter → Bazil → Riots chain in Stormwind. Fury Runs Deep is a separate opt-in Wetlands preparation, not a requirement for the first clear.",
     clear:
       "Complete the shared kill counts and selected named prisoners. Collect wool bandanas during the required clear only.",
     handIn:
       "Finish local Stormwind deliveries together, then batch the selected remote hand-ins with the Wetlands preparation route.",
     bridge:
       "Prepare Greenwarden and the selected Excavation chain instead of unrelated solo collection quests. Actual pickup/access minima still apply.",
-    notes: ["Fury's 5,750 XP is already a reported Forever reward; it is never multiplied again."],
-    quests: choices([386, 377, 387, 378, 391], [388]),
+    notes: [
+      "Fury's 5,750 XP is already a reported Forever reward; it is never multiplied again.",
+      "Selecting Fury adds Dark Iron War in Wetlands. Its level-31 trash requires a level-27 party under the +4 rule.",
+    ],
+    quests: choices([386, 377, 387, 391], [378, 388]).map((choice) =>
+      choice.questId === 378 ? { ...choice, preparationLevel: 27 } : choice,
+    ),
     dataStatus: "journal-reference",
   },
   {
     id: "excavation",
     name: "Excavation Site: Wetlands",
     visitIds: ["excavation"],
-    level: 27,
+    level: 26,
     zone: "Wetlands",
     preparation:
       "Batch Greenwarden 463 → 276 → 277 → 275 → Horrors, the Redridge Songblade pickup and Caitlin's selected chain. Highland Hides' personal skins are optional.",
     clear:
-      "Complete the selected boss and inside-start objectives. Deliver Songblade's stage to Daewyn and pick up its follow-up. Keep the Titan Relic and the Reed-woven Heart for their proper deliveries.",
+      "Control extra raptors, fight outside tall grass and dispel diseases. Complete the selected boss and inside-start objectives. Deliver Songblade's stage to Daewyn and pick up its follow-up. Keep the Titan Relic and the Reed-woven Heart for their proper deliveries.",
     handIn:
-      "Batch Wetlands rewards, then Ironforge's Prism delivery. The October 8 relic return supports its follow-up without farming another relic.",
+      "Finish the Wetlands hand-ins first, then follow the listed city route for the Prism and Dorin's news. Carry the relic into its follow-up; do not farm another.",
     bridge:
-      "Finish the relic's Ironforge follow-up on the city return, then prepare the Stormwind and Southshore Dalaran pickups.",
+      "Finish both city deliveries, then prepare Lonebrow's Journal and the Thalanaar pickup for Razorfen Kraul.",
     notes: [
-      "Level 27 is an experienced-premade proposal; the conservative band is 29.",
+      "Reference entry 26 keeps observed ordinary enemies at most +3 and the level-31 Relic Guardian at +5. Selected quest minima still apply; beta observations do not guarantee a current-server clear.",
       "Young Crocolisk Skins is in the new Journal chain; Daily Delivery is a disputed breadcrumb, not silently marked done.",
     ],
-    quests: choices([95772, 95646, 95809, 98824], [98815, 95795]),
+    quests: choices([95772, 95795, 95646, 95809, 98824], [98815]),
     dataStatus: "journal-reference",
   },
   {
     id: "blackfathom",
     name: "Blackfathom Deeps",
     visitIds: ["blackfathom"],
-    level: 25,
+    level: 23,
     zone: "Ashenvale",
     preparation:
       "Combine Ironforge, Auberdine and Darnassus pickups with the crossing. Keep In Search of Thaelrid before his inside quest; class materials are personal extras.",
@@ -208,7 +226,7 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     handIn:
       "Use the correct Darkshore/Darnassus/Ironforge hubs. Do not count all XP as paid inside the instance.",
     bridge:
-      "Return to the Eastern Kingdoms for the Stockade preparations. Batch the Letter/Bazil chain, Redridge and Duskwood pickups, and Wetlands' Dark Iron War before entering Stockade.",
+      "Return to the Eastern Kingdoms for the Stockade preparations. Batch the Letter/Bazil chain with the Redridge and Duskwood pickups. Dark Iron War belongs only to the separate Fury option.",
     notes: [
       "Low-level rewards may be reduced at late hand-ins; unknown reductions are not treated as full XP.",
     ],
@@ -216,51 +234,10 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     dataStatus: "journal-reference",
   },
   {
-    id: "dalaran",
-    name: "City of Dalaran",
-    visitIds: ["dalaran"],
-    level: 30,
-    zone: "Alterac Mountains",
-    preparation:
-      "Collect A Green Sample and Power Overwhelming in Stormwind. At level 30, complete An Alarming Request in Southshore before the Modera quests. Collect Past Due for the later SM Library visit.",
-    clear:
-      "All four quests are selected by default. Complete the garden, boss, key and Starving Arcane objectives you choose to do. If you skip an objective or the dungeon, continue without marking it complete; no extra clear is required by the guide.",
-    handIn:
-      "Deliver the Modera objectives, then the selected Stormwind rewards. Keep the sewer-key state separate from starting or finishing a quest.",
-    bridge:
-      "Prepare Lonebrow's Journal and the Thalanaar Crone pickup for Razorfen Kraul. Continue when the party meets that stop's entry checks; do not grind toward the later Gnomeregan stop first.",
-    notes: [
-      "The conservative band is 31. The introductory quest and key-bearing quest have a recorded level-30 minimum.",
-      "Each of the four quests has a collected full reward of 9,400 XP, for 37,600 before hand-in-level reductions. These final rewards are not multiplied again.",
-    ],
-    quests: choices([92456, 92489, 92457, 92458]),
-    dataStatus: "journal-reference",
-  },
-  {
-    id: "gnomeregan",
-    name: "Gnomeregan",
-    visitIds: ["gnomeregan"],
-    level: 33,
-    zone: "Dun Morogh",
-    preparation:
-      "Batch Stormwind, Ironforge and Kharanos. Collect the first punch card before entry; follow its terminal upgrades in order. Green Glow requires a prior outside hand-in, not an instant second reward.",
-    clear:
-      "Complete the selected Techbot/terminal/Thermaplugg objectives. Ground artificials, robot guts, ring and escort goals are optional detours; some lower-level rewards are already overleveled.",
-    handIn:
-      "Batch Ironforge/Kharanos and only selected remote rewards. Do not send everyone to Booty Bay solely for an unmeasured escort reward.",
-    bridge:
-      "Prepare the SM Desolace chain before the northern Monastery visit, then continue through the selected STV work and optional Drowned City stop.",
-    notes: [
-      "Techbot is outside the portal. A keyed shortcut is a different route from the normal entrance.",
-    ],
-    quests: choices([2922, 2930, 2929], [2926, 2962, 2928, 2924, 2904, 2948]),
-    dataStatus: "journal-reference",
-  },
-  {
     id: "razorfen-kraul",
     name: "Razorfen Kraul",
     visitIds: ["razorfen-kraul"],
-    level: 31,
+    level: 29,
     zone: "The Barrens",
     preparation:
       "Prepare Lonebrow's Journal → Crone at Thalanaar. Bring starting items only if selecting Blueleaf. Do not import the Horde Unholy Alliance chain into the Alliance plan.",
@@ -278,10 +255,57 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     dataStatus: "journal-reference",
   },
   {
+    id: "gnomeregan",
+    name: "Gnomeregan",
+    visitIds: ["gnomeregan"],
+    level: 29,
+    zone: "Dun Morogh",
+    preparation:
+      "Batch Stormwind, Ironforge and Kharanos. Collect the first punch card before entry; follow its terminal upgrades in order. Green Glow requires a prior outside hand-in, not an instant second reward.",
+    clear:
+      "Complete the selected Techbot/terminal/Thermaplugg objectives. Ground artificials, robot guts, ring and escort goals are optional detours; some lower-level rewards are already overleveled.",
+    handIn:
+      "Batch Ironforge/Kharanos and only selected remote rewards. Do not send everyone to Booty Bay solely for an unmeasured escort reward.",
+    bridge:
+      "Return the city rewards, then batch the Stormwind and Southshore Dalaran pickups. The Hillsbrad/Arathi combat batch follows Dalaran, when the party can meet its enemy-level limits.",
+    notes: [
+      "Techbot is outside the portal. A keyed shortcut is a different route from the normal entrance.",
+    ],
+    quests: choices([2922, 2930, 2929], [2926, 2962, 2928, 2924, 2904, 2945, 2947, 2948, 2951, 2925, 2931]),
+    dataStatus: "journal-reference",
+  },
+  {
+    id: "dalaran",
+    name: "City of Dalaran",
+    visitIds: ["dalaran"],
+    level: 30,
+    zone: "Alterac Mountains",
+    preparation:
+      "Collect A Green Sample and Power Overwhelming in Stormwind. At level 30, complete An Alarming Request in Southshore before the Modera quests. Collect Past Due for the later SM Library visit.",
+    clear:
+      "All four quests are selected by default. Complete the garden, boss, key and Starving Arcane objectives you choose to do. If you skip an objective or the dungeon, continue without marking it complete; no extra clear is required by the guide.",
+    handIn:
+      "Deliver the Modera objectives, then the selected Stormwind rewards. Keep the sewer-key state separate from starting or finishing a quest.",
+    bridge:
+      "Keep Past Due for the later Scarlet Library visit. Finish the nearby Hillsbrad/Arathi kill batch, then prepare Brother Anton's Scarlet chain before the next northern dungeon trip.",
+    notes: [
+      "The conservative band is 31. The introductory quest and key-bearing quest have a recorded level-30 minimum.",
+      "Each of the four quests has a collected full reward of 9,400 XP, for 37,600 before hand-in-level reductions. These final rewards are not multiplied again.",
+    ],
+    quests: choices([92456, 92489, 92457, 92458]),
+    dataStatus: "journal-reference",
+  },
+  {
     id: "drowned-city",
     name: "The Drowned City",
     visitIds: [],
-    level: 37,
+    level: 35,
+    atLevelRecommendation: 37,
+    encounterLevels: {
+      maximumTrashLevel: 35,
+      maximumBossLevel: 40,
+      source: "Owner confirmation, 2026-11-04: final boss level 40; trash level 35. The coordinated-party floor is 35 under +4 ordinary enemies / +5 dungeon bosses. No quest IDs, hard portal minimum, clear counts or observed XP are supplied.",
+    },
     zone: "Stranglethorn Vale",
     preparation:
       "Plan the optional STV visit with all four faction quest slots selected. Exact pickups and access requirements are pending identification; no locations or prerequisites are invented.",
@@ -300,7 +324,10 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
     id: "scarlet-monastery",
     name: "Scarlet Monastery · 3 wings",
     visitIds: ["sm-library", "sm-armory", "sm-cathedral", "sm-all-wings"],
-    level: 38,
+    level: 37,
+    atLevelRecommendation: 38,
+    encounterLevels: { maximumTrashLevel: 40, maximumBossLevel: 42,
+      source: "Captured build 70205 zone796 NPC levels, with Mograine and Whitemane identified by client encounter/completion records." },
     zone: "Tirisfal Glades",
     preparation:
       "Prepare Down the Scarlet Path in Desolace before 38 and its Southshore handoff. Collect Mythology in Ironforge and the new Past Due from Magus Olvek in Dalaran.",
@@ -527,6 +554,9 @@ const stopDefinitions: readonly Omit<PremadeStop, "nextLevel">[] = [
 const orderedStops = [...stopDefinitions].sort((left, right) => left.level - right.level);
 export const PREMADE_STOPS: readonly PremadeStop[] = orderedStops.map((stop, index) => ({
   ...stop,
+  quests: stop.quests.map((choice) => isSelectedPartyDungeonQuest(choice.questId)
+    ? { ...choice, sharedPartyDefault: true as const }
+    : choice),
   nextLevel: orderedStops[index + 1]?.level ?? 60,
 }));
 
@@ -556,7 +586,7 @@ export function selectedPremadeQuests(
   return stop.quests.filter((quest) => premadeQuestSelected(quest, progress));
 }
 
-const separatePreparationQuests = new Set([92753, 2962, 4143, 4201, 5848]);
+const separatePreparationQuests = new Set([378, 92753, 2962, 4143, 4201, 5848]);
 
 export function premadeQuestSelected(
   choice: PremadeQuestChoice,
@@ -606,15 +636,22 @@ export function premadeEntryLevel(
   facts: readonly QuestRewardFact[] = [],
 ): number {
   const atLevel = Math.max(
-    stop.id === "dalaran" ? 31 : stop.level,
+    stop.atLevelRecommendation ?? (stop.id === "dalaran" ? 31 : stop.level),
     ...stop.visitIds.map(
       (id) => DUNGEON_VISITS.find((visit) => visit.id === id)?.levels?.atLevel ?? stop.level,
     ),
   );
   return Math.max(
     progress.difficultyPolicy === "at-level" ? atLevel : stop.level,
-    ...selectedPremadeQuests(stop, progress).map(
-      (choice) => questEligibility(choice.questId, facts).minimumLevel ?? stop.level,
+    ...(stop.encounterLevels ? [
+      stop.encounterLevels.maximumTrashLevel - MAXIMUM_NON_BOSS_ENEMY_LEVEL_GAP,
+      stop.encounterLevels.maximumBossLevel - MAXIMUM_DUNGEON_BOSS_ENEMY_LEVEL_GAP,
+    ] : []),
+    ...selectedPremadeQuests(stop, progress).map((choice) =>
+      Math.max(
+        choice.preparationLevel ?? 0,
+        questEligibility(choice.questId, facts).minimumLevel ?? stop.level,
+      ),
     ),
   );
 }

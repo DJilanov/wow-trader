@@ -77,10 +77,23 @@ describe("dungeon identity and reference graph", () => {
       state: "accepted",
     });
     expect(getDungeonQuest(6981)!.pickupStage).toBe("inside");
+    expect(getDungeonQuest(6981)!.objectiveStage).toBe("before");
+    expect(getDungeonQuest(6981)!.objective).toContain("Sputtervalve");
+    expect(getDungeonQuest(6981)!.turnin).toContain("Falla Sagewind");
+    expect(getDungeonQuest(6981)!.turnin).toContain("Barrens");
+    expect(getDungeonQuest(6981)!.turnin).not.toContain("Thunder Bluff");
+    expect(getDungeonQuest(959)!.objectiveStage).toBe("before");
+    expect(getDungeonQuest(959)!.outsideObjectiveReviewed).toBe(true);
+    expect(getDungeonQuest(6981)!.outsideObjectiveReviewed).toBe(true);
+    expect(getDungeonQuest(2922)!.objectiveStage).toBe("before");
+    expect(getDungeonQuest(2922)!.outsideObjectiveReviewed).toBe(true);
+    expect(getDungeonQuest(2930)!.objectiveStage).toBe("inside");
+    expect(getDungeonQuest(865)!.objectiveStage).toBe("before");
+    expect(getDungeonQuest(865)!.outsideObjectiveReviewed).toBeUndefined();
     expect(getDungeonQuest(6981)!.position).toBeNull();
     expect(getDungeonQuest(1654)!.objectiveStage).toBe("multiple-visits");
     expect(getDungeonQuest(1806)!.pickupStage).toBe("after");
-    expect(getDungeonQuest(2930)!.gate.kind).toBe("confirmation");
+    expect(getDungeonQuest(2930)!.gate).toEqual({ kind: "all", gates: [] });
   });
   it("keeps fixed and mutually exclusive rewards separate", () => {
     expect(getDungeonQuest(865)!.rewards.fixed.map((item) => item.id)).toEqual([5342, 5343]);

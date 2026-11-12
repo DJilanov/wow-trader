@@ -1,7 +1,7 @@
 import type { RaceId } from "./profile.js";
 import type { ClassSlug } from "./model.js";
 
-export const CAMPAIGN_VERSION = "campaign-20261102-v62";
+export const CAMPAIGN_VERSION = "campaign-20261105-v234";
 export const CAMPAIGN_RACES = ["human", "dwarf", "gnome", "night-elf", "skyborne"] as const;
 export type CampaignRace = (typeof CAMPAIGN_RACES)[number];
 
@@ -18,6 +18,11 @@ export interface CampaignOutdoorBlock {
   readonly handInOnly?: readonly number[];
   readonly extraPickupIds?: readonly number[];
   readonly firstQuestIds?: readonly number[];
+  /** Each complete handoff group is retained independently after the visit's XP target is met. */
+  readonly mandatoryQuestGroups?: readonly (readonly number[])[];
+  /** Keep library additions outside this visit unless the quest is explicitly selected here. */
+  readonly limitLibraryToSelectedQuests?: true;
+  readonly optionalQuestId?: number;
   readonly instructions: readonly string[];
 }
 
@@ -39,11 +44,15 @@ export function campaignStarterSourceIds(
 }
 
 export const CAMPAIGN_DEFERRED_PARTY_QUESTS: Readonly<Record<number, string>> = {
+  92: "Redridge Goulash's condor-meat collection is excluded from the default party route; AH availability alone does not justify this farm.",
+  102: "Patrolling Westfall's personal paw collection is deferred after player feedback about slow five-player camp completion; prefer the shared Militia kill quests without changing captured drop rates.",
   338: "Green Hills pages are personal random drops, not shared kill credit. Hold this collection from the five-player route.",
   339: "Requires personal Green Hills pages; not part of the five-player kill route.",
   340: "Requires personal Green Hills pages; not part of the five-player kill route.",
   341: "Requires personal Green Hills pages; not part of the five-player kill route.",
   342: "Requires personal Green Hills pages; not part of the five-player kill route.",
+  522: "Assassin's Contract depends on a random Southshore attack. Skip the event in the required route; its starter and reward are not guaranteed XP.",
+  523: "Baron's Demise requires Assassin's Contract from the random Southshore attack; keep this dependent bounty out of required route XP.",
   1139: "Requires an earlier Uldaman visit and the Amulet of Secrets → Ironforge → Badlands continuation; held from the single-visit dungeon circuit.",
   4788: "Requires the Eastern Plaguelands tablets and another Tanaris hand-in before LBRS; held rather than adding that collection detour to this circuit.",
 };
@@ -168,17 +177,45 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   },
   {
     id: "duskwood-watch",
-    title: "Duskwood: the Night Watch chain",
+    title: "Darkshire: finish the Stockade preparation",
     from: 23,
     to: 26,
-    purpose: "xp-bridge",
+    purpose: "preparation",
     sourceIds: [10, 13],
-    quests: [226, 56, 57, 58, 245, 128],
+    quests: [226, 56, 57, 245, 128],
     extraPickupIds: [377],
     instructions: [
       "Pick up Crime and Punishment in Darkshire and What Comes Around in Lakeshire for The Stockade.",
-      "Complete each Night Watch stage together. Return it in Darkshire before taking the next stage.",
+      "Finish the earlier Night Watch stages together. Leave the final Plague Spreader stage until after Stockade, when the party can meet its enemy-level check.",
       "Follow the wolf, spider and Blackrock objectives listed below.",
+    ],
+  },
+  {
+    id: "stockade-fury-preparation",
+    title: "Optional: Dark Iron War and Fury Runs Deep",
+    from: 27,
+    to: 27,
+    purpose: "preparation",
+    sourceIds: [11],
+    quests: [303],
+    optionalQuestId: 378,
+    instructions: [
+      "This separate branch is included only when you select Fury Runs Deep. Finish Dark Iron War in Wetlands before accepting Fury.",
+      "Dark Iron Demolitionists reach level 31. All five players need level 27 under the +4 trash rule; the level-25 pickup alone is insufficient.",
+      "Leave Fury unselected for the earlier level-24 Stockade clear. Its reward is not counted when the branch is omitted.",
+    ],
+  },
+  {
+    id: "stockade-world-returns",
+    title: "Darkshire: the final Night Watch stage",
+    from: 24,
+    to: 25,
+    purpose: "preparation",
+    sourceIds: [10, 13],
+    quests: [58],
+    instructions: [
+      "After Stockade and the remote quest returns, finish the final Night Watch stage together. Complete all 20 Plague Spreader kills and return to Althea.",
+      "Plague Spreaders reach level 28, so everyone must be level 24 before fighting them. Their own kill XP cannot fund that readiness.",
     ],
   },
   {
@@ -197,14 +234,14 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   },
   {
     id: "wetlands-prerequisites",
-    title: "Dun Modr and the Greenwarden chain",
+    title: "Wetlands: the Greenwarden chain",
     from: 25,
-    to: 27,
+    to: 26,
     purpose: "preparation",
     sourceIds: [11, 14],
-    quests: [303, 463, 276, 277, 275],
+    quests: [463, 276, 277, 275],
     instructions: [
-      "Finish Dark Iron War before The Stockade to unlock Fury Runs Deep.",
+      "After the first Stockade visit, continue into Wetlands for Excavation preparation. Dark Iron War is a separate Fury option.",
       "While in Wetlands, follow the Greenwarden → Tramping Paws → Fire Taboo → Blisters on the Land chain for Excavation.",
       "Collect Crude Flints for every player's Fire Taboo quest before moving on to Blisters on the Land.",
       "Stage Caitlin's lead-in and Dorin Songblade's pickup; retain the current Journal's item and hand-in rules.",
@@ -214,20 +251,23 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     id: "excavation-approach",
     title: "Wetlands hand-ins and Excavation entry",
     from: 26,
-    to: 27,
+    to: 26,
     purpose: "xp-bridge",
     sourceIds: [11, 14],
-    quests: [472],
+    quests: [472, 631, 632],
+    mandatoryQuestGroups: [[472], [631, 632]],
     instructions: [
       "After Stockade, batch the city hand-ins, then the selected Duskwood/Redridge deliveries and the Wetlands return.",
-      "Finish the selected Wetlands prerequisites before departure. If using the conservative policy, the entry checkpoint is 29 rather than the requested expert target 27; the adjacent Dun Modr kill work is the top-up option.",
+      "Accept Fall of Dun Modr in Menethil. Deliver it to Longbraid at Dun Modr before the Thandol pickup; that hand-in counts toward reaching level 26.",
+      "At level 26, take The Thandol Span from Rhag Garmason, visit Ebenezer's body and bring the response back to Rhag. Keep everyone at full health before the staircase and control the two elite saboteurs as the quest instructions explain.",
+      "Finish the selected Wetlands prerequisites and this northern handoff, then enter Excavation at level 26 or above. Keep the group together, control extra raptors and dispel diseases; the final boss uses the allowed five-level exception.",
     ],
   },
   {
     id: "ashenvale-crossing",
     title: "BFD pickups and the Kalimdor crossing",
     from: 20,
-    to: 25,
+    to: 23,
     purpose: "preparation",
     sourceIds: [8, 12, 130],
     quests: [1020, 1033],
@@ -239,30 +279,44 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
   },
   {
     id: "dalaran-approach",
-    title: "Excavation rewards, Stormwind and Southshore's Dalaran unlock",
-    from: 27,
-    to: 30,
+    title: "Stormwind pickups and the road to Southshore",
+    from: 30,
+    to: 31,
     purpose: "preparation",
-    sourceIds: [13, 14],
+    sourceIds: [11, 13, 14],
     quests: [536, 505, 92432],
     instructions: [
-      "Finish Excavation's Wetlands relic delivery before its Ironforge follow-up. Keep the returned relic instead of planning another farm. Combine the Stormwind stop with A Green Sample and Power Overwhelming.",
+      "Finish the Gnomeregan hand-ins and any outstanding Excavation relic delivery before its Ironforge follow-up. Whelgar supplies a different Titan Relic for Magellas; carry that parcel instead of planning another guardian fight. Combine the Stormwind stop with A Green Sample and Power Overwhelming.",
+      "Continue north through Wetlands toward Southshore. The Dun Modr courier and both Thandol handoffs were completed before Excavation; do not repeat them.",
       "At the recorded pickup minimum, take An Alarming Request in Southshore and hand it in to Modera before her Dalaran quest.",
       "Use the Southshore coastal and Syndicate kill work if XP is missing. The conservative Dalaran gate is 31; expert target is 30. Do not apply the dungeon-kill bonus to quest rewards.",
     ],
   },
   {
     id: "hillsbrad-gnomer",
-    title: "RFK returns, Hillsbrad/Arathi kills and Gnomeregan preparation",
+    title: "RFK returns and Gnomeregan preparation",
+    from: 29,
+    to: 29,
+    purpose: "preparation",
+    sourceIds: [],
+    quests: [],
+    instructions: [
+      "Return the selected Razorfen Kraul rewards, then batch the Ironforge/Kharanos Gnomeregan pickups on the eastern city visit.",
+      "Leave the higher-level Hillsbrad/Arathi combat batch until after Dalaran; it is not a Gnomeregan prerequisite.",
+      "The first punch card and its terminal upgrade order are required for the selected Gnomer quest. Personal robot guts, samples and the distant escort are not forced filler.",
+    ],
+  },
+  {
+    id: "hillsbrad-party-kills",
+    title: "Hillsbrad and Arathi shared kills after Dalaran",
     from: 31,
     to: 33,
     purpose: "xp-bridge",
     sourceIds: [14],
     quests: [681, 564],
     instructions: [
-      "Return the selected Razorfen Kraul rewards, then batch the eastern city pickups. Keep Dalaran's Past Due quest for the later Scarlet Library visit; unfinished dungeon objectives remain skipped rather than reported as hand-ins.",
-      "Batch Southshore/Arathi named and shared-kill work, then use the Ironforge/Kharanos visit for Gnomeregan pickups.",
-      "The first punch card and its terminal upgrade order are required for the selected Gnomer quest. Personal robot guts, samples and the distant escort are not forced filler.",
+      "After the Dalaran hand-ins, combine the Southshore and Arathi shared-kill work on the eastern road. Keep Past Due for the later Scarlet Library visit.",
+      "Fight only when every member meets the enemy-level checks. This batch belongs after Dalaran, not before the earlier Gnomeregan run.",
     ],
   },
   {
@@ -281,10 +335,25 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     ],
   },
   {
+    id: "desolace-rescue",
+    title: "Desolace: Vahlarriel, Tyranis and Dalinda's rescue",
+    from: 32,
+    to: 34,
+    purpose: "preparation",
+    sourceIds: [18],
+    quests: [1437, 1465, 1438, 1439, 1440],
+    mandatoryQuestGroups: [[1437, 1465, 1438, 1439, 1440]],
+    instructions: [
+      "Finish Vahlarriel's wagon search during this Desolace visit. Return the pendant, then find Dalinda and Tyranis in Thunder Axe Fortress.",
+      "Each player takes the follow-ups and gets Tyranis' Pendant before starting Dalinda's escort. Stay together until everyone has the escort credit, then return to Vahlarriel at Nijel's Point.",
+      "Finish this chain before Brother Anton's undead assignment, then continue the Scarlet Monastery preparation from Nijel's Point. Enemy-level checks still apply to the group.",
+    ],
+  },
+  {
     id: "lonebrow-rfk-preparation",
     title: "Lonebrow's Journal → Thalanaar → Crone of the Kraul",
-    from: 30,
-    to: 31,
+    from: 27,
+    to: 29,
     purpose: "preparation",
     sourceIds: [],
     quests: [1100],
@@ -313,11 +382,15 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 38,
     purpose: "preparation",
     sourceIds: [14, 21],
-    quests: [1052],
+    quests: [1052, 642, 651, 684, 685],
     handInOnly: [1052],
+    mandatoryQuestGroups: [[642, 651], [684, 685]],
+    limitLibraryToSelectedQuests: true,
     instructions: [
       "Finish any outstanding Brother Anton follow-up and collect the Southshore finale. Bring both selected Library book quests before heading north.",
-      "Use remaining Arathi shared-kill work only if the party is below the entry gate. Prepare Library → Armory → Cathedral, with the Library key before the locked wings.",
+      "After The Princess Trapped, carry Stones of Binding on the northern journey. Each player collects the East, Outer and West Binding keys, then hands them in at the Stone of Inner Binding. Leave Breaking the Keystone for a later eligible visit; Fozruk is not part of this bounty clear.",
+      "At level 36 or higher, take both Refuge Pointe wanted-board bounties together. Clear Marez Cowl, Otto and Lord Falconcrest in Stromgarde, check every player's heads, then return both quests to Captain Nials before continuing north.",
+      "Prepare Library → Armory → Cathedral, with the Library key before the locked wings. Other Arathi shared-kill work can cover a remaining entry shortfall; the bounties remain selected even when the level target is already met.",
     ],
   },
   {
@@ -340,7 +413,7 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 42,
     purpose: "xp-bridge",
     sourceIds: [20, 21, 28],
-    quests: [1448, 1449, 1450, 1451, 1452, 1396, 684, 685, 523, 537, 512, 600],
+    quests: [1448, 1449, 1450, 1451, 1452, 1396, 537, 512, 600],
     deferHandIns: [1452],
     instructions: [
       "Finish the selected Scarlet Monastery and Razorfen Downs deliveries before selecting more XP work. Use the sourced Arathi/Alterac named and shared-kill sequence below, then continue toward the next stop.",
@@ -382,12 +455,12 @@ export const CAMPAIGN_BRIDGES: readonly CampaignOutdoorBlock[] = [
     to: 46,
     purpose: "preparation",
     sourceIds: [18, 25, 31],
-    quests: [4787, 3528, 1437, 1465, 1438, 1439, 1440, 1384],
+    quests: [4787, 3528, 1384],
     firstQuestIds: [4787, 3528],
     instructions: [
       "Finish the selected Zul'Farrak rewards and retain Yeh'kinya's continuation, then take Maraudon's chosen Desolace pickups. The planned first visit covers the entrances needed by the chosen objectives, not only the Princess shortcut.",
       "Finish The Ancient Egg in Jintha'Alor and return it to Yeh'kinya before leaving for Maraudon. Keep the egg supplied for The God Hakkar in Sunken Temple.",
-      "Use the selected Desolace rescue/kill work only for the actual gap. Do not repeat already rewarded early quests or collect Shadowshards for everyone as mandatory filler.",
+      "The Vahlarriel and Tyranis rescue chain was completed on the earlier Desolace visit. Continue with the selected Maraudon preparation; do not repeat that rescue or collect Shadowshards for everyone as mandatory filler.",
     ],
   },
   {

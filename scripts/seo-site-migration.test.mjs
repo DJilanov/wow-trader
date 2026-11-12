@@ -81,6 +81,18 @@ test("the Nginx deploy activates both hosts and verifies the public migration", 
   assert.match(script, /https:\/\/kfcguild\.online\/forever-sim\/\$simulator_release/);
 });
 
+test("the current guide download exposes one HTML page independently of application releases", async () => {
+  const apex = await repositoryFile("infra/nginx/kfcguild.online.conf");
+  const locations = await repositoryFile("infra/nginx/leveling-download.conf");
+  assert.match(apex, /include \/home\/wow-trader-system\/shared\/leveling-download\/current\/nginx-locations\*\.conf;/);
+  assert.match(locations, /location = \/tools\/forever\/leveling\/download \{/);
+  assert.match(locations, /alias \/home\/wow-trader-system\/shared\/leveling-download\/current\/index\.html;/);
+  assert.match(locations, /Cache-Control "no-cache"/);
+  assert.match(locations, /X-Robots-Tag "noindex, nofollow"/);
+  assert.match(locations, /limit_except GET/);
+  assert.doesNotMatch(locations, /autoindex|location \^~|alias [^;]*\/$/m);
+});
+
 test("production activation verifies the release label in the standalone runtime", async () => {
   const script = await repositoryFile("scripts/activate-production.sh");
 

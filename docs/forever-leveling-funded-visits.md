@@ -1,6 +1,34 @@
 # Funded quest visits and XP boundaries
 
+**Current local component (V207):** Baron level 17 is owner-confirmed; Data Rescue uses its captured punch-card puzzle. All 3,078 relevant tests, 48 workload forecasts and 20 native/Lua exports pass. The expected minimum still needs **2,821 XP/player for level 29**. Fresh production preparation, full 1–60 and every original other-group edition remain unfinished and undeployed. [Current results and remaining work](forever-leveling-product-plan.md#current-local-component--punch-card-and-baron-v207).
+
+**Previous component work (V161):** complete object handoffs now qualify without fake NPCs or completion counters. The actual 279→281→284→285→286 component preserves the supplied statuette, full head quota, source guards and prerequisites; all five class exports pass. The archive audit preserves 28 prior handoffs and 76 collection methods. No actual route XP was recalculated. [Implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-component--object-handoffs-without-xp-replay-v161).
+
+**Previous component work (V160):** the complete mixed Claws from the Deep method now qualifies with twelve shared Bluegill kills and one head per player. All 75 previous collection methods remain unchanged; +4/+5 boundaries, journal limits and five native exports pass. No actual route XP was recalculated. [Implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-component--complete-mixed-method-without-xp-replay-v160).
+
+**Previous binding work (V159):** the complete captured Claws from the Deep method now proves the missing head counter at 2 separately from twelve Bluegill kills at 1. Five class/component exports pass, with no actual route XP replay. [Current proof and remaining integration](forever-leveling-product-plan.md#current-local-data--mixed-item-counter-without-xp-replay-v159).
+
+**Previous data work (V158):** object recipients are now preserved separately for 73 quests / 74 locations, with reciprocal provider relations and provenance checks. Funding eligibility and saved XP calculations are unchanged. [Implementation and remaining qualification](forever-leveling-product-plan.md#current-local-data--object-recipients-without-xp-replay-v158).
+
+**Historical policy change (V157, November 3):** +4 above the lowest participating player; +5 excluded for ordinary enemies, with dungeon bosses retaining separate rules. The owner requested **no XP recalculation** for this change. The last full replay is V156; earlier +3-policy reviews below are historical. See the [current implementation, checks and remaining work](forever-leveling-product-plan.md#current-local-policy--four-level-cap-without-xp-replay-v157).
+
 The canonical preparer can batch newly added outdoor preparation after quest funding. The pass rearranges existing actions within one preparation leg; it adds no quests, rewards, kills, grinding, transport links or abandon instructions. It preserves action objects, source references, reward facts and saved-progress identities.
+
+## Previous route integration — v154
+
+Bounded Seek-out/definite-article wording now qualifies the captured Stalvan NPC handoff while retaining exact source targets, positions and prerequisites. Its 230 reference XP/player pays once; every prior reward and nominal combat payment remains identical to V153. Canonical Pelturas instructions explain the compatible 24-second wait and preserve actual.accept availability. No task, enemy limit or dungeon target is relaxed. Full route funding and a measured travel optimum remain open. [Current verification](forever-leveling-product-plan.md#current-local-review--bounded-npc-wording-and-captured-wait-v154); receipt `.cache/leveling-no-grind-20261031/verification-npc-waits-v154.json`. Local only; nothing deployed.
+
+<a id="current-route-integration--v153"></a>
+
+## Previous route integration — v153
+
+Complete future mandatory ordinary quest lifecycles can move before a real XP gap only after whole-party nonregression and forty-slot checks. They remain mandatory and occur once. Outdoor journal lead-ins require explicit outside pickup/objective stages; inside or unknown stages remain excluded. The Wetlands 463/276/277/275 chain now completes before Blackfathom. Source qualification preserves raw records and exact kill/loot work; the final selector resolves multistep bookmarks to retained tasks and discards dangling/cyclic targets. [Current verification](forever-leveling-product-plan.md#current-local-review--outdoor-wetlands-chain-and-bookmarks-v153). No measured travel optimum or completed 1–60 route is claimed.
+
+<a id="current-route-alternatives--v149"></a>
+
+## Previous route alternatives — v149
+
+The prepared five-Human route preserves every raw task while switching the complete late coastal 152 lifecycle with WC. Active tasks drive XP, chapter counts, exports and bookmark resolution; neither branch borrows the other's rewards. Selection uses existing coordinates before location metadata is attached. [Current verification](forever-leveling-product-plan.md#current-local-review--optional-wc-and-outdoor-alternatives-v149).
 
 ## Scheduling boundaries
 
@@ -35,6 +63,18 @@ The source-phase selector also retains a later unconditional source phase when a
 The native compiler must preserve the same generated opportunities. Compiler v30 validates each generated funding checkpoint as its own lifecycle when the quest has multiple opportunities and at least one is optional. It guards pickups with `.isQuestAvailable` and objective/hand-in work with `.isOnQuest`, so skipped early work remains available later and rewarded work skips. Each opportunity still needs a complete authored lifecycle. Ordinary duplicates retain normalization; source-owned or mixed lifecycles are outside this correction. The independent export reviewer checks the retained phase inventory and guards, rather than accepting a removal receipt alone. The current audit records all 784 default-selection leader/member export checks; this does not establish every five-person composition or in-game execution.
 
 The initial selector-only trial was rejected because it allocated The People's Militia later and worsened the shared starter's class-pickup gap. The generated fallback correction addresses that allocation interaction. The [current audit](forever-leveling-no-grind-audit-2026-10-31.md) separates its preliminary Human Warrior evidence, final full-matrix checks and remaining progression gaps.
+
+## Early Human mine and Priest visits
+
+The v95 source-acquisition correction also applies to both preparation paths: exact provided parcels remain delivery visits, and source-backed vendor ingredients need no assumed drop farm. The Dwarf Priest and embedded Gnome Mage now reach the genuine quest-224 level-ten requirement rather than stopping at the earlier courier. This does not fund that requirement. All 528 default and 32 mixed arithmetic/capacity settings, 784 native combinations, 924 owning-path comparisons and the actual standalone/embedded Priest delivery regression pass. See the [current audit](forever-leveling-no-grind-audit-2026-10-31.md#current-status) for evidence and the separate v96 provider normalization.
+
+The reviewed mine circuit completes the existing Fargodeep exploration, candles and dust, then returns the ready Goldshire rewards before the farm pickups. Exact captured source/build/phase checks permit splitting mixed return steps; unrelated quest phases remain at their original visits. The transform adds no quests, kills, reward amounts or invented transport. It rejects unsupported source conditions and preserves every moved phase in native output.
+
+The level-five Priest rule can batch its original Northshire pickup, Goldshire heal/buff work and final class hand-in after the ready candle return. Only an explicitly reviewed final reward may move earlier, and all of that lifecycle's other phases must still precede it. Original NPC/source bindings remain. The later Goldshire anchor stays as a fallback.
+
+Both the main preparer and `enrichCampaignStarters` must attach source locations **before** qualifying these visits, then refresh geography after the accepted move. Location-free embedded actions previously prevented a valid Priest move even when the standalone plan accepted it. The actual mixed-group delivery replay checks this independently of owning-path peer-independence tests.
+
+A moved trigger must execute and be eligible in configurations that reach its original or proposed pickup. A configuration held at the same earlier requirement does not veto a useful later correction, but remains unfunded. Every configuration must preserve its prior executable frontier and each character's complete 40-slot bound. Passing a local scheduling proposal does not establish a funded 1–60 route.
 
 ## Level-ten starter visits
 

@@ -1,5 +1,6 @@
 import type { CampaignAction, CampaignLeg, CampaignPlan } from "./campaign.js";
 import type { CampaignPartyStarter } from "./restedxp-documents.js";
+import { LEVELING_RACES } from "./profile.js";
 
 export interface CampaignPartyExport {
   readonly plan: CampaignPlan;
@@ -14,6 +15,24 @@ export function campaignPartyExport(
   actions: readonly CampaignAction[],
   starter: CampaignPartyStarter,
 ): CampaignPartyExport {
+  if (plan.sharedQuestsOnly) {
+    if (starter.race !== plan.race)
+      throw new Error("The party member uses a different starting race from the shared route.");
+    if (
+      !LEVELING_RACES.some(
+        (race) => race.id === starter.race && race.classes.includes(starter.classSlug),
+      )
+    )
+      throw new Error("The party member's class is not available for this starting race.");
+    if (actions.some((action) => action.leaderOnly))
+      throw new Error("A shared ordinary-quest route cannot contain personal actions.");
+    return {
+      plan,
+      actions,
+      personalActionIds: new Set(),
+      personalPlan: { ...plan, leaderClass: starter.classSlug },
+    };
+  }
   const same = starter.race === plan.race && starter.classSlug === plan.leaderClass;
   const branch = plan.starters?.routes.find(
     (route) => route.race === starter.race && route.classSlug === starter.classSlug,
