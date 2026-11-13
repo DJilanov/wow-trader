@@ -5,7 +5,7 @@ marking, native free-icon checks, reservations and coordinator selection. It is
 installed separately and does not change Collector or Companion data. Forever
 combat marking remains locked; applications require a player click/key press.
 
-Collector `0.15.8` captures market snapshots plus private character crafting state. Its market
+Collector `0.15.9` captures market snapshots plus private character crafting state. Its market
 scanner has two product-specific providers:
 
 - WoW Forever uses Blizzard's native `C_AuctionHouse.ReplicateItems` API. It does not require

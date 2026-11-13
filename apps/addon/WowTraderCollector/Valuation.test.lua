@@ -81,6 +81,19 @@ check(Value.Item(4307).disenchant.reasonCode == "client_data_mismatch" and
   Value.Item(4307).disenchant.reason:find("70756", 1, true) and Value.Item(4307).disenchant.reason:find("70755", 1, true),
   "A stale data pack reports both build numbers instead of a generic failure")
 Addon.ClientValuationData.clientBuild = 70755
+WOW_TRADER_MARKET_DATA = { clientValuation = { clientProduct = "wow_classic_beta", clientBuild = 70938,
+  items = { [4307] = {4, 2, 20, true, 0, 20, false} } } }
+context.clientBuild = 70938
+itemInfo[4307].level = 20
+check(Value.Item(4307).disenchant.available, "Synchronized eligibility replaces an outdated bundled table")
+WOW_TRADER_MARKET_DATA.clientValuation.items[4307][4] = false
+check(not Value.Item(4307).disenchant.available, "Synchronized no-disenchant exclusions remain authoritative")
+WOW_TRADER_MARKET_DATA.clientValuation.clientBuild = 70939
+check(Value.Item(4307).disenchant.reasonCode == "client_data_mismatch", "Foreign synchronized data cannot authorize a build")
+context.clientBuild = 70755
+Addon.ClientValuationData.items[4307] = {4, 2, 20, true, 0, 20, false}
+check(Value.Item(4307).disenchant.available, "A foreign synchronized pack cannot mask matching bundled evidence")
+WOW_TRADER_MARKET_DATA = nil
 itemInfo[4307].level = 20
 context.clientProduct, context.clientBuild = "wow_anniversary", 69796
 check(not Value.Item(4307).disenchant.available, "An unreviewed TBC build cannot inherit a verified model")

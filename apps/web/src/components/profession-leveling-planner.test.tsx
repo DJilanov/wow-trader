@@ -44,7 +44,10 @@ describe("profession leveling controls", () => {
       "Learning is charged once",
       "Unknown prices are excluded",
       "Reference prices",
-      "Output sales are not deducted",
+      "Value of crafted items",
+      "Deduct vendor returns",
+      "Best of vendor / disenchant",
+      "shopping budget available",
       "Find lowest-cost route",
     ])
       expect(html).toContain(text);

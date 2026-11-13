@@ -158,6 +158,10 @@ function Value.Disenchant(info, context, mode, getQuote)
   local eligibility
   if reference then
     local client = Addon.ClientValuationData
+    local synced = WOW_TRADER_MARKET_DATA and WOW_TRADER_MARKET_DATA.clientValuation
+    if synced and synced.clientProduct == context.clientProduct and synced.clientBuild == context.clientBuild then
+      client = synced
+    end
     if not client or client.clientProduct ~= context.clientProduct or client.clientBuild ~= context.clientBuild then
       result.reasonCode = "client_data_mismatch"
       result.reason = string.format("Disenchant data covers build %s; game build is %s. Update the Collector.",

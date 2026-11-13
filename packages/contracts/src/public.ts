@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { clientValuationPackSchema } from "./client-valuation.js";
 
 import { isoDateTimeSchema, positiveCopperSchema } from "./primitives.js";
 import { auctionPriceLevelSchema } from "./uploads.js";
@@ -73,6 +74,7 @@ export const marketIntelligenceItemSchema = z.object({
 });
 
 export const marketIntelligencePackSchema = z.object({
+  clientValuation: clientValuationPackSchema.nullable().optional(),
   schemaVersion: z.literal("market-intelligence.v1"),
   modelVersion: z.literal("robust-market-signal-v1"),
   clientProduct: z.string().min(1).max(64),

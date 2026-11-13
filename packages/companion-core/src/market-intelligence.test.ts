@@ -28,6 +28,70 @@ afterEach(async () => {
 });
 
 describe("market intelligence addon data", () => {
+  it("carries build-matched eligibility through pagination and into native Lua lookups", async () => {
+    const source = scan();
+    const base = {
+      ...pack("First"),
+      clientProduct: source.clientProduct,
+      clientBuild: source.clientBuild,
+      realmId: source.realmId,
+      sourceScanId: "95e8df52-8d38-4a3c-8aad-9fbe26ff8eb8",
+      historyRevision: "d".repeat(64),
+    };
+    const clientValuation = {
+      schemaVersion: "client-valuation.v1",
+      clientProduct: source.clientProduct,
+      clientBuild: source.clientBuild,
+      hotfixSha256: "a".repeat(64),
+      definitionsRevision: "b".repeat(40),
+      sourceSha256: "c".repeat(64),
+      items: [[2865, 4, 2, 21, true, 25, 21, false]],
+    };
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValueOnce(Response.json({ ...base, clientValuation, nextAfterItemId: 123 }))
+        .mockResolvedValueOnce(
+          Response.json({
+            ...base,
+            items: [{ ...base.items[0]!, itemId: 124 }],
+            nextAfterItemId: null,
+          }),
+        ),
+    );
+    const result = await downloadMarketIntelligence(
+      new URL("https://test.example"),
+      "test-key",
+      source,
+    );
+    expect(result?.clientValuation).toEqual(clientValuation);
+    const lua = serializeMarketIntelligence(result!);
+    expect(lua).toContain("[2865] = {4,2,21,true,25,21,false}");
+    expect(lua).toContain(`clientBuild = ${source.clientBuild}`);
+  });
+  it("rejects eligibility for a different client even if the outer market matches", async () => {
+    const source = scan();
+    const value = {
+      ...pack("First"),
+      clientProduct: source.clientProduct,
+      clientBuild: source.clientBuild,
+      realmId: source.realmId,
+      clientValuation: {
+        schemaVersion: "client-valuation.v1",
+        clientProduct: source.clientProduct,
+        clientBuild: source.clientBuild + 1,
+        hotfixSha256: "a".repeat(64),
+        definitionsRevision: "b".repeat(40),
+        sourceSha256: "c".repeat(64),
+        items: [],
+      },
+    };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(Response.json(value)));
+    await expect(
+      downloadMarketIntelligence(new URL("https://test.example"), "test-key", source),
+    ).rejects.toThrow("eligibility does not match");
+  });
   it("downloads pinned pages completely before returning a history pack", async () => {
     const scope = scan();
     const first = {

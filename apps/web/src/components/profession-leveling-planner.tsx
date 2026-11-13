@@ -19,6 +19,7 @@ import type {
 import styles from "./profession-leveling.module.css";
 import { ProfessionRecipeCosts } from "./profession-recipe-costs";
 import { ProfessionLevelingResult } from "./profession-leveling-result";
+import { ProfessionLevelingRecovery } from "./profession-leveling-recovery";
 
 export function ProfessionLevelingPlanner({
   data,
@@ -180,6 +181,7 @@ export function ProfessionLevelingPlanner({
               </select>
             </label>
           </div>
+          <ProfessionLevelingRecovery options={options} onChange={update} />
           <p className={styles.learningHint}>
             <strong>Already know a recipe?</strong> Mark it below to skip its learning fee. Add a
             price where it is missing; unknown learning costs are excluded.
@@ -195,7 +197,8 @@ export function ProfessionLevelingPlanner({
       </form>
       <p className={styles.note}>
         Includes materials and one-time recipe purchases or training fees. Profession rank upgrades,
-        tools and travel are extra. Output sales are not deducted.
+        tools and travel are extra. Keep the shopping budget available before selling or
+        disenchanting your crafts.
       </p>
       {!data.scan?.fresh && data.scan ? (
         <p role="status" className={styles.warning}>

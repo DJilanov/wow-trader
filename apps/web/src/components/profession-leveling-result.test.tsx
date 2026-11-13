@@ -44,7 +44,9 @@ describe("profession leveling result", () => {
     for (const text of [
       "Partial route",
       "of 10",
-      "Estimated spend",
+      "Estimated net cost",
+      "Shopping &amp; learning budget",
+      "Expected returns",
       "Materials",
       "Recipes &amp; learning",
       "2g 00s 00c",

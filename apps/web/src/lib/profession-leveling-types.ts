@@ -28,6 +28,7 @@ export interface LevelingRecipe {
 export interface LevelingItem {
   readonly id: number;
   readonly name: string;
+  readonly recovery?: LevelingItemRecovery;
   readonly levels: readonly {
     readonly unitPriceCopper: string;
     readonly quantity: number;
@@ -40,6 +41,17 @@ export interface LevelingItem {
         }[]
       | null;
   }[];
+}
+
+export interface LevelingItemRecovery {
+  readonly vendorCopper: string;
+  readonly binding: number;
+  readonly disenchant: {
+    readonly numerator: string;
+    readonly denominator: string;
+    readonly requiredSkill: number;
+    readonly evidence: string;
+  } | null;
 }
 
 export interface ProfessionLevelingData {
@@ -65,6 +77,10 @@ export interface ProfessionLevelingOptions {
   readonly knownRecipeIds: readonly number[];
   readonly recipeCosts: Readonly<Record<string, string>>;
   readonly recipeSkills?: Readonly<Record<string, number>>;
+  readonly recoveryMode?: "none" | "vendor" | "best";
+  readonly disenchantAccess?: "self" | "other";
+  readonly enchantingSkill?: number;
+  readonly disenchantFeeCopper?: string;
 }
 
 export interface ProfessionLevelingStep {
@@ -76,6 +92,15 @@ export interface ProfessionLevelingStep {
   readonly learning: string | null;
 }
 
+export interface LevelingRecoveryLine {
+  readonly itemId: number;
+  readonly name: string;
+  readonly quantity: number;
+  readonly method: "vendor" | "disenchant";
+  readonly valueCopper: string;
+  readonly evidence: string;
+}
+
 export interface ProfessionLevelingPlan {
   readonly from: number;
   readonly reached: number;
@@ -85,6 +110,10 @@ export interface ProfessionLevelingPlan {
   readonly totalCopper: string;
   readonly materialCopper: string;
   readonly recipeCopper: string;
+  readonly recoveryCopper?: string;
+  readonly netCopper?: string;
+  readonly recoveryMode?: "none" | "vendor" | "best";
+  readonly recoveries?: readonly LevelingRecoveryLine[];
   readonly steps: readonly ProfessionLevelingStep[];
   readonly shopping: readonly {
     readonly itemId: number;

@@ -1,6 +1,7 @@
 import { createFraction, type Fraction } from "@wow-trader/economics";
 
 export const TBC_DISENCHANT_MODEL_VERSION = "tbc-disenchant-table-v1";
+export const CLASSIC_DISENCHANT_REFERENCE_VERSION = "classic-disenchant-reference-v1";
 
 export const DISENCHANT_MATERIAL_ITEM_IDS = [
   10_938, 10_939, 10_940, 10_978, 10_998, 11_082, 11_083, 11_084, 11_134, 11_135, 11_137, 11_138,
@@ -32,7 +33,8 @@ export interface DisenchantDistribution {
   readonly requiredEnchantingSkill: number;
   readonly outcomes: readonly DisenchantOutcome[];
   readonly expectedMaterials: readonly ExpectedDisenchantMaterial[];
-  readonly modelVersion: typeof TBC_DISENCHANT_MODEL_VERSION;
+  readonly modelVersion:
+    typeof TBC_DISENCHANT_MODEL_VERSION | typeof CLASSIC_DISENCHANT_REFERENCE_VERSION;
   readonly evidence: string;
 }
 
@@ -337,6 +339,35 @@ export function getDisenchantDistribution(
   source: DisenchantSourceItem,
 ): DisenchantDistribution | null {
   if (product !== "wow_anniversary" || buildNumber !== 69_795) return null;
+  return buildDisenchantDistribution(source);
+}
+
+export function getClassicDisenchantReference(
+  source: DisenchantSourceItem,
+  referenceLevel: number,
+  requiredSkill: number,
+): DisenchantDistribution | null {
+  if (!Number.isInteger(referenceLevel) || referenceLevel < 1 || referenceLevel > 65) return null;
+  if (
+    source.classId === 2 &&
+    source.quality === 2 &&
+    source.itemLevel >= 21 &&
+    source.itemLevel <= 30
+  )
+    return null;
+  const distribution = buildDisenchantDistribution({ ...source, itemLevel: referenceLevel });
+  return distribution
+    ? {
+        ...distribution,
+        sourceItemLevel: source.itemLevel,
+        requiredEnchantingSkill: requiredSkill,
+        modelVersion: CLASSIC_DISENCHANT_REFERENCE_VERSION,
+        evidence: "Classic-era yield estimate; eligibility checked against this client build",
+      }
+    : null;
+}
+
+function buildDisenchantDistribution(source: DisenchantSourceItem): DisenchantDistribution | null {
   if (source.itemLevel < 0 || !Number.isInteger(source.itemLevel)) return null;
   if (source.classId !== 2 && source.classId !== 4) return null;
   if (source.quality !== 2 && source.quality !== 3 && source.quality !== 4) return null;

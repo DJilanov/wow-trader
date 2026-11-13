@@ -23,18 +23,28 @@ export function ProfessionLevelingResult({
         </h2>
         <div className={styles.totals}>
           <div>
-            <span>Estimated spend</span>
+            <span>Estimated net cost</span>
+            <strong>{formatCopper(plan.netCopper ?? plan.totalCopper)}</strong>
+          </div>
+          <div>
+            <span>Shopping &amp; learning budget</span>
             <strong>{formatCopper(plan.totalCopper)}</strong>
           </div>
           <div>
-            <span>Materials</span>
-            <strong>{formatCopper(plan.materialCopper)}</strong>
-          </div>
-          <div>
-            <span>Recipes &amp; learning</span>
-            <strong>{formatCopper(plan.recipeCopper)}</strong>
+            <span>Expected returns</span>
+            <strong>{formatCopper(plan.recoveryCopper ?? "0")}</strong>
           </div>
         </div>
+        <p className={styles.note}>
+          Materials: {formatCopper(plan.materialCopper)} · Recipes &amp; learning:{" "}
+          {formatCopper(plan.recipeCopper)}.
+          {plan.recoveryMode === "best"
+            ? " Disenchant proceeds are estimates after AH cut and your fee."
+            : null}
+          {plan.recoveryMode === "none"
+            ? " Returns are not deducted."
+            : " Net cost deducts the returns below; you still need the shopping budget upfront."}
+        </p>
         {plan.status === "partial" ? (
           <p className={styles.warning}>
             The planner cannot quote the rest of this route with the available recipes, learning
@@ -67,6 +77,41 @@ export function ProfessionLevelingResult({
           </p>
         </details>
       </section>
+      {plan.recoveries?.length ? (
+        <section className={styles.result}>
+          <h2>Recover value after crafting</h2>
+          <p>Keep ingredients for the full route before disposing of these leftover crafts.</p>
+          <div className="table-shell">
+            <table>
+              <thead>
+                <tr>
+                  <th>Crafted item</th>
+                  <th>Quantity</th>
+                  <th>Method</th>
+                  <th>Expected return</th>
+                </tr>
+              </thead>
+              <tbody>
+                {plan.recoveries.map((row) => (
+                  <tr key={row.itemId}>
+                    <td>
+                      <Link href={`/forever/encyclopedia/items/${row.itemId}`}>{row.name}</Link>
+                      <small>{row.evidence}</small>
+                    </td>
+                    <td>{row.quantity}</td>
+                    <td>
+                      {row.method === "disenchant"
+                        ? "Disenchant · sell materials"
+                        : "Sell to vendor"}
+                    </td>
+                    <td>{formatCopper(row.valueCopper)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
       {plan.steps.length ? (
         <section className={styles.result}>
           <h2>Craft in this order</h2>

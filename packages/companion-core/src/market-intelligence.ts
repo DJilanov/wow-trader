@@ -63,6 +63,12 @@ export async function downloadMarketIntelligence(
         `Market intelligence download failed: ${readErrorMessage(body) ?? `HTTP ${response.status}`}`,
       );
     const pack = marketIntelligencePackSchema.parse(body);
+    if (
+      pack.clientValuation &&
+      (pack.clientValuation.clientProduct !== scan.clientProduct ||
+        pack.clientValuation.clientBuild !== scan.clientBuild)
+    )
+      throw new Error("Disenchant eligibility does not match the requested client build.");
     for (const field of [
       "clientProduct",
       "clientBuild",
@@ -168,6 +174,18 @@ WOW_TRADER_MARKET_DATA = {
   generatedAt = ${luaString(validated.generatedAt)},
   sourceScanAt = ${luaString(validated.sourceScanAt)},
   sourceScanEpoch = ${Date.parse(validated.sourceScanAt) / 1000},
+  clientValuation = ${
+    validated.clientValuation
+      ? `{
+    clientProduct = ${luaString(validated.clientValuation.clientProduct)}, clientBuild = ${validated.clientValuation.clientBuild},
+    evidenceSha256 = ${luaString(validated.clientValuation.sourceSha256)}, hotfixSha256 = ${luaString(validated.clientValuation.hotfixSha256)},
+    definitionsRevision = ${luaString(validated.clientValuation.definitionsRevision)},
+    items = {
+${validated.clientValuation.items.map(([id, ...row]) => `      [${id}] = {${row.join(",")}},`).join("\n")}
+    },
+  }`
+      : "nil"
+  },
   items = {
 ${items}
   },

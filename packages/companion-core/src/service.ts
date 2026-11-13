@@ -74,6 +74,7 @@ export class DefaultCompanionService implements CompanionService {
   readonly #accountErrors = new Map<string, string>();
   readonly #observedSignatures = new Map<string, FileSignature>();
   readonly #processedSignatures = new Map<string, string>();
+  readonly #marketSyncAt = new Map<string, number>();
   readonly #retries = new Map<string, WatchRetry>();
   readonly #retryFailures = new Map<string, CompanionSnapshot>();
   #products: ProductConfiguration[];
@@ -315,7 +316,9 @@ export class DefaultCompanionService implements CompanionService {
         const signature = await this.#readStableSignature(filePath, manual);
         if (!signature) continue;
         const signatureKey = signatureKeyFor(signature);
-        if (this.#processedSignatures.get(filePath) === signatureKey) {
+        const marketRefreshDue =
+          manual || this.#now().getTime() - (this.#marketSyncAt.get(filePath) ?? 0) >= 5 * 60_000;
+        if (this.#processedSignatures.get(filePath) === signatureKey && !marketRefreshDue) {
           const account = this.#accountPayloads.get(filePath);
           if (account)
             await this.#synchronizeAccount(filePath, product.rootPath, account, manual, apiKey);
@@ -473,12 +476,15 @@ export class DefaultCompanionService implements CompanionService {
                 processedAny = true;
                 this.#publish(
                   "up_to_date",
-                  "Market history synchronized. Reload WoW to activate updated in-game signals.",
+                  marketIntelligence.clientValuation
+                    ? "Prices and disenchant data synchronized. Reload WoW to activate the update."
+                    : "Market history synchronized. Reload WoW to activate updated in-game signals.",
                   { activeScanId: null, pendingScanCount },
                 );
               } else {
                 marketIntelligenceUnavailable = true;
               }
+              this.#marketSyncAt.set(filePath, this.#now().getTime());
             } catch (error: unknown) {
               if (this.#abortController?.signal.aborted) throw error;
               const message =
@@ -488,6 +494,7 @@ export class DefaultCompanionService implements CompanionService {
               });
             }
           }
+          if (!latestMarketScan) this.#marketSyncAt.set(filePath, this.#now().getTime());
           const diagnosticsUpload = createWorldDiagnosticsUpload(savedVariables);
           if (
             diagnosticsUpload &&
@@ -608,6 +615,7 @@ export class DefaultCompanionService implements CompanionService {
       if (!currentPaths.has(knownPath)) {
         this.#observedSignatures.delete(knownPath);
         this.#processedSignatures.delete(knownPath);
+        this.#marketSyncAt.delete(knownPath);
         this.#removeStaleRetries(knownPath, null);
       }
     }

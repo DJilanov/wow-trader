@@ -111,6 +111,52 @@ afterEach(async () => {
 });
 
 describe("companion service", () => {
+  it("refreshes unchanged market data after five minutes without replaying uploads", async () => {
+    const rootPath = await temporaryProductRoot();
+    const file = path.join(rootPath, "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua");
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(file, SAVED_VARIABLES);
+    let now = new Date("2026-11-13T09:00:00Z");
+    let downloads = 0;
+    let uploads = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof fetch>().mockImplementation(async (input, init) => {
+        if (new URL(String(input)).pathname === "/v1/market-intelligence") {
+          downloads++;
+          return Response.json(marketPack());
+        }
+        uploads++;
+        const body = JSON.parse(String(init?.body)) as { payloadId: string };
+        return Response.json(
+          { payloadId: body.payloadId, status: "processed", duplicate: false },
+          { status: 202 },
+        );
+      }),
+    );
+    const service = new DefaultCompanionService({
+      endpoint: new URL("https://test.example"),
+      statePath: path.join(rootPath, "state.json"),
+      products: [{ id: "tbc", kind: "tbc", label: "TBC", rootPath, enabled: true }],
+      automaticUploads: true,
+      apiKey: "test-key-with-enough-entropy",
+      pollIntervalMilliseconds: 500,
+      now: () => now,
+    });
+    try {
+      await service.start();
+      await service.checkNow();
+      expect(downloads).toBe(1);
+      const initialUploads = uploads;
+      await new Promise<void>((resolve) => setTimeout(resolve, 550));
+      expect(downloads).toBe(1);
+      now = new Date(now.getTime() + 300_000);
+      await vi.waitFor(() => expect(downloads).toBe(2), { timeout: 2_000 });
+      expect(uploads).toBe(initialUploads);
+    } finally {
+      await service.stop();
+    }
+  });
   it("uploads valid market data while invalid private receipts remain visible", async () => {
     const rootPath = await temporaryProductRoot();
     const file = path.join(rootPath, "WTF/Account/100#1/SavedVariables/WowTraderCollector.lua");
@@ -145,7 +191,12 @@ describe("companion service", () => {
     expect((await readCompanionState(statePath)).uploadedScanIds).toContain(SCAN_ID);
     expect(service.getSnapshot().message).toContain("Market uploads are retained");
     expect((await service.checkNow()).phase).toBe("error");
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+    expect(
+      fetchMock.mock.calls.filter(
+        ([input]) => new URL(String(input)).pathname === "/v1/market-intelligence",
+      ),
+    ).toHaveLength(2);
     await service.stop();
   });
 
@@ -191,7 +242,12 @@ describe("companion service", () => {
     await service.checkNow();
     await service.stop();
 
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+    expect(
+      fetchMock.mock.calls.filter(
+        ([input]) => new URL(String(input)).pathname === "/v1/market-intelligence",
+      ),
+    ).toHaveLength(2);
     expect(phases).toContain("checking");
     expect(phases).toContain("scan_detected");
     expect(phases).toContain("uploading");

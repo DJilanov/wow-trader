@@ -1,6 +1,6 @@
 # Profession leveling and crafting tooltip costs
 
-Current local addon: **Collector 0.15.8 / Companion 0.3.17**. The new web route is
+Current local addon: **Collector 0.15.9 / Companion 0.3.18**. The new web route is
 `/tools/forever/trader/leveling`, linked from Forever Trader. The web release is
 validated separately from the local addon installation; public desktop installers
 are not promoted by this web rollout.
@@ -37,8 +37,14 @@ These preferences are stored only in this browser, per market and profession.
 
 The result separates material spending from recipe purchases/training fees,
 gives an execution order and a copyable shopping list, and retains whole-stack
-leftovers. It does not deduct speculative output sales. Crafted intermediates
-can supply later steps, but future output cannot pay for earlier reagents.
+leftovers. Vendor proceeds are deducted by default. An optional best-of-vendor/
+disenchant objective uses estimated Classic yields, available Enchanting skill,
+self vs another enchanter, per-item service fees and faction/neutral AH cut.
+Only leftover crafted outputs count; consumed intermediates and purchased
+overstock earn no recovery credit. Missing evidence or prices fall back to
+vendor. The gross shopping budget remains separate: future proceeds cannot
+pay for earlier reagents. Fractional copper is retained during comparison and
+rounded once for the result, with disposal rows reconciled to its total.
 Profession rank upgrades, tools, travel and materials already in the bags are
 not included in this version. Vendor reagents use AH prices on the web page;
 the in-game tooltip can use directly observed vendor prices.
@@ -67,7 +73,7 @@ captured requirement. An incomplete route explicitly reports its reached skill.
 
 The calculator uses a compact profession header, three setup steps, a market-time
 label and an explicit reminder to mark learned recipes. The result emphasizes
-total spending before its material and learning breakdown. Recipe catalogs and
+net cost, upfront budget and expected returns, followed by the material and learning breakdown. Recipe catalogs and
 the server-rendered questions below the tool explain supported professions,
 missing fees, AH scans, estimated skill-ups and excluded costs.
 
@@ -161,7 +167,7 @@ whole-stack optimality against exhaustive small cases, crafted intermediates,
 skill-up bands and money precision. Addon regression controls cover per-item vs
 per-craft cost, tooltip reuse, missing reagent prices and variable output.
 
-Collector 0.15.8 and Companion 0.3.17 were installed locally with sixteen bundle
+Collector 0.15.9 and Companion 0.3.18 were installed locally with sixteen bundle
 checksums, fourteen static game-addon files and application signature integrity
 verified. Generated market/account packs, settings and credentials were preserved
 at installation. Companion restarted and synchronized successfully. The final
@@ -171,3 +177,58 @@ pass. The Next development server compiled and served the actual new route;
 production candidate and live-browser checks are recorded separately in
 `artifacts/profession-leveling-release-20261112/`. That directory also contains
 the six item-effect controls, 27 extractor controls and 24 world-data tests.
+
+## November 13: client patches and disenchant refresh
+
+Build **70938** is published with 24,511 items, 2,227 recipes and 1,709 direct
+teaching links. The earlier 70888 compatibility relations are historical; the
+exact current catalog now carries the native relationships. Guardian definitions
+resolve a pinned upstream commit and verify actual DB2 layouts instead of
+requiring a Git subject named after every patch. Small reagent-quantity changes
+are eligible for promotion only when normalized quantities match checksummed
+raw SpellReagents evidence; unrelated semantic changes still require review.
+
+The recurring in-game “Data update needed” was a build mismatch, not missing
+rarity arithmetic: bundled eligibility was 70888 and the client was 70938.
+Eligibility also depends on armor/weapon class, item flags, rule brackets and
+special loot tables. It must not be inferred from rarity and level alone.
+Collector 0.15.9 bundles the fresh native snapshot: 10,227 equipment records,
+8,480 eligible and 8,222 supported Classic reference valuations. The client
+does not contain loot probabilities; yields remain clearly labeled estimates.
+
+Both web and ingestion need `WOW_TRADER_CATALOG_ROOT` pointing at the absolute
+immutable catalog-release root (production: `/home/wow-trader-system/shared/catalog-releases`).
+The first market-intelligence page includes a build-scoped compact eligibility
+pack for all catalog equipment, including items absent from the AH. Rules are
+loaded from the manifest's checksummed ItemDisenchantLoot artifact. Optional
+evidence failure leaves prices usable and disenchant evidence unavailable.
+
+Companion 0.3.18 preserves that pack across market pagination and writes it into
+MarketData.lua. Manual Check scans refreshes it even when SavedVariables is
+unchanged; automatic synchronization checks every five minutes. Uploaded scans
+are not replayed. Reload the game to load the generated pack. The addon prefers
+matching synchronized eligibility, falling back to its matching bundled table;
+foreign builds, special loot and missing material prices remain explicit.
+
+The shared catalog eligibility helper also supplies the browser planner's output
+values. No profession names, recipes or item IDs influence the optimizer.
+Trainer fees, known recipes and actual auction availability still determine
+whether a route can be completed.
+
+The November 13 controls passed 41 focused web checks, 51 Companion-core
+checks (including a five-minute refresh with an unchanged file), 36 catalog
+checks, 15 contract checks, 16 ingestion checks and 11 desktop checks. The
+addon runner also checks 1,225 scanner cases, JS/Lua price parity and current
+native equipment coverage. All 10,227 API eligibility tuples match the
+independently extracted native bootstrap snapshot exactly. Browser checks use
+actual accepted market data: 412 Blacksmithing recipes, 561 vendor-valued
+items and 270 complete disenchant estimates. Controls verify worker execution,
+gross/returns/net reconciliation, preference restoration and 390px layout.
+
+A 221–300 performance fixture with all recipes marked learned completes in
+under 0.5 seconds per recovery mode. With identical data, the former gross-cost
+choice has an estimated net 123.9856g under the same disenchant settings;
+the new net objective finds 93.3402g. This omits learning costs and deliberately
+marks every recipe learned for algorithm benchmarking; it is **not** a route
+quote for a real character. Actual recipes, training fees and stock must still
+be supplied. Evidence: `artifacts/catalog-70938-20261113/`.

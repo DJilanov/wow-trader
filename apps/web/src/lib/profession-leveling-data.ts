@@ -16,6 +16,9 @@ import {
   worldTrainerObservations,
 } from "@wow-trader/db";
 import { and, desc, eq, gt, inArray } from "drizzle-orm";
+import { loadClientDisenchantEvidence } from "@wow-trader/catalog";
+import { DISENCHANT_MATERIAL_ITEM_IDS } from "./disenchanting";
+import { getLevelingItemRecovery } from "./profession-leveling-item-values";
 import { getDatabase } from "./database";
 import { communitySnapshotFreshnessCondition } from "./community-publication";
 import { isPurchasableRecipePattern, readRecipeSkillBands } from "./profession-leveling-catalog";
@@ -85,7 +88,7 @@ export async function getProfessionLevelingData(
         "No accepted Auction House scan matches this market. Upload a complete scan with Companion first.",
     };
   const [build] = await db
-    .select({ id: gameBuilds.id })
+    .select({ id: gameBuilds.id, manifest: gameBuilds.manifest })
     .from(gameBuilds)
     .where(
       and(
@@ -326,6 +329,7 @@ export async function getProfessionLevelingData(
       recipes.flatMap((recipe) => [
         ...recipe.inputs.map((input) => input.itemId),
         ...recipe.acquisition.flatMap((option) => (option.itemId ? [option.itemId] : [])),
+        ...(recipe.output ? [recipe.output.itemId] : []),
       ]),
     ),
   ];
@@ -337,9 +341,20 @@ export async function getProfessionLevelingData(
       recipes,
       limitation: "No complete skill-up recipes are captured for this profession.",
     };
-  const [itemRows, levels] = await Promise.all([
+  const pricingIds = [...new Set([...itemIds, ...DISENCHANT_MATERIAL_ITEM_IDS])];
+  const [itemRows, levels, evidence] = await Promise.all([
     db
-      .select({ id: itemVersions.itemId, name: itemVersions.name })
+      .select({
+        id: itemVersions.itemId,
+        name: itemVersions.name,
+        classId: itemVersions.classId,
+        subclassId: itemVersions.subclassId,
+        quality: itemVersions.quality,
+        itemLevel: itemVersions.itemLevel,
+        binding: itemVersions.binding,
+        rawRecord: itemVersions.rawRecord,
+        vendorSellCopper: itemVersions.sellPriceCopper,
+      })
       .from(itemVersions)
       .where(and(eq(itemVersions.buildId, build.id), inArray(itemVersions.itemId, itemIds))),
     db
@@ -348,13 +363,41 @@ export async function getProfessionLevelingData(
       .where(
         and(
           eq(auctionPriceLevels.scanId, selected.scanId),
-          inArray(auctionPriceLevels.itemId, itemIds),
+          inArray(auctionPriceLevels.itemId, pricingIds),
         ),
       )
       .orderBy(auctionPriceLevels.unitPriceCopper),
+    loadClientDisenchantEvidence(process.env.WOW_TRADER_CATALOG_ROOT, build.manifest).catch(
+      (error: unknown) => {
+        console.warn(
+          "Profession disenchant estimates are unavailable.",
+          error instanceof Error ? error.message : "Invalid catalog evidence",
+        );
+        return null;
+      },
+    ),
   ]);
+  const materialPrices = new Map<number, bigint>();
+  for (const level of levels) {
+    if (
+      level.marketKey !== String(level.itemId) ||
+      level.quantity <= 0 ||
+      level.unitPriceCopper <= 0n
+    )
+      continue;
+    const old = materialPrices.get(level.itemId);
+    if (old === undefined || old > level.unitPriceCopper)
+      materialPrices.set(level.itemId, level.unitPriceCopper);
+  }
   const items: LevelingItem[] = itemRows.map((item) => ({
-    ...item,
+    id: item.id,
+    name: item.name,
+    recovery: getLevelingItemRecovery(
+      { ...item, itemId: item.id },
+      evidence,
+      materialPrices,
+      selected.auctionHouseType,
+    ),
     levels: levels
       .filter((level) => level.itemId === item.id && level.marketKey === String(item.id))
       .map((level) => ({

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@wow-trader/bis": "workspace:*",
+    "@wow-trader/catalog": "workspace:*",
     "@wow-trader/contracts": "workspace:*",
     "@wow-trader/db": "workspace:*",
     "@wow-trader/economics": "workspace:*",

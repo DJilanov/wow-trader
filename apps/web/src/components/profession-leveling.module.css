@@ -1,9 +1,11 @@
 .planner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
 }
 .controls,
 .result {
+  min-width: 0;
   border: 1px solid var(--line);
   background: var(--surface);
   padding: 24px;
@@ -45,8 +47,16 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
+.recoveryControls {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
 .controls label {
   display: grid;
+  min-width: 0;
   gap: 8px;
   color: var(--muted);
   font-size: 13px;

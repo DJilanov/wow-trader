@@ -1,4 +1,8 @@
 import { createLevelingPricer, type LevelingPurchase } from "./profession-leveling-prices";
+import {
+  createLevelingRecoveryPricer,
+  quoteLevelingRecoveries,
+} from "./profession-leveling-recovery";
 import type {
   LevelingRecipe,
   ProfessionLevelingData,
@@ -12,6 +16,8 @@ const MAX_TRANSITIONS = 3_000_000;
 
 interface State {
   readonly total: bigint;
+  readonly net: bigint;
+  readonly recovery: bigint;
   readonly materials: bigint;
   readonly fees: bigint;
   readonly learned: ReadonlySet<number>;
@@ -21,6 +27,10 @@ interface State {
   readonly inventory: ReadonlyMap<number, number>;
   readonly previous: State | null;
   readonly step: ProfessionLevelingStep | null;
+}
+
+interface PlanningRecipe extends LevelingRecipe {
+  readonly producedOutput: LevelingRecipe["output"];
 }
 
 export function skillUpChance(
@@ -54,6 +64,7 @@ export function buildProfessionLevelingPlan(
     );
   }
   const price = createLevelingPricer(data.items);
+  const recovery = createLevelingRecoveryPricer(data.items, options);
   const known = new Set(options.knownRecipeIds);
   const unlocked = data.recipes
     .map((recipe) => {
@@ -82,19 +93,21 @@ export function buildProfessionLevelingPlan(
   const producedItems = new Set(
     unlocked.flatMap((recipe) => (recipe.output ? [recipe.output.itemId] : [])),
   );
-  const recipes = unlocked
+  const recipes: PlanningRecipe[] = unlocked
     .filter((recipe) =>
       recipe.inputs.every(
         (input) => producedItems.has(input.itemId) || price(input.itemId, input.quantity) !== null,
       ),
     )
-    .map((recipe) =>
-      recipe.output && !consumedItems.has(recipe.output.itemId)
-        ? { ...recipe, output: null }
-        : recipe,
-    );
+    .map((recipe) => ({
+      ...recipe,
+      producedOutput: recipe.output,
+      output: recipe.output && consumedItems.has(recipe.output.itemId) ? recipe.output : null,
+    }));
   const initial: State = {
     total: 0n,
+    net: 0n,
+    recovery: 0n,
     materials: 0n,
     fees: 0n,
     learned: known,
@@ -132,7 +145,7 @@ export function buildProfessionLevelingPlan(
           break;
         }
         const nextSkill = Math.min(options.to, skill + recipe.skillUps);
-        const next = advance(state, recipe, skill, nextSkill, chance, options, price);
+        const next = advance(state, recipe, skill, nextSkill, chance, options, price, recovery);
         if (!next) continue;
         const bucket = levels[nextSkill]!;
         bucket.push(next);
@@ -141,7 +154,7 @@ export function buildProfessionLevelingPlan(
           bucket.length = BEAM_WIDTH * 2;
           limited = true;
         }
-        if (nextSkill > reached || (nextSkill === reached && next.total < best.total)) {
+        if (nextSkill > reached || (nextSkill === reached && compare(next, best) < 0)) {
           reached = nextSkill;
           best = next;
         }
@@ -185,6 +198,25 @@ export function buildProfessionLevelingPlan(
     (sum, [id, quantity]) => sum + price(id, quantity)!.cost,
     0n,
   );
+  const recipeById = new Map(recipes.map((recipe) => [recipe.id, recipe]));
+  const leftovers = new Map<number, number>();
+  for (const step of steps) {
+    const recipe = recipeById.get(step.recipeId)!;
+    for (const input of recipe.inputs) {
+      const held = leftovers.get(input.itemId) ?? 0;
+      leftovers.set(input.itemId, Math.max(0, held - input.quantity * step.crafts));
+    }
+    if (recipe.producedOutput)
+      leftovers.set(
+        recipe.producedOutput.itemId,
+        (leftovers.get(recipe.producedOutput.itemId) ?? 0) +
+          recipe.producedOutput.quantity * step.crafts,
+      );
+  }
+  const recoveries = quoteLevelingRecoveries(leftovers, items, recovery);
+  const recoveryCopper = recoveries.total;
+  if (recoveryCopper !== best.recovery / recovery.scale)
+    throw new Error("Crafted-output recovery did not reconcile.");
   return {
     from: options.from,
     reached,
@@ -194,6 +226,10 @@ export function buildProfessionLevelingPlan(
     totalCopper: best.total.toString(),
     materialCopper: materialCopper.toString(),
     recipeCopper: (best.total - materialCopper).toString(),
+    recoveryCopper: recoveryCopper.toString(),
+    netCopper: (best.total - recoveryCopper).toString(),
+    recoveryMode: options.recoveryMode ?? "vendor",
+    recoveries: recoveries.lines,
     steps: combined,
     shopping,
     excluded: data.recipes.length - recipes.length,
@@ -203,7 +239,15 @@ export function buildProfessionLevelingPlan(
 }
 
 function compare(left: State, right: State): number {
-  return left.total < right.total ? -1 : left.total > right.total ? 1 : 0;
+  return left.net < right.net
+    ? -1
+    : left.net > right.net
+      ? 1
+      : left.total < right.total
+        ? -1
+        : left.total > right.total
+          ? 1
+          : 0;
 }
 
 function stateSignature(state: State): string {
@@ -219,12 +263,13 @@ function stateSignature(state: State): string {
 
 function advance(
   state: State,
-  recipe: LevelingRecipe,
+  recipe: PlanningRecipe,
   from: number,
   to: number,
   chance: number,
   options: ProfessionLevelingOptions,
   price: (id: number, quantity: number) => LevelingPurchase | null,
+  recovery: ReturnType<typeof createLevelingRecoveryPricer>,
 ): State | null {
   let fees = state.fees;
   let learned = state.learned;
@@ -271,11 +316,13 @@ function advance(
   const count = Math.ceil(expected - 1e-9) - Math.ceil(old - 1e-9);
   const demand = new Map(state.demand);
   const inventory = new Map(state.inventory);
+  let recovered = state.recovery;
   for (const input of recipe.inputs) {
     const units = input.quantity * count;
     const available = inventory.get(input.itemId) ?? 0;
     const used = Math.min(available, units);
     inventory.set(input.itemId, available - used);
+    if (used) recovered -= (recovery.rates.get(input.itemId)?.scaled ?? 0n) * BigInt(used);
     const missing = units - used;
     if (missing) demand.set(input.itemId, (demand.get(input.itemId) ?? 0) + missing);
   }
@@ -284,6 +331,10 @@ function advance(
       recipe.output.itemId,
       (inventory.get(recipe.output.itemId) ?? 0) + recipe.output.quantity * count,
     );
+  if (recipe.producedOutput)
+    recovered +=
+      (recovery.rates.get(recipe.producedOutput.itemId)?.scaled ?? 0n) *
+      BigInt(recipe.producedOutput.quantity * count);
   let materials = 0n;
   for (const id of new Set([...demand.keys(), ...patterns.keys()])) {
     const quantity = (demand.get(id) ?? 0) + (patterns.get(id) ?? 0);
@@ -293,6 +344,8 @@ function advance(
   }
   return {
     total: materials + fees,
+    net: (materials + fees) * recovery.scale - recovered,
+    recovery: recovered,
     materials,
     fees,
     learned,

@@ -185,6 +185,7 @@ describe("ingestion API", () => {
     expect(response.json()).toMatchObject({
       schemaVersion: "market-intelligence.v1",
       items: [{ itemId: 12808, signal: "bargain" }],
+      clientValuation: { clientBuild: 69795, items: [[2865, 4, 2, 21, true, 25, 21, false]] },
     });
   });
   it("permits a market-only credential to read intelligence but not write or read uploads", async () => {
@@ -447,6 +448,15 @@ class InMemoryRepository implements UploadRepository {
       schemaVersion: "market-intelligence.v1",
       modelVersion: "robust-market-signal-v1",
       ...query,
+      clientValuation: {
+        schemaVersion: "client-valuation.v1",
+        clientProduct: query.clientProduct,
+        clientBuild: query.clientBuild,
+        hotfixSha256: "a".repeat(64),
+        definitionsRevision: "b".repeat(40),
+        sourceSha256: "c".repeat(64),
+        items: [[2865, 4, 2, 21, true, 25, 21, false]],
+      },
       generatedAt: "2026-09-27T08:00:00.000Z",
       sourceScanAt: "2026-09-27T08:00:00.000Z",
       items: [

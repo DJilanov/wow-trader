@@ -18,6 +18,7 @@
     "@fastify/rate-limit": "11.2.0",
     "@fastify/swagger": "9.8.1",
     "@fastify/swagger-ui": "6.1.1",
+    "@wow-trader/catalog": "workspace:*",
     "@wow-trader/contracts": "workspace:*",
     "@wow-trader/db": "workspace:*",
     "@wow-trader/market": "workspace:*",

@@ -39,7 +39,12 @@ export const PROFESSION_LEVELING_QUESTIONS = [
   {
     question: "What is outside the cost estimate?",
     answer:
-      "Profession rank upgrades, tools and travel are extra. The web calculator prices vendor reagents from the Auction House and does not assume materials already in your bags or deduct possible sales of crafted items. It compares a bounded set of routes rather than guaranteeing a global minimum. Mining covers smelting, not gathering routes; Herbalism and Skinning are not supported.",
+      "Profession rank upgrades, tools and travel are extra. The calculator prices vendor reagents from the Auction House and does not assume materials already in your bags. It compares a bounded set of routes rather than guaranteeing a global minimum. Mining covers smelting, not gathering routes; Herbalism and Skinning are not supported.",
+  },
+  {
+    question: "Does the route account for vendor and disenchant returns?",
+    answer:
+      "Yes. Vendor returns are deducted by default. Choose best of vendor / disenchant to compare estimated material-sale proceeds after Auction House cut and your disenchant fee. Set the available Enchanting skill and whether this character or another player disenchants. Bound items require this character. Only leftover crafted outputs count; ingredients reused later are not sold twice. Missing evidence or prices fall back to vendor value. The shopping budget is shown separately because you pay before recovering value.",
   },
 ] as const;
 

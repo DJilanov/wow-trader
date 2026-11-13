@@ -147,6 +147,9 @@ importers:
       "@fastify/swagger-ui":
         specifier: 6.1.1
         version: 6.1.1
+      "@wow-trader/catalog":
+        specifier: workspace:*
+        version: link:../../packages/catalog
       "@wow-trader/contracts":
         specifier: workspace:*
         version: link:../../packages/contracts
@@ -193,6 +196,9 @@ importers:
       "@wow-trader/bis":
         specifier: workspace:*
         version: link:../../packages/bis
+      "@wow-trader/catalog":
+        specifier: workspace:*
+        version: link:../../packages/catalog
       "@wow-trader/contracts":
         specifier: workspace:*
         version: link:../../packages/contracts

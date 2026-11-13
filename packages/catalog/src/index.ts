@@ -1,4 +1,5 @@
 export * from "./audit.js";
+export * from "./client-valuation.js";
 export * from "./diff.js";
 export * from "./import.js";
 export * from "./promotion.js";

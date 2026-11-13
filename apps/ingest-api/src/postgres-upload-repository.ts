@@ -1,8 +1,10 @@
 import { createHash } from "node:crypto";
 import { auctionItemSnapshotSchema } from "@wow-trader/contracts";
+import { createClientValuationPack, loadClientDisenchantEvidence } from "@wow-trader/catalog";
 import type {
   AuctionScanUpload,
   MarketIntelligencePack,
+  ClientValuationPack,
   MarketIntelligenceQuery,
   ProfessionSnapshotUpload,
   PublicDataStatus,
@@ -70,6 +72,7 @@ function readMarketItemName(
 
 export class PostgresUploadRepository implements UploadRepository {
   readonly #database: WowTraderDatabase;
+  readonly #clientValuations = new Map<string, Promise<ClientValuationPack | null>>();
 
   public constructor(database: WowTraderDatabase) {
     this.#database = database;
@@ -948,7 +951,7 @@ export class PostgresUploadRepository implements UploadRepository {
     query: MarketIntelligenceQuery,
   ): Promise<MarketIntelligencePack | null> {
     const [build] = await this.#database
-      .select({ id: gameBuilds.id })
+      .select({ id: gameBuilds.id, manifest: gameBuilds.manifest })
       .from(gameBuilds)
       .where(
         and(
@@ -1037,8 +1040,13 @@ export class PostgresUploadRepository implements UploadRepository {
       levels.push(level);
       levelsByItem.set(level.itemId, levels);
     }
+    const clientValuation =
+      build && !query.afterItemId
+        ? await this.#getClientValuation(build.id, build.manifest)
+        : undefined;
     return {
       schemaVersion: "market-intelligence.v1",
+      clientValuation,
       modelVersion: "robust-market-signal-v1",
       ...query,
       generatedAt: new Date().toISOString(),
@@ -1087,6 +1095,55 @@ export class PostgresUploadRepository implements UploadRepository {
         };
       }),
     };
+  }
+  async #getClientValuation(
+    buildId: string,
+    manifest: unknown,
+  ): Promise<ClientValuationPack | null> {
+    let pending = this.#clientValuations.get(buildId);
+    if (!pending) {
+      pending = (async (): Promise<ClientValuationPack | null> => {
+        const evidence = await loadClientDisenchantEvidence(
+          process.env.WOW_TRADER_CATALOG_ROOT,
+          manifest,
+        );
+        if (!evidence) return null;
+        const rows = await this.#database
+          .select({
+            itemId: itemVersions.itemId,
+            classId: itemVersions.classId,
+            subclassId: itemVersions.subclassId,
+            quality: itemVersions.quality,
+            itemLevel: itemVersions.itemLevel,
+            binding: itemVersions.binding,
+            rawRecord: sql<unknown>`jsonb_build_object('itemSparse', jsonb_build_object('Flags', ${itemVersions.rawRecord}->'itemSparse'->'Flags', 'ExpansionID', ${itemVersions.rawRecord}->'itemSparse'->'ExpansionID'))`,
+          })
+          .from(itemVersions)
+          .where(
+            and(
+              eq(itemVersions.buildId, buildId),
+              inArray(itemVersions.classId, [2, 4]),
+              inArray(itemVersions.quality, [2, 3, 4]),
+            ),
+          );
+        return createClientValuationPack(evidence, rows);
+      })();
+      this.#clientValuations.set(buildId, pending);
+      if (this.#clientValuations.size > 4)
+        this.#clientValuations.delete(this.#clientValuations.keys().next().value!);
+    }
+    try {
+      const result = await pending;
+      if (!result) this.#clientValuations.delete(buildId);
+      return result;
+    } catch (error) {
+      this.#clientValuations.delete(buildId);
+      console.warn("Client valuation evidence is unavailable.", {
+        buildId,
+        reason: error instanceof Error ? error.message : "Invalid evidence",
+      });
+      return null;
+    }
   }
 }
 

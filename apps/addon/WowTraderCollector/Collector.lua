@@ -1,7 +1,7 @@
 local ADDON_NAME, Addon = ...
 local Pending = Addon.NativePendingRows
 
-local ADDON_VERSION = "0.15.8"
+local ADDON_VERSION = "0.15.9"
 local SAVED_SCHEMA_VERSION = 1
 local MARKET_KEY_VERSION = 1
 local MAX_QUEUED_SCANS = 8

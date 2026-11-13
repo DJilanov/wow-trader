@@ -10,6 +10,13 @@ export const professionLevelingOptionsSchema = z
     knownRecipeIds: z.array(z.number().int().positive()).max(2_000),
     recipeCosts: z.record(z.string().regex(/^\d+$/), z.string().regex(/^\d{1,16}$/)),
     recipeSkills: z.record(z.string().regex(/^\d+$/), z.number().int().min(1).max(300)).default({}),
+    recoveryMode: z.enum(["none", "vendor", "best"]).default("vendor"),
+    disenchantAccess: z.enum(["self", "other"]).default("other"),
+    enchantingSkill: z.number().int().min(1).max(300).default(1),
+    disenchantFeeCopper: z
+      .string()
+      .regex(/^\d{1,16}$/)
+      .default("0"),
   })
   .refine(
     (options) => options.to >= options.from,
@@ -23,6 +30,10 @@ export const DEFAULT_PROFESSION_LEVELING_OPTIONS: ProfessionLevelingOptions = {
   mode: "expected",
   knownRecipeIds: [],
   recipeCosts: {},
+  recoveryMode: "vendor",
+  disenchantAccess: "other",
+  enchantingSkill: 1,
+  disenchantFeeCopper: "0",
 };
 
 export function goldToCopper(value: string): string | null {
