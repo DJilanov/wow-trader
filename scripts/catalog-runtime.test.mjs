@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import {
+  buildCatalogRuntime,
   mergeGuardianStatus,
   removeDanglingDeploymentLinks,
   verifyCatalogRuntime,
@@ -11,6 +12,35 @@ import {
   writeCatalogRuntimeManifest,
   writeGuardianReleaseManifest,
 } from "./catalog-runtime.mjs";
+
+test("runtime preparation bundles backup retention independently of the active web release", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "wow-trader-catalog-runtime-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const source = join(root, "source");
+  await mkdir(join(source, "scripts"), { recursive: true });
+  for (const script of [
+    "catalog-runtime.mjs",
+    "verify-item-media.mjs",
+    "prune-catalog-backups.mjs",
+  ])
+    await writeFile(
+      join(source, "scripts", script),
+      `export const name = ${JSON.stringify(script)};\n`,
+    );
+  const runtime = join(root, "runtime");
+  await buildCatalogRuntime(source, runtime, async (_command, args) => {
+    if (!args.includes("deploy")) return;
+    await mkdir(join(runtime, "node_modules"), { recursive: true });
+    await mkdir(join(runtime, "dist"));
+    await writeFile(join(runtime, "package.json"), JSON.stringify({ name: "@wow-trader/catalog" }));
+    await writeFile(join(runtime, "dist/cli.js"), "export {};\n");
+  });
+  assert.equal(
+    await readFile(join(runtime, "prune-catalog-backups.mjs"), "utf8"),
+    await readFile(join(source, "scripts/prune-catalog-backups.mjs"), "utf8"),
+  );
+  await verifyCatalogRuntime(runtime);
+});
 import {
   canReusePublishedCatalog,
   catalogExtractorCacheSegment,

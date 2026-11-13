@@ -13,6 +13,7 @@ import {
 } from "@wow-trader/contracts";
 
 import { loadCatalogSnapshot } from "./snapshot.js";
+import { verifyRecipeReagents, type RecipeReagentVerification } from "./reagent-source.js";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -43,6 +44,7 @@ export interface CatalogSnapshotAuditReport {
     readonly rawRecordMismatches: AuditIdSummary;
   };
   readonly warnings: readonly string[];
+  readonly recipeReagents: RecipeReagentVerification;
 }
 
 export async function auditCatalogSnapshot(
@@ -141,11 +143,16 @@ export async function auditCatalogSnapshot(
     );
   }
 
+  const sourceReagents = manifest.rawTables["SpellReagents.effective"]
+    ? await loadRawTable(snapshotDirectory, manifest, "SpellReagents.effective")
+    : null;
+  const recipeReagents = verifyRecipeReagents(bundle, sourceReagents?.values() ?? null);
   const valid =
     sourceIdsMissingFromNormalized.length === 0 &&
     normalizedIdsMissingFromSources.length === 0 &&
     normalizedFieldMismatches.length === 0 &&
-    rawRecordMismatches.length === 0;
+    rawRecordMismatches.length === 0 &&
+    recipeReagents.mismatchedRecipeIds.length === 0;
 
   return {
     valid,
@@ -167,6 +174,7 @@ export async function auditCatalogSnapshot(
       rawRecordMismatches: summarizeIds(rawRecordMismatches),
     },
     warnings,
+    recipeReagents,
   };
 }
 

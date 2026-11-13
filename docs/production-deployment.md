@@ -509,8 +509,9 @@ not its release packages, extracted data, status or rollback files.
 
 Automatic publication requires an applied hotfix cache, an exact 40-character official definitions
 revision, an unchanged extractor version, item/spell counts within 10%, and unchanged profession,
-recipe-economy, and item-transformation topology. Item/spell metadata and recipe craft-time changes
-are safe because the exact extracted snapshot replaces them atomically. Reagent, yield, cooldown,
+recipe-economy, and item-transformation topology, except the source-verified quantity changes below.
+Item/spell metadata and recipe craft-time changes
+are safe because the exact extracted snapshot replaces them atomically. Reagent identities, yield, cooldown,
 skill requirement, profession, recipe membership, or transformation changes stop in
 `review_required` and generate one macOS notification per build/hotfix pair.
 
@@ -522,6 +523,16 @@ catalog. This permits an unchanged layout to work on a new patch before upstream
 adds a build-name commit. Regression controls are in
 `scripts/catalog-definitions.test.mjs`, including refresh to a newer upstream pin
 and rejection of invalid revisions or failed fetches.
+
+Small reagent-quantity-only changes may publish automatically after the target audit
+matches every normalized recipe input against the checksum-verified
+`SpellReagents.effective` table. Evidence is fingerprinted to the target input rows;
+missing, stale, malformed or mismatching evidence cannot approve a change. The automatic
+budget is 10% of recipes (rounded down, at least one). Ingredient IDs, optional flags,
+outputs, cooldowns, learning requirements, recipe membership and extractor versions
+retain their review gates. The audit itself now fails on raw/normalized reagent
+disagreement. Backups and imports use the checksum-verified standalone tooling;
+backup retention no longer depends on a script in the active website release.
 
 The installed guardian records its catalog extractor version. A published build/hotfix pair is
 considered current only when that version also matches; installing an extractor upgrade therefore

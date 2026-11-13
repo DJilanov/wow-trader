@@ -11,6 +11,7 @@ import { auditCatalogSnapshot } from "./audit.js";
 import { diffCatalogs } from "./diff.js";
 import { createSnapshotKey } from "./import.js";
 import { assessCatalogPromotion } from "./promotion.js";
+import { verifyRecipeReagents } from "./reagent-source.js";
 import { createSemanticCatalogDiff } from "./semantic-diff.js";
 import { validateCatalog } from "./validation.js";
 
@@ -119,6 +120,62 @@ describe("assessCatalogPromotion", () => {
     expect(assessment.changes.recipeEconomics.changed).toEqual([17_563]);
   });
 
+  it("automatically accepts quantity-only updates verified against the actual source rows", () => {
+    const before = createGoldenBundle();
+    const after = createPromotionTarget(before);
+    after.recipeInputs[0] = { ...after.recipeInputs[0]!, quantity: 2 };
+    const evidence = reagentEvidence(after);
+    const assessment = assessCatalogPromotion(before, after, evidence);
+    expect(assessment.decision).toBe("auto_publish");
+    expect(assessment.sourceVerifiedReagentQuantityChanges).toEqual([17_563]);
+  });
+
+  it("rejects stale or mismatched source evidence for a quantity update", () => {
+    const before = createGoldenBundle();
+    const after = createPromotionTarget(before);
+    const stale = reagentEvidence(after);
+    after.recipeInputs[0] = { ...after.recipeInputs[0]!, quantity: 2 };
+    expect(assessCatalogPromotion(before, after, stale).decision).toBe("review_required");
+    const mismatch = verifyRecipeReagents(after, [
+      { SpellID: 17_563, Reagent: [], ReagentCount: [] },
+    ]);
+    expect(assessCatalogPromotion(before, after, mismatch).decision).toBe("review_required");
+  });
+
+  it.each(["item", "output", "rank", "cooldown", "teaching", "extractor"])(
+    "keeps %s changes under review even with verified quantities",
+    (change) => {
+      const before = createGoldenBundle();
+      const after = createPromotionTarget(before);
+      after.recipeInputs[0] = { ...after.recipeInputs[0]!, quantity: 2 };
+      if (change === "item")
+        after.recipeInputs[0] = { ...after.recipeInputs[0]!, reagentItemId: 99 };
+      if (change === "output")
+        after.recipeOutputs[0] = { ...after.recipeOutputs[0]!, minimumQuantity: 2 };
+      if (change === "rank") after.recipes[0] = { ...after.recipes[0]!, requiredSkillRank: 99 };
+      if (change === "cooldown") after.recipes[0] = { ...after.recipes[0]!, cooldownMs: 99 };
+      if (change === "teaching") after.recipeTeachingItems = [];
+      if (change === "extractor") after.manifest.extractor.version = "9.0.0";
+      expect(assessCatalogPromotion(before, after, reagentEvidence(after)).decision).toBe(
+        "review_required",
+      );
+    },
+  );
+
+  it("keeps broad quantity changes outside the small automatic update budget", () => {
+    const before = createGoldenBundle();
+    before.recipes.push({ ...before.recipes[0]!, recipeSpellId: 17_565 });
+    before.recipeInputs.push({ ...before.recipeInputs[0]!, recipeSpellId: 17_565 });
+    const after = createPromotionTarget(before);
+    after.recipeInputs = after.recipeInputs.map((input) => ({
+      ...input,
+      quantity: input.quantity + 1,
+    }));
+    expect(assessCatalogPromotion(before, after, reagentEvidence(after)).decision).toBe(
+      "review_required",
+    );
+  });
+
   it("requires an exact definitions revision and applied hotfixes", () => {
     const before = createGoldenBundle();
     const after = createPromotionTarget(before);
@@ -146,6 +203,30 @@ describe("assessCatalogPromotion", () => {
 });
 
 describe("auditCatalogSnapshot", () => {
+  it.each([1, 2])(
+    "checks normalized reagent quantity %s against checksum-verified raw rows",
+    async (quantity) => {
+      const directory = await mkdtemp(join(tmpdir(), "wow-trader-reagent-audit-"));
+      try {
+        const base = createGoldenBundle();
+        const fixture = {
+          ...createItemAuditFixture(),
+          recipes: base.recipes,
+          recipeInputs: [{ ...base.recipeInputs[0]!, quantity }],
+          reagentRows: [{ id: 1, SpellID: 17_563, Reagent: [12_808], ReagentCount: [1] }],
+        };
+        const path = await writeAuditSnapshot(directory, fixture.normalizedItems, fixture);
+        const report = await auditCatalogSnapshot(path);
+        expect(report.valid).toBe(quantity === 1);
+        expect(report.recipeReagents.sourceAvailable).toBe(true);
+        expect(report.recipeReagents.mismatchedRecipeIds).toEqual(quantity === 1 ? [] : [17_563]);
+        await writeFile(join(directory, "raw/SpellReagents.effective.ndjson.gz"), gzipSync("{}\n"));
+        await expect(auditCatalogSnapshot(path)).rejects.toThrow(/checksum/i);
+      } finally {
+        await rm(directory, { recursive: true, force: true });
+      }
+    },
+  );
   it("proves normalized item coverage while reporting structural IDs without names", async () => {
     const directory = await mkdtemp(join(tmpdir(), "wow-trader-catalog-audit-"));
     try {
@@ -354,6 +435,20 @@ function createPromotionTarget(source: CatalogBundle): CatalogBundle {
   return target;
 }
 
+function reagentEvidence(bundle: CatalogBundle) {
+  return verifyRecipeReagents(
+    bundle,
+    bundle.recipes.map((recipe) => {
+      const rows = bundle.recipeInputs.filter((row) => row.recipeSpellId === recipe.recipeSpellId);
+      return {
+        SpellID: recipe.recipeSpellId,
+        Reagent: rows.map((row) => row.reagentItemId),
+        ReagentCount: rows.map((row) => row.quantity),
+      };
+    }),
+  );
+}
+
 function createItem(itemId: number, name: string): CatalogBundle["items"][number] {
   return {
     itemId,
@@ -414,6 +509,9 @@ interface ItemAuditFixture {
   readonly sparseRows: readonly Record<string, unknown>[];
   readonly searchNameRows: readonly Record<string, unknown>[];
   readonly normalizedItems: readonly CatalogItem[];
+  readonly recipes?: CatalogBundle["recipes"];
+  readonly recipeInputs?: CatalogBundle["recipeInputs"];
+  readonly reagentRows?: readonly Record<string, unknown>[];
 }
 
 function createItemAuditFixture(): ItemAuditFixture {
@@ -542,6 +640,15 @@ async function writeAuditSnapshot(
   ]);
 
   const rawTables = {
+    ...(fixture.reagentRows
+      ? {
+          "SpellReagents.effective": await writeNdjsonArtifact(
+            directory,
+            "raw/SpellReagents.effective.ndjson.gz",
+            fixture.reagentRows,
+          ),
+        }
+      : {}),
     "Item.effective": await writeNdjsonArtifact(
       directory,
       "raw/Item.effective.ndjson.gz",
@@ -607,7 +714,13 @@ async function writeAuditSnapshot(
         await writeNdjsonArtifact(
           directory,
           `normalized/${name}.ndjson.gz`,
-          name === "items" ? normalizedItems : [],
+          name === "items"
+            ? normalizedItems
+            : name === "recipes"
+              ? (fixture.recipes ?? [])
+              : name === "recipe-inputs"
+                ? (fixture.recipeInputs ?? [])
+                : [],
         ),
       ]),
     ),

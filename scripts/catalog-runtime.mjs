@@ -226,6 +226,10 @@ export async function buildCatalogRuntime(repositoryRoot, runtimeDirectory, run)
     join(repositoryRoot, "scripts/verify-item-media.mjs"),
     join(runtimeDirectory, "verify-item-media.mjs"),
   );
+  await copyFile(
+    join(repositoryRoot, "scripts/prune-catalog-backups.mjs"),
+    join(runtimeDirectory, "prune-catalog-backups.mjs"),
+  );
   const fingerprint = await writeCatalogRuntimeManifest(runtimeDirectory);
   await verifyCatalogRuntime(runtimeDirectory, fingerprint);
   return fingerprint;

@@ -687,6 +687,7 @@ async function publishCatalog(
   const backupName = `wow_trader-pre-${manifest.product}-${manifest.buildNumber}-${manifest.hotfix.sha256.slice(0, 8)}-catalog-${compactDate(new Date())}.dump`;
   const remoteScript = `set -Eeuo pipefail
 deploy_root=$2
+node "$5/verify-runtime.mjs" "$5" "$6"
 backup="$deploy_root/shared/backups/$3"
 if [ ! -e "$backup" ]; then
   set -a
@@ -696,7 +697,7 @@ if [ ! -e "$backup" ]; then
   pg_dump --format=custom --no-owner --no-acl --file="$backup" "$DATABASE_URL"
 fi
 pg_restore --list "$backup" >/dev/null
-node "$deploy_root/current/scripts/prune-catalog-backups.mjs" "$backup"
+node "$5/prune-catalog-backups.mjs" "$backup"
 mkdir -p "$4"
 `;
   await run(
@@ -710,6 +711,8 @@ mkdir -p "$4"
       options.deployRoot,
       backupName,
       remoteCatalogDirectory,
+      runtime.directory,
+      runtime.fingerprint,
     ],
     { input: remoteScript },
   );

@@ -57,9 +57,12 @@ async function semanticDiffCommand(args: readonly string[]): Promise<void> {
 async function assessPromotionCommand(args: readonly string[]): Promise<void> {
   const sourcePath = requiredPositional(args, 0, "source manifest path");
   const targetPath = requiredPositional(args, 1, "target manifest path");
+  const audit = await auditCatalogSnapshot(targetPath);
+  if (!audit.valid) throw new Error("Target catalog failed its source-data audit.");
   const assessment = assessCatalogPromotion(
     await loadCatalogSnapshot(sourcePath),
     await loadCatalogSnapshot(targetPath),
+    audit.recipeReagents,
   );
   const output = `${JSON.stringify(assessment, null, 2)}\n`;
   const outputIndex = args.indexOf("--output");

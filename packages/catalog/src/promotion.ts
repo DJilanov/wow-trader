@@ -1,6 +1,7 @@
 import { canonicalJson, type CatalogBundle, type JsonValue } from "@wow-trader/contracts";
 
 import type { EntityDiff } from "./diff.js";
+import { fingerprintRecipeInputs, type RecipeReagentVerification } from "./reagent-source.js";
 
 export type CatalogPromotionDecision = "auto_publish" | "review_required";
 
@@ -25,6 +26,7 @@ export interface CatalogPromotionAssessment {
   readonly sourceBuild: number;
   readonly targetBuild: number;
   readonly blockers: readonly CatalogPromotionBlocker[];
+  readonly sourceVerifiedReagentQuantityChanges?: readonly number[];
   readonly changes: {
     readonly items: EntityDiff;
     readonly spells: EntityDiff;
@@ -36,11 +38,13 @@ export interface CatalogPromotionAssessment {
 }
 
 const MAX_COUNT_DRIFT_RATIO = 0.1;
+const MAX_AUTO_REAGENT_CHANGE_RATIO = 0.1;
 const EXACT_GIT_REVISION = /^[a-f0-9]{40}$/;
 
 export function assessCatalogPromotion(
   source: CatalogBundle,
   target: CatalogBundle,
+  reagentEvidence?: RecipeReagentVerification,
 ): CatalogPromotionAssessment {
   const blockers: CatalogPromotionBlocker[] = [];
   if (source.manifest.product !== target.manifest.product) {
@@ -144,12 +148,20 @@ export function assessCatalogPromotion(
     "profession_topology_changed",
     "Profession identifiers changed.",
   );
-  addTopologyBlocker(
-    blockers,
+  const verifiedReagentChanges = verifyQuantityOnlyChanges(
+    source,
+    target,
     changes.recipeEconomics,
-    "recipe_economics_changed",
-    "Recipe reagents, yields, cooldowns, requirements, or outputs changed.",
+    reagentEvidence,
   );
+  if (!verifiedReagentChanges.length) {
+    addTopologyBlocker(
+      blockers,
+      changes.recipeEconomics,
+      "recipe_economics_changed",
+      "Recipe reagents, yields, cooldowns, requirements, or outputs changed.",
+    );
+  }
   addTopologyBlocker(
     blockers,
     changes.transformations,
@@ -163,10 +175,48 @@ export function assessCatalogPromotion(
     targetBuild: target.manifest.buildNumber,
     blockers,
     changes,
+    ...(verifiedReagentChanges.length
+      ? { sourceVerifiedReagentQuantityChanges: verifiedReagentChanges }
+      : {}),
   };
 }
 
-function recipeTopologies(bundle: CatalogBundle, includeCraftTime: boolean) {
+function verifyQuantityOnlyChanges(
+  source: CatalogBundle,
+  target: CatalogBundle,
+  changes: EntityDiff,
+  evidence: RecipeReagentVerification | undefined,
+): readonly number[] {
+  if (
+    !evidence?.sourceAvailable ||
+    evidence.mismatchedRecipeIds.length ||
+    evidence.inputFingerprint !== fingerprintRecipeInputs(target.recipeInputs) ||
+    changes.added.length ||
+    changes.removed.length ||
+    !changes.changed.length ||
+    changes.changed.length >
+      Math.max(1, Math.floor(source.recipes.length * MAX_AUTO_REAGENT_CHANGE_RATIO))
+  )
+    return [];
+  const verified = new Set(evidence.verifiedRecipeIds);
+  const old = new Map(
+    recipeTopologies(source, false, true).map((row) => [row.recipeSpellId, canonicalJson(row)]),
+  );
+  const next = new Map(
+    recipeTopologies(target, false, true).map((row) => [row.recipeSpellId, canonicalJson(row)]),
+  );
+  return changes.changed.every(
+    (id) => verified.has(id) && old.has(id) && old.get(id) === next.get(id),
+  )
+    ? changes.changed
+    : [];
+}
+
+function recipeTopologies(
+  bundle: CatalogBundle,
+  includeCraftTime: boolean,
+  ignoreQuantities = false,
+) {
   return bundle.recipes.map((recipe) => ({
     recipeSpellId: recipe.recipeSpellId,
     professionSkillLineId: recipe.professionSkillLineId,
@@ -179,6 +229,15 @@ function recipeTopologies(bundle: CatalogBundle, includeCraftTime: boolean) {
     extractionStatus: recipe.extractionStatus,
     inputs: bundle.recipeInputs
       .filter((input) => input.recipeSpellId === recipe.recipeSpellId)
+      .map((input) =>
+        ignoreQuantities
+          ? {
+              recipeSpellId: input.recipeSpellId,
+              reagentItemId: input.reagentItemId,
+              optional: input.optional,
+            }
+          : input,
+      )
       .sort(compareCanonical),
     outputs: bundle.recipeOutputs
       .filter((output) => output.recipeSpellId === recipe.recipeSpellId)
