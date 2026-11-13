@@ -190,6 +190,7 @@ async function prepareRelease() {
       "catalog-guardian.mjs",
       "catalog-guardian-state.mjs",
       "catalog-client.mjs",
+      "catalog-definitions.mjs",
       "catalog-review-approval.mjs",
       "catalog-runtime.mjs",
       "sync-production-media.sh",

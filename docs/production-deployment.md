@@ -472,7 +472,7 @@ The maintainer Mac runs LaunchAgent `online.kfcguild.wow-trader-catalog-guardian
 changes to `.build.info` or the Forever `DBCache.bin` and also checks every five minutes. This catches
 both numbered client releases and hotfix-only changes that retain the same build number.
 
-The guardian performs the complete publication sequence: exact WoWDBDefs revision resolution,
+The guardian performs the complete publication sequence: pinned WoWDBDefs revision resolution,
 client extraction, 102-artifact audit, relationship validation, semantic comparison against the
 latest published snapshot, icon extraction and verification, a unique custom-format PostgreSQL
 backup, immutable catalog/media synchronization, repeated server-side audit/validation, reviewed
@@ -513,6 +513,15 @@ recipe-economy, and item-transformation topology. Item/spell metadata and recipe
 are safe because the exact extracted snapshot replaces them atomically. Reagent, yield, cooldown,
 skill requirement, profession, recipe membership, or transformation changes stop in
 `review_required` and generate one macOS notification per build/hotfix pair.
+
+Definitions are pinned to the fetched official upstream commit. A commit named
+`Merge <client-version>` is not required: DBCD selects the installed table's declared
+build definition or matching DB2 layout hash. Unknown layouts still fail extraction;
+the guardian does not guess a nearby build, alter game files or substitute an older
+catalog. This permits an unchanged layout to work on a new patch before upstream
+adds a build-name commit. Regression controls are in
+`scripts/catalog-definitions.test.mjs`, including refresh to a newer upstream pin
+and rejection of invalid revisions or failed fetches.
 
 The installed guardian records its catalog extractor version. A published build/hotfix pair is
 considered current only when that version also matches; installing an extractor upgrade therefore

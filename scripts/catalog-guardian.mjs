@@ -32,6 +32,7 @@ import {
 } from "./catalog-guardian-state.mjs";
 import { resolveCatalogPromotionApproval } from "./catalog-review-approval.mjs";
 import { readCatalogClientInstallation } from "./catalog-client.mjs";
+import { resolveCatalogDefinitionsRevision } from "./catalog-definitions.mjs";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const catalogCli = join(repositoryRoot, "packages/catalog/node_modules/.bin/tsx");
@@ -161,17 +162,7 @@ async function reconcile(options) {
     hotfixHash,
     message: `Preparing exact catalog build ${installed.buildNumber}.`,
   });
-  const definitionsRevision = await resolveDefinitionsRevision(installed.version);
-  if (!definitionsRevision) {
-    await updateStatus({
-      state: "waiting_for_definitions",
-      product: options.product,
-      buildNumber: installed.buildNumber,
-      hotfixHash,
-      message: `WoWDBDefs has not published exact layouts for ${installed.version} yet; the guardian will retry.`,
-    });
-    return;
-  }
+  const definitionsRevision = await resolveCatalogDefinitionsRevision(definitionsSource, run);
 
   const catalogOutput = join(
     workRoot,
@@ -365,39 +356,6 @@ function parseOptions(arguments_) {
     verifyTools,
     approvedManifestSha256,
   };
-}
-
-async function resolveDefinitionsRevision(clientVersion) {
-  if (!(await pathExists(join(definitionsSource, ".git")))) {
-    await mkdir(dirname(definitionsSource), { recursive: true });
-    await run("git", [
-      "clone",
-      "--filter=blob:none",
-      "--no-checkout",
-      "https://github.com/wowdev/WoWDBDefs.git",
-      definitionsSource,
-    ]);
-  }
-  await run("git", ["-C", definitionsSource, "fetch", "--quiet", "origin", "master"]);
-  const result = await run(
-    "git",
-    [
-      "-C",
-      definitionsSource,
-      "log",
-      "origin/master",
-      "--format=%H%x09%s",
-      "--fixed-strings",
-      `--grep=Merge ${clientVersion}`,
-    ],
-    { capture: true },
-  );
-  const exact = result.stdout
-    .trim()
-    .split(/\r?\n/)
-    .map((line) => line.split("\t", 2))
-    .find(([, subject]) => subject === `Merge ${clientVersion}`);
-  return exact?.[0] ?? null;
 }
 
 async function findManifest(searchRoot, expected) {
