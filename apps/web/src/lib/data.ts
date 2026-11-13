@@ -43,7 +43,12 @@ import {
   worldVendorObservations,
   type WowTraderDatabase,
 } from "@wow-trader/db";
-import { forecastPrice, summarizeOrderBook, type PriceForecast } from "@wow-trader/market";
+import {
+  MINIMUM_RESALE_MARKET_QUANTITY,
+  forecastPrice,
+  summarizeOrderBook,
+  type PriceForecast,
+} from "@wow-trader/market";
 import { assessEvidenceNameAgreement } from "@wow-trader/world-data";
 import {
   and,
@@ -1824,6 +1829,11 @@ export async function getOpportunities(
     const outputMarkets = recipeOutputRows.flatMap((output) => {
       if (output.outputItemId === null) return [];
       const outputLevels = priceLevelsByItem.get(output.outputItemId) ?? [];
+      if (
+        outputLevels.reduce((sum, level) => sum + level.quantity, 0) <
+        MINIMUM_RESALE_MARKET_QUANTITY
+      )
+        return [];
       const minimumPrice = outputLevels.reduce<bigint | null>(
         (minimum, level) =>
           minimum === null || level.unitPriceCopper < minimum ? level.unitPriceCopper : minimum,

@@ -4,6 +4,25 @@ import { createMarketOpportunityHistory } from "./market-opportunity-history";
 import { createMarketPriceSignal } from "./market-price-signal";
 
 describe("createMarketOpportunityHistory", () => {
+  it("does not chart resale profit from fewer than 50 output units", () => {
+    const result = createMarketOpportunityHistory({
+      auctionHouseCutBasisPoints: 500,
+      inputs: [{ itemId: 20, quantity: 1 }],
+      outputs: [
+        { itemId: 10, name: "Output", expectedQuantity: { numerator: 1n, denominator: 1n } },
+      ],
+      primaryOutputItemId: 10,
+      signalsByItem: new Map([
+        [10, signal([1_000_000n], 49)],
+        [20, signal([100n], 1)],
+      ]),
+    });
+    expect(result?.points[0]).toMatchObject({
+      profitCopper: null,
+      missingOutputCount: 1,
+      missingInputCount: 0,
+    });
+  });
   it("aligns output and reagent observations and applies the Auction House fee", () => {
     const result = createMarketOpportunityHistory({
       auctionHouseCutBasisPoints: 500,
@@ -85,12 +104,12 @@ describe("createMarketOpportunityHistory", () => {
   });
 });
 
-function signal(prices: readonly bigint[], quantity = 10) {
+function signal(prices: readonly bigint[], quantity = 50) {
   return createMarketPriceSignal(
     prices.map((price, index) => ({
       observedAt: new Date(Date.UTC(2026, 0, 1, 0, index * 30)),
       completeness: 1,
-      levels: [{ unitPriceCopper: price, quantity, listingCount: 3 }],
+      levels: [{ unitPriceCopper: price, quantity, listingCount: Math.min(3, quantity) }],
     })),
   );
 }

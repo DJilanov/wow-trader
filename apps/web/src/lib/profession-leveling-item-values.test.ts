@@ -43,12 +43,19 @@ const item = {
   rawRecord: { itemSparse: { Flags: [0, 0], ExpansionID: 0 } },
 };
 const prices = new Map([
-  [10940, 10_000n],
-  [10998, 10_000n],
-  [10978, 10_000n],
+  [10940, { priceCopper: 10_000n, quantity: 50 }],
+  [10998, { priceCopper: 10_000n, quantity: 50 }],
+  [10978, { priceCopper: 10_000n, quantity: 50 }],
 ]);
 
 describe("build-aware profession output values", () => {
+  it("requires 50 units of every resale material and keeps vendor fallback below that depth", () => {
+    const thin = new Map(prices);
+    thin.set(10940, { priceCopper: 1_000_000n, quantity: 49 });
+    expect(getLevelingItemRecovery(item, evidence, thin, "alliance").disenchant).toBeNull();
+    thin.set(10940, { priceCopper: 1_000_000n, quantity: 50 });
+    expect(getLevelingItemRecovery(item, evidence, thin, "alliance").disenchant).not.toBeNull();
+  });
   it("uses complete Classic distributions after exactly one AH cut, matching the addon", () => {
     const value = getLevelingItemRecovery(item, evidence, prices, "alliance");
     expect(value.vendorCopper).toBe("962");

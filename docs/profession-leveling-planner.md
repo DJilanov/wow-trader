@@ -1,6 +1,6 @@
 # Profession leveling and crafting tooltip costs
 
-Current local addon: **Collector 0.15.9 / Companion 0.3.18**. The new web route is
+Current local addon: **Collector 0.15.10 / Companion 0.3.19**. The new web route is
 `/tools/forever/trader/leveling`, linked from Forever Trader. The web release is
 validated separately from the local addon installation; public desktop installers
 are not promoted by this web rollout.
@@ -232,3 +232,25 @@ the new net objective finds 93.3402g. This omits learning costs and deliberately
 marks every recipe learned for algorithm benchmarking; it is **not** a route
 quote for a real character. Actual recipes, training fees and stock must still
 be supplied. Evidence: `artifacts/catalog-70938-20261113/`.
+
+## Minimum resale market depth
+
+At the user's request, AH resale estimates now require **at least 50 units
+currently listed** for each output or disenchant material. This counts units
+across all canonical-market price levels, not 50 auctions or 50 sellers.
+Existing listing-count and historical-signal checks still apply where used.
+Small reagent stacks and recipe purchases remain usable at their actual
+purchase cost. Vendor values are independent of AH depth.
+
+`MINIMUM_RESALE_MARKET_QUANTITY` in the market package supplies the web policy;
+the addon's MarketPolicy exposes the same threshold, verified through the
+JavaScript/Lua comparison suite. The rule covers crafting rankings, historical
+craft-profit charts, buy-for-resale suggestions and profession leveling's
+disenchant recovery. Understocked DE materials fall back to vendor recovery in
+the leveling planner. The addon shows “Below 50 listed” with the affected
+material IDs, keeping low stock distinct from a client-data mismatch.
+
+Regression controls cover 49 vs 50 units, quantity spread across stacks, a
+one-item purchase from a supported market, and vendor/crafting-input behavior
+in thin markets. This admission threshold does not establish actual sales
+demand; AH proceeds remain estimates. No item names or IDs are special-cased.

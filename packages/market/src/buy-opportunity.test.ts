@@ -34,6 +34,36 @@ function input(overrides: Partial<BuyOpportunityInput> = {}): BuyOpportunityInpu
 }
 
 describe("buy opportunities", () => {
+  it("requires 50 resale units across stacks while allowing a smaller purchase", () => {
+    const thin = quoteBuyOpportunity(
+      input({
+        levels: [
+          {
+            unitPriceCopper: 7_000n,
+            quantity: 49,
+            listingCount: 49,
+            lots: [{ stackSize: 1, buyoutCopper: 7_000n, listingCount: 49 }],
+          },
+        ],
+      }),
+    );
+    expect(thin).toMatchObject({ state: "unavailable", quantity: 0 });
+    expect(thin.reason).toContain("at least 50 units");
+    const supported = quoteBuyOpportunity(
+      input({
+        levels: [
+          {
+            unitPriceCopper: 7_000n,
+            quantity: 50,
+            listingCount: 50,
+            lots: [{ stackSize: 1, buyoutCopper: 7_000n, listingCount: 50 }],
+          },
+        ],
+        maximumQuantity: 1,
+      }),
+    );
+    expect(supported).toMatchObject({ state: "opportunity", quantity: 1 });
+  });
   it("quotes the lower historical band, exact depth and sale cut", () => {
     expect(quoteBuyOpportunity(input())).toMatchObject({
       state: "opportunity",

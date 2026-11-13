@@ -1,9 +1,13 @@
-import { summarizeOrderBook, type MarketPriceLevel } from "./order-book-summary.js";
+import {
+  MINIMUM_RESALE_MARKET_QUANTITY,
+  summarizeOrderBook,
+  type MarketPriceLevel,
+} from "./order-book-summary.js";
 import { selectAuctionLots, validateAuctionLots, type SelectedAuctionLot } from "./auction-lots.js";
 import type { PriceIntelligence } from "./price-intelligence.js";
 
 export const BUY_POLICY = {
-  version: "conservative-whole-stack-buy-v2",
+  version: "conservative-whole-stack-buy-v3",
   maximumScanAgeMilliseconds: 60 * 60_000,
   minimumDiscountBasisPoints: 1_500,
   minimumReturnBasisPoints: 2_000,
@@ -82,6 +86,11 @@ export function quoteBuyOpportunity(input: BuyOpportunityInput): BuyOpportunity 
   }
   if (fee === null || input.levels.length === 0) return empty;
   const book = summarizeOrderBook(input.levels);
+  if (book.availableQuantity < MINIMUM_RESALE_MARKET_QUANTITY)
+    return {
+      ...empty,
+      reason: `Resale valuations require at least ${MINIMUM_RESALE_MARKET_QUANTITY} units currently listed; this market has ${book.availableQuantity}.`,
+    };
   if (
     book.listingCount < 3 ||
     book.availableQuantity < Math.max(3, Math.floor(input.intelligence.normalQuantity * 0.25))

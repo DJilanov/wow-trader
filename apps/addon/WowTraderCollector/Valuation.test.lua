@@ -26,6 +26,7 @@ GetItemInfo = function(reference)
     row.vendor, row.class, 1, row.bind
 end
 CreateFrame = function() return { RegisterEvent = function() end, SetScript = function() end } end
+assert(loadfile(root .. "MarketPolicy.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "DisenchantData.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "Valuation.lua"))("WowTraderCollector", Addon)
 local Value = Addon.Valuation
@@ -50,6 +51,15 @@ check(item.info.vendor == 100 and item.info.classId == 4 and item.info.bindType 
 check(item.auction.gross == 10000 and item.auction.net == 9500, "Faction AH fee")
 check(item.disenchant.available and item.disenchant.gross == 2975 and item.disenchant.net == 2826, "Probability-weighted DE includes every material and AH fees")
 check(item.disenchant.estimated == false and item.disenchant.requiredSkill == 1, "Verified build is distinguished from reference estimates")
+quotes[4307] = quote(1000000, nil, 1, 49)
+check(Value.Item(4307).auction.net == nil and Value.Item(4307).auction.reasonCode == "insufficient_market_depth", "49 units cannot validate an inflated resale quote")
+quotes[4307] = quote(1000000, nil, 50, 1)
+check(Value.Item(4307).auction.net == 950000, "50 units count even in one auction stack")
+quotes[4307] = quote(10000)
+quotes[10940] = quote(1000, nil, 1, 49)
+check(Value.Item(4307).disenchant.reasonCode == "insufficient_market_depth", "Every disenchant material needs 50 listed units")
+quotes[10940] = quote(1000)
+check(Value.ReagentCost(quote(1000, nil, 1, 1), 1, "current") == 1000, "Reagent purchases still use thin-market stock")
 context.auctionHouseType = "neutral"
 check(Value.Item(4307).auction.net == 8500, "Neutral AH cut")
 context.auctionHouseType = "unknown"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MINIMUM_RESALE_MARKET_QUANTITY } from "@wow-trader/market";
 import { copperToGold, goldToCopper } from "../lib/profession-leveling-settings";
 import type { ProfessionLevelingOptions } from "../lib/profession-leveling-types";
 import styles from "./profession-leveling.module.css";
@@ -81,8 +82,9 @@ export function ProfessionLevelingRecovery({
       ) : null}
       <p className={styles.note}>
         Only leftover crafted items count. Materials reused in later crafts are kept. Disenchant
-        returns use Classic yield estimates and this market’s material prices after AH cut; missing
-        prices or unsupported items fall back to vendor value. Sales are not guaranteed.
+        returns use Classic yield estimates and this market’s material prices after AH cut; each
+        material needs at least {MINIMUM_RESALE_MARKET_QUANTITY} units listed. Missing prices, low
+        stock or unsupported items fall back to vendor value. Sales are not guaranteed.
       </p>
     </div>
   );

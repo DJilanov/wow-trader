@@ -1,12 +1,13 @@
 local root = "apps/addon/WowTraderCollector/"
 local Addon = {}
+assert(loadfile(root .. "MarketPolicy.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "DisenchantData.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "ClientValuationData.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "Valuation.lua"))("WowTraderCollector", Addon)
 local data, Value = Addon.ClientValuationData, Addon.Valuation
 local context = { available = true, fresh = true, clientProduct = data.clientProduct,
   clientBuild = data.clientBuild, auctionHouseType = "alliance" }
-local function Quote() return { current = 10000, normal = 10000 } end
+local function Quote() return { current = 10000, normal = 10000, levels = {{unitPriceCopper=10000,quantity=50}} } end
 local eligible, excluded, supported = 0, 0, 0
 for id, row in pairs(data.items) do
   local result = Value.Disenchant({ itemId = id, classId = row[1], quality = row[2], itemLevel = row[3], bindType = 2 },

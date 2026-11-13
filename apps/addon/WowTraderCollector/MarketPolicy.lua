@@ -1,6 +1,7 @@
 local _, Addon = ...
 local Policy = {}
 Addon.MarketPolicy = Policy
+Policy.MINIMUM_RESALE_MARKET_QUANTITY = 50
 
 -- Conservative bound keeps all money * quantity * basis-point arithmetic exact in Lua 5.1.
 local MAX_PRICE = 9007199254
@@ -119,6 +120,10 @@ function Policy.Quote(intelligence, levels, observedAt, now, auctionHouseType, b
   end
   local book = Policy.Summarize(levels)
   if not fee or not book then return result end
+  if book.quantity < Policy.MINIMUM_RESALE_MARKET_QUANTITY then
+    result.reason = string.format("Resale valuations require at least %d units currently listed; this market has %d.",
+      Policy.MINIMUM_RESALE_MARKET_QUANTITY, book.quantity); return result
+  end
   if book.listings < 3 or book.quantity < math.max(3, math.floor(intelligence.normalQuantity * 0.25)) then
     result.reason = "There is too little current listed supply to size a buy."; return result
   end

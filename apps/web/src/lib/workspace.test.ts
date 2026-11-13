@@ -7,6 +7,31 @@ import {
 } from "./workspace.js";
 
 describe("evaluateWorkspaceRecipe", () => {
+  it("requires 50 resale units without requiring 50 units of each purchased reagent", () => {
+    const value = candidate();
+    const thin = {
+      ...value,
+      outputs: [
+        {
+          ...value.outputs[0]!,
+          priceLevels: [{ unitPriceCopper: 1_000_000n, quantity: 49, listingCount: 49 }],
+        },
+      ],
+    };
+    expect(evaluateWorkspaceRecipe(thin, 500).map((row) => row.route)).toEqual(["vendor"]);
+    const supported = {
+      ...thin,
+      outputs: [
+        {
+          ...thin.outputs[0]!,
+          priceLevels: [{ unitPriceCopper: 1_000_000n, quantity: 50, listingCount: 3 }],
+        },
+      ],
+    };
+    expect(
+      evaluateWorkspaceRecipe(supported, 500).some((row) => row.route === "auction_house"),
+    ).toBe(true);
+  });
   it("compares a robust AH quote with the deterministic vendor route", () => {
     const [auctionHouse, vendor] = evaluateWorkspaceRecipe(candidate(), 500);
 
@@ -93,7 +118,7 @@ describe("evaluateWorkspaceRecipe", () => {
                   iconFileDataId: 300,
                   quality: 1,
                   expectedQuantity: { numerator: 3n, denominator: 2n },
-                  priceLevels: [{ unitPriceCopper: 2_000n, quantity: 3, listingCount: 3 }],
+                  priceLevels: [{ unitPriceCopper: 2_000n, quantity: 50, listingCount: 3 }],
                 },
               ],
             },
@@ -293,7 +318,7 @@ function candidate(): WorkspaceRecipeCandidate {
         vendorSellPriceCopper: 1_700n,
         priceLevels: [
           { unitPriceCopper: 1_000n, quantity: 1, listingCount: 1 },
-          { unitPriceCopper: 2_000n, quantity: 19, listingCount: 8 },
+          { unitPriceCopper: 2_000n, quantity: 49, listingCount: 8 },
         ],
         disenchant: null,
       },

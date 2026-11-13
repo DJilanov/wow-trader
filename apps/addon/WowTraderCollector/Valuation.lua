@@ -3,6 +3,7 @@ local Value = {}
 Addon.Valuation = Value
 
 local MAX_MONEY = 9007199254
+local MINIMUM_RESALE_MARKET_QUANTITY = Addon.MarketPolicy.MINIMUM_RESALE_MARKET_QUANTITY
 local pendingItems = {}
 
 function Value.Readable(value)
@@ -106,6 +107,21 @@ function Value.ReagentCost(quote, quantity, mode)
   return nil
 end
 
+function Value.MarketQuantity(quote)
+  local quantity = 0
+  for _, level in ipairs(type(quote) == "table" and quote.levels or {}) do
+    local units = Value.Integer(level.quantity, 1, 1000000000)
+    local price = Value.Integer(level.unitPriceCopper, 1, MAX_MONEY)
+    if units and price then quantity = quantity + units end
+  end
+  return quantity
+end
+
+function Value.ResalePrice(quote, mode)
+  if Value.MarketQuantity(quote) < MINIMUM_RESALE_MARKET_QUANTITY then return nil end
+  return Value.Price(quote, mode)
+end
+
 function Value.PurchaseCost(quote, quantity)
   if quantity == 0 then return 0, 0 end
   if type(quote) ~= "table" or not quote.current then return nil end
@@ -193,9 +209,13 @@ function Value.Disenchant(info, context, mode, getQuote)
   result.evidence = verified and "Versioned TBC distribution" or "Classic-era yield estimate; eligibility checked against this Forever build"
   local gross, net = 0, 0
   local fee = Value.Fee(context.auctionHouseType)
-  local missing, invalidPrice = {}, false
+  local missing, thin, invalidPrice = {}, {}, false
   for _, material in ipairs(row.materials) do
-    local price = Value.Price(getQuote(material[1]), mode)
+    local quote = getQuote(material[1])
+    local price = Value.ResalePrice(quote, mode)
+    if Value.Price(quote, mode) and Value.MarketQuantity(quote) < MINIMUM_RESALE_MARKET_QUANTITY then
+      table.insert(thin, material[1])
+    end
     local expected = material[2] / material[3]
     local amount = price and Value.Integer(math.floor(price * expected), 0, MAX_MONEY) or nil
     local proceeds = amount and fee and Value.Net(amount, fee) or nil
@@ -207,6 +227,12 @@ function Value.Disenchant(info, context, mode, getQuote)
   if not fee then
     result.reasonCode = "unknown_ah_fee"
     result.reason = "The Auction House cut is unknown; expected materials are still shown."
+    return result
+  end
+  if #thin > 0 then
+    result.reasonCode = "insufficient_market_depth"
+    result.reason = string.format("At least %d units of every disenchant material must be listed. Low-stock item IDs: %s.",
+      MINIMUM_RESALE_MARKET_QUANTITY, table.concat(thin, ", "))
     return result
   end
   if #missing > 0 then
@@ -237,10 +263,13 @@ function Value.Item(reference, quantity, mode, options)
   local quote = getQuote(itemId)
   result.quote = quote
   local fee = Value.Fee(context.auctionHouseType)
-  local price = Value.Price(quote, mode)
+  local price = Value.ResalePrice(quote, mode)
   local cannotSell = info and (info.bindType == 1 or info.bindType == 4 or info.bindType == 7 or info.bindType == 8)
   if cannotSell or options.bound then result.auction.reason = "Bound item: cannot be sold on the AH."
   elseif (info and info.variant) or Value.HasVariant(reference) then result.auction.reason = "A variant-specific AH price is unavailable."
+  elseif context.available and Value.Price(quote, mode) and Value.MarketQuantity(quote) < MINIMUM_RESALE_MARKET_QUANTITY then
+    result.auction.reasonCode = "insufficient_market_depth"
+    result.auction.reason = string.format("At least %d units must be listed for an AH valuation; currently %d.", MINIMUM_RESALE_MARKET_QUANTITY, Value.MarketQuantity(quote))
   elseif not context.available or not price then result.auction.reason = context.reason or "No matching AH price."
   elseif not fee then result.auction.reason = "The Auction House fee is unknown."
   else

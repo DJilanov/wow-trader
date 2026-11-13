@@ -1,4 +1,5 @@
 import type { MarketPriceSignal } from "./market-price-signal";
+import { MINIMUM_RESALE_MARKET_QUANTITY } from "@wow-trader/market";
 
 export interface MarketOpportunityHistoryPoint {
   readonly observedAt: string;
@@ -68,7 +69,15 @@ export function createMarketOpportunityHistory(input: {
   const points = primarySignal.history.map((primaryPoint): MarketOpportunityHistoryPoint => {
     const outputPrices = input.outputs.map((output) => {
       const point = observationsByItem.get(output.itemId)?.get(primaryPoint.observedAt);
-      return { output, point: point && point.listingCount >= 3 ? point : undefined };
+      return {
+        output,
+        point:
+          point &&
+          point.listingCount >= 3 &&
+          point.availableQuantity >= MINIMUM_RESALE_MARKET_QUANTITY
+            ? point
+            : undefined,
+      };
     });
     const inputPrices = input.inputs.map((recipeInput) => {
       const point = observationsByItem.get(recipeInput.itemId)?.get(primaryPoint.observedAt);

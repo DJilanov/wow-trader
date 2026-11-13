@@ -11,24 +11,24 @@ import {
 
 import type { DesktopProductStatus } from "../shared/contracts.js";
 
-const COLLECTOR_VERSION = "0.15.9";
+const COLLECTOR_VERSION = "0.15.10";
 const ADDON_FILES: Readonly<Record<string, string>> = {
   "MarketData.lua": "fdc80bdca3aeccbe848183761c0d19497436f76f9e5d316cad5d96095f475e88",
   "AccountData.lua": "790f46d97fab43b8683ed628489d792cc242b12b208e88a97fd4bee09f2e05d8",
-  "MarketPolicy.lua": "ff97212c868d5190a195168dac283a015a97044cb80d7b6cb3cc367690cf926f",
+  "MarketPolicy.lua": "8f6bbb923c5cd72ad75311b9e650b2d1dcac30a6eb2a6f0ccf7404211bb1488f",
   "NativeItemCache.lua": "bd347018f79b0b4ce2666029a326289c389ed8468eb5d0eeb0a4fb2fc1715056",
   "NativePendingRows.lua": "a769236cc67ce257cfe97c9aad1cc085c9094a55a7689afde6d006e43a44c7df",
-  "Collector.lua": "c8f3348f7c57683177965dba24b29d43979282cf6c2aa2dd533f30af287de0f9",
+  "Collector.lua": "6214b8efd36cc27436978d879ca39052f50d1136ff7a41f38a0f63f60ee18f6d",
   "DisenchantData.lua": "63def1e77724018dff568067d63be224932f08d7b744be0c57e88d0de3ebbcc3",
   "ClientValuationData.lua": "8d31a098abef2997fe937863d80241a960ca17fa9b3dd73d84e58b7bfb2796ec",
-  "Valuation.lua": "c6cbfa3c26971f41eb9cdb94c702aab47b97801296f817820923cd9a8e138ba0",
+  "Valuation.lua": "c96e88d93ef75ad99a7163333f73c2f08822727d14dbf7dd422d532bfd60db5d",
   "Professions.lua": "24ce92e0f6f78dcd2ab2fe6b7257e0ecaa7b0105b44c7774a630160d6cf6fc24",
   "Crafting.lua": "8698f0482153d39b1468a0b533f9504bbecc637c631a0ebbdb6a55ddbcace6a4",
-  "ValuationUI.lua": "cafff3573e0c7ce00695484bfeaeb86b5f0b4a7230561abafa46a5d2fdc9967a",
+  "ValuationUI.lua": "e50044243810eff5524f3bef1be26589946ab22dc28280ba36814764e3e3f28f",
   "Trades.lua": "a85f077ceaa9201f17f49e10f50c013f9d494b0e8dc18b41a884114bcad9128d",
   "WorldEvidence.lua": "a5e8ebe31c345ebb21e5892d75691f8e259b3fc46ea8ed16df15b449d135f006",
   "UI.lua": "ba7f0d9dc9a032c4904c362d06eb479207557dbe62fe6d6169b76448f7d30bf1",
-  "WowTraderCollector.toc": "639e737f68b0b947dc205b94cfad7df5f81072560f0e2c15c6bb06775361da7d",
+  "WowTraderCollector.toc": "613df5b2edd91ebe0767f111be4aba1f1f5be48cf87deafc0cbc27b47e28fcef",
 };
 const GENERATED_DATA_FILES = ["MarketData.lua", "AccountData.lua"] as const;
 

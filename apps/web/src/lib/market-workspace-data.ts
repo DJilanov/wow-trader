@@ -23,6 +23,7 @@ import {
   type ProductionRecipe,
 } from "@wow-trader/economics";
 import { and, count, desc, eq, inArray } from "drizzle-orm";
+import { MINIMUM_RESALE_MARKET_QUANTITY } from "@wow-trader/market";
 
 import { getDatabase } from "./database";
 import { DISENCHANT_MATERIAL_ITEM_IDS, getDisenchantDistribution } from "./disenchanting";
@@ -1038,7 +1039,7 @@ function formatLimitation(
     ? " Alchemy mastery results use a provisional 1.20× expected-output assumption; tailoring specialist cloth yield and recipe locks use the build-locked TBC profile."
     : "";
   const freshnessBoundary = freshness.state === "fresh" ? "" : ` ${freshness.guidance}`;
-  return `${routeBoundary}${marketBoundary}${freshnessBoundary}${networkBoundary}${specializationBoundary}`;
+  return `Resale valuations need at least ${MINIMUM_RESALE_MARKET_QUANTITY} units currently listed for each output or disenchant material. Reagent purchases can use smaller stacks. ${routeBoundary}${marketBoundary}${freshnessBoundary}${networkBoundary}${specializationBoundary}`;
 }
 
 function makeCandidate(

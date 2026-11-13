@@ -8,7 +8,7 @@ import {
   type ProductionCraftStep,
   type ProductionPurchase,
 } from "@wow-trader/economics";
-import { summarizeOrderBook } from "@wow-trader/market";
+import { MINIMUM_RESALE_MARKET_QUANTITY, summarizeOrderBook } from "@wow-trader/market";
 
 export type RealizationRoute = "auction_house" | "disenchant" | "vendor";
 
@@ -146,7 +146,11 @@ export function evaluateWorkspaceRecipe(
   const auctionOutputs = candidate.outputs.flatMap((output) => {
     if (output.priceLevels.length === 0) return [];
     const summary = summarizeOrderBook(output.priceLevels);
-    if (summary.listingCount < MINIMUM_SUPPORTED_AUCTION_LISTINGS) return [];
+    if (
+      summary.listingCount < MINIMUM_SUPPORTED_AUCTION_LISTINGS ||
+      summary.availableQuantity < MINIMUM_RESALE_MARKET_QUANTITY
+    )
+      return [];
     return [
       {
         itemId: output.itemId,
@@ -425,7 +429,11 @@ function createDisenchantOutputs(outputs: readonly WorkspaceOutputCandidate[]): 
     for (const material of disenchant.materials) {
       if (material.priceLevels.length === 0) return null;
       const summary = summarizeOrderBook(material.priceLevels);
-      if (summary.listingCount < MINIMUM_SUPPORTED_AUCTION_LISTINGS) return null;
+      if (
+        summary.listingCount < MINIMUM_SUPPORTED_AUCTION_LISTINGS ||
+        summary.availableQuantity < MINIMUM_RESALE_MARKET_QUANTITY
+      )
+        return null;
       const expectedQuantity = multiplyFractions(
         output.expectedQuantity,
         material.expectedQuantity,

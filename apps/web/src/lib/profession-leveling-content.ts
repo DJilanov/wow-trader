@@ -44,7 +44,7 @@ export const PROFESSION_LEVELING_QUESTIONS = [
   {
     question: "Does the route account for vendor and disenchant returns?",
     answer:
-      "Yes. Vendor returns are deducted by default. Choose best of vendor / disenchant to compare estimated material-sale proceeds after Auction House cut and your disenchant fee. Set the available Enchanting skill and whether this character or another player disenchants. Bound items require this character. Only leftover crafted outputs count; ingredients reused later are not sold twice. Missing evidence or prices fall back to vendor value. The shopping budget is shown separately because you pay before recovering value.",
+      "Yes. Vendor returns are deducted by default. Choose best of vendor / disenchant to compare estimated material-sale proceeds after Auction House cut and your disenchant fee. Each material needs at least 50 units currently listed; smaller stacks can still be bought as ingredients. Set the available Enchanting skill and whether this character or another player disenchants. Bound items require this character. Only leftover crafted outputs count; ingredients reused later are not sold twice. Missing evidence, prices or market depth fall back to vendor value. The shopping budget is shown separately because you pay before recovering value.",
   },
 ] as const;
 

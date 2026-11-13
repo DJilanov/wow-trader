@@ -4,13 +4,14 @@ import {
   type ClientValuationItem,
 } from "@wow-trader/catalog";
 import { createFraction } from "@wow-trader/economics";
+import { MINIMUM_RESALE_MARKET_QUANTITY } from "@wow-trader/market";
 import { getClassicDisenchantReference } from "./disenchanting";
 import type { LevelingItemRecovery } from "./profession-leveling-types";
 
 export function getLevelingItemRecovery(
   item: ClientValuationItem & { readonly vendorSellCopper: bigint },
   evidence: ClientDisenchantEvidence | null,
-  prices: ReadonlyMap<number, bigint>,
+  prices: ReadonlyMap<number, { readonly priceCopper: bigint; readonly quantity: number }>,
   auctionHouseType: string,
 ): LevelingItemRecovery {
   const vendor = {
@@ -29,8 +30,15 @@ export function getLevelingItemRecovery(
   if (!distribution) return vendor;
   let value = createFraction(0n, 1n);
   for (const material of distribution.expectedMaterials) {
-    const price = prices.get(material.materialItemId);
-    if (price === undefined || price <= 0n) return vendor;
+    const quote = prices.get(material.materialItemId);
+    if (
+      !quote ||
+      quote.priceCopper <= 0n ||
+      !Number.isSafeInteger(quote.quantity) ||
+      quote.quantity < MINIMUM_RESALE_MARKET_QUANTITY
+    )
+      return vendor;
+    const price = quote.priceCopper;
     const part = material.expectedQuantity;
     value = createFraction(
       value.numerator * part.denominator + price * part.numerator * value.denominator,

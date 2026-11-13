@@ -57,6 +57,7 @@ GetServerTime = function() return 1793793600 end
 time = GetServerTime
 local Addon = {}
 assert(loadfile(root .. "DisenchantData.lua"))("WowTraderCollector", Addon)
+assert(loadfile(root .. "MarketPolicy.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "Valuation.lua"))("WowTraderCollector", Addon)
 assert(loadfile(root .. "Crafting.lua"))("WowTraderCollector", Addon)
 local context = { available = true, fresh = true, clientProduct = "wow_anniversary", clientBuild = 69795,

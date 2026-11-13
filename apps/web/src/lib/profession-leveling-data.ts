@@ -377,7 +377,10 @@ export async function getProfessionLevelingData(
       },
     ),
   ]);
-  const materialPrices = new Map<number, bigint>();
+  const materialPrices = new Map<
+    number,
+    { readonly priceCopper: bigint; readonly quantity: number }
+  >();
   for (const level of levels) {
     if (
       level.marketKey !== String(level.itemId) ||
@@ -386,8 +389,11 @@ export async function getProfessionLevelingData(
     )
       continue;
     const old = materialPrices.get(level.itemId);
-    if (old === undefined || old > level.unitPriceCopper)
-      materialPrices.set(level.itemId, level.unitPriceCopper);
+    materialPrices.set(level.itemId, {
+      priceCopper:
+        old && old.priceCopper < level.unitPriceCopper ? old.priceCopper : level.unitPriceCopper,
+      quantity: (old?.quantity ?? 0) + level.quantity,
+    });
   }
   const items: LevelingItem[] = itemRows.map((item) => ({
     id: item.id,

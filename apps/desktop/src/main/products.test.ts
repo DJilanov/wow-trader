@@ -61,7 +61,7 @@ describe("collector addon installation", () => {
       rootPath,
       "Interface/AddOns/WowTraderCollector/WowTraderCollector.toc",
     );
-    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.15.9");
+    expect(await readFile(installedToc, "utf8")).toContain("## Version: 0.15.10");
     const installedFiles = await readdir(
       path.join(rootPath, "Interface/AddOns/WowTraderCollector"),
     );
@@ -100,7 +100,7 @@ describe("collector addon installation", () => {
     await expect(readFile(installedAccountData, "utf8")).resolves.toBe(accountPreferences);
     await expect(inspectProduct(product)).resolves.toMatchObject({
       collectorHealth: "ready",
-      collectorVersion: "0.15.9",
+      collectorVersion: "0.15.10",
       collectorFileCount: 0,
       scannerProvider: "native",
       scannerReady: true,

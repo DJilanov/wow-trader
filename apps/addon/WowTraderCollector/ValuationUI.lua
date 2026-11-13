@@ -22,6 +22,7 @@ end
 local function DisenchantValueText(value)
   if value.available then return Money(value.net) end
   if value.reasonCode == "client_data_mismatch" then return "Data update needed" end
+  if value.reasonCode == "insufficient_market_depth" then return string.format("Below %d listed", Addon.MarketPolicy.MINIMUM_RESALE_MARKET_QUANTITY) end
   if value.reasonCode == "missing_material_prices" then return "Material prices missing" end
   if value.reasonCode == "unknown_ah_fee" then return "AH cut unknown" end
   return "Unavailable"

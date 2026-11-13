@@ -1,3 +1,5 @@
+export const MINIMUM_RESALE_MARKET_QUANTITY = 50;
+
 export interface MarketPriceLevel {
   readonly unitPriceCopper: bigint;
   readonly quantity: number;
