@@ -1,7 +1,16 @@
-import { canonicalJson, type CatalogBundle, type JsonValue } from "@wow-trader/contracts";
+import {
+  canonicalJson,
+  catalogRecipeTeachingItemSchema,
+  type CatalogBundle,
+  type JsonValue,
+} from "@wow-trader/contracts";
 
 import type { EntityDiff } from "./diff.js";
 import { fingerprintRecipeInputs, type RecipeReagentVerification } from "./reagent-source.js";
+import {
+  fingerprintTeachingResolution,
+  type TeachingResolutionVerification,
+} from "./teaching-source.js";
 
 export type CatalogPromotionDecision = "auto_publish" | "review_required";
 
@@ -27,6 +36,7 @@ export interface CatalogPromotionAssessment {
   readonly targetBuild: number;
   readonly blockers: readonly CatalogPromotionBlocker[];
   readonly sourceVerifiedReagentQuantityChanges?: readonly number[];
+  readonly sourceVerifiedTeachingItemResolutions?: readonly number[];
   readonly changes: {
     readonly items: EntityDiff;
     readonly spells: EntityDiff;
@@ -38,13 +48,14 @@ export interface CatalogPromotionAssessment {
 }
 
 const MAX_COUNT_DRIFT_RATIO = 0.1;
-const MAX_AUTO_REAGENT_CHANGE_RATIO = 0.1;
+const MAX_AUTO_RECIPE_CHANGE_RATIO = 0.1;
 const EXACT_GIT_REVISION = /^[a-f0-9]{40}$/;
 
 export function assessCatalogPromotion(
   source: CatalogBundle,
   target: CatalogBundle,
   reagentEvidence?: RecipeReagentVerification,
+  teachingEvidence?: TeachingResolutionVerification,
 ): CatalogPromotionAssessment {
   const blockers: CatalogPromotionBlocker[] = [];
   if (source.manifest.product !== target.manifest.product) {
@@ -154,7 +165,18 @@ export function assessCatalogPromotion(
     changes.recipeEconomics,
     reagentEvidence,
   );
-  if (!verifiedReagentChanges.length) {
+  const verifiedTeachingResolutions = verifyNewlyReadableTeachingItems(
+    source,
+    target,
+    changes.recipeEconomics,
+    teachingEvidence,
+  );
+  const verifiedRecipes = new Set([...verifiedReagentChanges, ...verifiedTeachingResolutions]);
+  if (
+    changes.recipeEconomics.changed.some((id) => !verifiedRecipes.has(id)) ||
+    changes.recipeEconomics.added.length ||
+    changes.recipeEconomics.removed.length
+  ) {
     addTopologyBlocker(
       blockers,
       changes.recipeEconomics,
@@ -178,7 +200,77 @@ export function assessCatalogPromotion(
     ...(verifiedReagentChanges.length
       ? { sourceVerifiedReagentQuantityChanges: verifiedReagentChanges }
       : {}),
+    ...(verifiedTeachingResolutions.length
+      ? { sourceVerifiedTeachingItemResolutions: verifiedTeachingResolutions }
+      : {}),
   };
+}
+
+function verifyNewlyReadableTeachingItems(
+  source: CatalogBundle,
+  target: CatalogBundle,
+  changes: EntityDiff,
+  evidence: TeachingResolutionVerification | undefined,
+): readonly number[] {
+  if (
+    !evidence?.sourceAvailable ||
+    evidence.fingerprint !== fingerprintTeachingResolution(target) ||
+    changes.added.length ||
+    changes.removed.length ||
+    changes.changed.length >
+      Math.max(1, Math.floor(source.recipes.length * MAX_AUTO_RECIPE_CHANGE_RATIO))
+  )
+    return [];
+  const verified = new Set(evidence.verifiedRecipeIds);
+  const oldItems = new Set(source.items.map((item) => item.itemId));
+  const oldRecipes = new Map(source.recipes.map((recipe) => [recipe.recipeSpellId, recipe]));
+  const nextRecipes = new Map(target.recipes.map((recipe) => [recipe.recipeSpellId, recipe]));
+  const oldTopology = new Map(
+    recipeTopologies(source, false, false, true).map((row) => [
+      row.recipeSpellId,
+      canonicalJson(row),
+    ]),
+  );
+  const nextTopology = new Map(
+    recipeTopologies(target, false, false, true).map((row) => [
+      row.recipeSpellId,
+      canonicalJson(row),
+    ]),
+  );
+  return changes.changed.filter((id) => {
+    const previous = oldRecipes.get(id);
+    const next = nextRecipes.get(id);
+    if (
+      !verified.has(id) ||
+      !previous ||
+      !next ||
+      previous.extractionStatus !== "ambiguous" ||
+      next.extractionStatus !== "complete" ||
+      next.requiredSkillRank < previous.requiredSkillRank ||
+      oldTopology.get(id) !== nextTopology.get(id)
+    )
+      return false;
+    const unresolved = catalogRecipeTeachingItemSchema
+      .array()
+      .safeParse(previous.rawRecord.unresolvedTeachingItems);
+    if (!unresolved.success || !unresolved.data.length) return false;
+    const oldLinks = source.recipeTeachingItems.filter((item) => item.recipeSpellId === id);
+    const nextLinks = target.recipeTeachingItems.filter((item) => item.recipeSpellId === id);
+    const oldKeys = new Set(oldLinks.map((item) => canonicalJson(item)));
+    const nextKeys = new Set(nextLinks.map((item) => canonicalJson(item)));
+    if ([...oldKeys].some((key) => !nextKeys.has(key))) return false;
+    const added = nextLinks.filter((item) => !oldKeys.has(canonicalJson(item)));
+    const pendingKeys = new Set(unresolved.data.map((item) => canonicalJson(item)));
+    return (
+      added.length === pendingKeys.size &&
+      added.every(
+        (item) =>
+          item.recipeSpellId === id &&
+          !oldItems.has(item.teachingItemId) &&
+          pendingKeys.has(canonicalJson(item)),
+      )
+    );
+  });
 }
 
 function verifyQuantityOnlyChanges(
@@ -195,7 +287,7 @@ function verifyQuantityOnlyChanges(
     changes.removed.length ||
     !changes.changed.length ||
     changes.changed.length >
-      Math.max(1, Math.floor(source.recipes.length * MAX_AUTO_REAGENT_CHANGE_RATIO))
+      Math.max(1, Math.floor(source.recipes.length * MAX_AUTO_RECIPE_CHANGE_RATIO))
   )
     return [];
   const verified = new Set(evidence.verifiedRecipeIds);
@@ -216,17 +308,18 @@ function recipeTopologies(
   bundle: CatalogBundle,
   includeCraftTime: boolean,
   ignoreQuantities = false,
+  ignoreTeachingResolution = false,
 ) {
   return bundle.recipes.map((recipe) => ({
     recipeSpellId: recipe.recipeSpellId,
     professionSkillLineId: recipe.professionSkillLineId,
-    requiredSkillRank: recipe.requiredSkillRank,
+    ...(ignoreTeachingResolution ? {} : { requiredSkillRank: recipe.requiredSkillRank }),
     ...(includeCraftTime ? { craftTimeMs: recipe.craftTimeMs } : {}),
     cooldownMs: recipe.cooldownMs,
     cooldownCategoryId: recipe.cooldownCategoryId,
     categoryCooldownMs: recipe.categoryCooldownMs,
     outputKind: recipe.outputKind,
-    extractionStatus: recipe.extractionStatus,
+    ...(ignoreTeachingResolution ? {} : { extractionStatus: recipe.extractionStatus }),
     inputs: bundle.recipeInputs
       .filter((input) => input.recipeSpellId === recipe.recipeSpellId)
       .map((input) =>
@@ -242,9 +335,11 @@ function recipeTopologies(
     outputs: bundle.recipeOutputs
       .filter((output) => output.recipeSpellId === recipe.recipeSpellId)
       .sort(compareCanonical),
-    teachingItems: bundle.recipeTeachingItems
-      .filter((item) => item.recipeSpellId === recipe.recipeSpellId)
-      .sort(compareCanonical),
+    teachingItems: ignoreTeachingResolution
+      ? []
+      : bundle.recipeTeachingItems
+          .filter((item) => item.recipeSpellId === recipe.recipeSpellId)
+          .sort(compareCanonical),
   }));
 }
 

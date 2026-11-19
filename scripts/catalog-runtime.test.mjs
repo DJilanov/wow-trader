@@ -1,5 +1,15 @@
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, readFile, rename, rm, symlink, writeFile } from "node:fs/promises";
+import {
+  link,
+  lstat,
+  mkdtemp,
+  mkdir,
+  readFile,
+  rename,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -28,16 +38,30 @@ test("runtime preparation bundles backup retention independently of the active w
       `export const name = ${JSON.stringify(script)};\n`,
     );
   const runtime = join(root, "runtime");
+  const dependencySource = join(source, "dependency.js");
+  await writeFile(dependencySource, "export const value = 1;\n", { mode: 0o755 });
   await buildCatalogRuntime(source, runtime, async (_command, args) => {
     if (!args.includes("deploy")) return;
     await mkdir(join(runtime, "node_modules"), { recursive: true });
     await mkdir(join(runtime, "dist"));
     await writeFile(join(runtime, "package.json"), JSON.stringify({ name: "@wow-trader/catalog" }));
     await writeFile(join(runtime, "dist/cli.js"), "export {};\n");
+    await link(dependencySource, join(runtime, "node_modules/dependency.js"));
+    await symlink("dependency.js", join(runtime, "node_modules/linked-dependency.js"));
   });
   assert.equal(
     await readFile(join(runtime, "prune-catalog-backups.mjs"), "utf8"),
     await readFile(join(source, "scripts/prune-catalog-backups.mjs"), "utf8"),
+  );
+  await verifyCatalogRuntime(runtime);
+  const installedDependency = join(runtime, "node_modules/dependency.js");
+  assert.equal((await lstat(installedDependency)).nlink, 1);
+  assert.equal((await lstat(installedDependency)).mode & 0o777, 0o755);
+  await writeFile(dependencySource, "export const value = 2;\n");
+  assert.equal(await readFile(installedDependency, "utf8"), "export const value = 1;\n");
+  assert.equal(
+    await readFile(join(runtime, "node_modules/linked-dependency.js"), "utf8"),
+    "export const value = 1;\n",
   );
   await verifyCatalogRuntime(runtime);
 });
@@ -141,6 +165,15 @@ test("runtime rejects missing CLI, environment files, and external symlinks", as
   await assert.rejects(writeCatalogRuntimeManifest(root), { code: "ENOENT" });
 });
 
+test("sealed runtimes reject shared files instead of silently depending on a checkout", async (t) => {
+  const root = await fixture(t);
+  const external = root + "-source.js";
+  t.after(() => rm(external, { force: true }));
+  await writeFile(external, "shared source");
+  await link(external, join(root, "dependency.js"));
+  await assert.rejects(writeCatalogRuntimeManifest(root), /shares a hard link.*dependency.js/);
+});
+
 test("runtime rejects a replaced manifest or wrong expected fingerprint", async (t) => {
   const root = await fixture(t);
   await writeCatalogRuntimeManifest(root);
@@ -198,4 +231,14 @@ test("new builds and hotfixes cannot inherit another snapshot's assessment or ma
     mergeGuardianStatus(previous, { state: "error" }).manifestPath,
     previous.manifestPath,
   );
+});
+
+test("failure notifications remain deduplicated until the guardian recovers", () => {
+  const previous = { state: "error", lastErrorNotifiedKey: "failure" };
+  assert.equal(mergeGuardianStatus(previous, { state: "error" }).lastErrorNotifiedKey, "failure");
+  assert.equal(
+    mergeGuardianStatus(previous, { state: "preparing" }).lastErrorNotifiedKey,
+    "failure",
+  );
+  assert.equal(mergeGuardianStatus(previous, { state: "current" }).lastErrorNotifiedKey, undefined);
 });

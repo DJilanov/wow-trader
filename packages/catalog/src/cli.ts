@@ -63,6 +63,7 @@ async function assessPromotionCommand(args: readonly string[]): Promise<void> {
     await loadCatalogSnapshot(sourcePath),
     await loadCatalogSnapshot(targetPath),
     audit.recipeReagents,
+    audit.teachingResolutions,
   );
   const output = `${JSON.stringify(assessment, null, 2)}\n`;
   const outputIndex = args.indexOf("--output");

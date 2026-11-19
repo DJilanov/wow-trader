@@ -12,6 +12,7 @@ import { diffCatalogs } from "./diff.js";
 import { createSnapshotKey } from "./import.js";
 import { assessCatalogPromotion } from "./promotion.js";
 import { verifyRecipeReagents } from "./reagent-source.js";
+import { verifyTeachingResolutions, type TeachingSourceRows } from "./teaching-source.js";
 import { createSemanticCatalogDiff } from "./semantic-diff.js";
 import { validateCatalog } from "./validation.js";
 
@@ -140,6 +141,93 @@ describe("assessCatalogPromotion", () => {
       { SpellID: 17_563, Reagent: [], ReagentCount: [] },
     ]);
     expect(assessCatalogPromotion(before, after, mismatch).decision).toBe("review_required");
+  });
+
+  it("automatically resolves a newly readable native teaching item and its true skill rank", () => {
+    const { before, after, native } = teachingResolutionFixture();
+    const evidence = verifyTeachingResolutions(after, native);
+    expect(evidence.verifiedRecipeIds).toEqual([17_563]);
+    const result = assessCatalogPromotion(before, after, undefined, evidence);
+    expect(result.decision).toBe("auto_publish");
+    expect(result.sourceVerifiedTeachingItemResolutions).toEqual([17_563]);
+    expect(result.changes.recipeEconomics.changed).toEqual([17_563]);
+  });
+
+  it.each([
+    "missing-source",
+    "wrong-trigger",
+    "wrong-link",
+    "wrong-rank",
+    "wrong-item-rank",
+    "wrong-profession",
+    "conflicting-ability",
+    "indirect-link",
+    "duplicate-link",
+    "missing-item",
+  ])("does not qualify teaching resolution with %s", (failure) => {
+    const { before, after, native } = teachingResolutionFixture();
+    if (failure === "missing-source") native.itemLinks = null;
+    if (failure === "wrong-trigger")
+      native.itemEffects = [{ id: 1, SpellID: 17_563, TriggerType: 0 }];
+    if (failure === "wrong-link") native.itemLinks = [{ ItemEffectID: 1, ItemID: 99 }];
+    if (failure === "wrong-rank") after.recipes[0]!.requiredSkillRank = 204;
+    if (failure === "wrong-item-rank")
+      after.items.find((item) => item.itemId === 13_486)!.requiredSkillRank = 204;
+    if (failure === "wrong-profession") after.recipes[0]!.professionSkillLineId = 164;
+    if (failure === "conflicting-ability")
+      native.abilities = [
+        { Spell: 17_563, SkillLine: 171, MinSkillLineRank: 1 },
+        { Spell: 17_563, SkillLine: 171, MinSkillLineRank: 2 },
+      ];
+    if (failure === "indirect-link") after.recipeTeachingItems[0]!.learningSpellId = 17_564;
+    if (failure === "duplicate-link")
+      after.recipeTeachingItems.push({ ...after.recipeTeachingItems[0]! });
+    if (failure === "missing-item")
+      after.items = after.items.filter((item) => item.itemId !== 13_486);
+    const evidence = verifyTeachingResolutions(after, native);
+    expect(evidence.verifiedRecipeIds).toEqual([]);
+    expect(assessCatalogPromotion(before, after, undefined, evidence).decision).toBe(
+      "review_required",
+    );
+  });
+
+  it.each([
+    "no-proof",
+    "stale-proof",
+    "existing-item",
+    "not-pending",
+    "output",
+    "input",
+    "cooldown",
+    "extractor",
+    "already-complete",
+    "removed-old-link",
+  ])("retains review for teaching changes with %s", (failure) => {
+    const { before, after, native } = teachingResolutionFixture();
+    const evidence = verifyTeachingResolutions(after, native);
+    if (failure === "stale-proof") after.items[0]!.requiredSkillRank += 1;
+    if (failure === "existing-item")
+      before.items.push({ ...after.items.find((item) => item.itemId === 13_486)! });
+    if (failure === "not-pending") before.recipes[0]!.rawRecord.unresolvedTeachingItems = [];
+    if (failure === "output") after.recipeOutputs[0]!.maximumQuantity = 3;
+    if (failure === "input") after.recipeInputs[0]!.quantity = 5;
+    if (failure === "cooldown") after.recipes[0]!.cooldownMs = 1;
+    if (failure === "extractor") after.manifest.extractor.version = "9.0.0";
+    if (failure === "already-complete") before.recipes[0]!.extractionStatus = "complete";
+    if (failure === "removed-old-link")
+      before.recipeTeachingItems.push({
+        recipeSpellId: 17_563,
+        teachingItemId: 100_000,
+        learningSpellId: null,
+      });
+    expect(
+      assessCatalogPromotion(
+        before,
+        after,
+        undefined,
+        failure === "no-proof" ? undefined : evidence,
+      ).decision,
+    ).toBe("review_required");
   });
 
   it.each(["item", "output", "rank", "cooldown", "teaching", "extractor"])(
@@ -447,6 +535,44 @@ function reagentEvidence(bundle: CatalogBundle) {
       };
     }),
   );
+}
+
+function teachingResolutionFixture(): {
+  before: CatalogBundle;
+  after: CatalogBundle;
+  native: { -readonly [Key in keyof TeachingSourceRows]: TeachingSourceRows[Key] };
+} {
+  const before = createGoldenBundle();
+  const link = { recipeSpellId: 17_563, teachingItemId: 13_486, learningSpellId: null };
+  before.items = before.items.filter((item) => item.itemId !== link.teachingItemId);
+  for (let id = 100_000; id < 100_020; id += 1)
+    before.items.push(createItem(id, `Unchanged item ${id}`));
+  before.recipeTeachingItems = [];
+  before.recipes[0] = {
+    ...before.recipes[0]!,
+    requiredSkillRank: 1,
+    extractionStatus: "ambiguous",
+    rawRecord: { unresolvedTeachingItems: [link] },
+  };
+  const after = createPromotionTarget(before);
+  after.items.push({ ...createItem(13_486, "A newly readable plan"), requiredSkillRank: 205 });
+  after.recipeTeachingItems = [link];
+  after.recipes[0] = {
+    ...after.recipes[0]!,
+    requiredSkillRank: 205,
+    extractionStatus: "complete",
+    rawRecord: { unresolvedTeachingItems: [] },
+  };
+  return {
+    before,
+    after,
+    native: {
+      itemEffects: [{ id: 1, SpellID: 17_563, TriggerType: 6 }],
+      itemLinks: [{ ItemEffectID: 1, ItemID: 13_486 }],
+      abilities: [{ Spell: 17_563, SkillLine: 171, MinSkillLineRank: 1 }],
+      itemSparse: [{ id: 13_486, RequiredSkillRank: 205 }],
+    },
+  };
 }
 
 function createItem(itemId: number, name: string): CatalogBundle["items"][number] {

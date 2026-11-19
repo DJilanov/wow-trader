@@ -49,8 +49,17 @@ const defaultDeployRoot = "/home/wow-trader-system";
 
 await main(process.argv.slice(2)).catch(async (error) => {
   const message = error instanceof Error ? error.message : String(error);
-  await updateStatus({ state: "error", message }).catch(() => undefined);
   process.stderr.write(`[catalog-guardian] ${message}\n`);
+  try {
+    const status = await updateStatus({ state: "error", message });
+    const notificationKey = createHash("sha256").update(message).digest("hex");
+    if (status.lastErrorNotifiedKey !== notificationKey) {
+      await notify("Trader catalog updater needs attention", message);
+      await updateStatus({ lastErrorNotifiedKey: notificationKey });
+    }
+  } catch (reportError) {
+    process.stderr.write(`[catalog-guardian] Could not report failure: ${reportError.message}\n`);
+  }
   process.exitCode = 1;
 });
 
@@ -881,7 +890,9 @@ async function updateStatus(update) {
   }
   const status = {
     ...mergeGuardianStatus(previous, update),
-    guardianRelease: installation ? basename(repositoryRoot) : "development",
+    guardianRelease: /^[a-f0-9]{64}$/.test(basename(repositoryRoot))
+      ? basename(repositoryRoot)
+      : "development",
     updatedAt: new Date().toISOString(),
   };
   const temporaryPath = `${statusPath}.${process.pid}.tmp`;
@@ -892,6 +903,7 @@ async function updateStatus(update) {
   await access(temporaryPath);
   await rename(temporaryPath, statusPath);
   log(status.message);
+  return status;
 }
 
 async function notifyReviewRequired(buildNumber, hotfixHash) {

@@ -492,10 +492,17 @@ reviewed import and publication run with Node against that exact immutable runti
 `pnpm catalog:*` through `current`. Keep shared catalog tooling when cleaning old application releases.
 No owner environment file or collector credential is copied into the runtime.
 
-The runtime verifier rejects altered/unlisted files, non-portable symlinks, environment files and
-missing compiled entry points. Preparation removes only dangling pnpm deployment links inside the
-new temporary package, never installed application dependencies. Status preparation clears fields
-from previous snapshots while preserving review-notification de-duplication. A 70291 error must not
+The runtime verifier rejects altered/unlisted files, shared hard links, non-portable symlinks,
+environment files and missing compiled entry points. Preparation makes independent copies of
+pnpm's hard-linked deployment files before hashing them. This prevents later edits to workspace
+dependencies or the package store from changing an installed release. It also removes only dangling
+pnpm deployment links inside the new temporary package, never installed application dependencies.
+`scripts/catalog-runtime.test.mjs` reproduces a shared dependency, changes its original source after
+installation, and verifies that the deployed bytes and executable permissions remain intact.
+Status preparation clears fields from previous snapshots while preserving review- and failure-
+notification de-duplication. Execution failures generate a macOS notification once per error until
+the updater recovers; errors before tool verification still identify the installed release.
+A 70291 error must not
 inherit a 70245 assessment or manifest. The October 9 repair and exact publication receipt are in
 `fixes.md`.
 
@@ -509,10 +516,10 @@ not its release packages, extracted data, status or rollback files.
 
 Automatic publication requires an applied hotfix cache, an exact 40-character official definitions
 revision, an unchanged extractor version, item/spell counts within 10%, and unchanged profession,
-recipe-economy, and item-transformation topology, except the source-verified quantity changes below.
+recipe-economy, and item-transformation topology, except the source-verified changes below.
 Item/spell metadata and recipe craft-time changes
 are safe because the exact extracted snapshot replaces them atomically. Reagent identities, yield, cooldown,
-skill requirement, profession, recipe membership, or transformation changes stop in
+unexplained skill requirement, profession, recipe membership, or transformation changes stop in
 `review_required` and generate one macOS notification per build/hotfix pair.
 
 Definitions are pinned to the fetched official upstream commit. A commit named
@@ -533,6 +540,17 @@ outputs, cooldowns, learning requirements, recipe membership and extractor versi
 retain their review gates. The audit itself now fails on raw/normalized reagent
 disagreement. Backups and imports use the checksum-verified standalone tooling;
 backup retention no longer depends on a script in the active website release.
+
+Newly readable direct teaching items can also resolve an existing ambiguous recipe automatically.
+The item must have been absent from the previous catalog and explicitly listed among that recipe's
+unresolved teaching candidates. Checksum-verified `ItemEffect`, `ItemXItemEffect`, `SkillLineAbility`
+and `ItemSparse` rows must independently prove the learn trigger, complete item links and resulting
+skill requirement. Evidence is fingerprinted to the normalized recipe, item ranks and teaching links.
+Materials, output quantities, cooldowns, profession and all other economic fields must stay unchanged;
+existing teaching links cannot disappear. This narrow path shares the 10% change budget and excludes
+indirect learning spells and conflicting ability ranks. Missing/stale proof or an unrelated skill
+change still requires review. Build 70959's newly readable Orcish War Leggings plan is a regression
+case, not an item-specific exception.
 
 The installed guardian records its catalog extractor version. A published build/hotfix pair is
 considered current only when that version also matches; installing an extractor upgrade therefore

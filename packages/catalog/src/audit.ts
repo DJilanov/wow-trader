@@ -14,6 +14,10 @@ import {
 
 import { loadCatalogSnapshot } from "./snapshot.js";
 import { verifyRecipeReagents, type RecipeReagentVerification } from "./reagent-source.js";
+import {
+  verifyTeachingResolutions,
+  type TeachingResolutionVerification,
+} from "./teaching-source.js";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -45,6 +49,7 @@ export interface CatalogSnapshotAuditReport {
   };
   readonly warnings: readonly string[];
   readonly recipeReagents: RecipeReagentVerification;
+  readonly teachingResolutions: TeachingResolutionVerification;
 }
 
 export async function auditCatalogSnapshot(
@@ -147,6 +152,18 @@ export async function auditCatalogSnapshot(
     ? await loadRawTable(snapshotDirectory, manifest, "SpellReagents.effective")
     : null;
   const recipeReagents = verifyRecipeReagents(bundle, sourceReagents?.values() ?? null);
+  const [itemEffects, itemLinks, abilities] = await Promise.all(
+    ["ItemEffect.effective", "ItemXItemEffect.effective", "SkillLineAbility.effective"].map(
+      async (name): Promise<ReadonlyMap<number, JsonRecord> | null> =>
+        manifest.rawTables[name] ? loadRawTable(snapshotDirectory, manifest, name) : null,
+    ),
+  );
+  const teachingResolutions = verifyTeachingResolutions(bundle, {
+    itemEffects: itemEffects?.values() ?? null,
+    itemLinks: itemLinks?.values() ?? null,
+    abilities: abilities?.values() ?? null,
+    itemSparse: sparseRows.values(),
+  });
   const valid =
     sourceIdsMissingFromNormalized.length === 0 &&
     normalizedIdsMissingFromSources.length === 0 &&
@@ -175,6 +192,7 @@ export async function auditCatalogSnapshot(
     },
     warnings,
     recipeReagents,
+    teachingResolutions,
   };
 }
 

@@ -6,6 +6,7 @@ import {
   readdir,
   readlink,
   realpath,
+  rename,
   unlink,
   writeFile,
 } from "node:fs/promises";
@@ -47,6 +48,9 @@ async function inspectRuntime(root, manifestFile, requiredFiles) {
       } else if (entry.isDirectory()) {
         pending.push(path);
       } else if (entry.isFile()) {
+        if ((await lstat(path)).nlink > 1) {
+          throw new Error(`Catalog tooling file shares a hard link: ${name}`);
+        }
         const contents = await readFile(path);
         entries.push({
           path: name,
@@ -69,6 +73,30 @@ async function inspectRuntime(root, manifestFile, requiredFiles) {
     fingerprint: createHash("sha256").update(JSON.stringify(entries)).digest("hex"),
     entries,
   };
+}
+
+/** Break pnpm deployment links before sealing an independently installed runtime. */
+async function isolateRuntimeFiles(root) {
+  const pending = [root];
+  while (pending.length) {
+    const directory = pending.pop();
+    if (!directory) continue;
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) pending.push(path);
+      else if (entry.isFile() && (await lstat(path)).nlink > 1) {
+        const temporary = `${path}.${process.pid}.isolating`;
+        try {
+          await copyFile(path, temporary);
+          await rename(temporary, path);
+        } finally {
+          await unlink(temporary).catch((error) => {
+            if (error.code !== "ENOENT") throw error;
+          });
+        }
+      }
+    }
+  }
 }
 
 /** @param {string} root @returns {Promise<number>} */
@@ -230,6 +258,7 @@ export async function buildCatalogRuntime(repositoryRoot, runtimeDirectory, run)
     join(repositoryRoot, "scripts/prune-catalog-backups.mjs"),
     join(runtimeDirectory, "prune-catalog-backups.mjs"),
   );
+  await isolateRuntimeFiles(runtimeDirectory);
   const fingerprint = await writeCatalogRuntimeManifest(runtimeDirectory);
   await verifyCatalogRuntime(runtimeDirectory, fingerprint);
   return fingerprint;
@@ -243,9 +272,19 @@ export function mergeGuardianStatus(previous, update) {
     (update.hotfixHash !== undefined && update.hotfixHash !== previous.hotfixHash) ||
     (update.product !== undefined && update.product !== previous.product);
   const retained = changedSnapshot
-    ? { lastReviewNotifiedKey: previous.lastReviewNotifiedKey }
+    ? {
+        lastReviewNotifiedKey: previous.lastReviewNotifiedKey,
+        lastErrorNotifiedKey: previous.lastErrorNotifiedKey,
+      }
     : previous;
-  return { schemaVersion: 1, ...retained, ...update };
+  return {
+    schemaVersion: 1,
+    ...retained,
+    ...(["current", "published", "ready_to_publish", "review_required"].includes(update.state)
+      ? { lastErrorNotifiedKey: undefined }
+      : {}),
+    ...update,
+  };
 }
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
