@@ -473,7 +473,7 @@ changes to `.build.info` or the Forever `DBCache.bin` and also checks every five
 both numbered client releases and hotfix-only changes that retain the same build number.
 
 The guardian performs the complete publication sequence: pinned WoWDBDefs revision resolution,
-client extraction, 102-artifact audit, relationship validation, semantic comparison against the
+client extraction, checksum audit of every manifest artifact, relationship validation, semantic comparison against the
 latest published snapshot, icon extraction and verification, a unique custom-format PostgreSQL
 backup, immutable catalog/media synchronization, repeated server-side audit/validation, reviewed
 import, publication, and a web-only PM2 reload. Runs are locked and every operation is idempotent.
